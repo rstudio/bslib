@@ -1,0 +1,124 @@
+#' Compile Bootstrap 4 SASS with (optional) theming
+#'
+#' For vanilla Bootstrap CSS and all it's dependencies, call `bs4_sass()`.
+#' See examples below for various ways to generating custom Bootstrap themes.
+#'
+#' @param sass_vars A list of SASS variables to include prior to any bootstrap or
+#' `theme` sass. Set to `NULL` if you want to ignore any existing variables
+#' (set by [sass_variables_add()]) at runtime.
+#' @param theme a [bs4_theme()] object. Use this argument to define your own custom
+#' theme and/or use a pre-defined theme (e.g., [bs4_theme_bootswatch()]).
+#'
+#' @export
+#' @examples
+#' library(htmltools)
+#'
+#' # Vanilla Bootstrap 4
+#' button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
+#' browsable(tags$body(bs4_sass(), button))
+#'
+#' # Use a bootswatch theme
+#' bs4_minty <- bs4_sass(theme = bs4_theme_bootswatch("minty"))
+#' browsable(tags$body(bs4_minty, button))
+#'
+#' # Set bootstrap SASS variables (globally)
+#' sass_variables_add(primary = "orange", "body-bg" = "#EEEEEE")
+#' sass_variables_add("font-family-base" = "monospace", "font-size-base" = "1.4rem")
+#' sass_variables_add("btn-padding-y" = ".16rem")
+#' sass_variables_add("btn-padding-x" = "2rem")
+#' sass_variables_add("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
+#' browsable(tags$body(bs4_sass(), button))
+#'
+#' # Use a custom theme
+#' person <- function(name, title, company) {
+#'   tags$div(
+#'     class = "person",
+#'     h3(class = "name", name),
+#'     div(class = "title", title),
+#'     div(class = "company", company)
+#'   )
+#' }
+#' person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootscss"))
+#' browsable(tags$body(
+#'   bs4_sass(theme = bs4_theme(post = person_scss)),
+#'   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
+#'   person("John D. Rockefeller", "Chairman", "Standard Oil")
+#' ))
+#'
+bs4_sass <- function(sass_vars = sass_variables(), theme = bs4_theme(),
+                     bootstrap_scss = bs4_scss_file("bootstrap.scss")) {
+
+  if (!inherits(theme, "bs4_theme")) {
+    stop("theme must be a bs4_theme() object.", call. = FALSE)
+  }
+
+  minified <- getOption("shiny.minified", TRUE)
+
+  output_path <- tempfile("bs4custom")
+  dir.create(output_path)
+  dir.create(file.path(output_path, "css"))
+
+  # If theme has bootswatch files, copy over font files
+  theme_files <- unlist(lapply(theme, attr, "sass_file_path"))
+  if (length(theme_files)) {
+    theme_dirs <- unique(dirname(theme_files))
+    bootswatch_themes <- intersect(theme_dirs, bootswatch_themes(TRUE))
+    file.copy(
+      file.path(bootswatch_themes, "font.css"),
+      file.path(output_path, "css", "font.css")
+    )
+    file.copy(
+      system.file("fonts", package = "bootscss"),
+      output_path,
+      recursive = TRUE
+    )
+  }
+
+  output_css <- if (minified) "css/bootstrap-custom.min.css" else "css/bootstrap-custom.css"
+  opts <- sass_options(
+    output_style = if (minified) "compressed" else "expanded",
+    source_map_embed = minified
+  )
+
+  sass(
+    output = file.path(output_path, output_css),
+    options = opts,
+    input = list(
+      if (length(sass_vars)) list(sass_vars) else "",
+      theme$pre,
+      bootstrap_scss,
+      theme$post
+    )
+  )
+
+  file.copy(
+    system.file("node_modules/bootstrap/dist/js", package = "bootscss"),
+    output_path,
+    recursive = TRUE
+  )
+
+  c(
+    jquery_deps(),
+    list(
+      htmlDependency(
+        "bootstrap",
+        version_bootstrap,
+        src = output_path,
+        meta = c(
+          name = "viewport",
+          content = "width=device-width, initial-scale=1, shrink-to-fit=no"
+        ),
+        stylesheet = output_css,
+        script = if (minified) "js/bootstrap.bundle.min.js" else "js/bootstrap.bundle.js"
+      )
+    )
+  )
+}
+
+#' @rdname bs4_sass
+#' @export
+bs4_scss_file <- function(path) {
+  f <- system.file("node_modules", "bootstrap", "scss", path, package = "bootscss")
+  if (f == "") stop("The bootstrap scss file '", path, "' doesn't exist.", .call = FALSE)
+  sass_file(f)
+}
