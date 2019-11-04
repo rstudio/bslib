@@ -24,8 +24,11 @@ pre.shiny-code {
 / https://github.com/rstudio/shiny/blob/2d979d0/srcjs/input_binding_tabinput.js#L41-L63
 */
 .nav .dropdown-menu li:not(.divider) {
-  @extend .nav-pills, .dropdown-item;
-  padding: 0;
+  //@extend .nav-pills, .dropdown-item;
+  a {
+    @extend .dropdown-item;
+  }
+  //padding: 0;
   a.nav-link {
     border: none;
     border-radius: 0;
@@ -34,6 +37,9 @@ pre.shiny-code {
     background-color: $light !important;
   }
 }
+.dropdown-menu li.divider {
+   @extend .dropdown-divider;
+ }
 
 .shiny-input-checkboxgroup, .shiny-input-radiogroup {
   .checkbox, .radio {
@@ -76,4 +82,33 @@ pre.shiny-code {
 .selectize-control.multi .selectize-input > div.active {
   background: $component-active-bg;
   color: $component-active-color;
+}
+
+
+.navbar>.container-fluid {
+  @extend .navbar-expand-sm;
+}
+// Fix navbarPage
+ul.nav.navbar-nav {
+  @extend .navbar-nav;
+  @include media-breakpoint-up(sm) {
+    justify-content: unset;
+    flex-direction: row;
+  }
+  flex: 1;
+  min-width: map-get($container-max-widths, sm) - 30px;
+}
+ul.nav.navbar-nav>li:not(.dropdown) {
+  @extend .nav-item;
+}
+ul.nav.navbar-nav>li>a {
+  @extend .nav-link;
+}
+.navbar.navbar-default {
+  @extend .navbar-light;
+  @extend .bg-light;
+}
+.navbar.navbar-inverse {
+  @extend .navbar-dark;
+  @extend .bg-dark;
 }
