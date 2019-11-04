@@ -19,7 +19,7 @@ bs4_theme <- function(pre = "", post = "") {
 #' @param ... `bs4_theme()` objects.
 #' @export
 bs4_themes <- function(...) {
-  themes <- list(...)
+  themes <- dropNulls(list(...))
   is_theme <- vapply(themes, inherits, logical(1), "bs4_theme")
   if (!all(is_theme)) {
     stop("bs4_themes() only understands bs4_theme() objects")
@@ -32,6 +32,10 @@ bs4_themes_join <- function(theme1 = bs4_theme(), theme2 = bs4_theme()) {
     pre = as_sass(paste0(theme1$pre, theme2$pre)),
     post = as_sass(paste0(theme2$post, theme1$post))
   )
+}
+
+dropNulls <- function(x) {
+  x[!vapply(x, is.null, FUN.VALUE=logical(1))]
 }
 
 #' @rdname bs4_theme

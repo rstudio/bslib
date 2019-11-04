@@ -2,6 +2,7 @@
 
 export(bs4_sass)
 export(bs4_scss_file)
+export(bs4_scss_required)
 export(bs4_theme)
 export(bs4_theme_bootswatch)
 export(bs4_theme_bs3compat)
@@ -11,3 +12,4 @@ export(theme_variables_clear)
 import(htmltools)
 import(sass)
 importFrom(stats,setNames)
+importFrom(utils,modifyList)

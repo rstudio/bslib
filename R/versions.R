@@ -1,7 +1,3 @@
-#' @import htmltools
-#' @import sass
-NULL
-
 package_json_version <- function(pkgname) {
   jsonlite::fromJSON(system.file("node_modules", pkgname, "package.json", package = "bootscss"))$version
 }

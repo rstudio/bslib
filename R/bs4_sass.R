@@ -8,6 +8,10 @@
 #' (set by [theme_variables()]) at runtime.
 #' @param theme a [bs4_theme()] object. Use this argument to define your own custom
 #' theme and/or use a pre-defined theme (e.g., [bs4_theme_bootswatch()]).
+#' @param bootstrap_scss bootstrap scss files to compile `variables` and `theme` against.
+#' By default, all of bootstrap is included. Use `bs4_scss_required()` to compile against
+#' 'core' parts of bootstrap. Use `bs4_scss_file()` to fully customize what files to import.
+#' @param options Compiler options for SASS, see [sass::sass_options()].
 #'
 #' @export
 #' @examples
@@ -45,8 +49,9 @@
 #'   person("John D. Rockefeller", "Chairman", "Standard Oil")
 #' ))
 #'
-bs4_sass <- function(variables = theme_variables(), theme = bs4_theme(),
-                     bootstrap_scss = bs4_scss_file("bootstrap.scss")) {
+bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(),
+                     bootstrap_scss = bs4_scss_file("bootstrap.scss"),
+                     options = sass_options()) {
 
   if (!inherits(theme, "bs4_theme")) {
     stop("theme must be a bs4_theme() object.", call. = FALSE)
@@ -79,6 +84,7 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme(),
     output_style = if (minified) "compressed" else "expanded",
     source_map_embed = minified
   )
+  opts <- utils::modifyList(opts, options)
 
   sass(
     output = file.path(output_path, output_css),
@@ -114,6 +120,17 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme(),
     )
   )
 }
+
+#' @rdname bs4_sass
+#' @export
+bs4_scss_required <- function() {
+  list(
+    bs4_scss_file("_functions.scss"),
+    bs4_scss_file("_variables.scss"),
+    bs4_scss_file("_mixins.scss")
+  )
+}
+
 
 #' @rdname bs4_sass
 #' @export

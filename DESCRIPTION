@@ -22,6 +22,7 @@ Roxygen: list(markdown = TRUE)
 Collate: 
     'bs4_sass.R'
     'globals.R'
+    'imports.R'
     'jquery.R'
     'theme_variables.R'
     'themes.R'

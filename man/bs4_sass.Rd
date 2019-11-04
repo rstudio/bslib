@@ -2,11 +2,15 @@
 % Please edit documentation in R/bs4_sass.R
 \name{bs4_sass}
 \alias{bs4_sass}
+\alias{bs4_scss_required}
 \alias{bs4_scss_file}
 \title{Compile Bootstrap 4 SASS with (optional) theming}
 \usage{
 bs4_sass(variables = theme_variables(), theme = bs4_theme(),
-  bootstrap_scss = bs4_scss_file("bootstrap.scss"))
+  bootstrap_scss = bs4_scss_file("bootstrap.scss"),
+  options = sass_options())
+
+bs4_scss_required()
 
 bs4_scss_file(path)
 }
@@ -17,6 +21,12 @@ bs4_scss_file(path)
 
 \item{theme}{a \code{\link[=bs4_theme]{bs4_theme()}} object. Use this argument to define your own custom
 theme and/or use a pre-defined theme (e.g., \code{\link[=bs4_theme_bootswatch]{bs4_theme_bootswatch()}}).}
+
+\item{bootstrap_scss}{bootstrap scss files to compile \code{variables} and \code{theme} against.
+By default, all of bootstrap is included. Use \code{bs4_scss_required()} to compile against
+'core' parts of bootstrap. Use \code{bs4_scss_file()} to fully customize what files to import.}
+
+\item{options}{Compiler options for SASS, see \code{\link[sass:sass_options]{sass::sass_options()}}.}
 }
 \description{
 For vanilla Bootstrap CSS and all it's dependencies, call \code{bs4_sass()}.

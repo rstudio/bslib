@@ -26,7 +26,6 @@
 #'   tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 #' ))
 #'
-#' @importFrom stats setNames
 #' @rdname theme_variables
 #' @export
 theme_variables <- function(...) {
