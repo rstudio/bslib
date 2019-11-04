@@ -3,9 +3,9 @@
 #' For vanilla Bootstrap CSS and all it's dependencies, call `bs4_sass()`.
 #' See examples below for various ways to generating custom Bootstrap themes.
 #'
-#' @param sass_vars A list of SASS variables to include prior to any bootstrap or
+#' @param variables A list of SASS variables to include prior to any bootstrap or
 #' `theme` sass. Set to `NULL` if you want to ignore any existing variables
-#' (set by [sass_variables_add()]) at runtime.
+#' (set by [theme_variables()]) at runtime.
 #' @param theme a [bs4_theme()] object. Use this argument to define your own custom
 #' theme and/or use a pre-defined theme (e.g., [bs4_theme_bootswatch()]).
 #'
@@ -22,11 +22,11 @@
 #' browsable(tags$body(bs4_minty, button))
 #'
 #' # Set bootstrap SASS variables (globally)
-#' sass_variables_add(primary = "orange", "body-bg" = "#EEEEEE")
-#' sass_variables_add("font-family-base" = "monospace", "font-size-base" = "1.4rem")
-#' sass_variables_add("btn-padding-y" = ".16rem")
-#' sass_variables_add("btn-padding-x" = "2rem")
-#' sass_variables_add("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
+#' theme_variables(primary = "orange", "body-bg" = "#EEEEEE")
+#' theme_variables("font-family-base" = "monospace", "font-size-base" = "1.4rem")
+#' theme_variables("btn-padding-y" = ".16rem")
+#' theme_variables("btn-padding-x" = "2rem")
+#' theme_variables("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
 #' browsable(tags$body(bs4_sass(), button))
 #'
 #' # Use a custom theme
@@ -45,7 +45,7 @@
 #'   person("John D. Rockefeller", "Chairman", "Standard Oil")
 #' ))
 #'
-bs4_sass <- function(sass_vars = sass_variables(), theme = bs4_theme(),
+bs4_sass <- function(variables = theme_variables(), theme = bs4_theme(),
                      bootstrap_scss = bs4_scss_file("bootstrap.scss")) {
 
   if (!inherits(theme, "bs4_theme")) {
@@ -84,7 +84,7 @@ bs4_sass <- function(sass_vars = sass_variables(), theme = bs4_theme(),
     output = file.path(output_path, output_css),
     options = opts,
     input = list(
-      if (length(sass_vars)) list(sass_vars) else "",
+      if (length(variables)) list(variables) else "",
       theme$pre,
       bootstrap_scss,
       theme$post

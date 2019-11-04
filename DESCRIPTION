@@ -11,8 +11,9 @@ Imports:
   jsonlite,
   sass
 Suggests:
-  shiny,
-  rmarkdown
+    shiny,
+    rmarkdown,
+    testthat
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -22,6 +23,6 @@ Collate:
     'bs4_sass.R'
     'globals.R'
     'jquery.R'
-    'sass_variables.R'
+    'theme_variables.R'
     'themes.R'
     'versions.R'

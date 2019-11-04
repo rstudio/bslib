@@ -5,15 +5,15 @@
 \alias{bs4_scss_file}
 \title{Compile Bootstrap 4 SASS with (optional) theming}
 \usage{
-bs4_sass(sass_vars = sass_variables(), theme = bs4_theme(),
+bs4_sass(variables = theme_variables(), theme = bs4_theme(),
   bootstrap_scss = bs4_scss_file("bootstrap.scss"))
 
 bs4_scss_file(path)
 }
 \arguments{
-\item{sass_vars}{A list of SASS variables to include prior to any bootstrap or
+\item{variables}{A list of SASS variables to include prior to any bootstrap or
 \code{theme} sass. Set to \code{NULL} if you want to ignore any existing variables
-(set by \code{\link[=sass_variables_add]{sass_variables_add()}}) at runtime.}
+(set by \code{\link[=theme_variables]{theme_variables()}}) at runtime.}
 
 \item{theme}{a \code{\link[=bs4_theme]{bs4_theme()}} object. Use this argument to define your own custom
 theme and/or use a pre-defined theme (e.g., \code{\link[=bs4_theme_bootswatch]{bs4_theme_bootswatch()}}).}
@@ -34,11 +34,11 @@ bs4_minty <- bs4_sass(theme = bs4_theme_bootswatch("minty"))
 browsable(tags$body(bs4_minty, button))
 
 # Set bootstrap SASS variables (globally)
-sass_variables_add(primary = "orange", "body-bg" = "#EEEEEE")
-sass_variables_add("font-family-base" = "monospace", "font-size-base" = "1.4rem")
-sass_variables_add("btn-padding-y" = ".16rem")
-sass_variables_add("btn-padding-x" = "2rem")
-sass_variables_add("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
+theme_variables(primary = "orange", "body-bg" = "#EEEEEE")
+theme_variables("font-family-base" = "monospace", "font-size-base" = "1.4rem")
+theme_variables("btn-padding-y" = ".16rem")
+theme_variables("btn-padding-x" = "2rem")
+theme_variables("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
 browsable(tags$body(bs4_sass(), button))
 
 # Use a custom theme
@@ -50,7 +50,7 @@ person <- function(name, title, company) {
     div(class = "company", company)
   )
 }
-person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootsass"))
+person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootscss"))
 browsable(tags$body(
   bs4_sass(theme = bs4_theme(post = person_scss)),
   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),

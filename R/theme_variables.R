@@ -1,6 +1,6 @@
 #' Sets SASS variables globally
 #'
-#' Set Sass variables that will be respected by [bs4_sass()] (by default).
+#' Set SASS variables that will be respected by [bs4_sass()] (by default).
 #'
 #' @param ... Variables to be set, using `name = value`; or, a single unnamed
 #'   argument which is a named list of variables to set. To specify a name that
@@ -15,21 +15,21 @@
 #' @examples
 #' library(htmltools)
 #'
-#' sass_variables_add(primary = "orange", "body-bg" = "#EEEEEE")
-#' sass_variables_add("font-family-base" = "monospace", "font-size-base" = "1.4rem")
-#' sass_variables_add("btn-padding-y" = ".16rem")
-#' sass_variables_add("btn-padding-x" = "2rem")
-#' sass_variables_add("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
+#' theme_variables(primary = "orange", "body-bg" = "#EEEEEE")
+#' theme_variables("font-family-base" = "monospace", "font-size-base" = "1.4rem")
+#' theme_variables("btn-padding-y" = ".16rem")
+#' theme_variables("btn-padding-x" = "2rem")
+#' theme_variables("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
 #'
 #' browsable(tags$body(
-#'   bs4_sass(bootswatch_theme = "cosmo"),
+#'   bs4_sass(),
 #'   tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 #' ))
 #'
 #' @importFrom stats setNames
-#' @rdname sass_variables
+#' @rdname theme_variables
 #' @export
-sass_variables_add <- function(...) {
+theme_variables <- function(...) {
   args <- list(...)
   arg_names <- names(args)
 
@@ -47,7 +47,7 @@ sass_variables_add <- function(...) {
   }
 
   if (is.null(arg_names) || !isTRUE(all(nzchar(arg_names), na.rm = FALSE))) {
-    stop("All arguments to sass_variables_add() must be named")
+    stop("All arguments to theme_variables() must be named")
   }
 
   old_opts <- globals$sass_vars
@@ -57,16 +57,10 @@ sass_variables_add <- function(...) {
   invisible(setNames(old_opts[arg_names], arg_names))
 }
 
-#' @rdname sass_variables
+#' @rdname theme_variables
 #' @export
-sass_variables_clear <- function() {
+theme_variables_clear <- function() {
   old_opts <- globals$sass_vars
   globals$sass_vars <- list()
   invisible(old_opts)
-}
-
-#' @rdname sass_variables
-#' @export
-sass_variables <- function() {
-  globals$sass_vars
 }
