@@ -64,7 +64,6 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(
 
   output_path <- tempfile("bs4custom")
   dir.create(output_path)
-  dir.create(file.path(output_path, "css"))
 
   # Add local fonts for the bootswatch theme, if any
   for (bootswatch in bootswatch_themes(TRUE)) {
@@ -81,7 +80,7 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(
     }
   }
 
-  output_css <- if (minified) "css/bootstrap-custom.min.css" else "css/bootstrap-custom.css"
+  output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
   opts <- sass_options(
     output_style = if (minified) "compressed" else "expanded",
     source_map_embed = minified
@@ -99,11 +98,13 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(
     )
   )
 
-  file.copy(
-    system.file("node_modules/bootstrap/dist/js", package = "bootscss"),
-    output_path,
-    recursive = TRUE
+  bootstrap_js <- system.file(
+    "node_modules/bootstrap/dist/js",
+    if (minified) "bootstrap.bundle.min.js" else "bootstrap.bundle.js",
+    package = "bootscss"
   )
+
+  file.copy(bootstrap_js, output_path)
 
   c(
     jquery_deps(),
@@ -117,7 +118,9 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(
           content = "width=device-width, initial-scale=1, shrink-to-fit=no"
         ),
         stylesheet = output_css,
-        script = if (minified) "js/bootstrap.bundle.min.js" else "js/bootstrap.bundle.js"
+        script = basename(bootstrap_js),
+        # needed for ttf font files (imported via font.css)
+        all_files = TRUE
       )
     )
   )
