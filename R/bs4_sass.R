@@ -66,20 +66,19 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(
   dir.create(output_path)
   dir.create(file.path(output_path, "css"))
 
-  # If theme has bootswatch files, copy over font files
-  theme_files <- unlist(lapply(theme, attr, "sass_file_path"))
-  if (length(theme_files)) {
-    theme_dirs <- unique(dirname(theme_files))
-    bootswatch_themes <- intersect(theme_dirs, bootswatch_themes(TRUE))
-    file.copy(
-      file.path(bootswatch_themes, "font.css"),
-      file.path(output_path, "css", "font.css")
-    )
-    file.copy(
-      system.file("fonts", package = "bootscss"),
-      output_path,
-      recursive = TRUE
-    )
+  # Add local fonts for the bootswatch theme, if any
+  for (bootswatch in bootswatch_themes(TRUE)) {
+    if (length(grep(bootswatch, c(theme$pre, theme$post), fixed = TRUE))) {
+      file.copy(
+        file.path(bootswatch, "font.css"),
+        file.path(output_path, "font.css")
+      )
+      file.copy(
+        system.file("fonts", package = "bootscss"),
+        output_path,
+        recursive = TRUE
+      )
+    }
   }
 
   output_css <- if (minified) "css/bootstrap-custom.min.css" else "css/bootstrap-custom.css"
