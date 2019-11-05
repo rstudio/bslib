@@ -6,7 +6,7 @@
 \alias{bs4_scss_file}
 \title{Compile Bootstrap 4 SASS with (optional) theming}
 \usage{
-bs4_sass(variables = theme_variables(), theme = bs4_theme(),
+bs4_sass(variables = theme_variables(), theme = bs4_theme_bs3compat(),
   bootstrap_scss = bs4_scss_file("bootstrap.scss"),
   options = sass_options())
 
@@ -16,8 +16,8 @@ bs4_scss_file(path)
 }
 \arguments{
 \item{variables}{A list of SASS variables to include prior to any bootstrap or
-\code{theme} sass. Set to \code{NULL} if you want to ignore any existing variables
-(set by \code{\link[=theme_variables]{theme_variables()}}) at runtime.}
+\code{theme} sass. To ignore any existing variables (set by \code{\link[=theme_variables]{theme_variables()}}) at
+runtime, set to \code{NULL}.}
 
 \item{theme}{a \code{\link[=bs4_theme]{bs4_theme()}} object. Use this argument to define your own custom
 theme and/or use a pre-defined theme (e.g., \code{\link[=bs4_theme_bootswatch]{bs4_theme_bootswatch()}}).}
@@ -29,8 +29,9 @@ By default, all of bootstrap is included. Use \code{bs4_scss_required()} to comp
 \item{options}{Compiler options for SASS, see \code{\link[sass:sass_options]{sass::sass_options()}}.}
 }
 \description{
-For vanilla Bootstrap CSS and all it's dependencies, call \code{bs4_sass()}.
-See examples below for various ways to generating custom Bootstrap themes.
+Obtain Bootstrap (and it's dependencies) as an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}.
+By default, \code{bs4_sass()} returns vanilla Bootstrap, but it also provides
+various ways to theme (see examples below).
 }
 \examples{
 library(htmltools)
@@ -67,4 +68,10 @@ browsable(tags$body(
   person("John D. Rockefeller", "Chairman", "Standard Oil")
 ))
 
+}
+\references{
+\url{https://getbootstrap.com/docs/4.3/getting-started/theming/}
+}
+\seealso{
+\code{\link[=bs4_theme]{bs4_theme()}}, \code{\link[=theme_variables]{theme_variables()}}
 }

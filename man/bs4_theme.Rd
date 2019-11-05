@@ -5,6 +5,7 @@
 \alias{bs4_themes}
 \alias{bs4_theme_bootswatch}
 \alias{bs4_theme_bs3compat}
+\alias{bootswatch_themes}
 \title{Create a bs4 theme}
 \usage{
 bs4_theme(pre = "", post = "")
@@ -14,6 +15,8 @@ bs4_themes(...)
 bs4_theme_bootswatch(theme = "")
 
 bs4_theme_bs3compat()
+
+bootswatch_themes(full.names = FALSE)
 }
 \arguments{
 \item{pre}{An acceptable \code{\link[sass:sass]{sass::sass()}} input. This SASS input will be included before bootstrap's SASS}

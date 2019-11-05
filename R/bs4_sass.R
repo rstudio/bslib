@@ -1,11 +1,12 @@
 #' Compile Bootstrap 4 SASS with (optional) theming
 #'
-#' For vanilla Bootstrap CSS and all it's dependencies, call `bs4_sass()`.
-#' See examples below for various ways to generating custom Bootstrap themes.
+#' Obtain Bootstrap (and it's dependencies) as an [htmltools::htmlDependency()].
+#' By default, `bs4_sass()` returns vanilla Bootstrap, but it also provides
+#' various ways to theme (see examples below).
 #'
 #' @param variables A list of SASS variables to include prior to any bootstrap or
-#' `theme` sass. Set to `NULL` if you want to ignore any existing variables
-#' (set by [theme_variables()]) at runtime.
+#' `theme` sass. To ignore any existing variables (set by [theme_variables()]) at
+#' runtime, set to `NULL`.
 #' @param theme a [bs4_theme()] object. Use this argument to define your own custom
 #' theme and/or use a pre-defined theme (e.g., [bs4_theme_bootswatch()]).
 #' @param bootstrap_scss bootstrap scss files to compile `variables` and `theme` against.
@@ -14,6 +15,8 @@
 #' @param options Compiler options for SASS, see [sass::sass_options()].
 #'
 #' @export
+#' @seealso [bs4_theme()], [theme_variables()]
+#' @references <https://getbootstrap.com/docs/4.3/getting-started/theming/>
 #' @examples
 #' library(htmltools)
 #'
@@ -53,7 +56,7 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(
                      bootstrap_scss = bs4_scss_file("bootstrap.scss"),
                      options = sass_options()) {
 
-  if (!inherits(theme, "bs4_theme")) {
+  if (!is.null(theme) && !inherits(theme, "bs4_theme")) {
     stop("theme must be a bs4_theme() object.", call. = FALSE)
   }
 

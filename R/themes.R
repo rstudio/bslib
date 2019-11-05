@@ -69,6 +69,8 @@ bootswatch_scss_file <- function(theme, file = "_variables.scss") {
   stop("Bootswatch file '", file, "' doesn't exist for theme '", theme, "'.", call. = FALSE)
 }
 
+#' @rdname bs4_theme
+#' @export
 bootswatch_themes <- function(full.names = FALSE) {
   list.dirs(bootswatch_dist(), full.names = full.names, recursive = FALSE)
 }
