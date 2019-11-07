@@ -4,13 +4,23 @@
 #'
 #' @param pre An acceptable [sass::sass()] input. This SASS input will be included before bootstrap's SASS
 #' @param post An acceptable [sass::sass()] input. This SASS input will be included before bootstrap's SASS
+#' @param deps A [htmltools::htmlDependency()] object (or a list of them)
 #' @references <https://getbootstrap.com/docs/4.3/getting-started/theming/>, <https://bootswatch.com/>
 #' @export
 #' @seealso [bs4_sass()]
-bs4_theme <- function(pre = "", post = "") {
+bs4_theme <- function(pre = "", post = "", deps = NULL) {
+  if (inherits(deps, "html_dependency")) {
+    deps <- list(deps)
+  }
+  if (!is.null(deps)) {
+    is_dependency <- vapply(deps, inherits, logical(1), "html_dependency")
+    if (any(!is_dependency)) stop("deps must be a collection of htmltools::htmlDependency() objects", call. = FALSE)
+  }
+
   theme <- list(
     pre = as_sass(pre),
-    post = as_sass(post)
+    post = as_sass(post),
+    deps = deps
   )
   structure(theme, class = "bs4_theme")
 }
@@ -30,7 +40,8 @@ bs4_themes <- function(...) {
 bs4_themes_join <- function(theme1 = bs4_theme(), theme2 = bs4_theme()) {
   bs4_theme(
     pre = as_sass(paste0(theme1$pre, theme2$pre)),
-    post = as_sass(paste0(theme2$post, theme1$post))
+    post = as_sass(paste0(theme2$post, theme1$post)),
+    deps = c(theme1$deps, theme1$deps)
   )
 }
 
