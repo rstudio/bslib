@@ -16,25 +16,6 @@ pre.shiny-code {
   @extend .form-text; @extend .text-muted;
 }
 
-/*
-/ Shim for navbarMenu() inside tabsetPanel() (or navlistPanel())
-/ Note that the additional CSS intentionally makes it virtually impossible
-/ to click the <li> tag, so we have "one source of truth" when we clean up
-/ active tags in shiny's tab showing logic
-/ https://github.com/rstudio/shiny/blob/2d979d0/srcjs/input_binding_tabinput.js#L41-L63
-*/
-.nav .dropdown-menu li:not(.divider) {
-  @extend .nav-pills, .dropdown-item;
-  padding: 0;
-  a.nav-link {
-    border: none;
-    border-radius: 0;
-  }
-  a.nav-link:not(.active):hover {
-    background-color: $light !important;
-  }
-}
-
 .shiny-input-checkboxgroup, .shiny-input-radiogroup {
   .checkbox, .radio {
     @extend .form-check;
@@ -77,3 +58,91 @@ pre.shiny-code {
   background: $component-active-bg;
   color: $component-active-color;
 }
+
+// bs4 navbars require .navbar-expand[-sm|-md|-lg|-xl], but bs3 navbars
+// don't have them. This selector matches .navbar without .navbar-expand
+// and defaults it to .navbar-expand-sm.
+.navbar:not(.navbar-expand):not(.navbar-expand-sm):not(.navbar-expand-md):not(.navbar-expand-lg):not(.navbar-expand-xl) {
+  @extend .navbar-expand-sm;
+}
+
+ul.nav.navbar-nav {
+  flex: 1;
+  min-width: map-get($container-max-widths, sm) - 30px;
+}
+
+ul.nav.navbar-nav>li:not(.dropdown) {
+  @extend .nav-item;
+}
+ul.nav.navbar-nav>li>a {
+  @extend .nav-link;
+}
+.navbar.navbar-default {
+  @extend .navbar-light;
+  @extend .bg-light;
+}
+.navbar.navbar-inverse {
+  color: $navbar-dark-color;
+  @extend .navbar-dark;
+  @extend .bg-dark;
+}
+
+// Implement bs3 navbar toggler; used in Rmd websites, i.e.
+// https://github.com/rstudio/rmarkdown-website/blob/453e1802b32b5baf1c8a67f80947adcc53e49b7f/_navbar.html
+.navbar-toggle {
+  @extend .navbar-toggler;
+}
+.navbar-toggle>.icon-bar+.icon-bar {
+  display: none;
+}
+.navbar-toggle>.icon-bar:first-child {
+  @extend .navbar-toggler-icon;
+}
+
+// Fix tab selector borders in bs3.
+.nav-tabs>li,
+.nav-pills>li {
+  @extend .nav-item;
+}
+.nav-tabs>li>a,
+.nav-pills>li>a {
+  @extend .nav-link;
+}
+
+// Active tab/pill.
+//
+// bs3 uses .nav>li.active>a, bs4 uses .nav>li>a.active or .nav>li.show>a.
+//
+// My original approach to this was making .nav>li.active @extend .show, but
+// after a lot of trial and error I could not get it to fully work.
+.nav-tabs>li.active>a {
+  color: $nav-tabs-link-active-color;
+  background-color: $nav-tabs-link-active-bg;
+  border-color: $nav-tabs-link-active-border-color;
+}
+.nav-pills>li.active>a {
+  color: $nav-pills-link-active-color;
+  background-color: $nav-pills-link-active-bg;
+}
+
+// # DROPDOWNS
+//
+// In bs3, dropdown menus are .dropdown-menu>li.active>a
+// In bs4, dropdown menus are .dropdown-menu>.dropdown-item.active
+//
+// Also, bs3 dropdowns within tabs/pills are interfered with in bs4 by
+// selectors like `.bs-tabs li>a`, making menu items look like tabs.
+
+.dropdown-menu>li {
+  @extend .dropdown-item;
+  a {
+    display: block;
+    color: inherit;
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+}
+.dropdown-menu>li.divider {
+  @extend .dropdown-divider;
+}
+

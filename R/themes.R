@@ -69,7 +69,15 @@ bs4_theme_bootswatch <- function(theme = "") {
 bs4_theme_bs3compat <- function() {
   bs4_theme(
     pre = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootscss")),
-    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootscss"))
+    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootscss")),
+    deps = list(
+      htmltools::htmlDependency(
+        "bs3compat", packageVersion("bootscss"),
+        package = "bootscss",
+        src = "bs3compat/js",
+        script = c("tabs.js", "bs3compat.js")
+      )
+    )
   )
 }
 
