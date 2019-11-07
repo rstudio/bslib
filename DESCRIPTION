@@ -7,9 +7,9 @@ Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"),
     )
 Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
 Imports: 
-  htmltools,
-  jsonlite,
-  sass
+    htmltools,
+    jsonlite,
+    sass
 Suggests:
     shiny,
     rmarkdown,

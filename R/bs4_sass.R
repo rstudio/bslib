@@ -122,7 +122,8 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(
         # needed for ttf font files (imported via font.css)
         all_files = TRUE
       )
-    )
+    ),
+    theme$deps
   )
 }
 
