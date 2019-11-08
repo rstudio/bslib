@@ -7,13 +7,13 @@
 
 // Map BS3 navbar positioning to general utilities
 .navbar-fixed-top {
-  @extend .fixed-top
+  @extend .fixed-top;
 }
 .navbar-fixed-bottom {
-  @extend .fixed-bottom
+  @extend .fixed-bottom;
 }
 .navbar-sticky-top {
-  @extend .sticky-top
+  @extend .sticky-top;
 }
 
 ul.nav.navbar-nav {
