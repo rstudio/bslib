@@ -66,6 +66,18 @@ pre.shiny-code {
   @extend .navbar-expand-sm;
 }
 
+// Map BS3 navbar positioning to general utilities
+.navbar-fixed-top {
+  @extend .fixed-top
+}
+.navbar-fixed-bottom {
+  @extend .fixed-bottom
+}
+.navbar-sticky-top {
+  @extend .sticky-top
+}
+
+
 ul.nav.navbar-nav {
   flex: 1;
   min-width: map-get($container-max-widths, sm) - 30px;
