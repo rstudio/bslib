@@ -92,9 +92,9 @@ bs4_sass <- function(variables = theme_variables(), theme = bs4_theme_bs3compat(
     options = opts,
     input = list(
       if (length(variables)) list(variables) else "",
-      theme$pre,
+      theme$pre %||% "",
       bootstrap_scss,
-      theme$post
+      theme$post %||% ""
     )
   )
 
