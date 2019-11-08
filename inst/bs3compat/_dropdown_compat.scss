@@ -1,0 +1,20 @@
+// # DROPDOWNS
+//
+// In bs3, dropdown menus are .dropdown-menu>li.active>a
+// In bs4, dropdown menus are .dropdown-menu>.dropdown-item.active
+//
+// Also, bs3 dropdowns within tabs/pills are interfered with in bs4 by
+// selectors like `.bs-tabs li>a`, making menu items look like tabs.
+
+.dropdown-menu>li {
+  @extend .dropdown-item;
+  a {
+    display: block;
+    color: inherit;
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+}
+.dropdown-menu>li.divider {
+  @extend .dropdown-divider;
+}
