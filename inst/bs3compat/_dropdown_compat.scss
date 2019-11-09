@@ -6,14 +6,17 @@
 // Also, bs3 dropdowns within tabs/pills are interfered with in bs4 by
 // selectors like `.bs-tabs li>a`, making menu items look like tabs.
 
-.dropdown-menu>li {
+.dropdown-menu>li>a {
   @extend .dropdown-item;
-  a {
-    display: block;
-    color: inherit;
-    border: 0 !important;
-    border-radius: 0 !important;
-  }
+}
+.dropdown-menu>li.active>a {
+  // This @extend works, but it litters `.dropdown-menu>li.active>a` all over
+  // the bootstrap.css output because it's such a common class. Instead, we
+  // copy these few properties from from _dropdown.scss.
+  // @extend .active;
+  color: $dropdown-link-active-color;
+  text-decoration: none;
+  @include gradient-bg($dropdown-link-active-bg);
 }
 .dropdown-menu>li.divider {
   @extend .dropdown-divider;
