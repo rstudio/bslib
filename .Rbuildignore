@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 inst/node_modules/.yarn-integrity
 inst/node_modules/bootswatch/.github
+^test-apps$
