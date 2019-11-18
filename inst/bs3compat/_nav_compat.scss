@@ -23,3 +23,10 @@
   color: $nav-pills-link-active-color;
   background-color: $nav-pills-link-active-bg;
 }
+
+// Support vertical pills
+.nav-stacked {
+  // Don't extend the .flex-column utility, it uses !important
+  // @extend .flex-column;
+  flex-direction: column;
+}
