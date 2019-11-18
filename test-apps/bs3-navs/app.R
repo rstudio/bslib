@@ -135,7 +135,7 @@ ui <- fluidPage(
   h4("bs3 navbarPage (inverse)"),
   helpText("(Fixed to bottom of page)"),
   do.call(navbarPage, rlang::list2(
-    "bs4 navbarPage (inverse)", inverse = TRUE, position = "fixed-bottom",
+    "bs3 navbarPage (inverse)", inverse = TRUE, position = "fixed-bottom",
     !!!make_bs3_tabs()
   )),
 
@@ -149,16 +149,16 @@ ui <- fluidPage(
   h4("bs4 navbar (dark)"),
   tags$nav(class="navbar navbar-expand-sm navbar-dark bg-dark",
     tags$a(class="navbar-brand", href="#", "Navbar"),
-    make_bs4_tabs("bs4nav", "navbar-nav mr-auto"),
+    make_bs4_tabs("bs4navdark", "navbar-nav mr-auto"),
   ),
-  make_bs4_tab_contents("bs4nav"),
+  make_bs4_tab_contents("bs4navdark"),
 
   h4("bs4 navbar (.bg-success)"),
   tags$nav(class="navbar navbar-expand-sm navbar-dark bg-success",
     tags$a(class="navbar-brand", href="#", "Navbar"),
-    make_bs4_tabs("bs4nav", "navbar-nav mr-auto"),
+    make_bs4_tabs("bs4navsuccess", "navbar-nav mr-auto"),
   ),
-  make_bs4_tab_contents("bs4nav"),
+  make_bs4_tab_contents("bs4navsuccess"),
 
   h4("bs3 rmarkdown site navbar"),
   p(class = "text-center", "(pinned to top of page)"),
