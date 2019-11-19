@@ -75,7 +75,7 @@ bs4_theme_bs3compat <- function() {
         "bs3compat", packageVersion("bootscss"),
         package = "bootscss",
         src = "bs3compat/js",
-        script = c("tabset-dropdown.js", "tabs.js", "bs3compat.js")
+        script = c("tabs.js", "bs3compat.js")
       )
     )
   )
