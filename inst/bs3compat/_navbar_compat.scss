@@ -19,6 +19,9 @@
 ul.nav.navbar-nav {
   flex: 1;
   min-width: map-get($container-max-widths, sm) - 30px;
+  &.navbar-right {
+    justify-content: end;
+  }
 }
 
 ul.nav.navbar-nav>li:not(.dropdown) {
