@@ -36,7 +36,7 @@
   $.fn.tab.noConflict = function() {
     $.fn.tab = noconflict;
     return TabPlugin;
-  ;}
+  };
 
 })(jQuery);
 
