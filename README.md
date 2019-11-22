@@ -1,14 +1,14 @@
 
-# bootscss
+# bootsass
 
 Tools for obtaining bootstrap CSS and customizing it via SASS.
 
 ## Installation
 
-bootscss isn’t yet available from CRAN, but you can install with:
+bootsass isn’t yet available from CRAN, but you can install with:
 
 ``` r
-remotes::install_github("rstudio/bootscss")
+remotes::install_github("rstudio/bootsass")
 ```
 
 ## Get started
@@ -16,7 +16,7 @@ remotes::install_github("rstudio/bootscss")
 See the following help page:
 
 ``` r
-library(bootscss)
+library(bootsass)
 ?bs4_sass
 ```
 

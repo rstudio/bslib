@@ -68,12 +68,12 @@ bs4_theme_bootswatch <- function(theme = "") {
 #' @export
 bs4_theme_bs3compat <- function() {
   bs4_theme(
-    pre = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootscss")),
-    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootscss")),
+    pre = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootsass")),
+    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootsass")),
     deps = list(
       htmltools::htmlDependency(
-        "bs3compat", packageVersion("bootscss"),
-        package = "bootscss",
+        "bs3compat", packageVersion("bootsass"),
+        package = "bootsass",
         src = "bs3compat/js",
         script = c("tabs.js", "bs3compat.js")
       )
@@ -95,7 +95,7 @@ bootswatch_themes <- function(full.names = FALSE) {
 }
 
 bootswatch_dist <- function() {
-  system.file("node_modules", "bootswatch", "dist", package = "bootscss")
+  system.file("node_modules", "bootswatch", "dist", package = "bootsass")
 }
 
 "%||%" <- function(x, y) {

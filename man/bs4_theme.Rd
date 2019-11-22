@@ -8,7 +8,7 @@
 \alias{bootswatch_themes}
 \title{Create a bs4 theme}
 \usage{
-bs4_theme(pre = "", post = "")
+bs4_theme(pre = "", post = "", deps = NULL)
 
 bs4_themes(...)
 
@@ -22,6 +22,8 @@ bootswatch_themes(full.names = FALSE)
 \item{pre}{An acceptable \code{\link[sass:sass]{sass::sass()}} input. This SASS input will be included before bootstrap's SASS}
 
 \item{post}{An acceptable \code{\link[sass:sass]{sass::sass()}} input. This SASS input will be included before bootstrap's SASS}
+
+\item{deps}{A \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} object (or a list of them)}
 
 \item{...}{\code{bs4_theme()} objects.}
 

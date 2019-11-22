@@ -6,9 +6,12 @@
 \alias{bs4_scss_file}
 \title{Compile Bootstrap 4 SASS with (optional) theming}
 \usage{
-bs4_sass(variables = theme_variables(), theme = bs4_theme_bs3compat(),
+bs4_sass(
+  variables = theme_variables(),
+  theme = bs4_theme_bs3compat(),
   bootstrap_scss = bs4_scss_file("bootstrap.scss"),
-  options = sass_options())
+  options = sass_options()
+)
 
 bs4_scss_required()
 
@@ -61,7 +64,7 @@ person <- function(name, title, company) {
     div(class = "company", company)
   )
 }
-person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootscss"))
+person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootsass"))
 browsable(tags$body(
   bs4_sass(theme = bs4_theme(post = person_scss)),
   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),

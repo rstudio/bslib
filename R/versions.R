@@ -1,5 +1,5 @@
 package_json_version <- function(pkgname) {
-  jsonlite::fromJSON(system.file("node_modules", pkgname, "package.json", package = "bootscss"))$version
+  jsonlite::fromJSON(system.file("node_modules", pkgname, "package.json", package = "bootsass"))$version
 }
 
 version_bootstrap <- package_json_version("bootstrap")
