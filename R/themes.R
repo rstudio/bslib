@@ -58,10 +58,10 @@ bs4_theme_bootswatch <- function(theme = "") {
   bs4_theme(
     pre = list(
       bootswatch_scss_file(theme, "_variables.scss"),
-      # Make sure darkly code appears on the grayish background
+      # Make sure darkly/superhero code appears on the grayish background
       # (by default, pre-color inherits the white text color that appears elsewhere on the page)
       # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/darkly/_variables.scss#L178
-      if (identical(theme, "darkly")) list(`pre-color` = "#303030") else ""
+      if (theme %in% c("darkly", "superhero")) list(`pre-color` = "#303030") else ""
     ),
     post = list(
       list(`web-font-path` = '"font.css"'),
