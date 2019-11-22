@@ -41,7 +41,7 @@ bs4_themes_join <- function(theme1 = bs4_theme(), theme2 = bs4_theme()) {
   bs4_theme(
     pre = as_sass(paste0(theme1$pre, theme2$pre)),
     post = as_sass(paste0(theme2$post, theme1$post)),
-    deps = c(theme1$deps, theme1$deps)
+    deps = c(theme1$deps, theme2$deps)
   )
 }
 
@@ -69,7 +69,15 @@ bs4_theme_bootswatch <- function(theme = "") {
 bs4_theme_bs3compat <- function() {
   bs4_theme(
     pre = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootscss")),
-    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootscss"))
+    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootscss")),
+    deps = list(
+      htmltools::htmlDependency(
+        "bs3compat", packageVersion("bootscss"),
+        package = "bootscss",
+        src = "bs3compat/js",
+        script = c("tabs.js", "bs3compat.js")
+      )
+    )
   )
 }
 

@@ -1,0 +1,9 @@
+// For verbatimTextOutput()
+pre.shiny-text-output {
+  @extend .bg-light; @extend .card; @extend .p-2;
+}
+
+// For code inside of showcase mode
+pre.shiny-code {
+  padding: 0.5rem;
+}
