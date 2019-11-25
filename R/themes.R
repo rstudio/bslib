@@ -56,10 +56,20 @@ bs4_theme_bootswatch <- function(theme = "") {
   theme <- match.arg(theme, bootswatch_themes())
 
   bs4_theme(
-    pre = bootswatch_scss_file(theme, "_variables.scss"),
+    pre = list(
+      bootswatch_scss_file(theme, "_variables.scss"),
+      # Make sure darkly/superhero code appears on the grayish background
+      # (by default, pre-color inherits the white text color that appears elsewhere on the page)
+      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/darkly/_variables.scss#L178
+      if (theme %in% c("darkly", "superhero")) list(`pre-color` = "#303030") else ""
+    ),
     post = list(
       list(`web-font-path` = '"font.css"'),
-      bootswatch_scss_file(theme, "_bootswatch.scss")
+      bootswatch_scss_file(theme, "_bootswatch.scss"),
+      # For some reason the sketchy theme sets .dropdown-menu{overflow: hidden}
+      # but this prevents .dropdown-submenu from working properly
+      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
+      if (identical(theme, "sketchy")) as_sass(".dropdown-menu{ overflow: inherit; }") else ""
     )
   )
 }

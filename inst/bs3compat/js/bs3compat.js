@@ -1,3 +1,6 @@
+// Inform the world that we have the ability to use BS3 nav/navbar markup in BS4
+window.BS3_COMPAT = true;
+
 (function($) {
   if (!$.fn.tab.Constructor.VERSION.match(/^3\./)) {
     (console.warn || console.error || console.log)("bs3compat.js couldn't find bs3 tab impl; bs3 tabs will not be properly supported");
