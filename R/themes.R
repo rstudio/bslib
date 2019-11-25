@@ -69,7 +69,7 @@ bs4_theme_bootswatch <- function(theme = "") {
       # For some reason the sketchy theme sets .dropdown-menu{overflow: hidden}
       # but this prevents .dropdown-submenu from working properly
       # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
-      if (identical(theme, "sketchy")) as_sass(".dropdown-menu{ overflow: hidden; }") else ""
+      if (identical(theme, "sketchy")) as_sass(".dropdown-menu{ overflow: inherit; }") else ""
     )
   )
 }
