@@ -22,8 +22,9 @@ bs4_scss_file(path)
 \code{theme} sass. To ignore any existing variables (set by \code{\link[=theme_variables]{theme_variables()}}) at
 runtime, set to \code{NULL}.}
 
-\item{theme}{a \code{\link[=bs4_theme]{bs4_theme()}} object. Use this argument to define your own custom
-theme and/or use a pre-defined theme (e.g., \code{\link[=bs4_theme_bootswatch]{bs4_theme_bootswatch()}}).}
+\item{theme}{a \code{\link[=bs4_theme]{bs4_theme()}} object (or \code{NULL} for no theme).
+Use this argument to define your own custom theme and/or use pre-defined theme(s)
+(e.g., \code{\link[=bs4_theme_bootswatch]{bs4_theme_bootswatch()}}).}
 
 \item{bootstrap_scss}{bootstrap scss files to compile \code{variables} and \code{theme} against.
 By default, all of bootstrap is included. Use \code{bs4_scss_required()} to compile against

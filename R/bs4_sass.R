@@ -7,8 +7,9 @@
 #' @param variables A list of SASS variables to include prior to any bootstrap or
 #' `theme` sass. To ignore any existing variables (set by [theme_variables()]) at
 #' runtime, set to `NULL`.
-#' @param theme a [bs4_theme()] object. Use this argument to define your own custom
-#' theme and/or use a pre-defined theme (e.g., [bs4_theme_bootswatch()]).
+#' @param theme a [bs4_theme()] object (or `NULL` for no theme).
+#' Use this argument to define your own custom theme and/or use pre-defined theme(s)
+#' (e.g., [bs4_theme_bootswatch()]).
 #' @param bootstrap_scss bootstrap scss files to compile `variables` and `theme` against.
 #' By default, all of bootstrap is included. Use `bs4_scss_required()` to compile against
 #' 'core' parts of bootstrap. Use `bs4_scss_file()` to fully customize what files to import.
