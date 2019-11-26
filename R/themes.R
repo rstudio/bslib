@@ -116,10 +116,10 @@ bootswatch_dist <- function() {
 #' This is primarily useful for logic internal to [rmarkdown::html_document()]
 #'
 #' @return
-#' @inheritParams bs4_theme_bootswatch
+#' @param theme a <https://bootswatch.com/> theme name. The default value
+#' means vanilla Bootstrap (i.e. no bootswatch theme).
 #' @export
-bootswatch_theme_navbar_height <- function(theme = "") {
-  theme <- match.arg(theme, bootswatch_themes())
+navbar_height <- function(theme = "") {
 
   # TODO: it'd be great if, someday, this took into account SASS variables,
   # but it's not immediately obvious how to do that correctly
@@ -145,7 +145,8 @@ bootswatch_theme_navbar_height <- function(theme = "") {
     spacelab = 58,
     superhero = 48,
     united = 56,
-    yeti = 54.5
+    yeti = 54.5,
+    53
   )
 }
 
