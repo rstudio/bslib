@@ -30,3 +30,8 @@
   // @extend .flex-column;
   flex-direction: column;
 }
+
+
+.in {
+  @extend .show;
+}
