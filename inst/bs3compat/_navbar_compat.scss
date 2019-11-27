@@ -18,7 +18,7 @@
 
 ul.nav.navbar-nav {
   flex: 1;
-  min-width: map-get($container-max-widths, sm) - 30px;
+  padding-right: 30px;
   &.navbar-right {
     justify-content: end;
   }
