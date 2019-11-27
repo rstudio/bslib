@@ -43,9 +43,9 @@ CSS. This gives developers and users the opportunity to produce
 customized Bootstrap CSS via [Bootstrap’s SASS
 variables](https://github.com/rstudio/bootsass/blob/master/inst/node_modules/bootstrap/scss/_variables.scss)
 (via `bootsass::theme_variables()`) and/or other aribitrary SCSS files
-(via `bootsass::bs4_theme()` objects). For example, see the example
+(via `bootsass::bs4_theme()` objects). For examples, see the example
 section of the following help page: `help(bs4_sass, package =
-"bootsass")`
+"bootsass")`.
 
 ## Development
 
