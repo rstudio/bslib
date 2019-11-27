@@ -10,7 +10,7 @@ Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
 Imports: 
     htmltools,
     jsonlite,
-    sass
+    sass (> 0.1.2.1)
 Suggests:
     shiny,
     rmarkdown,
@@ -18,13 +18,15 @@ Suggests:
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.1.9000
 Roxygen: list(markdown = TRUE)
 Collate: 
-    'bs4_sass.R'
+    'bs_sass.R'
     'globals.R'
     'imports.R'
     'jquery.R'
+    'navbar.R'
     'theme_variables.R'
     'themes.R'
     'versions.R'
+Remotes: rstudio/sass@layers

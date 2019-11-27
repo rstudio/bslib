@@ -1,6 +1,6 @@
 #' Sets SASS variables globally
 #'
-#' Set SASS variables that will be respected by [bs4_sass()] (by default).
+#' Set SASS variables that will be respected by [bs_sass()] (by default).
 #'
 #' @param ... Variables to be set, using `name = value`; or, a single unnamed
 #'   argument which is a named list of variables to set. To specify a name that
@@ -22,7 +22,7 @@
 #' theme_variables("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
 #'
 #' browsable(tags$body(
-#'   bs4_sass(),
+#'   bs_sass(),
 #'   tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 #' ))
 #'

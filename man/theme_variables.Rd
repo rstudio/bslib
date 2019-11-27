@@ -21,7 +21,7 @@ arguments are passed, a list containing the previous values of the newly
 set options is returned invisibly.
 }
 \description{
-Set SASS variables that will be respected by \code{\link[=bs4_sass]{bs4_sass()}} (by default).
+Set SASS variables that will be respected by \code{\link[=bs_sass]{bs_sass()}} (by default).
 }
 \examples{
 library(htmltools)
@@ -33,7 +33,7 @@ theme_variables("btn-padding-x" = "2rem")
 theme_variables("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
 
 browsable(tags$body(
-  bs4_sass(),
+  bs_sass(),
   tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 ))
 
