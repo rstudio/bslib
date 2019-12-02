@@ -71,7 +71,7 @@ person <- function(name, title, company) {
     div(class = "company", company)
   )
 }
-person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootsass"))
+person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootstraplib"))
 browsable(tags$body(
   bs_sass(person_scss),
   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),

@@ -1,4 +1,4 @@
 library(testthat)
-library(bootsass)
+library(bootstraplib)
 
-test_check("bootsass")
+test_check("bootstraplib")

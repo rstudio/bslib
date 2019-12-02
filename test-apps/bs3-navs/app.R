@@ -1,4 +1,4 @@
-library(bootsass)
+library(bootstraplib)
 library(shiny)
 
 make_bs3_tabs <- function() {

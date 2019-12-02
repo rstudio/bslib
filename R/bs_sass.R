@@ -49,7 +49,7 @@
 #'     div(class = "company", company)
 #'   )
 #' }
-#' person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootsass"))
+#' person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootstraplib"))
 #' browsable(tags$body(
 #'   bs_sass(person_scss),
 #'   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
@@ -82,7 +82,7 @@ bs_sass <- function(..., variables = theme_variables(),
         file.path(output_path, "font.css")
       )
       file.copy(
-        system.file("fonts", package = "bootsass"),
+        system.file("fonts", package = "bootstraplib"),
         output_path,
         recursive = TRUE
       )
@@ -110,7 +110,7 @@ bs_sass <- function(..., variables = theme_variables(),
   bootstrap_js <- system.file(
     "node_modules/bootstrap/dist/js",
     if (minified) "bootstrap.bundle.min.js" else "bootstrap.bundle.js",
-    package = "bootsass"
+    package = "bootstraplib"
   )
 
   file.copy(bootstrap_js, output_path)
@@ -150,7 +150,7 @@ bs4_scss_required <- function() {
 #' @rdname bs_sass
 #' @export
 bs4_scss_file <- function(path) {
-  f <- system.file("node_modules", "bootstrap", "scss", path, package = "bootsass")
+  f <- system.file("node_modules", "bootstrap", "scss", path, package = "bootstraplib")
   if (f == "") stop("The bootstrap scss file '", path, "' doesn't exist.", .call = FALSE)
   sass_file(f)
 }

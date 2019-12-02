@@ -7,7 +7,7 @@ jquery_deps <- function() {
       "jquery",
       version_jquery,
       src = "node_modules/jquery/dist",
-      package = "bootsass",
+      package = "bootstraplib",
       script = if (minified) "jquery.min.js" else "jquery.js"
     )
   )
