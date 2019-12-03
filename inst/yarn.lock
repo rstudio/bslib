@@ -2,22 +2,22 @@
 # yarn lockfile v1
 
 
-bootstrap@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
-  integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
-
-bootswatch@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/bootswatch/-/bootswatch-4.3.1.tgz#be54748b420a1962dbcf9782605aac092f842e38"
-  integrity sha512-kNdpo/TnhO++aic1IODLIe1V0lx6pXwHMpwXMacpANDnuVDtgU1MUgUbVMC3rSWm4UcbImfwPraNYgjKDT0BtA==
-
-jquery@^3.3.1:
+bootstrap-sass@^3.4.1:
   version "3.4.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
-  integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
+  resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz#6843c73b1c258a0ac5cb2cc6f6f5285b664a8e9a"
+  integrity sha512-p5rxsK/IyEDQm2CwiHxxUi0MZZtvVFbhWmyMOt4lLkA4bujDA1TGoKT0i1FKIWiugAdP+kK8T5KMDFIKQCLYIA==
 
-popper.js@^1.14.4:
+bootstrap@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.4.1.tgz#8582960eea0c5cd2bede84d8b0baf3789c3e8b01"
+  integrity sha512-tbx5cHubwE6e2ZG7nqM3g/FZ5PQEDMWmMGNrCUBVRPHXTJaH7CBDdsLeu3eCh3B1tzAxTnAbtmrzvWEvT2NNEA==
+
+bootswatch@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/bootswatch/-/bootswatch-4.4.1.tgz#f270618b4ebe07de8e1748acd88f104cc31bfec3"
+  integrity sha512-Kx3z6+3Jpg9g6l/xZBCnc8d6KeJK0QawxCZWOomdcI5AuSZLZb+DoH5X9RJH+cOcSeMAxyzdIjkVUR01+Db5bQ==
+
+popper.js@^1.16.0:
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.0.tgz#2e1816bcbbaa518ea6c2e15a466f4cb9c6e2fbb3"
   integrity sha512-+G+EkOPoE5S/zChTpmBSSDYmhXJ5PsW8eMhH8cP/CQHMFPBG/kC9Y5IIw6qNYgdJ+/COf0ddY2li28iHaZRSjw==

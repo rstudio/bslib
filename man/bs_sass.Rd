@@ -2,57 +2,73 @@
 % Please edit documentation in R/bs_sass.R
 \name{bs_sass}
 \alias{bs_sass}
-\alias{bs4_scss_required}
-\alias{bs4_scss_file}
-\title{Compile Bootstrap 4 SASS with (optional) theming}
+\alias{bs_sass_partial}
+\title{Compile Bootstrap 4 (or 3) SASS with (optional) theming}
 \usage{
 bs_sass(
   ...,
   variables = theme_variables(),
-  bootstrap_scss = bs4_scss_file("bootstrap.scss"),
-  bs3compat = TRUE,
+  bootswatch = NULL,
+  version = c("4-3", "4", "3"),
+  jquery = jquerylib::jquery_core(3),
   options = sass_options()
 )
 
-bs4_scss_required()
-
-bs4_scss_file(path)
+bs_sass_partial(
+  ...,
+  variables = theme_variables(),
+  bootswatch = NULL,
+  version = 4,
+  options = sass_options()
+)
 }
 \arguments{
-\item{...}{a collection of \code{\link[sass:sass]{sass::sass()}} input and/or \code{\link[=bs_themes]{bs_themes()}}.
-Use this argument to supply pre-defined theme(s) like \code{\link[=theme_bootswatch]{theme_bootswatch()}} and
-combine those theme with your own SASS code.}
+\item{...}{a collection of \code{\link[sass:sass]{sass::sass()}} to include after Bootstrap's SASS.
+Use \code{\link[=bs_theme]{bs_theme()}} if you need to place \code{\link[sass:sass]{sass::sass()}} both before and after Bootstrap's SASS.}
 
 \item{variables}{A list of SASS variables to include prior to any other SASS.
 To ignore any existing variables (set by \code{\link[=theme_variables]{theme_variables()}}) at runtime,
 set this to \code{NULL}.}
 
-\item{bootstrap_scss}{bootstrap scss files to compile \code{variables} and \code{...} against.
-By default, all of bootstrap is included. Use \code{bs4_scss_required()} to compile against
-'core' parts of Bootstrap 4. If you need to use a specific version of Bootstrap,
-supply it via \code{\link[sass:sass_file]{sass::sass_file()}} and attach a \code{"bootstrap_version"} attribute
-for the version to be reflected in the returned HTML dependency.}
+\item{bootswatch}{The name of a bootswatch theme.
+See \code{\link[=bootswatch_themes]{bootswatch_themes()}} for a list of possible names.}
 
-\item{options}{Compiler options for SASS, see \code{\link[sass:sass_options]{sass::sass_options()}}.}
-}
-\value{
-a list of HTML dependencies.
+\item{version}{The major version of Bootstrap to use. A value of
+\code{'4-3'} means Bootstrap 4, but with additional CSS/JS to support
+BS3 style markup in BS4.}
+
+\item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
+
+\item{options}{Compiler options for Sass. Please specify options using
+\code{\link[sass]{sass_options}}.}
 }
 \description{
-Obtain Bootstrap (and it's dependencies) as an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}.
-By default, \code{bs_sass()} returns vanilla Bootstrap, but it also provides
-various ways to theme (see examples below).
+Use \code{bs_sass()} to obtain all of Bootstrap and it's dependencies as a list
+of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} objects.
+Use \code{bs_sass_partial()} if you can assume Bootstrap already exists in your
+project, but you want to leverage Bootstrap utilities to generate additional
+CSS (as a string that can be included as a \verb{<style>} tag via \code{tags$style(css)}).
 }
 \examples{
 library(htmltools)
 
-# Vanilla Bootstrap 4
 button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
-browsable(tags$body(bs_sass(), button))
 
-# Use a bootswatch theme
-minty <- bs_sass(theme_bootswatch("minty"))
-browsable(tags$body(minty, button))
+preview_button <- function(x) {
+  browsable(tags$body(x, button))
+}
+
+# Vanilla Bootstrap 4
+preview_button(bs_sass())
+
+# Vanilla Bootstrap 3
+preview_button(bs_sass(version = 3))
+
+# Bootswatch 4 theme minty
+preview_button(bs_sass(bootswatch = "minty"))
+
+# Bootswatch 4 theme sketchy
+preview_button(bs_sass(bootswatch = "sketchy"))
 
 # Set bootstrap SASS variables (globally)
 theme_variables(primary = "orange", "body-bg" = "#EEEEEE")
@@ -60,7 +76,7 @@ theme_variables("font-family-base" = "monospace", "font-size-base" = "1.4rem")
 theme_variables("btn-padding-y" = ".16rem")
 theme_variables("btn-padding-x" = "2rem")
 theme_variables("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
-browsable(tags$body(bs_sass(), button))
+preview_button(bs_sass())
 
 # Use a custom theme
 person <- function(name, title, company) {
@@ -83,5 +99,5 @@ browsable(tags$body(
 \url{https://getbootstrap.com/docs/4.3/getting-started/theming/}
 }
 \seealso{
-\code{\link[=bs_themes]{bs_themes()}}, \code{\link[=theme_variables]{theme_variables()}}
+\code{\link[=bs_theme]{bs_theme()}}, \code{\link[=theme_variables]{theme_variables()}}
 }

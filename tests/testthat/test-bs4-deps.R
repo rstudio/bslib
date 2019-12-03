@@ -12,17 +12,16 @@ describe("bs_sass", {
 
   # Compare bs_sass(input1) and sass(input2)
   expect_bs4_equal <- function(input1, input2, options = sass_options(), variables = theme_variables()) {
-    output1 <- bs_sass(
+    output1 <- bs_sass_partial(
       bs_theme(post = input1),
-      options = options,
-      bootstrap_scss = bs4_scss_required(),
-      bs3compat = FALSE,
-      variables = variables
+      version = 4,
+      variables = variables,
+      options = options
     )
-    output1 <- paste(readLines(file.path(output1[[2]]$src$file, output1[[2]]$stylesheet)), collapse = "\n")
+    #output1 <- paste(readLines(file.path(output1[[2]]$src$file, output1[[2]]$stylesheet)), collapse = "\n")
     expect_equal(
       output1,
-      as.character(sass(input2, options = options))
+      sass(input2, options = options)
     )
   }
 

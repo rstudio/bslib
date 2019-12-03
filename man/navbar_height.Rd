@@ -10,9 +10,6 @@ navbar_height(theme = "")
 \item{theme}{a \url{https://bootswatch.com/} theme name. The default value
 means vanilla Bootstrap (i.e. no bootswatch theme).}
 }
-\value{
-
-}
 \description{
 The height (in pixels) of a Bootswatch theme's navbar. Note that these
 heights to do not currently respect theme customizations.

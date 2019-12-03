@@ -1,13 +1,13 @@
 {
-  "name": "bootswatch",
+  "name": "bootstraplib",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "popper.js": "^1.14.4",
-    "jquery": "^3.3.1",
-    "bootstrap": "^4.3.1",
-    "bootswatch": "^4.3.1"
+    "bootstrap": "^4.4.1",
+    "bootstrap-sass": "^3.4.1",
+    "bootswatch": "^4.4.1",
+    "popper.js": "^1.16.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rstudio/bootswatch.git"
+    "url": "git+https://github.com/rstudio/bootstraplib.git"
   },
   "author": "",
   "license": "GPL-2.0-or-later",
   "bugs": {
-    "url": "https://github.com/rstudio/bootswatch/issues"
+    "url": "https://github.com/rstudio/bootstraplib/issues"
   },
-  "homepage": "https://github.com/rstudio/bootswatch#readme"
+  "homepage": "https://github.com/rstudio/bootstraplib#readme"
 }

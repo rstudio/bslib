@@ -5,7 +5,6 @@
 #'
 #' This is primarily useful for logic internal to [rmarkdown::html_document()]
 #'
-#' @return
 #' @param theme a <https://bootswatch.com/> theme name. The default value
 #' means vanilla Bootstrap (i.e. no bootswatch theme).
 #' @export
