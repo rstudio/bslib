@@ -13,7 +13,7 @@ describe("bs_sass", {
   # Compare bs_sass(input1) and sass(input2)
   expect_bs4_equal <- function(input1, input2, options = sass_options(), variables = theme_variables()) {
     output1 <- bs_sass_partial(
-      bs_theme(post = input1),
+      input = input1,
       version = 4,
       variables = variables,
       options = options

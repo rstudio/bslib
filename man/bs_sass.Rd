@@ -11,14 +11,15 @@ bs_sass(
   bootswatch = NULL,
   version = c("4-3", "4", "3"),
   jquery = jquerylib::jquery_core(3),
-  options = sass_options()
+  options = sass_options(),
+  minified = TRUE
 )
 
 bs_sass_partial(
   ...,
   variables = theme_variables(),
   bootswatch = NULL,
-  version = 4,
+  version = c("4-3", "4", "3"),
   options = sass_options()
 )
 }
@@ -35,7 +36,7 @@ See \code{\link[=bootswatch_themes]{bootswatch_themes()}} for a list of possible
 
 \item{version}{The major version of Bootstrap to use. A value of
 \code{'4-3'} means Bootstrap 4, but with additional CSS/JS to support
-BS3 style markup in BS4.}
+BS3 style markup in BS4. Other supported versions include 3 and 4.}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 

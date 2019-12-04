@@ -9,4 +9,8 @@ version_popperjs <- package_json_version("popper.js")
 version_bs3 <- package_json_version("bootstrap-sass")
 version_bootswatch3 <- package_json_version("bootswatch3")
 
-
+#' Latest Bootstrap major version
+#' @export
+version_latest <- function() {
+  strsplit(version_bs4, ".", fixed = TRUE)[[1]][[1]]
+}

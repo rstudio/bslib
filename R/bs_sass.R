@@ -16,7 +16,7 @@
 #' set this to `NULL`.
 #' @param version The major version of Bootstrap to use. A value of
 #' `'4-3'` means Bootstrap 4, but with additional CSS/JS to support
-#' BS3 style markup in BS4.
+#' BS3 style markup in BS4. Other supported versions include 3 and 4.
 #' @param jquery See [jquerylib::jquery_core()].
 #'
 #' @export
@@ -70,43 +70,38 @@
 bs_sass <- function(..., variables = theme_variables(),
                     bootswatch = NULL, version = c("4-3", "4", "3"),
                     jquery = jquerylib::jquery_core(3),
-                    options = sass_options()) {
+                    options = sass_options(),
+                    minified = TRUE) {
 
-  version <- bootstrap_version_normalize(version)
+  version <- version_normalize(version)
 
   bs_sass <- sass_file_bootstrap(version = version)
 
   if (identical(version, "4-3")) {
-    bs_sass <- sass_layer_stack(bs_sass, bs3compat_layer())
-    version <- 4
+    bs_sass <- sass_layer_merge(bs_sass, bs3compat_layer())
   }
-  if (!is.null(bootswatch)) {
-    bs_sass <- sass_layer_stack(bs_sass, bootswatch_layer(bootswatch, version))
-  }
-  # Note that ... is given the highest priority
-  # (i.e., users should be able to override all the pre-packaged layers)
-  bs_sass <- sass_layer_stack(bs_sass, ...)
 
   # Temporary dir for the html dependency files
   output_path <- tempfile("bscustom")
   dir.create(output_path)
 
-  # Add local fonts for the bootswatch theme, if any
-  for (bootswatch in bootswatch_themes(full_path = TRUE)) {
-    if (length(grep(bootswatch, c(bs_sass$pre, bs_sass$post), fixed = TRUE))) {
-      file.copy(
-        file.path(bootswatch, "font.css"),
-        file.path(output_path, "font.css")
-      )
-      file.copy(
-        system.file("fonts", package = "bootstraplib"),
-        output_path,
-        recursive = TRUE
-      )
-    }
+  if (!is.null(bootswatch)) {
+    bs_sass <- sass_layer_merge(bs_sass, bootswatch_layer(bootswatch, version))
+    # Add local fonts for the bootswatch theme, if any
+    file.copy(
+      file.path(bootswatch, "font.css"),
+      file.path(output_path, "font.css")
+    )
+    file.copy(
+      system.file("fonts", package = "bootstraplib"),
+      output_path,
+      recursive = TRUE
+    )
   }
+  # Note that ... is given the highest priority
+  # (i.e., users should be able to override all the pre-packaged layers)
+  bs_sass <- sass_layer_merge(bs_sass, ...)
 
-  minified <- getOption("shiny.minified", TRUE)
   output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
   opts <- sass_options(
     output_style = if (minified) "compressed" else "expanded",
@@ -123,7 +118,7 @@ bs_sass <- function(..., variables = theme_variables(),
     )
   )
 
-  js <- bootstrap_javascript(version)
+  js <- bootstrap_javascript(version, minified)
   file.copy(js, output_path)
 
   if (inherits(jquery, "html_dependency")) {
@@ -158,43 +153,77 @@ bs_sass <- function(..., variables = theme_variables(),
 
 #' @rdname bs_sass
 #' @export
-bs_sass_partial <- function(..., variables = theme_variables(),
+bs_sass_partial <- function(input = list(), ...,
+                            variables = theme_variables(),
                             bootswatch = NULL,
-                            version = 4,
+                            version = c("4-3", "4", "3"),
                             options = sass_options()) {
+
+  version <- version_normalize(version)
 
   scss <- if (version %in% "3") {
     c(
       "_variables.scss",
       "_mixins.scss"
     )
-  } else if (version %in% "4") {
+  } else if (version %in% c("4", "4-3")) {
     c(
       "_functions.scss",
       "_variables.scss",
       "_mixins.scss"
     )
-  } else {
-    # TODO: does it make sense to support "4-3"?
-    stop("Bootstrap version not supported:", version, call. = FALSE)
   }
 
   bs_sass <- lapply(scss, sass_file_bootstrap, version = version)
 
-  if (!is.null(bootswatch)) {
-    vars <- sass_file_bootswatch(bootswatch, version = version)
-    bs_sass <- sass_layer_stack(bs_sass, sass_layer(pre = vars))
+  # bs_sass_partial() is intended to be 'header only' meaning
+  # that if the user passes sass_layer()s through ...
+  # then we only keep the pre field (i.e., headers)
+  # That's why we explictly pass BS scss file to pre here:
+  bs_sass <- sass_layer(pre = bs_sass)
+
+  if (identical(version, "4-3")) {
+    bs_sass <- sass_layer_merge(bs_sass, bs3compat_layer())
   }
 
-  bs_sass <- sass_layer_stack(bs_sass, ...)
+  if (!is.null(bootswatch)) {
+    bs_sass <- sass_layer_merge(
+      bs_sass, bootswatch_layer(bootswatch, version)
+    )
+  }
+
+  # It doesn't make sense for anything than a layer to be in ...
+  # since it'll endup being discarded
+  is_sass_layer <- vapply(rlang::list2(...), inherits, "sass_layer", logical(1))
+  if (FALSE %in% is_sass_layer) {
+    stop(
+      "... only understand bs_theme() (i.e., sass_layer()) objects. ",
+      "Use the input argument for arbitrary sass code", call. = FALSE
+    )
+  }
+  bs_sass <- discard_post_layer(sass_layer_merge(bs_sass, ...))
 
   sass(
     options = options,
     input = list(
       if (length(variables)) list(variables) else "",
-      bs_sass
+      bs_sass,
+      input
     )
   )
+}
+
+
+discard_post_layer <- function(x) {
+  if (inherits(x, "sass_layer")) {
+    x$post <- ""
+  }
+
+  if (is.list(x)) {
+    lapply(x, discard_post_layer)
+  }
+
+  x
 }
 
 #' Obtain Bootstrap and Bootswatch SASS files
@@ -207,12 +236,14 @@ bs_sass_partial <- function(..., variables = theme_variables(),
 #' `sass_file_bootswatch()` default to the variables scss file.
 #'
 #' @param file a scss file path.
-#' @param version the major version (either 3 or 4).
+#' @param version the major version.
 #' @param theme a bootswatch theme name.
 #' @rdname sass_files
 #' @export
 sass_file_bootstrap <- function(file = NULL, version = 4) {
+  version <- version_normalize(version)
   if (length(file) > 1) stop("file should be of length 1")
+
   f <- if (version %in% "3") {
     file <- file %||% "_bootstrap.scss"
     system.file("node_modules", "bootstrap-sass", "assets", "stylesheets", file, package = "bootstraplib")
@@ -223,13 +254,15 @@ sass_file_bootstrap <- function(file = NULL, version = 4) {
     stop("Bootstrap version not supported:", version, call. = FALSE)
   }
   if (f == "") stop("The bootstrap stylesheet '", file, "' doesn't exist.", call. = FALSE)
-  sass_file(f)
+  sass::sass_file(f)
 }
 
 #' @rdname sass_files
 #' @export
-sass_file_bootswatch <- function(theme, file = NULL, version = 4) {
+sass_file_bootswatch <- function(theme, file = NULL, version = version_latest()) {
+  version <- version_normalize(version)
   if (length(file) > 1) stop("file should be of length 1")
+  theme <- match.arg(theme, bootswatch_themes(version))
   f <- file.path(bootswatch_dist(version), theme, file %||% "_variables.scss")
   if (file.exists(f)) return(sass::sass_file(f))
   stop("Bootswatch file '", file, "' doesn't exist for theme '", theme, "'.", call. = FALSE)
@@ -237,10 +270,11 @@ sass_file_bootswatch <- function(theme, file = NULL, version = 4) {
 
 #' List all Bootswatch themes
 #'
-#' @param version the major version of Bootswatch (either 3 or 4).
+#' @param version the major version of Bootswatch.
 #' @param full_path whether to return a path to the installed theme.
 #' @export
-bootswatch_themes <- function(version = 4, full_path = FALSE) {
+bootswatch_themes <- function(version = version_latest(), full_path = FALSE) {
+  version <- version_normalize(version)
   list.dirs(bootswatch_dist(version), full.names = full_path, recursive = FALSE)
 }
 
@@ -263,14 +297,15 @@ bootswatch_layer <- function(theme = "", version) {
 
   sass_layer(
     pre = list(
-      sass_file_bootswatch(theme, "_variables.scss", version),
       # Make sure darkly/superhero code appears on the grayish background
       # (by default, pre-color inherits the white text color that appears elsewhere on the page)
       # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/darkly/_variables.scss#L178
-      if (theme %in% c("darkly", "superhero")) list(`pre-color` = "#303030") else ""
+      if (theme %in% c("darkly", "superhero")) "$pre-color: #303030 !default;" else "",
+      # Use local fonts
+      '$web-font-path: "font.css" !default;',
+      sass_file_bootswatch(theme, "_variables.scss", version)
     ),
     post = list(
-      list(`web-font-path` = '"font.css"'),
       sass_file_bootswatch(theme, "_bootswatch.scss", version),
       # For some reason the sketchy theme sets .dropdown-menu{overflow: hidden}
       # but this prevents .dropdown-submenu from working properly
@@ -281,7 +316,7 @@ bootswatch_layer <- function(theme = "", version) {
 }
 
 bootswatch_dist <- function(version) {
-  if (version %in% "4") {
+  if (version %in% c("4", "4-3")) {
     return(system.file("node_modules", "bootswatch", "dist", package = "bootstraplib"))
   }
   if (version %in% "3") {
@@ -290,8 +325,8 @@ bootswatch_dist <- function(version) {
   stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
 }
 
-bootstrap_javascript <- function(version, minified = getOption("shiny.minified", TRUE)) {
-  if (version %in% "4") {
+bootstrap_javascript <- function(version, minified = TRUE) {
+  if (version %in% c("4", "4-3")) {
     return(system.file(
       "node_modules/bootstrap/dist/js",
       if (minified) "bootstrap.bundle.min.js" else "bootstrap.bundle.js",

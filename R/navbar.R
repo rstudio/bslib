@@ -9,9 +9,9 @@
 #' means vanilla Bootstrap (i.e. no bootswatch theme).
 #' @param version
 #' @export
-navbar_height <- function(theme = "", version = 4) {
+navbar_height <- function(theme = "", version = version_latest()) {
 
-  if (version == 3) {
+  if (version %in% "3") {
     return(switch(
       theme,
       journal = 61,
@@ -32,7 +32,7 @@ navbar_height <- function(theme = "", version = 4) {
 
   # TODO: it'd be great if, someday, this took into account SASS variables,
   # but it's not immediately obvious how to do that correctly
-  if (version == 4) {
+  if (version %in% c("4", "4-3")) {
     return(switch(
       theme,
       cerulean = 56,

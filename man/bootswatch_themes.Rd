@@ -4,10 +4,10 @@
 \alias{bootswatch_themes}
 \title{List all Bootswatch themes}
 \usage{
-bootswatch_themes(version = 4, full_path = FALSE)
+bootswatch_themes(version = version_latest(), full_path = FALSE)
 }
 \arguments{
-\item{version}{the major version of Bootswatch (either 3 or 4).}
+\item{version}{the major version of Bootswatch.}
 
 \item{full_path}{whether to return a path to the installed theme.}
 }

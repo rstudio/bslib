@@ -4,7 +4,7 @@
 \alias{navbar_height}
 \title{Height of navbar height for a given Bootswatch theme}
 \usage{
-navbar_height(theme = "")
+navbar_height(theme = "", version = 4)
 }
 \arguments{
 \item{theme}{a \url{https://bootswatch.com/} theme name. The default value

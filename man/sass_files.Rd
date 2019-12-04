@@ -7,12 +7,12 @@
 \usage{
 sass_file_bootstrap(file = NULL, version = 4)
 
-sass_file_bootswatch(theme, file = NULL, version = 4)
+sass_file_bootswatch(theme, file = NULL, version = version_latest())
 }
 \arguments{
 \item{file}{a scss file path.}
 
-\item{version}{the major version (either 3 or 4).}
+\item{version}{the major version.}
 
 \item{theme}{a bootswatch theme name.}
 }
