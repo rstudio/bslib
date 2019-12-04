@@ -46,8 +46,8 @@ Rscript tools/yarn_install.R
 ```
 
 Bootswatch themes import google font urls by default. There is a script
-to download all these fonts and ship them with the package
+to download all these fonts and ship them with the package...this script be run after the `yarn_install.R` script
 
 ``` shell
-Rscript tools/bootswatch_fonts.R
+Rscript tools/fonts.R
 ```

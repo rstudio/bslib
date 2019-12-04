@@ -1,7 +1,7 @@
 library(stringr)
 
 if (Sys.getenv("RSTUDIO") == "1") {
-  stop("Please run this script from the command line: `Rscript tools/download_fonts.R`")
+  stop("Please run this script from the command line: `Rscript tools/fonts.R`")
 }
 
 themes <- list.dirs(
