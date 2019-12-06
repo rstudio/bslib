@@ -81,7 +81,7 @@ bs_sass <- function(..., variables = theme_variables(),
   bs_sass <- sass_file_bootstrap(version = version)
 
   if (identical(version, "4-3")) {
-    bs_sass <- sass_layer_merge(bs_sass, bs3compat_layer())
+    bs_sass <- sass_layer_merge(bs_sass, theme_layer_bs3compat())
   }
 
   # Temporary dir for the html dependency files
@@ -89,18 +89,9 @@ bs_sass <- function(..., variables = theme_variables(),
   dir.create(output_path)
 
   if (!is.null(bootswatch)) {
-    bs_sass <- sass_layer_merge(bs_sass, bootswatch_layer(bootswatch, version))
-    # Add local fonts for the bootswatch theme, if any
-    file.copy(
-      file.path(bootswatch, "font.css"),
-      file.path(output_path, "font.css")
-    )
-    file.copy(
-      system.file("fonts", package = "bootstraplib"),
-      output_path,
-      recursive = TRUE
-    )
+    bs_sass <- sass_layer_merge(bs_sass, theme_layer_bootswatch(bootswatch, version))
   }
+
   # Note that ... is given the highest priority
   # (i.e., users should be able to override all the pre-packaged layers)
   bs_sass <- sass_layer_merge(bs_sass, ...)
@@ -124,6 +115,27 @@ bs_sass <- function(..., variables = theme_variables(),
   js <- bootstrap_javascript(version, minified)
   file.copy(js, output_path)
 
+
+  # Ugly hack to identify bootswatch theme(s) and install
+  # the appropriate local fonts if any
+  is_bootswatch <- sapply(bs_sass$deps, "[[", "name") %in% "bootswatch-local-fonts"
+  if (any(is_bootswatch)) {
+    # theme_layer_bootswatch() attaches the theme name to 'src' field
+    lapply(bs_sass$deps[is_bootswatch], function(x) {
+      file.copy(
+        file.path(bootswatch_dist(version), x$src, "font.css"),
+        file.path(output_path, "font.css")
+      )
+    })
+    bs_sass$deps[is_bootswatch] <- NULL
+    file.copy(
+      system.file("fonts", package = "bootstraplib"),
+      output_path,
+      recursive = TRUE
+    )
+  }
+
+
   if (inherits(jquery, "html_dependency")) {
     jquery <- list(jquery)
   }
@@ -139,15 +151,12 @@ bs_sass <- function(..., variables = theme_variables(),
           version_bs4
         },
         src = output_path,
-        # TODO: is this also needed for BS3?
         meta = c(
           name = "viewport",
           content = "width=device-width, initial-scale=1, shrink-to-fit=no"
         ),
         stylesheet = output_css,
-        script = basename(js),
-        # needed for ttf font files (imported via font.css)
-        all_files = TRUE
+        script = basename(js)
       )
     ),
     bs_sass$deps
@@ -186,12 +195,12 @@ bs_sass_partial <- function(input = list(), ...,
   bs_sass <- sass_layer(pre = bs_sass)
 
   if (identical(version, "4-3")) {
-    bs_sass <- sass_layer_merge(bs_sass, bs3compat_layer())
+    bs_sass <- sass_layer_merge(bs_sass, theme_layer_bs3compat())
   }
 
   if (!is.null(bootswatch)) {
     bs_sass <- sass_layer_merge(
-      bs_sass, bootswatch_layer(bootswatch, version)
+      bs_sass, theme_layer_bootswatch(bootswatch, version)
     )
   }
 
@@ -281,51 +290,18 @@ bootswatch_themes <- function(version = version_latest(), full_path = FALSE) {
   list.dirs(bootswatch_dist(version), full.names = full_path, recursive = FALSE)
 }
 
-
-bs3compat_layer <- function() {
-  sass_layer(
-    pre = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
-    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
-    deps = htmltools::htmlDependency(
-      "bs3compat", packageVersion("bootstraplib"),
-      package = "bootstraplib",
-      src = "bs3compat/js",
-      script = c("tabs.js", "bs3compat.js")
-    )
-  )
-}
-
-bootswatch_layer <- function(theme = "", version) {
-  theme <- match.arg(theme, bootswatch_themes(version))
-
-  sass_layer(
-    pre = list(
-      # Make sure darkly/superhero code appears on the grayish background
-      # (by default, pre-color inherits the white text color that appears elsewhere on the page)
-      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/darkly/_variables.scss#L178
-      if (theme %in% c("darkly", "superhero")) "$pre-color: #303030 !default;" else "",
-      # Use local fonts
-      '$web-font-path: "font.css" !default;',
-      sass_file_bootswatch(theme, "_variables.scss", version)
-    ),
-    post = list(
-      sass_file_bootswatch(theme, "_bootswatch.scss", version),
-      # For some reason the sketchy theme sets .dropdown-menu{overflow: hidden}
-      # but this prevents .dropdown-submenu from working properly
-      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
-      if (identical(theme, "sketchy")) as_sass(".dropdown-menu{ overflow: inherit; }") else ""
-    )
-  )
-}
-
-bootswatch_dist <- function(version) {
-  if (version %in% c("4", "4-3")) {
-    return(system.file("node_modules", "bootswatch", "dist", package = "bootstraplib"))
+bootswatch_dist <- function(version, full_path = TRUE) {
+  dist <- if (version %in% "3") {
+    file.path("node_modules", "bootswatch3")
+  } else if (version %in% c("4", "4-3")) {
+    file.path("node_modules", "bootswatch", "dist")
+  } else {
+    stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
   }
-  if (version %in% "3") {
-    return(system.file("node_modules", "bootswatch3", package = "bootstraplib"))
+  if (full_path) {
+    dist <- system.file(dist, package = "bootstraplib")
   }
-  stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
+  dist
 }
 
 bootstrap_javascript <- function(version, minified = TRUE) {

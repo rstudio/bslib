@@ -72,4 +72,61 @@ theme_variables_clear <- function() {
 #' @inheritParams sass::sass_layer
 #' @rdname theming
 #' @export
-bs_theme <- sass::sass_layer
+theme_layer <- sass::sass_layer
+
+
+#' @rdname theming
+#' @export
+theme_layer_bs3compat <- function() {
+  sass_layer(
+    pre = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
+    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
+    deps = htmltools::htmlDependency(
+      "bs3compat", packageVersion("bootstraplib"),
+      package = "bootstraplib",
+      src = "bs3compat/js",
+      script = c("tabs.js", "bs3compat.js")
+    )
+  )
+}
+
+#' @param theme a Bootswatch theme name.
+#' @param version the major version.
+#' @rdname theming
+#' @export
+theme_layer_bootswatch <- function(theme = "", version = version_latest()) {
+  theme <- bootswatch_theme_match(theme, version)
+
+  sass_layer(
+    pre = list(
+      # Make sure darkly/superhero code appears on the grayish background
+      # (by default, pre-color inherits the white text color that appears elsewhere on the page)
+      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/darkly/_variables.scss#L178
+      if (theme %in% c("darkly", "superhero")) "$pre-color: #303030 !default;" else "",
+      # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
+      '$web-font-path: "font.css" !default;',
+      sass_file_bootswatch(theme, "_variables.scss", version)
+    ),
+    post = list(
+      sass_file_bootswatch(theme, "_bootswatch.scss", version),
+      # For some reason the sketchy theme sets .dropdown-menu{overflow: hidden}
+      # but this prevents .dropdown-submenu from working properly
+      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
+      if (identical(theme, "sketchy")) as_sass(".dropdown-menu{ overflow: inherit; }") else ""
+    ),
+    # This is a fake dep that gives us a means for identifying
+    # which bootswatch themes exist in the input to bs_sass()
+    deps = htmlDependency(
+      "bootswatch-local-fonts",
+      packageVersion("bootstraplib"),
+      src = theme
+    )
+  )
+}
+
+bootswatch_theme_match <- function(theme, version) {
+  if (version %in% c("4", "4-3")) {
+    theme <- switch(theme, paper = "materia", readable = "litera", theme)
+  }
+  match.arg(theme, bootswatch_themes(version))
+}

@@ -16,6 +16,7 @@ bs_sass(
 )
 
 bs_sass_partial(
+  input = list(),
   ...,
   variables = theme_variables(),
   bootswatch = NULL,
@@ -42,6 +43,9 @@ BS3 style markup in BS4. Other supported versions include 3 and 4.}
 
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link[sass]{sass_options}}.}
+
+\item{input}{Accepts raw Sass, a named list of variables, or a list of raw Sass and/or named variables.
+See \code{\link[sass]{as_sass}} and \code{\link[sass]{sass_import}} / \code{\link[sass]{sass_file}} for more details.}
 }
 \description{
 Use \code{bs_sass()} to obtain all of Bootstrap and it's dependencies as a list

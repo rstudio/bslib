@@ -3,14 +3,20 @@
 \name{theme_variables}
 \alias{theme_variables}
 \alias{theme_variables_clear}
-\alias{bs_theme}
+\alias{theme_layer}
+\alias{theme_layer_bs3compat}
+\alias{theme_layer_bootswatch}
 \title{Bootstrap theming helpers}
 \usage{
 theme_variables(...)
 
 theme_variables_clear()
 
-bs_theme(pre = "", post = "", deps = NULL)
+theme_layer(pre = "", post = "", deps = NULL)
+
+theme_layer_bs3compat()
+
+theme_layer_bootswatch(theme = "", version = version_latest())
 }
 \arguments{
 \item{...}{Variables to be set, using \code{name = value}; or, a single unnamed
@@ -23,6 +29,10 @@ quotes, double quotes, or backticks (see examples section below).}
 \item{post}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.}
 
 \item{deps}{An HTML dependency (or a list of them).}
+
+\item{theme}{a Bootswatch theme name.}
+
+\item{version}{the major version.}
 }
 \value{
 If no arguments are passed, a list of all set options is returned. If
