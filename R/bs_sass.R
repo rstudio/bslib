@@ -8,7 +8,7 @@
 #'
 #' @inheritParams sass::sass
 #' @param ... a collection of [sass::sass()] to include after Bootstrap's SASS.
-#' Use [bs_theme()] if you need to place [sass::sass()] both before and after Bootstrap's SASS.
+#' Use [theme_layer()] if you need to place [sass::sass()] both before and after Bootstrap's SASS.
 #' @param bootswatch The name of a bootswatch theme.
 #' See [bootswatch_themes()] for a list of possible names.
 #' @param variables A list of SASS variables to include prior to any other SASS.
@@ -20,7 +20,7 @@
 #' @param jquery See [jquerylib::jquery_core()].
 #'
 #' @export
-#' @seealso [bs_theme()], [theme_variables()]
+#' @seealso [theme_layer()], [theme_variables()]
 #' @references <https://getbootstrap.com/docs/4.3/getting-started/theming/>
 #' @examples
 #' library(htmltools)
@@ -211,7 +211,7 @@ bs_sass_partial <- function(input = list(), ...,
   is_sass_layer <- vapply(rlang::list2(...), inherits, "sass_layer", logical(1))
   if (FALSE %in% is_sass_layer) {
     stop(
-      "... only understand bs_theme() (i.e., sass_layer()) objects. ",
+      "... only understand theme_layer() (i.e., sass_layer()) objects. ",
       "Use the input argument for arbitrary sass code", call. = FALSE
     )
   }

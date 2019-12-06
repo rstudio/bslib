@@ -50,7 +50,7 @@ CSS. This gives developers and users the opportunity to produce
 customized Bootstrap CSS via [Bootstrap’s SASS
 variables](https://github.com/rstudio/bootstraplib/blob/master/inst/node_modules/bootstrap/scss/_variables.scss)
 (via `bootstraplib::theme_variables()`) and/or other aribitrary SCSS
-files (via `bootstraplib::bs_theme()` objects). For examples, see the
+files (via `bootstraplib::theme_layer()` objects). For examples, see the
 example section of the following help page: `help(bs_sass, package =
 "bootstraplib")`.
 

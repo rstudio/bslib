@@ -42,7 +42,7 @@ set options is returned invisibly.
 \description{
 Use \code{theme_variables()} to set Bootstrap SASS variables globally so
 that \code{\link[=bs_sass]{bs_sass()}}/\code{\link[=bs_sass_partial]{bs_sass_partial()}} can respect them at runtime.
-Use \code{bs_theme()} to provide \code{\link[sass:sass]{sass::sass()}} to place both before and after
+Use \code{theme_layer()} to provide \code{\link[sass:sass]{sass::sass()}} to place both before and after
 Bootstrap's SASS in \code{\link[=bs_sass]{bs_sass()}}/\code{\link[=bs_sass_partial]{bs_sass_partial()}}.
 }
 \examples{

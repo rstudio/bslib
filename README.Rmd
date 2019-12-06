@@ -34,7 +34,7 @@ shinyApp(ui, function(input, output) {})
 
 (If you're looking to use Bootstrap 4 in **rmarkdown**, there is a work-in-progress [here](https://github.com/rstudio/rmarkdown/pull/1706)).
 
-Under the hood, the `bootstraplib::bs_sass()` function uses the **sass** package to compile [Bootstrap's SASS](https://getbootstrap.com/docs/4.0/getting-started/theming/) to CSS. This gives developers and users the opportunity to produce customized Bootstrap CSS via [Bootstrap's SASS variables](https://github.com/rstudio/bootstraplib/blob/master/inst/node_modules/bootstrap/scss/_variables.scss) (via `bootstraplib::theme_variables()`) and/or other aribitrary SCSS files (via `bootstraplib::bs_theme()` objects). For examples, see the example section of the following help page: `help(bs_sass, package = "bootstraplib")`.
+Under the hood, the `bootstraplib::bs_sass()` function uses the **sass** package to compile [Bootstrap's SASS](https://getbootstrap.com/docs/4.0/getting-started/theming/) to CSS. This gives developers and users the opportunity to produce customized Bootstrap CSS via [Bootstrap's SASS variables](https://github.com/rstudio/bootstraplib/blob/master/inst/node_modules/bootstrap/scss/_variables.scss) (via `bootstraplib::theme_variables()`) and/or other aribitrary SCSS files (via `bootstraplib::theme_layer()` objects). For examples, see the example section of the following help page: `help(bs_sass, package = "bootstraplib")`.
 
 
 ## Development

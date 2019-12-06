@@ -26,7 +26,7 @@ bs_sass_partial(
 }
 \arguments{
 \item{...}{a collection of \code{\link[sass:sass]{sass::sass()}} to include after Bootstrap's SASS.
-Use \code{\link[=bs_theme]{bs_theme()}} if you need to place \code{\link[sass:sass]{sass::sass()}} both before and after Bootstrap's SASS.}
+Use \code{\link[=theme_layer]{theme_layer()}} if you need to place \code{\link[sass:sass]{sass::sass()}} both before and after Bootstrap's SASS.}
 
 \item{variables}{A list of SASS variables to include prior to any other SASS.
 To ignore any existing variables (set by \code{\link[=theme_variables]{theme_variables()}}) at runtime,
@@ -104,5 +104,5 @@ browsable(tags$body(
 \url{https://getbootstrap.com/docs/4.3/getting-started/theming/}
 }
 \seealso{
-\code{\link[=bs_theme]{bs_theme()}}, \code{\link[=theme_variables]{theme_variables()}}
+\code{\link[=theme_layer]{theme_layer()}}, \code{\link[=theme_variables]{theme_variables()}}
 }

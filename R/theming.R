@@ -2,7 +2,7 @@
 #'
 #' Use `theme_variables()` to set Bootstrap SASS variables globally so
 #' that [bs_sass()]/[bs_sass_partial()] can respect them at runtime.
-#' Use `bs_theme()` to provide [sass::sass()] to place both before and after
+#' Use `theme_layer()` to provide [sass::sass()] to place both before and after
 #' Bootstrap's SASS in [bs_sass()]/[bs_sass_partial()].
 #'
 #' @param ... Variables to be set, using `name = value`; or, a single unnamed
