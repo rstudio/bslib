@@ -124,11 +124,10 @@ bs_sass <- function(..., variables = theme_variables(),
     # theme_layer_bootswatch() attaches the theme name to 'src' field
     lapply(bs_sass$deps[is_bootswatch], function(x) {
       file.copy(
-        file.path(bootswatch_dist(version), x$src, "font.css"),
+        file.path(bootswatch_dist(version), basename(x$src$file), "font.css"),
         file.path(output_path, "font.css")
       )
     })
-    bs_sass$deps[is_bootswatch] <- NULL
     file.copy(
       system.file("fonts", package = "bootstraplib"),
       output_path,

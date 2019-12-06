@@ -123,7 +123,8 @@ theme_layer_bootswatch <- function(theme = "", version = version_latest()) {
     deps = htmlDependency(
       "bootswatch-local-fonts",
       packageVersion("bootstraplib"),
-      src = theme
+      src = file.path(bootswatch_dist(full_path = TRUE, version), theme),
+      all_files = FALSE
     )
   )
 }
