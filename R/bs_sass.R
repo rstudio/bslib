@@ -73,6 +73,9 @@ bs_sass <- function(..., variables = theme_variables(),
                     options = sass_options(),
                     minified = TRUE) {
 
+  if (!is.null(names(list(...)))) {
+    stop("Components of `...` had unexpected names.", call. = FALSE)
+  }
   version <- version_normalize(version)
 
   bs_sass <- sass_file_bootstrap(version = version)
