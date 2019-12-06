@@ -231,9 +231,7 @@ bs_sass_partial <- function(input = list(), ...,
 discard_post_layer <- function(x) {
   if (inherits(x, "sass_layer")) {
     x$post <- ""
-  }
-
-  if (is.list(x)) {
+  } else if (is.list(x)) {
     lapply(x, discard_post_layer)
   }
 
