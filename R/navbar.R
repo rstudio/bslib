@@ -1,15 +1,15 @@
-#' Height of navbar height for a given Bootswatch theme
-#'
-#' The height (in pixels) of a Bootswatch theme's navbar. Note that these
-#' heights to do not currently respect theme customizations.
-#'
-#' This is primarily useful for logic internal to [rmarkdown::html_document()]
-#'
-#' @param theme a <https://bootswatch.com/> theme name. The default value
-#' means vanilla Bootstrap (i.e. no bootswatch theme).
-#' @param version
-#' @export
-navbar_height <- function(theme = "", version = version_latest()) {
+# Navbar height
+#
+# The height (in pixels) of a Bootswatch theme's navbar. Note that these
+# heights to do not currently respect theme customizations.
+#
+# rmarkdown::html_document(), flexdashboard, and maybe others
+# use this variable to add appropriate body/section padding
+navbar_height_var <- function(theme = "", version) {
+  paste("$navbar-height:", navbar_height(theme, version), "px !default")
+}
+
+navbar_height <- function(theme = "", version) {
 
   if (version %in% "3") {
     return(switch(

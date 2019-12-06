@@ -3,7 +3,6 @@
 export(bootswatch_themes)
 export(bs_sass)
 export(bs_sass_partial)
-export(navbar_height)
 export(sass_file_bootstrap)
 export(sass_file_bootswatch)
 export(theme_layer)

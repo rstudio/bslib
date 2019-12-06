@@ -79,6 +79,7 @@ bs_sass <- function(..., variables = theme_variables(),
   version <- version_normalize(version)
 
   bs_sass <- sass_file_bootstrap(version = version)
+  bs_sass <- sass_layer_merge(bs_sass, sass_layer(pre = navbar_height_var(version = version)))
 
   if (identical(version, "4-3")) {
     bs_sass <- sass_layer_merge(bs_sass, theme_layer_bs3compat())
@@ -193,6 +194,7 @@ bs_sass_partial <- function(input = list(), ...,
   # then we only keep the pre field (i.e., headers)
   # That's why we explictly pass BS scss file to pre here:
   bs_sass <- sass_layer(pre = bs_sass)
+  bs_sass <- sass_layer_merge(bs_sass, sass_layer(pre = navbar_height_var(version = version)))
 
   if (identical(version, "4-3")) {
     bs_sass <- sass_layer_merge(bs_sass, theme_layer_bs3compat())

@@ -99,6 +99,10 @@ theme_layer_bootswatch <- function(theme = "", version = version_latest()) {
 
   sass_layer(
     pre = list(
+      # Provide access to the navbar height via SASS variable
+      # rmarkdown::html_document() and flexdashboard are two examples
+      # of things that need access to this
+      navbar_height_var(theme, version),
       # Make sure darkly/superhero code appears on the grayish background
       # (by default, pre-color inherits the white text color that appears elsewhere on the page)
       # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/darkly/_variables.scss#L178
