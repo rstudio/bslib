@@ -5,24 +5,23 @@ options(sass.cache = FALSE)
 
 context("bs4-deps")
 
-describe("bs4_sass", {
+describe("bs_sass", {
   # Example CSS that includes one variable, one function call, one mixin
   bs4_css <- ".foo { background-color: $primary; color: color-yiq($primary); @include size(120px); }"
   resolved_css <- ".foo { background-color: #007bff; color: #fff; width: 120px; height: 120px; }"
 
-  # Compare bs4_sass(input1) and sass(input2)
+  # Compare bs_sass(input1) and sass(input2)
   expect_bs4_equal <- function(input1, input2, options = sass_options(), variables = theme_variables()) {
-    output1 <- bs4_sass(
-      theme = bs4_theme(post = input1),
-      options = options,
-      bootstrap_scss = bs4_scss_required(),
-      variables = variables
+    output1 <- bs_sass_partial(
+      input = input1,
+      version = 4,
+      variables = variables,
+      options = options
     )
-    output1 <- paste(readLines(file.path(output1[[2]]$src$file, output1[[2]]$stylesheet)), collapse = "\n")
-
+    #output1 <- paste(readLines(file.path(output1[[2]]$src$file, output1[[2]]$stylesheet)), collapse = "\n")
     expect_equal(
       output1,
-      as.character(sass(input2, options = options))
+      sass(input2, options = options)
     )
   }
 

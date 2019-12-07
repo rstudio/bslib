@@ -2,4 +2,8 @@
 ^\.Rproj\.user$
 inst/node_modules/.yarn-integrity
 inst/node_modules/bootswatch/.github
+inst/node_modules/bootstrap-sass/assets/images/.keep
+inst/node_modules/bootswatch3/.npmignore
 ^test-apps$
+^bootstraplib\.Rproj$
+^README\.Rmd$

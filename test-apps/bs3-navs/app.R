@@ -1,4 +1,4 @@
-library(bootsass)
+library(bootstraplib)
 library(shiny)
 
 make_bs3_tabs <- function() {
@@ -115,7 +115,7 @@ make_bs4_tab_contents <- function(id) {
 
 
 ui <- fluidPage(
-  bs4_sass(),
+  bs_sass(),
   tags$style(
     "h4 { margin-top: 120px; }"
   ),

@@ -1,8 +1,16 @@
 package_json_version <- function(pkgname) {
-  jsonlite::fromJSON(system.file("node_modules", pkgname, "package.json", package = "bootsass"))$version
+  jsonlite::fromJSON(system.file("node_modules", pkgname, "package.json", package = "bootstraplib"))$version
 }
 
-version_bootstrap <- package_json_version("bootstrap")
-version_bootswatch <- package_json_version("bootswatch")
-version_jquery <- package_json_version("jquery")
+version_bs4 <- package_json_version("bootstrap")
+version_bootswatch3 <- package_json_version("bootswatch")
 version_popperjs <- package_json_version("popper.js")
+
+version_bs3 <- package_json_version("bootstrap-sass")
+version_bootswatch3 <- package_json_version("bootswatch3")
+
+#' Latest Bootstrap major version
+#' @export
+version_latest <- function() {
+  strsplit(version_bs4, ".", fixed = TRUE)[[1]][[1]]
+}
