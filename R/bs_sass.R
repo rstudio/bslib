@@ -213,7 +213,7 @@ bs_sass_partial <- function(input = list(), ...,
 
   # It doesn't make sense for anything than a layer to be in ...
   # since it'll endup being discarded
-  is_sass_layer <- vapply(rlang::list2(...), inherits, "sass_layer", logical(1))
+  is_sass_layer <- vapply(rlang::list2(...), inherits, logical(1), "sass_layer")
   if (FALSE %in% is_sass_layer) {
     stop(
       "... only understand theme_layer() (i.e., sass_layer()) objects. ",
