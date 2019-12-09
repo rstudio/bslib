@@ -7,3 +7,4 @@ inst/node_modules/bootswatch3/.npmignore
 ^test-apps$
 ^bootstraplib\.Rproj$
 ^README\.Rmd$
+^\.travis\.yml$

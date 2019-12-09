@@ -1,4 +1,10 @@
 
+<!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.org/rstudio/bootstraplib.svg?branch=master)](https://travis-ci.org/rstudio/bootstraplib)
+<!-- badges: end -->
+
 # bootstraplib
 
 Tools for obtaining and customizing bootstrap CSS via SASS.
