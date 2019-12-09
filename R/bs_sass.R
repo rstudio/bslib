@@ -81,13 +81,19 @@ bs_sass <- function(..., variables = theme_variables(),
   bs_sass <- sass_file_bootstrap(version = version)
   bs_sass <- sass_layer_merge(bs_sass, sass_layer(pre = navbar_height_var(version = version)))
 
-  if (identical(version, "4-3")) {
-    bs_sass <- sass_layer_merge(bs_sass, theme_layer_bs3compat())
-  }
-
   # Temporary dir for the html dependency files
   output_path <- tempfile("bscustom")
   dir.create(output_path)
+
+  if (identical(version, "4-3")) {
+    bs_sass <- sass_layer_merge(bs_sass, theme_layer_bs3compat())
+    # Copy over the Glyphicon font files that bs3compat/_glyphicons.scss imports
+    file.copy(
+      system.file("node_modules/bootstrap-sass/assets/fonts", package = "bootstraplib"),
+      output_path,
+      recursive = TRUE
+    )
+  }
 
   if (!is.null(bootswatch)) {
     bs_sass <- sass_layer_merge(bs_sass, theme_layer_bootswatch(bootswatch, version))
