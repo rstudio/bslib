@@ -33,16 +33,25 @@ interface object:
 
 ``` r
 library(shiny)
+library(bootstraplib)
 
-# customize the primary Bootstrap color
+# customize the primary Bootstrap color, 
+# which influences the color of navigation links
 theme_variables(primary = "salmon")
 
-ui <- fluidPage(
-  bootstraplib::bs_sass(),
-  actionButton("btn", "A Bootstrap 4 button!")
+fluidPage(
+  bs_sass(),
+  navlistPanel(
+    tabPanel("One", "One"),
+    tabPanel("Two", icon = icon("download"), "Two"),
+    navbarMenu("A submenu",
+               tabPanel("Three", "Three"),
+               "---",
+               tabPanel("Four", "Four"),
+               tabPanel("Five", "Five")
+    )
+  )
 )
-
-shinyApp(ui, function(input, output) {})
 ```
 
 (If you’re looking to use Bootstrap 4 in **rmarkdown**, there is a

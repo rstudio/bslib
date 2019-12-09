@@ -31,5 +31,5 @@ Collate:
     'utils.R'
     'versions.R'
 Remotes: 
-    rstudio/sass@layers,
+    rstudio/sass,
     rstudio/jquerylib
