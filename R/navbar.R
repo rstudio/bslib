@@ -6,7 +6,7 @@
 # rmarkdown::html_document(), flexdashboard, and maybe others
 # use this variable to add appropriate body/section padding
 navbar_height_var <- function(theme = "", version) {
-  paste("$navbar-height:", navbar_height(theme, version), "px !default")
+  paste("$navbar-height:", navbar_height(theme, version), "!default;")
 }
 
 navbar_height <- function(theme = "", version) {
