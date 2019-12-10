@@ -30,6 +30,16 @@ ul.nav.navbar-nav>li:not(.dropdown) {
 ul.nav.navbar-nav>li>a {
   @extend .nav-link;
 }
+.navbar.navbar-default {
+  @extend .navbar-#{$navbar-default-type};
+  @extend .bg-#{$navbar-default-bg};
+}
+.navbar.navbar-inverse {
+  // TODO: is this needed?
+  //color: $navbar-dark-color;
+  @extend .navbar-#{$navbar-inverse-type};
+  @extend .bg-#{$navbar-inverse-bg};
+}
 
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.
 // https://github.com/rstudio/rmarkdown-website/blob/453e1802b32b5baf1c8a67f80947adcc53e49b7f/_navbar.html

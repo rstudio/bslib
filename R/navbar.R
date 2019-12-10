@@ -144,23 +144,15 @@ theme_layer_bs3compat_navbar <- function(theme) {
     yeti = list(
       default = c("dark", "dark"),
       inverse = c("dark", "primary")
-    ),
-    # i.e., no bootswatch theme
-    list(
-      default = c("light", "light"),
-      inverse = c("dark", "dark")
     )
   )
 
-  extends <- function(classes) {
-    extends <- paste0("@extend .", c("navbar-", "bg-"), classes, ";")
-    paste(extends, collapse = "\n")
-  }
-
   layer <- theme_layer(
-    post = list(
-      sprintf(".navbar.navbar-default { %s }", extends(nav_classes$default)),
-      sprintf(".navbar.navbar-inverse { %s }", extends(nav_classes$inverse))
+    pre = list(
+      sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
+      sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
+      sprintf('$navbar-inverse-type: %s !default;', nav_classes$inverse[1]),
+      sprintf('$navbar-inverse-bg: %s !default;', nav_classes$inverse[2])
     )
   )
 
