@@ -62,3 +62,103 @@ navbar_height <- function(theme = "", version) {
 
   stop("Bootstrap version not supported", version, call. = FALSE)
 }
+
+# Mappings from BS3 navbar classes to BS4
+bootswatch_navbar_bs3compat <- function(theme) {
+  theme <- theme %||% "bootstrap"
+
+  nav_classes <- switch(
+    theme,
+    # https://bootswatch.com/cerulean/
+    # https://bootswatch.com/3/cerulean/
+    cerulean = list(
+      default = c("dark", "primary"),
+      inverse = c("dark", "dark")
+    ),
+    cosmo = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "primary")
+    ),
+    cyborg = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "secondary")
+    ),
+    darkly = list(
+      default = c("dark", "primary"),
+      inverse = c("light", "light")
+    ),
+    flatly = list(
+      default = c("dark", "primary"),
+      inverse = c("dark", "dark")
+    ),
+    journal = list(
+      default = c("light", "light"),
+      inverse = c("dark", "primary")
+    ),
+    lumen = list(
+      # TODO: default bg should be slightly darker...include .navbar-default{background-color: #f8f8f8};?
+      default = c("light", "light"),
+      inverse = c("light", "light")
+    ),
+    # i.e., materia
+    paper = ,
+    materia = list(
+      default = c("light", "light"),
+      inverse = c("dark", "primary")
+    ),
+    readable = ,
+    litera = list(
+      # hmm, should we care about difference in nav-link colors?
+      default = c("light", "light"),
+      inverse = c("light", "light")
+    ),
+    sandstone = list(
+      default = c("dark", "primary"),
+      # technically speaking this background should be green, but dark looks
+      # better/more consistent with other stuff on the page
+      inverse = c("dark", "dark")
+    ),
+    simplex = list(
+      default = c("light", "light"),
+      inverse = c("dark", "primary")
+    ),
+    # TODO: should these be gradients?
+    slate = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "primary")
+    ),
+    spacelab = list(
+      default = c("light", "light"),
+      inverse = c("dark", "primary")
+    ),
+    superhero = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "primary")
+    ),
+    united = list(
+      default = c("dark", "primary"),
+      inverse = c("dark", "dark")
+    ),
+    yeti = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "primary")
+    ),
+    # i.e., no bootswatch theme
+    list(
+      default = c("light", "light"),
+      inverse = c("dark", "dark")
+    )
+  )
+
+  extends <- function(classes) {
+    extends <- paste0("@extend .", c("navbar-", "bg-"), classes, ";")
+    paste(extends, collapse = "\n")
+  }
+
+  theme_layer(
+    post = list(
+      sprintf(".navbar.navbar-default { %s }", extends(nav_classes$default)),
+      sprintf(".navbar.navbar-inverse { %s }", extends(nav_classes$inverse))
+    )
+  )
+}
