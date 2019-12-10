@@ -87,6 +87,7 @@ bs_sass <- function(..., variables = theme_variables(),
 
   if (identical(version, "4-3")) {
     bs_sass <- sass_layer_merge(bs_sass, theme_layer_bs3compat())
+    bs_sass <- sass_layer_merge(bs_sass, theme_layer_bs3compat_navbar(bootswatch))
     # Copy over the Glyphicon font files that bs3compat/_glyphicons.scss imports
     file.copy(
       system.file("node_modules/bootstrap-sass/assets/fonts", package = "bootstraplib"),

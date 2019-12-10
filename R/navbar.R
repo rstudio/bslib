@@ -64,7 +64,7 @@ navbar_height <- function(theme = "", version) {
 }
 
 # Mappings from BS3 navbar classes to BS4
-bootswatch_navbar_bs3compat <- function(theme) {
+theme_layer_bs3compat_navbar <- function(theme) {
   theme <- theme %||% "bootstrap"
 
   nav_classes <- switch(
@@ -96,7 +96,7 @@ bootswatch_navbar_bs3compat <- function(theme) {
       inverse = c("dark", "primary")
     ),
     lumen = list(
-      # TODO: default bg should be slightly darker...include .navbar-default{background-color: #f8f8f8};?
+      # Inline style is actually used for default's bg-color
       default = c("light", "light"),
       inverse = c("light", "light")
     ),
@@ -108,9 +108,10 @@ bootswatch_navbar_bs3compat <- function(theme) {
     ),
     readable = ,
     litera = list(
-      # hmm, should we care about difference in nav-link colors?
+      # The default styling is totally different here, but I don't see a
+      # easy and consistent way to bring in the old styling
       default = c("light", "light"),
-      inverse = c("light", "light")
+      inverse = c("light", "dark")
     ),
     sandstone = list(
       default = c("dark", "primary"),
@@ -122,7 +123,6 @@ bootswatch_navbar_bs3compat <- function(theme) {
       default = c("light", "light"),
       inverse = c("dark", "primary")
     ),
-    # TODO: should these be gradients?
     slate = list(
       default = c("dark", "dark"),
       inverse = c("dark", "primary")
@@ -155,10 +155,16 @@ bootswatch_navbar_bs3compat <- function(theme) {
     paste(extends, collapse = "\n")
   }
 
-  theme_layer(
+  layer <- theme_layer(
     post = list(
       sprintf(".navbar.navbar-default { %s }", extends(nav_classes$default)),
       sprintf(".navbar.navbar-inverse { %s }", extends(nav_classes$inverse))
     )
   )
+
+  if (identical(theme, "lumen")) {
+    layer <- sass_layer_merge(layer, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
+  }
+
+  layer
 }

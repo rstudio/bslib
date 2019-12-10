@@ -97,7 +97,7 @@ theme_layer_bs3compat <- function() {
 theme_layer_bootswatch <- function(theme = "", version = version_latest()) {
   theme <- bootswatch_theme_match(theme, version)
 
-  layer <- sass_layer(
+  sass_layer(
     pre = list(
       # Provide access to the navbar height via SASS variable
       # rmarkdown::html_document() and flexdashboard are two examples
@@ -127,12 +127,6 @@ theme_layer_bootswatch <- function(theme = "", version = version_latest()) {
       all_files = FALSE
     )
   )
-
-  if (version %in% "4-3") {
-    layer <- sass_layer_merge(layer, bootswatch_navbar_bs3compat(theme))
-  }
-
-  layer
 }
 
 bootswatch_theme_match <- function(theme, version) {

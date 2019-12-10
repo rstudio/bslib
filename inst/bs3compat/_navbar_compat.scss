@@ -30,17 +30,6 @@ ul.nav.navbar-nav>li:not(.dropdown) {
 ul.nav.navbar-nav>li>a {
   @extend .nav-link;
 }
-// Note these are sensible default mappings,
-// but aren't always correct for various bootswatch themes
-//.navbar.navbar-default {
-//  @extend .navbar-light;
-//  @extend .bg-light;
-//}
-//.navbar.navbar-inverse {
-//  color: $navbar-dark-color;
-//  @extend .navbar-dark;
-//  @extend .bg-dark;
-//}
 
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.
 // https://github.com/rstudio/rmarkdown-website/blob/453e1802b32b5baf1c8a67f80947adcc53e49b7f/_navbar.html
