@@ -67,7 +67,10 @@ navbar_height <- function(theme = "", version) {
 
 # Mappings from BS3 navbar classes to BS4
 theme_layer_bs3compat_navbar <- function(theme) {
-  theme <- theme %||% "bootstrap"
+  # If this isn't Bootswatch 3 theme, there's nothing to do
+  if (is.null(theme) || !theme %in% bootswatch_themes(3)) {
+    return(NULL)
+  }
 
   nav_classes <- switch(
     theme,
@@ -144,7 +147,8 @@ theme_layer_bs3compat_navbar <- function(theme) {
     yeti = list(
       default = c("dark", "dark"),
       inverse = c("dark", "primary")
-    )
+    ),
+    stop("Didn't recognize Bootswatch 3 theme: ", theme, call. = FALSE)
   )
 
   layer <- theme_layer(
