@@ -73,7 +73,7 @@ bs_sass <- function(..., variables = theme_variables(),
                     options = sass_options(),
                     minified = TRUE) {
 
-  if (!is.null(names(list(...)))) {
+  if (!is.null(names(rlang::list2(...)))) {
     stop("Components of `...` had unexpected names.", call. = FALSE)
   }
   version <- version_normalize(version)
