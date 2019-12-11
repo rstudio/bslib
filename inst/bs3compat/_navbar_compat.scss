@@ -31,13 +31,14 @@ ul.nav.navbar-nav>li>a {
   @extend .nav-link;
 }
 .navbar.navbar-default {
-  @extend .navbar-light;
-  @extend .bg-light;
+  @extend .navbar-#{$navbar-default-type};
+  @extend .bg-#{$navbar-default-bg};
 }
 .navbar.navbar-inverse {
-  color: $navbar-dark-color;
-  @extend .navbar-dark;
-  @extend .bg-dark;
+  // TODO: is this needed?
+  //color: $navbar-dark-color;
+  @extend .navbar-#{$navbar-inverse-type};
+  @extend .bg-#{$navbar-inverse-bg};
 }
 
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.

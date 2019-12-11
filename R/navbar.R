@@ -41,9 +41,11 @@ navbar_height <- function(theme = "", version) {
       darkly = 70.5,
       flatly = 70.5,
       journal = 61,
+      readable = ,
       litera = 59.5,
       lumen = 57,
       lux = 91.25,
+      paper = ,
       materia = 80.3,
       minty = 56,
       pulse = 75.4,
@@ -61,4 +63,102 @@ navbar_height <- function(theme = "", version) {
   }
 
   stop("Bootstrap version not supported", version, call. = FALSE)
+}
+
+# Mappings from BS3 navbar classes to BS4
+theme_layer_bs3compat_navbar <- function(theme) {
+  theme <- theme %||% "bootstrap"
+
+  nav_classes <- switch(
+    theme,
+    # https://bootswatch.com/cerulean/
+    # https://bootswatch.com/3/cerulean/
+    cerulean = list(
+      default = c("dark", "primary"),
+      inverse = c("dark", "dark")
+    ),
+    cosmo = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "primary")
+    ),
+    cyborg = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "secondary")
+    ),
+    darkly = list(
+      default = c("dark", "primary"),
+      inverse = c("light", "light")
+    ),
+    flatly = list(
+      default = c("dark", "primary"),
+      inverse = c("dark", "dark")
+    ),
+    journal = list(
+      default = c("light", "light"),
+      inverse = c("dark", "primary")
+    ),
+    lumen = list(
+      # Inline style is actually used for default's bg-color
+      default = c("light", "light"),
+      inverse = c("light", "light")
+    ),
+    # i.e., materia
+    paper = ,
+    materia = list(
+      default = c("light", "light"),
+      inverse = c("dark", "primary")
+    ),
+    readable = ,
+    litera = list(
+      # The default styling is totally different here, but I don't see a
+      # easy and consistent way to bring in the old styling
+      default = c("light", "light"),
+      inverse = c("light", "dark")
+    ),
+    sandstone = list(
+      default = c("dark", "primary"),
+      # technically speaking this background should be green, but dark looks
+      # better/more consistent with other stuff on the page
+      inverse = c("dark", "dark")
+    ),
+    simplex = list(
+      default = c("light", "light"),
+      inverse = c("dark", "primary")
+    ),
+    slate = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "primary")
+    ),
+    spacelab = list(
+      default = c("light", "light"),
+      inverse = c("dark", "primary")
+    ),
+    superhero = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "primary")
+    ),
+    united = list(
+      default = c("dark", "primary"),
+      inverse = c("dark", "dark")
+    ),
+    yeti = list(
+      default = c("dark", "dark"),
+      inverse = c("dark", "primary")
+    )
+  )
+
+  layer <- theme_layer(
+    pre = list(
+      sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
+      sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
+      sprintf('$navbar-inverse-type: %s !default;', nav_classes$inverse[1]),
+      sprintf('$navbar-inverse-bg: %s !default;', nav_classes$inverse[2])
+    )
+  )
+
+  if (identical(theme, "lumen")) {
+    layer <- sass_layer_merge(layer, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
+  }
+
+  layer
 }
