@@ -12,7 +12,7 @@ bootswatch_detect(x, version = version_latest())
 \item{version}{Bootswatch version}
 }
 \value{
-Bootswatch theme names as a character string (if any); otherwise, \code{NA}
+Bootswatch theme names as a character string (if any); otherwise, \code{NULL}
 (if no Bootswatch themes are detected).
 }
 \description{

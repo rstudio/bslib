@@ -124,7 +124,7 @@ bs_sass <- function(..., variables = theme_variables(),
 
   # Detect bootswatch theme(s) and install the appropriate local fonts (if any)
   themes <- bootswatch_detect(bs_sass)
-  if (!is.na(themes)) {
+  if (length(themes)) {
     lapply(themes, function(theme) {
       file.copy(
         file.path(bootswatch_dist(version), theme, "font.css"),

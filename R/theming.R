@@ -142,7 +142,7 @@ theme_layer_bootswatch <- function(theme = "", version = version_latest()) {
 #' @param x SASS code that may contain [theme_layer_bootswatch]
 #' @param version Bootswatch version
 #'
-#' @return Bootswatch theme names as a character string (if any); otherwise, `NA`
+#' @return Bootswatch theme names as a character string (if any); otherwise, `NULL`
 #' (if no Bootswatch themes are detected).
 #'
 #' @export
@@ -157,7 +157,7 @@ bootswatch_detect <- function(x, version = version_latest()) {
     return(tryCatch(bootswatch_theme_match(x, version), error = function(e) { NA }))
   }
 
-  NA
+  NULL
 }
 
 bootswatch_theme_match <- function(theme, version) {
