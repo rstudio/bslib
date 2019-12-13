@@ -135,6 +135,31 @@ theme_layer_bootswatch <- function(theme = "", version = version_latest()) {
   layer
 }
 
+#' Detect for Bootswatch themes
+#'
+#' Detect a SASS input for Bootswatch themes.
+#'
+#' @param x SASS code that may contain [theme_layer_bootswatch]
+#' @param version Bootswatch version
+#'
+#' @return Bootswatch theme names as a character string (if any); otherwise, `NA`
+#' (if no Bootswatch themes are detected).
+#'
+#' @export
+bootswatch_detect <- function(x, version = version_latest()) {
+  if (inherits(x, "sass_layer")) {
+    is_bootswatch <- sapply(x$deps, "[[", "name") %in% "bootswatch-local-fonts"
+    names <- vapply(x$deps[is_bootswatch], function(y) y$src$file, character(1))
+    return(basename(names))
+  }
+
+  if (is.character(x) && length(1)) {
+    return(tryCatch(bootswatch_theme_match(x, version), error = function(e) { NA }))
+  }
+
+  NA
+}
+
 bootswatch_theme_match <- function(theme, version) {
   if (version %in% c("4", "4-3")) {
     theme <- switch(theme, paper = "materia", readable = "litera", theme)

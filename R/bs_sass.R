@@ -122,15 +122,12 @@ bs_sass <- function(..., variables = theme_variables(),
   js <- bootstrap_javascript(version, minified)
   file.copy(js, output_path)
 
-
-  # Ugly hack to identify bootswatch theme(s) and install
-  # the appropriate local fonts if any
-  is_bootswatch <- sapply(bs_sass$deps, "[[", "name") %in% "bootswatch-local-fonts"
-  if (any(is_bootswatch)) {
-    # theme_layer_bootswatch() attaches the theme name to 'src' field
-    lapply(bs_sass$deps[is_bootswatch], function(x) {
+  # Detect bootswatch theme(s) and install the appropriate local fonts (if any)
+  themes <- bootswatch_detect(bs_sass)
+  if (!is.na(themes)) {
+    lapply(themes, function(theme) {
       file.copy(
-        file.path(bootswatch_dist(version), basename(x$src$file), "font.css"),
+        file.path(bootswatch_dist(version), theme, "font.css"),
         file.path(output_path, "font.css")
       )
     })
