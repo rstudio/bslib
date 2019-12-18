@@ -169,6 +169,7 @@ bs_sass <- function(..., variables = theme_variables(),
   )
 }
 
+
 #' @rdname bs_sass
 #' @export
 bs_sass_partial <- function(input = list(), ...,
@@ -225,12 +226,13 @@ bs_sass_partial <- function(input = list(), ...,
   }
   bs_sass <- discard_post_layer(sass_layer_merge(bs_sass, ...))
 
+  bs_sass <- sass_layer_merge(bs_sass, input)
+
   sass(
     options = options,
     input = list(
       if (length(variables)) list(variables) else "",
-      bs_sass,
-      input
+      bs_sass
     )
   )
 }
