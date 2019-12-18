@@ -141,3 +141,27 @@ bootswatch_theme_match <- function(theme, version) {
   }
   match.arg(theme, bootswatch_themes(version))
 }
+
+
+
+theme_layer_table_align <- function() {
+  sass_layer(
+    post = list(
+      ".table th[align=left] { text-align: left; }",
+      ".table th[align=right] { text-align: right; }",
+      ".table th[align=center] { text-align: center;}"
+    )
+  )
+}
+
+# BS3 -> BS4 saw a removal of margin-top which is a pretty jarring change for most
+# https://github.com/twbs/bootstrap/blob/f17f882d/dist/css/bootstrap.css#L1219-L1250
+# https://github.com/twbs/bootstrap/blob/4de4874e/scss/_reboot.scss#L82-L89
+theme_layer_header_margins <- function() {
+  sass_layer(
+    post = list(
+      "h1, h2, h3 { margin-top: 20px; }",
+      "h4, h5, h6 { margin-top: 10px; }"
+    )
+  )
+}

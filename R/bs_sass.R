@@ -80,6 +80,9 @@ bs_sass <- function(..., variables = theme_variables(),
 
   bs_sass <- sass_file_bootstrap(version = version)
   bs_sass <- sass_layer_merge(bs_sass, sass_layer(pre = navbar_height_var(version = version)))
+  bs_sass <- sass_layer_merge(bs_sass, theme_layer_table_align())
+  bs_sass <- sass_layer_merge(bs_sass, theme_layer_header_margins())
+
 
   # Temporary dir for the html dependency files
   output_path <- tempfile("bscustom")
