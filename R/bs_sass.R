@@ -33,35 +33,36 @@
 #'   browsable(tags$body(x, button))
 #' }
 #'
-#' # Vanilla Bootstrap 4
+#' # Latest bootstrap
 #' preview_button(bs_sass())
 #'
-#' # Vanilla Bootstrap 3
-#' preview_button(bs_sass(version = 3))
+#' # Bootstrap 3
+#' preview_button(bs_sass("3"))
 #'
-#' # Bootswatch 4 theme minty
-#' preview_button(bs_sass(bootswatch = "minty"))
+#' # Bootswatch minty theme
+#' preview_button(bs_sass("minty"))
 #'
-#' # Bootswatch 4 theme sketchy
-#' preview_button(bs_sass(bootswatch = "sketchy"))
+#' # Bootswatch sketchy theme
+#' preview_button(bs_sass("sketchy"))
+#'
+#' # Bootswatch solar theme with BS3 compatibility
+#' preview_button(bs_sass("solar@4-3"))
 #'
 #' # Set bootstrap SASS variables (globally)
 #' bs_theme_set(
-#'   list(
-#'     primary = "orange",
-#'     "body-bg" = "#EEEEEE",
-#'     "font-family-base" = "monospace",
-#'     "font-size-base" = "1.4rem",
-#'     "btn-padding-y" = ".16rem",
-#'     "btn-padding-x" = "2rem",
-#'     "border-radius" = 0,
-#'     "border-radius-lg" = 0,
-#'     "border-radius-sm" = 0
-#'   )
+#'   primary = "orange",
+#'   "body-bg" = "#EEEEEE",
+#'   "font-family-base" = "monospace",
+#'   "font-size-base" = "1.4rem",
+#'   "btn-padding-y" = ".16rem",
+#'   "btn-padding-x" = "2rem",
+#'   "border-radius" = 0,
+#'   "border-radius-lg" = 0,
+#'   "border-radius-sm" = 0
 #' )
 #' preview_button(bs_sass())
 #'
-#' # Use a custom theme
+#' # Include custom CSS that leverages bootstrap SASS variables
 #' person <- function(name, title, company) {
 #'   tags$div(
 #'     class = "person",
@@ -72,7 +73,8 @@
 #' }
 #' person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootstraplib"))
 #' browsable(tags$body(
-#'   bs_sass(person_scss),
+#'   bs_sass(),
+#'   tags$style(bs_sass_partial(person_scss)),
 #'   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
 #'   person("John D. Rockefeller", "Chairman", "Standard Oil")
 #' ))

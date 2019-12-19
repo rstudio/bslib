@@ -10,19 +10,21 @@
 \title{Create a Bootstrap theme}
 \usage{
 bs_theme(
-  pre = "",
-  post = "",
+  sass_pre = "",
+  sass_post = "",
   bootswatch = NULL,
   version = c("4-3", "4", "3"),
-  deps = NULL
+  html_deps = NULL,
+  ...
 )
 
 bs_theme_set(
-  pre = "",
-  post = "",
+  sass_pre = "",
+  sass_post = "",
   bootswatch = NULL,
   version = c("4-3", "4", "3"),
-  deps = NULL
+  html_deps = NULL,
+  ...
 )
 
 bs_theme_get()
@@ -34,11 +36,11 @@ bs_theme_merge(...)
 bs_theme_sass(theme = NULL, pre_only = TRUE)
 }
 \arguments{
-\item{pre}{Any \code{\link[sass:as_sass]{sass::as_sass()}} input to place before Bootstrap's SASS code.
+\item{sass_pre}{Any \code{\link[sass:as_sass]{sass::as_sass()}} input to place before Bootstrap's SASS code.
 For \code{bs_theme_set()}, this may also be a \code{bs_theme()} object (in that case,
 no other arguments may be used).}
 
-\item{post}{Any \code{\link[sass:as_sass]{sass::as_sass()}} input to place after Bootstrap's SASS code.}
+\item{sass_post}{Any \code{\link[sass:as_sass]{sass::as_sass()}} input to place after Bootstrap's SASS code.}
 
 \item{bootswatch}{The name of a bootswatch theme.
 See \code{\link[=bootswatch_themes]{bootswatch_themes()}} for a list of possible names.}
@@ -47,7 +49,9 @@ See \code{\link[=bootswatch_themes]{bootswatch_themes()}} for a list of possible
 \code{'4-3'} means Bootstrap 4, but with additional CSS/JS to support
 BS3 style markup in BS4. Other supported versions include 3 and 4.}
 
-\item{deps}{An HTML dependency (or a list of them).}
+\item{...}{SASS variables to include prior to \code{sass_pre}.}
+
+\item{sass_deps}{An HTML dependency (or a list of them).}
 }
 \description{
 Use \code{\link[=bs_theme]{bs_theme()}} (or \code{\link[=bs_theme_set]{bs_theme_set()}}) to create a customized
@@ -62,18 +66,21 @@ Developers who need their own sass compilation entry point may use the
 }
 \examples{
 
-# Override Bootstrap SASS variables (e.g., set $primary to red)
+
+# Theming by overriding Bootstrap variable defaults
+# (Note: If you want to influence the CSS that Bootstrap generates,
+# you probably want bs_sass(), but for sake of demonstration,
+# we use bs_sass_partial() here)
 red_primary <- bs_theme(list("primary" = "red !default;"))
 foo_color <- ".foo { color: rgba($primary, 0.3) }"
 bs_sass_partial(foo_color)
 bs_sass_partial(foo_color, theme = red_primary)
 
-# To create new variables that reference Bootstrap variables,
-# those
-my_primary <- list("my-primary" = "$primary !default;")
+# Generate CSS using Bootstrap variables/function/mixins
+primary_contrast <- list("primary-contrast" = "color-yiq($primary) !default;")
 bs_sass_partial(
-  ".bar { color: $my-primary }",
-  theme = bs_theme(post = my_primary)
+  ".bar { color: $primary-contrast }",
+  theme = bs_theme(post = primary_contrast)
 )
 
 # For complex theming projects, it may be useful to combine
@@ -83,7 +90,6 @@ bs_sass_partial(
 # (e.g., blue_primary) is placed _before_ pre sass for former
 # themes (e.g., red_primary) and post sass for latter themes
 # is placed _after_ the post sass for former themes
-
 blue_primary <- bs_theme(list("primary" = "blue !default;"))
 primary <- bs_theme_merge(red_primary, blue_primary)
 # The blue theme wins out

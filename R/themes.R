@@ -186,6 +186,8 @@ as_bs_theme <- function(theme) {
   if (is_bs_theme(theme)) return(theme)
   # NULL/empty string means vanilla Bootstrap
   if (is.null(theme) || identical(theme, "")) return(bs_theme())
+  # Handle numeric version
+  if (is.numeric(theme)) theme <- as.character(theme)
   # non-string is treated like sass input
   if (!is_string(theme)) return(bs_theme(as_sass(theme)))
 
