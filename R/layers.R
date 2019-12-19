@@ -1,3 +1,65 @@
+# The layer behind version="4-3"
+sass_layer_bs3compat <- function() {
+  sass_layer(
+    pre = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
+    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
+    deps = htmltools::htmlDependency(
+      "bs3compat", packageVersion("bootstraplib"),
+      package = "bootstraplib",
+      src = "bs3compat/js",
+      script = c("tabs.js", "bs3compat.js")
+    )
+  )
+}
+
+
+sass_layer_bootswatch <- function(bootswatch, version = version_latest()) {
+  theme <- bs_theme(bootswatch = bootswatch, version = version)
+  bootswatch <- theme$bootswatch
+  version <- theme$version
+  # Empty layer if this is vanilla Bootstrap
+  if (!is_bootswatch_theme(theme)) return(sass_layer())
+
+  layer <- sass_layer(
+    pre = list(
+      # Provide access to the navbar height via SASS variable
+      # rmarkdown::html_document() and flexdashboard are two examples
+      # of things that need access to this
+      navbar_height_var(bootswatch, version),
+      # Make sure darkly/superhero code appears on the grayish background
+      # (by default, pre-color inherits the white text color that appears elsewhere on the page)
+      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/darkly/_variables.scss#L178
+      if (bootswatch %in% c("darkly", "superhero")) "$pre-color: #303030 !default;" else "",
+      # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
+      '$web-font-path: "font.css" !default;',
+      sass_file_bootswatch(bootswatch, "_variables.scss", version)
+    ),
+    post = list(
+      sass_file_bootswatch(bootswatch, "_bootswatch.scss", version),
+      # For some reason sketchy sets .dropdown-menu{overflow: hidden}
+      # but this prevents .dropdown-submenu from working properly
+      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
+      if (identical(bootswatch, "sketchy")) as_sass(".dropdown-menu{ overflow: inherit; }") else ""
+    ),
+    # This is a fake dep that gives us a means for identifying
+    # which bootswatch themes exist in the input to bs_sass()
+    deps = htmlDependency(
+      "bootswatch-local-fonts",
+      packageVersion("bootstraplib"),
+      src = file.path(bootswatch_dist(full_path = TRUE, version), bootswatch),
+      all_files = FALSE
+    )
+  )
+
+  if (version %in% "4-3") {
+    layer <- sass_layer_merge(layer, sass_layer_bs3compat_navbar(bootswatch))
+  }
+
+  layer
+}
+
+
+
 # Navbar height
 #
 # The height (in pixels) of a Bootswatch theme's navbar. Note that these
@@ -5,15 +67,19 @@
 #
 # rmarkdown::html_document(), flexdashboard, and maybe others
 # use this variable to add appropriate body/section padding
-navbar_height_var <- function(theme = "", version) {
-  paste("$navbar-height:", navbar_height(theme, version), "!default;")
+sass_layer_navbar_height <- function(bootswatch, version) {
+  sass_layer(pre = navbar_height_var(bootswatch, version))
 }
 
-navbar_height <- function(theme = "", version) {
+navbar_height_var <- function(bootswatch, version) {
+  paste("$navbar-height:", navbar_height(bootswatch, version), "!default;")
+}
+
+navbar_height <- function(bootswatch, version) {
 
   if (version %in% "3") {
     return(switch(
-      theme,
+      bootswatch,
       journal = 61,
       flatly = 60,
       darkly = 60,
@@ -34,7 +100,7 @@ navbar_height <- function(theme = "", version) {
   # but it's not immediately obvious how to do that correctly
   if (version %in% c("4", "4-3")) {
     return(switch(
-      theme,
+      bootswatch,
       cerulean = 56,
       cosmo = 54.5,
       cyborg = 53,
@@ -66,14 +132,14 @@ navbar_height <- function(theme = "", version) {
 }
 
 # Mappings from BS3 navbar classes to BS4
-theme_layer_bs3compat_navbar <- function(theme) {
-  # If this isn't Bootswatch 3 theme, there's nothing to do
-  if (is.null(theme) || !theme %in% bootswatch_themes(3)) {
-    return(NULL)
-  }
+sass_layer_bs3compat_navbar <- function(bootswatch) {
+  # Do nothing if this isn't a Bootswatch 3 theme
+  theme <- bs_theme(bootswatch = bootswatch, version = "4-3")
+  if (!is_bootswatch_theme(theme)) return("")
+  if (!theme$bootswatch %in% c("materia", "litera", bootswatch_themes(3))) return("")
 
   nav_classes <- switch(
-    theme,
+    theme$bootswatch,
     # https://bootswatch.com/cerulean/
     # https://bootswatch.com/3/cerulean/
     cerulean = list(
@@ -151,7 +217,7 @@ theme_layer_bs3compat_navbar <- function(theme) {
     stop("Didn't recognize Bootswatch 3 theme: ", theme, call. = FALSE)
   )
 
-  layer <- theme_layer(
+  layer <- sass_layer(
     pre = list(
       sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
       sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
@@ -160,7 +226,7 @@ theme_layer_bs3compat_navbar <- function(theme) {
     )
   )
 
-  if (identical(theme, "lumen")) {
+  if (identical(theme$bootswatch, "lumen")) {
     layer <- sass_layer_merge(layer, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
   }
 

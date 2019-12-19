@@ -6,46 +6,39 @@
 \title{Compile Bootstrap 4 (or 3) SASS with (optional) theming}
 \usage{
 bs_sass(
-  ...,
-  variables = theme_variables(),
-  bootswatch = NULL,
-  version = c("4-3", "4", "3"),
+  theme = bs_theme_get(),
   jquery = jquerylib::jquery_core(3),
-  options = sass_options(),
+  options = sass::sass_options(),
   minified = TRUE
 )
 
 bs_sass_partial(
-  input = list(),
-  ...,
-  variables = theme_variables(),
-  bootswatch = NULL,
-  version = c("4-3", "4", "3"),
-  options = sass_options()
+  sass = list(),
+  theme = bs_theme_get(),
+  options = sass::sass_options()
 )
 }
 \arguments{
-\item{...}{a collection of \code{\link[sass:sass]{sass::sass()}} to include after Bootstrap's SASS.
-Use \code{\link[=theme_layer]{theme_layer()}} if you need to place \code{\link[sass:sass]{sass::sass()}} both before and after Bootstrap's SASS.}
-
-\item{variables}{A list of SASS variables to include prior to any other SASS.
-To ignore any existing variables (set by \code{\link[=theme_variables]{theme_variables()}}) at runtime,
-set this to \code{NULL}.}
-
-\item{bootswatch}{The name of a bootswatch theme.
-See \code{\link[=bootswatch_themes]{bootswatch_themes()}} for a list of possible names.}
-
-\item{version}{The major version of Bootstrap to use. A value of
-\code{'4-3'} means Bootstrap 4, but with additional CSS/JS to support
-BS3 style markup in BS4. Other supported versions include 3 and 4.}
+\item{theme}{one of the following:
+\enumerate{
+\item A \code{\link[=bs_theme]{bs_theme()}} object.
+\item A string containing a bootswatch theme and/or a Bootstrap major version. To specify
+both, use the syntax \code{"theme@version"}, (e.g., \code{"cosmo@4"} for Bootstrap 4 cosmo
+theme with BS3 compatibility). If no version is specified, the latest available
+version is used (for more info, see \code{version} in \code{\link[=bs_theme]{bs_theme()}}).
+\item \code{NULL} or \code{""} which means use the latest version of Bootstrap with no custom theming.
+\item Any acceptable \link[sass:sass]{sass::sass} \code{input}. Ordinary sass input is placed \emph{after} all other
+Bootstrap/Bootswatch SASS code; however, \code{\link[=bs_theme_layer]{bs_theme_layer()}}s may be used to place SASS
+both before and after all other Bootstrap/Bootswatch SASS code. Note that
+\code{\link[=bs_sass_partial]{bs_sass_partial()}} never includes any \code{theme} SASS after Bootstrap (only \code{input}).
+}}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link[sass]{sass_options}}.}
 
-\item{input}{Accepts raw Sass, a named list of variables, or a list of raw Sass and/or named variables.
-See \code{\link[sass]{as_sass}} and \code{\link[sass]{sass_import}} / \code{\link[sass]{sass_file}} for more details.}
+\item{minified}{whether the resulting HTML dependency should minify the JS/CSS files.}
 }
 \description{
 Use \code{bs_sass()} to obtain all of Bootstrap and it's dependencies as a list
@@ -76,11 +69,19 @@ preview_button(bs_sass(bootswatch = "minty"))
 preview_button(bs_sass(bootswatch = "sketchy"))
 
 # Set bootstrap SASS variables (globally)
-theme_variables(primary = "orange", "body-bg" = "#EEEEEE")
-theme_variables("font-family-base" = "monospace", "font-size-base" = "1.4rem")
-theme_variables("btn-padding-y" = ".16rem")
-theme_variables("btn-padding-x" = "2rem")
-theme_variables("border-radius" = 0, "border-radius-lg" = 0, "border-radius-sm" = 0)
+bs_theme_set(
+  list(
+    primary = "orange",
+    "body-bg" = "#EEEEEE",
+    "font-family-base" = "monospace",
+    "font-size-base" = "1.4rem",
+    "btn-padding-y" = ".16rem",
+    "btn-padding-x" = "2rem",
+    "border-radius" = 0,
+    "border-radius-lg" = 0,
+    "border-radius-sm" = 0
+  )
+)
 preview_button(bs_sass())
 
 # Use a custom theme
@@ -104,5 +105,5 @@ browsable(tags$body(
 \url{https://getbootstrap.com/docs/4.3/getting-started/theming/}
 }
 \seealso{
-\code{\link[=theme_layer]{theme_layer()}}, \code{\link[=theme_variables]{theme_variables()}}
+\code{\link[=bs_theme]{bs_theme()}}
 }

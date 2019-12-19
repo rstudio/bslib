@@ -1,9 +1,20 @@
-"%||%" <- function(x, y) {
-  if (is.null(x)) y else x
-}
-
-
-version_normalize <- function(version) {
+version_resolve <- function(version) {
   version <- as.character(version)
   match.arg(version, c("4-3", "4", "3"))
+}
+
+is_bs_theme <- function(x) {
+  inherits(x, "bs_theme")
+}
+
+is_string <- function(x) {
+  is.character(x) && length(x) == 1
+}
+
+dropNulls <- function(x) {
+  x[!vapply(x, is.null, FUN.VALUE=logical(1))]
+}
+
+"%||%" <- function(x, y) {
+  if (is.null(x)) y else x
 }
