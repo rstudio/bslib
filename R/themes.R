@@ -165,11 +165,16 @@ bootstrap_core <- function(version, before_only = TRUE) {
 
 
 bs_themes_join <- function(theme1, theme2) {
-  if (theme1$version != theme2$version) {
-    stop("Don't know how to merge two different Bootstrap versions", call. = FALSE)
+  if (!identical(substr(theme1$version, 1, 1), substr(theme2$version, 1, 1))) {
+    stop("Can't bs_theme_merge() two different major versions of Bootstrap", call. = FALSE)
   }
   if (theme1$bootswatch != theme2$bootswatch) {
-    warning("Merging two different bootswatch themes isn't recommended.")
+    if (is_bootswatch_theme(theme1) && is_bootswatch_theme(theme2)) {
+      stop("Can't bs_theme_merge() use two different bootswatch themes.", call. = FALSE)
+    } else if (is_bootswatch_theme(theme1)) {
+      # maybe this should throw a warning?
+      theme2$bootswatch <- theme1$bootswatch
+    }
   }
 
   sass_layer <- getFromNamespace("sass_layers_join", "sass")(
