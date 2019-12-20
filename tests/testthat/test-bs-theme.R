@@ -14,11 +14,20 @@ test_that("Can create, set, get, and clear theme", {
   bs_theme_clear()
 })
 
+red_primary <- bs_theme(list(primary = "red !default;"))
+foo_color <- ".foo { color: $primary }"
+
 test_that("bs_theme() influences sass compilation", {
-  red_primary <- bs_theme(primary = "red !default;")
-  foo_color <- ".foo { color: $primary }"
   css <- bs_sass_partial(foo_color, theme = red_primary)
   expect_css(".foo{color:red;}", css)
+})
+
+blue_primary <- bs_theme(list(primary = "blue !default;"))
+
+test_that("Can bs_theme_merge() to combine/override", {
+  primary <- bs_theme_merge(red_primary, blue_primary)
+  css <- bs_sass_partial(foo_color, theme = primary)
+  expect_css(".foo{color:blue;}", css)
 })
 
 

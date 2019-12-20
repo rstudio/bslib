@@ -15,6 +15,10 @@ dropNulls <- function(x) {
   x[!vapply(x, is.null, FUN.VALUE=logical(1))]
 }
 
+names2 <- function(x) {
+  names(x) %||% rep.int("", length(x))
+}
+
 "%||%" <- function(x, y) {
   if (is.null(x)) y else x
 }

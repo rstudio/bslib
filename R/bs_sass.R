@@ -87,7 +87,7 @@ bs_sass <- function(theme = bs_theme_get(),
   theme <- as_bs_theme(theme)
   version <- theme$version
   bootswatch <- theme$bootswatch
-  bs_sass <- bs_theme_sass(theme, pre_only = FALSE)
+  bs_sass <- bs_theme_sass(theme, before_only = FALSE)
 
   # Temporary dir for the html dependency files
   output_path <- tempfile("bscustom")
@@ -163,7 +163,7 @@ bs_sass <- function(theme = bs_theme_get(),
 bs_sass_partial <- function(sass = list(), theme = bs_theme_get(),
                             options = sass::sass_options()) {
   theme <- as_bs_theme(theme)
-  bs_sass <- bs_theme_sass(theme, pre_only = TRUE)
+  bs_sass <- bs_theme_sass(theme, before_only = TRUE)
   sass::sass(
     options = options,
     input = sass_layer_merge(bs_sass, theme$sass_layer, sass)

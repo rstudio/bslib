@@ -1,9 +1,9 @@
 # The layer behind version="4-3"
 sass_layer_bs3compat <- function() {
   sass_layer(
-    pre = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
-    post = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
-    deps = htmltools::htmlDependency(
+    before = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
+    after = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
+    html_deps = htmltools::htmlDependency(
       "bs3compat", packageVersion("bootstraplib"),
       package = "bootstraplib",
       src = "bs3compat/js",
@@ -13,7 +13,7 @@ sass_layer_bs3compat <- function() {
 }
 
 
-sass_layer_bootswatch <- function(bootswatch, version = version_latest()) {
+sass_layer_bootswatch <- function(bootswatch, version) {
   theme <- bs_theme(bootswatch = bootswatch, version = version)
   bootswatch <- theme$bootswatch
   version <- theme$version
@@ -21,7 +21,7 @@ sass_layer_bootswatch <- function(bootswatch, version = version_latest()) {
   if (!is_bootswatch_theme(theme)) return(sass_layer())
 
   layer <- sass_layer(
-    pre = list(
+    before = list(
       # Provide access to the navbar height via SASS variable
       # rmarkdown::html_document() and flexdashboard are two examples
       # of things that need access to this
@@ -34,20 +34,12 @@ sass_layer_bootswatch <- function(bootswatch, version = version_latest()) {
       '$web-font-path: "font.css" !default;',
       sass_file_bootswatch(bootswatch, "_variables.scss", version)
     ),
-    post = list(
+    after = list(
       sass_file_bootswatch(bootswatch, "_bootswatch.scss", version),
       # For some reason sketchy sets .dropdown-menu{overflow: hidden}
       # but this prevents .dropdown-submenu from working properly
       # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
       if (identical(bootswatch, "sketchy")) as_sass(".dropdown-menu{ overflow: inherit; }") else ""
-    ),
-    # This is a fake dep that gives us a means for identifying
-    # which bootswatch themes exist in the input to bs_sass()
-    deps = htmlDependency(
-      "bootswatch-local-fonts",
-      packageVersion("bootstraplib"),
-      src = file.path(bootswatch_dist(full_path = TRUE, version), bootswatch),
-      all_files = FALSE
     )
   )
 
@@ -68,7 +60,7 @@ sass_layer_bootswatch <- function(bootswatch, version = version_latest()) {
 # rmarkdown::html_document(), flexdashboard, and maybe others
 # use this variable to add appropriate body/section padding
 sass_layer_navbar_height <- function(bootswatch, version) {
-  sass_layer(pre = navbar_height_var(bootswatch, version))
+  sass_layer(before = navbar_height_var(bootswatch, version))
 }
 
 navbar_height_var <- function(bootswatch, version) {
@@ -218,7 +210,7 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
   )
 
   layer <- sass_layer(
-    pre = list(
+    before = list(
       sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
       sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
       sprintf('$navbar-inverse-type: %s !default;', nav_classes$inverse[1]),

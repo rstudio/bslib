@@ -1,16 +1,4 @@
-context("bs_sass")
-
-test_that("Can access the sass behind all versions and Bootswatch themes", {
-  versions <- c("4-3", "3", "4")
-  for (version in versions) {
-    themes <- bootswatch_themes(version)
-    for (theme in themes) {
-      output <- bs_theme_sass(theme = paste0(theme, "@", version), pre_only = FALSE)
-      expect_true(any(grepl(theme, output$pre)))
-      expect_true(any(grepl(theme, output$post)))
-    }
-  }
-})
+context("bootswatch")
 
 
 test_that("Using bootswatch arg is equivalent to theme_layer_bootswatch()", {

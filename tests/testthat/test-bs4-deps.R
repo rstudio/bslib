@@ -29,7 +29,7 @@ describe("bs_sass", {
 
   it("respects theme options", {
     # Theme options are respected
-    bs_theme_set(primary = "red")
+    bs_theme_set(list(primary = "red"))
     expect_bs4_equal(bs4_css, ".foo { background-color: red; color: #fff; width: 120px; height: 120px; }")
     # Unless they're not
     bs_theme_clear()
