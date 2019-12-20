@@ -153,7 +153,7 @@ bs_sass <- function(theme = bs_theme_get(),
         script = basename(js)
       )
     ),
-    bs_sass$deps
+    bs_sass$html_deps
   )
 }
 

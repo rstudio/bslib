@@ -129,7 +129,7 @@ bs_theme_sass <- function(theme = NULL, before_only = TRUE) {
   bootswatch <- theme$bootswatch
 
   # Grab the main Boostrap imports
-  bs_sass <- bootstrap_core(version, before_only = before_only)
+  bs_sass <- sass_layer(before = bootstrap_core(version, before_only = before_only))
 
   # Add adjustments for navbar height
   # TODO: maybe do this via jQuery instead? https://stackoverflow.com/a/46021836/1583084
