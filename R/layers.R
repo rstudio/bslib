@@ -14,11 +14,8 @@ sass_layer_bs3compat <- function() {
 
 
 sass_layer_bootswatch <- function(bootswatch, version) {
-  theme <- bs_theme(bootswatch = bootswatch, version = version)
-  bootswatch <- theme$bootswatch
-  version <- theme$version
   # Empty layer if this is vanilla Bootstrap
-  if (!is_bootswatch_theme(theme)) return(sass_layer())
+  if (!bootswatch %in% bootswatch_themes(version)) return(sass_layer())
 
   layer <- sass_layer(
     before = list(
@@ -126,12 +123,10 @@ navbar_height <- function(bootswatch, version) {
 # Mappings from BS3 navbar classes to BS4
 sass_layer_bs3compat_navbar <- function(bootswatch) {
   # Do nothing if this isn't a Bootswatch 3 theme
-  theme <- bs_theme(bootswatch = bootswatch, version = "4-3")
-  if (!is_bootswatch_theme(theme)) return("")
-  if (!theme$bootswatch %in% c("materia", "litera", bootswatch_themes(3))) return("")
+  if (!bootswatch %in% c("materia", "litera", bootswatch_themes(3))) return("")
 
   nav_classes <- switch(
-    theme$bootswatch,
+    bootswatch,
     # https://bootswatch.com/cerulean/
     # https://bootswatch.com/3/cerulean/
     cerulean = list(
@@ -218,7 +213,7 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
     )
   )
 
-  if (identical(theme$bootswatch, "lumen")) {
+  if (identical(bootswatch, "lumen")) {
     layer <- sass_layer_merge(layer, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
   }
 

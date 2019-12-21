@@ -5,15 +5,15 @@ options(sass.cache = FALSE)
 
 context("bs4-deps")
 
-describe("bs_sass", {
+describe("bootstrap_sass", {
   # Example CSS that includes one variable, one function call, one mixin
   bs4_css <- ".foo { background-color: $primary; color: color-yiq($primary); @include size(120px); }"
   resolved_css <- ".foo { background-color: #007bff; color: #fff; width: 120px; height: 120px; }"
 
-  # Compare bs_sass(input1) and sass(input2)
+  # Compare bootstrap_sass(input1) and sass(input2)
   expect_bs4_equal <- function(input1, input2, options = sass_options()) {
     expect_css(
-      bs_sass_partial(input1, options = options),
+      bootstrap_sass(input1, options = options),
       sass(input2, options = options)
     )
   }

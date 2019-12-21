@@ -14,8 +14,8 @@ bootswatch_themes <- function(version = version_latest(), full_path = FALSE) {
 
 #' @rdname bootswatch-helpers
 #' @export
-is_bootswatch_theme <- function(theme) {
-  is_bs_theme(theme) && !identical(theme$bootswatch, "bootstrap")
+has_bootswatch_theme <- function(theme) {
+  is_bs_theme(theme) && any(!theme %in% "bootstrap")
 }
 
 bootswatch_dist <- function(version, full_path = TRUE) {

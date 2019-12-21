@@ -60,7 +60,7 @@
 #'   "border-radius-lg" = 0,
 #'   "border-radius-sm" = 0
 #' )
-#' preview_button(bs_sass())
+#' preview_button(bootstrap())
 #'
 #' # Include custom CSS that leverages bootstrap SASS variables
 #' person <- function(name, title, company) {
@@ -73,27 +73,27 @@
 #' }
 #' person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootstraplib"))
 #' browsable(tags$body(
-#'   bs_sass(),
-#'   tags$style(bs_sass_partial(person_scss)),
+#'   bootstrap(),
+#'   tags$style(bootstrap_sass(person_scss)),
 #'   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
 #'   person("John D. Rockefeller", "Chairman", "Standard Oil")
 #' ))
 #'
-bs_sass <- function(theme = bs_theme_get(),
-                    jquery = jquerylib::jquery_core(3),
-                    options = sass::sass_options(),
-                    minified = TRUE) {
+bootstrap <- function(theme = bs_theme_get(),
+                      jquery = jquerylib::jquery_core(3),
+                      options = sass::sass_options(),
+                      minified = TRUE) {
 
   theme <- as_bs_theme(theme)
-  version <- theme$version
-  bootswatch <- theme$bootswatch
-  bs_sass <- bs_theme_sass(theme, before_only = FALSE)
+  version <- attr(theme, "version") %||% version_latest()
+  bootswatch <- attr(theme, "bootswatch")
 
   # Temporary dir for the html dependency files
   output_path <- tempfile("bscustom")
   dir.create(output_path)
 
   # Install local Glyphicon fonts
+  # TODO: this should go away with Joe's sass_layer attachments PR
   if (identical(version, "4-3")) {
     file.copy(
       system.file("node_modules/bootstrap-sass/assets/fonts", package = "bootstraplib"),
@@ -103,7 +103,8 @@ bs_sass <- function(theme = bs_theme_get(),
   }
 
   # Install local bootswatch fonts
-  if (is_bootswatch_theme(theme)) {
+  # TODO: this should go away with Joe's sass_layer attachments PR
+  if (has_bootswatch_theme(theme)) {
     file.copy(
       file.path(bootswatch_dist(version), bootswatch, "font.css"),
       file.path(output_path, "font.css")
@@ -125,7 +126,11 @@ bs_sass <- function(theme = bs_theme_get(),
   # Compile sass
   output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
   sass::sass(
-    input = sass_layer_merge(bs_sass, theme$sass_layer),
+    input = list(
+      theme$before,
+      bootstrap_core(version, before_only = FALSE),
+      theme$after
+    ),
     output = file.path(output_path, output_css),
     options = opts
   )
@@ -153,20 +158,24 @@ bs_sass <- function(theme = bs_theme_get(),
         script = basename(js)
       )
     ),
-    bs_sass$html_deps
+    theme$html_deps
   )
 }
 
 
 #' @rdname bs_sass
 #' @export
-bs_sass_partial <- function(sass = list(), theme = bs_theme_get(),
+bootstrap_sass <- function(after = list(), theme = bs_theme_get(),
                             options = sass::sass_options()) {
   theme <- as_bs_theme(theme)
-  bs_sass <- bs_theme_sass(theme, before_only = TRUE)
+  version <- attr(theme, "version")
   sass::sass(
     options = options,
-    input = sass_layer_merge(bs_sass, theme$sass_layer, sass)
+    input = list(
+      theme$before,
+      bootstrap_core(version, before_only = TRUE),
+      after
+    )
   )
 }
 

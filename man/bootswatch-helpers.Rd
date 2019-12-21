@@ -2,12 +2,12 @@
 % Please edit documentation in R/bootswatch.R
 \name{bootswatch_themes}
 \alias{bootswatch_themes}
-\alias{is_bootswatch_theme}
+\alias{has_bootswatch_theme}
 \title{Bootswatch helpers}
 \usage{
 bootswatch_themes(version = version_latest(), full_path = FALSE)
 
-is_bootswatch_theme(theme)
+has_bootswatch_theme(theme)
 }
 \arguments{
 \item{version}{the major version of Bootswatch.}
