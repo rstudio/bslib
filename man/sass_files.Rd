@@ -5,9 +5,9 @@
 \alias{sass_file_bootswatch}
 \title{Obtain Bootstrap and Bootswatch SASS files}
 \usage{
-sass_file_bootstrap(file = NULL, version = 4)
+sass_file_bootstrap(file = NULL, version = version_default())
 
-sass_file_bootswatch(theme, file = NULL, version = version_latest())
+sass_file_bootswatch(theme, file = NULL, version = version_default())
 }
 \arguments{
 \item{file}{a scss file path.}

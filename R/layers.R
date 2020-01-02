@@ -1,8 +1,15 @@
 # The layer behind version="4-3"
-sass_layer_bs3compat <- function() {
+bs3compat_layer_merge <- function(layer, version) {
+  tag <- "bootstraplib_bs3compat"
+  if (tag %in% layer$tags) return(layer)
   sass_layer(
-    before = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
-    after = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
+    tags = tag,
+    defaults = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
+    rules = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
+    # Gyliphicon font files
+    file_attachments = c(
+      fonts = system.file("node_modules/bootstrap-sass/assets/fonts", package = "bootstraplib")
+    ),
     html_deps = htmltools::htmlDependency(
       "bs3compat", packageVersion("bootstraplib"),
       package = "bootstraplib",
@@ -13,12 +20,37 @@ sass_layer_bs3compat <- function() {
 }
 
 
-sass_layer_bootswatch <- function(bootswatch, version) {
-  # Empty layer if this is vanilla Bootstrap
-  if (!bootswatch %in% bootswatch_themes(version)) return(sass_layer())
+bootswatch_layer_merge <- function(layer, bootswatch, version) {
+
+  tag <- paste0("bootstraplib_bootswatch_", bootswatch)
+  # Exit early if this is vanilla Bootstrap or we've seen this layer before
+  if (!bootswatch %in% bootswatch_themes(version) || tag %in% layer$tags) {
+    return(layer)
+  }
+  # It probably doesn't make sense to have 2 or more bootswatch themes (but we allow it)
+  old_bootswatch <- theme_bootswatch(layer)
+  if (!is.null(old_bootswatch) && !identical(old_bootswatch, "bootstrap")) {
+    warning(sprintf(
+      "Adding a new bootswatch theme (%s) to an existing one (%s)",
+      bootswatch, old_bootswatch
+    ))
+  }
+
+  # Attach local font files, if necessary
+  font_css <- file.path(bootswatch_dist(version), bootswatch, "font.css")
+  attachments <- if (file.exists(font_css)) {
+    c(
+      "font.css" = font_css,
+      fonts = system.file("fonts", package = "bootstraplib")
+    )
+  }
 
   layer <- sass_layer(
-    before = list(
+    # Attach a suitable tag name in case downstream code wants to know if
+    # we've used a bootswatch theme
+    tags = tag,
+    file_attachments = attachments,
+    defaults = list(
       # Provide access to the navbar height via SASS variable
       # rmarkdown::html_document() and flexdashboard are two examples
       # of things that need access to this
@@ -31,7 +63,7 @@ sass_layer_bootswatch <- function(bootswatch, version) {
       '$web-font-path: "font.css" !default;',
       sass_file_bootswatch(bootswatch, "_variables.scss", version)
     ),
-    after = list(
+    rules = list(
       sass_file_bootswatch(bootswatch, "_bootswatch.scss", version),
       # For some reason sketchy sets .dropdown-menu{overflow: hidden}
       # but this prevents .dropdown-submenu from working properly
@@ -56,9 +88,13 @@ sass_layer_bootswatch <- function(bootswatch, version) {
 #
 # rmarkdown::html_document(), flexdashboard, and maybe others
 # use this variable to add appropriate body/section padding
-sass_layer_navbar_height <- function(bootswatch, version) {
-  sass_layer(before = navbar_height_var(bootswatch, version))
+navbar_height_layer_merge <- function(layer, bootswatch, version) {
+  # TODO: worth attaching tags and exiting early?
+  sass_layer_merge(
+    layer, sass_layer(defaults = navbar_height_var(bootswatch, version))
+  )
 }
+
 
 navbar_height_var <- function(bootswatch, version) {
   paste("$navbar-height:", navbar_height(bootswatch, version), "!default;")
@@ -205,7 +241,7 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
   )
 
   layer <- sass_layer(
-    before = list(
+    defaults = list(
       sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
       sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
       sprintf('$navbar-inverse-type: %s !default;', nav_classes$inverse[1]),

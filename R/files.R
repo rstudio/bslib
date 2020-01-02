@@ -14,7 +14,7 @@
 #' @rdname sass_files
 #' @seealso [bs_theme_sass()]
 #' @export
-sass_file_bootstrap <- function(file = NULL, version = 4) {
+sass_file_bootstrap <- function(file = NULL, version = version_default()) {
   version <- version_resolve(version)
   if (length(file) > 1) stop("file should be of length 1")
 
@@ -33,7 +33,7 @@ sass_file_bootstrap <- function(file = NULL, version = 4) {
 
 #' @rdname sass_files
 #' @export
-sass_file_bootswatch <- function(theme, file = NULL, version = version_latest()) {
+sass_file_bootswatch <- function(theme, file = NULL, version = version_default()) {
   version <- version_resolve(version)
   if (length(file) > 1) stop("file should be of length 1")
   theme <- match.arg(theme, bootswatch_themes(version))

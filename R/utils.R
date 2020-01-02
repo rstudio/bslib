@@ -3,10 +3,6 @@ version_resolve <- function(version) {
   match.arg(version, c("4-3", "4", "3"))
 }
 
-is_bs_theme <- function(x) {
-  inherits(x, "bs_theme")
-}
-
 is_string <- function(x) {
   is.character(x) && length(x) == 1
 }

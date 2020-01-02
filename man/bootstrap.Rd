@@ -2,6 +2,7 @@
 % Please edit documentation in R/bs_sass.R
 \name{bootstrap}
 \alias{bootstrap}
+\alias{bootstrap_sass}
 \title{Compile Bootstrap 4 (or 3) SASS with (optional) theming}
 \usage{
 bootstrap(
@@ -10,20 +11,22 @@ bootstrap(
   options = sass::sass_options(),
   minified = TRUE
 )
+
+bootstrap_sass(
+  rules = list(),
+  theme = bs_theme_get(),
+  options = sass::sass_options()
+)
 }
 \arguments{
 \item{theme}{one of the following:
 \enumerate{
-\item A \code{\link[=bs_theme]{bs_theme()}} object.
+\item The result of \code{\link[=bs_theme_get]{bs_theme_get()}} (recommended default).
 \item A string containing a bootswatch theme and/or a Bootstrap major version. To specify
 both, use the syntax \code{"theme@version"}, (e.g., \code{"cosmo@4"} for Bootstrap 4 cosmo
 theme with BS3 compatibility). If no version is specified, the latest available
-version is used (for more info, see \code{version} in \code{\link[=bs_theme]{bs_theme()}}).
-\item \code{NULL} or \code{""} which means use the latest version of Bootstrap with no custom theming.
-\item Any acceptable \link[sass:sass]{sass::sass} \code{input}. Ordinary sass input is placed \emph{after} all other
-Bootstrap/Bootswatch SASS code; however, \code{\link[=bs_theme_layer]{bs_theme_layer()}}s may be used to place SASS
-both before and after all other Bootstrap/Bootswatch SASS code. Note that
-\code{\link[=bs_sass_partial]{bs_sass_partial()}} never includes any \code{theme} SASS after Bootstrap (only \code{input}).
+version is used (for more info, see \code{version} in \code{\link[=bs_theme_set]{bs_theme_set()}}).
+\item \code{NULL}, which means use the latest version of Bootstrap with no custom theming.
 }}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
@@ -34,11 +37,12 @@ both before and after all other Bootstrap/Bootswatch SASS code. Note that
 \item{minified}{whether the resulting HTML dependency should minify the JS/CSS files.}
 }
 \description{
-Use \code{bs_sass()} to obtain all of Bootstrap and it's dependencies as a list
+Use \code{bootstrap()} to obtain all of Bootstrap and it's dependencies as a list
 of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} objects.
-Use \code{bs_sass_partial()} if you can assume Bootstrap already exists in your
-project, but you want to leverage Bootstrap utilities to generate additional
-CSS (as a string that can be included as a \verb{<style>} tag via \code{tags$style(css)}).
+Use \code{bootstrap_sass()} if you can assume Bootstrap already exists in your
+project, but you want to leverage Bootstrap utilities (e.g., variables, functions,
+or mixins) to generate additional CSS rules (as a string that can be included
+as a \verb{<style>} tag via \code{tags$style(css)}).
 }
 \examples{
 library(htmltools)
@@ -50,22 +54,22 @@ preview_button <- function(x) {
 }
 
 # Latest bootstrap
-preview_button(bs_sass())
+preview_button(bootstrap())
 
 # Bootstrap 3
-preview_button(bs_sass("3"))
+preview_button(bootstrap("3"))
 
 # Bootswatch minty theme
-preview_button(bs_sass("minty"))
+preview_button(bootstrap("minty"))
 
 # Bootswatch sketchy theme
-preview_button(bs_sass("sketchy"))
+preview_button(bootstrap("sketchy"))
 
 # Bootswatch solar theme with BS3 compatibility
-preview_button(bs_sass("solar@4-3"))
+preview_button(bootstrap("solar@4-3"))
 
 # Set bootstrap SASS variables (globally)
-bs_theme_set(
+bs_theme_add_variables(
   primary = "orange",
   "body-bg" = "#EEEEEE",
   "font-family-base" = "monospace",
@@ -77,6 +81,7 @@ bs_theme_set(
   "border-radius-sm" = 0
 )
 preview_button(bootstrap())
+bs_theme_clear()
 
 # Include custom CSS that leverages bootstrap SASS variables
 person <- function(name, title, company) {
@@ -100,5 +105,5 @@ browsable(tags$body(
 \url{https://getbootstrap.com/docs/4.3/getting-started/theming/}
 }
 \seealso{
-\code{\link[=bs_theme]{bs_theme()}}
+\code{\link[=bs_theme_set]{bs_theme_set()}}
 }

@@ -1,25 +1,22 @@
 #' Create a Bootstrap theme
 #'
-#' Use [bs_theme()] (or [bs_theme_set()]) to create a customized
-#' Bootstrap SASS theme which [bs_sass()] (or [bs_sass_partial()]) can consume.
-#' Either pass a [bs_theme()] object directly to [bs_sass()]'s `theme` argument
-#' or use [bs_theme_set()] to set a theme globally ([bs_sass()]'s `theme` argument
-#' defaults to `bs_theme_get()`, which get the current global).
+#' Use [bs_theme_set()] to set a global Bootstrap SASS which
+#' [bootstrap()] (or [bootstrap_sass()]) can consume (their `theme` argument
+#' defaults to `bs_theme_get()`, which get the current global theme). Use
+#' [bs_theme_add()] to add additional SASS to the existing global theme.
+#' Use [bs_theme_add_variables()] to add SASS variable to the existing global
+#' theme. Use [bs_theme_set_theme()] to set a theme object (i.e., the return value)
+#' of [bs_theme_get()] to the current theme.
 #'
-#' Developers who need their own sass compilation entry point may use the
-#' `bs_theme_sass()`
-#'
-#' @param before Any [sass::as_sass()] input to place before Bootstrap's SASS code.
-#' For `bs_theme_set()`, this may also be a `bs_theme()` object (in that case,
-#' no other arguments may be used).
-#' @param after Any [sass::as_sass()] input to place after Bootstrap's SASS code.
+#' @param defaults Any [sass::as_sass()] `input` to place before Bootstrap's SASS imports.
+#' @param rules Any [sass::as_sass()] `input` to place after Bootstrap's SASS imports.
 #' @param bootswatch The name of a bootswatch theme.
 #' See [bootswatch_themes()] for a list of possible names.
 #' @param version The major version of Bootstrap to use. A value of
 #' `'4-3'` means Bootstrap 4, but with additional CSS/JS to support
 #' BS3 style markup in BS4. Other supported versions include 3 and 4.
-#' @param variables a named list of SASS variables to include prior to `before`.
-#' @param html_deps An HTML dependency (or a list of them).
+#' @param ... For `bs_theme_add_variables()`, these arguments define SASS variables;
+#' otherwise, these arguments are passed along to [sass::sass_layer()].
 #'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #'
@@ -28,17 +25,14 @@
 #' @examples
 #'
 #' # Theming by overriding Bootstrap variable defaults
-#' # (Note: If you want to influence the CSS that Bootstrap generates,
-#' # you probably want bs_sass(), but for sake of demonstration,
-#' # we use bs_sass_partial() here)
-#' red_primary <- bs_theme(list(primary = "red !default;"))
+#' bs_theme_add_variables(primary = "red !default;")
 #' foo_color <- ".foo { color: rgba($primary, 0.3) }"
-#' bs_sass_partial(foo_color)
-#' bs_sass_partial(foo_color, theme = red_primary)
+#' bootstrap_sass(foo_color)
+#' bootstrap_sass(foo_color, theme = NULL)
 #'
 #' # Generate CSS using Bootstrap variables/function/mixins
 #' primary_contrast <- list("primary-contrast" = "color-yiq($primary) !default;")
-#' bs_theme_set(bs_theme(after = primary_contrast))
+#' bs_theme_add(rules = primary_contrast)
 #' bs_sass_partial(
 #'   ".bar { color: $primary-contrast }"
 #' )
@@ -50,120 +44,108 @@
 #' # (e.g., blue_primary) is placed _before_ pre sass for former
 #' # themes (e.g., red_primary) and post sass for latter themes
 #' # is placed _after_ the post sass for former themes
-#' blue_primary <- bs_theme(list(primary = "blue !default;"))
-#' primary <- bs_theme_merge(red_primary, blue_primary)
-#' # The blue theme wins out
+#' bs_theme_add_variables(primary = "blue !default;")
+#' bs_theme_add_variables(primary = "red !default;")
+#' # The red theme wins out
 #' bs_sass_partial(foo_color, theme = primary)
 #'
-bs_theme_set <- function(before = "", after = "", bootswatch = NULL, version = c("4-3", "4", "3"),
-                         variables = list(), html_deps = NULL) {
-  theme <- bs_theme(
-    before = before, after = after,
-    bootswatch = bootswatch, version = version,
-    html_deps = html_deps, variables = variables
-  )
-  old_theme <- options(bootstraplib_theme = theme)
-  invisible(old_theme)
+bs_theme_add_variables <- function(...) {
+  vars <- rlang::list2(...)
+  if (any(names2(vars) == "")) stop("Variables must be named.", call. = FALSE)
+  bs_theme_add(vars)
 }
 
 #' @rdname theming
 #' @export
-bs_theme_add <- function(before = "", after = "", html_deps = NULL) {
-  old_theme <- bs_theme_get()
-  layer <- sass_layer(before = before, after = after, html_deps = html_deps)
-  theme <- bs_theme_merge(old_theme, layer)
+bs_theme_add <- function(defaults = "", rules = "", bootswatch = NULL,
+                         version = version_default(), ...) {
+  bs_theme_set(bs_theme_merge(
+    theme = bs_theme_get(),
+    bootswatch = bootswatch, version = version,
+    defaults = defaults, rules = rules, ...
+  ))
+}
+
+#' @rdname theming
+#' @export
+bs_theme_set <- function(theme) {
   old_theme <- options(bootstraplib_theme = theme)
-  invisible(old_theme)
+  invisible(old_theme[["bootstraplib_theme"]])
 }
 
 #' @rdname theming
 #' @export
 bs_theme_get <- function() {
-  getOption("bootstraplib_theme")
+  getOption("bootstraplib_theme") %||% bs_theme_merge()
 }
 
 #' @rdname theming
 #' @export
 bs_theme_clear <- function() {
-  options(bootstraplib_theme = NULL)
+  invisible(options(bootstraplib_theme = NULL)[["bootstraplib_theme"]])
 }
 
 
-bs_theme <- function(before = "", after = "", bootswatch = NULL, version = c("4-3", "4", "3"),
-                     variables = list(), html_deps = NULL) {
-
-  if (any(names2(variables) != "")) stop("All variables must be named", call. = FALSE)
+bs_theme_merge <- function(theme = NULL, bootswatch = NULL,
+                           version = version_default(), ...) {
   version <- version_resolve(version)
   bootswatch <- bootswatch_theme_resolve(bootswatch, version)
 
-  # Add adjustments for navbar height
-  # TODO: maybe do this via jQuery instead? https://stackoverflow.com/a/46021836/1583084
-  layer <- sass_layer_navbar_height(bootswatch, version)
-
-  # BS3 compatibility
-  if (version %in% "4-3") {
-    layer <- sass_layer_merge(layer, sass_layer_bs3compat())
+  # Not allowed to use two different major versions
+  old_version <- theme_version(theme)
+  if (!is.null(old_version) &&
+      any(substr(old_version, 1, 1) != substr(version, 1, 1))) {
+    stop(
+      "Don't know how to merge two different major Bootstrap versions. ",
+      "Old version:", old_version, ".",
+      "New version:", version
+    )
   }
 
-  layer <- sass_layer_merge(layer, sass_layer_bootswatch(bootswatch, version))
-
-  user_layer <- sass_layer(
-    before = c(list(variables), list(before)),
-    after = after,
-    html_deps = html_deps
+  # TODO: maybe make navbar adjustment via jQuery instead? https://stackoverflow.com/a/46021836/1583084
+  theme <- navbar_height_layer_merge(theme, bootswatch, version)
+  theme <- bs3compat_layer_merge(theme, version)
+  theme <- bootswatch_layer_merge(theme, bootswatch, version)
+  theme <- sass_layer_merge(
+    theme, sass_layer(...),
+    sass_layer(tags = paste0("bootstraplib_version_", version))
   )
-
-  layer <- sass_layer_merge(layer, user_layer)
-
-  # In some cases it may be useful to know which bootswatch/version was used
-  structure(layer, bootswatch = bootswatch, version = version)
+  structure(theme, class = unique(c("bs_theme", oldClass(theme))))
 }
 
-
-bs_theme_merge <- function(...) {
-  layer <- sass_layer_merge(...)
-  structure(
-    layer,
-    version = attr(..1, "version"),
-    bootswatch = attr(..1, "bootswatch")
-  )
-}
-
-
-bootstrap_core <- function(version, before_only = TRUE) {
-  if (!before_only) {
-    # This function should default to the 'main' scss file
-    return(sass_file_bootstrap(version = version))
-  }
-  scss <- c(
-    if (version %in% c("4", "4-3")) "_functions.scss",
-    "_variables.scss",
-    "_mixins.scss"
-  )
-  if (version %in% "3") scss <- file.path("bootstrap", scss)
-  lapply(scss, sass_file_bootstrap, version = version)
+is_bs_theme <- function(x) {
+  inherits(x, "bs_theme")
 }
 
 as_bs_theme <- function(theme) {
-  if (is.numeric(theme)) theme <- as.character(theme)
   # NULL/empty string means vanilla Bootstrap
-  if (is.null(theme) || identical(theme, "")) return(bs_theme())
-  if (!is_string(theme)) return(theme)
+  if (is.null(theme)) return(bs_theme_merge())
 
-  # String should be "bootswatch@version"
-  theme <- strsplit(theme, "@", fixed = TRUE)[[1]]
-  if (length(theme) == 2) {
-    return(bs_theme(bootswatch = theme[1], version = theme[2]))
-  }
+  # Support bootstrap(theme = 4)
+  if (is.numeric(theme)) return(bs_theme_merge(version = theme))
 
-  # Also support "bootswatch" or "version"
-  if (length(theme) == 1) {
-    if (theme %in% c("4", "4-3", "3")) {
-      return(bs_theme(version = theme))
-    } else {
-      return(bs_theme(bootswatch = theme))
+  # Support `bootstrap(theme = 'bootswatch@version')`
+  if (is_string(theme)) {
+    theme <- strsplit(theme, "@", fixed = TRUE)[[1]]
+    if (length(theme) == 2) {
+      return(bs_theme_merge(bootswatch = theme[1], version = theme[2]))
     }
+    # Also support `bootstrap(version = '4')` and `bootstrap(theme = 'bootswatch')`
+    if (length(theme) == 1) {
+      if (theme %in% c("4", "4-3", "3")) {
+        return(bs_theme_merge(version = theme))
+      } else {
+        return(bs_theme_merge(bootswatch = theme))
+      }
+    }
+    stop("If `theme` is a string, it can't contain more than one @")
   }
 
-  stop("If theme is a string, it can't contain more than one @", call. = FALSE)
+  if (is_bs_theme(theme)) return(theme)
+
+  stop(
+    "`theme` must be one of the following: (1) `NULL`, ",
+    "(2) a bootswatch@version string, ",
+    "(3) the result of `bs_theme_get()`, "
+  )
 }

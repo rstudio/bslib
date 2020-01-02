@@ -1,22 +1,35 @@
-#' Bootswatch helpers
-#'
-#' Use `bootswatch_themes()` to obtain a list of all available bootswatch themes.
-#' Use `is_bootswatch_theme()` to test if a [bs_theme()] object has a bootswatch theme.
+#' Obtain a list of all available bootswatch themes.
 #'
 #' @param version the major version of Bootswatch.
 #' @param full_path whether to return a path to the installed theme.
-#' @rdname bootswatch-helpers
 #' @export
-bootswatch_themes <- function(version = version_latest(), full_path = FALSE) {
+bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
   version <- version_resolve(version)
   list.dirs(bootswatch_dist(version), full.names = full_path, recursive = FALSE)
 }
 
-#' @rdname bootswatch-helpers
+
+#' Obtain a theme's Bootswatch theme name
+#'
+#' @param theme a bs theme object, see [bs_theme_set()].
 #' @export
-has_bootswatch_theme <- function(theme) {
-  is_bs_theme(theme) && any(!theme %in% "bootstrap")
+theme_bootswatch <- function(theme = bs_theme_get()) {
+  if (!is_bs_theme(theme)) return(NULL)
+  tags <- grep("^bootstraplib_bootswatch_", theme$tags, value = TRUE)
+  sub("bootstraplib_bootswatch_", "", unique(tags))
 }
+
+#' Obtain a theme's Bootstrap version
+#'
+#' @param theme a bs theme object, see [bs_theme_set()].
+#' @export
+theme_version <- function(theme = bs_theme_get()) {
+  if (!is_bs_theme(theme)) return(NULL)
+  tags <- grep("^bootstraplib_version_", theme$tags, value = TRUE)
+  sub("bootstraplib_version_", "", unique(tags))
+}
+
+
 
 bootswatch_dist <- function(version, full_path = TRUE) {
   dist <- if (version %in% "3") {

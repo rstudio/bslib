@@ -1,28 +1,25 @@
 #' Compile Bootstrap 4 (or 3) SASS with (optional) theming
 #'
-#' Use `bs_sass()` to obtain all of Bootstrap and it's dependencies as a list
+#' Use `bootstrap()` to obtain all of Bootstrap and it's dependencies as a list
 #' of [htmltools::htmlDependency()] objects.
-#' Use `bs_sass_partial()` if you can assume Bootstrap already exists in your
-#' project, but you want to leverage Bootstrap utilities to generate additional
-#' CSS (as a string that can be included as a `<style>` tag via `tags$style(css)`).
+#' Use `bootstrap_sass()` if you can assume Bootstrap already exists in your
+#' project, but you want to leverage Bootstrap utilities (e.g., variables, functions,
+#' or mixins) to generate additional CSS rules (as a string that can be included
+#' as a `<style>` tag via `tags$style(css)`).
 #'
-#' @inheritParams sass::sass
 #' @param theme one of the following:
-#'   1. A [bs_theme()] object.
+#'   1. The result of [bs_theme_get()] (recommended default).
 #'   2. A string containing a bootswatch theme and/or a Bootstrap major version. To specify
 #'   both, use the syntax `"theme@version"`, (e.g., `"cosmo@4"` for Bootstrap 4 cosmo
 #'   theme with BS3 compatibility). If no version is specified, the latest available
-#'   version is used (for more info, see `version` in [bs_theme()]).
-#'   3. `NULL` or `""` which means use the latest version of Bootstrap with no custom theming.
-#'   4. Any acceptable [sass::sass] `input`. Ordinary sass input is placed _after_ all other
-#'   Bootstrap/Bootswatch SASS code; however, [bs_theme_layer()]s may be used to place SASS
-#'   both before and after all other Bootstrap/Bootswatch SASS code. Note that
-#'   [bs_sass_partial()] never includes any `theme` SASS after Bootstrap (only `input`).
+#'   version is used (for more info, see `version` in [bs_theme_set()]).
+#'   3. `NULL`, which means use the latest version of Bootstrap with no custom theming.
 #' @param jquery See [jquerylib::jquery_core()].
 #' @param minified whether the resulting HTML dependency should minify the JS/CSS files.
+#' @inheritParams sass::sass
 #'
 #' @export
-#' @seealso [bs_theme()]
+#' @seealso [bs_theme_set()]
 #' @references <https://getbootstrap.com/docs/4.3/getting-started/theming/>
 #' @examples
 #' library(htmltools)
@@ -34,22 +31,22 @@
 #' }
 #'
 #' # Latest bootstrap
-#' preview_button(bs_sass())
+#' preview_button(bootstrap())
 #'
 #' # Bootstrap 3
-#' preview_button(bs_sass("3"))
+#' preview_button(bootstrap("3"))
 #'
 #' # Bootswatch minty theme
-#' preview_button(bs_sass("minty"))
+#' preview_button(bootstrap("minty"))
 #'
 #' # Bootswatch sketchy theme
-#' preview_button(bs_sass("sketchy"))
+#' preview_button(bootstrap("sketchy"))
 #'
 #' # Bootswatch solar theme with BS3 compatibility
-#' preview_button(bs_sass("solar@4-3"))
+#' preview_button(bootstrap("solar@4-3"))
 #'
 #' # Set bootstrap SASS variables (globally)
-#' bs_theme_set(
+#' bs_theme_add_variables(
 #'   primary = "orange",
 #'   "body-bg" = "#EEEEEE",
 #'   "font-family-base" = "monospace",
@@ -61,6 +58,7 @@
 #'   "border-radius-sm" = 0
 #' )
 #' preview_button(bootstrap())
+#' bs_theme_clear()
 #'
 #' # Include custom CSS that leverages bootstrap SASS variables
 #' person <- function(name, title, company) {
@@ -84,37 +82,11 @@ bootstrap <- function(theme = bs_theme_get(),
                       options = sass::sass_options(),
                       minified = TRUE) {
 
+  # Resolve theme and merge it with Bootstrap core imports
   theme <- as_bs_theme(theme)
-  version <- attr(theme, "version") %||% version_latest()
-  bootswatch <- attr(theme, "bootswatch")
-
-  # Temporary dir for the html dependency files
-  output_path <- tempfile("bscustom")
-  dir.create(output_path)
-
-  # Install local Glyphicon fonts
-  # TODO: this should go away with Joe's sass_layer attachments PR
-  if (identical(version, "4-3")) {
-    file.copy(
-      system.file("node_modules/bootstrap-sass/assets/fonts", package = "bootstraplib"),
-      output_path,
-      recursive = TRUE
-    )
-  }
-
-  # Install local bootswatch fonts
-  # TODO: this should go away with Joe's sass_layer attachments PR
-  if (has_bootswatch_theme(theme)) {
-    file.copy(
-      file.path(bootswatch_dist(version), bootswatch, "font.css"),
-      file.path(output_path, "font.css")
-    )
-    file.copy(
-      system.file("fonts", package = "bootstraplib"),
-      output_path,
-      recursive = TRUE
-    )
-  }
+  version <- theme_version(theme)
+  core <- sass_layer(declarations = bootstrap_core_scss(version, partial = FALSE))
+  theme <- sass_layer_merge(core, theme)
 
   # Merge sass options
   opts <- sass_options(
@@ -123,15 +95,16 @@ bootstrap <- function(theme = bs_theme_get(),
   )
   opts <- utils::modifyList(opts, options)
 
-  # Compile sass
+  # Temp dir for building the HTML dependencies
+  output_path <- tempfile("bscustom")
+  dir.create(output_path)
+
+  # Compile sass in temp dir
   output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
   sass::sass(
-    input = list(
-      theme$before,
-      bootstrap_core(version, before_only = FALSE),
-      theme$after
-    ),
+    input = theme,
     output = file.path(output_path, output_css),
+    write_attachments = TRUE,
     options = opts
   )
 
@@ -163,20 +136,35 @@ bootstrap <- function(theme = bs_theme_get(),
 }
 
 
-#' @rdname bs_sass
+#' @rdname bootstrap
 #' @export
-bootstrap_sass <- function(after = list(), theme = bs_theme_get(),
-                            options = sass::sass_options()) {
+bootstrap_sass <- function(rules = list(), theme = bs_theme_get(),
+                           options = sass::sass_options()) {
+
   theme <- as_bs_theme(theme)
-  version <- attr(theme, "version")
+  theme$rules <- ""
+  version <- theme_version(theme)
+  core <- sass_layer(declarations = bootstrap_core_scss(version, partial = TRUE))
+  theme <- sass_layer_merge(core, theme)
+
   sass::sass(
     options = options,
-    input = list(
-      theme$before,
-      bootstrap_core(version, before_only = TRUE),
-      after
-    )
+    input = list(theme, rules)
   )
+}
+
+bootstrap_core_scss <- function(version, partial = TRUE) {
+  if (!partial) {
+    # This function should default to the 'main' scss file
+    return(sass_file_bootstrap(version = version))
+  }
+  scss <- c(
+    if (version %in% c("4", "4-3")) "_functions.scss",
+    "_variables.scss",
+    "_mixins.scss"
+  )
+  if (version %in% "3") scss <- file.path("bootstrap", scss)
+  lapply(scss, sass_file_bootstrap, version = version)
 }
 
 
