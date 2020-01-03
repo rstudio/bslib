@@ -69,6 +69,8 @@ preview_button(bootstrap("sketchy"))
 preview_button(bootstrap("solar@4-3"))
 
 # Set bootstrap SASS variables (globally)
+# To set global themes, you start by calling bs_theme_new()
+bs_theme_new()
 bs_theme_add_variables(
   primary = "orange",
   "body-bg" = "#EEEEEE",
@@ -81,8 +83,9 @@ bs_theme_add_variables(
   "border-radius-sm" = 0
 )
 preview_button(bootstrap())
-bs_theme_clear()
 
+# Start a new global theme
+bs_theme_new()
 # Include custom CSS that leverages bootstrap SASS variables
 person <- function(name, title, company) {
   tags$div(

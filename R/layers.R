@@ -1,9 +1,81 @@
-# The layer behind version="4-3"
-bs3compat_layer_merge <- function(layer, version) {
-  tag <- "bootstraplib_bs3compat"
-  if (tag %in% layer$tags) return(layer)
+# -----------------------------------------------------------------
+# Core Bootstrap layer
+# -----------------------------------------------------------------
+
+bootstrap_layer <- function(version) {
+  if (version %in% c("4", "4-3")) {
+    # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
+
+    return(sass_layer(
+      defaults = bootstrap_sass_files_(c("functions", "variables"), version = 4),
+      declarations = bootstrap_sass_files_("mixins", version = 4),
+      rules = bootstrap_sass_files_(c(
+        "root", "reboot", "type", "images", "code", "grid", "tables",
+        "forms", "buttons", "transitions", "dropdown", "button-group",
+        "input-group", "custom-forms", "nav", "navbar", "card",
+        "breadcrumb", "pagination", "badge", "jumbotron", "alert",
+        "progress", "media", "list-group", "close", "toasts", "modal",
+        "tooltip", "popover", "carousel", "spinners", "utilities", "print"
+      ), version = 4),
+      # Tag this layer so we know we can query the theme_version()
+      tags = "boostraplib_version_4"
+    ))
+  }
+
+  if (version %in% "3") {
+    # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
+    return(sass_layer(
+      defaults = bootstrap_sass_files_("variables", version = 3),
+      declarations = bootstrap_sass_files_("mixins", version = 3),
+      rules = bootstrap_sass_files_(c(
+        "normalize", "print", "glyphicons", "scaffolding", "type", "code", "grid",
+        "tables", "forms", "buttons", "component-animations", "dropdowns", "button-groups",
+        "input-groups", "navs", "navbar", "breadcrumbs", "pagination", "pager", "labels",
+        "badges", "jumbotron", "thumbnails", "alerts", "progress-bars", "media",
+        "list-group", "panels", "responsive-embed", "wells", "close", "modals",
+        "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
+      ), version = 3),
+      # Tag this layer so we know we can query the theme_version()
+      tags = "boostraplib_version_3"
+    ))
+  }
+
+  stop("Unknown Bootstrap version: ", version, call. = FALSE)
+}
+
+bootstrap_sass_files_ <- function(files, version) {
+  files <- paste0("_", files, ".scss")
+  if (version == 3) {
+    files <- file.path("bootstrap", files)
+  }
+  bootstrap_sass_files(files, version)
+}
+
+bootstrap_javascript <- function(version, minified = TRUE) {
+  if (version %in% c("4", "4-3")) {
+    return(system.file(
+      "node_modules/bootstrap/dist/js",
+      if (minified) "bootstrap.bundle.min.js" else "bootstrap.bundle.js",
+      package = "bootstraplib"
+    ))
+  } else if (version %in% "3") {
+    return(system.file(
+      "node_modules/bootstrap-sass/assets/javascripts",
+      if (minified) "bootstrap.min.js" else "bootstrap.js",
+      package = "bootstraplib"
+    ))
+  }
+
+  stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
+}
+
+# -----------------------------------------------------------------
+# BS3 compatibility layer
+# -----------------------------------------------------------------
+
+bs3compat_layer <- function(version) {
+  if (!identical(version, "4-3")) return(NULL)
   sass_layer(
-    tags = tag,
     defaults = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
     rules = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
     # Gyliphicon font files
@@ -19,22 +91,14 @@ bs3compat_layer_merge <- function(layer, version) {
   )
 }
 
+# -----------------------------------------------------------------
+# Bootswatch layer
+# -----------------------------------------------------------------
 
-bootswatch_layer_merge <- function(layer, bootswatch, version) {
+bootswatch_layer <- function(bootswatch, version) {
 
-  tag <- paste0("bootstraplib_bootswatch_", bootswatch)
-  # Exit early if this is vanilla Bootstrap or we've seen this layer before
-  if (!bootswatch %in% bootswatch_themes(version) || tag %in% layer$tags) {
-    return(layer)
-  }
-  # It probably doesn't make sense to have 2 or more bootswatch themes (but we allow it)
-  old_bootswatch <- theme_bootswatch(layer)
-  if (!is.null(old_bootswatch) && !identical(old_bootswatch, "bootstrap")) {
-    warning(sprintf(
-      "Adding a new bootswatch theme (%s) to an existing one (%s)",
-      bootswatch, old_bootswatch
-    ))
-  }
+  # Exit early if this is vanilla Bootstrap
+  if (!bootswatch %in% bootswatch_themes(version)) return(NULL)
 
   # Attach local font files, if necessary
   font_css <- file.path(bootswatch_dist(version), bootswatch, "font.css")
@@ -46,9 +110,9 @@ bootswatch_layer_merge <- function(layer, bootswatch, version) {
   }
 
   layer <- sass_layer(
-    # Attach a suitable tag name in case downstream code wants to know if
-    # we've used a bootswatch theme
-    tags = tag,
+    # Tag this layer in case we ever need to know whether a
+    # currently set theme contains a bootswatch theme (i.e. theme_bootswatch)
+    tags = paste0("bootstraplib_bootswatch_", bootswatch),
     file_attachments = attachments,
     defaults = list(
       # Provide access to the navbar height via SASS variable
@@ -61,10 +125,10 @@ bootswatch_layer_merge <- function(layer, bootswatch, version) {
       if (bootswatch %in% c("darkly", "superhero")) "$pre-color: #303030 !default;" else "",
       # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
       '$web-font-path: "font.css" !default;',
-      sass_file_bootswatch(bootswatch, "_variables.scss", version)
+      bootswatch_sass_file(bootswatch, "_variables.scss", version)
     ),
     rules = list(
-      sass_file_bootswatch(bootswatch, "_bootswatch.scss", version),
+      bootswatch_sass_file(bootswatch, "_bootswatch.scss", version),
       # For some reason sketchy sets .dropdown-menu{overflow: hidden}
       # but this prevents .dropdown-submenu from working properly
       # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
@@ -81,18 +145,18 @@ bootswatch_layer_merge <- function(layer, bootswatch, version) {
 
 
 
-# Navbar height
+# -----------------------------------------------------------------
+# Navbar height layer
 #
 # The height (in pixels) of a Bootswatch theme's navbar. Note that these
 # heights to do not currently respect theme customizations.
 #
 # rmarkdown::html_document(), flexdashboard, and maybe others
 # use this variable to add appropriate body/section padding
-navbar_height_layer_merge <- function(layer, bootswatch, version) {
-  # TODO: worth attaching tags and exiting early?
-  sass_layer_merge(
-    layer, sass_layer(defaults = navbar_height_var(bootswatch, version))
-  )
+# -----------------------------------------------------------------
+
+navbar_height_layer <- function(bootswatch, version) {
+  sass_layer(defaults = navbar_height_var(bootswatch, version))
 }
 
 

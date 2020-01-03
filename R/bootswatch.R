@@ -8,15 +8,16 @@ bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
   list.dirs(bootswatch_dist(version), full.names = full_path, recursive = FALSE)
 }
 
-
 #' Obtain a theme's Bootswatch theme name
 #'
 #' @param theme a bs theme object, see [bs_theme_set()].
 #' @export
 theme_bootswatch <- function(theme = bs_theme_get()) {
   if (!is_bs_theme(theme)) return(NULL)
-  tags <- grep("^bootstraplib_bootswatch_", theme$tags, value = TRUE)
-  sub("bootstraplib_bootswatch_", "", unique(tags))
+  # Search for the tag applied in bootswatch_layer()
+  tag <- grep("^bootstraplib_bootswatch_", theme$tags, value = TRUE)
+  if (length(tag) == 0) return(NULL)
+  sub("bootstraplib_bootswatch_", "", tag)
 }
 
 #' Obtain a theme's Bootstrap version
@@ -25,10 +26,9 @@ theme_bootswatch <- function(theme = bs_theme_get()) {
 #' @export
 theme_version <- function(theme = bs_theme_get()) {
   if (!is_bs_theme(theme)) return(NULL)
-  tags <- grep("^bootstraplib_version_", theme$tags, value = TRUE)
-  sub("bootstraplib_version_", "", unique(tags))
+  # Get version from the tag applied in bootstrap_layer()
+  if ("boostraplib_version_3" %in% theme$tags) 3 else 4
 }
-
 
 
 bootswatch_dist <- function(version, full_path = TRUE) {

@@ -46,6 +46,8 @@
 #' preview_button(bootstrap("solar@4-3"))
 #'
 #' # Set bootstrap SASS variables (globally)
+#' # To set global themes, you start by calling bs_theme_new()
+#' bs_theme_new()
 #' bs_theme_add_variables(
 #'   primary = "orange",
 #'   "body-bg" = "#EEEEEE",
@@ -58,8 +60,9 @@
 #'   "border-radius-sm" = 0
 #' )
 #' preview_button(bootstrap())
-#' bs_theme_clear()
 #'
+#' # Start a new global theme
+#' bs_theme_new()
 #' # Include custom CSS that leverages bootstrap SASS variables
 #' person <- function(name, title, company) {
 #'   tags$div(
@@ -82,11 +85,7 @@ bootstrap <- function(theme = bs_theme_get(),
                       options = sass::sass_options(),
                       minified = TRUE) {
 
-  # Resolve theme and merge it with Bootstrap core imports
   theme <- as_bs_theme(theme)
-  version <- theme_version(theme)
-  core <- sass_layer(declarations = bootstrap_core_scss(version, partial = FALSE))
-  theme <- sass_layer_merge(core, theme)
 
   # Merge sass options
   opts <- sass_options(
@@ -108,16 +107,12 @@ bootstrap <- function(theme = bs_theme_get(),
     options = opts
   )
 
-  # Bootstrap JS
+  version <- theme_version(theme)
   js <- bootstrap_javascript(version, minified)
   file.copy(js, output_path)
 
-  if (inherits(jquery, "html_dependency")) {
-    jquery <- list(jquery)
-  }
-
   c(
-    jquery,
+    if (inherits(jquery, "html_dependency")) list(jquery) else jquery,
     list(
       htmlDependency(
         "bootstrap",
@@ -128,7 +123,7 @@ bootstrap <- function(theme = bs_theme_get(),
           content = "width=device-width, initial-scale=1, shrink-to-fit=no"
         ),
         stylesheet = output_css,
-        script = basename(js)
+        script = js
       )
     ),
     theme$html_deps
@@ -143,48 +138,10 @@ bootstrap_sass <- function(rules = list(), theme = bs_theme_get(),
 
   theme <- as_bs_theme(theme)
   theme$rules <- ""
-  version <- theme_version(theme)
-  core <- sass_layer(declarations = bootstrap_core_scss(version, partial = TRUE))
-  theme <- sass_layer_merge(core, theme)
-
   sass::sass(
     options = options,
     input = list(theme, rules)
   )
 }
 
-bootstrap_core_scss <- function(version, partial = TRUE) {
-  if (!partial) {
-    # This function should default to the 'main' scss file
-    return(sass_file_bootstrap(version = version))
-  }
-  scss <- c(
-    if (version %in% c("4", "4-3")) "_functions.scss",
-    "_variables.scss",
-    "_mixins.scss"
-  )
-  if (version %in% "3") scss <- file.path("bootstrap", scss)
-  lapply(scss, sass_file_bootstrap, version = version)
-}
-
-
-bootstrap_javascript <- function(version, minified = TRUE) {
-  if (version %in% c("4", "4-3")) {
-    return(system.file(
-      "node_modules/bootstrap/dist/js",
-      if (minified) "bootstrap.bundle.min.js" else "bootstrap.bundle.js",
-      package = "bootstraplib"
-    ))
-  }
-
-  if (version %in% "3") {
-    return(system.file(
-      "node_modules/bootstrap-sass/assets/javascripts",
-      if (minified) "bootstrap.min.js" else "bootstrap.js",
-      package = "bootstraplib"
-    ))
-  }
-
-  stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
-}
 

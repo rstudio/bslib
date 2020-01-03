@@ -49,6 +49,12 @@
 #' # The red theme wins out
 #' bs_sass_partial(foo_color, theme = primary)
 #'
+bs_theme_new <- function(bootswatch = NULL, version = version_default()) {
+  bs_theme_set(bs_theme_create(bootswatch, version))
+}
+
+#' @rdname theming
+#' @export
 bs_theme_add_variables <- function(...) {
   vars <- rlang::list2(...)
   if (any(names2(vars) == "")) stop("Variables must be named.", call. = FALSE)
@@ -56,96 +62,87 @@ bs_theme_add_variables <- function(...) {
 }
 
 #' @rdname theming
+#' @inheritParams sass::sass_layer
 #' @export
-bs_theme_add <- function(defaults = "", rules = "", bootswatch = NULL,
-                         version = version_default(), ...) {
-  bs_theme_set(bs_theme_merge(
-    theme = bs_theme_get(),
-    bootswatch = bootswatch, version = version,
-    defaults = defaults, rules = rules, ...
-  ))
+bs_theme_add <- function(defaults = "", rules = "", ...) {
+  old_theme <- bs_theme_get()
+  if (is.null(old_theme)) {
+    stop("Must call bs_theme_new() before adding to the theme.", call. = FALSE)
+  }
+  layer <- sass_layer_merge(
+    old_theme, sass_layer(defaults = defaults, rules = rules, ...)
+  )
+  bs_theme_set(add_class(layer, "bs_theme"))
 }
 
-#' @rdname theming
-#' @export
-bs_theme_set <- function(theme) {
-  old_theme <- options(bootstraplib_theme = theme)
-  invisible(old_theme[["bootstraplib_theme"]])
-}
 
 #' @rdname theming
 #' @export
 bs_theme_get <- function() {
-  getOption("bootstraplib_theme") %||% bs_theme_merge()
+  getOption("bootstraplib_theme")
 }
 
 #' @rdname theming
+#' @param theme a theme object (i.e., the return value of `bs_theme_get()`).
 #' @export
-bs_theme_clear <- function() {
-  invisible(options(bootstraplib_theme = NULL)[["bootstraplib_theme"]])
+bs_theme_set <- function(theme) {
+  if (!is_bs_theme(theme)) {
+    stop("`theme` must be a bs_theme object", call. = FALSE)
+  }
+  old_theme <- options(bootstraplib_theme = theme)
+  invisible(old_theme[["bootstraplib_theme"]])
 }
 
 
-bs_theme_merge <- function(theme = NULL, bootswatch = NULL,
-                           version = version_default(), ...) {
+bs_theme_create <- function(bootswatch = NULL, version = version_default()) {
   version <- version_resolve(version)
   bootswatch <- bootswatch_theme_resolve(bootswatch, version)
 
-  # Not allowed to use two different major versions
-  old_version <- theme_version(theme)
-  if (!is.null(old_version) &&
-      any(substr(old_version, 1, 1) != substr(version, 1, 1))) {
-    stop(
-      "Don't know how to merge two different major Bootstrap versions. ",
-      "Old version:", old_version, ".",
-      "New version:", version
-    )
-  }
-
-  # TODO: maybe make navbar adjustment via jQuery instead? https://stackoverflow.com/a/46021836/1583084
-  theme <- navbar_height_layer_merge(theme, bootswatch, version)
-  theme <- bs3compat_layer_merge(theme, version)
-  theme <- bootswatch_layer_merge(theme, bootswatch, version)
   theme <- sass_layer_merge(
-    theme, sass_layer(...),
-    sass_layer(tags = paste0("bootstraplib_version_", version))
+    bootstrap_layer(version),
+    # TODO: maybe make navbar adjustment via jQuery instead? https://stackoverflow.com/a/46021836/1583084
+    navbar_height_layer(bootswatch, version),
+    bs3compat_layer(version),
+    bootswatch_layer(bootswatch, version)
   )
-  structure(theme, class = unique(c("bs_theme", oldClass(theme))))
-}
 
-is_bs_theme <- function(x) {
-  inherits(x, "bs_theme")
+  add_class(theme, "bs_theme")
 }
 
 as_bs_theme <- function(theme) {
-  # NULL/empty string means vanilla Bootstrap
-  if (is.null(theme)) return(bs_theme_merge())
+  if (is_bs_theme(theme)) return(theme)
 
-  # Support bootstrap(theme = 4)
-  if (is.numeric(theme)) return(bs_theme_merge(version = theme))
+  # NULL means default Bootstrap
+  if (is.null(theme)) return(bs_theme_create())
 
-  # Support `bootstrap(theme = 'bootswatch@version')`
+  # For example, `bootstrap(theme = 4)`
+  if (is.numeric(theme)) return(bs_theme_create(version = theme))
+
+  # For example, `bootstrap(theme = 'bootswatch@version')`
   if (is_string(theme)) {
     theme <- strsplit(theme, "@", fixed = TRUE)[[1]]
     if (length(theme) == 2) {
-      return(bs_theme_merge(bootswatch = theme[1], version = theme[2]))
+      return(bs_theme_create(bootswatch = theme[1], version = theme[2]))
     }
     # Also support `bootstrap(version = '4')` and `bootstrap(theme = 'bootswatch')`
     if (length(theme) == 1) {
       if (theme %in% c("4", "4-3", "3")) {
-        return(bs_theme_merge(version = theme))
+        return(bs_theme_create(version = theme))
       } else {
-        return(bs_theme_merge(bootswatch = theme))
+        return(bs_theme_create(bootswatch = theme))
       }
     }
     stop("If `theme` is a string, it can't contain more than one @")
   }
 
-  if (is_bs_theme(theme)) return(theme)
-
   stop(
     "`theme` must be one of the following: (1) `NULL`, ",
-    "(2) a bootswatch@version string, ",
-    "(3) the result of `bs_theme_get()`, "
+    "(2) a `'bootswatch@version'` string, ",
+    "(3) the result of `bs_theme_get()`."
   )
+}
+
+
+is_bs_theme <- function(x) {
+  inherits(x, "bs_theme")
 }

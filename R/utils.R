@@ -3,6 +3,10 @@ version_resolve <- function(version) {
   match.arg(version, c("4-3", "4", "3"))
 }
 
+add_class <- function(x, y) {
+  structure(x, class = unique(c(y, oldClass(x))))
+}
+
 is_string <- function(x) {
   is.character(x) && length(x) == 1
 }
