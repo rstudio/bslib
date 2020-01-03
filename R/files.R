@@ -7,21 +7,20 @@
 #' @param file a scss file path.
 #' @param version the major version.
 #' @param theme a bootswatch theme name.
-#' @rdname sass_files
-#' @export
-bootstrap_sass_files <- function(files = NULL, version = version_default()) {
-  as_sass(lapply(files, bootstrap_sass_file, version))
+#' @noRd
+
+bootstrap_sass_files <- function(files, version = version_default()) {
+  version <- version_resolve(version)
+  as_sass(lapply(files, bootstrap_sass_file, version = version))
 }
 
-bootstrap_sass_file <- function(file = NULL, version) {
-  version <- version_resolve(version)
-  if (length(file) > 1) stop("file should be of length 1")
-
+# Search for one file at a time so we can throw informative errors
+bootstrap_sass_file <- function(file, version) {
+  if (length(file) != 1) stop("file should be of length 1")
+  file <- paste0("_", file, ".scss")
   f <- if (version %in% "3") {
-    file <- file %||% "_bootstrap.scss"
-    system.file("node_modules", "bootstrap-sass", "assets", "stylesheets", file, package = "bootstraplib")
+    system.file("node_modules", "bootstrap-sass", "assets", "stylesheets", "bootstrap", file, package = "bootstraplib")
   } else if (version %in% c("4", "4-3")) {
-    file <- file %||% "bootstrap.scss"
     system.file("node_modules", "bootstrap", "scss", file, package = "bootstraplib")
   } else {
     stop("Bootstrap version not supported:", version, call. = FALSE)
@@ -30,17 +29,11 @@ bootstrap_sass_file <- function(file = NULL, version) {
   sass::sass_file(f)
 }
 
-#' @rdname sass_files
-#' @export
-bootswatch_sass_files <- function(theme, files = NULL, version = version_default()) {
-  as_sass(lapply(files, bootswatch_sass_file, theme = theme, version = version))
-}
-
-bootswatch_sass_file <- function(theme, file = NULL, version = version_default()) {
-  version <- version_resolve(version)
+bootswatch_sass_file <- function(theme, file, version = version_default()) {
   if (length(file) > 1) stop("file should be of length 1")
   theme <- match.arg(theme, bootswatch_themes(version))
-  f <- file.path(bootswatch_dist(version), theme, file %||% "_variables.scss")
+  file <- paste0("_", file, ".scss")
+  f <- file.path(bootswatch_dist(version), theme, file)
   if (file.exists(f)) return(sass::sass_file(f))
   stop("Bootswatch file '", file, "' doesn't exist for theme '", theme, "'.", call. = FALSE)
 }

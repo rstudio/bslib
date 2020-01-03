@@ -7,9 +7,9 @@ bootstrap_layer <- function(version) {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
 
     return(sass_layer(
-      defaults = bootstrap_sass_files_(c("functions", "variables"), version = 4),
-      declarations = bootstrap_sass_files_("mixins", version = 4),
-      rules = bootstrap_sass_files_(c(
+      defaults = bootstrap_sass_files(c("functions", "variables"), version = 4),
+      declarations = bootstrap_sass_files("mixins", version = 4),
+      rules = bootstrap_sass_files(c(
         "root", "reboot", "type", "images", "code", "grid", "tables",
         "forms", "buttons", "transitions", "dropdown", "button-group",
         "input-group", "custom-forms", "nav", "navbar", "card",
@@ -25,9 +25,9 @@ bootstrap_layer <- function(version) {
   if (version %in% "3") {
     # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
     return(sass_layer(
-      defaults = bootstrap_sass_files_("variables", version = 3),
-      declarations = bootstrap_sass_files_("mixins", version = 3),
-      rules = bootstrap_sass_files_(c(
+      defaults = bootstrap_sass_files("variables", version = 3),
+      declarations = bootstrap_sass_files("mixins", version = 3),
+      rules = bootstrap_sass_files(c(
         "normalize", "print", "glyphicons", "scaffolding", "type", "code", "grid",
         "tables", "forms", "buttons", "component-animations", "dropdowns", "button-groups",
         "input-groups", "navs", "navbar", "breadcrumbs", "pagination", "pager", "labels",
@@ -43,13 +43,7 @@ bootstrap_layer <- function(version) {
   stop("Unknown Bootstrap version: ", version, call. = FALSE)
 }
 
-bootstrap_sass_files_ <- function(files, version) {
-  files <- paste0("_", files, ".scss")
-  if (version == 3) {
-    files <- file.path("bootstrap", files)
-  }
-  bootstrap_sass_files(files, version)
-}
+
 
 bootstrap_javascript <- function(version, minified = TRUE) {
   if (version %in% c("4", "4-3")) {
@@ -125,10 +119,10 @@ bootswatch_layer <- function(bootswatch, version) {
       if (bootswatch %in% c("darkly", "superhero")) "$pre-color: #303030 !default;" else "",
       # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
       '$web-font-path: "font.css" !default;',
-      bootswatch_sass_file(bootswatch, "_variables.scss", version)
+      bootswatch_sass_file(bootswatch, "variables", version)
     ),
     rules = list(
-      bootswatch_sass_file(bootswatch, "_bootswatch.scss", version),
+      bootswatch_sass_file(bootswatch, "bootswatch", version),
       # For some reason sketchy sets .dropdown-menu{overflow: hidden}
       # but this prevents .dropdown-submenu from working properly
       # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204

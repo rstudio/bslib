@@ -8,7 +8,7 @@
 \alias{bs_theme_set}
 \title{Create a Bootstrap theme}
 \usage{
-bs_theme_new(bootswatch = NULL, version = version_default())
+bs_theme_new(version = version_default(), bootswatch = NULL)
 
 bs_theme_add_variables(...)
 
@@ -19,12 +19,12 @@ bs_theme_get()
 bs_theme_set(theme)
 }
 \arguments{
-\item{bootswatch}{The name of a bootswatch theme.
-See \code{\link[=bootswatch_themes]{bootswatch_themes()}} for a list of possible names.}
-
 \item{version}{The major version of Bootstrap to use. A value of
 \code{'4-3'} means Bootstrap 4, but with additional CSS/JS to support
 BS3 style markup in BS4. Other supported versions include 3 and 4.}
+
+\item{bootswatch}{The name of a bootswatch theme.
+See \code{\link[=bootswatch_themes]{bootswatch_themes()}} to list possible names.}
 
 \item{...}{For \code{bs_theme_add_variables()}, these arguments define SASS variables;
 otherwise, these arguments are passed along to \code{\link[sass:sass_layer]{sass::sass_layer()}}.}
@@ -36,13 +36,12 @@ otherwise, these arguments are passed along to \code{\link[sass:sass_layer]{sass
 \item{theme}{a theme object (i.e., the return value of \code{bs_theme_get()}).}
 }
 \description{
-Use \code{\link[=bs_theme_set]{bs_theme_set()}} to set a global Bootstrap SASS which
+\code{bs_theme_new()} creates a new (global) Bootstrap SASS theme which
 \code{\link[=bootstrap]{bootstrap()}} (or \code{\link[=bootstrap_sass]{bootstrap_sass()}}) can consume (their \code{theme} argument
-defaults to \code{bs_theme_get()}, which get the current global theme). Use
-\code{\link[=bs_theme_add]{bs_theme_add()}} to add additional SASS to the existing global theme.
-Use \code{\link[=bs_theme_add_variables]{bs_theme_add_variables()}} to add SASS variable to the existing global
-theme. Use \code{\link[=bs_theme_set_theme]{bs_theme_set_theme()}} to set a theme object (i.e., the return value)
-of \code{\link[=bs_theme_get]{bs_theme_get()}} to the current theme.
+defaults to \code{bs_theme_get()}, which get the current global theme). Once a
+global theme has been created, use \code{\link[=bs_theme_add_variables]{bs_theme_add_variables()}} to set
+SASS variable defaults and \code{\link[=bs_theme_add]{bs_theme_add()}} to add arbitrary SASS
+(via \code{\link[sass:sass_layer]{sass::sass_layer()}}s).
 }
 \examples{
 

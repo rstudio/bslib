@@ -1,20 +1,19 @@
 #' Create a Bootstrap theme
 #'
-#' Use [bs_theme_set()] to set a global Bootstrap SASS which
+#' `bs_theme_new()` creates a new (global) Bootstrap SASS theme which
 #' [bootstrap()] (or [bootstrap_sass()]) can consume (their `theme` argument
-#' defaults to `bs_theme_get()`, which get the current global theme). Use
-#' [bs_theme_add()] to add additional SASS to the existing global theme.
-#' Use [bs_theme_add_variables()] to add SASS variable to the existing global
-#' theme. Use [bs_theme_set_theme()] to set a theme object (i.e., the return value)
-#' of [bs_theme_get()] to the current theme.
+#' defaults to `bs_theme_get()`, which get the current global theme). Once a
+#' global theme has been created, use [bs_theme_add_variables()] to set
+#' SASS variable defaults and [bs_theme_add()] to add arbitrary SASS
+#' (via [sass::sass_layer()]s).
 #'
-#' @param defaults Any [sass::as_sass()] `input` to place before Bootstrap's SASS imports.
-#' @param rules Any [sass::as_sass()] `input` to place after Bootstrap's SASS imports.
-#' @param bootswatch The name of a bootswatch theme.
-#' See [bootswatch_themes()] for a list of possible names.
 #' @param version The major version of Bootstrap to use. A value of
 #' `'4-3'` means Bootstrap 4, but with additional CSS/JS to support
 #' BS3 style markup in BS4. Other supported versions include 3 and 4.
+#' @param bootswatch The name of a bootswatch theme.
+#' See [bootswatch_themes()] to list possible names.
+#' @param defaults Any [sass::as_sass()] `input` to place before Bootstrap's SASS imports.
+#' @param rules Any [sass::as_sass()] `input` to place after Bootstrap's SASS imports.
 #' @param ... For `bs_theme_add_variables()`, these arguments define SASS variables;
 #' otherwise, these arguments are passed along to [sass::sass_layer()].
 #'
@@ -49,8 +48,8 @@
 #' # The red theme wins out
 #' bs_sass_partial(foo_color, theme = primary)
 #'
-bs_theme_new <- function(bootswatch = NULL, version = version_default()) {
-  bs_theme_set(bs_theme_create(bootswatch, version))
+bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
+  bs_theme_set(bs_theme_create(version, bootswatch))
 }
 
 #' @rdname theming
@@ -94,7 +93,7 @@ bs_theme_set <- function(theme) {
 }
 
 
-bs_theme_create <- function(bootswatch = NULL, version = version_default()) {
+bs_theme_create <- function(version = version_default(), bootswatch = NULL) {
   version <- version_resolve(version)
   bootswatch <- bootswatch_theme_resolve(bootswatch, version)
 

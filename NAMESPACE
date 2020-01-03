@@ -2,8 +2,6 @@
 
 export(bootstrap)
 export(bootstrap_sass)
-export(bootstrap_sass_files)
-export(bootswatch_sass_files)
 export(bootswatch_themes)
 export(bs_theme_add)
 export(bs_theme_add_variables)
