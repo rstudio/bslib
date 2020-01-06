@@ -98,7 +98,7 @@ bs_theme_clear <- function() {
 #' @param theme a theme object (i.e., the return value of `bs_theme_get()`).
 #' @export
 bs_theme_set <- function(theme) {
-  if (!is_bs_theme(theme)) {
+  if (!is.null(theme) && !is_bs_theme(theme)) {
     stop("`theme` must be a bs_theme object", call. = FALSE)
   }
   old_theme <- options(bootstraplib_theme = theme)
