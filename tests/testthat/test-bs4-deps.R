@@ -29,7 +29,8 @@ describe("bootstrap_sass", {
 
   it("respects theme options", {
     # Theme options are respected
-    bs_theme_set(list(primary = "red"))
+    bs_theme_new()
+    bs_theme_add_variables(primary = "red")
     expect_bs4_equal(bs4_css, ".foo { background-color: red; color: #fff; width: 120px; height: 120px; }")
     # Unless they're not
     bs_theme_clear()

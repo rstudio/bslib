@@ -15,24 +15,14 @@ test_that("Can access the sass behind all versions and Bootswatch themes", {
   }
 })
 
-#test_that("Compiling bootstrap 4 matches it's distributed CSS", {
-#  skip_if_offline()
-#
-#  # Grab the distributed CSS from the relevant Bootstrap 4 release
-#  release <- sprintf("https://github.com/twbs/bootstrap/archive/v%s.zip", version_bs4)
-#  tmp <- tempfile(fileext = ".zip")
-#  download.file(release, tmp)
-#  unzip(tmp, exdir = dirname(tmp))
-#  css <- file.path(tmpdir, paste0("bootstrap-", version_bs4), "dist", "css", "bootstrap.css")
-#  scss <- system.file(package = "bootstraplib", "node_modules", "bootstrap", "scss", "bootstrap.scss")
-#  sass <- sass::sass(
-#    sass::sass_file(scss),
-#    # https://github.com/twbs/bootstrap/blob/5d9dd3b/package.json#L24
-#    options = sass::sass_options(precision = 6)
-#  )
-#  sass <- strsplit(sass, "\n", fixed = TRUE)[[1]]
-#  # TODO: how to incorporate the autoprefixer?
-#  # https://github.com/twbs/bootstrap/blob/5d9dd3b/package.json#L30
-#  length(sass)
-#  length(readLines(css))
-#})
+
+# The internal bootstrap_layer() splits up bootstrap.scss into defaults/declarations/rules,
+# and so, has to make assumptions about what's in that file. Thus, everytime this file
+# changes, we should check to make sure we've made the appropriate changes in bootstrap_layer()
+# (and once we have, then this hash should be updated as well).
+test_that("Make sure bootstrap.scss hasn't changed", {
+  scss <- system.file(package = "bootstraplib", "node_modules", "bootstrap", "scss", "bootstrap.scss")
+  hash_new <- digest::digest(readLines(scss))
+  hash_old <- testthat::test_path("test-assets", "bootstrap_scss_hash.txt")
+  expect_equal(hash_new, readLines(hash_old))
+})
