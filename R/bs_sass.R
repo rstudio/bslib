@@ -16,6 +16,7 @@
 #'   3. `NULL`, which means use the latest version of Bootstrap with no custom theming.
 #' @param jquery See [jquerylib::jquery_core()].
 #' @param minified whether the resulting HTML dependency should minify the JS/CSS files.
+#' @param ... arguments passed along to [sass::sass()]
 #' @inheritParams sass::sass
 #'
 #' @export
@@ -83,7 +84,7 @@
 bootstrap <- function(theme = bs_theme_get(),
                       jquery = jquerylib::jquery_core(3),
                       options = sass::sass_options(),
-                      minified = TRUE) {
+                      minified = TRUE, ...) {
 
   theme <- as_bs_theme(theme)
 
@@ -104,7 +105,8 @@ bootstrap <- function(theme = bs_theme_get(),
     input = theme,
     output = file.path(output_path, output_css),
     write_attachments = TRUE,
-    options = opts
+    options = opts,
+    ...
   )
 
   version <- theme_version(theme)
@@ -133,15 +135,11 @@ bootstrap <- function(theme = bs_theme_get(),
 
 #' @rdname bootstrap
 #' @export
-bootstrap_sass <- function(rules = list(), theme = bs_theme_get(),
-                           options = sass::sass_options()) {
+bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
 
   theme <- as_bs_theme(theme)
   theme$rules <- ""
-  sass::sass(
-    options = options,
-    input = list(theme, rules)
-  )
+  sass::sass(input = list(theme, rules), ...)
 }
 
 
