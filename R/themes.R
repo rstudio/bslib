@@ -71,9 +71,12 @@ bs_theme_add <- function(defaults = "", rules = "", ...) {
   if (is.null(old_theme)) {
     stop("Must call bs_theme_new() before adding to the theme.", call. = FALSE)
   }
-  layer <- sass_layer_merge(
-    old_theme, sass_layer(defaults = defaults, rules = rules, ...)
-  )
+  layer <- if (inherits(defaults, "sass_layer")) {
+    defaults
+  } else {
+    sass_layer(defaults = defaults, rules = rules, ...)
+  }
+  layer <- sass_layer_merge(old_theme, layer)
   bs_theme_set(add_class(layer, "bs_theme"))
 }
 
