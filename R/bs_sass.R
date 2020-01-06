@@ -123,7 +123,7 @@ bootstrap <- function(theme = bs_theme_get(),
           content = "width=device-width, initial-scale=1, shrink-to-fit=no"
         ),
         stylesheet = output_css,
-        script = js
+        script = basename(js)
       )
     ),
     theme$html_deps
