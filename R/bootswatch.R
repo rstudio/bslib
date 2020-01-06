@@ -27,7 +27,9 @@ theme_bootswatch <- function(theme = bs_theme_get()) {
 theme_version <- function(theme = bs_theme_get()) {
   if (!is_bs_theme(theme)) return(NULL)
   # Get version from the tag applied in bootstrap_layer()
-  if ("boostraplib_version_3" %in% theme$tags) 3 else 4
+  tag <- grep("^bootstraplib_version_", theme$tags, value = TRUE)
+  if (length(tag) == 0) return(NULL)
+  sub("bootstraplib_version_", "", tag)
 }
 
 

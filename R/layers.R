@@ -18,7 +18,7 @@ bootstrap_layer <- function(version) {
         "tooltip", "popover", "carousel", "spinners", "utilities", "print"
       ), version = 4),
       # Tag this layer so we know we can query the theme_version()
-      tags = "boostraplib_version_4"
+      tags = paste0("bootstraplib_version_", version)
     ))
   }
 
@@ -36,7 +36,7 @@ bootstrap_layer <- function(version) {
         "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
       ), version = 3),
       # Tag this layer so we know we can query the theme_version()
-      tags = "boostraplib_version_3"
+      tags = "bootstraplib_version_3"
     ))
   }
 

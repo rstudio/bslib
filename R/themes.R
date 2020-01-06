@@ -82,6 +82,13 @@ bs_theme_get <- function() {
 }
 
 #' @rdname theming
+#' @export
+bs_theme_clear <- function() {
+  old_theme <- options(bootstraplib_theme = NULL)
+  invisible(old_theme[["bootstraplib_theme"]])
+}
+
+#' @rdname theming
 #' @param theme a theme object (i.e., the return value of `bs_theme_get()`).
 #' @export
 bs_theme_set <- function(theme) {
