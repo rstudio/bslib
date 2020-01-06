@@ -135,6 +135,16 @@ bs_theme_add_bootswatch <- function(theme, version = version_default(), bootswat
 as_bs_theme <- function(theme) {
   if (is_bs_theme(theme)) return(theme)
 
+  # Allow users to do something like
+  # bootstrap(theme = sass_layer_merge(bs_theme_get(), my_layer()))
+  if (inherits(theme, "sass_layer")) {
+    theme <- add_class(theme, "bs_theme")
+    if (!is.null(theme_version(theme))) {
+      stop("Wasn't able to figure out the Bootstrap version.")
+    }
+    return(theme)
+  }
+
   # NULL means default Bootstrap
   if (is.null(theme)) return(bs_theme_create())
 
