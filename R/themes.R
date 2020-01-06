@@ -49,8 +49,11 @@
 #' bs_sass_partial(foo_color, theme = primary)
 #'
 bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
-  bs_theme_set(bs_theme_create(version, bootswatch))
+  theme <- bs_theme_create(version)
+  theme <- bs_theme_add_bootswatch(theme, version, bootswatch)
+  bs_theme_set(theme)
 }
+
 
 #' @rdname theming
 #' @export
@@ -100,15 +103,26 @@ bs_theme_set <- function(theme) {
 }
 
 
-bs_theme_create <- function(version = version_default(), bootswatch = NULL) {
+bs_theme_create <- function(version = version_default()) {
+  version <- version_resolve(version)
+
+  theme <- sass_layer_merge(
+    bootstrap_layer(version),
+    if (identical(version, "4-3")) bs3compat_layer()
+  )
+
+  add_class(theme, "bs_theme")
+}
+
+bs_theme_add_bootswatch <- function(theme, version = version_default(), bootswatch = NULL) {
   version <- version_resolve(version)
   bootswatch <- bootswatch_theme_resolve(bootswatch, version)
 
   theme <- sass_layer_merge(
-    bootstrap_layer(version),
+    theme,
+    # This will set a $navbar-height SASS var, even if no bootswatch is used
     # TODO: maybe make navbar adjustment via jQuery instead? https://stackoverflow.com/a/46021836/1583084
     navbar_height_layer(bootswatch, version),
-    bs3compat_layer(version),
     bootswatch_layer(bootswatch, version)
   )
 
@@ -128,14 +142,18 @@ as_bs_theme <- function(theme) {
   if (is_string(theme)) {
     theme <- strsplit(theme, "@", fixed = TRUE)[[1]]
     if (length(theme) == 2) {
-      return(bs_theme_create(bootswatch = theme[1], version = theme[2]))
+      theme_obj <- bs_theme_create(version = theme[2])
+      theme_obj <- bs_theme_add_bootswatch(
+        theme_obj, version = theme[2], bootswatch = theme[1]
+      )
+      return(theme_obj)
     }
     # Also support `bootstrap(version = '4')` and `bootstrap(theme = 'bootswatch')`
     if (length(theme) == 1) {
       if (theme %in% c("4", "4-3", "3")) {
         return(bs_theme_create(version = theme))
       } else {
-        return(bs_theme_create(bootswatch = theme))
+        return(bs_theme_add_bootswatch(bs_theme_create(), bootswatch = theme))
       }
     }
     stop("If `theme` is a string, it can't contain more than one @")

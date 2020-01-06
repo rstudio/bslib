@@ -67,8 +67,7 @@ bootstrap_javascript <- function(version, minified = TRUE) {
 # BS3 compatibility layer
 # -----------------------------------------------------------------
 
-bs3compat_layer <- function(version) {
-  if (!identical(version, "4-3")) return(NULL)
+bs3compat_layer <- function() {
   sass_layer(
     defaults = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
     rules = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
