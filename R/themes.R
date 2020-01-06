@@ -64,7 +64,6 @@ bs_theme_add_variables <- function(...) {
 }
 
 #' @rdname theming
-#' @inheritParams sass::sass_layer
 #' @export
 bs_theme_add <- function(defaults = "", rules = "", ...) {
   old_theme <- bs_theme_get()
