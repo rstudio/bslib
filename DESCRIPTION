@@ -23,11 +23,12 @@ LazyData: true
 RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 Collate: 
+    'bootswatch.R'
     'bs_sass.R'
-    'globals.R'
+    'files.R'
     'imports.R'
-    'navbar.R'
-    'theming.R'
+    'layers.R'
+    'themes.R'
     'utils.R'
     'versions.R'
 Remotes: 

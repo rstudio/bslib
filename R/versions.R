@@ -9,8 +9,8 @@ version_popperjs <- package_json_version("popper.js")
 version_bs3 <- package_json_version("bootstrap-sass")
 version_bootswatch3 <- package_json_version("bootswatch3")
 
-#' Latest Bootstrap major version
+#' Bootstrap major version default
 #' @export
-version_latest <- function() {
-  strsplit(version_bs4, ".", fixed = TRUE)[[1]][[1]]
-}
+version_default <- function() "4-3"
+
+# TODO: make this a getter/setter?
