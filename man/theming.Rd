@@ -5,6 +5,7 @@
 \alias{bs_theme_add_variables}
 \alias{bs_theme_add}
 \alias{bs_theme_get}
+\alias{bs_theme_clear}
 \alias{bs_theme_set}
 \title{Create a Bootstrap theme}
 \usage{
@@ -15,6 +16,8 @@ bs_theme_add_variables(...)
 bs_theme_add(defaults = "", rules = "", ...)
 
 bs_theme_get()
+
+bs_theme_clear()
 
 bs_theme_set(theme)
 }

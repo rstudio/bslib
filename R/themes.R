@@ -64,16 +64,18 @@ bs_theme_add_variables <- function(...) {
 }
 
 #' @rdname theming
-#' @inheritParams sass::sass_layer
 #' @export
 bs_theme_add <- function(defaults = "", rules = "", ...) {
   old_theme <- bs_theme_get()
   if (is.null(old_theme)) {
     stop("Must call bs_theme_new() before adding to the theme.", call. = FALSE)
   }
-  layer <- sass_layer_merge(
-    old_theme, sass_layer(defaults = defaults, rules = rules, ...)
-  )
+  layer <- if (inherits(defaults, "sass_layer")) {
+    defaults
+  } else {
+    sass_layer(defaults = defaults, rules = rules, ...)
+  }
+  layer <- sass_layer_merge(old_theme, layer)
   bs_theme_set(add_class(layer, "bs_theme"))
 }
 
@@ -95,7 +97,7 @@ bs_theme_clear <- function() {
 #' @param theme a theme object (i.e., the return value of `bs_theme_get()`).
 #' @export
 bs_theme_set <- function(theme) {
-  if (!is_bs_theme(theme)) {
+  if (!is.null(theme) && !is_bs_theme(theme)) {
     stop("`theme` must be a bs_theme object", call. = FALSE)
   }
   old_theme <- options(bootstraplib_theme = theme)
@@ -131,6 +133,16 @@ bs_theme_add_bootswatch <- function(theme, version = version_default(), bootswat
 
 as_bs_theme <- function(theme) {
   if (is_bs_theme(theme)) return(theme)
+
+  # Allow users to do something like
+  # bootstrap(theme = sass_layer_merge(bs_theme_get(), my_layer()))
+  if (inherits(theme, "sass_layer")) {
+    theme <- add_class(theme, "bs_theme")
+    if (!is.null(theme_version(theme))) {
+      stop("Wasn't able to figure out the Bootstrap version.")
+    }
+    return(theme)
+  }
 
   # NULL means default Bootstrap
   if (is.null(theme)) return(bs_theme_create())

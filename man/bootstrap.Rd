@@ -9,24 +9,25 @@ bootstrap(
   theme = bs_theme_get(),
   jquery = jquerylib::jquery_core(3),
   options = sass::sass_options(),
-  minified = TRUE
+  minified = TRUE,
+  ...
 )
 
-bootstrap_sass(
-  rules = list(),
-  theme = bs_theme_get(),
-  options = sass::sass_options()
-)
+bootstrap_sass(rules = list(), theme = bs_theme_get(), ...)
 }
 \arguments{
 \item{theme}{one of the following:
 \enumerate{
-\item The result of \code{\link[=bs_theme_get]{bs_theme_get()}} (recommended default).
+\item The result of \code{\link[=bs_theme_get]{bs_theme_get()}} (i.e., the current global theme).
+\item \code{NULL}, which means use the latest version of Bootstrap with no custom theming.
 \item A string containing a bootswatch theme and/or a Bootstrap major version. To specify
 both, use the syntax \code{"theme@version"}, (e.g., \code{"cosmo@4"} for Bootstrap 4 cosmo
 theme with BS3 compatibility). If no version is specified, the latest available
-version is used (for more info, see \code{version} in \code{\link[=bs_theme_set]{bs_theme_set()}}).
-\item \code{NULL}, which means use the latest version of Bootstrap with no custom theming.
+version is used (for more info, see \code{version} in \code{\link[=bs_theme_new]{bs_theme_new()}}).
+\strong{Note}: this approach ignores global themes (i.e., \code{\link[=bs_theme_new]{bs_theme_new()}})
+\item A \code{\link[sass:sass_layer]{sass::sass_layer()}} which contains a bootstraplib theme. Useful for adding
+custom layers to the current theme without affecting the global state (e.g.,
+\code{sass::sass_layer_merge(bs_theme_get(), my_layer())}).
 }}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
@@ -35,6 +36,8 @@ version is used (for more info, see \code{version} in \code{\link[=bs_theme_set]
 \code{\link[sass]{sass_options}}.}
 
 \item{minified}{whether the resulting HTML dependency should minify the JS/CSS files.}
+
+\item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}}
 }
 \description{
 Use \code{bootstrap()} to obtain all of Bootstrap and it's dependencies as a list

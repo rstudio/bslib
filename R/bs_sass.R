@@ -8,14 +8,19 @@
 #' as a `<style>` tag via `tags$style(css)`).
 #'
 #' @param theme one of the following:
-#'   1. The result of [bs_theme_get()] (recommended default).
-#'   2. A string containing a bootswatch theme and/or a Bootstrap major version. To specify
+#'   1. The result of [bs_theme_get()] (i.e., the current global theme).
+#'   2. `NULL`, which means use the latest version of Bootstrap with no custom theming.
+#'   3. A string containing a bootswatch theme and/or a Bootstrap major version. To specify
 #'   both, use the syntax `"theme@version"`, (e.g., `"cosmo@4"` for Bootstrap 4 cosmo
 #'   theme with BS3 compatibility). If no version is specified, the latest available
-#'   version is used (for more info, see `version` in [bs_theme_set()]).
-#'   3. `NULL`, which means use the latest version of Bootstrap with no custom theming.
+#'   version is used (for more info, see `version` in [bs_theme_new()]).
+#'   __Note__: this approach ignores global themes (i.e., [bs_theme_new()])
+#'   4. A [sass::sass_layer()] which contains a bootstraplib theme. Useful for adding
+#'   custom layers to the current theme without affecting the global state (e.g.,
+#'   `sass::sass_layer_merge(bs_theme_get(), my_layer())`).
 #' @param jquery See [jquerylib::jquery_core()].
 #' @param minified whether the resulting HTML dependency should minify the JS/CSS files.
+#' @param ... arguments passed along to [sass::sass()]
 #' @inheritParams sass::sass
 #'
 #' @export
@@ -83,7 +88,7 @@
 bootstrap <- function(theme = bs_theme_get(),
                       jquery = jquerylib::jquery_core(3),
                       options = sass::sass_options(),
-                      minified = TRUE) {
+                      minified = TRUE, ...) {
 
   theme <- as_bs_theme(theme)
 
@@ -104,7 +109,8 @@ bootstrap <- function(theme = bs_theme_get(),
     input = theme,
     output = file.path(output_path, output_css),
     write_attachments = TRUE,
-    options = opts
+    options = opts,
+    ...
   )
 
   version <- theme_version(theme)
@@ -133,15 +139,11 @@ bootstrap <- function(theme = bs_theme_get(),
 
 #' @rdname bootstrap
 #' @export
-bootstrap_sass <- function(rules = list(), theme = bs_theme_get(),
-                           options = sass::sass_options()) {
+bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
 
   theme <- as_bs_theme(theme)
   theme$rules <- ""
-  sass::sass(
-    options = options,
-    input = list(theme, rules)
-  )
+  sass::sass(input = list(theme, rules), ...)
 }
 
 
