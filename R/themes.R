@@ -138,7 +138,7 @@ as_bs_theme <- function(theme) {
   # bootstrap(theme = sass_layer_merge(bs_theme_get(), my_layer()))
   if (inherits(theme, "sass_layer")) {
     theme <- add_class(theme, "bs_theme")
-    if (!is.null(theme_version(theme))) {
+    if (is.null(theme_version(theme))) {
       stop("Wasn't able to figure out the Bootstrap version.")
     }
     return(theme)
