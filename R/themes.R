@@ -85,7 +85,7 @@ ensure_default_flag <- function(vars) {
   Map(
     function(key, val) {
       val <- paste(sass::as_sass(val), collapse = "\n")
-      if (grepl("!default", val, fixed = TRUE)) {
+      if (grepl("!default\\s*;*\\s*$", val)) {
         val
       } else {
         paste(sub(";+$", "", val), "!default")
