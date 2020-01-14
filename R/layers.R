@@ -70,6 +70,7 @@ bootstrap_javascript <- function(version, minified = TRUE) {
 bs3compat_layer <- function() {
   sass_layer(
     defaults = sass_file(system.file("bs3compat", "_pre_variables.scss", package = "bootstraplib")),
+    declarations = sass_file(system.file("bs3compat", "_declarations.scss", package = "bootstraplib")),
     rules = sass_file(system.file("bs3compat", "_post_variables.scss", package = "bootstraplib")),
     # Gyliphicon font files
     file_attachments = c(
