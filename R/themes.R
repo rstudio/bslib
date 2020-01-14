@@ -57,23 +57,55 @@ bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
 
 #' @rdname theming
 #' @export
-bs_theme_add_variables <- function(...) {
+bs_theme_add_variables <- function(..., .where = "defaults",
+                                   .default_flag = identical(.where, "defaults")) {
   vars <- rlang::list2(...)
   if (any(names2(vars) == "")) stop("Variables must be named.", call. = FALSE)
-  bs_theme_add(vars)
+  .where <- match.arg(.where, c("defaults", "declarations", "rules"))
+
+  # Workaround to the problem of 'blue' winning in the scenario of:
+  # bs_theme_add_variables("body-bg" = "blue")
+  # bs_theme_add_variables("body-bg" = "red")
+  if (.default_flag) {
+    vars <- ensure_default_flag(vars)
+  }
+
+  do.call(bs_theme_add, setNames(list(vars), .where))
+}
+
+# Given a named list of variable definitions,
+# searches each variable's expression for a !default flag,
+# and if missing, adds it.
+ensure_default_flag <- function(vars) {
+  Map(
+    function(key, val) {
+      val <- paste(sass::as_sass(val), collapse = "\n")
+      if (grepl("!default", val, fixed = TRUE)) {
+        val
+      } else {
+        paste(sub(";+$", "", val), "!default")
+      }
+    }, names(vars), vars
+  )
 }
 
 #' @rdname theming
 #' @export
-bs_theme_add <- function(defaults = "", rules = "", ...) {
+bs_theme_add <- function(defaults = "", declarations = "", rules = "", ...) {
   old_theme <- bs_theme_get()
   if (is.null(old_theme)) {
     stop("Must call bs_theme_new() before adding to the theme.", call. = FALSE)
   }
-  layer <- if (inherits(defaults, "sass_layer")) {
-    defaults
+  if (inherits(defaults, "sass_layer")) {
+    if (!identical(declarations, "") || !identical(rules, "") || length(list(...)) > 0) {
+      stop(
+        "Not allowed to specify other arguments when the first argument, `defaults`, ",
+        "is a sass_layer()", call. = FALSE
+      )
+    }
+    layer <- defaults
   } else {
-    sass_layer(defaults = defaults, rules = rules, ...)
+    layer <- sass_layer(defaults = defaults, declarations = declarations, rules = rules, ...)
   }
   layer <- sass_layer_merge(old_theme, layer)
   bs_theme_set(add_class(layer, "bs_theme"))

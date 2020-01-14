@@ -16,7 +16,7 @@ test_that("theme api works", {
   expect_equal(theme_bootswatch(cosmo_theme), "cosmo")
 
   # Can add new variable defaults
-  bs_theme_add_variables(primary = "red !default;")
+  bs_theme_add_variables("primary" = "red !default;")
   primary <- bootstrap_sass("body{background:$primary;}")
   expect_css("body{background:red;}", primary)
 
@@ -42,5 +42,20 @@ test_that("Theme adding works as intended", {
   bs_theme_add_variables(primary = "#fff !default;")
   css <- bootstrap_sass(".foo{color:$primary;}")
   expect_css(".foo{color:#fff;}", css)
+
+  # Also works without default flags
+  bs_theme_add_variables(primary = "blue")
+  bs_theme_add_variables(primary = "#fff")
+  css <- bootstrap_sass(".foo{color:$primary;}")
+  expect_css(".foo{color:#fff;}", css)
+
+  # Can also override variables via declarations
+  bs_theme_add_variables(
+    .where = "declarations",
+    "primary" = "$secondary",
+    "body-color" = "color-yiq($primary)"
+  )
+  css <- bootstrap_sass(".foo{color:$primary;}")
+  expect_css(".foo{color:#6c757d;}", css)
 })
 
