@@ -16,6 +16,11 @@
 #' @param rules Any [sass::as_sass()] `input` to place after Bootstrap's SASS imports.
 #' @param ... For `bs_theme_add_variables()`, these arguments define SASS variables;
 #' otherwise, these arguments are passed along to [sass::sass_layer()].
+#' @param .where whether to place the variable definitions before other
+#' Sass `"defaults"`, after other Sass `"declarations"`, or after other Sass `"rules"`.
+#' @param .default_flag whether or not to add a `!default` flag (if missing) to
+#' variable expressions. It's recommended to keep this as `TRUE` when
+#' `.where = "defaults"`.
 #'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #'
