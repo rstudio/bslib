@@ -1,0 +1,54 @@
+---
+title: "Rmarkdown & bootstraplib"
+author: "Carson Sievert"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Rmarkdown \& bootstraplib}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Bootstrap 4
+
+> **NOTE**: This functionality currently requires installing an experimental branch of **rmarkdown**: `remotes::install_github('rstudio/rmarkdown#1706')`.
+
+To use Bootstrap 4 in **rmarkdown**, use the `bootstrap_version` parameter to the `html_document` output format. In addition to this "strict" Bootstrap 4 mode, there is "compatible" Bootstrap 4 mode (i.e., `bootstrap_version: 4-3`), which allows you to rely on BS3 style nav/navbar markup. Only use this compatibility mode if you have existing `html_document`/`html_document_base` output formats that rely on BS3 markup.
+
+```yaml
+---
+output:
+  html_document:
+    bootstrap_version: 4
+---
+```
+
+### Bootswatch themes
+
+Regardless of the `bootstrap_version`, a Bootswatch theme may be added via the `theme` parameter. When using Bootstrap 4, you can use some new Bootswatch themes (e.g., sketchy, minty, lux, and solar).
+
+```yaml
+---
+output:
+  html_document:
+    bootstrap_version: 4
+    theme: sketchy
+---
+```
+
+Here's a list of all Bootswatch 4 themes:
+
+```{r}
+bootstraplib::bootswatch_themes(4)
+```
+
+### Custom themes
+
+In **rmarkdown** documents, you don't need to [create a new theme](#custom-create) to start [adding to it](#custom-add), because the `bootstrap_version` and `theme` parameters are used to create one for you. Thus, to start customizing the styling of a given document, use `bs_theme_add_variables()` and/or `bs_theme_add()` inside any R code chunk ([see below](#custom-add) for more).
+
+    ```{r}`r ''`
+    library(bootstraplib)
+    bs_theme_add_variables(primary = 'salmon')
+    ```
+
+See the [custom themes vignette](custom.html) to learn more.
