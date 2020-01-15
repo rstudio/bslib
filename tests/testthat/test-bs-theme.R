@@ -43,11 +43,11 @@ test_that("Theme adding works as intended", {
   css <- bootstrap_sass(".foo{color:$primary;}")
   expect_css(".foo{color:#fff;}", css)
 
-  # Also works without default flags
+  # Also works without default flags and can handle numeric values
   bs_theme_add_variables(primary = "blue")
-  bs_theme_add_variables(primary = "#fff")
-  css <- bootstrap_sass(".foo{color:$primary;}")
-  expect_css(".foo{color:#fff;}", css)
+  bs_theme_add_variables(primary = "#fff", "font-size" = 0)
+  css <- bootstrap_sass(".foo{color:$primary;font-size:0}")
+  expect_css(".foo{color:#fff;font-size:0;}", css)
 
   # Can also override variables via declarations
   bs_theme_add_variables(
