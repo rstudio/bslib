@@ -2,10 +2,7 @@ context("theme_bootswatch")
 
 test_that("Can retrieve version from theme object", {
   bs_theme_new()
-  expect_identical(
-    theme_bootswatch(bs_theme_get()),
-    version_default()
-  )
+  expect_null(theme_bootswatch(bs_theme_get()))
 
   bs_theme_new(version = "3", bootswatch = "paper")
   expect_equal(
