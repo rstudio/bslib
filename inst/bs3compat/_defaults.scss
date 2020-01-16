@@ -6,10 +6,3 @@ $navbar-default-type: light !default;
 $navbar-default-bg: light !default;
 $navbar-inverse-type: dark !default;
 $navbar-inverse-bg: dark !default;
-
-// If downstream Sass hasn't set a $card-bg color (e.g., bootswatch, user code),
-// then make sure well/cards appear gray by default
-@if variable-exists("card-bg") {
-} @else {
-  $card-bg: #f8f9fa !default !global;
-}

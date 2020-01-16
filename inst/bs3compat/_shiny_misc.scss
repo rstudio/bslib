@@ -1,6 +1,7 @@
 // For verbatimTextOutput()
 pre.shiny-text-output {
   @extend .card; @extend .p-2;
+  background-color: $well-bg;
 }
 
 // For code inside of showcase mode

@@ -21,3 +21,9 @@ $default: null !default;
 }
 
 $theme-colors: map-merge(("default": $default), $theme-colors);
+
+
+// Cards are white by default, but we want a smarter default for .well
+// that it appears similar to $light with no theming, but is also smart enough
+// to respond to changes in foreground color
+$well-bg: rgba($body-color, 0.1) !default;
