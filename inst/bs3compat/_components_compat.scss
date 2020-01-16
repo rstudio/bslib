@@ -1,5 +1,6 @@
 .well {
-  @extend .bg-light; @extend .card; @extend .p-3;
+  @extend .card; @extend .p-3;
+  background-color: $card-bg;
 }
 
 .help-text, .help-block {
