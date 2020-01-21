@@ -1,8 +1,6 @@
-// TODO: create official variables controling margins?
 h1, h2, h3 {
-  margin-top: $spacer;
+  margin-top: $header-major-margin-top;
 }
-
 h4, h5, h6 {
-  margin-top: 0.5 * $spacer;
+  margin-top: $header-minor-margin-top;
 }

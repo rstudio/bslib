@@ -6,3 +6,14 @@ $navbar-default-type: light !default;
 $navbar-default-bg: light !default;
 $navbar-inverse-type: dark !default;
 $navbar-inverse-bg: dark !default;
+
+// BS3 had .navbar { margin-bottom: 20px; }
+$navbar-margin-bottom: 20px !default;
+
+/*
+BS3 -> BS4 saw a removal of margin-top which is a pretty jarring change for Rmd
+https://github.com/twbs/bootstrap/blob/f17f882d/dist/css/bootstrap.css#L1219-L1250
+https://github.com/twbs/bootstrap/blob/4de4874e/scss/_reboot.scss#L82-L89
+*/
+$header-major-margin-top: 20px !default;
+$header-minor-margin-top: 10px !default;
