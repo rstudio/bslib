@@ -1,6 +1,7 @@
 .well {
-  @extend .card; @extend .p-3;
+  @extend .card;
   background-color: $well-bg;
+  padding: map-get($spacers, 3);
 }
 
 .help-text, .help-block {
