@@ -1,0 +1,11 @@
+// Pandoc uses align attribute to align content but BS4 styles take precedence...
+// we may want to consider adopting this more generally in "strict" BS4 mode as well
+.table th[align=left] {
+  text-align: left;
+}
+.table th[align=right] {
+  text-align: right;
+}
+.table th[align=center] {
+  text-align: center;
+}
