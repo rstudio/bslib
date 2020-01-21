@@ -1,7 +1,8 @@
 .well {
-  @extend .card;
+  @extend .card-body;
   background-color: $well-bg;
-  padding: map-get($spacers, 3);
+  border: $card-border-width solid $card-border-color;
+  @include border-radius($card-border-radius);
 }
 
 .help-text, .help-block {
