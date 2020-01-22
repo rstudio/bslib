@@ -5,8 +5,7 @@
 bootstrap_layer <- function(version) {
   if (version %in% c("4", "4-3")) {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
-
-    return(sass_layer(
+    bs4_layer <- sass_layer(
       defaults = bootstrap_sass_files(c("functions", "variables"), version = 4),
       declarations = bootstrap_sass_files("mixins", version = 4),
       rules = bootstrap_sass_files(c(
@@ -19,7 +18,22 @@ bootstrap_layer <- function(version) {
       ), version = 4),
       # Tag this layer so we know we can query the theme_version()
       tags = paste0("bootstraplib_version_", version)
-    ))
+    )
+
+    # Additions to BS4 that are always included (i.e., not a part of compatibility)
+    bs4_additions <- sass_layer(
+      # Don't impose such a jarring change to the base font-size
+      defaults = "$font-size-base: 0.875rem !default;",
+      # Pandoc uses align attribute to align content but BS4 styles take precedence...
+      # we may want to consider adopting this more generally in "strict" BS4 mode as well
+      rules = list(
+        ".table th[align=left] { text-align: left; }",
+        ".table th[align=right] { text-align: right; }",
+        ".table th[align=center] { text-align: center; }"
+      )
+    )
+
+    return(sass_layer_merge(bs4_layer, bs4_additions))
   }
 
   if (version %in% "3") {
