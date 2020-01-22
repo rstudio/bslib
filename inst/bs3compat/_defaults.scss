@@ -6,3 +6,6 @@ $navbar-default-type: light !default;
 $navbar-default-bg: light !default;
 $navbar-inverse-type: dark !default;
 $navbar-inverse-bg: dark !default;
+
+// BS3 had .navbar { margin-bottom: 20px; }
+$navbar-margin-bottom: 20px !default;
