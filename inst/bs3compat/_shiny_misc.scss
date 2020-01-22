@@ -1,11 +1,10 @@
 // For verbatimTextOutput()
 pre.shiny-text-output {
-  @extend .card;
-  background-color: $well-bg;
-  padding: map-get($spacers, 2);
+  @extend .well;
+  @extend .well-sm;
 }
 
 // For code inside of showcase mode
 pre.shiny-code {
-  padding: 0.5rem;
+  padding: 0.5 * $spacer;
 }

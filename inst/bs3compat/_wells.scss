@@ -1,0 +1,21 @@
+// Derives from BS3 SASS, but modified to inherit from BS4 vars
+// https://github.com/rstudio/bootstraplib/blob/04925e1/inst/node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_wells.scss#L1
+.well {
+  background-color: $well-bg;
+  color: $well-color;
+  border: $well-border;
+  border-radius: $well-border-radius;
+  padding: $well-padding;
+  min-height: $spacer;
+  margin-bottom: $spacer;
+}
+
+// Sizes
+.well-lg {
+  padding: 1.5 * $spacer;
+  border-radius: $border-radius-lg;
+}
+.well-sm {
+  padding: 0.5 * $spacer;
+  border-radius: $border-radius-sm;
+}
