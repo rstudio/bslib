@@ -262,7 +262,7 @@ bs_themer <- function() {
     # Filter out vals that the user hasn't changed
     vals <- as.list(diff_css_values(vals, default_values))
 
-    print(rlang::expr(bootstraplib::bs_theme_add_variables(!!!vals)))
+    print(rlang::expr(bs_theme_add_variables(!!!vals)))
 
     old_theme <- bs_theme_get()
     on.exit(bs_theme_set(old_theme), add = TRUE, after = FALSE)
