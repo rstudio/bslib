@@ -11,9 +11,13 @@
 \usage{
 bs_theme_new(version = version_default(), bootswatch = NULL)
 
-bs_theme_add_variables(...)
+bs_theme_add_variables(
+  ...,
+  .where = "defaults",
+  .default_flag = identical(.where, "defaults")
+)
 
-bs_theme_add(defaults = "", rules = "", ...)
+bs_theme_add(defaults = "", declarations = "", rules = "", ...)
 
 bs_theme_get()
 
@@ -31,6 +35,13 @@ See \code{\link[=bootswatch_themes]{bootswatch_themes()}} to list possible names
 
 \item{...}{For \code{bs_theme_add_variables()}, these arguments define SASS variables;
 otherwise, these arguments are passed along to \code{\link[sass:sass_layer]{sass::sass_layer()}}.}
+
+\item{.where}{whether to place the variable definitions before other
+Sass \code{"defaults"}, after other Sass \code{"declarations"}, or after other Sass \code{"rules"}.}
+
+\item{.default_flag}{whether or not to add a \code{!default} flag (if missing) to
+variable expressions. It's recommended to keep this as \code{TRUE} when
+\code{.where = "defaults"}.}
 
 \item{defaults}{Any \code{\link[sass:as_sass]{sass::as_sass()}} \code{input} to place before Bootstrap's SASS imports.}
 

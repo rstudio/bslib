@@ -1,0 +1,169 @@
+{
+  "Basic colors": {
+    "body-bg": {
+      "type": "color",
+      "label": "Background color",
+      "desc": null
+    },
+    "body-color": {
+      "type": "color",
+      "label": "Text color",
+      "desc": null
+    },
+    "input-border-color": {
+      "type": "color",
+      "label": "Input border color",
+      "desc": null
+    }
+  },
+  "Theme colors": {
+    "primary": {
+      "type": "color",
+      "label": "Primary",
+      "desc": "Used to highlight important actions, like default action buttons."
+    },
+    "default": {
+      "type": "color",
+      "label": "Default",
+      "desc": null
+    },
+    "secondary": {
+      "type": "color",
+      "label": "Secondary",
+      "desc": null
+    },
+    "success": {
+      "type": "color",
+      "label": "Success",
+      "desc": null
+    },
+    "info": {
+      "type": "color",
+      "label": "Info",
+      "desc": null
+    },
+    "warning": {
+      "type": "color",
+      "label": "Warning",
+      "desc": null
+    },
+    "danger": {
+      "type": "color",
+      "label": "Secondary",
+      "desc": null
+    },
+    "light": {
+      "type": "color",
+      "label": "Light",
+      "desc": null
+    },
+    "dark": {
+      "type": "color",
+      "label": "Dark",
+      "desc": null
+    }
+  },
+  "Grays": {
+    "white": {
+      "type": "color",
+      "label": "White",
+      "desc": null
+    },
+    "gray-100": {
+      "type": "color",
+      "label": "Gray (10%)",
+      "desc": null
+    },
+    "gray-200": {
+      "type": "color",
+      "label": "Gray (20%)",
+      "desc": null
+    },
+    "gray-300": {
+      "type": "color",
+      "label": "Gray (30%)",
+      "desc": null
+    },
+    "gray-400": {
+      "type": "color",
+      "label": "Gray (40%)",
+      "desc": null
+    },
+    "gray-500": {
+      "type": "color",
+      "label": "Gray (50%)",
+      "desc": null
+    },
+    "gray-600": {
+      "type": "color",
+      "label": "Gray (60%)",
+      "desc": null
+    },
+    "gray-700": {
+      "type": "color",
+      "label": "Gray (70%)",
+      "desc": null
+    },
+    "gray-800": {
+      "type": "color",
+      "label": "Gray (80%)",
+      "desc": null
+    },
+    "gray-900": {
+      "type": "color",
+      "label": "Gray (90%)",
+      "desc": null
+    },
+    "black": {
+      "type": "color",
+      "label": "Black",
+      "desc": null
+    }
+  },
+  "Fonts": {
+    "font-family-sans-serif": {
+      "type": "str",
+      "label": "Sans-serif font family",
+      "desc": null
+    },
+    "font-family-monospace": {
+      "type": "str",
+      "label": "Monospace font family",
+      "desc": null
+    }
+  },
+  "Options": {
+    "enable-rounded": {
+      "type": "bool",
+      "label": "Rounded corners",
+      "desc": null
+    },
+    "enable-shadows": {
+      "type": "bool",
+      "label": "Box shadows",
+      "desc": null
+    },
+    "enable-gradients": {
+      "type": "bool",
+      "label": "Gradient backgrounds",
+      "desc": null
+    },
+    "enable-transitions": {
+      "type": "bool",
+      "label": "Transitions",
+      "desc": null
+    },
+    "enable-caret": {
+      "type": "bool",
+      "label": "Show caret on dropdown toggle",
+      "desc": null
+    }
+  },
+  "Spacing": {
+    "spacer": {
+      "type": "length",
+      "label": "Spacer",
+      "desc": "Basic unit of spacing; affects margin and padding of many (but not all) Bootstrap components."
+    }
+  }
+}
