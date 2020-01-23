@@ -1,10 +1,10 @@
 #' Create a Bootstrap theme
 #'
-#' `bs_theme_new()` creates a new (global) Bootstrap SASS theme which
+#' `bs_theme_new()` creates a new (global) Bootstrap Sass theme which
 #' [bootstrap()] (or [bootstrap_sass()]) can consume (their `theme` argument
 #' defaults to `bs_theme_get()`, which get the current global theme). Once a
 #' global theme has been created, use [bs_theme_add_variables()] to set
-#' SASS variable defaults and [bs_theme_add()] to add arbitrary SASS
+#' Sass variable defaults and [bs_theme_add()] to add arbitrary Sass
 #' (via [sass::sass_layer()]s).
 #'
 #' @param version The major version of Bootstrap to use. A value of
@@ -12,9 +12,11 @@
 #' BS3 style markup in BS4. Other supported versions include 3 and 4.
 #' @param bootswatch The name of a bootswatch theme.
 #' See [bootswatch_themes()] to list possible names.
-#' @param defaults Any [sass::as_sass()] `input` to place before Bootstrap's SASS imports.
-#' @param rules Any [sass::as_sass()] `input` to place after Bootstrap's SASS imports.
-#' @param ... For `bs_theme_add_variables()`, these arguments define SASS variables;
+#' @param defaults Any [sass::as_sass()] `input` to place before Bootstrap's Sass.
+#' @param declarations Any [sass::as_sass()] `input` to place after Bootstrap's variables,
+#' functions, and mixins, but before Bootstrap's styling rules.
+#' @param rules Any [sass::as_sass()] `input` to place after Bootstrap's Sass imports.
+#' @param ... For `bs_theme_add_variables()`, these arguments define Sass variables;
 #' otherwise, these arguments are passed along to [sass::sass_layer()].
 #' @param .where whether to place the variable definitions before other
 #' Sass `"defaults"`, after other Sass `"declarations"`, or after other Sass `"rules"`.
@@ -23,35 +25,82 @@
 #' `.where = "defaults"`.
 #'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
+#' @references \url{https://rstudio.github.io/sass/}
 #'
 #' @rdname theming
 #' @export
 #' @examples
 #'
-#' # Theming by overriding Bootstrap variable defaults
-#' bs_theme_add_variables(primary = "red !default;")
-#' foo_color <- ".foo { color: rgba($primary, 0.3) }"
-#' bootstrap_sass(foo_color)
-#' bootstrap_sass(foo_color, theme = NULL)
+#' # Function to preview the styling a (primary) Bootstrap button
+#' library(htmltools)
+#' button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
+#' preview_button <- function(x) {
+#'   browsable(tags$body(x, button))
+#' }
 #'
-#' # Generate CSS using Bootstrap variables/function/mixins
-#' primary_contrast <- list("primary-contrast" = "color-yiq($primary) !default;")
-#' bs_theme_add(rules = primary_contrast)
-#' bs_sass_partial(
-#'   ".bar { color: $primary-contrast }"
+#' # To create a custom theme, you must start by calling bs_theme_new()
+#' # Here we start with a theme based on a Bootswatch theme,
+#' # then override some variable defaults
+#' bs_theme_new(bootswatch = "sketchy")
+#' bs_theme_add_variables(
+#'   primary = "orange",
+#'   "body-bg" = "#EEEEEE",
+#'   "font-family-base" = "monospace",
+#'   "font-size-base" = "1.4rem",
+#'   "btn-padding-y" = ".16rem",
+#'   "btn-padding-x" = "2rem",
+#'   "border-radius" = 0,
+#'   "border-radius-lg" = 0,
+#'   "border-radius-sm" = 0
 #' )
+#' preview_button(bootstrap())
 #'
-#' # For complex theming projects, it may be useful to combine
-#' # individually packaged themes via bs_theme_merge() which
-#' # combines several theme into one by layering them
-#' # together like an onion -- the pre sass for latter themes
-#' # (e.g., blue_primary) is placed _before_ pre sass for former
-#' # themes (e.g., red_primary) and post sass for latter themes
-#' # is placed _after_ the post sass for former themes
-#' bs_theme_add_variables(primary = "blue !default;")
-#' bs_theme_add_variables(primary = "red !default;")
-#' # The red theme wins out
-#' bs_sass_partial(foo_color, theme = primary)
+#' # If you need to set a variable based on another Bootstrap variable
+#' bs_theme_add_variables(
+#'   "body-color" = "$success",
+#'   .where = "declarations"
+#' )
+#' preview_button(bootstrap())
+#'
+#' # Start a new global theme and add some custom rules that
+#' # use Bootstrap variables to define a custom styling for a
+#' # 'person card'
+#' bs_theme_new()
+#' bs_theme_add(
+#'   rules = sass::sass_file(
+#'     system.file("custom", "person.scss", package = "bootstraplib")
+#'   )
+#' )
+#' # Include custom CSS that leverages bootstrap Sass variables
+#' person <- function(name, title, company) {
+#'   tags$div(
+#'     class = "person",
+#'     h3(class = "name", name),
+#'     div(class = "title", title),
+#'     div(class = "company", company)
+#'   )
+#' }
+#' browsable(tags$body(
+#'   bootstrap(),
+#'   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
+#'   person("John D. Rockefeller", "Chairman", "Standard Oil")
+#' ))
+#'
+#'
+#' # Once a theme has been set, you can get it, and see which
+#' # version/bootswatch was specified
+#' bs_theme_new(bootswatch = "cosmo")
+#' theme <- bs_theme_get()
+#' theme_version(theme)
+#' theme_bootswatch(theme)
+#'
+#' # Themes are just sass_layer(), so you can work with them locally
+#' # just like any other sass layer
+#' # https://rstudio.github.io/sass/articles/sass.html#layers
+#' class(theme)
+#' layer <- sass::sass_layer("$primary: red")
+#' theme <- sass_layer_merge(theme, layer)
+#' bs_theme_set(theme)
 #'
 bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
   theme <- bs_theme_create(version)
@@ -134,8 +183,8 @@ bs_theme_clear <- function() {
 #' @param theme a theme object (i.e., the return value of `bs_theme_get()`).
 #' @export
 bs_theme_set <- function(theme) {
-  if (!is.null(theme) && !is_bs_theme(theme)) {
-    stop("`theme` must be a bs_theme object", call. = FALSE)
+  if (!is.null(theme)) {
+    theme <- as_bs_theme(theme)
   }
   old_theme <- options(bootstraplib_theme = theme)
   invisible(old_theme[["bootstraplib_theme"]])
@@ -159,7 +208,7 @@ bs_theme_add_bootswatch <- function(theme, version = version_default(), bootswat
 
   theme <- sass_layer_merge(
     theme,
-    # This will set a $navbar-height SASS var, even if no bootswatch is used
+    # This will set a $navbar-height Sass var, even if no bootswatch is used
     # TODO: maybe make navbar adjustment via jQuery instead? https://stackoverflow.com/a/46021836/1583084
     navbar_height_layer(bootswatch, version),
     bootswatch_layer(bootswatch, version)

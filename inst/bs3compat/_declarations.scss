@@ -25,3 +25,4 @@ $theme-colors: map-merge(("default": $default), $theme-colors);
 // Cards are white by default, but we want a smarter default for .well
 // that it appears gray by default
 $well-bg: $card-cap-bg !default;
+$well-color: $body-color !default;

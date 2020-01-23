@@ -1,0 +1,160 @@
+---
+title: "Theming foundations"
+author: "Carson Sievert"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Theming foundations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  comment = "#>",
+  collapse = TRUE
+)
+```
+
+**bootstraplib** provides several functions for creating (i.e., `bs_theme_new()`) and adding to (i.e., `bs_theme_add_variables()` and `bs_theme_add()`) a global theme object. By default, `bootstrap()` includes this global theme when compiling Bootstrap Sass into CSS. Eventually, both **shiny** and **rmarkdown** will implictly call `bootstrap()` to grab their Bootstrap dependency (as of today, you need to [do this explictly](https://github.com/rstudio/bootstraplib#readme)), which means that you'll eventually be able to use the same code to theme **shiny**, **rmarkdown**, as well as relevant by-products (e.g., **flexdashboard**).
+
+This article summarises the foundational concepts behind theming with **bootstraplib**. These foundations build on top of lower-level foundations provided by the **sass** package so it's recommended that those new to the **sass** and the [Sass language](https://sass-lang.com/) also read the [**sass** overview](https://rstudio.github.io/sass/articles/sass.html). The aim of this article is provide you with the mental model you'll need to perform any kind of theming with **bootstraplib**. If you're looking for more of a "recipe book" of **shiny**/**rmarkdown** theming examples with Bootstrap 4, see the [next article](recipes.html).
+
+## Create a new theme {#theme-new}
+
+Unless you're theming inside an **rmarkdown** document, you have to first initiate a theme with `bs_theme_new()`. Here is where you'll need to make a decision about [which Bootstrap version to use](https://github.com/rstudio/bootstraplib#choosing-a-version) as well as whether you want to build off a [Bootswatch](https://bootswatch.com/) theme.
+
+```{r}
+library(bootstraplib)
+bs_theme_new()
+```
+
+Note that all themes extend [sass layers](), which have three main aspects:
+
+```{r}
+class(bs_theme_get())
+names(bs_theme_get())[1:3]
+```
+
+* `defaults` for downstream `bs_theme_add()`s are placed _before_ `defaults` for upstream `bs_theme_add()`s.
+  * Allowing downstream Sass to override variable defaults in upstream Sass.
+* `declarations` for downstream `bs_theme_add()`s are placed _after_ `declarations` for upstream `bs_theme_add()`s.
+  * Allowing downstream Sass to use functions and mixins defined in upstream Sass.
+* `rules` for downstream `bs_theme_add()`s are placed _after_ `rules` for upstream `bs_theme_add()`s.
+
+
+
+
+## Adding variables {#theme-variables}
+
+The most straight-forward way to customize the CSS that `bootstrap()` generates is to override [Bootstrap's variable defaults](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults) via `bs_theme_add_variables()`. This function ensures variable definitions are hoisted to very the top of the Sass with a [`!default` flag](https://sass-lang.com/documentation/variables#default-values). The default flag ensures that subsequent calls  `bs_theme_add_variables()` always win.
+
+```{r}
+bs_theme_add_variables(primary = "salmon")
+bs_theme_add_variables(primary = "lime")
+bs_theme_get()$defaults
+```
+
+Just to demonstrate that when we compile 
+
+```{r}
+bootstrap_sass(".foo {color: $primary}")
+```
+
+This example changes the default primary and secondary [theme color](https://getbootstrap.com/docs/4.4/getting-started/theming/#theme-colors) (i.e., the color used for hyperlinks, navs, etc) as well as the [Sass option](https://getbootstrap.com/docs/4.4/getting-started/theming/#sass-options) that controls [spacing utilities](https://getbootstrap.com/docs/4.4/utilities/spacing/).
+
+```r
+bs_theme_add_variables(
+  primary = "salmon",
+  secondary = "lime",
+  spacer = "2rem"
+)
+```
+
+> For a full list of Bootstrap variables, refer to the [scss/_variables.scss](https://github.com/rstudio/bootstraplib/blob/master/inst/node_modules/bootstrap/scss/_variables.scss) file.
+
+Note that the right-hand side of a variable definition may be any valid Sass expression, so to do something like [add a new theme color](https://getbootstrap.com/docs/4.4/getting-started/theming/#add-to-map), which requires assigning a [Sass map](https://sass-lang.com/documentation/values/maps) to [the $theme-colors variable](https://github.com/rstudio/bootstraplib/blob/8c883fad/inst/node_modules/bootstrap/scss/_variables.scss#L78-L92), you can do:
+
+```r
+bs_theme_add_variables(
+  "theme-colors" = "('custom-color': #900)"
+)
+```
+
+In some situations, you may want to use Bootstrap functions (e.g. [`color-yiq()`](https://getbootstrap.com/docs/4.4/getting-started/theming/#color-contrast)) and/or variables in your theme variable definitions. In this case, set `.where = "declarations"`, which places the variable definitions *after* (instead of before) Bootstrap declarations (i.e., variables, functions, and mixins). For example, we could have the body's background inherit the secondary theme color and have the body's foreground color automatically contrast based on the background color.^[Note that if, for some reason, you wanted a theme color to be based on another variable, you'd have to do, `bs_theme_add_variables("theme-colors" = 'map-merge($theme-colors, ("primary": $dark))', .where = "declarations")`, since the `$theme-colors` map is [constructed before declarations](https://github.com/rstudio/bootstraplib/blob/8c883fad/inst/node_modules/bootstrap/scss/_variables.scss#L78-L92).]
+
+
+```r
+bs_theme_add_variables(
+  "body-bg" = "$secondary",
+  "body-color" = "color-yiq($body-bg)",
+  .where = "declarations"
+)
+```
+
+Overriding variables is convenient for influencing Bootstrap's styling rules, but it can also be convenient to use Bootstrap variables, [functions](https://github.com/rstudio/bootstraplib/blob/master/inst/node_modules/bootstrap/scss/_functions.scss), and [mixins](https://github.com/rstudio/bootstraplib/blob/master/inst/node_modules/bootstrap/scss/_mixins.scss) to generate your own custom styling rules as well.
+
+<!-- TODO: point to a list of bs4 theming variables? -->
+
+## Adding rules {#custom-rules}
+
+Generating custom [styling rules](https://sass-lang.com/documentation/style-rules) based on Bootsrap is useful in at least a couple scenarios:
+
+1. For some reason, you need to override Bootstrap's styling rules to acheive the styling you desire.
+2. You want to generate _new_ rules, say new classes, that utilize Bootstrap's functions, mixins, and/or variables.
+
+For an example of (2), see this [person.scss](https://github.com/rstudio/bootstraplib/blob/master/inst/custom/person.scss) file, which defines rules for a custom `person` class, for displaying someone's name, title, and company. To include these rules with the bundle that `bootstrap()` generates, provide them to the `rules` argument of the `bs_theme_add()` function.^[You can also compile these rules with `bootstrap_sass()` which returns a CSS string. In that case, you'd have to manually [include the string as a `<style>` tag](http://rstudio.github.io/sass/articles/sass.html#shiny-string).]
+
+```r
+library(shiny)
+bs_theme_new()
+bs_theme_add(
+  rules = sass::sass_file(
+    system.file("custom", "person.scss", package = "bootstraplib")
+  )
+)
+# Include custom CSS that leverages bootstrap Sass variables
+person <- function(name, title, company) {
+  tags$div(
+    class = "person",
+    h3(class = "name", name),
+    div(class = "title", title),
+    div(class = "company", company)
+  )
+}
+ui <- fluidPage(
+  bootstrap(),
+  person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
+  person("John D. Rockefeller", "Chairman", "Standard Oil")
+)
+shinyApp(ui, function(input, output) {})
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("person.png")
+```
+
+
+## Adding other Sass {#custom-layers}
+
+In addition to styling `rules`, `bs_theme_add()` also has the ability to add `defaults` (i.e., for [variable defaults](https://sass-lang.com/documentation/variables#default-values)) and `declarations` (i.e., for [functions](https://sass-lang.com/documentation/at-rules/function) and [mixins](https://sass-lang.com/documentation/at-rules/mixin)). 
+
+```r
+bs_theme_add(
+  defaults = '$my-bg-color: red !default',
+  declarations = '$my-fg-color: color-yiq($my-bg-color);',
+  rules = ".my-class { background-color: $my-bg-color;  color: $my-fg-color}"
+)
+```
+
+Underneath the hood, theme objects are powered by [sass layers](https://rstudio.github.io/sass/articles/sass.html#layers), so they share the same argument, features, and conceptual underpinning. That means:
+
+* `defaults` for downstream `bs_theme_add()`s are placed _before_ `defaults` for upstream `bs_theme_add()`s.
+  * Allowing downstream Sass to override variable defaults in upstream Sass.
+* `declarations` for downstream `bs_theme_add()`s are placed _after_ `declarations` for upstream `bs_theme_add()`s.
+  * Allowing downstream Sass to use functions and mixins defined in upstream Sass.
+* `rules` for downstream `bs_theme_add()`s are placed _after_ `rules` for upstream `bs_theme_add()`s.
+  * Allows downstream rules to take precedence over upstream rules ([precedence](https://css-tricks.com/precedence-css-order-css-matters/) matters when there are multiple rules with the same level of [specificity](https://css-tricks.com/specifics-on-css-specificity/)).
+* [`file_attachments` are supported](https://rstudio.github.io/sass/articles/sass.html#imports-relative).
+* [HTML dependencies are supported](https://rstudio.github.io/sass/articles/sass.html#html-dependencies).
