@@ -313,7 +313,9 @@ get_default_css_values <- function(varnames) {
 
   if (is.null(bs_theme_get())) {
     bs_theme_new()
-  }
+} else if ("3" %in% theme_version(bs_theme_get())) {
+  stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")
+}
   bs_theme_add(declarations = sass_defaults, rules = sass_definition)
 
   css <- sass::sass(bs_theme_get(), write_attachments = FALSE)
