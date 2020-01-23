@@ -200,7 +200,11 @@ run_with_themer <- function(appDir = getwd(), ...) {
     origServerFunc <- origServerFuncSource()
     function(input, output, session, ...) {
       bs_themer()
-      origServerFunc(input, output, session, ...)
+      if (!"session" %in% names(formals(origServerFunc))) {
+        origServerFunc(input, output, ...)
+      } else {
+        origServerFunc(input, output, session, ...)
+      }
     }
   }
   shiny::runApp(obj, ...)
