@@ -3,77 +3,16 @@
     "body-bg": {
       "type": "color",
       "label": "Background color",
-      "default": "#FFFFFF",
       "desc": null
     },
     "body-color": {
       "type": "color",
       "label": "Text color",
-      "default": "#333333",
-      "desc": null
-    },
-    "link-color": {
-      "type": "color",
-      "label": "Link color",
-      "default": "#007BFF",
       "desc": null
     },
     "input-border-color": {
       "type": "color",
       "label": "Input border color",
-      "default": "#ced4da",
-      "desc": null
-    },
-    "card-border-color": {
-      "type": "color",
-      "label": "Card border color",
-      "default": "rgba(0, 0, 0, .125)",
-      "desc": null
-    }
-  },
-  "Fonts": {
-    "font-family-sans-serif": {
-      "type": "str",
-      "label": "Sans-serif font family",
-      "default": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
-      "desc": null
-    },
-    "font-family-monospace": {
-      "type": "str",
-      "label": "Monospace font family",
-      "default": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
-      "desc": null
-    }
-  },
-  "Options": {
-    "enable-rounded": {
-      "type": "bool",
-      "label": "Rounded corners",
-      "default": true,
-      "desc": null
-    },
-    "enable-shadows": {
-      "type": "bool",
-      "label": "Box shadows",
-      "default": false,
-      "desc": null
-    },
-    "enable-gradients": {
-      "type": "bool",
-      "label": "Gradient backgrounds",
-      "default": false,
-      "desc": null
-    },
-    "enable-transitions": {
-      "type": "bool",
-      "label": "Transitions",
-      "default": true,
-      "desc": null
-    },
-    "enable-caret": {
-      "type": "bool",
-      "label": "Show caret on dropdown toggle",
-      "default": true,
       "desc": null
     }
   },
@@ -81,55 +20,142 @@
     "primary": {
       "type": "color",
       "label": "Primary",
-      "default": "#0d6efd",
       "desc": "Used to highlight important actions, like default action buttons."
     },
     "default": {
       "type": "color",
       "label": "Default",
-      "default": "#dee2e6",
       "desc": null
     },
     "secondary": {
       "type": "color",
       "label": "Secondary",
-      "default": "#6c757d",
       "desc": null
     },
     "success": {
       "type": "color",
       "label": "Success",
-      "default": "#28a745",
       "desc": null
     },
     "info": {
       "type": "color",
       "label": "Info",
-      "default": "#17a2b8",
       "desc": null
     },
     "warning": {
       "type": "color",
       "label": "Warning",
-      "default": "#ffc107",
       "desc": null
     },
     "danger": {
       "type": "color",
       "label": "Secondary",
-      "default": "#dc3545",
       "desc": null
     },
     "light": {
       "type": "color",
       "label": "Light",
-      "default": "#f8f9fa",
       "desc": null
     },
     "dark": {
       "type": "color",
       "label": "Dark",
-      "default": "#343a40",
+      "desc": null
+    }
+  },
+  "Grays": {
+    "white": {
+      "type": "color",
+      "label": "White",
+      "desc": null
+    },
+    "gray-100": {
+      "type": "color",
+      "label": "Gray (10%)",
+      "desc": null
+    },
+    "gray-200": {
+      "type": "color",
+      "label": "Gray (20%)",
+      "desc": null
+    },
+    "gray-300": {
+      "type": "color",
+      "label": "Gray (30%)",
+      "desc": null
+    },
+    "gray-400": {
+      "type": "color",
+      "label": "Gray (40%)",
+      "desc": null
+    },
+    "gray-500": {
+      "type": "color",
+      "label": "Gray (50%)",
+      "desc": null
+    },
+    "gray-600": {
+      "type": "color",
+      "label": "Gray (60%)",
+      "desc": null
+    },
+    "gray-700": {
+      "type": "color",
+      "label": "Gray (70%)",
+      "desc": null
+    },
+    "gray-800": {
+      "type": "color",
+      "label": "Gray (80%)",
+      "desc": null
+    },
+    "gray-900": {
+      "type": "color",
+      "label": "Gray (90%)",
+      "desc": null
+    },
+    "black": {
+      "type": "color",
+      "label": "Black",
+      "desc": null
+    }
+  },
+  "Fonts": {
+    "font-family-sans-serif": {
+      "type": "str",
+      "label": "Sans-serif font family",
+      "desc": null
+    },
+    "font-family-monospace": {
+      "type": "str",
+      "label": "Monospace font family",
+      "desc": null
+    }
+  },
+  "Options": {
+    "enable-rounded": {
+      "type": "bool",
+      "label": "Rounded corners",
+      "desc": null
+    },
+    "enable-shadows": {
+      "type": "bool",
+      "label": "Box shadows",
+      "desc": null
+    },
+    "enable-gradients": {
+      "type": "bool",
+      "label": "Gradient backgrounds",
+      "desc": null
+    },
+    "enable-transitions": {
+      "type": "bool",
+      "label": "Transitions",
+      "desc": null
+    },
+    "enable-caret": {
+      "type": "bool",
+      "label": "Show caret on dropdown toggle",
       "desc": null
     }
   },
@@ -137,7 +163,6 @@
     "spacer": {
       "type": "length",
       "label": "Spacer",
-      "default": "1rem",
       "desc": "Basic unit of spacing; affects margin and padding of many (but not all) Bootstrap components."
     }
   }

@@ -19,7 +19,7 @@ bs_themer_ui <- function() {
     default_value <- computed_defaults[[id]]
     if (type == "color") {
       div(class = "form-row form-group",
-        htmltools::tags$label(lbl),
+        htmltools::tags$label(lbl, title = paste0("$", id)),
         htmltools::tags$input(type = "text", class = "bs-theme-value bs-theme-value-color form-control form-control-sm text-monospace",
           "data-id" = id,
           value = default_value
@@ -229,7 +229,7 @@ bs_themer <- function() {
 
   input <- session$input
 
-  orig_bs_theme <- bootstraplib::bs_theme_get()
+  orig_bs_theme <- bs_theme_get()
 
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui())
 
@@ -260,19 +260,15 @@ bs_themer <- function() {
 
     print(rlang::expr(bootstraplib::bs_theme_add_variables(!!!vals)))
 
-    tmp <- tempfile("bs-custom", fileext = ".css")
-    on.exit(unlink(tmp), add = TRUE, after = FALSE)
-
-    old_theme <- bootstraplib::bs_theme_get()
-    on.exit(bootstraplib::bs_theme_set(old_theme), add = TRUE, after = FALSE)
+    old_theme <- bs_theme_get()
+    on.exit(bs_theme_set(old_theme), add = TRUE, after = FALSE)
 
     if (is.null(old_theme)) {
-      bootstraplib::bs_theme_new()
+      bs_theme_new()
     }
-    bootstraplib::bs_theme_add_variables(!!!vals)
+    bs_theme_add_variables(!!!vals)
 
-    new_deps <- bootstraplib::bootstrap()
-    css <- get_css_str_from_bootstrap_dep(new_deps)
+    css <- sass(bs_theme_get(), write_attachments = FALSE)
 
     shiny::insertUI("head", where = "beforeEnd", ui = tags$style(id = "bs-realtime-preview-styles",
       htmltools::HTML(css)
@@ -308,16 +304,15 @@ get_default_css_values <- function(varnames) {
   ))
 
   # Render, with our newly created sass.
-  old_theme <- bootstraplib::bs_theme_get()
-  on.exit(bootstraplib::bs_theme_set(old_theme), add = TRUE, after = FALSE)
+  old_theme <- bs_theme_get()
+  on.exit(bs_theme_set(old_theme), add = TRUE, after = FALSE)
 
-  if (is.null(bootstraplib::bs_theme_get())) {
-    bootstraplib::bs_theme_new()
+  if (is.null(bs_theme_get())) {
+    bs_theme_new()
   }
-  bootstraplib::bs_theme_add(declarations = sass_defaults, rules = sass_definition)
+  bs_theme_add(declarations = sass_defaults, rules = sass_definition)
 
-  new_deps <- bootstraplib::bootstrap()
-  css <- get_css_str_from_bootstrap_dep(new_deps)
+  css <- sass::sass(bs_theme_get(), write_attachments = FALSE)
 
   # Search the output for the block of properties we just generated, using the
   # ":root.get_default_vars" selector. The capture group will include all of the
@@ -350,12 +345,6 @@ get_default_css_values <- function(varnames) {
   stats::setNames(values, varnames)
 }
 
-get_css_str_from_bootstrap_dep <- function(deps) {
-  # TODO: Clean this up
-  new_deps <- deps[vapply(deps, function(x) x$name == "bootstrap", logical(1))][[1]]
-  paste(collapse = "\n", readLines(file.path(new_deps$src$file, new_deps$stylesheet)))
-}
-
 diff_css_values <- function(a, b) {
   stopifnot(all(!is.na(a)))
   stopifnot(identical(names(a), names(b)))
@@ -363,10 +352,8 @@ diff_css_values <- function(a, b) {
   stopifnot(is.character(b))
 
   a_char <- vapply(a, function(x) {
-    if (is.na(x)) {
-      # This case doesn't seem possible, but keeping for completeness, to
-      # ensure we never enter the `if (is.logical(x))` branch for NA
-      NA_character_
+    if (is.null(x)) {
+      "null"
     } else if (is.logical(x)) {
       tolower(as.character(x))
     } else if (is.character(x)) {
@@ -376,6 +363,6 @@ diff_css_values <- function(a, b) {
     }
   }, character(1))
 
-  idx <- is.na(b) | a_char != b
+  idx <- ifelse(is.na(b), TRUE, a_char != b)
   a[idx]
 }
