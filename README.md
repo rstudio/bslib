@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 # bootstraplib
 
-Tools for theming **shiny** and **rmarkdown** from R via Bootstrap Sass.
+Tools for theming [**shiny**](https://shiny.rstudio.com) and [**rmarkdown**](https://rmarkdown.rstudio.com) from R via [Bootstrap](https://getbootstrap.com/) and [Sass](https://sass-lang.com).
 
 ## Installation
 
@@ -29,7 +29,7 @@ The **bootstraplib** R package provides tools for compiling and working
 with [Bootstrap
 Sass](https://getbootstrap.com/docs/4.4/getting-started/theming/),
 making it possible to style **shiny** apps and **rmarkdown** documents
-directly from R (via **sass**) instead writing raw CSS and HTML.
+directly from R (via **sass**) instead of writing raw CSS and HTML.
 Currently, **bootstraplib** supports Bootstrap 3 and 4, as well as a
 special `"4-3"` compatibility version (read more about this in [choosing
 a version](#choosing-a-version)). Using **bootstraplib** in **shiny**
@@ -38,8 +38,7 @@ see the notes below to start using it today.
 
 ### Shiny
 
-To start using **bootstraplib** in your **shiny** apps today, install
-`remotes::install_github("rstudio/shiny")`, then do the following:
+To start using **bootstraplib** in your **shiny** apps today, you'll also need to install an updated version of Shiny (`remotes::install_github("rstudio/shiny")`). Then do the following:
 
 1)  Call `bs_theme_new()` and optionally specify a Bootstrap `version`
     and [`bootswatch` theme](https://bootswatch.com/). The current
@@ -66,7 +65,7 @@ bs_theme_add_variables(
 )
 ```
 
-3)  Add `bootstrap()` to your user interface (this step might not
+3)  Add `bootstrap()` to your user interface (this step might not be
     required in a future version of **shiny**).
 
 <!-- end list -->
@@ -89,7 +88,7 @@ following:
 
 1)  Use `bootstrap_version` and `theme` to choose the Bootstrap version
     and a Bootswatch theme. These arguments are currently supported only
-    `html_document` and `html_document_base`.
+    by `html_document` and `html_document_base`.
 
 <!-- end list -->
 
@@ -102,11 +101,11 @@ output:
 ---
 ```
 
-2)  Optionally add theme customizations inside any R code chunk (these
+2)  Optionally, add theme customizations inside any R code chunk (these
     customizations end up influencing the Bootstrap CSS included in the
     output document).
     
-    ``` {r}
+    ``` {r echo=FALSE}
     library(bootstraplib)
     bs_theme_add_variables(primary = 'salmon')
     ```
@@ -118,7 +117,7 @@ The **bootstraplib** package currently supports three different
 [releases more major versions](https://github.com/twbs/release),
 **bootstraplib** may add more versions, and may also change the default
 `version`. However, the default `version` (currently `"4-3"`) will
-always be designed to work well the core **shiny** UI functionality
+always be designed to work well with the core **shiny** UI functionality
 (e.g., `actionButton()`, `navlistPanel()`, etc). If your UI wants to
 assume a specific version of Bootstrap (i.e., it uses a package like
 **bs4Dash** or **yonder** to generate UI), then it’s a good idea to set
@@ -127,7 +126,7 @@ released, and the default `version` changes, your app won’t break).
 
 Be aware that Bootstrap 4 and 3 expose a very different set of theme
 customization entry points, and as a result, theme customizations that
-you wrtie for Bootstrap 4 may not necessarily work for Bootstrap 3 (and
+you write for Bootstrap 4 may not necessarily work for Bootstrap 3 (and
 vice versa). At the moment, our priority is to enable and improve the
 Bootstrap 4 theming experience. If you’re not interested in upgrading to
 Bootstrap 4, and would rather theme your Bootstrap 3 project today, you
@@ -153,7 +152,7 @@ bs_theme_preview()
 ## Similar work
 
 The [**fresh** package](https://github.com/dreamRs/fresh) offers an
-alternative (& currently more user friendly) approach to theming via
+alternative (and currently more user friendly) approach to theming via
 Bootstrap 3 Sass variables. At the moment, **bootstraplib** is more
 focused on laying an extensible foundation for theming with Bootstrap 3
 (or 4) that other R packages can build upon.
