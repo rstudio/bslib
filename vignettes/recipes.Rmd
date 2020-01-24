@@ -126,7 +126,7 @@ knitr::include_graphics("https://i.imgur.com/V9kIoGd.png")
 
 ## Plots
 
-[A future version of **shiny**](https://github.com/rstudio/shiny/pull/2740), `renderPlot()` will be able to use it's foreground/background color to automatically apply an intelligent default theme to **ggplot2**, **lattice**, and **base** graphics. That means, even if you've only changed `$body-bg` and `$body-color`, your plots should inherit them and look consistent with the rest of your app's styling.
+In [a future version of **shiny**](https://github.com/rstudio/shiny/pull/2740), `renderPlot()` will be able to use the foreground/background color of its HTML container to automatically apply an intelligent default theme to **ggplot2**, **lattice**, and **base** graphics. That means even if you've only changed `$body-bg` and `$body-color`, your plots should inherit them and look consistent with the rest of your app's styling.
 
 ```r
 # remotes::install_github("rstudio/shiny#2740")

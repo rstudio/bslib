@@ -115,7 +115,7 @@
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw"><a href="../reference/theming.html">bs_theme_add</a></span>(</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">defaults =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"font-family-base"</span> =<span class="st"> "Montserrat"</span>),</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">rules =</span> <span class="kw"><a href="https://rdrr.io/pkg/gfonts/man/generate_css.html">generate_css</a></span>(<span class="st">"montserrat"</span>, <span class="dt">font_dir =</span> <span class="st">"www/fonts"</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">rules =</span> <span class="kw">generate_css</span>(<span class="st">"montserrat"</span>, <span class="dt">font_dir =</span> <span class="st">"www/fonts"</span>)</a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">)</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># This code is assuming we have an app in the current directory</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9">shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/runApp.html">runApp</a></span>()</a></code></pre></div>
@@ -148,7 +148,7 @@
 <div id="plots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plots" class="anchor"></a>Plots</h2>
-<p><a href="https://github.com/rstudio/shiny/pull/2740">A future version of <strong>shiny</strong></a>, <code><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot()</a></code> will be able to use it’s foreground/background color to automatically apply an intelligent default theme to <strong>ggplot2</strong>, <strong>lattice</strong>, and <strong>base</strong> graphics. That means, even if you’ve only changed <code>$body-bg</code> and <code>$body-color</code>, your plots should inherit them and look consistent with the rest of your app’s styling.</p>
+<p>In <a href="https://github.com/rstudio/shiny/pull/2740">a future version of <strong>shiny</strong></a>, <code><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot()</a></code> will be able to use the foreground/background color of its HTML container to automatically apply an intelligent default theme to <strong>ggplot2</strong>, <strong>lattice</strong>, and <strong>base</strong> graphics. That means even if you’ve only changed <code>$body-bg</code> and <code>$body-color</code>, your plots should inherit them and look consistent with the rest of your app’s styling.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># remotes::install_github("rstudio/shiny#2740")</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/runUrl.html">runGitHub</a></span>(<span class="st">"shiny-examples"</span>, <span class="st">"rstudio"</span>, <span class="st">"autoColors"</span>, <span class="st">"181-autocolors"</span>)</a></code></pre></div>
 <p><img src="https://i.imgur.com/OxWZbMW.png" width="60%" style="display: block; margin: auto;"></p>
