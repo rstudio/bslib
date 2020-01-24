@@ -41,7 +41,7 @@ ui <- navbarPage(
   tabPanel("Navbar 3", "This panel is intentionally left blank")
 )
 
-ui[[3]] <- tagAppendAttributes(ui[[3]], class = "bg-primary")
+#ui[[3]] <- tagAppendAttributes(ui[[3]], class = "bg-primary")
 
 shinyApp(
   ui = ui,
