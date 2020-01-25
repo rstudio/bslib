@@ -57,7 +57,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="recipes_files/header-attrs-2.1.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Theming recipes</h1>
@@ -81,54 +81,54 @@
 <h2 class="hasAnchor">
 <a href="#main-colors" class="anchor"></a>Main colors</h2>
 <p>Bootstrap 4 has two variables for setting the body’s foreground (<code>$body-color</code>) and background color (<code>$body-bg</code>). These provide the highest level control over the majority colors.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="st">"body-bg"</span> =<span class="st"> "#6c757d"</span>,</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="st">"body-color"</span> =<span class="st"> "white"</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="st">"body-bg"</span> =<span class="st"> "#6c757d"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4"></a>  <span class="st">"body-color"</span> =<span class="st"> "white"</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</span></code></pre></div>
 <p><img src="https://i.imgur.com/aNZbSrY.png" width="60%" style="display: block; margin: auto;"></p>
 <p>You’ll notice that there are certain Bootstrap components, like navigation tabs, that don’t pick up on <code>$body-color</code> in the way you might expect. For example, <a href="https://github.com/rstudio/bootstraplib/blob/388e41/inst/node_modules/bootstrap/scss/_variables.scss#L708"><code>$nav-tabs-link-active-color</code> doesn’t inherit from <code>$body-color</code></a>, so if your application uses <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel()</a></code>, you’d probably also want that variable to match <code>$body-color</code> (<a href="#theming-nav">See here</a> for more on theming navigation).</p>
 <p>The other main entrypoint to color styling are <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/#theme-colors">theme colors</a>. Shiny’s buttons use the secondary theme color, but you can also add a <code>class = "btn-primary"</code> for it to use the primary color:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="st">"nav-tabs-link-active-color"</span> =<span class="st"> "white"</span>,</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="st">"primary"</span> =<span class="st"> "salmon"</span>,</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="st">"secondary"</span> =<span class="st"> "lime"</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="st">"nav-tabs-link-active-color"</span> =<span class="st"> "white"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="st">"primary"</span> =<span class="st"> "salmon"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="st">"secondary"</span> =<span class="st"> "lime"</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</span></code></pre></div>
 <p><img src="https://i.imgur.com/iWvUpxY.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 <div id="fonts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#fonts" class="anchor"></a>Fonts</h2>
 <p>In Bootstrap 4, there are two main Sass variables for controling font families: <code>$font-family-base</code> and <code>$font-family-monospace</code>, and one for controling the base size: <code>$font-size-base</code>. There are a handful of other variables for controling things like <a href="https://github.com/rstudio/bootstraplib/blob/388e41/inst/node_modules/bootstrap/scss/_variables.scss#L290-L297">font weight</a> and <a href="https://github.com/rstudio/bootstraplib/blob/388e41/inst/node_modules/bootstrap/scss/_variables.scss#L299-L310">header styling</a>, but these are the quickest and easiest entrypoints:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="st">"font-family-base"</span> =<span class="st"> "Roboto Slab"</span>,</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="st">"font-family-monospace"</span> =<span class="st"> "Monaco"</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="st">"font-size-base"</span> =<span class="st"> "0.9rem"</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="st">"font-family-base"</span> =<span class="st"> "Roboto Slab"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="st">"font-family-monospace"</span> =<span class="st"> "Monaco"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="st">"font-size-base"</span> =<span class="st"> "0.9rem"</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</span></code></pre></div>
 <p><img src="https://i.imgur.com/UadyfPA.png" width="60%" style="display: block; margin: auto;"></p>
 <p>For non-standard fonts that may not exist on the system, you may want to consider downloading the relevant font files and serving those font files with your application. The <a href="https://github.com/dreamRs/gfonts"><strong>gfonts</strong></a> package offers a nice way to download fonts from Google Fonts and generating the styling rules necessary to import the font files, which we can incorporate as part of the current theme:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(gfonts)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># download_font("montserrat", output_dir = "www/fonts")</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw"><a href="../reference/theming.html">bs_theme_add</a></span>(</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">defaults =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"font-family-base"</span> =<span class="st"> "Montserrat"</span>),</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">rules =</span> <span class="kw">generate_css</span>(<span class="st">"montserrat"</span>, <span class="dt">font_dir =</span> <span class="st">"www/fonts"</span>)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># This code is assuming we have an app in the current directory</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/runApp.html">runApp</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(gfonts)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># download_font("montserrat", output_dir = "www/fonts")</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="kw"><a href="../reference/theming.html">bs_theme_add</a></span>(</span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="dt">defaults =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"font-family-base"</span> =<span class="st"> "Montserrat"</span>),</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="dt">rules =</span> <span class="kw"><a href="https://rdrr.io/pkg/gfonts/man/generate_css.html">generate_css</a></span>(<span class="st">"montserrat"</span>, <span class="dt">font_dir =</span> <span class="st">"www/fonts"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co"># This code is assuming we have an app in the current directory</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/runApp.html">runApp</a></span>()</span></code></pre></div>
 </div>
 <div id="buttons" class="section level2">
 <h2 class="hasAnchor">
 <a href="#buttons" class="anchor"></a>Buttons</h2>
 <p>Core <strong>shiny</strong> UI functions like <code><a href="https://rdrr.io/pkg/shiny/man/downloadButton.html">downloadButton()</a></code> and <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code> emit HTML markup with the <a href="https://getbootstrap.com/docs/3.4/components/#dropdowns-example">BS3 <code>btn-default</code> class</a>, which was dropped in BS4. When <code>version = "4-3"</code>, this class extends the BS4 <code>btn-secondary</code> class, which is why, given our theme has <code>$secondary: lime</code>, the <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code> appears lime (by default). However, you can easily change the background color to any theme color with the <code>btn-*</code> class modifiers. The text color will try and automatically contrast (i.e., flip between white and black) based on the background color, but if you want more control over the text color, use the <a href="https://getbootstrap.com/docs/4.4/utilities/text/">text</a> utility classes.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(),</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="kw">actionButton</span>(<span class="st">"action"</span>, <span class="st">"Search"</span>, <span class="dt">class =</span> <span class="st">"text-primary"</span>),</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="kw">actionButton</span>(<span class="st">"id"</span>, <span class="st">"Action"</span>, <span class="dt">class =</span> <span class="st">"btn-primary text-secondary m-1"</span>)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">fluidPage</span>(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(),</span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="kw">actionButton</span>(<span class="st">"action"</span>, <span class="st">"Search"</span>, <span class="dt">class =</span> <span class="st">"text-primary"</span>),</span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="kw">actionButton</span>(<span class="st">"id"</span>, <span class="st">"Action"</span>, <span class="dt">class =</span> <span class="st">"btn-primary text-secondary m-1"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5"></a>)</span></code></pre></div>
 <p><img src="https://i.imgur.com/i9k3EBn.png" width="60%" style="display: block; margin: auto;"></p>
 <p>It’s worth noting that not every <strong>shiny</strong> UI function will allow you to add classes this easily, but in those cases, you can use the <code><a href="https://rdrr.io/pkg/shiny/man/tag.html">shiny::tagAppendAttributes()</a></code> function to add <code>class</code> attributes to the tag.</p>
 </div>
@@ -136,21 +136,21 @@
 <h2 class="hasAnchor">
 <a href="#wells" class="anchor"></a>Wells</h2>
 <p>Core <strong>shiny</strong> UI functions like <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html">wellPanel()</a></code> and <code><a href="https://rdrr.io/pkg/shiny/man/sidebarLayout.html">sidebarPanel()</a></code> are based on the <a href="https://getbootstrap.com/docs/3.4/components/#wells">BS3 well class</a>. When <code>version = "4-3"</code>, this class extends the BS4 <code>card</code> class, making it feasible to style wells using some of the <a href="https://github.com/rstudio/bootstraplib/blob/ba67fa9f6/inst/node_modules/bootstrap/scss/_variables.scss#L829-L850">card theming variables</a>, like the border and spacing variables. We also use our own <a href="https://github.com/rstudio/bootstraplib/blob/ba67fa9f6/inst/bs3compat/_declarations.scss#L27"><code>$well-bg</code> variable</a> to set the background color to get the right default styling:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="st">"well-bg"</span> =<span class="st"> "#343a40"</span>,</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="st">"card-border-color"</span> =<span class="st"> "darken($well-bg, 3%)"</span>,</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="st">"card-border-radius"</span> =<span class="st"> </span><span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">  <span class="st">"card-border-width"</span> =<span class="st"> "0.5rem"</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="st">"well-bg"</span> =<span class="st"> "#343a40"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="st">"card-border-color"</span> =<span class="st"> "darken($well-bg, 3%)"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="st">"card-border-radius"</span> =<span class="st"> </span><span class="dv">0</span>,</span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="st">"card-border-width"</span> =<span class="st"> "0.5rem"</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</span></code></pre></div>
 <p><img src="https://i.imgur.com/V9kIoGd.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 <div id="plots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plots" class="anchor"></a>Plots</h2>
 <p>In <a href="https://github.com/rstudio/shiny/pull/2740">a future version of <strong>shiny</strong></a>, <code><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot()</a></code> will be able to use the foreground/background color of its HTML container to automatically apply an intelligent default theme to <strong>ggplot2</strong>, <strong>lattice</strong>, and <strong>base</strong> graphics. That means even if you’ve only changed <code>$body-bg</code> and <code>$body-color</code>, your plots should inherit them and look consistent with the rest of your app’s styling.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># remotes::install_github("rstudio/shiny#2740")</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/runUrl.html">runGitHub</a></span>(<span class="st">"shiny-examples"</span>, <span class="st">"rstudio"</span>, <span class="st">"autoColors"</span>, <span class="st">"181-autocolors"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># remotes::install_github("rstudio/shiny#2740")</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/runUrl.html">runGitHub</a></span>(<span class="st">"shiny-examples"</span>, <span class="st">"rstudio"</span>, <span class="st">"autoColors"</span>, <span class="st">"181-autocolors"</span>)</span></code></pre></div>
 <p><img src="https://i.imgur.com/OxWZbMW.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 <div id="tables" class="section level2">
@@ -160,8 +160,8 @@
 <h3 class="hasAnchor">
 <a href="#dt" class="anchor"></a>DT</h3>
 <p><a href="https://github.com/rstudio/DT/pull/740">A future version</a> of <strong>DT</strong> will gain the ability to automatically theme itself based on currently set <strong>bootstraplib</strong> theme, which works with <code><a href="https://rdrr.io/pkg/DT/man/dataTableOutput.html">DT::dataTableOutput()</a></code> inside <strong>shiny</strong> and <code><a href="https://rdrr.io/pkg/DT/man/datatable.html">DT::datatable()</a></code> in <strong>rmarkdown</strong>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>(<span class="dt">bootswatch =</span> <span class="st">"solar"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">fluidPage</span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), DT<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span>(mtcars))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>(<span class="dt">bootswatch =</span> <span class="st">"solar"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">fluidPage</span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), DT<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span>(mtcars))</span></code></pre></div>
 <p><img src="https://i.imgur.com/2vvZWZf.png" width="60%" style="display: block; margin: auto;"></p>
 <p>For more granular control, you can set the relevant <a href="https://github.com/rstudio/bootstraplib/blob/ba67fa9/inst/node_modules/bootstrap/scss/_variables.scss#L355-L369">Bootstrap Sass variables</a>, like <code>$table-color</code> and <code>$table-bg</code>. The upside of doing this is that you can theme both <code><a href="https://rdrr.io/pkg/DT/man/dataTableOutput.html">DT::dataTableOutput()</a></code> as well as the more basic <code><a href="https://rdrr.io/pkg/shiny/man/tableOutput.html">shiny::dataTableOutput()</a></code> all at once. Alternatively, you can also override <a href="https://github.com/DataTables/DataTablesSrc/blob/ce2c7c1/css/jquery.dataTables.scss#L9-L28">dataTables Sass variable</a> defaults using <code><a href="https://rdrr.io/pkg/DT/man/datatableThemeVariables.html">DT::datatableThemeVariables()</a></code>. The upside of doing this is that you can theme <strong>DT</strong> outside of <strong>shiny</strong> and <strong>rmarkdown</strong> and without depending on Bootstrap.</p>
 </div>
@@ -198,31 +198,31 @@
 <h3 class="hasAnchor">
 <a href="#pills" class="anchor"></a>Pills</h3>
 <p>Let’s start with a basic <code><a href="https://rdrr.io/pkg/shiny/man/navlistPanel.html">navlistPanel()</a></code>, which is based on Bootstrap nav pills:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bootstraplib)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">ui_content &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navlistPanel.html">navlistPanel</a></span>(</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"One"</span>, <span class="st">"One"</span>),</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Two"</span>, <span class="dt">icon =</span> <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span>(<span class="st">"download"</span>), <span class="st">"Two"</span>),</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu</a></span>(<span class="st">"A submenu"</span>,</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Three"</span>, <span class="st">"Three"</span>),</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">             <span class="st">"---"</span>,</a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Four"</span>, <span class="st">"Four"</span>),</a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Five"</span>, <span class="st">"Five"</span>)</a>
-<a class="sourceLine" id="cb9-12" data-line-number="12">  )</a>
-<a class="sourceLine" id="cb9-13" data-line-number="13">)</a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co"># Clear the current theme</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co"># Resuable function to preview our theming changes</span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19">preview_pills &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb9-20" data-line-number="20">  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(</a>
-<a class="sourceLine" id="cb9-21" data-line-number="21">    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), ui_content), </a>
-<a class="sourceLine" id="cb9-22" data-line-number="22">    <span class="cf">function</span>(input, output) {}</a>
-<a class="sourceLine" id="cb9-23" data-line-number="23">  )</a>
-<a class="sourceLine" id="cb9-24" data-line-number="24">}</a>
-<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="kw">preview_pills</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bootstraplib)</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>ui_content &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navlistPanel.html">navlistPanel</a></span>(</span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"One"</span>, <span class="st">"One"</span>),</span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Two"</span>, <span class="dt">icon =</span> <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span>(<span class="st">"download"</span>), <span class="st">"Two"</span>),</span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu</a></span>(<span class="st">"A submenu"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Three"</span>, <span class="st">"Three"</span>),</span>
+<span id="cb9-9"><a href="#cb9-9"></a>             <span class="st">"---"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Four"</span>, <span class="st">"Four"</span>),</span>
+<span id="cb9-11"><a href="#cb9-11"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Five"</span>, <span class="st">"Five"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12"></a>  )</span>
+<span id="cb9-13"><a href="#cb9-13"></a>)</span>
+<span id="cb9-14"><a href="#cb9-14"></a></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co"># Clear the current theme</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb9-17"><a href="#cb9-17"></a></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="co"># Resuable function to preview our theming changes</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a>preview_pills &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb9-20"><a href="#cb9-20"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(</span>
+<span id="cb9-21"><a href="#cb9-21"></a>    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), ui_content), </span>
+<span id="cb9-22"><a href="#cb9-22"></a>    <span class="cf">function</span>(input, output) {}</span>
+<span id="cb9-23"><a href="#cb9-23"></a>  )</span>
+<span id="cb9-24"><a href="#cb9-24"></a>}</span>
+<span id="cb9-25"><a href="#cb9-25"></a><span class="kw">preview_pills</span>()</span></code></pre></div>
 <p><img src="pills.png" width="60%" style="display: block; margin: auto;"></p>
 <p>Bootstrap 4 currently exposes 3 different Sass variables specifically for pill styling, including the <a href="https://github.com/rstudio/bootstraplib/blob/04925e1/inst/node_modules/bootstrap/scss/_variables.scss#L713">foreground</a> and <a href="https://github.com/rstudio/bootstraplib/blob/04925e1/inst/node_modules/bootstrap/scss/_variables.scss#L714">background</a> color of active pills:</p>
 <pre class="scss"><code>$nav-pills-link-active-color: $component-active-color !default;
@@ -231,61 +231,61 @@ $nav-pills-link-active-bg:    $component-active-bg !default;</code></pre>
 <pre class="scss"><code>$component-active-color:      $white !default;
 $component-active-bg:         theme-color("primary") !default;</code></pre>
 <p>Therefore, we could just change the primary theme color to get a different active color scheme.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="st">"primary"</span> =<span class="st"> "orange"</span>,</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="st">"nav-pills-border-radius"</span> =<span class="st"> </span><span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="kw">preview_pills</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="st">"primary"</span> =<span class="st"> "orange"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="st">"nav-pills-border-radius"</span> =<span class="st"> </span><span class="dv">0</span>,</span>
+<span id="cb12-5"><a href="#cb12-5"></a>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="kw">preview_pills</span>()</span></code></pre></div>
 <p><img src="orange-pills.png" width="60%" style="display: block; margin: auto;"></p>
 <p>If you wanted the bg color of the active pills directly, you could set <code>$nav-pills-link-active-bg</code>; but in that case, you should also set <code>$dropdown-link-active-bg</code> (which controls <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu()</a></code>’s active bg color) as well as <code>$link-color</code> (which controls the non-active pill text color).</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="st">"nav-pills-link-active-bg"</span> =<span class="st"> "orange"</span>,</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="st">"dropdown-link-active-bg"</span> =<span class="st"> "orange"</span>,</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">  <span class="st">"link-color"</span> =<span class="st"> "orange"</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="st">"nav-pills-link-active-bg"</span> =<span class="st"> "orange"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="st">"dropdown-link-active-bg"</span> =<span class="st"> "orange"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="st">"link-color"</span> =<span class="st"> "orange"</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>)</span></code></pre></div>
 </div>
 <div id="tabs" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tabs" class="anchor"></a>Tabs</h3>
 <p>Let’s start with a basic <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel()</a></code>, which is based on Bootstrap nav pills:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bootstraplib)</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">ui_content &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span>(</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"One"</span>, <span class="st">"One"</span>),</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Two"</span>, <span class="dt">icon =</span> <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span>(<span class="st">"download"</span>), <span class="st">"Two"</span>),</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu</a></span>(<span class="st">"A submenu"</span>,</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Three"</span>, <span class="st">"Three"</span>),</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">             <span class="st">"---"</span>,</a>
-<a class="sourceLine" id="cb14-10" data-line-number="10">             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Four"</span>, <span class="st">"Four"</span>),</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11">             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Five"</span>, <span class="st">"Five"</span>)</a>
-<a class="sourceLine" id="cb14-12" data-line-number="12">  )</a>
-<a class="sourceLine" id="cb14-13" data-line-number="13">)</a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</a>
-<a class="sourceLine" id="cb14-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co"># Resuable function to preview our theming changes</span></a>
-<a class="sourceLine" id="cb14-18" data-line-number="18">preview_tabs &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb14-19" data-line-number="19">  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(</a>
-<a class="sourceLine" id="cb14-20" data-line-number="20">    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), ui_content), </a>
-<a class="sourceLine" id="cb14-21" data-line-number="21">    <span class="cf">function</span>(input, output) {}</a>
-<a class="sourceLine" id="cb14-22" data-line-number="22">  )</a>
-<a class="sourceLine" id="cb14-23" data-line-number="23">}</a>
-<a class="sourceLine" id="cb14-24" data-line-number="24"><span class="kw">preview_tabs</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bootstraplib)</span>
+<span id="cb14-3"><a href="#cb14-3"></a></span>
+<span id="cb14-4"><a href="#cb14-4"></a>ui_content &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span>(</span>
+<span id="cb14-5"><a href="#cb14-5"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"One"</span>, <span class="st">"One"</span>),</span>
+<span id="cb14-6"><a href="#cb14-6"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Two"</span>, <span class="dt">icon =</span> <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span>(<span class="st">"download"</span>), <span class="st">"Two"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu</a></span>(<span class="st">"A submenu"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Three"</span>, <span class="st">"Three"</span>),</span>
+<span id="cb14-9"><a href="#cb14-9"></a>             <span class="st">"---"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Four"</span>, <span class="st">"Four"</span>),</span>
+<span id="cb14-11"><a href="#cb14-11"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Five"</span>, <span class="st">"Five"</span>)</span>
+<span id="cb14-12"><a href="#cb14-12"></a>  )</span>
+<span id="cb14-13"><a href="#cb14-13"></a>)</span>
+<span id="cb14-14"><a href="#cb14-14"></a></span>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb14-16"><a href="#cb14-16"></a></span>
+<span id="cb14-17"><a href="#cb14-17"></a><span class="co"># Resuable function to preview our theming changes</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a>preview_tabs &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb14-19"><a href="#cb14-19"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(</span>
+<span id="cb14-20"><a href="#cb14-20"></a>    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), ui_content), </span>
+<span id="cb14-21"><a href="#cb14-21"></a>    <span class="cf">function</span>(input, output) {}</span>
+<span id="cb14-22"><a href="#cb14-22"></a>  )</span>
+<span id="cb14-23"><a href="#cb14-23"></a>}</span>
+<span id="cb14-24"><a href="#cb14-24"></a><span class="kw">preview_tabs</span>()</span></code></pre></div>
 <p><img src="tabs.png" width="60%" style="display: block; margin: auto;"></p>
 <p>For the most part the <a href="https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L704-L710">variable defaults for tabs</a> work well with lighter themes, but for darker themes, you’ll likely want to set <code>$nav-tabs-link-active-color</code> to something similar to <code>$body-color</code>. Also, it’s not obvious from the variables file, but the non-active tab text color derives from <code>$link-color</code>, which defaults to <code>$primary</code>. So if you want to change the non-active tab color without changing <code>$primary</code>, set <code>$link-color</code> (and also <code>$dropdown-link-active-bg</code>) if your tabs have <a href="https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L762-L788">dropdowns</a>.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="st">"body-bg"</span> =<span class="st"> "#6c757d"</span>,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="st">"body-color"</span> =<span class="st"> "white"</span>,</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="st">"nav-tabs-link-active-color"</span> =<span class="st"> "white"</span>,</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">  <span class="co"># Non-active tab/link styling</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">  <span class="st">"link-color"</span> =<span class="st"> "lime"</span>,</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">  <span class="co"># For dropdown</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">  <span class="st">"dropdown-link-active-bg"</span> =<span class="st"> "lime"</span>,</a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">)</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="kw">preview_tabs</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="st">"body-bg"</span> =<span class="st"> "#6c757d"</span>,</span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="st">"body-color"</span> =<span class="st"> "white"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4"></a>  <span class="st">"nav-tabs-link-active-color"</span> =<span class="st"> "white"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5"></a>  <span class="co"># Non-active tab/link styling</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>  <span class="st">"link-color"</span> =<span class="st"> "lime"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="co"># For dropdown</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>  <span class="st">"dropdown-link-active-bg"</span> =<span class="st"> "lime"</span>,</span>
+<span id="cb15-9"><a href="#cb15-9"></a>)</span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="kw">preview_tabs</span>()</span></code></pre></div>
 <p><img src="tabs-lime.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 </div>
