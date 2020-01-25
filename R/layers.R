@@ -39,7 +39,10 @@ bootstrap_layer <- function(version) {
   if (version %in% "3") {
     # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
     return(sass_layer(
-      defaults = bootstrap_sass_files("variables", version = 3),
+      defaults = list(
+        list("icon-font-path" = "'glyphicon-fonts/'"),
+        bootstrap_sass_files("variables", version = 3)
+      ),
       declarations = bootstrap_sass_files("mixins", version = 3),
       rules = bootstrap_sass_files(c(
         "normalize", "print", "glyphicons", "scaffolding", "type", "code", "grid",
@@ -49,6 +52,12 @@ bootstrap_layer <- function(version) {
         "list-group", "panels", "responsive-embed", "wells", "close", "modals",
         "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
       ), version = 3),
+      file_attachments = c(
+        "glyphicon-fonts" = system.file(
+          "node_modules/bootstrap-sass/assets/fonts/bootstrap",
+          package = "bootstraplib"
+        )
+      ),
       # Tag this layer so we know we can query the theme_version()
       tags = "bootstraplib_version_3"
     ))

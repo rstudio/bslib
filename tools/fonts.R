@@ -4,13 +4,7 @@ if (Sys.getenv("RSTUDIO") == "1") {
   stop("Please run this script from the command line: `Rscript tools/fonts.R`")
 }
 
-themes <- list.dirs(
-  "inst/node_modules/bootswatch/dist",
-  recursive = FALSE,
-  full.names = TRUE
-)
-
-lapply(themes, function(theme) {
+download_and_copy_fonts <-  function(theme) {
   theme_scss <- readLines(file.path(theme, "_bootswatch.scss"))
   web_font_url <- grep("^\\$web-font-path: .*", theme_scss, value = TRUE)
   if (length(web_font_url)) {
@@ -45,4 +39,18 @@ lapply(themes, function(theme) {
     dir.create(file.path("inst", "fonts"), showWarnings = FALSE)
     file.rename(ttf_files, file.path("inst", "fonts", ttf_files))
   }
-})
+}
+
+themes <- list.dirs(
+  "inst/node_modules/bootswatch/dist",
+  recursive = FALSE,
+  full.names = TRUE
+)
+themes3 <- list.dirs(
+  "inst/node_modules/bootswatch3",
+  recursive = FALSE,
+  full.names = TRUE
+)
+
+lapply(themes, download_and_copy_fonts)
+lapply(themes3, download_and_copy_fonts)
