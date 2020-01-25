@@ -1,3 +1,35 @@
+#' Preview the currently set theme
+#'
+#' Launches an example shiny app via `run_with_themer()` and `bootstrap()`.
+#' Useful for getting a quick preview of the current theme setting as
+#' well as an interactive GUI for tweaking some of the main theme settings.
+#'
+#' The app that this launches is subject to change.
+#'
+#' @export
+#' @seealso [run_with_themer()]
+#' @examples
+#'
+#' bs_theme_new()
+#' bs_theme_add_variables(
+#'   "body-bg" = "#6c757d",
+#'   "body-color" = "white"
+#' )
+#' if (interactive()) {
+#'   bs_theme_preview()
+#' }
+#'
+bs_theme_preview <- function(..., with_themer = TRUE) {
+  # TODO: add more this demo and also an option for launching different demos
+  app <- system.file("themer-demo", package = "bootstraplib")
+  if (with_themer) {
+    run_with_themer(app, ...)
+  } else {
+    shiny::runApp(app, ...)
+  }
+}
+
+
 colorpicker_deps <- function() {
   htmltools::htmlDependency(
     "bootstrap-colorpicker",

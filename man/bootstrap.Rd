@@ -40,75 +40,35 @@ custom layers to the current theme without affecting the global state (e.g.,
 \item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}}
 }
 \description{
-Use \code{bootstrap()} to obtain all of Bootstrap and it's dependencies as a list
-of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} objects.
-Use \code{bootstrap_sass()} if you can assume Bootstrap already exists in your
-project, but you want to leverage Bootstrap utilities (e.g., variables, functions,
+Use \code{bootstrap()} to compile Bootstrap Sass into CSS and return it,
+along with other HTML dependencies, as a list of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}s
+(if you just want the CSS as a string, and a \code{\link[=bs_theme_new]{bs_theme_new()}} has been set,
+you can call \code{sass::sass()} on the return value of \code{\link[=bs_theme_get]{bs_theme_get()}}).
+Use \code{bootstrap_sass()} if you can assume Bootstrap already exists on the
+page, but you want to leverage Bootstrap utilities (e.g., variables, functions,
 or mixins) to generate additional CSS rules (as a string that can be included
 as a \verb{<style>} tag via \code{tags$style(css)}).
 }
 \examples{
+
+# Function to preview the styling a (primary) Bootstrap button
 library(htmltools)
-
 button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
-
 preview_button <- function(x) {
   browsable(tags$body(x, button))
 }
 
 # Latest bootstrap
 preview_button(bootstrap())
-
 # Bootstrap 3
 preview_button(bootstrap("3"))
-
 # Bootswatch minty theme
 preview_button(bootstrap("minty"))
-
 # Bootswatch sketchy theme
 preview_button(bootstrap("sketchy"))
-
 # Bootswatch solar theme with BS3 compatibility
 preview_button(bootstrap("solar@4-3"))
 
-# Set bootstrap SASS variables (globally)
-# To set global themes, you start by calling bs_theme_new()
-bs_theme_new()
-bs_theme_add_variables(
-  primary = "orange",
-  "body-bg" = "#EEEEEE",
-  "font-family-base" = "monospace",
-  "font-size-base" = "1.4rem",
-  "btn-padding-y" = ".16rem",
-  "btn-padding-x" = "2rem",
-  "border-radius" = 0,
-  "border-radius-lg" = 0,
-  "border-radius-sm" = 0
-)
-preview_button(bootstrap())
-
-# Start a new global theme
-bs_theme_new()
-# Include custom CSS that leverages bootstrap SASS variables
-person <- function(name, title, company) {
-  tags$div(
-    class = "person",
-    h3(class = "name", name),
-    div(class = "title", title),
-    div(class = "company", company)
-  )
-}
-person_scss <- sass::sass_file(system.file("custom", "person.scss", package = "bootstraplib"))
-browsable(tags$body(
-  bootstrap(),
-  tags$style(bootstrap_sass(person_scss)),
-  person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
-  person("John D. Rockefeller", "Chairman", "Standard Oil")
-))
-
-}
-\references{
-\url{https://getbootstrap.com/docs/4.3/getting-started/theming/}
 }
 \seealso{
 \code{\link[=bs_theme_set]{bs_theme_set()}}

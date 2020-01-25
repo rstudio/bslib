@@ -1,0 +1,51 @@
+destination: docs
+
+toc:
+  depth: 2
+
+navbar:
+  type: default
+  left:
+  - text: Recipes
+    href: articles/recipes.html
+  - text: Foundations
+    href: articles/foundations.html
+  - text: Reference
+    href: reference/index.html
+# TODO: add after CRAN release
+#  - text: News
+#    href: news/index.html
+
+reference:
+- title: Bootstrap SASS compilation
+  description: |
+    Entry points for compiling Bootstrap Sass. `bootstrap()` is for adding a Bootstrap dependency and `bootstrap_sass()` is for compiling additional Sass rules that use Bootstrap Sass.
+  contents:
+    - bootstrap
+    - bootstrap_sass
+- title: Bootstrap themes
+  description: |
+    Tools for creating custom themes.
+  contents:
+    - bs_theme_new
+    - bs_theme_add_variables
+    - bs_theme_add
+    - bs_theme_get
+    - bs_theme_set
+    - bs_theme_clear
+    - bs_theme_preview
+- title: Interactive theming
+  description: |
+    Tools for creating themes interactively.
+  contents:
+    - run_with_themer
+    - bs_themer
+
+- title: Theming helpers
+  description: |
+    Tools for working with themes.
+  contents:
+    - theme_version
+    - theme_bootswatch
+    - bootswatch_themes
+    - version_default
