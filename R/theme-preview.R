@@ -7,6 +7,8 @@
 #' The app that this launches is subject to change.
 #'
 #' @export
+#' @param ... passed along to [shiny::runApp()]
+#' @param with_themer whether or not to run the app with [run_with_themer()].
 #' @seealso [run_with_themer()]
 #' @examples
 #'

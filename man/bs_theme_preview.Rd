@@ -4,7 +4,12 @@
 \alias{bs_theme_preview}
 \title{Preview the currently set theme}
 \usage{
-bs_theme_preview()
+bs_theme_preview(..., with_themer = TRUE)
+}
+\arguments{
+\item{...}{passed along to \code{\link[shiny:runApp]{shiny::runApp()}}}
+
+\item{with_themer}{whether or not to run the app with \code{\link[=run_with_themer]{run_with_themer()}}.}
 }
 \description{
 Launches an example shiny app via \code{run_with_themer()} and \code{bootstrap()}.

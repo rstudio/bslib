@@ -8,3 +8,5 @@ inst/node_modules/bootswatch3/.npmignore
 ^bootstraplib\.Rproj$
 ^README\.Rmd$
 ^\.travis\.yml$
+docs
+^_pkgdown\.yml$

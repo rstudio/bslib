@@ -100,6 +100,7 @@ bootstrap <- function(theme = bs_theme_get(),
 
 
 #' @rdname bootstrap
+#' @param rules Sass styling rules that may reference `theme` `defaults` and `declarations`.
 #' @export
 bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
   theme <- as_bs_theme(theme)

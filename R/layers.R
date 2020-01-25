@@ -318,7 +318,7 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
       default = c("dark", "dark"),
       inverse = c("dark", "primary")
     ),
-    stop("Didn't recognize Bootswatch 3 theme: ", theme, call. = FALSE)
+    stop("Didn't recognize Bootswatch 3 theme: ", bootswatch, call. = FALSE)
   )
 
   layer <- sass_layer(

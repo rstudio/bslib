@@ -38,6 +38,8 @@ custom layers to the current theme without affecting the global state (e.g.,
 \item{minified}{whether the resulting HTML dependency should minify the JS/CSS files.}
 
 \item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}}
+
+\item{rules}{Sass styling rules that may reference \code{theme} \code{defaults} and \code{declarations}.}
 }
 \description{
 Use \code{bootstrap()} to compile Bootstrap Sass into CSS and return it,

@@ -99,7 +99,7 @@
 #' # https://rstudio.github.io/sass/articles/sass.html#layers
 #' class(theme)
 #' layer <- sass::sass_layer("$primary: red")
-#' theme <- sass_layer_merge(theme, layer)
+#' theme <- sass::sass_layer_merge(theme, layer)
 #' bs_theme_set(theme)
 #'
 bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
