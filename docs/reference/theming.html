@@ -74,7 +74,7 @@ Sass variable defaults and bs_theme_add() to add arbitrary Sass
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -256,7 +256,8 @@ functions, and mixins, but before Bootstrap's styling rules.</p></td>
 <span class='co'># just like any other sass layer</span>
 <span class='co'># https://rstudio.github.io/sass/articles/sass.html#layers</span>
 <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>theme</span>)</div><div class='output co'>#&gt; [1] "bs_theme"   "sass_layer"</div><div class='input'><span class='no'>layer</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass_layer</a></span>(<span class='st'>"$primary: red"</span>)
-<span class='no'>theme</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_layer_merge</span>(<span class='no'>theme</span>, <span class='no'>layer</span>)</div><div class='output co'>#&gt; <span class='error'>Error in sass_layer_merge(theme, layer): could not find function "sass_layer_merge"</span></div><div class='input'><span class='fu'>bs_theme_set</span>(<span class='no'>theme</span>)</div></pre>
+<span class='no'>theme</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass_layer_merge</a></span>(<span class='no'>theme</span>, <span class='no'>layer</span>)
+<span class='fu'>bs_theme_set</span>(<span class='no'>theme</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

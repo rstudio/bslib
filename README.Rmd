@@ -20,7 +20,7 @@ library(bootstraplib)
 
 # bootstraplib
 
-Tools for theming **shiny** and **rmarkdown** from R via Bootstrap (3 or 4) Sass.
+Tools for styling **shiny** and **rmarkdown** from R via Bootstrap (3 or 4) Sass.
 
 ## Installation
 

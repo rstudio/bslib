@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 # bootstraplib
 
-Tools for theming **shiny** and **rmarkdown** from R via Bootstrap (3 or
+Tools for styling **shiny** and **rmarkdown** from R via Bootstrap (3 or
 4) Sass.
 
 ## Installation
