@@ -153,8 +153,8 @@ bs_theme_preview()
 
 ## Learn more
 
-See the articles on [theming foundations](foundations.html) and [theming
-in practice](practice.html).
+See the articles on [theming foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html) and [theming
+in practice](https://rstudio.github.io/bootstraplib/articles/recipes.html).
 
 ## Similar work
 
