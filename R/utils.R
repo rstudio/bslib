@@ -1,6 +1,9 @@
 version_resolve <- function(version) {
   version <- as.character(version)
-  if (identical(version, "4-3")) version <- "4+3"
+  if (identical(version, "4-3")) {
+    warning("Version '4-3' has been renamed to '4+3'. Please use '4+3' instead")
+    version <- "4+3"
+  }
   match.arg(version, c("4+3", "4", "3"))
 }
 
