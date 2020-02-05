@@ -1,6 +1,7 @@
 version_resolve <- function(version) {
   version <- as.character(version)
-  match.arg(version, c("4-3", "4", "3"))
+  if (identical(version, "4-3")) version <- "4+3"
+  match.arg(version, c("4+3", "4", "3"))
 }
 
 add_class <- function(x, y) {

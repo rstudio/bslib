@@ -90,7 +90,7 @@ shiny::runApp()
 
 ## Buttons
 
-Core **shiny** UI functions like `downloadButton()` and `actionButton()` emit HTML markup with the [BS3 `btn-default` class](https://getbootstrap.com/docs/3.4/components/#dropdowns-example), which was dropped in BS4. When `version = "4-3"`, this class extends the BS4 `btn-secondary` class, which is why, given our theme has `$secondary: lime`, the `actionButton()` appears lime (by default). However, you can easily change the background color to any theme color with the `btn-*` class modifiers. The text color will try and automatically contrast (i.e., flip between white and black) based on the background color, but if you want more control over the text color, use the [text](https://getbootstrap.com/docs/4.4/utilities/text/) utility classes.
+Core **shiny** UI functions like `downloadButton()` and `actionButton()` emit HTML markup with the [BS3 `btn-default` class](https://getbootstrap.com/docs/3.4/components/#dropdowns-example), which was dropped in BS4. When `version = "4+3"`, this class extends the BS4 `btn-secondary` class, which is why, given our theme has `$secondary: lime`, the `actionButton()` appears lime (by default). However, you can easily change the background color to any theme color with the `btn-*` class modifiers. The text color will try and automatically contrast (i.e., flip between white and black) based on the background color, but if you want more control over the text color, use the [text](https://getbootstrap.com/docs/4.4/utilities/text/) utility classes.
 
 ```r
 fluidPage(
@@ -108,7 +108,7 @@ It's worth noting that not every **shiny** UI function will allow you to add cla
 
 ## Wells
 
-Core **shiny** UI functions like `wellPanel()` and `sidebarPanel()` are based on the [BS3 well class](https://getbootstrap.com/docs/3.4/components/#wells). When `version = "4-3"`, this class extends the BS4 `card` class, making it feasible to style wells using some of the [card theming variables](https://github.com/rstudio/bootstraplib/blob/ba67fa9f6/inst/node_modules/bootstrap/scss/_variables.scss#L829-L850), like the border and spacing variables. We also use our own [`$well-bg` variable](https://github.com/rstudio/bootstraplib/blob/ba67fa9f6/inst/bs3compat/_declarations.scss#L27) to set the background color to get the right default styling:
+Core **shiny** UI functions like `wellPanel()` and `sidebarPanel()` are based on the [BS3 well class](https://getbootstrap.com/docs/3.4/components/#wells). When `version = "4+3"`, this class extends the BS4 `card` class, making it feasible to style wells using some of the [card theming variables](https://github.com/rstudio/bootstraplib/blob/ba67fa9f6/inst/node_modules/bootstrap/scss/_variables.scss#L829-L850), like the border and spacing variables. We also use our own [`$well-bg` variable](https://github.com/rstudio/bootstraplib/blob/ba67fa9f6/inst/bs3compat/_declarations.scss#L27) to set the background color to get the right default styling:
 
 ```r
 bs_theme_add_variables(

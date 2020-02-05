@@ -32,7 +32,7 @@ Sass](https://getbootstrap.com/docs/4.4/getting-started/theming/),
 making it possible to style **shiny** apps and **rmarkdown** documents
 directly from R (via **sass**) instead of writing raw CSS and HTML.
 Currently, **bootstraplib** supports Bootstrap 3 and 4, as well as a
-special `"4-3"` compatibility version (read more about this in [choosing
+special `"4+3"` compatibility version (read more about this in [choosing
 a version](#choosing-a-version)). Using **bootstraplib** in **shiny**
 and **rmarkdown** is still considered experimental at this point, but
 see the notes below to start using it today.
@@ -50,7 +50,7 @@ To start using **bootstraplib** in your **shiny** apps today, install
 <!-- end list -->
 
 ``` r
-bs_theme_new(version = "4-3", bootswatch = NULL)
+bs_theme_new(version = "4+3", bootswatch = NULL)
 ```
 
 2)  Once a (global) theme is initialized, you may start adding theming
@@ -98,7 +98,7 @@ following:
 ---
 output:
   html_document:
-    bootstrap_version: 4-3
+    bootstrap_version: 4+3
     theme: minty
 ---
 ```
@@ -115,10 +115,10 @@ output:
 ## Choosing a version
 
 The **bootstraplib** package currently supports three different
-`version`s: `"4-3"`, `4`, and `3`. In the future, when Bootstrap
+`version`s: `"4+3"`, `4`, and `3`. In the future, when Bootstrap
 [releases more major versions](https://github.com/twbs/release),
 **bootstraplib** may add more versions, and may also change the default
-`version`. However, the default `version` (currently `"4-3"`) will
+`version`. However, the default `version` (currently `"4+3"`) will
 always be designed to work well with core **shiny** UI functionality
 (e.g., `actionButton()`, `navlistPanel()`, etc). If your UI wants to
 assume a specific version of Bootstrap (i.e., it uses a package like

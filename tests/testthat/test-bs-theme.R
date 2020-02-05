@@ -1,12 +1,12 @@
 context("theme-api")
 
 test_that("theme api works", {
-  bs_theme_new(version = "4-3", bootswatch = "sketchy")
+  bs_theme_new(version = "4+3", bootswatch = "sketchy")
   on.exit(bs_theme_clear(), add = TRUE)
 
   # Can retrieve theme version/bootswatch
   sketchy_theme <- bs_theme_get()
-  expect_equal(theme_version(sketchy_theme), "4-3")
+  expect_equal(theme_version(sketchy_theme), "4+3")
   expect_equal(theme_bootswatch(sketchy_theme), "sketchy")
 
   # Setting a new theme overrides the old one

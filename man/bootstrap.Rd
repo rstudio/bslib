@@ -69,7 +69,7 @@ preview_button(bootstrap("minty"))
 # Bootswatch sketchy theme
 preview_button(bootstrap("sketchy"))
 # Bootswatch solar theme with BS3 compatibility
-preview_button(bootstrap("solar@4-3"))
+preview_button(bootstrap("solar@4+3"))
 
 }
 \seealso{

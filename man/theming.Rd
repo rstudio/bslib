@@ -27,7 +27,7 @@ bs_theme_set(theme)
 }
 \arguments{
 \item{version}{The major version of Bootstrap to use. A value of
-\code{'4-3'} means Bootstrap 4, but with additional CSS/JS to support
+\code{'4+3'} means Bootstrap 4, but with additional CSS/JS to support
 BS3 style markup in BS4. Other supported versions include 3 and 4.}
 
 \item{bootswatch}{The name of a bootswatch theme.

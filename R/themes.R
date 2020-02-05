@@ -8,7 +8,7 @@
 #' (via [sass::sass_layer()]s).
 #'
 #' @param version The major version of Bootstrap to use. A value of
-#' `'4-3'` means Bootstrap 4, but with additional CSS/JS to support
+#' `'4+3'` means Bootstrap 4, but with additional CSS/JS to support
 #' BS3 style markup in BS4. Other supported versions include 3 and 4.
 #' @param bootswatch The name of a bootswatch theme.
 #' See [bootswatch_themes()] to list possible names.
@@ -196,7 +196,7 @@ bs_theme_create <- function(version = version_default()) {
 
   theme <- sass_layer_merge(
     bootstrap_layer(version),
-    if (identical(version, "4-3")) bs3compat_layer()
+    if (identical(version, "4+3")) bs3compat_layer()
   )
 
   add_class(theme, "bs_theme")
@@ -248,7 +248,7 @@ as_bs_theme <- function(theme) {
     }
     # Also support `bootstrap(version = '4')` and `bootstrap(theme = 'bootswatch')`
     if (length(theme) == 1) {
-      if (theme %in% c("4", "4-3", "3")) {
+      if (theme %in% c("4", "4-3", "4+3", "3")) {
         return(bs_theme_create(version = theme))
       } else {
         return(bs_theme_add_bootswatch(bs_theme_create(), bootswatch = theme))
