@@ -36,7 +36,7 @@ theme_version <- function(theme = bs_theme_get()) {
 bootswatch_dist <- function(version, full_path = TRUE) {
   dist <- if (version %in% "3") {
     file.path("node_modules", "bootswatch3")
-  } else if (version %in% c("4", "4-3")) {
+  } else if (version %in% c("4", "4+3")) {
     file.path("node_modules", "bootswatch", "dist")
   } else {
     stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
@@ -51,7 +51,7 @@ bootswatch_theme_resolve <- function(bootswatch, version) {
   if (is.null(bootswatch)) return("bootstrap")
   # because rmarkdown
   if (bootswatch %in% c("default", "bootstrap", "")) return("bootstrap")
-  if (version %in% c("4", "4-3")) {
+  if (version %in% c("4", "4+3")) {
     bootswatch <- switch(bootswatch, paper = "materia", readable = "litera", bootswatch)
   }
   match.arg(bootswatch, bootswatch_themes(version))

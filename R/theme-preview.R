@@ -189,8 +189,8 @@ bs_themer_ui <- function() {
 #' @examples
 #' library(shiny)
 #'
-#' # Initialize Bootstrap 4, with Bootstrap 3 compatibility shim
-#' bs_theme_new("4-3")
+#' # Initialize Bootstrap 4 with Bootstrap 3 compatibility shim
+#' bs_theme_new("4+3")
 #'
 #' # Customize variables. These must always come between the
 #' # call to bs_theme_new() and the UI definition!

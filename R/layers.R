@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------
 
 bootstrap_layer <- function(version) {
-  if (version %in% c("4", "4-3")) {
+  if (version %in% c("4", "4+3")) {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
     bs4_layer <- sass_layer(
       defaults = bootstrap_sass_files(c("functions", "variables"), version = 4),
@@ -69,7 +69,7 @@ bootstrap_layer <- function(version) {
 
 
 bootstrap_javascript <- function(version, minified = TRUE) {
-  if (version %in% c("4", "4-3")) {
+  if (version %in% c("4", "4+3")) {
     return(system.file(
       "node_modules/bootstrap/dist/js",
       if (minified) "bootstrap.bundle.min.js" else "bootstrap.bundle.js",
@@ -153,7 +153,7 @@ bootswatch_layer <- function(bootswatch, version) {
     )
   )
 
-  if (version %in% "4-3") {
+  if (version %in% "4+3") {
     layer <- sass_layer_merge(layer, sass_layer_bs3compat_navbar(bootswatch))
   }
 
@@ -204,7 +204,7 @@ navbar_height <- function(bootswatch, version) {
 
   # TODO: it'd be great if, someday, this took into account SASS variables,
   # but it's not immediately obvious how to do that correctly
-  if (version %in% c("4", "4-3")) {
+  if (version %in% c("4", "4+3")) {
     return(switch(
       bootswatch,
       cerulean = 56,

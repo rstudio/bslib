@@ -33,7 +33,7 @@ library(bootstraplib)
 
 ## Introduction
 
-The **bootstraplib** R package provides tools for compiling and working with [Bootstrap Sass](https://getbootstrap.com/docs/4.4/getting-started/theming/), making it possible to style **shiny** apps and **rmarkdown** documents directly from R (via **sass**) instead of writing raw CSS and HTML. Currently, **bootstraplib** supports Bootstrap 3 and 4, as well as a special `"4-3"` compatibility version (read more about this in [choosing a version](#choosing-a-version)). Using **bootstraplib** in **shiny** and **rmarkdown** is still considered experimental at this point, but see the notes below to start using it today.
+The **bootstraplib** R package provides tools for compiling and working with [Bootstrap Sass](https://getbootstrap.com/docs/4.4/getting-started/theming/), making it possible to style **shiny** apps and **rmarkdown** documents directly from R (via **sass**) instead of writing raw CSS and HTML. Currently, **bootstraplib** supports Bootstrap 3 and 4, as well as a special `"4+3"` compatibility version (read more about this in [choosing a version](#choosing-a-version)). Using **bootstraplib** in **shiny** and **rmarkdown** is still considered experimental at this point, but see the notes below to start using it today.
 
 ### Shiny
 
@@ -42,7 +42,7 @@ To start using **bootstraplib** in your **shiny** apps today, install `remotes::
 (1) Call `bs_theme_new()` and optionally specify a Bootstrap `version` and [`bootswatch` theme](https://bootswatch.com/). The current default is Bootstrap 4 (with added added Bootstrap 3 compatibility) and no `bootswatch` theme:
 
 ```r
-bs_theme_new(version = "4-3", bootswatch = NULL)
+bs_theme_new(version = "4+3", bootswatch = NULL)
 ```
 
 (2) Once a (global) theme is initialized, you may start adding theming customizations; for example [overriding variable defaults](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults), and more (see the [theming foundations](foundations.html) article). 
@@ -78,7 +78,7 @@ To start using **bootstraplib** in your `rmarkdown::html_document`s, install `re
 ---
 output:
   html_document:
-    bootstrap_version: 4-3
+    bootstrap_version: 4+3
     theme: minty
 ---
 ```
@@ -93,7 +93,7 @@ output:
 
 ## Choosing a version
 
-The **bootstraplib** package currently supports three different `version`s: `"4-3"`, `4`, and `3`. In the future, when Bootstrap [releases more major versions](https://github.com/twbs/release), **bootstraplib** may add more versions, and may also change the default `version`. However, the default `version` (currently `"4-3"`) will always be designed to work well with core **shiny** UI functionality (e.g., `actionButton()`, `navlistPanel()`, etc). If your UI wants to assume a specific version of Bootstrap (i.e., it uses a package like **bs4Dash** or **yonder** to generate UI), then it's a good idea to set an explicit `version` (this way, when a new version of Bootstrap is released, and the default `version` changes, your app won't break). 
+The **bootstraplib** package currently supports three different `version`s: `"4+3"`, `4`, and `3`. In the future, when Bootstrap [releases more major versions](https://github.com/twbs/release), **bootstraplib** may add more versions, and may also change the default `version`. However, the default `version` (currently `"4+3"`) will always be designed to work well with core **shiny** UI functionality (e.g., `actionButton()`, `navlistPanel()`, etc). If your UI wants to assume a specific version of Bootstrap (i.e., it uses a package like **bs4Dash** or **yonder** to generate UI), then it's a good idea to set an explicit `version` (this way, when a new version of Bootstrap is released, and the default `version` changes, your app won't break). 
 
 Be aware that Bootstrap 4 and 3 expose a very different set of theme customization entry points, and as a result, theme customizations that you write for Bootstrap 4 may not necessarily work for Bootstrap 3 (and vice versa). At the moment, our priority is to enable and improve the Bootstrap 4 theming experience. If you're not interested in upgrading to Bootstrap 4, and would rather theme your Bootstrap 3 project today, you may want to consider [using **fresh**](#fresh) in the near term.
 
