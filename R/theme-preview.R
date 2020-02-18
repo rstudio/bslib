@@ -47,7 +47,7 @@ opts_metadata <- jsonlite::fromJSON(system.file("themer/options.json", package =
 
 bs_themer_ui <- function() {
 
-  computed_defaults <- get_default_css_values(unlist(unname(lapply(opts_metadata, names))))
+  computed_defaults <- bs_theme_value(unlist(unname(lapply(opts_metadata, names))))
 
   make_control <- function(id, lbl, default_value, type, desc = NULL) {
     default_value <- computed_defaults[[id]]
@@ -295,7 +295,7 @@ bs_themer <- function() {
       return()
     }
 
-    default_values <- get_default_css_values(names(vals))
+    default_values <- bs_theme_value(names(vals))
 
     # Filter out vals that the user hasn't changed
     vals <- as.list(diff_css_values(vals, default_values))
@@ -319,42 +319,59 @@ bs_themer <- function() {
   })
 }
 
-# Retrieve the current values of sass variables, by rendering the CSS with
-# some additional rules for the desired variables, in the form of
-# `--VARNAME: #{$VARNAME};`
-get_default_css_values <- function(varnames) {
+#' Retrieve Sass variable values from the current theme
+#'
+#' Useful for retriving a variable from the current theme and using
+#' the value to inform another R function.
+#'
+#' @param varnames a character string referencing a Sass variable
+#' in the current theme.
+#' @return a character string containing a CSS/Sass value.
+#' If the variable(s) are not defined, their value is `NA`.
+#'
+#' @export
+#' @examples
+#' bs4_vars <- c("body-bg", "body-color", "primary", "border-radius")
+#' bs_theme_new()
+#' bs_theme_value(bs4_vars)
+#' bs_theme_new(bootswatch = "darkly")
+#' bs_theme_value(bs4_vars)
+#'
+bs_theme_value <- function(varnames) {
   if (length(varnames) == 0) {
     return(stats::setNames(character(0), character(0)))
   }
+
+  # Support both `bs_theme_value("$foo")` and `bs_theme_value("foo")`
+  # (note that `sass::sass("$$foo:1;")` is illegal; so this seems safe)
+  varnames <- sub("^\\$", "", varnames)
 
   # It's possible that some varnames refer to variables that aren't defined.
   # This would normally cause a crash. We define last-ditch defaults here,
   # with a magic constant that we can swap out for NA before returning to
   # the user.
   na_sentinel <- "NA_SENTINEL_CONSTANT_4902F4E"
-  sass_defaults <- sass::as_sass(paste0(collapse = "\n",
-    "$", varnames, ": ", na_sentinel, " !default;"
-  ))
+  sassvars <- paste0(
+    "$", varnames, ": ", na_sentinel, " !default;",
+    collapse = "\n"
+  )
 
   # Declare a block with a meaningless but identifiable selector (:root.get_default_vars)
   # and add properties for each variable that is desired.
-  sass_definition <- sass::as_sass(paste0(
-    ":root.get_default_vars {",
-    paste0(collapse = "\n", "--", varnames, ": #{inspect($", varnames, ")};"),
-    "}",
+  cssvars <- paste0(
+    "--", varnames, ": #{inspect($", varnames, ")};",
     collapse = "\n"
-  ))
+  )
+  cssvars <- sprintf(":root.get_default_vars {\n %s \n}", cssvars)
 
-  # Render, with our newly created sass.
-  old_theme <- bs_theme_get()
-  on.exit(bs_theme_set(old_theme), add = TRUE, after = FALSE)
-
-  if (is.null(bs_theme_get())) {
-    bs_theme_new()
-  }
-  bs_theme_add(declarations = sass_defaults, rules = sass_definition)
-
-  css <- sass::sass(bs_theme_get(), write_attachments = FALSE)
+  css <- bootstrap_sass(
+    cssvars,
+    # Add declarations to the current theme
+    theme = sass::sass_layer_merge(
+      bs_theme_get() %||% bs_theme_create(),
+      sass::sass_layer(declarations = sassvars)
+    )
+  )
 
   # Search the output for the block of properties we just generated, using the
   # ":root.get_default_vars" selector. The capture group will include all of the
@@ -362,7 +379,7 @@ get_default_css_values <- function(varnames) {
   matches <- regexec(":root\\.get_default_vars\\s*\\{\\s*\\n(.*?)\\n\\s*\\}", css)
   propstr <- regmatches(css, matches)[[1]][2]
   if (is.na(propstr)) {
-    stop("get_default_css_values failed; expected selector was not found")
+    stop("bs_theme_value failed; expected selector was not found")
   }
   # Split the propstr by newline, so we can perform vectorized regex operations
   # on all of the variables at once.
@@ -374,10 +391,10 @@ get_default_css_values <- function(varnames) {
   values <- vapply(matches2, function(x) x[3], character(1))
 
   if (any(is.na(names))) {
-    stop("get_default_css_values failed; generated output was in an unexpected format")
+    stop("bs_theme_value failed; generated output was in an unexpected format")
   }
   if (!identical(varnames, names)) {
-    stop("get_default_css_values failed; expected properties were not found")
+    stop("bs_theme_value failed; expected properties were not found")
   }
 
   # Any variables that had to fall back to our defaults, we'll replace with NA
