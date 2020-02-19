@@ -1,3 +1,53 @@
+#' Customize the Bootstrap theme based on two to four key colors
+#'
+#' `bs_theme_quick` generates a complete Bootstrap theme from just a small
+#' handful of user-specified colors: a background color, a foreground color, and
+#' optionally, an accent color.
+#'
+#' @param bg A color string for the background, in any format
+#'   [htmltools::parseCssColors()] can understand.
+#' @param fg A color string for the background.
+#' @param accent A color string for the accent color; if not `NULL`, this will
+#'   be assigned to the `$primary` (BS4) or `$brand-primary` (BS3) Sass
+#'   variables.
+#' @param secondary A color string for the secondary color; if not `NULL`, this
+#'   will be assigned to the `$secondary` and `$default` Bootstrap 4 Sass
+#'   variables. (This argument is not currently supported for Bootstrap 3.)
+#'
+#' @section Implementation notes:
+#'
+#' `bs_theme_quick` supports both Bootstrap 3 and 4 (and 4+3), but the
+#' implementation differs greatly.
+#'
+#' For Bootstrap 4, the vast majority of default colors are directly or
+#' indirectly based on the `$black`, `$white`, and `$gray-100` through
+#' `$gray-900` variables; or on the theme colors (primary, secondary, danger,
+#' warning, info, etc.). `bs_theme_quick` sets `$white` to the `bg` color,
+#' `$black` to the `fg` color, and interpolates the grays between them. If
+#' provided, the `accent` argument is used to set the `$primary` variable, and
+#' the `secondary` argument is used to set `$secondary` and `$default`
+#' variables.
+#'
+#' For Bootstrap 3, a similar set of `$black`, `$white`, and `$gray-darker`
+#' through `$gray-lighter` variables exist, and these are populated using the
+#' same strategy as with Bootstrap 4. However, unlike Bootstrap 4, in Bootstrap
+#' 3 many of the default colors are hard-coded hex colors, that also happen to
+#' be shades of gray. `bs_theme_quick` overrides these hard-coded values with
+#' colors interpolated between `bg` and `fg`.
+#'
+#' @examples
+#'
+#' bs_theme_new("4+3")
+#' bs_theme_quick(bg = "#000060", fg = "skyblue",
+#'   accent = "orange", secondary = "silver")
+#'
+#' # You can apply further customizations here if desired, e.g.:
+#' bs_theme_add_variables("success" = "#1D7732")
+#'
+#' if (interactive()) {
+#'   bs_theme_preview()
+#' }
+#'
 #' @export
 bs_theme_quick <- function(bg = "#FFFFFF", fg = "#000000",
   accent = NULL, secondary = NULL) {
@@ -71,7 +121,6 @@ bs4_theme_quick <- function(bg, fg, accent, secondary) {
 }
 
 bs3_theme_quick <- function(bg, fg, accent, secondary) {
-  # TODO: normalize bg and fg into #RRGGBB
   white <- htmltools:::parseCssColors(bg)
   black <- htmltools:::parseCssColors(fg)
 
@@ -82,8 +131,9 @@ bs3_theme_quick <- function(bg, fg, accent, secondary) {
     )
   }
 
+  ramp <- colorRamp(c(black, white))
   gray <- function(level = 255) {
-    val <- round(colorRamp(c(black, white))(level / 255))
+    val <- round(ramp(level / 255))
     sprintf("#%02X%02X%02X", val[1,1], val[1,2], val[1,3])
   }
 
