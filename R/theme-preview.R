@@ -35,7 +35,7 @@ bs_theme_preview <- function(..., with_themer = TRUE) {
 colorpicker_deps <- function() {
   htmltools::htmlDependency(
     "bootstrap-colorpicker",
-    "3.1.2",
+    "3.2.0",
     system.file("lib/bootstrap-colorpicker", package = "bootstraplib"),
     stylesheet = "css/bootstrap-colorpicker.min.css",
     script = "js/bootstrap-colorpicker.js"
