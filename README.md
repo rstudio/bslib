@@ -56,7 +56,9 @@ bs_theme_new(version = "4+3", bootswatch = NULL)
 2)  Once a (global) theme is initialized, you may start adding theming
     customizations; for example [overriding variable
     defaults](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults),
-    and more (see the [theming foundations](foundations.html) article).
+    and more (see the [theming
+    foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html)
+    article).
 
 <!-- end list -->
 
@@ -153,8 +155,10 @@ bs_theme_preview()
 
 ## Learn more
 
-See the articles on [theming foundations](foundations.html) and [theming
-in practice](practice.html).
+See the articles on [theming
+recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html)
+and
+[foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html).
 
 ## Similar work
 
