@@ -4,7 +4,8 @@
 # dynamically calculated replacements.
 
 # Load bootstrap-sass (bs3) _variables.scss
-lines <- readLines("https://raw.githubusercontent.com/twbs/bootstrap-sass/master/assets/stylesheets/bootstrap/_variables.scss")
+lines <- readLines(system.file(package = "bootstraplib",
+  "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss"))
 # Retain lines that seem like they contain a hex color.
 # (Note that colors specified by keyword would break this logic, but, AFAICT,
 # there aren't any such colors in _variables.scss.)
@@ -58,6 +59,7 @@ named_colors <- c(
 df[!df$color %in% named_colors,]
 
 # Generate the code for color_mapping in bs3_quick_theme
+library(dplyr)
 df %>%
   mutate(varname = names(named_colors[match(color, named_colors)])) %>%
   filter(!is.na(varname)) %>%

@@ -20,8 +20,8 @@ bs_quick_theme <- function(bg = "#FFFFFF", fg = "#000000",
 }
 
 bs4_quick_theme <- function(bg, fg, accent, secondary) {
-  white <- shiny:::parseCssColor(bg)
-  black <- shiny:::parseCssColor(fg)
+  white <- htmltools:::parseCssColors(bg)
+  black <- htmltools:::parseCssColors(fg)
 
   grays <- colorRamp(c(white, black), alpha = TRUE)(0:10/10)
 
@@ -72,8 +72,8 @@ bs4_quick_theme <- function(bg, fg, accent, secondary) {
 
 bs3_quick_theme <- function(bg, fg, accent, secondary) {
   # TODO: normalize bg and fg into #RRGGBB
-  white <- shiny:::parseCssColor(bg)
-  black <- shiny:::parseCssColor(fg)
+  white <- htmltools:::parseCssColors(bg)
+  black <- htmltools:::parseCssColors(fg)
 
   if (!is.null(secondary)) {
     warning(call. = FALSE,
