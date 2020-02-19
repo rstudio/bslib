@@ -37,5 +37,6 @@ Collate:
     'quick-theme.R'
     'theme-preview.R'
 Remotes: 
+    rstudio/htmltools,
     rstudio/sass,
     rstudio/jquerylib

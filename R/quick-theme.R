@@ -1,5 +1,5 @@
 #' @export
-bs_quick_theme <- function(bg = "#FFFFFF", fg = "#000000",
+bs_theme_quick <- function(bg = "#FFFFFF", fg = "#000000",
   accent = NULL, secondary = NULL) {
 
   theme <- bs_theme_get()
@@ -11,15 +11,15 @@ bs_quick_theme <- function(bg = "#FFFFFF", fg = "#000000",
   bs3_tags <- c("bootstraplib_version_3")
 
   if (any(bs4_tags %in% theme$tags)) {
-    bs4_quick_theme(bg, fg, accent, secondary)
+    bs4_theme_quick(bg, fg, accent, secondary)
   } else if (any(bs3_tags %in% theme$tags)) {
-    bs3_quick_theme(bg, fg, accent, secondary)
+    bs3_theme_quick(bg, fg, accent, secondary)
   } else {
-    stop("bs_quick_theme doesn't recognize the active version of Bootstrap")
+    stop("bs_theme_quick doesn't recognize the active version of Bootstrap")
   }
 }
 
-bs4_quick_theme <- function(bg, fg, accent, secondary) {
+bs4_theme_quick <- function(bg, fg, accent, secondary) {
   white <- htmltools:::parseCssColors(bg)
   black <- htmltools:::parseCssColors(fg)
 
@@ -27,7 +27,7 @@ bs4_quick_theme <- function(bg, fg, accent, secondary) {
 
   if (any(grays[,4] != 255)) {
     warning(call. = FALSE,
-      "bs_quick_theme does not respect alpha in `white` and `black` arguments"
+      "bs_theme_quick does not respect alpha in `white` and `black` arguments"
     )
   }
 
@@ -70,14 +70,14 @@ bs4_quick_theme <- function(bg, fg, accent, secondary) {
   invisible()
 }
 
-bs3_quick_theme <- function(bg, fg, accent, secondary) {
+bs3_theme_quick <- function(bg, fg, accent, secondary) {
   # TODO: normalize bg and fg into #RRGGBB
   white <- htmltools:::parseCssColors(bg)
   black <- htmltools:::parseCssColors(fg)
 
   if (!is.null(secondary)) {
     warning(call. = FALSE,
-      "bs_quick_theme's `secondary` argument is not currently supported for ",
+      "bs_theme_quick's `secondary` argument is not currently supported for ",
       "Bootstrap 3"
     )
   }
@@ -107,7 +107,7 @@ bs3_quick_theme <- function(bg, fg, accent, secondary) {
     "white" = gray(0xff)
   )
 
-  # There's code in tools/bs3_quick_theme.R for generating this list.
+  # There's code in tools/bs3_theme_quick.R for generating this list.
   color_mapping <- list(`dropdown-caret-color` = "$gray-base", `tooltip-bg` = "$gray-base",
     `modal-backdrop-bg` = "$gray-base", `close-color` = "$gray-base",
     `navbar-inverse-bg` = "$gray-darker", `btn-default-color` = "$gray-dark",
