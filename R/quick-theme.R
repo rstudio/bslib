@@ -60,13 +60,14 @@ bs_theme_quick <- function(bg = "#FFFFFF", fg = "#000000",
   bs4_tags <- c("bootstraplib_version_4", "bootstraplib_version_4+3")
   bs3_tags <- c("bootstraplib_version_3")
 
-  if (any(bs4_tags %in% theme$tags)) {
+  results <- if (any(bs4_tags %in% theme$tags)) {
     bs4_theme_quick(bg, fg, accent, secondary)
   } else if (any(bs3_tags %in% theme$tags)) {
     bs3_theme_quick(bg, fg, accent, secondary)
   } else {
     stop("bs_theme_quick doesn't recognize the active version of Bootstrap")
   }
+  bs_theme_add(results)
 }
 
 bs4_theme_quick <- function(bg, fg, accent, secondary) {
@@ -96,28 +97,26 @@ bs4_theme_quick <- function(bg, fg, accent, secondary) {
     "black"
   )
 
-  grays <- as.list(grays)
-
-  bs_theme_add_variables(!!!grays)
+  results <- as.list(grays)
 
   if (!is.null(accent)) {
-    bs_theme_add_variables(primary = accent)
+    results <- c(results, list(primary = accent))
   }
   if (!is.null(secondary)) {
-    bs_theme_add_variables(
+    results <- c(results, list(
       secondary = secondary,
       default = secondary
-    )
+    ))
   }
   if (white_yiq < black_yiq) {
     # Invert yiq colors
-    bs_theme_add_variables(
+    results <- c(results, list(
       "yiq-text-light" = grays[["gray-900"]],
       "yiq-text-dark" = grays[["white"]]
-    )
+    ))
   }
 
-  invisible()
+  sass::sass_layer(results)
 }
 
 bs3_theme_quick <- function(bg, fg, accent, secondary) {
@@ -201,14 +200,11 @@ bs3_theme_quick <- function(bg, fg, accent, secondary) {
     `carousel-caption-color` = "$white", `close-text-shadow` = "$white",
     `kbd-color` = "$white")
 
-  bs_theme_add_variables(
-    !!!result_colors,
-    !!!color_mapping
-  )
+  results <- c(result_colors, color_mapping)
 
   if (!is.null(accent)) {
-    bs_theme_add_variables("brand-primary" = accent)
+    results <- c(results, list("brand-primary" = accent))
   }
 
-  invisible()
+  sass::sass_layer(results)
 }
