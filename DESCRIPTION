@@ -8,7 +8,7 @@ Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"),
     )
 Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
 Imports: 
-    htmltools,
+    htmltools (>= 0.4.0.9003),
     jsonlite,
     sass (> 0.1.2.1),
     jquerylib,
@@ -34,7 +34,9 @@ Collate:
     'themes.R'
     'utils.R'
     'versions.R'
+    'quick-theme.R'
     'theme-preview.R'
 Remotes: 
+    rstudio/htmltools,
     rstudio/sass,
     rstudio/jquerylib
