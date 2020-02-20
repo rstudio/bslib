@@ -116,6 +116,8 @@ bs4_theme_quick <- function(bg, fg, accent, secondary) {
     ))
   }
 
+  results <- lapply(results, paste, "!default")
+
   sass::sass_layer(results)
 }
 
@@ -205,6 +207,8 @@ bs3_theme_quick <- function(bg, fg, accent, secondary) {
   if (!is.null(accent)) {
     results <- c(results, list("brand-primary" = accent))
   }
+
+  results <- lapply(results, paste, "!default")
 
   sass::sass_layer(results)
 }

@@ -43,6 +43,11 @@ test_that("bs4 quick theme", {
       `body-color` = "#E7DACC", primary = "orange", secondary = "brown",
       default = "brown")
   )
+
+  # Can individual colors still be overridden?
+  bs_theme_add_variables("body-bg" = "white", black = "red")
+  expect_identical(get_default_css_values(c("body-bg", "black")),
+    c("body-bg" = "white", black = "red"))
 })
 
 test_that("bs3 quick theme", {
@@ -77,4 +82,9 @@ test_that("bs3 quick theme", {
       `gray-lighter` = "#21303E", `body-bg` = "#112233", `text-color` = "#CFC5BB",
       `brand-primary` = "orange")
   )
+
+  # Can individual colors still be overridden?
+  bs_theme_add_variables("body-bg" = "black")
+  expect_identical(get_default_css_values(c("body-bg", "gray-darker")),
+    c("body-bg" = "black", "gray-darker" = "#DFD3C6"))
 })
