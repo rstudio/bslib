@@ -57,12 +57,9 @@ bs_theme_quick <- function(bg = "#FFFFFF", fg = "#000000",
     stop("No bootstraplib theme is active (did you forget to call bs_theme_new()?)")
   }
 
-  bs4_tags <- c("bootstraplib_version_4", "bootstraplib_version_4+3")
-  bs3_tags <- c("bootstraplib_version_3")
-
-  results <- if (any(bs4_tags %in% theme$tags)) {
+  results <- if (any(c("4", "4+3") %in% theme_version())) {
     bs4_theme_quick(bg, fg, accent, secondary)
-  } else if (any(bs3_tags %in% theme$tags)) {
+  } else if ("3" %in% theme_version()) {
     bs3_theme_quick(bg, fg, accent, secondary)
   } else {
     stop("bs_theme_quick doesn't recognize the active version of Bootstrap")

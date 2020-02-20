@@ -28,7 +28,7 @@ test_that("bs4 quick theme", {
       default = "silver")
   )
 
-  bs_theme_new("4+3")
+  bs_theme_new("4")
   bs_theme_quick(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown")
   colors <- get_default_css_values(varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
