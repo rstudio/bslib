@@ -47,7 +47,7 @@ opts_metadata <- jsonlite::fromJSON(system.file("themer/options.json", package =
 
 bs_themer_ui <- function() {
 
-  computed_defaults <- bs_theme_value(unlist(unname(lapply(opts_metadata, names))))
+  computed_defaults <- bs_theme_get_variables(unlist(unname(lapply(opts_metadata, names))))
 
   make_control <- function(id, lbl, default_value, type, desc = NULL) {
     default_value <- computed_defaults[[id]]
@@ -295,7 +295,7 @@ bs_themer <- function() {
       return()
     }
 
-    default_values <- bs_theme_value(names(vals))
+    default_values <- bs_theme_get_variables(names(vals))
 
     # Filter out vals that the user hasn't changed
     vals <- as.list(diff_css_values(vals, default_values))
@@ -333,16 +333,16 @@ bs_themer <- function() {
 #' @examples
 #' bs4_vars <- c("body-bg", "body-color", "primary", "border-radius")
 #' bs_theme_new()
-#' bs_theme_value(bs4_vars)
+#' bs_theme_get_variables(bs4_vars)
 #' bs_theme_new(bootswatch = "darkly")
-#' bs_theme_value(bs4_vars)
+#' bs_theme_get_variables(bs4_vars)
 #'
-bs_theme_value <- function(varnames) {
+bs_theme_get_variables <- function(varnames) {
   if (length(varnames) == 0) {
     return(stats::setNames(character(0), character(0)))
   }
 
-  # Support both `bs_theme_value("$foo")` and `bs_theme_value("foo")`
+  # Support both `bs_theme_get_variables("$foo")` and `bs_theme_get_variables("foo")`
   # (note that `sass::sass("$$foo:1;")` is illegal; so this seems safe)
   varnames <- sub("^\\$", "", varnames)
 
@@ -379,7 +379,7 @@ bs_theme_value <- function(varnames) {
   matches <- regexec(":root\\.get_default_vars\\s*\\{\\s*\\n(.*?)\\n\\s*\\}", css)
   propstr <- regmatches(css, matches)[[1]][2]
   if (is.na(propstr)) {
-    stop("bs_theme_value failed; expected selector was not found")
+    stop("bs_theme_get_variables failed; expected selector was not found")
   }
   # Split the propstr by newline, so we can perform vectorized regex operations
   # on all of the variables at once.
@@ -391,10 +391,10 @@ bs_theme_value <- function(varnames) {
   values <- vapply(matches2, function(x) x[3], character(1))
 
   if (any(is.na(names))) {
-    stop("bs_theme_value failed; generated output was in an unexpected format")
+    stop("bs_theme_get_variables failed; generated output was in an unexpected format")
   }
   if (!identical(varnames, names)) {
-    stop("bs_theme_value failed; expected properties were not found")
+    stop("bs_theme_get_variables failed; expected properties were not found")
   }
 
   # Any variables that had to fall back to our defaults, we'll replace with NA

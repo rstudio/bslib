@@ -14,7 +14,7 @@ test_that("bs4 quick theme", {
 
   bs_theme_new("4+3")
   bs_theme_quick(bg = "white", fg = "black", accent = "blue", secondary = "silver")
-  colors <- bs_theme_value(varnames)
+  colors <- bs_theme_get_variables(varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
 
@@ -30,7 +30,7 @@ test_that("bs4 quick theme", {
 
   bs_theme_new("4")
   bs_theme_quick(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown")
-  colors <- bs_theme_value(varnames)
+  colors <- bs_theme_get_variables(varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
 
@@ -46,7 +46,7 @@ test_that("bs4 quick theme", {
 
   # Can individual colors still be overridden?
   bs_theme_add_variables("body-bg" = "white", black = "red")
-  expect_identical(bs_theme_value(c("body-bg", "black")),
+  expect_identical(bs_theme_get_variables(c("body-bg", "black")),
     c("body-bg" = "white", black = "red"))
 })
 
@@ -60,7 +60,7 @@ test_that("bs3 quick theme", {
 
   bs_theme_new("3")
   bs_theme_quick(bg = "white", fg = "black", accent = "blue")
-  colors <- bs_theme_value(varnames)
+  colors <- bs_theme_get_variables(varnames)
 
   expect_identical(colors,
     c(`gray-base` = "#000000", white = "#FFFFFF", `gray-darker` = "#222222",
@@ -74,7 +74,7 @@ test_that("bs3 quick theme", {
     bs_theme_quick(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown"),
     "argument is not currently supported"
   )
-  colors <- bs_theme_value(varnames)
+  colors <- bs_theme_get_variables(varnames)
 
   expect_identical(colors,
     c(`gray-base` = "#FFEEDD", white = "#112233", `gray-darker` = "#DFD3C6",
@@ -85,6 +85,6 @@ test_that("bs3 quick theme", {
 
   # Can individual colors still be overridden?
   bs_theme_add_variables("body-bg" = "black")
-  expect_identical(bs_theme_value(c("body-bg", "gray-darker")),
+  expect_identical(bs_theme_get_variables(c("body-bg", "gray-darker")),
     c("body-bg" = "black", "gray-darker" = "#DFD3C6"))
 })
