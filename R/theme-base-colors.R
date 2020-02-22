@@ -1,8 +1,8 @@
 #' Customize the Bootstrap theme based on two to four key colors
 #'
-#' `bs_theme_quick` generates a complete Bootstrap theme from just a small
+#' `bs_theme_base_colors` generates a complete Bootstrap theme from just a small
 #' handful of user-specified colors: a background color, a foreground color, and
-#' optionally, an accent color.
+#' optionally, primary and secondary accent colors.
 #'
 #' @param bg A color string for the background, in any format
 #'   [htmltools::parseCssColors()] can understand.
@@ -16,13 +16,13 @@
 #'
 #' @section Implementation notes:
 #'
-#' `bs_theme_quick` supports both Bootstrap 3 and 4 (and 4+3), but the
+#' `bs_theme_base_colors` supports both Bootstrap 3 and 4 (and 4+3), but the
 #' implementation differs greatly.
 #'
 #' For Bootstrap 4, the vast majority of default colors are directly or
 #' indirectly based on the `$black`, `$white`, and `$gray-100` through
 #' `$gray-900` variables; or on the theme colors (primary, secondary, danger,
-#' warning, info, etc.). `bs_theme_quick` sets `$white` to the `bg` color,
+#' warning, info, etc.). `bs_theme_base_colors` sets `$white` to the `bg` color,
 #' `$black` to the `fg` color, and interpolates the grays between them. If
 #' provided, the `accent` argument is used to set the `$primary` variable, and
 #' the `secondary` argument is used to set `$secondary` and `$default`
@@ -32,13 +32,15 @@
 #' through `$gray-lighter` variables exist, and these are populated using the
 #' same strategy as with Bootstrap 4. However, unlike Bootstrap 4, in Bootstrap
 #' 3 many of the default colors are hard-coded hex colors, that also happen to
-#' be shades of gray. `bs_theme_quick` overrides these hard-coded values with
-#' colors interpolated between `bg` and `fg`.
+#' be shades of gray. `bs_theme_base_colors` overrides these hard-coded values
+#' with colors interpolated between `bg` and `fg`.
+#'
+#' @seealso [bs_theme_add_variables()]
 #'
 #' @examples
 #'
 #' bs_theme_new("4+3")
-#' bs_theme_quick(bg = "#000060", fg = "skyblue",
+#' bs_theme_base_colors(bg = "#000060", fg = "skyblue",
 #'   accent = "orange", secondary = "silver")
 #'
 #' # You can apply further customizations here if desired, e.g.:
@@ -49,7 +51,7 @@
 #' }
 #'
 #' @export
-bs_theme_quick <- function(bg = "#FFFFFF", fg = "#000000",
+bs_theme_base_colors <- function(bg = "#FFFFFF", fg = "#000000",
   accent = NULL, secondary = NULL) {
 
   theme <- bs_theme_get()
@@ -58,16 +60,16 @@ bs_theme_quick <- function(bg = "#FFFFFF", fg = "#000000",
   }
 
   results <- if (any(c("4", "4+3") %in% theme_version())) {
-    bs4_theme_quick(bg, fg, accent, secondary)
+    bs4_theme_base_colors(bg, fg, accent, secondary)
   } else if ("3" %in% theme_version()) {
-    bs3_theme_quick(bg, fg, accent, secondary)
+    bs3_theme_base_colors(bg, fg, accent, secondary)
   } else {
-    stop("bs_theme_quick doesn't recognize the active version of Bootstrap")
+    stop("bs_theme_base_colors doesn't recognize the active version of Bootstrap")
   }
   bs_theme_add(results)
 }
 
-bs4_theme_quick <- function(bg, fg, accent, secondary) {
+bs4_theme_base_colors <- function(bg, fg, accent, secondary) {
   white <- htmltools:::parseCssColors(bg)
   black <- htmltools:::parseCssColors(fg)
 
@@ -75,7 +77,7 @@ bs4_theme_quick <- function(bg, fg, accent, secondary) {
 
   if (any(grays[,4] != 255)) {
     warning(call. = FALSE,
-      "bs_theme_quick does not respect alpha in `white` and `black` arguments"
+      "bs_theme_base_colors does not respect alpha in `white` and `black` arguments"
     )
   }
 
@@ -118,13 +120,13 @@ bs4_theme_quick <- function(bg, fg, accent, secondary) {
   sass::sass_layer(results)
 }
 
-bs3_theme_quick <- function(bg, fg, accent, secondary) {
+bs3_theme_base_colors <- function(bg, fg, accent, secondary) {
   white <- htmltools:::parseCssColors(bg)
   black <- htmltools:::parseCssColors(fg)
 
   if (!is.null(secondary)) {
     warning(call. = FALSE,
-      "bs_theme_quick's `secondary` argument is not currently supported for ",
+      "bs_theme_base_colors's `secondary` argument is not currently supported for ",
       "Bootstrap 3"
     )
   }
@@ -155,7 +157,7 @@ bs3_theme_quick <- function(bg, fg, accent, secondary) {
     "white" = gray(0xff)
   )
 
-  # There's code in tools/bs3_theme_quick.R for generating this list.
+  # There's code in tools/bs3_theme_base_colors.R for generating this list.
   color_mapping <- list(`dropdown-caret-color` = "$gray-base", `tooltip-bg` = "$gray-base",
     `modal-backdrop-bg` = "$gray-base", `close-color` = "$gray-base",
     `navbar-inverse-bg` = "$gray-darker", `btn-default-color` = "$gray-dark",

@@ -58,7 +58,7 @@ named_colors <- c(
 # Consider this a potential TODO list of colors we could dynamically set.
 df[!df$color %in% named_colors,]
 
-# Generate the code for color_mapping in bs3_theme_quick
+# Generate the code for color_mapping in bs3_theme_base_colors
 library(dplyr)
 df %>%
   mutate(varname = names(named_colors[match(color, named_colors)])) %>%

@@ -34,7 +34,7 @@ Collate:
     'themes.R'
     'utils.R'
     'versions.R'
-    'quick-theme.R'
+    'theme-base-colors.R'
     'theme-preview.R'
 Remotes: 
     rstudio/htmltools,

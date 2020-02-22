@@ -1,6 +1,6 @@
-context("theme_quick")
+context("theme_base_colors")
 
-test_that("bs4 quick theme", {
+test_that("bs4 base colors", {
   on.exit(bs_theme_clear(), add = TRUE, after = FALSE)
 
   varnames <- c("yiq-text-light", "yiq-text-dark",
@@ -13,7 +13,7 @@ test_that("bs4 quick theme", {
   }
 
   bs_theme_new("4+3")
-  bs_theme_quick(bg = "white", fg = "black", accent = "blue", secondary = "silver")
+  bs_theme_base_colors(bg = "white", fg = "black", accent = "blue", secondary = "silver")
   colors <- bs_theme_get_variables(varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
@@ -29,7 +29,7 @@ test_that("bs4 quick theme", {
   )
 
   bs_theme_new("4")
-  bs_theme_quick(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown")
+  bs_theme_base_colors(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown")
   colors <- bs_theme_get_variables(varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
@@ -50,7 +50,7 @@ test_that("bs4 quick theme", {
     c("body-bg" = "white", black = "red"))
 })
 
-test_that("bs3 quick theme", {
+test_that("bs3 base colors", {
   on.exit(bs_theme_clear(), add = TRUE, after = FALSE)
 
   varnames <- c(
@@ -59,7 +59,7 @@ test_that("bs3 quick theme", {
     "body-bg", "text-color", "brand-primary")
 
   bs_theme_new("3")
-  bs_theme_quick(bg = "white", fg = "black", accent = "blue")
+  bs_theme_base_colors(bg = "white", fg = "black", accent = "blue")
   colors <- bs_theme_get_variables(varnames)
 
   expect_identical(colors,
@@ -71,7 +71,7 @@ test_that("bs3 quick theme", {
 
   bs_theme_new("3")
   expect_warning(
-    bs_theme_quick(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown"),
+    bs_theme_base_colors(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown"),
     "argument is not currently supported"
   )
   colors <- bs_theme_get_variables(varnames)
