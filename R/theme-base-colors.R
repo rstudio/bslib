@@ -40,11 +40,10 @@
 #' @examples
 #'
 #' bs_theme_new("4+3")
-#' bs_theme_base_colors(bg = "#000060", fg = "skyblue",
-#'   accent = "orange", secondary = "silver")
+#' bs_theme_base_colors(bg = "#000060", fg = "skyblue")
 #'
 #' # You can apply further customizations here if desired, e.g.:
-#' bs_theme_add_variables("success" = "#1D7732")
+#' bs_theme_accent_colors(primary = "orange", secondary = "silver")
 #'
 #' if (interactive()) {
 #'   bs_theme_preview()

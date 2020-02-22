@@ -4,12 +4,7 @@
 \alias{bs_theme_base_colors}
 \title{Customize the Bootstrap theme based on two to four key colors}
 \usage{
-bs_theme_base_colors(
-  bg = "#FFFFFF",
-  fg = "#000000",
-  accent = NULL,
-  secondary = NULL
-)
+bs_theme_base_colors(bg = "#FFFFFF", fg = "#000000")
 }
 \arguments{
 \item{bg}{A color string for the background, in any format
@@ -56,11 +51,10 @@ with colors interpolated between \code{bg} and \code{fg}.
 \examples{
 
 bs_theme_new("4+3")
-bs_theme_base_colors(bg = "#000060", fg = "skyblue",
-  accent = "orange", secondary = "silver")
+bs_theme_base_colors(bg = "#000060", fg = "skyblue")
 
 # You can apply further customizations here if desired, e.g.:
-bs_theme_add_variables("success" = "#1D7732")
+bs_theme_accent_colors(primary = "orange", secondary = "silver")
 
 if (interactive()) {
   bs_theme_preview()
