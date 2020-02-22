@@ -3,6 +3,7 @@
 export(bootstrap)
 export(bootstrap_sass)
 export(bootswatch_themes)
+export(bs_theme_accent_colors)
 export(bs_theme_add)
 export(bs_theme_add_variables)
 export(bs_theme_base_colors)

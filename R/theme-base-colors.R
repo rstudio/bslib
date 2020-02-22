@@ -51,27 +51,26 @@
 #' }
 #'
 #' @export
-bs_theme_base_colors <- function(bg = "#FFFFFF", fg = "#000000",
-  accent = NULL, secondary = NULL) {
-
-  theme <- bs_theme_get()
-  if (is.null(theme)) {
-    stop("No bootstraplib theme is active (did you forget to call bs_theme_new()?)")
+bs_theme_base_colors <- function(bg = "#FFFFFF", fg = "#000000") {
+  if (is.null(bg)) {
+    stop("`bg` argument must not be NULL")
+  }
+  if (is.null(fg)) {
+    stop("`fg` argument must not be NULL")
   }
 
-  results <- if (any(c("4", "4+3") %in% theme_version())) {
-    bs4_theme_base_colors(bg, fg, accent, secondary)
-  } else if ("3" %in% theme_version()) {
-    bs3_theme_base_colors(bg, fg, accent, secondary)
-  } else {
-    stop("bs_theme_base_colors doesn't recognize the active version of Bootstrap")
-  }
-  bs_theme_add(results)
+  args <- list(bg = bg, fg = fg)
+  args <- validate_and_normalize_colors(args)
+
+  dispatch_theme_setter("bs_theme_base_colors", list(
+    "4+3" = bs4_theme_base_colors,
+    "4" = bs4_theme_base_colors,
+    "3" = bs3_theme_base_colors), args)
 }
 
-bs4_theme_base_colors <- function(bg, fg, accent, secondary) {
-  white <- htmltools:::parseCssColors(bg)
-  black <- htmltools:::parseCssColors(fg)
+bs4_theme_base_colors <- function(args) {
+  white <- args$bg
+  black <- args$fg
 
   grays <- colorRamp(c(white, black), alpha = TRUE)(0:10/10)
 
@@ -98,15 +97,6 @@ bs4_theme_base_colors <- function(bg, fg, accent, secondary) {
 
   results <- as.list(grays)
 
-  if (!is.null(accent)) {
-    results <- c(results, list(primary = accent))
-  }
-  if (!is.null(secondary)) {
-    results <- c(results, list(
-      secondary = secondary,
-      default = secondary
-    ))
-  }
   if (white_yiq < black_yiq) {
     # Invert yiq colors
     results <- c(results, list(
@@ -115,21 +105,12 @@ bs4_theme_base_colors <- function(bg, fg, accent, secondary) {
     ))
   }
 
-  results <- lapply(results, paste, "!default")
-
-  sass::sass_layer(results)
+  results
 }
 
-bs3_theme_base_colors <- function(bg, fg, accent, secondary) {
-  white <- htmltools:::parseCssColors(bg)
-  black <- htmltools:::parseCssColors(fg)
-
-  if (!is.null(secondary)) {
-    warning(call. = FALSE,
-      "bs_theme_base_colors's `secondary` argument is not currently supported for ",
-      "Bootstrap 3"
-    )
-  }
+bs3_theme_base_colors <- function(args) {
+  white <- args$bg
+  black <- args$fg
 
   ramp <- colorRamp(c(black, white))
   gray <- function(level = 255) {
@@ -203,11 +184,122 @@ bs3_theme_base_colors <- function(bg, fg, accent, secondary) {
 
   results <- c(result_colors, color_mapping)
 
-  if (!is.null(accent)) {
-    results <- c(results, list("brand-primary" = accent))
+  results
+}
+
+#' @export
+bs_theme_accent_colors <- function(primary = NULL, secondary = NULL,
+  success = NULL, info = NULL, warning = NULL, danger = NULL, light = NULL,
+  dark = NULL) {
+
+  args <- list(primary = primary, secondary = secondary, success = success,
+    info = info, warning = warning, danger = danger, light = light, dark = dark
+  )
+  args <- validate_and_normalize_colors(args)
+
+  dispatch_theme_setter("bs_theme_accent_colors", list(
+    "4+3" = bs43_theme_accent_colors,
+    "4" = identity,
+    "3" = bs3_theme_accent_colors
+  ), args)
+}
+
+bs43_theme_accent_colors <- function(args) {
+  if (!is.null(args$secondary)) {
+    args$default <- args$secondary
+  }
+  args
+}
+
+bs3_theme_accent_colors <- function(args) {
+  # Warns and filters out unsupported arguments
+  supported <- c("primary", "success", "info", "warning", "danger")
+  matches <- match(names(args), supported)
+  bad_names <- names(args)[is.na(matches)]
+  if (length(bad_names) > 0) {
+    warning(call. = FALSE, "Bootstrap 3 doesn't support the following accent ",
+      "color argument(s), they will be ignored: ", format_varnames(bad_names)
+    )
+  }
+  args <- args[!is.na(matches)]
+
+  # Bootstrap 3 uses brand-primary, brand-danger, etc. as var names
+  names(args) <- paste0("brand-", names(args))
+
+  args
+}
+
+#' @param caller_name String naming the calling function; used for error
+#'   messages
+#' @param funcs_by_version List of functions, where the names are Bootstrap
+#'   version strings (see theme_version()), and values are functions. These
+#'   functions must take a single argument: a named list, which represents the
+#'   arguments passed by the user; and return a list of variables to set as
+#'   defaults.
+#' @noRd
+dispatch_theme_setter <- function(caller_name, funcs_by_version, args) {
+  theme <- bs_theme_get()
+  if (is.null(theme)) {
+    stop(call. = FALSE,
+      "No bootstraplib theme is active; did you forget to call bs_theme_new()?")
   }
 
-  results <- lapply(results, paste, "!default")
+  results <- NULL
+  for (version in names(funcs_by_version)) {
+    if (version %in% theme_version()) {
+      results <- do.call(funcs_by_version[[version]], list(args))
+      break
+    }
+  }
 
-  sass::sass_layer(results)
+  if (is.null(results)) {
+    stop(call. = FALSE,
+      caller_name, " doesn't recognize the active version of Bootstrap (",
+      paste(collapse = "/", theme_version()), ")")
+  }
+
+  results <- dropNulls(results)
+  results <- lapply(results, paste, "!default")
+  results <- sass::sass_layer(results)
+
+  bs_theme_add(results)
+}
+
+#' Ensures all arguments are either NULL, or length 1 character vectors with
+#' valid CSS color strings; returned is a list with no NULLs and normalized
+#' color strings
+#' @param args A named list
+#' @noRd
+validate_and_normalize_colors <- function(args) {
+  args <- dropNulls(args)
+
+  is_char <- vapply(args, is.character, logical(1))
+  vec_len <- vapply(args, length, integer(1))
+  bad <- !is_char | vec_len != 1
+  if (any(bad)) {
+    stop(call. = FALSE,
+      "Invalid HTML color strings for argument(s) ",
+      format_varnames(names(args)[bad]),
+      "; single-element character vectors are required")
+  }
+  normalized_values <- htmltools::parseCssColors(args, mustWork = FALSE)
+  if (anyNA(normalized_values)) {
+    stop(call. = FALSE,
+      "Invalid HTML color strings for argument(s) ",
+      format_varnames(names(args)[is.na(normalized_values)])
+    )
+  }
+  args[] <- normalized_values
+  args
+}
+
+# Format a vector of variable names
+format_varnames <- function(varnames, quot = "`", delim = ", ") {
+  between <- paste0(quot, delim, quot)
+
+  paste0(
+    quot,
+    paste(collapse = between, varnames),
+    quot
+  )
 }

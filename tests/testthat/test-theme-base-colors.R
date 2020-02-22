@@ -13,7 +13,8 @@ test_that("bs4 base colors", {
   }
 
   bs_theme_new("4+3")
-  bs_theme_base_colors(bg = "white", fg = "black", accent = "blue", secondary = "silver")
+  bs_theme_base_colors(bg = "white", fg = "black")
+  bs_theme_accent_colors(primary = "blue", secondary = "silver")
   colors <- bs_theme_get_variables(varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
@@ -24,12 +25,13 @@ test_that("bs4 base colors", {
       `gray-200` = "#CCCCCC", `gray-300` = "#B2B2B2", `gray-400` = "#999999",
       `gray-500` = "#808080", `gray-600` = "#666666", `gray-700` = "#4D4D4D",
       `gray-800` = "#333333", `gray-900` = "#191919", `body-bg` = "#FFFFFF",
-      `body-color` = "#191919", primary = "blue", secondary = "silver",
-      default = "silver")
+      `body-color` = "#191919", primary = "#0000FF", secondary = "#C0C0C0",
+      default = "#C0C0C0")
   )
 
   bs_theme_new("4")
-  bs_theme_base_colors(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown")
+  bs_theme_base_colors(bg = "#112233", fg = "#FFEEDD")
+  bs_theme_accent_colors(primary = "orange", secondary = "brown")
   colors <- bs_theme_get_variables(varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
@@ -40,8 +42,8 @@ test_that("bs4 base colors", {
       `gray-200` = "#414B55", `gray-300` = "#585F66", `gray-400` = "#707477",
       `gray-500` = "#888888", `gray-600` = "#A09C99", `gray-700` = "#B8B1AA",
       `gray-800` = "#CFC5BB", `gray-900` = "#E7DACC", `body-bg` = "#112233",
-      `body-color` = "#E7DACC", primary = "orange", secondary = "brown",
-      default = "brown")
+      `body-color` = "#E7DACC", primary = "#FFA500", secondary = "#A52A2A",
+      default = NA)
   )
 
   # Can individual colors still be overridden?
@@ -59,20 +61,22 @@ test_that("bs3 base colors", {
     "body-bg", "text-color", "brand-primary")
 
   bs_theme_new("3")
-  bs_theme_base_colors(bg = "white", fg = "black", accent = "blue")
+  bs_theme_base_colors(bg = "white", fg = "black")
+  bs_theme_accent_colors(primary = "blue")
   colors <- bs_theme_get_variables(varnames)
 
   expect_identical(colors,
     c(`gray-base` = "#000000", white = "#FFFFFF", `gray-darker` = "#222222",
       `gray-dark` = "#333333", gray = "#555555", `gray-light` = "#777777",
       `gray-lighter` = "#EEEEEE", `body-bg` = "#FFFFFF", `text-color` = "#333333",
-      `brand-primary` = "blue")
+      `brand-primary` = "#0000FF")
   )
 
   bs_theme_new("3")
+  bs_theme_base_colors(bg = "#112233", fg = "#FFEEDD")
   expect_warning(
-    bs_theme_base_colors(bg = "#112233", fg = "#FFEEDD", accent = "orange", secondary = "brown"),
-    "argument is not currently supported"
+    bs_theme_accent_colors(primary = "orange", secondary = "brown"),
+    "doesn't support.*ignored"
   )
   colors <- bs_theme_get_variables(varnames)
 
@@ -80,7 +84,7 @@ test_that("bs3 base colors", {
     c(`gray-base` = "#FFEEDD", white = "#112233", `gray-darker` = "#DFD3C6",
       `gray-dark` = "#CFC5BB", gray = "#B0AAA4", `gray-light` = "#908F8E",
       `gray-lighter` = "#21303E", `body-bg` = "#112233", `text-color` = "#CFC5BB",
-      `brand-primary` = "orange")
+      `brand-primary` = "#FFA500")
   )
 
   # Can individual colors still be overridden?
