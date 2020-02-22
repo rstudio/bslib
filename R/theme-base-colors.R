@@ -35,6 +35,8 @@
 #' be shades of gray. `bs_theme_base_colors` overrides these hard-coded values
 #' with colors interpolated between `bg` and `fg`.
 #'
+#' @seealso [bs_theme_add_variables()]
+#'
 #' @examples
 #'
 #' bs_theme_new("4+3")

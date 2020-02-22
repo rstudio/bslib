@@ -67,3 +67,6 @@ if (interactive()) {
 }
 
 }
+\seealso{
+\code{\link[=bs_theme_add_variables]{bs_theme_add_variables()}}
+}
