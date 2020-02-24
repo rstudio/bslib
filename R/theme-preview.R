@@ -118,10 +118,16 @@ bs_themer_ui <- function() {
       style = css(position = "fixed", top = "1rem", right = "1rem", height = "auto"),
 
       div(class = "card-header font-weight-bold bg-dark text-light px-3 py-2",
-        "Theme customizer"
+        "Theme customizer",
+        tags$div(id = "bsthemerToggle", class = "float-right",
+          "data-toggle" = "collapse", "data-target" = "#bsthemerAccordion",
+          style = css(cursor = "pointer"),
+          tags$span(),
+          tags$style(HTML(bootstrap_sass(sass::sass_file(system.file("themer/themer.scss", package = "bootstraplib")))))
+        )
       ),
 
-      div(id = "bsthemerAccordion", style = css(overflow_y = "auto"),
+      div(id = "bsthemerAccordion", class = "collapse show", style = css(overflow_y = "auto"),
         lapply(seq_along(opts), function(i) {
           opt_name <- names(opts)[[i]]
           elId <- paste0("bsthemerCollapse", i)
