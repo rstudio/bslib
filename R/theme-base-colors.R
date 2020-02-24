@@ -249,6 +249,56 @@ bs3_theme_accent_colors <- function(args) {
   args
 }
 
+
+#' @export
+bs_theme_fonts <- function(base = NULL, code = NULL, heading = NULL,
+  input = NULL) {
+
+  args <- list(
+    base = base,
+    code = code,
+    heading = heading,
+    input = input
+  )
+
+  dispatch_theme_setter("bs_theme_fonts", list(
+    "4+3" = bs4_theme_fonts,
+    "4" = bs4_theme_fonts
+  ), args)
+}
+
+bs4_theme_fonts <- function(args) {
+  name_map <- c(
+    base = "font-family-base",
+    code = "font-family-monospace",
+    heading = "headings-font-family",
+    input = "input-btn-font-family"
+  )
+
+  names(args) <- name_map[names(args)]
+  args
+}
+
+bs3_theme_fonts <- function(args) {
+  name_map <- c(
+    base = "font-family-base",
+    code = "font-family-monospace",
+    heading = "headings-font-family"
+  )
+
+  matches <- match(names(args), names(name_map))
+  bad_names <- names(args)[is.na(matches)]
+  if (length(bad_names) > 0) {
+    warning(call. = FALSE, "Bootstrap 3 doesn't support the following font ",
+      "argument(s), they will be ignored: ", format_varnames(bad_names)
+    )
+  }
+  args <- args[!is.na(matches)]
+
+  names(args) <- name_map[names(args)]
+  args
+}
+
 #' @param caller_name String naming the calling function; used for error
 #'   messages
 #' @param funcs_by_version List of functions, where the names are Bootstrap
