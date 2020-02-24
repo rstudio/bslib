@@ -1,18 +1,12 @@
 #' Customize the Bootstrap theme based on two to four key colors
 #'
-#' `bs_theme_base_colors` generates a complete Bootstrap theme from just a small
-#' handful of user-specified colors: a background color, a foreground color, and
-#' optionally, primary and secondary accent colors.
+#' `bs_theme_base_colors` uses a background color and a foreground color to
+#' rewrite the basic palette of the current Bootstrap theme, affecting almost
+#' every built-in Bootstrap component.
 #'
 #' @param bg A color string for the background, in any format
 #'   [htmltools::parseCssColors()] can understand.
 #' @param fg A color string for the background.
-#' @param accent A color string for the accent color; if not `NULL`, this will
-#'   be assigned to the `$primary` (BS4) or `$brand-primary` (BS3) Sass
-#'   variables.
-#' @param secondary A color string for the secondary color; if not `NULL`, this
-#'   will be assigned to the `$secondary` and `$default` Bootstrap 4 Sass
-#'   variables. (This argument is not currently supported for Bootstrap 3.)
 #'
 #' @section Implementation notes:
 #'
@@ -23,10 +17,7 @@
 #' indirectly based on the `$black`, `$white`, and `$gray-100` through
 #' `$gray-900` variables; or on the theme colors (primary, secondary, danger,
 #' warning, info, etc.). `bs_theme_base_colors` sets `$white` to the `bg` color,
-#' `$black` to the `fg` color, and interpolates the grays between them. If
-#' provided, the `accent` argument is used to set the `$primary` variable, and
-#' the `secondary` argument is used to set `$secondary` and `$default`
-#' variables.
+#' `$black` to the `fg` color, and interpolates the grays between them.
 #'
 #' For Bootstrap 3, a similar set of `$black`, `$white`, and `$gray-darker`
 #' through `$gray-lighter` variables exist, and these are populated using the
@@ -35,7 +26,7 @@
 #' be shades of gray. `bs_theme_base_colors` overrides these hard-coded values
 #' with colors interpolated between `bg` and `fg`.
 #'
-#' @seealso [bs_theme_add_variables()]
+#' @family customizations
 #'
 #' @examples
 #'
@@ -46,7 +37,7 @@
 #' bs_theme_accent_colors(primary = "orange", secondary = "silver")
 #'
 #' if (interactive()) {
-#'   bs_theme_preview()
+#'   bs_theme_preview(with_themer = FALSE)
 #' }
 #'
 #' @export
@@ -71,7 +62,7 @@ bs4_theme_base_colors <- function(args) {
   white <- args$bg
   black <- args$fg
 
-  grays <- colorRamp(c(white, black), alpha = TRUE)(0:10/10)
+  grays <- grDevices::colorRamp(c(white, black), alpha = TRUE)(0:10/10)
 
   if (any(grays[,4] != 255)) {
     warning(call. = FALSE,
@@ -111,7 +102,7 @@ bs3_theme_base_colors <- function(args) {
   white <- args$bg
   black <- args$fg
 
-  ramp <- colorRamp(c(black, white))
+  ramp <- grDevices::colorRamp(c(black, white))
   gray <- function(level = 255) {
     val <- round(ramp(level / 255))
     sprintf("#%02X%02X%02X", val[1,1], val[1,2], val[1,3])
@@ -186,13 +177,41 @@ bs3_theme_base_colors <- function(args) {
   results
 }
 
+#' Customize Bootstrap accent colors
+#'
+#' Set accent colors (referred to as "brand" colors in the Bootstrap 3 docs, and
+#' "theme" colors in the Bootstrap 4 docs) for the current Bootstrap theme.
+#' Values must be `NULL` or a color string in a format
+#' [htmltools::parseCssColors()] can understand.
+#'
+#' @param primary A color to be used for hyperlinks, to indicate primary/default
+#'   actions, and to show active selection state in some Bootstrap components.
+#'   Generally a bold, saturated color that contrasts with the theme's base
+#'   colors.
+#' @param secondary A color for components and messages that don't need to stand
+#'   out. (Not supported in Bootstrap 3.)
+#' @param success A color for messages that indicate an operation has succeeded.
+#'   Typically green.
+#' @param info A color for messages that are informative but not critical. Typically a
+#'   shade of blue-green.
+#' @param warning A color for warning messages. Typically yellow.
+#' @param danger A color for errors. Typically red.
+#'
+#' @family customizations
+#'
+#' @examples
+#' bs_theme_new("4+3")
+#' bs_theme_accent_colors(primary = "maroon", secondary = "gray")
+#' if (interactive()) {
+#'   bs_theme_preview(with_themer = FALSE)
+#' }
+#'
 #' @export
 bs_theme_accent_colors <- function(primary = NULL, secondary = NULL,
-  success = NULL, info = NULL, warning = NULL, danger = NULL, light = NULL,
-  dark = NULL) {
+  success = NULL, info = NULL, warning = NULL, danger = NULL) {
 
   args <- list(primary = primary, secondary = secondary, success = success,
-    info = info, warning = warning, danger = danger, light = light, dark = dark
+    info = info, warning = warning, danger = danger
   )
   args <- validate_and_normalize_colors(args)
 
@@ -223,7 +242,9 @@ bs3_theme_accent_colors <- function(args) {
   args <- args[!is.na(matches)]
 
   # Bootstrap 3 uses brand-primary, brand-danger, etc. as var names
-  names(args) <- paste0("brand-", names(args))
+  if (length(args) > 0) {
+    names(args) <- paste0("brand-", names(args))
+  }
 
   args
 }

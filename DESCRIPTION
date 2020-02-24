@@ -1,5 +1,5 @@
 Package: bootstraplib
-Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass.
+Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass
 Version: 0.1.0.9000
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"),
     email = "cpsievert1@gmail.com", comment = c(ORCID = "0000-0002-4958-2844")),
@@ -8,6 +8,7 @@ Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"),
     )
 Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
 Imports: 
+    grDevices,
     htmltools (>= 0.4.0.9003),
     jsonlite,
     sass (> 0.1.2.1),
