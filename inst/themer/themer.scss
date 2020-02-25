@@ -11,4 +11,6 @@
 
 .move-grabber {
   cursor: move;
+  /* Required to avoid scrolling on mobile safari */
+  touch-action: none;
 }
