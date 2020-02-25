@@ -19,9 +19,9 @@ bootstrap_sass_file <- function(file, version) {
   if (length(file) != 1) stop("file should be of length 1")
   file <- paste0("_", file, ".scss")
   f <- if (version %in% "3") {
-    system.file("lib", "bootstrap-sass", "assets", "stylesheets", "bootstrap", file, package = "bootstraplib")
+    lib_file("bootstrap-sass", "assets", "stylesheets", "bootstrap", file)
   } else if (version %in% c("4", "4+3")) {
-    system.file("lib", "bootstrap", "scss", file, package = "bootstraplib")
+    lib_file("bootstrap", "scss", file)
   } else {
     stop("Bootstrap version not supported:", version, call. = FALSE)
   }
