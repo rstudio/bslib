@@ -114,10 +114,13 @@ bs_themer_ui <- function() {
       "bs_themer", version = packageVersion("bootstraplib"), src = "themer", script = "themer.js", package = "bootstraplib", all_files = FALSE
     ),
 
-    div(class = "card shadow", style = css(width = "18rem", max_height = "80vh", z_index = 1000),
+    div(id = "bsthemerContainer",
+      class = "card shadow", style = css(width = "18rem", max_height = "80vh", z_index = 1000),
       style = css(position = "fixed", top = "1rem", right = "1rem", height = "auto"),
 
-      div(class = "card-header font-weight-bold bg-dark text-light px-3 py-2",
+      div(id = "bsthemerHeader",
+        class = "move-grabber", "data-target" = "#bsthemerContainer",
+        class = "card-header font-weight-bold bg-dark text-light px-3 py-2",
         "Theme customizer",
         tags$div(id = "bsthemerToggle", class = "float-right",
           "data-toggle" = "collapse", "data-target" = "#bsthemerAccordion",

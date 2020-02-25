@@ -256,4 +256,111 @@
     });
     debouncedSetInputValue.call(Shiny, "vars", JSON.stringify(values));
   });
+
+
+  /*** Begin dragging logic ***/
+
+  var active_move_grabber = null;
+  var active_move_target = null;
+  var active_move_offset = null;
+
+  $(document).on("pointerdown", ".move-grabber", function(e) {
+    e.preventDefault();
+
+    active_move_grabber = e.target;
+    active_move_target = $(document).find(e.target.dataset.target)[0];
+    active_move_offset = {
+      x: e.clientX - active_move_target.offsetLeft,
+      y: e.clientY - active_move_target.offsetTop
+    }
+
+    if (active_move_grabber.setPointerCapture) {
+      active_move_grabber.setPointerCapture(e.pointerId);
+    }
+  });
+
+  $(document).on("pointermove", function(e) {
+    if (!active_move_grabber) {
+      return;
+    }
+    active_move_target.style.left = (e.clientX - active_move_offset.x) + "px";
+    active_move_target.style.top = (e.clientY - active_move_offset.y) + "px";
+    active_move_target.style.right = "auto";
+    active_move_target.style.bottom = "auto";
+
+    constrain(active_move_target);
+  });
+
+  $(document).on("pointerup", ".move-grabber", function(e) {
+    if (!active_move_grabber) {
+      return;
+    }
+
+    var move_target = active_move_target;
+
+    if (active_move_grabber.setPointerCapture) {
+      active_move_grabber.releasePointerCapture(e.pointerId);
+    }
+    active_move_grabber = null;
+    active_move_target = null;
+    active_move_offset = null;
+
+    constrain(move_target);
+  });
+
+  /**
+   * Takes the given absolutely positioned element, and determines which corner
+   * of its offsetParent it's closest to (unless its offsetParent is a body tag,
+   * in which case we use the browser's viewport). The element's position is
+   * anchored to its closest corner, so that resizing the browser causes the
+   * element to stay in view. It also makes sure that the entire element is
+   * visible.
+   */
+  function constrain(el) {
+    var parent = el.offsetParent;
+    // RStudio viewer gives null offsetParent??
+    if (!parent || parent.tagName === "BODY") {
+      // If the element is parented by the body, look at the top-level html tag
+      // instead; its clientWidth/Height is the browser's viewport, a special
+      // case.
+      parent = document.documentElement;
+    }
+
+    var parentBounds = {
+      top: 0,
+      right: parent.clientWidth,
+      bottom: parent.clientHeight,
+      left: 0
+    };
+
+    var elBounds = {
+      top: el.offsetTop,
+      right: parentBounds.right - (el.offsetLeft + el.offsetWidth),
+      bottom: parentBounds.bottom - (el.offsetTop + el.offsetHeight),
+      left: el.offsetLeft
+    };
+
+    if (elBounds.top <= elBounds.bottom) {
+      console.log("top")
+      el.style.top = Math.max(0, elBounds.top) + "px";
+      el.style.bottom = "auto";
+    } else {
+      console.log("bottom")
+      el.style.top = "auto";
+      el.style.bottom = Math.max(0, elBounds.bottom) + "px";
+    }
+    if (elBounds.left <= elBounds.right) {
+      console.log("left")
+      el.style.left = Math.max(0, elBounds.left) + "px";
+      el.style.right = "auto";
+    } else {
+      console.log("right")
+      el.style.left = "auto";
+      el.style.right = Math.max(0, elBounds.right) + "px";
+    }
+  }
+
+  /*** End dragging logic ***/
+
+
 })(window.jQuery);

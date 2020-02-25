@@ -8,3 +8,7 @@
 #bsthemerToggle.collapsed span {
   @include caret(down);
 }
+
+.move-grabber {
+  cursor: move;
+}
