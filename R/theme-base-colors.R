@@ -232,14 +232,8 @@ bs43_theme_accent_colors <- function(args) {
 bs3_theme_accent_colors <- function(args) {
   # Warns and filters out unsupported arguments
   supported <- c("primary", "success", "info", "warning", "danger")
-  matches <- match(names(args), supported)
-  bad_names <- names(args)[is.na(matches)]
-  if (length(bad_names) > 0) {
-    warning(call. = FALSE, "Bootstrap 3 doesn't support the following accent ",
-      "color argument(s), they will be ignored: ", format_varnames(bad_names)
-    )
-  }
-  args <- args[!is.na(matches)]
+
+  args <- retain_known_vars("Bootstrap 3", "accent color", supported, args)
 
   # Bootstrap 3 uses brand-primary, brand-danger, etc. as var names
   if (length(args) > 0) {
@@ -263,7 +257,8 @@ bs_theme_fonts <- function(base = NULL, code = NULL, heading = NULL,
 
   dispatch_theme_setter("bs_theme_fonts", list(
     "4+3" = bs4_theme_fonts,
-    "4" = bs4_theme_fonts
+    "4" = bs4_theme_fonts,
+    "3" = bs3_theme_fonts
   ), args)
 }
 
@@ -286,14 +281,7 @@ bs3_theme_fonts <- function(args) {
     heading = "headings-font-family"
   )
 
-  matches <- match(names(args), names(name_map))
-  bad_names <- names(args)[is.na(matches)]
-  if (length(bad_names) > 0) {
-    warning(call. = FALSE, "Bootstrap 3 doesn't support the following font ",
-      "argument(s), they will be ignored: ", format_varnames(bad_names)
-    )
-  }
-  args <- args[!is.na(matches)]
+  args <- retain_known_vars("Bootstrap 3", "font", names(name_map), args)
 
   names(args) <- name_map[names(args)]
   args
@@ -361,6 +349,30 @@ validate_and_normalize_colors <- function(args) {
   }
   args[] <- normalized_values
   args
+}
+
+#' Remove unsupported arguments, with a nicely formatted warning
+#'
+#' @param caller_name String naming the calling function; used for error
+#'   messages
+#' @param supported_vars Character vector of known names
+#' @param args List of args
+#' @return List with unsupported vars removed, possibly warning in the process
+#' @noRd
+retain_known_vars <- function(caller_name, arg_name = "", supported_vars, args) {
+  argnames <- names(args)
+  unknown_idx <- !argnames %in% supported_vars
+
+  if (any(unknown_idx)) {
+    warning(call. = FALSE,
+      caller_name, " doesn't support the following ",
+      arg_name, if (nzchar(arg_name)) " ",
+      "argument(s), they will be ignored: ",
+      format_varnames(argnames[unknown_idx])
+    )
+  }
+
+  args[!unknown_idx]
 }
 
 # Format a vector of variable names
