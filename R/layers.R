@@ -54,7 +54,7 @@ bootstrap_layer <- function(version) {
       ), version = 3),
       file_attachments = c(
         "glyphicon-fonts" = system.file(
-          "node_modules/bootstrap-sass/assets/fonts/bootstrap",
+          "lib/bootstrap-sass/assets/fonts/bootstrap",
           package = "bootstraplib"
         )
       ),
@@ -71,13 +71,13 @@ bootstrap_layer <- function(version) {
 bootstrap_javascript <- function(version, minified = TRUE) {
   if (version %in% c("4", "4+3")) {
     return(system.file(
-      "node_modules/bootstrap/dist/js",
+      "lib/bootstrap/dist/js",
       if (minified) "bootstrap.bundle.min.js" else "bootstrap.bundle.js",
       package = "bootstraplib"
     ))
   } else if (version %in% "3") {
     return(system.file(
-      "node_modules/bootstrap-sass/assets/javascripts",
+      "lib/bootstrap-sass/assets/javascripts",
       if (minified) "bootstrap.min.js" else "bootstrap.js",
       package = "bootstraplib"
     ))
@@ -97,7 +97,7 @@ bs3compat_layer <- function() {
     rules = sass_file(system.file("bs3compat", "_rules.scss", package = "bootstraplib")),
     # Gyliphicon font files
     file_attachments = c(
-      fonts = system.file("node_modules/bootstrap-sass/assets/fonts", package = "bootstraplib")
+      fonts = system.file("lib/bootstrap-sass/assets/fonts", package = "bootstraplib")
     ),
     html_deps = htmltools::htmlDependency(
       "bs3compat", packageVersion("bootstraplib"),

@@ -48,6 +48,9 @@ unlink("inst/node_modules/bootswatch3/.github", recursive = TRUE)
 # we already got fonts via tools/download_fonts.R
 unlink("inst/node_modules/bootswatch3/fonts", recursive = TRUE)
 
-
-# TODO: Avoid the stupiest CRAN note ever
+# Rename node_modules to lib to avoid the stupiest CRAN note ever
 # https://www.r-bloggers.com/the-most-annoying-warning-for-cran-submission/
+pkgs <- Sys.glob("inst/node_modules/*")
+file.rename(pkgs, sub("node_modules/", "lib/", pkgs))
+unlink("inst/node_modules/", recursive = TRUE)
+
