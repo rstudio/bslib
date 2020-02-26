@@ -36,7 +36,7 @@ colorpicker_deps <- function() {
   htmltools::htmlDependency(
     "bootstrap-colorpicker",
     "3.1.2",
-    system.file("lib/bootstrap-colorpicker", package = "bootstraplib"),
+    lib_file("bootstrap-colorpicker"),
     stylesheet = "css/bootstrap-colorpicker.min.css",
     script = "js/bootstrap-colorpicker.js"
   )

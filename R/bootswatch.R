@@ -33,18 +33,14 @@ theme_version <- function(theme = bs_theme_get()) {
 }
 
 
-bootswatch_dist <- function(version, full_path = TRUE) {
-  dist <- if (version %in% "3") {
-    file.path("node_modules", "bootswatch3")
+bootswatch_dist <- function(version) {
+  if (version %in% "3") {
+    lib_file(file.path("bootswatch3"))
   } else if (version %in% c("4", "4+3")) {
-    file.path("node_modules", "bootswatch", "dist")
+    lib_file(file.path("bootswatch", "dist"))
   } else {
     stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
   }
-  if (full_path) {
-    dist <- system.file(dist, package = "bootstraplib")
-  }
-  dist
 }
 
 bootswatch_theme_resolve <- function(bootswatch, version) {

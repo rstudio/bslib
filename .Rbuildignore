@@ -1,9 +1,9 @@
 ^bootswatch\.Rproj$
 ^\.Rproj\.user$
-inst/node_modules/.yarn-integrity
-inst/node_modules/bootswatch/.github
-inst/node_modules/bootstrap-sass/assets/images/.keep
-inst/node_modules/bootswatch3/.npmignore
+inst/lib/.yarn-integrity
+inst/lib/bootswatch/.github
+inst/lib/bootstrap-sass/assets/images/.keep
+inst/lib/bootswatch3/.npmignore
 ^test-apps$
 ^bootstraplib\.Rproj$
 ^README\.Rmd$

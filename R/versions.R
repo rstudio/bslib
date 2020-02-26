@@ -1,5 +1,14 @@
+lib_file <- function(...) {
+  file <- system.file("lib", ..., package = "bootstraplib")
+  if (file != "") return(file)
+  stop(
+    "bootstraplib file not found: '", file.path(...), "'",
+    call. = FALSE
+  )
+}
+
 package_json_version <- function(pkgname) {
-  jsonlite::fromJSON(system.file("node_modules", pkgname, "package.json", package = "bootstraplib"))$version
+  jsonlite::fromJSON(lib_file(pkgname, "package.json"))$version
 }
 
 version_bs4 <- package_json_version("bootstrap")
