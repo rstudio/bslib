@@ -186,3 +186,37 @@ test_that("bs_theme_fonts", {
   }
 })
 
+test_that("format_varnames", {
+  expect_identical(format_varnames("a"), "`a`")
+  expect_identical(format_varnames(c("a", "b")), "`a`, `b`")
+  expect_identical(format_varnames(c("foo bar", "baz qux"), quot = "'", delim = "/"), "'foo bar'/'baz qux'")
+})
+
+test_that("validate_and_normalize_colors", {
+  expect_null(validate_and_normalize_colors(NULL))
+
+  # Bad
+  expect_error(validate_and_normalize_colors(list(mycolor = "")), "Invalid.*mycolor")
+  expect_error(validate_and_normalize_colors(list(foo = "bar")), "Invalid")
+  expect_error(
+    validate_and_normalize_colors(list(valid = "black", notvalid1 = "#00", notvalid2 = "#11111")),
+    "Invalid.*notvalid.*notvalid2"
+  )
+  expect_error(validate_and_normalize_colors(list(toomany = c("red", "blue"))), "Invalid.*toomany")
+
+  expect_identical(
+    validate_and_normalize_colors(list(a = "#000", b = "white", c = "rgb(16, 32, 64)")),
+    list(a = "#000000", b = "#FFFFFF", c = "#102040")
+  )
+})
+
+test_that("dispatch_theme_setter", {
+  bs_theme_new("4+3")
+  expect_error(dispatch_theme_setter("HelloWorld", list(), args = list()))
+  expect_error(dispatch_theme_setter("HelloWorld", list("3" = identity), args = list()))
+  expect_error(dispatch_theme_setter("HelloWorld", list("4" = identity), args = list()))
+  expect_error(
+    dispatch_theme_setter("HelloWorld", list("4+3" = identity), args = list()),
+    NA
+  )
+})
