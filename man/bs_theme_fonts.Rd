@@ -18,10 +18,34 @@ Set the typefaces used by Bootstrap for various purposes. Each argument
 can be \code{NULL} (no change), or a character vector of one or more elements.
 }
 \details{
-Each argument is a character vector, and each element of that vector can
-either be a font family name, a CSS-quoted or -escaped font family name,
-or a comma-separated list of CSS-quoted or -escaped font family names.
-See the example below for examples of all three.
+Each argument is a character vector, and each element of that vector can a
+single unquoted font family name, a single quoted font family name, or a
+comma-separated list of font families (with individual font family names
+quoted as necessary).
+
+For example, each example below is valid:\preformatted{# Single, unquoted
+bs_theme_fonts(base = "Source Sans Pro")
+
+# Single, quoted
+bs_theme_fonts(base = "'Source Sans Pro'")
+
+# Multiple, quoted
+bs_theme_fonts(base = "'Source Sans Pro', sans-serif")
+
+# Combining all of the above
+bs_theme_fonts(base = c("Open Sans", "'Source Sans Pro'",
+  "'Helvetica Neue', Helvetica, sans-serif"))
+}
+
+But the following is technically \emph{not} valid:\preformatted{# Incorrect--because multiple font families are being
+# provided in a single string, names with spaces must
+# be surrounded by quotes!
+bs_theme_fonts(base = "Source Sans Pro, sans-serif")
+}
+
+The resulting CSS will contain \verb{font-family: Source Sans Pro, sans-serif;}
+which is technically out of spec, but in fact is likely to still work with
+most browsers.
 }
 \examples{
 

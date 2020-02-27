@@ -92,3 +92,97 @@ test_that("bs3 base colors", {
   expect_identical(bs_theme_get_variables(c("body-bg", "gray-darker")),
     c("body-bg" = "black", "gray-darker" = "#DFD3C6"))
 })
+
+test_that("bs4 accent colors", {
+  varnames <- c("primary", "secondary", "default", "success", "info", "warning",
+    "danger")
+
+  # Baseline
+  bs_theme_new("4+3")
+  expect_identical(bs_theme_get_variables(varnames),
+    c(primary = "#007bff", secondary = "#6c757d", default = "#dee2e6",
+      success = "#28a745", info = "#17a2b8", warning = "#ffc107", danger = "#dc3545")
+  )
+
+  bs_theme_new("4")
+  bs_theme_accent_colors(primary = "#123", secondary = "#234",
+    success = "#345", info = "#456", warning = "#567", danger = "#678")
+  expect_identical(bs_theme_get_variables(varnames),
+    c(primary = "#112233", secondary = "#223344", default = NA, success = "#334455",
+      info = "#445566", warning = "#556677", danger = "#667788")
+  )
+
+  bs_theme_new("4+3")
+  bs_theme_accent_colors(primary = "#123", secondary = "#234",
+    success = "#345", info = "#456", warning = "#567", danger = "#678")
+  expect_identical(bs_theme_get_variables(varnames),
+    c(primary = "#112233", secondary = "#223344", default = "#223344",
+      success = "#334455", info = "#445566", warning = "#556677", danger = "#667788")
+  )
+})
+
+test_that("bs3 accent colors", {
+  varnames <- c("primary", "secondary", "default", "success", "info", "warning",
+    "danger")
+  varnames <- paste0("brand-", varnames)
+
+  # Baseline
+  bs_theme_new("3")
+  expect_identical(bs_theme_get_variables(varnames),
+    c(`brand-primary` = "#337ab7", `brand-secondary` = NA, `brand-default` = NA,
+      `brand-success` = "#5cb85c", `brand-info` = "#5bc0de", `brand-warning` = "#f0ad4e",
+      `brand-danger` = "#d9534f")
+  )
+
+  bs_theme_new("3")
+  expect_warning(
+    bs_theme_accent_colors(primary = "#123", secondary = "#234",
+      success = "#345", info = "#456", warning = "#567", danger = "#678"),
+    "doesn't support"
+  )
+  expect_identical(bs_theme_get_variables(varnames),
+    c(`brand-primary` = "#112233", `brand-secondary` = NA, `brand-default` = NA,
+      `brand-success` = "#334455", `brand-info` = "#445566", `brand-warning` = "#556677",
+      `brand-danger` = "#667788")
+  )
+})
+
+test_that("bs_theme_fonts", {
+  expected_result <- "\"Source Sans Pro\", \"Open Sans\", Helvetica, sans-serif"
+  candidates <- list(
+    # All separate
+    c("Source Sans Pro", "Open Sans", "Helvetica", "sans-serif"),
+    # All together
+    c("'Source Sans Pro'", "Open Sans", "Helvetica, sans-serif"),
+    # Mixed
+    c("'Source Sans Pro', \"Open Sans\", Helvetica, sans-serif")
+  )
+
+  for (version in c("4+3", "4", "3")) {
+
+    for (candidate in candidates) {
+      bs_theme_new(version)
+      bs_theme_fonts(candidate)
+      expect_identical(
+        bs_theme_get_variables("font-family-base"),
+        c(`font-family-base` = expected_result)
+      )
+    }
+
+    expect_error(bs_theme_fonts(""), "base")
+    expect_error(bs_theme_fonts(code = NA_character_), "code")
+    expect_error(bs_theme_fonts(heading = TRUE), "heading")
+    expect_error(bs_theme_fonts(10L))
+
+    # NOT an error
+    expect_error(bs_theme_fonts(NULL), NA)
+
+    bs_theme_new(version)
+    bs_theme_fonts("a", "b", "c")
+    expect_identical(
+      bs_theme_get_variables(c("font-family-base", "font-family-monospace", "headings-font-family")),
+      c(`font-family-base` = "a", `font-family-monospace` = "b", `headings-font-family` = "c")
+    )
+  }
+})
+

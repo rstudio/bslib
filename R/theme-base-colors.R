@@ -248,10 +248,40 @@ bs3_theme_accent_colors <- function(args) {
 #' Set the typefaces used by Bootstrap for various purposes. Each argument
 #' can be `NULL` (no change), or a character vector of one or more elements.
 #'
-#' Each argument is a character vector, and each element of that vector can
-#' either be a font family name, a CSS-quoted or -escaped font family name,
-#' or a comma-separated list of CSS-quoted or -escaped font family names.
-#' See the example below for examples of all three.
+#' Each argument is a character vector, and each element of that vector can a
+#' single unquoted font family name, a single quoted font family name, or a
+#' comma-separated list of font families (with individual font family names
+#' quoted as necessary).
+#'
+#' For example, each example below is valid:
+#'
+#' ```
+#' # Single, unquoted
+#' bs_theme_fonts(base = "Source Sans Pro")
+#'
+#' # Single, quoted
+#' bs_theme_fonts(base = "'Source Sans Pro'")
+#'
+#' # Multiple, quoted
+#' bs_theme_fonts(base = "'Source Sans Pro', sans-serif")
+#'
+#' # Combining all of the above
+#' bs_theme_fonts(base = c("Open Sans", "'Source Sans Pro'",
+#'   "'Helvetica Neue', Helvetica, sans-serif"))
+#' ```
+#'
+#' But the following is _technically_ not valid:
+#'
+#' ```
+#' # Incorrect--because multiple font families are being
+#' # provided in a single string, names with spaces must
+#' # be surrounded by quotes!
+#' bs_theme_fonts(base = "Source Sans Pro, sans-serif")
+#' ```
+#'
+#' The resulting CSS will contain `font-family: Source Sans Pro, sans-serif;`
+#' which is technically out of spec, but in fact is likely to still work with
+#' most browsers.
 #'
 #' @param base The default typeface.
 #' @param code The typeface to be used for code. Be sure this is monospace!
@@ -278,6 +308,20 @@ bs_theme_fonts <- function(base = NULL, code = NULL, heading = NULL) {
     code = code,
     heading = heading
   )
+
+  mapply(function(name, value) {
+    if (is.null(value)) {
+      return()
+    }
+    if (!is.character(value)) {
+      stop(call. = FALSE,
+        "Invalid ", format_varnames(name), " argument to bs_theme_fonts(): must be character vector")
+    }
+    if (anyNA(value) || any(!nzchar(value))) {
+      stop(call. = FALSE,
+        "Invalid ", format_varnames(name), " argument to bs_theme_fonts(): must be character vector")
+    }
+  }, names(args), args)
 
   args <- lapply(args, quote_css_font_families)
 
@@ -381,6 +425,10 @@ quote_css_font_families <- function(str) {
   # This is pretty quick and dirty. I'd much prefer to do a full parse and I
   # generally hate using heuristics to decide on matters of encoding, but
   # both completely unquoted and fully quoted cases will be so common.
+
+  if (is.null(str)) {
+    return(NULL)
+  }
 
   # Are there non-alpha, non-dash characters? If so, we may need to quote...
   needs_quote <- grepl("[^A-Za-z\\-]", str, perl = TRUE)
