@@ -243,17 +243,43 @@ bs3_theme_accent_colors <- function(args) {
   args
 }
 
-
+#' Customize Bootstrap typefaces
+#'
+#' Set the typefaces used by Bootstrap for various purposes. Each argument
+#' can be `NULL` (no change), or a character vector of one or more elements.
+#'
+#' Each argument is a character vector, and each element of that vector can
+#' either be a font family name, a CSS-quoted or -escaped font family name,
+#' or a comma-separated list of CSS-quoted or -escaped font family names.
+#' See the example below for examples of all three.
+#'
+#' @param base The default typeface.
+#' @param code The typeface to be used for code. Be sure this is monospace!
+#' @param heading The typeface to be used for heading elements.
+#'
+#' @examples
+#'
+#' bs_theme_new()
+#' bs_theme_fonts(
+#'   base = "Times",
+#'   code = c("Courier", "monospace"),
+#'   heading = "'Helvetica Neue', Helvetica, sans-serif"
+#' )
+#'
+#' if (interactive()) {
+#'   bs_theme_preview(with_themer = FALSE)
+#' }
+#'
 #' @export
-bs_theme_fonts <- function(base = NULL, code = NULL, heading = NULL,
-  input = NULL) {
+bs_theme_fonts <- function(base = NULL, code = NULL, heading = NULL) {
 
   args <- list(
     base = base,
     code = code,
-    heading = heading,
-    input = input
+    heading = heading
   )
+
+  args <- lapply(args, quote_css_font_families)
 
   dispatch_theme_setter("bs_theme_fonts", list(
     "4+3" = bs4_theme_fonts,
@@ -349,6 +375,30 @@ validate_and_normalize_colors <- function(args) {
   }
   args[] <- normalized_values
   args
+}
+
+quote_css_font_families <- function(str) {
+  # This is pretty quick and dirty. I'd much prefer to do a full parse and I
+  # generally hate using heuristics to decide on matters of encoding, but
+  # both completely unquoted and fully quoted cases will be so common.
+
+  # Are there non-alpha, non-dash characters? If so, we may need to quote...
+  needs_quote <- grepl("[^A-Za-z\\-]", str, perl = TRUE)
+  # ...but don't quote if there's even a hit of quoting, or that an element
+  # might contain multiple font families already. We explicitly want to
+  # allow things like:
+  # c("Source Sans Pro", "-apple-system, BlinkMacSystemFont, \"Segoe UI\""),
+  # where the first element would be quoted but not the second. Of course this
+  # would be a problem if a single font family's name contained a quote, comma,
+  # or backslash, but that seems very unlikely.
+  is_quoted <- grepl("[,'\"\\\\]", str, perl = TRUE)
+
+  str <- ifelse(needs_quote & !is_quoted,
+    paste0("'", str, "'"),
+    str
+  )
+
+  paste(str, collapse = ", ")
 }
 
 #' Remove unsupported arguments, with a nicely formatted warning
