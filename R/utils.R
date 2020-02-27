@@ -7,6 +7,15 @@ version_resolve <- function(version) {
   match.arg(version, c("4+3", "4", "3"))
 }
 
+lib_file <- function(...) {
+  file <- system.file("lib", ..., package = "bootstraplib")
+  if (file != "") return(file)
+  stop(
+    "bootstraplib file not found: '", file.path(...), "'",
+    call. = FALSE
+  )
+}
+
 add_class <- function(x, y) {
   structure(x, class = unique(c(y, oldClass(x))))
 }

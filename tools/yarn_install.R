@@ -48,7 +48,7 @@ unlink("inst/node_modules/bootswatch3/.github", recursive = TRUE)
 # we already got fonts via tools/download_fonts.R
 unlink("inst/node_modules/bootswatch3/fonts", recursive = TRUE)
 
-# Rename node_modules to lib to avoid the stupiest CRAN note ever
+# Rename node_modules to lib to avoid this CRAN note
 # https://www.r-bloggers.com/the-most-annoying-warning-for-cran-submission/
 pkgs <- Sys.glob("inst/node_modules/*")
 file.rename(pkgs, sub("node_modules/", "lib/", pkgs))
@@ -61,11 +61,12 @@ remove_dev_dependencies <- function(pkg_file) {
   json <- json[setdiff(names(json), "devDependencies")]
   jsonlite::write_json(json, pkg_file, pretty = TRUE, auto_unbox = TRUE)
 }
+invisible(lapply(Sys.glob("inst/lib/*/package.json"), remove_dev_dependencies))
 
-invisible(lapply(
-  Sys.glob("inst/lib/*/package.json"),
-  remove_dev_dependencies
-))
+# Get BS4/BS3 versions (for bootstraplib::bootstrap() versioning)
+version_bs4 <- jsonlite::fromJSON("inst/lib/bootstrap/package.json")$version
+version_bs3 <- jsonlite::fromJSON("inst/lib/bootstrap-sass/package.json")$version
+usethis::use_data(version_bs4, version_bs3, internal = TRUE)
 
 # Create the LICENSE file
 LICENSE <- c(

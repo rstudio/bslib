@@ -17,6 +17,7 @@ Authors@R: c(
     comment = "popper.js library")
     )
 Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
+Depends: R (>= 2.10)
 Imports: 
     grDevices,
     htmltools (>= 0.4.0.9003),
