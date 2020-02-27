@@ -54,3 +54,26 @@ pkgs <- Sys.glob("inst/node_modules/*")
 file.rename(pkgs, sub("node_modules/", "lib/", pkgs))
 unlink("inst/node_modules/", recursive = TRUE)
 
+
+# Create the LICENSE file
+LICENSE <- c(
+  "The bootstraplib package as a whole is distributed under MIT.",
+  "",
+  "The bootstraplib package includes other open source software components.",
+  "The following is a list of these components (full copies of the license",
+  "agreements used by these components are included below):",
+  "",
+  "- Bootstrap, https://github.com/twbs/bootstrap",
+  "- bootstrap-colorpicker, https://github.com/itsjavi/bootstrap-colorpicker",
+  "- Bootswatch, https://github.com/thomaspark/bootswatch",
+  "- popper.js, https://github.com/popperjs/popper-core",
+  rep("", 2),
+  readLines("inst/lib/bootstrap/LICENSE"),
+  rep("", 2),
+  readLines("inst/lib/bootstrap-colorpicker/LICENSE"),
+  rep("", 2),
+  readLines("inst/lib/bootswatch/LICENSE"),
+  rep("", 2),
+  readLines("https://raw.githubusercontent.com/popperjs/popper-core/master/LICENSE.md")
+)
+writeLines(LICENSE, "LICENSE")
