@@ -54,6 +54,18 @@ pkgs <- Sys.glob("inst/node_modules/*")
 file.rename(pkgs, sub("node_modules/", "lib/", pkgs))
 unlink("inst/node_modules/", recursive = TRUE)
 
+# GitHub reports security issues of devDependencies, but that's irrelevant to us
+remove_dev_dependencies <- function(pkg_file) {
+  if (!file.exists(pkg_file)) return()
+  json <- jsonlite::fromJSON(pkg_file)
+  json <- json[setdiff(names(json), "devDependencies")]
+  jsonlite::write_json(json, pkg_file, pretty = TRUE, auto_unbox = TRUE)
+}
+
+invisible(lapply(
+  Sys.glob("inst/lib/*/package.json"),
+  remove_dev_dependencies
+))
 
 # Create the LICENSE file
 LICENSE <- c(

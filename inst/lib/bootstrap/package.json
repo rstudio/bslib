@@ -3,20 +3,10 @@
   "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
   "version": "4.4.1",
   "version_short": "4.4",
-  "keywords": [
-    "css",
-    "sass",
-    "mobile-first",
-    "responsive",
-    "front-end",
-    "framework",
-    "web"
-  ],
+  "keywords": ["css", "sass", "mobile-first", "responsive", "front-end", "framework", "web"],
   "homepage": "https://getbootstrap.com/",
   "author": "The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)",
-  "contributors": [
-    "Twitter, Inc."
-  ],
+  "contributors": "Twitter, Inc.",
   "scripts": {
     "start": "npm-run-all --parallel watch docs-serve",
     "blc": "blc --exclude-external --filter-level 3 --follow --get --ordered --recursive --host-requests 4 --input http://localhost:3000/",
@@ -102,59 +92,10 @@
     "jquery": "1.9.1 - 3",
     "popper.js": "^1.16.0"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.7.4",
-    "@babel/core": "^7.7.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
-    "autoprefixer": "^9.7.2",
-    "babel-eslint": "^10.0.3",
-    "babel-plugin-istanbul": "^5.2.0",
-    "broken-link-checker": "^0.7.8",
-    "bundlesize": "^0.18.0",
-    "clean-css-cli": "^4.3.0",
-    "cross-env": "^5.2.1",
-    "eslint": "^5.16.0",
-    "find-unused-sass-variables": "^0.6.0",
-    "glob": "^7.1.6",
-    "hammer-simulator": "0.0.1",
-    "http-server": "^0.11.1",
-    "ip": "^1.1.5",
-    "jquery": "^3.4.1",
-    "karma": "^3.1.4",
-    "karma-browserstack-launcher": "1.4.0",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage-istanbul-reporter": "^2.1.1",
-    "karma-detect-browsers": "^2.3.3",
-    "karma-firefox-launcher": "^1.2.0",
-    "karma-qunit": "^3.1.3",
-    "karma-sinon": "^1.0.5",
-    "node-sass": "^4.13.0",
-    "nodemon": "^1.19.4",
-    "npm-run-all": "^4.1.5",
-    "popper.js": "^1.16.0",
-    "postcss-cli": "^6.1.3",
-    "qunit": "2.9.2",
-    "rollup": "1.26.5",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "shelljs": "^0.8.3",
-    "shx": "^0.3.2",
-    "sinon": "^7.5.0",
-    "stylelint": "^9.10.1",
-    "stylelint-config-twbs-bootstrap": "^0.5.0",
-    "uglify-js": "^3.6.9",
-    "vnu-jar": "19.9.4"
-  },
   "engines": {
     "node": ">=6"
   },
-  "files": [
-    "dist/{css,js}/*.{css,js,map}",
-    "js/{src,dist}/**/*.{js,map}",
-    "scss/**/*.scss"
-  ],
+  "files": ["dist/{css,js}/*.{css,js,map}", "js/{src,dist}/**/*.{js,map}", "scss/**/*.scss"],
   "jspm": {
     "registry": "npm",
     "main": "js/bootstrap",
@@ -163,10 +104,7 @@
     },
     "shim": {
       "js/bootstrap": {
-        "deps": [
-          "jquery",
-          "popper.js"
-        ],
+        "deps": ["jquery", "popper.js"],
         "exports": "$"
       }
     },
