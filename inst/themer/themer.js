@@ -272,7 +272,7 @@
     active_move_offset = {
       x: e.clientX - active_move_target.offsetLeft,
       y: e.clientY - active_move_target.offsetTop
-    }
+    };
 
     if (active_move_grabber.setPointerCapture) {
       active_move_grabber.setPointerCapture(e.pointerId);
@@ -296,16 +296,12 @@
       return;
     }
 
-    var move_target = active_move_target;
-
     if (active_move_grabber.setPointerCapture) {
       active_move_grabber.releasePointerCapture(e.pointerId);
     }
     active_move_grabber = null;
     active_move_target = null;
     active_move_offset = null;
-
-    constrain(move_target);
   });
 
   /**
@@ -341,20 +337,16 @@
     };
 
     if (elBounds.top <= elBounds.bottom) {
-      console.log("top")
       el.style.top = Math.max(0, elBounds.top) + "px";
       el.style.bottom = "auto";
     } else {
-      console.log("bottom")
       el.style.top = "auto";
       el.style.bottom = Math.max(0, elBounds.bottom) + "px";
     }
     if (elBounds.left <= elBounds.right) {
-      console.log("left")
       el.style.left = Math.max(0, elBounds.left) + "px";
       el.style.right = "auto";
     } else {
-      console.log("right")
       el.style.left = "auto";
       el.style.right = Math.max(0, elBounds.right) + "px";
     }
