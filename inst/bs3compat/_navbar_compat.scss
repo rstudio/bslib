@@ -5,6 +5,10 @@
   @extend .navbar-expand-sm;
 }
 
+.navbar {
+  margin-bottom: $navbar-margin-bottom;
+}
+
 // Map BS3 navbar positioning to general utilities
 .navbar-fixed-top {
   @extend .fixed-top;
