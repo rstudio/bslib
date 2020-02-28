@@ -23,27 +23,31 @@ reference:
   contents:
     - bootstrap
     - bootstrap_sass
-- title: Bootstrap themes
+- title: Theme management
   description: |
-    Tools for creating custom themes.
+    Tools for creating and managing custom themes.
   contents:
     - bs_theme_new
+    - bs_theme_get
+    - bs_theme_clear
+    - bs_theme_set
+- title: Theme customizers
+  description: |
+    Tools for customizing themes.
+  contents:
+    - bs_theme_base_colors
+    - bs_theme_accent_colors
+    - bs_theme_fonts
     - bs_theme_add_variables
     - bs_theme_add
-    - bs_theme_get
-    - bs_theme_set
-    - bs_theme_clear
-    - bs_theme_preview
 - title: Interactive theming
   description: |
     Tools for creating themes interactively.
   contents:
+    - bs_theme_preview
     - run_with_themer
     - bs_themer
-
-- title: Theming helpers
-  description: |
-    Tools for working with themes.
+- title: Other utility functions
   contents:
     - theme_version
     - theme_bootswatch

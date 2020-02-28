@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Preview the currently set theme — bs_theme_preview • bootstraplib</title>
+<title>Customize Bootstrap accent colors — bs_theme_accent_colors • bootstraplib</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,11 @@
 
 
 
-<meta property="og:title" content="Preview the currently set theme — bs_theme_preview" />
-<meta property="og:description" content="Launches an example shiny app via run_with_themer() and bootstrap().
-Useful for getting a quick preview of the current theme setting as
-well as an interactive GUI for tweaking some of the main theme settings." />
+<meta property="og:title" content="Customize Bootstrap accent colors — bs_theme_accent_colors" />
+<meta property="og:description" content="Set accent colors (referred to as &quot;brand&quot; colors in the Bootstrap 3 docs, and
+&quot;theme&quot; colors in the Bootstrap 4 docs) for the current Bootstrap theme.
+Values must be NULL or a color string in a format
+htmltools::parseCssColors() can understand." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,55 +103,80 @@ well as an interactive GUI for tweaking some of the main theme settings." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Preview the currently set theme</h1>
+    <h1>Customize Bootstrap accent colors</h1>
     
-    <div class="hidden name"><code>bs_theme_preview.Rd</code></div>
+    <div class="hidden name"><code>bs_theme_accent_colors.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Launches an example shiny app via <code><a href='run_with_themer.html'>run_with_themer()</a></code> and <code><a href='bootstrap.html'>bootstrap()</a></code>.
-Useful for getting a quick preview of the current theme setting as
-well as an interactive GUI for tweaking some of the main theme settings.</p>
+    <p>Set accent colors (referred to as "brand" colors in the Bootstrap 3 docs, and
+"theme" colors in the Bootstrap 4 docs) for the current Bootstrap theme.
+Values must be <code>NULL</code> or a color string in a format
+<code><a href='https://rdrr.io/pkg/htmltools/man/parseCssColors.html'>htmltools::parseCssColors()</a></code> can understand.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_theme_preview</span>(<span class='no'>...</span>, <span class='kw'>with_themer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>bs_theme_accent_colors</span>(
+  <span class='kw'>primary</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>secondary</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>success</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>info</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>warning</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>danger</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>passed along to <code><a href='https://rdrr.io/pkg/shiny/man/runApp.html'>shiny::runApp()</a></code></p></td>
+      <th>primary</th>
+      <td><p>A color to be used for hyperlinks, to indicate primary/default
+actions, and to show active selection state in some Bootstrap components.
+Generally a bold, saturated color that contrasts with the theme's base
+colors.</p></td>
     </tr>
     <tr>
-      <th>with_themer</th>
-      <td><p>whether or not to run the app with <code><a href='run_with_themer.html'>run_with_themer()</a></code>.</p></td>
+      <th>secondary</th>
+      <td><p>A color for components and messages that don't need to stand
+out. (Not supported in Bootstrap 3.)</p></td>
+    </tr>
+    <tr>
+      <th>success</th>
+      <td><p>A color for messages that indicate an operation has succeeded.
+Typically green.</p></td>
+    </tr>
+    <tr>
+      <th>info</th>
+      <td><p>A color for messages that are informative but not critical. Typically a
+shade of blue-green.</p></td>
+    </tr>
+    <tr>
+      <th>warning</th>
+      <td><p>A color for warning messages. Typically yellow.</p></td>
+    </tr>
+    <tr>
+      <th>danger</th>
+      <td><p>A color for errors. Typically red.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The app that this launches is subject to change.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='run_with_themer.html'>run_with_themer()</a></code></p></div>
+    <div class='dont-index'><p>Other customizations: 
+<code><a href='bs_theme_add_variables.html'>bs_theme_add_variables</a>()</code>,
+<code><a href='bs_theme_base_colors.html'>bs_theme_base_colors</a>()</code>,
+<code><a href='bs_theme_fonts.html'>bs_theme_fonts</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='theming.html'>bs_theme_new</a></span>()
-<span class='fu'><a href='bs_theme_add_variables.html'>bs_theme_add_variables</a></span>(
-  <span class='st'>"body-bg"</span> <span class='kw'>=</span> <span class='st'>"#6c757d"</span>,
-  <span class='st'>"body-color"</span> <span class='kw'>=</span> <span class='st'>"white"</span>
-)
+    <pre class="examples"><div class='input'><span class='fu'><a href='theming.html'>bs_theme_new</a></span>(<span class='st'>"4+3"</span>)
+<span class='fu'>bs_theme_accent_colors</span>(<span class='kw'>primary</span> <span class='kw'>=</span> <span class='st'>"maroon"</span>, <span class='kw'>secondary</span> <span class='kw'>=</span> <span class='st'>"gray"</span>)
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'>bs_theme_preview</span>()
+  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span>(<span class='kw'>with_themer</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
