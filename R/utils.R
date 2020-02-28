@@ -33,11 +33,14 @@ names2 <- function(x) {
 #' @param nms a named character vector defining the renaming
 #' @noRd
 #' @examples
-#' rename(list(a = 1, b = 3), c(b = "z"))
+#' rename(list(a = 1, b = 3), c(z = "b", y = "a"))
 rename <- function(x, nms) {
-  x_nms <- names(x)
-  idx <- x_nms %in% nms
-  names(x)[idx] <- names(nms)[nms %in% x_nms[idx]]
+  nms_idx <- match(nms, names(x))
+  nms_idx <- nms_idx[!is.na(nms_idx)]
+  for (i in nms_idx) {
+    nm <- nms[i]
+    names(x)[names(x) %in% nm] <- names(nm)
+  }
   x
 }
 
