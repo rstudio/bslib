@@ -27,6 +27,20 @@ names2 <- function(x) {
   if (is.null(x)) y else x
 }
 
+#' Rename a named list
+#'
+#' @param x a named list to be renamed
+#' @param nms a named character vector defining the renaming
+#' @noRd
+#' @examples
+#' rename(list(a = 1, b = 3), c(b = "z"))
+rename <- function(x, nms) {
+  x_nms <- names(x)
+  idx <- x_nms %in% nms
+  names(x)[idx] <- names(nms)[nms %in% x_nms[idx]]
+  x
+}
+
 # Calculate the yiq value, given the (0-255) red/green/blue values
 color_yiq <- function(r, g, b) {
   ((r * 299) + (g * 587) + (b * 114)) / 1000

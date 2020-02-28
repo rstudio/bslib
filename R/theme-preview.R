@@ -280,8 +280,6 @@ bs_themer <- function() {
 
   input <- session$input
 
-  orig_bs_theme <- bs_theme_get()
-
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui())
 
   shiny::observeEvent(input$vars, {
@@ -311,48 +309,18 @@ bs_themer <- function() {
 
     old_theme <- bs_theme_get()
     on.exit(bs_theme_set(old_theme), add = TRUE, after = FALSE)
-
-    message("---")
-
     if (is.null(old_theme)) {
       bs_theme_new()
     }
 
-    # Base colors
-    changed_vals <- take_and_use_values(changed_vals, c("white", "black"),
-      function(x) {
-        bs_theme_base_colors(bg = vals[["white"]], fg = vals[["black"]])
-        print(rlang::expr(bs_theme_base_colors(bg = !!vals[["white"]], fg = !!vals[["black"]])))
-      }
-    )
+    message("---")
 
-    # Accent colors
-    changed_vals <- take_and_use_values(changed_vals, names(formals(bs_theme_accent_colors)),
-      function(x) {
-        do.call(bs_theme_accent_colors, as.list(x))
-        print(rlang::expr(bs_theme_accent_colors(!!!x)))
-      }
-    )
-
-    # Fonts
-    font_var_name_map <- c(
-      "font-family-base" = "base",
-      "font-family-monospace" = "code",
-      "headings-font-family" = "heading"
-    )
-    changed_vals <- take_and_use_values(changed_vals, names(font_var_name_map),
-      function(x) {
-        names(x) <- font_var_name_map[names(x)]
-        do.call(bs_theme_fonts, as.list(x))
-        print(rlang::expr(bs_theme_fonts(!!!x)))
-      }
-    )
-
-    # Remaining variables, if any
-    if (length(changed_vals) > 0) {
-      bs_theme_add_variables(!!!changed_vals)
-      print(rlang::expr(bs_theme_add_variables(!!!changed_vals)))
-    }
+    # Change variables names to their 'high-level' equivalents
+    changed_vals <- rename(changed_vals, c(bg = "white", fg = "black", base = "font-family-base", code = "font-family-monospace", heading = "headings-font-family"))
+    changed_vals <- take_and_use_values(changed_vals, bs_theme_base_colors)
+    changed_vals <- take_and_use_values(changed_vals, bs_theme_accent_colors)
+    changed_vals <- take_and_use_values(changed_vals, bs_theme_fonts)
+    take_and_use_values(changed_vals, bs_theme_add_variables, use_all_vals = TRUE)
 
     css <- sass(bs_theme_get(), write_attachments = FALSE)
 
@@ -448,18 +416,26 @@ bs_theme_get_variables <- function(varnames) {
   stats::setNames(values, varnames)
 }
 
-take_and_use_values <- function(changed_vals, keys, func, all. = FALSE) {
-  applicable_idx <- names(changed_vals) %in% keys
-  if ((all. && !all(applicable_idx)) || (!all. && !any(applicable_idx))) {
-    return(changed_vals)
+take_and_use_values <- function(changed_vals, func, use_all_vals = FALSE) {
+  if (use_all_vals) {
+    call_vals <- changed_vals
+    return_vals <- NULL
+  } else {
+    args_src <- names(changed_vals)
+    args_dest <- names(formals(func))
+    call_vals <- changed_vals[args_src %in% args_dest]
+    return_vals <- changed_vals[!args_src %in% args_dest]
   }
 
-  these_vals <- changed_vals[applicable_idx]
-  remaining_vals <- changed_vals[!applicable_idx]
+  if (length(call_vals)) {
+    # Call the function (modifying global state)
+    do.call(func, call_vals)
+    # Print the code for the user
+    func_name <- substitute(func)
+    print(rlang::expr(`!!`(func_name)(!!!call_vals)))
+  }
 
-  func(these_vals)
-
-  return(remaining_vals)
+  return_vals
 }
 
 diff_css_values <- function(a, b) {
