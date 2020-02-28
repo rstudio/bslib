@@ -48,6 +48,7 @@ if (interactive()) {
 }
 \seealso{
 Other customizations: 
-\code{\link{bs_theme_base_colors}()}
+\code{\link{bs_theme_base_colors}()},
+\code{\link{bs_theme_fonts}()}
 }
 \concept{customizations}

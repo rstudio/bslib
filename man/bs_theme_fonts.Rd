@@ -37,7 +37,7 @@ bs_theme_fonts(base = c("Open Sans", "'Source Sans Pro'",
   "'Helvetica Neue', Helvetica, sans-serif"))
 }
 
-But the following is technically \emph{not} valid:\preformatted{# Incorrect--because multiple font families are being
+But the following is \emph{technically} not valid:\preformatted{# Incorrect--because multiple font families are being
 # provided in a single string, names with spaces must
 # be surrounded by quotes!
 bs_theme_fonts(base = "Source Sans Pro, sans-serif")
@@ -61,3 +61,9 @@ if (interactive()) {
 }
 
 }
+\seealso{
+Other customizations: 
+\code{\link{bs_theme_accent_colors}()},
+\code{\link{bs_theme_base_colors}()}
+}
+\concept{customizations}
