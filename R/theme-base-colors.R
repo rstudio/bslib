@@ -286,7 +286,7 @@ bs3_theme_accent_colors <- function(args) {
 #' @param base The default typeface.
 #' @param code The typeface to be used for code. Be sure this is monospace!
 #' @param heading The typeface to be used for heading elements.
-#'
+#' @family customizations
 #' @examples
 #'
 #' bs_theme_new()
