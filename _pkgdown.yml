@@ -25,15 +25,16 @@ reference:
     - bootstrap_sass
 - title: Theme management
   description: |
-    Tools for creating and managing custom themes.
+    Tools for creating, obtaining, and clearing themes.
   contents:
     - bs_theme_new
     - bs_theme_get
+    - bs_theme_get_variables
     - bs_theme_clear
     - bs_theme_set
 - title: Theme customizers
   description: |
-    Tools for customizing themes.
+    Tools for customizing (i.e., adding to) themes.
   contents:
     - bs_theme_base_colors
     - bs_theme_accent_colors

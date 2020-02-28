@@ -65,7 +65,7 @@ invisible(Map(writeLines, scss_src, scss_files))
 find_prefixed_css <- function(css) {
   vendors <- c("webkit", "moz", "ms")
   prefixes <- lapply(vendors, function(vendor) {
-    pattern <- sprintf("-%s-([a-z-]+)", vendor)
+    pattern <- sprintf("-%s-([^:|;| |\\)]+)", vendor)
     prefixes <- regmatches(css, regexec(pattern, css))
     lapply(prefixes, function(x) if (length(x) > 1) x[2] else NULL)
   })

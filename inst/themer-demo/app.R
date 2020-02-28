@@ -4,6 +4,10 @@ library(bootstraplib)
 
 shinyOptions(plot.autotheme = TRUE)
 
+tabPanel <- function(...) {
+  shiny::tabPanel(..., class = "p-3 border rounded")
+}
+
 # TODO: Add pills, renderPlot() autocolors, more inputs, progress, etc
 ui <- navbarPage(
   header = bootstraplib::bootstrap(),
@@ -32,7 +36,7 @@ ui <- navbarPage(
         checkboxGroupInput("checkboxGroup", "checkboxGroupInput():", c("A", "B", "C"))
       ),
       mainPanel(
-        tabsetPanel(
+        tabsetPanel(type= "pills",
           tabPanel("Tables", DT::dataTableOutput("dt_table")),
           tabPanel("Plots", plotOutput("ggplot")),
           tabPanel(

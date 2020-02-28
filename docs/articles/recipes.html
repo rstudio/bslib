@@ -63,7 +63,7 @@
       <h1>Theming recipes</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2020-02-28</h4>
+            <h4 class="date">2020-03-02</h4>
       
       
       <div class="hidden name"><code>recipes.Rmd</code></div>
@@ -110,7 +110,7 @@
 <div id="plots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plots" class="anchor"></a>Plots</h2>
-<p>In <a href="https://github.com/rstudio/shiny/pull/2740">a future version of <strong>shiny</strong></a>, <code><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot()</a></code> (and <code><a href="https://rdrr.io/pkg/shiny/man/renderCachedPlot.html">renderCachedPlot()</a></code>) will be able to use the foreground and background color of its HTML container to automatically apply intelligent theming defaults to <strong>ggplot2</strong>, <strong>lattice</strong>, and <strong>base</strong> graphics. That means, by just setting <code><a href="https://rdrr.io/pkg/shiny/man/shinyOptions.html">shinyOptions(plot.autotheme = TRUE)</a></code> and (optionally) using <code><a href="../reference/bs_theme_base_colors.html">bs_theme_base_colors()</a></code>, your plots with change their default styling to look consistent with the rest of the application. Notice how, in addition to the foreground and background color, auto-theming will also use the link color (i.e. <code>primary</code>) as an <code>accent</code> color (see <code><a href="https://rdrr.io/pkg/shiny/man/autoThemeOptions.html">?shiny::autoThemeOptions</a></code> for more info).</p>
+<p>In <a href="https://github.com/rstudio/shiny/pull/2740">a future version of <strong>shiny</strong></a>, <code><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot()</a></code> (and <code><a href="https://rdrr.io/pkg/shiny/man/renderCachedPlot.html">renderCachedPlot()</a></code>) will be able to use the foreground and background color of its HTML container to automatically apply intelligent theming defaults to <strong>ggplot2</strong>, <strong>lattice</strong>, and <strong>base</strong> graphics. That means, by just setting <code><a href="https://rdrr.io/pkg/shiny/man/shinyOptions.html">shinyOptions(plot.autotheme = TRUE)</a></code> and (optionally) using <code><a href="../reference/bs_theme_base_colors.html">bs_theme_base_colors()</a></code>, your plots with change their default styling to look consistent with the rest of the application. Notice how, in addition to the foreground and background color, auto-theming will also use the link color (i.e. <code>primary</code>) as an <code>accent</code> color (see <code>?shiny::autoThemeOptions</code> for more info).</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># remotes::install_github("rstudio/shiny#2740")</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="kw">shinyOptions</span>(<span class="dt">plot.autotheme =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()</span></code></pre></div>
@@ -173,40 +173,65 @@
 </tr>
 <tr class="even">
 <td>pills</td>
-<td><code><a href="https://rdrr.io/pkg/shiny/man/navlistPanel.html">navlistPanel()</a></code></td>
+<td>
+<code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel(type='pills')</a></code>/<code><a href="https://rdrr.io/pkg/shiny/man/navlistPanel.html">navlistPanel()</a></code>
+</td>
 <td><code>{.tabset .tabset-pills}</code></td>
 </tr>
 </tbody>
 </table>
+<div id="tabs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#tabs" class="anchor"></a>Tabs</h3>
+<p>By default, <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code> doesn’t include any padding or border around its content, which wasn’t necessarily the best design choice. Thankfully, similar to <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code>, we can add <a href="https://getbootstrap.com/docs/4.4/utilities/spacing/">utility</a> <a href="https://getbootstrap.com/docs/4.4/utilities/spacing/">classes</a> to the panel’s content container by add padding (<code>p-*</code>) and <code>rounded</code> <code>border</code>s. That means, at the top of the app, we could do something like this to add padding and rounded borders to all the tabsets (In practice, you might want to add these to individuals <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code>s instead of overwriting the function).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">tabPanel</span>(..., <span class="dt">class =</span> <span class="st">"p-3 border border-top-0 rounded-bottom"</span>)</span></code></pre></div>
+<p><img src="https://i.imgur.com/iQubNd3.png" width="60%" style="display: block; margin: auto;"></p>
+<p>Similarly, if we set <code>type = "pills"</code> in <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel()</a></code>, then you’d probably want slightly different borders:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">tabPanel</span>(..., <span class="dt">class =</span> <span class="st">"p-3 border rounded"</span>)</span></code></pre></div>
+<p><img src="https://i.imgur.com/NR2slqc.png" width="60%" style="display: block; margin: auto;"></p>
+<p>TODO: 1. Explore changing tab colors? Is based on <code>$link-color</code>… 1. change active color to secondary</p>
+<p>It’s not obvious from the variables file, but the non-active tab text color derives from <code>$link-color</code>, which defaults to <code>$primary</code>. So if you want to change the non-active tab color without changing <code>$primary</code>, set <code>$link-color</code> (and also <code>$dropdown-link-active-bg</code>) if your tabs have <a href="https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L762-L788">dropdowns</a>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="../reference/bs_theme_add_variables.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="st">"body-bg"</span> =<span class="st"> "#6c757d"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="st">"body-color"</span> =<span class="st"> "white"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="st">"nav-tabs-link-active-color"</span> =<span class="st"> "white"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="co"># Non-active tab/link styling</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="st">"link-color"</span> =<span class="st"> "lime"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7"></a>  <span class="co"># For dropdown</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>  <span class="st">"dropdown-link-active-bg"</span> =<span class="st"> "lime"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9"></a>)</span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="kw">preview_tabs</span>()</span></code></pre></div>
+<p><img src="tabs-lime.png" width="60%" style="display: block; margin: auto;"></p>
+</div>
 <div id="pills" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pills" class="anchor"></a>Pills</h3>
 <p>Let’s start with a basic <code><a href="https://rdrr.io/pkg/shiny/man/navlistPanel.html">navlistPanel()</a></code>, which is based on Bootstrap nav pills:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bootstraplib)</span>
-<span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a>ui_content &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navlistPanel.html">navlistPanel</a></span>(</span>
-<span id="cb9-5"><a href="#cb9-5"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"One"</span>, <span class="st">"One"</span>),</span>
-<span id="cb9-6"><a href="#cb9-6"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Two"</span>, <span class="dt">icon =</span> <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span>(<span class="st">"download"</span>), <span class="st">"Two"</span>),</span>
-<span id="cb9-7"><a href="#cb9-7"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu</a></span>(<span class="st">"A submenu"</span>,</span>
-<span id="cb9-8"><a href="#cb9-8"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Three"</span>, <span class="st">"Three"</span>),</span>
-<span id="cb9-9"><a href="#cb9-9"></a>             <span class="st">"---"</span>,</span>
-<span id="cb9-10"><a href="#cb9-10"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Four"</span>, <span class="st">"Four"</span>),</span>
-<span id="cb9-11"><a href="#cb9-11"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Five"</span>, <span class="st">"Five"</span>)</span>
-<span id="cb9-12"><a href="#cb9-12"></a>  )</span>
-<span id="cb9-13"><a href="#cb9-13"></a>)</span>
-<span id="cb9-14"><a href="#cb9-14"></a></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co"># Clear the current theme</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
-<span id="cb9-17"><a href="#cb9-17"></a></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="co"># Resuable function to preview our theming changes</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a>preview_pills &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb9-20"><a href="#cb9-20"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(</span>
-<span id="cb9-21"><a href="#cb9-21"></a>    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), ui_content), </span>
-<span id="cb9-22"><a href="#cb9-22"></a>    <span class="cf">function</span>(input, output) {}</span>
-<span id="cb9-23"><a href="#cb9-23"></a>  )</span>
-<span id="cb9-24"><a href="#cb9-24"></a>}</span>
-<span id="cb9-25"><a href="#cb9-25"></a><span class="kw">preview_pills</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bootstraplib)</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a>ui_content &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navlistPanel.html">navlistPanel</a></span>(</span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"One"</span>, <span class="st">"One"</span>),</span>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Two"</span>, <span class="dt">icon =</span> <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span>(<span class="st">"download"</span>), <span class="st">"Two"</span>),</span>
+<span id="cb12-7"><a href="#cb12-7"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu</a></span>(<span class="st">"A submenu"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Three"</span>, <span class="st">"Three"</span>),</span>
+<span id="cb12-9"><a href="#cb12-9"></a>             <span class="st">"---"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Four"</span>, <span class="st">"Four"</span>),</span>
+<span id="cb12-11"><a href="#cb12-11"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Five"</span>, <span class="st">"Five"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12"></a>  )</span>
+<span id="cb12-13"><a href="#cb12-13"></a>)</span>
+<span id="cb12-14"><a href="#cb12-14"></a></span>
+<span id="cb12-15"><a href="#cb12-15"></a><span class="co"># Clear the current theme</span></span>
+<span id="cb12-16"><a href="#cb12-16"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb12-17"><a href="#cb12-17"></a></span>
+<span id="cb12-18"><a href="#cb12-18"></a><span class="co"># Resuable function to preview our theming changes</span></span>
+<span id="cb12-19"><a href="#cb12-19"></a>preview_pills &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb12-20"><a href="#cb12-20"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(</span>
+<span id="cb12-21"><a href="#cb12-21"></a>    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), ui_content), </span>
+<span id="cb12-22"><a href="#cb12-22"></a>    <span class="cf">function</span>(input, output) {}</span>
+<span id="cb12-23"><a href="#cb12-23"></a>  )</span>
+<span id="cb12-24"><a href="#cb12-24"></a>}</span>
+<span id="cb12-25"><a href="#cb12-25"></a><span class="kw">preview_pills</span>()</span></code></pre></div>
 <p><img src="pills.png" width="60%" style="display: block; margin: auto;"></p>
 <p>Bootstrap 4 currently exposes 3 different Sass variables specifically for pill styling, including the <a href="https://github.com/rstudio/bootstraplib/blob/04925e1/inst/node_modules/bootstrap/scss/_variables.scss#L713">foreground</a> and <a href="https://github.com/rstudio/bootstraplib/blob/04925e1/inst/node_modules/bootstrap/scss/_variables.scss#L714">background</a> color of active pills:</p>
 <pre class="scss"><code>$nav-pills-link-active-color: $component-active-color !default;
@@ -215,62 +240,20 @@ $nav-pills-link-active-bg:    $component-active-bg !default;</code></pre>
 <pre class="scss"><code>$component-active-color:      $white !default;
 $component-active-bg:         theme-color("primary") !default;</code></pre>
 <p>Therefore, we could just change the primary theme color to get a different active color scheme.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="kw"><a href="../reference/bs_theme_add_variables.html">bs_theme_add_variables</a></span>(</span>
-<span id="cb12-3"><a href="#cb12-3"></a>  <span class="st">"primary"</span> =<span class="st"> "orange"</span>,</span>
-<span id="cb12-4"><a href="#cb12-4"></a>  <span class="st">"nav-pills-border-radius"</span> =<span class="st"> </span><span class="dv">0</span>,</span>
-<span id="cb12-5"><a href="#cb12-5"></a>)</span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="kw">preview_pills</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw"><a href="../reference/bs_theme_add_variables.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="st">"primary"</span> =<span class="st"> "orange"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4"></a>  <span class="st">"nav-pills-border-radius"</span> =<span class="st"> </span><span class="dv">0</span>,</span>
+<span id="cb15-5"><a href="#cb15-5"></a>)</span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="kw">preview_pills</span>()</span></code></pre></div>
 <p><img src="orange-pills.png" width="60%" style="display: block; margin: auto;"></p>
 <p>If you wanted the bg color of the active pills directly, you could set <code>$nav-pills-link-active-bg</code>; but in that case, you should also set <code>$dropdown-link-active-bg</code> (which controls <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu()</a></code>’s active bg color) as well as <code>$link-color</code> (which controls the non-active pill text color).</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="kw"><a href="../reference/bs_theme_add_variables.html">bs_theme_add_variables</a></span>(</span>
-<span id="cb13-3"><a href="#cb13-3"></a>  <span class="st">"nav-pills-link-active-bg"</span> =<span class="st"> "orange"</span>,</span>
-<span id="cb13-4"><a href="#cb13-4"></a>  <span class="st">"dropdown-link-active-bg"</span> =<span class="st"> "orange"</span>,</span>
-<span id="cb13-5"><a href="#cb13-5"></a>  <span class="st">"link-color"</span> =<span class="st"> "orange"</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a>)</span></code></pre></div>
-</div>
-<div id="tabs" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tabs" class="anchor"></a>Tabs</h3>
-<p>Let’s start with a basic <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel()</a></code>, which is based on Bootstrap nav pills:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bootstraplib)</span>
-<span id="cb14-3"><a href="#cb14-3"></a></span>
-<span id="cb14-4"><a href="#cb14-4"></a>ui_content &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span>(</span>
-<span id="cb14-5"><a href="#cb14-5"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"One"</span>, <span class="st">"One"</span>),</span>
-<span id="cb14-6"><a href="#cb14-6"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Two"</span>, <span class="dt">icon =</span> <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span>(<span class="st">"download"</span>), <span class="st">"Two"</span>),</span>
-<span id="cb14-7"><a href="#cb14-7"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarMenu</a></span>(<span class="st">"A submenu"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Three"</span>, <span class="st">"Three"</span>),</span>
-<span id="cb14-9"><a href="#cb14-9"></a>             <span class="st">"---"</span>,</span>
-<span id="cb14-10"><a href="#cb14-10"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Four"</span>, <span class="st">"Four"</span>),</span>
-<span id="cb14-11"><a href="#cb14-11"></a>             <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Five"</span>, <span class="st">"Five"</span>)</span>
-<span id="cb14-12"><a href="#cb14-12"></a>  )</span>
-<span id="cb14-13"><a href="#cb14-13"></a>)</span>
-<span id="cb14-14"><a href="#cb14-14"></a></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
-<span id="cb14-16"><a href="#cb14-16"></a></span>
-<span id="cb14-17"><a href="#cb14-17"></a><span class="co"># Resuable function to preview our theming changes</span></span>
-<span id="cb14-18"><a href="#cb14-18"></a>preview_tabs &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb14-19"><a href="#cb14-19"></a>  <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(</span>
-<span id="cb14-20"><a href="#cb14-20"></a>    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(<span class="kw"><a href="../reference/bootstrap.html">bootstrap</a></span>(), ui_content), </span>
-<span id="cb14-21"><a href="#cb14-21"></a>    <span class="cf">function</span>(input, output) {}</span>
-<span id="cb14-22"><a href="#cb14-22"></a>  )</span>
-<span id="cb14-23"><a href="#cb14-23"></a>}</span>
-<span id="cb14-24"><a href="#cb14-24"></a><span class="kw">preview_tabs</span>()</span></code></pre></div>
-<p><img src="tabs.png" width="60%" style="display: block; margin: auto;"></p>
-<p>For the most part the <a href="https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L704-L710">variable defaults for tabs</a> work well with lighter themes, but for darker themes, you’ll likely want to set <code>$nav-tabs-link-active-color</code> to something similar to <code>$body-color</code>. Also, it’s not obvious from the variables file, but the non-active tab text color derives from <code>$link-color</code>, which defaults to <code>$primary</code>. So if you want to change the non-active tab color without changing <code>$primary</code>, set <code>$link-color</code> (and also <code>$dropdown-link-active-bg</code>) if your tabs have <a href="https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L762-L788">dropdowns</a>.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="../reference/bs_theme_add_variables.html">bs_theme_add_variables</a></span>(</span>
-<span id="cb15-2"><a href="#cb15-2"></a>  <span class="st">"body-bg"</span> =<span class="st"> "#6c757d"</span>,</span>
-<span id="cb15-3"><a href="#cb15-3"></a>  <span class="st">"body-color"</span> =<span class="st"> "white"</span>,</span>
-<span id="cb15-4"><a href="#cb15-4"></a>  <span class="st">"nav-tabs-link-active-color"</span> =<span class="st"> "white"</span>,</span>
-<span id="cb15-5"><a href="#cb15-5"></a>  <span class="co"># Non-active tab/link styling</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>  <span class="st">"link-color"</span> =<span class="st"> "lime"</span>,</span>
-<span id="cb15-7"><a href="#cb15-7"></a>  <span class="co"># For dropdown</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a>  <span class="st">"dropdown-link-active-bg"</span> =<span class="st"> "lime"</span>,</span>
-<span id="cb15-9"><a href="#cb15-9"></a>)</span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="kw">preview_tabs</span>()</span></code></pre></div>
-<p><img src="tabs-lime.png" width="60%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="../reference/theming.html">bs_theme_new</a></span>()</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="kw"><a href="../reference/bs_theme_add_variables.html">bs_theme_add_variables</a></span>(</span>
+<span id="cb16-3"><a href="#cb16-3"></a>  <span class="st">"nav-pills-link-active-bg"</span> =<span class="st"> "orange"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="st">"dropdown-link-active-bg"</span> =<span class="st"> "orange"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5"></a>  <span class="st">"link-color"</span> =<span class="st"> "orange"</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>)</span></code></pre></div>
 </div>
 </div>
 <div id="buttons" class="section level2">

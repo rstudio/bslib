@@ -142,24 +142,92 @@ knitr::include_graphics("https://i.imgur.com/9ogwq0C.png")
 ```
 
 
-
-
-
-
-
-
-
-
 ## Navigation {#theming-nav}
 
-Both **shiny** and **rmarkdown** allow you create so called "tabset panels", which are built on top of Bootstrap's [nav](https://getbootstrap.com/docs/4.4/components/navs/) API. These tabsets come in two different flavors: tabs and pills. Below is a table showing how to create either flavor of navigation in both **shiny** and **rmarkdown**. We'll walk through theming with tabs (i.e., `tabsetPanel()`) and pills (i.e., `navlistPanel()`) in **shiny**, but it's worth noting that the same ideas apply to [**rmarkdown**'s tabbed sections](https://bookdown.org/yihui/rmarkdown/html-document.html#tabbed-sections) as well.
-
+Both **shiny** and **rmarkdown** allow you create so called "tabset panels", which are built on top of Bootstrap's [nav](https://getbootstrap.com/docs/4.4/components/navs/) API. These tabsets come in two different flavors: tabs and pills. Below is a table showing how to create either flavor of navigation in both **shiny** and **rmarkdown**.
 
 |       | shiny            | rmarkdown                 |
 |-------|------------------|---------------------------|
 | tabs  | `tabsetPanel()`  | `{.tabset}`               |
-| pills | `navlistPanel()` | `{.tabset .tabset-pills}` |
+| pills |  `tabsetPanel(type='pills')`/`navlistPanel()` | `{.tabset .tabset-pills}` |
 
+By default, tabsets don't include any padding or border(s) around its content; yet in most cases, having both greatly improves the overall look and readability. Thanks to Bootstrap 4 [utitilty classes](https://getbootstrap.com/docs/4.4/utilities/borders/), it's fairly straight-forward to add custom [padding](https://getbootstrap.com/docs/4.4/utilities/spacing/) and borders around content in both **shiny** (by adding relevant classes to `tabPanel(class = ...)`) and **rmarkdown** (by adding relevant classes to the `.tabset` sections). For padding, a class of `p-3` works generally 
+
+For example, to add size 3 padding around a panel in **shiny**, change `tabPanel(...)` to `tabPanel(..., class = "p-3")`. Size 3 padding 
+
+```r
+bootstraplib::bs_theme_add(
+  rules = c("
+  .nav-pills > .tab-content > * { 
+    @extend .p-3; 
+    @extend .border;
+    @extend .rounded;
+  }","
+  .nav-tabs > .tab-content > * { 
+    @extend .p-3; 
+    @extend .border;
+    @extend .border-top-0; 
+    @extend .rounded-bottom; 
+  }"
+  )
+)
+```
+
+
+
+### Pills
+
+
+
+We'll walk through theming with tabs (i.e., `tabsetPanel()`) and pills (i.e., `navlistPanel()`) in **shiny**, but it's worth noting that the same ideas apply to [**rmarkdown**'s tabbed sections](https://bookdown.org/yihui/rmarkdown/html-document.html#tabbed-sections) as well.
+
+
+### Tabs
+
+By default, `tabPanel()` doesn't include any padding or border around its content, which wasn't necessarily the best design choice. Thankfully, similar to `actionButton()`, we can add [utility](https://getbootstrap.com/docs/4.4/utilities/spacing/) [classes](https://getbootstrap.com/docs/4.4/utilities/spacing/) to the panel's content container by add padding (`p-*`) and `rounded` `border`s. That means, at the top of the app, we could do something like this to add padding and rounded borders to all the tabsets (In practice, you might want to add these to individuals `tabPanel()`s instead of overwriting the function).
+
+```r
+tabPanel(..., class = "p-3 border border-top-0 rounded-bottom")
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://i.imgur.com/iQubNd3.png")
+```
+
+Similarly, if we set `type = "pills"` in `tabsetPanel()`, then you'd probably want slightly different borders:
+
+```r
+tabPanel(..., class = "p-3 border rounded")
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://i.imgur.com/NR2slqc.png")
+```
+
+TODO: 
+1. Explore changing tab colors? Is based on `$link-color`...
+1. change active color to secondary
+
+
+It's not obvious from the variables file, but the non-active tab text color derives from `$link-color`, which defaults to `$primary`. So if you want to change the non-active tab color without changing `$primary`, set `$link-color` (and also `$dropdown-link-active-bg`) if your tabs have [dropdowns](https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L762-L788).
+
+```r
+bs_theme_add_variables(
+  "body-bg" = "#6c757d",
+  "body-color" = "white",
+  "nav-tabs-link-active-color" = "white",
+  # Non-active tab/link styling
+  "link-color" = "lime",
+  # For dropdown
+  "dropdown-link-active-bg" = "lime",
+)
+preview_tabs()
+```
+
+```{r, echo = FALSE}
+# TODO: why doesn't `$dropdown-link-hover-bg` work? bs3compat issue?
+knitr::include_graphics("tabs-lime.png")
+```
 
 ### Pills
 
@@ -236,64 +304,6 @@ bs_theme_add_variables(
   "link-color" = "orange"
 )
 ```
-
-### Tabs
-
-Let's start with a basic `tabsetPanel()`, which is based on Bootstrap nav pills:
-
-```r
-library(shiny)
-library(bootstraplib)
-
-ui_content <- tabsetPanel(
-  tabPanel("One", "One"),
-  tabPanel("Two", icon = icon("download"), "Two"),
-  navbarMenu("A submenu",
-             tabPanel("Three", "Three"),
-             "---",
-             tabPanel("Four", "Four"),
-             tabPanel("Five", "Five")
-  )
-)
-
-bs_theme_new()
-
-# Resuable function to preview our theming changes
-preview_tabs <- function() {
-  shinyApp(
-    fluidPage(bootstrap(), ui_content), 
-    function(input, output) {}
-  )
-}
-preview_tabs()
-```
-
-
-```{r, echo = FALSE}
-knitr::include_graphics("tabs.png")
-```
-
-For the most part the [variable defaults for tabs](https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L704-L710) work well with lighter themes, but for darker themes, you'll likely want to set `$nav-tabs-link-active-color` to something similar to `$body-color`. Also, it's not obvious from the variables file, but the non-active tab text color derives from `$link-color`, which defaults to `$primary`. So if you want to change the non-active tab color without changing `$primary`, set `$link-color` (and also `$dropdown-link-active-bg`) if your tabs have [dropdowns](https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L762-L788).
-
-```r
-bs_theme_add_variables(
-  "body-bg" = "#6c757d",
-  "body-color" = "white",
-  "nav-tabs-link-active-color" = "white",
-  # Non-active tab/link styling
-  "link-color" = "lime",
-  # For dropdown
-  "dropdown-link-active-bg" = "lime",
-)
-preview_tabs()
-```
-
-```{r, echo = FALSE}
-# TODO: why doesn't `$dropdown-link-hover-bg` work? bs3compat issue?
-knitr::include_graphics("tabs-lime.png")
-```
-
-
 
 
 ## Buttons
