@@ -307,17 +307,52 @@ bs_themer <- function() {
     default_values <- bs_theme_get_variables(names(vals))
 
     # Filter out vals that the user hasn't changed
-    vals <- as.list(diff_css_values(vals, default_values))
-
-    print(rlang::expr(bs_theme_add_variables(!!!vals)))
+    changed_vals <- as.list(diff_css_values(vals, default_values))
 
     old_theme <- bs_theme_get()
     on.exit(bs_theme_set(old_theme), add = TRUE, after = FALSE)
 
+    message("---")
+
     if (is.null(old_theme)) {
       bs_theme_new()
     }
-    bs_theme_add_variables(!!!vals)
+
+    # Base colors
+    changed_vals <- take_and_use_values(changed_vals, c("white", "black"),
+      function(x) {
+        bs_theme_base_colors(bg = vals[["white"]], fg = vals[["black"]])
+        print(rlang::expr(bs_theme_base_colors(bg = !!vals[["white"]], fg = !!vals[["black"]])))
+      }
+    )
+
+    # Accent colors
+    changed_vals <- take_and_use_values(changed_vals, names(formals(bs_theme_accent_colors)),
+      function(x) {
+        do.call(bs_theme_accent_colors, as.list(x))
+        print(rlang::expr(bs_theme_accent_colors(!!!x)))
+      }
+    )
+
+    # Fonts
+    font_var_name_map <- c(
+      "font-family-base" = "base",
+      "font-family-monospace" = "code",
+      "headings-font-family" = "heading"
+    )
+    changed_vals <- take_and_use_values(changed_vals, names(font_var_name_map),
+      function(x) {
+        names(x) <- font_var_name_map[names(x)]
+        do.call(bs_theme_fonts, as.list(x))
+        print(rlang::expr(bs_theme_fonts(!!!x)))
+      }
+    )
+
+    # Remaining variables, if any
+    if (length(changed_vals) > 0) {
+      bs_theme_add_variables(!!!changed_vals)
+      print(rlang::expr(bs_theme_add_variables(!!!changed_vals)))
+    }
 
     css <- sass(bs_theme_get(), write_attachments = FALSE)
 
@@ -413,6 +448,20 @@ bs_theme_get_variables <- function(varnames) {
   stats::setNames(values, varnames)
 }
 
+take_and_use_values <- function(changed_vals, keys, func, all. = FALSE) {
+  applicable_idx <- names(changed_vals) %in% keys
+  if ((all. && !all(applicable_idx)) || (!all. && !any(applicable_idx))) {
+    return(changed_vals)
+  }
+
+  these_vals <- changed_vals[applicable_idx]
+  remaining_vals <- changed_vals[!applicable_idx]
+
+  func(these_vals)
+
+  return(remaining_vals)
+}
+
 diff_css_values <- function(a, b) {
   stopifnot(all(!is.na(a)))
   stopifnot(identical(names(a), names(b)))
@@ -420,7 +469,7 @@ diff_css_values <- function(a, b) {
   stopifnot(is.character(b))
 
   a_char <- vapply(a, function(x) {
-    if (is.null(x)) {
+    if (is.null(x) || isTRUE(is.na(x))) {
       "null"
     } else if (is.logical(x)) {
       tolower(as.character(x))
@@ -430,6 +479,21 @@ diff_css_values <- function(a, b) {
       as.character(x)
     }
   }, character(1))
+
+  b <- ifelse(is.na(b), "null", b)
+
+  # Normalize colors; ignore things that don't seem to be colors. This is
+  # necessary so we don't consider "black", "#000", "#000000", "rgb(0,0,0,1)",
+  # etc. to be distinct values.
+  #
+  # Note: This won't work with values that are colors AND other things, like
+  # "solid #000 3px"; it needs the value to be solely a color to be normalized.
+
+  a_char_colors <- htmltools::parseCssColors(a_char, mustWork = FALSE)
+  a_char <- ifelse(!is.na(a_char_colors), a_char_colors, a_char)
+
+  b_colors <- htmltools::parseCssColors(b, mustWork = FALSE)
+  b <- ifelse(!is.na(b_colors), b_colors, b)
 
   idx <- ifelse(is.na(b), TRUE, a_char != b)
   a[idx]
