@@ -453,6 +453,7 @@ quote_css_font_families <- function(str) {
 #'
 #' @param caller_name String naming the calling function; used for error
 #'   messages
+#' @param arg_name A name for the group of variables (e.g., accent, font); used for error messages
 #' @param supported_vars Character vector of known names
 #' @param args List of args
 #' @return List with unsupported vars removed, possibly warning in the process
