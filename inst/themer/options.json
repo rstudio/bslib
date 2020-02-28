@@ -121,9 +121,9 @@
     }
   },
   "Fonts": {
-    "font-family-sans-serif": {
+    "font-family-base": {
       "type": "str",
-      "label": "Sans-serif font family",
+      "label": "Base font family",
       "desc": null
     },
     "font-family-monospace": {

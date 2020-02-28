@@ -4,31 +4,18 @@
 \alias{bs_theme_base_colors}
 \title{Customize the Bootstrap theme based on two to four key colors}
 \usage{
-bs_theme_base_colors(
-  bg = "#FFFFFF",
-  fg = "#000000",
-  accent = NULL,
-  secondary = NULL
-)
+bs_theme_base_colors(bg = "#FFFFFF", fg = "#000000")
 }
 \arguments{
 \item{bg}{A color string for the background, in any format
 \code{\link[htmltools:parseCssColors]{htmltools::parseCssColors()}} can understand.}
 
 \item{fg}{A color string for the background.}
-
-\item{accent}{A color string for the accent color; if not \code{NULL}, this will
-be assigned to the \verb{$primary} (BS4) or \verb{$brand-primary} (BS3) Sass
-variables.}
-
-\item{secondary}{A color string for the secondary color; if not \code{NULL}, this
-will be assigned to the \verb{$secondary} and \verb{$default} Bootstrap 4 Sass
-variables. (This argument is not currently supported for Bootstrap 3.)}
 }
 \description{
-\code{bs_theme_base_colors} generates a complete Bootstrap theme from just a small
-handful of user-specified colors: a background color, a foreground color, and
-optionally, primary and secondary accent colors.
+\code{bs_theme_base_colors} uses a background color and a foreground color to
+rewrite the basic palette of the current Bootstrap theme, affecting almost
+every built-in Bootstrap component.
 }
 \section{Implementation notes}{
 
@@ -40,10 +27,7 @@ For Bootstrap 4, the vast majority of default colors are directly or
 indirectly based on the \verb{$black}, \verb{$white}, and \verb{$gray-100} through
 \verb{$gray-900} variables; or on the theme colors (primary, secondary, danger,
 warning, info, etc.). \code{bs_theme_base_colors} sets \verb{$white} to the \code{bg} color,
-\verb{$black} to the \code{fg} color, and interpolates the grays between them. If
-provided, the \code{accent} argument is used to set the \verb{$primary} variable, and
-the \code{secondary} argument is used to set \verb{$secondary} and \verb{$default}
-variables.
+\verb{$black} to the \code{fg} color, and interpolates the grays between them.
 
 For Bootstrap 3, a similar set of \verb{$black}, \verb{$white}, and \verb{$gray-darker}
 through \verb{$gray-lighter} variables exist, and these are populated using the
@@ -56,17 +40,19 @@ with colors interpolated between \code{bg} and \code{fg}.
 \examples{
 
 bs_theme_new("4+3")
-bs_theme_base_colors(bg = "#000060", fg = "skyblue",
-  accent = "orange", secondary = "silver")
+bs_theme_base_colors(bg = "#000060", fg = "skyblue")
 
 # You can apply further customizations here if desired, e.g.:
-bs_theme_add_variables("success" = "#1D7732")
+bs_theme_accent_colors(primary = "orange", secondary = "silver")
 
 if (interactive()) {
-  bs_theme_preview()
+  bs_theme_preview(with_themer = FALSE)
 }
 
 }
 \seealso{
-\code{\link[=bs_theme_add_variables]{bs_theme_add_variables()}}
+Other customizations: 
+\code{\link{bs_theme_accent_colors}()},
+\code{\link{bs_theme_fonts}()}
 }
+\concept{customizations}

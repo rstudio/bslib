@@ -1,18 +1,12 @@
 #' Customize the Bootstrap theme based on two to four key colors
 #'
-#' `bs_theme_base_colors` generates a complete Bootstrap theme from just a small
-#' handful of user-specified colors: a background color, a foreground color, and
-#' optionally, primary and secondary accent colors.
+#' `bs_theme_base_colors` uses a background color and a foreground color to
+#' rewrite the basic palette of the current Bootstrap theme, affecting almost
+#' every built-in Bootstrap component.
 #'
 #' @param bg A color string for the background, in any format
 #'   [htmltools::parseCssColors()] can understand.
 #' @param fg A color string for the background.
-#' @param accent A color string for the accent color; if not `NULL`, this will
-#'   be assigned to the `$primary` (BS4) or `$brand-primary` (BS3) Sass
-#'   variables.
-#' @param secondary A color string for the secondary color; if not `NULL`, this
-#'   will be assigned to the `$secondary` and `$default` Bootstrap 4 Sass
-#'   variables. (This argument is not currently supported for Bootstrap 3.)
 #'
 #' @section Implementation notes:
 #'
@@ -23,10 +17,7 @@
 #' indirectly based on the `$black`, `$white`, and `$gray-100` through
 #' `$gray-900` variables; or on the theme colors (primary, secondary, danger,
 #' warning, info, etc.). `bs_theme_base_colors` sets `$white` to the `bg` color,
-#' `$black` to the `fg` color, and interpolates the grays between them. If
-#' provided, the `accent` argument is used to set the `$primary` variable, and
-#' the `secondary` argument is used to set `$secondary` and `$default`
-#' variables.
+#' `$black` to the `fg` color, and interpolates the grays between them.
 #'
 #' For Bootstrap 3, a similar set of `$black`, `$white`, and `$gray-darker`
 #' through `$gray-lighter` variables exist, and these are populated using the
@@ -35,45 +26,43 @@
 #' be shades of gray. `bs_theme_base_colors` overrides these hard-coded values
 #' with colors interpolated between `bg` and `fg`.
 #'
-#' @seealso [bs_theme_add_variables()]
+#' @family customizations
 #'
 #' @examples
 #'
 #' bs_theme_new("4+3")
-#' bs_theme_base_colors(bg = "#000060", fg = "skyblue",
-#'   accent = "orange", secondary = "silver")
+#' bs_theme_base_colors(bg = "#000060", fg = "skyblue")
 #'
 #' # You can apply further customizations here if desired, e.g.:
-#' bs_theme_add_variables("success" = "#1D7732")
+#' bs_theme_accent_colors(primary = "orange", secondary = "silver")
 #'
 #' if (interactive()) {
-#'   bs_theme_preview()
+#'   bs_theme_preview(with_themer = FALSE)
 #' }
 #'
 #' @export
-bs_theme_base_colors <- function(bg = "#FFFFFF", fg = "#000000",
-  accent = NULL, secondary = NULL) {
-
-  theme <- bs_theme_get()
-  if (is.null(theme)) {
-    stop("No bootstraplib theme is active (did you forget to call bs_theme_new()?)")
+bs_theme_base_colors <- function(bg = "#FFFFFF", fg = "#000000") {
+  if (is.null(bg)) {
+    stop("`bg` argument must not be NULL")
+  }
+  if (is.null(fg)) {
+    stop("`fg` argument must not be NULL")
   }
 
-  results <- if (any(c("4", "4+3") %in% theme_version())) {
-    bs4_theme_base_colors(bg, fg, accent, secondary)
-  } else if ("3" %in% theme_version()) {
-    bs3_theme_base_colors(bg, fg, accent, secondary)
-  } else {
-    stop("bs_theme_base_colors doesn't recognize the active version of Bootstrap")
-  }
-  bs_theme_add(results)
+  args <- list(bg = bg, fg = fg)
+  args <- validate_and_normalize_colors(args)
+
+  dispatch_theme_setter("bs_theme_base_colors", list(
+    "4+3" = bs4_theme_base_colors,
+    "4" = bs4_theme_base_colors,
+    "3" = bs3_theme_base_colors), args)
 }
 
-bs4_theme_base_colors <- function(bg, fg, accent, secondary) {
-  white <- htmltools:::parseCssColors(bg)
-  black <- htmltools:::parseCssColors(fg)
+bs4_theme_base_colors <- function(args) {
+  white <- args$bg
+  black <- args$fg
 
-  grays <- colorRamp(c(white, black), alpha = TRUE)(0:10/10)
+  grays <- grDevices::colorRamp(c(white, black), alpha = TRUE)(0:10/10)
 
   if (any(grays[,4] != 255)) {
     warning(call. = FALSE,
@@ -98,15 +87,6 @@ bs4_theme_base_colors <- function(bg, fg, accent, secondary) {
 
   results <- as.list(grays)
 
-  if (!is.null(accent)) {
-    results <- c(results, list(primary = accent))
-  }
-  if (!is.null(secondary)) {
-    results <- c(results, list(
-      secondary = secondary,
-      default = secondary
-    ))
-  }
   if (white_yiq < black_yiq) {
     # Invert yiq colors
     results <- c(results, list(
@@ -115,23 +95,14 @@ bs4_theme_base_colors <- function(bg, fg, accent, secondary) {
     ))
   }
 
-  results <- lapply(results, paste, "!default")
-
-  sass::sass_layer(results)
+  results
 }
 
-bs3_theme_base_colors <- function(bg, fg, accent, secondary) {
-  white <- htmltools:::parseCssColors(bg)
-  black <- htmltools:::parseCssColors(fg)
+bs3_theme_base_colors <- function(args) {
+  white <- args$bg
+  black <- args$fg
 
-  if (!is.null(secondary)) {
-    warning(call. = FALSE,
-      "bs_theme_base_colors's `secondary` argument is not currently supported for ",
-      "Bootstrap 3"
-    )
-  }
-
-  ramp <- colorRamp(c(black, white))
+  ramp <- grDevices::colorRamp(c(black, white))
   gray <- function(level = 255) {
     val <- round(ramp(level / 255))
     sprintf("#%02X%02X%02X", val[1,1], val[1,2], val[1,3])
@@ -203,11 +174,313 @@ bs3_theme_base_colors <- function(bg, fg, accent, secondary) {
 
   results <- c(result_colors, color_mapping)
 
-  if (!is.null(accent)) {
-    results <- c(results, list("brand-primary" = accent))
+  results
+}
+
+#' Customize Bootstrap accent colors
+#'
+#' Set accent colors (referred to as "brand" colors in the Bootstrap 3 docs, and
+#' "theme" colors in the Bootstrap 4 docs) for the current Bootstrap theme.
+#' Values must be `NULL` or a color string in a format
+#' [htmltools::parseCssColors()] can understand.
+#'
+#' @param primary A color to be used for hyperlinks, to indicate primary/default
+#'   actions, and to show active selection state in some Bootstrap components.
+#'   Generally a bold, saturated color that contrasts with the theme's base
+#'   colors.
+#' @param secondary A color for components and messages that don't need to stand
+#'   out. (Not supported in Bootstrap 3.)
+#' @param success A color for messages that indicate an operation has succeeded.
+#'   Typically green.
+#' @param info A color for messages that are informative but not critical. Typically a
+#'   shade of blue-green.
+#' @param warning A color for warning messages. Typically yellow.
+#' @param danger A color for errors. Typically red.
+#'
+#' @family customizations
+#'
+#' @examples
+#' bs_theme_new("4+3")
+#' bs_theme_accent_colors(primary = "maroon", secondary = "gray")
+#' if (interactive()) {
+#'   bs_theme_preview(with_themer = FALSE)
+#' }
+#'
+#' @export
+bs_theme_accent_colors <- function(primary = NULL, secondary = NULL,
+  success = NULL, info = NULL, warning = NULL, danger = NULL) {
+
+  args <- list(primary = primary, secondary = secondary, success = success,
+    info = info, warning = warning, danger = danger
+  )
+  args <- validate_and_normalize_colors(args)
+
+  dispatch_theme_setter("bs_theme_accent_colors", list(
+    "4+3" = bs43_theme_accent_colors,
+    "4" = identity,
+    "3" = bs3_theme_accent_colors
+  ), args)
+}
+
+bs43_theme_accent_colors <- function(args) {
+  if (!is.null(args$secondary)) {
+    args$default <- args$secondary
+  }
+  args
+}
+
+bs3_theme_accent_colors <- function(args) {
+  # Warns and filters out unsupported arguments
+  supported <- c("primary", "success", "info", "warning", "danger")
+
+  args <- retain_known_vars("Bootstrap 3", "accent color", supported, args)
+
+  # Bootstrap 3 uses brand-primary, brand-danger, etc. as var names
+  if (length(args) > 0) {
+    names(args) <- paste0("brand-", names(args))
   }
 
-  results <- lapply(results, paste, "!default")
+  args
+}
 
-  sass::sass_layer(results)
+#' Customize Bootstrap typefaces
+#'
+#' Set the typefaces used by Bootstrap for various purposes. Each argument
+#' can be `NULL` (no change), or a character vector of one or more elements.
+#'
+#' Each argument is a character vector, and each element of that vector can a
+#' single unquoted font family name, a single quoted font family name, or a
+#' comma-separated list of font families (with individual font family names
+#' quoted as necessary).
+#'
+#' For example, each example below is valid:
+#'
+#' ```
+#' # Single, unquoted
+#' bs_theme_fonts(base = "Source Sans Pro")
+#'
+#' # Single, quoted
+#' bs_theme_fonts(base = "'Source Sans Pro'")
+#'
+#' # Multiple, quoted
+#' bs_theme_fonts(base = "'Source Sans Pro', sans-serif")
+#'
+#' # Combining all of the above
+#' bs_theme_fonts(base = c("Open Sans", "'Source Sans Pro'",
+#'   "'Helvetica Neue', Helvetica, sans-serif"))
+#' ```
+#'
+#' But the following is _technically_ not valid:
+#'
+#' ```
+#' # Incorrect--because multiple font families are being
+#' # provided in a single string, names with spaces must
+#' # be surrounded by quotes!
+#' bs_theme_fonts(base = "Source Sans Pro, sans-serif")
+#' ```
+#'
+#' The resulting CSS will contain `font-family: Source Sans Pro, sans-serif;`
+#' which is technically out of spec, but in fact is likely to still work with
+#' most browsers.
+#'
+#' @param base The default typeface.
+#' @param code The typeface to be used for code. Be sure this is monospace!
+#' @param heading The typeface to be used for heading elements.
+#' @family customizations
+#' @examples
+#'
+#' bs_theme_new()
+#' bs_theme_fonts(
+#'   base = "Times",
+#'   code = c("Courier", "monospace"),
+#'   heading = "'Helvetica Neue', Helvetica, sans-serif"
+#' )
+#'
+#' if (interactive()) {
+#'   bs_theme_preview(with_themer = FALSE)
+#' }
+#'
+#' @export
+bs_theme_fonts <- function(base = NULL, code = NULL, heading = NULL) {
+
+  args <- list(
+    base = base,
+    code = code,
+    heading = heading
+  )
+
+  mapply(function(name, value) {
+    if (is.null(value)) {
+      return()
+    }
+    if (!is.character(value)) {
+      stop(call. = FALSE,
+        "Invalid ", format_varnames(name), " argument to bs_theme_fonts(): must be character vector")
+    }
+    if (anyNA(value) || any(!nzchar(value))) {
+      stop(call. = FALSE,
+        "Invalid ", format_varnames(name), " argument to bs_theme_fonts(): must be character vector")
+    }
+  }, names(args), args)
+
+  args <- lapply(args, quote_css_font_families)
+
+  dispatch_theme_setter("bs_theme_fonts", list(
+    "4+3" = bs4_theme_fonts,
+    "4" = bs4_theme_fonts,
+    "3" = bs3_theme_fonts
+  ), args)
+}
+
+bs4_theme_fonts <- function(args) {
+  name_map <- c(
+    base = "font-family-base",
+    code = "font-family-monospace",
+    heading = "headings-font-family",
+    input = "input-btn-font-family"
+  )
+
+  names(args) <- name_map[names(args)]
+  args
+}
+
+bs3_theme_fonts <- function(args) {
+  name_map <- c(
+    base = "font-family-base",
+    code = "font-family-monospace",
+    heading = "headings-font-family"
+  )
+
+  args <- retain_known_vars("Bootstrap 3", "font", names(name_map), args)
+
+  names(args) <- name_map[names(args)]
+  args
+}
+
+#' @param caller_name String naming the calling function; used for error
+#'   messages
+#' @param funcs_by_version List of functions, where the names are Bootstrap
+#'   version strings (see theme_version()), and values are functions. These
+#'   functions must take a single argument: a named list, which represents the
+#'   arguments passed by the user; and return a list of variables to set as
+#'   defaults.
+#' @noRd
+dispatch_theme_setter <- function(caller_name, funcs_by_version, args) {
+  theme <- bs_theme_get()
+  if (is.null(theme)) {
+    stop(call. = FALSE,
+      "No bootstraplib theme is active; did you forget to call bs_theme_new()?")
+  }
+
+  results <- NULL
+  for (version in names(funcs_by_version)) {
+    if (version %in% theme_version()) {
+      results <- do.call(funcs_by_version[[version]], list(args))
+      break
+    }
+  }
+
+  if (is.null(results)) {
+    stop(call. = FALSE,
+      caller_name, " doesn't recognize the active version of Bootstrap (",
+      paste(collapse = "/", theme_version()), ")")
+  }
+
+  results <- dropNulls(results)
+  results <- lapply(results, paste, "!default")
+  results <- sass::sass_layer(results)
+
+  bs_theme_add(results)
+}
+
+#' Ensures all arguments are either NULL, or length 1 character vectors with
+#' valid CSS color strings; returned is a list with no NULLs and normalized
+#' color strings
+#' @param args A named list
+#' @noRd
+validate_and_normalize_colors <- function(args) {
+  args <- dropNulls(args)
+
+  is_char <- vapply(args, is.character, logical(1))
+  vec_len <- vapply(args, length, integer(1))
+  bad <- !is_char | vec_len != 1
+  if (any(bad)) {
+    stop(call. = FALSE,
+      "Invalid HTML color strings for argument(s) ",
+      format_varnames(names(args)[bad]),
+      "; single-element character vectors are required")
+  }
+  normalized_values <- htmltools::parseCssColors(args, mustWork = FALSE)
+  if (anyNA(normalized_values)) {
+    stop(call. = FALSE,
+      "Invalid HTML color strings for argument(s) ",
+      format_varnames(names(args)[is.na(normalized_values)])
+    )
+  }
+  args[] <- normalized_values
+  args
+}
+
+quote_css_font_families <- function(str) {
+  # This is pretty quick and dirty. I'd much prefer to do a full parse and I
+  # generally hate using heuristics to decide on matters of encoding, but
+  # both completely unquoted and fully quoted cases will be so common.
+
+  if (is.null(str)) {
+    return(NULL)
+  }
+
+  # Are there non-alpha, non-dash characters? If so, we may need to quote...
+  needs_quote <- grepl("[^A-Za-z\\-]", str, perl = TRUE)
+  # ...but don't quote if there's even a hit of quoting, or that an element
+  # might contain multiple font families already. We explicitly want to
+  # allow things like:
+  # c("Source Sans Pro", "-apple-system, BlinkMacSystemFont, \"Segoe UI\""),
+  # where the first element would be quoted but not the second. Of course this
+  # would be a problem if a single font family's name contained a quote, comma,
+  # or backslash, but that seems very unlikely.
+  is_quoted <- grepl("[,'\"\\\\]", str, perl = TRUE)
+
+  str <- ifelse(needs_quote & !is_quoted,
+    paste0("'", str, "'"),
+    str
+  )
+
+  paste(str, collapse = ", ")
+}
+
+#' Remove unsupported arguments, with a nicely formatted warning
+#'
+#' @param caller_name String naming the calling function; used for error
+#'   messages
+#' @param arg_name A name for the group of variables (e.g., accent, font); used for error messages
+#' @param supported_vars Character vector of known names
+#' @param args List of args
+#' @return List with unsupported vars removed, possibly warning in the process
+#' @noRd
+retain_known_vars <- function(caller_name, arg_name = "", supported_vars, args) {
+  argnames <- names(args)
+  unknown_idx <- !argnames %in% supported_vars
+
+  if (any(unknown_idx)) {
+    warning(call. = FALSE,
+      caller_name, " doesn't support the following ",
+      arg_name, if (nzchar(arg_name)) " ",
+      "argument(s), they will be ignored: ",
+      format_varnames(argnames[unknown_idx])
+    )
+  }
+
+  args[!unknown_idx]
+}
+
+# Format a vector of variable names
+format_varnames <- function(varnames, quot = "`", delim = ", ") {
+  between <- paste0(quot, delim, quot)
+
+  paste0(
+    quot,
+    paste(collapse = between, varnames),
+    quot
+  )
 }
