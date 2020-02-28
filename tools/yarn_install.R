@@ -26,7 +26,7 @@ add_prefixes <- function(src, property, ok_values = NULL) {
     if (length(ok_values)) {
       value <- regmatches(prop, regexec(pattern, prop))[[1]][2]
       vals <- strsplit(value, "\\s+")[[1]]
-      if (all(grepl(paste(ok_values, collapse = "|"), vals))) next
+      if (all(vals %in% c(ok_values, "!important"))) next
     }
     leading_ws <- regmatches(prop, regexpr("^\\s+", prop))
     prop_prefixes <- paste0(
