@@ -22,7 +22,7 @@ Imports:
     grDevices,
     htmltools (>= 0.4.0.9003),
     jsonlite,
-    sass (> 0.1.2.1),
+    sass (>= 0.2.0),
     jquerylib,
     rlang
 Suggests:
@@ -43,11 +43,12 @@ Collate:
     'files.R'
     'imports.R'
     'layers.R'
+    'theme-add.R'
+    'theme-custom.R'
+    'theme-preview.R'
     'themes.R'
     'utils.R'
     'versions.R'
-    'theme-base-colors.R'
-    'theme-preview.R'
 Remotes: 
     rstudio/htmltools,
     rstudio/sass,
