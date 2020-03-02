@@ -280,8 +280,6 @@ bs_themer <- function() {
 
   input <- session$input
 
-  orig_bs_theme <- bs_theme_get()
-
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui())
 
   shiny::observeEvent(input$vars, {
@@ -307,17 +305,29 @@ bs_themer <- function() {
     default_values <- bs_theme_get_variables(names(vals))
 
     # Filter out vals that the user hasn't changed
-    vals <- as.list(diff_css_values(vals, default_values))
-
-    print(rlang::expr(bs_theme_add_variables(!!!vals)))
+    changed_vals <- as.list(diff_css_values(vals, default_values))
 
     old_theme <- bs_theme_get()
     on.exit(bs_theme_set(old_theme), add = TRUE, after = FALSE)
-
     if (is.null(old_theme)) {
       bs_theme_new()
     }
-    bs_theme_add_variables(!!!vals)
+
+    message("---")
+
+
+    # Change variables names to their 'high-level' equivalents
+    # Note that if _either_ fg/bg has changed, bs_theme_base_colors()
+    # needs to be called with *both* fg and bg populated.
+    changed_vals <- rename(changed_vals, c(bg = "white", fg = "black", base = "font-family-base", code = "font-family-monospace", heading = "headings-font-family"))
+    if (any(c("fg", "bg") %in% names(changed_vals))) {
+      changed_vals[["fg"]] <- changed_vals[["fg"]] %||% vals[["fg"]]
+      changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["bg"]]
+    }
+    changed_vals <- take_and_use_values(changed_vals, bs_theme_base_colors)
+    changed_vals <- take_and_use_values(changed_vals, bs_theme_accent_colors)
+    changed_vals <- take_and_use_values(changed_vals, bs_theme_fonts)
+    take_and_use_values(changed_vals, bs_theme_add_variables, use_all_vals = TRUE)
 
     css <- sass(bs_theme_get(), write_attachments = FALSE)
 
@@ -413,6 +423,28 @@ bs_theme_get_variables <- function(varnames) {
   stats::setNames(values, varnames)
 }
 
+take_and_use_values <- function(changed_vals, func, use_all_vals = FALSE) {
+  if (use_all_vals) {
+    call_vals <- changed_vals
+    return_vals <- NULL
+  } else {
+    args_src <- names(changed_vals)
+    args_dest <- names(formals(func))
+    call_vals <- changed_vals[args_src %in% args_dest]
+    return_vals <- changed_vals[!args_src %in% args_dest]
+  }
+
+  if (length(call_vals)) {
+    # Call the function (modifying global state)
+    do.call(func, call_vals)
+    # Print the code for the user
+    func_name <- substitute(func)
+    print(rlang::expr(`!!`(func_name)(!!!call_vals)))
+  }
+
+  return_vals
+}
+
 diff_css_values <- function(a, b) {
   stopifnot(all(!is.na(a)))
   stopifnot(identical(names(a), names(b)))
@@ -420,7 +452,7 @@ diff_css_values <- function(a, b) {
   stopifnot(is.character(b))
 
   a_char <- vapply(a, function(x) {
-    if (is.null(x)) {
+    if (is.null(x) || isTRUE(is.na(x))) {
       "null"
     } else if (is.logical(x)) {
       tolower(as.character(x))
@@ -430,6 +462,21 @@ diff_css_values <- function(a, b) {
       as.character(x)
     }
   }, character(1))
+
+  b <- ifelse(is.na(b), "null", b)
+
+  # Normalize colors; ignore things that don't seem to be colors. This is
+  # necessary so we don't consider "black", "#000", "#000000", "rgb(0,0,0,1)",
+  # etc. to be distinct values.
+  #
+  # Note: This won't work with values that are colors AND other things, like
+  # "solid #000 3px"; it needs the value to be solely a color to be normalized.
+
+  a_char_colors <- htmltools::parseCssColors(a_char, mustWork = FALSE)
+  a_char <- ifelse(!is.na(a_char_colors), a_char_colors, a_char)
+
+  b_colors <- htmltools::parseCssColors(b, mustWork = FALSE)
+  b <- ifelse(!is.na(b_colors), b_colors, b)
 
   idx <- ifelse(is.na(b), TRUE, a_char != b)
   a[idx]

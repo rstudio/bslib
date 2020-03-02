@@ -1,31 +1,21 @@
 {
   "Basic colors": {
-    "body-bg": {
+    "white": {
       "type": "color",
       "label": "Background color",
-      "desc": null
+      "desc": "The background color for the page"
     },
-    "body-color": {
+    "black": {
       "type": "color",
-      "label": "Text color",
-      "desc": null
-    },
-    "input-border-color": {
-      "type": "color",
-      "label": "Input border color",
-      "desc": null
+      "label": "Foreground color",
+      "desc": "The color for foreground elements, including text"
     }
   },
-  "Theme colors": {
+  "Accent colors": {
     "primary": {
       "type": "color",
-      "label": "Primary",
-      "desc": "Used to highlight important actions, like default action buttons."
-    },
-    "default": {
-      "type": "color",
-      "label": "Default",
-      "desc": null
+      "label": "Primary color",
+      "desc": "Links and highlighted navigation"
     },
     "secondary": {
       "type": "color",
@@ -51,84 +41,23 @@
       "type": "color",
       "label": "Secondary",
       "desc": null
-    },
-    "light": {
-      "type": "color",
-      "label": "Light",
-      "desc": null
-    },
-    "dark": {
-      "type": "color",
-      "label": "Dark",
-      "desc": null
-    }
-  },
-  "Grays": {
-    "white": {
-      "type": "color",
-      "label": "White",
-      "desc": null
-    },
-    "gray-100": {
-      "type": "color",
-      "label": "Gray (10%)",
-      "desc": null
-    },
-    "gray-200": {
-      "type": "color",
-      "label": "Gray (20%)",
-      "desc": null
-    },
-    "gray-300": {
-      "type": "color",
-      "label": "Gray (30%)",
-      "desc": null
-    },
-    "gray-400": {
-      "type": "color",
-      "label": "Gray (40%)",
-      "desc": null
-    },
-    "gray-500": {
-      "type": "color",
-      "label": "Gray (50%)",
-      "desc": null
-    },
-    "gray-600": {
-      "type": "color",
-      "label": "Gray (60%)",
-      "desc": null
-    },
-    "gray-700": {
-      "type": "color",
-      "label": "Gray (70%)",
-      "desc": null
-    },
-    "gray-800": {
-      "type": "color",
-      "label": "Gray (80%)",
-      "desc": null
-    },
-    "gray-900": {
-      "type": "color",
-      "label": "Gray (90%)",
-      "desc": null
-    },
-    "black": {
-      "type": "color",
-      "label": "Black",
-      "desc": null
+
     }
   },
   "Fonts": {
     "font-family-base": {
       "type": "str",
-      "label": "Base font family",
+      "label": "Base font",
       "desc": null
     },
     "font-family-monospace": {
       "type": "str",
-      "label": "Monospace font family",
+      "label": "Code font",
+      "desc": null
+    },
+    "headings-font-family": {
+      "type": "str",
+      "label": "Heading font",
       "desc": null
     }
   },
@@ -151,11 +80,6 @@
     "enable-transitions": {
       "type": "bool",
       "label": "Transitions",
-      "desc": null
-    },
-    "enable-caret": {
-      "type": "bool",
-      "label": "Show caret on dropdown toggle",
       "desc": null
     }
   },

@@ -59,3 +59,10 @@ test_that("Theme adding works as intended", {
   expect_css(".foo{color:#6c757d;}", css)
 })
 
+
+test_that("rename works as intended", {
+  expect_identical(
+    rename(list(a=1, b=3, c=4, d=1), c(z="b",y="a",w="f")),
+    list(y=1, z=3, c=4, d=1)
+  )
+})
