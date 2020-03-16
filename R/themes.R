@@ -23,6 +23,7 @@
 #'
 #' # Themes are stored globally, and if there is no theme present,
 #' # bs_theme_get() returns NULL
+#' bs_theme_clear()
 #' bs_theme_get()
 #'
 #' # Use latest Bootstrap version, default theme
