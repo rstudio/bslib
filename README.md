@@ -54,23 +54,20 @@ bs_theme_new(version = "4+3", bootswatch = NULL)
 ```
 
 2)  Once a (global) theme is initialized, you may start adding theming
-    customizations; for example [overriding variable
-    defaults](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults),
-    and more (see the [theming
-    foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html)
-    article).
+    customizations (learn more about customizations in the
+    [recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html)
+    and
+    [foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html)
+    articles):
 
 <!-- end list -->
 
 ``` r
-bs_theme_add_variables(
-  "body-bg" = "salmon",
-  "body-color" = "white"
-)
+bs_theme_base_colors(bg = "salmon", fg = "white")
 ```
 
-3)  Add `bootstrap()` to your user interface (this step might not be
-    required in a future version of **shiny**).
+3)  Add `bootstrap()` to your user interface (this step likely won’t be
+    needed in a future version of **shiny**).
 
 <!-- end list -->
 
@@ -111,7 +108,7 @@ output:
     
     ``` {r}
     library(bootstraplib)
-    bs_theme_add_variables(primary = 'salmon')
+    bs_theme_accent_colors(primary = 'green')
     ```
 
 ## Choosing a version

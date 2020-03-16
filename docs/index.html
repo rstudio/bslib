@@ -83,13 +83,10 @@
 <p>1) Call <code><a href="reference/theming.html">bs_theme_new()</a></code> and optionally specify a Bootstrap <code>version</code> and <a href="https://bootswatch.com/"><code>bootswatch</code> theme</a>. The current default is Bootstrap 4 (with added added Bootstrap 3 compatibility) and no <code>bootswatch</code> theme:</p>
 <!-- end list -->
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="reference/theming.html">bs_theme_new</a></span>(<span class="dt">version =</span> <span class="st">"4+3"</span>, <span class="dt">bootswatch =</span> <span class="ot">NULL</span>)</span></code></pre></div>
-<p>2) Once a (global) theme is initialized, you may start adding theming customizations; for example <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults">overriding variable defaults</a>, and more (see the <a href="https://rstudio.github.io/bootstraplib/articles/foundations.html">theming foundations</a> article).</p>
+<p>2) Once a (global) theme is initialized, you may start adding theming customizations (learn more about customizations in the <a href="https://rstudio.github.io/bootstraplib/articles/recipes.html">recipes</a> and <a href="https://rstudio.github.io/bootstraplib/articles/foundations.html">foundations</a> articles):</p>
 <!-- end list -->
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="reference/bs_theme_add_variables.html">bs_theme_add_variables</a></span>(</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  <span class="st">"body-bg"</span> =<span class="st"> "salmon"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  <span class="st">"body-color"</span> =<span class="st"> "white"</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>)</span></code></pre></div>
-<p>3) Add <code><a href="reference/bootstrap.html">bootstrap()</a></code> to your user interface (this step might not be required in a future version of <strong>shiny</strong>).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="reference/bs_theme_base_colors.html">bs_theme_base_colors</a></span>(<span class="dt">bg =</span> <span class="st">"salmon"</span>, <span class="dt">fg =</span> <span class="st">"white"</span>)</span></code></pre></div>
+<p>3) Add <code><a href="reference/bootstrap.html">bootstrap()</a></code> to your user interface (this step likely won’t be needed in a future version of <strong>shiny</strong>).</p>
 <!-- end list -->
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(</span>
@@ -113,7 +110,7 @@
 <p>2) Optionally add theme customizations inside any R code chunk (these customizations end up influencing the Bootstrap CSS included in the output document).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="st">```</span><span class="dt"> {r}</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="dt">library(bootstraplib)</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="dt">bs_theme_add_variables(primary = 'salmon')</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="dt">bs_theme_accent_colors(primary = 'green')</span></span>
 <span id="cb6-4"><a href="#cb6-4"></a><span class="st">```</span></span></code></pre></div>
 </div>
 </div>
