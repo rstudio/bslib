@@ -6,6 +6,8 @@ shinyOptions(plot.autotheme = TRUE)
 
 tabPanel <- function(...) {
   shiny::tabPanel(..., class = "p-3 border rounded")
+  # For tabs
+  #shiny::tabPanel(..., class = "p-3 border border-top-0 rounded-bottom")
 }
 
 # TODO: Add pills, renderPlot() autocolors, more inputs, progress, etc

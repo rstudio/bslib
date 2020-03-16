@@ -45,17 +45,22 @@ knitr::include_graphics("https://i.imgur.com/750Qc2a.png")
 Use the `bs_theme_fonts()` function to easily set the default (i.e., `base`) font family, as well as families for `code`, `heading`s, and `input`:
 
 ```r
-bs_theme_fonts(base = "Roboto Slab", code = "Monaco")
+bs_theme_fonts(base = "Roboto Condensed", code = "Monaco")
 bs_theme_preview()
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/G3rsl9u.png")
+knitr::include_graphics("https://i.imgur.com/ZoCnJSV.png")
 ```
 
-TODO: `$font-size-base`
+As for font size, there is one main Sass variable, named `$font-size-base` (in both Bootstrap 3 and 4) that can be used to increase or decrease the base font size. For more granular control over font-sizes, consider searching through the Sass variables for `font-size` ([for example](https://github.com/rstudio/bootstraplib/blob/555f80d/inst/lib/bootstrap/scss/_variables.scss#L286-L304)) and setting variable(s) of interest.
 
-For fonts that don't already exist on the applications host, you may want to consider downloading the relevant font files and serving those font files with your application. The [**gfonts**](https://github.com/dreamRs/gfonts) package offers a nice way to `download_font()`s from Google Fonts. For example, if our working directory was a **shiny** app directory, and we want the Monserrat font, we could run:
+```r
+bs_theme_add_variables("font-size-base" = "1.5rem")
+```
+
+
+For non-standard font families, you may want to consider downloading the relevant font files and serving those font files with your application. The [**gfonts**](https://github.com/dreamRs/gfonts) package offers a nice way to `download_font()`s from Google Fonts. For example, if our working directory was a **shiny** app directory, and we want the Monserrat font, we could run:
 
 ```r
 library(gfonts)
@@ -96,7 +101,7 @@ bs_theme_preview()
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/Zlwa2hw.png")
+knitr::include_graphics("https://i.imgur.com/51k95Hd.png")
 ```
 
 For more granular control, you can set the [Bootstrap table](https://getbootstrap.com/docs/4.4/content/tables/) [Sass variables](https://github.com/rstudio/bootstraplib/blob/ba67fa9/inst/node_modules/bootstrap/scss/_variables.scss#L355-L369) more directly via `bs_theme_add_variables()` and **DT** should style itself sensibly based on these values. Alternatively, you can also override [dataTables Sass variable](https://github.com/DataTables/DataTablesSrc/blob/ce2c7c1/css/jquery.dataTables.scss#L9-L28) defaults directly using `DT::datatableThemeVariables()`. The upside of the former (i.e., `bs_theme_add_variables()`) approach is that you can theme both `DT::dataTableOutput()` as well as the more basic `shiny::dataTableOutput()` all at once. The upside of the latter approach (i.e., `DT::datatableThemeVariables()`) is that you can theme **DT** outside of **shiny** and **rmarkdown** and without depending on Bootstrap. 
@@ -114,14 +119,15 @@ shinyApp(
     )  
   ),
   function(input, output) {
-    output$info <- renderPrint(getCurrentOutputInfo())
+    output$info <- renderPrint(str(getCurrentOutputInfo()))
   }
 )
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/wkJ7joO.png")
+knitr::include_graphics("https://i.imgur.com/CnqF7NW.png")
 ```
+
 
 ## Wells
 
@@ -138,11 +144,21 @@ bs_theme_preview()
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/9ogwq0C.png")
+knitr::include_graphics("https://i.imgur.com/HGfHO4k.png")
 ```
 
+## Buttons
 
-## Navigation {#theming-nav}
+Core **shiny** UI functions like `downloadButton()` and `actionButton()` emit HTML markup with the [BS3 `btn-default` class](https://getbootstrap.com/docs/3.4/components/#dropdowns-example), which was dropped in BS4. When `version = "4+3"`, the `btn-default` class extends the BS4 `btn-secondary` class, which is why the default button picked up on `bs_theme_accent_colors(secondary = "#fdce93")` (i.e., the yellow-ish color):
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://i.imgur.com/vz5rvOl.png")
+```
+
+The other buttons contain different background colors because they contain [`btn-*` modifier classes](https://getbootstrap.com/docs/4.4/components/buttons) via a `class` argument to `actionButton()` (e.g., `actionButton(..., class = "btn-primary")`). It's worth noting that `actionButton()`, like many other core shiny UI components, doesn't actually have an explicit `class` argument, but it does route implicit arguments (i.e., `...`) to it's top-level HTML container, which is why `actionButton(..., class = "btn-primary")` add the class in the appropriate place. More generally, in other cases where `...` doesn't route to the HTML tag target of interest (i.e., for [utility classes](https://getbootstrap.com/docs/4.4/utilities/borders/)), the next best option is to add a class via `tagAppendAttributes(ui, class = 'some-class')`.
+
+
+## Navigation
 
 Both **shiny** and **rmarkdown** allow you create so called "tabset panels", which are built on top of Bootstrap's [nav](https://getbootstrap.com/docs/4.4/components/navs/) API. These tabsets come in two different flavors: tabs and pills. Below is a table showing how to create either flavor of navigation in both **shiny** and **rmarkdown**.
 
@@ -151,167 +167,48 @@ Both **shiny** and **rmarkdown** allow you create so called "tabset panels", whi
 | tabs  | `tabsetPanel()`  | `{.tabset}`               |
 | pills |  `tabsetPanel(type='pills')`/`navlistPanel()` | `{.tabset .tabset-pills}` |
 
-By default, tabsets don't include any padding or border(s) around its content; yet in most cases, having both greatly improves the overall look and readability. Thanks to Bootstrap 4 [utitilty classes](https://getbootstrap.com/docs/4.4/utilities/borders/), it's fairly straight-forward to add custom [padding](https://getbootstrap.com/docs/4.4/utilities/spacing/) and borders around content in both **shiny** (by adding relevant classes to `tabPanel(class = ...)`) and **rmarkdown** (by adding relevant classes to the `.tabset` sections). For padding, a class of `p-3` works generally 
-
-For example, to add size 3 padding around a panel in **shiny**, change `tabPanel(...)` to `tabPanel(..., class = "p-3")`. Size 3 padding 
-
-```r
-bootstraplib::bs_theme_add(
-  rules = c("
-  .nav-pills > .tab-content > * { 
-    @extend .p-3; 
-    @extend .border;
-    @extend .rounded;
-  }","
-  .nav-tabs > .tab-content > * { 
-    @extend .p-3; 
-    @extend .border;
-    @extend .border-top-0; 
-    @extend .rounded-bottom; 
-  }"
-  )
-)
-```
-
-
-
-### Pills
-
-
-
-We'll walk through theming with tabs (i.e., `tabsetPanel()`) and pills (i.e., `navlistPanel()`) in **shiny**, but it's worth noting that the same ideas apply to [**rmarkdown**'s tabbed sections](https://bookdown.org/yihui/rmarkdown/html-document.html#tabbed-sections) as well.
-
-
-### Tabs
-
-By default, `tabPanel()` doesn't include any padding or border around its content, which wasn't necessarily the best design choice. Thankfully, similar to `actionButton()`, we can add [utility](https://getbootstrap.com/docs/4.4/utilities/spacing/) [classes](https://getbootstrap.com/docs/4.4/utilities/spacing/) to the panel's content container by add padding (`p-*`) and `rounded` `border`s. That means, at the top of the app, we could do something like this to add padding and rounded borders to all the tabsets (In practice, you might want to add these to individuals `tabPanel()`s instead of overwriting the function).
+By default, tabsets don't include any padding or border(s) around its content; yet in most cases, having both greatly improves the overall look and readability. Thanks to Bootstrap 4 [utitilty classes](https://getbootstrap.com/docs/4.4/utilities/borders/), it's fairly straight-forward to add custom [padding](https://getbootstrap.com/docs/4.4/utilities/spacing/) and borders around content in both **shiny** (by adding relevant classes to `tabPanel(class = ...)`) and **rmarkdown** (by adding relevant classes to the `.tabset` sections). For example, here is a reasonable set of padding and border classes for tabs:
 
 ```r
 tabPanel(..., class = "p-3 border border-top-0 rounded-bottom")
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/iQubNd3.png")
+knitr::include_graphics("https://i.imgur.com/ui9ZpXG.png")
 ```
 
-Similarly, if we set `type = "pills"` in `tabsetPanel()`, then you'd probably want slightly different borders:
+And, for `tabsetPanel(type="pills", ...)`, fully rounded borders looks better:
 
 ```r
 tabPanel(..., class = "p-3 border rounded")
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/NR2slqc.png")
+knitr::include_graphics("https://i.imgur.com/ygEmj0Z.png")
 ```
 
-TODO: 
-1. Explore changing tab colors? Is based on `$link-color`...
-1. change active color to secondary
 
-
-It's not obvious from the variables file, but the non-active tab text color derives from `$link-color`, which defaults to `$primary`. So if you want to change the non-active tab color without changing `$primary`, set `$link-color` (and also `$dropdown-link-active-bg`) if your tabs have [dropdowns](https://github.com/rstudio/bootstraplib/blob/ba67fa9f/inst/node_modules/bootstrap/scss/_variables.scss#L762-L788).
+When it comes to controlling color and/or border styling of the tabs and/or pills, it can be useful to set [these Sass variable defaults](https://github.com/rstudio/bootstraplib/blob/555f80d/inst/lib/bootstrap/scss/_variables.scss#L698-L717) directly. For example, suppose we'd like to change the background color for active tabs/pills to our `secondary` accent color (instead of the default behavior of inheriting from the `primary` accent color) as well as the non-active links to our `primary` color. It's not obvious from the variables file, but the non-active link color is based on `$link-color`, which is intentional, since from an accessibility perspective, those non-active links behave very similarly to hyperlinks, and thus, should be styled consistently.
 
 ```r
 bs_theme_add_variables(
-  "body-bg" = "#6c757d",
-  "body-color" = "white",
-  "nav-tabs-link-active-color" = "white",
-  # Non-active tab/link styling
-  "link-color" = "lime",
-  # For dropdown
-  "dropdown-link-active-bg" = "lime",
+  "link-color" = "#e39777",
+  "nav-pills-link-active-bg" = "#fdce93",
+  "nav-tabs-link-active-bg" = "#fdce93",
+  "dropdown-link-active-bg" = "#fdce93"
 )
-preview_tabs()
+bs_theme_add(
+  declarations  = list("nav-tabs-link-active-color" = "color-yiq(#fdce93)")
+)
+bs_theme_preview()
 ```
 
 ```{r, echo = FALSE}
 # TODO: why doesn't `$dropdown-link-hover-bg` work? bs3compat issue?
-knitr::include_graphics("tabs-lime.png")
-```
-
-### Pills
-
-Let's start with a basic `navlistPanel()`, which is based on Bootstrap nav pills:
-
-```r
-library(shiny)
-library(bootstraplib)
-
-ui_content <- navlistPanel(
-  tabPanel("One", "One"),
-  tabPanel("Two", icon = icon("download"), "Two"),
-  navbarMenu("A submenu",
-             tabPanel("Three", "Three"),
-             "---",
-             tabPanel("Four", "Four"),
-             tabPanel("Five", "Five")
-  )
-)
-
-# Clear the current theme
-bs_theme_new()
-
-# Resuable function to preview our theming changes
-preview_pills <- function() {
-  shinyApp(
-    fluidPage(bootstrap(), ui_content), 
-    function(input, output) {}
-  )
-}
-preview_pills()
-```
-
-```{r, echo = FALSE}
-knitr::include_graphics("pills.png")
-```
-
-Bootstrap 4 currently exposes 3 different Sass variables specifically for pill styling, including the [foreground](https://github.com/rstudio/bootstraplib/blob/04925e1/inst/node_modules/bootstrap/scss/_variables.scss#L713) and [background](https://github.com/rstudio/bootstraplib/blob/04925e1/inst/node_modules/bootstrap/scss/_variables.scss#L714) color of active pills:
-
-```scss
-$nav-pills-link-active-color: $component-active-color !default;
-$nav-pills-link-active-bg:    $component-active-bg !default;
-```
-
-Importantly, these active colors default to variables that control the active color of _all_ Bootstrap components, and by default, the primary theme color controls the active color:
-
-```scss
-$component-active-color:      $white !default;
-$component-active-bg:         theme-color("primary") !default;
-```
-
-Therefore, we could just change the primary theme color to get a different active color scheme.
-
-```r
-bs_theme_new()
-bs_theme_add_variables(
-  "primary" = "orange",
-  "nav-pills-border-radius" = 0,
-)
-preview_pills()
-```
-
-```{r, echo = FALSE}
-knitr::include_graphics("orange-pills.png")
-```
-
-If you wanted the bg color of the active pills directly, you could set `$nav-pills-link-active-bg`; but in that case, you should also set  `$dropdown-link-active-bg` (which controls `navbarMenu()`'s active bg color) as well as `$link-color` (which controls the non-active pill text color).
-
-```r
-bs_theme_new()
-bs_theme_add_variables(
-  "nav-pills-link-active-bg" = "orange",
-  "dropdown-link-active-bg" = "orange",
-  "link-color" = "orange"
-)
+knitr::include_graphics("https://i.imgur.com/FsgpPjc.png")
 ```
 
 
-## Buttons
+## Other shiny inputs
 
-Core **shiny** UI functions like `downloadButton()` and `actionButton()` emit HTML markup with the [BS3 `btn-default` class](https://getbootstrap.com/docs/3.4/components/#dropdowns-example), which was dropped in BS4. When `version = "4+3"`, the `btn-default` class extends the BS4 `btn-secondary` class, which is why the default button picked up on `bs_theme_accent_colors(secondary = "#fdce93")` (i.e., the yellow-ish color):
-
-```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/pQNam7S.png")
-```
-
-The other buttons contain different background colors because they contain [`btn-*` modifier classes](https://getbootstrap.com/docs/4.4/components/buttons) via a `class` argument to `actionButton()` (e.g., `actionButton(..., class = "btn-primary")`). It's worth noting that `actionButton()`, like many other core shiny UI components, doesn't actually have an explicit `class` argument, but it does route implicit argument (i.e., `...`) to it's top-level HTML container, which is why `actionButton(..., class = "btn-primary")` add the class in the appropriate place. More generally, in other cases where `...` doesn't route to the HTML tag target of interest (i.e., for [utility classes](https://getbootstrap.com/docs/4.4/utilities/borders/)), the next best option is to add a class via `tagAppendAttributes(ui, class = 'some-class')`.
+In a future version of **shiny**, input widgets (e.g., `sliderInput()`, `selectizeInput()`, `dateInput()`, etc) will inherit styling from Bootstrap Sass variable values, but we will likely also provide Sass variables for more direct control over their styling.
