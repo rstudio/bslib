@@ -330,7 +330,7 @@ bs_themer <- function() {
     changed_vals <- take_and_use_values(changed_vals, bs_theme_fonts)
     take_and_use_values(changed_vals, bs_theme_add_variables, use_all_vals = TRUE)
 
-    # Degrade sass() compilation errors to warnings to they don't crash the app
+    # Degrade sass() compilation errors to warnings so they don't crash the app
     # Errors can happen if the users enters values that lead to unexpected Sass
     # expressions (e.g., "$foo: * !default")
     css <- tryCatch(
