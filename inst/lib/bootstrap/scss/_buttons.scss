@@ -14,6 +14,9 @@
   vertical-align: middle;
   cursor: if($enable-pointer-cursor-for-buttons, pointer, null);
   user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   background-color: transparent;
   border: $btn-border-width solid transparent;
   @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-line-height, $btn-border-radius);
@@ -80,15 +83,24 @@ fieldset:disabled a.btn {
   font-weight: $font-weight-normal;
   color: $link-color;
   text-decoration: $link-decoration;
+  -webkit-text-decoration: $link-decoration;
+  -moz-text-decoration: $link-decoration;
+  -ms-text-decoration: $link-decoration;
 
   @include hover() {
     color: $link-hover-color;
     text-decoration: $link-hover-decoration;
+    -webkit-text-decoration: $link-hover-decoration;
+    -moz-text-decoration: $link-hover-decoration;
+    -ms-text-decoration: $link-hover-decoration;
   }
 
   &:focus,
   &.focus {
     text-decoration: $link-hover-decoration;
+    -webkit-text-decoration: $link-hover-decoration;
+    -moz-text-decoration: $link-hover-decoration;
+    -ms-text-decoration: $link-hover-decoration;
     box-shadow: none;
   }
 

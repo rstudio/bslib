@@ -5,37 +5,16 @@
   "main": "assets/javascripts/bootstrap.js",
   "style": "assets/stylesheets/_bootstrap.scss",
   "sass": "assets/stylesheets/_bootstrap.scss",
-  "files": [
-    "assets",
-    "eyeglass-exports.js",
-    "CHANGELOG.md",
-    "LICENSE",
-    "README.md"
-  ],
+  "files": ["assets", "eyeglass-exports.js", "CHANGELOG.md", "LICENSE", "README.md"],
   "repository": {
     "type": "git",
     "url": "git://github.com/twbs/bootstrap-sass"
   },
-  "keywords": [
-    "bootstrap",
-    "sass",
-    "css",
-    "eyeglass-module"
-  ],
-  "contributors": [
-    "Thomas McDonald",
-    "Tristan Harward",
-    "Peter Gumeson",
-    "Gleb Mazovetskiy"
-  ],
+  "keywords": ["bootstrap", "sass", "css", "eyeglass-module"],
+  "contributors": ["Thomas McDonald", "Tristan Harward", "Peter Gumeson", "Gleb Mazovetskiy"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/twbs/bootstrap-sass/issues"
-  },
-  "devDependencies": {
-    "node-sass": "^4.9.3",
-    "mincer": "~1.4.0",
-    "ejs": "~2.6.1"
   },
   "eyeglass": {
     "exports": "eyeglass-exports.js",

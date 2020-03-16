@@ -232,6 +232,9 @@
   @include border-radius($custom-select-border-radius, 0);
   @include box-shadow($custom-select-box-shadow);
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
 
   &:focus {
     border-color: $custom-select-focus-border-color;
@@ -383,6 +386,9 @@
   padding: 0; // Need to reset padding
   background-color: transparent;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
 
   &:focus {
     outline: none;
@@ -408,6 +414,9 @@
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
     appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
@@ -434,6 +443,9 @@
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
     appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
@@ -463,6 +475,9 @@
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
     appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);

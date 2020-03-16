@@ -1,17 +1,28 @@
 Package: bootstraplib
 Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass
 Version: 0.1.0.9000
-Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"),
-    email = "cpsievert1@gmail.com", comment = c(ORCID = "0000-0002-4958-2844")),
+Authors@R: c(
+    person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
-    person(family = "RStudio", role = "cph")
+    person(family = "RStudio", role = "cph"),
+    person(family = "Bootstrap contributors", role = "ctb",
+    comment = "Bootstrap library"),
+    person(family = "Twitter, Inc", role = "cph",
+    comment = "Bootstrap library"),
+    person("Javi", "Aguilar", role = c("ctb", "cph"),
+    comment = "Bootstrap colorpicker library"),
+    person("Thomas", "Park", role = c("ctb", "cph"),
+    comment = "Bootswatch library"),
+    person("Federico", "Zivolo", role = c("ctb", "cph"),
+    comment = "popper.js library")
     )
 Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
+Depends: R (>= 2.10)
 Imports: 
     grDevices,
     htmltools (>= 0.4.0.9003),
     jsonlite,
-    sass (> 0.1.2.1),
+    sass (>= 0.2.0),
     jquerylib,
     rlang
 Suggests:
@@ -20,7 +31,7 @@ Suggests:
     knitr,
     testthat,
     digest
-License: GPL-3 | file LICENSE
+License: MIT | file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
@@ -32,11 +43,12 @@ Collate:
     'files.R'
     'imports.R'
     'layers.R'
+    'theme-add.R'
+    'theme-custom.R'
+    'theme-preview.R'
     'themes.R'
     'utils.R'
     'versions.R'
-    'theme-base-colors.R'
-    'theme-preview.R'
 Remotes: 
     rstudio/htmltools,
     rstudio/sass,

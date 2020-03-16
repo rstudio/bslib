@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • bootstraplib</title>
+<title>Retrieve Sass variable values from the current theme — bs_theme_get_variables • bootstraplib</title>
 
 
 <!-- jquery -->
@@ -29,13 +29,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Retrieve Sass variable values from the current theme — bs_theme_get_variables" />
+<meta property="og:description" content="Useful for retriving a variable from the current theme and using
+the value to inform another R function." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +57,7 @@
   </head>
 
   <body>
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -66,7 +69,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">bootstraplib</a>
+        <a class="navbar-link" href="../index.html">bootstraplib</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
@@ -74,13 +77,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="articles/recipes.html">Recipes</a>
+  <a href="../articles/recipes.html">Recipes</a>
 </li>
 <li>
-  <a href="articles/foundations.html">Foundations</a>
+  <a href="../articles/foundations.html">Foundations</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -96,50 +99,54 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Retrieve Sass variable values from the current theme</h1>
+    
+    <div class="hidden name"><code>bs_theme_get_variables.Rd</code></div>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Carson Sievert</strong>. Author, maintainer. <a href='https://orcid.org/0000-0002-4958-2844' target='orcid.widget'><img src='https://members.orcid.org/sites/default/files/vector_iD_icon.svg' class='orcid' alt='ORCID'></a>
-        </p>
-      </li>
-      <li>
-        <p><strong>Joe Cheng</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong> RStudio</strong>. Copyright holder. 
-        </p>
-      </li>
-      <li>
-        <p><strong> Bootstrap contributors</strong>. Contributor. 
-        <br /><small>Bootstrap library</small></p>
-      </li>
-      <li>
-        <p><strong> Twitter, Inc</strong>. Copyright holder. 
-        <br /><small>Bootstrap library</small></p>
-      </li>
-      <li>
-        <p><strong>Javi Aguilar</strong>. Contributor, copyright holder. 
-        <br /><small>Bootstrap colorpicker library</small></p>
-      </li>
-      <li>
-        <p><strong>Thomas Park</strong>. Contributor, copyright holder. 
-        <br /><small>Bootswatch library</small></p>
-      </li>
-      <li>
-        <p><strong>Federico Zivolo</strong>. Contributor, copyright holder. 
-        <br /><small>popper.js library</small></p>
-      </li>
+    <div class="ref-description">
+    <p>Useful for retriving a variable from the current theme and using
+the value to inform another R function.</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>bs_theme_get_variables</span>(<span class='no'>varnames</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>varnames</th>
+      <td><p>a character string referencing a Sass variable
+in the current theme.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a character string containing a CSS/Sass value.
+If the variable(s) are not defined, their value is <code>NA</code>.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>bs4_vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"body-bg"</span>, <span class='st'>"body-color"</span>, <span class='st'>"primary"</span>, <span class='st'>"border-radius"</span>)
+<span class='fu'><a href='theming.html'>bs_theme_new</a></span>()
+<span class='fu'>bs_theme_get_variables</span>(<span class='no'>bs4_vars</span>)</div><div class='output co'>#&gt;       body-bg    body-color       primary border-radius 
+#&gt;        "#fff"     "#212529"     "#007bff"     "0.25rem" </div><div class='input'><span class='fu'><a href='theming.html'>bs_theme_new</a></span>(<span class='kw'>bootswatch</span> <span class='kw'>=</span> <span class='st'>"darkly"</span>)
+<span class='fu'>bs_theme_get_variables</span>(<span class='no'>bs4_vars</span>)</div><div class='output co'>#&gt;       body-bg    body-color       primary border-radius 
+#&gt;        "#222"        "#fff"     "#375a7f"     "0.25rem" </div><div class='input'>
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
-
 </div>
-
 
 
       <footer>

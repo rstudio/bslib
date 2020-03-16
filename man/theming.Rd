@@ -2,22 +2,12 @@
 % Please edit documentation in R/themes.R
 \name{bs_theme_new}
 \alias{bs_theme_new}
-\alias{bs_theme_add_variables}
-\alias{bs_theme_add}
 \alias{bs_theme_get}
 \alias{bs_theme_clear}
 \alias{bs_theme_set}
 \title{Create a Bootstrap theme}
 \usage{
 bs_theme_new(version = version_default(), bootswatch = NULL)
-
-bs_theme_add_variables(
-  ...,
-  .where = "defaults",
-  .default_flag = identical(.where, "defaults")
-)
-
-bs_theme_add(defaults = "", declarations = "", rules = "", ...)
 
 bs_theme_get()
 
@@ -33,109 +23,65 @@ BS3 style markup in BS4. Other supported versions include 3 and 4.}
 \item{bootswatch}{The name of a bootswatch theme.
 See \code{\link[=bootswatch_themes]{bootswatch_themes()}} to list possible names.}
 
-\item{...}{For \code{bs_theme_add_variables()}, these arguments define Sass variables;
-otherwise, these arguments are passed along to \code{\link[sass:sass_layer]{sass::sass_layer()}}.}
-
-\item{.where}{whether to place the variable definitions before other
-Sass \code{"defaults"}, after other Sass \code{"declarations"}, or after other Sass \code{"rules"}.}
-
-\item{.default_flag}{whether or not to add a \code{!default} flag (if missing) to
-variable expressions. It's recommended to keep this as \code{TRUE} when
-\code{.where = "defaults"}.}
-
-\item{defaults}{Any \code{\link[sass:as_sass]{sass::as_sass()}} \code{input} to place before Bootstrap's Sass.}
-
-\item{declarations}{Any \code{\link[sass:as_sass]{sass::as_sass()}} \code{input} to place after Bootstrap's variables,
-functions, and mixins, but before Bootstrap's styling rules.}
-
-\item{rules}{Any \code{\link[sass:as_sass]{sass::as_sass()}} \code{input} to place after Bootstrap's Sass imports.}
-
 \item{theme}{a theme object (i.e., the return value of \code{bs_theme_get()}).}
 }
 \description{
 \code{bs_theme_new()} creates a new (global) Bootstrap Sass theme which
 \code{\link[=bootstrap]{bootstrap()}} (or \code{\link[=bootstrap_sass]{bootstrap_sass()}}) can consume (their \code{theme} argument
 defaults to \code{bs_theme_get()}, which get the current global theme). Once a
-global theme has been created, use \code{\link[=bs_theme_add_variables]{bs_theme_add_variables()}} to set
-Sass variable defaults and \code{\link[=bs_theme_add]{bs_theme_add()}} to add arbitrary Sass
-(via \code{\link[sass:sass_layer]{sass::sass_layer()}}s).
+global theme has been created, theme customization may be added via
+'high-level' (e.g., \code{\link[=bs_theme_base_colors]{bs_theme_base_colors()}})
+and/or 'low-level' (e.g., \code{\link[=bs_theme_add_variables]{bs_theme_add_variables()}}) customizations.
 }
 \examples{
 
-# Function to preview the styling a (primary) Bootstrap button
-library(htmltools)
-button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
-preview_button <- function(x) {
-  browsable(tags$body(x, button))
-}
+# Themes are stored globally, and if there is no theme present,
+# bs_theme_get() returns NULL
+bs_theme_get()
 
-# To create a custom theme, you must start by calling bs_theme_new()
-# Here we start with a theme based on a Bootswatch theme,
-# then override some variable defaults
-bs_theme_new(bootswatch = "sketchy")
-bs_theme_add_variables(
-  primary = "orange",
-  "body-bg" = "#EEEEEE",
-  "font-family-base" = "monospace",
-  "font-size-base" = "1.4rem",
-  "btn-padding-y" = ".16rem",
-  "btn-padding-x" = "2rem",
-  "border-radius" = 0,
-  "border-radius-lg" = 0,
-  "border-radius-sm" = 0
-)
-preview_button(bootstrap())
-
-# If you need to set a variable based on another Bootstrap variable
-bs_theme_add_variables(
-  "body-color" = "$success",
-  .where = "declarations"
-)
-preview_button(bootstrap())
-
-# Start a new global theme and add some custom rules that
-# use Bootstrap variables to define a custom styling for a
-# 'person card'
+# Use latest Bootstrap version, default theme
 bs_theme_new()
-bs_theme_add(
-  rules = sass::sass_file(
-    system.file("custom", "person.scss", package = "bootstraplib")
-  )
+
+# When a theme is set, bs_theme_get() returns all the Sass code
+# necessary to compile Bootstrap, plus any theming customizations.
+class(bs_theme_get())
+
+# If you just want to know the
+theme_version()
+
+# Preview the current theme styling in a shiny app
+if (interactive()) bs_theme_preview()
+
+# Latest Bootstrap version, minty theme
+bs_theme_new(bootswatch = "minty")
+theme_bootswatch()
+if (interactive()) bs_theme_preview()
+
+# Use Bootstrap 3 with theme customization
+bs_theme_new(3)
+bs_theme_base_colors(bg = "#444", fg = "#e4e4e4")
+bs_theme_accent_colors(primary = "#e39777")
+if (interactive()) bs_theme_preview(with_themer = FALSE)
+
+# Since themes are sass layers, you can work with them
+# locally as if they were any other Sass layer
+# (i.e. you don't have to modify global state to add theme customizations)
+bs_theme_new("4+3")
+theme <- sass::sass_layer_merge(
+  bs_theme_get(),
+  sass::sass_layer(defaults = list("primary" = "red !default"))
 )
-# Include custom CSS that leverages bootstrap Sass variables
-person <- function(name, title, company) {
-  tags$div(
-    class = "person",
-    h3(class = "name", name),
-    div(class = "title", title),
-    div(class = "company", company)
-  )
-}
-browsable(tags$body(
-  bootstrap(),
-  person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
-  person("John D. Rockefeller", "Chairman", "Standard Oil")
-))
-
-
-# Once a theme has been set, you can get it, and see which
-# version/bootswatch was specified
-bs_theme_new(bootswatch = "cosmo")
-theme <- bs_theme_get()
-theme_version(theme)
-theme_bootswatch(theme)
-
-# Themes are just sass_layer(), so you can work with them locally
-# just like any other sass layer
-# https://rstudio.github.io/sass/articles/sass.html#layers
-class(theme)
-layer <- sass::sass_layer("$primary: red")
-theme <- sass::sass_layer_merge(theme, layer)
-bs_theme_set(theme)
+bootstrap_sass(
+  ".my-class { color: mix($primary, $secondary, 50\%); }",
+  theme
+)
 
 }
 \references{
 \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 
 \url{https://rstudio.github.io/sass/}
+}
+\seealso{
+\code{\link[=bootstrap]{bootstrap()}}, \code{\link[=bs_theme_preview]{bs_theme_preview()}}, \code{\link[=bs_theme_base_colors]{bs_theme_base_colors()}}, \code{\link[=bs_theme_add_variables]{bs_theme_add_variables()}}
 }

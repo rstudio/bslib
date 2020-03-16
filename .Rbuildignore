@@ -10,3 +10,4 @@ inst/lib/bootswatch3/.npmignore
 ^\.travis\.yml$
 docs
 ^_pkgdown\.yml$
+vignettes
