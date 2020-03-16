@@ -4,7 +4,7 @@
 [![Travis build
 status](https://travis-ci.org/rstudio/bootstraplib.svg?branch=master)](https://travis-ci.org/rstudio/bootstraplib)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/shinymeta)](https://cran.r-project.org/package=shinymeta)
+status](https://www.r-pkg.org/badges/version/bootstraplib)](https://cran.r-project.org/package=bootstraplib)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
