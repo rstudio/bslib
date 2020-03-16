@@ -23,6 +23,7 @@
 #'
 #' # Themes are stored globally, and if there is no theme present,
 #' # bs_theme_get() returns NULL
+#' bs_theme_clear()
 #' bs_theme_get()
 #'
 #' # Use latest Bootstrap version, default theme
@@ -32,7 +33,7 @@
 #' # necessary to compile Bootstrap, plus any theming customizations.
 #' class(bs_theme_get())
 #'
-#' # If you just want to know the
+#' # Helpful if you want to know the Bootstrap version of the current theme
 #' theme_version()
 #'
 #' # Preview the current theme styling in a shiny app
