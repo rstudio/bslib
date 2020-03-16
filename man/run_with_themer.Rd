@@ -35,7 +35,8 @@ more details on where that code should go.
 
 
 Currently, this utility only works with Bootstrap 4. We hope to add
-Bootstrap 3 compatibility in the future.
+Bootstrap 3 compatibility in the future. Also, the color picker currently
+doesn't render correctly on IE11.
 
 It also only works with Shiny apps and R Markdown apps that use the Shiny
 runtime. It's not possible to perform realtime preview for static R Markdown

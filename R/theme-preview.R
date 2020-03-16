@@ -180,7 +180,8 @@ bs_themer_ui <- function() {
 #' @section Limitations:
 #'
 #' Currently, this utility only works with Bootstrap 4. We hope to add
-#' Bootstrap 3 compatibility in the future.
+#' Bootstrap 3 compatibility in the future. Also, the color picker currently
+#' doesn't render correctly on IE11.
 #'
 #' It also only works with Shiny apps and R Markdown apps that use the Shiny
 #' runtime. It's not possible to perform realtime preview for static R Markdown
@@ -329,12 +330,24 @@ bs_themer <- function() {
     changed_vals <- take_and_use_values(changed_vals, bs_theme_fonts)
     take_and_use_values(changed_vals, bs_theme_add_variables, use_all_vals = TRUE)
 
-    css <- sass(bs_theme_get(), write_attachments = FALSE)
+    # Degrade sass() compilation errors to warnings so they don't crash the app
+    # Errors can happen if the users enters values that lead to unexpected Sass
+    # expressions (e.g., "$foo: * !default")
+    css <- tryCatch(
+      sass(bs_theme_get(), write_attachments = FALSE),
+      error = function(e) { warning(e$message); NULL }
+    )
+    if (!is.null(css)) {
+      shiny::insertUI(
+        "head", where = "beforeEnd",
+        ui = tags$style(
+          id = "bs-realtime-preview-styles",
+          htmltools::HTML(css)
+        )
+      )
+      shiny::removeUI("#bs-realtime-preview-styles:not(:last-child)")
+    }
 
-    shiny::insertUI("head", where = "beforeEnd", ui = tags$style(id = "bs-realtime-preview-styles",
-      htmltools::HTML(css)
-    ))
-    shiny::removeUI("#bs-realtime-preview-styles:not(:last-child)")
   })
 }
 
