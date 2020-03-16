@@ -308,7 +308,7 @@ bs_themer <- function() {
     changed_vals <- as.list(diff_css_values(vals, default_values))
 
     old_theme <- bs_theme_get()
-    on.exit(bs_theme_set(old_theme), add = TRUE, after = FALSE)
+    on.exit(bs_theme_set(old_theme), add = TRUE)
     if (is.null(old_theme)) {
       bs_theme_new()
     }

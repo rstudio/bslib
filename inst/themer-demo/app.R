@@ -4,6 +4,10 @@ library(bootstraplib)
 
 shinyOptions(plot.autotheme = TRUE)
 
+if (!is.null(bs_theme_get()) && !identical(version_default(), theme_version())) {
+  stop("This example app requires version = '", version_default(), "'", call. = FALSE)
+}
+
 tabPanel <- function(...) {
   shiny::tabPanel(..., class = "p-3 border rounded")
   # For tabs
