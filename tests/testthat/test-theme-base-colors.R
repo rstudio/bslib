@@ -1,7 +1,7 @@
 context("theme_base_colors")
 
 test_that("bs4 base colors", {
-  on.exit(bs_theme_clear(), add = TRUE, after = FALSE)
+  on.exit(bs_theme_clear(), add = TRUE)
 
   varnames <- c("yiq-text-light", "yiq-text-dark",
     "black", "white", paste0("gray-", 1:9 * 100), "body-bg", "body-color",
@@ -53,7 +53,7 @@ test_that("bs4 base colors", {
 })
 
 test_that("bs3 base colors", {
-  on.exit(bs_theme_clear(), add = TRUE, after = FALSE)
+  on.exit(bs_theme_clear(), add = TRUE)
 
   varnames <- c(
     "gray-base", "white",
