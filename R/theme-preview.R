@@ -111,7 +111,9 @@ bs_themer_ui <- function() {
   withTags(tagList(
     colorpicker_deps(),
     htmlDependency(
-      "bs_themer", version = packageVersion("bootstraplib"), src = "themer", script = "themer.js", package = "bootstraplib", all_files = FALSE
+      "bs_themer", version = packageVersion("bootstraplib"),
+      src = "themer", script = c("disable-bootstrap.js", "themer.js"),
+      package = "bootstraplib", all_files = FALSE
     ),
 
     div(id = "bsthemerContainer",
@@ -316,7 +318,6 @@ bs_themer <- function() {
 
     message("---")
 
-
     # Change variables names to their 'high-level' equivalents
     # Note that if _either_ fg/bg has changed, bs_theme_base_colors()
     # needs to be called with *both* fg and bg populated.
@@ -338,6 +339,13 @@ bs_themer <- function() {
       error = function(e) { warning(e$message); NULL }
     )
     if (!is.null(css)) {
+      # Find and disable the main bootstrap-custom.css that will likely
+      # be defined in the UI. Disabling this 'initial' stylesheet is needed
+      # for things like $enable-rounded to work properly because the initial
+      # stylesheet may still want to impose rules that would disappear entirely
+      # without it
+      session$sendCustomMessage("bootstraplib-themer-disable-bootstrap", list(disable = TRUE))
+      # Now, insert the newly compiled Bootstrap CSS
       shiny::insertUI(
         "head", where = "beforeEnd",
         ui = tags$style(
@@ -347,7 +355,6 @@ bs_themer <- function() {
       )
       shiny::removeUI("#bs-realtime-preview-styles:not(:last-child)")
     }
-
   })
 }
 
