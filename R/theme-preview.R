@@ -334,11 +334,19 @@ bs_themer <- function() {
     # Degrade sass() compilation errors to warnings so they don't crash the app
     # Errors can happen if the users enters values that lead to unexpected Sass
     # expressions (e.g., "$foo: * !default")
-    css <- tryCatch(
-      sass(bs_theme_get(), write_attachments = FALSE),
-      error = function(e) { warning(e$message); NULL }
-    )
-    if (!is.null(css)) {
+
+    css <- try(sass(bs_theme_get(), write_attachments = FALSE))
+    if (inherits(css, "try-error")) {
+      shiny::showNotification(
+        "Sass -> CSS compilation failed, likely due to invalid user input.
+         Other theming changes won't take effect until the invalid input is fixed.",
+        duration = NULL,
+        id = "sass-compilation-error",
+        type = "error",
+        session = session
+      )
+    } else {
+      shiny::removeNotification("sass-compilation-error", session = session)
       # Find and disable the main bootstrap-custom.css that will likely
       # be defined in the UI. Disabling this 'initial' stylesheet is needed
       # for things like $enable-rounded to work properly because the initial
