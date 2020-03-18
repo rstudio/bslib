@@ -62,9 +62,9 @@
     }
   },
   "Options": {
-    "enable-rounded": {
+    "enable-gradients": {
       "type": "bool",
-      "label": "Rounded corners",
+      "label": "Gradient backgrounds",
       "desc": null
     },
     "enable-shadows": {
@@ -72,9 +72,9 @@
       "label": "Box shadows",
       "desc": null
     },
-    "enable-gradients": {
+    "enable-rounded": {
       "type": "bool",
-      "label": "Gradient backgrounds",
+      "label": "Rounded corners",
       "desc": null
     },
     "enable-transitions": {
