@@ -13,13 +13,9 @@
 #' @examples
 #'
 #' bs_theme_new()
-#' bs_theme_add_variables(
-#'   "body-bg" = "#6c757d",
-#'   "body-color" = "white"
-#' )
-#' if (interactive()) {
-#'   bs_theme_preview()
-#' }
+#' bs_theme_base_colors("#6c757d", "white")
+#' bs_theme_accent_colors("orange")
+#' if (interactive()) bs_theme_preview()
 #'
 bs_theme_preview <- function(..., with_themer = TRUE) {
   # TODO: add more this demo and also an option for launching different demos
