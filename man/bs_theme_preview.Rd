@@ -4,12 +4,18 @@
 \alias{bs_theme_preview}
 \title{Preview the currently set theme}
 \usage{
-bs_theme_preview(..., with_themer = TRUE)
+bs_theme_preview(
+  ...,
+  with_themer = TRUE,
+  auto_theme = rlang::is_installed("thematic")
+)
 }
 \arguments{
 \item{...}{passed along to \code{\link[shiny:runApp]{shiny::runApp()}}}
 
 \item{with_themer}{whether or not to run the app with \code{\link[=run_with_themer]{run_with_themer()}}.}
+
+\item{auto_theme}{whether or not to ensure plot auto theming is enabled (requires thematic package).}
 }
 \description{
 Launches an example shiny app via \code{run_with_themer()} and \code{bootstrap()}.
@@ -22,13 +28,9 @@ The app that this launches is subject to change.
 \examples{
 
 bs_theme_new()
-bs_theme_add_variables(
-  "body-bg" = "#6c757d",
-  "body-color" = "white"
-)
-if (interactive()) {
-  bs_theme_preview()
-}
+bs_theme_base_colors("#6c757d", "white")
+bs_theme_accent_colors("orange")
+if (interactive()) bs_theme_preview()
 
 }
 \seealso{
