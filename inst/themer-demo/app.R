@@ -1,8 +1,9 @@
 library(shiny)
 library(ggplot2)
 library(bootstraplib)
+library(rlang)
 
-shinyOptions(plot.autotheme = TRUE)
+source("global.R")
 
 if (!is.null(bs_theme_get()) && !identical(version_default(), theme_version())) {
   stop("This example app requires version = '", version_default(), "'", call. = FALSE)
@@ -45,7 +46,9 @@ progressBar <- div(
 )
 
 
-# TODO: Add pills, renderPlot() autocolors, more inputs, progress, etc
+
+
+# TODO: more shiny inputs
 ui <- navbarPage(
   header = bootstraplib::bootstrap(),
   "Theming demo app",
@@ -74,9 +77,21 @@ ui <- navbarPage(
       ),
       mainPanel(
         tabsetPanel(
-          type= "pills",
+          type = "pills",
+          tabPanel(
+            "Plots",
+            selectizeInput(
+              "plot_example", "Choose an example",
+              selected = "GeomSmooth",
+              choices = list(
+                ggplot2 = names(ggplot2_examples),
+                lattice = names(lattice_examples),
+                base = names(base_examples)
+              )
+            ),
+            plotOutput("plot")
+          ),
           tabPanel("Tables", DT::dataTableOutput("dt_table")),
-          tabPanel("Plots", plotOutput("ggplot")),
           tabPanel(
             "Typography",
             h4("Verbatim text output"),
@@ -127,15 +142,15 @@ shinyApp(
   ui = ui,
   server = function(input, output, session) {
     output$dt_table <- DT::renderDataTable(mtcars)
-    output$ggplot <- renderPlot({
-      d <- diamonds[sample(nrow(diamonds), 500), ]
-      ggplot(diamonds, aes(carat, price)) +
-        geom_point(alpha = 0.2) +
-        geom_smooth() +
-        facet_wrap(~cut) +
-        ggtitle("Diamond price by carat and cut")
-    })
+
+    output$plot <- renderCachedPlot({
+      ggplot2_examples[[input$plot_example]] %||%
+        eval(lattice_examples[[input$plot_example]]) %||%
+        eval(base_examples[[input$plot_example]])
+    }, cacheKeyExpr = { list(input$plot_example) })
+
     output$txtout <- renderPrint(input$txt)
+
     observeEvent(input$progress, {
       withProgress(
         message = "Here's a progress bar",
@@ -149,6 +164,5 @@ shinyApp(
         }
       )
     })
-
   }
 )
