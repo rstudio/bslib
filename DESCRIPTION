@@ -52,4 +52,5 @@ Collate:
     'versions.R'
 Remotes: 
     rstudio/htmltools,
-    rstudio/shiny
+    rstudio/shiny,
+    rstudio/thematic

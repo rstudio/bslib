@@ -143,11 +143,11 @@ shinyApp(
   server = function(input, output, session) {
     output$dt_table <- DT::renderDataTable(mtcars)
 
-    output$plot <- renderCachedPlot({
+    output$plot <- renderPlot({
       ggplot2_examples[[input$plot_example]] %||%
         eval(lattice_examples[[input$plot_example]]) %||%
         eval(base_examples[[input$plot_example]])
-    }, cacheKeyExpr = { list(input$plot_example) })
+    })
 
     output$txtout <- renderPrint(input$txt)
 
