@@ -30,7 +30,8 @@ Suggests:
     rmarkdown,
     knitr,
     testthat,
-    digest
+    digest,
+    thematic
 License: MIT | file LICENSE
 Encoding: UTF-8
 LazyData: true
