@@ -9,19 +9,20 @@
 #' @export
 #' @param ... passed along to [shiny::runApp()]
 #' @param with_themer whether or not to run the app with [run_with_themer()].
+#' @param auto_theme whether or not to ensure plot auto theming is enabled (requires thematic package).
 #' @seealso [run_with_themer()]
 #' @examples
 #'
 #' bs_theme_new()
-#' bs_theme_add_variables(
-#'   "body-bg" = "#6c757d",
-#'   "body-color" = "white"
-#' )
-#' if (interactive()) {
-#'   bs_theme_preview()
-#' }
+#' bs_theme_base_colors("#6c757d", "white")
+#' bs_theme_accent_colors("orange")
+#' if (interactive()) bs_theme_preview()
 #'
-bs_theme_preview <- function(..., with_themer = TRUE) {
+bs_theme_preview <- function(..., with_themer = TRUE, auto_theme = rlang::is_installed("thematic")) {
+  if (auto_theme && is.null(thematic::thematic_get())) {
+    thematic::thematic_on()
+    shiny::onStop(thematic::thematic_off)
+  }
   # TODO: add more this demo and also an option for launching different demos
   app <- system.file("themer-demo", package = "bootstraplib")
   if (with_themer) {

@@ -12,7 +12,7 @@ vignette: >
 ```{r, include=FALSE}
 library(bootstraplib)
 knitr::opts_chunk$set(
-  out.width = "60%",
+  out.width = "80%",
   fig.align = "center"
 )
 ```
@@ -37,7 +37,7 @@ bs_theme_preview()
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/750Qc2a.png")
+knitr::include_graphics("https://i.imgur.com/h1jWMNq.png")
 ```
 
 ## Fonts
@@ -50,7 +50,7 @@ bs_theme_preview()
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/ZoCnJSV.png")
+knitr::include_graphics("https://i.imgur.com/xGde5wZ.png")
 ```
 
 As for font size, there is one main Sass variable, named `$font-size-base` (in both Bootstrap 3 and 4) that can be used to increase or decrease the base font size. For more granular control over font-sizes, consider searching through the Sass variables for `font-size` ([for example](https://github.com/rstudio/bootstraplib/blob/555f80d/inst/lib/bootstrap/scss/_variables.scss#L286-L304)) and setting variable(s) of interest.
@@ -79,16 +79,18 @@ shiny::runApp()
 
 ## Plots
 
-In [a future version of **shiny**](https://github.com/rstudio/shiny/pull/2740), `renderPlot()` (and `renderCachedPlot()`) will be able to use the foreground and background color of its HTML container to automatically apply intelligent theming defaults to **ggplot2**, **lattice**, and **base** graphics. That means, by just setting `shinyOptions(plot.autotheme = TRUE)` and (optionally) using `bs_theme_base_colors()`, your plots with change their default styling to look consistent with the rest of the application. Notice how, in addition to the foreground and background color, auto-theming will also use the link color (i.e. `primary`) as an `accent` color (see `?shiny::autoThemeOptions` for more info).
+The new [**thematic** package](https://github.com/rstudio/thematic) enables automatic theming of **ggplot2**, **lattice**, and **base** graphics based on the relevant HTML container's styling. This means, to get plot's to automatic inherit the app's styling, simply call: `thematic::thematic_on()`. Also, our app's styling uses a Google Font, we can set `font = "auto"`, and the plot's text will reflect the font family as well. Notice how, in addition to the foreground and background color, auto-theming uses the link color (i.e. `primary`) as an `accent` color. If desired, the `accent` color may be set directly in `thematic_on()` (or, to avoid a new default entirely, set `accent = NA`). 
 
 ```r
-# remotes::install_github("rstudio/shiny#2740")
-shinyOptions(plot.autotheme = TRUE)
+remotes::install_github("rstudio/thematic")
+library(thematic)
+thematic_on(font = "auto")
+shiny::onStop(thematic_off)
 bs_theme_preview()
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/DoesYAR.png")
+knitr::include_graphics("https://i.imgur.com/A2yqCIi.png")
 ```
 
 ## Tables
