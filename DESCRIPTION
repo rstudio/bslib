@@ -23,7 +23,7 @@ Imports:
     htmltools (>= 0.4.0.9003),
     jsonlite,
     sass (>= 0.2.0),
-    jquerylib,
+    jquerylib (>= 0.1.2),
     rlang
 Suggests:
     shiny (> 1.4.0.2),
@@ -51,6 +51,5 @@ Collate:
     'utils.R'
     'versions.R'
 Remotes: 
-    rstudio/htmltools,
-    rstudio/shiny,
-    rstudio/thematic
+    rstudio/thematic,
+    rstudio/jquerylib
