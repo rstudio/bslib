@@ -214,3 +214,17 @@ LICENSE <- c(
   readLines("https://raw.githubusercontent.com/popperjs/popper-core/master/LICENSE.md")
 )
 writeLines(LICENSE, "LICENSE")
+
+
+# Apply any patches to source
+patch_dir <- rprojroot::find_package_root_file("tools/patches")
+for (patch in list.files(patch_dir, full.names = TRUE)) {
+  tryCatch(
+    {
+      message(sprintf("Applying %s", basename(patch)))
+      system(sprintf("git apply '%s'", patch))
+    },
+    error = function(e) quit(save = "no", status = 1)
+  )
+}
+

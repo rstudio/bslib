@@ -1,0 +1,42 @@
+diff --git a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+index 898ef14..00d2eb3 100644
+--- a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
++++ b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+@@ -205,7 +205,7 @@ $input-border-radius-large:      $border-radius-large !default;
+ $input-border-radius-small:      $border-radius-small !default;
+ 
+ //** Border color for inputs on focus
+-$input-border-focus:             #66afe9 !default;
++$input-border-focus:             rgba($component-active-bg, .25) !default;
+ 
+ //** Placeholder text color
+ $input-color-placeholder:        #999 !default;
+@@ -501,20 +501,20 @@ $jumbotron-heading-font-size:    ceil(($font-size-base * 4.5)) !default;
+ //
+ //## Define colors for form feedback states and, by default, alerts.
+ 
+-$state-success-text:             #3c763d !default;
+-$state-success-bg:               #dff0d8 !default;
++$state-success-text:             mix($gray-base, $brand-success, 33%) !default;
++$state-success-bg:               mix($body-bg, $brand-success, 80%) !default;
+ $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
+ 
+-$state-info-text:                #31708f !default;
+-$state-info-bg:                  #d9edf7 !default;
++$state-info-text:                mix($gray-base, $brand-info, 35%) !default;
++$state-info-bg:                  mix($body-bg, $brand-info, 80%) !default;
+ $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
+ 
+-$state-warning-text:             #8a6d3b !default;
+-$state-warning-bg:               #fcf8e3 !default;
++$state-warning-text:             mix($gray-base, $brand-warning, 40%) !default;
++$state-warning-bg:               mix($body-bg, $brand-warning, 80%) !default;
+ $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
+ 
+-$state-danger-text:              #a94442 !default;
+-$state-danger-bg:                #f2dede !default;
++$state-danger-text:              mix($gray-base, $brand-danger, 20%) !default;
++$state-danger-bg:                mix($body-bg, $brand-danger, 80%) !default;
+ $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
+ 
+ 
