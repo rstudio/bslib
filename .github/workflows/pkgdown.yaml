@@ -57,6 +57,12 @@ jobs:
           pkgdown::build_reference_index()
           stopifnot(length(warnings()) == 0)
 
+      - name: git setup
+        if: github.event_name == 'push'
+        run: |
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
+            git config --local user.name "${GITHUB_ACTOR}"
+
       - name: Build and Deploy Site
         if: github.event_name == 'push'
         run: pkgdown::deploy_to_branch(new_process = FALSE)
