@@ -43,9 +43,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "vctrs", "pkgdown"))
-          install.packages(c("GGally", "RColorBrewer", "patchwork"))
-          remotes::install_github("rstudio/bootstraplib")
+          install.packages(c("remotes", "pkgdown"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
