@@ -54,3 +54,13 @@ reference:
     - theme_bootswatch
     - bootswatch_themes
     - version_default
+
+
+#template:
+#  params:
+#    docsearch:
+#      api_key:
+#      index_name: rstudio_bootstraplib
+
+development:
+  mode: auto

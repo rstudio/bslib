@@ -1,30 +1,31 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/rstudio/bootstraplib.svg?branch=master)](https://travis-ci.org/rstudio/bootstraplib)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/bootstraplib)](https://cran.r-project.org/package=bootstraplib)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build
+status](https://github.com/rstudio/bootstraplib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bootstraplib/actions)
 <!-- badges: end -->
 
-# bootstraplib
+bootstraplib
+============
 
 Tools for styling **shiny** and **rmarkdown** from R via Bootstrap (3 or
 4) Sass.
 
-## Installation
+Installation
+------------
 
 **bootstraplib** isn’t yet available from CRAN, but you can install
 with:
 
-``` r
-remotes::install_github("rstudio/bootstraplib")
-library(bootstraplib)
-```
+    remotes::install_github("rstudio/bootstraplib")
+    library(bootstraplib)
 
-## Introduction
+Introduction
+------------
 
 The **bootstraplib** R package provides tools for compiling and working
 with [Bootstrap
@@ -42,42 +43,36 @@ see the notes below to start using it today.
 To start using **bootstraplib** in your **shiny** apps today, install
 `remotes::install_github("rstudio/shiny")`, then do the following:
 
-1)  Call `bs_theme_new()` and optionally specify a Bootstrap `version`
+1.  Call `bs_theme_new()` and optionally specify a Bootstrap `version`
     and [`bootswatch` theme](https://bootswatch.com/). The current
     default is Bootstrap 4 (with added added Bootstrap 3 compatibility)
     and no `bootswatch` theme:
 
-<!-- end list -->
+<!-- -->
 
-``` r
-bs_theme_new(version = "4+3", bootswatch = NULL)
-```
+    bs_theme_new(version = "4+3", bootswatch = NULL)
 
-2)  Once a (global) theme is initialized, you may start adding theming
+1.  Once a (global) theme is initialized, you may start adding theming
     customizations (learn more about customizations in the
     [recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html)
     and
     [foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html)
     articles):
 
-<!-- end list -->
+<!-- -->
 
-``` r
-bs_theme_base_colors(bg = "salmon", fg = "white")
-```
+    bs_theme_base_colors(bg = "salmon", fg = "white")
 
-3)  Add `bootstrap()` to your user interface (this step likely won’t be
+1.  Add `bootstrap()` to your user interface (this step likely won’t be
     needed in a future version of **shiny**).
 
-<!-- end list -->
+<!-- -->
 
-``` r
-library(shiny)
-fluidPage(
-  bootstrap(),
-  titlePanel("Hello world!")
-)
-```
+    library(shiny)
+    fluidPage(
+      bootstrap(),
+      titlePanel("Hello world!")
+    )
 
 <img src="https://i.imgur.com/3wcFKFs.png" width="50%" style="display: block; margin: auto;" />
 
@@ -87,31 +82,28 @@ To start using **bootstraplib** in your `rmarkdown::html_document`s,
 install `remotes::install_github("rstudio/rmarkdown#1706")`, then do the
 following:
 
-1)  Use `bootstrap_version` and `theme` to choose the Bootstrap version
+1.  Use `bootstrap_version` and `theme` to choose the Bootstrap version
     and a Bootswatch theme. These arguments are currently supported only
     in `html_document` and `html_document_base`.
 
-<!-- end list -->
+<!-- -->
 
-``` yaml
----
-output:
-  html_document:
-    bootstrap_version: 4+3
-    theme: minty
----
-```
+    ---
+    output:
+      html_document:
+        bootstrap_version: 4+3
+        theme: minty
+    ---
 
-2)  Optionally add theme customizations inside any R code chunk (these
+1.  Optionally add theme customizations inside any R code chunk (these
     customizations end up influencing the Bootstrap CSS included in the
     output document).
-    
-    ``` {r}
-    library(bootstraplib)
-    bs_theme_accent_colors(primary = 'green')
-    ```
 
-## Choosing a version
+        library(bootstraplib)
+        bs_theme_accent_colors(primary = 'green')
+
+Choosing a version
+------------------
 
 The **bootstraplib** package currently supports three different
 `version`s: `"4+3"`, `4`, and `3`. In the future, when Bootstrap
@@ -133,7 +125,8 @@ Bootstrap 4 theming experience. If you’re not interested in upgrading to
 Bootstrap 4, and would rather theme your Bootstrap 3 project today, you
 may want to consider [using **fresh**](#fresh) in the near term.
 
-## Interactive theming
+Interactive theming
+-------------------
 
 **bootstraplib** also comes with tools for interactive theming of
 **shiny** apps (and **rmarkdown** documents with `runtime: shiny`).
@@ -143,21 +136,21 @@ theming. Note that as you interactively theme your application, code is
 printed to the R console that you can copy/paste to adopt those changes
 in your theming code.
 
-``` r
-bs_theme_new(bootswatch = "sketchy")
-bs_theme_preview()
-```
+    bs_theme_new(bootswatch = "sketchy")
+    bs_theme_preview()
 
 <img src="https://i.imgur.com/il6nd8J.gif" width="80%" style="display: block; margin: auto;" />
 
-## Learn more
+Learn more
+----------
 
 See the articles on [theming
 recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html)
 and
 [foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html).
 
-## Similar work
+Similar work
+------------
 
 The [**fresh** package](https://github.com/dreamRs/fresh) offers an
 alternative (& currently more user friendly) approach to theming via
@@ -176,7 +169,6 @@ focused on laying an extensible foundation for theming with Bootstrap 3
 
 To learn more, see the article on using **bootstraplib** with [**shiny**](articles/shiny.html) and [**rmarkdown**](articles/rmarkdown.html), as well as creating [custom Bootstrap themes](articles/custom.html).
 -->
-
 <!--
 ## Via bs4 {#bs4}
 

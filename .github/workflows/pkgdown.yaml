@@ -1,0 +1,69 @@
+on:
+  push:
+    branches: master
+  pull_request:
+    branches:
+      - master
+
+name: pkgdown
+
+jobs:
+  pkgdown:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: release
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes", "pkgdown"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Install package
+        run: R CMD INSTALL .
+
+      - name: Build Site (PR)
+        if: github.event_name != 'push'
+        run: pkgdown::build_site()
+        shell: Rscript {0}
+
+      - name: Validate all topics exist (PR)
+        if: github.event_name != 'push'
+        shell: Rscript {0}
+        run: |
+          pkgdown::build_reference_index()
+          stopifnot(length(warnings()) == 0)
+
+      - name: git setup
+        if: github.event_name == 'push'
+        run: |
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
+            git config --local user.name "${GITHUB_ACTOR}"
+
+      - name: Build and Deploy Site
+        if: github.event_name == 'push'
+        run: pkgdown::deploy_to_branch(new_process = FALSE)
+        shell: Rscript {0}
