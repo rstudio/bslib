@@ -11,3 +11,4 @@ inst/lib/bootswatch3/.npmignore
 docs
 ^_pkgdown\.yml$
 vignettes
+^\.github$
