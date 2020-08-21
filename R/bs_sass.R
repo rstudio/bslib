@@ -105,7 +105,7 @@ bootstrap <- function(theme = bs_theme_get(),
 bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
   theme <- as_bs_theme(theme)
   theme$rules <- ""
-  sass::sass(input = list(theme, rules), write_attachments = FALSE, ...)
+  sass::sass(input = list(theme, rules), ...)
 }
 
 
