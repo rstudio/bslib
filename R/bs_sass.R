@@ -50,7 +50,7 @@
 #' preview_button(bootstrap("solar@4+3"))
 #'
 bootstrap <- function(theme = bs_theme_get(),
-                      options = sass::sass_options(output_style = "compressed", source_map_embed = TRUE),
+                      options = sass::sass_options(output_style = "compressed"),
                       cache_options = sass::sass_cache_options(),
                       jquery = jquerylib::jquery_core(3)) {
 
