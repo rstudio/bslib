@@ -38,6 +38,8 @@ interactive R sessions, and turned on for non-interactive ones.}
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
 \item{rules}{Sass styling rules that may reference \code{theme} \code{defaults} and \code{declarations}.}
+
+\item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}.}
 }
 \value{
 a list of HTML dependencies containing Bootstrap CSS, Bootstrap JavaScript, and \code{jquery}.
