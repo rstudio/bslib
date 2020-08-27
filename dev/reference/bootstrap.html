@@ -140,10 +140,9 @@ as a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
 
     <pre class="usage"><span class='fu'>bootstrap</span>(
   <span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'><a href='theming.html'>bs_theme_get</a></span>(),
-  <span class='kw'>jquery</span> <span class='kw'>=</span> <span class='kw pkg'>jquerylib</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>),
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(),
-  <span class='kw'>minified</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
+  <span class='kw'>sass_options</span> <span class='kw'>=</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(<span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"compressed"</span>),
+  <span class='kw'>cache_options</span> <span class='kw'>=</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_options.html'>sass_cache_options</a></span>(),
+  <span class='kw'>jquery</span> <span class='kw'>=</span> <span class='kw pkg'>jquerylib</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>)
 )
 
 <span class='fu'>bootstrap_sass</span>(<span class='kw'>rules</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'><a href='theming.html'>bs_theme_get</a></span>(), <span class='no'>...</span>)</pre>
@@ -167,28 +166,34 @@ custom layers to the current theme without affecting the global state (e.g.,
 </ol></td>
     </tr>
     <tr>
+      <th>sass_options</th>
+      <td><p>see <code><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass::sass_options()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>cache_options</th>
+      <td><p>Caching options for Sass. Please specify options using
+<code><a href='https://rdrr.io/pkg/sass/man/sass_cache_options.html'>sass_cache_options</a></code>. Caching is turned off by default for
+interactive R sessions, and turned on for non-interactive ones.</p></td>
+    </tr>
+    <tr>
       <th>jquery</th>
       <td><p>See <code><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquerylib::jquery_core()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>options</th>
-      <td><p>Compiler options for Sass. Please specify options using
-<code><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>minified</th>
-      <td><p>whether the resulting HTML dependency should minify the JS/CSS files.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>arguments passed along to <code><a href='https://rdrr.io/pkg/sass/man/sass.html'>sass::sass()</a></code></p></td>
     </tr>
     <tr>
       <th>rules</th>
       <td><p>Sass styling rules that may reference <code>theme</code> <code>defaults</code> and <code>declarations</code>.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments passed along to <code><a href='https://rdrr.io/pkg/sass/man/sass.html'>sass::sass()</a></code>.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap JavaScript, and <code>jquery</code>.
+This list may contain additional HTML dependencies if the <code>theme</code> calls for it (e.g., <code>version = "4+3"</code>
+contains an additional JavaScript dependency).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='theming.html'>bs_theme_set()</a></code></p></div>
