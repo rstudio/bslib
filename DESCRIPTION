@@ -52,5 +52,5 @@ Collate:
     'versions.R'
 Remotes:
     rstudio/thematic,
-    rstudio/jquerylib
+    rstudio/jquerylib,
     rstudio/sass@disk-cache
