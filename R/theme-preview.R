@@ -46,12 +46,16 @@ colorpicker_deps <- function() {
   )
 }
 
-opts_metadata <- jsonlite::fromJSON(system_file("themer/options.json", package = "bootstraplib"),
-  simplifyDataFrame = FALSE)
+opts_metadata <- function() {
+  jsonlite::fromJSON(
+    system_file("themer/options.json", package = "bootstraplib"),
+    simplifyDataFrame = FALSE
+  )
+}
 
 bs_themer_ui <- function() {
 
-  computed_defaults <- bs_theme_get_variables(unlist(unname(lapply(opts_metadata, names))))
+  computed_defaults <- bs_theme_get_variables(unlist(unname(lapply(opts_metadata(), names))))
 
   make_control <- function(id, lbl, default_value, type, desc = NULL) {
     default_value <- computed_defaults[[id]]
@@ -106,7 +110,7 @@ bs_themer_ui <- function() {
     }
   }
 
-  opts <- lapply(opts_metadata, function(opt_infos) {
+  opts <- lapply(opts_metadata(), function(opt_infos) {
     mapply(names(opt_infos), opt_infos, FUN = function(name, opt_info) {
       make_control(name, opt_info$label, opt_info$default, opt_info$type, opt_info$desc)
     }, USE.NAMES = FALSE, SIMPLIFY = FALSE)
