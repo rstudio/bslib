@@ -61,23 +61,34 @@ bootstrap <- function(theme = bs_theme_get(),
   )
   opts <- utils::modifyList(opts, options)
 
-  # Temp dir for building the HTML dependencies
-  output_path <- tempfile("bscustom")
-  dir.create(output_path)
+  cache_key <- sass::sass_cache_key(theme, opts)
 
-  # Compile sass in temp dir
-  output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
-  sass::sass(
-    input = theme,
-    output = file.path(output_path, output_css),
-    write_attachments = TRUE,
-    options = opts,
-    ...
+  # Temp dir for building the HTML dependencies
+  output_path <- file.path(
+    tempdir(),
+    "bootstraplib",
+    paste0("bootstrap-", cache_key)
   )
 
+  output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
   version <- theme_version(theme)
   js <- bootstrap_javascript(version, minified)
-  file.copy(js, output_path)
+
+  # If the output path already exists, then
+  if (!dir.exists(output_path)) {
+    dir.create(output_path, recursive = TRUE)
+
+    # Compile sass in temp dir
+    sass::sass(
+      input = theme,
+      output = file.path(output_path, output_css),
+      write_attachments = TRUE,
+      options = opts,
+      ...
+    )
+
+    file.copy(js, output_path)
+  }
 
   c(
     if (inherits(jquery, "html_dependency")) list(jquery) else jquery,
