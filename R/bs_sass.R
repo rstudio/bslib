@@ -20,6 +20,7 @@
 #'   4. A [sass::sass_layer()] which contains a bootstraplib theme. Useful for adding
 #'   custom layers to the current theme without affecting the global state (e.g.,
 #'   `sass::sass_layer_merge(bs_theme_get(), my_layer())`).
+#' @param sass_options see [sass::sass_options()].
 #' @param jquery See [jquerylib::jquery_core()].
 #' @inheritParams sass::sass
 #'
@@ -50,7 +51,7 @@
 #' preview_button(bootstrap("solar@4+3"))
 #'
 bootstrap <- function(theme = bs_theme_get(),
-                      options = sass::sass_options(output_style = "compressed"),
+                      sass_options = sass::sass_options(output_style = "compressed"),
                       cache_options = sass::sass_cache_options(),
                       jquery = jquerylib::jquery_core(3)) {
 
@@ -61,11 +62,11 @@ bootstrap <- function(theme = bs_theme_get(),
   dir.create(output_path)
 
   # Compile sass in temp dir
-  minified <- isTRUE(options$output_style %in% c("compressed", "compact"))
+  minified <- isTRUE(sass_options$output_style %in% c("compressed", "compact"))
   output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
   sass::sass(
     input = theme,
-    options = options,
+    options = sass_options,
     output = file.path(output_path, output_css),
     cache_options = cache_options,
     write_attachments = TRUE

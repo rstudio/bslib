@@ -7,7 +7,7 @@
 \usage{
 bootstrap(
   theme = bs_theme_get(),
-  options = sass::sass_options(output_style = "compressed", source_map_embed = TRUE),
+  sass_options = sass::sass_options(output_style = "compressed"),
   cache_options = sass::sass_cache_options(),
   jquery = jquerylib::jquery_core(3)
 )
@@ -29,8 +29,7 @@ custom layers to the current theme without affecting the global state (e.g.,
 \code{sass::sass_layer_merge(bs_theme_get(), my_layer())}).
 }}
 
-\item{options}{Compiler options for Sass. Please specify options using
-\code{\link[sass]{sass_options}}.}
+\item{sass_options}{see \code{\link[sass:sass_options]{sass::sass_options()}}.}
 
 \item{cache_options}{Caching options for Sass. Please specify options using
 \code{\link[sass]{sass_cache_options}}. Caching is turned off by default for
