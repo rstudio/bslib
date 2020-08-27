@@ -61,7 +61,16 @@ bootstrap <- function(theme = bs_theme_get(),
   )
   opts <- utils::modifyList(opts, options)
 
-  cache_key <- sass::sass_cache_key(theme, opts)
+  output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
+  version <- theme_version(theme)
+  js <- bootstrap_javascript(version, minified)
+
+  cache_key <- sass::sass_hash(list(
+      theme,
+      opts,
+      get_exact_version(version),
+      utils::packageVersion("bootstraplib")
+  ))
 
   # Temp dir for building the HTML dependencies
   output_path <- file.path(
@@ -69,10 +78,6 @@ bootstrap <- function(theme = bs_theme_get(),
     "bootstraplib",
     paste0("bootstrap-", cache_key)
   )
-
-  output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
-  version <- theme_version(theme)
-  js <- bootstrap_javascript(version, minified)
 
   # If the output path already exists, then
   if (!dir.exists(output_path)) {
@@ -95,7 +100,7 @@ bootstrap <- function(theme = bs_theme_get(),
     list(
       htmlDependency(
         "bootstrap",
-        if (version %in% "3") version_bs3 else version_bs4,
+        get_exact_version(version),
         src = output_path,
         meta = c(
           name = "viewport",

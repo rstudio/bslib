@@ -7,6 +7,10 @@ version_resolve <- function(version) {
   match.arg(version, c("4+3", "4", "3"))
 }
 
+get_exact_version <- function(version) {
+  if (version %in% "3") version_bs3 else version_bs4
+}
+
 lib_file <- function(...) {
   file <- system_file("lib", ..., package = "bootstraplib")
   if (file != "") return(file)
