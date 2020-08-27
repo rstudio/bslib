@@ -87,9 +87,9 @@ bootstrap_javascript <- function(version, minified = TRUE) {
 
 bs3compat_layer <- function() {
   sass_layer(
-    defaults = sass_file(system.file("bs3compat", "_defaults.scss", package = "bootstraplib")),
-    declarations = sass_file(system.file("bs3compat", "_declarations.scss", package = "bootstraplib")),
-    rules = sass_file(system.file("bs3compat", "_rules.scss", package = "bootstraplib")),
+    defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bootstraplib")),
+    declarations = sass_file(system_file("bs3compat", "_declarations.scss", package = "bootstraplib")),
+    rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bootstraplib")),
     # Gyliphicon font files
     file_attachments = c(
       fonts = lib_file("bootstrap-sass/assets/fonts")
@@ -117,7 +117,7 @@ bootswatch_layer <- function(bootswatch, version) {
   attachments <- if (file.exists(font_css)) {
     c(
       "font.css" = font_css,
-      fonts = system.file("fonts", package = "bootstraplib")
+      fonts = system_file("fonts", package = "bootstraplib")
     )
   }
 

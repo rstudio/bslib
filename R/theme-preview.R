@@ -1,3 +1,6 @@
+#' @include utils.R
+NULL
+
 #' Preview the currently set theme
 #'
 #' Launches an example shiny app via `run_with_themer()` and `bootstrap()`.
@@ -24,7 +27,7 @@ bs_theme_preview <- function(..., with_themer = TRUE, auto_theme = rlang::is_ins
     shiny::onStop(thematic::thematic_off)
   }
   # TODO: add more this demo and also an option for launching different demos
-  app <- system.file("themer-demo", package = "bootstraplib")
+  app <- system_file("themer-demo", package = "bootstraplib")
   if (with_themer) {
     run_with_themer(app, ...)
   } else {
@@ -43,7 +46,7 @@ colorpicker_deps <- function() {
   )
 }
 
-opts_metadata <- jsonlite::fromJSON(system.file("themer/options.json", package = "bootstraplib"),
+opts_metadata <- jsonlite::fromJSON(system_file("themer/options.json", package = "bootstraplib"),
   simplifyDataFrame = FALSE)
 
 bs_themer_ui <- function() {
@@ -129,7 +132,7 @@ bs_themer_ui <- function() {
           "data-toggle" = "collapse", "data-target" = "#bsthemerAccordion",
           style = css(cursor = "pointer"),
           tags$span(),
-          tags$style(HTML(bootstrap_sass(sass::sass_file(system.file("themer/themer.scss", package = "bootstraplib")))))
+          tags$style(HTML(bootstrap_sass(sass::sass_file(system_file("themer/themer.scss", package = "bootstraplib")))))
         )
       ),
 
