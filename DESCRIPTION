@@ -53,4 +53,4 @@ Collate:
 Remotes:
     rstudio/thematic,
     rstudio/jquerylib,
-    rstudio/sass@disk-cache
+    rstudio/sass
