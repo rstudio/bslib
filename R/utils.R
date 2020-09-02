@@ -75,6 +75,10 @@ system_file <- local({
   package_dir_cache <- character()
 
   function(..., package = "base") {
+    if (!is.null(names(list(...)))) {
+      stop("All arguments other than `package` must be unnamed.")
+    }
+
     if (package %in% names(package_dir_cache)) {
       package_dir <- package_dir_cache[[package]]
     } else {
