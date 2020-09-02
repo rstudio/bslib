@@ -52,7 +52,7 @@
 #'
 bootstrap <- function(theme = bs_theme_get(),
                       sass_options = sass::sass_options(output_style = "compressed"),
-                      cache_options = sass::sass_cache_options(),
+                      cache = sass::sass_cache_get(),
                       jquery = jquerylib::jquery_core(3)) {
 
   theme <- as_bs_theme(theme)
@@ -84,7 +84,7 @@ bootstrap <- function(theme = bs_theme_get(),
       input = theme,
       options = sass_options,
       output = file.path(output_path, output_css),
-      cache_options = cache_options,
+      cache = cache,
       write_attachments = TRUE
     )
 

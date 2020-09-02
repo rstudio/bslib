@@ -8,7 +8,7 @@
 bootstrap(
   theme = bs_theme_get(),
   sass_options = sass::sass_options(output_style = "compressed"),
-  cache_options = sass::sass_cache_options(),
+  cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3)
 )
 
@@ -31,9 +31,8 @@ custom layers to the current theme without affecting the global state (e.g.,
 
 \item{sass_options}{see \code{\link[sass:sass_options]{sass::sass_options()}}.}
 
-\item{cache_options}{Caching options for Sass. Please specify options using
-\code{\link[sass]{sass_cache_options}}. Caching is turned off by default for
-interactive R sessions, and turned on for non-interactive ones.}
+\item{cache}{A \link[sass]{FileCache} object created by \code{\link[sass:sass_file_cache]{sass_file_cache()}}, or \code{NULL}
+for no caching.}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
