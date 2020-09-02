@@ -20,10 +20,13 @@
 #'   4. A [sass::sass_layer()] which contains a bootstraplib theme. Useful for adding
 #'   custom layers to the current theme without affecting the global state (e.g.,
 #'   `sass::sass_layer_merge(bs_theme_get(), my_layer())`).
+#' @param sass_options see [sass::sass_options()].
 #' @param jquery See [jquerylib::jquery_core()].
-#' @param minified whether the resulting HTML dependency should minify the JS/CSS files.
-#' @param ... arguments passed along to [sass::sass()]
 #' @inheritParams sass::sass
+#'
+#' @return a list of HTML dependencies containing Bootstrap CSS, Bootstrap JavaScript, and `jquery`.
+#' This list may contain additional HTML dependencies if the `theme` calls for it (e.g., `version = "4+3"`
+#' contains an additional JavaScript dependency).
 #'
 #' @export
 #' @seealso [bs_theme_set()]
@@ -48,28 +51,21 @@
 #' preview_button(bootstrap("solar@4+3"))
 #'
 bootstrap <- function(theme = bs_theme_get(),
-                      jquery = jquerylib::jquery_core(3),
-                      options = sass::sass_options(),
-                      minified = TRUE, ...) {
+                      sass_options = sass::sass_options(output_style = "compressed"),
+                      cache_options = sass::sass_cache_options(),
+                      jquery = jquerylib::jquery_core(3)) {
 
   theme <- as_bs_theme(theme)
-
-  # Merge sass options
-  opts <- sass_options(
-    output_style = if (minified) "compressed" else "expanded",
-    source_map_embed = minified
-  )
-  opts <- utils::modifyList(opts, options)
-
-  output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
   version <- theme_version(theme)
+  minified <- isTRUE(sass_options$output_style %in% c("compressed", "compact"))
+  output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
   js <- bootstrap_javascript(version, minified)
 
   cache_key <- sass::sass_hash(list(
-      theme,
-      opts,
-      get_exact_version(version),
-      utils::packageVersion("bootstraplib")
+    theme,
+    sass_options,
+    get_exact_version(version),
+    utils::packageVersion("bootstraplib")
   ))
 
   # Temp dir for building the HTML dependencies
@@ -79,17 +75,17 @@ bootstrap <- function(theme = bs_theme_get(),
     paste0("bootstrap-", cache_key)
   )
 
-  # If the output path already exists, then
+  # If the output path already exists, then we don't need to write anything.
   if (!dir.exists(output_path)) {
     dir.create(output_path, recursive = TRUE)
 
     # Compile sass in temp dir
     sass::sass(
       input = theme,
+      options = sass_options,
       output = file.path(output_path, output_css),
-      write_attachments = TRUE,
-      options = opts,
-      ...
+      cache_options = cache_options,
+      write_attachments = TRUE
     )
 
     file.copy(js, output_path)
@@ -100,7 +96,7 @@ bootstrap <- function(theme = bs_theme_get(),
     list(
       htmlDependency(
         "bootstrap",
-        get_exact_version(version),
+        if (version %in% "3") version_bs3 else version_bs4,
         src = output_path,
         meta = c(
           name = "viewport",
@@ -117,6 +113,7 @@ bootstrap <- function(theme = bs_theme_get(),
 
 #' @rdname bootstrap
 #' @param rules Sass styling rules that may reference `theme` `defaults` and `declarations`.
+#' @param ... arguments passed along to [sass::sass()].
 #' @export
 bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
   theme <- as_bs_theme(theme)

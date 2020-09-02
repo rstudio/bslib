@@ -7,10 +7,9 @@
 \usage{
 bootstrap(
   theme = bs_theme_get(),
-  jquery = jquerylib::jquery_core(3),
-  options = sass::sass_options(),
-  minified = TRUE,
-  ...
+  sass_options = sass::sass_options(output_style = "compressed"),
+  cache_options = sass::sass_cache_options(),
+  jquery = jquerylib::jquery_core(3)
 )
 
 bootstrap_sass(rules = list(), theme = bs_theme_get(), ...)
@@ -30,16 +29,22 @@ custom layers to the current theme without affecting the global state (e.g.,
 \code{sass::sass_layer_merge(bs_theme_get(), my_layer())}).
 }}
 
+\item{sass_options}{see \code{\link[sass:sass_options]{sass::sass_options()}}.}
+
+\item{cache_options}{Caching options for Sass. Please specify options using
+\code{\link[sass]{sass_cache_options}}. Caching is turned off by default for
+interactive R sessions, and turned on for non-interactive ones.}
+
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
-\item{options}{Compiler options for Sass. Please specify options using
-\code{\link[sass]{sass_options}}.}
-
-\item{minified}{whether the resulting HTML dependency should minify the JS/CSS files.}
-
-\item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}}
-
 \item{rules}{Sass styling rules that may reference \code{theme} \code{defaults} and \code{declarations}.}
+
+\item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}.}
+}
+\value{
+a list of HTML dependencies containing Bootstrap CSS, Bootstrap JavaScript, and \code{jquery}.
+This list may contain additional HTML dependencies if the \code{theme} calls for it (e.g., \code{version = "4+3"}
+contains an additional JavaScript dependency).
 }
 \description{
 Use \code{bootstrap()} to compile Bootstrap Sass into CSS and return it,
