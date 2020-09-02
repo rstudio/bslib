@@ -141,7 +141,7 @@ as a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
     <pre class="usage"><span class='fu'>bootstrap</span>(
   <span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'><a href='theming.html'>bs_theme_get</a></span>(),
   <span class='kw'>sass_options</span> <span class='kw'>=</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(<span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"compressed"</span>),
-  <span class='kw'>cache_options</span> <span class='kw'>=</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_options.html'>sass_cache_options</a></span>(),
+  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_get.html'>sass_cache_get</a></span>(),
   <span class='kw'>jquery</span> <span class='kw'>=</span> <span class='kw pkg'>jquerylib</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>)
 )
 
@@ -170,10 +170,9 @@ custom layers to the current theme without affecting the global state (e.g.,
       <td><p>see <code><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass::sass_options()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>cache_options</th>
-      <td><p>Caching options for Sass. Please specify options using
-<code><a href='https://rdrr.io/pkg/sass/man/sass_cache_options.html'>sass_cache_options</a></code>. Caching is turned off by default for
-interactive R sessions, and turned on for non-interactive ones.</p></td>
+      <th>cache</th>
+      <td><p>A <a href='https://rdrr.io/pkg/sass/man/FileCache.html'>FileCache</a> object created by <code><a href='https://rdrr.io/pkg/sass/man/sass_file_cache.html'>sass_file_cache()</a></code>, or <code>NULL</code>
+for no caching.</p></td>
     </tr>
     <tr>
       <th>jquery</th>
