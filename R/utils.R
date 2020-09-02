@@ -7,8 +7,12 @@ version_resolve <- function(version) {
   match.arg(version, c("4+3", "4", "3"))
 }
 
+get_exact_version <- function(version) {
+  if (version %in% "3") version_bs3 else version_bs4
+}
+
 lib_file <- function(...) {
-  file <- system.file("lib", ..., package = "bootstraplib")
+  file <- system_file("lib", ..., package = "bootstraplib")
   if (file != "") return(file)
   stop(
     "bootstraplib file not found: '", file.path(...), "'",
@@ -63,3 +67,25 @@ color_yiq <- function(r, g, b) {
 color_yiq_islight <- function(r, g, b, threshold = 150) {
   color_yiq(r, g, b) >= threshold
 }
+
+
+# Wrapper around base::system.file. In base::system.file, the package directory
+# lookup is a bit slow. This caches the package directory, so it is much faster.
+system_file <- local({
+  package_dir_cache <- character()
+
+  function(..., package = "base") {
+    if (!is.null(names(list(...)))) {
+      stop("All arguments other than `package` must be unnamed.")
+    }
+
+    if (package %in% names(package_dir_cache)) {
+      package_dir <- package_dir_cache[[package]]
+    } else {
+      package_dir <- system.file(package = package)
+      package_dir_cache[[package]] <<- package_dir
+    }
+
+    file.path(package_dir, ...)
+  }
+})

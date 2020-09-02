@@ -18,11 +18,11 @@ Authors@R: c(
     )
 Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
 Depends: R (>= 2.10)
-Imports: 
+Imports:
     grDevices,
     htmltools (>= 0.4.0.9003),
     jsonlite,
-    sass (>= 0.2.0),
+    sass (>= 0.2.0.9001),
     jquerylib (>= 0.1.2),
     rlang
 Suggests:
@@ -38,7 +38,7 @@ LazyData: true
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
-Collate: 
+Collate:
     'bootswatch.R'
     'bs_sass.R'
     'files.R'
@@ -46,10 +46,11 @@ Collate:
     'layers.R'
     'theme-add.R'
     'theme-custom.R'
+    'utils.R'
     'theme-preview.R'
     'themes.R'
-    'utils.R'
     'versions.R'
-Remotes: 
+Remotes:
     rstudio/thematic,
-    rstudio/jquerylib
+    rstudio/jquerylib,
+    rstudio/sass

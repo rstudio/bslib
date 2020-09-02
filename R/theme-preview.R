@@ -1,3 +1,6 @@
+#' @include utils.R
+NULL
+
 #' Preview the currently set theme
 #'
 #' Launches an example shiny app via `run_with_themer()` and `bootstrap()`.
@@ -24,7 +27,7 @@ bs_theme_preview <- function(..., with_themer = TRUE, auto_theme = rlang::is_ins
     shiny::onStop(thematic::thematic_off)
   }
   # TODO: add more this demo and also an option for launching different demos
-  app <- system.file("themer-demo", package = "bootstraplib")
+  app <- system_file("themer-demo", package = "bootstraplib")
   if (with_themer) {
     run_with_themer(app, ...)
   } else {
@@ -43,12 +46,16 @@ colorpicker_deps <- function() {
   )
 }
 
-opts_metadata <- jsonlite::fromJSON(system.file("themer/options.json", package = "bootstraplib"),
-  simplifyDataFrame = FALSE)
+opts_metadata <- function() {
+  jsonlite::fromJSON(
+    system_file("themer/options.json", package = "bootstraplib"),
+    simplifyDataFrame = FALSE
+  )
+}
 
 bs_themer_ui <- function() {
 
-  computed_defaults <- bs_theme_get_variables(unlist(unname(lapply(opts_metadata, names))))
+  computed_defaults <- bs_theme_get_variables(unlist(unname(lapply(opts_metadata(), names))))
 
   make_control <- function(id, lbl, default_value, type, desc = NULL) {
     default_value <- computed_defaults[[id]]
@@ -103,7 +110,7 @@ bs_themer_ui <- function() {
     }
   }
 
-  opts <- lapply(opts_metadata, function(opt_infos) {
+  opts <- lapply(opts_metadata(), function(opt_infos) {
     mapply(names(opt_infos), opt_infos, FUN = function(name, opt_info) {
       make_control(name, opt_info$label, opt_info$default, opt_info$type, opt_info$desc)
     }, USE.NAMES = FALSE, SIMPLIFY = FALSE)
@@ -129,7 +136,7 @@ bs_themer_ui <- function() {
           "data-toggle" = "collapse", "data-target" = "#bsthemerAccordion",
           style = css(cursor = "pointer"),
           tags$span(),
-          tags$style(HTML(bootstrap_sass(sass::sass_file(system.file("themer/themer.scss", package = "bootstraplib")))))
+          tags$style(HTML(bootstrap_sass(sass::sass_file(system_file("themer/themer.scss", package = "bootstraplib")))))
         )
       ),
 

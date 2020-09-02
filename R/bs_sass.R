@@ -52,29 +52,44 @@
 #'
 bootstrap <- function(theme = bs_theme_get(),
                       sass_options = sass::sass_options(output_style = "compressed"),
-                      cache_options = sass::sass_cache_options(),
+                      cache = sass::sass_cache_get(),
                       jquery = jquerylib::jquery_core(3)) {
 
   theme <- as_bs_theme(theme)
-
-  # Since we need to write attachments (for fonts), setup an isolated temporary directory
-  output_path <- tempfile("bscustom")
-  dir.create(output_path)
-
-  # Compile sass in temp dir
+  version <- theme_version(theme)
   minified <- isTRUE(sass_options$output_style %in% c("compressed", "compact"))
   output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
-  sass::sass(
-    input = theme,
-    options = sass_options,
-    output = file.path(output_path, output_css),
-    cache_options = cache_options,
-    write_attachments = TRUE
+  js <- bootstrap_javascript(version, minified)
+
+  cache_key <- sass::sass_hash(list(
+    theme,
+    sass_options,
+    get_exact_version(version),
+    utils::packageVersion("bootstraplib")
+  ))
+
+  # Temp dir for building the HTML dependencies
+  output_path <- file.path(
+    tempdir(),
+    "bootstraplib",
+    paste0("bootstrap-", cache_key)
   )
 
-  version <- theme_version(theme)
-  js <- bootstrap_javascript(version, minified)
-  file.copy(js, output_path)
+  # If the output path already exists, then we don't need to write anything.
+  if (!dir.exists(output_path)) {
+    dir.create(output_path, recursive = TRUE)
+
+    # Compile sass in temp dir
+    sass::sass(
+      input = theme,
+      options = sass_options,
+      output = file.path(output_path, output_css),
+      cache = cache,
+      write_attachments = TRUE
+    )
+
+    file.copy(js, output_path)
+  }
 
   c(
     if (inherits(jquery, "html_dependency")) list(jquery) else jquery,
