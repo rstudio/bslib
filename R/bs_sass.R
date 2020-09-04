@@ -57,7 +57,6 @@ bootstrap <- function(theme = bs_theme_get(),
 
   theme <- as_bs_theme(theme)
   version <- theme_version(theme)
-  js <- bootstrap_javascript(version, TRUE)
 
   out_file <- sass::sass(
     input = theme,
@@ -71,9 +70,10 @@ bootstrap <- function(theme = bs_theme_get(),
     )
   )
 
+  js <- bootstrap_javascript(version, TRUE)
   success <- file.copy(js, dirname(out_file), overwrite = TRUE)
   if (!success) {
-    warning("Failed to copy bootstrap javascript to ")
+    warning("Failed to copy over bootstrap's javascript into the htmlDependency() directory.")
   }
 
   c(
