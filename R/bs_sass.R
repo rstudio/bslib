@@ -57,53 +57,38 @@ bootstrap <- function(theme = bs_theme_get(),
 
   theme <- as_bs_theme(theme)
   version <- theme_version(theme)
-  minified <- isTRUE(sass_options$output_style %in% c("compressed", "compact"))
-  output_css <- if (minified) "bootstrap-custom.min.css" else "bootstrap-custom.css"
-  js <- bootstrap_javascript(version, minified)
+  js <- bootstrap_javascript(version, TRUE)
 
-  cache_key <- sass::sass_hash(list(
-    theme,
-    sass_options,
-    get_exact_version(version),
-    utils::packageVersion("bootstraplib")
-  ))
-
-  # Temp dir for building the HTML dependencies
-  output_path <- file.path(
-    tempdir(),
-    "bootstraplib",
-    paste0("bootstrap-", cache_key)
+  out_file <- sass::sass(
+    input = theme,
+    options = sass_options,
+    output = sass::output_file(basename = "bootstrap", pattern = "bootstraplib-"),
+    cache = cache,
+    write_attachments = TRUE,
+    cache_key_extra = list(
+      get_exact_version(version),
+      utils::packageVersion("bootstraplib")
+    )
   )
 
-  # If the output path already exists, then we don't need to write anything.
-  if (!dir.exists(output_path)) {
-    dir.create(output_path, recursive = TRUE)
-
-    # Compile sass in temp dir
-    sass::sass(
-      input = theme,
-      options = sass_options,
-      output = file.path(output_path, output_css),
-      cache = cache,
-      write_attachments = TRUE
-    )
-
-    file.copy(js, output_path)
+  success <- file.copy(js, dirname(out_file), overwrite = TRUE)
+  if (!success) {
+    warning("Failed to copy bootstrap javascript to ")
   }
 
   c(
     if (inherits(jquery, "html_dependency")) list(jquery) else jquery,
     list(
       htmlDependency(
-        "bootstrap",
-        if (version %in% "3") version_bs3 else version_bs4,
-        src = output_path,
+        name = "bootstrap",
+        version = get_exact_version(version),
+        src = dirname(out_file),
+        stylesheet = basename(out_file),
+        script = basename(js),
         meta = c(
           name = "viewport",
           content = "width=device-width, initial-scale=1, shrink-to-fit=no"
-        ),
-        stylesheet = output_css,
-        script = basename(js)
+        )
       )
     ),
     theme$html_deps
