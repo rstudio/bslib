@@ -61,7 +61,7 @@ bootstrap <- function(theme = bs_theme_get(),
   out_file <- sass::sass(
     input = theme,
     options = sass_options,
-    output = sass::output_file(basename = "bootstrap", pattern = "bootstraplib-"),
+    output = sass::output_file(basename = "bootstrap", dirname = "bootstraplib-"),
     cache = cache,
     write_attachments = TRUE,
     cache_key_extra = list(
@@ -100,10 +100,15 @@ bootstrap <- function(theme = bs_theme_get(),
 #' @param rules Sass styling rules that may reference `theme` `defaults` and `declarations`.
 #' @param ... arguments passed along to [sass::sass()].
 #' @export
-bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
+bootstrap_sass <- function(rules = list(), theme = bs_theme_get(),
+                           write_attachments = FALSE, ...) {
   theme <- as_bs_theme(theme)
   theme$rules <- ""
-  sass::sass(input = list(theme, rules), ...)
+  sass::sass(
+    input = list(theme, rules),
+    write_attachments = write_attachments,
+    ...
+  )
 }
 
 
