@@ -80,7 +80,7 @@ every built-in Bootstrap component." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -128,7 +128,7 @@ rewrite the basic palette of the current Bootstrap theme, affecting almost
 every built-in Bootstrap component.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_theme_base_colors</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='st'>"#FFFFFF"</span>, <span class='kw'>fg</span> <span class='kw'>=</span> <span class='st'>"#000000"</span>)</pre>
+    <pre class="usage"><span class='fu'>bs_theme_base_colors</span>(bg = <span class='st'>"#FFFFFF"</span>, fg = <span class='st'>"#000000"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,15 +171,17 @@ with colors interpolated between <code>bg</code> and <code>fg</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='theming.html'>bs_theme_new</a></span>(<span class='st'>"4+3"</span>)
-<span class='fu'>bs_theme_base_colors</span>(<span class='kw'>bg</span> <span class='kw'>=</span> <span class='st'>"#000060"</span>, <span class='kw'>fg</span> <span class='kw'>=</span> <span class='st'>"skyblue"</span>)
+<span class='fu'><a href='bs_theme_new.html'>bs_theme_new</a></span>(<span class='st'>"4+3"</span>)
+<span class='fu'>bs_theme_base_colors</span>(bg = <span class='st'>"#000060"</span>, fg = <span class='st'>"skyblue"</span>)
 
 <span class='co'># You can apply further customizations here if desired, e.g.:</span>
-<span class='fu'><a href='bs_theme_accent_colors.html'>bs_theme_accent_colors</a></span>(<span class='kw'>primary</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>secondary</span> <span class='kw'>=</span> <span class='st'>"silver"</span>)
+<span class='fu'><a href='bs_theme_accent_colors.html'>bs_theme_accent_colors</a></span>(primary = <span class='st'>"orange"</span>, secondary = <span class='st'>"silver"</span>)
 
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span>(<span class='kw'>with_themer</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span>(with_themer = <span class='fl'>FALSE</span>)
+}
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -195,7 +197,7 @@ with colors interpolated between <code>bg</code> and <code>fg</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

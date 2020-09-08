@@ -85,7 +85,7 @@ as a &amp;lt;style&amp;gt; tag via tags$style(css))." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -130,8 +130,8 @@ as a &amp;lt;style&amp;gt; tag via tags$style(css))." />
     <div class="ref-description">
     <p>Use <code>bootstrap()</code> to compile Bootstrap Sass into CSS and return it,
 along with other HTML dependencies, as a list of <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code>s
-(if you just want the CSS as a string, and a <code><a href='theming.html'>bs_theme_new()</a></code> has been set,
-you can call <code><a href='https://rdrr.io/pkg/sass/man/sass.html'>sass::sass()</a></code> on the return value of <code><a href='theming.html'>bs_theme_get()</a></code>).
+(if you just want the CSS as a string, and a <code><a href='bs_theme_new.html'>bs_theme_new()</a></code> has been set,
+you can call <code><a href='https://rdrr.io/pkg/sass/man/sass.html'>sass::sass()</a></code> on the return value of <code><a href='bs_theme_new.html'>bs_theme_get()</a></code>).
 Use <code>bootstrap_sass()</code> if you can assume Bootstrap already exists on the
 page, but you want to leverage Bootstrap utilities (e.g., variables, functions,
 or mixins) to generate additional CSS rules (as a string that can be included
@@ -139,13 +139,18 @@ as a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
     </div>
 
     <pre class="usage"><span class='fu'>bootstrap</span>(
-  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'><a href='theming.html'>bs_theme_get</a></span>(),
-  <span class='kw'>sass_options</span> <span class='kw'>=</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(<span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"compressed"</span>),
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='kw pkg'>sass</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_get.html'>sass_cache_get</a></span>(),
-  <span class='kw'>jquery</span> <span class='kw'>=</span> <span class='kw pkg'>jquerylib</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>)
+  theme = <span class='fu'><a href='bs_theme_new.html'>bs_theme_get</a></span>(),
+  sass_options = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(output_style = <span class='st'>"compressed"</span>),
+  cache = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_get.html'>sass_cache_get</a></span>(),
+  jquery = <span class='kw'>jquerylib</span>::<span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>)
 )
 
-<span class='fu'>bootstrap_sass</span>(<span class='kw'>rules</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'><a href='theming.html'>bs_theme_get</a></span>(), <span class='no'>...</span>)</pre>
+<span class='fu'>bootstrap_sass</span>(
+  rules = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  theme = <span class='fu'><a href='bs_theme_new.html'>bs_theme_get</a></span>(),
+  write_attachments = <span class='fl'>FALSE</span>,
+  <span class='kw'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,13 +158,13 @@ as a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
     <tr>
       <th>theme</th>
       <td><p>one of the following:</p><ol>
-<li><p>The result of <code><a href='theming.html'>bs_theme_get()</a></code> (i.e., the current global theme).</p></li>
+<li><p>The result of <code><a href='bs_theme_new.html'>bs_theme_get()</a></code> (i.e., the current global theme).</p></li>
 <li><p><code>NULL</code>, which means use the latest version of Bootstrap with no custom theming.</p></li>
 <li><p>A string containing a bootswatch theme and/or a Bootstrap major version. To specify
 both, use the syntax <code>"theme@version"</code>, (e.g., <code>"cosmo@4"</code> for Bootstrap 4 cosmo
 theme with BS3 compatibility). If no version is specified, the latest available
-version is used (for more info, see <code>version</code> in <code><a href='theming.html'>bs_theme_new()</a></code>).
-<strong>Note</strong>: this approach ignores global themes (i.e., <code><a href='theming.html'>bs_theme_new()</a></code>)</p></li>
+version is used (for more info, see <code>version</code> in <code><a href='bs_theme_new.html'>bs_theme_new()</a></code>).
+<strong>Note</strong>: this approach ignores global themes (i.e., <code><a href='bs_theme_new.html'>bs_theme_new()</a></code>)</p></li>
 <li><p>A <code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_layer()</a></code> which contains a bootstraplib theme. Useful for adding
 custom layers to the current theme without affecting the global state (e.g.,
 <code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_layer_merge(bs_theme_get(), my_layer())</a></code>).</p></li>
@@ -183,6 +188,15 @@ for no caching.</p></td>
       <td><p>Sass styling rules that may reference <code>theme</code> <code>defaults</code> and <code>declarations</code>.</p></td>
     </tr>
     <tr>
+      <th>write_attachments</th>
+      <td><p>If the input contains <code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass_layer()</a></code> objects that
+have file attachments, and <code>output</code> is not <code>NULL</code>, then copy the file
+attachments to the directory of <code>output</code>. (Defaults to <code>NA</code>, which merely
+emits a warning if file attachments are present, but does not write them to
+disk; the side-effect of writing extra files is subtle and potentially
+destructive, as files may be overwritten.)</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>arguments passed along to <code><a href='https://rdrr.io/pkg/sass/man/sass.html'>sass::sass()</a></code>.</p></td>
     </tr>
@@ -195,15 +209,15 @@ This list may contain additional HTML dependencies if the <code>theme</code> cal
 contains an additional JavaScript dependency).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='theming.html'>bs_theme_set()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='bs_theme_new.html'>bs_theme_set()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Function to preview the styling a (primary) Bootstrap button</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>htmltools</span>)
-<span class='no'>button</span> <span class='kw'>&lt;-</span> <span class='no'>tags</span>$<span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>a</a></span>(<span class='kw'>class</span> <span class='kw'>=</span> <span class='st'>"btn btn-primary"</span>, <span class='kw'>href</span> <span class='kw'>=</span> <span class='st'>"#"</span>, <span class='kw'>role</span> <span class='kw'>=</span> <span class='st'>"button"</span>, <span class='st'>"Hello"</span>)
-<span class='no'>preview_button</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) {
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span>(<span class='no'>tags</span>$<span class='fu'><a href='https://rdrr.io/r/base/body.html'>body</a></span>(<span class='no'>x</span>, <span class='no'>button</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span>)
+<span class='kw'>button</span> <span class='op'>&lt;-</span> <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>a</a></span>(class = <span class='st'>"btn btn-primary"</span>, href = <span class='st'>"#"</span>, role = <span class='st'>"button"</span>, <span class='st'>"Hello"</span>)
+<span class='kw'>preview_button</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>) {
+  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span>(<span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/body.html'>body</a></span>(<span class='kw'>x</span>, <span class='kw'>button</span>))
 }
 
 <span class='co'># Latest bootstrap</span>
@@ -215,7 +229,9 @@ contains an additional JavaScript dependency).</p>
 <span class='co'># Bootswatch sketchy theme</span>
 <span class='fu'>preview_button</span>(<span class='fu'>bootstrap</span>(<span class='st'>"sketchy"</span>))
 <span class='co'># Bootswatch solar theme with BS3 compatibility</span>
-<span class='fu'>preview_button</span>(<span class='fu'>bootstrap</span>(<span class='st'>"solar@4+3"</span>))</div></pre>
+<span class='fu'>preview_button</span>(<span class='fu'>bootstrap</span>(<span class='st'>"solar@4+3"</span>))
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,7 +247,7 @@ contains an additional JavaScript dependency).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

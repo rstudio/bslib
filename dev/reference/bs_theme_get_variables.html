@@ -79,7 +79,7 @@ the value to inform another R function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -126,7 +126,7 @@ the value to inform another R function." />
 the value to inform another R function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_theme_get_variables</span>(<span class='no'>varnames</span>)</pre>
+    <pre class="usage"><span class='fu'>bs_theme_get_variables</span>(<span class='kw'>varnames</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,11 +144,13 @@ in the current theme.</p></td>
 If the variable(s) are not defined, their value is <code>NA</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>bs4_vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"body-bg"</span>, <span class='st'>"body-color"</span>, <span class='st'>"primary"</span>, <span class='st'>"border-radius"</span>)
-<span class='fu'><a href='theming.html'>bs_theme_new</a></span>()
-<span class='fu'>bs_theme_get_variables</span>(<span class='no'>bs4_vars</span>)</div><div class='output co'>#&gt;       body-bg    body-color       primary border-radius 
-#&gt;        "#fff"     "#212529"     "#007bff"     "0.25rem" </div><div class='input'><span class='fu'><a href='theming.html'>bs_theme_new</a></span>(<span class='kw'>bootswatch</span> <span class='kw'>=</span> <span class='st'>"darkly"</span>)
-<span class='fu'>bs_theme_get_variables</span>(<span class='no'>bs4_vars</span>)</div><div class='output co'>#&gt;       body-bg    body-color       primary border-radius 
+    <pre class="examples"><div class='input'><span class='kw'>bs4_vars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"body-bg"</span>, <span class='st'>"body-color"</span>, <span class='st'>"primary"</span>, <span class='st'>"border-radius"</span>)
+<span class='fu'><a href='bs_theme_new.html'>bs_theme_new</a></span>()
+<span class='fu'>bs_theme_get_variables</span>(<span class='kw'>bs4_vars</span>)
+</div><div class='output co'>#&gt;       body-bg    body-color       primary border-radius 
+#&gt;        "#fff"     "#212529"     "#007bff"     "0.25rem" </div><div class='input'><span class='fu'><a href='bs_theme_new.html'>bs_theme_new</a></span>(bootswatch = <span class='st'>"darkly"</span>)
+<span class='fu'>bs_theme_get_variables</span>(<span class='kw'>bs4_vars</span>)
+</div><div class='output co'>#&gt;       body-bg    body-color       primary border-radius 
 #&gt;        "#222"        "#fff"     "#375a7f"     "0.25rem" </div><div class='input'>
 </div></pre>
   </div>
@@ -166,7 +168,7 @@ If the variable(s) are not defined, their value is <code>NA</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

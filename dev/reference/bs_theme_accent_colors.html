@@ -81,7 +81,7 @@ htmltools::parseCssColors() can understand." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -131,12 +131,12 @@ Values must be <code>NULL</code> or a color string in a format
     </div>
 
     <pre class="usage"><span class='fu'>bs_theme_accent_colors</span>(
-  <span class='kw'>primary</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>secondary</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>success</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>info</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>warning</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>danger</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  primary = <span class='kw'>NULL</span>,
+  secondary = <span class='kw'>NULL</span>,
+  success = <span class='kw'>NULL</span>,
+  info = <span class='kw'>NULL</span>,
+  warning = <span class='kw'>NULL</span>,
+  danger = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -182,11 +182,13 @@ shade of blue-green.</p></td>
 <code><a href='bs_theme_fonts.html'>bs_theme_fonts</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='theming.html'>bs_theme_new</a></span>(<span class='st'>"4+3"</span>)
-<span class='fu'>bs_theme_accent_colors</span>(<span class='kw'>primary</span> <span class='kw'>=</span> <span class='st'>"maroon"</span>, <span class='kw'>secondary</span> <span class='kw'>=</span> <span class='st'>"gray"</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span>(<span class='kw'>with_themer</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='bs_theme_new.html'>bs_theme_new</a></span>(<span class='st'>"4+3"</span>)
+<span class='fu'>bs_theme_accent_colors</span>(primary = <span class='st'>"maroon"</span>, secondary = <span class='st'>"gray"</span>)
+<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span>(with_themer = <span class='fl'>FALSE</span>)
+}
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -202,7 +204,7 @@ shade of blue-green.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

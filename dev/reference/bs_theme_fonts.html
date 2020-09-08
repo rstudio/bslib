@@ -79,7 +79,7 @@ can be NULL (no change), or a character vector of one or more elements." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -126,7 +126,7 @@ can be NULL (no change), or a character vector of one or more elements." />
 can be <code>NULL</code> (no change), or a character vector of one or more elements.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_theme_fonts</span>(<span class='kw'>base</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>heading</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>bs_theme_fonts</span>(base = <span class='kw'>NULL</span>, code = <span class='kw'>NULL</span>, heading = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,22 +152,24 @@ single unquoted font family name, a single quoted font family name, or a
 comma-separated list of font families (with individual font family names
 quoted as necessary).</p>
 <p>For example, each example below is valid:</p><pre><span class='co'># Single, unquoted</span>
-<span class='fu'>bs_theme_fonts</span>(<span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Source Sans Pro"</span>)
+<span class='fu'>bs_theme_fonts</span>(base = <span class='st'>"Source Sans Pro"</span>)
 
 <span class='co'># Single, quoted</span>
-<span class='fu'>bs_theme_fonts</span>(<span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"'Source Sans Pro'"</span>)
+<span class='fu'>bs_theme_fonts</span>(base = <span class='st'>"'Source Sans Pro'"</span>)
 
 <span class='co'># Multiple, quoted</span>
-<span class='fu'>bs_theme_fonts</span>(<span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"'Source Sans Pro', sans-serif"</span>)
+<span class='fu'>bs_theme_fonts</span>(base = <span class='st'>"'Source Sans Pro', sans-serif"</span>)
 
 <span class='co'># Combining all of the above</span>
-<span class='fu'>bs_theme_fonts</span>(<span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Open Sans"</span>, <span class='st'>"'Source Sans Pro'"</span>,
-  <span class='st'>"'Helvetica Neue', Helvetica, sans-serif"</span>))</pre>
+<span class='fu'>bs_theme_fonts</span>(base = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Open Sans"</span>, <span class='st'>"'Source Sans Pro'"</span>,
+  <span class='st'>"'Helvetica Neue', Helvetica, sans-serif"</span>))
+</pre>
 
 <p>But the following is <em>technically</em> not valid:</p><pre><span class='co'># Incorrect--because multiple font families are being</span>
 <span class='co'># provided in a single string, names with spaces must</span>
 <span class='co'># be surrounded by quotes!</span>
-<span class='fu'>bs_theme_fonts</span>(<span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Source Sans Pro, sans-serif"</span>)</pre>
+<span class='fu'>bs_theme_fonts</span>(base = <span class='st'>"Source Sans Pro, sans-serif"</span>)
+</pre>
 
 <p>The resulting CSS will contain <code>font-family: Source Sans Pro, sans-serif;</code>
 which is technically out of spec, but in fact is likely to still work with
@@ -181,16 +183,18 @@ most browsers.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='theming.html'>bs_theme_new</a></span>()
+<span class='fu'><a href='bs_theme_new.html'>bs_theme_new</a></span>()
 <span class='fu'>bs_theme_fonts</span>(
-  <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Times"</span>,
-  <span class='kw'>code</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Courier"</span>, <span class='st'>"monospace"</span>),
-  <span class='kw'>heading</span> <span class='kw'>=</span> <span class='st'>"'Helvetica Neue', Helvetica, sans-serif"</span>
+  base = <span class='st'>"Times"</span>,
+  code = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Courier"</span>, <span class='st'>"monospace"</span>),
+  heading = <span class='st'>"'Helvetica Neue', Helvetica, sans-serif"</span>
 )
 
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span>(<span class='kw'>with_themer</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span>(with_themer = <span class='fl'>FALSE</span>)
+}
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -206,7 +210,7 @@ most browsers.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
