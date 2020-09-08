@@ -61,7 +61,7 @@ bootstrap <- function(theme = bs_theme_get(),
   out_file <- sass::sass(
     input = theme,
     options = sass_options,
-    output = sass::output_file(basename = "bootstrap", dirname = "bootstraplib-"),
+    output = sass::output_template(basename = "bootstrap", dirname = "bootstraplib-"),
     cache = cache,
     write_attachments = TRUE,
     cache_key_extra = list(
