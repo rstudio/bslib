@@ -5,7 +5,7 @@
 	src:
 		local('News Cycle'),
 		local('NewsCycle'),
-		/* from https://fonts.gstatic.com/s/newscycle/v16/CSR64z1Qlv-GDxkbKVQ_fOAKSA.ttf */
+		/* from https://fonts.gstatic.com/s/newscycle/v17/CSR64z1Qlv-GDxkbKVQ_fOAKSA.ttf */
 		url('fonts/News_Cycle_400.ttf') format('truetype');
 }
 @font-face {
@@ -15,6 +15,6 @@
 	src:
 		local('News Cycle Bold'),
 		local('NewsCycle-Bold'),
-		/* from https://fonts.gstatic.com/s/newscycle/v16/CSR54z1Qlv-GDxkbKVQ_dFsvWNRevA.ttf */
+		/* from https://fonts.gstatic.com/s/newscycle/v17/CSR54z1Qlv-GDxkbKVQ_dFsvWNRevA.ttf */
 		url('fonts/News_Cycle_700.ttf') format('truetype');
 }

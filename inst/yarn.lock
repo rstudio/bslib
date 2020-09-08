@@ -2,10 +2,29 @@
 # yarn lockfile v1
 
 
+bootstrap-accessibility-plugin@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/bootstrap-accessibility-plugin/-/bootstrap-accessibility-plugin-1.0.6.tgz#9e7c37b789fc4179218068b06d9227af1458f7bd"
+  integrity sha1-nnw3t4n8QXkhgGiwbZInrxRY970=
+
+bootstrap-colorpicker@^3.1.2:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.2.0.tgz#42b053b865a866b2674527813cd59f90137b9704"
+  integrity sha512-twW93EFLf4MzZ/st+MkfdLCWEEA7r43WPlPnGckzm3Lj2FsbmVS/qgJH2c9IcmO3re5Q1320NO9bhuViwHR9Qw==
+  dependencies:
+    bootstrap ">=4.0"
+    jquery ">=2.1.0"
+    popper.js ">=1.10"
+
 bootstrap-sass@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz#6843c73b1c258a0ac5cb2cc6f6f5285b664a8e9a"
   integrity sha512-p5rxsK/IyEDQm2CwiHxxUi0MZZtvVFbhWmyMOt4lLkA4bujDA1TGoKT0i1FKIWiugAdP+kK8T5KMDFIKQCLYIA==
+
+bootstrap@>=4.0:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.2.tgz#a85c4eda59155f0d71186b6e6ad9b875813779ab"
+  integrity sha512-vlGn0bcySYl/iV+BGA544JkkZP5LB3jsmkeKLFQakCOwCM3AOk7VkldBz4jrzSe+Z0Ezn99NVXa1o45cQY4R6A==
 
 bootstrap@^4.4.1:
   version "4.4.1"
@@ -16,6 +35,16 @@ bootswatch@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/bootswatch/-/bootswatch-4.4.1.tgz#f270618b4ebe07de8e1748acd88f104cc31bfec3"
   integrity sha512-Kx3z6+3Jpg9g6l/xZBCnc8d6KeJK0QawxCZWOomdcI5AuSZLZb+DoH5X9RJH+cOcSeMAxyzdIjkVUR01+Db5bQ==
+
+jquery@>=2.1.0:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
+  integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
+
+popper.js@>=1.10:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
+  integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
 
 popper.js@^1.16.0:
   version "1.16.0"

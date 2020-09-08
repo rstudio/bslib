@@ -4,7 +4,7 @@
 	font-weight: normal;
 	src:
 		local('Neucha'),
-		/* from https://fonts.gstatic.com/s/neucha/v11/q5uGsou0JOdh94bfvQlo.ttf */
+		/* from https://fonts.gstatic.com/s/neucha/v12/q5uGsou0JOdh94bfvQlo.ttf */
 		url('fonts/Neucha.ttf') format('truetype');
 }
 @font-face {
@@ -14,6 +14,6 @@
 	src:
 		local('Cabin Sketch Regular'),
 		local('CabinSketch-Regular'),
-		/* from https://fonts.gstatic.com/s/cabinsketch/v13/QGYpz_kZZAGCONcK2A4bGOj8mNhI.ttf */
+		/* from https://fonts.gstatic.com/s/cabinsketch/v14/QGYpz_kZZAGCONcK2A4bGOj8mNhI.ttf */
 		url('fonts/Cabin_Sketch.ttf') format('truetype');
 }
