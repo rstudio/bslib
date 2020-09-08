@@ -12,7 +12,12 @@ bootstrap(
   jquery = jquerylib::jquery_core(3)
 )
 
-bootstrap_sass(rules = list(), theme = bs_theme_get(), ...)
+bootstrap_sass(
+  rules = list(),
+  theme = bs_theme_get(),
+  write_attachments = FALSE,
+  ...
+)
 }
 \arguments{
 \item{theme}{one of the following:
@@ -37,6 +42,13 @@ for no caching.}
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
 \item{rules}{Sass styling rules that may reference \code{theme} \code{defaults} and \code{declarations}.}
+
+\item{write_attachments}{If the input contains \code{\link[sass:sass_layer]{sass_layer()}} objects that
+have file attachments, and \code{output} is not \code{NULL}, then copy the file
+attachments to the directory of \code{output}. (Defaults to \code{NA}, which merely
+emits a warning if file attachments are present, but does not write them to
+disk; the side-effect of writing extra files is subtle and potentially
+destructive, as files may be overwritten.)}
 
 \item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}.}
 }
