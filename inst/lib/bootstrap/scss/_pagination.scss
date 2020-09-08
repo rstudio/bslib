@@ -11,6 +11,10 @@
   margin-left: -$pagination-border-width;
   line-height: $pagination-line-height;
   color: $pagination-color;
+  text-decoration: if($link-decoration == none, null, none);
+  -webkit-text-decoration: if($link-decoration == none, null, none);
+  -moz-text-decoration: if($link-decoration == none, null, none);
+  -ms-text-decoration: if($link-decoration == none, null, none);
   background-color: $pagination-bg;
   border: $pagination-border-width solid $pagination-border-color;
 

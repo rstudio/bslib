@@ -14,6 +14,10 @@
 .nav-link {
   display: block;
   padding: $nav-link-padding-y $nav-link-padding-x;
+  text-decoration: if($link-decoration == none, null, none);
+  -webkit-text-decoration: if($link-decoration == none, null, none);
+  -moz-text-decoration: if($link-decoration == none, null, none);
+  -ms-text-decoration: if($link-decoration == none, null, none);
 
   @include hover-focus() {
     text-decoration: none;
@@ -91,6 +95,7 @@
 //
 
 .nav-fill {
+  > .nav-link,
   .nav-item {
     flex: 1 1 auto;
     text-align: center;
@@ -98,6 +103,7 @@
 }
 
 .nav-justified {
+  > .nav-link,
   .nav-item {
     flex-basis: 0;
     flex-grow: 1;

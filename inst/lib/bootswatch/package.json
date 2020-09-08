@@ -1,7 +1,7 @@
 {
   "name": "bootswatch",
   "description": "Bootswatch is a collection of themes for Bootstrap.",
-  "version": "4.4.1",
+  "version": "4.5.2",
   "author": "Thomas Park",
   "homepage": "https://bootswatch.com",
   "license": "MIT",
@@ -15,5 +15,7 @@
   "scripts": {
     "postcss": "postcss --no-map --use autoprefixer --config build/js/postcss.js --replace dist/*/bootstrap.css"
   },
-  "dependencies": {}
+  "dependencies": {
+    "websocket-driver": "^0.7.4"
+  }
 }
