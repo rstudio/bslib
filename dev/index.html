@@ -78,8 +78,10 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p><strong>bootstraplib</strong> isn’t yet available from CRAN, but you can install with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"rstudio/bootstraplib"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(bootstraplib)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"rstudio/bootstraplib"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">bootstraplib</span>)
+</pre></div>
 </div>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
@@ -90,43 +92,45 @@
 <a href="#shiny" class="anchor"></a>Shiny</h3>
 <p>To start using <strong>bootstraplib</strong> in your <strong>shiny</strong> apps today, install <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("rstudio/shiny")</a></code>, then do the following:</p>
 <ol>
+<li>Set the <code>bootstraplib</code> option to <code>TRUE</code>:</li>
+</ol>
+<!-- end list --><div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyOptions.html">shinyOptions</a></span>(bootstraplib = <span class="fl">TRUE</span>)
+</pre></div>
+<ol>
 <li>Call <code><a href="reference/bs_theme_new.html">bs_theme_new()</a></code> and optionally specify a Bootstrap <code>version</code> and <a href="https://bootswatch.com/"><code>bootswatch</code> theme</a>. The current default is Bootstrap 4 (with added added Bootstrap 3 compatibility) and no <code>bootswatch</code> theme:</li>
 </ol>
-<!-- --><div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">bs_theme_new</span>(<span class="dt">version =</span> <span class="st">"4+3"</span>, <span class="dt">bootswatch =</span> <span class="ot">NULL</span>)</span></code></pre></div>
+<!-- end list --><div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="reference/bs_theme_new.html">bs_theme_new</a></span>(version = <span class="st">"4+3"</span>, bootswatch = <span class="kw">NULL</span>)
+</pre></div>
 <ol>
-<li>Once a (global) theme is initialized, you may start adding theming customizations (learn more about customizations in the <a href="https://rstudio.github.io/bootstraplib/articles/recipes.html">recipes</a> and <a href="https://rstudio.github.io/bootstraplib/articles/foundations.html">foundations</a> articles):</li>
+<li>(Optional) Add theming customizations (learn more about customizations in the <a href="https://rstudio.github.io/bootstraplib/articles/recipes.html">recipes</a> article):</li>
 </ol>
-<!-- --><div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">bs_theme_base_colors</span>(<span class="dt">bg =</span> <span class="st">"salmon"</span>, <span class="dt">fg =</span> <span class="st">"white"</span>)</span></code></pre></div>
+<!-- end list --><div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="reference/bs_theme_base_colors.html">bs_theme_base_colors</a></span>(bg = <span class="st">"#444"</span>, fg = <span class="st">"#e4e4e4"</span>)
+<span class="fu"><a href="reference/bs_theme_accent_colors.html">bs_theme_accent_colors</a></span>(primary = <span class="st">"#e39777"</span>)
+</pre></div>
 <ol>
-<li>Add <code><a href="reference/bootstrap.html">bootstrap()</a></code> to your user interface (this step likely won’t be needed in a future version of <strong>shiny</strong>).</li>
+<li>Run the Shiny app.</li>
 </ol>
-<!-- --><div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">library</span>(shiny)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">fluidPage</span>(</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="kw">bootstrap</span>(),</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  <span class="kw">titlePanel</span>(<span class="st">"Hello world!"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5"></a>)</span></code></pre></div>
-<p><img src="https://i.imgur.com/3wcFKFs.png" width="50%" style="display: block; margin: auto;"></p>
 </div>
 <div id="r-markdown" class="section level3">
 <h3 class="hasAnchor">
 <a href="#r-markdown" class="anchor"></a>R Markdown</h3>
 <p>To start using <strong>bootstraplib</strong> in your <code><a href="https://rdrr.io/pkg/rmarkdown/man/html_document.html">rmarkdown::html_document</a></code>s, install <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("rstudio/rmarkdown#1706")</a></code>, then do the following:</p>
-<ol>
-<li>Use <code>bootstrap_version</code> and <code>theme</code> to choose the Bootstrap version and a Bootswatch theme. These arguments are currently supported only in <code>html_document</code> and <code>html_document_base</code>.</li>
-</ol>
-<!-- --><div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">---</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>output<span class="op">:</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span>html_document<span class="op">:</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">    </span>bootstrap_version<span class="op">:</span><span class="st"> </span><span class="dv">4</span><span class="op">+</span><span class="dv">3</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>    theme<span class="op">:</span><span class="st"> </span>minty</span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="op">---</span></span></code></pre></div>
-<ol>
-<li>
-<p>Optionally add theme customizations inside any R code chunk (these customizations end up influencing the Bootstrap CSS included in the output document).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(bootstraplib)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">bs_theme_accent_colors</span>(<span class="dt">primary =</span> <span class="st">'green'</span>)</span></code></pre></div>
-</li>
-</ol>
+<p>1) Use <code>bootstrap_version</code> and <code>theme</code> to choose the Bootstrap version and a Bootswatch theme. These arguments are currently supported only in <code>html_document</code> and <code>html_document_base</code>.</p>
+<!-- end list -->
+<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1"></a><span class="pp">---</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="at">  </span><span class="fu">html_document</span><span class="kw">:</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="at">    </span><span class="fu">bootstrap_version</span><span class="kw">:</span><span class="at"> 4+3</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> minty</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="pp">---</span></span></code></pre></div>
+<p>2) Optionally add theme customizations inside any R code chunk (these customizations end up influencing the Bootstrap CSS included in the output document).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="st">```</span><span class="dt"> {r}</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="dt">library(bootstraplib)</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="dt">bs_theme_accent_colors(primary = 'green')</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">```</span></span></code></pre></div>
 </div>
 </div>
 <div id="choosing-a-version" class="section level2">
@@ -139,8 +143,10 @@
 <h2 class="hasAnchor">
 <a href="#interactive-theming" class="anchor"></a>Interactive theming</h2>
 <p><strong>bootstraplib</strong> also comes with tools for interactive theming of <strong>shiny</strong> apps (and <strong>rmarkdown</strong> documents with <code>runtime: shiny</code>). Either point <code><a href="reference/run_with_themer.html">run_with_themer()</a></code> to an existing application or use <code><a href="reference/bs_theme_preview.html">bs_theme_preview()</a></code> to use a pre-packaged application designed for theming. Note that as you interactively theme your application, code is printed to the R console that you can copy/paste to adopt those changes in your theming code.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">bs_theme_new</span>(<span class="dt">bootswatch =</span> <span class="st">"sketchy"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">bs_theme_preview</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="reference/bs_theme_new.html">bs_theme_new</a></span>(bootswatch = <span class="st">"sketchy"</span>)
+<span class="fu"><a href="reference/bs_theme_preview.html">bs_theme_preview</a></span>()
+</pre></div>
 <p><img src="https://i.imgur.com/il6nd8J.gif" width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div id="learn-more" class="section level2">
