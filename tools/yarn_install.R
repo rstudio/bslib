@@ -71,7 +71,7 @@ add_value_prefixes <- function(src, value) {
   src
 }
 
-# Currently the only CSS value we need to prefix is min-content
+# Currently the only CSS value we need to manually prefix ourselves is min-content
 # https://caniuse.com/?search=min-content
 scss_src <- lapply(scss_src, add_value_prefixes, "min-content")
 
