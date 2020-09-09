@@ -14,12 +14,14 @@
   -webkit-text-decoration: if($link-decoration == none, null, none);
   -moz-text-decoration: if($link-decoration == none, null, none);
   -ms-text-decoration: if($link-decoration == none, null, none);
+  -o-text-decoration: if($link-decoration == none, null, none);
   white-space: $btn-white-space;
   vertical-align: middle;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  -o-user-select: none;
   background-color: transparent;
   border: $btn-border-width solid transparent;
   @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-line-height, $btn-border-radius);
@@ -93,6 +95,7 @@ fieldset:disabled a.btn {
   -webkit-text-decoration: $link-decoration;
   -moz-text-decoration: $link-decoration;
   -ms-text-decoration: $link-decoration;
+  -o-text-decoration: $link-decoration;
 
   @include hover() {
     color: $link-hover-color;
@@ -100,6 +103,7 @@ fieldset:disabled a.btn {
     -webkit-text-decoration: $link-hover-decoration;
     -moz-text-decoration: $link-hover-decoration;
     -ms-text-decoration: $link-hover-decoration;
+    -o-text-decoration: $link-hover-decoration;
   }
 
   &:focus,
@@ -108,6 +112,7 @@ fieldset:disabled a.btn {
     -webkit-text-decoration: $link-hover-decoration;
     -moz-text-decoration: $link-hover-decoration;
     -ms-text-decoration: $link-hover-decoration;
+    -o-text-decoration: $link-hover-decoration;
   }
 
   &:disabled,

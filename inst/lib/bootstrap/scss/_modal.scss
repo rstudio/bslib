@@ -83,9 +83,11 @@
   &::before {
     display: block; // IE10
     height: subtract(100vh, $modal-dialog-margin * 2);
+    height: min-content; // Reset height to 0 except on IE
     height: -webkit-min-content; // Reset height to 0 except on IE
     height: -moz-min-content; // Reset height to 0 except on IE
     height: -ms-min-content; // Reset height to 0 except on IE
+    height: -o-min-content; // Reset height to 0 except on IE
     content: "";
   }
 
@@ -219,9 +221,11 @@
 
     &::before {
       height: subtract(100vh, $modal-dialog-margin-y-sm-up * 2);
+      height: min-content;
       height: -webkit-min-content;
       height: -moz-min-content;
       height: -ms-min-content;
+      height: -o-min-content;
     }
   }
 

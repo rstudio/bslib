@@ -51,6 +51,7 @@
   -webkit-text-decoration: if($link-decoration == none, null, none);
   -moz-text-decoration: if($link-decoration == none, null, none);
   -ms-text-decoration: if($link-decoration == none, null, none);
+  -o-text-decoration: if($link-decoration == none, null, none);
   background-color: $list-group-bg;
   border: $list-group-border-width solid $list-group-border-color;
 

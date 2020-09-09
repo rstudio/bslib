@@ -118,6 +118,7 @@ abbr[data-original-title] { // 1
   -webkit-text-decoration: underline dotted; // 2
   -moz-text-decoration: underline dotted; // 2
   -ms-text-decoration: underline dotted; // 2
+  -o-text-decoration: underline dotted; // 2
   cursor: help; // 3
   border-bottom: 0; // 4
   text-decoration-skip-ink: none; // 5
@@ -192,6 +193,7 @@ a {
   -webkit-text-decoration: $link-decoration;
   -moz-text-decoration: $link-decoration;
   -ms-text-decoration: $link-decoration;
+  -o-text-decoration: $link-decoration;
   background-color: transparent; // Remove the gray background on active links in IE 10.
 
   @include hover() {
@@ -200,6 +202,7 @@ a {
     -webkit-text-decoration: $link-hover-decoration;
     -moz-text-decoration: $link-hover-decoration;
     -ms-text-decoration: $link-hover-decoration;
+    -o-text-decoration: $link-hover-decoration;
   }
 }
 
@@ -402,9 +405,7 @@ textarea {
 }
 
 fieldset {
-  // Browsers set a default `min-width: -webkit-min-content;` on fieldsets,
-  // Browsers set a default `min-width: -moz-min-content;` on fieldsets,
-  // Browsers set a default `min-width: -ms-min-content;` on fieldsets,
+  // Browsers set a default `min-width: min-content;` on fieldsets,
   // unlike e.g. `<div>`s, which have `min-width: 0;` by default.
   // So we reset that to ensure fieldsets behave more like a standard block element.
   // See https://github.com/twbs/bootstrap/issues/12359

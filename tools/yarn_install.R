@@ -29,13 +29,12 @@ add_property_prefixes <- function(src, property, ok_values = NULL) {
       if (all(vals %in% c(ok_values, "!important"))) next
     }
     leading_ws <- regmatches(prop, regexpr("^\\s+", prop))
-    prop_prefixes <- paste0(
+    src[[i]] <- paste0(
       leading_ws,
-      c("-webkit-", "-moz-", "-ms-"),
+      c("", "-webkit-", "-moz-", "-ms-", "-o-"),
       sub("^\\s+", "", prop),
       collapse = "\n"
     )
-    src[[i]] <- paste0(prop, "\n", prop_prefixes)
   }
   src
 }
@@ -59,12 +58,13 @@ scss_src <- lapply(
 
 
 add_value_prefixes <- function(src, value) {
-  pattern <- paste0("^\\s*(.+):\\s*", value)
+  pattern <- paste0("^\\s*[^/]+:\\s*", value)
   idx <- grep(pattern, src)
   for (i in idx) {
     prop_val <- strsplit(src[[i]], ":\\s*")[[1]]
     src[[i]] <- paste0(
-      prop_val[1], ": ", c("-webkit-", "-moz-", "-ms-"), prop_val[2],
+      prop_val[1], ": ",
+      c("", "-webkit-", "-moz-", "-ms-", "-o-"), prop_val[2],
       collapse = "\n"
     )
   }

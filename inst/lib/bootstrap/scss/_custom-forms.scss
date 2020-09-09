@@ -236,6 +236,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
+  -o-appearance: none;
 
   &:focus {
     border-color: $custom-select-focus-border-color;
@@ -391,6 +392,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
+  -o-appearance: none;
 
   &:focus {
     outline: none;
@@ -419,6 +421,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
+    -o-appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
@@ -448,6 +451,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
+    -o-appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
@@ -480,6 +484,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
+    -o-appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);

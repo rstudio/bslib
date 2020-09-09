@@ -18,6 +18,7 @@
   -webkit-text-decoration: if($link-decoration == none, null, none);
   -moz-text-decoration: if($link-decoration == none, null, none);
   -ms-text-decoration: if($link-decoration == none, null, none);
+  -o-text-decoration: if($link-decoration == none, null, none);
 
   @include hover-focus() {
     text-decoration: none;
