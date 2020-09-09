@@ -39,31 +39,26 @@ The **bootstraplib** R package provides tools for compiling and working with [Bo
 
 To start using **bootstraplib** in your **shiny** apps today, install `remotes::install_github("rstudio/shiny")`, then do the following:
 
-(1) Call `bs_theme_new()` and optionally specify a Bootstrap `version` and [`bootswatch` theme](https://bootswatch.com/). The current default is Bootstrap 4 (with added added Bootstrap 3 compatibility) and no `bootswatch` theme:
+1. Set the `bootstraplib` option to `TRUE`:
+
+```r
+shiny::shinyOptions(bootstraplib = TRUE)
+```
+
+2. Call `bs_theme_new()` and optionally specify a Bootstrap `version` and [`bootswatch` theme](https://bootswatch.com/). The current default is Bootstrap 4 (with added added Bootstrap 3 compatibility) and no `bootswatch` theme:
 
 ```r
 bs_theme_new(version = "4+3", bootswatch = NULL)
 ```
 
-(2) Once a (global) theme is initialized, you may start adding theming customizations (learn more about customizations in the [recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html) and [foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html) articles):
+3. (Optional) Add theming customizations (learn more about customizations in the [recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html) article):
 
 ```r
-bs_theme_base_colors(bg = "salmon", fg = "white")
+bs_theme_base_colors(bg = "#444", fg = "#e4e4e4")
+bs_theme_accent_colors(primary = "#e39777")
 ```
 
-(3) Add `bootstrap()` to your user interface (this step likely won't be needed in a future version of **shiny**). 
-
-```r
-library(shiny)
-fluidPage(
-  bootstrap(),
-  titlePanel("Hello world!")
-)
-```
-
-```{r, echo=FALSE, out.width='50%'}
-knitr::include_graphics("https://i.imgur.com/3wcFKFs.png")
-```
+4. Run the Shiny app.
 
 ### R Markdown
 
