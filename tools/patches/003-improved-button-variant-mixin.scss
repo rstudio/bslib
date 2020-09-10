@@ -1,0 +1,41 @@
+diff --git a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss
+index 5afa735..f9b926e 100644
+--- a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss
++++ b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss
+@@ -11,28 +11,28 @@
+   &:focus,
+   &.focus {
+     color: $color;
+-    background-color: darken($background, 10%);
+-    border-color: darken($border, 25%);
++    background-color: mix($color, $background, 10%);
++    border-color: mix($color, $border, 25%);
+   }
+   &:hover {
+     color: $color;
+-    background-color: darken($background, 10%);
+-    border-color: darken($border, 12%);
++    background-color: mix($color, $background, 10%);
++    border-color: mix($color, $border, 12%);
+   }
+   &:active,
+   &.active,
+   .open > &.dropdown-toggle {
+     color: $color;
+-    background-color: darken($background, 10%);
++    background-color: mix($color, $background, 10%);
+     background-image: none;
+-    border-color: darken($border, 12%);
++    border-color: mix($color, $border, 12%);
+ 
+     &:hover,
+     &:focus,
+     &.focus {
+       color: $color;
+-      background-color: darken($background, 17%);
+-      border-color: darken($border, 25%);
++      background-color: mix($color, $background, 17%);
++      border-color: mix($color, $border, 25%);
+     }
+   }
+   &.disabled,
