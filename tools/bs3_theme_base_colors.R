@@ -64,7 +64,7 @@ df %>%
   mutate(varname = names(named_colors[match(color, named_colors)])) %>%
   filter(!is.na(varname)) %>%
   filter(name != varname) %>%
-  mutate(varname = paste0("$", varname)) %>%
+  mutate(varname = paste0("$", varname, " !default")) %>%
   select(name, varname) %>%
   { setNames(.$varname, .$name) } %>%
   as.list() %>%
