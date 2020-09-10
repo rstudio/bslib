@@ -18,7 +18,7 @@ scss_files <- dir(
 )
 scss_src <- lapply(scss_files, readLines)
 
-add_prefixes <- function(src, property, ok_values = NULL) {
+add_property_prefixes <- function(src, property, ok_values = NULL) {
   pattern <- paste0("^\\s*", property, ":\\s*(.+);")
   idx <- grep(pattern, src)
   for (i in idx) {
@@ -29,13 +29,12 @@ add_prefixes <- function(src, property, ok_values = NULL) {
       if (all(vals %in% c(ok_values, "!important"))) next
     }
     leading_ws <- regmatches(prop, regexpr("^\\s+", prop))
-    prop_prefixes <- paste0(
+    src[[i]] <- paste0(
       leading_ws,
-      c("-webkit-", "-moz-", "-ms-"),
+      c("", "-webkit-", "-moz-", "-ms-", "-o-"),
       sub("^\\s+", "", prop),
       collapse = "\n"
     )
-    src[[i]] <- paste0(prop, "\n", prop_prefixes)
   }
   src
 }
@@ -46,13 +45,35 @@ needs_prefix <- c(
   "backface-visibility", "touch-action"
 )
 for (prop in needs_prefix) {
-  scss_src <- lapply(scss_src, add_prefixes, prop)
+  scss_src <- lapply(scss_src, add_property_prefixes, prop)
 }
 # Conditionally prefix text-decoration if its not CSS2 compliant
 # https://www.w3.org/TR/CSS2/text.html#lining-striking-props
 # https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
 # https://caniuse.com/#search=text-decoration
-scss_src <- lapply(scss_src, add_prefixes, "text-decoration", c("none", "underline", "overline", "line-through", "blink", "inherit"))
+scss_src <- lapply(
+  scss_src, add_property_prefixes, "text-decoration",
+  c("none", "underline", "overline", "line-through", "blink", "inherit")
+)
+
+
+add_value_prefixes <- function(src, value) {
+  pattern <- paste0("^\\s*[^/]+:\\s*", value)
+  idx <- grep(pattern, src)
+  for (i in idx) {
+    prop_val <- strsplit(src[[i]], ":\\s*")[[1]]
+    src[[i]] <- paste0(
+      prop_val[1], ": ",
+      c("", "-webkit-", "-moz-", "-ms-", "-o-"), prop_val[2],
+      collapse = "\n"
+    )
+  }
+  src
+}
+
+# Currently the only CSS value we need to manually prefix ourselves is min-content
+# https://caniuse.com/?search=min-content
+scss_src <- lapply(scss_src, add_value_prefixes, "min-content")
 
 # Write modified source to disk
 invisible(Map(writeLines, scss_src, scss_files))
@@ -74,7 +95,7 @@ find_prefixed_css <- function(css) {
 
 src_prefixes <- find_prefixed_css(unlist(scss_src))
 dist_prefixes <- find_prefixed_css(
-  readLines("inst/node_modules/bootstrap/dist/css/bootstrap.css")
+  readLines("inst/node_modules/bootstrap/dist/css/bootstrap.css", warn = FALSE)
 )
 auto_prefixes <- setdiff(dist_prefixes, src_prefixes)
 
@@ -112,7 +133,7 @@ unknown_prefixes <- setdiff(
 if (length(unknown_prefixes)) {
   stop(
     "Unknown vendor prefixes introduced by Bootstrap's autoprefixer. ",
-    "Use either add_prefixes() to add prefixes or whitelist them ",
+    "Use either add_property_prefixes() to add prefixes or whitelist them ",
     "(if they're not needed for modern browsers): ",
     "'", paste(collapse = "', '", unknown_prefixes), "'.",
     call. = FALSE

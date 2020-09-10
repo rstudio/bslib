@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.5.2",
     "bootstrap-sass": "^3.4.1",
-    "bootswatch": "^4.4.1",
+    "bootswatch": "^4.5.2",
     "popper.js": "^1.16.0"
   },
   "devDependencies": {},
