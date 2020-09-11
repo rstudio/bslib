@@ -30,7 +30,7 @@ test_that("theme api works", {
   # Can set a theme object as the current theme
   bs_theme_set(cosmo_theme)
   primary <- bootstrap_sass("body{background:$primary;}")
-  expect_css("body{background:#2780E3;}", primary)
+  expect_css("body{background:#2780e3;}", primary)
 })
 
 
