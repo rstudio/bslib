@@ -38,7 +38,7 @@ bootstrap_layer <- function(version) {
 
   if (version %in% "3") {
     # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
-    return(sass_layer(
+    bs3_core <- sass_layer(
       defaults = list(
         list("icon-font-path" = "'glyphicon-fonts/'"),
         bootstrap_sass_files("variables", version = 3)
@@ -57,7 +57,11 @@ bootstrap_layer <- function(version) {
       ),
       # Tag this layer so we know we can query the theme_version()
       tags = "bootstraplib_version_3"
-    ))
+    )
+
+    return(
+      sass_layer_merge(bs3_core, bs3_accessibility_layer())
+    )
   }
 
   stop("Unknown Bootstrap version: ", version, call. = FALSE)
@@ -99,6 +103,28 @@ bs3compat_layer <- function() {
       package = "bootstraplib",
       src = "bs3compat/js",
       script = c("tabs.js", "bs3compat.js")
+    )
+  )
+}
+
+# -----------------------------------------------------------------
+# BS3 accessibility layer
+# -----------------------------------------------------------------
+
+bs3_accessibility_layer <- function() {
+  sass_layer(
+    rules = sass_file(
+      system_file(
+        "lib", "bootstrap-accessibility-plugin",
+        "src", "sass", "bootstrap-accessibility.scss",
+        package = "bootstraplib"
+      )
+    ),
+    html_deps = htmltools::htmlDependency(
+      "bootstrap-accessibility", packageVersion("bootstraplib"),
+      package = "bootstraplib",
+      src = "lib/bootstrap-accessibility-plugin",
+      script = "plugins/js/bootstrap-accessibility.min.js"
     )
   )
 }

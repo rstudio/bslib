@@ -3,9 +3,7 @@
 	font-style: normal;
 	font-weight: 400;
 	src:
-		local('Raleway'),
-		local('Raleway-Regular'),
-		/* from https://fonts.gstatic.com/s/raleway/v14/1Ptug8zYS_SKggPNyC0ISg.ttf */
+		/* from https://fonts.gstatic.com/s/raleway/v17/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCIPrQ.ttf */
 		url('fonts/Raleway_400.ttf') format('truetype');
 }
 @font-face {
@@ -13,8 +11,6 @@
 	font-style: normal;
 	font-weight: 700;
 	src:
-		local('Raleway Bold'),
-		local('Raleway-Bold'),
-		/* from https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwJYtWqZPBQ.ttf */
+		/* from https://fonts.gstatic.com/s/raleway/v17/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVs9pbCIPrQ.ttf */
 		url('fonts/Raleway_700.ttf') format('truetype');
 }

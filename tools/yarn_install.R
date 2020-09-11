@@ -6,6 +6,12 @@ if (Sys.which("yarn") == "") {
 
 withr::with_dir("inst", system("yarn install"))
 
+
+unlink("inst/lib", recursive = TRUE)
+file.rename("inst/node_modules/", "inst/lib/")
+
+
+
 # ----------------------------------------------------------------------
 # Add known vendor prefixes to bootstrap.scss (since we don't want
 # to rely on a node run-time to prefix after compilation)
@@ -13,7 +19,7 @@ withr::with_dir("inst", system("yarn install"))
 # ----------------------------------------------------------------------
 
 scss_files <- dir(
-  "inst/node_modules/bootstrap/scss",
+  "inst/lib/bootstrap/scss",
   recursive = TRUE, full.names = TRUE
 )
 scss_src <- lapply(scss_files, readLines)
@@ -95,7 +101,7 @@ find_prefixed_css <- function(css) {
 
 src_prefixes <- find_prefixed_css(unlist(scss_src))
 dist_prefixes <- find_prefixed_css(
-  readLines("inst/node_modules/bootstrap/dist/css/bootstrap.css", warn = FALSE)
+  readLines("inst/lib/bootstrap/dist/css/bootstrap.css", warn = FALSE)
 )
 auto_prefixes <- setdiff(dist_prefixes, src_prefixes)
 
@@ -146,23 +152,23 @@ if (length(unknown_prefixes)) {
 # ----------------------------------------------------------------------
 
 # I don't think we'll need these special builds of popper (at least for now)
-unlink("inst/node_modules/popper.js/dist/umd", recursive = TRUE)
-unlink("inst/node_modules/popper.js/dist/esm", recursive = TRUE)
+unlink("inst/lib/popper.js/dist/umd", recursive = TRUE)
+unlink("inst/lib/popper.js/dist/esm", recursive = TRUE)
 
 # Avoiding bootstrap's distributed CSS saves us another 1.5 Mb
-unlink("inst/node_modules/bootstrap/dist/css", recursive = TRUE)
+unlink("inst/lib/bootstrap/dist/css", recursive = TRUE)
 
 # For now we're just using the main JS bundle
-unlink("inst/node_modules/bootstrap/js", recursive = TRUE)
+unlink("inst/lib/bootstrap/js", recursive = TRUE)
 file.remove(file.path(
-  "inst/node_modules/bootstrap/dist/js",
+  "inst/lib/bootstrap/dist/js",
   c("bootstrap.js", "bootstrap.js.map", "bootstrap.min.js", "bootstrap.min.js.map")
 ))
 
 # Each Bootswatch theme bundles Bootstrap
 file.remove(c(
-  Sys.glob("inst/node_modules/bootswatch/dist/*/bootstrap.css"),
-  Sys.glob("inst/node_modules/bootswatch/dist/*/bootstrap.min.css")
+  Sys.glob("inst/lib/bootswatch/dist/*/bootstrap.css"),
+  Sys.glob("inst/lib/bootswatch/dist/*/bootstrap.min.css")
 ))
 
 # To fully support Bootstrap+Bootswatch 3 and 4, we need to bundle
@@ -170,34 +176,56 @@ file.remove(c(
 tmp_dir <- tempdir()
 withr::with_dir(tmp_dir, system("yarn add bootswatch@3.4.1"))
 source <- file.path(tmp_dir, "node_modules", "bootswatch")
-target <- "inst/node_modules/bootswatch3"
+target <- "inst/lib/bootswatch3"
 if (!file.exists(target)) dir.create(target)
 file.rename(source, target)
 
 # Again, Bootswatch loves to bundle Bootstrap with each theme
 file.remove(c(
-  Sys.glob("inst/node_modules/bootswatch3/*/bootstrap.css"),
-  Sys.glob("inst/node_modules/bootswatch3/*/bootstrap.min.css"),
-  Sys.glob("inst/node_modules/bootswatch3/*/thumbnail.png"),
+  Sys.glob("inst/lib/bootswatch3/*/bootstrap.css"),
+  Sys.glob("inst/lib/bootswatch3/*/bootstrap.min.css"),
+  Sys.glob("inst/lib/bootswatch3/*/thumbnail.png"),
   # I don't think we'll need less files
-  Sys.glob("inst/node_modules/bootswatch3/*/*.less")
+  Sys.glob("inst/lib/bootswatch3/*/*.less")
 ))
 
-# :eye_roll:
-unlink("inst/node_modules/bootswatch3/docs", recursive = TRUE)
-unlink("inst/node_modules/bootswatch3/.github", recursive = TRUE)
+# Bootswatch is quite bloated
+unlink("inst/lib/bootswatch3/docs", recursive = TRUE)
+unlink("inst/lib/bootswatch3/.github", recursive = TRUE)
 # we already got fonts via tools/download_fonts.R
-unlink("inst/node_modules/bootswatch3/fonts", recursive = TRUE)
+unlink("inst/lib/bootswatch3/fonts", recursive = TRUE)
 
-# Rename node_modules to lib to avoid this CRAN note
-# https://www.r-bloggers.com/the-most-annoying-warning-for-cran-submission/
-pkg_files <- dir("inst/node_modules", recursive = TRUE, full.names = TRUE)
-file.copy(
-  pkg_files,
-  sub("node_modules/", "lib/", pkg_files),
-  recursive = TRUE
+
+withr::with_dir(
+  "inst/lib/bootstrap-accessibility-plugin", {
+    # Remove everything but the source
+    unlink(setdiff(dir(), c("src", "plugins", "LICENSE.md")), recursive = TRUE)
+    # The source of the accessibility plugins wants to utilize these compass
+    # mixins via a run-time compass dependency...instead of bringing in all of
+    # compass we'll just manually bring in the file that we need as niether of
+    # these projects are likely to change anytime soon
+    dir.create("src/sass/compass/css3", recursive = TRUE)
+    base_url <- "https://raw.githubusercontent.com/Compass/compass/stable/core/stylesheets/compass"
+    download.file(
+      file.path(base_url, c("_support.scss", "css3/_transition.scss")),
+      file.path("src/sass/compass", c("_support.scss", "css3/_transition.scss"))
+    )
+    # Fix the ill-defined import
+    txt <- readLines("src/sass/compass/css3/_transition.scss")
+    txt <- sub('@import "compass/support"', '@import "../support"', txt)
+    writeLines(txt, "src/sass/compass/css3/_transition.scss")
+  }
 )
-unlink("inst/node_modules/", recursive = TRUE)
+
+
+# Reduce bootstrap-colorpicker as well
+file.rename("inst/lib/bootstrap-colorpicker/dist/css/", "inst/lib/bootstrap-colorpicker/css/")
+file.rename("inst/lib/bootstrap-colorpicker/dist/js/", "inst/lib/bootstrap-colorpicker/js/")
+unlink("inst/lib/bootstrap-colorpicker/node_modules/", recursive = TRUE)
+unlink("inst/lib/bootstrap-colorpicker/src/", recursive = TRUE)
+unlink("inst/lib/bootstrap-colorpicker/logo.png")
+
+unlink("inst/lib/jquery/", recursive = TRUE)
 
 # GitHub reports security issues of devDependencies, but that's irrelevant to us
 remove_dev_dependencies <- function(pkg_file) {
@@ -222,11 +250,14 @@ LICENSE <- c(
   "agreements used by these components are included below):",
   "",
   "- Bootstrap, https://github.com/twbs/bootstrap",
+  "- Bootstrap Accessibility Plugin, https://github.com/paypal/bootstrap-accessibility-plugin",
   "- bootstrap-colorpicker, https://github.com/itsjavi/bootstrap-colorpicker",
   "- Bootswatch, https://github.com/thomaspark/bootswatch",
   "- popper.js, https://github.com/popperjs/popper-core",
   rep("", 2),
   readLines("inst/lib/bootstrap/LICENSE"),
+  rep("", 2),
+  readLines("inst/lib/bootstrap-accessibility-plugin/LICENSE.md"),
   rep("", 2),
   readLines("inst/lib/bootstrap-colorpicker/LICENSE"),
   rep("", 2),
