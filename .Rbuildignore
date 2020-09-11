@@ -4,6 +4,10 @@ inst/lib/.yarn-integrity
 inst/lib/bootswatch/.github
 inst/lib/bootstrap-sass/assets/images/.keep
 inst/lib/bootswatch3/.npmignore
+inst/lib/http-parser-js/
+inst/lib/safe-buffer/
+inst/lib/websocket-driver/
+inst/lib/websocket-extensions/
 ^test-apps$
 ^bootstraplib\.Rproj$
 ^README\.Rmd$

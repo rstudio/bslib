@@ -9,8 +9,8 @@
     "bootstrap-accessibility-plugin@^1.0.6",
     "bootstrap-colorpicker@^3.1.2",
     "bootstrap-sass@^3.4.1",
-    "bootstrap@^4.4.1",
-    "bootswatch@^4.4.1",
+    "bootstrap@^4.5.2",
+    "bootswatch@^4.5.2",
     "popper.js@^1.16.0"
   ],
   "lockfileEntries": {
@@ -18,11 +18,15 @@
     "bootstrap-colorpicker@^3.1.2": "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.2.0.tgz#42b053b865a866b2674527813cd59f90137b9704",
     "bootstrap-sass@^3.4.1": "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz#6843c73b1c258a0ac5cb2cc6f6f5285b664a8e9a",
     "bootstrap@>=4.0": "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.2.tgz#a85c4eda59155f0d71186b6e6ad9b875813779ab",
-    "bootstrap@^4.4.1": "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.4.1.tgz#8582960eea0c5cd2bede84d8b0baf3789c3e8b01",
-    "bootswatch@^4.4.1": "https://registry.yarnpkg.com/bootswatch/-/bootswatch-4.4.1.tgz#f270618b4ebe07de8e1748acd88f104cc31bfec3",
+    "bootstrap@^4.5.2": "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.2.tgz#a85c4eda59155f0d71186b6e6ad9b875813779ab",
+    "bootswatch@^4.5.2": "https://registry.yarnpkg.com/bootswatch/-/bootswatch-4.5.2.tgz#da2d7b5cf37b07763e2e86c67bc30256821522a4",
+    "http-parser-js@>=0.5.1": "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.5.2.tgz#da2e31d237b393aae72ace43882dd7e270a8ff77",
     "jquery@>=2.1.0": "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5",
     "popper.js@>=1.10": "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b",
-    "popper.js@^1.16.0": "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.0.tgz#2e1816bcbbaa518ea6c2e15a466f4cb9c6e2fbb3"
+    "popper.js@^1.16.0": "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b",
+    "safe-buffer@>=5.1.0": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6",
+    "websocket-driver@^0.7.4": "https://registry.yarnpkg.com/websocket-driver/-/websocket-driver-0.7.4.tgz#89ad5295bbf64b480abcba31e4953aca706f5760",
+    "websocket-extensions@>=0.1.1": "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
   },
   "files": [],
   "artifacts": {}
