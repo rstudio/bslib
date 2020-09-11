@@ -27,8 +27,8 @@ download_and_copy_fonts <-  function(theme) {
   }
   web_font_url <- gsub('(^")|("$)', '', web_font_url)
 
-  font_css <- httr::content(httr::GET(web_font_url))
-  font_css <- strsplit(font_css, "\n", fixed = TRUE)[[1]]
+  # TODO: modify request to get woff instead of ttf?
+  font_css <- readLines(url(web_font_url))
 
   families <- extract_first_group(font_css, "font-family:\\s*'(.+)';")
   if (length(families) == 0) {
@@ -36,14 +36,20 @@ download_and_copy_fonts <-  function(theme) {
   }
   styles <- extract_first_group(font_css, "font-style:\\s*(.+);")
   weights <- extract_first_group(font_css, "font-weight:\\s*(.+);")
+  if (length(weights) != length(families) || length(styles) != length(families)) {
+    stop("Got a different number of weights/families")
+  }
+
   font_ids <- paste0(
     gsub("\\s+", "_", families), "_", weights,
     ifelse(styles %in% "normal", "", styles)
   )
+  urls <- extract_first_group(font_css, "url\\(([^)]+)")
+  if (length(urls) != length(font_ids)) {
+    stop("Got a different number of urls than font ids")
+  }
 
-  # TODO: check urls length
-  local_files <- file.path(fonts_home, paste0(font_ids, ".ttf"))
-  urls <- unlist(stringr::str_extract_all(font_css, "https://fonts.gstatic.com/.*\\.ttf"))
+  local_files <- file.path(fonts_home, paste0(font_ids, ".", tools::file_ext(urls)))
   download.file(urls, local_files)
 
   Map(function(url, local_file) {
