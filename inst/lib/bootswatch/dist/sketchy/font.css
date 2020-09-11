@@ -1,19 +1,14 @@
 @font-face {
-	font-family: 'Neucha';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('Neucha'),
-		/* from https://fonts.gstatic.com/s/neucha/v12/q5uGsou0JOdh94bfvQlo.ttf */
-		url('fonts/Neucha.ttf') format('truetype');
+  font-family: 'Cabin Sketch';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Cabin Sketch Regular'), local('CabinSketch-Regular'), url(fonts/Cabin_Sketch_400.ttf) format('truetype');
 }
 @font-face {
-	font-family: 'Cabin Sketch';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('Cabin Sketch Regular'),
-		local('CabinSketch-Regular'),
-		/* from https://fonts.gstatic.com/s/cabinsketch/v14/QGYpz_kZZAGCONcK2A4bGOj8mNhI.ttf */
-		url('fonts/Cabin_Sketch.ttf') format('truetype');
+  font-family: 'Neucha';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Neucha'), url(fonts/Neucha_400.ttf) format('truetype');
 }
