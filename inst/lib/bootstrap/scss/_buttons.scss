@@ -10,13 +10,18 @@
   font-weight: $btn-font-weight;
   color: $body-color;
   text-align: center;
+  text-decoration: if($link-decoration == none, null, none);
+  -webkit-text-decoration: if($link-decoration == none, null, none);
+  -moz-text-decoration: if($link-decoration == none, null, none);
+  -ms-text-decoration: if($link-decoration == none, null, none);
+  -o-text-decoration: if($link-decoration == none, null, none);
   white-space: $btn-white-space;
   vertical-align: middle;
-  cursor: if($enable-pointer-cursor-for-buttons, pointer, null);
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  -o-user-select: none;
   background-color: transparent;
   border: $btn-border-width solid transparent;
   @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-line-height, $btn-border-radius);
@@ -40,12 +45,16 @@
     @include box-shadow(none);
   }
 
-  &:not(:disabled):not(.disabled):active,
-  &:not(:disabled):not(.disabled).active {
-    @include box-shadow($btn-active-box-shadow);
+  &:not(:disabled):not(.disabled) {
+    cursor: if($enable-pointer-cursor-for-buttons, pointer, null);
 
-    &:focus {
-      @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+    &:active,
+    &.active {
+      @include box-shadow($btn-active-box-shadow);
+
+      &:focus {
+        @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+      }
     }
   }
 }
@@ -86,6 +95,7 @@ fieldset:disabled a.btn {
   -webkit-text-decoration: $link-decoration;
   -moz-text-decoration: $link-decoration;
   -ms-text-decoration: $link-decoration;
+  -o-text-decoration: $link-decoration;
 
   @include hover() {
     color: $link-hover-color;
@@ -93,6 +103,7 @@ fieldset:disabled a.btn {
     -webkit-text-decoration: $link-hover-decoration;
     -moz-text-decoration: $link-hover-decoration;
     -ms-text-decoration: $link-hover-decoration;
+    -o-text-decoration: $link-hover-decoration;
   }
 
   &:focus,
@@ -101,7 +112,7 @@ fieldset:disabled a.btn {
     -webkit-text-decoration: $link-hover-decoration;
     -moz-text-decoration: $link-hover-decoration;
     -ms-text-decoration: $link-hover-decoration;
-    box-shadow: none;
+    -o-text-decoration: $link-hover-decoration;
   }
 
   &:disabled,

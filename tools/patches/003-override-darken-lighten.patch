@@ -1,0 +1,24 @@
+diff --git a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+index da7020a..be24292 100644
+--- a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
++++ b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+@@ -31,6 +31,19 @@ $body-bg:               #fff !default;
+ //** Global text color on `<body>`.
+ $text-color:            $gray-dark !default;
+ 
++// BS3 source uses a lot of darken()/lighten() which doesn't work well
++// for both dark/light themes, so here we override their meaning to be
++// * darken(): pull $color towards $gray-base by $percent
++// * lighten(): pull $color towards $white by $percent 
++// (note that bs3_base_theme_colors() sets $white to be the bg color)
++$white: $body-bg !default;
++@function darken($color, $percent) {
++    @return mix($gray-base, $color, $percent);
++}
++@function lighten($color, $percent) {
++    @return mix($white, $color, $percent);
++}
++
+ //** Global textual link color.
+ $link-color:            $brand-primary !default;
+ //** Link hover color set via `darken()` function.

@@ -20,6 +20,7 @@
   -webkit-touch-action: pan-y;
   -moz-touch-action: pan-y;
   -ms-touch-action: pan-y;
+  -o-touch-action: pan-y;
 }
 
 .carousel-inner {
@@ -39,6 +40,7 @@
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
   @include transition($carousel-transition);
 }
 
