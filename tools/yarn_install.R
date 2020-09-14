@@ -20,7 +20,7 @@ unlink("inst/lib/safe-buffer", recursive = TRUE)
 unlink("inst/lib/websocket-driver", recursive = TRUE)
 unlink("inst/lib/websocket-extensions", recursive = TRUE)
 
-# jquery comes in via jquerylib
+# jquery comes in via jquerylib (R package)
 unlink("inst/lib/jquery/", recursive = TRUE)
 
 # bootstrap.bundle.min.js includes popper (but not jQuery)
@@ -274,4 +274,3 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
     error = function(e) quit(save = "no", status = 1)
   )
 }
-
