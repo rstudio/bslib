@@ -121,7 +121,7 @@ bs3_accessibility_layer <- function() {
       )
     ),
     html_deps = htmltools::htmlDependency(
-      "bootstrap-accessibility", packageVersion("bootstraplib"),
+      "bootstrap-accessibility", version_accessibility,
       package = "bootstraplib",
       src = "lib/bootstrap-accessibility-plugin",
       script = "plugins/js/bootstrap-accessibility.min.js"
