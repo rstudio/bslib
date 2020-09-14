@@ -196,25 +196,15 @@ unlink("inst/lib/bootswatch3/.github", recursive = TRUE)
 unlink("inst/lib/bootswatch3/fonts", recursive = TRUE)
 
 
-withr::with_dir(
-  "inst/lib/bootstrap-accessibility-plugin", {
-    # Remove everything but the source
-    unlink(setdiff(dir(), c("src", "plugins", "LICENSE.md")), recursive = TRUE)
-    # The source of the accessibility plugins wants to utilize these compass
-    # mixins via a run-time compass dependency...instead of bringing in all of
-    # compass we'll just manually bring in the file that we need as niether of
-    # these projects are likely to change anytime soon
-    dir.create("src/sass/compass/css3", recursive = TRUE)
-    base_url <- "https://raw.githubusercontent.com/Compass/compass/stable/core/stylesheets/compass"
-    download.file(
-      file.path(base_url, c("_support.scss", "css3/_transition.scss")),
-      file.path("src/sass/compass", c("_support.scss", "css3/_transition.scss"))
-    )
-    # Fix the ill-defined import
-    txt <- readLines("src/sass/compass/css3/_transition.scss")
-    txt <- sub('@import "compass/support"', '@import "../support"', txt)
-    writeLines(txt, "src/sass/compass/css3/_transition.scss")
-  }
+keep_files <- function(dir, files) {
+  withr::with_dir(dir, {
+    unlink(setdiff(dir(), files), recursive = TRUE)
+  })
+}
+
+keep_files(
+  "inst/lib/bootstrap-accessibility-plugin",
+  c("src", "plugins", "LICENSE.md")
 )
 
 
