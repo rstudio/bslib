@@ -10,6 +10,22 @@ withr::with_dir("inst", system("yarn install"))
 unlink("inst/lib", recursive = TRUE)
 file.rename("inst/node_modules/", "inst/lib/")
 
+# ----------------------------------------------------------------------
+# Get rid of peer dependencies that we don't need
+# ----------------------------------------------------------------------
+
+# Not necessary dependences brought in by bootwswatch (at least in v4.5.2)
+unlink("inst/lib/http-parser-js", recursive = TRUE)
+unlink("inst/lib/safe-buffer", recursive = TRUE)
+unlink("inst/lib/websocket-driver", recursive = TRUE)
+unlink("inst/lib/websocket-extensions", recursive = TRUE)
+
+# jquery comes in via jquerylib (R package)
+unlink("inst/lib/jquery/", recursive = TRUE)
+
+# bootstrap.bundle.min.js includes popper (but not jQuery)
+# https://getbootstrap.com/docs/4.4/getting-started/introduction/#js
+unlink("inst/lib/popper.js", recursive = TRUE)
 
 
 # ----------------------------------------------------------------------
@@ -151,9 +167,6 @@ if (length(unknown_prefixes)) {
 # Now, get rid of files that we don't need to bundle with the package
 # ----------------------------------------------------------------------
 
-# I don't think we'll need these special builds of popper (at least for now)
-unlink("inst/lib/popper.js/dist/umd", recursive = TRUE)
-unlink("inst/lib/popper.js/dist/esm", recursive = TRUE)
 
 # Avoiding bootstrap's distributed CSS saves us another 1.5 Mb
 unlink("inst/lib/bootstrap/dist/css", recursive = TRUE)
@@ -189,43 +202,24 @@ file.remove(c(
   Sys.glob("inst/lib/bootswatch3/*/*.less")
 ))
 
-# Bootswatch is quite bloated
+# Downsize Bootswatch 3
 unlink("inst/lib/bootswatch3/docs", recursive = TRUE)
 unlink("inst/lib/bootswatch3/.github", recursive = TRUE)
 # we already got fonts via tools/download_fonts.R
 unlink("inst/lib/bootswatch3/fonts", recursive = TRUE)
 
+# Downsize bootstrap-accessibility
+withr::with_dir("inst/lib/bootstrap-accessibility-plugin", {
+  unlink(setdiff(dir(), c("src", "plugins", "LICENSE.md", "package.json")), recursive = TRUE)
+})
 
-withr::with_dir(
-  "inst/lib/bootstrap-accessibility-plugin", {
-    # Remove everything but the source
-    unlink(setdiff(dir(), c("src", "plugins", "LICENSE.md")), recursive = TRUE)
-    # The source of the accessibility plugins wants to utilize these compass
-    # mixins via a run-time compass dependency...instead of bringing in all of
-    # compass we'll just manually bring in the file that we need as niether of
-    # these projects are likely to change anytime soon
-    dir.create("src/sass/compass/css3", recursive = TRUE)
-    base_url <- "https://raw.githubusercontent.com/Compass/compass/stable/core/stylesheets/compass"
-    download.file(
-      file.path(base_url, c("_support.scss", "css3/_transition.scss")),
-      file.path("src/sass/compass", c("_support.scss", "css3/_transition.scss"))
-    )
-    # Fix the ill-defined import
-    txt <- readLines("src/sass/compass/css3/_transition.scss")
-    txt <- sub('@import "compass/support"', '@import "../support"', txt)
-    writeLines(txt, "src/sass/compass/css3/_transition.scss")
-  }
-)
-
-
-# Reduce bootstrap-colorpicker as well
+# Downsize bootstrap-colorpicker
 file.rename("inst/lib/bootstrap-colorpicker/dist/css/", "inst/lib/bootstrap-colorpicker/css/")
 file.rename("inst/lib/bootstrap-colorpicker/dist/js/", "inst/lib/bootstrap-colorpicker/js/")
 unlink("inst/lib/bootstrap-colorpicker/node_modules/", recursive = TRUE)
+unlink("inst/lib/bootstrap-colorpicker/dist/", recursive = TRUE)
 unlink("inst/lib/bootstrap-colorpicker/src/", recursive = TRUE)
 unlink("inst/lib/bootstrap-colorpicker/logo.png")
-
-unlink("inst/lib/jquery/", recursive = TRUE)
 
 # GitHub reports security issues of devDependencies, but that's irrelevant to us
 remove_dev_dependencies <- function(pkg_file) {
@@ -239,7 +233,8 @@ invisible(lapply(Sys.glob("inst/lib/*/package.json"), remove_dev_dependencies))
 # Get BS4/BS3 versions (for bootstraplib::bootstrap() versioning)
 version_bs4 <- jsonlite::fromJSON("inst/lib/bootstrap/package.json")$version
 version_bs3 <- jsonlite::fromJSON("inst/lib/bootstrap-sass/package.json")$version
-usethis::use_data(version_bs4, version_bs3, internal = TRUE, overwrite = TRUE)
+version_accessibility <- jsonlite::fromJSON("inst/lib/bootstrap-accessibility-plugin/package.json")$version
+usethis::use_data(version_bs4, version_bs3, version_accessibility, internal = TRUE, overwrite = TRUE)
 
 # Create the LICENSE file
 LICENSE <- c(
@@ -279,4 +274,3 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
     error = function(e) quit(save = "no", status = 1)
   )
 }
-

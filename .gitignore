@@ -1,7 +1,3 @@
 .Rproj.user
 .Rhistory
 .DS_Store
-inst/lib/http-parser-js/
-inst/lib/safe-buffer/
-inst/lib/websocket-driver/
-inst/lib/websocket-extensions/
