@@ -85,10 +85,7 @@ bootstrap <- function(theme = bs_theme_get(),
         src = dirname(out_file),
         stylesheet = basename(out_file),
         script = basename(js),
-        meta = c(
-          name = "viewport",
-          content = "width=device-width, initial-scale=1, shrink-to-fit=no"
-        )
+        meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
       )
     ),
     theme$html_deps
