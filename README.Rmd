@@ -45,7 +45,7 @@ To start using **bootstraplib** in your **shiny** apps today, install `remotes::
 shiny::shinyOptions(bootstraplib = TRUE)
 ```
 
-2. Call `bs_theme_new()` and optionally specify a Bootstrap `version` and [`bootswatch` theme](https://bootswatch.com/). The current default is Bootstrap 4 (with added added Bootstrap 3 compatibility) and no `bootswatch` theme:
+2. Call `bs_theme_new()` and optionally specify a Bootstrap `version` and [`bootswatch` theme](https://bootswatch.com/). The current default is Bootstrap 4 (with added Bootstrap 3 compatibility) and no `bootswatch` theme:
 
 ```r
 bs_theme_new(version = "4+3", bootswatch = NULL)
