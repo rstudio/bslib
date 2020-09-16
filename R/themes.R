@@ -105,7 +105,14 @@ bs_theme_set <- function(theme) {
     # If this code is running outside of a running shiny app, then clear the theme when
     # the next app exits. This helps to avoid the problem of sourcing bootstraplib/shiny
     # code for a particular example and having future code impacted by it
-    shiny::onStop(bs_theme_clear)
+    if ("shiny" %in% loadedNamespaces()) {
+      shiny::onStop(bs_theme_clear)
+    } else {
+      set_hook_once(
+        packageEvent("shiny", "onLoad"),
+        function() shiny::onStop(bs_theme_clear)
+      )
+    }
   }
 
   invisible(old_theme)
@@ -118,7 +125,6 @@ bs_theme_set_ <- function(theme) {
   old_theme <- options(bootstraplib_theme = theme)
   invisible(old_theme[["bootstraplib_theme"]])
 }
-
 
 bs_theme_create <- function(version = version_default()) {
   version <- version_resolve(version)

@@ -94,3 +94,11 @@ system_file <- local({
 is_shiny_app <- function() {
   "shiny" %in% loadedNamespaces() && shiny::isRunning()
 }
+
+# Like setHook(), but ensures that value (i.e., the hook) is only ever set once
+set_hook_once <- function(hookName, value) {
+  hook_is_value <- vapply(getHook(hookName), identical, logical(1), value)
+  if (!any(hook_is_value)) {
+    setHook(hookName, value)
+  }
+}
