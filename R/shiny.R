@@ -2,7 +2,7 @@
 
 shiny_options_set <- function() {
   do_shiny({
-    .globals$shinyOptions <- shinyOptions()
+    .globals$shinyOptions <- shiny::shinyOptions()
     shiny::shinyOptions(bootstraplib = TRUE)
   })
 }
