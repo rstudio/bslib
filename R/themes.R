@@ -67,6 +67,7 @@ bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
   theme <- bs_theme_create(version)
   theme <- bs_theme_add_bootswatch(theme, version, bootswatch)
   bs_theme_set(theme)
+  shiny_options_set()
 }
 
 #' @rdname theming
@@ -79,6 +80,7 @@ bs_theme_get <- function() {
 #' @export
 bs_theme_clear <- function() {
   old_theme <- options(bootstraplib_theme = NULL)
+  shiny_options_restore()
   invisible(old_theme[["bootstraplib_theme"]])
 }
 
