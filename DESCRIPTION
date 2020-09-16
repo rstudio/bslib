@@ -39,6 +39,7 @@ RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Collate:
+    'globals.R'
     'bootswatch.R'
     'bs_sass.R'
     'files.R'
