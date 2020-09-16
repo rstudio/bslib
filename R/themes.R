@@ -85,10 +85,8 @@ bs_theme_clear <- function() {
 #' @param theme a theme object (i.e., the return value of `bs_theme_get()`).
 #' @export
 bs_theme_set <- function(theme) {
-  if (!is.null(theme)) {
-    theme <- as_bs_theme(theme)
-  }
-  old_theme <- options(bootstraplib_theme = theme)
+
+  old_theme <- bs_theme_set_(theme)
 
   if (shiny::isRunning()) {
 
@@ -97,7 +95,7 @@ bs_theme_set <- function(theme) {
     if (is.null(.globals$themePriorToShinyRun)) {
       .globals$themePriorToShinyRun <- old_theme
       shiny::onStop(function() {
-        bs_theme_set(.globals$themePriorToShinyRun)
+        bs_theme_set_(.globals$themePriorToShinyRun)
         .globals$themePriorToShinyRun <- NULL
       })
     }
@@ -106,11 +104,18 @@ bs_theme_set <- function(theme) {
 
     # If this code is running outside of a running shiny app, then clear the theme when
     # the next app exits. This helps to avoid the problem of sourcing bootstraplib/shiny
-    # code for a particular example, but then having all downstream code
+    # code for a particular example and having future code impacted by it
     shiny::onStop(bs_theme_clear)
   }
 
+  invisible(old_theme)
+}
 
+bs_theme_set_ <- function(theme) {
+  if (!is.null(theme)) {
+    theme <- as_bs_theme(theme)
+  }
+  old_theme <- options(bootstraplib_theme = theme)
   invisible(old_theme[["bootstraplib_theme"]])
 }
 
