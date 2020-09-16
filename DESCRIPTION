@@ -44,6 +44,7 @@ Collate:
     'files.R'
     'imports.R'
     'layers.R'
+    'shiny.R'
     'theme-add.R'
     'theme-custom.R'
     'utils.R'
