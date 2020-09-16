@@ -89,3 +89,8 @@ system_file <- local({
     file.path(package_dir, ...)
   }
 })
+
+
+is_shiny_app <- function() {
+  "shiny" %in% loadedNamespaces() && shiny::isRunning()
+}

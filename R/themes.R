@@ -88,7 +88,7 @@ bs_theme_set <- function(theme) {
 
   old_theme <- bs_theme_set_(theme)
 
-  if (shiny::isRunning()) {
+  if (is_shiny_app()) {
 
     # If this is the 1st time we're setting a theme inside a runApp() (or similar), then
     # after the app exits, restore the theme to whatever it was prior to running the app
