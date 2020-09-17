@@ -21,7 +21,8 @@ lib_file <- function(...) {
 }
 
 add_class <- function(x, y) {
-  structure(x, class = unique(c(y, oldClass(x))))
+  class(x) <- unique(c(y, oldClass(x)))
+  x
 }
 
 is_string <- function(x) {
