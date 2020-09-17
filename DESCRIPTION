@@ -22,7 +22,7 @@ Imports:
     grDevices,
     htmltools (>= 0.4.0.9003),
     jsonlite,
-    sass (>= 0.2.0.9002),
+    sass (>= 0.2.0.9003),
     jquerylib (>= 0.1.2),
     rlang
 Suggests:
