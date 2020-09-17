@@ -9,7 +9,8 @@ bootstrap(
   theme = bs_theme_get(),
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_default_cache(),
-  jquery = jquerylib::jquery_core(3)
+  jquery = jquerylib::jquery_core(3),
+  use_prebuilt_css = TRUE
 )
 
 bootstrap_sass(
@@ -20,26 +21,32 @@ bootstrap_sass(
 )
 }
 \arguments{
-\item{theme}{one of the following:
-\enumerate{
-\item The result of \code{\link[=bs_theme_get]{bs_theme_get()}} (i.e., the current global theme).
-\item \code{NULL}, which means use the latest version of Bootstrap with no custom theming.
-\item A string containing a bootswatch theme and/or a Bootstrap major version. To specify
-both, use the syntax \code{"theme@version"}, (e.g., \code{"cosmo@4"} for Bootstrap 4 cosmo
-theme with BS3 compatibility). If no version is specified, the latest available
-version is used (for more info, see \code{version} in \code{\link[=bs_theme_new]{bs_theme_new()}}).
-\strong{Note}: this approach ignores global themes (i.e., \code{\link[=bs_theme_new]{bs_theme_new()}})
-\item A \code{\link[sass:sass_layer]{sass::sass_layer()}} which contains a bootstraplib theme. Useful for adding
-custom layers to the current theme without affecting the global state (e.g.,
-\code{sass::sass_layer_merge(bs_theme_get(), my_layer())}).
-}}
+\item{theme}{one of the following: 1. The result of \code{\link[=bs_theme_get]{bs_theme_get()}} (i.e.,
+the current global theme). 2. \code{NULL}, which means use the latest version of
+Bootstrap with no custom theming. 3. A string containing a bootswatch theme
+and/or a Bootstrap major version. To specify both, use the syntax
+\code{"theme@version"}, (e.g., \code{"cosmo@4"} for Bootstrap 4 cosmo theme with BS3
+compatibility). If no version is specified, the latest available version is
+used (for more info, see \code{version} in \code{\link[=bs_theme_new]{bs_theme_new()}}). \strong{Note}: this
+approach ignores global themes (i.e., \code{\link[=bs_theme_new]{bs_theme_new()}}) 4. A
+\code{\link[sass:sass_layer]{sass::sass_layer()}} which contains a bootstraplib theme. Useful for adding
+custom layers to the current theme without affecting the global state
+(e.g., \code{sass::sass_layer_merge(bs_theme_get(), my_layer())}).}
 
 \item{sass_options}{see \code{\link[sass:sass_options]{sass::sass_options()}}.}
 
-\item{cache}{This can be a directory to use for the cache, a \link[sass]{FileCache}
-object created by \code{\link[sass:sass_file_cache]{sass_file_cache()}}, or \code{FALSE} or \code{NULL} for no caching.}
+\item{cache}{A \link[sass]{FileCache} object created by \code{\link[sass:sass_file_cache]{sass_file_cache()}}, or \code{NULL}
+for no caching.}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
+
+\item{use_prebuilt_css}{Before compiling the theme object, first look for a
+pre-built CSS file for the given \code{theme} and \code{sass_options}. The
+bootstraplib comes with pre-built CSS files for stock Bootstrap builds for
+when \code{bs_theme_new()} or \code{bs_theme_create()} are called with \code{version} of
+\code{"3"}, \code{"4+3"}, and \code{"4"}, and no \code{bootswatch} theme. If this option is
+\code{TRUE} and a pre-built CSS file exists for the theme object, it will be
+fetched immediately and not compiled.}
 
 \item{rules}{Sass styling rules that may reference \code{theme} \code{defaults} and \code{declarations}.}
 
@@ -53,19 +60,20 @@ destructive, as files may be overwritten.)}
 \item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}.}
 }
 \value{
-a list of HTML dependencies containing Bootstrap CSS, Bootstrap JavaScript, and \code{jquery}.
-This list may contain additional HTML dependencies if the \code{theme} calls for it (e.g., \code{version = "4+3"}
-contains an additional JavaScript dependency).
+a list of HTML dependencies containing Bootstrap CSS, Bootstrap
+JavaScript, and \code{jquery}. This list may contain additional HTML
+dependencies if the \code{theme} calls for it (e.g., \code{version = "4+3"} contains
+an additional JavaScript dependency).
 }
 \description{
-Use \code{bootstrap()} to compile Bootstrap Sass into CSS and return it,
-along with other HTML dependencies, as a list of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}s
-(if you just want the CSS as a string, and a \code{\link[=bs_theme_new]{bs_theme_new()}} has been set,
-you can call \code{sass::sass()} on the return value of \code{\link[=bs_theme_get]{bs_theme_get()}}).
-Use \code{bootstrap_sass()} if you can assume Bootstrap already exists on the
-page, but you want to leverage Bootstrap utilities (e.g., variables, functions,
-or mixins) to generate additional CSS rules (as a string that can be included
-as a \verb{<style>} tag via \code{tags$style(css)}).
+Use \code{bootstrap()} to compile Bootstrap Sass into CSS and return it, along
+with other HTML dependencies, as a list of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}s (if
+you just want the CSS as a string, and a \code{\link[=bs_theme_new]{bs_theme_new()}} has been set, you
+can call \code{sass::sass()} on the return value of \code{\link[=bs_theme_get]{bs_theme_get()}}). Use
+\code{bootstrap_sass()} if you can assume Bootstrap already exists on the page,
+but you want to leverage Bootstrap utilities (e.g., variables, functions, or
+mixins) to generate additional CSS rules (as a string that can be included as
+a \verb{<style>} tag via \code{tags$style(css)}).
 }
 \examples{
 

@@ -44,11 +44,13 @@ Collate:
     'files.R'
     'imports.R'
     'layers.R'
+    'prebuilt.R'
     'theme-add.R'
     'theme-custom.R'
     'utils.R'
     'theme-preview.R'
     'themes.R'
+    'version-default.R'
     'versions.R'
 Remotes:
     rstudio/thematic,
