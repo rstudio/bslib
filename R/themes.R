@@ -64,8 +64,7 @@
 #' )
 #'
 bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
-  theme <- bs_theme_create(version)
-  theme <- bs_theme_add_bootswatch(theme, version, bootswatch)
+  theme <- bs_theme_create(version, bootswatch)
   bs_theme_set(theme)
 }
 
@@ -93,8 +92,7 @@ bs_theme_set <- function(theme) {
   invisible(old_theme[["bootstraplib_theme"]])
 }
 
-
-bs_theme_create <- function(version = version_default()) {
+bs_theme_create <- function(version = version_default(), bootswatch = NULL) {
   version <- version_resolve(version)
 
   theme <- sass_layer_merge(
@@ -102,7 +100,9 @@ bs_theme_create <- function(version = version_default()) {
     if (identical(version, "4+3")) bs3compat_layer()
   )
 
-  add_class(theme, "bs_theme")
+  theme <- add_class(theme, "bs_theme")
+
+  bs_theme_add_bootswatch(theme, version, bootswatch)
 }
 
 bs_theme_add_bootswatch <- function(theme, version = version_default(), bootswatch = NULL) {
