@@ -36,12 +36,6 @@
 #' # Helpful if you want to know the Bootstrap version of the current theme
 #' theme_version()
 #'
-#' # Can create a theme and return the object, instead of setting it globally.
-#' bs3 <- bs_theme_create("3")
-#' red_default <- sass::sass_layer(defaults = list("brand-primary" = "red !default"))
-#' bs3 <- sass::sass_layer_merge(bs3, red_default)
-#' bootstrap_sass(".my-class { color: $brand-primary; }", bs3)
-#'
 #' # Preview the current theme styling in a shiny app
 #' if (interactive()) bs_theme_preview()
 #'
@@ -59,15 +53,11 @@
 #' # Since themes are sass layers, you can work with them
 #' # locally as if they were any other Sass layer
 #' # (i.e. you don't have to modify global state to add theme customizations)
-#' bs_theme_new("4+3")
-#' theme <- sass::sass_layer_merge(
-#'   bs_theme_get(),
-#'   sass::sass_layer(defaults = list("primary" = "red !default"))
-#' )
-#' bootstrap_sass(
-#'   ".my-class { color: mix($primary, $secondary, 50%); }",
-#'   theme
-#' )
+#' #' # Can create a theme and return the object, instead of setting it globally.
+#' bs3 <- bs_theme_create("3")
+#' red_default <- sass::sass_layer(defaults = list("brand-primary" = "red !default"))
+#' bs3 <- sass::sass_layer_merge(bs3, red_default)
+#' bootstrap_sass(".my-class { color: $brand-primary; }", bs3)
 #'
 bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
   theme <- bs_theme_create(version, bootswatch)
