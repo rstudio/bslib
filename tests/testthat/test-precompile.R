@@ -28,46 +28,46 @@ test_that("Precompiled theme output is identical to compiled themes", {
   # contents to non-precompiled. The dirs will be something like:
   # /tmp/RtmpVi9qRT/bootstraplib-088b402ee16511d7
   # /tmp/RtmpVi9qRT/bootstraplib-precompiled-4
-  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), use_precompiled_css = FALSE))
-  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), use_precompiled_css = TRUE))
+  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), precompiled = FALSE))
+  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), precompiled = TRUE))
   expect_false(identical(dir1, dir2))
   expect_true(identical_dirs(dir1, dir2))
 
-  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4+3"), use_precompiled_css = FALSE))
-  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4+3"), use_precompiled_css = TRUE))
+  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4+3"), precompiled = FALSE))
+  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4+3"), precompiled = TRUE))
   expect_false(identical(dir1, dir2))
   expect_true(identical_dirs(dir1, dir2))
 
-  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("3"), use_precompiled_css = FALSE))
-  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("3"), use_precompiled_css = TRUE))
+  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("3"), precompiled = FALSE))
+  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("3"), precompiled = TRUE))
   expect_false(identical(dir1, dir2))
   expect_true(identical_dirs(dir1, dir2))
 
   # Two calls to bootstrap() with precompiled CSS should end up in the same dir,
   # even when caching is turned off. Something like:
   # /tmp/RtmpVi9qRT/bootstraplib-precompiled-4
-  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), use_precompiled_css = TRUE))
-  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), use_precompiled_css = TRUE))
+  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), precompiled = TRUE))
+  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), precompiled = TRUE))
   expect_identical(dir1, dir2)
 
   # For default sass options, we'll end up with the precompiled dir, something
   # like:
   # /tmp/RtmpVi9qRT/bootstraplib-precompiled-4
   default_sass_options <- eval(formals(bootstrap)$sass_options)
-  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), use_precompiled_css = TRUE))
-  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), default_sass_options, use_precompiled_css = TRUE))
+  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), precompiled = TRUE))
+  dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), default_sass_options, precompiled = TRUE))
   expect_identical(dir1, dir2)
 
   # For non-default sass options, we'll end up NOT with the precompiled dir,
   # which means that it didn't use the precompiled version.
-  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), use_precompiled_css = TRUE))
+  dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4"), precompiled = TRUE))
   dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4"),
                              sass::sass_options(output_style = "expanded"),
-                             use_precompiled_css = TRUE))
+                             precompiled = TRUE))
   expect_false(identical(dir1, dir2))
 
   # For themes where there's no precompiled version, they will be compiled to
-  # the same directory whether use_precompiled_css is TRUE or FALSE. It will
+  # the same directory whether precompiled is TRUE or FALSE. It will
   # look like:
   # /tmp/RtmpVi9qRT/bootstraplib-5c3108f39cfd584e
   # Need to tell sass to use a cache, because otherwise it will write into a new
@@ -75,9 +75,9 @@ test_that("Precompiled theme output is identical to compiled themes", {
   cache <- sass_file_cache(tempfile())
   dir1 <- get_bootstrap_path(bootstrap(bs_theme_create("4", "darkly"),
                                        cache = cache,
-                                       use_precompiled_css = FALSE))
+                                       precompiled = FALSE))
   dir2 <- get_bootstrap_path(bootstrap(bs_theme_create("4", "darkly"),
                                        cache = cache,
-                                       use_precompiled_css = TRUE))
+                                       precompiled = TRUE))
   expect_true(identical(dir1, dir2))
 })

@@ -10,7 +10,7 @@ bootstrap(
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
-  use_precompiled_css = TRUE
+  precompiled = TRUE
 )
 
 bootstrap_sass(
@@ -40,9 +40,9 @@ for no caching.}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
-\item{use_precompiled_css}{Before compiling the theme object, first look for
-a precompiled CSS file for the given \code{version}.  If this option is \code{TRUE}
-and a precompiled CSS file exists for the theme object, it will be fetched
+\item{precompiled}{Before compiling the theme object, first look for a
+precompiled CSS file for the given \code{version}.  If this option is \code{TRUE} and
+a precompiled CSS file exists for the theme object, it will be fetched
 immediately and not compiled. At the moment, we only provide precompiled
 CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
 themes, or non-default \code{sass_options}).}

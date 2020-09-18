@@ -22,9 +22,9 @@
 #'   (e.g., `sass::sass_layer_merge(bs_theme_get(), my_layer())`).
 #' @param sass_options see [sass::sass_options()].
 #' @param jquery See [jquerylib::jquery_core()].
-#' @param use_precompiled_css Before compiling the theme object, first look for
-#'   a precompiled CSS file for the given `version`.  If this option is `TRUE`
-#'   and a precompiled CSS file exists for the theme object, it will be fetched
+#' @param precompiled Before compiling the theme object, first look for a
+#'   precompiled CSS file for the given `version`.  If this option is `TRUE` and
+#'   a precompiled CSS file exists for the theme object, it will be fetched
 #'   immediately and not compiled. At the moment, we only provide precompiled
 #'   CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
 #'   themes, or non-default `sass_options`).
@@ -63,7 +63,7 @@ bootstrap <- function(
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
-  use_precompiled_css = TRUE)
+  precompiled = TRUE)
 {
 
   theme <- as_bs_theme(theme)
@@ -76,7 +76,7 @@ bootstrap <- function(
   out_file <- NULL
   # Look for a precompiled css file if user asks for it AND the default options
   # are used.
-  if (use_precompiled_css &&
+  if (precompiled &&
       identical(sass_options, sass::sass_options(output_style = "compressed")))
   {
     precompiled_css <- precompiled_css_path(theme)
