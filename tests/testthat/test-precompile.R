@@ -1,7 +1,7 @@
 # Disable caching
 sass_cache_set(NULL)
 
-describe("Can find precompiled themes", {
+test_that("Can find precompiled themes", {
   # Should be present for 4, 4+3, 3 without bootswatch theme
   expect_true(file.exists(precompiled_css_path(bs_theme_create("4"))))
   expect_true(file.exists(precompiled_css_path(bs_theme_create("4+3"))))
@@ -18,7 +18,7 @@ describe("Can find precompiled themes", {
 })
 
 
-describe("Precompiled theme output is identical to compiled themes", {
+test_that("Precompiled theme output is identical to compiled themes", {
   get_bootstrap_path <- function(x) {
     bs_dep <- Filter(x, f = function(y) { identical(y$name, "bootstrap") })[[1]]
     bs_dep$src$file

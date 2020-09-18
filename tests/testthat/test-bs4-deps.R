@@ -3,8 +3,6 @@ library(sass)
 
 options(sass.cache = FALSE)
 
-context("bs4-deps")
-
 describe("bootstrap_sass", {
   # Example CSS that includes one variable, one function call, one mixin
   bs4_css <- ".foo { background-color: $primary; color: color-yiq($primary); @include size(120px); }"

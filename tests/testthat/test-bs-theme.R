@@ -1,5 +1,3 @@
-context("theme-api")
-
 test_that("theme api works", {
   bs_theme_new(version = "4+3", bootswatch = "sketchy")
   on.exit(bs_theme_clear(), add = TRUE)

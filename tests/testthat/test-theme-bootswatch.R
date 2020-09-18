@@ -1,5 +1,3 @@
-context("theme_bootswatch")
-
 test_that("Can retrieve version from theme object", {
   bs_theme_new()
   expect_null(theme_bootswatch(bs_theme_get()))

@@ -1,5 +1,3 @@
-context("theme_version")
-
 test_that("Can retrieve version from theme object", {
   bs_theme_new()
   expect_identical(
