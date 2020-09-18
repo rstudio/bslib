@@ -8,9 +8,9 @@
 bootstrap(
   theme = bs_theme_get(),
   sass_options = sass::sass_options(output_style = "compressed"),
-  cache = sass::sass_default_cache(),
+  cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
-  use_prebuilt_css = TRUE
+  use_precompiled_css = TRUE
 )
 
 bootstrap_sass(
@@ -40,12 +40,12 @@ for no caching.}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
-\item{use_prebuilt_css}{Before compiling the theme object, first look for a
-pre-built CSS file for the given \code{theme} and \code{sass_options}. The
-bootstraplib comes with pre-built CSS files for stock Bootstrap builds for
-when \code{bs_theme_new()} or \code{bs_theme_create()} are called with \code{version} of
-\code{"3"}, \code{"4+3"}, and \code{"4"}, and no \code{bootswatch} theme. If this option is
-\code{TRUE} and a pre-built CSS file exists for the theme object, it will be
+\item{use_precompiled_css}{Before compiling the theme object, first look for
+a precompiled CSS file for the given \code{theme} and \code{sass_options}. The
+bootstraplib comes with precompiled CSS files for stock Bootstrap builds
+for when \code{bs_theme_new()} or \code{bs_theme_create()} are called with \code{version}
+of \code{"3"}, \code{"4+3"}, and \code{"4"}, and no \code{bootswatch} theme. If this option is
+\code{TRUE} and a precompiled CSS file exists for the theme object, it will be
 fetched immediately and not compiled.}
 
 \item{rules}{Sass styling rules that may reference \code{theme} \code{defaults} and \code{declarations}.}

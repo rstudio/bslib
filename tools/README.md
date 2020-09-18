@@ -7,6 +7,7 @@ Rscript tools/yarn_install.R
 ```
 
 **Warning:** Upgrading to a new major version of Bootstrap won't be as simple as running this R script. We'll cross that bridge when we get there.
+Note that after upgrading Bootstrap, you should generate the precompiled CSS files by running the precompile-css.R script in this directory. (Eventually this step should be added to the Bootstrap upgrade script.)
 
 ## Local fonts
 

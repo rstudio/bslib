@@ -22,12 +22,12 @@
 #'   (e.g., `sass::sass_layer_merge(bs_theme_get(), my_layer())`).
 #' @param sass_options see [sass::sass_options()].
 #' @param jquery See [jquerylib::jquery_core()].
-#' @param use_prebuilt_css Before compiling the theme object, first look for a
-#'   pre-built CSS file for the given `theme` and `sass_options`. The
-#'   bootstraplib comes with pre-built CSS files for stock Bootstrap builds for
-#'   when `bs_theme_new()` or `bs_theme_create()` are called with `version` of
-#'   `"3"`, `"4+3"`, and `"4"`, and no `bootswatch` theme. If this option is
-#'   `TRUE` and a pre-built CSS file exists for the theme object, it will be
+#' @param use_precompiled_css Before compiling the theme object, first look for
+#'   a precompiled CSS file for the given `theme` and `sass_options`. The
+#'   bootstraplib comes with precompiled CSS files for stock Bootstrap builds
+#'   for when `bs_theme_new()` or `bs_theme_create()` are called with `version`
+#'   of `"3"`, `"4+3"`, and `"4"`, and no `bootswatch` theme. If this option is
+#'   `TRUE` and a precompiled CSS file exists for the theme object, it will be
 #'   fetched immediately and not compiled.
 #' @inheritParams sass::sass
 #'
@@ -63,7 +63,7 @@ bootstrap <- function(
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
-  use_prebuilt_css = TRUE)
+  use_precompiled_css = TRUE)
 {
 
   theme <- as_bs_theme(theme)
@@ -74,25 +74,25 @@ bootstrap <- function(
   }
 
   out_file <- NULL
-  # Look for a prebuilt css file if user asks for it AND the default options
+  # Look for a precompiled css file if user asks for it AND the default options
   # are used.
-  if (use_prebuilt_css &&
+  if (use_precompiled_css &&
       identical(sass_options, sass::sass_options(output_style = "compressed")))
   {
-    prebuilt_css <- prebuilt_css_path(theme)
-    if (!is.null(prebuilt_css)) {
-      out_dir <- file.path(tempdir(), paste0("bootstraplib-prebuilt-", version))
+    precompiled_css <- precompiled_css_path(theme)
+    if (!is.null(precompiled_css)) {
+      out_dir <- file.path(tempdir(), paste0("bootstraplib-precompiled-", version))
       if (!dir.exists(out_dir)) {
         dir.create(out_dir)
       }
-      out_file <- file.path(out_dir, basename(prebuilt_css))
-      file.copy(prebuilt_css, out_file)
+      out_file <- file.path(out_dir, basename(precompiled_css))
+      file.copy(precompiled_css, out_file)
 
       sass::write_file_attachments(theme$file_attachments, out_dir)
     }
   }
 
-  # If prebuilt css not found, compile normally.
+  # If precompiled css not found, compile normally.
   if (is.null(out_file)) {
     out_file <- sass::sass(
       input = theme,
