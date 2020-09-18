@@ -23,12 +23,12 @@
 #' @param sass_options see [sass::sass_options()].
 #' @param jquery See [jquerylib::jquery_core()].
 #' @param use_precompiled_css Before compiling the theme object, first look for
-#'   a precompiled CSS file for the given `theme` and `sass_options`. The
-#'   bootstraplib comes with precompiled CSS files for stock Bootstrap builds
-#'   for when `bs_theme_new()` or `bs_theme_create()` are called with `version`
-#'   of `"3"`, `"4+3"`, and `"4"`, and no `bootswatch` theme. If this option is
-#'   `TRUE` and a precompiled CSS file exists for the theme object, it will be
-#'   fetched immediately and not compiled.
+#'   a precompiled CSS file for the given `version`.  If this option is `TRUE`
+#'   and a precompiled CSS file exists for the theme object, it will be fetched
+#'   immediately and not compiled. At the moment, we only provide precompiled
+#'   CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+#'   themes, or non-default `sass_options`).
+#'
 #' @inheritParams sass::sass
 #'
 #' @return a list of HTML dependencies containing Bootstrap CSS, Bootstrap

@@ -41,12 +41,11 @@ for no caching.}
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
 \item{use_precompiled_css}{Before compiling the theme object, first look for
-a precompiled CSS file for the given \code{theme} and \code{sass_options}. The
-bootstraplib comes with precompiled CSS files for stock Bootstrap builds
-for when \code{bs_theme_new()} or \code{bs_theme_create()} are called with \code{version}
-of \code{"3"}, \code{"4+3"}, and \code{"4"}, and no \code{bootswatch} theme. If this option is
-\code{TRUE} and a precompiled CSS file exists for the theme object, it will be
-fetched immediately and not compiled.}
+a precompiled CSS file for the given \code{version}.  If this option is \code{TRUE}
+and a precompiled CSS file exists for the theme object, it will be fetched
+immediately and not compiled. At the moment, we only provide precompiled
+CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+themes, or non-default \code{sass_options}).}
 
 \item{rules}{Sass styling rules that may reference \code{theme} \code{defaults} and \code{declarations}.}
 

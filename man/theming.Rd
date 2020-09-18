@@ -54,7 +54,10 @@ class(bs_theme_get())
 theme_version()
 
 # Can create a theme and return the object, instead of setting it globally.
-bs_theme_create()
+bs3 <- bs_theme_create("3")
+red_default <- sass::sass_layer(defaults = list("brand-primary" = "red !default"))
+bs3 <- sass::sass_layer_merge(bs3, red_default)
+bootstrap_sass(".my-class { color: $brand-primary; }", bs3)
 
 # Preview the current theme styling in a shiny app
 if (interactive()) bs_theme_preview()
