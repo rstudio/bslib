@@ -5,6 +5,7 @@
 \alias{bs_theme_get}
 \alias{bs_theme_clear}
 \alias{bs_theme_set}
+\alias{bs_theme_create}
 \title{Create a Bootstrap theme}
 \usage{
 bs_theme_new(version = version_default(), bootswatch = NULL)
@@ -14,6 +15,8 @@ bs_theme_get()
 bs_theme_clear()
 
 bs_theme_set(theme)
+
+bs_theme_create(version = version_default(), bootswatch = NULL)
 }
 \arguments{
 \item{version}{The major version of Bootstrap to use. A value of
@@ -49,6 +52,9 @@ class(bs_theme_get())
 
 # Helpful if you want to know the Bootstrap version of the current theme
 theme_version()
+
+# Can create a theme and return the object, instead of setting it globally.
+bs_theme_create()
 
 # Preview the current theme styling in a shiny app
 if (interactive()) bs_theme_preview()

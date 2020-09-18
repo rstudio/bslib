@@ -36,6 +36,9 @@
 #' # Helpful if you want to know the Bootstrap version of the current theme
 #' theme_version()
 #'
+#' # Can create a theme and return the object, instead of setting it globally.
+#' bs_theme_create()
+#'
 #' # Preview the current theme styling in a shiny app
 #' if (interactive()) bs_theme_preview()
 #'
@@ -92,6 +95,8 @@ bs_theme_set <- function(theme) {
   invisible(old_theme[["bootstraplib_theme"]])
 }
 
+#' @rdname theming
+#' @export
 bs_theme_create <- function(version = version_default(), bootswatch = NULL) {
   version <- version_resolve(version)
 
