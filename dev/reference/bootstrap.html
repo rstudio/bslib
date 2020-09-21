@@ -46,14 +46,14 @@
 
 
 <meta property="og:title" content="Compile Bootstrap 4 (or 3) SASS with (optional) theming — bootstrap" />
-<meta property="og:description" content="Use bootstrap() to compile Bootstrap Sass into CSS and return it,
-along with other HTML dependencies, as a list of htmltools::htmlDependency()s
-(if you just want the CSS as a string, and a bs_theme_new() has been set,
-you can call sass::sass() on the return value of bs_theme_get()).
-Use bootstrap_sass() if you can assume Bootstrap already exists on the
-page, but you want to leverage Bootstrap utilities (e.g., variables, functions,
-or mixins) to generate additional CSS rules (as a string that can be included
-as a &amp;lt;style&amp;gt; tag via tags$style(css))." />
+<meta property="og:description" content="Use bootstrap() to compile Bootstrap Sass into CSS and return it, along
+with other HTML dependencies, as a list of htmltools::htmlDependency()s (if
+you just want the CSS as a string, and a bs_theme_new() has been set, you
+can call sass::sass() on the return value of bs_theme_get()). Use
+bootstrap_sass() if you can assume Bootstrap already exists on the page,
+but you want to leverage Bootstrap utilities (e.g., variables, functions, or
+mixins) to generate additional CSS rules (as a string that can be included as
+a &amp;lt;style&amp;gt; tag via tags$style(css))." />
 
 
 <meta name="robots" content="noindex">
@@ -128,21 +128,22 @@ as a &amp;lt;style&amp;gt; tag via tags$style(css))." />
     </div>
 
     <div class="ref-description">
-    <p>Use <code>bootstrap()</code> to compile Bootstrap Sass into CSS and return it,
-along with other HTML dependencies, as a list of <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code>s
-(if you just want the CSS as a string, and a <code><a href='bs_theme_new.html'>bs_theme_new()</a></code> has been set,
-you can call <code><a href='https://rdrr.io/pkg/sass/man/sass.html'>sass::sass()</a></code> on the return value of <code><a href='bs_theme_new.html'>bs_theme_get()</a></code>).
-Use <code>bootstrap_sass()</code> if you can assume Bootstrap already exists on the
-page, but you want to leverage Bootstrap utilities (e.g., variables, functions,
-or mixins) to generate additional CSS rules (as a string that can be included
-as a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
+    <p>Use <code>bootstrap()</code> to compile Bootstrap Sass into CSS and return it, along
+with other HTML dependencies, as a list of <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code>s (if
+you just want the CSS as a string, and a <code><a href='bs_theme_new.html'>bs_theme_new()</a></code> has been set, you
+can call <code><a href='https://rdrr.io/pkg/sass/man/sass.html'>sass::sass()</a></code> on the return value of <code><a href='bs_theme_new.html'>bs_theme_get()</a></code>). Use
+<code>bootstrap_sass()</code> if you can assume Bootstrap already exists on the page,
+but you want to leverage Bootstrap utilities (e.g., variables, functions, or
+mixins) to generate additional CSS rules (as a string that can be included as
+a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
     </div>
 
     <pre class="usage"><span class='fu'>bootstrap</span>(
   theme = <span class='fu'><a href='bs_theme_new.html'>bs_theme_get</a></span>(),
   sass_options = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(output_style = <span class='st'>"compressed"</span>),
   cache = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_get.html'>sass_cache_get</a></span>(),
-  jquery = <span class='kw'>jquerylib</span>::<span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>)
+  jquery = <span class='kw'>jquerylib</span>::<span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>),
+  precompiled = <span class='fl'>TRUE</span>
 )
 
 <span class='fu'>bootstrap_sass</span>(
@@ -157,18 +158,17 @@ as a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>theme</th>
-      <td><p>one of the following:</p><ol>
-<li><p>The result of <code><a href='bs_theme_new.html'>bs_theme_get()</a></code> (i.e., the current global theme).</p></li>
-<li><p><code>NULL</code>, which means use the latest version of Bootstrap with no custom theming.</p></li>
-<li><p>A string containing a bootswatch theme and/or a Bootstrap major version. To specify
-both, use the syntax <code>"theme@version"</code>, (e.g., <code>"cosmo@4"</code> for Bootstrap 4 cosmo
-theme with BS3 compatibility). If no version is specified, the latest available
-version is used (for more info, see <code>version</code> in <code><a href='bs_theme_new.html'>bs_theme_new()</a></code>).
-<strong>Note</strong>: this approach ignores global themes (i.e., <code><a href='bs_theme_new.html'>bs_theme_new()</a></code>)</p></li>
-<li><p>A <code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_layer()</a></code> which contains a bootstraplib theme. Useful for adding
-custom layers to the current theme without affecting the global state (e.g.,
-<code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_layer_merge(bs_theme_get(), my_layer())</a></code>).</p></li>
-</ol></td>
+      <td><p>one of the following: 1. The result of <code><a href='bs_theme_new.html'>bs_theme_get()</a></code> (i.e.,
+the current global theme). 2. <code>NULL</code>, which means use the latest version of
+Bootstrap with no custom theming. 3. A string containing a bootswatch theme
+and/or a Bootstrap major version. To specify both, use the syntax
+<code>"theme@version"</code>, (e.g., <code>"cosmo@4"</code> for Bootstrap 4 cosmo theme with BS3
+compatibility). If no version is specified, the latest available version is
+used (for more info, see <code>version</code> in <code><a href='bs_theme_new.html'>bs_theme_new()</a></code>). <strong>Note</strong>: this
+approach ignores global themes (i.e., <code><a href='bs_theme_new.html'>bs_theme_new()</a></code>) 4. A
+<code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_layer()</a></code> which contains a bootstraplib theme. Useful for adding
+custom layers to the current theme without affecting the global state
+(e.g., <code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_layer_merge(bs_theme_get(), my_layer())</a></code>).</p></td>
     </tr>
     <tr>
       <th>sass_options</th>
@@ -182,6 +182,15 @@ for no caching.</p></td>
     <tr>
       <th>jquery</th>
       <td><p>See <code><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquerylib::jquery_core()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>precompiled</th>
+      <td><p>Before compiling the theme object, first look for a
+precompiled CSS file for the given <code>version</code>.  If this option is <code>TRUE</code> and
+a precompiled CSS file exists for the theme object, it will be fetched
+immediately and not compiled. At the moment, we only provide precompiled
+CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+themes, or non-default <code>sass_options</code>).</p></td>
     </tr>
     <tr>
       <th>rules</th>
@@ -204,9 +213,10 @@ destructive, as files may be overwritten.)</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap JavaScript, and <code>jquery</code>.
-This list may contain additional HTML dependencies if the <code>theme</code> calls for it (e.g., <code>version = "4+3"</code>
-contains an additional JavaScript dependency).</p>
+    <p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap
+JavaScript, and <code>jquery</code>. This list may contain additional HTML
+dependencies if the <code>theme</code> calls for it (e.g., <code>version = "4+3"</code> contains
+an additional JavaScript dependency).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='bs_theme_new.html'>bs_theme_set()</a></code></p></div>

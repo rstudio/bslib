@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • bootstraplib</title>
+<title>Get the path to a precompiled CSS file — precompiled_css_path • bootstraplib</title>
 
 
 <!-- jquery -->
@@ -45,7 +45,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get the path to a precompiled CSS file — precompiled_css_path" />
+<meta property="og:description" content="This function is meant for development and debugging purposes. It can be used
+to test if a precompiled CSS file exists for a given theme object." />
 
 
 <meta name="robots" content="noindex">
@@ -64,7 +66,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,166 +114,42 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get the path to a precompiled CSS file</h1>
+    
+    <div class="hidden name"><code>precompiled_css_path.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This function is meant for development and debugging purposes. It can be used
+to test if a precompiled CSS file exists for a given theme object.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>precompiled_css_path</span>(<span class='kw'>theme</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-bootstrap-sass-compilation" class="hasAnchor"><a href="#section-bootstrap-sass-compilation" class="anchor"></a>Bootstrap SASS compilation</h2>
-          <p class="section-desc"><p>Entry points for compiling Bootstrap Sass. <code><a href="../reference/bootstrap.html">bootstrap()</a></code> is for adding a Bootstrap dependency and <code><a href="../reference/bootstrap.html">bootstrap_sass()</a></code> is for compiling additional Sass rules that use Bootstrap Sass.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="bootstrap.html">bootstrap()</a></code> <code><a href="bootstrap.html">bootstrap_sass()</a></code> </p>
-        </td>
-        <td><p>Compile Bootstrap 4 (or 3) SASS with (optional) theming</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-theme-management" class="hasAnchor"><a href="#section-theme-management" class="anchor"></a>Theme management</h2>
-          <p class="section-desc"><p>Tools for creating, obtaining, and clearing themes.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="theming.html">bs_theme_new()</a></code> <code><a href="theming.html">bs_theme_get()</a></code> <code><a href="theming.html">bs_theme_clear()</a></code> <code><a href="theming.html">bs_theme_set()</a></code> <code><a href="theming.html">bs_theme_create()</a></code> </p>
-        </td>
-        <td><p>Create a Bootstrap theme</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bs_theme_get_variables.html">bs_theme_get_variables()</a></code> </p>
-        </td>
-        <td><p>Retrieve Sass variable values from the current theme</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-theme-customizers" class="hasAnchor"><a href="#section-theme-customizers" class="anchor"></a>Theme customizers</h2>
-          <p class="section-desc"><p>Tools for customizing (i.e., adding to) themes.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="bs_theme_base_colors.html">bs_theme_base_colors()</a></code> </p>
-        </td>
-        <td><p>Customize the Bootstrap theme based on two to four key colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bs_theme_accent_colors.html">bs_theme_accent_colors()</a></code> </p>
-        </td>
-        <td><p>Customize Bootstrap accent colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bs_theme_fonts.html">bs_theme_fonts()</a></code> </p>
-        </td>
-        <td><p>Customize Bootstrap typefaces</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bs_theme_add_variables.html">bs_theme_add_variables()</a></code> <code><a href="bs_theme_add_variables.html">bs_theme_add()</a></code> </p>
-        </td>
-        <td><p>Add low-level theming customizations</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-interactive-theming" class="hasAnchor"><a href="#section-interactive-theming" class="anchor"></a>Interactive theming</h2>
-          <p class="section-desc"><p>Tools for creating themes interactively.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="bs_theme_preview.html">bs_theme_preview()</a></code> </p>
-        </td>
-        <td><p>Preview the currently set theme</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="run_with_themer.html">run_with_themer()</a></code> <code><a href="run_with_themer.html">bs_themer()</a></code> </p>
-        </td>
-        <td><p>Theme customization UI</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-other-utility-functions" class="hasAnchor"><a href="#section-other-utility-functions" class="anchor"></a>Other utility functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="theme_version.html">theme_version()</a></code> </p>
-        </td>
-        <td><p>Obtain a theme's Bootstrap version</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_bootswatch.html">theme_bootswatch()</a></code> </p>
-        </td>
-        <td><p>Obtain a theme's Bootswatch theme name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bootswatch_themes.html">bootswatch_themes()</a></code> </p>
-        </td>
-        <td><p>Obtain a list of all available bootswatch themes.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="version_default.html">version_default()</a></code> </p>
-        </td>
-        <td><p>Bootstrap major version default</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>theme</th>
+      <td><p>A theme object.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The path to the precompiled CSS file, if it exists, or <code>NULL</code>, if
+not.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># The path to a precompiled CSS file for a theme</span>
+<span class='fu'>precompiled_css_path</span>(<span class='fu'><a href='bs_theme_new.html'>bs_theme_create</a></span>(<span class='st'>"4"</span>))
+</div><div class='output co'>#&gt; [1] "/Users/runner/work/_temp/Library/bootstraplib/css-precompiled/4/bootstrap.min.css"</div><div class='input'>
+<span class='co'># Attempting to get the path to a theme that is not precompiled will return NULL</span>
+<span class='fu'>precompiled_css_path</span>(<span class='fu'><a href='bs_theme_new.html'>bs_theme_create</a></span>(bootswatch = <span class='st'>"sketchy"</span>))
+</div><div class='output co'>#&gt; NULL</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

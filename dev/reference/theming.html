@@ -140,7 +140,9 @@ and/or 'low-level' (e.g., <code><a href='bs_theme_add_variables.html'>bs_theme_a
 
 <span class='fu'>bs_theme_clear</span>()
 
-<span class='fu'>bs_theme_set</span>(<span class='kw'>theme</span>)</pre>
+<span class='fu'>bs_theme_set</span>(<span class='kw'>theme</span>)
+
+<span class='fu'>bs_theme_create</span>(version = <span class='fu'><a href='version_default.html'>version_default</a></span>(), bootswatch = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,18 +206,14 @@ See <code><a href='bootswatch_themes.html'>bootswatch_themes()</a></code> to lis
 <span class='co'># Since themes are sass layers, you can work with them</span>
 <span class='co'># locally as if they were any other Sass layer</span>
 <span class='co'># (i.e. you don't have to modify global state to add theme customizations)</span>
-<span class='fu'>bs_theme_new</span>(<span class='st'>"4+3"</span>)
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass_layer_merge</a></span>(
-  <span class='fu'>bs_theme_get</span>(),
-  <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass_layer</a></span>(defaults = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"primary"</span> = <span class='st'>"red !default"</span>))
-)
-<span class='fu'><a href='bootstrap.html'>bootstrap_sass</a></span>(
-  <span class='st'>".my-class { color: mix($primary, $secondary, 50%); }"</span>,
-  <span class='kw'>theme</span>
-)
+<span class='co'>#' # Can create a theme and return the object, instead of setting it globally.</span>
+<span class='kw'>bs3</span> <span class='op'>&lt;-</span> <span class='fu'>bs_theme_create</span>(<span class='st'>"3"</span>)
+<span class='kw'>red_default</span> <span class='op'>&lt;-</span> <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass_layer</a></span>(defaults = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"brand-primary"</span> = <span class='st'>"red !default"</span>))
+<span class='kw'>bs3</span> <span class='op'>&lt;-</span> <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass_layer_merge</a></span>(<span class='kw'>bs3</span>, <span class='kw'>red_default</span>)
+<span class='fu'><a href='bootstrap.html'>bootstrap_sass</a></span>(<span class='st'>".my-class { color: $brand-primary; }"</span>, <span class='kw'>bs3</span>)
 </div><div class='output co'>#&gt; /* CSS */
 #&gt; .my-class {
-#&gt;   color: #b63b3f;
+#&gt;   color: red;
 #&gt; }
 #&gt; </div><div class='input'>
 </div></pre>
