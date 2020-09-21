@@ -1,6 +1,3 @@
-context("bootswatch")
-
-
 test_that("Using bootswatch arg is equivalent to theme_layer_bootswatch()", {
   cosmo_primary <- bootstrap_sass("body{color:$primary;}", theme = "cosmo@4")
   expect_css("body{color:#2780e3;}", cosmo_primary)

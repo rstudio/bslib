@@ -1,32 +1,40 @@
 #' Compile Bootstrap 4 (or 3) SASS with (optional) theming
 #'
-#' Use `bootstrap()` to compile Bootstrap Sass into CSS and return it,
-#' along with other HTML dependencies, as a list of [htmltools::htmlDependency()]s
-#' (if you just want the CSS as a string, and a [bs_theme_new()] has been set,
-#'  you can call `sass::sass()` on the return value of [bs_theme_get()]).
-#' Use `bootstrap_sass()` if you can assume Bootstrap already exists on the
-#' page, but you want to leverage Bootstrap utilities (e.g., variables, functions,
-#' or mixins) to generate additional CSS rules (as a string that can be included
-#' as a `<style>` tag via `tags$style(css)`).
+#' Use `bootstrap()` to compile Bootstrap Sass into CSS and return it, along
+#' with other HTML dependencies, as a list of [htmltools::htmlDependency()]s (if
+#' you just want the CSS as a string, and a [bs_theme_new()] has been set, you
+#' can call `sass::sass()` on the return value of [bs_theme_get()]). Use
+#' `bootstrap_sass()` if you can assume Bootstrap already exists on the page,
+#' but you want to leverage Bootstrap utilities (e.g., variables, functions, or
+#' mixins) to generate additional CSS rules (as a string that can be included as
+#' a `<style>` tag via `tags$style(css)`).
 #'
-#' @param theme one of the following:
-#'   1. The result of [bs_theme_get()] (i.e., the current global theme).
-#'   2. `NULL`, which means use the latest version of Bootstrap with no custom theming.
-#'   3. A string containing a bootswatch theme and/or a Bootstrap major version. To specify
-#'   both, use the syntax `"theme@version"`, (e.g., `"cosmo@4"` for Bootstrap 4 cosmo
-#'   theme with BS3 compatibility). If no version is specified, the latest available
-#'   version is used (for more info, see `version` in [bs_theme_new()]).
-#'   __Note__: this approach ignores global themes (i.e., [bs_theme_new()])
-#'   4. A [sass::sass_layer()] which contains a bootstraplib theme. Useful for adding
-#'   custom layers to the current theme without affecting the global state (e.g.,
-#'   `sass::sass_layer_merge(bs_theme_get(), my_layer())`).
+#' @param theme one of the following: 1. The result of [bs_theme_get()] (i.e.,
+#'   the current global theme). 2. `NULL`, which means use the latest version of
+#'   Bootstrap with no custom theming. 3. A string containing a bootswatch theme
+#'   and/or a Bootstrap major version. To specify both, use the syntax
+#'   `"theme@version"`, (e.g., `"cosmo@4"` for Bootstrap 4 cosmo theme with BS3
+#'   compatibility). If no version is specified, the latest available version is
+#'   used (for more info, see `version` in [bs_theme_new()]). __Note__: this
+#'   approach ignores global themes (i.e., [bs_theme_new()]) 4. A
+#'   [sass::sass_layer()] which contains a bootstraplib theme. Useful for adding
+#'   custom layers to the current theme without affecting the global state
+#'   (e.g., `sass::sass_layer_merge(bs_theme_get(), my_layer())`).
 #' @param sass_options see [sass::sass_options()].
 #' @param jquery See [jquerylib::jquery_core()].
+#' @param precompiled Before compiling the theme object, first look for a
+#'   precompiled CSS file for the given `version`.  If this option is `TRUE` and
+#'   a precompiled CSS file exists for the theme object, it will be fetched
+#'   immediately and not compiled. At the moment, we only provide precompiled
+#'   CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+#'   themes, or non-default `sass_options`).
+#'
 #' @inheritParams sass::sass
 #'
-#' @return a list of HTML dependencies containing Bootstrap CSS, Bootstrap JavaScript, and `jquery`.
-#' This list may contain additional HTML dependencies if the `theme` calls for it (e.g., `version = "4+3"`
-#' contains an additional JavaScript dependency).
+#' @return a list of HTML dependencies containing Bootstrap CSS, Bootstrap
+#'   JavaScript, and `jquery`. This list may contain additional HTML
+#'   dependencies if the `theme` calls for it (e.g., `version = "4+3"` contains
+#'   an additional JavaScript dependency).
 #'
 #' @export
 #' @seealso [bs_theme_set()]
@@ -50,25 +58,54 @@
 #' # Bootswatch solar theme with BS3 compatibility
 #' preview_button(bootstrap("solar@4+3"))
 #'
-bootstrap <- function(theme = bs_theme_get(),
-                      sass_options = sass::sass_options(output_style = "compressed"),
-                      cache = sass::sass_cache_get(),
-                      jquery = jquerylib::jquery_core(3)) {
+bootstrap <- function(
+  theme = bs_theme_get(),
+  sass_options = sass::sass_options(output_style = "compressed"),
+  cache = sass::sass_cache_get(),
+  jquery = jquerylib::jquery_core(3),
+  precompiled = TRUE)
+{
 
   theme <- as_bs_theme(theme)
   version <- theme_version(theme)
 
-  out_file <- sass::sass(
-    input = theme,
-    options = sass_options,
-    output = sass::output_template(basename = "bootstrap", dirname = "bootstraplib-"),
-    cache = cache,
-    write_attachments = TRUE,
-    cache_key_extra = list(
-      get_exact_version(version),
-      utils::packageVersion("bootstraplib")
+  if (is.character(cache)) {
+    cache <- sass::sass_cache_get(cache)
+  }
+
+  out_file <- NULL
+  # Look for a precompiled css file if user asks for it AND the default options
+  # are used.
+  if (precompiled &&
+      identical(sass_options, sass::sass_options(output_style = "compressed")))
+  {
+    precompiled_css <- precompiled_css_path(theme)
+    if (!is.null(precompiled_css)) {
+      out_dir <- file.path(tempdir(), paste0("bootstraplib-precompiled-", version))
+      if (!dir.exists(out_dir)) {
+        dir.create(out_dir)
+      }
+      out_file <- file.path(out_dir, basename(precompiled_css))
+      file.copy(precompiled_css, out_file)
+
+      sass::write_file_attachments(theme$file_attachments, out_dir)
+    }
+  }
+
+  # If precompiled css not found, compile normally.
+  if (is.null(out_file)) {
+    out_file <- sass::sass(
+      input = theme,
+      options = sass_options,
+      output = sass::output_template(basename = "bootstrap", dirname = "bootstraplib-"),
+      cache = cache,
+      write_attachments = TRUE,
+      cache_key_extra = list(
+        get_exact_version(version),
+        utils::packageVersion("bootstraplib")
+      )
     )
-  )
+  }
 
   js <- bootstrap_javascript(version, TRUE)
   success <- file.copy(js, dirname(out_file), overwrite = TRUE)

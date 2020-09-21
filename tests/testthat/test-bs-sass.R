@@ -1,5 +1,3 @@
-context("bootstrap")
-
 test_that("Can access the sass behind all versions and Bootswatch themes", {
   versions <- c("4+3", "3", "4")
   for (version in versions) {

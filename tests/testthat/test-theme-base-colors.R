@@ -1,5 +1,3 @@
-context("theme_base_colors")
-
 test_that("bs4 base colors", {
   on.exit(bs_theme_clear(), add = TRUE)
 

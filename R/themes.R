@@ -53,19 +53,14 @@
 #' # Since themes are sass layers, you can work with them
 #' # locally as if they were any other Sass layer
 #' # (i.e. you don't have to modify global state to add theme customizations)
-#' bs_theme_new("4+3")
-#' theme <- sass::sass_layer_merge(
-#'   bs_theme_get(),
-#'   sass::sass_layer(defaults = list("primary" = "red !default"))
-#' )
-#' bootstrap_sass(
-#'   ".my-class { color: mix($primary, $secondary, 50%); }",
-#'   theme
-#' )
+#' #' # Can create a theme and return the object, instead of setting it globally.
+#' bs3 <- bs_theme_create("3")
+#' red_default <- sass::sass_layer(defaults = list("brand-primary" = "red !default"))
+#' bs3 <- sass::sass_layer_merge(bs3, red_default)
+#' bootstrap_sass(".my-class { color: $brand-primary; }", bs3)
 #'
 bs_theme_new <- function(version = version_default(), bootswatch = NULL) {
-  theme <- bs_theme_create(version)
-  theme <- bs_theme_add_bootswatch(theme, version, bootswatch)
+  theme <- bs_theme_create(version, bootswatch)
   bs_theme_set(theme)
 }
 
@@ -93,8 +88,9 @@ bs_theme_set <- function(theme) {
   invisible(old_theme[["bootstraplib_theme"]])
 }
 
-
-bs_theme_create <- function(version = version_default()) {
+#' @rdname theming
+#' @export
+bs_theme_create <- function(version = version_default(), bootswatch = NULL) {
   version <- version_resolve(version)
 
   theme <- sass_layer_merge(
@@ -102,7 +98,9 @@ bs_theme_create <- function(version = version_default()) {
     if (identical(version, "4+3")) bs3compat_layer()
   )
 
-  add_class(theme, "bs_theme")
+  theme <- add_class(theme, "bs_theme")
+
+  bs_theme_add_bootswatch(theme, version, bootswatch)
 }
 
 bs_theme_add_bootswatch <- function(theme, version = version_default(), bootswatch = NULL) {
