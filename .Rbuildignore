@@ -12,3 +12,4 @@ docs
 ^_pkgdown\.yml$
 vignettes
 ^\.github$
+^\.gitattributes$

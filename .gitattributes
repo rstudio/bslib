@@ -1,0 +1,5 @@
+# These need to have the exact same bytes because the tests expect "\n" only.
+
+*.sass text eol=lf
+*.scss text eol=lf
+*.css text eol=lf
