@@ -32,6 +32,9 @@ precompiled_css_version <- function(theme) {
 
 #' Get the path to a precompiled CSS file
 #'
+#' This function is meant for development and debugging purposes. It can be used
+#' to test if a precompiled CSS file exists for a given theme object.
+#'
 #' @param theme A theme object.
 #'
 #' @return The path to the precompiled CSS file, if it exists, or `NULL`, if
@@ -43,6 +46,7 @@ precompiled_css_version <- function(theme) {
 #'
 #' # Attempting to get the path to a theme that is not precompiled will return NULL
 #' precompiled_css_path(bs_theme_create(bootswatch = "sketchy"))
+#' @keywords internal
 #' @export
 precompiled_css_path <- function(theme) {
   version <- precompiled_css_version(theme)

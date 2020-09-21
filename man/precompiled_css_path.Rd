@@ -14,7 +14,8 @@ The path to the precompiled CSS file, if it exists, or \code{NULL}, if
 not.
 }
 \description{
-Get the path to a precompiled CSS file
+This function is meant for development and debugging purposes. It can be used
+to test if a precompiled CSS file exists for a given theme object.
 }
 \examples{
 # The path to a precompiled CSS file for a theme
@@ -23,3 +24,4 @@ precompiled_css_path(bs_theme_create("4"))
 # Attempting to get the path to a theme that is not precompiled will return NULL
 precompiled_css_path(bs_theme_create(bootswatch = "sketchy"))
 }
+\keyword{internal}
