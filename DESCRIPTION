@@ -1,6 +1,6 @@
 Package: bootstraplib
 Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass
-Version: 0.1.0.9001
+Version: 0.2.0.9000
 Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
@@ -24,7 +24,8 @@ Imports:
     jsonlite,
     sass (>= 0.2.0.9003),
     jquerylib (>= 0.1.2),
-    rlang
+    rlang,
+    magrittr
 Suggests:
     shiny (> 1.4.0.2),
     rmarkdown,
@@ -41,16 +42,17 @@ Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Collate:
     'bootswatch.R'
-    'bs_sass.R'
+    'bs-dependencies.R'
+    'bs-global.R'
+    'bs-theme-layers.R'
+    'utils.R'
+    'bs-theme-preview.R'
+    'bs-theme-update.R'
+    'bs-theme.R'
+    'deprecated.R'
     'files.R'
     'imports.R'
-    'layers.R'
     'precompiled.R'
-    'theme-add.R'
-    'theme-custom.R'
-    'utils.R'
-    'theme-preview.R'
-    'themes.R'
     'version-default.R'
     'versions.R'
 Remotes:

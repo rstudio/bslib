@@ -4,10 +4,10 @@
 \alias{theme_bootswatch}
 \title{Obtain a theme's Bootswatch theme name}
 \usage{
-theme_bootswatch(theme = bs_theme_get())
+theme_bootswatch(theme = bs_global_get())
 }
 \arguments{
-\item{theme}{a bs theme object, see \code{\link[=bs_theme_set]{bs_theme_set()}}.}
+\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 }
 \description{
 Obtain a theme's Bootswatch theme name

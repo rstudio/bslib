@@ -3,29 +3,25 @@ NULL
 
 #' Preview the currently set theme
 #'
-#' Launches an example shiny app via `run_with_themer()` and `bootstrap()`.
+#' Launches an example shiny app via `run_with_themer()` and `bs_dependencies()`.
 #' Useful for getting a quick preview of the current theme setting as
 #' well as an interactive GUI for tweaking some of the main theme settings.
 #'
 #' The app that this launches is subject to change.
 #'
-#' @export
-#' @param ... passed along to [shiny::runApp()]
+#' @inheritParams bs_theme_update
+#' @param ... passed along to [shiny::runApp()].
 #' @param with_themer whether or not to run the app with [run_with_themer()].
-#' @param auto_theme whether or not to ensure plot auto theming is enabled (requires thematic package).
+#' @param pre_run a function (with no arguments) to call prior to running the app.
+#' The default function enables thematic's plot auto-theming capabilities.
 #' @seealso [run_with_themer()]
 #' @examples
 #'
-#' bs_theme_new()
-#' bs_theme_base_colors("#6c757d", "white")
-#' bs_theme_accent_colors("orange")
-#' if (interactive()) bs_theme_preview()
-#'
-bs_theme_preview <- function(..., with_themer = TRUE, auto_theme = rlang::is_installed("thematic")) {
-  if (auto_theme && is.null(thematic::thematic_get())) {
-    thematic::thematic_on()
-    shiny::onStop(thematic::thematic_off)
-  }
+#' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
+#' if (interactive()) bs_theme_preview(theme)
+#' @export
+bs_theme_preview <- function(theme = bs_theme(), ..., with_themer = TRUE, pre_run = thematic_shiny) {
+  if (is.function(pre_run)) pre_run()
   # TODO: add more this demo and also an option for launching different demos
   app <- system_file("themer-demo", package = "bootstraplib")
   if (with_themer) {
@@ -35,6 +31,9 @@ bs_theme_preview <- function(..., with_themer = TRUE, auto_theme = rlang::is_ins
   }
 }
 
+thematic_shiny <- function() {
+  if (rlang::is_installed("thematic")) thematic::thematic_shiny()
+}
 
 colorpicker_deps <- function() {
   htmltools::htmlDependency(
@@ -53,9 +52,9 @@ opts_metadata <- function() {
   )
 }
 
-bs_themer_ui <- function() {
+bs_themer_ui <- function(theme = bs_theme()) {
 
-  computed_defaults <- bs_theme_get_variables(unlist(unname(lapply(opts_metadata(), names))))
+  computed_defaults <- bs_get_variables(theme, unlist(unname(lapply(opts_metadata(), names))))
 
   make_control <- function(id, lbl, default_value, type, desc = NULL) {
     default_value <- computed_defaults[[id]]
@@ -136,7 +135,7 @@ bs_themer_ui <- function() {
           "data-toggle" = "collapse", "data-target" = "#bsthemerAccordion",
           style = css(cursor = "pointer"),
           tags$span(),
-          tags$style(HTML(bootstrap_sass(sass::sass_file(system_file("themer/themer.scss", package = "bootstraplib")))))
+          tags$style(HTML(bs_sass(sass::sass_file(system_file("themer/themer.scss", package = "bootstraplib")))))
         )
       ),
 
@@ -169,7 +168,7 @@ bs_themer_ui <- function() {
 
 #' Theme customization UI
 #'
-#' bootstraplib includes a handy realtime theme customization UI that you can use to
+#' A 'real-time' theme customization UI that you can use to
 #' easily make common tweaks to Bootstrap variables and immediately see how they
 #' would affect your app's appearance. There are two ways you can launch the
 #' theming UI. For most Shiny apps, just use `run_with_themer()` in place
@@ -178,10 +177,8 @@ bs_themer_ui <- function() {
 #' server function (or in an R Markdown app that is using `runtime: shiny`, you
 #' can call this from any code chunk).
 #'
-#' To help you permanently apply the changes you see in the preview, this
-#' utility prints [bs_theme_add_variables()] code to the R console. Copy this
-#' code and paste it into your Shiny app; see [bs_theme_add_variables()] for
-#' more details on where that code should go.
+#' To help you utilize the changes you see in the preview, this
+#' utility prints [bs_theme()] code to the R console.
 #'
 #' @param appDir The application to run. This can be a file or directory path,
 #'   or a [shiny::shinyApp()] object. See [shiny::runApp()] for details.
@@ -197,11 +194,11 @@ bs_themer_ui <- function() {
 #' runtime. It's not possible to perform realtime preview for static R Markdown
 #' documents.
 #'
-#' Note that currently, only the CSS generated from [bootstrap()]
+#' Note that currently, only the CSS generated from [bs_dependencies()]
 #' will be instantly reflected in theme preview. CSS that is generated from
-#' third parties or [bootstrap_sass()] may not be reflected in
+#' third parties or [bs_sass()] may not be reflected in
 #' realtime, even if setting the theme variables would have an effect if the app
-#' is restarted. Since `bootstrap_sass()` is the mechanism by
+#' is restarted. Since `bs_sass()` is the mechanism by
 #' which third-party HTML widgets are supposed to compile bootstraplib-aware CSS,
 #' unfortunately it's not likely that the themer's realtime preview will work
 #' with such components.
@@ -210,14 +207,9 @@ bs_themer_ui <- function() {
 #' library(shiny)
 #'
 #' # Initialize Bootstrap 4 with Bootstrap 3 compatibility shim
-#' bs_theme_new("4+3")
-#'
-#' # Customize variables. These must always come between the
-#' # call to bs_theme_new() and the UI definition!
-#' bs_theme_add_variables(primary = "#008BA2")
+#' theme <- bs_theme("4+3", bg = "black", fg = "white")
 #'
 #' ui <- fluidPage(
-#'   bootstrap(),
 #'   h1("Heading 1"),
 #'   h2("Heading 2"),
 #'   p(
@@ -238,12 +230,8 @@ bs_themer_ui <- function() {
 #'   )
 #' )
 #'
-#' server <- function(input, output, session) {
-#'
-#' }
-#'
 #' if (interactive()) {
-#'   run_with_themer(shinyApp(ui, server))
+#'   run_with_themer(shinyApp(ui, function(input, output) {}, bs_theme = theme))
 #' }
 #'
 #' @export
@@ -268,18 +256,21 @@ run_with_themer <- function(appDir = getwd(), ...) {
 #' @export
 bs_themer <- function() {
   session <- shiny::getDefaultReactiveDomain()
-
-  if (!is.null(bs_theme_get()) && "3" %in% theme_version(bs_theme_get())) {
-    stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")
-  }
-
   if (is.null(session)) {
     stop(call. = FALSE, "bootstraplib::bs_themer() must be called from within a ",
-      "Shiny server function")
+         "Shiny server function")
   }
   if (!identical("ok", session$ns("ok"))) {
     stop(call. = FALSE, "bootstraplib::bs_themer() must be called from within a ",
-      "top-level Shiny server function, not a Shiny module server function")
+         "top-level Shiny server function, not a Shiny module server function")
+  }
+  theme <- shiny::getShinyOption("bs_theme")
+  if (is.null(theme)) {
+    stop(call. = FALSE, "bootstraplib::bs_themer() requires that shinyOptions(bs_theme = ...)",
+         "be set to a bootstraplib::bs_theme() (either explictly or via shinyApp()'s theme parameter).")
+  }
+  if (!is.null(theme) && "3" %in% theme_version(theme)) {
+    stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")
   }
 
   if (isTRUE(session$userData[["bs_themer_init"]])) {
@@ -291,7 +282,7 @@ bs_themer <- function() {
 
   input <- session$input
 
-  shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui())
+  shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(theme))
 
   shiny::observeEvent(input$vars, {
     vals <- jsonlite::parse_json(input$vars)
@@ -313,37 +304,30 @@ bs_themer <- function() {
       return()
     }
 
-    default_values <- bs_theme_get_variables(names(vals))
+    default_values <- bs_get_variables(theme, names(vals))
 
     # Filter out vals that the user hasn't changed
     changed_vals <- as.list(diff_css_values(vals, default_values))
 
-    old_theme <- bs_theme_get()
-    on.exit(bs_theme_set(old_theme), add = TRUE)
-    if (is.null(old_theme)) {
-      bs_theme_new()
-    }
-
-    message("---")
+    message("--------------------")
 
     # Change variables names to their 'high-level' equivalents
-    # Note that if _either_ fg/bg has changed, bs_theme_base_colors()
+    # Note that if _either_ fg/bg has changed, bs_base_colors()
     # needs to be called with *both* fg and bg populated.
     changed_vals <- rename(changed_vals, c(bg = "white", fg = "black", base = "font-family-base", code = "font-family-monospace", heading = "headings-font-family"))
     if (any(c("fg", "bg") %in% names(changed_vals))) {
       changed_vals[["fg"]] <- changed_vals[["fg"]] %||% vals[["black"]]
       changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["white"]]
     }
-    changed_vals <- take_and_use_values(changed_vals, bs_theme_base_colors)
-    changed_vals <- take_and_use_values(changed_vals, bs_theme_accent_colors)
-    changed_vals <- take_and_use_values(changed_vals, bs_theme_fonts)
-    take_and_use_values(changed_vals, bs_theme_add_variables, use_all_vals = TRUE)
+
+    code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
+    print(code)
+    theme <- rlang::eval_tidy(code)
 
     # Degrade sass() compilation errors to warnings so they don't crash the app
     # Errors can happen if the users enters values that lead to unexpected Sass
     # expressions (e.g., "$foo: * !default")
-
-    css <- try(sass(bs_theme_get(), write_attachments = FALSE))
+    css <- try(sass(theme, write_attachments = FALSE))
     if (inherits(css, "try-error")) {
       shiny::showNotification(
         "Sass -> CSS compilation failed, likely due to invalid user input.
@@ -379,6 +363,7 @@ bs_themer <- function() {
 #' Useful for retriving a variable from the current theme and using
 #' the value to inform another R function.
 #'
+#' @inheritParams bs_theme_update
 #' @param varnames a character string referencing a Sass variable
 #' in the current theme.
 #' @return a character string containing a CSS/Sass value.
@@ -386,18 +371,18 @@ bs_themer <- function() {
 #'
 #' @export
 #' @examples
-#' bs4_vars <- c("body-bg", "body-color", "primary", "border-radius")
-#' bs_theme_new()
-#' bs_theme_get_variables(bs4_vars)
-#' bs_theme_new(bootswatch = "darkly")
-#' bs_theme_get_variables(bs4_vars)
+#' vars <- c("body-bg", "body-color", "primary", "border-radius")
+#' bs_get_variables(varnames = vars)
+#' bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
 #'
-bs_theme_get_variables <- function(varnames) {
+bs_get_variables <- function(theme = bs_theme(), varnames) {
   if (length(varnames) == 0) {
     return(stats::setNames(character(0), character(0)))
   }
 
-  # Support both `bs_theme_get_variables("$foo")` and `bs_theme_get_variables("foo")`
+  theme <- assert_bs_theme(theme)
+
+  # Support both `bs_get_variables("$foo")` and `bs_get_variables("foo")`
   # (note that `sass::sass("$$foo:1;")` is illegal; so this seems safe)
   varnames <- sub("^\\$", "", varnames)
 
@@ -419,13 +404,10 @@ bs_theme_get_variables <- function(varnames) {
   )
   cssvars <- sprintf(":root.get_default_vars {\n %s \n}", cssvars)
 
-  css <- bootstrap_sass(
+  css <- bs_sass(
     cssvars,
     # Add declarations to the current theme
-    theme = sass::sass_layer_merge(
-      bs_theme_get() %||% bs_theme_create(),
-      sass::sass_layer(declarations = sassvars)
-    )
+    theme = bs_add_layers(theme, sass::sass_layer(declarations = sassvars))
   )
 
   # Search the output for the block of properties we just generated, using the
@@ -434,7 +416,7 @@ bs_theme_get_variables <- function(varnames) {
   matches <- regexec(":root\\.get_default_vars\\s*\\{\\s*\\n(.*?)\\n\\s*\\}", css)
   propstr <- regmatches(css, matches)[[1]][2]
   if (is.na(propstr)) {
-    stop("bs_theme_get_variables failed; expected selector was not found")
+    stop("bs_global_get_variables failed; expected selector was not found")
   }
   # Split the propstr by newline, so we can perform vectorized regex operations
   # on all of the variables at once.
@@ -446,10 +428,10 @@ bs_theme_get_variables <- function(varnames) {
   values <- vapply(matches2, function(x) x[3], character(1))
 
   if (any(is.na(names))) {
-    stop("bs_theme_get_variables failed; generated output was in an unexpected format")
+    stop("bs_global_get_variables failed; generated output was in an unexpected format")
   }
   if (!identical(varnames, names)) {
-    stop("bs_theme_get_variables failed; expected properties were not found")
+    stop("bs_global_get_variables failed; expected properties were not found")
   }
 
   # Any variables that had to fall back to our defaults, we'll replace with NA
@@ -459,27 +441,6 @@ bs_theme_get_variables <- function(varnames) {
   stats::setNames(values, varnames)
 }
 
-take_and_use_values <- function(changed_vals, func, use_all_vals = FALSE) {
-  if (use_all_vals) {
-    call_vals <- changed_vals
-    return_vals <- NULL
-  } else {
-    args_src <- names(changed_vals)
-    args_dest <- names(formals(func))
-    call_vals <- changed_vals[args_src %in% args_dest]
-    return_vals <- changed_vals[!args_src %in% args_dest]
-  }
-
-  if (length(call_vals)) {
-    # Call the function (modifying global state)
-    do.call(func, call_vals)
-    # Print the code for the user
-    func_name <- substitute(func)
-    print(rlang::expr(`!!`(func_name)(!!!call_vals)))
-  }
-
-  return_vals
-}
 
 diff_css_values <- function(a, b) {
   stopifnot(all(!is.na(a)))

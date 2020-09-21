@@ -4,10 +4,10 @@
 \alias{precompiled_css_path}
 \title{Get the path to a precompiled CSS file}
 \usage{
-precompiled_css_path(theme)
+precompiled_css_path(theme = bs_theme())
 }
 \arguments{
-\item{theme}{A theme object.}
+\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 }
 \value{
 The path to the precompiled CSS file, if it exists, or \code{NULL}, if
@@ -16,12 +16,5 @@ not.
 \description{
 This function is meant for development and debugging purposes. It can be used
 to test if a precompiled CSS file exists for a given theme object.
-}
-\examples{
-# The path to a precompiled CSS file for a theme
-precompiled_css_path(bs_theme_create("4"))
-
-# Attempting to get the path to a theme that is not precompiled will return NULL
-precompiled_css_path(bs_theme_create(bootswatch = "sketchy"))
 }
 \keyword{internal}

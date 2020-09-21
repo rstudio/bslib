@@ -1,6 +1,4 @@
 test_that("bs4 base colors", {
-  on.exit(bs_theme_clear(), add = TRUE)
-
   varnames <- c("yiq-text-light", "yiq-text-dark",
     "black", "white", paste0("gray-", 1:9 * 100), "body-bg", "body-color",
     "primary", "secondary", "default")
@@ -10,10 +8,8 @@ test_that("bs4 base colors", {
     color_yiq_islight(col[,"red"], col[,"green"], col[,"blue"])
   }
 
-  bs_theme_new("4+3")
-  bs_theme_base_colors(bg = "white", fg = "black")
-  bs_theme_accent_colors(primary = "blue", secondary = "silver")
-  colors <- bs_theme_get_variables(varnames)
+  theme <- bs_theme("4+3", bg = "white", fg = "black", primary = "blue", secondary = "silver")
+  colors <- bs_get_variables(theme, varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
 
@@ -27,10 +23,8 @@ test_that("bs4 base colors", {
       default = "#C0C0C0")
   )
 
-  bs_theme_new("4")
-  bs_theme_base_colors(bg = "#112233", fg = "#FFEEDD")
-  bs_theme_accent_colors(primary = "orange", secondary = "brown")
-  colors <- bs_theme_get_variables(varnames)
+  theme <- bs_theme("4", bg = "#112233", fg = "#FFEEDD", primary = "orange", secondary = "brown")
+  colors <- bs_get_variables(theme, varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
 
@@ -45,23 +39,20 @@ test_that("bs4 base colors", {
   )
 
   # Can individual colors still be overridden?
-  bs_theme_add_variables("body-bg" = "white", black = "red")
-  expect_identical(bs_theme_get_variables(c("body-bg", "black")),
+  theme <- bs_add_variables(theme, "body-bg" = "white", black = "red")
+  expect_identical(bs_get_variables(theme, c("body-bg", "black")),
     c("body-bg" = "white", black = "red"))
 })
 
 test_that("bs3 base colors", {
-  on.exit(bs_theme_clear(), add = TRUE)
 
   varnames <- c(
     "gray-base", "white",
     paste0("gray", c("-darker", "-dark", "", "-light", "-lighter")),
     "body-bg", "text-color", "brand-primary")
 
-  bs_theme_new("3")
-  bs_theme_base_colors(bg = "white", fg = "black")
-  bs_theme_accent_colors(primary = "blue")
-  colors <- bs_theme_get_variables(varnames)
+  theme <- bs_theme("3", bg = "white", fg = "black", primary = "blue")
+  colors <- bs_get_variables(theme, varnames)
 
   expect_identical(colors,
     c(`gray-base` = "#000000", white = "#FFFFFF", `gray-darker` = "#222222",
@@ -70,13 +61,11 @@ test_that("bs3 base colors", {
       `brand-primary` = "#0000FF")
   )
 
-  bs_theme_new("3")
-  bs_theme_base_colors(bg = "#112233", fg = "#FFEEDD")
-  expect_warning(
-    bs_theme_accent_colors(primary = "orange", secondary = "brown"),
+  theme <- expect_warning(
+    bs_theme("3", bg = "#112233", fg = "#FFEEDD", primary = "orange", secondary = "brown"),
     "doesn't support.*ignored"
   )
-  colors <- bs_theme_get_variables(varnames)
+  colors <- bs_get_variables(theme, varnames)
 
   expect_identical(colors,
     c(`gray-base` = "#FFEEDD", white = "#112233", `gray-darker` = "#DFD3C6",
@@ -86,8 +75,8 @@ test_that("bs3 base colors", {
   )
 
   # Can individual colors still be overridden?
-  bs_theme_add_variables("body-bg" = "black")
-  expect_identical(bs_theme_get_variables(c("body-bg", "gray-darker")),
+  theme <- bs_add_variables(theme, "body-bg" = "black")
+  expect_identical(bs_get_variables(theme, c("body-bg", "gray-darker")),
     c("body-bg" = "black", "gray-darker" = "#DFD3C6"))
 })
 
@@ -96,24 +85,22 @@ test_that("bs4 accent colors", {
     "danger")
 
   # Baseline
-  bs_theme_new("4+3")
-  expect_identical(bs_theme_get_variables(varnames),
+  theme <- bs_theme("4+3")
+  expect_identical(bs_get_variables(theme, varnames),
     c(primary = "#007bff", secondary = "#6c757d", default = "#dee2e6",
       success = "#28a745", info = "#17a2b8", warning = "#ffc107", danger = "#dc3545")
   )
 
-  bs_theme_new("4")
-  bs_theme_accent_colors(primary = "#123", secondary = "#234",
-    success = "#345", info = "#456", warning = "#567", danger = "#678")
-  expect_identical(bs_theme_get_variables(varnames),
+  theme <- bs_theme("4", primary = "#123", secondary = "#234",
+                    success = "#345", info = "#456", warning = "#567", danger = "#678")
+  expect_identical(bs_get_variables(theme, varnames),
     c(primary = "#112233", secondary = "#223344", default = NA, success = "#334455",
       info = "#445566", warning = "#556677", danger = "#667788")
   )
 
-  bs_theme_new("4+3")
-  bs_theme_accent_colors(primary = "#123", secondary = "#234",
-    success = "#345", info = "#456", warning = "#567", danger = "#678")
-  expect_identical(bs_theme_get_variables(varnames),
+  theme <- bs_theme("4+3", primary = "#123", secondary = "#234",
+                    success = "#345", info = "#456", warning = "#567", danger = "#678")
+  expect_identical(bs_get_variables(theme, varnames),
     c(primary = "#112233", secondary = "#223344", default = "#223344",
       success = "#334455", info = "#445566", warning = "#556677", danger = "#667788")
   )
@@ -125,20 +112,19 @@ test_that("bs3 accent colors", {
   varnames <- paste0("brand-", varnames)
 
   # Baseline
-  bs_theme_new("3")
-  expect_identical(bs_theme_get_variables(varnames),
+  theme <- bs_theme("3")
+  expect_identical(bs_get_variables(theme, varnames),
     c(`brand-primary` = "#337ab7", `brand-secondary` = NA, `brand-default` = NA,
       `brand-success` = "#5cb85c", `brand-info` = "#5bc0de", `brand-warning` = "#f0ad4e",
       `brand-danger` = "#d9534f")
   )
 
-  bs_theme_new("3")
-  expect_warning(
-    bs_theme_accent_colors(primary = "#123", secondary = "#234",
-      success = "#345", info = "#456", warning = "#567", danger = "#678"),
+  theme <- expect_warning(
+    bs_theme("3", primary = "#123", secondary = "#234",
+             success = "#345", info = "#456", warning = "#567", danger = "#678"),
     "doesn't support"
   )
-  expect_identical(bs_theme_get_variables(varnames),
+  expect_identical(bs_get_variables(theme, varnames),
     c(`brand-primary` = "#112233", `brand-secondary` = NA, `brand-default` = NA,
       `brand-success` = "#334455", `brand-info` = "#445566", `brand-warning` = "#556677",
       `brand-danger` = "#667788")
@@ -159,26 +145,24 @@ test_that("bs_theme_fonts", {
   for (version in c("4+3", "4", "3")) {
 
     for (candidate in candidates) {
-      bs_theme_new(version)
-      bs_theme_fonts(candidate)
+      theme <- bs_theme(version, base_font = candidate)
       expect_identical(
-        bs_theme_get_variables("font-family-base"),
+        bs_get_variables(theme, "font-family-base"),
         c(`font-family-base` = expected_result)
       )
     }
 
-    expect_error(bs_theme_fonts(""), "base")
-    expect_error(bs_theme_fonts(code = NA_character_), "code")
-    expect_error(bs_theme_fonts(heading = TRUE), "heading")
-    expect_error(bs_theme_fonts(10L))
+    expect_error(bs_fonts(theme, ""), "base")
+    expect_error(bs_fonts(theme, code = NA_character_), "code")
+    expect_error(bs_fonts(theme, heading = TRUE), "heading")
+    expect_error(bs_fonts(theme, 10L))
 
     # NOT an error
-    expect_error(bs_theme_fonts(NULL), NA)
+    expect_error(bs_fonts(theme, NULL), NA)
 
-    bs_theme_new(version)
-    bs_theme_fonts("a", "b", "c")
+    theme <- bs_fonts(base = "a", code = "b", heading = "c")
     expect_identical(
-      bs_theme_get_variables(c("font-family-base", "font-family-monospace", "headings-font-family")),
+      bs_get_variables(theme, c("font-family-base", "font-family-monospace", "headings-font-family")),
       c(`font-family-base` = "a", `font-family-monospace` = "b", `headings-font-family` = "c")
     )
   }
@@ -209,12 +193,12 @@ test_that("validate_and_normalize_colors", {
 })
 
 test_that("dispatch_theme_setter", {
-  bs_theme_new("4+3")
-  expect_error(dispatch_theme_setter("HelloWorld", list(), args = list()))
-  expect_error(dispatch_theme_setter("HelloWorld", list("3" = identity), args = list()))
-  expect_error(dispatch_theme_setter("HelloWorld", list("4" = identity), args = list()))
+  theme <- bs_theme("4+3")
+  expect_error(dispatch_theme_modifier(theme, list(), args = list(), "HelloWorld"))
+  expect_error(dispatch_theme_modifier(theme, list("3" = identity), args = list(), "HelloWorld"))
+  expect_error(dispatch_theme_modifier(theme, list("4" = identity), args = list(), "HelloWorld"))
   expect_error(
-    dispatch_theme_setter("HelloWorld", list("4+3" = identity), args = list()),
+    dispatch_theme_modifier(theme, list("4+3" = identity), args = list(), "HelloWorld"),
     NA
   )
 })

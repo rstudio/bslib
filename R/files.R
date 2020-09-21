@@ -9,13 +9,13 @@
 #' @param theme a bootswatch theme name.
 #' @noRd
 
-bootstrap_sass_files <- function(files, version = version_default()) {
+bs_sass_files <- function(files, version = version_default()) {
   version <- version_resolve(version)
-  as_sass(lapply(files, bootstrap_sass_file, version = version))
+  as_sass(lapply(files, bs_sass_file, version = version))
 }
 
 # Search for one file at a time so we can throw informative errors
-bootstrap_sass_file <- function(file, version) {
+bs_sass_file <- function(file, version) {
   if (length(file) != 1) stop("file should be of length 1")
   file <- paste0("_", file, ".scss")
   f <- if (version %in% "3") {

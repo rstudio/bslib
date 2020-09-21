@@ -1,64 +1,26 @@
-#' Customize the Bootstrap theme based on two to four key colors
-#'
-#' `bs_theme_base_colors` uses a background color and a foreground color to
-#' rewrite the basic palette of the current Bootstrap theme, affecting almost
-#' every built-in Bootstrap component.
-#'
-#' @param bg A color string for the background, in any format
-#'   [htmltools::parseCssColors()] can understand.
-#' @param fg A color string for the background.
-#'
-#' @section Implementation notes:
-#'
-#' `bs_theme_base_colors` supports both Bootstrap 3 and 4 (and 4+3), but the
-#' implementation differs greatly.
-#'
-#' For Bootstrap 4, the vast majority of default colors are directly or
-#' indirectly based on the `$black`, `$white`, and `$gray-100` through
-#' `$gray-900` variables; or on the theme colors (primary, secondary, danger,
-#' warning, info, etc.). `bs_theme_base_colors` sets `$white` to the `bg` color,
-#' `$black` to the `fg` color, and interpolates the grays between them.
-#'
-#' For Bootstrap 3, a similar set of `$black`, `$white`, and `$gray-darker`
-#' through `$gray-lighter` variables exist, and these are populated using the
-#' same strategy as with Bootstrap 4. However, unlike Bootstrap 4, in Bootstrap
-#' 3 many of the default colors are hard-coded hex colors, that also happen to
-#' be shades of gray. `bs_theme_base_colors` overrides these hard-coded values
-#' with colors interpolated between `bg` and `fg`.
-#'
-#' @family customizations
-#'
-#' @examples
-#'
-#' bs_theme_new("4+3")
-#' bs_theme_base_colors(bg = "#000060", fg = "skyblue")
-#'
-#' # You can apply further customizations here if desired, e.g.:
-#' bs_theme_accent_colors(primary = "orange", secondary = "silver")
-#'
-#' if (interactive()) {
-#'   bs_theme_preview(with_themer = FALSE)
-#' }
-#'
-#' @export
-bs_theme_base_colors <- function(bg = "#FFFFFF", fg = "#000000") {
-  if (is.null(bg)) {
-    stop("`bg` argument must not be NULL")
-  }
-  if (is.null(fg)) {
-    stop("`fg` argument must not be NULL")
-  }
+# ----------------------------------------------------------------------------------------
+# Base colors
+# ----------------------------------------------------------------------------------------
 
+bs_base_colors <- function(theme = bs_theme(), bg = NULL, fg = NULL) {
+  theme <- assert_bs_theme(theme)
+  if (is.null(bg) && is.null(fg)) {
+    return(theme)
+  }
+  if (is.null(bg)) stop("Cannot specify bg without fg.")
+  if (is.null(fg)) stop("Cannot specify fg without bg.")
   args <- list(bg = bg, fg = fg)
   args <- validate_and_normalize_colors(args)
-
-  dispatch_theme_setter("bs_theme_base_colors", list(
-    "4+3" = bs4_theme_base_colors,
-    "4" = bs4_theme_base_colors,
-    "3" = bs3_theme_base_colors), args)
+  funcs <- list(
+    "4+3" = bs4_base_colors,
+    "4" = bs4_base_colors,
+    "3" = bs3_base_colors
+  )
+  dispatch_theme_modifier(theme, funcs, args, "bs_base_colors")
 }
 
-bs4_theme_base_colors <- function(args) {
+
+bs4_base_colors <- function(args) {
   white <- args$bg
   black <- args$fg
 
@@ -66,7 +28,7 @@ bs4_theme_base_colors <- function(args) {
 
   if (any(grays[,4] != 255)) {
     warning(call. = FALSE,
-      "bs_theme_base_colors does not respect alpha in `white` and `black` arguments"
+      "bs_base_colors does not respect alpha in `white` and `black` arguments"
     )
   }
 
@@ -98,7 +60,7 @@ bs4_theme_base_colors <- function(args) {
   results
 }
 
-bs3_theme_base_colors <- function(args) {
+bs3_base_colors <- function(args) {
   white <- args$bg
   black <- args$fg
 
@@ -177,59 +139,39 @@ bs3_theme_base_colors <- function(args) {
   results
 }
 
-#' Customize Bootstrap accent colors
-#'
-#' Set accent colors (referred to as "brand" colors in the Bootstrap 3 docs, and
-#' "theme" colors in the Bootstrap 4 docs) for the current Bootstrap theme.
-#' Values must be `NULL` or a color string in a format
-#' [htmltools::parseCssColors()] can understand.
-#'
-#' @param primary A color to be used for hyperlinks, to indicate primary/default
-#'   actions, and to show active selection state in some Bootstrap components.
-#'   Generally a bold, saturated color that contrasts with the theme's base
-#'   colors.
-#' @param secondary A color for components and messages that don't need to stand
-#'   out. (Not supported in Bootstrap 3.)
-#' @param success A color for messages that indicate an operation has succeeded.
-#'   Typically green.
-#' @param info A color for messages that are informative but not critical. Typically a
-#'   shade of blue-green.
-#' @param warning A color for warning messages. Typically yellow.
-#' @param danger A color for errors. Typically red.
-#'
-#' @family customizations
-#'
-#' @examples
-#' bs_theme_new("4+3")
-#' bs_theme_accent_colors(primary = "maroon", secondary = "gray")
-#' if (interactive()) {
-#'   bs_theme_preview(with_themer = FALSE)
-#' }
-#'
-#' @export
-bs_theme_accent_colors <- function(primary = NULL, secondary = NULL,
-  success = NULL, info = NULL, warning = NULL, danger = NULL) {
+# ----------------------------------------------------------------------------------------
+# Accent colors
+# ----------------------------------------------------------------------------------------
 
-  args <- list(primary = primary, secondary = secondary, success = success,
-    info = info, warning = warning, danger = danger
+bs_accent_colors <- function(theme = bs_theme(), primary = NULL, secondary = NULL,
+                             success = NULL, info = NULL, warning = NULL, danger = NULL) {
+  theme <- assert_bs_theme(theme)
+
+  args <- validate_and_normalize_colors(
+    list(
+      primary = primary, secondary = secondary, success = success,
+      info = info, warning = warning, danger = danger
+    )
   )
-  args <- validate_and_normalize_colors(args)
 
-  dispatch_theme_setter("bs_theme_accent_colors", list(
-    "4+3" = bs43_theme_accent_colors,
+  funcs <- list(
+    "4+3" = bs43_accent_colors,
     "4" = identity,
-    "3" = bs3_theme_accent_colors
-  ), args)
+    "3" = bs3_accent_colors
+  )
+
+  dispatch_theme_modifier(theme, funcs, args, "bs_accent_colors")
 }
 
-bs43_theme_accent_colors <- function(args) {
+
+bs43_accent_colors <- function(args) {
   if (!is.null(args$secondary)) {
     args$default <- args$secondary
   }
   args
 }
 
-bs3_theme_accent_colors <- function(args) {
+bs3_accent_colors <- function(args) {
   # Warns and filters out unsupported arguments
   supported <- c("primary", "success", "info", "warning", "danger")
 
@@ -243,65 +185,12 @@ bs3_theme_accent_colors <- function(args) {
   args
 }
 
-#' Customize Bootstrap typefaces
-#'
-#' Set the typefaces used by Bootstrap for various purposes. Each argument
-#' can be `NULL` (no change), or a character vector of one or more elements.
-#'
-#' Each argument is a character vector, and each element of that vector can a
-#' single unquoted font family name, a single quoted font family name, or a
-#' comma-separated list of font families (with individual font family names
-#' quoted as necessary).
-#'
-#' For example, each example below is valid:
-#'
-#' ```
-#' # Single, unquoted
-#' bs_theme_fonts(base = "Source Sans Pro")
-#'
-#' # Single, quoted
-#' bs_theme_fonts(base = "'Source Sans Pro'")
-#'
-#' # Multiple, quoted
-#' bs_theme_fonts(base = "'Source Sans Pro', sans-serif")
-#'
-#' # Combining all of the above
-#' bs_theme_fonts(base = c("Open Sans", "'Source Sans Pro'",
-#'   "'Helvetica Neue', Helvetica, sans-serif"))
-#' ```
-#'
-#' But the following is _technically_ not valid:
-#'
-#' ```
-#' # Incorrect--because multiple font families are being
-#' # provided in a single string, names with spaces must
-#' # be surrounded by quotes!
-#' bs_theme_fonts(base = "Source Sans Pro, sans-serif")
-#' ```
-#'
-#' The resulting CSS will contain `font-family: Source Sans Pro, sans-serif;`
-#' which is technically out of spec, but in fact is likely to still work with
-#' most browsers.
-#'
-#' @param base The default typeface.
-#' @param code The typeface to be used for code. Be sure this is monospace!
-#' @param heading The typeface to be used for heading elements.
-#' @family customizations
-#' @examples
-#'
-#' bs_theme_new()
-#' bs_theme_fonts(
-#'   base = "Times",
-#'   code = c("Courier", "monospace"),
-#'   heading = "'Helvetica Neue', Helvetica, sans-serif"
-#' )
-#'
-#' if (interactive()) {
-#'   bs_theme_preview(with_themer = FALSE)
-#' }
-#'
-#' @export
-bs_theme_fonts <- function(base = NULL, code = NULL, heading = NULL) {
+# ----------------------------------------------------------------------------------------
+# Fonts
+# ----------------------------------------------------------------------------------------
+
+bs_fonts <- function(theme = bs_theme(), base = NULL, code = NULL, heading = NULL) {
+  theme <- assert_bs_theme(theme)
 
   args <- list(
     base = base,
@@ -325,14 +214,17 @@ bs_theme_fonts <- function(base = NULL, code = NULL, heading = NULL) {
 
   args <- lapply(args, quote_css_font_families)
 
-  dispatch_theme_setter("bs_theme_fonts", list(
-    "4+3" = bs4_theme_fonts,
-    "4" = bs4_theme_fonts,
-    "3" = bs3_theme_fonts
-  ), args)
+  funcs <- list(
+    "4+3" = bs4_fonts,
+    "4" = bs4_fonts,
+    "3" = bs3_fonts
+  )
+
+  dispatch_theme_modifier(theme, funcs, args, "bs_fonts")
 }
 
-bs4_theme_fonts <- function(args) {
+
+bs4_fonts <- function(args) {
   name_map <- c(
     base = "font-family-base",
     code = "font-family-monospace",
@@ -344,7 +236,7 @@ bs4_theme_fonts <- function(args) {
   args
 }
 
-bs3_theme_fonts <- function(args) {
+bs3_fonts <- function(args) {
   name_map <- c(
     base = "font-family-base",
     code = "font-family-monospace",
@@ -365,16 +257,12 @@ bs3_theme_fonts <- function(args) {
 #'   arguments passed by the user; and return a list of variables to set as
 #'   defaults.
 #' @noRd
-dispatch_theme_setter <- function(caller_name, funcs_by_version, args) {
-  theme <- bs_theme_get()
-  if (is.null(theme)) {
-    stop(call. = FALSE,
-      "No bootstraplib theme is active; did you forget to call bs_theme_new()?")
-  }
+dispatch_theme_modifier <- function(theme, funcs_by_version, args, caller_name) {
+  theme <- assert_bs_theme(theme)
 
   results <- NULL
   for (version in names(funcs_by_version)) {
-    if (version %in% theme_version()) {
+    if (version %in% theme_version(theme)) {
       results <- do.call(funcs_by_version[[version]], list(args))
       break
     }
@@ -386,11 +274,11 @@ dispatch_theme_setter <- function(caller_name, funcs_by_version, args) {
       paste(collapse = "/", theme_version()), ")")
   }
 
-  results <- dropNulls(results)
-  results <- lapply(results, paste, "!default")
-  results <- sass::sass_layer(results)
+  results <- sass::sass_layer(
+    lapply(dropNulls(results), paste, "!default")
+  )
 
-  bs_theme_add(results)
+  bs_add_layers(theme, results)
 }
 
 #' Ensures all arguments are either NULL, or length 1 character vectors with

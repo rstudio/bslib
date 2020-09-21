@@ -4,10 +4,10 @@
 \alias{theme_version}
 \title{Obtain a theme's Bootstrap version}
 \usage{
-theme_version(theme = bs_theme_get())
+theme_version(theme = bs_global_get())
 }
 \arguments{
-\item{theme}{a bs theme object, see \code{\link[=bs_theme_set]{bs_theme_set()}}.}
+\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 }
 \description{
 Obtain a theme's Bootstrap version

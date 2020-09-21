@@ -1,3 +1,200 @@
+#' Create (and update) a Bootstrap theme object
+#'
+#' @section Main colors:
+#'
+#' ### Grayscale colors
+#'
+#' Specify both `fg` (foreground) and `bg` (background) colors to control
+#' the default grayscale palette used to set the vast majority of color defaults.
+#'
+#' ### Accent colors:
+#'
+#'
+#' @section Fonts:
+#'
+#' Set the typefaces used by Bootstrap for various purposes. Each argument
+#' can be `NULL` (no change), or a character vector of one or more elements.
+#'
+#' Each argument is a character vector, and each element of that vector can a
+#' single unquoted font family name, a single quoted font family name, or a
+#' comma-separated list of font families (with individual font family names
+#' quoted as necessary).
+#'
+#' For example, each example below is valid:
+#'
+#' ```
+#' # Single, unquoted
+#' bs_theme_fonts(base = "Source Sans Pro")
+#'
+#' # Single, quoted
+#' bs_theme_fonts(base = "'Source Sans Pro'")
+#'
+#' # Multiple, quoted
+#' bs_theme_fonts(base = "'Source Sans Pro', sans-serif")
+#'
+#' # Combining all of the above
+#' bs_theme_fonts(base = c("Open Sans", "'Source Sans Pro'",
+#'   "'Helvetica Neue', Helvetica, sans-serif"))
+#' ```
+#'
+#' But the following is _technically_ not valid:
+#'
+#' ```
+#' # Incorrect--because multiple font families are being
+#' # provided in a single string, names with spaces must
+#' # be surrounded by quotes!
+#' bs_theme_fonts(base = "Source Sans Pro, sans-serif")
+#' ```
+#'
+#' The resulting CSS will contain `font-family: Source Sans Pro, sans-serif;`
+#' which is technically out of spec, but in fact is likely to still work with
+#' most browsers.
+#'
+#' @section Miscellaneous Sass variables:
+#'
+#' Both Bootstrap 3 and 4 come with
+#'
+#' TODO: link to the variables files?
+#'
+#'
+#' @param version The major version of Bootstrap to use. A value of
+#' `'4+3'` means Bootstrap 4, but with additional CSS/JS to support
+#' BS3 style markup in BS4. Other supported versions include 3 and 4.
+#' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()] for possible values).
+#' @param ... arguments passed along to [bs_add_variables()].
+#' @param bg A color string for the background, in any format [htmltools::parseCssColors()] can understand.
+#' @param fg A color string for the foreground.
+#' @param primary A color to be used for hyperlinks, to indicate primary/default
+#'   actions, and to show active selection state in some Bootstrap components.
+#'   Generally a bold, saturated color that contrasts with the theme's base
+#'   colors.
+#' @param secondary A color for components and messages that don't need to stand
+#'   out. (Not supported in Bootstrap 3.)
+#' @param success A color for messages that indicate an operation has succeeded.
+#'   Typically green.
+#' @param info A color for messages that are informative but not critical. Typically a
+#'   shade of blue-green.
+#' @param warning A color for warning messages. Typically yellow.
+#' @param danger A color for errors. Typically red.
+#' @param base_font The default typeface.
+#' @param code_font The typeface to be used for code. Be sure this is monospace!
+#' @param heading_font The typeface to be used for heading elements.
+#'
+#' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
+#' @references \url{https://rstudio.github.io/sass/}
+#'
+#' @export
+#' @examples
+#'
+#' theme <- bs_theme(
+#'   # Controls the default grayscale palette
+#'   bg = "#202123", fg = "#B8BCC2",
+#'   # Controls the accent (e.g., hyperlink, button, etc) colors
+#'   primary = "#EA80FC", secondary = "#48DAC6",
+#'   base_font = c("Grandstander", "sans-serif"),
+#'   code_font = c("Courier", "monospace"),
+#'   heading_font = "'Helvetica Neue', Helvetica, sans-serif",
+#'   # Can also add lower-level customization
+#'   "input-border-color" = "#EA80FC"
+#' )
+#' if (interactive()) {
+#'   bs_theme_preview(theme)
+#' }
+#'
+#' # Lower-level bs_add_*() functions allow you to work more
+#' # directly with the underlying Sass code
+#' theme <- theme %>%
+#'   bs_add_variables("my-class-color" = "red") %>%
+#'   bs_add_rules(".my-class { color: $my-class-color }")
+#'
+#' @export
+bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
+                     bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
+                     success = NULL, info = NULL, warning = NULL, danger = NULL,
+                     base_font = NULL, code_font = NULL, heading_font = NULL) {
+  version <- version_resolve(version)
+  bootswatch <- bootswatch_theme_resolve(bootswatch, version)
+  theme <- bs_add_layers(
+    add_class(sass_layer(), "bs_theme"),
+    bootstrap_layer(version),
+    if (identical(version, "4+3")) bs3compat_layer(),
+    # This will set a $navbar-height Sass var, even if no bootswatch is used
+    # TODO: maybe make navbar adjustment via jQuery instead? https://stackoverflow.com/a/46021836/1583084
+    navbar_height_layer(bootswatch, version),
+    bootswatch_layer(bootswatch, version)
+  )
+  bs_theme_update(
+    theme, ...,
+    bg = bg, fg = fg,
+    primary = primary,
+    secondary = secondary,
+    success = success,
+    info = info,
+    warning = warning,
+    danger = danger,
+    base_font = base_font,
+    code_font = code_font,
+    heading_font = heading_font
+  )
+}
+
+#' @rdname bs_theme
+#' @param theme a [bs_theme()] object.
+#' @export
+bs_theme_update <- function(theme = bs_theme(), ..., bg = NULL, fg = NULL,
+                            primary = NULL, secondary = NULL, success = NULL,
+                            info = NULL, warning = NULL, danger = NULL,
+                            base_font = NULL, code_font = NULL, heading_font = NULL) {
+  theme <- assert_bs_theme(theme)
+  # See R/bs-theme-update.R for the implementation of these
+  theme <- bs_base_colors(theme, bg = bg, fg = fg)
+  theme <- bs_accent_colors(
+    theme, primary = primary, secondary = secondary, success = success,
+    info = info, warning = warning, danger = danger
+  )
+  theme <- bs_fonts(theme, base = base_font, code = code_font, heading = heading_font)
+  bs_add_variables(theme, ...)
+}
+
+#' @rdname bs_theme
+#' @export
+bs_global_theme_update <- function(theme = bs_theme(), ..., bg = NULL, fg = NULL,
+                                   primary = NULL,  secondary = NULL, success = NULL,
+                                   info = NULL, warning = NULL, danger = NULL,
+                                   base_font = NULL, code_font = NULL, heading_font = NULL) {
+
+  theme <- assert_global_theme("bs_theme_global_update()")
+  bs_global_set(bs_theme_update(
+    theme, ...,
+    bg = bg, fg = fg,
+    primary = primary,
+    secondary = secondary,
+    success = success,
+    info = info,
+    warning = warning,
+    danger = danger,
+    base_font = base_font,
+    code_font = code_font,
+    heading_font = heading_font
+  ))
+}
+
+# -----------------------------------------------------------------
+# Theme helpers
+# -----------------------------------------------------------------
+
+assert_bs_theme <- function(theme) {
+  if (!is_bs_theme(theme)) {
+    stop("`theme` must be a `bs_theme()` object")
+  }
+  theme
+}
+
+is_bs_theme <- function(x) {
+  inherits(x, "bs_theme")
+}
+
+
 # -----------------------------------------------------------------
 # Core Bootstrap layer
 # -----------------------------------------------------------------
@@ -6,9 +203,9 @@ bootstrap_layer <- function(version) {
   if (version %in% c("4", "4+3")) {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
     bs4_layer <- sass_layer(
-      defaults = bootstrap_sass_files(c("functions", "variables"), version = 4),
-      declarations = bootstrap_sass_files("mixins", version = 4),
-      rules = bootstrap_sass_files(c(
+      defaults = bs_sass_files(c("functions", "variables"), version = 4),
+      declarations = bs_sass_files("mixins", version = 4),
+      rules = bs_sass_files(c(
         "root", "reboot", "type", "images", "code", "grid", "tables",
         "forms", "buttons", "transitions", "dropdown", "button-group",
         "input-group", "custom-forms", "nav", "navbar", "card",
@@ -41,10 +238,10 @@ bootstrap_layer <- function(version) {
     bs3_core <- sass_layer(
       defaults = list(
         list("icon-font-path" = "'glyphicon-fonts/'"),
-        bootstrap_sass_files("variables", version = 3)
+        bs_sass_files("variables", version = 3)
       ),
-      declarations = bootstrap_sass_files("mixins", version = 3),
-      rules = bootstrap_sass_files(c(
+      declarations = bs_sass_files("mixins", version = 3),
+      rules = bs_sass_files(c(
         "normalize", "print", "glyphicons", "scaffolding", "type", "code", "grid",
         "tables", "forms", "buttons", "component-animations", "dropdowns", "button-groups",
         "input-groups", "navs", "navbar", "breadcrumbs", "pagination", "pager", "labels",
@@ -368,3 +565,4 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
 
   layer
 }
+
