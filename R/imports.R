@@ -5,3 +5,6 @@
 #' @importFrom jquerylib jquery_core
 #' @importFrom jsonlite fromJSON
 NULL
+
+
+globalVariables("!!")
