@@ -1,7 +1,4 @@
-library(testthat)
-library(sass)
-
-options(sass.cache = FALSE)
+local_disable_cache()
 
 describe("bootstrap_sass", {
   # Example CSS that includes one variable, one function call, one mixin

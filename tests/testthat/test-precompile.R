@@ -1,5 +1,4 @@
-# Disable caching
-sass_cache_set(NULL)
+local_disable_cache()
 
 test_that("Can find precompiled themes", {
   # Should be present for 4, 4+3, 3 without bootswatch theme
