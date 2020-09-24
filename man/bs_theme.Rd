@@ -4,7 +4,7 @@
 \alias{bs_theme}
 \alias{bs_theme_update}
 \alias{bs_global_theme_update}
-\title{Create (and update) a Bootstrap theme object}
+\title{Create a Bootstrap theme}
 \usage{
 bs_theme(
   version = version_default(),
@@ -56,15 +56,16 @@ bs_global_theme_update(
 )
 }
 \arguments{
-\item{version}{The major version of Bootstrap to use. A value of
-\code{'4+3'} means Bootstrap 4, but with additional CSS/JS to support
-BS3 style markup in BS4. Other supported versions include 3 and 4.}
+\item{version}{The major version of Bootstrap to use. A value of \code{'4+3'}
+means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
+in BS4. Other supported versions include 3 and 4.}
 
-\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values).}
+\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
+for possible values).}
 
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
-\item{bg}{A color string for the background, in any format \code{\link[htmltools:parseCssColors]{htmltools::parseCssColors()}} can understand.}
+\item{bg}{A color string for the background.}
 
 \item{fg}{A color string for the foreground.}
 
@@ -79,8 +80,8 @@ out. (Not supported in Bootstrap 3.)}
 \item{success}{A color for messages that indicate an operation has succeeded.
 Typically green.}
 
-\item{info}{A color for messages that are informative but not critical. Typically a
-shade of blue-green.}
+\item{info}{A color for messages that are informative but not critical.
+Typically a shade of blue-green.}
 
 \item{warning}{A color for warning messages. Typically yellow.}
 
@@ -95,62 +96,83 @@ shade of blue-green.}
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 }
 \description{
-Create (and update) a Bootstrap theme object
+Creates a Bootstrap theme object which can be:
+\itemize{
+\item Used in any HTML page powered by \code{\link[shiny:bootstrapLib]{shiny::bootstrapLib()}} (e.g.,
+\code{\link[shiny:fluidPage]{shiny::fluidPage()}}, \code{\link[shiny:bootstrapPage]{shiny::bootstrapPage()}}, etc).
+\item Used in any output format powered by \code{\link[rmarkdown:html_document]{rmarkdown::html_document()}}
+(or \code{\link[rmarkdown:html_document_base]{rmarkdown::html_document_base()}}).
+\item Used more generally in any \link[htmltools:builder]{htmltools::tags} via \code{\link[=bs_dependencies]{bs_dependencies()}}.
 }
-\section{Main colors}{
 
-\subsection{Grayscale colors}{
-
-Specify both \code{fg} (foreground) and \code{bg} (background) colors to control
-the default grayscale palette used to set the vast majority of color defaults.
+These functions (i.e., \code{bs_theme()} or \code{bs_theme_update()}) allow you to do
+the following common Bootstrap customization(s):
+\itemize{
+\item Choose a (major) Bootstrap version.
+\item Choose a \href{https://bootswatch.com}{Bootswatch theme} (optional).
+\item Customize main colors and fonts via explicitly named arguments (e.g.,
+\code{bg}, \code{fg}, \code{primary}, etc).
+\item Customize other, lower-level, Bootstrap Sass variable defaults via \code{...}
+\itemize{
+\item See all \href{https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap/scss/_variables.scss}{Bootstrap 4 variables}
+\item See all \href{https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss}{Bootstrap 3 variables}
+}
 }
 
-\subsection{Accent colors:}{
+For less common theming customization(s), you can modify theme objects to:
+\itemize{
+\item Add additional Sass/CSS rules (see \code{\link[=bs_add_rules]{bs_add_rules()}} and \code{\link[=bs_sass]{bs_sass()}}).
+\item Leverage (new) Sass functions and mixins in those rules (see
+\code{\link[=bs_add_declarations]{bs_add_declarations()}})
 }
+
+These lower-level theming tools build on the concept of a
+\code{\link[sass:sass_layer]{sass::sass_layer()}}. To learn more, \href{https://rstudio.github.io/sass/articles/sass.html#composable-sass}{see here}.
+}
+\section{Colors}{
+
+
+Colors may be provided in any format that \code{\link[htmltools:parseCssColors]{htmltools::parseCssColors()}} can
+understand. To control the vast majority of the ('grayscale') color
+defaults, specify both the \code{fg} (foreground) and \code{bg} (background) colors.
+The \code{primary} and \code{secondary} theme colors are also useful for accenting the
+main grayscale colors in things like hyperlinks, tabset panels, and buttons.
 }
 
 \section{Fonts}{
 
 
-Set the typefaces used by Bootstrap for various purposes. Each argument
-can be \code{NULL} (no change), or a character vector of one or more elements.
+Use \code{base_font}, \code{code_font}, and \code{heading_font} to control the main
+typefaces. These arguments set new defaults for the relevant \code{font-family}
+CSS properties \strong{which does not guarantee the relevant fonts are available
+in the users system}. To ensure the fonts are actually available, use a
+package like \strong{gfonts} (if Google Fonts) to download and provide the font
+files with the HTML site.
 
-Each argument is a character vector, and each element of that vector can a
-single unquoted font family name, a single quoted font family name, or a
-comma-separated list of font families (with individual font family names
-quoted as necessary).
+Each \verb{*_font} argument accepts a character vector where each element of that
+vector can a single unquoted font family name, a single quoted font family
+name, or a comma-separated list of font families (with individual font
+family names quoted as necessary). The comma-separated list is useful for
+specifying "fallback" font families (e.g., generic CSS families like
+\code{sans-serif} or \code{serif}) when font(s) may be unavailable.
 
 For example, each example below is valid:\preformatted{# Single, unquoted
-bs_theme_fonts(base = "Source Sans Pro")
-
+bs_theme(base_font = "Source Sans Pro")
 # Single, quoted
-bs_theme_fonts(base = "'Source Sans Pro'")
-
+bs_theme(base_font = "'Source Sans Pro'")
 # Multiple, quoted
-bs_theme_fonts(base = "'Source Sans Pro', sans-serif")
-
+bs_theme(base_font = "'Source Sans Pro', sans-serif")
 # Combining all of the above
-bs_theme_fonts(base = c("Open Sans", "'Source Sans Pro'",
-  "'Helvetica Neue', Helvetica, sans-serif"))
+bs_theme(
+  base_font = c("Open Sans", "'Source Sans Pro'",
+  "'Helvetica Neue', Helvetica, sans-serif")
+)
 }
 
-But the following is \emph{technically} not valid:\preformatted{# Incorrect--because multiple font families are being
-# provided in a single string, names with spaces must
-# be surrounded by quotes!
-bs_theme_fonts(base = "Source Sans Pro, sans-serif")
+But the following is \emph{technically} not valid because \verb{Source Sans Pro} is
+not quoted (the resulting CSS will contain \verb{font-family: Source Sans Pro, sans-serif;} which is technically out of the CSS specifications but may
+still work in some modern browsers).\preformatted{bs_theme(base_font = "Source Sans Pro, sans-serif")
 }
-
-The resulting CSS will contain \verb{font-family: Source Sans Pro, sans-serif;}
-which is technically out of spec, but in fact is likely to still work with
-most browsers.
-}
-
-\section{Miscellaneous Sass variables}{
-
-
-Both Bootstrap 3 and 4 come with
-
-TODO: link to the variables files?
 }
 
 \examples{
@@ -181,4 +203,8 @@ theme <- theme \%>\%
 \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 
 \url{https://rstudio.github.io/sass/}
+}
+\seealso{
+\code{\link[=bs_add_variables]{bs_add_variables()}}, \code{\link[=bs_theme_preview]{bs_theme_preview()}}, \code{\link[=bs_dependencies]{bs_dependencies()}},
+\code{\link[=bs_global_set]{bs_global_set()}}
 }

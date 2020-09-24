@@ -31,13 +31,14 @@ bs_global_get()
 bs_global_clear()
 }
 \arguments{
-\item{version}{The major version of Bootstrap to use. A value of
-\code{'4+3'} means Bootstrap 4, but with additional CSS/JS to support
-BS3 style markup in BS4. Other supported versions include 3 and 4.}
+\item{version}{The major version of Bootstrap to use. A value of \code{'4+3'}
+means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
+in BS4. Other supported versions include 3 and 4.}
 
-\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values).}
+\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
+for possible values).}
 
-\item{bg}{A color string for the background, in any format \code{\link[htmltools:parseCssColors]{htmltools::parseCssColors()}} can understand.}
+\item{bg}{A color string for the background.}
 
 \item{fg}{A color string for the foreground.}
 
@@ -52,8 +53,8 @@ out. (Not supported in Bootstrap 3.)}
 \item{success}{A color for messages that indicate an operation has succeeded.
 Typically green.}
 
-\item{info}{A color for messages that are informative but not critical. Typically a
-shade of blue-green.}
+\item{info}{A color for messages that are informative but not critical.
+Typically a shade of blue-green.}
 
 \item{warning}{A color for warning messages. Typically yellow.}
 

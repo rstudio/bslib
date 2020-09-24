@@ -1,68 +1,92 @@
-#' Create (and update) a Bootstrap theme object
+#' Create a Bootstrap theme
 #'
-#' @section Main colors:
+#' @description
 #'
-#' ### Grayscale colors
+#' Creates a Bootstrap theme object which can be:
 #'
-#' Specify both `fg` (foreground) and `bg` (background) colors to control
-#' the default grayscale palette used to set the vast majority of color defaults.
+#' * Used in any HTML page powered by [shiny::bootstrapLib()] (e.g.,
+#'   [shiny::fluidPage()], [shiny::bootstrapPage()], etc).
+#' * Used in any output format powered by [rmarkdown::html_document()]
+#'   (or [rmarkdown::html_document_base()]).
+#' * Used more generally in any [htmltools::tags] via [bs_dependencies()].
 #'
-#' ### Accent colors:
+#' These functions (i.e., `bs_theme()` or `bs_theme_update()`) allow you to do
+#' the following common Bootstrap customization(s):
 #'
+#' * Choose a (major) Bootstrap version.
+#' * Choose a [Bootswatch theme](https://bootswatch.com) (optional).
+#' * Customize main colors and fonts via explicitly named arguments (e.g.,
+#'   `bg`, `fg`, `primary`, etc).
+#' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`
+#'   * See all [Bootstrap 4 variables](https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap/scss/_variables.scss)
+#'   * See all [Bootstrap 3 variables](https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss)
+#'
+#' For less common theming customization(s), you can modify theme objects to:
+#'
+#' * Add additional Sass/CSS rules (see [bs_add_rules()] and [bs_sass()]).
+#' * Leverage (new) Sass functions and mixins in those rules (see
+#' [bs_add_declarations()])
+#'
+#' These lower-level theming tools build on the concept of a
+#' [sass::sass_layer()]. To learn more, [see
+#' here](https://rstudio.github.io/sass/articles/sass.html#composable-sass).
+#'
+#' @section Colors:
+#'
+#'  Colors may be provided in any format that [htmltools::parseCssColors()] can
+#'  understand. To control the vast majority of the ('grayscale') color
+#'  defaults, specify both the `fg` (foreground) and `bg` (background) colors.
+#'  The `primary` and `secondary` theme colors are also useful for accenting the
+#'  main grayscale colors in things like hyperlinks, tabset panels, and buttons.
 #'
 #' @section Fonts:
 #'
-#' Set the typefaces used by Bootstrap for various purposes. Each argument
-#' can be `NULL` (no change), or a character vector of one or more elements.
+#'  Use `base_font`, `code_font`, and `heading_font` to control the main
+#'  typefaces. These arguments set new defaults for the relevant `font-family`
+#'  CSS properties **which does not guarantee the relevant fonts are available
+#'  in the users system**. To ensure the fonts are actually available, use a
+#'  package like **gfonts** (if Google Fonts) to download and provide the font
+#'  files with the HTML site.
 #'
-#' Each argument is a character vector, and each element of that vector can a
-#' single unquoted font family name, a single quoted font family name, or a
-#' comma-separated list of font families (with individual font family names
-#' quoted as necessary).
+#'  Each `*_font` argument accepts a character vector where each element of that
+#'  vector can a single unquoted font family name, a single quoted font family
+#'  name, or a comma-separated list of font families (with individual font
+#'  family names quoted as necessary). The comma-separated list is useful for
+#'  specifying "fallback" font families (e.g., generic CSS families like
+#'  `sans-serif` or `serif`) when font(s) may be unavailable.
 #'
-#' For example, each example below is valid:
+#'  For example, each example below is valid:
 #'
-#' ```
-#' # Single, unquoted
-#' bs_theme_fonts(base = "Source Sans Pro")
+#'  ```
+#'  # Single, unquoted
+#'  bs_theme(base_font = "Source Sans Pro")
+#'  # Single, quoted
+#'  bs_theme(base_font = "'Source Sans Pro'")
+#'  # Multiple, quoted
+#'  bs_theme(base_font = "'Source Sans Pro', sans-serif")
+#'  # Combining all of the above
+#'  bs_theme(
+#'    base_font = c("Open Sans", "'Source Sans Pro'",
+#'    "'Helvetica Neue', Helvetica, sans-serif")
+#'  )
+#'  ```
 #'
-#' # Single, quoted
-#' bs_theme_fonts(base = "'Source Sans Pro'")
+#'  But the following is _technically_ not valid because `Source Sans Pro` is
+#'  not quoted (the resulting CSS will contain `font-family: Source Sans Pro,
+#'  sans-serif;` which is technically out of the CSS specifications but may
+#'  still work in some modern browsers).
 #'
-#' # Multiple, quoted
-#' bs_theme_fonts(base = "'Source Sans Pro', sans-serif")
+#'  ```
+#'  bs_theme(base_font = "Source Sans Pro, sans-serif")
+#'  ```
 #'
-#' # Combining all of the above
-#' bs_theme_fonts(base = c("Open Sans", "'Source Sans Pro'",
-#'   "'Helvetica Neue', Helvetica, sans-serif"))
-#' ```
-#'
-#' But the following is _technically_ not valid:
-#'
-#' ```
-#' # Incorrect--because multiple font families are being
-#' # provided in a single string, names with spaces must
-#' # be surrounded by quotes!
-#' bs_theme_fonts(base = "Source Sans Pro, sans-serif")
-#' ```
-#'
-#' The resulting CSS will contain `font-family: Source Sans Pro, sans-serif;`
-#' which is technically out of spec, but in fact is likely to still work with
-#' most browsers.
-#'
-#' @section Miscellaneous Sass variables:
-#'
-#' Both Bootstrap 3 and 4 come with
-#'
-#' TODO: link to the variables files?
-#'
-#'
-#' @param version The major version of Bootstrap to use. A value of
-#' `'4+3'` means Bootstrap 4, but with additional CSS/JS to support
-#' BS3 style markup in BS4. Other supported versions include 3 and 4.
-#' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()] for possible values).
+#' @param version The major version of Bootstrap to use. A value of `'4+3'`
+#'   means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
+#'   in BS4. Other supported versions include 3 and 4.
+#' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
+#'   for possible values).
 #' @param ... arguments passed along to [bs_add_variables()].
-#' @param bg A color string for the background, in any format [htmltools::parseCssColors()] can understand.
+#' @param bg A color string for the background.
 #' @param fg A color string for the foreground.
 #' @param primary A color to be used for hyperlinks, to indicate primary/default
 #'   actions, and to show active selection state in some Bootstrap components.
@@ -72,8 +96,8 @@
 #'   out. (Not supported in Bootstrap 3.)
 #' @param success A color for messages that indicate an operation has succeeded.
 #'   Typically green.
-#' @param info A color for messages that are informative but not critical. Typically a
-#'   shade of blue-green.
+#' @param info A color for messages that are informative but not critical.
+#'   Typically a shade of blue-green.
 #' @param warning A color for warning messages. Typically yellow.
 #' @param danger A color for errors. Typically red.
 #' @param base_font The default typeface.
@@ -82,8 +106,8 @@
 #'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #' @references \url{https://rstudio.github.io/sass/}
-#'
-#' @export
+#' @seealso [bs_add_variables()], [bs_theme_preview()], [bs_dependencies()],
+#'   [bs_global_set()]
 #' @examples
 #'
 #' theme <- bs_theme(
@@ -162,7 +186,6 @@ bs_global_theme_update <- function(theme = bs_theme(), ..., bg = NULL, fg = NULL
                                    primary = NULL,  secondary = NULL, success = NULL,
                                    info = NULL, warning = NULL, danger = NULL,
                                    base_font = NULL, code_font = NULL, heading_font = NULL) {
-
   theme <- assert_global_theme("bs_theme_global_update()")
   bs_global_set(bs_theme_update(
     theme, ...,
