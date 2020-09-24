@@ -135,6 +135,7 @@ bootstrap <- function(
         src = out_file_dir,
         stylesheet = basename(out_file),
         script = basename(js),
+        all_files = TRUE,
         meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
       )
     ),
