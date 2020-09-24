@@ -7,4 +7,4 @@
 NULL
 
 
-globalVariables("!!")
+utils::globalVariables("!!")
