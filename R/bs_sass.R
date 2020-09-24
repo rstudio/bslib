@@ -107,10 +107,23 @@ bootstrap <- function(
     )
   }
 
+  out_file_dir <- dirname(out_file)
+
   js <- bootstrap_javascript(version, TRUE)
-  success <- file.copy(js, dirname(out_file), overwrite = TRUE)
-  if (!success) {
-    warning("Failed to copy over bootstrap's javascript into the htmlDependency() directory.")
+  success_js_file <- file.copy(js, out_file_dir, overwrite = TRUE)
+  success_js_map <- local({
+    js_map_file <- paste0(js, ".map")
+    # if `version` is `"3"`, then `js` is `"bootstrap-sass/javascripts/bootstrap[.min].js"`,
+    ## which does not have a map file
+    ## so check for map file existence
+    if (file.exists(js_map_file)) {
+      file.copy(js_map_file, out_file_dir, overwrite = TRUE)
+    } else {
+      TRUE
+    }
+  })
+  if (! (success_js_file && success_js_map)) {
+    warning("Failed to copy over bootstrap's javascript files into the htmlDependency() directory.")
   }
 
   c(
@@ -119,7 +132,7 @@ bootstrap <- function(
       htmlDependency(
         name = "bootstrap",
         version = get_exact_version(version),
-        src = dirname(out_file),
+        src = out_file_dir,
         stylesheet = basename(out_file),
         script = basename(js),
         meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
@@ -144,5 +157,3 @@ bootstrap_sass <- function(rules = list(), theme = bs_theme_get(),
     ...
   )
 }
-
-
