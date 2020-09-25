@@ -4,6 +4,7 @@
 \alias{bs_theme}
 \alias{bs_theme_update}
 \alias{bs_global_theme_update}
+\alias{is_bs_theme}
 \title{Create a Bootstrap theme}
 \usage{
 bs_theme(
@@ -54,6 +55,8 @@ bs_global_theme_update(
   code_font = NULL,
   heading_font = NULL
 )
+
+is_bs_theme(x)
 }
 \arguments{
 \item{version}{The major version of Bootstrap to use. A value of \code{'4+3'}
@@ -94,6 +97,8 @@ Typically a shade of blue-green.}
 \item{heading_font}{The typeface to be used for heading elements.}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+
+\item{x}{an object.}
 }
 \description{
 Creates a Bootstrap theme object which can be:

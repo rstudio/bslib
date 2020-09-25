@@ -139,7 +139,7 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
   version <- version_resolve(version)
   bootswatch <- bootswatch_theme_resolve(bootswatch, version)
   theme <- bs_add_layers(
-    add_class(sass_layer(), "bs_theme"),
+    bs_theme_init(),
     bootstrap_layer(version),
     if (identical(version, "4+3")) bs3compat_layer(),
     # This will set a $navbar-height Sass var, even if no bootswatch is used
@@ -202,19 +202,22 @@ bs_global_theme_update <- function(theme = bs_theme(), ..., bg = NULL, fg = NULL
   ))
 }
 
-# -----------------------------------------------------------------
-# Theme helpers
-# -----------------------------------------------------------------
+#' @rdname bs_theme
+#' @param x an object.
+#' @export
+is_bs_theme <- function(x) {
+  inherits(x, "bs_theme")
+}
+
+bs_theme_init <- function() {
+  add_class(sass_layer(), "bs_theme")
+}
 
 assert_bs_theme <- function(theme) {
   if (!is_bs_theme(theme)) {
     stop("`theme` must be a `bs_theme()` object")
   }
   theme
-}
-
-is_bs_theme <- function(x) {
-  inherits(x, "bs_theme")
 }
 
 
