@@ -35,8 +35,8 @@ custom layers to the current theme without affecting the global state
 
 \item{sass_options}{see \code{\link[sass:sass_options]{sass::sass_options()}}.}
 
-\item{cache}{A \link[sass]{FileCache} object created by \code{\link[sass:sass_file_cache]{sass_file_cache()}}, or \code{NULL}
-for no caching.}
+\item{cache}{This can be a directory to use for the cache, a \link[sass]{FileCache}
+object created by \code{\link[sass:sass_file_cache]{sass_file_cache()}}, or \code{FALSE} or \code{NULL} for no caching.}
 
 \item{jquery}{See \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}}.}
 
