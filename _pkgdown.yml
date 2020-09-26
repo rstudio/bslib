@@ -30,42 +30,26 @@ navbar:
 reference:
 - title: Theme creation
   description: |
-    Tools for creating and customizing Bootstrap themes.
+    Tools for creating customized Bootstrap themes.
   contents:
     - bs_theme
-    - bs_base_colors
-    - bs_accent_colors
-    - bs_fonts
     - bs_add_variables
-    - bs_add_rules
-    - bs_add_declarations
-    - bs_add_layer
 - title: Global theme creation
   description: |
-    Create and customize Bootstrap themes globally
+    Use Bootstrap themes globally.
   contents:
     - bs_global_theme
-    - bs_global_set
-    - bs_global_get
-    - bs_global_get_variables
-    - bs_global_clear
-    - bs_global_base_colors
-    - bs_global_accent_colors
-    - bs_global_fonts
     - bs_global_add_variables
-    - bs_global_add_rules
-    - bs_global_add_declarations
-    - bs_global_add_layer
 - title: Interactive theming
   description: |
-    Tools for creating themes interactively.
+    Interactively customize themes
   contents:
     - bs_theme_preview
     - run_with_themer
     - bs_themer
 - title: Bootstrap SASS compilation
   description: |
-    Entry points for compiling Bootstrap Sass. `bs_dependencies()` is for adding a Bootstrap dependency and `bs_sass()` is for compiling additional Sass rules that use Bootstrap Sass.
+    Compile themes into HTML dependencies and CSS strings
   contents:
     - bs_dependencies
     - bs_sass
