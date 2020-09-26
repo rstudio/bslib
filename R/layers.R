@@ -53,7 +53,7 @@ bootstrap_layer <- function(version) {
         "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
       ), version = 3),
       file_attachments = c(
-        "glyphicon-fonts" = lib_file("bootstrap-sass/assets/fonts/bootstrap")
+        "glyphicon-fonts" = lib_file("bootstrap-sass", "assets", "fonts", "bootstrap")
       ),
       # Tag this layer so we know we can query the theme_version()
       tags = "bootstraplib_version_3"
@@ -69,16 +69,14 @@ bootstrap_layer <- function(version) {
 
 
 
-bootstrap_javascript <- function(version, minified = TRUE) {
+bootstrap_javascript <- function(version) {
   if (version %in% c("4", "4+3")) {
     return(lib_file(
-      "bootstrap/dist/js",
-      if (minified) "bootstrap.bundle.min.js" else "bootstrap.bundle.js"
+      "bootstrap", "dist", "js", c("bootstrap.bundle.min.js", "bootstrap.bundle.min.js.map")
     ))
   } else if (version %in% "3") {
     return(lib_file(
-      "bootstrap-sass/assets/javascripts",
-      if (minified) "bootstrap.min.js" else "bootstrap.js"
+      "bootstrap-sass", "assets", "javascripts", "bootstrap.min.js"
     ))
   }
 
@@ -96,7 +94,7 @@ bs3compat_layer <- function() {
     rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bootstraplib")),
     # Gyliphicon font files
     file_attachments = c(
-      fonts = lib_file("bootstrap-sass/assets/fonts")
+      fonts = lib_file("bootstrap-sass", "assets", "fonts")
     ),
     html_deps = htmltools::htmlDependency(
       "bs3compat", packageVersion("bootstraplib"),

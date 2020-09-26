@@ -1,3 +1,12 @@
+## Upgrade Everything
+
+Rather than individually run each update script and worry about the correct order, use the `tools/update_all.R` script:
+
+``` shell
+Rscript tools update_all.R
+```
+
+
 ## Upgrading HTML dependencies
 
 To upgrade or install the HTML dependencies that ship with this package, use the `tools/yarn_install.R` script:

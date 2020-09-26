@@ -176,12 +176,19 @@ if (length(unknown_prefixes)) {
 # Avoiding bootstrap's distributed CSS saves us another 1.5 Mb
 unlink("inst/lib/bootstrap/dist/css", recursive = TRUE)
 
-# For now we're just using the main JS bundle
+# For now we're just using the minified JS bundle
 unlink("inst/lib/bootstrap/js", recursive = TRUE)
-file.remove(file.path(
-  "inst/lib/bootstrap/dist/js",
-  c("bootstrap.js", "bootstrap.js.map", "bootstrap.min.js", "bootstrap.min.js.map")
-))
+
+js_folder <- "inst/lib/bootstrap/dist/js"
+file.remove(
+  file.path(
+    js_folder,
+    setdiff(
+      dir(js_folder),
+      c("bootstrap.bundle.min.js", "bootstrap.bundle.min.js.map")
+    )
+  )
+)
 
 # Each Bootswatch theme bundles Bootstrap
 file.remove(c(

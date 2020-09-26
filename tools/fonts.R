@@ -15,7 +15,7 @@ extract_first_group <- function(x, pattern) {
 }
 
 download_and_copy_fonts <-  function(theme) {
-  theme_scss <- readLines(file.path(theme, "_bootswatch.scss"))
+  theme_scss <- readLines(file.path(theme, "_bootswatch.scss"), warn = FALSE)
   web_font_path <- grep("$web-font-path:", theme_scss, value = TRUE, fixed = TRUE)
   if (!length(web_font_path)) {
     return()
@@ -50,9 +50,9 @@ download_and_copy_fonts <-  function(theme) {
   }
 
   local_files <- file.path(fonts_home, paste0(font_ids, ".", tools::file_ext(urls)))
-  download.file(urls, local_files)
 
   Map(function(url, local_file) {
+    download.file(url, local_file)
     font_css <<- sub(url, sub("inst/", "", local_file), font_css)
   }, urls, local_files)
 
