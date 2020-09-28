@@ -1,4 +1,4 @@
-#' Compile Bootstrap SASS with (optional) theming
+#' Compile Bootstrap Sass with (optional) theming
 #'
 #' Use `bs_dependencies()` to compile Bootstrap Sass into CSS and return it, along
 #' with other HTML dependencies, as a list of [htmltools::htmlDependency()]s. Use
