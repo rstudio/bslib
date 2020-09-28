@@ -47,7 +47,7 @@
 #' preview_button(bs_dependencies("solar@4+3"))
 #'
 bs_dependencies <- function(
-  theme = bs_global_get(),
+  theme,
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
@@ -126,7 +126,7 @@ bs_dependencies <- function(
 #' @param rules Sass styling rules that may reference the `theme`'s `defaults` and `declarations`.
 #' @param ... arguments passed along to [sass::sass()].
 #' @export
-bs_sass <- function(rules = list(), theme = bs_global_get(), write_attachments = FALSE, ...) {
+bs_sass <- function(rules = list(), theme, write_attachments = FALSE, ...) {
   theme <- as_bs_theme(theme)
   theme$rules <- ""
   sass::sass(

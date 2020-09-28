@@ -8,17 +8,17 @@
 \title{Add low-level theming customizations}
 \usage{
 bs_add_variables(
-  theme = bs_theme(),
+  theme,
   ...,
   .where = "defaults",
   .default_flag = identical(.where, "defaults")
 )
 
-bs_add_layers(theme = bs_theme(), ...)
+bs_add_layers(theme, ...)
 
-bs_add_rules(theme = bs_theme(), rules)
+bs_add_rules(theme, rules)
 
-bs_add_declarations(theme = bs_theme(), declarations)
+bs_add_declarations(theme, declarations)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}

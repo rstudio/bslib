@@ -25,7 +25,7 @@ bs_theme(
 )
 
 bs_theme_update(
-  theme = bs_theme(),
+  theme,
   ...,
   bg = NULL,
   fg = NULL,

@@ -4,7 +4,7 @@
 \alias{theme_version}
 \title{Obtain a theme's Bootstrap version}
 \usage{
-theme_version(theme = bs_global_get())
+theme_version(theme)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}

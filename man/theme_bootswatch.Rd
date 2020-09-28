@@ -4,7 +4,7 @@
 \alias{theme_bootswatch}
 \title{Obtain a theme's Bootswatch theme name}
 \usage{
-theme_bootswatch(theme = bs_global_get())
+theme_bootswatch(theme)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}

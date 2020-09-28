@@ -4,12 +4,7 @@
 \alias{bs_theme_preview}
 \title{Preview the currently set theme}
 \usage{
-bs_theme_preview(
-  theme = bs_theme(),
-  ...,
-  with_themer = TRUE,
-  pre_run = thematic_shiny
-)
+bs_theme_preview(theme, ..., with_themer = TRUE, pre_run = thematic_shiny)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}

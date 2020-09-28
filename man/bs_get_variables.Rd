@@ -4,7 +4,7 @@
 \alias{bs_get_variables}
 \title{Retrieve Sass variable values from the current theme}
 \usage{
-bs_get_variables(theme = bs_theme(), varnames)
+bs_get_variables(theme, varnames)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}

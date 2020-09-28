@@ -6,19 +6,14 @@
 \title{Compile Bootstrap SASS with (optional) theming}
 \usage{
 bs_dependencies(
-  theme = bs_global_get(),
+  theme,
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
   precompiled = TRUE
 )
 
-bs_sass(
-  rules = list(),
-  theme = bs_global_get(),
-  write_attachments = FALSE,
-  ...
-)
+bs_sass(rules = list(), theme, write_attachments = FALSE, ...)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}

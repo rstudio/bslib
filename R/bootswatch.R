@@ -12,7 +12,7 @@ bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
 #'
 #' @inheritParams bs_theme_update
 #' @export
-theme_bootswatch <- function(theme = bs_global_get()) {
+theme_bootswatch <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
   # Search for the tag applied in bootswatch_layer()
   tag <- grep("^bootstraplib_bootswatch_", theme$tags, value = TRUE)
@@ -24,7 +24,7 @@ theme_bootswatch <- function(theme = bs_global_get()) {
 #'
 #' @inheritParams bs_theme_update
 #' @export
-theme_version <- function(theme = bs_global_get()) {
+theme_version <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
   # Get version from the tag applied in bootstrap_layer()
   tag <- grep("^bootstraplib_version_", theme$tags, value = TRUE)
