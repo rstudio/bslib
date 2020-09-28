@@ -50,7 +50,14 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/rstudio/bootstraplib/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
@@ -72,9 +79,9 @@
       <h1 data-toc-skip>Theming recipes</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2020-09-26</h4>
+            <h4 class="date">2020-09-28</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bootstraplib/blob/master/vignettes/recipes.Rmd"><code>vignettes/recipes.Rmd</code></a></small>
       <div class="hidden name"><code>recipes.Rmd</code></div>
 
     </div>
@@ -91,7 +98,7 @@
 <a href="#colors" class="anchor"></a>Colors</h2>
 <p>The quickest and simplest way to provide a custom color palette to a <strong>bootstraplib</strong> theme is to use <code><a href="../reference/bs_theme_base_colors.html">bs_theme_base_colors()</a></code> and <code><a href="../reference/bs_theme_accent_colors.html">bs_theme_accent_colors()</a></code>. These functions are designed to work with any version of Bootstrap and control numerous color styling defaults in <strong>shiny</strong> apps and <strong>rmarkdown</strong> documents that use <code><a href="../reference/bootstrap.html">bootstraplib::bootstrap()</a></code>. More specifically, these functions set numerous <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults">Bootstrap Sass variable defaults</a> via <code><a href="../reference/bs_theme_add_variables.html">bs_theme_add_variables()</a></code> (you can always use this function to set specific Sass variable defaults, if you wish).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">bootstraplib</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rstudio.github.io/bootstraplib">bootstraplib</a></span>)
 <span class="fu"><a href="../reference/bs_theme_new.html">bs_theme_new</a></span>()
 <span class="co"># Color palette derives from https://tombrow.com/dark-mode-website-css</span>
 <span class="fu"><a href="../reference/bs_theme_base_colors.html">bs_theme_base_colors</a></span>(bg = <span class="st">"#444"</span>, fg = <span class="st">"#e4e4e4"</span>)

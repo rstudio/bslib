@@ -4,5 +4,8 @@ pkgdown_sha: ~
 articles:
   foundations: foundations.html
   recipes: recipes.html
-last_built: 2020-09-26T15:41Z
+last_built: 2020-09-28T15:51Z
+urls:
+  reference: https://rstudio.github.io/bootstraplib//reference
+  article: https://rstudio.github.io/bootstraplib//articles
 

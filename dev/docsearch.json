@@ -2,21 +2,21 @@
   "index_name": "rstudio_bootstraplib",
   "start_urls": [
     {
-      "url": "/index.html",
+      "url": "https://rstudio.github.io/bootstraplib//index.html",
       "selectors_key": "homepage",
       "tags": [
         "homepage"
       ]
     },
     {
-      "url": "/reference",
+      "url": "https://rstudio.github.io/bootstraplib//reference",
       "selectors_key": "reference",
       "tags": [
         "reference"
       ]
     },
     {
-      "url": "/articles",
+      "url": "https://rstudio.github.io/bootstraplib//articles",
       "selectors_key": "articles",
       "tags": [
         "articles"
@@ -30,7 +30,7 @@
     "/articles/index.html"
   ],
   "sitemap_urls": [
-    "/sitemap.xml"
+    "https://rstudio.github.io/bootstraplib//sitemap.xml"
   ],
   "selectors": {
     "homepage": {
