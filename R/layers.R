@@ -69,12 +69,25 @@ bootstrap_layer <- function(version) {
 
 
 
+bootstrap_javascript_map <- function(version) {
+  if (version %in% c("4", "4+3")) {
+    return(lib_file(
+      "bootstrap", "dist", "js", "bootstrap.bundle.min.js.map"
+    ))
+  }
+  if (version %in% "3") {
+    return(NULL)
+  }
+
+  stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
+}
 bootstrap_javascript <- function(version) {
   if (version %in% c("4", "4+3")) {
     return(lib_file(
-      "bootstrap", "dist", "js", c("bootstrap.bundle.min.js", "bootstrap.bundle.min.js.map")
+      "bootstrap", "dist", "js", "bootstrap.bundle.min.js"
     ))
-  } else if (version %in% "3") {
+  }
+  if (version %in% "3") {
     return(lib_file(
       "bootstrap-sass", "assets", "javascripts", "bootstrap.min.js"
     ))

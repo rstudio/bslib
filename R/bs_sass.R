@@ -110,7 +110,8 @@ bootstrap <- function(
   out_file_dir <- dirname(out_file)
 
   js_files <- bootstrap_javascript(version)
-  success_js_files <- file.copy(js_files, out_file_dir, overwrite = TRUE)
+  js_map_files <- bootstrap_javascript_map(version)
+  success_js_files <- file.copy(c(js_files, js_map_files), out_file_dir, overwrite = TRUE)
   if (any(!success_js_files)) {
     warning("Failed to copy over bootstrap's javascript files into the htmlDependency() directory.")
   }
@@ -124,7 +125,7 @@ bootstrap <- function(
         src = out_file_dir,
         stylesheet = basename(out_file),
         script = basename(js_files),
-        all_files = TRUE,
+        all_files = TRUE, # js_map_files
         meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
       )
     ),
