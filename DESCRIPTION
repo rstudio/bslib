@@ -57,3 +57,5 @@ Remotes:
     rstudio/thematic,
     rstudio/jquerylib,
     rstudio/sass
+URL: https://rstudio.github.io/bootstraplib/, https://github.com/rstudio/bootstraplib
+BugReports: https://github.com/rstudio/bootstraplib/issues
