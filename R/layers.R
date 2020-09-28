@@ -113,7 +113,7 @@ bs3compat_layer <- function() {
       "bs3compat", packageVersion("bootstraplib"),
       package = "bootstraplib",
       src = "bs3compat/js",
-      script = c("tabs.js", "bs3compat.js")
+      script = c("tabs.js", "bs3compat.js", "no_row_container.js")
     )
   )
 }
