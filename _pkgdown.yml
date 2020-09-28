@@ -3,6 +3,8 @@ destination: docs
 toc:
   depth: 2
 
+url: https://rstudio.github.io/bootstraplib/
+
 template:
   params:
     docsearch:
