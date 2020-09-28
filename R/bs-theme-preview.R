@@ -20,7 +20,8 @@ NULL
 #' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
 #' if (interactive()) bs_theme_preview(theme)
 #' @export
-bs_theme_preview <- function(theme = bs_theme(), ..., with_themer = TRUE, pre_run = thematic_shiny) {
+bs_theme_preview <- function(theme, ..., with_themer = TRUE, pre_run = thematic_shiny) {
+  theme <- assert_bs_theme(theme)
   if (is.function(pre_run)) pre_run()
   # TODO: add more this demo and also an option for launching different demos
   app <- system_file("themer-demo", package = "bootstraplib")
@@ -231,7 +232,7 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' )
 #'
 #' if (interactive()) {
-#'   run_with_themer(shinyApp(ui, function(input, output) {}, bs_theme = theme))
+#'   run_with_themer(shinyApp(ui, function(input, output) {}))
 #' }
 #'
 #' @export
@@ -264,10 +265,12 @@ bs_themer <- function() {
     stop(call. = FALSE, "bootstraplib::bs_themer() must be called from within a ",
          "top-level Shiny server function, not a Shiny module server function")
   }
-  theme <- shiny::getShinyOption("bs_theme")
+  # TODO: this isn't optimal, but it should work...see internals of shiny::bootstrapLib()
+  theme <- shiny::getShinyOption("bootstrapTheme")
   if (is.null(theme)) {
-    stop(call. = FALSE, "bootstraplib::bs_themer() requires that shinyOptions(bs_theme = ...)",
-         "be set to a bootstraplib::bs_theme() (either explictly or via shinyApp()'s theme parameter).")
+    stop(call. = FALSE, "`bootstraplib::bs_themer()` requires `shiny::bootstrapLib()` to be present",
+         "in the app's UI. Consider providing `bootstraplib::bs_theme()` to the theme argument of your",
+         "page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
   }
   if (!is.null(theme) && "3" %in% theme_version(theme)) {
     stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")
@@ -375,7 +378,7 @@ bs_themer <- function() {
 #' bs_get_variables(varnames = vars)
 #' bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
 #'
-bs_get_variables <- function(theme = bs_theme(), varnames) {
+bs_get_variables <- function(theme, varnames) {
   if (length(varnames) == 0) {
     return(stats::setNames(character(0), character(0)))
   }

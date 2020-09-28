@@ -78,7 +78,7 @@ ui <- fluidPage(
 )
 
 if (interactive()) {
-  run_with_themer(shinyApp(ui, function(input, output) {}, bs_theme = theme))
+  run_with_themer(shinyApp(ui, function(input, output) {}))
 }
 
 }

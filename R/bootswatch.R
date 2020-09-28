@@ -48,6 +48,7 @@ bootswatch_theme_resolve <- function(bootswatch, version) {
   # because rmarkdown
   if (bootswatch %in% c("default", "bootstrap", "")) return("bootstrap")
   if (version %in% c("4", "4+3")) {
+    # TODO: maybe throw a warning for these cases?
     bootswatch <- switch(bootswatch, paper = "materia", readable = "litera", bootswatch)
   }
   match.arg(bootswatch, bootswatch_themes(version))

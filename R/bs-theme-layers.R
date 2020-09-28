@@ -76,7 +76,7 @@
 #' ))
 #'
 #' @export
-bs_add_variables <- function(theme = bs_theme(), ..., .where = "defaults", .default_flag = identical(.where, "defaults")) {
+bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = identical(.where, "defaults")) {
   theme <- assert_bs_theme(theme)
 
   vars <- rlang::list2(...)
@@ -114,7 +114,7 @@ ensure_default_flag <- function(vars) {
 
 #' @rdname sass-theming
 #' @export
-bs_add_layers <- function(theme = bs_theme(), ...) {
+bs_add_layers <- function(theme, ...) {
   theme <- assert_bs_theme(theme)
   is_layer <- vapply(rlang::list2(...), inherits, logical(1), "sass_layer")
   if (!any(is_layer)) {
@@ -123,31 +123,24 @@ bs_add_layers <- function(theme = bs_theme(), ...) {
   add_class(sass_layer_merge(theme, ...), "bs_theme")
 }
 
+#' @rdname bs_global_theme
+#' @export
+bs_global_add_layers <- function(...) {
+  theme <- assert_global_theme("bs_global_add_layer()")
+  theme <- bs_add_layers(theme, ...)
+  bs_global_set(theme)
+}
 
 #' @rdname sass-theming
 #' @param rules Sass rules.
 #' @export
-bs_add_rules <- function(theme = bs_theme(), rules) {
+bs_add_rules <- function(theme, rules) {
   bs_add_layers(theme, sass_layer(rules = rules))
 }
-
-# TODO: do we want global versions of every theming function?
-#bs_global_add_rules <- function(rules) {
-#  theme <- assert_global_theme("bs_global_add_rules()")
-#  theme <- bs_add_rules(theme, ...)
-#  bs_global_set(theme)
-#}
 
 #' @rdname sass-theming
 #' @param declarations Sass functions and mixins.
 #' @export
-bs_add_declarations <- function(theme = bs_theme(), declarations) {
+bs_add_declarations <- function(theme, declarations) {
   bs_add_layers(theme, sass_layer(declarations = declarations))
 }
-
-# TODO: do we want global versions of every theming function?
-#bs_global_add_declarations <- function(declarations) {
-#  theme <- assert_global_theme("bs_global_add_declarations()")
-#  theme <- bs_add_declarations(theme, ...)
-#  bs_global_set(theme)
-#}

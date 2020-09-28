@@ -2,7 +2,7 @@
 # Base colors
 # ----------------------------------------------------------------------------------------
 
-bs_base_colors <- function(theme = bs_theme(), bg = NULL, fg = NULL) {
+bs_base_colors <- function(theme, bg = NULL, fg = NULL) {
   theme <- assert_bs_theme(theme)
   if (is.null(bg) && is.null(fg)) {
     return(theme)
@@ -143,7 +143,7 @@ bs3_base_colors <- function(args) {
 # Accent colors
 # ----------------------------------------------------------------------------------------
 
-bs_accent_colors <- function(theme = bs_theme(), primary = NULL, secondary = NULL,
+bs_accent_colors <- function(theme, primary = NULL, secondary = NULL,
                              success = NULL, info = NULL, warning = NULL, danger = NULL) {
   theme <- assert_bs_theme(theme)
 
@@ -189,7 +189,7 @@ bs3_accent_colors <- function(args) {
 # Fonts
 # ----------------------------------------------------------------------------------------
 
-bs_fonts <- function(theme = bs_theme(), base = NULL, code = NULL, heading = NULL) {
+bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   theme <- assert_bs_theme(theme)
 
   args <- list(

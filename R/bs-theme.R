@@ -165,7 +165,7 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
 #' @rdname bs_theme
 #' @param theme a [bs_theme()] object.
 #' @export
-bs_theme_update <- function(theme = bs_theme(), ..., bg = NULL, fg = NULL,
+bs_theme_update <- function(theme, ..., bg = NULL, fg = NULL,
                             primary = NULL, secondary = NULL, success = NULL,
                             info = NULL, warning = NULL, danger = NULL,
                             base_font = NULL, code_font = NULL, heading_font = NULL) {
@@ -182,7 +182,7 @@ bs_theme_update <- function(theme = bs_theme(), ..., bg = NULL, fg = NULL,
 
 #' @rdname bs_theme
 #' @export
-bs_global_theme_update <- function(theme = bs_theme(), ..., bg = NULL, fg = NULL,
+bs_global_theme_update <- function(..., bg = NULL, fg = NULL,
                                    primary = NULL,  secondary = NULL, success = NULL,
                                    info = NULL, warning = NULL, danger = NULL,
                                    base_font = NULL, code_font = NULL, heading_font = NULL) {

@@ -41,7 +41,6 @@ bs_theme_update(
 )
 
 bs_global_theme_update(
-  theme = bs_theme(),
   ...,
   bg = NULL,
   fg = NULL,

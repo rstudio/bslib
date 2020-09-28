@@ -95,11 +95,6 @@ bs_theme_add <- function(...) {
   bs_global_add_layers(sass::sass_layer(...))
 }
 
-bs_global_add_layers <- function(theme = bs_theme(), ...) {
-  theme <- assert_global_theme("bs_global_add_layer()")
-  theme <- bs_add_layers(theme, ...)
-  bs_global_set(theme)
-}
 
 #' @rdname deprecated
 #' @export
