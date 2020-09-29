@@ -160,7 +160,7 @@ test_that("bs_theme_fonts", {
     # NOT an error
     expect_error(bs_fonts(theme, NULL), NA)
 
-    theme <- bs_fonts(base = "a", code = "b", heading = "c")
+    theme <- bs_fonts(bs_theme(), base = "a", code = "b", heading = "c")
     expect_identical(
       bs_get_variables(theme, c("font-family-base", "font-family-monospace", "headings-font-family")),
       c(`font-family-base` = "a", `font-family-monospace` = "b", `headings-font-family` = "c")

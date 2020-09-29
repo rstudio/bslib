@@ -11,7 +11,7 @@ test_that("Can find precompiled themes", {
   expect_null(precompiled_css_path(bs_theme("4+3", "darkly")))
 
   # With modifications
-  theme <- bs_add_rules(rules = "body { background: red; }")
+  theme <- bs_add_rules(bs_theme(), rules = "body { background: red; }")
   expect_null(precompiled_css_path(theme))
 })
 
