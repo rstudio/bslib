@@ -22,7 +22,12 @@ NULL
 #' @export
 bs_theme_preview <- function(theme, ..., with_themer = TRUE, pre_run = thematic_shiny) {
   theme <- assert_bs_theme(theme)
-  if (is.function(pre_run)) pre_run()
+  if (is.function(pre_run)) {
+    pre_run()
+  }
+  old_theme <- bs_global_get()
+  on.exit(bs_global_set(old_theme), add = TRUE)
+  bs_global_set(theme)
   # TODO: add more this demo and also an option for launching different demos
   app <- system_file("themer-demo", package = "bootstraplib")
   if (with_themer) {
@@ -136,7 +141,12 @@ bs_themer_ui <- function(theme = bs_theme()) {
           "data-toggle" = "collapse", "data-target" = "#bsthemerAccordion",
           style = css(cursor = "pointer"),
           tags$span(),
-          tags$style(HTML(bs_sass(sass::sass_file(system_file("themer/themer.scss", package = "bootstraplib")))))
+          tags$style(HTML(
+            bs_sass(
+              sass::sass_file(system_file("themer/themer.scss", package = "bootstraplib")),
+              theme = theme
+            )
+          ))
         )
       ),
 
@@ -265,9 +275,8 @@ bs_themer <- function() {
     stop(call. = FALSE, "bootstraplib::bs_themer() must be called from within a ",
          "top-level Shiny server function, not a Shiny module server function")
   }
-  # TODO: this isn't optimal, but it should work...see internals of shiny::bootstrapLib()
-  theme <- shiny::getShinyOption("bootstrapTheme")
-  if (is.null(theme)) {
+  theme <- shiny::getCurrentTheme()
+  if (!is_bs_theme(theme)) {
     stop(call. = FALSE, "`bootstraplib::bs_themer()` requires `shiny::bootstrapLib()` to be present",
          "in the app's UI. Consider providing `bootstraplib::bs_theme()` to the theme argument of your",
          "page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
