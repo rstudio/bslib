@@ -16,7 +16,7 @@ lib_file <- function(...) {
   files_found <- files != ""
   if (all(files_found)) return(files)
 
-  files_not_found <- file.path(...)[!file_found]
+  files_not_found <- file.path(...)[!files_found]
   stop(
     "bootstraplib file not found: '", files_not_found, "'",
     call. = FALSE
