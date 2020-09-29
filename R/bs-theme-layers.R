@@ -24,7 +24,6 @@
 #'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #' @references \url{https://rstudio.github.io/sass/articles/sass.html#layering}
-#' @rdname sass-theming
 #' @examples
 #'
 #' # Function to preview the styling a (primary) Bootstrap button
@@ -76,6 +75,12 @@
 #' ))
 #'
 #' @export
+bs_add_defaults <- function(theme, ...) {
+  bs_add_variables(theme, ...)
+}
+
+#' @rdname bs_add_defaults
+#' @export
 bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = identical(.where, "defaults")) {
   theme <- assert_bs_theme(theme)
 
@@ -96,6 +101,7 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
 }
 
 
+
 # Given a named list of variable definitions,
 # searches each variable's expression for a !default flag,
 # and if missing, adds it.
@@ -112,7 +118,7 @@ ensure_default_flag <- function(vars) {
   )
 }
 
-#' @rdname sass-theming
+#' @rdname bs_add_defaults
 #' @export
 bs_add_layers <- function(theme, ...) {
   theme <- assert_bs_theme(theme)
@@ -131,14 +137,14 @@ bs_global_add_layers <- function(...) {
   bs_global_set(theme)
 }
 
-#' @rdname sass-theming
+#' @rdname bs_add_defaults
 #' @param rules Sass rules.
 #' @export
 bs_add_rules <- function(theme, rules) {
   bs_add_layers(theme, sass_layer(rules = rules))
 }
 
-#' @rdname sass-theming
+#' @rdname bs_add_defaults
 #' @param declarations Sass functions and mixins.
 #' @export
 bs_add_declarations <- function(theme, declarations) {
