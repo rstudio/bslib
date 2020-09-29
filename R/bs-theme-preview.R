@@ -375,7 +375,7 @@ bs_themer <- function() {
 #' @export
 #' @examples
 #' vars <- c("body-bg", "body-color", "primary", "border-radius")
-#' bs_get_variables(varnames = vars)
+#' bs_get_variables(bs_theme(), varnames = vars)
 #' bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
 #'
 bs_get_variables <- function(theme, varnames) {

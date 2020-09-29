@@ -82,7 +82,7 @@ theme \%>\%
 # use Bootstrap variables to define a custom styling for a
 # 'person card'
 person_rules <- system.file("custom", "person.scss", package = "bootstraplib")
-theme <- bs_add_rules(rules = sass::sass_file(person_rules))
+theme <- bs_add_rules(bs_theme(), rules = sass::sass_file(person_rules))
 # Include custom CSS that leverages bootstrap Sass variables
 person <- function(name, title, company) {
   tags$div(
@@ -93,7 +93,7 @@ person <- function(name, title, company) {
   )
 }
 browsable(tags$body(
-  bs_dependencies(),
+  bs_dependencies(theme),
   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
   person("John D. Rockefeller", "Chairman", "Standard Oil")
 ))

@@ -3,7 +3,6 @@
 \name{bs_theme}
 \alias{bs_theme}
 \alias{bs_theme_update}
-\alias{bs_global_theme_update}
 \alias{is_bs_theme}
 \title{Create a Bootstrap theme}
 \usage{
@@ -26,21 +25,6 @@ bs_theme(
 
 bs_theme_update(
   theme,
-  ...,
-  bg = NULL,
-  fg = NULL,
-  primary = NULL,
-  secondary = NULL,
-  success = NULL,
-  info = NULL,
-  warning = NULL,
-  danger = NULL,
-  base_font = NULL,
-  code_font = NULL,
-  heading_font = NULL
-)
-
-bs_global_theme_update(
   ...,
   bg = NULL,
   fg = NULL,

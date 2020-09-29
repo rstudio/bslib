@@ -180,7 +180,7 @@ bs_theme_update <- function(theme, ..., bg = NULL, fg = NULL,
   bs_add_variables(theme, ...)
 }
 
-#' @rdname bs_theme
+#' @rdname bs_global_theme
 #' @export
 bs_global_theme_update <- function(..., bg = NULL, fg = NULL,
                                    primary = NULL,  secondary = NULL, success = NULL,

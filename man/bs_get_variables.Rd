@@ -22,7 +22,7 @@ the value to inform another R function.
 }
 \examples{
 vars <- c("body-bg", "body-color", "primary", "border-radius")
-bs_get_variables(varnames = vars)
+bs_get_variables(bs_theme(), varnames = vars)
 bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
 
 }

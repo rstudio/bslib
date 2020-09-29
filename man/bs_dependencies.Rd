@@ -3,7 +3,7 @@
 \name{bs_dependencies}
 \alias{bs_dependencies}
 \alias{bs_sass}
-\title{Compile Bootstrap SASS with (optional) theming}
+\title{Compile Bootstrap Sass with (optional) theming}
 \usage{
 bs_dependencies(
   theme,
@@ -62,20 +62,23 @@ a \verb{<style>} tag via \code{tags$style(css)}).
 # Function to preview the styling a (primary) Bootstrap button
 library(htmltools)
 button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
-preview_button <- function(x) {
-  browsable(tags$body(x, button))
+preview_button <- function(theme) {
+  theme \%>\%
+    bs_dependencies() \%>\%
+    tags$body(button) \%>\%
+    browsable()
 }
 
 # Latest bootstrap
-preview_button(bs_dependencies())
+preview_button(bs_theme())
 # Bootstrap 3
-preview_button(bs_dependencies("3"))
+preview_button(bs_theme(3))
 # Bootswatch minty theme
-preview_button(bs_dependencies("minty"))
+preview_button(bs_theme(bootswatch = "minty"))
 # Bootswatch sketchy theme
-preview_button(bs_dependencies("sketchy"))
+preview_button(bs_theme(bootswatch = "sketchy"))
 # Bootswatch solar theme with BS3 compatibility
-preview_button(bs_dependencies("solar@4+3"))
+preview_button(bs_theme(version = "4+3", bootswatch = "solar"))
 
 }
 \seealso{
