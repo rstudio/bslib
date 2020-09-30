@@ -33,13 +33,13 @@ reference:
     Tools for creating customized Bootstrap themes.
   contents:
     - bs_theme
-    - bs_add_variables
+    - bs_add_defaults
 - title: Global theme creation
   description: |
     Use Bootstrap themes globally.
   contents:
     - bs_global_theme
-    - bs_global_add_variables
+    - bs_global_add_defaults
 - title: Interactive theming
   description: |
     Interactively customize themes
