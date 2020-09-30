@@ -272,18 +272,21 @@ run_with_themer <- function(appDir = getwd(), ...) {
 bs_themer <- function() {
   session <- shiny::getDefaultReactiveDomain()
   if (is.null(session)) {
-    stop(call. = FALSE, "bootstraplib::bs_themer() must be called from within a ",
+    stop(call. = FALSE, "`bootstraplib::bs_themer()` must be called from within a ",
          "Shiny server function")
   }
   if (!identical("ok", session$ns("ok"))) {
-    stop(call. = FALSE, "bootstraplib::bs_themer() must be called from within a ",
+    stop(call. = FALSE, "`bootstraplib::bs_themer()` must be called from within a ",
          "top-level Shiny server function, not a Shiny module server function")
+  }
+  if (!is_available("shiny", "1.5.0.9003")) {
+    stop(call. = FALSE, "`bootstraplib::bs_themer()` requires shiny v1.5.0.9003 or higher")
   }
   theme <- shiny::getCurrentTheme()
   if (!is_bs_theme(theme)) {
     stop(call. = FALSE, "`bootstraplib::bs_themer()` requires `shiny::bootstrapLib()` to be present",
-         "in the app's UI. Consider providing `bootstraplib::bs_theme()` to the theme argument of your",
-         "page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
+         "in the app's UI. Consider providing `bootstraplib::bs_theme()` to the theme argument of the",
+         "relevant page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
   }
   if (!is.null(theme) && "3" %in% theme_version(theme)) {
     stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")

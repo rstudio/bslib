@@ -23,6 +23,15 @@ lib_file <- function(...) {
   )
 }
 
+# copy of shiny:::is_available
+is_available <- function(package, version = NULL) {
+  installed <- nzchar(system.file(package = package))
+  if (is.null(version)) {
+    return(installed)
+  }
+  installed && isTRUE(utils::packageVersion(package) >= version)
+}
+
 add_class <- function(x, y) {
   class(x) <- unique(c(y, oldClass(x)))
   x
