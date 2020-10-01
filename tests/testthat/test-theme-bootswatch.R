@@ -1,16 +1,13 @@
 test_that("Can retrieve version from theme object", {
-  bs_theme_new()
-  expect_null(theme_bootswatch(bs_theme_get()))
+  expect_null(theme_bootswatch(bs_theme()))
 
-  bs_theme_new(version = "3", bootswatch = "paper")
+  theme <- bs_theme(version = "3", bootswatch = "paper")
   expect_equal(
-    theme_bootswatch(bs_theme_get()), "paper"
+    theme_bootswatch(theme), "paper"
   )
 
-  bs_theme_new(version = "4", bootswatch = "materia")
+  theme <- bs_theme(version = "4", bootswatch = "materia")
   expect_identical(
-    theme_bootswatch(bs_theme_get()), "materia"
+    theme_bootswatch(theme), "materia"
   )
-
-  bs_theme_clear()
 })

@@ -50,7 +50,7 @@ To start using **bootstraplib** in your **shiny** apps today, install
 shiny::shinyOptions(bootstraplib = TRUE)
 ```
 
-2.  Call `bs_theme_new()` and optionally specify a Bootstrap `version`
+2.  Call `bs_global_theme()` and optionally specify a Bootstrap `version`
     and [`bootswatch` theme](https://bootswatch.com/). The current
     default is Bootstrap 4 (with added added Bootstrap 3 compatibility)
     and no `bootswatch` theme:
@@ -58,7 +58,7 @@ shiny::shinyOptions(bootstraplib = TRUE)
 <!-- end list -->
 
 ``` r
-bs_theme_new(version = "4+3", bootswatch = NULL)
+bs_global_theme(version = "4+3", bootswatch = NULL)
 ```
 
 3.  (Optional) Add theming customizations (learn more about
@@ -69,7 +69,7 @@ bs_theme_new(version = "4+3", bootswatch = NULL)
 <!-- end list -->
 
 ``` r
-bs_theme_base_colors(bg = "#444", fg = "#e4e4e4")
+bs_base_colors(bg = "#444", fg = "#e4e4e4")
 bs_theme_accent_colors(primary = "#e39777")
 ```
 
@@ -138,7 +138,7 @@ printed to the R console that you can copy/paste to adopt those changes
 in your theming code.
 
 ``` r
-bs_theme_new(bootswatch = "sketchy")
+bs_global_theme(bootswatch = "sketchy")
 bs_theme_preview()
 ```
 
@@ -174,7 +174,7 @@ To learn more, see the article on using **bootstraplib** with [**shiny**](articl
 <!--
 ## Via bs4 {#bs4}
 
-The [**bs4** package](https://github.com/rstudio/bs4) provides a family of page layout functions (e.g., `bs_page_fluid()`, `bs_page_fixed()`, `bs_page()`) that provide a drop-in replacement to core **shiny** page layout functions (e.g., `fluidPage()`, `fixedPage()`, `bootstrapPage()`, etc). These **bs4** functions implictly include `bootstraplib::bootstrap()`, so **bootstraplib** theming functions like `bs_theme_new()` and `bs_theme_add_variables()` may be used to style the page without explictly including `bootstrap()`.
+The [**bs4** package](https://github.com/rstudio/bs4) provides a family of page layout functions (e.g., `bs_page_fluid()`, `bs_page_fixed()`, `bs_page()`) that provide a drop-in replacement to core **shiny** page layout functions (e.g., `fluidPage()`, `fixedPage()`, `bootstrapPage()`, etc). These **bs4** functions implictly include `bootstraplib::bs_dependencies()`, so **bootstraplib** theming functions like `bs_global_theme()` and `bs_theme_add_variables()` may be used to style the page without explictly including `bs_dependencies()`.
 
 Eventually **bs4** will provide more replacements for core **shiny** UI functions that assume Bootstrap 4; but for now, you can use the **bs4Dash** package to generate similar UI with Bootstrap 4 compatible markup (as well as leverage new Bootstrap 4 features like [cards](https://getbootstrap.com/docs/4.4/components/card/)).
 
@@ -184,7 +184,7 @@ library(bs4Dash)
 
 # Pin the version to Bootstrap version to 4 since 
 # we're using UI functions designed specifically for BS4
-bs_theme_new(version = 4)
+bs_global_theme(version = 4)
 bs_theme_add_variables(primary = "salmon")
 
 ui_content <- bs4TabSetPanel(

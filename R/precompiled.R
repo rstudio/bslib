@@ -10,7 +10,7 @@ precompiled_css <- local({
       themes <<- lapply(versions, function(version) {
         list(
           version = version,
-          theme = bs_theme_create(version)
+          theme = bs_theme(version)
         )
       })
     }
@@ -35,20 +35,13 @@ precompiled_css_version <- function(theme) {
 #' This function is meant for development and debugging purposes. It can be used
 #' to test if a precompiled CSS file exists for a given theme object.
 #'
-#' @param theme A theme object.
+#' @inheritParams bs_theme_update
 #'
 #' @return The path to the precompiled CSS file, if it exists, or `NULL`, if
 #'   not.
-#'
-#' @examples
-#' # The path to a precompiled CSS file for a theme
-#' precompiled_css_path(bs_theme_create("4"))
-#'
-#' # Attempting to get the path to a theme that is not precompiled will return NULL
-#' precompiled_css_path(bs_theme_create(bootswatch = "sketchy"))
 #' @keywords internal
 #' @export
-precompiled_css_path <- function(theme) {
+precompiled_css_path <- function(theme = bs_theme()) {
   version <- precompiled_css_version(theme)
   if (is.null(version)) {
     return(NULL)

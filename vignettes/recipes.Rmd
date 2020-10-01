@@ -19,19 +19,19 @@ knitr::opts_chunk$set(
 
 > **DISCLAIMER:** This document demonstrates what's possible _today_ with **bootstraplib** theming and is still a work in progress. It should become more complete and keep improving in the coming months.
 
-The following sections contain "recipes" for custom theming of **shiny** apps and **rmarkdown** documents via **bootstraplib**. Most the example code here is specifically for **shiny**, so you'll see repeated use of `bs_theme_new()` to start a new theme; but note that calling `bs_theme_new()` inside **rmarkdown** documents is not necessary (the `bootstrap_version` and `theme` arguments to `rmarkdown::html_document` should instead be used to choose the version and bootswatch theme). 
+The following sections contain "recipes" for custom theming of **shiny** apps and **rmarkdown** documents via **bootstraplib**. Most the example code here is specifically for **shiny**, so you'll see repeated use of `bs_global_theme()` to start a new theme; but note that calling `bs_global_theme()` inside **rmarkdown** documents is not necessary (the `bootstrap_version` and `theme` arguments to `rmarkdown::html_document` should instead be used to choose the version and bootswatch theme). 
 
 For the sake of novelty, some of the more specific recipes focus on theming **shiny** apps with [Bootstrap 4 Sass](https://getbootstrap.com/docs/4.4/getting-started/theming/), but many of the same ideas can also translate to [Bootstrap 3 Sass](https://github.com/twbs/bootstrap-sass). For those looking to learn more about the foundational **bootstraplib** and **sass** tools that make these recipes possible, see the [foundations article](foundations.html).
 
 ## Colors
 
-The quickest and simplest way to provide a custom color palette to a **bootstraplib** theme is to use `bs_theme_base_colors()` and `bs_theme_accent_colors()`. These functions are designed to work with any version of Bootstrap and control numerous color styling defaults in **shiny** apps and **rmarkdown** documents that use `bootstraplib::bootstrap()`. More specifically, these functions set numerous [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults) via `bs_theme_add_variables()` (you can always use this function to set specific Sass variable defaults, if you wish).
+The quickest and simplest way to provide a custom color palette to a **bootstraplib** theme is to use `bs_base_colors()` and `bs_theme_accent_colors()`. These functions are designed to work with any version of Bootstrap and control numerous color styling defaults in **shiny** apps and **rmarkdown** documents that use `bootstraplib::bs_dependencies()`. More specifically, these functions set numerous [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults) via `bs_theme_add_variables()` (you can always use this function to set specific Sass variable defaults, if you wish).
 
 ```r
 library(bootstraplib)
-bs_theme_new()
+bs_global_theme()
 # Color palette derives from https://tombrow.com/dark-mode-website-css
-bs_theme_base_colors(bg = "#444", fg = "#e4e4e4")
+bs_base_colors(bg = "#444", fg = "#e4e4e4")
 bs_theme_accent_colors(primary = "#e39777", secondary = "#fdce93")
 bs_theme_preview()
 ```
@@ -114,7 +114,7 @@ Core **shiny** outputs like `renderPlot()`, `renderTable()`, `renderPrint()`, et
 
 ```r
 shinyApp(
-  fluidPage(bootstrap(),
+  fluidPage(bs_dependencies(),
     tagAppendAttributes(
       verbatimTextOutput("info"), 
       class = "shiny-report-theme"

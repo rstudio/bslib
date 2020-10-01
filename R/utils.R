@@ -16,11 +16,20 @@ lib_file <- function(...) {
   files_found <- files != ""
   if (all(files_found)) return(files)
 
-  files_not_found <- file.path(...)[!file_found]
+  files_not_found <- file.path(...)[!files_found]
   stop(
     "bootstraplib file not found: '", files_not_found, "'",
     call. = FALSE
   )
+}
+
+# copy of shiny:::is_available
+is_available <- function(package, version = NULL) {
+  installed <- nzchar(system.file(package = package))
+  if (is.null(version)) {
+    return(installed)
+  }
+  installed && isTRUE(utils::packageVersion(package) >= version)
 }
 
 add_class <- function(x, y) {

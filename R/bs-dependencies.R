@@ -1,27 +1,15 @@
-#' Compile Bootstrap 4 (or 3) SASS with (optional) theming
+#' Compile Bootstrap Sass with (optional) theming
 #'
-#' Use `bootstrap()` to compile Bootstrap Sass into CSS and return it, along
-#' with other HTML dependencies, as a list of [htmltools::htmlDependency()]s (if
-#' you just want the CSS as a string, and a [bs_theme_new()] has been set, you
-#' can call `sass::sass()` on the return value of [bs_theme_get()]). Use
-#' `bootstrap_sass()` if you can assume Bootstrap already exists on the page,
+#' Use `bs_dependencies()` to compile Bootstrap Sass into CSS and return it, along
+#' with other HTML dependencies, as a list of [htmltools::htmlDependency()]s. Use
+#' `bs_sass()` if you can assume Bootstrap already exists on the page,
 #' but you want to leverage Bootstrap utilities (e.g., variables, functions, or
 #' mixins) to generate additional CSS rules (as a string that can be included as
 #' a `<style>` tag via `tags$style(css)`).
 #'
-#' @param theme one of the following: 1. The result of [bs_theme_get()] (i.e.,
-#'   the current global theme). 2. `NULL`, which means use the latest version of
-#'   Bootstrap with no custom theming. 3. A string containing a bootswatch theme
-#'   and/or a Bootstrap major version. To specify both, use the syntax
-#'   `"theme@version"`, (e.g., `"cosmo@4"` for Bootstrap 4 cosmo theme with BS3
-#'   compatibility). If no version is specified, the latest available version is
-#'   used (for more info, see `version` in [bs_theme_new()]). __Note__: this
-#'   approach ignores global themes (i.e., [bs_theme_new()]) 4. A
-#'   [sass::sass_layer()] which contains a bootstraplib theme. Useful for adding
-#'   custom layers to the current theme without affecting the global state
-#'   (e.g., `sass::sass_layer_merge(bs_theme_get(), my_layer())`).
-#' @param sass_options see [sass::sass_options()].
-#' @param jquery See [jquerylib::jquery_core()].
+#' @inheritParams bs_theme_update
+#' @param sass_options a [sass::sass_options()] object.
+#' @param jquery a [jquerylib::jquery_core()] object.
 #' @param precompiled Before compiling the theme object, first look for a
 #'   precompiled CSS file for the given `version`.  If this option is `TRUE` and
 #'   a precompiled CSS file exists for the theme object, it will be fetched
@@ -37,29 +25,32 @@
 #'   an additional JavaScript dependency).
 #'
 #' @export
-#' @seealso [bs_theme_set()]
+#' @seealso [bs_theme()], [bs_global_set()]
 #' @examples
 #'
 #' # Function to preview the styling a (primary) Bootstrap button
 #' library(htmltools)
 #' button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
-#' preview_button <- function(x) {
-#'   browsable(tags$body(x, button))
+#' preview_button <- function(theme) {
+#'   theme %>%
+#'     bs_dependencies() %>%
+#'     tags$body(button) %>%
+#'     browsable()
 #' }
 #'
 #' # Latest bootstrap
-#' preview_button(bootstrap())
+#' preview_button(bs_theme())
 #' # Bootstrap 3
-#' preview_button(bootstrap("3"))
+#' preview_button(bs_theme(3))
 #' # Bootswatch minty theme
-#' preview_button(bootstrap("minty"))
+#' preview_button(bs_theme(bootswatch = "minty"))
 #' # Bootswatch sketchy theme
-#' preview_button(bootstrap("sketchy"))
+#' preview_button(bs_theme(bootswatch = "sketchy"))
 #' # Bootswatch solar theme with BS3 compatibility
-#' preview_button(bootstrap("solar@4+3"))
+#' preview_button(bs_theme(version = "4+3", bootswatch = "solar"))
 #'
-bootstrap <- function(
-  theme = bs_theme_get(),
+bs_dependencies <- function(
+  theme,
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
@@ -134,17 +125,59 @@ bootstrap <- function(
 }
 
 
-#' @rdname bootstrap
-#' @param rules Sass styling rules that may reference `theme` `defaults` and `declarations`.
+#' @rdname bs_dependencies
+#' @param rules Sass styling rules that may reference the `theme`'s `defaults` and `declarations`.
 #' @param ... arguments passed along to [sass::sass()].
 #' @export
-bootstrap_sass <- function(rules = list(), theme = bs_theme_get(),
-                           write_attachments = FALSE, ...) {
+bs_sass <- function(rules = list(), theme, write_attachments = FALSE, ...) {
   theme <- as_bs_theme(theme)
   theme$rules <- ""
   sass::sass(
     input = list(theme, rules),
     write_attachments = write_attachments,
     ...
+  )
+}
+
+as_bs_theme <- function(theme) {
+  if (is_bs_theme(theme)) return(theme)
+
+  # Allow users to do something like
+  # bs_dependencies(theme = sass_layer_merge(bs_global_get(), my_layer()))
+  if (inherits(theme, "sass_layer")) {
+    theme <- add_class(theme, "bs_theme")
+    if (is.null(theme_version(theme))) {
+      stop("Wasn't able to figure out the Bootstrap version.")
+    }
+    return(theme)
+  }
+
+  # NULL means default Bootstrap
+  if (is.null(theme)) return(bs_theme())
+
+  # For example, `bs_dependencies(theme = 4)`
+  if (is.numeric(theme)) return(bs_theme(version = theme))
+
+  # For example, `bs_dependencies(theme = 'bootswatch@version')`
+  if (is_string(theme)) {
+    theme <- strsplit(theme, "@", fixed = TRUE)[[1]]
+    if (length(theme) == 2) {
+      return(bs_theme(version = theme[2], bootswatch = theme[1]))
+    }
+    # Also support `bs_dependencies(version = '4')` and `bs_dependencies(theme = 'bootswatch')`
+    if (length(theme) == 1) {
+      if (theme %in% c("4", "4-3", "4+3", "3")) {
+        return(bs_theme(version = theme))
+      } else {
+        return(bs_theme(bootswatch = theme))
+      }
+    }
+    stop("If `theme` is a string, it can't contain more than one @")
+  }
+
+  stop(
+    "`theme` must be one of the following: (1) `NULL`, ",
+    "(2) a `'bootswatch@version'` string, ",
+    "(3) the result of `bs_global_get()`."
   )
 }

@@ -1,14 +1,14 @@
 local_disable_cache()
 
-describe("bootstrap_sass", {
+describe("bs_sass", {
   # Example CSS that includes one variable, one function call, one mixin
   bs4_css <- ".foo { background-color: $primary; color: color-yiq($primary); @include size(120px); }"
   resolved_css <- ".foo { background-color: #007bff; color: #fff; width: 120px; height: 120px; }"
 
-  # Compare bootstrap_sass(input1) and sass(input2)
-  expect_bs4_equal <- function(input1, input2, options = sass_options()) {
+  # Compare bs_sass(input1) and sass(input2)
+  expect_bs4_equal <- function(input1, input2, options = sass_options(), theme = bs_theme()) {
     expect_css(
-      bootstrap_sass(input1, options = options),
+      bs_sass(input1, theme = theme, options = options),
       sass(input2, options = options)
     )
   }
@@ -24,11 +24,11 @@ describe("bootstrap_sass", {
 
   it("respects theme options", {
     # Theme options are respected
-    bs_theme_new()
-    bs_theme_add_variables(primary = "red")
-    expect_bs4_equal(bs4_css, ".foo { background-color: red; color: #fff; width: 120px; height: 120px; }")
+    expect_bs4_equal(
+      bs4_css, ".foo { background-color: #FF0000; color: #fff; width: 120px; height: 120px; }",
+      theme = bs_theme(primary = "red")
+    )
     # Unless they're not
-    bs_theme_clear()
     expect_bs4_equal(bs4_css, resolved_css)
   })
 

@@ -242,7 +242,7 @@ remove_dev_dependencies <- function(pkg_file) {
 }
 invisible(lapply(Sys.glob("inst/lib/*/package.json"), remove_dev_dependencies))
 
-# Get BS4/BS3 versions (for bootstraplib::bootstrap() versioning)
+# Get BS4/BS3 versions (for bootstraplib::bs_dependencies() versioning)
 version_bs4 <- jsonlite::fromJSON("inst/lib/bootstrap/package.json")$version
 version_bs3 <- jsonlite::fromJSON("inst/lib/bootstrap-sass/package.json")$version
 version_accessibility <- jsonlite::fromJSON("inst/lib/bootstrap-accessibility-plugin/package.json")$version

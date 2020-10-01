@@ -1,0 +1,42 @@
+test_that("bs_theme_update() can update defaults", {
+  vars <- c("black", "white", "primary", "danger", "font-family-base", "font-family-monospace")
+  pre_theme <- bs_theme("4")
+  pre_vars <- bs_get_variables(pre_theme, vars)
+  post_theme <- bs_theme_update(pre_theme, bg = "black", fg = "white", primary = "#222222", base_font = "SomeFont")
+  post_vars <- bs_get_variables(post_theme, vars)
+  # bg/fg has been inverted, primary and base font have been updated
+  expect_true(post_vars[["black"]] == "#FFFFFF")
+  expect_true(post_vars[["white"]] == "#000000")
+  expect_true(post_vars[["primary"]] == "#222222")
+  expect_true(post_vars[["font-family-base"]] == "SomeFont")
+  # Danger hasn't been set
+  expect_true(post_vars[["danger"]] == pre_vars[["danger"]])
+  # Neither has monospace
+  expect_true(post_vars[["font-family-monospace"]] == pre_vars[["font-family-monospace"]])
+})
+
+
+test_that("Sass layers work as expected with a theme", {
+  theme <- bs_add_defaults(bs_theme("4"), primary = "#222222")
+  expect_true(bs_get_variables(theme, "primary") == "#222222")
+  # declarations can be used in rules
+  theme <- bs_add_declarations(theme, list(foo = "bar !default"))
+  expect_identical(
+    as.character(bs_sass(".foo {color: $foo}", theme)),
+    ".foo {\n  color: bar;\n}\n"
+  )
+  # but declarations come after defaults (so this won't override the value!)
+  theme <- bs_add_declarations(theme, list(primary = "#333333 !default"))
+  expect_true(bs_get_variables(theme, "primary") == "#222222")
+  # Can drop-down to the lower-level bs_add_layers()
+  theme <- bs_add_layers(
+    theme, sass::sass_layer(defaults = list(primary = "#333333 !default"))
+  )
+  expect_true(bs_get_variables(theme, "primary") == "#333333")
+})
+
+test_that("is_bs_theme() works", {
+  expect_true(is_bs_theme(bs_theme()))
+  expect_true(is_bs_theme(bs_theme(3)))
+  expect_true(is_bs_theme(bs_theme(4)))
+})

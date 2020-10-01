@@ -6,7 +6,7 @@ Shiny.addCustomMessageHandler("bootstraplib-themer-disable-bootstrap", function(
     var href = sheets[i].href || "";
     var href_parts = href.split("/");
     var basename = href_parts[href_parts.length - 1];
-    if (basename.match(/^bootstrap(-custom)?(.min)?.css$/)) {
+    if (basename.match(/^bs_dependencies(-custom)?(.min)?.css$/)) {
       sheets[i].disabled = true;
     }
   }

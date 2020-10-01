@@ -28,37 +28,31 @@ navbar:
 #    href: news/index.html
 
 reference:
-- title: Bootstrap SASS compilation
+- title: Theme creation
   description: |
-    Entry points for compiling Bootstrap Sass. `bootstrap()` is for adding a Bootstrap dependency and `bootstrap_sass()` is for compiling additional Sass rules that use Bootstrap Sass.
+    Tools for creating customized Bootstrap themes.
   contents:
-    - bootstrap
-    - bootstrap_sass
-- title: Theme management
+    - bs_theme
+    - bs_add_defaults
+- title: Global theme creation
   description: |
-    Tools for creating, obtaining, and clearing themes.
+    Use Bootstrap themes globally.
   contents:
-    - bs_theme_new
-    - bs_theme_get
-    - bs_theme_get_variables
-    - bs_theme_clear
-    - bs_theme_set
-- title: Theme customizers
-  description: |
-    Tools for customizing (i.e., adding to) themes.
-  contents:
-    - bs_theme_base_colors
-    - bs_theme_accent_colors
-    - bs_theme_fonts
-    - bs_theme_add_variables
-    - bs_theme_add
+    - bs_global_theme
+    - bs_global_add_defaults
 - title: Interactive theming
   description: |
-    Tools for creating themes interactively.
+    Interactively customize themes
   contents:
     - bs_theme_preview
     - run_with_themer
     - bs_themer
+- title: Bootstrap SASS compilation
+  description: |
+    Compile themes into HTML dependencies and CSS strings
+  contents:
+    - bs_dependencies
+    - bs_sass
 - title: Other utility functions
   contents:
     - theme_version

@@ -115,7 +115,7 @@ make_bs4_tab_contents <- function(id) {
 
 
 ui <- fluidPage(
-  bootstrap(),
+  bs_dependencies(),
   tags$style(
     "h4 { margin-top: 120px; }"
   ),

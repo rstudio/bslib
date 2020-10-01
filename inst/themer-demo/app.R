@@ -5,8 +5,9 @@ library(rlang)
 
 source("global.R")
 
-if (!is.null(bs_theme_get()) && !identical(version_default(), theme_version())) {
-  stop("This example app requires version = '", version_default(), "'", call. = FALSE)
+theme <- bs_global_get()
+if ("3" %in% theme_version(theme)) {
+  stop("This example app requires Bootstrap 4 or higher", call. = FALSE)
 }
 
 tabPanel <- function(...) {
@@ -50,7 +51,7 @@ progressBar <- div(
 
 # TODO: more shiny inputs
 ui <- navbarPage(
-  header = bootstraplib::bootstrap(),
+  theme = theme,
   "Theming demo app",
   tabPanel(
     "Main page",

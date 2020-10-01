@@ -10,9 +10,9 @@ bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
 
 #' Obtain a theme's Bootswatch theme name
 #'
-#' @param theme a bs theme object, see [bs_theme_set()].
+#' @inheritParams bs_theme_update
 #' @export
-theme_bootswatch <- function(theme = bs_theme_get()) {
+theme_bootswatch <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
   # Search for the tag applied in bootswatch_layer()
   tag <- grep("^bootstraplib_bootswatch_", theme$tags, value = TRUE)
@@ -22,9 +22,9 @@ theme_bootswatch <- function(theme = bs_theme_get()) {
 
 #' Obtain a theme's Bootstrap version
 #'
-#' @param theme a bs theme object, see [bs_theme_set()].
+#' @inheritParams bs_theme_update
 #' @export
-theme_version <- function(theme = bs_theme_get()) {
+theme_version <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
   # Get version from the tag applied in bootstrap_layer()
   tag <- grep("^bootstraplib_version_", theme$tags, value = TRUE)
@@ -48,7 +48,14 @@ bootswatch_theme_resolve <- function(bootswatch, version) {
   # because rmarkdown
   if (bootswatch %in% c("default", "bootstrap", "")) return("bootstrap")
   if (version %in% c("4", "4+3")) {
-    bootswatch <- switch(bootswatch, paper = "materia", readable = "litera", bootswatch)
+    if (identical(bootswatch, "paper")) {
+      message("Bootswatch 3 theme paper has been renamed to materia in version 4 (using that theme instead)")
+      bootswatch <- "materia"
+    }
+    if (identical(bootswatch, "readable")) {
+      message("Bootswatch 3 theme readable has been renamed to litera in version 4 (using that theme instead)")
+      bootswatch <- "litera"
+    }
   }
   match.arg(bootswatch, bootswatch_themes(version))
 }
