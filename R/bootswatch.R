@@ -48,8 +48,14 @@ bootswatch_theme_resolve <- function(bootswatch, version) {
   # because rmarkdown
   if (bootswatch %in% c("default", "bootstrap", "")) return("bootstrap")
   if (version %in% c("4", "4+3")) {
-    # TODO: maybe throw a warning for these cases?
-    bootswatch <- switch(bootswatch, paper = "materia", readable = "litera", bootswatch)
+    if (identical(bootswatch, "paper")) {
+      message("Bootswatch 3 theme paper has been renamed to materia in version 4 (using that theme instead)")
+      bootswatch <- "materia"
+    }
+    if (identical(bootswatch, "readable")) {
+      message("Bootswatch 3 theme readable has been renamed to litera in version 4 (using that theme instead)")
+      bootswatch <- "litera"
+    }
   }
   match.arg(bootswatch, bootswatch_themes(version))
 }

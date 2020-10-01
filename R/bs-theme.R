@@ -169,7 +169,7 @@ bs_theme_update <- function(theme, ..., bg = NULL, fg = NULL,
                             primary = NULL, secondary = NULL, success = NULL,
                             info = NULL, warning = NULL, danger = NULL,
                             base_font = NULL, code_font = NULL, heading_font = NULL) {
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
   # See R/bs-theme-update.R for the implementation of these
   theme <- bs_base_colors(theme, bg = bg, fg = fg)
   theme <- bs_accent_colors(
@@ -217,7 +217,7 @@ assert_bs_theme <- function(theme) {
   if (!is_bs_theme(theme)) {
     stop("`theme` must be a `bs_theme()` object")
   }
-  theme
+  invisible(theme)
 }
 
 

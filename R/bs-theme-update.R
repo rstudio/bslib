@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------------
 
 bs_base_colors <- function(theme, bg = NULL, fg = NULL) {
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
   if (is.null(bg) && is.null(fg)) {
     return(theme)
   }
@@ -145,7 +145,7 @@ bs3_base_colors <- function(args) {
 
 bs_accent_colors <- function(theme, primary = NULL, secondary = NULL,
                              success = NULL, info = NULL, warning = NULL, danger = NULL) {
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
 
   args <- validate_and_normalize_colors(
     list(
@@ -190,7 +190,7 @@ bs3_accent_colors <- function(args) {
 # ----------------------------------------------------------------------------------------
 
 bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
 
   args <- list(
     base = base,
@@ -258,7 +258,7 @@ bs3_fonts <- function(args) {
 #'   defaults.
 #' @noRd
 dispatch_theme_modifier <- function(theme, funcs_by_version, args, caller_name) {
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
 
   results <- NULL
   for (version in names(funcs_by_version)) {

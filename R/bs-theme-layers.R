@@ -82,7 +82,7 @@ bs_add_defaults <- function(theme, ...) {
 #' @rdname bs_add_defaults
 #' @export
 bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = identical(.where, "defaults")) {
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
 
   vars <- rlang::list2(...)
   if (any(names2(vars) == "")) stop("Variables must be named.", call. = FALSE)
@@ -105,23 +105,21 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
 # Given a named list of variable definitions,
 # searches each variable's expression for a !default flag,
 # and if missing, adds it.
-ensure_default_flag <- function(vars) {
-  Map(
-    function(key, val) {
-      val <- paste(sass::as_sass(val), collapse = "\n")
-      if (grepl("!default\\s*;*\\s*$", val)) {
-        val
-      } else {
-        paste(sub(";+$", "", val), "!default")
-      }
-    }, names(vars), vars
-  )
+ensure_default_flag <- function(x) {
+  lapply(x, function(val) {
+    val <- paste(sass::as_sass(val), collapse = "\n")
+    if (grepl("!default\\s*;*\\s*$", val)) {
+      val
+    } else {
+      paste(sub(";+$", "", val), "!default")
+    }
+  })
 }
 
 #' @rdname bs_add_defaults
 #' @export
 bs_add_layers <- function(theme, ...) {
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
   is_layer <- vapply(rlang::list2(...), inherits, logical(1), "sass_layer")
   if (!any(is_layer)) {
     stop("`...` must contain a `sass::sass_layer()` object(s)")

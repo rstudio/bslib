@@ -46,7 +46,7 @@ bs_global_theme <- function(version = version_default(), bootswatch = NULL, bg =
 #' @export
 bs_global_set <- function(theme = bs_theme()) {
   if (!is.null(theme)) {
-    theme <- assert_bs_theme(theme)
+    assert_bs_theme(theme)
   }
   old_theme <- options(bootstraplib_theme = theme)
   invisible(old_theme[["bootstraplib_theme"]])

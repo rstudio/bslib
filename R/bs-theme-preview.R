@@ -22,7 +22,7 @@ NULL
 #' if (interactive()) bs_theme_preview(theme)
 #' @export
 bs_theme_preview <- function(theme, ..., with_themer = TRUE, pre_run = thematic_shiny) {
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
   if (is.function(pre_run)) {
     pre_run()
   }
@@ -399,7 +399,7 @@ bs_get_variables <- function(theme, varnames) {
     return(stats::setNames(character(0), character(0)))
   }
 
-  theme <- assert_bs_theme(theme)
+  assert_bs_theme(theme)
 
   # Support both `bs_get_variables("$foo")` and `bs_get_variables("foo")`
   # (note that `sass::sass("$$foo:1;")` is illegal; so this seems safe)
