@@ -116,7 +116,8 @@ bs_dependencies <- function(
         src = out_file_dir,
         stylesheet = basename(out_file),
         script = basename(js_files),
-        all_files = TRUE, # js_map_files
+        all_files = TRUE, # include font and map files
+        restyle = TRUE,
         meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
       )
     ),

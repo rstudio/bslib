@@ -129,7 +129,7 @@ bs_themer_ui <- function(theme = bs_theme()) {
     colorpicker_deps(),
     htmlDependency(
       "bs_themer", version = packageVersion("bootstraplib"),
-      src = "themer", script = c("disable-bootstrap.js", "themer.js"),
+      src = "themer", script = c("themer.js"),
       package = "bootstraplib", all_files = FALSE
     ),
 
@@ -292,19 +292,19 @@ bs_themer <- function() {
     stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")
   }
 
-  if (isTRUE(session$userData[["bs_themer_init"]])) {
+  if (!is.null(session$userData[["bs_themer_theme"]])) {
     # bs_themer() was called multiple times for the same session
     return()
   } else {
-    session$userData[["bs_themer_init"]] <- TRUE
+    session$userData[["bs_themer_theme"]] <- reactiveVal(theme)
   }
 
   input <- session$input
 
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(theme))
 
-  shiny::observeEvent(input$vars, {
-    vals <- jsonlite::parse_json(input$vars)
+  shiny::observeEvent(input$bs_theme_vars, {
+    vals <- jsonlite::parse_json(input$bs_theme_vars)
 
     # Validate that `vals` is a simple list, containing atomic elements,
     # that are all named
@@ -343,11 +343,15 @@ bs_themer <- function() {
     print(code)
     theme <- rlang::eval_tidy(code)
 
+    # Give dynamically rendered tagFunction() UI an opportunity to take a reactive dependency
+    # (see shiny::getCurrentTheme())
+    session$userData$bs_themer_theme(theme)
+
     # Degrade sass() compilation errors to warnings so they don't crash the app
     # Errors can happen if the users enters values that lead to unexpected Sass
     # expressions (e.g., "$foo: * !default")
-    css <- try(sass(theme, write_attachments = FALSE))
-    if (inherits(css, "try-error")) {
+    deps <- try(bs_dependencies(theme))
+    if (inherits(deps, "try-error")) {
       shiny::showNotification(
         "Sass -> CSS compilation failed, likely due to invalid user input.
          Other theming changes won't take effect until the invalid input is fixed.",
@@ -358,21 +362,10 @@ bs_themer <- function() {
       )
     } else {
       shiny::removeNotification("sass-compilation-error", session = session)
-      # Find and disable the main bootstrap-custom.css that will likely
-      # be defined in the UI. Disabling this 'initial' stylesheet is needed
-      # for things like $enable-rounded to work properly because the initial
-      # stylesheet may still want to impose rules that would disappear entirely
-      # without it
-      session$sendCustomMessage("bootstraplib-themer-disable-bootstrap", list(disable = TRUE))
-      # Now, insert the newly compiled Bootstrap CSS
       shiny::insertUI(
-        "head", where = "beforeEnd",
-        ui = tags$style(
-          id = "bs-realtime-preview-styles",
-          htmltools::HTML(css)
-        )
+        "body", where = "beforeEnd",
+        ui = div(id = "bs-themer-dependencies", deps)
       )
-      shiny::removeUI("#bs-realtime-preview-styles:not(:last-child)")
     }
   })
 }

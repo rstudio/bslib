@@ -254,7 +254,7 @@
         values[key] = null;
       }
     });
-    debouncedSetInputValue.call(Shiny, "vars", JSON.stringify(values));
+    debouncedSetInputValue.call(Shiny, "bs_theme_vars", JSON.stringify(values));
   });
 
 
