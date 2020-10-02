@@ -2,6 +2,7 @@
 % Please edit documentation in R/bs-dependencies.R
 \name{bs_dependencies}
 \alias{bs_dependencies}
+\alias{bs_runtime_dependencies}
 \alias{bs_sass}
 \title{Compile Bootstrap Sass with (optional) theming}
 \usage{
@@ -11,6 +12,12 @@ bs_dependencies(
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
   precompiled = TRUE
+)
+
+bs_runtime_dependencies(
+  func,
+  theme_default = bs_global_get(),
+  envir = parent.env()
 )
 
 bs_sass(rules = list(), theme, write_attachments = FALSE, ...)
@@ -32,6 +39,12 @@ immediately and not compiled. At the moment, we only provide precompiled
 CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
 themes, or non-default \code{sass_options}).}
 
+\item{func}{a function that takes a \code{\link[=bs_theme]{bs_theme()}} object (or \code{theme_default}) as input and
+and returns an \code{\link[=htmlDependency]{htmlDependency()}} (or a list of them).}
+
+\item{theme_default}{In the case that \code{func} wants to be executed outside of a Shiny
+runtime (e.g., in an R Markdown doc), an expression that yields a value to provide to \code{func}.}
+
 \item{rules}{Sass styling rules that may reference the \code{theme}'s \code{defaults} and \code{declarations}.}
 
 \item{write_attachments}{If the input contains \code{\link[sass:sass_layer]{sass_layer()}} objects that
@@ -42,6 +55,8 @@ disk; the side-effect of writing extra files is subtle and potentially
 destructive, as files may be overwritten.)}
 
 \item{...}{arguments passed along to \code{\link[sass:sass]{sass::sass()}}.}
+
+\item{env}{environment for evaluation the expression provided to \code{theme_default}.}
 }
 \value{
 a list of HTML dependencies containing Bootstrap CSS, Bootstrap

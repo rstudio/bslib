@@ -117,7 +117,6 @@ bs_dependencies <- function(
         stylesheet = basename(out_file),
         script = basename(js_files),
         all_files = TRUE, # include font and map files
-        restyle = TRUE,
         meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
       )
     ),
@@ -125,6 +124,26 @@ bs_dependencies <- function(
   )
 }
 
+#' @rdname bs_dependencies
+#' @param func a function that takes a [bs_theme()] object (or `theme_default`) as input and
+#' and returns an [htmlDependency()] (or a list of them).
+#' @param theme_default In the case that `func` wants to be executed outside of a Shiny
+#' runtime (e.g., in an R Markdown doc), an expression that yields a value to provide to `func`.
+#' @param env environment for evaluation the expression provided to `theme_default`.
+#' @export
+bs_runtime_dependencies <- function(func, theme_default = bs_global_get(), envir = parent.env()) {
+  theme_default <- substitute(theme_default)
+  tagFunction(function() {
+    if (is_available("shiny") && shiny::isRunning()) {
+      register <- asNamespace("shiny")$registerThemeDependency
+      if (is.function(register)) register(func)
+      return(func(shiny::getCurrentTheme()))
+    }
+    # This stills feels a little weird
+    theme <- eval(theme_default, envir = envir)
+    func(theme)
+  })
+}
 
 #' @rdname bs_dependencies
 #' @param rules Sass styling rules that may reference the `theme`'s `defaults` and `declarations`.

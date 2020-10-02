@@ -292,11 +292,11 @@ bs_themer <- function() {
     stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")
   }
 
-  if (!is.null(session$userData[["bs_themer_theme"]])) {
+  if (isTRUE(session$userData[["bs_themer_init"]])) {
     # bs_themer() was called multiple times for the same session
     return()
   } else {
-    session$userData[["bs_themer_theme"]] <- reactiveVal(theme)
+    session$userData[["bs_themer_init"]] <- TRUE
   }
 
   input <- session$input
@@ -343,9 +343,7 @@ bs_themer <- function() {
     print(code)
     theme <- rlang::eval_tidy(code)
 
-    # Give dynamically rendered tagFunction() UI an opportunity to take a reactive dependency
-    # (see shiny::getCurrentTheme())
-    session$userData$bs_themer_theme(theme)
+    shiny::setCurrentTheme(theme)
 
     # Degrade sass() compilation errors to warnings so they don't crash the app
     # Errors can happen if the users enters values that lead to unexpected Sass
