@@ -20,7 +20,7 @@ Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
 Depends: R (>= 2.10)
 Imports:
     grDevices,
-    htmltools (>= 0.4.0.9003),
+    htmltools (>= 0.5.0.9001),
     jsonlite,
     sass (>= 0.2.0.9003),
     jquerylib (>= 0.1.2),
@@ -59,6 +59,7 @@ Remotes:
     rstudio/thematic,
     rstudio/jquerylib,
     rstudio/sass,
+    rstudio/htmltools,
     rstudio/shiny
 URL: https://rstudio.github.io/bootstraplib/, https://github.com/rstudio/bootstraplib
 BugReports: https://github.com/rstudio/bootstraplib/issues

@@ -1,7 +1,9 @@
 #!/usr/bin/env Rscript
 library(sass)
+library(rprojroot)
 
-if (!identical(getwd(), rprojroot::find_package_root_file())) {
+
+if (!identical(getwd(), find_package_root_file())) {
   stop("This script must be run from the top directory of the bootstraplib package")
 }
 
@@ -285,7 +287,7 @@ writeLines(LICENSE, "LICENSE")
 
 
 # Apply any patches to source
-patch_dir <- rprojroot::find_package_root_file("tools/patches")
+patch_dir <- find_package_root_file("tools/patches")
 for (patch in list.files(patch_dir, full.names = TRUE)) {
   tryCatch(
     {
@@ -308,18 +310,17 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
 # aren't available yet), or by putting this code directly in the R/ directory
 # (because the R/ files are evaluated only after the inst directory is copied
 # over).
-
-pkgload::load_all()
+library(bootstraplib)
 
 # The versions of Bootstrap to precompile
 versions <- c("4", "4+3", "3")
 
-precompiled_dir <- rprojroot::find_package_root_file("inst/css-precompiled")
+precompiled_dir <- find_package_root_file("inst/css-precompiled")
 unlink(precompiled_dir, recursive = TRUE)
 dir.create(precompiled_dir, recursive = TRUE)
 
 lapply(versions, function(version) {
-  res <- bootstrap(bs_theme_create(version), precompiled = FALSE)
+  res <- bs_dependencies(bs_theme(version), precompiled = FALSE, cache = NULL)
   # Extract the Bootstrap dependency object (as opposed to, say, jQuery)
   bs_dep <- Filter(res, f = function(x) { identical(x$name, "bootstrap") })[[1]]
 
