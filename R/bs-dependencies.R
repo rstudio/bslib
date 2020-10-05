@@ -134,7 +134,7 @@ bs_dependencies <- function(
 bs_runtime_dependencies <- function(func, theme_default = bs_global_get(), envir = parent.env()) {
   theme_default <- substitute(theme_default)
   tagFunction(function() {
-    if (is_available("shiny") && shiny::isRunning()) {
+    if (is_shiny_app()) {
       register <- asNamespace("shiny")$registerThemeDependency
       if (is.function(register)) register(func)
       return(func(shiny::getCurrentTheme()))

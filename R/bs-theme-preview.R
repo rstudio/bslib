@@ -343,7 +343,7 @@ bs_themer <- function() {
     print(code)
     theme <- rlang::eval_tidy(code)
 
-    shiny::setCurrentTheme(theme)
+    session$setCurrentTheme(theme)
 
     # Degrade sass() compilation errors to warnings so they don't crash the app
     # Errors can happen if the users enters values that lead to unexpected Sass
