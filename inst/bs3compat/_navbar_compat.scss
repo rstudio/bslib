@@ -49,9 +49,11 @@ ul.nav.navbar-nav>li>a {
 .navbar-toggle {
   @extend .navbar-toggler;
 }
-.navbar-toggle>.icon-bar+.icon-bar {
-  display: none;
-}
-.navbar-toggle>.icon-bar {
-  @extend .navbar-toggler-icon;
+.navbar-toggle {
+  > .icon-bar {
+    display: none;
+    &:last-child {
+      @extend .navbar-toggler-icon;
+    }
+  }
 }
