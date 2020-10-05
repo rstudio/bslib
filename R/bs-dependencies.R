@@ -265,7 +265,6 @@ bs_dependency_defer <- function(func) {
       # (2) Call the user's `func()` with the current theme, and return the
       # resulting htmlDependency so that it can be embedded in the static page.
       shiny::registerThemeDependency(func)
-
       return(func(shiny::getCurrentTheme()))
     }
 
