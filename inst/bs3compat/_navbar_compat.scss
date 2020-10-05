@@ -52,6 +52,6 @@ ul.nav.navbar-nav>li>a {
 .navbar-toggle>.icon-bar+.icon-bar {
   display: none;
 }
-.navbar-toggle>.icon-bar:first-child {
+.navbar-toggle>.icon-bar {
   @extend .navbar-toggler-icon;
 }
