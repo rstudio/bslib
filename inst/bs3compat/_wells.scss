@@ -6,14 +6,15 @@
   background-color: $well-bg;
   color: $well-color;
   padding: $card-spacer-x;
+  @include border-radius($border-radius)
 }
 
 // Sizes
 .well-lg {
   padding: 1.5 * $spacer;
-  border-radius: $border-radius-lg;
+  @include border-radius($border-radius-lg);
 }
 .well-sm {
   padding: 0.5 * $spacer;
-  border-radius: $border-radius-sm;
+  @include border-radius($border-radius-sm);
 }
