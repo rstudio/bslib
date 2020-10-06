@@ -13,20 +13,14 @@ NULL
 #' @inheritParams bs_theme_update
 #' @param ... passed along to [shiny::runApp()].
 #' @param with_themer whether or not to run the app with [run_with_themer()].
-#' @param pre_run a function (with no arguments) to call prior to running the
-#'   app. The default function enables thematic's plot auto-theming capabilities
-#'   (if it isn't already enabled).
 #' @seealso [run_with_themer()]
 #' @examples
 #'
 #' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
 #' if (interactive()) bs_theme_preview(theme)
 #' @export
-bs_theme_preview <- function(theme, ..., with_themer = TRUE, pre_run = thematic_shiny) {
+bs_theme_preview <- function(theme, ..., with_themer = TRUE) {
   assert_bs_theme(theme)
-  if (is.function(pre_run)) {
-    pre_run()
-  }
   old_theme <- bs_global_get()
   on.exit(bs_global_set(old_theme), add = TRUE)
   bs_global_set(theme)
@@ -37,13 +31,6 @@ bs_theme_preview <- function(theme, ..., with_themer = TRUE, pre_run = thematic_
   } else {
     shiny::runApp(app, ...)
   }
-}
-
-# Only enable thematic if it isn't already enabled
-thematic_shiny <- function() {
-  if (!rlang::is_installed("thematic")) return()
-  if (!is.null(thematic::thematic_get_theme())) return()
-  thematic::thematic_shiny()
 }
 
 colorpicker_deps <- function() {
