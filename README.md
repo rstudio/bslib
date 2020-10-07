@@ -88,7 +88,7 @@ console. It can also be used with other Shiny apps via
 bs_theme_preview(my_theme)
 ```
 
-<img src="https://i.imgur.com/33LWqJu.gif" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/KLKy1s0.gif" style="display: block; margin: auto;" />
 
 More generally, you can use a Bootstrap theme with any HTML page by
 using `shiny::bootstrapLib()` to provide the theme as an

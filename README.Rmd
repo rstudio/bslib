@@ -74,7 +74,7 @@ bs_theme_preview(my_theme)
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://i.imgur.com/33LWqJu.gif")
+knitr::include_graphics("https://i.imgur.com/KLKy1s0.gif")
 ```
 
 More generally, you can use a Bootstrap theme with any HTML page by using `shiny::bootstrapLib()` to provide the theme as an `htmltools::htmlDependency()` to an `shiny::htmlTemplate()` or any HTML `htmltools::tags` that you wish, for example:
