@@ -73,7 +73,7 @@ For a preview of how `my_theme` impacts most of Shiny UI's styling defaults, pro
 bs_theme_preview(my_theme)
 ```
 
-```{r, echo = FALSE, eval = FALSE}
+```{r, echo = FALSE}
 knitr::include_graphics("https://i.imgur.com/33LWqJu.gif")
 ```
 
