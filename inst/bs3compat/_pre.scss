@@ -1,0 +1,9 @@
+$pre-bg: mix($body-bg, $body-color, 96.5%) !default;
+$pre-border-color: $border-color !default;
+
+pre {
+  background-color: $pre-bg;
+  padding: .5em;
+  border: 1px solid $pre-border-color;
+  @include border-radius($border-radius);
+}
