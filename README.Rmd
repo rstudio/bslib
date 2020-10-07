@@ -37,7 +37,7 @@ remotes::install_github("rstudio/bootstraplib")
 Use `bs_theme()` to create a **bootstraplib** theme, where you can:
 
 * Choose a (major) Bootstrap version.
-  * To current default is `version = "4+3"`, which means Bootstrap 4 plus an additional compatibility layer for Bootstrap 3 style navs, navbars, and more. This compatibility allows most Shiny apps and R Markdown documents to seamlessly upgrade to Bootstrap 4.
+  * To current `version_default()` is `r version_default()`, which means Bootstrap `r substr(version_default(), 1, 1)` plus an additional compatibility layer for Bootstrap 3 style navs, navbars, and more. This compatibility allows most Shiny apps and R Markdown documents to seamlessly upgrade to Bootstrap `r substr(version_default(), 1, 1)`.
 * Choose a Bootswatch theme (optional).
 * Customize the main colors and fonts (see example below).
 * More generally, customize any of Bootstrap's styling defaults via Sass variables.
@@ -67,14 +67,14 @@ ui <- navbarPage(
 shinyApp(ui, function(ui, server) {})
 ```
 
-For a quick preview of how `my_theme` affects styling defaults for various "core" Shiny UI, use `bs_theme_preview()`. This preview app includes an interactive "real-time" theming widget for quickly iterating toward a set of desired set of colors and fonts. This theming widget emits code to replicate the styling changes in the R console and can also be added other Shiny apps via `run_with_themer()` (or `bs_themer()`).
+For a preview of how `my_theme` impacts most of Shiny UI's styling defaults, provide it to `bs_theme_preview()`. This preview app includes most "core" Shiny UI functionality as well as an interactive "real-time" theming widget for quickly testing out new colors and fonts. To help replicate those styling changes, the widgets also emits code to the R console. It can also be used with other Shiny apps via `run_with_themer()` (or `bs_themer()`).
 
 ```r
 bs_theme_preview(my_theme)
 ```
 
-```{r}
-knitr::include_graphics("")
+```{r, echo = FALSE, eval = FALSE}
+knitr::include_graphics("https://i.imgur.com/33LWqJu.gif")
 ```
 
 More generally, you can use a Bootstrap theme with any HTML page by using `shiny::bootstrapLib()` to provide the theme as an `htmltools::htmlDependency()` to an `shiny::htmlTemplate()` or any HTML `htmltools::tags` that you wish, for example:
@@ -105,37 +105,39 @@ shinyApp(ui, function(ui, server) {})
 
 ### R Markdown usage 
 
-> Note: this usage currently requires an experimental version of R Markdown `remotes::install_github("rstudio/rmarkdown#1706")` and is subject to change
+> Note: this usage currently requires an experimental version of R Markdown `remotes::install_github("rstudio/rmarkdown#1706")`
 
-(1) Use `bootstrap_version` and `theme` to choose the Bootstrap version and a Bootswatch theme. These arguments are currently supported only in `html_document` and `html_document_base`.
+To use a `bs_theme()` in R Markdown, pass the relevant theming parameter(s) to the `theme` parameter of `html_document` (or, really, anything that runs through `html_document_base`):
 
 ```yaml
 ---
 output:
   html_document:
-    bootstrap_version: 4+3
-    theme: minty
+    theme:
+      bg: "#202123"
+      fg: "#B8BCC2"
+      primary: "#EA80FC"
+      base_font: "Grandstander"
 ---
 ```
 
-(2) Optionally add theme customizations inside any R code chunk (these customizations end up influencing the Bootstrap CSS included in the output document).
+For backwards-compatibility reasons, R Markdown only uses **bootstraplib** when `theme` is a list of parameters, so if you want to just use Bootstrap 4 without any custom theming, you must do:
+
+```yaml
+---
+output:
+  html_document:
+    theme:
+      version: 4+3
+---
+```
+
+Moreover, when `theme` defines a `bs_theme()`, you may modify the (global) `theme` using functions such as `bs_global_theme_update()` in **knitr** code chunks (these modifications influence the final Bootstrap CSS bundle included in the output document).
 
     ```{r}`r ''`
     library(bootstraplib)
     bs_global_theme_update(primary = 'green')
     ```
-
-<!--
-TODO: do we support passing of local theme objects?
-
-```yaml
----
-output:
-  html_document:
-    theme: `r bootstraplib::bs_theme(bg = "#202123", fg = "#B8BCC2", primary = "#EA80FC", "Grandstander")`
----
-```
--->
 
 
 ## Learn more 

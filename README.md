@@ -11,8 +11,14 @@ status](https://github.com/rstudio/bootstraplib/workflows/R-CMD-check/badge.svg)
 
 # bootstraplib
 
-Tools for styling **shiny** and **rmarkdown** from R via Bootstrap (3 or
-4) Sass.
+The **bootstraplib** R package provides tools for creating custom
+[Bootstrap
+themes](https://getbootstrap.com/docs/4.4/getting-started/theming/),
+making it easier to style Shiny apps and R Markdown documents directly
+from R (via **sass**) without writing unruly CSS and HTML. Currently,
+**bootstraplib** supports Bootstrap 3 and 4, as well as a special
+`"4+3"` compatibility version, which allows you to start using Bootstrap
+4 today in Shiny and R Markdown.
 
 ## Installation
 
@@ -21,128 +27,139 @@ with:
 
 ``` r
 remotes::install_github("rstudio/bootstraplib")
+```
+
+## Getting Started
+
+### Create a theme
+
+Use `bs_theme()` to create a **bootstraplib** theme, where you can:
+
+  - Choose a (major) Bootstrap version.
+      - To current `version_default()` is 4+3, which means Bootstrap 4
+        plus an additional compatibility layer for Bootstrap 3 style
+        navs, navbars, and more. This compatibility allows most Shiny
+        apps and R Markdown documents to seamlessly upgrade to Bootstrap
+        4.
+  - Choose a Bootswatch theme (optional).
+  - Customize the main colors and fonts (see example below).
+  - More generally, customize any of Bootstrap’s styling defaults via
+    Sass variables.
+
+For example, to implement a [material design inspired dark
+mode](https://material.io/design/color/dark-theme.html), set the main
+colors (and fonts):
+
+``` r
 library(bootstraplib)
+my_theme <- bs_theme(
+  bg = "#202123", fg = "#B8BCC2", primary = "#EA80FC", 
+  base_font = "Grandstander"
+)
 ```
 
-## Introduction
+### Shiny usage
 
-The **bootstraplib** R package provides tools for compiling and working
-with [Bootstrap
-Sass](https://getbootstrap.com/docs/4.4/getting-started/theming/),
-making it possible to style **shiny** apps and **rmarkdown** documents
-directly from R (via **sass**) instead of writing raw CSS and HTML.
-Currently, **bootstraplib** supports Bootstrap 3 and 4, as well as a
-special `"4+3"` compatibility version (read more about this in [choosing
-a version](#choosing-a-version)). Using **bootstraplib** in **shiny**
-and **rmarkdown** is still considered experimental at this point, but
-see the notes below to start using it today.
+> Note: this usage requires the development version of Shiny
+> `remotes::install_github("rstudio/shiny")`.
 
-### Shiny
-
-To start using **bootstraplib** in your **shiny** apps today, install
-`remotes::install_github("rstudio/shiny")`, then do the following:
-
-1.  Set the `bootstraplib` option to `TRUE`:
-
-<!-- end list -->
+To use `my_theme` inside of Shiny, pass it to the relevant `theme`
+parameter in page functions such as `shiny::navbarPage()`,
+`shiny::fluidPage()`, `shiny::bootstrapPage()`, etc.
 
 ``` r
-shiny::shinyOptions(bootstraplib = TRUE)
+library(shiny)
+ui <- navbarPage(
+  theme = my_theme,
+  ...
+)
+shinyApp(ui, function(ui, server) {})
 ```
 
-2.  Call `bs_global_theme()` and optionally specify a Bootstrap `version`
-    and [`bootswatch` theme](https://bootswatch.com/). The current
-    default is Bootstrap 4 (with added added Bootstrap 3 compatibility)
-    and no `bootswatch` theme:
-
-<!-- end list -->
+For a preview of how `my_theme` impacts most of Shiny UI’s styling
+defaults, provide it to `bs_theme_preview()`. This preview app includes
+most “core” Shiny UI functionality as well as an interactive “real-time”
+theming widget for quickly testing out new colors and fonts. To help
+replicate those styling changes, the widgets also emits code to the R
+console. It can also be used with other Shiny apps via
+`run_with_themer()` (or `bs_themer()`).
 
 ``` r
-bs_global_theme(version = "4+3", bootswatch = NULL)
+bs_theme_preview(my_theme)
 ```
 
-3.  (Optional) Add theming customizations (learn more about
-    customizations in the
-    [recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html)
-    article):
-
-<!-- end list -->
+More generally, you can use a Bootstrap theme with any HTML page by
+using `shiny::bootstrapLib()` to provide the theme as an
+`htmltools::htmlDependency()` to an `shiny::htmlTemplate()` or any HTML
+`htmltools::tags` that you wish, for example:
 
 ``` r
-bs_base_colors(bg = "#444", fg = "#e4e4e4")
-bs_theme_accent_colors(primary = "#e39777")
+library(shiny)
+ui <- htmlTemplate(
+  "my-template.html",
+  theme = my_theme,
+  ...
+)
+shinyApp(ui, function(ui, server) {})
 ```
 
-4.  Run the Shiny app.
+``` html
+<!-- my-template.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    {{ headContent() }}
+    {{ bootstrapLib(theme) }}
+  </head>
+  <body>
+    ...
+  </body>
+</html>
+```
 
-### R Markdown
+### R Markdown usage
 
-To start using **bootstraplib** in your `rmarkdown::html_document`s,
-install `remotes::install_github("rstudio/rmarkdown#1706")`, then do the
-following:
+> Note: this usage currently requires an experimental version of R
+> Markdown `remotes::install_github("rstudio/rmarkdown#1706")`
 
-1)  Use `bootstrap_version` and `theme` to choose the Bootstrap version
-    and a Bootswatch theme. These arguments are currently supported only
-    in `html_document` and `html_document_base`.
-
-<!-- end list -->
+To use a `bs_theme()` in R Markdown, pass the relevant theming
+parameter(s) to the `theme` parameter of `html_document` (or, really,
+anything that runs through `html_document_base`):
 
 ``` yaml
 ---
 output:
   html_document:
-    bootstrap_version: 4+3
-    theme: minty
+    theme:
+      bg: "#202123"
+      fg: "#B8BCC2"
+      primary: "#EA80FC"
+      base_font: "Grandstander"
 ---
 ```
 
-2)  Optionally add theme customizations inside any R code chunk (these
-    customizations end up influencing the Bootstrap CSS included in the
-    output document).
-    
-    ``` {r}
-    library(bootstraplib)
-    bs_theme_accent_colors(primary = 'green')
-    ```
+For backwards-compatibility reasons, R Markdown only uses
+**bootstraplib** when `theme` is a list of parameters, so if you want to
+just use Bootstrap 4 without any custom theming, you must do:
 
-## Choosing a version
-
-The **bootstraplib** package currently supports three different
-`version`s: `"4+3"`, `4`, and `3`. In the future, when Bootstrap
-[releases more major versions](https://github.com/twbs/release),
-**bootstraplib** may add more versions, and may also change the default
-`version`. However, the default `version` (currently `"4+3"`) will
-always be designed to work well with core **shiny** UI functionality
-(e.g., `actionButton()`, `navlistPanel()`, etc). If your UI wants to
-assume a specific version of Bootstrap (i.e., it uses a package like
-**bs4Dash** or **yonder** to generate UI), then it’s a good idea to set
-an explicit `version` (this way, when a new version of Bootstrap is
-released, and the default `version` changes, your app won’t break).
-
-Be aware that Bootstrap 4 and 3 expose a very different set of theme
-customization entry points, and as a result, theme customizations that
-you write for Bootstrap 4 may not necessarily work for Bootstrap 3 (and
-vice versa). At the moment, our priority is to enable and improve the
-Bootstrap 4 theming experience. If you’re not interested in upgrading to
-Bootstrap 4, and would rather theme your Bootstrap 3 project today, you
-may want to consider [using **fresh**](#fresh) in the near term.
-
-## Interactive theming
-
-**bootstraplib** also comes with tools for interactive theming of
-**shiny** apps (and **rmarkdown** documents with `runtime: shiny`).
-Either point `run_with_themer()` to an existing application or use
-`bs_theme_preview()` to use a pre-packaged application designed for
-theming. Note that as you interactively theme your application, code is
-printed to the R console that you can copy/paste to adopt those changes
-in your theming code.
-
-``` r
-bs_global_theme(bootswatch = "sketchy")
-bs_theme_preview()
+``` yaml
+---
+output:
+  html_document:
+    theme:
+      version: 4+3
+---
 ```
 
-<img src="https://i.imgur.com/il6nd8J.gif" width="80%" style="display: block; margin: auto;" />
+Moreover, when `theme` defines a `bs_theme()`, you may modify the
+(global) `theme` using functions such as `bs_global_theme_update()` in
+**knitr** code chunks (these modifications influence the final Bootstrap
+CSS bundle included in the output document).
+
+    ```{r}
+    library(bootstraplib)
+    bs_global_theme_update(primary = 'green')
+    ```
 
 ## Learn more
 
@@ -150,49 +167,3 @@ See the articles on [theming
 recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html)
 and
 [foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html).
-
-## Similar work
-
-The [**fresh** package](https://github.com/dreamRs/fresh) offers an
-alternative (& currently more user friendly) approach to theming via
-Bootstrap 3 Sass variables. At the moment, **bootstraplib** is more
-focused on laying an extensible foundation for theming with Bootstrap 3
-(or 4) that other R packages can build upon.
-
-<!--
-* Use [Bootstrap](https://sass-lang.com/) 4, as well as any major version of Bootstrap built on [Sass](https://sass-lang.com/). 
-
-  * Packages like **shiny**, **rmarkdown**, and many of their downstream dependencies have long depended on static Bootstrap 3 CSS, and may continue to do so by default. This package provides a means for upgrading to Bootstrap 4 (as well as compiling [Bootstrap 3 SASS](https://github.com/twbs/bootstrap-sass), and potentially, [future major versions](https://github.com/twbs/release) of Bootstrap). 
-
-* Easily use pre-packaged [Bootswatch](https://bootswatch.com/) themes. 
-
-* Create [custom Bootstrap themes](https://getbootstrap.com/docs/4.0/getting-started/theming) through compilation of user supplied [Sass](https://Sass-lang.com) code from R. 
-
-To learn more, see the article on using **bootstraplib** with [**shiny**](articles/shiny.html) and [**rmarkdown**](articles/rmarkdown.html), as well as creating [custom Bootstrap themes](articles/custom.html).
--->
-
-<!--
-## Via bs4 {#bs4}
-
-The [**bs4** package](https://github.com/rstudio/bs4) provides a family of page layout functions (e.g., `bs_page_fluid()`, `bs_page_fixed()`, `bs_page()`) that provide a drop-in replacement to core **shiny** page layout functions (e.g., `fluidPage()`, `fixedPage()`, `bootstrapPage()`, etc). These **bs4** functions implictly include `bootstraplib::bs_dependencies()`, so **bootstraplib** theming functions like `bs_global_theme()` and `bs_theme_add_variables()` may be used to style the page without explictly including `bs_dependencies()`.
-
-Eventually **bs4** will provide more replacements for core **shiny** UI functions that assume Bootstrap 4; but for now, you can use the **bs4Dash** package to generate similar UI with Bootstrap 4 compatible markup (as well as leverage new Bootstrap 4 features like [cards](https://getbootstrap.com/docs/4.4/components/card/)).
-
-```r
-library(bs4)
-library(bs4Dash)
-
-# Pin the version to Bootstrap version to 4 since 
-# we're using UI functions designed specifically for BS4
-bs_global_theme(version = 4)
-bs_theme_add_variables(primary = "salmon")
-
-ui_content <- bs4TabSetPanel(
-  id = "panel", side = "left",
-  bs4TabPanel("One", tabName = "One"),
-  bs4TabPanel("Two", tabName = "Two")
-)
-ui <- bs4_page_fluid(ui_content)
-shinyApp(ui, function(input, output) {})
-```
--->
