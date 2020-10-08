@@ -7,12 +7,16 @@
 #' @param file a scss file path.
 #' @param version the major version.
 #' @param theme a bootswatch theme name.
+#' @param removable should sass_removable be called on each element?
 #' @noRd
-
-bs_sass_files <- function(files, version = version_default()) {
+bs_sass_files <- function(files, version = version_default(), removable = FALSE) {
   version <- version_resolve(version)
-  as_sass(lapply(files, bs_sass_file, version = version))
-}
+  ret <- lapply(files, bs_sass_file, version = version))
+  if (isTRUE(removable)) {
+    ret <- lapply(ret, sass:::sass_removable)
+    names(ret) <- files
+  }
+  ret
 
 # Search for one file at a time so we can throw informative errors
 bs_sass_file <- function(file, version) {
