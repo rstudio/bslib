@@ -11,12 +11,13 @@
 #' @noRd
 bs_sass_files <- function(files, version = version_default(), removable = FALSE) {
   version <- version_resolve(version)
-  ret <- lapply(files, bs_sass_file, version = version))
+  ret <- lapply(files, bs_sass_file, version = version)
   if (isTRUE(removable)) {
     ret <- lapply(ret, sass:::sass_removable)
     names(ret) <- files
   }
   ret
+}
 
 # Search for one file at a time so we can throw informative errors
 bs_sass_file <- function(file, version) {
