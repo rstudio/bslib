@@ -235,7 +235,7 @@ bootstrap_layer <- function(version) {
         "breadcrumb", "pagination", "badge", "jumbotron", "alert",
         "progress", "media", "list-group", "close", "toasts", "modal",
         "tooltip", "popover", "carousel", "spinners", "utilities", "print"
-      ), version = 4),
+      ), version = 4, removable = TRUE),
       # Tag this layer so we know we can query the theme_version()
       tags = paste0("bootstraplib_version_", version)
     )
@@ -271,7 +271,7 @@ bootstrap_layer <- function(version) {
         "badges", "jumbotron", "thumbnails", "alerts", "progress-bars", "media",
         "list-group", "panels", "responsive-embed", "wells", "close", "modals",
         "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
-      ), version = 3),
+      ), version = 3, removable = TRUE),
       file_attachments = c(
         "glyphicon-fonts" = lib_file("bootstrap-sass", "assets", "fonts", "bootstrap")
       ),
@@ -504,4 +504,3 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
 
   layer
 }
-
