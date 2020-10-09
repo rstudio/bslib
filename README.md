@@ -7,22 +7,23 @@ status](https://www.r-pkg.org/badges/version/bootstraplib)](https://cran.r-proje
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R build
 status](https://github.com/rstudio/bootstraplib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bootstraplib/actions)
+
 <!-- badges: end -->
 
 # bootstraplib
 
-The **bootstraplib** R package provides tools for creating custom
+The `{bootstraplib}` R package provides tools for creating custom
 [Bootstrap
 themes](https://getbootstrap.com/docs/4.4/getting-started/theming/),
 making it easier to style Shiny apps and R Markdown documents directly
-from R (via **sass**) without writing unruly CSS and HTML. Currently,
-**bootstraplib** supports Bootstrap 3 and 4, as well as a special
-`"4+3"` compatibility version, which allows you to start using Bootstrap
-4 today in Shiny and R Markdown.
+from R without writing unruly CSS and HTML. Currently, `{bootstraplib}`
+provides Bootstrap 4, Bootstrap 3, as well as a custom `"4+3"`
+compatibility version, which helps upgrade Shiny and R Markdown from
+Bootstrap 3 to 4.
 
 ## Installation
 
-**bootstraplib** isn’t yet available from CRAN, but you can install
+`{bootstraplib}` isn’t yet available from CRAN, but you can install
 with:
 
 ``` r
@@ -33,22 +34,24 @@ remotes::install_github("rstudio/bootstraplib")
 
 ### Create a theme
 
-Use `bs_theme()` to create a **bootstraplib** theme, where you can:
+Use `bs_theme()` to create a `{bootstraplib}` theme, where you can:
 
   - Choose a (major) Bootstrap version.
+    
       - To current `version_default()` is 4+3, which means Bootstrap 4
-        plus an additional compatibility layer for Bootstrap 3 style
-        navs, navbars, and more. This compatibility allows most Shiny
-        apps and R Markdown documents to seamlessly upgrade to Bootstrap
-        4.
-  - Choose a Bootswatch theme (optional).
-  - Customize the main colors and fonts (see example below).
+        plus an additional compatibility layer for Bootstrap 3 navs,
+        navbars, and more. This compatibility allows most Shiny apps and
+        R Markdown documents to seamlessly upgrade to Bootstrap 4.
+
+  - Choose a [Bootswatch](https://bootswatch.com/) theme (optional).
+
+  - Customize the main colors and fonts (see below).
+
   - More generally, customize any of Bootstrap’s styling defaults via
     Sass variables.
 
 For example, to implement a [material design inspired dark
-mode](https://material.io/design/color/dark-theme.html), set the main
-colors (and fonts):
+mode](https://material.io/design/color/dark-theme.html):
 
 ``` r
 library(bootstraplib)
@@ -141,7 +144,7 @@ output:
 ```
 
 For backwards-compatibility reasons, R Markdown only uses
-**bootstraplib** when `theme` is a list of parameters, so if you want to
+`{bootstraplib}` when `theme` is a list of parameters, so if you want to
 just use Bootstrap 4 without any custom theming, you must do:
 
 ``` yaml
@@ -153,14 +156,24 @@ output:
 ---
 ```
 
-Moreover, when `theme` defines a `bs_theme()`, you may modify the
-(global) `theme` using functions such as `bs_global_theme_update()` in
-**knitr** code chunks (these modifications influence the final Bootstrap
-CSS bundle included in the output document).
+Moreover, when `theme` depicts a `bs_theme()`, you may modify the
+(global) `theme` in **knitr** code chunks to influence the final
+Bootstrap CSS bundle included in the output document. This means you can
+do things like dynamically modify theme default(s) (with
+`bs_global_theme_update()` ) and/or add additional CSS rules that
+leverage Bootstrap Sass variables, functions, mixins, etc:
 
     ```{r}
     library(bootstraplib)
-    bs_global_theme_update(primary = 'green')
+    bs_global_theme_update("input-bg" = "purple")
+    bs_global_add_rules(
+      ".my-class { 
+         background-color: mix($body-bg, $body-color, 90%);
+         border: 1px solid $primary;
+         @include border_radius($border-radius);
+       }
+      "
+    )
     ```
 
 ## Learn more
