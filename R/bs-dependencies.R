@@ -49,7 +49,7 @@
 #' # Bootswatch solar theme with BS3 compatibility
 #' preview_button(bs_theme(version = "4+3", bootswatch = "solar"))
 #'
-bs_dependencies <- function(
+bs_theme_dependencies <- function(
   theme,
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
@@ -124,39 +124,133 @@ bs_dependencies <- function(
   )
 }
 
-#' @rdname bs_dependencies
-#' @param func a function that takes a [bs_theme()] object (or `theme_default`) as input and
-#' and returns an [htmlDependency()] (or a list of them).
-#' @param theme_default In the case that `func` wants to be executed outside of a Shiny
-#' runtime (e.g., in an R Markdown doc), an expression that yields a value to provide to `func`.
-#' @param env environment for evaluation the expression provided to `theme_default`.
+
+#' Create a Bootstrap dependency
+#'
 #' @export
-bs_runtime_dependencies <- function(func, theme_default = bs_global_get(), envir = parent.env()) {
-  theme_default <- substitute(theme_default)
-  tagFunction(function() {
-    if (is_shiny_app()) {
-      register <- asNamespace("shiny")$registerThemeDependency
-      if (is.function(register)) register(func)
-      return(func(shiny::getCurrentTheme()))
-    }
-    # This stills feels a little weird
-    theme <- eval(theme_default, envir = envir)
-    func(theme)
-  })
+bs_dependency <- function(input = list(), theme, name, version,
+  cache_key_extra = NULL, .dep_args = list(), .sass_args = list())
+{
+  sass_args <- c(
+    list(
+      rules = input,
+      layer = theme,
+      output = sass::output_template(basename = name, dirname = name),
+      write_attachments = TRUE,
+      cache_key_extra = cache_key_extra
+    ),
+    .sass_args
+  )
+  outfile <- do.call(sass::sass_partial, sass_args)
+
+  dep_args <- c(
+    list(
+      name = name,
+      version = version,
+      src = dirname(outfile),
+      stylesheet = basename(outfile)
+    ),
+    .dep_args
+  )
+  do.call(htmlDependency, dep_args)
 }
 
-#' @rdname bs_dependencies
-#' @param rules Sass styling rules that may reference the `theme`'s `defaults` and `declarations`.
-#' @param ... arguments passed along to [sass::sass()].
+
+#' Note that `func` should not be created in a closure -- for Shiny to
+#' deduplicate the html dependencies, it needs to be able to tell that the
+#' `func` from a previous invocation is `identical()` to the `func` in later
+#' invocations. In order to that, the
+#'
+#' @param func a function that takes a [bs_theme()] object (or `theme_default`)
+#'   as input and and returns an [htmlDependency()] (or a list of them).
 #' @export
-bs_sass <- function(rules = list(), theme, write_attachments = FALSE, ...) {
-  theme <- as_bs_theme(theme)
-  theme$rules <- ""
-  sass::sass(
-    input = list(theme, rules),
-    write_attachments = write_attachments,
-    ...
-  )
+#'
+#' @examples
+#'
+#'
+#' myWidgetVersion <- "1.2.3"
+#'
+#' myWidgetDependency <- function() {
+#'   list(
+#'     bs_dependency_dynamic(myWidgetCss),
+#'     htmlDependency(
+#'       name = "mywidget-js",
+#'       version = myWidgetVersion,
+#'       src = system.file(package = "mypackage", "js"),
+#'       script = "mywidget.js"
+#'     )
+#'   )
+#' }
+#'
+#' myWidgetCSS <- function(theme) {
+#'   if (!is_bs_theme(theme)) {
+#'     return(
+#'       htmlDependency(
+#'         name = "mywidget-css",
+#'         version = myWidgetVersion,
+#'         src = system.file(package = "mypackage", "css"),
+#'         stylesheet = "mywidget.css"
+#'       )
+#'     )
+#'   }
+#'
+#'   # Remap some variable names and include mywidget.scss. (In other cases it
+#'   # may make sense to only include the sass_file().)
+#'   sass_input <- list(
+#'     list(
+#'       bg = "$input-bg",
+#'       fg = "$input-color",
+#'       `font-family` = "$font-family-base"
+#'     ),
+#'     sass::sass_file(system.file(package = "mypackage", "scss", "mywidget.scss"))
+#'   )
+#'
+#'   bs_dependency(
+#'     input = sass_input,
+#'     theme = theme,
+#'     name = "mywidget",
+#'     version = myWidgetVersion,
+#'     cache_key_extra = utils::packageVersion("mypackage")
+#'   )
+#' }
+#'
+#' \dontrun{
+#' # Note that myWidgetDepdency is not defined inside of myWidget. This is so
+#' # that, if `myWidget()` is called multiple times, Shiny can tell that the
+#' # function objects are identical and deduplicate them.
+#' # TODO: Maybe Shiny should check for identical outputs, and warn in that case
+#' # that a dependency function isn't being deduped.
+#' # TODO: Check if/how browser reloads mywidget/mywidget.css even if the URL
+#' # is the same a second time.
+#' myWidget <- function(id) {
+#'   div(
+#'     id = id,
+#'     span("myWidget"),
+#'     myWidgetDependency()
+#'   )
+#' }
+#' }
+#'
+#' @rdname bs_dependency
+bs_dependency_dynamic <- function(func) {
+  force(func)
+
+  tagFunction(function() {
+    if (is_shiny_app()) {
+      # If we're in a Shiny app, do two things:
+      # (1) Register this function as a dependency so that Shiny will know to
+      # update it later if the theme dynamically changes. Repeated registrations
+      # are harmless because Shiny will de-duplicate them.
+      # (2) Call the user's `func()` with the current theme, and return the
+      # resulting htmlDependency so that it can be embedded in the static page.
+      shiny::registerThemeDependency(func)
+
+      return(func(shiny::getCurrentTheme()))
+    }
+
+    # Outside of a Shiny context, we'll just get the global theme.
+    func(bs_global_get())
+  })
 }
 
 as_bs_theme <- function(theme) {

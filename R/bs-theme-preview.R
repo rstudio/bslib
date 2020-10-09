@@ -146,9 +146,9 @@ bs_themer_ui <- function(theme = bs_theme()) {
           style = css(cursor = "pointer"),
           tags$span(),
           tags$style(HTML(
-            bs_sass(
-              sass::sass_file(system_file("themer/themer.scss", package = "bootstraplib")),
-              theme = theme
+            sass_partial(
+              sass_file(system_file("themer/themer.scss", package = "bootstraplib")),
+              theme
             )
           ))
         )
@@ -183,17 +183,17 @@ bs_themer_ui <- function(theme = bs_theme()) {
 
 #' Theme customization UI
 #'
-#' A 'real-time' theme customization UI that you can use to
-#' easily make common tweaks to Bootstrap variables and immediately see how they
-#' would affect your app's appearance. There are two ways you can launch the
-#' theming UI. For most Shiny apps, just use `run_with_themer()` in place
-#' of [shiny::runApp()]; they should take the same arguments and work the same
-#' way. Alternatively, you can call the `bs_themer()` function from inside your
-#' server function (or in an R Markdown app that is using `runtime: shiny`, you
-#' can call this from any code chunk).
+#' A 'real-time' theme customization UI that you can use to easily make common
+#' tweaks to Bootstrap variables and immediately see how they would affect your
+#' app's appearance. There are two ways you can launch the theming UI. For most
+#' Shiny apps, just use `run_with_themer()` in place of [shiny::runApp()]; they
+#' should take the same arguments and work the same way. Alternatively, you can
+#' call the `bs_themer()` function from inside your server function (or in an R
+#' Markdown app that is using `runtime: shiny`, you can call this from any code
+#' chunk). Note that this function is only intended to be used for development!
 #'
-#' To help you utilize the changes you see in the preview, this
-#' utility prints [bs_theme()] code to the R console.
+#' To help you utilize the changes you see in the preview, this utility prints
+#' [bs_theme()] code to the R console.
 #'
 #' @param appDir The application to run. This can be a file or directory path,
 #'   or a [shiny::shinyApp()] object. See [shiny::runApp()] for details.
@@ -201,22 +201,21 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #'
 #' @section Limitations:
 #'
-#' Currently, this utility only works with Bootstrap 4. We hope to add
-#' Bootstrap 3 compatibility in the future. Also, the color picker currently
-#' doesn't render correctly on IE11.
+#'   Currently, this utility only works with Bootstrap 4. We hope to add
+#'   Bootstrap 3 compatibility in the future. Also, the color picker currently
+#'   doesn't render correctly on IE11.
 #'
-#' It also only works with Shiny apps and R Markdown apps that use the Shiny
-#' runtime. It's not possible to perform realtime preview for static R Markdown
-#' documents.
+#'   It also only works with Shiny apps and R Markdown apps that use the Shiny
+#'   runtime. It's not possible to perform realtime preview for static R
+#'   Markdown documents.
 #'
-#' Note that currently, only the CSS generated from [bs_dependencies()]
-#' will be instantly reflected in theme preview. CSS that is generated from
-#' third parties or [bs_sass()] may not be reflected in
-#' realtime, even if setting the theme variables would have an effect if the app
-#' is restarted. Since `bs_sass()` is the mechanism by
-#' which third-party HTML widgets are supposed to compile bootstraplib-aware CSS,
-#' unfortunately it's not likely that the themer's realtime preview will work
-#' with such components.
+#'   Note that currently, only the CSS generated from [bs_dependencies()] will
+#'   be instantly reflected in theme preview. CSS that is generated from third
+#'   parties or [bs_sass()] may not be reflected in realtime, even if setting
+#'   the theme variables would have an effect if the app is restarted. Since
+#'   `bs_sass()` is the mechanism by which third-party HTML widgets are supposed
+#'   to compile bootstraplib-aware CSS, unfortunately it's not likely that the
+#'   themer's realtime preview will work with such components.
 #'
 #' @examples
 #' library(shiny)
@@ -225,6 +224,7 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' theme <- bs_theme("4+3", bg = "black", fg = "white")
 #'
 #' ui <- fluidPage(
+#'   theme = theme,
 #'   h1("Heading 1"),
 #'   h2("Heading 2"),
 #'   p(
@@ -284,8 +284,8 @@ bs_themer <- function() {
   }
   theme <- shiny::getCurrentTheme()
   if (!is_bs_theme(theme)) {
-    stop(call. = FALSE, "`bootstraplib::bs_themer()` requires `shiny::bootstrapLib()` to be present",
-         "in the app's UI. Consider providing `bootstraplib::bs_theme()` to the theme argument of the",
+    stop(call. = FALSE, "`bootstraplib::bs_themer()` requires `shiny::bootstrapLib()` to be present ",
+         "in the app's UI. Consider providing `bootstraplib::bs_theme()` to the theme argument of the ",
          "relevant page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
   }
   if (!is.null(theme) && "3" %in% theme_version(theme)) {
@@ -343,12 +343,12 @@ bs_themer <- function() {
     print(code)
     theme <- rlang::eval_tidy(code)
 
-    session$setCurrentTheme(theme)
+    shiny::setCurrentTheme(theme)
 
     # Degrade sass() compilation errors to warnings so they don't crash the app
     # Errors can happen if the users enters values that lead to unexpected Sass
     # expressions (e.g., "$foo: * !default")
-    deps <- try(bs_dependencies(theme))
+    deps <- try(bs_theme_dependencies(theme))
     if (inherits(deps, "try-error")) {
       shiny::showNotification(
         "Sass -> CSS compilation failed, likely due to invalid user input.
@@ -414,10 +414,10 @@ bs_get_variables <- function(theme, varnames) {
   )
   cssvars <- sprintf(":root.get_default_vars {\n %s \n}", cssvars)
 
-  css <- bs_sass(
+  css <- sass_partial(
     cssvars,
     # Add declarations to the current theme
-    theme = bs_add_layers(theme, sass::sass_layer(declarations = sassvars))
+    bs_add_layers(theme, sass::sass_layer(declarations = sassvars)),
   )
 
   # Search the output for the block of properties we just generated, using the

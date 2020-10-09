@@ -111,8 +111,8 @@ bs_global_get_variables <- function(varnames) {
 #' @rdname deprecated
 #' @export
 bootstrap <- function(theme = bs_theme_get(), ...) {
-  .Deprecated("bs_dependencies")
-  bs_dependencies(theme, ...)
+  .Deprecated("bs_theme_dependencies")
+  bs_theme_dependencies(theme, ...)
 }
 
 #' @rdname deprecated
