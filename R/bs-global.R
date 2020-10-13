@@ -1,7 +1,7 @@
 #' Global theming
 #'
 #' `bs_global_theme()` creates a new (global) Bootstrap Sass theme which
-#' [bs_dependencies()] (or [bs_sass()]) can consume (their `theme` argument
+#' [bs_dependencies()] (or [sass_partial()]) can consume (their `theme` argument
 #' defaults to `bs_global_get()`, which get the current global theme).
 #'
 #' @inheritParams bs_theme

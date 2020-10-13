@@ -2,7 +2,7 @@
 #'
 #' Use `bs_dependencies()` to compile Bootstrap Sass into CSS and return it, along
 #' with other HTML dependencies, as a list of [htmltools::htmlDependency()]s. Use
-#' `bs_sass()` if you can assume Bootstrap already exists on the page,
+#' `sass_partial()` if you can assume Bootstrap already exists on the page,
 #' but you want to leverage Bootstrap utilities (e.g., variables, functions, or
 #' mixins) to generate additional CSS rules (as a string that can be included as
 #' a `<style>` tag via `tags$style(css)`).
@@ -167,6 +167,7 @@ bs_dependency <- function(input = list(), theme, name, version,
 #'
 #' @examples
 #'
+#' \dontrun{
 #'
 #' myWidgetVersion <- "1.2.3"
 #'
@@ -194,16 +195,9 @@ bs_dependency <- function(input = list(), theme, name, version,
 #'     )
 #'   }
 #'
-#'   # Remap some variable names and include mywidget.scss. (In other cases it
-#'   # may make sense to only include the sass_file().)
-#'   sass_input <- list(
-#'     list(
-#'       bg = "$input-bg",
-#'       fg = "$input-color",
-#'       `font-family` = "$font-family-base"
-#'     ),
-#'     sass::sass_file(system.file(package = "mypackage", "scss", "mywidget.scss"))
-#'   )
+#'   # Compile mywidget.scss using the variables and defaults from the theme
+#'   # object.
+#'   sass_input <- sass::sass_file(system.file(package = "mypackage", "scss/mywidget.scss"))
 #'
 #'   bs_dependency(
 #'     input = sass_input,
@@ -214,7 +208,6 @@ bs_dependency <- function(input = list(), theme, name, version,
 #'   )
 #' }
 #'
-#' \dontrun{
 #' # Note that myWidgetDepdency is not defined inside of myWidget. This is so
 #' # that, if `myWidget()` is called multiple times, Shiny can tell that the
 #' # function objects are identical and deduplicate them.
