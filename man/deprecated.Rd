@@ -37,7 +37,7 @@ bs_theme_get_variables(...)
 
 bootstrap(theme = bs_theme_get(), ...)
 
-bootstrap_sass(theme = bs_theme_get(), ...)
+bootstrap_sass(rules = list(), theme = bs_theme_get(), ...)
 }
 \description{
 These functions have been deprecated but remain for backwards compatibility.

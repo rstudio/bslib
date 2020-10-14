@@ -3,18 +3,19 @@ NULL
 
 #' Preview the currently set theme
 #'
-#' Launches an example shiny app via `run_with_themer()` and `bs_dependencies()`.
-#' Useful for getting a quick preview of the current theme setting as
-#' well as an interactive GUI for tweaking some of the main theme settings.
+#' Launches an example shiny app via `run_with_themer()` and
+#' `bs_theme_dependencies()`. Useful for getting a quick preview of the current
+#' theme setting as well as an interactive GUI for tweaking some of the main
+#' theme settings.
 #'
 #' The app that this launches is subject to change.
 #'
 #' @inheritParams bs_theme_update
 #' @param ... passed along to [shiny::runApp()].
 #' @param with_themer whether or not to run the app with [run_with_themer()].
-#' @param pre_run a function (with no arguments) to call prior to running the app.
-#' The default function enables thematic's plot auto-theming capabilities
-#' (if it isn't already enabled).
+#' @param pre_run a function (with no arguments) to call prior to running the
+#'   app. The default function enables thematic's plot auto-theming capabilities
+#'   (if it isn't already enabled).
 #' @seealso [run_with_themer()]
 #' @examples
 #'
@@ -209,13 +210,8 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #'   runtime. It's not possible to perform real-time preview for static R
 #'   Markdown documents.
 #'
-#'   Note that currently, only the CSS generated from [bs_dependencies()] will
-#'   be instantly reflected in theme preview. CSS that is generated from third
-#'   parties or [bs_sass()] may not be reflected in real-time, even if setting
-#'   the theme variables would have an effect if the app is restarted. Since
-#'   `bs_sass()` is the mechanism by which third-party HTML widgets are supposed
-#'   to compile bootstraplib-aware CSS, unfortunately it's not likely that the
-#'   themer's real-time preview will work with such components.
+#'   Note that only CSS generated with [bs_dependency_defer()] will be
+#'   instantly reflected in theme preview.
 #'
 #' @examples
 #' library(shiny)

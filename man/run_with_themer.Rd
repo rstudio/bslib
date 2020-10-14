@@ -37,16 +37,11 @@ Bootstrap 3 compatibility in the future. Also, the color picker currently
 doesn't render correctly on IE11.
 
 It also only works with Shiny apps and R Markdown apps that use the Shiny
-runtime. It's not possible to perform realtime preview for static R
+runtime. It's not possible to perform real-time preview for static R
 Markdown documents.
 
-Note that currently, only the CSS generated from \code{\link[=bs_dependencies]{bs_dependencies()}} will
-be instantly reflected in theme preview. CSS that is generated from third
-parties or \code{\link[=bs_sass]{bs_sass()}} may not be reflected in realtime, even if setting
-the theme variables would have an effect if the app is restarted. Since
-\code{bs_sass()} is the mechanism by which third-party HTML widgets are supposed
-to compile bootstraplib-aware CSS, unfortunately it's not likely that the
-themer's realtime preview will work with such components.
+Note that only CSS generated with \code{\link[=bs_dependency_defer]{bs_dependency_defer()}} will be
+instantly reflected in theme preview.
 }
 
 \examples{

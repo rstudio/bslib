@@ -36,9 +36,9 @@ dependencies if the \code{theme} calls for it (e.g., \code{version = "4+3"} cont
 an additional JavaScript dependency).
 }
 \description{
-Use \code{bs_dependencies()} to compile Bootstrap Sass into CSS and return it, along
+Use \code{bs_theme_dependencies()} to compile Bootstrap Sass into CSS and return it, along
 with other HTML dependencies, as a list of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}s. Use
-\code{bs_sass()} if you can assume Bootstrap already exists on the page,
+\code{sass_partial()} if you can assume Bootstrap already exists on the page,
 but you want to leverage Bootstrap utilities (e.g., variables, functions, or
 mixins) to generate additional CSS rules (as a string that can be included as
 a \verb{<style>} tag via \code{tags$style(css)}).
@@ -50,7 +50,7 @@ library(htmltools)
 button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 preview_button <- function(theme) {
   theme \%>\%
-    bs_dependencies() \%>\%
+    bs_theme_dependencies() \%>\%
     tags$body(button) \%>\%
     browsable()
 }

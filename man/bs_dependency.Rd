@@ -2,8 +2,8 @@
 % Please edit documentation in R/bs-dependencies.R
 \name{bs_dependency}
 \alias{bs_dependency}
-\alias{bs_dependency_dynamic}
-\title{Create a Bootstrap dependency}
+\alias{bs_dependency_defer}
+\title{Compile Sass using a Bootstrap theme and create an htmlDependency object}
 \usage{
 bs_dependency(
   input = list(),
@@ -15,28 +15,58 @@ bs_dependency(
   .sass_args = list()
 )
 
-bs_dependency_dynamic(func)
+bs_dependency_defer(func)
 }
 \arguments{
+\item{input}{Sass rules to compile, using \code{theme}.}
+
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
+
+\item{name}{Library name}
+
+\item{version}{Library version}
+
+\item{cache_key_extra}{Extra information to add to the sass cache key. It is
+useful to add the version of your package.}
+
+\item{.dep_args}{A list of additional arguments to pass to
+\code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}.}
+
+\item{.sass_args}{A list of additional arguments to pass to
+\code{\link[sass:sass_partial]{sass::sass_partial()}}.}
+
 \item{func}{a function that takes a \code{\link[=bs_theme]{bs_theme()}} object (or \code{theme_default})
 as input and and returns an \code{\link[=htmlDependency]{htmlDependency()}} (or a list of them).}
 }
 \description{
-Create a Bootstrap dependency
+HTML components can have Sass code that uses a Bootstrap theme; when the Sass
+is compiled to CSS, it can read variables from the Bootstrap theme. These
+functions make this possible, and also make it possible to use dynamic
+theming in a Shiny application: if the Bootstrap theme is changed in a
+running Shiny application, Sass code that draws on the theme will be
+recompiled and sent to the browser to automatically update the appearance of
+the components that use it.
 
-Note that \code{func} should not be created in a closure -- for Shiny to
-deduplicate the html dependencies, it needs to be able to tell that the
-\code{func} from a previous invocation is \code{identical()} to the \code{func} in later
-invocations. In order to that, the
+\code{bs_dependency()} takes \code{input}, which is a set of sass rules, compiles it to
+CSS using variables and defaults from \code{theme}, then creates an
+\code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} object for the newly-compiled CSS file. This
+function isn't called directly, but instead
+
+\code{bs_dependency_defer()} takes a \emph{function} which has one argument, \code{theme},
+and that function should call \code{bs_dependency()} using that \code{theme}. The
+function will be not be invoked immediately; it will be invoked when the page
+is rendered. At that point, the theme will be available to be passed to it.
+The function will also be invoked again if the theme is changed.
 }
 \examples{
 
+\dontrun{
 
 myWidgetVersion <- "1.2.3"
 
 myWidgetDependency <- function() {
   list(
-    bs_dependency_dynamic(myWidgetCss),
+    bs_dependency_defer(myWidgetCss),
     htmlDependency(
       name = "mywidget-js",
       version = myWidgetVersion,
@@ -58,16 +88,9 @@ myWidgetCSS <- function(theme) {
     )
   }
 
-  # Remap some variable names and include mywidget.scss. (In other cases it
-  # may make sense to only include the sass_file().)
-  sass_input <- list(
-    list(
-      bg = "$input-bg",
-      fg = "$input-color",
-      `font-family` = "$font-family-base"
-    ),
-    sass::sass_file(system.file(package = "mypackage", "scss", "mywidget.scss"))
-  )
+  # Compile mywidget.scss using the variables and defaults from the theme
+  # object.
+  sass_input <- sass::sass_file(system.file(package = "mypackage", "scss/mywidget.scss"))
 
   bs_dependency(
     input = sass_input,
@@ -78,14 +101,9 @@ myWidgetCSS <- function(theme) {
   )
 }
 
-\dontrun{
-# Note that myWidgetDepdency is not defined inside of myWidget. This is so
+# Note that myWidgetDependency is not defined inside of myWidget. This is so
 # that, if `myWidget()` is called multiple times, Shiny can tell that the
 # function objects are identical and deduplicate them.
-# TODO: Maybe Shiny should check for identical outputs, and warn in that case
-# that a dependency function isn't being deduped.
-# TODO: Check if/how browser reloads mywidget/mywidget.css even if the URL
-# is the same a second time.
 myWidget <- function(id) {
   div(
     id = id,

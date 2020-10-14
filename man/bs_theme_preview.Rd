@@ -13,14 +13,15 @@ bs_theme_preview(theme, ..., with_themer = TRUE, pre_run = thematic_shiny)
 
 \item{with_themer}{whether or not to run the app with \code{\link[=run_with_themer]{run_with_themer()}}.}
 
-\item{pre_run}{a function (with no arguments) to call prior to running the app.
-The default function enables thematic's plot auto-theming capabilities
+\item{pre_run}{a function (with no arguments) to call prior to running the
+app. The default function enables thematic's plot auto-theming capabilities
 (if it isn't already enabled).}
 }
 \description{
-Launches an example shiny app via \code{run_with_themer()} and \code{bs_dependencies()}.
-Useful for getting a quick preview of the current theme setting as
-well as an interactive GUI for tweaking some of the main theme settings.
+Launches an example shiny app via \code{run_with_themer()} and
+\code{bs_theme_dependencies()}. Useful for getting a quick preview of the current
+theme setting as well as an interactive GUI for tweaking some of the main
+theme settings.
 }
 \details{
 The app that this launches is subject to change.

@@ -91,8 +91,8 @@ Typically a shade of blue-green.}
 }
 \description{
 \code{bs_global_theme()} creates a new (global) Bootstrap Sass theme which
-\code{\link[=bs_dependencies]{bs_dependencies()}} (or \code{\link[=bs_sass]{bs_sass()}}) can consume (their \code{theme} argument
-defaults to \code{bs_global_get()}, which get the current global theme).
+\code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}} (or \code{\link[=sass_partial]{sass_partial()}}) can consume (their \code{theme}
+argument defaults to \code{bs_global_get()}, which get the current global theme).
 }
 \examples{
 
