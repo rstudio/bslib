@@ -2,9 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  foundations: foundations.html
-  recipes: recipes.html
-last_built: 2020-09-28T16:05Z
+  theming: theming.html
+last_built: 2020-10-14T16:02Z
 urls:
   reference: https://rstudio.github.io/bootstraplib//reference
   article: https://rstudio.github.io/bootstraplib//articles

@@ -46,14 +46,14 @@
 
 
 <meta property="og:title" content="Theme customization UI — run_with_themer" />
-<meta property="og:description" content="bootstraplib includes a handy realtime theme customization UI that you can use to
-easily make common tweaks to Bootstrap variables and immediately see how they
-would affect your app's appearance. There are two ways you can launch the
-theming UI. For most Shiny apps, just use run_with_themer() in place
-of shiny::runApp(); they should take the same arguments and work the same
-way. Alternatively, you can call the bs_themer() function from inside your
-server function (or in an R Markdown app that is using runtime: shiny, you
-can call this from any code chunk)." />
+<meta property="og:description" content="A 'real-time' theme customization UI that you can use to easily make common
+tweaks to Bootstrap variables and immediately see how they would affect your
+app's appearance. There are two ways you can launch the theming UI. For most
+Shiny apps, just use run_with_themer() in place of shiny::runApp(); they
+should take the same arguments and work the same way. Alternatively, you can
+call the bs_themer() function from inside your server function (or in an R
+Markdown app that is using runtime: shiny, you can call this from any code
+chunk). Note that this function is only intended to be used for development!" />
 
 
 <meta name="robots" content="noindex">
@@ -85,17 +85,14 @@ can call this from any code chunk)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9001</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/recipes.html">Recipes</a>
-</li>
-<li>
-  <a href="../articles/foundations.html">Foundations</a>
+  <a href="../articles/theming.html">Custom themes</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -128,19 +125,19 @@ can call this from any code chunk)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Theme customization UI</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/theme-preview.R'><code>R/theme-preview.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/bs-theme-preview.R'><code>R/bs-theme-preview.R</code></a></small>
     <div class="hidden name"><code>run_with_themer.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>bootstraplib includes a handy realtime theme customization UI that you can use to
-easily make common tweaks to Bootstrap variables and immediately see how they
-would affect your app's appearance. There are two ways you can launch the
-theming UI. For most Shiny apps, just use <code>run_with_themer()</code> in place
-of <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>shiny::runApp()</a></code>; they should take the same arguments and work the same
-way. Alternatively, you can call the <code>bs_themer()</code> function from inside your
-server function (or in an R Markdown app that is using <code>runtime: shiny</code>, you
-can call this from any code chunk).</p>
+    <p>A 'real-time' theme customization UI that you can use to easily make common
+tweaks to Bootstrap variables and immediately see how they would affect your
+app's appearance. There are two ways you can launch the theming UI. For most
+Shiny apps, just use <code>run_with_themer()</code> in place of <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>shiny::runApp()</a></code>; they
+should take the same arguments and work the same way. Alternatively, you can
+call the <code>bs_themer()</code> function from inside your server function (or in an R
+Markdown app that is using <code>runtime: shiny</code>, you can call this from any code
+chunk). Note that this function is only intended to be used for development!</p>
     </div>
 
     <pre class="usage"><span class='fu'>run_with_themer</span>(appDir = <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>...</span>)
@@ -163,10 +160,8 @@ or a <code><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.ht
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>To help you permanently apply the changes you see in the preview, this
-utility prints <code><a href='bs_theme_add_variables.html'>bs_theme_add_variables()</a></code> code to the R console. Copy this
-code and paste it into your Shiny app; see <code><a href='bs_theme_add_variables.html'>bs_theme_add_variables()</a></code> for
-more details on where that code should go.</p>
+    <p>To help you utilize the changes you see in the preview, this utility prints
+<code><a href='bs_theme.html'>bs_theme()</a></code> code to the R console.</p>
     <h2 class="hasAnchor" id="limitations"><a class="anchor" href="#limitations"></a>Limitations</h2>
 
     
@@ -176,29 +171,19 @@ more details on where that code should go.</p>
 Bootstrap 3 compatibility in the future. Also, the color picker currently
 doesn't render correctly on IE11.</p>
 <p>It also only works with Shiny apps and R Markdown apps that use the Shiny
-runtime. It's not possible to perform realtime preview for static R Markdown
-documents.</p>
-<p>Note that currently, only the CSS generated from <code><a href='bootstrap.html'>bootstrap()</a></code>
-will be instantly reflected in theme preview. CSS that is generated from
-third parties or <code><a href='bootstrap.html'>bootstrap_sass()</a></code> may not be reflected in
-realtime, even if setting the theme variables would have an effect if the app
-is restarted. Since <code><a href='bootstrap.html'>bootstrap_sass()</a></code> is the mechanism by
-which third-party HTML widgets are supposed to compile bootstraplib-aware CSS,
-unfortunately it's not likely that the themer's realtime preview will work
-with such components.</p>
+runtime. It's not possible to perform real-time preview for static R
+Markdown documents.</p>
+<p>Note that only CSS generated with <code><a href='bs_dependency.html'>bs_dependency_defer()</a></code> will be
+instantly reflected in theme preview.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://shiny.rstudio.com'>shiny</a></span>)
 
 <span class='co'># Initialize Bootstrap 4 with Bootstrap 3 compatibility shim</span>
-<span class='fu'><a href='bs_theme_new.html'>bs_theme_new</a></span>(<span class='st'>"4+3"</span>)
-
-<span class='co'># Customize variables. These must always come between the</span>
-<span class='co'># call to bs_theme_new() and the UI definition!</span>
-<span class='fu'><a href='bs_theme_add_variables.html'>bs_theme_add_variables</a></span>(primary = <span class='st'>"#008BA2"</span>)
+<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='st'>"4+3"</span>, bg = <span class='st'>"black"</span>, fg = <span class='st'>"white"</span>)
 
 <span class='kw'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
-  <span class='fu'><a href='bootstrap.html'>bootstrap</a></span>(),
+  theme = <span class='kw'>theme</span>,
   <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h1</a></span>(<span class='st'>"Heading 1"</span>),
   <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h2</a></span>(<span class='st'>"Heading 2"</span>),
   <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span>(
@@ -219,12 +204,8 @@ with such components.</p>
   )
 )
 
-<span class='kw'>server</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>input</span>, <span class='kw'>output</span>, <span class='kw'>session</span>) {
-
-}
-
 <span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'>run_with_themer</span>(<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='kw'>ui</span>, <span class='kw'>server</span>))
+  <span class='fu'>run_with_themer</span>(<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='kw'>ui</span>, <span class='fu'>function</span>(<span class='kw'>input</span>, <span class='kw'>output</span>) {}))
 }
 
 </div></pre>

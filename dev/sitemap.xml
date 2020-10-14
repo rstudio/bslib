@@ -4,28 +4,34 @@
     <loc>https://rstudio.github.io/bootstraplib//index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bootstrap.html</loc>
-  </url>
-  <url>
     <loc>https://rstudio.github.io/bootstraplib//reference/bootswatch_themes.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_accent_colors.html</loc>
+    <loc>https://rstudio.github.io/bootstraplib//reference/bs_add_variables.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_add_variables.html</loc>
+    <loc>https://rstudio.github.io/bootstraplib//reference/bs_dependency.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_base_colors.html</loc>
+    <loc>https://rstudio.github.io/bootstraplib//reference/bs_get_variables.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_fonts.html</loc>
+    <loc>https://rstudio.github.io/bootstraplib//reference/bs_global_theme.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_get_variables.html</loc>
+    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_dependencies.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_preview.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bootstraplib//reference/deprecated.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bootstraplib//reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bootstraplib//reference/precompiled_css_path.html</loc>
@@ -40,15 +46,9 @@
     <loc>https://rstudio.github.io/bootstraplib//reference/theme_version.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/theming.html</loc>
-  </url>
-  <url>
     <loc>https://rstudio.github.io/bootstraplib//reference/version_default.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//articles/foundations.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bootstraplib//articles/recipes.html</loc>
+    <loc>https://rstudio.github.io/bootstraplib//articles/theming.html</loc>
   </url>
 </urlset>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the path to a precompiled CSS file — precompiled_css_path • bootstraplib</title>
+<title>Compile Bootstrap Sass with (optional) theming — bs_theme_dependencies • bootstraplib</title>
 
 
 <!-- jquery -->
@@ -45,9 +45,13 @@
 
 
 
-<meta property="og:title" content="Get the path to a precompiled CSS file — precompiled_css_path" />
-<meta property="og:description" content="This function is meant for development and debugging purposes. It can be used
-to test if a precompiled CSS file exists for a given theme object." />
+<meta property="og:title" content="Compile Bootstrap Sass with (optional) theming — bs_theme_dependencies" />
+<meta property="og:description" content="Use bs_theme_dependencies() to compile Bootstrap Sass into CSS and return it, along
+with other HTML dependencies, as a list of htmltools::htmlDependency()s. Use
+sass_partial() if you can assume Bootstrap already exists on the page,
+but you want to leverage Bootstrap utilities (e.g., variables, functions, or
+mixins) to generate additional CSS rules (as a string that can be included as
+a &amp;lt;style&amp;gt; tag via tags$style(css))." />
 
 
 <meta name="robots" content="noindex">
@@ -118,17 +122,27 @@ to test if a precompiled CSS file exists for a given theme object." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the path to a precompiled CSS file</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/precompiled.R'><code>R/precompiled.R</code></a></small>
-    <div class="hidden name"><code>precompiled_css_path.Rd</code></div>
+    <h1>Compile Bootstrap Sass with (optional) theming</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/bs-dependencies.R'><code>R/bs-dependencies.R</code></a></small>
+    <div class="hidden name"><code>bs_theme_dependencies.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is meant for development and debugging purposes. It can be used
-to test if a precompiled CSS file exists for a given theme object.</p>
+    <p>Use <code>bs_theme_dependencies()</code> to compile Bootstrap Sass into CSS and return it, along
+with other HTML dependencies, as a list of <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code>s. Use
+<code>sass_partial()</code> if you can assume Bootstrap already exists on the page,
+but you want to leverage Bootstrap utilities (e.g., variables, functions, or
+mixins) to generate additional CSS rules (as a string that can be included as
+a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>precompiled_css_path</span>(theme = <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>())</pre>
+    <pre class="usage"><span class='fu'>bs_theme_dependencies</span>(
+  <span class='kw'>theme</span>,
+  sass_options = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(output_style = <span class='st'>"compressed"</span>),
+  cache = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_get.html'>sass_cache_get</a></span>(),
+  jquery = <span class='kw'>jquerylib</span>::<span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>),
+  precompiled = <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,13 +151,64 @@ to test if a precompiled CSS file exists for a given theme object.</p>
       <th>theme</th>
       <td><p>a <code><a href='bs_theme.html'>bs_theme()</a></code> object.</p></td>
     </tr>
+    <tr>
+      <th>sass_options</th>
+      <td><p>a <code><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass::sass_options()</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>This can be a directory to use for the cache, a <a href='https://rdrr.io/pkg/sass/man/FileCache.html'>FileCache</a>
+object created by <code><a href='https://rdrr.io/pkg/sass/man/sass_file_cache.html'>sass_file_cache()</a></code>, or <code>FALSE</code> or <code>NULL</code> for no caching.</p></td>
+    </tr>
+    <tr>
+      <th>jquery</th>
+      <td><p>a <code><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquerylib::jquery_core()</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>precompiled</th>
+      <td><p>Before compiling the theme object, first look for a
+precompiled CSS file for the given <code>version</code>.  If this option is <code>TRUE</code> and
+a precompiled CSS file exists for the theme object, it will be fetched
+immediately and not compiled. At the moment, we only provide precompiled
+CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+themes, or non-default <code>sass_options</code>).</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The path to the precompiled CSS file, if it exists, or <code>NULL</code>, if
-not.</p>
+    <p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap
+JavaScript, and <code>jquery</code>. This list may contain additional HTML
+dependencies if the <code>theme</code> calls for it (e.g., <code>version = "4+3"</code> contains
+an additional JavaScript dependency).</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p><code><a href='bs_theme.html'>bs_theme()</a></code>, <code><a href='bs_global_theme.html'>bs_global_set()</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># Function to preview the styling a (primary) Bootstrap button</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span>)
+<span class='kw'>button</span> <span class='op'>&lt;-</span> <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>a</a></span>(class = <span class='st'>"btn btn-primary"</span>, href = <span class='st'>"#"</span>, role = <span class='st'>"button"</span>, <span class='st'>"Hello"</span>)
+<span class='kw'>preview_button</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>theme</span>) {
+  <span class='kw'>theme</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>bs_theme_dependencies</span>() <span class='op'>%&gt;%</span>
+    <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/body.html'>body</a></span>(<span class='kw'>button</span>) <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span>()
+}
+
+<span class='co'># Latest bootstrap</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>())
+<span class='co'># Bootstrap 3</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='fl'>3</span>))
+<span class='co'># Bootswatch minty theme</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bootswatch = <span class='st'>"minty"</span>))
+<span class='co'># Bootswatch sketchy theme</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bootswatch = <span class='st'>"sketchy"</span>))
+<span class='co'># Bootswatch solar theme with BS3 compatibility</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(version = <span class='st'>"4+3"</span>, bootswatch = <span class='st'>"solar"</span>))
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

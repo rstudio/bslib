@@ -77,17 +77,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9001</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/recipes.html">Recipes</a>
-</li>
-<li>
-  <a href="../articles/foundations.html">Foundations</a>
+  <a href="../articles/theming.html">Custom themes</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -133,8 +130,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-bootstrap-sass-compilation" class="hasAnchor"><a href="#section-bootstrap-sass-compilation" class="anchor"></a>Bootstrap SASS compilation</h2>
-          <p class="section-desc"><p>Entry points for compiling Bootstrap Sass. <code><a href="../reference/bootstrap.html">bootstrap()</a></code> is for adding a Bootstrap dependency and <code><a href="../reference/bootstrap.html">bootstrap_sass()</a></code> is for compiling additional Sass rules that use Bootstrap Sass.</p></p>
+          <h2 id="section-theme-creation" class="hasAnchor"><a href="#section-theme-creation" class="anchor"></a>Theme creation</h2>
+          <p class="section-desc"><p>Tools for creating customized Bootstrap themes.</p></p>
         </th>
       </tr>
       
@@ -145,77 +142,40 @@
       <tr>
         
         <td>
-          <p><code><a href="bootstrap.html">bootstrap()</a></code> <code><a href="bootstrap.html">bootstrap_sass()</a></code> </p>
-        </td>
-        <td><p>Compile Bootstrap 4 (or 3) SASS with (optional) theming</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-theme-management" class="hasAnchor"><a href="#section-theme-management" class="anchor"></a>Theme management</h2>
-          <p class="section-desc"><p>Tools for creating, obtaining, and clearing themes.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="theming.html">bs_theme_new()</a></code> <code><a href="theming.html">bs_theme_get()</a></code> <code><a href="theming.html">bs_theme_clear()</a></code> <code><a href="theming.html">bs_theme_set()</a></code> <code><a href="theming.html">bs_theme_create()</a></code> </p>
+          <p><code><a href="bs_theme.html">bs_theme()</a></code> <code><a href="bs_theme.html">bs_theme_update()</a></code> <code><a href="bs_theme.html">is_bs_theme()</a></code> </p>
         </td>
         <td><p>Create a Bootstrap theme</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="bs_theme_get_variables.html">bs_theme_get_variables()</a></code> </p>
-        </td>
-        <td><p>Retrieve Sass variable values from the current theme</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-theme-customizers" class="hasAnchor"><a href="#section-theme-customizers" class="anchor"></a>Theme customizers</h2>
-          <p class="section-desc"><p>Tools for customizing (i.e., adding to) themes.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="bs_theme_base_colors.html">bs_theme_base_colors()</a></code> </p>
-        </td>
-        <td><p>Customize the Bootstrap theme based on two to four key colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bs_theme_accent_colors.html">bs_theme_accent_colors()</a></code> </p>
-        </td>
-        <td><p>Customize Bootstrap accent colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bs_theme_fonts.html">bs_theme_fonts()</a></code> </p>
-        </td>
-        <td><p>Customize Bootstrap typefaces</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bs_theme_add_variables.html">bs_theme_add_variables()</a></code> <code><a href="bs_theme_add_variables.html">bs_theme_add()</a></code> </p>
+          <p><code><a href="bs_add_variables.html">bs_add_variables()</a></code> <code><a href="bs_add_variables.html">bs_add_rules()</a></code> <code><a href="bs_add_variables.html">bs_add_declarations()</a></code> <code><a href="bs_add_variables.html">bs_add_layers()</a></code> </p>
         </td>
         <td><p>Add low-level theming customizations</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-global-theme-creation" class="hasAnchor"><a href="#section-global-theme-creation" class="anchor"></a>Global theme creation</h2>
+          <p class="section-desc"><p>Use Bootstrap themes globally.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="bs_global_theme.html">bs_global_theme()</a></code> <code><a href="bs_global_theme.html">bs_global_set()</a></code> <code><a href="bs_global_theme.html">bs_global_get()</a></code> <code><a href="bs_global_theme.html">bs_global_clear()</a></code> <code><a href="bs_global_theme.html">bs_global_add_variables()</a></code> <code><a href="bs_global_theme.html">bs_global_add_rules()</a></code> <code><a href="bs_global_theme.html">bs_global_add_layers()</a></code> <code><a href="bs_global_theme.html">bs_global_theme_update()</a></code> </p>
+        </td>
+        <td><p>Global theming</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-interactive-theming" class="hasAnchor"><a href="#section-interactive-theming" class="anchor"></a>Interactive theming</h2>
-          <p class="section-desc"><p>Tools for creating themes interactively.</p></p>
+          <p class="section-desc"><p>Interactively customize themes</p></p>
         </th>
       </tr>
       
@@ -239,6 +199,31 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-bootstrap-sass-compilation" class="hasAnchor"><a href="#section-bootstrap-sass-compilation" class="anchor"></a>Bootstrap SASS compilation</h2>
+          <p class="section-desc"><p>Compile themes into HTML dependencies and CSS strings</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="bs_theme_dependencies.html">bs_theme_dependencies()</a></code> </p>
+        </td>
+        <td><p>Compile Bootstrap Sass with (optional) theming</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bs_dependency.html">bs_dependency()</a></code> <code><a href="bs_dependency.html">bs_dependency_defer()</a></code> </p>
+        </td>
+        <td><p>Compile Sass using a Bootstrap theme and create an htmlDependency object</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-other-utility-functions" class="hasAnchor"><a href="#section-other-utility-functions" class="anchor"></a>Other utility functions</h2>
           <p class="section-desc"></p>
         </th>
@@ -249,6 +234,12 @@
       
       
       <tr>
+        
+        <td>
+          <p><code><a href="bs_get_variables.html">bs_get_variables()</a></code> </p>
+        </td>
+        <td><p>Retrieve Sass variable values from the current theme</p></td>
+      </tr><tr>
         
         <td>
           <p><code><a href="theme_version.html">theme_version()</a></code> </p>
