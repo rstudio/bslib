@@ -233,13 +233,13 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' }
 #'
 #' @export
-run_with_themer <- function(appDir = getwd(), ...) {
+run_with_themer <- function(appDir = getwd(), ..., gfonts = TRUE) {
   obj <- shiny::as.shiny.appobj(appDir)
   origServerFuncSource <- obj[["serverFuncSource"]]
   obj[["serverFuncSource"]] <- function() {
     origServerFunc <- origServerFuncSource()
     function(input, output, session, ...) {
-      bs_themer()
+      bs_themer(gfonts)
       if (!"session" %in% names(formals(origServerFunc))) {
         origServerFunc(input, output, ...)
       } else {
@@ -252,7 +252,7 @@ run_with_themer <- function(appDir = getwd(), ...) {
 
 #' @rdname run_with_themer
 #' @export
-bs_themer <- function() {
+bs_themer <- function(gfonts = TRUE) {
   session <- shiny::getDefaultReactiveDomain()
   if (is.null(session)) {
     stop(call. = FALSE, "`bootstraplib::bs_themer()` must be called from within a ",
@@ -280,6 +280,13 @@ bs_themer <- function() {
     return()
   } else {
     session$userData[["bs_themer_init"]] <- TRUE
+  }
+
+  # For each font variable, find the 1st google font family and insert an href link for it
+  if (isTRUE(gfonts)) {
+    font_vars <- bs_get_variables(theme, c("font-family-base", "font-family-monospace", "headings-font-family"))
+    gfont_info <- get_gfont_info()
+    insert_gfont_links(font_vars, gfont_info)
   }
 
   input <- session$input
@@ -316,7 +323,11 @@ bs_themer <- function() {
     # Change variables names to their 'high-level' equivalents
     # Note that if _either_ fg/bg has changed, bs_base_colors()
     # needs to be called with *both* fg and bg populated.
-    changed_vals <- rename(changed_vals, c(bg = "white", fg = "black", base = "font-family-base", code = "font-family-monospace", heading = "headings-font-family"))
+    changed_vals <- rename(
+      changed_vals, white = "bg", black = "fg",
+      "font-family-base" = "base_font", "font-family-monospace" = "code_font",
+      "headings-font-family" = "heading_font"
+    )
     if (any(c("fg", "bg") %in% names(changed_vals))) {
       changed_vals[["fg"]] <- changed_vals[["fg"]] %||% vals[["black"]]
       changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["white"]]
@@ -326,30 +337,59 @@ bs_themer <- function() {
     print(code)
     theme <- rlang::eval_tidy(code)
 
-    session$setCurrentTheme(theme)
+    # TODO: should we also echo tags$link() code as well?
+    if (isTRUE(gfonts)) {
+      changed_font_vars <- changed_vals[names(changed_vals) %in% c("base_font", "code_font", "heading_font")]
+      insert_gfont_links(changed_font_vars, gfont_info)
+    }
 
-    # Degrade sass() compilation errors to warnings so they don't crash the app
+    # Prevent Sass compilation errors from crashing the app and relay a message to user.
     # Errors can happen if the users enters values that lead to unexpected Sass
     # expressions (e.g., "$foo: * !default")
-    deps <- try(bs_theme_dependencies(theme))
-    if (inherits(deps, "try-error")) {
-      shiny::showNotification(
-        "Sass -> CSS compilation failed, likely due to invalid user input.
+    shiny::removeNotification("sass-compilation-error", session = session)
+    tryCatch(
+      session$setCurrentTheme(theme),
+      error = function(e) {
+        shiny::showNotification(
+          "Sass -> CSS compilation failed, likely due to invalid user input.
          Other theming changes won't take effect until the invalid input is fixed.",
-        duration = NULL,
-        id = "sass-compilation-error",
-        type = "error",
-        session = session
-      )
-    } else {
-      shiny::removeNotification("sass-compilation-error", session = session)
-      shiny::insertUI(
-        "body", where = "beforeEnd",
-        ui = div(id = "bs-themer-dependencies", deps)
-      )
-    }
+          duration = NULL,
+          id = "sass-compilation-error",
+          type = "error",
+          session = session
+        )
+      }
+    )
+
   })
 }
+
+# Given a character string of CSS font-family definitions,
+# insert a <link href="..."> for the first Google Font found in each definition
+# For example, turn something like
+# c("Foo, Bar, Pacifico", "Yellowtail")
+# into
+# <link href="https://fonts.googleapis.com/css?family=Pacifico">
+# <link href="https://fonts.googleapis.com/css?family=Yellowtail">
+insert_gfont_links <- function(css_vars, info = get_gfont_info()) {
+  if (!length(css_vars)) return()
+  css_vars <- strsplit(as.character(css_vars), ",")
+  lapply(css_vars, function(x)  {
+    x <- gsub("(^\\s*)|(\\s*$)|(')|(\")", "", x)
+    idx <- na.omit(match(tolower(x), tolower(info$family)))
+    if (!length(idx)) return()
+    href <- paste0(
+      "https://fonts.googleapis.com/css?family=",
+      httpuv::encodeURI(info$family[idx[[1]]])
+    )
+    shiny::insertUI(
+      "head", where = "beforeEnd",
+      ui = tags$link(href = href, rel = "stylesheet")
+    )
+  })
+}
+
+
 
 #' Retrieve Sass variable values from the current theme
 #'
