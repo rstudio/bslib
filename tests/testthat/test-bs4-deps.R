@@ -1,6 +1,6 @@
 local_disable_cache()
 
-describe("bs_sass", {
+describe("Compiling against theme", {
   # Example CSS that includes one variable, one function call, one mixin
   bs4_css <- ".foo { background-color: $primary; color: color-yiq($primary); @include size(120px); }"
   resolved_css <- ".foo { background-color: #007bff; color: #fff; width: 120px; height: 120px; }"
@@ -8,7 +8,7 @@ describe("bs_sass", {
   # Compare bs_sass(input1) and sass(input2)
   expect_bs4_equal <- function(input1, input2, options = sass_options(), theme = bs_theme()) {
     expect_css(
-      bs_sass(input1, theme = theme, options = options),
+      sass_partial(input1, layer = theme, options = options),
       sass(input2, options = options)
     )
   }

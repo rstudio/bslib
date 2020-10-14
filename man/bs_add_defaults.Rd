@@ -57,7 +57,7 @@ versions.
 library(htmltools)
 button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 preview_button <- function(theme) {
-  browsable(tags$body(bs_dependencies(theme), button))
+  browsable(tags$body(bs_theme_dependencies(theme), button))
 }
 
 # Here we start with a theme based on a Bootswatch theme,
@@ -96,7 +96,7 @@ person <- function(name, title, company) {
   )
 }
 browsable(tags$body(
-  bs_dependencies(theme),
+  bs_theme_dependencies(theme),
   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
   person("John D. Rockefeller", "Chairman", "Standard Oil")
 ))

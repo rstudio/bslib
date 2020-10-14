@@ -90,7 +90,7 @@ Creates a Bootstrap theme object which can be:
 \code{\link[shiny:fluidPage]{shiny::fluidPage()}}, \code{\link[shiny:bootstrapPage]{shiny::bootstrapPage()}}, etc).
 \item Used in any output format powered by \code{\link[rmarkdown:html_document]{rmarkdown::html_document()}}
 (or \code{\link[rmarkdown:html_document_base]{rmarkdown::html_document_base()}}).
-\item Used more generally in any \link[htmltools:builder]{htmltools::tags} via \code{\link[=bs_dependencies]{bs_dependencies()}}.
+\item Used more generally in any \link[htmltools:builder]{htmltools::tags} via \code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}}.
 }
 
 These functions (i.e., \code{bs_theme()} or \code{bs_theme_update()}) allow you to do
@@ -109,7 +109,7 @@ the following common Bootstrap customization(s):
 
 For less common theming customization(s), you can modify theme objects to:
 \itemize{
-\item Add additional Sass/CSS rules (see \code{\link[=bs_add_rules]{bs_add_rules()}} and \code{\link[=bs_sass]{bs_sass()}}).
+\item Add additional Sass/CSS rules (see \code{\link[=bs_add_rules]{bs_add_rules()}} and \code{\link[=sass_partial]{sass_partial()}}).
 \item Leverage (new) Sass functions and mixins in those rules (see
 \code{\link[=bs_add_declarations]{bs_add_declarations()}})
 }
@@ -193,6 +193,6 @@ theme <- theme \%>\%
 \url{https://rstudio.github.io/sass/}
 }
 \seealso{
-\code{\link[=bs_add_variables]{bs_add_variables()}}, \code{\link[=bs_theme_preview]{bs_theme_preview()}}, \code{\link[=bs_dependencies]{bs_dependencies()}},
-\code{\link[=bs_global_set]{bs_global_set()}}
+\code{\link[=bs_add_variables]{bs_add_variables()}}, \code{\link[=bs_theme_preview]{bs_theme_preview()}},
+\code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}}, \code{\link[=bs_global_set]{bs_global_set()}}
 }

@@ -8,7 +8,7 @@
 #'   [shiny::fluidPage()], [shiny::bootstrapPage()], etc).
 #' * Used in any output format powered by [rmarkdown::html_document()]
 #'   (or [rmarkdown::html_document_base()]).
-#' * Used more generally in any [htmltools::tags] via [bs_dependencies()].
+#' * Used more generally in any [htmltools::tags] via [bs_theme_dependencies()].
 #'
 #' These functions (i.e., `bs_theme()` or `bs_theme_update()`) allow you to do
 #' the following common Bootstrap customization(s):
@@ -23,7 +23,7 @@
 #'
 #' For less common theming customization(s), you can modify theme objects to:
 #'
-#' * Add additional Sass/CSS rules (see [bs_add_rules()] and [bs_sass()]).
+#' * Add additional Sass/CSS rules (see [bs_add_rules()] and [sass_partial()]).
 #' * Leverage (new) Sass functions and mixins in those rules (see
 #' [bs_add_declarations()])
 #'
@@ -106,8 +106,8 @@
 #'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #' @references \url{https://rstudio.github.io/sass/}
-#' @seealso [bs_add_variables()], [bs_theme_preview()], [bs_dependencies()],
-#'   [bs_global_set()]
+#' @seealso [bs_add_variables()], [bs_theme_preview()],
+#'   [bs_theme_dependencies()], [bs_global_set()]
 #' @examples
 #'
 #' theme <- bs_theme(

@@ -32,6 +32,11 @@ is_available <- function(package, version = NULL) {
   installed && isTRUE(utils::packageVersion(package) >= version)
 }
 
+is_shiny_app <- function() {
+  # Make sure to not load shiny as a side-effect of calling this function.
+  "shiny" %in% loadedNamespaces() && shiny::isRunning()
+}
+
 add_class <- function(x, y) {
   class(x) <- unique(c(y, oldClass(x)))
   x
