@@ -356,7 +356,7 @@ shinyApp(ui, server)
 knitr::include_graphics("dark-mode.gif")
 ```
 
-`session$setCurrentTheme()` "just works" for existing themable components (e.g., "core" Shiny UI), but in order for it to work with custom components, the component's CSS must come from a "dynamic" HTML dependency (i.e., `bs_dependency_hook()`). To learn more, see the section on themable custom components.
+`session$setCurrentTheme()` "just works" for existing themable components (e.g., "core" Shiny UI), but in order for it to work with custom components, the component's CSS must come from a "dynamic" HTML dependency (i.e., `bs_dependency_defer()`). To learn more, see the section on themable custom components.
 
 ## Themable components
 
@@ -506,7 +506,7 @@ person <- function(name, title, company) {
     h3(class = "name", name),
     div(class = "title", title),
     div(class = "company", company),
-    bs_dependency_hook(person_dependency)
+    bs_dependency_defer(person_dependency)
   )
 }
 ```
@@ -517,7 +517,7 @@ Note that when `theme` is a `bs_theme()` object, then `person.scss` is compiled 
 
 ##### For developers
 
-For `{htmlwidgets}` that can be themed via CSS, we recommend supplying a `bs_dependency_hook()` to the `dependencies` argument of `createWidget()` (similar to the `person()` component from the last section). This'll make your widget dynamically themable. For widgets that can *not* be themed via CSS, your only option may be to query the active theme inside a `preRenderHook()` and translate any relevant information to the widget instance,
+For `{htmlwidgets}` that can be themed via CSS, we recommend supplying a `bs_dependency_defer()` to the `dependencies` argument of `createWidget()` (similar to the `person()` component from the last section). This'll make your widget dynamically themable. For widgets that can *not* be themed via CSS, your only option may be to query the active theme inside a `preRenderHook()` and translate any relevant information to the widget instance,
 
 ``` {.r}
 my_widget <- function(...) {
