@@ -9,8 +9,7 @@
 #' [mixins](https://sass-lang.com/documentation/at-rules/mixin). Compared to
 #' higher-level theme customization available in [bs_theme()], these functions
 #' are a more direct interface to Bootstrap Sass, and therefore, do nothing to
-#' ensure the theme customization you add are portable between major Bootstrap
-#' versions.
+#' ensure theme customizations are portable between major Bootstrap versions.
 #'
 #' @inheritParams bs_theme_update
 #' @param ... For `bs_add_variables()`, these arguments should contain Sass
@@ -41,10 +40,7 @@
 #'     "font-family-base" = "monospace",
 #'     "font-size-base" = "1.4rem",
 #'     "btn-padding-y" = ".16rem",
-#'     "btn-padding-x" = "2rem",
-#'     "border-radius" = 0,
-#'     "border-radius-lg" = 0,
-#'     "border-radius-sm" = 0
+#'     "btn-padding-x" = "2rem"
 #'   )
 #'
 #' preview_button(theme)
@@ -58,7 +54,7 @@
 #' # use Bootstrap variables to define a custom styling for a
 #' # 'person card'
 #' person_rules <- system.file("custom", "person.scss", package = "bootstraplib")
-#' theme <- bs_add_rules(bs_theme(), rules = sass::sass_file(person_rules))
+#' theme <- bs_theme() %>% bs_add_rules(sass::sass_file(person_rules))
 #' # Include custom CSS that leverages bootstrap Sass variables
 #' person <- function(name, title, company) {
 #'   tags$div(
@@ -68,18 +64,12 @@
 #'     div(class = "company", company)
 #'   )
 #' }
-#' browsable(tags$body(
-#'   bs_theme_dependencies(theme),
+#' browsable(shiny::fluidPage(
+#'   theme = theme,
 #'   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
 #'   person("John D. Rockefeller", "Chairman", "Standard Oil")
 #' ))
 #'
-#' @export
-bs_add_defaults <- function(theme, ...) {
-  bs_add_variables(theme, ...)
-}
-
-#' @rdname bs_add_defaults
 #' @export
 bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = identical(.where, "defaults")) {
   assert_bs_theme(theme)
@@ -100,8 +90,6 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
   )
 }
 
-
-
 # Given a named list of variable definitions,
 # searches each variable's expression for a !default flag,
 # and if missing, adds it.
@@ -116,7 +104,21 @@ ensure_default_flag <- function(x) {
   })
 }
 
-#' @rdname bs_add_defaults
+#' @rdname bs_add_variables
+#' @param rules Sass rules.
+#' @export
+bs_add_rules <- function(theme, rules) {
+  bs_add_layers(theme, sass_layer(rules = rules))
+}
+
+#' @rdname bs_add_variables
+#' @param declarations Sass functions and mixins.
+#' @export
+bs_add_declarations <- function(theme, declarations) {
+  bs_add_layers(theme, sass_layer(declarations = declarations))
+}
+
+#' @rdname bs_add_variables
 #' @export
 bs_add_layers <- function(theme, ...) {
   assert_bs_theme(theme)
@@ -127,24 +129,4 @@ bs_add_layers <- function(theme, ...) {
   add_class(sass_layer_merge(theme, ...), "bs_theme")
 }
 
-#' @rdname bs_global_theme
-#' @export
-bs_global_add_layers <- function(...) {
-  theme <- assert_global_theme("bs_global_add_layer()")
-  theme <- bs_add_layers(theme, ...)
-  bs_global_set(theme)
-}
 
-#' @rdname bs_add_defaults
-#' @param rules Sass rules.
-#' @export
-bs_add_rules <- function(theme, rules) {
-  bs_add_layers(theme, sass_layer(rules = rules))
-}
-
-#' @rdname bs_add_defaults
-#' @param declarations Sass functions and mixins.
-#' @export
-bs_add_declarations <- function(theme, declarations) {
-  bs_add_layers(theme, sass_layer(declarations = declarations))
-}

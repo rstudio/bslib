@@ -142,9 +142,6 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
     bs_theme_init(),
     bootstrap_layer(version),
     if (identical(version, "4+3")) bs3compat_layer(),
-    # This will set a $navbar-height Sass var, even if no bootswatch is used
-    # TODO: maybe make navbar adjustment via jQuery instead? https://stackoverflow.com/a/46021836/1583084
-    navbar_height_layer(bootswatch, version),
     bootswatch_layer(bootswatch, version)
   )
   bs_theme_update(
@@ -387,14 +384,6 @@ bootswatch_layer <- function(bootswatch, version) {
     tags = paste0("bootstraplib_bootswatch_", bootswatch),
     file_attachments = attachments,
     defaults = list(
-      # Provide access to the navbar height via SASS variable
-      # rmarkdown::html_document() and flexdashboard are two examples
-      # of things that need access to this
-      navbar_height_var(bootswatch, version),
-      # Make sure darkly/superhero code appears on the grayish background
-      # (by default, pre-color inherits the white text color that appears elsewhere on the page)
-      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/darkly/_variables.scss#L178
-      if (bootswatch %in% c("darkly", "superhero")) "$pre-color: #303030 !default;" else "",
       # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
       '$web-font-path: "font.css" !default;',
       bootswatch_sass_file(bootswatch, "variables", version)
@@ -415,82 +404,6 @@ bootswatch_layer <- function(bootswatch, version) {
   layer
 }
 
-
-
-# -----------------------------------------------------------------
-# Navbar height layer
-#
-# The height (in pixels) of a Bootswatch theme's navbar. Note that these
-# heights to do not currently respect theme customizations.
-#
-# rmarkdown::html_document(), flexdashboard, and maybe others
-# use this variable to add appropriate body/section padding
-# -----------------------------------------------------------------
-
-navbar_height_layer <- function(bootswatch, version) {
-  sass_layer(defaults = navbar_height_var(bootswatch, version))
-}
-
-
-navbar_height_var <- function(bootswatch, version) {
-  paste("$navbar-height:", navbar_height(bootswatch, version), "!default;")
-}
-
-navbar_height <- function(bootswatch, version) {
-
-  if (version %in% "3") {
-    return(switch(
-      bootswatch,
-      journal = 61,
-      flatly = 60,
-      darkly = 60,
-      readable = 66,
-      spacelab = 52,
-      united = 51,
-      cosmo = 51,
-      lumen = 54,
-      paper = 64,
-      sandstone = 61,
-      simplex = 41,
-      yeti = 45,
-      51))
-  }
-
-
-  # TODO: it'd be great if, someday, this took into account SASS variables,
-  # but it's not immediately obvious how to do that correctly
-  if (version %in% c("4", "4+3")) {
-    return(switch(
-      bootswatch,
-      cerulean = 56,
-      cosmo = 54.5,
-      cyborg = 53,
-      darkly = 70.5,
-      flatly = 70.5,
-      journal = 61,
-      readable = ,
-      litera = 59.5,
-      lumen = 57,
-      lux = 91.25,
-      paper = ,
-      materia = 80.3,
-      minty = 56,
-      pulse = 75.4,
-      sandstone = 54,
-      simplex = 66.3,
-      sketchy = 58,
-      slate = 56.5,
-      solar = 56,
-      spacelab = 58,
-      superhero = 48,
-      united = 56,
-      yeti = 54.5,
-      53
-    ))
-  }
-
-  stop("Bootstrap version not supported", version, call. = FALSE)
-}
 
 # Mappings from BS3 navbar classes to BS4
 sass_layer_bs3compat_navbar <- function(bootswatch) {

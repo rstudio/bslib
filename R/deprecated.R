@@ -81,13 +81,6 @@ bs_theme_add_variables <- function(...) {
   bs_global_add_variables(...)
 }
 
-bs_global_add_variables <- function(..., .where = "defaults",
-                                    .default_flag = identical(.where, "defaults")) {
-  theme <- assert_global_theme("bs_global_add_variables()")
-  theme <- bs_add_variables(theme, ..., .where = .where, .default_flag = .default_flag)
-  bs_global_set(theme)
-}
-
 #' @rdname deprecated
 #' @export
 bs_theme_add <- function(...) {

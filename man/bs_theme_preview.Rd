@@ -4,7 +4,7 @@
 \alias{bs_theme_preview}
 \title{Preview the currently set theme}
 \usage{
-bs_theme_preview(theme, ..., with_themer = TRUE, pre_run = thematic_shiny)
+bs_theme_preview(theme, ..., with_themer = TRUE)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
@@ -12,10 +12,6 @@ bs_theme_preview(theme, ..., with_themer = TRUE, pre_run = thematic_shiny)
 \item{...}{passed along to \code{\link[shiny:runApp]{shiny::runApp()}}.}
 
 \item{with_themer}{whether or not to run the app with \code{\link[=run_with_themer]{run_with_themer()}}.}
-
-\item{pre_run}{a function (with no arguments) to call prior to running the
-app. The default function enables thematic's plot auto-theming capabilities
-(if it isn't already enabled).}
 }
 \description{
 Launches an example shiny app via \code{run_with_themer()} and

@@ -65,6 +65,33 @@ bs_global_clear <- function() {
   invisible(old_theme[["bootstraplib_theme"]])
 }
 
+#' @rdname bs_global_theme
+#' @export
+bs_global_add_variables <- function(..., .where = "defaults",
+                                    .default_flag = identical(.where, "defaults")) {
+  theme <- assert_global_theme("bs_global_add_variables()")
+  theme <- bs_add_variables(theme, ..., .where = .where, .default_flag = .default_flag)
+  bs_global_set(theme)
+}
+
+#' @rdname bs_global_theme
+#' @export
+bs_global_add_rules <- function(...) {
+  theme <- assert_global_theme("bs_global_add_rules()")
+  theme <- bs_add_rules(theme, ...)
+  bs_global_set(theme)
+}
+
+#' @rdname bs_global_theme
+#' @export
+bs_global_add_layers <- function(...) {
+  theme <- assert_global_theme("bs_global_add_layer()")
+  theme <- bs_add_layers(theme, ...)
+  bs_global_set(theme)
+}
+
+
+
 
 assert_global_theme <- function(calling_func) {
   theme <- bs_global_get()
