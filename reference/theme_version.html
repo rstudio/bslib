@@ -37,6 +37,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Obtain a theme's Bootstrap version — theme_version" />
@@ -72,25 +78,33 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/recipes.html">Recipes</a>
-</li>
-<li>
-  <a href="../articles/foundations.html">Foundations</a>
+  <a href="../articles/theming.html">Custom themes</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rstudio/bootstraplib/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
+      
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -104,7 +118,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Obtain a theme's Bootstrap version</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/bootswatch.R'><code>R/bootswatch.R</code></a></small>
     <div class="hidden name"><code>theme_version.Rd</code></div>
     </div>
 
@@ -112,14 +126,14 @@
     <p>Obtain a theme's Bootstrap version</p>
     </div>
 
-    <pre class="usage"><span class='fu'>theme_version</span>(<span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'><a href='theming.html'>bs_theme_get</a></span>())</pre>
+    <pre class="usage"><span class='fu'>theme_version</span>(<span class='kw'>theme</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>theme</th>
-      <td><p>a bs theme object, see <code><a href='theming.html'>bs_theme_set()</a></code>.</p></td>
+      <td><p>a <code><a href='bs_theme.html'>bs_theme()</a></code> object.</p></td>
     </tr>
     </table>
 
@@ -139,13 +153,30 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '748f014f6e0f347e139ecb794914063d',
+    indexName: 'rstudio_bootstraplib',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>

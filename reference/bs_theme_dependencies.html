@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Theme customization UI — run_with_themer • bootstraplib</title>
+<title>Compile Bootstrap Sass with (optional) theming — bs_theme_dependencies • bootstraplib</title>
 
 
 <!-- jquery -->
@@ -45,15 +45,13 @@
 
 
 
-<meta property="og:title" content="Theme customization UI — run_with_themer" />
-<meta property="og:description" content="A 'real-time' theme customization UI that you can use to easily make common
-tweaks to Bootstrap variables and immediately see how they would affect your
-app's appearance. There are two ways you can launch the theming UI. For most
-Shiny apps, just use run_with_themer() in place of shiny::runApp(); they
-should take the same arguments and work the same way. Alternatively, you can
-call the bs_themer() function from inside your server function (or in an R
-Markdown app that is using runtime: shiny, you can call this from any code
-chunk). Note that this function is only intended to be used for development!" />
+<meta property="og:title" content="Compile Bootstrap Sass with (optional) theming — bs_theme_dependencies" />
+<meta property="og:description" content="Use bs_theme_dependencies() to compile Bootstrap Sass into CSS and return it, along
+with other HTML dependencies, as a list of htmltools::htmlDependency()s. Use
+sass_partial() if you can assume Bootstrap already exists on the page,
+but you want to leverage Bootstrap utilities (e.g., variables, functions, or
+mixins) to generate additional CSS rules (as a string that can be included as
+a &amp;lt;style&amp;gt; tag via tags$style(css))." />
 
 
 
@@ -124,89 +122,91 @@ chunk). Note that this function is only intended to be used for development!" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Theme customization UI</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/bs-theme-preview.R'><code>R/bs-theme-preview.R</code></a></small>
-    <div class="hidden name"><code>run_with_themer.Rd</code></div>
+    <h1>Compile Bootstrap Sass with (optional) theming</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/bs-dependencies.R'><code>R/bs-dependencies.R</code></a></small>
+    <div class="hidden name"><code>bs_theme_dependencies.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A 'real-time' theme customization UI that you can use to easily make common
-tweaks to Bootstrap variables and immediately see how they would affect your
-app's appearance. There are two ways you can launch the theming UI. For most
-Shiny apps, just use <code>run_with_themer()</code> in place of <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>shiny::runApp()</a></code>; they
-should take the same arguments and work the same way. Alternatively, you can
-call the <code>bs_themer()</code> function from inside your server function (or in an R
-Markdown app that is using <code>runtime: shiny</code>, you can call this from any code
-chunk). Note that this function is only intended to be used for development!</p>
+    <p>Use <code>bs_theme_dependencies()</code> to compile Bootstrap Sass into CSS and return it, along
+with other HTML dependencies, as a list of <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code>s. Use
+<code>sass_partial()</code> if you can assume Bootstrap already exists on the page,
+but you want to leverage Bootstrap utilities (e.g., variables, functions, or
+mixins) to generate additional CSS rules (as a string that can be included as
+a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_with_themer</span>(appDir = <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>...</span>)
-
-<span class='fu'>bs_themer</span>()</pre>
+    <pre class="usage"><span class='fu'>bs_theme_dependencies</span>(
+  <span class='kw'>theme</span>,
+  sass_options = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(output_style = <span class='st'>"compressed"</span>),
+  cache = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_get.html'>sass_cache_get</a></span>(),
+  jquery = <span class='kw'>jquerylib</span>::<span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>),
+  precompiled = <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>appDir</th>
-      <td><p>The application to run. This can be a file or directory path,
-or a <code><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shiny::shinyApp()</a></code> object. See <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>shiny::runApp()</a></code> for details.</p></td>
+      <th>theme</th>
+      <td><p>a <code><a href='bs_theme.html'>bs_theme()</a></code> object.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional parameters to pass through to <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>shiny::runApp()</a></code>.</p></td>
+      <th>sass_options</th>
+      <td><p>a <code><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass::sass_options()</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>This can be a directory to use for the cache, a <a href='https://rdrr.io/pkg/sass/man/FileCache.html'>FileCache</a>
+object created by <code><a href='https://rdrr.io/pkg/sass/man/sass_file_cache.html'>sass_file_cache()</a></code>, or <code>FALSE</code> or <code>NULL</code> for no caching.</p></td>
+    </tr>
+    <tr>
+      <th>jquery</th>
+      <td><p>a <code><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquerylib::jquery_core()</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>precompiled</th>
+      <td><p>Before compiling the theme object, first look for a
+precompiled CSS file for the given <code>version</code>.  If this option is <code>TRUE</code> and
+a precompiled CSS file exists for the theme object, it will be fetched
+immediately and not compiled. At the moment, we only provide precompiled
+CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+themes, or non-default <code>sass_options</code>).</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>To help you utilize the changes you see in the preview, this utility prints
-<code><a href='bs_theme.html'>bs_theme()</a></code> code to the R console.</p>
-    <h2 class="hasAnchor" id="limitations"><a class="anchor" href="#limitations"></a>Limitations</h2>
+    <p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap
+JavaScript, and <code>jquery</code>. This list may contain additional HTML
+dependencies if the <code>theme</code> calls for it (e.g., <code>version = "4+3"</code> contains
+an additional JavaScript dependency).</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
-
-
-<p>Currently, this utility only works with Bootstrap 4. We hope to add
-Bootstrap 3 compatibility in the future. Also, the color picker currently
-doesn't render correctly on IE11.</p>
-<p>It also only works with Shiny apps and R Markdown apps that use the Shiny
-runtime. It's not possible to perform real-time preview for static R
-Markdown documents.</p>
-<p>Note that only CSS generated with <code><a href='bs_dependency.html'>bs_dependency_defer()</a></code> will be
-instantly reflected in theme preview.</p>
+    <div class='dont-index'><p><code><a href='bs_theme.html'>bs_theme()</a></code>, <code><a href='bs_global_theme.html'>bs_global_set()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://shiny.rstudio.com'>shiny</a></span>)
-
-<span class='co'># Initialize Bootstrap 4 with Bootstrap 3 compatibility shim</span>
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='st'>"4+3"</span>, bg = <span class='st'>"black"</span>, fg = <span class='st'>"white"</span>)
-
-<span class='kw'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
-  theme = <span class='kw'>theme</span>,
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h1</a></span>(<span class='st'>"Heading 1"</span>),
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h2</a></span>(<span class='st'>"Heading 2"</span>),
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span>(
-    <span class='st'>"Paragraph text;"</span>,
-    <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>a</a></span>(href = <span class='st'>"https://www.rstudio.com"</span>, <span class='st'>"a link"</span>)
-  ),
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span>(
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/actionButton.html'>actionButton</a></span>(<span class='st'>"cancel"</span>, <span class='st'>"Cancel"</span>),
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/actionButton.html'>actionButton</a></span>(<span class='st'>"continue"</span>, <span class='st'>"Continue"</span>, class = <span class='st'>"btn-primary"</span>)
-  ),
-  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabsetPanel.html'>tabsetPanel</a></span>(
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html'>tabPanel</a></span>(<span class='st'>"First tab"</span>,
-      <span class='st'>"The contents of the first tab"</span>
-    ),
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html'>tabPanel</a></span>(<span class='st'>"Second tab"</span>,
-      <span class='st'>"The contents of the second tab"</span>
-    )
-  )
-)
-
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'>run_with_themer</span>(<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='kw'>ui</span>, <span class='fu'>function</span>(<span class='kw'>input</span>, <span class='kw'>output</span>) {}))
+    <pre class="examples"><div class='input'>
+<span class='co'># Function to preview the styling a (primary) Bootstrap button</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span>)
+<span class='kw'>button</span> <span class='op'>&lt;-</span> <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>a</a></span>(class = <span class='st'>"btn btn-primary"</span>, href = <span class='st'>"#"</span>, role = <span class='st'>"button"</span>, <span class='st'>"Hello"</span>)
+<span class='kw'>preview_button</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>theme</span>) {
+  <span class='kw'>theme</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>bs_theme_dependencies</span>() <span class='op'>%&gt;%</span>
+    <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/body.html'>body</a></span>(<span class='kw'>button</span>) <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span>()
 }
+
+<span class='co'># Latest bootstrap</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>())
+<span class='co'># Bootstrap 3</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='fl'>3</span>))
+<span class='co'># Bootswatch minty theme</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bootswatch = <span class='st'>"minty"</span>))
+<span class='co'># Bootswatch sketchy theme</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bootswatch = <span class='st'>"sketchy"</span>))
+<span class='co'># Bootswatch solar theme with BS3 compatibility</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(version = <span class='st'>"4+3"</span>, bootswatch = <span class='st'>"solar"</span>))
 
 </div></pre>
   </div>
