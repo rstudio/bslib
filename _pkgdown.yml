@@ -17,8 +17,8 @@ development:
 navbar:
   type: default
   left:
-  - text: Recipes
-    href: articles/recipes.html
+  - text: Custom themes
+    href: articles/theming.html
   - text: Reference
     href: reference/index.html
 # TODO: add after CRAN release
@@ -49,8 +49,8 @@ reference:
   description: |
     Compile themes into HTML dependencies and CSS strings
   contents:
-    - bs_dependencies
-    - bs_sass
+    - bs_theme_dependencies
+    - bs_dependency
 - title: Other utility functions
   contents:
     - bs_get_variables
