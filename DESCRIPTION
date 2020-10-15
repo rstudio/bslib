@@ -51,6 +51,7 @@ Collate:
     'bs-theme.R'
     'deprecated.R'
     'files.R'
+    'gfonts.R'
     'imports.R'
     'precompiled.R'
     'version-default.R'

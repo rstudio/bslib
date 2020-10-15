@@ -9,6 +9,12 @@
       "type": "color",
       "label": "Foreground color",
       "desc": "The color for foreground elements, including text"
+    },
+    "bootswatch": {
+      "type": "select",
+      "label": "Bootswatch theme",
+      "desc": "The name of <a href='https://bootswatch.com' target='_blank'>Bootswatch</a> theme",
+      "options": ["cerulean","cosmo","cyborg","darkly","flatly","journal","litera","lumen","lux","materia","minty","pulse","sandstone","simplex","sketchy","slate","solar","spacelab","superhero","united","yeti"]
     }
   },
   "Accent colors": {
@@ -48,7 +54,7 @@
     "font-family-base": {
       "type": "str",
       "label": "Base font",
-      "desc": null
+      "desc": "Hint: Try a <a href='https://fonts.google.com' target='_blank'>Google Font</a> name (e.g. Grandstander)"
     },
     "font-family-monospace": {
       "type": "str",

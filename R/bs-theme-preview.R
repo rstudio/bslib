@@ -50,57 +50,75 @@ opts_metadata <- function() {
   )
 }
 
+# Basicall bs_get_variables(), but accounts bootswatch not being a
+get_themer_vars <- function(theme, varnames) {
+  vars <- bs_get_variables(theme, varnames)
+  vars[["bootswatch"]] <- theme_bootswatch(theme) %||% NA
+  vars
+}
+
 bs_themer_ui <- function(theme = bs_theme()) {
 
-  computed_defaults <- bs_get_variables(theme, unlist(unname(lapply(opts_metadata(), names))))
+  computed_defaults <- get_themer_vars(theme, unlist(unname(lapply(opts_metadata(), names))))
 
-  make_control <- function(id, lbl, default_value, type, desc = NULL) {
+  make_control <- function(id, lbl, default_value, type, desc = NULL, options = NULL) {
     default_value <- computed_defaults[[id]]
-    if (type == "color") {
-      div(class = "form-row form-group",
-        htmltools::tags$label(lbl, title = paste0("$", id)),
-        htmltools::tags$input(type = "text", class = "bs-theme-value bs-theme-value-color form-control form-control-sm text-monospace",
-          "data-id" = id,
-          value = default_value
+
+    text_input <- function(id, lbl, value, desc, input_class = NULL) {
+      div(
+        class = "form-row form-group",
+        tags$label(lbl),
+        tags$input(
+          type = "text", value = value, "data-id" = id,
+          class = "form-control form-control-sm bs-theme-value",
+          class = input_class
         ),
-        if (!is.null(desc)) {
-          div(class = "form-text small", desc)
-        }
+        if (!is.null(desc)) div(class = "form-text small", desc)
+      )
+    }
+
+    if (type == "color") {
+      text_input(
+        id = id, lbl = lbl, value = default_value, desc = desc,
+        input_class = "bs-theme-value-color text-monospace"
       )
     } else if (type == "str") {
-      div(class = "form-row form-group",
-        htmltools::tags$label(lbl),
-        htmltools::tags$input(type = "text", class = "bs-theme-value bs-theme-value-str form-control form-control-sm",
-          "data-id" = id,
-          value = default_value
-        ),
-        if (!is.null(desc)) {
-          div(class = "form-text small", desc)
-        }
+      text_input(
+        id = id, lbl = lbl, value = default_value, desc = desc,
+        input_class = "bs-theme-value-str"
       )
     } else if (type == "length") {
-      div(class = "form-row form-group",
-        htmltools::tags$label(lbl),
-        htmltools::tags$input(type = "text", class = "bs-theme-value bs-theme-value-length form-control form-control-sm",
-          "data-id" = id,
-          value = default_value
-        ),
-        if (!is.null(desc)) {
-          div(class = "form-text small", desc)
-        }
+      text_input(
+        id = id, lbl = lbl, value = default_value, desc = desc,
+        input_class = "bs-theme-value-length"
       )
     } else if (type == "bool") {
       tagList(
-        div(class = "form-check",
-          htmltools::tags$input(type = "checkbox", class = "bs-theme-value bs-theme-value-bool form-check-input",
-            id = paste0(".bsthemer-", id),
-            "data-id" = id,
-            checked = if (default_value) NA else NULL),
-          htmltools::tags$label("for" = paste0(".bsthemer-", id), class = "form-check-label", lbl)
+        div(
+          class = "form-check",
+          tags$input(
+            type = "checkbox", checked = if (default_value) NA else NULL,
+            class = "bs-theme-value bs-theme-value-bool form-check-input",
+            id = paste0(".bsthemer-", id), "data-id" = id
+          ),
+          tags$label("for" = paste0(".bsthemer-", id), class = "form-check-label", lbl)
         ),
         if (!is.null(desc)) {
           div(class = "form-text small", desc)
         }
+      )
+    } else if (type == "select") {
+      div(
+        class = "form-row form-group",
+        tags$label(class = "control-label", lbl),
+        tags$select(
+          class = "form-control", "data-id" = id,
+          class = "bs-theme-value bs-theme-value-select",
+          if (is.na(default_value)) tags$option(value="", selected=NA, "Choose one"),
+          tagList(
+            lapply(options, function(x) tags$option(value = x, tools::toTitleCase(x)))
+          )
+        )
       )
     } else {
       stop("unknown type")
@@ -109,7 +127,7 @@ bs_themer_ui <- function(theme = bs_theme()) {
 
   opts <- lapply(opts_metadata(), function(opt_infos) {
     mapply(names(opt_infos), opt_infos, FUN = function(name, opt_info) {
-      make_control(name, opt_info$label, opt_info$default, opt_info$type, opt_info$desc)
+      make_control(name, opt_info$label, opt_info$default, opt_info$type, HTML(opt_info$desc), opt_info$options)
     }, USE.NAMES = FALSE, SIMPLIFY = FALSE)
   })
 
@@ -313,7 +331,9 @@ bs_themer <- function(gfonts = TRUE) {
       return()
     }
 
-    default_values <- bs_get_variables(theme, names(vals))
+    # Remember the original state of theming variables
+    # TODO: do this just once?
+    default_values <- get_themer_vars(theme, names(vals))
 
     # Filter out vals that the user hasn't changed
     changed_vals <- as.list(diff_css_values(vals, default_values))
@@ -333,9 +353,9 @@ bs_themer <- function(gfonts = TRUE) {
       changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["white"]]
     }
 
+    # Emit value changes as code to the user
     code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
     print(code)
-    theme <- rlang::eval_tidy(code)
 
     # TODO: should we also echo tags$link() code as well?
     if (isTRUE(gfonts)) {
@@ -348,7 +368,7 @@ bs_themer <- function(gfonts = TRUE) {
     # expressions (e.g., "$foo: * !default")
     shiny::removeNotification("sass-compilation-error", session = session)
     tryCatch(
-      session$setCurrentTheme(theme),
+      session$setCurrentTheme(rlang::eval_tidy(code)),
       error = function(e) {
         shiny::showNotification(
           "Sass -> CSS compilation failed, likely due to invalid user input.

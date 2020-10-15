@@ -202,18 +202,21 @@
     $(e.target).trigger("validinput");
   });
 
-  function initBoolInput(el) {
-  }
-
+  function initBoolInput(el) {}
 
   $(document).on("input.bsthemer", ".bs-theme-value-str", function(e) {
     var value = $(e.target).val();
     $(e.target).trigger("validinput");
   });
 
-  function initStrInput(el) {
-  }
+  function initStrInput(el) {}
 
+  $(document).on("change", ".bs-theme-value-select", function(e) {
+    var value = $(e.target).val();
+    $(e.target).trigger("validinput");
+  });
+
+  function initSelectInput(el) {}
 
   $(document).on("input.bsthemer", ".bs-theme-value-length", function(e) {
     var value = $(e.target).val();
@@ -221,9 +224,7 @@
     $(e.target).trigger("validinput");
   });
 
-  function initLengthInput(el) {
-  }
-
+  function initLengthInput(el) {}
 
   $(function() {
     $(".bs-theme-value-color").each(function(i, el) {
@@ -235,6 +236,9 @@
     $(".bs-theme-value-str").each(function(i, el) {
       initStrInput(el);
     });
+    $(".bs-theme-value-select").each(function(i, el) {
+      initSelectInput(el);
+    });
     $(".bs-theme-value-length").each(function(i, el) {
       initLengthInput(el);
     });
@@ -242,7 +246,7 @@
 
   $(document).on("validinput", ".bs-theme-value", function(e) {
     var values = {};
-    $(".bs-theme-value-color, .bs-theme-value-str, .bs-theme-value-length").each(function() {
+    $(".bs-theme-value-color, .bs-theme-value-str, .bs-theme-value-select, .bs-theme-value-length").each(function() {
       values[$(this).data("id")] = $(this).val();
     });
     $(".bs-theme-value-bool").each(function() {
