@@ -102,7 +102,9 @@
   display: flex; // 1. allow flex styles
   display: -webkit-flex; // 1. allow flex styles
   align-items: center; // 2. vertically center contents
+  -webkit-align-items: center; // 2. vertically center contents
   justify-content: center; // 3. horizontally center contents
+  -webkit-justify-content: center; // 3. horizontally center contents
   width: $carousel-control-width;
   color: $carousel-control-color;
   text-align: center;
@@ -160,6 +162,7 @@
   display: flex;
   display: -webkit-flex;
   justify-content: center;
+  -webkit-justify-content: center;
   padding-left: 0; // override <ol> default
   // Use the .carousel-control's width as margin so we don't overlay those
   margin-right: $carousel-control-width;

@@ -2,6 +2,7 @@
   // Prevents from shrinking in IE11, when in a flex container
   // See https://github.com/twbs/bootstrap/issues/28341
   flex-basis: $toast-max-width;
+  -webkit-flex-basis: $toast-max-width;
   max-width: $toast-max-width;
   @include font-size($toast-font-size);
   color: $toast-color;
@@ -34,6 +35,7 @@
   display: flex;
   display: -webkit-flex;
   align-items: center;
+  -webkit-align-items: center;
   padding: $toast-padding-y $toast-padding-x;
   color: $toast-header-color;
   background-color: $toast-header-background-color;

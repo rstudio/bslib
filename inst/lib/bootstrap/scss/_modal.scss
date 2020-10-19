@@ -68,6 +68,7 @@
   .modal-header,
   .modal-footer {
     flex-shrink: 0;
+    -webkit-flex-shrink: 0;
   }
 
   .modal-body {
@@ -79,6 +80,7 @@
   display: flex;
   display: -webkit-flex;
   align-items: center;
+  -webkit-align-items: center;
   min-height: subtract(100%, $modal-dialog-margin * 2);
 
   // Ensure `modal-dialog-centered` extends the full height of the view (IE10/11)
@@ -98,6 +100,7 @@
     flex-direction: column;
     -webkit-flex-direction: column;
     justify-content: center;
+    -webkit-justify-content: center;
     height: 100%;
 
     .modal-content {
@@ -151,7 +154,9 @@
   display: flex;
   display: -webkit-flex;
   align-items: flex-start; // so the close btn always stays on the upper right corner
+  -webkit-align-items: flex-start; // so the close btn always stays on the upper right corner
   justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
+  -webkit-justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
   padding: $modal-header-padding;
   border-bottom: $modal-header-border-width solid $modal-header-border-color;
   @include border-top-radius($modal-content-inner-border-radius);
@@ -185,8 +190,11 @@
   display: flex;
   display: -webkit-flex;
   flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
   align-items: center; // vertically center
+  -webkit-align-items: center; // vertically center
   justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
+  -webkit-justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
   padding: $modal-inner-padding - $modal-footer-margin-between / 2;
   border-top: $modal-footer-border-width solid $modal-footer-border-color;
   @include border-bottom-radius($modal-content-inner-border-radius);

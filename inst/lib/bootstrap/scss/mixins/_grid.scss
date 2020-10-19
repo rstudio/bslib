@@ -14,6 +14,7 @@
   display: flex;
   display: -webkit-flex;
   flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
   margin-right: -$gutter / 2;
   margin-left: -$gutter / 2;
 }

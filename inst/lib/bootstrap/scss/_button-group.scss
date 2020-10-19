@@ -30,7 +30,9 @@
   display: flex;
   display: -webkit-flex;
   flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
   justify-content: flex-start;
+  -webkit-justify-content: flex-start;
 
   .input-group {
     width: auto;
@@ -114,7 +116,9 @@
   flex-direction: column;
   -webkit-flex-direction: column;
   align-items: flex-start;
+  -webkit-align-items: flex-start;
   justify-content: center;
+  -webkit-justify-content: center;
 
   > .btn,
   > .btn-group {

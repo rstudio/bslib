@@ -138,6 +138,7 @@
 .card-img-top,
 .card-img-bottom {
   flex-shrink: 0; // For IE: https://github.com/twbs/bootstrap/issues/29396
+  -webkit-flex-shrink: 0; // For IE: https://github.com/twbs/bootstrap/issues/29396
   width: 100%; // Required because we use flexbox and this inherently applies align-self: stretch
 }
 
@@ -163,6 +164,7 @@
     display: flex;
     display: -webkit-flex;
     flex-flow: row wrap;
+    -webkit-flex-flow: row wrap;
     margin-right: -$card-deck-margin;
     margin-left: -$card-deck-margin;
 
@@ -193,6 +195,7 @@
     display: flex;
     display: -webkit-flex;
     flex-flow: row wrap;
+    -webkit-flex-flow: row wrap;
     // The child selector allows nested `.card` within `.card-group`
     // to display properly.
     > .card {

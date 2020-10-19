@@ -9,7 +9,9 @@
   display: flex;
   display: -webkit-flex;
   flex-wrap: wrap; // For form validation feedback
+  -webkit-flex-wrap: wrap; // For form validation feedback
   align-items: stretch;
+  -webkit-align-items: stretch;
   width: 100%;
 
   > .form-control,
@@ -54,6 +56,7 @@
     display: flex;
     display: -webkit-flex;
     align-items: center;
+    -webkit-align-items: center;
 
     &:not(:last-child) .custom-file-label,
     &:not(:last-child) .custom-file-label::after { @include border-right-radius(0); }
@@ -106,6 +109,7 @@
   display: flex;
   display: -webkit-flex;
   align-items: center;
+  -webkit-align-items: center;
   padding: $input-padding-y $input-padding-x;
   margin-bottom: 0; // Allow use of <label> elements by overriding our default margin-bottom
   @include font-size($input-font-size); // Match inputs
