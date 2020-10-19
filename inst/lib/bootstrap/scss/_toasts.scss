@@ -32,6 +32,7 @@
 
 .toast-header {
   display: flex;
+  display: -webkit-flex;
   align-items: center;
   padding: $toast-padding-y $toast-padding-x;
   color: $toast-header-color;

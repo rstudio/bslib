@@ -18,6 +18,7 @@
 .navbar {
   position: relative;
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap; // allow us to do the line break for collapsing content
   align-items: center;
   justify-content: space-between; // space out brand from logo
@@ -27,6 +28,7 @@
   // few properties so that content nested within behave properly.
   %container-flex-properties {
     display: flex;
+    display: -webkit-flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
@@ -70,6 +72,7 @@
 
 .navbar-nav {
   display: flex;
+  display: -webkit-flex;
   flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
   padding-left: 0;
   margin-bottom: 0;
@@ -201,6 +204,7 @@
 
         .navbar-collapse {
           display: flex !important; // stylelint-disable-line declaration-no-important
+          display: -webkit-flex !important; // stylelint-disable-line declaration-no-important
 
           // Changes flex-bases to auto because of an IE10 bug
           flex-basis: auto;

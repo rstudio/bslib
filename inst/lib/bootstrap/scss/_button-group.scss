@@ -10,6 +10,7 @@
   > .btn {
     position: relative;
     flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
 
     // Bring the hover, focused, and "active" buttons to the front to overlay
     // the borders properly
@@ -27,6 +28,7 @@
 // Optional: Group multiple button groups together for a toolbar
 .btn-toolbar {
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap;
   justify-content: flex-start;
 

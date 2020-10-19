@@ -47,7 +47,7 @@ scss_files <- dir(
 )
 scss_src <- lapply(scss_files, readLines)
 
-add_property_prefixes <- function(src, property, ok_values = NULL) {
+add_property_prefixes <- function(src, property, ok_values = NULL, vendors = c("-webkit-", "-moz-", "-ms-", "-o-")) {
   pattern <- paste0("^\\s*", property, ":\\s*(.+);")
   idx <- grep(pattern, src)
   for (i in idx) {
@@ -60,7 +60,7 @@ add_property_prefixes <- function(src, property, ok_values = NULL) {
     leading_ws <- regmatches(prop, regexpr("^\\s+", prop))
     src[[i]] <- paste0(
       leading_ws,
-      c("", "-webkit-", "-moz-", "-ms-", "-o-"),
+      c("", vendors),
       sub("^\\s+", "", prop),
       collapse = "\n"
     )
@@ -76,33 +76,38 @@ needs_prefix <- c(
 for (prop in needs_prefix) {
   scss_src <- lapply(scss_src, add_property_prefixes, prop)
 }
+
+# phantomjs 2.1.1 needs `-webkit-flex: *` to work properly
+scss_src <- lapply(scss_src, add_property_prefixes, "flex", vendors = "-webkit-")
+
 # Conditionally prefix text-decoration if its not CSS2 compliant
 # https://www.w3.org/TR/CSS2/text.html#lining-striking-props
 # https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
 # https://caniuse.com/#search=text-decoration
 scss_src <- lapply(
   scss_src, add_property_prefixes, "text-decoration",
-  c("none", "underline", "overline", "line-through", "blink", "inherit")
+  ok_values = c("none", "underline", "overline", "line-through", "blink", "inherit")
 )
 
 
-add_value_prefixes <- function(src, value) {
-  pattern <- paste0("^\\s*[^/]+:\\s*", value)
+add_value_prefixes <- function(src, value, vendors = c("-webkit-", "-moz-", "-ms-", "-o-")) {
+  pattern <- paste0("^\\s*[^/]+:\\s*", value, "\\s*(!important)?\\s*;")
   idx <- grep(pattern, src)
   for (i in idx) {
     prop_val <- strsplit(src[[i]], ":\\s*")[[1]]
     src[[i]] <- paste0(
-      prop_val[1], ": ",
-      c("", "-webkit-", "-moz-", "-ms-", "-o-"), prop_val[2],
+      prop_val[1], ": ", c("", vendors), prop_val[2],
       collapse = "\n"
     )
   }
   src
 }
 
-# Currently the only CSS value we need to manually prefix ourselves is min-content
 # https://caniuse.com/?search=min-content
 scss_src <- lapply(scss_src, add_value_prefixes, "min-content")
+
+# phantomjs 2.1.1 needs `display: -webkit-flex` to work properly
+scss_src <- lapply(scss_src, add_value_prefixes, "flex", vendors = "-webkit-")
 
 # Write modified source to disk
 invisible(Map(writeLines, scss_src, scss_files))
@@ -320,7 +325,7 @@ unlink(precompiled_dir, recursive = TRUE)
 dir.create(precompiled_dir, recursive = TRUE)
 
 lapply(versions, function(version) {
-  res <- bs_dependencies(bs_theme(version), precompiled = FALSE, cache = NULL)
+  res <- bs_theme_dependencies(bs_theme(version), precompiled = FALSE, cache = NULL)
   # Extract the Bootstrap dependency object (as opposed to, say, jQuery)
   bs_dep <- Filter(res, f = function(x) { identical(x$name, "bootstrap") })[[1]]
 

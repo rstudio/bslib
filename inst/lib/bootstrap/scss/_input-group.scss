@@ -7,6 +7,7 @@
 .input-group {
   position: relative;
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap; // For form validation feedback
   align-items: stretch;
   width: 100%;
@@ -17,6 +18,7 @@
   > .custom-file {
     position: relative; // For focus state's z-index
     flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
     width: 1%;
     min-width: 0; // https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
     margin-bottom: 0;
@@ -50,6 +52,7 @@
   // border-radius overrides.
   > .custom-file {
     display: flex;
+    display: -webkit-flex;
     align-items: center;
 
     &:not(:last-child) .custom-file-label,
@@ -68,6 +71,7 @@
 .input-group-prepend,
 .input-group-append {
   display: flex;
+  display: -webkit-flex;
 
   // Ensure buttons are always above inputs for more visually pleasing borders.
   // This isn't needed for `.input-group-text` since it shares the same border-color
@@ -100,6 +104,7 @@
 
 .input-group-text {
   display: flex;
+  display: -webkit-flex;
   align-items: center;
   padding: $input-padding-y $input-padding-x;
   margin-bottom: 0; // Allow use of <label> elements by overriding our default margin-bottom

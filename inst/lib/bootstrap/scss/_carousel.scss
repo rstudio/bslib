@@ -100,6 +100,7 @@
   z-index: 1;
   // Use flex for alignment (1-3)
   display: flex; // 1. allow flex styles
+  display: -webkit-flex; // 1. allow flex styles
   align-items: center; // 2. vertically center contents
   justify-content: center; // 3. horizontally center contents
   width: $carousel-control-width;
@@ -157,6 +158,7 @@
   left: 0;
   z-index: 15;
   display: flex;
+  display: -webkit-flex;
   justify-content: center;
   padding-left: 0; // override <ol> default
   // Use the .carousel-control's width as margin so we don't overlay those
@@ -167,6 +169,7 @@
   li {
     box-sizing: content-box;
     flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
     width: $carousel-indicator-width;
     height: $carousel-indicator-height;
     margin-right: $carousel-indicator-spacer;

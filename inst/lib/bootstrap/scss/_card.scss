@@ -5,6 +5,7 @@
 .card {
   position: relative;
   display: flex;
+  display: -webkit-flex;
   flex-direction: column;
   min-width: 0; // See https://github.com/twbs/bootstrap/pull/22740#issuecomment-305868106
   height: $card-height;
@@ -46,6 +47,7 @@
   // Enable `flex-grow: 1` for decks and groups so that card blocks take up
   // as much space as possible, ensuring footers are aligned to the bottom.
   flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
   // Workaround for the image size bug in IE
   // See: https://github.com/twbs/bootstrap/pull/28855
   min-height: 1px;
@@ -158,6 +160,7 @@
 
   @include media-breakpoint-up(sm) {
     display: flex;
+    display: -webkit-flex;
     flex-flow: row wrap;
     margin-right: -$card-deck-margin;
     margin-left: -$card-deck-margin;
@@ -165,6 +168,7 @@
     .card {
       // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
       flex: 1 0 0%;
+      -webkit-flex: 1 0 0%;
       margin-right: $card-deck-margin;
       margin-bottom: 0; // Override the default
       margin-left: $card-deck-margin;
@@ -186,12 +190,14 @@
 
   @include media-breakpoint-up(sm) {
     display: flex;
+    display: -webkit-flex;
     flex-flow: row wrap;
     // The child selector allows nested `.card` within `.card-group`
     // to display properly.
     > .card {
       // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
       flex: 1 0 0%;
+      -webkit-flex: 1 0 0%;
       margin-bottom: 0;
 
       + .card {

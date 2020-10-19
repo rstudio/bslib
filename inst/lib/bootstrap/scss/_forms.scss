@@ -202,6 +202,7 @@ textarea.form-control {
 
 .form-row {
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap;
   margin-right: -$form-grid-gutter-width / 2;
   margin-left: -$form-grid-gutter-width / 2;
@@ -278,6 +279,7 @@ textarea.form-control {
 
 .form-inline {
   display: flex;
+  display: -webkit-flex;
   flex-flow: row wrap;
   align-items: center; // Prevent shorter elements from growing to same height as others (e.g., small buttons growing to normal sized button height)
 
@@ -292,6 +294,7 @@ textarea.form-control {
   @include media-breakpoint-up(sm) {
     label {
       display: flex;
+      display: -webkit-flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 0;
@@ -300,7 +303,9 @@ textarea.form-control {
     // Inline-block all the things for "inline"
     .form-group {
       display: flex;
+      display: -webkit-flex;
       flex: 0 0 auto;
+      -webkit-flex: 0 0 auto;
       flex-flow: row wrap;
       align-items: center;
       margin-bottom: 0;
@@ -327,6 +332,7 @@ textarea.form-control {
     // then undo the floating of radios and checkboxes to match.
     .form-check {
       display: flex;
+      display: -webkit-flex;
       align-items: center;
       justify-content: center;
       width: auto;

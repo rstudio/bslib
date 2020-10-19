@@ -57,6 +57,7 @@
 
 .modal-dialog-scrollable {
   display: flex; // IE10/11
+  display: -webkit-flex; // IE10/11
   max-height: subtract(100%, $modal-dialog-margin * 2);
 
   .modal-content {
@@ -76,6 +77,7 @@
 
 .modal-dialog-centered {
   display: flex;
+  display: -webkit-flex;
   align-items: center;
   min-height: subtract(100%, $modal-dialog-margin * 2);
 
@@ -111,6 +113,7 @@
 .modal-content {
   position: relative;
   display: flex;
+  display: -webkit-flex;
   flex-direction: column;
   width: 100%; // Ensure `.modal-content` extends the full width of the parent `.modal-dialog`
   // counteract the pointer-events: none; in the .modal-dialog
@@ -144,6 +147,7 @@
 // Top section of the modal w/ title and dismiss
 .modal-header {
   display: flex;
+  display: -webkit-flex;
   align-items: flex-start; // so the close btn always stays on the upper right corner
   justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
   padding: $modal-header-padding;
@@ -170,12 +174,14 @@
   // Enable `flex-grow: 1` so that the body take up as much space as possible
   // when there should be a fixed height on `.modal-dialog`.
   flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
   padding: $modal-inner-padding;
 }
 
 // Footer (for actions)
 .modal-footer {
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap;
   align-items: center; // vertically center
   justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items

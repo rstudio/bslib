@@ -4,6 +4,7 @@
 
 .list-group {
   display: flex;
+  display: -webkit-flex;
   flex-direction: column;
 
   // No need to set list-style: none; since .list-group-item is block level
