@@ -79,6 +79,7 @@ for (prop in needs_prefix) {
 
 # phantomjs 2.1.1 needs `-webkit-flex: *` to work properly
 scss_src <- lapply(scss_src, add_property_prefixes, "flex", vendors = "-webkit-")
+scss_src <- lapply(scss_src, add_property_prefixes, "flex-direction", vendors = "-webkit-")
 
 # Conditionally prefix text-decoration if its not CSS2 compliant
 # https://www.w3.org/TR/CSS2/text.html#lining-striking-props

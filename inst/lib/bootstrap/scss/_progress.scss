@@ -22,6 +22,7 @@
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
+  -webkit-flex-direction: column;
   justify-content: center;
   overflow: hidden;
   color: $progress-bar-color;

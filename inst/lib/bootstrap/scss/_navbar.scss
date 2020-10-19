@@ -74,6 +74,7 @@
   display: flex;
   display: -webkit-flex;
   flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
+  -webkit-flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
@@ -175,6 +176,7 @@
 
         .navbar-nav {
           flex-direction: row;
+          -webkit-flex-direction: row;
 
           .dropdown-menu {
             position: absolute;

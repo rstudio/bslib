@@ -6,6 +6,7 @@
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
+  -webkit-flex-direction: column;
 
   // No need to set list-style: none; since .list-group-item is block level
   padding-left: 0; // reset padding because ul and ol
@@ -100,6 +101,7 @@
 
     .list-group-horizontal#{$infix} {
       flex-direction: row;
+      -webkit-flex-direction: row;
 
       > .list-group-item {
         &:first-child {

@@ -96,6 +96,7 @@
   // Ensure `.modal-body` shows scrollbar (IE10/11)
   &.modal-dialog-scrollable {
     flex-direction: column;
+    -webkit-flex-direction: column;
     justify-content: center;
     height: 100%;
 
@@ -115,6 +116,7 @@
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
+  -webkit-flex-direction: column;
   width: 100%; // Ensure `.modal-content` extends the full width of the parent `.modal-dialog`
   // counteract the pointer-events: none; in the .modal-dialog
   color: $modal-content-color;
