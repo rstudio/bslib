@@ -4,7 +4,8 @@ if (!identical(getwd(), rprojroot::find_package_root_file())) {
 
 lapply(c(
   "yarn_install.R",
-  "fonts.R"
+  "local_bootswatch_fonts.R",
+  "update_gfont_info.R"
 ), function(file) {
   message("Updating: ", file)
   source(file.path("tools", file), local = TRUE)

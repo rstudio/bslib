@@ -204,6 +204,11 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' @param appDir The application to run. This can be a file or directory path,
 #'   or a [shiny::shinyApp()] object. See [shiny::runApp()] for details.
 #' @param ... Additional parameters to pass through to [shiny::runApp()].
+#' @param gfont_links whether or not to include `<link>` tags for Google Font
+#' families. This makes it so that, as long as you have an internet connection,
+#' you can preview different Google Fonts in real-time.
+#' @param gfont_update whether or not to update the internal database of Google
+#' Fonts prior to launching the themer (only has an effect if `gfont_links` is `TRUE`)
 #'
 #' @section Limitations:
 #'
@@ -251,13 +256,13 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' }
 #'
 #' @export
-run_with_themer <- function(appDir = getwd(), ..., gfonts = TRUE) {
+run_with_themer <- function(appDir = getwd(), ..., gfont_links = TRUE, gfont_update = FALSE) {
   obj <- shiny::as.shiny.appobj(appDir)
   origServerFuncSource <- obj[["serverFuncSource"]]
   obj[["serverFuncSource"]] <- function() {
     origServerFunc <- origServerFuncSource()
     function(input, output, session, ...) {
-      bs_themer(gfonts)
+      bs_themer(gfont_links)
       if (!"session" %in% names(formals(origServerFunc))) {
         origServerFunc(input, output, ...)
       } else {
@@ -270,7 +275,7 @@ run_with_themer <- function(appDir = getwd(), ..., gfonts = TRUE) {
 
 #' @rdname run_with_themer
 #' @export
-bs_themer <- function(gfonts = TRUE) {
+bs_themer <- function(gfont_links = TRUE, gfont_update = FALSE) {
   session <- shiny::getDefaultReactiveDomain()
   if (is.null(session)) {
     stop(call. = FALSE, "`bootstraplib::bs_themer()` must be called from within a ",
@@ -301,9 +306,9 @@ bs_themer <- function(gfonts = TRUE) {
   }
 
   # For each font variable, find the 1st google font family and insert an href link for it
-  if (isTRUE(gfonts)) {
+  if (isTRUE(gfont_links)) {
     font_vars <- bs_get_variables(theme, c("font-family-base", "font-family-monospace", "headings-font-family"))
-    gfont_info <- get_gfont_info()
+    gfont_info <- if (isTRUE(gfont_update)) get_gfont_info() else gfont_info
     insert_gfont_links(font_vars, gfont_info)
   }
 
@@ -358,7 +363,7 @@ bs_themer <- function(gfonts = TRUE) {
     print(code)
 
     # TODO: should we also echo tags$link() code as well?
-    if (isTRUE(gfonts)) {
+    if (isTRUE(gfont_links)) {
       changed_font_vars <- changed_vals[names(changed_vals) %in% c("base_font", "code_font", "heading_font")]
       insert_gfont_links(changed_font_vars, gfont_info)
     }
@@ -391,7 +396,7 @@ bs_themer <- function(gfonts = TRUE) {
 # into
 # <link href="https://fonts.googleapis.com/css?family=Pacifico">
 # <link href="https://fonts.googleapis.com/css?family=Yellowtail">
-insert_gfont_links <- function(css_vars, info = get_gfont_info()) {
+insert_gfont_links <- function(css_vars, info = gfont_info) {
   if (!length(css_vars)) return()
   css_vars <- strsplit(as.character(css_vars), ",")
   lapply(css_vars, function(x)  {
