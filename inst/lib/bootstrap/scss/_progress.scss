@@ -8,6 +8,7 @@
 
 .progress {
   display: flex;
+  display: -webkit-flex;
   height: $progress-height;
   overflow: hidden; // force rounded corners by cropping it
   line-height: 0;
@@ -19,8 +20,11 @@
 
 .progress-bar {
   display: flex;
+  display: -webkit-flex;
   flex-direction: column;
+  -webkit-flex-direction: column;
   justify-content: center;
+  -webkit-justify-content: center;
   overflow: hidden;
   color: $progress-bar-color;
   text-align: center;

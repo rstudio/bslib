@@ -18,18 +18,26 @@
 .navbar {
   position: relative;
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap; // allow us to do the line break for collapsing content
+  -webkit-flex-wrap: wrap; // allow us to do the line break for collapsing content
   align-items: center;
+  -webkit-align-items: center;
   justify-content: space-between; // space out brand from logo
+  -webkit-justify-content: space-between; // space out brand from logo
   padding: $navbar-padding-y $navbar-padding-x;
 
   // Because flex properties aren't inherited, we need to redeclare these first
   // few properties so that content nested within behave properly.
   %container-flex-properties {
     display: flex;
+    display: -webkit-flex;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     align-items: center;
+    -webkit-align-items: center;
     justify-content: space-between;
+    -webkit-justify-content: space-between;
   }
 
   .container,
@@ -70,7 +78,9 @@
 
 .navbar-nav {
   display: flex;
+  display: -webkit-flex;
   flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
+  -webkit-flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
@@ -108,10 +118,13 @@
 // on the `.navbar` parent.
 .navbar-collapse {
   flex-basis: 100%;
+  -webkit-flex-basis: 100%;
   flex-grow: 1;
+  -webkit-flex-grow: 1;
   // For always expanded or extra full navbars, ensure content aligns itself
   // properly vertically. Can be easily overridden with flex utilities.
   align-items: center;
+  -webkit-align-items: center;
 }
 
 // Button for toggling the navbar when in its collapsed state
@@ -168,10 +181,13 @@
 
       @include media-breakpoint-up($next) {
         flex-flow: row nowrap;
+        -webkit-flex-flow: row nowrap;
         justify-content: flex-start;
+        -webkit-justify-content: flex-start;
 
         .navbar-nav {
           flex-direction: row;
+          -webkit-flex-direction: row;
 
           .dropdown-menu {
             position: absolute;
@@ -186,6 +202,7 @@
         // For nesting containers, have to redeclare for alignment purposes
         %container-nesting-#{$breakpoint} {
           flex-wrap: nowrap;
+          -webkit-flex-wrap: nowrap;
         }
 
         > .container,
@@ -201,9 +218,11 @@
 
         .navbar-collapse {
           display: flex !important; // stylelint-disable-line declaration-no-important
+          display: -webkit-flex !important; // stylelint-disable-line declaration-no-important
 
           // Changes flex-bases to auto because of an IE10 bug
           flex-basis: auto;
+          -webkit-flex-basis: auto;
         }
 
         .navbar-toggler {
