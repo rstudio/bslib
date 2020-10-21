@@ -1,8 +1,8 @@
 #' Global theming
 #'
 #' `bs_global_theme()` creates a new (global) Bootstrap Sass theme which
-#' [bs_dependencies()] (or [bs_sass()]) can consume (their `theme` argument
-#' defaults to `bs_global_get()`, which get the current global theme).
+#' [bs_theme_dependencies()] (or [sass_partial()]) can consume (their `theme`
+#' argument defaults to `bs_global_get()`, which get the current global theme).
 #'
 #' @inheritParams bs_theme
 #'
@@ -64,6 +64,33 @@ bs_global_clear <- function() {
   old_theme <- options(bootstraplib_theme = NULL)
   invisible(old_theme[["bootstraplib_theme"]])
 }
+
+#' @rdname bs_global_theme
+#' @export
+bs_global_add_variables <- function(..., .where = "defaults",
+                                    .default_flag = identical(.where, "defaults")) {
+  theme <- assert_global_theme("bs_global_add_variables()")
+  theme <- bs_add_variables(theme, ..., .where = .where, .default_flag = .default_flag)
+  bs_global_set(theme)
+}
+
+#' @rdname bs_global_theme
+#' @export
+bs_global_add_rules <- function(...) {
+  theme <- assert_global_theme("bs_global_add_rules()")
+  theme <- bs_add_rules(theme, ...)
+  bs_global_set(theme)
+}
+
+#' @rdname bs_global_theme
+#' @export
+bs_global_add_layers <- function(...) {
+  theme <- assert_global_theme("bs_global_add_layer()")
+  theme <- bs_add_layers(theme, ...)
+  bs_global_set(theme)
+}
+
+
 
 
 assert_global_theme <- function(calling_func) {

@@ -16,18 +16,18 @@ or a \code{\link[shiny:shinyApp]{shiny::shinyApp()}} object. See \code{\link[shi
 \item{...}{Additional parameters to pass through to \code{\link[shiny:runApp]{shiny::runApp()}}.}
 }
 \description{
-A 'real-time' theme customization UI that you can use to
-easily make common tweaks to Bootstrap variables and immediately see how they
-would affect your app's appearance. There are two ways you can launch the
-theming UI. For most Shiny apps, just use \code{run_with_themer()} in place
-of \code{\link[shiny:runApp]{shiny::runApp()}}; they should take the same arguments and work the same
-way. Alternatively, you can call the \code{bs_themer()} function from inside your
-server function (or in an R Markdown app that is using \code{runtime: shiny}, you
-can call this from any code chunk).
+A 'real-time' theme customization UI that you can use to easily make common
+tweaks to Bootstrap variables and immediately see how they would affect your
+app's appearance. There are two ways you can launch the theming UI. For most
+Shiny apps, just use \code{run_with_themer()} in place of \code{\link[shiny:runApp]{shiny::runApp()}}; they
+should take the same arguments and work the same way. Alternatively, you can
+call the \code{bs_themer()} function from inside your server function (or in an R
+Markdown app that is using \code{runtime: shiny}, you can call this from any code
+chunk). Note that this function is only intended to be used for development!
 }
 \details{
-To help you utilize the changes you see in the preview, this
-utility prints \code{\link[=bs_theme]{bs_theme()}} code to the R console.
+To help you utilize the changes you see in the preview, this utility prints
+\code{\link[=bs_theme]{bs_theme()}} code to the R console.
 }
 \section{Limitations}{
 
@@ -37,17 +37,11 @@ Bootstrap 3 compatibility in the future. Also, the color picker currently
 doesn't render correctly on IE11.
 
 It also only works with Shiny apps and R Markdown apps that use the Shiny
-runtime. It's not possible to perform realtime preview for static R Markdown
-documents.
+runtime. It's not possible to perform real-time preview for static R
+Markdown documents.
 
-Note that currently, only the CSS generated from \code{\link[=bs_dependencies]{bs_dependencies()}}
-will be instantly reflected in theme preview. CSS that is generated from
-third parties or \code{\link[=bs_sass]{bs_sass()}} may not be reflected in
-realtime, even if setting the theme variables would have an effect if the app
-is restarted. Since \code{bs_sass()} is the mechanism by
-which third-party HTML widgets are supposed to compile bootstraplib-aware CSS,
-unfortunately it's not likely that the themer's realtime preview will work
-with such components.
+Note that only CSS generated with \code{\link[=bs_dependency_defer]{bs_dependency_defer()}} will be
+instantly reflected in theme preview.
 }
 
 \examples{
@@ -57,6 +51,7 @@ library(shiny)
 theme <- bs_theme("4+3", bg = "black", fg = "white")
 
 ui <- fluidPage(
+  theme = theme,
   h1("Heading 1"),
   h2("Heading 2"),
   p(

@@ -17,10 +17,8 @@ development:
 navbar:
   type: default
   left:
-  - text: Recipes
-    href: articles/recipes.html
-  - text: Foundations
-    href: articles/foundations.html
+  - text: Custom themes
+    href: articles/theming.html
   - text: Reference
     href: reference/index.html
 # TODO: add after CRAN release
@@ -33,13 +31,13 @@ reference:
     Tools for creating customized Bootstrap themes.
   contents:
     - bs_theme
-    - bs_add_defaults
+    - bs_add_variables
 - title: Global theme creation
   description: |
     Use Bootstrap themes globally.
   contents:
     - bs_global_theme
-    - bs_global_add_defaults
+    - bs_global_add_variables
 - title: Interactive theming
   description: |
     Interactively customize themes
@@ -51,10 +49,11 @@ reference:
   description: |
     Compile themes into HTML dependencies and CSS strings
   contents:
-    - bs_dependencies
-    - bs_sass
+    - bs_theme_dependencies
+    - bs_dependency
 - title: Other utility functions
   contents:
+    - bs_get_variables
     - theme_version
     - theme_bootswatch
     - bootswatch_themes

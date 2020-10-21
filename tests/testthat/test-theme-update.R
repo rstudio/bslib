@@ -17,12 +17,12 @@ test_that("bs_theme_update() can update defaults", {
 
 
 test_that("Sass layers work as expected with a theme", {
-  theme <- bs_add_defaults(bs_theme("4"), primary = "#222222")
+  theme <- bs_add_variables(bs_theme("4"), primary = "#222222")
   expect_true(bs_get_variables(theme, "primary") == "#222222")
   # declarations can be used in rules
   theme <- bs_add_declarations(theme, list(foo = "bar !default"))
   expect_identical(
-    as.character(bs_sass(".foo {color: $foo}", theme)),
+    as.character(sass_partial(".foo {color: $foo}", theme)),
     ".foo {\n  color: bar;\n}\n"
   )
   # but declarations come after defaults (so this won't override the value!)

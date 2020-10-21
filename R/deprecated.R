@@ -81,13 +81,6 @@ bs_theme_add_variables <- function(...) {
   bs_global_add_variables(...)
 }
 
-bs_global_add_variables <- function(..., .where = "defaults",
-                                    .default_flag = identical(.where, "defaults")) {
-  theme <- assert_global_theme("bs_global_add_variables()")
-  theme <- bs_add_variables(theme, ..., .where = .where, .default_flag = .default_flag)
-  bs_global_set(theme)
-}
-
 #' @rdname deprecated
 #' @export
 bs_theme_add <- function(...) {
@@ -111,13 +104,16 @@ bs_global_get_variables <- function(varnames) {
 #' @rdname deprecated
 #' @export
 bootstrap <- function(theme = bs_theme_get(), ...) {
-  .Deprecated("bs_dependencies")
-  bs_dependencies(theme, ...)
+  .Deprecated("bs_theme_dependencies")
+  bs_theme_dependencies(theme, ...)
 }
 
 #' @rdname deprecated
 #' @export
-bootstrap_sass <- function(theme = bs_theme_get(), ...) {
-  .Deprecated("bs_sass")
-  bs_sass(theme, ...)
+bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
+  .Deprecated("sass::sass_partial")
+  theme <- as_bs_theme(theme)
+  theme$rules <- ""
+  sass::sass_partial(rules, theme)
+
 }
