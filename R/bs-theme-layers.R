@@ -124,7 +124,7 @@ bs_add_layers <- function(theme, ...) {
   assert_bs_theme(theme)
   is_layer <- vapply(rlang::list2(...), inherits, logical(1), "sass_layer")
   if (!any(is_layer)) {
-    stop("`...` must contain a `sass::sass_layer()` object(s)")
+    stop("`...` must only contain `sass::sass_layer()` object(s)")
   }
   add_class(sass_layers(theme, ...), "bs_theme")
 }
