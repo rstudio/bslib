@@ -13,7 +13,7 @@ bs_sass_files <- function(files, version = version_default(), removable = FALSE)
   version <- version_resolve(version)
   ret <- lapply(files, bs_sass_file, version = version)
   if (isTRUE(removable)) {
-    ret <- lapply(ret, sass:::sass_removable)
+    ret <- lapply(ret, sass::sass_removable)
     names(ret) <- files
   }
   ret
