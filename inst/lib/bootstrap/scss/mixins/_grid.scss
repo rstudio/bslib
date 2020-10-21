@@ -12,7 +12,9 @@
 
 @mixin make-row($gutter: $grid-gutter-width) {
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
   margin-right: -$gutter / 2;
   margin-left: -$gutter / 2;
 }
@@ -39,6 +41,7 @@
 
 @mixin make-col($size, $columns: $grid-columns) {
   flex: 0 0 percentage($size / $columns);
+  -webkit-flex: 0 0 percentage($size / $columns);
   // Add a `max-width` to ensure content within each column does not blow out
   // the width of the column. Applies to IE10+ and Firefox. Chrome and Safari
   // do not appear to require this.
@@ -47,6 +50,7 @@
 
 @mixin make-col-auto() {
   flex: 0 0 auto;
+  -webkit-flex: 0 0 auto;
   width: auto;
   max-width: 100%; // Reset earlier grid tiers
 }
@@ -64,6 +68,7 @@
 @mixin row-cols($count) {
   & > * {
     flex: 0 0 100% / $count;
+    -webkit-flex: 0 0 100% / $count;
     max-width: 100% / $count;
   }
 }

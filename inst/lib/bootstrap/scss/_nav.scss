@@ -5,7 +5,9 @@
 
 .nav {
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
@@ -99,6 +101,7 @@
   > .nav-link,
   .nav-item {
     flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
     text-align: center;
   }
 }
@@ -107,7 +110,9 @@
   > .nav-link,
   .nav-item {
     flex-basis: 0;
+    -webkit-flex-basis: 0;
     flex-grow: 1;
+    -webkit-flex-grow: 1;
     text-align: center;
   }
 }

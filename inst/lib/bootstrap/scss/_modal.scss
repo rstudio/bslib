@@ -57,6 +57,7 @@
 
 .modal-dialog-scrollable {
   display: flex; // IE10/11
+  display: -webkit-flex; // IE10/11
   max-height: subtract(100%, $modal-dialog-margin * 2);
 
   .modal-content {
@@ -67,6 +68,7 @@
   .modal-header,
   .modal-footer {
     flex-shrink: 0;
+    -webkit-flex-shrink: 0;
   }
 
   .modal-body {
@@ -76,7 +78,9 @@
 
 .modal-dialog-centered {
   display: flex;
+  display: -webkit-flex;
   align-items: center;
+  -webkit-align-items: center;
   min-height: subtract(100%, $modal-dialog-margin * 2);
 
   // Ensure `modal-dialog-centered` extends the full height of the view (IE10/11)
@@ -94,7 +98,9 @@
   // Ensure `.modal-body` shows scrollbar (IE10/11)
   &.modal-dialog-scrollable {
     flex-direction: column;
+    -webkit-flex-direction: column;
     justify-content: center;
+    -webkit-justify-content: center;
     height: 100%;
 
     .modal-content {
@@ -111,7 +117,9 @@
 .modal-content {
   position: relative;
   display: flex;
+  display: -webkit-flex;
   flex-direction: column;
+  -webkit-flex-direction: column;
   width: 100%; // Ensure `.modal-content` extends the full width of the parent `.modal-dialog`
   // counteract the pointer-events: none; in the .modal-dialog
   color: $modal-content-color;
@@ -144,8 +152,11 @@
 // Top section of the modal w/ title and dismiss
 .modal-header {
   display: flex;
+  display: -webkit-flex;
   align-items: flex-start; // so the close btn always stays on the upper right corner
+  -webkit-align-items: flex-start; // so the close btn always stays on the upper right corner
   justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
+  -webkit-justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
   padding: $modal-header-padding;
   border-bottom: $modal-header-border-width solid $modal-header-border-color;
   @include border-top-radius($modal-content-inner-border-radius);
@@ -170,15 +181,20 @@
   // Enable `flex-grow: 1` so that the body take up as much space as possible
   // when there should be a fixed height on `.modal-dialog`.
   flex: 1 1 auto;
+  -webkit-flex: 1 1 auto;
   padding: $modal-inner-padding;
 }
 
 // Footer (for actions)
 .modal-footer {
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
   align-items: center; // vertically center
+  -webkit-align-items: center; // vertically center
   justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
+  -webkit-justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
   padding: $modal-inner-padding - $modal-footer-margin-between / 2;
   border-top: $modal-footer-border-width solid $modal-footer-border-color;
   @include border-bottom-radius($modal-content-inner-border-radius);

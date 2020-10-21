@@ -98,6 +98,13 @@ Typically a shade of blue-green.}
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+
+\item{.where}{whether to place the variable definitions before other Sass
+\code{"defaults"}, after other Sass \code{"declarations"}, or after other Sass
+\code{"rules"}.}
+
+\item{.default_flag}{whether or not to add a \code{!default} flag (if missing) to
+variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 }
 \description{
 \code{bs_global_theme()} creates a new (global) Bootstrap Sass theme which

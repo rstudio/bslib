@@ -66,6 +66,7 @@ bs_global_clear <- function() {
 }
 
 #' @rdname bs_global_theme
+#' @inheritParams bs_add_variables
 #' @export
 bs_global_add_variables <- function(..., .where = "defaults",
                                     .default_flag = identical(.where, "defaults")) {
