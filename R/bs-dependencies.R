@@ -278,7 +278,7 @@ as_bs_theme <- function(theme) {
   if (is_bs_theme(theme)) return(theme)
 
   # Allow users to do something like
-  # bs_theme_dependencies(theme = sass_layer_merge(bs_global_get(), my_layer()))
+  # bs_theme_dependencies(theme = sass_layers(bs_global_get(), my_layer()))
   if (inherits(theme, "sass_layer")) {
     theme <- add_class(theme, "bs_theme")
     if (is.null(theme_version(theme))) {

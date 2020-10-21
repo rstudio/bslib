@@ -126,7 +126,5 @@ bs_add_layers <- function(theme, ...) {
   if (!any(is_layer)) {
     stop("`...` must contain a `sass::sass_layer()` object(s)")
   }
-  add_class(sass_layer_merge(theme, ...), "bs_theme")
+  add_class(sass_layers(theme, ...), "bs_theme")
 }
-
-

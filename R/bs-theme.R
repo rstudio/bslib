@@ -253,7 +253,7 @@ bootstrap_layer <- function(version) {
       )
     )
 
-    return(sass_layer_merge(bs4_layer, bs4_additions))
+    return(sass_layers(bs4_layer, bs4_additions))
   }
 
   if (version %in% "3") {
@@ -280,7 +280,7 @@ bootstrap_layer <- function(version) {
     )
 
     return(
-      sass_layer_merge(bs3_core, bs3_accessibility_layer())
+      sass_layers(bs3_core, bs3_accessibility_layer())
     )
   }
 
@@ -398,7 +398,7 @@ bootswatch_layer <- function(bootswatch, version) {
   )
 
   if (version %in% "4+3") {
-    layer <- sass_layer_merge(layer, sass_layer_bs3compat_navbar(bootswatch))
+    layer <- sass_layers(layer, sass_layer_bs3compat_navbar(bootswatch))
   }
 
   layer
@@ -499,7 +499,7 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
   )
 
   if (identical(bootswatch, "lumen")) {
-    layer <- sass_layer_merge(layer, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
+    layer <- sass_layers(layer, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
   }
 
   layer
