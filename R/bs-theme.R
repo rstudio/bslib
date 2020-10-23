@@ -342,7 +342,7 @@ bs3compat_bundle <- function() {
       sass_file(system_file("bs3compat", "_rules.scss", package = "bootstraplib"))
     ),
     # Gyliphicon font files
-    file_attachments = list(
+    file_attachments = c(
       fonts = lib_file("bootstrap-sass", "assets", "fonts")
     ),
     html_deps = list(
@@ -394,7 +394,7 @@ bootswatch_bundle <- function(bootswatch, version) {
   # Attach local font files, if necessary
   font_css <- file.path(bootswatch_dist(version), bootswatch, "font.css")
   attachments <- if (file.exists(font_css)) {
-    list(
+    c(
       "font.css" = font_css,
       fonts = system_file("fonts", package = "bootstraplib")
     )
