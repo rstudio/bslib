@@ -430,7 +430,7 @@ bootswatch_layer <- function(bootswatch, version) {
 # Mappings from BS3 navbar classes to BS4
 sass_layer_bs3compat_navbar <- function(bootswatch) {
   # Do nothing if this isn't a Bootswatch 3 theme
-  if (!bootswatch %in% c("materia", "litera", bootswatch_themes(3))) return("")
+  if (!bootswatch %in% c("materia", "litera", bootswatch_themes(3))) return(NULL)
 
   nav_classes <- switch(
     bootswatch,

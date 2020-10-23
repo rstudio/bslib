@@ -64,4 +64,3 @@ test_that("rename works as intended", {
     list(y=1, z=3, c=4, d=1)
   )
 })
-
