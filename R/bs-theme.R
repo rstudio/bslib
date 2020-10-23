@@ -142,7 +142,7 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
     bs_theme_init(),
     bootstrap_layer(version),
     if (identical(version, "4+3")) bs3compat_layer(),
-    !!paste0(bootswatch, "@", version) := bootswatch_layer(bootswatch, version)
+    bootswatch_layer(bootswatch, version)
   )
   bs_theme_update(
     theme, ...,
