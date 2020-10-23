@@ -79,7 +79,10 @@ bs_theme_dependencies <- function(
       out_file <- file.path(out_dir, basename(precompiled_css))
       file.copy(precompiled_css, out_file)
 
-      sass::write_file_attachments(theme$file_attachments, out_dir)
+      sass::write_file_attachments(
+        sass::as_sass_layer(theme)$file_attachments,
+        out_dir
+      )
     }
   }
 
@@ -278,9 +281,13 @@ as_bs_theme <- function(theme) {
   if (is_bs_theme(theme)) return(theme)
 
   # Allow users to do something like
-  # bs_theme_dependencies(theme = sass_layers(bs_global_get(), my_layer()))
-  if (inherits(theme, "sass_layer")) {
-    theme <- add_class(theme, "bs_theme")
+  # bs_theme_dependencies(theme = sass_bundle(bs_global_get(), my_layer()))
+  if (is_sass_bundle(theme) || inherits(theme, "sass_layer")) {
+    theme <- add_class(
+      # make sure the sass layer turns into a sass bundle
+      sass::sass_bundle(theme),
+      "bs_theme"
+    )
     if (is.null(theme_version(theme))) {
       stop("Wasn't able to figure out the Bootstrap version.")
     }

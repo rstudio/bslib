@@ -13,7 +13,8 @@
 #'
 #' @inheritParams bs_theme_update
 #' @param ... For `bs_add_variables()`, these arguments should contain Sass
-#'   variables; otherwise, these arguments should contain [sass::sass_layer()]s.
+#'   variables; otherwise, these arguments should contain values from
+#'   [sass::sass_layer()] or [sass::sass_bundle()].
 #' @param .where whether to place the variable definitions before other Sass
 #'   `"defaults"`, after other Sass `"declarations"`, or after other Sass
 #'   `"rules"`.
@@ -85,8 +86,8 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
     vars <- ensure_default_flag(vars)
   }
 
-  bs_add_layers(
-    theme, do.call(sass_layer, setNames(list(vars), .where))
+  bs_add_bundles(
+    theme, do.call(sass_layer, rlang::list2(!!.where := vars))
   )
 }
 
@@ -108,23 +109,23 @@ ensure_default_flag <- function(x) {
 #' @param rules Sass rules.
 #' @export
 bs_add_rules <- function(theme, rules) {
-  bs_add_layers(theme, sass_layer(rules = rules))
+  bs_add_bundles(theme, sass_layer(rules = rules))
 }
 
 #' @rdname bs_add_variables
 #' @param declarations Sass functions and mixins.
 #' @export
 bs_add_declarations <- function(theme, declarations) {
-  bs_add_layers(theme, sass_layer(declarations = declarations))
+  bs_add_bundles(theme, sass_layer(declarations = declarations))
 }
 
 #' @rdname bs_add_variables
 #' @export
-bs_add_layers <- function(theme, ...) {
+bs_add_bundles <- function(theme, ...) {
   assert_bs_theme(theme)
   is_layer <- vapply(rlang::list2(...), inherits, logical(1), "sass_layer")
   if (!any(is_layer)) {
     stop("`...` must only contain `sass::sass_layer()` object(s)")
   }
-  add_class(sass_layers(theme, ...), "bs_theme")
+  add_class(sass_bundle(theme, ...), "bs_theme")
 }

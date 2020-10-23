@@ -278,7 +278,7 @@ dispatch_theme_modifier <- function(theme, funcs_by_version, args, caller_name) 
     lapply(dropNulls(results), paste, "!default")
   )
 
-  bs_add_layers(theme, results)
+  bs_add_bundles(theme, results)
 }
 
 #' Ensures all arguments are either NULL, or length 1 character vectors with

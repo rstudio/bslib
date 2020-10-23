@@ -87,7 +87,7 @@ bs_global_add_rules <- function(...) {
 #' @export
 bs_global_add_layers <- function(...) {
   theme <- assert_global_theme("bs_global_add_layer()")
-  theme <- bs_add_layers(theme, ...)
+  theme <- bs_add_bundles(theme, ...)
   bs_global_set(theme)
 }
 
@@ -101,4 +101,3 @@ assert_global_theme <- function(calling_func) {
   }
   theme
 }
-

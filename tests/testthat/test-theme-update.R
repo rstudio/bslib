@@ -28,8 +28,8 @@ test_that("Sass layers work as expected with a theme", {
   # but declarations come after defaults (so this won't override the value!)
   theme <- bs_add_declarations(theme, list(primary = "#333333 !default"))
   expect_true(bs_get_variables(theme, "primary") == "#222222")
-  # Can drop-down to the lower-level bs_add_layers()
-  theme <- bs_add_layers(
+  # Can drop-down to the lower-level bs_add_bundles()
+  theme <- bs_add_bundles(
     theme, sass::sass_layer(defaults = list(primary = "#333333 !default"))
   )
   expect_true(bs_get_variables(theme, "primary") == "#333333")
