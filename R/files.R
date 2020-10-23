@@ -7,16 +7,10 @@
 #' @param file a scss file path.
 #' @param version the major version.
 #' @param theme a bootswatch theme name.
-#' @param removable should sass_removable be called on each element?
 #' @noRd
-bs_sass_files <- function(files, version = version_default(), removable = FALSE) {
+bs_sass_files <- function(files, version = version_default()) {
   version <- version_resolve(version)
-  ret <- lapply(files, bs_sass_file, version = version)
-  if (isTRUE(removable)) {
-    ret <- lapply(ret, sass::sass_removable)
-    names(ret) <- files
-  }
-  ret
+  lapply(files, bs_sass_file, version = version)
 }
 
 # Search for one file at a time so we can throw informative errors
@@ -41,4 +35,54 @@ bootswatch_sass_file <- function(theme, file, version = version_default()) {
   f <- file.path(bootswatch_dist(version), theme, file)
   if (file.exists(f)) return(sass::sass_file(f))
   stop("Bootswatch file '", file, "' doesn't exist for theme '", theme, "'.", call. = FALSE)
+}
+
+
+
+# Creates a sass_bundle with MANY layers.
+# All rules will be separated into named layers, defaults, declarations, and tags will be moved to a initial layer
+bs_sass_file_bundle <- function(
+  name,
+  version,
+  defaults = NULL,
+  declarations = NULL,
+  rules = NULL,
+  html_deps = NULL,
+  file_attachments = character(0)
+) {
+
+  if (!is.null(defaults)) {
+    defaults <- bs_sass_files(defaults, version = version)
+  }
+  if (!is.null(declarations)) {
+    declarations <- bs_sass_files(declarations, version = version)
+  }
+
+  core <- sass_layer(
+    defaults = defaults,
+    declarations = declarations,
+    html_deps = html_deps,
+    file_attachments = file_attachments
+  )
+
+  rule_layers <-
+    rules %>%
+    bs_sass_files(version = version) %>%
+    lapply(function(bs_file) {
+      sass_layer(rules = list(bs_file))
+    }) %>%
+    # Ex: bootstraplib@4#dropdown
+    setNames(bs_sass_bundle_version(name, version, file = rules))
+  rule_bundle <- sass_bundle(!!!rule_layers)
+
+  bundle <- sass_bundle(!!bs_sass_bundle_version(name, version) := core, rule_bundle)
+  bundle
+}
+# have names be consistenly created / found
+bs_sass_bundle_version <- function(name, version, file = NULL, subname = NULL) {
+  paste0(
+    name, "@", version,
+    if(!is.null(file)) paste0("#", file),
+    if(!is.null(subname)) paste0("~", subname)
+  )
 }

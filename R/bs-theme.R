@@ -138,7 +138,7 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
                      base_font = NULL, code_font = NULL, heading_font = NULL) {
   version <- version_resolve(version)
   bootswatch <- bootswatch_theme_resolve(bootswatch, version)
-  theme <- bs_add_layers(
+  theme <- bs_add_bundles(
     bs_theme_init(),
     bootstrap_layer(version),
     if (identical(version, "4+3")) bs3compat_layer(),
@@ -225,19 +225,19 @@ assert_bs_theme <- function(theme) {
 bootstrap_layer <- function(version) {
   if (version %in% c("4", "4+3")) {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
-    bs4_layer <- sass_layer(
-      defaults = bs_sass_files(c("functions", "variables"), version = 4),
-      declarations = bs_sass_files("mixins", version = 4),
-      rules = bs_sass_files(c(
+    bs4_layer <- bs_sass_file_bundle(
+      version = 4,
+      name = "bootstrap",
+      defaults = c("functions", "variables"),
+      declarations = "mixins",
+      rules = c(
         "root", "reboot", "type", "images", "code", "grid", "tables",
         "forms", "buttons", "transitions", "dropdown", "button-group",
         "input-group", "custom-forms", "nav", "navbar", "card",
         "breadcrumb", "pagination", "badge", "jumbotron", "alert",
         "progress", "media", "list-group", "close", "toasts", "modal",
         "tooltip", "popover", "carousel", "spinners", "utilities", "print"
-      ), version = 4, removable = TRUE),
-      # Tag this layer so we know we can query the theme_version()
-      tags = paste0("bootstraplib_version_", version)
+      )
     )
 
     # Additions to BS4 that are always included (i.e., not a part of compatibility)
@@ -253,35 +253,42 @@ bootstrap_layer <- function(version) {
       )
     )
 
-    return(sass_layers(bs4_layer, bs4_additions))
+    return(sass_bundle(
+      bs4_layer,
+      !!bs_sass_bundle_version("bootstrap", version, subname = "additions") := bs4_additions
+    ))
   }
 
   if (version %in% "3") {
+
+    glyphicon <- sass_layer(
+      defaults = list("icon-font-path" = "'glyphicon-fonts/'"),
+      file_attachments = c(
+        "glyphicon-fonts" = lib_file("bootstrap-sass", "assets", "fonts", "bootstrap")
+      )
+    )
+
     # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
-    bs3_core <- sass_layer(
-      defaults = list(
-        list("icon-font-path" = "'glyphicon-fonts/'"),
-        bs_sass_files("variables", version = 3)
-      ),
-      declarations = bs_sass_files("mixins", version = 3),
-      rules = bs_sass_files(c(
+    bs3_core <- bs_sass_file_bundle(
+      name = "bootstrap",
+      version = 3,
+      defaults = "variables",
+      declarations = "mixins",
+      rules = c(
         "normalize", "print", "glyphicons", "scaffolding", "type", "code", "grid",
         "tables", "forms", "buttons", "component-animations", "dropdowns", "button-groups",
         "input-groups", "navs", "navbar", "breadcrumbs", "pagination", "pager", "labels",
         "badges", "jumbotron", "thumbnails", "alerts", "progress-bars", "media",
         "list-group", "panels", "responsive-embed", "wells", "close", "modals",
         "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
-      ), version = 3, removable = TRUE),
-      file_attachments = c(
-        "glyphicon-fonts" = lib_file("bootstrap-sass", "assets", "fonts", "bootstrap")
-      ),
-      # Tag this layer so we know we can query the theme_version()
-      tags = "bootstraplib_version_3"
+      )
     )
 
-    return(
-      sass_layers(bs3_core, bs3_accessibility_layer())
-    )
+    return(sass_bundle(
+      bs3_core,
+      !!bs_sass_bundle_version("bootstrap", version, subname = "accessiblity") := bs3_accessibility_layer(),
+      glyphicon = glyphicon
+    ))
   }
 
   stop("Unknown Bootstrap version: ", version, call. = FALSE)
@@ -322,18 +329,26 @@ bootstrap_javascript <- function(version) {
 
 bs3compat_layer <- function() {
   sass_layer(
-    defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bootstraplib")),
-    declarations = sass_file(system_file("bs3compat", "_declarations.scss", package = "bootstraplib")),
-    rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bootstraplib")),
+    defaults = list(
+      sass_file(system_file("bs3compat", "_defaults.scss", package = "bootstraplib"))
+    ),
+    declarations = list(
+      sass_file(system_file("bs3compat", "_declarations.scss", package = "bootstraplib"))
+    ),
+    rules = list(
+      sass_file(system_file("bs3compat", "_rules.scss", package = "bootstraplib"))
+    ),
     # Gyliphicon font files
-    file_attachments = c(
+    file_attachments = list(
       fonts = lib_file("bootstrap-sass", "assets", "fonts")
     ),
-    html_deps = htmltools::htmlDependency(
-      "bs3compat", packageVersion("bootstraplib"),
-      package = "bootstraplib",
-      src = "bs3compat/js",
-      script = c("tabs.js", "bs3compat.js")
+    html_deps = list(
+      htmltools::htmlDependency(
+        "bs3compat", packageVersion("bootstraplib"),
+        package = "bootstraplib",
+        src = "bs3compat/js",
+        script = c("tabs.js", "bs3compat.js")
+      )
     )
   )
 }
@@ -344,18 +359,22 @@ bs3compat_layer <- function() {
 
 bs3_accessibility_layer <- function() {
   sass_layer(
-    rules = sass_file(
-      system_file(
-        "lib", "bootstrap-accessibility-plugin",
-        "src", "sass", "bootstrap-accessibility.scss",
-        package = "bootstraplib"
+    rules = list(
+      sass_file(
+        system_file(
+          "lib", "bootstrap-accessibility-plugin",
+          "src", "sass", "bootstrap-accessibility.scss",
+          package = "bootstraplib"
+        )
       )
     ),
-    html_deps = htmltools::htmlDependency(
-      "bootstrap-accessibility", version_accessibility,
-      package = "bootstraplib",
-      src = "lib/bootstrap-accessibility-plugin",
-      script = "plugins/js/bootstrap-accessibility.min.js"
+    html_deps = list(
+      htmltools::htmlDependency(
+        "bootstrap-accessibility", version_accessibility,
+        package = "bootstraplib",
+        src = "lib/bootstrap-accessibility-plugin",
+        script = "plugins/js/bootstrap-accessibility.min.js"
+      )
     )
   )
 }
@@ -372,16 +391,13 @@ bootswatch_layer <- function(bootswatch, version) {
   # Attach local font files, if necessary
   font_css <- file.path(bootswatch_dist(version), bootswatch, "font.css")
   attachments <- if (file.exists(font_css)) {
-    c(
+    list(
       "font.css" = font_css,
       fonts = system_file("fonts", package = "bootstraplib")
     )
   }
 
-  layer <- sass_layer(
-    # Tag this layer in case we ever need to know whether a
-    # currently set theme contains a bootswatch theme (i.e. theme_bootswatch)
-    tags = paste0("bootstraplib_bootswatch_", bootswatch),
+  bootswatch_core <- sass_layer(
     file_attachments = attachments,
     defaults = list(
       # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
@@ -396,12 +412,18 @@ bootswatch_layer <- function(bootswatch, version) {
       if (identical(bootswatch, "sketchy")) as_sass(".dropdown-menu{ overflow: inherit; }") else ""
     )
   )
+  bundle <- sass_bundle(
+    !!bs_sass_bundle_version("bootswatch", bootswatch) := bootswatch_core
+  )
 
   if (version %in% "4+3") {
-    layer <- sass_layers(layer, sass_layer_bs3compat_navbar(bootswatch))
+    bundle <- sass_bundle(
+      bundle,
+      !!bs_sass_bundle_version("bootswatch", bootswatch, subname = "bs3_compat_navbar") := sass_layer_bs3compat_navbar(bootswatch)
+    )
   }
 
-  layer
+  bundle
 }
 
 
@@ -489,7 +511,7 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
     stop("Didn't recognize Bootswatch 3 theme: ", bootswatch, call. = FALSE)
   )
 
-  layer <- sass_layer(
+  bundle <- sass_layer(
     defaults = list(
       sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
       sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
@@ -499,8 +521,8 @@ sass_layer_bs3compat_navbar <- function(bootswatch) {
   )
 
   if (identical(bootswatch, "lumen")) {
-    layer <- sass_layers(layer, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
+    bundle <- sass_bundle(bundle, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
   }
 
-  layer
+  bundle
 }
