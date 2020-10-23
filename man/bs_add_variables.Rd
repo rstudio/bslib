@@ -4,7 +4,7 @@
 \alias{bs_add_variables}
 \alias{bs_add_rules}
 \alias{bs_add_declarations}
-\alias{bs_add_layers}
+\alias{bs_add_bundles}
 \title{Add low-level theming customizations}
 \usage{
 bs_add_variables(
@@ -18,13 +18,14 @@ bs_add_rules(theme, rules)
 
 bs_add_declarations(theme, declarations)
 
-bs_add_layers(theme, ...)
+bs_add_bundles(theme, ...)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{...}{For \code{bs_add_variables()}, these arguments should contain Sass
-variables; otherwise, these arguments should contain \code{\link[sass:sass_layer]{sass::sass_layer()}}s.}
+variables; otherwise, these arguments should contain values from
+\code{\link[sass:sass_layer]{sass::sass_layer()}} or \code{\link[sass:sass_layer]{sass::sass_bundle()}}.}
 
 \item{.where}{whether to place the variable definitions before other Sass
 \code{"defaults"}, after other Sass \code{"declarations"}, or after other Sass
