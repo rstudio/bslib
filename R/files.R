@@ -7,7 +7,6 @@
 #' @param file a scss file path.
 #' @param version the major version.
 #' @param theme a bootswatch theme name.
-#' @param removable should sass_removable be called on each element?
 #' @noRd
 bs_sass_files <- function(files, version = version_default()) {
   version <- version_resolve(version)
