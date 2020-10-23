@@ -29,7 +29,7 @@ retrieve_theme_version <- function(theme, name) {
 
   # Get version from the tag applied in bootstrap_layer()
   layer_names <- rlang::names2(theme$layers)
-  matching_pos <- grep(paset0("^", name, "@(\\d)$"), layer_names)
+  matching_pos <- grep(paste0("^", name, "@([^~#]+)$"), layer_names)
   if (length(matching_pos) == 0) return(NULL)
   if (length(matching_pos) > 1) warning("Found multiple ", name, " versions. Returning first version")
   sub(paste0(name, "@"), "", layer_names[matching_pos[1]])
