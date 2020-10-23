@@ -123,9 +123,9 @@ bs_add_declarations <- function(theme, declarations) {
 #' @export
 bs_add_bundles <- function(theme, ...) {
   assert_bs_theme(theme)
-  is_layer <- vapply(rlang::list2(...), is_sass_layer, logical(1))
+  is_layer <- vapply(rlang::list2(...), is_sass_bundle, logical(1))
   if (!any(is_layer)) {
-    stop("`...` must only contain `sass::sass_layer()` object(s)")
+    stop("`...` must only contain `sass::sass_layer()` or `sass::sass_bundle()` object(s)")
   }
   add_class(sass_bundle(theme, ...), "bs_theme")
 }

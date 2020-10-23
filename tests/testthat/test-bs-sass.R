@@ -2,7 +2,7 @@ test_that("Can access the sass behind all versions and Bootswatch themes", {
   versions <- c("4+3", "3", "4")
   for (version in versions) {
     # Can compile CSS against variables (in each version)
-    css <- sass_partial("body{background-color:$body-bg}", layer = as_bs_theme(version))
+    css <- sass_partial("body{background-color:$body-bg}", as_bs_theme(version))
     expect_css(css, "body{background-color:#fff;}")
     themes <- bootswatch_themes(version)
     for (theme in themes) {
