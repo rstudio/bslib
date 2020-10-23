@@ -226,7 +226,7 @@ bootstrap_layer <- function(version) {
   if (version %in% c("4", "4+3")) {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
     bs4_layer <- bs_sass_file_bundle(
-      version = 4,
+      version = version,
       name = "bootstrap",
       defaults = c("functions", "variables"),
       declarations = "mixins",
