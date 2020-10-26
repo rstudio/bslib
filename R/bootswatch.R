@@ -31,8 +31,8 @@ retrieve_theme_version <- function(theme, name) {
   layer_names <- rlang::names2(theme$layers)
   matching_pos <- grep(paste0("^", name, "@([^~#]+)$"), layer_names)
   if (length(matching_pos) == 0) return(NULL)
-  if (length(matching_pos) > 1) warning("Found multiple ", name, " versions. Returning first version")
-  sub(paste0(name, "@"), "", layer_names[matching_pos[1]])
+  if (length(matching_pos) > 1) stop("Found multiple ", name, " versions.")
+  sub(paste0(name, "@"), "", layer_names[matching_pos])
 }
 
 
