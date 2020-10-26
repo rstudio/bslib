@@ -3,7 +3,7 @@
 Rather than individually run each update script and worry about the correct order, use the `tools/update_all.R` script:
 
 ``` shell
-Rscript tools update_all.R
+Rscript tools/main.R
 ```
 
 

@@ -7,7 +7,7 @@
 \alias{bs_global_clear}
 \alias{bs_global_add_variables}
 \alias{bs_global_add_rules}
-\alias{bs_global_add_layers}
+\alias{bs_global_bundle}
 \alias{bs_global_theme_update}
 \title{Global theming}
 \usage{
@@ -42,7 +42,7 @@ bs_global_add_variables(
 
 bs_global_add_rules(...)
 
-bs_global_add_layers(...)
+bs_global_bundle(...)
 
 bs_global_theme_update(
   ...,
@@ -99,11 +99,11 @@ Typically a shade of blue-green.}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
-\item{.where}{whether to place the variable definitions before other Sass
+\item{.where}{Whether to place the variable definitions before other Sass
 \code{"defaults"}, after other Sass \code{"declarations"}, or after other Sass
 \code{"rules"}.}
 
-\item{.default_flag}{whether or not to add a \code{!default} flag (if missing) to
+\item{.default_flag}{Whether or not to add a \code{!default} flag (if missing) to
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 }
 \description{

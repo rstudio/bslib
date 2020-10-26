@@ -13,11 +13,7 @@ bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
 #' @inheritParams bs_theme_update
 #' @export
 theme_bootswatch <- function(theme) {
-  if (!is_bs_theme(theme)) return(NULL)
-  # Search for the tag applied in bootswatch_layer()
-  tag <- grep("^bootstraplib_bootswatch_", theme$tags, value = TRUE)
-  if (length(tag) == 0) return(NULL)
-  sub("bootstraplib_bootswatch_", "", tag)
+  retrieve_theme_version(theme, "bootswatch")
 }
 
 #' Obtain a theme's Bootstrap version
@@ -25,11 +21,18 @@ theme_bootswatch <- function(theme) {
 #' @inheritParams bs_theme_update
 #' @export
 theme_version <- function(theme) {
+  retrieve_theme_version(theme, "bootstrap")
+}
+
+retrieve_theme_version <- function(theme, name) {
   if (!is_bs_theme(theme)) return(NULL)
+
   # Get version from the tag applied in bootstrap_layer()
-  tag <- grep("^bootstraplib_version_", theme$tags, value = TRUE)
-  if (length(tag) == 0) return(NULL)
-  sub("bootstraplib_version_", "", tag)
+  layer_names <- rlang::names2(theme$layers)
+  matching_pos <- grep(paste0("^", name, "@([^~#]+)$"), layer_names)
+  if (length(matching_pos) == 0) return(NULL)
+  if (length(matching_pos) > 1) stop("Found multiple ", name, " versions.")
+  sub(paste0(name, "@"), "", layer_names[matching_pos])
 }
 
 

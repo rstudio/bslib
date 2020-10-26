@@ -8,10 +8,9 @@
 #' @param version the major version.
 #' @param theme a bootswatch theme name.
 #' @noRd
-
 bs_sass_files <- function(files, version = version_default()) {
   version <- version_resolve(version)
-  as_sass(lapply(files, bs_sass_file, version = version))
+  lapply(files, bs_sass_file, version = version)
 }
 
 # Search for one file at a time so we can throw informative errors
@@ -36,4 +35,56 @@ bootswatch_sass_file <- function(theme, file, version = version_default()) {
   f <- file.path(bootswatch_dist(version), theme, file)
   if (file.exists(f)) return(sass::sass_file(f))
   stop("Bootswatch file '", file, "' doesn't exist for theme '", theme, "'.", call. = FALSE)
+}
+
+
+
+# Creates a sass_bundle with MANY layers.
+# All rules will be separated into named layers, defaults, declarations, and tags will be moved to a initial layer
+bs_sass_file_bundle <- function(
+  name,
+  version,
+  file_version, # should prolly equal `version`, but want to make this required
+  defaults = NULL,
+  declarations = NULL,
+  rules = NULL,
+  html_deps = NULL,
+  file_attachments = character(0)
+) {
+
+  if (!is.null(defaults)) {
+    defaults <- bs_sass_files(defaults, version = file_version)
+  }
+  if (!is.null(declarations)) {
+    declarations <- bs_sass_files(declarations, version = file_version)
+  }
+
+  core <- sass_layer(
+    defaults = defaults,
+    declarations = declarations,
+    html_deps = html_deps,
+    file_attachments = file_attachments
+  )
+
+  rule_bundles <-
+    rules %>%
+    bs_sass_files(version = file_version) %>%
+    lapply(function(bs_file) {
+      sass_layer(rules = list(bs_file))
+    }) %>%
+    # Ex: bootstraplib@4#dropdown
+    setNames(bs_sass_bundle_version(name, version, file = rules))
+
+  sass_bundle(
+    !!bs_sass_bundle_version(name, version) := core,
+    sass_bundle(!!!rule_bundles)
+  )
+}
+# have names be consistenly created / found
+bs_sass_bundle_version <- function(name, version, file = NULL, subname = NULL) {
+  paste0(
+    name, "@", version,
+    if(!is.null(subname)) paste0("~", subname),
+    if(!is.null(file)) paste0("#", file)
+  )
 }

@@ -4,7 +4,7 @@
 \alias{bs_add_variables}
 \alias{bs_add_rules}
 \alias{bs_add_declarations}
-\alias{bs_add_layers}
+\alias{bs_bundle}
 \title{Add low-level theming customizations}
 \usage{
 bs_add_variables(
@@ -18,19 +18,21 @@ bs_add_rules(theme, rules)
 
 bs_add_declarations(theme, declarations)
 
-bs_add_layers(theme, ...)
+bs_bundle(theme, ...)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
-\item{...}{For \code{bs_add_variables()}, these arguments should contain Sass
-variables; otherwise, these arguments should contain \code{\link[sass:sass_layer]{sass::sass_layer()}}s.}
+\item{...}{\itemize{
+\item \code{bs_add_variables()}: Should be named Sass variables or values that can be passed in directly to the \code{defaults} argument of a \code{\link[sass:sass_layer]{sass::sass_layer()}}.
+\item \code{bs_bundle()}: Should be arguments that can be handled by \code{\link[sass:sass_layer]{sass::sass_bundle()}} to be appended to the \code{theme}
+}}
 
-\item{.where}{whether to place the variable definitions before other Sass
+\item{.where}{Whether to place the variable definitions before other Sass
 \code{"defaults"}, after other Sass \code{"declarations"}, or after other Sass
 \code{"rules"}.}
 
-\item{.default_flag}{whether or not to add a \code{!default} flag (if missing) to
+\item{.default_flag}{Whether or not to add a \code{!default} flag (if missing) to
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 
 \item{rules}{Sass rules.}
@@ -38,15 +40,21 @@ variable expressions. It's recommended to keep this as \code{TRUE} when \code{.w
 \item{declarations}{Sass functions and mixins.}
 }
 \description{
-Use \code{\link[=bs_add_variables]{bs_add_variables()}} to add Bootstrap Sass \href{https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults}{variable defaults},
-\code{\link[=bs_add_rules]{bs_add_rules()}} to add additional \href{https://sass-lang.com/documentation/style-rules}{Sass rules}, and
-\code{\link[=bs_add_declarations]{bs_add_declarations()}} to add Sass
-\href{https://sass-lang.com/documentation/at-rules/function}{functions} and
-\href{https://sass-lang.com/documentation/at-rules/mixin}{mixins}. Compared to
-higher-level theme customization available in \code{\link[=bs_theme]{bs_theme()}}, these functions
+Compared to higher-level theme customization available in \code{\link[=bs_theme]{bs_theme()}}, these functions
 are a more direct interface to Bootstrap Sass, and therefore, do nothing to
 ensure theme customizations are portable between major Bootstrap versions.
 }
+\section{Functions}{
+\itemize{
+\item \code{bs_add_variables}: Add Bootstrap Sass \href{https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults}{variable defaults}
+
+\item \code{bs_add_rules}: Add additional \href{https://sass-lang.com/documentation/style-rules}{Sass rules}
+
+\item \code{bs_add_declarations}: Add Sass \href{https://sass-lang.com/documentation/at-rules/function}{functions} and \href{https://sass-lang.com/documentation/at-rules/mixin}{mixins}
+
+\item \code{bs_bundle}: Add additional \code{\link[sass:sass_layer]{sass::sass_bundle()}} objects to an existing \code{theme}.
+}}
+
 \examples{
 
 # Function to preview the styling a (primary) Bootstrap button

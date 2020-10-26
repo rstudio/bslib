@@ -271,14 +271,14 @@ dispatch_theme_modifier <- function(theme, funcs_by_version, args, caller_name) 
   if (is.null(results)) {
     stop(call. = FALSE,
       caller_name, " doesn't recognize the active version of Bootstrap (",
-      paste(collapse = "/", theme_version()), ")")
+      paste(collapse = "/", theme_version(theme)), ")")
   }
 
   results <- sass::sass_layer(
     lapply(dropNulls(results), paste, "!default")
   )
 
-  bs_add_layers(theme, results)
+  bs_bundle(theme, results)
 }
 
 #' Ensures all arguments are either NULL, or length 1 character vectors with

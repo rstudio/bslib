@@ -4,6 +4,7 @@
 #' @importFrom stats setNames
 #' @importFrom jquerylib jquery_core
 #' @importFrom jsonlite fromJSON
+#' @importFrom rlang :=
 NULL
 
 #' Pipe operator
