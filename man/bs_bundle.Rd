@@ -24,7 +24,7 @@ bs_bundle(theme, ...)
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{...}{\itemize{
-\item \code{bs_add_variables()}: Should be named sass variables or values that can be passed in directly to the \code{defaults} argument of a \code{\link[sass:sass_layer]{sass::sass_layer()}}.
+\item \code{bs_add_variables()}: Should be named Sass variables or values that can be passed in directly to the \code{defaults} argument of a \code{\link[sass:sass_layer]{sass::sass_layer()}}.
 \item \code{bs_bundle()}: Should be arguments that can be handled by \code{\link[sass:sass_layer]{sass::sass_bundle()}} to be appended to the \code{theme}
 }}
 
