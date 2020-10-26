@@ -73,10 +73,10 @@ bs_sass_file_bundle <- function(
     }) %>%
     # Ex: bootstraplib@4#dropdown
     setNames(bs_sass_bundle_version(name, version, file = rules))
-  rule_bundle <- sass_bundle(!!!rule_layers)
-
-  bundle <- sass_bundle(!!bs_sass_bundle_version(name, version) := core, rule_bundle)
-  bundle
+  sass_bundle(
+    !!bs_sass_bundle_version(name, version) := core, 
+    sass_bundle(!!!rule_layers)
+  )
 }
 # have names be consistenly created / found
 bs_sass_bundle_version <- function(name, version, file = NULL, subname = NULL) {

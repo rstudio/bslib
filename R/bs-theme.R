@@ -287,7 +287,7 @@ bootstrap_layer <- function(version) {
     return(sass_bundle(
       bs3_core,
       !!bs_sass_bundle_version("bootstrap", version, subname = "accessiblity") := bs3_accessibility_layer(),
-      glyphicon = glyphicon
+      !!bs_sass_bundle_version("bootstrap", version, subname = "glyphicon") := glyphicon
     ))
   }
 
