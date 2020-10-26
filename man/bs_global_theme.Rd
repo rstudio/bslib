@@ -99,11 +99,11 @@ Typically a shade of blue-green.}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
-\item{.where}{whether to place the variable definitions before other Sass
+\item{.where}{Whether to place the variable definitions before other Sass
 \code{"defaults"}, after other Sass \code{"declarations"}, or after other Sass
 \code{"rules"}.}
 
-\item{.default_flag}{whether or not to add a \code{!default} flag (if missing) to
+\item{.default_flag}{Whether or not to add a \code{!default} flag (if missing) to
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 }
 \description{

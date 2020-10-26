@@ -207,7 +207,7 @@ is_bs_theme <- function(x) {
 }
 
 bs_theme_init <- function() {
-  add_class(sass_layer(), "bs_theme")
+  as_bs_theme(sass_layer())
 }
 
 assert_bs_theme <- function(theme) {
