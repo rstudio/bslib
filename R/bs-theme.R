@@ -329,26 +329,18 @@ bootstrap_javascript <- function(version) {
 
 bs3compat_bundle <- function() {
   sass_layer(
-    defaults = list(
-      sass_file(system_file("bs3compat", "_defaults.scss", package = "bootstraplib"))
-    ),
-    declarations = list(
-      sass_file(system_file("bs3compat", "_declarations.scss", package = "bootstraplib"))
-    ),
-    rules = list(
-      sass_file(system_file("bs3compat", "_rules.scss", package = "bootstraplib"))
-    ),
+    defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bootstraplib")),
+    declarations = sass_file(system_file("bs3compat", "_declarations.scss", package = "bootstraplib")),
+    rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bootstraplib")),
     # Gyliphicon font files
     file_attachments = c(
       fonts = lib_file("bootstrap-sass", "assets", "fonts")
     ),
-    html_deps = list(
-      htmltools::htmlDependency(
-        "bs3compat", packageVersion("bootstraplib"),
-        package = "bootstraplib",
-        src = "bs3compat/js",
-        script = c("tabs.js", "bs3compat.js")
-      )
+    html_deps = htmltools::htmlDependency(
+      "bs3compat", packageVersion("bootstraplib"),
+      package = "bootstraplib",
+      src = "bs3compat/js",
+      script = c("tabs.js", "bs3compat.js")
     )
   )
 }
@@ -359,22 +351,18 @@ bs3compat_bundle <- function() {
 
 bs3_accessibility_bundle <- function() {
   sass_layer(
-    rules = list(
-      sass_file(
-        system_file(
-          "lib", "bootstrap-accessibility-plugin",
-          "src", "sass", "bootstrap-accessibility.scss",
-          package = "bootstraplib"
-        )
+    rules = sass_file(
+      system_file(
+        "lib", "bootstrap-accessibility-plugin",
+        "src", "sass", "bootstrap-accessibility.scss",
+        package = "bootstraplib"
       )
     ),
-    html_deps = list(
-      htmltools::htmlDependency(
-        "bootstrap-accessibility", version_accessibility,
-        package = "bootstraplib",
-        src = "lib/bootstrap-accessibility-plugin",
-        script = "plugins/js/bootstrap-accessibility.min.js"
-      )
+    html_deps = htmltools::htmlDependency(
+      "bootstrap-accessibility", version_accessibility,
+      package = "bootstraplib",
+      src = "lib/bootstrap-accessibility-plugin",
+      script = "plugins/js/bootstrap-accessibility.min.js"
     )
   )
 }
