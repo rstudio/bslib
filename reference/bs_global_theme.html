@@ -161,7 +161,7 @@ argument defaults to <code>bs_global_get()</code>, which get the current global 
 
 <span class='fu'>bs_global_add_rules</span>(<span class='kw'>...</span>)
 
-<span class='fu'>bs_global_add_layers</span>(<span class='kw'>...</span>)
+<span class='fu'>bs_global_bundle</span>(<span class='kw'>...</span>)
 
 <span class='fu'>bs_global_theme_update</span>(
   <span class='kw'>...</span>,
@@ -249,6 +249,17 @@ Typically a shade of blue-green.</p></td>
     <tr>
       <th>theme</th>
       <td><p>a <code><a href='bs_theme.html'>bs_theme()</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>.where</th>
+      <td><p>Whether to place the variable definitions before other Sass
+<code>"defaults"</code>, after other Sass <code>"declarations"</code>, or after other Sass
+<code>"rules"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>.default_flag</th>
+      <td><p>Whether or not to add a <code>!default</code> flag (if missing) to
+variable expressions. It's recommended to keep this as <code>TRUE</code> when <code>.where = "defaults"</code>.</p></td>
     </tr>
     </table>
 
