@@ -4,7 +4,7 @@
 \alias{bs_add_variables}
 \alias{bs_add_rules}
 \alias{bs_add_declarations}
-\alias{bs_add_bundles}
+\alias{bs_bundle}
 \title{Add low-level theming customizations}
 \usage{
 bs_add_variables(
@@ -18,7 +18,7 @@ bs_add_rules(theme, rules)
 
 bs_add_declarations(theme, declarations)
 
-bs_add_bundles(theme, ...)
+bs_bundle(theme, ...)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}

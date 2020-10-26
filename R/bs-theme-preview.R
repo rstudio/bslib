@@ -400,7 +400,7 @@ bs_get_variables <- function(theme, varnames) {
   css <- sass_partial(
     cssvars,
     # Add declarations to the current theme
-    bs_add_bundles(theme, sass::sass_layer(declarations = sassvars)),
+    bs_bundle(theme, sass::sass_layer(declarations = sassvars)),
   )
 
   # Search the output for the block of properties we just generated, using the

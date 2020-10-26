@@ -138,7 +138,7 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
                      base_font = NULL, code_font = NULL, heading_font = NULL) {
   version <- version_resolve(version)
   bootswatch <- bootswatch_theme_resolve(bootswatch, version)
-  theme <- bs_add_bundles(
+  theme <- bs_bundle(
     bs_theme_init(),
     bootstrap_layer(version),
     if (identical(version, "4+3")) bs3compat_layer(),

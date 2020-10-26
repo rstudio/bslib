@@ -86,7 +86,7 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
     vars <- ensure_default_flag(vars)
   }
 
-  bs_add_bundles(
+  bs_bundle(
     theme, do.call(sass_layer, rlang::list2(!!.where := vars))
   )
 }
@@ -109,19 +109,19 @@ ensure_default_flag <- function(x) {
 #' @param rules Sass rules.
 #' @export
 bs_add_rules <- function(theme, rules) {
-  bs_add_bundles(theme, sass_layer(rules = rules))
+  bs_bundle(theme, sass_layer(rules = rules))
 }
 
 #' @rdname bs_add_variables
 #' @param declarations Sass functions and mixins.
 #' @export
 bs_add_declarations <- function(theme, declarations) {
-  bs_add_bundles(theme, sass_layer(declarations = declarations))
+  bs_bundle(theme, sass_layer(declarations = declarations))
 }
 
 #' @rdname bs_add_variables
 #' @export
-bs_add_bundles <- function(theme, ...) {
+bs_bundle <- function(theme, ...) {
   assert_bs_theme(theme)
   is_layer <- vapply(rlang::list2(...), is_sass_bundle, logical(1))
   if (!any(is_layer)) {
