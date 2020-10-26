@@ -58,7 +58,7 @@ Collate:
 Remotes:
     rstudio/thematic,
     rstudio/jquerylib,
-    rstudio/sass#54,
+    rstudio/sass,
     rstudio/htmltools,
     rstudio/shiny
 URL: https://rstudio.github.io/bootstraplib/, https://github.com/rstudio/bootstraplib
