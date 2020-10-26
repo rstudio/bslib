@@ -84,7 +84,7 @@ bs_sass_file_bundle <- function(
 bs_sass_bundle_version <- function(name, version, file = NULL, subname = NULL) {
   paste0(
     name, "@", version,
-    if(!is.null(file)) paste0("#", file),
-    if(!is.null(subname)) paste0("~", subname)
+    if(!is.null(subname)) paste0("~", subname),
+    if(!is.null(file)) paste0("#", file)
   )
 }
