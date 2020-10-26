@@ -65,7 +65,7 @@ bs_sass_file_bundle <- function(
     file_attachments = file_attachments
   )
 
-  rule_layers <-
+  rule_bundles <-
     rules %>%
     bs_sass_files(version = version) %>%
     lapply(function(bs_file) {
@@ -73,7 +73,7 @@ bs_sass_file_bundle <- function(
     }) %>%
     # Ex: bootstraplib@4#dropdown
     setNames(bs_sass_bundle_version(name, version, file = rules))
-  rule_bundle <- sass_bundle(!!!rule_layers)
+  rule_bundle <- sass_bundle(!!!rule_bundles)
 
   bundle <- sass_bundle(!!bs_sass_bundle_version(name, version) := core, rule_bundle)
   bundle

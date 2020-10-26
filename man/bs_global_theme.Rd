@@ -7,7 +7,7 @@
 \alias{bs_global_clear}
 \alias{bs_global_add_variables}
 \alias{bs_global_add_rules}
-\alias{bs_global_add_layers}
+\alias{bs_global_bundle}
 \alias{bs_global_theme_update}
 \title{Global theming}
 \usage{
@@ -42,7 +42,7 @@ bs_global_add_variables(
 
 bs_global_add_rules(...)
 
-bs_global_add_layers(...)
+bs_global_bundle(...)
 
 bs_global_theme_update(
   ...,

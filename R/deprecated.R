@@ -84,8 +84,8 @@ bs_theme_add_variables <- function(...) {
 #' @rdname deprecated
 #' @export
 bs_theme_add <- function(...) {
-  .Deprecated("bs_global_add_layers")
-  bs_global_add_layers(sass::sass_layer(...))
+  .Deprecated("bs_global_bundle")
+  bs_global_bundle(sass::sass_layer(...))
 }
 
 

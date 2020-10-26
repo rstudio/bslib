@@ -23,7 +23,7 @@ test_that("global theme api works", {
   expect_null(bs_global_get())
 
   # Adding without a set errors
-  expect_error(bs_global_add_layers())
+  expect_error(bs_global_bundle())
 
   # Can set a theme object as the current theme
   bs_global_set(cosmo_theme)

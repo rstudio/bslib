@@ -168,7 +168,7 @@ bs_dependency <- function(input = list(), theme, name, version,
   sass_args <- c(
     list(
       rules = input,
-      layer = theme,
+      bundle = theme,
       output = sass::output_template(basename = name, dirname = name),
       write_attachments = TRUE,
       cache_key_extra = cache_key_extra

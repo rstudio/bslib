@@ -16,7 +16,7 @@ test_that("bs_theme_update() can update defaults", {
 })
 
 
-test_that("Sass layers work as expected with a theme", {
+test_that("Sass bundles work as expected with a theme", {
   theme <- bs_add_variables(bs_theme("4"), primary = "#222222")
   expect_true(bs_get_variables(theme, "primary") == "#222222")
   # declarations can be used in rules

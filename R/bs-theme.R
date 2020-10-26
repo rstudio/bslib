@@ -140,9 +140,9 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
   bootswatch <- bootswatch_theme_resolve(bootswatch, version)
   theme <- bs_bundle(
     bs_theme_init(),
-    bootstrap_layer(version),
-    if (identical(version, "4+3")) bs3compat_layer(),
-    bootswatch_layer(bootswatch, version)
+    bootstrap_bundle(version),
+    if (identical(version, "4+3")) bs3compat_bundle(),
+    bootswatch_bundle(bootswatch, version)
   )
   bs_theme_update(
     theme, ...,
@@ -219,13 +219,13 @@ assert_bs_theme <- function(theme) {
 
 
 # -----------------------------------------------------------------
-# Core Bootstrap layer
+# Core Bootstrap bundle
 # -----------------------------------------------------------------
 
-bootstrap_layer <- function(version) {
+bootstrap_bundle <- function(version) {
   if (version %in% c("4", "4+3")) {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
-    bs4_layer <- bs_sass_file_bundle(
+    bs4_bundle <- bs_sass_file_bundle(
       version = version,
       name = "bootstrap",
       defaults = c("functions", "variables"),
@@ -254,7 +254,7 @@ bootstrap_layer <- function(version) {
     )
 
     return(sass_bundle(
-      bs4_layer,
+      bs4_bundle,
       !!bs_sass_bundle_version("bootstrap", version, subname = "additions") := bs4_additions
     ))
   }
@@ -286,7 +286,7 @@ bootstrap_layer <- function(version) {
 
     return(sass_bundle(
       bs3_core,
-      !!bs_sass_bundle_version("bootstrap", version, subname = "accessiblity") := bs3_accessibility_layer(),
+      !!bs_sass_bundle_version("bootstrap", version, subname = "accessiblity") := bs3_accessibility_bundle(),
       glyphicon = glyphicon
     ))
   }
@@ -324,10 +324,10 @@ bootstrap_javascript <- function(version) {
 }
 
 # -----------------------------------------------------------------
-# BS3 compatibility layer
+# BS3 compatibility bundle
 # -----------------------------------------------------------------
 
-bs3compat_layer <- function() {
+bs3compat_bundle <- function() {
   sass_layer(
     defaults = list(
       sass_file(system_file("bs3compat", "_defaults.scss", package = "bootstraplib"))
@@ -354,10 +354,10 @@ bs3compat_layer <- function() {
 }
 
 # -----------------------------------------------------------------
-# BS3 accessibility layer
+# BS3 accessibility bundle
 # -----------------------------------------------------------------
 
-bs3_accessibility_layer <- function() {
+bs3_accessibility_bundle <- function() {
   sass_layer(
     rules = list(
       sass_file(
@@ -380,10 +380,10 @@ bs3_accessibility_layer <- function() {
 }
 
 # -----------------------------------------------------------------
-# Bootswatch layer
+# Bootswatch bundle
 # -----------------------------------------------------------------
 
-bootswatch_layer <- function(bootswatch, version) {
+bootswatch_bundle <- function(bootswatch, version) {
 
   # Exit early if this is vanilla Bootstrap
   if (!bootswatch %in% bootswatch_themes(version)) return(NULL)
@@ -419,7 +419,7 @@ bootswatch_layer <- function(bootswatch, version) {
   if (version %in% "4+3") {
     bundle <- sass_bundle(
       bundle,
-      !!bs_sass_bundle_version("bootswatch", bootswatch, subname = "bs3_compat_navbar") := sass_layer_bs3compat_navbar(bootswatch)
+      !!bs_sass_bundle_version("bootswatch", bootswatch, subname = "bs3_compat_navbar") := bs3compat_navbar_bundle(bootswatch)
     )
   }
 
@@ -428,7 +428,7 @@ bootswatch_layer <- function(bootswatch, version) {
 
 
 # Mappings from BS3 navbar classes to BS4
-sass_layer_bs3compat_navbar <- function(bootswatch) {
+bs3compat_navbar_bundle <- function(bootswatch) {
   # Do nothing if this isn't a Bootswatch 3 theme
   if (!bootswatch %in% c("materia", "litera", bootswatch_themes(3))) return(NULL)
 
