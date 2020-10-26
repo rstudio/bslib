@@ -22,7 +22,7 @@ Imports:
     grDevices,
     htmltools (>= 0.5.0.9001),
     jsonlite,
-    sass (>= 0.2.0.9004),
+    sass (>= 0.2.0.9005),
     jquerylib (>= 0.1.2),
     rlang,
     magrittr
@@ -58,7 +58,7 @@ Collate:
 Remotes:
     rstudio/thematic,
     rstudio/jquerylib,
-    rstudio/sass#54,
+    rstudio/sass,
     rstudio/htmltools,
     rstudio/shiny
 URL: https://rstudio.github.io/bootstraplib/, https://github.com/rstudio/bootstraplib
