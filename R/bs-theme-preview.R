@@ -389,13 +389,13 @@ bs_get_variables <- function(theme, varnames) {
     collapse = "\n"
   )
 
-  # Declare a block with a meaningless but identifiable selector (:root.get_default_vars)
+  # Declare a block with a meaningless but identifiable selector (.get_default_vars:root)
   # and add properties for each variable that is desired.
   cssvars <- paste0(
     "--", varnames, ": #{inspect($", varnames, ")};",
     collapse = "\n"
   )
-  cssvars <- sprintf(":root.get_default_vars {\n %s \n}", cssvars)
+  cssvars <- sprintf(".get_default_vars:root {\n %s \n}", cssvars)
 
   css <- sass_partial(
     cssvars,
@@ -404,9 +404,9 @@ bs_get_variables <- function(theme, varnames) {
   )
 
   # Search the output for the block of properties we just generated, using the
-  # ":root.get_default_vars" selector. The capture group will include all of the
+  # ".get_default_vars:root" selector. The capture group will include all of the
   # properties we care about in a single string (the propstr variable below).
-  matches <- regexec(":root\\.get_default_vars\\s*\\{\\s*\\n(.*?)\\n\\s*\\}", css)
+  matches <- regexec("\\.get_default_vars:root\\s*\\{\\s*\\n(.*?)\\n\\s*\\}", css)
   propstr <- regmatches(css, matches)[[1]][2]
   if (is.na(propstr)) {
     stop("bs_global_get_variables failed; expected selector was not found")
