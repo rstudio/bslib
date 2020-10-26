@@ -162,19 +162,32 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
 #' @rdname bs_theme
 #' @param theme a [bs_theme()] object.
 #' @export
-bs_theme_update <- function(theme, ..., bg = NULL, fg = NULL,
+bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
                             primary = NULL, secondary = NULL, success = NULL,
                             info = NULL, warning = NULL, danger = NULL,
                             base_font = NULL, code_font = NULL, heading_font = NULL) {
   assert_bs_theme(theme)
+
+  # If bootswatch is specified, remove the current theme, then add the new one
+  if (!is.null(bootswatch)) {
+    theme <- bs_remove_bootswatch(theme, theme_bootswatch(theme))
+    theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
+  }
   # See R/bs-theme-update.R for the implementation of these
   theme <- bs_base_colors(theme, bg = bg, fg = fg)
   theme <- bs_accent_colors(
     theme, primary = primary, secondary = secondary, success = success,
     info = info, warning = warning, danger = danger
   )
+  theme <- bs_gfont_dependencies(theme, base = base_font, code = code_font, heading = heading_font)
   theme <- bs_fonts(theme, base = base_font, code = code_font, heading = heading_font)
   bs_add_variables(theme, ...)
+}
+
+bs_remove_bootswatch <- function(theme, bootswatch) {
+  theme <- sass_bundle_remove(theme, paste0("bootswatch@", bootswatch))
+  # TODO: sass_bundle_remove() could use a regex arg?
+  sass_bundle_remove(theme, paste0("bootswatch@", bootswatch, "~bs3_compat_navbar"))
 }
 
 #' @rdname bs_global_theme
@@ -217,8 +230,6 @@ assert_bs_theme <- function(theme) {
   }
   invisible(theme)
 }
-
-
 # -----------------------------------------------------------------
 # Core Bootstrap bundle
 # -----------------------------------------------------------------

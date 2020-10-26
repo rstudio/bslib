@@ -52,6 +52,7 @@ Collate:
     'deprecated.R'
     'files.R'
     'gfonts.R'
+    'gfont-cache.R'
     'imports.R'
     'precompiled.R'
     'version-default.R'

@@ -117,5 +117,6 @@ bs_add_declarations <- function(theme, declarations) {
 #' @export
 bs_bundle <- function(theme, ...) {
   assert_bs_theme(theme)
+
   as_bs_theme(sass_bundle(theme, ...))
 }

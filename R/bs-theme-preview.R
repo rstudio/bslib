@@ -50,7 +50,7 @@ opts_metadata <- function() {
   )
 }
 
-# Basicall bs_get_variables(), but accounts bootswatch not being a
+# Basically bs_get_variables(), but takes into account bootswatch not being a Sass var
 get_themer_vars <- function(theme, varnames) {
   vars <- bs_get_variables(theme, varnames)
   vars[["bootswatch"]] <- theme_bootswatch(theme) %||% NA
@@ -204,11 +204,6 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' @param appDir The application to run. This can be a file or directory path,
 #'   or a [shiny::shinyApp()] object. See [shiny::runApp()] for details.
 #' @param ... Additional parameters to pass through to [shiny::runApp()].
-#' @param gfont_links whether or not to include `<link>` tags for Google Font
-#' families. This makes it so that, as long as you have an internet connection,
-#' you can preview different Google Fonts in real-time.
-#' @param gfont_update whether or not to update the internal database of Google
-#' Fonts prior to launching the themer (only has an effect if `gfont_links` is `TRUE`)
 #'
 #' @section Limitations:
 #'
@@ -256,13 +251,13 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' }
 #'
 #' @export
-run_with_themer <- function(appDir = getwd(), ..., gfont_links = TRUE, gfont_update = FALSE) {
+run_with_themer <- function(appDir = getwd(), ...) {
   obj <- shiny::as.shiny.appobj(appDir)
   origServerFuncSource <- obj[["serverFuncSource"]]
   obj[["serverFuncSource"]] <- function() {
     origServerFunc <- origServerFuncSource()
     function(input, output, session, ...) {
-      bs_themer(gfont_links)
+      bs_themer()
       if (!"session" %in% names(formals(origServerFunc))) {
         origServerFunc(input, output, ...)
       } else {
@@ -275,7 +270,7 @@ run_with_themer <- function(appDir = getwd(), ..., gfont_links = TRUE, gfont_upd
 
 #' @rdname run_with_themer
 #' @export
-bs_themer <- function(gfont_links = TRUE, gfont_update = FALSE) {
+bs_themer <- function() {
   session <- shiny::getDefaultReactiveDomain()
   if (is.null(session)) {
     stop(call. = FALSE, "`bootstraplib::bs_themer()` must be called from within a ",
@@ -303,13 +298,6 @@ bs_themer <- function(gfont_links = TRUE, gfont_update = FALSE) {
     return()
   } else {
     session$userData[["bs_themer_init"]] <- TRUE
-  }
-
-  # For each font variable, find the 1st google font family and insert an href link for it
-  if (isTRUE(gfont_links)) {
-    font_vars <- bs_get_variables(theme, c("font-family-base", "font-family-monospace", "headings-font-family"))
-    gfont_info <- if (isTRUE(gfont_update)) get_gfont_info() else gfont_info
-    insert_gfont_links(font_vars, gfont_info)
   }
 
   input <- session$input
@@ -362,12 +350,6 @@ bs_themer <- function(gfont_links = TRUE, gfont_update = FALSE) {
     code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
     print(code)
 
-    # TODO: should we also echo tags$link() code as well?
-    if (isTRUE(gfont_links)) {
-      changed_font_vars <- changed_vals[names(changed_vals) %in% c("base_font", "code_font", "heading_font")]
-      insert_gfont_links(changed_font_vars, gfont_info)
-    }
-
     # Prevent Sass compilation errors from crashing the app and relay a message to user.
     # Errors can happen if the users enters values that lead to unexpected Sass
     # expressions (e.g., "$foo: * !default")
@@ -389,32 +371,21 @@ bs_themer <- function(gfont_links = TRUE, gfont_update = FALSE) {
   })
 }
 
-# Given a character string of CSS font-family definitions,
-# insert a <link href="..."> for the first Google Font found in each definition
-# For example, turn something like
-# c("Foo, Bar, Pacifico", "Yellowtail")
-# into
-# <link href="https://fonts.googleapis.com/css?family=Pacifico">
-# <link href="https://fonts.googleapis.com/css?family=Yellowtail">
-insert_gfont_links <- function(css_vars, info = gfont_info) {
-  if (!length(css_vars)) return()
-  css_vars <- strsplit(as.character(css_vars), ",")
-  lapply(css_vars, function(x)  {
+
+# For each font variable (e.g. `font-family-base = "'Foo bar', Ubuntu, sans"`)
+# detect the first family that matches a Google Font family (e.g., Ubuntu),
+# all return all the (first) matches for all the variables
+find_gfont_variables <- function(theme, gfont_info, font_vars = c("font-family-base", "font-family-monospace", "headings-font-family")) {
+  font_vars <- bs_get_variables(theme, font_vars)
+  font_vars <- strsplit(as.character(font_vars), ",")
+  gfonts <- lapply(font_vars, function(x)  {
     x <- gsub("(^\\s*)|(\\s*$)|(')|(\")", "", x)
-    idx <- na.omit(match(tolower(x), tolower(info$family)))
+    idx <- na.omit(match(tolower(x), tolower(gfont_info$family)))
     if (!length(idx)) return()
-    href <- paste0(
-      "https://fonts.googleapis.com/css?family=",
-      httpuv::encodeURI(info$family[idx[[1]]])
-    )
-    shiny::insertUI(
-      "head", where = "beforeEnd",
-      ui = tags$link(href = href, rel = "stylesheet")
-    )
+    gfont_info$family[idx[[1]]]
   })
+  unique(unlist(gfonts))
 }
-
-
 
 #' Retrieve Sass variable values from the current theme
 #'
