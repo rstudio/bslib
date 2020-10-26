@@ -228,6 +228,7 @@ bootstrap_bundle <- function(version) {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
     bs4_bundle <- bs_sass_file_bundle(
       version = version,
+      file_version = "4",
       name = "bootstrap",
       defaults = c("functions", "variables"),
       declarations = "mixins",
@@ -272,7 +273,8 @@ bootstrap_bundle <- function(version) {
     # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
     bs3_core <- bs_sass_file_bundle(
       name = "bootstrap",
-      version = 3,
+      version = "3",
+      file_version = "3",
       defaults = "variables",
       declarations = "mixins",
       rules = c(

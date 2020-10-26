@@ -44,6 +44,7 @@ bootswatch_sass_file <- function(theme, file, version = version_default()) {
 bs_sass_file_bundle <- function(
   name,
   version,
+  file_version, # should prolly equal `version`, but want to make this required
   defaults = NULL,
   declarations = NULL,
   rules = NULL,
@@ -52,10 +53,10 @@ bs_sass_file_bundle <- function(
 ) {
 
   if (!is.null(defaults)) {
-    defaults <- bs_sass_files(defaults, version = version)
+    defaults <- bs_sass_files(defaults, version = file_version)
   }
   if (!is.null(declarations)) {
-    declarations <- bs_sass_files(declarations, version = version)
+    declarations <- bs_sass_files(declarations, version = file_version)
   }
 
   core <- sass_layer(
@@ -67,7 +68,7 @@ bs_sass_file_bundle <- function(
 
   rule_bundles <-
     rules %>%
-    bs_sass_files(version = version) %>%
+    bs_sass_files(version = file_version) %>%
     lapply(function(bs_file) {
       sass_layer(rules = list(bs_file))
     }) %>%
