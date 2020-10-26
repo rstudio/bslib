@@ -33,7 +33,7 @@
 }
 
 .selectize-input.focus {
-  @extend .form-control:focus;
+  @extend .form-control, :focus;
 }
 
 .selectize-control.multi .selectize-input > div.active {
