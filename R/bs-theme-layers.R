@@ -6,7 +6,7 @@
 #'
 #' @inheritParams bs_theme_update
 #' @param ...
-#'  * `bs_add_variables()`: Should be named sass variables or values that can be passed in directly to the `defaults` argument of a [sass::sass_layer()].
+#'  * `bs_add_variables()`: Should be named Sass variables or values that can be passed in directly to the `defaults` argument of a [sass::sass_layer()].
 #'  * `bs_bundle()`: Should be arguments that can be handled by [sass::sass_bundle()] to be appended to the `theme`
 #' @param .where Whether to place the variable definitions before other Sass
 #'   `"defaults"`, after other Sass `"declarations"`, or after other Sass
