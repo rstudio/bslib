@@ -3,19 +3,19 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Roboto'), local('Roboto-Regular'), url(fonts/Roboto_400.ttf) format('truetype');
+  src: local('Roboto'), local('Roboto-Regular'), url(fonts/Roboto_400.woff) format('woff');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: local('Roboto Medium'), local('Roboto-Medium'), url(fonts/Roboto_500.ttf) format('truetype');
+  src: local('Roboto Medium'), local('Roboto-Medium'), url(fonts/Roboto_500.woff) format('woff');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: local('Roboto Bold'), local('Roboto-Bold'), url(fonts/Roboto_700.ttf) format('truetype');
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(fonts/Roboto_700.woff) format('woff');
 }
