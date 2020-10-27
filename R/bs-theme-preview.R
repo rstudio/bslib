@@ -328,30 +328,24 @@ bs_themer <- function() {
 
     code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
     print(code)
-    theme <- rlang::eval_tidy(code)
 
-    session$setCurrentTheme(theme)
-
-    # Degrade sass() compilation errors to warnings so they don't crash the app
+    # Prevent Sass compilation errors from crashing the app and relay a message to user.
     # Errors can happen if the users enters values that lead to unexpected Sass
     # expressions (e.g., "$foo: * !default")
-    deps <- try(bs_theme_dependencies(theme))
-    if (inherits(deps, "try-error")) {
-      shiny::showNotification(
-        "Sass -> CSS compilation failed, likely due to invalid user input.
+    shiny::removeNotification("sass-compilation-error", session = session)
+    tryCatch(
+      session$setCurrentTheme(rlang::eval_tidy(code)),
+      error = function(e) {
+        shiny::showNotification(
+          "Sass -> CSS compilation failed, likely due to invalid user input.
          Other theming changes won't take effect until the invalid input is fixed.",
-        duration = NULL,
-        id = "sass-compilation-error",
-        type = "error",
-        session = session
-      )
-    } else {
-      shiny::removeNotification("sass-compilation-error", session = session)
-      shiny::insertUI(
-        "body", where = "beforeEnd",
-        ui = div(id = "bs-themer-dependencies", deps)
-      )
-    }
+          duration = NULL,
+          id = "sass-compilation-error",
+          type = "error",
+          session = session
+        )
+      }
+    )
   })
 }
 
