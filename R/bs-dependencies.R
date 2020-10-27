@@ -59,6 +59,7 @@ bs_theme_dependencies <- function(
 
   theme <- as_bs_theme(theme)
   version <- theme_version(theme)
+  theme_layer <- sass::as_sass_layer(theme)
 
   if (is.character(cache)) {
     cache <- sass::sass_cache_get(cache)
@@ -80,7 +81,7 @@ bs_theme_dependencies <- function(
       file.copy(precompiled_css, out_file)
 
       sass::write_file_attachments(
-        sass::as_sass_layer(theme)$file_attachments,
+        theme_layer$file_attachments,
         out_dir
       )
     }
@@ -123,7 +124,7 @@ bs_theme_dependencies <- function(
         meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
       )
     ),
-    theme$html_deps
+    theme_layer$html_deps
   )
 }
 
