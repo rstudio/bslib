@@ -27,16 +27,7 @@ download_and_copy_fonts <-  function(theme) {
   }
   web_font_url <- gsub('(^")|("$)', '', web_font_url)
 
-  # Request the relevant @font-face definitions for the font url
-  # (without the IE11 user-agent header we'd get truetype fonts, but
-  # there's no reason why we can't use woff, which IE11 supports)
-  tmpfile <- tempfile(fileext = ".css")
-  on.exit(unlink(tmpfile), add = TRUE)
-  download.file(
-    web_font_url, tmpfile,
-    headers = c("User-Agent" = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko")
-  )
-  font_css <- readLines(tmpfile)
+  font_css <- read_gfont_url(web_font_url)
 
   families <- extract_first_group(font_css, "font-family:\\s*'(.+)';")
   if (length(families) == 0) {

@@ -109,7 +109,7 @@ bs_themer_ui <- function(theme = bs_theme()) {
 
   opts <- lapply(opts_metadata(), function(opt_infos) {
     mapply(names(opt_infos), opt_infos, FUN = function(name, opt_info) {
-      make_control(name, opt_info$label, opt_info$default, opt_info$type, opt_info$desc)
+      make_control(name, opt_info$label, opt_info$default, opt_info$type, HTML(opt_info$desc))
     }, USE.NAMES = FALSE, SIMPLIFY = FALSE)
   })
 
@@ -233,13 +233,13 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' }
 #'
 #' @export
-run_with_themer <- function(appDir = getwd(), ...) {
+run_with_themer <- function(appDir = getwd(), ..., gfonts = TRUE, gfonts_update = FALSE) {
   obj <- shiny::as.shiny.appobj(appDir)
   origServerFuncSource <- obj[["serverFuncSource"]]
   obj[["serverFuncSource"]] <- function() {
     origServerFunc <- origServerFuncSource()
     function(input, output, session, ...) {
-      bs_themer()
+      bs_themer(gfonts, gfonts_update)
       if (!"session" %in% names(formals(origServerFunc))) {
         origServerFunc(input, output, ...)
       } else {
@@ -252,7 +252,7 @@ run_with_themer <- function(appDir = getwd(), ...) {
 
 #' @rdname run_with_themer
 #' @export
-bs_themer <- function() {
+bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   session <- shiny::getDefaultReactiveDomain()
   if (is.null(session)) {
     stop(call. = FALSE, "`bslib::bs_themer()` must be called from within a ",
@@ -281,6 +281,8 @@ bs_themer <- function() {
   } else {
     session$userData[["bs_themer_init"]] <- TRUE
   }
+
+  gfont_info <- if (isTRUE(gfonts)) get_gfont_info(gfonts_update)
 
   input <- session$input
 
@@ -326,8 +328,20 @@ bs_themer <- function() {
       changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["white"]]
     }
 
+    font_idx <- names(changed_vals) %in% c("base_font", "code_font", "heading_font")
+    if (length(gfont_info)) {
+      for (i in which(font_idx)) {
+        changed_vals[[i]] <- insert_gfont_call(changed_vals[[i]], gfont_info)
+      }
+    }
+
+    # print code for user, possibly with quoted expressions
     code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
     print(code)
+
+    # the actual code that we evaluate should not have quoted expressions
+    changed_vals[] <- lapply(changed_vals, eval_val)
+    code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
 
     # Prevent Sass compilation errors from crashing the app and relay a message to user.
     # Errors can happen if the users enters values that lead to unexpected Sass
@@ -336,6 +350,7 @@ bs_themer <- function() {
     tryCatch(
       session$setCurrentTheme(rlang::eval_tidy(code)),
       error = function(e) {
+        warning(e)
         shiny::showNotification(
           "Sass -> CSS compilation failed, likely due to invalid user input.
          Other theming changes won't take effect until the invalid input is fixed.",
@@ -347,6 +362,46 @@ bs_themer <- function() {
       }
     )
   })
+}
+
+eval_val <- function(x) {
+  if (is.call(x)) return(eval(x))
+  if (!is.list(x)) return(x)
+  lapply(x, eval_val)
+}
+
+insert_gfont_call <- function(val, gfont_info) {
+  if (!nzchar(val %||% "")) return(val)
+  fams <- strsplit(as.character(val), ",")[[1]]
+  fams <- gsub("(^\\s*)|(\\s*$)|(')|(\")", "", fams)
+  is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
+  if (length(fams) == 1) {
+    return(if (is_a_gfont) call("gfont", fams) else fams)
+  }
+  fams <- as.list(fams)
+  for (i in which(is_a_gfont)) {
+    fams[[i]] <- call("gfont", fams[[i]])
+  }
+  fams
+}
+
+get_gfont_info <- function(update = FALSE) {
+  if (isTRUE(update)) {
+    jsonlite::fromJSON(gfont_api_url())$items
+  } else {
+    # See tools/update_gfont_info.R
+    gfont_info
+  }
+}
+
+# same as thematic:::gfont_api_url
+# TODO: should this be v2?
+gfont_api_url <- function() {
+  paste0("https://www.googleapis.com/webfonts/v1/webfonts?key=", gfont_key())
+}
+# same as thematic:::gfont_key
+gfont_key <- function() {
+  Sys.getenv("GFONT_KEY", paste0("AIzaSyDP", "KvElVqQ-", "26f7tjxyg", "IGpIajf", "tS_zmas"))
 }
 
 #' Retrieve Sass variable values from the current theme

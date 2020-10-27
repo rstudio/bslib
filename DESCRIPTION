@@ -33,7 +33,10 @@ Suggests:
     testthat,
     digest,
     thematic,
-    withr
+    withr,
+    rappdirs,
+    jsonlite,
+    curl
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -51,6 +54,7 @@ Collate:
     'bs-theme.R'
     'deprecated.R'
     'files.R'
+    'gfonts.R'
     'imports.R'
     'precompiled.R'
     'version-default.R'

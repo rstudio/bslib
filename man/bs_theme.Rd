@@ -132,34 +132,26 @@ main grayscale colors in things like hyperlinks, tabset panels, and buttons.
 
 Use \code{base_font}, \code{code_font}, and \code{heading_font} to control the main
 typefaces. These arguments set new defaults for the relevant \code{font-family}
-CSS properties \strong{which does not guarantee the relevant fonts are available
-in the users system}. To ensure the fonts are actually available, use a
-package like \strong{gfonts} (if Google Fonts) to download and provide the font
-files with the HTML site.
+CSS properties, but don't necessarily import the relevant font files.
+To both set CSS properties \emph{and} import Google font files, consider using
+the \code{\link[=gfont]{gfont()}} helper.
 
-Each \verb{*_font} argument accepts a character vector where each element of that
-vector can a single unquoted font family name, a single quoted font family
-name, or a comma-separated list of font families (with individual font
-family names quoted as necessary). The comma-separated list is useful for
-specifying "fallback" font families (e.g., generic CSS families like
-\code{sans-serif} or \code{serif}) when font(s) may be unavailable.
-
-For example, each example below is valid:\preformatted{# Single, unquoted
-bs_theme(base_font = "Source Sans Pro")
-# Single, quoted
-bs_theme(base_font = "'Source Sans Pro'")
-# Multiple, quoted
-bs_theme(base_font = "'Source Sans Pro', sans-serif")
-# Combining all of the above
-bs_theme(
-  base_font = c("Open Sans", "'Source Sans Pro'",
-  "'Helvetica Neue', Helvetica, sans-serif")
-)
+Each \verb{*_font} argument accepts a \code{\link[=gfont]{gfont()}} object, a character vector, or a
+list of both. Note that a character vector can have:
+\itemize{
+\item A single unquoted name (e.g., \code{"Source Sans Pro"}).
+\item A single quoted name (e.g., \code{"'Source Sans Pro'"}).
+\item A comma-separated list of names w/ individual names quoted as necessary.
+(e.g. \code{c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")})
 }
 
-But the following is \emph{technically} not valid because \verb{Source Sans Pro} is
-not quoted (the resulting CSS will contain \verb{font-family: Source Sans Pro, sans-serif;} which is technically out of the CSS specifications but may
-still work in some modern browsers).\preformatted{bs_theme(base_font = "Source Sans Pro, sans-serif")
+Since \link{gfont(..., local = TRUE)} guarantees that the client has access to the
+font family, meaning it's safe to specify just one font family, for instance:\preformatted{bs_theme(base_font = gfont("Pacifico", local = TRUE))
+}
+
+However, specifying multiple
+"fallback" font families is recommended if relying on remote and/or system fonts
+being installed, for instance \code{bs_theme(base_font = gfont("Pacifico", local = TRUE))}\preformatted{bs_theme(base_font = list(gfont("Pacifico", local = FALSE), "Roboto", "sans-serif")
 }
 }
 

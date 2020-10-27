@@ -48,7 +48,7 @@
     "font-family-base": {
       "type": "str",
       "label": "Base font",
-      "desc": null
+      "desc": "Tip: Try entering any <a href='https://fonts.google.com/'>Google Font</a> name (e.g., Pacifico)"
     },
     "font-family-monospace": {
       "type": "str",

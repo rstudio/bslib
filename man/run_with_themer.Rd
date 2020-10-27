@@ -5,9 +5,9 @@
 \alias{bs_themer}
 \title{Theme customization UI}
 \usage{
-run_with_themer(appDir = getwd(), ...)
+run_with_themer(appDir = getwd(), ..., gfonts = TRUE, gfonts_update = FALSE)
 
-bs_themer()
+bs_themer(gfonts = TRUE, gfonts_update = FALSE)
 }
 \arguments{
 \item{appDir}{The application to run. This can be a file or directory path,

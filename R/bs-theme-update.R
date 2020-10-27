@@ -193,9 +193,9 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   assert_bs_theme(theme)
 
   args <- list(
-    base = base,
-    code = code,
-    heading = heading
+    base = unlist(font_as_character(base)),
+    code = unlist(font_as_character(code)),
+    heading = unlist(font_as_character(heading))
   )
 
   mapply(function(name, value) {
@@ -204,11 +204,11 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
     }
     if (!is.character(value)) {
       stop(call. = FALSE,
-        "Invalid ", format_varnames(name), " argument to bs_theme_fonts(): must be character vector")
+        "Invalid ", format_varnames(name), " argument to bs_fonts(): must be character vector")
     }
     if (anyNA(value) || any(!nzchar(value))) {
       stop(call. = FALSE,
-        "Invalid ", format_varnames(name), " argument to bs_theme_fonts(): must be character vector")
+        "Invalid ", format_varnames(name), " argument to bs_fonts(): must be character vector")
     }
   }, names(args), args)
 
@@ -223,6 +223,13 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   dispatch_theme_modifier(theme, funcs, args, "bs_fonts")
 }
 
+font_as_character <- function(x) {
+  if (is.null(x)) return(x)
+  if (is.character(x)) return(x)
+  if (is_gfont(x)) return(x$name)
+  if (!is.list(x)) return(NULL)
+  lapply(x, font_as_character)
+}
 
 bs4_fonts <- function(args) {
   name_map <- c(
