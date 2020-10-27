@@ -2,11 +2,11 @@
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 400;
-  src: local('Ubuntu Regular'), local('Ubuntu-Regular'), url(fonts/Ubuntu_400.ttf) format('truetype');
+  src: local('Ubuntu Regular'), local('Ubuntu-Regular'), url(fonts/Ubuntu_400.woff) format('woff');
 }
 @font-face {
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 700;
-  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(fonts/Ubuntu_700.ttf) format('truetype');
+  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(fonts/Ubuntu_700.woff) format('woff');
 }
