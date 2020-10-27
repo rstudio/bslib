@@ -26,6 +26,7 @@ bs_theme(
 bs_theme_update(
   theme,
   ...,
+  bootswatch = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,

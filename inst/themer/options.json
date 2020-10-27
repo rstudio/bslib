@@ -11,6 +11,13 @@
       "desc": "The color for foreground elements, including text"
     }
   },
+  "Bootswatch theme": {
+    "bootswatch": {
+      "type": "select",
+      "label": null,
+      "options": ["cerulean","cosmo","cyborg","darkly","flatly","journal","litera","lumen","lux","materia","minty","pulse","sandstone","simplex","sketchy","slate","solar","spacelab","superhero","united","yeti"]
+    }
+  },
   "Accent colors": {
     "primary": {
       "type": "color",
