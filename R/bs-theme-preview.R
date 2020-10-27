@@ -316,7 +316,11 @@ bs_themer <- function() {
     # Change variables names to their 'high-level' equivalents
     # Note that if _either_ fg/bg has changed, bs_base_colors()
     # needs to be called with *both* fg and bg populated.
-    changed_vals <- rename(changed_vals, c(bg = "white", fg = "black", base = "font-family-base", code = "font-family-monospace", heading = "headings-font-family"))
+    changed_vals <- rename(
+      changed_vals, white = "bg", black = "fg",
+      "font-family-base" = "base_font", "font-family-monospace" = "code_font",
+      "headings-font-family" = "heading_font"
+    )
     if (any(c("fg", "bg") %in% names(changed_vals))) {
       changed_vals[["fg"]] <- changed_vals[["fg"]] %||% vals[["black"]]
       changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["white"]]
