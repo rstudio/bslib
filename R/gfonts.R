@@ -197,11 +197,40 @@ gfont_hash <- function(gfont) {
 }
 
 gfont_cache_dir <- function(gfont) {
-  file.path(cache_home(), gfont_hash(gfont))
+  file.path(cache_context_dir(), gfont_hash(gfont))
 }
 
-cache_home <- function() {
-  rappdirs::user_cache_dir("bootstraplib")
+# Inspired by sass::sass_cache_context_dir
+cache_context_dir <- function(pkg = "bootstraplib") {
+  tryCatch(
+    {
+      # The usual place we'll look. This may be superseded below.
+      cache_dir <- rappdirs::user_cache_dir(paste0("R-", pkg))
+      if (is_shiny_app()) {
+        app_cache_dir <- file.path(
+          shiny::getShinyOption("appDir"),
+          "app_cache", pkg
+        )
+        app_has_cache <- dir.exists(app_cache_dir) || dir.exists(dirname(app_cache_dir))
+        if (is_hosted_app() || app_has_cache) {
+          cache_dir <- app_cache_dir
+        }
+      }
+
+      if (!dir.exists(cache_dir)) {
+        res <- dir.create(cache_dir, recursive = TRUE)
+        if (!res) {
+          stop("Error creating cache directory")
+        }
+      }
+    },
+    error = function(e) {
+      warning("Error using cache directory at '", cache_dir, "'. Using temp dir instead.")
+      cache_dir <<- tempfile(paste0(pkg, "-"))
+      dir.create(cache_dir)
+    }
+  )
+  normalizePath(cache_dir)
 }
 
 # similar to thematic:::download_file, but also translates headers to curl
