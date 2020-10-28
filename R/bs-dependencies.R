@@ -111,7 +111,7 @@ bs_theme_dependencies <- function(
     warning("Failed to copy over bootstrap's javascript files into the htmlDependency() directory.")
   }
 
-  c(
+  htmltools::resolveDependencies(c(
     if (inherits(jquery, "html_dependency")) list(jquery) else jquery,
     list(
       htmlDependency(
@@ -125,7 +125,7 @@ bs_theme_dependencies <- function(
       )
     ),
     theme_layer$html_deps
-  )
+  ))
 }
 
 

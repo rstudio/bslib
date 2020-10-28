@@ -13,7 +13,7 @@
 #' if (interactive()) {
 #'   bs_theme_preview(theme)
 #' }
-gfont <- function(name, weight = NULL, local = FALSE, cache = TRUE) {
+gfont <- function(name, weight = NULL, local = TRUE, cache = TRUE) {
   stopifnot(is_string(name))
   if (!is.null(weight)) stopifnot(is_string(weight))
   structure(
@@ -39,7 +39,13 @@ bs_gfont_dependencies <- function(theme, base = NULL, code = NULL, heading = NUL
   }
   version <- packageVersion("bootstraplib")
   bundles <- lapply(gfonts, function(x) {
-    layer <- sass_layer(html_deps = gfont_dependency(x, version))
+    # Resolve dependencies at render-time (i.g., tagFunction())
+    # so the context-aware caching dir has the proper context
+    layer <- sass_layer(
+      html_deps = htmltools::tagFunction(function() {
+        gfont_dependency(x, version)
+      })
+    )
     sass_bundle(!!paste0("gfont_", x$name) := layer)
   })
   bs_bundle(theme, !!!bundles)
