@@ -370,10 +370,12 @@ eval_val <- function(x) {
 }
 
 insert_gfont_call <- function(val, gfont_info) {
-  if (!length(val)) return(val)
-  if (!nzchar(val)) return(val)
+  # val should be a non-empty character string
+  if (length(val) != 1) return(NULL)
+  if (!nzchar(val)) return(NULL)
   fams <- strsplit(as.character(val), ",")[[1]]
   fams <- gsub("(^\\s*)|(\\s*$)|(')|(\")", "", fams)
+  fams <- fams[nzchar(fams)]
   is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
   if (length(fams) == 1) {
     return(if (is_a_gfont) call("gfont", fams) else fams)
