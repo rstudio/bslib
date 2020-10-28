@@ -2,22 +2,24 @@
 % Please edit documentation in R/gfonts.R
 \name{gfont}
 \alias{gfont}
-\title{Import Google Fonts into a Bootstrap theme}
+\title{Google Fonts importing}
 \usage{
-gfont(name, weight = NULL, local = FALSE, cache = TRUE)
+gfont(name, weight = NULL, local = TRUE, cache = TRUE)
 }
 \arguments{
-\item{name}{Any Google Font name (e.g., Pacifico)}
+\item{name}{Any Google Font name (e.g., Pacifico).}
 
-\item{weight}{A font weight definition}
+\item{weight}{A font weight definition.}
 
 \item{local}{whether or not download and bundle local (woff) font files.}
 
-\item{cache}{whether or not to cache local font files (only takes effect
-when \code{local = TRUE}).}
+\item{cache}{whether or not to cache local font files (only takes effect when
+\code{local = TRUE}).}
 }
 \description{
-Import Google Fonts into a Bootstrap theme
+When used with any of the main font settings in \code{\link[=bs_theme]{bs_theme()}} (e.g.
+\code{base_font}, \code{code_font}, \code{heading_font}), this function will make sure
+relevant font files are included with the theme.
 }
 \examples{
 

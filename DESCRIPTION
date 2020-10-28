@@ -35,8 +35,8 @@ Suggests:
     thematic,
     withr,
     rappdirs,
-    jsonlite,
-    curl
+    curl,
+    httpuv
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

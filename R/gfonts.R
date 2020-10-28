@@ -1,10 +1,14 @@
-#' Import Google Fonts into a Bootstrap theme
+#' Google Fonts importing
 #'
-#' @param name Any Google Font name (e.g., Pacifico)
-#' @param weight A font weight definition
+#' When used with any of the main font settings in [bs_theme()] (e.g.
+#' `base_font`, `code_font`, `heading_font`), this function will make sure
+#' relevant font files are included with the theme.
+#'
+#' @param name Any Google Font name (e.g., Pacifico).
+#' @param weight A font weight definition.
 #' @param local whether or not download and bundle local (woff) font files.
-#' @param cache whether or not to cache local font files (only takes effect
-#' when `local = TRUE`).
+#' @param cache whether or not to cache local font files (only takes effect when
+#'   `local = TRUE`).
 #' @references <https://developers.google.com/fonts/docs/css2>
 #' @export
 #' @examples
@@ -242,7 +246,7 @@ cache_context_dir <- function(pkg = "bootstraplib") {
 
 # similar to thematic:::download_file, but also translates headers to curl
 download_file <- function(url, dest, headers = NULL, ...) {
-  if (is_installed("curl")) {
+  if (is_available("curl")) {
     if (!curl::has_internet()) {
       warning(
         "Looks like you don't have internet access, which is needed to ",

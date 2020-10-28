@@ -145,7 +145,7 @@ list of both. Note that a character vector can have:
 (e.g. \code{c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")})
 }
 
-Since \link{gfont(..., local = TRUE)} guarantees that the client has access to the
+Since \code{gfont(..., local = TRUE)} guarantees that the client has access to the
 font family, meaning it's safe to specify just one font family, for instance:\preformatted{bs_theme(base_font = gfont("Pacifico", local = TRUE))
 }
 

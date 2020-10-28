@@ -54,7 +54,7 @@
 #'    * A comma-separated list of names w/ individual names quoted as necessary.
 #'      (e.g. `c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")`)
 #'
-#'  Since [gfont(..., local = TRUE)] guarantees that the client has access to the
+#'  Since `gfont(..., local = TRUE)` guarantees that the client has access to the
 #'  font family, meaning it's safe to specify just one font family, for instance:
 #'
 #'  ```
