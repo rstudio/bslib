@@ -41,12 +41,12 @@ bs_gfont_dependencies <- function(theme, base = NULL, code = NULL, heading = NUL
   bundles <- lapply(gfonts, function(x) {
     # Resolve dependencies at render-time (i.g., tagFunction())
     # so the context-aware caching dir has the proper context
-    layer <- sass_layer(
-      html_deps = htmltools::tagFunction(function() {
-        gfont_dependency(x, version)
-      })
+    lazy_dep <- htmltools::tagFunction(function() {
+      gfont_dependency(x, version)
+    })
+    sass_bundle(
+      !!paste0("gfont_", x$name) := sass_layer(html_deps = lazy_dep)
     )
-    sass_bundle(!!paste0("gfont_", x$name) := layer)
   })
   bs_bundle(theme, !!!bundles)
 }
@@ -55,6 +55,7 @@ bs_gfont_dependencies <- function(theme, base = NULL, code = NULL, heading = NUL
 find_gfonts <- function(x) {
   if (is_gfont(x)) return(list(x))
   if (!is.list(x)) return(NULL)
+  # TODO: do this recursively?
   lapply(x, function(y) if (is_gfont(y)) y else NULL)
 }
 
