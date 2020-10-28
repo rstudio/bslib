@@ -193,9 +193,9 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   assert_bs_theme(theme)
 
   args <- list(
-    base = unlist(font_as_character(base)),
-    code = unlist(font_as_character(code)),
-    heading = unlist(font_as_character(heading))
+    base = unlist(resolve_gfonts(base)),
+    code = unlist(resolve_gfonts(code)),
+    heading = unlist(resolve_gfonts(heading))
   )
 
   mapply(function(name, value) {
@@ -223,12 +223,10 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   dispatch_theme_modifier(theme, funcs, args, "bs_fonts")
 }
 
-font_as_character <- function(x) {
-  if (is.null(x)) return(x)
-  if (is.character(x)) return(x)
+resolve_gfonts <- function(x) {
   if (is_gfont(x)) return(x$name)
-  if (!is.list(x)) return(NULL)
-  lapply(x, font_as_character)
+  if (!is.list(x)) return(x)
+  lapply(x, function(y) if (is_gfont(y)) y$name else y)
 }
 
 bs4_fonts <- function(args) {

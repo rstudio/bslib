@@ -328,10 +328,9 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["white"]]
     }
 
-    font_idx <- names(changed_vals) %in% c("base_font", "code_font", "heading_font")
-    if (length(gfont_info)) {
-      for (i in which(font_idx)) {
-        changed_vals[[i]] <- insert_gfont_call(changed_vals[[i]], gfont_info)
+    if (isTRUE(gfonts)) {
+      for (var in c("base_font", "code_font", "heading_font")) {
+        changed_vals[[var]] <- insert_gfont_call(changed_vals[[var]], gfont_info)
       }
     }
 
@@ -371,7 +370,8 @@ eval_val <- function(x) {
 }
 
 insert_gfont_call <- function(val, gfont_info) {
-  if (!nzchar(val %||% "")) return(val)
+  if (!length(val)) return(val)
+  if (!nzchar(val)) return(val)
   fams <- strsplit(as.character(val), ",")[[1]]
   fams <- gsub("(^\\s*)|(\\s*$)|(')|(\")", "", fams)
   is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
@@ -395,11 +395,12 @@ get_gfont_info <- function(update = FALSE) {
 }
 
 # same as thematic:::gfont_api_url
-# TODO: should this be v2?
 gfont_api_url <- function() {
   paste0("https://www.googleapis.com/webfonts/v1/webfonts?key=", gfont_key())
 }
 # same as thematic:::gfont_key
+# As mentioned in the developer API, this key is safe to be public facing
+# https://developers.google.com/fonts/docs/developer_api
 gfont_key <- function() {
   Sys.getenv("GFONT_KEY", paste0("AIzaSyDP", "KvElVqQ-", "26f7tjxyg", "IGpIajf", "tS_zmas"))
 }
