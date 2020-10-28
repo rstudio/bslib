@@ -66,7 +66,7 @@ names2 <- function(x) {
 #' @examples
 #' rename2(list(a=1, b=3, c=4, a=2), b="z", f="w", a="y")
 #' #> list(y = 1, z = 3, c = 4, y = 2)
-rename <- function(x, ...) {
+rename2 <- function(x, ...) {
   defs <- list(...)
   matches <- intersect(names(x), names(defs))
   map <- match(names(x), names(defs))
