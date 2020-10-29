@@ -334,7 +334,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
     if (isTRUE(gfonts)) {
       for (var in c("base_font", "code_font", "heading_font")) {
-        changed_vals[[var]] <- insert_gfont_call(changed_vals[[var]], gfont_info)
+        changed_vals[[var]] <- insert_font_google_call(changed_vals[[var]], gfont_info)
       }
     }
 
@@ -373,23 +373,24 @@ eval_val <- function(x) {
   lapply(x, eval_val)
 }
 
-insert_gfont_call <- function(val, gfont_info) {
+insert_font_google_call <- function(val, gfont_info) {
   # val should be a non-empty character string
-  if (length(val) != 1) return(NULL)
+  if (!is_string(val)) return(NULL)
   if (!nzchar(val)) return(NULL)
   fams <- strsplit(as.character(val), ",")[[1]]
-  fams <- gsub("(^\\s*)|(\\s*$)|(')|(\")", "", fams)
+  fams <- vapply(fams, unquote_font_family, character(1))
   fams <- fams[nzchar(fams)]
   is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
   if (length(fams) == 1) {
-    return(if (is_a_gfont) call("gfont", fams) else fams)
+    return(if (is_a_gfont) call("font_google", fams) else fams)
   }
   fams <- as.list(fams)
   for (i in which(is_a_gfont)) {
-    fams[[i]] <- call("gfont", fams[[i]])
+    fams[[i]] <- call("font_google", fams[[i]])
   }
-  fams
+  unname(fams)
 }
+
 
 get_gfont_info <- function(update = FALSE) {
   if (isTRUE(update)) {

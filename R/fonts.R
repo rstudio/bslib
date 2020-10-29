@@ -1,64 +1,111 @@
 #' Import web fonts into a [bs_theme()]
 #'
-#' When used with any of the main font settings in [bs_theme()] (e.g.
-#' `base_font`, `code_font`, `heading_font`), these font helpers ensure
-#' relevant font files sources are included with the theme. Google Fonts
-#' may be used either offline or online, but Web Fonts require an
-#' internet connection.
+#' When used with any of the main font settings in [bs_theme()] (e.g.,
+#' `base_font`, `code_font`, `heading_font`), these font objects ensure relevant
+#' font files sources are included with the theme. In order to work,
+#' [web_font()]s requires that the end user has internet access, but `gfont()`
+#' may be used offline once the files have been downloaded locally (`local =
+#' TRUE`).
 #'
-#' @param name font family name
-#' @param url a URL pointing the font file
-#' @param ... other CSS properties to place on the `@font-face` definition.
-#' @references <https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts>
+#' @param family font family name.
+#' @param src
+#'
+#' @references <https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face>, <https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts>
 #' @export
 #' @examples
-#' theme <- bs_theme(base_font = gfont("Pacifico"))
-#' if (interactive()) {
-#'   bs_theme_preview(theme)
-#' }
-#' m <- web_font("Yellowtail", url = "https://fonts.googleapis.com/css?family=Yellowtail")
-#' theme <- bs_theme(base_font = m)
+#'
+#' # If you have an internet connection, running the following code
+#' # will download, cache, and import the relevant Google Font files
+#' # for local use
+#' theme <- bs_theme(
+#'   base_font = font_google("Fira Sans"),
+#'   code_font = font_google("Fira Code"),
+#'   heading_font = font_google("Fredoka One")
+#' )
 #' if (interactive()) {
 #'   bs_theme_preview(theme)
 #' }
 #'
-web_font <- function(name, url, ...) {
+#' # Three different yet equivalent ways of importing a remotely-hosted Google Font
+#' a <- font_google("Crimson Pro", weight = "200..900", local = FALSE)
+#' b <- font_link("Crimson Pro", href = "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900")
+#' c <- font_face(
+#'   family = "Crimson Pro",
+#'   style = "normal",
+#'   weight = "200 900",
+#'   src = "url(https://fonts.gstatic.com/s/crimsonpro/v13/q5uDsoa5M_tv7IihmnkabARboYF6CsKj.woff2) format('woff2')"
+#' )
+#' theme <- bs_theme(base_font = c)
+#' if (interactive()) {
+#'   bs_theme_preview(theme)
+#' }
+#'
+font_face <- function(family, src, weight = NULL, display = NULL, style = NULL, stretch = NULL,
+                      variant = NULL, unicode_range = NULL) {
   structure(
-    rlang::list2(name = name, url = url, ...),
-    class = "bootstraplib_web_font"
+    dropNulls(list(
+      family = unquote_font_family(family),
+      # TODO: validate these values?
+      src = src, weight = weight, display = display,
+      style = style, stretch = stretch,
+      variant = variant, unicode_range = unicode_range
+    )),
+    class = "bs_font_face"
   )
 }
 
-#' @rdname web_font
+#' @rdname font_face
+#' @param href A hyperlink to a resource containing the font data.
+#' @export
+font_link <- function(family, href) {
+  structure(
+    list(family = unquote_font_family(family), href = href),
+    class = "bs_font_link"
+  )
+}
+
+#' @rdname font_face
 #' @param weight A Google Font axis weight definition.
 #' @param local whether or not download and bundle local (woff) font files.
 #' @param cache whether or not to cache local font files (only takes effect when
 #'   `local = TRUE`).
 #' @references <https://developers.google.com/fonts/docs/css2>
 #' @export
-gfont <- function(name, weight = NULL, local = TRUE, cache = TRUE) {
-  # TODO: unquote the name? Throw if we find commas?
-  stopifnot(is_string(name))
+font_google <- function(family, weight = NULL, local = TRUE, cache = TRUE) {
   if (!is.null(weight)) stopifnot(is_string(weight))
   structure(
-    list(name = name, weight = weight, local = isTRUE(local), cache = cache),
-    class = "bootstraplib_gfont"
+    dropNulls(list(
+      family = unquote_font_family(family), weight = weight,
+      local = isTRUE(local), cache = isTRUE(cache)
+    )),
+    class = "bs_font_google"
   )
 }
 
 is_font_object <- function(x) {
-  is_web_font(x) || is_gfont(x)
+  is_font_face(x) || is_font_link(x) || is_font_google(x)
 }
 
-is_gfont <- function(x) {
-  inherits(x, "bootstraplib_gfont")
+is_font_face <- function(x) {
+  inherits(x, "bs_font_face")
 }
 
-is_web_font <- function(x) {
-  inherits(x, "bootstraplib_web_font")
+is_font_link <- function(x) {
+  inherits(x, "bs_font_link")
 }
 
-# Extract gfont()s from font definitions, obtain the font files as HTML dependencies,
+is_font_google <- function(x) {
+  inherits(x, "bs_font_google")
+}
+
+# Only to be used when we know x is meant to be a single font family
+unquote_font_family <- function(x) {
+  if (!is_string(x)) stop("Font family must be a string")
+  if (grepl(",", x)) stop("Font family cannot contain comma(s)")
+  gsub("(^\\s*)|(\\s*$)|(')|(\")", "", x)
+}
+
+# Extract font_google()s from font definitions, obtain the font files as HTML dependencies,
 # then add dependencies to the bs_theme()
 bs_font_dependencies <- function(theme, base = NULL, code = NULL, heading = NULL) {
   fonts <- dropNulls(c(
@@ -71,17 +118,14 @@ bs_font_dependencies <- function(theme, base = NULL, code = NULL, heading = NULL
   }
   version <- packageVersion("bootstraplib")
   bundles <- lapply(fonts, function(x) {
-    # Resolve dependencies at render-time (i.g., tagFunction())
+    # Resolve dependencies at render-time (i.e., tagFunction())
     # so the context-aware caching dir has the proper context
-    lazy_dep <- htmltools::tagFunction(function() {
-      if (is_gfont(x)) {
-        gfont_dependency(x, version)
-      } else {
-        font_dependency_remote(x, version)
-      }
-    })
     sass_bundle(
-      !!paste0("font_", x$name) := sass_layer(html_deps = lazy_dep)
+      !!font_dep_name(x) := sass_layer(
+        html_deps = htmltools::tagFunction(function() {
+          font_dep(x, version)
+        })
+      )
     )
   })
   bs_bundle(theme, !!!bundles)
@@ -94,23 +138,61 @@ find_font_objects <- function(x) {
   lapply(x, function(y) if (is_font_object(y)) y else NULL)
 }
 
-gfont_dependency <- function(gfont, version) {
-  if (gfont$local) {
-    gfont_dependency_local(gfont, version)
+font_dep <- function(x, version) {
+  UseMethod("font_dep")
+}
+
+font_dep.bs_font_face <- function(x, version) {
+  font_dep_face(x, version)
+}
+
+font_dep.bs_font_link <- function(x, version) {
+  font_dep_link(x, version)
+}
+
+font_dep.bs_font_google <- function(x, version) {
+  if (isTRUE(x$local)) {
+    font_dep_google_local(x, version)
   } else {
-    font_dependency_remote(gfont, version)
+    font_dep_link(x, version)
   }
 }
 
-# -------------------------------------------------------
-# Remote dependency logic
-# -------------------------------------------------------
+font_dep_name <- function(x) {
+  paste0(class(x)[[1]], sub("\\s*", "_", tolower(x$family)))
+}
 
-font_dependency_remote <- function(font, version) {
+font_dep_face <- function(x, version) {
+  css <- font_face_css(x)
+  src_dir <- tempfile()
+  dir.create(src_dir)
+  writeLines(css, file.path(src_dir, "font.css"))
   htmltools::htmlDependency(
-    font_dep_name(font), version,
+    font_dep_name(x), version,
+    src = src_dir,
+    stylesheet = "font.css",
+    all_files = FALSE
+  )
+}
+
+# TODO: validate CSS values?
+font_face_css <- function(x) {
+  props <- names(x)
+  font_prop <- props %in% c("family", "weight", "display", "style", "stretch")
+  props[font_prop] <- paste0("font-", props[font_prop])
+  paste0(
+    "@font-face {\n",
+    paste0("  ", props, ": ", x, ";", collapse = "\n"),
+    "\n}"
+  )
+}
+
+
+font_dep_link <- function(x, version) {
+  htmltools::htmlDependency(
+    font_dep_name(x), version,
     head = format(tags$link(
-      href = httpuv::encodeURI(font_url(font)),
+      href = httpuv::encodeURI(font_url(x)),
       rel = "stylesheet"
     )),
     # The src dir doesn't actually matter...this is just a way
@@ -119,56 +201,49 @@ font_dependency_remote <- function(font, version) {
   )
 }
 
-font_url <- function(font) {
-  if (is_web_font(font)) {
-    return(font$url)
+font_url <- function(x) {
+  if (is_font_google(x)) {
+    paste0(
+      "https://fonts.googleapis.com/css2?family=", x$family,
+      if (length(x$weight)) paste0(":wght@", x$weight)
+    )
+  } else {
+    x$href
   }
-  paste0(
-    "https://fonts.googleapis.com/css2?family=", font$name,
-    if (length(font$weight)) paste0(":wght@", font$weight)
-  )
 }
-
-font_dep_name <- function(font) {
-  paste0(
-    if (is_gfont(font)) "google-font-" else "web-font-",
-    sub("\\s*", "-", font$name)
-  )
-}
-
 # -------------------------------------------------------
 # Local dependency logic
 # -------------------------------------------------------
 
-gfont_dependency_local <- function(gfont, version) {
+font_dep_google_local <- function(x, version) {
   # TODO: allow cache to be something like sass::sass_file_cache()?
-  if (!isTRUE(gfont$cache)) {
+  if (!isTRUE(x$cache)) {
     src_dir <- tempfile()
-    dep <- try_gfont_url_dependency(gfont, src_dir, version)
+    dep <- try_download_font_google(x, src_dir, version)
     return(dep)
   }
-  cache_dir <- gfont_cache_dir(gfont)
+  cache_dir <- gfont_cache_dir(x)
   # cache miss, download files
   if (!dir.exists(cache_dir)) {
-    dep <- try_gfont_url_dependency(gfont, cache_dir, version)
+    dep <- try_download_font_google(x, cache_dir, version)
     return(dep)
   }
   # cache hit
   htmltools::htmlDependency(
-    font_dep_name(gfont), version,
+    font_dep_name(x), version,
     src = cache_dir, all_files = TRUE,
     stylesheet = dir(cache_dir, pattern = "\\.css$")
   )
 }
 
-try_gfont_url_dependency <- function(gfont, dest_dir, version) {
+try_download_font_google <- function(x, dest_dir, version) {
   tryCatch(
-    gfont_url_dependency(gfont, dest_dir, version),
+    download_font_google(x, dest_dir, version),
     error = function(e) {
       # TODO: also catch warnings? throw e as well?
       stop(
-        "Failed to downloading Google Font family named: '",
-        gfont$name, "'. ",
+        "Failed to download Google Font family: '",
+        x$family, "'. ",
         "Check your internet connection and try again. ",
         call. = FALSE
       )
@@ -178,10 +253,10 @@ try_gfont_url_dependency <- function(gfont, dest_dir, version) {
 
 # For an example of the CSS you get back from a gfont_url()
 # enter gfont_url(gfont) in your browser
-gfont_url_dependency <- function(gfont, dest_dir, version) {
-  css <- read_gfont_url(font_url(gfont))
+download_font_google <- function(x, dest_dir, version) {
+  css <- read_gfont_url(font_url(x))
   # For each @font-face we get back, infer the family, style, and weight
-  # and use that to determine a font file name
+  # and use that to determine a font file family
   families <- extract_group(css, "font-family:\\s*'(.+)';")
   if (length(families) == 0) {
     stop("Expected to find at least one font-family")
@@ -209,7 +284,7 @@ gfont_url_dependency <- function(gfont, dest_dir, version) {
   css_file <- file.path(dest_dir, "font.css")
   writeLines(css, css_file)
   htmltools::htmlDependency(
-    font_dep_name(gfont), version,
+    font_dep_name(x), version,
     src = dest_dir, all_files = TRUE,
     stylesheet = basename(css_file)
   )
@@ -222,7 +297,7 @@ read_gfont_url <- function(url) {
   tmpfile <- tempfile(fileext = ".css")
   on.exit(unlink(tmpfile), add = TRUE)
   download_file(
-    url, tmpfile,
+    httpuv::encodeURI(url), tmpfile,
     headers = c(
       "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
     )
@@ -235,12 +310,12 @@ extract_group <- function(x, pattern, which = 1) {
   na.omit(sapply(matches, "[", which + 1))
 }
 
-gfont_hash <- function(gfont) {
-  digest::digest(font_url(gfont), algo = "spookyhash")
+gfont_hash <- function(x) {
+  digest::digest(font_url(x), algo = "spookyhash")
 }
 
-gfont_cache_dir <- function(gfont) {
-  file.path(cache_context_dir(), gfont_hash(gfont))
+gfont_cache_dir <- function(x) {
+  file.path(cache_context_dir(), gfont_hash(x))
 }
 
 # Inspired by sass::sass_cache_context_dir

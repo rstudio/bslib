@@ -19,18 +19,18 @@ test_that("List definitions work", {
   expect_base_font(list("foo-bar", '"foo bar", baz'), 'foo-bar, "foo bar", baz')
 })
 
-test_that("Single gfont() works", {
-  expect_base_font(gfont("Pacifico"), "Pacifico")
+test_that("Single font_google() works", {
+  expect_base_font(font_google("Pacifico"), "Pacifico")
   theme <- bs_theme()
-  theme_font <- bs_theme_update(theme, base_font = gfont("Pacifico"))
+  theme_font <- bs_theme_update(theme, base_font = font_google("Pacifico"))
   expect_equal(
     length(bs_theme_dependencies(theme)) + 1,
     length(bs_theme_dependencies(theme_font))
   )
 })
 
-test_that("Mix of gfont() and character strings", {
-  font <- list(gfont("Pacifico"), "Sans Serif")
+test_that("Mix of font_google() and character strings", {
+  font <- list(font_google("Pacifico"), "Sans Serif")
   expect_base_font(font, 'Pacifico, "Sans Serif"')
   theme <- bs_theme()
   theme_font <- bs_theme_update(theme, base_font = font)

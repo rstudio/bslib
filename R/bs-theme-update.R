@@ -211,7 +211,7 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
 
 find_characters <- function(x) {
   if (is.null(x)) return(NULL)
-  if (is_font_object(x)) return(x$name)
+  if (is_font_object(x)) return(x$family)
   if (!is.list(x)) {
     if (is.character(x) && !(anyNA(x) || any(!nzchar(x)))) {
       return(x)
