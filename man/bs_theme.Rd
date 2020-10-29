@@ -132,12 +132,13 @@ main grayscale colors in things like hyperlinks, tabset panels, and buttons.
 
 Use \code{base_font}, \code{code_font}, and \code{heading_font} to control the main
 typefaces. These arguments set new defaults for the relevant \code{font-family}
-CSS properties, but don't necessarily import the relevant font files.
-To both set CSS properties \emph{and} import Google font files, consider using
-the \code{\link[=gfont]{gfont()}} helper.
+CSS properties, but don't necessarily import the relevant font files. To
+both set CSS properties \emph{and} import font files, consider using the
+\code{\link[=gfont]{gfont()}} and/or \code{\link[=web_font]{web_font()}} helpers.
 
-Each \verb{*_font} argument accepts a \code{\link[=gfont]{gfont()}} object, a character vector, or a
-list of both. Note that a character vector can have:
+Each \verb{*_font} argument may be collection of character vector(s),
+\href{s}{gfont()}, and/or \href{s}{web_font()}. Note that a character vector can
+have:
 \itemize{
 \item A single unquoted name (e.g., \code{"Source Sans Pro"}).
 \item A single quoted name (e.g., \code{"'Source Sans Pro'"}).
@@ -145,13 +146,16 @@ list of both. Note that a character vector can have:
 (e.g. \code{c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")})
 }
 
-Since \code{gfont(..., local = TRUE)} guarantees that the client has access to the
-font family, meaning it's safe to specify just one font family, for instance:\preformatted{bs_theme(base_font = gfont("Pacifico", local = TRUE))
+Since \code{gfont(..., local = TRUE)} guarantees that the client has access to
+the font family, meaning it's relatively safe to specify just one font
+family, for instance:\preformatted{bs_theme(base_font = gfont("Pacifico", local = TRUE))
 }
 
-However, specifying multiple
-"fallback" font families is recommended if relying on remote and/or system fonts
-being installed, for instance \code{bs_theme(base_font = gfont("Pacifico", local = TRUE))}\preformatted{bs_theme(base_font = list(gfont("Pacifico", local = FALSE), "Roboto", "sans-serif")
+However, specifying multiple "fallback" font families is recommended,
+especially when relying on remote and/or system fonts being available, for
+instance. Fallback fonts are useful not only for handling missing fonts, but
+also for handling a Flash of Invisible Text (FOIT) which can be quite
+noticeable with remote web fonts on a slow internet connection.\preformatted{bs_theme(base_font = list(gfont("Pacifico", local = FALSE), "Roboto", "sans-serif")
 }
 }
 
@@ -185,6 +189,5 @@ theme <- theme \%>\%
 \url{https://rstudio.github.io/sass/}
 }
 \seealso{
-\code{\link[=bs_add_variables]{bs_add_variables()}}, \code{\link[=bs_theme_preview]{bs_theme_preview()}},
-\code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}}, \code{\link[=bs_global_set]{bs_global_set()}}
+\code{\link[=bs_add_variables]{bs_add_variables()}}, \code{\link[=bs_theme_preview]{bs_theme_preview()}}
 }

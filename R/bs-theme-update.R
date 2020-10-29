@@ -211,12 +211,12 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
 
 find_characters <- function(x) {
   if (is.null(x)) return(NULL)
-  if (is_gfont(x)) return(x$name)
+  if (is_font_object(x)) return(x$name)
   if (!is.list(x)) {
     if (is.character(x) && !(anyNA(x) || any(!nzchar(x)))) {
       return(x)
     }
-    stop("Fonts must be either a non-empty character vector, a `gfont()`, or a list of both.")
+    stop("Fonts must be a collection of non-empty character vector(s), `gfont()`(s), and/or `web_font()`(s).")
   }
   lapply(x, find_characters)
 }

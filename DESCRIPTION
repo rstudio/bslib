@@ -54,11 +54,12 @@ Collate:
     'bs-theme.R'
     'deprecated.R'
     'files.R'
-    'gfonts.R'
+    'fonts.R'
     'imports.R'
     'precompiled.R'
     'version-default.R'
     'versions.R'
+    'web-font.R'
 Remotes:
     rstudio/thematic,
     rstudio/jquerylib,
