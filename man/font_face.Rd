@@ -10,8 +10,8 @@ font_face(
   family,
   src,
   weight = NULL,
-  display = NULL,
   style = NULL,
+  display = c("swap", "auto", "block", "fallback", "optional"),
   stretch = NULL,
   variant = NULL,
   unicode_range = NULL
@@ -19,29 +19,81 @@ font_face(
 
 font_link(family, href)
 
-font_google(family, weight = NULL, local = TRUE, cache = TRUE)
+font_google(
+  family,
+  local = TRUE,
+  cache = TRUE,
+  wght = NULL,
+  ital = NULL,
+  display = c("swap", "auto", "block", "fallback", "optional")
+)
 }
 \arguments{
-\item{family}{font family name.}
+\item{family}{A character string with a \emph{single} font family name.}
 
-\item{src}{}
+\item{src}{A character string for the \code{src} \verb{@font-face} property.}
 
-\item{weight}{A Google Font axis weight definition.}
+\item{weight}{A character string for the \code{font-weight} \verb{@font-face} property.}
 
-\item{href}{A hyperlink to a resource containing the font data.}
+\item{style}{A character string for the \code{font-style} \verb{@font-face} property.}
 
-\item{local}{whether or not download and bundle local (woff) font files.}
+\item{display}{the \code{font-display} \verb{@font-face} property.}
 
-\item{cache}{whether or not to cache local font files (only takes effect when
+\item{stretch}{A character string for the \code{font-stretch} \verb{@font-face} property.}
+
+\item{variant}{A character string for the \code{font-variant} \verb{@font-face} property.}
+
+\item{unicode_range}{A character string for \code{unicode-range} \verb{@font-face} property.}
+
+\item{href}{A URL resource pointing to the font data.}
+
+\item{local}{Whether or not download and bundle local (woff) font files.}
+
+\item{cache}{Whether or not to cache local font files (only takes effect when
 \code{local = TRUE}).}
+
+\item{wght}{One of the following:
+\itemize{
+\item \code{NULL}, the default weight for the \code{family}.
+\item A character string defining an \href{https://developers.google.com/fonts/docs/css2#axis_ranges}{axis range}
+\item A numeric vector of desired font weight(s).
+}}
+
+\item{ital}{One of the following:
+\itemize{
+\item \code{NULL}, the default \code{font-style} for the \code{family}.
+\item \code{0}, meaning \code{font-style: normal}
+\item \code{1}, meaning \code{font-style: italic}
+\item \code{c(0, 1)}, meaning both \code{normal} and \code{italic}
+}}
 }
 \description{
 When used with any of the main font settings in \code{\link[=bs_theme]{bs_theme()}} (e.g.,
 \code{base_font}, \code{code_font}, \code{heading_font}), these font objects ensure relevant
-font files sources are included with the theme. In order to work,
-\code{\link[=web_font]{web_font()}}s requires that the end user has internet access, but \code{gfont()}
-may be used offline once the files have been downloaded locally (\code{local = TRUE}).
+font file resources are included with the theme. A particular font object should
+define an single font \code{family} --- if you need multiple families, a \code{list()} of
+font objects may be provided to \code{bs_theme()}.
 }
+\section{Local fonts}{
+
+
+With local (i.e., self-hosted) fonts, clients (i.e., end users) can render
+fonts without an internet connection. By default, \code{google_font()} will
+automatically download, cache, and serve font files locally. Non-Google fonts
+may also be served locally, but you'll have to download and serve local file
+using something like \code{\link[shiny:resourcePaths]{shiny::addResourcePath()}} (or similar) and provide the
+relevant files to a \code{\link[=font_face]{font_face()}} definiton.
+}
+
+\section{Remote fonts}{
+
+
+With remotely hosted fonts, clients (i.e., end users) need an internet
+connection to render the fonts. Remote fonts can be implemented using
+\code{font_google(..., local = FALSE)} (hosted via Google), \code{font_link()} (hosted
+via \code{href} URL), or \code{font_face()} (hosted via \code{src} URL).
+}
+
 \examples{
 
 # If you have an internet connection, running the following code
@@ -72,7 +124,9 @@ if (interactive()) {
 
 }
 \references{
-\url{https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face}, \url{https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts}
+\url{https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face}
+
+\url{https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts}
 
 \url{https://developers.google.com/fonts/docs/css2}
 }

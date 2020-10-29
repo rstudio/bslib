@@ -187,7 +187,7 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #'   or a [shiny::shinyApp()] object. See [shiny::runApp()] for details.
 #' @param ... Additional parameters to pass through to [shiny::runApp()].
 #' @param gfonts whether or not to detect Google Fonts and wrap them in
-#'   [gfont()] (so that their font files are automatically imported).
+#'   [font_google()] (so that their font files are automatically imported).
 #' @param gfonts_update whether or not to update bootstraplib's internal
 #'   database of Google Fonts.
 #'

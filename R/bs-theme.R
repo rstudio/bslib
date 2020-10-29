@@ -44,23 +44,23 @@
 #'  Use `base_font`, `code_font`, and `heading_font` to control the main
 #'  typefaces. These arguments set new defaults for the relevant `font-family`
 #'  CSS properties, but don't necessarily import the relevant font files. To
-#'  both set CSS properties _and_ import font files, consider using the
-#'  [gfont()] and/or [web_font()] helpers.
+#'  both set CSS properties _and_ import font files, consider using the various
+#'  [font_face()] helpers.
 #'
 #'  Each `*_font` argument may be collection of character vector(s),
-#'  [gfont()](s), and/or [web_font()](s). Note that a character vector can
+#'  [font_google()](s), [font_link()]s and/or [font_face()](s). Note that a character vector can
 #'  have:
 #'    * A single unquoted name (e.g., `"Source Sans Pro"`).
 #'    * A single quoted name (e.g., `"'Source Sans Pro'"`).
 #'    * A comma-separated list of names w/ individual names quoted as necessary.
 #'      (e.g. `c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")`)
 #'
-#'  Since `gfont(..., local = TRUE)` guarantees that the client has access to
+#'  Since `font_google(..., local = TRUE)` guarantees that the client has access to
 #'  the font family, meaning it's relatively safe to specify just one font
 #'  family, for instance:
 #'
 #'  ```
-#'  bs_theme(base_font = gfont("Pacifico", local = TRUE))
+#'  bs_theme(base_font = font_google("Pacifico", local = TRUE))
 #'  ```
 #'
 #'  However, specifying multiple "fallback" font families is recommended,
@@ -70,7 +70,7 @@
 #'  noticeable with remote web fonts on a slow internet connection.
 #'
 #'  ```
-#'  bs_theme(base_font = list(gfont("Pacifico", local = FALSE), "Roboto", "sans-serif")
+#'  bs_theme(base_font = list(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
 #'  ````
 #'
 #' @param version The major version of Bootstrap to use. A value of `'4+3'`

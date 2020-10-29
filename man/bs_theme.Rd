@@ -133,11 +133,11 @@ main grayscale colors in things like hyperlinks, tabset panels, and buttons.
 Use \code{base_font}, \code{code_font}, and \code{heading_font} to control the main
 typefaces. These arguments set new defaults for the relevant \code{font-family}
 CSS properties, but don't necessarily import the relevant font files. To
-both set CSS properties \emph{and} import font files, consider using the
-\code{\link[=gfont]{gfont()}} and/or \code{\link[=web_font]{web_font()}} helpers.
+both set CSS properties \emph{and} import font files, consider using the various
+\code{\link[=font_face]{font_face()}} helpers.
 
 Each \verb{*_font} argument may be collection of character vector(s),
-\href{s}{gfont()}, and/or \href{s}{web_font()}. Note that a character vector can
+\href{s}{font_google()}, \code{\link[=font_link]{font_link()}}s and/or \href{s}{font_face()}. Note that a character vector can
 have:
 \itemize{
 \item A single unquoted name (e.g., \code{"Source Sans Pro"}).
@@ -146,16 +146,16 @@ have:
 (e.g. \code{c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")})
 }
 
-Since \code{gfont(..., local = TRUE)} guarantees that the client has access to
+Since \code{font_google(..., local = TRUE)} guarantees that the client has access to
 the font family, meaning it's relatively safe to specify just one font
-family, for instance:\preformatted{bs_theme(base_font = gfont("Pacifico", local = TRUE))
+family, for instance:\preformatted{bs_theme(base_font = font_google("Pacifico", local = TRUE))
 }
 
 However, specifying multiple "fallback" font families is recommended,
 especially when relying on remote and/or system fonts being available, for
 instance. Fallback fonts are useful not only for handling missing fonts, but
 also for handling a Flash of Invisible Text (FOIT) which can be quite
-noticeable with remote web fonts on a slow internet connection.\preformatted{bs_theme(base_font = list(gfont("Pacifico", local = FALSE), "Roboto", "sans-serif")
+noticeable with remote web fonts on a slow internet connection.\preformatted{bs_theme(base_font = list(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
 }
 }
 

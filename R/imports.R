@@ -1,6 +1,6 @@
 #' @import htmltools
 #' @import sass
-#' @importFrom utils modifyList packageVersion download.file
+#' @importFrom utils modifyList packageVersion download.file URLencode
 #' @importFrom stats setNames na.omit
 #' @importFrom jquerylib jquery_core
 #' @importFrom jsonlite fromJSON

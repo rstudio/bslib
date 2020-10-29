@@ -2,15 +2,37 @@
 #'
 #' When used with any of the main font settings in [bs_theme()] (e.g.,
 #' `base_font`, `code_font`, `heading_font`), these font objects ensure relevant
-#' font files sources are included with the theme. In order to work,
-#' [web_font()]s requires that the end user has internet access, but `gfont()`
-#' may be used offline once the files have been downloaded locally (`local =
-#' TRUE`).
+#' font file resources are included with the theme. A particular font object should
+#' define an single font `family` --- if you need multiple families, a `list()` of
+#' font objects may be provided to `bs_theme()`.
 #'
-#' @param family font family name.
-#' @param src
+#' @section Local fonts:
 #'
-#' @references <https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face>, <https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts>
+#' With local (i.e., self-hosted) fonts, clients (i.e., end users) can render
+#' fonts without an internet connection. By default, `google_font()` will
+#' automatically download, cache, and serve font files locally. Non-Google fonts
+#' may also be served locally, but you'll have to download and serve local file
+#' using something like [shiny::addResourcePath()] (or similar) and provide the
+#' relevant files to a [font_face()] definiton.
+#'
+#' @section Remote fonts:
+#'
+#' With remotely hosted fonts, clients (i.e., end users) need an internet
+#' connection to render the fonts. Remote fonts can be implemented using
+#' `font_google(..., local = FALSE)` (hosted via Google), `font_link()` (hosted
+#' via `href` URL), or `font_face()` (hosted via `src` URL).
+#'
+#' @param family A character string with a _single_ font family name.
+#' @param src A character string for the `src` `@font-face` property.
+#' @param weight A character string for the `font-weight` `@font-face` property.
+#' @param display A character string for the `font-display` `@font-face` property.
+#' @param style A character string for the `font-style` `@font-face` property.
+#' @param stretch A character string for the `font-stretch` `@font-face` property.
+#' @param variant A character string for the `font-variant` `@font-face` property.
+#' @param unicode_range A character string for `unicode-range` `@font-face` property.
+#'
+#' @references <https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face>
+#' @references <https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts>
 #' @export
 #' @examples
 #'
@@ -40,14 +62,15 @@
 #'   bs_theme_preview(theme)
 #' }
 #'
-font_face <- function(family, src, weight = NULL, display = NULL, style = NULL, stretch = NULL,
-                      variant = NULL, unicode_range = NULL) {
+font_face <- function(family, src, weight = NULL, style = NULL,
+                      display = c("swap", "auto", "block", "fallback", "optional"),
+                      stretch = NULL, variant = NULL,
+                      unicode_range = NULL) {
   structure(
     dropNulls(list(
       family = unquote_font_family(family),
-      # TODO: validate these values?
-      src = src, weight = weight, display = display,
-      style = style, stretch = stretch,
+      src = src, weight = weight, style = style,
+      display = match.arg(display), stretch = stretch,
       variant = variant, unicode_range = unicode_range
     )),
     class = "bs_font_face"
@@ -55,7 +78,7 @@ font_face <- function(family, src, weight = NULL, display = NULL, style = NULL, 
 }
 
 #' @rdname font_face
-#' @param href A hyperlink to a resource containing the font data.
+#' @param href A URL resource pointing to the font data.
 #' @export
 font_link <- function(family, href) {
   structure(
@@ -65,18 +88,52 @@ font_link <- function(family, href) {
 }
 
 #' @rdname font_face
-#' @param weight A Google Font axis weight definition.
-#' @param local whether or not download and bundle local (woff) font files.
-#' @param cache whether or not to cache local font files (only takes effect when
+#' @param local Whether or not download and bundle local (woff) font files.
+#' @param cache Whether or not to cache local font files (only takes effect when
 #'   `local = TRUE`).
+#' @param wght One of the following:
+#'   * `NULL`, the default weight for the `family`.
+#'   * A character string defining an [axis range](https://developers.google.com/fonts/docs/css2#axis_ranges)
+#'   * A numeric vector of desired font weight(s).
+#' @param ital One of the following:
+#'   * `NULL`, the default `font-style` for the `family`.
+#'   * `0`, meaning `font-style: normal`
+#'   * `1`, meaning `font-style: italic`
+#'   * `c(0, 1)`, meaning both `normal` and `italic`
+#' @param display the `font-display` `@font-face` property.
 #' @references <https://developers.google.com/fonts/docs/css2>
 #' @export
-font_google <- function(family, weight = NULL, local = TRUE, cache = TRUE) {
-  if (!is.null(weight)) stopifnot(is_string(weight))
+font_google <- function(family, local = TRUE, cache = TRUE, wght = NULL, ital = NULL,
+                        display = c("swap", "auto", "block", "fallback", "optional")) {
+  stopifnot(is.logical(local))
+  stopifnot(is.logical(cache))
+  if (!is.null(wght)) stopifnot(is.character(wght) || is.numeric(wght))
+  if (!is.null(ital)) stopifnot(all(ital %in% c(0, 1)))
+  display <- match.arg(display)
+
+  axis_rng <-
+    if (is.null(wght) && is.null(ital)) {
+     ""
+    } else if (is.null(ital)) {
+      paste0(":wght@", paste0(wght, collapse = ";"))
+    } else if (is.null(wght)) {
+      paste0(":ital@", paste0(ital, collapse = ";"))
+    } else {
+      paste0(":ital,wght@", paste0(
+        apply(expand.grid(ital, wght), 1, paste0, collapse = ","),
+        collapse = ";"
+      ))
+    }
+
   structure(
     dropNulls(list(
-      family = unquote_font_family(family), weight = weight,
-      local = isTRUE(local), cache = isTRUE(cache)
+      family = unquote_font_family(family),
+      local = local, cache = cache,
+      # TODO: unit test this output
+      href = paste0(
+        "https://fonts.googleapis.com/css2?family=",
+        family, axis_rng, "&display=", display
+      )
     )),
     class = "bs_font_google"
   )
@@ -192,24 +249,13 @@ font_dep_link <- function(x, version) {
   htmltools::htmlDependency(
     font_dep_name(x), version,
     head = format(tags$link(
-      href = httpuv::encodeURI(font_url(x)),
+      href = utils::URLencode(x$href),
       rel = "stylesheet"
     )),
     # The src dir doesn't actually matter...this is just a way
     # to pass along <link> tags as a dependency
     src = tempdir(), all_files = FALSE
   )
-}
-
-font_url <- function(x) {
-  if (is_font_google(x)) {
-    paste0(
-      "https://fonts.googleapis.com/css2?family=", x$family,
-      if (length(x$weight)) paste0(":wght@", x$weight)
-    )
-  } else {
-    x$href
-  }
 }
 # -------------------------------------------------------
 # Local dependency logic
@@ -254,7 +300,7 @@ try_download_font_google <- function(x, dest_dir, version) {
 # For an example of the CSS you get back from a gfont_url()
 # enter gfont_url(gfont) in your browser
 download_font_google <- function(x, dest_dir, version) {
-  css <- read_gfont_url(font_url(x))
+  css <- read_gfont_url(x$href)
   # For each @font-face we get back, infer the family, style, and weight
   # and use that to determine a font file family
   families <- extract_group(css, "font-family:\\s*'(.+)';")
@@ -297,7 +343,7 @@ read_gfont_url <- function(url) {
   tmpfile <- tempfile(fileext = ".css")
   on.exit(unlink(tmpfile), add = TRUE)
   download_file(
-    httpuv::encodeURI(url), tmpfile,
+    utils::URLencode(url), tmpfile,
     headers = c(
       "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
     )
@@ -311,7 +357,7 @@ extract_group <- function(x, pattern, which = 1) {
 }
 
 gfont_hash <- function(x) {
-  digest::digest(font_url(x), algo = "spookyhash")
+  digest::digest(x$href, algo = "spookyhash")
 }
 
 gfont_cache_dir <- function(x) {
