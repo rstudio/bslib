@@ -60,7 +60,7 @@ test_that("Theme adding works as intended", {
 
 test_that("rename works as intended", {
   expect_identical(
-    rename(list(a=1, b=3, c=4, d=1), c(z="b",y="a",w="f")),
-    list(y=1, z=3, c=4, d=1)
+    rename2(list(a=1, b=3, c=4, a=2), b="z", f="w", a="y"),
+    list(y = 1, z = 3, c = 4, y = 2)
   )
 })
