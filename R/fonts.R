@@ -313,16 +313,15 @@ font_dep_google_local <- function(x, version) {
   cache_hit <- x$cache$get_file(href_key, fontcss)
   if (!cache_hit) {
     # First, get the @font-face definitions
-    css <- read_gfont_url(x$href)
-    writeLines(css, fontcss)
+    css <- read_gfont_url(x$href, fontcss)
     x$cache$set_file(href_key, fontcss)
     # Then, extract the urls, font file ids, and download
     info <- extract_gfont_info(css)
     Map(function(url, fnm) {
       # Always download the font files since these could be stale
       download_file(url, file.path(tmpdir, fnm))
-      # Still register the font file with the cache
-      x$cache$set_file(hash(fnm), file.path(tmpdir, fnm))
+      # Use URL as a cache key since this URL should contain a unique hash
+      x$cache$set_file(hash(url), file.path(tmpdir, fnm))
       css <<- sub(url, fnm, css)
     }, info$urls, info$filenames)
   }
@@ -338,16 +337,14 @@ font_dep_google_local <- function(x, version) {
 # Request the relevant @font-face definitions for the font url
 # (without the IE11 user-agent header we'd get truetype fonts, but
 # there's no reason why we can't use woff, which IE11 supports)
-read_gfont_url <- function(url) {
-  tmpfile <- tempfile(fileext = ".css")
-  on.exit(unlink(tmpfile), add = TRUE)
+read_gfont_url <- function(url, file) {
   download_file(
-    utils::URLencode(url), tmpfile,
+    utils::URLencode(url), file,
     headers = c(
       "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
     )
   )
-  readLines(tmpfile)
+  readLines(file)
 }
 
 extract_gfont_info <- function(css) {

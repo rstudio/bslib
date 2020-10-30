@@ -22,7 +22,7 @@ font_link(family, href)
 font_google(
   family,
   local = TRUE,
-  cache = TRUE,
+  cache = sass::sass_file_cache(dir = cache_context_dir(), max_size = 100 * 1024^2),
   wght = NULL,
   ital = NULL,
   display = c("swap", "auto", "block", "fallback", "optional")
@@ -55,8 +55,9 @@ property.}
 
 \item{local}{Whether or not download and bundle local (woff) font files.}
 
-\item{cache}{Whether or not to cache local font files (only takes effect when
-\code{local = TRUE}).}
+\item{cache}{A \code{\link[sass:sass_file_cache]{sass::sass_file_cache()}} object (or, more generally, a file
+caching class with \verb{$get_file()} and \verb{$set_file()} methods). Set this
+argument to \code{FALSE} or \code{NULL} to disable caching.}
 
 \item{wght}{One of the following:
 \itemize{

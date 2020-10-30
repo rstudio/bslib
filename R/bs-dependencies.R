@@ -129,28 +129,24 @@ bs_theme_dependencies <- function(
 }
 
 
-#' Compile Sass using a Bootstrap theme and create an htmlDependency object
+#' Themeable HTML components
 #'
 #' @description
 #'
-#' HTML components can have Sass code that uses a Bootstrap theme; when the Sass
-#' is compiled to CSS, it can read variables from the Bootstrap theme. These
-#' functions make this possible, and also make it possible to use dynamic
-#' theming in a Shiny application: if the Bootstrap theme is changed in a
-#' running Shiny application, Sass code that draws on the theme will be
-#' recompiled and sent to the browser to automatically update the appearance of
-#' the components that use it.
+#' Themeable HTML components use Sass to generate CSS rules from Bootstrap Sass
+#' variables, functions, and/or mixins (i.e., stuff inside of `theme`).
+#' `bs_dependencies()` makes it a bit easier to create themeable components by
+#' compiling [sass::sass()] (`input`) together with Bootstrap Sass inside of a
+#' `theme`, and packaging up the result into an [htmlDependency()].
 #'
-#' `bs_dependency()` takes `input`, which is a set of sass rules, compiles it to
-#' CSS using variables and defaults from `theme`, then creates an
-#' [htmltools::htmlDependency()] object for the newly-compiled CSS file. This
-#' function isn't called directly, but instead
-#'
-#' `bs_dependency_defer()` takes a _function_ which has one argument, `theme`,
-#' and that function should call `bs_dependency()` using that `theme`. The
-#' function will be not be invoked immediately; it will be invoked when the page
-#' is rendered. At that point, the theme will be available to be passed to it.
-#' The function will also be invoked again if the theme is changed.
+#' Themable components can also be  _dynamically_ themed inside of Shiny (i.e.,
+#' they may be themed in 'real-time' via [bs_themer()], and more generally,
+#' update their styles in response to [shiny::session]'s `setCurrentTheme()`
+#' method). Dynamically themeable components provide a "recipe" (i.e., a
+#' function) to `bs_dependency_defer()`, describing how to generate new CSS
+#' stylesheet(s) from a new `theme`. This function is called when the HTML page
+#' is first rendered, and may be invoked again with a new `theme` whenever
+#' [shiny::session]'s `setCurrentTheme()` is called.
 #'
 #' @param input Sass rules to compile, using `theme`.
 #' @param theme A [bs_theme()] object.
@@ -161,7 +157,11 @@ bs_theme_dependencies <- function(
 #' @param .sass_args A list of additional arguments to pass to
 #'   [sass::sass_partial()].
 #' @inheritParams htmltools::htmlDependency
+#' @references
+#' <https://rstudio.github.io/bootstraplib/articles/theming.html#themable-components-1>
 #'
+#'
+#' @return an [htmltools::htmlDependency()] object.
 #' @export
 bs_dependency <- function(input = list(), theme, name, version,
   cache_key_extra = NULL, .dep_args = list(), .sass_args = list())
@@ -190,16 +190,11 @@ bs_dependency <- function(input = list(), theme, name, version,
   do.call(htmlDependency, dep_args)
 }
 
-
-#' Note that `func` should not be created in a closure -- for Shiny to
-#' deduplicate the html dependencies, it needs to be able to tell that the
-#' `func` from a previous invocation is `identical()` to the `func` in later
-#' invocations. In order to that, `func` should be the exact same object each
-#' time.
-#'
-#' @param func a function that takes a [bs_theme()] object (or `theme_default`)
-#'   as input and and returns an [htmlDependency()] (or a list of them).
+#' @param func a _non-anonymous_ function, with a _single_ argument. This function
+#'   should accept a [bs_theme()] object and return a single [htmlDependency()],
+#'   a list of them, or `NULL`.
 #' @export
+#' @return A [htmltools::tagFunction()] object.
 #'
 #' @examples
 #'
