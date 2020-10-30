@@ -32,22 +32,30 @@ reference:
   contents:
     - bs_theme
     - bs_add_variables
+    - font_face
+- title: Interactive theming
+  description: |
+    Interactively customize themes.
+  contents:
+    - bs_theme_preview
+    - run_with_themer
+    - bs_themer
+- title: Dynamic theming
+  description: |
+    Create dynamically themable HTML widgets.
+  contents:
+    - bs_dependency
+    - bs_dependency_defer
+    - bs_theme_dependencies
 - title: Global theme creation
   description: |
     Use Bootstrap themes globally.
   contents:
     - bs_global_theme
     - bs_global_add_variables
-- title: Interactive theming
-  description: |
-    Interactively customize themes
-  contents:
-    - bs_theme_preview
-    - run_with_themer
-    - bs_themer
 - title: Bootstrap SASS compilation
   description: |
-    Compile themes into HTML dependencies and CSS strings
+    Compile themes into HTML dependencies and CSS strings.
   contents:
     - bs_theme_dependencies
     - bs_dependency
