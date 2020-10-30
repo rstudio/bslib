@@ -107,8 +107,14 @@ font_google <- function(family, local = TRUE, cache = TRUE, wght = NULL, ital = 
                         display = c("swap", "auto", "block", "fallback", "optional")) {
   stopifnot(is.logical(local))
   stopifnot(is.logical(cache))
-  if (!is.null(wght)) stopifnot(is.character(wght) || is.numeric(wght))
-  if (!is.null(ital)) stopifnot(all(ital %in% c(0, 1)))
+  if (!is.null(wght)) {
+    stopifnot(is.character(wght) || is.numeric(wght))
+    wght <- sort(wght)
+  }
+  if (!is.null(ital)) {
+    stopifnot(all(ital %in% c(0, 1)))
+    ital <- sort(ital)
+  }
   display <- match.arg(display)
 
   axis_rng <-
@@ -120,7 +126,7 @@ font_google <- function(family, local = TRUE, cache = TRUE, wght = NULL, ital = 
       paste0(":ital@", paste0(ital, collapse = ";"))
     } else {
       paste0(":ital,wght@", paste0(
-        apply(expand.grid(ital, wght), 1, paste0, collapse = ","),
+        apply(expand.grid(wght, ital)[, 2:1], 1, paste0, collapse = ","),
         collapse = ";"
       ))
     }
