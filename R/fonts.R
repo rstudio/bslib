@@ -23,13 +23,20 @@
 #' via `href` URL), or `font_face()` (hosted via `src` URL).
 #'
 #' @param family A character string with a _single_ font family name.
-#' @param src A character string for the `src` `@font-face` property.
-#' @param weight A character string for the `font-weight` `@font-face` property.
-#' @param display A character string for the `font-display` `@font-face` property.
-#' @param style A character string for the `font-style` `@font-face` property.
-#' @param stretch A character string for the `font-stretch` `@font-face` property.
-#' @param variant A character string for the `font-variant` `@font-face` property.
-#' @param unicode_range A character string for `unicode-range` `@font-face` property.
+#' @param src A character vector for the `src` `@font-face` property. Beware
+#'   that is character strings are taken verbatim, so careful quoting and/or URL
+#'   encoding may be required.
+#' @param weight A character (or numeric) vector for the `font-weight`
+#'   `@font-face` property.
+#' @param display A character vector for the `font-display` `@font-face`
+#'   property.
+#' @param style A character vector for the `font-style` `@font-face` property.
+#' @param stretch A character vector for the `font-stretch` `@font-face`
+#'   property.
+#' @param variant A character vector for the `font-variant` `@font-face`
+#'   property.
+#' @param unicode_range A character vector for `unicode-range` `@font-face`
+#'   property.
 #'
 #' @references <https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face>
 #' @references <https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts>
@@ -49,13 +56,17 @@
 #' }
 #'
 #' # Three different yet equivalent ways of importing a remotely-hosted Google Font
-#' a <- font_google("Crimson Pro", weight = "200..900", local = FALSE)
-#' b <- font_link("Crimson Pro", href = "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900")
+#' a <- font_google("Crimson Pro", wght = "200..900", local = FALSE)
+#' b <- font_link(
+#'   "Crimson Pro",
+#'   href = "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900"
+#' )
+#' url <- "https://fonts.gstatic.com/s/crimsonpro/v13/q5uDsoa5M_tv7IihmnkabARboYF6CsKj.woff2"
 #' c <- font_face(
 #'   family = "Crimson Pro",
 #'   style = "normal",
 #'   weight = "200 900",
-#'   src = "url(https://fonts.gstatic.com/s/crimsonpro/v13/q5uDsoa5M_tv7IihmnkabARboYF6CsKj.woff2) format('woff2')"
+#'   src = paste0("url(", url, ") format('woff2')")
 #' )
 #' theme <- bs_theme(base_font = c)
 #' if (interactive()) {
@@ -64,16 +75,39 @@
 #'
 font_face <- function(family, src, weight = NULL, style = NULL,
                       display = c("swap", "auto", "block", "fallback", "optional"),
-                      stretch = NULL, variant = NULL,
-                      unicode_range = NULL) {
-  structure(
-    dropNulls(list(
-      family = unquote_font_family(family),
-      src = src, weight = weight, style = style,
-      display = match.arg(display), stretch = stretch,
-      variant = variant, unicode_range = unicode_range
-    )),
-    class = "bs_font_face"
+                      stretch = NULL, variant = NULL, unicode_range = NULL) {
+
+  x <- dropNulls(list(
+    family = unquote_font_family(family),
+    src = src,
+    weight = weight,
+    style = style,
+    display = if (!is.null(display)) match.arg(display),
+    stretch = stretch,
+    variant = variant,
+    unicode_range = unicode_range
+  ))
+
+  # Multiple src values are separated by "," (everything else by white space)
+  # TODO: src could accept a list of named lists which might give us the
+  # opportunity to handle quoting and encoding of URLs
+  for (prop in names(x)) {
+    collapse <- if (prop %in% c("src", "unicode_range")) ", " else " "
+    x[[prop]] <- paste0(x[[prop]], collapse = collapse)
+  }
+  x$css <- font_face_css(x)
+
+  structure(x, class = "bs_font_face")
+}
+
+font_face_css <- function(x) {
+  props <- names(x)
+  font_prop <- !props %in% c("src", "unicode_range")
+  props[font_prop] <- paste0("font-", props[font_prop])
+  paste0(
+    "@font-face {\n",
+    paste0("  ", props, ": ", x, ";", collapse = "\n"),
+    "\n}"
   )
 }
 
@@ -135,7 +169,6 @@ font_google <- function(family, local = TRUE, cache = TRUE, wght = NULL, ital = 
     dropNulls(list(
       family = unquote_font_family(family),
       local = local, cache = cache,
-      # TODO: unit test this output
       href = paste0(
         "https://fonts.googleapis.com/css2?family=",
         family, axis_rng, "&display=", display
@@ -225,28 +258,16 @@ font_dep_name <- function(x) {
   paste0(class(x)[[1]], sub("\\s*", "_", tolower(x$family)))
 }
 
+
 font_dep_face <- function(x, version) {
-  css <- font_face_css(x)
   src_dir <- tempfile()
   dir.create(src_dir)
-  writeLines(css, file.path(src_dir, "font.css"))
+  writeLines(x$css, file.path(src_dir, "font.css"))
   htmltools::htmlDependency(
     font_dep_name(x), version,
     src = src_dir,
     stylesheet = "font.css",
     all_files = FALSE
-  )
-}
-
-# TODO: validate CSS values?
-font_face_css <- function(x) {
-  props <- names(x)
-  font_prop <- props %in% c("family", "weight", "display", "style", "stretch")
-  props[font_prop] <- paste0("font-", props[font_prop])
-  paste0(
-    "@font-face {\n",
-    paste0("  ", props, ": ", x, ";", collapse = "\n"),
-    "\n}"
   )
 }
 

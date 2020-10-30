@@ -31,19 +31,25 @@ font_google(
 \arguments{
 \item{family}{A character string with a \emph{single} font family name.}
 
-\item{src}{A character string for the \code{src} \verb{@font-face} property.}
+\item{src}{A character vector for the \code{src} \verb{@font-face} property. Beware
+that is character strings are taken verbatim, so careful quoting and/or URL
+encoding may be required.}
 
-\item{weight}{A character string for the \code{font-weight} \verb{@font-face} property.}
+\item{weight}{A character (or numeric) vector for the \code{font-weight}
+\verb{@font-face} property.}
 
-\item{style}{A character string for the \code{font-style} \verb{@font-face} property.}
+\item{style}{A character vector for the \code{font-style} \verb{@font-face} property.}
 
 \item{display}{the \code{font-display} \verb{@font-face} property.}
 
-\item{stretch}{A character string for the \code{font-stretch} \verb{@font-face} property.}
+\item{stretch}{A character vector for the \code{font-stretch} \verb{@font-face}
+property.}
 
-\item{variant}{A character string for the \code{font-variant} \verb{@font-face} property.}
+\item{variant}{A character vector for the \code{font-variant} \verb{@font-face}
+property.}
 
-\item{unicode_range}{A character string for \code{unicode-range} \verb{@font-face} property.}
+\item{unicode_range}{A character vector for \code{unicode-range} \verb{@font-face}
+property.}
 
 \item{href}{A URL resource pointing to the font data.}
 
@@ -109,13 +115,17 @@ if (interactive()) {
 }
 
 # Three different yet equivalent ways of importing a remotely-hosted Google Font
-a <- font_google("Crimson Pro", weight = "200..900", local = FALSE)
-b <- font_link("Crimson Pro", href = "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900")
+a <- font_google("Crimson Pro", wght = "200..900", local = FALSE)
+b <- font_link(
+  "Crimson Pro",
+  href = "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900"
+)
+url <- "https://fonts.gstatic.com/s/crimsonpro/v13/q5uDsoa5M_tv7IihmnkabARboYF6CsKj.woff2"
 c <- font_face(
   family = "Crimson Pro",
   style = "normal",
   weight = "200 900",
-  src = "url(https://fonts.gstatic.com/s/crimsonpro/v13/q5uDsoa5M_tv7IihmnkabARboYF6CsKj.woff2) format('woff2')"
+  src = paste0("url(", url, ") format('woff2')")
 )
 theme <- bs_theme(base_font = c)
 if (interactive()) {

@@ -96,6 +96,16 @@ test_that("Remote font HTML dependencies are rendered properly", {
     font_face("foo", "bar"),
     "@font-face{font-family:foo;src:bar;font-display:swap;}"
   )
+  expect_dependency_css(
+    font_face(
+      "foo", src = c("bar", "baz"),
+      weight = c(400, 600), display = "auto",
+      style = c("oblique", "30deg", "50deg"),
+      stretch = c("75%", "125%"),
+      unicode_range = c("U+0025-00FF", "U+4??")
+    ),
+    "@font-face{font-family:foo;src:bar,baz;font-weight:400600;font-style:oblique30deg50deg;font-display:auto;font-stretch:75%125%;unicode_range:U+0025-00FF,U+4??;}"
+  )
 })
 
 test_that("Google Font URL construction", {
