@@ -35,7 +35,9 @@ expect_gfont_url <- function(..., param, request = TRUE) {
   if (!request) return()
   skip_if_offline()
   skip_on_cran()
-  expect_error(read_gfont_url(href), NA)
+  tmp <- tempfile(fileext = ".css")
+  on.exit(unlink(tmp), add = TRUE)
+  expect_error(read_gfont_url(href, tmp), NA)
 }
 # Expect an HTML dependency renders a certain way
 expect_dependency <- function(font, regex, fixed = TRUE) {
