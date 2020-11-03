@@ -68,7 +68,7 @@ ui <- navbarPage(
   theme = my_theme,
   ...
 )
-shinyApp(ui, function(ui, server) {})
+shinyApp(ui, function(input, output) {})
 ```
 
 For a preview of how `my_theme` impacts most of Shiny UI's styling defaults, provide it to `bs_theme_preview()`. This preview app includes most "core" Shiny UI functionality as well as an interactive "real-time" theming widget for quickly testing out new colors and fonts. To help replicate those styling changes, the widgets also emits code to the R console. It can also be used with other Shiny apps via `run_with_themer()` (or `bs_themer()`).
@@ -90,7 +90,7 @@ ui <- htmlTemplate(
   theme = my_theme,
   ...
 )
-shinyApp(ui, function(ui, server) {})
+shinyApp(ui, function(input, output) {})
 ```
 
 ``` html

@@ -76,7 +76,7 @@ ui <- navbarPage(
   theme = my_theme,
   ...
 )
-shinyApp(ui, function(ui, server) {})
+shinyApp(ui, function(input, output) {})
 ```
 
 For a preview of how `my_theme` impacts most of Shiny UI’s styling
@@ -105,7 +105,7 @@ ui <- htmlTemplate(
   theme = my_theme,
   ...
 )
-shinyApp(ui, function(ui, server) {})
+shinyApp(ui, function(input, output) {})
 ```
 
 ``` html
