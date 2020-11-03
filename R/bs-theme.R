@@ -77,7 +77,9 @@
 #'   means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
 #'   in BS4. Other supported versions include 3 and 4.
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
-#'   for possible values).
+#'   for possible values). When provided to `bs_theme_update()`, any previous
+#'   Bootswatch theme is first removed before the new one is applied (use
+#'   `bootswatch = ""` effectively remove any Bootswatch theme).
 #' @param ... arguments passed along to [bs_add_variables()].
 #' @param bg A color string for the background.
 #' @param fg A color string for the foreground.
@@ -162,7 +164,7 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
 
   # If bootswatch is specified, remove the current theme, then add the new one
   if (!is.null(bootswatch)) {
-    theme <- bs_remove_bootswatch(theme, theme_bootswatch(theme))
+    theme <- bs_remove_bootswatch(theme)
     theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
   }
   # See R/bs-theme-update.R for the implementation of these
@@ -176,7 +178,11 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
   bs_add_variables(theme, ...)
 }
 
-bs_remove_bootswatch <- function(theme, bootswatch) {
+bs_remove_bootswatch <- function(theme) {
+  bootswatch <- theme_bootswatch(theme)
+  if (!length(bootswatch)) {
+    return(theme)
+  }
   theme <- sass_bundle_remove(theme, paste0("bootswatch@", bootswatch))
   # TODO: sass_bundle_remove() could use a regex arg?
   sass_bundle_remove(theme, paste0("bootswatch@", bootswatch, "~bs3_compat_navbar"))
@@ -184,7 +190,7 @@ bs_remove_bootswatch <- function(theme, bootswatch) {
 
 #' @rdname bs_global_theme
 #' @export
-bs_global_theme_update <- function(..., bg = NULL, fg = NULL,
+bs_global_theme_update <- function(..., bootswatch = NULL, bg = NULL, fg = NULL,
                                    primary = NULL,  secondary = NULL, success = NULL,
                                    info = NULL, warning = NULL, danger = NULL,
                                    base_font = NULL, code_font = NULL, heading_font = NULL) {

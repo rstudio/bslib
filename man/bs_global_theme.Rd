@@ -46,6 +46,7 @@ bs_global_bundle(...)
 
 bs_global_theme_update(
   ...,
+  bootswatch = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -65,7 +66,9 @@ means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
 in BS4. Other supported versions include 3 and 4.}
 
 \item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
-for possible values).}
+for possible values). When provided to \code{bs_theme_update()}, any previous
+Bootswatch theme is first removed before the new one is applied (use
+\code{bootswatch = ""} effectively remove any Bootswatch theme).}
 
 \item{bg}{A color string for the background.}
 

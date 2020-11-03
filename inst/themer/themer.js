@@ -197,34 +197,39 @@
     $(el).off("change.colorpicker");
   }
 
-
   $(document).on("change.bsthemer click.bsthemer", ".bs-theme-value-bool", function(e) {
     $(e.target).trigger("validinput");
   });
 
-  function initBoolInput(el) {}
+  function initBoolInput(el) {
+  }
 
   $(document).on("input.bsthemer", ".bs-theme-value-str", function(e) {
-    var value = $(e.target).val();
     $(e.target).trigger("validinput");
   });
 
-  function initStrInput(el) {}
+  function initStrInput(el) {
+  }
 
   $(document).on("change", ".bs-theme-value-select", function(e) {
-    var value = $(e.target).val();
-    $(e.target).trigger("validinput");
+    var select = $(e.target);
+    if (select.data("id") === "bootswatch") {
+      Shiny.setInputValue("bs_theme_bootswatch", select.val());
+    } else {
+      select.trigger("validinput");
+    }
   });
 
-  function initSelectInput(el) {}
+  function initSelectInput(el) {
+  }
 
   $(document).on("input.bsthemer", ".bs-theme-value-length", function(e) {
-    var value = $(e.target).val();
     // TODO: Maybe validate length?
     $(e.target).trigger("validinput");
   });
 
-  function initLengthInput(el) {}
+  function initLengthInput(el) {
+  }
 
   $(function() {
     $(".bs-theme-value-color").each(function(i, el) {
@@ -245,6 +250,7 @@
   });
 
   $(document).on("validinput", ".bs-theme-value", function(e) {
+    if (syncing) return;
     var values = {};
     $(".bs-theme-value-color, .bs-theme-value-str, .bs-theme-value-select, .bs-theme-value-length").each(function() {
       values[$(this).data("id")] = $(this).val();
@@ -261,6 +267,26 @@
     debouncedSetInputValue.call(Shiny, "bs_theme_vars", JSON.stringify(values));
   });
 
+  // When the Bootswatch theme changes, apply new input defaults
+  var syncing = false;
+  Shiny.addCustomMessageHandler("bs-themer-bootswatch", function(msg) {
+    syncing = true;
+    var vals = msg.values;
+    var keys = Object.keys(vals);
+    var themer = $("#bsthemerContainer");
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      var val = vals[key];
+      var input = themer.find(".bs-theme-value[data-id='" + key + "']");
+      input.data(key, val);
+      input.val(val);
+      if (input.data("colorpicker")) {
+        input.colorpicker("setValue", val);
+        syncColors(input[0]);
+      }
+    }
+    syncing = false;
+  })
 
   /*** Begin dragging logic ***/
 
