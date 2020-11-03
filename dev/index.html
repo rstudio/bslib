@@ -127,7 +127,7 @@
   theme = <span class="kw">my_theme</span>,
   <span class="kw">...</span>
 )
-<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span>, <span class="fu">function</span>(<span class="kw">ui</span>, <span class="kw">server</span>) {})
+<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span>, <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>) {})
 </pre></div>
 <p>For a preview of how <code>my_theme</code> impacts most of Shiny UI’s styling defaults, provide it to <code><a href="reference/bs_theme_preview.html">bs_theme_preview()</a></code>. This preview app includes most “core” Shiny UI functionality as well as an interactive “real-time” theming widget for quickly testing out new colors and fonts. To help replicate those styling changes, the widgets also emits code to the R console. It can also be used with other Shiny apps via <code><a href="reference/run_with_themer.html">run_with_themer()</a></code> (or <code><a href="reference/run_with_themer.html">bs_themer()</a></code>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
@@ -142,7 +142,7 @@
   theme = <span class="kw">my_theme</span>,
   <span class="kw">...</span>
 )
-<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span>, <span class="fu">function</span>(<span class="kw">ui</span>, <span class="kw">server</span>) {})
+<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span>, <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>) {})
 </pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">&lt;!-- my-template.html --&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
