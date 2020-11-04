@@ -9,7 +9,7 @@ template:
   params:
     docsearch:
       api_key: 748f014f6e0f347e139ecb794914063d
-      index_name: rstudio_bslib
+      index_name: rstudio_bootstraplib
 
 development:
   mode: auto
