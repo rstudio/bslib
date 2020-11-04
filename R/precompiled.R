@@ -6,7 +6,7 @@ precompiled_css <- local({
 
   function() {
     if (is.null(themes)) {
-      versions <- dir(system.file("css-precompiled", package = "bootstraplib"))
+      versions <- dir(system.file("css-precompiled", package = "bslib"))
       themes <<- lapply(versions, function(version) {
         list(
           version = version,
@@ -47,5 +47,5 @@ precompiled_css_path <- function(theme = bs_theme()) {
     return(NULL)
   }
 
-  system_file(package = "bootstraplib", "css-precompiled", version, "bootstrap.min.css")
+  system_file(package = "bslib", "css-precompiled", version, "bootstrap.min.css")
 }

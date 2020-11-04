@@ -48,21 +48,21 @@ bs_global_set <- function(theme = bs_theme()) {
   if (!is.null(theme)) {
     assert_bs_theme(theme)
   }
-  old_theme <- options(bootstraplib_theme = theme)
-  invisible(old_theme[["bootstraplib_theme"]])
+  old_theme <- options(bslib_theme = theme)
+  invisible(old_theme[["bslib_theme"]])
 }
 
 #' @rdname bs_global_theme
 #' @export
 bs_global_get <- function() {
-  getOption("bootstraplib_theme")
+  getOption("bslib_theme")
 }
 
 #' @rdname bs_global_theme
 #' @export
 bs_global_clear <- function() {
-  old_theme <- options(bootstraplib_theme = NULL)
-  invisible(old_theme[["bootstraplib_theme"]])
+  old_theme <- options(bslib_theme = NULL)
+  invisible(old_theme[["bslib_theme"]])
 }
 
 #' @rdname bs_global_theme

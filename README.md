@@ -2,39 +2,39 @@
 <!-- badges: start -->
 
 [![CRAN
-status](https://www.r-pkg.org/badges/version/bootstraplib)](https://cran.r-project.org/package=bootstraplib)
+status](https://www.r-pkg.org/badges/version/bslib)](https://cran.r-project.org/package=bslib)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R build
-status](https://github.com/rstudio/bootstraplib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bootstraplib/actions)
+status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bslib/actions)
 
 <!-- badges: end -->
 
-# bootstraplib
+# bslib
 
-The `{bootstraplib}` R package provides tools for creating custom
+The `{bslib}` R package provides tools for creating custom
 [Bootstrap
 themes](https://getbootstrap.com/docs/4.4/getting-started/theming/),
 making it easier to style Shiny apps and R Markdown documents directly
-from R without writing unruly CSS and HTML. Currently, `{bootstraplib}`
+from R without writing unruly CSS and HTML. Currently, `{bslib}`
 provides Bootstrap 4, Bootstrap 3, as well as a custom `"4+3"`
 compatibility version, which helps upgrade Shiny and R Markdown from
 Bootstrap 3 to 4.
 
 ## Installation
 
-`{bootstraplib}` isn’t yet available from CRAN, but you can install
+`{bslib}` isn’t yet available from CRAN, but you can install
 with:
 
 ``` r
-remotes::install_github("rstudio/bootstraplib")
+remotes::install_github("rstudio/bslib")
 ```
 
 ## Getting Started
 
 ### Create a theme
 
-Use `bs_theme()` to create a `{bootstraplib}` theme, where you can:
+Use `bs_theme()` to create a `{bslib}` theme, where you can:
 
   - Choose a (major) Bootstrap version.
     
@@ -54,7 +54,7 @@ For example, to implement a [material design inspired dark
 mode](https://material.io/design/color/dark-theme.html):
 
 ``` r
-library(bootstraplib)
+library(bslib)
 my_theme <- bs_theme(
   bg = "#202123", fg = "#B8BCC2", primary = "#EA80FC", 
   base_font = "Grandstander"
@@ -144,7 +144,7 @@ output:
 ```
 
 For backwards-compatibility reasons, R Markdown only uses
-`{bootstraplib}` when `theme` is a list of parameters, so if you want to
+`{bslib}` when `theme` is a list of parameters, so if you want to
 just use Bootstrap 4 without any custom theming, you must do:
 
 ``` yaml
@@ -164,7 +164,7 @@ do things like dynamically modify theme default(s) (with
 leverage Bootstrap Sass variables, functions, mixins, etc:
 
     ```{r}
-    library(bootstraplib)
+    library(bslib)
     bs_global_theme_update("input-bg" = "purple")
     bs_global_add_rules(
       ".my-class { 
@@ -179,6 +179,6 @@ leverage Bootstrap Sass variables, functions, mixins, etc:
 ## Learn more
 
 See the articles on [theming
-recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html)
+recipes](https://rstudio.github.io/bslib/articles/recipes.html)
 and
-[foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html).
+[foundations](https://rstudio.github.io/bslib/articles/foundations.html).

@@ -24,8 +24,8 @@ test_that("Precompiled theme output is identical to compiled themes", {
 
   # precompiled themes will end up in a different directory, but have identical
   # contents to non-precompiled. The dirs will be something like:
-  # /tmp/RtmpVi9qRT/bootstraplib-088b402ee16511d7
-  # /tmp/RtmpVi9qRT/bootstraplib-precompiled-4
+  # /tmp/RtmpVi9qRT/bslib-088b402ee16511d7
+  # /tmp/RtmpVi9qRT/bslib-precompiled-4
   dir1 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4"), precompiled = FALSE))
   dir2 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4"), precompiled = TRUE))
   expect_false(identical(dir1, dir2))
@@ -43,14 +43,14 @@ test_that("Precompiled theme output is identical to compiled themes", {
 
   # Two calls to bs_theme_dependencies() with precompiled CSS should end up in
   # the same dir, even when caching is turned off. Something like:
-  # /tmp/RtmpVi9qRT/bootstraplib-precompiled-4
+  # /tmp/RtmpVi9qRT/bslib-precompiled-4
   dir1 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4"), precompiled = TRUE))
   dir2 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4"), precompiled = TRUE))
   expect_identical(dir1, dir2)
 
   # For default sass options, we'll end up with the precompiled dir, something
   # like:
-  # /tmp/RtmpVi9qRT/bootstraplib-precompiled-4
+  # /tmp/RtmpVi9qRT/bslib-precompiled-4
   default_sass_options <- eval(formals(bs_theme_dependencies)$sass_options)
   dir1 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4"), precompiled = TRUE))
   dir2 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4"), default_sass_options, precompiled = TRUE))
@@ -67,7 +67,7 @@ test_that("Precompiled theme output is identical to compiled themes", {
   # For themes where there's no precompiled version, they will be compiled to
   # the same directory whether precompiled is TRUE or FALSE. It will
   # look like:
-  # /tmp/RtmpVi9qRT/bootstraplib-5c3108f39cfd584e
+  # /tmp/RtmpVi9qRT/bslib-5c3108f39cfd584e
   # Need to tell sass to use a cache, because otherwise it will write into a new
   # directory every time.
   cache <- sass_file_cache(tempfile())

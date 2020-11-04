@@ -8,7 +8,7 @@ inst/lib/bootswatch3/.npmignore
 ^inst/lib/bootstrap-accessibility-plugin/\.npmignore$
 ^test-apps$
 ^autocolors-demo$
-^bootstraplib\.Rproj$
+^bslib\.Rproj$
 ^README\.Rmd$
 ^\.travis\.yml$
 docs

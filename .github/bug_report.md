@@ -6,7 +6,7 @@ about : Report a bug in thematic.
 <!--
 Before you file an issue, please upgrade to the latest version of thematic and confirm that the problem persists.
 
-remotes::install_github("rstudio/bootstraplib")
+remotes::install_github("rstudio/bslib")
 -->
 
 

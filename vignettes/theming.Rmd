@@ -13,7 +13,7 @@ resource_files:
 ---
 
 ```{r, include=FALSE}
-library(bootstraplib)
+library(bslib)
 knitr::opts_chunk$set(
   message = FALSE,
   collapse = TRUE,
@@ -68,14 +68,14 @@ div.warning {
 }
 ```
 
-This article demonstrates how to create custom themes for Shiny apps, R Markdown documents, and more using `{bootstraplib}`. For the sake of novelty, this article uses some Bootstrap 4 specific features like [Utility Classes], but some of the more basic options like Main Colors & Fonts and Sass variables are also available for Bootstrap 3.
+This article demonstrates how to create custom themes for Shiny apps, R Markdown documents, and more using `{bslib}`. For the sake of novelty, this article uses some Bootstrap 4 specific features like [Utility Classes], but some of the more basic options like Main Colors & Fonts and Sass variables are also available for Bootstrap 3.
 
 ## Main colors & fonts
 
 `bs_theme()` makes it easy to customize the main colors and fonts of Bootstrap CSS. Here you can set the main background, foreground, and accent colors as well as the base, heading, and code fonts. Once you create a theme, you can provide it to `bs_theme_preview()` to run a Shiny app designed for previewing (and further customizing) the theme.
 
 ``` {.r}
-library(bootstraplib)
+library(bslib)
 material <- bs_theme(
   bg = "#202123", 
   fg = "#B8BCC2", 
@@ -118,7 +118,7 @@ Setting font(s) doesn't guarantee those fonts may actually be rendered in the br
 If you aren't already familiar with how Sass variables work, we highly recommend reading the first couple paragraphs of [this article](https://rstudio.github.io/sass/articles/sass.html).
 :::
 
-Any of the main color and font settings work for any Bootstrap `version`, but `bs_theme()` also allows control over specific [Bootstrap Sass variables](https://getbootstrap.com/docs/4.5/getting-started/theming/#variable-defaults) that are likely to different across `versions`. Thus, it's best practice to 'lock-in' the Bootstrap `version` when setting Sass variable(s) directly. Here we set Bootstrap 4's [\$font-size-base variable](https://github.com/rstudio/bootstraplib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L282) to increase the sizing of all the fonts on a solarized theme.
+Any of the main color and font settings work for any Bootstrap `version`, but `bs_theme()` also allows control over specific [Bootstrap Sass variables](https://getbootstrap.com/docs/4.5/getting-started/theming/#variable-defaults) that are likely to different across `versions`. Thus, it's best practice to 'lock-in' the Bootstrap `version` when setting Sass variable(s) directly. Here we set Bootstrap 4's [\$font-size-base variable](https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L282) to increase the sizing of all the fonts on a solarized theme.
 
 ``` {.r}
 theme_solar <- bs_theme(
@@ -136,7 +136,7 @@ bs_theme_preview(theme_solar, with_themer = FALSE)
 knitr::include_graphics("solar-theme.png")
 ```
 
-If you skim through the full list of [Bootstrap 4](https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap/scss/_variables.scss) ([or 3](https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss)) Sass variables, you'll notice *lots* of variable settings. Towards the top are the main settings like [the `bg` / `fg` color system](https://github.com/rstudio/bootstraplib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L6-L34) and [theme colors](https://github.com/rstudio/bootstraplib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L36-L89), but as you work your way down the file, you'll notice variables becoming more and more specific. For example, [`$progress-bar-bg` defaults to `primary`](https://github.com/rstudio/bootstraplib/blob/0e936dcd/inst/lib/bootstrap/scss/_variables.scss#L1003), but we can change that default directly, which will customize `shiny::Progress`:
+If you skim through the full list of [Bootstrap 4](https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap/scss/_variables.scss) ([or 3](https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss)) Sass variables, you'll notice *lots* of variable settings. Towards the top are the main settings like [the `bg` / `fg` color system](https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L6-L34) and [theme colors](https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L36-L89), but as you work your way down the file, you'll notice variables becoming more and more specific. For example, [`$progress-bar-bg` defaults to `primary`](https://github.com/rstudio/bslib/blob/0e936dcd/inst/lib/bootstrap/scss/_variables.scss#L1003), but we can change that default directly, which will customize `shiny::Progress`:
 
 ``` {.r}
 bs_theme("progress-bar-bg" = "orange") %>%
@@ -191,7 +191,7 @@ Bootstrap tries its best to dynamically flip between an appropriate `bg` or `fg`
 knitr::include_graphics("material-buttons-before.png")
 ```
 
-Turns out, in this case, we can fix the issue by decreasing [`$yiq-contrasted-threshold`](https://github.com/rstudio/bootstraplib/blob/0e936d/inst/lib/bootstrap/scss/_variables.scss#L95) from 150 to 100.
+Turns out, in this case, we can fix the issue by decreasing [`$yiq-contrasted-threshold`](https://github.com/rstudio/bslib/blob/0e936d/inst/lib/bootstrap/scss/_variables.scss#L95) from 150 to 100.
 
 ``` {.r}
 material %>%
@@ -207,7 +207,7 @@ As we'll learn in [Custom Components], Bootstrap 4 also provides a color contras
 
 ## Utility classes
 
-Bootstrap 4 comes with a suite of handy utility classes for handling common yet fickle styling issues like [spacing](https://getbootstrap.com/docs/4.4/utilities/spacing/), [borders](https://getbootstrap.com/docs/4.4/utilities/borders/), [sizing](https://getbootstrap.com/docs/4.4/utilities/sizing/), [layout](https://getbootstrap.com/docs/4.4/utilities/flex/), [colors](https://getbootstrap.com/docs/4.4/utilities/colors/), and more. In fact, if you look at [the source](https://github.com/rstudio/bootstraplib/tree/master/inst/themer-demo) for the theme demo app, the `actionButton()` logic makes use of the margin spacing (`m-2`) to add some spacing between the buttons (they also make use of [button modifier classes](https://getbootstrap.com/docs/4.4/components/buttons/) to achieve their different background colors).
+Bootstrap 4 comes with a suite of handy utility classes for handling common yet fickle styling issues like [spacing](https://getbootstrap.com/docs/4.4/utilities/spacing/), [borders](https://getbootstrap.com/docs/4.4/utilities/borders/), [sizing](https://getbootstrap.com/docs/4.4/utilities/sizing/), [layout](https://getbootstrap.com/docs/4.4/utilities/flex/), [colors](https://getbootstrap.com/docs/4.4/utilities/colors/), and more. In fact, if you look at [the source](https://github.com/rstudio/bslib/tree/master/inst/themer-demo) for the theme demo app, the `actionButton()` logic makes use of the margin spacing (`m-2`) to add some spacing between the buttons (they also make use of [button modifier classes](https://getbootstrap.com/docs/4.4/components/buttons/) to achieve their different background colors).
 
 ``` {.r}
 actionButton("primary", "Primary", icon("product-hunt"), class = "btn-primary m-2")
@@ -324,7 +324,7 @@ fluidPage(
 
 ## Dynamic theming in Shiny {#dynamic-shiny}
 
-With Shiny, it's possible to change the `{bootstraplib}` theme after the initial page load via `session$setCurrentTheme()`. This can be useful for things like a dark mode [switch](https://getbootstrap.com/docs/4.4/components/forms/#switches) for your Shiny app:
+With Shiny, it's possible to change the `{bslib}` theme after the initial page load via `session$setCurrentTheme()`. This can be useful for things like a dark mode [switch](https://getbootstrap.com/docs/4.4/components/forms/#switches) for your Shiny app:
 
 ``` {.r}
 light <- bs_theme()
@@ -360,13 +360,13 @@ knitr::include_graphics("dark-mode.gif")
 
 ## Themable components
 
-`{bootstraplib}` themes "just work" for all "core" Shiny UI (e.g., `sliderInput()`, `selectInput()`, `tabPanel()`, `navbarPage()`, etc.) as well as any un-styled HTML content (e.g., `tags$input(type = "checkbox")`). One exception to that rule is `plotOutput()` / `renderPlot()`, but in that case, `{thematic}` helps to translate the relevant CSS to [Plots].
+`{bslib}` themes "just work" for all "core" Shiny UI (e.g., `sliderInput()`, `selectInput()`, `tabPanel()`, `navbarPage()`, etc.) as well as any un-styled HTML content (e.g., `tags$input(type = "checkbox")`). One exception to that rule is `plotOutput()` / `renderPlot()`, but in that case, `{thematic}` helps to translate the relevant CSS to [Plots].
 
-At the moment, custom components (e.g., `{shinyWidgets}`, `{htmlwidgets}`, etc) aren't necessarily themeable (via `{bootstraplib}`); but fortunately, `{bootstraplib}` provides the tools for making custom content themeable. Over time, we're hoping package authors will leverage these tools to make their custom components themeable by default, but app authors can also leverage these tools to translate themes to whatever styling API they need.
+At the moment, custom components (e.g., `{shinyWidgets}`, `{htmlwidgets}`, etc) aren't necessarily themeable (via `{bslib}`); but fortunately, `{bslib}` provides the tools for making custom content themeable. Over time, we're hoping package authors will leverage these tools to make their custom components themeable by default, but app authors can also leverage these tools to translate themes to whatever styling API they need.
 
 ### Plots {data-link="Plots"}
 
-`{bootstraplib}` itself doesn't do anything special to make static R plots respect Bootstrap CSS, but thanks to the [`{thematic}` package](https://rstudio.github.io/thematic/), you can include `thematic_shiny()` in your Shiny apps and `thematic_rmd()` in your R Markdown documents to gain new, intelligent, styling defaults based on the `{bootstraplib}` theme (BTW, `{thematic}` can also be used to theme plots without Bootstrap). Note that, the demo app included with `bs_theme_preview()` includes a call to `thematic_shiny(font = "auto")` to enable real-time theming of plots.
+`{bslib}` itself doesn't do anything special to make static R plots respect Bootstrap CSS, but thanks to the [`{thematic}` package](https://rstudio.github.io/thematic/), you can include `thematic_shiny()` in your Shiny apps and `thematic_rmd()` in your R Markdown documents to gain new, intelligent, styling defaults based on the `{bslib}` theme (BTW, `{thematic}` can also be used to theme plots without Bootstrap). Note that, the demo app included with `bs_theme_preview()` includes a call to `thematic_shiny(font = "auto")` to enable real-time theming of plots.
 
 ``` {.r}
 bs_theme_preview(
@@ -378,11 +378,11 @@ bs_theme_preview(
 include_vimeo("411238499")
 ```
 
-As you'll see in the next section on [Tables], with a bit of effort, it's possible to translate `{bootstraplib}` theme settings to other package's theme setting today, but our hope is that with time and help from the R community, we'll get most popular packages working well `{bootstraplib}` .
+As you'll see in the next section on [Tables], with a bit of effort, it's possible to translate `{bslib}` theme settings to other package's theme setting today, but our hope is that with time and help from the R community, we'll get most popular packages working well `{bslib}` .
 
 ### Tables
 
-Shiny and R Markdown tables (e.g., `shiny::dataTableOutput()` , `rmarkdown::paged_table()`, etc) "just work" with `{bootstraplib}` themes; however, **DT** tables currently need either `style='bootstrap4'` (or `style='bootstrap'`) in `datatable()`. In [a future version](https://github.com/rstudio/DT/pull/852) of **DT**, this won't be necessary.
+Shiny and R Markdown tables (e.g., `shiny::dataTableOutput()` , `rmarkdown::paged_table()`, etc) "just work" with `{bslib}` themes; however, **DT** tables currently need either `style='bootstrap4'` (or `style='bootstrap'`) in `datatable()`. In [a future version](https://github.com/rstudio/DT/pull/852) of **DT**, this won't be necessary.
 
 ``` {.r}
 bs_theme_preview(material)
@@ -392,7 +392,7 @@ bs_theme_preview(material)
 knitr::include_graphics("DT-material.png")
 ```
 
-To get `{bootstraplib}` themes working well with other table-making packages like `{reactable}`, you currently need to translate the `{bootstraplib}` theme via `bs_get_variables()` and either `shiny::getCurrentTheme()` (in a Shiny app) or `bs_global_get()` (in an R Markdown doc):
+To get `{bslib}` themes working well with other table-making packages like `{reactable}`, you currently need to translate the `{bslib}` theme via `bs_get_variables()` and either `shiny::getCurrentTheme()` (in a Shiny app) or `bs_global_get()` (in an R Markdown doc):
 
 ``` {.r}
 output$reactable <- reactable::renderReactable({
@@ -511,7 +511,7 @@ person <- function(name, title, company) {
 }
 ```
 
-Note that when `theme` is a `bs_theme()` object, then `person.scss` is compiled with Bootstrap Sass variables and mixins included via `bs_dependency()` (which returns the compiled CSS as an `htmlDependency()`). Otherwise, if `theme` is *not* a `bs_theme()` object, then `person()` is being used in a context where `{bootstraplib}` is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn't necessarily a requirement, but it's a good idea for increasing performance and reducing software dependencies.
+Note that when `theme` is a `bs_theme()` object, then `person.scss` is compiled with Bootstrap Sass variables and mixins included via `bs_dependency()` (which returns the compiled CSS as an `htmlDependency()`). Otherwise, if `theme` is *not* a `bs_theme()` object, then `person()` is being used in a context where `{bslib}` is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn't necessarily a requirement, but it's a good idea for increasing performance and reducing software dependencies.
 
 #### HTML widgets
 

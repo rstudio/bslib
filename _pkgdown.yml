@@ -3,13 +3,13 @@ destination: docs
 toc:
   depth: 2
 
-url: https://rstudio.github.io/bootstraplib/
+url: https://rstudio.github.io/bslib/
 
 template:
   params:
     docsearch:
       api_key: 748f014f6e0f347e139ecb794914063d
-      index_name: rstudio_bootstraplib
+      index_name: rstudio_bslib
 
 development:
   mode: auto

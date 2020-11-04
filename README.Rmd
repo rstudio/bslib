@@ -4,7 +4,7 @@ output: github_document
 
 <!-- badges: start -->
 
-[![CRAN status](https://www.r-pkg.org/badges/version/bootstraplib)](https://cran.r-project.org/package=bootstraplib) [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![R build status](https://github.com/rstudio/bootstraplib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bootstraplib/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/bslib)](https://cran.r-project.org/package=bslib) [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![R build status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bslib/actions)
 
 <!-- badges: end -->
 
@@ -15,26 +15,26 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.align = "center"
 )
-library(bootstraplib)
+library(bslib)
 ```
 
-# bootstraplib
+# bslib
 
-The `{bootstraplib}` R package provides tools for creating custom [Bootstrap themes](https://getbootstrap.com/docs/4.4/getting-started/theming/), making it easier to style Shiny apps and R Markdown documents directly from R without writing unruly CSS and HTML. Currently, `{bootstraplib}` provides Bootstrap 4, Bootstrap 3, as well as a custom `"4+3"` compatibility version, which helps upgrade Shiny and R Markdown from Bootstrap 3 to 4.
+The `{bslib}` R package provides tools for creating custom [Bootstrap themes](https://getbootstrap.com/docs/4.4/getting-started/theming/), making it easier to style Shiny apps and R Markdown documents directly from R without writing unruly CSS and HTML. Currently, `{bslib}` provides Bootstrap 4, Bootstrap 3, as well as a custom `"4+3"` compatibility version, which helps upgrade Shiny and R Markdown from Bootstrap 3 to 4.
 
 ## Installation
 
-`{bootstraplib}` isn't yet available from CRAN, but you can install with:
+`{bslib}` isn't yet available from CRAN, but you can install with:
 
 ``` r
-remotes::install_github("rstudio/bootstraplib")
+remotes::install_github("rstudio/bslib")
 ```
 
 ## Getting Started
 
 ### Create a theme
 
-Use `bs_theme()` to create a `{bootstraplib}` theme, where you can:
+Use `bs_theme()` to create a `{bslib}` theme, where you can:
 
 -   Choose a (major) Bootstrap version.
 
@@ -49,7 +49,7 @@ Use `bs_theme()` to create a `{bootstraplib}` theme, where you can:
 For example, to implement a [material design inspired dark mode](https://material.io/design/color/dark-theme.html):
 
 ``` r
-library(bootstraplib)
+library(bslib)
 my_theme <- bs_theme(
   bg = "#202123", fg = "#B8BCC2", primary = "#EA80FC", 
   base_font = "Grandstander"
@@ -125,7 +125,7 @@ output:
 ---
 ```
 
-For backwards-compatibility reasons, R Markdown only uses `{bootstraplib}` when `theme` is a list of parameters, so if you want to just use Bootstrap 4 without any custom theming, you must do:
+For backwards-compatibility reasons, R Markdown only uses `{bslib}` when `theme` is a list of parameters, so if you want to just use Bootstrap 4 without any custom theming, you must do:
 
 ``` yaml
 ---
@@ -139,7 +139,7 @@ output:
 Moreover, when `theme` depicts a `bs_theme()`, you may modify the (global) `theme` in **knitr** code chunks to influence the final Bootstrap CSS bundle included in the output document. This means you can do things like dynamically modify theme default(s) (with `bs_global_theme_update()` ) and/or add additional CSS rules that leverage Bootstrap Sass variables, functions, mixins, etc:
 
     ```{r}`r ''`
-    library(bootstraplib)
+    library(bslib)
     bs_global_theme_update("input-bg" = "purple")
     bs_global_add_rules(
       ".my-class { 
@@ -153,4 +153,4 @@ Moreover, when `theme` depicts a `bs_theme()`, you may modify the (global) `them
 
 ## Learn more
 
-See the articles on [theming recipes](https://rstudio.github.io/bootstraplib/articles/recipes.html) and [foundations](https://rstudio.github.io/bootstraplib/articles/foundations.html).
+See the articles on [theming recipes](https://rstudio.github.io/bslib/articles/recipes.html) and [foundations](https://rstudio.github.io/bslib/articles/foundations.html).

@@ -1,5 +1,5 @@
 if (!identical(getwd(), rprojroot::find_package_root_file())) {
-  stop("This script must be run from the top directory of the bootstraplib package")
+  stop("This script must be run from the top directory of the bslib package")
 }
 
 lapply(c(

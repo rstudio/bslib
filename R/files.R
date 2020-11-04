@@ -72,7 +72,7 @@ bs_sass_file_bundle <- function(
     lapply(function(bs_file) {
       sass_layer(rules = list(bs_file))
     }) %>%
-    # Ex: bootstraplib@4#dropdown
+    # Ex: bslib@4#dropdown
     setNames(bs_sass_bundle_version(name, version, file = rules))
 
   sass_bundle(

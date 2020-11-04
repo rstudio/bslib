@@ -4,7 +4,7 @@
 # dynamically calculated replacements.
 
 # Load bootstrap-sass (bs3) _variables.scss
-lines <- readLines(system.file(package = "bootstraplib",
+lines <- readLines(system.file(package = "bslib",
   "lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss"))
 # Retain lines that seem like they contain a hex color.
 # (Note that colors specified by keyword would break this logic, but, AFAICT,
