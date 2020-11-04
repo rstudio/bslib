@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "bootstrap": "^4.5.2",
+    "bootstrap": "^4.5.3",
     "bootstrap-sass": "^3.4.1",
     "bootstrap-accessibility-plugin": "^1.0.6",
     "bootstrap-colorpicker": "^3.1.2",
-    "bootswatch": "^4.5.2",
+    "bootswatch": "^4.5.3",
     "popper.js": "^1.16.0"
   },
   "devDependencies": {},

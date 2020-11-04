@@ -1,21 +1,23 @@
 {
   "name": "bootswatch",
   "description": "Bootswatch is a collection of themes for Bootstrap.",
-  "version": "4.5.2",
+  "version": "4.5.3",
   "author": "Thomas Park",
   "homepage": "https://bootswatch.com",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thomaspark/bootswatch.git"
+    "url": "git+https://github.com/thomaspark/bootswatch.git"
   },
-  "engines": {
-    "node": ">=6"
+  "bugs": {
+    "url": "https://github.com/thomaspark/bootswatch/issues"
   },
   "scripts": {
-    "postcss": "postcss --no-map --use autoprefixer --config build/js/postcss.js --replace dist/*/bootstrap.css"
+    "build": "grunt swatch",
+    "htmllint": "grunt htmllint",
+    "stylelint": "stylelint \"**/*.scss\" --rd",
+    "test": "npm run stylelint"
   },
-  "dependencies": {
-    "websocket-driver": "^0.7.4"
-  }
+  "files": "dist/**/*.{css,scss}",
+  "dependencies": {}
 }
