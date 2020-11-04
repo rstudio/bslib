@@ -91,12 +91,12 @@ bs_themer_ui <- function(opts, vals) {
         tags$select(
           class = "form-control", "data-id" = id,
           class = "bs-theme-value bs-theme-value-select",
-          if (is.na(value)) tags$option(value="", selected=NA, opts$placeholder %||% "Choose one"),
-          tagList(
-            lapply(opts$choices, function(x) {
-              tags$option(value = x, selected = if(identical(x, value)) NA else NULL, tools::toTitleCase(x))
-            })
-          )
+          lapply(opts$choices, function(x) {
+            tags$option(
+              value = x, selected = if (identical(x, value)) NA else NULL,
+              tools::toTitleCase(x)
+            )
+          })
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
       ),
@@ -291,13 +291,22 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
   gfont_info <- if (isTRUE(gfonts)) get_gfont_info(gfonts_update)
 
+  # Some bootswatch themes aren't designed to work well with fg=$black/bg=$white
+  # (they instead want fg=$body-color/bg=$body-bg)
+  use_universal_colors <- function(bootswatch) {
+    !isTRUE(bootswatch %in% c("darkly", "cyborg", "simplex", "solar", "superhero"))
+  }
+
   # Insert the theming control panel with values informed by the theme settings
   themer_opts <- opts_metadata()
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
   sass_vars <- setdiff(themer_vars, c("bootswatch", "universal_colors"))
   themer_vals <- c(
     as.list(bs_get_variables(theme, sass_vars)),
-    list(bootswatch = bootswatch, universal_colors = TRUE)
+    list(
+      bootswatch = bootswatch,
+      universal_colors = use_universal_colors(bootswatch)
+    )
   )
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals))
 
@@ -314,9 +323,10 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     # the bg/fg definition since Bootswatch doesn't necessarily take our same
     # black/white approach
     sass_vars[sass_vars %in% c("black", "white")] <- c("body-color", "body-bg")
-    vals <- bs_get_variables(theme, sass_vars)
+    vals <- as.list(bs_get_variables(theme, sass_vars))
     names(vals)[names(vals) %in% c("body-color", "body-bg")] <- c("black", "white")
-    session$sendCustomMessage("bs-themer-bootswatch", list(values = as.list(vals)))
+    vals$universal_colors <- use_universal_colors(input$bs_theme_bootswatch)
+    session$sendCustomMessage("bs-themer-bootswatch", list(values = vals))
   })
 
   shiny::observeEvent(input$bs_theme_vars, {
@@ -352,7 +362,6 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
     # If _either_ fg/bg has changed, bs_theme() must to be called with *both* fg and bg populated.
     if (any(c("black", "white") %in% names(changed_vals))) {
-      # TODO: do we need to do the same for body?
       changed_vals[["black"]] <- changed_vals[["black"]] %||% vals[["black"]]
       changed_vals[["white"]] <- changed_vals[["white"]] %||% vals[["white"]]
     }
@@ -366,48 +375,19 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       black = if (isTRUE(vals$universal_colors)) "fg" else "body-color"
     )
 
-<<<<<<< HEAD
     if (isTRUE(gfonts)) {
       for (var in c("base_font", "code_font", "heading_font")) {
         changed_vals[[var]] <- insert_font_google_call(changed_vals[[var]], gfont_info)
       }
     }
 
-    # print code for user, possibly with quoted expressions
-    code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
-    print(code)
-
-    # the actual code that we evaluate should not have quoted expressions
-    changed_vals[] <- lapply(changed_vals, eval_val)
-    code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
-
-    # Prevent Sass compilation errors from crashing the app and relay a message to user.
-    # Errors can happen if the users enters values that lead to unexpected Sass
-    # expressions (e.g., "$foo: * !default")
-    shiny::removeNotification("sass-compilation-error", session = session)
-    tryCatch(
-      session$setCurrentTheme(rlang::eval_tidy(code)),
-      error = function(e) {
-        warning(e)
-        shiny::showNotification(
-          "Sass -> CSS compilation failed, likely due to invalid user input.
-         Other theming changes won't take effect until the invalid input is fixed.",
-          duration = NULL,
-          id = "sass-compilation-error",
-          type = "error",
-          session = session
-        )
-      }
-=======
     set_current_theme(
       bs_theme_update(theme, !!!changed_vals),
       session, theme
->>>>>>> Make themer inputs reactive to Bootswatch theme changes and add option to apply bg/fg 'universally'
     )
   })
 }
 
-<<<<<<< HEAD
 eval_val <- function(x) {
   if (is.call(x)) return(eval(x))
   if (!is.list(x)) return(x)
@@ -452,7 +432,7 @@ gfont_api_url <- function() {
 gfont_key <- function() {
   Sys.getenv("GFONT_KEY", paste0("AIzaSyDP", "KvElVqQ-", "26f7tjxyg", "IGpIajf", "tS_zmas"))
 }
-=======
+
 set_current_theme <- function(theme_code, session, theme) {
   message("--------------------")
   code <- rlang::enexpr(theme_code)
@@ -477,8 +457,6 @@ set_current_theme <- function(theme_code, session, theme) {
   )
   invisible(theme)
 }
-
->>>>>>> Make themer inputs reactive to Bootswatch theme changes and add option to apply bg/fg 'universally'
 
 #' Retrieve Sass variable values from the current theme
 #'

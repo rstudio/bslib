@@ -278,8 +278,11 @@
       var key = keys[i];
       var val = vals[key];
       var input = themer.find(".bs-theme-value[data-id='" + key + "']");
-      input.data(key, val);
-      input.val(val);
+      if (input.hasClass("bs-theme-value-bool")) {
+        input.prop('checked', JSON.parse(val));
+      } else {
+        input.val(val);
+      }
       if (input.data("colorpicker")) {
         input.colorpicker("setValue", val);
         syncColors(input[0]);
