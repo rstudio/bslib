@@ -77,6 +77,8 @@ for (prop in needs_prefix) {
   scss_src <- lapply(scss_src, add_property_prefixes, prop)
 }
 
+scss_src <- lapply(scss_src, add_property_prefixes, "color-adjust", vendors = "-webkit-print-")
+
 # phantomjs 2.1.1 needs webkit vendor prefix on flex properties to work correctly
 flex_props <- c(
   "flex-direction", "flex-wrap", "flex-flow",  "justify-content",
