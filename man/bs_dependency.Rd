@@ -117,5 +117,5 @@ myWidget <- function(id) {
 
 }
 \references{
-\url{https://rstudio.github.io/bootstraplib/articles/theming.html#themable-components-1}
+\url{https://rstudio.github.io/bslib/articles/theming.html#themable-components-1}
 }

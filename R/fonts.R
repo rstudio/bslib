@@ -212,7 +212,7 @@ bs_font_dependencies <- function(theme, base = NULL, code = NULL, heading = NULL
   if (!length(fonts)) {
     return(theme)
   }
-  version <- packageVersion("bootstraplib")
+  version <- packageVersion("bslib")
   bundles <- lapply(fonts, function(x) {
     # Resolve dependencies at render-time (i.e., tagFunction())
     # so the context-aware caching dir has the proper context
@@ -383,7 +383,7 @@ hash <- function(x) {
 }
 
 # Same idea as sass::sass_cache_context_dir, but different dir
-cache_context_dir <- function(pkg = "bootstraplib") {
+cache_context_dir <- function(pkg = "bslib") {
   tryCatch(
     {
       # The usual place we'll look. This may be superseded below.
