@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass • bootstraplib</title>
+<title>Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass • bslib</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -33,7 +33,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">bootstraplib</a>
+        <a class="navbar-link" href="index.html">bslib</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.1.9000</span>
       </span>
     </div>
@@ -49,7 +49,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rstudio/bootstraplib/">
+  <a href="https://github.com/rstudio/bslib/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -75,16 +75,16 @@
 
 
 <!-- badges: end -->
-<div id="bootstraplib" class="section level1">
+<div id="bslib" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#bootstraplib" class="anchor"></a>bootstraplib</h1></div>
-<p>The <code>{bootstraplib}</code> R package provides tools for creating custom <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/">Bootstrap themes</a>, making it easier to style Shiny apps and R Markdown documents directly from R without writing unruly CSS and HTML. Currently, <code>{bootstraplib}</code> provides Bootstrap 4, Bootstrap 3, as well as a custom <code>"4+3"</code> compatibility version, which helps upgrade Shiny and R Markdown from Bootstrap 3 to 4.</p>
+<a href="#bslib" class="anchor"></a>bslib</h1></div>
+<p>The <code>{bslib}</code> R package provides tools for creating custom <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/">Bootstrap themes</a>, making it easier to style Shiny apps and R Markdown documents directly from R without writing unruly CSS and HTML. Currently, <code>{bslib}</code> provides Bootstrap 4, Bootstrap 3, as well as a custom <code>"4+3"</code> compatibility version, which helps upgrade Shiny and R Markdown from Bootstrap 3 to 4.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p><code>{bootstraplib}</code> isn’t yet available from CRAN, but you can install with:</p>
+<p><code>{bslib}</code> isn’t yet available from CRAN, but you can install with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"rstudio/bootstraplib"</span>)
+<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"rstudio/bslib"</span>)
 </pre></div>
 </div>
 <div id="getting-started" class="section level2">
@@ -93,7 +93,7 @@
 <div id="create-a-theme" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-theme" class="anchor"></a>Create a theme</h3>
-<p>Use <code><a href="reference/bs_theme.html">bs_theme()</a></code> to create a <code>{bootstraplib}</code> theme, where you can:</p>
+<p>Use <code><a href="reference/bs_theme.html">bs_theme()</a></code> to create a <code>{bslib}</code> theme, where you can:</p>
 <ul>
 <li>
 <p>Choose a (major) Bootstrap version.</p>
@@ -107,7 +107,7 @@
 </ul>
 <p>For example, to implement a <a href="https://material.io/design/color/dark-theme.html">material design inspired dark mode</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rstudio.github.io/bootstraplib">bootstraplib</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rstudio.github.io/bslib">bslib</a></span>)
 <span class="kw">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bs_theme.html">bs_theme</a></span>(
   bg = <span class="st">"#202123"</span>, fg = <span class="st">"#B8BCC2"</span>, primary = <span class="st">"#EA80FC"</span>, 
   base_font = <span class="st">"Grandstander"</span>
@@ -172,7 +172,7 @@
 <span id="cb7-7"><a href="#cb7-7"></a><span class="at">      </span><span class="fu">primary</span><span class="kw">:</span><span class="at"> </span><span class="st">"#EA80FC"</span></span>
 <span id="cb7-8"><a href="#cb7-8"></a><span class="at">      </span><span class="fu">base_font</span><span class="kw">:</span><span class="at"> </span><span class="st">"Grandstander"</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="pp">---</span></span></code></pre></div>
-<p>For backwards-compatibility reasons, R Markdown only uses <code>{bootstraplib}</code> when <code>theme</code> is a list of parameters, so if you want to just use Bootstrap 4 without any custom theming, you must do:</p>
+<p>For backwards-compatibility reasons, R Markdown only uses <code>{bslib}</code> when <code>theme</code> is a list of parameters, so if you want to just use Bootstrap 4 without any custom theming, you must do:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1"></a><span class="pp">---</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">output</span><span class="kw">:</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="at">  </span><span class="fu">html_document</span><span class="kw">:</span></span>
@@ -181,7 +181,7 @@
 <span id="cb8-6"><a href="#cb8-6"></a><span class="pp">---</span></span></code></pre></div>
 <p>Moreover, when <code>theme</code> depicts a <code><a href="reference/bs_theme.html">bs_theme()</a></code>, you may modify the (global) <code>theme</code> in <strong>knitr</strong> code chunks to influence the final Bootstrap CSS bundle included in the output document. This means you can do things like dynamically modify theme default(s) (with <code><a href="reference/bs_global_theme.html">bs_global_theme_update()</a></code> ) and/or add additional CSS rules that leverage Bootstrap Sass variables, functions, mixins, etc:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="st">```</span><span class="dt">{r}</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="dt">library(bootstraplib)</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="dt">library(bslib)</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="dt">bs_global_theme_update("input-bg" = "purple")</span></span>
 <span id="cb9-4"><a href="#cb9-4"></a><span class="dt">bs_global_add_rules(</span></span>
 <span id="cb9-5"><a href="#cb9-5"></a><span class="dt">  ".my-class { </span></span>
@@ -197,7 +197,7 @@
 <div id="learn-more" class="section level2">
 <h2 class="hasAnchor">
 <a href="#learn-more" class="anchor"></a>Learn more</h2>
-<p>See the articles on <a href="https://rstudio.github.io/bootstraplib/articles/recipes.html">theming recipes</a> and <a href="https://rstudio.github.io/bootstraplib/articles/foundations.html">foundations</a>.</p>
+<p>See the articles on <a href="https://rstudio.github.io/bslib/articles/recipes.html">theming recipes</a> and <a href="https://rstudio.github.io/bslib/articles/foundations.html">foundations</a>.</p>
 </div>
 </div>
 
@@ -207,9 +207,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/rstudio/bootstraplib/">https://​github.com/​rstudio/​bootstraplib/​</a>
+<li>Browse source code at <br><a href="https://github.com/rstudio/bslib/">https://​github.com/​rstudio/​bslib/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/rstudio/bootstraplib/issues">https://​github.com/​rstudio/​bootstraplib/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/rstudio/bslib/issues">https://​github.com/​rstudio/​bslib/​issues</a>
 </li>
 </ul>
 </div>
@@ -233,9 +233,9 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=bootstraplib"><img src="https://www.r-pkg.org/badges/version/bootstraplib" alt="CRAN status"></a></li>
+<li><a href="https://cran.r-project.org/package=bslib"><img src="https://www.r-pkg.org/badges/version/bslib" alt="CRAN status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://github.com/rstudio/bootstraplib/actions"><img src="https://github.com/rstudio/bootstraplib/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/rstudio/bslib/actions"><img src="https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
 </div>

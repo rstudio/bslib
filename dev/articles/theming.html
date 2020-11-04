@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Custom themes • bootstraplib</title>
+<title>Custom themes • bslib</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -14,7 +14,7 @@
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Custom themes">
-<meta property="og:description" content="bootstraplib">
+<meta property="og:description" content="bslib">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -33,7 +33,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">bootstraplib</a>
+        <a class="navbar-link" href="../index.html">bslib</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.1.9000</span>
       </span>
     </div>
@@ -49,7 +49,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rstudio/bootstraplib/">
+  <a href="https://github.com/rstudio/bslib/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -79,7 +79,7 @@
             
             <h4 class="date">2020-11-04</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/bootstraplib/blob/master/vignettes/theming.Rmd"><code>vignettes/theming.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/theming.Rmd"><code>vignettes/theming.Rmd</code></a></small>
       <div class="hidden name"><code>theming.Rmd</code></div>
 
     </div>
@@ -89,13 +89,13 @@
 <style type="text/css">
 div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;background-repeat:no-repeat;background-position:15px center;min-height:120px;color:#1f5386;background-color:#bed3ec;border:solid 5px #dfedff;background-image:url("infobox.svg")}div.warning{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;background-repeat:no-repeat;background-position:15px center;min-height:120px;color:white;background-color:#F34C22;border:solid 5px #F36642;background-image:url("warning.svg")}
 </style>
-<p>This article demonstrates how to create custom themes for Shiny apps, R Markdown documents, and more using <code>{bootstraplib}</code>. For the sake of novelty, this article uses some Bootstrap 4 specific features like <a href="#utility-classes">Utility Classes</a>, but some of the more basic options like Main Colors &amp; Fonts and Sass variables are also available for Bootstrap 3.</p>
+<p>This article demonstrates how to create custom themes for Shiny apps, R Markdown documents, and more using <code>{bslib}</code>. For the sake of novelty, this article uses some Bootstrap 4 specific features like <a href="#utility-classes">Utility Classes</a>, but some of the more basic options like Main Colors &amp; Fonts and Sass variables are also available for Bootstrap 3.</p>
 <div id="main-colors-fonts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#main-colors-fonts" class="anchor"></a>Main colors &amp; fonts</h2>
 <p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> makes it easy to customize the main colors and fonts of Bootstrap CSS. Here you can set the main background, foreground, and accent colors as well as the base, heading, and code fonts. Once you create a theme, you can provide it to <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code> to run a Shiny app designed for previewing (and further customizing) the theme.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rstudio.github.io/bootstraplib">bootstraplib</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rstudio.github.io/bslib">bslib</a></span>)
 <span class="kw">material</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span>(
   bg = <span class="st">"#202123"</span>, 
   fg = <span class="st">"#B8BCC2"</span>, 
@@ -128,7 +128,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <div class="info">
 <p>If you aren’t already familiar with how Sass variables work, we highly recommend reading the first couple paragraphs of <a href="https://rstudio.github.io/sass/articles/sass.html">this article</a>.</p>
 </div>
-<p>Any of the main color and font settings work for any Bootstrap <code>version</code>, but <code><a href="../reference/bs_theme.html">bs_theme()</a></code> also allows control over specific <a href="https://getbootstrap.com/docs/4.5/getting-started/theming/#variable-defaults">Bootstrap Sass variables</a> that are likely to different across <code>versions</code>. Thus, it’s best practice to ‘lock-in’ the Bootstrap <code>version</code> when setting Sass variable(s) directly. Here we set Bootstrap 4’s <a href="https://github.com/rstudio/bootstraplib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L282">$font-size-base variable</a> to increase the sizing of all the fonts on a solarized theme.</p>
+<p>Any of the main color and font settings work for any Bootstrap <code>version</code>, but <code><a href="../reference/bs_theme.html">bs_theme()</a></code> also allows control over specific <a href="https://getbootstrap.com/docs/4.5/getting-started/theming/#variable-defaults">Bootstrap Sass variables</a> that are likely to different across <code>versions</code>. Thus, it’s best practice to ‘lock-in’ the Bootstrap <code>version</code> when setting Sass variable(s) directly. Here we set Bootstrap 4’s <a href="https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L282">$font-size-base variable</a> to increase the sizing of all the fonts on a solarized theme.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw">theme_solar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span>(
   bg = <span class="st">"#002B36"</span>, 
@@ -141,7 +141,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>(<span class="kw">theme_solar</span>, with_themer = <span class="fl">FALSE</span>)
 </pre></div>
 <p><img src="solar-theme.png" width="100%" style="display: block; margin: auto;"></p>
-<p>If you skim through the full list of <a href="https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap/scss/_variables.scss">Bootstrap 4</a> (<a href="https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss">or 3</a>) Sass variables, you’ll notice <em>lots</em> of variable settings. Towards the top are the main settings like <a href="https://github.com/rstudio/bootstraplib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L6-L34">the <code>bg</code> / <code>fg</code> color system</a> and <a href="https://github.com/rstudio/bootstraplib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L36-L89">theme colors</a>, but as you work your way down the file, you’ll notice variables becoming more and more specific. For example, <a href="https://github.com/rstudio/bootstraplib/blob/0e936dcd/inst/lib/bootstrap/scss/_variables.scss#L1003"><code>$progress-bar-bg</code> defaults to <code>primary</code></a>, but we can change that default directly, which will customize <code><a href="https://shiny.rstudio.com/reference/shiny/latest/Progress.html">shiny::Progress</a></code>:</p>
+<p>If you skim through the full list of <a href="https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap/scss/_variables.scss">Bootstrap 4</a> (<a href="https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss">or 3</a>) Sass variables, you’ll notice <em>lots</em> of variable settings. Towards the top are the main settings like <a href="https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L6-L34">the <code>bg</code> / <code>fg</code> color system</a> and <a href="https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L36-L89">theme colors</a>, but as you work your way down the file, you’ll notice variables becoming more and more specific. For example, <a href="https://github.com/rstudio/bslib/blob/0e936dcd/inst/lib/bootstrap/scss/_variables.scss#L1003"><code>$progress-bar-bg</code> defaults to <code>primary</code></a>, but we can change that default directly, which will customize <code><a href="https://shiny.rstudio.com/reference/shiny/latest/Progress.html">shiny::Progress</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span>(<span class="st">"progress-bar-bg"</span> = <span class="st">"orange"</span>) <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>()
@@ -177,7 +177,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <a href="#color-contrasting" class="anchor"></a>Color contrasting</h2>
 <p>Bootstrap tries its best to dynamically flip between an appropriate <code>bg</code> or <code>fg</code> for text colors that are overlaid on accent colors, but it doesn’t always get the contrast quite right. For example, if we return to our <code>material</code> theme and look closer at the button styles:</p>
 <p><img src="material-buttons-before.png" width="50%" style="display: block; margin: auto;"></p>
-<p>Turns out, in this case, we can fix the issue by decreasing <a href="https://github.com/rstudio/bootstraplib/blob/0e936d/inst/lib/bootstrap/scss/_variables.scss#L95"><code>$yiq-contrasted-threshold</code></a> from 150 to 100.</p>
+<p>Turns out, in this case, we can fix the issue by decreasing <a href="https://github.com/rstudio/bslib/blob/0e936d/inst/lib/bootstrap/scss/_variables.scss#L95"><code>$yiq-contrasted-threshold</code></a> from 150 to 100.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="kw">material</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/bs_theme.html">bs_theme_update</a></span>(<span class="st">"yiq-contrasted-threshold"</span> = <span class="fl">100</span>) <span class="op">%&gt;%</span>
@@ -189,7 +189,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <div id="utility-classes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#utility-classes" class="anchor"></a>Utility classes</h2>
-<p>Bootstrap 4 comes with a suite of handy utility classes for handling common yet fickle styling issues like <a href="https://getbootstrap.com/docs/4.4/utilities/spacing/">spacing</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/borders/">borders</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/sizing/">sizing</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/flex/">layout</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/colors/">colors</a>, and more. In fact, if you look at <a href="https://github.com/rstudio/bootstraplib/tree/master/inst/themer-demo">the source</a> for the theme demo app, the <code><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionButton()</a></code> logic makes use of the margin spacing (<code>m-2</code>) to add some spacing between the buttons (they also make use of <a href="https://getbootstrap.com/docs/4.4/components/buttons/">button modifier classes</a> to achieve their different background colors).</p>
+<p>Bootstrap 4 comes with a suite of handy utility classes for handling common yet fickle styling issues like <a href="https://getbootstrap.com/docs/4.4/utilities/spacing/">spacing</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/borders/">borders</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/sizing/">sizing</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/flex/">layout</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/colors/">colors</a>, and more. In fact, if you look at <a href="https://github.com/rstudio/bslib/tree/master/inst/themer-demo">the source</a> for the theme demo app, the <code><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionButton()</a></code> logic makes use of the margin spacing (<code>m-2</code>) to add some spacing between the buttons (they also make use of <a href="https://getbootstrap.com/docs/4.4/components/buttons/">button modifier classes</a> to achieve their different background colors).</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionButton</a></span>(<span class="st">"primary"</span>, <span class="st">"Primary"</span>, <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/icon.html">icon</a></span>(<span class="st">"product-hunt"</span>), class = <span class="st">"btn-primary m-2"</span>)
 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionButton</a></span>(<span class="st">"secondary"</span>, <span class="st">"Secondary (default)"</span>, class = <span class="st">"m-2"</span>)
@@ -274,7 +274,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <div id="dynamic-shiny" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dynamic-shiny" class="anchor"></a>Dynamic theming in Shiny</h2>
-<p>With Shiny, it’s possible to change the <code>{bootstraplib}</code> theme after the initial page load via <code>session$setCurrentTheme()</code>. This can be useful for things like a dark mode <a href="https://getbootstrap.com/docs/4.4/components/forms/#switches">switch</a> for your Shiny app:</p>
+<p>With Shiny, it’s possible to change the <code>{bslib}</code> theme after the initial page load via <code>session$setCurrentTheme()</code>. This can be useful for things like a dark mode <a href="https://getbootstrap.com/docs/4.4/components/forms/#switches">switch</a> for your Shiny app:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="kw">light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span>()
 <span class="kw">dark</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span>(bg = <span class="st">"black"</span>, fg = <span class="st">"white"</span>, primary = <span class="st">"purple"</span>)
@@ -306,29 +306,29 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <div id="themable-components" class="section level2">
 <h2 class="hasAnchor">
 <a href="#themable-components" class="anchor"></a>Themable components</h2>
-<p><code>{bootstraplib}</code> themes “just work” for all “core” Shiny UI (e.g., <code><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput()</a></code>, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">selectInput()</a></code>, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html">tabPanel()</a></code>, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/navbarPage.html">navbarPage()</a></code>, etc.) as well as any un-styled HTML content (e.g., <code>tags$input(type = "checkbox")</code>). One exception to that rule is <code><a href="https://shiny.rstudio.com/reference/shiny/latest/plotOutput.html">plotOutput()</a></code> / <code><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html">renderPlot()</a></code>, but in that case, <code>{thematic}</code> helps to translate the relevant CSS to <a href="#plots">Plots</a>.</p>
-<p>At the moment, custom components (e.g., <code>{shinyWidgets}</code>, <code>{htmlwidgets}</code>, etc) aren’t necessarily themeable (via <code>{bootstraplib}</code>); but fortunately, <code>{bootstraplib}</code> provides the tools for making custom content themeable. Over time, we’re hoping package authors will leverage these tools to make their custom components themeable by default, but app authors can also leverage these tools to translate themes to whatever styling API they need.</p>
+<p><code>{bslib}</code> themes “just work” for all “core” Shiny UI (e.g., <code><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput()</a></code>, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">selectInput()</a></code>, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html">tabPanel()</a></code>, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/navbarPage.html">navbarPage()</a></code>, etc.) as well as any un-styled HTML content (e.g., <code>tags$input(type = "checkbox")</code>). One exception to that rule is <code><a href="https://shiny.rstudio.com/reference/shiny/latest/plotOutput.html">plotOutput()</a></code> / <code><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html">renderPlot()</a></code>, but in that case, <code>{thematic}</code> helps to translate the relevant CSS to <a href="#plots">Plots</a>.</p>
+<p>At the moment, custom components (e.g., <code>{shinyWidgets}</code>, <code>{htmlwidgets}</code>, etc) aren’t necessarily themeable (via <code>{bslib}</code>); but fortunately, <code>{bslib}</code> provides the tools for making custom content themeable. Over time, we’re hoping package authors will leverage these tools to make their custom components themeable by default, but app authors can also leverage these tools to translate themes to whatever styling API they need.</p>
 <div id="plots" class="section level3" data-link="Plots">
 <h3 class="hasAnchor">
 <a href="#plots" class="anchor"></a>Plots</h3>
-<p><code>{bootstraplib}</code> itself doesn’t do anything special to make static R plots respect Bootstrap CSS, but thanks to the <a href="https://rstudio.github.io/thematic/"><code>{thematic}</code> package</a>, you can include <code>thematic_shiny()</code> in your Shiny apps and <code>thematic_rmd()</code> in your R Markdown documents to gain new, intelligent, styling defaults based on the <code>{bootstraplib}</code> theme (BTW, <code>{thematic}</code> can also be used to theme plots without Bootstrap). Note that, the demo app included with <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code> includes a call to <code>thematic_shiny(font = "auto")</code> to enable real-time theming of plots.</p>
+<p><code>{bslib}</code> itself doesn’t do anything special to make static R plots respect Bootstrap CSS, but thanks to the <a href="https://rstudio.github.io/thematic/"><code>{thematic}</code> package</a>, you can include <code>thematic_shiny()</code> in your Shiny apps and <code>thematic_rmd()</code> in your R Markdown documents to gain new, intelligent, styling defaults based on the <code>{bslib}</code> theme (BTW, <code>{thematic}</code> can also be used to theme plots without Bootstrap). Note that, the demo app included with <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code> includes a call to <code>thematic_shiny(font = "auto")</code> to enable real-time theming of plots.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit">
 <span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>(
   <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span>(bg = <span class="st">"#444444"</span>, fg = <span class="st">"#E4E4E4"</span>, primary = <span class="st">"#E39777"</span>)
 )
 </pre></div>
 <iframe src="https://player.vimeo.com/video/411238499?title=0&amp;byline=0&amp;portrait=0" width="100%" height="400" frameborder="0" seamless="seamless" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<p>As you’ll see in the next section on <a href="#tables">Tables</a>, with a bit of effort, it’s possible to translate <code>{bootstraplib}</code> theme settings to other package’s theme setting today, but our hope is that with time and help from the R community, we’ll get most popular packages working well <code>{bootstraplib}</code> .</p>
+<p>As you’ll see in the next section on <a href="#tables">Tables</a>, with a bit of effort, it’s possible to translate <code>{bslib}</code> theme settings to other package’s theme setting today, but our hope is that with time and help from the R community, we’ll get most popular packages working well <code>{bslib}</code> .</p>
 </div>
 <div id="tables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tables" class="anchor"></a>Tables</h3>
-<p>Shiny and R Markdown tables (e.g., <code><a href="https://shiny.rstudio.com/reference/shiny/latest/tableOutput.html">shiny::dataTableOutput()</a></code> , <code><a href="https://rdrr.io/pkg/rmarkdown/man/paged_table.html">rmarkdown::paged_table()</a></code>, etc) “just work” with <code>{bootstraplib}</code> themes; however, <strong>DT</strong> tables currently need either <code>style='bootstrap4'</code> (or <code>style='bootstrap'</code>) in <code>datatable()</code>. In <a href="https://github.com/rstudio/DT/pull/852">a future version</a> of <strong>DT</strong>, this won’t be necessary.</p>
+<p>Shiny and R Markdown tables (e.g., <code><a href="https://shiny.rstudio.com/reference/shiny/latest/tableOutput.html">shiny::dataTableOutput()</a></code> , <code><a href="https://rdrr.io/pkg/rmarkdown/man/paged_table.html">rmarkdown::paged_table()</a></code>, etc) “just work” with <code>{bslib}</code> themes; however, <strong>DT</strong> tables currently need either <code>style='bootstrap4'</code> (or <code>style='bootstrap'</code>) in <code>datatable()</code>. In <a href="https://github.com/rstudio/DT/pull/852">a future version</a> of <strong>DT</strong>, this won’t be necessary.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit">
 <span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span>(<span class="kw">material</span>)
 </pre></div>
 <p><img src="DT-material.png" width="100%" style="display: block; margin: auto;"></p>
-<p>To get <code>{bootstraplib}</code> themes working well with other table-making packages like <code>{reactable}</code>, you currently need to translate the <code>{bootstraplib}</code> theme via <code><a href="../reference/bs_get_variables.html">bs_get_variables()</a></code> and either <code><a href="https://shiny.rstudio.com/reference/shiny/latest/getCurrentTheme.html">shiny::getCurrentTheme()</a></code> (in a Shiny app) or <code><a href="../reference/bs_global_theme.html">bs_global_get()</a></code> (in an R Markdown doc):</p>
+<p>To get <code>{bslib}</code> themes working well with other table-making packages like <code>{reactable}</code>, you currently need to translate the <code>{bslib}</code> theme via <code><a href="../reference/bs_get_variables.html">bs_get_variables()</a></code> and either <code><a href="https://shiny.rstudio.com/reference/shiny/latest/getCurrentTheme.html">shiny::getCurrentTheme()</a></code> (in a Shiny app) or <code><a href="../reference/bs_global_theme.html">bs_global_get()</a></code> (in an R Markdown doc):</p>
 <div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="kw">output</span><span class="op">$</span><span class="kw">reactable</span> <span class="op">&lt;-</span> <span class="kw">reactable</span>::<span class="fu">renderReactable</span>({
   <span class="kw">get_var</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">var</span>) {
@@ -437,7 +437,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
   )
 }
 </pre></div>
-<p>Note that when <code>theme</code> is a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code>person.scss</code> is compiled with Bootstrap Sass variables and mixins included via <code><a href="../reference/bs_dependency.html">bs_dependency()</a></code> (which returns the compiled CSS as an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>). Otherwise, if <code>theme</code> is <em>not</em> a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> is being used in a context where <code>{bootstraplib}</code> is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn’t necessarily a requirement, but it’s a good idea for increasing performance and reducing software dependencies.</p>
+<p>Note that when <code>theme</code> is a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code>person.scss</code> is compiled with Bootstrap Sass variables and mixins included via <code><a href="../reference/bs_dependency.html">bs_dependency()</a></code> (which returns the compiled CSS as an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>). Otherwise, if <code>theme</code> is <em>not</em> a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> is being used in a context where <code>{bslib}</code> is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn’t necessarily a requirement, but it’s a good idea for increasing performance and reducing software dependencies.</p>
 </div>
 <div id="html-widgets" class="section level4">
 <h4 class="hasAnchor">

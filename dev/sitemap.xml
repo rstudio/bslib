@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//index.html</loc>
+    <loc>https://rstudio.github.io/bslib//index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bootswatch_themes.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/bootswatch_themes.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_bundle.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/bs_bundle.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_dependency.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/bs_dependency.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_get_variables.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/bs_get_variables.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_global_theme.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/bs_global_theme.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/bs_theme.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_dependencies.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/bs_theme_dependencies.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/bs_theme_preview.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/bs_theme_preview.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/deprecated.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/deprecated.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/pipe.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/precompiled_css_path.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/precompiled_css_path.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/run_with_themer.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/run_with_themer.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/theme_bootswatch.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/theme_bootswatch.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/theme_version.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/theme_version.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//reference/version_default.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/version_default.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bootstraplib//articles/theming.html</loc>
+    <loc>https://rstudio.github.io/bslib//articles/theming.html</loc>
   </url>
 </urlset>

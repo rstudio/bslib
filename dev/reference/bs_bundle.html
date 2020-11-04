@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add low-level theming customizations — bs_add_variables • bootstraplib</title>
+<title>Add low-level theming customizations — bs_add_variables • bslib</title>
 
 
 <!-- jquery -->
@@ -79,7 +79,7 @@ ensure theme customizations are portable between major Bootstrap versions." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">bootstraplib</a>
+        <a class="navbar-link" href="../index.html">bslib</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.1.9000</span>
       </span>
     </div>
@@ -95,7 +95,7 @@ ensure theme customizations are portable between major Bootstrap versions." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/bootstraplib/">
+  <a href="https://github.com/rstudio/bslib/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -120,7 +120,7 @@ ensure theme customizations are portable between major Bootstrap versions." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add low-level theming customizations</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/bs-theme-layers.R'><code>R/bs-theme-layers.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/bs-theme-layers.R'><code>R/bs-theme-layers.R</code></a></small>
     <div class="hidden name"><code>bs_bundle.Rd</code></div>
     </div>
 
@@ -222,7 +222,7 @@ variable expressions. It's recommended to keep this as <code>TRUE</code> when <c
 <span class='co'># Start a new global theme and add some custom rules that</span>
 <span class='co'># use Bootstrap variables to define a custom styling for a</span>
 <span class='co'># 'person card'</span>
-<span class='kw'>person_rules</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"custom"</span>, <span class='st'>"person.scss"</span>, package = <span class='st'>"bootstraplib"</span>)
+<span class='kw'>person_rules</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"custom"</span>, <span class='st'>"person.scss"</span>, package = <span class='st'>"bslib"</span>)
 <span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>() <span class='op'>%&gt;%</span> <span class='fu'>bs_add_rules</span>(<span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass_file</a></span>(<span class='kw'>person_rules</span>))
 <span class='co'># Include custom CSS that leverages bootstrap Sass variables</span>
 <span class='kw'>person</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>name</span>, <span class='kw'>title</span>, <span class='kw'>company</span>) {
