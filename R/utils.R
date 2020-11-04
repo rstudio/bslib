@@ -12,13 +12,13 @@ get_exact_version <- function(version) {
 }
 
 lib_file <- function(...) {
-  files <- system_file("lib", ..., package = "bootstraplib")
+  files <- system_file("lib", ..., package = "bslib")
   files_found <- files != ""
   if (all(files_found)) return(files)
 
   files_not_found <- file.path(...)[!files_found]
   stop(
-    "bootstraplib file not found: '", files_not_found, "'",
+    "bslib file not found: '", files_not_found, "'",
     call. = FALSE
   )
 }

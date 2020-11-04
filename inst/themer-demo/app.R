@@ -1,6 +1,6 @@
 library(shiny)
 library(ggplot2)
-library(bootstraplib)
+library(bslib)
 library(thematic)
 library(rlang)
 

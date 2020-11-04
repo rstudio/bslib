@@ -1,4 +1,4 @@
-Package: bootstraplib
+Package: bslib
 Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass
 Version: 0.2.1.9000
 Authors@R: c(
@@ -61,5 +61,5 @@ Remotes:
     rstudio/sass,
     rstudio/htmltools,
     rstudio/shiny
-URL: https://rstudio.github.io/bootstraplib/, https://github.com/rstudio/bootstraplib
-BugReports: https://github.com/rstudio/bootstraplib/issues
+URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
+BugReports: https://github.com/rstudio/bslib/issues

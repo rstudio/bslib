@@ -4,7 +4,7 @@ library(rprojroot)
 
 
 if (!identical(getwd(), find_package_root_file())) {
-  stop("This script must be run from the top directory of the bootstraplib package")
+  stop("This script must be run from the top directory of the bslib package")
 }
 
 if (Sys.which("yarn") == "") {
@@ -258,7 +258,7 @@ remove_dev_dependencies <- function(pkg_file) {
 }
 invisible(lapply(Sys.glob("inst/lib/*/package.json"), remove_dev_dependencies))
 
-# Get BS4/BS3 versions (for bootstraplib::bs_dependencies() versioning)
+# Get BS4/BS3 versions (for bslib::bs_dependencies() versioning)
 version_bs4 <- jsonlite::fromJSON("inst/lib/bootstrap/package.json")$version
 version_bs3 <- jsonlite::fromJSON("inst/lib/bootstrap-sass/package.json")$version
 version_accessibility <- jsonlite::fromJSON("inst/lib/bootstrap-accessibility-plugin/package.json")$version
@@ -275,9 +275,9 @@ writeLines(
 
 # Create the LICENSE file
 LICENSE <- c(
-  "The bootstraplib package as a whole is distributed under MIT.",
+  "The bslib package as a whole is distributed under MIT.",
   "",
-  "The bootstraplib package includes other open source software components.",
+  "The bslib package includes other open source software components.",
   "The following is a list of these components (full copies of the license",
   "agreements used by these components are included below):",
   "",
@@ -320,11 +320,11 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
 
 # This generates precompiled builds of Bootstrap's css. It would be nice to do
 # it at binary package build time, but I couldn't get that to work, using either
-# src/install.libs.R (because the bootstraplib functions used in this script
+# src/install.libs.R (because the bslib functions used in this script
 # aren't available yet), or by putting this code directly in the R/ directory
 # (because the R/ files are evaluated only after the inst directory is copied
 # over).
-library(bootstraplib)
+library(bslib)
 
 # The versions of Bootstrap to precompile
 versions <- c("4", "4+3", "3")

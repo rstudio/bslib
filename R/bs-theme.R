@@ -18,8 +18,8 @@
 #' * Customize main colors and fonts via explicitly named arguments (e.g.,
 #'   `bg`, `fg`, `primary`, etc).
 #' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`
-#'   * See all [Bootstrap 4 variables](https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap/scss/_variables.scss)
-#'   * See all [Bootstrap 3 variables](https://github.com/rstudio/bootstraplib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss)
+#'   * See all [Bootstrap 4 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap/scss/_variables.scss)
+#'   * See all [Bootstrap 3 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss)
 #'
 #' For less common theming customization(s), you can modify theme objects to:
 #'
@@ -332,16 +332,16 @@ bootstrap_javascript <- function(version) {
 
 bs3compat_bundle <- function() {
   sass_layer(
-    defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bootstraplib")),
-    declarations = sass_file(system_file("bs3compat", "_declarations.scss", package = "bootstraplib")),
-    rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bootstraplib")),
+    defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bslib")),
+    declarations = sass_file(system_file("bs3compat", "_declarations.scss", package = "bslib")),
+    rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
     # Gyliphicon font files
     file_attachments = c(
       fonts = lib_file("bootstrap-sass", "assets", "fonts")
     ),
     html_deps = htmltools::htmlDependency(
-      "bs3compat", packageVersion("bootstraplib"),
-      package = "bootstraplib",
+      "bs3compat", packageVersion("bslib"),
+      package = "bslib",
       src = "bs3compat/js",
       script = c("tabs.js", "bs3compat.js")
     )
@@ -358,12 +358,12 @@ bs3_accessibility_bundle <- function() {
       system_file(
         "lib", "bootstrap-accessibility-plugin",
         "src", "sass", "bootstrap-accessibility.scss",
-        package = "bootstraplib"
+        package = "bslib"
       )
     ),
     html_deps = htmltools::htmlDependency(
       "bootstrap-accessibility", version_accessibility,
-      package = "bootstraplib",
+      package = "bslib",
       src = "lib/bootstrap-accessibility-plugin",
       script = "plugins/js/bootstrap-accessibility.min.js"
     )
@@ -384,7 +384,7 @@ bootswatch_bundle <- function(bootswatch, version) {
   attachments <- if (file.exists(font_css)) {
     c(
       "font.css" = font_css,
-      fonts = system_file("fonts", package = "bootstraplib")
+      fonts = system_file("fonts", package = "bslib")
     )
   }
 

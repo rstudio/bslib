@@ -1,4 +1,4 @@
 library(testthat)
-library(bootstraplib)
+library(bslib)
 
-test_check("bootstraplib")
+test_check("bslib")

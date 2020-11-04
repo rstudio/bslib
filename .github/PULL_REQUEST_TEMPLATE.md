@@ -2,7 +2,7 @@
 
 Before you submit a pull request, please ensure you've completed the following checklist
 
-- [ ] Ensure there is an already open and relevant [GitHub issue](https://github.com/rstudio/bootstraplib/issues/new) describing the problem in detail and you've already received some indication from the maintainers that they are welcome to a contribution to fix the problem. This helps us to prevent wasting anyone's time. 
+- [ ] Ensure there is an already open and relevant [GitHub issue](https://github.com/rstudio/bslib/issues/new) describing the problem in detail and you've already received some indication from the maintainers that they are welcome to a contribution to fix the problem. This helps us to prevent wasting anyone's time. 
 
 - [ ] Add unit tests in the tests/testthat directory.
 

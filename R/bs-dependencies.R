@@ -73,7 +73,7 @@ bs_theme_dependencies <- function(
   {
     precompiled_css <- precompiled_css_path(theme)
     if (!is.null(precompiled_css)) {
-      out_dir <- file.path(tempdir(), paste0("bootstraplib-precompiled-", version))
+      out_dir <- file.path(tempdir(), paste0("bslib-precompiled-", version))
       if (!dir.exists(out_dir)) {
         dir.create(out_dir)
       }
@@ -92,12 +92,12 @@ bs_theme_dependencies <- function(
     out_file <- sass::sass(
       input = theme,
       options = sass_options,
-      output = sass::output_template(basename = "bootstrap", dirname = "bootstraplib-"),
+      output = sass::output_template(basename = "bootstrap", dirname = "bslib-"),
       cache = cache,
       write_attachments = TRUE,
       cache_key_extra = list(
         get_exact_version(version),
-        utils::packageVersion("bootstraplib")
+        utils::packageVersion("bslib")
       )
     )
   }

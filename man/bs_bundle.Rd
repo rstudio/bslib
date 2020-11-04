@@ -85,7 +85,7 @@ theme \%>\%
 # Start a new global theme and add some custom rules that
 # use Bootstrap variables to define a custom styling for a
 # 'person card'
-person_rules <- system.file("custom", "person.scss", package = "bootstraplib")
+person_rules <- system.file("custom", "person.scss", package = "bslib")
 theme <- bs_theme() \%>\% bs_add_rules(sass::sass_file(person_rules))
 # Include custom CSS that leverages bootstrap Sass variables
 person <- function(name, title, company) {
