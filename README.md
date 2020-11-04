@@ -10,10 +10,9 @@ status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https
 
 <!-- badges: end -->
 
-# bslib
+# bslib (formerly known as bootstraplib)
 
-The `{bslib}` R package provides tools for creating custom
-[Bootstrap
+The `{bslib}` R package provides tools for creating custom [Bootstrap
 themes](https://getbootstrap.com/docs/4.4/getting-started/theming/),
 making it easier to style Shiny apps and R Markdown documents directly
 from R without writing unruly CSS and HTML. Currently, `{bslib}`
@@ -23,8 +22,7 @@ Bootstrap 3 to 4.
 
 ## Installation
 
-`{bslib}` isn’t yet available from CRAN, but you can install
-with:
+`{bslib}` isn’t yet available from CRAN, but you can install with:
 
 ``` r
 remotes::install_github("rstudio/bslib")
@@ -143,9 +141,9 @@ output:
 ---
 ```
 
-For backwards-compatibility reasons, R Markdown only uses
-`{bslib}` when `theme` is a list of parameters, so if you want to
-just use Bootstrap 4 without any custom theming, you must do:
+For backwards-compatibility reasons, R Markdown only uses `{bslib}` when
+`theme` is a list of parameters, so if you want to just use Bootstrap 4
+without any custom theming, you must do:
 
 ``` yaml
 ---
@@ -179,6 +177,5 @@ leverage Bootstrap Sass variables, functions, mixins, etc:
 ## Learn more
 
 See the articles on [theming
-recipes](https://rstudio.github.io/bslib/articles/recipes.html)
-and
+recipes](https://rstudio.github.io/bslib/articles/recipes.html) and
 [foundations](https://rstudio.github.io/bslib/articles/foundations.html).

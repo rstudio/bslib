@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(bslib)
 ```
 
-# bslib
+# bslib (formerly known as bootstraplib)
 
 The `{bslib}` R package provides tools for creating custom [Bootstrap themes](https://getbootstrap.com/docs/4.4/getting-started/theming/), making it easier to style Shiny apps and R Markdown documents directly from R without writing unruly CSS and HTML. Currently, `{bslib}` provides Bootstrap 4, Bootstrap 3, as well as a custom `"4+3"` compatibility version, which helps upgrade Shiny and R Markdown from Bootstrap 3 to 4.
 
