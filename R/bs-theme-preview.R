@@ -294,7 +294,18 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # Some bootswatch themes aren't designed to work well with fg=$black/bg=$white
   # (they instead want fg=$body-color/bg=$body-bg)
   use_universal_colors <- function(bootswatch) {
-    !isTRUE(bootswatch %in% c("darkly", "cyborg", "simplex", "solar", "superhero"))
+    !isTRUE(bootswatch %in% c("darkly", "cyborg", "simplex", "solar", "superhero", "slate"))
+  }
+
+  get_themer_sass_variables <- function(theme, vars) {
+    swatch <- theme_bootswatch(theme)
+    if (use_universal_colors(swatch)) {
+      return(as.list(bs_get_variables(theme, vars)))
+    }
+    vars[vars %in% c("black", "white")] <- c("body-color", "body-bg")
+    vals <- as.list(bs_get_variables(theme, vars))
+    names(vals)[names(vals) %in% c("body-color", "body-bg")] <- c("black", "white")
+    vals
   }
 
   # Insert the theming control panel with values informed by the theme settings
@@ -302,7 +313,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
   sass_vars <- setdiff(themer_vars, c("bootswatch", "universal_colors"))
   themer_vals <- c(
-    as.list(bs_get_variables(theme, sass_vars)),
+    get_themer_sass_variables(theme, sass_vars),
     list(
       bootswatch = bootswatch,
       universal_colors = use_universal_colors(bootswatch)
@@ -322,9 +333,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     # When updating the widget's other input values, use body-color/body-bg as
     # the bg/fg definition since Bootswatch doesn't necessarily take our same
     # black/white approach
-    sass_vars[sass_vars %in% c("black", "white")] <- c("body-color", "body-bg")
-    vals <- as.list(bs_get_variables(theme, sass_vars))
-    names(vals)[names(vals) %in% c("body-color", "body-bg")] <- c("black", "white")
+    vals <- get_themer_sass_variables(theme, sass_vars)
     vals$universal_colors <- use_universal_colors(input$bs_theme_bootswatch)
     session$sendCustomMessage("bs-themer-bootswatch", list(values = vals))
   })
