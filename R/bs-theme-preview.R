@@ -291,55 +291,31 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
   gfont_info <- if (isTRUE(gfonts)) get_gfont_info(gfonts_update)
 
-  # Some bootswatch themes aren't designed to work well with fg=$black/bg=$white
-  # (they instead want fg=$body-color/bg=$body-bg)
-  use_universal_colors <- function(bootswatch) {
-    !isTRUE(bootswatch %in% c("darkly", "cyborg", "simplex", "solar", "superhero", "slate"))
-  }
-
-  get_themer_sass_variables <- function(theme, vars) {
-    swatch <- theme_bootswatch(theme)
-    if (use_universal_colors(swatch)) {
-      return(as.list(bs_get_variables(theme, vars)))
-    }
-    vars[vars %in% c("black", "white")] <- c("body-color", "body-bg")
-    vals <- as.list(bs_get_variables(theme, vars))
-    names(vals)[names(vals) %in% c("body-color", "body-bg")] <- c("black", "white")
-    vals
-  }
-
   # Insert the theming control panel with values informed by the theme settings
   themer_opts <- opts_metadata()
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
-  sass_vars <- setdiff(themer_vars, c("bootswatch", "universal_colors"))
-  themer_vals <- c(
-    get_themer_sass_variables(theme, sass_vars),
-    list(
-      bootswatch = bootswatch,
-      universal_colors = use_universal_colors(bootswatch)
-    )
-  )
+  sass_vars <- setdiff(themer_vars, "bootswatch")
+  themer_vals <- as.list(bs_get_variables(theme, sass_vars))
+  themer_vals$bootswatch <- bootswatch
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals))
 
   input <- session$input
-  # Updating the Bootswatch theme "undoes" other theming changes. This
-  # seems like the only way we can reasonably detect whether differences
-  # between the input theme and the theming widget are a "real" differences
+
+  # When the bootswatch theme changes, update the themer's state to reflect
+  # the new variable defaults. Note that we also update the "input theme",
+  # and effectively throw out any other theming changes made (i.e., start from a new theme)
+  # since it'd be messy to figure out whether changes are "real" or just a
+  # consequence of a new bootswatch value
   shiny::observeEvent(input$bs_theme_bootswatch, {
     theme <<- set_current_theme(
-      bs_theme_update(theme, bootswatch = !!input$bs_theme_bootswatch),
-      session, theme
+      theme, list(bootswatch = input$bs_theme_bootswatch), session
     )
-    # When updating the widget's other input values, use body-color/body-bg as
-    # the bg/fg definition since Bootswatch doesn't necessarily take our same
-    # black/white approach
-    vals <- get_themer_sass_variables(theme, sass_vars)
-    vals$universal_colors <- use_universal_colors(input$bs_theme_bootswatch)
+    vals <- as.list(bs_get_variables(theme, sass_vars))
     session$sendCustomMessage("bs-themer-bootswatch", list(values = vals))
   })
 
+  # Fires when anything other then the Bootswatch theme changes
   shiny::observeEvent(input$bs_theme_vars, {
-    # The themer's current input values.
     vals <- jsonlite::parse_json(input$bs_theme_vars)
 
     # Validate that `vals` is a simple list, containing atomic elements,
@@ -370,18 +346,16 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     }
 
     # If _either_ fg/bg has changed, bs_theme() must to be called with *both* fg and bg populated.
-    if (any(c("black", "white") %in% names(changed_vals))) {
-      changed_vals[["black"]] <- changed_vals[["black"]] %||% vals[["black"]]
-      changed_vals[["white"]] <- changed_vals[["white"]] %||% vals[["white"]]
+    if (any(c("bg", "fg") %in% names(changed_vals))) {
+      changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["bg"]]
+      changed_vals[["fg"]] <- changed_vals[["fg"]] %||% vals[["fg"]]
     }
 
     # Change variables names to their 'high-level' equivalents
     changed_vals <- rename2(
-      changed_vals, "font-family-base" = "base_font",
-      "font-family-monospace" = "code_font",
-      "headings-font-family" = "heading_font",
-      white = if (isTRUE(vals$universal_colors)) "bg" else "body-bg",
-      black = if (isTRUE(vals$universal_colors)) "fg" else "body-color"
+      changed_vals,
+      "font-family-base" = "base_font", "font-family-monospace" = "code_font",
+      "headings-font-family" = "heading_font"
     )
 
     if (isTRUE(gfonts)) {
@@ -390,11 +364,36 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       }
     }
 
-    set_current_theme(
-      bs_theme_update(theme, !!!changed_vals),
-      session, theme
-    )
+    set_current_theme(theme, changed_vals, session)
   })
+}
+
+set_current_theme <- function(theme, changed_vals, session) {
+  message("--------------------")
+  code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
+  print(code)
+  # the actual code that we evaluate should not have quoted expressions
+  changed_vals[] <- lapply(changed_vals, eval_val)
+  code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
+  theme <- rlang::eval_tidy(code)
+  # Prevent Sass compilation errors from crashing the app and relay a message to user.
+  # Errors can happen if the users enters values that lead to unexpected Sass
+  # expressions (e.g., "$foo: * !default")
+  shiny::removeNotification("sass-compilation-error", session = session)
+  tryCatch(
+    session$setCurrentTheme(theme),
+    error = function(e) {
+      shiny::showNotification(
+        "Sass -> CSS compilation failed, likely due to invalid user input.
+         Other theming changes won't take effect until the invalid input is fixed.",
+        duration = NULL,
+        id = "sass-compilation-error",
+        type = "error",
+        session = session
+      )
+    }
+  )
+  invisible(theme)
 }
 
 eval_val <- function(x) {
@@ -408,7 +407,7 @@ insert_font_google_call <- function(val, gfont_info) {
   if (!is_string(val)) return(NULL)
   if (!nzchar(val)) return(NULL)
   fams <- strsplit(as.character(val), ",")[[1]]
-  fams <- vapply(fams, unquote_font_family, character(1))
+  fams <- vapply(fams, unquote_font_family, character(1), USE.NAMES = FALSE)
   fams <- fams[nzchar(fams)]
   is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
   if (length(fams) == 1) {
@@ -442,30 +441,6 @@ gfont_key <- function() {
   Sys.getenv("GFONT_KEY", paste0("AIzaSyDP", "KvElVqQ-", "26f7tjxyg", "IGpIajf", "tS_zmas"))
 }
 
-set_current_theme <- function(theme_code, session, theme) {
-  message("--------------------")
-  code <- rlang::enexpr(theme_code)
-  print(code)
-  theme <- rlang::eval_tidy(code)
-  # Prevent Sass compilation errors from crashing the app and relay a message to user.
-  # Errors can happen if the users enters values that lead to unexpected Sass
-  # expressions (e.g., "$foo: * !default")
-  shiny::removeNotification("sass-compilation-error", session = session)
-  tryCatch(
-    session$setCurrentTheme(theme),
-    error = function(e) {
-      shiny::showNotification(
-        "Sass -> CSS compilation failed, likely due to invalid user input.
-         Other theming changes won't take effect until the invalid input is fixed.",
-        duration = NULL,
-        id = "sass-compilation-error",
-        type = "error",
-        session = session
-      )
-    }
-  )
-  invisible(theme)
-}
 
 #' Retrieve Sass variable values from the current theme
 #'
@@ -487,6 +462,15 @@ set_current_theme <- function(theme_code, session, theme) {
 bs_get_variables <- function(theme, varnames) {
   if (length(varnames) == 0) {
     return(stats::setNames(character(0), character(0)))
+  }
+
+  # Our bg/fg are not actual Sass variables and can mean different things depending
+  # on the bootswatch theme/version
+  base_color_idx <- varnames %in% c("fg", "bg")
+  if (any(base_color_idx)) {
+    varnames[base_color_idx] <- rename2(
+      varnames[base_color_idx], !!!get_base_color_map(theme)
+    )
   }
 
   assert_bs_theme(theme)
@@ -545,6 +529,13 @@ bs_get_variables <- function(theme, varnames) {
 
   # Any variables that had to fall back to our defaults, we'll replace with NA
   values[values == na_sentinel] <- NA_character_
+
+
+  if (any(base_color_idx)) {
+    varnames[base_color_idx] <- rename2(
+      varnames[base_color_idx], !!!get_base_color_map(theme, decode = FALSE)
+    )
+  }
 
   # Return as a named character vector
   stats::setNames(values, varnames)

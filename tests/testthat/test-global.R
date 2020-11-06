@@ -63,4 +63,8 @@ test_that("rename works as intended", {
     rename2(list(a=1, b=3, c=4, a=2), b="z", f="w", a="y"),
     list(y = 1, z = 3, c = 4, y = 2)
   )
+  expect_identical(
+    rename2(c("a", "b", "c", "a"), b="z", f="w", a="y"),
+    c("y", "z", "c", "y")
+  )
 })

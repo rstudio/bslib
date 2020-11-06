@@ -16,9 +16,38 @@ bs_base_colors <- function(theme, bg = NULL, fg = NULL) {
     "4" = bs4_base_colors,
     "3" = bs3_base_colors
   )
+
+  # In some cases, bg/fg really means $body-bg/$body-color, not $white/$black
+  if (has_body_base_colors(theme)) {
+    args <- rename2(args, !!!get_base_color_map(theme))
+    funcs <- lapply(funcs, function(x) identity)
+  }
+
   dispatch_theme_modifier(theme, funcs, args, "bs_base_colors")
 }
 
+# Obtain a mapping from (to) fg/bg to (from) relevant Sass vars
+get_base_color_map <- function(theme, decode = TRUE) {
+  bs3 <- "3" %in% theme_version(theme)
+  vars <- if (has_body_base_colors(theme)) {
+    if (bs3) list("body-bg", "text-color") else list("body-bg", "body-color")
+  } else {
+    if (bs3) list("body-bg", "gray-base") else list("white", "black")
+  }
+  if (decode) {
+    setNames(vars, c("bg", "fg"))
+  } else {
+    setNames(c("bg", "fg"), vars)
+  }
+}
+
+# We've modified these "dark mode" themes to be more themable by cascading
+# defaults from $body-bg/$body-color instead of $white/$black
+has_body_base_colors <- function(theme) {
+  body_themes <- c("darkly", "cyborg", "solar", "superhero", "slate")
+  # TODO: do the same for BS3? I guess?
+  isTRUE(theme_bootswatch(theme) %in% body_themes)
+}
 
 bs4_base_colors <- function(args) {
   white <- args$bg
