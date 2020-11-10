@@ -205,9 +205,6 @@ shinyApp(
         "in ", code("fileInput()"), "and ", code("Progress"), " will appear more staggered",
         "(e.g., click button above)."
       )
-    ),
-    tags$head(
-      tags$link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Grandstander")
     )
   ),
   function(input, output, session) {

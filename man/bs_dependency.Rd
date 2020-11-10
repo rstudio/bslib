@@ -3,7 +3,7 @@
 \name{bs_dependency}
 \alias{bs_dependency}
 \alias{bs_dependency_defer}
-\title{Compile Sass using a Bootstrap theme and create an htmlDependency object}
+\title{Themeable HTML components}
 \usage{
 bs_dependency(
   input = list(),
@@ -35,28 +35,30 @@ useful to add the version of your package.}
 \item{.sass_args}{A list of additional arguments to pass to
 \code{\link[sass:sass_partial]{sass::sass_partial()}}.}
 
-\item{func}{a function that takes a \code{\link[=bs_theme]{bs_theme()}} object (or \code{theme_default})
-as input and and returns an \code{\link[=htmlDependency]{htmlDependency()}} (or a list of them).}
+\item{func}{a \emph{non-anonymous} function, with a \emph{single} argument. This function
+should accept a \code{\link[=bs_theme]{bs_theme()}} object and return a single \code{\link[=htmlDependency]{htmlDependency()}},
+a list of them, or \code{NULL}.}
+}
+\value{
+an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} object.
+
+A \code{\link[htmltools:tagFunction]{htmltools::tagFunction()}} object.
 }
 \description{
-HTML components can have Sass code that uses a Bootstrap theme; when the Sass
-is compiled to CSS, it can read variables from the Bootstrap theme. These
-functions make this possible, and also make it possible to use dynamic
-theming in a Shiny application: if the Bootstrap theme is changed in a
-running Shiny application, Sass code that draws on the theme will be
-recompiled and sent to the browser to automatically update the appearance of
-the components that use it.
+Themeable HTML components use Sass to generate CSS rules from Bootstrap Sass
+variables, functions, and/or mixins (i.e., stuff inside of \code{theme}).
+\code{bs_dependencies()} makes it a bit easier to create themeable components by
+compiling \code{\link[sass:sass]{sass::sass()}} (\code{input}) together with Bootstrap Sass inside of a
+\code{theme}, and packaging up the result into an \code{\link[=htmlDependency]{htmlDependency()}}.
 
-\code{bs_dependency()} takes \code{input}, which is a set of sass rules, compiles it to
-CSS using variables and defaults from \code{theme}, then creates an
-\code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} object for the newly-compiled CSS file. This
-function isn't called directly, but instead
-
-\code{bs_dependency_defer()} takes a \emph{function} which has one argument, \code{theme},
-and that function should call \code{bs_dependency()} using that \code{theme}. The
-function will be not be invoked immediately; it will be invoked when the page
-is rendered. At that point, the theme will be available to be passed to it.
-The function will also be invoked again if the theme is changed.
+Themable components can also be  \emph{dynamically} themed inside of Shiny (i.e.,
+they may be themed in 'real-time' via \code{\link[=bs_themer]{bs_themer()}}, and more generally,
+update their styles in response to \link[shiny:session]{shiny::session}'s \code{setCurrentTheme()}
+method). Dynamically themeable components provide a "recipe" (i.e., a
+function) to \code{bs_dependency_defer()}, describing how to generate new CSS
+stylesheet(s) from a new \code{theme}. This function is called when the HTML page
+is first rendered, and may be invoked again with a new \code{theme} whenever
+\link[shiny:session]{shiny::session}'s \code{setCurrentTheme()} is called.
 }
 \examples{
 
@@ -113,4 +115,7 @@ myWidget <- function(id) {
 }
 }
 
+}
+\references{
+\url{https://rstudio.github.io/bslib/articles/theming.html#themable-components-1}
 }

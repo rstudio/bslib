@@ -152,9 +152,9 @@ test_that("bs_theme_fonts", {
       )
     }
 
-    expect_error(bs_fonts(theme, ""), "base")
-    expect_error(bs_fonts(theme, code = NA_character_), "code")
-    expect_error(bs_fonts(theme, heading = TRUE), "heading")
+    expect_error(bs_fonts(theme, ""))
+    expect_error(bs_fonts(theme, code = NA_character_))
+    expect_error(bs_fonts(theme, heading = TRUE))
     expect_error(bs_fonts(theme, 10L))
 
     # NOT an error

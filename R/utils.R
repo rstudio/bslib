@@ -37,6 +37,10 @@ is_shiny_app <- function() {
   "shiny" %in% loadedNamespaces() && shiny::isRunning()
 }
 
+is_hosted_app <- function() {
+  nzchar(Sys.getenv("SHINY_SERVER_VERSION")) && is_shiny_app()
+}
+
 add_class <- function(x, y) {
   class(x) <- unique(c(y, oldClass(x)))
   x

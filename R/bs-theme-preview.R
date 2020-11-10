@@ -109,7 +109,7 @@ bs_themer_ui <- function(theme = bs_theme()) {
 
   opts <- lapply(opts_metadata(), function(opt_infos) {
     mapply(names(opt_infos), opt_infos, FUN = function(name, opt_info) {
-      make_control(name, opt_info$label, opt_info$default, opt_info$type, opt_info$desc)
+      make_control(name, opt_info$label, opt_info$default, opt_info$type, HTML(opt_info$desc))
     }, USE.NAMES = FALSE, SIMPLIFY = FALSE)
   })
 
@@ -186,6 +186,10 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' @param appDir The application to run. This can be a file or directory path,
 #'   or a [shiny::shinyApp()] object. See [shiny::runApp()] for details.
 #' @param ... Additional parameters to pass through to [shiny::runApp()].
+#' @param gfonts whether or not to detect Google Fonts and wrap them in
+#'   [font_google()] (so that their font files are automatically imported).
+#' @param gfonts_update whether or not to update the internal database of
+#'   Google Fonts.
 #'
 #' @section Limitations:
 #'
@@ -233,13 +237,13 @@ bs_themer_ui <- function(theme = bs_theme()) {
 #' }
 #'
 #' @export
-run_with_themer <- function(appDir = getwd(), ...) {
+run_with_themer <- function(appDir = getwd(), ..., gfonts = TRUE, gfonts_update = FALSE) {
   obj <- shiny::as.shiny.appobj(appDir)
   origServerFuncSource <- obj[["serverFuncSource"]]
   obj[["serverFuncSource"]] <- function() {
     origServerFunc <- origServerFuncSource()
     function(input, output, session, ...) {
-      bs_themer()
+      bs_themer(gfonts, gfonts_update)
       if (!"session" %in% names(formals(origServerFunc))) {
         origServerFunc(input, output, ...)
       } else {
@@ -252,7 +256,7 @@ run_with_themer <- function(appDir = getwd(), ...) {
 
 #' @rdname run_with_themer
 #' @export
-bs_themer <- function() {
+bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   session <- shiny::getDefaultReactiveDomain()
   if (is.null(session)) {
     stop(call. = FALSE, "`bslib::bs_themer()` must be called from within a ",
@@ -281,6 +285,8 @@ bs_themer <- function() {
   } else {
     session$userData[["bs_themer_init"]] <- TRUE
   }
+
+  gfont_info <- if (isTRUE(gfonts)) get_gfont_info(gfonts_update)
 
   input <- session$input
 
@@ -326,8 +332,19 @@ bs_themer <- function() {
       changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["white"]]
     }
 
+    if (isTRUE(gfonts)) {
+      for (var in c("base_font", "code_font", "heading_font")) {
+        changed_vals[[var]] <- insert_font_google_call(changed_vals[[var]], gfont_info)
+      }
+    }
+
+    # print code for user, possibly with quoted expressions
     code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
     print(code)
+
+    # the actual code that we evaluate should not have quoted expressions
+    changed_vals[] <- lapply(changed_vals, eval_val)
+    code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
 
     # Prevent Sass compilation errors from crashing the app and relay a message to user.
     # Errors can happen if the users enters values that lead to unexpected Sass
@@ -336,6 +353,7 @@ bs_themer <- function() {
     tryCatch(
       session$setCurrentTheme(rlang::eval_tidy(code)),
       error = function(e) {
+        warning(e)
         shiny::showNotification(
           "Sass -> CSS compilation failed, likely due to invalid user input.
          Other theming changes won't take effect until the invalid input is fixed.",
@@ -347,6 +365,51 @@ bs_themer <- function() {
       }
     )
   })
+}
+
+eval_val <- function(x) {
+  if (is.call(x)) return(eval(x))
+  if (!is.list(x)) return(x)
+  lapply(x, eval_val)
+}
+
+insert_font_google_call <- function(val, gfont_info) {
+  # val should be a non-empty character string
+  if (!is_string(val)) return(NULL)
+  if (!nzchar(val)) return(NULL)
+  fams <- strsplit(as.character(val), ",")[[1]]
+  fams <- vapply(fams, unquote_font_family, character(1))
+  fams <- fams[nzchar(fams)]
+  is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
+  if (length(fams) == 1) {
+    return(if (is_a_gfont) call("font_google", fams) else fams)
+  }
+  fams <- as.list(fams)
+  for (i in which(is_a_gfont)) {
+    fams[[i]] <- call("font_google", fams[[i]])
+  }
+  unname(fams)
+}
+
+
+get_gfont_info <- function(update = FALSE) {
+  if (isTRUE(update)) {
+    jsonlite::fromJSON(gfont_api_url())$items
+  } else {
+    # See tools/update_gfont_info.R
+    gfont_info
+  }
+}
+
+# same as thematic:::gfont_api_url
+gfont_api_url <- function() {
+  paste0("https://www.googleapis.com/webfonts/v1/webfonts?key=", gfont_key())
+}
+# same as thematic:::gfont_key
+# As mentioned in the developer API, this key is safe to be public facing
+# https://developers.google.com/fonts/docs/developer_api
+gfont_key <- function() {
+  Sys.getenv("GFONT_KEY", paste0("AIzaSyDP", "KvElVqQ-", "26f7tjxyg", "IGpIajf", "tS_zmas"))
 }
 
 #' Retrieve Sass variable values from the current theme

@@ -43,42 +43,35 @@
 #'
 #'  Use `base_font`, `code_font`, and `heading_font` to control the main
 #'  typefaces. These arguments set new defaults for the relevant `font-family`
-#'  CSS properties **which does not guarantee the relevant fonts are available
-#'  in the users system**. To ensure the fonts are actually available, use a
-#'  package like **gfonts** (if Google Fonts) to download and provide the font
-#'  files with the HTML site.
+#'  CSS properties, but don't necessarily import the relevant font files. To
+#'  both set CSS properties _and_ import font files, consider using the various
+#'  [font_face()] helpers.
 #'
-#'  Each `*_font` argument accepts a character vector where each element of that
-#'  vector can a single unquoted font family name, a single quoted font family
-#'  name, or a comma-separated list of font families (with individual font
-#'  family names quoted as necessary). The comma-separated list is useful for
-#'  specifying "fallback" font families (e.g., generic CSS families like
-#'  `sans-serif` or `serif`) when font(s) may be unavailable.
+#'  Each `*_font` argument may be collection of character vector(s),
+#'  [font_google()](s), [font_link()]s and/or [font_face()](s). Note that a character vector can
+#'  have:
+#'    * A single unquoted name (e.g., `"Source Sans Pro"`).
+#'    * A single quoted name (e.g., `"'Source Sans Pro'"`).
+#'    * A comma-separated list of names w/ individual names quoted as necessary.
+#'      (e.g. `c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")`)
 #'
-#'  For example, each example below is valid:
-#'
-#'  ```
-#'  # Single, unquoted
-#'  bs_theme(base_font = "Source Sans Pro")
-#'  # Single, quoted
-#'  bs_theme(base_font = "'Source Sans Pro'")
-#'  # Multiple, quoted
-#'  bs_theme(base_font = "'Source Sans Pro', sans-serif")
-#'  # Combining all of the above
-#'  bs_theme(
-#'    base_font = c("Open Sans", "'Source Sans Pro'",
-#'    "'Helvetica Neue', Helvetica, sans-serif")
-#'  )
-#'  ```
-#'
-#'  But the following is _technically_ not valid because `Source Sans Pro` is
-#'  not quoted (the resulting CSS will contain `font-family: Source Sans Pro,
-#'  sans-serif;` which is technically out of the CSS specifications but may
-#'  still work in some modern browsers).
+#'  Since `font_google(..., local = TRUE)` guarantees that the client has access to
+#'  the font family, meaning it's relatively safe to specify just one font
+#'  family, for instance:
 #'
 #'  ```
-#'  bs_theme(base_font = "Source Sans Pro, sans-serif")
+#'  bs_theme(base_font = font_google("Pacifico", local = TRUE))
 #'  ```
+#'
+#'  However, specifying multiple "fallback" font families is recommended,
+#'  especially when relying on remote and/or system fonts being available, for
+#'  instance. Fallback fonts are useful not only for handling missing fonts, but
+#'  also for handling a Flash of Invisible Text (FOIT) which can be quite
+#'  noticeable with remote web fonts on a slow internet connection.
+#'
+#'  ```
+#'  bs_theme(base_font = list(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
+#'  ````
 #'
 #' @param version The major version of Bootstrap to use. A value of `'4+3'`
 #'   means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
@@ -106,8 +99,7 @@
 #'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #' @references \url{https://rstudio.github.io/sass/}
-#' @seealso [bs_add_variables()], [bs_theme_preview()],
-#'   [bs_theme_dependencies()], [bs_global_set()]
+#' @seealso [bs_add_variables()], [bs_theme_preview()]
 #' @examples
 #'
 #' theme <- bs_theme(
@@ -173,6 +165,7 @@ bs_theme_update <- function(theme, ..., bg = NULL, fg = NULL,
     theme, primary = primary, secondary = secondary, success = success,
     info = info, warning = warning, danger = danger
   )
+  theme <- bs_font_dependencies(theme, base = base_font, code = code_font, heading = heading_font)
   theme <- bs_fonts(theme, base = base_font, code = code_font, heading = heading_font)
   bs_add_variables(theme, ...)
 }

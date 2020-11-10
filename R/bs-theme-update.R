@@ -193,24 +193,10 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   assert_bs_theme(theme)
 
   args <- list(
-    base = base,
-    code = code,
-    heading = heading
+    base = unlist(find_characters(base)),
+    code = unlist(find_characters(code)),
+    heading = unlist(find_characters(heading))
   )
-
-  mapply(function(name, value) {
-    if (is.null(value)) {
-      return()
-    }
-    if (!is.character(value)) {
-      stop(call. = FALSE,
-        "Invalid ", format_varnames(name), " argument to bs_theme_fonts(): must be character vector")
-    }
-    if (anyNA(value) || any(!nzchar(value))) {
-      stop(call. = FALSE,
-        "Invalid ", format_varnames(name), " argument to bs_theme_fonts(): must be character vector")
-    }
-  }, names(args), args)
 
   args <- lapply(args, quote_css_font_families)
 
@@ -223,6 +209,17 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   dispatch_theme_modifier(theme, funcs, args, "bs_fonts")
 }
 
+find_characters <- function(x) {
+  if (is.null(x)) return(NULL)
+  if (is_font_object(x)) return(x$family)
+  if (!is.list(x)) {
+    if (is.character(x) && !(anyNA(x) || any(!nzchar(x)))) {
+      return(x)
+    }
+    stop("Fonts must be a collection of non-empty character vector(s) and/or `font_face()`(s).")
+  }
+  lapply(x, find_characters)
+}
 
 bs4_fonts <- function(args) {
   name_map <- c(

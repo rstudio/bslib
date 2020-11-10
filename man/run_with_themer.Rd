@@ -5,15 +5,21 @@
 \alias{bs_themer}
 \title{Theme customization UI}
 \usage{
-run_with_themer(appDir = getwd(), ...)
+run_with_themer(appDir = getwd(), ..., gfonts = TRUE, gfonts_update = FALSE)
 
-bs_themer()
+bs_themer(gfonts = TRUE, gfonts_update = FALSE)
 }
 \arguments{
 \item{appDir}{The application to run. This can be a file or directory path,
 or a \code{\link[shiny:shinyApp]{shiny::shinyApp()}} object. See \code{\link[shiny:runApp]{shiny::runApp()}} for details.}
 
 \item{...}{Additional parameters to pass through to \code{\link[shiny:runApp]{shiny::runApp()}}.}
+
+\item{gfonts}{whether or not to detect Google Fonts and wrap them in
+\code{\link[=font_google]{font_google()}} (so that their font files are automatically imported).}
+
+\item{gfonts_update}{whether or not to update the internal database of
+Google Fonts.}
 }
 \description{
 A 'real-time' theme customization UI that you can use to easily make common
