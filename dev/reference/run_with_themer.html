@@ -140,9 +140,9 @@ Markdown app that is using <code>runtime: shiny</code>, you can call this from a
 chunk). Note that this function is only intended to be used for development!</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_with_themer</span>(appDir = <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>run_with_themer</span>(appDir = <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>...</span>, gfonts = <span class='fl'>TRUE</span>, gfonts_update = <span class='fl'>FALSE</span>)
 
-<span class='fu'>bs_themer</span>()</pre>
+<span class='fu'>bs_themer</span>(gfonts = <span class='fl'>TRUE</span>, gfonts_update = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,6 +155,16 @@ or a <code><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.ht
     <tr>
       <th>...</th>
       <td><p>Additional parameters to pass through to <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>shiny::runApp()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>gfonts</th>
+      <td><p>whether or not to detect Google Fonts and wrap them in
+<code><a href='font_face.html'>font_google()</a></code> (so that their font files are automatically imported).</p></td>
+    </tr>
+    <tr>
+      <th>gfonts_update</th>
+      <td><p>whether or not to update the internal database of
+Google Fonts.</p></td>
     </tr>
     </table>
 

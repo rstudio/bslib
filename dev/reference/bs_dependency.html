@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compile Sass using a Bootstrap theme and create an htmlDependency object — bs_dependency • bslib</title>
+<title>Themeable HTML components — bs_dependency • bslib</title>
 
 
 <!-- jquery -->
@@ -45,23 +45,20 @@
 
 
 
-<meta property="og:title" content="Compile Sass using a Bootstrap theme and create an htmlDependency object — bs_dependency" />
-<meta property="og:description" content="HTML components can have Sass code that uses a Bootstrap theme; when the Sass
-is compiled to CSS, it can read variables from the Bootstrap theme. These
-functions make this possible, and also make it possible to use dynamic
-theming in a Shiny application: if the Bootstrap theme is changed in a
-running Shiny application, Sass code that draws on the theme will be
-recompiled and sent to the browser to automatically update the appearance of
-the components that use it.
-bs_dependency() takes input, which is a set of sass rules, compiles it to
-CSS using variables and defaults from theme, then creates an
-htmltools::htmlDependency() object for the newly-compiled CSS file. This
-function isn't called directly, but instead
-bs_dependency_defer() takes a function which has one argument, theme,
-and that function should call bs_dependency() using that theme. The
-function will be not be invoked immediately; it will be invoked when the page
-is rendered. At that point, the theme will be available to be passed to it.
-The function will also be invoked again if the theme is changed." />
+<meta property="og:title" content="Themeable HTML components — bs_dependency" />
+<meta property="og:description" content="Themeable HTML components use Sass to generate CSS rules from Bootstrap Sass
+variables, functions, and/or mixins (i.e., stuff inside of theme).
+bs_dependencies() makes it a bit easier to create themeable components by
+compiling sass::sass() (input) together with Bootstrap Sass inside of a
+theme, and packaging up the result into an htmlDependency().
+Themable components can also be  dynamically themed inside of Shiny (i.e.,
+they may be themed in 'real-time' via bs_themer(), and more generally,
+update their styles in response to shiny::session's setCurrentTheme()
+method). Dynamically themeable components provide a &quot;recipe&quot; (i.e., a
+function) to bs_dependency_defer(), describing how to generate new CSS
+stylesheet(s) from a new theme. This function is called when the HTML page
+is first rendered, and may be invoked again with a new theme whenever
+shiny::session's setCurrentTheme() is called." />
 
 
 <meta name="robots" content="noindex">
@@ -132,28 +129,25 @@ The function will also be invoked again if the theme is changed." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compile Sass using a Bootstrap theme and create an htmlDependency object</h1>
+    <h1>Themeable HTML components</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/bs-dependencies.R'><code>R/bs-dependencies.R</code></a></small>
     <div class="hidden name"><code>bs_dependency.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>HTML components can have Sass code that uses a Bootstrap theme; when the Sass
-is compiled to CSS, it can read variables from the Bootstrap theme. These
-functions make this possible, and also make it possible to use dynamic
-theming in a Shiny application: if the Bootstrap theme is changed in a
-running Shiny application, Sass code that draws on the theme will be
-recompiled and sent to the browser to automatically update the appearance of
-the components that use it.</p>
-<p><code>bs_dependency()</code> takes <code>input</code>, which is a set of sass rules, compiles it to
-CSS using variables and defaults from <code>theme</code>, then creates an
-<code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code> object for the newly-compiled CSS file. This
-function isn't called directly, but instead</p>
-<p><code>bs_dependency_defer()</code> takes a <em>function</em> which has one argument, <code>theme</code>,
-and that function should call <code>bs_dependency()</code> using that <code>theme</code>. The
-function will be not be invoked immediately; it will be invoked when the page
-is rendered. At that point, the theme will be available to be passed to it.
-The function will also be invoked again if the theme is changed.</p>
+    <p>Themeable HTML components use Sass to generate CSS rules from Bootstrap Sass
+variables, functions, and/or mixins (i.e., stuff inside of <code>theme</code>).
+<code>bs_dependencies()</code> makes it a bit easier to create themeable components by
+compiling <code><a href='https://rdrr.io/pkg/sass/man/sass.html'>sass::sass()</a></code> (<code>input</code>) together with Bootstrap Sass inside of a
+<code>theme</code>, and packaging up the result into an <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmlDependency()</a></code>.</p>
+<p>Themable components can also be  <em>dynamically</em> themed inside of Shiny (i.e.,
+they may be themed in 'real-time' via <code><a href='run_with_themer.html'>bs_themer()</a></code>, and more generally,
+update their styles in response to <a href='https://shiny.rstudio.com/reference/shiny/latest/session.html'>shiny::session</a>'s <code>setCurrentTheme()</code>
+method). Dynamically themeable components provide a "recipe" (i.e., a
+function) to <code>bs_dependency_defer()</code>, describing how to generate new CSS
+stylesheet(s) from a new <code>theme</code>. This function is called when the HTML page
+is first rendered, and may be invoked again with a new <code>theme</code> whenever
+<a href='https://shiny.rstudio.com/reference/shiny/latest/session.html'>shiny::session</a>'s <code>setCurrentTheme()</code> is called.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bs_dependency</span>(
@@ -204,11 +198,19 @@ useful to add the version of your package.</p></td>
     </tr>
     <tr>
       <th>func</th>
-      <td><p>a function that takes a <code><a href='bs_theme.html'>bs_theme()</a></code> object (or <code>theme_default</code>)
-as input and and returns an <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmlDependency()</a></code> (or a list of them).</p></td>
+      <td><p>a <em>non-anonymous</em> function, with a <em>single</em> argument. This function
+should accept a <code><a href='bs_theme.html'>bs_theme()</a></code> object and return a single <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmlDependency()</a></code>,
+a list of them, or <code>NULL</code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>an <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code> object.</p>
+<p>A <code><a href='https://rdrr.io/pkg/htmltools/man/tagFunction.html'>htmltools::tagFunction()</a></code> object.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://rstudio.github.io/bslib/articles/theming.html#themable-components-1'>https://rstudio.github.io/bslib/articles/theming.html#themable-components-1</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
