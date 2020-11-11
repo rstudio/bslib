@@ -55,7 +55,7 @@ mode](https://material.io/design/color/dark-theme.html):
 library(bslib)
 my_theme <- bs_theme(
   bg = "#202123", fg = "#B8BCC2", primary = "#EA80FC", 
-  base_font = "Grandstander"
+  base_font = font_google("Grandstander")
 )
 ```
 
@@ -137,7 +137,7 @@ output:
       bg: "#202123"
       fg: "#B8BCC2"
       primary: "#EA80FC"
-      base_font: "Grandstander"
+      base_font: !expr font_google("Grandstander")
 ---
 ```
 
