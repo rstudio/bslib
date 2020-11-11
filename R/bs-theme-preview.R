@@ -50,67 +50,80 @@ opts_metadata <- function() {
   )
 }
 
-bs_themer_ui <- function(theme = bs_theme()) {
+bs_themer_ui <- function(opts, vals) {
 
-  computed_defaults <- bs_get_variables(theme, unlist(unname(lapply(opts_metadata(), names))))
-
-  make_control <- function(id, lbl, default_value, type, desc = NULL) {
-    default_value <- computed_defaults[[id]]
-    if (type == "color") {
-      div(class = "form-row form-group",
-        htmltools::tags$label(lbl, title = paste0("$", id)),
-        htmltools::tags$input(type = "text", class = "bs-theme-value bs-theme-value-color form-control form-control-sm text-monospace",
-          "data-id" = id,
-          value = default_value
+  make_control <- function(id, opts) {
+    value <- vals[[id]]
+    lbl <- HTML(opts$label)
+    desc <- HTML(opts$desc)
+    text_input <- function(input_class = NULL) {
+      div(
+        class = "form-row form-group",
+        tags$label(lbl),
+        tags$input(
+          type = "text", value = value, "data-id" = id,
+          class = "form-control form-control-sm bs-theme-value",
+          class = input_class
         ),
-        if (!is.null(desc)) {
-          div(class = "form-text small", desc)
-        }
+        if (!is.null(desc)) div(class = "form-text small", desc)
       )
-    } else if (type == "str") {
-      div(class = "form-row form-group",
-        htmltools::tags$label(lbl),
-        htmltools::tags$input(type = "text", class = "bs-theme-value bs-theme-value-str form-control form-control-sm",
-          "data-id" = id,
-          value = default_value
-        ),
-        if (!is.null(desc)) {
-          div(class = "form-text small", desc)
-        }
-      )
-    } else if (type == "length") {
-      div(class = "form-row form-group",
-        htmltools::tags$label(lbl),
-        htmltools::tags$input(type = "text", class = "bs-theme-value bs-theme-value-length form-control form-control-sm",
-          "data-id" = id,
-          value = default_value
-        ),
-        if (!is.null(desc)) {
-          div(class = "form-text small", desc)
-        }
-      )
-    } else if (type == "bool") {
-      tagList(
-        div(class = "form-check",
-          htmltools::tags$input(type = "checkbox", class = "bs-theme-value bs-theme-value-bool form-check-input",
-            id = paste0(".bsthemer-", id),
-            "data-id" = id,
-            checked = if (default_value) NA else NULL),
-          htmltools::tags$label("for" = paste0(".bsthemer-", id), class = "form-check-label", lbl)
-        ),
-        if (!is.null(desc)) {
-          div(class = "form-text small", desc)
-        }
-      )
-    } else {
-      stop("unknown type")
     }
+    switch(
+      opts$type,
+      color = text_input(input_class = "bs-theme-value-color text-monospace"),
+      str = text_input(input_class = "bs-theme-value-str"),
+      length = text_input(input_class = "bs-theme-value-length"),
+      bool = tagList(
+        div(
+          class = "form-check",
+          tags$input(
+            type = "checkbox", checked = if (value) NA else NULL,
+            class = "bs-theme-value bs-theme-value-bool form-check-input",
+            id = paste0(".bsthemer-", id), "data-id" = id
+          ),
+          tags$label("for" = paste0(".bsthemer-", id), class = "form-check-label", lbl)
+        ),
+        if (!is.null(desc)) div(class = "form-text small", desc)
+      ),
+      select = div(
+        class = "form-row form-group",
+        tags$label(class = "control-label", lbl),
+        tags$select(
+          class = "form-control", "data-id" = id,
+          class = "bs-theme-value bs-theme-value-select",
+          lapply(opts$choices, function(x) {
+            tags$option(
+              value = x, selected = if (identical(x, value)) NA else NULL,
+              tools::toTitleCase(x)
+            )
+          })
+        ),
+        if (!is.null(desc)) div(class = "form-text small", desc)
+      ),
+      stop("unknown type")
+    )
   }
 
-  opts <- lapply(opts_metadata(), function(opt_infos) {
-    mapply(names(opt_infos), opt_infos, FUN = function(name, opt_info) {
-      make_control(name, opt_info$label, opt_info$default, opt_info$type, HTML(opt_info$desc))
-    }, USE.NAMES = FALSE, SIMPLIFY = FALSE)
+  accordion <- lapply(seq_along(opts), function(i) {
+    opt_name <- names(opts)[[i]]
+    elId <- paste0("bsthemerCollapse", i)
+    btn <- tags$button(
+      class = "btn btn-link px-3 py-2 w-100 text-left border-0",
+      "data-toggle" = "collapse", "data-target" = paste0("#", elId),
+      "aria-expanded" = "true", "aria-controls" = elId,
+      opt_name
+    )
+    controls <- lapply(seq_along(opts[[i]]), function(j) {
+      make_control(names(opts[[i]])[[j]], opts[[i]][[j]])
+    })
+    tagList(
+      div(class = "card-header p-0 border-0", btn),
+      div(
+        id = elId, class = if (i == 1) "show" else "collapse",
+        "data-parent" = "#bsthemerAccordion",
+        div(class = "card-body", controls)
+      )
+    )
   })
 
   withTags(tagList(
@@ -133,40 +146,28 @@ bs_themer_ui <- function(theme = bs_theme()) {
           "data-toggle" = "collapse", "data-target" = "#bsthemerAccordion",
           style = css(cursor = "pointer"),
           tags$span(),
-          tags$style(HTML(
-            sass_partial(
-              sass_file(system_file("themer/themer.scss", package = "bslib")),
-              theme
-            )
-          ))
+          bs_dependency_defer(themer_css_dependency)
         )
       ),
 
-      div(id = "bsthemerAccordion", class = "collapse show", style = css(overflow_y = "auto"),
-        lapply(seq_along(opts), function(i) {
-          opt_name <- names(opts)[[i]]
-          elId <- paste0("bsthemerCollapse", i)
-
-          tagList(
-            div(class = "card-header p-0 border-0",
-              htmltools::tags$button(class="btn btn-link px-3 py-2 w-100 text-left border-0",
-                "data-toggle"="collapse", "data-target"=paste0("#", elId),
-                "aria-expanded"="true", "aria-controls"=elId,
-
-                opt_name
-              )
-            ),
-            div(id = elId, class = if (i == 1) "show" else "collapse",
-              "data-parent"="#bsthemerAccordion",
-              div(class = "card-body bg-white text-dark",
-                opts[[i]]
-              )
-            )
-          )
-        })
+      div(
+        id = "bsthemerAccordion", class = "collapse show",
+        style = css(overflow_y = "auto"),
+        accordion
       )
     )
   ))
+}
+
+themer_css_dependency <- function(theme) {
+  version <- utils::packageVersion("bslib")
+  bs_dependency(
+    input = sass_file(system_file("themer/themer.scss", package = "bslib")),
+    theme = theme,
+    name = "bs-themer-css",
+    version = version,
+    cache_key_extra = version
+  )
 }
 
 #' Theme customization UI
@@ -275,7 +276,9 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
          "in the app's UI. Consider providing `bslib::bs_theme()` to the theme argument of the ",
          "relevant page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
   }
-  if (!is.null(theme) && "3" %in% theme_version(theme)) {
+  bootswatch <- theme_bootswatch(theme)
+  version <- theme_version(theme)
+  if ("3" %in% version) {
     stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")
   }
 
@@ -288,10 +291,30 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
   gfont_info <- if (isTRUE(gfonts)) get_gfont_info(gfonts_update)
 
+  # Insert the theming control panel with values informed by the theme settings
+  themer_opts <- opts_metadata()
+  themer_vars <- unlist(unname(lapply(themer_opts, names)))
+  sass_vars <- setdiff(themer_vars, "bootswatch")
+  themer_vals <- as.list(bs_get_variables(theme, sass_vars))
+  themer_vals$bootswatch <- bootswatch
+  shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals))
+
   input <- session$input
 
-  shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(theme))
+  # When the bootswatch theme changes, update the themer's state to reflect
+  # the new variable defaults. Note that we also update the "input theme",
+  # and effectively throw out any other theming changes made (i.e., start from a new theme)
+  # since it'd be messy to figure out whether changes are "real" or just a
+  # consequence of a new bootswatch value
+  shiny::observeEvent(input$bs_theme_bootswatch, {
+    theme <<- set_current_theme(
+      theme, list(bootswatch = input$bs_theme_bootswatch), session
+    )
+    vals <- as.list(bs_get_variables(theme, sass_vars))
+    session$sendCustomMessage("bs-themer-bootswatch", list(values = vals))
+  })
 
+  # Fires when anything other then the Bootswatch theme changes
   shiny::observeEvent(input$bs_theme_vars, {
     vals <- jsonlite::parse_json(input$bs_theme_vars)
 
@@ -307,30 +330,33 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       return()
     }
 
+    # Makes remaining logic simpler to reason about
     if (length(vals) == 0) {
-      # Makes remaining logic simpler to reason about
       return()
     }
 
-    default_values <- bs_get_variables(theme, names(vals))
+    # Remember, theme at this point has been updated to reflect the current Bootswatch theme
+    changed_vals <- as.list(diff_css_values(
+      vals[sass_vars],
+      bs_get_variables(theme, names(vals[sass_vars]))
+    ))
 
-    # Filter out vals that the user hasn't changed
-    changed_vals <- as.list(diff_css_values(vals, default_values))
+    if (!identical(bootswatch, input$bs_theme_bootswatch)) {
+      changed_vals$bootswatch <- input$bs_theme_bootswatch
+    }
 
-    message("--------------------")
+    # If _either_ fg/bg has changed, bs_theme() must to be called with *both* fg and bg populated.
+    if (any(c("bg", "fg") %in% names(changed_vals))) {
+      changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["bg"]]
+      changed_vals[["fg"]] <- changed_vals[["fg"]] %||% vals[["fg"]]
+    }
 
     # Change variables names to their 'high-level' equivalents
-    # Note that if _either_ fg/bg has changed, bs_base_colors()
-    # needs to be called with *both* fg and bg populated.
     changed_vals <- rename2(
-      changed_vals, white = "bg", black = "fg",
+      changed_vals,
       "font-family-base" = "base_font", "font-family-monospace" = "code_font",
       "headings-font-family" = "heading_font"
     )
-    if (any(c("fg", "bg") %in% names(changed_vals))) {
-      changed_vals[["fg"]] <- changed_vals[["fg"]] %||% vals[["black"]]
-      changed_vals[["bg"]] <- changed_vals[["bg"]] %||% vals[["white"]]
-    }
 
     if (isTRUE(gfonts)) {
       for (var in c("base_font", "code_font", "heading_font")) {
@@ -338,33 +364,37 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       }
     }
 
-    # print code for user, possibly with quoted expressions
-    code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
-    print(code)
-
-    # the actual code that we evaluate should not have quoted expressions
-    changed_vals[] <- lapply(changed_vals, eval_val)
-    code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
-
-    # Prevent Sass compilation errors from crashing the app and relay a message to user.
-    # Errors can happen if the users enters values that lead to unexpected Sass
-    # expressions (e.g., "$foo: * !default")
-    shiny::removeNotification("sass-compilation-error", session = session)
-    tryCatch(
-      session$setCurrentTheme(rlang::eval_tidy(code)),
-      error = function(e) {
-        warning(e)
-        shiny::showNotification(
-          "Sass -> CSS compilation failed, likely due to invalid user input.
-         Other theming changes won't take effect until the invalid input is fixed.",
-          duration = NULL,
-          id = "sass-compilation-error",
-          type = "error",
-          session = session
-        )
-      }
-    )
+    set_current_theme(theme, changed_vals, session)
   })
+}
+
+
+set_current_theme <- function(theme, changed_vals, session) {
+  message("--------------------")
+  code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
+  print(code)
+  # the actual code that we evaluate should not have quoted expressions
+  changed_vals[] <- lapply(changed_vals, eval_val)
+  code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
+  theme <- rlang::eval_tidy(code)
+  # Prevent Sass compilation errors from crashing the app and relay a message to user.
+  # Errors can happen if the users enters values that lead to unexpected Sass
+  # expressions (e.g., "$foo: * !default")
+  shiny::removeNotification("sass-compilation-error", session = session)
+  tryCatch(
+    session$setCurrentTheme(theme),
+    error = function(e) {
+      shiny::showNotification(
+        "Sass -> CSS compilation failed, likely due to invalid user input.
+         Other theming changes won't take effect until the invalid input is fixed.",
+        duration = NULL,
+        id = "sass-compilation-error",
+        type = "error",
+        session = session
+      )
+    }
+  )
+  invisible(theme)
 }
 
 eval_val <- function(x) {
@@ -378,7 +408,7 @@ insert_font_google_call <- function(val, gfont_info) {
   if (!is_string(val)) return(NULL)
   if (!nzchar(val)) return(NULL)
   fams <- strsplit(as.character(val), ",")[[1]]
-  fams <- vapply(fams, unquote_font_family, character(1))
+  fams <- vapply(fams, unquote_font_family, character(1), USE.NAMES = FALSE)
   fams <- fams[nzchar(fams)]
   is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
   if (length(fams) == 1) {
@@ -432,6 +462,15 @@ gfont_key <- function() {
 bs_get_variables <- function(theme, varnames) {
   if (length(varnames) == 0) {
     return(stats::setNames(character(0), character(0)))
+  }
+
+  # Our bg/fg are not actual Sass variables and can mean different things depending
+  # on the bootswatch theme/version
+  base_color_idx <- varnames %in% c("fg", "bg")
+  if (any(base_color_idx)) {
+    varnames[base_color_idx] <- rename2(
+      varnames[base_color_idx], !!!get_base_color_map(theme)
+    )
   }
 
   assert_bs_theme(theme)
@@ -490,6 +529,13 @@ bs_get_variables <- function(theme, varnames) {
 
   # Any variables that had to fall back to our defaults, we'll replace with NA
   values[values == na_sentinel] <- NA_character_
+
+
+  if (any(base_color_idx)) {
+    varnames[base_color_idx] <- rename2(
+      varnames[base_color_idx], !!!get_base_color_map(theme, decode = FALSE)
+    )
+  }
 
   # Return as a named character vector
   stats::setNames(values, varnames)

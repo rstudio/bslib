@@ -70,12 +70,20 @@ names2 <- function(x) {
 #' @examples
 #' rename2(list(a=1, b=3, c=4, a=2), b="z", f="w", a="y")
 #' #> list(y = 1, z = 3, c = 4, y = 2)
+#' rename2(c("a", "b", "c", "a"), b="z", f="w", a="y")
+#' #> c("y", "z", "c", "y")
 rename2 <- function(x, ...) {
-  defs <- list(...)
-  matches <- intersect(names(x), names(defs))
-  map <- match(names(x), names(defs))
+  defs <- rlang::list2(...)
+  nms <- names(x) %||% as.character(x)
+  matches <- intersect(nms, names(defs))
+  map <- match(nms, names(defs))
   mapidxNA <- is.na(map)
-  names(x)[!mapidxNA] <- defs[map[!mapidxNA]]
+  replacement <- as.character(defs)[map[!mapidxNA]]
+  if (is.null(names(x))) {
+    x[!mapidxNA] <- replacement
+  } else {
+    names(x)[!mapidxNA] <- replacement
+  }
   x
 }
 

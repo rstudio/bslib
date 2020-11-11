@@ -82,7 +82,9 @@ shinyApp(
             actionButton("success", "Success", icon("check"), class = "btn-success m-2"),
             actionButton("info", "Info", icon("info"),  class = "btn-info m-2"),
             actionButton("warning", "warning", icon("exclamation"), class = "btn-warning m-2"),
-            actionButton("danger", "Danger", icon("exclamation-triangle"), class = "btn-danger m-2")
+            actionButton("danger", "Danger", icon("exclamation-triangle"), class = "btn-danger m-2"),
+            actionButton("dark", "Dark", icon("moon"), class = "btn-dark m-2"),
+            actionButton("light", "Light", icon("sun"), class = "btn-light m-2")
           )
         ),
         pill(

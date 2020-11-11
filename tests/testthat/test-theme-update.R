@@ -35,6 +35,17 @@ test_that("Sass bundles work as expected with a theme", {
   expect_true(bs_get_variables(theme, "primary") == "#333333")
 })
 
+test_that("bs_theme_update() can update the bootswatch theme", {
+  darkly <- bs_theme(bootswatch = "darkly")
+  cosmo <- bs_theme(bootswatch = "cosmo")
+  expect_false(identical(darkly, cosmo))
+  darkly2 <- bs_theme_update(cosmo, bootswatch = "darkly")
+  expect_identical(
+    sass::sass(darkly),
+    sass::sass(darkly2)
+  )
+})
+
 test_that("is_bs_theme() works", {
   expect_true(is_bs_theme(bs_theme()))
   expect_true(is_bs_theme(bs_theme(3)))

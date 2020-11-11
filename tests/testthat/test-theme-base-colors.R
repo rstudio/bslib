@@ -202,3 +202,22 @@ test_that("dispatch_theme_setter", {
     NA
   )
 })
+
+test_that("bs_get_variables is fg/bg aware", {
+  expect_equal(
+    bs_get_variables(bs_theme(), c("bg", "fg")),
+    c(bg = "#fff", fg = "#000")
+  )
+  expect_equal(
+    bs_get_variables(bs_theme(version = 3), c("bg", "fg")),
+    c(bg = "#fff", fg = "#000")
+  )
+  expect_equal(
+    bs_get_variables(bs_theme(version = 4, bootswatch = "darkly"), c("bg", "fg")),
+    c(bg = "#222", fg = "#fff")
+  )
+  expect_equal(
+    bs_get_variables(bs_theme(version = 3, bootswatch = "darkly"), c("bg", "fg")),
+    c(bg = "#222222", fg = "#fff")
+  )
+})
