@@ -200,6 +200,7 @@ the following common Bootstrap customization(s):</p><ul>
 <span class='fu'>bs_theme_update</span>(
   <span class='kw'>theme</span>,
   <span class='kw'>...</span>,
+  bootswatch = <span class='kw'>NULL</span>,
   bg = <span class='kw'>NULL</span>,
   fg = <span class='kw'>NULL</span>,
   primary = <span class='kw'>NULL</span>,
@@ -227,7 +228,9 @@ in BS4. Other supported versions include 3 and 4.</p></td>
     <tr>
       <th>bootswatch</th>
       <td><p>The name of a bootswatch theme (see <code><a href='bootswatch_themes.html'>bootswatch_themes()</a></code>
-for possible values).</p></td>
+for possible values). When provided to <code>bs_theme_update()</code>, any previous
+Bootswatch theme is first removed before the new one is applied (use
+<code>bootswatch = ""</code> effectively remove any Bootswatch theme).</p></td>
     </tr>
     <tr>
       <th>...</th>
