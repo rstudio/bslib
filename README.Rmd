@@ -20,7 +20,7 @@ library(bslib)
 
 # bslib (formerly known as bootstraplib)
 
-The `{bslib}` R package provides tools for creating custom [Bootstrap themes](https://getbootstrap.com/docs/4.4/getting-started/theming/), making it easier to style Shiny apps and R Markdown documents directly from R without writing unruly CSS and HTML. Currently, `{bslib}` provides Bootstrap 4, Bootstrap 3, as well as a custom `"4+3"` compatibility version, which helps upgrade Shiny and R Markdown from Bootstrap 3 to 4.
+The `{bslib}` R package provides tools for creating custom [Bootstrap themes](https://getbootstrap.com/docs/4.4/getting-started/theming/), making it easier to style Shiny apps & R Markdown documents directly from R without writing unruly CSS and HTML. At the moment, `{bslib}` provides special builds of Bootstrap 4 & 3 that "just work" with Shiny & R Markdown.
 
 ## Installation
 
@@ -36,15 +36,17 @@ remotes::install_github("rstudio/bslib")
 
 Use `bs_theme()` to create a `{bslib}` theme, where you can:
 
--   Choose a (major) Bootstrap version.
+-   Choose a (major) Bootstrap version (e.g., `version = 4` or `version = 3`).
+  - If `version` isn't specified (as in the example below), then `version` defaults to `version_default()`, which may change to Bootstrap 5 in a future version of `{bslib}`.
 
-    -   To current `version_default()` is `r version_default()`, which means Bootstrap `r substr(version_default(), 1, 1)` plus an additional compatibility layer for Bootstrap 3 navs, navbars, and more. This compatibility allows most Shiny apps and R Markdown documents to seamlessly upgrade to Bootstrap `r substr(version_default(), 1, 1)`.
+-   Choose a [Bootswatch](https://bootswatch.com/) theme (e.g., `bootswatch = 'darkly'`).
 
--   Choose a [Bootswatch](https://bootswatch.com/) theme (optional).
+-   Customize the main colors and fonts (e.g., `bg`, `fg`, `primary`, `base_font`, etc)
+  - These main controls are available via named arguments to `bs_theme()` (and `bs_theme_update()`) and are guaranteed to work across Bootstrap versions.
 
--   Customize the main colors and fonts (see below).
-
--   More generally, customize any of Bootstrap's styling defaults via Sass variables.
+-   More generally, customize most of Bootstrap's styling via Sass variables (e.g., [`font-size-base`](https://github.com/rstudio/bslib/blob/c353705/inst/lib/bootstrap/scss/_variables.scss#L282)).
+  - These more specific controls pass through the `...` of `bs_theme()`.
+  - These options likely depend on the Bootstrap version being used
 
 For example, to implement a [material design inspired dark mode](https://material.io/design/color/dark-theme.html):
 
@@ -52,7 +54,8 @@ For example, to implement a [material design inspired dark mode](https://materia
 library(bslib)
 my_theme <- bs_theme(
   bg = "#202123", fg = "#B8BCC2", primary = "#EA80FC", 
-  base_font = font_google("Grandstander")
+  base_font = font_google("Grandstander"),
+  "font-size-base" = "1.1rem"
 )
 ```
 
@@ -121,26 +124,24 @@ output:
       bg: "#202123"
       fg: "#B8BCC2"
       primary: "#EA80FC"
-      base_font: !expr font_google("Grandstander")
+      base_font: !expr bslib::font_google("Grandstander")
 ---
 ```
 
-For backwards-compatibility reasons, R Markdown only uses `{bslib}` when `theme` is a list of parameters, so if you want to just use Bootstrap 4 without any custom theming, you must do:
+At the moment, `{bslib}` is a opt-in feature in R Markdown (i.e., whenever `theme` is a list or a `bs_theme()`, then `{bslib}` is used). This means that, to use the default `bslib::bs_theme()`:
 
 ``` yaml
 ---
 output:
   html_document:
-    theme:
-      version: 4+3
+    theme: !expr bslib::bs_theme()
 ---
 ```
 
-Moreover, when `theme` depicts a `bs_theme()`, you may modify the (global) `theme` in **knitr** code chunks to influence the final Bootstrap CSS bundle included in the output document. This means you can do things like dynamically modify theme default(s) (with `bs_global_theme_update()` ) and/or add additional CSS rules that leverage Bootstrap Sass variables, functions, mixins, etc:
+Moreover, when opting into `{bslib}`, you may modify `theme` object globally inside **knitr** code chunks. This can be useful for things like adding additional CSS rules that leverage Bootstrap Sass variables, functions, mixins, etc:
 
     ```{r}`r ''`
     library(bslib)
-    bs_global_theme_update("input-bg" = "purple")
     bs_global_add_rules(
       ".my-class { 
          background-color: mix($body-bg, $body-color, 90%);
@@ -150,6 +151,25 @@ Moreover, when `theme` depicts a `bs_theme()`, you may modify the (global) `them
       "
     )
     ```
+
+### Add to a theme
+
+`bs_theme()` customizes Bootstrap CSS by changing Bootstrap Sass variable defaults, but sometimes you need to customize the theme in other ways by adding other Sass code. For example, if you'd like to add Sass/CSS rules for a custom, themable, component:
+
+```r
+my_theme %>%
+  bs_add_rules(
+    ".my-component { color: $primary; }"
+  )
+```
+
+To learn more, see the [theming article](https://rstudio.github.io/bslib/articles/theming.html).
+
+### Reducing theme size
+
+By default, `bs_theme()` includes many CSS rules, including styles for every Bootstrap Component, many of which aren't need for most projects. Simply apply `bs_remove_rules()`  `my_theme` to 
+
+To get a "recommended" set of rules for "core" Shiny & R Markdown UI just do `bs_remove_rules(my_theme)`, but you can also target specific rules that you want (e.g., `bs_remove_rules(my_theme, c("carousel", "pagination"))`).
 
 ## Learn more
 

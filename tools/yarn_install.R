@@ -327,7 +327,7 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
 library(bslib)
 
 # The versions of Bootstrap to precompile
-versions <- c("4", "4+3", "3")
+versions <- c("4", "3")
 
 precompiled_dir <- find_package_root_file("inst/css-precompiled")
 unlink(precompiled_dir, recursive = TRUE)

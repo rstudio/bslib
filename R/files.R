@@ -19,7 +19,7 @@ bs_sass_file <- function(file, version) {
   file <- paste0("_", file, ".scss")
   f <- if (version %in% "3") {
     lib_file("bootstrap-sass", "assets", "stylesheets", "bootstrap", file)
-  } else if (version %in% c("4", "4+3")) {
+  } else if (version %in% "4") {
     lib_file("bootstrap", "scss", file)
   } else {
     stop("Bootstrap version not supported:", version, call. = FALSE)

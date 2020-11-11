@@ -61,9 +61,8 @@ bs_global_theme_update(
 )
 }
 \arguments{
-\item{version}{The major version of Bootstrap to use. A value of \code{'4+3'}
-means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
-in BS4. Other supported versions include 3 and 4.}
+\item{version}{The major version of Bootstrap to use (see \code{\link[=versions]{versions()}}
+for possible values).}
 
 \item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
 for possible values). When provided to \code{bs_theme_update()}, any previous

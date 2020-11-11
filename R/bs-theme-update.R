@@ -12,7 +12,6 @@ bs_base_colors <- function(theme, bg = NULL, fg = NULL) {
   args <- list(bg = bg, fg = fg)
   args <- validate_and_normalize_colors(args)
   funcs <- list(
-    "4+3" = bs4_base_colors,
     "4" = bs4_base_colors,
     "3" = bs3_base_colors
   )
@@ -184,8 +183,7 @@ bs_accent_colors <- function(theme, primary = NULL, secondary = NULL,
   )
 
   funcs <- list(
-    "4+3" = bs43_accent_colors,
-    "4" = identity,
+    "4" = bs4_accent_colors,
     "3" = bs3_accent_colors
   )
 
@@ -193,7 +191,9 @@ bs_accent_colors <- function(theme, primary = NULL, secondary = NULL,
 }
 
 
-bs43_accent_colors <- function(args) {
+bs4_accent_colors <- function(args) {
+  # For BS3 compat (see inst/bs3compat/_declarations.scss)
+  # TODO: can/should we make this removable?
   if (!is.null(args$secondary)) {
     args$default <- args$secondary
   }
@@ -230,7 +230,6 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   args <- lapply(args, quote_css_font_families)
 
   funcs <- list(
-    "4+3" = bs4_fonts,
     "4" = bs4_fonts,
     "3" = bs3_fonts
   )

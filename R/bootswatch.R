@@ -37,20 +37,18 @@ retrieve_theme_version <- function(theme, name) {
 
 
 bootswatch_dist <- function(version) {
-  if (version %in% "3") {
+  switch_version(
+    version,
+    lib_file("bootswatch", "dist"),
     lib_file("bootswatch3")
-  } else if (version %in% c("4", "4+3")) {
-    lib_file("bootswatch", "dist")
-  } else {
-    stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
-  }
+  )
 }
 
 bootswatch_theme_resolve <- function(bootswatch, version) {
   if (is.null(bootswatch)) return("bootstrap")
   # because rmarkdown
   if (bootswatch %in% c("default", "bootstrap", "")) return("bootstrap")
-  if (version %in% c("4", "4+3")) {
+  if (version %in% "4") {
     if (identical(bootswatch, "paper")) {
       message("Bootswatch 3 theme paper has been renamed to materia in version 4 (using that theme instead)")
       bootswatch <- "materia"

@@ -1,31 +1,29 @@
 #' Compile Bootstrap Sass with (optional) theming
 #'
-#' Use `bs_theme_dependencies()` to compile Bootstrap Sass into CSS and return it, along
-#' with other HTML dependencies, as a list of [htmltools::htmlDependency()]s. Use
-#' `sass_partial()` if you can assume Bootstrap already exists on the page,
-#' but you want to leverage Bootstrap utilities (e.g., variables, functions, or
-#' mixins) to generate additional CSS rules (as a string that can be included as
-#' a `<style>` tag via `tags$style(css)`).
+#' `bs_theme_dependencies()` compiles Bootstrap Sass into CSS and returns it,
+#' along with other HTML dependencies, as a list of
+#' [htmltools::htmlDependency()]s. Most users won't need to call this function
+#' directly as Shiny & R Markdown will perform this compilation automatically
+#' when handed a [bs_theme()]. If you're here looking to create a themeable
+#' component, see [bs_dependency()].
 #'
 #' @inheritParams bs_theme_update
 #' @param sass_options a [sass::sass_options()] object.
 #' @param jquery a [jquerylib::jquery_core()] object.
 #' @param precompiled Before compiling the theme object, first look for a
-#'   precompiled CSS file for the given `version`.  If this option is `TRUE` and
-#'   a precompiled CSS file exists for the theme object, it will be fetched
+#'   precompiled CSS file for the [theme_version()].  If this option is `TRUE`
+#'   and a precompiled CSS file exists for the theme object, it will be fetched
 #'   immediately and not compiled. At the moment, we only provide precompiled
 #'   CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
 #'   themes, or non-default `sass_options`).
-#'
 #' @inheritParams sass::sass
 #'
 #' @return a list of HTML dependencies containing Bootstrap CSS, Bootstrap
 #'   JavaScript, and `jquery`. This list may contain additional HTML
-#'   dependencies if the `theme` calls for it (e.g., `version = "4+3"` contains
-#'   an additional JavaScript dependency).
+#'   dependencies if bundled with the `theme`.
 #'
 #' @export
-#' @seealso [bs_theme()], [bs_global_set()]
+#' @seealso [bs_theme()], [bs_dependency()]
 #' @examples
 #'
 #' # Function to preview the styling a (primary) Bootstrap button
@@ -38,16 +36,14 @@
 #'     browsable()
 #' }
 #'
-#' # Latest bootstrap
+#' # Latest Bootstrap
 #' preview_button(bs_theme())
 #' # Bootstrap 3
 #' preview_button(bs_theme(3))
-#' # Bootswatch minty theme
-#' preview_button(bs_theme(bootswatch = "minty"))
-#' # Bootswatch sketchy theme
-#' preview_button(bs_theme(bootswatch = "sketchy"))
-#' # Bootswatch solar theme with BS3 compatibility
-#' preview_button(bs_theme(version = "4+3", bootswatch = "solar"))
+#' # Bootswatch 4 minty theme
+#' preview_button(bs_theme(4, bootswatch = "minty"))
+#' # Bootswatch 4 sketchy theme
+#' preview_button(bs_theme(4, bootswatch = "sketchy"))
 #'
 bs_theme_dependencies <- function(
   theme,

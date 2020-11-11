@@ -73,9 +73,8 @@
 #'  bs_theme(base_font = list(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
 #'  ````
 #'
-#' @param version The major version of Bootstrap to use. A value of `'4+3'`
-#'   means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
-#'   in BS4. Other supported versions include 3 and 4.
+#' @param version The major version of Bootstrap to use (see [versions()]
+#'   for possible values).
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
@@ -135,7 +134,7 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
   theme <- bs_bundle(
     bs_theme_init(),
     bootstrap_bundle(version),
-    if (identical(version, "4+3")) bs3compat_bundle(),
+    if (identical(version, "4")) bs3compat_bundle(),
     bootswatch_bundle(bootswatch, version)
   )
   bs_theme_update(
@@ -233,7 +232,7 @@ assert_bs_theme <- function(theme) {
 # -----------------------------------------------------------------
 
 bootstrap_bundle <- function(version) {
-  if (version %in% c("4", "4+3")) {
+  if (version %in% "4") {
     # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
     bs4_bundle <- bs_sass_file_bundle(
       version = version,
@@ -309,31 +308,21 @@ bootstrap_bundle <- function(version) {
 
 
 bootstrap_javascript_map <- function(version) {
-  if (version %in% c("4", "4+3")) {
-    return(lib_file(
-      "bootstrap", "dist", "js", "bootstrap.bundle.min.js.map"
-    ))
-  }
-  if (version %in% "3") {
-    return(NULL)
-  }
-
-  stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
+  switch_version(
+    version,
+    lib_file("bootstrap", "dist", "js", "bootstrap.bundle.min.js.map"),
+    NULL
+  )
 }
 bootstrap_javascript <- function(version) {
-  if (version %in% c("4", "4+3")) {
-    return(lib_file(
-      "bootstrap", "dist", "js", "bootstrap.bundle.min.js"
-    ))
-  }
-  if (version %in% "3") {
-    return(lib_file(
-      "bootstrap-sass", "assets", "javascripts", "bootstrap.min.js"
-    ))
-  }
-
-  stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
+  switch_version(
+    version,
+    lib_file("bootstrap", "dist", "js", "bootstrap.bundle.min.js"),
+    lib_file("bootstrap-sass", "assets", "javascripts", "bootstrap.min.js")
+  )
 }
+
+
 
 # -----------------------------------------------------------------
 # BS3 compatibility bundle
@@ -416,7 +405,7 @@ bootswatch_bundle <- function(bootswatch, version) {
     !!bs_sass_bundle_version("bootswatch", bootswatch) := bootswatch_core
   )
 
-  if (version %in% "4+3") {
+  if (version %in% "4") {
     bundle <- sass_bundle(
       bundle,
       !!bs_sass_bundle_version("bootswatch", bootswatch, subname = "bs3_compat_navbar") := bs3compat_navbar_bundle(bootswatch)

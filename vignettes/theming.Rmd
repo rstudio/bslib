@@ -126,7 +126,7 @@ theme_solar <- bs_theme(
   fg = "#EEE8D5",
   primary = "#2AA198",
   base_font = "Grandstander",
-  version = "4+3",
+  version = 4,
   "font-size-base" = "1.1rem"
 )
 bs_theme_preview(theme_solar, with_themer = FALSE)

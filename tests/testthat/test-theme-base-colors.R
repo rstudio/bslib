@@ -8,7 +8,7 @@ test_that("bs4 base colors", {
     color_yiq_islight(col[,"red"], col[,"green"], col[,"blue"])
   }
 
-  theme <- bs_theme("4+3", bg = "white", fg = "black", primary = "blue", secondary = "silver")
+  theme <- bs_theme(4, bg = "white", fg = "black", primary = "blue", secondary = "silver")
   colors <- bs_get_variables(theme, varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
@@ -85,20 +85,21 @@ test_that("bs4 accent colors", {
     "danger")
 
   # Baseline
-  theme <- bs_theme("4+3")
+  theme <- bs_theme(4)
   expect_identical(bs_get_variables(theme, varnames),
     c(primary = "#007bff", secondary = "#6c757d", default = "#dee2e6",
       success = "#28a745", info = "#17a2b8", warning = "#ffc107", danger = "#dc3545")
   )
 
-  theme <- bs_theme("4", primary = "#123", secondary = "#234",
+  theme <- bs_theme(4, primary = "#123", secondary = "#234",
                     success = "#345", info = "#456", warning = "#567", danger = "#678")
+  # TODO: is this really a problem?
   expect_identical(bs_get_variables(theme, varnames),
     c(primary = "#112233", secondary = "#223344", default = NA, success = "#334455",
       info = "#445566", warning = "#556677", danger = "#667788")
   )
 
-  theme <- bs_theme("4+3", primary = "#123", secondary = "#234",
+  theme <- bs_theme(4, primary = "#123", secondary = "#234",
                     success = "#345", info = "#456", warning = "#567", danger = "#678")
   expect_identical(bs_get_variables(theme, varnames),
     c(primary = "#112233", secondary = "#223344", default = "#223344",
@@ -142,7 +143,7 @@ test_that("bs_theme_fonts", {
     c("'Source Sans Pro', \"Open Sans\", Helvetica, sans-serif")
   )
 
-  for (version in c("4+3", "4", "3")) {
+  lapply(versions(), function(version) {
 
     for (candidate in candidates) {
       theme <- bs_theme(version, base_font = candidate)
@@ -165,7 +166,7 @@ test_that("bs_theme_fonts", {
       bs_get_variables(theme, c("font-family-base", "font-family-monospace", "headings-font-family")),
       c(`font-family-base` = "a", `font-family-monospace` = "b", `headings-font-family` = "c")
     )
-  }
+  })
 })
 
 test_that("format_varnames", {
@@ -193,12 +194,11 @@ test_that("validate_and_normalize_colors", {
 })
 
 test_that("dispatch_theme_setter", {
-  theme <- bs_theme("4+3")
+  theme <- bs_theme(4)
   expect_error(dispatch_theme_modifier(theme, list(), args = list(), "HelloWorld"))
   expect_error(dispatch_theme_modifier(theme, list("3" = identity), args = list(), "HelloWorld"))
-  expect_error(dispatch_theme_modifier(theme, list("4" = identity), args = list(), "HelloWorld"))
   expect_error(
-    dispatch_theme_modifier(theme, list("4+3" = identity), args = list(), "HelloWorld"),
+    dispatch_theme_modifier(theme, list("4" = identity), args = list(), "HelloWorld"),
     NA
   )
 })

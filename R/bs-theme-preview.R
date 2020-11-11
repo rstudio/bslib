@@ -209,7 +209,7 @@ themer_css_dependency <- function(theme) {
 #' library(shiny)
 #'
 #' # Initialize Bootstrap 4 with Bootstrap 3 compatibility shim
-#' theme <- bs_theme("4+3", bg = "black", fg = "white")
+#' theme <- bs_theme(version = 4, bg = "black", fg = "white")
 #'
 #' ui <- fluidPage(
 #'   theme = theme,
