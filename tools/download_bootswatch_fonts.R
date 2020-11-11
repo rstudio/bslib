@@ -26,36 +26,15 @@ download_and_copy_fonts <-  function(theme) {
     return()
   }
   web_font_url <- gsub('(^")|("$)', '', web_font_url)
-
-  font_css <- read_gfont_url(web_font_url)
-
-  families <- extract_first_group(font_css, "font-family:\\s*'(.+)';")
-  if (length(families) == 0) {
-    stop("Expected to find at least one font-family")
-  }
-  styles <- extract_first_group(font_css, "font-style:\\s*(.+);")
-  weights <- extract_first_group(font_css, "font-weight:\\s*(.+);")
-  if (length(weights) != length(families) || length(styles) != length(families)) {
-    stop("Got a different number of weights/families")
-  }
-
-  font_ids <- paste0(
-    gsub("\\s+", "_", families), "_", weights,
-    ifelse(styles %in% "normal", "", styles)
-  )
-  urls <- extract_first_group(font_css, "url\\(([^)]+)")
-  if (length(urls) != length(font_ids)) {
-    stop("Got a different number of urls than font ids")
-  }
-
-  local_files <- file.path(fonts_home, paste0(font_ids, ".", tools::file_ext(urls)))
-
-  Map(function(url, local_file) {
-    download.file(url, local_file)
-    font_css <<- sub(url, sub("inst/", "", local_file), font_css)
-  }, urls, local_files)
-
-  writeLines(font_css, file.path(theme, "font.css"))
+  css_file <- file.path(theme, "font.css")
+  css <- read_gfont_url(web_font_url, css_file)
+  urls <- extract_group(css, "url\\(([^)]+)")
+  basenames <- basename(urls)
+  Map(function(url, nm) {
+    download_file(url, file.path(fonts_home, nm))
+    css <<- sub(url, file.path("fonts", nm), css, fixed = TRUE)
+  }, urls, basenames)
+  writeLines(css, css_file)
 }
 
 themes <- list.dirs(
