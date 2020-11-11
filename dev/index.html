@@ -110,7 +110,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rstudio.github.io/bslib">bslib</a></span>)
 <span class="kw">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bs_theme.html">bs_theme</a></span>(
   bg = <span class="st">"#202123"</span>, fg = <span class="st">"#B8BCC2"</span>, primary = <span class="st">"#EA80FC"</span>, 
-  base_font = <span class="st">"Grandstander"</span>
+  base_font = <span class="fu"><a href="reference/font_face.html">font_google</a></span>(<span class="st">"Grandstander"</span>)
 )
 </pre></div>
 </div>
@@ -170,7 +170,7 @@
 <span id="cb7-5"><a href="#cb7-5"></a><span class="at">      </span><span class="fu">bg</span><span class="kw">:</span><span class="at"> </span><span class="st">"#202123"</span></span>
 <span id="cb7-6"><a href="#cb7-6"></a><span class="at">      </span><span class="fu">fg</span><span class="kw">:</span><span class="at"> </span><span class="st">"#B8BCC2"</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a><span class="at">      </span><span class="fu">primary</span><span class="kw">:</span><span class="at"> </span><span class="st">"#EA80FC"</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="at">      </span><span class="fu">base_font</span><span class="kw">:</span><span class="at"> </span><span class="st">"Grandstander"</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="at">      </span><span class="fu">base_font</span><span class="kw">:</span><span class="at"> !expr font_google("Grandstander")</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="pp">---</span></span></code></pre></div>
 <p>For backwards-compatibility reasons, R Markdown only uses <code>{bslib}</code> when <code>theme</code> is a list of parameters, so if you want to just use Bootstrap 4 without any custom theming, you must do:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1"></a><span class="pp">---</span></span>
