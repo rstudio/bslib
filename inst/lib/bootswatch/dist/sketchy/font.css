@@ -3,12 +3,12 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Cabin Sketch Regular'), local('CabinSketch-Regular'), url(fonts/Cabin_Sketch_400.woff) format('woff');
+  src: local('Cabin Sketch Regular'), local('CabinSketch-Regular'), url(fonts/QGYpz_kZZAGCONcK2A4bGOj8mNhL.woff) format('woff');
 }
 @font-face {
   font-family: 'Neucha';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Neucha'), url(fonts/Neucha_400.woff) format('woff');
+  src: local('Neucha'), url(fonts/q5uGsou0JOdh94bfvQlr.woff) format('woff');
 }

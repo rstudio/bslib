@@ -3,12 +3,12 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Nunito Sans Regular'), local('NunitoSans-Regular'), url(fonts/Nunito_Sans_400.woff) format('woff');
+  src: local('Nunito Sans Regular'), local('NunitoSans-Regular'), url(fonts/pe0qMImSLYBIv1o4X1M8cfe5.woff) format('woff');
 }
 @font-face {
   font-family: 'Nunito Sans';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: local('Nunito Sans SemiBold'), local('NunitoSans-SemiBold'), url(fonts/Nunito_Sans_600.woff) format('woff');
+  src: local('Nunito Sans SemiBold'), local('NunitoSans-SemiBold'), url(fonts/pe03MImSLYBIv1o4X1M8cc9iB_5p.woff) format('woff');
 }

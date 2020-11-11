@@ -305,31 +305,54 @@ resolve_cache <- function(cache) {
 }
 
 font_dep_google_local <- function(x, version) {
+
   tmpdir <- tempfile()
   dir.create(tmpdir, recursive = TRUE)
-  fontcss <- file.path(tmpdir, "font.css")
+  css_file <- file.path(tmpdir, "font.css")
+
+  # TODO: could the hash be more aware of when the href updates?
   x$cache <- resolve_cache(x$cache)
-  href_key <- hash(x$href)
-  cache_hit <- x$cache$get_file(href_key, fontcss)
-  if (!cache_hit) {
-    # First, get the @font-face definitions
-    css <- read_gfont_url(x$href, fontcss)
-    x$cache$set_file(href_key, fontcss)
-    # Then, extract the urls, font file ids, and download
-    info <- extract_gfont_info(css)
-    Map(function(url, fnm) {
-      # Always download the font files since these could be stale
-      download_file(url, file.path(tmpdir, fnm))
-      # Use URL as a cache key since this URL should contain a unique hash
-      x$cache$set_file(hash(url), file.path(tmpdir, fnm))
-      css <<- sub(url, fnm, css)
-    }, info$urls, info$filenames)
+  css_key <- hash(x$href)
+  css_hit <- x$cache$get_file(css_key, css_file)
+
+  # Even if we have a cache hit on the CSS file, we may need
+  # to re-download font file(s) if they've been pruned from the cache
+  css <- if (css_hit) readLines(css_file) else read_gfont_url(x$href, css_file)
+
+  # basename() of these url()s contain a hash key of the font data
+  urls <- extract_group(css, "url\\(([^)]+)")
+  basenames <- basename(urls)
+
+  # If need be, download the font file(s) that the CSS imports,
+  # and modify the CSS to point to the local files
+  Map(function(url, nm) {
+    key <- hash(nm)
+    f <- file.path(tmpdir, nm)
+    hit <- x$cache$get_file(key, f)
+    if (hit) return()
+    # In the event we have a CSS cache hit but miss here, url should actually be
+    # a local file. In that case, bust the CSS cache, and start over so we know
+    # where to find the font files
+    if (!grepl("^\\s*http", url)) {
+      x$cache$remove(css_key)
+      return(font_dep_google_local(x, version))
+    }
+    download_file(url, f)
+    x$cache$set_file(key, f)
+    css <<- sub(url, nm, css, fixed = TRUE)
+  }, urls, basenames)
+
+  # Cache the *modified* form of the CSS file
+  # (with the local file paths instead of remote URLs)
+  if (!css_hit) {
+    writeLines(css, css_file)
+    x$cache$set_file(css_key, css_file)
   }
 
   htmltools::htmlDependency(
     font_dep_name(x), version,
-    src = dirname(fontcss),
-    stylesheet = basename(fontcss),
+    src = dirname(css_file),
+    stylesheet = basename(css_file),
     all_files = TRUE
   )
 }
@@ -345,32 +368,6 @@ read_gfont_url <- function(url, file) {
     )
   )
   readLines(file)
-}
-
-extract_gfont_info <- function(css) {
-  # For each @font-face we get back, infer the family, style, and weight
-  # and use that to determine a font file family
-  families <- extract_group(css, "font-family:\\s*'(.+)';")
-  if (length(families) == 0) {
-    stop("Expected to find at least one font-family")
-  }
-  styles <- extract_group(css, "font-style:\\s*(.+);")
-  weights <- extract_group(css, "font-weight:\\s*(.+);")
-  if (length(weights) != length(families) || length(styles) != length(families)) {
-    stop("Got a different number of weights/families")
-  }
-  urls <- extract_group(css, "url\\(([^)]+)")
-  if (length(urls) != length(families)) {
-    stop("Got a different number of urls than font ids")
-  }
-  list(
-    urls = urls,
-    filenames = paste0(
-      gsub("\\s+", "_", families), "_", weights,
-      ifelse(styles %in% "normal", "", styles),
-      ".", tools::file_ext(urls)
-    )
-  )
 }
 
 extract_group <- function(x, pattern, which = 1) {

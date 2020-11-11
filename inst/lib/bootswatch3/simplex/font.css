@@ -2,11 +2,11 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url(fonts/Open_Sans_400.woff) format('woff');
+  src: local('Open Sans Regular'), local('OpenSans-Regular'), url(fonts/mem8YaGs126MiZpBA-UFVZ0d.woff) format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(fonts/Open_Sans_700.woff) format('woff');
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(fonts/mem5YaGs126MiZpBA-UN7rgOUuhv.woff) format('woff');
 }
