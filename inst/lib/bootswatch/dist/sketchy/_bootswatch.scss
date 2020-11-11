@@ -157,6 +157,10 @@ select.form-control {
 [type="checkbox"] {
   position: relative;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
   width: 0;
   height: 0;
   border: none;
@@ -194,6 +198,10 @@ select.form-control {
 [type="radio"] {
   position: relative;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
   width: 0;
   height: 0;
   border: none;

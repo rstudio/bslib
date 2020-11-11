@@ -368,6 +368,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   })
 }
 
+
 set_current_theme <- function(theme, changed_vals, session) {
   message("--------------------")
   code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
@@ -440,7 +441,6 @@ gfont_api_url <- function() {
 gfont_key <- function() {
   Sys.getenv("GFONT_KEY", paste0("AIzaSyDP", "KvElVqQ-", "26f7tjxyg", "IGpIajf", "tS_zmas"))
 }
-
 
 #' Retrieve Sass variable values from the current theme
 #'

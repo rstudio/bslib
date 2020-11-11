@@ -36,15 +36,15 @@ unlink("inst/lib/popper.js", recursive = TRUE)
 
 
 # ----------------------------------------------------------------------
-# Add known vendor prefixes to bootstrap.scss (since we don't want
-# to rely on a node run-time to prefix after compilation)
+# Add known vendor prefixes to all scss files since we don't want
+# to rely on a node run-time to prefix after compilation
 # https://github.com/twbs/bootstrap/blob/d438f3/package.json#L30
 # ----------------------------------------------------------------------
 
-scss_files <- dir(
-  "inst/lib/bootstrap/scss",
-  recursive = TRUE, full.names = TRUE
-)
+scss_files <- dir("inst/lib", pattern = "\\.scss$", recursive = TRUE, full.names = TRUE)
+# bootstrap-sass already has vendor prefixes
+scss_files <- scss_files[!grepl("/bootstrap-sass/", scss_files)]
+
 scss_src <- lapply(scss_files, readLines)
 
 add_property_prefixes <- function(src, property, ok_values = NULL, vendors = c("-webkit-", "-moz-", "-ms-", "-o-")) {
