@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Global theming — bs_global_theme • bootstraplib</title>
+<title>Global theming — bs_global_theme • bslib</title>
 
 
 <!-- jquery -->
@@ -79,8 +79,8 @@ argument defaults to bs_global_get(), which get the current global theme)." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <a class="navbar-link" href="../index.html">bslib</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@ argument defaults to bs_global_get(), which get the current global theme)." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/bootstraplib/">
+  <a href="https://github.com/rstudio/bslib/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -120,7 +120,7 @@ argument defaults to bs_global_get(), which get the current global theme)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Global theming</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bootstraplib/blob/master/R/bs-global.R'><code>R/bs-global.R</code></a>, <a href='https://github.com/rstudio/bootstraplib/blob/master/R/bs-theme.R'><code>R/bs-theme.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/bs-global.R'><code>R/bs-global.R</code></a>, <a href='https://github.com/rstudio/bslib/blob/master/R/bs-theme.R'><code>R/bs-theme.R</code></a></small>
     <div class="hidden name"><code>bs_global_theme.Rd</code></div>
     </div>
 
@@ -165,6 +165,7 @@ argument defaults to <code>bs_global_get()</code>, which get the current global 
 
 <span class='fu'>bs_global_theme_update</span>(
   <span class='kw'>...</span>,
+  bootswatch = <span class='kw'>NULL</span>,
   bg = <span class='kw'>NULL</span>,
   fg = <span class='kw'>NULL</span>,
   primary = <span class='kw'>NULL</span>,
@@ -190,7 +191,9 @@ in BS4. Other supported versions include 3 and 4.</p></td>
     <tr>
       <th>bootswatch</th>
       <td><p>The name of a bootswatch theme (see <code><a href='bootswatch_themes.html'>bootswatch_themes()</a></code>
-for possible values).</p></td>
+for possible values). When provided to <code><a href='bs_theme.html'>bs_theme_update()</a></code>, any previous
+Bootswatch theme is first removed before the new one is applied (use
+<code>bootswatch = ""</code> effectively remove any Bootswatch theme).</p></td>
     </tr>
     <tr>
       <th>bg</th>

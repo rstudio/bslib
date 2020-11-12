@@ -3,8 +3,8 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   theming: theming.html
-last_built: 2020-10-28T18:02Z
+last_built: 2020-11-12T15:04Z
 urls:
-  reference: https://rstudio.github.io/bootstraplib//reference
-  article: https://rstudio.github.io/bootstraplib//articles
+  reference: https://rstudio.github.io/bslib//reference
+  article: https://rstudio.github.io/bslib//articles
 

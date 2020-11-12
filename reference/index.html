@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • bootstraplib</title>
+<title>Function reference • bslib</title>
 
 
 <!-- jquery -->
@@ -76,8 +76,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">bootstraplib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <a class="navbar-link" href="../index.html">bslib</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/bootstraplib/">
+  <a href="https://github.com/rstudio/bslib/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -151,31 +151,18 @@
           <p><code><a href="bs_bundle.html">bs_add_variables()</a></code> <code><a href="bs_bundle.html">bs_add_rules()</a></code> <code><a href="bs_bundle.html">bs_add_declarations()</a></code> <code><a href="bs_bundle.html">bs_bundle()</a></code> </p>
         </td>
         <td><p>Add low-level theming customizations</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-global-theme-creation" class="hasAnchor"><a href="#section-global-theme-creation" class="anchor"></a>Global theme creation</h2>
-          <p class="section-desc"><p>Use Bootstrap themes globally.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
+      </tr><tr>
         
         <td>
-          <p><code><a href="bs_global_theme.html">bs_global_theme()</a></code> <code><a href="bs_global_theme.html">bs_global_set()</a></code> <code><a href="bs_global_theme.html">bs_global_get()</a></code> <code><a href="bs_global_theme.html">bs_global_clear()</a></code> <code><a href="bs_global_theme.html">bs_global_add_variables()</a></code> <code><a href="bs_global_theme.html">bs_global_add_rules()</a></code> <code><a href="bs_global_theme.html">bs_global_bundle()</a></code> <code><a href="bs_global_theme.html">bs_global_theme_update()</a></code> </p>
+          <p><code><a href="font_face.html">font_face()</a></code> <code><a href="font_face.html">font_link()</a></code> <code><a href="font_face.html">font_google()</a></code> </p>
         </td>
-        <td><p>Global theming</p></td>
+        <td><p>Import web fonts into a <code>bs_theme()</code></p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-interactive-theming" class="hasAnchor"><a href="#section-interactive-theming" class="anchor"></a>Interactive theming</h2>
-          <p class="section-desc"><p>Interactively customize themes</p></p>
+          <p class="section-desc"><p>Interactively customize themes.</p></p>
         </th>
       </tr>
       
@@ -199,8 +186,52 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-dynamic-theming" class="hasAnchor"><a href="#section-dynamic-theming" class="anchor"></a>Dynamic theming</h2>
+          <p class="section-desc"><p>Create dynamically themable HTML widgets.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="bs_dependency.html">bs_dependency()</a></code> <code><a href="bs_dependency.html">bs_dependency_defer()</a></code> </p>
+        </td>
+        <td><p>Themeable HTML components</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bs_theme_dependencies.html">bs_theme_dependencies()</a></code> </p>
+        </td>
+        <td><p>Compile Bootstrap Sass with (optional) theming</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-global-theme-creation" class="hasAnchor"><a href="#section-global-theme-creation" class="anchor"></a>Global theme creation</h2>
+          <p class="section-desc"><p>Use Bootstrap themes globally.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="bs_global_theme.html">bs_global_theme()</a></code> <code><a href="bs_global_theme.html">bs_global_set()</a></code> <code><a href="bs_global_theme.html">bs_global_get()</a></code> <code><a href="bs_global_theme.html">bs_global_clear()</a></code> <code><a href="bs_global_theme.html">bs_global_add_variables()</a></code> <code><a href="bs_global_theme.html">bs_global_add_rules()</a></code> <code><a href="bs_global_theme.html">bs_global_bundle()</a></code> <code><a href="bs_global_theme.html">bs_global_theme_update()</a></code> </p>
+        </td>
+        <td><p>Global theming</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-bootstrap-sass-compilation" class="hasAnchor"><a href="#section-bootstrap-sass-compilation" class="anchor"></a>Bootstrap SASS compilation</h2>
-          <p class="section-desc"><p>Compile themes into HTML dependencies and CSS strings</p></p>
+          <p class="section-desc"><p>Compile themes into HTML dependencies and CSS strings.</p></p>
         </th>
       </tr>
       
@@ -219,7 +250,7 @@
         <td>
           <p><code><a href="bs_dependency.html">bs_dependency()</a></code> <code><a href="bs_dependency.html">bs_dependency_defer()</a></code> </p>
         </td>
-        <td><p>Compile Sass using a Bootstrap theme and create an htmlDependency object</p></td>
+        <td><p>Themeable HTML components</p></td>
       </tr>
     </tbody><tbody>
       <tr>
