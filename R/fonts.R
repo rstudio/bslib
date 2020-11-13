@@ -138,7 +138,7 @@ font_link <- function(family, href) {
 #' @param display the `font-display` `@font-face` property.
 #' @references <https://developers.google.com/fonts/docs/css2>
 #' @export
-font_google <- function(family, local = TRUE, cache = sass::sass_file_cache(dir = cache_context_dir(), max_size = 100 * 1024^2),
+font_google <- function(family, local = TRUE, cache = sass_file_cache(dir = cache_context_dir(), max_size = 100 * 1024^2),
                         wght = NULL, ital = NULL, display = c("swap", "auto", "block", "fallback", "optional")) {
   stopifnot(is.logical(local))
   if (!is.null(wght)) {

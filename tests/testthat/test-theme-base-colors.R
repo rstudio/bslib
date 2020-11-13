@@ -35,7 +35,7 @@ test_that("bs4 base colors", {
       `gray-500` = "#888888", `gray-600` = "#A09C99", `gray-700` = "#B8B1AA",
       `gray-800` = "#CFC5BB", `gray-900` = "#E7DACC", `body-bg` = "#112233",
       `body-color` = "#E7DACC", primary = "#FFA500", secondary = "#A52A2A",
-      default = NA)
+      default = "#A52A2A")
   )
 
   # Can individual colors still be overridden?
@@ -93,11 +93,18 @@ test_that("bs4 accent colors", {
 
   theme <- bs_theme(4, primary = "#123", secondary = "#234",
                     success = "#345", info = "#456", warning = "#567", danger = "#678")
-  # TODO: is this really a problem?
   expect_identical(bs_get_variables(theme, varnames),
+    c(primary = "#112233", secondary = "#223344", default = "#223344", success = "#334455",
+      info = "#445566", warning = "#556677", danger = "#667788")
+  )
+
+  # TODO: is this problem that can't undo what bs_base_colors() does?
+  expect_identical(
+    bs_get_variables(bs_remove(theme, "bs3compat"), varnames),
     c(primary = "#112233", secondary = "#223344", default = NA, success = "#334455",
       info = "#445566", warning = "#556677", danger = "#667788")
   )
+
 
   theme <- bs_theme(4, primary = "#123", secondary = "#234",
                     success = "#345", info = "#456", warning = "#567", danger = "#678")

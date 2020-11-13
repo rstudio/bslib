@@ -114,6 +114,5 @@ bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
   .Deprecated("sass::sass_partial")
   theme <- as_bs_theme(theme)
   theme$rules <- ""
-  sass::sass_partial(rules, theme)
-
+  sass_partial(rules, theme)
 }

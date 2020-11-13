@@ -22,7 +22,7 @@ font_link(family, href)
 font_google(
   family,
   local = TRUE,
-  cache = sass::sass_file_cache(dir = cache_context_dir(), max_size = 100 * 1024^2),
+  cache = sass_file_cache(dir = cache_context_dir(), max_size = 100 * 1024^2),
   wght = NULL,
   ital = NULL,
   display = c("swap", "auto", "block", "fallback", "optional")

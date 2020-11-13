@@ -130,11 +130,9 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL) {
   version <- version_resolve(version)
-  bootswatch <- bootswatch_theme_resolve(bootswatch, version)
   theme <- bs_bundle(
-    bs_theme_init(),
+    bs_theme_init(version, bootswatch),
     bootstrap_bundle(version),
-    if (identical(version, "4")) bs3compat_bundle(),
     bootswatch_bundle(bootswatch, version)
   )
   bs_theme_update(
@@ -161,9 +159,12 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
                             base_font = NULL, code_font = NULL, heading_font = NULL) {
   assert_bs_theme(theme)
 
-  # If bootswatch is specified, remove the current theme, then add the new one
+  # You're only allowed one Bootswatch theme!
   if (!is.null(bootswatch)) {
-    theme <- bs_remove_bootswatch(theme)
+    old_swatch <- theme_bootswatch(theme)
+    if (length(old_swatch)) {
+      theme <- bs_remove(theme, "bootswatch")
+    }
     theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
   }
   # See R/bs-theme-update.R for the implementation of these
@@ -175,16 +176,6 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
   theme <- bs_font_dependencies(theme, base = base_font, code = code_font, heading = heading_font)
   theme <- bs_fonts(theme, base = base_font, code = code_font, heading = heading_font)
   bs_add_variables(theme, ...)
-}
-
-bs_remove_bootswatch <- function(theme) {
-  bootswatch <- theme_bootswatch(theme)
-  if (!length(bootswatch)) {
-    return(theme)
-  }
-  theme <- sass_bundle_remove(theme, paste0("bootswatch@", bootswatch))
-  # TODO: sass_bundle_remove() could use a regex arg?
-  sass_bundle_remove(theme, paste0("bootswatch@", bootswatch, "~bs3_compat_navbar"))
 }
 
 #' @rdname bs_global_theme
@@ -216,9 +207,17 @@ is_bs_theme <- function(x) {
   inherits(x, "bs_theme")
 }
 
-bs_theme_init <- function() {
-  # avoid as_bs_theme() due to version error check / recursion
-  add_class(sass_bundle(), "bs_theme")
+# Start an empty bundle with special classes that
+# theme_version() & theme_bootswatch() search for
+bs_theme_init <- function(version, bootswatch = NULL) {
+  add_class(
+    sass_bundle(),
+    c(
+      if (!is.null(bootswatch)) paste0("bs_bootswatch_", bootswatch),
+      paste0("bs_version_", version),
+      "bs_theme"
+    )
+  )
 }
 
 assert_bs_theme <- function(theme) {
@@ -232,79 +231,66 @@ assert_bs_theme <- function(theme) {
 # -----------------------------------------------------------------
 
 bootstrap_bundle <- function(version) {
-  if (version %in% "4") {
-    # Should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
-    bs4_bundle <- bs_sass_file_bundle(
-      version = version,
-      file_version = "4",
-      name = "bootstrap",
-      defaults = c("functions", "variables"),
-      declarations = "mixins",
-      rules = c(
-        "root", "reboot", "type", "images", "code", "grid", "tables",
-        "forms", "buttons", "transitions", "dropdown", "button-group",
-        "input-group", "custom-forms", "nav", "navbar", "card",
-        "breadcrumb", "pagination", "badge", "jumbotron", "alert",
-        "progress", "media", "list-group", "close", "toasts", "modal",
-        "tooltip", "popover", "carousel", "spinners", "utilities", "print"
+  switch_version(
+    version,
+    sass_bundle(
+      # Don't name this "core" bundle so it can't easily be removed
+      sass_layer(
+        defaults = bs4_sass_files(c("functions", "variables")),
+        declarations = bs4_sass_files("mixins")
+      ),
+      # Returns a _named_ list of bundles (i.e., these should be easily removed)
+      !!!rule_bundles(
+        # Names here should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
+        bs4_sass_files(c(
+          "root", "reboot", "type", "images", "code", "grid", "tables",
+          "forms", "buttons", "transitions", "dropdown", "button-group",
+          "input-group", "custom-forms", "nav", "navbar", "card",
+          "breadcrumb", "pagination", "badge", "jumbotron", "alert",
+          "progress", "media", "list-group", "close", "toasts", "modal",
+          "tooltip", "popover", "carousel", "spinners", "utilities", "print"
+        ))
+      ),
+      # Additions to BS4 that are always included (i.e., not a part of compatibility)
+      sass_layer(
+        # Don't impose such a jarring change to the base font-size
+        defaults = "$font-size-base: 0.875rem !default;",
+        # Pandoc uses align attribute to align content but BS4 styles take precedence...
+        # we may want to consider adopting this more generally in "strict" BS4 mode as well
+        rules = list(
+          ".table th[align=left] { text-align: left; }",
+          ".table th[align=right] { text-align: right; }",
+          ".table th[align=center] { text-align: center; }"
+        )
+      ),
+      bs3compat = bs3compat_bundle()
+    ),
+    sass_bundle(
+      sass_layer(
+        defaults = bs3_sass_files("variables"),
+        declarations = bs3_sass_files("mixins")
+      ),
+      # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
+      !!!rule_bundles(
+        bs3_sass_files(c(
+          "normalize", "print", "glyphicons", "scaffolding", "type", "code", "grid",
+          "tables", "forms", "buttons", "component-animations", "dropdowns", "button-groups",
+          "input-groups", "navs", "navbar", "breadcrumbs", "pagination", "pager", "labels",
+          "badges", "jumbotron", "thumbnails", "alerts", "progress-bars", "media",
+          "list-group", "panels", "responsive-embed", "wells", "close", "modals",
+          "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
+        ))
+      ),
+      accessibility = bs3_accessibility_bundle(),
+      glyphicon_font_files = sass_layer(
+        defaults = list("icon-font-path" = "'glyphicon-fonts/'"),
+        file_attachments = c(
+          "glyphicon-fonts" = lib_file("bootstrap-sass", "assets", "fonts", "bootstrap")
+        )
       )
     )
-
-    # Additions to BS4 that are always included (i.e., not a part of compatibility)
-    bs4_additions <- sass_layer(
-      # Don't impose such a jarring change to the base font-size
-      defaults = "$font-size-base: 0.875rem !default;",
-      # Pandoc uses align attribute to align content but BS4 styles take precedence...
-      # we may want to consider adopting this more generally in "strict" BS4 mode as well
-      rules = list(
-        ".table th[align=left] { text-align: left; }",
-        ".table th[align=right] { text-align: right; }",
-        ".table th[align=center] { text-align: center; }"
-      )
-    )
-
-    return(sass_bundle(
-      bs4_bundle,
-      !!bs_sass_bundle_version("bootstrap", version, subname = "additions") := bs4_additions
-    ))
-  }
-
-  if (version %in% "3") {
-
-    glyphicon <- sass_layer(
-      defaults = list("icon-font-path" = "'glyphicon-fonts/'"),
-      file_attachments = c(
-        "glyphicon-fonts" = lib_file("bootstrap-sass", "assets", "fonts", "bootstrap")
-      )
-    )
-
-    # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
-    bs3_core <- bs_sass_file_bundle(
-      name = "bootstrap",
-      version = "3",
-      file_version = "3",
-      defaults = "variables",
-      declarations = "mixins",
-      rules = c(
-        "normalize", "print", "glyphicons", "scaffolding", "type", "code", "grid",
-        "tables", "forms", "buttons", "component-animations", "dropdowns", "button-groups",
-        "input-groups", "navs", "navbar", "breadcrumbs", "pagination", "pager", "labels",
-        "badges", "jumbotron", "thumbnails", "alerts", "progress-bars", "media",
-        "list-group", "panels", "responsive-embed", "wells", "close", "modals",
-        "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
-      )
-    )
-
-    return(sass_bundle(
-      bs3_core,
-      !!bs_sass_bundle_version("bootstrap", version, subname = "accessiblity") := bs3_accessibility_bundle(),
-      !!bs_sass_bundle_version("bootstrap", version, subname = "glyphicon_fonts") := glyphicon
-    ))
-  }
-
-  stop("Unknown Bootstrap version: ", version, call. = FALSE)
+  )
 }
-
 
 
 bootstrap_javascript_map <- function(version) {
@@ -321,7 +307,6 @@ bootstrap_javascript <- function(version) {
     lib_file("bootstrap-sass", "assets", "javascripts", "bootstrap.min.js")
   )
 }
-
 
 
 # -----------------------------------------------------------------
@@ -373,8 +358,8 @@ bs3_accessibility_bundle <- function() {
 # -----------------------------------------------------------------
 
 bootswatch_bundle <- function(bootswatch, version) {
-
   # Exit early if this is vanilla Bootstrap
+  bootswatch <- bootswatch_theme_resolve(bootswatch, version)
   if (!bootswatch %in% bootswatch_themes(version)) return(NULL)
 
   # Attach local font files, if necessary
@@ -386,40 +371,35 @@ bootswatch_bundle <- function(bootswatch, version) {
     )
   }
 
-  bootswatch_core <- sass_layer(
-    file_attachments = attachments,
-    defaults = list(
-      # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
-      '$web-font-path: "font.css" !default;',
-      bootswatch_sass_file(bootswatch, "variables", version)
-    ),
-    rules = list(
-      bootswatch_sass_file(bootswatch, "bootswatch", version),
-      # For some reason sketchy sets .dropdown-menu{overflow: hidden}
-      # but this prevents .dropdown-submenu from working properly
-      # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
-      if (identical(bootswatch, "sketchy")) as_sass(".dropdown-menu{ overflow: inherit; }") else ""
+  sass_bundle(
+    bootswatch := sass_layer(
+      file_attachments = attachments,
+      defaults = list(
+        # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
+        '$web-font-path: "font.css" !default;',
+        bootswatch_sass_file(bootswatch, "variables", version),
+        if (version %in% "4") bs3compat_navbar_defaults(bootswatch) else ""
+      ),
+      rules = list(
+        bootswatch_sass_file(bootswatch, "bootswatch", version),
+        # For some reason sketchy sets .dropdown-menu{overflow: hidden}
+        # but this prevents .dropdown-submenu from working properly
+        # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
+        if (identical(bootswatch, "sketchy")) ".dropdown-menu{ overflow: inherit; }" else "",
+        # TODO: is this really needed? Why isn't it listening to a Sass var?
+        if (identical(bootswatch, "lumen")) ".navbar.navbar-default {background-color: #f8f8f8 !important;}" else ""
+      )
     )
   )
-  bundle <- sass_bundle(
-    !!bs_sass_bundle_version("bootswatch", bootswatch) := bootswatch_core
-  )
-
-  if (version %in% "4") {
-    bundle <- sass_bundle(
-      bundle,
-      !!bs_sass_bundle_version("bootswatch", bootswatch, subname = "bs3_compat_navbar") := bs3compat_navbar_bundle(bootswatch)
-    )
-  }
-
-  bundle
 }
 
 
 # Mappings from BS3 navbar classes to BS4
-bs3compat_navbar_bundle <- function(bootswatch) {
+bs3compat_navbar_defaults <- function(bootswatch) {
   # Do nothing if this isn't a Bootswatch 3 theme
-  if (!bootswatch %in% c("materia", "litera", bootswatch_themes(3))) return(NULL)
+  if (!bootswatch %in% c("materia", "litera", bootswatch_themes(3))) {
+    return("")
+  }
 
   nav_classes <- switch(
     bootswatch,
@@ -500,18 +480,10 @@ bs3compat_navbar_bundle <- function(bootswatch) {
     stop("Didn't recognize Bootswatch 3 theme: ", bootswatch, call. = FALSE)
   )
 
-  bundle <- sass_layer(
-    defaults = list(
-      sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
-      sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
-      sprintf('$navbar-inverse-type: %s !default;', nav_classes$inverse[1]),
-      sprintf('$navbar-inverse-bg: %s !default;', nav_classes$inverse[2])
-    )
+  list(
+    sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
+    sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
+    sprintf('$navbar-inverse-type: %s !default;', nav_classes$inverse[1]),
+    sprintf('$navbar-inverse-bg: %s !default;', nav_classes$inverse[2])
   )
-
-  if (identical(bootswatch, "lumen")) {
-    bundle <- sass_bundle(bundle, ".navbar.navbar-default {background-color: #f8f8f8 !important;}")
-  }
-
-  bundle
 }

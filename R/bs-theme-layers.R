@@ -90,7 +90,7 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
 # and if missing, adds it.
 ensure_default_flag <- function(x) {
   lapply(x, function(val) {
-    val <- paste(sass::as_sass(val), collapse = "\n")
+    val <- paste(as_sass(val), collapse = "\n")
     if (grepl("!default\\s*;*\\s*$", val)) {
       val
     } else {
@@ -100,10 +100,40 @@ ensure_default_flag <- function(x) {
 }
 
 #' @describeIn bs_bundle Add additional [Sass rules](https://sass-lang.com/documentation/style-rules)
-#' @param rules Sass rules.
+#' @param rules Sass rules. Anything understood by [sass::as_sass()] may be
+#'   provided (e.g., a list, character vector, [sass::sass_file()], etc)
 #' @export
 bs_add_rules <- function(theme, rules) {
   bs_bundle(theme, sass_layer(rules = rules))
+}
+
+#' @describeIn bs_bundle Remove Sass rules.
+#' @param file a character vector referencing filenames from the `libname`
+#' @param libname a character string referencing the library of interest.
+#' Possible value include `'bootstrap'`, `'bootswatch'`, `'bs3compat'`, and `'accessibility'`
+#' @params ids a character vector of ids
+#' @export
+bs_remove <- function(theme, ids = character(0)) {
+  assert_bs_theme(theme)
+  stopifnot(is.character(ids))
+
+  bundle_ids <- names(theme$layers)
+  if (!length(ids)) {
+    stop(
+      "Provide one or more of the following `ids`: ",
+      paste(ids, collapse = ", ")
+    )
+  }
+  missing_ids <- setdiff(ids, bundle_ids)
+  if (length(missing_ids)) {
+    stop(
+      "The following `ids` weren't found in `theme`: ",
+      paste(missing_ids, collapse = ", "), ".\n\n",
+      "Possible `ids` include: ",
+      paste(bundle_ids[nzchar(bundle_ids)], collapse = ", ")
+    )
+  }
+  sass_bundle_remove(theme, ids)
 }
 
 #' @describeIn bs_bundle Add Sass [functions](https://sass-lang.com/documentation/at-rules/function) and [mixins](https://sass-lang.com/documentation/at-rules/mixin)
@@ -117,6 +147,8 @@ bs_add_declarations <- function(theme, declarations) {
 #' @export
 bs_bundle <- function(theme, ...) {
   assert_bs_theme(theme)
-
-  as_bs_theme(sass_bundle(theme, ...))
+  structure(
+    sass_bundle(theme, ...),
+    class = class(theme)
+  )
 }

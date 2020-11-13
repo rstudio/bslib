@@ -299,7 +299,7 @@ dispatch_theme_modifier <- function(theme, funcs_by_version, args, caller_name) 
       paste(collapse = "/", theme_version(theme)), ")")
   }
 
-  results <- sass::sass_layer(
+  results <- sass_layer(
     lapply(dropNulls(results), paste, "!default")
   )
 

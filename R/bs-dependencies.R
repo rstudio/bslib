@@ -55,17 +55,17 @@ bs_theme_dependencies <- function(
 
   theme <- as_bs_theme(theme)
   version <- theme_version(theme)
-  theme_layer <- sass::as_sass_layer(theme)
+  theme_layer <- as_sass_layer(theme)
 
   if (is.character(cache)) {
-    cache <- sass::sass_cache_get(cache)
+    cache <- sass_cache_get(cache)
   }
 
   out_file <- NULL
   # Look for a precompiled css file if user asks for it AND the default options
   # are used.
   if (precompiled &&
-      identical(sass_options, sass::sass_options(output_style = "compressed")))
+      identical(sass_options, sass_options(output_style = "compressed")))
   {
     precompiled_css <- precompiled_css_path(theme)
     if (!is.null(precompiled_css)) {
@@ -76,7 +76,7 @@ bs_theme_dependencies <- function(
       out_file <- file.path(out_dir, basename(precompiled_css))
       file.copy(precompiled_css, out_file)
 
-      sass::write_file_attachments(
+      write_file_attachments(
         theme_layer$file_attachments,
         out_dir
       )
@@ -85,10 +85,10 @@ bs_theme_dependencies <- function(
 
   # If precompiled css not found, compile normally.
   if (is.null(out_file)) {
-    out_file <- sass::sass(
+    out_file <- sass(
       input = theme,
       options = sass_options,
-      output = sass::output_template(basename = "bootstrap", dirname = "bslib-"),
+      output = output_template(basename = "bootstrap", dirname = "bslib-"),
       cache = cache,
       write_attachments = TRUE,
       cache_key_extra = list(
@@ -166,13 +166,13 @@ bs_dependency <- function(input = list(), theme, name, version,
     list(
       rules = input,
       bundle = theme,
-      output = sass::output_template(basename = name, dirname = name),
+      output = output_template(basename = name, dirname = name),
       write_attachments = TRUE,
       cache_key_extra = cache_key_extra
     ),
     .sass_args
   )
-  outfile <- do.call(sass::sass_partial, sass_args)
+  outfile <- do.call(sass_partial, sass_args)
 
   dep_args <- c(
     list(
@@ -271,20 +271,6 @@ bs_dependency_defer <- function(func) {
 
 as_bs_theme <- function(theme) {
   if (is_bs_theme(theme)) return(theme)
-
-  # Allow users to do something like
-  # bs_theme_dependencies(theme = sass_bundle(bs_global_get(), my_layer()))
-  if (is_sass_bundle(theme) || inherits(theme, "sass_layer")) {
-    theme <- add_class(
-      # make sure the sass layer turns into a sass bundle
-      sass::sass_bundle(theme),
-      "bs_theme"
-    )
-    if (is.null(theme_version(theme))) {
-      stop("Wasn't able to figure out the Bootstrap version.")
-    }
-    return(theme)
-  }
 
   # NULL means default Bootstrap
   if (is.null(theme)) return(bs_theme())

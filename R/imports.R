@@ -2,6 +2,7 @@
 #' @import sass
 #' @importFrom utils modifyList packageVersion download.file URLencode
 #' @importFrom stats setNames na.omit
+#' @importFrom tools file_path_sans_ext
 #' @importFrom jquerylib jquery_core
 #' @importFrom jsonlite fromJSON
 #' @importFrom rlang :=
