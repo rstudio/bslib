@@ -12,7 +12,7 @@ source("global.R")
 
 theme <- bs_global_get()
 if ("3" %in% theme_version(theme)) {
-  stop("This example app requires Bootstrap 4 or higher", call. = FALSE)
+  warning("This example app requires Bootstrap 4 or higher", call. = FALSE)
 }
 
 pill <- function(...) {

@@ -4,7 +4,6 @@
 #' @param full_path whether to return a path to the installed theme.
 #' @export
 bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
-  version <- version_resolve(version)
   list.dirs(bootswatch_dist(version), full.names = full_path, recursive = FALSE)
 }
 
@@ -36,24 +35,7 @@ theme_version <- function(theme) {
 bootswatch_dist <- function(version) {
   switch_version(
     version,
-    lib_file("bootswatch", "dist"),
-    lib_file("bootswatch3")
+    four = lib_file("bootswatch", "dist"),
+    three = lib_file("bootswatch3")
   )
-}
-
-bootswatch_theme_resolve <- function(bootswatch, version) {
-  if (is.null(bootswatch)) return("bootstrap")
-  # because rmarkdown
-  if (bootswatch %in% c("default", "bootstrap", "")) return("bootstrap")
-  if (version %in% "4") {
-    if (identical(bootswatch, "paper")) {
-      message("Bootswatch 3 theme paper has been renamed to materia in version 4 (using that theme instead)")
-      bootswatch <- "materia"
-    }
-    if (identical(bootswatch, "readable")) {
-      message("Bootswatch 3 theme readable has been renamed to litera in version 4 (using that theme instead)")
-      bootswatch <- "litera"
-    }
-  }
-  match.arg(bootswatch, bootswatch_themes(version))
 }

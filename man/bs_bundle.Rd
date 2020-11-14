@@ -3,7 +3,6 @@
 \name{bs_add_variables}
 \alias{bs_add_variables}
 \alias{bs_add_rules}
-\alias{bs_remove}
 \alias{bs_add_declarations}
 \alias{bs_bundle}
 \title{Add low-level theming customizations}
@@ -16,8 +15,6 @@ bs_add_variables(
 )
 
 bs_add_rules(theme, rules)
-
-bs_remove(theme, ids = character(0))
 
 bs_add_declarations(theme, declarations)
 
@@ -42,11 +39,6 @@ variable expressions. It's recommended to keep this as \code{TRUE} when \code{.w
 provided (e.g., a list, character vector, \code{\link[sass:sass_import]{sass::sass_file()}}, etc)}
 
 \item{declarations}{Sass functions and mixins.}
-
-\item{file}{a character vector referencing filenames from the \code{libname}}
-
-\item{libname}{a character string referencing the library of interest.
-Possible value include \code{'bootstrap'}, \code{'bootswatch'}, \code{'bs3compat'}, and \code{'accessibility'}}
 }
 \description{
 Compared to higher-level theme customization available in \code{\link[=bs_theme]{bs_theme()}}, these functions
@@ -58,8 +50,6 @@ ensure theme customizations are portable between major Bootstrap versions.
 \item \code{bs_add_variables}: Add Bootstrap Sass \href{https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults}{variable defaults}
 
 \item \code{bs_add_rules}: Add additional \href{https://sass-lang.com/documentation/style-rules}{Sass rules}
-
-\item \code{bs_remove}: Remove Sass rules.
 
 \item \code{bs_add_declarations}: Add Sass \href{https://sass-lang.com/documentation/at-rules/function}{functions} and \href{https://sass-lang.com/documentation/at-rules/mixin}{mixins}
 

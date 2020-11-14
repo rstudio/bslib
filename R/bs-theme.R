@@ -129,7 +129,6 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
                      bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL) {
-  version <- version_resolve(version)
   theme <- bs_bundle(
     bs_theme_init(version, bootswatch),
     bootstrap_bundle(version),
@@ -164,6 +163,7 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
     old_swatch <- theme_bootswatch(theme)
     if (length(old_swatch)) {
       theme <- bs_remove(theme, "bootswatch")
+      # TODO: also update the theme class and write a test!
     }
     theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
   }
@@ -233,7 +233,7 @@ assert_bs_theme <- function(theme) {
 bootstrap_bundle <- function(version) {
   switch_version(
     version,
-    sass_bundle(
+    four = sass_bundle(
       # Don't name this "core" bundle so it can't easily be removed
       sass_layer(
         defaults = bs4_sass_files(c("functions", "variables")),
@@ -265,7 +265,7 @@ bootstrap_bundle <- function(version) {
       ),
       bs3compat = bs3compat_bundle()
     ),
-    sass_bundle(
+    three = sass_bundle(
       sass_layer(
         defaults = bs3_sass_files("variables"),
         declarations = bs3_sass_files("mixins")
@@ -296,15 +296,14 @@ bootstrap_bundle <- function(version) {
 bootstrap_javascript_map <- function(version) {
   switch_version(
     version,
-    lib_file("bootstrap", "dist", "js", "bootstrap.bundle.min.js.map"),
-    NULL
+    four = lib_file("bootstrap", "dist", "js", "bootstrap.bundle.min.js.map")
   )
 }
 bootstrap_javascript <- function(version) {
   switch_version(
     version,
-    lib_file("bootstrap", "dist", "js", "bootstrap.bundle.min.js"),
-    lib_file("bootstrap-sass", "assets", "javascripts", "bootstrap.min.js")
+    four = lib_file("bootstrap", "dist", "js", "bootstrap.bundle.min.js"),
+    three = lib_file("bootstrap-sass", "assets", "javascripts", "bootstrap.min.js")
   )
 }
 
@@ -358,9 +357,26 @@ bs3_accessibility_bundle <- function() {
 # -----------------------------------------------------------------
 
 bootswatch_bundle <- function(bootswatch, version) {
-  # Exit early if this is vanilla Bootstrap
-  bootswatch <- bootswatch_theme_resolve(bootswatch, version)
-  if (!bootswatch %in% bootswatch_themes(version)) return(NULL)
+  if (!length(bootswatch)) return(NULL)
+
+  bootswatch <- switch_version(
+    version,
+    four = {
+      switch(
+        bootswatch,
+        paper = {
+          message("Bootswatch 3 theme paper has been renamed to materia in version 4 (using that theme instead)")
+          "materia"
+        },
+        readable = {
+          message("Bootswatch 3 theme readable has been renamed to litera in version 4 (using that theme instead)")
+          "litera"
+        },
+        match.arg(bootswatch, bootswatch_themes(version))
+      )
+    },
+    default = match.arg(bootswatch, bootswatch_themes(version))
+  )
 
   # Attach local font files, if necessary
   font_css <- file.path(bootswatch_dist(version), bootswatch, "font.css")
@@ -378,7 +394,10 @@ bootswatch_bundle <- function(bootswatch, version) {
         # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
         '$web-font-path: "font.css" !default;',
         bootswatch_sass_file(bootswatch, "variables", version),
-        if (version %in% "4") bs3compat_navbar_defaults(bootswatch) else ""
+        # Unless we change navbarPage()'s markup, BS4+ will likely want BS3 compatibility
+        switch_version(
+          version, three = "", default = bs3compat_navbar_defaults(bootswatch)
+        )
       ),
       rules = list(
         bootswatch_sass_file(bootswatch, "bootswatch", version),

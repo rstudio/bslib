@@ -107,35 +107,6 @@ bs_add_rules <- function(theme, rules) {
   bs_bundle(theme, sass_layer(rules = rules))
 }
 
-#' @describeIn bs_bundle Remove Sass rules.
-#' @param file a character vector referencing filenames from the `libname`
-#' @param libname a character string referencing the library of interest.
-#' Possible value include `'bootstrap'`, `'bootswatch'`, `'bs3compat'`, and `'accessibility'`
-#' @params ids a character vector of ids
-#' @export
-bs_remove <- function(theme, ids = character(0)) {
-  assert_bs_theme(theme)
-  stopifnot(is.character(ids))
-
-  bundle_ids <- names(theme$layers)
-  if (!length(ids)) {
-    stop(
-      "Provide one or more of the following `ids`: ",
-      paste(ids, collapse = ", ")
-    )
-  }
-  missing_ids <- setdiff(ids, bundle_ids)
-  if (length(missing_ids)) {
-    stop(
-      "The following `ids` weren't found in `theme`: ",
-      paste(missing_ids, collapse = ", "), ".\n\n",
-      "Possible `ids` include: ",
-      paste(bundle_ids[nzchar(bundle_ids)], collapse = ", ")
-    )
-  }
-  sass_bundle_remove(theme, ids)
-}
-
 #' @describeIn bs_bundle Add Sass [functions](https://sass-lang.com/documentation/at-rules/function) and [mixins](https://sass-lang.com/documentation/at-rules/mixin)
 #' @param declarations Sass functions and mixins.
 #' @export

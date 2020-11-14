@@ -6,8 +6,8 @@
 \usage{
 bs_theme_dependencies(
   theme,
-  sass_options = sass_options(output_style = "compressed"),
-  cache = sass_cache_get(),
+  sass_options = sass::sass_options(output_style = "compressed"),
+  cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
   precompiled = TRUE
 )

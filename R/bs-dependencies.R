@@ -272,6 +272,11 @@ bs_dependency_defer <- function(func) {
 as_bs_theme <- function(theme) {
   if (is_bs_theme(theme)) return(theme)
 
+  # This is a historical artifact that should happen
+  if (is_sass_bundle(theme) || inherits(theme, "sass_layer")) {
+    stop("`theme` cannot be a `sass_bundle()` or `sass_layer()` (use `bs_bundle()` to add a bundle)")
+  }
+
   # NULL means default Bootstrap
   if (is.null(theme)) return(bs_theme())
 

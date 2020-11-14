@@ -1,22 +1,20 @@
-version_resolve <- function(version) {
+switch_version <- function(version, four = default, three = default, default = NULL) {
+  if (is_bs_theme(version)) {
+    version <- theme_version(version)
+  }
   version <- as.character(version)
   if (isTRUE(version %in% c("4-3", "4+3"))) {
     warning("Version ", version, " has been renamed to 4. Please use 4 instead")
     version <- "4"
   }
-  match.arg(version, c("4", "3"))
-}
-
-switch_version <- function(version, four, three) {
   switch(
-    version_resolve(version),
-    `4` = four, `3` = three,
+    version, `4` = four, `3` = three,
     stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
   )
 }
 
 get_exact_version <- function(version) {
-  switch_version(version, version_bs4, version_bs3)
+  switch_version(version, four = version_bs4, three = version_bs3)
 }
 
 lib_file <- function(...) {
