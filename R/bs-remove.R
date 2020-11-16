@@ -23,11 +23,18 @@ bs_remove <- function(theme, ids = character(0)) {
 }
 
 #' @rdname bs_remove
+#' @param include_unnamed whether or not to include unnamed [sass::sass_layer()]s
+#' (e.g., Bootstrap Sass variables, functions, and mixins).
 #' @export
-bs_retrieve <- function(theme, ids = character(0)) {
+bs_retrieve <- function(theme, ids = character(0), include_unnamed = TRUE) {
   ids <- retain_valid_ids(theme, ids)
-  sass_bundle(
-    !!!theme$layers[names(theme$layers) %in% ids]
+  if (isTRUE(include_unnamed)) {
+    ids <- c(ids, "")
+  }
+  layers <- theme$layers[names(theme$layers) %in% ids]
+  structure(
+    sass_bundle(!!!layers),
+    class = class(theme)
   )
 }
 
