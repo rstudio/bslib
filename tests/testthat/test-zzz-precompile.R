@@ -1,14 +1,12 @@
 local_disable_cache()
 
 test_that("Can find precompiled themes", {
-  # Should be present for 4, 4+3, 3 without bootswatch theme
+  # Should be present for 4, 3 without bootswatch theme
   expect_true(file.exists(precompiled_css_path(bs_theme("4"))))
-  expect_true(file.exists(precompiled_css_path(bs_theme("4+3"))))
   expect_true(file.exists(precompiled_css_path(bs_theme("3"))))
 
   # Not present for bootswatch themes
   expect_null(precompiled_css_path(bs_theme("4", "sketchy")))
-  expect_null(precompiled_css_path(bs_theme("4+3", "darkly")))
 
   # With modifications
   theme <- bs_add_rules(bs_theme(), rules = "body { background: red; }")
@@ -28,11 +26,6 @@ test_that("Precompiled theme output is identical to compiled themes", {
   # /tmp/RtmpVi9qRT/bslib-precompiled-4
   dir1 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4"), precompiled = FALSE))
   dir2 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4"), precompiled = TRUE))
-  expect_false(identical(dir1, dir2))
-  expect_true(identical_dirs(dir1, dir2))
-
-  dir1 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4+3"), precompiled = FALSE))
-  dir2 <- get_bootstrap_path(bs_theme_dependencies(bs_theme("4+3"), precompiled = TRUE))
   expect_false(identical(dir1, dir2))
   expect_true(identical_dirs(dir1, dir2))
 

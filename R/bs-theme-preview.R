@@ -209,7 +209,7 @@ themer_css_dependency <- function(theme) {
 #' library(shiny)
 #'
 #' # Initialize Bootstrap 4 with Bootstrap 3 compatibility shim
-#' theme <- bs_theme("4+3", bg = "black", fg = "white")
+#' theme <- bs_theme(version = 4, bg = "black", fg = "white")
 #'
 #' ui <- fluidPage(
 #'   theme = theme,
@@ -277,11 +277,9 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
          "relevant page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
   }
   bootswatch <- theme_bootswatch(theme)
-  version <- theme_version(theme)
-  if ("3" %in% version) {
-    stop("Interactive theming for Bootstrap 3 Sass isn't yet supported")
-  }
-
+  switch_version(
+    version, three = stop("Interactive theming for Bootstrap 3 isn't supported")
+  )
   if (isTRUE(session$userData[["bs_themer_init"]])) {
     # bs_themer() was called multiple times for the same session
     return()
@@ -500,7 +498,7 @@ bs_get_variables <- function(theme, varnames) {
   css <- sass_partial(
     cssvars,
     # Add declarations to the current theme
-    bs_bundle(theme, sass::sass_layer(declarations = sassvars)),
+    bs_bundle(theme, sass_layer(declarations = sassvars)),
   )
 
   # Search the output for the block of properties we just generated, using the

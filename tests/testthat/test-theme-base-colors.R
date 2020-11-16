@@ -1,14 +1,14 @@
 test_that("bs4 base colors", {
   varnames <- c("yiq-text-light", "yiq-text-dark",
     "black", "white", paste0("gray-", 1:9 * 100), "body-bg", "body-color",
-    "primary", "secondary", "default")
+    "primary", "secondary")
 
   is_light <- function(colorstr) {
     col <- t(col2rgb(colorstr, alpha = FALSE))
     color_yiq_islight(col[,"red"], col[,"green"], col[,"blue"])
   }
 
-  theme <- bs_theme("4+3", bg = "white", fg = "black", primary = "blue", secondary = "silver")
+  theme <- bs_theme(4, bg = "white", fg = "black", primary = "blue", secondary = "silver")
   colors <- bs_get_variables(theme, varnames)
   expect_true(is_light(colors[["yiq-text-light"]]))
   expect_false(is_light(colors[["yiq-text-dark"]]))
@@ -19,8 +19,7 @@ test_that("bs4 base colors", {
       `gray-200` = "#CCCCCC", `gray-300` = "#B2B2B2", `gray-400` = "#999999",
       `gray-500` = "#808080", `gray-600` = "#666666", `gray-700` = "#4D4D4D",
       `gray-800` = "#333333", `gray-900` = "#191919", `body-bg` = "#FFFFFF",
-      `body-color` = "#191919", primary = "#0000FF", secondary = "#C0C0C0",
-      default = "#C0C0C0")
+      `body-color` = "#191919", primary = "#0000FF", secondary = "#C0C0C0")
   )
 
   theme <- bs_theme("4", bg = "#112233", fg = "#FFEEDD", primary = "orange", secondary = "brown")
@@ -34,8 +33,7 @@ test_that("bs4 base colors", {
       `gray-200` = "#414B55", `gray-300` = "#585F66", `gray-400` = "#707477",
       `gray-500` = "#888888", `gray-600` = "#A09C99", `gray-700` = "#B8B1AA",
       `gray-800` = "#CFC5BB", `gray-900` = "#E7DACC", `body-bg` = "#112233",
-      `body-color` = "#E7DACC", primary = "#FFA500", secondary = "#A52A2A",
-      default = NA)
+      `body-color` = "#E7DACC", primary = "#FFA500", secondary = "#A52A2A")
   )
 
   # Can individual colors still be overridden?
@@ -81,27 +79,27 @@ test_that("bs3 base colors", {
 })
 
 test_that("bs4 accent colors", {
-  varnames <- c("primary", "secondary", "default", "success", "info", "warning",
+  varnames <- c("primary", "secondary", "success", "info", "warning",
     "danger")
 
   # Baseline
-  theme <- bs_theme("4+3")
+  theme <- bs_theme(4)
   expect_identical(bs_get_variables(theme, varnames),
-    c(primary = "#007bff", secondary = "#6c757d", default = "#dee2e6",
+    c(primary = "#007bff", secondary = "#6c757d",
       success = "#28a745", info = "#17a2b8", warning = "#ffc107", danger = "#dc3545")
   )
 
-  theme <- bs_theme("4", primary = "#123", secondary = "#234",
+  theme <- bs_theme(4, primary = "#123", secondary = "#234",
                     success = "#345", info = "#456", warning = "#567", danger = "#678")
   expect_identical(bs_get_variables(theme, varnames),
-    c(primary = "#112233", secondary = "#223344", default = NA, success = "#334455",
+    c(primary = "#112233", secondary = "#223344", success = "#334455",
       info = "#445566", warning = "#556677", danger = "#667788")
   )
 
-  theme <- bs_theme("4+3", primary = "#123", secondary = "#234",
+  theme <- bs_theme(4, primary = "#123", secondary = "#234",
                     success = "#345", info = "#456", warning = "#567", danger = "#678")
   expect_identical(bs_get_variables(theme, varnames),
-    c(primary = "#112233", secondary = "#223344", default = "#223344",
+    c(primary = "#112233", secondary = "#223344",
       success = "#334455", info = "#445566", warning = "#556677", danger = "#667788")
   )
 })
@@ -142,7 +140,7 @@ test_that("bs_theme_fonts", {
     c("'Source Sans Pro', \"Open Sans\", Helvetica, sans-serif")
   )
 
-  for (version in c("4+3", "4", "3")) {
+  lapply(versions(), function(version) {
 
     for (candidate in candidates) {
       theme <- bs_theme(version, base_font = candidate)
@@ -165,7 +163,7 @@ test_that("bs_theme_fonts", {
       bs_get_variables(theme, c("font-family-base", "font-family-monospace", "headings-font-family")),
       c(`font-family-base` = "a", `font-family-monospace` = "b", `headings-font-family` = "c")
     )
-  }
+  })
 })
 
 test_that("format_varnames", {
@@ -192,16 +190,6 @@ test_that("validate_and_normalize_colors", {
   )
 })
 
-test_that("dispatch_theme_setter", {
-  theme <- bs_theme("4+3")
-  expect_error(dispatch_theme_modifier(theme, list(), args = list(), "HelloWorld"))
-  expect_error(dispatch_theme_modifier(theme, list("3" = identity), args = list(), "HelloWorld"))
-  expect_error(dispatch_theme_modifier(theme, list("4" = identity), args = list(), "HelloWorld"))
-  expect_error(
-    dispatch_theme_modifier(theme, list("4+3" = identity), args = list(), "HelloWorld"),
-    NA
-  )
-})
 
 test_that("bs_get_variables is fg/bg aware", {
   expect_equal(
@@ -219,5 +207,36 @@ test_that("bs_get_variables is fg/bg aware", {
   expect_equal(
     bs_get_variables(bs_theme(version = 3, bootswatch = "darkly"), c("bg", "fg")),
     c(bg = "#222222", fg = "#fff")
+  )
+})
+
+
+test_that("theme-color('default') works as expected", {
+  # default theme color derives defaults from $gray-300
+  css <- sass::sass_partial(
+    ".foo{color:theme-color('default')}", bs_theme(version = 4)
+  )
+  expect_css(css, ".foo{color:#dee2e6;}")
+  # but can be customized via secondary
+  css <- sass::sass_partial(
+    ".foo{color:theme-color('default')}", bs_theme(version = 4, secondary = "red")
+  )
+  expect_css(css, ".foo{color:#FF0000;}")
+  # and is removed completely without bs3compat
+  css <- sass::sass_partial(
+    ".foo{color:theme-color('default')}", bs_theme(version = 4) %>% bs_remove("bs3compat")
+  )
+  expect_css(css, "")
+  expect_error(
+    sass::sass(
+      list(bs_theme(), ".foo { @extend .bg-default; }")
+    ),
+    NA
+  )
+  expect_error(
+    sass::sass(
+      list(bs_theme() %>% bs_remove("bs3compat"), ".foo { @extend .bg-default; }")
+    ),
+    "bg-default"
   )
 })

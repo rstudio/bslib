@@ -46,6 +46,7 @@ Collate:
     'bootswatch.R'
     'bs-dependencies.R'
     'bs-global.R'
+    'bs-remove.R'
     'bs-theme-layers.R'
     'utils.R'
     'bs-theme-preview.R'

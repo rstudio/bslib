@@ -23,8 +23,8 @@ object created by \code{\link[sass:sass_file_cache]{sass_file_cache()}}, or \cod
 \item{jquery}{a \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}} object.}
 
 \item{precompiled}{Before compiling the theme object, first look for a
-precompiled CSS file for the given \code{version}.  If this option is \code{TRUE} and
-a precompiled CSS file exists for the theme object, it will be fetched
+precompiled CSS file for the \code{\link[=theme_version]{theme_version()}}.  If this option is \code{TRUE}
+and a precompiled CSS file exists for the theme object, it will be fetched
 immediately and not compiled. At the moment, we only provide precompiled
 CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
 themes, or non-default \code{sass_options}).}
@@ -32,16 +32,15 @@ themes, or non-default \code{sass_options}).}
 \value{
 a list of HTML dependencies containing Bootstrap CSS, Bootstrap
 JavaScript, and \code{jquery}. This list may contain additional HTML
-dependencies if the \code{theme} calls for it (e.g., \code{version = "4+3"} contains
-an additional JavaScript dependency).
+dependencies if bundled with the \code{theme}.
 }
 \description{
-Use \code{bs_theme_dependencies()} to compile Bootstrap Sass into CSS and return it, along
-with other HTML dependencies, as a list of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}s. Use
-\code{sass_partial()} if you can assume Bootstrap already exists on the page,
-but you want to leverage Bootstrap utilities (e.g., variables, functions, or
-mixins) to generate additional CSS rules (as a string that can be included as
-a \verb{<style>} tag via \code{tags$style(css)}).
+\code{bs_theme_dependencies()} compiles Bootstrap Sass into CSS and returns it,
+along with other HTML dependencies, as a list of
+\code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}s. Most users won't need to call this function
+directly as Shiny & R Markdown will perform this compilation automatically
+when handed a \code{\link[=bs_theme]{bs_theme()}}. If you're here looking to create a themeable
+component, see \code{\link[=bs_dependency]{bs_dependency()}}.
 }
 \examples{
 
@@ -55,18 +54,16 @@ preview_button <- function(theme) {
     browsable()
 }
 
-# Latest bootstrap
+# Latest Bootstrap
 preview_button(bs_theme())
 # Bootstrap 3
 preview_button(bs_theme(3))
-# Bootswatch minty theme
-preview_button(bs_theme(bootswatch = "minty"))
-# Bootswatch sketchy theme
-preview_button(bs_theme(bootswatch = "sketchy"))
-# Bootswatch solar theme with BS3 compatibility
-preview_button(bs_theme(version = "4+3", bootswatch = "solar"))
+# Bootswatch 4 minty theme
+preview_button(bs_theme(4, bootswatch = "minty"))
+# Bootswatch 4 sketchy theme
+preview_button(bs_theme(4, bootswatch = "sketchy"))
 
 }
 \seealso{
-\code{\link[=bs_theme]{bs_theme()}}, \code{\link[=bs_global_set]{bs_global_set()}}
+\code{\link[=bs_theme]{bs_theme()}}, \code{\link[=bs_dependency]{bs_dependency()}}
 }

@@ -326,14 +326,11 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
 # over).
 library(bslib)
 
-# The versions of Bootstrap to precompile
-versions <- c("4", "4+3", "3")
-
 precompiled_dir <- find_package_root_file("inst/css-precompiled")
 unlink(precompiled_dir, recursive = TRUE)
 dir.create(precompiled_dir, recursive = TRUE)
 
-lapply(versions, function(version) {
+lapply(versions(), function(version) {
   res <- bs_theme_dependencies(bs_theme(version), precompiled = FALSE, cache = NULL)
   # Extract the Bootstrap dependency object (as opposed to, say, jQuery)
   bs_dep <- Filter(res, f = function(x) { identical(x$name, "bootstrap") })[[1]]

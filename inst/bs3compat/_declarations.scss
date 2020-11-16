@@ -4,10 +4,6 @@
 // so .btn-default comes before .btn-primary in the generated CSS and thus has
 // lower priority.
 
-// Need to declare $default with a null value here so it has the right scope
-// (i.e. not scoped to the inside of the if/else branches)
-$default: null !default;
-
 // I don't like the default secondary color, as it's too big a departure from
 // the bootstrap 3 coloring (dark instead of light grey). But secondary is
 // semantically the closes match to default. So if secondary hasn't changed, use
@@ -15,12 +11,10 @@ $default: null !default;
 // that for default. (Another option would be to simply change the secondary
 // color.)
 @if $secondary == $gray-600 {
-  $default: $gray-300 !default;
+  $theme-colors: map-merge(("default": $gray-300), $theme-colors) !global;
 } @else {
-  $default: $secondary !default;
+  $theme-colors: map-merge(("default": $secondary), $theme-colors) !global;
 }
-
-$theme-colors: map-merge(("default": $default), $theme-colors);
 
 // Cards are white by default, but we want a smarter default for .well
 // that it appears gray by default

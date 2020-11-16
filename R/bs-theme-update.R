@@ -4,36 +4,39 @@
 
 bs_base_colors <- function(theme, bg = NULL, fg = NULL) {
   assert_bs_theme(theme)
-  if (is.null(bg) && is.null(fg)) {
-    return(theme)
-  }
+  if (is.null(bg) && is.null(fg)) return(theme)
   if (is.null(bg)) stop("Cannot specify bg without fg.")
   if (is.null(fg)) stop("Cannot specify fg without bg.")
-  args <- list(bg = bg, fg = fg)
-  args <- validate_and_normalize_colors(args)
-  funcs <- list(
-    "4+3" = bs4_base_colors,
-    "4" = bs4_base_colors,
-    "3" = bs3_base_colors
-  )
 
+  args <- validate_and_normalize_colors(list(bg = bg, fg = fg))
   # In some cases, bg/fg really means $body-bg/$body-color, not $white/$black
-  if (has_body_base_colors(theme)) {
+  use_body <- has_body_base_colors(theme)
+  if (use_body) {
     args <- rename2(args, !!!get_base_color_map(theme))
-    funcs <- lapply(funcs, function(x) identity)
   }
 
-  dispatch_theme_modifier(theme, funcs, args, "bs_base_colors")
+  # TODO: Bootstrap 5 will be different (no more $yiq-text-light/$yiq-text-dark)
+  switch_add_variables(
+    theme, args,
+    four = if (use_body) identity else bs4_base_colors,
+    three = if (use_body) identity else bs3_base_colors
+  )
+}
+
+switch_add_variables <- function(theme, args, ...) {
+  func <- switch_version(theme, ...)
+  vars <- do.call(func, list(args))
+  bs_add_variables(theme, !!!vars)
 }
 
 # Obtain a mapping from (to) fg/bg to (from) relevant Sass vars
 get_base_color_map <- function(theme, decode = TRUE) {
-  bs3 <- "3" %in% theme_version(theme)
-  vars <- if (has_body_base_colors(theme)) {
-    if (bs3) list("body-bg", "text-color") else list("body-bg", "body-color")
-  } else {
-    if (bs3) list("body-bg", "gray-base") else list("white", "black")
-  }
+  use_body <- has_body_base_colors(theme)
+  vars <- switch_version(
+    theme,
+    three = list("body-bg", if (use_body) "text-color" else "gray-base"),
+    default = if (use_body) list("body-bg", "body-color") else list("white", "black")
+  )
   if (decode) {
     setNames(vars, c("bg", "fg"))
   } else {
@@ -183,22 +186,11 @@ bs_accent_colors <- function(theme, primary = NULL, secondary = NULL,
     )
   )
 
-  funcs <- list(
-    "4+3" = bs43_accent_colors,
-    "4" = identity,
-    "3" = bs3_accent_colors
+  switch_add_variables(
+    theme, args, three = bs3_accent_colors, default = identity
   )
-
-  dispatch_theme_modifier(theme, funcs, args, "bs_accent_colors")
 }
 
-
-bs43_accent_colors <- function(args) {
-  if (!is.null(args$secondary)) {
-    args$default <- args$secondary
-  }
-  args
-}
 
 bs3_accent_colors <- function(args) {
   # Warns and filters out unsupported arguments
@@ -226,17 +218,10 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
     code = unlist(find_characters(code)),
     heading = unlist(find_characters(heading))
   )
-
   args <- lapply(args, quote_css_font_families)
-
-  funcs <- list(
-    "4+3" = bs4_fonts,
-    "4" = bs4_fonts,
-    "3" = bs3_fonts
-  )
-
-  dispatch_theme_modifier(theme, funcs, args, "bs_fonts")
+  switch_add_variables(theme, args, three = bs3_fonts, default = bs4_fonts)
 }
+
 
 find_characters <- function(x) {
   if (is.null(x)) return(NULL)
@@ -255,6 +240,7 @@ bs4_fonts <- function(args) {
     base = "font-family-base",
     code = "font-family-monospace",
     heading = "headings-font-family",
+    # TODO: we don't have a input_font...should we?
     input = "input-btn-font-family"
   )
 
@@ -273,38 +259,6 @@ bs3_fonts <- function(args) {
 
   names(args) <- name_map[names(args)]
   args
-}
-
-#' @param caller_name String naming the calling function; used for error
-#'   messages
-#' @param funcs_by_version List of functions, where the names are Bootstrap
-#'   version strings (see theme_version()), and values are functions. These
-#'   functions must take a single argument: a named list, which represents the
-#'   arguments passed by the user; and return a list of variables to set as
-#'   defaults.
-#' @noRd
-dispatch_theme_modifier <- function(theme, funcs_by_version, args, caller_name) {
-  assert_bs_theme(theme)
-
-  results <- NULL
-  for (version in names(funcs_by_version)) {
-    if (version %in% theme_version(theme)) {
-      results <- do.call(funcs_by_version[[version]], list(args))
-      break
-    }
-  }
-
-  if (is.null(results)) {
-    stop(call. = FALSE,
-      caller_name, " doesn't recognize the active version of Bootstrap (",
-      paste(collapse = "/", theme_version(theme)), ")")
-  }
-
-  results <- sass::sass_layer(
-    lapply(dropNulls(results), paste, "!default")
-  )
-
-  bs_bundle(theme, results)
 }
 
 #' Ensures all arguments are either NULL, or length 1 character vectors with

@@ -1,14 +1,14 @@
 test_that("global theme api works", {
-  bs_global_theme(version = "4+3", bootswatch = "sketchy")
+  bs_global_theme(version = 4, bootswatch = "sketchy")
   on.exit(bs_global_clear(), add = TRUE)
 
   # Can retrieve theme version/bootswatch
   sketchy_theme <- bs_global_get()
-  expect_equal(theme_version(sketchy_theme), "4+3")
+  expect_equal(theme_version(sketchy_theme), "4")
   expect_equal(theme_bootswatch(sketchy_theme), "sketchy")
 
   # Setting a new theme overrides the old one
-  bs_global_theme(version = "4", bootswatch = "cosmo")
+  bs_global_theme(version = 4, bootswatch = "cosmo")
   cosmo_theme <- bs_global_get()
   expect_equal(theme_version(cosmo_theme), "4")
   expect_equal(theme_bootswatch(cosmo_theme), "cosmo")

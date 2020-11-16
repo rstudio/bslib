@@ -35,7 +35,8 @@ bs_bundle(theme, ...)
 \item{.default_flag}{Whether or not to add a \code{!default} flag (if missing) to
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 
-\item{rules}{Sass rules.}
+\item{rules}{Sass rules. Anything understood by \code{\link[sass:as_sass]{sass::as_sass()}} may be
+provided (e.g., a list, character vector, \code{\link[sass:sass_import]{sass::sass_file()}}, etc)}
 
 \item{declarations}{Sass functions and mixins.}
 }

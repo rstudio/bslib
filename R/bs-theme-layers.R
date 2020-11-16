@@ -90,7 +90,7 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
 # and if missing, adds it.
 ensure_default_flag <- function(x) {
   lapply(x, function(val) {
-    val <- paste(sass::as_sass(val), collapse = "\n")
+    val <- paste(as_sass(val), collapse = "\n")
     if (grepl("!default\\s*;*\\s*$", val)) {
       val
     } else {
@@ -100,7 +100,8 @@ ensure_default_flag <- function(x) {
 }
 
 #' @describeIn bs_bundle Add additional [Sass rules](https://sass-lang.com/documentation/style-rules)
-#' @param rules Sass rules.
+#' @param rules Sass rules. Anything understood by [sass::as_sass()] may be
+#'   provided (e.g., a list, character vector, [sass::sass_file()], etc)
 #' @export
 bs_add_rules <- function(theme, rules) {
   bs_bundle(theme, sass_layer(rules = rules))
@@ -117,6 +118,8 @@ bs_add_declarations <- function(theme, declarations) {
 #' @export
 bs_bundle <- function(theme, ...) {
   assert_bs_theme(theme)
-
-  as_bs_theme(sass_bundle(theme, ...))
+  structure(
+    sass_bundle(theme, ...),
+    class = class(theme)
+  )
 }
