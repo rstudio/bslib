@@ -13,10 +13,6 @@
 #' bs_theme(version = 4) %>%
 #'   bs_remove("bs3compat")
 #'
-#' bs_theme(version = 4) %>%
-#'   bs_retrieve("_print") %>%
-#'   file.edit()
-#'
 bs_remove <- function(theme, ids = character(0)) {
   ids <- retain_valid_ids(theme, ids)
   sass_bundle_remove(theme, ids)

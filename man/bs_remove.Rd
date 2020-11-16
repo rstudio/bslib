@@ -30,8 +30,4 @@ bs_theme(version = 4) \%>\%
 bs_theme(version = 4) \%>\%
   bs_remove("bs3compat")
 
-bs_theme(version = 4) \%>\%
-  bs_retrieve("_print") \%>\%
-  file.edit()
-
 }
