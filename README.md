@@ -198,17 +198,6 @@ my_theme %>%
 To learn more, see the [theming
 article](https://rstudio.github.io/bslib/articles/theming.html).
 
-### Reducing theme size
-
-By default, `bs_theme()` includes many CSS rules, including styles for
-every Bootstrap Component, many of which aren’t need for most projects.
-Simply apply `bs_remove_rules()` `my_theme` to
-
-To get a “recommended” set of rules for “core” Shiny & R Markdown UI
-just do `bs_remove_rules(my_theme)`, but you can also target specific
-rules that you want (e.g., `bs_remove_rules(my_theme, c("carousel",
-"pagination"))`).
-
 ## Learn more
 
 See the articles on [theming
