@@ -35,28 +35,28 @@ Use `bs_theme()` to create a `{bslib}` theme, where you can:
 
   - Choose a (major) Bootstrap version (e.g., `version = 4` or `version
     = 3`).
-
-  - If `version` isn’t specified (as in the example below), then
-    `version` defaults to `version_default()`, which may change to
-    Bootstrap 5 in a future version of `{bslib}`.
+    
+      - If `version` isn’t specified (as in the example below), then
+        `version` defaults to `version_default()`, which may change to
+        Bootstrap 5 in a future version of `{bslib}`.
 
   - Choose a [Bootswatch](https://bootswatch.com/) theme (e.g.,
     `bootswatch = 'darkly'`).
 
   - Customize the main colors and fonts (e.g., `bg`, `fg`, `primary`,
     `base_font`, etc)
-
-  - These main controls are available via named arguments to
-    `bs_theme()` (and `bs_theme_update()`) and are guaranteed to work
-    across Bootstrap versions.
+    
+      - These main controls are available via named arguments to
+        `bs_theme()` (and `bs_theme_update()`) and are guaranteed to
+        work across Bootstrap versions.
 
   - More generally, customize most of Bootstrap’s styling via Sass
     variables (e.g.,
     [`font-size-base`](https://github.com/rstudio/bslib/blob/c353705/inst/lib/bootstrap/scss/_variables.scss#L282)).
-
-  - These more specific controls pass through the `...` of `bs_theme()`.
-
-  - These options likely depend on the Bootstrap version being used
+    
+      - These more specific controls pass through the `...` of
+        `bs_theme()`.
+      - These options likely depend on the Bootstrap version being used
 
 For example, to implement a [material design inspired dark
 mode](https://material.io/design/color/dark-theme.html):
