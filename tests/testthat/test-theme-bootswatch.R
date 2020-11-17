@@ -10,4 +10,9 @@ test_that("Can retrieve version from theme object", {
   expect_identical(
     theme_bootswatch(theme), "materia"
   )
+
+  theme <- bs_theme_update(theme, bootswatch = "darkly")
+  expect_identical(
+    theme_bootswatch(theme), "darkly"
+  )
 })
