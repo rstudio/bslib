@@ -388,7 +388,7 @@ bootswatch_bundle <- function(bootswatch, version) {
   }
 
   sass_bundle(
-    bootswatch := sass_layer(
+    bootswatch = sass_layer(
       file_attachments = attachments,
       defaults = list(
         # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
