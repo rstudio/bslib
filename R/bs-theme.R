@@ -158,12 +158,18 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
                             base_font = NULL, code_font = NULL, heading_font = NULL) {
   assert_bs_theme(theme)
 
-  # You're only allowed one Bootswatch theme!
   if (!is.null(bootswatch)) {
     old_swatch <- theme_bootswatch(theme)
+    # You're only allowed one Bootswatch theme!
     if (length(old_swatch)) {
       theme <- bs_remove(theme, "bootswatch")
-      # TODO: also update the theme class and write a test!
+      class(theme) <- sub(
+        bootswatch_class(old_swatch),
+        bootswatch_class(bootswatch),
+        class(theme), fixed = TRUE
+      )
+    } else {
+      theme <- add_class(theme, bootswatch_class(bootswatch))
     }
     theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
   }
@@ -213,11 +219,15 @@ bs_theme_init <- function(version, bootswatch = NULL) {
   add_class(
     sass_bundle(),
     c(
-      if (!is.null(bootswatch)) paste0("bs_bootswatch_", bootswatch),
+      bootswatch_class(bootswatch),
       paste0("bs_version_", version),
       "bs_theme"
     )
   )
+}
+
+bootswatch_class <- function(bootswatch = NULL) {
+  if (is.null(bootswatch)) NULL else paste0("bs_bootswatch_", bootswatch)
 }
 
 assert_bs_theme <- function(theme) {
