@@ -278,7 +278,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   }
   bootswatch <- theme_bootswatch(theme)
   switch_version(
-    version, three = stop("Interactive theming for Bootstrap 3 isn't supported")
+    theme, three = stop("Interactive theming for Bootstrap 3 isn't supported")
   )
   if (isTRUE(session$userData[["bs_themer_init"]])) {
     # bs_themer() was called multiple times for the same session
