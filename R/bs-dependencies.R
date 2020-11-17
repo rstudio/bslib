@@ -58,7 +58,7 @@ bs_theme_dependencies <- function(
   theme_layer <- as_sass_layer(theme)
 
   if (is.character(cache)) {
-    cache <- sass_cache_get(cache)
+    cache <- sass_cache_get_dir(cache)
   }
 
   out_file <- NULL
