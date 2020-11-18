@@ -10,8 +10,8 @@
 // a lighter grey for default; but if a custom secondary is in use, then use
 // that for default. (Another option would be to simply change the secondary
 // color.)
-@if $secondary == $gray-600 {
-  $theme-colors: map-merge(("default": $gray-300), $theme-colors) !global;
+@if $secondary == #6c757d {
+  $theme-colors: map-merge(("default": #dee2e6), $theme-colors) !global;
 } @else {
   $theme-colors: map-merge(("default": $secondary), $theme-colors) !global;
 }

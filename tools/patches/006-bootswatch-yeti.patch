@@ -1,0 +1,15 @@
+diff --git a/inst/lib/bootswatch/dist/yeti/_bootswatch.scss b/inst/lib/bootswatch/dist/yeti/_bootswatch.scss
+index 65f09bd..4e746f6 100644
+--- a/inst/lib/bootswatch/dist/yeti/_bootswatch.scss
++++ b/inst/lib/bootswatch/dist/yeti/_bootswatch.scss
+@@ -81,6 +81,10 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
+     border-color: darken($secondary, 5%);
+   }
+ 
++  &-default {
++    border-color: darken($secondary, 5%);
++  }
++
+   &-success {
+     border-color: darken($success, 5%);
+   }

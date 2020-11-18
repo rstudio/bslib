@@ -487,8 +487,8 @@ bs3compat_navbar_defaults <- function(bootswatch) {
       inverse = c("dark", "primary")
     ),
     slate = list(
-      default = c("dark", "dark"),
-      inverse = c("dark", "primary")
+      default = c("dark", "primary"),
+      inverse = c("dark", "light")
     ),
     spacelab = list(
       default = c("light", "light"),

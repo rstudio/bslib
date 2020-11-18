@@ -31,12 +31,3 @@
   text-shadow: inherit;
   border-width: 0;
 }
-
-.selectize-input.focus {
-  @extend .form-control, :focus;
-}
-
-.selectize-control.multi .selectize-input > div.active {
-  background: $component-active-bg;
-  color: $component-active-color;
-}

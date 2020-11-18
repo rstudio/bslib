@@ -37,6 +37,14 @@ $text-shadow: 0 1px 0 rgba(0, 0, 0, .05) !default;
   text-shadow: $text-shadow;
 }
 
+// See inst/bs3compat/_declarations.scss
+// It's very important that this come before other btn-* rules
+@if variable-exists("default") {
+  .btn-default {
+    @include btn-shadow($default);
+  }
+}
+
 .btn-primary {
   @include btn-shadow($primary);
 }
