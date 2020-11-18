@@ -2,16 +2,39 @@
 % Please edit documentation in R/bs-current-theme.R
 \name{bs_current_theme}
 \alias{bs_current_theme}
-\title{Obtain the currently active theme}
+\title{Obtain the currently active theme at render time}
 \usage{
 bs_current_theme(session = shiny::getDefaultReactiveDomain())
 }
 \arguments{
-\item{session}{}
+\item{session}{The current Shiny session (if any).}
 }
 \value{
 a \code{\link[=bs_theme]{bs_theme()}} object.
 }
 \description{
-Obtain the currently active theme
+Intended for advanced use by developers to obtain the currently active theme
+\emph{at render time} and primarily for implementing themable widgets that can't
+otherwise be themed via \code{\link[=bs_dependency_defer]{bs_dependency_defer()}} .
+}
+\details{
+This function should generally only be called at print/render time. For
+example:
+\itemize{
+\item Inside the \code{preRenderHook} of \code{\link[htmlwidgets:createWidget]{htmlwidgets::createWidget()}}.
+\item Inside of a custom \link{print} method that generates \link[htmltools:builder]{htmltools::tags}.
+\item Inside of a \code{\link[htmltools:tagFunction]{htmltools::tagFunction()}}
+}
+
+Calling this function at print/render time is important because it does
+different things based on the context in which it's called:
+\itemize{
+\item If a reactive context is active, \code{session$getCurrentTheme()} is called
+(which is a reactive read).
+\item If no reactive context is active, \code{shiny::getCurrentTheme()} is called
+(which returns the current app's \code{theme}, if relevant).
+\item If \code{shiny::getCurrentTheme()} comes up empty, then \code{bs_global_get()}
+is called, which is relevant for \code{\link[rmarkdown:html_document]{rmarkdown::html_document()}}, and
+possibly other static rendering contexts.
+}
 }
