@@ -1,0 +1,26 @@
+diff --git a/inst/lib/bootswatch/dist/simplex/_variables.scss b/inst/lib/bootswatch/dist/simplex/_variables.scss
+index 9410754..7ad8101 100755
+--- a/inst/lib/bootswatch/dist/simplex/_variables.scss
++++ b/inst/lib/bootswatch/dist/simplex/_variables.scss
+@@ -37,9 +37,11 @@ $danger:        $purple !default;
+ $light:         $white !default;
+ $dark:          $gray-800 !default;
+ 
++$enable-shadows: true !default;
++
+ // Body
+ 
+-$body-bg:                   #fcfcfc !default;
++$body-bg:                   mix($white, $black, 99%) !default;
+ 
+ // Fonts
+ 
+@@ -56,7 +58,7 @@ $dropdown-link-hover-bg:            $primary !default;
+ 
+ $nav-link-padding-y:                .9rem !default;
+ $nav-link-disabled-color:           $gray-400 !default;
+-$nav-tabs-border-color:             darken(#fff, 6.5%) !default;
++$nav-tabs-border-color:             mix($white, $black, 93.5%) !default;
+ 
+ // Navbar
+ 

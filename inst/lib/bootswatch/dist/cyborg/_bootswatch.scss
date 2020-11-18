@@ -7,20 +7,29 @@
 $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" !default;
 @import url($web-font-path);
 
+// Functions ===================================================================
+
+@function darken($color, $percent) {
+  @return mix($body-bg, $color, $percent);
+}
+@function lighten($color, $percent) {
+  @return mix($body-color, $color, $percent);
+}
+
 // Navbar ======================================================================
 
 .navbar {
   &.bg-primary {
-    border: 1px solid $gray-700;
+    border: 1px solid body-mix(50%);
   }
 
   &.bg-dark {
     background-color: $body-bg !important;
-    border: 1px solid $gray-700;
+    border: 1px solid body-mix(50%);
   }
 
   &.bg-light {
-    background-color: $gray-500 !important;
+    background-color: body-mix(16%) !important;
   }
 
   &.fixed-top {
@@ -38,7 +47,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+        background: $value linear-gradient(180deg, mix($contrast-bg, $value, 15%), $value) repeat-x;
       } @else {
         background-color: $value;
       }
@@ -49,7 +58,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
 // Tables ======================================================================
 
 table {
-  color: $white;
+  color: $contrast-bg;
 }
 
 .table {
@@ -204,7 +213,7 @@ table {
 // Forms =======================================================================
 
 legend {
-  color: $white;
+  color: $contrast-bg;
 }
 
 .form-control {
@@ -221,10 +230,10 @@ legend {
 .nav-tabs,
 .nav-pills {
   .nav-link {
-    color: $white;
+    color: $contrast-bg;
 
     &:hover {
-      background-color: $gray-700;
+      background-color: body-mix(50%);
     }
 
     &.disabled,
@@ -241,7 +250,7 @@ legend {
 
 .breadcrumb {
   a {
-    color: $white;
+    color: $contrast-bg;
   }
 }
 
@@ -255,18 +264,18 @@ legend {
 
 .alert {
   border: none;
-  color: $white;
+  color: $contrast-bg;
 
   a,
   .alert-link {
-    color: $white;
+    color: $contrast-bg;
     text-decoration: underline;
   }
 
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+        background: $value linear-gradient(180deg, mix($contrast-bg, $value, 15%), $value) repeat-x;
       } @else {
         background-color: $value;
       }
@@ -276,7 +285,7 @@ legend {
 
 .badge {
   &-warning {
-    color: $white;
+    color: $contrast-bg;
   }
 }
 
@@ -292,20 +301,20 @@ legend {
 
 .list-group-item {
   &:hover {
-    background-color: $gray-700;
-    color: $white;
+    background-color: body-mix(50%);
+    color: $contrast-bg;
   }
 
   &-action {
-    color: $gray-500;
+    color: body-mix(16%);
 
     .list-group-item-heading {
-      color: $gray-500;
+      color: body-mix(16%);
     }
   }
 
   &:hover .list-group-item-heading {
-    color: $white;
+    color: $contrast-bg;
   }
 }
 

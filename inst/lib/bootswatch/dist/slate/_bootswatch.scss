@@ -5,7 +5,7 @@
 // Mixins ======================================================================
 
 @mixin btn-shadow($color){
-  @include gradient-y-three-colors(lighten($color, 6%), $color, 60%, darken($color, 4%));
+  @include gradient-y-three-colors(lighten($color, 16%), $color, 60%, darken($color, 14%));
   filter: none;
 }
 
@@ -17,15 +17,15 @@
 // Navbar ======================================================================
 
 .navbar {
-  border: 1px solid rgba(0, 0, 0, .6);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+  border: 1px solid rgba($contrast-fg, .6);
+  text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
 
   .container {
     padding: 0;
   }
 
   .navbar-toggler {
-    border-color: rgba(0, 0, 0, .6);
+    border-color: rgba($contrast-fg, .6);
   }
 
   &-fixed-top {
@@ -38,25 +38,25 @@
 
   .nav-link {
     padding: 1rem;
-    border-left: 1px solid rgba(255, 255, 255, .1);
-    border-right: 1px solid rgba(0, 0, 0, .2);
+    border-left: 1px solid rgba($contrast-bg, .1);
+    border-right: 1px solid rgba($contrast-fg, .2);
 
     &:hover,
     &:focus {
-      @include btn-shadow-inverse($gray-800);
-      border-left: 1px solid rgba(0, 0, 0, .2);
+      @include btn-shadow-inverse(body-mix(100%));
+      border-left: 1px solid rgba($contrast-fg, .2);
     }
   }
 
   &-brand {
     padding: .75rem 1rem subtract(24px, .75rem);
     margin-right: 0;
-    border-right: 1px solid rgba(0, 0, 0, .2);
+    border-right: 1px solid rgba($contrast-fg, .2);
   }
 
   .nav-item.active .nav-link {
-    background-color: rgba(0, 0, 0, .3);
-    border-left: 1px solid rgba(0, 0, 0, .2);
+    background-color: rgba($contrast-fg, .3);
+    border-left: 1px solid rgba($contrast-fg, .2);
   }
 
   &-nav .nav-item + .nav-item {
@@ -64,13 +64,13 @@
   }
 
   &.bg-light {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+    text-shadow: 1px 1px 1px rgba($contrast-fg, .1);
 
     .nav-link {
       &:hover,
       &:focus {
-        @include btn-shadow-inverse($gray-600);
-        border-left: 1px solid rgba(0, 0, 0, .2);
+        @include btn-shadow-inverse($body-color);
+        border-left: 1px solid rgba($contrast-fg, .2);
       }
     }
   }
@@ -106,12 +106,12 @@
 // Buttons =====================================================================
 
 .btn {
-  border-color: rgba(0, 0, 0, .6);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+  border-color: rgba($contrast-fg, .6);
+  text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
 
   &:not([disabled]):not(.disabled).active,
   &.disabled {
-    border-color: rgba(0, 0, 0, .6);
+    border-color: rgba($contrast-fg, .6);
     box-shadow: none;
   }
 
@@ -120,8 +120,22 @@
   &:not([disabled]):not(.disabled):active,
   &:not([disabled]):not(.disabled):active:hover,
   &:not([disabled]):not(.disabled).active:hover {
-    border-color: rgba(0, 0, 0, .6);
+    border-color: rgba($contrast-fg, .6);
   }
+}
+
+@if variable-exists("default") {
+  .btn-default {
+    @include btn-shadow($default);
+    color: $contrast-bg;
+
+    &:not([disabled]):not(.disabled):hover,
+    &:not([disabled]):not(.disabled):focus,
+    &:not([disabled]):not(.disabled):active,
+    &:not([disabled]):not(.disabled).active {
+      @include btn-shadow-inverse($default);
+    }
+ }
 }
 
 .btn-primary {
@@ -148,7 +162,7 @@
 
 .btn-success {
   @include btn-shadow($success);
-  color: $white;
+  color: $contrast-bg;
 
   &:not([disabled]):not(.disabled):hover,
   &:not([disabled]):not(.disabled):focus,
@@ -160,7 +174,7 @@
 
 .btn-info {
   @include btn-shadow($info);
-  color: $white;
+  color: $contrast-bg;
 
   &:not([disabled]):not(.disabled):hover,
   &:not([disabled]):not(.disabled):focus,
@@ -172,7 +186,7 @@
 
 .btn-warning {
   @include btn-shadow($warning);
-  color: $white;
+  color: $contrast-bg;
 
   &:not([disabled]):not(.disabled):hover,
   &:not([disabled]):not(.disabled):focus,
@@ -195,7 +209,7 @@
 
 .btn-outline {
   &-primary {
-    color: $white;
+    color: $contrast-bg;
   }
 }
 
@@ -207,7 +221,7 @@
 .btn-group,
 .btn-group-vertical {
   .btn.active {
-    border-color: rgba(0, 0, 0, .6);
+    border-color: rgba($contrast-fg, .6);
   }
 }
 
@@ -219,7 +233,7 @@ h3,
 h4,
 h5,
 h6 {
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, .3);
+  text-shadow: -1px -1px 0 rgba($contrast-fg, .3);
 }
 
 // Tables ======================================================================
@@ -231,7 +245,7 @@ h6 {
   &-info,
   &-warning,
   &-danger {
-    color: $white;
+    color: $contrast-bg;
   }
 
   &-primary {
@@ -385,96 +399,107 @@ h6 {
 // Forms =======================================================================
 
 legend {
-  color: $white;
+  color: $contrast-bg;
 }
 
 .input-group-addon {
   @include btn-shadow($secondary);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
-  color: $white;
+  text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
+  color: $contrast-bg;
 }
 
 // Navs ========================================================================
 
 .nav-tabs {
-  .nav-link {
-    @include btn-shadow-inverse($gray-800);
-    border: 1px solid rgba(0, 0, 0, .6);
+  .nav-link, li>a {
+    @include btn-shadow-inverse(body-mix(100%));
+    border: 1px solid rgba($contrast-fg, .6);
 
     &:not([disabled]):not(.disabled):hover,
     &:not([disabled]):not(.disabled):focus,
     &:not([disabled]):not(.disabled):active,
     &:not([disabled]):not(.disabled).active {
-      @include btn-shadow($gray-800);
+      @include btn-shadow(body-mix(100%));
     }
 
     &.disabled {
-      border: 1px solid rgba(0, 0, 0, .6);
-    }
-  }
-
-  .nav-link,
-  .nav-link:hover {
-    color: $white;
-  }
-}
-
-.nav-pills {
-  .nav-link {
-    @include btn-shadow($gray-800);
-    border: 1px solid rgba(0, 0, 0, .6);
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
-    color: $white;
-
-    &:hover {
-      @include btn-shadow-inverse($gray-800);
-      border: 1px solid rgba(0, 0, 0, .6);
+      border: 1px solid rgba($contrast-fg, .6);
     }
   }
 
   .nav-link.active,
-  .nav-link:hover {
+  .nav-link:hover,
+  li.active>a,
+  li:hover>a {
     background-color: transparent;
-    @include btn-shadow-inverse($gray-800);
-    border: 1px solid rgba(0, 0, 0, .6);
+    @include btn-shadow(body-mix(100%));
+    border: 1px solid rgba($contrast-fg, .6);
+  }
+
+  .nav-link,
+  .nav-link:hover, li>a {
+    color: $contrast-bg;
+  }
+}
+
+.nav-pills {
+  .nav-link, li>a {
+    @include btn-shadow-inverse(body-mix(100%));
+    border: 1px solid rgba($contrast-fg, .6);
+    text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
+    color: $contrast-bg;
+
+    &:hover {
+      @include btn-shadow(body-mix(100%));
+      border: 1px solid rgba($contrast-fg, .6);
+    }
+  }
+
+  .nav-link.active,
+  .nav-link:hover,
+  li.active>a,
+  li:hover>a {
+    background-color: transparent;
+    @include btn-shadow(body-mix(100%));
+    border: 1px solid rgba($contrast-fg, .6);
   }
 
   .nav-link.disabled,
   .nav-link.disabled:hover {
-    @include btn-shadow($gray-800);
+    @include btn-shadow(body-mix(100%));
     color: $nav-link-disabled-color;
   }
 }
 
 .pagination {
   .page-link {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
-    @include btn-shadow($gray-800);
+    text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
+    @include btn-shadow(body-mix(100%));
 
     &:hover {
-      @include btn-shadow-inverse($gray-800);
+      @include btn-shadow-inverse(body-mix(100%));
       text-decoration: none;
     }
   }
 
   .page-item.active .page-link {
-    @include btn-shadow-inverse($gray-800);
+    @include btn-shadow-inverse(body-mix(100%));
   }
 
   .page-item.disabled .page-link {
-    @include btn-shadow($gray-800);
+    @include btn-shadow(body-mix(100%));
   }
 }
 
 .breadcrumb {
-  border: 1px solid rgba(0, 0, 0, .6);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+  border: 1px solid rgba($contrast-fg, .6);
+  text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
   background-color: transparent;
-  @include btn-shadow($gray-800);
+  @include btn-shadow(body-mix(100%));
 
   a,
   a:hover {
-    color: $white;
+    color: $contrast-bg;
   }
 }
 
@@ -482,11 +507,11 @@ legend {
 
 .alert {
   border: none;
-  color: $white;
+  color: $contrast-bg;
 
   a,
   .alert-link {
-    color: $white;
+    color: $contrast-bg;
     text-decoration: underline;
   }
 
@@ -514,18 +539,18 @@ legend {
   &-success,
   &-warning,
   &-info {
-    color: $white;
+    color: $contrast-bg;
   }
 }
 
 // Containers ==================================================================
 
 .jumbotron {
-  border: 1px solid rgba(0, 0, 0, .6);
+  border: 1px solid rgba($contrast-fg, .6);
 }
 
 .list-group {
   &-item:hover {
-    background-color: darken($gray-900, 5%);
+    background-color: mix($contrast-fg, $body-bg, 5%);
   }
 }
