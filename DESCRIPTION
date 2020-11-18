@@ -66,6 +66,6 @@ Remotes:
     rstudio/jquerylib,
     rstudio/sass,
     rstudio/htmltools,
-    rstudio/shiny
+    rstudio/shiny#3116
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
