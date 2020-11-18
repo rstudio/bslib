@@ -44,7 +44,6 @@ Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Collate:
     'bootswatch.R'
-    'bs-current-theme.R'
     'bs-dependencies.R'
     'bs-global.R'
     'bs-remove.R'
