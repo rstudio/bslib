@@ -28,12 +28,26 @@
 #'
 #' @return a [bs_theme()] object.
 #' @export
-bs_current_theme <- function(session = shiny::getDefaultReactiveDomain()) {
+bs_current_theme <- function(session = get_reactive_domain()) {
   # If we're able to make a reactive read of the theme, then do it
-  hasReactiveContext <- getFromNamespace("hasCurrentContext", "shiny") %||% function() FALSE
-  if (!is.null(session) && "getCurrentTheme" %in% names(session) && hasReactiveContext()) {
+  if (has_valid_reactive_context(session)) {
     return(session$getCurrentTheme())
   }
   # Otherwise, this'll be a non-reactive read of session/app/global state
-  shiny::getCurrentTheme() %||% bs_global_get()
+  get_current_theme() %||% bs_global_get()
+}
+
+get_reactive_domain <- function() {
+  if ("shiny" %in% loadedNamespaces()) shiny::getDefaultReactiveDomain() else NULL
+}
+
+has_valid_reactive_context <- function(session) {
+  if (is.null(session)) return(FALSE)
+  if (!"getCurrentTheme" %in% names(session)) return(FALSE)
+  hasReactiveContext <- getFromNamespace("hasCurrentContext", "shiny") %||% function() FALSE
+  hasReactiveContext()
+}
+
+get_current_theme <- function() {
+  if ("shiny" %in% loadedNamespaces()) shiny::getCurrentTheme() else NULL
 }
