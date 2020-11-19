@@ -78,7 +78,7 @@
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
-#'   `bootswatch = ""` effectively remove any Bootswatch theme).
+#'   `bootswatch = "default"` to effectively remove the Bootswatch theme).
 #' @param ... arguments passed along to [bs_add_variables()].
 #' @param bg A color string for the background.
 #' @param fg A color string for the foreground.
@@ -168,10 +168,11 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
         bootswatch_class(bootswatch),
         class(theme), fixed = TRUE
       )
-    } else {
-      theme <- add_class(theme, bootswatch_class(bootswatch))
     }
-    theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
+    if (!identical(bootswatch, "default")) {
+      theme <- add_class(theme, bootswatch_class(bootswatch))
+      theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
+    }
   }
   # See R/bs-theme-update.R for the implementation of these
   theme <- bs_base_colors(theme, bg = bg, fg = fg)
