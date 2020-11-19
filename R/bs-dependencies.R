@@ -149,7 +149,8 @@ bs_theme_dependencies <- function(
 #' @param cache_key_extra Extra information to add to the sass cache key. It is
 #'   useful to add the version of your package.
 #' @param .dep_args A list of additional arguments to pass to
-#'   [htmltools::htmlDependency()].
+#'   [htmltools::htmlDependency()]. Note that `package` has no effect and
+#'   `script` must be absolute path(s).
 #' @param .sass_args A list of additional arguments to pass to
 #'   [sass::sass_partial()].
 #' @inheritParams htmltools::htmlDependency
@@ -174,16 +175,42 @@ bs_dependency <- function(input = list(), theme, name, version,
   )
   outfile <- do.call(sass_partial, sass_args)
 
-  dep_args <- c(
-    list(
-      name = name,
-      version = version,
-      src = dirname(outfile),
-      stylesheet = basename(outfile)
-    ),
-    .dep_args
+  dep_args <- list(
+    name = name,
+    version = version,
+    src = dirname(outfile),
+    stylesheet = basename(outfile)
   )
-  do.call(htmlDependency, dep_args)
+
+  bad_args <- intersect(names(.dep_args), names(dep_args))
+  if (length(bad_args)) {
+    stop(
+      "The following `.dep_args` must be provided as top-level args to `bs_dependency()`: ",
+      paste(bad_args, collapse = ", ")
+    )
+  }
+
+  if ("package" %in% names(.dep_args)) {
+    warning("`package` won't have any effect since `src` must be an absolute path")
+  }
+
+  script <- .dep_args[["script"]]
+  if (length(script)) {
+    if (basename(outfile) %in% basename(script)) {
+      stop("`script` file basename(s) must all be something other than ", basename(outfile))
+    }
+    success <- file.copy(script, dirname(outfile))
+    if (!all(success)) {
+      stop(
+        "Failed to copy the following script(s): ",
+        paste(script[!success], collapse = ", "), ".\n\n",
+        "Make sure script are absolute path(s)."
+      )
+    }
+    .dep_args[["script"]] <- basename(script)
+  }
+
+  do.call(htmlDependency, c(dep_args, .dep_args))
 }
 
 #' @param func a _non-anonymous_ function, with a _single_ argument. This function
