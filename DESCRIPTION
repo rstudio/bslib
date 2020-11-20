@@ -1,6 +1,6 @@
 Package: bslib
 Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass
-Version: 0.2.2.9000
+Version: 0.2.2.9001
 Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
