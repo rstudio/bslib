@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Preview the currently set theme — bs_theme_preview • bslib</title>
+<title>Obtain the currently active theme at render time — bs_current_theme • bslib</title>
 
 
 <!-- jquery -->
@@ -45,11 +45,10 @@
 
 
 
-<meta property="og:title" content="Preview the currently set theme — bs_theme_preview" />
-<meta property="og:description" content="Launches an example shiny app via run_with_themer() and
-bs_theme_dependencies(). Useful for getting a quick preview of the current
-theme setting as well as an interactive GUI for tweaking some of the main
-theme settings." />
+<meta property="og:title" content="Obtain the currently active theme at render time — bs_current_theme" />
+<meta property="og:description" content="Intended for advanced use by developers to obtain the currently active theme
+at render time and primarily for implementing themable widgets that can't
+otherwise be themed via bs_dependency_defer() ." />
 
 
 <meta name="robots" content="noindex">
@@ -120,49 +119,52 @@ theme settings." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Preview the currently set theme</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/bs-theme-preview.R'><code>R/bs-theme-preview.R</code></a></small>
-    <div class="hidden name"><code>bs_theme_preview.Rd</code></div>
+    <h1>Obtain the currently active theme at render time</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/bs-current-theme.R'><code>R/bs-current-theme.R</code></a></small>
+    <div class="hidden name"><code>bs_current_theme.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Launches an example shiny app via <code><a href='run_with_themer.html'>run_with_themer()</a></code> and
-<code><a href='bs_theme_dependencies.html'>bs_theme_dependencies()</a></code>. Useful for getting a quick preview of the current
-theme setting as well as an interactive GUI for tweaking some of the main
-theme settings.</p>
+    <p>Intended for advanced use by developers to obtain the currently active theme
+<em>at render time</em> and primarily for implementing themable widgets that can't
+otherwise be themed via <code><a href='bs_dependency.html'>bs_dependency_defer()</a></code> .</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_theme_preview</span>(<span class='kw'>theme</span>, <span class='kw'>...</span>, with_themer = <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>bs_current_theme</span>(session = <span class='kw'>shiny</span>::<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/domains.html'>getDefaultReactiveDomain</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>theme</th>
-      <td><p>a <code><a href='bs_theme.html'>bs_theme()</a></code> object.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>passed along to <code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>shiny::runApp()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>with_themer</th>
-      <td><p>whether or not to run the app with <code><a href='run_with_themer.html'>run_with_themer()</a></code>.</p></td>
+      <th>session</th>
+      <td><p>The current Shiny session (if any).</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a <code><a href='bs_theme.html'>bs_theme()</a></code> object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The app that this launches is subject to change.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>This function should generally only be called at print/render time. For
+example:</p><ul>
+<li><p>Inside the <code>preRenderHook</code> of <code>htmlwidgets::createWidget()</code>.</p></li>
+<li><p>Inside of a custom <a href='https://rdrr.io/r/base/print.html'>print</a> method that generates <a href='https://rdrr.io/pkg/htmltools/man/builder.html'>htmltools::tags</a>.</p></li>
+<li><p>Inside of a <code><a href='https://rdrr.io/pkg/htmltools/man/tagFunction.html'>htmltools::tagFunction()</a></code></p></li>
+</ul>
 
-    <div class='dont-index'><p><code><a href='run_with_themer.html'>run_with_themer()</a></code></p></div>
+<p>Calling this function at print/render time is important because it does
+different things based on the context in which it's called:</p><ul>
+<li><p>If a reactive context is active, <code>session$getCurrentTheme()</code> is called
+(which is a reactive read).</p></li>
+<li><p>If no reactive context is active, <code><a href='https://shiny.rstudio.com/reference/shiny/latest/getCurrentTheme.html'>shiny::getCurrentTheme()</a></code> is called
+(which returns the current app's <code>theme</code>, if relevant).</p></li>
+<li><p>If <code><a href='https://shiny.rstudio.com/reference/shiny/latest/getCurrentTheme.html'>shiny::getCurrentTheme()</a></code> comes up empty, then <code><a href='bs_global_theme.html'>bs_global_get()</a></code>
+is called, which is relevant for <code><a href='https://rdrr.io/pkg/rmarkdown/man/html_document.html'>rmarkdown::html_document()</a></code>, and
+possibly other static rendering contexts.</p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bg = <span class='st'>"#6c757d"</span>, fg = <span class='st'>"white"</span>, primary = <span class='st'>"orange"</span>)
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='fu'>bs_theme_preview</span>(<span class='kw'>theme</span>)
-</div></pre>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
