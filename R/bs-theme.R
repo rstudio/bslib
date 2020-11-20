@@ -163,11 +163,7 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
     # You're only allowed one Bootswatch theme!
     if (length(old_swatch)) {
       theme <- bs_remove(theme, "bootswatch")
-      class(theme) <- sub(
-        bootswatch_class(old_swatch),
-        bootswatch_class(bootswatch),
-        class(theme), fixed = TRUE
-      )
+      class(theme) <- setdiff(class(theme), bootswatch_class(old_swatch))
     }
     if (!identical(bootswatch, "default")) {
       theme <- add_class(theme, bootswatch_class(bootswatch))
