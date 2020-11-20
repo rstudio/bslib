@@ -28,7 +28,7 @@ Imports:
     rlang,
     magrittr
 Suggests:
-    shiny (>= 1.5.0.9002),
+    shiny (>= 1.5.0.9005),
     rmarkdown,
     knitr,
     testthat,
@@ -44,6 +44,7 @@ Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Collate:
     'bootswatch.R'
+    'bs-current-theme.R'
     'bs-dependencies.R'
     'bs-global.R'
     'bs-remove.R'
