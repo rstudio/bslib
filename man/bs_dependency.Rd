@@ -30,7 +30,8 @@ bs_dependency_defer(func)
 useful to add the version of your package.}
 
 \item{.dep_args}{A list of additional arguments to pass to
-\code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}.}
+\code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}. Note that \code{package} has no effect and
+\code{script} must be absolute path(s).}
 
 \item{.sass_args}{A list of additional arguments to pass to
 \code{\link[sass:sass_partial]{sass::sass_partial()}}.}
