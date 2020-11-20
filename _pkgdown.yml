@@ -53,6 +53,11 @@ reference:
   contents:
     - bs_global_theme
     - bs_global_add_variables
+- title: Theme subsetting
+  description: |
+    Reduce the final CSS bundle size.
+  contents:
+    - bs_remove
 - title: Bootstrap SASS compilation
   description: |
     Compile themes into HTML dependencies and CSS strings.
