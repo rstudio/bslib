@@ -4,7 +4,7 @@
 \alias{bs_current_theme}
 \title{Obtain the currently active theme at render time}
 \usage{
-bs_current_theme(session = shiny::getDefaultReactiveDomain())
+bs_current_theme(session = get_reactive_domain())
 }
 \arguments{
 \item{session}{The current Shiny session (if any).}
@@ -21,7 +21,7 @@ otherwise be themed via \code{\link[=bs_dependency_defer]{bs_dependency_defer()}
 This function should generally only be called at print/render time. For
 example:
 \itemize{
-\item Inside the \code{preRenderHook} of \code{\link[htmlwidgets:createWidget]{htmlwidgets::createWidget()}}.
+\item Inside the \code{preRenderHook} of \code{htmlwidgets::createWidget()}.
 \item Inside of a custom \link{print} method that generates \link[htmltools:builder]{htmltools::tags}.
 \item Inside of a \code{\link[htmltools:tagFunction]{htmltools::tagFunction()}}
 }
