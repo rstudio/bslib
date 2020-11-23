@@ -9,7 +9,7 @@
 #' This function should generally only be called at print/render time. For
 #' example:
 #'
-#'  * Inside the `preRenderHook` of [htmlwidgets::createWidget()].
+#'  * Inside the `preRenderHook` of `htmlwidgets::createWidget()`.
 #'  * Inside of a custom [print] method that generates [htmltools::tags].
 #'  * Inside of a [htmltools::tagFunction()]
 #'

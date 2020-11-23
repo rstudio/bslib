@@ -49,7 +49,7 @@ for possible values).}
 \item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
 for possible values). When provided to \code{bs_theme_update()}, any previous
 Bootswatch theme is first removed before the new one is applied (use
-\code{bootswatch = ""} effectively remove any Bootswatch theme).}
+\code{bootswatch = "default"} to effectively remove the Bootswatch theme).}
 
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
