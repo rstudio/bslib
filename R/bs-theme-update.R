@@ -107,8 +107,7 @@ bs3_base_colors <- function(args) {
     "gray-f8" = gray(0xf8),
     "gray-f9" = gray(0xf9),
     "white" = gray(0xff),
-    "color-contrast-dark" = gray(0x00),
-    "color-contrast-light" = gray(0xff)
+    "black" = gray(0x00)
   )
 
   # There's code in tools/bs3_theme_base_colors.R for generating this list.
