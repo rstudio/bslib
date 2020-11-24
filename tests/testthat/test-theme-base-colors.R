@@ -249,6 +249,16 @@ test_that("bs_get_contrast() works as expected", {
       bs_get_contrast(inverted, "input-bg"),
       c("input-bg" = "#FFFFFF")
     )
+    yb <- bs_theme(4, bg = "yellow", fg = "#0000FF")
+    expect_equal(
+      bs_get_contrast(yb, "input-bg"),
+      c("input-bg" = "#0000FF")
+    )
+    yb <- bs_theme_update(yb, bg = "black", fg = "white", "color-contrast-light" = "#0000FF", "color-contrast-dark" = "yellow")
+    expect_equal(
+      bs_get_contrast(yb, "input-bg"),
+      c("input-bg" = "#FFFF00")
+    )
     expect_error(
       bs_get_contrast(base, "font"),
       "Undefined variable"
