@@ -108,4 +108,5 @@ jobs:
         # C:/Rtools/bin/tar.exe, it will say that it can't find gzip.exe. So
         # we'll just set the path so that the original tar that would be
         # found, will be found.
-        run: echo "::add-path::C:/Program Files/Git/usr/bin"
+        shell: bash
+        run: echo "C:/Program Files/Git/usr/bin" >> $GITHUB_PATH
