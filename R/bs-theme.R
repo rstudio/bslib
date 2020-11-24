@@ -132,7 +132,14 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
   theme <- bs_bundle(
     bs_theme_init(version, bootswatch),
     bootstrap_bundle(version),
-    bootswatch_bundle(bootswatch, version)
+    bootswatch_bundle(bootswatch, version),
+    # Always include color-contrast() so we can support bs_get_contrast()
+    # for any version, and so 3rd party bslib extensions can always use it
+    sass_layer(
+      declarations = sass_file(
+        system_file("sass-utils/color-contrast.scss", package = "bslib")
+      )
+    )
   )
   bs_theme_update(
     theme, ...,
@@ -243,7 +250,7 @@ bootstrap_bundle <- function(version) {
     four = sass_bundle(
       # Don't name this "core" bundle so it can't easily be removed
       sass_layer(
-        defaults = bs4_sass_files(c("functions", "variables")),
+        defaults = bs4_sass_files(c("deprecated", "functions", "variables")),
         declarations = bs4_sass_files("mixins")
       ),
       # Returns a _named_ list of bundles (i.e., these should be easily removed)
