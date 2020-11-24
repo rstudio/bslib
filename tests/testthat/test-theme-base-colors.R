@@ -240,3 +240,22 @@ test_that("theme-color('default') works as expected", {
     "bg-default"
   )
 })
+
+test_that("bs_get_contrast() works as expected", {
+  expect_equal(
+    bs_get_contrast(bs_theme(), "primary"), c(primary = "#FFFFFF")
+  )
+  expect_equal(
+    bs_get_contrast(bs_theme(), c("primary", "dark", "light")),
+    c(primary = "#FFFFFF", dark = "#FFFFFF", light = "#000000")
+  )
+  expect_error(
+    bs_get_contrast(bs_theme(), "font"),
+    "Undefined variable"
+  )
+  expect_error(
+    bs_get_contrast(bs_theme(), "font-family-base"),
+    "must be a color"
+  )
+})
+
