@@ -2,17 +2,17 @@
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 300;
-  src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(fonts/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdo.woff) format('woff');
+  src: url(fonts/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdo.woff) format('woff');
 }
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 400;
-  src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(fonts/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7j.woff) format('woff');
+  src: url(fonts/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7j.woff) format('woff');
 }
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 700;
-  src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(fonts/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdo.woff) format('woff');
+  src: url(fonts/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdo.woff) format('woff');
 }

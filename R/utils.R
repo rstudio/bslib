@@ -93,17 +93,6 @@ rename2 <- function(x, ...) {
   x
 }
 
-# Calculate the yiq value, given the (0-255) red/green/blue values
-color_yiq <- function(r, g, b) {
-  ((r * 299) + (g * 587) + (b * 114)) / 1000
-}
-
-# Determine if the given (0-255) red/green/blue values represent a light color,
-# relative to the given yiq threshold
-color_yiq_islight <- function(r, g, b, threshold = 150) {
-  color_yiq(r, g, b) >= threshold
-}
-
 
 # Wrapper around base::system.file. In base::system.file, the package directory
 # lookup is a bit slow. This caches the package directory, so it is much faster.

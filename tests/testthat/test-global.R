@@ -51,7 +51,7 @@ test_that("Theme adding works as intended", {
   bs_global_add_variables(
     .where = "declarations",
     "primary" = "$secondary",
-    "body-color" = "color-yiq($primary)"
+    "body-color" = "color-contrast($primary)"
   )
   css <- sass_partial(".foo{color:$primary;}", bs_global_get())
   expect_css(".foo{color:#6c757d;}", css)

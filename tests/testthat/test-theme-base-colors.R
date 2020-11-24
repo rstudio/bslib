@@ -1,20 +1,14 @@
 test_that("bs4 base colors", {
-  varnames <- c("yiq-text-light", "yiq-text-dark",
-    "black", "white", paste0("gray-", 1:9 * 100), "body-bg", "body-color",
-    "primary", "secondary")
-
-  is_light <- function(colorstr) {
-    col <- t(col2rgb(colorstr, alpha = FALSE))
-    color_yiq_islight(col[,"red"], col[,"green"], col[,"blue"])
-  }
+  varnames <- c(
+    "black", "white", paste0("gray-", 1:9 * 100),
+    "body-bg", "body-color", "primary", "secondary"
+  )
 
   theme <- bs_theme(4, bg = "white", fg = "black", primary = "blue", secondary = "silver")
   colors <- bs_get_variables(theme, varnames)
-  expect_true(is_light(colors[["yiq-text-light"]]))
-  expect_false(is_light(colors[["yiq-text-dark"]]))
 
   expect_identical(colors,
-    c(`yiq-text-light` = "#FFFFFF", `yiq-text-dark` = "#191919",
+    c(
       black = "#000000", white = "#FFFFFF", `gray-100` = "#E6E6E6",
       `gray-200` = "#CCCCCC", `gray-300` = "#B2B2B2", `gray-400` = "#999999",
       `gray-500` = "#808080", `gray-600` = "#666666", `gray-700` = "#4D4D4D",
@@ -24,11 +18,9 @@ test_that("bs4 base colors", {
 
   theme <- bs_theme("4", bg = "#112233", fg = "#FFEEDD", primary = "orange", secondary = "brown")
   colors <- bs_get_variables(theme, varnames)
-  expect_true(is_light(colors[["yiq-text-light"]]))
-  expect_false(is_light(colors[["yiq-text-dark"]]))
 
   expect_identical(colors,
-    c(`yiq-text-light` = "#E7DACC", `yiq-text-dark` = "#112233",
+    c(
       black = "#FFEEDD", white = "#112233", `gray-100` = "#293644",
       `gray-200` = "#414B55", `gray-300` = "#585F66", `gray-400` = "#707477",
       `gray-500` = "#888888", `gray-600` = "#A09C99", `gray-700` = "#B8B1AA",
@@ -240,3 +232,63 @@ test_that("theme-color('default') works as expected", {
     "bg-default"
   )
 })
+
+test_that("bs_get_contrast() works as expected", {
+  for (version in versions()) {
+    base <- bs_theme(version)
+    expect_equal(
+      bs_get_contrast(base, "input-bg"), c("input-bg" = "#000000")
+    )
+    primary <- if ("3" %in% version) "brand-primary" else "primary"
+    expect_equal(
+      bs_get_contrast(base, c("input-bg", primary)),
+      setNames(c("#000000", "#FFFFFF"), c("input-bg", primary))
+    )
+    inverted <- bs_theme_update(base, bg = "black", fg = "white")
+    expect_equal(
+      bs_get_contrast(inverted, "input-bg"),
+      c("input-bg" = "#FFFFFF")
+    )
+    yb <- bs_theme(4, bg = "yellow", fg = "#0000FF")
+    expect_equal(
+      bs_get_contrast(yb, "input-bg"),
+      c("input-bg" = "#0000FF")
+    )
+    yb <- bs_theme_update(yb, bg = "black", fg = "white", "color-contrast-light" = "#0000FF", "color-contrast-dark" = "yellow")
+    expect_equal(
+      bs_get_contrast(yb, "input-bg"),
+      c("input-bg" = "#FFFF00")
+    )
+    expect_error(
+      bs_get_contrast(base, "font"),
+      "Undefined variable"
+    )
+    expect_error(
+      bs_get_contrast(base, "font-family-base"),
+      "must be a color"
+    )
+    if ("3" %in% version) {
+      next
+    }
+    light_success <- bs_theme_update(inverted, success = "#E5FFE5")
+    expect_equal(
+      bs_get_contrast(light_success, "success"),
+      c("success" = "#000000")
+    )
+    expect_equal(
+      bs_get_contrast(bs_theme_update(light_success, "color-contrast-light" = "#222", "min-contrast-ratio" = 1), "success"),
+      c("success" = "#222222")
+    )
+    dark_success <- bs_theme_update(inverted, success = "#193319")
+    expect_equal(
+      bs_get_contrast(dark_success, "success"),
+      c("success" = "#FFFFFF")
+    )
+    expect_equal(
+      bs_get_contrast(bs_theme_update(dark_success, "color-contrast-light" = "#F8F9FA"), "success"),
+      c("success" = "#F8F9FA")
+    )
+  }
+})
+
+

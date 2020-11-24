@@ -1,0 +1,196 @@
+diff --git a/inst/lib/bootstrap/scss/_deprecated.scss b/inst/lib/bootstrap/scss/_deprecated.scss
+new file mode 100644
+index 0000000..03ab781
+--- /dev/null
++++ b/inst/lib/bootstrap/scss/_deprecated.scss
+@@ -0,0 +1,29 @@
++/////////////////////////////////////////////////////////////////
++// bslib's version=4 leverages BS5's color-contrast() instead of 
++// color-yiq(), but it's in case someone happens to use it in their
++// own Sass, we define it, and throw deprecation warnings if used
++/////////////////////////////////////////////////////////////////
++
++@if variable-exists("yiq-contrasted-threshold") or
++    variable-exists("yiq-text-dark") or
++    variable-exists("yiq-text-light") {
++  @warn "color-yiq() is deprecated, use color-contrast() instead"
++}
++$yiq-contrasted-threshold: 150 !default;
++$yiq-text-dark:  black !default;
++$yiq-text-light:  white !default;
++@function color-yiq($color, $dark: $yiq-text-dark, $light: $yiq-text-light) {
++  @warn "color-yiq() is deprecated. Use color-contrast() instead.";
++
++  $r: red($color);
++  $g: green($color);
++  $b: blue($color);
++
++  $yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
++
++  @if ($yiq >= $yiq-contrasted-threshold) {
++    @return $dark;
++  } @else {
++    @return $light;
++  }
++}
+diff --git a/inst/lib/bootstrap/scss/_functions.scss b/inst/lib/bootstrap/scss/_functions.scss
+index 9c06603..866f0a8 100644
+--- a/inst/lib/bootstrap/scss/_functions.scss
++++ b/inst/lib/bootstrap/scss/_functions.scss
+@@ -69,20 +69,6 @@
+   @return $string;
+ }
+ 
+-// Color contrast
+-@function color-yiq($color, $dark: $yiq-text-dark, $light: $yiq-text-light) {
+-  $r: red($color);
+-  $g: green($color);
+-  $b: blue($color);
+-
+-  $yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+-
+-  @if ($yiq >= $yiq-contrasted-threshold) {
+-    @return $dark;
+-  } @else {
+-    @return $light;
+-  }
+-}
+ 
+ // Retrieve color Sass maps
+ @function color($key: "blue") {
+diff --git a/inst/lib/bootstrap/scss/_variables.scss b/inst/lib/bootstrap/scss/_variables.scss
+index d7171e5..1c22197 100644
+--- a/inst/lib/bootstrap/scss/_variables.scss
++++ b/inst/lib/bootstrap/scss/_variables.scss
+@@ -91,12 +91,13 @@ $theme-colors: map-merge(
+ // Set a specific jump point for requesting color jumps
+ $theme-color-interval:      8% !default;
+ 
+-// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+-$yiq-contrasted-threshold:  150 !default;
++// The contrast ratio to reach against white, to determine if color changes from "light" to "dark". Acceptable values for WCAG 2.0 are 3, 4.5 and 7.
++// See https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast
++$min-contrast-ratio:   3 !default;
+ 
+-// Customize the light and dark text colors for use in our YIQ color contrast function.
+-$yiq-text-dark:             $gray-900 !default;
+-$yiq-text-light:            $white !default;
++// Customize the light and dark text constrasting colors for use in (BS5's) color-contrast() function.
++$color-contrast-dark:      $black !default;
++$color-contrast-light:     $white !default;
+ 
+ // Characters which are escaped by the escape-svg function
+ $escaped-characters: (
+diff --git a/inst/lib/bootstrap/scss/mixins/_badge.scss b/inst/lib/bootstrap/scss/mixins/_badge.scss
+index f1c4991..833c870 100644
+--- a/inst/lib/bootstrap/scss/mixins/_badge.scss
++++ b/inst/lib/bootstrap/scss/mixins/_badge.scss
+@@ -1,10 +1,10 @@
+ @mixin badge-variant($bg) {
+-  color: color-yiq($bg);
++  color: color-contrast($bg);
+   background-color: $bg;
+ 
+   @at-root a#{&} {
+     @include hover-focus() {
+-      color: color-yiq($bg);
++      color: color-contrast($bg);
+       background-color: darken($bg, 10%);
+     }
+ 
+diff --git a/inst/lib/bootstrap/scss/mixins/_buttons.scss b/inst/lib/bootstrap/scss/mixins/_buttons.scss
+index d6235aa..04b9e74 100644
+--- a/inst/lib/bootstrap/scss/mixins/_buttons.scss
++++ b/inst/lib/bootstrap/scss/mixins/_buttons.scss
+@@ -4,34 +4,34 @@
+ // and disabled options for all buttons
+ 
+ @mixin button-variant($background, $border, $hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 10%), $active-border: darken($border, 12.5%)) {
+-  color: color-yiq($background);
++  color: color-contrast($background);
+   @include gradient-bg($background);
+   border-color: $border;
+   @include box-shadow($btn-box-shadow);
+ 
+   @include hover() {
+-    color: color-yiq($hover-background);
++    color: color-contrast($hover-background);
+     @include gradient-bg($hover-background);
+     border-color: $hover-border;
+   }
+ 
+   &:focus,
+   &.focus {
+-    color: color-yiq($hover-background);
++    color: color-contrast($hover-background);
+     @include gradient-bg($hover-background);
+     border-color: $hover-border;
+     @if $enable-shadows {
+-      @include box-shadow($btn-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5));
++      @include box-shadow($btn-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-contrast($background), $border, 15%), .5));
+     } @else {
+       // Avoid using mixin so we can pass custom focus shadow properly
+-      box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5);
++      box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-contrast($background), $border, 15%), .5);
+     }
+   }
+ 
+   // Disabled comes first so active can properly restyle
+   &.disabled,
+   &:disabled {
+-    color: color-yiq($background);
++    color: color-contrast($background);
+     background-color: $background;
+     border-color: $border;
+     // Remove CSS gradients if they're enabled
+@@ -43,7 +43,7 @@
+   &:not(:disabled):not(.disabled):active,
+   &:not(:disabled):not(.disabled).active,
+   .show > &.dropdown-toggle {
+-    color: color-yiq($active-background);
++    color: color-contrast($active-background);
+     background-color: $active-background;
+     @if $enable-gradients {
+       background-image: none; // Remove the gradient for the pressed/active state
+@@ -52,16 +52,16 @@
+ 
+     &:focus {
+       @if $enable-shadows and $btn-active-box-shadow != none {
+-        @include box-shadow($btn-active-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5));
++        @include box-shadow($btn-active-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-contrast($background), $border, 15%), .5));
+       } @else {
+         // Avoid using mixin so we can pass custom focus shadow properly
+-        box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5);
++        box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-contrast($background), $border, 15%), .5);
+       }
+     }
+   }
+ }
+ 
+-@mixin button-outline-variant($color, $color-hover: color-yiq($color), $active-background: $color, $active-border: $color) {
++@mixin button-outline-variant($color, $color-hover: color-contrast($color), $active-background: $color, $active-border: $color) {
+   color: $color;
+   border-color: $color;
+ 
+@@ -85,7 +85,7 @@
+   &:not(:disabled):not(.disabled):active,
+   &:not(:disabled):not(.disabled).active,
+   .show > &.dropdown-toggle {
+-    color: color-yiq($active-background);
++    color: color-contrast($active-background);
+     background-color: $active-background;
+     border-color: $active-border;
+ 
+diff --git a/inst/lib/bootstrap/scss/mixins/_forms.scss b/inst/lib/bootstrap/scss/mixins/_forms.scss
+index 39b52f3..1cca53a 100644
+--- a/inst/lib/bootstrap/scss/mixins/_forms.scss
++++ b/inst/lib/bootstrap/scss/mixins/_forms.scss
+@@ -61,7 +61,7 @@
+     margin-top: .1rem;
+     @include font-size($form-feedback-tooltip-font-size);
+     line-height: $form-feedback-tooltip-line-height;
+-    color: color-yiq($color);
++    color: color-contrast($color);
+     background-color: rgba($color, $form-feedback-tooltip-opacity);
+     @include border-radius($form-feedback-tooltip-border-radius);
+   }

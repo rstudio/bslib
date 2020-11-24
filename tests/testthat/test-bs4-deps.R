@@ -2,7 +2,7 @@ local_disable_cache()
 
 describe("Compiling against theme", {
   # Example CSS that includes one variable, one function call, one mixin
-  bs4_css <- ".foo { background-color: $primary; color: color-yiq($primary); width: 120px; height: 120px; }"
+  bs4_css <- ".foo { background-color: $primary; color: color-contrast($primary); width: 120px; height: 120px; }"
   resolved_css <- ".foo { background-color: #007bff; color: #fff; width: 120px; height: 120px; }"
 
   # Compare bs_sass(input1) and sass(input2)

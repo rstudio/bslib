@@ -576,3 +576,41 @@ diff_css_values <- function(a, b) {
   idx <- ifelse(is.na(b), TRUE, a_char != b)
   a[idx]
 }
+
+#' @rdname bs_get_variables
+#' @inheritParams bs_get_variables
+#' @export
+#' @examples
+#'
+#' bs_get_contrast(bs_theme(), c("primary", "dark", "light"))
+#'
+#' library(htmltools)
+#' div(
+#'   class = "bg-primary",
+#'   style = css(
+#'     color = bs_get_contrast(bs_theme(), "primary")
+#'   )
+#' )
+#'
+bs_get_contrast <- function(theme, varnames) {
+  stopifnot(is.character(varnames))
+  stopifnot(length(varnames) > 0)
+
+  varnames <- sub("^\\$", "", varnames)
+  prop_string <- paste0(
+    paste0(varnames, ": color-contrast($", varnames, ");"),
+    collapse = "\n"
+  )
+  css <- sass::sass_partial(
+    paste0("bs_get_contrast {", prop_string, "}"),
+    theme, cache_key_extra = packageVersion("bslib")
+  )
+  css <- gsub("\n", "", gsub("\\s*", "", css))
+  css <- sub("bs_get_contrast{", "", css, fixed = TRUE)
+  css <- sub("\\}$", "", css)
+  props <- strsplit(strsplit(css, ";")[[1]], ":")
+  setNames(
+    vapply(props, function(x) htmltools::parseCssColors(sub(";$", "", x[2])), character(1)),
+    vapply(props, `[[`, character(1), 1)
+  )
+}

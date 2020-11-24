@@ -2,9 +2,12 @@
 % Please edit documentation in R/bs-theme-preview.R
 \name{bs_get_variables}
 \alias{bs_get_variables}
+\alias{bs_get_contrast}
 \title{Retrieve Sass variable values from the current theme}
 \usage{
 bs_get_variables(theme, varnames)
+
+bs_get_contrast(theme, varnames)
 }
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
@@ -24,5 +27,16 @@ the value to inform another R function.
 vars <- c("body-bg", "body-color", "primary", "border-radius")
 bs_get_variables(bs_theme(), varnames = vars)
 bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
+
+
+bs_get_contrast(bs_theme(), c("primary", "dark", "light"))
+
+library(htmltools)
+div(
+  class = "bg-primary",
+  style = css(
+    color = bs_get_contrast(bs_theme(), "primary")
+  )
+)
 
 }
