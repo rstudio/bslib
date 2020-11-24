@@ -47,6 +47,7 @@ reference:
     - bs_dependency
     - bs_dependency_defer
     - bs_theme_dependencies
+    - bs_current_theme
 - title: Global theme creation
   description: |
     Use Bootstrap themes globally.
