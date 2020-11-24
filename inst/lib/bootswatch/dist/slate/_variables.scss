@@ -38,10 +38,8 @@ $body-color:                body-mix(0%) !default;
 
 $yiq-contrasted-threshold:  170 !default;
 
-// Import color contrasting
-@import "../functions";
-$contrast-bg: color-yiq($body-bg) !default;
-$contrast-fg: color-yiq($contrast-bg) !default;
+$contrast-bg: color-contrast($body-bg) !default;
+$contrast-fg: color-contrast($contrast-bg) !default;
 @function lighten($color, $percent) {
    @return mix($contrast-bg, $color, $percent);
 }

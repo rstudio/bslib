@@ -37,10 +37,8 @@ $body-bg:                   body-mix(100%) !default;
 $body-color:                body-mix(0%) !default;
 
 // Most defaults to cascade from body bg/color, but some
-// colors really want to a full contrast from the bg color 
-$yiq-contrasted-threshold:  175 !default;
-@import "../functions";
-$contrast-bg: color-yiq($body-bg) !default;
+// colors really want to a full contrast from the bg color
+$contrast-bg: color-contrast($body-bg) !default;
 
 $primary:       $blue !default;
 $secondary:     body-mix(67%) !default;

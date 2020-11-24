@@ -36,10 +36,8 @@ $body-color:                $gray-100 !default;
     @return mix($body-bg, $body-color, $weight);
 }
 
-// Import color contrasting
-@import "../functions";
-$contrast-bg: color-yiq($body-bg) !default;
-$contrast-fg: color-yiq($contrast-bg) !default;
+$contrast-bg: color-contrast($body-bg) !default;
+$contrast-fg: color-contrast($contrast-bg) !default;
 
 $primary:       $blue !default;
 $secondary:     body-mix(80%) !default;

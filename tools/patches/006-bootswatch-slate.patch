@@ -363,7 +363,7 @@ diff --git a/inst/lib/bootswatch/dist/slate/_variables.scss b/inst/lib/bootswatc
 index 28c6900..3cb702d 100755
 --- a/inst/lib/bootswatch/dist/slate/_variables.scss
 +++ b/inst/lib/bootswatch/dist/slate/_variables.scss
-@@ -28,25 +28,49 @@ $green:   #62c462 !default;
+@@ -28,25 +26,47 @@ $green:   #62c462 !default;
  $teal:    #20c997 !default;
  $cyan:    #5bc0de !default;
  
@@ -379,10 +379,8 @@ index 28c6900..3cb702d 100755
 +
 +$yiq-contrasted-threshold:  170 !default;
 +
-+// Import color contrasting
-+@import "../functions";
-+$contrast-bg: color-yiq($body-bg) !default;
-+$contrast-fg: color-yiq($contrast-bg) !default;
++$contrast-bg: color-contrast($body-bg) !default;
++$contrast-fg: color-contrast($contrast-bg) !default;
 +@function lighten($color, $percent) {
 +   @return mix($contrast-bg, $color, $percent);
 +}

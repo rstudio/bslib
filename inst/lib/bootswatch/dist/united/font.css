@@ -3,12 +3,12 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Ubuntu Regular'), local('Ubuntu-Regular'), url(fonts/4iCs6KVjbNBYlgo6ew.woff) format('woff');
+  src: url(fonts/4iCs6KVjbNBYlgo6ew.woff) format('woff');
 }
 @font-face {
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(fonts/4iCv6KVjbNBYlgoCxCvTtA.woff) format('woff');
+  src: url(fonts/4iCv6KVjbNBYlgoCxCvTtA.woff) format('woff');
 }

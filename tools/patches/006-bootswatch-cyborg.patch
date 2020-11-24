@@ -5,7 +5,7 @@ index 63f304e..6dad3f6 100644
 @@ -7,20 +7,29 @@
  $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" !default;
  @import url($web-font-path);
- 
+
 +// Functions ===================================================================
 +
 +@function darken($color, $percent) {
@@ -16,24 +16,24 @@ index 63f304e..6dad3f6 100644
 +}
 +
  // Navbar ======================================================================
- 
+
  .navbar {
    &.bg-primary {
 -    border: 1px solid $gray-700;
 +    border: 1px solid body-mix(50%);
    }
- 
+
    &.bg-dark {
      background-color: $body-bg !important;
 -    border: 1px solid $gray-700;
 +    border: 1px solid body-mix(50%);
    }
- 
+
    &.bg-light {
 -    background-color: $gray-500 !important;
 +    background-color: body-mix(16%) !important;
    }
- 
+
    &.fixed-top {
 @@ -38,7 +47,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
    @each $color, $value in $theme-colors {
@@ -46,21 +46,21 @@ index 63f304e..6dad3f6 100644
        }
 @@ -49,7 +58,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
  // Tables ======================================================================
- 
+
  table {
 -  color: $white;
 +  color: $contrast-bg;
  }
- 
+
  .table {
 @@ -204,7 +213,7 @@ table {
  // Forms =======================================================================
- 
+
  legend {
 -  color: $white;
 +  color: $contrast-bg;
  }
- 
+
  .form-control {
 @@ -221,10 +230,10 @@ legend {
  .nav-tabs,
@@ -68,36 +68,36 @@ index 63f304e..6dad3f6 100644
    .nav-link {
 -    color: $white;
 +    color: $contrast-bg;
- 
+
      &:hover {
 -      background-color: $gray-700;
 +      background-color: body-mix(50%);
      }
- 
+
      &.disabled,
 @@ -241,7 +250,7 @@ legend {
- 
+
  .breadcrumb {
    a {
 -    color: $white;
 +    color: $contrast-bg;
    }
  }
- 
+
 @@ -255,18 +264,18 @@ legend {
- 
+
  .alert {
    border: none;
 -  color: $white;
 +  color: $contrast-bg;
- 
+
    a,
    .alert-link {
 -    color: $white;
 +    color: $contrast-bg;
      text-decoration: underline;
    }
- 
+
    @each $color, $value in $theme-colors {
      &-#{$color} {
        @if $enable-gradients {
@@ -107,16 +107,16 @@ index 63f304e..6dad3f6 100644
          background-color: $value;
        }
 @@ -276,7 +285,7 @@ legend {
- 
+
  .badge {
    &-warning {
 -    color: $white;
 +    color: $contrast-bg;
    }
  }
- 
+
 @@ -292,20 +301,20 @@ legend {
- 
+
  .list-group-item {
    &:hover {
 -    background-color: $gray-700;
@@ -124,31 +124,31 @@ index 63f304e..6dad3f6 100644
 +    background-color: body-mix(50%);
 +    color: $contrast-bg;
    }
- 
+
    &-action {
 -    color: $gray-500;
 +    color: body-mix(16%);
- 
+
      .list-group-item-heading {
 -      color: $gray-500;
 +      color: body-mix(16%);
      }
    }
- 
+
    &:hover .list-group-item-heading {
 -    color: $white;
 +    color: $contrast-bg;
    }
  }
- 
+
 diff --git a/inst/lib/bootswatch/dist/cyborg/_variables.scss b/inst/lib/bootswatch/dist/cyborg/_variables.scss
 index 85c7483..6a30ace 100755
 --- a/inst/lib/bootswatch/dist/cyborg/_variables.scss
 +++ b/inst/lib/bootswatch/dist/cyborg/_variables.scss
-@@ -28,22 +28,28 @@ $green:   #77b300 !default;
+@@ -28,22 +26,26 @@ $green:   #77b300 !default;
  $teal:    #20c997 !default;
  $cyan:    #93c !default;
- 
+
 +// Body
 +
 +@function body-mix($weight) {
@@ -158,10 +158,8 @@ index 85c7483..6a30ace 100755
 +$body-color:                body-mix(0%) !default;
 +
 +// Most defaults to cascade from body bg/color, but some
-+// colors really want to a full contrast from the bg color 
-+$yiq-contrasted-threshold:  175 !default;
-+@import "../functions";
-+$contrast-bg: color-yiq($body-bg) !default;
++// colors really want to a full contrast from the bg color
++$contrast-bg: color-contrast($body-bg) !default;
 +
  $primary:       $blue !default;
 -$secondary:     $gray-600 !default;
@@ -182,18 +180,18 @@ index 85c7483..6a30ace 100755
 -$body-color:    $gray-400 !default;
 +$light:         body-mix(33%) !default;
 +$dark:          $body-color !default;
- 
+
  // Fonts
- 
+
 @@ -55,16 +61,16 @@ $h2-font-size:            3rem !default;
  $h3-font-size:            2.5rem !default;
  $h4-font-size:            2rem !default;
  $h5-font-size:            1.5rem !default;
 -$headings-color:          $white !default;
 +$headings-color:          $contrast-bg !default;
- 
+
  // Tables
- 
+
 -$table-color:                   $white !default;
 -$table-accent-bg:               rgba($white, .05) !default;
 -$table-hover-bg:                rgba($white, .075) !default;
@@ -206,13 +204,13 @@ index 85c7483..6a30ace 100755
 +$table-border-color:            body-mix(50%) !default;
 +$table-dark-bg:                 body-mix(16%) !default;
 +$table-dark-border-color:       body-mix(23%) !default;
- 
+
  // Buttons
- 
+
 @@ -72,40 +78,40 @@ $input-btn-padding-x:       1rem !default;
- 
+
  // Forms
- 
+
 -$input-disabled-bg:                 $gray-400 !default;
 -$input-border-color:                $white !default;
 -$input-group-addon-color:           $white !default;
@@ -226,9 +224,9 @@ index 85c7483..6a30ace 100755
 -$custom-file-border-color:          $gray-700 !default;
 +$custom-file-color:                 $contrast-bg !default;
 +$custom-file-border-color:          body-mix(50%) !default;
- 
+
  // Dropdowns
- 
+
 -$dropdown-bg:                    $gray-700 !default;
 -$dropdown-divider-bg:            $gray-800 !default;
 -$dropdown-link-color:            $white !default;
@@ -238,23 +236,23 @@ index 85c7483..6a30ace 100755
 +$dropdown-link-color:            $contrast-bg !default;
 +$dropdown-link-hover-color:      $contrast-bg !default;
  $dropdown-link-hover-bg:         $primary !default;
- 
+
  // Navs
- 
+
  $nav-tabs-border-color:                       $table-border-color !default;
  $nav-tabs-link-hover-border-color:            $nav-tabs-border-color !default;
 -$nav-tabs-link-active-color:                  $white !default;
 +$nav-tabs-link-active-color:                  $contrast-bg !default;
  $nav-tabs-link-active-bg:                     $nav-tabs-border-color !default;
  $nav-tabs-link-active-border-color:           $nav-tabs-border-color !default;
- 
+
  // Navbar
- 
+
 -$navbar-dark-hover-color:           $white !default;
 +$navbar-dark-hover-color:           $contrast-bg !default;
- 
+
  // Pagination
- 
+
 -$pagination-color:                     $white !default;
 -$pagination-bg:                        $gray-700 !default;
 +$pagination-color:                     $contrast-bg !default;
@@ -266,30 +264,30 @@ index 85c7483..6a30ace 100755
  $pagination-hover-border-color:        $pagination-border-color !default;
  $pagination-disabled-bg:               $pagination-bg !default;
 @@ -114,54 +120,54 @@ $pagination-disabled-border-color:     $pagination-border-color !default;
- 
+
  // Jumbotron
- 
+
 -$jumbotron-bg:                      $gray-700 !default;
 +$jumbotron-bg:                      body-mix(50%) !default;
- 
+
  // Cards
- 
+
 -$card-bg:                           $gray-700 !default;
 +$card-bg:                           body-mix(50%) !default;
- 
+
  // Tooltips
- 
+
 -$tooltip-bg:                        $gray-700 !default;
 +$tooltip-bg:                        body-mix(50%) !default;
  $tooltip-opacity:                   1 !default;
- 
+
  // Popovers
- 
+
 -$popover-bg:                        $gray-700 !default;
 +$popover-bg:                        body-mix(50%) !default;
- 
+
  // Toasts
- 
+
 -$toast-color:                       $white !default;
 -$toast-background-color:            $gray-800 !default;
 -$toast-border-color:                $gray-700 !default;
@@ -299,21 +297,21 @@ index 85c7483..6a30ace 100755
  $toast-header-color:                $body-color !default;
  $toast-header-background-color:     $toast-background-color !default;
  $toast-header-border-color:         $toast-border-color !default;
- 
+
  // Modals
- 
+
 -$modal-content-bg:                  $gray-800 !default;
 -$modal-header-border-color:         $gray-700 !default;
 +$modal-content-bg:                  body-mix(67%) !default;
 +$modal-header-border-color:         body-mix(50%) !default;
- 
+
  // Progress bars
- 
+
 -$progress-bg:                       $gray-700 !default;
 +$progress-bg:                       body-mix(50%) !default;
- 
+
  // List group
- 
+
 -$list-group-bg:                     $gray-800 !default;
 -$list-group-border-color:           $gray-700 !default;
 +$list-group-bg:                     body-mix(67%) !default;
@@ -322,16 +320,16 @@ index 85c7483..6a30ace 100755
 -$list-group-disabled-bg:            $gray-700 !default;
 +$list-group-disabled-bg:            body-mix(50%) !default;
  $list-group-action-active-bg:       $primary !default;
- 
+
  // Breadcrumbs
- 
+
 -$breadcrumb-bg:                     $gray-700 !default;
 +$breadcrumb-bg:                     body-mix(50%) !default;
- 
+
  // Close
- 
+
 -$close-color:                       $white !default;
 +$close-color:                       $contrast-bg !default;
  $close-text-shadow:                 none !default;
- 
+
  // Code
