@@ -234,20 +234,51 @@ test_that("theme-color('default') works as expected", {
 })
 
 test_that("bs_get_contrast() works as expected", {
-  expect_equal(
-    bs_get_contrast(bs_theme(), "primary"), c(primary = "#FFFFFF")
-  )
-  expect_equal(
-    bs_get_contrast(bs_theme(), c("primary", "dark", "light")),
-    c(primary = "#FFFFFF", dark = "#FFFFFF", light = "#000000")
-  )
-  expect_error(
-    bs_get_contrast(bs_theme(), "font"),
-    "Undefined variable"
-  )
-  expect_error(
-    bs_get_contrast(bs_theme(), "font-family-base"),
-    "must be a color"
-  )
+  for (version in versions()) {
+    base <- bs_theme(version)
+    expect_equal(
+      bs_get_contrast(base, "input-bg"), c("input-bg" = "#000000")
+    )
+    primary <- if ("3" %in% version) "brand-primary" else "primary"
+    expect_equal(
+      bs_get_contrast(base, c("input-bg", primary)),
+      setNames(c("#000000", "#FFFFFF"), c("input-bg", primary))
+    )
+    inverted <- bs_theme_update(base, bg = "black", fg = "white")
+    expect_equal(
+      bs_get_contrast(inverted, "input-bg"),
+      c("input-bg" = "#FFFFFF")
+    )
+    expect_error(
+      bs_get_contrast(base, "font"),
+      "Undefined variable"
+    )
+    expect_error(
+      bs_get_contrast(base, "font-family-base"),
+      "must be a color"
+    )
+    if ("3" %in% version) {
+      next
+    }
+    light_success <- bs_theme_update(inverted, success = "#E5FFE5")
+    expect_equal(
+      bs_get_contrast(light_success, "success"),
+      c("success" = "#000000")
+    )
+    expect_equal(
+      bs_get_contrast(bs_theme_update(light_success, "color-contrast-light" = "#222", "min-contrast-ratio" = 1), "success"),
+      c("success" = "#222222")
+    )
+    dark_success <- bs_theme_update(inverted, success = "#193319")
+    expect_equal(
+      bs_get_contrast(dark_success, "success"),
+      c("success" = "#FFFFFF")
+    )
+    expect_equal(
+      bs_get_contrast(bs_theme_update(dark_success, "color-contrast-light" = "#F8F9FA"), "success"),
+      c("success" = "#F8F9FA")
+    )
+  }
 })
+
 
