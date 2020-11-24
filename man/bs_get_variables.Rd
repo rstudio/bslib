@@ -30,4 +30,13 @@ bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
 
 
 bs_get_contrast(bs_theme(), c("primary", "dark", "light"))
+
+library(htmltools)
+div(
+  class = "bg-primary",
+  style = css(
+    color = bs_get_contrast(bs_theme(), "primary")
+  )
+)
+
 }
