@@ -52,19 +52,9 @@ div.info {
   background-color: #bed3ec;
   border: solid 5px #dfedff;
   background-image: url("infobox.svg");
-}
-div.warning {
-  padding: 2em;
-  margin: 1em 0;
-  padding-left: 100px;
-  background-size: 70px;
-  background-repeat: no-repeat;
-  background-position: 15px center;
-  min-height: 120px;
-  color: white;
-  background-color: #F34C22;
-  border: solid 5px #F36642;
-  background-image: url("warning.svg");
+  a {
+    color: #e783b8;
+  }
 }
 ```
 
@@ -72,9 +62,9 @@ This article demonstrates how to create custom themes for Shiny apps, R Markdown
 
 ## Main colors & fonts
 
-`bs_theme()` makes it easy to customize the main colors and fonts of Bootstrap CSS. Here you can set the main background, foreground, and accent colors as well as the base, heading, and code fonts. Once you create a theme, you can provide it to `bs_theme_preview()` to run a Shiny app designed for previewing (and further customizing) the theme.
+`bs_theme()` makes it easy to customize the main colors and fonts of most Shiny apps and R Markdown documents. Any `bs_theme()` may be provided to any [Shiny app](/index.html#shiny-usage) and any [R Markdown document](/index.html#r-markdown-usage) powered by Bootstrap, but for sake of demonstration here we'll provide it to `bs_theme_preview()`, which runs a Shiny app designed for previewing and customizing themes.
 
-``` {.r}
+```r
 library(bslib)
 material <- bs_theme(
   bg = "#202123", 
@@ -85,9 +75,9 @@ material <- bs_theme(
   info = "#28B3ED",
   warning = "#FD7424",
   danger = "#F7367E",
-  base_font = "Proza Libre",
-  heading_font = "Open Sans",
-  code_font = "Fira Code"
+  base_font = font_google("Open Sans"),
+  heading_font = font_google("Proza Libre"),
+  code_font = font_google("Fira Code")
 )
 bs_theme_preview(material, with_themer = FALSE)
 ```
@@ -96,9 +86,9 @@ bs_theme_preview(material, with_themer = FALSE)
 knitr::include_graphics("material-dark.png")
 ```
 
-If you want, you can also preview the theme with an interactive theming tool to test out different main colors, fonts, and various other main options. See here for a live demo of the app, but note that if you're to run this locally, everytime a theming change is made, the app emits R code in the console to replicate the changes.
+Themes may also be interactively customized when `with_themer = TRUE`. This overlays `bs_themer()` on the demo app, an interactive theming tool to play with different colors, fonts, and various other main options. [See here](https://testing-apps.shinyapps.io/themer-demo/) for a live demo, but note that when `bs_themer()` runs locally, it emits R code in the console to replicate the interactive changes.
 
-``` {.r}
+```r
 bs_theme_preview(material, with_themer = TRUE)
 ```
 
@@ -106,16 +96,24 @@ bs_theme_preview(material, with_themer = TRUE)
 include_vimeo("465527125")
 ```
 
-Among the main theming choices, `bg`, `fg`, `primary`, and `base_font` are by far the most important as they effect nearly everything on the page. In fact, `bg` and `fg` alone impact 100s of defaults --- everything from inputs to wells (e.g., `shiny::wellPanel()`, `shiny::inputPanel()`, etc) to navigation (e.g., `shiny::navbarPage()`, `shiny::tabsetPanel()`, etc) and more. The accent colors don't impact nearly as much, but `primary` does control the color for some important things like hyperlinks, `shiny::tabsetPanel()` links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like `shiny::actionButton()` (defaults to the `secondary` color), `shiny::showNotification()` , or more generally any HTML content that leverages [Color Utility Classes](https://getbootstrap.com/docs/4.4/utilities/colors/).
+Among the main coloring choices in `bs_theme()`, `bg`, `fg`, and `primary` are by far the most important as they effect nearly every color on the page. In fact, `bg` and `fg` alone impact 100s of defaults --- everything from inputs to wells (e.g., `shiny::wellPanel()`, `shiny::inputPanel()`, etc) to navigation (e.g., `shiny::navbarPage()`, `shiny::tabsetPanel()`, etc) and more. The accent colors don't impact nearly as much, but `primary` does control the color for some important things like hyperlinks, `shiny::tabsetPanel()` links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like `shiny::actionButton()` (defaults to the `secondary` color), `shiny::showNotification()` , or more generally any HTML content that leverages [Color Utility Classes](https://getbootstrap.com/docs/4.4/utilities/colors/).
 
-::: {.warning}
-Setting font(s) doesn't guarantee those fonts may actually be rendered in the browser. When it comes to a Google Font like Open Sans, you can provide the fonts with either an [online](https://developers.google.com/fonts/docs/getting_started) or [offline](https://cloud.r-project.org/web/packages/gfonts/index.html) attachment.
-:::
-
-## Sass variables
+There are 3 main controls for font families in `bs_theme()`, namely `base_font`, `heading_font`, and `code_font`. To focus and customize each setting, go to the "Fonts" tab in the top navbar, as well as in interactive themer. It's worth noting that the interactive themer has a special ability to render [Google Fonts](https://fonts.google.com) in real-time by downloading, caching, and importing font file(s) as needed (via `font_google()`).
 
 ::: {.info}
-If you aren't already familiar with how Sass variables work, we highly recommend reading the first couple paragraphs of [this article](https://rstudio.github.io/sass/articles/sass.html).
+When choosing fonts, keep in mind that it's generally good practice to put serif fonts in `base_font`, sans-serif fonts in `heading_font`, and monospace fonts in `code_font`. If you aren't sure where to start, [this article](https://fontpair.co/featured) has a nice gallery of Google Font pairings. 
+:::
+
+```{r, echo = FALSE}
+knitr::include_graphics("fonts.png")
+```
+
+When using [web safe font combinations](https://www.w3schools.com/cssref/css_websafe_fonts.asp), it's ok to provide a character string of (comma-separated) font families (e.g., `bs_theme(base_font = '"Times New Roman", Times, serif')`. Otherwise, use one of the `font_google()`, `font_link()`, and/or `font_face()` helpers to include the relevant file(s) so the client's browser may render the font(s). `font_link()` and `font_face()` are fairly low-level interfaces to [the CSS web font API](https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts), but `font_google()` has the additional ability to download and cache font file(s), making it so that an internet connection is needed only for the first time a particular font is used.
+
+## Sass variables {#sass-variables}
+
+::: {.info}
+If you aren't already familiar with how Sass and Sass variables work, we recommend reading [this article](https://rstudio.github.io/sass/articles/sass.html) before continuing.
 :::
 
 Any of the main color and font settings work for any Bootstrap `version`, but `bs_theme()` also allows control over specific [Bootstrap Sass variables](https://getbootstrap.com/docs/4.5/getting-started/theming/#variable-defaults) that are likely to different across `versions`. Thus, it's best practice to 'lock-in' the Bootstrap `version` when setting Sass variable(s) directly. Here we set Bootstrap 4's [\$font-size-base variable](https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L282) to increase the sizing of all the fonts on a solarized theme.
@@ -125,7 +123,7 @@ theme_solar <- bs_theme(
   bg = "#002B36", 
   fg = "#EEE8D5",
   primary = "#2AA198",
-  base_font = "Grandstander",
+  base_font = font_google("Grandstander"),
   version = 4,
   "font-size-base" = "1.1rem"
 )
@@ -153,7 +151,6 @@ This works because `orange` is a valid CSS color string, but what happens if we 
 bs_theme("progress-bar-bg" = "$gray-800") %>%
   bs_theme_preview()
 ```
-
 ``` {.r}
 #> Error: Undefined variable: "$gray-800"
 ```
@@ -182,28 +179,6 @@ bs_theme() %>%
 ```{r, echo = FALSE, out.width="50%"}
 knitr::include_graphics("progress-gray.png")
 ```
-
-## Color contrasting
-
-Bootstrap tries its best to dynamically flip between an appropriate `bg` or `fg` for text colors that are overlaid on accent colors, but it doesn't always get the contrast quite right. For example, if we return to our `material` theme and look closer at the button styles:
-
-```{r, echo = FALSE, out.width="50%"}
-knitr::include_graphics("material-buttons-before.png")
-```
-
-Turns out, in this case, we can fix the issue by decreasing [`$yiq-contrasted-threshold`](https://github.com/rstudio/bslib/blob/0e936d/inst/lib/bootstrap/scss/_variables.scss#L95) from 150 to 100.
-
-``` {.r}
-material %>%
-  bs_theme_update("yiq-contrasted-threshold" = 100) %>%
-  bs_theme_preview()
-```
-
-```{r, echo = FALSE, out.width="50%"}
-knitr::include_graphics("material-buttons-after.png")
-```
-
-As we'll learn in [Custom Components], Bootstrap 4 also provides a color contrasting function, which is useful for leveraging dynamic contrasting in your own rules. It's also worth noting that, sometimes, this general and somewhat arbitrary contrasting threshold doesn't work for every color in a color-scheme, but in that case, you can leverage the [`text-light` and `text-dark` utility classes](https://getbootstrap.com/docs/4.4/utilities/colors/).
 
 ## Utility classes
 
@@ -356,11 +331,23 @@ shinyApp(ui, server)
 knitr::include_graphics("dark-mode.gif")
 ```
 
-`session$setCurrentTheme()` "just works" for existing themable components (e.g., "core" Shiny UI), but in order for it to work with custom components, the component's CSS must come from a "dynamic" HTML dependency (i.e., `bs_dependency_defer()`). To learn more, see the section on themable custom components.
+`session$setCurrentTheme()` "just works" for existing themeable components (e.g., "core" Shiny UI), but in order for it to work with custom components, the component's CSS must come from a "dynamic" HTML dependency (i.e., `bs_dependency_defer()`). To learn more, see [Custom components].
 
-## Themable components
+## Themeable components
 
-`{bslib}` themes "just work" for all "core" Shiny UI (e.g., `sliderInput()`, `selectInput()`, `tabPanel()`, `navbarPage()`, etc.) as well as any un-styled HTML content (e.g., `tags$input(type = "checkbox")`). One exception to that rule is `plotOutput()` / `renderPlot()`, but in that case, `{thematic}` helps to translate the relevant CSS to [Plots].
+HTML components that "just work" well with `{bslib}` (i.e., their default styles derive from `bs_theme()` settings) currently includes:
+
+* All of "core" Shiny UI (e.g., `sliderInput()`, `selectInput()`, `tabPanel()`, `navbarPage()`, etc.) 
+  * The one exception is `plotOutput()`, but in that case, `{thematic}` can be used to make plots themeable via `bs_theme()` (see [Plots]).
+
+* All of `rmarkdown::html_document()` specific [features](https://bookdown.org/yihui/rmarkdown/html-document.html).
+
+* Un-styled HTML content (e.g., `tags$input(type = "checkbox")`).
+
+* Popular HTML table-making packages (currently **DT**, **reactable**, and **gt**, see [Tables])
+
+* Your HTML component/widget? [Let us know if you have one](mailto:carson@rstudio.com)!
+  * Learn how to create them in [Custom components].
 
 At the moment, custom components (e.g., `{shinyWidgets}`, `{htmlwidgets}`, etc) aren't necessarily themeable (via `{bslib}`); but fortunately, `{bslib}` provides the tools for making custom content themeable. Over time, we're hoping package authors will leverage these tools to make their custom components themeable by default, but app authors can also leverage these tools to translate themes to whatever styling API they need.
 
@@ -382,7 +369,7 @@ As you'll see in the next section on [Tables], with a bit of effort, it's possib
 
 ### Tables
 
-Shiny and R Markdown tables (e.g., `shiny::dataTableOutput()` , `rmarkdown::paged_table()`, etc) "just work" with `{bslib}` themes; however, **DT** tables currently need either `style='bootstrap4'` (or `style='bootstrap'`) in `datatable()`. In [a future version](https://github.com/rstudio/DT/pull/852) of **DT**, this won't be necessary.
+For a preview of custom HTML tables that can derive their default styles from a `{bslib}` theme, navigate to the "Tables" tab of the demo app:
 
 ``` {.r}
 bs_theme_preview(material)
@@ -392,27 +379,11 @@ bs_theme_preview(material)
 knitr::include_graphics("DT-material.png")
 ```
 
-To get `{bslib}` themes working well with other table-making packages like `{reactable}`, you currently need to translate the `{bslib}` theme via `bs_get_variables()` and either `shiny::getCurrentTheme()` (in a Shiny app) or `bs_global_get()` (in an R Markdown doc):
-
-``` {.r}
-output$reactable <- reactable::renderReactable({
-  get_var <- function(var) {
-    unname(bs_get_variables(shiny::getCurrentTheme(), var))
-  }
-  reactable::reactable(
-    mtcars, theme = reactable::reactableTheme(
-      color = get_var("table-color"),
-      backgroundColor = get_var("body-bg")
-    )
-  )
-})
-```
-
 ### Custom components
 
-#### A basic themable component
+#### A basic themeable component
 
-Before going through a full-blown [dynamically themable](#dynamic-shiny) custom component, let's start from a relatively straight-forward example of implementing a custom `person()` component. Say we have the following R function to generate some HTML with classes that we'll write custom Sass/CSS styles for:
+Before going through a full-blown [dynamically themeable](#dynamic-shiny) custom component, let's start from a relatively straight-forward example of implementing a custom `person()` component. Say we have the following R function to generate some HTML with classes that we'll write custom Sass/CSS styles for:
 
 ``` {.r}
 person <- function(name, title, company) {
@@ -472,9 +443,9 @@ shinyApp(ui, function(input, output) {})
 knitr::include_graphics("person.png")
 ```
 
-#### Dynamically themable component
+#### Dynamically themeable component
 
-To make the custom `person()` component *dynamically* themable (i.e., make it work with `session$setCurrentTheme()`), we need an R function that generates an `htmltools::htmlDependency()` from a given `theme`. While not required, suppose this function, `person_dependency`, lives in an R package called `{mypkg}` which includes the `person.scss` (and pre-compiled `person.css`) file under the `inst/` directory. Then we could do the following:
+To make the custom `person()` component *dynamically* themeable (i.e., make it work with `session$setCurrentTheme()`), we need an R function that generates an `htmltools::htmlDependency()` from a given `theme`. While not required, suppose this function, `person_dependency`, lives in an R package called `{mypkg}` which includes the `person.scss` (and pre-compiled `person.css`) file under the `inst/` directory. Then we could do the following:
 
 ``` {.r}
 name <- "person"
@@ -511,27 +482,29 @@ person <- function(name, title, company) {
 }
 ```
 
-Note that when `theme` is a `bs_theme()` object, then `person.scss` is compiled with Bootstrap Sass variables and mixins included via `bs_dependency()` (which returns the compiled CSS as an `htmlDependency()`). Otherwise, if `theme` is *not* a `bs_theme()` object, then `person()` is being used in a context where `{bslib}` is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn't necessarily a requirement, but it's a good idea for increasing performance and reducing software dependencies.
+Note that when `theme` is a `bs_theme()` object, then `person.scss` is compiled with Bootstrap Sass variables and mixins included via `bs_dependency()` (which returns the compiled CSS as an `htmlDependency()`). Otherwise, if `theme` is *not* a `bs_theme()` object, then `person()` is being used in a context where `{bslib}` is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn't necessarily a requirement, but it's a good idea for increasing performance and reducing software dependencies for end users.
 
 #### HTML widgets
 
-##### For developers
+For `{htmlwidgets}` that can be themed via CSS, we recommend supplying a `bs_dependency_defer()` to the `dependencies` argument of `createWidget()` (similar to the `person()` component from the last section), which will make the widget dynamically themeable. For widgets that can *not* be themed via CSS, the best option may be to query the active theme inside a `preRenderHook()` via `bs_current_theme()`, and then translate any relevant information to the widget's instance data, for example:
 
-For `{htmlwidgets}` that can be themed via CSS, we recommend supplying a `bs_dependency_defer()` to the `dependencies` argument of `createWidget()` (similar to the `person()` component from the last section). This'll make your widget dynamically themable. For widgets that can *not* be themed via CSS, your only option may be to query the active theme inside a `preRenderHook()` and translate any relevant information to the widget instance,
-
-``` {.r}
+```r
 my_widget <- function(...) {
   createWidget(
     name = "mywidget", ...,
-    # TODO: can we make this work with dynamic theming?
-    preRenderHook = function(instance) {
-       instance$theme <- shiny::getCurrentTheme() %||% bs_global_theme()
-       instance
-    }
+    preRenderHook = my_widget_hook
   )
 }
+my_widget_hook <- function(instance) {
+  theme <- bslib::bs_current_theme()
+  if (!bslib::is_bs_theme(theme)) {
+    return(instance)
+  }
+  instance$x$theme <- modifyList(
+    instance$x$theme, as.list(
+      bslib::bs_get_variables(theme, c("bg", "fg"))
+    )
+  )
+  instance
+}
 ```
-
-##### For users
-
-For users of an `{htmlwidgets}` package that wish to make their widgets themable, your only option at the moment is to use a strategy similar to the one demonstrated for `{reactable}` in the [Tables] section.
