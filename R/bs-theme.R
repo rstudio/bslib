@@ -136,7 +136,7 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
     # Always include color-contrast() so we can support bs_get_contrast()
     # for any version, and so 3rd party bslib extensions can always use it
     sass_layer(
-      declarations = sass_file(
+      defaults = sass_file(
         system_file("sass-utils/color-contrast.scss", package = "bslib")
       )
     )

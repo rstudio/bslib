@@ -1,20 +1,14 @@
 test_that("bs4 base colors", {
-  varnames <- c("yiq-text-light", "yiq-text-dark",
-    "black", "white", paste0("gray-", 1:9 * 100), "body-bg", "body-color",
-    "primary", "secondary")
-
-  is_light <- function(colorstr) {
-    col <- t(col2rgb(colorstr, alpha = FALSE))
-    color_yiq_islight(col[,"red"], col[,"green"], col[,"blue"])
-  }
+  varnames <- c(
+    "black", "white", paste0("gray-", 1:9 * 100),
+    "body-bg", "body-color", "primary", "secondary"
+  )
 
   theme <- bs_theme(4, bg = "white", fg = "black", primary = "blue", secondary = "silver")
   colors <- bs_get_variables(theme, varnames)
-  expect_true(is_light(colors[["yiq-text-light"]]))
-  expect_false(is_light(colors[["yiq-text-dark"]]))
 
   expect_identical(colors,
-    c(`yiq-text-light` = "#FFFFFF", `yiq-text-dark` = "#191919",
+    c(
       black = "#000000", white = "#FFFFFF", `gray-100` = "#E6E6E6",
       `gray-200` = "#CCCCCC", `gray-300` = "#B2B2B2", `gray-400` = "#999999",
       `gray-500` = "#808080", `gray-600` = "#666666", `gray-700` = "#4D4D4D",
@@ -24,11 +18,9 @@ test_that("bs4 base colors", {
 
   theme <- bs_theme("4", bg = "#112233", fg = "#FFEEDD", primary = "orange", secondary = "brown")
   colors <- bs_get_variables(theme, varnames)
-  expect_true(is_light(colors[["yiq-text-light"]]))
-  expect_false(is_light(colors[["yiq-text-dark"]]))
 
   expect_identical(colors,
-    c(`yiq-text-light` = "#E7DACC", `yiq-text-dark` = "#112233",
+    c(
       black = "#FFEEDD", white = "#112233", `gray-100` = "#293644",
       `gray-200` = "#414B55", `gray-300` = "#585F66", `gray-400` = "#707477",
       `gray-500` = "#888888", `gray-600` = "#A09C99", `gray-700` = "#B8B1AA",

@@ -36,7 +36,6 @@ $cyan:    #5bc0de !default;
 $body-bg:                   body-mix(100%) !default;
 $body-color:                body-mix(0%) !default;
 
-$yiq-contrasted-threshold:  170 !default;
 
 $contrast-bg: color-contrast($body-bg) !default;
 $contrast-fg: color-contrast($contrast-bg) !default;

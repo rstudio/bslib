@@ -64,9 +64,6 @@ bs4_base_colors <- function(args) {
     )
   }
 
-  white_yiq <- color_yiq(grays[1,1], grays[1,2], grays[1,3])
-  black_yiq <- color_yiq(grays[11,1], grays[11,2], grays[11,3])
-
   grays <- sprintf("#%02X%02X%02X",
     round(grays[,1]),
     round(grays[,2]),
@@ -79,17 +76,7 @@ bs4_base_colors <- function(args) {
     "black"
   )
 
-  results <- as.list(grays)
-
-  if (white_yiq < black_yiq) {
-    # Invert yiq colors
-    results <- c(results, list(
-      "yiq-text-light" = grays[["gray-900"]],
-      "yiq-text-dark" = grays[["white"]]
-    ))
-  }
-
-  results
+  as.list(grays)
 }
 
 bs3_base_colors <- function(args) {
