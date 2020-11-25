@@ -199,7 +199,7 @@ bs_dependency <- function(input = list(), theme, name, version,
     if (basename(outfile) %in% basename(script)) {
       stop("`script` file basename(s) must all be something other than ", basename(outfile))
     }
-    success <- file.copy(script, dirname(outfile))
+    success <- file.copy(script, dirname(outfile), overwrite = TRUE)
     if (!all(success)) {
       stop(
         "Failed to copy the following script(s): ",
