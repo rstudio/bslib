@@ -1,0 +1,11 @@
+name: themer-demo
+title:
+username:
+account: testing-apps
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2981422
+bundleId: 3906655
+url: https://testing-apps.shinyapps.io/themer-demo/
+when: 1606343907.96955
+lastSyncTime: 1606343907.96957

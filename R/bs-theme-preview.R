@@ -239,6 +239,13 @@ themer_css_dependency <- function(theme) {
 #'
 #' @export
 run_with_themer <- function(appDir = getwd(), ..., gfonts = TRUE, gfonts_update = FALSE) {
+  shiny::runApp(
+    as_themer_app(appDir, gfonts = gfonts, gfonts_update = gfonts_update),
+    ...
+  )
+}
+
+as_themer_app <- function(appDir, gfonts = TRUE, gfonts_update = FALSE) {
   obj <- shiny::as.shiny.appobj(appDir)
   origServerFuncSource <- obj[["serverFuncSource"]]
   obj[["serverFuncSource"]] <- function() {
@@ -252,7 +259,7 @@ run_with_themer <- function(appDir = getwd(), ..., gfonts = TRUE, gfonts_update 
       }
     }
   }
-  shiny::runApp(obj, ...)
+  obj
 }
 
 #' @rdname run_with_themer

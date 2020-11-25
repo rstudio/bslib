@@ -3,6 +3,7 @@ library(ggplot2)
 library(bslib)
 library(thematic)
 library(rlang)
+library(curl)
 
 # enlarged auto fonts
 thematic_shiny(font = font_spec("auto", scale = 2, update = TRUE))
