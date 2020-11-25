@@ -79,7 +79,7 @@ the value to inform another R function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.2.9001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.2.9002</span>
       </span>
     </div>
 
@@ -128,7 +128,9 @@ the value to inform another R function." />
 the value to inform another R function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_get_variables</span>(<span class='kw'>theme</span>, <span class='kw'>varnames</span>)</pre>
+    <pre class="usage"><span class='fu'>bs_get_variables</span>(<span class='kw'>theme</span>, <span class='kw'>varnames</span>)
+
+<span class='fu'>bs_get_contrast</span>(<span class='kw'>theme</span>, <span class='kw'>varnames</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +158,18 @@ If the variable(s) are not defined, their value is <code>NA</code>.</p>
 #&gt;        "#fff"     "#212529"     "#007bff"     "0.25rem" </div><div class='input'><span class='fu'>bs_get_variables</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bootswatch = <span class='st'>"darkly"</span>), varnames = <span class='kw'>vars</span>)
 </div><div class='output co'>#&gt;       body-bg    body-color       primary border-radius 
 #&gt;        "#222"        "#fff"     "#375a7f"     "0.25rem" </div><div class='input'>
+
+<span class='fu'>bs_get_contrast</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"primary"</span>, <span class='st'>"dark"</span>, <span class='st'>"light"</span>))
+</div><div class='output co'>#&gt;   primary      dark     light 
+#&gt; "#FFFFFF" "#FFFFFF" "#000000" </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span>)
+<span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>div</a></span>(
+  class = <span class='st'>"bg-primary"</span>,
+  style = <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/css.html'>css</a></span>(
+    color = <span class='fu'>bs_get_contrast</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(), <span class='st'>"primary"</span>)
+  )
+)
+</div><div class='output co'>#&gt; &lt;div class="bg-primary" style="color:#FFFFFF;"&gt;&lt;/div&gt;</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
