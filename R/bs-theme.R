@@ -135,11 +135,7 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
     bootswatch_bundle(bootswatch, version),
     # Always include color-contrast() so we can support bs_get_contrast()
     # for any version, and so 3rd party bslib extensions can always use it
-    sass_layer(
-      defaults = sass_file(
-        system_file("sass-utils/color-contrast.scss", package = "bslib")
-      )
-    )
+    color_contrast_layer()
   )
   bs_theme_update(
     theme, ...,
@@ -174,7 +170,7 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
     }
     if (!identical(bootswatch, "default")) {
       theme <- add_class(theme, bootswatch_class(bootswatch))
-      theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
+      theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)), color_contrast_layer())
     }
   }
   # See R/bs-theme-update.R for the implementation of these
@@ -240,6 +236,18 @@ assert_bs_theme <- function(theme) {
   }
   invisible(theme)
 }
+# -----------------------------------------------------------------
+# Color contrast layer
+# -----------------------------------------------------------------
+
+color_contrast_layer <- function() {
+  sass_layer(
+    defaults = sass_file(
+      system_file("sass-utils/color-contrast.scss", package = "bslib")
+    )
+  )
+}
+
 # -----------------------------------------------------------------
 # Core Bootstrap bundle
 # -----------------------------------------------------------------

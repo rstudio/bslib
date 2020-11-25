@@ -38,11 +38,18 @@ test_that("Sass bundles work as expected with a theme", {
 test_that("bs_theme_update() can update the bootswatch theme", {
   darkly <- bs_theme(bootswatch = "darkly")
   cosmo <- bs_theme(bootswatch = "cosmo")
+
   expect_false(identical(darkly, cosmo))
   darkly2 <- bs_theme_update(cosmo, bootswatch = "darkly")
   expect_identical(
     sass::sass(darkly),
     sass::sass(darkly2)
+  )
+  cyborg <- bs_theme(bootswatch = "cyborg")
+  cyborg2 <- bs_theme_update(bs_theme(), bootswatch = "cyborg")
+  expect_identical(
+    sass::sass(cyborg),
+    sass::sass(cyborg2)
   )
   default <- bs_theme_update(cosmo, bootswatch = "default")
   expect_identical(
