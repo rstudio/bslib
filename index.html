@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -77,7 +77,7 @@
 <div id="bslib-formerly-known-as-bootstraplib" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#bslib-formerly-known-as-bootstraplib" class="anchor"></a>bslib (formerly known as bootstraplib)</h1></div>
-<p>The <code>{bslib}</code> R package provides tools for creating custom <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/">Bootstrap themes</a>, making it easier to style Shiny apps and R Markdown documents directly from R without writing unruly CSS and HTML. Currently, <code>{bslib}</code> provides Bootstrap 4, Bootstrap 3, as well as a custom <code>"4+3"</code> compatibility version, which helps upgrade Shiny and R Markdown from Bootstrap 3 to 4.</p>
+<p>The <code>{bslib}</code> R package provides tools for creating custom <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/">Bootstrap themes</a>, making it easier to style Shiny apps &amp; R Markdown documents directly from R without writing unruly CSS and HTML. At the moment, <code>{bslib}</code> provides special builds of Bootstrap 4 &amp; 3 that “just work” with Shiny &amp; R Markdown.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -95,21 +95,33 @@
 <p>Use <code><a href="reference/bs_theme.html">bs_theme()</a></code> to create a <code>{bslib}</code> theme, where you can:</p>
 <ul>
 <li>
-<p>Choose a (major) Bootstrap version.</p>
+<p>Choose a (major) Bootstrap version (e.g., <code>version = 4</code> or <code>version = 3</code>).</p>
 <ul>
-<li>To current <code><a href="reference/version_default.html">version_default()</a></code> is 4+3, which means Bootstrap 4 plus an additional compatibility layer for Bootstrap 3 navs, navbars, and more. This compatibility allows most Shiny apps and R Markdown documents to seamlessly upgrade to Bootstrap 4.</li>
+<li>If <code>version</code> isn’t specified (as in the example below), then <code>version</code> defaults to <code><a href="reference/versions.html">version_default()</a></code>, which may change to Bootstrap 5 in a future version of <code>{bslib}</code>.</li>
 </ul>
 </li>
-<li><p>Choose a <a href="https://bootswatch.com/">Bootswatch</a> theme (optional).</p></li>
-<li><p>Customize the main colors and fonts (see below).</p></li>
-<li><p>More generally, customize any of Bootstrap’s styling defaults via Sass variables.</p></li>
+<li><p>Choose a <a href="https://bootswatch.com/">Bootswatch</a> theme (e.g., <code>bootswatch = 'darkly'</code>).</p></li>
+<li>
+<p>Customize the main colors and fonts (e.g., <code>bg</code>, <code>fg</code>, <code>primary</code>, <code>base_font</code>, etc)</p>
+<ul>
+<li>These main controls are available via named arguments to <code><a href="reference/bs_theme.html">bs_theme()</a></code> (and <code><a href="reference/bs_theme.html">bs_theme_update()</a></code>) and are guaranteed to work across Bootstrap versions.</li>
+</ul>
+</li>
+<li>
+<p>More generally, customize most of Bootstrap’s styling via Sass variables (e.g., <a href="https://github.com/rstudio/bslib/blob/c353705/inst/lib/bootstrap/scss/_variables.scss#L282"><code>font-size-base</code></a>).</p>
+<ul>
+<li>These more specific controls pass through the <code>...</code> of <code><a href="reference/bs_theme.html">bs_theme()</a></code>.</li>
+<li>These options likely depend on the Bootstrap version being used</li>
+</ul>
+</li>
 </ul>
 <p>For example, to implement a <a href="https://material.io/design/color/dark-theme.html">material design inspired dark mode</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rstudio.github.io/bslib">bslib</a></span>)
 <span class="kw">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bs_theme.html">bs_theme</a></span>(
   bg = <span class="st">"#202123"</span>, fg = <span class="st">"#B8BCC2"</span>, primary = <span class="st">"#EA80FC"</span>, 
-  base_font = <span class="fu"><a href="reference/font_face.html">font_google</a></span>(<span class="st">"Grandstander"</span>)
+  base_font = <span class="fu"><a href="reference/font_face.html">font_google</a></span>(<span class="st">"Grandstander"</span>),
+  <span class="st">"font-size-base"</span> = <span class="st">"1.1rem"</span>
 )
 </pre></div>
 </div>
@@ -169,28 +181,38 @@
 <span id="cb7-5"><a href="#cb7-5"></a><span class="at">      </span><span class="fu">bg</span><span class="kw">:</span><span class="at"> </span><span class="st">"#202123"</span></span>
 <span id="cb7-6"><a href="#cb7-6"></a><span class="at">      </span><span class="fu">fg</span><span class="kw">:</span><span class="at"> </span><span class="st">"#B8BCC2"</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a><span class="at">      </span><span class="fu">primary</span><span class="kw">:</span><span class="at"> </span><span class="st">"#EA80FC"</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="at">      </span><span class="fu">base_font</span><span class="kw">:</span><span class="at"> !expr font_google("Grandstander")</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="at">      </span><span class="fu">base_font</span><span class="kw">:</span><span class="at"> !expr bslib::font_google("Grandstander")</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="pp">---</span></span></code></pre></div>
-<p>For backwards-compatibility reasons, R Markdown only uses <code>{bslib}</code> when <code>theme</code> is a list of parameters, so if you want to just use Bootstrap 4 without any custom theming, you must do:</p>
+<p>At the moment, <code>{bslib}</code> is a opt-in feature in R Markdown (i.e., whenever <code>theme</code> is a list or a <code><a href="reference/bs_theme.html">bs_theme()</a></code>, then <code>{bslib}</code> is used). This means that, to use the default <code><a href="reference/bs_theme.html">bslib::bs_theme()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1"></a><span class="pp">---</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">output</span><span class="kw">:</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="at">  </span><span class="fu">html_document</span><span class="kw">:</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="at">      </span><span class="fu">version</span><span class="kw">:</span><span class="at"> 4+3</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="pp">---</span></span></code></pre></div>
-<p>Moreover, when <code>theme</code> depicts a <code><a href="reference/bs_theme.html">bs_theme()</a></code>, you may modify the (global) <code>theme</code> in <strong>knitr</strong> code chunks to influence the final Bootstrap CSS bundle included in the output document. This means you can do things like dynamically modify theme default(s) (with <code><a href="reference/bs_global_theme.html">bs_global_theme_update()</a></code> ) and/or add additional CSS rules that leverage Bootstrap Sass variables, functions, mixins, etc:</p>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> !expr bslib::bs_theme()</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="pp">---</span></span></code></pre></div>
+<p>Moreover, when opting into <code>{bslib}</code>, you may modify <code>theme</code> object globally inside <strong>knitr</strong> code chunks. This can be useful for things like adding additional CSS rules that leverage Bootstrap Sass variables, functions, mixins, etc:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="st">```</span><span class="dt">{r}</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="dt">library(bslib)</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="dt">bs_global_theme_update("input-bg" = "purple")</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="dt">bs_global_add_rules(</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="dt">  ".my-class { </span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="dt">     background-color: mix($body-bg, $body-color, 90%);</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="dt">     border: 1px solid $primary;</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="dt">     @include border_radius($border-radius);</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="dt">   }</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="dt">  "</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="dt">)</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="st">```</span></span></code></pre></div>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="dt">bs_global_add_rules(</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="dt">  ".my-class { </span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="dt">     background-color: mix($body-bg, $body-color, 90%);</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="dt">     border: 1px solid $primary;</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="dt">     @include border_radius($border-radius);</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="dt">   }</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="dt">  "</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="dt">)</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="st">```</span></span></code></pre></div>
+</div>
+<div id="add-to-a-theme" class="section level3">
+<h3 class="hasAnchor">
+<a href="#add-to-a-theme" class="anchor"></a>Add to a theme</h3>
+<p><code><a href="reference/bs_theme.html">bs_theme()</a></code> customizes Bootstrap CSS by changing Bootstrap Sass variable defaults, but sometimes you need to customize the theme in other ways by adding other Sass code. For example, if you’d like to add Sass/CSS rules for a custom, themable, component:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="kw">my_theme</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/bs_add_variables.html">bs_add_rules</a></span>(
+    <span class="st">".my-component { color: $primary; }"</span>
+  )
+</pre></div>
+<p>To learn more, see the <a href="https://rstudio.github.io/bslib/articles/theming.html">theming article</a>.</p>
 </div>
 </div>
 <div id="learn-more" class="section level2">

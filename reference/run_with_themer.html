@@ -85,7 +85,7 @@ chunk). Note that this function is only intended to be used for development!" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -190,7 +190,7 @@ instantly reflected in theme preview.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://shiny.rstudio.com'>shiny</a></span>)
 
 <span class='co'># Initialize Bootstrap 4 with Bootstrap 3 compatibility shim</span>
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='st'>"4+3"</span>, bg = <span class='st'>"black"</span>, fg = <span class='st'>"white"</span>)
+<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(version = <span class='fl'>4</span>, bg = <span class='st'>"black"</span>, fg = <span class='st'>"white"</span>)
 
 <span class='kw'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
   theme = <span class='kw'>theme</span>,

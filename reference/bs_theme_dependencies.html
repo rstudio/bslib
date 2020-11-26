@@ -46,12 +46,12 @@
 
 
 <meta property="og:title" content="Compile Bootstrap Sass with (optional) theming — bs_theme_dependencies" />
-<meta property="og:description" content="Use bs_theme_dependencies() to compile Bootstrap Sass into CSS and return it, along
-with other HTML dependencies, as a list of htmltools::htmlDependency()s. Use
-sass_partial() if you can assume Bootstrap already exists on the page,
-but you want to leverage Bootstrap utilities (e.g., variables, functions, or
-mixins) to generate additional CSS rules (as a string that can be included as
-a &amp;lt;style&amp;gt; tag via tags$style(css))." />
+<meta property="og:description" content="bs_theme_dependencies() compiles Bootstrap Sass into CSS and returns it,
+along with other HTML dependencies, as a list of
+htmltools::htmlDependency()s. Most users won't need to call this function
+directly as Shiny &amp;amp; R Markdown will perform this compilation automatically
+when handed a bs_theme(). If you're here looking to create a themeable
+component, see bs_dependency()." />
 
 
 
@@ -83,7 +83,7 @@ a &amp;lt;style&amp;gt; tag via tags$style(css))." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -128,12 +128,12 @@ a &amp;lt;style&amp;gt; tag via tags$style(css))." />
     </div>
 
     <div class="ref-description">
-    <p>Use <code>bs_theme_dependencies()</code> to compile Bootstrap Sass into CSS and return it, along
-with other HTML dependencies, as a list of <code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code>s. Use
-<code>sass_partial()</code> if you can assume Bootstrap already exists on the page,
-but you want to leverage Bootstrap utilities (e.g., variables, functions, or
-mixins) to generate additional CSS rules (as a string that can be included as
-a <code>&lt;style&gt;</code> tag via <code>tags$style(css)</code>).</p>
+    <p><code>bs_theme_dependencies()</code> compiles Bootstrap Sass into CSS and returns it,
+along with other HTML dependencies, as a list of
+<code><a href='https://rdrr.io/pkg/htmltools/man/htmlDependency.html'>htmltools::htmlDependency()</a></code>s. Most users won't need to call this function
+directly as Shiny &amp; R Markdown will perform this compilation automatically
+when handed a <code><a href='bs_theme.html'>bs_theme()</a></code>. If you're here looking to create a themeable
+component, see <code><a href='bs_dependency.html'>bs_dependency()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bs_theme_dependencies</span>(
@@ -167,8 +167,8 @@ object created by <code><a href='https://rdrr.io/pkg/sass/man/sass_file_cache.ht
     <tr>
       <th>precompiled</th>
       <td><p>Before compiling the theme object, first look for a
-precompiled CSS file for the given <code>version</code>.  If this option is <code>TRUE</code> and
-a precompiled CSS file exists for the theme object, it will be fetched
+precompiled CSS file for the <code><a href='theme_version.html'>theme_version()</a></code>.  If this option is <code>TRUE</code>
+and a precompiled CSS file exists for the theme object, it will be fetched
 immediately and not compiled. At the moment, we only provide precompiled
 CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
 themes, or non-default <code>sass_options</code>).</p></td>
@@ -179,11 +179,10 @@ themes, or non-default <code>sass_options</code>).</p></td>
 
     <p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap
 JavaScript, and <code>jquery</code>. This list may contain additional HTML
-dependencies if the <code>theme</code> calls for it (e.g., <code>version = "4+3"</code> contains
-an additional JavaScript dependency).</p>
+dependencies if bundled with the <code>theme</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='bs_theme.html'>bs_theme()</a></code>, <code><a href='bs_global_theme.html'>bs_global_set()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='bs_theme.html'>bs_theme()</a></code>, <code><a href='bs_dependency.html'>bs_dependency()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -197,16 +196,14 @@ an additional JavaScript dependency).</p>
     <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span>()
 }
 
-<span class='co'># Latest bootstrap</span>
+<span class='co'># Latest Bootstrap</span>
 <span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>())
 <span class='co'># Bootstrap 3</span>
 <span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='fl'>3</span>))
-<span class='co'># Bootswatch minty theme</span>
-<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bootswatch = <span class='st'>"minty"</span>))
-<span class='co'># Bootswatch sketchy theme</span>
-<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bootswatch = <span class='st'>"sketchy"</span>))
-<span class='co'># Bootswatch solar theme with BS3 compatibility</span>
-<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(version = <span class='st'>"4+3"</span>, bootswatch = <span class='st'>"solar"</span>))
+<span class='co'># Bootswatch 4 minty theme</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='fl'>4</span>, bootswatch = <span class='st'>"minty"</span>))
+<span class='co'># Bootswatch 4 sketchy theme</span>
+<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='fl'>4</span>, bootswatch = <span class='st'>"sketchy"</span>))
 
 </div></pre>
   </div>

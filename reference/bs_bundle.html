@@ -80,7 +80,7 @@ ensure theme customizations are portable between major Bootstrap versions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -170,7 +170,8 @@ variable expressions. It's recommended to keep this as <code>TRUE</code> when <c
     </tr>
     <tr>
       <th>rules</th>
-      <td><p>Sass rules.</p></td>
+      <td><p>Sass rules. Anything understood by <code><a href='https://rdrr.io/pkg/sass/man/as_sass.html'>sass::as_sass()</a></code> may be
+provided (e.g., a list, character vector, <code><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass::sass_file()</a></code>, etc)</p></td>
     </tr>
     <tr>
       <th>declarations</th>

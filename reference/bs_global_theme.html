@@ -80,7 +80,7 @@ argument defaults to bs_global_get(), which get the current global theme)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -131,7 +131,7 @@ argument defaults to <code>bs_global_get()</code>, which get the current global 
     </div>
 
     <pre class="usage"><span class='fu'>bs_global_theme</span>(
-  version = <span class='fu'><a href='version_default.html'>version_default</a></span>(),
+  version = <span class='fu'><a href='versions.html'>version_default</a></span>(),
   bootswatch = <span class='kw'>NULL</span>,
   bg = <span class='kw'>NULL</span>,
   fg = <span class='kw'>NULL</span>,
@@ -184,16 +184,15 @@ argument defaults to <code>bs_global_get()</code>, which get the current global 
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>version</th>
-      <td><p>The major version of Bootstrap to use. A value of <code>'4+3'</code>
-means Bootstrap 4, but with additional CSS/JS to support BS3 style markup
-in BS4. Other supported versions include 3 and 4.</p></td>
+      <td><p>The major version of Bootstrap to use (see <code><a href='versions.html'>versions()</a></code>
+for possible values).</p></td>
     </tr>
     <tr>
       <th>bootswatch</th>
       <td><p>The name of a bootswatch theme (see <code><a href='bootswatch_themes.html'>bootswatch_themes()</a></code>
 for possible values). When provided to <code><a href='bs_theme.html'>bs_theme_update()</a></code>, any previous
 Bootswatch theme is first removed before the new one is applied (use
-<code>bootswatch = ""</code> effectively remove any Bootswatch theme).</p></td>
+<code>bootswatch = "default"</code> to effectively remove the Bootswatch theme).</p></td>
     </tr>
     <tr>
       <th>bg</th>
