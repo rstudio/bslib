@@ -195,11 +195,7 @@ my_theme %>%
   )
 ```
 
-To learn more, see the [theming
-article](https://rstudio.github.io/bslib/articles/theming.html).
-
 ## Learn more
 
-See the articles on [theming
-recipes](https://rstudio.github.io/bslib/articles/recipes.html) and
-[foundations](https://rstudio.github.io/bslib/articles/foundations.html).
+To learn more, see the [theming
+article](https://rstudio.github.io/bslib/articles/theming.html).
