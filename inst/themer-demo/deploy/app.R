@@ -22,13 +22,9 @@ theme <- bs_theme(
   code_font = font_google("Fira Code")
 )
 
-# TODO: thematic needs a fix for this "Error: cannot open file 'Rplots.pdf'"
-# https://github.com/ropensci/plotly/issues/494
-pdf(NULL)
-
-old_theme <- bs_theme_get()
-bs_theme_set(theme)
-onStop(function() bs_theme_set(old_theme))
+old_theme <- bs_global_get()
+bs_global_set(theme)
+onStop(function() bs_global_set(old_theme))
 
 bslib:::as_themer_app(
   system.file("themer-demo", package = "bslib")
