@@ -6,7 +6,7 @@ library(rlang)
 library(curl)
 
 # enlarged auto fonts
-thematic_shiny()
+thematic_shiny(font = font_spec("auto", scale = 2, update = TRUE))
 
 # Source in ggplot2 examples
 source("global.R")
