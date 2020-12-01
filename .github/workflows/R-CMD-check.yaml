@@ -110,3 +110,55 @@ jobs:
         # found, will be found.
         shell: bash
         run: echo "C:/Program Files/Git/usr/bin" >> $GITHUB_PATH
+
+  deploy:
+    if: github.repository == 'rstudio/bslib' && github.event_name == 'push'
+    runs-on: ${{ matrix.config.os }}
+
+    name: "Deploy to shinyapps.io"
+    needs: [R-CMD-check]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - name: Query dependencies
+        run: >
+          Rscript
+          -e "install.packages('remotes')"
+          -e "saveRDS(remotes::dev_package_deps(dependencies = TRUE), 'depends.Rds', version = 2)"
+      - name: Cache R packages
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ matrix.config.os }}-r-${{ matrix.config.r }}-deploy-${{ hashFiles('depends.Rds') }}
+          restore-keys: |
+            ${{ matrix.config.os }}-r-${{ matrix.config.r }}-deploy-
+            ${{ matrix.config.os }}-r-${{ matrix.config.r }}-
+      - name: Install dependencies
+        run: >
+          Rscript
+          -e "library(remotes)"
+          -e "update(readRDS('depends.Rds'))"
+      - name: Deploy
+        env:
+          SHINYAPPS_NAME: ${{ secrets.SHINYAPPS_NAME }}
+          SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
+          SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
+        run: >
+          Rscript 'inst/themer-demo/deploy.R'

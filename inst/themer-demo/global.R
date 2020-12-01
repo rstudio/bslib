@@ -104,15 +104,7 @@ ggplot2_examples <- list(
     z = factor(rep(1:5, each = 2)),
     w = rep(diff(c(0, 4, 6, 8, 10, 14)), 2)
   ), aes(x, y, width = w)) + geom_tile(aes(fill = z)),
-  GeomViolin = ggplot(mtcars, aes(factor(cyl), mpg)) + geom_violin(),
-  GeomSf = {
-    nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
-    nc_3857 <- sf::st_transform(nc, "+init=epsg:3857")
-    nc_3857$mid <- sf::st_centroid(nc_3857$geometry)
-    ggplot(nc_3857) +
-      geom_sf(colour = "white") +
-      geom_sf(aes(geometry = mid, size = AREA), show.legend = "point")
-  }
+  GeomViolin = ggplot(mtcars, aes(factor(cyl), mpg)) + geom_violin()
 )
 
 lattice_examples <- list(
