@@ -256,6 +256,7 @@ bs3_fonts <- function(args) {
 #' @noRd
 validate_and_normalize_colors <- function(args) {
   args <- dropNulls(args)
+  if (length(args) == 0) return(args)
 
   is_char <- vapply(args, is.character, logical(1))
   vec_len <- vapply(args, length, integer(1))
@@ -266,14 +267,14 @@ validate_and_normalize_colors <- function(args) {
       format_varnames(names(args)[bad]),
       "; single-element character vectors are required")
   }
-  normalized_values <- htmltools::parseCssColors(args, mustWork = FALSE)
-  if (anyNA(normalized_values)) {
-    stop(call. = FALSE,
+  args <- lapply(args, htmltools::parseCssColors, mustWork = FALSE)
+  bad <- vapply(args, rlang::is_na, logical(1))
+  if (any(bad)) {
+    stop(
       "Invalid HTML color strings for argument(s) ",
-      format_varnames(names(args)[is.na(normalized_values)])
+      format_varnames(names(args)[bad]), call. = FALSE
     )
   }
-  args[] <- normalized_values
   args
 }
 
