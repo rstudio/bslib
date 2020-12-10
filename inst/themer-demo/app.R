@@ -1,12 +1,17 @@
 library(shiny)
 library(ggplot2)
 library(bslib)
-library(thematic)
 library(rlang)
 library(curl)
 
 # enlarged auto fonts
-thematic_shiny(font = font_spec("auto", scale = 2, update = TRUE))
+if (is_installed("thematic")) {
+  thematic::thematic_shiny(
+    font = thematic::font_spec("auto", scale = 2, update = TRUE)
+  )
+} else {
+  message("Install the thematic package for auto-theming of static R plots")
+}
 
 # Source in ggplot2 examples
 source("global.R")
@@ -58,18 +63,19 @@ shinyApp(
     theme = theme,
     title = "Theme demo",
     collapsible = TRUE,
+    id = "navbar",
     tabPanel(
       "Inputs",
       tabsetPanel(
-        type = "pills",
+        type = "pills", id = "inputs",
         pill(
           "inputPanel()",
           inputPanel(
             sliderInput("slider", "sliderInput()", min = 0, max = 100, value = c(30, 70)),
             selectInput("selectize", "selectizeInput()", choices = state.abb),
             selectInput("selectizeMulti", "selectizeInput(multiple=T)", choices = state.abb, multiple = TRUE),
-            dateInput("date", "dateInput()", value = Sys.Date()),
-            dateRangeInput("dateRange", "dateRangeInput()", start = Sys.Date(), end = Sys.Date() + 7)
+            dateInput("date", "dateInput()", value = "2020-12-24"),
+            dateRangeInput("dateRange", "dateRangeInput()", start = "2020-12-24", end = "2020-12-31")
           ),
           br(),
           textOutput("inputPanelOutputHeader"),
@@ -278,7 +284,12 @@ shinyApp(
     })
 
     observeEvent(input$showProgress2, {
-      fake_progress()
+      p <- Progress$new()
+      p$set(
+        message = 'Calculation in progress',
+        detail = 'This may take a while...',
+        value = 0.5
+      )
     })
 
     lapply(c("default", "message", "warning", "error"), function(x) {
