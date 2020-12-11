@@ -9,6 +9,7 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
 @function color-contrast($background) {
   // These variables should be defined in _variables.scss, but we also
   // define them here so that 3rd party libs can use if they want
+  // without polluting the global namespace
   $black: #000 !default;
   $white: #fff !default;
   $color-contrast-dark: $black !default;
