@@ -47,7 +47,7 @@ get_base_color_map <- function(theme, decode = TRUE) {
 # We've modified these "dark mode" themes to be more themable by cascading
 # defaults from $body-bg/$body-color instead of $white/$black
 has_body_base_colors <- function(theme) {
-  body_themes <- c("darkly", "cyborg", "solar", "superhero", "slate")
+  body_themes <- c("darkly", "cyborg", "superhero", "slate")
   # TODO: do the same for BS3? I guess?
   isTRUE(theme_bootswatch(theme) %in% body_themes)
 }
