@@ -146,10 +146,10 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ matrix.config.os }}-r-${{ matrix.config.r }}-deploy-${{ hashFiles('depends.Rds') }}
+          key: ${{ matrix.config.os }}-r2-${{ matrix.config.r }}-deploy-${{ hashFiles('depends.Rds') }}
           restore-keys: |
-            ${{ matrix.config.os }}-r-${{ matrix.config.r }}-deploy-
-            ${{ matrix.config.os }}-r-${{ matrix.config.r }}-
+            ${{ matrix.config.os }}-r2-${{ matrix.config.r }}-deploy-
+            ${{ matrix.config.os }}-r2-${{ matrix.config.r }}-
       - name: Install dependencies
         run: >
           Rscript
