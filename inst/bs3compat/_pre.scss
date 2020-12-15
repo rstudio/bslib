@@ -1,9 +1,11 @@
-$pre-bg: mix($body-bg, $body-color, 96.5%) !default;
-$pre-border-color: $border-color !default;
+// Amount intentionally matches mixture amount of shiny::inputPanel()
+// https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
+$pre-bg: mix($body-bg, $body-color, 96%) !default;
+$pre-border: $border-width solid $border-color !default;
 
 pre {
   background-color: $pre-bg;
-  padding: .5em;
-  border: 1px solid $pre-border-color;
+  padding: $spacer / 2;
+  border: $pre-border;
   @include border-radius($border-radius);
 }
