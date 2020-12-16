@@ -421,4 +421,4 @@ index e65cc0c..827347c 100755
 -// Code
 -
 -$pre-color:                         inherit !default;
-+$secondary: $gray-800;
++$secondary: $gray-800 !default;
