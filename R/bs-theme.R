@@ -275,14 +275,18 @@ bootstrap_bundle <- function(version) {
       ),
       # Additions to BS4 that are always included (i.e., not a part of compatibility)
       sass_layer(
-        # Don't impose such a jarring change to the base font-size
-        defaults = "$font-size-base: 0.875rem !default;",
-        # Pandoc uses align attribute to align content but BS4 styles take precedence...
-        # we may want to consider adopting this more generally in "strict" BS4 mode as well
         rules = list(
+          # Pandoc uses align attribute to align content but BS4 styles take precedence...
+          # we may want to consider adopting this more generally in "strict" BS4 mode as well
           ".table th[align=left] { text-align: left; }",
           ".table th[align=right] { text-align: right; }",
-          ".table th[align=center] { text-align: center; }"
+          ".table th[align=center] { text-align: center; }",
+          # BS3 -> BS4 saw a removal of margin-top on headers,
+          # which is a pretty jarring change, expecially for Rmd
+          # https://github.com/twbs/bootstrap/blob/f17f882d/dist/css/bootstrap.css#L1219-L1250
+          # https://github.com/twbs/bootstrap/blob/4de4874e/scss/_reboot.scss#L82-L89 */
+          "h1, h2, h3 { margin-top: 1.5 * $spacer; }",
+          "h4, h5, h6 { margin-top: $spacer; }"
         )
       ),
       bs3compat = bs3compat_bundle()
