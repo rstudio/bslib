@@ -275,11 +275,9 @@ bootstrap_bundle <- function(version) {
       ),
       # Additions to BS4 that are always included (i.e., not a part of compatibility)
       sass_layer(
-        # Don't impose such a jarring change to the base font-size
-        defaults = "$font-size-base: 0.875rem !default;",
-        # Pandoc uses align attribute to align content but BS4 styles take precedence...
-        # we may want to consider adopting this more generally in "strict" BS4 mode as well
         rules = list(
+          # Pandoc uses align attribute to align content but BS4 styles take precedence...
+          # we may want to consider adopting this more generally in "strict" BS4 mode as well
           ".table th[align=left] { text-align: left; }",
           ".table th[align=right] { text-align: right; }",
           ".table th[align=center] { text-align: center; }"
