@@ -1,0 +1,53 @@
+diff --git a/inst/lib/bootstrap/scss/_code.scss b/inst/lib/bootstrap/scss/_code.scss
+index 4bc117a..ab6617b 100644
+--- a/inst/lib/bootstrap/scss/_code.scss
++++ b/inst/lib/bootstrap/scss/_code.scss
+@@ -2,6 +2,9 @@
+ code {
+   @include font-size($code-font-size);
+   color: $code-color;
++  background-color: $code-bg;
++  @include border-radius($border-radius);
++  padding: $spacer/8 $spacer/4;
+   word-wrap: break-word;
+ 
+   // Streamline the style when inside anchors to avoid broken underline and more
+@@ -32,6 +35,10 @@ pre {
+   display: block;
+   @include font-size($code-font-size);
+   color: $pre-color;
++  background-color: $pre-bg;
++  padding: $spacer / 2;
++  border: $pre-border;
++  @include border-radius($border-radius);
+ 
+   // Account for some code outputs that place code tags in pre tags
+   code {
+diff --git a/inst/lib/bootstrap/scss/_variables.scss b/inst/lib/bootstrap/scss/_variables.scss
+index 1c22197..ea39303 100644
+--- a/inst/lib/bootstrap/scss/_variables.scss
++++ b/inst/lib/bootstrap/scss/_variables.scss
+@@ -1117,7 +1117,11 @@ $close-text-shadow:                 0 1px 0 $white !default;
+ // Code
+ 
+ $code-font-size:                    87.5% !default;
+-$code-color:                        $pink !default;
++// Amount intentionally matches mixture amount of shiny::inputPanel()
++// https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
++$code-bg:                           mix($body-bg, $body-color, 96%)!default;
++$code-color:                        color-contrast($code-bg) !default;
++
+ 
+ $kbd-padding-y:                     .2rem !default;
+ $kbd-padding-x:                     .4rem !default;
+@@ -1125,7 +1129,9 @@ $kbd-font-size:                     $code-font-size !default;
+ $kbd-color:                         $white !default;
+ $kbd-bg:                            $gray-900 !default;
+ 
+-$pre-color:                         $gray-900 !default;
++$pre-bg:                            $code-bg !default;
++$pre-color:                         color-contrast($pre-bg) !default;
++$pre-border:                        $border-width solid $border-color !default;
+ $pre-scrollable-max-height:         340px !default;
+ 
+ 
