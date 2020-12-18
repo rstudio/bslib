@@ -1119,7 +1119,7 @@ $close-text-shadow:                 0 1px 0 $white !default;
 $code-font-size:                    87.5% !default;
 // Amount intentionally matches mixture amount of shiny::inputPanel()
 // https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
-$code-bg:                           mix($body-bg, $body-color, 96%)!default;
+$code-bg:                           mix($body-bg, $body-color, 96%) !default;
 $code-color:                        color-contrast($code-bg) !default;
 
 
