@@ -24,7 +24,7 @@ Imports:
     jsonlite,
     sass (>= 0.2.0.9005),
     digest (>= 0.6.25),
-    jquerylib (>= 0.1.2),
+    jquerylib (>= 0.1.3),
     rlang,
     magrittr
 Suggests:
@@ -63,7 +63,7 @@ Collate:
     'web-font.R'
 Remotes:
     rstudio/thematic,
-    rstudio/jquerylib,
+    rstudio/promises,
     rstudio/sass,
     rstudio/htmltools,
     rstudio/shiny

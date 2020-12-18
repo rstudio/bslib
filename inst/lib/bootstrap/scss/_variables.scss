@@ -1117,7 +1117,11 @@ $close-text-shadow:                 0 1px 0 $white !default;
 // Code
 
 $code-font-size:                    87.5% !default;
-$code-color:                        $pink !default;
+// Amount intentionally matches mixture amount of shiny::inputPanel()
+// https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
+$code-bg:                           mix($body-bg, $body-color, 96%) !default;
+$code-color:                        color-contrast($code-bg) !default;
+
 
 $kbd-padding-y:                     .2rem !default;
 $kbd-padding-x:                     .4rem !default;
@@ -1125,7 +1129,9 @@ $kbd-font-size:                     $code-font-size !default;
 $kbd-color:                         $white !default;
 $kbd-bg:                            $gray-900 !default;
 
-$pre-color:                         $gray-900 !default;
+$pre-bg:                            $code-bg !default;
+$pre-color:                         color-contrast($pre-bg) !default;
+$pre-border:                        $border-width solid $border-color !default;
 $pre-scrollable-max-height:         340px !default;
 
 
