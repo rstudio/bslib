@@ -58,6 +58,7 @@ Collate:
     'fonts.R'
     'imports.R'
     'precompiled.R'
+    'shiny-devmode.R'
     'version-default.R'
     'versions.R'
     'web-font.R'
