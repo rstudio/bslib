@@ -9,7 +9,7 @@ bs_theme_dependencies(
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
-  precompiled = TRUE
+  precompiled = get_precompiled_option("bslib.precompiled", default = TRUE)
 )
 }
 \arguments{
@@ -23,7 +23,7 @@ object created by \code{\link[sass:sass_file_cache]{sass_file_cache()}}, or \cod
 \item{jquery}{a \code{\link[jquerylib:jquery_core]{jquerylib::jquery_core()}} object.}
 
 \item{precompiled}{Before compiling the theme object, first look for a
-precompiled CSS file for the \code{\link[=theme_version]{theme_version()}}.  If this option is \code{TRUE}
+precompiled CSS file for the \code{\link[=theme_version]{theme_version()}}.  If \code{precompiled = TRUE}
 and a precompiled CSS file exists for the theme object, it will be fetched
 immediately and not compiled. At the moment, we only provide precompiled
 CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
@@ -42,6 +42,17 @@ directly as Shiny & R Markdown will perform this compilation automatically
 when handed a \code{\link[=bs_theme]{bs_theme()}}. If you're here looking to create a themeable
 component, see \code{\link[=bs_dependency]{bs_dependency()}}.
 }
+\section{Shiny Developer Mode}{
+
+
+If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)}
+or calling \code{shiny::devmode(TRUE)}, the default global option value for
+\code{bslib.precompiled} is updated to \code{FALSE} instead of \code{TRUE},
+similar to \code{getOption("bslib.precompiled", FALSE)}.  This setting allows
+developers to make sure what is being returned from \code{bs_theme_dependencies()} is not an incorrect
+cache result.
+}
+
 \examples{
 
 # Function to preview the styling a (primary) Bootstrap button

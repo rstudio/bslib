@@ -7,11 +7,22 @@
 #' when handed a [bs_theme()]. If you're here looking to create a themeable
 #' component, see [bs_dependency()].
 #'
+#' @section Shiny Developer Mode:
+#'
+# TODO change shiny devmode link to a roxygen link once shiny is released
+# Would need a shiny version >= 1.5.0.9006
+#' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode = TRUE)`
+#' or calling `shiny::devmode(TRUE)`, the default global option value for
+#' `bslib.precompiled` is updated to `FALSE` instead of `TRUE`,
+#' similar to `getOption("bslib.precompiled", FALSE)`.  This setting allows
+#' developers to make sure what is being returned from `bs_theme_dependencies()` is not an incorrect
+#' cache result.
+#'
 #' @inheritParams bs_theme_update
 #' @param sass_options a [sass::sass_options()] object.
 #' @param jquery a [jquerylib::jquery_core()] object.
 #' @param precompiled Before compiling the theme object, first look for a
-#'   precompiled CSS file for the [theme_version()].  If this option is `TRUE`
+#'   precompiled CSS file for the [theme_version()].  If `precompiled = TRUE`
 #'   and a precompiled CSS file exists for the theme object, it will be fetched
 #'   immediately and not compiled. At the moment, we only provide precompiled
 #'   CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
@@ -50,8 +61,8 @@ bs_theme_dependencies <- function(
   sass_options = sass::sass_options(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
-  precompiled = TRUE)
-{
+  precompiled = get_precompiled_option("bslib.precompiled", default = TRUE)
+) {
 
   theme <- as_bs_theme(theme)
   version <- theme_version(theme)
