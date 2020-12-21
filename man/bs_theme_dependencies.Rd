@@ -45,11 +45,11 @@ component, see \code{\link[=bs_dependency]{bs_dependency()}}.
 \section{Sass caching and precompilation}{
 
 
-If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)} or calling \code{shiny::devmode(TRUE)}), both Sass caching and
-precompilation is disabled by default; that is, a call to
-\code{bs_theme_dependencies(theme)} expands to \code{bs_theme_dependencies(theme, cache = F, precompiled = F)}). This is useful for local development since
-caching/precompilation may produce incorrect results if local changes are
-made to bslib's source files.
+If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)} or calling \code{shiny::devmode(TRUE)}), both \pkg{sass} caching and \pkg{bslib}
+precompilation are disabled by default; that is, a call to
+\code{bs_theme_dependencies(theme)} expands to \code{bs_theme_dependencies(theme, cache = F, precompiled = F)}). This is useful for local development as
+enabling caching/precompilation may produce incorrect results if local
+changes are made to bslib's source files.
 }
 
 \examples{
