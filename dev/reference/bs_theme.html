@@ -121,7 +121,7 @@ sass::sass_layer(). To learn more, see here." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/bslib/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -180,41 +180,41 @@ the following common Bootstrap customization(s):</p><ul>
 <code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_layer()</a></code>. To learn more, <a href='https://rstudio.github.io/sass/articles/sass.html#composable-sass'>see here</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_theme</span>(
-  version = <span class='fu'><a href='versions.html'>version_default</a></span>(),
-  bootswatch = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>,
-  bg = <span class='kw'>NULL</span>,
-  fg = <span class='kw'>NULL</span>,
-  primary = <span class='kw'>NULL</span>,
-  secondary = <span class='kw'>NULL</span>,
-  success = <span class='kw'>NULL</span>,
-  info = <span class='kw'>NULL</span>,
-  warning = <span class='kw'>NULL</span>,
-  danger = <span class='kw'>NULL</span>,
-  base_font = <span class='kw'>NULL</span>,
-  code_font = <span class='kw'>NULL</span>,
-  heading_font = <span class='kw'>NULL</span>
-)
+    <pre class="usage"><span class='fu'>bs_theme</span><span class='op'>(</span>
+  version <span class='op'>=</span> <span class='fu'><a href='versions.html'>version_default</a></span><span class='op'>(</span><span class='op'>)</span>,
+  bootswatch <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>,
+  bg <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fg <span class='op'>=</span> <span class='cn'>NULL</span>,
+  primary <span class='op'>=</span> <span class='cn'>NULL</span>,
+  secondary <span class='op'>=</span> <span class='cn'>NULL</span>,
+  success <span class='op'>=</span> <span class='cn'>NULL</span>,
+  info <span class='op'>=</span> <span class='cn'>NULL</span>,
+  warning <span class='op'>=</span> <span class='cn'>NULL</span>,
+  danger <span class='op'>=</span> <span class='cn'>NULL</span>,
+  base_font <span class='op'>=</span> <span class='cn'>NULL</span>,
+  code_font <span class='op'>=</span> <span class='cn'>NULL</span>,
+  heading_font <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>bs_theme_update</span>(
-  <span class='kw'>theme</span>,
-  <span class='kw'>...</span>,
-  bootswatch = <span class='kw'>NULL</span>,
-  bg = <span class='kw'>NULL</span>,
-  fg = <span class='kw'>NULL</span>,
-  primary = <span class='kw'>NULL</span>,
-  secondary = <span class='kw'>NULL</span>,
-  success = <span class='kw'>NULL</span>,
-  info = <span class='kw'>NULL</span>,
-  warning = <span class='kw'>NULL</span>,
-  danger = <span class='kw'>NULL</span>,
-  base_font = <span class='kw'>NULL</span>,
-  code_font = <span class='kw'>NULL</span>,
-  heading_font = <span class='kw'>NULL</span>
-)
+<span class='fu'>bs_theme_update</span><span class='op'>(</span>
+  <span class='va'>theme</span>,
+  <span class='va'>...</span>,
+  bootswatch <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bg <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fg <span class='op'>=</span> <span class='cn'>NULL</span>,
+  primary <span class='op'>=</span> <span class='cn'>NULL</span>,
+  secondary <span class='op'>=</span> <span class='cn'>NULL</span>,
+  success <span class='op'>=</span> <span class='cn'>NULL</span>,
+  info <span class='op'>=</span> <span class='cn'>NULL</span>,
+  warning <span class='op'>=</span> <span class='cn'>NULL</span>,
+  danger <span class='op'>=</span> <span class='cn'>NULL</span>,
+  base_font <span class='op'>=</span> <span class='cn'>NULL</span>,
+  code_font <span class='op'>=</span> <span class='cn'>NULL</span>,
+  heading_font <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>is_bs_theme</span>(<span class='kw'>x</span>)</pre>
+<span class='fu'>is_bs_theme</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -326,7 +326,7 @@ have:</p><ul>
 
 <p>Since <code><a href='font_face.html'>font_google(..., local = TRUE)</a></code> guarantees that the client has access to
 the font family, meaning it's relatively safe to specify just one font
-family, for instance:</p><pre><span class='fu'>bs_theme</span>(base_font = <span class='fu'><a href='font_face.html'>font_google</a></span>(<span class='st'>"Pacifico"</span>, local = <span class='fl'>TRUE</span>))
+family, for instance:</p><pre><span class='fu'>bs_theme</span><span class='op'>(</span>base_font <span class='op'>=</span> <span class='fu'><a href='font_face.html'>font_google</a></span><span class='op'>(</span><span class='st'>"Pacifico"</span>, local <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </pre>
 
 <p>However, specifying multiple "fallback" font families is recommended,
@@ -346,26 +346,26 @@ noticeable with remote web fonts on a slow internet connection.</p><pre>bs_theme
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'>bs_theme</span>(
+<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'>bs_theme</span><span class='op'>(</span>
   <span class='co'># Controls the default grayscale palette</span>
-  bg = <span class='st'>"#202123"</span>, fg = <span class='st'>"#B8BCC2"</span>,
+  bg <span class='op'>=</span> <span class='st'>"#202123"</span>, fg <span class='op'>=</span> <span class='st'>"#B8BCC2"</span>,
   <span class='co'># Controls the accent (e.g., hyperlink, button, etc) colors</span>
-  primary = <span class='st'>"#EA80FC"</span>, secondary = <span class='st'>"#48DAC6"</span>,
-  base_font = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Grandstander"</span>, <span class='st'>"sans-serif"</span>),
-  code_font = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Courier"</span>, <span class='st'>"monospace"</span>),
-  heading_font = <span class='st'>"'Helvetica Neue', Helvetica, sans-serif"</span>,
+  primary <span class='op'>=</span> <span class='st'>"#EA80FC"</span>, secondary <span class='op'>=</span> <span class='st'>"#48DAC6"</span>,
+  base_font <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Grandstander"</span>, <span class='st'>"sans-serif"</span><span class='op'>)</span>,
+  code_font <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Courier"</span>, <span class='st'>"monospace"</span><span class='op'>)</span>,
+  heading_font <span class='op'>=</span> <span class='st'>"'Helvetica Neue', Helvetica, sans-serif"</span>,
   <span class='co'># Can also add lower-level customization</span>
-  <span class='st'>"input-border-color"</span> = <span class='st'>"#EA80FC"</span>
-)
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span>(<span class='kw'>theme</span>)
-}
+  <span class='st'>"input-border-color"</span> <span class='op'>=</span> <span class='st'>"#EA80FC"</span>
+<span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># Lower-level bs_add_*() functions allow you to work more</span>
 <span class='co'># directly with the underlying Sass code</span>
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='kw'>theme</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='bs_add_variables.html'>bs_add_variables</a></span>(<span class='st'>"my-class-color"</span> = <span class='st'>"red"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='bs_add_variables.html'>bs_add_rules</a></span>(<span class='st'>".my-class { color: $my-class-color }"</span>)
+<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='va'>theme</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='bs_add_variables.html'>bs_add_variables</a></span><span class='op'>(</span><span class='st'>"my-class-color"</span> <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='bs_add_variables.html'>bs_add_rules</a></span><span class='op'>(</span><span class='st'>".my-class { color: $my-class-color }"</span><span class='op'>)</span>
 
 </div></pre>
   </div>

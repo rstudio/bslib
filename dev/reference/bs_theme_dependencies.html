@@ -99,7 +99,7 @@ component, see bs_dependency()." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/bslib/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -136,13 +136,13 @@ when handed a <code><a href='bs_theme.html'>bs_theme()</a></code>. If you're her
 component, see <code><a href='bs_dependency.html'>bs_dependency()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_theme_dependencies</span>(
-  <span class='kw'>theme</span>,
-  sass_options = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span>(output_style = <span class='st'>"compressed"</span>),
-  cache = <span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_get.html'>sass_cache_get</a></span>(),
-  jquery = <span class='kw'>jquerylib</span>::<span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span>(<span class='fl'>3</span>),
-  precompiled = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>bs_theme_dependencies</span><span class='op'>(</span>
+  <span class='va'>theme</span>,
+  sass_options <span class='op'>=</span> <span class='fu'>sass</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_options.html'>sass_options</a></span><span class='op'>(</span>output_style <span class='op'>=</span> <span class='st'>"compressed"</span><span class='op'>)</span>,
+  cache <span class='op'>=</span> <span class='fu'>sass</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_cache_get.html'>sass_cache_get</a></span><span class='op'>(</span><span class='op'>)</span>,
+  jquery <span class='op'>=</span> <span class='fu'>jquerylib</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jquerylib/man/jquery_core.html'>jquery_core</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>,
+  precompiled <span class='op'>=</span> <span class='fu'>get_precompiled_option</span><span class='op'>(</span><span class='st'>"bslib.precompiled"</span>, default <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,7 +167,7 @@ object created by <code><a href='https://rdrr.io/pkg/sass/man/sass_file_cache.ht
     <tr>
       <th>precompiled</th>
       <td><p>Before compiling the theme object, first look for a
-precompiled CSS file for the <code><a href='theme_version.html'>theme_version()</a></code>.  If this option is <code>TRUE</code>
+precompiled CSS file for the <code><a href='theme_version.html'>theme_version()</a></code>.  If <code>precompiled = TRUE</code>
 and a precompiled CSS file exists for the theme object, it will be fetched
 immediately and not compiled. At the moment, we only provide precompiled
 CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
@@ -180,6 +180,16 @@ themes, or non-default <code>sass_options</code>).</p></td>
     <p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap
 JavaScript, and <code>jquery</code>. This list may contain additional HTML
 dependencies if bundled with the <code>theme</code>.</p>
+    <h2 class="hasAnchor" id="sass-caching-and-precompilation"><a class="anchor" href="#sass-caching-and-precompilation"></a>Sass caching and precompilation</h2>
+
+    
+
+
+<p>If Shiny Developer Mode is enabled (by setting <code><a href='https://rdrr.io/r/base/options.html'>options(shiny.devmode = TRUE)</a></code> or calling <code><a href='https://shiny.rstudio.com/reference/shiny/latest/devmode.html'>shiny::devmode(TRUE)</a></code>), both <span class="pkg">sass</span> caching and <span class="pkg">bslib</span>
+precompilation are disabled by default; that is, a call to
+<code>bs_theme_dependencies(theme)</code> expands to <code>bs_theme_dependencies(theme, cache = F, precompiled = F)</code>). This is useful for local development as
+enabling caching/precompilation may produce incorrect results if local
+changes are made to bslib's source files.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='bs_theme.html'>bs_theme()</a></code>, <code><a href='bs_dependency.html'>bs_dependency()</a></code></p></div>
@@ -187,23 +197,23 @@ dependencies if bundled with the <code>theme</code>.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Function to preview the styling a (primary) Bootstrap button</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span>)
-<span class='kw'>button</span> <span class='op'>&lt;-</span> <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>a</a></span>(class = <span class='st'>"btn btn-primary"</span>, href = <span class='st'>"#"</span>, role = <span class='st'>"button"</span>, <span class='st'>"Hello"</span>)
-<span class='kw'>preview_button</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>theme</span>) {
-  <span class='kw'>theme</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>bs_theme_dependencies</span>() <span class='op'>%&gt;%</span>
-    <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/body.html'>body</a></span>(<span class='kw'>button</span>) <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span>()
-}
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span><span class='op'>)</span>
+<span class='va'>button</span> <span class='op'>&lt;-</span> <span class='va'>tags</span><span class='op'>$</span><span class='fu'>a</span><span class='op'>(</span>class <span class='op'>=</span> <span class='st'>"btn btn-primary"</span>, href <span class='op'>=</span> <span class='st'>"#"</span>, role <span class='op'>=</span> <span class='st'>"button"</span>, <span class='st'>"Hello"</span><span class='op'>)</span>
+<span class='va'>preview_button</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>theme</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>bs_theme_dependencies</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='va'>tags</span><span class='op'>$</span><span class='fu'>body</span><span class='op'>(</span><span class='va'>button</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># Latest Bootstrap</span>
-<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>())
+<span class='fu'>preview_button</span><span class='op'>(</span><span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># Bootstrap 3</span>
-<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='fl'>3</span>))
+<span class='fu'>preview_button</span><span class='op'>(</span><span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># Bootswatch 4 minty theme</span>
-<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='fl'>4</span>, bootswatch = <span class='st'>"minty"</span>))
+<span class='fu'>preview_button</span><span class='op'>(</span><span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='fl'>4</span>, bootswatch <span class='op'>=</span> <span class='st'>"minty"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># Bootswatch 4 sketchy theme</span>
-<span class='fu'>preview_button</span>(<span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(<span class='fl'>4</span>, bootswatch = <span class='st'>"sketchy"</span>))
+<span class='fu'>preview_button</span><span class='op'>(</span><span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='fl'>4</span>, bootswatch <span class='op'>=</span> <span class='st'>"sketchy"</span><span class='op'>)</span><span class='op'>)</span>
 
 </div></pre>
   </div>

@@ -101,7 +101,7 @@ chunk). Note that this function is only intended to be used for development!" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/bslib/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -140,9 +140,9 @@ Markdown app that is using <code>runtime: shiny</code>, you can call this from a
 chunk). Note that this function is only intended to be used for development!</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_with_themer</span>(appDir = <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>...</span>, gfonts = <span class='fl'>TRUE</span>, gfonts_update = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>run_with_themer</span><span class='op'>(</span>appDir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span>, gfonts <span class='op'>=</span> <span class='cn'>TRUE</span>, gfonts_update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>bs_themer</span>(gfonts = <span class='fl'>TRUE</span>, gfonts_update = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>bs_themer</span><span class='op'>(</span>gfonts <span class='op'>=</span> <span class='cn'>TRUE</span>, gfonts_update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,36 +187,36 @@ Markdown documents.</p>
 instantly reflected in theme preview.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://shiny.rstudio.com'>shiny</a></span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://shiny.rstudio.com'>shiny</a></span><span class='op'>)</span>
 
 <span class='co'># Initialize Bootstrap 4 with Bootstrap 3 compatibility shim</span>
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(version = <span class='fl'>4</span>, bg = <span class='st'>"black"</span>, fg = <span class='st'>"white"</span>)
+<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>version <span class='op'>=</span> <span class='fl'>4</span>, bg <span class='op'>=</span> <span class='st'>"black"</span>, fg <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>
 
-<span class='kw'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
-  theme = <span class='kw'>theme</span>,
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h1</a></span>(<span class='st'>"Heading 1"</span>),
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h2</a></span>(<span class='st'>"Heading 2"</span>),
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span>(
+<span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span><span class='op'>(</span>
+  theme <span class='op'>=</span> <span class='va'>theme</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h1</a></span><span class='op'>(</span><span class='st'>"Heading 1"</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h2</a></span><span class='op'>(</span><span class='st'>"Heading 2"</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span><span class='op'>(</span>
     <span class='st'>"Paragraph text;"</span>,
-    <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>a</a></span>(href = <span class='st'>"https://www.rstudio.com"</span>, <span class='st'>"a link"</span>)
-  ),
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span>(
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/actionButton.html'>actionButton</a></span>(<span class='st'>"cancel"</span>, <span class='st'>"Cancel"</span>),
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/actionButton.html'>actionButton</a></span>(<span class='st'>"continue"</span>, <span class='st'>"Continue"</span>, class = <span class='st'>"btn-primary"</span>)
-  ),
-  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabsetPanel.html'>tabsetPanel</a></span>(
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html'>tabPanel</a></span>(<span class='st'>"First tab"</span>,
+    <span class='va'>tags</span><span class='op'>$</span><span class='fu'>a</span><span class='op'>(</span>href <span class='op'>=</span> <span class='st'>"https://www.rstudio.com"</span>, <span class='st'>"a link"</span><span class='op'>)</span>
+  <span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"cancel"</span>, <span class='st'>"Cancel"</span><span class='op'>)</span>,
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"continue"</span>, <span class='st'>"Continue"</span>, class <span class='op'>=</span> <span class='st'>"btn-primary"</span><span class='op'>)</span>
+  <span class='op'>)</span>,
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabsetPanel.html'>tabsetPanel</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html'>tabPanel</a></span><span class='op'>(</span><span class='st'>"First tab"</span>,
       <span class='st'>"The contents of the first tab"</span>
-    ),
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html'>tabPanel</a></span>(<span class='st'>"Second tab"</span>,
+    <span class='op'>)</span>,
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html'>tabPanel</a></span><span class='op'>(</span><span class='st'>"Second tab"</span>,
       <span class='st'>"The contents of the second tab"</span>
-    )
-  )
-)
+    <span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'>run_with_themer</span>(<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='kw'>ui</span>, <span class='fu'>function</span>(<span class='kw'>input</span>, <span class='kw'>output</span>) {}))
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>run_with_themer</span><span class='op'>(</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span><span class='op'>)</span> <span class='op'>{</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 </div></pre>
   </div>
