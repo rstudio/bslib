@@ -42,15 +42,14 @@ directly as Shiny & R Markdown will perform this compilation automatically
 when handed a \code{\link[=bs_theme]{bs_theme()}}. If you're here looking to create a themeable
 component, see \code{\link[=bs_dependency]{bs_dependency()}}.
 }
-\section{Shiny Developer Mode}{
+\section{Sass caching and precompilation}{
 
 
-If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)}
-or calling \code{shiny::devmode(TRUE)}, the default global option value for
-\code{bslib.precompiled} is updated to \code{FALSE} instead of \code{TRUE},
-similar to \code{getOption("bslib.precompiled", FALSE)}.  This setting allows
-developers to make sure what is being returned from \code{bs_theme_dependencies()} is not an incorrect
-cache result.
+If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)} or calling \code{shiny::devmode(TRUE)}), both Sass caching and
+precompilation is disabled by default; that is, a call to
+\code{bs_theme_dependencies(theme)} expands to \code{bs_theme_dependencies(theme, cache = F, precompiled = F)}). This is useful for local development since
+caching/precompilation may produce incorrect results if local changes are
+made to bslib's source files.
 }
 
 \examples{

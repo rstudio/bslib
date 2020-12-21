@@ -7,16 +7,15 @@
 #' when handed a [bs_theme()]. If you're here looking to create a themeable
 #' component, see [bs_dependency()].
 #'
-#' @section Shiny Developer Mode:
+#' @section Sass caching and precompilation:
 #'
-# TODO change shiny devmode link to a roxygen link once shiny is released
-# Would need a shiny version >= 1.5.0.9006
-#' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode = TRUE)`
-#' or calling `shiny::devmode(TRUE)`, the default global option value for
-#' `bslib.precompiled` is updated to `FALSE` instead of `TRUE`,
-#' similar to `getOption("bslib.precompiled", FALSE)`.  This setting allows
-#' developers to make sure what is being returned from `bs_theme_dependencies()` is not an incorrect
-#' cache result.
+#' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode =
+#' TRUE)` or calling `shiny::devmode(TRUE)`), both Sass caching and
+#' precompilation is disabled by default; that is, a call to
+#' `bs_theme_dependencies(theme)` expands to `bs_theme_dependencies(theme, cache
+#' = F, precompiled = F)`). This is useful for local development since
+#' caching/precompilation may produce incorrect results if local changes are
+#' made to bslib's source files.
 #'
 #' @inheritParams bs_theme_update
 #' @param sass_options a [sass::sass_options()] object.
