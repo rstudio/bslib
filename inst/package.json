@@ -1,8 +1,5 @@
 {
-  "name": "bslib",
-  "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "dependencies": {
     "bootstrap": "^4.5.3",
     "bootstrap-sass": "^3.4.1",
@@ -11,18 +8,5 @@
     "bootswatch": "^4.5.3",
     "popper.js": "^1.16.0"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rstudio/bslib.git"
-  },
-  "author": "",
-  "license": "GPL-2.0-or-later",
-  "bugs": {
-    "url": "https://github.com/rstudio/bslib/issues"
-  },
-  "homepage": "https://github.com/rstudio/bslib#readme"
+  "devDependencies": {}
 }
