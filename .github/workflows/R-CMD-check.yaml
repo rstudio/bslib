@@ -162,3 +162,52 @@ jobs:
           SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
         run: >
           Rscript 'inst/themer-demo/deploy.R'
+
+  pak:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: windows-latest, r: 'release'}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: r-lib/actions/setup-r@master
+        id: install-r
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - name: Install pak and query dependencies
+        shell: Rscript {0}
+        run: |
+          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+
+      # # Use a shorter temp directory for pak installations, due to filename
+      # # length issues on Windows. https://github.com/r-lib/pak/issues/252
+      # - name: Windows temp dir
+      #   if: runner.os == 'Windows'
+      #   run: |
+      #     New-Item -Path "C:\" -Name "tmp" -ItemType Directory
+      #     echo "TMPDIR=c:\tmp" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Install THIS PR using pak # should pass
+        shell: Rscript {0}
+        run: |
+          pak::pkg_install("rstudio/bslib#204")
+
+      - name: Install master using pak # should fail
+        if: always()
+        shell: Rscript {0}
+        run: |
+          pak::pkg_install("rstudio/bslib#204")
