@@ -210,4 +210,4 @@ jobs:
         if: always()
         shell: Rscript {0}
         run: |
-          pak::pkg_install("rstudio/bslib")
+          pak::pkg_install("rstudio/bslib#204")
