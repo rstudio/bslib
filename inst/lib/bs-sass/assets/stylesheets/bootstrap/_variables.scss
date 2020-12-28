@@ -34,7 +34,7 @@ $text-color:            $gray-dark !default;
 // BS3 source uses a lot of darken()/lighten() which doesn't work well
 // for both dark/light themes, so here we override their meaning to be
 // * darken(): pull $color towards $gray-base by $percent
-// * lighten(): pull $color towards $white by $percent 
+// * lighten(): pull $color towards $white by $percent
 // (note that bs3_base_theme_colors() sets $white to be the bg color)
 $white: $body-bg !default;
 @function darken($color, $percent) {

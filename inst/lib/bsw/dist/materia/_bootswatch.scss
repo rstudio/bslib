@@ -58,7 +58,6 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
 
     &:active {
       box-shadow: $btn-active-box-shadow;
-      
     }
 
     @include ripple($color);
