@@ -184,9 +184,9 @@ jobs:
       - name: Install bslib
         shell: Rscript {0}
         run: |
-          pak::local_install_dev_deps(upgrade = TRUE)
-          pak::local_install(upgrade = TRUE)
-          pak::pkg_install(c("rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"), upgrade = TRUE)
+          pak::pkg_install(c("BH", "rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"), upgrade = TRUE)
+          # install master version
+          pak::pkg_install("rstudio/bslib", upgrade = TRUE, dependencies = TRUE)
 
       - name: Register account
         shell: Rscript {0}
