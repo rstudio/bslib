@@ -177,6 +177,7 @@ jobs:
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::local_install(upgrade = TRUE)
+          pak::pkg_install(c("rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"), upgrade = TRUE)
 
       - name: Deploy
         env:
