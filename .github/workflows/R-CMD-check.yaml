@@ -130,7 +130,7 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     name: "Deploy to shinyapps.io"
-    needs: [R-CMD-check]
+    # needs: [R-CMD-check]
 
     strategy:
       fail-fast: false
