@@ -16,6 +16,7 @@ name: R-CMD-check
 
 jobs:
   R-CMD-check:
+    if: false
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -125,7 +126,7 @@ jobs:
         run: echo "C:/Program Files/Git/usr/bin" >> $GITHUB_PATH
 
   deploy:
-    if: github.repository == 'rstudio/bslib' && github.event_name == 'push'
+    # if: github.repository == 'rstudio/bslib' && github.event_name == 'push'
     runs-on: ${{ matrix.config.os }}
 
     name: "Deploy to shinyapps.io"
