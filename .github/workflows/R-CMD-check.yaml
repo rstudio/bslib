@@ -179,10 +179,11 @@ jobs:
           pak::local_install(upgrade = TRUE)
           pak::pkg_install(c("rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"), upgrade = TRUE)
 
+      - name: Register account
+        shell: Rscript {0}
+        run: |
+          rsconnect::setAccountInfo(name='${{ secrets.SHINYAPPS_NAME }}', token='${{ secrets.SHINYAPPS_TOKEN }}', secret='${{ secrets.SHINYAPPS_SECRET }}')"
+
       - name: Deploy
-        env:
-          SHINYAPPS_NAME: ${{ secrets.SHINYAPPS_NAME }}
-          SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
-          SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
-        run: >
+        run: |
           Rscript 'inst/themer-demo/deploy.R'
