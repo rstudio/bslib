@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
+          - {os: macOS-latest,   r: 'release'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -51,6 +51,14 @@ jobs:
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)
+      # xquartz and cairo are needed for Cairo package.
+      # harfbuzz and fribidi are needed for textshaping package.
+      - name: Mac systemdeps
+        if: runner.os == 'macOS'
+        run: |
+          brew cask install xquartz
+          brew install cairo
+          brew install harfbuzz fribidi
 
       - name: Install dependencies
         shell: Rscript {0}
