@@ -1,11 +1,10 @@
 ^bootswatch\.Rproj$
 ^\.Rproj\.user$
-inst/lib/.yarn-integrity
-inst/lib/bootswatch/.github
-inst/lib/bootstrap-sass/assets/images/.keep
-inst/lib/bootswatch3/.npmignore
-^inst/lib/bootstrap-accessibility-plugin/\.jshintrc$
-^inst/lib/bootstrap-accessibility-plugin/\.npmignore$
+inst/lib/bsw/.github
+inst/lib/bs-sass/assets/images/.keep
+inst/lib/bsw3/.npmignore
+^inst/lib/bs-a11y-p/\.jshintrc$
+^inst/lib/bs-a11y-p/\.npmignore$
 ^test-apps$
 ^autocolors-demo$
 ^bslib\.Rproj$

@@ -38,12 +38,12 @@ download_and_copy_fonts <-  function(theme) {
 }
 
 themes <- list.dirs(
-  "inst/lib/bootswatch/dist",
+  "inst/lib/bsw/dist",
   recursive = FALSE,
   full.names = TRUE
 )
 themes3 <- list.dirs(
-  "inst/lib/bootswatch3",
+  "inst/lib/bsw3",
   recursive = FALSE,
   full.names = TRUE
 )
