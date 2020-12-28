@@ -183,7 +183,7 @@ jobs:
       - name: Register account
         shell: Rscript {0}
         run: |
-          rsconnect::setAccountInfo(name='${{ secrets.SHINYAPPS_NAME }}', token='${{ secrets.SHINYAPPS_TOKEN }}', secret='${{ secrets.SHINYAPPS_SECRET }}')"
+          rsconnect::setAccountInfo(name='${{ secrets.SHINYAPPS_NAME }}', token='${{ secrets.SHINYAPPS_TOKEN }}', secret='${{ secrets.SHINYAPPS_SECRET }}')
 
       - name: Deploy
         run: |
