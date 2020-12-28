@@ -1,6 +1,5 @@
 ^bootswatch\.Rproj$
 ^\.Rproj\.user$
-inst/lib/.yarn-integrity
 inst/lib/bootswatch/.github
 inst/lib/bootstrap-sass/assets/images/.keep
 inst/lib/bootswatch3/.npmignore

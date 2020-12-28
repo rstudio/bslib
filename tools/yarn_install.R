@@ -314,6 +314,10 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
 
 
 
+# not used
+unlink(file.path("inst", "lib", ".yarn-integrity"))
+
+
 # ----------------------------------------------------------------------
 # Precompile Bootstrap CSS
 # ----------------------------------------------------------------------
