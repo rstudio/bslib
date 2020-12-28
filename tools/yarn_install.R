@@ -313,6 +313,22 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
 }
 
 
+# ----------------------------------------------------------------------
+# Rename files to shorter names
+# ----------------------------------------------------------------------
+
+rename_info <- c(
+  "bs" = "bootstrap",
+  "bs-a11y-p" = "bootstrap-accessibility-plugin",
+  "bs-colorpicker" = "bootstrap-colorpicker",
+  "bs-sass" = "bootstrap-sass",
+  "bsw" = "bootswatch",
+  "bsw3" = "bootswatch3"
+)
+file.rename(
+  from = file.path("inst", "lib", unname(rename_info)),
+  to = file.path("inst", "lib", names(rename_info))
+)
 
 # not used
 unlink(file.path("inst", "lib", ".yarn-integrity"))
