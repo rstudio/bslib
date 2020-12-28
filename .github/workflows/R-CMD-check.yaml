@@ -129,13 +129,13 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     name: "Deploy to shinyapps.io"
-    needs: [R-CMD-check]
+    # needs: [R-CMD-check]
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
+          - {os: macOS-latest,   r: 'release'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -171,18 +171,34 @@ jobs:
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)
+      # xquartz and cairo are needed for Cairo package.
+      # harfbuzz and fribidi are needed for textshaping package.
+      - name: Mac systemdeps
+        if: runner.os == 'macOS'
+        run: |
+          brew cask install xquartz
+          brew install cairo
+          brew install harfbuzz fribidi
 
       - name: Install bslib
         shell: Rscript {0}
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
-          pak::local_install(upgrade = TRUE)
-          pak::pkg_install(c("rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"), upgrade = TRUE)
+          pak::pkg_install(
+            c(
+              # install master version for deployment
+              "rstudio/bslib",
+              # app deps
+              "BH", "rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"
+            ),
+            upgrade = TRUE
+          )
+
+      - name: Register account
+        shell: Rscript {0}
+        run: |
+          rsconnect::setAccountInfo(name='${{ secrets.SHINYAPPS_NAME }}', token='${{ secrets.SHINYAPPS_TOKEN }}', secret='${{ secrets.SHINYAPPS_SECRET }}')
 
       - name: Deploy
-        env:
-          SHINYAPPS_NAME: ${{ secrets.SHINYAPPS_NAME }}
-          SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
-          SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
-        run: >
+        run: |
           Rscript 'inst/themer-demo/deploy.R'
