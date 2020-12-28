@@ -18,8 +18,8 @@
 #' * Customize main colors and fonts via explicitly named arguments (e.g.,
 #'   `bg`, `fg`, `primary`, etc).
 #' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`
-#'   * See all [Bootstrap 4 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap/scss/_variables.scss)
-#'   * See all [Bootstrap 3 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss)
+#'   * See all [Bootstrap 4 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bs/scss/_variables.scss)
+#'   * See all [Bootstrap 3 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss)
 #'
 #' For less common theming customization(s), you can modify theme objects to:
 #'
@@ -305,7 +305,7 @@ bootstrap_bundle <- function(version) {
       glyphicon_font_files = sass_layer(
         defaults = list("icon-font-path" = "'glyphicon-fonts/'"),
         file_attachments = c(
-          "glyphicon-fonts" = lib_file("bootstrap-sass", "assets", "fonts", "bootstrap")
+          "glyphicon-fonts" = lib_file("bs-sass", "assets", "fonts", "bootstrap")
         )
       )
     )
@@ -316,14 +316,14 @@ bootstrap_bundle <- function(version) {
 bootstrap_javascript_map <- function(version) {
   switch_version(
     version,
-    four = lib_file("bootstrap", "dist", "js", "bootstrap.bundle.min.js.map")
+    four = lib_file("bs", "dist", "js", "bootstrap.bundle.min.js.map")
   )
 }
 bootstrap_javascript <- function(version) {
   switch_version(
     version,
-    four = lib_file("bootstrap", "dist", "js", "bootstrap.bundle.min.js"),
-    three = lib_file("bootstrap-sass", "assets", "javascripts", "bootstrap.min.js")
+    four = lib_file("bs", "dist", "js", "bootstrap.bundle.min.js"),
+    three = lib_file("bs-sass", "assets", "javascripts", "bootstrap.min.js")
   )
 }
 
@@ -339,7 +339,7 @@ bs3compat_bundle <- function() {
     rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
     # Gyliphicon font files
     file_attachments = c(
-      fonts = lib_file("bootstrap-sass", "assets", "fonts")
+      fonts = lib_file("bs-sass", "assets", "fonts")
     ),
     html_deps = htmltools::htmlDependency(
       "bs3compat", packageVersion("bslib"),
@@ -358,7 +358,7 @@ bs3_accessibility_bundle <- function() {
   sass_layer(
     rules = sass_file(
       system_file(
-        "lib", "bootstrap-accessibility-plugin",
+        "lib", "bs-a11y-p",
         "src", "sass", "bootstrap-accessibility.scss",
         package = "bslib"
       )
@@ -366,7 +366,7 @@ bs3_accessibility_bundle <- function() {
     html_deps = htmltools::htmlDependency(
       "bootstrap-accessibility", version_accessibility,
       package = "bslib",
-      src = "lib/bootstrap-accessibility-plugin",
+      src = "lib/bs-a11y-p",
       script = "plugins/js/bootstrap-accessibility.min.js"
     )
   )

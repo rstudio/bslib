@@ -24,7 +24,7 @@ test_that("Can access the sass behind all versions and Bootswatch themes", {
 test_that("Make sure bootstrap.scss hasn't changed", {
   skip_on_cran()
 
-  scss <- lib_file("bootstrap", "scss", "bootstrap.scss")
+  scss <- lib_file("bs", "scss", "bootstrap.scss")
   hash_new <- digest::digest(readLines(scss))
   hash_old <- testthat::test_path("test-assets", "bootstrap_scss_hash.txt")
   expect_equal(hash_new, readLines(hash_old))

@@ -35,7 +35,7 @@ theme_version <- function(theme) {
 bootswatch_dist <- function(version) {
   switch_version(
     version,
-    four = lib_file("bootswatch", "dist"),
-    three = lib_file("bootswatch3")
+    four = lib_file("bsw", "dist"),
+    three = lib_file("bsw3")
   )
 }
