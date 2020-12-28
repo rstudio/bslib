@@ -181,16 +181,19 @@ jobs:
           brew install cairo
           brew install harfbuzz fribidi
 
-      - name: Install app deps
-        shell: Rscript {0}
-        run: |
-          pak::pkg_install(c("BH", "rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"), upgrade = TRUE)
-
       - name: Install bslib
         shell: Rscript {0}
         run: |
-          # install master version for deployment
-          pak::pkg_install("rstudio/bslib", upgrade = TRUE, dependencies = TRUE)
+          pak::local_install_dev_deps(upgrade = TRUE)
+          pak::pkg_install(
+            c(
+              # install master version for deployment
+              "rstudio/bslib",
+              # app deps
+              "BH", "rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"
+            ),
+            upgrade = TRUE
+          )
 
       - name: Register account
         shell: Rscript {0}
