@@ -44,7 +44,7 @@
     },
     "danger": {
       "type": "color",
-      "label": "Secondary",
+      "label": "Danger",
       "desc": null
     }
   },
