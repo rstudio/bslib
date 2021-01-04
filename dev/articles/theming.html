@@ -76,7 +76,7 @@
       <h1 data-toc-skip>Custom themes</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2020-12-28</h4>
+            <h4 class="date">2021-01-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/theming.Rmd"><code>vignettes/theming.Rmd</code></a></small>
       <div class="hidden name"><code>theming.Rmd</code></div>
@@ -296,7 +296,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 </ul>
 </li>
 </ul>
-<p>At the moment, custom components (e.g., <code>{shinyWidgets}</code>, <code>{htmlwidgets}</code>, etc) aren’t necessarily themeable (via <a href="https://rstudio.github.io/bslib/">bslib</a>); but fortunately, <a href="https://rstudio.github.io/bslib/">bslib</a> provides the tools for making custom content themeable. Over time, we’re hoping package authors will leverage these tools to make their custom components themeable by default, but app authors can also leverage these tools to translate themes to whatever styling API they need.</p>
+<p>At the moment, custom components (e.g., <code>{shinyWidgets}</code>, <a href="https://github.com/ramnathv/htmlwidgets">htmlwidgets</a>, etc) aren’t necessarily themeable (via <a href="https://rstudio.github.io/bslib/">bslib</a>); but fortunately, <a href="https://rstudio.github.io/bslib/">bslib</a> provides the tools for making custom content themeable. Over time, we’re hoping package authors will leverage these tools to make their custom components themeable by default, but app authors can also leverage these tools to translate themes to whatever styling API they need.</p>
 <div id="plots" class="section level3" data-link="Plots">
 <h3 class="hasAnchor">
 <a href="#plots" class="anchor"></a>Plots</h3>
@@ -412,7 +412,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <div id="html-widgets" class="section level4">
 <h4 class="hasAnchor">
 <a href="#html-widgets" class="anchor"></a>HTML widgets</h4>
-<p>For <code>{htmlwidgets}</code> that can be themed via CSS, we recommend supplying a <code><a href="../reference/bs_dependency.html">bs_dependency_defer()</a></code> to the <code>dependencies</code> argument of <code>createWidget()</code> (similar to the <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> component from the last section), which will make the widget dynamically themeable. For widgets that can <em>not</em> be themed via CSS, the best option may be to query the active theme inside a <code>preRenderHook()</code> via <code><a href="../reference/bs_current_theme.html">bs_current_theme()</a></code>, and then translate any relevant information to the widget’s instance data, for example:</p>
+<p>For <a href="https://github.com/ramnathv/htmlwidgets">htmlwidgets</a> that can be themed via CSS, we recommend supplying a <code><a href="../reference/bs_dependency.html">bs_dependency_defer()</a></code> to the <code>dependencies</code> argument of <code>createWidget()</code> (similar to the <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> component from the last section), which will make the widget dynamically themeable. For widgets that can <em>not</em> be themed via CSS, the best option may be to query the active theme inside a <code>preRenderHook()</code> via <code><a href="../reference/bs_current_theme.html">bs_current_theme()</a></code>, and then translate any relevant information to the widget’s instance data, for example:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_widget</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu">createWidget</span><span class="op">(</span>
