@@ -1,6 +1,6 @@
 Package: bslib
 Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass
-Version: 0.2.3.9000
+Version: 0.2.4
 Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
@@ -62,11 +62,5 @@ Collate:
     'version-default.R'
     'versions.R'
     'web-font.R'
-Remotes:
-    rstudio/thematic,
-    rstudio/promises,
-    rstudio/sass,
-    rstudio/htmltools,
-    rstudio/shiny
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
