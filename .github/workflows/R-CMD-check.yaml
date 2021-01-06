@@ -171,6 +171,7 @@ jobs:
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)
+          pak::pkg_system_requirements("devtools", execute = TRUE)
       # xquartz and cairo are needed for Cairo package.
       # harfbuzz and fribidi are needed for textshaping package.
       - name: Mac systemdeps
