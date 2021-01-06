@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootswatch/dist/cerulean/_bootswatch.scss b/inst/lib/bootswatch/dist/cerulean/_bootswatch.scss
+diff --git a/inst/lib/bsw/dist/cerulean/_bootswatch.scss b/inst/lib/bsw/dist/cerulean/_bootswatch.scss
 index 7a9e3ef..fcfcb8e 100644
---- a/inst/lib/bootswatch/dist/cerulean/_bootswatch.scss
-+++ b/inst/lib/bootswatch/dist/cerulean/_bootswatch.scss
+--- a/inst/lib/bsw/dist/cerulean/_bootswatch.scss
++++ b/inst/lib/bsw/dist/cerulean/_bootswatch.scss
 @@ -37,6 +37,14 @@ $text-shadow: 0 1px 0 rgba(0, 0, 0, .05) !default;
    text-shadow: $text-shadow;
  }

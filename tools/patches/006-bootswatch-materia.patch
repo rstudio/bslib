@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootswatch/dist/materia/_bootswatch.scss b/inst/lib/bootswatch/dist/materia/_bootswatch.scss
+diff --git a/inst/lib/bsw/dist/materia/_bootswatch.scss b/inst/lib/bsw/dist/materia/_bootswatch.scss
 index eaf2606..ff721aa 100644
---- a/inst/lib/bootswatch/dist/materia/_bootswatch.scss
-+++ b/inst/lib/bootswatch/dist/materia/_bootswatch.scss
+--- a/inst/lib/bsw/dist/materia/_bootswatch.scss
++++ b/inst/lib/bsw/dist/materia/_bootswatch.scss
 @@ -48,7 +48,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
    .btn-#{$class} {
      &:focus {
@@ -268,10 +268,10 @@ index eaf2606..ff721aa 100644
  }
  
  .carousel {
-diff --git a/inst/lib/bootswatch/dist/materia/_variables.scss b/inst/lib/bootswatch/dist/materia/_variables.scss
+diff --git a/inst/lib/bsw/dist/materia/_variables.scss b/inst/lib/bsw/dist/materia/_variables.scss
 index 54b8bcc..eef1d59 100755
---- a/inst/lib/bootswatch/dist/materia/_variables.scss
-+++ b/inst/lib/bootswatch/dist/materia/_variables.scss
+--- a/inst/lib/bsw/dist/materia/_variables.scss
++++ b/inst/lib/bsw/dist/materia/_variables.scss
 @@ -116,3 +116,12 @@ $progress-border-radius:        0 !default;
  
  $close-font-size:             2.125rem !default;

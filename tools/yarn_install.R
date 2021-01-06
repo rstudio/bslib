@@ -300,19 +300,6 @@ LICENSE <- c(
 writeLines(LICENSE, "LICENSE")
 
 
-# Apply any patches to source
-patch_dir <- find_package_root_file("tools/patches")
-for (patch in list.files(patch_dir, full.names = TRUE)) {
-  tryCatch(
-    {
-      message(sprintf("Applying %s", basename(patch)))
-      system(sprintf("git apply '%s'", patch))
-    },
-    error = function(e) quit(save = "no", status = 1)
-  )
-}
-
-
 # ----------------------------------------------------------------------
 # Rename files to shorter names
 # ----------------------------------------------------------------------
@@ -332,6 +319,21 @@ file.rename(
 
 # not used
 unlink(file.path("inst", "lib", ".yarn-integrity"))
+
+# ----------------------------------------------------------------------
+# Apply any patches to source
+# ----------------------------------------------------------------------
+
+patch_dir <- find_package_root_file("tools/patches")
+for (patch in list.files(patch_dir, full.names = TRUE)) {
+  tryCatch(
+    {
+      message(sprintf("Applying %s", basename(patch)))
+      system(sprintf("git apply '%s'", patch))
+    },
+    error = function(e) quit(save = "no", status = 1)
+  )
+}
 
 
 # ----------------------------------------------------------------------

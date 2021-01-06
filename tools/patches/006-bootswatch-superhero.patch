@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootswatch/dist/superhero/_variables.scss b/inst/lib/bootswatch/dist/superhero/_variables.scss
+diff --git a/inst/lib/bsw/dist/superhero/_variables.scss b/inst/lib/bsw/dist/superhero/_variables.scss
 index 68672cd..b67bc50 100755
---- a/inst/lib/bootswatch/dist/superhero/_variables.scss
-+++ b/inst/lib/bootswatch/dist/superhero/_variables.scss
+--- a/inst/lib/bsw/dist/superhero/_variables.scss
++++ b/inst/lib/bsw/dist/superhero/_variables.scss
 @@ -28,22 +26,28 @@ $green:   #5cb85c !default;
  $teal:    #20c997 !default;
  $cyan:    #5bc0de !default;

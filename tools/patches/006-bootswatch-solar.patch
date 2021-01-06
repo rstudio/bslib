@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootswatch/dist/solar/_bootswatch.scss b/inst/lib/bootswatch/dist/solar/_bootswatch.scss
+diff --git a/inst/lib/bsw/dist/solar/_bootswatch.scss b/inst/lib/bsw/dist/solar/_bootswatch.scss
 index fe2b6e3..c3d5dea 100644
---- a/inst/lib/bootswatch/dist/solar/_bootswatch.scss
-+++ b/inst/lib/bootswatch/dist/solar/_bootswatch.scss
+--- a/inst/lib/bsw/dist/solar/_bootswatch.scss
++++ b/inst/lib/bsw/dist/solar/_bootswatch.scss
 @@ -6,236 +6,3 @@
  
  $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" !default;
@@ -239,10 +239,10 @@ index fe2b6e3..c3d5dea 100644
 -    }
 -  }
 -}
-diff --git a/inst/lib/bootswatch/dist/solar/_variables.scss b/inst/lib/bootswatch/dist/solar/_variables.scss
+diff --git a/inst/lib/bsw/dist/solar/_variables.scss b/inst/lib/bsw/dist/solar/_variables.scss
 index e65cc0c..827347c 100755
---- a/inst/lib/bootswatch/dist/solar/_variables.scss
-+++ b/inst/lib/bootswatch/dist/solar/_variables.scss
+--- a/inst/lib/bsw/dist/solar/_variables.scss
++++ b/inst/lib/bsw/dist/solar/_variables.scss
 @@ -1,22 +1,14 @@
 -// Solar 4.5.3
 -// Bootswatch

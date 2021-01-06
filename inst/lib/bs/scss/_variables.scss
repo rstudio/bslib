@@ -248,8 +248,9 @@ $box-shadow-sm:               0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow:                  0 .5rem 1rem rgba($black, .15) !default;
 $box-shadow-lg:               0 1rem 3rem rgba($black, .175) !default;
 
-$component-active-color:      $white !default;
+
 $component-active-bg:         theme-color("primary") !default;
+$component-active-color:      color-contrast($component-active-bg) !default;
 
 $caret-width:                 .3em !default;
 $caret-vertical-align:        $caret-width * .85 !default;
@@ -539,8 +540,9 @@ $custom-control-label-color:            null !default;
 $custom-control-indicator-disabled-bg:          $input-disabled-bg !default;
 $custom-control-label-disabled-color:           $gray-600 !default;
 
-$custom-control-indicator-checked-color:        $component-active-color !default;
+
 $custom-control-indicator-checked-bg:           $component-active-bg !default;
+$custom-control-indicator-checked-color:        color-contrast($custom-control-indicator-checked-bg, $component-active-color) !default;
 $custom-control-indicator-checked-disabled-bg:  rgba(theme-color("primary"), .5) !default;
 $custom-control-indicator-checked-box-shadow:   null !default;
 $custom-control-indicator-checked-border-color: $custom-control-indicator-checked-bg !default;
@@ -548,8 +550,9 @@ $custom-control-indicator-checked-border-color: $custom-control-indicator-checke
 $custom-control-indicator-focus-box-shadow:     $input-focus-box-shadow !default;
 $custom-control-indicator-focus-border-color:   $input-focus-border-color !default;
 
-$custom-control-indicator-active-color:         $component-active-color !default;
+
 $custom-control-indicator-active-bg:            lighten($component-active-bg, 35%) !default;
+$custom-control-indicator-active-color:         color-contrast($custom-control-indicator-active-bg, $component-active-color) !default;
 $custom-control-indicator-active-box-shadow:    null !default;
 $custom-control-indicator-active-border-color:  $custom-control-indicator-active-bg !default;
 
@@ -557,7 +560,7 @@ $custom-checkbox-indicator-border-radius:       $border-radius !default;
 $custom-checkbox-indicator-icon-checked:        url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><path fill='#{$custom-control-indicator-checked-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/></svg>") !default;
 
 $custom-checkbox-indicator-indeterminate-bg:           $component-active-bg !default;
-$custom-checkbox-indicator-indeterminate-color:        $custom-control-indicator-checked-color !default;
+$custom-checkbox-indicator-indeterminate-color:        color-contrast($custom-checkbox-indicator-indeterminate-bg, $custom-control-indicator-checked-color) !default;
 $custom-checkbox-indicator-icon-indeterminate:         url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'><path stroke='#{$custom-checkbox-indicator-indeterminate-color}' d='M0 2h4'/></svg>") !default;
 $custom-checkbox-indicator-indeterminate-box-shadow:   null !default;
 $custom-checkbox-indicator-indeterminate-border-color: $custom-checkbox-indicator-indeterminate-bg !default;
@@ -707,8 +710,8 @@ $nav-tabs-link-active-bg:           $body-bg !default;
 $nav-tabs-link-active-border-color: $gray-300 $gray-300 $nav-tabs-link-active-bg !default;
 
 $nav-pills-border-radius:           $border-radius !default;
-$nav-pills-link-active-color:       $component-active-color !default;
 $nav-pills-link-active-bg:          $component-active-bg !default;
+$nav-pills-link-active-color:       color-contrast($nav-pills-link-active-bg, $component-active-color) !default;
 
 $nav-divider-color:                 $gray-200 !default;
 $nav-divider-margin-y:              $spacer / 2 !default;
@@ -775,8 +778,8 @@ $dropdown-link-color:               $gray-900 !default;
 $dropdown-link-hover-color:         darken($gray-900, 5%) !default;
 $dropdown-link-hover-bg:            $gray-100 !default;
 
-$dropdown-link-active-color:        $component-active-color !default;
 $dropdown-link-active-bg:           $component-active-bg !default;
+$dropdown-link-active-color:        color-contrast($dropdown-link-active-bg, $component-active-color) !default;
 
 $dropdown-link-disabled-color:      $gray-600 !default;
 
@@ -809,8 +812,8 @@ $pagination-hover-color:            $link-hover-color !default;
 $pagination-hover-bg:               $gray-200 !default;
 $pagination-hover-border-color:     $gray-300 !default;
 
-$pagination-active-color:           $component-active-color !default;
 $pagination-active-bg:              $component-active-bg !default;
+$pagination-active-color:           color-contrast($pagination-active-bg, $component-active-color) !default;
 $pagination-active-border-color:    $pagination-active-bg !default;
 
 $pagination-disabled-color:         $gray-600 !default;
@@ -1020,8 +1023,8 @@ $list-group-item-padding-y:         .75rem !default;
 $list-group-item-padding-x:         1.25rem !default;
 
 $list-group-hover-bg:               $gray-100 !default;
-$list-group-active-color:           $component-active-color !default;
 $list-group-active-bg:              $component-active-bg !default;
+$list-group-active-color:           color-contrast($list-group-active-bg, $component-active-color) !default;
 $list-group-active-border-color:    $list-group-active-bg !default;
 
 $list-group-disabled-color:         $gray-600 !default;

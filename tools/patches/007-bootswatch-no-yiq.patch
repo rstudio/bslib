@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootswatch/dist/darkly/_variables.scss b/inst/lib/bootswatch/dist/darkly/_variables.scss
+diff --git a/inst/lib/bsw/dist/darkly/_variables.scss b/inst/lib/bsw/dist/darkly/_variables.scss
 index 375352f..8e3f27f 100755
---- a/inst/lib/bootswatch/dist/darkly/_variables.scss
-+++ b/inst/lib/bootswatch/dist/darkly/_variables.scss
+--- a/inst/lib/bsw/dist/darkly/_variables.scss
++++ b/inst/lib/bsw/dist/darkly/_variables.scss
 @@ -48,7 +48,6 @@ $danger:        $red !default;
  $light:         body-mix(65%) !default;
  $dark:          body-mix(95%) !default;
@@ -10,10 +10,10 @@ index 375352f..8e3f27f 100755
  
  $component-active-color: $body-color !default;
  
-diff --git a/inst/lib/bootswatch/dist/flatly/_variables.scss b/inst/lib/bootswatch/dist/flatly/_variables.scss
+diff --git a/inst/lib/bsw/dist/flatly/_variables.scss b/inst/lib/bsw/dist/flatly/_variables.scss
 index f785790..a1e2803 100755
---- a/inst/lib/bootswatch/dist/flatly/_variables.scss
-+++ b/inst/lib/bootswatch/dist/flatly/_variables.scss
+--- a/inst/lib/bsw/dist/flatly/_variables.scss
++++ b/inst/lib/bsw/dist/flatly/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $gray-200 !default;
  $dark:          $gray-700 !default;
@@ -22,10 +22,10 @@ index f785790..a1e2803 100755
  
  // Links
  
-diff --git a/inst/lib/bootswatch/dist/litera/_variables.scss b/inst/lib/bootswatch/dist/litera/_variables.scss
+diff --git a/inst/lib/bsw/dist/litera/_variables.scss b/inst/lib/bsw/dist/litera/_variables.scss
 index d6c0b7c..12d7458 100755
---- a/inst/lib/bootswatch/dist/litera/_variables.scss
-+++ b/inst/lib/bootswatch/dist/litera/_variables.scss
+--- a/inst/lib/bsw/dist/litera/_variables.scss
++++ b/inst/lib/bsw/dist/litera/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $gray-100 !default;
  $dark:          $gray-800 !default;
@@ -34,10 +34,10 @@ index d6c0b7c..12d7458 100755
  
  // Body
  
-diff --git a/inst/lib/bootswatch/dist/lumen/_variables.scss b/inst/lib/bootswatch/dist/lumen/_variables.scss
+diff --git a/inst/lib/bsw/dist/lumen/_variables.scss b/inst/lib/bsw/dist/lumen/_variables.scss
 index 0856dbb..bc03254 100755
---- a/inst/lib/bootswatch/dist/lumen/_variables.scss
-+++ b/inst/lib/bootswatch/dist/lumen/_variables.scss
+--- a/inst/lib/bsw/dist/lumen/_variables.scss
++++ b/inst/lib/bsw/dist/lumen/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $gray-100 !default;
  $dark:          $gray-700 !default;
@@ -46,10 +46,10 @@ index 0856dbb..bc03254 100755
  
  // Fonts
  
-diff --git a/inst/lib/bootswatch/dist/lux/_variables.scss b/inst/lib/bootswatch/dist/lux/_variables.scss
+diff --git a/inst/lib/bsw/dist/lux/_variables.scss b/inst/lib/bsw/dist/lux/_variables.scss
 index 81cf2cc..d410140 100755
---- a/inst/lib/bootswatch/dist/lux/_variables.scss
-+++ b/inst/lib/bootswatch/dist/lux/_variables.scss
+--- a/inst/lib/bsw/dist/lux/_variables.scss
++++ b/inst/lib/bsw/dist/lux/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $white !default;
  $dark:          $gray-800 !default;
@@ -58,10 +58,10 @@ index 81cf2cc..d410140 100755
  
  // Options
  
-diff --git a/inst/lib/bootswatch/dist/materia/_variables.scss b/inst/lib/bootswatch/dist/materia/_variables.scss
+diff --git a/inst/lib/bsw/dist/materia/_variables.scss b/inst/lib/bsw/dist/materia/_variables.scss
 index f6fed43..54b8bcc 100755
---- a/inst/lib/bootswatch/dist/materia/_variables.scss
-+++ b/inst/lib/bootswatch/dist/materia/_variables.scss
+--- a/inst/lib/bsw/dist/materia/_variables.scss
++++ b/inst/lib/bsw/dist/materia/_variables.scss
 @@ -37,8 +37,6 @@ $danger:        $red !default;
  $light:         $white !default;
  $dark:          $gray-800 !default;
@@ -71,10 +71,10 @@ index f6fed43..54b8bcc 100755
  $enable-gradients: true !default;
  
  // Body
-diff --git a/inst/lib/bootswatch/dist/minty/_variables.scss b/inst/lib/bootswatch/dist/minty/_variables.scss
+diff --git a/inst/lib/bsw/dist/minty/_variables.scss b/inst/lib/bsw/dist/minty/_variables.scss
 index d9e92a9..3fbe64e 100755
---- a/inst/lib/bootswatch/dist/minty/_variables.scss
-+++ b/inst/lib/bootswatch/dist/minty/_variables.scss
+--- a/inst/lib/bsw/dist/minty/_variables.scss
++++ b/inst/lib/bsw/dist/minty/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $gray-100 !default;
  $dark:          $gray-800 !default;
@@ -83,10 +83,10 @@ index d9e92a9..3fbe64e 100755
  
  // Body
  
-diff --git a/inst/lib/bootswatch/dist/sandstone/_variables.scss b/inst/lib/bootswatch/dist/sandstone/_variables.scss
+diff --git a/inst/lib/bsw/dist/sandstone/_variables.scss b/inst/lib/bsw/dist/sandstone/_variables.scss
 index f37c7f5..fdc5cfe 100755
---- a/inst/lib/bootswatch/dist/sandstone/_variables.scss
-+++ b/inst/lib/bootswatch/dist/sandstone/_variables.scss
+--- a/inst/lib/bsw/dist/sandstone/_variables.scss
++++ b/inst/lib/bsw/dist/sandstone/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $gray-200 !default;
  $dark:          $gray-800 !default;
@@ -95,10 +95,10 @@ index f37c7f5..fdc5cfe 100755
  
  // Body
  
-diff --git a/inst/lib/bootswatch/dist/sketchy/_variables.scss b/inst/lib/bootswatch/dist/sketchy/_variables.scss
+diff --git a/inst/lib/bsw/dist/sketchy/_variables.scss b/inst/lib/bsw/dist/sketchy/_variables.scss
 index e159662..ae405f1 100755
---- a/inst/lib/bootswatch/dist/sketchy/_variables.scss
-+++ b/inst/lib/bootswatch/dist/sketchy/_variables.scss
+--- a/inst/lib/bsw/dist/sketchy/_variables.scss
++++ b/inst/lib/bsw/dist/sketchy/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $white !default;
  $dark:          $gray-700 !default;
@@ -107,10 +107,10 @@ index e159662..ae405f1 100755
  
  // Links
  
-diff --git a/inst/lib/bootswatch/dist/slate/_variables.scss b/inst/lib/bootswatch/dist/slate/_variables.scss
+diff --git a/inst/lib/bsw/dist/slate/_variables.scss b/inst/lib/bsw/dist/slate/_variables.scss
 index 8597e00..04baa5f 100755
---- a/inst/lib/bootswatch/dist/slate/_variables.scss
-+++ b/inst/lib/bootswatch/dist/slate/_variables.scss
+--- a/inst/lib/bsw/dist/slate/_variables.scss
++++ b/inst/lib/bsw/dist/slate/_variables.scss
 @@ -36,7 +36,6 @@ $cyan:    #5bc0de !default;
  $body-bg:                   body-mix(100%) !default;
  $body-color:                body-mix(0%) !default;
@@ -119,10 +119,10 @@ index 8597e00..04baa5f 100755
  
  $contrast-bg: color-contrast($body-bg) !default;
  $contrast-fg: color-contrast($contrast-bg) !default;
-diff --git a/inst/lib/bootswatch/dist/spacelab/_variables.scss b/inst/lib/bootswatch/dist/spacelab/_variables.scss
+diff --git a/inst/lib/bsw/dist/spacelab/_variables.scss b/inst/lib/bsw/dist/spacelab/_variables.scss
 index a42f455..f37a7e5 100755
---- a/inst/lib/bootswatch/dist/spacelab/_variables.scss
-+++ b/inst/lib/bootswatch/dist/spacelab/_variables.scss
+--- a/inst/lib/bsw/dist/spacelab/_variables.scss
++++ b/inst/lib/bsw/dist/spacelab/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $gray-200 !default;
  $dark:          $gray-800 !default;
@@ -131,10 +131,10 @@ index a42f455..f37a7e5 100755
  
  // Body
  
-diff --git a/inst/lib/bootswatch/dist/superhero/_variables.scss b/inst/lib/bootswatch/dist/superhero/_variables.scss
+diff --git a/inst/lib/bsw/dist/superhero/_variables.scss b/inst/lib/bsw/dist/superhero/_variables.scss
 index 509e3da..5c666bd 100755
---- a/inst/lib/bootswatch/dist/superhero/_variables.scss
-+++ b/inst/lib/bootswatch/dist/superhero/_variables.scss
+--- a/inst/lib/bsw/dist/superhero/_variables.scss
++++ b/inst/lib/bsw/dist/superhero/_variables.scss
 @@ -48,7 +48,6 @@ $danger:        $red !default;
  $light:         body-mix(48%) !default;
  $dark:          body-mix(80%) !default;
@@ -143,10 +143,10 @@ index 509e3da..5c666bd 100755
  
  // Components
  
-diff --git a/inst/lib/bootswatch/dist/united/_variables.scss b/inst/lib/bootswatch/dist/united/_variables.scss
+diff --git a/inst/lib/bsw/dist/united/_variables.scss b/inst/lib/bsw/dist/united/_variables.scss
 index 9a96e66..c035444 100755
---- a/inst/lib/bootswatch/dist/united/_variables.scss
-+++ b/inst/lib/bootswatch/dist/united/_variables.scss
+--- a/inst/lib/bsw/dist/united/_variables.scss
++++ b/inst/lib/bsw/dist/united/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $gray-200 !default;
  $dark:          $purple !default;
@@ -155,10 +155,10 @@ index 9a96e66..c035444 100755
  
  // Body
  
-diff --git a/inst/lib/bootswatch/dist/yeti/_variables.scss b/inst/lib/bootswatch/dist/yeti/_variables.scss
+diff --git a/inst/lib/bsw/dist/yeti/_variables.scss b/inst/lib/bsw/dist/yeti/_variables.scss
 index 8eae40d..0c7c5e0 100755
---- a/inst/lib/bootswatch/dist/yeti/_variables.scss
-+++ b/inst/lib/bootswatch/dist/yeti/_variables.scss
+--- a/inst/lib/bsw/dist/yeti/_variables.scss
++++ b/inst/lib/bsw/dist/yeti/_variables.scss
 @@ -37,7 +37,6 @@ $danger:        $red !default;
  $light:         $gray-200 !default;
  $dark:          $gray-900 !default;
