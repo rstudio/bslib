@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-20.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/all/latest"}
+          - {os: ubuntu-16.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/all/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
