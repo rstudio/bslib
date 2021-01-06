@@ -135,7 +135,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-20.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+          - {os: ubuntu-16.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -143,7 +143,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@master
         id: install-r
@@ -195,9 +195,8 @@ jobs:
       - name: Install bslib
         shell: Rscript {0}
         run: |
-          # install package an all direct deps
-          pak::local_install_dev_deps(upgrade = TRUE)
-          pak::local_install()
+          # install package from github for rsconnect
+          pak::pkg_install("rstudio/bslib", upgrade = TRUE, dependencies = TRUE)
       - name: Install app deps
         shell: Rscript {0}
         run: |
