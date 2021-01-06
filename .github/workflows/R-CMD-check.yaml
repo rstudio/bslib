@@ -166,12 +166,23 @@ jobs:
             ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-deploy-
             ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
 
+      - name: Install renv
+        shell: Rscript {0}
+        run: |
+          pak::pkg_install("renv")
       - name: Install system dependencies
         if: runner.os == 'Linux'
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)
-          pak::pkg_system_requirements("devtools", execute = TRUE)
+          pak::pkg_system_requirements("renv", execute = TRUE)
+          # install all local sys reqs needed
+          lapply(
+            unique(renv::dependencies("inst/themer-demo/")$Package),
+            function(pkg) {
+              pak::pkg_system_requirements(pkg, execute = TRUE)
+            }
+          )
       # xquartz and cairo are needed for Cairo package.
       # harfbuzz and fribidi are needed for textshaping package.
       - name: Mac systemdeps
@@ -186,12 +197,7 @@ jobs:
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install(
-            c(
-              # install master version for deployment
-              "rstudio/bslib",
-              # app deps
-              "BH", "rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"
-            ),
+            unique(renv::dependencies("inst/themer-demo/")$Package),
             upgrade = TRUE
           )
 
