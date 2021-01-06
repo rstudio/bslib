@@ -27,8 +27,8 @@ jobs:
           - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
           - {os: windows-latest, r: '3.6'}
-          - {os: ubuntu-20.04,   r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest", http-user-agent: "R/4.0.0 (ubuntu-16.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
-          - {os: ubuntu-18.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+          - {os: ubuntu-20.04,   r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", http-user-agent: "R/4.0.0 (ubuntu-16.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
+          - {os: ubuntu-18.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
           - {os: ubuntu-16.04,   r: 'oldrel',  rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
           - {os: ubuntu-16.04,   r: '3.5',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
           - {os: ubuntu-16.04,   r: '3.4',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
@@ -166,23 +166,14 @@ jobs:
             ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-deploy-
             ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
 
-      - name: Install renv
-        shell: Rscript {0}
-        run: |
-          pak::pkg_install("renv")
       - name: Install system dependencies
         if: runner.os == 'Linux'
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)
           pak::pkg_system_requirements("renv", execute = TRUE)
-          # install all local sys reqs needed
-          lapply(
-            unique(renv::dependencies("inst/themer-demo/")$Package),
-            function(pkg) {
-              pak::pkg_system_requirements(pkg, execute = TRUE)
-            }
-          )
+          pak::pkg_system_requirements("rsconnect", execute = TRUE)
+          pak::pkg_system_requirements("pkgdown", execute = TRUE)
       # xquartz and cairo are needed for Cairo package.
       # harfbuzz and fribidi are needed for textshaping package.
       - name: Mac systemdeps
@@ -196,6 +187,7 @@ jobs:
         shell: Rscript {0}
         run: |
           # install package from github for rsconnect
+          pak::pkg_install("renv", upgrade = TRUE)
           pak::pkg_install("rstudio/bslib", dependencies = TRUE)
       - name: Install app deps
         shell: Rscript {0}

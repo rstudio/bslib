@@ -28,7 +28,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         id: install-r
         with:
-          r-version: release
+          r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-pandoc@master
 
