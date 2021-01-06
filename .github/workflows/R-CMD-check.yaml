@@ -197,10 +197,12 @@ jobs:
         run: |
           # install package an all direct deps
           pak::local_install(upgrade = TRUE, dependencies = TRUE)
-          pak::pkg_install(
-            unique(renv::dependencies("inst/themer-demo/")$Package),
-            upgrade = TRUE
-          )
+      - name: Install app deps
+        shell: Rscript {0}
+        run: |
+          pkgs <- unique(renv::dependencies("inst/themer-demo/")$Package)
+          print(pkgs)
+          pak::pkg_install(pkgs, upgrade = TRUE)
 
       - name: Register account
         shell: Rscript {0}
