@@ -54,6 +54,11 @@ jobs:
           pak::pkg_system_requirements("devtools", execute = TRUE)
           pak::pkg_system_requirements("rsconnect", execute = TRUE)
           pak::pkg_system_requirements("pkgdown", execute = TRUE)
+      - name: Install libcurl
+        if: runner.os == 'Linux'
+        run: |
+          sudo -s apt-get update
+          sudo -s apt-get install -y libcurl4-openssl-dev
       # xquartz and cairo are needed for Cairo package.
       # harfbuzz and fribidi are needed for textshaping package.
       - name: Mac systemdeps
