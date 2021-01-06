@@ -188,6 +188,7 @@ jobs:
         run: |
           # install package from github for rsconnect
           pak::pkg_install("renv", upgrade = TRUE)
+          pak::pkg_install("rstudio/sass", dependencies = TRUE)
           pak::pkg_install("rstudio/bslib", dependencies = TRUE)
       - name: Install app deps
         shell: Rscript {0}
