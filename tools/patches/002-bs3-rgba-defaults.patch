@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+diff --git a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
 index 00d2eb3..da7020a 100644
---- a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
-+++ b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+--- a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
++++ b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
 @@ -239,7 +239,7 @@ $cursor-disabled:                not-allowed !default;
  //** Background for the dropdown menu.
  $dropdown-bg:                    #fff !default;

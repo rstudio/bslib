@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootswatch/dist/cyborg/_bootswatch.scss b/inst/lib/bootswatch/dist/cyborg/_bootswatch.scss
+diff --git a/inst/lib/bsw/dist/cyborg/_bootswatch.scss b/inst/lib/bsw/dist/cyborg/_bootswatch.scss
 index 63f304e..6dad3f6 100644
---- a/inst/lib/bootswatch/dist/cyborg/_bootswatch.scss
-+++ b/inst/lib/bootswatch/dist/cyborg/_bootswatch.scss
+--- a/inst/lib/bsw/dist/cyborg/_bootswatch.scss
++++ b/inst/lib/bsw/dist/cyborg/_bootswatch.scss
 @@ -7,20 +7,29 @@
  $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" !default;
  @import url($web-font-path);
@@ -141,10 +141,10 @@ index 63f304e..6dad3f6 100644
    }
  }
 
-diff --git a/inst/lib/bootswatch/dist/cyborg/_variables.scss b/inst/lib/bootswatch/dist/cyborg/_variables.scss
+diff --git a/inst/lib/bsw/dist/cyborg/_variables.scss b/inst/lib/bsw/dist/cyborg/_variables.scss
 index 85c7483..6a30ace 100755
---- a/inst/lib/bootswatch/dist/cyborg/_variables.scss
-+++ b/inst/lib/bootswatch/dist/cyborg/_variables.scss
+--- a/inst/lib/bsw/dist/cyborg/_variables.scss
++++ b/inst/lib/bsw/dist/cyborg/_variables.scss
 @@ -28,22 +26,26 @@ $green:   #77b300 !default;
  $teal:    #20c997 !default;
  $cyan:    #93c !default;

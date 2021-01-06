@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootstrap-accessibility-plugin/src/sass/bootstrap-accessibility.scss b/inst/lib/bootstrap-accessibility-plugin/src/sass/bootstrap-accessibility.scss
+diff --git a/inst/lib/bs-a11y-p/src/sass/bootstrap-accessibility.scss b/inst/lib/bs-a11y-p/src/sass/bootstrap-accessibility.scss
 index 95b7be4..2ddb620 100644
---- a/inst/lib/bootstrap-accessibility-plugin/src/sass/bootstrap-accessibility.scss
-+++ b/inst/lib/bootstrap-accessibility-plugin/src/sass/bootstrap-accessibility.scss
+--- a/inst/lib/bs-a11y-p/src/sass/bootstrap-accessibility.scss
++++ b/inst/lib/bs-a11y-p/src/sass/bootstrap-accessibility.scss
 @@ -1,6 +1,3 @@
 -// Import Compass Transition Module
 -@import "compass/css3/transition";

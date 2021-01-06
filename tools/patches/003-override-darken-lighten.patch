@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+diff --git a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
 index da7020a..be24292 100644
---- a/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
-+++ b/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+--- a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
++++ b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
 @@ -31,6 +31,19 @@ $body-bg:               #fff !default;
  //** Global text color on `<body>`.
  $text-color:            $gray-dark !default;
