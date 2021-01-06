@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-18.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+          - {os: ubuntu-20.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/all/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -53,7 +53,6 @@ jobs:
           pak::local_system_requirements(execute = TRUE)
           pak::pkg_system_requirements("rsconnect", execute = TRUE)
           pak::pkg_system_requirements("pkgdown", execute = TRUE)
-          install.packages("curl", type = "source")
       # xquartz and cairo are needed for Cairo package.
       # harfbuzz and fribidi are needed for textshaping package.
       - name: Mac systemdeps
