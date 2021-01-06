@@ -195,7 +195,8 @@ jobs:
       - name: Install bslib
         shell: Rscript {0}
         run: |
-          pak::local_install_dev_deps(upgrade = TRUE)
+          # install package an all direct deps
+          pak::local_install(upgrade = TRUE, dependencies = TRUE)
           pak::pkg_install(
             unique(renv::dependencies("inst/themer-demo/")$Package),
             upgrade = TRUE
