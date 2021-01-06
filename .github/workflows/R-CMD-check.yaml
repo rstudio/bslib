@@ -196,7 +196,8 @@ jobs:
         shell: Rscript {0}
         run: |
           # install package an all direct deps
-          pak::local_install(upgrade = TRUE, dependencies = TRUE)
+          pak::local_install_dev_deps(upgrade = TRUE)
+          pak::local_install()
       - name: Install app deps
         shell: Rscript {0}
         run: |
