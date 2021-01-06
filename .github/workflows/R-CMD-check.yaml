@@ -196,7 +196,6 @@ jobs:
         shell: Rscript {0}
         run: |
           # install package from github for rsconnect
-          pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("rstudio/bslib", dependencies = TRUE)
       - name: Install app deps
         shell: Rscript {0}
