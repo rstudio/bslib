@@ -5,37 +5,37 @@ index 9ed7cb4..73636b7 100644
 @@ -124,10 +124,10 @@ $border-radius-base:        4px !default;
  $border-radius-large:       6px !default;
  $border-radius-small:       3px !default;
- 
+
 -//** Global color for active items (e.g., navs or dropdowns).
 -$component-active-color:    #fff !default;
  //** Global background color for active items (e.g., navs or dropdowns).
  $component-active-bg:       $brand-primary !default;
 +//** Global color for active items (e.g., navs or dropdowns).
 +$component-active-color:    color-contrast($component-active-bg) !default;
- 
+
  //** Width of the `border` for generating carets that indicate dropdowns.
  $caret-width-base:          4px !default;
 @@ -265,10 +265,10 @@ $dropdown-link-hover-color:      darken($gray-dark, 5%) !default;
  //** Hover background for dropdown links.
  $dropdown-link-hover-bg:         #f5f5f5 !default;
- 
+
 -//** Active dropdown menu item text color.
 -$dropdown-link-active-color:     $component-active-color !default;
  //** Active dropdown menu item background color.
  $dropdown-link-active-bg:        $component-active-bg !default;
 +//** Active dropdown menu item text color.
 +$dropdown-link-active-color:     color-contrast($dropdown-link-active-bg, $component-active-color) !default;
- 
+
  //** Disabled dropdown menu item background color.
  $dropdown-link-disabled-color:   $gray-light !default;
 @@ -449,7 +449,7 @@ $nav-tabs-border-color:                     #ddd !default;
  $nav-tabs-link-hover-border-color:          $gray-lighter !default;
- 
+
  $nav-tabs-active-link-hover-bg:             $body-bg !default;
 -$nav-tabs-active-link-hover-color:          $gray !default;
 +$nav-tabs-active-link-hover-color:          color-contrast($nav-tabs-active-link-hover-bg, $gray) !default;
  $nav-tabs-active-link-hover-border-color:   #ddd !default;
- 
+
  $nav-tabs-justified-link-border-color:            #ddd !default;
 @@ -458,7 +458,7 @@ $nav-tabs-justified-active-link-border-color:     $body-bg !default;
  //== Pills
@@ -43,11 +43,11 @@ index 9ed7cb4..73636b7 100644
  $nav-pills-active-link-hover-bg:            $component-active-bg !default;
 -$nav-pills-active-link-hover-color:         $component-active-color !default;
 +$nav-pills-active-link-hover-color:         color-contrast($nav-pills-active-link-hover-bg, $component-active-color) !default;
- 
- 
+
+
  //== Pagination
 @@ -695,10 +695,10 @@ $list-group-border-radius:      $border-radius-base !default;
- 
+
  //** Background color of single list items on hover
  $list-group-hover-bg:           #f5f5f5 !default;
 -//** Text color of active list items
@@ -66,18 +66,18 @@ index 38aa9ae..fff34b9 100644
 @@ -248,8 +248,9 @@ $box-shadow-sm:               0 .125rem .25rem rgba($black, .075) !default;
  $box-shadow:                  0 .5rem 1rem rgba($black, .15) !default;
  $box-shadow-lg:               0 1rem 3rem rgba($black, .175) !default;
- 
+
 -$component-active-color:      $white !default;
 +
  $component-active-bg:         theme-color("primary") !default;
 +$component-active-color:      color-contrast($component-active-bg) !default;
- 
+
  $caret-width:                 .3em !default;
  $caret-vertical-align:        $caret-width * .85 !default;
 @@ -539,8 +540,9 @@ $custom-control-label-color:            null !default;
  $custom-control-indicator-disabled-bg:          $input-disabled-bg !default;
  $custom-control-label-disabled-color:           $gray-600 !default;
- 
+
 -$custom-control-indicator-checked-color:        $component-active-color !default;
 +
  $custom-control-indicator-checked-bg:           $component-active-bg !default;
@@ -88,17 +88,17 @@ index 38aa9ae..fff34b9 100644
 @@ -548,8 +550,9 @@ $custom-control-indicator-checked-border-color: $custom-control-indicator-checke
  $custom-control-indicator-focus-box-shadow:     $input-focus-box-shadow !default;
  $custom-control-indicator-focus-border-color:   $input-focus-border-color !default;
- 
+
 -$custom-control-indicator-active-color:         $component-active-color !default;
 +
  $custom-control-indicator-active-bg:            lighten($component-active-bg, 35%) !default;
 +$custom-control-indicator-active-color:         color-contrast($custom-control-indicator-active-bg, $component-active-color) !default;
  $custom-control-indicator-active-box-shadow:    null !default;
  $custom-control-indicator-active-border-color:  $custom-control-indicator-active-bg !default;
- 
+
 @@ -557,7 +560,7 @@ $custom-checkbox-indicator-border-radius:       $border-radius !default;
  $custom-checkbox-indicator-icon-checked:        url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><path fill='#{$custom-control-indicator-checked-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/></svg>") !default;
- 
+
  $custom-checkbox-indicator-indeterminate-bg:           $component-active-bg !default;
 -$custom-checkbox-indicator-indeterminate-color:        $custom-control-indicator-checked-color !default;
 +$custom-checkbox-indicator-indeterminate-color:        color-contrast($custom-checkbox-indicator-indeterminate-bg, $custom-control-indicator-checked-color) !default;
@@ -107,69 +107,41 @@ index 38aa9ae..fff34b9 100644
  $custom-checkbox-indicator-indeterminate-border-color: $custom-checkbox-indicator-indeterminate-bg !default;
 @@ -707,8 +710,8 @@ $nav-tabs-link-active-bg:           $body-bg !default;
  $nav-tabs-link-active-border-color: $gray-300 $gray-300 $nav-tabs-link-active-bg !default;
- 
+
  $nav-pills-border-radius:           $border-radius !default;
 -$nav-pills-link-active-color:       $component-active-color !default;
  $nav-pills-link-active-bg:          $component-active-bg !default;
 +$nav-pills-link-active-color:       color-contrast($nav-pills-link-active-bg, $component-active-color) !default;
- 
+
  $nav-divider-color:                 $gray-200 !default;
  $nav-divider-margin-y:              $spacer / 2 !default;
 @@ -775,8 +778,8 @@ $dropdown-link-color:               $gray-900 !default;
  $dropdown-link-hover-color:         darken($gray-900, 5%) !default;
  $dropdown-link-hover-bg:            $gray-100 !default;
- 
+
 -$dropdown-link-active-color:        $component-active-color !default;
  $dropdown-link-active-bg:           $component-active-bg !default;
 +$dropdown-link-active-color:        color-contrast($dropdown-link-active-bg, $component-active-color) !default;
- 
+
  $dropdown-link-disabled-color:      $gray-600 !default;
- 
+
 @@ -809,8 +812,8 @@ $pagination-hover-color:            $link-hover-color !default;
  $pagination-hover-bg:               $gray-200 !default;
  $pagination-hover-border-color:     $gray-300 !default;
- 
+
 -$pagination-active-color:           $component-active-color !default;
  $pagination-active-bg:              $component-active-bg !default;
 +$pagination-active-color:           color-contrast($pagination-active-bg, $component-active-color) !default;
  $pagination-active-border-color:    $pagination-active-bg !default;
- 
+
  $pagination-disabled-color:         $gray-600 !default;
 @@ -1020,8 +1023,8 @@ $list-group-item-padding-y:         .75rem !default;
  $list-group-item-padding-x:         1.25rem !default;
- 
+
  $list-group-hover-bg:               $gray-100 !default;
 -$list-group-active-color:           $component-active-color !default;
  $list-group-active-bg:              $component-active-bg !default;
 +$list-group-active-color:           color-contrast($list-group-active-bg, $component-active-color) !default;
  $list-group-active-border-color:    $list-group-active-bg !default;
- 
+
  $list-group-disabled-color:         $gray-600 !default;
-diff --git a/inst/sass-utils/color-contrast.scss b/inst/sass-utils/color-contrast.scss
-index 151174e..7ce052a 100644
---- a/inst/sass-utils/color-contrast.scss
-+++ b/inst/sass-utils/color-contrast.scss
-@@ -6,7 +6,8 @@
- // A list of pre-calculated numbers of pow(($value / 255 + .055) / 1.055, 2.4). (from 0 to 255)
- $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003 .0033 .0037 .004 .0044 .0048 .0052 .0056 .006 .0065 .007 .0075 .008 .0086 .0091 .0097 .0103 .011 .0116 .0123 .013 .0137 .0144 .0152 .016 .0168 .0176 .0185 .0194 .0203 .0212 .0222 .0232 .0242 .0252 .0262 .0273 .0284 .0296 .0307 .0319 .0331 .0343 .0356 .0369 .0382 .0395 .0409 .0423 .0437 .0452 .0467 .0482 .0497 .0513 .0529 .0545 .0561 .0578 .0595 .0612 .063 .0648 .0666 .0685 .0704 .0723 .0742 .0762 .0782 .0802 .0823 .0844 .0865 .0887 .0908 .0931 .0953 .0976 .0999 .1022 .1046 .107 .1095 .1119 .1144 .117 .1195 .1221 .1248 .1274 .1301 .1329 .1356 .1384 .1413 .1441 .147 .15 .1529 .1559 .159 .162 .1651 .1683 .1714 .1746 .1779 .1812 .1845 .1878 .1912 .1946 .1981 .2016 .2051 .2086 .2122 .2159 .2195 .2232 .227 .2307 .2346 .2384 .2423 .2462 .2502 .2542 .2582 .2623 .2664 .2705 .2747 .2789 .2831 .2874 .2918 .2961 .3005 .305 .3095 .314 .3185 .3231 .3278 .3325 .3372 .3419 .3467 .3515 .3564 .3613 .3663 .3712 .3763 .3813 .3864 .3916 .3968 .402 .4072 .4125 .4179 .4233 .4287 .4342 .4397 .4452 .4508 .4564 .4621 .4678 .4735 .4793 .4851 .491 .4969 .5029 .5089 .5149 .521 .5271 .5333 .5395 .5457 .552 .5583 .5647 .5711 .5776 .5841 .5906 .5972 .6038 .6105 .6172 .624 .6308 .6376 .6445 .6514 .6584 .6654 .6724 .6795 .6867 .6939 .7011 .7084 .7157 .7231 .7305 .7379 .7454 .7529 .7605 .7682 .7758 .7835 .7913 .7991 .807 .8148 .8228 .8308 .8388 .8469 .855 .8632 .8714 .8796 .8879 .8963 .9047 .9131 .9216 .9301 .9387 .9473 .956 .9647 .9734 .9823 .9911 1;
- 
--@function color-contrast($background) {
-+@function color-contrast($background, $foregrounds: null) {
-+
-   // These variables should be defined in _variables.scss, but we also
-   // define them here so that 3rd party libs can use if they want
-   // without polluting the global namespace
-@@ -16,7 +17,12 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
-   $color-contrast-light: $white !default;
-   $min-contrast-ratio: 3 !default;
- 
--  $foregrounds: $color-contrast-light, $color-contrast-dark, $white, $black;
-+  @if $foregrounds == null {
-+    $foregrounds: $color-contrast-light, $color-contrast-dark, $white, $black;
-+  } @else {
-+    $foregrounds: $foregrounds, $color-contrast-light, $color-contrast-dark, $white, $black;
-+  }
-+
-   $max-ratio: 0;
-   $max-ratio-color: null;
- 
