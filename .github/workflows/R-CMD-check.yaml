@@ -159,14 +159,14 @@ jobs:
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
           # saveRDS(pak::pkg_deps_tree("local::.", dependencies = TRUE), ".github/r-depends.rds")
-      # - name: Cache R packages
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ${{ env.R_LIBS_USER }}
-      #     key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-deploy-1-${{ hashFiles('.github/r-depends.rds') }}
-      #     restore-keys: |
-      #       ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-deploy-
-      #       ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-deploy-1-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: |
+            ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-deploy-
+            ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
