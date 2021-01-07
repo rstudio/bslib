@@ -13,4 +13,8 @@
   cursor: move;
   /* Required to avoid scrolling on mobile safari */
   touch-action: none;
+  -webkit-touch-action: none;
+  -moz-touch-action: none;
+  -ms-touch-action: none;
+  -o-touch-action: none;
 }

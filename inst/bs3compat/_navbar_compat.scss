@@ -22,8 +22,10 @@
 
 ul.nav.navbar-nav {
   flex: 1;
+  -webkit-flex: 1;
   &.navbar-right {
     justify-content: flex-end;
+    -webkit-justify-content: flex-end;
   }
 }
 
