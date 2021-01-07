@@ -196,7 +196,7 @@ jobs:
         shell: Rscript {0}
         run: |
           pkgs <- unique(renv::dependencies("inst/themer-demo/")$Package)
-          pak::pkg_install(pkg, upgrade = TRUE, dependencies = TRUE)
+          pak::pkg_install(pkgs, upgrade = TRUE, dependencies = TRUE)
 
       - name: Register account
         shell: Rscript {0}
