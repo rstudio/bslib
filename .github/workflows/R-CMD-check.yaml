@@ -195,6 +195,7 @@ jobs:
       - name: Install app deps
         shell: Rscript {0}
         run: |
+          pak::pkg_install("BH") # it is not picked up for some reason
           pkgs <- unique(renv::dependencies("inst/themer-demo/")$Package)
           lapply(pkgs, function(pkg) {
             if (! (pkg %in% rownames(installed.packages()))) {
