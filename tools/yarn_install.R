@@ -41,7 +41,7 @@ unlink("inst/lib/popper.js", recursive = TRUE)
 # https://github.com/twbs/bootstrap/blob/d438f3/package.json#L30
 # ----------------------------------------------------------------------
 
-scss_files <- dir("inst/lib", pattern = "\\.scss$", recursive = TRUE, full.names = TRUE)
+scss_files <- dir("inst", pattern = "\\.scss$", recursive = TRUE, full.names = TRUE)
 # bootstrap-sass already has vendor prefixes
 scss_files <- scss_files[!grepl("/bootstrap-sass/", scss_files)]
 
