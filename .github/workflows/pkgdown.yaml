@@ -47,7 +47,6 @@ jobs:
             ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
 
       - name: Install system dependencies
-        if: runner.os == 'Linux'
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)

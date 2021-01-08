@@ -136,7 +136,6 @@ jobs:
       matrix:
         config:
           - {os: ubuntu-20.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          # - {os: macOS-latest,   r: 'release'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -168,7 +167,6 @@ jobs:
             ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
 
       - name: Install system dependencies
-        if: runner.os == 'Linux'
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)
