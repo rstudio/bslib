@@ -174,15 +174,6 @@ jobs:
           pak::local_system_requirements(execute = TRUE)
           pak::pkg_system_requirements("renv", execute = TRUE)
           pak::pkg_system_requirements("rsconnect", execute = TRUE)
-          pak::pkg_system_requirements("pkgdown", execute = TRUE)
-      # xquartz and cairo are needed for Cairo package.
-      # harfbuzz and fribidi are needed for textshaping package.
-      - name: Mac systemdeps
-        if: runner.os == 'macOS'
-        run: |
-          brew cask install xquartz
-          brew install cairo
-          brew install harfbuzz fribidi
 
       - name: Install bslib
         shell: Rscript {0}
