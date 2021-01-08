@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   theming: theming.html
-last_built: 2021-01-06T21:45Z
+last_built: 2021-01-08T15:46Z
 urls:
   reference: https://rstudio.github.io/bslib//reference
   article: https://rstudio.github.io/bslib//articles
