@@ -27,8 +27,8 @@ jobs:
           - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
           - {os: windows-latest, r: '3.6'}
-          - {os: ubuntu-20.04,   r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest", http-user-agent: "R/4.0.0 (ubuntu-16.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
-          - {os: ubuntu-18.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+          - {os: ubuntu-20.04,   r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", http-user-agent: "R/4.0.0 (ubuntu-16.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
+          - {os: ubuntu-18.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
           - {os: ubuntu-16.04,   r: 'oldrel',  rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
           - {os: ubuntu-16.04,   r: '3.5',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
           - {os: ubuntu-16.04,   r: '3.4',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
@@ -129,13 +129,13 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     name: "Deploy to shinyapps.io"
-    # needs: [R-CMD-check]
+    needs: [R-CMD-check]
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
+          - {os: ubuntu-20.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -143,7 +143,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@master
         id: install-r
@@ -167,32 +167,29 @@ jobs:
             ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
 
       - name: Install system dependencies
-        if: runner.os == 'Linux'
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)
-      # xquartz and cairo are needed for Cairo package.
-      # harfbuzz and fribidi are needed for textshaping package.
-      - name: Mac systemdeps
-        if: runner.os == 'macOS'
-        run: |
-          brew cask install xquartz
-          brew install cairo
-          brew install harfbuzz fribidi
+          pak::pkg_system_requirements("renv", execute = TRUE)
+          pak::pkg_system_requirements("rsconnect", execute = TRUE)
 
       - name: Install bslib
         shell: Rscript {0}
         run: |
-          pak::local_install_dev_deps(upgrade = TRUE)
-          pak::pkg_install(
-            c(
-              # install master version for deployment
-              "rstudio/bslib",
-              # app deps
-              "BH", "rprojroot", "rsconnect", "ggplot2", "lattice", "rlang", "DT", "reactable"
-            ),
-            upgrade = TRUE
-          )
+          # install package from github for rsconnect
+          pak::pkg_install("renv", upgrade = TRUE)
+          pak::pkg_install("rsconnect", upgrade = TRUE)
+          pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
+      - name: Install app deps
+        shell: Rscript {0}
+        run: |
+          pak::pkg_install("BH") # it is not picked up for some reason
+          pkgs <- unique(renv::dependencies("inst/themer-demo/")$Package)
+          lapply(pkgs, function(pkg) {
+            if (! (pkg %in% rownames(installed.packages()))) {
+              pak::pkg_install(pkg, upgrade = TRUE, dependencies = TRUE)
+            }
+          })
 
       - name: Register account
         shell: Rscript {0}

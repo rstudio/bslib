@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
+          - {os: ubuntu-20.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -28,7 +28,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         id: install-r
         with:
-          r-version: release
+          r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-pandoc@master
 
@@ -47,23 +47,16 @@ jobs:
             ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
 
       - name: Install system dependencies
-        if: runner.os == 'Linux'
         shell: Rscript {0}
         run: |
           pak::local_system_requirements(execute = TRUE)
-      # xquartz and cairo are needed for Cairo package.
-      # harfbuzz and fribidi are needed for textshaping package.
-      - name: Mac systemdeps
-        if: runner.os == 'macOS'
-        run: |
-          brew cask install xquartz
-          brew install cairo
-          brew install harfbuzz fribidi
+          pak::pkg_system_requirements("rsconnect", execute = TRUE)
+          pak::pkg_system_requirements("pkgdown", execute = TRUE)
 
       - name: Install dependencies
         shell: Rscript {0}
         run: |
-          pak::pkg_install(c("remotes", "pkgdown"))
+          pak::pkg_install("pkgdown", dependencies = TRUE)
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::local_install(upgrade = TRUE)
 
