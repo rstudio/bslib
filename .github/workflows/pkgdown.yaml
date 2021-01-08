@@ -57,7 +57,7 @@ jobs:
       - name: Install dependencies
         shell: Rscript {0}
         run: |
-          pak::pkg_install(c("remotes", "pkgdown"))
+          pak::pkg_install("pkgdown", dependencies = TRUE)
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::local_install(upgrade = TRUE)
 
