@@ -54,8 +54,8 @@ ggplot2_examples <- list(
     upper = c(1.1, 5.3, 3.3, 4.2),
     lower = c(0.8, 4.6, 2.4, 3.6)
   ), aes(trt, resp, fill = group)) +
-    geom_col(position = "dodge") +
-    geom_errorbar(aes(ymin = lower, ymax = upper), position = "dodge", width = 0.25),
+    geom_col(position = position_dodge(width = 0.9)) +
+    geom_errorbar(aes(ymin = lower, ymax = upper), position = position_dodge(width = 0.9), width = 0.25),
   GeomPolygon = ggplot(values) +
     geom_map(aes(map_id = id), map = positions) +
     expand_limits(positions),
