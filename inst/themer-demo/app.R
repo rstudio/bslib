@@ -31,10 +31,9 @@ tab <- function(...) {
 gradient <- function(theme_color = "primary") {
   bg_color <- paste0("bg-", theme_color)
   bgg_color <- paste0("bg-gradient-", theme_color)
-  text_color <- if (theme_color == "light") "text-dark" else "text-light"
   bg_div <- function(color_class, ...) {
     div(
-      class = text_color, class = "p-3", class = color_class,
+      class = "p-3", class = color_class,
       paste0(".", color_class), ...
     )
   }
