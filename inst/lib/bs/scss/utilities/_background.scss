@@ -12,6 +12,7 @@
 
 .bg-white {
   background-color: $white !important;
+  color: color-contrast($white);
 }
 
 .bg-transparent {
