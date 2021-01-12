@@ -57,6 +57,7 @@ Collate:
     'files.R'
     'fonts.R'
     'imports.R'
+    'onLoad.R'
     'precompiled.R'
     'shiny-devmode.R'
     'version-default.R'
