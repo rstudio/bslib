@@ -28,7 +28,7 @@ Imports:
     rlang,
     magrittr
 Suggests:
-    shiny (>= 1.5.0.9005),
+    shiny,
     rmarkdown,
     knitr,
     testthat,
