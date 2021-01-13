@@ -20,9 +20,9 @@ Description: Makes it easier to create custom themes for Shiny and R Markdown vi
 Depends: R (>= 2.10)
 Imports:
     grDevices,
-    htmltools (>= 0.5.0.9001),
+    htmltools (>= 0.5.1),
     jsonlite,
-    sass (>= 0.2.0.9005),
+    sass (>= 0.3.0),
     digest (>= 0.6.25),
     jquerylib (>= 0.1.3),
     rlang,
