@@ -32,7 +32,6 @@ Suggests:
     rmarkdown,
     knitr,
     testthat,
-    thematic,
     withr,
     rappdirs,
     curl
