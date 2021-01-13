@@ -13,11 +13,10 @@ NULL
 #' @inheritParams bs_theme_update
 #' @param ... passed along to [shiny::runApp()].
 #' @param with_themer whether or not to run the app with [run_with_themer()].
+#' @return nothing, this function is called for its side-effects (launching an
+#'   application).
 #' @seealso [run_with_themer()]
 #' @examples
-#'
-#' @return the return value of [shiny::runApp()]
-#'
 #' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
 #' if (interactive()) bs_theme_preview(theme)
 #' @export

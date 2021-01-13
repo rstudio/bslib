@@ -14,10 +14,8 @@ bs_theme_preview(theme = bs_theme(), ..., with_themer = TRUE)
 \item{with_themer}{whether or not to run the app with \code{\link[=run_with_themer]{run_with_themer()}}.}
 }
 \value{
-the return value of \code{\link[shiny:runApp]{shiny::runApp()}}
-
-theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
-if (interactive()) bs_theme_preview(theme)
+nothing, this function is called for its side-effects (launching an
+application).
 }
 \description{
 Launches an example shiny app via \code{run_with_themer()} and
@@ -29,7 +27,8 @@ theme settings.
 The app that this launches is subject to change.
 }
 \examples{
-
+theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
+if (interactive()) bs_theme_preview(theme)
 }
 \seealso{
 \code{\link[=run_with_themer]{run_with_themer()}}
