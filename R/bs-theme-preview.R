@@ -19,7 +19,7 @@ NULL
 #' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
 #' if (interactive()) bs_theme_preview(theme)
 #' @export
-bs_theme_preview <- function(theme, ..., with_themer = TRUE) {
+bs_theme_preview <- function(theme = bs_theme(), ..., with_themer = TRUE) {
   assert_bs_theme(theme)
   old_theme <- bs_global_get()
   on.exit(bs_global_set(old_theme), add = TRUE)
