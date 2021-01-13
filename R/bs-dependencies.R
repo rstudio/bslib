@@ -296,9 +296,9 @@ bs_dependency_defer <- function(func) {
       # are harmless because Shiny will de-duplicate them.
       # (2) Call the user's `func()` with the current theme, and return the
       # resulting htmlDependency so that it can be embedded in the static page.
-      shiny::registerThemeDependency(func)
+      register_theme_dependency(func)
 
-      return(func(shiny::getCurrentTheme()))
+      return(func(get_current_theme()))
     }
 
     # Outside of a Shiny context, we'll just get the global theme.
@@ -344,3 +344,21 @@ as_bs_theme <- function(theme) {
     "(3) the result of `bs_global_get()`."
   )
 }
+
+get_current_theme <- function() {
+  if (!is_available("shiny", "1.5.0.9007")) {
+    warning("This functionality requires shiny v1.6 or higher")
+    return(NULL)
+  }
+  getFromNamespace("getCurrentTheme", "shiny")()
+}
+
+register_theme_dependency <- function(x) {
+  if (!is_available("shiny", "1.5.0.9007")) {
+    warning("This functionality requires shiny v1.6 or higher")
+    return(NULL)
+  }
+  getFromNamespace("registerThemeDependency", "shiny")(x)
+}
+
+

@@ -277,7 +277,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   if (!is_available("shiny", "1.5.0.9003")) {
     stop(call. = FALSE, "`bslib::bs_themer()` requires shiny v1.5.0.9003 or higher")
   }
-  theme <- shiny::getCurrentTheme()
+  theme <- get_current_theme()
   if (!is_bs_theme(theme)) {
     stop(call. = FALSE, "`bslib::bs_themer()` requires `shiny::bootstrapLib()` to be present ",
          "in the app's UI. Consider providing `bslib::bs_theme()` to the theme argument of the ",
