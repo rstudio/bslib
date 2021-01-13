@@ -6,6 +6,10 @@
 #'
 #' @inheritParams bs_theme
 #'
+#' @return functions that modify the global theme (e.g., `bs_global_set()`)
+#'   invisibly return the previously set theme. `bs_global_get()` returns the
+#'   current global theme.
+#'
 #' @seealso [bs_theme()], [bs_theme_preview()]
 #' @examples
 #'

@@ -16,6 +16,8 @@ NULL
 #' @seealso [run_with_themer()]
 #' @examples
 #'
+#' @return the return value of [shiny::runApp()]
+#'
 #' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
 #' if (interactive()) bs_theme_preview(theme)
 #' @export
@@ -204,6 +206,8 @@ themer_css_dependency <- function(theme) {
 #'
 #'   Note that only CSS generated with [bs_dependency_defer()] will be
 #'   instantly reflected in theme preview.
+#'
+#' @return nothing. These functions are called for their side-effects.
 #'
 #' @examples
 #' library(shiny)

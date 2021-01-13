@@ -98,6 +98,8 @@
 #' @param code_font The typeface to be used for code. Be sure this is monospace!
 #' @param heading_font The typeface to be used for heading elements.
 #'
+#' @return a [sass::sass_bundle()] (list-like) object.
+#'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #' @references \url{https://rstudio.github.io/sass/}
 #' @seealso [bs_add_variables()], [bs_theme_preview()]

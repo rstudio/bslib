@@ -40,6 +40,9 @@ provided (e.g., a list, character vector, \code{\link[sass:sass_import]{sass::sa
 
 \item{declarations}{Sass functions and mixins.}
 }
+\value{
+a modified \code{\link[=bs_theme]{bs_theme()}} object.
+}
 \description{
 Compared to higher-level theme customization available in \code{\link[=bs_theme]{bs_theme()}}, these functions
 are a more direct interface to Bootstrap Sass, and therefore, do nothing to

@@ -108,6 +108,11 @@ Typically a shade of blue-green.}
 \item{.default_flag}{Whether or not to add a \code{!default} flag (if missing) to
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 }
+\value{
+functions that modify the global theme (e.g., \code{bs_global_set()})
+invisibly return the previously set theme. \code{bs_global_get()} returns the
+current global theme.
+}
 \description{
 \code{bs_global_theme()} creates a new (global) Bootstrap Sass theme which
 \code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}} (or \code{\link[=sass_partial]{sass_partial()}}) can consume (their \code{theme}

@@ -85,6 +85,9 @@ Typically a shade of blue-green.}
 
 \item{x}{an object.}
 }
+\value{
+a \code{\link[sass:sass_layer]{sass::sass_bundle()}} (list-like) object.
+}
 \description{
 Creates a Bootstrap theme object which can be:
 \itemize{

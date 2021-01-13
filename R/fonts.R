@@ -38,6 +38,8 @@
 #' @param unicode_range A character vector for `unicode-range` `@font-face`
 #'   property.
 #'
+#' @return a list with a special class.
+#'
 #' @references <https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face>
 #' @references <https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts>
 #' @export

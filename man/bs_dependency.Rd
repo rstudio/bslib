@@ -41,9 +41,8 @@ should accept a \code{\link[=bs_theme]{bs_theme()}} object and return a single \
 a list of them, or \code{NULL}.}
 }
 \value{
-an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} object.
-
-A \code{\link[htmltools:tagFunction]{htmltools::tagFunction()}} object.
+\code{bs_dependency()} returns an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} and
+\code{bs_dependency_defer()} returns an \code{\link[htmltools:tagFunction]{htmltools::tagFunction()}}
 }
 \description{
 Themeable HTML components use Sass to generate CSS rules from Bootstrap Sass

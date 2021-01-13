@@ -15,6 +15,8 @@
 #'   variable expressions. It's recommended to keep this as `TRUE` when `.where
 #'   = "defaults"`.
 #'
+#' @return a modified [bs_theme()] object.
+#'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #' @references \url{https://rstudio.github.io/sass/articles/sass.html#layering}
 #' @examples

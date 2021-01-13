@@ -2,6 +2,9 @@
 #'
 #' @inheritParams bs_theme_update
 #' @param ids a character vector of ids
+#'
+#' @return a modified [bs_theme()] object.
+#'
 #' @export
 #' @examples
 #'

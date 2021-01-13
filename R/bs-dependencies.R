@@ -14,7 +14,7 @@
 #' precompilation are disabled by default; that is, a call to
 #' `bs_theme_dependencies(theme)` expands to `bs_theme_dependencies(theme, cache
 #' = F, precompiled = F)`). This is useful for local development as
-#' enabling caching/precompilation may produce incorrect results if local 
+#' enabling caching/precompilation may produce incorrect results if local
 #' changes are made to bslib's source files.
 #'
 #' @inheritParams bs_theme_update
@@ -168,7 +168,8 @@ bs_theme_dependencies <- function(
 #' <https://rstudio.github.io/bslib/articles/theming.html#themable-components-1>
 #'
 #'
-#' @return an [htmltools::htmlDependency()] object.
+#' @return `bs_dependency()` returns an [htmltools::htmlDependency()] and
+#'   `bs_dependency_defer()` returns an [htmltools::tagFunction()]
 #' @export
 bs_dependency <- function(input = list(), theme, name, version,
   cache_key_extra = NULL, .dep_args = list(), .sass_args = list())
@@ -227,7 +228,6 @@ bs_dependency <- function(input = list(), theme, name, version,
 #'   should accept a [bs_theme()] object and return a single [htmlDependency()],
 #'   a list of them, or `NULL`.
 #' @export
-#' @return A [htmltools::tagFunction()] object.
 #'
 #' @examples
 #'

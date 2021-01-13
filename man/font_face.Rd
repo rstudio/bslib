@@ -74,6 +74,9 @@ argument to \code{FALSE} or \code{NULL} to disable caching.}
 \item \code{c(0, 1)}, meaning both \code{normal} and \code{italic}
 }}
 }
+\value{
+a list with a special class.
+}
 \description{
 When used with any of the main font settings in \code{\link[=bs_theme]{bs_theme()}} (e.g.,
 \code{base_font}, \code{code_font}, \code{heading_font}), these font objects ensure relevant
