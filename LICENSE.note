@@ -1,0 +1,9 @@
+The bslib package as a whole is distributed under MIT.  The bslib package includes other open source software components. The following is a list of these components:
+
+* bootstrap: MIT
+* bootstrap-sass: MIT
+* bootstrap-colorpicker: MIT
+* bootstrap-accessibility-plugin: BSD
+* bootswatch: MIT
+
+Full copies of the license agreements used by these components are included in `inst/lib`.

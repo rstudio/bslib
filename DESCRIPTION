@@ -13,8 +13,8 @@ Authors@R: c(
     comment = "Bootstrap colorpicker library"),
     person("Thomas", "Park", role = c("ctb", "cph"),
     comment = "Bootswatch library"),
-    person("Federico", "Zivolo", role = c("ctb", "cph"),
-    comment = "popper.js library")
+    person(family = "PayPal", role = c("ctb", "cph"),
+    comment = "Bootstrap accessibility plugin")
     )
 Description: Makes it easier to create custom themes for Shiny and R Markdown via Bootstrap Sass. At the moment, both Bootstrap 3 and 4 are supported.
 Depends: R (>= 2.10)
