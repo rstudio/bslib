@@ -1,5 +1,5 @@
 Package: bslib
-Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass
+Title: Tools for Styling Shiny and R Markdown via Bootstrap (3 or 4) Sass
 Version: 0.2.4
 Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
@@ -16,7 +16,7 @@ Authors@R: c(
     person("Federico", "Zivolo", role = c("ctb", "cph"),
     comment = "popper.js library")
     )
-Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
+Description: Makes it easier to create custom themes for Shiny and R Markdown via Bootstrap Sass. At the moment, both Bootstrap 3 and 4 are supported.
 Depends: R (>= 2.10)
 Imports:
     grDevices,
