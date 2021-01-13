@@ -65,7 +65,9 @@ ensure theme customizations are portable between major Bootstrap versions.
 library(htmltools)
 button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 preview_button <- function(theme) {
-  browsable(tags$body(bs_theme_dependencies(theme), button))
+  if (interactive()) {
+    browsable(tags$body(bs_theme_dependencies(theme), button))
+  }
 }
 
 # Here we start with a theme based on a Bootswatch theme,
@@ -100,11 +102,13 @@ person <- function(name, title, company) {
     div(class = "company", company)
   )
 }
-browsable(shiny::fluidPage(
-  theme = theme,
-  person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
-  person("John D. Rockefeller", "Chairman", "Standard Oil")
-))
+if (interactive()) {
+  browsable(shiny::fluidPage(
+    theme = theme,
+    person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
+    person("John D. Rockefeller", "Chairman", "Standard Oil")
+  ))
+}
 
 }
 \references{

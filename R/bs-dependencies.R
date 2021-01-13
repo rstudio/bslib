@@ -40,10 +40,9 @@
 #' library(htmltools)
 #' button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 #' preview_button <- function(theme) {
-#'   theme %>%
-#'     bs_theme_dependencies() %>%
-#'     tags$body(button) %>%
-#'     browsable()
+#'   if (interactive()) {
+#'     browsable(tags$body(bs_theme_dependencies(theme), button))
+#'   }
 #' }
 #'
 #' # Latest Bootstrap
