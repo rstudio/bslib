@@ -18,3 +18,8 @@
   padding: 0.5 * $spacer;
   @include border-radius($border-radius-sm);
 }
+
+// For wellPanel() inside absolutePanel()
+.draggable .well {
+  background-color: opaque($body-bg, $well-bg);
+}
