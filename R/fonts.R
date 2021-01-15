@@ -381,6 +381,18 @@ hash <- function(x) {
   digest::digest(x, algo = "spookyhash")
 }
 
+
+find_cache_dir <- function(pkg) {
+  # In R 4.0 and above, CRAN wants us to use the new tools::R_user_dir().
+  # If not present, fall back to rappdirs::user_cache_dir().
+  R_user_dir <- .getNamespace('tools')$R_user_dir
+  if (!is.null(R_user_dir)) {
+    R_user_dir(pkg)
+  } else {
+    rappdirs::user_cache_dir(paste0("R-", pkg))
+  }
+}
+
 # Same idea as sass::sass_cache_context_dir, but different dir
 cache_context_dir <- function(pkg = "bslib") {
   tryCatch(
