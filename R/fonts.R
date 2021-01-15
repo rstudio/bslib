@@ -398,7 +398,7 @@ cache_context_dir <- function(pkg = "bslib") {
   tryCatch(
     {
       # The usual place we'll look. This may be superseded below.
-      cache_dir <- rappdirs::user_cache_dir(paste0("R-", pkg))
+      cache_dir <- find_cache_dir(pkg)
       if (is_shiny_app()) {
         app_cache_dir <- file.path(
           shiny::getShinyOption("appDir"),
