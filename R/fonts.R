@@ -387,7 +387,7 @@ find_cache_dir <- function(pkg) {
   # If not present, fall back to rappdirs::user_cache_dir().
   R_user_dir <- getNamespace('tools')$R_user_dir
   if (!is.null(R_user_dir)) {
-    R_user_dir(pkg)
+    R_user_dir(pkg, which = "cache")
   } else {
     rappdirs::user_cache_dir(paste0("R-", pkg))
   }
