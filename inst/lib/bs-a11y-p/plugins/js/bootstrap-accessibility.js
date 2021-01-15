@@ -16,19 +16,19 @@
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 * ======================================================================== */
-  
- 
- (function($) { 
-  "use strict"; 
+
+
+ $(function() {
+  "use strict";
 
   // GENERAL UTILITY FUNCTIONS
   // ===============================
-  
+
   var uniqueId = function(prefix) {
       return (prefix || 'ui-id') + '-' + Math.floor((Math.random()*1000)+1)
   }
 
-  
+
   var removeMultiValAttributes = function (el, attr, val) {
    var describedby = (el.attr( attr ) || "").split( /\s+/ )
       , index = $.inArray(val, describedby)
@@ -100,7 +100,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
     return ( /input|select|textarea|button|object/.test( nodeName ) ?
     !element.disabled :
     "a" === nodeName ?
-    element.href || isTabIndexNotNaN :isTabIndexNotNaN) && visible( element ); // the element and all of its ancestors must be visible  
+    element.href || isTabIndexNotNaN :isTabIndexNotNaN) && visible( element ); // the element and all of its ancestors must be visible
   }
   var visible = function ( element ) {
     return $.expr.filters.visible( element ) &&
@@ -219,7 +219,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
 
   // Tab Extension
   // ===============================
-  
+
   var $tablist = $('.nav-tabs, .nav-pills')
         , $lis = $tablist.children('li')
         , $tabs = $tablist.find('[data-toggle="tab"], [data-toggle="pill"]')
@@ -391,7 +391,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
     }
 
     $(document).on('keydown.collapse.data-api','[data-toggle="collapse"]' ,  $.fn.collapse.Constructor.prototype.keydown);
-    
+
 
 // Carousel Extension
   // ===============================
@@ -720,4 +720,4 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
     $(document).on('keydown.carousel.data-api', 'li[role=tab]', $.fn.carousel.Constructor.prototype.keydown);
 
 
- })(jQuery);
+ });
