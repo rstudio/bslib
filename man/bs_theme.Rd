@@ -141,9 +141,9 @@ CSS properties, but don't necessarily import the relevant font files. To
 both set CSS properties \emph{and} import font files, consider using the various
 \code{\link[=font_face]{font_face()}} helpers.
 
-Each \verb{*_font} argument may be collection of character vector(s),
-\href{s}{font_google()}, \code{\link[=font_link]{font_link()}}s and/or \href{s}{font_face()}. Note that a character vector can
-have:
+Each \verb{*_font} argument may be collection of character vectors,
+\code{\link[=font_google]{font_google()}}s, \code{\link[=font_link]{font_link()}}s and/or \code{\link[=font_face]{font_face()}}s. Note that a
+character vector can have:
 \itemize{
 \item A single unquoted name (e.g., \code{"Source Sans Pro"}).
 \item A single quoted name (e.g., \code{"'Source Sans Pro'"}).

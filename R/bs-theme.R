@@ -47,9 +47,9 @@
 #'  both set CSS properties _and_ import font files, consider using the various
 #'  [font_face()] helpers.
 #'
-#'  Each `*_font` argument may be collection of character vector(s),
-#'  [font_google()](s), [font_link()]s and/or [font_face()](s). Note that a character vector can
-#'  have:
+#'  Each `*_font` argument may be collection of character vectors,
+#'  [font_google()]s, [font_link()]s and/or [font_face()]s. Note that a
+#'  character vector can have:
 #'    * A single unquoted name (e.g., `"Source Sans Pro"`).
 #'    * A single quoted name (e.g., `"'Source Sans Pro'"`).
 #'    * A comma-separated list of names w/ individual names quoted as necessary.
