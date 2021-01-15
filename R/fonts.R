@@ -385,7 +385,7 @@ hash <- function(x) {
 find_cache_dir <- function(pkg) {
   # In R 4.0 and above, CRAN wants us to use the new tools::R_user_dir().
   # If not present, fall back to rappdirs::user_cache_dir().
-  R_user_dir <- .getNamespace('tools')$R_user_dir
+  R_user_dir <- getNamespace('tools')$R_user_dir
   if (!is.null(R_user_dir)) {
     R_user_dir(pkg)
   } else {
