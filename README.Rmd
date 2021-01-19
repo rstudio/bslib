@@ -24,10 +24,10 @@ The `{bslib}` R package provides tools for creating custom [Bootstrap themes](ht
 
 ## Installation
 
-`{bslib}` isn't yet available from CRAN, but you can install with:
+To install the stable release from CRAN:
 
-``` r
-remotes::install_github("rstudio/bslib")
+```r
+install.packages("bslib")
 ```
 
 ## Getting Started
