@@ -72,8 +72,8 @@ my_theme <- bs_theme(
 
 ### Shiny usage
 
-> Note: this usage requires the development version of Shiny
-> `remotes::install_github("rstudio/shiny")`.
+> Note: this usage requires Shiny v1.6 or higher
+> `install.packages("shiny")`.
 
 To use `my_theme` inside of Shiny, pass it to the relevant `theme`
 parameter in page functions such as `shiny::navbarPage()`,
@@ -133,8 +133,8 @@ shinyApp(ui, function(input, output) {})
 
 ### R Markdown usage
 
-> Note: this usage currently requires an experimental version of R
-> Markdown `remotes::install_github("rstudio/rmarkdown#1706")`
+> Note: this usage currently requires the development version of R
+> Markdown `remotes::install_github("rstudio/rmarkdown")`
 
 To use a `bs_theme()` in R Markdown, pass the relevant theming
 parameter(s) to the `theme` parameter of `html_document` (or, really,
