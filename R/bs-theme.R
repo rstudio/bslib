@@ -367,9 +367,9 @@ bs3_accessibility_bundle <- function() {
     ),
     html_deps = htmltools::htmlDependency(
       "bootstrap-accessibility", version_accessibility,
-      package = "bslib",
-      src = "lib/bs-a11y-p",
-      script = "plugins/js/bootstrap-accessibility.min.js"
+      package = "bslib", src = "lib/bs-a11y-p",
+      script = "plugins/js/bootstrap-accessibility.min.js",
+      all_files = FALSE
     )
   )
 }

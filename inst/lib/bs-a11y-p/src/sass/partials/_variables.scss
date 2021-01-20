@@ -1,21 +1,25 @@
 //Set the variables for use in stylesheet
 
 // Colors
-$black: 		#000;
-$green-dark: 	#2d4821;
-$blue-dark: 	#214c62;
-$red-dark: 		#6c4a00;
-$red: 			#d2322d;
-$yellow: 		#f9f1c6;
+$black: 		#000 !default;
+$green-dark: 	#2d4821 !default;
+$blue-dark: 	#214c62 !default;
+$red-dark: 		#6c4a00 !default;
+$red: 			#d2322d !default;
+$yellow: 		#f9f1c6 !default;
 
-// Outline
-$outline-default-style: 	dotted;
-$outline-default-color: 	$black;
+// :focus/:hover outline styles
+$mouse-outline-style: 	none !default;
+$mouse-outline-color: 	$black !default;
+
+// :focus-visible outline styles
+$keyboard-outline-style: auto !default;
+$keyboard-outline-color: $mouse-outline-color !default;
 
 // Alerts Colors
-$alert-success-color: 			$green-dark;
-$alert-info-color: 				$blue-dark;
-$alert-warning-color: 			$red-dark;
-$alert-warning-bkg: 			$yellow;
-$alert-danger-color: 			$red;
-$alert-danger-hover: 			darken($red, 10%);
+$alert-success-color: 			$green-dark !default;
+$alert-info-color: 				$blue-dark !default;
+$alert-warning-color: 			$red-dark !default;
+$alert-warning-bkg: 			$yellow !default;
+$alert-danger-color: 			$red !default;
+$alert-danger-hover: 			darken($red, 10%) !default;

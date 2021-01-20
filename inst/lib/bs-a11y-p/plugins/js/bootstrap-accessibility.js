@@ -16,19 +16,19 @@
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 * ======================================================================== */
-  
- 
- (function($) { 
-  "use strict"; 
+
+
+ $(function() {
+  "use strict";
 
   // GENERAL UTILITY FUNCTIONS
   // ===============================
-  
+
   var uniqueId = function(prefix) {
       return (prefix || 'ui-id') + '-' + Math.floor((Math.random()*1000)+1)
   }
 
-  
+
   var removeMultiValAttributes = function (el, attr, val) {
    var describedby = (el.attr( attr ) || "").split( /\s+/ )
       , index = $.inArray(val, describedby)
@@ -100,7 +100,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
     return ( /input|select|textarea|button|object/.test( nodeName ) ?
     !element.disabled :
     "a" === nodeName ?
-    element.href || isTabIndexNotNaN :isTabIndexNotNaN) && visible( element ); // the element and all of its ancestors must be visible  
+    element.href || isTabIndexNotNaN :isTabIndexNotNaN) && visible( element ); // the element and all of its ancestors must be visible
   }
   var visible = function ( element ) {
     return $.expr.filters.visible( element ) &&
@@ -219,7 +219,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
 
   // Tab Extension
   // ===============================
-  
+
   var $tablist = $('.nav-tabs, .nav-pills')
         , $lis = $tablist.children('li')
         , $tabs = $tablist.find('[data-toggle="tab"], [data-toggle="pill"]')
@@ -303,20 +303,27 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
         , parent  = colltab.attr('data-parent')
         , collparent = parent && $(parent)
         , collid = colltab.attr('id') || uniqueId('ui-collapse')
+        , parentpanel = collpanel.parent() // panel containing title and panel body
+        , parentfirstchild = (collparent) ? collparent.find('.panel.panel-default:first-child') : null // first child of containing accordion
+        , hasopenpanel = (collparent) ? collparent.find('.panel-collapse.in').length > 0 : false // true, if collapse parent has any panels with class 'in'; otherwise, false
 
           colltab.attr('id', collid)
 
           if(collparent){
-            colltab.attr({ 'role':'tab', 'aria-selected':'false', 'aria-expanded':'false' })
+            colltab.attr({ 'aria-controls': collpanel.attr('id'), 'role':'tab', 'aria-selected':'false', 'aria-expanded':'false' })
             $(collparent).find('div:not(.collapse,.panel-body), h4').attr('role','presentation')
             collparent.attr({ 'role' : 'tablist', 'aria-multiselectable' : 'true' })
+            collpanel.attr({ 'role':'tabpanel', 'aria-labelledby':collid })
 
-            if(collpanel.hasClass('in')){
-              colltab.attr({ 'aria-controls': collpanel.attr('id'), 'aria-selected':'true', 'aria-expanded':'true', 'tabindex':'0' })
-              collpanel.attr({ 'role':'tabpanel', 'tabindex':'0', 'aria-labelledby':collid, 'aria-hidden':'false' })
+            if(!hasopenpanel && parentpanel.is(parentfirstchild)) {
+              colltab.attr({ 'tabindex':'0' })
+              collpanel.attr({ 'tabindex':'-1' })
+            }else if(collpanel.hasClass('in')){
+              colltab.attr({ 'aria-selected':'true', 'aria-expanded':'true', 'tabindex':'0' })
+              collpanel.attr({ 'tabindex':'0', 'aria-hidden':'false' })
             }else{
-              colltab.attr({'aria-controls' : collpanel.attr('id'), 'tabindex':'-1' })
-              collpanel.attr({ 'role':'tabpanel', 'tabindex':'-1', 'aria-labelledby':collid, 'aria-hidden':'true' })
+              colltab.attr({ 'tabindex':'-1' })
+              collpanel.attr({ 'tabindex':'-1', 'aria-hidden':'true' })
             }
           }
       })
@@ -384,7 +391,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
     }
 
     $(document).on('keydown.collapse.data-api','[data-toggle="collapse"]' ,  $.fn.collapse.Constructor.prototype.keydown);
-    
+
 
 // Carousel Extension
   // ===============================
@@ -633,7 +640,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
           , $active  = $element.find('[role=tabpanel].active')
           , $next    = next || $active[type]()
           , $tab
-          , $tab_count = $element.find('[role=tabpanel]').size()
+          , $tab_count = $element.find('[role=tabpanel]').length
           , $prev_side = $element.find('[data-slide="prev"]')
           , $next_side = $element.find('[data-slide="next"]')
           , $index      = 0
@@ -713,4 +720,4 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
     $(document).on('keydown.carousel.data-api', 'li[role=tab]', $.fn.carousel.Constructor.prototype.keydown);
 
 
- })(jQuery);
+ });
