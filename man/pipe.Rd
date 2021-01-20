@@ -6,6 +6,11 @@
 \usage{
 lhs \%>\% rhs
 }
+\arguments{
+\item{lhs}{A value or the magrittr placeholder.}
+
+\item{rhs}{A function call using the magrittr semantics.}
+}
 \value{
 the result of calling \code{lhs(rhs)}.
 }
