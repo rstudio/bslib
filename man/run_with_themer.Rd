@@ -21,6 +21,9 @@ or a \code{\link[shiny:shinyApp]{shiny::shinyApp()}} object. See \code{\link[shi
 \item{gfonts_update}{whether or not to update the internal database of
 Google Fonts.}
 }
+\value{
+nothing. These functions are called for their side-effects.
+}
 \description{
 A 'real-time' theme customization UI that you can use to easily make common
 tweaks to Bootstrap variables and immediately see how they would affect your

@@ -4,6 +4,7 @@
 #'
 #' @keywords internal
 #' @rdname deprecated
+#' @returns a [bs_theme()] object.
 #' @export
 bs_theme_new <- function(...) {
   .Deprecated("bs_global_theme")

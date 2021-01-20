@@ -3,6 +3,7 @@
 #' @param version the major version of Bootswatch.
 #' @param full_path whether to return a path to the installed theme.
 #' @export
+#' @return a character vector of Bootswatch themes.
 bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
   list.dirs(bootswatch_dist(version), full.names = full_path, recursive = FALSE)
 }
@@ -10,6 +11,7 @@ bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
 #' Obtain a theme's Bootswatch theme name
 #'
 #' @inheritParams bs_theme_update
+#' @return the Bootswatch theme named used (if any) in the `theme`.
 #' @export
 theme_bootswatch <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
@@ -23,6 +25,7 @@ theme_bootswatch <- function(theme) {
 #' Obtain a theme's Bootstrap version
 #'
 #' @inheritParams bs_theme_update
+#' @return the major version of Bootstrap used in the `theme`.
 #' @export
 theme_version <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)

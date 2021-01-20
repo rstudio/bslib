@@ -21,10 +21,10 @@ R Markdown.
 
 ## Installation
 
-`{bslib}` isn’t yet available from CRAN, but you can install with:
+To install the stable release from CRAN:
 
 ``` r
-remotes::install_github("rstudio/bslib")
+install.packages("bslib")
 ```
 
 ## Getting Started
@@ -33,30 +33,30 @@ remotes::install_github("rstudio/bslib")
 
 Use `bs_theme()` to create a `{bslib}` theme, where you can:
 
-  - Choose a (major) Bootstrap version (e.g., `version = 4` or `version
-    = 3`).
-    
-      - If `version` isn’t specified (as in the example below), then
+-   Choose a (major) Bootstrap version (e.g., `version = 4` or
+    `version = 3`).
+
+    -   If `version` isn’t specified (as in the example below), then
         `version` defaults to `version_default()`, which may change to
         Bootstrap 5 in a future version of `{bslib}`.
 
-  - Choose a [Bootswatch](https://bootswatch.com/) theme (e.g.,
+-   Choose a [Bootswatch](https://bootswatch.com/) theme (e.g.,
     `bootswatch = 'darkly'`).
 
-  - Customize the main colors and fonts (e.g., `bg`, `fg`, `primary`,
+-   Customize the main colors and fonts (e.g., `bg`, `fg`, `primary`,
     `base_font`, etc)
-    
-      - These main controls are available via named arguments to
+
+    -   These main controls are available via named arguments to
         `bs_theme()` (and `bs_theme_update()`) and are guaranteed to
         work across Bootstrap versions.
 
-  - More generally, customize most of Bootstrap’s styling via Sass
+-   More generally, customize most of Bootstrap’s styling via Sass
     variables (e.g.,
     [`font-size-base`](https://github.com/rstudio/bslib/blob/c353705/inst/lib/bootstrap/scss/_variables.scss#L282)).
-    
-      - These more specific controls pass through the `...` of
+
+    -   These more specific controls pass through the `...` of
         `bs_theme()`.
-      - These options likely depend on the Bootstrap version being used
+    -   These options likely depend on the Bootstrap version being used
 
 For example, to implement a [material design inspired dark
 mode](https://material.io/design/color/dark-theme.html):
@@ -72,8 +72,8 @@ my_theme <- bs_theme(
 
 ### Shiny usage
 
-> Note: this usage requires the development version of Shiny
-> `remotes::install_github("rstudio/shiny")`.
+> Note: this usage requires Shiny v1.6 or higher
+> `install.packages("shiny")`.
 
 To use `my_theme` inside of Shiny, pass it to the relevant `theme`
 parameter in page functions such as `shiny::navbarPage()`,
@@ -133,8 +133,8 @@ shinyApp(ui, function(input, output) {})
 
 ### R Markdown usage
 
-> Note: this usage currently requires an experimental version of R
-> Markdown `remotes::install_github("rstudio/rmarkdown#1706")`
+> Note: this usage currently requires the development version of R
+> Markdown `remotes::install_github("rstudio/rmarkdown")`
 
 To use a `bs_theme()` in R Markdown, pass the relevant theming
 parameter(s) to the `theme` parameter of `html_document` (or, really,

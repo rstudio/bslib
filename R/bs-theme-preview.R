@@ -13,13 +13,14 @@ NULL
 #' @inheritParams bs_theme_update
 #' @param ... passed along to [shiny::runApp()].
 #' @param with_themer whether or not to run the app with [run_with_themer()].
+#' @return nothing, this function is called for its side-effects (launching an
+#'   application).
 #' @seealso [run_with_themer()]
 #' @examples
-#'
 #' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
 #' if (interactive()) bs_theme_preview(theme)
 #' @export
-bs_theme_preview <- function(theme, ..., with_themer = TRUE) {
+bs_theme_preview <- function(theme = bs_theme(), ..., with_themer = TRUE) {
   assert_bs_theme(theme)
   old_theme <- bs_global_get()
   on.exit(bs_global_set(old_theme), add = TRUE)
@@ -205,6 +206,8 @@ themer_css_dependency <- function(theme) {
 #'   Note that only CSS generated with [bs_dependency_defer()] will be
 #'   instantly reflected in theme preview.
 #'
+#' @return nothing. These functions are called for their side-effects.
+#'
 #' @examples
 #' library(shiny)
 #'
@@ -277,7 +280,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   if (!is_available("shiny", "1.5.0.9003")) {
     stop(call. = FALSE, "`bslib::bs_themer()` requires shiny v1.5.0.9003 or higher")
   }
-  theme <- shiny::getCurrentTheme()
+  theme <- get_current_theme()
   if (!is_bs_theme(theme)) {
     stop(call. = FALSE, "`bslib::bs_themer()` requires `shiny::bootstrapLib()` to be present ",
          "in the app's UI. Consider providing `bslib::bs_theme()` to the theme argument of the ",

@@ -274,32 +274,6 @@ writeLines(
   "R/versions.R"
 )
 
-# Create the LICENSE file
-LICENSE <- c(
-  "The bslib package as a whole is distributed under MIT.",
-  "",
-  "The bslib package includes other open source software components.",
-  "The following is a list of these components (full copies of the license",
-  "agreements used by these components are included below):",
-  "",
-  "- Bootstrap, https://github.com/twbs/bootstrap",
-  "- Bootstrap Accessibility Plugin, https://github.com/paypal/bootstrap-accessibility-plugin",
-  "- bootstrap-colorpicker, https://github.com/itsjavi/bootstrap-colorpicker",
-  "- Bootswatch, https://github.com/thomaspark/bootswatch",
-  "- popper.js, https://github.com/popperjs/popper-core",
-  rep("", 2),
-  readLines("inst/lib/bootstrap/LICENSE"),
-  rep("", 2),
-  readLines("inst/lib/bootstrap-accessibility-plugin/LICENSE.md"),
-  rep("", 2),
-  readLines("inst/lib/bootstrap-colorpicker/LICENSE"),
-  rep("", 2),
-  readLines("inst/lib/bootswatch/LICENSE"),
-  rep("", 2),
-  readLines("https://raw.githubusercontent.com/popperjs/popper-core/master/LICENSE.md")
-)
-writeLines(LICENSE, "LICENSE")
-
 
 # ----------------------------------------------------------------------
 # Rename files to shorter names

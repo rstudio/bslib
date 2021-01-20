@@ -123,6 +123,7 @@ shinyApp(
     ),
     tabPanel(
       "Plots",
+      plotOutput("plot"),
       selectizeInput(
         "plot_example", "Choose an example",
         selected = "GeomSmooth",
@@ -131,8 +132,7 @@ shinyApp(
           lattice = names(lattice_examples),
           base = names(base_examples)
         )
-      ),
-      plotOutput("plot")
+      )
     ),
     tabPanel(
       "Tables",

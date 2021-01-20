@@ -9,6 +9,9 @@ theme_bootswatch(theme)
 \arguments{
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 }
+\value{
+the Bootswatch theme named used (if any) in the \code{theme}.
+}
 \description{
 Obtain a theme's Bootswatch theme name
 }

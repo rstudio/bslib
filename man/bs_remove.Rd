@@ -17,6 +17,9 @@ bs_retrieve(theme, ids = character(0), include_unnamed = TRUE)
 \item{include_unnamed}{whether or not to include unnamed \code{\link[sass:sass_layer]{sass::sass_layer()}}s
 (e.g., Bootstrap Sass variables, functions, and mixins).}
 }
+\value{
+a modified \code{\link[=bs_theme]{bs_theme()}} object.
+}
 \description{
 Remove or retrieve Sass code from a theme
 }

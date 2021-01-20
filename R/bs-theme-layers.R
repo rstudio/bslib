@@ -15,6 +15,8 @@
 #'   variable expressions. It's recommended to keep this as `TRUE` when `.where
 #'   = "defaults"`.
 #'
+#' @return a modified [bs_theme()] object.
+#'
 #' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
 #' @references \url{https://rstudio.github.io/sass/articles/sass.html#layering}
 #' @examples
@@ -23,7 +25,9 @@
 #' library(htmltools)
 #' button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 #' preview_button <- function(theme) {
-#'   browsable(tags$body(bs_theme_dependencies(theme), button))
+#'   if (interactive()) {
+#'     browsable(tags$body(bs_theme_dependencies(theme), button))
+#'   }
 #' }
 #'
 #' # Here we start with a theme based on a Bootswatch theme,
@@ -58,11 +62,13 @@
 #'     div(class = "company", company)
 #'   )
 #' }
-#' browsable(shiny::fluidPage(
-#'   theme = theme,
-#'   person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
-#'   person("John D. Rockefeller", "Chairman", "Standard Oil")
-#' ))
+#' if (interactive()) {
+#'   browsable(shiny::fluidPage(
+#'     theme = theme,
+#'     person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
+#'     person("John D. Rockefeller", "Chairman", "Standard Oil")
+#'   ))
+#' }
 #'
 #' @export
 #' @describeIn bs_bundle Add Bootstrap Sass [variable defaults](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults)

@@ -14,7 +14,7 @@
 #' precompilation are disabled by default; that is, a call to
 #' `bs_theme_dependencies(theme)` expands to `bs_theme_dependencies(theme, cache
 #' = F, precompiled = F)`). This is useful for local development as
-#' enabling caching/precompilation may produce incorrect results if local 
+#' enabling caching/precompilation may produce incorrect results if local
 #' changes are made to bslib's source files.
 #'
 #' @inheritParams bs_theme_update
@@ -40,10 +40,9 @@
 #' library(htmltools)
 #' button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 #' preview_button <- function(theme) {
-#'   theme %>%
-#'     bs_theme_dependencies() %>%
-#'     tags$body(button) %>%
-#'     browsable()
+#'   if (interactive()) {
+#'     browsable(tags$body(bs_theme_dependencies(theme), button))
+#'   }
 #' }
 #'
 #' # Latest Bootstrap
@@ -168,7 +167,8 @@ bs_theme_dependencies <- function(
 #' <https://rstudio.github.io/bslib/articles/theming.html#themable-components-1>
 #'
 #'
-#' @return an [htmltools::htmlDependency()] object.
+#' @return `bs_dependency()` returns an [htmltools::htmlDependency()] and
+#'   `bs_dependency_defer()` returns an [htmltools::tagFunction()]
 #' @export
 bs_dependency <- function(input = list(), theme, name, version,
   cache_key_extra = NULL, .dep_args = list(), .sass_args = list())
@@ -227,7 +227,6 @@ bs_dependency <- function(input = list(), theme, name, version,
 #'   should accept a [bs_theme()] object and return a single [htmlDependency()],
 #'   a list of them, or `NULL`.
 #' @export
-#' @return A [htmltools::tagFunction()] object.
 #'
 #' @examples
 #'
@@ -296,9 +295,9 @@ bs_dependency_defer <- function(func) {
       # are harmless because Shiny will de-duplicate them.
       # (2) Call the user's `func()` with the current theme, and return the
       # resulting htmlDependency so that it can be embedded in the static page.
-      shiny::registerThemeDependency(func)
+      register_theme_dependency(func)
 
-      return(func(shiny::getCurrentTheme()))
+      return(func(get_current_theme()))
     }
 
     # Outside of a Shiny context, we'll just get the global theme.
@@ -344,3 +343,21 @@ as_bs_theme <- function(theme) {
     "(3) the result of `bs_global_get()`."
   )
 }
+
+get_current_theme <- function() {
+  if (!is_available("shiny", "1.5.0.9007")) {
+    warning("This functionality requires shiny v1.6 or higher")
+    return(NULL)
+  }
+  getFromNamespace("getCurrentTheme", "shiny")()
+}
+
+register_theme_dependency <- function(x) {
+  if (!is_available("shiny", "1.5.0.9007")) {
+    warning("This functionality requires shiny v1.6 or higher")
+    return(NULL)
+  }
+  getFromNamespace("registerThemeDependency", "shiny")(x)
+}
+
+

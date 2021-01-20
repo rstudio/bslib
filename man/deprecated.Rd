@@ -39,6 +39,9 @@ bootstrap(theme = bs_theme_get(), ...)
 
 bootstrap_sass(rules = list(), theme = bs_theme_get(), ...)
 }
+\value{
+a \code{\link[=bs_theme]{bs_theme()}} object.
+}
 \description{
 These functions have been deprecated but remain for backwards compatibility.
 }

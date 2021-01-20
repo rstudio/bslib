@@ -1,8 +1,8 @@
 Package: bslib
-Title: Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass
+Title: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'
 Version: 0.2.3.9000
 Authors@R: c(
-    person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
+    person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com"),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
     person(family = "RStudio", role = "cph"),
     person(family = "Bootstrap contributors", role = "ctb",
@@ -13,26 +13,25 @@ Authors@R: c(
     comment = "Bootstrap colorpicker library"),
     person("Thomas", "Park", role = c("ctb", "cph"),
     comment = "Bootswatch library"),
-    person("Federico", "Zivolo", role = c("ctb", "cph"),
-    comment = "popper.js library")
+    person(family = "PayPal", role = c("ctb", "cph"),
+    comment = "Bootstrap accessibility plugin")
     )
-Description: Tools for obtaining bootstrap CSS and customizing it via SASS.
+Description: Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via 'Bootstrap' 'Sass'. Supports both 'Bootstrap' 3 and 4 as well as their various 'Bootswatch' themes. An interactive widget is also provided for previewing themes in real time.
 Depends: R (>= 2.10)
 Imports:
     grDevices,
-    htmltools (>= 0.5.0.9001),
+    htmltools (>= 0.5.1),
     jsonlite,
-    sass (>= 0.2.0.9005),
+    sass (>= 0.3.0),
     digest (>= 0.6.25),
     jquerylib (>= 0.1.3),
     rlang,
     magrittr
 Suggests:
-    shiny (>= 1.5.0.9005),
+    shiny,
     rmarkdown,
     knitr,
     testthat,
-    thematic,
     withr,
     rappdirs,
     curl
@@ -41,7 +40,6 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: knitr
 Collate:
     'bootswatch.R'
     'bs-current-theme.R'
@@ -57,16 +55,11 @@ Collate:
     'files.R'
     'fonts.R'
     'imports.R'
+    'onLoad.R'
     'precompiled.R'
     'shiny-devmode.R'
     'version-default.R'
     'versions.R'
     'web-font.R'
-Remotes:
-    rstudio/thematic,
-    rstudio/promises,
-    rstudio/sass,
-    rstudio/htmltools,
-    rstudio/shiny
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
