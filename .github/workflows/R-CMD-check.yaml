@@ -72,7 +72,7 @@ jobs:
       - name: Mac systemdeps
         if: runner.os == 'macOS'
         run: |
-          brew cask install xquartz
+          brew install --cask xquartz
           brew install cairo
           brew install harfbuzz fribidi
       # Use a shorter temp directory for pak installations, due to filename
