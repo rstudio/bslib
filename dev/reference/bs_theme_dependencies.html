@@ -185,7 +185,7 @@ dependencies if bundled with the <code>theme</code>.</p>
     
 
 
-<p>If Shiny Developer Mode is enabled (by setting <code><a href='https://rdrr.io/r/base/options.html'>options(shiny.devmode = TRUE)</a></code> or calling <code><a href='https://shiny.rstudio.com/reference/shiny/latest/devmode.html'>shiny::devmode(TRUE)</a></code>), both <span class="pkg">sass</span> caching and <span class="pkg">bslib</span>
+<p>If Shiny Developer Mode is enabled (by setting <code><a href='https://rdrr.io/r/base/options.html'>options(shiny.devmode = TRUE)</a></code> or calling <code>shiny::devmode(TRUE)</code>), both <span class="pkg">sass</span> caching and <span class="pkg">bslib</span>
 precompilation are disabled by default; that is, a call to
 <code>bs_theme_dependencies(theme)</code> expands to <code>bs_theme_dependencies(theme, cache = F, precompiled = F)</code>). This is useful for local development as
 enabling caching/precompilation may produce incorrect results if local
@@ -200,10 +200,9 @@ changes are made to bslib's source files.</p>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span><span class='op'>)</span>
 <span class='va'>button</span> <span class='op'>&lt;-</span> <span class='va'>tags</span><span class='op'>$</span><span class='fu'>a</span><span class='op'>(</span>class <span class='op'>=</span> <span class='st'>"btn btn-primary"</span>, href <span class='op'>=</span> <span class='st'>"#"</span>, role <span class='op'>=</span> <span class='st'>"button"</span>, <span class='st'>"Hello"</span><span class='op'>)</span>
 <span class='va'>preview_button</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>theme</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>bs_theme_dependencies</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='va'>tags</span><span class='op'>$</span><span class='fu'>body</span><span class='op'>(</span><span class='va'>button</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span><span class='op'>(</span><span class='va'>tags</span><span class='op'>$</span><span class='fu'>body</span><span class='op'>(</span><span class='fu'>bs_theme_dependencies</span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>, <span class='va'>button</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>}</span>
 <span class='op'>}</span>
 
 <span class='co'># Latest Bootstrap</span>
