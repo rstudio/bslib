@@ -35,9 +35,6 @@ Suggests:
     withr,
     rappdirs,
     curl
-Remotes: 
-  rstudio/shiny,
-  rstudio/rmarkdown
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
