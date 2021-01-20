@@ -18,6 +18,7 @@ NULL
 #' @export
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
+#' @returns the result of calling `lhs(rhs)`.
 NULL
 
 utils::globalVariables("!!")

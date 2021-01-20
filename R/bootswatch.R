@@ -3,6 +3,7 @@
 #' @param version the major version of Bootswatch.
 #' @param full_path whether to return a path to the installed theme.
 #' @export
+#' @return a character vector of Bootswatch themes.
 bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
   list.dirs(bootswatch_dist(version), full.names = full_path, recursive = FALSE)
 }
