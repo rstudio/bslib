@@ -185,7 +185,7 @@ dependencies if bundled with the <code>theme</code>.</p>
     
 
 
-<p>If Shiny Developer Mode is enabled (by setting <code><a href='https://rdrr.io/r/base/options.html'>options(shiny.devmode = TRUE)</a></code> or calling <code>shiny::devmode(TRUE)</code>), both <span class="pkg">sass</span> caching and <span class="pkg">bslib</span>
+<p>If Shiny Developer Mode is enabled (by setting <code><a href='https://rdrr.io/r/base/options.html'>options(shiny.devmode = TRUE)</a></code> or calling <code><a href='https://rdrr.io/pkg/shiny/man/devmode.html'>shiny::devmode(TRUE)</a></code>), both <span class="pkg">sass</span> caching and <span class="pkg">bslib</span>
 precompilation are disabled by default; that is, a call to
 <code>bs_theme_dependencies(theme)</code> expands to <code>bs_theme_dependencies(theme, cache = F, precompiled = F)</code>). This is useful for local development as
 enabling caching/precompilation may produce incorrect results if local
