@@ -73,7 +73,7 @@ my_theme <- bs_theme(
 
 ### Shiny usage
 
-> Note: this usage requires Shiny v1.6 or higher
+> Note: this usage currently requires the development version of Shiny
 > `remotes::install_github("rstudio/shiny")`.
 
 To use `my_theme` inside of Shiny, pass it to the relevant `theme`
