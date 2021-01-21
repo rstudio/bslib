@@ -80,7 +80,7 @@ ensure theme customizations are portable between major Bootstrap versions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3.9000</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@ ensure theme customizations are portable between major Bootstrap versions." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/bslib/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -130,18 +130,18 @@ are a more direct interface to Bootstrap Sass, and therefore, do nothing to
 ensure theme customizations are portable between major Bootstrap versions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_add_variables</span>(
-  <span class='kw'>theme</span>,
-  <span class='kw'>...</span>,
-  .where = <span class='st'>"defaults"</span>,
-  .default_flag = <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='kw'>.where</span>, <span class='st'>"defaults"</span>)
-)
+    <pre class="usage"><span class='fu'>bs_add_variables</span><span class='op'>(</span>
+  <span class='va'>theme</span>,
+  <span class='va'>...</span>,
+  .where <span class='op'>=</span> <span class='st'>"defaults"</span>,
+  .default_flag <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>.where</span>, <span class='st'>"defaults"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>bs_add_rules</span>(<span class='kw'>theme</span>, <span class='kw'>rules</span>)
+<span class='fu'>bs_add_rules</span><span class='op'>(</span><span class='va'>theme</span>, <span class='va'>rules</span><span class='op'>)</span>
 
-<span class='fu'>bs_add_declarations</span>(<span class='kw'>theme</span>, <span class='kw'>declarations</span>)
+<span class='fu'>bs_add_declarations</span><span class='op'>(</span><span class='va'>theme</span>, <span class='va'>declarations</span><span class='op'>)</span>
 
-<span class='fu'>bs_bundle</span>(<span class='kw'>theme</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>bs_bundle</span><span class='op'>(</span><span class='va'>theme</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,6 +179,9 @@ provided (e.g., a list, character vector, <code><a href='https://rdrr.io/pkg/sas
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a modified <code><a href='bs_theme.html'>bs_theme()</a></code> object.</p>
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -196,49 +199,53 @@ provided (e.g., a list, character vector, <code><a href='https://rdrr.io/pkg/sas
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Function to preview the styling a (primary) Bootstrap button</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span>)
-<span class='kw'>button</span> <span class='op'>&lt;-</span> <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>a</a></span>(class = <span class='st'>"btn btn-primary"</span>, href = <span class='st'>"#"</span>, role = <span class='st'>"button"</span>, <span class='st'>"Hello"</span>)
-<span class='kw'>preview_button</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>theme</span>) {
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span>(<span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/body.html'>body</a></span>(<span class='fu'><a href='bs_theme_dependencies.html'>bs_theme_dependencies</a></span>(<span class='kw'>theme</span>), <span class='kw'>button</span>))
-}
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/htmltools'>htmltools</a></span><span class='op'>)</span>
+<span class='va'>button</span> <span class='op'>&lt;-</span> <span class='va'>tags</span><span class='op'>$</span><span class='fu'>a</span><span class='op'>(</span>class <span class='op'>=</span> <span class='st'>"btn btn-primary"</span>, href <span class='op'>=</span> <span class='st'>"#"</span>, role <span class='op'>=</span> <span class='st'>"button"</span>, <span class='st'>"Hello"</span><span class='op'>)</span>
+<span class='va'>preview_button</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span><span class='op'>(</span><span class='va'>tags</span><span class='op'>$</span><span class='fu'>body</span><span class='op'>(</span><span class='fu'><a href='bs_theme_dependencies.html'>bs_theme_dependencies</a></span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>, <span class='va'>button</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>}</span>
+<span class='op'>}</span>
 
 <span class='co'># Here we start with a theme based on a Bootswatch theme,</span>
 <span class='co'># then override some variable defaults</span>
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>(bootswatch = <span class='st'>"sketchy"</span>, primary = <span class='st'>"orange"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>bs_add_variables</span>(
-    <span class='st'>"body-bg"</span> = <span class='st'>"#EEEEEE"</span>,
-    <span class='st'>"font-family-base"</span> = <span class='st'>"monospace"</span>,
-    <span class='st'>"font-size-base"</span> = <span class='st'>"1.4rem"</span>,
-    <span class='st'>"btn-padding-y"</span> = <span class='st'>".16rem"</span>,
-    <span class='st'>"btn-padding-x"</span> = <span class='st'>"2rem"</span>
-  )
+<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>bootswatch <span class='op'>=</span> <span class='st'>"sketchy"</span>, primary <span class='op'>=</span> <span class='st'>"orange"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>bs_add_variables</span><span class='op'>(</span>
+    <span class='st'>"body-bg"</span> <span class='op'>=</span> <span class='st'>"#EEEEEE"</span>,
+    <span class='st'>"font-family-base"</span> <span class='op'>=</span> <span class='st'>"monospace"</span>,
+    <span class='st'>"font-size-base"</span> <span class='op'>=</span> <span class='st'>"1.4rem"</span>,
+    <span class='st'>"btn-padding-y"</span> <span class='op'>=</span> <span class='st'>".16rem"</span>,
+    <span class='st'>"btn-padding-x"</span> <span class='op'>=</span> <span class='st'>"2rem"</span>
+  <span class='op'>)</span>
 
-<span class='fu'>preview_button</span>(<span class='kw'>theme</span>)
+<span class='fu'>preview_button</span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>
 
 <span class='co'># If you need to set a variable based on another Bootstrap variable</span>
-<span class='kw'>theme</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>bs_add_variables</span>(<span class='st'>"body-color"</span> = <span class='st'>"$success"</span>, .where = <span class='st'>"declarations"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>preview_button</span>()
+<span class='va'>theme</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>bs_add_variables</span><span class='op'>(</span><span class='st'>"body-color"</span> <span class='op'>=</span> <span class='st'>"$success"</span>, .where <span class='op'>=</span> <span class='st'>"declarations"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>preview_button</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># Start a new global theme and add some custom rules that</span>
 <span class='co'># use Bootstrap variables to define a custom styling for a</span>
 <span class='co'># 'person card'</span>
-<span class='kw'>person_rules</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"custom"</span>, <span class='st'>"person.scss"</span>, package = <span class='st'>"bslib"</span>)
-<span class='kw'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span>() <span class='op'>%&gt;%</span> <span class='fu'>bs_add_rules</span>(<span class='kw'>sass</span>::<span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass_file</a></span>(<span class='kw'>person_rules</span>))
+<span class='va'>person_rules</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"custom"</span>, <span class='st'>"person.scss"</span>, package <span class='op'>=</span> <span class='st'>"bslib"</span><span class='op'>)</span>
+<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>bs_add_rules</span><span class='op'>(</span><span class='fu'>sass</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass_file</a></span><span class='op'>(</span><span class='va'>person_rules</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># Include custom CSS that leverages bootstrap Sass variables</span>
-<span class='kw'>person</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>name</span>, <span class='kw'>title</span>, <span class='kw'>company</span>) {
-  <span class='kw'>tags</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>div</a></span>(
-    class = <span class='st'>"person"</span>,
-    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h3</a></span>(class = <span class='st'>"name"</span>, <span class='kw'>name</span>),
-    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>div</a></span>(class = <span class='st'>"title"</span>, <span class='kw'>title</span>),
-    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>div</a></span>(class = <span class='st'>"company"</span>, <span class='kw'>company</span>)
-  )
-}
-<span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span>(<span class='kw'>shiny</span>::<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
-  theme = <span class='kw'>theme</span>,
-  <span class='fu'><a href='https://rdrr.io/r/utils/person.html'>person</a></span>(<span class='st'>"Andrew Carnegie"</span>, <span class='st'>"Owner"</span>, <span class='st'>"Carnegie Steel Company"</span>),
-  <span class='fu'><a href='https://rdrr.io/r/utils/person.html'>person</a></span>(<span class='st'>"John D. Rockefeller"</span>, <span class='st'>"Chairman"</span>, <span class='st'>"Standard Oil"</span>)
-))
+<span class='va'>person</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>title</span>, <span class='va'>company</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>tags</span><span class='op'>$</span><span class='fu'>div</span><span class='op'>(</span>
+    class <span class='op'>=</span> <span class='st'>"person"</span>,
+    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h3</a></span><span class='op'>(</span>class <span class='op'>=</span> <span class='st'>"name"</span>, <span class='va'>name</span><span class='op'>)</span>,
+    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>div</a></span><span class='op'>(</span>class <span class='op'>=</span> <span class='st'>"title"</span>, <span class='va'>title</span><span class='op'>)</span>,
+    <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>div</a></span><span class='op'>(</span>class <span class='op'>=</span> <span class='st'>"company"</span>, <span class='va'>company</span><span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='op'>}</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/browsable.html'>browsable</a></span><span class='op'>(</span><span class='fu'>shiny</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span><span class='op'>(</span>
+    theme <span class='op'>=</span> <span class='va'>theme</span>,
+    <span class='fu'><a href='https://rdrr.io/r/utils/person.html'>person</a></span><span class='op'>(</span><span class='st'>"Andrew Carnegie"</span>, <span class='st'>"Owner"</span>, <span class='st'>"Carnegie Steel Company"</span><span class='op'>)</span>,
+    <span class='fu'><a href='https://rdrr.io/r/utils/person.html'>person</a></span><span class='op'>(</span><span class='st'>"John D. Rockefeller"</span>, <span class='st'>"Chairman"</span>, <span class='st'>"Standard Oil"</span><span class='op'>)</span>
+  <span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 </div></pre>
   </div>

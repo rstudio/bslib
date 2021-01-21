@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass • bslib</title>
+<title>Custom Bootstrap Sass Themes for shiny and rmarkdown • bslib</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,8 +13,8 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><!-- docsearch --><script src="docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Tools for styling shiny and rmarkdown from R via Bootstrap (3 or 4) Sass">
-<meta property="og:description" content="Tools for obtaining bootstrap CSS and customizing it via SASS.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Custom Bootstrap Sass Themes for shiny and rmarkdown">
+<meta property="og:description" content="Simplifies custom CSS styling of both shiny and rmarkdown via Bootstrap Sass. Supports both Bootstrap 3 and 4 as well as their various Bootswatch themes. An interactive widget is also provided for previewing themes in real time.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3.9000</span>
       </span>
     </div>
 
@@ -49,7 +49,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/rstudio/bslib/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -77,14 +77,13 @@
 <div id="bslib-formerly-known-as-bootstraplib" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#bslib-formerly-known-as-bootstraplib" class="anchor"></a>bslib (formerly known as bootstraplib)</h1></div>
-<p>The <code>{bslib}</code> R package provides tools for creating custom <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/">Bootstrap themes</a>, making it easier to style Shiny apps &amp; R Markdown documents directly from R without writing unruly CSS and HTML. At the moment, <code>{bslib}</code> provides special builds of Bootstrap 4 &amp; 3 that “just work” with Shiny &amp; R Markdown.</p>
+<p>The <a href="https://rstudio.github.io/bslib/">bslib</a> R package provides tools for creating custom <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/">Bootstrap themes</a>, making it easier to style Shiny apps &amp; R Markdown documents directly from R without writing unruly CSS and HTML. At the moment, <a href="https://rstudio.github.io/bslib/">bslib</a> provides special builds of Bootstrap 4 &amp; 3 that “just work” with Shiny &amp; R Markdown.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p><code>{bslib}</code> isn’t yet available from CRAN, but you can install with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"rstudio/bslib"</span>)
-</pre></div>
+<p><a href="https://rstudio.github.io/bslib/">bslib</a> isn’t yet on CRAN (it will be very soon!). Install it now with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"rstudio/bslib"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
@@ -92,12 +91,12 @@
 <div id="create-a-theme" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-theme" class="anchor"></a>Create a theme</h3>
-<p>Use <code><a href="reference/bs_theme.html">bs_theme()</a></code> to create a <code>{bslib}</code> theme, where you can:</p>
+<p>Use <code><a href="reference/bs_theme.html">bs_theme()</a></code> to create a <a href="https://rstudio.github.io/bslib/">bslib</a> theme, where you can:</p>
 <ul>
 <li>
 <p>Choose a (major) Bootstrap version (e.g., <code>version = 4</code> or <code>version = 3</code>).</p>
 <ul>
-<li>If <code>version</code> isn’t specified (as in the example below), then <code>version</code> defaults to <code><a href="reference/versions.html">version_default()</a></code>, which may change to Bootstrap 5 in a future version of <code>{bslib}</code>.</li>
+<li>If <code>version</code> isn’t specified (as in the example below), then <code>version</code> defaults to <code><a href="reference/versions.html">version_default()</a></code>, which may change to Bootstrap 5 in a future version of <a href="https://rstudio.github.io/bslib/">bslib</a>.</li>
 </ul>
 </li>
 <li><p>Choose a <a href="https://bootswatch.com/">Bootswatch</a> theme (e.g., <code>bootswatch = 'darkly'</code>).</p></li>
@@ -116,45 +115,41 @@
 </li>
 </ul>
 <p>For example, to implement a <a href="https://material.io/design/color/dark-theme.html">material design inspired dark mode</a>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rstudio.github.io/bslib">bslib</a></span>)
-<span class="kw">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bs_theme.html">bs_theme</a></span>(
-  bg = <span class="st">"#202123"</span>, fg = <span class="st">"#B8BCC2"</span>, primary = <span class="st">"#EA80FC"</span>, 
-  base_font = <span class="fu"><a href="reference/font_face.html">font_google</a></span>(<span class="st">"Grandstander"</span>),
-  <span class="st">"font-size-base"</span> = <span class="st">"1.1rem"</span>
-)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/bslib/">bslib</a></span><span class="op">)</span>
+<span class="va">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>
+  bg <span class="op">=</span> <span class="st">"#202123"</span>, fg <span class="op">=</span> <span class="st">"#B8BCC2"</span>, primary <span class="op">=</span> <span class="st">"#EA80FC"</span>, 
+  base_font <span class="op">=</span> <span class="fu"><a href="reference/font_face.html">font_google</a></span><span class="op">(</span><span class="st">"Grandstander"</span><span class="op">)</span>,
+  <span class="st">"font-size-base"</span> <span class="op">=</span> <span class="st">"1.1rem"</span>
+<span class="op">)</span></code></pre></div>
 </div>
 <div id="shiny-usage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#shiny-usage" class="anchor"></a>Shiny usage</h3>
 <blockquote>
-<p>Note: this usage requires the development version of Shiny <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("rstudio/shiny")</a></code>.</p>
+<p>Note: this usage requires Shiny v1.6 or higher <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("shiny")</a></code>.</p>
 </blockquote>
-<p>To use <code>my_theme</code> inside of Shiny, pass it to the relevant <code>theme</code> parameter in page functions such as <code><a href="https://shiny.rstudio.com/reference/shiny/latest/navbarPage.html">shiny::navbarPage()</a></code>, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">shiny::fluidPage()</a></code>, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/bootstrapPage.html">shiny::bootstrapPage()</a></code>, etc.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://shiny.rstudio.com">shiny</a></span>)
-<span class="kw">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/navbarPage.html">navbarPage</a></span>(
-  theme = <span class="kw">my_theme</span>,
-  <span class="kw">...</span>
-)
-<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span>, <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>) {})
-</pre></div>
+<p>To use <code>my_theme</code> inside of Shiny, pass it to the relevant <code>theme</code> parameter in page functions such as <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">shiny::fluidPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/bootstrapPage.html">shiny::bootstrapPage()</a></code>, etc.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/">shiny</a></span><span class="op">)</span>
+<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
+  theme <span class="op">=</span> <span class="va">my_theme</span>,
+  <span class="va">...</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>For a preview of how <code>my_theme</code> impacts most of Shiny UI’s styling defaults, provide it to <code><a href="reference/bs_theme_preview.html">bs_theme_preview()</a></code>. This preview app includes most “core” Shiny UI functionality as well as an interactive “real-time” theming widget for quickly testing out new colors and fonts. To help replicate those styling changes, the widgets also emits code to the R console. It can also be used with other Shiny apps via <code><a href="reference/run_with_themer.html">run_with_themer()</a></code> (or <code><a href="reference/run_with_themer.html">bs_themer()</a></code>).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="reference/bs_theme_preview.html">bs_theme_preview</a></span>(<span class="kw">my_theme</span>)
-</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="va">my_theme</span><span class="op">)</span></code></pre></div>
 <p><img src="https://i.imgur.com/KLKy1s0.gif" style="display: block; margin: auto;"></p>
-<p>More generally, you can use a Bootstrap theme with any HTML page by using <code><a href="https://shiny.rstudio.com/reference/shiny/latest/bootstrapLib.html">shiny::bootstrapLib()</a></code> to provide the theme as an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmltools::htmlDependency()</a></code> to an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlTemplate.html">shiny::htmlTemplate()</a></code> or any HTML <code><a href="https://rdrr.io/pkg/htmltools/man/builder.html">htmltools::tags</a></code> that you wish, for example:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://shiny.rstudio.com">shiny</a></span>)
-<span class="kw">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/htmlTemplate.html">htmlTemplate</a></span>(
+<p>More generally, you can use a Bootstrap theme with any HTML page by using <code><a href="https://rdrr.io/pkg/shiny/man/bootstrapLib.html">shiny::bootstrapLib()</a></code> to provide the theme as an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmltools::htmlDependency()</a></code> to an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlTemplate.html">shiny::htmlTemplate()</a></code> or any HTML <code><a href="https://rdrr.io/pkg/htmltools/man/builder.html">htmltools::tags</a></code> that you wish, for example:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/">shiny</a></span><span class="op">)</span>
+<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/htmlTemplate.html">htmlTemplate</a></span><span class="op">(</span>
   <span class="st">"my-template.html"</span>,
-  theme = <span class="kw">my_theme</span>,
-  <span class="kw">...</span>
-)
-<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span>, <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>) {})
-</pre></div>
+  theme <span class="op">=</span> <span class="va">my_theme</span>,
+  <span class="va">...</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">&lt;!-- my-template.html --&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="kw">&lt;html&gt;</span></span>
@@ -171,7 +166,7 @@
 <h3 class="hasAnchor">
 <a href="#r-markdown-usage" class="anchor"></a>R Markdown usage</h3>
 <blockquote>
-<p>Note: this usage currently requires an experimental version of R Markdown <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("rstudio/rmarkdown#1706")</a></code></p>
+<p>Note: this usage currently requires the development version of R Markdown <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("rstudio/rmarkdown")</a></code></p>
 </blockquote>
 <p>To use a <code><a href="reference/bs_theme.html">bs_theme()</a></code> in R Markdown, pass the relevant theming parameter(s) to the <code>theme</code> parameter of <code>html_document</code> (or, really, anything that runs through <code>html_document_base</code>):</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1"></a><span class="pp">---</span></span>
@@ -183,13 +178,13 @@
 <span id="cb7-7"><a href="#cb7-7"></a><span class="at">      </span><span class="fu">primary</span><span class="kw">:</span><span class="at"> </span><span class="st">"#EA80FC"</span></span>
 <span id="cb7-8"><a href="#cb7-8"></a><span class="at">      </span><span class="fu">base_font</span><span class="kw">:</span><span class="at"> !expr bslib::font_google("Grandstander")</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="pp">---</span></span></code></pre></div>
-<p>At the moment, <code>{bslib}</code> is a opt-in feature in R Markdown (i.e., whenever <code>theme</code> is a list or a <code><a href="reference/bs_theme.html">bs_theme()</a></code>, then <code>{bslib}</code> is used). This means that, to use the default <code><a href="reference/bs_theme.html">bslib::bs_theme()</a></code>:</p>
+<p>At the moment, <a href="https://rstudio.github.io/bslib/">bslib</a> is a opt-in feature in R Markdown (i.e., whenever <code>theme</code> is a list or a <code><a href="reference/bs_theme.html">bs_theme()</a></code>, then <a href="https://rstudio.github.io/bslib/">bslib</a> is used). This means that, to use the default <code><a href="reference/bs_theme.html">bslib::bs_theme()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1"></a><span class="pp">---</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">output</span><span class="kw">:</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="at">  </span><span class="fu">html_document</span><span class="kw">:</span></span>
 <span id="cb8-4"><a href="#cb8-4"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> !expr bslib::bs_theme()</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a><span class="pp">---</span></span></code></pre></div>
-<p>Moreover, when opting into <code>{bslib}</code>, you may modify <code>theme</code> object globally inside <strong>knitr</strong> code chunks. This can be useful for things like adding additional CSS rules that leverage Bootstrap Sass variables, functions, mixins, etc:</p>
+<p>Moreover, when opting into <a href="https://rstudio.github.io/bslib/">bslib</a>, you may modify <code>theme</code> object globally inside <strong>knitr</strong> code chunks. This can be useful for things like adding additional CSS rules that leverage Bootstrap Sass variables, functions, mixins, etc:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="st">```</span><span class="dt">{r}</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="dt">library(bslib)</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="dt">bs_global_add_rules(</span></span>
@@ -206,12 +201,11 @@
 <h3 class="hasAnchor">
 <a href="#add-to-a-theme" class="anchor"></a>Add to a theme</h3>
 <p><code><a href="reference/bs_theme.html">bs_theme()</a></code> customizes Bootstrap CSS by changing Bootstrap Sass variable defaults, but sometimes you need to customize the theme in other ways by adding other Sass code. For example, if you’d like to add Sass/CSS rules for a custom, themable, component:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">my_theme</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/bs_add_variables.html">bs_add_rules</a></span>(
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_theme</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/bs_add_variables.html">bs_add_rules</a></span><span class="op">(</span>
     <span class="st">".my-component { color: $primary; }"</span>
-  )
-</pre></div>
+  <span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="learn-more" class="section level2">
@@ -244,7 +238,7 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Carson Sievert <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4958-2844" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Carson Sievert <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Joe Cheng <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>

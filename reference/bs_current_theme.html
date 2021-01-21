@@ -80,7 +80,7 @@ otherwise be themed via bs_dependency_defer() ." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3.9000</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@ otherwise be themed via bs_dependency_defer() ." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/bslib/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -130,7 +130,7 @@ otherwise be themed via bs_dependency_defer() ." />
 otherwise be themed via <code><a href='bs_dependency.html'>bs_dependency_defer()</a></code> .</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_current_theme</span>(session = <span class='fu'>get_reactive_domain</span>())</pre>
+    <pre class="usage"><span class='fu'>bs_current_theme</span><span class='op'>(</span>session <span class='op'>=</span> <span class='fu'>get_reactive_domain</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,7 +148,7 @@ otherwise be themed via <code><a href='bs_dependency.html'>bs_dependency_defer()
 
     <p>This function should generally only be called at print/render time. For
 example:</p><ul>
-<li><p>Inside the <code>preRenderHook</code> of <code>htmlwidgets::createWidget()</code>.</p></li>
+<li><p>Inside the <code>preRenderHook</code> of <code><a href='https://rdrr.io/pkg/htmlwidgets/man/createWidget.html'>htmlwidgets::createWidget()</a></code>.</p></li>
 <li><p>Inside of a custom <a href='https://rdrr.io/r/base/print.html'>print</a> method that generates <a href='https://rdrr.io/pkg/htmltools/man/builder.html'>htmltools::tags</a>.</p></li>
 <li><p>Inside of a <code><a href='https://rdrr.io/pkg/htmltools/man/tagFunction.html'>htmltools::tagFunction()</a></code></p></li>
 </ul>
@@ -157,9 +157,9 @@ example:</p><ul>
 different things based on the context in which it's called:</p><ul>
 <li><p>If a reactive context is active, <code>session$getCurrentTheme()</code> is called
 (which is a reactive read).</p></li>
-<li><p>If no reactive context is active, <code><a href='https://shiny.rstudio.com/reference/shiny/latest/getCurrentTheme.html'>shiny::getCurrentTheme()</a></code> is called
+<li><p>If no reactive context is active, <code><a href='https://rdrr.io/pkg/shiny/man/getCurrentTheme.html'>shiny::getCurrentTheme()</a></code> is called
 (which returns the current app's <code>theme</code>, if relevant).</p></li>
-<li><p>If <code><a href='https://shiny.rstudio.com/reference/shiny/latest/getCurrentTheme.html'>shiny::getCurrentTheme()</a></code> comes up empty, then <code><a href='bs_global_theme.html'>bs_global_get()</a></code>
+<li><p>If <code><a href='https://rdrr.io/pkg/shiny/man/getCurrentTheme.html'>shiny::getCurrentTheme()</a></code> comes up empty, then <code><a href='bs_global_theme.html'>bs_global_get()</a></code>
 is called, which is relevant for <code><a href='https://rdrr.io/pkg/rmarkdown/man/html_document.html'>rmarkdown::html_document()</a></code>, and
 possibly other static rendering contexts.</p></li>
 </ul>
