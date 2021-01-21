@@ -12,7 +12,7 @@ template:
       index_name: rstudio_bootstraplib
 
 development:
-  mode: auto
+  mode: release
 
 navbar:
   type: default
