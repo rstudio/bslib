@@ -74,7 +74,7 @@ my_theme <- bs_theme(
 ### Shiny usage
 
 > Note: this usage requires Shiny v1.6 or higher
-> `install.packages("shiny")`.
+> `remotes::install_github("rstudio/shiny")`.
 
 To use `my_theme` inside of Shiny, pass it to the relevant `theme`
 parameter in page functions such as `shiny::navbarPage()`,
