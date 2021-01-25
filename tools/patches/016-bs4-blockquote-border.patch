@@ -1,0 +1,32 @@
+diff --git a/inst/lib/bs/scss/_reboot.scss b/inst/lib/bs/scss/_reboot.scss
+index 92ed3c1..8f2d1d3 100644
+--- a/inst/lib/bs/scss/_reboot.scss
++++ b/inst/lib/bs/scss/_reboot.scss
+@@ -155,6 +155,13 @@ dd {
+ 
+ blockquote {
+   margin: 0 0 1rem;
++  padding: ($blockquote-font-size / 2) $blockquote-font-size;
++  border-left: $blockquote-border-width solid $blockquote-border-color;
++  p, ul, ol {
++    &:last-child {
++      margin-bottom: 0;
++    }
++  }
+ }
+ 
+ b,
+diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
+index fff34b9..5814b57 100644
+--- a/inst/lib/bs/scss/_variables.scss
++++ b/inst/lib/bs/scss/_variables.scss
+@@ -328,6 +328,9 @@ $text-muted:                  $gray-600 !default;
+ $blockquote-small-color:      $gray-600 !default;
+ $blockquote-small-font-size:  $small-font-size !default;
+ $blockquote-font-size:        $font-size-base * 1.25 !default;
++$blockquote-border-width:     $spacer / 4 !default;
++$blockquote-border-color:     $gray-200 !default;
++
+ 
+ $hr-border-color:             rgba($black, .1) !default;
+ $hr-border-width:             $border-width !default;
