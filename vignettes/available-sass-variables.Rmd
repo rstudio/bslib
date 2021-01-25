@@ -179,6 +179,7 @@ For more details on this see the `sass` variables section of the [theming articl
 
 There are a _lot_ of these `sass` variables available for adjusting. Below is a table that shows all of them, along with basic comments on variables functionality as provided in the original Bootstrap code. For more details on how customization of these variables works, see the function `bs_add_variables()`.
 
+_Note: these variables are specifically for Bootstrap 4 and many won't work for Bootstrap 3._
 
 ### How to use table
 
