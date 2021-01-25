@@ -149,36 +149,20 @@ tibble(
 
 ## Modifying Bootstrap theming variables
 
-Bootstrap uses `sass` to generate its final CSS. While a large portion of the customization you may want to do to your theme is easily done with the common arguments in `bs_theme()`, sometimes you may want finer-grain control. To enable this, `bslib` let's you change any of the variables used in the Bootstrap `sass` code. For instance, if you want to adjust the padding amount after each paragraph, that is available with the variable `paragraph-margin-bottom`, if we wanted to double the default amount (`1rem`) we could do so by simply passing the name of the variable to our `bs_theme()` call...
+While a large amount of customization is possible with the basic parameters in `bs_theme()`, sometimes you may want more fine-grain control. To enable this, `bslib` lets you change any of the [exposed theming variables provided by Bootstrap.](https://getbootstrap.com/docs/4.0/getting-started/theming/) For instance, to adjust the padding amount after each paragraph we can use the variable `paragraph-margin-bottom`...
 
 ```{r, eval = FALSE, echo = TRUE}
-theme <- bs_theme(
-  ...,
-  # Double space given after each paragraph
-  "paragraph-margin-bottom" = "2rem"
-)
+# Double space given after each paragraph
+theme <- bs_theme(..., "paragraph-margin-bottom" = "2rem")
 ```
 
+For more details on this see the [sass variables section of the theming article](https://rstudio.github.io/bslib/articles/theming.html#sass-variables-1) and the [original Bootstrap documentation of theme variables.](https://getbootstrap.com/docs/4.0/getting-started/theming/)
 
-### What's the "`$`" doing in front of the variables?
-You may notice in the table below that the variables are prefixed with a `$` this is a `sass` convention and you should omit the `$` in your calls to `bs_theme()`. However, if you wanted to reference another variable in your declaration of a value, such as making the `dark` variable equal to `grey-900` instead of `grey-800`, you _would_ need to use the `$` prefix when referring to the dependency. Also, you will need to tell `bslib` to place its definition later than `grey-900`'s with `bs_add_variables(..., .where = "declarations")`:
-
-```{r, eval = FALSE, echo = TRUE}
-theme <- bs_theme(
-  ...,
-  "paragraph-margin-bottom" = "2rem"
-) %>% 
-  # When referring to other variables, prefix with dollar-sign
-  bs_add_variables("dark" = "$gray-900", .where = "declarations")
-```
-
-For more details on this see the `sass` variables section of the [theming article.](https://rstudio.github.io/bslib/articles/theming.html#sass-variables-1)
 
 
 ## All theming variables
 
-There are a _lot_ of these `sass` variables available for adjusting. Below is a table that shows all of them, along with basic comments on variables functionality as provided in the original Bootstrap code. For more details on how customization of these variables works, see the function `bs_add_variables()`.
-
+Below is a table that shows all the available themeing variables along with basic comments on that variable's functionality as provided in the original Bootstrap code. 
 _Note: these variables are specifically for Bootstrap 4 and many won't work for Bootstrap 3._
 
 ### How to use table
@@ -248,3 +232,18 @@ variables_df %>%
     )
   )
 ```
+
+
+
+### What's the "`$`" doing in front of the variables?
+You may notice in the table that the variables are prefixed with a `$` this is a `sass` convention and you should omit the `$` in your calls to `bs_theme()`. However, if you wanted to reference another variable in your declaration of a value, such as making the `dark` variable equal to `grey-900` instead of `grey-800`, you _would_ need to use the `$` prefix when referring to the dependency. Also, you will need to tell `bslib` to place its definition later than `grey-900`'s with `bs_add_variables(..., .where = "declarations")`:
+
+```{r, eval = FALSE, echo = TRUE}
+theme <- bs_theme(
+  ...,
+  "paragraph-margin-bottom" = "2rem"
+) %>% 
+  # When referring to other variables, prefix with dollar-sign
+  bs_add_variables("dark" = "$gray-900", .where = "declarations")
+```
+
