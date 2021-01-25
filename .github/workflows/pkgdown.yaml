@@ -57,6 +57,11 @@ jobs:
         shell: Rscript {0}
         run: |
           pak::pkg_install("pkgdown", dependencies = TRUE)
+          pak::pkg_install("dplyr", dependencies = TRUE)
+          pak::pkg_install("readr", dependencies = TRUE)
+          pak::pkg_install("stringr", dependencies = TRUE)
+          pak::pkg_install("purrr", dependencies = TRUE)
+          pak::pkg_install("glue", dependencies = TRUE)
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::local_install(upgrade = TRUE)
 
