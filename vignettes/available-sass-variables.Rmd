@@ -50,10 +50,11 @@ table.dataTable tr[role="row"] td:nth-child(4) {
 
 ```{r variables_df}
 # BS3
+# Not using BS3 now because the comment templates are different so a whole new scaping pipeline is needed
 # sass_variables_loc <- "https://raw.githubusercontent.com/rstudio/bslib/master/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss"
 
 # BS4
-sass_variables_loc <- "https://raw.githubusercontent.com/rstudio/bslib/master/inst/lib/bs/scss/_variables.scss"
+sass_variables_loc <- "../inst/lib/bs/scss/_variables.scss"
 sass_variables_url <- "https://github.com/rstudio/bslib/blob/master/inst/lib/bs/scss/_variables.scss"
 # A section is denoted by a comment followed by either an empty line or an empty comment.
 # e.g.
