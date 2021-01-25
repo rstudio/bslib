@@ -1,10 +1,10 @@
 ---
-title: "Available Sass variables"
+title: "Available theming variables"
 output: rmarkdown::html_vignette
 author: "Nick Strayer"
 date: "`r Sys.Date()`"
 vignette: >
-  %\VignetteIndexEntry{available-sass-variables}
+  %\VignetteIndexEntry{available-theming-variables}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -50,7 +50,7 @@ table.dataTable tr[role="row"] td:nth-child(4) {
 
 ```{r variables_df}
 # BS3
-# Not using BS3 now because the comment templates are different so a whole new scaping pipeline is needed
+# Not using BS3 now because the comment templates are different so a whole new scraping pipeline is needed
 # sass_variables_loc <- "https://raw.githubusercontent.com/rstudio/bslib/master/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss"
 
 # BS4
@@ -147,7 +147,7 @@ tibble(
 ```
 
 
-## Modifying Bootstrap Sass variable values
+## Modifying Bootstrap theming variables
 
 Bootstrap uses `sass` to generate its final CSS. While a large portion of the customization you may want to do to your theme is easily done with the common arguments in `bs_theme()`, sometimes you may want finer-grain control. To enable this, `bslib` let's you change any of the variables used in the Bootstrap `sass` code. For instance, if you want to adjust the padding amount after each paragraph, that is available with the variable `paragraph-margin-bottom`, if we wanted to double the default amount (`1rem`) we could do so by simply passing the name of the variable to our `bs_theme()` call...
 
@@ -175,7 +175,7 @@ theme <- bs_theme(
 For more details on this see the `sass` variables section of the [theming article.](https://rstudio.github.io/bslib/articles/theming.html#sass-variables-1)
 
 
-## All customizable variables
+## All theming variables
 
 There are a _lot_ of these `sass` variables available for adjusting. Below is a table that shows all of them, along with basic comments on variables functionality as provided in the original Bootstrap code. For more details on how customization of these variables works, see the function `bs_add_variables()`.
 

@@ -19,8 +19,8 @@ navbar:
   left:
   - text: Custom themes
     href: articles/theming.html
-  - text: Sass variables
-    href: articles/available-sass-variables.html
+  - text: Theming variables
+    href: articles/available-theming-variables.html
   - text: Reference
     href: reference/index.html
 # TODO: add after CRAN release
