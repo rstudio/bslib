@@ -1,0 +1,249 @@
+---
+title: "Available Sass variables"
+output: rmarkdown::html_vignette
+author: "Nick Strayer"
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{available-sass-variables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = FALSE, 
+  message = FALSE
+)
+
+
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+```
+
+```{r setup}
+library(dplyr)
+library(readr)
+library(stringr)
+library(purrr)
+library(glue)
+library(bslib)
+```
+
+```{css}
+table.dataTable tr[role="row"] td {
+  font-family: monospace;
+}
+table.dataTable tr[role="row"] td:nth-child(3) {
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+table.dataTable tr[role="row"] td:nth-child(4) {
+  text-align: center;
+}
+.dep-link {
+  color:steelblue; 
+  text-decoration:underline;
+  cursor: pointer;
+}
+```
+
+```{r variables_df}
+# BS3
+# sass_variables_loc <- "https://raw.githubusercontent.com/rstudio/bslib/master/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss"
+
+# BS4
+sass_variables_loc <- "https://raw.githubusercontent.com/rstudio/bslib/master/inst/lib/bs/scss/_variables.scss"
+sass_variables_url <- "https://github.com/rstudio/bslib/blob/master/inst/lib/bs/scss/_variables.scss"
+# A section is denoted by a comment followed by either an empty line or an empty comment.
+# e.g.
+# // Section ID
+#
+# Or
+# // Section ID
+# //
+#
+# Sometimes the sections are just isolated floating comments
+#
+# // Section ID
+#
+#
+
+raw_text <- read_file(sass_variables_loc)
+
+collapse_multiline_comments <- function(lines_df){
+
+  repetitions <- rle(lines_df$is_comment & !lines_df$is_empty_comment)
+  block_id <- rep(seq_along(repetitions$lengths), times = repetitions$lengths)
+  is_comment_block <- rep(repetitions$values, times = repetitions$lengths)
+  # A negative value means it's not a comment block. Using negatives so we
+  # don't match ids of comment blocks
+  lines_df$comment_block <- ifelse(is_comment_block, block_id, -seq_len(nrow(lines_df)))
+
+  group_by(lines_df, comment_block) %>%
+    summarise(
+      across(c(-line), first),
+      line = paste(line, collapse = " ")
+    ) %>%
+    arrange(line_number) %>%
+    select(-comment_block)
+}
+
+link_to_pos_in_script <- function(line_num){
+  paste0(sass_variables_url, "#L", line_num)
+}
+
+tibble(
+  line = strsplit(raw_text, split = "\n")[[1]]
+) %>%
+  mutate(
+    line_number = row_number(),
+    is_comment = str_detect(line, "^\\/\\/"),
+    is_empty_comment = str_detect(line, "^\\/\\/\\s*$")
+  ) %>%
+  collapse_multiline_comments() %>%
+  mutate(
+    below_is_empty_comment = lead(is_empty_comment),
+    above_is_empty_line = lag(line) == "",
+    below_is_empty_line = lead(line) == "",
+    is_section = (is_comment & below_is_empty_comment) | (is_comment & above_is_empty_line & below_is_empty_line),
+    variable = str_extract(line, "^\\$(.+)?(?=:)"),
+    section = ifelse(is_section, str_remove(line, "\\/\\/\\s*"), NA),
+    section_link = ifelse(is_section, link_to_pos_in_script(line_number), NA),
+    trailing_comment = str_extract(line, "(?<=;)(.+)$"),
+    above_is_comment = lag(is_comment),
+    comment = case_when(
+      !is.na(trailing_comment) ~ trailing_comment,
+      above_is_comment ~ lag(line),
+      TRUE ~ ""
+    ) %>% str_remove_all("\\/\\/") %>% str_trim(),
+    comment = ifelse(str_detect(comment, "stylelint-disable"), "", comment)
+  ) %>%
+  tidyr::fill(section, section_link) %>%
+  filter(!is.na(variable)) %>%
+  mutate(
+    variable = str_extract(line, "^\\$(.+)?(?=:)"),
+    value = str_extract(line, "(?<=:)(.+)?(?=;)") %>% str_remove(fixed("!default")) %>% str_trim(),
+    value_is_function = str_detect(value, fixed("()")) | str_detect(value, "\\($"),
+    # map-get function is used to reference a map built earlier so make sure not
+    # to link to it as it's not available in the table
+    value = str_replace_all(
+      value,
+      "(?<!map-get\\()(\\$[\\w|-]+)",
+      "<span class='dep-link'>\\1</span>"
+    ),
+    section = glue("Section: {section} <a href=\"{section_link}\"><i class=\"fas fa-external-link-alt\"></i></a>"),
+    declaration = glue("<a href=\"{link_to_pos_in_script(line_number)}\"><i class=\"fas fa-external-link-alt\"></i></a>")
+  ) %>%
+  filter(!value_is_function) %>%
+  select(
+    section,
+    variable,
+    value,
+    comment,
+    declaration
+  ) -> variables_df 
+```
+
+
+## Modifying Bootstrap Sass variable values
+
+Bootstrap uses `sass` to generate its final CSS. While a large portion of the customization you may want to do to your theme is easily done with the common arguments in `bs_theme()`, sometimes you may want finer-grain control. To enable this, `bslib` let's you change any of the variables used in the Bootstrap `sass` code. For instance, if you want to adjust the padding amount after each paragraph, that is available with the variable `paragraph-margin-bottom`, if we wanted to double the default amount (`1rem`) we could do so by simply passing the name of the variable to our `bs_theme()` call...
+
+```{r, eval = FALSE, echo = TRUE}
+theme <- bs_theme(
+  ...,
+  # Double space given after each paragraph
+  "paragraph-margin-bottom" = "2rem"
+)
+```
+
+
+### What's the "`$`" doing in front of the variables?
+You may notice in the table below that the variables are prefixed with a `$` this is a `sass` convention and you should omit the `$` in your calls to `bs_theme()`. However, if you wanted to reference another variable in your declaration of a value, such as making the `dark` variable equal to `grey-900` instead of `grey-800`, you _would_ need to use the `$` prefix when referring to the dependency. Also, you will need to tell `bslib` to place its definition later than `grey-900`'s with `bs_add_variables(..., .where = "declarations")`:
+
+```{r, eval = FALSE, echo = TRUE}
+theme <- bs_theme(
+  ...,
+  "paragraph-margin-bottom" = "2rem"
+) %>% 
+  # When referring to other variables, prefix with dollar-sign
+  bs_add_variables("dark" = "$gray-900", .where = "declarations")
+```
+
+For more details on this see the `sass` variables section of the [theming article.](https://rstudio.github.io/bslib/articles/theming.html#sass-variables-1)
+
+
+## All customizable variables
+
+There are a _lot_ of these `sass` variables available for adjusting. Below is a table that shows all of them, along with basic comments on variables functionality as provided in the original Bootstrap code. For more details on how customization of these variables works, see the function `bs_add_variables()`.
+
+
+### How to use table
+
+- Each section header corresponds to a section within the source file denoted by comments. Click on the link icon in the header to be taken to the start of that section in the variable declaration script. 
+- Click on dependency variable within the value column to be taken to the declaration of that dependency in the table.
+- The __Find in source__ column will take you to the position in the original `.scss` file where the variable was declared. The context may help clarify the variables role. 
+
+
+```{r}
+# This chunk of JS requires the DataTable object to be available in scope as "table" 
+js_helper_fns <- "
+function find_and_select_variable(table, desired_var, update_page) {
+  var row_index = table
+    .column(1, { order: 'current' })
+    .data()
+    .indexOf(desired_var);
+  if (row_index !== -1) {
+    table.rows({ selected: true }).deselect();
+    table.row(row_index).select();
+    location.hash = desired_var.replace('$', '#');
+
+    if (update_page) {
+      table.page(Math.floor(row_index / table.page.info().length)).draw(false);
+    }
+  }
+}
+"
+
+variables_df %>%
+  rename(
+    Variable = variable,
+    Value = value,
+    Comment = comment,
+    `Find in source` = declaration
+  ) %>% 
+  DT::datatable(
+    escape = FALSE,
+    class = c("stripe"),
+    rownames = FALSE,
+    selection = "none",
+    extensions = c("Select", "RowGroup"),
+    callback = DT::JS(glue("
+      [[js_helper_fns]]
+      var desired_var = location.hash.replace('#', '$');
+      find_and_select_variable(table, desired_var, true);",  
+      .open = "[[", .close = "]]")),
+    options = list(
+      rowGroup = list(dataSrc = 0),
+      drawCallback = DT::JS(glue("
+        function( settings ) {
+          [[js_helper_fns]]
+          var table = this.DataTable();
+        
+          // Hide section column from view
+          table.column(0).visible(false);
+          
+          this.find('tbody td:nth-child(1)').on('click', function(){
+            // Dont update pagination because we are for sure on the right page alreadt
+            find_and_select_variable(table, this.innerText, false);
+          })
+          this.find('span.dep-link').on('click', function(){
+            find_and_select_variable(table, this.innerText, true);
+          });
+        }",  .open = "[[", .close = "]]"
+      ))
+    )
+  )
+```
+
