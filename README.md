@@ -21,8 +21,13 @@ R Markdown.
 
 ## Installation
 
-`{bslib}` isn’t yet on CRAN (it will be very soon!). Install it now
-with:
+Install the stable release of `{bslib}` on CRAN:
+
+``` r
+install.packages("bslib")
+```
+
+Or install the development version with:
 
 ``` r
 remotes::install_github("rstudio/bslib")
