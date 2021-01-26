@@ -17,13 +17,14 @@ knitr::opts_chunk$set(
   message = FALSE
 )
 
-
-htmltools::tagList(rmarkdown::html_dependency_font_awesome(), rmarkdown::html_dependency_bootstrap("default"))
+htmltools::tagList(
+  rmarkdown::html_dependency_font_awesome(),
+  rmarkdown::html_dependency_bootstrap("default")
+)
 ```
 
 ```{r setup}
 library(dplyr)
-library(readr)
 library(stringr)
 library(purrr)
 library(glue)
@@ -45,6 +46,9 @@ table.dataTable tr[role="row"] td:nth-child(4) {
   color:steelblue; 
   text-decoration:underline;
   cursor: pointer;
+}
+.selected .dep-link {
+  color: white;
 }
 ```
 
@@ -74,7 +78,7 @@ sass_variables_url <- file.path(
 #
 #
 
-raw_text <- read_file(sass_variables_loc)
+raw_text <- brio::readLines(sass_variables_loc)
 
 collapse_multiline_comments <- function(lines_df){
 
@@ -99,7 +103,7 @@ link_to_pos_in_script <- function(line_num){
 }
 
 tibble(
-  line = strsplit(raw_text, split = "\n")[[1]]
+  line = raw_text
 ) %>%
   mutate(
     line_number = row_number(),
