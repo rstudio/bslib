@@ -1,13 +1,13 @@
-diff --git a/inst/lib/bs-a11y-p/src/js/dropdown.js b/inst/lib/bs-a11y-p/src/js/dropdown.js
-index b1ef2d4..1f4c021 100644
---- a/inst/lib/bs-a11y-p/src/js/dropdown.js
-+++ b/inst/lib/bs-a11y-p/src/js/dropdown.js
-@@ -46,7 +46,7 @@
+diff --git a/inst/lib/bs-a11y-p/plugins/js/bootstrap-accessibility.js b/inst/lib/bs-a11y-p/plugins/js/bootstrap-accessibility.js
+index db2f244..2e24faa 100644
+--- a/inst/lib/bs-a11y-p/plugins/js/bootstrap-accessibility.js
++++ b/inst/lib/bs-a11y-p/plugins/js/bootstrap-accessibility.js
+@@ -211,7 +211,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
          }
          setTimeout(function() {
            if(!$.contains(that, document.activeElement)){
 -            $this.parent().find('[data-toggle=dropdown]').dropdown('toggle')
-+            $this.parent().find('[data-toggle=dropdown]').dropdown('hide');
++            $this.parent().find('[data-toggle=dropdown]').dropdown('hide')
            }
          }, 150)
         })
