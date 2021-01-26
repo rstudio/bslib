@@ -46,7 +46,7 @@
         }
         setTimeout(function() {
           if(!$.contains(that, document.activeElement)){
-            $this.parent().find('[data-toggle=dropdown]').dropdown('hide');
+            $this.parent().find('[data-toggle=dropdown]').dropdown('toggle')
           }
         }, 150)
        })
