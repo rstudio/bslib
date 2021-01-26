@@ -11,7 +11,8 @@ if (Sys.which("yarn") == "") {
   stop("The yarn CLI must be installed and in your PATH")
 }
 
-withr::with_dir("inst", system("yarn install"))
+# only install the direct deps
+withr::with_dir("inst", system("yarn install --production"))
 
 
 unlink("inst/lib", recursive = TRUE)
@@ -309,6 +310,44 @@ for (patch in list.files(patch_dir, full.names = TRUE)) {
     error = function(e) quit(save = "no", status = 1)
   )
 }
+
+# ----------------------------------------------------------------------
+# Apply minification to patched files
+# ----------------------------------------------------------------------
+
+withr::with_dir("inst", {
+  local({
+    # install all deps
+    system("yarn install")
+    # remove node modules
+    on.exit({
+      unlink("node_modules", recursive = TRUE)
+    }, add = TRUE)
+
+    bslib_plugin_paths <- file.path(
+      "lib", "bs-a11y-p", "plugins", "js", c(
+        "bootstrap-accessibility.js"
+      ))
+
+    for (unminified_file in c(
+      bslib_plugin_paths
+    )) {
+      message("Minifying ", basename(unminified_file))
+      cmd <- paste0(
+        "yarn parcel",
+        " build ", unminified_file,
+        " --no-source-maps",
+        " --no-cache",
+        " --out-dir ", dirname(unminified_file),
+        " --out-file ", sub(".js", ".min.js", fixed = TRUE, basename(unminified_file))
+      )
+
+      system(cmd)
+    }
+
+  })
+
+})
 
 
 # ----------------------------------------------------------------------
