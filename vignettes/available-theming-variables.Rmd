@@ -55,7 +55,11 @@ table.dataTable tr[role="row"] td:nth-child(4) {
 
 # BS4
 sass_variables_loc <- rprojroot::find_package_root_file("inst/lib/bs/scss/_variables.scss")
-sass_variables_url <- "https://github.com/rstudio/bslib/blob/master/inst/lib/bs/scss/_variables.scss"
+sass_variables_url <- file.path(
+  "https://github.com/rstudio/bslib/blob", 
+   substr(system("git rev-parse HEAD", intern = TRUE), 1, 7),
+  "inst/lib/bs/scss/_variables.scss"
+)
 # A section is denoted by a comment followed by either an empty line or an empty comment.
 # e.g.
 # // Section ID
@@ -246,4 +250,3 @@ theme <- bs_theme(
   # When referring to other variables, prefix with dollar-sign
   bs_add_variables("dark" = "$gray-900", .where = "declarations")
 ```
-
