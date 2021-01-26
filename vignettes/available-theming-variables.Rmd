@@ -116,7 +116,7 @@ tibble(
     above_is_empty_line = lag(line) == "",
     below_is_empty_line = lead(line) == "",
     is_section = (is_comment & below_is_empty_comment) | (is_comment & above_is_empty_line & below_is_empty_line),
-    variable = str_extract(line, "^\\$(.+?)(?=:)"),
+    variable = str_extract(line, "(?<=^\\$)(.+?)(?=:)"),
     section = ifelse(is_section, str_remove(line, "\\/\\/\\s*"), NA),
     section_link = ifelse(is_section, link_to_pos_in_script(line_number), NA),
     trailing_comment = str_extract(line, "(?<=;)(.+)$"),
@@ -190,7 +190,7 @@ function find_and_select_variable(table, desired_var, update_page) {
   if (row_index !== -1) {
     table.rows({ selected: true }).deselect();
     table.row(row_index).select();
-    location.hash = desired_var.replace('$', '#');
+    location.hash = '#' + desired_var;
 
     if (update_page) {
       table.row(row_index).scrollTo();
@@ -214,9 +214,7 @@ variables_df %>%
     extensions = c("Select", "RowGroup", "Scroller"),
     callback = DT::JS(glue("
       [[js_helper_fns]]
-      // Hide section column from view
-      table.column(0).visible(false);
-      var desired_var = location.hash.replace('#', '$');
+      var desired_var = location.hash.replace('#', '');
       find_and_select_variable(table, desired_var, true);",
       .open = "[[", .close = "]]")),
     options = list(
@@ -228,13 +226,16 @@ variables_df %>%
         function( settings ) {
           [[js_helper_fns]]
           var table = this.DataTable();
+        
+          // Hide section column from view
+          table.column(0).visible(false);
 
           this.find('tbody td:nth-child(1)').on('click', function(){
             // Don't update pagination because we are for sure on the right page alreadt
             find_and_select_variable(table, this.innerText, false);
           })
           this.find('span.dep-link').on('click', function(){
-            find_and_select_variable(table, this.innerText, true);
+            find_and_select_variable(table, this.innerText.replace('$', ''), true);
           });
         }",  .open = "[[", .close = "]]"
       ))
