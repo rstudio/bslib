@@ -134,7 +134,7 @@ tibble(
     value = str_extract(line, "(?<=:)(.+)?(?=;)") %>% str_remove(fixed("!default")) %>% str_trim(),
     value_is_function = str_detect(value, fixed("()")) | str_detect(value, "\\($"),
     # map-get function is used to reference a map built earlier so make sure not
-    # to link to it as it's not available in the table
+    # to link to it because there is no entry in the table to link to.
     value = str_replace_all(
       value,
       "(?<!map-get\\()(\\$[\\w|-]+)",
