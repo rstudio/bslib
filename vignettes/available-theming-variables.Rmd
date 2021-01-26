@@ -190,7 +190,7 @@ function find_and_select_variable(table, desired_var, update_page) {
     location.hash = desired_var.replace('$', '#');
 
     if (update_page) {
-      table.page(Math.floor(row_index / table.page.info().length)).draw(false);
+      table.row(row_index).scrollTo();
     }
   }
 }
@@ -205,28 +205,29 @@ variables_df %>%
   ) %>% 
   DT::datatable(
     escape = FALSE,
-    class = c("stripe"),
     style = "bootstrap",
     rownames = FALSE,
     selection = "none",
-    extensions = c("Select", "RowGroup"),
+    extensions = c("Select", "RowGroup", "Scroller"),
     callback = DT::JS(glue("
       [[js_helper_fns]]
+      // Hide section column from view
+      table.column(0).visible(false);
       var desired_var = location.hash.replace('#', '$');
-      find_and_select_variable(table, desired_var, true);",  
+      find_and_select_variable(table, desired_var, true);",
       .open = "[[", .close = "]]")),
     options = list(
+      deferRender = TRUE,
+      scrollY = 850,
+      scroller = TRUE,
       rowGroup = list(dataSrc = 0),
       drawCallback = DT::JS(glue("
         function( settings ) {
           [[js_helper_fns]]
           var table = this.DataTable();
-        
-          // Hide section column from view
-          table.column(0).visible(false);
-          
+
           this.find('tbody td:nth-child(1)').on('click', function(){
-            // Dont update pagination because we are for sure on the right page alreadt
+            // Don't update pagination because we are for sure on the right page alreadt
             find_and_select_variable(table, this.innerText, false);
           })
           this.find('span.dep-link').on('click', function(){
