@@ -378,3 +378,11 @@ lapply(versions(), function(version) {
   }
   file.copy(tmp_css, dest_dir)
 })
+
+
+# ----------------------------------------------------------------------
+# Cleanup
+# ----------------------------------------------------------------------
+withr::with_dir("inst", {
+  unlink("yarn.lock")
+})
