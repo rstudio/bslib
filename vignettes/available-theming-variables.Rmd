@@ -116,7 +116,7 @@ tibble(
     above_is_empty_line = lag(line) == "",
     below_is_empty_line = lead(line) == "",
     is_section = (is_comment & below_is_empty_comment) | (is_comment & above_is_empty_line & below_is_empty_line),
-    variable = str_extract(line, "^\\$(.+)?(?=:)"),
+    variable = str_extract(line, "^\\$(.+?)(?=:)"),
     section = ifelse(is_section, str_remove(line, "\\/\\/\\s*"), NA),
     section_link = ifelse(is_section, link_to_pos_in_script(line_number), NA),
     trailing_comment = str_extract(line, "(?<=;)(.+)$"),
@@ -131,7 +131,6 @@ tibble(
   tidyr::fill(section, section_link) %>%
   filter(!is.na(variable)) %>%
   mutate(
-    variable = str_extract(line, "^\\$(.+)?(?=:)"),
     value = str_extract(line, "(?<=:)(.+)?(?=;)") %>% str_remove(fixed("!default")) %>% str_trim(),
     value_is_function = str_detect(value, fixed("()")) | str_detect(value, "\\($"),
     # map-get function is used to reference a map built earlier so make sure not
