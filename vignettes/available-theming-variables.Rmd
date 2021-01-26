@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 
 
-htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+htmltools::tagList(rmarkdown::html_dependency_font_awesome(), rmarkdown::html_dependency_bootstrap("default"))
 ```
 
 ```{r setup}
@@ -206,6 +206,7 @@ variables_df %>%
   DT::datatable(
     escape = FALSE,
     class = c("stripe"),
+    style = "bootstrap",
     rownames = FALSE,
     selection = "none",
     extensions = c("Select", "RowGroup"),
