@@ -172,7 +172,7 @@ tibble(
 
 ## Modifying Bootstrap theming variables
 
-While a large amount of customization is possible with the basic parameters in `bs_theme()`, sometimes you may want more fine-grain control. To enable this, `bslib` lets you change any of the [exposed theming variables provided by Bootstrap.](https://getbootstrap.com/docs/4.0/getting-started/theming/) For instance, to adjust the padding amount after each paragraph we can use the variable `paragraph-margin-bottom`...
+While a large amount of customization is possible with the basic parameters in `bs_theme()`, sometimes you may want more fine-grain control. To enable this, `bslib` lets you change any of the [exposed theming variables provided by Bootstrap.](https://getbootstrap.com/docs/4.0/getting-started/theming/) For instance, to adjust the padding amount after each paragraph we can use the variable [`paragraph-margin-bottom`](#paragraph-margin-bottom)...
 
 ```{r, eval = FALSE, echo = TRUE}
 # Double space given after each paragraph
@@ -180,7 +180,6 @@ theme <- bs_theme(..., "paragraph-margin-bottom" = "2rem")
 ```
 
 For more details on this see the [sass variables section of the theming article](https://rstudio.github.io/bslib/articles/theming.html#sass-variables-1) and the [original Bootstrap documentation of theme variables.](https://getbootstrap.com/docs/4.0/getting-started/theming/)
-
 
 
 ## All theming variables
@@ -194,27 +193,31 @@ _Note: these variables are specifically for Bootstrap 4 and many won't work for 
 - Click on dependency variable within the value column to be taken to the declaration of that dependency in the table.
 - The __Find in source__ column will take you to the position in the original `.scss` file where the variable was declared. The context may help clarify the variables role. 
 
-
-```{r}
-# This chunk of JS requires the DataTable object to be available in scope as "table" 
-js_helper_fns <- "
+```{js}
 function find_and_select_variable(table, desired_var, update_page) {
   var row_index = table
-    .column(1, { order: 'current' })
+    .column(1, { order: "current" })
     .data()
     .indexOf(desired_var);
   if (row_index !== -1) {
     table.rows({ selected: true }).deselect();
     table.row(row_index).select();
-    location.hash = '#' + desired_var;
+    location.hash = "#" + desired_var;
 
     if (update_page) {
       table.row(row_index).scrollTo();
     }
   }
 }
-"
 
+function go_to_current_hash(table) {
+  var desired_var = location.hash.replace("#", "");
+  find_and_select_variable(table, desired_var, true);
+}
+```
+
+
+```{r}
 variables_df %>%
   rename(
     Variable = variable,
@@ -229,34 +232,37 @@ variables_df %>%
     rownames = FALSE,
     selection = "none",
     extensions = c("Select", "RowGroup", "Scroller"),
-    callback = DT::JS(glue("
-      [[js_helper_fns]]
-      var desired_var = location.hash.replace('#', '');
-      find_and_select_variable(table, desired_var, true);",
-      .open = "[[", .close = "]]")),
+    callback = DT::JS("
+      // Check for linked variable on first load                    
+      go_to_current_hash(table);
+      
+      // Allows us to link within the page
+      window.onhashchange = function() {
+        go_to_current_hash(table);
+      }"),
     options = list(
       deferRender = TRUE,
       scroller = TRUE,
       scrollY = 850,
       scrollX = TRUE,
       rowGroup = list(dataSrc = 0),
-      drawCallback = DT::JS(glue("
+      drawCallback = DT::JS("
         function( settings ) {
-          [[js_helper_fns]]
           var table = this.DataTable();
         
           // Hide section column from view
           table.column(0).visible(false);
-
+          
+          // This makes variable names themselves selectable for building urls etc  
           this.find('tbody td:nth-child(1)').on('click', function(){
-            // Don't update pagination because we are for sure on the right page alreadt
             find_and_select_variable(table, this.innerText, false);
           })
+        
+          // This makes the dependencies linked
           this.find('span.dep-link').on('click', function(){
             find_and_select_variable(table, this.innerText.replace('$', ''), true);
           });
-        }",  .open = "[[", .close = "]]"
-      ))
+        }")
     )
   )
 ```
