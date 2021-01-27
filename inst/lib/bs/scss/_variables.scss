@@ -4,6 +4,8 @@
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
 
 // Color system
+//
+// Sets colors used throughout app
 
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
@@ -452,6 +454,8 @@ $btn-transition:              color .15s ease-in-out, background-color .15s ease
 
 
 // Forms
+//
+// Settings related to input forms
 
 $label-margin-bottom:                   .5rem !default;
 
@@ -655,6 +659,8 @@ $custom-file-text: (
 
 
 // Form validation
+//
+// Control how feedback for form inputs looks
 
 $form-feedback-margin-top:          $form-text-margin-top !default;
 $form-feedback-font-size:           $small-font-size !default;
@@ -696,6 +702,8 @@ $zindex-tooltip:                    1070 !default;
 
 
 // Navs
+//
+// General navigation component settings
 
 $nav-link-padding-y:                .5rem !default;
 $nav-link-padding-x:                1rem !default;
@@ -718,6 +726,8 @@ $nav-divider-margin-y:              $spacer / 2 !default;
 
 
 // Navbar
+//
+// Navigation bar settings
 
 $navbar-padding-y:                  $spacer / 2 !default;
 $navbar-padding-x:                  $spacer !default;
@@ -791,6 +801,8 @@ $dropdown-header-padding:           $dropdown-padding-y $dropdown-item-padding-x
 
 
 // Pagination
+//
+// Styles for components with multiple pages to be clicked through
 
 $pagination-padding-y:              .5rem !default;
 $pagination-padding-x:              .75rem !default;
@@ -822,6 +834,8 @@ $pagination-disabled-border-color:  $gray-300 !default;
 
 
 // Jumbotron
+//
+// Styles for jumbotron component "for calling extra attention to featured content or information."
 
 $jumbotron-padding:                 2rem !default;
 $jumbotron-color:                   null !default;
@@ -829,6 +843,8 @@ $jumbotron-bg:                      $gray-200 !default;
 
 
 // Cards
+// 
+// Individual cards for displaying grouped information
 
 $card-spacer-y:                     .75rem !default;
 $card-spacer-x:                     1.25rem !default;
@@ -853,6 +869,8 @@ $card-columns-margin:               $card-spacer-y !default;
 
 
 // Tooltips
+//
+// Popups with info for hovering/clicking
 
 $tooltip-font-size:                 $font-size-sm !default;
 $tooltip-max-width:                 200px !default;
@@ -878,6 +896,8 @@ $form-feedback-tooltip-border-radius: $tooltip-border-radius !default;
 
 
 // Popovers
+//
+// Popper.js popover/tooltip styling
 
 $popover-font-size:                 $font-size-sm !default;
 $popover-bg:                        $white !default;
@@ -905,6 +925,8 @@ $popover-arrow-outer-color:         fade-in($popover-border-color, .05) !default
 
 
 // Toasts
+//
+// "Lightweight notifications designed to mimic the push notifications"
 
 $toast-max-width:                   350px !default;
 $toast-padding-x:                   .75rem !default;
@@ -923,6 +945,8 @@ $toast-header-border-color:         rgba(0, 0, 0, .05) !default;
 
 
 // Badges
+//
+// "Small count and labeling component."
 
 $badge-font-size:                   75% !default;
 $badge-font-weight:                 $font-weight-bold !default;
@@ -940,6 +964,8 @@ $badge-pill-border-radius:          10rem !default;
 
 
 // Modals
+// 
+// Screen-filling popup dialogs that typically require the user to dismiss
 
 // Padding applied to the modal body
 $modal-inner-padding:               1rem !default;
@@ -999,6 +1025,8 @@ $alert-color-level:                 6 !default;
 
 
 // Progress bars
+//
+// Basic bars for displaying progress of some process
 
 $progress-height:                   1rem !default;
 $progress-font-size:                $font-size-base * .75 !default;
@@ -1012,6 +1040,8 @@ $progress-bar-transition:           width .6s ease !default;
 
 
 // List group
+// 
+// Basic unordered lists 
 
 $list-group-color:                  null !default;
 $list-group-bg:                     $white !default;
@@ -1038,6 +1068,8 @@ $list-group-action-active-bg:       $gray-200 !default;
 
 
 // Image thumbnails
+//
+// Styles for small preview images
 
 $thumbnail-padding:                 .25rem !default;
 $thumbnail-bg:                      $body-bg !default;
@@ -1048,12 +1080,16 @@ $thumbnail-box-shadow:              0 1px 2px rgba($black, .075) !default;
 
 
 // Figures
+//
+// Caption settings for figures
 
 $figure-caption-font-size:          90% !default;
 $figure-caption-color:              $gray-600 !default;
 
 
 // Breadcrumbs
+// 
+// Navigation history information widgets
 
 $breadcrumb-font-size:              null !default;
 
@@ -1072,6 +1108,8 @@ $breadcrumb-border-radius:          $border-radius !default;
 
 
 // Carousel
+// 
+// Rotating set of items
 
 $carousel-control-color:             $white !default;
 $carousel-control-width:             15% !default;
@@ -1099,6 +1137,8 @@ $carousel-transition:                transform $carousel-transition-duration eas
 
 
 // Spinners
+// 
+// Spinning widgets to display ongoing process
 
 $spinner-width:         2rem !default;
 $spinner-height:        $spinner-width !default;
@@ -1110,6 +1150,8 @@ $spinner-border-width-sm: .2em !default;
 
 
 // Close
+// 
+// Buttons for closing a dialog
 
 $close-font-size:                   $font-size-base * 1.5 !default;
 $close-font-weight:                 $font-weight-bold !default;
@@ -1118,6 +1160,8 @@ $close-text-shadow:                 0 1px 0 $white !default;
 
 
 // Code
+//
+// How monospaced code environments look
 
 $code-font-size:                    87.5% !default;
 // Amount intentionally matches mixture amount of shiny::inputPanel()
@@ -1139,6 +1183,8 @@ $pre-scrollable-max-height:         340px !default;
 
 
 // Utilities
+//
+// Misc general CSS settings
 
 $displays: none, inline, inline-block, block, table, table-row, table-cell, flex, inline-flex !default;
 $overflows: auto, hidden !default;
@@ -1147,6 +1193,8 @@ $user-selects: all, auto, none !default;
 
 
 // Printing
+//
+// Control how page looks when using browser print dialog
 
 $print-page-size:                   a3 !default;
 $print-body-min-width:              map-get($grid-breakpoints, "lg") !default;
