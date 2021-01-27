@@ -211,7 +211,7 @@ CC0: http://creativecommons.org/publicdomain/zero/1.0/
         }
         setTimeout(function() {
           if(!$.contains(that, document.activeElement)){
-            $this.parent().find('[data-toggle=dropdown]').dropdown('toggle')
+            $this.parent().find('[data-toggle=dropdown]').dropdown('hide')
           }
         }, 150)
        })

@@ -7,3 +7,6 @@ inst/themer-demo/deploy/rsconnect
 
 # GHA remotes installation
 .github/r-depends.rds
+
+# yarn
+inst/yarn.lock
