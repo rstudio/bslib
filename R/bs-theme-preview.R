@@ -378,6 +378,9 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
 
 set_current_theme <- function(theme, changed_vals, session) {
+  shiny::insertUI("body", ui = spinner_overlay(), immediate = TRUE, session = session)
+  on.exit(shiny::removeUI("body > #spinner_overlay"), add = TRUE)
+
   message("--------------------")
   code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
   print(code)
@@ -403,6 +406,21 @@ set_current_theme <- function(theme, changed_vals, session) {
     }
   )
   invisible(theme)
+}
+
+spinner_overlay <- function(id = "spinner_overlay") {
+  div(
+    id = id,
+    style = "position:absolute; top:0; left:0; min-height:100vh; width:100%; background-color:rgba(0,0,0,0.1)",
+    class = "d-flex flex-column justify-content-center align-items-center",
+    div(
+      class = "spinner-border",
+      style = "width:5rem; height:5rem",
+      role = "status",
+      span(class = "sr-only", "Loading...")
+    ),
+    span(class = "lead mt-1",  "Loading...")
+  )
 }
 
 eval_val <- function(x) {
