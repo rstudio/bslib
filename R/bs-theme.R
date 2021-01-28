@@ -18,7 +18,7 @@
 #' * Customize main colors and fonts via explicitly named arguments (e.g.,
 #'   `bg`, `fg`, `primary`, etc).
 #' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`
-#'   * See all [Bootstrap 4 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bs/scss/_variables.scss)
+#'   * See all [Bootstrap 4 variables](https://rstudio.github.io/bslib/articles/bs4-variables.html)
 #'   * See all [Bootstrap 3 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss)
 #'
 #' For less common theming customization(s), you can modify theme objects to:

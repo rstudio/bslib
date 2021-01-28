@@ -50,7 +50,7 @@ Use `bs_theme()` to create a `{bslib}` theme, where you can:
 - Customize the main colors and fonts (e.g., `bg`, `fg`, `primary`, `base_font`, etc)
     - These main controls are available via named arguments to `bs_theme()` (and `bs_theme_update()`) and are guaranteed to work across Bootstrap versions.
 
-- More generally, customize most of Bootstrap's styling via Sass variables (e.g., [`font-size-base`](https://github.com/rstudio/bslib/blob/c353705/inst/lib/bootstrap/scss/_variables.scss#L282)).
+- More generally, customize most of Bootstrap's styling via Sass variables (e.g., [`font-size-base`](https://rstudio.github.io/bslib/articles/bs4-variables.html#font-size-base)).
     - These more specific controls pass through the `...` of `bs_theme()`.
     - These options likely depend on the Bootstrap version being used
 

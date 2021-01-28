@@ -20,12 +20,11 @@ navbar:
   - text: Custom themes
     href: articles/theming.html
   - text: Theming variables
-    href: articles/available-theming-variables.html
+    href: articles/bs4-variables.html
   - text: Reference
     href: reference/index.html
-# TODO: add after CRAN release
-#  - text: News
-#    href: news/index.html
+  - text: News
+    href: news/index.html
 
 reference:
 - title: Theme creation
