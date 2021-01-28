@@ -23,6 +23,9 @@ htmltools::tagList(
 )
 ```
 
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+
 ```{r setup}
 library(dplyr)
 library(stringr)
@@ -166,9 +169,11 @@ tibble(
     value,
     comment,
     declaration
+  ) %>% 
+  mutate(
+    value = glue("<span data-tippy-content='CSS-value: {bs_get_variables(bs_theme(), variable)}'> {value} </span>")
   ) -> variables_df 
 ```
-
 
 ## Modifying Bootstrap theming variables
 
@@ -191,6 +196,7 @@ _Note: these variables are specifically for Bootstrap 4 and many won't work for 
 
 - Each section header corresponds to a section within the source file denoted by comments. Click on the link icon in the header to be taken to the start of that section in the variable declaration script. 
 - Click on dependency variable within the value column to be taken to the declaration of that dependency in the table.
+- Hover over the value to see the compiled CSS value produced. 
 - The __Find in source__ column will take you to the position in the original `.scss` file where the variable was declared. The context may help clarify the variables role. 
 
 ```{js}
@@ -249,6 +255,8 @@ variables_df %>%
       drawCallback = DT::JS("
         function( settings ) {
           var table = this.DataTable();
+        
+          tippy('[data-tippy-content]', {placement: 'right'});
         
           // Hide section column from view
           table.column(0).visible(false);
