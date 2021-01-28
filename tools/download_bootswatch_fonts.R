@@ -1,8 +1,8 @@
 library(stringr)
 
-if (Sys.getenv("RSTUDIO") == "1") {
-  stop("Please run this script from the command line: `Rscript tools/fonts.R`")
-}
+# if (Sys.getenv("RSTUDIO") == "1") {
+#   stop("Please run this script from the command line: `Rscript tools/fonts.R`")
+# }
 
 # TODO: make sure this isn't drastically different from 2.1 Mb
 fonts_home <- file.path("inst", "fonts")

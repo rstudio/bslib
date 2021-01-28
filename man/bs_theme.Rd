@@ -107,7 +107,7 @@ the following common Bootstrap customization(s):
 \code{bg}, \code{fg}, \code{primary}, etc).
 \item Customize other, lower-level, Bootstrap Sass variable defaults via \code{...}
 \itemize{
-\item See all \href{https://github.com/rstudio/bslib/blob/master/inst/lib/bs/scss/_variables.scss}{Bootstrap 4 variables}
+\item See all \href{https://rstudio.github.io/bslib/articles/bs4-variables.html}{Bootstrap 4 variables}
 \item See all \href{https://github.com/rstudio/bslib/blob/master/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss}{Bootstrap 3 variables}
 }
 }

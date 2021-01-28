@@ -1,0 +1,251 @@
+---
+title: "Bootstrap 4 variables"
+output: rmarkdown::html_vignette
+author: "Nick Strayer & Carson Sievert"
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Bootstrap 4 variables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+
+```{r setup, include = FALSE}
+library(dplyr)
+library(stringr)
+library(purrr)
+library(glue)
+library(bslib)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = FALSE, 
+  message = FALSE
+)
+
+htmltools::tagList(
+  rmarkdown::html_dependency_font_awesome(),
+  rmarkdown::html_dependency_bootstrap("default")
+)
+```
+
+```{r variables_df}
+sass_variables_loc <- rprojroot::find_package_root_file("inst/lib/bs/scss/_variables.scss")
+sass_variables_url <- file.path(
+  "https://github.com/rstudio/bslib/blob", 
+   substr(system("git rev-parse HEAD", intern = TRUE), 1, 7),
+  "inst/lib/bs/scss/_variables.scss"
+)
+# A section is denoted by a comment followed by either an empty line or an empty comment.
+# e.g.
+# // Section ID
+#
+# Or
+# // Section ID
+# //
+#
+# Sometimes the sections are just isolated floating comments
+#
+# // Section ID
+#
+#
+# TODO: BS3's comment templates are different so a whole new scraping pipeline is needed
+
+raw_text <- brio::readLines(sass_variables_loc)
+
+collapse_multiline_comments <- function(lines_df){
+
+  repetitions <- rle(lines_df$is_comment & !lines_df$is_empty_comment)
+  block_id <- rep(seq_along(repetitions$lengths), times = repetitions$lengths)
+  is_comment_block <- rep(repetitions$values, times = repetitions$lengths)
+  # A negative value means it's not a comment block. Using negatives so we
+  # don't match ids of comment blocks
+  lines_df$comment_block <- ifelse(is_comment_block, block_id, -seq_len(nrow(lines_df)))
+
+  group_by(lines_df, comment_block) %>%
+    summarise(
+      across(c(-line), first),
+      line = paste(line, collapse = " ")
+    ) %>%
+    arrange(line_number) %>%
+    select(-comment_block)
+}
+
+link_to_pos_in_script <- function(line_num){
+  paste0(sass_variables_url, "#L", line_num)
+}
+
+variables_df <- tibble(line = raw_text) %>%
+  mutate(
+    line_number = row_number(),
+    is_comment = str_detect(line, "^\\/\\/"),
+    is_empty_comment = str_detect(line, "^\\/\\/\\s*$")
+  ) %>%
+  collapse_multiline_comments() %>%
+  mutate(
+    below_is_empty_comment = lead(is_empty_comment),
+    above_is_empty_line = lag(line) == "",
+    below_is_empty_line = lead(line) == "",
+    is_section = (is_comment & below_is_empty_comment) | (is_comment & above_is_empty_line & below_is_empty_line),
+    variable = str_extract(line, "(?<=^\\$)(.+?)(?=:)"),
+    section = ifelse(is_section, str_remove(line, "\\/\\/\\s*"), NA),
+    section_link = ifelse(is_section, link_to_pos_in_script(line_number), NA),
+    trailing_comment = str_extract(line, "(?<=;)(.+)$"),
+    above_is_comment = lag(is_comment),
+    comment = case_when(
+      !is.na(trailing_comment) ~ trailing_comment,
+      above_is_comment ~ lag(line),
+      TRUE ~ ""
+    ) %>% str_remove_all("\\/\\/") %>% str_trim(),
+    comment = ifelse(str_detect(comment, "stylelint-disable"), "", comment)
+  ) %>%
+  tidyr::fill(section, section_link) %>%
+  filter(!is.na(variable)) %>%
+  mutate(
+    value = str_extract(line, "(?<=:)(.+)?(?=;)") %>% str_remove(fixed("!default")) %>% str_trim(),
+    value_is_function = str_detect(value, fixed("()")) | str_detect(value, "\\($"),
+    # map-get function is used to reference a map built earlier so make sure not
+    # to link to it because there is no entry in the table to link to.
+    value = str_replace_all(
+      value,
+      "(?<!map-get\\()(\\$[\\w|-]+)",
+      "<span class='dep-link'>\\1</span>"
+    ),
+    section = glue("Section: {section} <a href=\"{section_link}\"><i class=\"fas fa-external-link-alt\"></i></a>"),
+    declaration = glue("<a href=\"{link_to_pos_in_script(line_number)}\"><i class=\"fas fa-external-link-alt\"></i></a>")
+  ) %>%
+  filter(!value_is_function) %>%
+  select(
+    section,
+    variable,
+    value,
+    comment,
+    declaration
+  ) %>% 
+  mutate(
+    value = glue("<span data-tippy-content='CSS-value: {bs_get_variables(bs_theme(), variable)}'> {value} </span>")
+  )
+```
+
+Not only does `bs_theme()` make it easy to control [Main Colors & Fonts](theming.html#main-colors), but it also provides access to 100s of more specific theming options. These options, sometimes referred to as [Bootstrap Sass variables](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults), allow for control over default styles of various Bootstrap features like [Navs](#nav-link-padding-y) (e.g., `shiny::tabsetPanel()`), [Navbars](#navbar-padding-y) (e.g., `shiny::navbarPage()`), [Dropdowns](#dropdown-min-width) (e.g., `shiny::navbarMenu()`), and much more.
+
+The table below provides a convenient way to navigate Bootstrap 4 Sass variables. A few things to keep in mind when using this table:
+
+1. Towards the top of the table are more general theming options like `white`, `gray-*`, `black`, `primary`, `border-radius`, and so on, which end up impacting more specific theming variables like `btn-border-radius`.
+2. `bs_theme()`'s `bg` and `fg` arguments provide a more convenient way to set the `white`, `gray-*`, and `black` variables, so there is no need to set these Sass variables directly (same goes for `font_base` -> `$font-family-base`, `font_heading` -> `$font-family-base`, and `font_code` -> `$font-family-monospace`).
+3. For Sass variables whose value defaults to another Sass variable (e.g., [`border-color`](bs4-variables.html#border-color)), you may hover over the value to get the (default) CSS value that it represents.
+
+For more information and examples on why and how to use these Sass variables inside of `bs_theme()`, see the [theming variables section](theming.html#sass-variables) of the Custom Theming article.
+
+```{css}
+table.dataTable tr[role="row"] td {
+  font-family: monospace;
+}
+table.dataTable tr[role="row"] td:nth-child(3) {
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+table.dataTable tr[role="row"] td:nth-child(4) {
+  text-align: center;
+}
+table.dataTable tr td:nth-child(1) {
+  max-width: 250px;
+  overflow: scroll;
+}
+table.dataTable tr td:nth-child(2),
+table.dataTable tr td:nth-child(3){
+  max-width: 300px;
+  overflow: scroll;
+}
+table.dataTable tr td:nth-child(4){
+  width: 20px;
+}
+.dep-link {
+  color:steelblue; 
+  text-decoration:underline;
+  cursor: pointer;
+}
+.selected .dep-link {
+  color: white;
+}
+```
+
+
+```{js}
+function find_and_select_variable(table, desired_var, update_page) {
+  var row_index = table
+    .column(1, { order: "current" })
+    .data()
+    .indexOf(desired_var);
+  if (row_index !== -1) {
+    table.rows({ selected: true }).deselect();
+    table.row(row_index).select();
+    location.hash = "#" + desired_var;
+
+    if (update_page) {
+      table.row(row_index).scrollTo();
+    }
+  }
+}
+
+function go_to_current_hash(table) {
+  var desired_var = location.hash.replace("#", "");
+  find_and_select_variable(table, desired_var, true);
+}
+```
+
+
+```{r}
+variables_df %>%
+  rename(
+    Variable = variable,
+    Value = value,
+    Comment = comment,
+    `Find in source` = declaration
+  ) %>% 
+  DT::datatable(
+    escape = FALSE,
+    style = "bootstrap",
+    class = "cell-border",
+    rownames = FALSE,
+    selection = "none",
+    extensions = c("Select", "RowGroup", "Scroller"),
+    callback = DT::JS("
+      // Check for linked variable on first load                    
+      go_to_current_hash(table);
+      
+      // Allows us to link within the page
+      window.onhashchange = function() {
+        go_to_current_hash(table);
+      }"),
+    options = list(
+      deferRender = TRUE,
+      scroller = TRUE,
+      scrollY = 850,
+      scrollX = TRUE,
+      rowGroup = list(dataSrc = 0),
+      drawCallback = DT::JS("
+        function( settings ) {
+          var table = this.DataTable();
+        
+          tippy('[data-tippy-content]', {placement: 'right'});
+        
+          // Hide section column from view
+          table.column(0).visible(false);
+          
+          // This makes variable names themselves selectable for building urls etc  
+          this.find('tbody td:nth-child(1)').on('click', function(){
+            find_and_select_variable(table, this.innerText, false);
+          })
+        
+          // This makes the dependencies linked
+          this.find('span.dep-link').on('click', function(){
+            find_and_select_variable(table, this.innerText.replace('$', ''), true);
+          });
+        }")
+    )
+  )
+```
