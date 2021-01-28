@@ -43,7 +43,13 @@
   <a href="../articles/theming.html">Custom themes</a>
 </li>
 <li>
+  <a href="../articles/bs4-variables.html">Theming variables</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -75,7 +81,7 @@
       <h1 data-toc-skip>Custom themes</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2021-01-27</h4>
+            <h4 class="date">2021-01-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/theming.Rmd"><code>vignettes/theming.Rmd</code></a></small>
       <div class="hidden name"><code>theming.Rmd</code></div>
@@ -88,9 +94,9 @@
 div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;background-repeat:no-repeat;background-position:15px center;min-height:120px;color:#1f5386;background-color:#bed3ec;border:solid 5px #dfedff;background-image:url("infobox.svg")}div.info a{color:#e783b8}
 </style>
 <p>This article demonstrates how to create custom themes for Shiny apps, R Markdown documents, and more using <a href="https://rstudio.github.io/bslib/">bslib</a>. For the sake of novelty, this article uses some Bootstrap 4 specific features like <a href="#utility-classes">Utility Classes</a>, but some of the more basic options like Main Colors &amp; Fonts and Sass variables are also available for Bootstrap 3.</p>
-<div id="main-colors-fonts" class="section level2">
+<div id="main-colors" class="section level2">
 <h2 class="hasAnchor">
-<a href="#main-colors-fonts" class="anchor"></a>Main colors &amp; fonts</h2>
+<a href="#main-colors" class="anchor"></a>Main colors &amp; fonts</h2>
 <p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> makes it easy to customize the main colors and fonts of most Shiny apps and R Markdown documents. Any <code><a href="../reference/bs_theme.html">bs_theme()</a></code> may be provided to any <a href="/index.html#shiny-usage">Shiny app</a> and any <a href="/index.html#r-markdown-usage">R Markdown document</a> powered by Bootstrap, but for sake of demonstration here we’ll provide it to <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code>, which runs a Shiny app designed for previewing and customizing themes.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/bslib/">bslib</a></span><span class="op">)</span>
@@ -115,74 +121,97 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <p><iframe src="https://player.vimeo.com/video/465527125?title=0&amp;byline=0&amp;portrait=0" width="100%" height="400" frameborder="0" seamless="seamless" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></p>
 <p>Among the main coloring choices in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, <code>bg</code>, <code>fg</code>, and <code>primary</code> are by far the most important as they effect nearly every color on the page. In fact, <code>bg</code> and <code>fg</code> alone impact 100s of defaults — everything from inputs to wells (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html">shiny::wellPanel()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/inputPanel.html">shiny::inputPanel()</a></code>, etc) to navigation (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code>, etc) and more. The accent colors don’t impact nearly as much, but <code>primary</code> does control the color for some important things like hyperlinks, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code> links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">shiny::actionButton()</a></code> (defaults to the <code>secondary</code> color), <code><a href="https://rdrr.io/pkg/shiny/man/showNotification.html">shiny::showNotification()</a></code> , or more generally any HTML content that leverages <a href="https://getbootstrap.com/docs/4.4/utilities/colors/">Color Utility Classes</a>.</p>
 <p>There are 3 main controls for font families in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, namely <code>base_font</code>, <code>heading_font</code>, and <code>code_font</code>. To focus and customize each setting, go to the “Fonts” tab in the top navbar, as well as in interactive themer. It’s worth noting that the interactive themer has a special ability to render <a href="https://fonts.google.com">Google Fonts</a> in real-time by downloading, caching, and importing font file(s) as needed (via <code><a href="../reference/font_face.html">font_google()</a></code>).</p>
+<p><img src="fonts.png" width="100%" style="display: block; margin: auto;"></p>
+<p>When using <a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp">web safe font combinations</a>, it’s ok to provide a character string of (comma-separated) font families (e.g., <code><a href="../reference/bs_theme.html">bs_theme(base_font = '"Times New Roman", Times, serif')</a></code>. Otherwise, use one of the <code><a href="../reference/font_face.html">font_google()</a></code>, <code><a href="../reference/font_face.html">font_link()</a></code>, and/or <code><a href="../reference/font_face.html">font_face()</a></code> helpers to include the relevant file(s) so the client’s browser may render the font(s). <code><a href="../reference/font_face.html">font_link()</a></code> and <code><a href="../reference/font_face.html">font_face()</a></code> are fairly low-level interfaces to <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts">the CSS web font API</a>, but <code><a href="../reference/font_face.html">font_google()</a></code> has the additional ability to download and cache font file(s), making it so that an internet connection is needed only for the first time a particular font is used.</p>
 <div class="info">
 <p>When choosing fonts, keep in mind that it’s generally good practice to put serif fonts in <code>base_font</code>, sans-serif fonts in <code>heading_font</code>, and monospace fonts in <code>code_font</code>. If you aren’t sure where to start, <a href="https://fontpair.co/featured">this article</a> has a nice gallery of Google Font pairings.</p>
 </div>
-<p><img src="fonts.png" width="100%" style="display: block; margin: auto;"></p>
-<p>When using <a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp">web safe font combinations</a>, it’s ok to provide a character string of (comma-separated) font families (e.g., <code><a href="../reference/bs_theme.html">bs_theme(base_font = '"Times New Roman", Times, serif')</a></code>. Otherwise, use one of the <code><a href="../reference/font_face.html">font_google()</a></code>, <code><a href="../reference/font_face.html">font_link()</a></code>, and/or <code><a href="../reference/font_face.html">font_face()</a></code> helpers to include the relevant file(s) so the client’s browser may render the font(s). <code><a href="../reference/font_face.html">font_link()</a></code> and <code><a href="../reference/font_face.html">font_face()</a></code> are fairly low-level interfaces to <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts">the CSS web font API</a>, but <code><a href="../reference/font_face.html">font_google()</a></code> has the additional ability to download and cache font file(s), making it so that an internet connection is needed only for the first time a particular font is used.</p>
 </div>
 <div id="sass-variables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#sass-variables" class="anchor"></a>Sass variables</h2>
-<div class="info">
-<p>If you aren’t already familiar with how Sass and Sass variables work, we recommend reading <a href="https://rstudio.github.io/sass/articles/sass.html">this article</a> before continuing.</p>
-</div>
-<p>Any of the main color and font settings work for any Bootstrap <code>version</code>, but <code><a href="../reference/bs_theme.html">bs_theme()</a></code> also allows control over specific <a href="https://getbootstrap.com/docs/4.5/getting-started/theming/#variable-defaults">Bootstrap Sass variables</a> that are likely to different across <code>versions</code>. Thus, it’s best practice to ‘lock-in’ the Bootstrap <code>version</code> when setting Sass variable(s) directly. Here we set Bootstrap 4’s <a href="https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L282">$font-size-base variable</a> to increase the sizing of all the fonts on a solarized theme.</p>
+<a href="#sass-variables" class="anchor"></a>Theming variables</h2>
+<div id="overview" class="section level3">
+<h3 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h3>
+<p>In addition to <a href="#main-colors">Main Colors &amp; Fonts</a>, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides access to 100s of more specific theming options via <a href="https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults">Bootstrap’s Sass variables</a>. <a href="bs4-variables.html">See here</a> for the full table of variables available in Bootstrap 4. Towards the top of that table are more general theming options which impact more specific theming defaults (towards the bottom). For example, the general <a href="bs4-variables.html#border-radius"><code>border-radius</code></a> variable impacts the component specific <a href="bs4-variables.html#btn-border-radius"><code>btn-border-radius</code></a> and <a href="bs4-variables.html#nav-tabs-border-radius"><code>nav-tabs-border-radius</code></a> variables. General variables may also impact <a href="https://getbootstrap.com/docs/4.4/utilities/borders/">Bootstrap’s Utility Classes</a>, which are used here to add padding and border around the <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code>’s content (more on Utility Classes later):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">theme_solar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>
-  bg <span class="op">=</span> <span class="st">"#002B36"</span>, 
-  fg <span class="op">=</span> <span class="st">"#EEE8D5"</span>,
-  primary <span class="op">=</span> <span class="st">"#2AA198"</span>,
-  base_font <span class="op">=</span> <span class="fu"><a href="../reference/font_face.html">font_google</a></span><span class="op">(</span><span class="st">"Grandstander"</span><span class="op">)</span>,
-  version <span class="op">=</span> <span class="fl">4</span>,
-  <span class="st">"font-size-base"</span> <span class="op">=</span> <span class="st">"1.1rem"</span>
+<code class="sourceCode R"><span class="co"># It's best practice to 'lock-in' the Bootstrap `version` when setting Sass variable(s) directly</span>
+<span class="va">theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>version <span class="op">=</span> <span class="fl">4</span>, <span class="st">"border-width"</span> <span class="op">=</span> <span class="st">"3px"</span>, <span class="st">"border-radius"</span> <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
+  theme <span class="op">=</span> <span class="va">theme</span>, 
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"p-3 border border-top-0"</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"b"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"p-3 border border-top-0"</span><span class="op">)</span>
+  <span class="op">)</span>
 <span class="op">)</span>
-<span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="va">theme_solar</span>, with_themer <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p><img src="solar-theme.png" width="100%" style="display: block; margin: auto;"></p>
-<p>If you skim through the full list of <a href="https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap/scss/_variables.scss">Bootstrap 4</a> (<a href="https://github.com/rstudio/bslib/blob/master/inst/lib/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss">or 3</a>) Sass variables, you’ll notice <em>lots</em> of variable settings. Towards the top are the main settings like <a href="https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L6-L34">the <code>bg</code> / <code>fg</code> color system</a> and <a href="https://github.com/rstudio/bslib/blob/0e936dc/inst/lib/bootstrap/scss/_variables.scss#L36-L89">theme colors</a>, but as you work your way down the file, you’ll notice variables becoming more and more specific. For example, <a href="https://github.com/rstudio/bslib/blob/0e936dcd/inst/lib/bootstrap/scss/_variables.scss#L1003"><code>$progress-bar-bg</code> defaults to <code>primary</code></a>, but we can change that default directly, which will customize <code><a href="https://rdrr.io/pkg/shiny/man/Progress.html">shiny::Progress</a></code>:</p>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></code></pre></div>
+<p><img src="borders.png" width="67%" style="display: block; margin: auto;"></p>
+</div>
+<div id="why-sass-variables" class="section level3">
+<h3 class="hasAnchor">
+<a href="#why-sass-variables" class="anchor"></a>Why Sass variables?</h3>
+<p>When a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> is used with Shiny or R Markdown, the <a href="https://rstudio.github.io/sass/"><code>{sass}</code></a> object underlying the theme object is <a href="https://rstudio.github.io/sass/articles/sass.html#why">compiled into CSS</a> at run-time. Compared to custom theming by overlaying additional CSS rules (which, historically, has been the only way to implement custom themes), there are at least two huge benefits in the Sass based approach:</p>
+<ul>
+<li>
+<a href="https://rstudio.github.io/sass/articles/sass.html#variables">Sass variables</a> (e.g., <code>$border-radius</code>) provide a useful abstraction to not only reduce the amount of code you need to write, but it also protects you from future changes in HTML/CSS markup that may end up breaking your CSS rules.</li>
+<li>Sass variables not only generate a custom build of Bootstrap CSS (thus, avoiding duplicated CSS rules), but it also gives 3rd party components the opportunity to provide better default styles based on underlying <a href="https://github.com/rstudio/sass">sass</a> object (thanks to <a href="https://rstudio.github.io/bslib/">bslib</a>’s <a href="#custom-components">theming tools for custom components</a>).
+<ul>
+<li>This shift in approach allows sophisticated, custom, components like <code><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html">shiny::sliderInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/dateRangeInput.html">shiny::dateRangeInput()</a></code>, <code><a href="https://rdrr.io/pkg/DT/man/datatable.html">DT::datatable()</a></code>, etc. “just work” with custom and <a href="#dynamic-shiny">dynamically updating themes</a>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="sass-variables-in-practice" class="section level3">
+<h3 class="hasAnchor">
+<a href="#sass-variables-in-practice" class="anchor"></a>Sass variables in practice</h3>
+<p>In general, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> expects the value of any Sass variable to be a suitable <a href="https://sass-lang.com/documentation/syntax/structure#expressions">Sass expression</a> like CSS <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units">unit(s)</a> (e.g., <code>3px</code>). Under the hood, it works by placing <a href="https://rstudio.github.io/sass/articles/sass.html#variables">Sass variables</a> with a <code>!default</code> flag just <em>before</em> Bootstrap’s variables. For example:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="progress-orange.png" width="50%" style="display: block; margin: auto;"></p>
-<p>This works because <code>orange</code> is a valid CSS color string, but what happens if we attempt to define <code>$progress-bar-bg</code> using other Bootstrap Sass variable(s)? For example, instead of <code>orange</code>, let’s set it to <code>$gray-800</code> (that is, 80% <code>fg</code> and 20% <code>bg</code>).</p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"border-radius"</span> <span class="op">=</span> <span class="st">"3px"</span><span class="op">)</span>
+<span class="co">#&gt; $border-radius: 3px !default;</span>
+<span class="co">#&gt; @import "/path/to/_variables.scss";</span></code></pre></div>
+<p>Since the <a href="https://github.com/rstudio/bslib/blob/9e5f3a5/inst/lib/bs/scss/_variables.scss#L241"><code>_variables.scss</code> file</a> also includes <code>!default</code> flags, this allow you to set a new default for general variable(s) (<code>border-radius</code>) and have that default “cascade” to more specific variables (e.g., <code>$btn-border-radius</code>). It also allows other downstream users pick up your theme and “cascade” new values in the same way, for example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$gray-800"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"border-radius"</span> <span class="op">=</span> <span class="st">"3px"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/bs_add_variables.html">bs_add_variables</a></span><span class="op">(</span><span class="st">"border-radius"</span> <span class="op">=</span> <span class="st">"4px"</span><span class="op">)</span>
+<span class="co">#&gt; $border-radius: 4px !default;</span>
+<span class="co">#&gt; $border-radius: 3px !default;</span>
+<span class="co">#&gt; @import "/path/to/_variables.scss";</span></code></pre></div>
+<p>There is, however, one major drawback to placing variables before Bootstrap variables: you can’t reference other Bootstrap variable(s) in the value. In this case, you’ll need <code><a href="../reference/bs_add_variables.html">bs_add_variables()</a></code> with <code>.where = "declarations"</code> which defines variables <em>after</em> Bootstrap variables (<a href="https://rstudio.github.io/sass/articles/sass.html#layering">see here</a> for more on composing Sass defaults, declarations, and rules).</p>
+<p>For example, <a href="bs4-variables.html#nav-tabs-link-active-border-color"><code>nav-tabs-link-active-border-color</code></a>’s default value is <code>$gray-300 $gray-300 $nav-tabs-link-active-bg</code>, which is why the top (1st value) as well as the left and right (2nd value) borders of the active tab appear gray. If instead, I wanted the top border to use the <code>$primary</code> variable (instead of <code>$gray-300</code>):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#&gt; Error: Undefined variable: "$gray-800"</span></code></pre></div>
-<p>This doesn’t work because <code><a href="../reference/bs_theme.html">bs_theme()</a></code> places variable defaults <em>before</em> Bootstrap variable definitions; however, if we use <code><a href="../reference/bs_add_variables.html">bs_add_variables()</a></code> with <code>.where = "declarations"</code>, then the variable is placed <em>after</em> Bootstrap variables, making it possible to reference Bootstrap variables (just make sure the variable definition doesn’t include a <code>!default</code> flag)!</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$gray-800"</span><span class="op">)</span><span class="op">$</span><span class="va">defaults</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">/* Sass */</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>$progress-bar-bg<span class="in">: $gray-800</span> !default;</span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="im">@import</span> <span class="st">"bootstrap/scss/_variables.scss"</span><span class="op">;</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/bs_add_variables.html">bs_add_variables</a></span><span class="op">(</span>
-    <span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">'$gray-800'</span>, 
-    .where <span class="op">=</span> <span class="st">"declarations"</span>
-  <span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="progress-gray.png" width="50%" style="display: block; margin: auto;"></p>
+<code class="sourceCode R"><span class="va">theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_add_variables.html">bs_add_declarations</a></span><span class="op">(</span>
+  <span class="va">theme</span>, <span class="st">"nav-tabs-link-active-border-color"</span> <span class="op">=</span> <span class="st">"$primary $gray-300 $nav-tabs-link-active-bg"</span>
+<span class="op">)</span></code></pre></div>
+<p><img src="borders-primary.png" width="67%" style="display: block; margin: auto;"></p>
+<p>With <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s access to 100s of Sass variables, one may accomplish a fair amount of custom theming, especially when it comes to specifying custom colors, fonts, borders, and more. However, variables by themselves don’t necessarily provide a complete solution for all your custom theming needs – they fundamentally can’t solve issues like whether or not to add spacing, borders, or background colors to custom HTML elements. For these, more adhoc design issues, Utility classes are very useful.</p>
+</div>
 </div>
 <div id="utility-classes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#utility-classes" class="anchor"></a>Utility classes</h2>
-<p>Bootstrap 4 comes with a suite of handy utility classes for handling common yet fickle styling issues like <a href="https://getbootstrap.com/docs/4.4/utilities/spacing/">spacing</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/borders/">borders</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/sizing/">sizing</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/flex/">layout</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/colors/">colors</a>, and more. In fact, if you look at <a href="https://github.com/rstudio/bslib/tree/master/inst/themer-demo">the source</a> for the theme demo app, the <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code> logic makes use of the margin spacing (<code>m-2</code>) to add some spacing between the buttons (they also make use of <a href="https://getbootstrap.com/docs/4.4/components/buttons/">button modifier classes</a> to achieve their different background colors).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>Bootstrap 4 comes with a suite of handy utility classes for handling common yet fickle styling issues like <a href="https://getbootstrap.com/docs/4.4/utilities/spacing/">spacing</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/borders/">borders</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/sizing/">sizing</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/flex/">layout</a>, <a href="https://getbootstrap.com/docs/4.4/utilities/colors/">colors</a>, and more.</p>
+<div id="add-margin" class="section level3">
+<h3 class="hasAnchor">
+<a href="#add-margin" class="anchor"></a>Add margin</h3>
+<p>If you look at <a href="https://github.com/rstudio/bslib/tree/master/inst/themer-demo">the source</a> for the theme demo app, the <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code> logic makes use of the margin spacing (<code>m-2</code>) to add some spacing between the buttons (they also make use of <a href="https://getbootstrap.com/docs/4.4/components/buttons/">button modifier classes</a> to achieve their different background colors).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"Primary"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span><span class="op">(</span><span class="st">"product-hunt"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-primary m-2"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"secondary"</span>, <span class="st">"Secondary (default)"</span>, class <span class="op">=</span> <span class="st">"m-2"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"success"</span>, <span class="st">"Success"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span><span class="op">(</span><span class="st">"check"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-success m-2"</span><span class="op">)</span></code></pre></div>
-<p>It’s worth noting that <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code>, like many other core shiny UI components, doesn’t actually have an explicit <code>class</code> argument, but it does route implicit arguments (i.e., <code>...</code>) to it’s top-level HTML tag, which is why <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton(..., class = "btn-primary")</a></code> add the class in the appropriate place. Another place where this top-level <code>class</code> can be useful is for customizing the body of a <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code> .</p>
+<p>It’s worth noting that <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code>, like many other core shiny UI components, doesn’t actually have an explicit <code>class</code> argument, but it does route implicit arguments (i.e., <code>...</code>) to it’s top-level HTML tag, which is why <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton(..., class = "btn-primary")</a></code> add the class in the appropriate place. Another place where this top-level <code>class</code> can be useful is for customizing the body of a <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code>.</p>
+</div>
+<div id="add-padding-borders-and-alignment" class="section level3">
+<h3 class="hasAnchor">
+<a href="#add-padding-borders-and-alignment" class="anchor"></a>Add padding, borders, and alignment</h3>
 <p>By default, tabset panels don’t come with any padding or border(s) around the body’s content, which can make it appears though the content is just floating in space:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"No padding"</span><span class="op">)</span>,
   <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Very sad!"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="tab-before.png" width="67%" style="display: block; margin: auto;"></p>
 <p>We can help solve this issue by adding some padding the tab’s content (<code>p-3</code>) as well as a nice border that matches up with the tab’s borders.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tab</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="va">...</span>, class <span class="op">=</span> <span class="st">"p-3 border border-top-0 rounded-bottom"</span><span class="op">)</span>
 <span class="op">}</span>
@@ -192,7 +221,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <span class="op">)</span></code></pre></div>
 <p><img src="tab-after.png" width="67%" style="display: block; margin: auto;"></p>
 <p>And for <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel(type="pills")</a></code> , it looks a bit better to have a full, rounded, border:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pill</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="va">...</span>, class <span class="op">=</span> <span class="st">"p-3 border rounded"</span><span class="op">)</span>
 <span class="op">}</span>
@@ -205,36 +234,10 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <p>It’s also worth noting that you can also add these classes to <a href="https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html">rmarkdown tabsets</a>, like so:</p>
 <p><img src="rmarkdown-tabs-source.png" width="50%" style="display: block; margin: auto;"></p>
 <p><img src="rmarkdown-tabs.png" width="100%" style="display: block; margin: auto;"></p>
-<p>Unfortunately, we can’t generally rely on the <code>class</code> argument placing classes on the top-level HTML tag to achieve our styling goals and may need to target children of the top-level tag. For example, if we wanted to horizontally align a <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel()</a></code>, we’d have to append a class to it’s first child (i.e., the <code>.nav</code> container).</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tabsetPanelCentered</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
-  <span class="va">x</span><span class="op">$</span><span class="va">children</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tag.html">tagAppendAttributes</a></span><span class="op">(</span>
-    <span class="va">x</span><span class="op">$</span><span class="va">children</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, class <span class="op">=</span> <span class="st">"justify-content-center"</span>
-  <span class="op">)</span>
-  <span class="va">x</span>
-<span class="op">}</span>
-<span class="fu">tabsetPanelCentered</span><span class="op">(</span>
-  type <span class="op">=</span> <span class="st">"pills"</span>,
-  <span class="fu">pill</span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"With padding"</span><span class="op">)</span>,
-  <span class="fu">pill</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<p><img src="pills.png" width="67%" style="display: block; margin: auto;"></p>
-<p>Beware, however, that <code>tabsetPanelCentered()</code> makes very strong assumptions about the HTML structure of <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel()</a></code> . It’d be better practice to leverage the power of <a href="https://sass-lang.com/documentation/at-rules/extend">Sass’s @extend rule</a> to make all navs horizontally centered:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<p>Unfortunately, we can’t always rely on the <code>class</code> argument placing itself on the HTML tag we need to achieve our styling goals. For example, we can’t simply do <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel(class = "justify-content-center", ...)</a></code> to <a href="https://getbootstrap.com/docs/4.5/components/navs/#horizontal-alignment">horizontally center</a> a tabset. We can, however, leverage <a href="https://sass-lang.com/documentation/at-rules/extend">Sass’s @extend rule</a> to essentially add utility classes to the relevant HTML element(s):</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-    <span class="fu"><a href="../reference/bs_add_variables.html">bs_add_rules</a></span><span class="op">(</span><span class="st">".nav { @extend .justify-content-center }"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span>
-    type <span class="op">=</span> <span class="st">"pills"</span>,
-    <span class="fu">pill</span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"With padding"</span><span class="op">)</span>,
-    <span class="fu">pill</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<p>Or scoped to a specific <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel()</a></code> ’s <code>id</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
-  theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/bs_add_variables.html">bs_add_rules</a></span><span class="op">(</span><span class="st">"#my-nav { @extend .justify-content-center }"</span><span class="op">)</span>,
   <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span>
     type <span class="op">=</span> <span class="st">"pills"</span>, id <span class="op">=</span> <span class="st">"my-nav"</span>,
@@ -242,12 +245,49 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
     <span class="fu">pill</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span>
   <span class="op">)</span>
 <span class="op">)</span></code></pre></div>
+<p><img src="pills.png" width="67%" style="display: block; margin: auto;"></p>
+</div>
+<div id="add-background-color" class="section level3">
+<h3 class="hasAnchor">
+<a href="#add-background-color" class="anchor"></a>Add background color</h3>
+<p>Add a <code>bg-*</code> class to any HTML element to set not only it’s background color to a theme color (e.g., <code>primary</code>, <code>secondary</code>, etc), but note that it’ll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use <code>bg-primary</code> on a <a href="https://getbootstrap.com/docs/4.4/components/card/#header-and-footer">BS4 card</a> containing a <a href="https://rstudio.github.io/DT/"><code>{DT}</code> table</a>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bs4_card</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">body</span>, <span class="va">title</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
+    class <span class="op">=</span> <span class="st">"card"</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-header bg-primary"</span>, <span class="va">title</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-body d-flex justify-content-center"</span>, <span class="va">body</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">}</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
+    theme <span class="op">=</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>primary <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html">uiOutput</a></span><span class="op">(</span><span class="st">"dat"</span><span class="op">)</span>
+  <span class="op">)</span>,
+  <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">output</span><span class="op">$</span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderUI.html">renderUI</a></span><span class="op">(</span><span class="op">{</span>
+      <span class="va">table</span> <span class="op">&lt;-</span> <span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="va">mtcars</span>, fillContainer <span class="op">=</span> <span class="cn">TRUE</span>, style <span class="op">=</span> <span class="st">"bootstrap4"</span>, rownames <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+      <span class="fu">bs4_card</span><span class="op">(</span><span class="va">table</span>, <span class="st">"The mtcars dataset"</span><span class="op">)</span>
+    <span class="op">}</span><span class="op">)</span>
+  <span class="op">}</span>
+<span class="op">)</span></code></pre></div>
+<p><img src="DT-card.png" width="67%" style="display: block; margin: auto;"></p>
+</div>
+<div id="create-new-utility-classes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#create-new-utility-classes" class="anchor"></a>Create new utility classes</h3>
+<p>Bootstrap Sass also has a handful of <a href="https://sass-lang.com/documentation/values/maps">Sass maps</a> which allow for easy creation and/or modification of utility classes. One such case is for creating your own background color utility classes, say <code>bg-flair</code> via the <a href="https://github.com/rstudio/bslib/blob/9e5f3a5/inst/lib/bs/scss/_variables.scss#L76-L89"><code>$theme-colors</code> map</a>. This could be useful if you wanted to let the <code>$primary</code> be the default <code>$blue</code>, but use a <code>bg-flair</code> instead of <code>bg-primary</code> to color the card’s title:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"theme-colors"</span> <span class="op">=</span> <span class="st">"('flair': orange)"</span><span class="op">)</span></code></pre></div>
+<p><img src="DT-card-custom.png" width="67%" style="display: block; margin: auto;"></p>
+</div>
 </div>
 <div id="dynamic-shiny" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dynamic-shiny" class="anchor"></a>Dynamic theming in Shiny</h2>
 <p>With Shiny, it’s possible to change the <a href="https://rstudio.github.io/bslib/">bslib</a> theme after the initial page load via <code>session$setCurrentTheme()</code>. This can be useful for things like a dark mode <a href="https://getbootstrap.com/docs/4.4/components/forms/#switches">switch</a> for your Shiny app:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">dark</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>bg <span class="op">=</span> <span class="st">"black"</span>, fg <span class="op">=</span> <span class="st">"white"</span>, primary <span class="op">=</span> <span class="st">"purple"</span><span class="op">)</span>
 <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
@@ -300,18 +340,17 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <h3 class="hasAnchor">
 <a href="#plots" class="anchor"></a>Plots</h3>
 <p><a href="https://rstudio.github.io/bslib/">bslib</a> itself doesn’t do anything special to make static R plots respect Bootstrap CSS, but thanks to the <a href="https://rstudio.github.io/thematic/"><code>{thematic}</code> package</a>, you can include <code>thematic_shiny()</code> in your Shiny apps and <code>thematic_rmd()</code> in your R Markdown documents to gain new, intelligent, styling defaults based on the <a href="https://rstudio.github.io/bslib/">bslib</a> theme (BTW, <a href="https://rstudio.github.io/thematic/">thematic</a> can also be used to theme plots without Bootstrap). Note that, the demo app included with <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code> includes a call to <code>thematic_shiny(font = "auto")</code> to enable real-time theming of plots.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>bg <span class="op">=</span> <span class="st">"#444444"</span>, fg <span class="op">=</span> <span class="st">"#E4E4E4"</span>, primary <span class="op">=</span> <span class="st">"#E39777"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p><iframe src="https://player.vimeo.com/video/411238499?title=0&amp;byline=0&amp;portrait=0" width="100%" height="400" frameborder="0" seamless="seamless" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></p>
-<p>As you’ll see in the next section on <a href="#tables">Tables</a>, with a bit of effort, it’s possible to translate <a href="https://rstudio.github.io/bslib/">bslib</a> theme settings to other package’s theme setting today, but our hope is that with time and help from the R community, we’ll get most popular packages working well <a href="https://rstudio.github.io/bslib/">bslib</a> .</p>
 </div>
 <div id="tables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tables" class="anchor"></a>Tables</h3>
 <p>For a preview of custom HTML tables that can derive their default styles from a <a href="https://rstudio.github.io/bslib/">bslib</a> theme, navigate to the “Tables” tab of the demo app:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="va">material</span><span class="op">)</span></code></pre></div>
 <p><img src="DT-material.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
@@ -322,7 +361,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <h4 class="hasAnchor">
 <a href="#a-basic-themeable-component" class="anchor"></a>A basic themeable component</h4>
 <p>Before going through a full-blown <a href="#dynamic-shiny">dynamically themeable</a> custom component, let’s start from a relatively straight-forward example of implementing a custom <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> component. Say we have the following R function to generate some HTML with classes that we’ll write custom Sass/CSS styles for:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">person</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">title</span>, <span class="va">company</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
     class <span class="op">=</span> <span class="st">"person"</span>,
@@ -332,34 +371,34 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
   <span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p>And here’s some custom Sass to style those classes. Since these Sass rules listen to Bootstrap Sass variables like <code>$gray-600</code>, <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> styles works great with different <code><a href="../reference/bs_theme.html">bs_theme()</a></code> input:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">.person</span> {</span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="kw">display</span>: <span class="dv">inline-block</span><span class="op">;</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a>  <span class="kw">padding</span>: $spacer<span class="op">;</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>  <span class="kw">border</span>: $border-width <span class="dv">solid</span> $border-color<span class="op">;</span></span>
-<span id="cb21-5"><a href="#cb21-5"></a>  <span class="im">@include</span> border-radius<span class="op">;</span></span>
-<span id="cb21-6"><a href="#cb21-6"></a>  <span class="im">@include</span> box-shadow<span class="op">;</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a>  <span class="kw">outline</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a>  <span class="kw">width</span>: <span class="dv">300</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb21-9"><a href="#cb21-9"></a>  <span class="fu">.title</span> {</span>
-<span id="cb21-10"><a href="#cb21-10"></a>    <span class="kw">font-weight</span>: <span class="dv">bold</span><span class="op">;</span></span>
-<span id="cb21-11"><a href="#cb21-11"></a>  }</span>
-<span id="cb21-12"><a href="#cb21-12"></a>  <span class="fu">.title</span><span class="op">,</span> <span class="fu">.company</span> {</span>
-<span id="cb21-13"><a href="#cb21-13"></a>    <span class="kw">color</span>: $gray-600<span class="op">;</span></span>
-<span id="cb21-14"><a href="#cb21-14"></a>  }</span>
-<span id="cb21-15"><a href="#cb21-15"></a>  <span class="kw">margin</span>: $grid-gutter-width<span class="op">;</span></span>
-<span id="cb21-16"><a href="#cb21-16"></a>  <span class="kw">margin-right</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb21-17"><a href="#cb21-17"></a>  <span class="er">// On mobile, span entire width</span></span>
-<span id="cb21-18"><a href="#cb21-18"></a>  <span class="im">@include</span> media-breakpoint-down<span class="fu">(</span>sm<span class="fu">)</span> {</span>
-<span id="cb21-19"><a href="#cb21-19"></a>    <span class="kw">display</span>: <span class="dv">block</span><span class="op">;</span></span>
-<span id="cb21-20"><a href="#cb21-20"></a>    <span class="kw">width</span>: <span class="bu">auto</span><span class="op">;</span></span>
-<span id="cb21-21"><a href="#cb21-21"></a>    <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
-<span id="cb21-22"><a href="#cb21-22"></a>  }</span>
-<span id="cb21-23"><a href="#cb21-23"></a>}</span>
-<span id="cb21-24"><a href="#cb21-24"></a><span class="fu">.person</span><span class="in">:last-of-type</span> {</span>
-<span id="cb21-25"><a href="#cb21-25"></a>  <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
-<span id="cb21-26"><a href="#cb21-26"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">.person</span> {</span>
+<span id="cb18-2"><a href="#cb18-2"></a>  <span class="kw">display</span>: <span class="dv">inline-block</span><span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a>  <span class="kw">padding</span>: $spacer<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a>  <span class="kw">border</span>: $border-width <span class="dv">solid</span> $border-color<span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a>  <span class="im">@include</span> border-radius<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>  <span class="im">@include</span> box-shadow<span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a>  <span class="kw">outline</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a>  <span class="kw">width</span>: <span class="dv">300</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a>  <span class="fu">.title</span> {</span>
+<span id="cb18-10"><a href="#cb18-10"></a>    <span class="kw">font-weight</span>: <span class="dv">bold</span><span class="op">;</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a>  }</span>
+<span id="cb18-12"><a href="#cb18-12"></a>  <span class="fu">.title</span><span class="op">,</span> <span class="fu">.company</span> {</span>
+<span id="cb18-13"><a href="#cb18-13"></a>    <span class="kw">color</span>: $gray-600<span class="op">;</span></span>
+<span id="cb18-14"><a href="#cb18-14"></a>  }</span>
+<span id="cb18-15"><a href="#cb18-15"></a>  <span class="kw">margin</span>: $grid-gutter-width<span class="op">;</span></span>
+<span id="cb18-16"><a href="#cb18-16"></a>  <span class="kw">margin-right</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-17"><a href="#cb18-17"></a>  <span class="er">// On mobile, span entire width</span></span>
+<span id="cb18-18"><a href="#cb18-18"></a>  <span class="im">@include</span> media-breakpoint-down<span class="fu">(</span>sm<span class="fu">)</span> {</span>
+<span id="cb18-19"><a href="#cb18-19"></a>    <span class="kw">display</span>: <span class="dv">block</span><span class="op">;</span></span>
+<span id="cb18-20"><a href="#cb18-20"></a>    <span class="kw">width</span>: <span class="bu">auto</span><span class="op">;</span></span>
+<span id="cb18-21"><a href="#cb18-21"></a>    <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
+<span id="cb18-22"><a href="#cb18-22"></a>  }</span>
+<span id="cb18-23"><a href="#cb18-23"></a>}</span>
+<span id="cb18-24"><a href="#cb18-24"></a><span class="fu">.person</span><span class="in">:last-of-type</span> {</span>
+<span id="cb18-25"><a href="#cb18-25"></a>  <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
+<span id="cb18-26"><a href="#cb18-26"></a>}</span></code></pre></div>
 <p>If we were to save these Sass rules to a file named <code>person.scss</code>, then we can then <code><a href="../reference/bs_add_variables.html">bs_add_rules()</a></code> to the <code><a href="../reference/bs_theme.html">bs_theme()</a></code> and use our themeable <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> component like so:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>bg <span class="op">=</span> <span class="st">"#002B36"</span>, fg <span class="op">=</span> <span class="st">"#EEE8D5"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/bs_add_variables.html">bs_add_rules</a></span><span class="op">(</span><span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"person.scss"</span><span class="op">)</span><span class="op">)</span>,
@@ -373,7 +412,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <h4 class="hasAnchor">
 <a href="#dynamically-themeable-component" class="anchor"></a>Dynamically themeable component</h4>
 <p>To make the custom <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> component <em>dynamically</em> themeable (i.e., make it work with <code>session$setCurrentTheme()</code>), we need an R function that generates an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmltools::htmlDependency()</a></code> from a given <code>theme</code>. While not required, suppose this function, <code>person_dependency</code>, lives in an R package called <code>{mypkg}</code> which includes the <code>person.scss</code> (and pre-compiled <code>person.css</code>) file under the <code>inst/</code> directory. Then we could do the following:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">name</span> <span class="op">&lt;-</span> <span class="st">"person"</span>
 <span class="va">version</span> <span class="op">&lt;-</span> <span class="st">"1.0.0"</span>
 <span class="va">person_dependency</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span> <span class="op">{</span>
@@ -412,7 +451,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <h4 class="hasAnchor">
 <a href="#html-widgets" class="anchor"></a>HTML widgets</h4>
 <p>For <a href="https://github.com/ramnathv/htmlwidgets">htmlwidgets</a> that can be themed via CSS, we recommend supplying a <code><a href="../reference/bs_dependency.html">bs_dependency_defer()</a></code> to the <code>dependencies</code> argument of <code>createWidget()</code> (similar to the <code><a href="https://rdrr.io/r/utils/person.html">person()</a></code> component from the last section), which will make the widget dynamically themeable. For widgets that can <em>not</em> be themed via CSS, the best option may be to query the active theme inside a <code>preRenderHook()</code> via <code><a href="../reference/bs_current_theme.html">bs_current_theme()</a></code>, and then translate any relevant information to the widget’s instance data, for example:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_widget</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu">createWidget</span><span class="op">(</span>
     name <span class="op">=</span> <span class="st">"mywidget"</span>, <span class="va">...</span>,

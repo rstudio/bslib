@@ -58,6 +58,9 @@
     <loc>https://rstudio.github.io/bslib//reference/versions.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/bslib//articles/bs4-variables.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/bslib//articles/theming.html</loc>
   </url>
 </urlset>
