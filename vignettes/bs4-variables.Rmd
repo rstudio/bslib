@@ -249,12 +249,3 @@ variables_df %>%
     )
   )
 ```
-
-
-### About the table
-
-- Each section header corresponds to a section within the source file denoted by comments. Click on the link icon in the header to be taken to the start of that section in the variable declaration script. 
-- Click on dependency variable within the value column to be taken to the declaration of that dependency in the table.
-- The __Find in source__ column will take you to the position in the original `.scss` file where the variable was declared. The context may help clarify the variables role. 
-
-
