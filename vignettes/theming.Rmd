@@ -269,7 +269,7 @@ fluidPage(
 knitr::include_graphics("pills.png")
 ```
 
-## Add background color
+### Add background color
 
 Add a `bg-*` class to any HTML element to set not only it's background color to a theme color (e.g., `primary`, `secondary`, etc), but note that it'll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use `bg-primary` on a [BS4 card](https://getbootstrap.com/docs/4.4/components/card/#header-and-footer) containing a [`{DT}` table](https://rstudio.github.io/DT/).
 
@@ -300,7 +300,7 @@ shinyApp(
 knitr::include_graphics("DT-card.png")
 ```
 
-## Create new utility classes
+### Create new utility classes
 
 Bootstrap Sass also has a handful of [Sass maps](https://sass-lang.com/documentation/values/maps) which allow for easy creation and/or modification of utility classes. One such case is for creating your own background color utility classes, say `bg-flair` via the [`$theme-colors` map](https://github.com/rstudio/bslib/blob/9e5f3a5/inst/lib/bs/scss/_variables.scss#L76-L89). This could be useful if you wanted to let the `$primary` be the default `$blue`, but use a `bg-flair` instead of `bg-primary` to color the card's title:
 
@@ -311,9 +311,6 @@ bs_theme("theme-colors" = "('flair': orange)")
 ```{r, echo = FALSE, out.width="67%"}
 knitr::include_graphics("DT-card-custom.png")
 ```
-
-
-## Combine utility classes
 
 ## Dynamic theming in Shiny {#dynamic-shiny}
 
