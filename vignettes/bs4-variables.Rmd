@@ -132,7 +132,9 @@ variables_df <- tibble(line = raw_text) %>%
 
 Not only does `bs_theme()` make it easy to control [Main Colors & Fonts](theming.html#main-colors), but it also provides access to 100s of more specific theming options. These options, sometimes referred to as [Bootstrap Sass variables](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults), allow for control over default styles of various Bootstrap features like [Navs](#nav-link-padding-y) (e.g., `shiny::tabsetPanel()`), [Navbars](#navbar-padding-y) (e.g., `shiny::navbarPage()`), [Dropdowns](#dropdown-min-width) (e.g., `shiny::navbarMenu()`), and much more.
 
-The table below provides a convenient interface for discovering and learning about Bootstrap 4 Sass variables. Here are a few things to keep in mind when using this table:
+
+The table below provides a convenient way to navigate Bootstrap 4 Sass variables. A few things to keep in mind when using this table:
+
 
 1. Towards the top of the table are more general theming options like `white`, `gray-*`, `black`, `primary`, `border-radius`, and so on, which end up impacting more specific theming variables like `btn-border-radius`.
 2. `bs_theme()`'s `bg` and `fg` arguments provide a more convenient way to set the `white`, `gray-*`, and `black` variables, so there is no need to set these Sass variables directly (same goes for `font_base` -> `$font-family-base`, `font_heading` -> `$font-family-base`, and `font_code` -> `$font-family-monospace`).
@@ -178,7 +180,6 @@ table.dataTable tr td:nth-child(4){
   margin-left: calc(50% - 45vw);
 }
   
-
 @media (min-width: 992px) {
   #table-wrapper.pagedown {
     /* This is 65% instead of 50% because of how pagedown/bootstrap 
@@ -211,11 +212,10 @@ function go_to_current_hash(table) {
   var desired_var = location.hash.replace("#", "");
   find_and_select_variable(table, desired_var, true);
 }
-
-
 ```
 
 <div id = "table-wrapper">
+
 ```{r}
 variables_df %>%
   rename(
@@ -239,6 +239,7 @@ variables_df %>%
       if(document.querySelector('.template-article')){
         document.querySelector('#table-wrapper').classList.add('pagedown');
       }
+
       // Allows us to link within the page
       window.onhashchange = function() {
         go_to_current_hash(table);
