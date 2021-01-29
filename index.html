@@ -116,7 +116,7 @@
 </ul>
 </li>
 <li>
-<p>More generally, customize most of Bootstrap’s styling via Sass variables (e.g., <a href="https://github.com/rstudio/bslib/blob/c353705/inst/lib/bootstrap/scss/_variables.scss#L282"><code>font-size-base</code></a>).</p>
+<p>More generally, customize most of Bootstrap’s styling via Sass variables (e.g., <a href="https://rstudio.github.io/bslib/articles/bs4-variables.html#font-size-base"><code>font-size-base</code></a>).</p>
 <ul>
 <li>These more specific controls pass through the <code>...</code> of <code><a href="reference/bs_theme.html">bs_theme()</a></code>.</li>
 <li>These options likely depend on the Bootstrap version being used</li>
@@ -136,7 +136,7 @@
 <h3 class="hasAnchor">
 <a href="#shiny-usage" class="anchor"></a>Shiny usage</h3>
 <blockquote>
-<p>Note: this usage currently requires the development version of Shiny <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("rstudio/shiny")</a></code>.</p>
+<p>Note: this usage requires Shiny 1.6 or higher <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("shiny")</a></code>.</p>
 </blockquote>
 <p>To use <code>my_theme</code> inside of Shiny, pass it to the relevant <code>theme</code> parameter in page functions such as <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">shiny::fluidPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/bootstrapPage.html">shiny::bootstrapPage()</a></code>, etc.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
