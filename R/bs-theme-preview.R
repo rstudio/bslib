@@ -417,9 +417,9 @@ spinner_overlay <- function(id = "spinner_overlay") {
       class = "spinner-border",
       style = "width:5rem; height:5rem",
       role = "status",
-      span(class = "sr-only", "Loading...")
+      span(class = "sr-only", "Rebuilding styles...")
     ),
-    span(class = "lead mt-1",  "Loading...")
+    span(class = "lead mt-1",  "Rebuilding styles...")
   )
 }
 
