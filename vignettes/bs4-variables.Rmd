@@ -171,6 +171,19 @@ table.dataTable tr td:nth-child(4){
 .selected .dep-link {
   color: white;
 }
+#table-wrapper {
+  position: relative;
+  width: 90vw;
+  margin-left: calc(50% - 45vw);
+}
+@media (min-width: 992px) {
+  #table-wrapper.pkgdown {
+    /* This is 65% instead of 50% because of how pkgdown/bootstrap 
+       controls widths and the center content div is 75% of its 
+       container div leaving an extra 15% to take into account */
+    margin-left: calc(65% - 45vw);
+  }
+}
 ```
 
 
@@ -197,7 +210,7 @@ function go_to_current_hash(table) {
 }
 ```
 
-
+<div id = "table-wrapper">
 ```{r}
 variables_df %>%
   rename(
@@ -217,6 +230,10 @@ variables_df %>%
       // Check for linked variable on first load                    
       go_to_current_hash(table);
       
+      // If this is a pkgdown environment we need to use different styling for table expansion
+      if(document.querySelector('.template-article')){
+        document.querySelector('#table-wrapper').classList.add('pkgdown');
+      }
       // Allows us to link within the page
       window.onhashchange = function() {
         go_to_current_hash(table);
@@ -249,3 +266,4 @@ variables_df %>%
     )
   )
 ```
+</div>
