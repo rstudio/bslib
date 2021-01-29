@@ -58,7 +58,7 @@ Use `bs_theme()` to create a `{bslib}` theme, where you can:
 
 -   More generally, customize most of Bootstrap’s styling via Sass
     variables (e.g.,
-    [`font-size-base`](https://github.com/rstudio/bslib/blob/c353705/inst/lib/bootstrap/scss/_variables.scss#L282)).
+    [`font-size-base`](https://rstudio.github.io/bslib/articles/bs4-variables.html#font-size-base)).
 
     -   These more specific controls pass through the `...` of
         `bs_theme()`.
@@ -78,8 +78,8 @@ my_theme <- bs_theme(
 
 ### Shiny usage
 
-> Note: this usage currently requires the development version of Shiny
-> `remotes::install_github("rstudio/shiny")`.
+> Note: this usage requires Shiny 1.6 or higher
+> `install.packages("shiny")`.
 
 To use `my_theme` inside of Shiny, pass it to the relevant `theme`
 parameter in page functions such as `shiny::navbarPage()`,

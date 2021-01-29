@@ -348,7 +348,7 @@ knitr::include_graphics("dark-mode.gif")
 
 `session$setCurrentTheme()` "just works" for existing themeable components (e.g., "core" Shiny UI), but in order for it to work with custom components, the component's CSS must come from a "dynamic" HTML dependency (i.e., `bs_dependency_defer()`). To learn more, see [Custom components].
 
-## Themeable components
+## Themeable components {#themeable-components}
 
 HTML components that "just work" well with `{bslib}` (i.e., their default styles derive from `bs_theme()` settings) currently includes:
 
