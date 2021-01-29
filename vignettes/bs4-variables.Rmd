@@ -177,12 +177,15 @@ table.dataTable tr td:nth-child(4){
   width: 90vw;
   margin-left: calc(50% - 45vw);
 }
+  
 
-#table-wrapper.pagedown {
-  /* This is 65% instead of 50% because of how pagedown/bootstrap 
-     controls widths and the center content div is 75% of its 
-     container div leaving an extra 15% to take into account */
-  margin-left: calc(65% - 45vw);
+@media (min-width: 992px) {
+  #table-wrapper.pagedown {
+    /* This is 65% instead of 50% because of how pagedown/bootstrap 
+       controls widths and the center content div is 75% of its 
+       container div leaving an extra 15% to take into account */
+    margin-left: calc(65% - 45vw);
+  }
 }
 ```
 
