@@ -177,7 +177,7 @@ knitr::include_graphics("borders-primary.png")
 
 With `bs_theme()`'s access to 100s of Sass variables, one may accomplish a fair amount of custom theming, especially when it comes to specifying custom colors, fonts, borders, and more. However, variables by themselves don't necessarily provide a complete solution for all your custom theming needs -- they fundamentally can't solve issues like whether or not to add spacing, borders, or background colors to custom HTML elements. For these, more adhoc design issues, Utility classes are very useful.
 
-## Utility classes
+## Utility classes {#utility-classes}
 
 Bootstrap 4 comes with a suite of handy utility classes for handling common yet fickle styling issues like [spacing](https://getbootstrap.com/docs/4.4/utilities/spacing/), [borders](https://getbootstrap.com/docs/4.4/utilities/borders/), [sizing](https://getbootstrap.com/docs/4.4/utilities/sizing/), [layout](https://getbootstrap.com/docs/4.4/utilities/flex/), [colors](https://getbootstrap.com/docs/4.4/utilities/colors/), and more.
 
