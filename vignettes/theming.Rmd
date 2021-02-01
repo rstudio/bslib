@@ -191,7 +191,7 @@ actionButton("secondary", "Secondary (default)", class = "m-2")
 actionButton("success", "Success", icon("check"), class = "btn-success m-2")
 ```
 
-It's worth noting that `actionButton()`, like many other core shiny UI components, doesn't actually have an explicit `class` argument, but it does route implicit arguments (i.e., `...`) to it's top-level HTML tag, which is why `actionButton(..., class = "btn-primary")` add the class in the appropriate place. Another place where this top-level `class` can be useful is for customizing the body of a `tabPanel()`.
+It's worth noting that `actionButton()`, like many other core shiny UI components, doesn't actually have an explicit `class` argument, but it does route implicit arguments (i.e., `...`) to its top-level HTML tag, which is why `actionButton(..., class = "btn-primary")` add the class in the appropriate place. Another place where this top-level `class` can be useful is for customizing the body of a `tabPanel()`.
 
 ### Add padding, borders, and alignment
 
@@ -271,7 +271,7 @@ knitr::include_graphics("pills.png")
 
 ### Add background color
 
-Add a `bg-*` class to any HTML element to set not only it's background color to a theme color (e.g., `primary`, `secondary`, etc), but note that it'll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use `bg-primary` on a [BS4 card](https://getbootstrap.com/docs/4.4/components/card/#header-and-footer) containing a [`{DT}` table](https://rstudio.github.io/DT/).
+Add a `bg-*` class to any HTML element to set not only its background color to a theme color (e.g., `primary`, `secondary`, etc), but note that it'll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use `bg-primary` on a [BS4 card](https://getbootstrap.com/docs/4.4/components/card/#header-and-footer) containing a [`{DT}` table](https://rstudio.github.io/DT/).
 
 ```r
 bs4_card <- function(body, title) {
