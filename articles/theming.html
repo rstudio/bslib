@@ -81,7 +81,7 @@
       <h1 data-toc-skip>Custom themes</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2021-01-29</h4>
+            <h4 class="date">2021-02-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/theming.Rmd"><code>vignettes/theming.Rmd</code></a></small>
       <div class="hidden name"><code>theming.Rmd</code></div>
@@ -198,7 +198,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"Primary"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span><span class="op">(</span><span class="st">"product-hunt"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-primary m-2"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"secondary"</span>, <span class="st">"Secondary (default)"</span>, class <span class="op">=</span> <span class="st">"m-2"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"success"</span>, <span class="st">"Success"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span><span class="op">(</span><span class="st">"check"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-success m-2"</span><span class="op">)</span></code></pre></div>
-<p>It’s worth noting that <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code>, like many other core shiny UI components, doesn’t actually have an explicit <code>class</code> argument, but it does route implicit arguments (i.e., <code>...</code>) to it’s top-level HTML tag, which is why <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton(..., class = "btn-primary")</a></code> add the class in the appropriate place. Another place where this top-level <code>class</code> can be useful is for customizing the body of a <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code>.</p>
+<p>It’s worth noting that <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code>, like many other core shiny UI components, doesn’t actually have an explicit <code>class</code> argument, but it does route implicit arguments (i.e., <code>...</code>) to its top-level HTML tag, which is why <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton(..., class = "btn-primary")</a></code> add the class in the appropriate place. Another place where this top-level <code>class</code> can be useful is for customizing the body of a <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code>.</p>
 </div>
 <div id="add-padding-borders-and-alignment" class="section level3">
 <h3 class="hasAnchor">
@@ -250,7 +250,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <div id="add-background-color" class="section level3">
 <h3 class="hasAnchor">
 <a href="#add-background-color" class="anchor"></a>Add background color</h3>
-<p>Add a <code>bg-*</code> class to any HTML element to set not only it’s background color to a theme color (e.g., <code>primary</code>, <code>secondary</code>, etc), but note that it’ll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use <code>bg-primary</code> on a <a href="https://getbootstrap.com/docs/4.4/components/card/#header-and-footer">BS4 card</a> containing a <a href="https://rstudio.github.io/DT/"><code>{DT}</code> table</a>.</p>
+<p>Add a <code>bg-*</code> class to any HTML element to set not only its background color to a theme color (e.g., <code>primary</code>, <code>secondary</code>, etc), but note that it’ll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use <code>bg-primary</code> on a <a href="https://getbootstrap.com/docs/4.4/components/card/#header-and-footer">BS4 card</a> containing a <a href="https://rstudio.github.io/DT/"><code>{DT}</code> table</a>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bs4_card</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">body</span>, <span class="va">title</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
