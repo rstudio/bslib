@@ -173,15 +173,16 @@ table.dataTable tr td:nth-child(4){
 }
 #table-wrapper {
   position: relative;
-  width: 90vw;
-  margin-left: calc(50% - 45vw);
+  --table_w: min(90vw, 1300px);
+  width: var(--table_w);
+  margin-left: calc(50% - var(--table_w)/2);
 }
 @media (min-width: 992px) {
   #table-wrapper.pkgdown {
     /* This is 65% instead of 50% because of how pkgdown/bootstrap 
        controls widths and the center content div is 75% of its 
        container div leaving an extra 15% to take into account */
-    margin-left: calc(65% - 45vw);
+    margin-left: calc(65% - var(--table_w)/2);
   }
 }
 ```
