@@ -101,6 +101,8 @@ $min-contrast-ratio:   3 !default;
 $color-contrast-dark:      $black !default;
 $color-contrast-light:     $white !default;
 
+$color-contrast-warnings:  true !default; // Should the color-contrast() function emit warnings when $min-contrast-ratio isn't satisfied?
+
 // Characters which are escaped by the escape-svg function
 $escaped-characters: (
   ("<", "%3c"),
