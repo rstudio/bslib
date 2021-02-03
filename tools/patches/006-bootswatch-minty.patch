@@ -1,0 +1,76 @@
+diff --git a/inst/lib/bsw/dist/minty/_bootswatch.scss b/inst/lib/bsw/dist/minty/_bootswatch.scss
+index 8a4c6bf..03e2c0d 100644
+--- a/inst/lib/bsw/dist/minty/_bootswatch.scss
++++ b/inst/lib/bsw/dist/minty/_bootswatch.scss
+@@ -25,57 +25,6 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;50
+ 
+ .btn {
+   font-family: $headings-font-family;
+-
+-  &,
+-  &:hover {
+-    color: $white;
+-  }
+-
+-  &-light,
+-  &-light:hover {
+-    color: $gray-700;
+-  }
+-
+-  &-link,
+-  &-link:hover {
+-    color: $primary;
+-  }
+-
+-  &-link.disabled:hover {
+-    color: $gray-600;
+-  }
+-
+-  &-outline-primary {
+-    color: $primary;
+-  }
+-
+-  &-outline-secondary {
+-    color: $secondary;
+-  }
+-
+-  &-outline-success {
+-    color: $success;
+-  }
+-
+-  &-outline-info {
+-    color: $info;
+-  }
+-
+-  &-outline-warning {
+-    color: $warning;
+-  }
+-
+-  &-outline-danger {
+-    color: $danger;
+-  }
+-
+-  &-outline-dark {
+-    color: $dark;
+-  }
+-
+-  &-outline-light {
+-    color: $light;
+-  }
+ }
+ 
+ // Tables ======================================================================
+diff --git a/inst/lib/bsw/dist/minty/_variables.scss b/inst/lib/bsw/dist/minty/_variables.scss
+index 3fbe64e..e467b7d 100755
+--- a/inst/lib/bsw/dist/minty/_variables.scss
++++ b/inst/lib/bsw/dist/minty/_variables.scss
+@@ -40,7 +40,8 @@ $dark:          $gray-800 !default;
+ 
+ // Body
+ 
+-$body-color:                $gray-600 !default;
++$body-color:                $gray-700 !default;
++$color-contrast-dark:      $body-color !default;
+ 
+ // Components
+ 
