@@ -21,13 +21,13 @@ if ("3" %in% theme_version(theme)) {
   warning("This example app requires Bootstrap 4 or higher", call. = FALSE)
 }
 
+rounded <- bs_get_variables(theme, "enable-rounded")
 pill <- function(...) {
-  shiny::tabPanel(..., class = "p-3 border rounded")
+  shiny::tabPanel(..., class = "p-3 border", class = if (rounded) "rounded")
 }
 tab <- function(...) {
-  shiny::tabPanel(..., class = "p-3 border border-top-0 rounded-bottom")
+  shiny::tabPanel(..., class = "p-3 border border-top-0", class = if (rounded) "rounded-bottom")
 }
-
 gradient <- function(theme_color = "primary") {
   bg_color <- paste0("bg-", theme_color)
   bgg_color <- paste0("bg-gradient-", theme_color)
@@ -70,7 +70,7 @@ shinyApp(
         pill(
           "inputPanel()",
           inputPanel(
-            sliderInput("slider", "sliderInput()", min = 0, max = 100, value = c(30, 70)),
+            sliderInput("slider", "sliderInput()", min = 0, max = 100, value = c(30, 70), step = 20),
             selectInput("selectize", "selectizeInput()", choices = state.abb),
             selectInput("selectizeMulti", "selectizeInput(multiple=T)", choices = state.abb, multiple = TRUE),
             dateInput("date", "dateInput()", value = "2020-12-24"),
