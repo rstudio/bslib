@@ -338,6 +338,7 @@ writeLines(
     "cyan" = "#268bd2 !default",
     "enable-gradients" = "true !default",
     "secondary" = "$gray-800 !default",
+    # Darker green and lighter green than `$black` and `$white`
     "color-contrast-dark" = "#031014 !default",
     "color-contrast-light" = "#BBD0D0 !default"
   )),
