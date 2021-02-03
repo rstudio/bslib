@@ -1,0 +1,12 @@
+diff --git a/inst/lib/bs/scss/mixins/_buttons.scss b/inst/lib/bs/scss/mixins/_buttons.scss
+index 04b9e74..2bfca49 100644
+--- a/inst/lib/bs/scss/mixins/_buttons.scss
++++ b/inst/lib/bs/scss/mixins/_buttons.scss
+@@ -64,6 +64,7 @@
+ @mixin button-outline-variant($color, $color-hover: color-contrast($color), $active-background: $color, $active-border: $color) {
+   color: $color;
+   border-color: $color;
++  background-color: transparent;
+ 
+   @include hover() {
+     color: $color-hover;
