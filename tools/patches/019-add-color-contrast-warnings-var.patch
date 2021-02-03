@@ -1,0 +1,13 @@
+diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
+index 9405ce7..7a42c44 100644
+--- a/inst/lib/bs/scss/_variables.scss
++++ b/inst/lib/bs/scss/_variables.scss
+@@ -101,6 +101,8 @@ $min-contrast-ratio:   3 !default;
+ $color-contrast-dark:      $black !default;
+ $color-contrast-light:     $white !default;
+ 
++$color-contrast-warnings:  true !default; // Should the color-contrast() function emit warnings when $min-contrast-ratio isn't satisfied?
++
+ // Characters which are escaped by the escape-svg function
+ $escaped-characters: (
+   ("<", "%3c"),
