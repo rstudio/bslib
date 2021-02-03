@@ -41,7 +41,7 @@ $dark:          $gray-800 !default;
 // Body
 
 $body-color:                $gray-700 !default;
-$color-contrast-dark:      $body-color !default;
+$color-contrast-dark:      $body-color !default; // Prefer $body-color over $black inside color-contrast()
 
 // Components
 

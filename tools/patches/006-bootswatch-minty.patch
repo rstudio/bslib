@@ -70,7 +70,7 @@ index 3fbe64e..e467b7d 100755
  
 -$body-color:                $gray-600 !default;
 +$body-color:                $gray-700 !default;
-+$color-contrast-dark:      $body-color !default;
++$color-contrast-dark:      $body-color !default; // Prefer $body-color over $black inside color-contrast()
  
  // Components
  

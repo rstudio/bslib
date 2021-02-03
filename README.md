@@ -79,7 +79,7 @@ in a code chunk.
 
 To use `{bslib}` in your own Shiny app, pass a `bs_theme()` object to
 the `theme` argument of the relevant page layout function, such as
-`navbarPage()` or `fluidPage()`.
+`navbarPage()` or `fluidPage()`:
 
 ``` r
 library(shiny)
