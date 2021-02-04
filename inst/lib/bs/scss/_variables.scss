@@ -747,6 +747,9 @@ $navbar-toggler-padding-x:          .75rem !default;
 $navbar-toggler-font-size:          $font-size-lg !default;
 $navbar-toggler-border-radius:      $btn-border-radius !default;
 
+$navbar-dark-bg:                    null !default;  // Background color for navbarPage(inverse = TRUE)
+$navbar-light-bg:                   null !default;  // Background color for navbarPage(inverse = FALSE)
+
 $navbar-dark-color:                 rgba($white, .5) !default;
 $navbar-dark-hover-color:           rgba($white, .75) !default;
 $navbar-dark-active-color:          $white !default;
