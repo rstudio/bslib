@@ -103,4 +103,4 @@ jobs:
         if: github.event_name == 'push'
         # use secret PAT to trigger new workflow check
         run: |
-          git push https://schloerke:${{secrets.SIEVERT_PAT}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to push"
+          git push https://cpsievert:${{secrets.SIEVERT_PAT}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to push"
