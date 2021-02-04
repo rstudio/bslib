@@ -1,0 +1,14 @@
+diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
+index 7a42c44..aee26ce 100644
+--- a/inst/lib/bs/scss/_variables.scss
++++ b/inst/lib/bs/scss/_variables.scss
+@@ -747,6 +747,9 @@ $navbar-toggler-padding-x:          .75rem !default;
+ $navbar-toggler-font-size:          $font-size-lg !default;
+ $navbar-toggler-border-radius:      $btn-border-radius !default;
+ 
++$navbar-dark-bg:                    null !default;  // Background color for navbarPage(inverse = TRUE)
++$navbar-light-bg:                   null !default;  // Background color for navbarPage(inverse = FALSE)
++
+ $navbar-dark-color:                 rgba($white, .5) !default;
+ $navbar-dark-hover-color:           rgba($white, .75) !default;
+ $navbar-dark-active-color:          $white !default;
