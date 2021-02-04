@@ -63,7 +63,7 @@ bs_theme_preview()
 For every interactive theming change, the widget sends R code to the
 console to replicate the current theme. That theming code can then be
 copy/pasted for use inside any [Shiny](#shiny-usage) app or [R
-Markdown](#r-markdown-usage) document
+Markdown](#r-markdown-usage) document.
 
 <img src="man/figures/themer-code.png" width="80%" style="display: block; margin: auto;" />
 
