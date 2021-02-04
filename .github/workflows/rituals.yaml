@@ -1,0 +1,106 @@
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+name: Rituals
+
+jobs:
+  render:
+    name: Rituals
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Git Pull (master)
+        if: github.event_name != 'pull_request'
+        with:
+          # https://github.community/t/push-from-action-even-with-pat-does-not-trigger-action/17622/7
+          persist-credentials: false
+
+      - uses: actions/checkout@v2
+        name: Git Pull (PR)
+        if: github.event_name == 'pull_request'
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          # https://github.community/t/push-from-action-even-with-pat-does-not-trigger-action/17622/7
+          persist-credentials: false
+
+      - name: Git config
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+      - uses: r-lib/actions/setup-r@v1
+        id: install-r
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Install pak and query dependencies
+        run: |
+          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+          saveRDS(pak::pkg_deps_tree("local::.", dependencies = TRUE), ".github/r-depends.rds")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-rituals-2-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: |
+            ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-rituals-2-
+            ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-2-
+      - name: Install linux system dependencies
+        if: runner.os == 'Linux'
+        shell: Rscript {0}
+        run: |
+          pak::local_system_requirements(execute = TRUE)
+          pak::pkg_system_requirements("devtools", execute = TRUE)
+      - name: Install bslib
+        shell: Rscript {0}
+        run: |
+          pak::local_install_dev_deps(upgrade = TRUE)
+          pak::local_install(upgrade = TRUE)
+          pak::pkg_install(c("devtools", "rmarkdown", "readr"))
+      - name: Update distributed files
+        run: |
+          Rscript tools/main.R
+          git add inst || echo "No distributed files to update"
+          git commit -m 'Resave data (GitHub Action)' || echo "No distributed file to commit"
+      - name: Update ./README.md
+        run: |
+          R --quiet --no-restore -e 'devtools::build_readme(quiet = FALSE)'
+          git add README.md || echo "README.md not updated"
+          git commit -m 'Re-build README.Rmd (GitHub Action)' || echo "No README changes to commit"
+      - name: Update documentation
+        run: |
+          R --quiet --no-restore -e 'devtools::document()'
+          git add man NAMESPACE
+          git commit -m 'Document (GitHub Actions)' || echo "No documentation changes to commit"
+      - name: Git Push (PR)
+        uses: r-lib/actions/pr-push@master
+        if: github.event_name == 'pull_request'
+        with:
+          # use secret PAT to trigger new workflow check
+          repo-token: ${{ secrets.SIEVERT_PAT }}
+      - name: Git Push (MASTER)
+        if: github.event_name == 'push'
+        # use secret PAT to trigger new workflow check
+        run: |
+          git push https://schloerke:${{secrets.SIEVERT_PAT}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to push"
