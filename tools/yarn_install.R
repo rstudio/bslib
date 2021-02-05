@@ -73,7 +73,8 @@ add_property_prefixes <- function(src, property, ok_values = NULL, vendors = c("
 # Unconditionally prefix the following CSS properties
 needs_prefix <- c(
   "appearance", "user-select", "backdrop-filter",
-  "backface-visibility", "touch-action"
+  "backface-visibility", "touch-action",
+  "animation-duration"
 )
 for (prop in needs_prefix) {
   scss_src <- lapply(scss_src, add_property_prefixes, prop)
@@ -300,14 +301,32 @@ unlink(file.path("inst", "lib", ".yarn-integrity"))
 # Apply any patches to source
 # ----------------------------------------------------------------------
 
-patch_dir <- find_package_root_file("tools/patches")
-for (patch in list.files(patch_dir, full.names = TRUE)) {
+patch_files <- list.files(
+  find_package_root_file("tools/patches"),
+  full.names = TRUE
+)
+
+for (patch in patch_files) {
   tryCatch(
     {
       message(sprintf("Applying %s", basename(patch)))
-      system(sprintf("git apply '%s'", patch))
+      rej_pre <- dir(pattern = "\\.rej$", recursive = TRUE)
+      system(sprintf("git apply --reject --whitespace=fix '%s'", patch))
+      rej_post <- dir(pattern = "\\.rej$", recursive = TRUE)
+      if (length(rej_post) > length(rej_pre)) {
+        stop(
+          "Running `git apply --reject` generated `.rej` files.\n",
+          "Please fix the relevant conflicts inside ", patch, "\n",
+          "An 'easy' way to do this is to first `git add` the new source changes, ",
+          "then manually make the relevant changes from the patch file,",
+          "then `git diff` to get the relevant diff output and update the patch diff with the new diff."
+        )
+      }
     },
-    error = function(e) quit(save = "no", status = 1)
+    error = function(e) {
+      stop(conditionMessage(e))
+      quit(save = "no", status = 1)
+    }
   )
 }
 

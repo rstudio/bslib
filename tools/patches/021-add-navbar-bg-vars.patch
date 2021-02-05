@@ -1,10 +1,10 @@
 diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
-index 7a42c44..aee26ce 100644
+index af39c76..e332bbc 100644
 --- a/inst/lib/bs/scss/_variables.scss
 +++ b/inst/lib/bs/scss/_variables.scss
-@@ -747,6 +747,9 @@ $navbar-toggler-padding-x:          .75rem !default;
- $navbar-toggler-font-size:          $font-size-lg !default;
- $navbar-toggler-border-radius:      $btn-border-radius !default;
+@@ -749,6 +749,9 @@ $navbar-toggler-border-radius:      $btn-border-radius !default;
+ 
+ $navbar-nav-scroll-max-height:      75vh !default;
  
 +$navbar-dark-bg:                    null !default;  // Background color for navbarPage(inverse = TRUE)
 +$navbar-light-bg:                   null !default;  // Background color for navbarPage(inverse = FALSE)
