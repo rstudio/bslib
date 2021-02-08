@@ -181,3 +181,13 @@ The framework behind [real-time theming](#real-time-theming) is also available t
 #### Developing themable components
 
 Developers of Shiny input and output widgets who wish to make their custom widgets work seamlessly with custom `{bslib}` themes, [see here](https://rstudio.github.io/bslib/articles/theming.html#themeable-components).
+
+## Frequently Asked Questions
+
+### Does `{bslib}` work with other R Markdown formats (e.g.,  `{flexdashboard}`)?
+
+Yes, as long as the format passes the `theme` argument to `html_document` (or `html_document_base`), then you can use `{bslib}` theming. However, some of these formats still need attention to make them more themeable (their CSS needs to be ported to `{bslib}`-compatible Sass code).
+
+### Does `{bslib}` work with `{shinydashboard}`?
+
+No, we currently recommend using the `{fresh}` package to accomplish similar theming with `{shinydashboard}`. Also, if you want `{shinydashboard}`-like package build Bootstrap 4, we currently recommend using `{bs4Dash}`.
