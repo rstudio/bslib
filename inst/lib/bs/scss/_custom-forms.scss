@@ -105,7 +105,7 @@
     width: $custom-control-indicator-size;
     height: $custom-control-indicator-size;
     content: "";
-    background: no-repeat 50% / #{$custom-control-indicator-bg-size};
+    background: 50% / #{$custom-control-indicator-bg-size} no-repeat;
   }
 }
 
@@ -320,6 +320,7 @@
   width: 100%;
   height: $custom-file-height;
   margin: 0;
+  overflow: hidden;
   opacity: 0;
 
   &:focus ~ .custom-file-label {
@@ -352,6 +353,7 @@
   z-index: 1;
   height: $custom-file-height;
   padding: $custom-file-padding-y $custom-file-padding-x;
+  overflow: hidden;
   font-family: $custom-file-font-family;
   font-weight: $custom-file-font-weight;
   line-height: $custom-file-line-height;
@@ -397,7 +399,7 @@
   -o-appearance: none;
 
   &:focus {
-    outline: none;
+    outline: 0;
 
     // Pseudo-elements must be split across multiple rulesets to have an effect.
     // No box-shadow() mixin for focus accessibility.

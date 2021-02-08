@@ -180,9 +180,9 @@ index d6235aa..04b9e74 100644
 +    color: color-contrast($active-background);
      background-color: $active-background;
      border-color: $active-border;
- 
+
 diff --git a/inst/lib/bs/scss/mixins/_forms.scss b/inst/lib/bs/scss/mixins/_forms.scss
-index 39b52f3..1cca53a 100644
+index a71ead1..a321630 100644
 --- a/inst/lib/bs/scss/mixins/_forms.scss
 +++ b/inst/lib/bs/scss/mixins/_forms.scss
 @@ -61,7 +61,7 @@
@@ -193,4 +193,4 @@ index 39b52f3..1cca53a 100644
 +    color: color-contrast($color);
      background-color: rgba($color, $form-feedback-tooltip-opacity);
      @include border-radius($form-feedback-tooltip-border-radius);
-   }
+ 

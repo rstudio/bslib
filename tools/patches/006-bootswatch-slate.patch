@@ -337,7 +337,7 @@ index 8a98f05..78b141a 100644
      text-decoration: underline;
    }
 
-@@ -514,18 +539,18 @@ legend {
+@@ -539,18 +539,18 @@ legend {
    &-success,
    &-warning,
    &-info {
@@ -345,16 +345,16 @@ index 8a98f05..78b141a 100644
 +    color: $contrast-bg;
    }
  }
-
+ 
  // Containers ==================================================================
-
+ 
  .jumbotron {
 -  border: 1px solid rgba(0, 0, 0, .6);
 +  border: 1px solid rgba($contrast-fg, .6);
  }
-
+ 
  .list-group {
-   &-item:hover {
+   &-item-action:hover {
 -    background-color: darken($gray-900, 5%);
 +    background-color: mix($contrast-fg, $body-bg, 5%);
    }

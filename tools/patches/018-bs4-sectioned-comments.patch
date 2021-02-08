@@ -56,8 +56,8 @@ index fff34b9..9405ce7 100644
  
  $pagination-padding-y:              .5rem !default;
  $pagination-padding-x:              .75rem !default;
-@@ -822,6 +834,8 @@ $pagination-disabled-border-color:  $gray-300 !default;
- 
+@@ -843,6 +843,8 @@ $pagination-border-radius-sm:       $border-radius-sm !default;
+ $pagination-border-radius-lg:       $border-radius-lg !default;
  
  // Jumbotron
 +//

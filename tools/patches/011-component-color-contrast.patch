@@ -117,13 +117,13 @@ index 38aa9ae..fff34b9 100644
  $nav-divider-margin-y:              $spacer / 2 !default;
 @@ -775,8 +778,8 @@ $dropdown-link-color:               $gray-900 !default;
  $dropdown-link-hover-color:         darken($gray-900, 5%) !default;
- $dropdown-link-hover-bg:            $gray-100 !default;
+ $dropdown-link-hover-bg:            $gray-200 !default;
 
 -$dropdown-link-active-color:        $component-active-color !default;
  $dropdown-link-active-bg:           $component-active-bg !default;
 +$dropdown-link-active-color:        color-contrast($dropdown-link-active-bg, $component-active-color) !default;
 
- $dropdown-link-disabled-color:      $gray-600 !default;
+ $dropdown-link-disabled-color:      $gray-500 !default;
 
 @@ -809,8 +812,8 @@ $pagination-hover-color:            $link-hover-color !default;
  $pagination-hover-bg:               $gray-200 !default;
