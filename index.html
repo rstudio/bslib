@@ -204,6 +204,20 @@
 </div>
 </div>
 </div>
+<div id="frequently-asked-questions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#frequently-asked-questions" class="anchor"></a>Frequently Asked Questions</h2>
+<div id="does-bslib-work-with-other-r-markdown-formats-eg-flexdashboard" class="section level3">
+<h3 class="hasAnchor">
+<a href="#does-bslib-work-with-other-r-markdown-formats-eg-flexdashboard" class="anchor"></a>Does <code>{bslib}</code> work with other R Markdown formats (e.g., <code>{flexdashboard}</code>)?</h3>
+<p>Yes, as long as the format passes the <code>theme</code> argument to <code>html_document</code> (or <code>html_document_base</code>), then you can use <a href="https://rstudio.github.io/bslib/">bslib</a> theming. However, some of these formats still need attention to make them more themeable (their CSS needs to be ported to <a href="https://rstudio.github.io/bslib/">bslib</a>-compatible Sass code).</p>
+</div>
+<div id="does-bslib-work-with-shinydashboard" class="section level3">
+<h3 class="hasAnchor">
+<a href="#does-bslib-work-with-shinydashboard" class="anchor"></a>Does <code>{bslib}</code> work with <code>{shinydashboard}</code>?</h3>
+<p>No, we currently recommend using the <code>{fresh}</code> package to accomplish similar theming with <code>{shinydashboard}</code>. Also, if you want <code>{shinydashboard}</code>-like package build Bootstrap 4, we currently recommend using <code>{bs4Dash}</code>.</p>
+</div>
+</div>
 </div>
 
   </div>
