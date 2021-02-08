@@ -210,12 +210,19 @@
 <div id="does-bslib-work-with-other-r-markdown-formats-eg-flexdashboard" class="section level3">
 <h3 class="hasAnchor">
 <a href="#does-bslib-work-with-other-r-markdown-formats-eg-flexdashboard" class="anchor"></a>Does <code>{bslib}</code> work with other R Markdown formats (e.g., <code>{flexdashboard}</code>)?</h3>
-<p>Yes, as long as the format passes the <code>theme</code> argument to <code>html_document</code> (or <code>html_document_base</code>), then you can use <a href="https://rstudio.github.io/bslib/">bslib</a> theming. However, some of these formats still need attention to make them more themeable (their CSS needs to be ported to <a href="https://rstudio.github.io/bslib/">bslib</a>-compatible Sass code).</p>
+<p>Yes, as long as the format passes the <code>theme</code> argument to <code>html_document</code> (or <code>html_document_base</code>), then you can use <a href="https://rstudio.github.io/bslib/">bslib</a> theming. For example,</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1"></a><span class="pp">---</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="at">  flexdashboard:</span><span class="fu">:flex_dashboard</span><span class="kw">:</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="at">      </span><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="pp">---</span></span></code></pre></div>
+<p>That being said, some of these formats still need attention to make them more themeable (CSS may need porting to <a href="https://rstudio.github.io/bslib/">bslib</a>-compatible Sass code).</p>
 </div>
 <div id="does-bslib-work-with-shinydashboard" class="section level3">
 <h3 class="hasAnchor">
 <a href="#does-bslib-work-with-shinydashboard" class="anchor"></a>Does <code>{bslib}</code> work with <code>{shinydashboard}</code>?</h3>
-<p>No, we currently recommend using the <code>{fresh}</code> package to accomplish similar theming with <code>{shinydashboard}</code>. Also, if you want <code>{shinydashboard}</code>-like package build Bootstrap 4, we currently recommend using <code>{bs4Dash}</code>.</p>
+<p>No, we currently recommend <a href="https://dreamrs.github.io/fresh/articles/vars-shinydashboard.html">using the <code>{fresh}</code> package to accomplish similar theming with <code>{shinydashboard}</code></a>. Also, if you want <code>{shinydashboard}</code>-like package build Bootstrap 4, <a href="https://dreamrs.github.io/fresh/articles/vars-bs4dash.html">we currently recommend using <code>{bs4Dash}</code></a>.</p>
 </div>
 </div>
 </div>
