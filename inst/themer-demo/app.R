@@ -9,8 +9,6 @@ if (is_installed("thematic")) {
   thematic::thematic_shiny(
     font = thematic::font_spec("auto", scale = 2, update = TRUE)
   )
-} else {
-  message("Install the thematic package for auto-theming of static R plots")
 }
 
 # Source in ggplot2 examples
@@ -132,7 +130,8 @@ shinyApp(
           lattice = names(lattice_examples),
           base = names(base_examples)
         )
-      )
+      ),
+      uiOutput("thematic_needed")
     ),
     tabPanel(
       "Tables",
@@ -302,6 +301,13 @@ shinyApp(
       ggplot2_examples[[input$plot_example]] %||%
         eval(lattice_examples[[input$plot_example]]) %||%
         eval(base_examples[[input$plot_example]])
+    })
+    
+    output$thematic_needed <- renderUI({
+      if (bslib:::is_available("thematic")) return NULL        
+      htmltools::HTML(
+        "<span class=\"bg-dark text-light\">&nbsp;!! Install the <code>thematic</code> package to enable auto-theming of static R plots !!&nbsp;</span>"
+      )
     })
 
   }
