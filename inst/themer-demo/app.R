@@ -121,6 +121,7 @@ shinyApp(
     ),
     tabPanel(
       "Plots",
+      uiOutput("thematic_needed"),
       plotOutput("plot"),
       selectizeInput(
         "plot_example", "Choose an example",
@@ -130,8 +131,7 @@ shinyApp(
           lattice = names(lattice_examples),
           base = names(base_examples)
         )
-      ),
-      uiOutput("thematic_needed")
+      )
     ),
     tabPanel(
       "Tables",
@@ -302,11 +302,12 @@ shinyApp(
         eval(lattice_examples[[input$plot_example]]) %||%
         eval(base_examples[[input$plot_example]])
     })
-    
+
     output$thematic_needed <- renderUI({
-      if (bslib:::is_available("thematic")) return NULL        
+      if (bslib:::is_available("thematic")) return(NULL)
+
       htmltools::HTML(
-        "<span class=\"bg-dark text-light\">&nbsp;!! Install the <code>thematic</code> package to enable auto-theming of static R plots !!&nbsp;</span>"
+        "<span class=\"bg-warning\">&nbsp;!! Install the <a href='https://rstudio.github.io/thematic/'><code>thematic</code></a> package to enable auto-theming of static R plots !!&nbsp;</span>"
       )
     })
 
