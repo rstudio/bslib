@@ -30,6 +30,7 @@ Imports:
 Suggests:
     shiny,
     rmarkdown,
+    thematic,
     knitr,
     testthat,
     withr,
