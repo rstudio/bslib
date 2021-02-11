@@ -19,7 +19,7 @@ if ("3" %in% theme_version(theme)) {
   warning("This example app requires Bootstrap 4 or higher", call. = FALSE)
 }
 
-rounded <- bs_get_variables(theme, "enable-rounded")
+rounded <- isTRUE(as.logical(bs_get_variables(theme %||% bslib::bs_theme(), "enable-rounded")))
 pill <- function(...) {
   shiny::tabPanel(..., class = "p-3 border", class = if (rounded) "rounded")
 }
