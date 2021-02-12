@@ -136,8 +136,18 @@ bs_themer_ui <- function(opts, vals) {
     ),
 
     div(id = "bsthemerContainer",
-      class = "card shadow", style = css(width = "18rem", max_height = "80vh", z_index = 1000),
-      style = css(position = "fixed", top = "1rem", right = "1rem", height = "auto"),
+      class = "card shadow",
+      style = css(
+        # The bootstrap-colorpicker plugin sets a z-index of 1060 on
+        # it's inputs, so the container needs a smaller index, than that
+        # https://github.com/rstudio/bslib/blob/e4da71f3/inst/lib/bs-colorpicker/css/bootstrap-colorpicker.css#L38
+        #
+        # It's also important that this z-index is higher than 1030 so it's
+        # overlaid on-top of fixed/sticky navbars
+        # https://github.com/rstudio/bslib/blob/e4da71f3/inst/lib/bs/scss/_variables.scss#L697-L701
+        z_index = 1059, width = "18rem", max_height = "80vh",
+        position = "fixed", top = "1rem", right = "1rem", height = "auto"
+      ),
 
       div(id = "bsthemerHeader",
         class = "move-grabber", "data-target" = "#bsthemerContainer",
