@@ -344,16 +344,8 @@ as_bs_theme <- function(theme) {
   )
 }
 
-get_current_theme <- function() {
-  if (!is_available("shiny", "1.5.0.9007")) {
-    warning("This functionality requires shiny v1.6 or higher")
-    return(NULL)
-  }
-  getFromNamespace("getCurrentTheme", "shiny")()
-}
-
 register_theme_dependency <- function(x) {
-  if (!is_available("shiny", "1.5.0.9007")) {
+  if (!is_available("shiny", "1.6.0")) {
     warning("This functionality requires shiny v1.6 or higher")
     return(NULL)
   }

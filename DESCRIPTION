@@ -28,8 +28,8 @@ Imports:
     rlang,
     magrittr
 Suggests:
-    shiny,
-    rmarkdown,
+    shiny (>= 1.6.0),
+    rmarkdown (>= 2.6.6),
     thematic,
     knitr,
     testthat,
@@ -65,3 +65,4 @@ Collate:
     'web-font.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
+Remotes: rstudio/rmarkdown
