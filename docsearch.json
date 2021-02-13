@@ -1,5 +1,5 @@
 {
-  "index_name": "rstudio_bootstraplib",
+  "index_name": "bslib",
   "start_urls": [
     {
       "url": "https://rstudio.github.io/bslib//index.html",
