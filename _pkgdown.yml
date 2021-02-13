@@ -8,8 +8,8 @@ url: https://rstudio.github.io/bslib/
 template:
   params:
     docsearch:
-      api_key: 748f014f6e0f347e139ecb794914063d
-      index_name: rstudio_bootstraplib
+      api_key: 53fd87c79a13e431b4298611470d023a
+      index_name: bslib
 
 development:
   mode: release
