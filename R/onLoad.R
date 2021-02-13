@@ -1,5 +1,5 @@
 .onLoad <- function(libname, pkgname) {
-  register_upgrade_message("shiny", "1.5.0.9007")
+  register_upgrade_message("shiny", "1.6.0")
 }
 
 
