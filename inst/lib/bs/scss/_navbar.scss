@@ -248,6 +248,7 @@
 
 // Dark links against a light background
 .navbar-light {
+  background-color: $navbar-light-bg; // not !important so .bg-* utilities can still override
   .navbar-brand {
     color: $navbar-light-brand-color;
 
@@ -300,6 +301,7 @@
 
 // White links against a dark background
 .navbar-dark {
+  background-color: $navbar-dark-bg; // not !important so .bg-* utilities can still override
   .navbar-brand {
     color: $navbar-dark-brand-color;
 
