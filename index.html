@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4.9002</span>
       </span>
     </div>
 
@@ -207,22 +207,40 @@
 <div id="frequently-asked-questions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#frequently-asked-questions" class="anchor"></a>Frequently Asked Questions</h2>
-<div id="does-bslib-work-with-other-r-markdown-formats-eg-flexdashboard" class="section level3">
+<div id="does-bslib-work-with-flexdashboard" class="section level3">
 <h3 class="hasAnchor">
-<a href="#does-bslib-work-with-other-r-markdown-formats-eg-flexdashboard" class="anchor"></a>Does <code>{bslib}</code> work with other R Markdown formats (e.g., <code>{flexdashboard}</code>)?</h3>
-<p>Yes, as long as the format passes the <code>theme</code> argument to <code>html_document</code> (or <code>html_document_base</code>), then you can use <a href="https://rstudio.github.io/bslib/">bslib</a> theming. For example,</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1"></a><span class="pp">---</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">output</span><span class="kw">:</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="at">  flexdashboard:</span><span class="fu">:flex_dashboard</span><span class="kw">:</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="at">      </span><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="pp">---</span></span></code></pre></div>
-<p>That being said, some of these formats still need attention to make them more themeable (CSS may need porting to <a href="https://rstudio.github.io/bslib/">bslib</a>-compatible Sass code).</p>
+<a href="#does-bslib-work-with-flexdashboard" class="anchor"></a>Does <code>{bslib}</code> work with <code>{flexdashboard}</code>?</h3>
+<p>Yes, but you currently need the development version to use it.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"rstudio/flexdashboard"</span><span class="op">)</span></code></pre></div>
+<p>Then you can customize main color and fonts in the same way as the <a href="#r-markdown-usage"><code>html_document</code> usage</a> (note also that <a href="#real-time-theming">real-time theming</a> also works):</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1"></a><span class="pp">---</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="at">  flexdashboard:</span><span class="fu">:flex_dashboard</span><span class="kw">:</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="at">      </span><span class="fu">bg</span><span class="kw">:</span><span class="at"> </span><span class="st">"#101010"</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="at">      </span><span class="fu">fg</span><span class="kw">:</span><span class="at"> </span><span class="st">"#FDF7F7"</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="at">      </span><span class="fu">primary</span><span class="kw">:</span><span class="at"> </span><span class="st">"#ED79F9"</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="at">      </span><span class="fu">base_font</span><span class="kw">:</span><span class="at"> !expr bslib::font_google("Prompt")</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="at">      </span><span class="fu">code_font</span><span class="kw">:</span><span class="at"> !expr bslib::font_google("JetBrains Mono")</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="pp">---</span></span></code></pre></div>
+</div>
+<div id="does-bslib-work-with-other-rmd-output-formats" class="section level3">
+<h3 class="hasAnchor">
+<a href="#does-bslib-work-with-other-rmd-output-formats" class="anchor"></a>Does <code>{bslib}</code> work with other Rmd output formats?</h3>
+<p>In general, <a href="https://rstudio.github.io/bslib/">bslib</a> should work with any output format that passes a <code>theme</code> argument through `<code><a href="https://rmarkdown.rstudio.com/docs//reference/html_document.html">rmarkdown::html_document</a></code> (or <code><a href="https://rmarkdown.rstudio.com/docs//reference/html_document_base.html">rmarkdown::html_document_base</a></code>). For example, if you want to use Bootstrap 4 inside of <code>my_output_format</code> from <code>{mypkg}</code>, then do:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1"></a><span class="pp">---</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="at">  mypkg:</span><span class="fu">:my_output_format</span><span class="kw">:</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="at">      </span><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="pp">---</span></span></code></pre></div>
+<p>That being said, <a href="https://rstudio.github.io/bslib/">bslib</a> can’t magically fix additional CSS/JS bundled with custom output formats to be compatible with Bootstrap 4 and custom theming, so please <a href="https://github.com/rstudio/bslib/issues/new">let us know</a> about output formats that should work better with <a href="https://rstudio.github.io/bslib/">bslib</a>, and we’d be happy to work with the output author to improve the situation.</p>
 </div>
 <div id="does-bslib-work-with-shinydashboard" class="section level3">
 <h3 class="hasAnchor">
 <a href="#does-bslib-work-with-shinydashboard" class="anchor"></a>Does <code>{bslib}</code> work with <code>{shinydashboard}</code>?</h3>
-<p>No, we currently recommend <a href="https://dreamrs.github.io/fresh/articles/vars-shinydashboard.html">using the <code>{fresh}</code> package to accomplish similar theming with <code>{shinydashboard}</code></a>. Also, if you want <code>{shinydashboard}</code>-like package build Bootstrap 4, <a href="https://dreamrs.github.io/fresh/articles/vars-bs4dash.html">we currently recommend using <code>{bs4Dash}</code></a>.</p>
+<p>No, not at the moment. We currently recommend <a href="https://dreamrs.github.io/fresh/articles/vars-shinydashboard.html">using the <code>{fresh}</code> package to accomplish similar theming with <code>{shinydashboard}</code></a>. Also, if you want <code>{shinydashboard}</code>-like package build Bootstrap 4, <a href="https://dreamrs.github.io/fresh/articles/vars-bs4dash.html">we currently recommend using <code>{bs4Dash}</code></a>.</p>
 </div>
 </div>
 </div>

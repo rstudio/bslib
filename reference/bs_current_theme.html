@@ -80,7 +80,7 @@ otherwise be themed via bs_dependency_defer() ." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4.9002</span>
       </span>
     </div>
 
@@ -166,7 +166,7 @@ different things based on the context in which it's called:</p><ul>
 <li><p>If no reactive context is active, <code><a href='https://rdrr.io/pkg/shiny/man/getCurrentTheme.html'>shiny::getCurrentTheme()</a></code> is called
 (which returns the current app's <code>theme</code>, if relevant).</p></li>
 <li><p>If <code><a href='https://rdrr.io/pkg/shiny/man/getCurrentTheme.html'>shiny::getCurrentTheme()</a></code> comes up empty, then <code><a href='bs_global_theme.html'>bs_global_get()</a></code>
-is called, which is relevant for <code><a href='https://rdrr.io/pkg/rmarkdown/man/html_document.html'>rmarkdown::html_document()</a></code>, and
+is called, which is relevant for <code><a href='https://rmarkdown.rstudio.com/docs//reference/html_document.html'>rmarkdown::html_document()</a></code>, and
 possibly other static rendering contexts.</p></li>
 </ul>
 
