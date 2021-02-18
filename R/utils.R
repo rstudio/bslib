@@ -47,6 +47,10 @@ is_hosted_app <- function() {
   nzchar(Sys.getenv("SHINY_SERVER_VERSION")) && is_shiny_app()
 }
 
+is_shiny_runtime <- function() {
+  isTRUE(grepl("^shiny", knitr::opts_knit$get("rmarkdown.runtime")))
+}
+
 add_class <- function(x, y) {
   class(x) <- unique(c(y, oldClass(x)))
   x
