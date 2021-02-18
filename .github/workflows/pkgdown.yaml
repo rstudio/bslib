@@ -52,11 +52,12 @@ jobs:
           pak::local_system_requirements(execute = TRUE)
           pak::pkg_system_requirements("rsconnect", execute = TRUE)
           pak::pkg_system_requirements("pkgdown", execute = TRUE)
+          pak::pkg_system_requirements("renv", execute = TRUE)
 
       - name: Install dependencies
         shell: Rscript {0}
         run: |
-          pak::pkg_install("pkgdown", dependencies = TRUE)
+          pak::pkg_install(c("renv", "pkgdown"), dependencies = TRUE)
           pkgs <- unique(renv::dependencies("vignettes")$Package)
           lapply(pkgs, function(pkg) {
             if (! (pkg %in% rownames(installed.packages()))) {
