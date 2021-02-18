@@ -184,21 +184,44 @@ Developers of Shiny input and output widgets who wish to make their custom widge
 
 ## Frequently Asked Questions
 
-### Does `{bslib}` work with other R Markdown formats (e.g.,  `{flexdashboard}`)?
+### Does `{bslib}` work with `{flexdashboard}`?
 
-Yes, as long as the format passes the `theme` argument to `html_document` (or `html_document_base`), then you can use `{bslib}` theming. For example,
+Yes, but you currently need the development version to use it.
+
+```r
+remotes::install_github("rstudio/flexdashboard")
+```
+
+Then you can customize main color and fonts in the same way as the [`html_document` usage](#r-markdown-usage) (note also that [real-time theming](#real-time-theming) also works):
 
 ````yaml
 ---
 output:
   flexdashboard::flex_dashboard:
+    theme:
+      bg: "#101010"
+      fg: "#FDF7F7"
+      primary: "#ED79F9"
+      base_font: !expr bslib::font_google("Prompt")
+      code_font: !expr bslib::font_google("JetBrains Mono")
+---
+````
+
+### Does `{bslib}` work with other Rmd output formats?
+
+In general, `{bslib}` should work with any output format that passes a `theme` argument through ``rmarkdown::html_document` (or `rmarkdown::html_document_base`). For example, if you want to use Bootstrap 4 inside of `my_output_format` from `{mypkg}`, then do:
+
+````yaml
+---
+output:
+  mypkg::my_output_format:
     theme: 
       version: 4
 ---
 ````
 
-That being said, some of these formats still need attention to make them more themeable (CSS may need porting to `{bslib}`-compatible Sass code).
+That being said, `{bslib}` can't magically fix additional CSS/JS bundled with custom output formats to be compatible with Bootstrap 4 and custom theming, so please [let us know](https://github.com/rstudio/bslib/issues/new) about output formats that should work better with `{bslib}`, and we'd be happy to work with the output author to improve the situation.
 
 ### Does `{bslib}` work with `{shinydashboard}`?
 
-No, we currently recommend [using the `{fresh}` package to accomplish similar theming with `{shinydashboard}`](https://dreamrs.github.io/fresh/articles/vars-shinydashboard.html). Also, if you want `{shinydashboard}`-like package build Bootstrap 4, [we currently recommend using `{bs4Dash}`](https://dreamrs.github.io/fresh/articles/vars-bs4dash.html).
+No, not at the moment. We currently recommend [using the `{fresh}` package to accomplish similar theming with `{shinydashboard}`](https://dreamrs.github.io/fresh/articles/vars-shinydashboard.html). Also, if you want `{shinydashboard}`-like package build Bootstrap 4, [we currently recommend using `{bs4Dash}`](https://dreamrs.github.io/fresh/articles/vars-bs4dash.html).
