@@ -238,9 +238,9 @@ theming](#real-time-theming) also works):
 
 ``` yaml
 ---
-output: 
+output:
   flexdashboard::flex_dashboard:
-    theme: 
+    theme:
       bg: "#101010"
       fg: "#FDF7F7"
       primary: "#ED79F9"
