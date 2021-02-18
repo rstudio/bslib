@@ -196,9 +196,9 @@ Then you can customize main color and fonts in the same way as the [`html_docume
 
 ````yaml
 ---
-output: 
+output:
   flexdashboard::flex_dashboard:
-    theme: 
+    theme:
       bg: "#101010"
       fg: "#FDF7F7"
       primary: "#ED79F9"
