@@ -1,9 +1,9 @@
 .onLoad <- function(libname, pkgname) {
   register_upgrade_message("shiny", "1.6.0")
+  register_upgrade_message("rmarkdown", "2.7")
 }
 
-
-# Same as shiny:::register_upgrade_message
+# Essentially verbatim from shiny:::register_upgrade_message
 register_upgrade_message <- function(pkg, version) {
 
   msg <- sprintf(
