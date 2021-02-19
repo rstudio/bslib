@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   bs4-variables: bs4-variables.html
   theming: theming.html
-last_built: 2021-02-19T19:50Z
+last_built: 2021-02-19T19:56Z
 urls:
   reference: https://rstudio.github.io/bslib//reference
   article: https://rstudio.github.io/bslib//articles
