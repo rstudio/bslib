@@ -40,17 +40,18 @@ To help you utilize the changes you see in the preview, this utility prints
 }
 \section{Limitations}{
 
-
-Currently, this utility only works with Bootstrap 4. We hope to add
-Bootstrap 3 compatibility in the future. Also, the color picker currently
-doesn't render correctly on IE11.
-
-It also only works with Shiny apps and R Markdown apps that use the Shiny
-runtime. It's not possible to perform real-time preview for static R
-Markdown documents.
-
-Note that only CSS generated with \code{\link[=bs_dependency_defer]{bs_dependency_defer()}} will be
-instantly reflected in theme preview.
+\itemize{
+\item Doesn't work with Bootstrap 3.
+\item Doesn't work with IE11.
+\item Only works inside Shiny apps and \code{runtime: shiny} R Markdown documents.
+\itemize{
+\item Can't be used with static R Markdown documents.
+\item Can be used to some extent with \code{runtime: shiny_prerendered}, but only UI
+rendered through a \code{context="server"} may update in real-time.
+}
+\item Doesn't work with '3rd party' custom widgets that don't make use of
+\code{\link[=bs_dependency_defer]{bs_dependency_defer()}} or \code{\link[=bs_current_theme]{bs_current_theme()}}.
+}
 }
 
 \examples{

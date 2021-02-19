@@ -205,16 +205,14 @@ themer_css_dependency <- function(theme) {
 #'
 #' @section Limitations:
 #'
-#'   Currently, this utility only works with Bootstrap 4. We hope to add
-#'   Bootstrap 3 compatibility in the future. Also, the color picker currently
-#'   doesn't render correctly on IE11.
-#'
-#'   It also only works with Shiny apps and R Markdown apps that use the Shiny
-#'   runtime. It's not possible to perform real-time preview for static R
-#'   Markdown documents.
-#'
-#'   Note that only CSS generated with [bs_dependency_defer()] will be
-#'   instantly reflected in theme preview.
+#'   * Doesn't work with Bootstrap 3.
+#'   * Doesn't work with IE11.
+#'   * Only works inside Shiny apps and `runtime: shiny` R Markdown documents.
+#'     * Can't be used with static R Markdown documents.
+#'     * Can be used to some extent with `runtime: shiny_prerendered`, but only UI
+#'       rendered through a `context="server"` may update in real-time.
+#'   * Doesn't work with '3rd party' custom widgets that don't make use of
+#'     [bs_dependency_defer()] or [bs_current_theme()].
 #'
 #' @return nothing. These functions are called for their side-effects.
 #'
