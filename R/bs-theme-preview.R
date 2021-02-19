@@ -416,18 +416,25 @@ set_current_theme <- function(theme, changed_vals, session) {
   invisible(theme)
 }
 
-spinner_overlay <- function(id = "spinner_overlay") {
-  div(
-    id = id,
-    style = "position:absolute; top:0; left:0; min-height:100vh; width:100%; background-color:rgba(0,0,0,0.1)",
-    class = "d-flex flex-column justify-content-center align-items-center",
-    div(
-      class = "spinner-border",
-      style = "width:5rem; height:5rem",
-      role = "status",
-      span(class = "sr-only", "Rebuilding styles...")
+spinner_overlay <- function() {
+  tagList(
+    tags$style(
+      "@supports ((-webkit-backdrop-filter:blur(4px)) or (backdrop-filter:blur(4px))) {
+        #spinner_overlay{ -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); background-color:rgba(255,255,255,.05);}
+      }"
     ),
-    span(class = "lead mt-1",  "Rebuilding styles...")
+    div(
+      id = "spinner_overlay",
+      style = "position:absolute; top:0; left:0; min-height:100vh; width:100%; background-color:rgba(255,255,255,.8); z-index:100000",
+      class = "d-flex flex-column justify-content-center align-items-center",
+      div(
+        class = "spinner-border",
+        style = "width:5rem; height:5rem; color: rgba(0,0,0,0.8);",
+        role = "status",
+        span(class = "sr-only", "Refreshing stylesheets...")
+      ),
+      span(class = "lead mt-1", style = "color: rgba(0,0,0,0.8);", "Refreshing stylesheets...")
+    )
   )
 }
 
