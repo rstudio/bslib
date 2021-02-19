@@ -56,8 +56,9 @@ bs_global_set <- function(theme = bs_theme()) {
   # current theme if this code is running in an `runtime: shiny` doc
   if (is_shiny_runtime() && is_available("shiny", "1.6")) {
     warning(
-      "bs_global_set() may not work as expected inside runtime: shiny documents.",
-      "To update the document's theme, use `session$setCurrentTheme()` instead."
+      "bs_global_set() may not work as expected inside runtime: shiny documents. ",
+      "To update the document's theme, use `session$setCurrentTheme()` instead.",
+      call. = FALSE
     )
   }
   old_theme <- options(bslib_theme = theme)
