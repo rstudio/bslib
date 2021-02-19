@@ -6,7 +6,9 @@ toc:
 url: https://rstudio.github.io/bslib/
 
 template:
+  package: quillt
   params:
+    footer: <b>bslib</b> is an R package developed by <a href='https://rstudio.com'>RStudio</a>
     docsearch:
       api_key: 53fd87c79a13e431b4298611470d023a
       index_name: bslib

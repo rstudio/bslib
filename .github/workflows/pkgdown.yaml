@@ -58,6 +58,7 @@ jobs:
         shell: Rscript {0}
         run: |
           pak::pkg_install(c("renv", "pkgdown"), dependencies = TRUE)
+          pak::pkg_install("apreshill/quillt")
           pkgs <- unique(renv::dependencies("vignettes")$Package)
           lapply(pkgs, function(pkg) {
             if (! (pkg %in% rownames(installed.packages()))) {
