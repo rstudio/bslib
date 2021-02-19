@@ -252,7 +252,7 @@ output:
 ### Does `{bslib}` work with other Rmd output formats?
 
 In general, `{bslib}` should work with any output format that passes a
-`theme` argument through \``rmarkdown::html_document` (or
+`theme` argument through `rmarkdown::html_document` (or
 `rmarkdown::html_document_base`). For example, if you want to use
 Bootstrap 4 inside of `my_output_format` from `{mypkg}`, then do:
 
