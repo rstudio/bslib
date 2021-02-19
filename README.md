@@ -34,11 +34,11 @@ install.packages("bslib")
 install.packages("shiny")
 ```
 
-[Usage with R Markdown](#r-markdown-usage) currently requires the
-development version:
+[Usage with R Markdown](#r-markdown-usage) requires version 2.7 or
+higher:
 
 ``` r
-remotes::install_github("rstudio/rmarkdown")
+install.packages("rmarkdown")
 ```
 
 ## Overview
