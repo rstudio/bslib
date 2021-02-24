@@ -250,7 +250,7 @@
 <div id="does-bslib-work-with-other-rmd-output-formats" class="section level3">
 <h3 class="hasAnchor">
 <a href="#does-bslib-work-with-other-rmd-output-formats" class="anchor"></a>Does <code>{bslib}</code> work with other Rmd output formats?</h3>
-<p>In general, <a href="https://rstudio.github.io/bslib/">bslib</a> should work with any output format that passes a <code>theme</code> argument through <code><a href="https://rmarkdown.rstudio.com/docs//reference/html_document.html">rmarkdown::html_document</a></code> (or <code><a href="https://rmarkdown.rstudio.com/docs//reference/html_document_base.html">rmarkdown::html_document_base</a></code>). For example, if you want to use Bootstrap 4 inside of <code>my_output_format</code> from <code>{mypkg}</code>, then do:</p>
+<p>In general, <a href="https://rstudio.github.io/bslib/">bslib</a> should work with any output format that passes a <code>theme</code> argument through <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html">rmarkdown::html_document</a></code> (or <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document_base.html">rmarkdown::html_document_base</a></code>). For example, if you want to use Bootstrap 4 inside of <code>my_output_format</code> from <code>{mypkg}</code>, then do:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1"></a><span class="pp">---</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="fu">output</span><span class="kw">:</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="at">  mypkg:</span><span class="fu">:my_output_format</span><span class="kw">:</span></span>
