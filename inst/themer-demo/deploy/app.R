@@ -6,6 +6,7 @@ library(thematic)
 library(rlang)
 library(curl)
 library(DT)
+library(knitr)
 library(reactable)
 
 theme <- bs_theme(
