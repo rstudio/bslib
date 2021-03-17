@@ -20,7 +20,8 @@ bs_theme(
   danger = NULL,
   base_font = NULL,
   code_font = NULL,
-  heading_font = NULL
+  heading_font = NULL,
+  font_size = NULL
 )
 
 bs_theme_update(
@@ -37,7 +38,8 @@ bs_theme_update(
   danger = NULL,
   base_font = NULL,
   code_font = NULL,
-  heading_font = NULL
+  heading_font = NULL,
+  font_size = NULL
 )
 
 is_bs_theme(x)
@@ -80,6 +82,11 @@ Typically a shade of blue-green.}
 \item{code_font}{The typeface to be used for code. Be sure this is monospace!}
 
 \item{heading_font}{The typeface to be used for heading elements.}
+
+\item{font_size}{The \code{base_font} size. A CSS unit length of type \code{rem} is
+recommended (e.g., \code{"1.1rem"}); unless \code{version = 3}, then \code{px} are
+recommended (e.g., \code{"18px"}). Numbers without a unit specified are
+interpreted as pixels (e.g., \code{18} -> \code{"18px"}).}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 

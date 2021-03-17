@@ -57,14 +57,14 @@ bs_themer_ui <- function(opts, vals) {
     value <- vals[[id]]
     lbl <- HTML(opts$label)
     desc <- HTML(opts$desc)
-    text_input <- function(input_class = NULL) {
+    text_input <- function(input_class = NULL, type = "text", ...) {
       div(
         class = "form-row form-group",
         tags$label(lbl),
         tags$input(
-          type = "text", value = value, "data-id" = id,
+          type = type, value = value, "data-id" = id,
           class = "form-control form-control-sm bs-theme-value",
-          class = input_class
+          class = input_class, ...
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
       )
@@ -74,6 +74,7 @@ bs_themer_ui <- function(opts, vals) {
       color = text_input(input_class = "bs-theme-value-color text-monospace"),
       str = text_input(input_class = "bs-theme-value-str"),
       length = text_input(input_class = "bs-theme-value-length"),
+      number = text_input(input_class = "bs-theme-value-str", type = "number", step = opts$step),
       bool = tagList(
         div(
           class = "form-check",
@@ -313,6 +314,10 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   sass_vars <- setdiff(themer_vars, "bootswatch")
   themer_vals <- as.list(bs_get_variables(theme, sass_vars))
   themer_vals$bootswatch <- bootswatch
+  if (!grepl("rem$", themer_vals[["font-size-base"]])) {
+    stop("font-size-base must have a CSS unit length type of rem", call. = FALSE)
+  }
+  themer_vals[["font-size-base"]] <- sub("rem$", "", themer_vals[["font-size-base"]])
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals))
 
   input <- session$input
@@ -371,8 +376,13 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     changed_vals <- rename2(
       changed_vals,
       "font-family-base" = "base_font", "font-family-monospace" = "code_font",
-      "headings-font-family" = "heading_font"
+      "headings-font-family" = "heading_font",
+      "font-size-base" = "font_size"
     )
+
+    if (length(changed_vals$font_size)) {
+      changed_vals$font_size <- as.numeric(changed_vals$font_size)
+    }
 
     if (isTRUE(gfonts)) {
       for (var in c("base_font", "code_font", "heading_font")) {

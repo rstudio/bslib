@@ -52,17 +52,23 @@
     "font-family-base": {
       "type": "str",
       "label": "Base font",
-      "desc": "Tip: Try entering any <a href='https://fonts.google.com/'>Google Font</a> name (e.g., Pacifico)"
+      "desc": "Try a <a href='https://fonts.google.com/?category=Sans+Serif'>San Serif</a> Google Font (e.g., Prompt)."
     },
     "font-family-monospace": {
       "type": "str",
       "label": "Code font",
-      "desc": null
+      "desc": "Try a <a href='https://fonts.google.com/?category=Monospace'>Monospace</a> Google Font"
     },
     "headings-font-family": {
       "type": "str",
       "label": "Heading font",
-      "desc": null
+      "desc": "Try a <a href='https://fonts.google.com/?category=Serif'>Serif</a> Google Font. Defaults to the base font family."
+    },
+    "font-size-base": {
+      "type": "number",
+      "step": "0.05",
+      "label": "Base font size",
+      "desc": "A scalar multiple to apply to all font sizes."
     }
   },
   "Options": {
