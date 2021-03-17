@@ -1,4 +1,5 @@
 .shiny-input-checkboxgroup, .shiny-input-radiogroup {
+  // TODO: this is pretty expensive!
   .checkbox, .radio {
     @extend .form-check;
     label {

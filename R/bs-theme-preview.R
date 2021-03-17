@@ -389,6 +389,10 @@ set_current_theme <- function(theme, changed_vals, session) {
   shiny::insertUI("body", ui = spinner_overlay(), immediate = TRUE, session = session)
   on.exit(shiny::removeUI("body > #spinner_overlay"), add = TRUE)
 
+  # Color contrast warnings are more annoying then they are useful inside the theming widget
+  opts <- options(bslib.color_contrast_warnings = FALSE)
+  on.exit(options(opts), add = TRUE)
+
   message("--------------------")
   code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
   print(code)
