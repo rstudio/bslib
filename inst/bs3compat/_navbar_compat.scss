@@ -20,11 +20,8 @@
   @extend .sticky-top;
 }
 
-ul.nav.navbar-nav {
-  &.navbar-right {
-    justify-content: flex-end;
-    -webkit-justify-content: flex-end;
-  }
+.navbar-nav.navbar-right {
+  margin-left: auto;
 }
 
 ul.nav.navbar-nav>li:not(.dropdown) {
