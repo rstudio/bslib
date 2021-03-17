@@ -7,6 +7,7 @@
 :root {
   --pg-header: #096B72; /*green*/
   --dk-header: #013631; /*darker green*/
+  --bw-header: #07555a; /*between medium green*/
   --a-hover: #405359;   /*dark grey*/
   --a-alpha: #6C797C;   /*dark grey white added*/
   --nav-bkg: #e6f3fc;   /*pale blue*/
@@ -16,6 +17,16 @@
 pre, code {
   font-family: "Source Code Pro", Consolas, Inconsolata, monospace;
   font-size: 16px;
+}
+
+code {
+  text-transform: none
+}
+
+h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code {
+    font-size: inherit;
+    background-color: inherit;
+    color: inherit;
 }
 
 body {
@@ -31,25 +42,37 @@ h3 {font-size: 23px;}
 h4 {font-size: 20px;}
 */
 
-h1 {font-size: 1.4em;}
-h2 {font-size: 1.3em;}
+h1 {
+  font-size: 2.0em;
+  font-weight: 400;
+  letter-spacing: .08em;
+}
+h2 {
+  font-size: 1.7em;
+  font-weight: 300;
+  color: var(--pg-header);
+  letter-spacing: .08em;
+}
 h3 {
-  font-size: 1.1em;
+  font-size: 1.2em;
   text-transform: uppercase;
-  font-weight: 600;
-  color: var(--dk-header);
+  font-weight: 200;
+  color: var(--bw-header);
+  letter-spacing: .1em;
 }
 h4 {
-  font-size: 1.0em;
-  /*text-transform: uppercase;*/
+  font-size: 1.2em;
+  text-transform: none;
   font-weight: 600;
+  color: var(--dk-header);
+  letter-spacing: .05em;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Work Sans', sans-serif;
 /*font-weight: normal;*/
 /* font-size: 1.3em; */
-  letter-spacing: 1.2pt;
+/*  letter-spacing: 1.2pt; */
   /*text-transform: uppercase;*/
 }
 
@@ -61,9 +84,7 @@ h1, h2, h3, h4 {
   font-size: 2.4em;
 }
 
-h2, h3, h4 {
-  color: var(--pg-header);
-}
+
 
 
 .contents .page-header {
@@ -250,7 +271,7 @@ p a {
   padding-bottom: 1em;
   padding-left: 10px;
   margin-bottom: 0;
-  line-height: 1.6em;
+  line-height: 1.4em;
   letter-spacing: 0.4pt;
   font-size: 1.5rem;
 }
@@ -286,10 +307,19 @@ nav[data-toggle='toc'] .nav > .active:focus > a,
 nav[data-toggle='toc'] ul > li > a:hover {
   border-left: 3px solid var(--accent);
   padding-left: 10px;
-  text-indent: -2px;
   letter-spacing: 1pt;
   font-size: 15px;
   text-decoration: none !important;
+}
+
+/* Increase space between list items, descrease within-item spacing */
+nav[data-toggle='toc'] .nav li {
+  margin-top: 0.5em;
+  line-height: 1.5;
+}
+
+nav[data-toggle='toc'] > ul > li:first-child {
+  margin-top: 0;
 }
 
 nav[data-toggle='toc'] .nav > li > a:hover,
@@ -304,7 +334,6 @@ nav[data-toggle='toc'] .nav > li > a:focus {
 nav[data-toggle='toc'] ul > li > a {
   border-left: 3px solid #FFFFFF;
   padding-left: 10px;
-  text-indent: -2px;
   letter-spacing: 1pt;
   font-size: 15px;
   text-decoration: none !important;
