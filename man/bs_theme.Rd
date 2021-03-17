@@ -83,10 +83,9 @@ Typically a shade of blue-green.}
 
 \item{heading_font}{The typeface to be used for heading elements.}
 
-\item{font_size}{The \code{base_font} size. A CSS unit length of type \code{rem} is
-recommended (e.g., \code{"1.1rem"}); unless \code{version = 3}, then \code{px} are
-recommended (e.g., \code{"18px"}). Numbers without a unit specified are
-interpreted as pixels (e.g., \code{18} -> \code{"18px"}).}
+\item{font_size}{A scalar multiplier applied to the \code{base_font} size. For
+example, a value of \code{1.5} increases font sizes by 150\% and a value of \code{0.8}
+decreases by 80\%. Must be a single number.}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
