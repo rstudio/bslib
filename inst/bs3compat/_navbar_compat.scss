@@ -86,3 +86,14 @@ ul.nav.navbar-nav>li>a {
     }
   }
 }
+
+// Make sure navbar-toggle floats right when navbar is collapsed
+// https://github.com/rstudio/bslib/issues/289
+@include media-breakpoint-down(xs) {
+  .navbar-header {
+    width: 100%;
+    .navbar-toggle {
+      float: right;
+    }
+  }
+}
