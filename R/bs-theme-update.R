@@ -200,28 +200,15 @@ bs3_accent_colors <- function(args) {
 
 bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   assert_bs_theme(theme)
-
   args <- list(
-    base = unlist(find_characters(base)),
-    code = unlist(find_characters(code)),
-    heading = unlist(find_characters(heading))
+    base = base,
+    code = code,
+    heading = heading
   )
   args <- lapply(args, quote_css_font_families)
   switch_add_variables(theme, args, three = bs3_fonts, default = bs4_fonts)
 }
 
-
-find_characters <- function(x) {
-  if (is.null(x)) return(NULL)
-  if (is_font_object(x)) return(x$family)
-  if (!is.list(x)) {
-    if (is.character(x) && !(anyNA(x) || any(!nzchar(x)))) {
-      return(x)
-    }
-    stop("Fonts must be a collection of non-empty character vector(s) and/or `font_face()`(s).")
-  }
-  lapply(x, find_characters)
-}
 
 bs4_fonts <- function(args) {
   name_map <- c(
@@ -285,6 +272,14 @@ quote_css_font_families <- function(str) {
 
   if (is.null(str)) {
     return(NULL)
+  }
+
+  if (sass::is_font_object(str)) {
+    return(str)
+  }
+
+  if (is.list(str)) {
+    lapply(str, quote_css_font_families)
   }
 
   # Are there non-alpha, non-dash characters? If so, we may need to quote...

@@ -449,7 +449,8 @@ insert_font_google_call <- function(val, gfont_info) {
   if (!is_string(val)) return(NULL)
   if (!nzchar(val)) return(NULL)
   fams <- strsplit(as.character(val), ",")[[1]]
-  fams <- vapply(fams, unquote_font_family, character(1), USE.NAMES = FALSE)
+  # TODO: copy over sasss:::unquote_font_family()?
+  fams <- vapply(fams, sass:::unquote_font_family, character(1), USE.NAMES = FALSE)
   fams <- fams[nzchar(fams)]
   is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
   if (length(fams) == 1) {
