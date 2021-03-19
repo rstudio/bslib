@@ -63,4 +63,4 @@ Collate:
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
-Remotes: rstudio/sass
+Remotes: rstudio/sass#74
