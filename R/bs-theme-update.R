@@ -205,8 +205,28 @@ bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
     code = code,
     heading = heading
   )
-  args <- lapply(args, quote_css_font_families)
+  args <- lapply(args, prepare_font_arg)
   switch_add_variables(theme, args, three = bs3_fonts, default = bs4_fonts)
+}
+
+prepare_font_arg <- function(x) {
+  if (is.null(x)) {
+    return(NULL)
+  }
+  # sass::font_collection handles quoting
+  if (sass::is_font_collection(x)) {
+    return(x)
+  }
+  # Unquote strings and provide to font_collection()
+  if (is.character(x)) {
+    families <- strsplit(x, ",\\s*")[[1]]
+    families <- gsub("'", "", gsub('"', "", families))
+    return(do.call(sass::font_collection, as.list(families)))
+  }
+  if (is.list(x)) {
+    # TODO: have special awareness of named lists (e.g., font_base = list(google = list(family = "Pacifico")) => font_base = font_google("Pacifico")?)
+    do.call(sass::font_collection, lapply(x, prepare_font_arg))
+  }
 }
 
 
@@ -265,41 +285,6 @@ validate_and_normalize_colors <- function(args) {
   args
 }
 
-quote_css_font_families <- function(str) {
-  # This is pretty quick and dirty. I'd much prefer to do a full parse and I
-  # generally hate using heuristics to decide on matters of encoding, but
-  # both completely unquoted and fully quoted cases will be so common.
-
-  if (is.null(str)) {
-    return(NULL)
-  }
-
-  if (sass::is_font_object(str)) {
-    return(str)
-  }
-
-  if (is.list(str)) {
-    lapply(str, quote_css_font_families)
-  }
-
-  # Are there non-alpha, non-dash characters? If so, we may need to quote...
-  needs_quote <- grepl("[^A-Za-z\\-]", str, perl = TRUE)
-  # ...but don't quote if there's even a hit of quoting, or that an element
-  # might contain multiple font families already. We explicitly want to
-  # allow things like:
-  # c("Source Sans Pro", "-apple-system, BlinkMacSystemFont, \"Segoe UI\""),
-  # where the first element would be quoted but not the second. Of course this
-  # would be a problem if a single font family's name contained a quote, comma,
-  # or backslash, but that seems very unlikely.
-  is_quoted <- grepl("[,'\"\\\\]", str, perl = TRUE)
-
-  str <- ifelse(needs_quote & !is_quoted,
-    paste0("'", str, "'"),
-    str
-  )
-
-  paste(str, collapse = ", ")
-}
 
 #' Remove unsupported arguments, with a nicely formatted warning
 #'

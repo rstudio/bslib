@@ -82,3 +82,9 @@ NULL
 #' @name font_google
 #' @rdname font_face
 NULL
+
+#' @importFrom sass font_collection
+#' @export font_collection
+#' @name font_collection
+#' @rdname font_face
+NULL
