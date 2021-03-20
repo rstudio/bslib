@@ -20,32 +20,31 @@ expect_new_dependencies <- function(input, n = 1) {
   heading <- bs_theme_dependencies(
     bs_theme_update(theme, heading_font = input)
   )
-  browser()
   expect_equal(n_default + n, length(base))
   expect_equal(n_default + n, length(code))
   expect_equal(n_default + n, length(heading))
 }
 
 test_that("Strings are quoted, if needed", {
-  expect_font_defaults("foo-bar")
+  expect_font_defaults('"foo-bar"')
   expect_font_defaults("foo bar", '"foo bar"')
   expect_font_defaults('"foo bar"')
-  expect_font_defaults('"foo bar", baz')
+  expect_font_defaults('"foo bar", "baz"')
 })
 
 test_that("Lists are collapsed into quoted strings", {
-  expect_font_defaults(list("foo-bar"), "foo-bar")
-  expect_font_defaults(list("foo-bar", "foo bar"), 'foo-bar, "foo bar"')
-  expect_font_defaults(list("foo-bar", '"foo bar", baz'), 'foo-bar, "foo bar", baz')
+  expect_font_defaults(list("foo-bar"), '"foo-bar"')
+  expect_font_defaults(list("foo-bar", "foo bar"), '"foo-bar", "foo bar"')
+  expect_font_defaults(list("foo-bar", '"foo bar", baz'), '"foo-bar", "foo bar", "baz"')
 })
 
 test_that("Single font objects set defaults and add dependencies", {
   cg <- font_google("Crimson Pro", local = FALSE)
   cl <- font_link("Crimson Pro", href = "foo")
   cf <- font_face("Crimson Pro", src = "foo")
-  expect_font_defaults(cg, "Crimson Pro")
-  expect_font_defaults(cl, "Crimson Pro")
-  expect_font_defaults(cf, "Crimson Pro")
+  expect_font_defaults(cg, '"Crimson Pro"')
+  expect_font_defaults(cl, '"Crimson Pro"')
+  expect_font_defaults(cf, '"Crimson Pro"')
   expect_new_dependencies(cg)
   expect_new_dependencies(cl)
   expect_new_dependencies(cf)
@@ -53,16 +52,16 @@ test_that("Single font objects set defaults and add dependencies", {
 
 
 test_that("Mix of font objects and character strings", {
-  font <- list(font_google("Pacifico", local = FALSE), "Sans Serif")
-  expect_font_defaults(font, 'Pacifico, "Sans Serif"')
+  font <- font_collection(font_google("Pacifico", local = FALSE), "Sans Serif")
+  expect_font_defaults(font, '"Pacifico", "Sans Serif"')
   expect_new_dependencies(font)
 
-  font <- c(font, list(font_link("foo", "bar")))
-  expect_font_defaults(font, 'Pacifico, "Sans Serif", foo')
+  font <- font_collection(font, font_link("foo", "bar"))
+  expect_font_defaults(font, '"Pacifico", "Sans Serif", "foo"')
   expect_new_dependencies(font, n = 2)
 
-  font <- c(font, list(font_face("foo bar", "baz")))
-  expect_font_defaults(font, 'Pacifico, "Sans Serif", foo, "foo bar"')
+  font <- font_collection(font, font_face("foo bar", "baz"))
+  expect_font_defaults(font, '"Pacifico", "Sans Serif", "foo", "foo bar"')
   expect_new_dependencies(font, n = 3)
 })
 

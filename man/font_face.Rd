@@ -4,6 +4,7 @@
 \alias{font_face}
 \alias{font_link}
 \alias{font_google}
+\alias{font_collection}
 \title{Helpers for importing web fonts}
 \description{
 \code{font_google()}, \code{font_link()}, and \code{font_face()} are all re-exported from
