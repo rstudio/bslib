@@ -25,8 +25,11 @@ ul.nav.navbar-nav {
   -webkit-flex: 1;
   &.navbar-right {
     flex: unset;
+    -webkit-flex: unset;
     display: flex;
+    display: -webkit-flex;
     justify-content: flex-end;
+    -webkit-justify-content: flex-end;
   }
 }
 
