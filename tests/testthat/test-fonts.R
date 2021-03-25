@@ -20,6 +20,7 @@ expect_new_dependencies <- function(input, n = 1) {
   heading <- bs_theme_dependencies(
     bs_theme_update(theme, heading_font = input)
   )
+  if (n_default + n != length(base)) browser()
   expect_equal(n_default + n, length(base))
   expect_equal(n_default + n, length(code))
   expect_equal(n_default + n, length(heading))
@@ -33,9 +34,9 @@ test_that("Strings are quoted, if needed", {
 })
 
 test_that("Lists are collapsed into quoted strings", {
-  expect_font_defaults(list("foo-bar"), '"foo-bar"')
-  expect_font_defaults(list("foo-bar", "foo bar"), '"foo-bar", "foo bar"')
-  expect_font_defaults(list("foo-bar", '"foo bar", baz'), '"foo-bar", "foo bar", "baz"')
+  expect_font_defaults(list("foo-bar"), "foo-bar")
+  expect_font_defaults(list("foo-bar", "foo bar"), 'foo-bar, "foo bar"')
+  expect_font_defaults(list("foo-bar", '"foo bar", baz'), 'foo-bar, "foo bar", baz')
 })
 
 test_that("Single font objects set defaults and add dependencies", {
@@ -53,15 +54,15 @@ test_that("Single font objects set defaults and add dependencies", {
 
 test_that("Mix of font objects and character strings", {
   font <- font_collection(font_google("Pacifico", local = FALSE), "Sans Serif")
-  expect_font_defaults(font, '"Pacifico", "Sans Serif"')
+  expect_font_defaults(font, 'Pacifico, "Sans Serif"')
   expect_new_dependencies(font)
 
   font <- font_collection(font, font_link("foo", "bar"))
-  expect_font_defaults(font, '"Pacifico", "Sans Serif", "foo"')
+  expect_font_defaults(font, 'Pacifico, "Sans Serif", foo')
   expect_new_dependencies(font, n = 2)
 
   font <- font_collection(font, font_face("foo bar", "baz"))
-  expect_font_defaults(font, '"Pacifico", "Sans Serif", "foo", "foo bar"')
+  expect_font_defaults(font, 'Pacifico, "Sans Serif", foo, "foo bar"')
   expect_new_dependencies(font, n = 3)
 })
 

@@ -200,33 +200,20 @@ bs3_accent_colors <- function(args) {
 
 bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   assert_bs_theme(theme)
-  args <- list(
+  args <- dropNulls(list(
     base = base,
     code = code,
     heading = heading
-  )
-  args <- lapply(args, prepare_font_arg)
+  ))
+  args <- lapply(args, as_font_collection)
   switch_add_variables(theme, args, three = bs3_fonts, default = bs4_fonts)
 }
 
-prepare_font_arg <- function(x) {
-  if (is.null(x)) {
-    return(NULL)
-  }
-  # sass::font_collection handles quoting
+as_font_collection <- function(x) {
   if (sass::is_font_collection(x)) {
     return(x)
   }
-  # Unquote strings and provide to font_collection()
-  if (is.character(x)) {
-    families <- strsplit(x, ",\\s*")[[1]]
-    families <- gsub("'", "", gsub('"', "", families))
-    return(do.call(sass::font_collection, as.list(families)))
-  }
-  if (is.list(x)) {
-    # TODO: have special awareness of named lists (e.g., font_base = list(google = list(family = "Pacifico")) => font_base = font_google("Pacifico")?)
-    do.call(sass::font_collection, lapply(x, prepare_font_arg))
-  }
+  do.call(sass::font_collection, as.list(x))
 }
 
 
