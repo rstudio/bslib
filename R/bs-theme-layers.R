@@ -95,14 +95,27 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
 # searches each variable's expression for a !default flag,
 # and if missing, adds it.
 ensure_default_flag <- function(x) {
-  lapply(x, function(val) {
-    val <- paste(as_sass(val), collapse = "\n")
-    if (grepl("!default\\s*;*\\s*$", val)) {
-      val
-    } else {
-      paste(sub(";+$", "", val), "!default")
+  Map(
+    x, rlang::names2(x),
+    f = function(val, nm) {
+      # sass::font_collection() has it's own default_flag, so warn if they conflict
+      if (sass::is_font_collection(val)) {
+        if (identical(val$default_flag, FALSE)) {
+          message(
+            "Ignoring `bs_add_variables()`'s `.default_flag = TRUE` for ",
+            "the ", nm, " variable (since it has it's own `default_flag`)."
+          )
+        }
+        return(val)
+      }
+      val <- paste(as_sass(val), collapse = "\n")
+      if (grepl("!default\\s*;*\\s*$", val)) {
+        val
+      } else {
+        paste(sub(";+$", "", val), "!default")
+      }
     }
-  })
+  )
 }
 
 #' @describeIn bs_bundle Add additional [Sass rules](https://sass-lang.com/documentation/style-rules)
