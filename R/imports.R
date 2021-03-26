@@ -69,18 +69,20 @@ NULL
 #' }
 NULL
 
-
 #' @importFrom sass font_link
+#' @export font_link
+#' @name font_link
 #' @rdname font_face
-#' @export
-sass::font_link
+NULL
 
 #' @importFrom sass font_google
+#' @export font_google
+#' @name font_google
 #' @rdname font_face
-#' @export
-sass::font_google
+NULL
 
 #' @importFrom sass font_collection
+#' @export font_collection
+#' @name font_collection
 #' @rdname font_face
-#' @export
-sass::font_collection
+NULL
