@@ -317,7 +317,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   if (!grepl("rem$", themer_vals[["font-size-base"]])) {
     stop("font-size-base must have a CSS unit length type of rem", call. = FALSE)
   }
-  themer_vals[["font-size-base"]] <- sub("rem$", "", themer_vals[["font-size-base"]])
+  themer_vals[["font-size-base"]] <- as.numeric(sub("rem$", "", themer_vals[["font-size-base"]]))
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals))
 
   input <- session$input
@@ -363,10 +363,11 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     }
 
     # Remember, theme at this point has been updated to reflect the current Bootswatch theme
-    changed_vals <- as.list(diff_css_values(
-      vals[sass_vars],
-      bs_get_variables(theme, names(vals[sass_vars]))
-    ))
+    theme_vals <- bs_get_variables(theme, names(vals[sass_vars]))
+    # Themer control for font-size-base is unitless
+    theme_vals[["font-size-base"]] <- sub("rem$", "", theme_vals[["font-size-base"]])
+    # Get the changed values
+    changed_vals <- as.list(diff_css_values(vals[sass_vars], theme_vals))
 
     if (!identical(bootswatch, input$bs_theme_bootswatch)) {
       changed_vals$bootswatch <- input$bs_theme_bootswatch
@@ -386,7 +387,6 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       "font-size-base" = "font_size"
     )
 
-    # TODO: why does font_size always get relayed?
     if (length(changed_vals$font_size)) {
       changed_vals$font_size <- as.numeric(changed_vals$font_size)
     }
@@ -409,11 +409,17 @@ set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
   message("--------------------")
   # Construct the code/yaml to display to the user
   if (isTRUE(rmd)) {
+    display_vals <- lapply(changed_vals, function(x) {
+      if (!rlang::is_call(x)) {
+        return(x)
+      }
+      paste("!expr", deparse(x))
+    })
     cat(paste0(
       "theme:\n",
       paste0(
-        collapse = "\n", "  ", names(changed_vals), ": ",
-        ifelse(grepl("#", changed_vals), paste0("'", changed_vals, "'"), changed_vals)
+        collapse = "\n", "  ", names(display_vals), ": ",
+        ifelse(grepl("#", display_vals), paste0("'", display_vals, "'"), display_vals)
       ),
       "\n"
     ))
