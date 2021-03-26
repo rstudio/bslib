@@ -27,8 +27,8 @@ download_and_copy_fonts <-  function(theme) {
   }
   web_font_url <- gsub('(^")|("$)', '', web_font_url)
   css_file <- file.path(theme, "font.css")
-  css <- read_gfont_url(web_font_url, css_file)
-  urls <- extract_group(css, "url\\(([^)]+)")
+  css <- sass:::read_gfont_url(web_font_url, css_file)
+  urls <- sass:::extract_group(css, "url\\(([^)]+)")
   basenames <- basename(urls)
   Map(function(url, nm) {
     download_file(url, file.path(fonts_home, nm))
