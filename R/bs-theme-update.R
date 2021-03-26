@@ -111,7 +111,8 @@ bs3_base_colors <- function(args) {
   )
 
   # There's code in tools/bs3_theme_base_colors.R for generating this list.
-  color_mapping <- list(`dropdown-caret-color` = "$gray-base", `tooltip-bg` = "$gray-base",
+  color_mapping <- list(
+    `dropdown-caret-color` = "$gray-base", `tooltip-bg` = "$gray-base",
     `modal-backdrop-bg` = "$gray-base", `close-color` = "$gray-base",
     `navbar-inverse-bg` = "$gray-darker", `btn-default-color` = "$gray-dark",
     `navbar-default-link-hover-color` = "$gray-dark", `navbar-inverse-toggle-hover-bg` = "$gray-dark",
@@ -135,24 +136,24 @@ bs3_base_colors <- function(args) {
     `table-bg-hover` = "$gray-f5", `dropdown-link-hover-bg` = "$gray-f5",
     `progress-bg` = "$gray-f5", `list-group-hover-bg` = "$gray-f5",
     `panel-footer-bg` = "$gray-f5", `panel-default-heading-bg` = "$gray-f5",
-    `well-bg` = "$gray-f5", `breadcrumb-bg` = "$gray-f5", `pre-bg` = "$gray-f5",
-    `navbar-default-bg` = "$gray-f8", `table-bg-accent` = "$gray-f9",
-    `body-bg` = "$white", `component-active-color` = "$white",
-    `btn-default-bg` = "$white", `btn-primary-color` = "$white",
-    `btn-success-color` = "$white", `btn-info-color` = "$white",
-    `btn-warning-color` = "$white", `btn-danger-color` = "$white",
-    `input-bg` = "$white", `dropdown-bg` = "$white", `navbar-inverse-link-hover-color` = "$white",
-    `navbar-inverse-brand-hover-color` = "$white", `navbar-inverse-toggle-icon-bar-bg` = "$white",
-    `pagination-bg` = "$white", `pagination-active-color` = "$white",
-    `pagination-disabled-bg` = "$white", `tooltip-color` = "$white",
-    `popover-bg` = "$white", `label-color` = "$white", `label-link-hover-color` = "$white",
-    `modal-content-bg` = "$white", `progress-bar-color` = "$white",
-    `list-group-bg` = "$white", `panel-bg` = "$white", `panel-primary-text` = "$white",
-    `badge-color` = "$white", `badge-link-hover-color` = "$white",
-    `badge-active-bg` = "$white", `carousel-control-color` = "$white",
-    `carousel-indicator-active-bg` = "$white", `carousel-indicator-border-color` = "$white",
-    `carousel-caption-color` = "$white", `close-text-shadow` = "$white",
-    `kbd-color` = "$white")
+    `well-bg` = "$gray-f5", `breadcrumb-bg` = "$gray-f5", `code-bg` = "$gray-f5",
+    `pre-bg` = "$gray-f5", `navbar-default-bg` = "$gray-f8",
+    `table-bg-accent` = "$gray-f9", `body-bg` = "$white", `btn-default-bg` = "$white",
+    `btn-primary-color` = "$white", `btn-success-color` = "$white",
+    `btn-info-color` = "$white", `btn-warning-color` = "$white",
+    `btn-danger-color` = "$white", `input-bg` = "$white", `dropdown-bg` = "$white",
+    `navbar-inverse-link-hover-color` = "$white", `navbar-inverse-brand-hover-color` = "$white",
+    `navbar-inverse-toggle-icon-bar-bg` = "$white", `pagination-bg` = "$white",
+    `pagination-active-color` = "$white", `pagination-disabled-bg` = "$white",
+    `tooltip-color` = "$white", `popover-bg` = "$white", `label-color` = "$white",
+    `label-link-hover-color` = "$white", `modal-content-bg` = "$white",
+    `progress-bar-color` = "$white", `list-group-bg` = "$white",
+    `panel-bg` = "$white", `panel-primary-text` = "$white", `badge-color` = "$white",
+    `badge-link-hover-color` = "$white", `badge-active-bg` = "$white",
+    `carousel-control-color` = "$white", `carousel-indicator-active-bg` = "$white",
+    `carousel-indicator-border-color` = "$white", `carousel-caption-color` = "$white",
+    `close-text-shadow` = "$white", `kbd-color` = "$white"
+  )
 
   results <- c(result_colors, color_mapping)
 
