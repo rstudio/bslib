@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import web fonts into a bs_theme() — font_face • bslib</title>
+<title>Helpers for importing web fonts — font_face • bslib</title>
 
 
 <!-- jquery -->
@@ -47,12 +47,11 @@
 
 
 
-<meta property="og:title" content="Import web fonts into a bs_theme() — font_face" />
-<meta property="og:description" content="When used with any of the main font settings in bs_theme() (e.g.,
-base_font, code_font, heading_font), these font objects ensure relevant
-font file resources are included with the theme. A particular font object should
-define an single font family --- if you need multiple families, a list() of
-font objects may be provided to bs_theme()." />
+<meta property="og:title" content="Helpers for importing web fonts — font_face" />
+<meta property="og:description" content="font_google(), font_link(), and font_face() are all re-exported from
+the sass package (see sass::font_face() for details). For a quick
+example of how to use these functions with bs_theme(), see the
+examples section below." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -150,143 +149,20 @@ font objects may be provided to bs_theme()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Import web fonts into a <code><a href='bs_theme.html'>bs_theme()</a></code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/fonts.R'><code>R/fonts.R</code></a></small>
+    <h1>Helpers for importing web fonts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/imports.R'><code>R/imports.R</code></a></small>
     <div class="hidden name"><code>font_face.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>When used with any of the main font settings in <code><a href='bs_theme.html'>bs_theme()</a></code> (e.g.,
-<code>base_font</code>, <code>code_font</code>, <code>heading_font</code>), these font objects ensure relevant
-font file resources are included with the theme. A particular font object should
-define an single font <code>family</code> --- if you need multiple families, a <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> of
-font objects may be provided to <code><a href='bs_theme.html'>bs_theme()</a></code>.</p>
+    <p><code>font_google()</code>, <code>font_link()</code>, and <code>font_face()</code> are all re-exported from
+the <span class="pkg">sass</span> package (see <code><a href='https://rdrr.io/pkg/sass/man/font_face.html'>sass::font_face()</a></code> for details). For a quick
+example of how to use these functions with <code><a href='bs_theme.html'>bs_theme()</a></code>, see the
+examples section below.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>font_face</span><span class='op'>(</span>
-  <span class='va'>family</span>,
-  <span class='va'>src</span>,
-  weight <span class='op'>=</span> <span class='cn'>NULL</span>,
-  style <span class='op'>=</span> <span class='cn'>NULL</span>,
-  display <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"swap"</span>, <span class='st'>"auto"</span>, <span class='st'>"block"</span>, <span class='st'>"fallback"</span>, <span class='st'>"optional"</span><span class='op'>)</span>,
-  stretch <span class='op'>=</span> <span class='cn'>NULL</span>,
-  variant <span class='op'>=</span> <span class='cn'>NULL</span>,
-  unicode_range <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span>
-
-<span class='fu'>font_link</span><span class='op'>(</span><span class='va'>family</span>, <span class='va'>href</span><span class='op'>)</span>
-
-<span class='fu'>font_google</span><span class='op'>(</span>
-  <span class='va'>family</span>,
-  local <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  cache <span class='op'>=</span> <span class='fu'>sass_file_cache</span><span class='op'>(</span>dir <span class='op'>=</span> <span class='fu'>cache_context_dir</span><span class='op'>(</span><span class='op'>)</span>, max_size <span class='op'>=</span> <span class='fl'>100</span> <span class='op'>*</span> <span class='fl'>1024</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>,
-  wght <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ital <span class='op'>=</span> <span class='cn'>NULL</span>,
-  display <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"swap"</span>, <span class='st'>"auto"</span>, <span class='st'>"block"</span>, <span class='st'>"fallback"</span>, <span class='st'>"optional"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>family</th>
-      <td><p>A character string with a <em>single</em> font family name.</p></td>
-    </tr>
-    <tr>
-      <th>src</th>
-      <td><p>A character vector for the <code>src</code> <code>@font-face</code> property. Beware
-that is character strings are taken verbatim, so careful quoting and/or URL
-encoding may be required.</p></td>
-    </tr>
-    <tr>
-      <th>weight</th>
-      <td><p>A character (or numeric) vector for the <code>font-weight</code>
-<code>@font-face</code> property.</p></td>
-    </tr>
-    <tr>
-      <th>style</th>
-      <td><p>A character vector for the <code>font-style</code> <code>@font-face</code> property.</p></td>
-    </tr>
-    <tr>
-      <th>display</th>
-      <td><p>the <code>font-display</code> <code>@font-face</code> property.</p></td>
-    </tr>
-    <tr>
-      <th>stretch</th>
-      <td><p>A character vector for the <code>font-stretch</code> <code>@font-face</code>
-property.</p></td>
-    </tr>
-    <tr>
-      <th>variant</th>
-      <td><p>A character vector for the <code>font-variant</code> <code>@font-face</code>
-property.</p></td>
-    </tr>
-    <tr>
-      <th>unicode_range</th>
-      <td><p>A character vector for <code>unicode-range</code> <code>@font-face</code>
-property.</p></td>
-    </tr>
-    <tr>
-      <th>href</th>
-      <td><p>A URL resource pointing to the font data.</p></td>
-    </tr>
-    <tr>
-      <th>local</th>
-      <td><p>Whether or not download and bundle local (woff) font files.</p></td>
-    </tr>
-    <tr>
-      <th>cache</th>
-      <td><p>A <code><a href='https://rdrr.io/pkg/sass/man/sass_file_cache.html'>sass::sass_file_cache()</a></code> object (or, more generally, a file
-caching class with <code>$get_file()</code> and <code>$set_file()</code> methods). Set this
-argument to <code>FALSE</code> or <code>NULL</code> to disable caching.</p></td>
-    </tr>
-    <tr>
-      <th>wght</th>
-      <td><p>One of the following:</p><ul>
-<li><p><code>NULL</code>, the default weight for the <code>family</code>.</p></li>
-<li><p>A character string defining an <a href='https://developers.google.com/fonts/docs/css2#axis_ranges'>axis range</a></p></li>
-<li><p>A numeric vector of desired font weight(s).</p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>ital</th>
-      <td><p>One of the following:</p><ul>
-<li><p><code>NULL</code>, the default <code>font-style</code> for the <code>family</code>.</p></li>
-<li><p><code>0</code>, meaning <code>font-style: normal</code></p></li>
-<li><p><code>1</code>, meaning <code>font-style: italic</code></p></li>
-<li><p><code><a href='https://rdrr.io/r/base/c.html'>c(0, 1)</a></code>, meaning both <code>normal</code> and <code>italic</code></p></li>
-</ul></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a list with a special class.</p>
-    <h2 class="hasAnchor" id="local-fonts"><a class="anchor" href="#local-fonts"></a>Local fonts</h2>
-
-    
 
 
-<p>With local (i.e., self-hosted) fonts, clients (i.e., end users) can render
-fonts without an internet connection. By default, <code>google_font()</code> will
-automatically download, cache, and serve font files locally. Non-Google fonts
-may also be served locally, but you'll have to download and serve local file
-using something like <code><a href='https://rdrr.io/pkg/shiny/man/resourcePaths.html'>shiny::addResourcePath()</a></code> (or similar) and provide the
-relevant files to a <code>font_face()</code> definiton.</p>
-    <h2 class="hasAnchor" id="remote-fonts"><a class="anchor" href="#remote-fonts"></a>Remote fonts</h2>
-
-    
-
-
-<p>With remotely hosted fonts, clients (i.e., end users) need an internet
-connection to render the fonts. Remote fonts can be implemented using
-<code>font_google(..., local = FALSE)</code> (hosted via Google), <code>font_link()</code> (hosted
-via <code>href</code> URL), or <code>font_face()</code> (hosted via <code>src</code> URL).</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face'>https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face</a></p>
-<p><a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts'>https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts</a></p>
-<p><a href='https://developers.google.com/fonts/docs/css2'>https://developers.google.com/fonts/docs/css2</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -319,7 +195,6 @@ via <code>href</code> URL), or <code>font_face()</code> (hosted via <code>src</c
 <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>
 <span class='op'>}</span>
-
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
