@@ -322,6 +322,9 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
   input <- session$input
 
+  # We emit different 'code' for runtime:shiny in Rmd
+  isRmd <- is_shiny_runtime()
+
   # When the bootswatch theme changes, update the themer's state to reflect
   # the new variable defaults. Note that we also update the "input theme",
   # and effectively throw out any other theming changes made (i.e., start from a new theme)
@@ -329,11 +332,14 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # consequence of a new bootswatch value
   shiny::observeEvent(input$bs_theme_bootswatch, {
     theme <<- set_current_theme(
-      theme, list(bootswatch = input$bs_theme_bootswatch), session
+      theme, list(bootswatch = input$bs_theme_bootswatch),
+      session, rmd = isRmd
     )
     vals <- as.list(bs_get_variables(theme, sass_vars))
     session$sendCustomMessage("bs-themer-bootswatch", list(values = vals))
   })
+
+
 
   # Fires when anything other then the Bootswatch theme changes
   shiny::observeEvent(input$bs_theme_vars, {
@@ -380,6 +386,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       "font-size-base" = "font_size"
     )
 
+    # TODO: why does font_size always get relayed?
     if (length(changed_vals$font_size)) {
       changed_vals$font_size <- as.numeric(changed_vals$font_size)
     }
@@ -390,18 +397,29 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       }
     }
 
-    set_current_theme(theme, changed_vals, session)
+    set_current_theme(theme, changed_vals, session, rmd = isRmd)
   })
 }
 
 
-set_current_theme <- function(theme, changed_vals, session) {
+set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
   shiny::insertUI("body", ui = spinner_overlay(), immediate = TRUE, session = session)
   on.exit(shiny::removeUI("body > #spinner_overlay"), add = TRUE)
 
   message("--------------------")
-  code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
-  print(code)
+  # Construct the code/yaml to display to the user
+  if (isTRUE(rmd)) {
+    cat(paste0(
+      "theme:\n",
+      paste0(
+        collapse = "\n", "  ", names(changed_vals), ": ",
+        ifelse(grepl("#", changed_vals), paste0("'", changed_vals, "'"), changed_vals)
+      ),
+      "\n"
+    ))
+  } else {
+    print(rlang::expr(bs_theme_update(theme, !!!changed_vals)))
+  }
   # the actual code that we evaluate should not have quoted expressions
   changed_vals[] <- lapply(changed_vals, eval_val)
   code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
