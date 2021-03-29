@@ -5,6 +5,7 @@ output:
   html_document:
     code_folding: show
     theme:
+      color-contrast-warnings: false
       bg: "#202123"
       fg: "#B8BCC2"
       primary: "#EA80FC"
@@ -23,7 +24,7 @@ if (requireNamespace("thematic"))
 
 ## R Markdown
 
-This is an R Markdown document themed with [`{bslib}` package](https://rstudio.github.io/bslib/). `{bslib}` makes it easy to customize the main colors and fonts of a `html_document`, [`flexdashboard::flex_dashboard`](https://flexdashboard-pkg.netlify.app/articles/articles/theme.html), [shiny::fluidPage()](https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html), or more generally any website that uses [Bootstrap](https://getbootstrap.com/) for styling. The `theme` parameter in the yaml front-matter of this Rmd document describes a [`bslib::bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html) object, which provides 100s of [theming options](https://rstudio.github.io/bslib/articles/bs4-variables.html) in addition to the main options demonstrated here.
+This is an R Markdown document themed with [`{bslib}` package](https://rstudio.github.io/bslib/). `{bslib}` makes it easy to customize the main colors and fonts of a `html_document`, [`flexdashboard::flex_dashboard`](https://flexdashboard-pkg.netlify.app/articles/articles/theme.html), [shiny::fluidPage()](https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html), or more generally any website that uses [Bootstrap](https://getbootstrap.com/) for styling. The `theme` parameter in the yaml front-matter of this Rmd document describes a [`bslib::bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html) object, which provides access to 100s of [theming options](https://rstudio.github.io/bslib/articles/bs4-variables.html) (via its `...` argument) in addition to the main options demonstrated here (e.g., `bg`, `fg`, `primary`, etc).
 
 This document also uses [`runtime: shiny`](https://shiny.rstudio.com/articles/interactive-docs.html) to call [`bslib::bs_themer()`](https://rstudio.github.io/bslib/reference/run_with_themer.html) which overlays a "real-time" theming widget for interactively customizing main theme settings.
 
