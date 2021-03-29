@@ -8,7 +8,6 @@ output:
       fg: "#B8BCC2"
       primary: "#EA80FC"
       secondary: "#00DAC6"
-      font_size: 1.25
       base_font:
         google: Prompt
       heading_font:

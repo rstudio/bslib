@@ -8,12 +8,10 @@ output:
       fg: "#B8BCC2"
       primary: "#EA80FC"
       secondary: "#00DAC6"
-      font_size: 0.9
       base_font:
         google: Prompt
       heading_font:
         google: Proza Libre
-      version: 4
 ---
 
 ```{r setup, include=FALSE}
@@ -25,8 +23,7 @@ if (requireNamespace("thematic"))
 
 This is an R Markdown document themed with [`{bslib}` package](https://rstudio.github.io/bslib/). `{bslib}` makes it easy to customize the main colors and fonts of a `html_document`, [`flexdashboard::flex_dashboard`](https://flexdashboard-pkg.netlify.app/articles/articles/theme.html), [shiny::fluidPage()](https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html), or more generally any website that uses [Bootstrap](https://getbootstrap.com/) for styling. The `theme` parameter in the yaml front-matter of this Rmd document describes a [`bslib::bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html) object, which provides 100s of [theming options](https://rstudio.github.io/bslib/articles/bs4-variables.html) in addition to the main options demonstrated here.
 
-
-This particular example uses Bootstrap 4 (`version: 4`), which is primarily for new documents that don't already depend on Bootstrap 3 functionality.
+This particular example uses the latest Bootstrap version, which is intended for  new documents that don't contain custom HTML, CSS, or Sass code. When adding custom HTML, CSS, Sass, or other [theming options](https://rstudio.github.io/bslib/articles/bs4-variables.html), consider "pinning" the Bootstrap version (e.g., `theme: version: 4`)
 
 ## Themed Plots {.tabset .tabset-pills}
 
