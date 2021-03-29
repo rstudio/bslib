@@ -339,8 +339,6 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     session$sendCustomMessage("bs-themer-bootswatch", list(values = vals))
   })
 
-
-
   # Fires when anything other then the Bootswatch theme changes
   shiny::observeEvent(input$bs_theme_vars, {
     vals <- jsonlite::parse_json(input$bs_theme_vars)

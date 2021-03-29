@@ -1,11 +1,19 @@
 # bslib 0.2.4.9000
 
+## New features and improvements
+
+* Closed #251: New theming options (`navbar-bg`, `navbar-light-bg`, and `navbar-dark-bg`) for more easily customizing the navbar's background (and foreground) color (#253, #271).
+* Closed #281: New theming option (`font_size`) for easier customization of the base font size (#288).
+* Closed #256 and #282: Font file importers (`font_google()`, `font_link()`, and `font_face()`) are now re-exported from the `{sass}` package. As a result, these functions can now be used with any Sass variable as any Sass variable (see #282 for example usage) as well as inside Rmd yaml without `!expr` (see #256 for example usage). A new `font_collection()` function was also added for a more convenient way to specify font fallbacks (#291).
+* Closed #255: `bs_themer()` now emits sensible `yaml` front matter when used within an Rmd document (#288).
+* Closed #227: `bs_themer()` now overlays a spinner during Sass compilation (#243).
+* Closed #278: `{bslib}` now includes `rmarkdown::html_document` templates demonstrating example usage with `{bslib}` and `{thematic}` (#288).
 * Closed #231: Upgraded from Bootstrap 4.5.3 to 4.6.0 (#254).
-* Closed #251: Added new BS4 Sass variables, `$navbar-light-bg` and `$navbar-dark-bg`, for more easily customizing the navbar's background color (#253)
-* Closed #256 and #282: Font importing helpers (`font_google()`, `font_link()`, and `font_face()`) are now re-exported from the `{sass}` package (as well as a new `font_collection()` function for a more convenient way to specify font fallbacks). As a result, these functions can now be used with any Sass variable as any Sass variable (see #282 for example usage) as well as inside Rmd yaml without `!expr` (see #256 for example usage). (#291)
+
+## Bug fixes
+
 * Closed #236, #230, #242, #187, #215, #250: Addressed various cosmetic issues with CSS (#249). 
-* Closed #227: bs_themer() now overlays a spinner during Sass compilation (#243).
-* Closed #289: collapsed navbar toggle now correctly floats to the right (#290) 
+* Closed #289: collapsed navbar toggle now correctly floats to the right (#290).
 * Closed rstudio/flexdashboard#316: fixed an issue with navbar nav spacing/alignment (#286).
 
 # bslib 0.2.4
