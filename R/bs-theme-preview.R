@@ -404,24 +404,31 @@ set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
   shiny::insertUI("body", ui = spinner_overlay(), immediate = TRUE, session = session)
   on.exit(shiny::removeUI("body > #spinner_overlay"), add = TRUE)
 
-  message("--------------------")
+
   # Construct the code/yaml to display to the user
   if (isTRUE(rmd)) {
     display_vals <- lapply(changed_vals, function(x) {
-      if (!rlang::is_call(x)) {
+      if (is.numeric(x)) {
         return(x)
       }
-      paste("!expr", deparse(x))
+      if (rlang::is_call(x)) {
+        str <- paste0(deparse(x, width.cutoff = 500L), collapse = "")
+        return(paste("!expr", str))
+      }
+      # To avoid yaml parse errors with values that contain # or ",
+      # first escape ", then in quote the value
+      dQuote(gsub('"', '\\"', x, fixed = TRUE), FALSE)
     })
+    message("**** New yaml for the output format's theme  ****")
     cat(paste0(
-      "theme:\n",
+      "    theme:\n",
       paste0(
-        collapse = "\n", "  ", names(display_vals), ": ",
-        ifelse(grepl("#", display_vals), paste0("'", display_vals, "'"), display_vals)
+        collapse = "\n", "      ", names(display_vals), ": ", display_vals
       ),
       "\n"
     ))
   } else {
+    message("********************************************")
     print(rlang::expr(bs_theme_update(theme, !!!changed_vals)))
   }
   # the actual code that we evaluate should not have quoted expressions
@@ -482,7 +489,7 @@ insert_font_google_call <- function(val, gfont_info) {
   if (!nzchar(val)) return(NULL)
   fams <- strsplit(as.character(val), ",")[[1]]
   fams <- vapply(
-    fams, function(x) gsub("(^\\s*)|(\\s*$)|(')|(\")", "", x),
+    fams, function(x) gsub("^\\s*['\"]?", "", gsub("['\"]?\\s*$", "", x)),
     character(1), USE.NAMES = FALSE
   )
   fams <- fams[nzchar(fams)]
