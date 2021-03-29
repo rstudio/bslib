@@ -417,9 +417,9 @@ set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
       }
       # To avoid yaml parse errors with values that contain # or ",
       # first escape ", then in quote the value
-      dQuote(gsub('"', '\\"', x, fixed = TRUE), FALSE)
+      paste0('"', gsub('"', '\\"', x, fixed = TRUE), '"')
     })
-    message("**** New yaml for the output format's theme  ****")
+    message("\n####  Update your Rmd output format's theme:  ####")
     cat(paste0(
       "    theme:\n",
       paste0(
@@ -428,7 +428,7 @@ set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
       "\n"
     ))
   } else {
-    message("********************************************")
+    message("\n####  Update your bs_theme() R code with:  #####")
     print(rlang::expr(bs_theme_update(theme, !!!changed_vals)))
   }
   # the actual code that we evaluate should not have quoted expressions
