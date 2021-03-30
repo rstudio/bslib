@@ -53,7 +53,6 @@ Collate:
     'bs-theme-preview.R'
     'bs-theme-update.R'
     'bs-theme.R'
-    'data_gfont_info.R'
     'deprecated.R'
     'files.R'
     'imports.R'
