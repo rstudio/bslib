@@ -20,8 +20,17 @@
   @extend .sticky-top;
 }
 
-.navbar-nav.navbar-right {
-  margin-left: auto;
+ul.nav.navbar-nav {
+  flex: 1;
+  -webkit-flex: 1;
+  &.navbar-right {
+    flex: unset;
+    -webkit-flex: unset;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+  }
 }
 
 ul.nav.navbar-nav>li:not(.dropdown) {
@@ -74,6 +83,17 @@ ul.nav.navbar-nav>li>a {
     display: none;
     &:last-child {
       @extend .navbar-toggler-icon;
+    }
+  }
+}
+
+// Make sure navbar-toggle floats right when navbar is collapsed
+// https://github.com/rstudio/bslib/issues/289
+@include media-breakpoint-down(xs) {
+  .navbar-header {
+    width: 100%;
+    .navbar-toggle {
+      float: right;
     }
   }
 }

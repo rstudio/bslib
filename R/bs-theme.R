@@ -70,7 +70,7 @@
 #'  noticeable with remote web fonts on a slow internet connection.
 #'
 #'  ```
-#'  bs_theme(base_font = list(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
+#'  bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
 #'  ````
 #'
 #' @param version The major version of Bootstrap to use (see [versions()]
@@ -181,7 +181,6 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
     theme, primary = primary, secondary = secondary, success = success,
     info = info, warning = warning, danger = danger
   )
-  theme <- bs_font_dependencies(theme, base = base_font, code = code_font, heading = heading_font)
   theme <- bs_fonts(theme, base = base_font, code = code_font, heading = heading_font)
   bs_add_variables(theme, ...)
 }

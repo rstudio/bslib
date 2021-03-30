@@ -26,9 +26,22 @@ knitr::opts_chunk$set(
   message = FALSE
 )
 
+# Exclude all BS3 rules except for tables (for DT styling)
+exclude <- c(
+  '_normalize','_print', '_scaffolding', '_type', '_code',
+  '_grid', '_forms', '_buttons', '_component-animations', '_dropdowns',
+  '_button-groups', '_input-groups', '_navs', '_navbar', '_breadcrumbs',
+  '_pagination', '_pager', '_labels', '_badges', '_jumbotron', '_thumbnails',
+  '_alerts', '_progress-bars', '_media', '_list-group', '_panels', 
+  '_responsive-embed', '_wells', '_close', '_modals', '_tooltip', '_popovers', 
+  '_carousel', '_utilities', '_responsive-utilities'
+)
+
 htmltools::tagList(
   rmarkdown::html_dependency_font_awesome(),
-  rmarkdown::html_dependency_bootstrap("default")
+  bs_theme(version = 3) %>% 
+    bs_remove(exclude) %>% 
+    bs_theme_dependencies()
 )
 ```
 

@@ -22,7 +22,7 @@ Imports:
     grDevices,
     htmltools (>= 0.5.1),
     jsonlite,
-    sass (>= 0.3.0),
+    sass (>= 0.3.1.9001),
     digest (>= 0.6.25),
     jquerylib (>= 0.1.3),
     rlang,
@@ -53,15 +53,15 @@ Collate:
     'bs-theme-preview.R'
     'bs-theme-update.R'
     'bs-theme.R'
+    'data_gfont_info.R'
     'deprecated.R'
     'files.R'
-    'fonts.R'
     'imports.R'
     'onLoad.R'
     'precompiled.R'
     'shiny-devmode.R'
     'version-default.R'
     'versions.R'
-    'web-font.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
+Remotes: rstudio/sass

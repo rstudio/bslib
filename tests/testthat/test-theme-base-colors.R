@@ -141,7 +141,6 @@ test_that("bs_theme_fonts", {
         c(`font-family-base` = expected_result)
       )
     }
-
     expect_error(bs_fonts(theme, ""))
     expect_error(bs_fonts(theme, code = NA_character_))
     expect_error(bs_fonts(theme, heading = TRUE))

@@ -111,7 +111,8 @@ bs3_base_colors <- function(args) {
   )
 
   # There's code in tools/bs3_theme_base_colors.R for generating this list.
-  color_mapping <- list(`dropdown-caret-color` = "$gray-base", `tooltip-bg` = "$gray-base",
+  color_mapping <- list(
+    `dropdown-caret-color` = "$gray-base", `tooltip-bg` = "$gray-base",
     `modal-backdrop-bg` = "$gray-base", `close-color` = "$gray-base",
     `navbar-inverse-bg` = "$gray-darker", `btn-default-color` = "$gray-dark",
     `navbar-default-link-hover-color` = "$gray-dark", `navbar-inverse-toggle-hover-bg` = "$gray-dark",
@@ -135,24 +136,24 @@ bs3_base_colors <- function(args) {
     `table-bg-hover` = "$gray-f5", `dropdown-link-hover-bg` = "$gray-f5",
     `progress-bg` = "$gray-f5", `list-group-hover-bg` = "$gray-f5",
     `panel-footer-bg` = "$gray-f5", `panel-default-heading-bg` = "$gray-f5",
-    `well-bg` = "$gray-f5", `breadcrumb-bg` = "$gray-f5", `pre-bg` = "$gray-f5",
-    `navbar-default-bg` = "$gray-f8", `table-bg-accent` = "$gray-f9",
-    `body-bg` = "$white", `component-active-color` = "$white",
-    `btn-default-bg` = "$white", `btn-primary-color` = "$white",
-    `btn-success-color` = "$white", `btn-info-color` = "$white",
-    `btn-warning-color` = "$white", `btn-danger-color` = "$white",
-    `input-bg` = "$white", `dropdown-bg` = "$white", `navbar-inverse-link-hover-color` = "$white",
-    `navbar-inverse-brand-hover-color` = "$white", `navbar-inverse-toggle-icon-bar-bg` = "$white",
-    `pagination-bg` = "$white", `pagination-active-color` = "$white",
-    `pagination-disabled-bg` = "$white", `tooltip-color` = "$white",
-    `popover-bg` = "$white", `label-color` = "$white", `label-link-hover-color` = "$white",
-    `modal-content-bg` = "$white", `progress-bar-color` = "$white",
-    `list-group-bg` = "$white", `panel-bg` = "$white", `panel-primary-text` = "$white",
-    `badge-color` = "$white", `badge-link-hover-color` = "$white",
-    `badge-active-bg` = "$white", `carousel-control-color` = "$white",
-    `carousel-indicator-active-bg` = "$white", `carousel-indicator-border-color` = "$white",
-    `carousel-caption-color` = "$white", `close-text-shadow` = "$white",
-    `kbd-color` = "$white")
+    `well-bg` = "$gray-f5", `breadcrumb-bg` = "$gray-f5", `code-bg` = "$gray-f5",
+    `pre-bg` = "$gray-f5", `navbar-default-bg` = "$gray-f8",
+    `table-bg-accent` = "$gray-f9", `body-bg` = "$white", `btn-default-bg` = "$white",
+    `btn-primary-color` = "$white", `btn-success-color` = "$white",
+    `btn-info-color` = "$white", `btn-warning-color` = "$white",
+    `btn-danger-color` = "$white", `input-bg` = "$white", `dropdown-bg` = "$white",
+    `navbar-inverse-link-hover-color` = "$white", `navbar-inverse-brand-hover-color` = "$white",
+    `navbar-inverse-toggle-icon-bar-bg` = "$white", `pagination-bg` = "$white",
+    `pagination-active-color` = "$white", `pagination-disabled-bg` = "$white",
+    `tooltip-color` = "$white", `popover-bg` = "$white", `label-color` = "$white",
+    `label-link-hover-color` = "$white", `modal-content-bg` = "$white",
+    `progress-bar-color` = "$white", `list-group-bg` = "$white",
+    `panel-bg` = "$white", `panel-primary-text` = "$white", `badge-color` = "$white",
+    `badge-link-hover-color` = "$white", `badge-active-bg` = "$white",
+    `carousel-control-color` = "$white", `carousel-indicator-active-bg` = "$white",
+    `carousel-indicator-border-color` = "$white", `carousel-caption-color` = "$white",
+    `close-text-shadow` = "$white", `kbd-color` = "$white"
+  )
 
   results <- c(result_colors, color_mapping)
 
@@ -200,28 +201,22 @@ bs3_accent_colors <- function(args) {
 
 bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   assert_bs_theme(theme)
-
-  args <- list(
-    base = unlist(find_characters(base)),
-    code = unlist(find_characters(code)),
-    heading = unlist(find_characters(heading))
-  )
-  args <- lapply(args, quote_css_font_families)
+  args <- dropNulls(list(
+    base = base,
+    code = code,
+    heading = heading
+  ))
+  args <- lapply(args, as_font_collection)
   switch_add_variables(theme, args, three = bs3_fonts, default = bs4_fonts)
 }
 
-
-find_characters <- function(x) {
-  if (is.null(x)) return(NULL)
-  if (is_font_object(x)) return(x$family)
-  if (!is.list(x)) {
-    if (is.character(x) && !(anyNA(x) || any(!nzchar(x)))) {
-      return(x)
-    }
-    stop("Fonts must be a collection of non-empty character vector(s) and/or `font_face()`(s).")
+as_font_collection <- function(x) {
+  if (sass::is_font_collection(x)) {
+    return(x)
   }
-  lapply(x, find_characters)
+  do.call(sass::font_collection, as.list(x))
 }
+
 
 bs4_fonts <- function(args) {
   name_map <- c(
@@ -278,33 +273,6 @@ validate_and_normalize_colors <- function(args) {
   args
 }
 
-quote_css_font_families <- function(str) {
-  # This is pretty quick and dirty. I'd much prefer to do a full parse and I
-  # generally hate using heuristics to decide on matters of encoding, but
-  # both completely unquoted and fully quoted cases will be so common.
-
-  if (is.null(str)) {
-    return(NULL)
-  }
-
-  # Are there non-alpha, non-dash characters? If so, we may need to quote...
-  needs_quote <- grepl("[^A-Za-z\\-]", str, perl = TRUE)
-  # ...but don't quote if there's even a hit of quoting, or that an element
-  # might contain multiple font families already. We explicitly want to
-  # allow things like:
-  # c("Source Sans Pro", "-apple-system, BlinkMacSystemFont, \"Segoe UI\""),
-  # where the first element would be quoted but not the second. Of course this
-  # would be a problem if a single font family's name contained a quote, comma,
-  # or backslash, but that seems very unlikely.
-  is_quoted <- grepl("[,'\"\\\\]", str, perl = TRUE)
-
-  str <- ifelse(needs_quote & !is_quoted,
-    paste0("'", str, "'"),
-    str
-  )
-
-  paste(str, collapse = ", ")
-}
 
 #' Remove unsupported arguments, with a nicely formatted warning
 #'
