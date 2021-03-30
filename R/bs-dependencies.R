@@ -96,6 +96,18 @@ bs_theme_dependencies <- function(
 
   # If precompiled css not found, compile normally.
   if (is.null(out_file)) {
+
+    contrast_warn <- get_shiny_devmode_option(
+      "bslib.color_contrast_warnings",
+      default = FALSE,
+      devmode_default = TRUE,
+      devmode_message = paste(
+        "Enabling warnings about low color contrasts found inside `bslib::bs_theme()`.",
+        "To suppress these warnings, set `options(bslib.color_contrast_warnings = FALSE)`"
+      )
+    )
+    theme <- bs_add_variables(theme, "color-contrast-warnings" = contrast_warn)
+
     out_file <- sass(
       input = theme,
       options = sass_options,
