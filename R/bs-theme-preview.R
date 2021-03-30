@@ -404,7 +404,6 @@ set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
   shiny::insertUI("body", ui = spinner_overlay(), immediate = TRUE, session = session)
   on.exit(shiny::removeUI("body > #spinner_overlay"), add = TRUE)
 
-
   # Construct the code/yaml to display to the user
   if (isTRUE(rmd)) {
     display_vals <- lapply(changed_vals, function(x) {
