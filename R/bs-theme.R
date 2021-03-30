@@ -97,6 +97,9 @@
 #' @param base_font The default typeface.
 #' @param code_font The typeface to be used for code. Be sure this is monospace!
 #' @param heading_font The typeface to be used for heading elements.
+#' @param font_scale A scalar multiplier to apply to the base font size. For
+#'   example, a value of `1.5` scales font sizes to 150% and a value of `0.8`
+#'   scales to 80%. Must be a positive number.
 #'
 #' @return a [sass::sass_bundle()] (list-like) object.
 #'
@@ -130,7 +133,8 @@
 bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
                      bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
-                     base_font = NULL, code_font = NULL, heading_font = NULL) {
+                     base_font = NULL, code_font = NULL, heading_font = NULL,
+                     font_scale = NULL) {
   theme <- bs_bundle(
     bs_theme_init(version, bootswatch),
     bootstrap_bundle(version),
@@ -150,7 +154,8 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
     danger = danger,
     base_font = base_font,
     code_font = code_font,
-    heading_font = heading_font
+    heading_font = heading_font,
+    font_scale = font_scale
   )
 }
 
@@ -160,7 +165,8 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
 bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
                             primary = NULL, secondary = NULL, success = NULL,
                             info = NULL, warning = NULL, danger = NULL,
-                            base_font = NULL, code_font = NULL, heading_font = NULL) {
+                            base_font = NULL, code_font = NULL, heading_font = NULL,
+                            font_scale = NULL) {
   assert_bs_theme(theme)
 
   if (!is.null(bootswatch)) {
@@ -182,6 +188,14 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
     info = info, warning = warning, danger = danger
   )
   theme <- bs_fonts(theme, base = base_font, code = code_font, heading = heading_font)
+  if (!is.null(font_scale)) {
+    stopifnot(is.numeric(font_scale) && length(font_scale) == 1)
+    theme <- bs_add_variables(
+      theme, "font-size-base" = paste(
+        font_scale, "*", bs_get_variables(theme, "font-size-base")
+      )
+    )
+  }
   bs_add_variables(theme, ...)
 }
 

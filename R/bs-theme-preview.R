@@ -57,14 +57,14 @@ bs_themer_ui <- function(opts, vals) {
     value <- vals[[id]]
     lbl <- HTML(opts$label)
     desc <- HTML(opts$desc)
-    text_input <- function(input_class = NULL) {
+    text_input <- function(input_class = NULL, type = "text", ...) {
       div(
         class = "form-row form-group",
         tags$label(lbl),
         tags$input(
-          type = "text", value = value, "data-id" = id,
+          type = type, value = value, "data-id" = id,
           class = "form-control form-control-sm bs-theme-value",
-          class = input_class
+          class = input_class, ...
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
       )
@@ -74,6 +74,7 @@ bs_themer_ui <- function(opts, vals) {
       color = text_input(input_class = "bs-theme-value-color text-monospace"),
       str = text_input(input_class = "bs-theme-value-str"),
       length = text_input(input_class = "bs-theme-value-length"),
+      number = text_input(input_class = "bs-theme-value-str", type = "number", step = opts$step),
       bool = tagList(
         div(
           class = "form-check",
@@ -311,11 +312,14 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   themer_opts <- opts_metadata()
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
   sass_vars <- setdiff(themer_vars, "bootswatch")
-  themer_vals <- as.list(bs_get_variables(theme, sass_vars))
+  themer_vals <- as.list(get_themer_vals(theme, sass_vars))
   themer_vals$bootswatch <- bootswatch
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals))
 
   input <- session$input
+
+  # We emit different 'code' for runtime:shiny in Rmd
+  isRmd <- is_shiny_runtime()
 
   # When the bootswatch theme changes, update the themer's state to reflect
   # the new variable defaults. Note that we also update the "input theme",
@@ -324,7 +328,8 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # consequence of a new bootswatch value
   shiny::observeEvent(input$bs_theme_bootswatch, {
     theme <<- set_current_theme(
-      theme, list(bootswatch = input$bs_theme_bootswatch), session
+      theme, list(bootswatch = input$bs_theme_bootswatch),
+      session, rmd = isRmd
     )
     vals <- as.list(bs_get_variables(theme, sass_vars))
     session$sendCustomMessage("bs-themer-bootswatch", list(values = vals))
@@ -351,11 +356,11 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       return()
     }
 
-    # Remember, theme at this point has been updated to reflect the current Bootswatch theme
-    changed_vals <- as.list(diff_css_values(
-      vals[sass_vars],
-      bs_get_variables(theme, names(vals[sass_vars]))
-    ))
+    # Remember, theme at this point has been updated to reflect the current Bootswatch theme,
+    # so re-query Sass values from the (possibly updated) theme, then filter down to meaningful
+    # differences
+    theme_vals <- get_themer_vals(theme, names(vals[sass_vars]))
+    changed_vals <- as.list(diff_css_values(vals[sass_vars], theme_vals))
 
     if (!identical(bootswatch, input$bs_theme_bootswatch)) {
       changed_vals$bootswatch <- input$bs_theme_bootswatch
@@ -371,8 +376,13 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     changed_vals <- rename2(
       changed_vals,
       "font-family-base" = "base_font", "font-family-monospace" = "code_font",
-      "headings-font-family" = "heading_font"
+      "headings-font-family" = "heading_font",
+      "font-size-base" = "font_scale"
     )
+
+    if (length(changed_vals$font_scale)) {
+      changed_vals$font_scale <- as.numeric(changed_vals$font_scale)
+    }
 
     if (isTRUE(gfonts)) {
       for (var in c("base_font", "code_font", "heading_font")) {
@@ -380,22 +390,55 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       }
     }
 
-    set_current_theme(theme, changed_vals, session)
+    set_current_theme(theme, changed_vals, session, rmd = isRmd)
   })
 }
 
 
-set_current_theme <- function(theme, changed_vals, session) {
+get_themer_vals <- function(theme, vars) {
+  vals <- bs_get_variables(theme, vars)
+  if (!grepl("rem$", vals[["font-size-base"]])) {
+    stop("font-size-base must have a CSS unit length type of rem", call. = FALSE)
+  }
+  vals[["font-size-base"]] <- sub("rem$", "", vals[["font-size-base"]])
+  vals
+}
+
+set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
   shiny::insertUI("body", ui = spinner_overlay(), immediate = TRUE, session = session)
   on.exit(shiny::removeUI("body > #spinner_overlay"), add = TRUE)
+
+  # Construct the code/yaml to display to the user
+  if (isTRUE(rmd)) {
+    display_vals <- lapply(changed_vals, function(x) {
+      if (is.numeric(x)) {
+        return(x)
+      }
+      if (rlang::is_call(x)) {
+        str <- paste0(deparse(x, width.cutoff = 500L), collapse = "")
+        return(paste("!expr", str))
+      }
+      # To avoid yaml parse errors with values that contain # or ",
+      # first escape ", then in quote the value
+      paste0('"', gsub('"', '\\"', x, fixed = TRUE), '"')
+    })
+    message("\n####  Update your Rmd output format's theme:  ####")
+    cat(paste0(
+      "    theme:\n",
+      paste0(
+        collapse = "\n", "      ", names(display_vals), ": ", display_vals
+      ),
+      "\n"
+    ))
+  } else {
+    message("\n####  Update your bs_theme() R code with:  #####")
+    print(rlang::expr(bs_theme_update(theme, !!!changed_vals)))
+  }
 
   # Color contrast warnings are more annoying then they are useful inside the theming widget
   opts <- options(bslib.color_contrast_warnings = FALSE)
   on.exit(options(opts), add = TRUE)
 
-  message("--------------------")
-  code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
-  print(code)
   # the actual code that we evaluate should not have quoted expressions
   changed_vals[] <- lapply(changed_vals, eval_val)
   code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))
@@ -454,7 +497,7 @@ insert_font_google_call <- function(val, gfont_info) {
   if (!nzchar(val)) return(NULL)
   fams <- strsplit(as.character(val), ",")[[1]]
   fams <- vapply(
-    fams, function(x) gsub("(^\\s*)|(\\s*$)|(')|(\")", "", x),
+    fams, function(x) gsub("^\\s*['\"]?", "", gsub("['\"]?\\s*$", "", x)),
     character(1), USE.NAMES = FALSE
   )
   fams <- fams[nzchar(fams)]
@@ -594,7 +637,7 @@ diff_css_values <- function(a, b) {
   stopifnot(all(!is.na(a)))
   stopifnot(identical(names(a), names(b)))
   stopifnot(is.list(a))
-  stopifnot(is.character(b))
+  if(!is.character(b))browser()
 
   a_char <- vapply(a, function(x) {
     if (is.null(x) || isTRUE(is.na(x))) {

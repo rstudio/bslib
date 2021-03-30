@@ -20,7 +20,8 @@ bs_theme(
   danger = NULL,
   base_font = NULL,
   code_font = NULL,
-  heading_font = NULL
+  heading_font = NULL,
+  font_scale = NULL
 )
 
 bs_theme_update(
@@ -37,7 +38,8 @@ bs_theme_update(
   danger = NULL,
   base_font = NULL,
   code_font = NULL,
-  heading_font = NULL
+  heading_font = NULL,
+  font_scale = NULL
 )
 
 is_bs_theme(x)
@@ -80,6 +82,10 @@ Typically a shade of blue-green.}
 \item{code_font}{The typeface to be used for code. Be sure this is monospace!}
 
 \item{heading_font}{The typeface to be used for heading elements.}
+
+\item{font_scale}{A scalar multiplier to apply to the base font size. For
+example, a value of \code{1.5} scales font sizes to 150\% and a value of \code{0.8}
+scales to 80\%. Must be a positive number.}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
