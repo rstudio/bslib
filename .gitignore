@@ -12,3 +12,5 @@ inst/doc
 
 # yarn
 inst/yarn.lock
+
+inst/rmarkdown/templates/*/skeleton/skeleton.html
