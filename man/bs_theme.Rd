@@ -84,8 +84,8 @@ Typically a shade of blue-green.}
 \item{heading_font}{The typeface to be used for heading elements.}
 
 \item{font_scale}{A scalar multiplier to apply to the base font size. For
-example, a value of \code{1.5} increases font sizes by 150\% and a value of \code{0.8}
-decreases by 80\%. Must be a positive number.}
+example, a value of \code{1.5} scales font sizes to 150\% and a value of \code{0.8}
+scales to 80\%. Must be a positive number.}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
