@@ -382,11 +382,11 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       changed_vals,
       "font-family-base" = "base_font", "font-family-monospace" = "code_font",
       "headings-font-family" = "heading_font",
-      "font-size-base" = "font_size"
+      "font-size-base" = "font_scale"
     )
 
-    if (length(changed_vals$font_size)) {
-      changed_vals$font_size <- as.numeric(changed_vals$font_size)
+    if (length(changed_vals$font_scale)) {
+      changed_vals$font_scale <- as.numeric(changed_vals$font_scale)
     }
 
     if (isTRUE(gfonts)) {
