@@ -11,6 +11,7 @@ inst/lib/bsw3/.npmignore
 ^README\.Rmd$
 ^\.travis\.yml$
 docs
+sandbox
 ^_pkgdown\.yml$
 vignettes
 ^\.github$

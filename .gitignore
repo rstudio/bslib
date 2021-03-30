@@ -2,7 +2,7 @@
 .Rhistory
 .DS_Store
 docs/
-autocolors-demo/
+sandbox/
 inst/themer-demo/deploy/rsconnect
 
 # GHA remotes installation
