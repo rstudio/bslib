@@ -312,12 +312,8 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   themer_opts <- opts_metadata()
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
   sass_vars <- setdiff(themer_vars, "bootswatch")
-  themer_vals <- as.list(bs_get_variables(theme, sass_vars))
+  themer_vals <- as.list(get_themer_vals(theme, sass_vars))
   themer_vals$bootswatch <- bootswatch
-  if (!grepl("rem$", themer_vals[["font-size-base"]])) {
-    stop("font-size-base must have a CSS unit length type of rem", call. = FALSE)
-  }
-  themer_vals[["font-size-base"]] <- as.numeric(sub("rem$", "", themer_vals[["font-size-base"]]))
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals))
 
   input <- session$input
@@ -360,11 +356,10 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
       return()
     }
 
-    # Remember, theme at this point has been updated to reflect the current Bootswatch theme
-    theme_vals <- bs_get_variables(theme, names(vals[sass_vars]))
-    # Themer control for font-size-base is unitless
-    theme_vals[["font-size-base"]] <- sub("rem$", "", theme_vals[["font-size-base"]])
-    # Get the changed values
+    # Remember, theme at this point has been updated to reflect the current Bootswatch theme,
+    # so re-query Sass values from the (possibly updated) theme, then filter down to meaningful
+    # differences
+    theme_vals <- get_themer_vals(theme, names(vals[sass_vars]))
     changed_vals <- as.list(diff_css_values(vals[sass_vars], theme_vals))
 
     if (!identical(bootswatch, input$bs_theme_bootswatch)) {
@@ -399,6 +394,15 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   })
 }
 
+
+get_themer_vals <- function(theme, vars) {
+  vals <- bs_get_variables(theme, vars)
+  if (!grepl("rem$", vals[["font-size-base"]])) {
+    stop("font-size-base must have a CSS unit length type of rem", call. = FALSE)
+  }
+  vals[["font-size-base"]] <- sub("rem$", "", vals[["font-size-base"]])
+  vals
+}
 
 set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
   shiny::insertUI("body", ui = spinner_overlay(), immediate = TRUE, session = session)
@@ -633,7 +637,7 @@ diff_css_values <- function(a, b) {
   stopifnot(all(!is.na(a)))
   stopifnot(identical(names(a), names(b)))
   stopifnot(is.list(a))
-  stopifnot(is.character(b))
+  if(!is.character(b))browser()
 
   a_char <- vapply(a, function(x) {
     if (is.null(x) || isTRUE(is.na(x))) {
