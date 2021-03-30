@@ -98,8 +98,8 @@
 #' @param code_font The typeface to be used for code. Be sure this is monospace!
 #' @param heading_font The typeface to be used for heading elements.
 #' @param font_scale A scalar multiplier to apply to the base font size. For
-#'   example, a value of `1.5` increases font sizes by 150% and a value of `0.8`
-#'   decreases by 80%. Must be a positive number.
+#'   example, a value of `1.5` scales font sizes to 150% and a value of `0.8`
+#'   scales to 80%. Must be a positive number.
 #'
 #' @return a [sass::sass_bundle()] (list-like) object.
 #'

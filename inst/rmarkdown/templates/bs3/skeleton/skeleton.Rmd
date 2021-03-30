@@ -1,5 +1,5 @@
 ---
-title: "Theming with bslib and thematic"
+title: "Legacy theming with bslib and thematic"
 output: 
   html_document:
     code_folding: show
