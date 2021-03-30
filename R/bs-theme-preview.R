@@ -430,6 +430,11 @@ set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
     message("\n####  Update your bs_theme() R code with:  #####")
     print(rlang::expr(bs_theme_update(theme, !!!changed_vals)))
   }
+
+  # Color contrast warnings are more annoying then they are useful inside the theming widget
+  opts <- options(bslib.color_contrast_warnings = FALSE)
+  on.exit(options(opts), add = TRUE)
+
   # the actual code that we evaluate should not have quoted expressions
   changed_vals[] <- lapply(changed_vals, eval_val)
   code <- rlang::expr(bs_theme_update(theme, !!!changed_vals))

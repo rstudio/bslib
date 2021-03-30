@@ -15,6 +15,7 @@
 * Closed #236, #230, #242, #187, #215, #250: Addressed various cosmetic issues with CSS (#249). 
 * Closed #289: collapsed navbar toggle now correctly floats to the right (#290).
 * Closed rstudio/flexdashboard#316: fixed an issue with navbar nav spacing/alignment (#286).
+* Closed #279: Warnings about low color contrasts are now suppressed by default, unless `shiny::devmode()` is enabled. To enable/disable these warnings, set the new `options(bslib.color_contrast_warnings = )` to `TRUE`/`FALSE` (#287).
 
 # bslib 0.2.4
 
