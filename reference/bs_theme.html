@@ -223,7 +223,8 @@ the following common Bootstrap customization(s):</p><ul>
   danger <span class='op'>=</span> <span class='cn'>NULL</span>,
   base_font <span class='op'>=</span> <span class='cn'>NULL</span>,
   code_font <span class='op'>=</span> <span class='cn'>NULL</span>,
-  heading_font <span class='op'>=</span> <span class='cn'>NULL</span>
+  heading_font <span class='op'>=</span> <span class='cn'>NULL</span>,
+  font_scale <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span>
 
 <span class='fu'>bs_theme_update</span><span class='op'>(</span>
@@ -240,7 +241,8 @@ the following common Bootstrap customization(s):</p><ul>
   danger <span class='op'>=</span> <span class='cn'>NULL</span>,
   base_font <span class='op'>=</span> <span class='cn'>NULL</span>,
   code_font <span class='op'>=</span> <span class='cn'>NULL</span>,
-  heading_font <span class='op'>=</span> <span class='cn'>NULL</span>
+  heading_font <span class='op'>=</span> <span class='cn'>NULL</span>,
+  font_scale <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span>
 
 <span class='fu'>is_bs_theme</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
@@ -313,6 +315,12 @@ Typically a shade of blue-green.</p></td>
     <tr>
       <th>heading_font</th>
       <td><p>The typeface to be used for heading elements.</p></td>
+    </tr>
+    <tr>
+      <th>font_scale</th>
+      <td><p>A scalar multiplier to apply to the base font size. For
+example, a value of <code>1.5</code> scales font sizes to 150% and a value of <code>0.8</code>
+scales to 80%. Must be a positive number.</p></td>
     </tr>
     <tr>
       <th>theme</th>
