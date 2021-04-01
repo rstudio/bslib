@@ -7,7 +7,7 @@ utils::globalVariables("!!")
 #' @importFrom tools file_path_sans_ext
 #' @importFrom jquerylib jquery_core
 #' @importFrom jsonlite fromJSON
-#' @importFrom rlang :=
+#' @importFrom rlang := list2
 NULL
 
 #' Pipe operator
