@@ -1,0 +1,49 @@
+diff --git a/inst/lib/bsw/dist/flatly/_bootswatch.scss b/inst/lib/bsw/dist/flatly/_bootswatch.scss
+index 661e506..34b84c6 100644
+--- a/inst/lib/bsw/dist/flatly/_bootswatch.scss
++++ b/inst/lib/bsw/dist/flatly/_bootswatch.scss
+@@ -9,20 +9,8 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
+ 
+ // Navbar =======================================================================
+ 
+-.bg-primary {
+-  .navbar-nav .active > .nav-link {
+-    color: $success !important;
+-  }
+-}
+-
+-.bg-dark {
+-  &.navbar-dark .navbar-nav {
+-    .nav-link:focus,
+-    .nav-link:hover,
+-    .active > .nav-link {
+-      color: $primary !important;
+-    }
+-  }
++.navbar-brand {
++ color: $white !important; 
+ }
+ 
+ // Buttons =====================================================================
+diff --git a/inst/lib/bsw/dist/flatly/_variables.scss b/inst/lib/bsw/dist/flatly/_variables.scss
+index 76fce2d..6026acf 100755
+--- a/inst/lib/bsw/dist/flatly/_variables.scss
++++ b/inst/lib/bsw/dist/flatly/_variables.scss
+@@ -72,8 +72,16 @@ $nav-tabs-border-color:             $gray-200 !default;
+ // Navbar
+ 
+ $navbar-padding-y:                  1rem !default;
++
++$navbar-light-bg:                   $primary !default;
++$navbar-light-color:                $white !default;
++$navbar-light-hover-color:          $success !default;
++$navbar-light-active-color:         $success !default;
++
++$navbar-dark-bg:                    $secondary !default;
+ $navbar-dark-color:                 $white !default;
+-$navbar-dark-hover-color:           $success !default;
++$navbar-dark-hover-color:           $primary !default;
++$navbar-dark-active-color:          $primary !default;
+ 
+ // Pagination
+ 

@@ -72,8 +72,16 @@ $nav-tabs-border-color:             $gray-200 !default;
 // Navbar
 
 $navbar-padding-y:                  1rem !default;
+
+$navbar-light-bg:                   $primary !default;
+$navbar-light-color:                $white !default;
+$navbar-light-hover-color:          $success !default;
+$navbar-light-active-color:         $success !default;
+
+$navbar-dark-bg:                    $secondary !default;
 $navbar-dark-color:                 $white !default;
-$navbar-dark-hover-color:           $success !default;
+$navbar-dark-hover-color:           $primary !default;
+$navbar-dark-active-color:          $primary !default;
 
 // Pagination
 

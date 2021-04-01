@@ -476,8 +476,8 @@ bs3compat_navbar_defaults <- function(bootswatch) {
       inverse = c("light", "light")
     ),
     flatly = list(
-      default = c("dark", "primary"),
-      inverse = c("dark", "dark")
+      default = c("light", "primary"),
+      inverse = c("dark", "secondary")
     ),
     journal = list(
       default = c("light", "light"),
