@@ -18,15 +18,30 @@ development:
 
 navbar:
   type: default
-  left:
-  - text: Custom themes
-    href: articles/theming.html
-  - text: Theming variables
-    href: articles/bs4-variables.html
-  - text: Reference
+  structure:
+    left:  [intro, articles]
+    right: [reference, news, github]
+  articles:
+    text: Articles
+    menu:
+      - text: Custom theming
+        href: articles/theming.html
+      - text: BS4 theme options
+        href: articles/bs4-variables.html
+      - text: Real time theming
+        href: articles/real-time.html
+      - text: Supported extension packages
+        href: articles/packages.html
+  reference:
+    text: Reference
     href: reference/index.html
-  - text: News
+  news:
+    text: News
     href: news/index.html
+  github:
+    icon: fab fa-github fa-lg
+    href: https://github.com/rstudio/flexdashboard
+
 
 reference:
 - title: Theme creation

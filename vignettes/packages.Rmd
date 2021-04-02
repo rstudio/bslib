@@ -1,0 +1,53 @@
+---
+title: "Package integration"
+output: html_document
+---
+
+Many Shiny and R Markdown extension packages use Bootstrap as a foundation to power their functionality and styling. Some  
+
+### `{flexdashboard}`
+
+The development version of `{flexdashboard}` has full support for `{bslib}` theming. [See here](https://flexdashboard-pkg.netlify.app/articles/articles/theme.html) for usage details.
+
+```r
+remotes::install_github("rstudio/flexdashboard")
+```
+
+### `{pkgdown}`
+
+The development version of `{pkgdown}` has full support for `{bslib}` theming. [See here](https://pkgdown.r-lib.org/dev/articles/customization.html) for usage details.
+
+```r
+remotes::install_github("r-lib/pkgdown")
+```
+
+### `{bookdown}`
+
+The development version of `{pkgdown}` has support for Bootstrap 4 theming via `bookdown::bs4_book()`. [See here](https://pkgs.rstudio.com/bookdown/reference/bs4_book.html) for usage details.
+
+```r
+remotes::install_github("rstudio/bookdown")
+```
+
+
+### `{shinydashboard}`
+
+`{shinydashboard}` does not currently support `{bslib}`. A future version of `{bslib}` (or possibly a new package) will likely provide similar functionality to `{shinydashboard}`.
+
+
+
+
+### Does `{bslib}` work with other Rmd output formats?
+
+In general, `{bslib}` works with any output format that passes a `theme` argument through `rmarkdown::html_document_base`. For example, if you want to use Bootstrap 4 inside of `my_output_format` from `{mypkg}`, then do:
+
+````yaml
+---
+output:
+  mypkg::my_output_format:
+    theme: 
+      version: 4
+---
+````
+
+That being said, `{bslib}` can't magically fix additional CSS/JS bundled with custom output formats to be compatible with Bootstrap 4 and custom theming, so please [let us know](https://github.com/rstudio/bslib/issues/new) about output formats that should work better with `{bslib}`, and we'd be happy to work with the output author to improve the situation.

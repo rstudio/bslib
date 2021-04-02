@@ -1,0 +1,20 @@
+---
+title: "Real time theming"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For a quick sense of what `{bslib}` enables, call `bs_theme_preview()`, which launches a demo Shiny app (for a hosted version, [see here](https://testing-apps.shinyapps.io/themer-demo)) with various UI components. On top of the demo app is an interactive widget for changing some of [`{bslib}`'s theming options](#theming-options) in real-time. 
+
+
+The video below demonstrates how all these various UI components, even 3rd party components like `DT::datatable()`, are able to update their CSS styles in response to new theming options.
+
+For every interactive theming change, the widget sends R code to the console to replicate the current theme. That theming code can then be copy/pasted for use inside any [Shiny](#shiny-usage) app or [R Markdown](#r-markdown-usage) document.
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("themer-code.png")
+```
+
+To use this real-time theming widget inside your own Shiny apps, you must first [use a `bs_theme()`](#shiny-usage), then call [`bs_themer()`](https://rstudio.github.io/bslib/reference/run_with_themer.html) inside the server function. Somewhat similarly, for R Markdown documents, you must first [use a `bs_theme()`](#r-markdown-usage), then add `runtime: shiny` to the YAML matter, then finally call `bs_themer()` in a code chunk.

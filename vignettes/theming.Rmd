@@ -1,12 +1,5 @@
 ---
 title: "Custom themes"
-author: "Carson Sievert"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Custom themes}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 resource_files:
   - infobox.svg
   - warning.svg

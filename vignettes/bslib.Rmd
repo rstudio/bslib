@@ -1,0 +1,225 @@
+---
+title: "Get started"
+---
+
+## Shiny usage {#shiny-usage}
+
+To use `{bslib}` with Shiny, provide a `bs_theme()` object to the `theme` argument of the relevant page layout function, such as `navbarPage()` or `fluidPage()`:
+
+``` r
+library(shiny)
+ui <- navbarPage(
+  theme = bs_theme(),
+  ...
+)
+shinyApp(ui, function(...) {})
+```
+
+## Bootstrap versions {#versions}
+
+`bs_theme()` provides access to numerous Bootstrap versions via the `version` argument. At the time of writing, there is support for:
+
+* `bs_theme(version = 4)`: [Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/theming/), which is intended for new projects. 
+* `bs_theme(version = 3)`: [Bootstrap 3](https://getbootstrap.com/docs/3.4/), which is intended for legacy projects that happen to break with `version = 4`.
+
+By not specifying a `version`, `{bslib}` gives you the currently recommended version of Bootstrap for new projects. Currently Bootstrap 4 is recommended, but that will change to Bootstrap 5 in the near future, so it's best practice to "hard code" the version, especially for sophisticated projects that have custom HTML/CSS/etc.
+
+## R Markdown usage {#r-markdown-usage}
+
+Any R Markdown output format that uses `rmarkdown::html_document_base` as a foundation (e.g., `rmarkdown::html_document`, `flexdashboard::flex_dashboard`, etc) accepts arguments to `bslib::bs_theme()` via its `theme` parameter. For example, the YAML below requests the default Bootstrap 4 theme:
+
+``` yaml
+---
+output:
+  html_document:
+    theme:
+      version: 4
+---
+```
+
+The sections below have more Rmd `theme` examples, but you may also find some inside RStudio by going to File -> New File -> R Markdown -> From Template:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics("man/figures/rstudio-templates.png")
+```
+
+## Bootswatch themes {#bootswatch}
+
+Any Bootswatch [3](https://bootswatch.com/3/) or [4](https://bootswatch.com/) theme is available through `bs_theme()`'s `bootswatch` argument. You may already be familiar with using these "pre-packaged" themes via the  `{shinythemes}` package (or via the `theme` parameter in R Markdown). Those legacy approaches only provide Bootswatch 3 themes, but with `{bslib}`, you can use newer themes like [minty](https://bootswatch.com/minty).
+
+<div style="display:flex; justify-content:space-between">
+<div style="flex:1">
+```r
+# Shiny usage
+navbarPage(
+  theme = bs_theme(bootswatch = "minty"),
+  ...
+)
+```
+</div>
+<div style="flex:1">
+```r
+# R Markdown usage
+---
+output:
+  html_document:
+    theme:
+      bootswatch: minty
+---
+```
+</div>
+</div>
+
+```{r, echo = FALSE}
+knitr::include_graphics("man/figures/minty.png")
+```
+
+
+## Custom themes {#custom}
+
+In addition to `version` and `bootswatch`, `bs_theme()` has some other named arguments for customizing main colors and fonts. These named arguments are supported across Bootstrap `version`s, making them useful for both new and legacy projects. Here's an example of using a subset of these named arguments to implement a dark mode with custom fonts ([`font_google()`](https://rstudio.github.io/bslib/reference/font_face.html) downloads, caches, and serves font files so fonts "just work" anywhere -- even if the end user doesn't have an internet connection).
+
+<div style="display:flex; justify-content:space-between">
+<div style="flex:1">
+```r
+# Shiny usage
+navbarPage(
+  theme = bs_theme(
+    bg = "#101010", 
+    fg = "#FDF7F7", 
+    primary = "#ED79F9", 
+    base_font = font_google("Prompt"),
+    code_font = font_google("JetBrains Mono")
+  ),
+  ...
+)
+```
+</div>
+<div style="flex:1">
+```r
+# R Markdown usage
+---
+output:
+  html_document:
+    theme:
+      bg: "#101010"
+      fg: "#FDF7F7"
+      primary: "#ED79F9"
+      base_font:
+        google: "Prompt"
+      code_font:
+        google: "JetBrains Mono"
+---
+```
+</div>
+</div>
+
+```{r, echo = FALSE}
+knitr::include_graphics("man/figures/dark-mode.png")
+```
+
+## Real-time custom themes {#real-time}
+
+Use `bs_theme_preview()` (or `bs_themer()`) to create custom themes in "real-time" via an interactive theming widget. The former overlays the widget on a demo Shiny app ([see here](https://testing-apps.shinyapps.io/themer-demo) for a hosted version) whereas the latter may be used to themes any Shiny app or R Markdown document.
+
+```r
+bs_theme_preview()
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://i.imgur.com/KLKy1s0.gif")
+```
+
+`bs_theme_preview()` and `bs_themer()` also generate `{bslib}` code to reproduce the interactive. [See here](https://rstudio.github.io/bslib/articles/real-time.html) to learn more about the interactive themer.
+
+By the way, the part of the code that powers `bs_themer()` is also available to Shiny app developers through the `setCurrentTheme()` and `getCurrentTheme()` [session methods](https://shiny.rstudio.com/reference/shiny/1.6.0/session.html). This is useful for implementing a [dark mode switch](https://rstudio.github.io/bslib/articles/theming.html#dynamic-theming-in-shiny) for your app, or more generally, your own custom real-time theming widget.
+
+## More advanced theming
+
+### Targetted themes {#custom-advanced}
+
+`bs_theme()` also provides access to 100s of more specific theming options by considering anything passed through it's `...` argument to be a new [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/4.6/getting-started/theming/#variable-defaults). This allows you to do things like set Bootstrap 4's [`$progress-bar-bg`](https://rstudio.github.io/bslib/articles/bs4-variables.html#progress-bar-bg) to `orange`.
+
+<div style="display:flex; justify-content:space-between">
+<div style="flex:1">
+```r
+# Shiny usage
+bs_theme(
+  bg = "#002B36", fg = "#EEE8D5", 
+  "progress-bar-bg" = "orange"
+)
+```
+</div>
+<div style="flex:1">
+```r
+# R Markdown usage
+---
+output:
+  html_document:
+    theme:
+      bg: "#002B36" 
+      fg: "#EEE8D5"
+      progress-bar-bg: "orange"
+---
+```
+</div>
+</div>
+
+```{r, echo = FALSE}
+knitr::include_graphics("man/figures/progress-orange.png")
+```
+
+[See here](https://rstudio.github.io/bslib/articles/bs4-variables.html) for a searchable table of all the theming options and [here](https://rstudio.github.io/bslib/articles/theming.html#theming-variables) for a more details on customizing Bootstrap Sass variables in `{bslib}`.
+
+### Adding more rules
+
+A fair amount of theming is possible by customizing Bootstrap Sass variables in `bs_theme()`, but sometimes you may also want to add additional Sass/CSS rules. The `bs_add_rules()` function makes this easy for Shiny usage. Here's an example of adding [nes.css](https://github.com/nostalgic-css/NES.css/), which adds additional styles for things like the mouse cursor (on top of `bs_theme()`s theming options).
+
+```r
+bs_theme(
+  bg = "#e5e5e5", fg = "#0d0c0c", primary = "#dd2020",
+  base_font = font_google("Press Start 2P"),
+  code_font = font_google("Press Start 2P"),
+  "font-size-base" = "0.75rem", "enable-rounded" = FALSE
+) %>%
+  bs_add_rules(
+    '@import "https://unpkg.com/nes.css@latest/css/nes.min.css"'
+  )
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("man/figures/nes.png")
+```
+
+In the R Markdown case, it's recommended that additional CSS (or Sass) rules come through the `css` parameter, but you may also use the `bslib` engine. As with `bs_add_rules()`, these rules can reference Bootstrap Sass variables as well as utilize convenient Sass mixins or functions like [`color-contrast()`](https://github.com/rstudio/bslib/blob/c95d6b/inst/sass-utils/color-contrast.scss#L9), [`mix()`](https://sass-lang.com/documentation/modules/color#mix), etc.
+
+````
+---
+output:
+  html_document:
+    theme: 
+      version: 4
+    css: my-rules.scss
+---
+
+`r ''````{bslib}
+$custom-bg: rgba($primary, 0.3);
+.custom {
+  background-color: $custom-bg;
+  color: color-contrast(opaque($body-bg, $custom-bg))
+}
+```
+
+::: {.custom}
+Hello custom block with custom styles!
+:::
+
+````
+
+### Utility Classes
+
+Thanks to Bootstrap's Utility Classes, you can add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. [See here](https://rstudio.github.io/bslib/articles/theming.html#utility-classes-1) for some useful examples specific to Shiny and R Markdown as well as [here for the full list](https://getbootstrap.com/docs/4.4/utilities/borders/) of Bootstrap 4 Utility Classes.
+
+### Developing themable components
+
+Developers of Shiny input and output widgets who wish to make their custom widgets work seamlessly with custom `{bslib}` themes, [see here](https://rstudio.github.io/bslib/articles/theming.html#themeable-components).
