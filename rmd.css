@@ -102,6 +102,7 @@ a {
 p a {
   text-decoration: underline var(--pg-header) dotted;
   text-decoration-skip-ink: none;
+  text-decoration-thickness: from-font;
 }
 
 

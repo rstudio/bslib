@@ -61,6 +61,15 @@
     <loc>https://rstudio.github.io/bslib//articles/bs4-variables.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//articles/theming.html</loc>
+    <loc>https://rstudio.github.io/bslib//articles/bslib.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//articles/custom-components.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//articles/utility-classes.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//articles/why-sass.html</loc>
   </url>
 </urlset>
