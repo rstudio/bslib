@@ -129,6 +129,9 @@
 
 
 <!-- badges: end -->
+<style type="text/css">
+@media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}
+</style>
 <div id="bslib" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#bslib" class="anchor"></a>bslib</h1></div>
@@ -164,9 +167,8 @@
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic usage</h2>
 <p><code>bslib</code> is designed for use with any Shiny or R Markdown project that uses Bootstrap. In most cases, you can identify a project that uses Bootstrap when the relevant page constructor has a <code>theme</code> parameter. For example, most Shiny page layout functions (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>) and some popular R Markdown formats (e.g., <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html">rmarkdown::html_document</a></code>) all have a <code>theme</code> parameter.</p>
-<p>To use <code>bslib</code> in Shiny, provide a <code><a href="reference/bs_theme.html">bs_theme()</a></code> <em>object</em> to the <code>theme</code> parameter; and in R Markdown, provide <code><a href="reference/bs_theme.html">bs_theme()</a></code> <em>parameters</em> to <code>theme</code>. For example, here’s a way to upgrade Shiny and R Markdown from Bootstrap 3 to 4:</p>
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<p>To use <code>bslib</code> in Shiny, provide a <code><a href="reference/bs_theme.html">bs_theme()</a></code> <em>object</em> to the <code>theme</code> parameter; and in R Markdown, provide <code><a href="reference/bs_theme.html">bs_theme()</a></code> <em>parameters</em> to <code>theme</code>. For example, here’s a way to upgrade Shiny (left) and R Markdown (right) from Bootstrap 3 to 4:</p>
+<div class="usage">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/">shiny</a></span><span class="op">)</span>
 <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
@@ -174,15 +176,12 @@
   <span class="va">...</span>
 <span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></code></pre></div>
-</div>
-<div style="flex:1">
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">---</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>output<span class="op">:</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span>html_document<span class="op">:</span></span>
 <span id="cb5-4"><a href="#cb5-4"></a><span class="st">    </span>theme<span class="op">:</span></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="st">      </span>version<span class="op">:</span><span class="st"> </span><span class="dv">4</span></span>
 <span id="cb5-6"><a href="#cb5-6"></a><span class="op">---</span></span></code></pre></div>
-</div>
 </div>
 <p>See the <a href="https://rstudio.github.io/bslib/articles/bslib.html">Get Started</a> article to learn more about Bootstrap versions, pre-packaged Bootswatch themes, (real-time) custom theming, and more.</p>
 <p>To get started more quickly, choose a relevant R Markdown template from inside RStudio by going to File -&gt; New File -&gt; R Markdown -&gt; From Template:</p>

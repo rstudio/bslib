@@ -138,10 +138,10 @@
     
     
 <style type="text/css">
-div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;background-repeat:no-repeat;background-position:15px center;min-height:120px;color:#1f5386;background-color:#bed3ec;border:solid 5px #dfedff;background-image:url("infobox.svg")}div.info a{color:#e783b8}
+@media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;background-repeat:no-repeat;background-position:15px center;min-height:120px;color:#1f5386;background-color:#bed3ec;border:solid 5px #dfedff;background-image:url("infobox.svg")}div.info a{color:#e783b8}
 </style>
-<p>As we learned in <a href="https://rstudio.github.io/bslib/#usage">Basic usage</a>, any usage of <code>bslib</code> with Shiny and R Markdown is powered by <code><a href="../reference/bs_theme.html">bs_theme()</a></code>. Here you can pick a major Bootstrap <a href="#versions">version</a>, choose a pre-packaged <a href="#versions">Bootswatch</a> theme, and/or <a href="#custom">customize</a> various theming defaults. <code>bslib</code> even provides a interactive widget (<code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) to change some of <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s options <a href="#real-time">real-time</a>.</p>
-<p>In some more advanced cases, you might also want to know how to <a href="#add-rules">add additional CSS rules</a>, leverage <a href="#utility-classes">utility classes</a>, and <a href="#custom-components">develop custom (themeable) components</a>.</p>
+<p>As we learned in <a href="https://rstudio.github.io/bslib/#usage">Basic usage</a>, any usage of <code>bslib</code> with Shiny and R Markdown is powered by <code><a href="../reference/bs_theme.html">bs_theme()</a></code>. Here you can pick a major Bootstrap <a href="#versions">version</a>, choose a pre-packaged <a href="#bootswatch">Bootswatch</a> theme, and/or <a href="#custom">customize</a> various theming defaults. <code>bslib</code> even provides a interactive widget (<code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) to change some of <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s options <a href="#real-time">real-time</a>.</p>
+<p>In some more <a href="#advanced">advanced cases</a>, you might also want to know how to add additional Sass/CSS rules, leverage utility classes, and develop custom (themeable) components.</p>
 <div id="versions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#versions" class="anchor"></a>Bootstrap versions</h2>
@@ -163,16 +163,13 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <h2 class="hasAnchor">
 <a href="#bootswatch" class="anchor"></a>Bootswatch themes</h2>
 <p>Any Bootswatch <a href="https://bootswatch.com/3/">3</a> or <a href="https://bootswatch.com/">4</a> theme is available through <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s <code>bootswatch</code> argument. You may already be familiar with using these “pre-packaged” themes via the <code>{shinythemes}</code> package (or via the <code>theme</code> parameter in R Markdown). Those legacy approaches only provide Bootswatch 3 themes, but with <a href="https://rstudio.github.io/bslib/">bslib</a>, you can use newer themes like <a href="https://bootswatch.com/minty">minty</a>.</p>
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<div class="usage">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>bootswatch <span class="op">=</span> <span class="st">"minty"</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
-</div>
-<div style="flex:1">
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># R Markdown usage</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="op">---</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>output<span class="op">:</span></span>
@@ -180,7 +177,6 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <span id="cb2-5"><a href="#cb2-5"></a><span class="st">    </span>theme<span class="op">:</span></span>
 <span id="cb2-6"><a href="#cb2-6"></a><span class="st">      </span>bootswatch<span class="op">:</span><span class="st"> </span>minty</span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="op">---</span></span></code></pre></div>
-</div>
 </div>
 <p><img src="minty.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
@@ -192,8 +188,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <h3 class="hasAnchor">
 <a href="#main-colors" class="anchor"></a>Main colors &amp; fonts</h3>
 <p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> provides named arguments for customizing the main background color (<code>bg</code>), foreground color (<code>fg</code>), accent colors (<code>primary</code>, <code>secondary</code>, etc), and fonts (<code>base_font</code>, <code>heading_font</code>, <code>code_font</code>, etc). Here’s an example of using a subset of these named arguments to implement a dark mode with custom fonts:</p>
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<div class="usage">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
@@ -206,8 +201,6 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
   <span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
-</div>
-<div style="flex:1">
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># R Markdown usage</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="op">---</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>output<span class="op">:</span></span>
@@ -221,7 +214,6 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <span id="cb4-11"><a href="#cb4-11"></a>      code_font<span class="op">:</span></span>
 <span id="cb4-12"><a href="#cb4-12"></a><span class="st">        </span>google<span class="op">:</span><span class="st"> "JetBrains Mono"</span></span>
 <span id="cb4-13"><a href="#cb4-13"></a><span class="op">---</span></span></code></pre></div>
-</div>
 </div>
 <p><img src="dark-mode.png" width="100%" style="display: block; margin: auto;"></p>
 <p>Among all the coloring options in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, <code>bg</code>, <code>fg</code>, and <code>primary</code> are by far the most influential as they effect nearly every color on the page. In fact, <code>bg</code> and <code>fg</code> alone impact 100s of defaults — everything from panels (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html">shiny::wellPanel()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/inputPanel.html">shiny::inputPanel()</a></code>, etc) to navigation (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code>, etc) and more. The accent colors don’t impact nearly as much, but <code>primary</code> does control the color for some important things like hyperlinks, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code> links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">shiny::actionButton()</a></code> (defaults to the <code>secondary</code> color), <code><a href="https://rdrr.io/pkg/shiny/man/showNotification.html">shiny::showNotification()</a></code> , or more generally any HTML content that leverages <a href="https://getbootstrap.com/docs/4.6/utilities/colors/">Color Utility Classes</a>.</p>
@@ -237,16 +229,13 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <h3 class="hasAnchor">
 <a href="#low-level" class="anchor"></a>Everything else</h3>
 <p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides access to 100s of more specific <a href="bs4-variables.html">theming options</a> by considering anything passed through it’s <code>...</code> argument to be a new <a href="https://getbootstrap.com/docs/4.6/getting-started/theming/#variable-defaults">Bootstrap Sass variable defaults</a>. This allows you to get more targetted with your theming; for example, let’s set the <a href="bs4-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a> Sass variable to <code>'orange'</code> (a CSS color).</p>
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<div class="usage">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
 <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>
   bg <span class="op">=</span> <span class="st">"#002B36"</span>, fg <span class="op">=</span> <span class="st">"#EEE8D5"</span>, 
   <span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"orange"</span>
 <span class="op">)</span></code></pre></div>
-</div>
-<div style="flex:1">
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># R Markdown usage</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="op">---</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>output<span class="op">:</span></span>
@@ -256,7 +245,6 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <span id="cb6-7"><a href="#cb6-7"></a>      fg<span class="op">:</span><span class="st"> "#EEE8D5"</span></span>
 <span id="cb6-8"><a href="#cb6-8"></a>      progress<span class="op">-</span>bar<span class="op">-</span>bg<span class="op">:</span><span class="st"> "orange"</span></span>
 <span id="cb6-9"><a href="#cb6-9"></a><span class="op">---</span></span></code></pre></div>
-</div>
 </div>
 <p><img src="progress-orange.png" width="67%" style="display: block; margin: auto;"></p>
 <p>In addition to CSS values (e.g., <code>"orange"</code>), a variable can be any valid <a href="https://sass-lang.com/documentation/variables">Sass expression</a>, which is quite useful for leveraging Sass’ built-in module’s (e.g., <a href="https://sass-lang.com/documentation/modules/color#mix"><code>mix()</code> for mixing colors</a>)</p>
@@ -297,8 +285,7 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="https://i.imgur.com/KLKy1s0.gif" width="100%" style="display: block; margin: auto;"></p>
 <p>The latter (<code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) may be used with any Shiny app or R Markdown document. Just make sure you’re providing Bootstrap 4 (or above) to the page constructor and call <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> in a Shiny runtime content (i.e., within the <code>server</code> function).</p>
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<div class="usage">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
 <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
@@ -309,8 +296,6 @@ div.info{padding:2em;margin:1em 0;padding-left:100px;background-size:70px;backgr
   <span class="fu"><a href="../reference/run_with_themer.html">bs_themer</a></span><span class="op">(</span><span class="op">)</span>
   <span class="va">...</span>
 <span class="op">}</span></code></pre></div>
-</div>
-<div style="flex:1">
 <pre><code># R Markdown usage
 ---
 runtime: shiny
@@ -324,7 +309,6 @@ output:
 bslib::bs_themer()
 ```
 </code></pre>
-</div>
 </div>
 <p>By the way, when running the real-time themer locally in a Shiny app, you’ll see output like this in your R console (in R Markdown, you’ll see YAML output instead of R code) to reproduce the theming changes:</p>
 <p><img src="themer-code.png" width="80%" style="display: block; margin: auto;"></p>
@@ -349,9 +333,9 @@ bslib::bs_themer()
 <p><img src="dark-mode.gif" width="50%" style="display: block; margin: auto;"></p>
 <p>See the sections on <code>setCurrentTheme</code> and <code>getCurrentTheme</code> <a href="https://shiny.rstudio.com/reference/shiny/1.6.0/session.html">here</a> to learn more.</p>
 </div>
-<div id="more-advanced-theming" class="section level2">
+<div id="advanced" class="section level2">
 <h2 class="hasAnchor">
-<a href="#more-advanced-theming" class="anchor"></a>More advanced theming</h2>
+<a href="#advanced" class="anchor"></a>Advanced theming</h2>
 <div id="add-rules" class="section level3">
 <h3 class="hasAnchor">
 <a href="#add-rules" class="anchor"></a>Adding rules</h3>
