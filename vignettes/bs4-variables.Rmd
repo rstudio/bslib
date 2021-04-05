@@ -31,11 +31,14 @@ exclude <- c(
   '_carousel', '_utilities', '_responsive-utilities'
 )
 
+bs_table_css <- bs_remove(bs_theme(version = 3), exclude)
+bs_table_css <- bs_theme_dependencies(bs_table_css)[[2]]
+bs_table_css$script <- NULL
+
+
 htmltools::tagList(
   rmarkdown::html_dependency_font_awesome(),
-  bs_theme(version = 3) %>% 
-    bs_remove(exclude) %>% 
-    bs_theme_dependencies()
+  bs_table_css
 )
 ```
 
