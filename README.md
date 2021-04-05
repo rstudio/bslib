@@ -9,6 +9,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bslib/actions)
 
 <!-- badges: end -->
+
 <style type="text/css">
 @media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}
 </style>
