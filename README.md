@@ -9,6 +9,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bslib/actions)
 
 <!-- badges: end -->
+<style type="text/css">
+@media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}
+</style>
 
 # bslib
 
@@ -65,12 +68,10 @@ For example, most Shiny page layout functions (e.g.,
 
 To use `bslib` in Shiny, provide a `bs_theme()` *object* to the `theme`
 parameter; and in R Markdown, provide `bs_theme()` *parameters* to
-`theme`. For example, here’s a way to upgrade Shiny and R Markdown from
-Bootstrap 3 to 4:
+`theme`. For example, here’s a way to upgrade Shiny (left) and R
+Markdown (right) from Bootstrap 3 to 4:
 
-<div style="display:flex; justify-content:space-between">
-
-<div style="flex:1">
+<div class="usage">
 
 ``` r
 library(shiny)
@@ -81,10 +82,6 @@ ui <- navbarPage(
 shinyApp(ui, function(...) {})
 ```
 
-</div>
-
-<div style="flex:1">
-
 ``` r
 ---
 output:
@@ -93,8 +90,6 @@ output:
       version: 4
 ---
 ```
-
-</div>
 
 </div>
 

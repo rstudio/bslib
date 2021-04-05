@@ -33,6 +33,15 @@ include_vimeo <- function(id, width = "100%", height = "400") {
 ```
 
 ```{scss, echo = FALSE}
+@media (min-width: 800px) {
+  .usage {
+    display: flex;
+    * {
+      flex: 1;
+    }
+  }
+}
+
 div.info {
   padding: 2em;
   margin: 1em 0;
@@ -52,9 +61,9 @@ div.info {
 ```
 
 
-As we learned in [Basic usage](https://rstudio.github.io/bslib/#usage), any usage of `bslib` with Shiny and R Markdown is powered by `bs_theme()`. Here you can pick a major Bootstrap [version](#versions), choose a pre-packaged [Bootswatch](#versions) theme, and/or [customize](#custom) various theming defaults. `bslib` even provides a interactive widget (`bs_themer()`) to change some of `bs_theme()`'s options [real-time](#real-time). 
+As we learned in [Basic usage](https://rstudio.github.io/bslib/#usage), any usage of `bslib` with Shiny and R Markdown is powered by `bs_theme()`. Here you can pick a major Bootstrap [version](#versions), choose a pre-packaged [Bootswatch](#bootswatch) theme, and/or [customize](#custom) various theming defaults. `bslib` even provides a interactive widget (`bs_themer()`) to change some of `bs_theme()`'s options [real-time](#real-time). 
 
-In some more advanced cases, you might also want to know how to [add additional CSS rules](#add-rules), leverage [utility classes](#utility-classes), and [develop custom (themeable) components](#custom-components).
+In some more [advanced cases](#advanced), you might also want to know how to add additional Sass/CSS rules, leverage utility classes, and develop custom (themeable) components.
 
 ## Bootstrap versions {#versions}
 
@@ -73,8 +82,7 @@ At the time of writing, `bslib` currently supports:
 
 Any Bootswatch [3](https://bootswatch.com/3/) or [4](https://bootswatch.com/) theme is available through `bs_theme()`'s `bootswatch` argument. You may already be familiar with using these "pre-packaged" themes via the  `{shinythemes}` package (or via the `theme` parameter in R Markdown). Those legacy approaches only provide Bootswatch 3 themes, but with `{bslib}`, you can use newer themes like [minty](https://bootswatch.com/minty).
 
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<div class="usage">
 ```r
 # Shiny usage
 navbarPage(
@@ -82,8 +90,6 @@ navbarPage(
   ...
 )
 ```
-</div>
-<div style="flex:1">
 ```r
 # R Markdown usage
 ---
@@ -93,7 +99,6 @@ output:
       bootswatch: minty
 ---
 ```
-</div>
 </div>
 
 ```{r, echo = FALSE}
@@ -108,8 +113,7 @@ In addition to `version` and `bootswatch`, `bs_theme()` has some other named arg
 
 `bs_theme()` provides named arguments for customizing the main background color (`bg`), foreground color (`fg`), accent colors (`primary`, `secondary`, etc), and fonts (`base_font`, `heading_font`, `code_font`, etc). Here's an example of using a subset of these named arguments to implement a dark mode with custom fonts:
 
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<div class="usage">
 ```r
 # Shiny usage
 navbarPage(
@@ -123,8 +127,7 @@ navbarPage(
   ...
 )
 ```
-</div>
-<div style="flex:1">
+
 ```r
 # R Markdown usage
 ---
@@ -140,7 +143,6 @@ output:
         google: "JetBrains Mono"
 ---
 ```
-</div>
 </div>
 
 ```{r, echo = FALSE}
@@ -163,8 +165,7 @@ When choosing fonts, keep in mind that it's generally good practice to put serif
 
 `bs_theme()` also provides access to 100s of more specific [theming options](bs4-variables.html) by considering anything passed through it's `...` argument to be a new [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/4.6/getting-started/theming/#variable-defaults). This allows you to get more targetted with your theming; for example, let's set the [`$progress-bar-bg`](bs4-variables.html#progress-bar-bg) Sass variable to `'orange'` (a CSS color).
 
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<div class="usage">
 ```r
 # Shiny usage
 bs_theme(
@@ -172,8 +173,7 @@ bs_theme(
   "progress-bar-bg" = "orange"
 )
 ```
-</div>
-<div style="flex:1">
+
 ```r
 # R Markdown usage
 ---
@@ -185,7 +185,6 @@ output:
       progress-bar-bg: "orange"
 ---
 ```
-</div>
 </div>
 
 ```{r, echo = FALSE, out.width="67%"}
@@ -250,8 +249,7 @@ knitr::include_graphics("https://i.imgur.com/KLKy1s0.gif")
 
 The latter (`bs_themer()`) may be used with any Shiny app or R Markdown document. Just make sure you're providing Bootstrap 4 (or above) to the page constructor and call `bs_themer()` in a Shiny runtime content (i.e., within the `server` function).
 
-<div style="display:flex; justify-content:space-between">
-<div style="flex:1">
+<div class="usage">
 ```r
 # Shiny usage
 ui <- navbarPage(
@@ -263,8 +261,7 @@ server <- function(input, output) {
   ...
 }
 ```
-</div>
-<div style="flex:1">
+
 ````
 # R Markdown usage
 ---
@@ -280,7 +277,6 @@ bslib::bs_themer()
 ```
 
 ````
-</div>
 </div>
 
 By the way, when running the real-time themer locally in a Shiny app, you'll see output like this in your R console (in R Markdown, you'll see YAML output instead of R code) to reproduce the theming changes:
@@ -314,7 +310,7 @@ knitr::include_graphics("dark-mode.gif")
 
 See the sections on `setCurrentTheme` and `getCurrentTheme` [here](https://shiny.rstudio.com/reference/shiny/1.6.0/session.html) to learn more.
 
-## More advanced theming
+## Advanced theming {#advanced}
 
 ### Adding rules {#add-rules}
 

@@ -2,34 +2,15 @@
 #'
 #' @description
 #'
-#' Creates a Bootstrap theme object which can be:
+#' Creates a Bootstrap theme object, where you can:
 #'
-#' * Used in any HTML page powered by [shiny::bootstrapLib()] (e.g.,
-#'   [shiny::fluidPage()], [shiny::bootstrapPage()], etc).
-#' * Used in any output format powered by [rmarkdown::html_document()]
-#'   (or [rmarkdown::html_document_base()]).
-#' * Used more generally in any [htmltools::tags] via [bs_theme_dependencies()].
-#'
-#' These functions (i.e., `bs_theme()` or `bs_theme_update()`) allow you to do
-#' the following common Bootstrap customization(s):
-#'
-#' * Choose a (major) Bootstrap version.
+#' * Choose a (major) Bootstrap `version`.
 #' * Choose a [Bootswatch theme](https://bootswatch.com) (optional).
 #' * Customize main colors and fonts via explicitly named arguments (e.g.,
 #'   `bg`, `fg`, `primary`, etc).
-#' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`
-#'   * See all [Bootstrap 4 variables](https://rstudio.github.io/bslib/articles/bs4-variables.html)
-#'   * See all [Bootstrap 3 variables](https://github.com/rstudio/bslib/blob/master/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss)
+#' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`.
 #'
-#' For less common theming customization(s), you can modify theme objects to:
-#'
-#' * Add additional Sass/CSS rules (see [bs_add_rules()] and [sass_partial()]).
-#' * Leverage (new) Sass functions and mixins in those rules (see
-#' [bs_add_declarations()])
-#'
-#' These lower-level theming tools build on the concept of a
-#' [sass::sass_layer()]. To learn more, [see
-#' here](https://rstudio.github.io/sass/articles/sass.html#composable-sass).
+#' To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, [see here](https://rstudio.github.io/bslib/articles/bslib.html).
 #'
 #' @section Colors:
 #'
@@ -74,7 +55,8 @@
 #'  ````
 #'
 #' @param version The major version of Bootstrap to use (see [versions()]
-#'   for possible values).
+#'   for possible values). Defaults to the currently recommended version
+#'   for new projects (currently Bootstrap 4).
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
@@ -103,7 +85,7 @@
 #'
 #' @return a [sass::sass_bundle()] (list-like) object.
 #'
-#' @references \url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
+#' @references \url{https://rstudio.github.io/bslib/articles/bslib.html}
 #' @references \url{https://rstudio.github.io/sass/}
 #' @seealso [bs_add_variables()], [bs_theme_preview()]
 #' @examples
