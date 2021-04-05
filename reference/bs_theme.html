@@ -48,34 +48,15 @@
 
 
 <meta property="og:title" content="Create a Bootstrap theme — bs_theme" />
-<meta property="og:description" content="Creates a Bootstrap theme object which can be:
-Used in any HTML page powered by shiny::bootstrapLib() (e.g.,
-shiny::fluidPage(), shiny::bootstrapPage(), etc).
-Used in any output format powered by rmarkdown::html_document()
-(or rmarkdown::html_document_base()).
-Used more generally in any htmltools::tags via bs_theme_dependencies().
-
-
-These functions (i.e., bs_theme() or bs_theme_update()) allow you to do
-the following common Bootstrap customization(s):
+<meta property="og:description" content="Creates a Bootstrap theme object, where you can:
 Choose a (major) Bootstrap version.
 Choose a Bootswatch theme (optional).
 Customize main colors and fonts via explicitly named arguments (e.g.,
 bg, fg, primary, etc).
-Customize other, lower-level, Bootstrap Sass variable defaults via ...
-See all Bootstrap 4 variables
-See all Bootstrap 3 variables
+Customize other, lower-level, Bootstrap Sass variable defaults via ....
 
 
-
-For less common theming customization(s), you can modify theme objects to:
-Add additional Sass/CSS rules (see bs_add_rules() and sass_partial()).
-Leverage (new) Sass functions and mixins in those rules (see
-bs_add_declarations())
-
-
-These lower-level theming tools build on the concept of a
-sass::sass_layer(). To learn more, see here." />
+To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, see here." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -212,34 +193,15 @@ sass::sass_layer(). To learn more, see here." />
     </div>
 
     <div class="ref-description">
-    <p>Creates a Bootstrap theme object which can be:</p><ul>
-<li><p>Used in any HTML page powered by <code><a href='https://rdrr.io/pkg/shiny/man/bootstrapLib.html'>shiny::bootstrapLib()</a></code> (e.g.,
-<code><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>shiny::fluidPage()</a></code>, <code><a href='https://rdrr.io/pkg/shiny/man/bootstrapPage.html'>shiny::bootstrapPage()</a></code>, etc).</p></li>
-<li><p>Used in any output format powered by <code><a href='https://pkgs.rstudio.com/rmarkdown/reference/html_document.html'>rmarkdown::html_document()</a></code>
-(or <code><a href='https://pkgs.rstudio.com/rmarkdown/reference/html_document_base.html'>rmarkdown::html_document_base()</a></code>).</p></li>
-<li><p>Used more generally in any <a href='https://rdrr.io/pkg/htmltools/man/builder.html'>htmltools::tags</a> via <code><a href='bs_theme_dependencies.html'>bs_theme_dependencies()</a></code>.</p></li>
-</ul>
-
-<p>These functions (i.e., <code>bs_theme()</code> or <code>bs_theme_update()</code>) allow you to do
-the following common Bootstrap customization(s):</p><ul>
-<li><p>Choose a (major) Bootstrap version.</p></li>
+    <p>Creates a Bootstrap theme object, where you can:</p><ul>
+<li><p>Choose a (major) Bootstrap <code>version</code>.</p></li>
 <li><p>Choose a <a href='https://bootswatch.com'>Bootswatch theme</a> (optional).</p></li>
 <li><p>Customize main colors and fonts via explicitly named arguments (e.g.,
 <code>bg</code>, <code>fg</code>, <code>primary</code>, etc).</p></li>
-<li><p>Customize other, lower-level, Bootstrap Sass variable defaults via <code>...</code></p><ul>
-<li><p>See all <a href='https://rstudio.github.io/bslib/articles/bs4-variables.html'>Bootstrap 4 variables</a></p></li>
-<li><p>See all <a href='https://github.com/rstudio/bslib/blob/master/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss'>Bootstrap 3 variables</a></p></li>
-</ul></li>
+<li><p>Customize other, lower-level, Bootstrap Sass variable defaults via <code>...</code>.</p></li>
 </ul>
 
-<p>For less common theming customization(s), you can modify theme objects to:</p><ul>
-<li><p>Add additional Sass/CSS rules (see <code><a href='bs_add_variables.html'>bs_add_rules()</a></code> and <code>sass_partial()</code>).</p></li>
-<li><p>Leverage (new) Sass functions and mixins in those rules (see
-<code><a href='bs_add_variables.html'>bs_add_declarations()</a></code>)</p></li>
-</ul>
-
-<p>These lower-level theming tools build on the concept of a
-<code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_layer()</a></code>. To learn more, <a href='https://rstudio.github.io/sass/articles/sass.html#composable-sass'>see here</a>.</p>
+<p>To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, <a href='https://rstudio.github.io/bslib/articles/bslib.html'>see here</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bs_theme</span><span class='op'>(</span>
@@ -286,7 +248,8 @@ the following common Bootstrap customization(s):</p><ul>
     <tr>
       <th>version</th>
       <td><p>The major version of Bootstrap to use (see <code><a href='versions.html'>versions()</a></code>
-for possible values).</p></td>
+for possible values). Defaults to the currently recommended version
+for new projects (currently Bootstrap 4).</p></td>
     </tr>
     <tr>
       <th>bootswatch</th>
@@ -411,7 +374,7 @@ noticeable with remote web fonts on a slow internet connection.</p><pre>bs_theme
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://getbootstrap.com/docs/4.4/getting-started/theming/'>https://getbootstrap.com/docs/4.4/getting-started/theming/</a></p>
+    <p><a href='https://rstudio.github.io/bslib/articles/bslib.html'>https://rstudio.github.io/bslib/articles/bslib.html</a></p>
 <p><a href='https://rstudio.github.io/sass/'>https://rstudio.github.io/sass/</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
