@@ -1,12 +1,6 @@
 ---
 title: "Bootstrap 4 variables"
-output: rmarkdown::html_vignette
-author: "Nick Strayer & Carson Sievert"
-date: "`r Sys.Date()`"
-vignette: >
-  %\VignetteIndexEntry{Bootstrap 4 variables}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: html_document
 ---
 
 <script src="https://unpkg.com/@popperjs/core@2"></script>
@@ -143,15 +137,15 @@ variables_df <- tibble(line = raw_text) %>%
   )
 ```
 
-Not only does `bs_theme()` make it easy to control [Main Colors & Fonts](theming.html#main-colors), but it also provides access to 100s of more specific theming options. These options, sometimes referred to as [Bootstrap Sass variables](https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults), allow for control over default styles of various Bootstrap features like [Navs](#nav-link-padding-y) (e.g., `shiny::tabsetPanel()`), [Navbars](#navbar-padding-y) (e.g., `shiny::navbarPage()`), [Dropdowns](#dropdown-min-width) (e.g., `shiny::navbarMenu()`), and much more.
+Below is a searchable table of Bootstrap 4 Sass variables. If you aren't sure what a Sass variable is or how to use them, see this [Get Started article](bslib.html#low-level). A few things to keep in mind when using this table:
 
-The table below provides a convenient way to navigate Bootstrap 4 Sass variables. A few things to keep in mind when using this table:
+* Each row represents a different Sass variable, showing its name and default value.
+    * For Sass variables whose value defaults to another Sass variable (e.g., [`border-color`](#border-color)), you may hover over the value to get the (default) CSS value that it represents.
+* Rows are grouped into sections of similar variables
+    * For example, [Navs](#nav-link-padding-y) (`shiny::tabsetPanel()`), [Navbars](#navbar-padding-y) (`shiny::navbarPage()`), and [Dropdowns](#dropdown-min-width) (e.g., `shiny::navbarMenu()`).
+* Towards the top of the table are more general theming options like `white`, `gray-*`, `black`, `primary`, `border-radius`, and so on, which end up impacting more specific theming variables like `btn-border-radius`.
+    * `bs_theme()`'s `bg` and `fg` arguments provide a more convenient way to set the `white`, `gray-*`, and `black` variables, so there is no need to set these Sass variables directly (same goes for `font_base` -> `$font-family-base`, `font_heading` -> `$font-family-base`, and `font_code` -> `$font-family-monospace`).
 
-1. Towards the top of the table are more general theming options like `white`, `gray-*`, `black`, `primary`, `border-radius`, and so on, which end up impacting more specific theming variables like `btn-border-radius`.
-2. `bs_theme()`'s `bg` and `fg` arguments provide a more convenient way to set the `white`, `gray-*`, and `black` variables, so there is no need to set these Sass variables directly (same goes for `font_base` -> `$font-family-base`, `font_heading` -> `$font-family-base`, and `font_code` -> `$font-family-monospace`).
-3. For Sass variables whose value defaults to another Sass variable (e.g., [`border-color`](bs4-variables.html#border-color)), you may hover over the value to get the (default) CSS value that it represents.
-
-For more information and examples on why and how to use these Sass variables inside of `bs_theme()`, see the [theming variables section](theming.html#sass-variables) of the Custom Theming article.
 
 ```{css}
 table.dataTable tr[role="row"] td {

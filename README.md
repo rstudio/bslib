@@ -60,13 +60,13 @@ install.packages("rmarkdown")
 uses Bootstrap. In most cases, you can identify a project that uses
 Bootstrap when the relevant page constructor has a `theme` parameter.
 For example, most Shiny page layout functions (e.g.,
-`shiny::navbarPage()`, `shiny::fluidPage()`, etc) and some popular R
-Markdown formats (e.g., `rmarkdown::html_document`,
-`flexdashboard::flex_dashboard`, etc) all have a `theme` parameter. To
-leverage `bslib` in Shiny, provide a `bs_theme()` *object* to the
-`theme` parameter; and in R Markdown, provide `bs_theme()` *parameters*
-to `theme`. For example, here’s a way to upgrade Shiny and R Markdown
-from Bootstrap 3 to 4:
+`shiny::navbarPage()`) and some popular R Markdown formats (e.g.,
+`rmarkdown::html_document`) all have a `theme` parameter.
+
+To use `bslib` in Shiny, provide a `bs_theme()` *object* to the `theme`
+parameter; and in R Markdown, provide `bs_theme()` *parameters* to
+`theme`. For example, here’s a way to upgrade Shiny and R Markdown from
+Bootstrap 3 to 4:
 
 <div style="display:flex; justify-content:space-between">
 
@@ -101,7 +101,7 @@ output:
 See the [Get
 Started](https://rstudio.github.io/bslib/articles/bslib.html) article to
 learn more about Bootstrap versions, pre-packaged Bootswatch themes,
-custom theming, real-time custom theming and more.
+(real-time) custom theming, and more.
 
 To get started more quickly, choose a relevant R Markdown template from
 inside RStudio by going to File -&gt; New File -&gt; R Markdown -&gt;

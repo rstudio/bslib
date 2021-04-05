@@ -53,7 +53,9 @@ install.packages("rmarkdown")
 
 ## Basic usage {#usage}
 
-`bslib` is designed for use with any Shiny or R Markdown project that uses Bootstrap. In most cases, you can identify a project that uses Bootstrap when the relevant page constructor has a `theme` parameter. For example, most Shiny page layout functions (e.g., `shiny::navbarPage()`, `shiny::fluidPage()`, etc) and some popular R Markdown formats (e.g., `rmarkdown::html_document`, `flexdashboard::flex_dashboard`, etc) all have a `theme` parameter. To leverage `bslib` in Shiny, provide a `bs_theme()` _object_ to the `theme` parameter; and in R Markdown, provide `bs_theme()` _parameters_ to `theme`. For example, here's a way to upgrade Shiny and R Markdown from Bootstrap 3 to 4:
+`bslib` is designed for use with any Shiny or R Markdown project that uses Bootstrap. In most cases, you can identify a project that uses Bootstrap when the relevant page constructor has a `theme` parameter. For example, most Shiny page layout functions (e.g., `shiny::navbarPage()`) and some popular R Markdown formats (e.g., `rmarkdown::html_document`) all have a `theme` parameter. 
+
+To use `bslib` in Shiny, provide a `bs_theme()` _object_ to the `theme` parameter; and in R Markdown, provide `bs_theme()` _parameters_ to `theme`. For example, here's a way to upgrade Shiny and R Markdown from Bootstrap 3 to 4:
 
 <div style="display:flex; justify-content:space-between">
 <div style="flex:1">
@@ -78,7 +80,7 @@ output:
 </div>
 </div>
 
-See the [Get Started](https://rstudio.github.io/bslib/articles/bslib.html) article to learn more about Bootstrap versions, pre-packaged Bootswatch themes, custom theming, real-time custom theming and more.
+See the [Get Started](https://rstudio.github.io/bslib/articles/bslib.html) article to learn more about Bootstrap versions, pre-packaged Bootswatch themes, (real-time) custom theming, and more.
 
 To get started more quickly, choose a relevant R Markdown template from inside RStudio by going to File -> New File -> R Markdown -> From Template:
 

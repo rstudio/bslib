@@ -26,8 +26,8 @@ navbar:
     articles:
       text: Theming
       menu:
-        - text: Why Sass over CSS?
-          href: articles/why-sass.html
+        #- text: Why Sass over CSS?
+        #  href: articles/why-sass.html
         - text: BS4 Sass variables
           href: articles/bs4-variables.html
         - text: Utility Classes
@@ -38,7 +38,7 @@ navbar:
       text: Other
       menu:
         - text: flexdashboard
-          href: https://flexdashboard-pkg.netlify.app/articles/articles/theme.html
+          href: https://flexdashboard-pkg.netlify.app/articles/theme.html
         - text: pkgdown
           href: https://pkgdown.r-lib.org/dev/articles/customization.html
         - text: bookdown
