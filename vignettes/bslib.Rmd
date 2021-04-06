@@ -69,10 +69,11 @@ In some more [advanced cases](#advanced), you might also want to know how to add
 
 At the time of writing, `bslib` currently supports:
 
-* [Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/theming/) `bs_theme(version = 4)`: intended for new projects. 
+* [Bootstrap 5](https://getbootstrap.com/docs/4.6/getting-started/theming/) `bs_theme(version = 5)`: intended for new projects. 
+* [Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/theming/) `bs_theme(version = 4)`: intended for "newer" projects that we're created before Bootstrap 5 support was added. 
 * [Bootstrap 3](https://getbootstrap.com/docs/3.4/) `bs_theme(version = 3)`: intended for legacy projects that happen to break with `version = 4`.
 
-`bslib` doesn't require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 4 is recommended, but that will change to Bootstrap 5 in the near future, so it's best practice to specify the version, especially if reproducibility is important, and your project does any of the following:
+`bslib` doesn't require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 5 is recommended, but that may change to Bootstrap 6+ in the near future, so it's best practice to specify the version, especially if reproducibility is important, and your project does any of the following:
 
 * Uses [Bootstrap Sass variables](#low-level) directly.
 * Uses [utility classes](#utility-classes).
@@ -80,7 +81,7 @@ At the time of writing, `bslib` currently supports:
 
 ## Bootswatch themes {#bootswatch}
 
-Any Bootswatch [3](https://bootswatch.com/3/) or [4](https://bootswatch.com/) theme is available through `bs_theme()`'s `bootswatch` argument. You may already be familiar with using these "pre-packaged" themes via the  `{shinythemes}` package (or via the `theme` parameter in R Markdown). Those legacy approaches only provide Bootswatch 3 themes, but with `{bslib}`, you can use newer themes like [minty](https://bootswatch.com/minty).
+Any [Bootswatch](https://bootswatch.com) theme is available through `bs_theme()`'s `bootswatch` argument. You may already be familiar with using these "pre-packaged" themes via the  `{shinythemes}` package (or via the `theme` parameter in R Markdown). Those legacy approaches only provide [Bootswatch 3 themes](https://bootswatch.com/3), but with `{bslib}`, you can use newer themes like [minty](https://bootswatch.com/minty).
 
 <div class="usage">
 ```r
@@ -196,7 +197,7 @@ In addition to CSS values (e.g., `"orange"`), a variable can be any valid [Sass 
 ```r
 bs_theme("progress-bar-bg" = "mix(white, orange, 20%)")
 #> $progress-bar-bg: mix(white, orange, 20%) !default;
-#> @import "bslib/lib/bs/scss/_variables.scss";
+#> @import "scss/_variables.scss";
 ```
 
 Underneath the hood, `bs_theme()` works by placing [Sass variable defaults](https://sass-lang.com/documentation/variables#default-values) _before_ Bootstrap's variable defaults. That's why something like `bs_theme(primary = "red")` "just works" in the sense that it not only provides `$primary` with a new default value, but it also passes the value to other variables that default to `$primary` (e.g. [`$progress-bar-bg`](bs4-variables.html#progress-bar-bg)).
@@ -223,7 +224,7 @@ Thankfully `bs_add_variables()` provides a workaround. By default, `bs_add_varia
 
 ```r
 bs_add_variables(bs_theme(), "progress-bar-bg" = "$secondary", .where = "declarations")
-#> @import "bslib/lib/bs/scss/_variables.scss";
+#> @import "scss/_variables.scss";
 #> $progress-bar-bg: $secondary;
 ```
 

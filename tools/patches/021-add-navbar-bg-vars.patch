@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bs/scss/_navbar.scss b/inst/lib/bs/scss/_navbar.scss
+diff --git a/inst/lib/bs4/scss/_navbar.scss b/inst/lib/bs4/scss/_navbar.scss
 index 47a565a..a15fc0f 100644
---- a/inst/lib/bs/scss/_navbar.scss
-+++ b/inst/lib/bs/scss/_navbar.scss
+--- a/inst/lib/bs4/scss/_navbar.scss
++++ b/inst/lib/bs4/scss/_navbar.scss
 @@ -248,6 +248,7 @@
  
  // Dark links against a light background
@@ -18,10 +18,10 @@ index 47a565a..a15fc0f 100644
    .navbar-brand {
      color: $navbar-dark-brand-color;
  
-diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
+diff --git a/inst/lib/bs4/scss/_variables.scss b/inst/lib/bs4/scss/_variables.scss
 index 83ce31a..df455eb 100644
---- a/inst/lib/bs/scss/_variables.scss
-+++ b/inst/lib/bs/scss/_variables.scss
+--- a/inst/lib/bs4/scss/_variables.scss
++++ b/inst/lib/bs4/scss/_variables.scss
 @@ -749,19 +749,27 @@ $navbar-toggler-border-radius:      $btn-border-radius !default;
  
  $navbar-nav-scroll-max-height:      75vh !default;

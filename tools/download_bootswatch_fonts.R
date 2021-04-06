@@ -37,8 +37,14 @@ download_and_copy_fonts <-  function(theme) {
   writeLines(css, css_file)
 }
 
-themes <- list.dirs(
-  "inst/lib/bsw/dist",
+
+themes5 <- list.dirs(
+  "inst/lib/bsw5/dist",
+  recursive = FALSE,
+  full.names = TRUE
+)
+themes4 <- list.dirs(
+  "inst/lib/bsw4/dist",
   recursive = FALSE,
   full.names = TRUE
 )
@@ -48,5 +54,6 @@ themes3 <- list.dirs(
   full.names = TRUE
 )
 
-lapply(themes, download_and_copy_fonts)
+lapply(themes5, download_and_copy_fonts)
+lapply(themes4, download_and_copy_fonts)
 lapply(themes3, download_and_copy_fonts)

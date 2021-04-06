@@ -1,0 +1,11 @@
+.DS_Store
+node_modules
+.idea
+components
+_site
+*.lock
+.sass-cache/
+/dist/*/build.scss
+
+# Local Netlify folder
+.netlify

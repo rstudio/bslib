@@ -69,10 +69,10 @@ shinyApp(
           "inputPanel()",
           inputPanel(
             sliderInput("slider", "sliderInput()", min = 0, max = 100, value = c(30, 70), step = 20),
-            selectInput("selectize", "selectizeInput()", choices = state.abb),
-            selectInput("selectizeMulti", "selectizeInput(multiple=T)", choices = state.abb, multiple = TRUE),
-            dateInput("date", "dateInput()", value = "2020-12-24"),
-            dateRangeInput("dateRange", "dateRangeInput()", start = "2020-12-24", end = "2020-12-31")
+            #selectInput("selectize", "selectizeInput()", choices = state.abb),
+            #selectInput("selectizeMulti", "selectizeInput(multiple=T)", choices = state.abb, multiple = TRUE),
+            #dateInput("date", "dateInput()", value = "2020-12-24"),
+            #dateRangeInput("dateRange", "dateRangeInput()", start = "2020-12-24", end = "2020-12-31")
           ),
           br(),
           textOutput("inputPanelOutputHeader"),
@@ -97,8 +97,8 @@ shinyApp(
             fluidRow(
               column(
                 6,
-                selectInput("select", "selectInput()", choices = state.abb, selectize = FALSE),
-                selectInput("selectMulti", "selectInput(multiple=T)", choices = state.abb, multiple = TRUE, selectize = FALSE),
+                #selectInput("select", "selectInput()", choices = state.abb, selectize = FALSE),
+                #selectInput("selectMulti", "selectInput(multiple=T)", choices = state.abb, multiple = TRUE, selectize = FALSE),
                 textInput("text", "textInput()", placeholder = "Enter some text"),
                 numericInput("numeric", "numericInput()", value = 0)
               ),
@@ -123,15 +123,15 @@ shinyApp(
       "Plots",
       uiOutput("thematic_needed"),
       plotOutput("plot"),
-      selectizeInput(
-        "plot_example", "Choose an example",
-        selected = "GeomSmooth",
-        choices = list(
-          ggplot2 = names(ggplot2_examples),
-          lattice = names(lattice_examples),
-          base = names(base_examples)
-        )
-      )
+      #selectizeInput(
+      #  "plot_example", "Choose an example",
+      #  selected = "GeomSmooth",
+      #  choices = list(
+      #    ggplot2 = names(ggplot2_examples),
+      #    lattice = names(lattice_examples),
+      #    base = names(base_examples)
+      #  )
+      #)
     ),
     tabPanel(
       "Tables",

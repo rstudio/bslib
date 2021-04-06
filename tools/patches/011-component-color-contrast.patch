@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
+diff --git a/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
 index 9ed7cb4..73636b7 100644
---- a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
-+++ b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
+--- a/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
++++ b/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
 @@ -124,10 +124,10 @@ $border-radius-base:        4px !default;
  $border-radius-large:       6px !default;
  $border-radius-small:       3px !default;
@@ -59,10 +59,10 @@ index 9ed7cb4..73636b7 100644
  //** Border color of active list elements
  $list-group-active-border:      $list-group-active-bg !default;
  //** Text color for content within active list items
-diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
+diff --git a/inst/lib/bs4/scss/_variables.scss b/inst/lib/bs4/scss/_variables.scss
 index 38aa9ae..fff34b9 100644
---- a/inst/lib/bs/scss/_variables.scss
-+++ b/inst/lib/bs/scss/_variables.scss
+--- a/inst/lib/bs4/scss/_variables.scss
++++ b/inst/lib/bs4/scss/_variables.scss
 @@ -248,8 +248,9 @@ $box-shadow-sm:               0 .125rem .25rem rgba($black, .075) !default;
  $box-shadow:                  0 .5rem 1rem rgba($black, .15) !default;
  $box-shadow-lg:               0 1rem 3rem rgba($black, .175) !default;

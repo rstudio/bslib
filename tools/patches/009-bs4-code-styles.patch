@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bs/scss/_code.scss b/inst/lib/bs/scss/_code.scss
+diff --git a/inst/lib/bs4/scss/_code.scss b/inst/lib/bs4/scss/_code.scss
 index 4bc117a..ab6617b 100644
---- a/inst/lib/bs/scss/_code.scss
-+++ b/inst/lib/bs/scss/_code.scss
+--- a/inst/lib/bs4/scss/_code.scss
++++ b/inst/lib/bs4/scss/_code.scss
 @@ -2,6 +2,9 @@
  code {
    @include font-size($code-font-size);
@@ -23,10 +23,10 @@ index 4bc117a..ab6617b 100644
  
    // Account for some code outputs that place code tags in pre tags
    code {
-diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
+diff --git a/inst/lib/bs4/scss/_variables.scss b/inst/lib/bs4/scss/_variables.scss
 index 1c22197..ea39303 100644
---- a/inst/lib/bs/scss/_variables.scss
-+++ b/inst/lib/bs/scss/_variables.scss
+--- a/inst/lib/bs4/scss/_variables.scss
++++ b/inst/lib/bs4/scss/_variables.scss
 @@ -1117,7 +1117,11 @@ $close-text-shadow:                 0 1px 0 $white !default;
  // Code
  

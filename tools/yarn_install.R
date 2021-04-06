@@ -1,6 +1,8 @@
 #!/usr/bin/env Rscript
 library(sass)
 library(rprojroot)
+library(brio)
+library(withr)
 
 
 if (!identical(getwd(), find_package_root_file())) {
@@ -12,24 +14,16 @@ if (Sys.which("yarn") == "") {
 }
 
 # only install the direct deps
-withr::with_dir("inst", system("yarn install --production"))
-
+with_dir("inst", system("yarn install --production"))
 
 unlink("inst/lib", recursive = TRUE)
 file.rename("inst/node_modules/", "inst/lib/")
 
-# ----------------------------------------------------------------------
-# Get rid of peer dependencies that we don't need
-# ----------------------------------------------------------------------
-
-# Not necessary dependences brought in by bootwswatch (at least in v4.5.2)
-unlink("inst/lib/http-parser-js", recursive = TRUE)
-unlink("inst/lib/safe-buffer", recursive = TRUE)
-unlink("inst/lib/websocket-driver", recursive = TRUE)
-unlink("inst/lib/websocket-extensions", recursive = TRUE)
+# not used
+unlink("inst/lib/.yarn-integrity")
 
 # jquery comes in via jquerylib (R package)
-unlink("inst/lib/jquery/", recursive = TRUE)
+unlink("inst/lib/jquery", recursive = TRUE)
 
 # bootstrap.bundle.min.js includes popper (but not jQuery)
 # https://getbootstrap.com/docs/4.4/getting-started/introduction/#js
@@ -41,11 +35,10 @@ unlink("inst/lib/popper.js", recursive = TRUE)
 # to rely on a node run-time to prefix after compilation
 # https://github.com/twbs/bootstrap/blob/d438f3/package.json#L30
 # ----------------------------------------------------------------------
-
 scss_files <- dir("inst", pattern = "\\.scss$", recursive = TRUE, full.names = TRUE)
 # These libs should already have prefixes in their source
 # TODO: add test(s) that we aren't missing vendor prefixes
-scss_files <- scss_files[!grepl("(^inst/lib/bootstrap-sass)|(^inst/bs3compat)|(^inst/themer)", scss_files)]
+scss_files <- scss_files[!grepl("(^inst/lib/bs3)|(^inst/bs3compat)|(^inst/themer)", scss_files)]
 
 scss_src <- lapply(scss_files, readLines)
 
@@ -117,6 +110,7 @@ add_value_prefixes <- function(src, value, vendors = c("-webkit-", "-moz-", "-ms
 
 # https://caniuse.com/?search=min-content
 scss_src <- lapply(scss_src, add_value_prefixes, "min-content")
+scss_src <- lapply(scss_src, add_value_prefixes, "max-content")
 
 # phantomjs 2.1.1 needs `display: -webkit-flex` to work properly
 scss_src <- lapply(scss_src, add_value_prefixes, "flex", vendors = "-webkit-")
@@ -139,9 +133,13 @@ find_prefixed_css <- function(css) {
   unique(unlist(prefixes, recursive = TRUE))
 }
 
+# TODO: do for each bootstrap?
 src_prefixes <- find_prefixed_css(unlist(scss_src))
 dist_prefixes <- find_prefixed_css(
-  readLines("inst/lib/bootstrap/dist/css/bootstrap.css", warn = FALSE)
+  c(
+    readLines("inst/lib/bs4/dist/css/bootstrap.css"),
+    readLines("inst/lib/bs5/dist/css/bootstrap.css")
+  )
 )
 auto_prefixes <- setdiff(dist_prefixes, src_prefixes)
 
@@ -168,7 +166,12 @@ whitelist <- c(
   # https://caniuse.com/#search=sticky
   "sticky",
   # Already applied conditional prefixing
-  "text-decoration"
+  "text-decoration",
+  # IE11 technically needs a prefix, but this is just for floating labels
+  # and I'm lazy https://caniuse.com/?search=placeholder-shown
+  "placeholder-shown",
+  # False positive?
+  "margin-end"
 )
 
 unknown_prefixes <- setdiff(
@@ -191,84 +194,74 @@ if (length(unknown_prefixes)) {
 # Now, get rid of files that we don't need to bundle with the package
 # ----------------------------------------------------------------------
 
+with_dir(
+  "inst/lib", {
+    # Downsize Bootstrap
+    for (bs in c("bs5", "bs4")) {
+      unlink(file.path(bs, "dist/css"), recursive = TRUE)
+      unlink(file.path(bs, "js"), recursive = TRUE)
+      js_dist <- file.path(bs, "dist/js")
+      non_bundle <- setdiff(
+        dir(js_dist), c("bootstrap.bundle.min.js", "bootstrap.bundle.min.js.map")
+      )
+      file.remove(file.path(js_dist, non_bundle))
+    }
 
-# Avoiding bootstrap's distributed CSS saves us another 1.5 Mb
-unlink("inst/lib/bootstrap/dist/css", recursive = TRUE)
+    # Downsize bootswatch
+    for (bsw in c("bsw5", "bsw4")) {
+      file.remove(Sys.glob(file.path(bsw, "dist/*/bootstrap.css")))
+      file.remove(Sys.glob(file.path(bsw, "dist/*/bootstrap.min.css")))
+    }
+    file.remove(c(
+      Sys.glob("bsw3/*/bootstrap.css"),
+      Sys.glob("bsw3/*/bootstrap.min.css"),
+      Sys.glob("bsw3/*/thumbnail.png"),
+      Sys.glob("bsw3/*/*.less")
+    ))
+    unlink("bsw3/docs", recursive = TRUE)
+    unlink("bsw3/.github", recursive = TRUE)
+    unlink("bsw3/fonts", recursive = TRUE) # have fonts via tools/download_fonts.R
 
-# For now we're just using the minified JS bundle
-unlink("inst/lib/bootstrap/js", recursive = TRUE)
+    # Downsize bootstrap-accessibility
+    with_dir("bs-a11y-p", {
+      discard <- setdiff(dir(), c("src", "plugins", "LICENSE.md", "package.json"))
+      unlink(discard, recursive = TRUE)
+    })
 
-js_folder <- "inst/lib/bootstrap/dist/js"
-file.remove(
-  file.path(
-    js_folder,
-    setdiff(
-      dir(js_folder),
-      c("bootstrap.bundle.min.js", "bootstrap.bundle.min.js.map")
+    # Downsize bootstrap-colorpicker
+    with_dir(
+      "bs-colorpicker", {
+        file.rename("dist/css", "css")
+        file.rename("dist/js", "js")
+        unlink("node_modules", recursive = TRUE)
+        unlink("dist", recursive = TRUE)
+        unlink("src", recursive = TRUE)
+        unlink("logo.png")
+      }
     )
-  )
+
+    # GitHub reports security issues of devDependencies, but that's irrelevant to us
+    remove_dev_dependencies <- function(pkg_file) {
+      if (!file.exists(pkg_file)) return()
+      json <- jsonlite::fromJSON(pkg_file)
+      json <- json[setdiff(names(json), "devDependencies")]
+      jsonlite::write_json(json, pkg_file, pretty = TRUE, auto_unbox = TRUE)
+    }
+    invisible(lapply(Sys.glob("*/package.json"), remove_dev_dependencies))
+
+    # Get BS4/BS3 versions (for bslib::bs_dependencies() version-ing)
+    version_bs5 <- sub("-beta[0-9]+", "", jsonlite::fromJSON("bs5/package.json")$version)
+    version_bs4 <- jsonlite::fromJSON("bs4/package.json")$version
+    version_bs3 <- jsonlite::fromJSON("bs3/package.json")$version
+    version_accessibility <- jsonlite::fromJSON("bs-a11y-p/package.json")$version
+  }
 )
 
-# Each Bootswatch theme bundles Bootstrap
-file.remove(c(
-  Sys.glob("inst/lib/bootswatch/dist/*/bootstrap.css"),
-  Sys.glob("inst/lib/bootswatch/dist/*/bootstrap.min.css")
-))
-
-# To fully support Bootstrap+Bootswatch 3 and 4, we need to bundle
-# multiple versions of Bootswatch...this downloads Bootswatch 3
-tmp_dir <- tempdir()
-withr::with_dir(tmp_dir, system("yarn add bootswatch@3.4.1"))
-source <- file.path(tmp_dir, "node_modules", "bootswatch")
-target <- "inst/lib/bootswatch3"
-if (!file.exists(target)) dir.create(target)
-file.rename(source, target)
-
-# Again, Bootswatch loves to bundle Bootstrap with each theme
-file.remove(c(
-  Sys.glob("inst/lib/bootswatch3/*/bootstrap.css"),
-  Sys.glob("inst/lib/bootswatch3/*/bootstrap.min.css"),
-  Sys.glob("inst/lib/bootswatch3/*/thumbnail.png"),
-  # I don't think we'll need less files
-  Sys.glob("inst/lib/bootswatch3/*/*.less")
-))
-
-# Downsize Bootswatch 3
-unlink("inst/lib/bootswatch3/docs", recursive = TRUE)
-unlink("inst/lib/bootswatch3/.github", recursive = TRUE)
-# we already got fonts via tools/download_fonts.R
-unlink("inst/lib/bootswatch3/fonts", recursive = TRUE)
-
-# Downsize bootstrap-accessibility
-withr::with_dir("inst/lib/bootstrap-accessibility-plugin", {
-  unlink(setdiff(dir(), c("src", "plugins", "LICENSE.md", "package.json")), recursive = TRUE)
-})
-
-# Downsize bootstrap-colorpicker
-file.rename("inst/lib/bootstrap-colorpicker/dist/css/", "inst/lib/bootstrap-colorpicker/css/")
-file.rename("inst/lib/bootstrap-colorpicker/dist/js/", "inst/lib/bootstrap-colorpicker/js/")
-unlink("inst/lib/bootstrap-colorpicker/node_modules/", recursive = TRUE)
-unlink("inst/lib/bootstrap-colorpicker/dist/", recursive = TRUE)
-unlink("inst/lib/bootstrap-colorpicker/src/", recursive = TRUE)
-unlink("inst/lib/bootstrap-colorpicker/logo.png")
-
-# GitHub reports security issues of devDependencies, but that's irrelevant to us
-remove_dev_dependencies <- function(pkg_file) {
-  if (!file.exists(pkg_file)) return()
-  json <- jsonlite::fromJSON(pkg_file)
-  json <- json[setdiff(names(json), "devDependencies")]
-  jsonlite::write_json(json, pkg_file, pretty = TRUE, auto_unbox = TRUE)
-}
-invisible(lapply(Sys.glob("inst/lib/*/package.json"), remove_dev_dependencies))
-
-# Get BS4/BS3 versions (for bslib::bs_dependencies() versioning)
-version_bs4 <- jsonlite::fromJSON("inst/lib/bootstrap/package.json")$version
-version_bs3 <- jsonlite::fromJSON("inst/lib/bootstrap-sass/package.json")$version
-version_accessibility <- jsonlite::fromJSON("inst/lib/bootstrap-accessibility-plugin/package.json")$version
 writeLines(
   c(
     '# DO NOT EDIT',
     '# This file is auto-generated by tools/yarn_install.R',
+    paste0('version_bs5 <- ', deparse( version_bs5)),
     paste0('version_bs4 <- ', deparse(version_bs4)),
     paste0('version_bs3 <- ',  deparse(version_bs3)),
     paste0('version_accessibility <- ',  deparse(version_accessibility))
@@ -276,26 +269,6 @@ writeLines(
   "R/versions.R"
 )
 
-
-# ----------------------------------------------------------------------
-# Rename files to shorter names
-# ----------------------------------------------------------------------
-
-rename_info <- c(
-  "bs" = "bootstrap",
-  "bs-a11y-p" = "bootstrap-accessibility-plugin",
-  "bs-colorpicker" = "bootstrap-colorpicker",
-  "bs-sass" = "bootstrap-sass",
-  "bsw" = "bootswatch",
-  "bsw3" = "bootswatch3"
-)
-file.rename(
-  from = file.path("inst", "lib", unname(rename_info)),
-  to = file.path("inst", "lib", names(rename_info))
-)
-
-# not used
-unlink(file.path("inst", "lib", ".yarn-integrity"))
 
 # ----------------------------------------------------------------------
 # Apply any patches to source
@@ -332,6 +305,7 @@ for (patch in patch_files) {
 
 # Tracking changes in solar isn't so important since we've basically
 # re-implemented it using a proper color system
+# TODO: do the same for BS5?
 writeLines(
   sass::as_sass(list(
     "white" = "#092B36 !default",
@@ -361,21 +335,21 @@ writeLines(
     "color-contrast-dark" = "#031014 !default",
     "color-contrast-light" = "#BBD0D0 !default"
   )),
-  "inst/lib/bsw/dist/solar/_variables.scss"
+  "inst/lib/bsw4/dist/solar/_variables.scss"
 )
 writeLines(
   c(
     '$web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" !default;',
     '@import url($web-font-path);'
   ),
-  "inst/lib/bsw/dist/solar/_bootswatch.scss"
+  "inst/lib/bsw4/dist/solar/_bootswatch.scss"
 )
 
 # ----------------------------------------------------------------------
 # Apply minification to patched files
 # ----------------------------------------------------------------------
 
-withr::with_dir("inst", {
+with_dir("inst", {
   local({
     # install all deps
     system("yarn install")
@@ -409,6 +383,9 @@ withr::with_dir("inst", {
 
 })
 
+# Clean up
+unlink("inst/yarn.lock")
+unlink("inst/node_modules", recursive = TRUE)
 
 # ----------------------------------------------------------------------
 # Precompile Bootstrap CSS
@@ -437,12 +414,4 @@ lapply(versions(), function(version) {
     dir.create(dest_dir)
   }
   file.copy(tmp_css, dest_dir)
-})
-
-
-# ----------------------------------------------------------------------
-# Cleanup
-# ----------------------------------------------------------------------
-withr::with_dir("inst", {
-  unlink("yarn.lock")
 })

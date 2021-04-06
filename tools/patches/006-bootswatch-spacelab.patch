@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bsw/dist/spacelab/_bootswatch.scss b/inst/lib/bsw/dist/spacelab/_bootswatch.scss
+diff --git a/inst/lib/bsw4/dist/spacelab/_bootswatch.scss b/inst/lib/bsw4/dist/spacelab/_bootswatch.scss
 index ba1f005..1f89f49 100644
---- a/inst/lib/bsw/dist/spacelab/_bootswatch.scss
-+++ b/inst/lib/bsw/dist/spacelab/_bootswatch.scss
+--- a/inst/lib/bsw4/dist/spacelab/_bootswatch.scss
++++ b/inst/lib/bsw4/dist/spacelab/_bootswatch.scss
 @@ -20,7 +20,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
  .navbar {
    .nav-link,

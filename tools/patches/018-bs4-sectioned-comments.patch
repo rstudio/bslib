@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
+diff --git a/inst/lib/bs4/scss/_variables.scss b/inst/lib/bs4/scss/_variables.scss
 index fff34b9..9405ce7 100644
---- a/inst/lib/bs/scss/_variables.scss
-+++ b/inst/lib/bs/scss/_variables.scss
+--- a/inst/lib/bs4/scss/_variables.scss
++++ b/inst/lib/bs4/scss/_variables.scss
 @@ -4,6 +4,8 @@
  // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
  

@@ -31,23 +31,23 @@ exclude <- c(
   '_carousel', '_utilities', '_responsive-utilities'
 )
 
-bs_table_css <- bs_remove(bs_theme(version = 3), exclude)
-bs_table_css <- bs_theme_dependencies(bs_table_css)[[2]]
-bs_table_css$script <- NULL
-
+bs_deps <- bs_theme_dependencies(bs_remove(bs_theme(version = 3), exclude))
+bs_dep <- Filter(bs_deps, f = function(x) { identical(x$name, "bootstrap") })[[1]]
+bs_dep$script <- NULL
 
 htmltools::tagList(
   rmarkdown::html_dependency_font_awesome(),
-  bs_table_css
+  bs_dep
 )
 ```
 
 ```{r variables_df}
-sass_variables_loc <- rprojroot::find_package_root_file("inst/lib/bs/scss/_variables.scss")
+vars_file <- "inst/lib/bs4/scss/_variables.scss"
+sass_variables_loc <- rprojroot::find_package_root_file(vars_file)
 sass_variables_url <- file.path(
   "https://github.com/rstudio/bslib/blob", 
    substr(system("git rev-parse HEAD", intern = TRUE), 1, 7),
-  "inst/lib/bs/scss/_variables.scss"
+  vars_file
 )
 # A section is denoted by a comment followed by either an empty line or an empty comment.
 # e.g.

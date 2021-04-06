@@ -1,8 +1,8 @@
-diff --git a/inst/lib/bs/scss/_deprecated.scss b/inst/lib/bs/scss/_deprecated.scss
+diff --git a/inst/lib/bs4/scss/_deprecated.scss b/inst/lib/bs4/scss/_deprecated.scss
 new file mode 100644
 index 0000000..03ab781
 --- /dev/null
-+++ b/inst/lib/bs/scss/_deprecated.scss
++++ b/inst/lib/bs4/scss/_deprecated.scss
 @@ -0,0 +1,29 @@
 +/////////////////////////////////////////////////////////////////
 +// bslib's version=4 leverages BS5's color-contrast() instead of
@@ -33,10 +33,10 @@ index 0000000..03ab781
 +    @return $light;
 +  }
 +}
-diff --git a/inst/lib/bs/scss/_functions.scss b/inst/lib/bs/scss/_functions.scss
+diff --git a/inst/lib/bs4/scss/_functions.scss b/inst/lib/bs4/scss/_functions.scss
 index 9c06603..866f0a8 100644
---- a/inst/lib/bs/scss/_functions.scss
-+++ b/inst/lib/bs/scss/_functions.scss
+--- a/inst/lib/bs4/scss/_functions.scss
++++ b/inst/lib/bs4/scss/_functions.scss
 @@ -69,20 +69,6 @@
    @return $string;
  }
@@ -58,10 +58,10 @@ index 9c06603..866f0a8 100644
  
  // Retrieve color Sass maps
  @function color($key: "blue") {
-diff --git a/inst/lib/bs/scss/_variables.scss b/inst/lib/bs/scss/_variables.scss
+diff --git a/inst/lib/bs4/scss/_variables.scss b/inst/lib/bs4/scss/_variables.scss
 index d7171e5..1c22197 100644
---- a/inst/lib/bs/scss/_variables.scss
-+++ b/inst/lib/bs/scss/_variables.scss
+--- a/inst/lib/bs4/scss/_variables.scss
++++ b/inst/lib/bs4/scss/_variables.scss
 @@ -91,12 +91,13 @@ $theme-colors: map-merge(
  // Set a specific jump point for requesting color jumps
  $theme-color-interval:      8% !default;
@@ -81,10 +81,10 @@ index d7171e5..1c22197 100644
  
  // Characters which are escaped by the escape-svg function
  $escaped-characters: (
-diff --git a/inst/lib/bs/scss/mixins/_badge.scss b/inst/lib/bs/scss/mixins/_badge.scss
+diff --git a/inst/lib/bs4/scss/mixins/_badge.scss b/inst/lib/bs4/scss/mixins/_badge.scss
 index f1c4991..833c870 100644
---- a/inst/lib/bs/scss/mixins/_badge.scss
-+++ b/inst/lib/bs/scss/mixins/_badge.scss
+--- a/inst/lib/bs4/scss/mixins/_badge.scss
++++ b/inst/lib/bs4/scss/mixins/_badge.scss
 @@ -1,10 +1,10 @@
  @mixin badge-variant($bg) {
 -  color: color-yiq($bg);
@@ -98,10 +98,10 @@ index f1c4991..833c870 100644
        background-color: darken($bg, 10%);
      }
  
-diff --git a/inst/lib/bs/scss/mixins/_buttons.scss b/inst/lib/bs/scss/mixins/_buttons.scss
+diff --git a/inst/lib/bs4/scss/mixins/_buttons.scss b/inst/lib/bs4/scss/mixins/_buttons.scss
 index d6235aa..04b9e74 100644
---- a/inst/lib/bs/scss/mixins/_buttons.scss
-+++ b/inst/lib/bs/scss/mixins/_buttons.scss
+--- a/inst/lib/bs4/scss/mixins/_buttons.scss
++++ b/inst/lib/bs4/scss/mixins/_buttons.scss
 @@ -4,34 +4,34 @@
  // and disabled options for all buttons
  
@@ -181,10 +181,10 @@ index d6235aa..04b9e74 100644
      background-color: $active-background;
      border-color: $active-border;
 
-diff --git a/inst/lib/bs/scss/mixins/_forms.scss b/inst/lib/bs/scss/mixins/_forms.scss
+diff --git a/inst/lib/bs4/scss/mixins/_forms.scss b/inst/lib/bs4/scss/mixins/_forms.scss
 index a71ead1..a321630 100644
---- a/inst/lib/bs/scss/mixins/_forms.scss
-+++ b/inst/lib/bs/scss/mixins/_forms.scss
+--- a/inst/lib/bs4/scss/mixins/_forms.scss
++++ b/inst/lib/bs4/scss/mixins/_forms.scss
 @@ -61,7 +61,7 @@
      margin-top: .1rem;
      @include font-size($form-feedback-tooltip-font-size);

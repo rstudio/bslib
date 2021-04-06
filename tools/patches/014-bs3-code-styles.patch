@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
+diff --git a/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
 index 73636b7..84b1efb 100644
---- a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
-+++ b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
+--- a/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
++++ b/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
 @@ -847,8 +847,8 @@ $close-text-shadow:           0 1px 0 #fff !default;
  //
  //##

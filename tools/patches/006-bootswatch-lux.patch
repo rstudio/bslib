@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bsw/dist/lux/_variables.scss b/inst/lib/bsw/dist/lux/_variables.scss
+diff --git a/inst/lib/bsw4/dist/lux/_variables.scss b/inst/lib/bsw4/dist/lux/_variables.scss
 index d410140..28c7d2b 100755
---- a/inst/lib/bsw/dist/lux/_variables.scss
-+++ b/inst/lib/bsw/dist/lux/_variables.scss
+--- a/inst/lib/bsw4/dist/lux/_variables.scss
++++ b/inst/lib/bsw4/dist/lux/_variables.scss
 @@ -64,9 +64,6 @@ $headings-color:              $gray-900 !default;
  
  $table-border-color:          rgba(0, 0, 0, .05) !default;

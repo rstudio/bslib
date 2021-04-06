@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bsw/dist/flatly/_bootswatch.scss b/inst/lib/bsw/dist/flatly/_bootswatch.scss
+diff --git a/inst/lib/bsw4/dist/flatly/_bootswatch.scss b/inst/lib/bsw4/dist/flatly/_bootswatch.scss
 index 661e506..34b84c6 100644
---- a/inst/lib/bsw/dist/flatly/_bootswatch.scss
-+++ b/inst/lib/bsw/dist/flatly/_bootswatch.scss
+--- a/inst/lib/bsw4/dist/flatly/_bootswatch.scss
++++ b/inst/lib/bsw4/dist/flatly/_bootswatch.scss
 @@ -9,20 +9,8 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
  
  // Navbar =======================================================================
@@ -25,10 +25,10 @@ index 661e506..34b84c6 100644
  }
  
  // Buttons =====================================================================
-diff --git a/inst/lib/bsw/dist/flatly/_variables.scss b/inst/lib/bsw/dist/flatly/_variables.scss
+diff --git a/inst/lib/bsw4/dist/flatly/_variables.scss b/inst/lib/bsw4/dist/flatly/_variables.scss
 index 76fce2d..6026acf 100755
---- a/inst/lib/bsw/dist/flatly/_variables.scss
-+++ b/inst/lib/bsw/dist/flatly/_variables.scss
+--- a/inst/lib/bsw4/dist/flatly/_variables.scss
++++ b/inst/lib/bsw4/dist/flatly/_variables.scss
 @@ -72,8 +72,16 @@ $nav-tabs-border-color:             $gray-200 !default;
  // Navbar
  

@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bsw/dist/darkly/_bootswatch.scss b/inst/lib/bsw/dist/darkly/_bootswatch.scss
+diff --git a/inst/lib/bsw4/dist/darkly/_bootswatch.scss b/inst/lib/bsw4/dist/darkly/_bootswatch.scss
 index 589ecc7..8f47b6a 100644
---- a/inst/lib/bsw/dist/darkly/_bootswatch.scss
-+++ b/inst/lib/bsw/dist/darkly/_bootswatch.scss
+--- a/inst/lib/bsw4/dist/darkly/_bootswatch.scss
++++ b/inst/lib/bsw4/dist/darkly/_bootswatch.scss
 @@ -7,11 +7,20 @@
  $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" !default;
  @import url($web-font-path);
@@ -90,10 +90,10 @@ index 589ecc7..8f47b6a 100644
 +    color: $body-color;
    }
  }
-diff --git a/inst/lib/bsw/dist/darkly/_variables.scss b/inst/lib/bsw/dist/darkly/_variables.scss
+diff --git a/inst/lib/bsw4/dist/darkly/_variables.scss b/inst/lib/bsw4/dist/darkly/_variables.scss
 index 7d4384e..375352f 100755
---- a/inst/lib/bsw/dist/darkly/_variables.scss
-+++ b/inst/lib/bsw/dist/darkly/_variables.scss
+--- a/inst/lib/bsw4/dist/darkly/_variables.scss
++++ b/inst/lib/bsw4/dist/darkly/_variables.scss
 @@ -28,21 +28,29 @@ $green:   #00bc8c !default;
  $teal:    #20c997 !default;
  $cyan:    #3498db !default;

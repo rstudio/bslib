@@ -1,4 +1,4 @@
-switch_version <- function(version, four = default, three = default, default = NULL) {
+switch_version <- function(version, five = default, four = default, three = default, default = NULL) {
   if (is_bs_theme(version)) {
     version <- theme_version(version)
   }
@@ -8,13 +8,13 @@ switch_version <- function(version, four = default, three = default, default = N
     version <- "4"
   }
   switch(
-    version, `4` = four, `3` = three,
+    version, `5` = five, `4` = four, `3` = three,
     stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
   )
 }
 
 get_exact_version <- function(version) {
-  switch_version(version, four = version_bs4, three = version_bs3)
+  switch_version(version, five = version_bs5, four = version_bs4, three = version_bs3)
 }
 
 lib_file <- function(...) {

@@ -196,6 +196,10 @@ select.form-control {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
   padding-left: 0;
   padding-right: 0\9; // remove padding for < ie9 since default arrow can't be removed
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAAJ1BMVEVmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmaP/QSjAAAADHRSTlMAAgMJC0uWpKa6wMxMdjkoAAAANUlEQVR4AeXJyQEAERAAsNl7Hf3X6xt0QL6JpZWq30pdvdadme+0PMdzvHm8YThHcT1H7K0BtOMDniZhWOgAAAAASUVORK5CYII=);
@@ -255,6 +259,10 @@ input[type="radio"],
   background-color: transparent;
   -webkit-appearance: none;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
   cursor: pointer;
 
   &:focus {
@@ -311,6 +319,10 @@ input[type="checkbox"],
   margin-bottom: -4px;
   -webkit-appearance: none;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
   cursor: pointer;
 
   &:focus {

@@ -1,7 +1,7 @@
 ^bootswatch\.Rproj$
 ^\.Rproj\.user$
-inst/lib/bsw/.github
-inst/lib/bs-sass/assets/images/.keep
+inst/lib/bsw4/.github
+inst/lib/bs3/assets/images/.keep
 inst/lib/bsw3/.npmignore
 ^inst/lib/bs-a11y-p/\.jshintrc$
 ^inst/lib/bs-a11y-p/\.npmignore$
