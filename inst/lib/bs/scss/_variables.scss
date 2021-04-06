@@ -330,6 +330,9 @@ $text-muted:                  $gray-600 !default;
 $blockquote-small-color:      $gray-600 !default;
 $blockquote-small-font-size:  $small-font-size !default;
 $blockquote-font-size:        $font-size-base * 1.25 !default;
+$blockquote-border-width:     $spacer / 4 !default;
+$blockquote-border-color:     $gray-200 !default;
+
 
 $hr-border-color:             rgba($black, .1) !default;
 $hr-border-width:             $border-width !default;
