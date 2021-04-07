@@ -17,7 +17,12 @@ bs_sass_files <- function(files, version) {
 # Search for one file at a time so we can throw informative errors
 bs_sass_file <- function(file, version) {
   if (length(file) != 1) stop("file should be of length 1")
-  file <- paste0("_", file, ".scss")
+
+  file <- file.path(
+    dirname(file),
+    paste0("_", basename(file), ".scss")
+  )
+
   f <- switch_version(
     version,
     five = lib_file("bs5", "scss", file),

@@ -57,7 +57,7 @@ ul.nav.navbar-nav>li>a {
   @if $navbar-light-bg {
     background-color: $navbar-light-bg !important;
   } @else {
-    @extend .bg-#{$navbar-default-bg} !optional; // TODO: BS5 shim for .bg-dark?
+    @extend .bg-#{$navbar-default-bg};
   }
 }
 
