@@ -8,6 +8,10 @@ window.BS3_COMPAT = true;
   }
   var bs3TabPlugin = $.fn.tab.noConflict();
 
+  // TODO: If we want to use this in BS5, then this constructor won't exist!
+  // (we'll have to find a way to patch window.bootstrap.Tab)
+  // Note that we won't technically need this monkey-patch for the newer
+  // version of rmarkdown (but rmarkdown/flexdasboard will likely want it)
   if (!$.fn.tab.Constructor.VERSION.match(/^4\./)) {
     (console.warn || console.error || console.log)("bs3compat.js couldn't find bs4 tab impl; bs3 tabs will not be properly supported");
     return;
@@ -50,13 +54,13 @@ window.BS3_COMPAT = true;
 
 
 (function($) {
-  /* 
+  /*
    * Bootstrap 4 uses poppler.js to choose what direction to show dropdown
    * menus, except in the case of navbars; they assume that navbars are always
    * at the top of the page, so this isn't necessary. However, Bootstrap 3
    * explicitly supported bottom-positioned navbars via .navbar-fixed-bottom,
    * and .fixed-bottom works on Bootstrap 4 as well.
-   * 
+   *
    * We monkeypatch the dropdown plugin's _detectNavbar method to return false
    * if we're in a bottom-positioned navbar.
    */

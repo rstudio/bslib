@@ -16,11 +16,13 @@
   // https://github.com/rstudio/bs4/blob/7aadd19/inst/node_modules/bootstrap/scss/_forms.scss#L227-L240
   .checkbox-inline, .radio-inline {
     padding-left: 0;
-    margin-right: $form-check-inline-margin-x;
+    // TODO: BS5 shim
+    //margin-right: $form-check-inline-margin-x;
 
     label > input {
       margin-top: 0;
-      margin-right: $form-check-inline-input-margin-x;
+      // TODO: BS5 shim
+      //margin-right: $form-check-inline-input-margin-x;
       margin-bottom: 0;
     }
   }

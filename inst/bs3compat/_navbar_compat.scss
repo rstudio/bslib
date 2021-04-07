@@ -57,7 +57,7 @@ ul.nav.navbar-nav>li>a {
   @if $navbar-light-bg {
     background-color: $navbar-light-bg !important;
   } @else {
-    @extend .bg-#{$navbar-default-bg};
+    @extend .bg-#{$navbar-default-bg} !optional; // TODO: BS5 shim for .bg-dark?
   }
 }
 
@@ -69,7 +69,7 @@ ul.nav.navbar-nav>li>a {
   @if $navbar-dark-bg {
     background-color: $navbar-dark-bg !important;
   } @else {
-    @extend .bg-#{$navbar-inverse-bg};
+    @extend .bg-#{$navbar-inverse-bg} !optional;
   }
 }
 
@@ -89,7 +89,9 @@ ul.nav.navbar-nav>li>a {
 
 // Make sure navbar-toggle floats right when navbar is collapsed
 // https://github.com/rstudio/bslib/issues/289
-@include media-breakpoint-down(xs) {
+// TODO: why is this mixin not working in BS5?
+//@include media-breakpoint-down(xs) {
+@media (max-width: 700px) {
   .navbar-header {
     width: 100%;
     .navbar-toggle {

@@ -271,7 +271,18 @@ bootstrap_bundle <- function(version) {
           # TODO: what to do about utilities/api?
           # "utilities/api"
         ))
-      )
+      ),
+      # Additions to BS5 that are always included (i.e., not a part of compatibility)
+      sass_layer(
+        rules = list(
+          # Pandoc uses align attribute to align content but BS4 styles take precedence...
+          # we may want to consider adopting this more generally in "strict" BS4 mode as well
+          ".table th[align=left] { text-align: left; }",
+          ".table th[align=right] { text-align: right; }",
+          ".table th[align=center] { text-align: center; }"
+        )
+      ),
+      bs3compat = bs3compat_bundle()
     ),
     four = sass_bundle(
       sass_layer(
