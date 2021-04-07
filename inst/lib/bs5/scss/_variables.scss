@@ -960,19 +960,26 @@ $navbar-toggler-transition:         box-shadow .15s ease-in-out !default;
 // scss-docs-end navbar-variables
 
 // scss-docs-start navbar-theme-variables
-$navbar-dark-color:                 rgba($white, .55) !default;
-$navbar-dark-hover-color:           rgba($white, .75) !default;
-$navbar-dark-active-color:          $white !default;
-$navbar-dark-disabled-color:        rgba($white, .25) !default;
-$navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
-$navbar-dark-toggler-border-color:  rgba($white, .1) !default;
+$navbar-bg:                         null !default;  // Background color for any navbarPage()
+$navbar-dark-bg:                    $navbar-bg !default;  // Background color for navbarPage(inverse = TRUE)
+$navbar-light-bg:                   $navbar-bg !default;  // Background color for navbarPage(inverse = FALSE)
 
-$navbar-light-color:                rgba($black, .55) !default;
-$navbar-light-hover-color:          rgba($black, .7) !default;
-$navbar-light-active-color:         rgba($black, .9) !default;
-$navbar-light-disabled-color:       rgba($black, .3) !default;
+$navbar-dark-contrast:              if($navbar-dark-bg, color-contrast($navbar-dark-bg), $white) !default; // Deepest contrasting color for navbarPage(inverse = TRUE). Defaults to $white or $black based on luminance of $navbar-dark-bg
+$navbar-light-contrast:             if($navbar-light-bg, color-contrast($navbar-light-bg), $black) !default; // Deepest contrasting color for navbarPage(inverse = FALSE). Defaults to $white or $black based on luminance of $navbar-light-bg
+
+$navbar-dark-color:                 rgba($navbar-dark-contrast, .55) !default;
+$navbar-dark-hover-color:           rgba($navbar-dark-contrast, .75) !default;
+$navbar-dark-active-color:          $navbar-dark-contrast !default;
+$navbar-dark-disabled-color:        rgba($navbar-dark-contrast, .25) !default;
+$navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
+$navbar-dark-toggler-border-color:  rgba($navbar-dark-contrast, .1) !default;
+
+$navbar-light-color:                rgba($navbar-light-contrast, .55) !default;
+$navbar-light-hover-color:          rgba($navbar-light-contrast, .7) !default;
+$navbar-light-active-color:         rgba($navbar-light-contrast, .9) !default;
+$navbar-light-disabled-color:       rgba($navbar-light-contrast, .3) !default;
 $navbar-light-toggler-icon-bg:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
-$navbar-light-toggler-border-color: rgba($black, .1) !default;
+$navbar-light-toggler-border-color: rgba($navbar-light-contrast, .1) !default;
 
 $navbar-light-brand-color:                $navbar-light-active-color !default;
 $navbar-light-brand-hover-color:          $navbar-light-active-color !default;
