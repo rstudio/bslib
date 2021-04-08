@@ -4,3 +4,11 @@
 pre.shiny-code {
   padding: 0.5 * $spacer;
 }
+
+// BS5
+.float-left {
+  @extend .float-start !optional;
+}
+.float-right {
+  @extend .float-end !optional;
+}
