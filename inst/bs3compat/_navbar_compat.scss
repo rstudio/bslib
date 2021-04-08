@@ -69,7 +69,7 @@ ul.nav.navbar-nav>li>a {
   @if $navbar-dark-bg {
     background-color: $navbar-dark-bg !important;
   } @else {
-    @extend .bg-#{$navbar-inverse-bg} !optional;
+    @extend .bg-#{$navbar-inverse-bg};
   }
 }
 

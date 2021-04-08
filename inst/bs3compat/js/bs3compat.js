@@ -8,10 +8,14 @@ window.BS3_COMPAT = true;
   }
   var bs3TabPlugin = $.fn.tab.noConflict();
 
-  // TODO: If we want to use this in BS5, then this constructor won't exist!
-  // (we'll have to find a way to patch window.bootstrap.Tab)
-  // Note that we won't technically need this monkey-patch for the newer
-  // version of rmarkdown (but rmarkdown/flexdasboard will likely want it)
+  if (!$.fn.tab) {
+    // TODO: If we want to use this in BS5, then this constructor won't exist!
+    // (we'll have to find a way to patch window.bootstrap.Tab)
+    // Note that we won't technically need this monkey-patch for the newer
+    // version of rmarkdown (but rmarkdown/flexdasboard will likely want it)
+    return;
+  }
+
   if (!$.fn.tab.Constructor.VERSION.match(/^4\./)) {
     (console.warn || console.error || console.log)("bs3compat.js couldn't find bs4 tab impl; bs3 tabs will not be properly supported");
     return;
@@ -54,6 +58,15 @@ window.BS3_COMPAT = true;
 
 
 (function($) {
+  if (!$.fn.tab) {
+    // TODO: If we want to use this in BS5, then this constructor won't exist!
+    // (we'll have to find a way to patch window.bootstrap.Tab)
+    // Note that we won't technically need this monkey-patch for the newer
+    // version of rmarkdown (but rmarkdown/flexdasboard will likely want it)
+    return;
+  }
+
+
   /*
    * Bootstrap 4 uses poppler.js to choose what direction to show dropdown
    * menus, except in the case of navbars; they assume that navbars are always

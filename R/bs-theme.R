@@ -267,9 +267,7 @@ bootstrap_bundle <- function(version) {
           "button-group", "nav", "navbar", "card", "accordion", "breadcrumb",
           "pagination", "badge", "alert", "progress", "list-group", "close",
           "toasts", "modal", "tooltip", "popover", "carousel", "spinners",
-          "offcanvas", "helpers"
-          # TODO: what to do about utilities/api?
-          # "utilities/api"
+          "offcanvas", "helpers", "utilities/api"
         ))
       ),
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
@@ -344,7 +342,8 @@ bootstrap_bundle <- function(version) {
 bootstrap_javascript_map <- function(version) {
   switch_version(
     version,
-    four = lib_file("bs", "dist", "js", "bootstrap.bundle.min.js.map")
+    five = lib_file("bs5", "dist", "js", "bootstrap.bundle.min.js.map"),
+    four = lib_file("bs4", "dist", "js", "bootstrap.bundle.min.js.map")
   )
 }
 bootstrap_javascript <- function(version) {
