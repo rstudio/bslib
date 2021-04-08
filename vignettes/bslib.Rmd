@@ -368,7 +368,7 @@ Below is a list of known-to-be themeable HTML components that "just work" well w
 * All of "core" Shiny UI (e.g., `sliderInput()`, `selectInput()`, `tabPanel()`, `navbarPage()`, etc.) 
   * The one exception is `plotOutput()`, but in that case, [the `{thematic}` package can be used to essentially translate CSS to R plot theming defaults](https://rstudio.github.io/thematic/articles/auto.html). Just put `thematic_shiny()` in your Shiny apps and `thematic_rmd()` in your R Markdown documents.
   
-* All of `rmarkdown::html_document()` specific [features](https://bookdown.org/yihui/rmarkdown/html-document.html) as well as [`{flexdashboard}`](https://flexdashboard-pkg.netlify.app/articles/articles/theme.html).
+* All of `rmarkdown::html_document()` specific [features](https://bookdown.org/yihui/rmarkdown/html-document.html) as well as [`{flexdashboard}`](https://flexdashboard-pkg.netlify.app/articles/theme.html).
 
 * Any un-styled HTML content (e.g., `tags$input(type = "checkbox")`).
 

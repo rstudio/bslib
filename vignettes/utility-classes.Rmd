@@ -8,7 +8,7 @@ Bootstrap 4 (and above) comes with a suite of handy utility classes for handling
 ## Add margin
 
 If you look at [the source](https://github.com/rstudio/bslib/tree/master/inst/themer-demo) for the theme demo app, the `actionButton()` logic makes use of the margin spacing (`m-2`) to add some spacing between the buttons (they also make use of [button modifier classes](
-/components/buttons/) to achieve their different background colors).
+https://getbootstrap.com/docs/4.6/components/buttons/) to achieve their different background colors).
 
 ``` {.r}
 actionButton("primary", "Primary", icon("product-hunt"), class = "btn-primary m-2")
