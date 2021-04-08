@@ -214,7 +214,7 @@ is_bs_theme <- function(x) {
 # theme_version() & theme_bootswatch() search for
 bs_theme_init <- function(version, bootswatch = NULL) {
   add_class(
-    sass_bundle(),
+    sass_layer(defaults = list("bootstrap-version" = version)),
     c(
       bootswatch_class(bootswatch),
       paste0("bs_version_", version),
