@@ -1,5 +1,5 @@
 diff --git a/inst/lib/bs4/scss/_code.scss b/inst/lib/bs4/scss/_code.scss
-index 4bc117a..ab6617b 100644
+index b2ff5d6..9df2288 100644
 --- a/inst/lib/bs4/scss/_code.scss
 +++ b/inst/lib/bs4/scss/_code.scss
 @@ -2,6 +2,9 @@
@@ -12,7 +12,7 @@ index 4bc117a..ab6617b 100644
    word-wrap: break-word;
  
    // Streamline the style when inside anchors to avoid broken underline and more
-@@ -32,6 +35,10 @@ pre {
+@@ -32,9 +35,14 @@ pre {
    display: block;
    @include font-size($code-font-size);
    color: $pre-color;
@@ -23,6 +23,10 @@ index 4bc117a..ab6617b 100644
  
    // Account for some code outputs that place code tags in pre tags
    code {
++    background-color: transparent;
+     @include font-size(inherit);
+     color: inherit;
+     word-break: normal;
 diff --git a/inst/lib/bs4/scss/_variables.scss b/inst/lib/bs4/scss/_variables.scss
 index 1c22197..ea39303 100644
 --- a/inst/lib/bs4/scss/_variables.scss

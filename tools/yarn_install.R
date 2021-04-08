@@ -282,27 +282,25 @@ patch_files <- list.files(
   full.names = TRUE
 )
 
+rej_pre <- dir(pattern = "\\.rej$", recursive = TRUE)
 for (patch in patch_files) {
   tryCatch(
     {
       message(sprintf("Applying %s", basename(patch)))
-      rej_pre <- dir(pattern = "\\.rej$", recursive = TRUE)
       system(sprintf("git apply --reject --whitespace=fix '%s'", patch))
-      rej_post <- dir(pattern = "\\.rej$", recursive = TRUE)
-      if (length(rej_post) > length(rej_pre)) {
-        stop(
-          "Running `git apply --reject` generated `.rej` files.\n",
-          "Please fix the relevant conflicts inside ", patch, "\n",
-          "An 'easy' way to do this is to first `git add` the new source changes, ",
-          "then manually make the relevant changes from the patch file,",
-          "then `git diff` to get the relevant diff output and update the patch diff with the new diff."
-        )
-      }
     },
     error = function(e) {
-      stop(conditionMessage(e))
       quit(save = "no", status = 1)
     }
+  )
+}
+rej_post <- dir(pattern = "\\.rej$", recursive = TRUE)
+if (length(rej_post) > length(rej_pre)) {
+  warning(
+    "Running `git apply --reject` generated `.rej` files. \n",
+    "An 'easy' way to do this is to first `git add` the new source changes, ",
+    "then manually make the relevant changes from the patch file,",
+    "then `git diff` to get the relevant diff output and update the patch diff with the new diff."
   )
 }
 
