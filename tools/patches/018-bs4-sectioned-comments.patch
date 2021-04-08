@@ -69,7 +69,7 @@ index fff34b9..9405ce7 100644
  
  
  // Cards
-+// 
++//
 +// Individual cards for displaying grouped information
  
  $card-spacer-y:                     .75rem !default;
@@ -114,7 +114,7 @@ index fff34b9..9405ce7 100644
  
  
  // Modals
-+// 
++//
 +// Screen-filling popup dialogs that typically require the user to dismiss
  
  // Padding applied to the modal body
@@ -132,8 +132,8 @@ index fff34b9..9405ce7 100644
  
  
  // List group
-+// 
-+// Basic unordered lists 
++//
++// Basic unordered lists
  
  $list-group-color:                  null !default;
  $list-group-bg:                     $white !default;
@@ -158,7 +158,7 @@ index fff34b9..9405ce7 100644
  
  
  // Breadcrumbs
-+// 
++//
 +// Navigation history information widgets
  
  $breadcrumb-font-size:              null !default;
@@ -167,7 +167,7 @@ index fff34b9..9405ce7 100644
  
  
  // Carousel
-+// 
++//
 +// Rotating set of items
  
  $carousel-control-color:             $white !default;
@@ -176,7 +176,7 @@ index fff34b9..9405ce7 100644
  
  
  // Spinners
-+// 
++//
 +// Spinning widgets to display ongoing process
  
  $spinner-width:         2rem !default;
@@ -185,7 +185,7 @@ index fff34b9..9405ce7 100644
  
  
  // Close
-+// 
++//
 +// Buttons for closing a dialog
  
  $close-font-size:                   $font-size-base * 1.5 !default;

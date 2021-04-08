@@ -25,6 +25,9 @@ unlink("inst/lib/.yarn-integrity")
 # jquery comes in via jquerylib (R package)
 unlink("inst/lib/jquery", recursive = TRUE)
 
+# bootstrap is a peer dependency of bs-colorpicker?
+unlink("inst/lib/bootstrap", recursive = TRUE)
+
 # bootstrap.bundle.min.js includes popper (but not jQuery)
 # https://getbootstrap.com/docs/4.4/getting-started/introduction/#js
 unlink("inst/lib/popper.js", recursive = TRUE)

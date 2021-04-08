@@ -21,7 +21,7 @@ index 661e506..34b84c6 100644
 -    }
 -  }
 +.navbar-brand {
-+ color: $white !important; 
++ color: $white !important;
  }
  
  // Buttons =====================================================================
