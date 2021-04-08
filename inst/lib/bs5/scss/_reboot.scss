@@ -302,9 +302,14 @@ pre {
   overflow: auto; // 3
   @include font-size($code-font-size);
   color: $pre-color;
+  background-color: $pre-bg;
+  padding: $spacer / 2;
+  border: $pre-border;
+  @include border-radius($border-radius);
 
   // Account for some code outputs that place code tags in pre tags
   code {
+    background-color: transparent;
     @include font-size(inherit);
     color: inherit;
     word-break: normal;
@@ -314,6 +319,9 @@ pre {
 code {
   @include font-size($code-font-size);
   color: $code-color;
+  background-color: $code-bg;
+  @include border-radius($border-radius);
+  padding: $spacer/8 $spacer/4;
   word-wrap: break-word;
 
   // Streamline the style when inside anchors to avoid broken underline and more

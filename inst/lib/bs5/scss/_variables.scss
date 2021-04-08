@@ -1460,7 +1460,10 @@ $offcanvas-box-shadow:              $modal-content-box-shadow-xs !default;
 // Code
 
 $code-font-size:                    $small-font-size !default;
-$code-color:                        $pink !default;
+// Amount intentionally matches mixture amount of shiny::inputPanel()
+// https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
+$code-bg:                           mix($body-bg, $body-color, 96%) !default;
+$code-color:                        color-contrast($code-bg) !default;
 
 $kbd-padding-y:                     .2rem !default;
 $kbd-padding-x:                     .4rem !default;
@@ -1468,4 +1471,6 @@ $kbd-font-size:                     $code-font-size !default;
 $kbd-color:                         $white !default;
 $kbd-bg:                            $gray-900 !default;
 
-$pre-color:                         null !default;
+$pre-bg:                            $code-bg !default;
+$pre-color:                         color-contrast($pre-bg) !default;
+$pre-border:                        $border-width solid $border-color !default;

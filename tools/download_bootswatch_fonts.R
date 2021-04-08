@@ -34,7 +34,8 @@ download_and_copy_fonts <-  function(theme) {
     sass:::download_file(url, file.path(fonts_home, nm))
     css <<- sub(url, file.path("fonts", nm), css, fixed = TRUE)
   }, urls, basenames)
-  invisible(writeLines(css, css_file))
+  writeLines(css, css_file)
+  NULL
 }
 
 
