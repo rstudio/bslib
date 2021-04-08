@@ -500,6 +500,8 @@ $blockquote-margin-y:         $spacer !default;
 $blockquote-font-size:        $font-size-base * 1.25 !default;
 $blockquote-footer-color:     $gray-600 !default;
 $blockquote-footer-font-size: $small-font-size !default;
+$blockquote-border-width:     $spacer / 4 !default;
+$blockquote-border-color:     $gray-200 !default;
 
 $hr-margin-y:                 $spacer !default;
 $hr-color:                    inherit !default;
