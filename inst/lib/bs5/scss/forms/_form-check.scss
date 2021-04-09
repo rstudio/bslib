@@ -2,19 +2,19 @@
 // Check/radio
 //
 
-.form-check {
+.form-check, #{$shiny-check}, #{$shiny-radio} {
   display: block;
   min-height: $form-check-min-height;
   padding-left: $form-check-padding-start;
   margin-bottom: $form-check-margin-bottom;
 
-  .form-check-input {
+  .form-check-input, #{$shiny-check} input, #{$shiny-radio} input {
     float: left;
     margin-left: $form-check-padding-start * -1;
   }
 }
 
-.form-check-input {
+#{$form-check-input-selector} {
   width: $form-check-input-width;
   height: $form-check-input-width;
   margin-top: ($line-height-base - $form-check-input-width) / 2; // line-height minus check height
@@ -136,7 +136,7 @@
   }
 }
 
-.form-check-inline {
+.form-check-inline, #{$shiny-check-inline}, #{$shiny-radio-inline} {
   display: inline-block;
   margin-right: $form-check-inline-margin-end;
 }
