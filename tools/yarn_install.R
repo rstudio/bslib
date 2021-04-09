@@ -214,6 +214,7 @@ with_dir(
     for (bsw in c("bsw5", "bsw4")) {
       file.remove(Sys.glob(file.path(bsw, "dist/*/bootstrap.css")))
       file.remove(Sys.glob(file.path(bsw, "dist/*/bootstrap.min.css")))
+      unlink("bsw5/docs", recursive = TRUE)
     }
     file.remove(c(
       Sys.glob("bsw3/*/bootstrap.css"),
