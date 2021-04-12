@@ -1,0 +1,19 @@
+diff --git a/inst/lib/bsw5/dist/flatly/_variables.scss b/inst/lib/bsw5/dist/flatly/_variables.scss
+index 824f44c..3e611e1 100755
+--- a/inst/lib/bsw5/dist/flatly/_variables.scss
++++ b/inst/lib/bsw5/dist/flatly/_variables.scss
+@@ -74,6 +74,14 @@ $nav-tabs-border-color:             $gray-200 !default;
+ // Navbar
+ 
+ $navbar-padding-y:                  1rem !default;
++$navbar-light-bg:                   $primary !default;
++$navbar-light-color:                $white !default;
++$navbar-light-hover-color:          $success !default;
++$navbar-light-active-color:         $success !default;
++$navbar-light-brand-color:          $white !default;
++$navbar-light-brand-hover-color:    $navbar-light-brand-color !default;
++
++
+ $navbar-dark-color:                 $white !default;
+ $navbar-dark-hover-color:           $primary !default;
+ $navbar-dark-active-color:          $primary !default;
