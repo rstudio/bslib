@@ -160,7 +160,7 @@ select.form-control {
 }
 
 [type="checkbox"] {
-  position: relative;
+  position: relative !important;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -201,7 +201,7 @@ select.form-control {
 }
 
 [type="radio"] {
-  position: relative;
+  position: relative !important;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
