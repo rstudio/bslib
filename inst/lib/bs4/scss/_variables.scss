@@ -66,6 +66,11 @@ $colors: map-merge(
   $colors
 );
 
+// Semantically, $secondary is closest to BS3's 'default' theme color; 
+// so use that if specified. Otherwise, use a light instead of dark gray
+// default color for $default since that's closer to bootstrap 3's default
+$default: if(variable-exists("secondary"), $secondary, $gray-300) !default;
+
 $primary:       $blue !default;
 $secondary:     $gray-600 !default;
 $success:       $green !default;
@@ -78,6 +83,9 @@ $dark:          $gray-800 !default;
 $theme-colors: () !default;
 $theme-colors: map-merge(
   (
+    // default needs to be 1st so that .btn-default comes before .btn-primary
+    // & therefore has lower priority.
+    "default":    $default,
     "primary":    $primary,
     "secondary":  $secondary,
     "success":    $success,

@@ -66,6 +66,11 @@ $colors: (
 ) !default;
 // scss-docs-end colors-map
 
+// Semantically, $secondary is closest to BS3's 'default' theme color; 
+// so use that if specified. Otherwise, use a light instead of dark gray
+// default color for $default since that's closer to bootstrap 3's default
+$default: if(variable-exists("secondary"), $secondary, $gray-300) !default;
+
 // scss-docs-start theme-color-variables
 $primary:       $blue !default;
 $secondary:     $gray-600 !default;
@@ -79,6 +84,9 @@ $dark:          $gray-900 !default;
 
 // scss-docs-start theme-colors-map
 $theme-colors: (
+  // default needs to be 1st so that .btn-default comes before .btn-primary
+  // & therefore has lower priority.
+  "default":    $default,
   "primary":    $primary,
   "secondary":  $secondary,
   "success":    $success,
