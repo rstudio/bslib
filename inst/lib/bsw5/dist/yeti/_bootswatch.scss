@@ -78,6 +78,10 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
     border-color: darken($primary, 5%);
   }
 
+  &-default {
+    border-color: darken($secondary, 5%);
+  }
+
   &-secondary {
     border-color: darken($secondary, 5%);
   }
