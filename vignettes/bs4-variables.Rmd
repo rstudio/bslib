@@ -147,7 +147,7 @@ Below is a searchable table of Bootstrap 4 Sass variables. If you aren't sure wh
 * Rows are grouped into sections of similar variables
     * For example, [Navs](#nav-link-padding-y) (`shiny::tabsetPanel()`), [Navbars](#navbar-padding-y) (`shiny::navbarPage()`), and [Dropdowns](#dropdown-min-width) (e.g., `shiny::navbarMenu()`).
 * Towards the top of the table are more general theming options like `white`, `gray-*`, `black`, `primary`, `border-radius`, and so on, which end up impacting more specific theming variables like `btn-border-radius`.
-    * `bs_theme()`'s `bg` and `fg` arguments provide a more convenient way to set the `white`, `gray-*`, and `black` variables, so there is no need to set these Sass variables directly (same goes for `font_base` -> `$font-family-base`, `font_heading` -> `$font-family-base`, and `font_code` -> `$font-family-monospace`).
+    * `bs_theme()`'s `bg` and `fg` arguments provide a more convenient way to set the `white`, `gray-*`, and `black` variables, so there is no need to set these Sass variables directly (same goes for `base_font` -> `$font-family-base`, `heading_font` -> `$headings-font-family`, and `code_font` -> `$font-family-monospace`).
 
 
 ```{css}

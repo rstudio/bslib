@@ -42,7 +42,7 @@ navbar:
       href: news/index.html
     github:
       icon: fab fa-github fa-lg
-      href: https://github.com/rstudio/flexdashboard
+      href: https://github.com/rstudio/bslib
 
 reference:
 - title: Theme creation
