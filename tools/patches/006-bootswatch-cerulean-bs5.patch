@@ -1,0 +1,19 @@
+diff --git a/inst/lib/bsw5/dist/cerulean/_bootswatch.scss b/inst/lib/bsw5/dist/cerulean/_bootswatch.scss
+index 8eda79b..169696a 100644
+--- a/inst/lib/bsw5/dist/cerulean/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/cerulean/_bootswatch.scss
+@@ -6,6 +6,14 @@
+ 
+ $text-shadow: 0 1px 0 rgba(0, 0, 0, .05) !default;
+ 
++// See inst/bs3compat/_declarations.scss
++// It's very important that this come before other btn-* rules
++@if variable-exists("default") {
++  .btn-default {
++    @include btn-shadow($default);
++  }
++}
++
+ // Mixins
+ 
+ @mixin btn-shadow($color){
