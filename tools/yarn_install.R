@@ -215,6 +215,10 @@ with_dir(
       file.remove(Sys.glob(file.path(bsw, "dist/*/bootstrap.css")))
       file.remove(Sys.glob(file.path(bsw, "dist/*/bootstrap.min.css")))
       unlink("bsw5/docs", recursive = TRUE)
+      # Remove hidden files
+      unlink(
+        dir(bsw, pattern = "^\\.[a-z]+", all.files = TRUE, full.names = TRUE), recursive = TRUE
+      )
     }
     file.remove(c(
       Sys.glob("bsw3/*/bootstrap.css"),
