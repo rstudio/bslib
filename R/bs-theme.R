@@ -250,6 +250,14 @@ color_contrast_layer <- function() {
 # -----------------------------------------------------------------
 
 bootstrap_bundle <- function(version) {
+  pandoc_tables <- list(
+    # Pandoc uses align attribute to align content but BS4 styles take precedence...
+    # we may want to consider adopting this more generally in "strict" BS4 mode as well
+    ".table th[align=left] { text-align: left; }",
+    ".table th[align=right] { text-align: right; }",
+    ".table th[align=center] { text-align: center; }"
+  )
+
   switch_version(
     version,
     five = sass_bundle(
@@ -271,15 +279,7 @@ bootstrap_bundle <- function(version) {
         ))
       ),
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
-      sass_layer(
-        rules = list(
-          # Pandoc uses align attribute to align content but BS4 styles take precedence...
-          # we may want to consider adopting this more generally in "strict" BS4 mode as well
-          ".table th[align=left] { text-align: left; }",
-          ".table th[align=right] { text-align: right; }",
-          ".table th[align=center] { text-align: center; }"
-        )
-      ),
+      sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle()
     ),
     four = sass_bundle(
@@ -300,15 +300,7 @@ bootstrap_bundle <- function(version) {
         ))
       ),
       # Additions to BS4 that are always included (i.e., not a part of compatibility)
-      sass_layer(
-        rules = list(
-          # Pandoc uses align attribute to align content but BS4 styles take precedence...
-          # we may want to consider adopting this more generally in "strict" BS4 mode as well
-          ".table th[align=left] { text-align: left; }",
-          ".table th[align=right] { text-align: right; }",
-          ".table th[align=center] { text-align: center; }"
-        )
-      ),
+      sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle()
     ),
     three = sass_bundle(
