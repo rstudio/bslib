@@ -70,7 +70,7 @@ In some more [advanced cases](#advanced), you might also want to know how to add
 At the time of writing, `bslib` currently supports:
 
 * [Bootstrap 5](https://getbootstrap.com/docs/5.0/) `bs_theme(version = 5)`: intended for new projects. 
-* [Bootstrap 4](https://getbootstrap.com/docs/4.6/) `bs_theme(version = 4)`: intended for "newer" projects that we're created before Bootstrap 5 support was added. 
+* [Bootstrap 4](https://getbootstrap.com/docs/4.6/) `bs_theme(version = 4)`: intended for legacy projects that happen to break with `version = 5`. 
 * [Bootstrap 3](https://getbootstrap.com/docs/3.4/) `bs_theme(version = 3)`: intended for legacy projects that happen to break with `version = 4`.
 
 `bslib` doesn't require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 5 is recommended, but that may change to Bootstrap 6+ in the near future, so it's best practice to specify the version, especially if reproducibility is important and your project does any of the following:
@@ -150,7 +150,7 @@ output:
 knitr::include_graphics("dark-mode.png")
 ```
 
-Among all the coloring options in `bs_theme()`, `bg`, `fg`, and `primary` are by far the most influential as they effect nearly every color on the page. In fact, `bg` and `fg` alone impact 100s of defaults --- everything from panels (e.g., `shiny::wellPanel()`, `shiny::inputPanel()`, etc) to navigation (e.g., `shiny::navbarPage()`, `shiny::tabsetPanel()`, etc) and more. The accent colors don't impact nearly as much, but `primary` does control the color for some important things like hyperlinks, `shiny::tabsetPanel()` links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like `shiny::actionButton()` (defaults to the `secondary` color), `shiny::showNotification()` , or more generally any HTML content that leverages [Color Utility Classes](https://getbootstrap.com/docs/4.6/utilities/colors/).
+Among all the coloring options in `bs_theme()`, `bg`, `fg`, and `primary` are by far the most influential as they effect nearly every color on the page. In fact, `bg` and `fg` alone impact 100s of defaults --- everything from panels (e.g., `shiny::wellPanel()`, `shiny::inputPanel()`, etc) to navigation (e.g., `shiny::navbarPage()`, `shiny::tabsetPanel()`, etc) and more. The accent colors don't impact nearly as much, but `primary` does control the color for some important things like hyperlinks, `shiny::tabsetPanel()` links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like `shiny::actionButton()` (defaults to the `secondary` color), `shiny::showNotification()` , or more generally any HTML content that leverages [Color Utility Classes](https://getbootstrap.com/docs/5.0/utilities/colors/).
 
 ::: {.info}
 When choosing `bg` and `fg` colors, keep in mind that it's generally a good idea to pick colors with a similar hue but a large difference in their luminance.
@@ -164,7 +164,7 @@ When choosing fonts, keep in mind that it's generally good practice to put serif
 
 ### Everything else {#low-level}
 
-`bs_theme()` also provides access to 100s of more specific [theming options](bs4-variables.html) by considering anything passed through it's `...` argument to be a new [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/4.6/getting-started/theming/#variable-defaults). This allows you to get more targetted with your theming; for example, let's set the [`$progress-bar-bg`](bs4-variables.html#progress-bar-bg) Sass variable to `'orange'` (a CSS color).
+`bs_theme()` also provides access to 100s of more specific [theming options](bs5-variables.html) by considering anything passed through it's `...` argument to be a new [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults). This allows you to get more targetted with your theming; for example, let's set the [`$progress-bar-bg`](bs5-variables.html#progress-bar-bg) Sass variable to `'orange'` (a CSS color).
 
 <div class="usage">
 ```r
@@ -200,7 +200,7 @@ bs_theme("progress-bar-bg" = "mix(white, orange, 20%)")
 #> @import "scss/_variables.scss";
 ```
 
-Underneath the hood, `bs_theme()` works by placing [Sass variable defaults](https://sass-lang.com/documentation/variables#default-values) _before_ Bootstrap's variable defaults. That's why something like `bs_theme(primary = "red")` "just works" in the sense that it not only provides `$primary` with a new default value, but it also passes the value to other variables that default to `$primary` (e.g. [`$progress-bar-bg`](bs4-variables.html#progress-bar-bg)).
+Underneath the hood, `bs_theme()` works by placing [Sass variable defaults](https://sass-lang.com/documentation/variables#default-values) _before_ Bootstrap's variable defaults. That's why something like `bs_theme(primary = "red")` "just works" in the sense that it not only provides `$primary` with a new default value, but it also passes the value to other variables that default to `$primary` (e.g. [`$progress-bar-bg`](bs5-variables.html#progress-bar-bg)).
 
 ```r
 # Reduced version of the Sass code behind `bs_theme(primary = "red")`
@@ -360,7 +360,7 @@ Hello custom block with custom styles!
 
 ### Utility Classes {#utility-classes}
 
-With [Bootstrap 4 (or higher)](#versions), you can use utility classes to easily add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. [See here](utility-classes.html) for some useful examples specific to Shiny and R Markdown as well as [here for the full list](https://getbootstrap.com/docs/4.6/utilities/borders/) of Bootstrap 4 Utility Classes.
+With [Bootstrap 4 (or higher)](#versions), you can use utility classes to easily add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. See the article on [Utility Classes](utility-classes.html) for some useful examples specific to Shiny and R Markdown.
 
 ## Component support
 

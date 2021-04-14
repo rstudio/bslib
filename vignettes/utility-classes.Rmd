@@ -3,12 +3,12 @@ title: "Utility classes"
 output: html_document
 ---
 
-[Bootstrap 4 (and higher)](bslib.html#versions) comes with a suite of handy utility classes for handling common yet fickle styling issues like [spacing](https://getbootstrap.com/docs/4.6/utilities/spacing/), [borders](https://getbootstrap.com/docs/4.6/utilities/borders/), [sizing](https://getbootstrap.com/docs/4.6/utilities/sizing/), [layout](https://getbootstrap.com/docs/4.6/utilities/flex/), [colors](https://getbootstrap.com/docs/4.6/utilities/colors/), and more.
+[Bootstrap 4 (and higher)](bslib.html#versions) comes with a suite of handy utility classes for handling common yet fickle styling issues like [spacing](https://getbootstrap.com/docs/5.0/utilities/spacing/), [borders](https://getbootstrap.com/docs/5.0/utilities/borders/), [sizing](https://getbootstrap.com/docs/5.0/utilities/sizing/), [layout](https://getbootstrap.com/docs/5.0/utilities/flex/), [colors](https://getbootstrap.com/docs/5.0/utilities/colors/), and more.
 
 ## Add margin
 
 If you look at [the source](https://github.com/rstudio/bslib/tree/master/inst/themer-demo) for the theme demo app, the `actionButton()` logic makes use of the margin spacing (`m-2`) to add some spacing between the buttons (they also make use of [button modifier classes](
-https://getbootstrap.com/docs/4.6/components/buttons/) to achieve their different background colors).
+https://getbootstrap.com/docs/5.0/components/buttons) to achieve their different background colors).
 
 ``` {.r}
 actionButton("primary", "Primary", icon("product-hunt"), class = "btn-primary m-2")
@@ -96,7 +96,7 @@ knitr::include_graphics("pills.png")
 
 ## Add background color
 
-Add a `bg-*` class to any HTML element to set not only its background color to a theme color (e.g., `primary`, `secondary`, etc), but note that it'll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use `bg-primary` on a [BS4 card](https://getbootstrap.com/docs/4.6/components/card/#header-and-footer) containing a [`{DT}` table](https://rstudio.github.io/DT/).
+Add a `bg-*` class to any HTML element to set not only its background color to a theme color (e.g., `primary`, `secondary`, etc), but note that it'll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use `bg-primary` on a [card component](https://getbootstrap.com/docs/4.6/components/card/#header-and-footer) containing a [`{DT}` table](https://rstudio.github.io/DT/).
 
 ```r
 bs4_card <- function(body, title) {
