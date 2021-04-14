@@ -69,11 +69,11 @@ In some more [advanced cases](#advanced), you might also want to know how to add
 
 At the time of writing, `bslib` currently supports:
 
-* [Bootstrap 5](https://getbootstrap.com/docs/4.6/getting-started/theming/) `bs_theme(version = 5)`: intended for new projects. 
-* [Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/theming/) `bs_theme(version = 4)`: intended for "newer" projects that we're created before Bootstrap 5 support was added. 
+* [Bootstrap 5](https://getbootstrap.com/docs/5.0/) `bs_theme(version = 5)`: intended for new projects. 
+* [Bootstrap 4](https://getbootstrap.com/docs/4.6/) `bs_theme(version = 4)`: intended for "newer" projects that we're created before Bootstrap 5 support was added. 
 * [Bootstrap 3](https://getbootstrap.com/docs/3.4/) `bs_theme(version = 3)`: intended for legacy projects that happen to break with `version = 4`.
 
-`bslib` doesn't require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 5 is recommended, but that may change to Bootstrap 6+ in the near future, so it's best practice to specify the version, especially if reproducibility is important, and your project does any of the following:
+`bslib` doesn't require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 5 is recommended, but that may change to Bootstrap 6+ in the near future, so it's best practice to specify the version, especially if reproducibility is important and your project does any of the following:
 
 * Uses [Bootstrap Sass variables](#low-level) directly.
 * Uses [utility classes](#utility-classes).
@@ -248,7 +248,7 @@ bs_theme_preview()
 knitr::include_graphics("https://i.imgur.com/KLKy1s0.gif")
 ```
 
-The latter (`bs_themer()`) may be used with any Shiny app or R Markdown document. Just make sure you're providing Bootstrap 4 (or above) to the page constructor and call `bs_themer()` in a Shiny runtime content (i.e., within the `server` function).
+The latter (`bs_themer()`) may be used with any Shiny app or R Markdown document. Just make sure you're providing [Bootstrap 4 (or higher)](#versions) to the page constructor and call `bs_themer()` in a Shiny runtime content (i.e., within the `server` function).
 
 <div class="usage">
 ```r
@@ -360,7 +360,7 @@ Hello custom block with custom styles!
 
 ### Utility Classes {#utility-classes}
 
-With Bootstrap 4 and above, you can use utility classes to easily add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. [See here](utility-classes.html) for some useful examples specific to Shiny and R Markdown as well as [here for the full list](https://getbootstrap.com/docs/4.6/utilities/borders/) of Bootstrap 4 Utility Classes.
+With [Bootstrap 4 (or higher)](#versions), you can use utility classes to easily add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. [See here](utility-classes.html) for some useful examples specific to Shiny and R Markdown as well as [here for the full list](https://getbootstrap.com/docs/4.6/utilities/borders/) of Bootstrap 4 Utility Classes.
 
 ## Component support
 

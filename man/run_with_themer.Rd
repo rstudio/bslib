@@ -57,11 +57,8 @@ rendered through a \code{context="server"} may update in real-time.
 \examples{
 library(shiny)
 
-# Initialize Bootstrap 4 with Bootstrap 3 compatibility shim
-theme <- bs_theme(version = 4, bg = "black", fg = "white")
-
 ui <- fluidPage(
-  theme = theme,
+  theme = bs_theme(bg = "black", fg = "white"),
   h1("Heading 1"),
   h2("Heading 2"),
   p(
