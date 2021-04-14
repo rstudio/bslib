@@ -496,7 +496,7 @@ spinner_overlay <- function() {
         class = "spinner-border",
         style = "width:5rem; height:5rem; color: rgba(0,0,0,0.8);",
         role = "status",
-        span(class = "sr-only", "Refreshing stylesheets...")
+        span(class = "sr-only visually-hidden", "Refreshing stylesheets...")
       ),
       span(class = "lead mt-1", style = "color: rgba(0,0,0,0.8);", "Refreshing stylesheets...")
     )
