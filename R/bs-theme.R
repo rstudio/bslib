@@ -374,7 +374,7 @@ bs3_accessibility_bundle <- function() {
 # -----------------------------------------------------------------
 
 bootswatch_bundle <- function(bootswatch, version) {
-  if (!length(bootswatch)) return(NULL)
+  if (!length(bootswatch) || identical(bootswatch, "default")) return(NULL)
 
   bootswatch <- switch_version(
     version,
