@@ -42,6 +42,9 @@ variable expressions. It's recommended to keep this as \code{TRUE} when \code{.w
 provided (e.g., a list, character vector, \code{\link[sass:sass_import]{sass::sass_file()}}, etc)}
 
 \item{functions}{A character vector or \code{\link[sass:sass_import]{sass::sass_file()}} containing
+functions definitions.}
+
+\item{mixins}{A character vector or \code{\link[sass:sass_import]{sass::sass_file()}} containing
 mixin definitions.}
 }
 \value{
