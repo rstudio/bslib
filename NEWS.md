@@ -9,8 +9,9 @@
 * Closed #227: `bs_themer()` now overlays a spinner during Sass compilation (#243).
 * Closed #278: `{bslib}` now includes `rmarkdown::html_document` templates demonstrating example usage with `{bslib}` and `{thematic}` (#288).
 * Closed #231: Upgraded from Bootstrap 4.5.3 to 4.6.0 (#254).
-* Closed #237: <blockquote> tags now have border-left/padding styles with version = 4 (to mirror the version = 3 behavior) (#239).
+* Closed #237: `<blockquote>` tags now have border-left/padding styles with `version = 4` (to mirror the `version = 3` behavior) (#239).
 * Closed #279: Warnings about low color contrasts are now suppressed by default, unless `shiny::devmode()` is enabled. To enable/disable these warnings, set the new `options(bslib.color_contrast_warnings = )` to `TRUE`/`FALSE` (#287).
+* Added new `bs_add_functions()`/`bs_add_mixins()` and deprecated `bs_add_declarations()` to reflect `sass::sass_layer()`'s new ability to place `functions` _before_ variable `defaults`. As a result, variable definitions may now use functions defined with `bs_add_functions()`. (#311)
 
 ## Bug fixes
 
