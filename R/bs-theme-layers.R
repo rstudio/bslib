@@ -136,7 +136,7 @@ bs_add_functions <- function(theme, functions) {
 
 #' @describeIn bs_bundle Add additional [Sass
 #'   mixins](https://rstudio.github.io/sass/articles/sass.html#mixins-1)
-#' @param functions A character vector or [sass::sass_file()] containing
+#' @param mixins A character vector or [sass::sass_file()] containing
 #'   mixin definitions.
 #' @export
 bs_add_mixins <- function(theme, mixins) {
