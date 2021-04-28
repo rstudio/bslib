@@ -20,13 +20,13 @@ test_that("Sass bundles work as expected with a theme", {
   theme <- bs_add_variables(bs_theme("4"), primary = "#222222")
   expect_true(bs_get_variables(theme, "primary") == "#222222")
   # declarations can be used in rules
-  theme <- bs_add_declarations(theme, list(foo = "bar !default"))
+  theme <- bs_add_mixins(theme, list(foo = "bar !default"))
   expect_identical(
     as.character(sass_partial(".foo {color: $foo}", theme)),
     ".foo {\n  color: bar;\n}\n"
   )
   # but declarations come after defaults (so this won't override the value!)
-  theme <- bs_add_declarations(theme, list(primary = "#333333 !default"))
+  theme <- bs_add_mixins(theme, list(primary = "#333333 !default"))
   expect_true(bs_get_variables(theme, "primary") == "#222222")
   # Can drop-down to the lower-level bs_bundle()
   theme <- bs_bundle(
