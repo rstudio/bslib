@@ -11,6 +11,7 @@
 * Closed #231: Upgraded from Bootstrap 4.5.3 to 4.6.0 (#254).
 * Closed #237: <blockquote> tags now have border-left/padding styles with version = 4 (to mirror the version = 3 behavior) (#239).
 * Closed #279: Warnings about low color contrasts are now suppressed by default, unless `shiny::devmode()` is enabled. To enable/disable these warnings, set the new `options(bslib.color_contrast_warnings = )` to `TRUE`/`FALSE` (#287).
+* `bs_theme_dependencies()` now includes Sass source maps when `shiny::devmode()` is enabled (#312).
 
 ## Bug fixes
 
