@@ -3,7 +3,8 @@
 \name{bs_add_variables}
 \alias{bs_add_variables}
 \alias{bs_add_rules}
-\alias{bs_add_declarations}
+\alias{bs_add_functions}
+\alias{bs_add_mixins}
 \alias{bs_bundle}
 \title{Add low-level theming customizations}
 \usage{
@@ -16,7 +17,9 @@ bs_add_variables(
 
 bs_add_rules(theme, rules)
 
-bs_add_declarations(theme, declarations)
+bs_add_functions(theme, functions)
+
+bs_add_mixins(theme, mixins)
 
 bs_bundle(theme, ...)
 }
@@ -38,7 +41,11 @@ variable expressions. It's recommended to keep this as \code{TRUE} when \code{.w
 \item{rules}{Sass rules. Anything understood by \code{\link[sass:as_sass]{sass::as_sass()}} may be
 provided (e.g., a list, character vector, \code{\link[sass:sass_import]{sass::sass_file()}}, etc)}
 
-\item{declarations}{Sass functions and mixins.}
+\item{functions}{A character vector or \code{\link[sass:sass_import]{sass::sass_file()}} containing
+functions definitions.}
+
+\item{mixins}{A character vector or \code{\link[sass:sass_import]{sass::sass_file()}} containing
+mixin definitions.}
 }
 \value{
 a modified \code{\link[=bs_theme]{bs_theme()}} object.
@@ -54,7 +61,9 @@ ensure theme customizations are portable between major Bootstrap versions.
 
 \item \code{bs_add_rules}: Add additional \href{https://sass-lang.com/documentation/style-rules}{Sass rules}
 
-\item \code{bs_add_declarations}: Add Sass \href{https://sass-lang.com/documentation/at-rules/function}{functions} and \href{https://sass-lang.com/documentation/at-rules/mixin}{mixins}
+\item \code{bs_add_functions}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#functions-1}{Sass functions}
+
+\item \code{bs_add_mixins}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#mixins-1}{Sass mixins}
 
 \item \code{bs_bundle}: Add additional \code{\link[sass:sass_layer]{sass::sass_bundle()}} objects to an existing \code{theme}.
 }}
