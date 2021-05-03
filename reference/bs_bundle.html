@@ -183,7 +183,9 @@ ensure theme customizations are portable between major Bootstrap versions.</p>
 
 <span class='fu'>bs_add_rules</span><span class='op'>(</span><span class='va'>theme</span>, <span class='va'>rules</span><span class='op'>)</span>
 
-<span class='fu'>bs_add_declarations</span><span class='op'>(</span><span class='va'>theme</span>, <span class='va'>declarations</span><span class='op'>)</span>
+<span class='fu'>bs_add_functions</span><span class='op'>(</span><span class='va'>theme</span>, <span class='va'>functions</span><span class='op'>)</span>
+
+<span class='fu'>bs_add_mixins</span><span class='op'>(</span><span class='va'>theme</span>, <span class='va'>mixins</span><span class='op'>)</span>
 
 <span class='fu'>bs_bundle</span><span class='op'>(</span><span class='va'>theme</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
@@ -218,8 +220,14 @@ variable expressions. It's recommended to keep this as <code>TRUE</code> when <c
 provided (e.g., a list, character vector, <code><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass::sass_file()</a></code>, etc)</p></td>
     </tr>
     <tr>
-      <th>declarations</th>
-      <td><p>Sass functions and mixins.</p></td>
+      <th>functions</th>
+      <td><p>A character vector or <code><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass::sass_file()</a></code> containing
+functions definitions.</p></td>
+    </tr>
+    <tr>
+      <th>mixins</th>
+      <td><p>A character vector or <code><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass::sass_file()</a></code> containing
+mixin definitions.</p></td>
     </tr>
     </table>
 
@@ -232,7 +240,8 @@ provided (e.g., a list, character vector, <code><a href='https://rdrr.io/pkg/sas
 <ul>
 <li><p><code>bs_add_variables</code>: Add Bootstrap Sass <a href='https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults'>variable defaults</a></p></li>
 <li><p><code>bs_add_rules</code>: Add additional <a href='https://sass-lang.com/documentation/style-rules'>Sass rules</a></p></li>
-<li><p><code>bs_add_declarations</code>: Add Sass <a href='https://sass-lang.com/documentation/at-rules/function'>functions</a> and <a href='https://sass-lang.com/documentation/at-rules/mixin'>mixins</a></p></li>
+<li><p><code>bs_add_functions</code>: Add additional <a href='https://rstudio.github.io/sass/articles/sass.html#functions-1'>Sass functions</a></p></li>
+<li><p><code>bs_add_mixins</code>: Add additional <a href='https://rstudio.github.io/sass/articles/sass.html#mixins-1'>Sass mixins</a></p></li>
 <li><p><code>bs_bundle</code>: Add additional <code><a href='https://rdrr.io/pkg/sass/man/sass_layer.html'>sass::sass_bundle()</a></code> objects to an existing <code>theme</code>.</p></li>
 </ul>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>

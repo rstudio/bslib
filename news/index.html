@@ -178,11 +178,9 @@
 <li>Closed <a href='https://github.com/rstudio/bslib/issues/227'>#227</a>: <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> now overlays a spinner during Sass compilation (<a href='https://github.com/rstudio/bslib/issues/243'>#243</a>).</li>
 <li>Closed <a href='https://github.com/rstudio/bslib/issues/278'>#278</a>: <a href="https://rstudio.github.io/bslib/">bslib</a> now includes <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html">rmarkdown::html_document</a></code> templates demonstrating example usage with <a href="https://rstudio.github.io/bslib/">bslib</a> and <a href="https://rstudio.github.io/thematic/">thematic</a> (<a href='https://github.com/rstudio/bslib/issues/288'>#288</a>).</li>
 <li>Closed <a href='https://github.com/rstudio/bslib/issues/231'>#231</a>: Upgraded from Bootstrap 4.5.3 to 4.6.0 (<a href='https://github.com/rstudio/bslib/issues/254'>#254</a>).</li>
-<li>Closed <a href='https://github.com/rstudio/bslib/issues/237'>#237</a>:
-<blockquote>
-tags now have border-left/padding styles with version = 4 (to mirror the version = 3 behavior) (<a href='https://github.com/rstudio/bslib/issues/239'>#239</a>).</blockquote>
-</li>
+<li>Closed <a href='https://github.com/rstudio/bslib/issues/237'>#237</a>: <code>&lt;blockquote&gt;</code> tags now have border-left/padding styles with <code>version = 4</code> (to mirror the <code>version = 3</code> behavior) (<a href='https://github.com/rstudio/bslib/issues/239'>#239</a>).</li>
 <li>Closed <a href='https://github.com/rstudio/bslib/issues/279'>#279</a>: Warnings about low color contrasts are now suppressed by default, unless <code><a href="https://rdrr.io/pkg/shiny/man/devmode.html">shiny::devmode()</a></code> is enabled. To enable/disable these warnings, set the new <code><a href="https://rdrr.io/r/base/options.html">options(bslib.color_contrast_warnings = )</a></code> to <code>TRUE</code>/<code>FALSE</code> (<a href='https://github.com/rstudio/bslib/issues/287'>#287</a>).</li>
+<li>Added new <code><a href="../reference/bs_add_variables.html">bs_add_functions()</a></code>/<code><a href="../reference/bs_add_variables.html">bs_add_mixins()</a></code> and deprecated <code><a href="../reference/bs_theme_new.html">bs_add_declarations()</a></code> to reflect <code><a href="https://rdrr.io/pkg/sass/man/sass_layer.html">sass::sass_layer()</a></code>’s new ability to place <code>functions</code> <em>before</em> variable <code>defaults</code>. As a result, variable definitions may now use functions defined with <code><a href="../reference/bs_add_variables.html">bs_add_functions()</a></code>. (<a href='https://github.com/rstudio/bslib/issues/311'>#311</a>)</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
