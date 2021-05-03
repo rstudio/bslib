@@ -256,7 +256,7 @@ bootstrap_bundle <- function(version) {
       # Don't name this "core" bundle so it can't easily be removed
       sass_layer(
         defaults = bs4_sass_files(c("deprecated", "functions", "variables")),
-        declarations = bs4_sass_files("mixins")
+        mixins = bs4_sass_files("mixins")
       ),
       # Returns a _named_ list of bundles (i.e., these should be easily removed)
       !!!rule_bundles(
@@ -285,7 +285,7 @@ bootstrap_bundle <- function(version) {
     three = sass_bundle(
       sass_layer(
         defaults = bs3_sass_files("variables"),
-        declarations = bs3_sass_files("mixins")
+        mixins = bs3_sass_files("mixins")
       ),
       # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
       !!!rule_bundles(
@@ -332,7 +332,7 @@ bootstrap_javascript <- function(version) {
 bs3compat_bundle <- function() {
   sass_layer(
     defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bslib")),
-    declarations = sass_file(system_file("bs3compat", "_declarations.scss", package = "bslib")),
+    mixins = sass_file(system_file("bs3compat", "_declarations.scss", package = "bslib")),
     rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
     # Gyliphicon font files
     file_attachments = c(

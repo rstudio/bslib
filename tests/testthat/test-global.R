@@ -49,7 +49,7 @@ test_that("Theme adding works as intended", {
 
   # Can also override variables via declarations
   bs_global_add_variables(
-    .where = "declarations",
+    .where = "mixins",
     "primary" = "$secondary",
     "body-color" = "color-contrast($primary)"
   )
