@@ -9,6 +9,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bslib/actions)
 
 <!-- badges: end -->
+
 <style type="text/css">
 @media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}
 </style>
@@ -22,21 +23,21 @@ directly from R, making it much easier to customize the appearance of
 Markdown](https://rmarkdown.rstudio.com/) documents. `bslib`’s primary
 goals are:
 
--   Make [custom
+  - Make [custom
     theming](https://rstudio.github.io/bslib/articles/bslib.html#custom)
     as easy as possible.
-    -   Custom themes may even be created interactively in
+      - Custom themes may even be created interactively in
         [real-time](https://rstudio.github.io/bslib/articles/bslib.html#real-time).
--   Also provide easy access to pre-packaged [Bootswatch
+  - Also provide easy access to pre-packaged [Bootswatch
     themes](https://rstudio.github.io/bslib/articles/bslib.html#bootswatch).
--   Make [upgrading from Bootstrap 3 to 4 (and
+  - Make [upgrading from Bootstrap 3 to 4 (and
     beyond)](https://rstudio.github.io/bslib/articles/bslib.html#versions)
     as seamless as possible.
-    -   Shiny and R Markdown default to Bootstrap 3 and will continue to
+      - Shiny and R Markdown default to Bootstrap 3 and will continue to
         do so to avoid breaking legacy code.
--   Serve as a general foundation for Shiny and R Markdown extension
+  - Serve as a general foundation for Shiny and R Markdown extension
     packages.
-    -   Extensions such as
+      - Extensions such as
         [`flexdashboard`](https://flexdashboard-pkg.netlify.app/articles/theme.html),
         [`pkgdown`](https://pkgdown.r-lib.org/dev/articles/customization.html),
         and
@@ -106,8 +107,8 @@ learn more about Bootstrap versions, pre-packaged Bootswatch themes,
 (real-time) custom theming, and more.
 
 To get started more quickly, choose a relevant R Markdown template from
-inside RStudio by going to File -&gt; New File -&gt; R Markdown -&gt;
-From Template:
+inside RStudio by going to File -\> New File -\> R Markdown -\> From
+Template:
 
 <img src="man/figures/rstudio-templates.png" width="60%" style="display: block; margin: auto;" />
 
@@ -115,11 +116,11 @@ From Template:
 
 There are two main places to get help with `bslib`:
 
--   The [RStudio community](https://community.rstudio.com) is a friendly
+  - The [RStudio community](https://community.rstudio.com) is a friendly
     place to ask any questions (be sure to add a `bslib` tag when
     creating a topic).
 
--   [Stack Overflow](https://stackoverflow.com/questions/tagged/bslib)
+  - [Stack Overflow](https://stackoverflow.com/questions/tagged/bslib)
     is a great source of answers to common `bslib` questions. It is also
     a great place to get help, once you have created a reproducible
     example that illustrates your problem. Use the tags
