@@ -4,7 +4,7 @@ output: github_document
 
 <!-- badges: start -->
 
-[![CRAN status](https://www.r-pkg.org/badges/version/bslib)](https://cran.r-project.org/package=bslib) [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![R build status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bslib/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/bslib)](https://cran.r-project.org/package=bslib) [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html) [![R build status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bslib/actions)
 
 <!-- badges: end -->
 
@@ -100,7 +100,7 @@ knitr::include_graphics("man/figures/rstudio-templates.png")
 
 There are two main places to get help with `bslib`:
 
-+ The [RStudio community](https://community.rstudio.com/tags/c/R-Markdown/10/bslib) is a friendly place to ask any questions about flexdashboard. Be sure to use the `bslib` tag. Add also the `shiny` tag is you are using a Shiny runtime.
++ The [RStudio community](https://community.rstudio.com) is a friendly place to ask any questions (be sure to add a `bslib` tag when creating a topic).
 
 + [Stack Overflow](https://stackoverflow.com/questions/tagged/bslib) is a great source of answers to common `bslib` questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Use the tags [`[r][bslib]`](https://stackoverflow.com/questions/tagged/bslib+r) if you ask a question. Add the tag `[bslib]` if you are using a Shiny runtime.
 
