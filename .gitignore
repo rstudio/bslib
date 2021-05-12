@@ -3,6 +3,7 @@
 .DS_Store
 docs/
 sandbox/
+revdep/
 inst/themer-demo/deploy/rsconnect
 
 # GHA remotes installation
