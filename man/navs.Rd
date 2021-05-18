@@ -6,7 +6,7 @@
 \alias{navs_pill_list}
 \alias{navs_hidden}
 \alias{navs_bar}
-\title{Create a navigation panel}
+\title{Navigation containers}
 \usage{
 navs_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
@@ -80,5 +80,5 @@ elements into a menu when the width of the browser is less than 940 pixels
 (useful for viewing on smaller touchscreen device)}
 }
 \description{
-Render a collection of \code{\link[=nav]{nav()}} items into a panel of contents.
+Render a collection of \code{\link[=nav]{nav()}} items into a
 }

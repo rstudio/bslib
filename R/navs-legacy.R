@@ -1,25 +1,77 @@
-#' Create navigation items
+#' Navigation items
 #'
-#' @inheritParams shiny::tabPanel
+#' Create nav item(s) for use inside nav containers (e.g., [navs_tab()],
+#' [navs_bar()], etc).
+#'
+#' @param title A title to display. Can be a character string or UI elements
+#'   (i.e., HTML [htmltools::tags]).
+#' @param ... UI elements (i.e., HTML [htmltools::tags]) to show when the nav
+#'   item is selected.
+#' @param value A character string to assign to the nav item. This value may be
+#'   supplied to the relevant container's `selected` argument in order to show
+#'   particular nav item's content immediately on page load. This value is also
+#'   useful for programmatically updating the selected content via
+#'   [nav_select()], [nav_hide()], etc (updating selected tabs this way is often
+#'   useful for showing/hiding panels of content via other UI controls like
+#'   [shiny::radioButtons()] -- in this scenario, consider using [nav_content()]
+#'   with [navs_hidden()]).
+#' @param icon Optional icon to appear next to the nav item's `title`.
+#' @return A nav item that may be passed to a nav container (e.g. [navs_tab()]).
 #' @export
 #' @seealso [navs_tab]
+#' @examples
+#'
+#' navs_tab(
+#'   nav("A", "a"),
+#'   nav("B", "b"),
+#'   nav_menu(
+#'     "More",
+#'     nav("C", "c"),
+#'     "-----",
+#'     nav("D", "d")
+#'   )
+#' )
+#'
+#' plot_tag <- function(expr) {
+#'   htmltools::plotTag(
+#'     expr, alt = "R plot", width = 800,
+#'     suppressSize = "x",
+#'     attribs = list(width = "100%")
+#'   )
+#' }
+#'
+#' navs_pill(
+#'   nav(
+#'     "Volcano", plot_tag(image(volcano)),
+#'     icon = if (require("shiny")) icon("r-project")
+#'    ),
+#'   nav(
+#'     "Pressure", plot_tag(plot(pressure)),
+#'     icon = if (require("shiny")) icon("github")
+#'    )
+#' )
 nav <- function(title, ..., value = title, icon = NULL) {
   tabPanel(title, ..., value = title, icon = icon)
 }
 
-
-#' @param menuName A name that identifies this `navbarMenu`. This
-#'   is needed if you want to insert/remove or show/hide an entire
-#'   `navbarMenu`.
+#' @rdname nav
 #' @export
 nav_menu <- function(title, ..., value = title, icon = NULL) {
   navbarMenu(title, ..., menuName = value, icon = icon)
 }
 
+#' @rdname nav
+#' @export
+nav_content <- function(value, ..., icon = NULL) {
+  tabPanelBody(value, ..., icon = icon)
+}
 
-#' Create a navigation panel
+# TODO: implement nav_item() and nav_spacer()
+
+
+#' Navigation containers
 #'
-#' Render a collection of [nav()] items into a panel of contents.
+#' Render a collection of [nav()] items into a
 #'
 #' @inheritParams shiny::tabsetPanel
 #' @export

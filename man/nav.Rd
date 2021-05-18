@@ -2,24 +2,72 @@
 % Please edit documentation in R/navs-legacy.R
 \name{nav}
 \alias{nav}
-\title{Create navigation items}
+\alias{nav_menu}
+\alias{nav_content}
+\title{Navigation items}
 \usage{
 nav(title, ..., value = title, icon = NULL)
+
+nav_menu(title, ..., value = title, icon = NULL)
+
+nav_content(value, ..., icon = NULL)
 }
 \arguments{
-\item{title}{Display title for tab}
+\item{title}{A title to display. Can be a character string or UI elements
+(i.e., HTML \link[htmltools:builder]{htmltools::tags}).}
 
-\item{...}{UI elements to include within the tab}
+\item{...}{UI elements (i.e., HTML \link[htmltools:builder]{htmltools::tags}) to show when the nav
+item is selected.}
 
-\item{value}{The value that should be sent when \code{tabsetPanel} reports
-that this tab is selected. If omitted and \code{tabsetPanel} has an
-\code{id}, then the title will be used.}
+\item{value}{A character string to assign to the nav item. This value may be
+supplied to the relevant container's \code{selected} argument in order to show
+particular nav item's content immediately on page load. This value is also
+useful for programmatically updating the selected content via
+\code{\link[=nav_select]{nav_select()}}, \code{\link[=nav_hide]{nav_hide()}}, etc (updating selected tabs this way is often
+useful for showing/hiding panels of content via other UI controls like
+\code{\link[shiny:radioButtons]{shiny::radioButtons()}} -- in this scenario, consider using \code{\link[=nav_content]{nav_content()}}
+with \code{\link[=navs_hidden]{navs_hidden()}}).}
 
-\item{icon}{Optional icon to appear on the tab. This attribute is only
-valid when using a \code{tabPanel} within a \code{\link[shiny:navbarPage]{navbarPage()}}.}
+\item{icon}{Optional icon to appear next to the nav item's \code{title}.}
+}
+\value{
+A nav item that may be passed to a nav container (e.g. \code{\link[=navs_tab]{navs_tab()}}).
 }
 \description{
-Create navigation items
+Create nav item(s) for use inside nav containers (e.g., \code{\link[=navs_tab]{navs_tab()}},
+\code{\link[=navs_bar]{navs_bar()}}, etc).
+}
+\examples{
+
+navs_tab(
+  nav("A", "a"),
+  nav("B", "b"),
+  nav_menu(
+    "More",
+    nav("C", "c"),
+    "-----",
+    nav("D", "d")
+  )
+)
+
+plot_tag <- function(expr) {
+  htmltools::plotTag(
+    expr, alt = "R plot", width = 800,
+    suppressSize = "x",
+    attribs = list(width = "100\%")
+  )
+}
+
+navs_pill(
+  nav(
+    "Volcano", plot_tag(image(volcano)),
+    icon = if (require("shiny")) icon("r-project")
+   ),
+  nav(
+    "Pressure", plot_tag(plot(pressure)),
+    icon = if (require("shiny")) icon("github")
+   )
+)
 }
 \seealso{
 \link{navs_tab}

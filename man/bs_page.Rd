@@ -2,7 +2,7 @@
 % Please edit documentation in R/page.R
 \name{bs_page}
 \alias{bs_page}
-\title{Creat a Bootstrap page}
+\title{Create a Bootstrap page}
 \usage{
 bs_page(..., title = NULL, theme = bs_theme(), lang = NULL)
 }

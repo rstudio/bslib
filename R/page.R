@@ -1,4 +1,4 @@
-#' Creat a Bootstrap page
+#' Create a Bootstrap page
 #'
 #' Alias for [shiny::bootstrapPage()] with `theme` defaulting to a newer version
 #' of Bootstrap.

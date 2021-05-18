@@ -62,7 +62,6 @@ Collate:
     'precompiled.R'
     'print.R'
     'shiny-devmode.R'
-    'utils-tags.R'
     'version-default.R'
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib

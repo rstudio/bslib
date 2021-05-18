@@ -24,8 +24,11 @@ page <- function(x, theme) {
 #' @export
 print.bslib_page <- function(x, ...) {
   class(x) <- setdiff(class(x), "bslib_page")
+  if (interactive()) {
+    x <- browsable(x)
+  }
   withShinyTheme(
-    print(browsable(x)),
+    print(x),
     attr(x, "bslib_theme")
   )
   invisible(x)
