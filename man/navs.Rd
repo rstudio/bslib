@@ -62,13 +62,8 @@ layout.}
 
 \item{title}{The title to display in the navbar}
 
-\item{position}{Determines whether the navbar should be displayed at the top
-of the page with normal scrolling behavior (\code{"static-top"}), pinned at
-the top (\code{"fixed-top"}), or pinned at the bottom
-(\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
-\code{"fixed-bottom"} will cause the navbar to overlay your body content,
-unless you add padding, e.g.: \code{tags$style(type="text/css", "body
-  {padding-top: 70px;}")}}
+\item{position}{This argument is deprecated; it has been discontinued in
+Bootstrap 3.}
 
 \item{bg}{a CSS color to use for the navbar's background color.}
 
