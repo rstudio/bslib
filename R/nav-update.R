@@ -116,11 +116,3 @@ nav_hide <- function(input_id, target,
                      session = getDefaultReactiveDomain()) {
   shiny::hideTab(input_id, target, session)
 }
-
-
-getDefaultReactiveDomain <- function() {
-  shiny::getDefaultReactiveDomain()
-}
-processDeps <- function(...) {
-  getFromNamespace("processDeps", "shiny")(...)
-}

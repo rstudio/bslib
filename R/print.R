@@ -9,42 +9,26 @@ fragment <- function(x, page = shiny::fluidPage, theme = bs_global_get() %||% bs
 
 #' @export
 print.bslib_fragment <- function(x, ...) {
+  page <- attr(x, "bslib_page")
   theme <- attr(x, "bslib_theme")
-  x <- attr(x, "bslib_page")(x, theme = theme)
-  print.bslib_page(page(x, theme = theme))
+  x <- browsable2(page(x, theme = theme))
+  withShinyTheme(print(x, ...), theme)
   invisible(x)
 }
 
-page <- function(x, theme) {
-  attr(x, "bslib_theme") <- theme
-  class(x) <- c("bslib_page", class(x))
-  x
-}
-
-#' @export
-print.bslib_page <- function(x, ...) {
-  class(x) <- setdiff(class(x), "bslib_page")
-  if (interactive()) {
-    x <- browsable(x)
-  }
-  withShinyTheme(
-    print(x),
-    attr(x, "bslib_theme")
-  )
-  invisible(x)
+browsable2 <- function(x) {
+  if (rlang::is_interactive()) browsable(x) else x
 }
 
 # Needed decause bootstrapLib() doesn't perform side-effects
 # outside of shiny::isRunning()
 withShinyTheme <- function(expr, theme) {
   currentTheme <- shiny::getCurrentTheme()
-  on.exit(shiny:::setCurrentTheme(currentTheme))
-  shiny:::setCurrentTheme(theme)
+  on.exit(setCurrentTheme(currentTheme))
+  setCurrentTheme(theme)
   force(expr)
 }
 
-# TODO: do we need to add these deps?
-#x <- attachDependencies(
-#  x, shiny:::shinyDependencyCSS(theme),
-#  append = TRUE
-#)
+setCurrentTheme <- function(...) {
+  getFromNamespace("setCurrentTheme", "shiny")(...)
+}

@@ -1,3 +1,7 @@
+# TODO: Once we have more UI stuff in bslib, copy over the
+# page constructors from shiny so folks can create static
+# pages without a shiny dependency.
+
 #' Create a Bootstrap page
 #'
 #' Alias for [shiny::bootstrapPage()] with `theme` defaulting to a newer version
@@ -5,9 +9,8 @@
 #'
 #' @export
 bs_page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
-  page(
-    shiny::bootstrapPage(..., title = title, theme = theme, lang = lang),
-    theme = theme
+  browsable2(
+    shiny::bootstrapPage(..., title = title, theme = theme, lang = lang)
   )
 }
 
@@ -20,9 +23,8 @@ bs_page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 #' @inheritParams shiny::fluidPage
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
-  printable(
-    shiny::fluidPage(..., title = title, theme = theme, lang = lang),
-    theme = theme
+  browsable2(
+    shiny::fluidPage(..., title = title, theme = theme, lang = lang)
   )
 }
 
@@ -34,8 +36,7 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 #' @inheritParams shiny::fixedPage
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
-  printable(
-    shiny::fixedPage(..., title = title, theme = theme, lang = lang),
-    theme = theme
+  browsable2(
+    shiny::fixedPage(..., title = title, theme = theme, lang = lang)
   )
 }

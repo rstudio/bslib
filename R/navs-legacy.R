@@ -66,9 +66,6 @@ nav_content <- function(value, ..., icon = NULL) {
   tabPanelBody(value, ..., icon = icon)
 }
 
-# TODO: implement nav_item() and nav_spacer()
-
-
 #' Navigation containers
 #'
 #' Render a collection of [nav()] items into a
@@ -167,7 +164,6 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 # -----------------------------------------------------------------------
 # 'Internal' tabset logic that was pulled directly from shiny/R/bootstrap.R
 #  (with minor modifications)
-# TODO: make sure this code isn't being used elsewhere inside shiny
 # -----------------------------------------------------------------------
 
 navbarPage <- function(title,
@@ -196,7 +192,7 @@ navbarPage <- function(title,
     navbarClass <- paste(navbarClass, "navbar-inverse")
 
   if (!is.null(id))
-    selected <- restoreInput(id = id, default = selected)
+    selected <- shiny::restoreInput(id = id, default = selected)
 
   # build the tabset
   tabset <- buildTabset(..., ulClass = "nav navbar-nav", id = id, selected = selected)
@@ -206,39 +202,49 @@ navbarPage <- function(title,
   # built the container div dynamically to support optional collapsibility
   if (collapsible) {
     navId <- paste0("navbar-collapse-", p_randomInt(1000, 10000))
-    containerDiv <- div(class=containerClass,
-                        div(class="navbar-header",
-                            tags$button(type="button", class="navbar-toggle collapsed",
-                                        `data-toggle`="collapse", `data-target`=paste0("#", navId),
-                                        span(class="sr-only", "Toggle navigation"),
-                                        span(class="icon-bar"),
-                                        span(class="icon-bar"),
-                                        span(class="icon-bar")
-                            ),
-                            span(class="navbar-brand", pageTitle)
-                        ),
-                        div(class="navbar-collapse collapse", id=navId, tabset$navList)
+    containerDiv <- div(
+      class = containerClass,
+      div(
+        class = "navbar-header",
+        tags$button(
+          type = "button",
+          class = "navbar-toggle collapsed",
+          `data-toggle` = "collapse",
+          `data-target` = paste0("#", navId),
+          span(class="sr-only", "Toggle navigation"),
+          span(class = "icon-bar"),
+          span(class = "icon-bar"),
+          span(class = "icon-bar")
+        ),
+        span(class = "navbar-brand", pageTitle)
+      ),
+      div(
+        class = "navbar-collapse collapse",
+        id = navId, tabset$navList
+      )
     )
   } else {
-    containerDiv <- div(class=containerClass,
-                        div(class="navbar-header",
-                            span(class="navbar-brand", pageTitle)
-                        ),
-                        tabset$navList
+    containerDiv <- div(
+      class = containerClass,
+      div(
+        class = "navbar-header",
+        span(class = "navbar-brand", pageTitle)
+      ),
+      tabset$navList
     )
   }
 
   # build the main tab content div
-  contentDiv <- div(class=containerClass)
+  contentDiv <- div(class = containerClass)
   if (!is.null(header))
-    contentDiv <- tagAppendChild(contentDiv, div(class="row", header))
+    contentDiv <- tagAppendChild(contentDiv, div(class = "row", header))
   contentDiv <- tagAppendChild(contentDiv, tabset$content)
   if (!is.null(footer))
-    contentDiv <- tagAppendChild(contentDiv, div(class="row", footer))
+    contentDiv <- tagAppendChild(contentDiv, div(class = "row", footer))
 
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
   tagList(
-    tags$nav(class=navbarClass, role="navigation", containerDiv),
+    tags$nav(class = navbarClass, role = "navigation", containerDiv),
     contentDiv
   )
 }
@@ -262,7 +268,6 @@ navbarMenu <- function(title, ..., menuName = title, icon = NULL) {
 isNavbarMenu <- function(x) {
   inherits(x, "shiny.navbarmenu")
 }
-
 
 tabPanel <- function(title, ..., value = title, icon = NULL) {
   icon <- prepTabIcon(icon)
@@ -305,7 +310,7 @@ tabsetPanel <- function(...,
                         footer = NULL) {
 
   if (!is.null(id))
-    selected <- restoreInput(id = id, default = selected)
+    selected <- shiny::restoreInput(id = id, default = selected)
 
   type <- match.arg(type)
   tabset <- buildTabset(..., ulClass = paste0("nav nav-", type), id = id, selected = selected)
@@ -331,7 +336,7 @@ navlistPanel <- function(...,
                          widths = c(4, 8)) {
 
   if (!is.null(id))
-    selected <- restoreInput(id = id, default = selected)
+    selected <- shiny::restoreInput(id = id, default = selected)
 
   tabset <- buildTabset(
     ..., ulClass = "nav nav-pills nav-stacked",
@@ -339,11 +344,11 @@ navlistPanel <- function(...,
     id = id, selected = selected
   )
 
-  row <- if (fluid) fluidRow else fixedRow
+  row <- if (fluid) shiny::fluidRow else shiny::fixedRow
 
   row(
-    column(widths[[1]], class = if (well) "well", tabset$navList),
-    column(
+    shiny::column(widths[[1]], class = if (well) "well", tabset$navList),
+    shiny::column(
       widths[[2]],
       !!!dropNulls(list(header, tabset$content, footer))
     )
@@ -597,21 +602,4 @@ buildDropdown <- function(divTag, tabset) {
     divTag = tabset$content$children,
     liTag = dropdown
   )
-}
-
-p_randomInt <- function(...) {
-  getFromNamespace("p_randomInt", "shiny")(...)
-}
-
-getCurrentThemeVersion <- function(...) {
-  getFromNamespace("getCurrentThemeVersion", "shiny")(...)
-}
-
-anyNamed <- function(x) {
-  if (length(x) == 0)
-    return(FALSE)
-  nms <- names(x)
-  if (is.null(nms))
-    return(FALSE)
-  any(nzchar(nms))
 }

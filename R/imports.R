@@ -4,6 +4,7 @@ utils::globalVariables("!!")
 #' @import sass
 #' @importFrom utils modifyList packageVersion download.file URLencode getFromNamespace
 #' @importFrom stats setNames na.omit
+#' @importFrom grDevices col2rgb
 #' @importFrom tools file_path_sans_ext
 #' @importFrom jquerylib jquery_core
 #' @importFrom jsonlite fromJSON
