@@ -71,54 +71,6 @@ nav_insert <- function(id, nav, target, position = c("before", "after"),
 
 #' @export
 #' @rdname nav-update
-nav_prepend <- function(id, nav, select = FALSE, menuName = NULL, # TODO: rename to value (to match the name change in nav_menu()?)
-                       session = getDefaultReactiveDomain()) {
-  force(select)
-  force(menuName)
-  inputId <- session$ns(id)
-
-  item <- buildTabItem("id", "tsid", TRUE, divTag = nav,
-                       textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL)
-
-  callback <- function() {
-    session$sendInsertTab(
-      inputId = inputId,
-      liTag = processDeps(item$liTag, session),
-      divTag = processDeps(item$divTag, session),
-      menuName = menuName,
-      target = NULL,
-      position = "after",
-      select = select)
-  }
-  session$onFlush(callback, once = TRUE)
-}
-
-#' @export
-#' @rdname nav-update
-nav_append <- function(id, nav, select = FALSE, menuName = NULL,
-                       session = getDefaultReactiveDomain()) {
-  force(select)
-  force(menuName)
-  inputId <- session$ns(id)
-
-  item <- buildTabItem("id", "tsid", TRUE, divTag = nav,
-                       textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL)
-
-  callback <- function() {
-    session$sendInsertTab(
-      inputId = inputId,
-      liTag = processDeps(item$liTag, session),
-      divTag = processDeps(item$divTag, session),
-      menuName = menuName,
-      target = NULL,
-      position = "before",
-      select = select)
-  }
-  session$onFlush(callback, once = TRUE)
-}
-
-#' @export
-#' @rdname nav-update
 nav_remove <- function(id, target, session = getDefaultReactiveDomain()) {
   force(target)
   inputId <- session$ns(id)
