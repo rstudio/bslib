@@ -8,7 +8,7 @@
 \alias{nav_remove}
 \alias{nav_show}
 \alias{nav_hide}
-\title{Programmatically update panels}
+\title{Dynamically update nav containers}
 \usage{
 nav_select(id, selected = NULL, session = getDefaultReactiveDomain())
 
@@ -44,22 +44,40 @@ nav_show(id, target, select = FALSE, session = getDefaultReactiveDomain())
 nav_hide(id, target, session = getDefaultReactiveDomain())
 }
 \arguments{
-\item{id}{a character string identifying the nav container (e.g., \code{\link[=navs_tab]{navs_tab()}}).}
+\item{id}{a character string used to identify the nav container.}
 
-\item{selected}{a character string matching a particular \code{\link[=nav]{nav()}} of interest.}
+\item{selected}{a character string used to identify a particular \code{\link[=nav]{nav()}} item.}
 
 \item{session}{a shiny session object (the default should almost always be used).}
 
-\item{nav}{a \code{\link[=nav]{nav()}} item to insert.}
+\item{nav}{a \code{\link[=nav]{nav()}} item.}
 
-\item{target}{If inserting: the \code{value} of an existing \code{nav()} item, next to which tab will be added. If removing: the \code{value} of the \code{nav()} item that you want to remove.}
+\item{target}{The \code{value} of an existing \code{nav()} item, next to which tab will be added. If removing: the \code{value} of the \code{nav()} item that you want to remove.}
 
 \item{position}{Should \code{nav} be added before or after the target?}
 
 \item{select}{Should \code{nav} be selected upon being inserted?}
 }
 \description{
-Functions for dynamically updating selected (i.e., active) \code{\link[=nav]{nav()}} items
-within a particular nav container. These functions require an container \code{id}
-to identify the container interest.
+Functions for dynamically updating nav containers (e.g., select, insert, and
+remove nav items). These functions require an \code{id} on the nav container to be
+specified.
+}
+\examples{
+
+if (interactive() && require("shiny")) {
+  shinyApp(
+    page_fluid(
+      radioButtons("item", "Choose", c("A", "B")),
+      navs_hidden(
+        id = "container",
+        nav_content("A", "a"),
+        nav_content("B", "b")
+      )
+    ),
+    function(input, output) {
+      observe(nav_select("container", input$item))
+    }
+  )
+}
 }

@@ -69,22 +69,6 @@ navs_pill(
    )
 )
 
-if (interactive() && require("shiny")) {
-  shinyApp(
-    page_fluid(
-      radioButtons("item", "Choose", c("A", "B")),
-      navs_hidden(
-        id = "container",
-        nav_content("A", "a"),
-        nav_content("B", "b")
-      )
-    ),
-    function(input, output) {
-      observe(nav_select("container", input$item))
-    }
-  )
-}
-
 }
 \seealso{
 \code{\link[=navs_tab]{navs_tab()}} for containers and \code{\link[=navs_select]{navs_select()}} for dynamic updating.
