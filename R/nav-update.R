@@ -1,25 +1,43 @@
-#' Programmatically update panels
+#' Dynamically update nav containers
 #'
-#' Functions for dynamically updating selected (i.e., active) [nav()] items
-#' within a particular nav container. These functions require an container `id`
-#' to identify the container interest.
+#' Functions for dynamically updating nav containers (e.g., select, insert, and
+#' remove nav items). These functions require an `id` on the nav container to be
+#' specified.
 #'
-#' @param id a character string identifying the nav container (e.g., [navs_tab()]).
-#' @param selected a character string matching a particular [nav()] of interest.
+#' @param id a character string used to identify the nav container.
+#' @param selected a character string used to identify a particular [nav()] item.
 #' @param session a shiny session object (the default should almost always be used).
 #' @export
 #' @rdname nav-update
+#' @examples
+#'
+#' if (interactive() && require("shiny")) {
+#'   shinyApp(
+#'     page_fluid(
+#'       radioButtons("item", "Choose", c("A", "B")),
+#'       navs_hidden(
+#'         id = "container",
+#'         nav_content("A", "a"),
+#'         nav_content("B", "b")
+#'       )
+#'     ),
+#'     function(input, output) {
+#'       observe(nav_select("container", input$item))
+#'     }
+#'   )
+#' }
 nav_select <- function(id, selected = NULL,
                        session = getDefaultReactiveDomain()) {
   shiny::updateTabsetPanel(session, id, selected)
 }
 
-#' @export
-#' @param nav a [nav()] item to insert.
-#' @param target If inserting: the `value` of an existing `nav()` item, next to which tab will be added. If removing: the `value` of the `nav()` item that you want to remove.
+
+#' @param nav a [nav()] item.
+#' @param target The `value` of an existing `nav()` item, next to which tab will be added. If removing: the `value` of the `nav()` item that you want to remove.
 #' @param position Should `nav` be added before or after the target?
 #' @param select Should `nav` be selected upon being inserted?
 #' @rdname nav-update
+#' @export
 nav_insert <- function(id, nav, target, position = c("before", "after"),
                        select = FALSE, session = getDefaultReactiveDomain()) {
 

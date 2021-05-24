@@ -40,30 +40,34 @@ navs_bar(
 )
 }
 \arguments{
-\item{...}{\code{\link[shiny:tabPanel]{tabPanel()}} elements to include in the tabset}
+\item{...}{a collection of \code{\link[=nav]{nav()}} items.}
 
-\item{id}{If provided, you can use \verb{input$}\emph{\code{id}} in your
-server logic to determine which of the current tabs is active. The value
-will correspond to the \code{value} argument that is passed to
-\code{\link[shiny:tabPanel]{tabPanel()}}.}
+\item{id}{a character string used for dynamically updating the container (see \code{\link[=nav_select]{nav_select()}}).}
 
-\item{selected}{The \code{value} (or, if none was supplied, the \code{title})
-of the tab that should be selected by default. If \code{NULL}, the first
-tab will be selected.}
+\item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav]{nav()}} item to selected by default.}
 
-\item{header}{Tag or list of tags to display as a common header above all
-tabPanels.}
+\item{header}{UI element(s) (\link{tags}) to display \emph{above} the nav content.}
 
-\item{footer}{Tag or list of tags to display as a common footer below all
-tabPanels}
+\item{footer}{UI element(s) (\link{tags}) to display \emph{below} the nav content.}
 
-\item{fluid}{\code{TRUE} to use a fluid layout. \code{FALSE} to use a fixed
+\item{well}{\code{TRUE} to place a well (gray rounded rectangle) around the
+navigation list.}
+
+\item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
 layout.}
+
+\item{widths}{Column widths of the navigation list and tabset content areas
+respectively.}
 
 \item{title}{The title to display in the navbar}
 
-\item{position}{This argument is deprecated; it has been discontinued in
-Bootstrap 3.}
+\item{position}{Determines whether the navbar should be displayed at the top
+of the page with normal scrolling behavior (\code{"static-top"}), pinned at
+the top (\code{"fixed-top"}), or pinned at the bottom
+(\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
+\code{"fixed-bottom"} will cause the navbar to overlay your body content,
+unless you add padding, e.g.: \code{tags$style(type="text/css", "body
+  {padding-top: 70px;}")}}
 
 \item{bg}{a CSS color to use for the navbar's background color.}
 
@@ -75,5 +79,21 @@ elements into a menu when the width of the browser is less than 940 pixels
 (useful for viewing on smaller touchscreen device)}
 }
 \description{
-Render a collection of \code{\link[=nav]{nav()}} items into a
+Render a collection of \code{\link[=nav]{nav()}} items into a container.
+}
+\examples{
+
+navs <- list(
+  nav("A", "a"),
+  nav("B", "b")
+)
+
+navs_tab(!!!navs)
+navs_pill(!!!navs)
+navs_pill_list(!!!navs)
+navs_bar(!!!navs)
+
+}
+\seealso{
+\code{\link[=nav]{nav()}} for items and \code{\link[=nav_select]{nav_select()}} for dynamic updating.
 }

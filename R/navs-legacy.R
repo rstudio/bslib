@@ -4,8 +4,8 @@
 #' [navs_bar()], etc).
 #'
 #' @param title A title to display. Can be a character string or UI elements
-#'   (i.e., HTML [htmltools::tags]).
-#' @param ... UI elements (i.e., HTML [htmltools::tags]) to show when the nav
+#'   (i.e., [tags]).
+#' @param ... UI elements (i.e., [tags]) to show when the nav
 #'   item is selected.
 #' @param value A character string to assign to the nav item. This value may be
 #'   supplied to the relevant container's `selected` argument in order to show
@@ -18,7 +18,7 @@
 #' @param icon Optional icon to appear next to the nav item's `title`.
 #' @return A nav item that may be passed to a nav container (e.g. [navs_tab()]).
 #' @export
-#' @seealso [navs_tab]
+#' @seealso [navs_tab()] for containers and [navs_select()] for dynamic updating.
 #' @examples
 #'
 #' navs_tab(
@@ -50,6 +50,7 @@
 #'     icon = if (require("shiny")) icon("github")
 #'    )
 #' )
+#'
 nav <- function(title, ..., value = title, icon = NULL) {
   tabPanel_(title, ..., value = title, icon = icon)
 }
@@ -68,11 +69,28 @@ nav_content <- function(value, ..., icon = NULL) {
 
 #' Navigation containers
 #'
-#' Render a collection of [nav()] items into a
+#' Render a collection of [nav()] items into a container.
 #'
-#' @inheritParams shiny::tabsetPanel
+#' @param ... a collection of [nav()] items.
+#' @param id a character string used for dynamically updating the container (see [nav_select()]).
+#' @param selected a character string matching the `value` of a particular [nav()] item to selected by default.
+#' @param header UI element(s) ([tags]) to display _above_ the nav content.
+#' @param footer UI element(s) ([tags]) to display _below_ the nav content.
 #' @export
+#' @seealso [nav()] for items and [nav_select()] for dynamic updating.
 #' @rdname navs
+#' @examples
+#'
+#' navs <- list(
+#'   nav("A", "a"),
+#'   nav("B", "b")
+#' )
+#'
+#' navs_tab(!!!navs)
+#' navs_pill(!!!navs)
+#' navs_pill_list(!!!navs)
+#' navs_bar(!!!navs)
+#'
 navs_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
   tabs <- tabsetPanel_(
@@ -94,6 +112,7 @@ navs_pill <- function(..., id = NULL, selected = NULL,
 }
 
 #' @export
+#' @inheritParams shiny::navlistPanel
 #' @rdname navs
 navs_pill_list <- function(..., id = NULL, selected = NULL,
                            header = NULL, footer = NULL,

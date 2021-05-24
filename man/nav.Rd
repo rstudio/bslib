@@ -14,9 +14,9 @@ nav_content(value, ..., icon = NULL)
 }
 \arguments{
 \item{title}{A title to display. Can be a character string or UI elements
-(i.e., HTML \link[htmltools:builder]{htmltools::tags}).}
+(i.e., \link{tags}).}
 
-\item{...}{UI elements (i.e., HTML \link[htmltools:builder]{htmltools::tags}) to show when the nav
+\item{...}{UI elements (i.e., \link{tags}) to show when the nav
 item is selected.}
 
 \item{value}{A character string to assign to the nav item. This value may be
@@ -68,7 +68,24 @@ navs_pill(
     icon = if (require("shiny")) icon("github")
    )
 )
+
+if (interactive() && require("shiny")) {
+  shinyApp(
+    page_fluid(
+      radioButtons("item", "Choose", c("A", "B")),
+      navs_hidden(
+        id = "container",
+        nav_content("A", "a"),
+        nav_content("B", "b")
+      )
+    ),
+    function(input, output) {
+      observe(nav_select("container", input$item))
+    }
+  )
+}
+
 }
 \seealso{
-\link{navs_tab}
+\code{\link[=navs_tab]{navs_tab()}} for containers and \code{\link[=navs_select]{navs_select()}} for dynamic updating.
 }

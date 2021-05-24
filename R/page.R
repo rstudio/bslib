@@ -4,10 +4,11 @@
 
 #' Create a Bootstrap page
 #'
-#' Alias for [shiny::bootstrapPage()] with `theme` defaulting to a newer version
-#' of Bootstrap.
+#' Alias for [shiny::bootstrapPage()] with `theme` defaulting to bslib's
+#' recommended version Bootstrap.
 #'
 #' @export
+#' @inheritParams shiny::bootstrapPage
 bs_page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
     shiny::bootstrapPage(..., title = title, theme = theme, lang = lang)
@@ -17,8 +18,8 @@ bs_page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 
 #' Create a page with fluid layout
 #'
-#' Alias for [shiny::fluidPage()] with `theme` defaulting to a newer version
-#' of Bootstrap.
+#' Alias for [shiny::fluidPage()] with `theme` defaulting to bslib's recommended
+#' version Bootstrap.
 #'
 #' @export
 #' @inheritParams shiny::fluidPage
@@ -30,8 +31,8 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 
 #' Create a page with fluid layout
 #'
-#' Alias for [shiny::fixedPage()] with `theme` defaulting to a newer version
-#' of Bootstrap.
+#' Alias for [shiny::fixedPage()] with `theme` defaulting to bslib's recommended
+#' version Bootstrap.
 #'
 #' @export
 #' @inheritParams shiny::fixedPage
