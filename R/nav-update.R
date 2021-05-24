@@ -38,7 +38,7 @@ nav_select <- function(id, selected = NULL,
 #' @param select Should `nav` be selected upon being inserted?
 #' @rdname nav-update
 #' @export
-nav_insert <- function(id, nav, target, position = c("before", "after"),
+nav_insert <- function(id, nav, target = NULL, position = c("after", "before"),
                        select = FALSE, session = getDefaultReactiveDomain()) {
 
   force(target)

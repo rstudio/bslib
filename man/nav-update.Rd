@@ -3,8 +3,6 @@
 \name{nav_select}
 \alias{nav_select}
 \alias{nav_insert}
-\alias{nav_prepend}
-\alias{nav_append}
 \alias{nav_remove}
 \alias{nav_show}
 \alias{nav_hide}
@@ -15,25 +13,9 @@ nav_select(id, selected = NULL, session = getDefaultReactiveDomain())
 nav_insert(
   id,
   nav,
-  target,
-  position = c("before", "after"),
+  target = NULL,
+  position = c("after", "before"),
   select = FALSE,
-  session = getDefaultReactiveDomain()
-)
-
-nav_prepend(
-  id,
-  nav,
-  select = FALSE,
-  menuName = NULL,
-  session = getDefaultReactiveDomain()
-)
-
-nav_append(
-  id,
-  nav,
-  select = FALSE,
-  menuName = NULL,
   session = getDefaultReactiveDomain()
 )
 
