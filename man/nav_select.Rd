@@ -47,7 +47,10 @@ specified.
 }
 \examples{
 
-if (interactive() && require("shiny")) {
+can_browse <- function() interactive() && require("shiny")
+
+# Selecting a tab
+if (can_browse()) {
   shinyApp(
     page_fluid(
       radioButtons("item", "Choose", c("A", "B")),
@@ -62,4 +65,34 @@ if (interactive() && require("shiny")) {
     }
   )
 }
+
+# Inserting and removing
+if (can_browse()) {
+  ui <- page_fluid(
+    actionButton("add", "Add 'Dynamic' tab"),
+    actionButton("remove", "Remove 'Foo' tab"),
+    navs_tab(
+      id = "tabs",
+      nav("Hello", "hello"),
+      nav("Foo", "foo"),
+      nav("Bar", "bar tab")
+    )
+  )
+  server <- function(input, output) {
+    observeEvent(input$add, {
+      nav_insert(
+        "tabs", target = "Bar", select = TRUE,
+        nav("Dynamic", "Dynamically added content")
+      )
+    })
+    observeEvent(input$remove, {
+      nav_remove("tabs", target = "Foo")
+    })
+  }
+  shinyApp(ui, server)
+}
+
+}
+\seealso{
+\code{\link[=nav]{nav()}}, \code{\link[=navs_tab]{navs_tab()}}.
 }

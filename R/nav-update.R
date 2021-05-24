@@ -8,10 +8,13 @@
 #' @param selected a character string used to identify a particular [nav()] item.
 #' @param session a shiny session object (the default should almost always be used).
 #' @export
-#' @rdname nav-update
+#' @seealso [nav()], [navs_tab()].
 #' @examples
 #'
-#' if (interactive() && require("shiny")) {
+#' can_browse <- function() interactive() && require("shiny")
+#'
+#' # Selecting a tab
+#' if (can_browse()) {
 #'   shinyApp(
 #'     page_fluid(
 #'       radioButtons("item", "Choose", c("A", "B")),
@@ -26,6 +29,33 @@
 #'     }
 #'   )
 #' }
+#'
+#' # Inserting and removing
+#' if (can_browse()) {
+#'   ui <- page_fluid(
+#'     actionButton("add", "Add 'Dynamic' tab"),
+#'     actionButton("remove", "Remove 'Foo' tab"),
+#'     navs_tab(
+#'       id = "tabs",
+#'       nav("Hello", "hello"),
+#'       nav("Foo", "foo"),
+#'       nav("Bar", "bar tab")
+#'     )
+#'   )
+#'   server <- function(input, output) {
+#'     observeEvent(input$add, {
+#'       nav_insert(
+#'         "tabs", target = "Bar", select = TRUE,
+#'         nav("Dynamic", "Dynamically added content")
+#'       )
+#'     })
+#'     observeEvent(input$remove, {
+#'       nav_remove("tabs", target = "Foo")
+#'     })
+#'   }
+#'   shinyApp(ui, server)
+#' }
+#'
 nav_select <- function(id, selected = NULL,
                        session = getDefaultReactiveDomain()) {
   shiny::updateTabsetPanel(session, id, selected)
@@ -36,7 +66,7 @@ nav_select <- function(id, selected = NULL,
 #' @param target The `value` of an existing `nav()` item, next to which tab will be added. If removing: the `value` of the `nav()` item that you want to remove.
 #' @param position Should `nav` be added before or after the target?
 #' @param select Should `nav` be selected upon being inserted?
-#' @rdname nav-update
+#' @rdname nav_select
 #' @export
 nav_insert <- function(id, nav, target = NULL, position = c("after", "before"),
                        select = FALSE, session = getDefaultReactiveDomain()) {
@@ -70,7 +100,7 @@ nav_insert <- function(id, nav, target = NULL, position = c("after", "before"),
 }
 
 #' @export
-#' @rdname nav-update
+#' @rdname nav_select
 nav_remove <- function(id, target, session = getDefaultReactiveDomain()) {
   force(target)
   inputId <- session$ns(id)
@@ -85,14 +115,14 @@ nav_remove <- function(id, target, session = getDefaultReactiveDomain()) {
 }
 
 #' @export
-#' @rdname nav-update
+#' @rdname nav_select
 nav_show <- function(id, target, select = FALSE,
                      session = getDefaultReactiveDomain()) {
   shiny::showTab(id, target, select, session)
 }
 
 #' @export
-#' @rdname nav-update
+#' @rdname nav_select
 nav_hide <- function(id, target,
                      session = getDefaultReactiveDomain()) {
   shiny::hideTab(id, target, session)

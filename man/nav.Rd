@@ -16,8 +16,7 @@ nav_content(value, ..., icon = NULL)
 \item{title}{A title to display. Can be a character string or UI elements
 (i.e., \link{tags}).}
 
-\item{...}{UI elements (i.e., \link{tags}) to show when the nav
-item is selected.}
+\item{...}{UI elements (i.e., \link{tags}) to show when the nav item is selected.}
 
 \item{value}{A character string to assign to the nav item. This value may be
 supplied to the relevant container's \code{selected} argument in order to show
@@ -71,5 +70,5 @@ navs_pill(
 
 }
 \seealso{
-\code{\link[=navs_tab]{navs_tab()}} for containers and \code{\link[=navs_select]{navs_select()}} for dynamic updating.
+\code{\link[=navs_tab]{navs_tab()}}, \code{\link[=navs_select]{navs_select()}}.
 }

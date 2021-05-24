@@ -5,8 +5,7 @@
 #'
 #' @param title A title to display. Can be a character string or UI elements
 #'   (i.e., [tags]).
-#' @param ... UI elements (i.e., [tags]) to show when the nav
-#'   item is selected.
+#' @param ... UI elements (i.e., [tags]) to show when the nav item is selected.
 #' @param value A character string to assign to the nav item. This value may be
 #'   supplied to the relevant container's `selected` argument in order to show
 #'   particular nav item's content immediately on page load. This value is also
@@ -18,7 +17,7 @@
 #' @param icon Optional icon to appear next to the nav item's `title`.
 #' @return A nav item that may be passed to a nav container (e.g. [navs_tab()]).
 #' @export
-#' @seealso [navs_tab()] for containers and [navs_select()] for dynamic updating.
+#' @seealso [navs_tab()], [navs_select()].
 #' @examples
 #'
 #' navs_tab(
@@ -77,7 +76,7 @@ nav_content <- function(value, ..., icon = NULL) {
 #' @param header UI element(s) ([tags]) to display _above_ the nav content.
 #' @param footer UI element(s) ([tags]) to display _below_ the nav content.
 #' @export
-#' @seealso [nav()] for items and [nav_select()] for dynamic updating.
+#' @seealso [nav()], [nav_select()].
 #' @rdname navs
 #' @examples
 #'
@@ -318,7 +317,7 @@ tabPanelBody_ <- function(value, ..., icon = NULL) {
   ) {
     stop("`value` must be a single, non-empty string value")
   }
-  tabPanel(title = NULL, ..., value = value, icon = icon)
+  tabPanel_(title = NULL, ..., value = value, icon = icon)
 }
 
 tabsetPanel_ <- function(...,
