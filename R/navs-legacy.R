@@ -51,19 +51,19 @@
 #'    )
 #' )
 nav <- function(title, ..., value = title, icon = NULL) {
-  tabPanel(title, ..., value = title, icon = icon)
+  tabPanel_(title, ..., value = title, icon = icon)
 }
 
 #' @rdname nav
 #' @export
 nav_menu <- function(title, ..., value = title, icon = NULL) {
-  navbarMenu(title, ..., menuName = value, icon = icon)
+  navbarMenu_(title, ..., menuName = value, icon = icon)
 }
 
 #' @rdname nav
 #' @export
 nav_content <- function(value, ..., icon = NULL) {
-  tabPanelBody(value, ..., icon = icon)
+  tabPanelBody_(value, ..., icon = icon)
 }
 
 #' Navigation containers
@@ -75,7 +75,7 @@ nav_content <- function(value, ..., icon = NULL) {
 #' @rdname navs
 navs_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
-  tabs <- tabsetPanel(
+  tabs <- tabsetPanel_(
     ..., type = "tabs", id = id, selected = selected,
     header = header, footer = footer
   )
@@ -86,7 +86,7 @@ navs_tab <- function(..., id = NULL, selected = NULL,
 #' @rdname navs
 navs_pill <- function(..., id = NULL, selected = NULL,
                       header = NULL, footer = NULL) {
-  pills <- tabsetPanel(
+  pills <- tabsetPanel_(
     ..., type = "pills", id = id, selected = selected,
     header = header, footer = footer
   )
@@ -99,7 +99,7 @@ navs_pill_list <- function(..., id = NULL, selected = NULL,
                            header = NULL, footer = NULL,
                            well = TRUE, fluid = TRUE,
                            widths = c(4, 8)) {
-  pill_list <- navlistPanel(
+  pill_list <- navlistPanel_(
     ..., id = id, selected = selected,
     header = header, footer = footer,
     well = well, fluid = fluid,
@@ -112,7 +112,7 @@ navs_pill_list <- function(..., id = NULL, selected = NULL,
 #' @rdname navs
 navs_hidden <- function(..., id = NULL, selected = NULL,
                         header = NULL, footer = NULL) {
-  hidden <- tabsetPanel(
+  hidden <- tabsetPanel_(
     ..., type = "hidden", id = id, selected = selected,
     header = header, footer = footer
   )
@@ -142,7 +142,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
     }
   }
 
-  navbar <- navbarPage(
+  navbar <- navbarPage_(
     title = title, ..., id = id, selected = selected,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
@@ -166,7 +166,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 #  (with minor modifications)
 # -----------------------------------------------------------------------
 
-navbarPage <- function(title,
+navbarPage_ <- function(title,
                        ...,
                        id = NULL,
                        selected = NULL,
@@ -249,7 +249,7 @@ navbarPage <- function(title,
   )
 }
 
-navbarMenu <- function(title, ..., menuName = title, icon = NULL) {
+navbarMenu_ <- function(title, ..., menuName = title, icon = NULL) {
   icon <- prepTabIcon(icon)
   structure(
     list(
@@ -269,7 +269,7 @@ isNavbarMenu <- function(x) {
   inherits(x, "shiny.navbarmenu")
 }
 
-tabPanel <- function(title, ..., value = title, icon = NULL) {
+tabPanel_ <- function(title, ..., value = title, icon = NULL) {
   icon <- prepTabIcon(icon)
   pane <- div(
     class = "tab-pane",
@@ -290,7 +290,7 @@ isTabPanel <- function(x) {
   "tab-pane" %in% strsplit(class, "\\s+")[[1]]
 }
 
-tabPanelBody <- function(value, ..., icon = NULL) {
+tabPanelBody_ <- function(value, ..., icon = NULL) {
   if (
     !is.character(value) ||
     length(value) != 1 ||
@@ -302,7 +302,7 @@ tabPanelBody <- function(value, ..., icon = NULL) {
   tabPanel(title = NULL, ..., value = value, icon = icon)
 }
 
-tabsetPanel <- function(...,
+tabsetPanel_ <- function(...,
                         id = NULL,
                         selected = NULL,
                         type = c("tabs", "pills", "hidden"),
@@ -326,7 +326,7 @@ tabsetPanel <- function(...,
   )
 }
 
-navlistPanel <- function(...,
+navlistPanel_ <- function(...,
                          id = NULL,
                          selected = NULL,
                          header = NULL,
