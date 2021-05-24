@@ -9,7 +9,7 @@
 #'
 #' @export
 bs_page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
-  browsable2(
+  as_page(
     shiny::bootstrapPage(..., title = title, theme = theme, lang = lang)
   )
 }
@@ -23,7 +23,7 @@ bs_page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 #' @inheritParams shiny::fluidPage
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
-  browsable2(
+  as_page(
     shiny::fluidPage(..., title = title, theme = theme, lang = lang)
   )
 }
@@ -36,7 +36,7 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 #' @inheritParams shiny::fixedPage
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
-  browsable2(
+  as_page(
     shiny::fixedPage(..., title = title, theme = theme, lang = lang)
   )
 }

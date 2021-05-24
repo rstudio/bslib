@@ -79,7 +79,7 @@ navs_tab <- function(..., id = NULL, selected = NULL,
     ..., type = "tabs", id = id, selected = selected,
     header = header, footer = footer
   )
-  fragment(tabs)
+  as_fragment(tabs)
 }
 
 #' @export
@@ -90,7 +90,7 @@ navs_pill <- function(..., id = NULL, selected = NULL,
     ..., type = "pills", id = id, selected = selected,
     header = header, footer = footer
   )
-  fragment(pills)
+  as_fragment(pills)
 }
 
 #' @export
@@ -105,7 +105,7 @@ navs_pill_list <- function(..., id = NULL, selected = NULL,
     well = well, fluid = fluid,
     widths = widths
   )
-  fragment(pill_list)
+  as_fragment(pill_list)
 }
 
 #' @export
@@ -116,7 +116,7 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
     ..., type = "hidden", id = id, selected = selected,
     header = header, footer = footer
   )
-  fragment(hidden)
+  as_fragment(hidden)
 }
 
 
@@ -156,7 +156,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
     )
   }
 
-  fragment(navbar, page = bs_page)
+  as_fragment(navbar, page = bs_page)
 }
 
 

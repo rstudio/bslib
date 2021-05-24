@@ -1,34 +1,32 @@
-fragment <- function(x, page = shiny::fluidPage, theme = bs_global_get() %||% bs_theme(), class = NULL) {
+as_fragment <- function(x, page = page_fluid) {
   stopifnot(is.function(page) && "theme" %in% names(formals(page)))
-  stopifnot(is_bs_theme(theme))
   attr(x, "bslib_page") <- page
-  attr(x, "bslib_theme") <- theme
-  class(x) <- c(class, "bslib_fragment", class(x))
+  class(x) <- c("bslib_fragment", class(x))
   x
 }
 
+as_page <- function(x) {
+  class(x) <- c("bslib_page", class(x))
+  x
+}
+
+#' Make HTML browsable by default
+#'
+#' @param x a [tag()] object.
+#' @param ... passed along to an underlying print method
 #' @export
+#' @keywords internal
+#' @rdname html-browse
 print.bslib_fragment <- function(x, ...) {
-  page <- attr(x, "bslib_page")
-  theme <- attr(x, "bslib_theme")
-  x <- browsable2(page(x, theme = theme))
-  withShinyTheme(print(x, ...), theme)
-  invisible(x)
+  x <- attr(x, "bslib_page")(x)
+  invisible(print(x, ...))
 }
 
-browsable2 <- function(x) {
-  if (rlang::is_interactive()) browsable(x) else x
-}
-
-# Needed decause bootstrapLib() doesn't perform side-effects
-# outside of shiny::isRunning()
-withShinyTheme <- function(expr, theme) {
-  currentTheme <- shiny::getCurrentTheme()
-  on.exit(setCurrentTheme(currentTheme))
-  setCurrentTheme(theme)
-  force(expr)
-}
-
-setCurrentTheme <- function(...) {
-  getFromNamespace("setCurrentTheme", "shiny")(...)
+#' @rdname html-browse
+#' @export
+print.bslib_page <- function(x, ...) {
+  if (interactive()) {
+    x <- htmltools::browsable(x)
+  }
+  invisible(NextMethod())
 }
