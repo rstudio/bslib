@@ -17,7 +17,7 @@
 #' @param icon Optional icon to appear next to the nav item's `title`.
 #' @return A nav item that may be passed to a nav container (e.g. [navs_tab()]).
 #' @export
-#' @seealso [navs_tab()], [navs_select()].
+#' @seealso [navs_tab()], [nav_select()].
 #' @examples
 #'
 #' navs_tab(

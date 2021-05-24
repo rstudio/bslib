@@ -70,5 +70,5 @@ navs_pill(
 
 }
 \seealso{
-\code{\link[=navs_tab]{navs_tab()}}, \code{\link[=navs_select]{navs_select()}}.
+\code{\link[=navs_tab]{navs_tab()}}, \code{\link[=nav_select]{nav_select()}}.
 }
