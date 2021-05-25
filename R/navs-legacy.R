@@ -5,7 +5,8 @@
 #'
 #' @param title A title to display. Can be a character string or UI elements
 #'   (i.e., [tags]).
-#' @param ... UI elements (i.e., [tags]) to show when the nav item is selected.
+#' @param ... UI elements (i.e., [tags]) to show when the nav is selected ( for
+#'   `nav_item()`, `...` defines the actual nav item, not the selected content).
 #' @param value A character string to assign to the nav item. This value may be
 #'   supplied to the relevant container's `selected` argument in order to show
 #'   particular nav item's content immediately on page load. This value is also

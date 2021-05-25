@@ -1,5 +1,5 @@
-#' @inheritParams shiny::navItem
 #' @export
+#' @rdname nav
 nav_item <- function(...) {
   # TODO: drop form-inline since BS5 dropped it?
   # If we do that do we need navs_bar() to generate valid BS5 markup?
@@ -11,6 +11,7 @@ is_nav_item <- function(x) {
 }
 
 #' @export
+#' @rdname nav
 nav_spacer <- function() {
   div(class = "bslib-nav-spacer")
 }
