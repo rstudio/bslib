@@ -22,6 +22,9 @@
     <loc>https://rstudio.github.io/bslib//reference/bs_global_theme.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/bslib//reference/bs_page.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/bslib//reference/bs_remove.html</loc>
   </url>
   <url>
@@ -38,6 +41,24 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib//reference/font_face.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//reference/html-browse.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//reference/nav.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//reference/nav_select.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//reference/navs.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//reference/page_fixed.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib//reference/page_fluid.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib//reference/pipe.html</loc>

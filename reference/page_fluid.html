@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • bslib</title>
+<title>Create a page with fluid layout — page_fluid • bslib</title>
 
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
-<link href="https://rstudio.github.io/bslib//tidyverse.css" rel="stylesheet">
+<link href="../tidyverse.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="https://rstudio.github.io/bslib//bootstrap-toc.css">
-<script src="https://rstudio.github.io/bslib//bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -32,22 +32,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="https://rstudio.github.io/bslib//pkgdown.css" rel="stylesheet">
-<script src="https://rstudio.github.io/bslib//pkgdown.js"></script>
-<link href="https://rstudio.github.io/bslib//tidyverse-2.css" rel="stylesheet">
-<link href="https://rstudio.github.io/bslib//rmd.css" rel="stylesheet">
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
+<link href="../tidyverse-2.css" rel="stylesheet">
+<link href="../rmd.css" rel="stylesheet">
 
 
 
 <!-- docsearch -->
-<script src="https://rstudio.github.io/bslib//docsearch.js"></script>
+<script src="../docsearch.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
-<link href="https://rstudio.github.io/bslib//docsearch.css" rel="stylesheet">
+<link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="Create a page with fluid layout — page_fluid" />
+<meta property="og:description" content="Alias for shiny::fluidPage() with theme defaulting to bslib's recommended
+version Bootstrap." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -72,14 +75,14 @@
 </script>
 
 <!-- javascript assets for rmarkdown -->
-<script src="https://rstudio.github.io/bslib//ace-1.2.3/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://rstudio.github.io/bslib//holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://rstudio.github.io/bslib//snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
+<script src="../ace-1.2.3/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -92,12 +95,12 @@
       </button>
 
       <span class="navbar-brand">
-        <a class="navbar-link" href="https://rstudio.github.io/bslib//index.html">bslib</a>
+        <a class="navbar-link" href="../index.html">bslib</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5.9001</span>
       </span>
 
       <!--<div class="navbar-brand-container">
-        <a class="navbar-brand" href="https://rstudio.github.io/bslib//index.html">bslib</a>
+        <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5.9001</span>
@@ -108,7 +111,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="articles/bslib.html">Get started</a>
+  <a href="../articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -118,21 +121,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/bs4-variables.html">BS4 Sass variables</a>
+      <a href="../articles/bs4-variables.html">BS4 Sass variables</a>
     </li>
     <li>
-      <a href="articles/utility-classes.html">Utility Classes</a>
+      <a href="../articles/utility-classes.html">Utility Classes</a>
     </li>
     <li>
-      <a href="articles/custom-components.html">Custom components</a>
+      <a href="../articles/custom-components.html">Custom components</a>
     </li>
   </ul>
 </li>
         <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="news/index.html">News</a>
+  <a href="../news/index.html">News</a>
 </li>
 <li>
   <a href="https://github.com/rstudio/bslib">
@@ -157,23 +160,54 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>Create a page with fluid layout</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/page.R'><code>R/page.R</code></a></small>
+    <div class="hidden name"><code>page_fluid.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Alias for <code><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>shiny::fluidPage()</a></code> with <code>theme</code> defaulting to bslib's recommended
+version Bootstrap.</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>page_fluid</span><span class='op'>(</span><span class='va'>...</span>, title <span class='op'>=</span> <span class='cn'>NULL</span>, theme <span class='op'>=</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span>, lang <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>...</th>
+      <td><p>Elements to include within the page</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>The browser window title (defaults to the host URL of the page).
+Can also be set as a side effect of the <code><a href='https://rdrr.io/pkg/shiny/man/titlePanel.html'>titlePanel()</a></code> function.</p></td>
+    </tr>
+    <tr>
+      <th>theme</th>
+      <td><p>Alternative Bootstrap stylesheet (normally a css file within the
+www directory). For example, to use the theme located at
+<code>www/bootstrap.css</code> you would use <code>theme = "bootstrap.css"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>lang</th>
+      <td><p>ISO 639-1 language code for the HTML page, such as "en" or "ko".
+This will be used as the lang in the <code>&lt;html&gt;</code> tag, as in <code>&lt;html lang="en"&gt;</code>.
+The default (NULL) results in an empty string.</p></td>
+    </tr>
+    </table>
+
 
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>
