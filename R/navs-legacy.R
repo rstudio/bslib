@@ -56,8 +56,9 @@ nav <- function(title, ..., value = title, icon = NULL) {
 
 #' @rdname nav
 #' @export
-nav_menu <- function(title, ..., value = title, icon = NULL) {
-  navbarMenu_(title, ..., menuName = value, icon = icon)
+nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "right")) {
+  align <- match.arg(align)
+  navbarMenu_(title, ..., menuName = value, icon = icon, align = align)
 }
 
 #' @rdname nav
@@ -267,7 +268,7 @@ navbarPage_ <- function(title,
   )
 }
 
-navbarMenu_ <- function(title, ..., menuName = title, icon = NULL) {
+navbarMenu_ <- function(title, ..., menuName = title, icon = NULL, align) {
   icon <- prepTabIcon(icon)
   structure(
     list(
@@ -277,7 +278,8 @@ navbarMenu_ <- function(title, ..., menuName = title, icon = NULL) {
       # Here for legacy reasons
       # https://github.com/cran/miniUI/blob/74c87d3/R/layout.R#L369
       iconClass = tagGetAttribute(icon, "class"),
-      icon = icon
+      icon = icon,
+      align = align
     ),
     class = "shiny.navbarmenu"
   )
@@ -494,8 +496,12 @@ buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
 
   if (isNavbarMenu(divTag)) {
     # tabPanelMenu item: build the child tabset
+    ulClass <- "dropdown-menu"
+    if (identical(divTag$align, "right")) {
+      ulClass <- paste(ulClass, "dropdown-menu-right")
+    }
     tabset <- buildTabset(
-      !!!divTag$tabs, ulClass = "dropdown-menu",
+      !!!divTag$tabs, ulClass = ulClass,
       textFilter = navbarMenuTextFilter,
       foundSelected = foundSelected
     )
@@ -506,12 +512,18 @@ buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
     return(buildNavItem(divTag, tabsetId, index))
   }
 
+  if (is_nav_item(divTag) || is_nav_spacer(divTag)) {
+    return(
+      list(liTag = divTag, divTag = NULL)
+    )
+  }
+
   # The behavior is undefined at this point, so construct a condition message
   msg <- paste0(
-    "Expected a collection `tabPanel()`s",
-    if (is.null(textFilter)) " and `navbarMenu()`.",
-    if (!is.null(textFilter)) ", `navbarMenu()`, and/or character strings.",
-    " Consider using `header` or `footer` if you wish to place content above (or below) every panel's contents"
+    "Navigation containers expect a collection of `bslib::nav()`/`shiny::tabPanel()`s ",
+    "and/or `bslib::nav_menu()`/`shiny::navbarMenu()`s. ",
+    "Consider using `header` or `footer` if you wish to place content above ",
+    "(or below) every panel's contents."
   )
 
   # Luckily this case has never worked, so it's safe to throw here
