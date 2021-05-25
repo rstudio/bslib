@@ -59,6 +59,18 @@ reference:
     - bs_theme_preview
     - run_with_themer
     - bs_themer
+- title: Create navs and navbars
+  description: |
+    Tools for creating and dynamically updating navs.
+  contents:
+    - nav
+    - navs
+    - nav_select
+- title: Create a Bootstrap page
+  contents:
+    - page_fluid
+    - page_fixed
+    - bs_page
 - title: Dynamic theming
   description: |
     Create dynamically themable HTML widgets.
