@@ -174,7 +174,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
     )
   }
 
-  as_fragment(navbar, page = bs_page)
+  as_fragment(navbar, page = page)
 }
 
 
