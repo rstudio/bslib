@@ -25,26 +25,11 @@ test_that("page_navbar()", {
     cran = TRUE
   )
 
-  expect_snapshot2 <- function(...) {
-    if (getRversion() < "3.6.0") {
-      skip("Skipping snapshots on R < 3.6 because of different RNG method")
-    }
-    expect_snapshot(...)
-  }
-
-  page_navbar2 <- function(...) {
-    shiny:::withPrivateSeed(set.seed(100))
-    page_navbar(...)
-  }
-
-  expect_snapshot2(
-    renderTags(
-      page_navbar2(
-        bg = "red",
-        nav("a", "A")
-      )
-    )$html,
-    cran = TRUE
+  expect_snapshot_tabs(
+    page_navbar(
+      bg = "red",
+      nav("a", "A")
+    )
   )
 
 })
