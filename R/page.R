@@ -12,6 +12,12 @@
 #' @seealso [shiny::bootstrapPage()]
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
+  # <title> only support text, but bootstrapPage() allows anything
+  if (!is.null(title)) {
+    if (!is.character(title) || length(title) != 1) {
+      stop("`title` must be a character string", call. = FALSE)
+    }
+  }
   as_page(
     shiny::bootstrapPage(..., title = title, theme = theme, lang = lang)
   )
@@ -67,11 +73,11 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
 
   # https://github.com/rstudio/shiny/issues/2310
   if (isTRUE(is.na(window_title))) {
-    if (is.character(title)) {
-      window_title <- paste(title, collapse = "\n")
+    window_title <- unlist(find_characters(title))
+    if (is.null(window_title)) {
+      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
     } else {
-      warning("Not using `title` to populate `window_title` since it's not a char")
-      window_title <- NULL
+      window_title <- paste(window_title, collapse = " ")
     }
   }
 
@@ -86,4 +92,19 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
       collapsible = collapsible, fluid = fluid
     )
   )
+}
+
+#> unlist(find_characters(div(h1("foo"), h2("bar"))))
+#> [1] "foo" "bar"
+find_characters <- function(x) {
+  if (is.character(x)) {
+    return(x)
+  }
+  if (inherits(x, "shiny.tag")) {
+    return(lapply(x$children, find_characters))
+  }
+  if (is.list(x)) {
+    return(lapply(x, find_characters))
+  }
+  NULL
 }
