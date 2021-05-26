@@ -168,13 +168,13 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
   )
 
   if (!is.null(bg)) {
-    navbar <- tagAppendAttributes(
-      navbar, .cssSelector = ".navbar",
-      style = css(background_color = paste(bg, "!important"))
+    # navbarPage_() returns a tagList() of the nav and content
+    navbar[[1]] <- tagAppendAttributes(
+      navbar[[1]], style = css(background_color = paste(bg, "!important"))
     )
   }
 
-  as_fragment(navbar, page = bs_page)
+  as_fragment(navbar, page = page)
 }
 
 
