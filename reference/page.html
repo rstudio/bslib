@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Navigation containers — navs_tab • bslib</title>
+<title>Create a Bootstrap page — page • bslib</title>
 
 
 <!-- jquery -->
@@ -47,8 +47,12 @@
 
 
 
-<meta property="og:title" content="Navigation containers — navs_tab" />
-<meta property="og:description" content="Render a collection of nav() items into a container." />
+<meta property="og:title" content="Create a Bootstrap page — page" />
+<meta property="og:description" content="These functions are small wrappers around shiny's page constructors (i.e., shiny::fluidPage(), shiny::navbarPage(), etc) that differ in two ways:
+The theme parameter defaults bslib's recommended version of Bootstrap (for new projects).
+The return value is rendered as an static HTML page when printed interactively at the console.
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -161,33 +165,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Navigation containers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/navs-legacy.R'><code>R/navs-legacy.R</code></a></small>
-    <div class="hidden name"><code>navs.Rd</code></div>
+    <h1>Create a Bootstrap page</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/page.R'><code>R/page.R</code></a></small>
+    <div class="hidden name"><code>page.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Render a collection of <code><a href='nav.html'>nav()</a></code> items into a container.</p>
+    <p>These functions are small wrappers around shiny's page constructors (i.e., <code><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>shiny::fluidPage()</a></code>, <code><a href='https://rdrr.io/pkg/shiny/man/navbarPage.html'>shiny::navbarPage()</a></code>, etc) that differ in two ways:</p><ul>
+<li><p>The <code>theme</code> parameter defaults bslib's recommended version of Bootstrap (for new projects).</p></li>
+<li><p>The return value is rendered as an static HTML page when printed interactively at the console.</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>navs_tab</span><span class='op'>(</span><span class='va'>...</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, header <span class='op'>=</span> <span class='cn'>NULL</span>, footer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>page</span><span class='op'>(</span><span class='va'>...</span>, title <span class='op'>=</span> <span class='cn'>NULL</span>, theme <span class='op'>=</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span>, lang <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>navs_pill</span><span class='op'>(</span><span class='va'>...</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, header <span class='op'>=</span> <span class='cn'>NULL</span>, footer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>page_fluid</span><span class='op'>(</span><span class='va'>...</span>, title <span class='op'>=</span> <span class='cn'>NULL</span>, theme <span class='op'>=</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span>, lang <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>navs_pill_list</span><span class='op'>(</span>
-  <span class='va'>...</span>,
-  id <span class='op'>=</span> <span class='cn'>NULL</span>,
-  selected <span class='op'>=</span> <span class='cn'>NULL</span>,
-  header <span class='op'>=</span> <span class='cn'>NULL</span>,
-  footer <span class='op'>=</span> <span class='cn'>NULL</span>,
-  well <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  fluid <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  widths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>8</span><span class='op'>)</span>
-<span class='op'>)</span>
+<span class='fu'>page_fixed</span><span class='op'>(</span><span class='va'>...</span>, title <span class='op'>=</span> <span class='cn'>NULL</span>, theme <span class='op'>=</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span>, lang <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>navs_hidden</span><span class='op'>(</span><span class='va'>...</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, header <span class='op'>=</span> <span class='cn'>NULL</span>, footer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>page_fill</span><span class='op'>(</span><span class='va'>...</span>, padding <span class='op'>=</span> <span class='fl'>0</span>, title <span class='op'>=</span> <span class='cn'>NULL</span>, theme <span class='op'>=</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span>, lang <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>navs_bar</span><span class='op'>(</span>
+<span class='fu'>page_navbar</span><span class='op'>(</span>
   <span class='va'>...</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   id <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -198,7 +197,10 @@
   bg <span class='op'>=</span> <span class='cn'>NULL</span>,
   inverse <span class='op'>=</span> <span class='st'>"auto"</span>,
   collapsible <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  fluid <span class='op'>=</span> <span class='cn'>TRUE</span>
+  fluid <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  theme <span class='op'>=</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span>,
+  window_title <span class='op'>=</span> <span class='cn'>NA</span>,
+  lang <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -206,7 +208,38 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>a collection of <code><a href='nav.html'>nav()</a></code> items.</p></td>
+      <td><p>The contents of the document body.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>The browser window title (defaults to the host URL of the page)</p></td>
+    </tr>
+    <tr>
+      <th>theme</th>
+      <td><p>One of the following:</p><ul>
+<li><p><code>NULL</code> (the default), which implies a "stock" build of Bootstrap 3.</p></li>
+<li><p>A <code><a href='bs_theme.html'>bslib::bs_theme()</a></code> object. This can be used to replace a stock
+build of Bootstrap 3 with a customized version of Bootstrap 3 or higher.</p></li>
+<li><p>A character string pointing to an alternative Bootstrap stylesheet
+(normally a css file within the www directory, e.g. <code>www/bootstrap.css</code>).</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>lang</th>
+      <td><p>ISO 639-1 language code for the HTML page, such as "en" or "ko".
+This will be used as the lang in the <code>&lt;html&gt;</code> tag, as in <code>&lt;html lang="en"&gt;</code>.
+The default (NULL) results in an empty string.</p></td>
+    </tr>
+    <tr>
+      <th>padding</th>
+      <td><p>Padding to use for the body. This can be a numeric vector
+(which will be interpreted as pixels) or a character vector with valid CSS
+lengths. The length can be between one and four. If one, then that value
+will be used for all four sides. If two, then the first value will be used
+for the top and bottom, while the second value will be used for left and
+right. If three, then the first will be used for top, the second will be
+left and right, and the third will be bottom. If four, then the values will
+be interpreted as top, right, bottom, and left respectively.</p></td>
     </tr>
     <tr>
       <th>id</th>
@@ -217,33 +250,6 @@
       <td><p>a character string matching the <code>value</code> of a particular <code><a href='nav.html'>nav()</a></code> item to selected by default.</p></td>
     </tr>
     <tr>
-      <th>header</th>
-      <td><p>UI element(s) (<a href='https://rdrr.io/pkg/htmltools/man/builder.html'>tags</a>) to display <em>above</em> the nav content.</p></td>
-    </tr>
-    <tr>
-      <th>footer</th>
-      <td><p>UI element(s) (<a href='https://rdrr.io/pkg/htmltools/man/builder.html'>tags</a>) to display <em>below</em> the nav content.</p></td>
-    </tr>
-    <tr>
-      <th>well</th>
-      <td><p><code>TRUE</code> to place a well (gray rounded rectangle) around the
-navigation list.</p></td>
-    </tr>
-    <tr>
-      <th>fluid</th>
-      <td><p><code>TRUE</code> to use fluid layout; <code>FALSE</code> to use fixed
-layout.</p></td>
-    </tr>
-    <tr>
-      <th>widths</th>
-      <td><p>Column withs of the navigation list and tabset content areas
-respectively.</p></td>
-    </tr>
-    <tr>
-      <th>title</th>
-      <td><p>The title to display in the navbar</p></td>
-    </tr>
-    <tr>
       <th>position</th>
       <td><p>Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (<code>"static-top"</code>), pinned at
@@ -252,6 +258,14 @@ the top (<code>"fixed-top"</code>), or pinned at the bottom
 <code>"fixed-bottom"</code> will cause the navbar to overlay your body content,
 unless you add padding, e.g.: <code>tags$style(type="text/css", "body
   {padding-top: 70px;}")</code></p></td>
+    </tr>
+    <tr>
+      <th>header</th>
+      <td><p>UI element(s) (<a href='https://rdrr.io/pkg/htmltools/man/builder.html'>tags</a>) to display <em>above</em> the nav content.</p></td>
+    </tr>
+    <tr>
+      <th>footer</th>
+      <td><p>UI element(s) (<a href='https://rdrr.io/pkg/htmltools/man/builder.html'>tags</a>) to display <em>below</em> the nav content.</p></td>
     </tr>
     <tr>
       <th>bg</th>
@@ -268,102 +282,27 @@ text color. If <code>"auto"</code> (the default), the best contrast to <code>bg<
 elements into a menu when the width of the browser is less than 940 pixels
 (useful for viewing on smaller touchscreen device)</p></td>
     </tr>
+    <tr>
+      <th>fluid</th>
+      <td><p><code>TRUE</code> to use fluid layout; <code>FALSE</code> to use fixed
+layout.</p></td>
+    </tr>
+    <tr>
+      <th>window_title</th>
+      <td><p>the browser window title. The default value, <code>NA</code>, means
+to use any character strings that appear in <code>title</code> (if none are found, the
+host URL of the page is displayed by default).</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='nav.html'>nav()</a></code>, <code><a href='nav_select.html'>nav_select()</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/shiny/man/bootstrapPage.html'>shiny::bootstrapPage()</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>shiny::fluidPage()</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/shiny/man/fixedPage.html'>shiny::fixedPage()</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/shiny/man/fillPage.html'>shiny::fillPage()</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/shiny/man/navbarPage.html'>shiny::navbarPage()</a></code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>navs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-  <span class='fu'><a href='nav.html'>nav</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"a"</span><span class='op'>)</span>,
-  <span class='fu'><a href='nav.html'>nav</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='st'>"b"</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='fu'>navs_tab</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="tabbable"&gt;
-#&gt;     &lt;ul class="nav nav-tabs" data-tabsetid="4697"&gt;
-#&gt;       &lt;li class="active"&gt;
-#&gt;         &lt;a href="#tab-4697-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
-#&gt;       &lt;/li&gt;
-#&gt;       &lt;li&gt;
-#&gt;         &lt;a href="#tab-4697-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
-#&gt;       &lt;/li&gt;
-#&gt;     &lt;/ul&gt;
-#&gt;     &lt;div class="tab-content" data-tabsetid="4697"&gt;
-#&gt;       &lt;div class="tab-pane active" data-value="A" id="tab-4697-1"&gt;a&lt;/div&gt;
-#&gt;       &lt;div class="tab-pane" data-value="B" id="tab-4697-2"&gt;b&lt;/div&gt;
-#&gt;     &lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/div&gt;</div><div class='input'><span class='fu'>navs_pill</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="tabbable"&gt;
-#&gt;     &lt;ul class="nav nav-pills" data-tabsetid="7990"&gt;
-#&gt;       &lt;li class="active"&gt;
-#&gt;         &lt;a href="#tab-7990-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
-#&gt;       &lt;/li&gt;
-#&gt;       &lt;li&gt;
-#&gt;         &lt;a href="#tab-7990-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
-#&gt;       &lt;/li&gt;
-#&gt;     &lt;/ul&gt;
-#&gt;     &lt;div class="tab-content" data-tabsetid="7990"&gt;
-#&gt;       &lt;div class="tab-pane active" data-value="A" id="tab-7990-1"&gt;a&lt;/div&gt;
-#&gt;       &lt;div class="tab-pane" data-value="B" id="tab-7990-2"&gt;b&lt;/div&gt;
-#&gt;     &lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/div&gt;</div><div class='input'><span class='fu'>navs_pill_list</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="row"&gt;
-#&gt;     &lt;div class="col-sm-4 well"&gt;
-#&gt;       &lt;ul class="nav nav-pills nav-stacked" data-tabsetid="5447"&gt;
-#&gt;         &lt;li class="active"&gt;
-#&gt;           &lt;a href="#tab-5447-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
-#&gt;         &lt;/li&gt;
-#&gt;         &lt;li&gt;
-#&gt;           &lt;a href="#tab-5447-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
-#&gt;         &lt;/li&gt;
-#&gt;       &lt;/ul&gt;
-#&gt;     &lt;/div&gt;
-#&gt;     &lt;div class="col-sm-8"&gt;
-#&gt;       &lt;div class="tab-content" data-tabsetid="5447"&gt;
-#&gt;         &lt;div class="tab-pane active" data-value="A" id="tab-5447-1"&gt;a&lt;/div&gt;
-#&gt;         &lt;div class="tab-pane" data-value="B" id="tab-5447-2"&gt;b&lt;/div&gt;
-#&gt;       &lt;/div&gt;
-#&gt;     &lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/div&gt;</div><div class='input'><span class='fu'>navs_bar</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation"&gt;
-#&gt;   &lt;div class="container-fluid"&gt;
-#&gt;     &lt;div class="navbar-header"&gt;
-#&gt;       &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-5626"&gt;
-#&gt;         &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
-#&gt;         &lt;span class="icon-bar"&gt;&lt;/span&gt;
-#&gt;         &lt;span class="icon-bar"&gt;&lt;/span&gt;
-#&gt;         &lt;span class="icon-bar"&gt;&lt;/span&gt;
-#&gt;       &lt;/button&gt;
-#&gt;       &lt;span class="navbar-brand"&gt;&lt;/span&gt;
-#&gt;     &lt;/div&gt;
-#&gt;     &lt;div class="navbar-collapse collapse" id="navbar-collapse-5626"&gt;
-#&gt;       &lt;ul class="nav navbar-nav" data-tabsetid="6705"&gt;
-#&gt;         &lt;li class="active"&gt;
-#&gt;           &lt;a href="#tab-6705-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
-#&gt;         &lt;/li&gt;
-#&gt;         &lt;li&gt;
-#&gt;           &lt;a href="#tab-6705-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
-#&gt;         &lt;/li&gt;
-#&gt;       &lt;/ul&gt;
-#&gt;     &lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/nav&gt;
-#&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="tab-content" data-tabsetid="6705"&gt;
-#&gt;     &lt;div class="tab-pane active" data-value="A" id="tab-6705-1"&gt;a&lt;/div&gt;
-#&gt;     &lt;div class="tab-pane" data-value="B" id="tab-6705-2"&gt;b&lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/div&gt;</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

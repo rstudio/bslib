@@ -235,7 +235,7 @@ specified.</p>
 <span class='co'># Selecting a tab</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='fu'>can_browse</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span>
-    <span class='fu'><a href='page_fluid.html'>page_fluid</a></span><span class='op'>(</span>
+    <span class='fu'><a href='page.html'>page_fluid</a></span><span class='op'>(</span>
       <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/radioButtons.html'>radioButtons</a></span><span class='op'>(</span><span class='st'>"item"</span>, <span class='st'>"Choose"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>,
       <span class='fu'><a href='navs_tab.html'>navs_hidden</a></span><span class='op'>(</span>
         id <span class='op'>=</span> <span class='st'>"container"</span>,
@@ -251,7 +251,7 @@ specified.</p>
 
 <span class='co'># Inserting and removing</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='fu'>can_browse</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='page_fluid.html'>page_fluid</a></span><span class='op'>(</span>
+  <span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='page.html'>page_fluid</a></span><span class='op'>(</span>
     <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"add"</span>, <span class='st'>"Add 'Dynamic' tab"</span><span class='op'>)</span>,
     <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"remove"</span>, <span class='st'>"Remove 'Foo' tab"</span><span class='op'>)</span>,
     <span class='fu'><a href='navs_tab.html'>navs_tab</a></span><span class='op'>(</span>

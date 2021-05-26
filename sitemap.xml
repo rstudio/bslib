@@ -22,9 +22,6 @@
     <loc>https://rstudio.github.io/bslib//reference/bs_global_theme.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_page.html</loc>
-  </url>
-  <url>
     <loc>https://rstudio.github.io/bslib//reference/bs_remove.html</loc>
   </url>
   <url>
@@ -55,10 +52,7 @@
     <loc>https://rstudio.github.io/bslib//reference/navs.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/page_fixed.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib//reference/page_fluid.html</loc>
+    <loc>https://rstudio.github.io/bslib//reference/page.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib//reference/pipe.html</loc>
