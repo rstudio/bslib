@@ -16,8 +16,6 @@
 
     Code
       renderTags(page_navbar2(bg = "red", nav("a", "A")))$html
-    Warning <simpleWarning>
-      `title` should be a character string
     Output
       <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation" style="background-color:#FF0000 !important;">
         <div class="container-fluid">
