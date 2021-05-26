@@ -35,6 +35,8 @@ useful for showing/hiding panels of content via other UI controls like
 with \code{\link[=navs_hidden]{navs_hidden()}}).}
 
 \item{icon}{Optional icon to appear next to the nav item's \code{title}.}
+
+\item{align}{horizontal alignment of the dropdown menu relative to dropdown toggle.}
 }
 \value{
 A nav item that may be passed to a nav container (e.g. \code{\link[=navs_tab]{navs_tab()}}).
