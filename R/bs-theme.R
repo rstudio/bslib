@@ -250,7 +250,7 @@ color_contrast_layer <- function() {
 # -----------------------------------------------------------------
 
 bootstrap_bundle <- function(version) {
-  switch_version(
+  res <- switch_version(
     version,
     four = sass_bundle(
       # Don't name this "core" bundle so it can't easily be removed
@@ -307,6 +307,12 @@ bootstrap_bundle <- function(version) {
       )
     )
   )
+  # Tack on nav_spacer() CSS by default
+  nav_spacer <- sass_file(
+    system.file("nav-spacer", "nav-spacer.scss", package = "bslib")
+  )
+
+  sass_bundle(res, nav_spacer = sass_layer(rules = nav_spacer))
 }
 
 
