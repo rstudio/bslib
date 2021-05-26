@@ -12,12 +12,6 @@
 #' @seealso [shiny::bootstrapPage()]
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
-  # <title> only support text, but bootstrapPage() allows anything
-  if (!is.null(title)) {
-    if (!is.character(title) || length(title) != 1) {
-      stop("`title` must be a character string", call. = FALSE)
-    }
-  }
   as_page(
     shiny::bootstrapPage(..., title = title, theme = theme, lang = lang)
   )
