@@ -56,6 +56,7 @@ nav <- function(title, ..., value = title, icon = NULL) {
 }
 
 #' @rdname nav
+#' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.
 #' @export
 nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "right")) {
   align <- match.arg(align)
