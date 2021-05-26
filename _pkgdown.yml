@@ -64,7 +64,7 @@ reference:
     Tools for creating and dynamically updating navs.
   contents:
     - nav
-    - navs
+    - navs_tab
     - nav_select
 - title: Create a Bootstrap page
   contents:
