@@ -53,8 +53,8 @@ page_fill <- function(..., padding = 0, title = NULL,
 #' @inheritParams bs_page
 #' @seealso [shiny::navbarPage()]
 #' @param window_title the browser window title. The default value, `NA`, means
-#'   to use `title` if it's character string (otherwise, it defaults to the host
-#'   URL of the page).
+#'   to use any character strings that appear in `title` (if none are found, the
+#'   host URL of the page is displayed by default).
 #' @export
 page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         position = c("static-top", "fixed-top", "fixed-bottom"),
@@ -66,7 +66,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         lang = NULL) {
 
   # https://github.com/rstudio/shiny/issues/2310
-  if (isTRUE(is.na(window_title))) {
+  if (!is.null(title) && isTRUE(is.na(window_title))) {
     window_title <- unlist(find_characters(title))
     if (is.null(window_title)) {
       warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
