@@ -4,50 +4,54 @@
 
 #' Create a Bootstrap page
 #'
-#' Alias for [shiny::bootstrapPage()] with `theme` defaulting to bslib's
-#' recommended version Bootstrap.
+#' These functions are small wrappers around shiny's page constructors (i.e., [shiny::fluidPage()], [shiny::navbarPage()], etc) that differ in two ways:
+#'  * The `theme` parameter defaults bslib's recommended version of Bootstrap (for new projects).
+#'  * The return value is rendered as an static HTML page when printed interactively at the console.
 #'
-#' @export
 #' @inheritParams shiny::bootstrapPage
+#' @seealso [shiny::bootstrapPage()]
+#' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
     shiny::bootstrapPage(..., title = title, theme = theme, lang = lang)
   )
 }
 
-#' Create a page with fluid layout
-#'
-#' Alias for [shiny::fluidPage()] with `theme` defaulting to bslib's recommended
-#' version Bootstrap.
-#'
-#' @export
+#' @rdname page
 #' @inheritParams shiny::fluidPage
+#' @seealso [shiny::fluidPage()]
+#' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
     shiny::fluidPage(..., title = title, theme = theme, lang = lang)
   )
 }
 
-#' Create a page with fluid layout
-#'
-#' Alias for [shiny::fixedPage()] with `theme` defaulting to bslib's recommended
-#' version Bootstrap.
-#'
-#' @export
+#' @rdname page
 #' @inheritParams shiny::fixedPage
+#' @seealso [shiny::fixedPage()]
+#' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
     shiny::fixedPage(..., title = title, theme = theme, lang = lang)
   )
 }
 
+#' @rdname page
+#' @inheritParams shiny::fillPage
+#' @seealso [shiny::fillPage()]
+#' @export
+page_fill <- function(..., padding = 0, title = NULL,
+                      theme = bs_theme(), lang = NULL) {
+  as_page(
+    shiny::fillPage(..., padding = padding, title = title, theme = theme, lang = lang)
+  )
+}
 
-#' Create a navbar page
-#'
-#' A convenience wrapper around [navs_bar()] and [page()].
-#'
+#' @rdname page
 #' @inheritParams navs_bar
 #' @inheritParams bs_page
+#' @seealso [shiny::navbarPage()]
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use `title` if it's character string (otherwise, it defaults to the host
 #'   URL of the page).

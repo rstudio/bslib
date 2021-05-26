@@ -68,9 +68,7 @@ reference:
     - nav_select
 - title: Create a Bootstrap page
   contents:
-    - page_fluid
-    - page_fixed
-    - bs_page
+    - page
 - title: Dynamic theming
   description: |
     Create dynamically themable HTML widgets.
