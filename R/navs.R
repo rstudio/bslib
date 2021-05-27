@@ -6,6 +6,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL,
     navs_tab(..., id = id, selected = selected, header = header, footer = footer)
   )
 
+  # https://getbootstrap.com/docs/5.0/components/card/#navigation
   nav <- tabs$
     find(".nav")$
     addClass("card-header-tabs")$
