@@ -162,7 +162,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Navigation containers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/navs-legacy.R'><code>R/navs-legacy.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/bslib/blob/master/R/navs-legacy.R'><code>R/navs-legacy.R</code></a>, <a href='https://github.com/rstudio/bslib/blob/master/R/navs.R'><code>R/navs.R</code></a></small>
     <div class="hidden name"><code>navs.Rd</code></div>
     </div>
 
@@ -199,6 +199,17 @@
   inverse <span class='op'>=</span> <span class='st'>"auto"</span>,
   collapsible <span class='op'>=</span> <span class='cn'>TRUE</span>,
   fluid <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+
+<span class='fu'>navs_tab_card</span><span class='op'>(</span><span class='va'>...</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, header <span class='op'>=</span> <span class='cn'>NULL</span>, footer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>navs_pill_card</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  selected <span class='op'>=</span> <span class='cn'>NULL</span>,
+  header <span class='op'>=</span> <span class='cn'>NULL</span>,
+  footer <span class='op'>=</span> <span class='cn'>NULL</span>,
+  placement <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"above"</span>, <span class='st'>"below"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -268,6 +279,10 @@ text color. If <code>"auto"</code> (the default), the best contrast to <code>bg<
 elements into a menu when the width of the browser is less than 940 pixels
 (useful for viewing on smaller touchscreen device)</p></td>
     </tr>
+    <tr>
+      <th>placement</th>
+      <td><p>placement of the nav items relative to the content.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -284,52 +299,52 @@ elements into a menu when the width of the browser is less than 940 pixels
 <span class='fu'>navs_tab</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
 #&gt;   &lt;div class="tabbable"&gt;
-#&gt;     &lt;ul class="nav nav-tabs" data-tabsetid="6326"&gt;
+#&gt;     &lt;ul class="nav nav-tabs" data-tabsetid="1657"&gt;
 #&gt;       &lt;li class="active"&gt;
-#&gt;         &lt;a href="#tab-6326-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
+#&gt;         &lt;a href="#tab-1657-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
 #&gt;       &lt;/li&gt;
 #&gt;       &lt;li&gt;
-#&gt;         &lt;a href="#tab-6326-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
+#&gt;         &lt;a href="#tab-1657-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
 #&gt;       &lt;/li&gt;
 #&gt;     &lt;/ul&gt;
-#&gt;     &lt;div class="tab-content" data-tabsetid="6326"&gt;
-#&gt;       &lt;div class="tab-pane active" data-value="A" id="tab-6326-1"&gt;a&lt;/div&gt;
-#&gt;       &lt;div class="tab-pane" data-value="B" id="tab-6326-2"&gt;b&lt;/div&gt;
+#&gt;     &lt;div class="tab-content" data-tabsetid="1657"&gt;
+#&gt;       &lt;div class="tab-pane active" data-value="A" id="tab-1657-1"&gt;a&lt;/div&gt;
+#&gt;       &lt;div class="tab-pane" data-value="B" id="tab-1657-2"&gt;b&lt;/div&gt;
 #&gt;     &lt;/div&gt;
 #&gt;   &lt;/div&gt;
 #&gt; &lt;/div&gt;</div><div class='input'><span class='fu'>navs_pill</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
 #&gt;   &lt;div class="tabbable"&gt;
-#&gt;     &lt;ul class="nav nav-pills" data-tabsetid="1822"&gt;
+#&gt;     &lt;ul class="nav nav-pills" data-tabsetid="5761"&gt;
 #&gt;       &lt;li class="active"&gt;
-#&gt;         &lt;a href="#tab-1822-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
+#&gt;         &lt;a href="#tab-5761-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
 #&gt;       &lt;/li&gt;
 #&gt;       &lt;li&gt;
-#&gt;         &lt;a href="#tab-1822-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
+#&gt;         &lt;a href="#tab-5761-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
 #&gt;       &lt;/li&gt;
 #&gt;     &lt;/ul&gt;
-#&gt;     &lt;div class="tab-content" data-tabsetid="1822"&gt;
-#&gt;       &lt;div class="tab-pane active" data-value="A" id="tab-1822-1"&gt;a&lt;/div&gt;
-#&gt;       &lt;div class="tab-pane" data-value="B" id="tab-1822-2"&gt;b&lt;/div&gt;
+#&gt;     &lt;div class="tab-content" data-tabsetid="5761"&gt;
+#&gt;       &lt;div class="tab-pane active" data-value="A" id="tab-5761-1"&gt;a&lt;/div&gt;
+#&gt;       &lt;div class="tab-pane" data-value="B" id="tab-5761-2"&gt;b&lt;/div&gt;
 #&gt;     &lt;/div&gt;
 #&gt;   &lt;/div&gt;
 #&gt; &lt;/div&gt;</div><div class='input'><span class='fu'>navs_pill_list</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
 #&gt;   &lt;div class="row"&gt;
 #&gt;     &lt;div class="col-sm-4 well"&gt;
-#&gt;       &lt;ul class="nav nav-pills nav-stacked" data-tabsetid="4817"&gt;
+#&gt;       &lt;ul class="nav nav-pills nav-stacked" data-tabsetid="5406"&gt;
 #&gt;         &lt;li class="active"&gt;
-#&gt;           &lt;a href="#tab-4817-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
+#&gt;           &lt;a href="#tab-5406-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
 #&gt;         &lt;/li&gt;
 #&gt;         &lt;li&gt;
-#&gt;           &lt;a href="#tab-4817-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
+#&gt;           &lt;a href="#tab-5406-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
 #&gt;         &lt;/li&gt;
 #&gt;       &lt;/ul&gt;
 #&gt;     &lt;/div&gt;
 #&gt;     &lt;div class="col-sm-8"&gt;
-#&gt;       &lt;div class="tab-content" data-tabsetid="4817"&gt;
-#&gt;         &lt;div class="tab-pane active" data-value="A" id="tab-4817-1"&gt;a&lt;/div&gt;
-#&gt;         &lt;div class="tab-pane" data-value="B" id="tab-4817-2"&gt;b&lt;/div&gt;
+#&gt;       &lt;div class="tab-content" data-tabsetid="5406"&gt;
+#&gt;         &lt;div class="tab-pane active" data-value="A" id="tab-5406-1"&gt;a&lt;/div&gt;
+#&gt;         &lt;div class="tab-pane" data-value="B" id="tab-5406-2"&gt;b&lt;/div&gt;
 #&gt;       &lt;/div&gt;
 #&gt;     &lt;/div&gt;
 #&gt;   &lt;/div&gt;
@@ -337,7 +352,7 @@ elements into a menu when the width of the browser is less than 940 pixels
 </div><div class='output co'>#&gt; &lt;nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation"&gt;
 #&gt;   &lt;div class="container-fluid"&gt;
 #&gt;     &lt;div class="navbar-header"&gt;
-#&gt;       &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-3896"&gt;
+#&gt;       &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-8372"&gt;
 #&gt;         &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
 #&gt;         &lt;span class="icon-bar"&gt;&lt;/span&gt;
 #&gt;         &lt;span class="icon-bar"&gt;&lt;/span&gt;
@@ -345,22 +360,22 @@ elements into a menu when the width of the browser is less than 940 pixels
 #&gt;       &lt;/button&gt;
 #&gt;       &lt;span class="navbar-brand"&gt;&lt;/span&gt;
 #&gt;     &lt;/div&gt;
-#&gt;     &lt;div class="navbar-collapse collapse" id="navbar-collapse-3896"&gt;
-#&gt;       &lt;ul class="nav navbar-nav" data-tabsetid="3140"&gt;
+#&gt;     &lt;div class="navbar-collapse collapse" id="navbar-collapse-8372"&gt;
+#&gt;       &lt;ul class="nav navbar-nav" data-tabsetid="7307"&gt;
 #&gt;         &lt;li class="active"&gt;
-#&gt;           &lt;a href="#tab-3140-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
+#&gt;           &lt;a href="#tab-7307-1" data-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
 #&gt;         &lt;/li&gt;
 #&gt;         &lt;li&gt;
-#&gt;           &lt;a href="#tab-3140-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
+#&gt;           &lt;a href="#tab-7307-2" data-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
 #&gt;         &lt;/li&gt;
 #&gt;       &lt;/ul&gt;
 #&gt;     &lt;/div&gt;
 #&gt;   &lt;/div&gt;
 #&gt; &lt;/nav&gt;
 #&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="tab-content" data-tabsetid="3140"&gt;
-#&gt;     &lt;div class="tab-pane active" data-value="A" id="tab-3140-1"&gt;a&lt;/div&gt;
-#&gt;     &lt;div class="tab-pane" data-value="B" id="tab-3140-2"&gt;b&lt;/div&gt;
+#&gt;   &lt;div class="tab-content" data-tabsetid="7307"&gt;
+#&gt;     &lt;div class="tab-pane active" data-value="A" id="tab-7307-1"&gt;a&lt;/div&gt;
+#&gt;     &lt;div class="tab-pane" data-value="B" id="tab-7307-2"&gt;b&lt;/div&gt;
 #&gt;   &lt;/div&gt;
 #&gt; &lt;/div&gt;</div><div class='input'>
 </div></pre>
