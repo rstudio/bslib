@@ -15,7 +15,7 @@
 ---
 
     Code
-      renderTags(page_navbar2(bg = "red", nav("a", "A")))$html
+      renderTags(x)$html
     Output
       <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation" style="background-color:#FF0000 !important;">
         <div class="container-fluid">
@@ -30,8 +30,8 @@
           </div>
           <div class="navbar-collapse collapse" id="navbar-collapse-1502">
             <ul class="nav navbar-nav" data-tabsetid="4785">
-              <li class="active">
-                <a href="#tab-4785-1" data-toggle="tab" data-value="a">a</a>
+              <li class="nav-item">
+                <a href="#tab-4785-1" data-toggle="tab" data-value="a" class="nav-link active">a</a>
               </li>
             </ul>
           </div>
