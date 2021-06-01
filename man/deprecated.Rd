@@ -13,6 +13,7 @@
 \alias{bs_theme_get_variables}
 \alias{bootstrap}
 \alias{bootstrap_sass}
+\alias{bs_add_declarations}
 \title{Deprecated functions}
 \usage{
 bs_theme_new(...)
@@ -38,6 +39,8 @@ bs_theme_get_variables(...)
 bootstrap(theme = bs_theme_get(), ...)
 
 bootstrap_sass(rules = list(), theme = bs_theme_get(), ...)
+
+bs_add_declarations(theme, declarations)
 }
 \value{
 a \code{\link[=bs_theme]{bs_theme()}} object.

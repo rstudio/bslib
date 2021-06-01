@@ -609,7 +609,7 @@ bs_get_variables <- function(theme, varnames) {
   css <- sass_partial(
     cssvars,
     # Add declarations to the current theme
-    bs_bundle(theme, sass_layer(declarations = sassvars)),
+    bs_bundle(theme, sass_layer(mixins = sassvars)),
   )
 
   # Search the output for the block of properties we just generated, using the
@@ -714,7 +714,10 @@ bs_get_contrast <- function(theme, varnames) {
   )
   css <- sass::sass_partial(
     paste0("bs_get_contrast {", prop_string, "}"),
-    theme, cache_key_extra = packageVersion("bslib")
+    theme, cache_key_extra = packageVersion("bslib"),
+    # Don't listen to global Sass options so we can be sure
+    # that stuff like source maps won't be included
+    options = sass::sass_options(source_map_embed = FALSE)
   )
   css <- gsub("\n", "", gsub("\\s*", "", css))
   css <- sub("bs_get_contrast{", "", css, fixed = TRUE)

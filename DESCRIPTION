@@ -1,6 +1,6 @@
 Package: bslib
 Title: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'
-Version: 0.2.4.9002
+Version: 0.2.5.9001
 Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
@@ -20,10 +20,9 @@ Description: Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via
 Depends: R (>= 2.10)
 Imports:
     grDevices,
-    htmltools (>= 0.5.1),
+    htmltools (>= 0.5.1.9004),
     jsonlite,
-    sass (>= 0.3.1.9001),
-    digest (>= 0.6.25),
+    sass (>= 0.4.0),
     jquerylib (>= 0.1.3),
     rlang,
     magrittr
@@ -38,7 +37,6 @@ Suggests:
     curl
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
@@ -56,11 +54,19 @@ Collate:
     'deprecated.R'
     'files.R'
     'imports.R'
+    'nav-update.R'
+    'navs-legacy.R'
+    'nav-items.R'
+    'navs.R'
     'onLoad.R'
+    'page.R'
     'precompiled.R'
+    'print.R'
     'shiny-devmode.R'
+    'utils-shiny.R'
+    'utils-tags.R'
     'version-default.R'
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
-Remotes: rstudio/sass
+Remotes: rstudio/htmltools

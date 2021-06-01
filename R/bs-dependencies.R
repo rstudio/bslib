@@ -56,7 +56,7 @@
 #'
 bs_theme_dependencies <- function(
   theme,
-  sass_options = sass::sass_options(output_style = "compressed"),
+  sass_options = sass::sass_options_get(output_style = "compressed"),
   cache = sass::sass_cache_get(),
   jquery = jquerylib::jquery_core(3),
   precompiled = get_precompiled_option("bslib.precompiled", default = TRUE)

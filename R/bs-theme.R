@@ -258,7 +258,7 @@ bootstrap_bundle <- function(version) {
     ".table th[align=center] { text-align: center; }"
   )
 
-  switch_version(
+  res <- switch_version(
     version,
     five = sass_bundle(
       # Don't name this "core" bundle so it can't easily be removed
@@ -285,7 +285,7 @@ bootstrap_bundle <- function(version) {
     four = sass_bundle(
       sass_layer(
         defaults = bs4_sass_files(c("deprecated", "functions", "variables")),
-        declarations = bs4_sass_files("mixins")
+        mixins = bs4_sass_files("mixins")
       ),
       # Returns a _named_ list of bundles (i.e., these should be easily removed)
       !!!rule_bundles(
@@ -306,7 +306,7 @@ bootstrap_bundle <- function(version) {
     three = sass_bundle(
       sass_layer(
         defaults = bs3_sass_files("variables"),
-        declarations = bs3_sass_files("mixins")
+        mixins = bs3_sass_files("mixins")
       ),
       # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
       !!!rule_bundles(
@@ -328,6 +328,12 @@ bootstrap_bundle <- function(version) {
       )
     )
   )
+  # Tack on nav_spacer() CSS by default
+  nav_spacer <- sass_file(
+    system.file("nav-spacer", "nav-spacer.scss", package = "bslib")
+  )
+
+  sass_bundle(res, nav_spacer = sass_layer(rules = nav_spacer))
 }
 
 
@@ -355,7 +361,7 @@ bootstrap_javascript <- function(version) {
 bs3compat_bundle <- function() {
   sass_layer(
     defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bslib")),
-    declarations = sass_file(system_file("bs3compat", "_declarations.scss", package = "bslib")),
+    mixins = sass_file(system_file("bs3compat", "_declarations.scss", package = "bslib")),
     rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
     # Gyliphicon font files
     file_attachments = c(
@@ -397,7 +403,9 @@ bs3_accessibility_bundle <- function() {
 # -----------------------------------------------------------------
 
 bootswatch_bundle <- function(bootswatch, version) {
-  if (!length(bootswatch)) return(NULL)
+  if (!length(bootswatch) || isTRUE(bootswatch %in% c("default", "bootstrap"))) {
+    return(NULL)
+  }
 
   bootswatch <- switch_version(
     version,

@@ -117,3 +117,10 @@ bootstrap_sass <- function(rules = list(), theme = bs_theme_get(), ...) {
   theme$rules <- ""
   sass_partial(rules, theme)
 }
+
+#' @rdname deprecated
+#' @export
+bs_add_declarations <- function(theme, declarations) {
+  .Deprecated("bs_add_mixins")
+  bs_bundle(theme, sass_layer(declarations = declarations))
+}

@@ -10,6 +10,10 @@ render_skeleton <- function(x) {
 }
 
 test_that("Rmd skeletons can be render cleanly", {
+  skip_if_not(
+    rmarkdown::pandoc_available("1.12.3"),
+    "Pandoc 1.12.3 or higher is required"
+  )
   expect_error(render_skeleton("bs3"), NA)
   expect_error(render_skeleton("bs4"), NA)
   withr::with_namespace(
