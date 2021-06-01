@@ -39,7 +39,7 @@ index 1fd0da1..76bc7aa 100755
  // Components
  
  $border-radius:               0 !default;
-@@ -57,62 +63,62 @@ $border-radius-sm:            0 !default;
+@@ -57,62 +65,62 @@ $border-radius-sm:            0 !default;
  // stylelint-disable-next-line value-keyword-case
  $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
  
@@ -151,7 +151,9 @@ index 1fd0da1..76bc7aa 100755
  $modal-header-border-color:         rgba(0, 0, 0, .2) !default;
  
  // List group
- 
+
+-$list-group-color:                  $white !default;
++$list-group-color:                  $contrast-bg !default; 
 -$list-group-bg:                     $gray-200 !default;
 +$list-group-bg:                     body-mix(80%) !default;
  $list-group-border-color:           transparent !default;

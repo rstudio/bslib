@@ -1,4 +1,4 @@
-// Darkly 5.0.0-beta3
+// Darkly 5.0.1
 // Bootswatch
 
 
@@ -13,14 +13,14 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
 
 .blockquote {
   &-footer {
-    color: body-mix(75%);
+    color: $gray-600;
   }
 }
 
 // Forms
 
 .input-group-addon {
-  color: $body-color;
+  color: $white;
 }
 
 .form-floating > label {
@@ -38,12 +38,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
   .nav-item.open .nav-link,
   .nav-item.open .nav-link:focus,
   .nav-item.open .nav-link:hover {
-    color: $body-color;
+    color: $white;
   }
 }
 
 .breadcrumb a {
-  color: $body-color;
+  color: $white;
 }
 
 .pagination {
@@ -56,37 +56,21 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
 
 .alert {
   border: none;
-  color: $body-color;
+  color: $white;
 
   a,
   .alert-link {
-    color: $body-color;
+    color: $white;
     text-decoration: underline;
   }
 
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($body-color, $value, 15%), $value) repeat-x;
+        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
       } @else {
         background-color: $value;
       }
     }
-  }
-}
-
-// Containers
-
-.list-group-item-action {
-  color: $body-color;
-
-  &:hover,
-  &:focus {
-    background-color: body-mix(85%);
-    color: $body-color;
-  }
-
-  .list-group-item-heading {
-    color: $body-color;
   }
 }

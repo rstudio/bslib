@@ -1,4 +1,4 @@
-// Superhero 5.0.0-beta3
+// Superhero 5.0.1
 // Bootswatch
 
 $theme: "superhero" !default;
@@ -151,6 +151,7 @@ $modal-header-border-color:         rgba(0, 0, 0, .2) !default;
 
 // List group
 
+$list-group-color:                  $contrast-bg !default;
 $list-group-bg:                     body-mix(80%) !default;
 $list-group-border-color:           transparent !default;
 $list-group-hover-bg:               $nav-link-disabled-color !default;

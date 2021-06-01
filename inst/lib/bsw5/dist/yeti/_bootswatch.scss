@@ -1,4 +1,4 @@
-// Yeti 5.0.0-beta3
+// Yeti 5.0.1
 // Bootswatch
 
 
@@ -334,11 +334,9 @@ label,
 }
 
 .badge {
-  padding-bottom: .3em;
-
-  &-warning,
-  &-info {
-    color: $white;
+  &.bg-secondary,
+  &.bg-light {
+    color: $dark;
   }
 }
 

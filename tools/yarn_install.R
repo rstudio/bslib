@@ -410,7 +410,11 @@ unlink(precompiled_dir, recursive = TRUE)
 dir.create(precompiled_dir, recursive = TRUE)
 
 lapply(versions(), function(version) {
-  res <- bs_theme_dependencies(bs_theme(version), precompiled = FALSE, cache = NULL)
+  res <- bs_theme_dependencies(
+    bs_theme(version), precompiled = FALSE,
+    sass_options = sass_options(output_style = "compressed"),
+    cache = NULL
+  )
   # Extract the Bootstrap dependency object (as opposed to, say, jQuery)
   bs_dep <- Filter(res, f = function(x) { identical(x$name, "bootstrap") })[[1]]
 

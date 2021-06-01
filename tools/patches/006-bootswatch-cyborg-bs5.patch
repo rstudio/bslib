@@ -84,40 +84,6 @@ index ba1b228..4e3c7df 100644
        } @else {
          background-color: $value;
        }
-@@ -123,27 +123,27 @@ legend {
- 
- .badge {
-   &-warning {
--    color: $white;
-+    color: $contrast-bg;
-   }
- }
- // Containers
- 
- .list-group-item {
-   &:hover {
--    background-color: $gray-700;
--    color: $white;
-+    background-color: body-mix(50%);
-+    color: $contrast-bg;
-   }
- 
-   &-action {
--    color: $gray-500;
-+    color: body-mix(16%);
- 
-     .list-group-item-heading {
--      color: $gray-500;
-+      color: body-mix(16%);
-     }
-   }
- 
-   &:hover .list-group-item-heading {
--    color: $white;
-+    color: $contrast-bg;
-   }
- }
- 
 diff --git a/inst/lib/bsw5/dist/cyborg/_variables.scss b/inst/lib/bsw5/dist/cyborg/_variables.scss
 index cf948ed..0c16bd2 100755
 --- a/inst/lib/bsw5/dist/cyborg/_variables.scss
@@ -242,7 +208,7 @@ index cf948ed..0c16bd2 100755
  $pagination-hover-bg:                  $primary !default;
  $pagination-hover-border-color:        $pagination-border-color !default;
  $pagination-disabled-bg:               $pagination-bg !default;
-@@ -123,53 +133,53 @@ $pagination-disabled-border-color:     $pagination-border-color !default;
+@@ -123,53 +137,53 @@ $pagination-disabled-border-color:     $pagination-border-color !default;
  
  // Cards
  
@@ -286,6 +252,8 @@ index cf948ed..0c16bd2 100755
  
  // List group
  
+-$list-group-color:                  $white !default;
++$list-group-color:                  $contrast-bg !default;
 -$list-group-bg:                     $gray-800 !default;
 -$list-group-border-color:           $gray-700 !default;
 +$list-group-bg:                     body-mix(67%) !default;
@@ -293,6 +261,8 @@ index cf948ed..0c16bd2 100755
  $list-group-hover-bg:               $primary !default;
 -$list-group-disabled-bg:            $gray-700 !default;
 +$list-group-disabled-bg:            body-mix(50%) !default;
+-$list-group-action-color:           $white !default;
++$list-group-action-color:           $contrast-bg !default;
  $list-group-action-active-bg:       $primary !default;
  
  // Breadcrumbs

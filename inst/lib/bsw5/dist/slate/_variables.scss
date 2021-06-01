@@ -1,4 +1,4 @@
-// Slate 5.0.0-beta3
+// Slate 5.0.1
 // Bootswatch
 
 $theme: "slate" !default;
@@ -167,6 +167,7 @@ $progress-bar-color:                body-mix(0%) !default;
 
 // List group
 
+$list-group-color:                  $contrast-bg !default;
 $list-group-bg:                     lighten($body-bg, 5%) !default;
 $list-group-border-color:           rgba($contrast-fg, .6) !default;
 $list-group-hover-bg:               lighten($body-bg, 10%) !default;

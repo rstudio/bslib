@@ -19,6 +19,8 @@
 .offcanvas-header {
   display: flex;
   display: -webkit-flex;
+  align-items: center;
+  -webkit-align-items: center;
   justify-content: space-between;
   -webkit-justify-content: space-between;
   padding: $offcanvas-padding-y $offcanvas-padding-x;
@@ -57,6 +59,16 @@
   transform: translateX(100%);
 }
 
+.offcanvas-top {
+  top: 0;
+  right: 0;
+  left: 0;
+  height: $offcanvas-vertical-height;
+  max-height: 100%;
+  border-bottom: $offcanvas-border-width solid $offcanvas-border-color;
+  transform: translateY(-100%);
+}
+
 .offcanvas-bottom {
   right: 0;
   left: 0;
@@ -68,15 +80,4 @@
 
 .offcanvas.show {
   transform: none;
-}
-
-.offcanvas-backdrop::before {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: $zindex-offcanvas - 1;
-  width: 100vw;
-  height: 100vh;
-  content: "";
-  background-color: $offcanvas-body-backdrop-color;
 }

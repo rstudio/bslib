@@ -1,4 +1,4 @@
-// Slate 5.0.0-beta3
+// Slate 5.0.1
 // Bootswatch
 
 
@@ -360,10 +360,8 @@ legend {
 }
 
 .badge {
-  &-success,
-  &-warning,
-  &-info {
-    color: $contrast-bg;
+  &.bg-light {
+    color: $dark;
   }
 }
 

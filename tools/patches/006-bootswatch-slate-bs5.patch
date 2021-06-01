@@ -315,15 +315,6 @@ index 455b946..05c6e88 100644
      text-decoration: underline;
    }
  
-@@ -349,7 +363,7 @@ legend {
-   &-success,
-   &-warning,
-   &-info {
--    color: $white;
-+    color: $contrast-bg;
-   }
- }
- 
 @@ -357,6 +371,6 @@ legend {
  
  .list-group {
@@ -492,7 +483,7 @@ index f655a18..637aced 100755
  $toast-header-color:                $body-color !default;
  $toast-header-background-color:     $toast-background-color !default;
  $toast-header-border-color:         $toast-border-color !default;
-@@ -136,23 +158,23 @@ $toast-header-border-color:         $toast-border-color !default;
+@@ -136,23 +160,23 @@ $toast-header-border-color:         $toast-border-color !default;
  // Modals
  
  $modal-content-bg:                  lighten($body-bg, 5%) !default;
@@ -507,6 +498,8 @@ index f655a18..637aced 100755
  
  // List group
  
+-$list-group-color:                  $white !default;
++$list-group-color:                  $contrast-bg !default;
  $list-group-bg:                     lighten($body-bg, 5%) !default;
 -$list-group-border-color:           rgba($black, .6) !default;
 +$list-group-border-color:           rgba($contrast-fg, .6) !default;
