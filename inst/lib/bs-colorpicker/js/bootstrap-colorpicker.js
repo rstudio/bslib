@@ -4164,7 +4164,7 @@ var PopupHandler = function () {
 
       this.popoverTarget.popover(_jquery2.default.extend(true, {}, _options2.default.popover, cp.options.popover, { trigger: 'manual', content: cp.picker, html: true }));
 
-      this.popoverTip = (window.bootstrap && window.bootstrap.Popover && window.bootstrap.Popover.getInstance) ? 
+      this.popoverTip = (window.bootstrap && window.bootstrap.Popover && window.bootstrap.Popover.getInstance) ?
         (0, _jquery2.default)(window.bootstrap.Popover.getInstance(this.popoverTarget[0]).getTipElement()) :
         (0, _jquery2.default)(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
       this.popoverTip.addClass('colorpicker-bs-popover');
