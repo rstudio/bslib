@@ -231,7 +231,9 @@ navbarPage_ <- function(title,
           type = "button",
           class = "navbar-toggle collapsed",
           `data-toggle` = "collapse",
+          `data-bs-toggle` = "collapse",
           `data-target` = paste0("#", navId),
+          `data-bs-target` = paste0("#", navId),
           span(class="sr-only", "Toggle navigation"),
           span(class = "icon-bar"),
           span(class = "icon-bar"),
@@ -578,6 +580,7 @@ liTag <- function(id, title, value, icon) {
     tags$a(
       href = paste0("#", id),
       `data-toggle` = "tab",
+      `data-bs-toggle` = "tab",
       `data-value` = value,
       icon, title
     )
@@ -611,6 +614,7 @@ buildDropdown <- function(divTag, tabset) {
       href = "#",
       class = "dropdown-toggle",
       `data-toggle` = "dropdown",
+      `data-bs-toggle` = "dropdown",
       `data-value` = divTag$menuName,
       divTag$icon,
       divTag$title,
