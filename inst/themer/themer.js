@@ -240,9 +240,7 @@
 
   $(function() {
     $(".bs-theme-value-color").each(function(i, el) {
-      // TODO: get colorpicker working
-      //https://github.com/itsjavi/bootstrap-colorpicker/issues/327
-      //initColorInput(el);
+      initColorInput(el);
     });
     $(".bs-theme-value-bool").each(function(i, el) {
       initBoolInput(el);
