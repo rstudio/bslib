@@ -257,6 +257,16 @@ navbarPage_ <- function(title,
     )
   }
 
+  # Bootstrap 3 explicitly supported "dropup menus" via .navbar-fixed-bottom,
+  # but BS4+ requires .dropup on menus with .navbar.fixed-bottom
+  if (position == "fixed-bottom") {
+    containerDiv <- tagQuery(containerDiv)$
+      find(".dropdown-menu")$
+      parent()$
+      addClass("dropup")$
+      allTags()
+  }
+
   # build the main tab content div
   contentDiv <- div(class = containerClass)
   if (!is.null(header))

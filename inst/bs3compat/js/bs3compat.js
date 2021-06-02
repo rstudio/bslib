@@ -50,38 +50,5 @@ window.BS3_COMPAT = true;
 
 })(jQuery);
 
-// bs3 navbar: li.active > a
-// bs4 navbar: li > a.active
-// bs3 tabset: li.active > a
-// bs4 tabset: li > a.active
-
-
-(function($) {
-  // TODO: Does BS5 need a shim for this?
-  if (!$.fn.dropdown) {
-    return;
-  }
-
-  /*
-   * Bootstrap 4 uses poppler.js to choose what direction to show dropdown
-   * menus, except in the case of navbars; they assume that navbars are always
-   * at the top of the page, so this isn't necessary. However, Bootstrap 3
-   * explicitly supported bottom-positioned navbars via .navbar-fixed-bottom,
-   * and .fixed-bottom works on Bootstrap 4 as well.
-   *
-   * We monkeypatch the dropdown plugin's _detectNavbar method to return false
-   * if we're in a bottom-positioned navbar.
-   */
-  if (!$.fn.dropdown.Constructor.prototype._detectNavbar) {
-    // If we get here, the dropdown plugin's implementation must've changed.
-    // Someone will need to go into Bootstrap's dropdown.js.
-    (console.warn || console.error || console.log)("bs3compat.js couldn't detect the dropdown plugin's _detectNavbar method");
-    return;
-  }
-
-  var oldDetectNavbar = $.fn.dropdown.Constructor.prototype._detectNavbar;
-  $.fn.dropdown.Constructor.prototype._detectNavbar = function() {
-    return oldDetectNavbar.apply(this, this.arguments) &&
-      !($(this._element).closest('.navbar').filter('.navbar-fixed-bottom, .fixed-bottom').length > 0);
-  };
-})(jQuery);
+// bs3 navs: li.active > a
+// bs4 navs: li > a.active
