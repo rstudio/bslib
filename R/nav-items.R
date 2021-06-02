@@ -22,7 +22,7 @@ is_nav_spacer <- function(x) {
 
 tag_has_class <- function(x, class) {
   if (!inherits(x, "shiny.tag")) {
-    return(x)
+    return(FALSE)
   }
   tagQuery(x)$hasClass(class)
 }
