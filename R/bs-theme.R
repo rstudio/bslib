@@ -117,6 +117,11 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
                      font_scale = NULL) {
+
+  if (version >= 5 && !is_available("shiny", "1.6.0.9001")) {
+    warning("`bs_theme(version = 5)` is designed to work with shiny v1.6.0.9001 or higher", call. = FALSE)
+  }
+
   theme <- bs_bundle(
     bs_theme_init(version, bootswatch),
     bootstrap_bundle(version),
