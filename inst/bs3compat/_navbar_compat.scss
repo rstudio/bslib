@@ -5,7 +5,7 @@
   @extend .navbar-expand-sm;
 }
 
-.navbar {
+.navbar:not(.fixed-bottom):not(.navbar-fixed-bottom) {
   margin-bottom: $navbar-margin-bottom;
 }
 
