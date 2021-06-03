@@ -1,58 +1,39 @@
 // Inform the world that we have the ability to use BS3 nav/navbar markup in BS4
 window.BS3_COMPAT = true;
 
-(function($) {
+// This logic needs to execute after both the BS4+ (new) as well as BS3 (legacy)
+// jQuery plugins have been registered. For BS5, plugin registration happens
+// after DOM content is loaded, which is why we do the same here.
+// https://github.com/twbs/bootstrap/blob/08139c22/js/dist/tab.js#L87
+$(function() {
 
-  // We always bundle Bootstrap 3's tab plugin (after the main Bootstrap JS bundle),
-  // so this should (in theory) always be true at this point
+  // The legacy plugin needs to be registered after the new one
   if (!$.fn.tab.Constructor.VERSION.match(/^3\./)) {
     (console.warn || console.error || console.log)("bs3compat.js couldn't find bs3 tab impl; bs3 tabs will not be properly supported");
     return;
   }
-  var bs3TabPlugin = $.fn.tab.noConflict();
 
-  // Bootstrap 5 removed jQuery and thus has removed the plugin
-  var bs4TabPlugin = null;
-  if ($.fn.tab && $.fn.tab.noConflict) {
-    bs4TabPlugin = $.fn.tab.noConflict();
-  }
-
+  // Re-define the tab click event
+  // https://github.com/twbs/bootstrap/blob/08139c2/js/src/tab.js#L33
   var EVENT_KEY = "click.bs.tab.data-api";
-  var SELECTOR = '[data-toggle="tab"], [data-toggle="pill"]';
-
   $(document).off(EVENT_KEY);
+
+  var SELECTOR = '[data-toggle="tab"], [data-toggle="pill"], [data-bs-toggle="tab"], [data-bs-toggle="pill"]';
   $(document).on(EVENT_KEY, SELECTOR, function(event) {
     event.preventDefault();
-    $(this).tab("show");
+
+    // Legacy (bs3) tabs: li.active > a
+    // New (bs4+) tabs: li.nav-item > a.active.nav-link
+    var $el = $(event.target);
+    var legacy = $el.closest(".nav").find("li:not(.dropdown).active > a").length > 0;
+
+    if (legacy) {
+      $el.tab("show");
+    } else {
+      var tab = new bootstrap.Tab($el[0]);
+      tab.show();
+    }
+
   });
 
-  function TabPlugin(config) {
-    if ($(this).closest(".nav").find(".nav-item, .nav-link").length === 0) {
-      // Bootstrap 3 tabs detected
-      bs3TabPlugin.call($(this), config);
-    } else if (bs4TabPlugin) {
-      // Bootstrap 4 tabs detected
-      bs4TabPlugin.call($(this), config);
-    } else {
-      // In the Bootstrap 5+ case, do nothing since the data-bs-toggle namespace
-      // will trigger it's own events
-    }
-  }
-
-  // Register our plugin shim
-  var noconflict = $.fn.tab;
-  $.fn.tab = TabPlugin;
-
-  // TODO: do we need to do this for BS5?
-  if (bs4TabPlugin) {
-    $.fn.tab.Constructor = bs4TabPlugin.Constructor;
-    $.fn.tab.noConflict = function() {
-      $.fn.tab = noconflict;
-      return TabPlugin;
-    };
-  }
-
-})(jQuery);
-
-// bs3 navs: li.active > a
-// bs4 navs: li > a.active
+});
