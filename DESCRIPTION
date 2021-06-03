@@ -27,7 +27,7 @@ Imports:
     rlang,
     magrittr
 Suggests:
-    shiny (>= 1.6.0),
+    shiny (>= 1.6.0.9001),
     rmarkdown (>= 2.7),
     thematic,
     knitr,
@@ -69,4 +69,6 @@ Collate:
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
-Remotes: rstudio/htmltools
+Remotes: 
+  rstudio/htmltools,
+  rstudio/shiny
