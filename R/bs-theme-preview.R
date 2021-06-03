@@ -117,8 +117,9 @@ bs_themer_ui <- function(opts, vals, theme) {
       class = if (version >= 5) "accordion-button" else "btn btn-link px-3 py-2 w-100 text-left border-0",
       class = if (i != 1) "collapsed",
       "data-toggle" = "collapse",
-      "data-bs-toggle" = "collapse",
       "data-target" = paste0("#", elId),
+      # data-bs-* is for BS5+
+      "data-bs-toggle" = "collapse",
       "data-bs-target" = paste0("#", elId),
       "aria-expanded" = "true", "aria-controls" = elId,
       opt_name
@@ -135,6 +136,7 @@ bs_themer_ui <- function(opts, vals, theme) {
       div(
         id = elId, class = if (i == 1) "show" else "collapse",
         "data-parent" = "#bsthemerAccordion",
+        # data-bs-* is for BS5+
         "data-bs-parent" = "#bsthemerAccordion",
         class = if (version >= 5) "accordion-collapse",
         div(
@@ -173,8 +175,9 @@ bs_themer_ui <- function(opts, vals, theme) {
         "Theme customizer",
         tags$div(id = "bsthemerToggle", class = "float-right",
           "data-toggle" = "collapse",
-          "data-bs-toggle" = "collapse",
           "data-target" = "#bsthemerAccordion",
+          # data-bs-* is for BS5+
+          "data-bs-toggle" = "collapse",
           "data-bs-target" = "#bsthemerAccordion",
           style = css(cursor = "pointer"),
           tags$span(),
