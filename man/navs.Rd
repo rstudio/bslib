@@ -69,7 +69,7 @@ navigation list.}
 \item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
 layout.}
 
-\item{widths}{Column withs of the navigation list and tabset content areas
+\item{widths}{Column widths of the navigation list and tabset content areas
 respectively.}
 
 \item{title}{The title to display in the navbar}
