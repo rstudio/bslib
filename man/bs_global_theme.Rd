@@ -63,7 +63,7 @@ bs_global_theme_update(
 \arguments{
 \item{version}{The major version of Bootstrap to use (see \code{\link[=versions]{versions()}}
 for possible values). Defaults to the currently recommended version
-for new projects (currently Bootstrap 5).}
+for new projects (currently Bootstrap 4).}
 
 \item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
 for possible values). When provided to \code{bs_theme_update()}, any previous
