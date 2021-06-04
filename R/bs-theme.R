@@ -376,7 +376,7 @@ bs3compat_bundle <- function() {
       "bs3compat", packageVersion("bslib"),
       package = "bslib",
       src = "bs3compat/js",
-      script = c("tabs.js", "bs3compat.js")
+      script = c("transition.js", "tabs.js", "bs3compat.js")
     )
   )
 }
