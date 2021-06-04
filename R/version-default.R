@@ -13,7 +13,7 @@ versions <- function() {
 #' @export
 #' @rdname versions
 version_default <- function() {
-  versions()[[1]]
+  versions()[[2]]
 }
 
 # TODO: make this a getter/setter?
