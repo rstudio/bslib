@@ -1,6 +1,10 @@
 # bslib 0.2.5.9000
 
 
+## Bug fixes
+
+* Closed #6: rmarkdown's .tabset-fade class now works with Bootstrap 4+ since legacy use of .nav .fade is now officially supported in Bootstrap 4+. (#325)
+
 # bslib 0.2.5.1
 
 Small patch release to fix failing test on Solaris.
