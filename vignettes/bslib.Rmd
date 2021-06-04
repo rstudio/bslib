@@ -73,7 +73,7 @@ At the time of writing, `bslib` currently supports:
 * [Bootstrap 4](https://getbootstrap.com/docs/4.6/) `bs_theme(version = 4)`: intended for legacy projects that happen to break with `version = 5`. 
 * [Bootstrap 3](https://getbootstrap.com/docs/3.4/) `bs_theme(version = 3)`: intended for legacy projects that happen to break with `version = 4`.
 
-`bslib` doesn't require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 5 is recommended, but that may change to Bootstrap 6+ in the near future, so it's best practice to specify the version, especially if reproducibility is important and your project does any of the following:
+`bslib` doesn't require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 4 is recommended, but that will soon change to Bootstrap 5+ in future releases, so it's best practice to specify the version, especially if reproducibility is important and your project does any of the following:
 
 * Uses [Bootstrap Sass variables](#low-level) directly.
 * Uses [utility classes](#utility-classes).
