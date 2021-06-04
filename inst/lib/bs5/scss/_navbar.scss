@@ -309,6 +309,7 @@
     }
 
     .show > .nav-link,
+    .active > .nav-link,
     .nav-link.active {
       color: $navbar-dark-active-color;
     }
