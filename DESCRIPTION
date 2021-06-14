@@ -24,8 +24,7 @@ Imports:
     jsonlite,
     sass (>= 0.4.0),
     jquerylib (>= 0.1.3),
-    rlang,
-    magrittr
+    rlang
 Suggests:
     shiny (>= 1.6.0.9001),
     rmarkdown (>= 2.7),
@@ -34,7 +33,8 @@ Suggests:
     testthat,
     withr,
     rappdirs,
-    curl
+    curl,
+    magrittr
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.1.1

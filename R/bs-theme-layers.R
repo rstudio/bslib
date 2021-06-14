@@ -32,27 +32,26 @@
 #'
 #' # Here we start with a theme based on a Bootswatch theme,
 #' # then override some variable defaults
-#' theme <- bs_theme(bootswatch = "sketchy", primary = "orange") %>%
-#'   bs_add_variables(
-#'     "body-bg" = "#EEEEEE",
-#'     "font-family-base" = "monospace",
-#'     "font-size-base" = "1.4rem",
-#'     "btn-padding-y" = ".16rem",
-#'     "btn-padding-x" = "2rem"
-#'   )
+#' theme <- bs_add_variables(
+#'   bs_theme(bootswatch = "sketchy", primary = "orange"),
+#'   "body-bg" = "#EEEEEE",
+#'   "font-family-base" = "monospace",
+#'   "font-size-base" = "1.4rem",
+#'   "btn-padding-y" = ".16rem",
+#'   "btn-padding-x" = "2rem"
+#' )
 #'
 #' preview_button(theme)
 #'
 #' # If you need to set a variable based on another Bootstrap variable
-#' theme %>%
-#'   bs_add_variables("body-color" = "$success", .where = "declarations") %>%
-#'   preview_button()
+#' theme <- bs_add_variables(theme, "body-color" = "$success", .where = "declarations")
+#' preview_button(theme)
 #'
 #' # Start a new global theme and add some custom rules that
 #' # use Bootstrap variables to define a custom styling for a
 #' # 'person card'
 #' person_rules <- system.file("custom", "person.scss", package = "bslib")
-#' theme <- bs_theme() %>% bs_add_rules(sass::sass_file(person_rules))
+#' theme <- bs_add_rules(bs_theme(), sass::sass_file(person_rules))
 #' # Include custom CSS that leverages bootstrap Sass variables
 #' person <- function(name, title, company) {
 #'   tags$div(

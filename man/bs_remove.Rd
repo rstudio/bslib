@@ -26,11 +26,10 @@ Remove or retrieve Sass code from a theme
 \examples{
 
 # Remove CSS rules for print and carousels
-bs_theme(version = 4) \%>\%
-  bs_remove(c("_print", "_carousel"))
+bs4 <- bs_theme(version = 4)
+bs_remove(bs4, c("_print", "_carousel"))
 
 # Remove BS3 compatibility layer
-bs_theme(version = 4) \%>\%
-  bs_remove("bs3compat")
+bs_remove(bs4, "bs3compat")
 
 }

@@ -1,5 +1,8 @@
 # bslib 0.2.5.9000
 
+## Breaking changes
+
+* Closed rstudio/rmarkdown#2154: `{magrittr}`'s pipe operator (`%>%`) is no longer re-exported by `{bslib}`. Either `library(magrittr)` to make `%>%` available and/or use use R 4.1's pipe operator (`|>`).
 
 ## Bug fixes
 
