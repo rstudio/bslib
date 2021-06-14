@@ -127,3 +127,60 @@ nav_hide <- function(id, target,
                      session = getDefaultReactiveDomain()) {
   shiny::hideTab(id, target, session)
 }
+
+#' Append or prepend nav item to a dropdown menu
+#'
+#' Exported for use by [shiny::prependTab()]/[shiny::appendTab()]. These
+#' functions have been superseded by [nav_insert()] (i.e.,
+#' [shiny::insertTab()]), since it can do everything these functions do (i.e.,
+#' add a [nav()] to the start or end of a [nav_menu()]) and more (i.e., insert a
+#' [nav()] anywhere inside a nav container).
+#'
+#' @inheritParams nav_insert
+#' @param menu_title The title of a [nav_menu()].
+#' @keywords internal
+nav_prepend <- function(id, nav, menu_title, select = FALSE, session = getDefaultReactiveDomain()) {
+
+  force(select)
+  force(menu_title)
+  inputId <- session$ns(id)
+
+  item <- buildTabItem("id", "tsid", TRUE, divTag = tab,
+                       textFilter = if (is.character(tab)) navbarMenuTextFilter else NULL)
+
+  callback <- function() {
+    session$sendInsertTab(
+      inputId = inputId,
+      liTag = processDeps(item$liTag, session),
+      divTag = processDeps(item$divTag, session),
+      menuName = menu_title,
+      target = NULL,
+      position = "before",
+      select = select)
+  }
+  session$onFlush(callback, once = TRUE)
+}
+
+#' @rdname nav_prepend
+#' @keywords internal
+nav_append <- function(id, nav, menu_title, select = FALSE, session = getDefaultReactiveDomain()) {
+
+  force(select)
+  force(menu_title)
+  inputId <- session$ns(id)
+
+  item <- buildTabItem("id", "tsid", TRUE, divTag = tab,
+                       textFilter = if (is.character(tab)) navbarMenuTextFilter else NULL)
+
+  callback <- function() {
+    session$sendInsertTab(
+      inputId = inputId,
+      liTag = processDeps(item$liTag, session),
+      divTag = processDeps(item$divTag, session),
+      menuName = menu_title,
+      target = NULL,
+      position = "after",
+      select = select)
+  }
+  session$onFlush(callback, once = TRUE)
+}
