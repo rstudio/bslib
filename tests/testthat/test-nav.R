@@ -16,6 +16,27 @@ test_that("navs_[tab/pill]_card() basically works", {
     )
   )
 
-  expect_snapshot_tabs(navs_tab_card(!!!nav_items))
-  expect_snapshot_tabs(navs_pill_card(!!!nav_items))
+  expect_snapshot_tabs(
+    page_fluid(navs_tab_card(!!!nav_items))
+  )
+  expect_snapshot_tabs(
+    page_fluid(navs_pill_card(!!!nav_items))
+  )
+})
+
+test_that("Generic nav items aren't marked active", {
+  expect_snapshot_tabs(
+    page_fluid(navs_tab(
+      nav_spacer(),
+      nav("A", "a"),
+      nav("B", "b")
+    ))
+  )
+  expect_snapshot_tabs(
+    page_fluid(navs_tab(
+      nav_item(tags$a("Foo", href = "https://google.com")),
+      nav("A", "a"),
+      nav("B", "b")
+    ))
+  )
 })
