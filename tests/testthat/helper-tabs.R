@@ -4,7 +4,7 @@ expect_snapshot_tabs <- function(x, cran = TRUE) {
   }
   # Need for tabsets to generate BS4+ markup when statically rendered
   # https://github.com/rstudio/shiny/pull/3402
-  skip_if_not_installed("shiny", "1.6.0.9002")
+  skip_if_not_installed("shiny", "1.6.0.9022")
   shiny:::withPrivateSeed(set.seed(100))
   expect_snapshot(renderTags(x)$html, cran = cran)
 }
