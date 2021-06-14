@@ -68,6 +68,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/bs5-variables.html">BS5 Sass variables</a>
+    </li>
+    <li>
       <a href="../articles/bs4-variables.html">BS4 Sass variables</a>
     </li>
     <li>
@@ -130,11 +133,13 @@
 <p>At the time of writing, <code>bslib</code> currently supports:</p>
 <ul>
 <li>
-<a href="https://getbootstrap.com/docs/4.6/getting-started/theming/">Bootstrap 4</a> <code><a href="../reference/bs_theme.html">bs_theme(version = 4)</a></code>: intended for new projects.</li>
+<a href="https://getbootstrap.com/docs/5.0/">Bootstrap 5</a> <code><a href="../reference/bs_theme.html">bs_theme(version = 5)</a></code>: intended for new projects.</li>
+<li>
+<a href="https://getbootstrap.com/docs/4.6/">Bootstrap 4</a> <code><a href="../reference/bs_theme.html">bs_theme(version = 4)</a></code>: intended for legacy projects that happen to break with <code>version = 5</code>.</li>
 <li>
 <a href="https://getbootstrap.com/docs/3.4/">Bootstrap 3</a> <code><a href="../reference/bs_theme.html">bs_theme(version = 3)</a></code>: intended for legacy projects that happen to break with <code>version = 4</code>.</li>
 </ul>
-<p><code>bslib</code> doesn’t require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 4 is recommended, but that will change to Bootstrap 5 in the near future, so it’s best practice to specify the version, especially if reproducibility is important, and your project does any of the following:</p>
+<p><code>bslib</code> doesn’t require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 4 is recommended, but that will soon change to Bootstrap 5+ in future releases, so it’s best practice to specify the version, especially if reproducibility is important and your project does any of the following:</p>
 <ul>
 <li>Uses <a href="#low-level">Bootstrap Sass variables</a> directly.</li>
 <li>Uses <a href="#utility-classes">utility classes</a>.</li>
@@ -144,7 +149,7 @@
 <div id="bootswatch" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bootswatch" class="anchor"></a>Bootswatch themes</h2>
-<p>Any Bootswatch <a href="https://bootswatch.com/3/">3</a> or <a href="https://bootswatch.com/">4</a> theme is available through <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s <code>bootswatch</code> argument. You may already be familiar with using these “pre-packaged” themes via the <code>{shinythemes}</code> package (or via the <code>theme</code> parameter in R Markdown). Those legacy approaches only provide Bootswatch 3 themes, but with <a href="https://rstudio.github.io/bslib/">bslib</a>, you can use newer themes like <a href="https://bootswatch.com/minty">minty</a>.</p>
+<p>Any <a href="https://bootswatch.com">Bootswatch</a> theme is available through <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s <code>bootswatch</code> argument. You may already be familiar with using these “pre-packaged” themes via the <code>{shinythemes}</code> package (or via the <code>theme</code> parameter in R Markdown). Those legacy approaches only provide <a href="https://bootswatch.com/3">Bootswatch 3 themes</a>, but with <a href="https://rstudio.github.io/bslib/">bslib</a>, you can use newer themes like <a href="https://bootswatch.com/minty">minty</a>.</p>
 <div class="usage">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
@@ -198,7 +203,7 @@
 <span id="cb4-13"><a href="#cb4-13"></a><span class="op">---</span></span></code></pre></div>
 </div>
 <p><img src="dark-mode.png" width="100%" style="display: block; margin: auto;"></p>
-<p>Among all the coloring options in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, <code>bg</code>, <code>fg</code>, and <code>primary</code> are by far the most influential as they effect nearly every color on the page. In fact, <code>bg</code> and <code>fg</code> alone impact 100s of defaults — everything from panels (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html">shiny::wellPanel()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/inputPanel.html">shiny::inputPanel()</a></code>, etc) to navigation (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code>, etc) and more. The accent colors don’t impact nearly as much, but <code>primary</code> does control the color for some important things like hyperlinks, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code> links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">shiny::actionButton()</a></code> (defaults to the <code>secondary</code> color), <code><a href="https://rdrr.io/pkg/shiny/man/showNotification.html">shiny::showNotification()</a></code> , or more generally any HTML content that leverages <a href="https://getbootstrap.com/docs/4.6/utilities/colors/">Color Utility Classes</a>.</p>
+<p>Among all the coloring options in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, <code>bg</code>, <code>fg</code>, and <code>primary</code> are by far the most influential as they effect nearly every color on the page. In fact, <code>bg</code> and <code>fg</code> alone impact 100s of defaults — everything from panels (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html">shiny::wellPanel()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/inputPanel.html">shiny::inputPanel()</a></code>, etc) to navigation (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code>, etc) and more. The accent colors don’t impact nearly as much, but <code>primary</code> does control the color for some important things like hyperlinks, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code> links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">shiny::actionButton()</a></code> (defaults to the <code>secondary</code> color), <code><a href="https://rdrr.io/pkg/shiny/man/showNotification.html">shiny::showNotification()</a></code> , or more generally any HTML content that leverages <a href="https://getbootstrap.com/docs/5.0/utilities/colors/">Color Utility Classes</a>.</p>
 <div class="info">
 <p>When choosing <code>bg</code> and <code>fg</code> colors, keep in mind that it’s generally a good idea to pick colors with a similar hue but a large difference in their luminance.</p>
 </div>
@@ -210,7 +215,7 @@
 <div id="low-level" class="section level3">
 <h3 class="hasAnchor">
 <a href="#low-level" class="anchor"></a>Everything else</h3>
-<p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides access to 100s of more specific <a href="bs4-variables.html">theming options</a> by considering anything passed through it’s <code>...</code> argument to be a new <a href="https://getbootstrap.com/docs/4.6/getting-started/theming/#variable-defaults">Bootstrap Sass variable defaults</a>. This allows you to get more targetted with your theming; for example, let’s set the <a href="bs4-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a> Sass variable to <code>'orange'</code> (a CSS color).</p>
+<p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides access to 100s of more specific <a href="bs5-variables.html">theming options</a> by considering anything passed through it’s <code>...</code> argument to be a new <a href="https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults">Bootstrap Sass variable defaults</a>. This allows you to get more targetted with your theming; for example, let’s set the <a href="bs5-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a> Sass variable to <code>'orange'</code> (a CSS color).</p>
 <div class="usage">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
@@ -233,8 +238,8 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"mix(white, orange, 20%)"</span><span class="op">)</span>
 <span class="co">#&gt; $progress-bar-bg: mix(white, orange, 20%) !default;</span>
-<span class="co">#&gt; @import "bslib/lib/bs/scss/_variables.scss";</span></code></pre></div>
-<p>Underneath the hood, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> works by placing <a href="https://sass-lang.com/documentation/variables#default-values">Sass variable defaults</a> <em>before</em> Bootstrap’s variable defaults. That’s why something like <code><a href="../reference/bs_theme.html">bs_theme(primary = "red")</a></code> “just works” in the sense that it not only provides <code>$primary</code> with a new default value, but it also passes the value to other variables that default to <code>$primary</code> (e.g. <a href="bs4-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a>).</p>
+<span class="co">#&gt; @import "scss/_variables.scss";</span></code></pre></div>
+<p>Underneath the hood, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> works by placing <a href="https://sass-lang.com/documentation/variables#default-values">Sass variable defaults</a> <em>before</em> Bootstrap’s variable defaults. That’s why something like <code><a href="../reference/bs_theme.html">bs_theme(primary = "red")</a></code> “just works” in the sense that it not only provides <code>$primary</code> with a new default value, but it also passes the value to other variables that default to <code>$primary</code> (e.g. <a href="bs5-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a>).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Reduced version of the Sass code behind `bs_theme(primary = "red")`</span>
 <span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass.html">sass</a></span><span class="op">(</span><span class="st">"
@@ -251,7 +256,7 @@
 <p>Thankfully <code><a href="../reference/bs_add_variables.html">bs_add_variables()</a></code> provides a workaround. By default, <code><a href="../reference/bs_add_variables.html">bs_add_variables()</a></code> works just like <code><a href="../reference/bs_theme.html">bs_theme()</a></code> (it puts variable definitions before other Sass code), but by with <code>.where = "declarations"</code>, we can place the definition after Bootstrap:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_add_variables.html">bs_add_variables</a></span><span class="op">(</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$secondary"</span>, .where <span class="op">=</span> <span class="st">"declarations"</span><span class="op">)</span>
-<span class="co">#&gt; @import "bslib/lib/bs/scss/_variables.scss";</span>
+<span class="co">#&gt; @import "scss/_variables.scss";</span>
 <span class="co">#&gt; $progress-bar-bg: $secondary;</span></code></pre></div>
 <p>There’s currently no easy way to define variables this way in R Markdown (other than using <code>!expr</code> to pass a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object directly into <code>theme</code>)</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>output<span class="op">:</span></span>
@@ -266,7 +271,7 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="https://i.imgur.com/KLKy1s0.gif" width="100%" style="display: block; margin: auto;"></p>
-<p>The latter (<code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) may be used with any Shiny app or R Markdown document. Just make sure you’re providing Bootstrap 4 (or above) to the page constructor and call <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> in a Shiny runtime content (i.e., within the <code>server</code> function).</p>
+<p>The latter (<code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) may be used with any Shiny app or R Markdown document. Just make sure you’re providing <a href="#versions">Bootstrap 4 (or higher)</a> to the page constructor and call <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> in a Shiny runtime content (i.e., within the <code>server</code> function).</p>
 <div class="usage">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
@@ -358,7 +363,7 @@ Hello custom block with custom styles!
 <div id="utility-classes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#utility-classes" class="anchor"></a>Utility Classes</h3>
-<p>With Bootstrap 4 and above, you can use utility classes to easily add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. <a href="utility-classes.html">See here</a> for some useful examples specific to Shiny and R Markdown as well as <a href="https://getbootstrap.com/docs/4.6/utilities/borders/">here for the full list</a> of Bootstrap 4 Utility Classes.</p>
+<p>With <a href="#versions">Bootstrap 4 (or higher)</a>, you can use utility classes to easily add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. See the article on <a href="utility-classes.html">Utility Classes</a> for some useful examples specific to Shiny and R Markdown.</p>
 </div>
 </div>
 <div id="component-support" class="section level2">

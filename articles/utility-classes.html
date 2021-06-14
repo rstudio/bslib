@@ -68,6 +68,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/bs5-variables.html">BS5 Sass variables</a>
+    </li>
+    <li>
       <a href="../articles/bs4-variables.html">BS4 Sass variables</a>
     </li>
     <li>
@@ -119,11 +122,11 @@
 
     
     
-<p>Bootstrap 4 (and above) comes with a suite of handy utility classes for handling common yet fickle styling issues like <a href="https://getbootstrap.com/docs/4.6/utilities/spacing/">spacing</a>, <a href="https://getbootstrap.com/docs/4.6/utilities/borders/">borders</a>, <a href="https://getbootstrap.com/docs/4.6/utilities/sizing/">sizing</a>, <a href="https://getbootstrap.com/docs/4.6/utilities/flex/">layout</a>, <a href="https://getbootstrap.com/docs/4.6/utilities/colors/">colors</a>, and more.</p>
+<p><a href="bslib.html#versions">Bootstrap 4 (and higher)</a> comes with a suite of handy utility classes for handling common yet fickle styling issues like <a href="https://getbootstrap.com/docs/5.0/utilities/spacing/">spacing</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/borders/">borders</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/sizing/">sizing</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/flex/">layout</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/colors/">colors</a>, and more.</p>
 <div id="add-margin" class="section level2">
 <h2 class="hasAnchor">
 <a href="#add-margin" class="anchor"></a>Add margin</h2>
-<p>If you look at <a href="https://github.com/rstudio/bslib/tree/master/inst/themer-demo">the source</a> for the theme demo app, the <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code> logic makes use of the margin spacing (<code>m-2</code>) to add some spacing between the buttons (they also make use of <a href="https://getbootstrap.com/docs/4.6/components/buttons/">button modifier classes</a> to achieve their different background colors).</p>
+<p>If you look at <a href="https://github.com/rstudio/bslib/tree/master/inst/themer-demo">the source</a> for the theme demo app, the <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code> logic makes use of the margin spacing (<code>m-2</code>) to add some spacing between the buttons (they also make use of <a href="https://getbootstrap.com/docs/5.0/components/buttons">button modifier classes</a> to achieve their different background colors).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"Primary"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span><span class="op">(</span><span class="st">"product-hunt"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-primary m-2"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"secondary"</span>, <span class="st">"Secondary (default)"</span>, class <span class="op">=</span> <span class="st">"m-2"</span><span class="op">)</span>
@@ -180,7 +183,7 @@
 <div id="add-background-color" class="section level2">
 <h2 class="hasAnchor">
 <a href="#add-background-color" class="anchor"></a>Add background color</h2>
-<p>Add a <code>bg-*</code> class to any HTML element to set not only its background color to a theme color (e.g., <code>primary</code>, <code>secondary</code>, etc), but note that it’ll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use <code>bg-primary</code> on a <a href="https://getbootstrap.com/docs/4.6/components/card/#header-and-footer">BS4 card</a> containing a <a href="https://rstudio.github.io/DT/"><code>{DT}</code> table</a>.</p>
+<p>Add a <code>bg-*</code> class to any HTML element to set not only its background color to a theme color (e.g., <code>primary</code>, <code>secondary</code>, etc), but note that it’ll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use <code>bg-primary</code> on a <a href="https://getbootstrap.com/docs/4.6/components/card/#header-and-footer">card component</a> containing a <a href="https://rstudio.github.io/DT/"><code>{DT}</code> table</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bs4_card</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">body</span>, <span class="va">title</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
