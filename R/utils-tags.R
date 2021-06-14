@@ -7,7 +7,7 @@ tag_require <- function(tag, version = 4, caller = "") {
         return(x)
 
       stop(
-        caller, " requires Bootstrap", version, " or higher. ",
+        caller, " requires Bootstrap ", version, " or higher. ",
         "Please supply `bslib::bs_theme(version = ", version,
         ")` to the UI's page layout function.",
         call. = FALSE

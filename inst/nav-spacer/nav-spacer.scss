@@ -5,7 +5,7 @@
     display: flex !important;
     display: -webkit-flex !important;
     // Logic for horizontal nav (e.g., navs_tab(), etc)
-    &:not(.nav-stacked, .flex-column) {
+    &:not(.nav-stacked):not(.flex-column) {
       float: none !important;
       > .bslib-nav-spacer {
         margin-left: auto !important;

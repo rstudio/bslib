@@ -20,7 +20,7 @@
       <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation" style="background-color:#FF0000 !important;">
         <div class="container-fluid">
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1502">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1502" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1502">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -31,7 +31,7 @@
           <div class="navbar-collapse collapse" id="navbar-collapse-1502">
             <ul class="nav navbar-nav" data-tabsetid="4785">
               <li class="nav-item">
-                <a href="#tab-4785-1" data-toggle="tab" data-value="a" class="nav-link active">a</a>
+                <a href="#tab-4785-1" data-toggle="tab" data-bs-toggle="tab" data-value="a" class="nav-link active">a</a>
               </li>
             </ul>
           </div>
