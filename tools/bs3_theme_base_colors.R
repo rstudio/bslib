@@ -5,7 +5,7 @@
 
 # Load bootstrap-sass (bs3) _variables.scss
 lines <- readLines(system.file(package = "bslib",
-  "lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss"))
+  "lib/bs3/assets/stylesheets/bootstrap/_variables.scss"))
 # Retain lines that seem like they contain a hex color.
 # (Note that colors specified by keyword would break this logic, but, AFAICT,
 # there aren't any such colors in _variables.scss.)

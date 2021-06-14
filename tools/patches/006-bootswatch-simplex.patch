@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bsw/dist/simplex/_variables.scss b/inst/lib/bsw/dist/simplex/_variables.scss
+diff --git a/inst/lib/bsw4/dist/simplex/_variables.scss b/inst/lib/bsw4/dist/simplex/_variables.scss
 index 9410754..7ad8101 100755
---- a/inst/lib/bsw/dist/simplex/_variables.scss
-+++ b/inst/lib/bsw/dist/simplex/_variables.scss
+--- a/inst/lib/bsw4/dist/simplex/_variables.scss
++++ b/inst/lib/bsw4/dist/simplex/_variables.scss
 @@ -37,9 +37,11 @@ $danger:        $purple !default;
  $light:         $white !default;
  $dark:          $gray-800 !default;

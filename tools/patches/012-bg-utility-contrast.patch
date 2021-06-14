@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bs/scss/mixins/_background-variant.scss b/inst/lib/bs/scss/mixins/_background-variant.scss
+diff --git a/inst/lib/bs4/scss/mixins/_background-variant.scss b/inst/lib/bs4/scss/mixins/_background-variant.scss
 index 8058018..d47f30e 100644
---- a/inst/lib/bs/scss/mixins/_background-variant.scss
-+++ b/inst/lib/bs/scss/mixins/_background-variant.scss
+--- a/inst/lib/bs4/scss/mixins/_background-variant.scss
++++ b/inst/lib/bs4/scss/mixins/_background-variant.scss
 @@ -5,6 +5,7 @@
  @mixin bg-variant($parent, $color, $ignore-warning: false) {
    #{$parent} {
@@ -18,10 +18,10 @@ index 8058018..d47f30e 100644
    }
    @include deprecate("The `bg-gradient-variant` mixin", "v4.5.0", "v5", $ignore-warning);
  }
-diff --git a/inst/lib/bs/scss/utilities/_background.scss b/inst/lib/bs/scss/utilities/_background.scss
+diff --git a/inst/lib/bs4/scss/utilities/_background.scss b/inst/lib/bs4/scss/utilities/_background.scss
 index 3accbc4..2eefd00 100644
---- a/inst/lib/bs/scss/utilities/_background.scss
-+++ b/inst/lib/bs/scss/utilities/_background.scss
+--- a/inst/lib/bs4/scss/utilities/_background.scss
++++ b/inst/lib/bs4/scss/utilities/_background.scss
 @@ -12,6 +12,7 @@
  
  .bg-white {

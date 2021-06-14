@@ -1,0 +1,53 @@
+diff --git a/inst/lib/bs5/scss/_reboot.scss b/inst/lib/bs5/scss/_reboot.scss
+index 9ba1f30..320b963 100644
+--- a/inst/lib/bs5/scss/_reboot.scss
++++ b/inst/lib/bs5/scss/_reboot.scss
+@@ -302,9 +302,14 @@ pre {
+   overflow: auto; // 3
+   @include font-size($code-font-size);
+   color: $pre-color;
++  background-color: $pre-bg;
++  padding: $spacer / 2;
++  border: $pre-border;
++  @include border-radius($border-radius);
+ 
+   // Account for some code outputs that place code tags in pre tags
+   code {
++    background-color: transparent;
+     @include font-size(inherit);
+     color: inherit;
+     word-break: normal;
+@@ -314,6 +319,9 @@ pre {
+ code {
+   @include font-size($code-font-size);
+   color: $code-color;
++  background-color: $code-bg;
++  @include border-radius($border-radius);
++  padding: $spacer/8 $spacer/4;
+   word-wrap: break-word;
+ 
+   // Streamline the style when inside anchors to avoid broken underline and more
+diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
+index 8cd96d0..b0e5dc3 100644
+--- a/inst/lib/bs5/scss/_variables.scss
++++ b/inst/lib/bs5/scss/_variables.scss
+@@ -1460,7 +1460,10 @@ $offcanvas-box-shadow:              $modal-content-box-shadow-xs !default;
+ // Code
+ 
+ $code-font-size:                    $small-font-size !default;
+-$code-color:                        $pink !default;
++// Amount intentionally matches mixture amount of shiny::inputPanel()
++// https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
++$code-bg:                           mix($body-bg, $body-color, 96%) !default;
++$code-color:                        color-contrast($code-bg) !default;
+ 
+ $kbd-padding-y:                     .2rem !default;
+ $kbd-padding-x:                     .4rem !default;
+@@ -1468,4 +1471,6 @@ $kbd-font-size:                     $code-font-size !default;
+ $kbd-color:                         $white !default;
+ $kbd-bg:                            $gray-900 !default;
+ 
+-$pre-color:                         null !default;
++$pre-bg:                            $code-bg !default;
++$pre-color:                         color-contrast($pre-bg) !default;
++$pre-border:                        $border-width solid $border-color !default;

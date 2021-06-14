@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bsw/dist/slate/_bootswatch.scss b/inst/lib/bsw/dist/slate/_bootswatch.scss
+diff --git a/inst/lib/bsw4/dist/slate/_bootswatch.scss b/inst/lib/bsw4/dist/slate/_bootswatch.scss
 index 8a98f05..78b141a 100644
---- a/inst/lib/bsw/dist/slate/_bootswatch.scss
-+++ b/inst/lib/bsw/dist/slate/_bootswatch.scss
+--- a/inst/lib/bsw4/dist/slate/_bootswatch.scss
++++ b/inst/lib/bsw4/dist/slate/_bootswatch.scss
 @@ -5,7 +5,7 @@
  // Mixins ======================================================================
 
@@ -359,10 +359,10 @@ index 8a98f05..78b141a 100644
 +    background-color: mix($contrast-fg, $body-bg, 5%);
    }
  }
-diff --git a/inst/lib/bsw/dist/slate/_variables.scss b/inst/lib/bsw/dist/slate/_variables.scss
+diff --git a/inst/lib/bsw4/dist/slate/_variables.scss b/inst/lib/bsw4/dist/slate/_variables.scss
 index 28c6900..3cb702d 100755
---- a/inst/lib/bsw/dist/slate/_variables.scss
-+++ b/inst/lib/bsw/dist/slate/_variables.scss
+--- a/inst/lib/bsw4/dist/slate/_variables.scss
++++ b/inst/lib/bsw4/dist/slate/_variables.scss
 @@ -28,25 +26,47 @@ $green:   #62c462 !default;
  $teal:    #20c997 !default;
  $cyan:    #5bc0de !default;

@@ -6,7 +6,7 @@ describe("Compiling against theme", {
   resolved_css <- ".foo { background-color: #007bff; color: #fff; width: 120px; height: 120px; }"
 
   # Compare bs_sass(input1) and sass(input2)
-  expect_bs4_equal <- function(input1, input2, options = sass_options(), theme = bs_theme()) {
+  expect_bs4_equal <- function(input1, input2, options = sass_options(), theme = bs_theme(version = 4)) {
     expect_css(
       sass_partial(input1, theme, options = options),
       sass(input2, options = options)
@@ -26,7 +26,7 @@ describe("Compiling against theme", {
     # Theme options are respected
     expect_bs4_equal(
       bs4_css, ".foo { background-color: #FF0000; color: #fff; width: 120px; height: 120px; }",
-      theme = bs_theme(primary = "red")
+      theme = bs_theme(version = 4, primary = "red")
     )
     # Unless they're not
     expect_bs4_equal(bs4_css, resolved_css)

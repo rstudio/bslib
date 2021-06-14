@@ -213,22 +213,11 @@ test_that("theme-color('default') works as expected", {
     ".foo{color:theme-color('default')}", bs_theme(version = 4, secondary = "red")
   )
   expect_css(css, ".foo{color:#FF0000;}")
-  # and is removed completely without bs3compat
-  css <- sass::sass_partial(
-    ".foo{color:theme-color('default')}", bs_theme(version = 4) %>% bs_remove("bs3compat")
-  )
-  expect_css(css, "")
   expect_error(
     sass::sass(
       list(bs_theme(), ".foo { @extend .bg-default; }")
     ),
     NA
-  )
-  expect_error(
-    sass::sass(
-      list(bs_theme() %>% bs_remove("bs3compat"), ".foo { @extend .bg-default; }")
-    ),
-    "bg-default"
   )
 })
 

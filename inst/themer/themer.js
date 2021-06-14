@@ -209,6 +209,13 @@
   });
 
   function initStrInput(el) {
+    // Starting with BS5, some Sass variables hold CSS variables (e.g. $font-family-base)
+    if (el.value.match(/var\(--/)) {
+      const bodyStyles = getComputedStyle(document.body);
+      const cssVar = el.value.replace('var(', '').replace(')', '');
+      const val = bodyStyles.getPropertyValue(cssVar);
+      el.value = val;
+    }
   }
 
   $(document).on("change", ".bs-theme-value-select", function(e) {

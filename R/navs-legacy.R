@@ -232,6 +232,9 @@ navbarPage_ <- function(title,
           class = "navbar-toggle collapsed",
           `data-toggle` = "collapse",
           `data-target` = paste0("#", navId),
+          # data-bs-* is for BS5+
+          `data-bs-toggle` = "collapse",
+          `data-bs-target` = paste0("#", navId),
           span(class="sr-only", "Toggle navigation"),
           span(class = "icon-bar"),
           span(class = "icon-bar"),
@@ -253,6 +256,16 @@ navbarPage_ <- function(title,
       ),
       tabset$navList
     )
+  }
+
+  # Bootstrap 3 explicitly supported "dropup menus" via .navbar-fixed-bottom,
+  # but BS4+ requires .dropup on menus with .navbar.fixed-bottom
+  if (position == "fixed-bottom") {
+    containerDiv <- tagQuery(containerDiv)$
+      find(".dropdown-menu")$
+      parent()$
+      addClass("dropup")$
+      allTags()
   }
 
   # build the main tab content div
@@ -578,6 +591,8 @@ liTag <- function(id, title, value, icon) {
     tags$a(
       href = paste0("#", id),
       `data-toggle` = "tab",
+      # data-bs-* is for BS5+
+      `data-bs-toggle` = "tab",
       `data-value` = value,
       icon, title
     )
@@ -611,6 +626,8 @@ buildDropdown <- function(divTag, tabset) {
       href = "#",
       class = "dropdown-toggle",
       `data-toggle` = "dropdown",
+      # data-bs-* is for BS5+
+      `data-bs-toggle` = "dropdown",
       `data-value` = divTag$menuName,
       divTag$icon,
       divTag$title,

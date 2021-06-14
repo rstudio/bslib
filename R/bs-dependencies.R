@@ -342,7 +342,7 @@ as_bs_theme <- function(theme) {
     # Also support `bs_theme_dependencies(version = '4')` and
     # `bs_theme_dependencies(theme = 'bootswatch')`
     if (length(theme) == 1) {
-      if (theme %in% c("4", "4-3", "4+3", "3")) {
+      if (theme %in% c(versions(), "4-3", "4+3")) {
         return(bs_theme(version = theme))
       } else {
         return(bs_theme(bootswatch = theme))

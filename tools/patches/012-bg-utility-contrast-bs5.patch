@@ -1,0 +1,19 @@
+diff --git a/inst/lib/bs5/scss/utilities/_api.scss b/inst/lib/bs5/scss/utilities/_api.scss
+index 62e1d39..d579e5c 100644
+--- a/inst/lib/bs5/scss/utilities/_api.scss
++++ b/inst/lib/bs5/scss/utilities/_api.scss
+@@ -16,6 +16,14 @@
+   }
+ }
+ 
++// Add fg contrasts for each bg utility
++$bg-colors: map-get($utilities, background-color);
++@each $key, $val in map-get($bg-colors, values) {
++  .bg-#{$key} {
++    color: color-contrast($val);
++  }
++}
++
+ // RFS rescaling
+ @media (min-width: $rfs-mq-value) {
+   @each $breakpoint in map-keys($grid-breakpoints) {

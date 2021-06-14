@@ -28,11 +28,19 @@ tab <- function(...) {
 }
 gradient <- function(theme_color = "primary") {
   bg_color <- paste0("bg-", theme_color)
-  bgg_color <- paste0("bg-gradient-", theme_color)
+  bgg_color <- if ("4" %in% theme_version(theme)) {
+    paste0("bg-gradient-", theme_color)
+  } else {
+    paste(bg_color, "bg-gradient")
+  }
   bg_div <- function(color_class, ...) {
+    display_classes <- paste(
+      paste0(".", strsplit(color_class, "\\s+")[[1]]),
+      collapse = " "
+    )
     div(
       class = "p-3", class = color_class,
-      paste0(".", color_class), ...
+      display_classes, ...
     )
   }
   fluidRow(
@@ -186,12 +194,18 @@ shinyApp(
     ),
     tabPanel(
       "Options",
-      p(
-        "Background color gradients are disabled by default.",
-        "Enable them to see the difference here.",
-        "If enabled, gradients automatically apply buttons and progress bars, ",
-        "but you may also add to a .bg-gradient-* modified class to arbitrary elements."
-      ),
+      if ("4" %in% theme_version(theme)) {
+        p(
+          "Background color gradients are disabled by default.",
+          "Enable them to see the difference here.",
+          "If enabled, gradients automatically apply buttons and progress bars, ",
+          "but you may also add to a .bg-gradient-* modified class to arbitrary elements."
+        )
+      } else {
+        markdown(
+          "`{bslib}` 'extends' Bootstrap's [`background-color` utility classes](https://getbootstrap.com/docs/5.0/utilities/background/) to also sets the foreground `color` to a sensible contrasting color (i.e., no additional `text-*` classes are needed)."
+        )
+      },
       !!!gradients,
       br(),
       tags$p(

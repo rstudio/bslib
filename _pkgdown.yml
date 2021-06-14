@@ -28,6 +28,8 @@ navbar:
       menu:
         #- text: Why Sass over CSS?
         #  href: articles/why-sass.html
+        - text: BS5 Sass variables
+          href: articles/bs5-variables.html
         - text: BS4 Sass variables
           href: articles/bs4-variables.html
         - text: Utility Classes

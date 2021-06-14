@@ -15,7 +15,7 @@ extract_first_group <- function(x, pattern) {
 }
 
 download_and_copy_fonts <-  function(theme) {
-  theme_scss <- readLines(file.path(theme, "_bootswatch.scss"), warn = FALSE)
+  theme_scss <- readLines(file.path(theme, "_bootswatch.scss"))
   web_font_path <- grep("$web-font-path:", theme_scss, value = TRUE, fixed = TRUE)
   if (!length(web_font_path)) {
     return()
@@ -35,10 +35,17 @@ download_and_copy_fonts <-  function(theme) {
     css <<- sub(url, file.path("fonts", nm), css, fixed = TRUE)
   }, urls, basenames)
   writeLines(css, css_file)
+  NULL
 }
 
-themes <- list.dirs(
-  "inst/lib/bsw/dist",
+
+themes5 <- list.dirs(
+  "inst/lib/bsw5/dist",
+  recursive = FALSE,
+  full.names = TRUE
+)
+themes4 <- list.dirs(
+  "inst/lib/bsw4/dist",
   recursive = FALSE,
   full.names = TRUE
 )
@@ -48,5 +55,7 @@ themes3 <- list.dirs(
   full.names = TRUE
 )
 
-lapply(themes, download_and_copy_fonts)
+lapply(themes5, download_and_copy_fonts)
+lapply(themes4, download_and_copy_fonts)
 lapply(themes3, download_and_copy_fonts)
+

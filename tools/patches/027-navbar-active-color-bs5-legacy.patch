@@ -1,0 +1,12 @@
+diff --git a/inst/lib/bs5/scss/_navbar.scss b/inst/lib/bs5/scss/_navbar.scss
+index 2d6e72d..db6000c 100644
+--- a/inst/lib/bs5/scss/_navbar.scss
++++ b/inst/lib/bs5/scss/_navbar.scss
+@@ -309,6 +309,7 @@
+     }
+ 
+     .show > .nav-link,
++    .active > .nav-link,
+     .nav-link.active {
+       color: $navbar-dark-active-color;
+     }

@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bsw/dist/minty/_bootswatch.scss b/inst/lib/bsw/dist/minty/_bootswatch.scss
+diff --git a/inst/lib/bsw4/dist/minty/_bootswatch.scss b/inst/lib/bsw4/dist/minty/_bootswatch.scss
 index 8a4c6bf..03e2c0d 100644
---- a/inst/lib/bsw/dist/minty/_bootswatch.scss
-+++ b/inst/lib/bsw/dist/minty/_bootswatch.scss
+--- a/inst/lib/bsw4/dist/minty/_bootswatch.scss
++++ b/inst/lib/bsw4/dist/minty/_bootswatch.scss
 @@ -25,57 +25,6 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;50
  
  .btn {
@@ -60,10 +60,10 @@ index 8a4c6bf..03e2c0d 100644
  }
  
  // Tables ======================================================================
-diff --git a/inst/lib/bsw/dist/minty/_variables.scss b/inst/lib/bsw/dist/minty/_variables.scss
+diff --git a/inst/lib/bsw4/dist/minty/_variables.scss b/inst/lib/bsw4/dist/minty/_variables.scss
 index 3fbe64e..e467b7d 100755
---- a/inst/lib/bsw/dist/minty/_variables.scss
-+++ b/inst/lib/bsw/dist/minty/_variables.scss
+--- a/inst/lib/bsw4/dist/minty/_variables.scss
++++ b/inst/lib/bsw4/dist/minty/_variables.scss
 @@ -40,7 +40,8 @@ $dark:          $gray-800 !default;
  
  // Body

@@ -6,6 +6,10 @@ bs4_sass_files <- function(x) {
   bs_sass_files(x, version = 4)
 }
 
+bs5_sass_files <- function(x) {
+  bs_sass_files(x, version = 5)
+}
+
 bs_sass_files <- function(files, version) {
   lapply(files, bs_sass_file, version = version)
 }
@@ -13,11 +17,17 @@ bs_sass_files <- function(files, version) {
 # Search for one file at a time so we can throw informative errors
 bs_sass_file <- function(file, version) {
   if (length(file) != 1) stop("file should be of length 1")
-  file <- paste0("_", file, ".scss")
+
+  file <- file.path(
+    dirname(file),
+    paste0("_", basename(file), ".scss")
+  )
+
   f <- switch_version(
     version,
-    four = lib_file("bs", "scss", file),
-    three = lib_file("bs-sass", "assets", "stylesheets", "bootstrap", file)
+    five = lib_file("bs5", "scss", file),
+    four = lib_file("bs4", "scss", file),
+    three = lib_file("bs3", "assets", "stylesheets", "bootstrap", file)
   )
   if (f == "") stop("The bootstrap stylesheet '", file, "' doesn't exist.", call. = FALSE)
   sass_file(f)

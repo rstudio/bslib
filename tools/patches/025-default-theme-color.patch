@@ -1,0 +1,52 @@
+diff --git a/inst/lib/bs4/scss/_variables.scss b/inst/lib/bs4/scss/_variables.scss
+index 42d8142..dde6f2f 100644
+--- a/inst/lib/bs4/scss/_variables.scss
++++ b/inst/lib/bs4/scss/_variables.scss
+@@ -66,6 +66,11 @@ $colors: map-merge(
+   $colors
+ );
+ 
++// Semantically, $secondary is closest to BS3's 'default' theme color; 
++// so use that if specified. Otherwise, use a light instead of dark gray
++// default color for $default since that's closer to bootstrap 3's default
++$default: if(variable-exists("secondary"), $secondary, $gray-300) !default;
++
+ $primary:       $blue !default;
+ $secondary:     $gray-600 !default;
+ $success:       $green !default;
+@@ -78,6 +83,9 @@ $dark:          $gray-800 !default;
+ $theme-colors: () !default;
+ $theme-colors: map-merge(
+   (
++    // default needs to be 1st so that .btn-default comes before .btn-primary
++    // & therefore has lower priority.
++    "default":    $default,
+     "primary":    $primary,
+     "secondary":  $secondary,
+     "success":    $success,
+diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
+index 2615d70..77bef76 100644
+--- a/inst/lib/bs5/scss/_variables.scss
++++ b/inst/lib/bs5/scss/_variables.scss
+@@ -66,6 +66,11 @@ $colors: (
+ ) !default;
+ // scss-docs-end colors-map
+ 
++// Semantically, $secondary is closest to BS3's 'default' theme color; 
++// so use that if specified. Otherwise, use a light instead of dark gray
++// default color for $default since that's closer to bootstrap 3's default
++$default: if(variable-exists("secondary"), $secondary, $gray-300) !default;
++
+ // scss-docs-start theme-color-variables
+ $primary:       $blue !default;
+ $secondary:     $gray-600 !default;
+@@ -79,6 +84,9 @@ $dark:          $gray-900 !default;
+ 
+ // scss-docs-start theme-colors-map
+ $theme-colors: (
++  // default needs to be 1st so that .btn-default comes before .btn-primary
++  // & therefore has lower priority.
++  "default":    $default,
+   "primary":    $primary,
+   "secondary":  $secondary,
+   "success":    $success,

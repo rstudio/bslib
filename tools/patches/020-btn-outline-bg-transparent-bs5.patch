@@ -1,0 +1,12 @@
+diff --git a/inst/lib/bs5/scss/mixins/_buttons.scss b/inst/lib/bs5/scss/mixins/_buttons.scss
+index c06fa4a..cb72404 100644
+--- a/inst/lib/bs5/scss/mixins/_buttons.scss
++++ b/inst/lib/bs5/scss/mixins/_buttons.scss
+@@ -84,6 +84,7 @@
+ ) {
+   color: $color;
+   border-color: $color;
++  background-color: transparent;
+ 
+   &:hover {
+     color: $color-hover;

@@ -1,7 +1,7 @@
-diff --git a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
+diff --git a/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss b/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
 index 898ef14..00d2eb3 100644
---- a/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
-+++ b/inst/lib/bs-sass/assets/stylesheets/bootstrap/_variables.scss
+--- a/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
++++ b/inst/lib/bs3/assets/stylesheets/bootstrap/_variables.scss
 @@ -205,7 +205,7 @@ $input-border-radius-large:      $border-radius-large !default;
  $input-border-radius-small:      $border-radius-small !default;
  

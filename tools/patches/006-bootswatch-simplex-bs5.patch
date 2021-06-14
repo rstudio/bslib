@@ -1,0 +1,24 @@
+diff --git a/inst/lib/bsw5/dist/simplex/_variables.scss b/inst/lib/bsw5/dist/simplex/_variables.scss
+index af0e710..1571cd8 100755
+--- a/inst/lib/bsw5/dist/simplex/_variables.scss
++++ b/inst/lib/bsw5/dist/simplex/_variables.scss
+@@ -43,7 +43,9 @@ $min-contrast-ratio:   2.8 !default;
+ 
+ // Body
+ 
+-$body-bg:                   #fcfcfc !default;
++$body-bg:                   mix($white, $black, 99%) !default;
++
++$enable-shadows: true !default;
+ 
+ // Fonts
+ 
+@@ -59,7 +61,7 @@ $dropdown-link-hover-bg:            $primary !default;
+ 
+ $nav-link-padding-y:                .9rem !default;
+ $nav-link-disabled-color:           $gray-400 !default;
+-$nav-tabs-border-color:             darken(#fff, 6.5%) !default;
++$nav-tabs-border-color:             mix($white, $black, 93.5%) !default;
+ 
+ // Navbar
+ 

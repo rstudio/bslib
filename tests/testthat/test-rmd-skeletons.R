@@ -14,8 +14,8 @@ test_that("Rmd skeletons can be render cleanly", {
     rmarkdown::pandoc_available("1.12.3"),
     "Pandoc 1.12.3 or higher is required"
   )
-  expect_error(render_skeleton("bs3"), NA)
-  expect_error(render_skeleton("bs4"), NA)
+  expect_error(render_skeleton("legacy"), NA)
+  expect_error(render_skeleton("new"), NA)
   withr::with_namespace(
     "shiny",
     expect_error(render_skeleton("real-time"), NA)

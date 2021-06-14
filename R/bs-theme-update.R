@@ -15,10 +15,9 @@ bs_base_colors <- function(theme, bg = NULL, fg = NULL) {
     args <- rename2(args, !!!get_base_color_map(theme))
   }
 
-  # TODO: Bootstrap 5 will be different (no more $yiq-text-light/$yiq-text-dark)
   switch_add_variables(
     theme, args,
-    four = if (use_body) identity else bs4_base_colors,
+    default = if (use_body) identity else bs4_base_colors,
     three = if (use_body) identity else bs3_base_colors
   )
 }

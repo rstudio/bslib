@@ -117,6 +117,11 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
                      font_scale = NULL) {
+
+  if (version >= 5 && !is_available("shiny", "1.6.0.9001")) {
+    warning("`bs_theme(version = 5)` is designed to work with shiny v1.6.0.9001 or higher", call. = FALSE)
+  }
+
   theme <- bs_bundle(
     bs_theme_init(version, bootswatch),
     bootstrap_bundle(version),
@@ -214,7 +219,7 @@ is_bs_theme <- function(x) {
 # theme_version() & theme_bootswatch() search for
 bs_theme_init <- function(version, bootswatch = NULL) {
   add_class(
-    sass_bundle(),
+    sass_layer(defaults = list("bootstrap-version" = version)),
     c(
       bootswatch_class(bootswatch),
       paste0("bs_version_", version),
@@ -250,17 +255,46 @@ color_contrast_layer <- function() {
 # -----------------------------------------------------------------
 
 bootstrap_bundle <- function(version) {
+  pandoc_tables <- list(
+    # Pandoc uses align attribute to align content but BS4 styles take precedence...
+    # we may want to consider adopting this more generally in "strict" BS4 mode as well
+    ".table th[align=left] { text-align: left; }",
+    ".table th[align=right] { text-align: right; }",
+    ".table th[align=center] { text-align: center; }"
+  )
+
   res <- switch_version(
     version,
-    four = sass_bundle(
+    five = sass_bundle(
       # Don't name this "core" bundle so it can't easily be removed
+      sass_layer(
+        defaults = bs5_sass_files(c("functions", "variables")),
+        declarations = bs5_sass_files(c("mixins", "utilities"))
+      ),
+      # Returns a _named_ list of bundles (i.e., these should be easily removed)
+      !!!rule_bundles(
+        # Names here should match https://github.com/twbs/bs5/blob/master/scss/bootstrap.scss
+        bs5_sass_files(c(
+          "root", "reboot", "type", "images", "containers", "grid",
+          "tables", "forms", "buttons", "transitions", "dropdown",
+          "button-group", "nav", "navbar", "card", "accordion", "breadcrumb",
+          "pagination", "badge", "alert", "progress", "list-group", "close",
+          "toasts", "modal", "tooltip", "popover", "carousel", "spinners",
+          "offcanvas", "helpers", "utilities/api"
+        ))
+      ),
+      # Additions to BS5 that are always included (i.e., not a part of compatibility)
+      sass_layer(rules = pandoc_tables),
+      bs3compat = bs3compat_bundle()
+    ),
+    four = sass_bundle(
       sass_layer(
         defaults = bs4_sass_files(c("deprecated", "functions", "variables")),
         mixins = bs4_sass_files("mixins")
       ),
       # Returns a _named_ list of bundles (i.e., these should be easily removed)
       !!!rule_bundles(
-        # Names here should match https://github.com/twbs/bootstrap/blob/master/scss/bootstrap.scss
+        # Names here should match https://github.com/twbs/bs4/blob/master/scss/bootstrap.scss
         bs4_sass_files(c(
           "root", "reboot", "type", "images", "code", "grid", "tables",
           "forms", "buttons", "transitions", "dropdown", "button-group",
@@ -271,15 +305,7 @@ bootstrap_bundle <- function(version) {
         ))
       ),
       # Additions to BS4 that are always included (i.e., not a part of compatibility)
-      sass_layer(
-        rules = list(
-          # Pandoc uses align attribute to align content but BS4 styles take precedence...
-          # we may want to consider adopting this more generally in "strict" BS4 mode as well
-          ".table th[align=left] { text-align: left; }",
-          ".table th[align=right] { text-align: right; }",
-          ".table th[align=center] { text-align: center; }"
-        )
-      ),
+      sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle()
     ),
     three = sass_bundle(
@@ -302,7 +328,7 @@ bootstrap_bundle <- function(version) {
       glyphicon_font_files = sass_layer(
         defaults = list("icon-font-path" = "'glyphicon-fonts/'"),
         file_attachments = c(
-          "glyphicon-fonts" = lib_file("bs-sass", "assets", "fonts", "bootstrap")
+          "glyphicon-fonts" = lib_file("bs3", "assets", "fonts", "bootstrap")
         )
       )
     )
@@ -319,14 +345,16 @@ bootstrap_bundle <- function(version) {
 bootstrap_javascript_map <- function(version) {
   switch_version(
     version,
-    four = lib_file("bs", "dist", "js", "bootstrap.bundle.min.js.map")
+    five = lib_file("bs5", "dist", "js", "bootstrap.bundle.min.js.map"),
+    four = lib_file("bs4", "dist", "js", "bootstrap.bundle.min.js.map")
   )
 }
 bootstrap_javascript <- function(version) {
   switch_version(
     version,
-    four = lib_file("bs", "dist", "js", "bootstrap.bundle.min.js"),
-    three = lib_file("bs-sass", "assets", "javascripts", "bootstrap.min.js")
+    five = lib_file("bs5", "dist", "js", "bootstrap.bundle.min.js"),
+    four = lib_file("bs4", "dist", "js", "bootstrap.bundle.min.js"),
+    three = lib_file("bs3", "assets", "javascripts", "bootstrap.min.js")
   )
 }
 
@@ -342,7 +370,7 @@ bs3compat_bundle <- function() {
     rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
     # Gyliphicon font files
     file_attachments = c(
-      fonts = lib_file("bs-sass", "assets", "fonts")
+      fonts = lib_file("bs3", "assets", "fonts")
     ),
     html_deps = htmltools::htmlDependency(
       "bs3compat", packageVersion("bslib"),

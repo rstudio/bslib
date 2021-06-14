@@ -5,7 +5,7 @@
   @extend .navbar-expand-sm;
 }
 
-.navbar {
+.navbar:not(.fixed-bottom):not(.navbar-fixed-bottom) {
   margin-bottom: $navbar-margin-bottom;
 }
 
@@ -89,7 +89,9 @@ ul.nav.navbar-nav>li>a {
 
 // Make sure navbar-toggle floats right when navbar is collapsed
 // https://github.com/rstudio/bslib/issues/289
-@include media-breakpoint-down(xs) {
+// In BS4, media-breakpoint-down() does the _next_ breakpoint (xs->sm)
+// In BS5+, it takes the breakpoint (sm) verbatim
+@include media-breakpoint-down(if($bootstrap-version==4, xs, sm)) {
   .navbar-header {
     width: 100%;
     .navbar-toggle {

@@ -44,14 +44,17 @@ colorpicker_deps <- function() {
   )
 }
 
-opts_metadata <- function() {
-  jsonlite::fromJSON(
+opts_metadata <- function(theme) {
+  opts <- jsonlite::fromJSON(
     system_file("themer/options.json", package = "bslib"),
     simplifyDataFrame = FALSE
   )
+  themes <- bootswatch_themes(theme_version(theme))
+  opts[[1]]$bootswatch$choices <- c("default", themes)
+  opts
 }
 
-bs_themer_ui <- function(opts, vals) {
+bs_themer_ui <- function(opts, vals, theme) {
 
   make_control <- function(id, opts) {
     value <- vals[[id]]
@@ -106,24 +109,40 @@ bs_themer_ui <- function(opts, vals) {
     )
   }
 
+  version <- theme_version(theme)
   accordion <- lapply(seq_along(opts), function(i) {
     opt_name <- names(opts)[[i]]
     elId <- paste0("bsthemerCollapse", i)
     btn <- tags$button(
-      class = "btn btn-link px-3 py-2 w-100 text-left border-0",
-      "data-toggle" = "collapse", "data-target" = paste0("#", elId),
+      class = if (version >= 5) "accordion-button" else "btn btn-link px-3 py-2 w-100 text-left border-0",
+      class = if (i != 1) "collapsed",
+      "data-toggle" = "collapse",
+      "data-target" = paste0("#", elId),
+      # data-bs-* is for BS5+
+      "data-bs-toggle" = "collapse",
+      "data-bs-target" = paste0("#", elId),
       "aria-expanded" = "true", "aria-controls" = elId,
       opt_name
     )
     controls <- lapply(seq_along(opts[[i]]), function(j) {
       make_control(names(opts[[i]])[[j]], opts[[i]][[j]])
     })
-    tagList(
-      div(class = "card-header p-0 border-0", btn),
+    div(
+      class = if (version >= 5) "accordion-item",
+      div(
+        class = if (version >= 5) "accordion-header" else "card-header p-0 border-0",
+        btn
+      ),
       div(
         id = elId, class = if (i == 1) "show" else "collapse",
         "data-parent" = "#bsthemerAccordion",
-        div(class = "card-body", controls)
+        # data-bs-* is for BS5+
+        "data-bs-parent" = "#bsthemerAccordion",
+        class = if (version >= 5) "accordion-collapse",
+        div(
+          class = if (version >= 5) "accordion-body" else "card-body",
+          controls
+        )
       )
     )
   })
@@ -155,7 +174,11 @@ bs_themer_ui <- function(opts, vals) {
         class = "card-header font-weight-bold bg-dark text-light px-3 py-2",
         "Theme customizer",
         tags$div(id = "bsthemerToggle", class = "float-right",
-          "data-toggle" = "collapse", "data-target" = "#bsthemerAccordion",
+          "data-toggle" = "collapse",
+          "data-target" = "#bsthemerAccordion",
+          # data-bs-* is for BS5+
+          "data-bs-toggle" = "collapse",
+          "data-bs-target" = "#bsthemerAccordion",
           style = css(cursor = "pointer"),
           tags$span(),
           bs_dependency_defer(themer_css_dependency)
@@ -164,6 +187,7 @@ bs_themer_ui <- function(opts, vals) {
 
       div(
         id = "bsthemerAccordion", class = "collapse show",
+        class = if (version >= 5) "accordion",
         style = css(overflow_y = "auto"),
         accordion
       )
@@ -220,11 +244,8 @@ themer_css_dependency <- function(theme) {
 #' @examples
 #' library(shiny)
 #'
-#' # Initialize Bootstrap 4 with Bootstrap 3 compatibility shim
-#' theme <- bs_theme(version = 4, bg = "black", fg = "white")
-#'
 #' ui <- fluidPage(
-#'   theme = theme,
+#'   theme = bs_theme(bg = "black", fg = "white"),
 #'   h1("Heading 1"),
 #'   h2("Heading 2"),
 #'   p(
@@ -309,12 +330,12 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   gfont_info <- if (isTRUE(gfonts)) get_gfont_info(gfonts_update)
 
   # Insert the theming control panel with values informed by the theme settings
-  themer_opts <- opts_metadata()
+  themer_opts <- opts_metadata(theme)
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
   sass_vars <- setdiff(themer_vars, "bootswatch")
   themer_vals <- as.list(get_themer_vals(theme, sass_vars))
   themer_vals$bootswatch <- bootswatch
-  shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals))
+  shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals, theme))
 
   input <- session$input
 
@@ -478,7 +499,7 @@ spinner_overlay <- function() {
         class = "spinner-border",
         style = "width:5rem; height:5rem; color: rgba(0,0,0,0.8);",
         role = "status",
-        span(class = "sr-only", "Refreshing stylesheets...")
+        span(class = "sr-only visually-hidden", "Refreshing stylesheets...")
       ),
       span(class = "lead mt-1", style = "color: rgba(0,0,0,0.8);", "Refreshing stylesheets...")
     )

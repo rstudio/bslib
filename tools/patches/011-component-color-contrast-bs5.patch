@@ -1,0 +1,93 @@
+diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
+index b0e5dc3..c7000f7 100644
+--- a/inst/lib/bs5/scss/_variables.scss
++++ b/inst/lib/bs5/scss/_variables.scss
+@@ -384,8 +384,9 @@ $box-shadow-lg:               0 1rem 3rem rgba($black, .175) !default;
+ $box-shadow-inset:            inset 0 1px 2px rgba($black, .075) !default;
+ // scss-docs-end box-shadow-variables
+ 
+-$component-active-color:      $white !default;
++
+ $component-active-bg:         $primary !default;
++$component-active-color:      color-contrast($component-active-bg, $white) !default;
+ 
+ // scss-docs-start caret-variables
+ $caret-width:                 .3em !default;
+@@ -744,14 +745,15 @@ $form-check-radio-border-radius:          50% !default;
+ $form-check-input-focus-border:           $input-focus-border-color !default;
+ $form-check-input-focus-box-shadow:       $input-btn-focus-box-shadow !default;
+ 
+-$form-check-input-checked-color:          $component-active-color !default;
++
+ $form-check-input-checked-bg-color:       $component-active-bg !default;
++$form-check-input-checked-color:          color-contrast($form-check-input-checked-bg-color, $component-active-color) !default;
+ $form-check-input-checked-border-color:   $form-check-input-checked-bg-color !default;
+ $form-check-input-checked-bg-image:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$form-check-input-checked-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/></svg>") !default;
+ $form-check-radio-checked-bg-image:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='2' fill='#{$form-check-input-checked-color}'/></svg>") !default;
+ 
+-$form-check-input-indeterminate-color:          $component-active-color !default;
+ $form-check-input-indeterminate-bg-color:       $component-active-bg !default;
++$form-check-input-indeterminate-color:          color-contrast($form-check-input-indeterminate-bg-color, $component-active-color) !default;
+ $form-check-input-indeterminate-border-color:   $form-check-input-indeterminate-bg-color !default;
+ $form-check-input-indeterminate-bg-image:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$form-check-input-indeterminate-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/></svg>") !default;
+ 
+@@ -782,8 +784,8 @@ $form-switch-checked-bg-position: right center !default;
+ $input-group-addon-padding-y:           $input-padding-y !default;
+ $input-group-addon-padding-x:           $input-padding-x !default;
+ $input-group-addon-font-weight:         $input-font-weight !default;
+-$input-group-addon-color:               $input-color !default;
+ $input-group-addon-bg:                  $gray-200 !default;
++$input-group-addon-color:               color-contrast($input-group-addon-bg, $input-color) !default;
+ $input-group-addon-border-color:        $input-border-color !default;
+ // scss-docs-end input-group-variables
+ 
+@@ -795,8 +797,8 @@ $form-select-font-size:             $input-font-size !default;
+ $form-select-indicator-padding:     $form-select-padding-x * 3 !default; // Extra padding for background-image
+ $form-select-font-weight:           $input-font-weight !default;
+ $form-select-line-height:           $input-line-height !default;
+-$form-select-color:                 $input-color !default;
+ $form-select-bg:                    $input-bg !default;
++$form-select-color:                 color-contrast($form-select-bg, $input-color) !default;
+ $form-select-disabled-color:        null !default;
+ $form-select-disabled-bg:           $gray-200 !default;
+ $form-select-disabled-border-color: $input-disabled-border-color !default;
+@@ -849,8 +851,8 @@ $form-range-thumb-transition:              background-color .15s ease-in-out, bo
+ // scss-docs-end form-range-variables
+ 
+ // scss-docs-start form-file-variables
+-$form-file-button-color:          $input-color !default;
+ $form-file-button-bg:             $input-group-addon-bg !default;
++$form-file-button-color:          color-contrast($form-file-button-bg, $input-color) !default;
+ $form-file-button-hover-bg:       shade-color($form-file-button-bg, 5%) !default;
+ // scss-docs-end form-file-variables
+ 
+@@ -931,8 +933,8 @@ $nav-tabs-link-active-bg:           $body-bg !default;
+ $nav-tabs-link-active-border-color: $gray-300 $gray-300 $nav-tabs-link-active-bg !default;
+ 
+ $nav-pills-border-radius:           $border-radius !default;
+-$nav-pills-link-active-color:       $component-active-color !default;
+ $nav-pills-link-active-bg:          $component-active-bg !default;
++$nav-pills-link-active-color:       color-contrast($nav-pills-link-active-bg, $component-active-color) !default;
+ // scss-docs-end nav-variables
+ 
+ 
+@@ -1012,8 +1014,8 @@ $dropdown-link-color:               $gray-900 !default;
+ $dropdown-link-hover-color:         shade-color($gray-900, 10%) !default;
+ $dropdown-link-hover-bg:            $gray-200 !default;
+ 
+-$dropdown-link-active-color:        $component-active-color !default;
+ $dropdown-link-active-bg:           $component-active-bg !default;
++$dropdown-link-active-color:        color-contrast($dropdown-link-active-bg, $component-active-color) !default;
+ 
+ $dropdown-link-disabled-color:      $gray-500 !default;
+ 
+@@ -1320,8 +1322,8 @@ $list-group-item-bg-scale:          -80% !default;
+ $list-group-item-color-scale:       40% !default;
+ 
+ $list-group-hover-bg:               $gray-100 !default;
+-$list-group-active-color:           $component-active-color !default;
+ $list-group-active-bg:              $component-active-bg !default;
++$list-group-active-color:           color-contrast($list-group-active-bg, $component-active-color) !default;
+ $list-group-active-border-color:    $list-group-active-bg !default;
+ 
+ $list-group-disabled-color:         $gray-600 !default;
