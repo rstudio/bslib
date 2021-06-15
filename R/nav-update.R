@@ -139,6 +139,7 @@ nav_hide <- function(id, target,
 #' @inheritParams nav_insert
 #' @param menu_title The title of a [nav_menu()].
 #' @keywords internal
+#' @export
 nav_prepend <- function(id, nav, menu_title, select = FALSE, session = getDefaultReactiveDomain()) {
 
   force(select)
@@ -163,6 +164,7 @@ nav_prepend <- function(id, nav, menu_title, select = FALSE, session = getDefaul
 
 #' @rdname nav_prepend
 #' @keywords internal
+#' @export
 nav_append <- function(id, nav, menu_title, select = FALSE, session = getDefaultReactiveDomain()) {
 
   force(select)
