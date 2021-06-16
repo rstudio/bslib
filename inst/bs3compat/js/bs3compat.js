@@ -12,6 +12,12 @@ $(function() {
     (console.warn || console.error || console.log)("bs3compat.js couldn't find bs3 tab impl; bs3 tabs will not be properly supported");
     return;
   }
+  var legacyTabPlugin = $.fn.tab.noConflict();
+
+  if (!$.fn.tab || !$.fn.tab.Constructor || !$.fn.tab.noConflict) {
+    (console.warn || console.error || console.log)("bs3compat.js couldn't find a jQuery tab impl; bs3 tabs will not be properly supported");
+  }
+  var newTabPlugin = $.fn.tab.noConflict();
 
   // Re-define the tab click event
   // https://github.com/twbs/bootstrap/blob/08139c2/js/src/tab.js#L33
@@ -21,19 +27,22 @@ $(function() {
   var SELECTOR = '[data-toggle="tab"], [data-toggle="pill"], [data-bs-toggle="tab"], [data-bs-toggle="pill"]';
   $(document).on(EVENT_KEY, SELECTOR, function(event) {
     event.preventDefault();
-
-    // Legacy (bs3) tabs: li.active > a
-    // New (bs4+) tabs: li.nav-item > a.active.nav-link
-    var $el = $(event.target);
-    var legacy = $el.closest(".nav").find("li:not(.dropdown).active > a").length > 0;
-
-    if (legacy) {
-      $el.tab("show");
-    } else {
-      var tab = new bootstrap.Tab($el[0]);
-      tab.show();
-    }
-
+    $(this).tab("show");
   });
 
+  function TabPlugin(config) {
+    // Legacy (bs3) tabs: li.active > a
+    // New (bs4+) tabs: li.nav-item > a.active.nav-link
+    var legacy = $(this).closest(".nav").find("li:not(.dropdown).active > a").length > 0;
+    var plugin = legacy ? legacyTabPlugin : newTabPlugin;
+    plugin.call($(this), config);
+  }
+
+  var noconflict = $.fn.tab;
+  $.fn.tab = TabPlugin;
+  $.fn.tab.Constructor = newTabPlugin.Constructor;
+  $.fn.tab.noConflict = function() {
+    $.fn.tab = noconflict;
+    return TabPlugin;
+  };
 });
