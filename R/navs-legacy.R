@@ -52,7 +52,7 @@
 #' )
 #'
 nav <- function(title, ..., value = title, icon = NULL) {
-  tabPanel_(title, ..., value = title, icon = icon)
+  tabPanel_(title, ..., value = value, icon = icon)
 }
 
 #' @rdname nav

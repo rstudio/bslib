@@ -146,8 +146,8 @@ nav_prepend <- function(id, nav, menu_title, select = FALSE, session = getDefaul
   force(menu_title)
   inputId <- session$ns(id)
 
-  item <- buildTabItem("id", "tsid", TRUE, divTag = tab,
-                       textFilter = if (is.character(tab)) navbarMenuTextFilter else NULL)
+  item <- buildTabItem("id", "tsid", TRUE, divTag = nav,
+                       textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL)
 
   callback <- function() {
     session$sendInsertTab(
@@ -171,8 +171,8 @@ nav_append <- function(id, nav, menu_title, select = FALSE, session = getDefault
   force(menu_title)
   inputId <- session$ns(id)
 
-  item <- buildTabItem("id", "tsid", TRUE, divTag = tab,
-                       textFilter = if (is.character(tab)) navbarMenuTextFilter else NULL)
+  item <- buildTabItem("id", "tsid", TRUE, divTag = nav,
+                       textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL)
 
   callback <- function() {
     session$sendInsertTab(
