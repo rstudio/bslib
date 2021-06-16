@@ -22,9 +22,9 @@ $(function() {
   // Re-define the tab click event
   // https://github.com/twbs/bootstrap/blob/08139c2/js/src/tab.js#L33
   var EVENT_KEY = "click.bs.tab.data-api";
-  var SELECTOR = '[data-toggle="tab"], [data-toggle="pill"], [data-bs-toggle="tab"], [data-bs-toggle="pill"]';
-
   $(document).off(EVENT_KEY);
+
+  var SELECTOR = '[data-toggle="tab"], [data-toggle="pill"], [data-bs-toggle="tab"], [data-bs-toggle="pill"]';
   $(document).on(EVENT_KEY, SELECTOR, function(event) {
     event.preventDefault();
     $(this).tab("show");
