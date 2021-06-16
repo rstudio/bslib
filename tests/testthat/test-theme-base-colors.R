@@ -51,8 +51,8 @@ test_that("bs3 base colors", {
       `brand-primary` = "#0000FF")
   )
 
-  theme <- expect_warning(
-    bs_theme("3", bg = "#112233", fg = "#FFEEDD", primary = "orange", secondary = "brown"),
+  expect_warning(
+    theme <- bs_theme("3", bg = "#112233", fg = "#FFEEDD", primary = "orange", secondary = "brown"),
     "doesn't support.*ignored"
   )
   colors <- bs_get_variables(theme, varnames)
@@ -109,9 +109,9 @@ test_that("bs3 accent colors", {
       `brand-danger` = "#d9534f")
   )
 
-  theme <- expect_warning(
-    bs_theme("3", primary = "#123", secondary = "#234",
-             success = "#345", info = "#456", warning = "#567", danger = "#678"),
+  expect_warning(
+    theme <- bs_theme("3", primary = "#123", secondary = "#234",
+                      success = "#345", info = "#456", warning = "#567", danger = "#678"),
     "doesn't support"
   )
   expect_identical(bs_get_variables(theme, varnames),
