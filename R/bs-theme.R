@@ -244,13 +244,6 @@ bootstrap_bundle <- function(version) {
     ".table th[align=center] { text-align: center; }"
   )
 
-  # color-contrast() was introduced in Bootstrap 5. Make a copy of it available
-  # to Bootstrap 4 and 3 so they may also use it in variable definitions
-  # as well as via bs_get_contrast()
-  color_contrast <- sass_file(
-    system_file("sass-utils/color-contrast.scss", package = "bslib")
-  )
-
   main_bundle <- switch_version(
     version,
     five = sass_bundle(
@@ -279,10 +272,7 @@ bootstrap_bundle <- function(version) {
     ),
     four = sass_bundle(
       sass_layer(
-        functions = list(
-          bs4_sass_files(c("deprecated", "functions")),
-          color_contrast
-        ),
+        functions = bs4_sass_files(c("deprecated", "functions")),
         defaults = bs4_sass_files("variables"),
         mixins = bs4_sass_files("mixins")
       ),
@@ -304,7 +294,6 @@ bootstrap_bundle <- function(version) {
     ),
     three = sass_bundle(
       sass_layer(
-        functions = color_contrast,
         defaults = bs3_sass_files("variables"),
         mixins = bs3_sass_files("mixins")
       ),
@@ -329,12 +318,21 @@ bootstrap_bundle <- function(version) {
     )
   )
 
-  # Tack on nav_spacer() CSS by default
-  nav_spacer <- sass_file(
-    system.file("nav-spacer", "nav-spacer.scss", package = "bslib")
+  sass_bundle(
+    main_bundle,
+    # color-contrast() was introduced in Bootstrap 5.
+    # We include our own version for a few reasons:
+    # 1. Easily turn off warnings options(bslib.color_contrast_warnings=F)
+    # 2. Allow Bootstrap 3 & 4 to use color-contrast() in variable definitions
+    # 3. Allow Bootstrap 3 & 4 to use bs_get_contrast()
+    sass_layer(
+      functions = sass_file(system_file("sass-utils/color-contrast.scss", package = "bslib"))
+    ),
+    # nav_spacer() CSS (can be removed)
+    nav_spacer = sass_layer(
+      rules = sass_file(system_file("nav-spacer/nav-spacer.scss", package = "bslib"))
+    )
   )
-
-  sass_bundle(main_bundle, nav_spacer = sass_layer(rules = nav_spacer))
 }
 
 
