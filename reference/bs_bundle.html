@@ -265,27 +265,26 @@ mixin definitions.</p></td>
 
 <span class='co'># Here we start with a theme based on a Bootswatch theme,</span>
 <span class='co'># then override some variable defaults</span>
-<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>bootswatch <span class='op'>=</span> <span class='st'>"sketchy"</span>, primary <span class='op'>=</span> <span class='st'>"orange"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>bs_add_variables</span><span class='op'>(</span>
-    <span class='st'>"body-bg"</span> <span class='op'>=</span> <span class='st'>"#EEEEEE"</span>,
-    <span class='st'>"font-family-base"</span> <span class='op'>=</span> <span class='st'>"monospace"</span>,
-    <span class='st'>"font-size-base"</span> <span class='op'>=</span> <span class='st'>"1.4rem"</span>,
-    <span class='st'>"btn-padding-y"</span> <span class='op'>=</span> <span class='st'>".16rem"</span>,
-    <span class='st'>"btn-padding-x"</span> <span class='op'>=</span> <span class='st'>"2rem"</span>
-  <span class='op'>)</span>
+<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'>bs_add_variables</span><span class='op'>(</span>
+  <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>bootswatch <span class='op'>=</span> <span class='st'>"sketchy"</span>, primary <span class='op'>=</span> <span class='st'>"orange"</span><span class='op'>)</span>,
+  <span class='st'>"body-bg"</span> <span class='op'>=</span> <span class='st'>"#EEEEEE"</span>,
+  <span class='st'>"font-family-base"</span> <span class='op'>=</span> <span class='st'>"monospace"</span>,
+  <span class='st'>"font-size-base"</span> <span class='op'>=</span> <span class='st'>"1.4rem"</span>,
+  <span class='st'>"btn-padding-y"</span> <span class='op'>=</span> <span class='st'>".16rem"</span>,
+  <span class='st'>"btn-padding-x"</span> <span class='op'>=</span> <span class='st'>"2rem"</span>
+<span class='op'>)</span>
 
 <span class='fu'>preview_button</span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>
 
 <span class='co'># If you need to set a variable based on another Bootstrap variable</span>
-<span class='va'>theme</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>bs_add_variables</span><span class='op'>(</span><span class='st'>"body-color"</span> <span class='op'>=</span> <span class='st'>"$success"</span>, .where <span class='op'>=</span> <span class='st'>"declarations"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>preview_button</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'>bs_add_variables</span><span class='op'>(</span><span class='va'>theme</span>, <span class='st'>"body-color"</span> <span class='op'>=</span> <span class='st'>"$success"</span>, .where <span class='op'>=</span> <span class='st'>"declarations"</span><span class='op'>)</span>
+<span class='fu'>preview_button</span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>
 
 <span class='co'># Start a new global theme and add some custom rules that</span>
 <span class='co'># use Bootstrap variables to define a custom styling for a</span>
 <span class='co'># 'person card'</span>
 <span class='va'>person_rules</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"custom"</span>, <span class='st'>"person.scss"</span>, package <span class='op'>=</span> <span class='st'>"bslib"</span><span class='op'>)</span>
-<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>bs_add_rules</span><span class='op'>(</span><span class='fu'>sass</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass_file</a></span><span class='op'>(</span><span class='va'>person_rules</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'>bs_add_rules</span><span class='op'>(</span><span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'>sass</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sass/man/sass_import.html'>sass_file</a></span><span class='op'>(</span><span class='va'>person_rules</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># Include custom CSS that leverages bootstrap Sass variables</span>
 <span class='va'>person</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>title</span>, <span class='va'>company</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>tags</span><span class='op'>$</span><span class='fu'>div</span><span class='op'>(</span>

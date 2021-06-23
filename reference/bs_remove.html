@@ -202,8 +202,8 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Remove CSS rules for print and carousels</span>
-<span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>version <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>bs_remove</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_print"</span>, <span class='st'>"_carousel"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>bs4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>version <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
+<span class='fu'>bs_remove</span><span class='op'>(</span><span class='va'>bs4</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_print"</span>, <span class='st'>"_carousel"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; /* Sass Bundle: _root, _reboot, _type, _images, _code, _grid, _tables, _forms, _buttons, _transitions, _dropdown, _button-group, _input-group, _custom-forms, _nav, _navbar, _card, _breadcrumb, _pagination, _badge, _jumbotron, _alert, _progress, _media, _list-group, _close, _toasts, _modal, _tooltip, _popover, _spinners, _utilities, bs3compat, nav_spacer */
 #&gt; 
 #&gt; 
@@ -274,8 +274,7 @@
 #&gt;  $ file_attachments: Named chr "/home/runner/work/_temp/Library/bslib/lib/bs3/assets/fonts"
 #&gt;   ..- attr(*, "names")= chr "fonts"</div><div class='input'>
 <span class='co'># Remove BS3 compatibility layer</span>
-<span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>version <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>bs_remove</span><span class='op'>(</span><span class='st'>"bs3compat"</span><span class='op'>)</span>
+<span class='fu'>bs_remove</span><span class='op'>(</span><span class='va'>bs4</span>, <span class='st'>"bs3compat"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; /* Sass Bundle: _root, _reboot, _type, _images, _code, _grid, _tables, _forms, _buttons, _transitions, _dropdown, _button-group, _input-group, _custom-forms, _nav, _navbar, _card, _breadcrumb, _pagination, _badge, _jumbotron, _alert, _progress, _media, _list-group, _close, _toasts, _modal, _tooltip, _popover, _carousel, _spinners, _utilities, _print, nav_spacer */
 #&gt; 
 #&gt; 
