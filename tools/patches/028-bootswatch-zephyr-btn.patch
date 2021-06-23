@@ -1,0 +1,14 @@
+diff --git a/inst/lib/bsw5/dist/zephyr/_bootswatch.scss b/inst/lib/bsw5/dist/zephyr/_bootswatch.scss
+index 21b62af..b4055dc 100644
+--- a/inst/lib/bsw5/dist/zephyr/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/zephyr/_bootswatch.scss
+@@ -70,7 +70,8 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700
+ }
+ 
+ .btn-secondary,
+-.btn-outline-secondary {
++.btn-outline-secondary,
++.btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-outline-primary):not(.btn-outline-info):not(.btn-outline-success):not(.btn-outline-warning):not(.btn-outline-danger):not(.btn-outline-dark) {
+   border-color: shade-color($secondary, 10%);
+ 
+   &:hover,
