@@ -11,15 +11,6 @@ index bb96102..23c230c 100644
      transition: color ease-in-out .2s;
    }
  
-@@ -39,7 +39,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
- 
-     .nav-link,
-     .navbar-brand {
--      text-shadow: 1px 1px 0 rgba(255, 255, 255, .1);
-+      text-shadow: 1px 1px 0 rgba($white, .1);
-     }
- 
-     .navbar-brand {
 @@ -55,7 +55,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
  // Buttons
  
