@@ -107,9 +107,8 @@
 #'
 #' # Lower-level bs_add_*() functions allow you to work more
 #' # directly with the underlying Sass code
-#' theme <- theme %>%
-#'   bs_add_variables("my-class-color" = "red") %>%
-#'   bs_add_rules(".my-class { color: $my-class-color }")
+#' theme <- bs_add_variables(theme, "my-class-color" = "red")
+#' theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 #'
 #' @export
 bs_theme <- function(version = version_default(), bootswatch = NULL, ...,

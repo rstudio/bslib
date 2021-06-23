@@ -9,12 +9,11 @@
 #' @examples
 #'
 #' # Remove CSS rules for print and carousels
-#' bs_theme(version = 4) %>%
-#'   bs_remove(c("_print", "_carousel"))
+#' bs4 <- bs_theme(version = 4)
+#' bs_remove(bs4, c("_print", "_carousel"))
 #'
 #' # Remove BS3 compatibility layer
-#' bs_theme(version = 4) %>%
-#'   bs_remove("bs3compat")
+#' bs_remove(bs4, "bs3compat")
 #'
 bs_remove <- function(theme, ids = character(0)) {
   ids <- retain_valid_ids(theme, ids)
