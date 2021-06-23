@@ -38,7 +38,7 @@ bs_current_theme <- function(session = get_reactive_domain()) {
 }
 
 get_reactive_domain <- function() {
-  if ("shiny" %in% loadedNamespaces()) shiny::getDefaultReactiveDomain() else NULL
+  if (isNamespaceLoaded("shiny")) shiny::getDefaultReactiveDomain() else NULL
 }
 
 has_valid_reactive_context <- function(session) {
@@ -49,7 +49,7 @@ has_valid_reactive_context <- function(session) {
 }
 
 get_current_theme <- function() {
-  if (!"shiny" %in% loadedNamespaces()) return(NULL)
+  if (!isNamespaceLoaded("shiny")) return(NULL)
   if (!is_available("shiny", "1.6.0")) {
     warning("This functionality requires shiny v1.6 or higher")
     return(NULL)

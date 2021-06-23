@@ -50,7 +50,7 @@ fastPackageVersion <- function(pkg) {
 
 is_shiny_app <- function() {
   # Make sure to not load shiny as a side-effect of calling this function.
-  "shiny" %in% loadedNamespaces() && shiny::isRunning()
+  isNamespaceLoaded("shiny") && shiny::isRunning()
 }
 
 is_hosted_app <- function() {

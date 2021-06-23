@@ -11,7 +11,7 @@ register_upgrade_message <- function(pkg, version) {
     pkg, version
   )
 
-  if (pkg %in% loadedNamespaces() && !is_available(pkg, version)) {
+  if (isNamespaceLoaded(pkg) && !is_available(pkg, version)) {
     packageStartupMessage(msg)
   }
 

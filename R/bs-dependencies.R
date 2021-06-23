@@ -65,6 +65,15 @@ bs_theme_dependencies <- function(
   theme <- as_bs_theme(theme)
   version <- theme_version(theme)
 
+  if (isTRUE(version >= 5)) {
+    shiny_version <- "1.6.0.9001"
+    msg <- sprintf("`bs_theme(version = 5)` is designed to work with shiny %s or higher", shiny_version)
+    if (isNamespaceLoaded("shiny") && !is_available("shiny", shiny_version)) warning(msg, call. = FALSE)
+    setHook(packageEvent("shiny", "onLoad"), function(...) {
+      if (!is_available("shiny", shiny_version)) warning(msg, call. = FALSE)
+    })
+  }
+
   if (is.character(cache)) {
     cache <- sass_cache_get_dir(cache)
   }
@@ -365,5 +374,4 @@ register_theme_dependency <- function(x) {
   }
   getFromNamespace("registerThemeDependency", "shiny")(x)
 }
-
 
