@@ -76,6 +76,9 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
   @return mix(rgba($foreground, 1), $background, opacity($foreground) * 100);
 }
 
+// Added in BS5 as an alternative to the \ operator, which
+// throws warnings in Dart Sass
+// https://github.com/twbs/bootstrap/pull/34245
 @function divide($dividend, $divisor, $precision: 10) {
   $sign: if($dividend > 0 and $divisor > 0 or $dividend < 0 and $divisor < 0, 1, -1);
   $dividend: abs($dividend);
