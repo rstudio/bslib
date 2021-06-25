@@ -2,15 +2,6 @@ diff --git a/inst/lib/bsw5/dist/slate/_bootswatch.scss b/inst/lib/bsw5/dist/slat
 index 455b946..05c6e88 100644
 --- a/inst/lib/bsw5/dist/slate/_bootswatch.scss
 +++ b/inst/lib/bsw5/dist/slate/_bootswatch.scss
-@@ -5,7 +5,7 @@
- // Mixins
- 
- @mixin btn-shadow($color){
--  @include gradient-y-three-colors(lighten($color, 6%), $color, 60%, darken($color, 4%));
-+  @include gradient-y-three-colors(lighten($color, 16%), $color, 60%, darken($color, 14%));
-   filter: none;
- }
- 
 @@ -17,15 +17,15 @@
  // Navbar
  
@@ -315,14 +306,6 @@ index 455b946..05c6e88 100644
      text-decoration: underline;
    }
  
-@@ -357,6 +371,6 @@ legend {
- 
- .list-group {
-   &-item-action:hover {
--    background-color: darken($gray-900, 5%);
-+    background-color: mix($contrast-fg, $body-bg, 5%);
-   }
- }
 diff --git a/inst/lib/bsw5/dist/slate/_variables.scss b/inst/lib/bsw5/dist/slate/_variables.scss
 index f655a18..637aced 100755
 --- a/inst/lib/bsw5/dist/slate/_variables.scss

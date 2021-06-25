@@ -53,7 +53,7 @@ index b1ef904..4a96ef5 100644
 +#{$form-check-input-selector} {
    width: $form-check-input-width;
    height: $form-check-input-width;
-   margin-top: ($line-height-base - $form-check-input-width) / 2; // line-height minus check height
+   margin-top: ($line-height-base - $form-check-input-width) * .5; // line-height minus check height
 @@ -136,7 +136,7 @@
    }
  }

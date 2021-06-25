@@ -11,7 +11,6 @@ withr::with_dir(
       file = "_variables-template.Rmd",
       version = 5
     )
-    writeLines(src5, "bs5-variables.Rmd")
-
+    invisible(writeLines(src5, "bs5-variables.Rmd"))
   }
 )

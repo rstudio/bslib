@@ -4,6 +4,10 @@
 
 * Closed rstudio/rmarkdown#2154: `{magrittr}`'s pipe operator (`%>%`) is no longer re-exported by `{bslib}`. Either `library(magrittr)` to make `%>%` available and/or use use R 4.1's pipe operator (`|>`).
 
+## New features
+
+* Closed #82: Added support for Bootstrap 5 (via `bs_theme(version = 5)`). Bootstrap 4 remains the default in this release, but the next release, the default will likely change to Bootstrap 5.
+
 ## Bug fixes
 
 * Closed #6: rmarkdown's .tabset-fade class now works with Bootstrap 4+ since legacy use of .nav .fade is now officially supported in Bootstrap 4+. (#325)

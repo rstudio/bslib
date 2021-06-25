@@ -14,7 +14,7 @@
 ## Install
 You can get the latest version in many different ways:
 
-- Downloading [a ZIP file from the releases](https://github.com/itsjavi/bootstrap-colorpicker/releases)
+- Downloading the tarball from npm the registry: https://registry.npmjs.org/bootstrap-colorpicker/-/bootstrap-colorpicker-3.2.0.tgz  (you can change the version in the url to any released tag)
 - Cloning using Git: `git clone https://github.com/itsjavi/bootstrap-colorpicker.git`
 - Installing via NPM: `npm install bootstrap-colorpicker`
 - Installing via Yarn: `yarn add bootstrap-colorpicker`
@@ -41,7 +41,7 @@ and then building the code using `npm run build`.
           <a href="https://github.com/itsjavi/bootstrap-colorpicker/tree/v2.x">v2.x</a> <br>
           <a href="https://itsjavi.com/bootstrap-colorpicker/v2">Documentation</a>
         </td>
-        <td>(any)</td>
+        <td>Bootstrap 3 or 4</td>
         <td>
           <ul>
             <li>jQuery >= 1.10</li>
@@ -54,7 +54,7 @@ and then building the code using `npm run build`.
           <a href="https://github.com/itsjavi/bootstrap-colorpicker">v3.x</a> <br>
           <a href="https://itsjavi.com/bootstrap-colorpicker">Documentation</a>
         </td>
-        <td>Bootstrap 4</td>
+        <td>Bootstrap 4 or without Bootstrap</td>
         <td>
           <ul>
             <li>jQuery >= 2.1.0</li>
@@ -71,32 +71,66 @@ Note that the plugin may work without Bootstrap if your code is not using any of
 dependencies.
 
 
-## Basic example
+## Examples
+
+### With Bootstrap
+The Bootstrap JS dependency is optional and it is mainly needed for the popover support.
+No Bootstrap CSS is required for the plugin to work.
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <link href="//cdn.rawgit.com/twbs/bootstrap/v4.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="dist/css/bootstrap-colorpicker.css" rel="stylesheet">
 </head>
 <body>
-  <div class="jumbotron">
-      <h1>Bootstrap Colorpicker Demo</h1>
-      <input id="demo" type="text" class="form-control" value="rgb(255, 128, 0)" />
+  <div class="demo">
+      <h1>Bootstrap Colorpicker Demo (with Bootstrap)</h1>
+      <input id="demo-input" type="text" value="rgb(255, 128, 0)" />
   </div>
-  <script src="//code.jquery.com/jquery-3.3.1.js"></script>
-  <script src="//cdn.rawgit.com/twbs/bootstrap/v4.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="//unpkg.com/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="dist/js/bootstrap-colorpicker.js"></script>
   <script>
     $(function () {
       // Basic instantiation:
-      $('#demo').colorpicker();
+      $('#demo-input').colorpicker();
       
-      // Example using an event, to change the color of the .jumbotron background:
-      $('#demo').on('colorpickerChange', function(event) {
-        $('.jumbotron').css('background-color', event.color.toString());
+      // Example using an event, to change the color of the #demo div background:
+      $('#demo-input').on('colorpickerChange', function(event) {
+        $('#demo').css('background-color', event.color.toString());
+      });
+    });
+  </script>
+</body>
+```
+
+### Without Bootstrap
+
+To use the plugin without Bootstrap, the `popover` option should be set to `false` or `null` and, depending on your implementation,
+you will usually need to set inline to `true` and a `container` selector option.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="dist/css/bootstrap-colorpicker.css" rel="stylesheet">
+</head>
+<body>
+  <div id="demo">
+      <h1>Bootstrap Colorpicker Demo (without Bootstrap)</h1>
+    <input type="text" value="rgb(255, 128, 0)" />
+  </div>
+  <script src="//code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="dist/js/bootstrap-colorpicker.js"></script>
+  <script>
+    $(function() {
+      $('#demo').colorpicker({
+        popover: false,
+        inline: true,
+        container: '#demo'
       });
     });
   </script>
@@ -107,7 +141,6 @@ dependencies.
 * [Issues](https://github.com/itsjavi/bootstrap-colorpicker/issues)
 * [Pull Requests](https://github.com/itsjavi/bootstrap-colorpicker/pulls)
 * [Milestones](https://github.com/itsjavi/bootstrap-colorpicker/milestones)
-* [Planned Features](https://github.com/itsjavi/bootstrap-colorpicker/projects)
 
 This project exists thanks to all the [people who contribute](https://github.com/itsjavi/bootstrap-colorpicker/graphs/contributors).
 

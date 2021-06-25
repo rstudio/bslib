@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-colorpicker",
-  "version": "3.2.0",
+  "version": "3.4.0",
   "description": "Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.",
   "main": "./dist/js/bootstrap-colorpicker.js",
   "homepage": "https://itsjavi.com/bootstrap-colorpicker/",
@@ -16,8 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "bootstrap": ">=4.0",
-    "popper.js": ">=1.10",
-    "jquery": ">=2.1.0"
+    "jquery": ">=2.2",
+    "popper.js": ">=1.10"
   },
   "scripts": {
     "test": "npm run lint && ava --color --verbose",
@@ -28,7 +28,7 @@
     "build-dist": "gulp dist",
     "build-docs": "gulp dist && gulp docs && gulp docs:add-v2-docs",
     "build-npm": "npm run build && gulp npm-prepublish",
-    "publish-docs": "npm run build && npm run test && gulp publish-gh-pages"
+    "publish-docs": "gh-pages -d build/docs"
   },
   "ava": {
     "files": "tests/**/*test.js",

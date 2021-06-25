@@ -39,7 +39,7 @@ index 1fd0da1..76bc7aa 100755
  // Components
  
  $border-radius:               0 !default;
-@@ -57,62 +65,62 @@ $border-radius-sm:            0 !default;
+@@ -63,23 +63,23 @@ $border-radius-sm:            0 !default;
  // stylelint-disable-next-line value-keyword-case
  $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
  
@@ -69,18 +69,16 @@ index 1fd0da1..76bc7aa 100755
  
  $input-color:                       $gray-900 !default;
  $input-border-color:                transparent !default;
- $input-border-width:                0 !default;
+@@ -89,7 +89,7 @@ $input-placeholder-color:               $gray-600 !default;
+ 
  $input-group-addon-color:           $body-color !default;
--$custom-file-button-color:          $white !default;
--$custom-file-border-color:          $gray-200 !default;
-+$custom-file-button-color:          $contrast-bg !default;
-+$custom-file-border-color:          body-mix(80%) !default;
  
 -$form-check-input-bg:                     $white !default;
 +$form-check-input-bg:                     $contrast-bg !default;
  $form-check-input-border:                 none !default;
  
  $form-file-button-color:          $body-color !default;
+@@ -98,7 +98,7 @@ $form-floating-label-opacity:     1 !default;
  
  // Dropdowns
  
@@ -90,7 +88,7 @@ index 1fd0da1..76bc7aa 100755
 +$dropdown-divider-bg:               rgba($contrast-fg, .15) !default;
  $dropdown-link-color:               $body-color !default;
  $dropdown-link-hover-color:         $dropdown-link-color !default;
- $dropdown-link-hover-bg:            $table-hover-bg !default;
+@@ -106,22 +106,22 @@ $dropdown-link-hover-bg:            $table-hover-bg !default;
  
  // Navs
  
