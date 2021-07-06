@@ -1,0 +1,16 @@
+diff --git a/inst/lib/bsw5/dist/quartz/_bootswatch.scss b/inst/lib/bsw5/dist/quartz/_bootswatch.scss
+index 757411e..393605d 100644
+--- a/inst/lib/bsw5/dist/quartz/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/quartz/_bootswatch.scss
+@@ -122,6 +122,11 @@ body {
+   @include glass(.3);
+ }
+ 
++.selectize-dropdown {
++  @include glass(.3);
++  background-color: transparent !important;
++}
++
+ .nav-tabs {
+   .nav-link {
+     transition: none;
