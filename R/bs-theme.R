@@ -453,7 +453,12 @@ bootswatch_bundle <- function(bootswatch, version) {
         # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
         if (identical(bootswatch, "sketchy")) ".dropdown-menu{ overflow: inherit; }" else "",
         # TODO: is this really needed? Why isn't it listening to a Sass var?
-        if (identical(bootswatch, "lumen")) ".navbar.navbar-default {background-color: #f8f8f8 !important;}" else ""
+        if (identical(bootswatch, "lumen")) ".navbar.navbar-default {background-color: #f8f8f8 !important;}" else "",
+        # Several Bootswatch themes (e.g., zephyr, simplex, etc) add custom .btn-secondary
+        # rules that should also apply to .btn-default
+        ".btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-outline-primary):not(.btn-outline-info):not(.btn-outline-success):not(.btn-outline-warning):not(.btn-outline-danger):not(.btn-outline-dark) {
+          @extend .btn-secondary;
+        }"
       )
     )
   )
