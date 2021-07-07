@@ -122,6 +122,11 @@ body {
   @include glass(.3);
 }
 
+.selectize-dropdown {
+  @include glass(.3);
+  background-color: transparent !important;
+}
+
 .nav-tabs {
   .nav-link {
     transition: none;
