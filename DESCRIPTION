@@ -1,6 +1,6 @@
 Package: bslib
 Title: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'
-Version: 0.2.5.9002
+Version: 0.3.0
 Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
