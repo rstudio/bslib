@@ -20,13 +20,13 @@ Description: Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via
 Depends: R (>= 2.10)
 Imports:
     grDevices,
-    htmltools (>= 0.5.1.9004),
+    htmltools (>= 0.5.2),
     jsonlite,
     sass (>= 0.4.0),
     jquerylib (>= 0.1.3),
     rlang
 Suggests:
-    shiny (>= 1.6.0.9001),
+    shiny (>= 1.6.0),
     rmarkdown (>= 2.7),
     thematic,
     knitr,
@@ -69,6 +69,3 @@ Collate:
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
-Remotes: 
-  rstudio/htmltools,
-  rstudio/shiny
