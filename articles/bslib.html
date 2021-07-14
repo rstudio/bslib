@@ -30,6 +30,8 @@
 </script><!-- javascript assets for rmarkdown --><script src="../ace-1.2.3/ace.js" type="text/javascript" charset="utf-8"></script><script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script><script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -88,7 +90,7 @@
   <a href="../news/index.html">News</a>
 </li>
 <li>
-  <a href="https://github.com/rstudio/bslib">
+  <a href="https://github.com/rstudio/bslib" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -115,7 +117,7 @@
       <h1 data-toc-skip>Get started</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/bslib.Rmd"><code>vignettes/bslib.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/bslib.Rmd" class="external-link"><code>vignettes/bslib.Rmd</code></a></small>
       <div class="hidden name"><code>bslib.Rmd</code></div>
 
     </div>
@@ -129,15 +131,15 @@
 <p>In some more <a href="#advanced">advanced cases</a>, you might also want to know how to add additional Sass/CSS rules, leverage utility classes, and develop custom (themeable) components.</p>
 <div id="versions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#versions" class="anchor"></a>Bootstrap versions</h2>
+<a href="#versions" class="anchor" aria-hidden="true"></a>Bootstrap versions</h2>
 <p>At the time of writing, <code>bslib</code> currently supports:</p>
 <ul>
 <li>
-<a href="https://getbootstrap.com/docs/5.0/">Bootstrap 5</a> <code><a href="../reference/bs_theme.html">bs_theme(version = 5)</a></code>: intended for new projects.</li>
+<a href="https://getbootstrap.com/docs/5.0/" class="external-link">Bootstrap 5</a> <code>bs_theme(version = 5)</code>: intended for new projects.</li>
 <li>
-<a href="https://getbootstrap.com/docs/4.6/">Bootstrap 4</a> <code><a href="../reference/bs_theme.html">bs_theme(version = 4)</a></code>: intended for legacy projects that happen to break with <code>version = 5</code>.</li>
+<a href="https://getbootstrap.com/docs/4.6/" class="external-link">Bootstrap 4</a> <code>bs_theme(version = 4)</code>: intended for legacy projects that happen to break with <code>version = 5</code>.</li>
 <li>
-<a href="https://getbootstrap.com/docs/3.4/">Bootstrap 3</a> <code><a href="../reference/bs_theme.html">bs_theme(version = 3)</a></code>: intended for legacy projects that happen to break with <code>version = 4</code>.</li>
+<a href="https://getbootstrap.com/docs/3.4/" class="external-link">Bootstrap 3</a> <code>bs_theme(version = 3)</code>: intended for legacy projects that happen to break with <code>version = 4</code>.</li>
 </ul>
 <p><code>bslib</code> doesn’t require that you actually specify a Bootstrap version. In that case, it provides the currently recommended version of Bootstrap for new projects. Currently Bootstrap 4 is recommended, but that will soon change to Bootstrap 5+ in future releases, so it’s best practice to specify the version, especially if reproducibility is important and your project does any of the following:</p>
 <ul>
@@ -148,12 +150,12 @@
 </div>
 <div id="bootswatch" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bootswatch" class="anchor"></a>Bootswatch themes</h2>
-<p>Any <a href="https://bootswatch.com">Bootswatch</a> theme is available through <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s <code>bootswatch</code> argument. You may already be familiar with using these “pre-packaged” themes via the <code>{shinythemes}</code> package (or via the <code>theme</code> parameter in R Markdown). Those legacy approaches only provide <a href="https://bootswatch.com/3">Bootswatch 3 themes</a>, but with <a href="https://rstudio.github.io/bslib/">bslib</a>, you can use newer themes like <a href="https://bootswatch.com/minty">minty</a>.</p>
+<a href="#bootswatch" class="anchor" aria-hidden="true"></a>Bootswatch themes</h2>
+<p>Any <a href="https://bootswatch.com" class="external-link">Bootswatch</a> theme is available through <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s <code>bootswatch</code> argument. You may already be familiar with using these “pre-packaged” themes via the <code>{shinythemes}</code> package (or via the <code>theme</code> parameter in R Markdown). Those legacy approaches only provide <a href="https://bootswatch.com/3" class="external-link">Bootswatch 3 themes</a>, but with <a href="https://rstudio.github.io/bslib/">bslib</a>, you can use newer themes like <a href="https://bootswatch.com/minty" class="external-link">minty</a>.</p>
 <div class="usage">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">navbarPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>bootswatch <span class="op">=</span> <span class="st">"minty"</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -169,16 +171,16 @@
 </div>
 <div id="custom" class="section level2">
 <h2 class="hasAnchor">
-<a href="#custom" class="anchor"></a>Custom themes</h2>
+<a href="#custom" class="anchor" aria-hidden="true"></a>Custom themes</h2>
 <p>In addition to <code>version</code> and <code>bootswatch</code>, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> has some other named arguments for customizing <a href="#main-colors">main colors and fonts</a>. These named arguments (e.g., <code>bg</code>, <code>fg</code>, <code>base_font</code>, etc) are supported across <a href="#versions">Bootstrap versions</a>, making them useful for both new and legacy projects. If you’re looking to customize lower-level aspects (e.g., headings, navbars, etc), then you’ll want to know how to <a href="#low-level">work with Sass variables more directly</a>. Also, in the event that no Sass variable is available to meet your theming needs, you may need to write <a href="#add-rules">additional CSS rules</a> and/or leverage <a href="#utility-classes">utility classes</a>.</p>
 <div id="main-colors" class="section level3">
 <h3 class="hasAnchor">
-<a href="#main-colors" class="anchor"></a>Main colors &amp; fonts</h3>
+<a href="#main-colors" class="anchor" aria-hidden="true"></a>Main colors &amp; fonts</h3>
 <p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> provides named arguments for customizing the main background color (<code>bg</code>), foreground color (<code>fg</code>), accent colors (<code>primary</code>, <code>secondary</code>, etc), and fonts (<code>base_font</code>, <code>heading_font</code>, <code>code_font</code>, etc). Here’s an example of using a subset of these named arguments to implement a dark mode with custom fonts:</p>
 <div class="usage">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">navbarPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>
     bg <span class="op">=</span> <span class="st">"#101010"</span>, 
     fg <span class="op">=</span> <span class="st">"#FDF7F7"</span>, 
@@ -203,19 +205,19 @@
 <span id="cb4-13"><a href="#cb4-13"></a><span class="op">---</span></span></code></pre></div>
 </div>
 <p><img src="dark-mode.png" width="100%" style="display: block; margin: auto;"></p>
-<p>Among all the coloring options in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, <code>bg</code>, <code>fg</code>, and <code>primary</code> are by far the most influential as they effect nearly every color on the page. In fact, <code>bg</code> and <code>fg</code> alone impact 100s of defaults — everything from panels (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html">shiny::wellPanel()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/inputPanel.html">shiny::inputPanel()</a></code>, etc) to navigation (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code>, etc) and more. The accent colors don’t impact nearly as much, but <code>primary</code> does control the color for some important things like hyperlinks, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">shiny::tabsetPanel()</a></code> links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">shiny::actionButton()</a></code> (defaults to the <code>secondary</code> color), <code><a href="https://rdrr.io/pkg/shiny/man/showNotification.html">shiny::showNotification()</a></code> , or more generally any HTML content that leverages <a href="https://getbootstrap.com/docs/5.0/utilities/colors/">Color Utility Classes</a>.</p>
+<p>Among all the coloring options in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, <code>bg</code>, <code>fg</code>, and <code>primary</code> are by far the most influential as they effect nearly every color on the page. In fact, <code>bg</code> and <code>fg</code> alone impact 100s of defaults — everything from panels (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html" class="external-link">shiny::wellPanel()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/inputPanel.html" class="external-link">shiny::inputPanel()</a></code>, etc) to navigation (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarPage()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">shiny::tabsetPanel()</a></code>, etc) and more. The accent colors don’t impact nearly as much, but <code>primary</code> does control the color for some important things like hyperlinks, <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">shiny::tabsetPanel()</a></code> links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">shiny::actionButton()</a></code> (defaults to the <code>secondary</code> color), <code><a href="https://rdrr.io/pkg/shiny/man/showNotification.html" class="external-link">shiny::showNotification()</a></code> , or more generally any HTML content that leverages <a href="https://getbootstrap.com/docs/5.0/utilities/colors/" class="external-link">Color Utility Classes</a>.</p>
 <div class="info">
 <p>When choosing <code>bg</code> and <code>fg</code> colors, keep in mind that it’s generally a good idea to pick colors with a similar hue but a large difference in their luminance.</p>
 </div>
-<p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides 3 named arguments for main fonts: <code>base_font</code>, <code>heading_font</code>, and <code>code_font</code>. When using <a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp">web safe font combinations</a>, it’s ok to provide a character string of (comma-separated) font families to these arguments (e.g., <code><a href="../reference/bs_theme.html">bs_theme(base_font = '"Times New Roman", Times, serif')</a></code>. Otherwise, use one of the <code><a href="../reference/font_face.html">font_google()</a></code>, <code><a href="../reference/font_face.html">font_link()</a></code>, and/or <code><a href="../reference/font_face.html">font_face()</a></code> helpers to include the relevant file(s) so the client’s browser may render the font(s). <code><a href="../reference/font_face.html">font_link()</a></code> and <code><a href="../reference/font_face.html">font_face()</a></code> are fairly low-level interfaces to <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts">the CSS web font API</a>, but <code><a href="../reference/font_face.html">font_google()</a></code> has the additional ability to download and cache font file(s), making it so that an internet connection is needed only for the first time a particular font is used.</p>
+<p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides 3 named arguments for main fonts: <code>base_font</code>, <code>heading_font</code>, and <code>code_font</code>. When using <a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp" class="external-link">web safe font combinations</a>, it’s ok to provide a character string of (comma-separated) font families to these arguments (e.g., <code>bs_theme(base_font = '"Times New Roman", Times, serif')</code>. Otherwise, use one of the <code><a href="../reference/font_face.html">font_google()</a></code>, <code><a href="../reference/font_face.html">font_link()</a></code>, and/or <code><a href="../reference/font_face.html">font_face()</a></code> helpers to include the relevant file(s) so the client’s browser may render the font(s). <code><a href="../reference/font_face.html">font_link()</a></code> and <code><a href="../reference/font_face.html">font_face()</a></code> are fairly low-level interfaces to <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts" class="external-link">the CSS web font API</a>, but <code><a href="../reference/font_face.html">font_google()</a></code> has the additional ability to download and cache font file(s), making it so that an internet connection is needed only for the first time a particular font is used.</p>
 <div class="info">
-<p>When choosing fonts, keep in mind that it’s generally good practice to put serif fonts in <code>base_font</code>, sans-serif fonts in <code>heading_font</code>, and monospace fonts in <code>code_font</code>. If you aren’t sure where to start, <a href="https://fontpair.co/featured">this article</a> has a nice gallery of Google Font pairings.</p>
+<p>When choosing fonts, keep in mind that it’s generally good practice to put serif fonts in <code>base_font</code>, sans-serif fonts in <code>heading_font</code>, and monospace fonts in <code>code_font</code>. If you aren’t sure where to start, <a href="https://fontpair.co/featured" class="external-link">this article</a> has a nice gallery of Google Font pairings.</p>
 </div>
 </div>
 <div id="low-level" class="section level3">
 <h3 class="hasAnchor">
-<a href="#low-level" class="anchor"></a>Everything else</h3>
-<p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides access to 100s of more specific <a href="bs5-variables.html">theming options</a> by considering anything passed through it’s <code>...</code> argument to be a new <a href="https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults">Bootstrap Sass variable defaults</a>. This allows you to get more targetted with your theming; for example, let’s set the <a href="bs5-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a> Sass variable to <code>'orange'</code> (a CSS color).</p>
+<a href="#low-level" class="anchor" aria-hidden="true"></a>Everything else</h3>
+<p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides access to 100s of more specific <a href="bs5-variables.html">theming options</a> by considering anything passed through it’s <code>...</code> argument to be a new <a href="https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults" class="external-link">Bootstrap Sass variable defaults</a>. This allows you to get more targetted with your theming; for example, let’s set the <a href="bs5-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a> Sass variable to <code>'orange'</code> (a CSS color).</p>
 <div class="usage">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
@@ -234,15 +236,15 @@
 <span id="cb6-9"><a href="#cb6-9"></a><span class="op">---</span></span></code></pre></div>
 </div>
 <p><img src="progress-orange.png" width="67%" style="display: block; margin: auto;"></p>
-<p>In addition to CSS values (e.g., <code>"orange"</code>), a variable can be any valid <a href="https://sass-lang.com/documentation/variables">Sass expression</a>, which is quite useful for leveraging Sass’ built-in module’s (e.g., <a href="https://sass-lang.com/documentation/modules/color#mix"><code>mix()</code> for mixing colors</a>)</p>
+<p>In addition to CSS values (e.g., <code>"orange"</code>), a variable can be any valid <a href="https://sass-lang.com/documentation/variables" class="external-link">Sass expression</a>, which is quite useful for leveraging Sass’ built-in module’s (e.g., <a href="https://sass-lang.com/documentation/modules/color#mix" class="external-link"><code>mix()</code> for mixing colors</a>)</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"mix(white, orange, 20%)"</span><span class="op">)</span>
 <span class="co">#&gt; $progress-bar-bg: mix(white, orange, 20%) !default;</span>
 <span class="co">#&gt; @import "scss/_variables.scss";</span></code></pre></div>
-<p>Underneath the hood, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> works by placing <a href="https://sass-lang.com/documentation/variables#default-values">Sass variable defaults</a> <em>before</em> Bootstrap’s variable defaults. That’s why something like <code><a href="../reference/bs_theme.html">bs_theme(primary = "red")</a></code> “just works” in the sense that it not only provides <code>$primary</code> with a new default value, but it also passes the value to other variables that default to <code>$primary</code> (e.g. <a href="bs5-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a>).</p>
+<p>Underneath the hood, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> works by placing <a href="https://sass-lang.com/documentation/variables#default-values" class="external-link">Sass variable defaults</a> <em>before</em> Bootstrap’s variable defaults. That’s why something like <code>bs_theme(primary = "red")</code> “just works” in the sense that it not only provides <code>$primary</code> with a new default value, but it also passes the value to other variables that default to <code>$primary</code> (e.g. <a href="bs5-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a>).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Reduced version of the Sass code behind `bs_theme(primary = "red")`</span>
-<span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass.html">sass</a></span><span class="op">(</span><span class="st">"
+<span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass.html" class="external-link">sass</a></span><span class="op">(</span><span class="st">"
   $primary: red !default; // First one wins
   $primary: blue !default;
   $progress-bar-bg: $primary !default;
@@ -251,11 +253,11 @@
 <span class="co">#&gt; red, red</span></code></pre></div>
 <p>Since <code><a href="../reference/bs_theme.html">bs_theme()</a></code> defines variables <em>before</em> Bootstrap, we must define variables differently if they want to reference Bootstrap’s Sass code. For example, what if we wanted <code>$progress-bar-bg</code> to default to <code>$secondary</code> instead of <code>$primary</code>?</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$secondary"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass.html" class="external-link">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$secondary"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Error: Undefined variable: "$secondary".</span></code></pre></div>
-<p>Thankfully <code><a href="../reference/bs_add_variables.html">bs_add_variables()</a></code> provides a workaround. By default, <code><a href="../reference/bs_add_variables.html">bs_add_variables()</a></code> works just like <code><a href="../reference/bs_theme.html">bs_theme()</a></code> (it puts variable definitions before other Sass code), but by with <code>.where = "declarations"</code>, we can place the definition after Bootstrap:</p>
+<p>Thankfully <code><a href="../reference/bs_bundle.html">bs_add_variables()</a></code> provides a workaround. By default, <code><a href="../reference/bs_bundle.html">bs_add_variables()</a></code> works just like <code><a href="../reference/bs_theme.html">bs_theme()</a></code> (it puts variable definitions before other Sass code), but by with <code>.where = "declarations"</code>, we can place the definition after Bootstrap:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/bs_add_variables.html">bs_add_variables</a></span><span class="op">(</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$secondary"</span>, .where <span class="op">=</span> <span class="st">"declarations"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/bs_bundle.html">bs_add_variables</a></span><span class="op">(</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$secondary"</span>, .where <span class="op">=</span> <span class="st">"declarations"</span><span class="op">)</span>
 <span class="co">#&gt; @import "scss/_variables.scss";</span>
 <span class="co">#&gt; $progress-bar-bg: $secondary;</span></code></pre></div>
 <p>There’s currently no easy way to define variables this way in R Markdown (other than using <code>!expr</code> to pass a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object directly into <code>theme</code>)</p>
@@ -266,8 +268,8 @@
 </div>
 <div id="real-time" class="section level2">
 <h2 class="hasAnchor">
-<a href="#real-time" class="anchor"></a>Real-time theming</h2>
-<p>Use <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code> (or <code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) to create custom themes in “real-time” via an interactive theming widget. The former overlays the widget on a demo Shiny app (<a href="https://testing-apps.shinyapps.io/themer-demo">see here</a> for a hosted version):</p>
+<a href="#real-time" class="anchor" aria-hidden="true"></a>Real-time theming</h2>
+<p>Use <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code> (or <code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) to create custom themes in “real-time” via an interactive theming widget. The former overlays the widget on a demo Shiny app (<a href="https://testing-apps.shinyapps.io/themer-demo" class="external-link">see here</a> for a hosted version):</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="https://i.imgur.com/KLKy1s0.gif" width="100%" style="display: block; margin: auto;"></p>
@@ -275,7 +277,7 @@
 <div class="usage">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Shiny usage</span>
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
+<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">navbarPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span>
@@ -302,31 +304,31 @@ bslib::bs_themer()
 </div>
 <div id="dynamic" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dynamic" class="anchor"></a>Dynamic theming</h2>
+<a href="#dynamic" class="anchor" aria-hidden="true"></a>Dynamic theming</h2>
 <p>The functionality behind <a href="#real-time">real-time</a> theming can be leveraged in any Shiny app (or <code>runtime:shiny</code> Rmd doc) to implement your own custom theming widget (via <code>session$setCurrentTheme()</code>), like a dark mode switch:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">dark</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>bg <span class="op">=</span> <span class="st">"black"</span>, fg <span class="op">=</span> <span class="st">"white"</span>, primary <span class="op">=</span> <span class="st">"purple"</span><span class="op">)</span>
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
+<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="va">light</span>, 
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html">checkboxInput</a></span><span class="op">(</span><span class="st">"dark_mode"</span>, <span class="st">"Dark mode"</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html" class="external-link">checkboxInput</a></span><span class="op">(</span><span class="st">"dark_mode"</span>, <span class="st">"Dark mode"</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observe.html">observe</a></span><span class="op">(</span><span class="va">session</span><span class="op">$</span><span class="fu">setCurrentTheme</span><span class="op">(</span>
-    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isTRUE</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">dark_mode</span><span class="op">)</span><span class="op">)</span> <span class="va">dark</span> <span class="kw">else</span> <span class="va">light</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observe.html" class="external-link">observe</a></span><span class="op">(</span><span class="va">session</span><span class="op">$</span><span class="fu">setCurrentTheme</span><span class="op">(</span>
+    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">dark_mode</span><span class="op">)</span><span class="op">)</span> <span class="va">dark</span> <span class="kw">else</span> <span class="va">light</span>
   <span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></code></pre></div>
 <p><img src="dark-mode.gif" width="50%" style="display: block; margin: auto;"></p>
-<p>See the sections on <code>setCurrentTheme</code> and <code>getCurrentTheme</code> <a href="https://shiny.rstudio.com/reference/shiny/1.6.0/session.html">here</a> to learn more.</p>
+<p>See the sections on <code>setCurrentTheme</code> and <code>getCurrentTheme</code> <a href="https://shiny.rstudio.com/reference/shiny/1.6.0/session.html" class="external-link">here</a> to learn more.</p>
 </div>
 <div id="advanced" class="section level2">
 <h2 class="hasAnchor">
-<a href="#advanced" class="anchor"></a>Advanced theming</h2>
+<a href="#advanced" class="anchor" aria-hidden="true"></a>Advanced theming</h2>
 <div id="add-rules" class="section level3">
 <h3 class="hasAnchor">
-<a href="#add-rules" class="anchor"></a>Adding rules</h3>
-<p>A good amount of theming is possible by customizing Bootstrap Sass variables in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, but sometimes you may also want to add additional Sass/CSS rules. The <code><a href="../reference/bs_add_variables.html">bs_add_rules()</a></code> function makes this easy for Shiny usage. Here’s an example of adding <a href="https://github.com/nostalgic-css/NES.css/">nes.css</a>, which adds additional styles for things like the mouse cursor (on top of <code><a href="../reference/bs_theme.html">bs_theme()</a></code>s theming options).</p>
+<a href="#add-rules" class="anchor" aria-hidden="true"></a>Adding rules</h3>
+<p>A good amount of theming is possible by customizing Bootstrap Sass variables in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, but sometimes you may also want to add additional Sass/CSS rules. The <code><a href="../reference/bs_bundle.html">bs_add_rules()</a></code> function makes this easy for Shiny usage. Here’s an example of adding <a href="https://github.com/nostalgic-css/NES.css/" class="external-link">nes.css</a>, which adds additional styles for things like the mouse cursor (on top of <code><a href="../reference/bs_theme.html">bs_theme()</a></code>s theming options).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>
   bg <span class="op">=</span> <span class="st">"#e5e5e5"</span>, fg <span class="op">=</span> <span class="st">"#0d0c0c"</span>, primary <span class="op">=</span> <span class="st">"#dd2020"</span>,
@@ -334,11 +336,11 @@ bslib::bs_themer()
   code_font <span class="op">=</span> <span class="fu"><a href="../reference/font_face.html">font_google</a></span><span class="op">(</span><span class="st">"Press Start 2P"</span><span class="op">)</span>,
   <span class="st">"font-size-base"</span> <span class="op">=</span> <span class="st">"0.75rem"</span>, <span class="st">"enable-rounded"</span> <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/bs_add_variables.html">bs_add_rules</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/bs_bundle.html">bs_add_rules</a></span><span class="op">(</span>
     <span class="st">'@import "https://unpkg.com/nes.css@latest/css/nes.min.css"'</span>
   <span class="op">)</span></code></pre></div>
 <p><img src="nes.png" width="100%" style="display: block; margin: auto;"></p>
-<p>In the R Markdown case, it’s recommended that additional CSS (or Sass) rules come through the <code>css</code> parameter, but you may also use the <code>bslib</code> engine. As with <code><a href="../reference/bs_add_variables.html">bs_add_rules()</a></code>, these rules can reference Bootstrap Sass variables as well as utilize convenient Sass mixins or functions like <a href="https://github.com/rstudio/bslib/blob/c95d6b/inst/sass-utils/color-contrast.scss#L9"><code>color-contrast()</code></a>, <a href="https://sass-lang.com/documentation/modules/color#mix"><code>mix()</code></a>, etc.</p>
+<p>In the R Markdown case, it’s recommended that additional CSS (or Sass) rules come through the <code>css</code> parameter, but you may also use the <code>bslib</code> engine. As with <code><a href="../reference/bs_bundle.html">bs_add_rules()</a></code>, these rules can reference Bootstrap Sass variables as well as utilize convenient Sass mixins or functions like <a href="https://github.com/rstudio/bslib/blob/c95d6b/inst/sass-utils/color-contrast.scss#L9" class="external-link"><code>color-contrast()</code></a>, <a href="https://sass-lang.com/documentation/modules/color#mix" class="external-link"><code>mix()</code></a>, etc.</p>
 <pre><code>---
 output:
   html_document:
@@ -362,24 +364,24 @@ Hello custom block with custom styles!
 </div>
 <div id="utility-classes" class="section level3">
 <h3 class="hasAnchor">
-<a href="#utility-classes" class="anchor"></a>Utility Classes</h3>
+<a href="#utility-classes" class="anchor" aria-hidden="true"></a>Utility Classes</h3>
 <p>With <a href="#versions">Bootstrap 4 (or higher)</a>, you can use utility classes to easily add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. See the article on <a href="utility-classes.html">Utility Classes</a> for some useful examples specific to Shiny and R Markdown.</p>
 </div>
 </div>
 <div id="component-support" class="section level2">
 <h2 class="hasAnchor">
-<a href="#component-support" class="anchor"></a>Component support</h2>
+<a href="#component-support" class="anchor" aria-hidden="true"></a>Component support</h2>
 <p>Below is a list of known-to-be themeable HTML components that “just work” well with custom real-time themes:</p>
 <ul>
 <li>
-<p>All of “core” Shiny UI (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html">sliderInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/selectInput.html">selectInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage()</a></code>, etc.)</p>
+<p>All of “core” Shiny UI (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html" class="external-link">sliderInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">navbarPage()</a></code>, etc.)</p>
 <ul>
-<li>The one exception is <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html">plotOutput()</a></code>, but in that case, <a href="https://rstudio.github.io/thematic/articles/auto.html">the <code>{thematic}</code> package can be used to essentially translate CSS to R plot theming defaults</a>. Just put <code>thematic_shiny()</code> in your Shiny apps and <code>thematic_rmd()</code> in your R Markdown documents.</li>
+<li>The one exception is <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>, but in that case, <a href="https://rstudio.github.io/thematic/articles/auto.html" class="external-link">the <code>{thematic}</code> package can be used to essentially translate CSS to R plot theming defaults</a>. Just put <code>thematic_shiny()</code> in your Shiny apps and <code>thematic_rmd()</code> in your R Markdown documents.</li>
 </ul>
 </li>
-<li><p>All of <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html">rmarkdown::html_document()</a></code> specific <a href="https://bookdown.org/yihui/rmarkdown/html-document.html">features</a> as well as <a href="https://flexdashboard-pkg.netlify.app/articles/theme.html"><code>{flexdashboard}</code></a>.</p></li>
+<li><p>All of <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document()</a></code> specific <a href="https://bookdown.org/yihui/rmarkdown/html-document.html" class="external-link">features</a> as well as <a href="https://flexdashboard-pkg.netlify.app/articles/theme.html" class="external-link"><code>{flexdashboard}</code></a>.</p></li>
 <li><p>Any un-styled HTML content (e.g., <code>tags$input(type = "checkbox")</code>).</p></li>
-<li><p>Some <a href="https://github.com/ramnathv/htmlwidgets">htmlwidgets</a> like <a href="https://github.com/rstudio/DT">DT</a> and <code>{plotly}</code> (only <code>ggplotly()</code> is supported through <a href="https://rstudio.github.io/thematic/">thematic</a> right now)</p></li>
+<li><p>Some <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a> like <a href="https://github.com/rstudio/DT" class="external-link">DT</a> and <code>{plotly}</code> (only <code>ggplotly()</code> is supported through <a href="https://rstudio.github.io/thematic/" class="external-link">thematic</a> right now)</p></li>
 </ul>
 <p>Over time, we’re hoping this list grows as package authors and developers embrace <code>bslib</code>’s tools for making <a href="custom-components.html">themeable custom components</a>.</p>
 </div>
@@ -396,13 +398,13 @@ Hello custom block with custom styles!
 
 
       <footer><div class="tidyverse">
-  <p><b>bslib</b> is an R package developed by <a href="https://rstudio.com">RStudio</a></p>
+  <p><b>bslib</b> is an R package developed by <a href="https://rstudio.com" class="external-link">RStudio</a></p>
 </div>
 
 <div class="author">
   <p>
     Developed by Carson Sievert, Joe Cheng.
-    Site built with <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Site built with <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 

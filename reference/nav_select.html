@@ -80,9 +80,15 @@ specified." />
 <script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -177,7 +183,7 @@ remove nav items). These functions require an <code>id</code> on the nav contain
 specified.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nav_select</span><span class='op'>(</span><span class='va'>id</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, session <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>nav_select</span><span class='op'>(</span><span class='va'>id</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, session <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='fu'>nav_insert</span><span class='op'>(</span>
   <span class='va'>id</span>,
@@ -192,7 +198,7 @@ specified.</p>
 
 <span class='fu'>nav_show</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>target</span>, select <span class='op'>=</span> <span class='cn'>FALSE</span>, session <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>nav_hide</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>target</span>, session <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='fu'>nav_hide</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>target</span>, session <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,7 +209,7 @@ specified.</p>
     </tr>
     <tr>
       <th>selected</th>
-      <td><p>a character string used to identify a particular <code><a href='nav_item.html'>nav()</a></code> item.</p></td>
+      <td><p>a character string used to identify a particular <code><a href='nav.html'>nav()</a></code> item.</p></td>
     </tr>
     <tr>
       <th>session</th>
@@ -211,11 +217,11 @@ specified.</p>
     </tr>
     <tr>
       <th>nav</th>
-      <td><p>a <code><a href='nav_item.html'>nav()</a></code> item.</p></td>
+      <td><p>a <code><a href='nav.html'>nav()</a></code> item.</p></td>
     </tr>
     <tr>
       <th>target</th>
-      <td><p>The <code>value</code> of an existing <code><a href='nav_item.html'>nav()</a></code> item, next to which tab will be added. If removing: the <code>value</code> of the <code><a href='nav_item.html'>nav()</a></code> item that you want to remove.</p></td>
+      <td><p>The <code>value</code> of an existing <code><a href='nav.html'>nav()</a></code> item, next to which tab will be added. If removing: the <code>value</code> of the <code><a href='nav.html'>nav()</a></code> item that you want to remove.</p></td>
     </tr>
     <tr>
       <th>position</th>
@@ -229,56 +235,56 @@ specified.</p>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='nav_item.html'>nav()</a></code>, <code><a href='navs_tab.html'>navs_tab()</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='nav.html'>nav()</a></code>, <code><a href='navs.html'>navs_tab()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>can_browse</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://shiny.rstudio.com/'>"shiny"</a></span><span class='op'>)</span>
-
-<span class='co'># Selecting a tab</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'>can_browse</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span>
-    <span class='fu'><a href='page.html'>page_fluid</a></span><span class='op'>(</span>
-      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/radioButtons.html'>radioButtons</a></span><span class='op'>(</span><span class='st'>"item"</span>, <span class='st'>"Choose"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>,
-      <span class='fu'><a href='navs_tab.html'>navs_hidden</a></span><span class='op'>(</span>
-        id <span class='op'>=</span> <span class='st'>"container"</span>,
-        <span class='fu'><a href='nav_item.html'>nav_content</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"a"</span><span class='op'>)</span>,
-        <span class='fu'><a href='nav_item.html'>nav_content</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='st'>"b"</span><span class='op'>)</span>
-      <span class='op'>)</span>
-    <span class='op'>)</span>,
-    <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span><span class='op'>)</span> <span class='op'>{</span>
-      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observe.html'>observe</a></span><span class='op'>(</span><span class='fu'>nav_select</span><span class='op'>(</span><span class='st'>"container"</span>, <span class='va'>input</span><span class='op'>$</span><span class='va'>item</span><span class='op'>)</span><span class='op'>)</span>
-    <span class='op'>}</span>
-  <span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># Inserting and removing</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'>can_browse</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='page.html'>page_fluid</a></span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"add"</span>, <span class='st'>"Add 'Dynamic' tab"</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"remove"</span>, <span class='st'>"Remove 'Foo' tab"</span><span class='op'>)</span>,
-    <span class='fu'><a href='navs_tab.html'>navs_tab</a></span><span class='op'>(</span>
-      id <span class='op'>=</span> <span class='st'>"tabs"</span>,
-      <span class='fu'><a href='nav_item.html'>nav</a></span><span class='op'>(</span><span class='st'>"Hello"</span>, <span class='st'>"hello"</span><span class='op'>)</span>,
-      <span class='fu'><a href='nav_item.html'>nav</a></span><span class='op'>(</span><span class='st'>"Foo"</span>, <span class='st'>"foo"</span><span class='op'>)</span>,
-      <span class='fu'><a href='nav_item.html'>nav</a></span><span class='op'>(</span><span class='st'>"Bar"</span>, <span class='st'>"bar tab"</span><span class='op'>)</span>
-    <span class='op'>)</span>
-  <span class='op'>)</span>
-  <span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>add</span>, <span class='op'>{</span>
-      <span class='fu'>nav_insert</span><span class='op'>(</span>
-        <span class='st'>"tabs"</span>, target <span class='op'>=</span> <span class='st'>"Bar"</span>, select <span class='op'>=</span> <span class='cn'>TRUE</span>,
-        <span class='fu'><a href='nav_item.html'>nav</a></span><span class='op'>(</span><span class='st'>"Dynamic"</span>, <span class='st'>"Dynamically added content"</span><span class='op'>)</span>
-      <span class='op'>)</span>
-    <span class='op'>}</span><span class='op'>)</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>remove</span>, <span class='op'>{</span>
-      <span class='fu'>nav_remove</span><span class='op'>(</span><span class='st'>"tabs"</span>, target <span class='op'>=</span> <span class='st'>"Foo"</span><span class='op'>)</span>
-    <span class='op'>}</span><span class='op'>)</span>
-  <span class='op'>}</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='va'>server</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='va'>can_browse</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://shiny.rstudio.com/'>"shiny"</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Selecting a tab</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'>can_browse</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='page.html'>page_fluid</a></span><span class='op'>(</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/radioButtons.html'>radioButtons</a></span><span class='op'>(</span><span class='st'>"item"</span>, <span class='st'>"Choose"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='navs.html'>navs_hidden</a></span><span class='op'>(</span></span>
+<span class='r-in'>        id <span class='op'>=</span> <span class='st'>"container"</span>,</span>
+<span class='r-in'>        <span class='fu'><a href='nav.html'>nav_content</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"a"</span><span class='op'>)</span>,</span>
+<span class='r-in'>        <span class='fu'><a href='nav.html'>nav_content</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='st'>"b"</span><span class='op'>)</span></span>
+<span class='r-in'>      <span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observe.html'>observe</a></span><span class='op'>(</span><span class='fu'>nav_select</span><span class='op'>(</span><span class='st'>"container"</span>, <span class='va'>input</span><span class='op'>$</span><span class='va'>item</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>}</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Inserting and removing</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'>can_browse</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='page.html'>page_fluid</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"add"</span>, <span class='st'>"Add 'Dynamic' tab"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"remove"</span>, <span class='st'>"Remove 'Foo' tab"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='fu'><a href='navs.html'>navs_tab</a></span><span class='op'>(</span></span>
+<span class='r-in'>      id <span class='op'>=</span> <span class='st'>"tabs"</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='nav.html'>nav</a></span><span class='op'>(</span><span class='st'>"Hello"</span>, <span class='st'>"hello"</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='nav.html'>nav</a></span><span class='op'>(</span><span class='st'>"Foo"</span>, <span class='st'>"foo"</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='nav.html'>nav</a></span><span class='op'>(</span><span class='st'>"Bar"</span>, <span class='st'>"bar tab"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>add</span>, <span class='op'>{</span></span>
+<span class='r-in'>      <span class='fu'>nav_insert</span><span class='op'>(</span></span>
+<span class='r-in'>        <span class='st'>"tabs"</span>, target <span class='op'>=</span> <span class='st'>"Bar"</span>, select <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>        <span class='fu'><a href='nav.html'>nav</a></span><span class='op'>(</span><span class='st'>"Dynamic"</span>, <span class='st'>"Dynamically added content"</span><span class='op'>)</span></span>
+<span class='r-in'>      <span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>remove</span>, <span class='op'>{</span></span>
+<span class='r-in'>      <span class='fu'>nav_remove</span><span class='op'>(</span><span class='st'>"tabs"</span>, target <span class='op'>=</span> <span class='st'>"Foo"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>}</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='va'>server</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -322,6 +328,8 @@ specified.</p>
 </script>
 
 
+
+  
 
   </body>
 </html>

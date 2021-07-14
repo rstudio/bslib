@@ -30,6 +30,8 @@
 </script><!-- javascript assets for rmarkdown --><script src="../ace-1.2.3/ace.js" type="text/javascript" charset="utf-8"></script><script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script><script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -88,7 +90,7 @@
   <a href="../news/index.html">News</a>
 </li>
 <li>
-  <a href="https://github.com/rstudio/bslib">
+  <a href="https://github.com/rstudio/bslib" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -115,23 +117,23 @@
       <h1 data-toc-skip>Why Sass over CSS?</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/why-sass.Rmd"><code>vignettes/why-sass.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/why-sass.Rmd" class="external-link"><code>vignettes/why-sass.Rmd</code></a></small>
       <div class="hidden name"><code>why-sass.Rmd</code></div>
 
     </div>
 
     
     
-<p><a href="https://sass-lang.com/">Sass</a> is an CSS extension language that helps reduce complexity and increase composability when styling a website. <a href="">Bootstrap Sass</a> is just one example of a Sass-based project that exposes Sass variables to allow users to easily customize CSS styles.</p>
+<p><a href="https://sass-lang.com/" class="external-link">Sass</a> is an CSS extension language that helps reduce complexity and increase composability when styling a website. <a href="">Bootstrap Sass</a> is just one example of a Sass-based project that exposes Sass variables to allow users to easily customize CSS styles.</p>
 <p>TODO: do a better job here</p>
-<p>When a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> is used with Shiny or R Markdown, the <a href="https://github.com/rstudio/sass">sass</a> object underlying the theme object is <a href="https://rstudio.github.io/sass/articles/sass.html#why">compiled into CSS</a> at run-time. Compared to custom theming by overlaying additional CSS rules (which, historically, has been the only way to implement custom themes), there are at least a few huge benefits in taking the Sass based approach:</p>
+<p>When a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> is used with Shiny or R Markdown, the <a href="https://github.com/rstudio/sass" class="external-link">sass</a> object underlying the theme object is <a href="https://rstudio.github.io/sass/articles/sass.html#why" class="external-link">compiled into CSS</a> at run-time. Compared to custom theming by overlaying additional CSS rules (which, historically, has been the only way to implement custom themes), there are at least a few huge benefits in taking the Sass based approach:</p>
 <ul>
 <li><p><a href="variables.html">Sass variables</a> (e.g., <code>$border-radius</code>) provide a useful abstraction to not only reduce the amount of code you need to write, but it also protects you from future changes in HTML/CSS markup that may end up breaking your CSS rules.</p></li>
-<li><p>The <a href="https://sass-lang.com">Sass language</a> itself provides many useful tools for writing CSS more elegantly (i.e., <a href="https://sass-lang.com/documentation/variables">variables</a>, functions, and mixins) as well as many useful utiltiles for computing with CSS values (e.g., color</p></li>
+<li><p>The <a href="https://sass-lang.com" class="external-link">Sass language</a> itself provides many useful tools for writing CSS more elegantly (i.e., <a href="https://sass-lang.com/documentation/variables" class="external-link">variables</a>, functions, and mixins) as well as many useful utiltiles for computing with CSS values (e.g., color</p></li>
 <li>
-<p>Sass variables not only generate a custom build of Bootstrap CSS (thus, avoiding duplicated CSS rules), but it also gives 3rd party components the opportunity to provide better default styles based on underlying <a href="https://github.com/rstudio/sass">sass</a> object (thanks to <a href="https://rstudio.github.io/bslib/">bslib</a>’s <a href="#custom-components">theming tools for custom components</a>).</p>
+<p>Sass variables not only generate a custom build of Bootstrap CSS (thus, avoiding duplicated CSS rules), but it also gives 3rd party components the opportunity to provide better default styles based on underlying <a href="https://github.com/rstudio/sass" class="external-link">sass</a> object (thanks to <a href="https://rstudio.github.io/bslib/">bslib</a>’s <a href="#custom-components">theming tools for custom components</a>).</p>
 <ul>
-<li>This shift in approach allows sophisticated, custom, components like <code><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html">shiny::sliderInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/dateRangeInput.html">shiny::dateRangeInput()</a></code>, <code><a href="https://rdrr.io/pkg/DT/man/datatable.html">DT::datatable()</a></code>, etc. “just work” with custom and <a href="#dynamic-shiny">dynamically updating themes</a>.</li>
+<li>This shift in approach allows sophisticated, custom, components like <code><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html" class="external-link">shiny::sliderInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/dateRangeInput.html" class="external-link">shiny::dateRangeInput()</a></code>, <code><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">DT::datatable()</a></code>, etc. “just work” with custom and <a href="#dynamic-shiny">dynamically updating themes</a>.</li>
 </ul>
 </li>
 </ul>
@@ -146,13 +148,13 @@
 
 
       <footer><div class="tidyverse">
-  <p><b>bslib</b> is an R package developed by <a href="https://rstudio.com">RStudio</a></p>
+  <p><b>bslib</b> is an R package developed by <a href="https://rstudio.com" class="external-link">RStudio</a></p>
 </div>
 
 <div class="author">
   <p>
     Developed by Carson Sievert, Joe Cheng.
-    Site built with <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Site built with <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 

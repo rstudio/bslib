@@ -78,9 +78,15 @@
 <script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -173,9 +179,9 @@
     <p>Remove or retrieve Sass code from a theme</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_remove</span><span class='op'>(</span><span class='va'>theme</span>, ids <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>bs_remove</span><span class='op'>(</span><span class='va'>theme</span>, ids <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>bs_retrieve</span><span class='op'>(</span><span class='va'>theme</span>, ids <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>, include_unnamed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='fu'>bs_retrieve</span><span class='op'>(</span><span class='va'>theme</span>, ids <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>, include_unnamed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,131 +206,133 @@
     <p>a modified <code><a href='bs_theme.html'>bs_theme()</a></code> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># Remove CSS rules for print and carousels</span>
-<span class='va'>bs4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>version <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'>bs_remove</span><span class='op'>(</span><span class='va'>bs4</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_print"</span>, <span class='st'>"_carousel"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; /* Sass Bundle: _root, _reboot, _type, _images, _code, _grid, _tables, _forms, _buttons, _transitions, _dropdown, _button-group, _input-group, _custom-forms, _nav, _navbar, _card, _breadcrumb, _pagination, _badge, _jumbotron, _alert, _progress, _media, _list-group, _close, _toasts, _modal, _tooltip, _popover, _spinners, _utilities, bs3compat, nav_spacer */
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_deprecated.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_functions.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/sass-utils/color-contrast.scss";
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; @import "/home/runner/work/_temp/Library/bslib/bs3compat/_defaults.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_variables.scss";
-#&gt; $bootstrap-version: 4;
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_mixins.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/bs3compat/_declarations.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_root.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_reboot.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_type.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_images.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_code.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_grid.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_tables.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_forms.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_buttons.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_transitions.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_dropdown.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_button-group.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_input-group.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_custom-forms.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_nav.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_navbar.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_card.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_breadcrumb.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_pagination.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_badge.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_jumbotron.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_alert.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_progress.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_media.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_list-group.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_close.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_toasts.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_modal.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_tooltip.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_popover.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_spinners.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_utilities.scss";
-#&gt; .table th[align=left] { text-align: left; }
-#&gt; .table th[align=right] { text-align: right; }
-#&gt; .table th[align=center] { text-align: center; }
-#&gt; @import "/home/runner/work/_temp/Library/bslib/bs3compat/_rules.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/nav-spacer/nav-spacer.scss";
-#&gt; /* *** */
-#&gt; 
-#&gt; Other Sass Bundle information:
-#&gt; List of 2
-#&gt;  $ html_deps       :List of 1
-#&gt;   ..$ :List of 10
-#&gt;   .. ..$ name      : chr "bs3compat"
-#&gt;   .. ..$ version   : chr "0.2.5.9002"
-#&gt;   .. ..$ src       :List of 1
-#&gt;   .. .. ..$ file: chr "bs3compat/js"
-#&gt;   .. ..$ meta      : NULL
-#&gt;   .. ..$ script    : chr [1:3] "transition.js" "tabs.js" "bs3compat.js"
-#&gt;   .. ..$ stylesheet: NULL
-#&gt;   .. ..$ head      : NULL
-#&gt;   .. ..$ attachment: NULL
-#&gt;   .. ..$ package   : chr "bslib"
-#&gt;   .. ..$ all_files : logi TRUE
-#&gt;   .. ..- attr(*, "class")= chr "html_dependency"
-#&gt;  $ file_attachments: Named chr "/home/runner/work/_temp/Library/bslib/lib/bs3/assets/fonts"
-#&gt;   ..- attr(*, "names")= chr "fonts"</div><div class='input'>
-<span class='co'># Remove BS3 compatibility layer</span>
-<span class='fu'>bs_remove</span><span class='op'>(</span><span class='va'>bs4</span>, <span class='st'>"bs3compat"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; /* Sass Bundle: _root, _reboot, _type, _images, _code, _grid, _tables, _forms, _buttons, _transitions, _dropdown, _button-group, _input-group, _custom-forms, _nav, _navbar, _card, _breadcrumb, _pagination, _badge, _jumbotron, _alert, _progress, _media, _list-group, _close, _toasts, _modal, _tooltip, _popover, _carousel, _spinners, _utilities, _print, nav_spacer */
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_deprecated.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_functions.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/sass-utils/color-contrast.scss";
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_variables.scss";
-#&gt; $bootstrap-version: 4;
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_mixins.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_root.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_reboot.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_type.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_images.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_code.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_grid.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_tables.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_forms.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_buttons.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_transitions.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_dropdown.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_button-group.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_input-group.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_custom-forms.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_nav.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_navbar.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_card.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_breadcrumb.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_pagination.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_badge.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_jumbotron.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_alert.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_progress.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_media.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_list-group.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_close.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_toasts.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_modal.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_tooltip.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_popover.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_carousel.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_spinners.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_utilities.scss";
-#&gt; @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_print.scss";
-#&gt; .table th[align=left] { text-align: left; }
-#&gt; .table th[align=right] { text-align: right; }
-#&gt; .table th[align=center] { text-align: center; }
-#&gt; @import "/home/runner/work/_temp/Library/bslib/nav-spacer/nav-spacer.scss";
-#&gt; /* *** */</div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='co'># Remove CSS rules for print and carousels</span></span>
+<span class='r-in'><span class='va'>bs4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>version <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>bs_remove</span><span class='op'>(</span><span class='va'>bs4</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_print"</span>, <span class='st'>"_carousel"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* Sass Bundle: _root, _reboot, _type, _images, _code, _grid, _tables, _forms, _buttons, _transitions, _dropdown, _button-group, _input-group, _custom-forms, _nav, _navbar, _card, _breadcrumb, _pagination, _badge, _jumbotron, _alert, _progress, _media, _list-group, _close, _toasts, _modal, _tooltip, _popover, _spinners, _utilities, bs3compat, nav_spacer */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_deprecated.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_functions.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/sass-utils/color-contrast.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/bs3compat/_defaults.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_variables.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bootstrap-version: 4;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_mixins.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/bs3compat/_declarations.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_root.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_reboot.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_type.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_images.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_code.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_grid.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_tables.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_forms.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_buttons.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_transitions.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_dropdown.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_button-group.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_input-group.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_custom-forms.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_nav.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_navbar.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_card.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_breadcrumb.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_pagination.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_badge.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_jumbotron.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_alert.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_progress.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_media.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_list-group.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_close.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_toasts.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_modal.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_tooltip.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_popover.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_spinners.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_utilities.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> .table th[align=left] { text-align: left; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> .table th[align=right] { text-align: right; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> .table th[align=center] { text-align: center; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/bs3compat/_rules.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/nav-spacer/nav-spacer.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* *** */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Other Sass Bundle information:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> List of 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ html_deps       :List of 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ name      : chr "bs3compat"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ version   : chr "0.2.5.9002"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ src       :List of 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. .. ..$ file: chr "bs3compat/js"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ meta      : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ script    : chr [1:3] "transition.js" "tabs.js" "bs3compat.js"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ stylesheet: NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ head      : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ attachment: NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ package   : chr "bslib"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ all_files : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..- attr(*, "class")= chr "html_dependency"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ file_attachments: Named chr "/home/runner/work/_temp/Library/bslib/lib/bs3/assets/fonts"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "names")= chr "fonts"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Remove BS3 compatibility layer</span></span>
+<span class='r-in'><span class='fu'>bs_remove</span><span class='op'>(</span><span class='va'>bs4</span>, <span class='st'>"bs3compat"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* Sass Bundle: _root, _reboot, _type, _images, _code, _grid, _tables, _forms, _buttons, _transitions, _dropdown, _button-group, _input-group, _custom-forms, _nav, _navbar, _card, _breadcrumb, _pagination, _badge, _jumbotron, _alert, _progress, _media, _list-group, _close, _toasts, _modal, _tooltip, _popover, _carousel, _spinners, _utilities, _print, nav_spacer */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_deprecated.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_functions.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/sass-utils/color-contrast.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_variables.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bootstrap-version: 4;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_mixins.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_root.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_reboot.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_type.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_images.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_code.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_grid.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_tables.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_forms.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_buttons.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_transitions.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_dropdown.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_button-group.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_input-group.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_custom-forms.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_nav.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_navbar.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_card.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_breadcrumb.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_pagination.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_badge.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_jumbotron.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_alert.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_progress.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_media.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_list-group.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_close.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_toasts.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_modal.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_tooltip.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_popover.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_carousel.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_spinners.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_utilities.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_print.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> .table th[align=left] { text-align: left; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> .table th[align=right] { text-align: right; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> .table th[align=center] { text-align: center; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/nav-spacer/nav-spacer.scss";</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* *** */</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -368,6 +376,8 @@
 </script>
 
 
+
+  
 
   </body>
 </html>

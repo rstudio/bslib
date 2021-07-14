@@ -27,9 +27,15 @@
   gtag('js', new Date());
 
   gtag('config', 'UA-115082821-1');
-</script><!-- javascript assets for rmarkdown --><script src="ace-1.2.3/ace.js" type="text/javascript" charset="utf-8"></script><script src="holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script><script src="snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
+</script><!-- javascript assets for rmarkdown --><script src="ace-1.2.3/ace.js" type="text/javascript" charset="utf-8"></script><script src="holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script><script src="snippets/snippets.js" type="text/javascript" charset="utf-8"></script><!-- from quillt: JS redirect for homepage --><script>
+  if (!/(\/|html?)$/.test(window.location.href)){
+    window.location.replace(window.location.href + '/');
+  }
+</script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -119,8 +125,8 @@
 </style>
 <div id="bslib" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#bslib" class="anchor"></a>bslib</h1></div>
-<p>The <code>bslib</code> R package provides tools for customizing <a href="https://getbootstrap.com/docs/4.6/getting-started/theming/">Bootstrap themes</a> directly from R, making it much easier to customize the appearance of <a href="https://shiny.rstudio.com/">Shiny</a> apps &amp; <a href="https://rmarkdown.rstudio.com/">R Markdown</a> documents. <code>bslib</code>’s primary goals are:</p>
+<a href="#bslib" class="anchor" aria-hidden="true"></a>bslib</h1></div>
+<p>The <code>bslib</code> R package provides tools for customizing <a href="https://getbootstrap.com/docs/4.6/getting-started/theming/" class="external-link">Bootstrap themes</a> directly from R, making it much easier to customize the appearance of <a href="https://shiny.rstudio.com/" class="external-link">Shiny</a> apps &amp; <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> documents. <code>bslib</code>’s primary goals are:</p>
 <ul>
 <li>Make <a href="https://rstudio.github.io/bslib/articles/bslib.html#custom">custom theming</a> as easy as possible.
 <ul>
@@ -135,36 +141,36 @@
 </li>
 <li>Serve as a general foundation for Shiny and R Markdown extension packages.
 <ul>
-<li>Extensions such as <a href="https://flexdashboard-pkg.netlify.app/articles/theme.html"><code>flexdashboard</code></a>, <a href="https://pkgdown.r-lib.org/dev/articles/customization.html"><code>pkgdown</code></a>, and <a href="https://pkgs.rstudio.com/bookdown/reference/bs4_book.html"><code>bookdown</code></a> already fully support <a href="https://rstudio.github.io/bslib/articles/bslib.html#custom"><code>bslib</code>’s custom theming capabilities</a>.</li>
+<li>Extensions such as <a href="https://flexdashboard-pkg.netlify.app/articles/theme.html" class="external-link"><code>flexdashboard</code></a>, <a href="https://pkgdown.r-lib.org/dev/articles/customization.html" class="external-link"><code>pkgdown</code></a>, and <a href="https://pkgs.rstudio.com/bookdown/reference/bs4_book.html" class="external-link"><code>bookdown</code></a> already fully support <a href="https://rstudio.github.io/bslib/articles/bslib.html#custom"><code>bslib</code>’s custom theming capabilities</a>.</li>
 </ul>
 </li>
 </ul>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
 <p>Install the stable release of <code>bslib</code> on CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"bslib"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"bslib"</span><span class="op">)</span></code></pre></div>
 <p>Usage with Shiny requires version 1.6 or higher:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
 <p>Usage with R Markdown requires version 2.7 or higher:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rmarkdown"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rmarkdown"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#basic-usage" class="anchor"></a>Basic usage</h2>
-<p><code>bslib</code> is designed for use with any Shiny or R Markdown project that uses Bootstrap. In most cases, you can identify a project that uses Bootstrap when the relevant page constructor has a <code>theme</code> parameter. For example, most Shiny page layout functions (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">shiny::navbarPage()</a></code>) and some popular R Markdown formats (e.g., <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html">rmarkdown::html_document</a></code>) all have a <code>theme</code> parameter.</p>
+<a href="#basic-usage" class="anchor" aria-hidden="true"></a>Basic usage</h2>
+<p><code>bslib</code> is designed for use with any Shiny or R Markdown project that uses Bootstrap. In most cases, you can identify a project that uses Bootstrap when the relevant page constructor has a <code>theme</code> parameter. For example, most Shiny page layout functions (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarPage()</a></code>) and some popular R Markdown formats (e.g., <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document</a></code>) all have a <code>theme</code> parameter.</p>
 <p>To use <code>bslib</code> in Shiny, provide a <code><a href="reference/bs_theme.html">bs_theme()</a></code> <em>object</em> to the <code>theme</code> parameter; and in R Markdown, provide <code><a href="reference/bs_theme.html">bs_theme()</a></code> <em>parameters</em> to <code>theme</code>. For example, here’s a way to upgrade Shiny (left) and R Markdown (right) from Bootstrap 3 to 4:</p>
 <div class="usage">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/">shiny</a></span><span class="op">)</span>
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span>
+<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">navbarPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="fu"><a href="reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>version <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">---</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>output<span class="op">:</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span>html_document<span class="op">:</span></span>
@@ -178,17 +184,17 @@
 </div>
 <div id="getting-help" class="section level2">
 <h2 class="hasAnchor">
-<a href="#getting-help" class="anchor"></a>Getting help</h2>
+<a href="#getting-help" class="anchor" aria-hidden="true"></a>Getting help</h2>
 <p>There are two main places to get help with <code>bslib</code>:</p>
 <ul>
-<li><p>The <a href="https://community.rstudio.com">RStudio community</a> is a friendly place to ask any questions (be sure to add a <code>bslib</code> tag when creating a topic).</p></li>
-<li><p><a href="https://stackoverflow.com/questions/tagged/bslib">Stack Overflow</a> is a great source of answers to common <code>bslib</code> questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Use the tags <a href="https://stackoverflow.com/questions/tagged/bslib+r"><code>[r][bslib]</code></a> if you ask a question. Add the tag <code>[bslib]</code> if you are using a Shiny runtime.</p></li>
+<li><p>The <a href="https://community.rstudio.com" class="external-link">RStudio community</a> is a friendly place to ask any questions (be sure to add a <code>bslib</code> tag when creating a topic).</p></li>
+<li><p><a href="https://stackoverflow.com/questions/tagged/bslib" class="external-link">Stack Overflow</a> is a great source of answers to common <code>bslib</code> questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Use the tags <a href="https://stackoverflow.com/questions/tagged/bslib+r" class="external-link"><code>[r][bslib]</code></a> if you ask a question. Add the tag <code>[bslib]</code> if you are using a Shiny runtime.</p></li>
 </ul>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the bslib project is released with a <a href="https://github.com/rstudio/bslib/blob/master/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<a href="#code-of-conduct" class="anchor" aria-hidden="true"></a>Code of Conduct</h2>
+<p>Please note that the bslib project is released with a <a href="https://github.com/rstudio/bslib/blob/master/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 
@@ -196,7 +202,7 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=bslib">https://​cloud.r-project.org/​package=bslib</a>
 </li>
@@ -206,38 +212,42 @@
 </li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>
 <a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Carson Sievert <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4958-2844" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Joe Cheng <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html">More on authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=bslib"><img src="https://www.r-pkg.org/badges/version/bslib" alt="CRAN status"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://github.com/rstudio/bslib/actions"><img src="https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://cran.r-project.org/package=bslib" class="external-link"><img src="https://www.r-pkg.org/badges/version/bslib" alt="CRAN status"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://github.com/rstudio/bslib/actions" class="external-link"><img src="https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 

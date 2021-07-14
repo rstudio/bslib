@@ -85,9 +85,15 @@ chunk). Note that this function is only intended to be used for development!" />
 <script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -187,9 +193,9 @@ Markdown app that is using <code>runtime: shiny</code>, you can call this from a
 chunk). Note that this function is only intended to be used for development!</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_with_themer</span><span class='op'>(</span>appDir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span>, gfonts <span class='op'>=</span> <span class='cn'>TRUE</span>, gfonts_update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>run_with_themer</span><span class='op'>(</span>appDir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span>, gfonts <span class='op'>=</span> <span class='cn'>TRUE</span>, gfonts_update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>bs_themer</span><span class='op'>(</span>gfonts <span class='op'>=</span> <span class='cn'>TRUE</span>, gfonts_update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+<span class='fu'>bs_themer</span><span class='op'>(</span>gfonts <span class='op'>=</span> <span class='cn'>TRUE</span>, gfonts_update <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -240,35 +246,35 @@ rendered through a <code>context="server"</code> may update in real-time.</p></l
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://shiny.rstudio.com/'>shiny</a></span><span class='op'>)</span>
-
-<span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span><span class='op'>(</span>
-  theme <span class='op'>=</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>bg <span class='op'>=</span> <span class='st'>"black"</span>, fg <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h1</a></span><span class='op'>(</span><span class='st'>"Heading 1"</span><span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h2</a></span><span class='op'>(</span><span class='st'>"Heading 2"</span><span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span><span class='op'>(</span>
-    <span class='st'>"Paragraph text;"</span>,
-    <span class='va'>tags</span><span class='op'>$</span><span class='fu'>a</span><span class='op'>(</span>href <span class='op'>=</span> <span class='st'>"https://www.rstudio.com"</span>, <span class='st'>"a link"</span><span class='op'>)</span>
-  <span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"cancel"</span>, <span class='st'>"Cancel"</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"continue"</span>, <span class='st'>"Continue"</span>, class <span class='op'>=</span> <span class='st'>"btn-primary"</span><span class='op'>)</span>
-  <span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tabsetPanel.html'>tabsetPanel</a></span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tabPanel.html'>tabPanel</a></span><span class='op'>(</span><span class='st'>"First tab"</span>,
-      <span class='st'>"The contents of the first tab"</span>
-    <span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tabPanel.html'>tabPanel</a></span><span class='op'>(</span><span class='st'>"Second tab"</span>,
-      <span class='st'>"The contents of the second tab"</span>
-    <span class='op'>)</span>
-  <span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'>run_with_themer</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span><span class='op'>)</span> <span class='op'>{</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://shiny.rstudio.com/'>shiny</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span><span class='op'>(</span></span>
+<span class='r-in'>  theme <span class='op'>=</span> <span class='fu'><a href='bs_theme.html'>bs_theme</a></span><span class='op'>(</span>bg <span class='op'>=</span> <span class='st'>"black"</span>, fg <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h1</a></span><span class='op'>(</span><span class='st'>"Heading 1"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h2</a></span><span class='op'>(</span><span class='st'>"Heading 2"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='st'>"Paragraph text;"</span>,</span>
+<span class='r-in'>    <span class='va'>tags</span><span class='op'>$</span><span class='fu'>a</span><span class='op'>(</span>href <span class='op'>=</span> <span class='st'>"https://www.rstudio.com"</span>, <span class='st'>"a link"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"cancel"</span>, <span class='st'>"Cancel"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span><span class='op'>(</span><span class='st'>"continue"</span>, <span class='st'>"Continue"</span>, class <span class='op'>=</span> <span class='st'>"btn-primary"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tabsetPanel.html'>tabsetPanel</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tabPanel.html'>tabPanel</a></span><span class='op'>(</span><span class='st'>"First tab"</span>,</span>
+<span class='r-in'>      <span class='st'>"The contents of the first tab"</span></span>
+<span class='r-in'>    <span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tabPanel.html'>tabPanel</a></span><span class='op'>(</span><span class='st'>"Second tab"</span>,</span>
+<span class='r-in'>      <span class='st'>"The contents of the second tab"</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'>run_with_themer</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span><span class='op'>)</span> <span class='op'>{</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -312,6 +318,8 @@ rendered through a <code>context="server"</code> may update in real-time.</p></l
 </script>
 
 
+
+  
 
   </body>
 </html>

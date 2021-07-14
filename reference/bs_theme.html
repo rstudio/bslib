@@ -86,9 +86,15 @@ To learn more about how to implement custom themes, as well as how to use them i
 <script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -189,7 +195,7 @@ To learn more about how to implement custom themes, as well as how to use them i
 <p>To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, <a href='https://rstudio.github.io/bslib/articles/bslib.html'>see here</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bs_theme</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>bs_theme</span><span class='op'>(</span>
   version <span class='op'>=</span> <span class='fu'><a href='versions.html'>version_default</a></span><span class='op'>(</span><span class='op'>)</span>,
   bootswatch <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>,
@@ -225,7 +231,7 @@ To learn more about how to implement custom themes, as well as how to use them i
   font_scale <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span>
 
-<span class='fu'>is_bs_theme</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+<span class='fu'>is_bs_theme</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,7 +251,7 @@ Bootswatch theme is first removed before the new one is applied (use
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments passed along to <code><a href='bs_add_variables.html'>bs_add_variables()</a></code>.</p></td>
+      <td><p>arguments passed along to <code><a href='bs_bundle.html'>bs_add_variables()</a></code>.</p></td>
     </tr>
     <tr>
       <th>bg</th>
@@ -342,20 +348,20 @@ character vector can have:</p><ul>
 <li><p>A single unquoted name (e.g., <code>"Source Sans Pro"</code>).</p></li>
 <li><p>A single quoted name (e.g., <code>"'Source Sans Pro'"</code>).</p></li>
 <li><p>A comma-separated list of names w/ individual names quoted as necessary.
-(e.g. <code><a href='https://rdrr.io/r/base/c.html'>c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")</a></code>)</p></li>
+(e.g. <code>c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")</code>)</p></li>
 </ul>
 
-<p>Since <code><a href='font_face.html'>font_google(..., local = TRUE)</a></code> guarantees that the client has access to
+<p>Since <code>font_google(..., local = TRUE)</code> guarantees that the client has access to
 the font family, meaning it's relatively safe to specify just one font
-family, for instance:</p><pre><span class='fu'>bs_theme</span><span class='op'>(</span>base_font <span class='op'>=</span> <span class='fu'><a href='font_face.html'>font_google</a></span><span class='op'>(</span><span class='st'>"Pacifico"</span>, local <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</pre>
+family, for instance:</p><pre class='sourceCode r'><code><span class='fu'>bs_theme</span><span class='op'>(</span>base_font <span class='op'>=</span> <span class='fu'><a href='font_face.html'>font_google</a></span><span class='op'>(</span><span class='st'>"Pacifico"</span>, local <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
 
 <p>However, specifying multiple "fallback" font families is recommended,
 especially when relying on remote and/or system fonts being available, for
 instance. Fallback fonts are useful not only for handling missing fonts, but
 also for handling a Flash of Invisible Text (FOIT) which can be quite
-noticeable with remote web fonts on a slow internet connection.</p><pre>bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
-</pre>
+noticeable with remote web fonts on a slow internet connection.</p><pre><code>bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
+</code></pre>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -363,31 +369,31 @@ noticeable with remote web fonts on a slow internet connection.</p><pre>bs_theme
 <p><a href='https://rstudio.github.io/sass/'>https://rstudio.github.io/sass/</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='bs_add_variables.html'>bs_add_variables()</a></code>, <code><a href='bs_theme_preview.html'>bs_theme_preview()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='bs_bundle.html'>bs_add_variables()</a></code>, <code><a href='bs_theme_preview.html'>bs_theme_preview()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'>bs_theme</span><span class='op'>(</span>
-  <span class='co'># Controls the default grayscale palette</span>
-  bg <span class='op'>=</span> <span class='st'>"#202123"</span>, fg <span class='op'>=</span> <span class='st'>"#B8BCC2"</span>,
-  <span class='co'># Controls the accent (e.g., hyperlink, button, etc) colors</span>
-  primary <span class='op'>=</span> <span class='st'>"#EA80FC"</span>, secondary <span class='op'>=</span> <span class='st'>"#48DAC6"</span>,
-  base_font <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Grandstander"</span>, <span class='st'>"sans-serif"</span><span class='op'>)</span>,
-  code_font <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Courier"</span>, <span class='st'>"monospace"</span><span class='op'>)</span>,
-  heading_font <span class='op'>=</span> <span class='st'>"'Helvetica Neue', Helvetica, sans-serif"</span>,
-  <span class='co'># Can also add lower-level customization</span>
-  <span class='st'>"input-border-color"</span> <span class='op'>=</span> <span class='st'>"#EA80FC"</span>
-<span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># Lower-level bs_add_*() functions allow you to work more</span>
-<span class='co'># directly with the underlying Sass code</span>
-<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_add_variables.html'>bs_add_variables</a></span><span class='op'>(</span><span class='va'>theme</span>, <span class='st'>"my-class-color"</span> <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-<span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_add_variables.html'>bs_add_rules</a></span><span class='op'>(</span><span class='va'>theme</span>, <span class='st'>".my-class { color: $my-class-color }"</span><span class='op'>)</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'>bs_theme</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='co'># Controls the default grayscale palette</span></span>
+<span class='r-in'>  bg <span class='op'>=</span> <span class='st'>"#202123"</span>, fg <span class='op'>=</span> <span class='st'>"#B8BCC2"</span>,</span>
+<span class='r-in'>  <span class='co'># Controls the accent (e.g., hyperlink, button, etc) colors</span></span>
+<span class='r-in'>  primary <span class='op'>=</span> <span class='st'>"#EA80FC"</span>, secondary <span class='op'>=</span> <span class='st'>"#48DAC6"</span>,</span>
+<span class='r-in'>  base_font <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Grandstander"</span>, <span class='st'>"sans-serif"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  code_font <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Courier"</span>, <span class='st'>"monospace"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  heading_font <span class='op'>=</span> <span class='st'>"'Helvetica Neue', Helvetica, sans-serif"</span>,</span>
+<span class='r-in'>  <span class='co'># Can also add lower-level customization</span></span>
+<span class='r-in'>  <span class='st'>"input-border-color"</span> <span class='op'>=</span> <span class='st'>"#EA80FC"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='bs_theme_preview.html'>bs_theme_preview</a></span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Lower-level bs_add_*() functions allow you to work more</span></span>
+<span class='r-in'><span class='co'># directly with the underlying Sass code</span></span>
+<span class='r-in'><span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_bundle.html'>bs_add_variables</a></span><span class='op'>(</span><span class='va'>theme</span>, <span class='st'>"my-class-color"</span> <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bs_bundle.html'>bs_add_rules</a></span><span class='op'>(</span><span class='va'>theme</span>, <span class='st'>".my-class { color: $my-class-color }"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -431,6 +437,8 @@ noticeable with remote web fonts on a slow internet connection.</p><pre>bs_theme
 </script>
 
 
+
+  
 
   </body>
 </html>

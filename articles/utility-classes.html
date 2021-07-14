@@ -30,6 +30,8 @@
 </script><!-- javascript assets for rmarkdown --><script src="../ace-1.2.3/ace.js" type="text/javascript" charset="utf-8"></script><script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script><script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -88,7 +90,7 @@
   <a href="../news/index.html">News</a>
 </li>
 <li>
-  <a href="https://github.com/rstudio/bslib">
+  <a href="https://github.com/rstudio/bslib" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -115,64 +117,64 @@
       <h1 data-toc-skip>Utility classes</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/utility-classes.Rmd"><code>vignettes/utility-classes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/utility-classes.Rmd" class="external-link"><code>vignettes/utility-classes.Rmd</code></a></small>
       <div class="hidden name"><code>utility-classes.Rmd</code></div>
 
     </div>
 
     
     
-<p><a href="bslib.html#versions">Bootstrap 4 (and higher)</a> comes with a suite of handy utility classes for handling common yet fickle styling issues like <a href="https://getbootstrap.com/docs/5.0/utilities/spacing/">spacing</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/borders/">borders</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/sizing/">sizing</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/flex/">layout</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/colors/">colors</a>, and more.</p>
+<p><a href="bslib.html#versions">Bootstrap 4 (and higher)</a> comes with a suite of handy utility classes for handling common yet fickle styling issues like <a href="https://getbootstrap.com/docs/5.0/utilities/spacing/" class="external-link">spacing</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/borders/" class="external-link">borders</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/sizing/" class="external-link">sizing</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/flex/" class="external-link">layout</a>, <a href="https://getbootstrap.com/docs/5.0/utilities/colors/" class="external-link">colors</a>, and more.</p>
 <div id="add-margin" class="section level2">
 <h2 class="hasAnchor">
-<a href="#add-margin" class="anchor"></a>Add margin</h2>
-<p>If you look at <a href="https://github.com/rstudio/bslib/tree/master/inst/themer-demo">the source</a> for the theme demo app, the <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code> logic makes use of the margin spacing (<code>m-2</code>) to add some spacing between the buttons (they also make use of <a href="https://getbootstrap.com/docs/5.0/components/buttons">button modifier classes</a> to achieve their different background colors).</p>
+<a href="#add-margin" class="anchor" aria-hidden="true"></a>Add margin</h2>
+<p>If you look at <a href="https://github.com/rstudio/bslib/tree/master/inst/themer-demo" class="external-link">the source</a> for the theme demo app, the <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton()</a></code> logic makes use of the margin spacing (<code>m-2</code>) to add some spacing between the buttons (they also make use of <a href="https://getbootstrap.com/docs/5.0/components/buttons" class="external-link">button modifier classes</a> to achieve their different background colors).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"Primary"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span><span class="op">(</span><span class="st">"product-hunt"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-primary m-2"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"secondary"</span>, <span class="st">"Secondary (default)"</span>, class <span class="op">=</span> <span class="st">"m-2"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span><span class="op">(</span><span class="st">"success"</span>, <span class="st">"Success"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html">icon</a></span><span class="op">(</span><span class="st">"check"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-success m-2"</span><span class="op">)</span></code></pre></div>
-<p>It’s worth noting that <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton()</a></code>, like many other core shiny UI components, doesn’t actually have an explicit <code>class</code> argument, but it does route implicit arguments (i.e., <code>...</code>) to its top-level HTML tag, which is why <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton(..., class = "btn-primary")</a></code> add the class in the appropriate place. Another place where this top-level <code>class</code> can be useful is for customizing the body of a <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel()</a></code>.</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"Primary"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html" class="external-link">icon</a></span><span class="op">(</span><span class="st">"product-hunt"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-primary m-2"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"secondary"</span>, <span class="st">"Secondary (default)"</span>, class <span class="op">=</span> <span class="st">"m-2"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"success"</span>, <span class="st">"Success"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/icon.html" class="external-link">icon</a></span><span class="op">(</span><span class="st">"check"</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"btn-success m-2"</span><span class="op">)</span></code></pre></div>
+<p>It’s worth noting that <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton()</a></code>, like many other core shiny UI components, doesn’t actually have an explicit <code>class</code> argument, but it does route implicit arguments (i.e., <code>...</code>) to its top-level HTML tag, which is why <code>actionButton(..., class = "btn-primary")</code> add the class in the appropriate place. Another place where this top-level <code>class</code> can be useful is for customizing the body of a <code><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel()</a></code>.</p>
 </div>
 <div id="add-padding-borders-and-alignment" class="section level2">
 <h2 class="hasAnchor">
-<a href="#add-padding-borders-and-alignment" class="anchor"></a>Add padding, borders, and alignment</h2>
+<a href="#add-padding-borders-and-alignment" class="anchor" aria-hidden="true"></a>Add padding, borders, and alignment</h2>
 <p>By default, tabset panels don’t come with any padding or border(s) around the body’s content, which can make it appears though the content is just floating in space:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"No padding"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Very sad!"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"No padding"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Very sad!"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="tab-before.png" width="67%"></p>
 <p>We can help solve this issue by adding some padding the tab’s content (<code>p-3</code>) as well as a nice border that matches up with the tab’s borders.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tab</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="va">...</span>, class <span class="op">=</span> <span class="st">"p-3 border border-top-0 rounded-bottom"</span><span class="op">)</span>
+  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="va">...</span>, class <span class="op">=</span> <span class="st">"p-3 border border-top-0 rounded-bottom"</span><span class="op">)</span>
 <span class="op">}</span>
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span>
   <span class="fu">tab</span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"With padding"</span><span class="op">)</span>,
   <span class="fu">tab</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="tab-after.png" width="67%"></p>
-<p>And for <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel(type="pills")</a></code> , it looks a bit better to have a full, rounded, border:</p>
+<p>And for <code>tabsetPanel(type="pills")</code> , it looks a bit better to have a full, rounded, border:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pill</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="va">...</span>, class <span class="op">=</span> <span class="st">"p-3 border rounded"</span><span class="op">)</span>
+  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="va">...</span>, class <span class="op">=</span> <span class="st">"p-3 border rounded"</span><span class="op">)</span>
 <span class="op">}</span>
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span>
   type <span class="op">=</span> <span class="st">"pills"</span>,
   <span class="fu">pill</span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"With padding"</span><span class="op">)</span>,
   <span class="fu">pill</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="pills.png" width="67%"></p>
-<p>It’s also worth noting that you can also add these classes to <a href="https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html">rmarkdown tabsets</a>, like so:</p>
+<p>It’s also worth noting that you can also add these classes to <a href="https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html" class="external-link">rmarkdown tabsets</a>, like so:</p>
 <p><img src="rmarkdown-tabs-source.png" width="50%"></p>
 <p><img src="rmarkdown-tabs.png" width="930"></p>
-<p>Unfortunately, we can’t always rely on the <code>class</code> argument placing itself on the HTML tag we need to achieve our styling goals. For example, we can’t simply do <code><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel(class = "justify-content-center", ...)</a></code> to <a href="https://getbootstrap.com/docs/4.5/components/navs/#horizontal-alignment">horizontally center</a> a tabset. We can, however, leverage <a href="https://sass-lang.com/documentation/at-rules/extend">Sass’s @extend rule</a> to essentially add utility classes to the relevant HTML element(s):</p>
+<p>Unfortunately, we can’t always rely on the <code>class</code> argument placing itself on the HTML tag we need to achieve our styling goals. For example, we can’t simply do <code>tabsetPanel(class = "justify-content-center", ...)</code> to <a href="https://getbootstrap.com/docs/4.5/components/navs/#horizontal-alignment" class="external-link">horizontally center</a> a tabset. We can, however, leverage <a href="https://sass-lang.com/documentation/at-rules/extend" class="external-link">Sass’s @extend rule</a> to essentially add utility classes to the relevant HTML element(s):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
   theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-    <span class="fu"><a href="../reference/bs_add_variables.html">bs_add_rules</a></span><span class="op">(</span><span class="st">"#my-nav { @extend .justify-content-center }"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html">tabsetPanel</a></span><span class="op">(</span>
+    <span class="fu"><a href="../reference/bs_bundle.html">bs_add_rules</a></span><span class="op">(</span><span class="st">"#my-nav { @extend .justify-content-center }"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span>
     type <span class="op">=</span> <span class="st">"pills"</span>, id <span class="op">=</span> <span class="st">"my-nav"</span>,
     <span class="fu">pill</span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"With padding"</span><span class="op">)</span>,
     <span class="fu">pill</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span>
@@ -182,25 +184,25 @@
 </div>
 <div id="add-background-color" class="section level2">
 <h2 class="hasAnchor">
-<a href="#add-background-color" class="anchor"></a>Add background color</h2>
-<p>Add a <code>bg-*</code> class to any HTML element to set not only its background color to a theme color (e.g., <code>primary</code>, <code>secondary</code>, etc), but note that it’ll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use <code>bg-primary</code> on a <a href="https://getbootstrap.com/docs/4.6/components/card/#header-and-footer">card component</a> containing a <a href="https://rstudio.github.io/DT/"><code>{DT}</code> table</a>.</p>
+<a href="#add-background-color" class="anchor" aria-hidden="true"></a>Add background color</h2>
+<p>Add a <code>bg-*</code> class to any HTML element to set not only its background color to a theme color (e.g., <code>primary</code>, <code>secondary</code>, etc), but note that it’ll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use <code>bg-primary</code> on a <a href="https://getbootstrap.com/docs/4.6/components/card/#header-and-footer" class="external-link">card component</a> containing a <a href="https://rstudio.github.io/DT/" class="external-link"><code>{DT}</code> table</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bs4_card</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">body</span>, <span class="va">title</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>
     class <span class="op">=</span> <span class="st">"card"</span>,
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-header bg-primary"</span>, <span class="va">title</span><span class="op">)</span>,
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-body d-flex justify-content-center"</span>, <span class="va">body</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-header bg-primary"</span>, <span class="va">title</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-body d-flex justify-content-center"</span>, <span class="va">body</span><span class="op">)</span>
   <span class="op">)</span>
 <span class="op">}</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
+<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
     theme <span class="op">=</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>primary <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span>,
-    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html">uiOutput</a></span><span class="op">(</span><span class="st">"dat"</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput</a></span><span class="op">(</span><span class="st">"dat"</span><span class="op">)</span>
   <span class="op">)</span>,
   <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">output</span><span class="op">$</span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderUI.html">renderUI</a></span><span class="op">(</span><span class="op">{</span>
-      <span class="va">table</span> <span class="op">&lt;-</span> <span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="va">mtcars</span>, fillContainer <span class="op">=</span> <span class="cn">TRUE</span>, style <span class="op">=</span> <span class="st">"bootstrap4"</span>, rownames <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+    <span class="va">output</span><span class="op">$</span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderUI.html" class="external-link">renderUI</a></span><span class="op">(</span><span class="op">{</span>
+      <span class="va">table</span> <span class="op">&lt;-</span> <span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable</a></span><span class="op">(</span><span class="va">mtcars</span>, fillContainer <span class="op">=</span> <span class="cn">TRUE</span>, style <span class="op">=</span> <span class="st">"bootstrap4"</span>, rownames <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
       <span class="fu">bs4_card</span><span class="op">(</span><span class="va">table</span>, <span class="st">"The mtcars dataset"</span><span class="op">)</span>
     <span class="op">}</span><span class="op">)</span>
   <span class="op">}</span>
@@ -209,8 +211,8 @@
 </div>
 <div id="create-new-utility-classes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#create-new-utility-classes" class="anchor"></a>Create new utility classes</h2>
-<p>Bootstrap Sass also has a handful of <a href="https://sass-lang.com/documentation/values/maps">Sass maps</a> which allow for easy creation and/or modification of utility classes. One such case is for creating your own background color utility classes, say <code>bg-flair</code> via the <a href="https://github.com/rstudio/bslib/blob/9e5f3a5/inst/lib/bs/scss/_variables.scss#L76-L89"><code>$theme-colors</code> map</a>. This could be useful if you wanted to let the <code>$primary</code> be the default <code>$blue</code>, but use a <code>bg-flair</code> instead of <code>bg-primary</code> to color the card’s title:</p>
+<a href="#create-new-utility-classes" class="anchor" aria-hidden="true"></a>Create new utility classes</h2>
+<p>Bootstrap Sass also has a handful of <a href="https://sass-lang.com/documentation/values/maps" class="external-link">Sass maps</a> which allow for easy creation and/or modification of utility classes. One such case is for creating your own background color utility classes, say <code>bg-flair</code> via the <a href="https://github.com/rstudio/bslib/blob/9e5f3a5/inst/lib/bs/scss/_variables.scss#L76-L89" class="external-link"><code>$theme-colors</code> map</a>. This could be useful if you wanted to let the <code>$primary</code> be the default <code>$blue</code>, but use a <code>bg-flair</code> instead of <code>bg-primary</code> to color the card’s title:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"theme-colors"</span> <span class="op">=</span> <span class="st">"('flair': orange)"</span><span class="op">)</span></code></pre></div>
 <p><img src="DT-card-custom.png" width="67%"></p>
@@ -228,13 +230,13 @@
 
 
       <footer><div class="tidyverse">
-  <p><b>bslib</b> is an R package developed by <a href="https://rstudio.com">RStudio</a></p>
+  <p><b>bslib</b> is an R package developed by <a href="https://rstudio.com" class="external-link">RStudio</a></p>
 </div>
 
 <div class="author">
   <p>
     Developed by Carson Sievert, Joe Cheng.
-    Site built with <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Site built with <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 

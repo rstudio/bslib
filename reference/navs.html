@@ -78,9 +78,15 @@
 <script src="../holder-2.9.0/holder.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../snippets/snippets.js" type="text/javascript" charset="utf-8"></script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -170,10 +176,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Render a collection of <code><a href='nav_item.html'>nav()</a></code> items into a container.</p>
+    <p>Render a collection of <code><a href='nav.html'>nav()</a></code> items into a container.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>navs_tab</span><span class='op'>(</span><span class='va'>...</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, header <span class='op'>=</span> <span class='cn'>NULL</span>, footer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>navs_tab</span><span class='op'>(</span><span class='va'>...</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, header <span class='op'>=</span> <span class='cn'>NULL</span>, footer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'>navs_pill</span><span class='op'>(</span><span class='va'>...</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, selected <span class='op'>=</span> <span class='cn'>NULL</span>, header <span class='op'>=</span> <span class='cn'>NULL</span>, footer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
@@ -213,14 +219,14 @@
   header <span class='op'>=</span> <span class='cn'>NULL</span>,
   footer <span class='op'>=</span> <span class='cn'>NULL</span>,
   placement <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"above"</span>, <span class='st'>"below"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>a collection of <code><a href='nav_item.html'>nav()</a></code> items.</p></td>
+      <td><p>a collection of <code><a href='nav.html'>nav()</a></code> items.</p></td>
     </tr>
     <tr>
       <th>id</th>
@@ -228,7 +234,7 @@
     </tr>
     <tr>
       <th>selected</th>
-      <td><p>a character string matching the <code>value</code> of a particular <code><a href='nav_item.html'>nav()</a></code> item to selected by default.</p></td>
+      <td><p>a character string matching the <code>value</code> of a particular <code><a href='nav.html'>nav()</a></code> item to selected by default.</p></td>
     </tr>
     <tr>
       <th>header</th>
@@ -290,98 +296,102 @@ elements into a menu when the width of the browser is less than 940 pixels
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='nav_item.html'>nav()</a></code>, <code><a href='nav_select.html'>nav_select()</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='nav.html'>nav()</a></code>, <code><a href='nav_select.html'>nav_select()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>navs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-  <span class='fu'><a href='nav_item.html'>nav</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"a"</span><span class='op'>)</span>,
-  <span class='fu'><a href='nav_item.html'>nav</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='st'>"b"</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='fu'>navs_tab</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="tabbable"&gt;
-#&gt;     &lt;ul class="nav nav-tabs" data-tabsetid="7833"&gt;
-#&gt;       &lt;li class="active"&gt;
-#&gt;         &lt;a href="#tab-7833-1" data-toggle="tab" data-bs-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
-#&gt;       &lt;/li&gt;
-#&gt;       &lt;li&gt;
-#&gt;         &lt;a href="#tab-7833-2" data-toggle="tab" data-bs-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
-#&gt;       &lt;/li&gt;
-#&gt;     &lt;/ul&gt;
-#&gt;     &lt;div class="tab-content" data-tabsetid="7833"&gt;
-#&gt;       &lt;div class="tab-pane active" data-value="A" id="tab-7833-1"&gt;a&lt;/div&gt;
-#&gt;       &lt;div class="tab-pane" data-value="B" id="tab-7833-2"&gt;b&lt;/div&gt;
-#&gt;     &lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/div&gt;</div><div class='input'><span class='fu'>navs_pill</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="tabbable"&gt;
-#&gt;     &lt;ul class="nav nav-pills" data-tabsetid="2151"&gt;
-#&gt;       &lt;li class="active"&gt;
-#&gt;         &lt;a href="#tab-2151-1" data-toggle="tab" data-bs-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
-#&gt;       &lt;/li&gt;
-#&gt;       &lt;li&gt;
-#&gt;         &lt;a href="#tab-2151-2" data-toggle="tab" data-bs-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
-#&gt;       &lt;/li&gt;
-#&gt;     &lt;/ul&gt;
-#&gt;     &lt;div class="tab-content" data-tabsetid="2151"&gt;
-#&gt;       &lt;div class="tab-pane active" data-value="A" id="tab-2151-1"&gt;a&lt;/div&gt;
-#&gt;       &lt;div class="tab-pane" data-value="B" id="tab-2151-2"&gt;b&lt;/div&gt;
-#&gt;     &lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/div&gt;</div><div class='input'><span class='fu'>navs_pill_list</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="row"&gt;
-#&gt;     &lt;div class="col-sm-4 well"&gt;
-#&gt;       &lt;ul class="nav nav-pills nav-stacked" data-tabsetid="4099"&gt;
-#&gt;         &lt;li class="active"&gt;
-#&gt;           &lt;a href="#tab-4099-1" data-toggle="tab" data-bs-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
-#&gt;         &lt;/li&gt;
-#&gt;         &lt;li&gt;
-#&gt;           &lt;a href="#tab-4099-2" data-toggle="tab" data-bs-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
-#&gt;         &lt;/li&gt;
-#&gt;       &lt;/ul&gt;
-#&gt;     &lt;/div&gt;
-#&gt;     &lt;div class="col-sm-8"&gt;
-#&gt;       &lt;div class="tab-content" data-tabsetid="4099"&gt;
-#&gt;         &lt;div class="tab-pane active" data-value="A" id="tab-4099-1"&gt;a&lt;/div&gt;
-#&gt;         &lt;div class="tab-pane" data-value="B" id="tab-4099-2"&gt;b&lt;/div&gt;
-#&gt;       &lt;/div&gt;
-#&gt;     &lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/div&gt;</div><div class='input'><span class='fu'>navs_bar</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation"&gt;
-#&gt;   &lt;div class="container-fluid"&gt;
-#&gt;     &lt;div class="navbar-header"&gt;
-#&gt;       &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-5918" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-5918"&gt;
-#&gt;         &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
-#&gt;         &lt;span class="icon-bar"&gt;&lt;/span&gt;
-#&gt;         &lt;span class="icon-bar"&gt;&lt;/span&gt;
-#&gt;         &lt;span class="icon-bar"&gt;&lt;/span&gt;
-#&gt;       &lt;/button&gt;
-#&gt;       &lt;span class="navbar-brand"&gt;&lt;/span&gt;
-#&gt;     &lt;/div&gt;
-#&gt;     &lt;div class="navbar-collapse collapse" id="navbar-collapse-5918"&gt;
-#&gt;       &lt;ul class="nav navbar-nav" data-tabsetid="6232"&gt;
-#&gt;         &lt;li class="active"&gt;
-#&gt;           &lt;a href="#tab-6232-1" data-toggle="tab" data-bs-toggle="tab" data-value="A"&gt;A&lt;/a&gt;
-#&gt;         &lt;/li&gt;
-#&gt;         &lt;li&gt;
-#&gt;           &lt;a href="#tab-6232-2" data-toggle="tab" data-bs-toggle="tab" data-value="B"&gt;B&lt;/a&gt;
-#&gt;         &lt;/li&gt;
-#&gt;       &lt;/ul&gt;
-#&gt;     &lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/nav&gt;
-#&gt; &lt;div class="container-fluid"&gt;
-#&gt;   &lt;div class="tab-content" data-tabsetid="6232"&gt;
-#&gt;     &lt;div class="tab-pane active" data-value="A" id="tab-6232-1"&gt;a&lt;/div&gt;
-#&gt;     &lt;div class="tab-pane" data-value="B" id="tab-6232-2"&gt;b&lt;/div&gt;
-#&gt;   &lt;/div&gt;
-#&gt; &lt;/div&gt;</div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='va'>navs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'><a href='nav.html'>nav</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"a"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='nav.html'>nav</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='st'>"b"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>navs_tab</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;div class="container-fluid"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;div class="tabbable"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;ul class="nav nav-tabs" data-tabsetid="7509"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;li class="active"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;a href="#tab-7509-1" data-toggle="tab" data-bs-toggle="tab" data-value="A"&gt;A&lt;/a&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;/li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;a href="#tab-7509-2" data-toggle="tab" data-bs-toggle="tab" data-value="B"&gt;B&lt;/a&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;/li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;/ul&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;div class="tab-content" data-tabsetid="7509"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;div class="tab-pane active" data-value="A" id="tab-7509-1"&gt;a&lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;div class="tab-pane" data-value="B" id="tab-7509-2"&gt;b&lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;/div&gt;</span>
+<span class='r-in'><span class='fu'>navs_pill</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;div class="container-fluid"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;div class="tabbable"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;ul class="nav nav-pills" data-tabsetid="5303"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;li class="active"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;a href="#tab-5303-1" data-toggle="tab" data-bs-toggle="tab" data-value="A"&gt;A&lt;/a&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;/li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;a href="#tab-5303-2" data-toggle="tab" data-bs-toggle="tab" data-value="B"&gt;B&lt;/a&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;/li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;/ul&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;div class="tab-content" data-tabsetid="5303"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;div class="tab-pane active" data-value="A" id="tab-5303-1"&gt;a&lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;div class="tab-pane" data-value="B" id="tab-5303-2"&gt;b&lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;/div&gt;</span>
+<span class='r-in'><span class='fu'>navs_pill_list</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;div class="container-fluid"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;div class="row"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;div class="col-sm-4 well"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;ul class="nav nav-pills nav-stacked" data-tabsetid="1835"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;li class="active"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           &lt;a href="#tab-1835-1" data-toggle="tab" data-bs-toggle="tab" data-value="A"&gt;A&lt;/a&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;/li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           &lt;a href="#tab-1835-2" data-toggle="tab" data-bs-toggle="tab" data-value="B"&gt;B&lt;/a&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;/li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;/ul&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;div class="col-sm-8"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;div class="tab-content" data-tabsetid="1835"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;div class="tab-pane active" data-value="A" id="tab-1835-1"&gt;a&lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;div class="tab-pane" data-value="B" id="tab-1835-2"&gt;b&lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;/div&gt;</span>
+<span class='r-in'><span class='fu'>navs_bar</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>navs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;div class="container-fluid"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;div class="navbar-header"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-6194" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-6194"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;span class="icon-bar"&gt;&lt;/span&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;span class="icon-bar"&gt;&lt;/span&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;span class="icon-bar"&gt;&lt;/span&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;/button&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;span class="navbar-brand"&gt;&lt;/span&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;div class="navbar-collapse collapse" id="navbar-collapse-6194"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;ul class="nav navbar-nav" data-tabsetid="8596"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;li class="active"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           &lt;a href="#tab-8596-1" data-toggle="tab" data-bs-toggle="tab" data-value="A"&gt;A&lt;/a&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;/li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           &lt;a href="#tab-8596-2" data-toggle="tab" data-bs-toggle="tab" data-value="B"&gt;B&lt;/a&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         &lt;/li&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;/ul&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;/nav&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;div class="container-fluid"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;div class="tab-content" data-tabsetid="8596"&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;div class="tab-pane active" data-value="A" id="tab-8596-1"&gt;a&lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;div class="tab-pane" data-value="B" id="tab-8596-2"&gt;b&lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;/div&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;/div&gt;</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -425,6 +435,8 @@ elements into a menu when the width of the browser is less than 940 pixels
 </script>
 
 
+
+  
 
   </body>
 </html>

@@ -2,21 +2,21 @@
   "index_name": "bslib",
   "start_urls": [
     {
-      "url": "https://rstudio.github.io/bslib//index.html",
+      "url": "https://rstudio.github.io/bslib/index.html",
       "selectors_key": "homepage",
       "tags": [
         "homepage"
       ]
     },
     {
-      "url": "https://rstudio.github.io/bslib//reference",
+      "url": "https://rstudio.github.io/bslib/reference",
       "selectors_key": "reference",
       "tags": [
         "reference"
       ]
     },
     {
-      "url": "https://rstudio.github.io/bslib//articles",
+      "url": "https://rstudio.github.io/bslib/articles",
       "selectors_key": "articles",
       "tags": [
         "articles"
@@ -30,7 +30,7 @@
     "/articles/index.html"
   ],
   "sitemap_urls": [
-    "https://rstudio.github.io/bslib//sitemap.xml"
+    "https://rstudio.github.io/bslib/sitemap.xml"
   ],
   "selectors": {
     "homepage": {
