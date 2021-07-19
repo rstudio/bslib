@@ -20,7 +20,7 @@
 #'     nav("a", paste(prefix, ": tab a content")),
 #'     nav("b", paste(prefix, ": tab b content")),
 #'     nav_item(
-#'       tags$a(icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = #' "_blank")
+#'       tags$a(icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = "_blank")
 #'     ),
 #'     nav_spacer(),
 #'     nav_menu(
