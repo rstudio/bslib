@@ -98,16 +98,50 @@ Render a collection of \code{\link[=nav]{nav()}} items into a container.
 }
 \examples{
 
-navs <- list(
-  nav("A", "a"),
-  nav("B", "b")
-)
+library(shiny)
+library(bslib)
 
-navs_tab(!!!navs)
-navs_pill(!!!navs)
-navs_pill_list(!!!navs)
-navs_bar(!!!navs)
+nav_items <- function(prefix) {
+  list(
+    nav("a", paste(prefix, ": tab a content")),
+    nav("b", paste(prefix, ": tab b content")),
+    nav_item(
+      tags$a(icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = #' "_blank")
+    ),
+    nav_spacer(),
+    nav_menu(
+      "Other links", align = "right",
+      nav("c", paste(prefix, ": tab c content")),
+      nav_item(
+        tags$a(icon("r-project"), "RStudio", href = "https://rstudio.com", target = "_blank")
+      )
+    )
+  )
+}
 
+if (interactive()) {
+  shinyApp(
+    page_navbar(
+      title = "page_navbar()",
+      bg = "#0062cc",
+      !!!nav_items("page_navbar()"),
+      footer = div(
+        style = "width:80\%; margin: 0 auto",
+        h4("navs_tab()"),
+        navs_tab(!!!nav_items("navs_tab()")),
+        h4("navs_pill()"),
+        navs_pill(!!!nav_items("navs_pill()")),
+        h4("navs_tab_card()"),
+        navs_tab_card(!!!nav_items("navs_tab_card()")),
+        h4("navs_pill_card()"),
+        navs_pill_card(!!!nav_items("navs_pill_card()")),
+        h4("navs_pill_list()"),
+        navs_pill_list(!!!nav_items("navs_pill_list()"))
+      )
+    ),
+    function(...) { }
+  )
+}
 }
 \seealso{
 \code{\link[=nav]{nav()}}, \code{\link[=nav_select]{nav_select()}}.
