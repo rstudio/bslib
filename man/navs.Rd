@@ -99,7 +99,6 @@ Render a collection of \code{\link[=nav]{nav()}} items into a container.
 \examples{
 
 library(shiny)
-library(bslib)
 
 nav_items <- function(prefix) {
   list(
