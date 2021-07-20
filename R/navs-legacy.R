@@ -1,74 +1,3 @@
-#' Navigation items
-#'
-#' Create nav item(s) for use inside nav containers (e.g., [navs_tab()],
-#' [navs_bar()], etc).
-#'
-#' @param title A title to display. Can be a character string or UI elements
-#'   (i.e., [tags]).
-#' @param ... UI elements (i.e., [tags]) to show when the nav is selected ( for
-#'   `nav_item()`, `...` defines the actual nav item, not the selected content).
-#' @param value A character string to assign to the nav item. This value may be
-#'   supplied to the relevant container's `selected` argument in order to show
-#'   particular nav item's content immediately on page load. This value is also
-#'   useful for programmatically updating the selected content via
-#'   [nav_select()], [nav_hide()], etc (updating selected tabs this way is often
-#'   useful for showing/hiding panels of content via other UI controls like
-#'   [shiny::radioButtons()] -- in this scenario, consider using [nav_content()]
-#'   with [navs_hidden()]).
-#' @param icon Optional icon to appear next to the nav item's `title`.
-#' @return A nav item that may be passed to a nav container (e.g. [navs_tab()]).
-#' @export
-#' @seealso [navs_tab()], [nav_select()].
-#' @examples
-#'
-#' navs_tab(
-#'   nav("A", "a"),
-#'   nav("B", "b"),
-#'   nav_menu(
-#'     "More",
-#'     nav("C", "c"),
-#'     "-----",
-#'     nav("D", "d")
-#'   )
-#' )
-#'
-#' plot_tag <- function(expr) {
-#'   htmltools::plotTag(
-#'     expr, alt = "R plot", width = 800,
-#'     suppressSize = "x",
-#'     attribs = list(width = "100%")
-#'   )
-#' }
-#'
-#' navs_pill(
-#'   nav(
-#'     "Volcano", plot_tag(image(volcano)),
-#'     icon = if (require("shiny")) icon("r-project")
-#'    ),
-#'   nav(
-#'     "Pressure", plot_tag(plot(pressure)),
-#'     icon = if (require("shiny")) icon("github")
-#'    )
-#' )
-#'
-nav <- function(title, ..., value = title, icon = NULL) {
-  tabPanel_(title, ..., value = value, icon = icon)
-}
-
-#' @rdname nav
-#' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.
-#' @export
-nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "right")) {
-  align <- match.arg(align)
-  navbarMenu_(title, ..., menuName = value, icon = icon, align = align)
-}
-
-#' @rdname nav
-#' @export
-nav_content <- function(value, ..., icon = NULL) {
-  tabPanelBody_(value, ..., icon = icon)
-}
-
 #' Navigation containers
 #'
 #' Render a collection of [nav()] items into a container.
@@ -83,16 +12,49 @@ nav_content <- function(value, ..., icon = NULL) {
 #' @rdname navs
 #' @examples
 #'
-#' navs <- list(
-#'   nav("A", "a"),
-#'   nav("B", "b")
-#' )
+#' library(shiny)
 #'
-#' navs_tab(!!!navs)
-#' navs_pill(!!!navs)
-#' navs_pill_list(!!!navs)
-#' navs_bar(!!!navs)
+#' nav_items <- function(prefix) {
+#'   list(
+#'     nav("a", paste(prefix, ": tab a content")),
+#'     nav("b", paste(prefix, ": tab b content")),
+#'     nav_item(
+#'       tags$a(icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = "_blank")
+#'     ),
+#'     nav_spacer(),
+#'     nav_menu(
+#'       "Other links", align = "right",
+#'       nav("c", paste(prefix, ": tab c content")),
+#'       nav_item(
+#'         tags$a(icon("r-project"), "RStudio", href = "https://rstudio.com", target = "_blank")
+#'       )
+#'     )
+#'   )
+#' }
 #'
+#' if (interactive()) {
+#'   shinyApp(
+#'     page_navbar(
+#'       title = "page_navbar()",
+#'       bg = "#0062cc",
+#'       !!!nav_items("page_navbar()"),
+#'       footer = div(
+#'         style = "width:80%; margin: 0 auto",
+#'         h4("navs_tab()"),
+#'         navs_tab(!!!nav_items("navs_tab()")),
+#'         h4("navs_pill()"),
+#'         navs_pill(!!!nav_items("navs_pill()")),
+#'         h4("navs_tab_card()"),
+#'         navs_tab_card(!!!nav_items("navs_tab_card()")),
+#'         h4("navs_pill_card()"),
+#'         navs_pill_card(!!!nav_items("navs_pill_card()")),
+#'         h4("navs_pill_list()"),
+#'         navs_pill_list(!!!nav_items("navs_pill_list()"))
+#'       )
+#'     ),
+#'     function(...) { }
+#'   )
+#' }
 navs_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
   tabs <- tabsetPanel_(
