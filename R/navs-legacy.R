@@ -13,7 +13,6 @@
 #' @examples
 #'
 #' library(shiny)
-#' library(bslib)
 #'
 #' nav_items <- function(prefix) {
 #'   list(
