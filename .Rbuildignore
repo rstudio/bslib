@@ -18,3 +18,5 @@ vignettes
 ^\.github$
 ^\.gitattributes$
 ^CODE_OF_CONDUCT\.md$
+
+javascript/node_modules

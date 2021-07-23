@@ -25,50 +25,37 @@
 #' @seealso [navs_tab()], [nav_select()].
 #' @describeIn nav Content to display when the given item is selected.
 nav <- function(title, ..., value = title, icon = NULL) {
-  tabPanel_(title, ..., value = value, icon = icon)
+  # TODO: how to handle icons?
+  tags$template(class = "nav", value = value, title = title, ...)
 }
 
 #' @describeIn nav Create a menu of nav items.
 #' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.
 #' @export
 nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "right")) {
-  align <- match.arg(align)
-  navbarMenu_(title, ..., menuName = value, icon = icon, align = align)
+  # TODO:
+  # 1. Validate that ... is sensible?
+  # 2. How to handle icons?
+  tags$template(class = "nav-menu", value = value, title = title, align = match.arg(align), ...)
 }
 
 #' @describeIn nav Create nav content for use inside `navs_hidden()` (for
 #'   creating custom navigation controls via `navs_select()`),
 #' @export
 nav_content <- function(value, ..., icon = NULL) {
-  tabPanelBody_(value, ..., icon = icon)
+  # TODO: implement the JS!
+  tags$template(class = "nav-content", ...)
 }
 
 #' @describeIn nav Place arbitrary content in the navigation panel (e.g., search
 #'   forms, links to external content, etc.)
 #' @export
 nav_item <- function(...) {
-  # TODO: drop form-inline since BS5 dropped it?
-  # If we do that do we need navs_bar() to generate valid BS5 markup?
-  tags$li(class = "bslib-nav-item nav-item form-inline", ...)
-}
-
-is_nav_item <- function(x) {
-  tag_has_class(x, "bslib-nav-item")
+  tags$template(class = "nav-item", ...)
 }
 
 #' @describeIn nav Adding spacing between nav items.
 #' @export
 nav_spacer <- function() {
-  div(class = "bslib-nav-spacer")
-}
-
-is_nav_spacer <- function(x) {
-  tag_has_class(x, "bslib-nav-spacer")
-}
-
-tag_has_class <- function(x, class) {
-  if (!inherits(x, "shiny.tag")) {
-    return(FALSE)
-  }
-  tagQuery(x)$hasClass(class)
+  tags$template(class = "nav-spacer")
 }

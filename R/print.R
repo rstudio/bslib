@@ -1,3 +1,14 @@
+Tag <- function(tag_name, ..., .browsable = interactive()) {
+  x <- htmltools::tag(tag_name, varArgs = rlang::list2(...))
+  if (.browsable) {
+    htmltools::browsable(x)
+  } else {
+    x
+  }
+}
+
+
+
 as_fragment <- function(x, page = page_fluid) {
   stopifnot(is.function(page) && "theme" %in% names(formals(page)))
   attr(x, "bslib_page") <- page
