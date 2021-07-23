@@ -1,4 +1,4 @@
-import { tag, tagList, HTML, appendChild } from './utils';
+import { tag, tagList, HTML, tagAppendChild } from './utils';
 
 function createTabFragment(self, className, tabset) {
     const ulAttrs = {
@@ -15,7 +15,9 @@ function createTabFragment(self, className, tabset) {
 
     const ulTag = tag('ul', ulAttrs, tabset.tabList);
     
-    // TODO: should we be wrapping in a row?
+    // TODO: 
+    // 1. should we be wrapping in a row?
+    // 2. Can this be cleaner?
     let contents = [];
     const header = self.getAttribute('header');
     if (header) contents.push(HTML(header));
@@ -153,7 +155,7 @@ function replaceChildren(x, y) {
     while (x.firstChild) {
         x.removeChild(x.lastChild);
     }
-    appendChild(x, y);
+    tagAppendChild(x, y);
 }
 
 export { 
