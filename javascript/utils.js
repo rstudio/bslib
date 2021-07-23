@@ -12,7 +12,7 @@ function tag(name, attrs, ...children) {
   if (!children) {
     return el;
   }
-  children.forEach(x => appendChild(el, x))
+  tagAppendChild(el, children);
   return el;
 }
 
@@ -24,30 +24,22 @@ function tagList(...children) {
 // similar to htmltools::HTML()
 // x: String
 function HTML(x) {
-  let template = document.createElement("template");
-  template.innerHTML = x;
-  return template.content;
+  let el = document.createElement("template");
+  el.innerHTML = x;
+  return el.content;
 }
 
-// similar to htmltools::tagAppendChildren()
+// similar to htmltools::tagAppendChild()
 // x: https://developer.mozilla.org/en-US/docs/Web/API/Node
 // y: any?
-function appendChild(x, y) {
+function tagAppendChild(x, y) {
   if (y instanceof HTMLCollection) {
-    
-    while (y.length > 0) {
-      x.appendChild(y[0]); // x.appendChild(y) modifies y
-    }
-
+    while (y.length > 0) x.append(y[0]);
   } else if (Array.isArray(y)) {
-
-    y.forEach(z => appendChild(x, z));
-
+    y.forEach(z => tagAppendChild(x, z));
   } else {
-
-    x.appendChild(y.nodeType ? y : document.createTextNode(y));
-
+    x.append(y);
   }
 }
 
-export {tag, tagList, HTML, appendChild}
+export {tag, tagList, HTML, tagAppendChild}
