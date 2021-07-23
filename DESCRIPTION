@@ -56,7 +56,6 @@ Collate:
     'imports.R'
     'nav-items.R'
     'nav-update.R'
-    'navs-legacy.R'
     'navs.R'
     'onLoad.R'
     'page.R'
