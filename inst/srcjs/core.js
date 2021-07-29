@@ -109,8 +109,8 @@ class NavsCard extends Navs {
 function Nav(props) {
   return (
     <li key={props.id} className={props.selected === props.value ? 'active' : ''}>
-      <a href={'#'+props.id} role='tab' data-toggle='tab' data-value={props.value}
-        dangerouslySetInnerHTML={{ __html: props.title }}>
+      <a href={'#'+props.id} role='tab' data-toggle='tab' data-value={props.value}>
+       {props.title}
       </a>
     </li>
   )

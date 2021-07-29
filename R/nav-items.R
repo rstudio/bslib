@@ -26,8 +26,10 @@
 #' @describeIn nav Content to display when the given item is selected.
 nav <- function(title, ..., value = title, icon = NULL) {
   # TODO: how to handle icons?
-  Tag("Nav", value = value, title = title, ...)
+  Tag("Nav", value = value, title = html_attr(title), ...)
 }
+
+
 
 #' @describeIn nav Create a menu of nav items.
 #' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.
@@ -36,7 +38,7 @@ nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "
   # TODO:
   # 1. Validate that ... is sensible?
   # 2. How to handle icons?
-  Tag("NavMenu", value = value, title = title, align = match.arg(align), ...)
+  Tag("NavMenu", value = value, title = html_attr(title), align = match.arg(align), ...)
 }
 
 #' @describeIn nav Create nav content for use inside `navs_hidden()` (for
@@ -58,4 +60,20 @@ nav_item <- function(...) {
 #' @export
 nav_spacer <- function() {
   Tag("NavSpacer")
+}
+
+
+
+html_attr <- function(x) {
+  if (inherits(x, c("shiny.tag", "shiny.tag.list"))) {
+    x <- renderTags(x)$html
+  }
+  if (isHTML(x)) {
+    x <- HTML(paste0("{", x, "}"))
+  }
+  x
+}
+
+isHTML <- function(x) {
+  isTRUE(attr(x, "html", exact = TRUE))
 }

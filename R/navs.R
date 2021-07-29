@@ -59,7 +59,7 @@ navs_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
   Compile(Tag(
     "Navs", type = "tabs", id = id, selected = selected,
-    header = header, footer = footer, ...
+    header = html_attr(header), footer = html_attr(footer), ...
   ))
 }
 
@@ -69,7 +69,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL,
                           header = NULL, footer = NULL) {
   Compile(Tag(
     "NavsCard", type = "tabs", id = id, selected = selected,
-    header = header, footer = footer, ...
+    header = html_attr(header), footer = html_attr(footer), ...
   ))
 }
 
@@ -79,7 +79,7 @@ navs_pill <- function(..., id = NULL, selected = NULL,
                       header = NULL, footer = NULL) {
   Compile(Tag(
     "Navs", type = "pills", id = id, selected = selected,
-    header = header, footer = footer, ...
+    header = html_attr(header), footer = html_attr(footer), ...
   ))
 }
 
@@ -91,7 +91,7 @@ navs_pill_card <- function(..., id = NULL, selected = NULL,
                            placement = c("above", "below")) {
   Compile(Tag(
     "NavsCard", type = "pills", id = id, selected = selected,
-    header = header, footer = footer,
+    header = html_attr(header), footer = html_attr(footer),
     placement = match.arg(placement), ...
   ))
 }
@@ -105,7 +105,7 @@ navs_pill_list <- function(..., id = NULL, selected = NULL,
                            widths = c(4, 8)) {
   Compile(Tag(
     "NavsList", id = id, selected = selected,
-    header = header, footer = footer, well = well,
+    header = html_attr(header), footer = html_attr(footer), well = well,
     widthNav = widths[[1]], widthContent = widths[[2]], ...
   ))
 }
@@ -117,7 +117,7 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
   # TODO: implement (does this need it's own component)?
   Compile(Tag(
     "NavsHidden", id = id, selected = selected,
-    header = header, footer = footer, ...
+    header = html_attr(header), footer = html_attr(footer), ...
   ))
 }
 
@@ -137,7 +137,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
   Compile(Tag(
     "NavsBar", title = title, id = id, selected = selected,
     position = match.arg(position),
-    header = header, footer = footer,
+    header = html_attr(header), footer = html_attr(footer),
     bg = bg, inverse = inverse,
     collapsible = collapsible, fluid = fluid,
     ...

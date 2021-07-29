@@ -94,3 +94,5 @@ Config/Needs/deploy:
     reactable,
     rprojroot,
     rsconnect
+Remotes: 
+    rstudio/htmltools@jsx
