@@ -36,7 +36,8 @@ Suggests:
     withr,
     rappdirs,
     curl,
-    magrittr
+    magrittr,
+    V8
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.1.2

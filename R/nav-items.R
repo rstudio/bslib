@@ -26,7 +26,7 @@
 #' @describeIn nav Content to display when the given item is selected.
 nav <- function(title, ..., value = title, icon = NULL) {
   # TODO: how to handle icons?
-  tags$template(class = "nav", value = value, title = title, ...)
+  Tag("Nav", value = value, title = title, ...)
 }
 
 #' @describeIn nav Create a menu of nav items.
@@ -36,7 +36,7 @@ nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "
   # TODO:
   # 1. Validate that ... is sensible?
   # 2. How to handle icons?
-  tags$template(class = "nav-menu", value = value, title = title, align = match.arg(align), ...)
+  Tag("NavMenu", value = value, title = title, align = match.arg(align), ...)
 }
 
 #' @describeIn nav Create nav content for use inside `navs_hidden()` (for
@@ -44,18 +44,18 @@ nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "
 #' @export
 nav_content <- function(value, ..., icon = NULL) {
   # TODO: implement the JS!
-  tags$template(class = "nav-content", ...)
+  stop("Implement me!")
 }
 
 #' @describeIn nav Place arbitrary content in the navigation panel (e.g., search
 #'   forms, links to external content, etc.)
 #' @export
 nav_item <- function(...) {
-  tags$template(class = "nav-item", ...)
+  Tag("NavItem", ...)
 }
 
 #' @describeIn nav Adding spacing between nav items.
 #' @export
 nav_spacer <- function() {
-  tags$template(class = "nav-spacer")
+  Tag("NavSpacer")
 }

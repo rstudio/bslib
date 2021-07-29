@@ -9,6 +9,7 @@
       }
     ]
   ],
+  "plugins": ["@babel/plugin-transform-react-jsx"],
   "ignore":[
     "node_modules/core-js"
   ]

@@ -4,8 +4,6 @@ import {
 } from "esbuild";
 import process from "process";
 import babelPlugin from "esbuild-plugin-babel";
-//import globalsPlugin from "esbuild-plugin-globals";
-
 
 async function build(opts) {
 
@@ -31,7 +29,7 @@ async function build(opts) {
   return esbuildBuild({
     incremental: incremental,
     watch: watch,
-    target: "es5",
+    //target: "es5",
     ...opts,
   }).then((x) => {
     onRebuild();
@@ -40,12 +38,12 @@ async function build(opts) {
 }
 
 build({
-  entryPoints: ["nav.js"],
+  entryPoints: ["entry.js"],
   bundle: true,
   sourcemap: "inline",
   plugins: [
-    babelPlugin(),
+    babelPlugin()
   ],
-  outfile: "../inst/nav/index.js",
+  outfile: "outfile.js",
   minify: false,
 });
