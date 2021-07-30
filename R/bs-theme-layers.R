@@ -96,7 +96,7 @@ ensure_default_flag <- function(x) {
   Map(
     x, rlang::names2(x),
     f = function(val, nm) {
-      # sass::font_collection() has it's own default_flag, so warn if they conflict
+      # sass::font_collection() has its own default_flag, so warn if they conflict
       if (sass::is_font_collection(val)) {
         if (identical(val$default_flag, FALSE)) {
           message(
