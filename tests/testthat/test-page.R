@@ -25,11 +25,4 @@ test_that("page_navbar()", {
     cran = TRUE
   )
 
-  expect_snapshot_tabs(
-    page_navbar(
-      bg = "red",
-      nav("a", "A")
-    )
-  )
-
 })
