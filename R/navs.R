@@ -153,18 +153,18 @@ Compile <- function(x) {
   owd <- setwd(tmpdir)
   on.exit(setwd(owd), add = TRUE)
   file.copy(
-    dir(system.file("srcjs", package = "bslib"), full.names = TRUE),
+    dir(system.file("navs", package = "bslib"), full.names = TRUE),
     getwd(),
     recursive = TRUE
   )
   src <- c(
     "import ReactDOMServer from 'react-dom/server';",
-    readLines("core.js"),
+    readLines("src/index.js"),
     paste0("const html = ", as.character(x)),
     "console.log(ReactDOMServer.renderToString(html));"
   )
-  writeLines(src, "entry.js")
+  writeLines(src, "src/index.js")
   system("yarn install")
   system("yarn build")
-  as_fragment(HTML(system("node outfile.js", intern = TRUE)))
+  as_fragment(HTML(system("node dist/navs.min.js", intern = TRUE)))
 }
