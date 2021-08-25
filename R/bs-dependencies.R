@@ -187,7 +187,7 @@ bs_theme_dependencies <- function(
 #'   [sass::sass_partial()].
 #' @inheritParams htmltools::htmlDependency
 #' @references
-#' <https://rstudio.github.io/bslib/articles/theming.html#themable-components-1>
+#' <https://rstudio.github.io/bslib/articles/custom-components.html>
 #'
 #'
 #' @return `bs_dependency()` returns an [htmltools::htmlDependency()] and
