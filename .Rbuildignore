@@ -19,4 +19,4 @@ vignettes
 ^\.gitattributes$
 ^CODE_OF_CONDUCT\.md$
 
-javascript/node_modules
+**/node_modules

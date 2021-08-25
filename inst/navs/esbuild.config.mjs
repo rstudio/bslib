@@ -38,12 +38,12 @@ async function build(opts) {
 }
 
 build({
-  entryPoints: ["entry.js"],
+  entryPoints: ["src/index.js"],
   bundle: true,
   sourcemap: "inline",
   plugins: [
     babelPlugin()
   ],
-  outfile: "outfile.js",
-  minify: false,
+  outfile: "dist/navs.min.js",
+  minify: true,
 });

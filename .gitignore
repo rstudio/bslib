@@ -16,4 +16,4 @@ inst/yarn.lock
 
 inst/rmarkdown/templates/*/skeleton/skeleton.html
 
-javascript/node_modules
+**/node_modules
