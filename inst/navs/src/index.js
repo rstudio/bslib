@@ -53,7 +53,7 @@ class Navs extends React.Component {
       if (x.type.name === 'Nav') {
         const className = `tab-pane ${x.props.selected === x.props.value ? 'active' : ''}`;
         result.push(
-          <div id={x.props.id} role='tabpanel' className={className}>
+          <div id={x.props.id} role='tabpanel' className={className} key={x.props.id}>
             {x.props.children}
           </div>
         );
