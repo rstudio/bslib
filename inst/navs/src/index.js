@@ -23,8 +23,8 @@ class Navs extends React.Component {
     return <React.Fragment>
         <ul id={props.id} className={ulClass} role='tablist' data-tabsetid={this.state.tabsetId}>
           {this.state.children}
-        </ul>,
-        <div className='tab-content' data-tabsetid={this.state.tabsetId}> 
+        </ul>
+        <div className='tab-content' data-tabsetid={this.state.tabsetId}>
           {props.header}
           {this.state.content}
           {props.footer}
@@ -84,13 +84,13 @@ class NavsCard extends Navs {
     const props = this.props;
     const ulClass = `nav nav-${props.type} card-header-${props.type} ${props.id ? 'shiny-tab-input' : ''}`;
 
-    const ulTag = 
+    const ulTag =
       <ul id={props.id} className={ulClass} role='tablist' data-tabsetid={this.state.tabsetId}>
         {this.state.children}
       </ul>
 
-    const divTag = 
-      <div className='tab-content' data-tabsetid={this.state.tabsetId}> 
+    const divTag =
+      <div className='tab-content' data-tabsetid={this.state.tabsetId}>
         {props.header}
         {this.state.content}
         {props.footer}
@@ -99,9 +99,9 @@ class NavsCard extends Navs {
     const below = props.placement === "below";
 
     return <div className="card">
-        { below ? null : <div className="card-header"> {ulTag} </div>} 
+        { below ? null : <div className="card-header"> {ulTag} </div>}
         <div className="card-body"> {divTag} </div>
-        { below ? <div className="card-footer"> {ulTag} </div> : null} 
+        { below ? <div className="card-footer"> {ulTag} </div> : null}
     </div>
   }
 }
