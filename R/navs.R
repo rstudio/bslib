@@ -166,5 +166,5 @@ Compile <- function(x) {
   writeLines(src, "src/index.js")
   system("yarn install")
   system("yarn build")
-  as_fragment(HTML(system("node dist/navs.min.js", intern = TRUE)))
+  as_fragment(HTML(system("node dist/navs.js", intern = TRUE)))
 }

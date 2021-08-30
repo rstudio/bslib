@@ -44,6 +44,6 @@ build({
   plugins: [
     babelPlugin()
   ],
-  outfile: "dist/navs.min.js",
-  minify: true,
+  outfile: "dist/navs.js",
+  minify: false,
 });
