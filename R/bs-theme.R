@@ -263,7 +263,7 @@ bootstrap_bundle <- function(version) {
           "button-group", "nav", "navbar", "card", "accordion", "breadcrumb",
           "pagination", "badge", "alert", "progress", "list-group", "close",
           "toasts", "modal", "tooltip", "popover", "carousel", "spinners",
-          "offcanvas", "helpers", "utilities/api"
+          "offcanvas", "placeholders", "helpers", "utilities/api"
         ))
       ),
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
