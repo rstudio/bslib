@@ -57,30 +57,30 @@
 #' }
 navs_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
-  Compile(Tag(
+  jsxTag(
     "Navs", type = "tabs", id = id, selected = selected,
-    header = html_attr(header), footer = html_attr(footer), ...
-  ))
+    header = JSX(header), footer = JSX(footer), ...
+  )
 }
 
 #' @export
 #' @rdname navs
 navs_tab_card <- function(..., id = NULL, selected = NULL,
                           header = NULL, footer = NULL) {
-  Compile(Tag(
+  jsxTag(
     "NavsCard", type = "tabs", id = id, selected = selected,
-    header = html_attr(header), footer = html_attr(footer), ...
-  ))
+    header = JSX(header), footer = JSX(footer), ...
+  )
 }
 
 #' @export
 #' @rdname navs
 navs_pill <- function(..., id = NULL, selected = NULL,
                       header = NULL, footer = NULL) {
-  Compile(Tag(
+  jsxTag(
     "Navs", type = "pills", id = id, selected = selected,
-    header = html_attr(header), footer = html_attr(footer), ...
-  ))
+    header = JSX(header), footer = JSX(footer), ...
+  )
 }
 
 #' @export
@@ -89,11 +89,11 @@ navs_pill <- function(..., id = NULL, selected = NULL,
 navs_pill_card <- function(..., id = NULL, selected = NULL,
                            header = NULL, footer = NULL,
                            placement = c("above", "below")) {
-  Compile(Tag(
+  jsxTag(
     "NavsCard", type = "pills", id = id, selected = selected,
-    header = html_attr(header), footer = html_attr(footer),
+    header = JSX(header), footer = JSX(footer),
     placement = match.arg(placement), ...
-  ))
+  )
 }
 
 #' @export
@@ -103,11 +103,11 @@ navs_pill_list <- function(..., id = NULL, selected = NULL,
                            header = NULL, footer = NULL,
                            well = TRUE, fluid = TRUE,
                            widths = c(4, 8)) {
-  Compile(Tag(
+  jsxTag(
     "NavsList", id = id, selected = selected,
-    header = html_attr(header), footer = html_attr(footer), well = well,
+    header = JSX(header), footer = JSX(footer), well = well,
     widthNav = widths[[1]], widthContent = widths[[2]], ...
-  ))
+  )
 }
 
 #' @export
@@ -115,10 +115,10 @@ navs_pill_list <- function(..., id = NULL, selected = NULL,
 navs_hidden <- function(..., id = NULL, selected = NULL,
                         header = NULL, footer = NULL) {
   # TODO: implement (does this need it's own component)?
-  Compile(Tag(
+  jsxTag(
     "NavsHidden", id = id, selected = selected,
-    header = html_attr(header), footer = html_attr(footer), ...
-  ))
+    header = JSX(header), footer = JSX(footer), ...
+  )
 }
 
 
@@ -134,17 +134,19 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
                      header = NULL, footer = NULL,
                      bg = NULL, inverse = "auto",
                      collapsible = TRUE, fluid = TRUE) {
-  Compile(Tag(
+  jsxTag(
     "NavsBar", title = title, id = id, selected = selected,
     position = match.arg(position),
-    header = html_attr(header), footer = html_attr(footer),
+    header = JSX(header), footer = JSX(footer),
     bg = bg, inverse = inverse,
     collapsible = collapsible, fluid = fluid,
     ...
-  ))
+  )
 }
 
-Compile <- function(x) {
+
+jsx_ssr <- function(x) {
+  # TODO: can this be done via v8?
   if (!nzchar(Sys.which("yarn"))){
     stop("The yarn command line utility is required for compilation")
   }
