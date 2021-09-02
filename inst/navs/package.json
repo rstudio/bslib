@@ -1,23 +1,27 @@
 {
-  "name": "shiny-react-ssr",
+  "name": "bslib",
   "version": "0.0.1",
   "author": "Carson Sievert",
   "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": {
+    "umd": "./dist/bslib.min.js",
+    "default": "./src/index.js"
+  },
   "scripts": {
-    "build": "node esbuild.config.mjs",
-    "watch": "node esbuild.config.mjs --watch"
+    "build": "rollup -c"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
-    "@babel/plugin-transform-react-jsx": "^7.14.5",
-    "@babel/preset-env": "^7.14.2",
-    "@babel/preset-typescript": "^7.13.0",
-    "esbuild": "^0.12.2",
-    "esbuild-plugin-babel": "^0.2.3"
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "rollup": "^2.56.3"
   },
   "dependencies": {
-    "core-js": "^3.12.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "preact": "^17.0.2"
   }
 }

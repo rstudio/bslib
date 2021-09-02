@@ -1,6 +1,8 @@
-import * as React from 'react';
+/** @jsx preact.h */
+/** @jsxFrag preact.Fragment */
+import { Component, cloneElement, Fragment, toChildArray } from 'preact';
 
-class Navs extends React.Component {
+class Navs extends Component {
 
   constructor(props) {
     super(props);
@@ -10,7 +12,7 @@ class Navs extends React.Component {
     this.getContent = this.getContent.bind(this);
 
     const tabsetId = this.newId();
-    const selected = props.selected ? props.selected : this.firstNavValue(props.children)
+    const selected = props.selected ? props.selected : this.firstNavValue(props.children);
     const children = this.addChildProps(props.children, tabsetId, selected);
     const content = this.getContent(children);
 
@@ -20,7 +22,7 @@ class Navs extends React.Component {
   render() {
     const props = this.props;
     const ulClass = `nav nav-${props.type} ${props.id ? 'shiny-tab-input' : ''}`;
-    return <React.Fragment>
+    return <Fragment>
         <ul id={props.id} className={ulClass} role='tablist' data-tabsetid={this.state.tabsetId}>
           {this.state.children}
         </ul>
@@ -29,7 +31,7 @@ class Navs extends React.Component {
           {this.state.content}
           {props.footer}
         </div>
-    </React.Fragment>
+    </Fragment>
   }
 
   firstNavValue(navs) {
@@ -46,7 +48,7 @@ class Navs extends React.Component {
 
   getContent(navs) {
     const result = [];
-    React.Children.forEach(navs, x => {
+    toChildArray(navs).forEach(x => {
       if (x.type.name === 'NavMenu') {
         result.push(this.getContent(x.props.children))
       }
@@ -63,14 +65,15 @@ class Navs extends React.Component {
   }
 
   addChildProps(children, tabsetId, selected) {
-    return React.Children.map(children, (x, idx) => {
+    var self = this;
+    return toChildArray(children).map(function(x, idx) {
       if (x.type.name === 'NavMenu') {
-        const tabsetId = this.newId();
-        const children_ = this.addChildProps(x.props.children, tabsetId, selected);
-        return React.cloneElement(x, {tabsetId, selected}, children_);
+        const tabsetId = self.newId();
+        const children_ = self.addChildProps(x.props.children, tabsetId, selected);
+        return cloneElement(x, {tabsetId, selected}, children_);
       }
       const id = `tab-${tabsetId}-${idx + 1}`;
-      return React.cloneElement(x, {id, selected});
+      return cloneElement(x, {id, selected});
     });
   }
 
@@ -137,3 +140,5 @@ function NavMenu(props) {
     </li>
   )
 }
+
+export { Navs, NavsCard, Nav, NavSpacer, NavItem, NavMenu }

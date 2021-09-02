@@ -1,16 +1,3 @@
 {
-  "presets": [
-    "@babel/preset-typescript",
-    [
-      "@babel/preset-env",
-      {
-        "useBuiltIns": "usage",
-        "corejs": "3.9"
-      }
-    ]
-  ],
-  "plugins": ["@babel/plugin-transform-react-jsx"],
-  "ignore":[
-    "node_modules/core-js"
-  ]
+  "plugins": ["@babel/plugin-transform-react-jsx"]
 }
