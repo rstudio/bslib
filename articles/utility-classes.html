@@ -168,7 +168,7 @@
 <p><img src="pills.png" width="67%"></p>
 <p>It’s also worth noting that you can also add these classes to <a href="https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html" class="external-link">rmarkdown tabsets</a>, like so:</p>
 <p><img src="rmarkdown-tabs-source.png" width="50%"></p>
-<p><img src="rmarkdown-tabs.png" width="930"></p>
+<p><img src="rmarkdown-tabs.png"><!-- --></p>
 <p>Unfortunately, we can’t always rely on the <code>class</code> argument placing itself on the HTML tag we need to achieve our styling goals. For example, we can’t simply do <code>tabsetPanel(class = "justify-content-center", ...)</code> to <a href="https://getbootstrap.com/docs/4.5/components/navs/#horizontal-alignment" class="external-link">horizontally center</a> a tabset. We can, however, leverage <a href="https://sass-lang.com/documentation/at-rules/extend" class="external-link">Sass’s @extend rule</a> to essentially add utility classes to the relevant HTML element(s):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
