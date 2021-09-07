@@ -26,45 +26,15 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Install pak and query dependencies
-        run: |
-          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
-          saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
-        shell: Rscript {0}
-
-      - name: Restore R package cache
-        uses: actions/cache@v2
+      - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          path: |
-            ${{ env.R_LIBS_USER }}/*
-            !${{ env.R_LIBS_USER }}/pak
-          key: ubuntu-20.04-${{ steps.install-r.outputs.installed-r-version }}-pkgdown-1-${{ hashFiles('.github/r-depends.rds') }}
-          restore-keys: |
-            ubuntu-20.04-${{ steps.install-r.outputs.installed-r-version }}-pkgdown-1-
-            ubuntu-20.04-${{ steps.install-r.outputs.installed-r-version }}-1-
-
-      - name: Install system dependencies
-        if: runner.os == 'Linux'
-        run: |
-          pak::local_system_requirements(execute = TRUE)
-          pak::pkg_system_requirements("rsconnect", execute = TRUE)
-          pak::pkg_system_requirements("pkgdown", execute = TRUE)
-          pak::pkg_system_requirements("renv", execute = TRUE)
-        shell: Rscript {0}
+          needs: website
 
       - name: Install dependencies
         run: |
-          pak::pkg_install("renv", dependencies = TRUE)
-          pak::pkg_install("r-lib/pkgdown")
-          pak::pkg_install("apreshill/quillt")
           pkgs <- unique(renv::dependencies("vignettes")$Package)
-          lapply(pkgs, function(pkg) {
-            if (! (pkg %in% rownames(installed.packages()))) {
-              pak::pkg_install(pkg, upgrade = TRUE, dependencies = TRUE)
-            }
-          })
-          pak::local_install_dev_deps(upgrade = TRUE, dependencies = c("all", "Config/Needs/website"))
-          pak::local_install(upgrade = TRUE)
+          pkgs <- setdiff(pkgs, c("R", row.names(installed.packages())))
+          pak::pkg_install(pkgs, dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Install package

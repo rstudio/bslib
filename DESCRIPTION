@@ -69,3 +69,8 @@ Collate:
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
+Config/Needs/website:
+    rsconnect,
+    renv,
+    r-lib/pkgdown,
+    apreshill/quillt
