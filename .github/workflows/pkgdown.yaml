@@ -1,95 +1,58 @@
 on:
   push:
-    branches: master
+    branches:
+      - main
+      - master
+      - rc-**
   pull_request:
     branches:
       - master
+      - main
 
 name: pkgdown
 
 jobs:
   pkgdown:
-
-    runs-on: ${{ matrix.config.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - {os: ubuntu-20.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-
+    runs-on: ubuntu-20.04
     env:
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      RSPM: ${{ matrix.config.rspm }}
+      RSPM: https://packagemanager.rstudio.com/cran/__linux__/focal/latest
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
         id: install-r
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          r-version: ${{ matrix.config.r }}
-
-      - uses: r-lib/actions/setup-pandoc@master
-
-      - name: Install pak and query dependencies
-        shell: Rscript {0}
-        run: |
-          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
-          saveRDS(pak::pkg_deps_tree("local::.", dependencies = TRUE), ".github/r-depends.rds")
-      - name: Cache R packages
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-deploy-1-${{ hashFiles('.github/r-depends.rds') }}
-          restore-keys: |
-            ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-deploy-
-            ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
-
-      - name: Install system dependencies
-        shell: Rscript {0}
-        run: |
-          pak::local_system_requirements(execute = TRUE)
-          pak::pkg_system_requirements("rsconnect", execute = TRUE)
-          pak::pkg_system_requirements("pkgdown", execute = TRUE)
-          pak::pkg_system_requirements("renv", execute = TRUE)
+          needs: website
 
       - name: Install dependencies
-        shell: Rscript {0}
         run: |
-          pak::pkg_install("renv", dependencies = TRUE)
-          pak::pkg_install("r-lib/pkgdown")
-          pak::pkg_install("apreshill/quillt")
           pkgs <- unique(renv::dependencies("vignettes")$Package)
-          lapply(pkgs, function(pkg) {
-            if (! (pkg %in% rownames(installed.packages()))) {
-              pak::pkg_install(pkg, upgrade = TRUE, dependencies = TRUE)
-            }
-          })
-          pak::local_install_dev_deps(upgrade = TRUE)
-          pak::local_install(upgrade = TRUE)
+          pkgs <- setdiff(pkgs, c("R", row.names(installed.packages())))
+          if (length(pkgs)) pak::pkg_install(pkgs, dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Install package
+        run: R CMD INSTALL .
 
       - name: Build Site (PR)
         if: github.event_name != 'push'
         shell: Rscript {0}
         run: |
-          pkgdown::build_site()
+          pkgdown::build_site(new_process = FALSE)
+          # Must validate after building site
+          testthat::expect_warning({
+            pkgdown::build_reference_index()
+          }, NA)
 
-      - name: Validate all topics exist (PR)
-        if: github.event_name != 'push'
-        shell: Rscript {0}
-        run: |
-          pkgdown::build_reference_index()
-          stopifnot(length(warnings()) == 0)
-
-      - name: git setup
+      - name: Build and deploy pkgdown site (push)
         if: github.event_name == 'push'
         run: |
-          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
-            git config --local user.name "${GITHUB_ACTOR}"
-
-      - name: Build and Deploy Site
-        if: github.event_name == 'push'
-        shell: Rscript {0}
-        run: |
-          pkgdown::deploy_to_branch(new_process = FALSE)
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
