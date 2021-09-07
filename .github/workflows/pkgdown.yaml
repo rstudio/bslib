@@ -34,7 +34,7 @@ jobs:
         run: |
           pkgs <- unique(renv::dependencies("vignettes")$Package)
           pkgs <- setdiff(pkgs, c("R", row.names(installed.packages())))
-          pak::pkg_install(pkgs, dependencies = TRUE)
+          if (length(pkgs)) pak::pkg_install(pkgs, dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Install package
