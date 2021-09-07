@@ -1,6 +1,6 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1.9001
-pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
+pkgdown_sha: 705ff7c650bb1c7d46d35e72f27ad093689e2f29
 articles:
   bs4-variables: bs4-variables.html
   bs5-variables: bs5-variables.html
@@ -8,7 +8,7 @@ articles:
   custom-components: custom-components.html
   utility-classes: utility-classes.html
   why-sass: why-sass.html
-last_built: 2021-07-20T18:02Z
+last_built: 2021-09-07T16:35Z
 urls:
   reference: https://rstudio.github.io/bslib/reference
   article: https://rstudio.github.io/bslib/articles
