@@ -50,15 +50,14 @@ jobs:
           - {os: macOS-latest,   r: '${{ needs.rversions.outputs.release }}'}
           - {os: windows-latest, r: '${{ needs.rversions.outputs.release }}'}
           - {os: windows-latest, r: '3.6'}
-          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.devel }}',   rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", http-user-agent: "release" }
-          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.release }}', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.oldrel1 }}', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.oldrel2 }}', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.oldrel3 }}', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.oldrel4 }}', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.devel }}', http-user-agent: "release" }
+          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.release }}'}
+          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.oldrel1 }}'}
+          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.oldrel2 }}'}
+          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.oldrel3 }}'}
+          - {os: ubuntu-20.04,   r: '${{ needs.rversions.outputs.oldrel4 }}'}
 
     env:
-      RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -76,6 +75,7 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
 
       - uses: r-lib/actions/setup-pandoc@v1
 
