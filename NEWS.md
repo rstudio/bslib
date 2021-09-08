@@ -1,5 +1,6 @@
 # bslib 0.3.0.9000
 
+* Upgraded Bootstrap 5 (i.e., `bs_theme(version = 5)`) from 5.0.2 to 5.1.0 (#365)
 
 # bslib 0.3.0
 
