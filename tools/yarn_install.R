@@ -66,7 +66,7 @@ add_property_prefixes <- function(src, property, ok_values = NULL, vendors = c("
   src
 }
 
-# Unconditionally prefix the following CSS properties
+# Unconditionally prefix the following CSS properties for all vendors
 needs_prefix <- c(
   "appearance", "user-select", "backdrop-filter",
   "backface-visibility", "touch-action",
@@ -76,6 +76,12 @@ for (prop in needs_prefix) {
   scss_src <- lapply(scss_src, add_property_prefixes, prop)
 }
 
+# Only add webkit prefix for BS5+ since other vendors aren't really relevant anymore
+for (prop in c('mask-image', 'mask-size', 'mask-position')) {
+  scss_src <- lapply(scss_src, add_property_prefixes, prop, vendors = "-webkit-")
+}
+
+# Print specific vendor prefixes
 scss_src <- lapply(scss_src, add_property_prefixes, "color-adjust", vendors = "-webkit-print-")
 
 # phantomjs 2.1.1 needs webkit vendor prefix on flex properties to work correctly

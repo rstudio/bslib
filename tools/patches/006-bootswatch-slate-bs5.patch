@@ -347,7 +347,7 @@ index f655a18..637aced 100755
 +$light:         lighten($body-color, 50%) !default;
 +$dark:          $body-bg !default;
  
- $min-contrast-ratio:   2 !default;
+ $min-contrast-ratio:   1.95 !default;
  
 -// Body
 +$enable-shadows: true !default;
