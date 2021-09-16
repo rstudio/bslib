@@ -19,4 +19,4 @@ vignettes
 ^\.gitattributes$
 ^CODE_OF_CONDUCT\.md$
 
-**/node_modules
+^inst/navs/node_modules$

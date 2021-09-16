@@ -60,7 +60,6 @@ nav_spacer <- function() {
   nav_tag("NavSpacer")
 }
 
-
 nav_tag <- function(name, ...) {
-  htmltools::preactTag(paste0("bslib.", name))(...)
+  htmltools::jsxTag(paste0("bslib.", name))(...)
 }

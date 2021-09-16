@@ -1,6 +1,6 @@
-/** @jsx preact.h */
-/** @jsxFrag preact.Fragment */
-import { Component, cloneElement, Fragment, toChildArray } from 'preact';
+/** @jsx React.createElement */
+/** @jsxFrag React.Fragment */
+import { Component, cloneElement, Fragment, Children } from 'react';
 
 class Navs extends Component {
 
@@ -48,7 +48,7 @@ class Navs extends Component {
 
   getContent(navs) {
     const result = [];
-    toChildArray(navs).forEach(x => {
+    Children.forEach(navs, x => {
       if (x.type.name === 'NavMenu') {
         result.push(this.getContent(x.props.children))
       }
@@ -66,7 +66,7 @@ class Navs extends Component {
 
   addChildProps(children, tabsetId, selected) {
     var self = this;
-    return toChildArray(children).map(function(x, idx) {
+    return Children.map(children, (x, idx) => {
       if (x.type.name === 'NavMenu') {
         const tabsetId = self.newId();
         const children_ = self.addChildProps(x.props.children, tabsetId, selected);

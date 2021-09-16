@@ -145,7 +145,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 }
 
 navs_tag <- function(name, ...) {
-  tagFunc <- htmltools::preactTag(paste0("bslib.", name))
+  tagFunc <- htmltools::jsxTag(paste0("bslib.", name))
   tagFunc(..., navs_dependency())
 }
 
