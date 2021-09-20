@@ -109,6 +109,55 @@ class NavsCard extends Navs {
   }
 }
 
+class NavsBar extends Navs {
+  render() {
+    const props = this.props;
+
+    const collapseId = `#navbar-collapse-${this.newId()}`;
+    const collapseBtn =
+      <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target={collapseId} data-bs-target={collapseId}>
+        <span className="sr-only">Toggle navigation</span>
+        <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+      </button>
+
+    const navbarHeader =
+      <div className="navbar-header">
+        { props.collapse ? collapseBtn : null }
+        <span className="navbar-brand">{props.title}</span>
+      </div>
+
+    const ulTag =
+      <ul id={props.id} className={`nav navbar-nav ${props.id ? 'shiny-tab-input' : ''}`} role='tablist' data-tabsetid={this.state.tabsetId}>
+      {this.state.children}
+    </ul>
+
+    const containerDiv =
+      <div className={`container${props.fluid ? '-fluid' : ''}`}>
+        {navbarHeader}
+        {collapseId ? <div className="collapse navbar-collapse" id={collapseId}>{ulTag}</div> : ulTag}
+      </div>;
+
+    const navbarClass = `navbar navbar-default ${props.inverse ? 'navbar-inverse' : ''} ${props.position ? ('navbar-' + props.position) : '' }`;
+
+    // TODO: 
+    // 1. re-implement https://github.com/rstudio/bslib/blob/d77f5ce61003307e7a6dc3c211e7ac6ee6896582/R/navs-legacy.R#L225
+    // 2. auto color contrasting
+    return <Fragment>
+      <nav className={navbarClass} role="navigation" ref={(el) => el && props.bg && el.style.setProperty("background-color", props.bg, "important")}>
+          {containerDiv}
+        </nav>
+        <div className='tab-content' data-tabsetid={this.state.tabsetId}>
+          {props.header}
+          {this.state.content}
+          {props.footer}
+        </div>
+      </Fragment>
+  }
+}
+
+
 function Nav(props) {
   return (
     <li key={props.id} className={props.selected === props.value ? 'active' : ''}>
@@ -129,16 +178,17 @@ function NavItem(props) {
 
 function NavMenu(props) {
   const toggleClass = `dropdown-toggle${props.selected === props.value ? ' active' : ''}`
+  const ulClass = `dropdown-menu${props.align === "right" ? ' dropdown-menu-right' : ''}`;
   return (
     <li className="dropdown" key={props.tabsetId}>
       <a className={toggleClass} data-toggle="dropdown" href="#" role="button" aria-expanded="false">
         {props.title}
       </a>
-      <ul className="dropdown-menu" data-tabsetid={props.tabsetId}>
+      <ul className={ulClass} data-tabsetid={props.tabsetId}>
         {props.children}
       </ul>
     </li>
   )
 }
 
-export { Navs, NavsCard, Nav, NavSpacer, NavItem, NavMenu }
+export { Navs, NavsCard, NavsBar, Nav, NavSpacer, NavItem, NavMenu }
