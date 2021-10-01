@@ -2,11 +2,13 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(fonts/mem8YaGs126MiZpBA-UFVZ0d.woff) format('woff');
+  font-stretch: normal;
+  src: url(fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVQ.woff) format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: url(fonts/mem5YaGs126MiZpBA-UN7rgOUuhv.woff) format('woff');
+  font-stretch: normal;
+  src: url(fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVQ.woff) format('woff');
 }
