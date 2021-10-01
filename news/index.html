@@ -175,8 +175,17 @@
     <div id="bslib-0309000" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0.9000">
 <a href="#bslib-0309000" class="anchor" aria-hidden="true"></a>bslib 0.3.0.9000<small> Unreleased </small></h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor" aria-hidden="true"></a>New features</h2>
 <ul><li>Upgraded Bootstrap 5 (i.e., <code>bs_theme(version = 5)</code>) from 5.0.2 to 5.1.0 (<a href='https://github.com/rstudio/bslib/issues/365'>#365</a>)</li>
 </ul></div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<ul><li>Closed rstudio/shiny#3519: <code><a href="../reference/nav.html">nav_menu()</a></code> (i.e., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarMenu()</a></code>) wasn’t producing an <code>.active</code> class on it’s <code>.dropdown</code> container properly. (<a href='https://github.com/rstudio/bslib/issues/372'>#372</a>)</li>
+</ul></div>
+</div>
     <div id="bslib-030" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0">
 <a href="#bslib-030" class="anchor" aria-hidden="true"></a>bslib 0.3.0<small> 2021-09-02 </small></h1>
@@ -185,14 +194,14 @@
 <a href="#breaking-changes" class="anchor" aria-hidden="true"></a>Breaking changes</h2>
 <ul><li>Closed rstudio/rmarkdown#2154: <a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a>’s pipe operator (<code>%&gt;%</code>) is no longer re-exported by <a href="https://rstudio.github.io/bslib/">bslib</a>. Either <code><a href="https://magrittr.tidyverse.org" class="external-link">library(magrittr)</a></code> to make <code>%&gt;%</code> available and/or use use R 4.1’s pipe operator (<code>|&gt;</code>).</li>
 </ul></div>
-<div id="new-features" class="section level2">
+<div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features" class="anchor" aria-hidden="true"></a>New features</h2>
+<a href="#new-features-1" class="anchor" aria-hidden="true"></a>New features</h2>
 <ul><li>Closed <a href='https://github.com/rstudio/bslib/issues/82'>#82</a>: Added support for Bootstrap 5 (via <code>bs_theme(version = 5)</code>). Bootstrap 4 remains the default in this release, but the next release, the default will likely change to Bootstrap 5.</li>
 </ul></div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Closed <a href='https://github.com/rstudio/bslib/issues/6'>#6</a>: rmarkdown’s .tabset-fade class now works with Bootstrap 4+ since legacy use of .nav .fade is now officially supported in Bootstrap 4+. (<a href='https://github.com/rstudio/bslib/issues/325'>#325</a>)</li>
 </ul></div>
 </div>
@@ -220,9 +229,9 @@
 <code><a href="../reference/bs_theme_dependencies.html">bs_theme_dependencies()</a></code> now includes Sass source maps when <code><a href="https://rdrr.io/pkg/shiny/man/devmode.html" class="external-link">shiny::devmode()</a></code> is enabled (<a href='https://github.com/rstudio/bslib/issues/312'>#312</a>).</li>
 <li>Added new <code><a href="../reference/bs_bundle.html">bs_add_functions()</a></code>/<code><a href="../reference/bs_bundle.html">bs_add_mixins()</a></code> and deprecated <code><a href="../reference/deprecated.html">bs_add_declarations()</a></code> to reflect <code><a href="https://rdrr.io/pkg/sass/man/sass_layer.html" class="external-link">sass::sass_layer()</a></code>’s new ability to place <code>functions</code> <em>before</em> variable <code>defaults</code>. As a result, variable definitions may now use functions defined with <code><a href="../reference/bs_bundle.html">bs_add_functions()</a></code>. (<a href='https://github.com/rstudio/bslib/issues/311'>#311</a>)</li>
 </ul></div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Closed <a href='https://github.com/rstudio/bslib/issues/236'>#236</a>, <a href='https://github.com/rstudio/bslib/issues/230'>#230</a>, <a href='https://github.com/rstudio/bslib/issues/242'>#242</a>, <a href='https://github.com/rstudio/bslib/issues/187'>#187</a>, <a href='https://github.com/rstudio/bslib/issues/215'>#215</a>, <a href='https://github.com/rstudio/bslib/issues/250'>#250</a>: Addressed various cosmetic issues with CSS (<a href='https://github.com/rstudio/bslib/issues/249'>#249</a>).</li>
 <li>Closed <a href='https://github.com/rstudio/bslib/issues/289'>#289</a>: collapsed navbar toggle now correctly floats to the right (<a href='https://github.com/rstudio/bslib/issues/290'>#290</a>).</li>
 <li>Closed <a href="https://github.com/rstudio/flexdashboard/issues/316" class="external-link">rstudio/flexdashboard#316</a>: fixed an issue with navbar nav spacing/alignment (<a href='https://github.com/rstudio/bslib/issues/286'>#286</a>).</li>
