@@ -1,6 +1,6 @@
 Package: bslib
 Title: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'
-Version: 0.3.0.9000
+Version: 0.3.1
 Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
@@ -37,7 +37,7 @@ Suggests:
     magrittr
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 Collate:
