@@ -4,32 +4,32 @@ index 455b946..05c6e88 100644
 +++ b/inst/lib/bsw5/dist/slate/_bootswatch.scss
 @@ -17,15 +17,15 @@
  // Navbar
- 
+
  .navbar {
 -  border: 1px solid rgba(0, 0, 0, .6);
 -  text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
 +  border: 1px solid rgba($contrast-fg, .6);
 +  text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
- 
+
    .container {
      padding: 0;
    }
- 
+
    .navbar-toggler {
 -    border-color: rgba(0, 0, 0, .6);
 +    border-color: rgba($contrast-fg, .6);
    }
- 
+
    &-fixed-top {
 @@ -38,25 +38,25 @@
- 
+
    .nav-link {
      padding: 1rem;
 -    border-left: 1px solid rgba(255, 255, 255, .1);
 -    border-right: 1px solid rgba(0, 0, 0, .2);
 +    border-left: 1px solid rgba($contrast-bg, .1);
 +    border-right: 1px solid rgba($contrast-fg, .2);
- 
+
      &:hover,
      &:focus {
 -      @include btn-shadow-inverse($gray-800);
@@ -38,29 +38,29 @@ index 455b946..05c6e88 100644
 +      border-left: 1px solid rgba($contrast-fg, .2);
      }
    }
- 
+
    &-brand {
      padding: .75rem 1rem subtract(24px, .75rem);
      margin-right: 0;
 -    border-right: 1px solid rgba(0, 0, 0, .2);
 +    border-right: 1px solid rgba($contrast-fg, .2);
    }
- 
+
    .nav-item.active .nav-link {
 -    background-color: rgba(0, 0, 0, .3);
 -    border-left: 1px solid rgba(0, 0, 0, .2);
 +    background-color: rgba($contrast-fg, .3);
 +    border-left: 1px solid rgba($contrast-fg, .2);
    }
- 
+
    &-nav .nav-item + .nav-item {
 @@ -64,13 +64,13 @@
    }
- 
+
    &.bg-light {
 -    text-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
 +    text-shadow: 1px 1px 1px rgba($contrast-fg, .1);
- 
+
      .nav-link {
        &:hover,
        &:focus {
@@ -73,20 +73,20 @@ index 455b946..05c6e88 100644
    }
 @@ -106,12 +106,12 @@
  // Buttons
- 
+
  .btn {
 -  border-color: rgba(0, 0, 0, .6);
 -  text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
 +  border-color: rgba($contrast-fg, .6);
 +  text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
- 
+
    &:not([disabled]):not(.disabled).active,
    &.disabled {
 -    border-color: rgba(0, 0, 0, .6);
 +    border-color: rgba($contrast-fg, .6);
      box-shadow: none;
    }
- 
+
 @@ -120,7 +120,7 @@
    &:not([disabled]):not(.disabled):active,
    &:not([disabled]):not(.disabled):active:hover,
@@ -95,16 +95,16 @@ index 455b946..05c6e88 100644
 +    border-color: rgba($contrast-fg, .6);
    }
  }
- 
+
 @@ -135,6 +135,20 @@
    }
  }
- 
+
 +@if variable-exists("default") {
 +  .btn-default {
 +    @include btn-shadow($default);
 +    color: $contrast-bg;
-+    
++
 +    &:not([disabled]):not(.disabled):hover,
 +    &:not([disabled]):not(.disabled):focus,
 +    &:not([disabled]):not(.disabled):active,
@@ -116,43 +116,43 @@ index 455b946..05c6e88 100644
 +
  .btn-secondary {
    @include btn-shadow($secondary);
- 
+
 @@ -148,7 +162,7 @@
- 
+
  .btn-success {
    @include btn-shadow($success);
 -  color: $white;
 +  color: $contrast-bg;
- 
+
    &:not([disabled]):not(.disabled):hover,
    &:not([disabled]):not(.disabled):focus,
 @@ -160,7 +174,7 @@
- 
+
  .btn-info {
    @include btn-shadow($info);
 -  color: $white;
 +  color: $contrast-bg;
- 
+
    &:not([disabled]):not(.disabled):hover,
    &:not([disabled]):not(.disabled):focus,
 @@ -172,7 +186,7 @@
- 
+
  .btn-warning {
    @include btn-shadow($warning);
 -  color: $white;
 +  color: $contrast-bg;
- 
+
    &:not([disabled]):not(.disabled):hover,
    &:not([disabled]):not(.disabled):focus,
 @@ -195,7 +209,7 @@
- 
+
  .btn-outline {
    &-primary {
 -    color: $white;
 +    color: $contrast-bg;
    }
  }
- 
+
 @@ -207,7 +221,7 @@
  .btn-group,
  .btn-group-vertical {
@@ -161,7 +161,7 @@ index 455b946..05c6e88 100644
 +    border-color: rgba($contrast-fg, .6);
    }
  }
- 
+
 @@ -219,102 +233,102 @@ h3,
  h4,
  h5,
@@ -169,14 +169,14 @@ index 455b946..05c6e88 100644
 -  text-shadow: -1px -1px 0 rgba(0, 0, 0, .3);
 +  text-shadow: -1px -1px 0 rgba($contrast-fg, .3);
  }
- 
+
  // Forms
- 
+
  legend {
 -  color: $white;
 +  color: $contrast-bg;
  }
- 
+
  .input-group-addon {
    @include btn-shadow($secondary);
 -  text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
@@ -184,16 +184,16 @@ index 455b946..05c6e88 100644
 +  text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
 +  color: $contrast-bg;
  }
- 
+
  // Navs
- 
+
  .nav-tabs {
    .nav-link {
 -    @include btn-shadow-inverse($gray-800);
 -    border: 1px solid rgba(0, 0, 0, .6);
 +    @include btn-shadow-inverse(body-mix(100%));
 +    border: 1px solid rgba($contrast-fg, .6);
- 
+
      &:not([disabled]):not(.disabled):hover,
      &:not([disabled]):not(.disabled):focus,
      &:not([disabled]):not(.disabled):active,
@@ -201,20 +201,20 @@ index 455b946..05c6e88 100644
 -      @include btn-shadow($gray-800);
 +      @include btn-shadow(body-mix(100%));
      }
- 
+
      &.disabled {
 -      border: 1px solid rgba(0, 0, 0, .6);
 +      border: 1px solid rgba($contrast-fg, .6);
      }
    }
- 
+
    .nav-link,
    .nav-link:hover {
 -    color: $white;
 +    color: $contrast-bg;
    }
  }
- 
+
  .nav-pills {
    .nav-link {
 -    @include btn-shadow($gray-800);
@@ -225,7 +225,7 @@ index 455b946..05c6e88 100644
 +    border: 1px solid rgba($contrast-fg, .6);
 +    text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
 +    color: $contrast-bg;
- 
+
      &:hover {
 -      @include btn-shadow-inverse($gray-800);
 -      border: 1px solid rgba(0, 0, 0, .6);
@@ -233,7 +233,7 @@ index 455b946..05c6e88 100644
 +      border: 1px solid rgba($contrast-fg, .6);
      }
    }
- 
+
    .nav-link.active,
    .nav-link:hover {
      background-color: transparent;
@@ -242,7 +242,7 @@ index 455b946..05c6e88 100644
 +    @include btn-shadow-inverse(body-mix(100%));
 +    border: 1px solid rgba($contrast-fg, .6);
    }
- 
+
    .nav-link.disabled,
    .nav-link.disabled:hover {
 -    @include btn-shadow($gray-800);
@@ -250,32 +250,32 @@ index 455b946..05c6e88 100644
      color: $nav-link-disabled-color;
    }
  }
- 
+
  .pagination {
    .page-link {
 -    text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
 -    @include btn-shadow($gray-800);
 +    text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
 +    @include btn-shadow(body-mix(100%));
- 
+
      &:hover {
 -      @include btn-shadow-inverse($gray-800);
 +      @include btn-shadow-inverse(body-mix(100%));
        text-decoration: none;
      }
    }
- 
+
    .page-item.active .page-link {
 -    @include btn-shadow-inverse($gray-800);
 +    @include btn-shadow-inverse(body-mix(100%));
    }
- 
+
    .page-item.disabled .page-link {
 -    @include btn-shadow($gray-800);
 +    @include btn-shadow(body-mix(100%));
    }
  }
- 
+
  .breadcrumb {
 -  border: 1px solid rgba(0, 0, 0, .6);
 -  text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
@@ -284,28 +284,28 @@ index 455b946..05c6e88 100644
    background-color: transparent;
 -  @include btn-shadow($gray-800);
 +  @include btn-shadow(body-mix(100%));
- 
+
    a,
    a:hover {
 -    color: $white;
 +    color: $contrast-bg;
    }
  }
- 
+
 @@ -322,11 +336,11 @@ legend {
- 
+
  .alert {
    border: none;
 -  color: $white;
 +  color: $contrast-bg;
- 
+
    a,
    .alert-link {
 -    color: $white;
 +    color: $contrast-bg;
      text-decoration: underline;
    }
- 
+
 diff --git a/inst/lib/bsw5/dist/slate/_variables.scss b/inst/lib/bsw5/dist/slate/_variables.scss
 index f655a18..637aced 100755
 --- a/inst/lib/bsw5/dist/slate/_variables.scss
@@ -313,7 +313,7 @@ index f655a18..637aced 100755
 @@ -30,36 +30,58 @@ $green:   #62c462 !default;
  $teal:    #20c997 !default;
  $cyan:    #5bc0de !default;
- 
+
 -$primary:       $gray-800 !default;
 -$secondary:     $gray-600 !default;
 +// Body
@@ -346,28 +346,28 @@ index f655a18..637aced 100755
 +// https://github.com/thomaspark/bootswatch/issues/989
 +$light:         lighten($body-color, 50%) !default;
 +$dark:          $body-bg !default;
- 
+
  $min-contrast-ratio:   1.95 !default;
- 
+
 -// Body
 +$enable-shadows: true !default;
 +$enable-gradients: true !default;
 +
 +// Components
- 
+
 -$body-bg:                   $gray-900 !default;
 -$body-color:                #aaa !default;
 +$component-active-color:    $contrast-bg !default;
- 
+
  // Links
- 
+
 -$link-color:                $white !default;
 +$link-color:                $contrast-bg !default;
- 
+
  // Fonts
- 
+
  // Tables
- 
+
 -$table-color:                 $white !default;
 -$table-accent-bg:             rgba($white, .05) !default;
 -$table-hover-bg:              rgba($white, .075) !default;
@@ -379,23 +379,24 @@ index f655a18..637aced 100755
  $table-dark-border-color:     $table-border-color !default;
 -$table-dark-color:            $white !default;
 +$table-dark-color:            $contrast-bg !default;
- 
+
  $table-bg-scale:              0 !default;
- 
-@@ -70,55 +92,55 @@ $input-btn-padding-x:         1rem !default;
- 
+
+@@ -70,56 +92,56 @@ $input-btn-padding-x:         1rem !default;
+
  // Forms
- 
+
+ $input-bg:                              $white !default;
 -$input-disabled-bg:                     #ccc !default;
 +$input-disabled-bg:          mix($contrast-bg, $contrast-fg, 80%) !default;
- 
+
  $input-color:                       $gray-900 !default;
- 
+
 -$form-check-input-bg:                     $white !default;
 +$form-check-input-bg:                     $contrast-bg !default;
- 
+
  // Dropdowns
- 
+
 -$dropdown-bg:                       $gray-800 !default;
 -$dropdown-border-color:             rgba($black, .6) !default;
 -$dropdown-divider-bg:               rgba($black, .15) !default;
@@ -408,18 +409,18 @@ index f655a18..637aced 100755
  $dropdown-link-hover-bg:            $body-bg !default;
  $dropdown-link-active-color:        $dropdown-link-hover-color !default;
  $dropdown-link-active-bg:           $dropdown-link-hover-bg !default;
- 
+
  // Navs
- 
+
 -$nav-tabs-border-color:             rgba($black, .6) !default;
 +$nav-tabs-border-color:             rgba($contrast-fg, .6) !default;
  $nav-tabs-link-hover-border-color:  $nav-tabs-border-color !default;
 -$nav-tabs-link-active-color:        $white !default;
 +$nav-tabs-link-active-color:        $contrast-bg !default;
  $nav-tabs-link-active-border-color: $nav-tabs-border-color !default;
- 
+
  // Navbar
- 
+
  $navbar-padding-y:                  0 !default;
 -$navbar-dark-hover-color:           $white !default;
 -$navbar-light-hover-color:          $gray-800 !default;
@@ -427,10 +428,10 @@ index f655a18..637aced 100755
 +$navbar-dark-hover-color:           $contrast-bg !default;
 +$navbar-light-hover-color:          body-mix(66.7%) !default;
 +$navbar-light-active-color:         body-mix(66.7%) !default;
- 
- 
+
+
  // Pagination
- 
+
 -$pagination-color:                  $white !default;
 +$pagination-color:                  $contrast-bg !default;
  $pagination-bg:                     transparent !default;
@@ -447,19 +448,19 @@ index f655a18..637aced 100755
  $pagination-disabled-bg:            transparent !default;
 -$pagination-disabled-border-color:  rgba($black, .6) !default;
 +$pagination-disabled-border-color:  rgba($contrast-fg, .6) !default;
- 
+
  // Cards
- 
+
 -$card-border-color:                 rgba($black, .6) !default;
 -$card-cap-bg:                       lighten($gray-800, 10%) !default;
 +$card-border-color:                 rgba($contrast-fg, .6) !default;
 +$card-cap-bg:                       lighten(body-mix(66.7%), 10%) !default;
  $card-bg:                           lighten($body-bg, 5%) !default;
- 
+
  // Popovers
 @@ -128,7 +150,7 @@ $popover-bg:                        lighten($body-bg, 5%) !default;
  // Toasts
- 
+
  $toast-background-color:            lighten($body-bg, 5%) !default;
 -$toast-border-color:                rgba(0, 0, 0, .2) !default;
 +$toast-border-color:                rgba($contrast-bg, .2) !default;
@@ -468,19 +469,19 @@ index f655a18..637aced 100755
  $toast-header-border-color:         $toast-border-color !default;
 @@ -136,23 +160,23 @@ $toast-header-border-color:         $toast-border-color !default;
  // Modals
- 
+
  $modal-content-bg:                  lighten($body-bg, 5%) !default;
 -$modal-header-border-color:         rgba(0, 0, 0, .2) !default;
 +$modal-header-border-color:         rgba($contrast-bg, .2) !default;
- 
+
  // Progress bars
- 
+
  $progress-bg:                       darken($gray-900, 5%) !default;
 -$progress-bar-color:                $gray-600 !default;
 +$progress-bar-color:                body-mix(0%) !default;
- 
+
  // List group
- 
+
 -$list-group-color:                  $white !default;
 +$list-group-color:                  $contrast-bg !default;
  $list-group-bg:                     lighten($body-bg, 5%) !default;
@@ -494,6 +495,5 @@ index f655a18..637aced 100755
  $list-group-disabled-color:         $gray-700 !default;
 -$list-group-action-color:           $white !default;
 +$list-group-action-color:           $contrast-bg !default;
- 
+
  // Breadcrumbs
- 

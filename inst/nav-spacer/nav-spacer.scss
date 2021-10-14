@@ -1,6 +1,6 @@
 /* CSS behind nav_spacer() */
 @mixin nav-spacer() {
-  .nav {
+  .nav:not(.nav-hidden) {
     /* Make sure nav container is flexbox (they aren't in BS3) */
     display: flex !important;
     display: -webkit-flex !important;
