@@ -1,9 +1,8 @@
 # bslib 0.3.1.9000
 
-
 ## Breaking changes
 
-* `bs_theme()` now defaults to `version = 5` (i.e., Bootstrap 5). If this change happens to break an existing app, consider specifying `bs_theme(version = 4)` to fix the Bootstrap version. (#374)
+* `bs_theme()` now defaults to `version = 5` (i.e., Bootstrap 5). If this change happens to break an existing app, consider specifying `bs_theme(version = 4)` to revert the change in the Bootstrap version. (#374)
 
 ## New features
 
