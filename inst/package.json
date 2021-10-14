@@ -1,8 +1,8 @@
 {
   "private": true,
   "dependencies": {
-    "bs5": "npm:bootstrap@5.1.0",
-    "bsw5": "npm:bootswatch@5.1.0",
+    "bs5": "npm:bootstrap@5.1.3",
+    "bsw5": "npm:bootswatch@5.1.3",
     "bs4": "npm:bootstrap@4.6.0",
     "bsw4": "npm:bootswatch@4.6.0",
     "bs3": "npm:bootstrap-sass@3.4.1",
