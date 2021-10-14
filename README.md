@@ -77,14 +77,14 @@ For example, most Shiny page layout functions (e.g.,
 To use `bslib` in Shiny, provide a `bs_theme()` *object* to the `theme`
 parameter; and in R Markdown, provide `bs_theme()` *parameters* to
 `theme`. For example, here’s a way to upgrade Shiny (left) and R
-Markdown (right) from Bootstrap 3 to 4:
+Markdown (right) from Bootstrap 3 to 5:
 
 <div class="usage">
 
 ``` r
 library(shiny)
 ui <- navbarPage(
-  theme = bs_theme(version = 4),
+  theme = bs_theme(version = 5),
   ...
 )
 shinyApp(ui, function(...) {})
@@ -95,7 +95,7 @@ shinyApp(ui, function(...) {})
 output:
   html_document:
     theme:
-      version: 4
+      version: 5
 ---
 ```
 
