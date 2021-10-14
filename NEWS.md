@@ -1,5 +1,8 @@
 # bslib 0.3.1.9000
 
+## Bug fixes
+
+* Closed #377: make sure `shiny::tabsetPanel(type = "hidden")` (i.e., `bslib::navs_hidden()`) stays hidden when used with `bs_theme()`. (#379)
 
 # bslib 0.3.1
 
