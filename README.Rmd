@@ -67,13 +67,13 @@ install.packages("rmarkdown")
 
 `bslib` is designed for use with any Shiny or R Markdown project that uses Bootstrap. In most cases, you can identify a project that uses Bootstrap when the relevant page constructor has a `theme` parameter. For example, most Shiny page layout functions (e.g., `shiny::navbarPage()`) and some popular R Markdown formats (e.g., `rmarkdown::html_document`) all have a `theme` parameter. 
 
-To use `bslib` in Shiny, provide a `bs_theme()` _object_ to the `theme` parameter; and in R Markdown, provide `bs_theme()` _parameters_ to `theme`. For example, here's a way to upgrade Shiny (left) and R Markdown (right) from Bootstrap 3 to 4:
+To use `bslib` in Shiny, provide a `bs_theme()` _object_ to the `theme` parameter; and in R Markdown, provide `bs_theme()` _parameters_ to `theme`. For example, here's a way to upgrade Shiny (left) and R Markdown (right) from Bootstrap 3 to 5:
 
 <div class="usage">
 ```r
 library(shiny)
 ui <- navbarPage(
-  theme = bs_theme(version = 4),
+  theme = bs_theme(version = 5),
   ...
 )
 shinyApp(ui, function(...) {})
@@ -83,7 +83,7 @@ shinyApp(ui, function(...) {})
 output:
   html_document:
     theme:
-      version: 4
+      version: 5
 ---
 ```
 </div>
