@@ -1,5 +1,9 @@
 # bslib 0.3.1.9000
 
+## New features
+
+* Upgraded Bootstrap 5 (i.e., `bs_theme(version = 5)`) from 5.1.0 to 5.1.3 (#378)
+
 ## Bug fixes
 
 * Closed #377: make sure `shiny::tabsetPanel(type = "hidden")` (i.e., `bslib::navs_hidden()`) stays hidden when used with `bs_theme()`. (#379)
