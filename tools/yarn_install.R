@@ -295,15 +295,9 @@ patch_files <- list.files(
 
 rej_pre <- dir(pattern = "\\.rej$", recursive = TRUE)
 for (patch in patch_files) {
-  tryCatch(
-    {
-      message(sprintf("Applying %s", basename(patch)))
-      system(sprintf("git apply --reject --whitespace=fix '%s'", patch))
-    },
-    error = function(e) {
-      quit(save = "no", status = 1)
-    }
-  )
+  message(sprintf("Applying %s", basename(patch)))
+  res <- system(sprintf("git apply --reject --whitespace=fix '%s'", patch))
+  if (res > 0) stop("Couldn't successfully apply patch: ", patch, call. = FALSE)
 }
 rej_post <- dir(pattern = "\\.rej$", recursive = TRUE)
 if (length(rej_post) > length(rej_pre)) {

@@ -87,7 +87,7 @@ index b628e0d..e45a65d 100755
 +$light:         body-mix(65%) !default;
 +$dark:          body-mix(95%) !default;
  
- $min-contrast-ratio:   2.15 !default;
+ $min-contrast-ratio:   1.9 !default;
  
 -// Body
 -
@@ -97,7 +97,7 @@ index b628e0d..e45a65d 100755
  // Links
  
  $link-color:                $success !default;
-@@ -57,111 +67,111 @@ $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI
+@@ -56,112 +66,112 @@ $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI
  $h1-font-size:                3rem !default;
  $h2-font-size:                2.5rem !default;
  $h3-font-size:                2rem !default;
@@ -106,15 +106,14 @@ index b628e0d..e45a65d 100755
  
  // Tables
  
--$table-accent-bg:             $gray-800 !default;
 -$table-border-color:          $gray-700 !default;
-+$table-accent-bg:             body-mix(95%) !default;
 +$table-border-color:          body-mix(85%) !default;
  
  $table-bg-scale:              0 !default;
  
  // Forms
  
+ $input-bg:                          $white !default;
 -$input-color:                       $gray-800 !default;
 +$input-color:                       body-mix(95%) !default;
  $input-border-color:                $body-bg !default;
@@ -227,14 +226,14 @@ index b628e0d..e45a65d 100755
  
  // List group
  
-$list-group-color:                  $body-color !default;
+ $list-group-color:                  $body-color !default;
 -$list-group-bg:                     $gray-800 !default;
 -$list-group-border-color:           $gray-700 !default;
 -$list-group-hover-bg:               $gray-700 !default;
 +$list-group-bg:                     body-mix(95%) !default;
 +$list-group-border-color:           body-mix(85%) !default;
 +$list-group-hover-bg:               body-mix(85%) !default;
-$list-group-action-hover-color:     $list-group-color !default;
+ $list-group-action-hover-color:     $list-group-color !default;
 -$list-group-action-active-bg:       $gray-900 !default;
 +$list-group-action-active-bg:       body-mix(99%) !default;
  
