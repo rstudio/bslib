@@ -100,12 +100,8 @@ $nav-tabs-link-active-border-color: $nav-tabs-border-color $nav-tabs-border-colo
 // Navbar
 
 $navbar-padding-y:                  1rem !default;
-$navbar-dark-color:                 rgba($body-color, .6) !default;
-$navbar-dark-hover-color:           $body-color !default;
-$navbar-light-color:                rgba($body-bg, .7) !default;
-$navbar-light-hover-color:          $body-bg !default;
-$navbar-light-active-color:         $body-bg !default;
-$navbar-light-toggler-border-color: rgba($body-bg, .1) !default;
+$navbar-light-bg:                   $primary !default;
+$navbar-dark-bg:                    $success !default;
 
 // Pagination
 
