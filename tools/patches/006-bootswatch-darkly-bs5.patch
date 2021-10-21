@@ -97,7 +97,7 @@ index b628e0d..e45a65d 100755
  // Links
  
  $link-color:                $success !default;
-@@ -56,112 +66,112 @@ $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI
+@@ -56,112 +66,108 @@ $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI
  $h1-font-size:                3rem !default;
  $h2-font-size:                2.5rem !default;
  $h3-font-size:                2rem !default;
@@ -164,12 +164,8 @@ index b628e0d..e45a65d 100755
 -$navbar-light-hover-color:          $gray-900 !default;
 -$navbar-light-active-color:         $gray-900 !default;
 -$navbar-light-toggler-border-color: rgba($gray-900, .1) !default;
-+$navbar-dark-color:                rgba($body-color, .6) !default;
-+$navbar-dark-hover-color:          $body-color !default;
-+$navbar-light-color:                rgba($body-bg, .7) !default;
-+$navbar-light-hover-color:          $body-bg !default;
-+$navbar-light-active-color:         $body-bg !default;
-+$navbar-light-toggler-border-color: rgba($body-bg, .1) !default;
++$navbar-light-bg:                   $primary !default;
++$navbar-dark-bg:                    $success !default;
  
  // Pagination
  
