@@ -408,7 +408,7 @@ bootswatch_bundle <- function(bootswatch, version) {
 
   bootswatch <- switch_version(
     version,
-    four = {
+    default = {
       switch(
         bootswatch,
         paper = {
@@ -422,7 +422,7 @@ bootswatch_bundle <- function(bootswatch, version) {
         match.arg(bootswatch, bootswatch_themes(version))
       )
     },
-    default = match.arg(bootswatch, bootswatch_themes(version))
+    three = match.arg(bootswatch, bootswatch_themes(version))
   )
 
   # Attach local font files, if necessary
