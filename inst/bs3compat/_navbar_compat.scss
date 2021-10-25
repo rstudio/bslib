@@ -43,34 +43,18 @@ ul.nav.navbar-nav>li>a {
 // BS3 .navbar-default -> BS4 .navbar-light
 .navbar.navbar-default {
   // Sets a variety of fg colors which are configurable via $navbar-light-* options
-  @extend .navbar-#{$navbar-default-type};
+  @extend .navbar-light;
   // To make it easier for end users to set the navbar bg color,
-  // we've introduced this variable into BS4 Sass variables, and defaulted
-  // it to null (a falsy value).
-  // Unfortunately, when used, the end user must take some care that the
-  // $navbar-light-* options provide proper contrast, as well as the connection to
-  // navbarPage(inverse = FALSE), but this at least this saves them from having
-  // to add a .bg-* utility class (not straight forward).
-  // In an ideal world, we'd automatically set fg colors based on color-contrast()
-  // and get rid of the class-based (i.e., light/dark) concept, but that ship has sailed,
-  // especially considering that Bootswatch makes strong markup assumptions
-  @if $navbar-light-bg {
-    background-color: $navbar-light-bg !important;
-  } @else {
-    @extend .bg-#{$navbar-default-bg};
-  }
+  // we've introduced this variable
+  background-color: $navbar-light-bg !important;
 }
 
 // BS3 .navbar-inverse -> BS4 .navbar-dark
 .navbar.navbar-inverse {
   // Sets a variety of fg colors which are configurable via $navbar-dark-* options
-  @extend .navbar-#{$navbar-inverse-type};
+  @extend .navbar-dark;
   // See comments above for $navbar-light-bg
-  @if $navbar-dark-bg {
-    background-color: $navbar-dark-bg !important;
-  } @else {
-    @extend .bg-#{$navbar-inverse-bg};
-  }
+  background-color: $navbar-dark-bg !important;
 }
 
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.
