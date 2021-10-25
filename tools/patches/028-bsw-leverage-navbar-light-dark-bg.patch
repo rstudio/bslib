@@ -1,16 +1,3 @@
-diff --git a/inst/lib/bsw5/dist/flatly/_variables.scss b/inst/lib/bsw5/dist/flatly/_variables.scss
-index 12fd9594..6b3e7638 100755
---- a/inst/lib/bsw5/dist/flatly/_variables.scss
-+++ b/inst/lib/bsw5/dist/flatly/_variables.scss
-@@ -80,7 +80,7 @@ $navbar-light-active-color:         $success !default;
- $navbar-light-brand-color:          $white !default;
- $navbar-light-brand-hover-color:    $navbar-light-brand-color !default;
- 
--
-+$navbar-dark-bg:                    $success !default;
- $navbar-dark-color:                 $white !default;
- $navbar-dark-hover-color:           $primary !default;
- $navbar-dark-active-color:          $primary !default;
 diff --git a/inst/lib/bsw5/dist/sandstone/_variables.scss b/inst/lib/bsw5/dist/sandstone/_variables.scss
 index e0e959d8..1a47bb6a 100755
 --- a/inst/lib/bsw5/dist/sandstone/_variables.scss
