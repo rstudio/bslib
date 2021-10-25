@@ -452,8 +452,6 @@ bootswatch_bundle <- function(bootswatch, version) {
         # but this prevents .dropdown-submenu from working properly
         # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
         if (identical(bootswatch, "sketchy")) ".dropdown-menu{ overflow: inherit; }" else "",
-        # TODO: is this really needed? Why isn't it listening to a Sass var?
-        if (identical(bootswatch, "lumen")) ".navbar.navbar-default {background-color: #f8f8f8 !important;}" else "",
         # Several Bootswatch themes (e.g., zephyr, simplex, etc) add custom .btn-secondary
         # rules that should also apply to .btn-default
         ".btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-outline-primary):not(.btn-outline-info):not(.btn-outline-success):not(.btn-outline-warning):not(.btn-outline-danger):not(.btn-outline-dark) {
@@ -472,89 +470,33 @@ bs3compat_navbar_defaults <- function(bootswatch) {
     return("")
   }
 
-  nav_classes <- switch(
+  bg_colors <- switch(
     bootswatch,
-    # https://bootswatch.com/cerulean/
-    # https://bootswatch.com/3/cerulean/
-    cerulean = list(
-      default = c("dark", "primary"),
-      inverse = c("dark", "dark")
-    ),
-    cosmo = list(
-      default = c("dark", "dark"),
-      inverse = c("dark", "primary")
-    ),
-    cyborg = list(
-      default = c("dark", "dark"),
-      inverse = c("dark", "secondary")
-    ),
-    darkly = list(
-      default = c("dark", "primary"),
-      inverse = c("dark", "success")
-    ),
-    flatly = list(
-      default = c("light", "primary"),
-      inverse = c("dark", "secondary")
-    ),
-    journal = list(
-      default = c("light", "light"),
-      inverse = c("dark", "primary")
-    ),
-    lumen = list(
-      # Inline style is actually used for default's bg-color
-      default = c("light", "light"),
-      inverse = c("light", "light")
-    ),
+    cerulean = c("primary", "info"),
+    cosmo = c("dark", "primary"),
+    cyborg = c("body-bg", "secondary"),
+    darkly = c("primary", "success"),
+    flatly = c("primary", "success"),
+    journal = c("light", "primary"),
+    lumen = c("light", "white"),
     # i.e., materia
     paper = ,
-    materia = list(
-      default = c("light", "light"),
-      inverse = c("dark", "primary")
-    ),
+    materia = c("light", "primary"),
     readable = ,
-    litera = list(
-      # The default styling is totally different here, but I don't see a
-      # easy and consistent way to bring in the old styling
-      default = c("light", "light"),
-      inverse = c("light", "dark")
-    ),
-    sandstone = list(
-      default = c("dark", "primary"),
-      # technically speaking this background should be green, but dark looks
-      # better/more consistent with other stuff on the page
-      inverse = c("dark", "dark")
-    ),
-    simplex = list(
-      default = c("light", "light"),
-      inverse = c("dark", "primary")
-    ),
-    slate = list(
-      default = c("dark", "primary"),
-      inverse = c("dark", "light")
-    ),
-    spacelab = list(
-      default = c("light", "light"),
-      inverse = c("dark", "primary")
-    ),
-    superhero = list(
-      default = c("dark", "dark"),
-      inverse = c("dark", "primary")
-    ),
-    united = list(
-      default = c("dark", "primary"),
-      inverse = c("dark", "dark")
-    ),
-    yeti = list(
-      default = c("dark", "dark"),
-      inverse = c("dark", "primary")
-    ),
+    litera = c("light", "dark"),
+    sandstone = c("dark", "success"),
+    simplex = c("light", "primary"),
+    slate = c("primary", "light"),
+    spacelab = c("light", "primary"),
+    superhero = c("dark", "primary"),
+    united = c("primary", "dark"),
+    yeti = c("dark", "primary"),
     stop("Didn't recognize Bootswatch 3 theme: ", bootswatch, call. = FALSE)
   )
 
+
   list(
-    sprintf('$navbar-default-type: %s !default;', nav_classes$default[1]),
-    sprintf('$navbar-default-bg: %s !default;', nav_classes$default[2]),
-    sprintf('$navbar-inverse-type: %s !default;', nav_classes$inverse[1]),
-    sprintf('$navbar-inverse-bg: %s !default;', nav_classes$inverse[2])
+    sprintf('$navbar-light-bg: $%s !default;', bg_colors[1]),
+    sprintf('$navbar-dark-bg: $%s !default;', bg_colors[2])
   )
 }

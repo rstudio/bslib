@@ -1,0 +1,43 @@
+diff --git a/inst/lib/bsw5/dist/sandstone/_variables.scss b/inst/lib/bsw5/dist/sandstone/_variables.scss
+index e0e959d8..1a47bb6a 100755
+--- a/inst/lib/bsw5/dist/sandstone/_variables.scss
++++ b/inst/lib/bsw5/dist/sandstone/_variables.scss
+@@ -73,11 +73,6 @@ $nav-tabs-link-active-bg:           $white !default;
+ $nav-pills-link-active-color:       $gray-600 !default;
+ $nav-pills-link-active-bg:          $gray-200 !default;
+ 
+-// Navbar
+-
+-$navbar-dark-hover-color:           $white !default;
+-$navbar-light-hover-color:          $black !default;
+-$navbar-light-active-color:         $black !default;
+ 
+ // Pagination
+ 
+diff --git a/inst/lib/bsw5/dist/slate/_variables.scss b/inst/lib/bsw5/dist/slate/_variables.scss
+index 522cf27a..b96bf2cd 100755
+--- a/inst/lib/bsw5/dist/slate/_variables.scss
++++ b/inst/lib/bsw5/dist/slate/_variables.scss
+@@ -120,9 +120,6 @@ $nav-tabs-link-active-border-color: $nav-tabs-border-color !default;
+ // Navbar
+ 
+ $navbar-padding-y:                  0 !default;
+-$navbar-dark-hover-color:           $contrast-bg !default;
+-$navbar-light-hover-color:          body-mix(66.7%) !default;
+-$navbar-light-active-color:         body-mix(66.7%) !default;
+ 
+ 
+ // Pagination
+diff --git a/inst/lib/bsw5/dist/superhero/_variables.scss b/inst/lib/bsw5/dist/superhero/_variables.scss
+index 576f4957..6bf527c9 100755
+--- a/inst/lib/bsw5/dist/superhero/_variables.scss
++++ b/inst/lib/bsw5/dist/superhero/_variables.scss
+@@ -114,8 +114,6 @@ $nav-tabs-link-active-border-color: body-mix(80%) !default;
+ 
+ // Navbar
+ 
+-$navbar-dark-color:                 rgba($contrast-bg, .75) !default;
+-$navbar-dark-hover-color:           $contrast-bg !default;
+ 
+ // Pagination
+ 
