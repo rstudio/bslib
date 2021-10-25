@@ -2,7 +2,7 @@ diff --git a/inst/lib/bs5/scss/_forms.scss b/inst/lib/bs5/scss/_forms.scss
 index 7b17d84..82c9e0b 100644
 --- a/inst/lib/bs5/scss/_forms.scss
 +++ b/inst/lib/bs5/scss/_forms.scss
-@@ -1,3 +1,11 @@
+@@ -1,3 +1,14 @@
 +$shiny-check: ".shiny-input-container .checkbox";
 +$shiny-check-inline: $shiny-check + "-inline";
 +$shiny-radio: ".shiny-input-container .radio";
@@ -10,6 +10,9 @@ index 7b17d84..82c9e0b 100644
 +$form-check-input-selector: ".form-check-input, " + 
 +  $shiny-check + " input, " + $shiny-check-inline + " input, " +
 +  $shiny-radio + " input, " + $shiny-radio-inline + " input, ";
++$form-check-label-selector: ".form-check-label, " +
++  $shiny-check + " label, " + $shiny-check-inline + " label, " +
++  $shiny-radio + " label, " + $shiny-radio-inline + " label, ";
 +
  @import "forms/labels";
  @import "forms/form-text";
@@ -18,7 +21,7 @@ diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.sc
 index 0fb5284..2615d70 100644
 --- a/inst/lib/bs5/scss/_variables.scss
 +++ b/inst/lib/bs5/scss/_variables.scss
-@@ -732,7 +732,7 @@ $input-transition:                      border-color .15s ease-in-out, box-shado
+@@ -732,8 +732,8 @@ $input-transition:                      border-color .15s ease-in-out, box-shado
  // scss-docs-start form-check-variables
  $form-check-input-width:                  1em !default;
  $form-check-min-height:                   $font-size-base * $line-height-base !default;
@@ -26,7 +29,9 @@ index 0fb5284..2615d70 100644
 +$form-check-padding-start:                0 !default;
  $form-check-margin-bottom:                .125rem !default;
  $form-check-label-color:                  null !default;
- $form-check-label-cursor:                 null !default;
+-$form-check-label-cursor:                 null !default;
++$form-check-label-cursor:                 pointer !default;
+ $form-check-transition:                   null !default;
 diff --git a/inst/lib/bs5/scss/forms/_form-check.scss b/inst/lib/bs5/scss/forms/_form-check.scss
 index b1ef904..4a96ef5 100644
 --- a/inst/lib/bs5/scss/forms/_form-check.scss
@@ -62,6 +67,22 @@ index b1ef904..4a96ef5 100644
 +.form-check-inline, #{$shiny-check-inline}, #{$shiny-radio-inline} {
    display: inline-block;
    margin-right: $form-check-inline-margin-end;
+ }
+@@ -94,13 +94,13 @@
+   // See: https://github.com/twbs/bootstrap/issues/28247
+   &[disabled],
+   &:disabled {
+-    ~ .form-check-label {
++    ~ .form-check-label, ~ span {
+       opacity: $form-check-label-disabled-opacity;
+     }
+   }
+ }
+ 
+-.form-check-label {
++#{$form-check-label-selector} {
+   color: $form-check-label-color;
+   cursor: $form-check-label-cursor;
  }
 diff --git a/inst/lib/bs5/scss/forms/_labels.scss b/inst/lib/bs5/scss/forms/_labels.scss
 index 39ecafc..efcab1f 100644
