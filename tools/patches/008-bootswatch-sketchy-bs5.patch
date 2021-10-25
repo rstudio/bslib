@@ -1,22 +1,35 @@
 diff --git a/inst/lib/bsw5/dist/sketchy/_bootswatch.scss b/inst/lib/bsw5/dist/sketchy/_bootswatch.scss
-index 561162b..2925c84 100644
+index 0b2fd6c0..344a014c 100644
 --- a/inst/lib/bsw5/dist/sketchy/_bootswatch.scss
 +++ b/inst/lib/bsw5/dist/sketchy/_bootswatch.scss
-@@ -160,7 +160,7 @@ select.form-control {
+@@ -159,8 +159,8 @@ select.form-control {
+   border-radius: $border-radius-lg-sketchy !important;
  }
  
- [type="checkbox"] {
--  position: relative;
-+  position: relative !important;
+-[type="checkbox"] {
++#{$shiny-check} input, #{$shiny-check-inline} input, [type="checkbox"] {
+   position: relative;
    appearance: none;
    -webkit-appearance: none;
    -moz-appearance: none;
-@@ -201,7 +201,7 @@ select.form-control {
+@@ -200,8 +200,8 @@ select.form-control {
+   }
  }
  
- [type="radio"] {
--  position: relative;
-+  position: relative !important;
+-[type="radio"] {
++#{$shiny-radio} input, #{$shiny-radio-inline} input, [type="radio"] {
+   position: relative;
    appearance: none;
    -webkit-appearance: none;
    -moz-appearance: none;
+@@ -235,6 +235,10 @@ select.form-control {
+   }
+ }
+ 
++#{$shiny-check}, #{$shiny-check-inline}, #{$shiny-radio}, #{$shiny-radio-inline} {
++  span { padding-left: 1rem; }
++}
++
+ .form-check-input {
+   &:focus {
+     box-shadow: none;
