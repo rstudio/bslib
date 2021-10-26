@@ -72,6 +72,8 @@ BugReports: https://github.com/rstudio/bslib/issues
 Config/Needs/website:
     rsconnect,
     renv,
+    r-lib/pkgdown,
     rstudio/quillt
 Remotes:
+    r-lib/pkgdown,
     r-lib/rlang
