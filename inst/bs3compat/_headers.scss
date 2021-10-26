@@ -2,14 +2,15 @@
 // which is a pretty jarring change, expecially for Rmd
 // https://github.com/twbs/bootstrap/blob/f17f882d/dist/css/bootstrap.css#L1219-L1250
 // https://github.com/twbs/bootstrap/blob/4de4874e/scss/_reboot.scss#L82-L89
-h1, h2, h3 {
-  // https://github.com/rstudio/bslib/issues/375
-  &:not(.accordion-header), &:not(.popover-header) {
+
+@if $bootstrap-version >= 5 {
+  .section.level1, .section.level2, .section.level3 {
     margin-top: 1.5 * $spacer;
   }
-}
-h4, h5, h6 {
-  &:not(.accordion-header), &:not(.popover-header) {
+  .section.level4, .section.level5, .section.level6 {
     margin-top: $spacer;
   }
+} @else {
+  h1, h2, h3 { margin-top: 1.5 * $spacer;}
+  h4, h5, h6 { margin-top: $spacer; }
 }
