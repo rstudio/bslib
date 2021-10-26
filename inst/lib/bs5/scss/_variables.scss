@@ -904,7 +904,7 @@ $form-check-min-height:                   $font-size-base * $line-height-base !d
 $form-check-padding-start:                0 !default;
 $form-check-margin-bottom:                .125rem !default;
 $form-check-label-color:                  null !default;
-$form-check-label-cursor:                 null !default;
+$form-check-label-cursor:                 pointer !default;
 $form-check-transition:                   null !default;
 
 $form-check-input-active-filter:          brightness(90%) !default;
