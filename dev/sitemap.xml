@@ -1,63 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rstudio.github.io/bslib//index.html</loc>
+    <loc>https://rstudio.github.io/bslib/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bootswatch_themes.html</loc>
+    <loc>https://rstudio.github.io/bslib/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_bundle.html</loc>
+    <loc>https://rstudio.github.io/bslib/PULL_REQUEST_TEMPLATE.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_current_theme.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/bs4-variables.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_dependency.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/bs5-variables.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_get_variables.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/bslib.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_global_theme.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/custom-components.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_remove.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_theme.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/utility-classes.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_theme_dependencies.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/why-sass.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/bs_theme_preview.html</loc>
+    <loc>https://rstudio.github.io/bslib/authors.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/deprecated.html</loc>
+    <loc>https://rstudio.github.io/bslib/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/font_face.html</loc>
+    <loc>https://rstudio.github.io/bslib/news/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/pipe.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/bootswatch_themes.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/precompiled_css_path.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/bs_bundle.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/run_with_themer.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/bs_current_theme.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/theme_bootswatch.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/bs_dependency.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/theme_version.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/bs_get_variables.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//reference/versions.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/bs_global_theme.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib//articles/theming.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/bs_remove.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/bs_theme.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/bs_theme_dependencies.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/bs_theme_preview.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/deprecated.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/font_face.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/html-browse.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/nav.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/nav_prepend.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/nav_select.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/navs.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/page.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/precompiled_css_path.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/run_with_themer.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/theme_bootswatch.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/theme_version.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/versions.html</loc>
   </url>
 </urlset>

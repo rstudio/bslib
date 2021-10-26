@@ -1,10 +1,15 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
-pkgdown_sha: ~
+pkgdown: 1.9000.9000.9000
+pkgdown_sha: 9c4e8c37f3e7db589b0307b003a12b6b77971995
 articles:
-  theming: theming.html
-last_built: 2021-01-20T17:17Z
+  bs4-variables: bs4-variables.html
+  bs5-variables: bs5-variables.html
+  bslib: bslib.html
+  custom-components: custom-components.html
+  utility-classes: utility-classes.html
+  why-sass: why-sass.html
+last_built: 2021-10-26T21:08Z
 urls:
-  reference: https://rstudio.github.io/bslib//reference
-  article: https://rstudio.github.io/bslib//articles
+  reference: https://rstudio.github.io/bslib/reference
+  article: https://rstudio.github.io/bslib/articles
 
