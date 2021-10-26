@@ -239,7 +239,7 @@ select.form-control {
   span { padding-left: 1rem; }
 }
 
-.form-check-input {
+#{$form-check-input-selector} {
   &:focus {
     box-shadow: none;
   }

@@ -30,6 +30,7 @@ index 0b2fd6c0..344a014c 100644
 +  span { padding-left: 1rem; }
 +}
 +
- .form-check-input {
+-.form-check-input {
++#{$form-check-input-selector} {
    &:focus {
      box-shadow: none;
