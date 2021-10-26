@@ -11,6 +11,7 @@
 
 ## Bug fixes
 
+* Closed #393: Bootstrap 5's `$form-check-label-*` variables now work as expected with `shiny::radioButtons()`, `shiny::checkboxInput()`, and `shiny::checkboxGroupInput()`. (#395)
 * Closed #377: make sure `shiny::tabsetPanel(type = "hidden")` (i.e., `bslib::navs_hidden()`) stays hidden when used with `bs_theme()`. (#379)
 * Closed #390: using `bs_theme(bootswatch = "paper", version = 5)` or `bs_theme(bootswatch = "readable", version = 5)` no longer errors. (#391)
 
