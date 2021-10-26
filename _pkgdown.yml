@@ -14,7 +14,7 @@ template:
       index_name: bslib
 
 development:
-  mode: release
+  mode: auto
 
 navbar:
   type: default

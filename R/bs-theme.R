@@ -56,7 +56,7 @@
 #'
 #' @param version The major version of Bootstrap to use (see [versions()]
 #'   for possible values). Defaults to the currently recommended version
-#'   for new projects (currently Bootstrap 4).
+#'   for new projects (currently Bootstrap 5).
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
