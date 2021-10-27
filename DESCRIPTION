@@ -73,5 +73,3 @@ Config/Needs/website:
     rsconnect,
     renv,
     rstudio/quillt
-Remotes:
-    r-lib/rlang
