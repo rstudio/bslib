@@ -45,14 +45,14 @@
 
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
       </span>
 
       <!--<div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
         </div>
       </div>-->
     </div>
@@ -117,7 +117,7 @@
       <h1 data-toc-skip>Get started</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/bslib.Rmd" class="external-link"><code>vignettes/bslib.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/HEAD/vignettes/bslib.Rmd" class="external-link"><code>vignettes/bslib.Rmd</code></a></small>
       <div class="hidden name"><code>bslib.Rmd</code></div>
 
     </div>
@@ -129,9 +129,9 @@
 </style>
 <p>As we learned in <a href="https://rstudio.github.io/bslib/#usage">Basic usage</a>, any usage of <code>bslib</code> with Shiny and R Markdown is powered by <code><a href="../reference/bs_theme.html">bs_theme()</a></code>. Here you can pick a major Bootstrap <a href="#versions">version</a>, choose a pre-packaged <a href="#bootswatch">Bootswatch</a> theme, and/or <a href="#custom">customize</a> various theming defaults. <code>bslib</code> even provides a interactive widget (<code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) to change some of <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s options <a href="#real-time">real-time</a>.</p>
 <p>In some more <a href="#advanced">advanced cases</a>, you might also want to know how to add additional Sass/CSS rules, leverage utility classes, and develop custom (themeable) components.</p>
-<div id="versions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#versions" class="anchor" aria-hidden="true"></a>Bootstrap versions</h2>
+<div class="section level2">
+<h2 id="versions">Bootstrap versions<a class="anchor" aria-label="anchor" href="#versions"></a>
+</h2>
 <p>At the time of writing, <code>bslib</code> currently supports:</p>
 <ul>
 <li>
@@ -148,9 +148,9 @@
 <li>Adds custom HTML, CSS, or JavaScript that builds on Bootstrap.</li>
 </ul>
 </div>
-<div id="bootswatch" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bootswatch" class="anchor" aria-hidden="true"></a>Bootswatch themes</h2>
+<div class="section level2">
+<h2 id="bootswatch">Bootswatch themes<a class="anchor" aria-label="anchor" href="#bootswatch"></a>
+</h2>
 <p>Any <a href="https://bootswatch.com" class="external-link">Bootswatch</a> theme is available through <code><a href="../reference/bs_theme.html">bs_theme()</a></code>’s <code>bootswatch</code> argument. You may already be familiar with using these “pre-packaged” themes via the <code>{shinythemes}</code> package (or via the <code>theme</code> parameter in R Markdown). Those legacy approaches only provide <a href="https://bootswatch.com/3" class="external-link">Bootswatch 3 themes</a>, but with <a href="https://rstudio.github.io/bslib/">bslib</a>, you can use newer themes like <a href="https://bootswatch.com/minty" class="external-link">minty</a>.</p>
 <div class="usage">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -169,13 +169,13 @@
 </div>
 <p><img src="minty.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
-<div id="custom" class="section level2">
-<h2 class="hasAnchor">
-<a href="#custom" class="anchor" aria-hidden="true"></a>Custom themes</h2>
+<div class="section level2">
+<h2 id="custom">Custom themes<a class="anchor" aria-label="anchor" href="#custom"></a>
+</h2>
 <p>In addition to <code>version</code> and <code>bootswatch</code>, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> has some other named arguments for customizing <a href="#main-colors">main colors and fonts</a>. These named arguments (e.g., <code>bg</code>, <code>fg</code>, <code>base_font</code>, etc) are supported across <a href="#versions">Bootstrap versions</a>, making them useful for both new and legacy projects. If you’re looking to customize lower-level aspects (e.g., headings, navbars, etc), then you’ll want to know how to <a href="#low-level">work with Sass variables more directly</a>. Also, in the event that no Sass variable is available to meet your theming needs, you may need to write <a href="#add-rules">additional CSS rules</a> and/or leverage <a href="#utility-classes">utility classes</a>.</p>
-<div id="main-colors" class="section level3">
-<h3 class="hasAnchor">
-<a href="#main-colors" class="anchor" aria-hidden="true"></a>Main colors &amp; fonts</h3>
+<div class="section level3">
+<h3 id="main-colors">Main colors &amp; fonts<a class="anchor" aria-label="anchor" href="#main-colors"></a>
+</h3>
 <p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> provides named arguments for customizing the main background color (<code>bg</code>), foreground color (<code>fg</code>), accent colors (<code>primary</code>, <code>secondary</code>, etc), and fonts (<code>base_font</code>, <code>heading_font</code>, <code>code_font</code>, etc). Here’s an example of using a subset of these named arguments to implement a dark mode with custom fonts:</p>
 <div class="usage">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -214,9 +214,9 @@
 <p>When choosing fonts, keep in mind that it’s generally good practice to put serif fonts in <code>base_font</code>, sans-serif fonts in <code>heading_font</code>, and monospace fonts in <code>code_font</code>. If you aren’t sure where to start, <a href="https://fontpair.co/featured" class="external-link">this article</a> has a nice gallery of Google Font pairings.</p>
 </div>
 </div>
-<div id="low-level" class="section level3">
-<h3 class="hasAnchor">
-<a href="#low-level" class="anchor" aria-hidden="true"></a>Everything else</h3>
+<div class="section level3">
+<h3 id="low-level">Everything else<a class="anchor" aria-label="anchor" href="#low-level"></a>
+</h3>
 <p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> also provides access to 100s of more specific <a href="bs5-variables.html">theming options</a> by considering anything passed through it’s <code>...</code> argument to be a new <a href="https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults" class="external-link">Bootstrap Sass variable defaults</a>. This allows you to get more targetted with your theming; for example, let’s set the <a href="bs5-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a> Sass variable to <code>'orange'</code> (a CSS color).</p>
 <div class="usage">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -266,9 +266,9 @@
 <span id="cb11-3"><a href="#cb11-3"></a><span class="st">    </span>theme<span class="op">:</span><span class="st"> </span><span class="op">!</span>expr bslib<span class="op">::</span><span class="kw">bs_add_variables</span>(bslib<span class="op">::</span><span class="kw">bs_theme</span>(), <span class="st">"progress-bar-bg"</span> =<span class="st"> "$secondary"</span>, <span class="dt">.where =</span> <span class="st">"declarations"</span>)</span></code></pre></div>
 </div>
 </div>
-<div id="real-time" class="section level2">
-<h2 class="hasAnchor">
-<a href="#real-time" class="anchor" aria-hidden="true"></a>Real-time theming</h2>
+<div class="section level2">
+<h2 id="real-time">Real-time theming<a class="anchor" aria-label="anchor" href="#real-time"></a>
+</h2>
 <p>Use <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code> (or <code><a href="../reference/run_with_themer.html">bs_themer()</a></code>) to create custom themes in “real-time” via an interactive theming widget. The former overlays the widget on a demo Shiny app (<a href="https://testing-apps.shinyapps.io/themer-demo" class="external-link">see here</a> for a hosted version):</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -302,9 +302,9 @@ bslib::bs_themer()
 <p>By the way, when running the real-time themer locally in a Shiny app, you’ll see output like this in your R console (in R Markdown, you’ll see YAML output instead of R code) to reproduce the theming changes:</p>
 <p><img src="themer-code.png" width="80%" style="display: block; margin: auto;"></p>
 </div>
-<div id="dynamic" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dynamic" class="anchor" aria-hidden="true"></a>Dynamic theming</h2>
+<div class="section level2">
+<h2 id="dynamic">Dynamic theming<a class="anchor" aria-label="anchor" href="#dynamic"></a>
+</h2>
 <p>The functionality behind <a href="#real-time">real-time</a> theming can be leveraged in any Shiny app (or <code>runtime:shiny</code> Rmd doc) to implement your own custom theming widget (via <code>session$setCurrentTheme()</code>), like a dark mode switch:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>
@@ -322,12 +322,12 @@ bslib::bs_themer()
 <p><img src="dark-mode.gif" width="50%" style="display: block; margin: auto;"></p>
 <p>See the sections on <code>setCurrentTheme</code> and <code>getCurrentTheme</code> <a href="https://shiny.rstudio.com/reference/shiny/1.6.0/session.html" class="external-link">here</a> to learn more.</p>
 </div>
-<div id="advanced" class="section level2">
-<h2 class="hasAnchor">
-<a href="#advanced" class="anchor" aria-hidden="true"></a>Advanced theming</h2>
-<div id="add-rules" class="section level3">
-<h3 class="hasAnchor">
-<a href="#add-rules" class="anchor" aria-hidden="true"></a>Adding rules</h3>
+<div class="section level2">
+<h2 id="advanced">Advanced theming<a class="anchor" aria-label="anchor" href="#advanced"></a>
+</h2>
+<div class="section level3">
+<h3 id="add-rules">Adding rules<a class="anchor" aria-label="anchor" href="#add-rules"></a>
+</h3>
 <p>A good amount of theming is possible by customizing Bootstrap Sass variables in <code><a href="../reference/bs_theme.html">bs_theme()</a></code>, but sometimes you may also want to add additional Sass/CSS rules. The <code><a href="../reference/bs_bundle.html">bs_add_rules()</a></code> function makes this easy for Shiny usage. Here’s an example of adding <a href="https://github.com/nostalgic-css/NES.css/" class="external-link">nes.css</a>, which adds additional styles for things like the mouse cursor (on top of <code><a href="../reference/bs_theme.html">bs_theme()</a></code>s theming options).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>
@@ -362,15 +362,15 @@ Hello custom block with custom styles!
 :::
 </code></pre>
 </div>
-<div id="utility-classes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#utility-classes" class="anchor" aria-hidden="true"></a>Utility Classes</h3>
+<div class="section level3">
+<h3 id="utility-classes">Utility Classes<a class="anchor" aria-label="anchor" href="#utility-classes"></a>
+</h3>
 <p>With <a href="#versions">Bootstrap 4 (or higher)</a>, you can use utility classes to easily add or subtract styles on specific elements to handle common UI problems like spacing, border, colors, and more. See the article on <a href="utility-classes.html">Utility Classes</a> for some useful examples specific to Shiny and R Markdown.</p>
 </div>
 </div>
-<div id="component-support" class="section level2">
-<h2 class="hasAnchor">
-<a href="#component-support" class="anchor" aria-hidden="true"></a>Component support</h2>
+<div class="section level2">
+<h2 id="component-support">Component support<a class="anchor" aria-label="anchor" href="#component-support"></a>
+</h2>
 <p>Below is a list of known-to-be themeable HTML components that “just work” well with custom real-time themes:</p>
 <ul>
 <li>
@@ -403,7 +403,7 @@ Hello custom block with custom styles!
 
 <div class="author">
   <p></p>
-<p>Developed by Carson Sievert, Joe Cheng. Site built with <a href="https://pkgdown.r-lib.org" class="external-link external-link">pkgdown</a>.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

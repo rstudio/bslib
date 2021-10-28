@@ -45,14 +45,14 @@
 
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
       </span>
 
       <!--<div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
         </div>
       </div>-->
     </div>
@@ -117,7 +117,7 @@
       <h1 data-toc-skip>Custom components</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/master/vignettes/custom-components.Rmd" class="external-link"><code>vignettes/custom-components.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/HEAD/vignettes/custom-components.Rmd" class="external-link"><code>vignettes/custom-components.Rmd</code></a></small>
       <div class="hidden name"><code>custom-components.Rmd</code></div>
 
     </div>
@@ -125,9 +125,9 @@
     
     
 <p>This article is for Shiny and R Markdown developers who wish to write custom HTML components that “just work” with . Readers should already have some basic understanding of the <a href="https://sass-lang.com/" class="external-link">Sass language</a> as well as the <a href="https://github.com/rstudio/sass" class="external-link">sass</a> package.</p>
-<div id="a-basic-themeable-component" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-basic-themeable-component" class="anchor" aria-hidden="true"></a>A basic themeable component</h2>
+<div class="section level2">
+<h2 id="a-basic-themeable-component">A basic themeable component<a class="anchor" aria-label="anchor" href="#a-basic-themeable-component"></a>
+</h2>
 <p>Before going through a full-blown <a href="#dynamic-shiny">dynamically themeable</a> custom component, let’s start from a relatively straight-forward example of implementing a custom <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component. Say we have the following R function to generate some HTML with classes that we’ll write custom Sass/CSS styles for:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">person</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">title</span>, <span class="va">company</span><span class="op">)</span> <span class="op">{</span>
@@ -176,9 +176,9 @@
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></code></pre></div>
 <p><img src="person.png" width="67%"></p>
 </div>
-<div id="dynamically-themeable-component" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dynamically-themeable-component" class="anchor" aria-hidden="true"></a>Dynamically themeable component</h2>
+<div class="section level2">
+<h2 id="dynamically-themeable-component">Dynamically themeable component<a class="anchor" aria-label="anchor" href="#dynamically-themeable-component"></a>
+</h2>
 <p>To make the custom <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component <em>dynamically</em> themeable (i.e., make it work with <code>session$setCurrentTheme()</code>), we need an R function that generates an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> from a given <code>theme</code>. While not required, suppose this function, <code>person_dependency</code>, lives in an R package called <code>{mypkg}</code> which includes the <code>person.scss</code> (and pre-compiled <code>person.css</code>) file under the <code>inst/</code> directory. Then we could do the following:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">name</span> <span class="op">&lt;-</span> <span class="st">"person"</span>
@@ -215,9 +215,9 @@
 <span class="op">}</span></code></pre></div>
 <p>Note that when <code>theme</code> is a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code>person.scss</code> is compiled with Bootstrap Sass variables and mixins included via <code><a href="../reference/bs_dependency.html">bs_dependency()</a></code> (which returns the compiled CSS as an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmlDependency()</a></code>). Otherwise, if <code>theme</code> is <em>not</em> a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> is being used in a context where <a href="https://rstudio.github.io/bslib/">bslib</a> is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn’t necessarily a requirement, but it’s a good idea for increasing performance and reducing software dependencies for end users.</p>
 </div>
-<div id="html-widgets" class="section level2">
-<h2 class="hasAnchor">
-<a href="#html-widgets" class="anchor" aria-hidden="true"></a>HTML widgets</h2>
+<div class="section level2">
+<h2 id="html-widgets">HTML widgets<a class="anchor" aria-label="anchor" href="#html-widgets"></a>
+</h2>
 <p>For <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a> that can be themed via CSS, we recommend supplying a <code><a href="../reference/bs_dependency.html">bs_dependency_defer()</a></code> to the <code>dependencies</code> argument of <code>createWidget()</code> (similar to the <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component from the last section), which will make the widget dynamically themeable. For widgets that can <em>not</em> be themed via CSS, the best option may be to query the active theme inside a <code>preRenderHook()</code> via <code><a href="../reference/bs_current_theme.html">bs_current_theme()</a></code>, and then translate any relevant information to the widget’s instance data, for example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_widget</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
@@ -257,7 +257,7 @@
 
 <div class="author">
   <p></p>
-<p>Developed by Carson Sievert, Joe Cheng. Site built with <a href="https://pkgdown.r-lib.org" class="external-link external-link">pkgdown</a>.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>
