@@ -13,9 +13,6 @@ template:
       api_key: 53fd87c79a13e431b4298611470d023a
       index_name: bslib
 
-development:
-  mode: auto
-
 navbar:
   type: default
   structure:
