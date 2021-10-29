@@ -475,7 +475,7 @@ buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
     # tabPanelMenu item: build the child tabset
     ulClass <- "dropdown-menu"
     if (identical(divTag$align, "right")) {
-      ulClass <- paste(ulClass, "dropdown-menu-right")
+      ulClass <- paste(ulClass, "dropdown-menu-right dropdown-menu-end")
     }
     tabset <- buildTabset(
       !!!divTag$tabs, ulClass = ulClass,
