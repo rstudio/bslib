@@ -1,8 +1,7 @@
-# bslib 0.3.1.9000
+# bslib 0.3.2
 
 ## Breaking changes
 
-* `bs_theme()` now defaults to `version = 5` (i.e., Bootstrap 5). If this change happens to break an existing app, consider specifying `bs_theme(version = 4)` to revert the change in the Bootstrap version. (#374)
 * The default coloring on some Bootswatch 4+ theme's `.navbar-default`/`.navbar-inverse` class has changed slightly to better match their Bootswatch 3 coloring. Also, since this coloring is now based solely on [`$navbar-*` variables](https://rstudio.github.io/bslib/articles/bs5-variables.html), Bootswatch themes now work better in combination with custom `$navbar-*` values (e.g., `bs_theme("navbar-bg" = ...)` can be used to provide the background color, and foreground colors will automatically contrast appropriately). (#392)
 
 ## New features
