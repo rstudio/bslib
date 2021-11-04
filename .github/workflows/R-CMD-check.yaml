@@ -32,7 +32,7 @@ jobs:
       - uses: rstudio/shinycoreci/.github/actions/install-r-package@v1
         with:
           r-version: "oldrel-1"
-          needs: website
+          needs: deploy
           extra-packages: |
             rsconnect
 
