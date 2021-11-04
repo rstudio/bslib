@@ -132,5 +132,5 @@ There are two main places to get help with `bslib`:
 
 Please note that the bslib project is released with a [Contributor Code
 of
-Conduct](https://github.com/rstudio/bslib/blob/master/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/rstudio/bslib/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
