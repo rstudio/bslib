@@ -39,7 +39,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
-Config/testthat/edition: 3
 Collate:
     'bootswatch.R'
     'bs-current-theme.R'
@@ -69,7 +68,26 @@ Collate:
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
+Config/testthat/edition: 3
+Config/Needs/routine:
+    desc,
+    renv
 Config/Needs/website:
-    rsconnect,
-    renv,
-    rstudio/quillt
+    brio,
+    dplyr,
+    DT,
+    glue,
+    purrr,
+    rprojroot,
+    rstudio/quillt,
+    stringr,
+    tidyr
+Config/Needs/deploy:
+    BH,
+    DT,
+    ggplot2,
+    hexbin,
+    lattice,
+    reactable,
+    rprojroot,
+    rsconnect
