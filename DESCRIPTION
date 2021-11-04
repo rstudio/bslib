@@ -61,6 +61,7 @@ Collate:
     'page.R'
     'precompiled.R'
     'print.R'
+    'staticimports.R'
     'shiny-devmode.R'
     'utils-shiny.R'
     'utils-tags.R'

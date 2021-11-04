@@ -49,10 +49,5 @@ has_valid_reactive_context <- function(session) {
 }
 
 get_current_theme <- function() {
-  if (!isNamespaceLoaded("shiny")) return(NULL)
-  if (!is_available("shiny", "1.6.0")) {
-    warning("This functionality requires shiny v1.6 or higher")
-    return(NULL)
-  }
-  shiny::getCurrentTheme()
+  if (isNamespaceLoaded("shiny")) shiny::getCurrentTheme()
 }

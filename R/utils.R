@@ -1,3 +1,6 @@
+# @staticimports pkg:staticimports
+#  %||% is_string is_installed fastPackageVersion
+
 switch_version <- function(version, five = default, four = default, three = default, default = NULL) {
   if (is_bs_theme(version)) {
     version <- theme_version(version)
@@ -29,25 +32,6 @@ lib_file <- function(...) {
   )
 }
 
-# copy of shiny:::is_available
-is_available <- function(package, version = NULL) {
-  installed <- nzchar(system.file(package = package))
-  if (is.null(version)) {
-    return(installed)
-  }
-  installed && isTRUE(fastPackageVersion(package) >= version)
-}
-
-# Since I/O can be expensive, only utils::packageVersion() if the package isn't already loaded
-fastPackageVersion <- function(pkg) {
-  ns <- .getNamespace(pkg)
-  if (is.null(ns)) {
-    utils::packageVersion(pkg)
-  } else {
-    as.package_version(ns$.__NAMESPACE__.$spec[["version"]])
-  }
-}
-
 is_shiny_app <- function() {
   # Make sure to not load shiny as a side-effect of calling this function.
   isNamespaceLoaded("shiny") && shiny::isRunning()
@@ -66,20 +50,12 @@ add_class <- function(x, y) {
   x
 }
 
-is_string <- function(x) {
-  is.character(x) && length(x) == 1
-}
-
 dropNulls <- function(x) {
   x[!vapply(x, is.null, FUN.VALUE=logical(1))]
 }
 
 names2 <- function(x) {
   names(x) %||% rep.int("", length(x))
-}
-
-"%||%" <- function(x, y) {
-  if (is.null(x)) y else x
 }
 
 #' Rename a named list

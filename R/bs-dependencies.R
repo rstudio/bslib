@@ -68,9 +68,9 @@ bs_theme_dependencies <- function(
   if (isTRUE(version >= 5)) {
     shiny_version <- "1.6.0.9001"
     msg <- sprintf("`bs_theme(version = 5)` is designed to work with shiny %s or higher", shiny_version)
-    if (isNamespaceLoaded("shiny") && !is_available("shiny", shiny_version)) warning(msg, call. = FALSE)
+    if (isNamespaceLoaded("shiny") && !is_installed("shiny", shiny_version)) warning(msg, call. = FALSE)
     setHook(packageEvent("shiny", "onLoad"), function(...) {
-      if (!is_available("shiny", shiny_version)) warning(msg, call. = FALSE)
+      if (!is_installed("shiny", shiny_version)) warning(msg, call. = FALSE)
     })
   }
 
@@ -318,7 +318,7 @@ bs_dependency_defer <- function(func) {
       # are harmless because Shiny will de-duplicate them.
       # (2) Call the user's `func()` with the current theme, and return the
       # resulting htmlDependency so that it can be embedded in the static page.
-      register_theme_dependency(func)
+      shiny::registerThemeDependency(func)
 
       return(func(get_current_theme()))
     }
@@ -366,12 +366,3 @@ as_bs_theme <- function(theme) {
     "(3) the result of `bs_global_get()`."
   )
 }
-
-register_theme_dependency <- function(x) {
-  if (!is_available("shiny", "1.6.0")) {
-    warning("This functionality requires shiny v1.6 or higher")
-    return(NULL)
-  }
-  getFromNamespace("registerThemeDependency", "shiny")(x)
-}
-

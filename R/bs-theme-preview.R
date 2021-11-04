@@ -307,7 +307,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     stop(call. = FALSE, "`bslib::bs_themer()` must be called from within a ",
          "top-level Shiny server function, not a Shiny module server function")
   }
-  if (!is_available("shiny", "1.6.0")) {
+  if (!is_installed("shiny", "1.6.0")) {
     stop(call. = FALSE, "`bslib::bs_themer()` requires shiny v1.6.0 or higher")
   }
   theme <- get_current_theme()
