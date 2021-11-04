@@ -42,11 +42,6 @@ jobs:
         run: |
           pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
 
-          # Install any trailing pkgs that are missing by installing from GitHub
-          pkgs <- unique(renv::dependencies(system.file("themer-demo", package = "bslib"), progress = FALSE)$Package)
-          pkgs <- setdiff(pkgs, c("R", installed.packages()[, "Package"]))
-          if (length(pkgs) > 0) pak::pkg_install(pkgs)
-
       - name: Register account
         shell: Rscript {0}
         run: |
