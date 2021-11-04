@@ -69,7 +69,16 @@ Collate:
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
+Config/Needs/routine:
+    desc
 Config/Needs/website:
-    rsconnect,
-    renv,
     rstudio/quillt
+    BH
+    rprojroot
+    brio
+    dplyr
+    DT
+    glue
+    purrr
+    stringr
+    tidyr
