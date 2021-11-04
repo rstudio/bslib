@@ -31,7 +31,6 @@ jobs:
 
       - uses: rstudio/shinycoreci/.github/actions/install-r-package@v1
         with:
-          r-version: "oldrel-1"
           needs: deploy
           extra-packages: |
             rsconnect
