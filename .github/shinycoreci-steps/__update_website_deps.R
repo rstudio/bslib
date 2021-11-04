@@ -16,5 +16,5 @@ desc_pkgs <- desc::desc_get_deps()$package
 
 pkgs <- sort(setdiff(known_pkgs, c("R", "bslib", desc_pkgs, base_pkgs)))
 
-pkg_txt <- paste0(paste0("\n    ", pkgs), collapse = "")
+pkg_txt <- paste0(paste0("\n    ", pkgs), collapse = ",")
 desc::desc_set("Config/Needs/website", pkg_txt)

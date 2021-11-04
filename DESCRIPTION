@@ -73,18 +73,18 @@ Config/Needs/routine:
     desc,
     renv
 Config/Needs/website:
-    BH
-    brio
-    dplyr
-    DT
-    ggplot2
-    glue
-    hexbin
-    lattice
-    purrr
-    reactable
-    rprojroot
-    rsconnect
-    rstudio/quillt
-    stringr
+    BH,
+    brio,
+    dplyr,
+    DT,
+    ggplot2,
+    glue,
+    hexbin,
+    lattice,
+    purrr,
+    reactable,
+    rprojroot,
+    rsconnect,
+    rstudio/quillt,
+    stringr,
     tidyr
