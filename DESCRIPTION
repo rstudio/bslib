@@ -70,7 +70,8 @@ URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
 Config/testthat/edition: 3
 Config/Needs/routine:
-    desc
+    desc,
+    renv
 Config/Needs/website:
     rstudio/quillt,
     BH,
