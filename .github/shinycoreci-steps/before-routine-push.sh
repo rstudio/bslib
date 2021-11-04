@@ -1,7 +1,7 @@
 #!/bin/bash -e
 Rscript tools/main.R
-git add inst || echo "No distributed files to update"
-git commit -m 'Resave data (GitHub Action)' || echo "No distributed file to commit"
+git commit inst -m 'Resave distributed files (GitHub Action)' || echo "No distributed file to commit"
+git commit R/sysdata.rda -m 'Resave data (GitHub Action)' || echo "No updates to R/sysdata.rda"
 
 # Update `Config/Needs/website` deployment dependencies
 Rscript ./.github/shinycoreci-steps/__update_website_deps.R
