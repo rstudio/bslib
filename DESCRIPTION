@@ -73,13 +73,13 @@ Config/Needs/routine:
     desc,
     renv
 Config/Needs/website:
-    rstudio/quillt,
-    BH,
-    rprojroot,
-    brio,
-    dplyr,
-    DT,
-    glue,
-    purrr,
-    stringr,
+    rstudio/quillt
+    BH
+    rprojroot
+    brio
+    dplyr
+    DT
+    glue
+    purrr
+    stringr
     tidyr
