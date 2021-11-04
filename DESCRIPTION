@@ -82,7 +82,7 @@ Config/Needs/website:
     rstudio/quillt,
     stringr,
     tidyr
-Config/Needs/deploy: 
+Config/Needs/deploy:
     BH,
     DT,
     ggplot2,
