@@ -1,5 +1,6 @@
 # @staticimports pkg:staticimports
-#  %||% is_string is_installed fastPackageVersion
+#  %||% is_string is_installed get_package_version
+#  register_upgrade_message
 
 switch_version <- function(version, five = default, four = default, three = default, default = NULL) {
   if (is_bs_theme(version)) {
