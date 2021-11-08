@@ -125,7 +125,7 @@ bs_theme_dependencies <- function(
       write_attachments = TRUE,
       cache_key_extra = list(
         get_exact_version(version),
-        utils::packageVersion("bslib")
+        get_package_version("bslib")
       )
     )
   }
