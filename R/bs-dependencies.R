@@ -246,9 +246,15 @@ bs_dependency <- function(input = list(), theme, name, version,
   do.call(htmlDependency, c(dep_args, .dep_args))
 }
 
-#' @param func a _non-anonymous_ function, with a _single_ argument. This function
-#'   should accept a [bs_theme()] object and return a single [htmlDependency()],
-#'   a list of them, or `NULL`.
+#' @param func a _non-anonymous_ function, with a _single_ argument.
+#'   This function should accept a [bs_theme()] object and return a single
+#'   [htmlDependency()], a list of them, or `NULL`.
+#' @param memoise whether or not to memoise (i.e., cache) `func` results for a
+#'   short period of time. The default, `TRUE`, can have large performance
+#'   benefits when many instances of the same themable widget are rendered. Note
+#'   that you may want to avoid memoisation if `func` relies on side-effects
+#'   (e.g., files on-disk) that need to change for each themable widget
+#'   instance.
 #' @export
 #'
 #' @examples
@@ -307,24 +313,37 @@ bs_dependency <- function(input = list(), theme, name, version,
 #' }
 #'
 #' @rdname bs_dependency
-bs_dependency_defer <- function(func) {
-  force(func)
+bs_dependency_defer <- function(func, memoise = TRUE) {
+  # func() most likely calls stuff like sass_file() and bs_dependency() ->
+  # sass_partial() -> sass() (e.g., see example section above) Even though
+  # sass() calls can be cached, there is still considerable overhead involved
+  # in computing the cache key itself because it involves file-level operations
+  # (e.g. getting the mtimes of file attachments).
+  # So, to help with performance (in the case where we repeatedly call the same
+  # func with the same theme), memoise func with a short-lived cache
+  if (memoise) {
+    mfunc <- memoise::memoise(func, cache = .dependency_cache)
+  } else {
+    mfunc <- func
+  }
 
   tagFunction(function() {
     if (is_shiny_app()) {
       # If we're in a Shiny app, do two things:
       # (1) Register this function as a dependency so that Shiny will know to
-      # update it later if the theme dynamically changes. Repeated registrations
-      # are harmless because Shiny will de-duplicate them.
+      # update it later if the theme dynamically changes (i.e.,
+      # session$setCurrentTheme() is called). Note that we *don't* provide
+      # the memoised version since Shiny will de-duplicate identical()
+      # functions anyway.
       # (2) Call the user's `func()` with the current theme, and return the
       # resulting htmlDependency so that it can be embedded in the static page.
       shiny::registerThemeDependency(func)
 
-      return(func(get_current_theme()))
+      return(mfunc(get_current_theme()))
     }
 
     # Outside of a Shiny context, we'll just get the global theme.
-    func(bs_global_get())
+    mfunc(bs_global_get())
   })
 }
 
