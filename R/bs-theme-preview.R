@@ -150,7 +150,7 @@ bs_themer_ui <- function(opts, vals, theme) {
   withTags(tagList(
     colorpicker_deps(),
     htmlDependency(
-      "bs_themer", version = packageVersion("bslib"),
+      "bs_themer", version = get_package_version("bslib"),
       src = "themer", script = c("themer.js"),
       package = "bslib", all_files = FALSE
     ),
@@ -196,7 +196,7 @@ bs_themer_ui <- function(opts, vals, theme) {
 }
 
 themer_css_dependency <- function(theme) {
-  version <- utils::packageVersion("bslib")
+  version <- get_package_version("bslib")
   bs_dependency(
     input = sass_file(system_file("themer/themer.scss", package = "bslib")),
     theme = theme,
@@ -307,7 +307,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     stop(call. = FALSE, "`bslib::bs_themer()` must be called from within a ",
          "top-level Shiny server function, not a Shiny module server function")
   }
-  if (!is_available("shiny", "1.6.0")) {
+  if (!is_installed("shiny", "1.6.0")) {
     stop(call. = FALSE, "`bslib::bs_themer()` requires shiny v1.6.0 or higher")
   }
   theme <- get_current_theme()
@@ -717,7 +717,7 @@ bs_get_contrast <- function(theme, varnames) {
   )
   css <- sass::sass_partial(
     paste0("bs_get_contrast {", prop_string, "}"),
-    theme, cache_key_extra = packageVersion("bslib"),
+    theme, cache_key_extra = get_package_version("bslib"),
     # Don't listen to global Sass options so we can be sure
     # that stuff like source maps won't be included
     options = sass::sass_options(source_map_embed = FALSE)
