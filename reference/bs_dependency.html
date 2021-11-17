@@ -128,7 +128,7 @@ is first rendered, and may be invoked again with a new <code>theme</code> whenev
   .sass_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span>
 
-<span class="fu">bs_dependency_defer</span><span class="op">(</span><span class="va">func</span><span class="op">)</span></code></pre></div>
+<span class="fu">bs_dependency_defer</span><span class="op">(</span><span class="va">func</span>, memoise <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 
     <div id="ref-sections">
     <div id="arguments">
@@ -152,9 +152,16 @@ useful to add the version of your package.</p></dd>
 <dd><p>A list of additional arguments to pass to
 <code><a href="https://rdrr.io/pkg/sass/man/sass_partial.html" class="external-link">sass::sass_partial()</a></code>.</p></dd>
 <dt>func</dt>
-<dd><p>a <em>non-anonymous</em> function, with a <em>single</em> argument. This function
-should accept a <code><a href="bs_theme.html">bs_theme()</a></code> object and return a single <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmlDependency()</a></code>,
-a list of them, or <code>NULL</code>.</p></dd>
+<dd><p>a <em>non-anonymous</em> function, with a <em>single</em> argument.
+This function should accept a <code><a href="bs_theme.html">bs_theme()</a></code> object and return a single
+<code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmlDependency()</a></code>, a list of them, or <code>NULL</code>.</p></dd>
+<dt>memoise</dt>
+<dd><p>whether or not to memoise (i.e., cache) <code>func</code> results for a
+short period of time. The default, <code>TRUE</code>, can have large performance
+benefits when many instances of the same themable widget are rendered. Note
+that you may want to avoid memoisation if <code>func</code> relies on side-effects
+(e.g., files on-disk) that need to change for each themable widget
+instance.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
