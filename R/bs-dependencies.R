@@ -322,6 +322,10 @@ bs_dependency_defer <- function(func, memoise = TRUE) {
   # So, to help with performance (in the case where we repeatedly call the same
   # func with the same theme), memoise func with a short-lived cache
   if (memoise) {
+    # The memoized function is created each time bs_dependency_defer is called,
+    # and then it is used once. This is not how memoized functions are normally
+    # used, but in this case it works because the caching object is re-used, and
+    # it still provides very significant improvement in performance.
     mfunc <- memoise::memoise(func, cache = .dependency_cache)
   } else {
     mfunc <- func
