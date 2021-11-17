@@ -8,6 +8,7 @@
 ## New features
 
 * Upgraded Bootstrap 5 (i.e., `bs_theme(version = 5)`) from 5.1.0 to 5.1.3 (#378)
+* Closed #369: `bs_dependency_defer()` now memoises `func` (by default), reducing the time required to render multiple instances of the same [dynamically themable widget](https://rstudio.github.io/bslib/articles/custom-components.html#dynamically-themeable-component). (#405)
 
 ## Bug fixes
 
