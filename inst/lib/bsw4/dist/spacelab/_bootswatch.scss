@@ -28,11 +28,11 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
     @include btn-shadow(map-get($theme-colors, "primary"));
   }
 
-  &.bg-dark {
+  &.bg-dark, &.navbar-inverse {
     @include btn-shadow(map-get($theme-colors, "secondary"));
   }
 
-  &.bg-light {
+  &.bg-light, &.navbar-default {
     @include btn-shadow(map-get($theme-colors, "light"));
 
     .nav-link,
