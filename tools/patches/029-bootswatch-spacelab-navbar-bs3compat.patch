@@ -1,0 +1,31 @@
+diff --git a/inst/lib/bsw4/dist/spacelab/_bootswatch.scss b/inst/lib/bsw4/dist/spacelab/_bootswatch.scss
+index da3131ce..dfd69112 100644
+--- a/inst/lib/bsw4/dist/spacelab/_bootswatch.scss
++++ b/inst/lib/bsw4/dist/spacelab/_bootswatch.scss
+@@ -28,11 +28,11 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
+     @include btn-shadow(map-get($theme-colors, "primary"));
+   }
+ 
+-  &.bg-dark {
++  &.bg-dark, &.navbar-inverse {
+     @include btn-shadow(map-get($theme-colors, "secondary"));
+   }
+ 
+-  &.bg-light {
++  &.bg-light, &.navbar-default {
+     @include btn-shadow(map-get($theme-colors, "light"));
+ 
+     .nav-link,
+diff --git a/inst/lib/bsw5/dist/spacelab/_bootswatch.scss b/inst/lib/bsw5/dist/spacelab/_bootswatch.scss
+index 55dda07c..06e61bf9 100644
+--- a/inst/lib/bsw5/dist/spacelab/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/spacelab/_bootswatch.scss
+@@ -32,7 +32,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
+     }
+   }
+ 
+-  &.bg-light {
++  &.bg-light, &.navbar-default {
+     .nav-link,
+     .navbar-brand {
+       text-shadow: 1px 1px 0 rgba(255, 255, 255, .1);
