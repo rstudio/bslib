@@ -35,15 +35,14 @@ class Navs extends Component {
   }
 
   firstNavValue(navs) {
-    for (var i = 0; i < navs.length; i++) {
-      let nav = navs[i];
-      if (nav.type.name === 'Nav') {
-        return nav.props.value;
-      }
-      if (nav.type.name === 'NavMenu') {
-        this.firstNavValue(nav);
-      }
+    let x = navs[0];
+    if (x.type.name === 'NavMenu') {
+      x = x.props.children[0]
     }
+    if (x.type.name !== 'Nav') {
+      console.warn("Couldn't find the first nav")
+    }
+    return x.props.value
   }
 
   getContent(navs) {
@@ -141,7 +140,7 @@ class NavsBar extends Navs {
 
     const navbarClass = `navbar navbar-default ${props.inverse ? 'navbar-inverse' : ''} ${props.position ? ('navbar-' + props.position) : '' }`;
 
-    // TODO: 
+    // TODO:
     // 1. re-implement https://github.com/rstudio/bslib/blob/d77f5ce61003307e7a6dc3c211e7ac6ee6896582/R/navs-legacy.R#L225
     // 2. auto color contrasting
     return <Fragment>
@@ -177,11 +176,13 @@ function NavItem(props) {
 }
 
 function NavMenu(props) {
-  const toggleClass = `dropdown-toggle${props.selected === props.value ? ' active' : ''}`
+  const vals = props.children.map(function(x) { return x.props.value });
+  const active = vals.indexOf(props.selected) > -1;
+  const liClass = `dropdown${active ? ' active' : ''}`
   const ulClass = `dropdown-menu${props.align === "right" ? ' dropdown-menu-right' : ''}`;
   return (
-    <li className="dropdown" key={props.tabsetId}>
-      <a className={toggleClass} data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+    <li className={liClass} key={props.tabsetId}>
+      <a className="dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
         {props.title}
       </a>
       <ul className={ulClass} data-tabsetid={props.tabsetId}>
