@@ -13,7 +13,7 @@ class Navs extends Component {
 
     const tabsetId = this.newId();
     const selected = props.selected ? props.selected : this.firstNavValue(props.children);
-    const children = this.addChildProps(props.children, tabsetId, selected);
+    const children = this.addChildProps(props.children, {tabsetId, selected});
     const content = this.getContent(children);
 
     this.state = {tabsetId, selected, children, content};
@@ -63,16 +63,17 @@ class Navs extends Component {
     return result;
   }
 
-  addChildProps(children, tabsetId, selected) {
+  addChildProps(children, props) {
     var self = this;
     return Children.map(children, (x, idx) => {
       if (x.type.name === 'NavMenu') {
-        const tabsetId = self.newId();
-        const children_ = self.addChildProps(x.props.children, tabsetId, selected);
-        return cloneElement(x, {tabsetId, selected}, children_);
+        props.menu = true; // Let <Nav>'s within this component know that they're in a menu
+        props.tabsetId = self.newId();
+        const children_ = self.addChildProps(x.props.children, props);
+        return cloneElement(x, props, children_);
       }
-      const id = `tab-${tabsetId}-${idx + 1}`;
-      return cloneElement(x, {id, selected});
+      props.id = `tab-${props.tabsetId}-${idx + 1}`;
+      return cloneElement(x, props);
     });
   }
 
@@ -158,9 +159,14 @@ class NavsBar extends Navs {
 
 
 function Nav(props) {
+  let aClass = props.menu ? 'dropdown-item' : 'nav-link';
+  if (props.selected === props.value) {
+    aClass += ' active';
+  }
+
   return (
-    <li key={props.id} className={props.selected === props.value ? 'active' : ''}>
-      <a href={'#'+props.id} role='tab' data-toggle='tab' data-value={props.value}>
+    <li key={props.id} className={props.menu ? '' : 'nav-item'}>
+      <a href={'#' + props.id} className={aClass} data-toggle='tab' data-value={props.value} role='tab'>
        {props.title}
       </a>
     </li>
@@ -178,11 +184,11 @@ function NavItem(props) {
 function NavMenu(props) {
   const vals = props.children.map(function(x) { return x.props.value });
   const active = vals.indexOf(props.selected) > -1;
-  const liClass = `dropdown${active ? ' active' : ''}`
+  const liClass = `dropdown nav-item${active ? ' active' : ''}`
   const ulClass = `dropdown-menu${props.align === "right" ? ' dropdown-menu-right' : ''}`;
   return (
     <li className={liClass} key={props.tabsetId}>
-      <a className="dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+      <a className="dropdown-toggle nav-link" data-toggle="dropdown" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
         {props.title}
       </a>
       <ul className={ulClass} data-tabsetid={props.tabsetId}>
