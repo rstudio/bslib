@@ -333,6 +333,13 @@ bs_theme(
 knitr::include_graphics("nes.png")
 ```
 
+`bs_add_rules()` can also be used to include inline CSS:
+
+```r
+bs_theme() %>%
+  bs_add_rules("span.navbar-brand { font-size: x-large; }")
+```
+
 In the R Markdown case, it's recommended that additional CSS (or Sass) rules come through the `css` parameter, but you may also use the `bslib` engine. As with `bs_add_rules()`, these rules can reference Bootstrap Sass variables as well as utilize convenient Sass mixins or functions like [`color-contrast()`](https://github.com/rstudio/bslib/blob/c95d6b/inst/sass-utils/color-contrast.scss#L9), [`mix()`](https://sass-lang.com/documentation/modules/color#mix), etc.
 
 ````
