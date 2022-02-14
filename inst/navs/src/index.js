@@ -35,7 +35,7 @@ class Navs extends Component {
   }
 
   firstNavValue(navs) {
-    let x = navs[0];
+    let x = Array.isArray(navs) ? navs[0] : navs;
     if (x.type.name === 'NavMenu') {
       x = x.props.children[0]
     }
