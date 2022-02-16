@@ -2,6 +2,9 @@
 /** @jsxFrag React.Fragment */
 import { Component, cloneElement, Fragment, Children } from 'react';
 
+// ----------------------------------------------------------------------------
+// navs_tab()/navs_pill() logic
+// ----------------------------------------------------------------------------
 class Navs extends Component {
 
   constructor(props) {
@@ -21,16 +24,11 @@ class Navs extends Component {
 
   render() {
     const props = this.props;
-    const ulClass = `nav nav-${props.type} ${props.id ? 'shiny-tab-input' : ''}`;
+    const ulClass = `nav nav-${props.type}`;
+    const {ulTag, divTag} = _buildTabset(props, this.state, ulClass)
     return <Fragment>
-        <ul id={props.id} className={ulClass} role='tablist' data-tabsetid={this.state.tabsetId}>
-          {this.state.children}
-        </ul>
-        <div className='tab-content' data-tabsetid={this.state.tabsetId}>
-          {props.header}
-          {this.state.content}
-          {props.footer}
-        </div>
+        {ulTag}
+        {divTag}
     </Fragment>
   }
 
@@ -66,6 +64,9 @@ class Navs extends Component {
   addChildProps(children, props) {
     var self = this;
     return Children.map(children, (x, idx) => {
+      if (typeof x === "string") {
+        return props.menu ? _textFilterMenu(x) : _textFilter(x);
+      }
       if (x.type.name === 'NavMenu') {
         props.menu = true; // Let <Nav>'s within this component know that they're in a menu
         props.tabsetId = self.newId();
@@ -82,22 +83,14 @@ class Navs extends Component {
   }
 }
 
+// ----------------------------------------------------------------------------
+// navs_tab_card()/navs_pill_card() logic
+// ----------------------------------------------------------------------------
 class NavsCard extends Navs {
   render() {
     const props = this.props;
-    const ulClass = `nav nav-${props.type} card-header-${props.type} ${props.id ? 'shiny-tab-input' : ''}`;
-
-    const ulTag =
-      <ul id={props.id} className={ulClass} role='tablist' data-tabsetid={this.state.tabsetId}>
-        {this.state.children}
-      </ul>
-
-    const divTag =
-      <div className='tab-content' data-tabsetid={this.state.tabsetId}>
-        {props.header}
-        {this.state.content}
-        {props.footer}
-      </div>
+    const ulClass = `nav nav-${props.type} card-header-${props.type}`;
+    const {ulTag, divTag} = _buildTabset(props, this.state, ulClass);
 
     const below = props.placement === "below";
 
@@ -109,6 +102,31 @@ class NavsCard extends Navs {
   }
 }
 
+// ----------------------------------------------------------------------------
+// navs_pill_list() logic
+// ----------------------------------------------------------------------------
+class NavsList extends Navs {
+  render() {
+    const props = this.props;
+    const ulClass = `nav nav-pills nav-stacked`;
+    const {ulTag, divTag} = _buildTabset(props, this.state, ulClass);
+    const widthNav = props.widthNav || 4;
+    const widthContent = props.widthContent || 8;
+    return <div className="row">
+      <div className={`col-sm-${widthNav} ${props.well ? 'well' : ''}`}>
+        {ulTag}
+      </div>
+      <div className={`col-sm-${widthContent}`}>
+        {divTag}
+      </div>
+    </div>
+  }
+}
+
+
+// ----------------------------------------------------------------------------
+// navs_bar()/page_navbar() logic
+// ----------------------------------------------------------------------------
 class NavsBar extends Navs {
   render() {
     const props = this.props;
@@ -128,10 +146,7 @@ class NavsBar extends Navs {
         <span className="navbar-brand">{props.title}</span>
       </div>
 
-    const ulTag =
-      <ul id={props.id} className={`nav navbar-nav ${props.id ? 'shiny-tab-input' : ''}`} role='tablist' data-tabsetid={this.state.tabsetId}>
-      {this.state.children}
-    </ul>
+    const {ulTag, divTag} = _buildTabset(props, this.state, 'nav navbar-nav');
 
     const containerDiv =
       <div className={`container${props.fluid ? '-fluid' : ''}`}>
@@ -146,17 +161,17 @@ class NavsBar extends Navs {
     // 2. auto color contrasting
     return <Fragment>
       <nav className={navbarClass} role="navigation" ref={(el) => el && props.bg && el.style.setProperty("background-color", props.bg, "important")}>
-          {containerDiv}
-        </nav>
-        <div className='tab-content' data-tabsetid={this.state.tabsetId}>
-          {props.header}
-          {this.state.content}
-          {props.footer}
-        </div>
-      </Fragment>
+        {containerDiv}
+      </nav>
+      {divTag}
+    </Fragment>
   }
 }
 
+
+//-----------------------------------------------------------------------------
+// Rendering logic for different nav items
+//-----------------------------------------------------------------------------
 
 function Nav(props) {
   let aClass = props.menu ? 'dropdown-item' : 'nav-link';
@@ -198,4 +213,38 @@ function NavMenu(props) {
   )
 }
 
-export { Navs, NavsCard, NavsBar, Nav, NavSpacer, NavItem, NavMenu }
+//-----------------------------------------------------------------------------
+// Utility functions
+//-----------------------------------------------------------------------------
+
+function _buildTabset(props, state, ulClass) {
+  ulClass += props.id ? ' shiny-tab-input' : ''
+  return {
+    ulTag: <ul id={props.id} className={ulClass} role='tablist' data-tabsetid={state.tabsetId}>
+      {state.children}
+    </ul>,
+    divTag: <div className='tab-content' data-tabsetid={state.tabsetId}>
+      {props.header}
+      {state.content}
+      {props.footer}
+    </div>
+  }
+}
+
+function _textFilterMenu(x) {
+  if (/^-+$/.test(x)) {
+    return <div className="dropdown-divider"/>
+  } else {
+    return <div className="dropdown-header">{x}</div>
+  }
+}
+
+function _textFilter(x) {
+  return <li className="navbar-brand">{x}</li>
+}
+
+//-----------------------------------------------------------------------------
+// Public API
+//-----------------------------------------------------------------------------
+
+export { Navs, NavsCard, NavsBar, NavsList, Nav, NavSpacer, NavItem, NavMenu }
