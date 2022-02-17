@@ -15,7 +15,9 @@ class Navs extends Component {
     this.getContent = this.getContent.bind(this);
 
     const tabsetId = this.newId();
-    const selected = props.selected ? props.selected : this.firstNavValue(props.children);
+    const selected = props.selected === undefined ? 
+      this.firstNavValue(props.children) :
+      props.selected;
     const children = this.addChildProps(props.children, {tabsetId, selected});
     const content = this.getContent(children);
 
