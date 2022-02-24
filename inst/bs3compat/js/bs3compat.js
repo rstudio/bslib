@@ -33,8 +33,8 @@ $(function() {
   function TabPlugin(config) {
     // Legacy (bs3) tabs: li.active > a
     // New (bs4+) tabs: li.nav-item > a.active.nav-link
-    var legacy = $(this).closest(".nav").find("li:not(.dropdown).active > a").length > 0;
-    var plugin = legacy ? legacyTabPlugin : newTabPlugin;
+    var legacy = $(this).closest(".nav").find("li:not(.dropdown) > a.active").length > 0;
+    var plugin = legacy ? newTabPlugin : legacyTabPlugin;
     plugin.call($(this), config);
   }
 
