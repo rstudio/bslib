@@ -205,7 +205,7 @@ function NavMenu(props) {
   const ulClass = `dropdown-menu${props.align === "right" ? ' dropdown-menu-right' : ''}`;
   return (
     <li className={liClass} key={props.tabsetId}>
-      <a className="dropdown-toggle nav-link" data-toggle="dropdown" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+      <a className="dropdown-toggle nav-link" data-value={props.value} data-toggle="dropdown" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
         {props.title}
       </a>
       <ul className={ulClass} data-tabsetid={props.tabsetId}>
