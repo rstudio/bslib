@@ -15,9 +15,9 @@ class Navs extends Component {
     this.getContent = this.getContent.bind(this);
 
     const tabsetId = this.newId();
-    const selected = props.selected === undefined ? 
-      this.firstNavValue(props.children) :
-      props.selected;
+    const selected = props.selected ? props.selected : this.firstNavValue(props.children);
+    // false means that active classes shouldn't be added, no matter what (nav_insert() uses this)
+    if (props.selected === false) selected = null;
     const children = this.addChildProps(props.children, {tabsetId, selected});
     const content = this.getContent(children);
 
