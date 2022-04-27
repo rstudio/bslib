@@ -584,7 +584,6 @@ buildDropdown <- function(divTag, tabset) {
 
   dropdown <- tags$li(
     class = "dropdown",
-    class = if (active) "active",
     tags$a(
       href = "#",
       class = "dropdown-toggle",
@@ -603,9 +602,10 @@ buildDropdown <- function(divTag, tabset) {
           addClass("nav-item")$
           find(".dropdown-toggle")$
           addClass("nav-link")$
+          addClass(if (active) "active")$
           allTags()
       } else {
-        x
+        tagAppendAttributes(x, class = if (active) "active")
       }
     }
   )
