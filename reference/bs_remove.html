@@ -41,7 +41,7 @@
   <a href="../articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -94,11 +94,12 @@
     <p>Remove or retrieve Sass code from a theme</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_remove</span><span class="op">(</span><span class="va">theme</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_remove</span><span class="op">(</span><span class="va">theme</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">bs_retrieve</span><span class="op">(</span><span class="va">theme</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, include_unnamed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>theme</dt>
@@ -106,18 +107,17 @@
 <dt>ids</dt>
 <dd><p>a character vector of ids</p></dd>
 <dt>include_unnamed</dt>
-<dd><p>whether or not to include unnamed <code><a href="https://rdrr.io/pkg/sass/man/sass_layer.html" class="external-link">sass::sass_layer()</a></code>s
+<dd><p>whether or not to include unnamed <code><a href="https://rstudio.github.io/sass/reference/sass_layer.html" class="external-link">sass::sass_layer()</a></code>s
 (e.g., Bootstrap Sass variables, functions, and mixins).</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>a modified <code><a href="bs_theme.html">bs_theme()</a></code> object.</p>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
 <span class="r-in"><span class="co"># Remove CSS rules for print and carousels</span></span>
 <span class="r-in"><span class="va">bs4</span> <span class="op">&lt;-</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span>version <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">bs_remove</span><span class="op">(</span><span class="va">bs4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_print"</span>, <span class="st">"_carousel"</span><span class="op">)</span><span class="op">)</span></span>
@@ -125,9 +125,6 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_deprecated.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_functions.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/sass-utils/color-contrast.scss";</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/bs3compat/_defaults.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_variables.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bootstrap-version: 4;</span>
@@ -197,9 +194,6 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_deprecated.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_functions.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/sass-utils/color-contrast.scss";</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_variables.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bootstrap-version: 4;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_mixins.scss";</span>
@@ -257,7 +251,7 @@
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

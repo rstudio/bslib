@@ -45,7 +45,7 @@ The return value is rendered as an static HTML page when printed interactively a
   <a href="../articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -99,7 +99,8 @@ The return value is rendered as an static HTML page when printed interactively a
 <li><p>The return value is rendered as an static HTML page when printed interactively at the console.</p></li>
 </ul></div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">page</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">page</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
 <span class="fu">page_fluid</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
@@ -123,8 +124,8 @@ The return value is rendered as an static HTML page when printed interactively a
   window_title <span class="op">=</span> <span class="cn">NA</span>,
   lang <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>...</dt>
@@ -192,7 +193,6 @@ host URL of the page is displayed by default).</p></dd>
 <p><code><a href="https://rdrr.io/pkg/shiny/man/fillPage.html" class="external-link">shiny::fillPage()</a></code></p>
 <p><code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarPage()</a></code></p></div>
     </div>
-    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -206,7 +206,7 @@ host URL of the page is displayed by default).</p></dd>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

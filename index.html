@@ -67,7 +67,7 @@
   <a href="articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -119,8 +119,7 @@
   <div class="contents col-md-9">
 
 
-<!-- badges: end -->
-<style type="text/css">
+<!-- badges: end --><style type="text/css">
 @media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}
 </style>
 <div class="section level1">
@@ -128,21 +127,12 @@
 </h1></div>
 <p>The <code>bslib</code> R package provides tools for customizing <a href="https://getbootstrap.com/docs/4.6/getting-started/theming/" class="external-link">Bootstrap themes</a> directly from R, making it much easier to customize the appearance of <a href="https://shiny.rstudio.com/" class="external-link">Shiny</a> apps &amp; <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> documents. <code>bslib</code>’s primary goals are:</p>
 <ul>
-<li>Make <a href="https://rstudio.github.io/bslib/articles/bslib.html#custom">custom theming</a> as easy as possible.
-<ul>
-<li>Custom themes may even be created interactively in <a href="https://rstudio.github.io/bslib/articles/bslib.html#real-time">real-time</a>.</li>
-</ul>
+<li>Make <a href="https://rstudio.github.io/bslib/articles/bslib.html#custom">custom theming</a> as easy as possible.<ul><li>Custom themes may even be created interactively in <a href="https://rstudio.github.io/bslib/articles/bslib.html#real-time">real-time</a>.</li></ul>
 </li>
 <li>Also provide easy access to pre-packaged <a href="https://rstudio.github.io/bslib/articles/bslib.html#bootswatch">Bootswatch themes</a>.</li>
-<li>Make <a href="https://rstudio.github.io/bslib/articles/bslib.html#versions">upgrading from Bootstrap 3 to 4 (and beyond)</a> as seamless as possible.
-<ul>
-<li>Shiny and R Markdown default to Bootstrap 3 and will continue to do so to avoid breaking legacy code.</li>
-</ul>
+<li>Make <a href="https://rstudio.github.io/bslib/articles/bslib.html#versions">upgrading from Bootstrap 3 to 4 (and beyond)</a> as seamless as possible.<ul><li>Shiny and R Markdown default to Bootstrap 3 and will continue to do so to avoid breaking legacy code.</li></ul>
 </li>
-<li>Serve as a general foundation for Shiny and R Markdown extension packages.
-<ul>
-<li>Extensions such as <a href="https://flexdashboard-pkg.netlify.app/articles/theme.html" class="external-link"><code>flexdashboard</code></a>, <a href="https://pkgdown.r-lib.org/dev/articles/customization.html" class="external-link"><code>pkgdown</code></a>, and <a href="https://pkgs.rstudio.com/bookdown/reference/bs4_book.html" class="external-link"><code>bookdown</code></a> already fully support <a href="https://rstudio.github.io/bslib/articles/bslib.html#custom"><code>bslib</code>’s custom theming capabilities</a>.</li>
-</ul>
+<li>Serve as a general foundation for Shiny and R Markdown extension packages.<ul><li>Extensions such as <a href="https://flexdashboard-pkg.netlify.app/articles/theme.html" class="external-link"><code>flexdashboard</code></a>, <a href="https://pkgdown.r-lib.org/dev/articles/customization.html" class="external-link"><code>pkgdown</code></a>, and <a href="https://pkgs.rstudio.com/bookdown/reference/bs4_book.html" class="external-link"><code>bookdown</code></a> already fully support <a href="https://rstudio.github.io/bslib/articles/bslib.html#custom"><code>bslib</code>’s custom theming capabilities</a>.</li></ul>
 </li>
 </ul>
 <div class="section level2">
@@ -226,6 +216,13 @@
 </ul>
 </div>
 
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing bslib</a></li>
+</ul>
+</div>
+
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
@@ -254,7 +251,7 @@
 
 <div class="author">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

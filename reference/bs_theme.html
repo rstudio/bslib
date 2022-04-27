@@ -49,7 +49,7 @@ To learn more about how to implement custom themes, as well as how to use them i
   <a href="../articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -107,7 +107,8 @@ To learn more about how to implement custom themes, as well as how to use them i
 </ul><p>To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, <a href="https://rstudio.github.io/bslib/articles/bslib.html">see here</a>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_theme</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_theme</span><span class="op">(</span>
   version <span class="op">=</span> <span class="fu"><a href="versions.html">version_default</a></span><span class="op">(</span><span class="op">)</span>,
   bootswatch <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>,
@@ -144,8 +145,8 @@ To learn more about how to implement custom themes, as well as how to use them i
 <span class="op">)</span>
 
 <span class="fu">is_bs_theme</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>version</dt>
@@ -198,7 +199,7 @@ scales to 80%. Must be a positive number.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a <code><a href="https://rdrr.io/pkg/sass/man/sass_layer.html" class="external-link">sass::sass_bundle()</a></code> (list-like) object.</p>
+    <p>a <code><a href="https://rstudio.github.io/sass/reference/sass_layer.html" class="external-link">sass::sass_bundle()</a></code> (list-like) object.</p>
     </div>
     <div id="colors">
     <h2>Colors</h2>
@@ -229,14 +230,14 @@ character vector can have:</p><ul><li><p>A single unquoted name (e.g., <code>"So
 (e.g. <code>c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")</code>)</p></li>
 </ul><p>Since <code>font_google(..., local = TRUE)</code> guarantees that the client has access to
 the font family, meaning it's relatively safe to specify just one font
-family, for instance:</p><pre><code><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>base_font <span class="op">=</span> <span class="fu"><a href="../reference/font_face.html">font_google</a></span><span class="op">(</span><span class="st">"Pacifico"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre>
+family, for instance:</p><div class="sourceCode"><pre><code><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>base_font <span class="op">=</span> <span class="fu"><a href="../reference/font_face.html">font_google</a></span><span class="op">(</span><span class="st">"Pacifico"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 
 <p>However, specifying multiple "fallback" font families is recommended,
 especially when relying on remote and/or system fonts being available, for
 instance. Fallback fonts are useful not only for handling missing fonts, but
 also for handling a Flash of Invisible Text (FOIT) which can be quite
-noticeable with remote web fonts on a slow internet connection.</p><pre><code>bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
-</code></pre>
+noticeable with remote web fonts on a slow internet connection.</p><div class="sourceCode"><pre><code>bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
+</code></pre></div>
 
     </div>
     <div id="references">
@@ -248,11 +249,10 @@ noticeable with remote web fonts on a slow internet connection.</p><pre><code>bs
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="bs_bundle.html">bs_add_variables()</a></code>, <code><a href="bs_theme_preview.html">bs_theme_preview()</a></code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
 <span class="r-in"><span class="va">theme</span> <span class="op">&lt;-</span> <span class="fu">bs_theme</span><span class="op">(</span></span>
 <span class="r-in">  <span class="co"># Controls the default grayscale palette</span></span>
 <span class="r-in">  bg <span class="op">=</span> <span class="st">"#202123"</span>, fg <span class="op">=</span> <span class="st">"#B8BCC2"</span>,</span>
@@ -287,7 +287,7 @@ noticeable with remote web fonts on a slow internet connection.</p><pre><code>bs
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

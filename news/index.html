@@ -41,7 +41,7 @@
   <a href="../articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -107,6 +107,7 @@
 <ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/393" class="external-link">#393</a>: Bootstrap 5’s <code>$form-check-label-*</code> variables now work as expected with <code><a href="https://rdrr.io/pkg/shiny/man/radioButtons.html" class="external-link">shiny::radioButtons()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html" class="external-link">shiny::checkboxInput()</a></code>, and <code><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html" class="external-link">shiny::checkboxGroupInput()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/395" class="external-link">#395</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/382" class="external-link">#382</a>: Various fixes for using <code><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html" class="external-link">shiny::checkboxInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html" class="external-link">shiny::checkboxGroupInput()</a></code>, and <code>shiny::radioButton()</code> with <code>bs_theme(version = 5, bootswatch = "sketchy")</code>. (<a href="https://github.com/rstudio/bslib/issues/385" class="external-link">#385</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/377" class="external-link">#377</a>: make sure <code>shiny::tabsetPanel(type = "hidden")</code> (i.e., <code><a href="../reference/navs.html">bslib::navs_hidden()</a></code>) stays hidden when used with <code><a href="../reference/bs_theme.html">bs_theme()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/379" class="external-link">#379</a>)</li>
+<li>Closed <a href="https://github.com/rstudio/bslib/issues/424" class="external-link">#424</a>: fixed an issue with <code><a href="../reference/nav.html">nav_menu()</a></code> appearing first in a <code>navs_*()</code> container with Bootstrap 4+.</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/400" class="external-link">#400</a>: <code>nav_menu(align="right")</code> now works with Bootstrap 5. (<a href="https://github.com/rstudio/bslib/issues/401" class="external-link">#401</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/390" class="external-link">#390</a>: using <code>bs_theme(bootswatch = "paper", version = 5)</code> or <code>bs_theme(bootswatch = "readable", version = 5)</code> no longer errors. (<a href="https://github.com/rstudio/bslib/issues/391" class="external-link">#391</a>)</li>
 </ul></div>
@@ -115,27 +116,22 @@
 <h2 class="page-header" data-toc-text="0.3.1" id="bslib-031">bslib 0.3.1<small>2021-10-06</small><a class="anchor" aria-label="anchor" href="#bslib-031"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-3-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-1"></a></h3>
-<ul><li>Upgraded Bootstrap 5 (i.e., <code>bs_theme(version = 5)</code>) from 5.0.2 to 5.1.0 (<a href="https://github.com/rstudio/bslib/issues/365" class="external-link">#365</a>)</li>
-</ul></div>
+<ul><li>Upgraded Bootstrap 5 (i.e., <code>bs_theme(version = 5)</code>) from 5.0.2 to 5.1.0 (<a href="https://github.com/rstudio/bslib/issues/365" class="external-link">#365</a>)</li></ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1"></a></h3>
-<ul><li>Closed rstudio/shiny#3519: <code><a href="../reference/nav.html">nav_menu()</a></code> (i.e., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarMenu()</a></code>) wasn’t producing an <code>.active</code> class on it’s <code>.dropdown</code> container properly. (<a href="https://github.com/rstudio/bslib/issues/372" class="external-link">#372</a>)</li>
-</ul></div>
+<ul><li>Closed rstudio/shiny#3519: <code><a href="../reference/nav.html">nav_menu()</a></code> (i.e., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarMenu()</a></code>) wasn’t producing an <code>.active</code> class on it’s <code>.dropdown</code> container properly. (<a href="https://github.com/rstudio/bslib/issues/372" class="external-link">#372</a>)</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.0" id="bslib-030">bslib 0.3.0<small>2021-09-02</small><a class="anchor" aria-label="anchor" href="#bslib-030"></a></h2>
 <div class="section level3">
 <h3 id="breaking-changes-0-3-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-3-0"></a></h3>
-<ul><li>Closed rstudio/rmarkdown#2154: <a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a>’s pipe operator (<code>%&gt;%</code>) is no longer re-exported by <a href="https://rstudio.github.io/bslib/">bslib</a>. Either <code><a href="https://magrittr.tidyverse.org" class="external-link">library(magrittr)</a></code> to make <code>%&gt;%</code> available and/or use use R 4.1’s pipe operator (<code>|&gt;</code>).</li>
-</ul></div>
+<ul><li>Closed rstudio/rmarkdown#2154: <a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a>’s pipe operator (<code>%&gt;%</code>) is no longer re-exported by <a href="https://rstudio.github.io/bslib/">bslib</a>. Either <code><a href="https://magrittr.tidyverse.org" class="external-link">library(magrittr)</a></code> to make <code>%&gt;%</code> available and/or use use R 4.1’s pipe operator (<code>|&gt;</code>).</li></ul></div>
 <div class="section level3">
 <h3 id="new-features-0-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-0"></a></h3>
-<ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/82" class="external-link">#82</a>: Added support for Bootstrap 5 (via <code>bs_theme(version = 5)</code>). Bootstrap 4 remains the default in this release, but the next release, the default will likely change to Bootstrap 5.</li>
-</ul></div>
+<ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/82" class="external-link">#82</a>: Added support for Bootstrap 5 (via <code>bs_theme(version = 5)</code>). Bootstrap 4 remains the default in this release, but the next release, the default will likely change to Bootstrap 5.</li></ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-0"></a></h3>
-<ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/6" class="external-link">#6</a>: rmarkdown’s .tabset-fade class now works with Bootstrap 4+ since legacy use of .nav .fade is now officially supported in Bootstrap 4+. (<a href="https://github.com/rstudio/bslib/issues/325" class="external-link">#325</a>)</li>
-</ul></div>
+<ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/6" class="external-link">#6</a>: rmarkdown’s .tabset-fade class now works with Bootstrap 4+ since legacy use of .nav .fade is now officially supported in Bootstrap 4+. (<a href="https://github.com/rstudio/bslib/issues/325" class="external-link">#325</a>)</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.5.1" id="bslib-0251">bslib 0.2.5.1<small>2021-05-18</small><a class="anchor" aria-label="anchor" href="#bslib-0251"></a></h2>
@@ -147,7 +143,7 @@
 <h3 id="new-features-and-improvements-0-2-5">New features and improvements<a class="anchor" aria-label="anchor" href="#new-features-and-improvements-0-2-5"></a></h3>
 <ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/251" class="external-link">#251</a>: New <code><a href="../reference/bs_theme.html">bs_theme()</a></code> options (<code>navbar-bg</code>, <code>navbar-light-bg</code>, and <code>navbar-dark-bg</code>) for more easily customizing the navbar’s background (and foreground) color (<a href="https://github.com/rstudio/bslib/issues/253" class="external-link">#253</a>, <a href="https://github.com/rstudio/bslib/issues/271" class="external-link">#271</a>).</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/281" class="external-link">#281</a>: New <code><a href="../reference/bs_theme.html">bs_theme()</a></code> argument (<code>font_scale</code>) for easier scaling of the base font size (<a href="https://github.com/rstudio/bslib/issues/288" class="external-link">#288</a>).</li>
-<li>Closed <a href="https://github.com/rstudio/bslib/issues/256" class="external-link">#256</a> and <a href="https://github.com/rstudio/bslib/issues/282" class="external-link">#282</a>: Font file importers (<code><a href="../reference/font_face.html">font_google()</a></code>, <code><a href="../reference/font_face.html">font_link()</a></code>, and <code><a href="../reference/font_face.html">font_face()</a></code>) are now re-exported from the <a href="https://github.com/rstudio/sass" class="external-link">sass</a> package. As a result, they may now be used with any Sass variable (e.g., <code>bs_theme("input-font-family" = font_google("Pacifico"))</code>) as well as inside Rmd yaml without <code>!expr</code> (e.g., <code>input-font-family: google: Pacifico</code> – see <a href="https://github.com/rstudio/bslib/issues/256" class="external-link">#256</a> for more details). A new <code><a href="../reference/font_face.html">font_collection()</a></code> function was also added for a more convenient way to specify font fallbacks (<a href="https://github.com/rstudio/bslib/issues/291" class="external-link">#291</a>).</li>
+<li>Closed <a href="https://github.com/rstudio/bslib/issues/256" class="external-link">#256</a> and <a href="https://github.com/rstudio/bslib/issues/282" class="external-link">#282</a>: Font file importers (<code><a href="../reference/font_face.html">font_google()</a></code>, <code><a href="../reference/font_face.html">font_link()</a></code>, and <code><a href="../reference/font_face.html">font_face()</a></code>) are now re-exported from the <a href="https://rstudio.github.io/sass/" class="external-link">sass</a> package. As a result, they may now be used with any Sass variable (e.g., <code>bs_theme("input-font-family" = font_google("Pacifico"))</code>) as well as inside Rmd yaml without <code>!expr</code> (e.g., <code>input-font-family: google: Pacifico</code> – see <a href="https://github.com/rstudio/bslib/issues/256" class="external-link">#256</a> for more details). A new <code><a href="../reference/font_face.html">font_collection()</a></code> function was also added for a more convenient way to specify font fallbacks (<a href="https://github.com/rstudio/bslib/issues/291" class="external-link">#291</a>).</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/255" class="external-link">#255</a>: <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> now emits sensible <code>yaml</code> front matter when used within an Rmd document (<a href="https://github.com/rstudio/bslib/issues/288" class="external-link">#288</a>).</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/227" class="external-link">#227</a>: <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> now overlays a spinner during Sass compilation (<a href="https://github.com/rstudio/bslib/issues/243" class="external-link">#243</a>).</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/278" class="external-link">#278</a>: <a href="https://rstudio.github.io/bslib/">bslib</a> now includes <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document</a></code> templates demonstrating example usage with <a href="https://rstudio.github.io/bslib/">bslib</a> and <a href="https://rstudio.github.io/thematic/" class="external-link">thematic</a> (<a href="https://github.com/rstudio/bslib/issues/288" class="external-link">#288</a>).</li>
@@ -156,7 +152,7 @@
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/279" class="external-link">#279</a>: Warnings about low color contrasts are now suppressed by default, unless <code><a href="https://rdrr.io/pkg/shiny/man/devmode.html" class="external-link">shiny::devmode()</a></code> is enabled. To enable/disable these warnings, set the new <code>options(bslib.color_contrast_warnings = )</code> to <code>TRUE</code>/<code>FALSE</code> (<a href="https://github.com/rstudio/bslib/issues/287" class="external-link">#287</a>).</li>
 <li>
 <code><a href="../reference/bs_theme_dependencies.html">bs_theme_dependencies()</a></code> now includes Sass source maps when <code><a href="https://rdrr.io/pkg/shiny/man/devmode.html" class="external-link">shiny::devmode()</a></code> is enabled (<a href="https://github.com/rstudio/bslib/issues/312" class="external-link">#312</a>).</li>
-<li>Added new <code><a href="../reference/bs_bundle.html">bs_add_functions()</a></code>/<code><a href="../reference/bs_bundle.html">bs_add_mixins()</a></code> and deprecated <code><a href="../reference/deprecated.html">bs_add_declarations()</a></code> to reflect <code><a href="https://rdrr.io/pkg/sass/man/sass_layer.html" class="external-link">sass::sass_layer()</a></code>’s new ability to place <code>functions</code> <em>before</em> variable <code>defaults</code>. As a result, variable definitions may now use functions defined with <code><a href="../reference/bs_bundle.html">bs_add_functions()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/311" class="external-link">#311</a>)</li>
+<li>Added new <code><a href="../reference/bs_bundle.html">bs_add_functions()</a></code>/<code><a href="../reference/bs_bundle.html">bs_add_mixins()</a></code> and deprecated <code><a href="../reference/deprecated.html">bs_add_declarations()</a></code> to reflect <code><a href="https://rstudio.github.io/sass/reference/sass_layer.html" class="external-link">sass::sass_layer()</a></code>’s new ability to place <code>functions</code> <em>before</em> variable <code>defaults</code>. As a result, variable definitions may now use functions defined with <code><a href="../reference/bs_bundle.html">bs_add_functions()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/311" class="external-link">#311</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-2-5">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-5"></a></h3>
@@ -168,8 +164,7 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.4" id="bslib-024">bslib 0.2.4<small>2021-01-25</small><a class="anchor" aria-label="anchor" href="#bslib-024"></a></h2>
 <ul><li>Initial release of the package, see <a href="https://rstudio.github.io/bslib/" class="uri">https://rstudio.github.io/bslib/</a>
-</li>
-</ul></div>
+</li></ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -184,7 +179,7 @@
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

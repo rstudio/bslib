@@ -63,7 +63,7 @@
   <a href="../articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -126,12 +126,12 @@
     
 <p><a href="https://sass-lang.com/" class="external-link">Sass</a> is an CSS extension language that helps reduce complexity and increase composability when styling a website. <a href="">Bootstrap Sass</a> is just one example of a Sass-based project that exposes Sass variables to allow users to easily customize CSS styles.</p>
 <p>TODO: do a better job here</p>
-<p>When a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> is used with Shiny or R Markdown, the <a href="https://github.com/rstudio/sass" class="external-link">sass</a> object underlying the theme object is <a href="https://rstudio.github.io/sass/articles/sass.html#why" class="external-link">compiled into CSS</a> at run-time. Compared to custom theming by overlaying additional CSS rules (which, historically, has been the only way to implement custom themes), there are at least a few huge benefits in taking the Sass based approach:</p>
+<p>When a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> is used with Shiny or R Markdown, the <a href="https://rstudio.github.io/sass/" class="external-link">sass</a> object underlying the theme object is <a href="https://rstudio.github.io/sass/articles/sass.html#why" class="external-link">compiled into CSS</a> at run-time. Compared to custom theming by overlaying additional CSS rules (which, historically, has been the only way to implement custom themes), there are at least a few huge benefits in taking the Sass based approach:</p>
 <ul>
 <li><p><a href="variables.html">Sass variables</a> (e.g., <code>$border-radius</code>) provide a useful abstraction to not only reduce the amount of code you need to write, but it also protects you from future changes in HTML/CSS markup that may end up breaking your CSS rules.</p></li>
 <li><p>The <a href="https://sass-lang.com" class="external-link">Sass language</a> itself provides many useful tools for writing CSS more elegantly (i.e., <a href="https://sass-lang.com/documentation/variables" class="external-link">variables</a>, functions, and mixins) as well as many useful utiltiles for computing with CSS values (e.g., color</p></li>
 <li>
-<p>Sass variables not only generate a custom build of Bootstrap CSS (thus, avoiding duplicated CSS rules), but it also gives 3rd party components the opportunity to provide better default styles based on underlying <a href="https://github.com/rstudio/sass" class="external-link">sass</a> object (thanks to <a href="https://rstudio.github.io/bslib/">bslib</a>’s <a href="#custom-components">theming tools for custom components</a>).</p>
+<p>Sass variables not only generate a custom build of Bootstrap CSS (thus, avoiding duplicated CSS rules), but it also gives 3rd party components the opportunity to provide better default styles based on underlying <a href="https://rstudio.github.io/sass/" class="external-link">sass</a> object (thanks to <a href="https://rstudio.github.io/bslib/">bslib</a>’s <a href="#custom-components">theming tools for custom components</a>).</p>
 <ul>
 <li>This shift in approach allows sophisticated, custom, components like <code><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html" class="external-link">shiny::sliderInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/dateRangeInput.html" class="external-link">shiny::dateRangeInput()</a></code>, <code><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">DT::datatable()</a></code>, etc. “just work” with custom and <a href="#dynamic-shiny">dynamically updating themes</a>.</li>
 </ul>
@@ -153,7 +153,7 @@
 
 <div class="author">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

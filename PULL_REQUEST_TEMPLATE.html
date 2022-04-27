@@ -41,7 +41,7 @@
   <a href="articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -91,21 +91,14 @@
 <div class="section level2">
 <h2 id="pull-request">Pull Request<a class="anchor" aria-label="anchor" href="#pull-request"></a></h2>
 <p>Before you submit a pull request, please ensure you’ve completed the following checklist</p>
-<ul><li><p><input type="checkbox" disabled>
-Ensure there is an already open and relevant <a href="https://github.com/rstudio/bslib/issues/new" class="external-link">GitHub issue</a> describing the problem in detail and you’ve already received some indication from the maintainers that they are welcome to a contribution to fix the problem. This helps us to prevent wasting anyone’s time.</p></li>
-<li><p><input type="checkbox" disabled>
-Add unit tests in the tests/testthat directory.</p></li>
-<li><p><input type="checkbox" disabled>
-This project uses <a href="http://r-pkgs.had.co.nz/man.html" class="external-link">roxygen2 for documentation</a>. If you’ve made changes to documentation, run <code>devtools::document()</code>.</p></li>
+<ul><li><p><input type="checkbox" disabled>Ensure there is an already open and relevant <a href="https://github.com/rstudio/bslib/issues/new" class="external-link">GitHub issue</a> describing the problem in detail and you’ve already received some indication from the maintainers that they are welcome to a contribution to fix the problem. This helps us to prevent wasting anyone’s time.</p></li>
+<li><p><input type="checkbox" disabled>Add unit tests in the tests/testthat directory.</p></li>
+<li><p><input type="checkbox" disabled>This project uses <a href="http://r-pkgs.had.co.nz/man.html" class="external-link">roxygen2 for documentation</a>. If you’ve made changes to documentation, run <code>devtools::document()</code>.</p></li>
 <li>
-<p><input type="checkbox" disabled>
-Run <code>devtools::check()</code> (or, equivalently, click on Build-&gt;Check Package in the RStudio IDE) to make sure your change did not add any messages, warnings, or errors.</p>
-<ul><li>Note there is a decent chance that some tests were already failing before your changes. Just make sure you haven’t introduced any new ones.</li>
-</ul></li>
-<li><p><input type="checkbox" disabled>
-Ensure your code changes follow the style outlined in <a href="http://r-pkgs.had.co.nz/style.html" class="external-link uri">http://r-pkgs.had.co.nz/style.html</a></p></li>
-<li><p><input type="checkbox" disabled>
-Add an entry to NEWS.md concisely describing what you changed.</p></li>
+<p><input type="checkbox" disabled>Run <code>devtools::check()</code> (or, equivalently, click on Build-&gt;Check Package in the RStudio IDE) to make sure your change did not add any messages, warnings, or errors.</p>
+<ul><li>Note there is a decent chance that some tests were already failing before your changes. Just make sure you haven’t introduced any new ones.</li></ul></li>
+<li><p><input type="checkbox" disabled>Ensure your code changes follow the style outlined in <a href="http://r-pkgs.had.co.nz/style.html" class="external-link uri">http://r-pkgs.had.co.nz/style.html</a></p></li>
+<li><p><input type="checkbox" disabled>Add an entry to NEWS.md concisely describing what you changed.</p></li>
 </ul></div>
 
   </div>
@@ -123,7 +116,7 @@ Add an entry to NEWS.md concisely describing what you changed.</p></li>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

@@ -63,7 +63,7 @@
   <a href="../articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -244,7 +244,7 @@
 <p>Underneath the hood, <code><a href="../reference/bs_theme.html">bs_theme()</a></code> works by placing <a href="https://sass-lang.com/documentation/variables#default-values" class="external-link">Sass variable defaults</a> <em>before</em> Bootstrap’s variable defaults. That’s why something like <code>bs_theme(primary = "red")</code> “just works” in the sense that it not only provides <code>$primary</code> with a new default value, but it also passes the value to other variables that default to <code>$primary</code> (e.g. <a href="bs5-variables.html#progress-bar-bg"><code>$progress-bar-bg</code></a>).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Reduced version of the Sass code behind `bs_theme(primary = "red")`</span>
-<span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass.html" class="external-link">sass</a></span><span class="op">(</span><span class="st">"
+<span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/sass/reference/sass.html" class="external-link">sass</a></span><span class="op">(</span><span class="st">"
   $primary: red !default; // First one wins
   $primary: blue !default;
   $progress-bar-bg: $primary !default;
@@ -253,7 +253,7 @@
 <span class="co">#&gt; red, red</span></code></pre></div>
 <p>Since <code><a href="../reference/bs_theme.html">bs_theme()</a></code> defines variables <em>before</em> Bootstrap, we must define variables differently if they want to reference Bootstrap’s Sass code. For example, what if we wanted <code>$progress-bar-bg</code> to default to <code>$secondary</code> instead of <code>$primary</code>?</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass.html" class="external-link">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$secondary"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/sass/reference/sass.html" class="external-link">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"progress-bar-bg"</span> <span class="op">=</span> <span class="st">"$secondary"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Error: Undefined variable: "$secondary".</span></code></pre></div>
 <p>Thankfully <code><a href="../reference/bs_bundle.html">bs_add_variables()</a></code> provides a workaround. By default, <code><a href="../reference/bs_bundle.html">bs_add_variables()</a></code> works just like <code><a href="../reference/bs_theme.html">bs_theme()</a></code> (it puts variable definitions before other Sass code), but by with <code>.where = "declarations"</code>, we can place the definition after Bootstrap:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -403,7 +403,7 @@ Hello custom block with custom styles!
 
 <div class="author">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

@@ -53,7 +53,7 @@ shiny::session's setCurrentTheme() is called."><meta name="twitter:card" content
   <a href="../articles/bslib.html">Get started</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -106,7 +106,7 @@ shiny::session's setCurrentTheme() is called."><meta name="twitter:card" content
     <p>Themeable HTML components use Sass to generate CSS rules from Bootstrap Sass
 variables, functions, and/or mixins (i.e., stuff inside of <code>theme</code>).
 <code>bs_dependencies()</code> makes it a bit easier to create themeable components by
-compiling <code><a href="https://rdrr.io/pkg/sass/man/sass.html" class="external-link">sass::sass()</a></code> (<code>input</code>) together with Bootstrap Sass inside of a
+compiling <code><a href="https://rstudio.github.io/sass/reference/sass.html" class="external-link">sass::sass()</a></code> (<code>input</code>) together with Bootstrap Sass inside of a
 <code>theme</code>, and packaging up the result into an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmlDependency()</a></code>.</p>
 <p>Themable components can also be  <em>dynamically</em> themed inside of Shiny (i.e.,
 they may be themed in 'real-time' via <code><a href="run_with_themer.html">bs_themer()</a></code>, and more generally,
@@ -118,7 +118,8 @@ is first rendered, and may be invoked again with a new <code>theme</code> whenev
 <a href="https://rdrr.io/pkg/shiny/man/session.html" class="external-link">shiny::session</a>'s <code>setCurrentTheme()</code> is called.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_dependency</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_dependency</span><span class="op">(</span>
   input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
   <span class="va">theme</span>,
   <span class="va">name</span>,
@@ -129,8 +130,8 @@ is first rendered, and may be invoked again with a new <code>theme</code> whenev
 <span class="op">)</span>
 
 <span class="fu">bs_dependency_defer</span><span class="op">(</span><span class="va">func</span>, memoise <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>input</dt>
@@ -150,7 +151,7 @@ useful to add the version of your package.</p></dd>
 <code>script</code> must be absolute path(s).</p></dd>
 <dt>.sass_args</dt>
 <dd><p>A list of additional arguments to pass to
-<code><a href="https://rdrr.io/pkg/sass/man/sass_partial.html" class="external-link">sass::sass_partial()</a></code>.</p></dd>
+<code><a href="https://rstudio.github.io/sass/reference/sass_partial.html" class="external-link">sass::sass_partial()</a></code>.</p></dd>
 <dt>func</dt>
 <dd><p>a <em>non-anonymous</em> function, with a <em>single</em> argument.
 This function should accept a <code><a href="bs_theme.html">bs_theme()</a></code> object and return a single
@@ -172,11 +173,10 @@ instance.</p></dd>
     <h2>References</h2>
     <p><a href="https://rstudio.github.io/bslib/articles/custom-components.html">https://rstudio.github.io/bslib/articles/custom-components.html</a></p>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">myWidgetVersion</span> <span class="op">&lt;-</span> <span class="st">"1.2.3"</span></span>
@@ -207,7 +207,7 @@ instance.</p></dd>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># Compile mywidget.scss using the variables and defaults from the theme</span></span>
 <span class="r-in">  <span class="co"># object.</span></span>
-<span class="r-in">  <span class="va">sass_input</span> <span class="op">&lt;-</span> <span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sass/man/sass_import.html" class="external-link">sass_file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"mypackage"</span>, <span class="st">"scss/mywidget.scss"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">sass_input</span> <span class="op">&lt;-</span> <span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/sass/reference/sass_import.html" class="external-link">sass_file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"mypackage"</span>, <span class="st">"scss/mywidget.scss"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="fu">bs_dependency</span><span class="op">(</span></span>
 <span class="r-in">    input <span class="op">=</span> <span class="va">sass_input</span>,</span>
@@ -244,7 +244,7 @@ instance.</p></dd>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
