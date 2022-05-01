@@ -145,7 +145,7 @@ However, specifying multiple "fallback" font families is recommended,
 especially when relying on remote and/or system fonts being available, for
 instance. Fallback fonts are useful not only for handling missing fonts, but
 also for handling a Flash of Invisible Text (FOIT) which can be quite
-noticeable with remote web fonts on a slow internet connection.\preformatted{bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
+noticeable with remote web fonts on a slow internet connection.\preformatted{bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
 }
 }
 
