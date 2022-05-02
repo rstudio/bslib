@@ -51,7 +51,7 @@
 #'  noticeable with remote web fonts on a slow internet connection.
 #'
 #'  ```
-#'  bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
+#'  bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
 #'  ````
 #'
 #' @param version The major version of Bootstrap to use (see [versions()]
