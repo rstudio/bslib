@@ -41,10 +41,10 @@ navs_pill_card <- function(..., id = NULL, selected = NULL,
 
   names(args)[1] <- if (above) "header" else "footer"
 
-  do.call(card, args)
+  do.call(card_, args)
 }
 
-card <- function(..., header = NULL, footer = NULL, caller) {
+card_ <- function(..., header = NULL, footer = NULL, caller) {
   tag <- div(
     class = "card",
     if (!is.null(header)) div(class = "card-header", header),
