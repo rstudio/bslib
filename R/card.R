@@ -96,9 +96,25 @@ card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = TRUE) 
     class = class,
     ...,
     style = if (!stretch) css(
-      flex = "0.0000001 0 auto",
-      `_webkit_flex` = "0.0000001 0 auto"
+      flex = "0",
+      `_webkit_flex` = "0"
     ),
+  )
+  as.card_item(res)
+}
+
+#' @export
+card_body_scroll <- function(..., class = NULL, height = NULL, padding = c("x", "y")) {
+  res <- htmltools::tags$div(class = "card-body card-body-scroll",
+    class = if (!"x" %in% padding) "px-0",
+    class = if (!"y" %in% padding) "py-0",
+    class = class,
+    style = css(
+      # May be NULL
+      flex_basis = validateCssUnit(height),
+      `-webkit-flex-basis` = validateCssUnit(height)
+    ),
+    ...
   )
   as.card_item(res)
 }
@@ -142,7 +158,7 @@ card_footer <- function(..., class = NULL) {
 #' @rdname card_body
 #' @export
 card_spacer <- function(...) {
-  res <- htmltools::tags$div(style = css(flex = "1 1 0"))
+  res <- htmltools::tags$div(style = css(flex = "1 0 0"))
   as.card_item(res)
 }
 
@@ -168,14 +184,20 @@ card_plot <- function(outputId,
   height = NULL,
   stretch = TRUE
 ) {
-  plot_div <- plotOutput(outputId, height = height, click = click, dblclick = dblclick, hover = hover,
+  plot_div <- plotOutput(outputId, height = NULL, click = click, dblclick = dblclick, hover = hover,
     brush = brush)
 
   # TODO: card-img-* needs to go on the <img> itself, not the containing <div>
   plot_div <-
     tagAppendAttributes(plot_div,
       class = "card_body",
-      style = if (stretch) "flex: 1 1 auto; -webkit-flex: 1 1 auto;"
+      style = css(
+        flex = if (stretch) "1 1",
+        `-webkit-flex` = if (stretch) "1 1",
+        # May be NULL
+        `flex-basis` = validateCssUnit(height),
+        `-webkit-flex-basis` = validateCssUnit(height),
+      )
     )
 
   as.card_item(plot_div)

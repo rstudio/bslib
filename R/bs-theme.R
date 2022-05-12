@@ -331,6 +331,10 @@ bootstrap_bundle <- function(version) {
     # nav_spacer() CSS (can be removed)
     nav_spacer = sass_layer(
       rules = sass_file(system_file("nav-spacer/nav-spacer.scss", package = "bslib"))
+    ),
+    # nav_spacer() CSS (can be removed)
+    card = sass_layer(
+      rules = sass_file(system_file("card/card.scss", package = "bslib"))
     )
   )
 }
