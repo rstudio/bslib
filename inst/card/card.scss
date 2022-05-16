@@ -5,3 +5,14 @@
 .card-body-scroll {
   overflow-y: auto;
 }
+
+.bslib-card-grid {
+  display: grid;
+  gap: $spacer;
+}
+
+@include media-breakpoint-down(sm) {
+  .bslib-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

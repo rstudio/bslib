@@ -10,14 +10,14 @@
 \alias{card_footer}
 \alias{card_spacer}
 \alias{card_list}
-\alias{card_plot}
+\alias{card_plot_output}
 \title{Card components}
 \usage{
 as.card_item(x)
 
 is.card_item(x)
 
-card_body(..., class = NULL, padding = c("x", "y"), stretch = TRUE)
+card_body(..., class = NULL, padding = c("x", "y"), stretch = FALSE)
 
 card_header(..., class = NULL)
 
@@ -31,7 +31,7 @@ card_spacer(...)
 
 card_list(...)
 
-card_plot(
+card_plot_output(
   outputId,
   click = NULL,
   dblclick = NULL,
