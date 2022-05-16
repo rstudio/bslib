@@ -1,3 +1,70 @@
+#' Card grid
+#'
+#' Use to create a grid of cards, giving every card in the entire grid the same
+#' height/width (or optionally, every card in _each row_ of the grid).
+#'
+#' @param ... Named arguments become attributes on the `<div class="card">`
+#'   element. Unnamed arguments are children, and should be instances of
+#'   [card()].
+#' @param class Additional CSS classes to include on the grid div.
+#' @param card_width The desired width of each card. This can be any [CSS length
+#'   unit][htmltools::validateCssUnit()], in which case `card_grid` will fit as
+#'   many cards into each row without being smaller than that width.
+#'   Alternatively, you can specify a number of cards per row by passing
+#'   `1/num`, for example `card_width = 1/3` for three cards per row. You can
+#'   also set this to `NULL` and set the `grid-template-columns` CSS property
+#'   manually, either via a `style` attribute or a CSS stylesheet.
+#' @param gap A [CSS length unit][htmltools::validateCssUnit()] that sets the
+#'   amount of spacing between cards. If `NULL`, the value of Bootstrap's
+#'   `$spacer` Sass variable is used.
+#' @param heights_equal If `"all"` (the default), every card in every row of the
+#'   grid will have the same height. If `"row"`, then every card in _each_ row
+#'   of the grid will have the same height, but heights may vary between rows.
+#'
+#' @export
+card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
+  heights_equal = c("all", "row")) {
+
+  # TODO: Allow cards not to stretch
+
+  heights_equal <- match.arg(heights_equal)
+
+  args <- rlang::list2(...)
+  argnames <- names(args)
+  if (is.null(argnames) && length(args) > 0) {
+    argnames <- rep_len("", length(args))
+  }
+
+  attribs <- args[nzchar(argnames)]
+  children <- args[!nzchar(argnames)]
+
+  colspec <- if (!is.null(card_width)) {
+    if (length(card_width) == 1 && card_width > 0 && card_width <= 1) {
+      num_cols <- 1 / card_width
+      if (num_cols != as.integer(num_cols)) {
+        stop("Could not interpret card_width argument; see ?card_grid")
+      }
+      paste0(rep_len("1fr", num_cols), collapse = " ")
+    } else {
+      # This version is if we don't want to allow growth
+      # paste0("repeat(auto-fill, ", validateCssUnit(card_width), ")")
+      # This version is if we do
+      paste0("repeat(auto-fill, minmax(", validateCssUnit(card_width), ", 1fr))")
+    }
+    # TODO: Support length(card_width) > 1?
+  }
+
+  div(class = "bslib-card-grid", class = class,
+    style = css(
+      grid_template_columns = colspec,
+      grid_auto_rows = if (heights_equal == "all") "1fr",
+      gap = validateCssUnit(gap)
+    ),
+    !!!attribs,
+    children
+  )
+}
+
 #' Create a card component
 #'
 #' @description Cards are general purpose containers for grouping UI elements
@@ -25,7 +92,9 @@
 #'   no further processing.
 #'
 #' @export
-card <- function(..., class = NULL, width = NULL, height = NULL, autowrap = TRUE) {
+card <- function(..., class = NULL, width = NULL, height = NULL,
+  autowrap = TRUE) {
+
   width <- htmltools::validateCssUnit(width)
   height <- htmltools::validateCssUnit(height)
 
@@ -89,7 +158,7 @@ is.card_item <- function(x) {
 #'   for example, a single card could contain a `card_header()`, multiple
 #'   `card_body()`s, a `card_list()`, and finally a `card_footer()`.
 #' @export
-card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = TRUE) {
+card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = FALSE) {
   res <- htmltools::tags$div(class = "card-body",
     class = if (!"x" %in% padding) "px-0",
     class = if (!"y" %in% padding) "py-0",
@@ -149,7 +218,7 @@ card_title <- function(..., class = NULL) {
 #' @rdname card_body
 #' @export
 card_footer <- function(..., class = NULL) {
-  res <- htmltools::tags$div(class = "card-footer", class = class,
+  res <- htmltools::tags$div(class = "card-footer mt-auto", class = class,
     ...
   )
   as.card_item(res)
@@ -176,7 +245,7 @@ card_list_item <- function(...) {
 
 #' @rdname card_body
 #' @export
-card_plot <- function(outputId,
+card_plot_output <- function(outputId,
   click = NULL,
   dblclick = NULL,
   hover = NULL,
@@ -190,7 +259,6 @@ card_plot <- function(outputId,
   # TODO: card-img-* needs to go on the <img> itself, not the containing <div>
   plot_div <-
     tagAppendAttributes(plot_div,
-      class = "card_body",
       style = css(
         flex = if (stretch) "1 1",
         `-webkit-flex` = if (stretch) "1 1",
