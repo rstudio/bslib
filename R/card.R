@@ -23,7 +23,7 @@
 #'
 #' @export
 card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
-  heights_equal = c("all", "row")) {
+  heights_equal = c("all", "row"), fixed_width = FALSE) {
 
   # TODO: Allow cards not to stretch
 
@@ -49,7 +49,11 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
       # This version is if we don't want to allow growth
       # paste0("repeat(auto-fill, ", validateCssUnit(card_width), ")")
       # This version is if we do
-      paste0("repeat(auto-fill, minmax(", validateCssUnit(card_width), ", 1fr))")
+      if (fixed_width) {
+        paste0("repeat(auto-fill, ", validateCssUnit(card_width), ")")
+      } else {
+        paste0("repeat(auto-fill, minmax(", validateCssUnit(card_width), ", 1fr))")
+      }
     }
     # TODO: Support length(card_width) > 1?
   }
@@ -251,7 +255,8 @@ card_plot_output <- function(outputId,
   hover = NULL,
   brush = NULL,
   height = NULL,
-  stretch = TRUE
+  stretch = TRUE,
+  ...
 ) {
   plot_div <- plotOutput(outputId, height = NULL, click = click, dblclick = dblclick, hover = hover,
     brush = brush)
@@ -265,7 +270,8 @@ card_plot_output <- function(outputId,
         # May be NULL
         `flex-basis` = validateCssUnit(height),
         `-webkit-flex-basis` = validateCssUnit(height),
-      )
+      ),
+      !!!rlang::list2(...)
     )
 
   as.card_item(plot_div)

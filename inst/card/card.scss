@@ -16,3 +16,19 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+.card .shiny-plot-output {
+  overflow: hidden;
+}
+
+.card {
+  > .card-body > {
+    p, h1, h2, h3, h4, h5, h6 {
+      margin-top: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
