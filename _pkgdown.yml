@@ -6,6 +6,7 @@ toc:
 url: https://rstudio.github.io/bslib/
 
 template:
+  bootstrap: 5
   package: quillt
   params:
     footer: <b>bslib</b> is an R package developed by <a href='https://rstudio.com'>RStudio</a>
@@ -33,6 +34,8 @@ navbar:
           href: articles/utility-classes.html
         - text: Custom components
           href: articles/custom-components.html
+        - text: Cards
+          href: articles/cards.html
     reference:
       text: Reference
       href: reference/index.html

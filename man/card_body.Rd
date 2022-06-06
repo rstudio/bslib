@@ -9,7 +9,6 @@
 \alias{card_title}
 \alias{card_footer}
 \alias{card_spacer}
-\alias{card_list}
 \alias{card_plot_output}
 \title{Card components}
 \usage{
@@ -29,8 +28,6 @@ card_footer(..., class = NULL)
 
 card_spacer(...)
 
-card_list(...)
-
 card_plot_output(
   outputId,
   click = NULL,
@@ -38,8 +35,23 @@ card_plot_output(
   hover = NULL,
   brush = NULL,
   height = NULL,
-  stretch = TRUE
+  stretch = TRUE,
+  ...
 )
+}
+\arguments{
+\item{...}{Named arguments become attributes on the \verb{<div class="card">}
+element. Unnamed arguments become card items, and can be any valid child of
+an \link[htmltools:builder]{htmltools tag}.}
+
+\item{class}{Additional CSS classes to include on the card div.}
+
+\item{padding}{Whether vertical and/or horizontal padding should be included.
+Use \code{NULL} for neither, \code{"x"} for horizontal only, \code{"y"} for vertical only,
+or \code{c("x", "y")} for both (the default).}
+
+\item{stretch}{Set to \code{TRUE} if this \code{card_body} is eager to use any extra
+vertical space is available in the card.}
 }
 \description{
 This topic describes various components that are intended to go

@@ -268,7 +268,11 @@ bootstrap_bundle <- function(version) {
       ),
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
-      bs3compat = bs3compat_bundle()
+      bs3compat = bs3compat_bundle(),
+      # card() CSS (can be removed)
+      card = sass_layer(
+        rules = sass_file(system_file("card/card.scss", package = "bslib"))
+      )
     ),
     four = sass_bundle(
       sass_layer(
@@ -332,10 +336,6 @@ bootstrap_bundle <- function(version) {
     nav_spacer = sass_layer(
       rules = sass_file(system_file("nav-spacer/nav-spacer.scss", package = "bslib"))
     ),
-    # nav_spacer() CSS (can be removed)
-    card = sass_layer(
-      rules = sass_file(system_file("card/card.scss", package = "bslib"))
-    )
   )
 }
 

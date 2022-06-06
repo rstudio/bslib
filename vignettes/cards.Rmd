@@ -1,0 +1,288 @@
+---
+title: "Cards"
+output:
+  html_document:
+    theme:
+      version: 5
+---
+
+Cards are a common organizing unit for modern user interfaces. At their core, they're simply rectangular containers with borders and padding. They can contain titles, text, images, plots, buttons, and form controls.
+
+bslib includes a family of functions that make it easy to create [Bootstrap cards](https://getbootstrap.com/docs/5.0/components/card/) from R. These functions currently require Bootstrap 5.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(bslib)
+library(shiny)
+library(htmltools)
+
+lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id nibh tortor id aliquet lectus proin nibh nisl. Adipiscing at in tellus integer feugiat. Arcu bibendum at varius vel pharetra vel turpis nunc eget. Cursus sit amet dictum sit amet justo. Sit amet consectetur adipiscing elit. Vestibulum mattis ullamcorper velit sed ullamcorper. Enim facilisis gravida neque convallis a. Elit duis tristique sollicitudin nibh sit amet. Magna eget est lorem ipsum. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Mauris in aliquam sem fringilla ut morbi. Id semper risus in hendrerit gravida rutrum quisque non tellus. At erat pellentesque adipiscing commodo elit at imperdiet dui. Fames ac turpis egestas maecenas pharetra convallis posuere morbi. Duis convallis convallis tellus id interdum velit laoreet id. Aliquet lectus proin nibh nisl. Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis. Bibendum enim facilisis gravida neque convallis a."
+
+```
+
+```{r ref.label="anim_helpers",echo=FALSE}
+```
+
+## Basic usage
+
+::: row
+::: col-md-6
+Create a card using the `card()` function; this creates a `<div class="card">` tag. As is common for htmltools functions, the named arguments in `...` are treated as attributes on the div, and unnamed arguments in `...` are children.
+
+Bootstrap cards are designed to contain:
+
+-   An optional **header**: `<div class="card-header">`, implemented in bslib as `card_header()`.
+-   A **body** div: `<div class="card-body">`, a.k.a. `card_body()`. You can also have multiple body divs in a single card, if you want.
+-   An optional **footer**: `<div class="card-footer">`, a.k.a. `card_footer()`.
+:::
+
+::: col-md-6
+```{r}
+card(class = "w-50", style = "height: 300px;",
+  card_header(
+    "This is the header"
+  ),
+  card_body(
+    p("This is the body."),
+    p("This is still the body.")
+  ),
+  card_footer(
+    "This is the footer"
+  )
+)
+```
+:::
+:::
+
+### Implicit card body creation
+
+::: row
+::: col-md-6
+To save you some typing, any direct children of `card()` that are not recognized as valid card children, are wrapped together into an implicit `card_body()` call. This example puts two bare `<p>` tags between the header and footer, yet the generated HTML is identical to the previous example.
+
+(If you want to opt out of this convenience feature, e.g. you are passing custom HTML into your `card()` and want it left alone, you can do so by passing an `autowrap = FALSE` argument to `card()`.)
+:::
+
+::: col-md-6
+```{r}
+card(class = "w-50", style = "height: 300px;",
+  card_header(
+    "This is the header"
+  ),
+  p("This is the body."),
+  p("This is still the body."),
+  card_footer(
+    "This is the footer"
+  )
+)
+```
+:::
+:::
+
+## Adding plots
+
+::: row
+::: col-md-6
+Use the `card_plot_output()` function instead of `shiny::plotOutput` when inside of a card. `card_plot_output` has two main benefits:
+
+1.  It runs flush to the right and left edges of the card (which looks especially nice when using a contrasting plot background color).
+2.  If the card is taller than the natural height of its contents, `card_plot_output` will stretch to take the extra room. The example's animation demonstrates this.
+
+Note that `card_plot_output` is intended to be a direct child of `card()`; you're not meant to nest it inside of a `card_body()`, as that would cause the edges of the plot to no longer be flush to the edges of the card.
+:::
+
+::: col-md-6
+```{r}
+plot_card <- card(class = "w-50",
+  card_heading("Card with a plot"),
+  card_plot_output("plot1", height = 200),
+  "The above is a plot",
+  card_footer("This is a footer")
+)
+
+plot_card |> anim_height(300, 400)
+```
+:::
+:::
+
+## Scrolling card bodies
+
+::: row
+::: col-md-6
+Use `card_body_scroll()` in place of `card_body()` to create a vertically scrollable card body.
+:::
+
+::: col-md-6
+```{r}
+card(class = "w-50",
+  card_heading("Card with a scrolling body"),
+  card_plot_output("plot1", height = 200),
+  card_body_scroll(height = 200,
+    lorem_ipsum_dolor_sit_amet
+  )
+)
+```
+:::
+:::
+
+## Arranging cards
+
+There are several ways to arrange sets of cards. To illustrate, we'll use three card instances with varying heights.
+
+**Note:** The examples in this section are not intended to be viewed on mobile devices. At small window widths, all of the layouts here collapse into a more mobile-friendly approach of "show each card at maximum width".
+
+```{r}
+card1 <- card(
+  card_heading("Card with a scrolling body"),
+  card_body_scroll(height = 200,
+    lorem_ipsum_dolor_sit_amet
+  )
+)
+card2 <- card(
+  card_heading("A second card"),
+  p("This card doesn't have very much in it")
+)
+card3 <- card(
+  card_heading("A card with a plot"),
+  card_plot_output("plot1", height = 200),
+  card_footer(class = "fs-6",
+    "Copyright 2022 RStudio, PBC"
+  )
+)
+```
+
+### Varying widths/heights: Use Bootstrap grid
+
+First, you can put them in a normal Bootstrap row/column layout. By default, each card will render at its natural size.
+
+```{r}
+fluidRow(
+  column(6, card1),
+  column(3, card2),
+  column(3, card3)
+)
+```
+
+### Varying widths, same heights: Use Bootstrap grid plus `height: 100%`
+
+To make cards render at the same height, set their heights to 100%. You can do this by creating each `card()` with `class = "h-100"` or `style = css(height = "100%")`. (For this example, our cards already exist, so we'll use `tagAppendAttributes` to add the `h-100` class after the fact.)
+
+```{r}
+fluidRow(
+  column(6, card1 |> tagAppendAttributes(class = "h-100")),
+  column(3, card2 |> tagAppendAttributes(class = "h-100")),
+  column(3, card3 |> tagAppendAttributes(class = "h-100"))
+)
+```
+
+### Uniform widths and heights: Use `card_grid()`
+
+If you have cards that all need to be the same size, `card_grid()` may be appropriate. It uses [CSS Grid](https://css-tricks.com/snippets/css/complete-guide-grid/) technology to lay out the cards you give it.
+
+Besides the cards you want it to lay out, the most important `card_grid` argument is `card_width`. There are several ways you can use `card_width` to specify the width of each card.
+
+#### Fractional card widths
+
+First, you can provide a fractional value, like `1/2`, `1/3`, or `1/4`. This means that each card should take that fraction of the available width. (Do not attempt to use percent-based widths with `card_width`--like `"50%"` instead of `1/2`. Percentages will almost certainly not give you the results you want.)
+
+As the animation (except on mobile devices) below shows, as the width of the `card_grid` changes, each card grows or shrinks to maintain its 1/4 width.
+
+```{r}
+# Grid with fixed column count
+card_grid(card_width = 1/4,
+  card1, card2, card3, card1, card2, card3) |>
+  anim_width("100%", "67%")
+```
+
+#### Absolute card width, growable
+
+You can also pass any valid CSS length to `card_width`, like `"200px"`, `192pt`, or `18rem`. You can also pass a plain numeric value, which will be interpreted as pixels. When you pass a length, by default, `card_grid` will put as many cards on each row that will fit if each is `card_width` wide, _then evenly divide any remaining space_ between the cards. So a value like `200px` technically means something like 200px <= width < 400px.
+
+```{r}
+# Grid with fixed card width
+card_grid(card_width = 200,
+  card1, card1, card1, card1) |>
+  anim_width("100%", "67%")
+```
+
+#### Absolute card width, exact
+
+If having every card perfectly sized to an exact width is more important than filling the available space, you can add the `fixed_width = TRUE` argument. (The `class = "border-end border-3"` in this example is to draw a 3px vertical line at the right edge of the `card_grid`, for illustrative purposes.)
+
+```{r}
+# Grid with fixed card width
+card_grid(card_width = 200, fixed_width = TRUE,
+  class = "border-end border-3",
+  card1, card1, card1, card1) |>
+  anim_width("100%", "67%")
+```
+
+## Appendix
+
+In the spirit of reproducibility, this section discloses custom CSS and R code used in the examples above.
+
+The following CSS is used to give `card_plot_output()` a blue background; it's necessary here because this documentation page is not actually hooked up to a Shiny app, so we can't show a real plot.
+
+```{css}
+.shiny-plot-output {
+  background-color: #0dcaf0;
+}
+```
+
+These R functions add animation-related CSS class and styles to whatever tags you give it.
+
+```{r anim_helpers,echo=TRUE,results="hide"}
+anim_width <- function(x, width1, width2) {
+  x |> tagAppendAttributes(
+    class = "animate-width",
+    style = css(
+      `--width1` = validateCssUnit(width1),
+      `--width2` = validateCssUnit(width2),
+    ),
+  )
+}
+
+anim_height <- function(x, height1, height2) {
+  # Wrap in a div fixed at the height of height2, so the rest of
+  # the content on the page doesn't shift up and down
+  div(style = css(height = validateCssUnit(height2)),
+    x |> tagAppendAttributes(
+      class = "animate-height",
+      style = css(
+        `--height1` = validateCssUnit(height1),
+        `--height2` = validateCssUnit(height2),
+      ),
+    )
+  )
+}
+```
+
+And here are the CSS animation rules that power those `anim_width` and `anim_height` R functions.
+
+```{css}
+@keyframes changewidth {
+  from { width: var(--width1); }
+  25% { width: var(--width1); }
+  50% { width: var(--width2); }
+  75% { width: var(--width2); }
+  to { width: var(--width1); }
+}
+.animate-width {
+  animation-duration: 6s;
+  animation-name: changewidth;
+  animation-iteration-count: infinite;
+}
+
+@keyframes changeheight {
+  from { height: var(--height1); }
+  25% { height: var(--height1); }
+  50% { height: var(--height2); }
+  75% { height: var(--height2); }
+  to { height: var(--height1); }
+}
+.animate-height {
+  animation-duration: var(--anim-duration, 6s);
+  animation-name: changeheight;
+  animation-iteration-count: infinite;
+}
+```
