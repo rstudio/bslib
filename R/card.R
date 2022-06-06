@@ -20,6 +20,12 @@
 #' @param heights_equal If `"all"` (the default), every card in every row of the
 #'   grid will have the same height. If `"row"`, then every card in _each_ row
 #'   of the grid will have the same height, but heights may vary between rows.
+#' @param fixed_width When `card_width` is a CSS length (as opposed to a
+#'   fraction), the default behavior is to let cards be that wide _or larger_,
+#'   so that they fill all of the horizontal space that's available. Set this
+#'   argument to `TRUE` to ensure that cards are exactly the specified width,
+#'   even if this means using less than the total width of the card grid
+#'   container.
 #'
 #' @export
 card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
@@ -161,6 +167,17 @@ is.card_item <- function(x) {
 #'   directly inside of a [card()]. These components can be used in combination;
 #'   for example, a single card could contain a `card_header()`, multiple
 #'   `card_body()`s, a `card_list()`, and finally a `card_footer()`.
+#'
+#' @param ... Named arguments become attributes on the `<div class="card">`
+#'   element. Unnamed arguments become card items, and can be any valid child of
+#'   an [htmltools tag][htmltools::tags].
+#' @param class Additional CSS classes to include on the card div.
+#' @param padding Whether vertical and/or horizontal padding should be included.
+#'   Use `NULL` for neither, `"x"` for horizontal only, `"y"` for vertical only,
+#'   or `c("x", "y")` for both (the default).
+#' @param stretch Set to `TRUE` if this `card_body` is eager to use any extra
+#'   vertical space is available in the card.
+#'
 #' @export
 card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = FALSE) {
   res <- htmltools::tags$div(class = "card-body",
@@ -235,17 +252,20 @@ card_spacer <- function(...) {
   as.card_item(res)
 }
 
-#' @rdname card_body
-#' @export
-card_list <- function(...) {
-  res <- htmltools::tags$ul(class = "list-group list-group-flush", ...)
-  as.card_item(res)
-}
-
-#' @export
-card_list_item <- function(...) {
-  htmltools::tags$li(class = "list-group-item", ...)
-}
+# jcheng 2022-06-06: Removing for now; list items have more features than I'm
+# ready to design an API for right now
+#
+# #' @rdname card_body
+# #' @export
+# card_list <- function(...) {
+#   res <- htmltools::tags$ul(class = "list-group list-group-flush", ...)
+#   as.card_item(res)
+# }
+#
+# #' @export
+# card_list_item <- function(...) {
+#   htmltools::tags$li(class = "list-group-item", ...)
+# }
 
 #' @rdname card_body
 #' @export

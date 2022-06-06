@@ -9,7 +9,8 @@ card_grid(
   class = NULL,
   card_width = 1/4,
   gap = NULL,
-  heights_equal = c("all", "row")
+  heights_equal = c("all", "row"),
+  fixed_width = FALSE
 )
 }
 \arguments{
@@ -33,6 +34,13 @@ amount of spacing between cards. If \code{NULL}, the value of Bootstrap's
 \item{heights_equal}{If \code{"all"} (the default), every card in every row of the
 grid will have the same height. If \code{"row"}, then every card in \emph{each} row
 of the grid will have the same height, but heights may vary between rows.}
+
+\item{fixed_width}{When \code{card_width} is a CSS length (as opposed to a
+fraction), the default behavior is to let cards be that wide \emph{or larger},
+so that they fill all of the horizontal space that's available. Set this
+argument to \code{TRUE} to ensure that cards are exactly the specified width,
+even if this means using less than the total width of the card grid
+container.}
 }
 \description{
 Use to create a grid of cards, giving every card in the entire grid the same
