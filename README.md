@@ -39,7 +39,7 @@ goals are:
     packages.
       - Extensions such as
         [`flexdashboard`](https://flexdashboard-pkg.netlify.app/articles/theme.html),
-        [`pkgdown`](https://pkgdown.r-lib.org/dev/articles/customise.html),
+        [`pkgdown`](https://pkgdown.r-lib.org/dev/articles/customization.html),
         and
         [`bookdown`](https://pkgs.rstudio.com/bookdown/reference/bs4_book.html)
         already fully support [`bslib`’s custom theming
