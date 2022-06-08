@@ -1,9 +1,5 @@
 ---
 title: "Cards"
-output:
-  html_document:
-    theme:
-      version: 5
 ---
 
 Cards are a common organizing unit for modern user interfaces. At their core, they're simply rectangular containers with borders and padding. They can contain titles, text, images, plots, buttons, and form controls.
@@ -223,9 +219,9 @@ In the spirit of reproducibility, this section discloses custom CSS and R code u
 
 The following CSS is used to give `card_plot_output()` a blue background; it's necessary here because this documentation page is not actually hooked up to a Shiny app, so we can't show a real plot.
 
-```{css}
+```{bslib}
 .shiny-plot-output {
-  background-color: #0dcaf0;
+  background-color: $info;
 }
 ```
 
