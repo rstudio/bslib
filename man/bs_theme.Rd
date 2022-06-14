@@ -138,15 +138,19 @@ character vector can have:
 
 Since \code{font_google(..., local = TRUE)} guarantees that the client has access to
 the font family, meaning it's relatively safe to specify just one font
-family, for instance:\preformatted{bs_theme(base_font = font_google("Pacifico", local = TRUE))
-}
+family, for instance:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{bs_theme(base_font = font_google("Pacifico", local = TRUE))
+}\if{html}{\out{</div>}}
 
 However, specifying multiple "fallback" font families is recommended,
 especially when relying on remote and/or system fonts being available, for
 instance. Fallback fonts are useful not only for handling missing fonts, but
 also for handling a Flash of Invisible Text (FOIT) which can be quite
-noticeable with remote web fonts on a slow internet connection.\preformatted{bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
-}
+noticeable with remote web fonts on a slow internet connection.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
+}\if{html}{\out{</div>}}
 }
 
 \examples{
