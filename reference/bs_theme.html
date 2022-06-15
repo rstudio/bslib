@@ -32,14 +32,14 @@ To learn more about how to implement custom themes, as well as how to use them i
 
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
       </span>
 
       <!--<div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
         </div>
       </div>-->
     </div>
@@ -153,53 +153,88 @@ To learn more about how to implement custom themes, as well as how to use them i
 <dd><p>The major version of Bootstrap to use (see <code><a href="versions.html">versions()</a></code>
 for possible values). Defaults to the currently recommended version
 for new projects (currently Bootstrap 5).</p></dd>
+
+
 <dt>bootswatch</dt>
 <dd><p>The name of a bootswatch theme (see <code><a href="bootswatch_themes.html">bootswatch_themes()</a></code>
 for possible values). When provided to <code>bs_theme_update()</code>, any previous
 Bootswatch theme is first removed before the new one is applied (use
 <code>bootswatch = "default"</code> to effectively remove the Bootswatch theme).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed along to <code><a href="bs_bundle.html">bs_add_variables()</a></code>.</p></dd>
+
+
 <dt>bg</dt>
 <dd><p>A color string for the background.</p></dd>
+
+
 <dt>fg</dt>
 <dd><p>A color string for the foreground.</p></dd>
+
+
 <dt>primary</dt>
 <dd><p>A color to be used for hyperlinks, to indicate primary/default
 actions, and to show active selection state in some Bootstrap components.
 Generally a bold, saturated color that contrasts with the theme's base
 colors.</p></dd>
+
+
 <dt>secondary</dt>
 <dd><p>A color for components and messages that don't need to stand
 out. (Not supported in Bootstrap 3.)</p></dd>
+
+
 <dt>success</dt>
 <dd><p>A color for messages that indicate an operation has succeeded.
 Typically green.</p></dd>
+
+
 <dt>info</dt>
 <dd><p>A color for messages that are informative but not critical.
 Typically a shade of blue-green.</p></dd>
+
+
 <dt>warning</dt>
 <dd><p>A color for warning messages. Typically yellow.</p></dd>
+
+
 <dt>danger</dt>
 <dd><p>A color for errors. Typically red.</p></dd>
+
+
 <dt>base_font</dt>
 <dd><p>The default typeface.</p></dd>
+
+
 <dt>code_font</dt>
 <dd><p>The typeface to be used for code. Be sure this is monospace!</p></dd>
+
+
 <dt>heading_font</dt>
 <dd><p>The typeface to be used for heading elements.</p></dd>
+
+
 <dt>font_scale</dt>
 <dd><p>A scalar multiplier to apply to the base font size. For
 example, a value of <code>1.5</code> scales font sizes to 150% and a value of <code>0.8</code>
 scales to 80%. Must be a positive number.</p></dd>
+
+
 <dt>theme</dt>
 <dd><p>a <code>bs_theme()</code> object.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>an object.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a <code><a href="https://rstudio.github.io/sass/reference/sass_layer.html" class="external-link">sass::sass_bundle()</a></code> (list-like) object.</p>
+    
+
+<p>a <code><a href="https://rstudio.github.io/sass/reference/sass_layer.html" class="external-link">sass::sass_bundle()</a></code> (list-like) object.</p>
     </div>
     <div id="colors">
     <h2>Colors</h2>
@@ -231,13 +266,13 @@ character vector can have:</p><ul><li><p>A single unquoted name (e.g., <code>"So
 </ul><p>Since <code>font_google(..., local = TRUE)</code> guarantees that the client has access to
 the font family, meaning it's relatively safe to specify just one font
 family, for instance:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">bs_theme</span>(<span class="dt">base_font =</span> <span class="kw">font_google</span>(<span class="st">"Pacifico"</span>, <span class="dt">local =</span> <span class="ot">TRUE</span>))</span></code></pre><p></p></div>
 <p>However, specifying multiple "fallback" font families is recommended,
 especially when relying on remote and/or system fonts being available, for
 instance. Fallback fonts are useful not only for handling missing fonts, but
 also for handling a Flash of Invisible Text (FOIT) which can be quite
 noticeable with remote web fonts on a slow internet connection.</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">bs_theme</span>(<span class="dt">base_font =</span> <span class="kw">font_collection</span>(<span class="kw">font_google</span>(<span class="st">"Pacifico"</span>, <span class="dt">local =</span> <span class="ot">FALSE</span>), <span class="st">"Roboto"</span>, <span class="st">"sans-serif"</span>))</span></code></pre><p></p></div>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -286,7 +321,7 @@ noticeable with remote web fonts on a slow internet connection.</p>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

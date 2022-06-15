@@ -36,14 +36,14 @@ shiny::session's setCurrentTheme() is called."><meta name="twitter:card" content
 
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
       </span>
 
       <!--<div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
         </div>
       </div>-->
     </div>
@@ -136,26 +136,42 @@ is first rendered, and may be invoked again with a new <code>theme</code> whenev
     <h2>Arguments</h2>
     <dl><dt>input</dt>
 <dd><p>Sass rules to compile, using <code>theme</code>.</p></dd>
+
+
 <dt>theme</dt>
 <dd><p>A <code><a href="bs_theme.html">bs_theme()</a></code> object.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>Library name</p></dd>
+
+
 <dt>version</dt>
 <dd><p>Library version</p></dd>
+
+
 <dt>cache_key_extra</dt>
 <dd><p>Extra information to add to the sass cache key. It is
 useful to add the version of your package.</p></dd>
+
+
 <dt>.dep_args</dt>
 <dd><p>A list of additional arguments to pass to
 <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code>. Note that <code>package</code> has no effect and
 <code>script</code> must be absolute path(s).</p></dd>
+
+
 <dt>.sass_args</dt>
 <dd><p>A list of additional arguments to pass to
 <code><a href="https://rstudio.github.io/sass/reference/sass_partial.html" class="external-link">sass::sass_partial()</a></code>.</p></dd>
+
+
 <dt>func</dt>
 <dd><p>a <em>non-anonymous</em> function, with a <em>single</em> argument.
 This function should accept a <code><a href="bs_theme.html">bs_theme()</a></code> object and return a single
 <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmlDependency()</a></code>, a list of them, or <code>NULL</code>.</p></dd>
+
+
 <dt>memoise</dt>
 <dd><p>whether or not to memoise (i.e., cache) <code>func</code> results for a
 short period of time. The default, <code>TRUE</code>, can have large performance
@@ -163,11 +179,16 @@ benefits when many instances of the same themable widget are rendered. Note
 that you may want to avoid memoisation if <code>func</code> relies on side-effects
 (e.g., files on-disk) that need to change for each themable widget
 instance.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>bs_dependency()</code> returns an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> and
+    
+
+<p><code>bs_dependency()</code> returns an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> and
 <code>bs_dependency_defer()</code> returns an <code><a href="https://rdrr.io/pkg/htmltools/man/tagFunction.html" class="external-link">htmltools::tagFunction()</a></code></p>
+
+
     </div>
     <div id="references">
     <h2>References</h2>
@@ -244,7 +265,7 @@ instance.</p></dd>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

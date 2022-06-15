@@ -26,14 +26,14 @@ argument defaults to bs_global_get(), which get the current global theme)."><met
 
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
       </span>
 
       <!--<div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
         </div>
       </div>-->
     </div>
@@ -155,54 +155,89 @@ argument defaults to <code>bs_global_get()</code>, which get the current global 
 <dd><p>The major version of Bootstrap to use (see <code><a href="versions.html">versions()</a></code>
 for possible values). Defaults to the currently recommended version
 for new projects (currently Bootstrap 5).</p></dd>
+
+
 <dt>bootswatch</dt>
 <dd><p>The name of a bootswatch theme (see <code><a href="bootswatch_themes.html">bootswatch_themes()</a></code>
 for possible values). When provided to <code><a href="bs_theme.html">bs_theme_update()</a></code>, any previous
 Bootswatch theme is first removed before the new one is applied (use
 <code>bootswatch = "default"</code> to effectively remove the Bootswatch theme).</p></dd>
+
+
 <dt>bg</dt>
 <dd><p>A color string for the background.</p></dd>
+
+
 <dt>fg</dt>
 <dd><p>A color string for the foreground.</p></dd>
+
+
 <dt>primary</dt>
 <dd><p>A color to be used for hyperlinks, to indicate primary/default
 actions, and to show active selection state in some Bootstrap components.
 Generally a bold, saturated color that contrasts with the theme's base
 colors.</p></dd>
+
+
 <dt>secondary</dt>
 <dd><p>A color for components and messages that don't need to stand
 out. (Not supported in Bootstrap 3.)</p></dd>
+
+
 <dt>success</dt>
 <dd><p>A color for messages that indicate an operation has succeeded.
 Typically green.</p></dd>
+
+
 <dt>info</dt>
 <dd><p>A color for messages that are informative but not critical.
 Typically a shade of blue-green.</p></dd>
+
+
 <dt>warning</dt>
 <dd><p>A color for warning messages. Typically yellow.</p></dd>
+
+
 <dt>danger</dt>
 <dd><p>A color for errors. Typically red.</p></dd>
+
+
 <dt>base_font</dt>
 <dd><p>The default typeface.</p></dd>
+
+
 <dt>code_font</dt>
 <dd><p>The typeface to be used for code. Be sure this is monospace!</p></dd>
+
+
 <dt>heading_font</dt>
 <dd><p>The typeface to be used for heading elements.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed along to <code><a href="bs_bundle.html">bs_add_variables()</a></code>.</p></dd>
+
+
 <dt>theme</dt>
 <dd><p>a <code><a href="bs_theme.html">bs_theme()</a></code> object.</p></dd>
+
+
 <dt>.where</dt>
 <dd><p>Whether to place the variable definitions before other Sass
 <code>"defaults"</code>, after other Sass <code>"declarations"</code>, or after other Sass
 <code>"rules"</code>.</p></dd>
+
+
 <dt>.default_flag</dt>
 <dd><p>Whether or not to add a <code>!default</code> flag (if missing) to
 variable expressions. It's recommended to keep this as <code>TRUE</code> when <code>.where = "defaults"</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>functions that modify the global theme (e.g., <code>bs_global_set()</code>)
+    
+
+<p>functions that modify the global theme (e.g., <code>bs_global_set()</code>)
 invisibly return the previously set theme. <code>bs_global_get()</code> returns the
 current global theme.</p>
     </div>
@@ -240,7 +275,7 @@ current global theme.</p>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

@@ -24,14 +24,14 @@
 
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
       </span>
 
       <!--<div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
         </div>
       </div>-->
     </div>
@@ -90,24 +90,25 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.4.0" id="bslib-040">bslib 0.4.0<a class="anchor" aria-label="anchor" href="#bslib-040"></a></h2>
+<h2 class="page-header" data-toc-text="0.3.1.9000" id="bslib-0319000">bslib 0.3.1.9000<a class="anchor" aria-label="anchor" href="#bslib-0319000"></a></h2>
 <div class="section level3">
-<h3 id="breaking-changes-0-4-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-4-0"></a></h3>
+<h3 id="breaking-changes-0-3-1-9000">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-3-1-9000"></a></h3>
 <ul><li>
 <code><a href="../reference/bs_theme.html">bs_theme()</a></code> now defaults to <code>version = 5</code> (i.e., Bootstrap 5). If this change happens to break an existing app, consider specifying <code>bs_theme(version = 4)</code> to revert the change in the Bootstrap version. (<a href="https://github.com/rstudio/bslib/issues/374" class="external-link">#374</a>)</li>
 <li>The default coloring on some Bootswatch 4+ theme’s <code>.navbar-default</code>/<code>.navbar-inverse</code> class has changed slightly to better match their Bootswatch 3 coloring. Also, since this coloring is now based solely on <a href="https://rstudio.github.io/bslib/articles/bs5-variables.html"><code>$navbar-*</code> variables</a>, Bootswatch themes now work better in combination with custom <code>$navbar-*</code> values (e.g., <code>bs_theme("navbar-bg" = ...)</code> can be used to provide the background color, and foreground colors will automatically contrast appropriately). (<a href="https://github.com/rstudio/bslib/issues/392" class="external-link">#392</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-0-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h3>
+<h3 id="new-features-0-3-1-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-1-9000"></a></h3>
 <ul><li>Upgraded Bootstrap 5 (i.e., <code>bs_theme(version = 5)</code>) from 5.1.0 to 5.1.3 (<a href="https://github.com/rstudio/bslib/issues/378" class="external-link">#378</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/369" class="external-link">#369</a>: <code><a href="../reference/bs_dependency.html">bs_dependency_defer()</a></code> now memoises <code>func</code> (by default), reducing the time required to render multiple instances of the same <a href="https://rstudio.github.io/bslib/articles/custom-components.html#dynamically-themeable-component">dynamically themable widget</a>. (<a href="https://github.com/rstudio/bslib/issues/405" class="external-link">#405</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-0-4-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-0"></a></h3>
+<h3 id="bug-fixes-0-3-1-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1-9000"></a></h3>
 <ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/393" class="external-link">#393</a>: Bootstrap 5’s <code>$form-check-label-*</code> variables now work as expected with <code><a href="https://rdrr.io/pkg/shiny/man/radioButtons.html" class="external-link">shiny::radioButtons()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html" class="external-link">shiny::checkboxInput()</a></code>, and <code><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html" class="external-link">shiny::checkboxGroupInput()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/395" class="external-link">#395</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/382" class="external-link">#382</a>: Various fixes for using <code><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html" class="external-link">shiny::checkboxInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html" class="external-link">shiny::checkboxGroupInput()</a></code>, and <code>shiny::radioButton()</code> with <code>bs_theme(version = 5, bootswatch = "sketchy")</code>. (<a href="https://github.com/rstudio/bslib/issues/385" class="external-link">#385</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/377" class="external-link">#377</a>: make sure <code>shiny::tabsetPanel(type = "hidden")</code> (i.e., <code><a href="../reference/navs.html">bslib::navs_hidden()</a></code>) stays hidden when used with <code><a href="../reference/bs_theme.html">bs_theme()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/379" class="external-link">#379</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/424" class="external-link">#424</a>: fixed an issue with <code><a href="../reference/nav.html">nav_menu()</a></code> appearing first in a <code>navs_*()</code> container with Bootstrap 4+.</li>
+<li>Closed <a href="https://github.com/rstudio/bslib/issues/431" class="external-link">#431</a>: Bootstrap 5 navbars no longer have an unwanted “Toggle Navigation” label when collapsed. (<a href="https://github.com/rstudio/bslib/issues/432" class="external-link">#432</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/400" class="external-link">#400</a>: <code>nav_menu(align="right")</code> now works with Bootstrap 5. (<a href="https://github.com/rstudio/bslib/issues/401" class="external-link">#401</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/390" class="external-link">#390</a>: using <code>bs_theme(bootswatch = "paper", version = 5)</code> or <code>bs_theme(bootswatch = "readable", version = 5)</code> no longer errors. (<a href="https://github.com/rstudio/bslib/issues/391" class="external-link">#391</a>)</li>
 </ul></div>
@@ -179,7 +180,7 @@
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

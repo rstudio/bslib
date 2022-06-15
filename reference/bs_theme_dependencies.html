@@ -29,14 +29,14 @@ component, see bs_dependency()."><meta name="twitter:card" content="summary"><!-
 
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
       </span>
 
       <!--<div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
         </div>
       </div>-->
     </div>
@@ -118,13 +118,21 @@ component, see <code><a href="bs_dependency.html">bs_dependency()</a></code>.</p
     <h2>Arguments</h2>
     <dl><dt>theme</dt>
 <dd><p>a <code><a href="bs_theme.html">bs_theme()</a></code> object.</p></dd>
+
+
 <dt>sass_options</dt>
 <dd><p>a <code><a href="https://rstudio.github.io/sass/reference/sass_options.html" class="external-link">sass::sass_options()</a></code> object.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>This can be a directory to use for the cache, a <a href="https://rstudio.github.io/sass/reference/FileCache.html" class="external-link">FileCache</a>
 object created by <code><a href="https://rstudio.github.io/sass/reference/sass_file_cache.html" class="external-link">sass_file_cache()</a></code>, or <code>FALSE</code> or <code>NULL</code> for no caching.</p></dd>
+
+
 <dt>jquery</dt>
 <dd><p>a <code><a href="https://rdrr.io/pkg/jquerylib/man/jquery_core.html" class="external-link">jquerylib::jquery_core()</a></code> object.</p></dd>
+
+
 <dt>precompiled</dt>
 <dd><p>Before compiling the theme object, first look for a
 precompiled CSS file for the <code><a href="theme_version.html">theme_version()</a></code>.  If <code>precompiled = TRUE</code>
@@ -132,10 +140,13 @@ and a precompiled CSS file exists for the theme object, it will be fetched
 immediately and not compiled. At the moment, we only provide precompiled
 CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
 themes, or non-default <code>sass_options</code>).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap
+    
+
+<p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap
 JavaScript, and <code>jquery</code>. This list may contain additional HTML
 dependencies if bundled with the <code>theme</code>.</p>
     </div>
@@ -190,7 +201,7 @@ changes are made to bslib's source files.</p>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

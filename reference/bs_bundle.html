@@ -26,14 +26,14 @@ ensure theme customizations are portable between major Bootstrap versions."><met
 
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bslib</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
       </span>
 
       <!--<div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">bslib</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of  <a href=""></a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1.9000</span>
         </div>
       </div>-->
     </div>
@@ -119,30 +119,45 @@ ensure theme customizations are portable between major Bootstrap versions.</p>
     <h2>Arguments</h2>
     <dl><dt>theme</dt>
 <dd><p>a <code><a href="bs_theme.html">bs_theme()</a></code> object.</p></dd>
+
+
 <dt>...</dt>
 <dd><ul><li><p><code>bs_add_variables()</code>: Should be named Sass variables or values that can be passed in directly to the <code>defaults</code> argument of a <code><a href="https://rstudio.github.io/sass/reference/sass_layer.html" class="external-link">sass::sass_layer()</a></code>.</p></li>
 <li><p><code>bs_bundle()</code>: Should be arguments that can be handled by <code><a href="https://rstudio.github.io/sass/reference/sass_layer.html" class="external-link">sass::sass_bundle()</a></code> to be appended to the <code>theme</code></p></li>
 </ul></dd>
+
+
 <dt>.where</dt>
 <dd><p>Whether to place the variable definitions before other Sass
 <code>"defaults"</code>, after other Sass <code>"declarations"</code>, or after other Sass
 <code>"rules"</code>.</p></dd>
+
+
 <dt>.default_flag</dt>
 <dd><p>Whether or not to add a <code>!default</code> flag (if missing) to
 variable expressions. It's recommended to keep this as <code>TRUE</code> when <code>.where = "defaults"</code>.</p></dd>
+
+
 <dt>rules</dt>
 <dd><p>Sass rules. Anything understood by <code><a href="https://rstudio.github.io/sass/reference/as_sass.html" class="external-link">sass::as_sass()</a></code> may be
 provided (e.g., a list, character vector, <code><a href="https://rstudio.github.io/sass/reference/sass_import.html" class="external-link">sass::sass_file()</a></code>, etc)</p></dd>
+
+
 <dt>functions</dt>
 <dd><p>A character vector or <code><a href="https://rstudio.github.io/sass/reference/sass_import.html" class="external-link">sass::sass_file()</a></code> containing
 functions definitions.</p></dd>
+
+
 <dt>mixins</dt>
 <dd><p>A character vector or <code><a href="https://rstudio.github.io/sass/reference/sass_import.html" class="external-link">sass::sass_file()</a></code> containing
 mixin definitions.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a modified <code><a href="bs_theme.html">bs_theme()</a></code> object.</p>
+    
+
+<p>a modified <code><a href="bs_theme.html">bs_theme()</a></code> object.</p>
     </div>
     <div id="functions">
     <h2>Functions</h2>
@@ -224,7 +239,7 @@ mixin definitions.</p></dd>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
