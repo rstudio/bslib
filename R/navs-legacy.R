@@ -197,7 +197,7 @@ navbarPage_ <- function(title,
           # data-bs-* is for BS5+
           `data-bs-toggle` = "collapse",
           `data-bs-target` = paste0("#", navId),
-          span(class="sr-only", "Toggle navigation"),
+          span(class="sr-only visually-hidden", "Toggle navigation"),
           span(class = "icon-bar"),
           span(class = "icon-bar"),
           span(class = "icon-bar")
