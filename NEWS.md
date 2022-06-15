@@ -16,6 +16,7 @@
 * Closed #382: Various fixes for using `shiny::checkboxInput()`, `shiny::checkboxGroupInput()`, and `shiny::radioButton()` with `bs_theme(version = 5, bootswatch = "sketchy")`. (#385)
 * Closed #377: make sure `shiny::tabsetPanel(type = "hidden")` (i.e., `bslib::navs_hidden()`) stays hidden when used with `bs_theme()`. (#379)
 * Closed #424: fixed an issue with `nav_menu()` appearing first in a `navs_*()` container with Bootstrap 4+.
+* Closed #431: Bootstrap 5 navbars no longer have an unwanted "Toggle Navigation" label when collapsed. (#432)
 * Closed #400: `nav_menu(align="right")` now works with Bootstrap 5. (#401)
 * Closed #390: using `bs_theme(bootswatch = "paper", version = 5)` or `bs_theme(bootswatch = "readable", version = 5)` no longer errors. (#391)
 
