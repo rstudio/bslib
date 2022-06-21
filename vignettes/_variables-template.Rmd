@@ -27,9 +27,6 @@ Below is a search-able table of Bootstrap {{version}} Sass variables. If you are
 * Towards the top of the table are more general theming options like `white`, `gray-*`, `black`, `primary`, `border-radius`, and so on, which end up impacting more specific theming variables like `btn-border-radius`.
     * `bs_theme()`'s `bg` and `fg` arguments provide a more convenient way to set the `white`, `gray-*`, and `black` variables, so there is no need to set these Sass variables directly (same goes for `base_font` -> `$font-family-base`, `heading_font` -> `$headings-font-family`, and `code_font` -> `$font-family-monospace`).
 
-
-<div id = "table-wrapper">
 ```{r}
 variables_dt({{version}})
 ```
-</div>
