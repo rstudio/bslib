@@ -10,10 +10,6 @@ status](https://github.com/rstudio/bslib/actions/workflows/R-CMD-check.yaml/badg
 
 <!-- badges: end -->
 
-<style type="text/css">
-@media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}
-</style>
-
 # bslib
 
 The `bslib` R package provides tools for customizing [Bootstrap
