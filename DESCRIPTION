@@ -83,7 +83,6 @@ Config/Needs/website:
     glue,
     purrr,
     rprojroot,
-    rstudio/quillt,
     stringr,
     tidyr
 Config/Needs/deploy:

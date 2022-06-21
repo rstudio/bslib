@@ -7,7 +7,13 @@ url: https://rstudio.github.io/bslib/
 
 template:
   bootstrap: 5
-  package: quillt
+  bslib:
+    info: "#E6F2FD"
+    base_font:
+      google: "Atkinson Hyperlegible"
+    headings-color: "#206B72"
+    link-color: "#216B73"
+    link-decoration: underline var(--bs-info) dotted
   params:
     footer: <b>bslib</b> is an R package developed by <a href='https://rstudio.com'>RStudio</a>
     docsearch:
@@ -15,7 +21,8 @@ template:
       index_name: bslib
 
 navbar:
-  type: default
+  bg: info
+  type: light
   structure:
     left:  [intro, articles, integration]
     right: [reference, news, github]
@@ -26,6 +33,8 @@ navbar:
       menu:
         #- text: Why Sass over CSS?
         #  href: articles/why-sass.html
+        - text: Cards
+          href: articles/cards.html
         - text: BS5 Sass variables
           href: articles/bs5-variables.html
         - text: BS4 Sass variables
@@ -34,8 +43,6 @@ navbar:
           href: articles/utility-classes.html
         - text: Custom components
           href: articles/custom-components.html
-        - text: Cards
-          href: articles/cards.html
     reference:
       text: Reference
       href: reference/index.html
@@ -96,6 +103,13 @@ reference:
   contents:
     - bs_theme_dependencies
     - bs_dependency
+- title: Bootstrap Cards
+  description: |
+    Create and arrange Bootstrap card components
+  contents:
+    - card
+    - card_grid
+    - as.card_item
 - title: Other utility functions
   contents:
     - bs_get_variables
