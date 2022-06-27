@@ -2,7 +2,7 @@ tag_require <- function(tag, version = 4, caller = "") {
   tagAddRenderHook(
     tag, replace = FALSE,
     func = function(x) {
-      current_version <- theme_version(bs_current_theme()) %||% version_default()
+      current_version <- theme_version(bs_current_theme()) %||% 3
       if (isTRUE(current_version >= version))
         return(x)
 

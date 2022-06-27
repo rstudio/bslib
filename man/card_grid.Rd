@@ -20,12 +20,25 @@ element. Unnamed arguments are children, and should be instances of
 
 \item{class}{Additional CSS classes to include on the grid div.}
 
-\item{card_width}{The desired width of each card. This can be any \link[htmltools:validateCssUnit]{CSS length unit}, in which case \code{card_grid} will fit as
-many cards into each row without being smaller than that width.
-Alternatively, you can specify a number of cards per row by passing
-\code{1/num}, for example \code{card_width = 1/3} for three cards per row. You can
-also set this to \code{NULL} and set the \code{grid-template-columns} CSS property
-manually, either via a \code{style} attribute or a CSS stylesheet.}
+\item{card_width}{The desired width of each card, which can be any of the
+following:
+\itemize{
+\item A (unit-less) number between 0 and 1.
+\itemize{
+\item This should be specified as \code{1/num}, where \code{num} represents the number
+of desired columns.
+}
+\item A \link[htmltools:validateCssUnit]{CSS length unit}
+\itemize{
+\item Either the minimum (when \code{fixed_width=FALSE}) or fixed width
+(\code{fixed_width=TRUE}).
+}
+\item \code{NULL}
+\itemize{
+\item Allows power users to set the \code{grid-template-columns} CSS property
+manually, either via a \code{style} attribute or a CSS stylesheet.
+}
+}}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} that sets the
 amount of spacing between cards. If \code{NULL}, the value of Bootstrap's
@@ -35,12 +48,9 @@ amount of spacing between cards. If \code{NULL}, the value of Bootstrap's
 grid will have the same height. If \code{"row"}, then every card in \emph{each} row
 of the grid will have the same height, but heights may vary between rows.}
 
-\item{fixed_width}{When \code{card_width} is a CSS length (as opposed to a
-fraction), the default behavior is to let cards be that wide \emph{or larger},
-so that they fill all of the horizontal space that's available. Set this
-argument to \code{TRUE} to ensure that cards are exactly the specified width,
-even if this means using less than the total width of the card grid
-container.}
+\item{fixed_width}{Whether or not to interpret the \code{card_width} as a minimum
+(\code{fixed_width=FALSE}) or fixed (\code{fixed_width=TRUE}) width when it is a CSS
+length unit.}
 }
 \description{
 Use to create a grid of cards, giving every card in the entire grid the same

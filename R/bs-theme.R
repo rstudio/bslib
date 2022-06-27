@@ -111,7 +111,7 @@
 #' theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 #'
 #' @export
-bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
+bs_theme <- function(version = version_default(), bootswatch = "shiny", ...,
                      bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL,

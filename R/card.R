@@ -7,25 +7,26 @@
 #'   element. Unnamed arguments are children, and should be instances of
 #'   [card()].
 #' @param class Additional CSS classes to include on the grid div.
-#' @param card_width The desired width of each card. This can be any [CSS length
-#'   unit][htmltools::validateCssUnit()], in which case `card_grid` will fit as
-#'   many cards into each row without being smaller than that width.
-#'   Alternatively, you can specify a number of cards per row by passing
-#'   `1/num`, for example `card_width = 1/3` for three cards per row. You can
-#'   also set this to `NULL` and set the `grid-template-columns` CSS property
-#'   manually, either via a `style` attribute or a CSS stylesheet.
+#' @param card_width The desired width of each card, which can be any of the
+#'  following:
+#'   * A (unit-less) number between 0 and 1.
+#'     * This should be specified as `1/num`, where `num` represents the number
+#'       of desired columns.
+#'   * A [CSS length unit][htmltools::validateCssUnit()]
+#'     * Either the minimum (when `fixed_width=FALSE`) or fixed width
+#'       (`fixed_width=TRUE`).
+#'   * `NULL`
+#'     * Allows power users to set the `grid-template-columns` CSS property
+#'       manually, either via a `style` attribute or a CSS stylesheet.
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] that sets the
 #'   amount of spacing between cards. If `NULL`, the value of Bootstrap's
 #'   `$spacer` Sass variable is used.
 #' @param heights_equal If `"all"` (the default), every card in every row of the
 #'   grid will have the same height. If `"row"`, then every card in _each_ row
 #'   of the grid will have the same height, but heights may vary between rows.
-#' @param fixed_width When `card_width` is a CSS length (as opposed to a
-#'   fraction), the default behavior is to let cards be that wide _or larger_,
-#'   so that they fill all of the horizontal space that's available. Set this
-#'   argument to `TRUE` to ensure that cards are exactly the specified width,
-#'   even if this means using less than the total width of the card grid
-#'   container.
+#' @param fixed_width Whether or not to interpret the `card_width` as a minimum
+#'   (`fixed_width=FALSE`) or fixed (`fixed_width=TRUE`) width when it is a CSS
+#'   length unit.
 #'
 #' @export
 card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
@@ -64,7 +65,7 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
     # TODO: Support length(card_width) > 1?
   }
 
-  div(class = "bslib-card-grid", class = class,
+  tag <- div(class = "bslib-card-grid", class = class,
     style = css(
       grid_template_columns = colspec,
       grid_auto_rows = if (heights_equal == "all") "1fr",
@@ -72,6 +73,10 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
     ),
     !!!attribs,
     children
+  )
+
+  as_fragment(
+    tag_require(tag, version = 4, caller = "card_grid()")
   )
 }
 
@@ -105,8 +110,8 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 card <- function(..., class = NULL, width = NULL, height = NULL,
   autowrap = TRUE) {
 
-  width <- htmltools::validateCssUnit(width)
-  height <- htmltools::validateCssUnit(height)
+  width <- validateCssUnit(width)
+  height <- validateCssUnit(height)
 
   args <- rlang::list2(...)
   argnames <- names(args)
@@ -123,8 +128,8 @@ card <- function(..., class = NULL, width = NULL, height = NULL,
     # that are not card_item, should be wrapped in a single card_body().
     needs_wrap <- !vapply(children, is.card_item, logical(1))
     needs_wrap_rle <- rle(needs_wrap)
-    start_indices <- c(1, head(cumsum(needs_wrap_rle$length) + 1, -1))
-    children <- mapply(start_indices, needs_wrap_rle$length, needs_wrap_rle$values,
+    start_indices <- c(1, head(cumsum(needs_wrap_rle$lengths) + 1, -1))
+    children <- mapply(start_indices, needs_wrap_rle$lengths, needs_wrap_rle$values,
       FUN = function(start, length, wrap) {
         these_children <- children[start:(start + length - 1)]
         if (wrap) {
@@ -137,7 +142,7 @@ card <- function(..., class = NULL, width = NULL, height = NULL,
   }
 
   tag <- htmltools::tags$div(
-    class = "card",
+    class = "card bslib-card",
     class = class,
     style = htmltools::css(width = width, height = height),
     !!!attribs,
