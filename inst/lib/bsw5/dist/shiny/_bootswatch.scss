@@ -1,0 +1,239 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+
+
+// Bootstrap 5 style changes
+
+$box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
+0 0.06rem 0.275rem 0 rgba($black, 0.1);
+
+.btn {
+  margin: $spacer * .25 $spacer * .125
+}
+
+
+// Shiny Cards
+
+.card.shiny-card.shadow {
+  border: none;
+}
+
+
+.shiny-card .card-header {
+  font-weight: $font-weight-bold;
+  font-size: $font-size-base * .85;
+  line-height: 1.9em;
+  background-color: transparent;
+  padding: $spacer * .8 $spacer * .9;
+}
+
+.shiny-card .dropdown-menu {
+  font-size: $font-size-base * .8;
+}
+
+.dropdown-menu {
+  font-size: $font-size-base * .9;
+}
+
+.shiny-card .card-header p,
+.shiny-card .card-header h1,
+.shiny-card .card-header h2,
+.shiny-card .card-header h3,
+.shiny-card .card-header h4,
+.shiny-card .card-header h5,
+.shiny-card .card-header h6,
+.shiny-value-box p,
+.shiny-value-box h1,
+.shiny-value-box h2,
+.shiny-value-box h3,
+.shiny-value-box h4,
+.shiny-value-box h5,
+.shiny-value-box h6 {
+  margin-bottom: 0rem;
+  margin-top: 0rem;
+
+}
+
+.shiny-card .nav-link,
+.shiny-card .dropdown {
+  display: block;
+  padding: 0 $spacer * .25;
+  color: #adb5bd;
+  font-weight: 400;
+  font-size: $font-size-base * .8;
+}
+
+.shiny-card .nav-link.active,
+.shiny-card .dropdown a {
+  color: $black;
+  text-decoration: none;
+}
+
+.shiny-card .nav-link {
+  padding-bottom: 15px;
+  margin-bottom: -19px !important;
+  border: none !important;
+}
+
+.shiny-card .nav-tabs,
+.nav-tabs .nav-link.active {
+  border: none !important;
+}
+
+.shiny-card .nav-link.active {
+  border-bottom: 3px solid !important;
+}
+
+.nav-link:focus,
+.nav-link:hover {
+  color: $black !important;
+}
+
+.shiny-card table th,
+.shiny-card table tr {
+  font-size: $font-size-base * .75;
+}
+
+.shiny-card .table-striped>tbody>tr:nth-of-type(odd) {
+  --bs-table-accent-bg: tint-color($blue, 95%);
+  background-color: tint-color($blue, 95%);
+}
+
+.shiny-card .dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: tint-color($blue, 94%);
+}
+
+.dropdown-item:active,
+.shiny-card .dropdown-item:active {
+  background-color: tint-color($blue, 15%) !important;
+}
+
+.shiny-card .table> :not(caption)>*>* {
+  border-bottom-color: transparent;
+}
+
+.shiny-card .card-footer {
+  font-size: $font-size-base * .875;
+  background-color: rgba($black, 0.024);
+  border-top: none;
+}
+
+.shiny-card .icon {
+  background-color: rgba($white, 0.15);
+  width: 40px;
+  height: 40px;
+
+  & svg {
+    color: $white;
+    fill: currentColor;
+  }
+}
+
+.icon-container {
+  top: 0;
+  right: 0;
+  padding: $spacer * 0.6;
+}
+
+.shiny-card .icon-lg {
+  width: 60px;
+  height: 60px;
+  opacity: .9;
+
+  & svg {
+    color: $white;
+    fill: currentColor;
+  }
+}
+
+.shiny-card .shiny-value-box-left-area {
+  border-right: 1px solid rgba($white, 0.2);
+}
+
+.shiny-value-box-dark {
+  color: $white;
+
+  & svg {
+    color: $white;
+    fill: currentColor;
+  }
+}
+
+
+.shiny-value-box-light {
+  background-color: $component-active-bg;
+  --bs-bg-opacity: 0.025;
+  border: 1px solid tint-color($component-active-bg, 0.3);
+  color: $body-color;
+
+  & svg {
+    color: $component-active-bg;
+    fill: currentColor;
+  }
+}
+
+
+
+/* BOOTSTRAP SIDEBAR */
+
+.btn-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacer * .25 $spacer * .5;
+  background-color: transparent;
+  border: 0;
+  width: 100%;
+}
+
+.btn-toggle:hover,
+.btn-toggle:focus {
+  color: rgba($black, 0.85);
+  background-color: tint-color($blue, 95%);
+}
+
+.btn-toggle::after {
+  width: 1rem;
+  height: 1rem;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23202020'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  transition: transform 0.35s ease;
+  transform-origin: 0.5em 50%;
+  margin-left: auto;
+}
+
+
+.btn-toggle[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.btn-toggle-nav a {
+  display: inline-flex;
+  padding: $spacer * .1875 $spacer * .5;
+  margin-top: $spacer * .125;
+  margin-left: $spacer * 1.25;
+  text-decoration: none;
+}
+
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus,
+a.nav-link:hover {
+  background-color: rgba($blue, 0.05);
+}
+
+// Design nudges
+
+.font-size-90 {
+  font-size: 90% !important;
+}
+
+.font-size-80 {
+  font-size: 80% !important;
+}
+
+.font-size-70 {
+  font-size: 70% !important;
+}
+
+.font-size-60 {
+  font-size: 60% !important;
+}

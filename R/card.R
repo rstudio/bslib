@@ -12,12 +12,16 @@
 #'   instances of [card()] (and/or [navs_tab_card()]/[navs_pill_card()]).
 #' @param class Additional CSS classes to include on the grid div.
 #' @param card_width The desired width of each card, which can be any of the
-#'   following: * A (unit-less) number between 0 and 1. * This should be
-#'   specified as `1/num`, where `num` represents the number of desired columns.
-#'   * A [CSS length unit][htmltools::validateCssUnit()] * Either the minimum
-#'   (when `fixed_width=FALSE`) or fixed width (`fixed_width=TRUE`). * `NULL` *
-#'   Allows power users to set the `grid-template-columns` CSS property
-#'   manually, either via a `style` attribute or a CSS stylesheet.
+#'  following:
+#'   * A (unit-less) number between 0 and 1.
+#'     * This should be specified as `1/num`, where `num` represents the number
+#'       of desired columns.
+#'   * A [CSS length unit][htmltools::validateCssUnit()]
+#'     * Either the minimum (when `fixed_width=FALSE`) or fixed width
+#'       (`fixed_width=TRUE`).
+#'   * `NULL`
+#'     * Allows power users to set the `grid-template-columns` CSS property
+#'       manually, either via a `style` attribute or a CSS stylesheet.
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] that sets the
 #'   amount of spacing between cards. If `NULL`, the value of Bootstrap's
 #'   `$spacer` Sass variable is used.

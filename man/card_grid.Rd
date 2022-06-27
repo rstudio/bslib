@@ -21,13 +21,23 @@ instances of \code{\link[=card]{card()}} (and/or \code{\link[=navs_tab_card]{nav
 \item{class}{Additional CSS classes to include on the grid div.}
 
 \item{card_width}{The desired width of each card, which can be any of the
-following: * A (unit-less) number between 0 and 1. * This should be
-specified as \code{1/num}, where \code{num} represents the number of desired columns.
+following:
 \itemize{
-\item A \link[htmltools:validateCssUnit]{CSS length unit} * Either the minimum
-(when \code{fixed_width=FALSE}) or fixed width (\code{fixed_width=TRUE}). * \code{NULL} *
-Allows power users to set the \code{grid-template-columns} CSS property
+\item A (unit-less) number between 0 and 1.
+\itemize{
+\item This should be specified as \code{1/num}, where \code{num} represents the number
+of desired columns.
+}
+\item A \link[htmltools:validateCssUnit]{CSS length unit}
+\itemize{
+\item Either the minimum (when \code{fixed_width=FALSE}) or fixed width
+(\code{fixed_width=TRUE}).
+}
+\item \code{NULL}
+\itemize{
+\item Allows power users to set the \code{grid-template-columns} CSS property
 manually, either via a \code{style} attribute or a CSS stylesheet.
+}
 }}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} that sets the

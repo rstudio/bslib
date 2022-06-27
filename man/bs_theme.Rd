@@ -8,7 +8,7 @@
 \usage{
 bs_theme(
   version = version_default(),
-  bootswatch = NULL,
+  bootswatch = "shiny",
   ...,
   bg = NULL,
   fg = NULL,

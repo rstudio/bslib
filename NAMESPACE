@@ -2,6 +2,8 @@
 
 S3method(print,bslib_fragment)
 S3method(print,bslib_page)
+export(accordion)
+export(accordion_item)
 export(as.card_item)
 export(bootstrap)
 export(bootstrap_sass)
