@@ -272,6 +272,9 @@ bootstrap_bundle <- function(version) {
       # card() CSS (can be removed)
       card = sass_layer(
         rules = sass_file(system_file("card/card.scss", package = "bslib"))
+      ),
+      sidebar = sass_layer(
+        rules = sass_file(system_file("components/sidebar.scss", package = "bslib"))
       )
     ),
     four = sass_bundle(
