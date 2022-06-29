@@ -31,11 +31,11 @@
 #' # Nothing shown by default
 #' accordion(!!!items, selected = I("none"))
 #' # Everything shown by default
-#' accordion(!!!items, selected = I("all"), autoclose = FALSE)
+#' accordion(!!!items, selected = I("all"))
 #'
 #' # Show particular sections
 #' accordion(!!!items, selected = "Section B")
-#' accordion(!!!items, selected = c("Section A", "Section B"), autoclose = F)
+#' accordion(!!!items, selected = c("Section A", "Section B"))
 #'
 #' # Provide an id to create a shiny input binding
 #' if (interactive()) {
@@ -52,7 +52,7 @@
 #'   shinyApp(ui, server)
 #' }
 #'
-accordion <- function(..., id = NULL, selected = NULL, autoclose = TRUE, class = NULL, width = NULL, height = NULL) {
+accordion <- function(..., id = NULL, selected = NULL, autoclose = FALSE, class = NULL, width = NULL, height = NULL) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -109,19 +109,29 @@ accordion <- function(..., id = NULL, selected = NULL, autoclose = TRUE, class =
     accordion_dependency()
   )
 
-  as_fragment(tag_require(tag, version = 5, caller = "accordion()"))
+  # TODO: fix static render
+  #tag <- tag_require(tag, version = 5, caller = "accordion()")
+
+  as_fragment(tag)
 }
 
 #' @rdname accordion
 #' @export
-accordion_item <- function(title, ..., value = title) {
+accordion_item <- function(title, ..., value = title, icon = NULL) {
 
   id <- paste0("item-", p_randomInt(1000, 10000))
+
+  if (!is.null(icon)) {
+    icon <- tagAppendAttributes(icon, style = "margin-right:0.5rem")
+  }
+
   btn <- tags$button(
+    # TODO: make this rounded in "standalone"/flush mode?
     class = "accordion-button",
     type = "button",
     "data-bs-toggle" = "collapse",
     "data-bs-target" = paste0("#", id),
+    icon,
     title
   )
 
@@ -146,7 +156,7 @@ accordion_dependency <- function() {
     name = "bslib-accordion",
     version = get_package_version("bslib"),
     package = "bslib",
-    src = "accordion",
-    script = "index.js"
+    src = "components",
+    script = "accordion.js"
   )
 }

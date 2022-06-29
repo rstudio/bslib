@@ -1,0 +1,48 @@
+$bslib-sidebar-side-padding: $spacer * 0.5 !default;
+$bslib-sidebar-main-padding: $spacer !default;
+
+.bslib-sidebar-layout {
+  display: grid;
+  grid-template-areas: "bslib_sidebar bslib_main";
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  > * {
+    overflow: scroll;
+  }
+
+  > .sidebar {
+    grid-area: bslib_sidebar;
+    display: flex;
+    flex-direction: column;
+    padding: $bslib-sidebar-side-padding;
+  }
+
+  > .main {
+    grid-area: bslib_main;
+    padding: $bslib-sidebar-main-padding;
+  }
+
+  .accordion-body {
+    display: flex;
+    flex-direction: column;
+    // TODO GREG: help!
+    //align-items: center;
+    overflow: scroll;
+    padding: $spacer * 0.5;
+  }
+}
+
+
+@include media-breakpoint-down(sm) {
+  .bslib-sidebar-layout {
+    display: block !important;
+    position: relative !important;
+    top: unset !important;
+    bottom: unset !important;
+    left: unset !important;
+    right: unset !important;
+  }
+}
