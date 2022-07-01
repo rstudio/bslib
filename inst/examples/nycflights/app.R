@@ -3,25 +3,26 @@ library(bslib)
 library(dplyr)
 library(plotly)
 library(nycflights13)
+# remotes::install_github("cpsievert/histoslider")
+library(histoslider)
 
 # Data prep
 flights <- flights %>%
   left_join(
     airports %>%
       transmute(dest_name = paste0(name, " (", faa, ")"), dest = faa, end_lat = lat, end_lon = lon)
-  )
-flights <- flights %>%
+  ) %>%
   left_join(
     airports %>% select(origin = faa, start_lat = lat, start_lon = lon)
+  ) %>%
+  left_join(airlines, by = "carrier") %>%
+  rename(carrier_name = name) %>%
+  left_join(weather) %>%
+  mutate(
+    # The overwhelming majority of precipation is 0 so transform
+    # with some help from MASS::boxcox() https://stats.stackexchange.com/a/1452/48604
+    precip = scales::rescale((precip^-1.55)/(-.55))
   )
-flights <- left_join(flights, airlines, by = "carrier") %>%
-  rename(carrier_name = name)
-flights <- left_join(flights, weather)
-
-
-precip <- range(weather$precip)
-wind_speed <- range(weather$wind_speed, na.rm = TRUE)
-wind_gust <- range(weather$wind_gust, na.rm = TRUE)
 
 side <- accordion(
   selected = c("Origin", "Destination", "Carrier"),
@@ -41,9 +42,9 @@ side <- accordion(
   ),
   accordion_item(
     "Weather", icon = icon("cloud-rain"),
-    input_slider("precip", "Precipation", precip),
-    input_slider("wind_speed", "Wind speed", wind_speed),
-    input_slider("wind_gust", "Wind gust", wind_gust)
+    input_histoslider("precip", "Precipitation", flights$precip, height = 125),
+    input_histoslider("wind_speed", "Wind speed", flights$wind_speed, height = 125),
+    input_histoslider("wind_gust", "Wind gust", flights$wind_gust, height = 125)
   ),
   accordion_item(
     "Plane info", icon = icon("plane"),
@@ -96,14 +97,30 @@ shinyApp(
       input$carrier %||% unique(flights$carrier_name)
     })
 
+    # N.B. between() will remove NAs, which we probably don't
+    # want to remove until the slider is considered 'active'
+    filter_if_active <- function(d, var, input_var) {
+      rng <- summarise(d, range({{ var }}, na.rm = TRUE))[[1]]
+      active <- isTRUE(rng[1] <= input_var[1] || input_var[2] <= rng[2])
+      if (active) {
+        d <- filter(d, between({{ var }}, input_var[1], input_var[2]))
+      }
+      d
+    }
+
     # TODO: filter by more controls!
     flight_dat <- reactive({
-      flights %>%
+
+      d <- flights %>%
         filter(
           origin %in% input$origin,
           dest_name %in% dests(),
           carrier_name %in% carriers()
         )
+
+      d <- filter_if_active(d, precip, input$precip)
+      d <- filter_if_active(d, wind_gust, input$wind_gust)
+      filter_if_active(d, wind_speed, input$wind_speed)
     })
 
     output$arr_delay <- renderPlotly({

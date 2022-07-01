@@ -1,13 +1,5 @@
 library(plotly)
 
-# Reusable minimal slider
-input_slider <- function(id, label, range, ticks = FALSE, ...) {
-  sliderInput(
-    id, label, min = range[1], max = range[2], value = range,
-    ticks = ticks, ...
-  )
-}
-
 plot_delay <- function(x) {
   x_mean <- mean(x, na.rm = TRUE)
   x_med <- median(x, na.rm = TRUE)
