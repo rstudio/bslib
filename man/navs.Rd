@@ -41,14 +41,32 @@ navs_bar(
   fluid = TRUE
 )
 
-navs_tab_card(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+navs_tab_card(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
+  width = NULL,
+  padding = c("x", "y"),
+  stretch = full_screen,
+  full_screen = FALSE
+)
 
 navs_pill_card(
   ...,
   id = NULL,
   selected = NULL,
+  title = NULL,
   header = NULL,
   footer = NULL,
+  height = NULL,
+  width = NULL,
+  padding = c("x", "y"),
+  stretch = full_screen,
+  full_screen = FALSE,
   placement = c("above", "below")
 )
 }
@@ -72,7 +90,8 @@ layout.}
 \item{widths}{Column widths of the navigation list and tabset content areas
 respectively.}
 
-\item{title}{The title to display in the navbar}
+\item{title}{A (left-aligned) title to place in the card header/footer. If
+provided, other nav items are automatically right aligned.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at
@@ -90,6 +109,19 @@ text color. If \code{"auto"} (the default), the best contrast to \code{bg} is ch
 \item{collapsible}{\code{TRUE} to automatically collapse the navigation
 elements into a menu when the width of the browser is less than 940 pixels
 (useful for viewing on smaller touchscreen device)}
+
+\item{width, height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
+example, \code{height="100\%"}.}
+
+\item{padding}{Whether vertical and/or horizontal padding should be included
+around contents. Use \code{NULL} for neither, \code{"x"} for horizontal only,
+\code{"y"} for vertical only, or \code{c("x", "y")} for both (the default).}
+
+\item{stretch}{If \code{TRUE}, the contents will stretch to fit remaining space
+in the card body.}
+
+\item{full_screen}{If \code{TRUE}, a icon will appear when hovering over the card body
+to expand the contents to the entire viewport size.}
 
 \item{placement}{placement of the nav items relative to the content.}
 }

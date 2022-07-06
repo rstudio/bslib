@@ -9,14 +9,13 @@ accordion(
   ...,
   id = NULL,
   selected = NULL,
-  autoclose = TRUE,
-  fluid = TRUE,
+  autoclose = FALSE,
   class = NULL,
   width = NULL,
   height = NULL
 )
 
-accordion_item(title, ..., value = title)
+accordion_item(title, ..., value = title, icon = NULL)
 }
 \arguments{
 \item{...}{Named arguments become attributes on the \verb{<div class="accordion">}
@@ -27,20 +26,20 @@ determine which of the \code{accordion_item()}s are currently active. The value
 will correspond to the \code{accordion_item()}'s \code{value} argument.}
 
 \item{selected}{A character vector of \code{accordion_item()} \code{value}s to
-select/show by default. The default value of \code{NULL} will select the
-first \code{accordion_item()}. Use a special value of \code{I("all")} ( or \code{I("none")}) to
-select all (or none) of the items. Note that it's only possible to select
-more than one item when \code{autoclose=FALSE}.}
+select/show by default. The default value of \code{NULL} will select the first
+\code{accordion_item()}. Use a special value of \code{I("all")} ( or \code{I("none")}) to
+select all (or none) of the items. It's only possible to select more than
+one item when \code{autoclose=FALSE}.}
 
 \item{autoclose}{Upon clicking a new \code{accordion_item()}, should the
 previously active one close?}
 
-\item{fluid}{Whether or not to use a fluid or fixed (i.e., constrained width)
-layout.}
-
 \item{class}{Additional CSS classes to include on the accordion div.}
 
 \item{width, height}{Any valid CSS unit; for example, height="100\%".}
+
+\item{fluid}{Whether or not to use a fluid or fixed (i.e., constrained width)
+layout.}
 }
 \description{
 Create a vertically collapsing accordion
@@ -56,11 +55,26 @@ accordion(!!!items)
 # Nothing shown by default
 accordion(!!!items, selected = I("none"))
 # Everything shown by default
-accordion(!!!items, selected = I("all"), autoclose = FALSE)
+accordion(!!!items, selected = I("all"))
 
 # Show particular sections
 accordion(!!!items, selected = "Section B")
-accordion(!!!items, selected = c("Section A", "Section B"), autoclose = F)
+accordion(!!!items, selected = c("Section A", "Section B"))
+
+# Provide an id to create a shiny input binding
+if (interactive()) {
+  library(shiny)
+
+  ui <- page_fluid(
+    accordion(!!!items, id = "acc", autoclose = FALSE, fluid = FALSE)
+  )
+
+  server <- function(input, output) {
+    observe(print(input$acc))
+  }
+
+  shinyApp(ui, server)
+}
 
 }
 \references{
