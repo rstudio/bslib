@@ -47,3 +47,36 @@
 
   }
 }
+
+.bslib-card-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .nav {
+    margin-left: auto;
+  }
+}
+
+
+// Full screen card logic
+// TODO: expose some variables?
+
+.bslib-full-screen {
+  position: fixed !important;
+  inset: 5px !important;
+  height: auto !important;
+  z-index: $zindex-popover;
+}
+
+.bslib-full-screen-toggle {
+  display: none;
+  position: absolute;
+  bottom: 1px;
+  right: 3px;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.card .card-body:hover .bslib-full-screen-toggle {
+  display: block;
+}

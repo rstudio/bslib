@@ -9,13 +9,13 @@ accordion(
   ...,
   id = NULL,
   selected = NULL,
-  autoclose = TRUE,
+  autoclose = FALSE,
   class = NULL,
   width = NULL,
   height = NULL
 )
 
-accordion_item(title, ..., value = title)
+accordion_item(title, ..., value = title, icon = NULL)
 }
 \arguments{
 \item{...}{Named arguments become attributes on the \verb{<div class="accordion">}
@@ -55,11 +55,11 @@ accordion(!!!items)
 # Nothing shown by default
 accordion(!!!items, selected = I("none"))
 # Everything shown by default
-accordion(!!!items, selected = I("all"), autoclose = FALSE)
+accordion(!!!items, selected = I("all"))
 
 # Show particular sections
 accordion(!!!items, selected = "Section B")
-accordion(!!!items, selected = c("Section A", "Section B"), autoclose = F)
+accordion(!!!items, selected = c("Section A", "Section B"))
 
 # Provide an id to create a shiny input binding
 if (interactive()) {
