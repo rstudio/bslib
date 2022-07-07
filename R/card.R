@@ -52,9 +52,9 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
       paste0(rep_len("1fr", num_cols), collapse = " ")
     } else {
       if (fixed_width) {
-        paste0("repeat(auto-fill, ", validateCssUnit(card_width), ")")
+        paste0("repeat(auto-fit, ", validateCssUnit(card_width), ")")
       } else {
-        paste0("repeat(auto-fill, minmax(", validateCssUnit(card_width), ", 1fr))")
+        paste0("repeat(auto-fit, minmax(", validateCssUnit(card_width), ", 1fr))")
       }
     }
     # TODO: Support length(card_width) > 1?
