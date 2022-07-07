@@ -184,9 +184,8 @@ First, you can provide a fractional value, like `1/2`, `1/3`, or `1/4`. This mea
 As the animation (except on mobile devices) below shows, as the width of the `card_grid` changes, each card grows or shrinks to maintain its 1/4 width.
 
 ```{css, echo=FALSE}
-// Fix the height of card_grid() so that the animations don't shift the text
 .bslib-card-grid {
-  height: 500px;
+  height: 600px;
   margin-bottom: 2rem;
   overflow-y: scroll
 }
