@@ -4,9 +4,8 @@
 \alias{as.card_item}
 \alias{is.card_item}
 \alias{card_body}
+\alias{card_body_scroll}
 \alias{card_header}
-\alias{card_heading}
-\alias{card_title}
 \alias{card_footer}
 \alias{card_spacer}
 \alias{card_plot_output}
@@ -18,11 +17,9 @@ is.card_item(x)
 
 card_body(..., class = NULL, padding = c("x", "y"), stretch = FALSE)
 
-card_header(..., class = NULL)
+card_body_scroll(..., class = NULL, height = NULL, padding = c("x", "y"))
 
-card_heading(..., class = NULL, container = htmltools::tags$h6)
-
-card_title(..., class = NULL)
+card_header(..., class = NULL, container = htmltools::div)
 
 card_footer(..., class = NULL)
 
@@ -40,6 +37,8 @@ card_plot_output(
 )
 }
 \arguments{
+\item{x}{an object to test (or coerce to) a card item.}
+
 \item{...}{Named arguments become attributes on the \verb{<div class="card">}
 element. Unnamed arguments become card items, and can be any valid child of
 an \link[htmltools:builder]{htmltools tag}.}
@@ -52,6 +51,49 @@ or \code{c("x", "y")} for both (the default).}
 
 \item{stretch}{Set to \code{TRUE} if this \code{card_body} is eager to use any extra
 vertical space is available in the card.}
+
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
+example, \code{height="100\%"}.}
+
+\item{container}{a function to generate an HTML element (used for the \code{.card-header} element)}
+
+\item{outputId}{output variable to read the plot/image from.}
+
+\item{click}{This can be \code{NULL} (the default), a string, or an object
+created by the \code{\link[shiny:clickOpts]{clickOpts()}} function. If you use a value like
+\code{"plot_click"} (or equivalently, \code{clickOpts(id="plot_click")}),
+the plot will send coordinates to the server whenever it is clicked, and
+the value will be accessible via \code{input$plot_click}. The value will be
+a named list  with \code{x} and \code{y} elements indicating the mouse
+position.}
+
+\item{dblclick}{This is just like the \code{click} argument, but for
+double-click events.}
+
+\item{hover}{Similar to the \code{click} argument, this can be \code{NULL}
+(the default), a string, or an object created by the
+\code{\link[shiny:hoverOpts]{hoverOpts()}} function. If you use a value like
+\code{"plot_hover"} (or equivalently, \code{hoverOpts(id="plot_hover")}),
+the plot will send coordinates to the server pauses on the plot, and the
+value will be accessible via \code{input$plot_hover}. The value will be a
+named list with \code{x} and \code{y} elements indicating the mouse
+position. To control the hover time or hover delay type, you must use
+\code{\link[shiny:hoverOpts]{hoverOpts()}}.}
+
+\item{brush}{Similar to the \code{click} argument, this can be \code{NULL}
+(the default), a string, or an object created by the
+\code{\link[shiny:brushOpts]{brushOpts()}} function. If you use a value like
+\code{"plot_brush"} (or equivalently, \code{brushOpts(id="plot_brush")}),
+the plot will allow the user to "brush" in the plotting area, and will send
+information about the brushed area to the server, and the value will be
+accessible via \code{input$plot_brush}. Brushing means that the user will
+be able to draw a rectangle in the plotting area and drag it around. The
+value will be a named list with \code{xmin}, \code{xmax}, \code{ymin}, and
+\code{ymax} elements indicating the brush area. To control the brush
+behavior, use \code{\link[shiny:brushOpts]{brushOpts()}}. Multiple
+\code{imageOutput}/\code{plotOutput} calls may share the same \code{id}
+value; brushing one image or plot will cause any other brushes with the
+same \code{id} to disappear.}
 }
 \description{
 This topic describes various components that are intended to go
@@ -66,5 +108,5 @@ To learn more about \code{\link[=card]{card()}}s and card layout options, see \h
 
 \code{\link[=card_grid]{card_grid()}} for laying out multiple cards.
 
-\code{\link[=nabs_tab_card]{nabs_tab_card()}} \code{\link[=nabs_pill_card]{nabs_pill_card()}} for placing navigation in cards.
+\code{\link[=navs_tab_card]{navs_tab_card()}} \code{\link[=navs_pill_card]{navs_pill_card()}} for placing navigation in cards.
 }

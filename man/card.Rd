@@ -19,10 +19,10 @@ example, \code{height="100\%"}.}
 \item{autowrap}{The Bootstrap card is designed to contain only a few specific
 types of elements: \code{div.card-header}, \code{div.card-body}, etc. If \code{autowrap}
 is \code{TRUE}, any unnamed arguments to \code{card()} are checked to see if they are
-known card items (like \code{\link[=card_header]{card_header()}}, \code{\link[=card_plot]{card_plot()}}, etc.) and if not,
-they are automatically wrapped in \code{\link[=card_body]{card_body()}}. If \code{autowrap} is \code{FALSE},
-then all unnamed arguments are nested directly within the card element with
-no further processing.}
+known card items (like \code{\link[=card_header]{card_header()}}, \code{\link[=card_plot_output]{card_plot_output()}}, etc.) and if
+not, they are automatically wrapped in \code{\link[=card_body]{card_body()}}. If \code{autowrap} is
+\code{FALSE}, then all unnamed arguments are nested directly within the card
+element with no further processing.}
 }
 \description{
 Cards are general purpose containers for grouping UI elements
@@ -58,5 +58,6 @@ card(class = "w-50", style = "height: 300px;",
 
 \code{\link[=card_grid]{card_grid()}} for laying out multiple cards.
 
-\code{\link[=nabs_tab_card]{nabs_tab_card()}} \code{\link[=nabs_pill_card]{nabs_pill_card()}} for placing navigation in cards.
+\code{\link[=navs_tab_card]{navs_tab_card()}} \code{\link[=navs_pill_card]{navs_pill_card()}} for placing navigation in
+cards.
 }

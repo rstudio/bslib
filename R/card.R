@@ -31,7 +31,7 @@
 #' @export
 #' @seealso [card()] for creating a card container.
 #' @seealso [as.card_item()] for putting stuff inside the card.
-#' @seealso [nabs_tab_card()] [nabs_pill_card()] for placing navigation in cards.
+#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in cards.
 card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
   heights_equal = c("all", "row"), fixed_width = FALSE) {
 
@@ -99,15 +99,16 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #' @param autowrap The Bootstrap card is designed to contain only a few specific
 #'   types of elements: `div.card-header`, `div.card-body`, etc. If `autowrap`
 #'   is `TRUE`, any unnamed arguments to `card()` are checked to see if they are
-#'   known card items (like [card_header()], [card_plot()], etc.) and if not,
-#'   they are automatically wrapped in [card_body()]. If `autowrap` is `FALSE`,
-#'   then all unnamed arguments are nested directly within the card element with
-#'   no further processing.
+#'   known card items (like [card_header()], [card_plot_output()], etc.) and if
+#'   not, they are automatically wrapped in [card_body()]. If `autowrap` is
+#'   `FALSE`, then all unnamed arguments are nested directly within the card
+#'   element with no further processing.
 #'
 #' @export
 #' @seealso [as.card_item()] for putting stuff inside the card.
 #' @seealso [card_grid()] for laying out multiple cards.
-#' @seealso [nabs_tab_card()] [nabs_pill_card()] for placing navigation in cards.
+#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in
+#'   cards.
 #' @examples
 #' library(htmltools)
 #'
@@ -168,6 +169,7 @@ card <- function(..., class = NULL, width = NULL, height = NULL,
 }
 
 #' @rdname card_body
+#' @param x an object to test (or coerce to) a card item.
 #' @export
 as.card_item <- function(x) {
   class(x) <- c("card_item", class(x))
@@ -203,7 +205,7 @@ is.card_item <- function(x) {
 #' @export
 #' @seealso [card()] for creating a card component.
 #' @seealso [card_grid()] for laying out multiple cards.
-#' @seealso [nabs_tab_card()] [nabs_pill_card()] for placing navigation in cards.
+#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in cards.
 card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = FALSE) {
   res <- div(
     class = "card-body",
@@ -216,6 +218,9 @@ card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = FALSE)
   as.card_item(res)
 }
 
+#' @rdname card_body
+#' @param height Any valid [CSS unit][htmltools::validateCssUnit]; for
+#'   example, `height="100%"`.
 #' @export
 card_body_scroll <- function(..., class = NULL, height = NULL, padding = c("x", "y")) {
   res <- div(
@@ -230,26 +235,11 @@ card_body_scroll <- function(..., class = NULL, height = NULL, padding = c("x", 
 }
 
 #' @rdname card_body
+#' @param container a function to generate an HTML element (used for the `.card-header` element)
 #' @export
-card_header <- function(..., class = NULL) {
+card_header <- function(..., class = NULL, container = htmltools::div) {
   as.card_item(
-    div(class = "card-header", class = class, ...)
-  )
-}
-
-#' @rdname card_body
-#' @export
-card_heading <- function(..., class = NULL, container = htmltools::tags$h6) {
-  as.card_item(
-    container(class = "card-header mt-0", class = class, ...)
-  )
-}
-
-#' @rdname card_body
-#' @export
-card_title <- function(..., class = NULL) {
-  as.card_item(
-    tags$h5(class = "card-header", class = class, ...)
+    container(class = "card-header", class = class, ...)
   )
 }
 
@@ -269,6 +259,7 @@ card_spacer <- function(...) {
 }
 
 #' @rdname card_body
+#' @inheritParams shiny::plotOutput
 #' @export
 card_plot_output <- function(outputId,
   click = NULL,
