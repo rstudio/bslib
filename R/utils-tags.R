@@ -33,22 +33,15 @@ tag_require <- function(tag, version = version_default(), caller = "") {
 
 tag_require_client_side <- function(tag, version = version_default(), caller = "") {
   tagAppendChild(
-    tagAppendAttributes(tag, "data-require-bs-version" = version, "data-require-bs-caller" = caller),
-    singleton(tags$head(
-      tags$script(HTML(
-        "window.addEventListener('DOMContentLoaded', function(e) {
-           const nodes = document.querySelectorAll('[data-require-bs-version]');
-           if (!nodes) return;
-           const VERSION = window.bootstrap ? parseInt(window.bootstrap.Tab.VERSION) : 3;
-           for (let i = 0; i < nodes.length; i++) {
-             const version = nodes[i].getAttribute('data-require-bs-version');
-             const caller = nodes[i].getAttribute('data-require-bs-caller');
-             if (version > VERSION) {
-               console.error(`${caller} requires Bootstrap version ${version} but this page is using version ${VERSION}`)
-             }
-           }
-         });"
-      ))
-    ))
+    tagAppendAttributes(
+      tag, "data-require-bs-version" = version, "data-require-bs-caller" = caller
+    ),
+    htmlDependency(
+      name = "bslib-tag-require",
+      version = get_package_version("bslib"),
+      package = "bslib",
+      src = "components",
+      script = "tag-require.js"
+    )
   )
 }
