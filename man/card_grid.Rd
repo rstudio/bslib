@@ -54,5 +54,5 @@ To learn more about \code{\link[=card]{card()}}s and card layout options, see \h
 
 \code{\link[=as.card_item]{as.card_item()}} for putting stuff inside the card.
 
-\code{\link[=nabs_tab_card]{nabs_tab_card()}} \code{\link[=nabs_pill_card]{nabs_pill_card()}} for placing navigation in cards.
+\code{\link[=navs_tab_card]{navs_tab_card()}} \code{\link[=navs_pill_card]{navs_pill_card()}} for placing navigation in cards.
 }
