@@ -15,6 +15,7 @@ sandbox
 revdep
 ^_pkgdown\.yml$
 vignettes
+pkgdown
 ^\.github$
 ^\.gitattributes$
 ^CODE_OF_CONDUCT\.md$
