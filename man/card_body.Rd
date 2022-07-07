@@ -10,7 +10,7 @@
 \alias{card_footer}
 \alias{card_spacer}
 \alias{card_plot_output}
-\title{Card components}
+\title{Card item components}
 \usage{
 as.card_item(x)
 
@@ -58,4 +58,13 @@ This topic describes various components that are intended to go
 directly inside of a \code{\link[=card]{card()}}. These components can be used in combination;
 for example, a single card could contain a \code{card_header()}, multiple
 \code{card_body()}s, a \code{card_list()}, and finally a \code{card_footer()}.
+
+To learn more about \code{\link[=card]{card()}}s and card layout options, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+}
+\seealso{
+\code{\link[=card]{card()}} for creating a card component.
+
+\code{\link[=card_grid]{card_grid()}} for laying out multiple cards.
+
+\code{\link[=nabs_tab_card]{nabs_tab_card()}} \code{\link[=nabs_pill_card]{nabs_pill_card()}} for placing navigation in cards.
 }
