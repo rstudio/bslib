@@ -34,4 +34,29 @@ Cards are often arranged in a row or grid, with every card in a row having
 the same height. To facilitate this, the \code{card()} and \verb{card_*()} family of
 functions have options for specifying the vertical stretching behavior of
 card items.
+
+To learn more about \code{\link[=card]{card()}}s and card layout options, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+}
+\examples{
+library(htmltools)
+
+card(class = "w-50", style = "height: 300px;",
+  card_header(
+    "This is the header"
+  ),
+  card_body(
+    p("This is the body."),
+    p("This is still the body.")
+  ),
+  card_footer(
+    "This is the footer"
+  )
+)
+}
+\seealso{
+\code{\link[=as.card_item]{as.card_item()}} for putting stuff inside the card.
+
+\code{\link[=card_grid]{card_grid()}} for laying out multiple cards.
+
+\code{\link[=nabs_tab_card]{nabs_tab_card()}} \code{\link[=nabs_pill_card]{nabs_pill_card()}} for placing navigation in cards.
 }

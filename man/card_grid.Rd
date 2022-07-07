@@ -2,7 +2,7 @@
 % Please edit documentation in R/card.R
 \name{card_grid}
 \alias{card_grid}
-\title{Card grid}
+\title{Card grid layout}
 \usage{
 card_grid(
   ...,
@@ -14,18 +14,21 @@ card_grid(
 )
 }
 \arguments{
-\item{...}{Named arguments become attributes on the \verb{<div class="card">}
-element. Unnamed arguments are children, and should be instances of
-\code{\link[=card]{card()}}.}
+\item{...}{Named arguments become attributes on the containing
+\link[htmltools:builder]{htmltools::tag} element. Unnamed arguments are children, and should be
+instances of \code{\link[=card]{card()}} (and/or \code{\link[=navs_tab_card]{navs_tab_card()}}/\code{\link[=navs_pill_card]{navs_pill_card()}}).}
 
 \item{class}{Additional CSS classes to include on the grid div.}
 
-\item{card_width}{The desired width of each card. This can be any \link[htmltools:validateCssUnit]{CSS length unit}, in which case \code{card_grid} will fit as
-many cards into each row without being smaller than that width.
-Alternatively, you can specify a number of cards per row by passing
-\code{1/num}, for example \code{card_width = 1/3} for three cards per row. You can
-also set this to \code{NULL} and set the \code{grid-template-columns} CSS property
-manually, either via a \code{style} attribute or a CSS stylesheet.}
+\item{card_width}{The desired width of each card, which can be any of the
+following: * A (unit-less) number between 0 and 1. * This should be
+specified as \code{1/num}, where \code{num} represents the number of desired columns.
+\itemize{
+\item A \link[htmltools:validateCssUnit]{CSS length unit} * Either the minimum
+(when \code{fixed_width=FALSE}) or fixed width (\code{fixed_width=TRUE}). * \code{NULL} *
+Allows power users to set the \code{grid-template-columns} CSS property
+manually, either via a \code{style} attribute or a CSS stylesheet.
+}}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} that sets the
 amount of spacing between cards. If \code{NULL}, the value of Bootstrap's
@@ -35,14 +38,21 @@ amount of spacing between cards. If \code{NULL}, the value of Bootstrap's
 grid will have the same height. If \code{"row"}, then every card in \emph{each} row
 of the grid will have the same height, but heights may vary between rows.}
 
-\item{fixed_width}{When \code{card_width} is a CSS length (as opposed to a
-fraction), the default behavior is to let cards be that wide \emph{or larger},
-so that they fill all of the horizontal space that's available. Set this
-argument to \code{TRUE} to ensure that cards are exactly the specified width,
-even if this means using less than the total width of the card grid
-container.}
+\item{fixed_width}{Whether or not to interpret the \code{card_width} as a minimum
+(\code{fixed_width=FALSE}) or fixed (\code{fixed_width=TRUE}) width when it is a CSS
+length unit.}
 }
 \description{
-Use to create a grid of cards, giving every card in the entire grid the same
-height/width (or optionally, every card in \emph{each row} of the grid).
+Layout a collection of cards into a responsive grid. By default,
+cards will have the same height/width, but optionally, the heights of each
+row (and column) may be different.
+
+To learn more about \code{\link[=card]{card()}}s and card layout options, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+}
+\seealso{
+\code{\link[=card]{card()}} for creating a card container.
+
+\code{\link[=as.card_item]{as.card_item()}} for putting stuff inside the card.
+
+\code{\link[=nabs_tab_card]{nabs_tab_card()}} \code{\link[=nabs_pill_card]{nabs_pill_card()}} for placing navigation in cards.
 }
