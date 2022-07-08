@@ -1,32 +1,38 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
-
-
 // Bootstrap 5 style changes
 
+.card-header-tabs {
+  // margin-right: -$card-cap-padding-x;
+  margin-right: inherit;
+  // margin-bottom: -$card-cap-padding-y;
+  //margin-bottom: inherit;
+  margin-left: inherit;
+  // margin-left: -$card-cap-padding-x;
+  border-bottom: 0;
+}
+
 $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
-0 0.06rem 0.275rem 0 rgba($black, 0.1);
+  0 0.06rem 0.275rem 0 rgba($black, 0.1);
 
 .btn {
   margin: $spacer * .25 $spacer * .125
 }
 
-
-// Shiny Cards
-
-.card.shiny-card.shadow {
+.card.shadow {
   border: none;
 }
 
-
-.shiny-card .card-header {
-  font-weight: $font-weight-bold;
-  font-size: $font-size-base * .85;
-  line-height: 1.9em;
+.card-header {
+  padding: $spacer * .9 $spacer * .9;
   background-color: transparent;
-  padding: $spacer * .8 $spacer * .9;
 }
 
-.shiny-card .dropdown-menu {
+.card-header .nav-item {
+  font-size: $font-size-base * .85;
+  line-height: 1.9em;
+  font-weight: $font-weight-bold;
+}
+
+.card .dropdown-menu {
   font-size: $font-size-base * .8;
 }
 
@@ -34,13 +40,15 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
   font-size: $font-size-base * .9;
 }
 
-.shiny-card .card-header p,
-.shiny-card .card-header h1,
-.shiny-card .card-header h2,
-.shiny-card .card-header h3,
-.shiny-card .card-header h4,
-.shiny-card .card-header h5,
-.shiny-card .card-header h6,
+
+.card-header body,
+.card-header p,
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header h6,
 .shiny-value-box p,
 .shiny-value-box h1,
 .shiny-value-box h2,
@@ -50,75 +58,75 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
 .shiny-value-box h6 {
   margin-bottom: 0rem;
   margin-top: 0rem;
-
 }
 
-.shiny-card .nav-link,
-.shiny-card .dropdown {
+.card .nav-link,
+.card .dropdown {
   display: block;
-  padding: 0 $spacer * .25;
-  color: #adb5bd;
-  font-weight: 400;
+  padding: 0 $spacer * .3;
+  color: $gray-600;
+  font-weight: 600;
   font-size: $font-size-base * .8;
 }
 
-.shiny-card .nav-link.active,
-.shiny-card .dropdown a {
-  color: $black;
+.card .nav-tabs .nav-link.active,
+.card .nav-tabs .dropdown-toggle.active {
+  color: $gray-900;
   text-decoration: none;
+  border-bottom: 3px solid !important;
 }
 
-.shiny-card .nav-link {
-  padding-bottom: 15px;
-  margin-bottom: -19px !important;
-  border: none !important;
-}
-
-.shiny-card .nav-tabs,
+.card .nav-tabs,
 .nav-tabs .nav-link.active {
   border: none !important;
 }
 
-.shiny-card .nav-link.active {
-  border-bottom: 3px solid !important;
+.nav-tabs .nav-link.active,
+.nav-tabs>li>a.active {
+  background-color: transparent;
 }
 
-.nav-link:focus,
-.nav-link:hover {
-  color: $black !important;
+.nav-item .nav-link,
+.nav-item .nav-link:hover {
+  border: 0px;
 }
 
-.shiny-card table th,
-.shiny-card table tr {
+.card .nav-link:focus,
+.card .nav-link:hover {
+  color: $black  !important;
+}
+
+.card table th,
+.card table tr {
   font-size: $font-size-base * .75;
 }
 
-.shiny-card .table-striped>tbody>tr:nth-of-type(odd) {
+.card .table-striped>tbody>tr:nth-of-type(odd) {
   --bs-table-accent-bg: tint-color($blue, 95%);
   background-color: tint-color($blue, 95%);
 }
 
-.shiny-card .dropdown-item:focus,
+.card .dropdown-item:focus,
 .dropdown-item:hover {
   background-color: tint-color($blue, 94%);
 }
 
 .dropdown-item:active,
-.shiny-card .dropdown-item:active {
+.card .dropdown-item:active {
   background-color: tint-color($blue, 15%) !important;
 }
 
-.shiny-card .table> :not(caption)>*>* {
+.card .table> :not(caption)>*>* {
   border-bottom-color: transparent;
 }
 
-.shiny-card .card-footer {
+.card .card-footer {
   font-size: $font-size-base * .875;
   background-color: rgba($black, 0.024);
   border-top: none;
 }
 
-.shiny-card .icon {
+.card .card-header .icon {
   background-color: rgba($white, 0.15);
   width: 40px;
   height: 40px;
@@ -135,7 +143,7 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
   padding: $spacer * 0.6;
 }
 
-.shiny-card .icon-lg {
+.card .icon-lg {
   width: 60px;
   height: 60px;
   opacity: .9;
@@ -146,7 +154,7 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
   }
 }
 
-.shiny-card .shiny-value-box-left-area {
+.card .shiny-value-box-left-area {
   border-right: 1px solid rgba($white, 0.2);
 }
 
@@ -171,8 +179,6 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
     fill: currentColor;
   }
 }
-
-
 
 /* BOOTSTRAP SIDEBAR */
 
@@ -218,22 +224,4 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
 .btn-toggle-nav a:focus,
 a.nav-link:hover {
   background-color: rgba($blue, 0.05);
-}
-
-// Design nudges
-
-.font-size-90 {
-  font-size: 90% !important;
-}
-
-.font-size-80 {
-  font-size: 80% !important;
-}
-
-.font-size-70 {
-  font-size: 70% !important;
-}
-
-.font-size-60 {
-  font-size: 60% !important;
 }

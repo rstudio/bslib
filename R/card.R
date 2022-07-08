@@ -1,11 +1,15 @@
-#' Card grid
+#' Card grid layout
 #'
-#' Use to create a grid of cards, giving every card in the entire grid the same
-#' height/width (or optionally, every card in _each row_ of the grid).
+#' @description Layout a collection of cards into a responsive grid. By default,
+#'   cards will have the same height/width, but optionally, the heights of each
+#'   row (and column) may be different.
 #'
-#' @param ... Named arguments become attributes on the `<div class="card">`
-#'   element. Unnamed arguments are children, and should be instances of
-#'   [card()].
+#'   To learn more about [card()]s and card layout options, see [this
+#'   article](https://rstudio.github.io/bslib/articles/cards.html).
+#'
+#' @param ... Named arguments become attributes on the containing
+#'   [htmltools::tag] element. Unnamed arguments are children, and should be
+#'   instances of [card()] (and/or [navs_tab_card()]/[navs_pill_card()]).
 #' @param class Additional CSS classes to include on the grid div.
 #' @param card_width The desired width of each card, which can be any of the
 #'  following:
@@ -29,18 +33,16 @@
 #'   length unit.
 #'
 #' @export
+#' @seealso [card()] for creating a card container.
+#' @seealso [as.card_item()] for putting stuff inside the card.
+#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in cards.
 card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
   heights_equal = c("all", "row"), fixed_width = FALSE) {
-
-  # TODO: Allow cards not to stretch
 
   heights_equal <- match.arg(heights_equal)
 
   args <- rlang::list2(...)
-  argnames <- names(args)
-  if (is.null(argnames) && length(args) > 0) {
-    argnames <- rep_len("", length(args))
-  }
+  argnames <- rlang::names2(args)
 
   attribs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
@@ -53,13 +55,10 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
       }
       paste0(rep_len("1fr", num_cols), collapse = " ")
     } else {
-      # This version is if we don't want to allow growth
-      # paste0("repeat(auto-fill, ", validateCssUnit(card_width), ")")
-      # This version is if we do
       if (fixed_width) {
-        paste0("repeat(auto-fill, ", validateCssUnit(card_width), ")")
+        paste0("repeat(auto-fit, ", validateCssUnit(card_width), ")")
       } else {
-        paste0("repeat(auto-fill, minmax(", validateCssUnit(card_width), ", 1fr))")
+        paste0("repeat(auto-fit, minmax(", validateCssUnit(card_width), ", 1fr))")
       }
     }
     # TODO: Support length(card_width) > 1?
@@ -92,6 +91,9 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #'   functions have options for specifying the vertical stretching behavior of
 #'   card items.
 #'
+#'   To learn more about [card()]s and card layout options, see [this
+#'   article](https://rstudio.github.io/bslib/articles/cards.html).
+#'
 #' @param ... Named arguments become attributes on the `<div class="card">`
 #'   element. Unnamed arguments become card items, and can be any valid child of
 #'   an [htmltools tag][htmltools::tags].
@@ -101,23 +103,36 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #' @param autowrap The Bootstrap card is designed to contain only a few specific
 #'   types of elements: `div.card-header`, `div.card-body`, etc. If `autowrap`
 #'   is `TRUE`, any unnamed arguments to `card()` are checked to see if they are
-#'   known card items (like [card_header()], [card_plot()], etc.) and if not,
-#'   they are automatically wrapped in [card_body()]. If `autowrap` is `FALSE`,
-#'   then all unnamed arguments are nested directly within the card element with
-#'   no further processing.
+#'   known card items (like [card_header()], [card_plot_output()], etc.) and if
+#'   not, they are automatically wrapped in [card_body()]. If `autowrap` is
+#'   `FALSE`, then all unnamed arguments are nested directly within the card
+#'   element with no further processing.
 #'
 #' @export
+#' @seealso [as.card_item()] for putting stuff inside the card.
+#' @seealso [card_grid()] for laying out multiple cards.
+#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in
+#'   cards.
+#' @examples
+#' library(htmltools)
+#'
+#' card(class = "w-50", style = "height: 300px;",
+#'   card_header(
+#'     "This is the header"
+#'   ),
+#'   card_body(
+#'     p("This is the body."),
+#'     p("This is still the body.")
+#'   ),
+#'   card_footer(
+#'     "This is the footer"
+#'   )
+#' )
 card <- function(..., class = NULL, width = NULL, height = NULL,
   autowrap = TRUE) {
 
-  width <- validateCssUnit(width)
-  height <- validateCssUnit(height)
-
   args <- rlang::list2(...)
-  argnames <- names(args)
-  if (is.null(argnames) && length(args) > 0) {
-    argnames <- rep_len("", length(args))
-  }
+  argnames <- rlang::names2(args)
 
   attribs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
@@ -141,19 +156,24 @@ card <- function(..., class = NULL, width = NULL, height = NULL,
     children <- unlist(children, recursive = FALSE)
   }
 
-  tag <- htmltools::tags$div(
-    class = "card bslib-card",
+  tag <- div(
+    class = "card",
     class = class,
-    style = htmltools::css(width = width, height = height),
+    style = css(
+      width = validateCssUnit(width),
+      height = validateCssUnit(height)
+    ),
     !!!attribs,
     !!!children
   )
+
   as_fragment(
     tag_require(tag, version = 4, caller = "card()")
   )
 }
 
 #' @rdname card_body
+#' @param x an object to test (or coerce to) a card item.
 #' @export
 as.card_item <- function(x) {
   class(x) <- c("card_item", class(x))
@@ -166,12 +186,15 @@ is.card_item <- function(x) {
   inherits(x, "card_item")
 }
 
-#' Card components
+#' Card item components
 #'
 #' @description This topic describes various components that are intended to go
 #'   directly inside of a [card()]. These components can be used in combination;
 #'   for example, a single card could contain a `card_header()`, multiple
 #'   `card_body()`s, a `card_list()`, and finally a `card_footer()`.
+#'
+#'   To learn more about [card()]s and card layout options, see [this
+#'   article](https://rstudio.github.io/bslib/articles/cards.html).
 #'
 #' @param ... Named arguments become attributes on the `<div class="card">`
 #'   element. Unnamed arguments become card items, and can be any valid child of
@@ -184,95 +207,63 @@ is.card_item <- function(x) {
 #'   vertical space is available in the card.
 #'
 #' @export
+#' @seealso [card()] for creating a card component.
+#' @seealso [card_grid()] for laying out multiple cards.
+#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in cards.
 card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = FALSE) {
-  res <- htmltools::tags$div(class = "card-body",
+  res <- div(
+    class = "card-body",
     class = if (!"x" %in% padding) "px-0",
     class = if (!"y" %in% padding) "py-0",
     class = class,
     ...,
-    style = if (!stretch) css(
-      flex = "0",
-      `_webkit_flex` = "0"
-    ),
+    style = if (!stretch) css(flex = "0"),
   )
   as.card_item(res)
 }
 
+#' @rdname card_body
+#' @param height Any valid [CSS unit][htmltools::validateCssUnit]; for
+#'   example, `height="100%"`.
 #' @export
 card_body_scroll <- function(..., class = NULL, height = NULL, padding = c("x", "y")) {
-  res <- htmltools::tags$div(class = "card-body card-body-scroll",
+  res <- div(
+    class = "card-body card-body-scroll",
     class = if (!"x" %in% padding) "px-0",
     class = if (!"y" %in% padding) "py-0",
     class = class,
-    style = css(
-      # May be NULL
-      flex_basis = validateCssUnit(height),
-      `-webkit-flex-basis` = validateCssUnit(height)
-    ),
+    style = css(flex_basis = validateCssUnit(height)),
     ...
   )
   as.card_item(res)
 }
 
 #' @rdname card_body
+#' @param container a function to generate an HTML element (used for the `.card-header` element)
 #' @export
-card_header <- function(..., class = NULL) {
-  res <- htmltools::tags$div(class = "card-header", class = class,
-    ...
+card_header <- function(..., class = NULL, container = htmltools::div) {
+  as.card_item(
+    container(class = "card-header", class = class, ...)
   )
-  as.card_item(res)
-}
-
-#' @rdname card_body
-#' @export
-card_heading <- function(..., class = NULL, container = htmltools::tags$h6) {
-  res <- container(class = "card-header mt-0", class = class,
-    ...
-  )
-  as.card_item(res)
-}
-
-#' @rdname card_body
-#' @export
-card_title <- function(..., class = NULL) {
-  res <- htmltools::tags$h5(class = "card-header", class = class,
-    ...
-  )
-  as.card_item(res)
 }
 
 #' @rdname card_body
 #' @export
 card_footer <- function(..., class = NULL) {
-  res <- htmltools::tags$div(class = "card-footer mt-auto", class = class,
-    ...
+  as.card_item(
+    div(class = "card-footer mt-auto", class = class, ...)
   )
-  as.card_item(res)
 }
 
 #' @rdname card_body
 #' @export
 card_spacer <- function(...) {
-  res <- htmltools::tags$div(style = css(flex = "1 0 0"))
+  res <- div(style = css(flex = "1 0 0"))
   as.card_item(res)
 }
 
-# jcheng 2022-06-06: Removing for now; list items have more features than I'm
-# ready to design an API for right now
-#
-# #' @rdname card_body
-# #' @export
-# card_list <- function(...) {
-#   res <- htmltools::tags$ul(class = "list-group list-group-flush", ...)
-#   as.card_item(res)
-# }
-#
-# #' @export
-# card_list_item <- function(...) {
-#   htmltools::tags$li(class = "list-group-item", ...)
-# }
-
 #' @rdname card_body
+#' @inheritParams shiny::plotOutput
 #' @export
 card_plot_output <- function(outputId,
   click = NULL,
@@ -283,21 +274,37 @@ card_plot_output <- function(outputId,
   stretch = TRUE,
   ...
 ) {
-  plot_div <- plotOutput(outputId, height = NULL, click = click, dblclick = dblclick, hover = hover,
-    brush = brush)
+  plot_div <- shiny::plotOutput(
+    outputId, height = NULL, click = click, dblclick = dblclick,
+    hover = hover, brush = brush
+  )
 
   # TODO: card-img-* needs to go on the <img> itself, not the containing <div>
-  plot_div <-
-    tagAppendAttributes(plot_div,
-      style = css(
-        flex = if (stretch) "1 1",
-        `-webkit-flex` = if (stretch) "1 1",
-        # May be NULL
-        `flex-basis` = validateCssUnit(height),
-        `-webkit-flex-basis` = validateCssUnit(height),
-      ),
-      !!!rlang::list2(...)
-    )
+  plot_div <- tagAppendAttributes(
+    plot_div,
+    style = css(
+      flex_grow = if (stretch) "1",
+      flex_shrink = if (stretch) "1",
+      flex_basis = validateCssUnit(height)
+    ),
+    !!!rlang::list2(...)
+  )
 
   as.card_item(plot_div)
 }
+
+
+# jcheng 2022-06-06: Removing for now; list items have more features than I'm
+# ready to design an API for right now
+#
+# #' @rdname card_body
+# #' @export
+# card_list <- function(...) {
+#   res <- tags$ul(class = "list-group list-group-flush", ...)
+#   as.card_item(res)
+# }
+#
+# #' @export
+# card_list_item <- function(...) {
+#   tags$li(class = "list-group-item", ...)
+# }

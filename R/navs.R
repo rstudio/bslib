@@ -17,11 +17,6 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 
   items <- rlang::list2(...)
 
-  if (!is.null(title)) {
-    title <- nav_item(title, style = "margin-right:auto")
-    items <- c(list(title), items)
-  }
-
   tabs <- navs_tab(
     !!!items, id = id, selected = selected, header = header, footer = footer
   )
@@ -32,9 +27,14 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
     addClass("card-header-tabs")$
     selectedTags()
 
+
   card(
     height = height, width = width,
-    card_header(nav),
+    if (!is.null(title)) {
+      card_header(class = "bslib-card-title", tags$span(title), nav)
+    } else {
+      card_header(nav)
+    },
     navs_card_body(tabs, padding, stretch, full_screen)
   )
 }
@@ -49,11 +49,6 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
 
   items <- rlang::list2(...)
 
-  if (!is.null(title)) {
-    title <- nav_item(title, style = "margin-right:auto")
-    items <- c(list(title), items)
-  }
-
   pills <- navs_pill(
     !!!items, id = id, selected = selected,
     header = header, footer = footer
@@ -66,11 +61,17 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
     addClass(if (above) "card-header-pills")$
     selectedTags()
 
+  nav_args <- if (!is.null(title)) {
+    list(class = "bslib-card-title", tags$h6(title), nav)
+  } else {
+    list(nav)
+  }
+
   card(
     height = height, width = width,
-    if (above) card_header(nav),
+    if (above) card_header(!!!nav_args),
     navs_card_body(pills, padding, stretch, full_screen),
-    if (!above) card_footer(nav)
+    if (!above) card_footer(!!!nav_args)
   )
 }
 

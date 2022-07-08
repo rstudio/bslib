@@ -19,10 +19,10 @@ example, \code{height="100\%"}.}
 \item{autowrap}{The Bootstrap card is designed to contain only a few specific
 types of elements: \code{div.card-header}, \code{div.card-body}, etc. If \code{autowrap}
 is \code{TRUE}, any unnamed arguments to \code{card()} are checked to see if they are
-known card items (like \code{\link[=card_header]{card_header()}}, \code{\link[=card_plot]{card_plot()}}, etc.) and if not,
-they are automatically wrapped in \code{\link[=card_body]{card_body()}}. If \code{autowrap} is \code{FALSE},
-then all unnamed arguments are nested directly within the card element with
-no further processing.}
+known card items (like \code{\link[=card_header]{card_header()}}, \code{\link[=card_plot_output]{card_plot_output()}}, etc.) and if
+not, they are automatically wrapped in \code{\link[=card_body]{card_body()}}. If \code{autowrap} is
+\code{FALSE}, then all unnamed arguments are nested directly within the card
+element with no further processing.}
 }
 \description{
 Cards are general purpose containers for grouping UI elements
@@ -34,4 +34,30 @@ Cards are often arranged in a row or grid, with every card in a row having
 the same height. To facilitate this, the \code{card()} and \verb{card_*()} family of
 functions have options for specifying the vertical stretching behavior of
 card items.
+
+To learn more about \code{\link[=card]{card()}}s and card layout options, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+}
+\examples{
+library(htmltools)
+
+card(class = "w-50", style = "height: 300px;",
+  card_header(
+    "This is the header"
+  ),
+  card_body(
+    p("This is the body."),
+    p("This is still the body.")
+  ),
+  card_footer(
+    "This is the footer"
+  )
+)
+}
+\seealso{
+\code{\link[=as.card_item]{as.card_item()}} for putting stuff inside the card.
+
+\code{\link[=card_grid]{card_grid()}} for laying out multiple cards.
+
+\code{\link[=navs_tab_card]{navs_tab_card()}} \code{\link[=navs_pill_card]{navs_pill_card()}} for placing navigation in
+cards.
 }

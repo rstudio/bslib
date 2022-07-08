@@ -48,6 +48,16 @@
   }
 }
 
+.bslib-card-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .nav {
+    margin-left: auto;
+  }
+}
+
+
 // Full screen card logic
 // TODO: expose some variables?
 

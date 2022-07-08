@@ -2,7 +2,7 @@
 % Please edit documentation in R/card.R
 \name{card_grid}
 \alias{card_grid}
-\title{Card grid}
+\title{Card grid layout}
 \usage{
 card_grid(
   ...,
@@ -14,9 +14,9 @@ card_grid(
 )
 }
 \arguments{
-\item{...}{Named arguments become attributes on the \verb{<div class="card">}
-element. Unnamed arguments are children, and should be instances of
-\code{\link[=card]{card()}}.}
+\item{...}{Named arguments become attributes on the containing
+\link[htmltools:builder]{htmltools::tag} element. Unnamed arguments are children, and should be
+instances of \code{\link[=card]{card()}} (and/or \code{\link[=navs_tab_card]{navs_tab_card()}}/\code{\link[=navs_pill_card]{navs_pill_card()}}).}
 
 \item{class}{Additional CSS classes to include on the grid div.}
 
@@ -53,6 +53,16 @@ of the grid will have the same height, but heights may vary between rows.}
 length unit.}
 }
 \description{
-Use to create a grid of cards, giving every card in the entire grid the same
-height/width (or optionally, every card in \emph{each row} of the grid).
+Layout a collection of cards into a responsive grid. By default,
+cards will have the same height/width, but optionally, the heights of each
+row (and column) may be different.
+
+To learn more about \code{\link[=card]{card()}}s and card layout options, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+}
+\seealso{
+\code{\link[=card]{card()}} for creating a card container.
+
+\code{\link[=as.card_item]{as.card_item()}} for putting stuff inside the card.
+
+\code{\link[=navs_tab_card]{navs_tab_card()}} \code{\link[=navs_pill_card]{navs_pill_card()}} for placing navigation in cards.
 }

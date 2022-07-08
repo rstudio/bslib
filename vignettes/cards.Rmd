@@ -90,7 +90,7 @@ Note that `card_plot_output` is intended to be a direct child of `card()`; you'r
 ::: col-md-6
 ```{r}
 plot_card <- card(class = "w-50",
-  card_heading("Card with a plot"),
+  card_header("Card with a plot"),
   card_plot_output("plot1", height = 200),
   "The above is a plot",
   card_footer("This is a footer")
@@ -111,7 +111,7 @@ Use `card_body_scroll()` in place of `card_body()` to create a vertically scroll
 ::: col-md-6
 ```{r}
 card(class = "w-50",
-  card_heading("Card with a scrolling body"),
+  card_header("Card with a scrolling body"),
   card_plot_output("plot1", height = 200),
   card_body_scroll(height = 200,
     lorem_ipsum_dolor_sit_amet
@@ -129,17 +129,17 @@ There are several ways to arrange sets of cards. To illustrate, we'll use three 
 
 ```{r}
 card1 <- card(
-  card_heading("Card with a scrolling body"),
+  card_header("Card with a scrolling body"),
   card_body_scroll(height = 200,
     lorem_ipsum_dolor_sit_amet
   )
 )
 card2 <- card(
-  card_heading("A second card"),
+  card_header("A second card"),
   p("This card doesn't have very much in it")
 )
 card3 <- card(
-  card_heading("A card with a plot"),
+  card_header("A card with a plot"),
   card_plot_output("plot1", height = 200),
   card_footer(class = "fs-6",
     "Copyright 2022 RStudio, PBC"
@@ -184,9 +184,8 @@ First, you can provide a fractional value, like `1/2`, `1/3`, or `1/4`. This mea
 As the animation (except on mobile devices) below shows, as the width of the `card_grid` changes, each card grows or shrinks to maintain its 1/4 width.
 
 ```{css, echo=FALSE}
-// Fix the height of card_grid() so that the animations don't shift the text
 .bslib-card-grid {
-  height: 500px;
+  height: 600px;
   margin-bottom: 2rem;
   overflow-y: scroll
 }
