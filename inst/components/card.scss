@@ -31,7 +31,34 @@
       }
     }
   }
+
+
+  > .card-header {
+    .form-group {
+      margin-bottom: 0;
+    }
+    .selectize-control {
+      margin-bottom: 0;
+      // TODO: we should probably add this to selectize's SCSS since this actually makes selectInput()
+      // usable with width="fit-content"
+      .item {
+        margin-right: 1.15rem;
+      }
+    }
+
+  }
 }
+
+.bslib-card-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  .nav {
+    margin-left: auto;
+  }
+}
+
 
 // Full screen card logic
 // TODO: expose some variables?
