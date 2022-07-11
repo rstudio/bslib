@@ -1,0 +1,81 @@
+.card-footer {
+  margin-top: auto;
+}
+
+.card-body-scroll {
+  overflow-y: auto;
+}
+
+.bslib-card-grid {
+  display: grid;
+  gap: $spacer;
+}
+
+@include media-breakpoint-down(sm) {
+  .bslib-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.card .shiny-plot-output {
+  overflow: hidden;
+}
+
+.card {
+  > .card-body > {
+    p, h1, h2, h3, h4, h5, h6 {
+      margin-top: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Full screen card logic
+// TODO: expose some variables?
+
+.bslib-full-screen {
+  position: fixed;
+  inset: 1.5rem;
+  height: auto !important;
+  width: auto !important;
+  z-index: $zindex-popover;
+}
+
+.bslib-full-screen-enter {
+  display: none;
+  position: absolute;
+  bottom: 1px;
+  right: 3px;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.card:hover:not(.bslib-full-screen) .bslib-full-screen-enter {
+  display: block;
+}
+
+.bslib-full-screen-exit {
+  position: absolute;
+  top: 0.2rem;
+  right: 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba(var(--bs-body-color-rgb), 0.8);
+  &:hover {
+    color: var(--bs-body-color);
+  }
+  i {
+    margin-left: 0.25rem;
+  }
+}
+
+#bslib-full-screen-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(var(--bs-body-bg-rgb), 0.8);
+  z-index: $zindex-popover - 1;
+}

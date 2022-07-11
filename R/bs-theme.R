@@ -271,7 +271,7 @@ bootstrap_bundle <- function(version) {
       bs3compat = bs3compat_bundle(),
       # card() CSS (can be removed)
       card = sass_layer(
-        rules = sass_file(system_file("card/card.scss", package = "bslib"))
+        rules = sass_file(system_file("components/card.scss", package = "bslib"))
       ),
       sidebar = sass_layer(
         rules = sass_file(system_file("components/sidebar.scss", package = "bslib"))
