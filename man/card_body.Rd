@@ -15,9 +15,21 @@ as.card_item(x)
 
 is.card_item(x)
 
-card_body(..., class = NULL, padding = c("x", "y"), stretch = FALSE)
+card_body(
+  ...,
+  stretch = full_screen,
+  full_screen = FALSE,
+  class = NULL,
+  padding = c("x", "y")
+)
 
-card_body_scroll(..., class = NULL, height = NULL, padding = c("x", "y"))
+card_body_scroll(
+  ...,
+  height = NULL,
+  full_screen = FALSE,
+  class = NULL,
+  padding = c("x", "y")
+)
 
 card_header(..., class = NULL, container = htmltools::div)
 
@@ -43,14 +55,17 @@ card_plot_output(
 element. Unnamed arguments become card items, and can be any valid child of
 an \link[htmltools:builder]{htmltools tag}.}
 
+\item{stretch}{Set to \code{TRUE} if this \code{card_body} is eager to use any extra
+vertical space is available in the card.}
+
+\item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
+body. Clicking the icon expands the card to fit viewport size.}
+
 \item{class}{Additional CSS classes to include on the card div.}
 
 \item{padding}{Whether vertical and/or horizontal padding should be included.
 Use \code{NULL} for neither, \code{"x"} for horizontal only, \code{"y"} for vertical only,
 or \code{c("x", "y")} for both (the default).}
-
-\item{stretch}{Set to \code{TRUE} if this \code{card_body} is eager to use any extra
-vertical space is available in the card.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
 example, \code{height="100\%"}.}
