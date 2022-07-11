@@ -96,6 +96,8 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #' @param class Additional CSS classes to include on the card div.
 #' @param width,height Any valid [CSS unit][htmltools::validateCssUnit]; for
 #'   example, `height="100%"`.
+#' #' @param full_screen If `TRUE`, an icon will appear when hovering over the card
+#'   body. Clicking the icon expands the card to fit viewport size. When using this option, consider explictly wrapping card items in `card_body(x, stretch = TRUE)` and setting output containers to `height="100%"` (e.g., `card_body(plotlyOutput('id', height="100%"), stretch = TRUE)`).
 #' @param autowrap The Bootstrap card is designed to contain only a few specific
 #'   types of elements: `div.card-header`, `div.card-body`, etc. If `autowrap`
 #'   is `TRUE`, any unnamed arguments to `card()` are checked to see if they are
@@ -125,7 +127,7 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #'   )
 #' )
 card <- function(..., class = NULL, width = NULL, height = NULL,
-  autowrap = TRUE) {
+  full_screen = TRUE, autowrap = TRUE) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -160,7 +162,8 @@ card <- function(..., class = NULL, width = NULL, height = NULL,
       height = validateCssUnit(height)
     ),
     !!!attribs,
-    !!!children
+    !!!children,
+    if (full_screen) full_screen_toggle()
   )
 
   as_fragment(
@@ -206,14 +209,14 @@ is.card_item <- function(x) {
 #' @seealso [card()] for creating a card component.
 #' @seealso [card_grid()] for laying out multiple cards.
 #' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in cards.
-card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = FALSE) {
+card_body <- function(..., stretch = FALSE, class = NULL, padding = c("x", "y")) {
   res <- div(
     class = "card-body",
     class = if (!"x" %in% padding) "px-0",
     class = if (!"y" %in% padding) "py-0",
     class = class,
-    ...,
     style = if (!stretch) css(flex = "0"),
+    ...
   )
   as.card_item(res)
 }
@@ -222,16 +225,13 @@ card_body <- function(..., class = NULL, padding = c("x", "y"), stretch = FALSE)
 #' @param height Any valid [CSS unit][htmltools::validateCssUnit]; for
 #'   example, `height="100%"`.
 #' @export
-card_body_scroll <- function(..., class = NULL, height = NULL, padding = c("x", "y")) {
-  res <- div(
-    class = "card-body card-body-scroll",
-    class = if (!"x" %in% padding) "px-0",
-    class = if (!"y" %in% padding) "py-0",
-    class = class,
+card_body_scroll <- function(..., height = NULL, class = NULL, padding = c("x", "y")) {
+  card_body(
     style = css(flex_basis = validateCssUnit(height)),
+    class = c("card-body-scroll", class),
+    padding = padding,
     ...
   )
-  as.card_item(res)
 }
 
 #' @rdname card_body
@@ -288,6 +288,27 @@ card_plot_output <- function(outputId,
 
   as.card_item(plot_div)
 }
+
+
+
+full_screen_toggle <- function() {
+  tags$a(
+    class = "bslib-full-screen-enter",
+    style = "color: var(--bs-body-color)",
+    "data-bs-toggle" = "tooltip",
+    "data-bs-placement" = "bottom",
+    title = "Expand to fullscreen",
+    fontawesome::fa_i("expand-alt"),
+    htmlDependency(
+      name = "bslib-card-full-screen",
+      version = get_package_version("bslib"),
+      package = "bslib",
+      src = "components",
+      script = "card-full-screen.js"
+    )
+  )
+}
+
 
 
 # jcheng 2022-06-06: Removing for now; list items have more features than I'm
