@@ -15,21 +15,9 @@ as.card_item(x)
 
 is.card_item(x)
 
-card_body(
-  ...,
-  stretch = full_screen,
-  full_screen = FALSE,
-  class = NULL,
-  padding = c("x", "y")
-)
+card_body(..., stretch = FALSE, class = NULL, padding = c("x", "y"))
 
-card_body_scroll(
-  ...,
-  height = NULL,
-  full_screen = FALSE,
-  class = NULL,
-  padding = c("x", "y")
-)
+card_body_scroll(..., height = NULL, class = NULL, padding = c("x", "y"))
 
 card_header(..., class = NULL, container = htmltools::div)
 
@@ -57,9 +45,6 @@ an \link[htmltools:builder]{htmltools tag}.}
 
 \item{stretch}{Set to \code{TRUE} if this \code{card_body} is eager to use any extra
 vertical space is available in the card.}
-
-\item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size.}
 
 \item{class}{Additional CSS classes to include on the card div.}
 
