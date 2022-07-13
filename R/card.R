@@ -100,8 +100,8 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #' @param class Additional CSS classes to include on the card div.
 #' @param width,height Any valid [CSS unit][htmltools::validateCssUnit]; for
 #'   example, `height="100%"`.
-#' #' @param full_screen If `TRUE`, an icon will appear when hovering over the card
-#'   body. Clicking the icon expands the card to fit viewport size. When using this option, consider explictly wrapping card items in `card_body(x, stretch = TRUE)` and setting output containers to `height="100%"` (e.g., `card_body(plotlyOutput('id', height="100%"), stretch = TRUE)`).
+#' @param full_screen If `TRUE`, an icon will appear when hovering over the card
+#'   body. Clicking the icon expands the card to fit viewport size. When using this option, consider explicitly wrapping card items in `card_body(x, stretch = TRUE)` and setting output containers to `height="100%"` (e.g., `card_body(plotlyOutput('id', height="100%"), stretch = TRUE)`).
 #' @param autowrap The Bootstrap card is designed to contain only a few specific
 #'   types of elements: `div.card-header`, `div.card-body`, etc. If `autowrap`
 #'   is `TRUE`, any unnamed arguments to `card()` are checked to see if they are
@@ -131,7 +131,7 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #'   )
 #' )
 card <- function(..., class = NULL, width = NULL, height = NULL,
-  full_screen = TRUE, autowrap = TRUE) {
+  full_screen = FALSE, autowrap = TRUE) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -214,7 +214,11 @@ is.card_item <- function(x) {
 #' @seealso [card_grid()] for laying out multiple cards.
 #' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in cards.
 card_body <- function(..., stretch = FALSE, class = NULL, padding = c("x", "y")) {
-  res <- div(
+  card_body_(..., stretch = stretch, class = class, padding = padding)
+}
+
+card_body_ <- function(..., stretch = FALSE, class = NULL, padding = c("x", "y"), container = htmltools::div) {
+  res <- container(
     class = "card-body",
     class = if (!"x" %in% padding) "px-0",
     class = if (!"y" %in% padding) "py-0",
@@ -244,6 +248,16 @@ card_body_scroll <- function(..., height = NULL, class = NULL, padding = c("x", 
 card_header <- function(..., class = NULL, container = htmltools::div) {
   as.card_item(
     container(class = "card-header", class = class, ...)
+  )
+}
+
+#' @rdname card_body
+#' @param container a function to generate an HTML element.
+#' @export
+card_title <- function(..., class = NULL, padding = c("x", "y"), container = htmltools::h5) {
+  card_body_(
+    ..., stretch = FALSE, class = c("card-title", class),
+    container = container
   )
 }
 
@@ -294,14 +308,38 @@ card_plot_output <- function(outputId,
 }
 
 
+#' @rdname card_body
+#' @param width a number between 0 and 1 defining proportion of width to dedicate to `x`
+#' @param height any valid CSS unit defining the height of `x`.
+#' @param width_full a number between 0 and 1 defining proportion of width to dedicate to `x` when `full_screen = TRUE`.
+#' @param height_full any valid CSS unit defining the height of `x` when `full_screen = TRUE`.
+#' @export
+card_body_showcase <- function(x, ..., height = NULL, width = 1/5, width_full = 4/5, height_full = "100%") {
+  if (!is.numeric(width) || width > 1 || width < 0) {
+    stop("width must be a number between 0 and 1")
+  }
+
+  card_body(
+    class = "bslib-card-showcase",
+    style = css(
+      "--showcase-width-1" = paste0(100 * width, "%"),
+      "--showcase-width-2" = paste0(100 * (1 - width), "%"),
+      "--showcase-full-width-1" = paste0(100 * width_full, "%"),
+      "--showcase-full-width-2" = paste0(100 * (1 - width_full), "%"),
+      "--showcase-height" = validateCssUnit(height),
+      "--showcase-full-height" = validateCssUnit(height_full),
+    ),
+    x, tags$ul(!!!lapply(rlang::list2(...), tags$li))
+  )
+}
+
 
 full_screen_toggle <- function() {
   tags$a(
     class = "bslib-full-screen-enter",
-    style = "color: var(--bs-body-color)",
     "data-bs-toggle" = "tooltip",
     "data-bs-placement" = "bottom",
-    title = "Expand to fullscreen",
+    title = "Expand",
     fontawesome::fa_i("expand-alt"),
     htmlDependency(
       name = "bslib-card-full-screen",

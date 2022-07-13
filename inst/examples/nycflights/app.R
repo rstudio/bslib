@@ -25,7 +25,7 @@ flights <- flights %>%
   )
 
 side <- accordion(
-  selected = c("Origin", "Destination", "Carrier"),
+  selected = I("all"),
   # TODO GREG: make this "just work" inside of layout_sidebar()
   class = "accordion-flush",
   accordion_item(
@@ -45,34 +45,50 @@ side <- accordion(
     input_histoslider("precip", "Precipitation", flights$precip, height = 125),
     input_histoslider("wind_speed", "Wind speed", flights$wind_speed, height = 125),
     input_histoslider("wind_gust", "Wind gust", flights$wind_gust, height = 125)
-  ),
-  accordion_item(
-    "Plane info", icon = icon("plane"),
-    "Maybe not that interesting"
   )
 )
 
 
 arr_delay_card <- card(
   card_header("Arrival delay (in minutes)"),
-  card_body(padding = 0, plotlyOutput("arr_delay"))
+  card_body(
+    padding = 0,
+    stretch = TRUE,
+    plotlyOutput("arr_delay", height = "100%")
+  )
 )
 
 dep_delay_card <- card(
   card_header("Departure delay (in minutes)"),
-  card_body(padding = 0, plotlyOutput("dep_delay"))
+  card_body(
+    padding = 0,
+    stretch = TRUE,
+    plotlyOutput("dep_delay", height = "100%")
+  )
 )
 
 flights_card <- card(
   card_header("Flight paths"),
-  card_body(padding = 0, plotlyOutput("flight_paths")),
+  card_body(
+    padding = 0,
+    stretch = TRUE,
+    plotlyOutput("flight_paths", height = "100%")
+  ),
   card_footer("Marker areas are proportional to mean arrival delay")
 )
 
 main <- tagList(
   fluidRow(column(6, arr_delay_card), column(6, dep_delay_card)),
+  br(),
   fluidRow(column(12, flights_card))
 )
+
+#main <- card_grid(
+#  card_width = "300px",
+#  style = "height:calc(100vh - 100px)",
+#  arr_delay_card, dep_delay_card,
+#  flights_card
+#)
 
 
 shinyApp(

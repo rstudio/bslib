@@ -111,9 +111,7 @@ elements into a menu when the width of the browser is less than 940 pixels
 (useful for viewing on smaller touchscreen device)}
 
 \item{width, height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
-example, \code{height="100\%"}.
-#' @param full_screen If \code{TRUE}, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size. When using this option, consider explictly wrapping card items in \code{card_body(x, stretch = TRUE)} and setting output containers to \code{height="100\%"} (e.g., \code{card_body(plotlyOutput('id', height="100\%"), stretch = TRUE)}).}
+example, \code{height="100\%"}.}
 
 \item{padding}{Whether vertical and/or horizontal padding should be included
 around contents. Use \code{NULL} for neither, \code{"x"} for horizontal only,

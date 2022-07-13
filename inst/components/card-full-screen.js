@@ -1,8 +1,16 @@
 // Enable tooltips since the .bslib-full-screen-enter icon wants them
-$(function() { new bootstrap.Tooltip('[data-bs-toggle="tooltip"]') });
+$(function() {
+  var tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  );
+  var tooltipList = tooltipTriggerList.map(function(x) {
+    return new bootstrap.Tooltip(x);
+  });
+
+});
 
 $(document).on('click', '.bslib-full-screen-enter', function(e) {
-  const card = $(e.target).parents('.card')[0];
+  const card = $(e.target).parents('.card').first()[0];
   enterFullScreen(card);
 });
 
@@ -16,7 +24,6 @@ document.addEventListener('keyup', function(e) {
 
 
 function enterFullScreen(card) {
-
   // If bindings are in a "stretchy" container, when they exit full screen,
   // they won't be smart enough to shrink back to their original height
   // (because the stretchy container has now stretched to their "full" size).
@@ -30,7 +37,7 @@ function enterFullScreen(card) {
     if (binding && binding.binding && binding.binding.resize) {
       const resizeFunc = binding.binding.resize;
       binding.binding.resize = function(el, width, height) {
-        if (!$(el).parents(".card").hasClass("bslib-full-screen")) {
+        if (!$(el).parents(".card").first().hasClass("bslib-full-screen")) {
           var div = document.createElement("div");
           // TODO: should probably copy over classes, too
           el.style.forEach(function(x) {
@@ -46,28 +53,21 @@ function enterFullScreen(card) {
           // Shouldn't the image binding's resize be doing this?
           Shiny.setInputValue(".clientdata_output_" + el.id + "_width", width);
           Shiny.setInputValue(".clientdata_output_" + el.id + "_height", height);
+        } else {
+          Shiny.setInputValue(".clientdata_output_" + el.id + "_width", width);
+          Shiny.setInputValue(".clientdata_output_" + el.id + "_height", height);
         }
         resizeFunc(el, width, height);
       };
     }
   });
 
-  // The next time the card is resized (i.e., when the
-  // .bslib-full-screen class is added), trigger window resize
-  // (so htmlwidgets/plots get the new size)
-  // TODO: this could probably go away if Shiny used ResizeObserver()
-  // const ro = new ResizeObserver(function(entries, observer) {
-  //   observer.disconnect();
-  //   $(window).trigger('resize');
-  // });
-  // ro.observe(card);
-
   card.classList.add('bslib-full-screen');
 
   // Add an overlay behind the card
   // (assumes the fontawesome dependency is already available)
   const overlay = $("<div id='bslib-full-screen-overlay'><a class='bslib-full-screen-exit'>Close<i class='fa fa-window-close'></i></a></div>");
-  $('body').first().append(overlay);
+  card.insertAdjacentElement("beforebegin", overlay[0]);
 }
 
 function exitFullScreen() {

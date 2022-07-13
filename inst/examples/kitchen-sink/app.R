@@ -34,7 +34,7 @@ main <- card_grid(
     title = "Card with Tabs for Parameters",
     height = "500px",
     full_screen = TRUE,
-    nav("Table", dataTableOutput("dt", height = "100%")),
+    nav("Table", DT::dataTableOutput("dt", height = "100%")),
     nav_menu(
       "Plots",
       nav("ggplot2", plotOutput("ggplot2", height = "100%")),
@@ -46,7 +46,7 @@ main <- card_grid(
     card_header("Some other table"),
     card_body(
       stretch = TRUE,
-      dataTableOutput("dt2", height = "100%")
+      DT::dataTableOutput("dt2", height = "100%")
     )
   )
 )
@@ -87,14 +87,15 @@ server <- function(input, output) {
 
   output$plotly <- renderPlotly({
     info <- getCurrentOutputInfo()
-    plotly::ggplotly(p, height = info$height(), width = info$width())
+    #plotly::ggplotly(p, height = info$height(), width = info$width())
+    plot_ly(x = 1:10, y = 1:10)
   })
 
-  output$dt <- renderDataTable({
+  output$dt <- DT::renderDataTable({
     datatable(mtcars, fillContainer = TRUE)
   })
 
-  output$dt2 <- renderDataTable({
+  output$dt2 <- DT::renderDataTable({
     datatable(ggplot2::economics, fillContainer = TRUE)
   })
 

@@ -9,7 +9,7 @@ card(
   class = NULL,
   width = NULL,
   height = NULL,
-  full_screen = TRUE,
+  full_screen = FALSE,
   autowrap = TRUE
 )
 }
@@ -21,9 +21,10 @@ an \link[htmltools:builder]{htmltools tag}.}
 \item{class}{Additional CSS classes to include on the card div.}
 
 \item{width, height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
-example, \code{height="100\%"}.
-#' @param full_screen If \code{TRUE}, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size. When using this option, consider explictly wrapping card items in \code{card_body(x, stretch = TRUE)} and setting output containers to \code{height="100\%"} (e.g., \code{card_body(plotlyOutput('id', height="100\%"), stretch = TRUE)}).}
+example, \code{height="100\%"}.}
+
+\item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
+body. Clicking the icon expands the card to fit viewport size. When using this option, consider explicitly wrapping card items in \code{card_body(x, stretch = TRUE)} and setting output containers to \code{height="100\%"} (e.g., \code{card_body(plotlyOutput('id', height="100\%"), stretch = TRUE)}).}
 
 \item{autowrap}{The Bootstrap card is designed to contain only a few specific
 types of elements: \code{div.card-header}, \code{div.card-body}, etc. If \code{autowrap}

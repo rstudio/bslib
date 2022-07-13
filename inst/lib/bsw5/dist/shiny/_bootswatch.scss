@@ -137,11 +137,7 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
   }
 }
 
-.icon-container {
-  top: 0;
-  right: 0;
-  padding: $spacer * 0.6;
-}
+
 
 .card .icon-lg {
   width: 60px;
@@ -154,31 +150,7 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
   }
 }
 
-.card .shiny-value-box-left-area {
-  border-right: 1px solid rgba($white, 0.2);
-}
 
-.shiny-value-box-dark {
-  color: $white;
-
-  & svg {
-    color: $white;
-    fill: currentColor;
-  }
-}
-
-
-.shiny-value-box-light {
-  background-color: $component-active-bg;
-  --bs-bg-opacity: 0.025;
-  border: 1px solid tint-color($component-active-bg, 0.3);
-  color: $body-color;
-
-  & svg {
-    color: $component-active-bg;
-    fill: currentColor;
-  }
-}
 
 /* BOOTSTRAP SIDEBAR */
 

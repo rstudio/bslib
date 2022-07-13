@@ -6,9 +6,11 @@
 \alias{card_body}
 \alias{card_body_scroll}
 \alias{card_header}
+\alias{card_title}
 \alias{card_footer}
 \alias{card_spacer}
 \alias{card_plot_output}
+\alias{card_body_showcase}
 \title{Card item components}
 \usage{
 as.card_item(x)
@@ -20,6 +22,8 @@ card_body(..., stretch = FALSE, class = NULL, padding = c("x", "y"))
 card_body_scroll(..., height = NULL, class = NULL, padding = c("x", "y"))
 
 card_header(..., class = NULL, container = htmltools::div)
+
+card_title(..., class = NULL, padding = c("x", "y"), container = htmltools::h5)
 
 card_footer(..., class = NULL)
 
@@ -34,6 +38,15 @@ card_plot_output(
   height = NULL,
   stretch = TRUE,
   ...
+)
+
+card_body_showcase(
+  x,
+  ...,
+  height = NULL,
+  width = 1/5,
+  width_full = 4/5,
+  height_full = "100\%"
 )
 }
 \arguments{
@@ -52,10 +65,9 @@ vertical space is available in the card.}
 Use \code{NULL} for neither, \code{"x"} for horizontal only, \code{"y"} for vertical only,
 or \code{c("x", "y")} for both (the default).}
 
-\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
-example, \code{height="100\%"}.}
+\item{height}{any valid CSS unit defining the height of \code{x}.}
 
-\item{container}{a function to generate an HTML element (used for the \code{.card-header} element)}
+\item{container}{a function to generate an HTML element.}
 
 \item{outputId}{output variable to read the plot/image from.}
 
@@ -94,6 +106,12 @@ behavior, use \code{\link[shiny:brushOpts]{brushOpts()}}. Multiple
 \code{imageOutput}/\code{plotOutput} calls may share the same \code{id}
 value; brushing one image or plot will cause any other brushes with the
 same \code{id} to disappear.}
+
+\item{width}{a number between 0 and 1 defining proportion of width to dedicate to \code{x}}
+
+\item{width_full}{a number between 0 and 1 defining proportion of width to dedicate to \code{x} when \code{full_screen = TRUE}.}
+
+\item{height_full}{any valid CSS unit defining the height of \code{x} when \code{full_screen = TRUE}.}
 }
 \description{
 This topic describes various components that are intended to go

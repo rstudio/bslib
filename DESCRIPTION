@@ -54,6 +54,7 @@ Collate:
     'bs-theme-preview.R'
     'bs-theme-update.R'
     'bs-theme.R'
+    'card-summary.R'
     'card.R'
     'deprecated.R'
     'files.R'

@@ -78,10 +78,19 @@
   right: 3px;
   font-size: 1.25rem;
   cursor: pointer;
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
 }
 
 .card:hover:not(.bslib-full-screen) .bslib-full-screen-enter {
   display: block;
+}
+
+// card_summary() allows for a full-screen card to be embedded within a parent card
+.card:hover .bslib-full-screen .bslib-full-screen-enter {
+  display: none;
 }
 
 .bslib-full-screen-exit {

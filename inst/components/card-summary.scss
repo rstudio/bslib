@@ -1,0 +1,72 @@
+.bslib-card-summary-container {
+  flex-direction: row;
+
+  &.icon-top-right .card-summary-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    padding: $spacer * 0.6;
+    .fa {
+      font-size: 2rem;
+    }
+  }
+
+  &.icon-left-center .card-summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    padding: 1rem;
+    // This CSS var was introduced 5.2
+    --bs-border-opacity: 0.3;
+    // Temporary hack until we upgrade
+    border-color: rgba($border-color, var(--bs-border-opacity)) !important;
+  }
+}
+
+.bslib-card-summary {
+  justify-content: center;
+  width: 100%;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-light;
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  padding: 1rem;
+  * {
+    padding: 0 !important;
+  }
+}
+
+.bslib-card-showcase {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  // Only two immediate children in a showcase (but both should be flex)
+  > * {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // The !important is need to override inline styles on output containers
+    height: var(--showcase-height, auto) !important;
+    width: var(--showcase-width-1, 20%) !important;
+    &:last-child {
+      height: fit-content !important;
+      width: var(--showcase-width-2, 80%) !important;
+    }
+  }
+}
+
+.bslib-full-screen .bslib-card-showcase {
+  flex-grow: 1 !important;
+  > * {
+    height: var(--showcase-full-height, 100%) !important;
+    width: var(--showcase-full-width-1, 80%) !important;
+    &:last-child {
+      height: fit-content !important;
+      width: var(--showcase-full-width-2, 20%) !important;
+    }
+  }
+}
