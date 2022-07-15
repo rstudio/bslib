@@ -37,19 +37,29 @@ function enterFullScreen(card) {
     if (binding && binding.binding && binding.binding.resize) {
       const resizeFunc = binding.binding.resize;
       binding.binding.resize = function(el, width, height) {
-        if (!$(el).parents(".card").last().hasClass("bslib-full-screen")) {
+        const el_card = $(el).parents(".card").last();
+        if (!el_card.hasClass("bslib-full-screen")) {
           var div = document.createElement("div");
-          // TODO: should probably copy over classes, too
           el.style.forEach(function(x) {
             div.style[x] = el.style[x];
           });
-          const display = el.style.display;
-          el.style.display = "none";
+          el.classList.forEach(function(x) {
+            div.classList.add(x);
+          });
+          const el_bindings = el_card.find('.shiny-bound-output');
+          const displays = el_bindings.map(function(x) {
+            return $(this).css("display");
+          });
+          el_bindings.each(function(i) {
+            $(this).css("display", "none");
+          });
           el.insertAdjacentElement("beforebegin", div);
           width = div.offsetWidth;
           height = div.offsetHeight;
           div.remove();
-          el.style.display = display;
+          el_bindings.each(function(i) {
+            $(this).css("display", displays[i]);
+          });
           // Shouldn't the image binding's resize be doing this?
           Shiny.setInputValue(".clientdata_output_" + el.id + "_width", width);
           Shiny.setInputValue(".clientdata_output_" + el.id + "_height", height);

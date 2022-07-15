@@ -101,4 +101,6 @@ Config/Needs/deploy:
     rprojroot,
     rsconnect
 Remotes:
-    rstudio/bsicons
+    rstudio/bsicons,
+    ramnathv/htmlwidgets,
+    rstudio/shiny@resize-observer

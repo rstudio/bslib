@@ -141,7 +141,7 @@ server <- function(input, output) {
   output$ggplot22 <- renderPlot(p)
 
   output$plotly <- renderPlotly({
-    info <- getCurrentOutputInfo()
+    #info <- getCurrentOutputInfo()
     #plotly::ggplotly(p, height = info$height(), width = info$width())
     plot_ly(x = 1:10, y = 1:10)
   })
@@ -152,7 +152,12 @@ server <- function(input, output) {
   })
 
   output$dt2 <- DT::renderDataTable({
-    datatable(ggplot2::economics, fillContainer = TRUE, options = list(dom = 't'))
+    info <- getCurrentOutputInfo()
+    large <- isTRUE(info$height() > 600)
+    datatable(
+      ggplot2::economics, fillContainer = TRUE,
+      options = if (large) list() else list(dom = "t")
+    )
   })
 
   output$dt3 <- renderDataTable({
