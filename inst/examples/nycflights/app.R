@@ -55,7 +55,8 @@ arr_delay_card <- card(
     padding = 0,
     stretch = TRUE,
     plotlyOutput("arr_delay", height = "100%")
-  )
+  ),
+  full_screen = TRUE
 )
 
 dep_delay_card <- card(
@@ -64,7 +65,8 @@ dep_delay_card <- card(
     padding = 0,
     stretch = TRUE,
     plotlyOutput("dep_delay", height = "100%")
-  )
+  ),
+  full_screen = TRUE
 )
 
 flights_card <- card(
@@ -74,7 +76,8 @@ flights_card <- card(
     stretch = TRUE,
     plotlyOutput("flight_paths", height = "100%")
   ),
-  card_footer("Marker areas are proportional to mean arrival delay")
+  card_footer("Marker areas are proportional to mean arrival delay"),
+  full_screen = TRUE
 )
 
 main <- tagList(

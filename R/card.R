@@ -308,32 +308,6 @@ card_plot_output <- function(outputId,
 }
 
 
-#' @rdname card_body
-#' @param width a number between 0 and 1 defining proportion of width to dedicate to `x`
-#' @param height any valid CSS unit defining the height of `x`.
-#' @param width_full a number between 0 and 1 defining proportion of width to dedicate to `x` when `full_screen = TRUE`.
-#' @param height_full any valid CSS unit defining the height of `x` when `full_screen = TRUE`.
-#' @export
-card_body_showcase <- function(x, ..., height = NULL, width = 1/5, width_full = 4/5, height_full = "100%") {
-  if (!is.numeric(width) || width > 1 || width < 0) {
-    stop("width must be a number between 0 and 1")
-  }
-
-  card_body(
-    class = "bslib-card-showcase",
-    style = css(
-      "--showcase-width-1" = paste0(100 * width, "%"),
-      "--showcase-width-2" = paste0(100 * (1 - width), "%"),
-      "--showcase-full-width-1" = paste0(100 * width_full, "%"),
-      "--showcase-full-width-2" = paste0(100 * (1 - width_full), "%"),
-      "--showcase-height" = validateCssUnit(height),
-      "--showcase-full-height" = validateCssUnit(height_full),
-    ),
-    x, tags$ul(!!!lapply(rlang::list2(...), tags$li))
-  )
-}
-
-
 full_screen_toggle <- function() {
   tags$a(
     class = "bslib-full-screen-enter",
@@ -350,6 +324,34 @@ full_screen_toggle <- function() {
     )
   )
 }
+
+
+# cpsievert 2022-06-06: this showcase idea is probably still worth considering (for general use inside a card), but we're punting for now since value_box(showcase_layout="left-center") is effectively the same/similar thing (you could probably put it inside a card()?)
+
+# #' @rdname card_body
+# #' @param width a number between 0 and 1 defining # proportion of width to dedicate to `x`
+# #' @param height any valid CSS unit defining the height # of `x`.
+# #' @param width_full a number between 0 and 1 defining # proportion of width to dedicate to `x` when `full_screen # = TRUE`.
+# #' @param height_full any valid CSS unit defining the # height of `x` when `full_screen = TRUE`.
+# #' @export
+# card_body_showcase <- function(x, ..., height = NULL, # width = 1/5, width_full = 4/5, height_full = "100%") {
+#   if (!is.numeric(width) || width > 1 || width < 0) {
+#     stop("width must be a number between 0 and 1")
+#   }
+#
+#   card_body(
+#     class = "bslib-card-showcase",
+#     style = css(
+#       "--showcase-width-1" = paste0(100 * width, "%"),
+#       "--showcase-width-2" = paste0(100 * (1 - width), # "%"),
+#       "--showcase-full-width-1" = paste0(100 * width_full# , "%"),
+#       "--showcase-full-width-2" = paste0(100 * (1 - # width_full), "%"),
+#       "--showcase-height" = validateCssUnit(height),
+#       "--showcase-full-height" = validateCssUnit# (height_full),
+#     ),
+#     x, tags$ul(!!!lapply(rlang::list2(...), tags$li))
+#   )
+# }
 
 
 

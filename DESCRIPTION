@@ -37,7 +37,8 @@ Suggests:
     rappdirs,
     curl,
     magrittr,
-    fontawesome
+    fontawesome,
+    bsicon
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.2.0
@@ -54,7 +55,6 @@ Collate:
     'bs-theme-preview.R'
     'bs-theme-update.R'
     'bs-theme.R'
-    'card-summary.R'
     'card.R'
     'deprecated.R'
     'files.R'
@@ -73,6 +73,7 @@ Collate:
     'staticimports.R'
     'utils-shiny.R'
     'utils-tags.R'
+    'value-box.R'
     'version-default.R'
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
@@ -99,3 +100,5 @@ Config/Needs/deploy:
     reactable,
     rprojroot,
     rsconnect
+Remotes:
+    rstudio/bsicons

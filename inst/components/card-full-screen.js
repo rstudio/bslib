@@ -10,7 +10,7 @@ $(function() {
 });
 
 $(document).on('click', '.bslib-full-screen-enter', function(e) {
-  const card = $(e.target).parents('.card').first()[0];
+  const card = $(e.target).parents('.card').last()[0];
   enterFullScreen(card);
 });
 
@@ -37,7 +37,7 @@ function enterFullScreen(card) {
     if (binding && binding.binding && binding.binding.resize) {
       const resizeFunc = binding.binding.resize;
       binding.binding.resize = function(el, width, height) {
-        if (!$(el).parents(".card").first().hasClass("bslib-full-screen")) {
+        if (!$(el).parents(".card").last().hasClass("bslib-full-screen")) {
           var div = document.createElement("div");
           // TODO: should probably copy over classes, too
           el.style.forEach(function(x) {
