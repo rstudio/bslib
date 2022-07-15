@@ -29,25 +29,66 @@ sidebar <- accordion(
 
 main <- card_grid(
   card_width = 1/2,
-  height = "500px",
+  # height = "500px",
+  heights_equal = "row",
   navs_tab_card(
     title = "Card with Tabs for Parameters",
     height = "500px",
     full_screen = TRUE,
-    nav("Table", DT::dataTableOutput("dt", height = "100%")),
+    stretch = TRUE,
+    # placement = "below",
+    nav(
+      "Table",
+      fluidRow(
+        style = "height:100%",
+        column(6, plotOutput("bars", height = "100%")),
+        column(6, DT::dataTableOutput("dt2", height = "100%"))
+      )
+    ),
+    #nav("plotly", plotlyOutput("plotly", height = "100%")),
+
     nav_menu(
       "Plots",
       nav("ggplot2", plotOutput("ggplot2", height = "100%")),
-      nav("plotly", plotlyOutput("plotly", height = "100%")),
       nav("base", plotOutput("base", height = "100%")),
     )
   ),
+  navs_pill_card(
+    title = "Card with Tabs for Parameters",
+    height = "500px",
+    #full_screen = TRUE,
+    stretch = TRUE,
+    # placement = "below",
+    nav(
+      "Table",
+      fluidRow(
+        style = "height:100%",
+        column(6, plotOutput("bars2", height = "100%")),
+        column(6, DT::dataTableOutput("dt3", height = "100%"))
+      )
+    ),
+    #nav("plotly", plotlyOutput("plotly", height = "100%")),
+    nav_menu(
+      "Plots",
+      nav("ggplot2", plotOutput("ggplot22", height = "100%")),
+
+      nav("base", plotOutput("base2", height = "100%")),
+    )
+  ),
+
   card(
     card_header("Some other table"),
+    p("dfsljndflgndflgnfdl  algadfgh lfkdg lk;f aglhfd glkh fdglh fgdlkh fdgs;klh gfsd;hkl g;lkh dsfg;hkl glf;dksghl dfh gladfh l;kghal;dfh ;lkfdha ghldfkaghl;kh"),
+    #card_plot_output("bars"),
     card_body(
       stretch = TRUE,
-      DT::dataTableOutput("dt2", height = "100%")
-    )
+      DT::dataTableOutput("dt", height = "100%")
+      #card_body(
+      #  stretch = TRUE,
+      #  dataTableOutput("dt2", height = "100%")
+      #)
+
+    ),
   )
 )
 
@@ -82,8 +123,22 @@ server <- function(input, output) {
   output$base <- renderPlot({
     hist(rnorm(100))
   })
+  output$base2 <- renderPlot({
+    hist(rnorm(100))
+  })
+
+  output$bars <- renderPlot({
+    hist(rnorm(100))
+  })
+
+  output$bars2 <- renderPlot({
+    hist(rnorm(100))
+  })
+
 
   output$ggplot2 <- renderPlot(p)
+
+  output$ggplot22 <- renderPlot(p)
 
   output$plotly <- renderPlotly({
     info <- getCurrentOutputInfo()
@@ -92,11 +147,17 @@ server <- function(input, output) {
   })
 
   output$dt <- DT::renderDataTable({
-    datatable(mtcars, fillContainer = TRUE)
+    datatable(mtcars, fillContainer = TRUE, options = list(dom = 't'))
+
   })
 
   output$dt2 <- DT::renderDataTable({
-    datatable(ggplot2::economics, fillContainer = TRUE)
+    datatable(ggplot2::economics, fillContainer = TRUE, options = list(dom = 't'))
+  })
+
+  output$dt3 <- renderDataTable({
+    datatable(ggplot2::economics, fillContainer = TRUE, options = list(dom = 't'))
+
   })
 
 }
