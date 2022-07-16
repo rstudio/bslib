@@ -100,30 +100,30 @@ The return value is rendered as an static HTML page when printed interactively a
 </ul></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">page</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">page_fluid</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">page_fixed</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">page_fill</span><span class="op">(</span><span class="va">...</span>, padding <span class="op">=</span> <span class="fl">0</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">page_navbar</span><span class="op">(</span>
-  <span class="va">...</span>,
-  title <span class="op">=</span> <span class="cn">NULL</span>,
-  id <span class="op">=</span> <span class="cn">NULL</span>,
-  selected <span class="op">=</span> <span class="cn">NULL</span>,
-  position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"static-top"</span>, <span class="st">"fixed-top"</span>, <span class="st">"fixed-bottom"</span><span class="op">)</span>,
-  header <span class="op">=</span> <span class="cn">NULL</span>,
-  footer <span class="op">=</span> <span class="cn">NULL</span>,
-  bg <span class="op">=</span> <span class="cn">NULL</span>,
-  inverse <span class="op">=</span> <span class="st">"auto"</span>,
-  collapsible <span class="op">=</span> <span class="cn">TRUE</span>,
-  fluid <span class="op">=</span> <span class="cn">TRUE</span>,
-  theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>,
-  window_title <span class="op">=</span> <span class="cn">NA</span>,
-  lang <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">page</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">page_fluid</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">page_fixed</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">page_fill</span><span class="op">(</span><span class="va">...</span>, padding <span class="op">=</span> <span class="fl">0</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">page_navbar</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  selected <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"static-top"</span>, <span class="st">"fixed-top"</span>, <span class="st">"fixed-bottom"</span><span class="op">)</span>,</span>
+<span>  header <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  footer <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  inverse <span class="op">=</span> <span class="st">"auto"</span>,</span>
+<span>  collapsible <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fluid <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  window_title <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  lang <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -235,7 +235,7 @@ host URL of the page is displayed by default).</p></dd>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

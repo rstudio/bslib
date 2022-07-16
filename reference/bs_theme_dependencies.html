@@ -105,13 +105,13 @@ component, see <code><a href="bs_dependency.html">bs_dependency()</a></code>.</p
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_theme_dependencies</span><span class="op">(</span>
-  <span class="va">theme</span>,
-  sass_options <span class="op">=</span> <span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/sass/reference/sass_options.html" class="external-link">sass_options_get</a></span><span class="op">(</span>output_style <span class="op">=</span> <span class="st">"compressed"</span><span class="op">)</span>,
-  cache <span class="op">=</span> <span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/sass/reference/sass_cache_get.html" class="external-link">sass_cache_get</a></span><span class="op">(</span><span class="op">)</span>,
-  jquery <span class="op">=</span> <span class="fu">jquerylib</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jquerylib/man/jquery_core.html" class="external-link">jquery_core</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>,
-  precompiled <span class="op">=</span> <span class="fu">get_precompiled_option</span><span class="op">(</span><span class="st">"bslib.precompiled"</span>, default <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bs_theme_dependencies</span><span class="op">(</span></span>
+<span>  <span class="va">theme</span>,</span>
+<span>  sass_options <span class="op">=</span> <span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/sass/reference/sass_options.html" class="external-link">sass_options_get</a></span><span class="op">(</span>output_style <span class="op">=</span> <span class="st">"compressed"</span><span class="op">)</span>,</span>
+<span>  cache <span class="op">=</span> <span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/sass/reference/sass_cache_get.html" class="external-link">sass_cache_get</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  jquery <span class="op">=</span> <span class="fu">jquerylib</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jquerylib/man/jquery_core.html" class="external-link">jquery_core</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span>  precompiled <span class="op">=</span> <span class="fu">get_precompiled_option</span><span class="op">(</span><span class="st">"bslib.precompiled"</span>, default <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -168,25 +168,25 @@ changes are made to bslib's source files.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># Function to preview the styling a (primary) Bootstrap button</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">button</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span>class <span class="op">=</span> <span class="st">"btn btn-primary"</span>, href <span class="op">=</span> <span class="st">"#"</span>, role <span class="op">=</span> <span class="st">"button"</span>, <span class="st">"Hello"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">preview_button</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/browsable.html" class="external-link">browsable</a></span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">body</span><span class="op">(</span><span class="fu">bs_theme_dependencies</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span>, <span class="va">button</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Latest Bootstrap</span></span>
-<span class="r-in"><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Bootstrap 3</span></span>
-<span class="r-in"><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Bootswatch 4 minty theme</span></span>
-<span class="r-in"><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">4</span>, bootswatch <span class="op">=</span> <span class="st">"minty"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Bootswatch 4 sketchy theme</span></span>
-<span class="r-in"><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">4</span>, bootswatch <span class="op">=</span> <span class="st">"sketchy"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Function to preview the styling a (primary) Bootstrap button</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">button</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span>class <span class="op">=</span> <span class="st">"btn btn-primary"</span>, href <span class="op">=</span> <span class="st">"#"</span>, role <span class="op">=</span> <span class="st">"button"</span>, <span class="st">"Hello"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">preview_button</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/browsable.html" class="external-link">browsable</a></span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">body</span><span class="op">(</span><span class="fu">bs_theme_dependencies</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span>, <span class="va">button</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Latest Bootstrap</span></span></span>
+<span class="r-in"><span><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Bootstrap 3</span></span></span>
+<span class="r-in"><span><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Bootswatch 4 minty theme</span></span></span>
+<span class="r-in"><span><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">4</span>, bootswatch <span class="op">=</span> <span class="st">"minty"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Bootswatch 4 sketchy theme</span></span></span>
+<span class="r-in"><span><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">4</span>, bootswatch <span class="op">=</span> <span class="st">"sketchy"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -201,7 +201,7 @@ changes are made to bslib's source files.</p>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

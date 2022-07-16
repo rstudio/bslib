@@ -99,54 +99,54 @@ argument defaults to <code>bs_global_get()</code>, which get the current global 
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_global_theme</span><span class="op">(</span>
-  version <span class="op">=</span> <span class="fu"><a href="versions.html">version_default</a></span><span class="op">(</span><span class="op">)</span>,
-  bootswatch <span class="op">=</span> <span class="cn">NULL</span>,
-  bg <span class="op">=</span> <span class="cn">NULL</span>,
-  fg <span class="op">=</span> <span class="cn">NULL</span>,
-  primary <span class="op">=</span> <span class="cn">NULL</span>,
-  secondary <span class="op">=</span> <span class="cn">NULL</span>,
-  success <span class="op">=</span> <span class="cn">NULL</span>,
-  info <span class="op">=</span> <span class="cn">NULL</span>,
-  warning <span class="op">=</span> <span class="cn">NULL</span>,
-  danger <span class="op">=</span> <span class="cn">NULL</span>,
-  base_font <span class="op">=</span> <span class="cn">NULL</span>,
-  code_font <span class="op">=</span> <span class="cn">NULL</span>,
-  heading_font <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">bs_global_set</span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">bs_global_get</span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu">bs_global_clear</span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu">bs_global_add_variables</span><span class="op">(</span>
-  <span class="va">...</span>,
-  .where <span class="op">=</span> <span class="st">"defaults"</span>,
-  .default_flag <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">.where</span>, <span class="st">"defaults"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">bs_global_add_rules</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
-
-<span class="fu">bs_global_bundle</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
-
-<span class="fu">bs_global_theme_update</span><span class="op">(</span>
-  <span class="va">...</span>,
-  bootswatch <span class="op">=</span> <span class="cn">NULL</span>,
-  bg <span class="op">=</span> <span class="cn">NULL</span>,
-  fg <span class="op">=</span> <span class="cn">NULL</span>,
-  primary <span class="op">=</span> <span class="cn">NULL</span>,
-  secondary <span class="op">=</span> <span class="cn">NULL</span>,
-  success <span class="op">=</span> <span class="cn">NULL</span>,
-  info <span class="op">=</span> <span class="cn">NULL</span>,
-  warning <span class="op">=</span> <span class="cn">NULL</span>,
-  danger <span class="op">=</span> <span class="cn">NULL</span>,
-  base_font <span class="op">=</span> <span class="cn">NULL</span>,
-  code_font <span class="op">=</span> <span class="cn">NULL</span>,
-  heading_font <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bs_global_theme</span><span class="op">(</span></span>
+<span>  version <span class="op">=</span> <span class="fu"><a href="versions.html">version_default</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  bootswatch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  primary <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  secondary <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  success <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  warning <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  danger <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  base_font <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  code_font <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  heading_font <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_global_set</span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_global_get</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_global_clear</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_global_add_variables</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  .where <span class="op">=</span> <span class="st">"defaults"</span>,</span>
+<span>  .default_flag <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">.where</span>, <span class="st">"defaults"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_global_add_rules</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_global_bundle</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_global_theme_update</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  bootswatch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  primary <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  secondary <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  success <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  warning <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  danger <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  base_font <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  code_font <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  heading_font <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -248,19 +248,19 @@ current global theme.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># Remember the global state now (so we can restore later)</span></span>
-<span class="r-in"><span class="va">theme</span> <span class="op">&lt;-</span> <span class="fu">bs_global_get</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Use Bootstrap 3 (globally) with some theme customization</span></span>
-<span class="r-in"><span class="fu">bs_global_theme</span><span class="op">(</span><span class="fl">3</span>, bg <span class="op">=</span> <span class="st">"#444"</span>, fg <span class="op">=</span> <span class="st">"#e4e4e4"</span>, primary <span class="op">=</span> <span class="st">"#e39777"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span>with_themer <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># If no global theme is active, bs_global_get() returns NULL</span></span>
-<span class="r-in"><span class="fu">bs_global_clear</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">bs_global_get</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remember the global state now (so we can restore later)</span></span></span>
+<span class="r-in"><span><span class="va">theme</span> <span class="op">&lt;-</span> <span class="fu">bs_global_get</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Use Bootstrap 3 (globally) with some theme customization</span></span></span>
+<span class="r-in"><span><span class="fu">bs_global_theme</span><span class="op">(</span><span class="fl">3</span>, bg <span class="op">=</span> <span class="st">"#444"</span>, fg <span class="op">=</span> <span class="st">"#e4e4e4"</span>, primary <span class="op">=</span> <span class="st">"#e39777"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span>with_themer <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># If no global theme is active, bs_global_get() returns NULL</span></span></span>
+<span class="r-in"><span><span class="fu">bs_global_clear</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">bs_global_get</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span class="co"># Restore the original state</span></span>
-<span class="r-in"><span class="fu">bs_global_set</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># Restore the original state</span></span></span>
+<span class="r-in"><span><span class="fu">bs_global_set</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -275,7 +275,7 @@ current global theme.</p>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

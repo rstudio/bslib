@@ -95,9 +95,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_remove</span><span class="op">(</span><span class="va">theme</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">bs_retrieve</span><span class="op">(</span><span class="va">theme</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, include_unnamed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bs_remove</span><span class="op">(</span><span class="va">theme</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_retrieve</span><span class="op">(</span><span class="va">theme</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, include_unnamed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -124,14 +124,17 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># Remove CSS rules for print and carousels</span></span>
-<span class="r-in"><span class="va">bs4</span> <span class="op">&lt;-</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span>version <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">bs_remove</span><span class="op">(</span><span class="va">bs4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_print"</span>, <span class="st">"_carousel"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove CSS rules for print and carousels</span></span></span>
+<span class="r-in"><span><span class="va">bs4</span> <span class="op">&lt;-</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span>version <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">bs_remove</span><span class="op">(</span><span class="va">bs4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_print"</span>, <span class="st">"_carousel"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* Sass Bundle: _root, _reboot, _type, _images, _code, _grid, _tables, _forms, _buttons, _transitions, _dropdown, _button-group, _input-group, _custom-forms, _nav, _navbar, _card, _breadcrumb, _pagination, _badge, _jumbotron, _alert, _progress, _media, _list-group, _close, _toasts, _modal, _tooltip, _popover, _spinners, _utilities, bs3compat, nav_spacer */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_deprecated.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_functions.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/sass-utils/color-contrast.scss";</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/bs3compat/_defaults.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_variables.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bootstrap-version: 4;</span>
@@ -194,13 +197,16 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..- attr(*, "class")= chr "html_dependency"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_attachments: Named chr "/home/runner/work/_temp/Library/bslib/lib/bs3/assets/fonts"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr "fonts"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Remove BS3 compatibility layer</span></span>
-<span class="r-in"><span class="fu">bs_remove</span><span class="op">(</span><span class="va">bs4</span>, <span class="st">"bs3compat"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove BS3 compatibility layer</span></span></span>
+<span class="r-in"><span><span class="fu">bs_remove</span><span class="op">(</span><span class="va">bs4</span>, <span class="st">"bs3compat"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* Sass Bundle: _root, _reboot, _type, _images, _code, _grid, _tables, _forms, _buttons, _transitions, _dropdown, _button-group, _input-group, _custom-forms, _nav, _navbar, _card, _breadcrumb, _pagination, _badge, _jumbotron, _alert, _progress, _media, _list-group, _close, _toasts, _modal, _tooltip, _popover, _carousel, _spinners, _utilities, _print, nav_spacer */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_deprecated.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_functions.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/sass-utils/color-contrast.scss";</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_variables.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bootstrap-version: 4;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/lib/bs4/scss/_mixins.scss";</span>
@@ -243,7 +249,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> .table th[align=center] { text-align: center; }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @import "/home/runner/work/_temp/Library/bslib/nav-spacer/nav-spacer.scss";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* *** */</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -258,7 +264,7 @@
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

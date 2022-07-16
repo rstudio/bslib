@@ -97,9 +97,9 @@ the value to inform another R function.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs_get_variables</span><span class="op">(</span><span class="va">theme</span>, <span class="va">varnames</span><span class="op">)</span>
-
-<span class="fu">bs_get_contrast</span><span class="op">(</span><span class="va">theme</span>, <span class="va">varnames</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bs_get_variables</span><span class="op">(</span><span class="va">theme</span>, <span class="va">varnames</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">bs_get_contrast</span><span class="op">(</span><span class="va">theme</span>, <span class="va">varnames</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -123,28 +123,28 @@ If the variable(s) are not defined, their value is <code>NA</code>.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"body-bg"</span>, <span class="st">"body-color"</span>, <span class="st">"primary"</span>, <span class="st">"border-radius"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">bs_get_variables</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, varnames <span class="op">=</span> <span class="va">vars</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"body-bg"</span>, <span class="st">"body-color"</span>, <span class="st">"primary"</span>, <span class="st">"border-radius"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">bs_get_variables</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, varnames <span class="op">=</span> <span class="va">vars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       body-bg    body-color       primary border-radius </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        "#fff"     "#212529"     "#0d6efd"     "0.25rem" </span>
-<span class="r-in"><span class="fu">bs_get_variables</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span>bootswatch <span class="op">=</span> <span class="st">"darkly"</span><span class="op">)</span>, varnames <span class="op">=</span> <span class="va">vars</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">bs_get_variables</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span>bootswatch <span class="op">=</span> <span class="st">"darkly"</span><span class="op">)</span>, varnames <span class="op">=</span> <span class="va">vars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       body-bg    body-color       primary border-radius </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        "#222"        "#fff"     "#375a7f"     "0.25rem" </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">bs_get_contrast</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"dark"</span>, <span class="st">"light"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">bs_get_contrast</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"dark"</span>, <span class="st">"light"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   primary      dark     light </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "#FFFFFF" "#FFFFFF" "#000000" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
-<span class="r-in">  class <span class="op">=</span> <span class="st">"bg-primary"</span>,</span>
-<span class="r-in">  style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/css.html" class="external-link">css</a></span><span class="op">(</span></span>
-<span class="r-in">    color <span class="op">=</span> <span class="fu">bs_get_contrast</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"primary"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  class <span class="op">=</span> <span class="st">"bg-primary"</span>,</span></span>
+<span class="r-in"><span>  style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/css.html" class="external-link">css</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    color <span class="op">=</span> <span class="fu">bs_get_contrast</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"primary"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;div class="bg-primary" style="color:#FFFFFF;"&gt;&lt;/div&gt;</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -159,7 +159,7 @@ If the variable(s) are not defined, their value is <code>NA</code>.</p>
 </div>
 
 <div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
