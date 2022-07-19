@@ -60,6 +60,8 @@ Collate:
     'files.R'
     'imports.R'
     'input-button-group.R'
+    'input-check-search.R'
+    'input-switch.R'
     'nav-items.R'
     'nav-update.R'
     'navs-legacy.R'

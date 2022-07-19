@@ -1,103 +1,91 @@
-#' Search a "large" number of check options
-#'
-#'
-#'
-#' @export
-input_check_search <- function(id, choices, selected = NULL, placeholder = "🔍 Search", height = "150px") {
-
-  # N.B., reverse to how Shiny does things!
-  vals <- rlang::names2(choices)
-  lbls <- as.character(choices)
-  idx <- !nzchar(vals)
-  vals[idx] <- lbls[idx]
-
-  is_selected <- vapply(vals, function(x) {
-    isTRUE(x %in% selected) || identical(selected, I("all"))
-  }, logical(1))
-
-  checks <- Map(
-    vals, lbls, is_selected, paste0(id, "-", seq_along(is_selected)),
-    f = form_check
-  )
-
-  tag <- div(
-    id = id,
-    class = "bslib-check-search",
-    style = htmltools::css(
-      height = height,
-      width = "fit-content",
-      overflow = "scroll",
-      padding = "0.5rem"
-    ),
-    tags$input(
-      type = "text", class = "form-control form-control-sm mb-1",
-      class = "shiny-no-bind", # TODO: require shiny PR
-      placeholder = placeholder, id = paste0(id, "-search")
-    ),
-    !!!unname(checks),
-    check_search_dependency()
-  )
-
-  # TODO: should tag_require() not apply during static render?
-  #tag <- tag_require(tag, version = 5, caller = "input_check_search")
-
-  as_fragment(tag)
-}
-
-form_check <- function(val, lbl, checked, this_id) {
-  div(
-    class = "form-check", `data-value` = val,
-    tags$input(
-      type = "checkbox",
-      class = "form-check-input",
-      class = "shiny-no-bind",
-      id = this_id,
-      checked = if (checked) NA
-    ),
-    tags$label(class = "form-check-label", `for` = this_id, lbl)
-  )
-}
-
-check_search_dependency <- function() {
-  htmlDependency(
-    "bslib-check-search",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = "components",
-    script = "check-search.js"
-  )
-}
-
-
 #' Create a button group of radio/check boxes
 #'
 #' Use `input_check_buttons()` if multiple choices may be selected at once; otherwise, use `input_radio_buttons()`
 #'
+#' @inheritParams input_check_search
+#' @param size size of the button group
+#' @param bg a theme color to use for the btn modifier class
 #' @export
-input_check_buttons <- function(id, choices, ..., selected = NULL, size = c("md", "sm", "lg"), bg = "primary", outline = TRUE) {
+input_check_buttons <- function(id, choices, ..., selected = NULL, size = c("md", "sm", "lg"), bg = "primary") {
   size <- match.arg(size)
-  input_toggle_buttons(
+  inputs <- input_buttons(
     type = "checkbox", id = id, choices = choices, selected = selected,
-    size = size, bg = bg, outline = outline, ...
+    size = size, bg = bg
   )
+  tag <- div(
+    id = id,
+    class = "btn-group bslib-toggle-buttons",
+    class = if (size != "md") paste0("btn-group-", size),
+    role = "group",
+    ...,
+    !!!inputs,
+    toggle_dependency()
+  )
+  tag <- tag_require(tag, version = 5, caller = "input_check_buttons()")
+  as_fragment(tag)
 }
 
 #' @export
-input_radio_buttons <- function(id, choices, ..., selected = NULL, size = c("md", "sm", "lg"), bg = "primary", outline = TRUE) {
-  size <- match.arg(size)
-  input_toggle_buttons(
-    type = "radio", id = id, choices = choices, selected = selected,
-    size = size, bg = bg, outline = outline, ...
-  )
+#' @rdname input_check_buttons
+update_check_buttons <- function(id, choices = NULL, selected = NULL, session = shiny::getDefaultReactiveDomain()) {
+  if (!is.null(choices)) {
+    choices <- input_buttons(type = "checkbox", id, choices, selected)
+  }
+  message <- dropNulls(list(
+    choices = choices,
+    selected = selected
+  ))
+  session$sendInputMessage(id, message)
 }
 
-input_toggle_buttons <- function(type = c("radio", "checkbox"), id, label, choices, selected, size, bg, outline, ...) {
+#' @export
+#' @rdname input_check_buttons
+input_radio_buttons <- function(id, choices, ..., selected = NULL, size = c("md", "sm", "lg"), bg = "primary") {
+  size <- match.arg(size)
+  inputs <- input_buttons(
+    type = "checkbox", id = id, choices = choices, selected = selected,
+    size = size, bg = bg
+  )
+  tag <- div(
+    id = id,
+    class = "btn-group bslib-toggle-buttons",
+    class = if (size != "md") paste0("btn-group-", size),
+    role = "group",
+    ...,
+    !!!inputs,
+    toggle_dependency()
+  )
+  tag <- tag_require(tag, version = 5, caller = "input_radio_buttons()")
+  as_fragment(tag)
+}
 
-  # N.B., reverse to how Shiny does things!
+#' @export
+#' @rdname input_check_buttons
+update_radio_buttons <- function(id, choices = NULL, selected = NULL, session = shiny::getDefaultReactiveDomain()) {
+  if (!is.null(choices)) {
+    choices <- input_buttons(type = "radio", id, choices, selected)
+  }
+  message <- dropNulls(list(
+    choices = choices,
+    selected = selected
+  ))
+  session$sendInputMessage(id, message)
+}
+
+
+input_buttons <- function(type = c("radio", "checkbox"), id, choices, selected, size = "md", bg = "primary") {
+
+  if (is.null(names(choices)) && is.atomic(choices)) {
+    names(choices) <- choices
+  }
+  if (is.null(names(choices))) {
+    stop("names() must be provided on list() vectors provided to choices")
+  }
+
   vals <- rlang::names2(choices)
-  lbls <- as.character(choices)
-  idx <- !nzchar(vals)
-  vals[idx] <- lbls[idx]
+  if (!all(nzchar(vals))) {
+    stop("Input values must be non-empty character strings")
+  }
 
   is_checked <- vapply(vals, function(x) isTRUE(x %in% selected) || identical(I("all"), selected), logical(1))
 
@@ -110,8 +98,8 @@ input_toggle_buttons <- function(type = c("radio", "checkbox"), id, label, choic
     stop("input_radio_buttons() doesn't support more than one selected choice (do you want input_check_buttons() instead?)", call. = FALSE)
   }
 
-  inputs <- Map(
-    vals, lbls, is_checked, paste0(id, "-", seq_along(is_checked)),
+  res <- Map(
+    vals, choices, is_checked, paste0(id, "-", seq_along(is_checked)),
     f = function(val, lbl, checked, this_id) {
       list(
         tags$input(
@@ -121,28 +109,14 @@ input_toggle_buttons <- function(type = c("radio", "checkbox"), id, label, choic
           checked = if (checked) NA
         ),
         tags$label(
-          # TODO: custom bg color?
-          class = paste0("btn btn-", if (outline) "outline-", bg),
+          class = paste0("btn btn-outline-", bg),
           `for` = this_id, lbl
         )
       )
     }
   )
 
-  tag <- div(
-    id = id,
-    class = "btn-group bslib-toggle-buttons",
-    class = if (size != "md") paste0("btn-group-", size),
-    role = "group",
-    ...,
-    !!!unlist(inputs, recursive = FALSE, use.names = FALSE),
-    toggle_dependency()
-  )
-
-  # TODO: should tag_require() not apply during static render?
-  #tag <- tag_require(tag, version = 5, caller = paste("input", type, "buttons()", collapse = "_"))
-
-  as_fragment(tag)
+  unlist(res, recursive = FALSE, use.names = FALSE)
 }
 
 toggle_dependency <- function() {

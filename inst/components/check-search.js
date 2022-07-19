@@ -1,4 +1,4 @@
-var checkSearchInputBinding = new Shiny.InputBinding();
+const checkSearchInputBinding = new Shiny.InputBinding();
 $.extend(checkSearchInputBinding, {
 
   find: function(scope) {
@@ -6,8 +6,8 @@ $.extend(checkSearchInputBinding, {
   },
 
   getValue: function(el) {
-    var inputs = $(el).find(".form-check-input");
-    var vals = [];
+    const inputs = $(el).find(".form-check-input");
+    let vals = [];
     inputs.each(function(i) {
       if (this.checked) {
         vals.push($(this).parent(".form-check").attr("data-value"));
@@ -17,10 +17,25 @@ $.extend(checkSearchInputBinding, {
   },
 
   subscribe: function(el, callback) {
-    $(el).on(
-      'change.checkSearch',
-      function(event) { callback(true); }
-    );
+    const self = this;
+    $(el).on('change.checkSearch', function(event) {
+
+      const choices = $(event.target).parents(".check-search-choices");
+
+      // Move new selections to the top
+      const firstNotChecked = choices
+        .find("input:not(:checked)")
+        .parents(".form-check")
+        .last();
+      const thisForm = $(event.target).parent(".form-check");
+      firstNotChecked.before(thisForm);
+
+      // TODO: if we're unchecking a box, should we move it back to it's "original" position???
+
+      self._resolveClearVisibility(el);
+
+      callback(true);
+    });
   },
 
   unsubscribe: function(el) {
@@ -31,22 +46,60 @@ $.extend(checkSearchInputBinding, {
     el.oninput = onInput;
 
     function onInput(e) {
-      var needle = e.target.value.toLowerCase();
-      console.log("new value", needle);
+      const needle = e.target.value.toLowerCase();
 
-      var haystack = $(e.target.parentNode).find(".form-check");
+      const haystack = $(e.target.parentNode).find(".form-check");
       haystack.each(function(i) {
-        var val = $(this).attr("data-value").toLowerCase();
-        var display = val.includes(needle) ? "" : "none";
+        const val = $(this).attr("data-value").toLowerCase();
+        const display = val.includes(needle) ? "" : "none";
         $(this).css("display", display);
       });
     }
+
+    const clear = $(el).find(".clear-options");
+    const self = this;
+    clear.click(function() {
+      self.receiveMessage(el, {selected: []});
+    });
+
+    this._resolveClearVisibility(el);
   },
 
+  receiveMessage: function(el, data) {
+    const $el = $(el);
+    if (data.hasOwnProperty("placeholder")) {
+      $el.find("input").attr("placeholder", data.placeholder);
+      return;
+    }
+    if (data.hasOwnProperty("height")) {
+      $el.css("height", data.height);
+      return;
+    }
+    // In this case, selected is already handled in the markup
+    if (data.hasOwnProperty("choices")) {
+      const choices = $el.find(".check-search-choices");
+      Shiny.renderContent(choices, data.choices);
+    } else if (data.hasOwnProperty("selected")) {
+      const checks = $el.find(".form-check");
+      checks.each(function(i) {
+        const val = $(this).attr("data-value");
+        const checked = data.selected.indexOf(val) > -1;
+        this.querySelector("input").checked = checked;
+      });
+    }
 
+    // Since we're possibly changed the input value at this point,
+    // trigger a subscribe() event, so that the input value will actually update
+    $el.trigger("change.checkSearch");
 
-  // TODO: Should probably be able to update selected, and insert/remove items?
-  //receiveMessage: function(el, data) {}
+    this._resolveClearVisibility(el);
+  },
+
+  _resolveClearVisibility: function(el) {
+    const clear = $(el).find(".clear-options");
+    const anySelected = $(el).find("input:checked").length > 0;
+    clear.css("visibility", anySelected ? "visible" : "hidden");
+  }
 
 });
 

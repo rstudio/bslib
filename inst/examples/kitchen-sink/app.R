@@ -12,9 +12,6 @@ library(GGally)
 library(viridis)
 
 
-# TODO:
-# * navs_pill_card() styles are off (Greg)
-# * When items wrap, can we make them all wrap (and right align)?
 sidebar <- accordion(
   class = "accordion-flush",
   accordion_item(

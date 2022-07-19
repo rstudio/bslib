@@ -278,6 +278,12 @@ bootstrap_bundle <- function(version) {
       ),
       sidebar = sass_layer(
         rules = sass_file(system_file("components/sidebar.scss", package = "bslib"))
+      ),
+      check_search = sass_layer(
+        rules = sass_file(system_file("components/check-search.scss", package = "bslib"))
+      ),
+      toggle_buttons = sass_layer(
+        rules = sass_file(system_file("components/toggle-buttons.scss", package = "bslib"))
       )
     ),
     four = sass_bundle(

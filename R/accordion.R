@@ -109,8 +109,7 @@ accordion <- function(..., id = NULL, selected = NULL, autoclose = FALSE, class 
     accordion_dependency()
   )
 
-  # TODO: fix static render
-  #tag <- tag_require(tag, version = 5, caller = "accordion()")
+  tag <- tag_require(tag, version = 5, caller = "accordion()")
 
   as_fragment(tag)
 }
@@ -121,18 +120,15 @@ accordion_item <- function(title, ..., value = title, icon = NULL) {
 
   id <- paste0("item-", p_randomInt(1000, 10000))
 
-  if (!is.null(icon)) {
-    icon <- tagAppendAttributes(icon, style = "margin-right:0.5rem")
-  }
-
   btn <- tags$button(
     # TODO: make this rounded in "standalone"/flush mode?
     class = "accordion-button",
     type = "button",
     "data-bs-toggle" = "collapse",
     "data-bs-target" = paste0("#", id),
-    icon,
-    title
+    style = css(gap = "0.5rem"),
+    div(class = "accordion-icon", icon),
+    div(class = "accordion-title", title)
   )
 
   if (!rlang::is_string(value)) stop("`value` must be a string")
@@ -150,6 +146,43 @@ accordion_item <- function(title, ..., value = title, icon = NULL) {
   )
 }
 
+#' Update an accordion
+#'
+#' @param id an input id.
+#' @param target The `value` of an existing [accordion_item()]
+#' @export
+accordion_mutate <- function(id, target, ..., title = NULL, value = NULL, icon = NULL, immediate = FALSE, session = getDefaultReactiveDomain()) {
+
+  body <- rlang::list2(...)
+  body <- if (length(body) == 0) NULL else body
+
+  id <- session$ns(id)
+
+  force(target)
+  force(value)
+  force(title)
+  force(icon)
+
+  callback <- function() {
+    message <- dropNulls(list(
+      target = target,
+      value = value,
+      method = "mutate",
+      body = if (!is.null(body)) process_ui(body, session),
+      title = if (!is.null(title)) process_ui(title, session),
+      icon = if (!is.null(icon)) process_ui(icon, session)
+    ))
+    session$sendInputMessage(id, message)
+  }
+
+  if (immediate) callback() else session$onFlushed(callback, once = TRUE)
+}
+
+# TODO: finish off dynamic accordion API (it should probably mirror nav_*())
+# accordion_select <- function() {}
+# accordion_insert <- function() {}
+# accordion_remove <- function() {}
+
 
 accordion_dependency <- function() {
   htmlDependency(
@@ -159,4 +192,11 @@ accordion_dependency <- function() {
     src = "components",
     script = "accordion.js"
   )
+}
+
+
+
+
+process_ui <- function(tags, session) {
+  getFromNamespace("processDeps", "shiny")(tags, session)
 }

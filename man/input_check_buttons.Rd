@@ -2,6 +2,9 @@
 % Please edit documentation in R/input-button-group.R
 \name{input_check_buttons}
 \alias{input_check_buttons}
+\alias{update_check_buttons}
+\alias{input_radio_buttons}
+\alias{update_radio_buttons}
 \title{Create a button group of radio/check boxes}
 \usage{
 input_check_buttons(
@@ -13,6 +16,43 @@ input_check_buttons(
   bg = "primary",
   outline = TRUE
 )
+
+update_check_buttons(
+  id,
+  choices = NULL,
+  selected = NULL,
+  session = shiny::getDefaultReactiveDomain()
+)
+
+input_radio_buttons(
+  id,
+  choices,
+  ...,
+  selected = NULL,
+  size = c("md", "sm", "lg"),
+  bg = "primary",
+  outline = TRUE
+)
+
+update_radio_buttons(
+  id,
+  choices = NULL,
+  selected = NULL,
+  session = shiny::getDefaultReactiveDomain()
+)
+}
+\arguments{
+\item{id}{an input id.}
+
+\item{choices}{a vector/list of choices. If there are names on the on the vector, those names are used as the input value.}
+
+\item{selected}{a vector/list of choices to select by default.}
+
+\item{size}{size of the button group}
+
+\item{bg}{a theme color to use for the btn modifier class}
+
+\item{outline}{whether or not the buttons should always have fill.}
 }
 \description{
 Use \code{input_check_buttons()} if multiple choices may be selected at once; otherwise, use \code{input_radio_buttons()}

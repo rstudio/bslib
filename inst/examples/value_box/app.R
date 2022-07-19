@@ -36,7 +36,19 @@ server <- function(input, output) {
       class = "bg-success"
     )
 
-    card_grid(card_width = "200px", info1, info2)
+    info3 <- value_box(
+      "Personal Consumption",
+      "7.6%",
+      "Started at 12.6%",
+      "Averaged 8.6% over that period",
+      "Peaked 15% in Feb 1992",
+      showcase = bsicons::bs_icon("piggy-bank"),
+      showcase_layout = "left-center",
+      #full_screen = TRUE,
+      class = "bg-danger"
+    )
+
+    card_grid(card_width = "200px", info1, info2, info3)
   })
 
   output$unemploy <- renderPlotly({

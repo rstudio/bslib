@@ -2,15 +2,15 @@ library(plotly)
 
 plot_delay <- function(x) {
   x_mean <- mean(x, na.rm = TRUE)
-  x_med <- median(x, na.rm = TRUE)
+  #x_med <- median(x, na.rm = TRUE)
   end <- quantile(x, probs = 0.99, na.rm = TRUE)
-  plot_ly(x = x) %>%
+  plot_ly(x = x, hovertemplate = "%{y} flights were %{x} min late") %>%
     config(displayModeBar = FALSE) %>%
     rangeslider(start = min(x, na.rm = TRUE), end = as.numeric(end)) %>%
     layout(
       # TODO: add annotations for each line?
       shapes = list(
-        vline(x_med, color = "darkgray", dash = "dash"),
+        #vline(x_med, color = "darkgray", dash = "dash"),
         vline(x_mean, color = "orange")
       )
     )
