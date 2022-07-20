@@ -79,7 +79,7 @@ server <- function(input, output) {
         span = I(1),
         #hoverinfo = if (!large) "none",
         fill = 'tozeroy',
-        alpha = 0.3
+        alpha = 0.2
       ) %>%
       layout(
         hovermode = "x",
