@@ -8,17 +8,16 @@
 #' @export
 input_check_buttons <- function(id, choices, ..., selected = NULL, size = c("md", "sm", "lg"), bg = "primary") {
   size <- match.arg(size)
-  inputs <- input_buttons(
-    type = "checkbox", id = id, choices = choices, selected = selected,
-    size = size, bg = bg
-  )
   tag <- div(
     id = id,
     class = "btn-group bslib-toggle-buttons",
     class = if (size != "md") paste0("btn-group-", size),
     role = "group",
     ...,
-    !!!inputs,
+    !!!input_buttons_container(
+      type = "checkbox", id = id, choices = choices, selected = selected,
+      size = size, bg = bg
+    ),
     toggle_dependency()
   )
   tag <- tag_require(tag, version = 5, caller = "input_check_buttons()")
@@ -29,11 +28,14 @@ input_check_buttons <- function(id, choices, ..., selected = NULL, size = c("md"
 #' @rdname input_check_buttons
 update_check_buttons <- function(id, choices = NULL, selected = NULL, session = shiny::getDefaultReactiveDomain()) {
   if (!is.null(choices)) {
-    choices <- input_buttons(type = "checkbox", id, choices, selected)
+    choices <- process_ui(
+      input_buttons_container(type = "checkbox", id, choices, selected),
+      session
+    )
   }
   message <- dropNulls(list(
     choices = choices,
-    selected = selected
+    selected = as.list(selected)
   ))
   session$sendInputMessage(id, message)
 }
@@ -42,17 +44,16 @@ update_check_buttons <- function(id, choices = NULL, selected = NULL, session = 
 #' @rdname input_check_buttons
 input_radio_buttons <- function(id, choices, ..., selected = NULL, size = c("md", "sm", "lg"), bg = "primary") {
   size <- match.arg(size)
-  inputs <- input_buttons(
-    type = "checkbox", id = id, choices = choices, selected = selected,
-    size = size, bg = bg
-  )
   tag <- div(
     id = id,
     class = "btn-group bslib-toggle-buttons",
     class = if (size != "md") paste0("btn-group-", size),
     role = "group",
     ...,
-    !!!inputs,
+    !!!input_buttons_container(
+      type = "checkbox", id = id, choices = choices, selected = selected,
+      size = size, bg = bg
+    ),
     toggle_dependency()
   )
   tag <- tag_require(tag, version = 5, caller = "input_radio_buttons()")
@@ -62,18 +63,22 @@ input_radio_buttons <- function(id, choices, ..., selected = NULL, size = c("md"
 #' @export
 #' @rdname input_check_buttons
 update_radio_buttons <- function(id, choices = NULL, selected = NULL, session = shiny::getDefaultReactiveDomain()) {
+
   if (!is.null(choices)) {
-    choices <- input_buttons(type = "radio", id, choices, selected)
+    choices <- process_ui(
+      input_buttons_container(type = "radio", id, choices, selected),
+      session
+    )
   }
   message <- dropNulls(list(
     choices = choices,
-    selected = selected
+    selected = as.list(selected)
   ))
   session$sendInputMessage(id, message)
 }
 
 
-input_buttons <- function(type = c("radio", "checkbox"), id, choices, selected, size = "md", bg = "primary") {
+input_buttons_container <- function(type = c("radio", "checkbox"), id, choices, selected, size = "md", bg = "primary") {
 
   if (is.null(names(choices)) && is.atomic(choices)) {
     names(choices) <- choices
@@ -83,9 +88,9 @@ input_buttons <- function(type = c("radio", "checkbox"), id, choices, selected, 
   }
 
   vals <- rlang::names2(choices)
-  if (!all(nzchar(vals))) {
-    stop("Input values must be non-empty character strings")
-  }
+  #if (!all(nzchar(vals))) {
+  #  stop("Input values must be non-empty character strings")
+  #}
 
   is_checked <- vapply(vals, function(x) isTRUE(x %in% selected) || identical(I("all"), selected), logical(1))
 
@@ -98,7 +103,7 @@ input_buttons <- function(type = c("radio", "checkbox"), id, choices, selected, 
     stop("input_radio_buttons() doesn't support more than one selected choice (do you want input_check_buttons() instead?)", call. = FALSE)
   }
 
-  res <- Map(
+  inputs <- Map(
     vals, choices, is_checked, paste0(id, "-", seq_along(is_checked)),
     f = function(val, lbl, checked, this_id) {
       list(
@@ -116,7 +121,7 @@ input_buttons <- function(type = c("radio", "checkbox"), id, choices, selected, 
     }
   )
 
-  unlist(res, recursive = FALSE, use.names = FALSE)
+  inputs <- unlist(inputs, recursive = FALSE, use.names = FALSE)
 }
 
 toggle_dependency <- function() {

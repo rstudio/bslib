@@ -25,10 +25,20 @@ $.extend(toggleButtonsInputBinding, {
 
   unsubscribe: function(el) {
     $(el).off(".toggleButtonsInputBinding");
-  }
+  },
 
-  // TODO: Should probably be able to update selected, and insert/remove items?
-  //receiveMessage: function(el, data) {}
+  receiveMessage: function(el, data) {
+    if (data.hasOwnProperty("choices")) {
+      Shiny.renderContent(el, data.choices);
+    } else if (data.hasOwnProperty("selected")) {
+      const inputs = $(el).find("input");
+      inputs.each(function(i) {
+        const val = $(this).attr("data-value");
+        const checked = data.selected.indexOf(val) > -1;
+        this.checked = checked;
+      });
+    }
+  }
 
 });
 

@@ -59,9 +59,9 @@ check_search_choices <- function(id, choices, selected) {
   }
 
   vals <- rlang::names2(choices)
-  if (!all(nzchar(vals))) {
-    stop("Input values must be non-empty character strings")
-  }
+  #if (!all(nzchar(vals))) {
+  #  stop("Input values must be non-empty character strings")
+  #}
 
   is_selected <- vapply(vals, function(x) {
     isTRUE(x %in% selected) || identical(selected, I("all"))
