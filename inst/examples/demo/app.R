@@ -187,7 +187,6 @@ ui <- page_navbar(
     "Demo"
   ),
   fluid = TRUE,
-  selected = "Sales",
   nav(
     "NYC Flights",
     layout_sidebar(side, main, top = "70px")
@@ -219,7 +218,7 @@ ui <- page_navbar(
       tags$span(
         bsicons::bs_icon("code-slash"), "Source code"
       ),
-      href = "https://github.com/rstudio/bslib/tree/main/inst/examples/nycflights",
+      href = "https://github.com/rstudio/bslib/tree/dev/inst/examples/demo",
       target = "_blank"
     )
   )
