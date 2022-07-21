@@ -38,8 +38,9 @@ side <- accordion(
   class = "accordion-flush",
   accordion_item(
     "Origin", icon = icon("plane-departure"),
+    uiOutput("origin_reset"),
     input_check_buttons(
-      "origin", c("JFK", "LGA", "EWR"),
+      "origin", sort(unique(flights$origin)),
       selected = I("none")
     )
   ),
@@ -225,9 +226,13 @@ ui <- page_navbar(
 )
 
 server <- function(input, output, session) {
-  # --------------------------------------------
+  # ---------------------------------------------------------
   # Flights tab logic
-  # --------------------------------------------
+  #
+  # WARNING: this server-side filtering logic is VERY experimental
+  # at this point and won't be easily adapt to different use cases.
+  # If you feel tempted to use it, use with caution.
+  # ---------------------------------------------------------
 
   # Mapping from input id name to updating input function
   input_discrete_vars <- list(
@@ -243,47 +248,122 @@ server <- function(input, output, session) {
     wind_gust = update_histoslider,
     wind_speed = update_histoslider
   )
+  input_vars <- c(
+    input_discrete_vars,
+    input_numeric_vars
+  )
 
-  # Dataset after all filters are applied
-  flight_dat <- reactive({
-    idx <- rep(TRUE, nrow(flights))
-    for (x in names(input_discrete_vars)) {
-      idx <- idx & filter_discrete(flights, x)
+  filter_index <- function(d) {
+    idx <- rep(TRUE, nrow(d))
+    for (var in names(d)) {
+      idx <- idx & filter_col(d, var)
     }
-    for (x in names(input_numeric_vars)) {
-      idx <- idx & filter_numeric(flights, x)
+    idx & !is.na(idx)
+  }
+
+  filter_col <- function(d, var) {
+    vals <- d[[var]]
+    input_val <- input[[var]]
+    if (is.null(input_val)) {
+      return(TRUE)
     }
-    flights[idx & !is.na(idx), ]
+
+    if (is.character(vals) || is.factor(vals) || is.logical(vals)) {
+      return(d[[var]] %in% input_val)
+    }
+
+    # TODO: histoslider should transform date back to a date vector
+    if (inherits(vals, "Date") && is.numeric(input_val)) {
+      vals <- as.POSIXct(vals)
+      input_val <- as.POSIXct(input_val / 1000, origin = "1970-01-01")
+    }
+
+    # N.B. between() will remove NAs, which we probably don't
+    # want to remove until the slider is considered 'active'
+    rng <- range(vals, na.rm = TRUE)
+    active <- isTRUE(rng[1] <= input_val[1] || input_val[2] <= rng[2])
+
+    if (!active) {
+      return(TRUE)
+    }
+
+    dplyr::between(vals, input_val[1], input_val[2])
+  }
+
+  # When a particular input filter changes, we need to update every other filter
+  # with data
+  lapply(names(input_vars), function(var) {
+
+    index <- reactive({
+      filter_index(flights[, setdiff(names(input_vars), var)])
+    })
+
+    observeEvent(index(), ignoreInit = TRUE, ignoreNULL = FALSE, {
+
+      d <- flights[index(), ]
+      if (nrow(d) == 0) return()
+      input_val <- input[[var]]
+      update_input_func <- input_vars[[var]]
+
+      if (var %in% names(input_discrete_vars)) {
+        choices <- sort(unique(d[[var]]))
+        update_input_func(
+          id = var, choices = choices, selected = input_val %||% I("none")
+        )
+      } else {
+        # TODO: histoslider needs to preserve state when updating
+        breaks <- if (var == "date") "months" else "Sturges"
+        label <- switch(
+          var,
+          sched_dep_time = "Departure time",
+          sched_arr_time = "Arrival time",
+          date = "Date",
+          precip = "Precipitation",
+          wind_gust = "Wind gust",
+          wind_speed = "Wind speed"
+        )
+        options <- list(
+          handleLabelFormat = if (var == "date") "%b %e" else "0d",
+          selectedColor = PRIMARY
+        )
+        try(update_input_func(
+          id = var,
+          label = label,
+          values = d[[var]],
+          start = input_val[1],
+          end = input_val[2],
+          breaks = breaks,
+          options = options
+        ))
+      }
+
+    })
   })
 
-  # For each filter, add an event to update every other filter
-  # when this filter changes
-  input_vars <- c(input_discrete_vars, input_numeric_vars)
-  lapply(names(input_vars), function(var) {
-    observeEvent(input[[var]], ignoreInit = TRUE, {
-      d <- flight_dat()
-      if (nrow(d) == 0) return()
-      for (x in setdiff(names(input_vars), var)) {
-        update_input_func <- input_vars[[x]]
-        if (x %in% names(input_discrete_vars)) {
-          choices <- unique(d[[x]])
-          update_input_func(
-            id = x, choices = choices,
-            selected = intersect(choices, input[[x]])
-          )
-        } else {
-          breaks <- if (x == "date") "months" else "Sturges"
-          # TODO: histoslider should do a better job preserving options
-          options <- list(handleLabelFormat = if (x == "date") "%b %e" else "0d", selectedColor = PRIMARY)
-          update_input_func(
-            id = x, values = d[[x]],
-            start = input[[x]][1], end = input[[x]][2],
-            breaks = breaks,
-            options = options
-          )
-        }
-      }
-    })
+  output$origin_reset <- renderUI({
+    actionLink(
+      "origin_reset", "Reset",
+      style = css(
+        text_decoration = "none",
+        font_weight = 700,
+        font_size = ".875rem",
+        float = "right",
+        visibility = if (length(input$origin) > 0) "visible" else "hidden",
+        margin_top = "-7px"
+      )
+    )
+  })
+
+  observeEvent(input$origin_reset, {
+    update_check_buttons(
+      "origin", choices = sort(unique(flights$origin)),
+      selected = I("none")
+    )
+  })
+
+  # Flights with all filters applied (i.e., data used for value boxes/plots)
+  flight_dat <- reactive({
+    flights[filter_index(flights), ]
   })
 
   output$value_boxes <- renderUI({
@@ -366,6 +446,7 @@ server <- function(input, output, session) {
 
   output$scatter_delay <- renderPlotly({
     d <- flight_dat()
+    req(nrow(d) > 0)
 
     if (isTRUE(input$scatter_summarize)) {
       x <- d$dep_delay
@@ -438,17 +519,30 @@ server <- function(input, output, session) {
 
   output$arr_delay <- renderPlotly({
     x <- flight_dat()$arr_delay
+    req(length(x) > 0)
+
     x_mean <- mean(x, na.rm = TRUE)
     end <- quantile(x, probs = 0.99, na.rm = TRUE)
     plot_ly(x = x, hovertemplate = "%{y} flights were %{x} min late", color = I(PRIMARY)) %>%
       config(displayModeBar = FALSE) %>%
       rangeslider(start = min(x, na.rm = TRUE), end = as.numeric(end)) %>%
       # TODO: add annotations for each line?
-      layout(shapes = list(vline(x_mean, color = "orange")))
+      layout(
+        shapes = list(
+          type = "line",
+          x0 = x_mean, x1 = x_mean,
+          y0 = 0, y1 = 1,
+          yref = "paper",
+          line = list(color = "orange", dash = "solid")
+        )
+      )
   })
 
   output$arr_delay_series <- renderPlotly({
-    flight_dat() %>%
+    d <- flight_dat()
+    req(nrow(d) > 0)
+
+    d %>%
       group_by(date) %>%
       summarise(arr_delay_mean = mean(arr_delay, na.rm = TRUE)) %>%
       plot_ly(
@@ -463,42 +557,6 @@ server <- function(input, output, session) {
         yaxis = list(title = "Average delay")
       )
   })
-
-
-  filter_discrete <- function(d, var) {
-    d[[var]] %in% (input[[var]] %||% unique(d[[var]]))
-  }
-
-  # N.B. between() will remove NAs, which we probably don't
-  # want to remove until the slider is considered 'active'
-  filter_numeric <- function(d, var) {
-    input_var <- input[[var]]
-    vals <- d[[var]]
-    # TODO: histoslider to transform date back to a date vector
-    if (inherits(vals, "Date")) {
-      vals <- as.POSIXct(vals)
-      input_var <- as.POSIXct(input_var / 1000, origin = "1970-01-01")
-    }
-    rng <- range(vals, na.rm = TRUE)
-    active <- isTRUE(rng[1] <= input_var[1] || input_var[2] <= rng[2])
-    if (active) {
-      dplyr::between(vals, input_var[1], input_var[2])
-    } else {
-      rep(TRUE, length(vals))
-    }
-  }
-
-
-  vline <- function(xint, color = "gray", dash = NULL) {
-    list(
-      type = "line",
-      x0 = xint, x1 = xint,
-      y0 = 0, y1 = 1,
-      yref = "paper",
-      line = list(color = color, dash = dash)
-    )
-  }
-
 
   # --------------------------------------------
   # Sales tab logic
@@ -696,7 +754,6 @@ server <- function(input, output, session) {
       ) %>%
         config(displayModeBar = FALSE)
   }
-
 
 }
 
