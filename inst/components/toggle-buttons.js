@@ -38,6 +38,8 @@ $.extend(toggleButtonsInputBinding, {
         this.checked = checked;
       });
     }
+
+    $(el).trigger("change.toggleButtonsInputBinding");
   }
 
 });
