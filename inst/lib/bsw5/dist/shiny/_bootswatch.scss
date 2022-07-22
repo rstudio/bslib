@@ -4,9 +4,9 @@
   // margin-right: -$card-cap-padding-x;
   margin-right: inherit;
   // margin-bottom: -$card-cap-padding-y;
-  //margin-bottom: inherit;
-  margin-left: inherit;
+  margin-bottom: inherit;
   // margin-left: -$card-cap-padding-x;
+  margin-left: inherit;
   border-bottom: 0;
 }
 
@@ -24,9 +24,17 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
 .card-header {
   padding: $spacer * .9 $spacer * .9;
   background-color: transparent;
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.bslib-card-title span {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .card-header .nav-item {
+
   font-size: $font-size-base * .85;
   line-height: 1.9em;
   font-weight: $font-weight-bold;
@@ -60,20 +68,39 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
   margin-top: 0rem;
 }
 
-.card .nav-link,
-.card .dropdown {
+.card .nav-link {
+  padding: 0 $spacer * .5;
+}
+
+.card .card-header-tabs .nav-link,
+.card .card-header-tabs .dropdown,
+.card .card-header-pills .nav-link,
+.card .card-header-pills .dropdown {
   display: block;
-  padding: 0 $spacer * .3;
-  color: $gray-600;
   font-weight: 600;
   font-size: $font-size-base * .8;
+}
+
+.card .card-header-tabs .nav-link,
+.card .card-header-tabs .dropdown,
+.card .card-header-pills .nav-link:not(.card .card-header-pills .nav-link.active),
+.card .card-header-pills .dropdown .nav-link:not(.card .card-header-pills .dropdown .nav-link.active) {
+  color: $gray-600;
+}
+
+.card .card-header-tabs li:first-of-type .nav-link {
+  padding-left: 0px;
+}
+
+.card .card-header-tabs li:last-of-type .nav-link {
+  padding-right: 0px;
 }
 
 .card .nav-tabs .nav-link.active,
 .card .nav-tabs .dropdown-toggle.active {
   color: $gray-900;
   text-decoration: none;
-  border-bottom: 3px solid !important;
+  // border-bottom: 3px solid !important;
 }
 
 .card .nav-tabs,
@@ -91,8 +118,8 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
   border: 0px;
 }
 
-.card .nav-link:focus,
-.card .nav-link:hover {
+.card .nav-link:focus:not(.card .nav-pills>li>a:focus),
+.card .nav-link:hover:not(.card .nav.nav-pills .nav-link:hover) {
   color: $black  !important;
 }
 
@@ -101,10 +128,10 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
   font-size: $font-size-base * .75;
 }
 
-.card .table-striped>tbody>tr:nth-of-type(odd) {
-  --bs-table-accent-bg: tint-color($blue, 95%);
-  background-color: tint-color($blue, 95%);
-}
+// .card .table-striped>tbody>tr:nth-of-type(odd) {
+//   --bs-table-accent-bg: tint-color($blue, 95%);
+//   background-color: tint-color($blue, 95%);
+// }
 
 .card .dropdown-item:focus,
 .dropdown-item:hover {
@@ -153,6 +180,50 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
 
 
 /* BOOTSTRAP SIDEBAR */
+
+// FIX BUTTON GROUP HOVER SHENANIGANS
+// TODO Carson, is there a better Sass way to handle this?
+
+label.btn-outline-primary:hover {
+  background-color: transparent;
+  color: $blue;
+}
+
+label.btn-outline-secondary:hover {
+  background-color: transparent;
+  color: $gray-800;
+}
+
+label.btn-outline-success:hover {
+  background-color: transparent;
+  color: $green;
+}
+
+label.btn-outline-danger:hover {
+  background-color: transparent;
+  color: $red;
+}
+
+label.btn-outline-warning:hover {
+  background-color: transparent;
+  color: $yellow;
+}
+
+label.btn-outline-info:hover {
+  background-color: transparent;
+  color: $teal;
+}
+
+label.btn-outline-light:hover {
+  background-color: transparent;
+  color: $white;
+}
+
+label.btn-outline-dark:hover {
+  background-color: transparent;
+  color: $gray-900;
+}
+
 
 .btn-toggle {
   display: inline-flex;
