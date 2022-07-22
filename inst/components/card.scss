@@ -65,7 +65,7 @@
 
 .bslib-full-screen {
   position: fixed;
-  inset: 1.5rem;
+  inset: 3.5rem 1rem 1rem;
   height: auto !important;
   width: auto !important;
   z-index: $zindex-popover;
@@ -76,11 +76,12 @@
   position: absolute;
   bottom: 1px;
   right: 3px;
-  font-size: 1.25rem;
+  font-size: .8rem;
   cursor: pointer;
-  color: inherit;
+  opacity: .6;
+  color: rgba(var(--bs-body-bg-rgb), 1);
   &:hover {
-    color: inherit;
+  opacity: 1;
   }
 }
 
@@ -93,25 +94,30 @@
   display: none;
 }
 
+
 .bslib-full-screen-exit {
-  position: absolute;
-  top: 0.2rem;
-  right: 1.5rem;
+  position: relative;
+  top: 1.35rem;
   font-size: 0.9rem;
   cursor: pointer;
   text-decoration: none;
-  color: rgba(var(--bs-body-color-rgb), 0.8);
+  display: flex;
+  float: right;
+  margin-right: 2.15rem;
+  align-items: center;
+  color: rgba(var(--bs-body-bg-rgb), 0.8);
   &:hover {
-    color: var(--bs-body-color);
+    color: rgba(var(--bs-body-bg-rgb), 1);
   }
-  i {
-    margin-left: 0.25rem;
+  svg {
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
   }
 }
 
 #bslib-full-screen-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(var(--bs-body-bg-rgb), 0.8);
+  background-color: rgba(var(--bs-body-color-rgb), 0.6);
   z-index: $zindex-popover - 1;
 }
