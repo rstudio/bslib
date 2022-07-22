@@ -309,18 +309,20 @@ card_plot_output <- function(outputId,
 
 
 full_screen_toggle <- function() {
-  tags$a(
-    class = "bslib-full-screen-enter",
-    "data-bs-toggle" = "tooltip",
-    "data-bs-placement" = "bottom",
-    title = "Expand",
-    fontawesome::fa_i("expand-alt"),
-    htmlDependency(
-      name = "bslib-card-full-screen",
-      version = get_package_version("bslib"),
-      package = "bslib",
-      src = "components",
-      script = "card-full-screen.js"
+    tags$a(
+      tags$span(class = "badge rounded-pill bg-dark m-2", style="padding:0.55rem;",
+      class = "bslib-full-screen-enter",
+      "data-bs-toggle" = "tooltip",
+      "data-bs-placement" = "bottom",
+      title = "Expand",
+      bsicons::bs_icon("arrows-fullscreen", class = "null"),
+      htmlDependency(
+        name = "bslib-card-full-screen",
+        version = get_package_version("bslib"),
+        package = "bslib",
+        src = "components",
+        script = "card-full-screen.js"
+      )
     )
   )
 }
