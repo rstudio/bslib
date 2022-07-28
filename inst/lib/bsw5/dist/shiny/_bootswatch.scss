@@ -1,4 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
 // Bootstrap 5 style changes
+
+
+.bslib-check-search .form-check-label {
+  font-size: $font-size-base * .9;
+}
 
 .card-header-tabs {
   // margin-right: -$card-cap-padding-x;
@@ -35,9 +42,9 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
 
 .card-header .nav-item {
 
-  font-size: $font-size-base * .85;
+  font-size: $font-size-base * .88;
   line-height: 1.9em;
-  font-weight: $font-weight-bold;
+  font-weight: 600;
 }
 
 .card .dropdown-menu {
@@ -183,46 +190,6 @@ $box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
 
 // FIX BUTTON GROUP HOVER SHENANIGANS
 // TODO Carson, is there a better Sass way to handle this?
-
-label.btn-outline-primary:hover {
-  background-color: transparent;
-  color: $blue;
-}
-
-label.btn-outline-secondary:hover {
-  background-color: transparent;
-  color: $gray-800;
-}
-
-label.btn-outline-success:hover {
-  background-color: transparent;
-  color: $green;
-}
-
-label.btn-outline-danger:hover {
-  background-color: transparent;
-  color: $red;
-}
-
-label.btn-outline-warning:hover {
-  background-color: transparent;
-  color: $yellow;
-}
-
-label.btn-outline-info:hover {
-  background-color: transparent;
-  color: $teal;
-}
-
-label.btn-outline-light:hover {
-  background-color: transparent;
-  color: $white;
-}
-
-label.btn-outline-dark:hover {
-  background-color: transparent;
-  color: $gray-900;
-}
 
 
 .btn-toggle {

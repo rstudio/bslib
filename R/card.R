@@ -310,7 +310,7 @@ card_plot_output <- function(outputId,
 
 full_screen_toggle <- function() {
     tags$a(
-      tags$span(class = "badge rounded-pill bg-dark m-2", style="padding:0.55rem;",
+      tags$span(class = "badge rounded-pill bg-dark m-2", style="padding:0.55rem !important;",
       class = "bslib-full-screen-enter",
       "data-bs-toggle" = "tooltip",
       "data-bs-placement" = "bottom",

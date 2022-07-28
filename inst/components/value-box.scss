@@ -9,8 +9,10 @@ $value-box-showcase-font-size: 3rem !default;
     justify-content: center;
     padding: 1rem;
 
-    .bi, .fa {
-      font-size: 2.5rem;
+    .bi,
+    .fa {
+      font-size: 1.75rem;
+      opacity: .92;
     }
   }
 
@@ -33,12 +35,13 @@ $value-box-showcase-font-size: 3rem !default;
 .bslib-value-box {
   justify-content: center;
   width: 100%;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-light;
+  font-size: .75rem;
+  font-weight: 500;
   background-color: inherit;
   color: inherit;
   border: none;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
+
   * {
     padding: 0 !important;
   }
@@ -54,9 +57,10 @@ $value-box-showcase-font-size: 3rem !default;
 
   .value-box-showcase {
     flex: 1 1 auto;
+
     // TODO: is this the best way to override the inline
     // height/width on output bindings?
-    > * {
+    >* {
       width: var(--showcase-full-width, 100%) !important;
       height: var(--showcase-full-height, 600px) !important;
     }

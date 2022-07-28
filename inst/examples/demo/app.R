@@ -173,7 +173,7 @@ main <- tagList(
 
 ui <- page_navbar(
   theme = bs_theme(
-    font_base = font_google("Open Sans"),
+    base_font = font_google("Open Sans", wght = c(300, 400, 500, 600, 700, 800), ital = c(0, 1)),
     "primary" = PRIMARY,
     "navbar-bg" = PRIMARY,
     # TODO: hopefully we can handle this via CSS variables when we update to Bootstrap 5.2
@@ -369,7 +369,7 @@ server <- function(input, output, session) {
   output$value_boxes <- renderUI({
     d <- flight_dat()
     n_flights <- value_box(
-      "A total of",
+        "A TOTAL OF",
       paste(nrow(d), "flights"),
       paste(
         "Across", length(unique(d$dest_name)),
@@ -382,7 +382,7 @@ server <- function(input, output, session) {
     )
 
     delay_dep <- value_box(
-      HTML("On average, they <b>depart</b>"),
+      HTML("AVERAGE DEPARTURE"),
       paste(
         round(mean(d$dep_delay, na.rm = T), 0),
         "mins late"
@@ -391,12 +391,11 @@ server <- function(input, output, session) {
         round(100 * sum(d$dep_delay > 0, na.rm = T) / nrow(d), 1),
         "% of flights depart late"
       ),
-      style = "background: var(--bs-orange) !important",
       showcase = bsicons::bs_icon("hourglass-split")
     )
 
     delay_arr <- value_box(
-      HTML("On average, they <b>arrive</b>"),
+      HTML("AVERAGE ARRIVAL"),
       paste(
         round(mean(d$arr_delay, na.rm = T), 0),
         "mins late"
@@ -405,7 +404,6 @@ server <- function(input, output, session) {
         round(100 * sum(d$arr_delay > 0, na.rm = TRUE) / nrow(d), 1),
         "% of flights arrive late"
       ),
-      style = "background: var(--bs-orange) !important",
       showcase = bsicons::bs_icon("hourglass-bottom")
     )
 
@@ -577,31 +575,31 @@ server <- function(input, output, session) {
       tidyr::spread(category, n)
 
     furniture <- value_box(
-      "In Furniture",
+      "FURNITURE SALES",
       scales::dollar(sales_category$Furniture),
-      "in sales over 4 years",
-      showcase = plotlyOutput("furniture", height = "40px", width = "60px"),
+      "Over the last 4 years",
+      showcase = plotlyOutput("furniture", height = "40px", width = "45px"),
       full_screen = TRUE
     )
     office <- value_box(
-      "In Office Supplies",
+      "OFFICE SUPPLIES SALES",
       scales::dollar(sales_category$`Office Supplies`),
-      "in sales over 4 years",
-      showcase = plotlyOutput("office", height = "40px", width = "60px"),
+      "Over the last 4 years",
+      showcase = plotlyOutput("office", height = "40px", width = "45px"),
       full_screen = TRUE
     )
     technology <- value_box(
-      "In Technology",
+      "TECHNOLOGY SALES",
       scales::dollar(sales_category$Technology),
-      "in sales over 4 years",
-      showcase = plotlyOutput("technology", height = "40px", width = "60px"),
+      "Over the last 4 years",
+      showcase = plotlyOutput("technology", height = "40px", width = "45px"),
       full_screen = TRUE
     )
 
     overall <- value_box(
-      "Overall",
+      "OVERALL SALES",
       scales::dollar(sum(sales()$sales)),
-      "in sales over 4 years",
+      "Over the last 4 years",
       showcase = plotlyOutput("overall", height = "60px", width = "100px"),
       showcase_layout = "left-center",
       full_screen = TRUE
@@ -616,10 +614,10 @@ server <- function(input, output, session) {
       scales::percent(accuracy = .1)
 
     yoy <- value_box(
-      "Average growth",
+      "AVERAGE GROWTH",
       yoy_perc,
-      "year over year",
-      showcase = plotlyOutput("yoy", height = "60px", width = "100px"),
+      "Year over year",
+      showcase = plotlyOutput("yoy", height = "100px", width = "100px"),
       class = "bg-success",
       showcase_layout = "left-center",
       full_screen = TRUE
@@ -702,11 +700,21 @@ server <- function(input, output, session) {
   })
 
   output$sales_monthly_dat <- DT::renderDataTable({
-    DT::datatable(sales_date(), fillContainer = TRUE, options = list(pageLength = 50))
+    info <- getCurrentOutputInfo()
+    large <- isTRUE(info$height() > 410)
+    datatable(
+      sales_date(), fillContainer = TRUE,
+      options = if (large) list() else list(pageLength = 50, dom = 't')
+    )
   })
 
   output$sales_raw_dat <- DT::renderDataTable({
-    DT::datatable(sales(), fillContainer = TRUE, options = list(pageLength = 50))
+    info <- getCurrentOutputInfo()
+    large <- isTRUE(info$height() > 410)
+    datatable(
+      sales(), fillContainer = TRUE,
+      options = if (large) list() else list(pageLength = 50, dom = 't')
+    )
   })
 
   plotly_time_series <- function(d, x, y, ...) {
