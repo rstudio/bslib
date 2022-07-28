@@ -1,12 +1,9 @@
-@each $color, $value in $theme-colors {
+@each $color,
+$value in $theme-colors {
   .bslib-toggle-buttons {
-    .btn-outline-#{$color} {
-      //&:focus {
-      //  box-shadow: none !important;
-      //}
-      &:hover {
-        background-color: rgba($value, 0.80) !important;
-      }
+    input:not(:checked) + .btn-outline-#{$color}:hover {
+      color: $value;
+      background-color: transparent;
     }
   }
 }
