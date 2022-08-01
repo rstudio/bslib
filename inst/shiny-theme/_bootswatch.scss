@@ -1,0 +1,240 @@
+// TODO: bundle these files?
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+// Bootstrap 5 style changes
+
+
+.bslib-check-search .form-check-label {
+  font-size: $font-size-base * .9;
+}
+
+.card-header-tabs {
+  // margin-right: -$card-cap-padding-x;
+  margin-right: inherit;
+  // margin-bottom: -$card-cap-padding-y;
+  margin-bottom: inherit;
+  // margin-left: -$card-cap-padding-x;
+  margin-left: inherit;
+  border-bottom: 0;
+}
+
+$box-shadow: 0 0.35rem 0.85rem 0 rgba($black, 0.12),
+  0 0.06rem 0.275rem 0 rgba($black, 0.1);
+
+.btn {
+  margin: $spacer * .25 $spacer * .125
+}
+
+.card.shadow {
+  border: none;
+}
+
+.card-header {
+  padding: $spacer * .9 $spacer * .9;
+  background-color: transparent;
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.bslib-card-title span {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-header .nav-item {
+
+  font-size: $font-size-base * .88;
+  line-height: 1.9em;
+  font-weight: 600;
+}
+
+.card .dropdown-menu {
+  font-size: $font-size-base * .8;
+}
+
+.dropdown-menu {
+  font-size: $font-size-base * .9;
+}
+
+
+.card-header body,
+.card-header p,
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header h6,
+.shiny-value-box p,
+.shiny-value-box h1,
+.shiny-value-box h2,
+.shiny-value-box h3,
+.shiny-value-box h4,
+.shiny-value-box h5,
+.shiny-value-box h6 {
+  margin-bottom: 0rem;
+  margin-top: 0rem;
+}
+
+.card .nav-link {
+  padding: 0 $spacer * .5;
+}
+
+.card .card-header-tabs .nav-link,
+.card .card-header-tabs .dropdown,
+.card .card-header-pills .nav-link,
+.card .card-header-pills .dropdown {
+  display: block;
+  font-weight: 600;
+  font-size: $font-size-base * .8;
+}
+
+.card .card-header-tabs .nav-link,
+.card .card-header-tabs .dropdown,
+.card .card-header-pills .nav-link:not(.card .card-header-pills .nav-link.active),
+.card .card-header-pills .dropdown .nav-link:not(.card .card-header-pills .dropdown .nav-link.active) {
+  color: $gray-600;
+}
+
+.card .card-header-tabs li:first-of-type .nav-link {
+  padding-left: 0px;
+}
+
+.card .card-header-tabs li:last-of-type .nav-link {
+  padding-right: 0px;
+}
+
+.card .nav-tabs .nav-link.active,
+.card .nav-tabs .dropdown-toggle.active {
+  color: $gray-900;
+  text-decoration: none;
+  // border-bottom: 3px solid !important;
+}
+
+.card .nav-tabs,
+.nav-tabs .nav-link.active {
+  border: none !important;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs>li>a.active {
+  background-color: transparent;
+}
+
+.nav-item .nav-link,
+.nav-item .nav-link:hover {
+  border: 0px;
+}
+
+.card .nav-link:focus:not(.card .nav-pills>li>a:focus),
+.card .nav-link:hover:not(.card .nav.nav-pills .nav-link:hover) {
+  color: $black  !important;
+}
+
+.card table th,
+.card table tr {
+  font-size: $font-size-base * .75;
+}
+
+// .card .table-striped>tbody>tr:nth-of-type(odd) {
+//   --bs-table-accent-bg: tint-color($blue, 95%);
+//   background-color: tint-color($blue, 95%);
+// }
+
+.card .dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: tint-color($blue, 94%);
+}
+
+.dropdown-item:active,
+.card .dropdown-item:active {
+  background-color: tint-color($blue, 15%) !important;
+}
+
+.card .table> :not(caption)>*>* {
+  border-bottom-color: transparent;
+}
+
+.card .card-footer {
+  font-size: $font-size-base * .875;
+  background-color: rgba($black, 0.024);
+  border-top: none;
+}
+
+.card .card-header .icon {
+  background-color: rgba($white, 0.15);
+  width: 40px;
+  height: 40px;
+
+  & svg {
+    color: $white;
+    fill: currentColor;
+  }
+}
+
+
+
+.card .icon-lg {
+  width: 60px;
+  height: 60px;
+  opacity: .9;
+
+  & svg {
+    color: $white;
+    fill: currentColor;
+  }
+}
+
+
+
+/* BOOTSTRAP SIDEBAR */
+
+// FIX BUTTON GROUP HOVER SHENANIGANS
+// TODO Carson, is there a better Sass way to handle this?
+
+
+.btn-toggle {
+  display: inline-flex;
+  align-items: center;
+  -webkit-align-items: center;
+  -webkit-align-items: center;
+  padding: $spacer * .25 $spacer * .5;
+  background-color: transparent;
+  border: 0;
+  width: 100%;
+}
+
+.btn-toggle:hover,
+.btn-toggle:focus {
+  color: rgba($black, 0.85);
+  background-color: tint-color($blue, 95%);
+}
+
+.btn-toggle::after {
+  width: 1rem;
+  height: 1rem;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23202020'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  transition: transform 0.35s ease;
+  transform-origin: 0.5em 50%;
+  margin-left: auto;
+}
+
+
+.btn-toggle[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.btn-toggle-nav a {
+  display: inline-flex;
+  padding: $spacer * .1875 $spacer * .5;
+  margin-top: $spacer * .125;
+  margin-left: $spacer * 1.25;
+  text-decoration: none;
+}
+
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus,
+a.nav-link:hover {
+  background-color: rgba($blue, 0.05);
+}

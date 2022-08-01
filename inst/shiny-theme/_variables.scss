@@ -1,0 +1,49 @@
+$global-blue: #0675DD !default;
+
+// TODO: implement these variables
+// $badge-border-radius: $border-radius-sm;
+// $breadcrumb-active-color: $gray-700;
+// $secondary: $gray-800;
+// $breadcrumb-bg: $gray-100;
+// $dark: $gray-900;
+
+
+$blue: #007BC2;
+$purple: #74149C;
+$indigo: #4B00C1;
+$pink: #BF007F;
+$red: #C10000;
+$orange: #f45100;
+$yellow: #F9B928;
+$green: #00891A;
+$teal: #00BF7F;
+$cyan: #03C7E8;
+
+$table-border-level: -11;
+$gray-100: #f8f8f8;
+$gray-600: #7c7c7c;
+$gray-700: #606060;
+$gray-800: #404040;
+$gray-900: #202020;
+
+
+$font-family-sans-serif: "Open Sans", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$badge-padding-y: .5em;
+$badge-padding-x: .75em;
+
+$badge-pill-border-radius: 0.75rem;
+$badge-pill-padding-x: .9em;
+$card-cap-bg: null;
+$input-btn-padding-y: .5rem;
+
+$navbar-bg: $global-blue  !default;
+
+// Make table striping light Shiny blue
+$table-striped-bg: rgba($blue, 0.055) !default;
+$table-hover-bg-factor: .13 !default;
+$table-hover-bg: rgba($blue, $table-hover-bg-factor) !default;
+$table-active-bg-factor: .5 !default;
+
+
+$nav-link-padding-x: 1.1rem !default;
+$form-check-padding-start: 1.4rem !default;

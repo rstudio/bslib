@@ -117,11 +117,14 @@ bs_theme <- function(version = version_default(), bootswatch = "shiny", ...,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
                      font_scale = NULL) {
 
+  bootswatch <- resolve_bootswatch_theme(version, bootswatch)
+
   theme <- bs_bundle(
     bs_theme_init(version, bootswatch),
     bootstrap_bundle(version),
     bootswatch_bundle(bootswatch, version)
   )
+
   bs_theme_update(
     theme, ...,
     bg = bg, fg = fg,
@@ -418,28 +421,7 @@ bs3_accessibility_bundle <- function() {
 # -----------------------------------------------------------------
 
 bootswatch_bundle <- function(bootswatch, version) {
-  if (!length(bootswatch) || isTRUE(bootswatch %in% c("default", "bootstrap"))) {
-    return(NULL)
-  }
-
-  bootswatch <- switch_version(
-    version,
-    default = {
-      switch(
-        bootswatch,
-        paper = {
-          message("Bootswatch 3 theme paper has been renamed to materia in version 4 (using that theme instead)")
-          "materia"
-        },
-        readable = {
-          message("Bootswatch 3 theme readable has been renamed to litera in version 4 (using that theme instead)")
-          "litera"
-        },
-        match.arg(bootswatch, bootswatch_themes(version))
-      )
-    },
-    three = match.arg(bootswatch, bootswatch_themes(version))
-  )
+  if (!length(bootswatch)) return(NULL)
 
   # Attach local font files, if necessary
   font_css <- file.path(bootswatch_dist(version), bootswatch, "font.css")
@@ -514,5 +496,37 @@ bs3compat_navbar_defaults <- function(bootswatch) {
   list(
     sprintf('$navbar-light-bg: $%s !default;', bg_colors[1]),
     sprintf('$navbar-dark-bg: $%s !default;', bg_colors[2])
+  )
+}
+
+
+resolve_bootswatch_theme <- function(version, bootswatch) {
+  if (!length(bootswatch) || isTRUE(bootswatch %in% c("default", "bootstrap"))) {
+    return(NULL)
+  }
+
+  # Our custom inst/shiny-theme "bootswatch theme" is only
+  # designed to work with Bootstrap 5+
+  if (version < 5 && bootswatch == "shiny") {
+    return(NULL)
+  }
+
+  switch_version(
+    version,
+    default = {
+      switch(
+        bootswatch,
+        paper = {
+          message("Bootswatch 3 theme paper has been renamed to materia in version 4 (using that theme instead)")
+          "materia"
+        },
+        readable = {
+          message("Bootswatch 3 theme readable has been renamed to litera in version 4 (using that theme instead)")
+          "litera"
+        },
+        match.arg(bootswatch, bootswatch_themes(version))
+      )
+    },
+    three = match.arg(bootswatch, bootswatch_themes(version))
   )
 }

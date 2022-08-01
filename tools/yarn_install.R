@@ -41,7 +41,7 @@ unlink("inst/lib/popper.js", recursive = TRUE)
 scss_files <- dir("inst", pattern = "\\.scss$", recursive = TRUE, full.names = TRUE)
 # These libs should already have prefixes in their source
 # TODO: add test(s) that we aren't missing vendor prefixes
-scss_files <- scss_files[!grepl("(^inst/lib/bs3)|(^inst/bs3compat)|(^inst/themer)|(^inst/nav-spacer)", scss_files)]
+scss_files <- scss_files[!grepl("(^inst/lib/bs3)|(^inst/bs3compat)|(^inst/themer)|(^inst/nav-spacer)|(^inst/components)", scss_files)]
 
 scss_src <- lapply(scss_files, readLines)
 
@@ -350,6 +350,20 @@ writeLines(
   ),
   "inst/lib/bsw4/dist/solar/_bootswatch.scss"
 )
+
+
+# ----------------------------------------------------------------------
+# Add our own custom "bootswatch" theme
+# ----------------------------------------------------------------------
+
+# Treat inst/shiny-theme as a "shiny" Bootswatch 5 theme
+withr::with_dir("inst", {
+  dir.create("lib/bsw5/dist/shiny")
+  file.copy(
+    dir("shiny-theme", full.names = TRUE),
+    "lib/bsw5/dist/shiny"
+  )
+})
 
 # ----------------------------------------------------------------------
 # Apply minification to patched files
