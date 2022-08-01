@@ -53,19 +53,19 @@ Create nav item(s) for use inside nav containers (e.g., \code{\link[=navs_tab]{n
 }
 \section{Functions}{
 \itemize{
-\item \code{nav}: Content to display when the given item is selected.
+\item \code{nav()}: Content to display when the given item is selected.
 
-\item \code{nav_menu}: Create a menu of nav items.
+\item \code{nav_menu()}: Create a menu of nav items.
 
-\item \code{nav_content}: Create nav content for use inside \code{navs_hidden()} (for
+\item \code{nav_content()}: Create nav content for use inside \code{navs_hidden()} (for
 creating custom navigation controls via \code{navs_select()}),
 
-\item \code{nav_item}: Place arbitrary content in the navigation panel (e.g., search
+\item \code{nav_item()}: Place arbitrary content in the navigation panel (e.g., search
 forms, links to external content, etc.)
 
-\item \code{nav_spacer}: Adding spacing between nav items.
-}}
+\item \code{nav_spacer()}: Adding spacing between nav items.
 
+}}
 \seealso{
 \code{\link[=navs_tab]{navs_tab()}}, \code{\link[=nav_select]{nav_select()}}.
 }
