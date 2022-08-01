@@ -1,4 +1,4 @@
-# remotes::install_github("rstudio/bslib")
+# remotes::install_github("rstudio/bslib@dev")
 # remotes::install_github("rstudio/bsicons")
 # remotes::install_github("cpsievert/histoslider")
 library(shiny)
@@ -46,7 +46,7 @@ side <- accordion(
   ),
   accordion_item(
     "Destination", icon = icon("plane-arrival"),
-    style = css(overflow = "hidden"),
+    style = "overflow: hidden",
     input_check_search(
       "dest_name", sort(unique(flights$dest_name)),
       width = "100%"
@@ -54,7 +54,7 @@ side <- accordion(
   ),
   accordion_item(
     "Carrier", icon = icon("user-tie"),
-    style = css(overflow = "hidden"),
+    style = "overflow: hidden",
     input_check_search(
       "carrier_name", unique(flights$carrier_name),
       width = "100%"
@@ -343,7 +343,7 @@ server <- function(input, output, session) {
   output$origin_reset <- renderUI({
     actionLink(
       "origin_reset", "Reset",
-      style = css(
+      style = htmltools::css(
         text_decoration = "none",
         font_weight = 700,
         font_size = ".875rem",
