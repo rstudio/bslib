@@ -60,7 +60,7 @@ $value-box-showcase-font-size: 3rem !default;
 
     // TODO: is this the best way to override the inline
     // height/width on output bindings?
-    >* {
+    > * {
       width: var(--showcase-full-width, 100%) !important;
       height: var(--showcase-full-height, 600px) !important;
     }

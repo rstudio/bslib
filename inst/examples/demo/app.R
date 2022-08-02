@@ -311,29 +311,13 @@ server <- function(input, output, session) {
           id = var, choices = choices, selected = input_val %||% I("none")
         )
       } else {
-        # TODO: histoslider needs to preserve state when updating
         breaks <- if (var == "date") "months" else "Sturges"
-        label <- switch(
-          var,
-          sched_dep_time = "Departure time",
-          sched_arr_time = "Arrival time",
-          date = "Date",
-          precip = "Precipitation",
-          wind_gust = "Wind gust",
-          wind_speed = "Wind speed"
-        )
-        options <- list(
-          handleLabelFormat = if (var == "date") "%b %e" else "0d",
-          selectedColor = PRIMARY
-        )
         try(update_input_func(
           id = var,
-          label = label,
           values = d[[var]],
           start = input_val[1],
           end = input_val[2],
-          breaks = breaks,
-          options = options
+          breaks = breaks
         ))
       }
 
@@ -369,7 +353,7 @@ server <- function(input, output, session) {
   output$value_boxes <- renderUI({
     d <- flight_dat()
     n_flights <- value_box(
-        "A TOTAL OF",
+      "A TOTAL OF",
       paste(nrow(d), "flights"),
       paste(
         "Across", length(unique(d$dest_name)),
@@ -382,7 +366,7 @@ server <- function(input, output, session) {
     )
 
     delay_dep <- value_box(
-      HTML("AVERAGE DEPARTURE"),
+      "AVERAGE DEPARTURE",
       paste(
         round(mean(d$dep_delay, na.rm = T), 0),
         "mins late"
