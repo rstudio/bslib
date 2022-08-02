@@ -2,9 +2,17 @@
 % Please edit documentation in R/input-switch.R
 \name{input_switch}
 \alias{input_switch}
+\alias{update_switch}
 \title{Create a switch input}
 \usage{
 input_switch(id, label, value = FALSE, width = NULL, inline = TRUE)
+
+update_switch(
+  id,
+  label = NULL,
+  value = NULL,
+  session = shiny::getDefaultReactiveDomain()
+)
 }
 \arguments{
 \item{id}{an input id.}

@@ -13,8 +13,7 @@ input_check_buttons(
   ...,
   selected = NULL,
   size = c("md", "sm", "lg"),
-  bg = "primary",
-  outline = TRUE
+  bg = "primary"
 )
 
 update_check_buttons(
@@ -30,8 +29,7 @@ input_radio_buttons(
   ...,
   selected = NULL,
   size = c("md", "sm", "lg"),
-  bg = "primary",
-  outline = TRUE
+  bg = "primary"
 )
 
 update_radio_buttons(
@@ -51,8 +49,6 @@ update_radio_buttons(
 \item{size}{size of the button group}
 
 \item{bg}{a theme color to use for the btn modifier class}
-
-\item{outline}{whether or not the buttons should always have fill.}
 }
 \description{
 Use \code{input_check_buttons()} if multiple choices may be selected at once; otherwise, use \code{input_radio_buttons()}
