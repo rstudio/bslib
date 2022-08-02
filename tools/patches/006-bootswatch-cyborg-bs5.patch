@@ -65,9 +65,9 @@ index ba1b228..4e3c7df 100644
 @@ -102,18 +102,18 @@ legend {
 
  .alert {
-   border: none;
 -  color: $white;
 +  color: $contrast-bg;
+   border: none;
 
    a,
    .alert-link {

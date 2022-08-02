@@ -1,23 +1,20 @@
 diff --git a/inst/lib/bs5/scss/_navbar.scss b/inst/lib/bs5/scss/_navbar.scss
-index 1b71ffe..2d6e72d 100644
+index 38e5a83c..f68fd8a1 100644
 --- a/inst/lib/bs5/scss/_navbar.scss
 +++ b/inst/lib/bs5/scss/_navbar.scss
-@@ -232,6 +232,7 @@
+@@ -290,10 +290,12 @@
+ // Styles for switching between navbars with light or dark background.
  
- // Dark links against a light background
  .navbar-light {
 +  background-color: $navbar-light-bg; // not !important so .bg-* utilities can still override
-   .navbar-brand {
-     color: $navbar-light-brand-color;
+   @include deprecate("`.navbar-light`", "v5.2.0", "v6.0.0", true);
+ }
  
-@@ -283,6 +284,7 @@
- 
- // White links against a dark background
  .navbar-dark {
 +  background-color: $navbar-dark-bg; // not !important so .bg-* utilities can still override
-   .navbar-brand {
-     color: $navbar-dark-brand-color;
- 
+   --#{$prefix}navbar-color: #{$navbar-dark-color};
+   --#{$prefix}navbar-hover-color: #{$navbar-dark-hover-color};
+   --#{$prefix}navbar-disabled-color: #{$navbar-dark-disabled-color};
 diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
 index 7558224..8cd96d0 100644
 --- a/inst/lib/bs5/scss/_variables.scss
@@ -59,3 +56,6 @@ index 7558224..8cd96d0 100644
  
  $navbar-light-brand-color:                $navbar-light-active-color !default;
  $navbar-light-brand-hover-color:          $navbar-light-active-color !default;
+   --#{$prefix}navbar-color: #{$navbar-dark-color};
+   --#{$prefix}navbar-hover-color: #{$navbar-dark-hover-color};
+   --#{$prefix}navbar-disabled-color: #{$navbar-dark-disabled-color};

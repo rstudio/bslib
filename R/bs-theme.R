@@ -251,7 +251,8 @@ bootstrap_bundle <- function(version) {
       sass_layer(
         functions = bs5_sass_files("functions"),
         defaults = bs5_sass_files("variables"),
-        mixins = bs5_sass_files("mixins")
+        mixins = list(bs5_sass_files("maps"), bs5_sass_files("mixins")),
+        rules = list(bs5_sass_files("mixins/banner"), "@include bsBanner('')")
       ),
       # Returns a _named_ list of bundles (i.e., these should be easily removed)
       !!!rule_bundles(

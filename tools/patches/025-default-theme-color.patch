@@ -25,14 +25,14 @@ index 42d8142..dde6f2f 100644
      "secondary":  $secondary,
      "success":    $success,
 diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
-index 2615d70..77bef76 100644
+index 706ee935..2ce8afc1 100644
 --- a/inst/lib/bs5/scss/_variables.scss
 +++ b/inst/lib/bs5/scss/_variables.scss
-@@ -66,6 +66,11 @@ $colors: (
+@@ -297,6 +297,11 @@ $cyans: (
  ) !default;
- // scss-docs-end colors-map
+ // fusv-enable
  
-+// Semantically, $secondary is closest to BS3's 'default' theme color; 
++// Semantically, $secondary is closest to BS3's 'default' theme color;
 +// so use that if specified. Otherwise, use a light instead of dark gray
 +// default color for $default since that's closer to bootstrap 3's default
 +$default: if(variable-exists("secondary"), $secondary, $gray-300) !default;
