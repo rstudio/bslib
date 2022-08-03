@@ -20,7 +20,7 @@ index 9ba1f30..320b963 100644
 @@ -314,6 +319,9 @@ pre {
  code {
    @include font-size($code-font-size);
-   color: $code-color;
+   color: var(--#{$prefix}code-color);
 +  background-color: $code-bg;
 +  @include border-radius($border-radius);
 +  padding: $spacer/8 $spacer/4;
@@ -28,26 +28,26 @@ index 9ba1f30..320b963 100644
  
    // Streamline the style when inside anchors to avoid broken underline and more
 diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
-index 8cd96d0..b0e5dc3 100644
+index 30485106..9ff2f56c 100644
 --- a/inst/lib/bs5/scss/_variables.scss
 +++ b/inst/lib/bs5/scss/_variables.scss
-@@ -1460,7 +1460,10 @@ $offcanvas-box-shadow:              $modal-content-box-shadow-xs !default;
+@@ -1621,7 +1621,10 @@ $offcanvas-backdrop-opacity:        $modal-backdrop-opacity !default;
  // Code
  
  $code-font-size:                    $small-font-size !default;
 -$code-color:                        $pink !default;
 +// Amount intentionally matches mixture amount of shiny::inputPanel()
 +// https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
-+$code-bg:                           mix($body-bg, $body-color, 96%) !default;
-+$code-color:                        color-contrast($code-bg) !default;
++$code-bg: mix($body-bg, $body-color, 96%) !default;
++$code-color: color-contrast($code-bg) !default;
  
- $kbd-padding-y:                     .2rem !default;
- $kbd-padding-x:                     .4rem !default;
-@@ -1468,4 +1471,6 @@ $kbd-font-size:                     $code-font-size !default;
- $kbd-color:                         $white !default;
- $kbd-bg:                            $gray-900 !default;
+ $kbd-padding-y:                     .1875rem !default;
+ $kbd-padding-x:                     .375rem !default;
+@@ -1630,4 +1633,6 @@ $kbd-color:                         var(--#{$prefix}body-bg) !default;
+ $kbd-bg:                            var(--#{$prefix}body-color) !default;
+ $nested-kbd-font-weight:            null !default; // Deprecated in v5.2.0, removing in v6
  
 -$pre-color:                         null !default;
-+$pre-bg:                            $code-bg !default;
-+$pre-color:                         color-contrast($pre-bg) !default;
-+$pre-border:                        $border-width solid $border-color !default;
++$pre-bg: $code-bg  !default;
++$pre-color: color-contrast($pre-bg) !default;
++$pre-border: $border-width solid $border-color  !default;
