@@ -247,6 +247,9 @@ with_dir(
       "bs-colorpicker", {
         file.rename("dist/css", "css")
         file.rename("dist/js", "js")
+        # For the sake of simplicity, a patch is applied to just the
+        # non-minified version (and the minified version isn't used)
+        unlink(Sys.glob("js/*.min.js"))
         unlink("node_modules", recursive = TRUE)
         unlink("dist", recursive = TRUE)
         unlink("src", recursive = TRUE)

@@ -1,0 +1,13 @@
+diff --git a/inst/lib/bs-colorpicker/js/bootstrap-colorpicker.js b/inst/lib/bs-colorpicker/js/bootstrap-colorpicker.js
+index eb5f96c0..73b5cc79 100644
+--- a/inst/lib/bs-colorpicker/js/bootstrap-colorpicker.js
++++ b/inst/lib/bs-colorpicker/js/bootstrap-colorpicker.js
+@@ -4191,7 +4191,7 @@ var PopupHandler = function () {
+       /* global bootstrap */
+       var useGetInstance = window.bootstrap && window.bootstrap.Popover && window.bootstrap.Popover.getInstance;
+ 
+-      this.popoverTip = useGetInstance ? (0, _jquery2.default)(bootstrap.Popover.getInstance(this.popoverTarget[0]).getTipElement()) : (0, _jquery2.default)(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
++      this.popoverTip = useGetInstance ? (0, _jquery2.default)(bootstrap.Popover.getInstance(this.popoverTarget[0]).tip) : (0, _jquery2.default)(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
+ 
+       this.popoverTip.addClass('colorpicker-bs-popover');
+ 
