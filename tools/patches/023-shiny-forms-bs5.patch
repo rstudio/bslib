@@ -33,10 +33,10 @@ index 0fb5284..2615d70 100644
 +$form-check-label-cursor:                 pointer !default;
  $form-check-transition:                   null !default;
 diff --git a/inst/lib/bs5/scss/forms/_form-check.scss b/inst/lib/bs5/scss/forms/_form-check.scss
-index b1ef904..4a96ef5 100644
+index ca6d6a27..06313665 100644
 --- a/inst/lib/bs5/scss/forms/_form-check.scss
 +++ b/inst/lib/bs5/scss/forms/_form-check.scss
-@@ -2,19 +2,19 @@
+@@ -2,13 +2,13 @@
  // Check/radio
  //
  
@@ -52,6 +52,8 @@ index b1ef904..4a96ef5 100644
      float: left;
      margin-left: $form-check-padding-start * -1;
    }
+@@ -26,7 +26,7 @@
+   }
  }
  
 -.form-check-input {
@@ -59,21 +61,13 @@ index b1ef904..4a96ef5 100644
    width: $form-check-input-width;
    height: $form-check-input-width;
    margin-top: ($line-height-base - $form-check-input-width) * .5; // line-height minus check height
-@@ -136,7 +136,7 @@
-   }
- }
- 
--.form-check-inline {
-+.form-check-inline, #{$shiny-check-inline}, #{$shiny-radio-inline} {
-   display: inline-block;
-   margin-right: $form-check-inline-margin-end;
- }
-@@ -94,13 +94,13 @@
+@@ -105,14 +105,14 @@
    // See: https://github.com/twbs/bootstrap/issues/28247
    &[disabled],
    &:disabled {
 -    ~ .form-check-label {
 +    ~ .form-check-label, ~ span {
+       cursor: default;
        opacity: $form-check-label-disabled-opacity;
      }
    }

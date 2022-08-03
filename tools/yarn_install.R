@@ -135,7 +135,7 @@ invisible(Map(writeLines, scss_src, scss_files))
 find_prefixed_css <- function(css) {
   vendors <- c("webkit", "moz", "ms")
   prefixes <- lapply(vendors, function(vendor) {
-    pattern <- sprintf("-%s-([^:|;| |\\)]+)", vendor)
+    pattern <- sprintf("-%s-([^:|;| |\\|,)]+)", vendor)
     prefixes <- regmatches(css, regexec(pattern, css))
     lapply(prefixes, function(x) if (length(x) > 1) x[2] else NULL)
   })
@@ -247,6 +247,9 @@ with_dir(
       "bs-colorpicker", {
         file.rename("dist/css", "css")
         file.rename("dist/js", "js")
+        # For the sake of simplicity, a patch is applied to just the
+        # non-minified version (and the minified version isn't used)
+        unlink(Sys.glob("js/*.min.js"))
         unlink("node_modules", recursive = TRUE)
         unlink("dist", recursive = TRUE)
         unlink("src", recursive = TRUE)

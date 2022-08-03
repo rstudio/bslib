@@ -4191,7 +4191,7 @@ var PopupHandler = function () {
       /* global bootstrap */
       var useGetInstance = window.bootstrap && window.bootstrap.Popover && window.bootstrap.Popover.getInstance;
 
-      this.popoverTip = useGetInstance ? (0, _jquery2.default)(bootstrap.Popover.getInstance(this.popoverTarget[0]).getTipElement()) : (0, _jquery2.default)(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
+      this.popoverTip = useGetInstance ? (0, _jquery2.default)(bootstrap.Popover.getInstance(this.popoverTarget[0]).tip) : (0, _jquery2.default)(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
 
       this.popoverTip.addClass('colorpicker-bs-popover');
 
