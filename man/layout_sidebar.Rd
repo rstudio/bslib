@@ -8,9 +8,18 @@ layout_sidebar(
   side,
   main,
   side_width = "20\%",
-  bg_colors = c("var(--bs-body-bg)", "var(--bs-light)"),
-  top = "55px"
+  bg_colors = c("var(--bs-body-bg)", "var(--bs-light)")
 )
+}
+\arguments{
+\item{side}{A \link[htmltools:builder]{htmltools::tag} (or list of them) to place in the sidebar.}
+
+\item{main}{A \link[htmltools:builder]{htmltools::tag} (or list of them) to place in the main content area.}
+
+\item{side_width}{A valid CSS unit used for the width of the sidebar.}
+
+\item{bg_colors}{A character vector of color codes of length 2. The first color is
+used for the \code{side} content and the second in is used for the \code{main} content.}
 }
 \description{
 Create a "full bleed" sidebar layout

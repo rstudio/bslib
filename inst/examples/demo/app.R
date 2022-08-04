@@ -149,25 +149,17 @@ delay_card <- navs_tab_card(
   )
 )
 
-# TODO: full_screen = TRUE doesn't work (yet) with card_grid()?
-#card_grid(
-#  card_width = 1/2, style = "height: 375px",
-#  flights_card, delay_corr_card
-#),
-#br(),
-#card_grid(
-#  card_width = 1, style = "height: 400px",
-#  delay_card
-#)
 
 main <- tagList(
   uiOutput("value_boxes"),
-  br(),
-  fluidRow(
-    column(6, flights_card), column(6, delay_corr_card)
+  card_grid(
+    card_width = "200px", class = "my-3", style = "height: 375px",
+    flights_card, delay_corr_card
   ),
-  br(),
-  fluidRow(column(12, delay_card))
+  card_grid(
+    card_width = 1, style = "height: 400px",
+    delay_card
+  )
 )
 
 
@@ -190,7 +182,7 @@ ui <- page_navbar(
   fluid = TRUE,
   nav(
     "NYC Flights",
-    layout_sidebar(side, main, top = "70px")
+    layout_sidebar(side, main)
   ),
   nav(
     "Sales",

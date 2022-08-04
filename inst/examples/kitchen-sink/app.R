@@ -100,7 +100,7 @@ ui <- page_navbar(
   ),
   nav(
     "Sidebar Example (HTML)",
-    layout_sidebar(sidebar, main, top = "70px")
+    layout_sidebar(sidebar, main)
   ),
   nav("Value Boxes (R)", "Coming soon")
 )
@@ -157,7 +157,7 @@ server <- function(input, output) {
     )
   })
 
-  output$dt3 <- renderDataTable({
+  output$dt3 <- DT::renderDataTable({
     datatable(ggplot2::economics, fillContainer = TRUE, options = list(dom = 't'))
 
   })
