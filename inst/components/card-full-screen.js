@@ -6,7 +6,6 @@ $(function() {
   var tooltipList = tooltipTriggerList.map(function(x) {
     return new bootstrap.Tooltip(x);
   });
-
 });
 
 $(document).on('click', '.bslib-full-screen-enter', function(e) {
@@ -24,52 +23,45 @@ document.addEventListener('keyup', function(e) {
 
 
 function enterFullScreen(card) {
-  // If bindings are in a "stretchy" container, when they exit full screen,
-  // they won't be smart enough to shrink back to their original height
-  // (because the stretchy container has now stretched to their "full" size).
-  // To work around this, we temporarily hide any binding's containing element
-  // and "mock" that container element (just to see what the computed size
-  // should be) and relay that to the resize method
   // TODO: Handle inputs and static render?
-  const bindings = card.querySelectorAll('.shiny-bound-output');
-  bindings.forEach(function(x) {
-    const binding = $(x).data("shiny-output-binding");
-    if (binding && binding.binding && binding.binding.resize) {
-      const resizeFunc = binding.binding.resize;
-      binding.binding.resize = function(el, width, height) {
-        const el_card = $(el).parents(".card").last();
-        if (!el_card.hasClass("bslib-full-screen")) {
-          var div = document.createElement("div");
-          el.style.forEach(function(x) {
-            div.style[x] = el.style[x];
-          });
-          el.classList.forEach(function(x) {
-            div.classList.add(x);
-          });
-          const el_bindings = el_card.find('.shiny-bound-output');
-          const displays = el_bindings.map(function(x) {
-            return $(this).css("display");
-          });
-          el_bindings.each(function(i) {
-            $(this).css("display", "none");
-          });
-          el.insertAdjacentElement("beforebegin", div);
-          width = div.offsetWidth;
-          height = div.offsetHeight;
-          div.remove();
-          el_bindings.each(function(i) {
-            $(this).css("display", displays[i]);
-          });
-          // Shouldn't the image binding's resize be doing this?
-          Shiny.setInputValue(".clientdata_output_" + el.id + "_width", width);
-          Shiny.setInputValue(".clientdata_output_" + el.id + "_height", height);
-        } else {
-          Shiny.setInputValue(".clientdata_output_" + el.id + "_width", width);
-          Shiny.setInputValue(".clientdata_output_" + el.id + "_height", height);
-        }
-        resizeFunc(el, width, height);
-      };
+  const outputs = card.querySelectorAll('.shiny-bound-output');
+
+  // Before entering full-screen mode, capture the current size of each output
+  // so that on the next resize (which occurs outside of full screen mode)
+  // we know what size to return to. The reason we need this hack is because
+  // the output container might stretch according to it's child's size (so
+  // when they've stretched to full screen, they won't know how to shrink
+  // back to the original size)
+  outputs.forEach(function(el) {
+    const origSize = { w: el.offsetWidth, h: el.offsetHeight };
+
+    const b = $(el).data("shiny-output-binding");
+    if (!b || !b.onResize) {
+      return;
     }
+    if (!b.binding || !b.binding.resize) {
+      return;
+    }
+
+    // Note the similarity to
+    // https://github.com/rstudio/shiny/blob/c21ba0ba/srcts/src/utils/index.ts#L102-L132
+    // https://github.com/rstudio/shiny/blob/c21ba0ba/srcts/src/bindings/outputAdapter.ts#L21-L27
+    let lastSize = {};
+    const elCard = $(el).parents(".card").last();
+
+    b.onResize = function() {
+      let size = { w: el.offsetWidth, h: el.offsetHeight };
+
+      if (!elCard.hasClass("bslib-full-screen")) {
+        size = origSize;
+      }
+
+      if (size.w === 0 && size.h === 0) return;
+      if (size.w === lastSize.w && size.h === lastSize.h) return;
+      lastSize = size;
+      b.binding.resize(el, size.w, size.h);
+    };
+
   });
 
   card.classList.add('bslib-full-screen');
