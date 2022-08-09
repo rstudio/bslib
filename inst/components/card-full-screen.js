@@ -33,8 +33,6 @@ function enterFullScreen(card) {
   // when they've stretched to full screen, they won't know how to shrink
   // back to the original size)
   outputs.forEach(function(el) {
-    const origSize = { w: el.offsetWidth, h: el.offsetHeight };
-
     const b = $(el).data("shiny-output-binding");
     if (!b || !b.onResize) {
       return;
@@ -53,11 +51,12 @@ function enterFullScreen(card) {
       let size = { w: el.offsetWidth, h: el.offsetHeight };
 
       if (!elCard.hasClass("bslib-full-screen")) {
-        size = origSize;
+        size = inferSize(el, elCard);
       }
 
       if (size.w === 0 && size.h === 0) return;
       if (size.w === lastSize.w && size.h === lastSize.h) return;
+
       lastSize = size;
       b.binding.resize(el, size.w, size.h);
     };
@@ -75,7 +74,41 @@ function enterFullScreen(card) {
 function exitFullScreen() {
   const card = document.querySelector('.bslib-full-screen');
   if (card) {
+    // Before re-sizing/positioning the card, temporarily hide it so that we don't get
+    // a "flash of un-resized output"
+    const v = card.style.visibility;
+    card.style.visibility = "hidden";
     card.classList.remove('bslib-full-screen');
     $('#bslib-full-screen-overlay').remove();
+    // Wait just slightly longer than Shiny's resize
+    setTimeout(function() {
+      card.style.visibility = v;
+    }, 120);
   }
+}
+
+
+function inferSize(el, card) {
+  var div = document.createElement("div");
+  el.style.forEach(function(x) {
+    div.style[x] = el.style[x];
+  });
+  el.classList.forEach(function(x) {
+    div.classList.add(x);
+  });
+  const el_bindings = $(card).find('.shiny-bound-output');
+  const displays = el_bindings.map(function(x) {
+    return $(this).css("display");
+  });
+  el_bindings.each(function(i) {
+    $(this).css("display", "none");
+  });
+  el.insertAdjacentElement("beforebegin", div);
+  const width = div.offsetWidth;
+  const height = div.offsetHeight;
+  div.remove();
+  el_bindings.each(function(i) {
+    $(this).css("display", displays[i]);
+  });
+  return {w: width, h: height};
 }
