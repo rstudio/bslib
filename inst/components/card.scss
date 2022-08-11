@@ -121,3 +121,8 @@
   background-color: rgba(var(--bs-body-color-rgb), 0.6);
   z-index: $zindex-popover - 1;
 }
+
+
+.bslib-full-screen-exiting {
+  visibility: hidden;
+}

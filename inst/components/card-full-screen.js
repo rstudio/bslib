@@ -59,6 +59,9 @@ function enterFullScreen(card) {
 
       lastSize = size;
       b.binding.resize(el, size.w, size.h);
+      // Technically we're not done exiting until all the output bindings
+      // in this card have resized, but this seems fine for now
+      card.classList.remove('bslib-full-screen-exiting');
     };
 
   });
@@ -73,18 +76,14 @@ function enterFullScreen(card) {
 
 function exitFullScreen() {
   const card = document.querySelector('.bslib-full-screen');
-  if (card) {
-    // Before re-sizing/positioning the card, temporarily hide it so that we don't get
-    // a "flash of un-resized output"
-    const v = card.style.visibility;
-    card.style.visibility = "hidden";
-    card.classList.remove('bslib-full-screen');
-    $('#bslib-full-screen-overlay').remove();
-    // Wait just slightly longer than Shiny's resize
-    setTimeout(function() {
-      card.style.visibility = v;
-    }, 120);
+  if (!card) {
+    return;
   }
+  // Before re-sizing/positioning the card, temporarily hide it so that we don't get
+  // a "flash of un-resized output"
+  card.classList.add('bslib-full-screen-exiting');
+  card.classList.remove('bslib-full-screen');
+  $('#bslib-full-screen-overlay').remove();
 }
 
 
