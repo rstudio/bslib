@@ -9,7 +9,8 @@
 \alias{card_title}
 \alias{card_footer}
 \alias{card_spacer}
-\alias{card_plot_output}
+\alias{card_body_output}
+\alias{card_body_grid}
 \title{Card item components}
 \usage{
 as.card_item(x)
@@ -28,15 +29,15 @@ card_footer(..., class = NULL)
 
 card_spacer(...)
 
-card_plot_output(
-  outputId,
-  click = NULL,
-  dblclick = NULL,
-  hover = NULL,
-  brush = NULL,
-  height = NULL,
+card_body_output(output, stretch = TRUE, height = if (!stretch) "400px", ...)
+
+card_body_grid(
+  ...,
+  width = 1/4,
+  gap = NULL,
+  fixed_width = FALSE,
   stretch = TRUE,
-  ...
+  padding = c("x", "y")
 )
 }
 \arguments{
@@ -60,43 +61,7 @@ example, \code{height="100\%"}.}
 
 \item{container}{a function to generate an HTML element.}
 
-\item{outputId}{output variable to read the plot/image from.}
-
-\item{click}{This can be \code{NULL} (the default), a string, or an object
-created by the \code{\link[shiny:clickOpts]{clickOpts()}} function. If you use a value like
-\code{"plot_click"} (or equivalently, \code{clickOpts(id="plot_click")}),
-the plot will send coordinates to the server whenever it is clicked, and
-the value will be accessible via \code{input$plot_click}. The value will be
-a named list  with \code{x} and \code{y} elements indicating the mouse
-position.}
-
-\item{dblclick}{This is just like the \code{click} argument, but for
-double-click events.}
-
-\item{hover}{Similar to the \code{click} argument, this can be \code{NULL}
-(the default), a string, or an object created by the
-\code{\link[shiny:hoverOpts]{hoverOpts()}} function. If you use a value like
-\code{"plot_hover"} (or equivalently, \code{hoverOpts(id="plot_hover")}),
-the plot will send coordinates to the server pauses on the plot, and the
-value will be accessible via \code{input$plot_hover}. The value will be a
-named list with \code{x} and \code{y} elements indicating the mouse
-position. To control the hover time or hover delay type, you must use
-\code{\link[shiny:hoverOpts]{hoverOpts()}}.}
-
-\item{brush}{Similar to the \code{click} argument, this can be \code{NULL}
-(the default), a string, or an object created by the
-\code{\link[shiny:brushOpts]{brushOpts()}} function. If you use a value like
-\code{"plot_brush"} (or equivalently, \code{brushOpts(id="plot_brush")}),
-the plot will allow the user to "brush" in the plotting area, and will send
-information about the brushed area to the server, and the value will be
-accessible via \code{input$plot_brush}. Brushing means that the user will
-be able to draw a rectangle in the plotting area and drag it around. The
-value will be a named list with \code{xmin}, \code{xmax}, \code{ymin}, and
-\code{ymax} elements indicating the brush area. To control the brush
-behavior, use \code{\link[shiny:brushOpts]{brushOpts()}}. Multiple
-\code{imageOutput}/\code{plotOutput} calls may share the same \code{id}
-value; brushing one image or plot will cause any other brushes with the
-same \code{id} to disappear.}
+\item{output}{the result of a \verb{*Output()} function (e.g, \code{\link[shiny:plotOutput]{shiny::plotOutput()}}, \code{plotly::plotlyOutput()}, etc).}
 }
 \description{
 This topic describes various components that are intended to go

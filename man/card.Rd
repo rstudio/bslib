@@ -29,7 +29,7 @@ body. Clicking the icon expands the card to fit viewport size. When using this o
 \item{autowrap}{The Bootstrap card is designed to contain only a few specific
 types of elements: \code{div.card-header}, \code{div.card-body}, etc. If \code{autowrap}
 is \code{TRUE}, any unnamed arguments to \code{card()} are checked to see if they are
-known card items (like \code{\link[=card_header]{card_header()}}, \code{\link[=card_plot_output]{card_plot_output()}}, etc.) and if
+known card items (like \code{\link[=card_header]{card_header()}}, \code{\link[=card_body_output]{card_body_output()}}, etc.) and if
 not, they are automatically wrapped in \code{\link[=card_body]{card_body()}}. If \code{autowrap} is
 \code{FALSE}, then all unnamed arguments are nested directly within the card
 element with no further processing.}
@@ -48,9 +48,8 @@ card items.
 To learn more about \code{\link[=card]{card()}}s and card layout options, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
 }
 \examples{
-library(htmltools)
 
-card(class = "w-50", style = "height: 300px;",
+card(class = "w-50", height = "300px",
   card_header(
     "This is the header"
   ),

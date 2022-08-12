@@ -68,14 +68,44 @@ reference:
     - bs_theme_preview
     - run_with_themer
     - bs_themer
-- title: Create navs and navbars
+- title: Cards
   description: |
-    Tools for creating and dynamically updating navs.
+    Create and arrange cards
+  contents:
+    - card
+    - card_grid
+    - as.card_item
+- title: Navigation
+  description: |
+    Create (tabbed) sections of content.
   contents:
     - nav
     - navs_tab
     - nav_select
-- title: Create a Bootstrap page
+- title: Accordions
+  description: |
+    Create collapsable sections of content
+  contents:
+    - accordion
+    - accordion_mutate
+- title: Value box
+  description: |
+    Highlight important findings
+  contents:
+    - value_box
+- title: Input controls
+  description: |
+    UI controls for capturing user input
+  contents:
+    - input_check_buttons
+    - input_check_search
+    - input_switch
+- title: Sidebar layout
+  description: |
+    A 'full-bleed' sidebar layout
+  contents:
+    - layout_sidebar
+- title: Page layouts
   contents:
     - page
 - title: Dynamic theming
@@ -103,13 +133,6 @@ reference:
   contents:
     - bs_theme_dependencies
     - bs_dependency
-- title: Bootstrap Cards
-  description: |
-    Create and arrange Bootstrap card components
-  contents:
-    - card
-    - card_grid
-    - as.card_item
 - title: Other utility functions
   contents:
     - bs_get_variables

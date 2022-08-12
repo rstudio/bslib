@@ -75,23 +75,21 @@ card(class = "w-50", style = "height: 300px;",
 :::
 :::
 
-## Adding plots
+## Adding outputs
 
 ::: row
 ::: col-md-6
-Use the `card_plot_output()` function instead of `shiny::plotOutput` when inside of a card. `card_plot_output` has two main benefits:
+Use the `card_body_output()` function to wrap an output container (e.g.  `shiny::plotOutput()`, `DT::dataTableOutput()`) when inside of a card. `card_body_output` has two main benefits:
 
 1.  It runs flush to the right and left edges of the card (which looks especially nice when using a contrasting plot background color).
-2.  If the card is taller than the natural height of its contents, `card_plot_output` will stretch to take the extra room. The example's animation demonstrates this.
-
-Note that `card_plot_output` is intended to be a direct child of `card()`; you're not meant to nest it inside of a `card_body()`, as that would cause the edges of the plot to no longer be flush to the edges of the card.
+2.  If the card is taller than the natural height of its contents, `card_body_output()` stretches to take the extra room. The example's animation demonstrates this.
 :::
 
 ::: col-md-6
 ```{r}
 plot_card <- card(class = "w-50",
   card_header("Card with a plot"),
-  card_plot_output("plot1", height = 200),
+  card_body_output(plotOutput("plot1"), height = 200),
   "The above is a plot",
   card_footer("This is a footer")
 )
@@ -112,7 +110,7 @@ Use `card_body_scroll()` in place of `card_body()` to create a vertically scroll
 ```{r}
 card(class = "w-50",
   card_header("Card with a scrolling body"),
-  card_plot_output("plot1", height = 200),
+  card_body_output(plotOutput("plot1"), height = 200),
   card_body_scroll(height = 200,
     lorem_ipsum_dolor_sit_amet
   )
@@ -140,7 +138,7 @@ card2 <- card(
 )
 card3 <- card(
   card_header("A card with a plot"),
-  card_plot_output("plot1", height = 200),
+  card_body_output(plotOutput("plot1"), height = 200),
   card_footer(class = "fs-6",
     "Copyright 2022 RStudio, PBC"
   )
@@ -225,7 +223,7 @@ card_grid(card_width = 200, fixed_width = TRUE,
 
 In the spirit of reproducibility, this section discloses custom CSS and R code used in the examples above.
 
-The following CSS is used to give `card_plot_output()` a blue background; it's necessary here because this documentation page is not actually hooked up to a Shiny app, so we can't show a real plot.
+The following CSS is used to give `plotOutput()` a blue background; it's necessary here because this documentation page is not actually hooked up to a Shiny app, so we can't show a real plot.
 
 ```{css}
 .shiny-plot-output {

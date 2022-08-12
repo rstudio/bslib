@@ -81,34 +81,13 @@ navs_pill_card(
 
 \item{footer}{UI element(s) (\link{tags}) to display \emph{below} the nav content.}
 
-\item{well}{\code{TRUE} to place a well (gray rounded rectangle) around the
-navigation list.}
-
-\item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
-layout.}
-
-\item{widths}{Column widths of the navigation list and tabset content areas
-respectively.}
-
 \item{title}{A (left-aligned) title to place in the card header/footer. If
 provided, other nav items are automatically right aligned.}
-
-\item{position}{Determines whether the navbar should be displayed at the top
-of the page with normal scrolling behavior (\code{"static-top"}), pinned at
-the top (\code{"fixed-top"}), or pinned at the bottom
-(\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
-\code{"fixed-bottom"} will cause the navbar to overlay your body content,
-unless you add padding, e.g.: \code{tags$style(type="text/css", "body
-  {padding-top: 70px;}")}}
 
 \item{bg}{a CSS color to use for the navbar's background color.}
 
 \item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
 text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
-
-\item{collapsible}{\code{TRUE} to automatically collapse the navigation
-elements into a menu when the width of the browser is less than 940 pixels
-(useful for viewing on smaller touchscreen device)}
 
 \item{width, height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
 example, \code{height="100\%"}.}

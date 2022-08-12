@@ -105,7 +105,7 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #' @param autowrap The Bootstrap card is designed to contain only a few specific
 #'   types of elements: `div.card-header`, `div.card-body`, etc. If `autowrap`
 #'   is `TRUE`, any unnamed arguments to `card()` are checked to see if they are
-#'   known card items (like [card_header()], [card_plot_output()], etc.) and if
+#'   known card items (like [card_header()], [card_body_output()], etc.) and if
 #'   not, they are automatically wrapped in [card_body()]. If `autowrap` is
 #'   `FALSE`, then all unnamed arguments are nested directly within the card
 #'   element with no further processing.
@@ -116,9 +116,8 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in
 #'   cards.
 #' @examples
-#' library(htmltools)
 #'
-#' card(class = "w-50", style = "height: 300px;",
+#' card(class = "w-50", height = "300px",
 #'   card_header(
 #'     "This is the header"
 #'   ),
@@ -277,26 +276,14 @@ card_spacer <- function(...) {
 }
 
 #' @rdname card_body
-#' @inheritParams shiny::plotOutput
+#' @param output the result of a `*Output()` function (e.g, [shiny::plotOutput()], `plotly::plotlyOutput()`, etc).
 #' @export
-card_plot_output <- function(outputId,
-  click = NULL,
-  dblclick = NULL,
-  hover = NULL,
-  brush = NULL,
-  height = NULL,
-  stretch = TRUE,
-  ...
-) {
-  plot_div <- shiny::plotOutput(
-    outputId, height = NULL, click = click, dblclick = dblclick,
-    hover = hover, brush = brush
-  )
-
+card_body_output <- function(output, stretch = TRUE, height = if (!stretch) "400px", ...) {
   # TODO: card-img-* needs to go on the <img> itself, not the containing <div>
-  plot_div <- tagAppendAttributes(
-    plot_div,
+  output <- tagAppendAttributes(
+    output,
     style = css(
+      height = "unset",
       flex_grow = if (stretch) "1",
       flex_shrink = if (stretch) "1",
       flex_basis = validateCssUnit(height)
@@ -304,9 +291,33 @@ card_plot_output <- function(outputId,
     !!!rlang::list2(...)
   )
 
-  as.card_item(plot_div)
+  as.card_item(output)
 }
 
+#' @rdname card_body
+#' @export
+card_body_grid <- function(..., width = 1/4, gap = NULL, fixed_width = FALSE, stretch = TRUE, padding = c("x", "y")) {
+  res <- card_grid(
+    ..., style = css(
+      flex_grow = if (stretch) "1",
+      flex_shrink = if (stretch) "1",
+      grid_template_rows = "1fr"
+    ),
+    card_width = width,
+    gap = gap,
+    heights_equal = "row", # TODO: should this be controllable?
+    fixed_width = fixed_width
+  )
+
+  if ("x" %in% padding) {
+    res <- tagAppendAttributes(res, class = "px-2")
+  }
+  if ("y" %in% padding) {
+    res <- tagAppendAttributes(res, class = "py-2")
+  }
+
+  as.card_item(res)
+}
 
 full_screen_toggle <- function() {
     tags$a(
