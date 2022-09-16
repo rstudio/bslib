@@ -33,7 +33,7 @@ nav_append(
 \item{session}{a shiny session object (the default should almost always be used).}
 }
 \description{
-Exported for use by \code{\link[shiny:prependTab]{shiny::prependTab()}}/\code{\link[shiny:appendTab]{shiny::appendTab()}}. These
+Exported for use by \code{\link[shiny:insertTab]{shiny::prependTab()}}/\code{\link[shiny:insertTab]{shiny::appendTab()}}. These
 functions have been superseded by \code{\link[=nav_insert]{nav_insert()}} (i.e.,
 \code{\link[shiny:insertTab]{shiny::insertTab()}}), since it can do everything these functions do (i.e.,
 add a \code{\link[=nav]{nav()}} to the start or end of a \code{\link[=nav_menu]{nav_menu()}}) and more (i.e., insert a

@@ -104,5 +104,4 @@ Config/Needs/deploy:
     rsconnect
 Remotes:
     rstudio/bsicons,
-    ramnathv/htmlwidgets,
-    rstudio/shiny@resize-observer
+    ramnathv/htmlwidgets

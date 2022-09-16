@@ -26,45 +26,38 @@ sidebar <- accordion(
 
 main <- card_grid(
   card_width = 1/2,
-  # height = "500px",
   heights_equal = "row",
   navs_tab_card(
     title = "Card with Tabs for Parameters",
     height = "500px",
     full_screen = TRUE,
-    stretch = TRUE,
     # placement = "below",
     nav(
       "Table",
-      fluidRow(
-        style = "height:100%",
-        column(6, plotOutput("bars", height = "100%")),
-        column(6, DT::dataTableOutput("dt2", height = "100%"))
+      card_body_inline(
+        stretch = TRUE,
+        card_body_stretch(plotOutput("bars")),
+        card_body_stretch(DT::dataTableOutput("dt2"))
       )
     ),
-    #nav("plotly", plotlyOutput("plotly", height = "100%")),
-
     nav_menu(
       "Plots",
-      nav("ggplot2", plotOutput("ggplot2", height = "100%")),
-      nav("base", plotOutput("base", height = "100%")),
+      nav("ggplot2", card_body_stretch(plotOutput("ggplot2"))),
+      nav("base", card_body_stretch(plotOutput("base"))),
     )
   ),
   navs_pill_card(
     title = "Card with Tabs for Parameters",
     height = "500px",
-    #full_screen = TRUE,
-    stretch = TRUE,
-    # placement = "below",
+    full_screen = TRUE,
     nav(
       "Table",
-      fluidRow(
-        style = "height:100%",
-        column(6, plotOutput("bars2", height = "100%")),
-        column(6, DT::dataTableOutput("dt3", height = "100%"))
+      card_body_inline(
+        stretch = TRUE,
+        card_body_stretch(plotOutput("bars2")),
+        card_body_stretch(DT::dataTableOutput("dt3"))
       )
     ),
-    #nav("plotly", plotlyOutput("plotly", height = "100%")),
     nav_menu(
       "Plots",
       nav("ggplot2", plotOutput("ggplot22", height = "100%")),
@@ -76,7 +69,6 @@ main <- card_grid(
   card(
     card_header("Some other table"),
     p("dfsljndflgndflgnfdl  algadfgh lfkdg lk;f aglhfd glkh fdglh fgdlkh fdgs;klh gfsd;hkl g;lkh dsfg;hkl glf;dksghl dfh gladfh l;kghal;dfh ;lkfdha ghldfkaghl;kh"),
-    #card_plot_output("bars"),
     card_body(
       stretch = TRUE,
       DT::dataTableOutput("dt", height = "100%")

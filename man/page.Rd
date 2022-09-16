@@ -34,18 +34,43 @@ page_navbar(
 )
 }
 \arguments{
-\item{...}{a collection of \code{\link[=nav]{nav()}} items.}
+\item{...}{The contents of the document body.}
 
-\item{title}{A (left-aligned) title to place in the card header/footer. If
-provided, other nav items are automatically right aligned.}
+\item{title}{The browser window title (defaults to the host URL of the page)}
 
-\item{padding}{Whether vertical and/or horizontal padding should be included
-around contents. Use \code{NULL} for neither, \code{"x"} for horizontal only,
-\code{"y"} for vertical only, or \code{c("x", "y")} for both (the default).}
+\item{theme}{One of the following:
+\itemize{
+\item \code{NULL} (the default), which implies a "stock" build of Bootstrap 3.
+\item A \code{\link[bslib:bs_theme]{bslib::bs_theme()}} object. This can be used to replace a stock
+build of Bootstrap 3 with a customized version of Bootstrap 3 or higher.
+\item A character string pointing to an alternative Bootstrap stylesheet
+(normally a css file within the www directory, e.g. \code{www/bootstrap.css}).
+}}
+
+\item{lang}{ISO 639-1 language code for the HTML page, such as "en" or "ko".
+This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="en">}.
+The default (NULL) results in an empty string.}
+
+\item{padding}{Padding to use for the body. This can be a numeric vector
+(which will be interpreted as pixels) or a character vector with valid CSS
+lengths. The length can be between one and four. If one, then that value
+will be used for all four sides. If two, then the first value will be used
+for the top and bottom, while the second value will be used for left and
+right. If three, then the first will be used for top, the second will be
+left and right, and the third will be bottom. If four, then the values will
+be interpreted as top, right, bottom, and left respectively.}
 
 \item{id}{a character string used for dynamically updating the container (see \code{\link[=nav_select]{nav_select()}}).}
 
 \item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav]{nav()}} item to selected by default.}
+
+\item{position}{Determines whether the navbar should be displayed at the top
+of the page with normal scrolling behavior (\code{"static-top"}), pinned at
+the top (\code{"fixed-top"}), or pinned at the bottom
+(\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
+\code{"fixed-bottom"} will cause the navbar to overlay your body content,
+unless you add padding, e.g.: \code{tags$style(type="text/css", "body
+  {padding-top: 70px;}")}}
 
 \item{header}{UI element(s) (\link{tags}) to display \emph{above} the nav content.}
 
@@ -55,6 +80,13 @@ around contents. Use \code{NULL} for neither, \code{"x"} for horizontal only,
 
 \item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
 text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
+
+\item{collapsible}{\code{TRUE} to automatically collapse the navigation
+elements into a menu when the width of the browser is less than 940 pixels
+(useful for viewing on smaller touchscreen device)}
+
+\item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
+layout.}
 
 \item{window_title}{the browser window title. The default value, \code{NA}, means
 to use any character strings that appear in \code{title} (if none are found, the

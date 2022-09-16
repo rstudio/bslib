@@ -105,7 +105,7 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #' @param autowrap The Bootstrap card is designed to contain only a few specific
 #'   types of elements: `div.card-header`, `div.card-body`, etc. If `autowrap`
 #'   is `TRUE`, any unnamed arguments to `card()` are checked to see if they are
-#'   known card items (like [card_header()], [card_body_output()], etc.) and if
+#'   known card items (like [card_header()], [card_body_stretch()], etc.) and if
 #'   not, they are automatically wrapped in [card_body()]. If `autowrap` is
 #'   `FALSE`, then all unnamed arguments are nested directly within the card
 #'   element with no further processing.
@@ -174,66 +174,53 @@ card <- function(..., class = NULL, width = NULL, height = NULL,
   )
 }
 
-#' @rdname card_body
-#' @param x an object to test (or coerce to) a card item.
-#' @export
-as.card_item <- function(x) {
-  class(x) <- c("card_item", class(x))
-  x
-}
-
-#' @rdname card_body
-#' @export
-is.card_item <- function(x) {
-  inherits(x, "card_item")
-}
-
 #' Card item components
 #'
 #' @description This topic describes various components that are intended to go
 #'   directly inside of a [card()]. These components can be used in combination;
-#'   for example, a single card could contain a `card_header()`, multiple
-#'   `card_body()`s, a `card_list()`, and finally a `card_footer()`.
+#'   for example, a single card could contain a `card_header()`, a
+#'   `card_footer()`, and multiple `card_body()`s.
 #'
 #'   To learn more about [card()]s and card layout options, see [this
 #'   article](https://rstudio.github.io/bslib/articles/cards.html).
 #'
+#' @section Stretchy card items (TODO: put me in pkgdown article)
+#'   * Stretchy card items only work sensibly if it has a parent element (e.g. [card()] and/or [card_grid()]) which has a fixed height _and_ any elements in-between the fixed height element and the stretchy element are also stretchy.
+#'   * Stretchy items `card_body_stretch()` is similar to `card_body(stretch =
+#'   TRUE)`, but additionally `unset`s the height of it's immediate children,
+#'   making it a convenient shortcut for creating stretchy outputs (e.g.,
+#'   [shiny::plotOutput()]) without having to set `height="100%"`.
+#'   * By default, stretchy items stretch vertically, but they can also stretch horizontally
+#'
 #' @param ... Named arguments become attributes on the `<div class="card">`
 #'   element. Unnamed arguments become card items, and can be any valid child of
 #'   an [htmltools tag][htmltools::tags].
-#' @param class Additional CSS classes to include on the card div.
-#' @param padding Whether vertical and/or horizontal padding should be included.
-#'   Use `NULL` for neither, `"x"` for horizontal only, `"y"` for vertical only,
-#'   or `c("x", "y")` for both (the default).
 #' @param stretch Set to `TRUE` if this `card_body` is eager to use any extra
 #'   vertical space is available in the card.
+#' @param class Additional CSS classes.
+#' @param padding A valid CSS `padding` value.
+
 #'
 #' @export
 #' @seealso [card()] for creating a card component.
 #' @seealso [card_grid()] for laying out multiple cards.
-#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in cards.
-card_body <- function(..., stretch = FALSE, class = NULL, padding = c("x", "y")) {
-  card_body_(..., stretch = stretch, class = class, padding = padding)
-}
-
-card_body_ <- function(..., stretch = FALSE, class = NULL, padding = c("x", "y"), container = htmltools::div) {
-  res <- container(
-    class = "card-body",
-    class = if (!"x" %in% padding) "px-0",
-    class = if (!"y" %in% padding) "py-0",
+#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in
+#'   cards.
+card_body <- function(..., stretch = FALSE, class = NULL, padding = NULL) {
+  card_body_(
+    stretch = stretch,
     class = class,
-    style = if (!stretch) css(flex = "0"),
+    padding = padding,
     ...
   )
-  as.card_item(res)
 }
 
 #' @rdname card_body
 #' @param height Any valid [CSS unit][htmltools::validateCssUnit]; for
 #'   example, `height="100%"`.
 #' @export
-card_body_scroll <- function(..., height = NULL, class = NULL, padding = c("x", "y")) {
-  card_body(
+card_body_scroll <- function(..., height = NULL, class = NULL, padding = NULL) {
+  card_body_(
     style = css(flex_basis = validateCssUnit(height)),
     class = c("card-body-scroll", class),
     padding = padding,
@@ -242,21 +229,64 @@ card_body_scroll <- function(..., height = NULL, class = NULL, padding = c("x", 
 }
 
 #' @rdname card_body
+#' @param ... Unnamed arguments should contain UI elements whose height (or width, if used within `card_body_inline()`) should be stretched, even if they already have a fixed height (e.g., [shiny::plotOutput()], etc. default to a fixed height of `400px`). Named arguments are treated as attributes on the stretchy container.
+#' @param flex a value of the `flex` CSS property.
+#' @export
+card_body_stretch <- function(..., flex = 1, class = NULL, padding = 0) {
+  card_body_(
+    class = c("bslib-card-body-stretch", class),
+    style = htmltools::css("--bslib-card-body-stretch-flex" = flex),
+    stretch = TRUE,
+    padding = padding,
+    ...
+  )
+}
+
+
+#' @rdname card_body
+#' @export
+card_body_inline <- function(..., stretch = FALSE, class = NULL, padding = NULL) {
+  card_body_(
+    class = c("bslib-card-body-inline", class),
+    style = htmltools::css("--bslib-card-body-inline-flex" = if (!stretch) "0"),
+    stretch = stretch,
+    padding = padding,
+    ...
+  )
+}
+
+
+#' @rdname card_body
+#' @param container a function to generate an HTML element.
+#' @export
+card_title <- function(..., class = NULL, padding = NULL, container = htmltools::h5) {
+  card_body_(
+    class = c("card-title", class),
+    stretch = FALSE,
+    container = container,
+    padding = padding,
+    ...
+  )
+}
+
+card_body_ <- function(..., stretch = FALSE, class = NULL, padding = NULL, container = htmltools::div) {
+  res <- container(
+    class = "card-body",
+    class = class,
+    style = if (!stretch) css(flex = "0"),
+    style = css(padding = padding), # TODO: validate?
+    ...
+  )
+  as.card_item(res)
+}
+
+
+#' @rdname card_body
 #' @param container a function to generate an HTML element (used for the `.card-header` element)
 #' @export
 card_header <- function(..., class = NULL, container = htmltools::div) {
   as.card_item(
     container(class = "card-header", class = class, ...)
-  )
-}
-
-#' @rdname card_body
-#' @param container a function to generate an HTML element.
-#' @export
-card_title <- function(..., class = NULL, padding = c("x", "y"), container = htmltools::h5) {
-  card_body_(
-    ..., stretch = FALSE, class = c("card-title", class),
-    container = container
   )
 }
 
@@ -276,48 +306,19 @@ card_spacer <- function(...) {
 }
 
 #' @rdname card_body
-#' @param output the result of a `*Output()` function (e.g, [shiny::plotOutput()], `plotly::plotlyOutput()`, etc).
+#' @param x an object to test (or coerce to) a card item.
 #' @export
-card_body_output <- function(output, stretch = TRUE, height = if (!stretch) "400px", ...) {
-  # TODO: card-img-* needs to go on the <img> itself, not the containing <div>
-  output <- tagAppendAttributes(
-    output,
-    style = css(
-      height = "unset",
-      flex_grow = if (stretch) "1",
-      flex_shrink = if (stretch) "1",
-      flex_basis = validateCssUnit(height)
-    ),
-    !!!rlang::list2(...)
-  )
-
-  as.card_item(output)
+as.card_item <- function(x) {
+  class(x) <- c("card_item", class(x))
+  x
 }
 
 #' @rdname card_body
 #' @export
-card_body_grid <- function(..., width = 1/4, gap = NULL, fixed_width = FALSE, stretch = TRUE, padding = c("x", "y")) {
-  res <- card_grid(
-    ..., style = css(
-      flex_grow = if (stretch) "1",
-      flex_shrink = if (stretch) "1",
-      grid_template_rows = "1fr"
-    ),
-    card_width = width,
-    gap = gap,
-    heights_equal = "row", # TODO: should this be controllable?
-    fixed_width = fixed_width
-  )
-
-  if ("x" %in% padding) {
-    res <- tagAppendAttributes(res, class = "px-2")
-  }
-  if ("y" %in% padding) {
-    res <- tagAppendAttributes(res, class = "py-2")
-  }
-
-  as.card_item(res)
+is.card_item <- function(x) {
+  inherits(x, "card_item")
 }
+
 
 full_screen_toggle <- function() {
     tags$a(
@@ -333,7 +334,14 @@ full_screen_toggle <- function() {
         package = "bslib",
         src = "components",
         script = "card-full-screen.js"
-      )
+      ),
+      # TODO: shiny should probably use ResizeObserver() itself (i.e., we
+      # shouldn't need to trigger a resize on the window)
+      # https://github.com/rstudio/shiny/pull/3682
+      tags$script(HTML(
+        "var ro = new ResizeObserver(() => $(window).trigger('resize'));
+        document.querySelectorAll('.card').forEach(function(x) { ro.observe(x); })"
+      ))
     )
   )
 }

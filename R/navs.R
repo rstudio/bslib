@@ -1,18 +1,14 @@
 #' @export
 #' @inheritParams card
+#' @inheritParams card_body
 #' @param title A (left-aligned) title to place in the card header/footer. If
 #'   provided, other nav items are automatically right aligned.
-#' @param padding Whether vertical and/or horizontal padding should be included
-#'   around contents. Use `NULL` for neither, `"x"` for horizontal only,
-#'   `"y"` for vertical only, or `c("x", "y")` for both (the default).
-#' @param stretch If `TRUE`, the contents will stretch to fit remaining space
-#'   in the card body.
 #' @param full_screen If `TRUE`, a icon will appear when hovering over the card body
 #'   to expand the contents to the entire viewport size.
 #' @rdname navs
 navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
                           header = NULL, footer = NULL, height = NULL, width = NULL,
-                          padding = c("x", "y"), stretch = full_screen,
+                          padding = NULL,
                           full_screen = FALSE) {
 
   items <- rlang::list2(...)
@@ -34,7 +30,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
     } else {
       card_header(nav)
     },
-    navs_card_body(tabs, padding, stretch)
+    navs_card_body(tabs, padding)
   )
 }
 
@@ -43,7 +39,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 #' @rdname navs
 navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
                            header = NULL, footer = NULL, height = NULL, width = NULL,
-                           padding = c("x", "y"), stretch = full_screen,
+                           padding = NULL,
                            full_screen = FALSE, placement = c("above", "below")) {
 
   items <- rlang::list2(...)
@@ -69,12 +65,12 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
   card(
     height = height, width = width, full_screen = full_screen,
     if (above) card_header(!!!nav_args),
-    navs_card_body(pills, padding, stretch),
+    navs_card_body(pills, padding),
     if (!above) card_footer(!!!nav_args)
   )
 }
 
-navs_card_body <- function(tabs, padding, stretch) {
+navs_card_body <- function(tabs, padding) {
 
   content <- tagQuery(tabs)$find(".tab-content")$selectedTags()
 
@@ -84,11 +80,8 @@ navs_card_body <- function(tabs, padding, stretch) {
 
   content <- content[[1]]
 
-  if (stretch) {
-    # TODO: maybe this should be display:flex; flex-direction: column?
-    content <- tagAppendAttributes(content, style = "height:100%")
-    content <- tagAppendAttributes(content, .cssSelector = ".tab-pane", style = "height:100%")
-  }
-
-  card_body(content, padding = padding, stretch = stretch)
+  card_body(
+    content, padding = padding, stretch = TRUE,
+    class = "nav-card-body"
+  )
 }

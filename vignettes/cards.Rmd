@@ -79,17 +79,17 @@ card(class = "w-50", style = "height: 300px;",
 
 ::: row
 ::: col-md-6
-Use the `card_body_output()` function to wrap an output container (e.g.  `shiny::plotOutput()`, `DT::dataTableOutput()`) when inside of a card. `card_body_output` has two main benefits:
+Use the `card_body_stretch()` function to wrap an output container (e.g.  `shiny::plotOutput()`, `DT::dataTableOutput()`) when inside of a card. `card_body_stretch` has two main benefits:
 
 1.  It runs flush to the right and left edges of the card (which looks especially nice when using a contrasting plot background color).
-2.  If the card is taller than the natural height of its contents, `card_body_output()` stretches to take the extra room. The example's animation demonstrates this.
+2.  If the card is taller than the natural height of its contents, `card_body_stretch()` stretches to take the extra room. The example's animation demonstrates this.
 :::
 
 ::: col-md-6
 ```{r}
 plot_card <- card(class = "w-50",
   card_header("Card with a plot"),
-  card_body_output(plotOutput("plot1"), height = 200),
+  card_body_stretch(plotOutput("plot1"), height = 200),
   "The above is a plot",
   card_footer("This is a footer")
 )
@@ -110,7 +110,7 @@ Use `card_body_scroll()` in place of `card_body()` to create a vertically scroll
 ```{r}
 card(class = "w-50",
   card_header("Card with a scrolling body"),
-  card_body_output(plotOutput("plot1"), height = 200),
+  card_body_stretch(plotOutput("plot1"), height = 200),
   card_body_scroll(height = 200,
     lorem_ipsum_dolor_sit_amet
   )
@@ -138,7 +138,7 @@ card2 <- card(
 )
 card3 <- card(
   card_header("A card with a plot"),
-  card_body_output(plotOutput("plot1"), height = 200),
+  card_body_stretch(plotOutput("plot1"), height = 200),
   card_footer(class = "fs-6",
     "Copyright 2022 RStudio, PBC"
   )
