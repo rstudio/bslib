@@ -110,11 +110,7 @@ side <- accordion(
 
 flights_card <- card(
   card_header("Flight paths"),
-  card_body(
-    stretch = TRUE,
-    padding = 0,
-    plotlyOutput("flight_paths", height = "100%")
-  ),
+  card_body_stretch(plotlyOutput("flight_paths")),
   card_footer("Marker areas are proportional to mean arrival delay"),
   height = "375px",
   full_screen = TRUE
@@ -126,17 +122,13 @@ delay_corr_card <- card(
     input_switch("scatter_summarize", "Summarize", TRUE),
     class = "d-flex justify-content-between"
   ),
-  card_body(
-    stretch = TRUE,
-    plotlyOutput("scatter_delay", height = "100%")
-  ),
+  card_body_stretch(plotlyOutput("scatter_delay")),
   height = "375px",
   full_screen = TRUE
 )
 
 delay_card <- navs_tab_card(
   title = "Arrival delay",
-  stretch = TRUE,
   full_screen = TRUE,
   height = "400px",
   nav(
