@@ -274,6 +274,9 @@ bootstrap_bundle <- function(version) {
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
       # card() CSS (can be removed)
+      vfill = sass_layer(
+        rules = sass_file(system_file("components/vfill.scss", package = "bslib"))
+      ),
       card = sass_layer(
         rules = sass_file(system_file("components/card.scss", package = "bslib"))
       ),

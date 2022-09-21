@@ -24,26 +24,25 @@ sidebar <- accordion(
   )
 )
 
-main <- card_grid(
-  card_width = 1/2,
+main <- layout_column_wrap(
+  width = 1/2,
   heights_equal = "row",
   navs_tab_card(
     title = "Card with Tabs for Parameters",
     height = "500px",
     full_screen = TRUE,
-    # placement = "below",
     nav(
       "Table",
-      card_body_inline(
-        stretch = TRUE,
-        card_body_stretch(plotOutput("bars")),
-        card_body_stretch(DT::dataTableOutput("dt2"))
+      layout_column_wrap(
+        1/2,
+        plotOutput("bars"),
+        DT::dataTableOutput("dt2")
       )
     ),
     nav_menu(
       "Plots",
-      nav("ggplot2", card_body_stretch(plotOutput("ggplot2"))),
-      nav("base", card_body_stretch(plotOutput("base"))),
+      nav("ggplot2", plotOutput("ggplot2")),
+      nav("base", plotOutput("base"))
     )
   ),
   navs_pill_card(
@@ -52,32 +51,23 @@ main <- card_grid(
     full_screen = TRUE,
     nav(
       "Table",
-      card_body_inline(
-        stretch = TRUE,
-        card_body_stretch(plotOutput("bars2")),
-        card_body_stretch(DT::dataTableOutput("dt3"))
+      layout_column_wrap(
+        1/2, height = "100%",
+        plotOutput("bars2"),
+        DT::dataTableOutput("dt3")
       )
     ),
     nav_menu(
       "Plots",
-      nav("ggplot2", plotOutput("ggplot22", height = "100%")),
-
-      nav("base", plotOutput("base2", height = "100%")),
+      nav("ggplot2", plotOutput("ggplot22")),
+      nav("base", plotOutput("base2"))
     )
   ),
 
   card(
     card_header("Some other table"),
     p("dfsljndflgndflgnfdl  algadfgh lfkdg lk;f aglhfd glkh fdglh fgdlkh fdgs;klh gfsd;hkl g;lkh dsfg;hkl glf;dksghl dfh gladfh l;kghal;dfh ;lkfdha ghldfkaghl;kh"),
-    card_body(
-      stretch = TRUE,
-      DT::dataTableOutput("dt", height = "100%")
-      #card_body(
-      #  stretch = TRUE,
-      #  dataTableOutput("dt2", height = "100%")
-      #)
-
-    ),
+    DT::dataTableOutput("dt")
   )
 )
 

@@ -13,6 +13,7 @@
 #' @param class utility classes for customizing the appearance of the summary
 #'   card. Use `bg-*` and `text-*` classes (e.g, `"bg-danger"` and
 #'   `"text-light"`) to customize the background/foreground colors.
+#' @inheritParams card
 #' @export
 #' @examples
 #'
@@ -35,13 +36,9 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = c("t
   attribs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
 
-  children <- lapply(children, function(x) {
-    if (!is.card_item(x)) card_body(x) else x
-  })
-
   tag <- div(
     class = c(
-      "card bslib-value-box-container bg-primary",
+      "card bslib-value-box-container vfill-item bg-primary",
       paste0("showcase-", showcase_layout),
       class
     ),
@@ -49,11 +46,12 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = c("t
     if (!is.null(showcase)) div(class = "value-box-showcase border-end", showcase),
     card(
       class = "bslib-value-box",
-      card_body(title),
-      card_title(value, container = h3),
+      # color:unset so that the color inherits from bg-* on the parent
+      # (not the h3/h6 rules set by bootstrap core)
+      tags$h6(title, class = "mb-1", style = css(color = "unset")),
+      tags$h3(value, class = "mb-2", style = css(color = "unset")),
       !!!children,
-      full_screen = full_screen,
-      autowrap = FALSE
+      full_screen = full_screen
     )
   )
 

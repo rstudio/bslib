@@ -50,8 +50,8 @@ navs_tab_card(
   footer = NULL,
   height = NULL,
   width = NULL,
-  padding = NULL,
-  full_screen = FALSE
+  full_screen = FALSE,
+  wrapper = card_body
 )
 
 navs_pill_card(
@@ -63,7 +63,6 @@ navs_pill_card(
   footer = NULL,
   height = NULL,
   width = NULL,
-  padding = NULL,
   full_screen = FALSE,
   placement = c("above", "below")
 )
@@ -108,13 +107,19 @@ text color. If \code{"auto"} (the default), the best contrast to \code{bg} is ch
 elements into a menu when the width of the browser is less than 940 pixels
 (useful for viewing on smaller touchscreen device)}
 
-\item{width, height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
-example, \code{height="100\%"}.}
-
-\item{padding}{A valid CSS \code{padding} value.}
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}).}
 
 \item{full_screen}{If \code{TRUE}, a icon will appear when hovering over the card body
 to expand the contents to the entire viewport size.}
+
+\item{wrapper}{A function (which returns a UI element) to call on unnamed
+arguments in \code{...} which are not already card item(s) (like
+\code{\link[=card_header]{card_header()}}, \code{\link[=card_body]{card_body()}}, etc.). Note that non-card items are grouped
+together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body("c"), "d")}, \code{wrapper} would be called twice, once with \code{"a"} and
+\code{"b"} and once with \code{"d"}). Consider setting \code{wrapper} to \link{card_body_fill}
+if the entire card wants responsive sizing or \code{NULL} to avoid wrapping
+altogether}
 
 \item{placement}{placement of the nav items relative to the content.}
 }

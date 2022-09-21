@@ -1,7 +1,7 @@
 destination: docs
 
 toc:
-  depth: 2
+  depth: 3
 
 url: https://rstudio.github.io/bslib/
 
@@ -70,10 +70,9 @@ reference:
     - bs_themer
 - title: Cards
   description: |
-    Create and arrange cards
+    Create cards
   contents:
     - card
-    - card_grid
     - as.card_item
 - title: Navigation
   description: |
@@ -100,11 +99,12 @@ reference:
     - input_check_buttons
     - input_check_search
     - input_switch
-- title: Sidebar layout
+- title: Layout multiple UI elements
   description: |
-    A 'full-bleed' sidebar layout
+    Useful layout templates
   contents:
     - layout_sidebar
+    - layout_column_wrap
 - title: Page layouts
   contents:
     - page

@@ -2,54 +2,49 @@
 % Please edit documentation in R/card.R
 \name{card}
 \alias{card}
-\title{Create a card component}
+\title{A Bootstrap card component}
 \usage{
 card(
   ...,
-  class = NULL,
-  width = NULL,
-  height = NULL,
   full_screen = FALSE,
-  autowrap = TRUE
+  height = NULL,
+  class = NULL,
+  wrapper = card_body
 )
 }
 \arguments{
-\item{...}{Named arguments become attributes on the \verb{<div class="card">}
-element. Unnamed arguments become card items, and can be any valid child of
-an \link[htmltools:builder]{htmltools tag}.}
-
-\item{class}{Additional CSS classes to include on the card div.}
-
-\item{width, height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
-example, \code{height="100\%"}.}
+\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} (which includes card items such as \code{\link[=card_body]{card_body()}}.
+Named arguments become HTML attributes on returned UI element.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size. When using this option, consider explicitly wrapping card items in \code{card_body(x, stretch = TRUE)} and setting output containers to \code{height="100\%"} (e.g., \code{card_body(plotlyOutput('id', height="100\%"), stretch = TRUE)}).}
+body. Clicking the icon expands the card to fit viewport size. Consider
+pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
+changes in the size of the card.}
 
-\item{autowrap}{The Bootstrap card is designed to contain only a few specific
-types of elements: \code{div.card-header}, \code{div.card-body}, etc. If \code{autowrap}
-is \code{TRUE}, any unnamed arguments to \code{card()} are checked to see if they are
-known card items (like \code{\link[=card_header]{card_header()}}, \code{\link[=card_body_stretch]{card_body_stretch()}}, etc.) and if
-not, they are automatically wrapped in \code{\link[=card_body]{card_body()}}. If \code{autowrap} is
-\code{FALSE}, then all unnamed arguments are nested directly within the card
-element with no further processing.}
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}).}
+
+\item{class}{Additional CSS classes for the returned UI element.}
+
+\item{wrapper}{A function (which returns a UI element) to call on unnamed
+arguments in \code{...} which are not already card item(s) (like
+\code{\link[=card_header]{card_header()}}, \code{\link[=card_body]{card_body()}}, etc.). Note that non-card items are grouped
+together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body("c"), "d")}, \code{wrapper} would be called twice, once with \code{"a"} and
+\code{"b"} and once with \code{"d"}). Consider setting \code{wrapper} to \link{card_body_fill}
+if the entire card wants responsive sizing or \code{NULL} to avoid wrapping
+altogether}
+}
+\value{
+A \code{\link[htmltools:builder]{htmltools::div()}} tag.
 }
 \description{
-Cards are general purpose containers for grouping UI elements
-together inside of a simple border. A basic card might just have a title
-and a plot, while a complicated one might contain an image, title,
-subtitle, text, button, and a footer.
-
-Cards are often arranged in a row or grid, with every card in a row having
-the same height. To facilitate this, the \code{card()} and \verb{card_*()} family of
-functions have options for specifying the vertical stretching behavior of
-card items.
-
-To learn more about \code{\link[=card]{card()}}s and card layout options, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+A general purpose container for grouping related UI elements together with a
+border and optional padding. To learn more about \code{\link[=card]{card()}}s, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
 }
 \examples{
 
-card(class = "w-50", height = "300px",
+card(
+  full_screen = TRUE,
   card_header(
     "This is the header"
   ),
@@ -63,10 +58,10 @@ card(class = "w-50", height = "300px",
 )
 }
 \seealso{
-\code{\link[=as.card_item]{as.card_item()}} for putting stuff inside the card.
+\code{\link[=card_body]{card_body()}} for putting stuff inside the card.
 
-\code{\link[=card_grid]{card_grid()}} for laying out multiple cards.
+\code{\link[=navs_tab_card]{navs_tab_card()}} for cards with multiple tabs.
 
-\code{\link[=navs_tab_card]{navs_tab_card()}} \code{\link[=navs_pill_card]{navs_pill_card()}} for placing navigation in
-cards.
+\code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out multiple cards (or multiple
+columns inside a card).
 }

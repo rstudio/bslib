@@ -1,123 +1,39 @@
-#' Card grid layout
+#' A Bootstrap card component
 #'
-#' @description Layout a collection of cards into a responsive grid. By default,
-#'   cards will have the same height/width, but optionally, the heights of each
-#'   row (and column) may be different.
+#' A general purpose container for grouping related UI elements together with a
+#' border and optional padding. To learn more about [card()]s, see [this
+#' article](https://rstudio.github.io/bslib/articles/cards.html).
 #'
-#'   To learn more about [card()]s and card layout options, see [this
-#'   article](https://rstudio.github.io/bslib/articles/cards.html).
-#'
-#' @param ... Named arguments become attributes on the containing
-#'   [htmltools::tag] element. Unnamed arguments are children, and should be
-#'   instances of [card()] (and/or [navs_tab_card()]/[navs_pill_card()]).
-#' @param class Additional CSS classes to include on the grid div.
-#' @param card_width The desired width of each card, which can be any of the
-#'  following:
-#'   * A (unit-less) number between 0 and 1.
-#'     * This should be specified as `1/num`, where `num` represents the number
-#'       of desired columns.
-#'   * A [CSS length unit][htmltools::validateCssUnit()]
-#'     * Either the minimum (when `fixed_width=FALSE`) or fixed width
-#'       (`fixed_width=TRUE`).
-#'   * `NULL`
-#'     * Allows power users to set the `grid-template-columns` CSS property
-#'       manually, either via a `style` attribute or a CSS stylesheet.
-#' @param gap A [CSS length unit][htmltools::validateCssUnit()] that sets the
-#'   amount of spacing between cards. If `NULL`, the value of Bootstrap's
-#'   `$spacer` Sass variable is used.
-#' @param heights_equal If `"all"` (the default), every card in every row of the
-#'   grid will have the same height. If `"row"`, then every card in _each_ row
-#'   of the grid will have the same height, but heights may vary between rows.
-#' @param fixed_width Whether or not to interpret the `card_width` as a minimum
-#'   (`fixed_width=FALSE`) or fixed (`fixed_width=TRUE`) width when it is a CSS
-#'   length unit.
-#'
-#' @export
-#' @seealso [card()] for creating a card container.
-#' @seealso [as.card_item()] for putting stuff inside the card.
-#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in cards.
-card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
-  heights_equal = c("all", "row"), fixed_width = FALSE) {
-
-  heights_equal <- match.arg(heights_equal)
-
-  args <- rlang::list2(...)
-  argnames <- rlang::names2(args)
-
-  attribs <- args[nzchar(argnames)]
-  children <- args[!nzchar(argnames)]
-
-  colspec <- if (!is.null(card_width)) {
-    if (length(card_width) == 1 && card_width > 0 && card_width <= 1) {
-      num_cols <- 1 / card_width
-      if (num_cols != as.integer(num_cols)) {
-        stop("Could not interpret card_width argument; see ?card_grid")
-      }
-      paste0(rep_len("1fr", num_cols), collapse = " ")
-    } else {
-      if (fixed_width) {
-        paste0("repeat(auto-fit, ", validateCssUnit(card_width), ")")
-      } else {
-        paste0("repeat(auto-fit, minmax(", validateCssUnit(card_width), ", 1fr))")
-      }
-    }
-    # TODO: Support length(card_width) > 1?
-  }
-
-  tag <- div(class = "bslib-card-grid", class = class,
-    style = css(
-      grid_template_columns = colspec,
-      grid_auto_rows = if (heights_equal == "all") "1fr",
-      gap = validateCssUnit(gap)
-    ),
-    !!!attribs,
-    children
-  )
-
-  as_fragment(
-    tag_require(tag, version = 4, caller = "card_grid()")
-  )
-}
-
-#' Create a card component
-#'
-#' @description Cards are general purpose containers for grouping UI elements
-#'   together inside of a simple border. A basic card might just have a title
-#'   and a plot, while a complicated one might contain an image, title,
-#'   subtitle, text, button, and a footer.
-#'
-#'   Cards are often arranged in a row or grid, with every card in a row having
-#'   the same height. To facilitate this, the `card()` and `card_*()` family of
-#'   functions have options for specifying the vertical stretching behavior of
-#'   card items.
-#'
-#'   To learn more about [card()]s and card layout options, see [this
-#'   article](https://rstudio.github.io/bslib/articles/cards.html).
-#'
-#' @param ... Named arguments become attributes on the `<div class="card">`
-#'   element. Unnamed arguments become card items, and can be any valid child of
-#'   an [htmltools tag][htmltools::tags].
-#' @param class Additional CSS classes to include on the card div.
-#' @param width,height Any valid [CSS unit][htmltools::validateCssUnit]; for
-#'   example, `height="100%"`.
+#' @param ... Unnamed arguments can be any valid child of an [htmltools
+#'   tag][htmltools::tags] (which includes card items such as [card_body()].
+#'   Named arguments become HTML attributes on returned UI element.
 #' @param full_screen If `TRUE`, an icon will appear when hovering over the card
-#'   body. Clicking the icon expands the card to fit viewport size. When using this option, consider explicitly wrapping card items in `card_body(x, stretch = TRUE)` and setting output containers to `height="100%"` (e.g., `card_body(plotlyOutput('id', height="100%"), stretch = TRUE)`).
-#' @param autowrap The Bootstrap card is designed to contain only a few specific
-#'   types of elements: `div.card-header`, `div.card-body`, etc. If `autowrap`
-#'   is `TRUE`, any unnamed arguments to `card()` are checked to see if they are
-#'   known card items (like [card_header()], [card_body_stretch()], etc.) and if
-#'   not, they are automatically wrapped in [card_body()]. If `autowrap` is
-#'   `FALSE`, then all unnamed arguments are nested directly within the card
-#'   element with no further processing.
+#'   body. Clicking the icon expands the card to fit viewport size. Consider
+#'   pairing this feature with [card_body_fill()] to get output that responds to
+#'   changes in the size of the card.
+#' @param height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `height="200px"`).
+#' @param class Additional CSS classes for the returned UI element.
+#' @param wrapper A function (which returns a UI element) to call on unnamed
+#'   arguments in `...` which are not already card item(s) (like
+#'   [card_header()], [card_body()], etc.). Note that non-card items are grouped
+#'   together into one `wrapper` call (e.g. given `card("a", "b",
+#'   card_body("c"), "d")`, `wrapper` would be called twice, once with `"a"` and
+#'   `"b"` and once with `"d"`). Consider setting `wrapper` to [card_body_fill]
+#'   if the entire card wants responsive sizing or `NULL` to avoid wrapping
+#'   altogether
+#'
+#' @return A [htmltools::div()] tag.
 #'
 #' @export
-#' @seealso [as.card_item()] for putting stuff inside the card.
-#' @seealso [card_grid()] for laying out multiple cards.
-#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in
-#'   cards.
+#' @seealso [card_body()] for putting stuff inside the card.
+#' @seealso [navs_tab_card()] for cards with multiple tabs.
+#' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
+#'   columns inside a card).
 #' @examples
 #'
-#' card(class = "w-50", height = "300px",
+#' card(
+#'   full_screen = TRUE,
 #'   card_header(
 #'     "This is the header"
 #'   ),
@@ -129,41 +45,19 @@ card_grid <- function(..., class = NULL, card_width = 1/4, gap = NULL,
 #'     "This is the footer"
 #'   )
 #' )
-card <- function(..., class = NULL, width = NULL, height = NULL,
-  full_screen = FALSE, autowrap = TRUE) {
+card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper = card_body) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
 
   attribs <- args[nzchar(argnames)]
-  children <- args[!nzchar(argnames)]
-
-  if (isTRUE(autowrap)) {
-    # Any children that are `is.card_item` should be included verbatim. Any
-    # children that are not, should be wrapped in card_body(). Consecutive children
-    # that are not card_item, should be wrapped in a single card_body().
-    needs_wrap <- !vapply(children, is.card_item, logical(1))
-    needs_wrap_rle <- rle(needs_wrap)
-    start_indices <- c(1, head(cumsum(needs_wrap_rle$lengths) + 1, -1))
-    children <- mapply(start_indices, needs_wrap_rle$lengths, needs_wrap_rle$values,
-      FUN = function(start, length, wrap) {
-        these_children <- children[start:(start + length - 1)]
-        if (wrap) {
-          list(card_body(stretch = FALSE, these_children))
-        } else {
-          these_children
-        }
-      }, SIMPLIFY = FALSE)
-    children <- unlist(children, recursive = FALSE)
-  }
+  children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
 
   tag <- div(
     class = "card",
+    class = vfill_classes,
     class = class,
-    style = css(
-      width = validateCssUnit(width),
-      height = validateCssUnit(height)
-    ),
+    style = css(height = validateCssUnit(height)),
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle()
@@ -174,83 +68,72 @@ card <- function(..., class = NULL, width = NULL, height = NULL,
   )
 }
 
-#' Card item components
-#'
-#' @description This topic describes various components that are intended to go
-#'   directly inside of a [card()]. These components can be used in combination;
-#'   for example, a single card could contain a `card_header()`, a
-#'   `card_footer()`, and multiple `card_body()`s.
-#'
-#'   To learn more about [card()]s and card layout options, see [this
-#'   article](https://rstudio.github.io/bslib/articles/cards.html).
-#'
-#' @section Stretchy card items (TODO: put me in pkgdown article)
-#'   * Stretchy card items only work sensibly if it has a parent element (e.g. [card()] and/or [card_grid()]) which has a fixed height _and_ any elements in-between the fixed height element and the stretchy element are also stretchy.
-#'   * Stretchy items `card_body_stretch()` is similar to `card_body(stretch =
-#'   TRUE)`, but additionally `unset`s the height of it's immediate children,
-#'   making it a convenient shortcut for creating stretchy outputs (e.g.,
-#'   [shiny::plotOutput()]) without having to set `height="100%"`.
-#'   * By default, stretchy items stretch vertically, but they can also stretch horizontally
-#'
-#' @param ... Named arguments become attributes on the `<div class="card">`
-#'   element. Unnamed arguments become card items, and can be any valid child of
-#'   an [htmltools tag][htmltools::tags].
-#' @param stretch Set to `TRUE` if this `card_body` is eager to use any extra
-#'   vertical space is available in the card.
-#' @param class Additional CSS classes.
-#' @param padding A valid CSS `padding` value.
 
+as_card_items <- function(children, wrapper) {
+  # We don't want NULLs creating empty card bodys
+  children <- children[vapply(children, function(x) length(x) > 0, logical(1))]
+
+  if (!is.function(wrapper)) {
+    return(children)
+  }
+
+  # Any children that are `is.card_item` should be included verbatim. Any
+  # children that are not, should be wrapped in card_body(). Consecutive children
+  # that are not card_item, should be wrapped in a single card_body().
+  needs_wrap <- !vapply(children, is.card_item, logical(1))
+  needs_wrap_rle <- rle(needs_wrap)
+  start_indices <- c(1, head(cumsum(needs_wrap_rle$lengths) + 1, -1))
+  children <- mapply(
+    start_indices, needs_wrap_rle$lengths, needs_wrap_rle$values,
+    FUN = function(start, length, wrap) {
+      these_children <- children[start:(start + length - 1)]
+      if (wrap) {
+        list(wrapper(these_children))
+      } else {
+        these_children
+      }
+    },
+    SIMPLIFY = FALSE
+  )
+  unlist(children, recursive = FALSE)
+}
+
+#' Card items
+#'
+#' Components designed to be provided as direct children of a [card()]. To learn
+#' about [card()]s, see [this
+#' article](https://rstudio.github.io/bslib/articles/cards.html).
+#'
+#' @param ... Unnamed arguments can be any valid child of an [htmltools
+#'   tag][htmltools::tags]. Named arguments become HTML attributes on returned
+#'   UI element.
+#' @inheritParams card
+#'
+#' @return An [htmltools::div()] tag.
 #'
 #' @export
 #' @seealso [card()] for creating a card component.
-#' @seealso [card_grid()] for laying out multiple cards.
-#' @seealso [navs_tab_card()] [navs_pill_card()] for placing navigation in
-#'   cards.
-card_body <- function(..., stretch = FALSE, class = NULL, padding = NULL) {
+#' @seealso [navs_tab_card()] for cards with multiple tabs.
+#' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
+#'   columns inside a card).
+card_body <- function(..., height = NULL, class = NULL) {
   card_body_(
-    stretch = stretch,
+    fill = FALSE,
+    height = height,
     class = class,
-    padding = padding,
     ...
   )
 }
 
 #' @rdname card_body
-#' @param height Any valid [CSS unit][htmltools::validateCssUnit]; for
-#'   example, `height="100%"`.
+#' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
+#'   `gap` (i.e., spacing) between elements provided to `...`.
 #' @export
-card_body_scroll <- function(..., height = NULL, class = NULL, padding = NULL) {
+card_body_fill <- function(..., gap = NULL, class = NULL) {
   card_body_(
-    style = css(flex_basis = validateCssUnit(height)),
-    class = c("card-body-scroll", class),
-    padding = padding,
-    ...
-  )
-}
-
-#' @rdname card_body
-#' @param ... Unnamed arguments should contain UI elements whose height (or width, if used within `card_body_inline()`) should be stretched, even if they already have a fixed height (e.g., [shiny::plotOutput()], etc. default to a fixed height of `400px`). Named arguments are treated as attributes on the stretchy container.
-#' @param flex a value of the `flex` CSS property.
-#' @export
-card_body_stretch <- function(..., flex = 1, class = NULL, padding = 0) {
-  card_body_(
-    class = c("bslib-card-body-stretch", class),
-    style = htmltools::css("--bslib-card-body-stretch-flex" = flex),
-    stretch = TRUE,
-    padding = padding,
-    ...
-  )
-}
-
-
-#' @rdname card_body
-#' @export
-card_body_inline <- function(..., stretch = FALSE, class = NULL, padding = NULL) {
-  card_body_(
-    class = c("bslib-card-body-inline", class),
-    style = htmltools::css("--bslib-card-body-inline-flex" = if (!stretch) "0"),
-    stretch = stretch,
-    padding = padding,
+    fill = TRUE,
+    gap = gap,
+    class = class,
     ...
   )
 }
@@ -259,30 +142,37 @@ card_body_inline <- function(..., stretch = FALSE, class = NULL, padding = NULL)
 #' @rdname card_body
 #' @param container a function to generate an HTML element.
 #' @export
-card_title <- function(..., class = NULL, padding = NULL, container = htmltools::h5) {
-  card_body_(
-    class = c("card-title", class),
-    stretch = FALSE,
-    container = container,
-    padding = padding,
+card_title <- function(..., container = htmltools::h5) {
+  container(
+    class = "card-title",
+    # Our card.scss wants to set margin-bottom on headers, so make
+    # sure this rule isn't overridden
+    style = css(margin_bottom = "var(--bs-card-title-spacer-y, 0.5rem)"),
     ...
   )
 }
 
-card_body_ <- function(..., stretch = FALSE, class = NULL, padding = NULL, container = htmltools::div) {
+card_body_ <- function(..., fill = TRUE, gap = NULL, height = NULL, class = NULL, container = htmltools::div) {
+
   res <- container(
     class = "card-body",
+    class = if (fill) vfill_classes,
+    class = if (fill) "p-0",
     class = class,
-    style = if (!stretch) css(flex = "0"),
-    style = css(padding = padding), # TODO: validate?
+    style = css(
+      flex = if (fill) "1 1 auto" else "0 0 auto",
+      height = validateCssUnit(height),
+      gap = validateCssUnit(gap)
+    ),
     ...
   )
+
   as.card_item(res)
 }
 
 
 #' @rdname card_body
-#' @param container a function to generate an HTML element (used for the `.card-header` element)
+#' @param container a function that generates an [htmltools tag][htmltools::tags].
 #' @export
 card_header <- function(..., class = NULL, container = htmltools::div) {
   as.card_item(
@@ -299,10 +189,48 @@ card_footer <- function(..., class = NULL) {
 }
 
 #' @rdname card_body
+#' @param file a file path pointing an image. The image will be base64 encoded
+#' and provided to the `src` attribute of the `<img>`. Alternatively, you may
+#' set this value to `NULL` and provide the `src` yourself.
+#' @param href An optional URL to link to.
+#' @param border_radius where to apply `border-radius` on the image.
+#' @param mime_type the mime type of the `file`.
 #' @export
-card_spacer <- function(...) {
-  res <- div(style = css(flex = "1 0 0"))
-  as.card_item(res)
+card_image <- function(
+  file, ..., href = NULL, border_radius = c("top", "bottom", "all", "none"),
+  mime_type = NULL, fill = TRUE, gap = NULL, height = NULL, class = NULL) {
+
+  src <- NULL
+  if (length(file) > 0) {
+    src <- base64enc::dataURI(
+      file = file, mime = mime_type %||% mime::guess_type(file)
+    )
+  }
+
+  image <- tags$img(
+    src = src,
+    class = "img-fluid",
+    class = "vfill-item",
+    class = class,
+    class = switch(
+      match.arg(border_radius),
+      all = "card-img",
+      top = "card-img-top",
+      bottom = "card-img-bottom",
+      NULL
+    ),
+    ...
+  )
+
+  if (!is.null(href)) {
+    image <- tags$a(
+      href = href,
+      class = if (fill) vfill_classes,
+      image
+    )
+  }
+
+  card_body_(image, fill = fill, gap = gap, height = height)
 }
 
 #' @rdname card_body
@@ -339,7 +267,9 @@ full_screen_toggle <- function() {
       # shouldn't need to trigger a resize on the window)
       # https://github.com/rstudio/shiny/pull/3682
       tags$script(HTML(
-        "var ro = new ResizeObserver(() => $(window).trigger('resize'));
+        "var resizeEvent = window.document.createEvent('UIEvents');
+        resizeEvent.initUIEvent('resize', true, false, window, 0);
+        var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
         document.querySelectorAll('.card').forEach(function(x) { ro.observe(x); })"
       ))
     )

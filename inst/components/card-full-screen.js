@@ -27,7 +27,7 @@ document.addEventListener('keyup', function(e) {
 function exitFullScreen() {
   const $card = $('.bslib-full-screen');
   if ($card) {
-    $card.removeClass('bslib-full-screen');
     $('#bslib-full-screen-overlay').remove();
+    $card.removeClass('bslib-full-screen');
   }
 }

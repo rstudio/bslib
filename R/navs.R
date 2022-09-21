@@ -3,15 +3,20 @@
 #' @inheritParams card_body
 #' @param title A (left-aligned) title to place in the card header/footer. If
 #'   provided, other nav items are automatically right aligned.
-#' @param full_screen If `TRUE`, a icon will appear when hovering over the card body
-#'   to expand the contents to the entire viewport size.
 #' @rdname navs
 navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
                           header = NULL, footer = NULL, height = NULL, width = NULL,
-                          padding = NULL,
-                          full_screen = FALSE) {
+                          full_screen = FALSE, wrapper = card_body) {
 
   items <- rlang::list2(...)
+
+  # The children of each nav() (i.e., tabPanel()) should be card items.
+  items <- lapply(items, function(x) {
+    if (isTabPanel(x)) {
+      x$children <- as_card_items(x$children, wrapper = wrapper)
+    }
+    x
+  })
 
   tabs <- navs_tab(
     !!!items, id = id, selected = selected, header = header, footer = footer
@@ -24,13 +29,14 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
     selectedTags()
 
   card(
-    height = height, width = width, full_screen = full_screen,
+    height = height, width = width,
+    full_screen = full_screen,
     if (!is.null(title)) {
       card_header(class = "bslib-card-title", tags$span(title), nav)
     } else {
       card_header(nav)
     },
-    navs_card_body(tabs, padding)
+    navs_card_body(tabs)
   )
 }
 
@@ -39,7 +45,6 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 #' @rdname navs
 navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
                            header = NULL, footer = NULL, height = NULL, width = NULL,
-                           padding = NULL,
                            full_screen = FALSE, placement = c("above", "below")) {
 
   items <- rlang::list2(...)
@@ -63,14 +68,18 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
   }
 
   card(
-    height = height, width = width, full_screen = full_screen,
+    height = height, width = width,
+    full_screen = full_screen,
     if (above) card_header(!!!nav_args),
-    navs_card_body(pills, padding),
+    navs_card_body(pills),
     if (!above) card_footer(!!!nav_args)
   )
 }
 
-navs_card_body <- function(tabs, padding) {
+navs_card_body <- function(tabs) {
+
+  tabs <- tagAppendAttributes(tabs, class = vfill_classes, .cssSelector = ".tab-content")
+  tabs <- tagAppendAttributes(tabs, class = vfill_classes, .cssSelector = ".tab-content > *")
 
   content <- tagQuery(tabs)$find(".tab-content")$selectedTags()
 
@@ -78,10 +87,5 @@ navs_card_body <- function(tabs, padding) {
     stop("Found more than 1 .tab-content CSS class. Please use another name for your CSS classes.")
   }
 
-  content <- content[[1]]
-
-  card_body(
-    content, padding = padding, stretch = TRUE,
-    class = "nav-card-body"
-  )
+  as.card_item(content[[1]])
 }

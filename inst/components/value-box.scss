@@ -11,8 +11,13 @@ $value-box-showcase-font-size: 3rem !default;
 
     .bi,
     .fa {
-      font-size: 1.75rem;
       opacity: .92;
+    }
+    .bi {
+      font-size: 5rem;
+    }
+    .fa {
+      font-size: 4rem;
     }
   }
 
@@ -35,7 +40,7 @@ $value-box-showcase-font-size: 3rem !default;
 .bslib-value-box {
   justify-content: center;
   width: 100%;
-  font-size: .75rem;
+  font-size: .9rem;
   font-weight: 500;
   background-color: inherit;
   color: inherit;

@@ -8,6 +8,7 @@ library(lubridate)
 library(plotly)
 library(nycflights13)
 library(histoslider)
+library(rlang)
 
 # Data prep
 flights <- flights %>%
@@ -110,7 +111,7 @@ side <- accordion(
 
 flights_card <- card(
   card_header("Flight paths"),
-  card_body_stretch(plotlyOutput("flight_paths")),
+  plotlyOutput("flight_paths"),
   card_footer("Marker areas are proportional to mean arrival delay"),
   height = "375px",
   full_screen = TRUE
@@ -122,7 +123,7 @@ delay_corr_card <- card(
     input_switch("scatter_summarize", "Summarize", TRUE),
     class = "d-flex justify-content-between"
   ),
-  card_body_stretch(plotlyOutput("scatter_delay")),
+  plotlyOutput("scatter_delay"),
   height = "375px",
   full_screen = TRUE
 )
@@ -144,12 +145,12 @@ delay_card <- navs_tab_card(
 
 main <- tagList(
   uiOutput("value_boxes"),
-  card_grid(
-    card_width = "200px", class = "my-3", style = "height: 375px",
+  layout_column_wrap(
+    width = "200px", class = "my-3", style = "height: 375px",
     flights_card, delay_corr_card
   ),
-  card_grid(
-    card_width = 1, style = "height: 400px",
+  layout_column_wrap(
+    width = 1, style = "height: 400px",
     delay_card
   )
 )
@@ -375,7 +376,7 @@ server <- function(input, output, session) {
       showcase = bsicons::bs_icon("hourglass-bottom")
     )
 
-    card_grid(card_width = 1/3, n_flights, delay_dep, delay_arr)
+    layout_column_wrap(width = 1/3, n_flights, delay_dep, delay_arr)
   })
 
   output$flight_paths <- renderPlotly({
@@ -592,8 +593,8 @@ server <- function(input, output, session) {
     )
 
     tagList(
-      card_grid(card_width = 1/2, overall, yoy),
-      card_grid(card_width = 1/3, furniture, office, technology, class = "my-4")
+      layout_column_wrap(width = 1/2, overall, yoy),
+      layout_column_wrap(width = 1/3, furniture, office, technology, class = "my-4")
     )
   })
 

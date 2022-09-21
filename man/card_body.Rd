@@ -2,80 +2,79 @@
 % Please edit documentation in R/card.R
 \name{card_body}
 \alias{card_body}
-\alias{card_body_scroll}
-\alias{card_body_stretch}
-\alias{card_body_inline}
+\alias{card_body_fill}
 \alias{card_title}
 \alias{card_header}
 \alias{card_footer}
-\alias{card_spacer}
+\alias{card_image}
 \alias{as.card_item}
 \alias{is.card_item}
-\title{Card item components}
+\title{Card items}
 \usage{
-card_body(..., stretch = FALSE, class = NULL, padding = NULL)
+card_body(..., height = NULL, class = NULL)
 
-card_body_scroll(..., height = NULL, class = NULL, padding = NULL)
+card_body_fill(..., gap = NULL, class = NULL)
 
-card_body_stretch(..., flex = 1, class = NULL, padding = 0)
-
-card_body_inline(..., stretch = FALSE, class = NULL, padding = NULL)
-
-card_title(..., class = NULL, padding = NULL, container = htmltools::h5)
+card_title(..., container = htmltools::h5)
 
 card_header(..., class = NULL, container = htmltools::div)
 
 card_footer(..., class = NULL)
 
-card_spacer(...)
+card_image(
+  file,
+  ...,
+  href = NULL,
+  border_radius = c("top", "bottom", "all", "none"),
+  mime_type = NULL,
+  fill = TRUE,
+  gap = NULL,
+  height = NULL,
+  class = NULL
+)
 
 as.card_item(x)
 
 is.card_item(x)
 }
 \arguments{
-\item{...}{Unnamed arguments should contain UI elements whose height (or width, if used within \code{card_body_inline()}) should be stretched, even if they already have a fixed height (e.g., \code{\link[shiny:plotOutput]{shiny::plotOutput()}}, etc. default to a fixed height of \verb{400px}). Named arguments are treated as attributes on the stretchy container.}
+\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag}. Named arguments become HTML attributes on returned
+UI element.}
 
-\item{stretch}{Set to \code{TRUE} if this \code{card_body} is eager to use any extra
-vertical space is available in the card.}
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}).}
 
-\item{class}{Additional CSS classes.}
+\item{class}{Additional CSS classes for the returned UI element.}
 
-\item{padding}{A valid CSS \code{padding} value.}
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
 
-\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}; for
-example, \code{height="100\%"}.}
+\item{container}{a function that generates an \link[htmltools:builder]{htmltools tag}.}
 
-\item{flex}{a value of the \code{flex} CSS property.}
+\item{file}{a file path pointing an image. The image will be base64 encoded
+and provided to the \code{src} attribute of the \verb{<img>}. Alternatively, you may
+set this value to \code{NULL} and provide the \code{src} yourself.}
 
-\item{container}{a function to generate an HTML element (used for the \code{.card-header} element)}
+\item{href}{An optional URL to link to.}
+
+\item{border_radius}{where to apply \code{border-radius} on the image.}
+
+\item{mime_type}{the mime type of the \code{file}.}
 
 \item{x}{an object to test (or coerce to) a card item.}
 }
+\value{
+An \code{\link[htmltools:builder]{htmltools::div()}} tag.
+}
 \description{
-This topic describes various components that are intended to go
-directly inside of a \code{\link[=card]{card()}}. These components can be used in combination;
-for example, a single card could contain a \code{card_header()}, a
-\code{card_footer()}, and multiple \code{card_body()}s.
-
-To learn more about \code{\link[=card]{card()}}s and card layout options, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+Components designed to be provided as direct children of a \code{\link[=card]{card()}}. To learn
+about \code{\link[=card]{card()}}s, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
 }
-\section{Stretchy card items (TODO}{
- put me in pkgdown article)
-\itemize{
-\item Stretchy card items only work sensibly if it has a parent element (e.g. \code{\link[=card]{card()}} and/or \code{\link[=card_grid]{card_grid()}}) which has a fixed height \emph{and} any elements in-between the fixed height element and the stretchy element are also stretchy.
-\item Stretchy items \code{card_body_stretch()} is similar to \code{card_body(stretch =   TRUE)}, but additionally \code{unset}s the height of it's immediate children,
-making it a convenient shortcut for creating stretchy outputs (e.g.,
-\code{\link[shiny:plotOutput]{shiny::plotOutput()}}) without having to set \code{height="100\%"}.
-\item By default, stretchy items stretch vertically, but they can also stretch horizontally
-}
-}
-
 \seealso{
 \code{\link[=card]{card()}} for creating a card component.
 
-\code{\link[=card_grid]{card_grid()}} for laying out multiple cards.
+\code{\link[=navs_tab_card]{navs_tab_card()}} for cards with multiple tabs.
 
-\code{\link[=navs_tab_card]{navs_tab_card()}} \code{\link[=navs_pill_card]{navs_pill_card()}} for placing navigation in
-cards.
+\code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out multiple cards (or multiple
+columns inside a card).
 }
