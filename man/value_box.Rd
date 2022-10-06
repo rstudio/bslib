@@ -25,7 +25,7 @@ to display below \code{value} (if these children are not already
 Named arguments become attributes on the containing element.}
 
 \item{showcase}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
-\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotly-shiny]{plotly::plotlyOutput()}}, etc).}
+\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotlyOutput]{plotly::plotlyOutput()}}, etc).}
 
 \item{showcase_layout}{where to display the showcase relative to the other
 content.}
