@@ -90,7 +90,11 @@ Config/Needs/website:
     purrr,
     rprojroot,
     stringr,
-    tidyr
+    tidyr,
+    plotly,
+    leaflet,
+    ggplot2,
+    svglite
 Config/Needs/deploy:
     BH,
     DT,
