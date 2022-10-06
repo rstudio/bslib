@@ -1,0 +1,20 @@
+.vfill-container {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  > .vfill-item {
+    flex: var(--bslib-vfill-flex, 1 1 auto);
+    overflow: auto;
+  }
+}
+
+// Workaround for pkgdown's CSS to make tab-pane all a consistent height
+// https://github.com/r-lib/pkgdown/blob/956f07/inst/BS5/assets/pkgdown.scss#L342-L355
+.tab-content > .tab-pane.vfill-container {
+  display: none;
+}
+
+// Override Bootstrap's `display:block` rule
+.tab-content > .active.vfill-container {
+  display: flex;
+}

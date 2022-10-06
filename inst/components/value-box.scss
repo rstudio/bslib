@@ -1,0 +1,83 @@
+$value-box-showcase-font-size: 3rem !default;
+
+.bslib-value-box-container {
+  flex-direction: row;
+
+  .value-box-showcase {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+
+    .bi,
+    .fa {
+      opacity: .92;
+    }
+    .bi {
+      font-size: 5rem;
+    }
+    .fa {
+      font-size: 4rem;
+    }
+  }
+
+  &.showcase-top-right .value-box-showcase {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    border: none !important;
+  }
+
+  &.showcase-left-center .value-box-showcase {
+    // This CSS var was introduced 5.2
+    --bs-border-opacity: 0.3;
+    // Temporary hack until we upgrade
+    border-color: rgba($border-color, var(--bs-border-opacity)) !important;
+  }
+}
+
+.bslib-value-box {
+  justify-content: center;
+  width: 100%;
+  font-size: .9rem;
+  font-weight: 500;
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  padding: 1.5rem 1rem;
+
+  * {
+    padding: 0 !important;
+  }
+}
+
+
+.bslib-full-screen {
+  .bslib-value-box {
+    flex: 0;
+    flex-basis: fit-content;
+    flex-basis: -moz-fit-content;
+  }
+
+  .value-box-showcase {
+    flex: 1 1 auto;
+
+    // TODO: is this the best way to override the inline
+    // height/width on output bindings?
+    > * {
+      width: var(--showcase-full-width, 100%) !important;
+      height: var(--showcase-full-height, 600px) !important;
+    }
+  }
+
+  &.showcase-top-right {
+    .value-box-showcase {
+      position: static;
+      order: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

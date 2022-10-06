@@ -20,17 +20,6 @@ knitr::opts_chunk$set(
 library(bslib)
 ```
 
-```{scss, echo = FALSE}
-@media (min-width: 800px) {
-  .usage {
-    display: flex;
-    * {
-      flex: 1;
-    }
-  }
-}
-```
-
 # bslib
 
 The `bslib` R package provides tools for customizing [Bootstrap themes](https://getbootstrap.com/docs/4.6/getting-started/theming/) directly from R, making it much easier to customize the appearance of [Shiny](https://shiny.rstudio.com/) apps & [R Markdown](https://rmarkdown.rstudio.com/) documents. `bslib`'s primary goals are:

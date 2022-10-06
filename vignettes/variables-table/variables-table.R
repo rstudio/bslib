@@ -45,8 +45,9 @@ variables_dt <- function(version) {
   DT::datatable(
     variables_df(version),
     escape = FALSE,
-    style = "bootstrap",
-    class = "cell-border",
+    style = "bootstrap4",
+    class = "table-bordered",
+    width = "80vw",
     rownames = FALSE,
     selection = "none",
     extensions = c("Select", "RowGroup", "Scroller"),

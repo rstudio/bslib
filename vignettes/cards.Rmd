@@ -1,0 +1,692 @@
+---
+title: "Cards"
+resource_files:
+  - shiny-hex.svg
+  - infobox.svg
+  - value-box.svg
+---
+
+Cards are a common organizing unit for modern user interfaces (UI). At their core, they're just rectangular containers with borders and padding. However, when utilized properly to group related information, they help users better digest, engage, and navigate through content. This is why most successful dashboard/UI frameworks make cards a core feature of their component library. This article provides an overview of the API that bslib provides to create [Bootstrap cards](https://getbootstrap.com/docs/5.0/components/card/).
+
+One major feature that bslib adds to Bootstrap cards is the ability to expand the card to a [full screen view](#responsive-sizing). Often this feature wants to be coupled with [content that responds](#responsive-sizing) to sizing changes in the card. To help illustrate, we'll mostly use statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`, but the same API can be used for [dynamically rendered content in Shiny](#dynamic-rendering-shiny):
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id nibh tortor id aliquet lectus proin nibh nisl. Adipiscing at in tellus integer feugiat. Arcu bibendum at varius vel pharetra vel turpis nunc eget. Cursus sit amet dictum sit amet justo. Sit amet consectetur adipiscing elit. Vestibulum mattis ullamcorper velit sed ullamcorper. Enim facilisis gravida neque convallis a. Elit duis tristique sollicitudin nibh sit amet. Magna eget est lorem ipsum. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Mauris in aliquam sem fringilla ut morbi. Id semper risus in hendrerit gravida rutrum quisque non tellus. At erat pellentesque adipiscing commodo elit at imperdiet dui. Fames ac turpis egestas maecenas pharetra convallis posuere morbi. Duis convallis convallis tellus id interdum velit laoreet id. Aliquet lectus proin nibh nisl. Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis. Bibendum enim facilisis gravida neque convallis a."
+
+# pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
+# (note this isn't a problem for any format based on html_document_base)
+shiny:::setCurrentTheme(bslib::bs_theme())
+```
+
+```{scss, echo = FALSE}
+div.infobox {
+  padding: 2em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-size: 70px;
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  min-height: 120px;
+  color: #1f5386;
+  background-color: #bed3ec;
+  border: solid 5px #dfedff;
+  background-image: url("infobox.svg");
+  a {
+    color: #e783b8;
+  }
+}
+
+/* Credit to https://getcssscan.com/css-box-shadow-examples */
+.card {
+  box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  margin-bottom: 3rem;
+}
+
+.bslib-grid-layout .card {
+  box-shadow: none;
+  margin-bottom: 0rem;
+}
+
+.bslib-value-box.card {
+  box-shadow: none;
+  margin-bottom: 0rem;
+  color: white !important;
+}
+
+.bslib-grid-layout {
+  margin-bottom: 2rem;
+  overflow-y: scroll
+}
+
+.section.level2 {
+  margin-top: 5rem;
+}
+```
+
+```{r ref.label="anim_helpers",echo=FALSE}
+```
+
+
+```{r}
+library(bslib)
+library(shiny)
+library(htmltools)
+library(plotly)
+library(leaflet)
+
+plotly_widget <- plot_ly(x = diamonds$cut) %>%
+  config(displayModeBar = FALSE) %>%
+  layout(margin = list(t = 10, b = 10, l = 10, r = 10))
+
+leaflet_widget <- leaflet() %>%
+  addTiles()
+```
+
+
+## Hello `card()`
+
+::: row
+::: col-md-6
+A `card()` is designed to handle any number of "known" card items (e.g., `card_header()`, `card_body()`, etc) as unnamed arguments (i.e., children). As we'll see shotly, `card()` also has a number of optional named arguments (e.g., `full_screen`, `height`, etc).
+
+At their core, `card()` and card items are just an HTML `div()` with a special Bootstrap class, so you can use Bootstrap's utility classes to customize things like [colors](https://getbootstrap.com/docs/5.2/utilities/background/), [text](https://getbootstrap.com/docs/5.2/utilities/text/), [borders](https://getbootstrap.com/docs/5.2/utilities/borders), etc.
+:::
+
+::: col-md-6
+```{r}
+card(
+  card_header("A header", class = "bg-dark"),
+  card_body(
+    "Some text with a ",
+    tags$a("link", href = "https://github.com")
+  )
+)
+```
+:::
+:::
+
+## Implicit `card_body()`
+
+::: row
+::: col-md-6
+If you find yourself using `card_body()` without changing any of its defaults, consider dropping it altogether since any direct children of `card()` that aren't "known" `card()` items, are wrapped together into an implicit `card_body()` call.[^1] For example, the code to the right generates HTML that is identical to the previous example:
+:::
+
+[^1]: If you want to customize this behavior, you can provide a function function to `wrapper` argument (or set it to `NULL` to avoid wrapping the non card items in a container).
+
+::: col-md-6
+```{r}
+card(
+  card_header("A header", class = "bg-dark"),
+  "Some text with a ",
+  tags$a("link", href = "https://github.com")
+)
+```
+:::
+:::
+
+## Fixed sizing
+
+::: row
+::: col-md-6
+By default, a `card()`'s size grows to accommodate the size of it's contents. Thus, if some portion of the `card_body()` contains a large amount of text, table(s), etc., consider setting a fixed `height`. And in that case, if the contents exceed the specified height, they'll be scrollable.
+:::
+
+::: col-md-6
+```{r}
+card(
+  card_header("A long, scrolling, description"),
+  card_body(
+    height = 150, 
+    lorem_ipsum_dolor_sit_amet
+  )
+)
+```
+:::
+:::
+
+::: row
+::: col-md-6
+Most htmlwidgets (like `plotly::plot_ly()`), as well as some Shiny output bindings (like `shiny::plotOutput()`), default to a fixed height of 400 pixels. That means, if the `card_body()` containing such an output needs to be smaller (or larger) than 400px, the output won't shrink (or grow) as needed. For that sort of responsive behavior, use `card_body_fill()` instead of `card_body()`.
+:::
+
+::: col-md-6
+```{r}
+
+```
+
+```{r}
+card(
+  height = 200,
+  card_header("An undesirable scrolling plot"),
+  plotly_widget
+)
+```
+:::
+:::
+
+
+## Responsive sizing
+
+::: row
+::: col-md-6
+Unlike `card_body()`, `card_body_fill()` encourages its children to grow and shrink vertically as needed in response to its `card()`'s height. This responsive sizing behavior is particularly useful in combination with `card(full_screen = TRUE, ...)`, which adds an icon (displayed on hover) to expand the `card()` to a full screen view. It also defaults to no padding since that’s often desirable when growing/shrinking a singular visual output to fit the container.
+:::
+
+::: col-md-6
+```{r}
+card(
+  height = 250, full_screen = TRUE,
+  card_header("A full screen card w/ responsive plot"),
+  card_body_fill(plotly_widget),
+  card_footer(
+    class = "fs-6",
+    "Copyright 2022 RStudio, PBC"
+  )
+)
+```
+:::
+:::
+
+::: {.infobox}
+In order for `card_body_fill()` to work properly with htmlwidgets, you currently need development version(s):
+
+```r
+remotes::install_github(c("ramnathv/htmlwidgets", "ropensci/plotly", "rstudio/leaflet", "rstudio/DT"))
+```
+:::
+
+::: row
+::: col-md-6
+Under-the-hood, `card_body_fill()` achieves its behavior because it is a [flex container](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), which makes its direct children flex items. This can lead to suprising, yet useful, differences in behavior from `card_body()`. For example, each inline element (like text, `actionLink()`, `actionButton()`, etc) is placed in a new row and stretches horizontally (as shown in the example). In the case where you want particular elements inside of `card_body_fill()` to behave as though they're in `card_body()` (i.e., have the `actionLink()` and `actionButton()` appear inline on the same line), just wrap those elements in a `div()`.
+:::
+
+::: col-md-6
+```{r}
+card(
+  height = 250, full_screen = TRUE,
+  card_header("A plot with an action links"),
+  card_body_fill(
+    plotly_widget,
+    actionLink(
+      "go", "Action link", 
+      class = "link-primary align-self-center"
+    ),
+    actionButton(
+      "go_btn", "Action button", 
+      class = "btn-primary rounded-0"
+    )
+  )
+)
+```
+:::
+:::
+
+
+## Fixed & responsive sizing
+
+::: row
+::: col-md-6
+Sometimes it's desirable to combine both `card_body_fill()` with `card_body()` to allow some portion of the body to grow/shrink as needed, but also keep another portion at a fixed/defined height. 
+:::
+
+::: col-md-6
+```{r}
+card(
+  height = 300, full_screen = TRUE,
+  card_header("Plot with long description"),
+  card_body_fill(plotly_widget),
+  card_body(
+    height = "30%", 
+    lorem_ipsum_dolor_sit_amet
+  )
+)
+```
+:::
+:::
+
+## Spacing & alignment
+
+::: row
+::: col-md-6
+Keep in mind that, by default, `card_body()` adds padding around it's content while `card_body_fill()` doesn't. In either case, you can override those defaults with the [spacing utility classes](https://getbootstrap.com/docs/5.2/utilities/spacing/). Also keep in mind that the [flex utility classes](https://getbootstrap.com/docs/5.2/utilities/flex/) can be quite useful for aligning content.
+:::
+
+::: col-md-6
+```{r}
+card(
+  height = 300, full_screen = TRUE,
+  card_body_fill(
+    class = "p-2",
+    plotOutput("id")
+  ),
+  card_body(
+    class = "py-5 d-flex justify-content-center",
+    "Description with lots of padding"
+  )
+)
+```
+:::
+:::
+
+::: row
+::: col-md-6
+Utility classes are really useful since they not only also help with spacing and alignment of stuff _within_ a `card_body()` (or `card_body_fill()`), but more generally enable easy customization of colors, fonts, and more.
+:::
+
+::: col-md-6
+```{r}
+card(
+  card_title("A title"),
+  p("Paragraph 1", class = "text-muted"),
+  p("Paragraph 2", class = "text-end"),
+  div(
+    class = "p-5 d-flex justify-content-center bg-secondary",
+    p("Paragraph 3.")
+  )
+)
+```
+:::
+:::
+
+
+::: row
+::: col-md-6
+In the case of `card_body_fill()`, since it's based on flexbox, you can add uniform spacing between children via the `gap` argument. Note there is a similar way to space between [multiple columns](#multiple-columns).
+:::
+
+::: col-md-6
+```{r}
+card(
+  card_body_fill(
+    gap = "1rem", class = "p-1",
+    div("Thing 1", class = "bg-secondary"),
+    div("Thing 2", class = "bg-secondary")
+  )
+)
+```
+:::
+:::
+
+## Dynamic rendering (Shiny)
+
+::: row
+::: col-md-6
+Since this article is statically rendered, the examples here use statically rendered content/widgets, but the same `card()` functionality works for dynamically rendered content via Shiny (e.g., `shiny::plotOutput()`, `plotly::plotlyOutput()`, etc).
+:::
+
+::: col-md-6
+```{r, message=FALSE}
+# User interface logic
+card(
+  height = 200, full_screen = TRUE,
+  card_header("Imagine this is a real plot"),
+  card_body_fill(
+    plotOutput("plot_id")
+  )
+)
+```
+:::
+:::
+
+::: row
+::: col-md-6
+One neat thing about dynamic rendering is that you can leverage `shiny::getCurrentOutputInfo()` to render content differently depending on the height of its container, which is particularly useful with `card(full_screen = T, ...)`. For example, you may want additional captions/labels when a plot is large, additional controls on a table, etc (see the [value boxes](#value-boxes) section below for a concrete example).
+:::
+
+::: col-md-6
+```{r, eval=FALSE}
+# Server logic
+output$plot_id <- renderPlot({
+  info <- getCurrentOutputInfo()
+  if (info$height() > 600) {
+    # code for "large" plot
+  } else {
+    # code for "small" plot
+  }
+})
+```
+:::
+:::
+
+
+::: {.infobox}
+In order for `card_body_fill()` to work properly with `plotOutput()`, you currently need development version(s) (and for it to work with other `*Output()` containers you may need to set `*Output(height = NULL)` or update the relevant package).
+
+```r
+remotes::install_github(c("rstudio/shiny", "ramnathv/htmlwidgets"))
+```
+:::
+
+## Value boxes
+
+::: row
+::: col-md-6
+`value_box()` uses `card()` as a foundation, mainly to inherit it's `full_screen` capabilities. It's first 2 arguments (`title` and `value`) are the only requirements, but you can add additional content below the value as well as something to `showcase`, like an icon. By default, the `showcase` will appear in the upper-right corner of the value box, but it can also be display to the left of the value, as done here. 
+
+Although we don't demonstrate it here, keep in mind that you may customize a `value_box()`'s color via [background color utility classes](https://getbootstrap.com/docs/5.2/utilities/background/) (e.g., `value_box(class = "bg-success")`)
+:::
+
+::: col-md-6
+```{r}
+library(bsicons)
+value_box(
+  "My big number", 
+  "100%", 
+  p("It's going up", bs_icon("arrow-up")),
+  showcase = bs_icon("graph-up"),
+  showcase_layout = "left-center"
+)
+```
+:::
+:::
+
+Advanced users can make clever use of `shiny::getCurrentOutputInfo()` to make "expandable sparklines" within a `value_box()`'s `showcase` when `full_screen=TRUE`. For example, when the `value_box()` is small (i.e., not full screen), one could embed a small/minimal `plotlyOutput()` (i.e., no axes, hoverinfo, etc) line chart (showing the real data behind the value), but then add proper labeling, tooltips, etc. when the `value_box()` made full screen (see here for [source code](https://github.com/rstudio/bslib/tree/main/inst/examples/value_box) behind this motivating example):
+
+<img src="value-box.svg" width="100%">
+
+## Static images
+
+::: row
+::: col-md-6
+`card_image()` makes it easy to embed static (i.e., pre-generated) images into a card. Provide a URL to `href` to make it clickable. In the case of multiple `card_image()`s, consider laying them out in [multiple cards](#multiple-cards) with `layout_column_wrap()` to produce a grid of clickable thumbnails.
+:::
+
+::: col-md-6
+```{r}
+card(
+  card_image(
+    "shiny-hex.svg", height = 200,
+    href = "https://github.com/rstudio/shiny"
+  ),
+  card_title("Shiny for R"),
+  p("It's a wonderful thing.")
+)
+```
+:::
+:::
+
+
+
+::: row
+::: col-md-6
+Unlike `shiny::plotOutput()`, `card_image()` won't be able to resize bitmap images (i.e., png, jpeg, etc.) intelligently, so it's highly recommended to use vector-based formats like SVG where possible.
+:::
+
+::: col-md-6
+```{r, message=FALSE}
+library(ggplot2)
+img_file <- tempfile(fileext = ".svg")
+ggsave(
+  img_file, device = "svg",
+  ggplot(mtcars, aes(wt, mpg)) + 
+    geom_point() +
+    theme_bw(base_size = 16)
+)
+card(
+  full_screen = TRUE,
+  card_image(img_file),
+  card_title("ggplot2"),
+  p("It's a wonderful thing.")
+)
+```
+:::
+:::
+
+
+## Multiple tabs
+
+::: row
+::: col-md-6
+`navs_tab_card()` (as well as `navs_pill_card()`) makes it easy to create cards with multiple tabs (or pills). These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fill()` where appropriate to get [responsive sizing](#responsive-sizing).
+:::
+
+
+::: col-md-6
+```{r}
+library(leaflet)
+navs_tab_card(
+  height = 300, full_screen = TRUE,
+  title = "HTML Widgets",
+  nav(
+    "Plotly", 
+    card_body_fill(plotly_widget)
+  ),
+  nav(
+    "Leaflet",
+    card_body_fill(leaflet_widget)
+  ),
+  nav(
+    NULL, icon = shiny::icon("circle-info"),
+    "Learn more about",
+    tags$a("htmlwidgets", href = "http://www.htmlwidgets.org/")
+  )
+)
+```
+:::
+:::
+
+
+## Multiple columns
+
+::: row
+::: col-md-6
+To create multiple columns within a card, it's recommended to use `layout_column_wrap()` (which can also be used to layout [multiple cards](#multiple-cards)), especially if the height of those columns should grow/shrink as needed.
+:::
+
+::: col-md-6
+```{r}
+card(
+  height = 300, full_screen = TRUE,
+  card_body_fill(
+    class = "p-1",
+    layout_column_wrap(
+      width = 1/2,
+      plotOutput("p1"),
+      plotOutput("p2")
+    )
+  ),
+  card_body(
+    height = "30%", 
+    lorem_ipsum_dolor_sit_amet
+  )
+)
+```
+:::
+:::
+
+
+## Multiple cards
+
+This section outlines various layouts made possible by `layout_column_wrap()`. To illustrate, we'll use three `card()` instances with various content, but keep in mind that `layout_column_wrap()` is designed to work [other UI elements as well](#multiple-columns).
+
+**Note:** The examples in this section are not intended to be viewed on mobile devices. At small window widths, all of the layouts here collapse into a more mobile-friendly approach of "show each card at maximum width".
+
+```{r}
+card1 <- card(
+  card_header("Scrolling content"),
+  lorem_ipsum_dolor_sit_amet
+)
+card2 <- card(
+  card_header("Nothing much here"),
+  "This is it."
+)
+card3 <- card(
+  full_screen = TRUE,
+  card_header("Filling content"),
+  card_body_fill(plotOutput("p"))
+)
+```
+
+
+### Uniform width and height
+
+When displaying multiple cards at once, it's often most visually appealing to have them displayed in a grid-like layout where each card has the same height and width. `layout_column_wrap()` optimizes for this design principle, and only demands a `width` for each column (or a number of columns). In the event that there are more cards than columns available, cards are wrapped into a new row (by default, all rows have the same height, but you can easily [vary the row height](#by-row)).
+
+#### Fixed number of columns
+
+For a fixed number of columns, provide `width = 1/n`, where `n` is the number of columns.[^2] As the animation (except on mobile devices) below shows, as the width of the `layout_column_wrap()` container changes, each card grows or shrinks to maintain its 1/4 width.
+
+[^2]: Do not attempt to use percent-based widths with `width`--like `"50%"` instead of `1/2`. Percentages will almost certainly not give you the results you want.
+
+```{r}
+layout_column_wrap(
+  width = 1/2, height = 300, 
+  card1, card2, card3
+) |>
+  anim_width("100%", "67%")
+```
+
+One potential issue with a fixed number of columns is that, on medium sized screens, the card width may become too small. If that happens to be a problem, specifying a "responsive" number of columns may be preferable.
+
+#### Responsive number of columns
+
+For a responsive number of columns (i.e., the number of columns depends on the window size), provide `width` with any valid CSS unit, like 200 pixels. In our case (with three cards), the 3rd card gets wrapped onto a new line when the viewport is less than 600 pixels, but on wider screens, the cards equally distribute the free space. 
+
+```{r}
+layout_column_wrap(
+  width = "200px", height = 300, 
+  card1, card2, card3
+) |>
+  anim_width("100%", "67%")
+```
+
+
+#### Fixed column width
+
+To keep the `width` of each column fixed (don't allow cards to grow to take up free space), set `fixed_width = TRUE`.
+
+```{r}
+layout_column_wrap(
+  width = "200px", height = 300, 
+  fixed_width = TRUE,
+  card1, card2, card3
+) |>
+  anim_width("100%", "67%")
+```
+
+
+### Varying heights
+
+By default, when `layout_column_wrap()` wraps columns onto a new row, _all_ rows are given equal height.
+
+#### By row
+
+To allow the height of each row to be different, set `heights_equal = "row"`:
+
+```{r}
+layout_column_wrap(
+  width = 1/2, height = 300,
+  heights_equal = "row",
+  card1, card3, card2
+)
+```
+
+#### By column
+
+By default, each the height on each card grows to fill the available vertical space in a particular row. To opt out of that behavior, set `fill = FALSE`.
+
+```{r}
+layout_column_wrap(
+  width = "200px", height = 300, fill = FALSE,
+  card1, card2, card3
+)
+```
+
+
+### Varying widths & more complex layouts
+
+Set `width` to `NULL` and provide a custom [`grid-template-columns` property](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns) (and possibly other [CSS grid properties](https://css-tricks.com/snippets/css/complete-guide-grid/)) to accomplish more complex layouts, like varying column widths. This particular layout gives the 1st and 3rd card twice as much space as the 2nd:
+
+```{r}
+layout_column_wrap(
+  width = NULL, height = 300, fill = FALSE,
+  style = css(grid_template_columns = "2fr 1fr 2fr"),
+  card1, card2, card3
+)
+```
+
+If you aren't keen on learning and/or using CSS grid directly, you may also want to try the [Shiny UI editor](https://rstudio.github.io/shinyuieditor/) (and/or `{gridlayout}`) to produce the layout.
+
+
+## Appendix
+
+In the spirit of reproducibility, this section discloses custom CSS and R code used in the examples above.
+
+The following CSS is used to give `plotOutput()` a background color; it's necessary here because this documentation page is not actually hooked up to a Shiny app, so we can't show a real plot.
+
+```{css}
+.shiny-plot-output {
+  background-color: #216B7288;
+  height: 400px;
+  width: 100%;
+}
+```
+
+These R functions add animation-related CSS class and styles to whatever tags you give it.
+
+```{r anim_helpers,echo=TRUE,results="hide"}
+anim_width <- function(x, width1, width2) {
+  x |> tagAppendAttributes(
+    class = "animate-width",
+    style = css(
+      `--width1` = validateCssUnit(width1),
+      `--width2` = validateCssUnit(width2),
+    ),
+  )
+}
+
+anim_height <- function(x, height1, height2) {
+  # Wrap in a div fixed at the height of height2, so the rest of
+  # the content on the page doesn't shift up and down
+  div(style = css(height = validateCssUnit(height2)),
+    x |> tagAppendAttributes(
+      class = "animate-height",
+      style = css(
+        `--height1` = validateCssUnit(height1),
+        `--height2` = validateCssUnit(height2),
+      ),
+    )
+  )
+}
+```
+
+And here are the CSS animation rules that power those `anim_width` and `anim_height` R functions.
+
+```{css}
+@keyframes changewidth {
+  from { width: var(--width1); }
+  25% { width: var(--width1); }
+  50% { width: var(--width2); }
+  75% { width: var(--width2); }
+  to { width: var(--width1); }
+}
+.animate-width {
+  animation-duration: 6s;
+  animation-name: changewidth;
+  animation-iteration-count: infinite;
+  border-right: 2px solid #DDD;
+  padding-right: 1rem;
+}
+
+@keyframes changeheight {
+  from { height: var(--height1); }
+  25% { height: var(--height1); }
+  50% { height: var(--height2); }
+  75% { height: var(--height2); }
+  to { height: var(--height1); }
+}
+.animate-height {
+  height: 600px;
+  animation-duration: var(--anim-duration, 6s);
+  animation-name: changeheight;
+  animation-iteration-count: infinite;
+}
+```
