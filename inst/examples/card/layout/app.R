@@ -82,7 +82,7 @@ server <- function(input, output, session) {
         setView(-93.65, 42.0285, zoom = 17) %>%
         addPopups(-93.65, 42.0285, "Here is the <b>Department of Statistics</b>, ISU")
     })
-    output[[paste0("dataTableOutput", i)]] <- renderDataTable(datatable(mtcars, fillContainer = F))
+    output[[paste0("dataTableOutput", i)]] <- renderDataTable(datatable(mtcars, fillContainer = T))
     output[[paste0("gt_output", i)]] <- render_gt(gt(mtcars[1:5, ]))
   })
 

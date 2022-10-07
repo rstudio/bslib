@@ -285,7 +285,8 @@ full_screen_toggle <- function() {
         "var resizeEvent = window.document.createEvent('UIEvents');
         resizeEvent.initUIEvent('resize', true, false, window, 0);
         var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-        document.querySelectorAll('.card').forEach(function(x) { ro.observe(x); })"
+        var card = $(document.currentScript).parents('.card').last();
+        ro.observe(card[0]);"
       ))
     )
   )
