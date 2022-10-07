@@ -60,11 +60,6 @@ div.infobox {
   color: white !important;
 }
 
-.bslib-grid-layout {
-  margin-bottom: 2rem;
-  overflow-y: scroll
-}
-
 .section.level2 {
   margin-top: 5rem;
 }
@@ -94,7 +89,7 @@ leaflet_widget <- leaflet() %>%
 
 ::: row
 ::: col-md-6
-A `card()` is designed to handle any number of "known" card items (e.g., `card_header()`, `card_body()`, etc) as unnamed arguments (i.e., children). As we'll see shotly, `card()` also has a number of optional named arguments (e.g., `full_screen`, `height`, etc).
+A `card()` is designed to handle any number of "known" card items (e.g., `card_header()`, `card_body()`, etc) as unnamed arguments (i.e., children). As we'll see shotly, `card()` also has some useful named arguments (e.g., `full_screen`, `height`, etc).
 
 At their core, `card()` and card items are just an HTML `div()` with a special Bootstrap class, so you can use Bootstrap's utility classes to customize things like [colors](https://getbootstrap.com/docs/5.2/utilities/background/), [text](https://getbootstrap.com/docs/5.2/utilities/text/), [borders](https://getbootstrap.com/docs/5.2/utilities/borders), etc.
 :::
@@ -102,10 +97,12 @@ At their core, `card()` and card items are just an HTML `div()` with a special B
 ::: col-md-6
 ```{r}
 card(
-  card_header("A header", class = "bg-dark"),
+  card_header(
+    class = "bg-dark",
+    "A header"
+  ),
   card_body(
-    "Some text with a ",
-    tags$a("link", href = "https://github.com")
+    markdown("Some text with a [link](https://github.com)")
   )
 )
 ```
@@ -124,9 +121,11 @@ If you find yourself using `card_body()` without changing any of its defaults, c
 ::: col-md-6
 ```{r}
 card(
-  card_header("A header", class = "bg-dark"),
-  "Some text with a ",
-  tags$a("link", href = "https://github.com")
+  card_header(
+    class = "bg-dark",
+    "A header"
+  ),
+  markdown("Some text with a [link](https://github.com)")
 )
 ```
 :::
@@ -142,7 +141,9 @@ By default, a `card()`'s size grows to accommodate the size of it's contents. Th
 ::: col-md-6
 ```{r}
 card(
-  card_header("A long, scrolling, description"),
+  card_header(
+    "A long, scrolling, description"
+  ),
   card_body(
     height = 150, 
     lorem_ipsum_dolor_sit_amet
@@ -152,39 +153,34 @@ card(
 :::
 :::
 
-::: row
-::: col-md-6
-Most htmlwidgets (like `plotly::plot_ly()`), as well as some Shiny output bindings (like `shiny::plotOutput()`), default to a fixed height of 400 pixels. That means, if the `card_body()` containing such an output needs to be smaller (or larger) than 400px, the output won't shrink (or grow) as needed. For that sort of responsive behavior, use `card_body_fill()` instead of `card_body()`.
-:::
-
-::: col-md-6
-```{r}
-
-```
-
-```{r}
-card(
-  height = 200,
-  card_header("An undesirable scrolling plot"),
-  plotly_widget
-)
-```
-:::
-:::
-
 
 ## Responsive sizing
 
-::: row
-::: col-md-6
-Unlike `card_body()`, `card_body_fill()` encourages its children to grow and shrink vertically as needed in response to its `card()`'s height. This responsive sizing behavior is particularly useful in combination with `card(full_screen = TRUE, ...)`, which adds an icon (displayed on hover) to expand the `card()` to a full screen view. It also defaults to no padding since that’s often desirable when growing/shrinking a singular visual output to fit the container.
-:::
+<div class="row">
 
-::: col-md-6
+<div class="col-md-6">
+Unlike `card_body()`, `card_body_fill()` encourages its children to grow and shrink vertically as needed in response to its `card()`'s height. Responsive sizing is particularly useful for `card(full_screen = TRUE, ...)`, which adds an icon (displayed on hover) to expand the `card()` to a full screen view. It also defaults to no padding since that’s often desirable when growing/shrinking a singular visual output to fit the container.
+
+Since many htmlwidgets (like `plotly::plot_ly()`) and Shiny output bindings (like `shiny::plotOutput()`) default to a fixed height of 400 pixels, but are actually capable to responsive sizing, you'll get a better result with `card_body_fill()` instead of `card_body()` in these cases (compare the "Responsive" with the "Fixed" result using the tabs to the right).
+</div>
+
+<div class="col-md-6">
+
+<ul class="nav nav-pills justify-content-center" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#responsize" type="button" role="tab" aria-controls="responsize" aria-selected="true">Responsive</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#fixed" type="button" role="tab" aria-controls="fixed" aria-selected="false">Fixed</button>
+  </li>
+  </li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane show active" id="responsize" role="tabpanel" tabindex="0">
 ```{r}
 card(
   height = 250, full_screen = TRUE,
-  card_header("A full screen card w/ responsive plot"),
+  card_header("Responsive sizing"),
   card_body_fill(plotly_widget),
   card_footer(
     class = "fs-6",
@@ -192,8 +188,24 @@ card(
   )
 )
 ```
-:::
-:::
+  </div>
+  <div class="tab-pane" id="fixed" role="tabpanel" tabindex="0">
+```{r}
+card(
+  height = 250, full_screen = TRUE,
+  card_header("Fixed sizing"),
+  plotly_widget,
+  card_footer(
+    class = "fs-6",
+    "Copyright 2022 RStudio, PBC"
+  )
+)
+```
+  </div>
+</div>
+  </div>
+</div>
+
 
 ::: {.infobox}
 In order for `card_body_fill()` to work properly with htmlwidgets, you currently need development version(s):
@@ -264,11 +276,11 @@ Keep in mind that, by default, `card_body()` adds padding around it's content wh
 card(
   height = 300, full_screen = TRUE,
   card_body_fill(
-    class = "p-2",
+    class = "p-3",
     plotOutput("id")
   ),
   card_body(
-    class = "py-5 d-flex justify-content-center",
+    class = "py-5 text-center",
     "Description with lots of padding"
   )
 )
@@ -285,11 +297,11 @@ Utility classes are really useful since they not only also help with spacing and
 ```{r}
 card(
   card_title("A title"),
-  p("Paragraph 1", class = "text-muted"),
-  p("Paragraph 2", class = "text-end"),
+  p(class = "text-muted", "Paragraph 1"),
+  p(class = "text-end", "Paragraph 2"),
   div(
-    class = "p-5 d-flex justify-content-center bg-secondary",
-    p("Paragraph 3.")
+    class = "p-5 bg-secondary text-center",
+    span("Inline comment")
   )
 )
 ```
@@ -306,9 +318,10 @@ In the case of `card_body_fill()`, since it's based on flexbox, you can add unif
 ```{r}
 card(
   card_body_fill(
-    gap = "1rem", class = "p-1",
-    div("Thing 1", class = "bg-secondary"),
-    div("Thing 2", class = "bg-secondary")
+    gap = "1rem", class = "p-3",
+    div(class = "bg-secondary", "Thing 1"),
+    div(class = "bg-secondary", "Thing 2"),
+    div(class = "bg-secondary", "Thing 3")
   )
 )
 ```
@@ -403,11 +416,12 @@ Advanced users can make clever use of `shiny::getCurrentOutputInfo()` to make "e
 ```{r}
 card(
   card_image(
-    "shiny-hex.svg", height = 200,
+    file = "shiny-hex.svg",
+    height = 200,
     href = "https://github.com/rstudio/shiny"
   ),
   card_title("Shiny for R"),
-  p("It's a wonderful thing.")
+  p("Brought to you by RStudio.")
 )
 ```
 :::
@@ -434,7 +448,7 @@ card(
   full_screen = TRUE,
   card_image(img_file),
   card_title("ggplot2"),
-  p("It's a wonderful thing.")
+  p("Brought to you by RStudio.")
 )
 ```
 :::
@@ -457,14 +471,16 @@ navs_tab_card(
   title = "HTML Widgets",
   nav(
     "Plotly", 
+    card_title("A plotly plot"),
     card_body_fill(plotly_widget)
   ),
   nav(
     "Leaflet",
+    card_title("A leaflet plot"),
     card_body_fill(leaflet_widget)
   ),
   nav(
-    NULL, icon = shiny::icon("circle-info"),
+    shiny::icon("circle-info"),
     "Learn more about",
     tags$a("htmlwidgets", href = "http://www.htmlwidgets.org/")
   )
@@ -486,7 +502,7 @@ To create multiple columns within a card, it's recommended to use `layout_column
 card(
   height = 300, full_screen = TRUE,
   card_body_fill(
-    class = "p-1",
+    class = "p-3",
     layout_column_wrap(
       width = 1/2,
       plotOutput("p1"),
@@ -494,7 +510,7 @@ card(
     )
   ),
   card_body(
-    height = "30%", 
+    height = "30%", class = "pt-0",
     lorem_ipsum_dolor_sit_amet
   )
 )
@@ -532,7 +548,7 @@ When displaying multiple cards at once, it's often most visually appealing to ha
 
 #### Fixed number of columns
 
-For a fixed number of columns, provide `width = 1/n`, where `n` is the number of columns.[^2] As the animation (except on mobile devices) below shows, as the width of the `layout_column_wrap()` container changes, each card grows or shrinks to maintain its 1/4 width.
+For a fixed number of columns, provide `width = 1/n`, where `n` is the number of columns.[^2] As the animation (except on mobile devices) below shows, as the width of the `layout_column_wrap()` container changes, each card grows or shrinks to maintain its 1/2 width.
 
 [^2]: Do not attempt to use percent-based widths with `width`--like `"50%"` instead of `1/2`. Percentages will almost certainly not give you the results you want.
 
@@ -583,10 +599,11 @@ To allow the height of each row to be different, set `heights_equal = "row"`:
 
 ```{r}
 layout_column_wrap(
-  width = 1/2, height = 300,
+  width = 1/2,
   heights_equal = "row",
   card1, card3, card2
-)
+) |>
+  anim_height(300, 450)
 ```
 
 #### By column
@@ -595,9 +612,10 @@ By default, each the height on each card grows to fill the available vertical sp
 
 ```{r}
 layout_column_wrap(
-  width = "200px", height = 300, fill = FALSE,
+  width = "200px", fill = FALSE,
   card1, card2, card3
-)
+) |> 
+  anim_height(300, 450)
 ```
 
 
@@ -610,7 +628,8 @@ layout_column_wrap(
   width = NULL, height = 300, fill = FALSE,
   style = css(grid_template_columns = "2fr 1fr 2fr"),
   card1, card2, card3
-)
+) |>
+  anim_height(300, 450)
 ```
 
 If you aren't keen on learning and/or using CSS grid directly, you may also want to try the [Shiny UI editor](https://rstudio.github.io/shinyuieditor/) (and/or `{gridlayout}`) to produce the layout.
@@ -674,6 +693,7 @@ And here are the CSS animation rules that power those `anim_width` and `anim_hei
   animation-iteration-count: infinite;
   border-right: 2px solid #DDD;
   padding-right: 1rem;
+  padding-bottom: 3rem;
 }
 
 @keyframes changeheight {
@@ -688,5 +708,6 @@ And here are the CSS animation rules that power those `anim_width` and `anim_hei
   animation-duration: var(--anim-duration, 6s);
   animation-name: changeheight;
   animation-iteration-count: infinite;
+  padding-bottom: 3rem;
 }
 ```

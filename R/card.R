@@ -148,13 +148,7 @@ card_body_fill <- function(..., gap = NULL, class = NULL) {
 #' @param container a function to generate an HTML element.
 #' @export
 card_title <- function(..., container = htmltools::h5) {
-  container(
-    class = "card-title",
-    # Our card.scss wants to set margin-bottom on headers, so make
-    # sure this rule isn't overridden
-    style = css(margin_bottom = "var(--bs-card-title-spacer-y, 0.5rem)"),
-    ...
-  )
+  card_body(container(style = css(margin_bottom = 0), ...))
 }
 
 card_body_ <- function(..., fill = TRUE, gap = NULL, height = NULL, class = NULL, container = htmltools::div) {
