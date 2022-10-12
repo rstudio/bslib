@@ -91,6 +91,8 @@
   position: absolute;
   bottom: 1px;
   right: 3px;
+  margin: 0.5rem;
+  padding: 0.55rem !important;
   font-size: .8rem;
   cursor: pointer;
   opacity: .6;
@@ -104,11 +106,10 @@
   display: block;
 }
 
-// card_summary() allows for a full-screen card to be embedded within a parent card
-.card:hover .bslib-full-screen .bslib-full-screen-enter {
-  display: none;
+// Only allow full_screen on desktop screens
+@include media-breakpoint-down(sm) {
+  .bslib-full-screen-enter { display: none !important; }
 }
-
 
 .bslib-full-screen-exit {
   position: relative;

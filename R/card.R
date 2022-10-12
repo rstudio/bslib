@@ -265,13 +265,14 @@ is.card_item <- function(x) {
 
 
 full_screen_toggle <- function() {
-    tags$a(
-      tags$span(class = "badge rounded-pill bg-dark m-2", style="padding:0.55rem !important;",
+  tags$a(
+    tags$span(
       class = "bslib-full-screen-enter",
+      class = "badge rounded-pill bg-dark",
       "data-bs-toggle" = "tooltip",
       "data-bs-placement" = "bottom",
       title = "Expand",
-      bsicons::bs_icon("arrows-fullscreen", class = "null"),
+      full_screen_toggle_icon(),
       htmlDependency(
         name = "bslib-card-full-screen",
         version = get_package_version("bslib"),
@@ -287,10 +288,19 @@ full_screen_toggle <- function() {
         resizeEvent.initUIEvent('resize', true, false, window, 0);
         var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
         var card = $(document.currentScript).parents('.card').last();
-        ro.observe(card[0]);"
+        ro.observe(card[0]);
+        var tooltipList = card[0].querySelectorAll('[data-bs-toggle=\"tooltip\"]');
+        tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
+        "
       ))
     )
   )
+}
+
+
+# via bsicons::bs_icon("arrows-fullscreen")
+full_screen_toggle_icon <- function() {
+  HTML('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg>')
 }
 
 

@@ -4,7 +4,7 @@
 \alias{value_box}
 \alias{showcase_left_center}
 \alias{showcase_top_right}
-\title{A card for displaying a summary of information}
+\title{Value box}
 \usage{
 value_box(
   title,
@@ -13,6 +13,7 @@ value_box(
   showcase = NULL,
   showcase_layout = showcase_left_center(),
   full_screen = FALSE,
+  theme_color = "primary",
   height = NULL,
   class = NULL
 )
@@ -30,23 +31,27 @@ showcase_top_right(
 )
 }
 \arguments{
-\item{title}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to display above \code{value}.}
+\item{title, value}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to display above \code{value}. If a
+string a provided, it's automatically wrapped in a header tag.}
 
-\item{value}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to display below \code{title}.}
-
-\item{...}{Unnamed arguments may be any \code{\link[htmltools:builder]{htmltools::tag()}} children
-to display below \code{value}..
-Named arguments become attributes on the containing element.}
+\item{...}{Unnamed arguments may be any \code{\link[htmltools:builder]{htmltools::tag()}} children to
+display below \code{value}.. Named arguments become attributes on the containing
+element.}
 
 \item{showcase}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
-\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotlyOutput]{plotly::plotlyOutput()}}, etc).}
+\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotly-shiny]{plotly::plotlyOutput()}}, etc).}
 
-\item{showcase_layout}{either \code{showcase_left_center()} or \code{showcase_top_right()}.}
+\item{showcase_layout}{either \code{showcase_left_center()} or
+\code{showcase_top_right()}.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size. Consider
 pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
 changes in the size of the card.}
+
+\item{theme_color}{a theme color to use for the background color. Should
+match a name in the Bootstrap Sass variable \verb{$theme-colors} (e.g.,
+\code{"secondary"}, \code{"success"}, \code{"danger"}, etc)}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}
@@ -71,7 +76,10 @@ showcase width). Note that any units supported by the CSS grid
 showcase max_height.}
 }
 \description{
-A card for displaying a summary of information
+An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displaying a \code{value} and
+\code{title}. Optionally, a \code{showcase} can provide for context for what the
+\code{value} represents (for example, it could hold a \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, or
+even a \code{\link[shiny:plotOutput]{shiny::plotOutput()}}).
 }
 \examples{
 
@@ -80,13 +88,16 @@ library(htmltools)
 if (interactive()) {
   value_box(
     "KPI Title",
-    HTML("$1 <i>Billion</i> Dollars"),
+    h1(HTML("$1 <i>Billion</i> Dollars")),
     span(
       bsicons::bs_icon("arrow-up"),
       " 30\% VS PREVIOUS 30 DAYS"
-     ),
+    ),
     showcase = bsicons::bs_icon("piggy-bank"),
     class = "bg-success"
   )
 }
+}
+\seealso{
+\code{\link[=card]{card()}}
 }

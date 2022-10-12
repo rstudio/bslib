@@ -25,6 +25,9 @@
     padding: 1.5rem 1rem;
     font-size: .9rem;
     font-weight: 500;
+    * {
+      color: inherit;
+    }
     &.border-start {
       border-color: rgba($border-color, 0.3) !important;
     }

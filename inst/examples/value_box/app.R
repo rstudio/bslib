@@ -9,7 +9,8 @@ ui <- page_fluid(
   ),
   br(),
   layout_column_wrap(
-    width = "200px", #height = 200,
+    width = "200px",
+    #height = 200,
     value_box(
       title = "Unemployment Rate",
       value = "2.7%",
@@ -28,7 +29,7 @@ ui <- page_fluid(
       showcase = plotlyOutput("psavert"),
       showcase_layout = showcase_top_right(),
       full_screen = TRUE,
-      class = "bg-success"
+      theme_color = "success"
     ),
     value_box(
       title = "Personal Consumption",
@@ -37,7 +38,7 @@ ui <- page_fluid(
       div("Averaged $1.7B over that period"),
       showcase = bsicons::bs_icon("piggy-bank", size = "100%"),
       full_screen = TRUE,
-      class = "bg-danger"
+      theme_color = "danger"
     )
   )
 )
