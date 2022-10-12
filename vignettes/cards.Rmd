@@ -161,7 +161,7 @@ card(
 <div class="col-md-6">
 Unlike `card_body()`, `card_body_fill()` encourages its children to grow and shrink vertically as needed in response to its `card()`'s height. Responsive sizing is particularly useful for `card(full_screen = TRUE, ...)`, which adds an icon (displayed on hover) to expand the `card()` to a full screen view. It also defaults to no padding since that’s often desirable when growing/shrinking a singular visual output to fit the container.
 
-Since many htmlwidgets (like `plotly::plot_ly()`) and Shiny output bindings (like `shiny::plotOutput()`) default to a fixed height of 400 pixels, but are actually capable to responsive sizing, you'll get a better result with `card_body_fill()` instead of `card_body()` in these cases (compare the "Responsive" with the "Fixed" result using the tabs to the right).
+Since many htmlwidgets (like `plotly::plot_ly()`) and Shiny output bindings (like `shiny::plotOutput()`) default to a fixed height of 400 pixels, but are actually capable of responsive sizing, you'll get a better result with `card_body_fill()` instead of `card_body()` in these cases (compare the "Responsive" with the "Fixed" result using the tabs to the right).
 </div>
 
 <div class="col-md-6">
@@ -242,6 +242,26 @@ card(
 :::
 
 
+::: row
+::: col-md-6
+Sometimes it's useful to put a limit on how much the contents of `card_body_fill()` may grow or shrink. For example, here's a case where the plot won't expand over 400 pixels (try expanding to full screen).
+:::
+
+::: col-md-6
+```{r}
+card(
+  height = 200, full_screen = TRUE,
+  card_header("Try expanding full screen"),
+  card_body_fill(
+    plotly_widget, 
+    max_height = "400px"
+  )
+)
+```
+:::
+:::
+
+
 ## Fixed & responsive sizing
 
 ::: row
@@ -268,13 +288,13 @@ card(
 
 ::: row
 ::: col-md-6
-Keep in mind that, by default, `card_body()` adds padding around it's content while `card_body_fill()` doesn't. In either case, you can override those defaults with the [spacing utility classes](https://getbootstrap.com/docs/5.2/utilities/spacing/). Also keep in mind that the [flex utility classes](https://getbootstrap.com/docs/5.2/utilities/flex/) can be quite useful for aligning content.
+Keep in mind that, by default, `card_body()` adds padding around it's content while `card_body_fill()` doesn't. In either case, you can override those defaults with the [spacing utility classes](https://getbootstrap.com/docs/5.2/utilities/spacing/).
 :::
 
 ::: col-md-6
 ```{r}
 card(
-  height = 300, full_screen = TRUE,
+  height = 250, full_screen = TRUE,
   card_body_fill(
     class = "p-3",
     plotOutput("id")
@@ -287,6 +307,8 @@ card(
 ```
 :::
 :::
+
+
 
 ::: row
 ::: col-md-6
@@ -311,7 +333,7 @@ card(
 
 ::: row
 ::: col-md-6
-In the case of `card_body_fill()`, since it's based on flexbox, you can add uniform spacing between children via the `gap` argument. Note there is a similar way to space between [multiple columns](#multiple-columns).
+In the case of `card_body_fill()`, since it's based on [CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), you can add uniform spacing between children via the `gap` argument. Note there is a similar way to space between [multiple columns](#multiple-columns).
 :::
 
 ::: col-md-6
@@ -322,6 +344,24 @@ card(
     div(class = "bg-secondary", "Thing 1"),
     div(class = "bg-secondary", "Thing 2"),
     div(class = "bg-secondary", "Thing 3")
+  )
+)
+```
+:::
+:::
+
+::: row
+::: col-md-6
+Moreover, if the contents of a `card_body_fill()` aren't full width, you can horizontally center them via [flex utility classes](https://getbootstrap.com/docs/5.2/utilities/flex/).
+:::
+
+::: col-md-6
+```{r}
+card(
+  height = 150, full_screen = TRUE,
+  card_body_fill(
+    class = "p-3 align-items-center",
+    plotOutput("id", width = "50%")
   )
 )
 ```
@@ -391,11 +431,10 @@ Although we don't demonstrate it here, keep in mind that you may customize a `va
 ```{r}
 library(bsicons)
 value_box(
+  showcase = bs_icon("graph-up"),
   "My big number", 
   "100%", 
-  p("It's going up", bs_icon("arrow-up")),
-  showcase = bs_icon("graph-up"),
-  showcase_layout = "left-center"
+  p("It's going up", bs_icon("arrow-up"))
 )
 ```
 :::

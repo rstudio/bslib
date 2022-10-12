@@ -31,15 +31,21 @@
 
   > .card-body {
     overflow: auto;
-    & > {
-      p, h1, h2, h3, h4, h5, h6 {
-        margin-top: 0;
+    p, h1, h2, h3, h4, h5, h6 {
+      margin-top: 0;
 
-        &:last-child {
-          margin-bottom: 0;
-        }
+      &:last-child {
+        margin-bottom: 0;
       }
     }
+  }
+
+  > .card-body {
+    max-height: var(--bslib-card-body-max-height, none);
+  }
+
+  &.bslib-full-screen > .card-body {
+    max-height: var(--bslib-card-body-max-height-full-screen, none);
   }
 
   > .card-header {

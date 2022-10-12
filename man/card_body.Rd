@@ -13,7 +13,14 @@
 \usage{
 card_body(..., height = NULL, class = NULL)
 
-card_body_fill(..., gap = NULL, class = NULL)
+card_body_fill(
+  ...,
+  gap = NULL,
+  max_height = NULL,
+  max_height_full_screen = max_height,
+  min_height = NULL,
+  class = NULL
+)
 
 card_title(..., container = htmltools::h5)
 
@@ -48,6 +55,8 @@ UI element.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
 \code{gap} (i.e., spacing) between elements provided to \code{...}.}
+
+\item{max_height, max_height_full_screen, min_height}{Any valid \link[htmltools:validateCssUnit]{CSS length unit}.}
 
 \item{container}{a function to generate an HTML element to contain the image.}
 

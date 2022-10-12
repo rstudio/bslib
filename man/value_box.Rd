@@ -2,6 +2,8 @@
 % Please edit documentation in R/value-box.R
 \name{value_box}
 \alias{value_box}
+\alias{showcase_left_center}
+\alias{showcase_top_right}
 \title{A card for displaying a summary of information}
 \usage{
 value_box(
@@ -9,9 +11,22 @@ value_box(
   value,
   ...,
   showcase = NULL,
-  showcase_layout = c("top-right", "left-center"),
+  showcase_layout = showcase_left_center(),
   full_screen = FALSE,
+  height = NULL,
   class = NULL
+)
+
+showcase_left_center(
+  width = 0.3,
+  max_height = "100px",
+  max_height_full_screen = 0.67
+)
+
+showcase_top_right(
+  width = 0.3,
+  max_height = "75px",
+  max_height_full_screen = 0.67
 )
 }
 \arguments{
@@ -20,24 +35,40 @@ value_box(
 \item{value}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to display below \code{title}.}
 
 \item{...}{Unnamed arguments may be any \code{\link[htmltools:builder]{htmltools::tag()}} children
-to display below \code{value} (if these children are not already
-\code{\link[=is.card_item]{is.card_item()}}, then they are wrapped in a \code{\link[=card_body]{card_body()}}).
+to display below \code{value}..
 Named arguments become attributes on the containing element.}
 
 \item{showcase}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
-\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotlyOutput]{plotly::plotlyOutput()}}, etc).}
+\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotly-shiny]{plotly::plotlyOutput()}}, etc).}
 
-\item{showcase_layout}{where to display the showcase relative to the other
-content.}
+\item{showcase_layout}{either \code{showcase_left_center()} or \code{showcase_top_right()}.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size. Consider
 pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
 changes in the size of the card.}
 
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}).}
+
 \item{class}{utility classes for customizing the appearance of the summary
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
+
+\item{width}{one of the following:
+\itemize{
+\item A proportion (i.e., a number between 0 and 1) of available width to
+allocate to the showcase.
+\item A vector of length 2 valid \link[htmltools:validateCssUnit]{CSS unit} defining
+the width of each column (for \code{showcase_left_center()} the 1st unit defines
+the showcase width and for \code{showcase_top_right} the 2nd unit defines the
+showcase width). Note that any units supported by the CSS grid
+\code{grid-template-columns} property may be used (e.g., \code{fr} units).
+}}
+
+\item{max_height, max_height_full_screen}{A proportion (i.e., a number between
+0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
+showcase max_height.}
 }
 \description{
 A card for displaying a summary of information

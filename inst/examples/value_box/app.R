@@ -9,14 +9,14 @@ ui <- page_fluid(
   ),
   br(),
   layout_column_wrap(
-    width = "200px",
+    width = "200px", #height = 200,
     value_box(
       title = "Unemployment Rate",
       value = "2.7%",
       div("Started at 1.5%"),
       div("Averaged 3% over that period"),
       div("Peaked at 5.2% in Dec 1982"),
-      showcase = plotlyOutput("unemploy", height = "50px", width = "100px"),
+      showcase = plotlyOutput("unemploy"),
       full_screen = TRUE
     ),
     value_box(
@@ -25,8 +25,8 @@ ui <- page_fluid(
       div("Started at 12.6%"),
       div("Averaged 8.6% over that period"),
       div("Peaked 17.3% in May 1975"),
-      showcase = plotlyOutput("psavert", height = "50px", width = "100px"),
-      showcase_layout = "left-center",
+      showcase = plotlyOutput("psavert"),
+      showcase_layout = showcase_top_right(),
       full_screen = TRUE,
       class = "bg-success"
     ),
@@ -35,9 +35,8 @@ ui <- page_fluid(
       value = "$3.8B",
       div("Started at $0.25B"),
       div("Averaged $1.7B over that period"),
-      showcase = bsicons::bs_icon("piggy-bank"),
-      showcase_layout = "left-center",
-      #full_screen = TRUE,
+      showcase = bsicons::bs_icon("piggy-bank", size = "100%"),
+      full_screen = TRUE,
       class = "bg-danger"
     )
   )

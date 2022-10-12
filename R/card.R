@@ -133,16 +133,25 @@ card_body <- function(..., height = NULL, class = NULL) {
 #' @rdname card_body
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`.
+#' @param max_height,max_height_full_screen,min_height Any valid [CSS length unit][htmltools::validateCssUnit()].
 #' @export
-card_body_fill <- function(..., gap = NULL, class = NULL) {
+card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_screen = max_height, min_height = NULL, class = NULL) {
+
   card_body_(
     fill = TRUE,
-    gap = gap,
     class = class,
+    style = htmltools::css(
+      padding = 0,
+      gap = validateCssUnit(gap),
+      min_height = validateCssUnit(min_height),
+      "--bslib-card-body-max-height" = validateCssUnit(max_height),
+      "--bslib-card-body-max-height-full-screen" = validateCssUnit(max_height_full_screen),
+      margin_top = "auto",
+      margin_bottom = "auto"
+    ),
     ...
   )
 }
-
 
 #' @rdname card_body
 #' @param container a function to generate an HTML element.
@@ -151,17 +160,15 @@ card_title <- function(..., container = htmltools::h5) {
   card_body(container(style = css(margin_bottom = 0), ...))
 }
 
-card_body_ <- function(..., fill = TRUE, gap = NULL, height = NULL, class = NULL, container = htmltools::div) {
+card_body_ <- function(..., fill = TRUE, height = NULL, class = NULL, container = htmltools::div) {
 
   res <- container(
     class = "card-body",
     class = if (fill) vfill_classes,
-    class = if (fill) "p-0",
     class = class,
     style = css(
-      flex = if (fill) "1 1 auto" else "0 0 auto",
       height = validateCssUnit(height),
-      gap = validateCssUnit(gap)
+      flex = if (fill) "1 1 auto" else "0 0 auto"
     ),
     ...
   )
