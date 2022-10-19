@@ -14,18 +14,18 @@ ui <- page_fluid(
     value_box(
       title = "Unemployment Rate",
       value = "2.7%",
-      div("Started at 1.5%"),
-      div("Averaged 3% over that period"),
-      div("Peaked at 5.2% in Dec 1982"),
+      p("Started at 1.5%"),
+      p("Averaging 3%"),
+      p("Peaked at 5.2% in Dec 1982"),
       showcase = plotlyOutput("unemploy"),
       full_screen = TRUE
     ),
     value_box(
       title = "Personal Savings Rate",
       value = "7.6%",
-      div("Started at 12.6%"),
-      div("Averaged 8.6% over that period"),
-      div("Peaked 17.3% in May 1975"),
+      p("Started at 12.6%"),
+      p("Averaging 8.6%"),
+      p("Peaked at 17.3% in May 1975"),
       showcase = plotlyOutput("psavert"),
       showcase_layout = showcase_top_right(),
       full_screen = TRUE,
@@ -34,8 +34,8 @@ ui <- page_fluid(
     value_box(
       title = "Personal Consumption",
       value = "$3.8B",
-      div("Started at $0.25B"),
-      div("Averaged $1.7B over that period"),
+      p("Started at $0.25B"),
+      p("Averaging $1.7B"),
       showcase = bsicons::bs_icon("piggy-bank", size = "100%"),
       full_screen = TRUE,
       theme_color = "danger"

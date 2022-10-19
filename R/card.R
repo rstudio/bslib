@@ -141,7 +141,6 @@ card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_s
     fill = TRUE,
     class = class,
     style = htmltools::css(
-      padding = 0,
       gap = validateCssUnit(gap),
       min_height = validateCssUnit(min_height),
       "--bslib-card-body-max-height" = validateCssUnit(max_height),
@@ -190,7 +189,7 @@ card_header <- function(..., class = NULL, container = htmltools::div) {
 #' @export
 card_footer <- function(..., class = NULL) {
   as.card_item(
-    div(class = "card-footer mt-auto", class = class, ...)
+    div(class = "card-footer", class = class, ...)
   )
 }
 
@@ -265,35 +264,55 @@ is.card_item <- function(x) {
 
 
 full_screen_toggle <- function() {
-  tags$a(
-    tags$span(
-      class = "bslib-full-screen-enter",
-      class = "badge rounded-pill bg-dark",
-      "data-bs-toggle" = "tooltip",
-      "data-bs-placement" = "bottom",
-      title = "Expand",
-      full_screen_toggle_icon(),
-      htmlDependency(
-        name = "bslib-card-full-screen",
-        version = get_package_version("bslib"),
-        package = "bslib",
-        src = "components",
-        script = "card-full-screen.js"
-      ),
-      # TODO: shiny should probably use ResizeObserver() itself (i.e., we
-      # shouldn't need to trigger a resize on the window)
-      # https://github.com/rstudio/shiny/pull/3682
-      tags$script(HTML(
-        "var resizeEvent = window.document.createEvent('UIEvents');
+  tags$span(
+    class = "bslib-full-screen-enter",
+    class = "badge rounded-pill bg-dark",
+    "data-bs-toggle" = "tooltip",
+    "data-bs-placement" = "bottom",
+    title = "Expand",
+    full_screen_toggle_icon(),
+    htmlDependency(
+      name = "bslib-card-full-screen",
+      version = get_package_version("bslib"),
+      package = "bslib",
+      src = "components",
+      script = "card-full-screen.js"
+    ),
+    tags$script(HTML(
+      "
+        var card = $(document.currentScript).parents('.card').last();
+
+        // Let Shiny know to trigger resize when the card size changes
+        // TODO: shiny could/should do this itself (rstudio/shiny#3682)
+        var resizeEvent = window.document.createEvent('UIEvents');
         resizeEvent.initUIEvent('resize', true, false, window, 0);
         var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-        var card = $(document.currentScript).parents('.card').last();
         ro.observe(card[0]);
+
+        // Enable tooltips (for the expand icon)
         var tooltipList = card[0].querySelectorAll('[data-bs-toggle=\"tooltip\"]');
         tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
+
+        // In some complex fill-based layouts with multiple outputs (e.g., plotly),
+        // shiny initializes with the correct sizing, but in-between the 1st and last
+        // renderValue(), the size of the output containers can change, meaning every
+        // output but the 1st gets initialized with the wrong size during their
+        // renderValue(); and then after the render phase, shiny won't know trigger a
+        // resize since all the widgets will return to their original size
+        // (and thus, Shiny thinks there isn't any resizing to do).
+        // We workaround that situation by manually triggering a resize on the binding
+        // when the output container changes (this way, if the size is different during
+        // the render phase, Shiny will know about it)
+        $(document).on('shiny:value', function(x) {
+          var el = x.binding.el;
+          if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
+            var roo = new ResizeObserver(x.binding.onResize);
+            roo.observe(el);
+            $(el).data('bslib-output-observer', true);
+          }
+        });
         "
-      ))
-    )
+    ))
   )
 }
 

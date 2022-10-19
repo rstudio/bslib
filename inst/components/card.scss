@@ -1,10 +1,8 @@
-.card-footer {
-  margin-top: auto;
-}
-
 .bslib-grid-layout {
   display: grid !important;
   gap: $spacer;
+  height: var(--bslib-grid-layout-height);
+  // This undoes the margin-bottom added below
   .card {
     margin-bottom: 0;
   }
@@ -13,23 +11,19 @@
 @include media-breakpoint-down(sm) {
   .bslib-grid-layout {
     grid-template-columns: 1fr !important;
+    height: var(--bslib-grid-layout-height-mobile);
   }
-}
-
-.card .shiny-plot-output {
-  overflow: hidden;
 }
 
 .card {
   margin-bottom: $spacer;
 
-  // Avoid "double padding" when two card_body()s
-  // are immediate siblings
-  > .card-body + .card-body {
+  // Avoid "double padding" when two card_body()s are immediate siblings
+  .card-body + .card-body {
     padding-top: 0;
   }
 
-  > .card-body {
+  .card-body {
     overflow: auto;
     p, h1, h2, h3, h4, h5, h6 {
       margin-top: 0;
@@ -40,7 +34,7 @@
     }
   }
 
-  > .card-body {
+  .card-body {
     max-height: var(--bslib-card-body-max-height, none);
   }
 
@@ -48,7 +42,7 @@
     max-height: var(--bslib-card-body-max-height-full-screen, none);
   }
 
-  > .card-header {
+  .card-header {
     .form-group {
       margin-bottom: 0;
     }
@@ -61,9 +55,13 @@
       }
     }
   }
+
+  .card-footer {
+    margin-top: auto;
+  }
 }
 
-
+// For navs_tab_card(title = ...)
 .bslib-card-title {
   display: flex;
   flex-wrap: wrap;
@@ -100,6 +98,7 @@
   &:hover {
     opacity: 1;
   }
+  z-index: $zindex-popover;
 }
 
 .card:hover:not(.bslib-full-screen) .bslib-full-screen-enter {

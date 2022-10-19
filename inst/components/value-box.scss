@@ -17,6 +17,12 @@
     .fa { font-size: 4rem; }
 
     max-height: var(--bslib-value-box-max-height);
+
+    &.showcase-top-right {
+      align-items: end;
+      padding-left: 0;
+      padding-bottom: 0;
+    }
   }
 
   // Should also be .vfill-container/.vfill-item
@@ -27,6 +33,8 @@
     font-weight: 500;
     * {
       color: inherit;
+      margin-bottom: 0;
+      margin-top: 0;
     }
     &.border-start {
       border-color: rgba($border-color, 0.3) !important;
@@ -47,5 +55,11 @@
       margin-top: 0;
     }
   }
+}
 
+// Override layout_inline_grid()'s preference to collapse to full-width on mobile (inside the value box)
+@include media-breakpoint-down(sm) {
+  .bslib-value-box .value-box-grid {
+    grid-template-columns: var(--bslib-value-box-widths) !important;
+  }
 }

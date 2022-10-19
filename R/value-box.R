@@ -48,10 +48,10 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
   children <- args[!nzchar(argnames)]
 
   if (rlang::is_bare_character(title)) {
-    title <- tags$h6(title, class = "mb-1")
+    title <- tags$span(title, class = "h6 mb-1")
   }
   if (rlang::is_bare_character(value)) {
-    value  <- tags$h3(value, class = "mb-2")
+    value  <- tags$span(value, class = "h2 mb-2")
   }
 
   contents <- div(

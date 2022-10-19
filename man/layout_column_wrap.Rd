@@ -11,6 +11,7 @@ layout_column_wrap(
   heights_equal = c("all", "row"),
   fill = TRUE,
   height = NULL,
+  height_mobile = NULL,
   gap = NULL,
   class = NULL
 )
@@ -51,6 +52,9 @@ of the grid will have the same height, but heights may vary between rows.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}
+
+\item{height_mobile}{Any valid CSS unit to use for the height when on mobile
+devices (or narrow windows).}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
 \code{gap} (i.e., spacing) between elements provided to \code{...}.}

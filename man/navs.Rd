@@ -61,8 +61,9 @@ navs_pill_card(
   header = NULL,
   footer = NULL,
   height = NULL,
+  placement = c("above", "below"),
   full_screen = FALSE,
-  placement = c("above", "below")
+  wrapper = card_body
 )
 }
 \arguments{

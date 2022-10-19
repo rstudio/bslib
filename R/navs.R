@@ -8,15 +8,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
                           header = NULL, footer = NULL, height = NULL,
                           full_screen = FALSE, wrapper = card_body) {
 
-  items <- rlang::list2(...)
-
-  # The children of each nav() (i.e., tabPanel()) should be card items.
-  items <- lapply(items, function(x) {
-    if (isTabPanel(x)) {
-      x$children <- as_card_items(x$children, wrapper = wrapper)
-    }
-    x
-  })
+  items <- collect_nav_items(..., wrapper = wrapper)
 
   tabs <- navs_tab(
     !!!items, id = id, selected = selected, header = header, footer = footer
@@ -45,9 +37,10 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 #' @rdname navs
 navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
                            header = NULL, footer = NULL, height = NULL,
-                           full_screen = FALSE, placement = c("above", "below")) {
+                           placement = c("above", "below"),
+                           full_screen = FALSE, wrapper = card_body) {
 
-  items <- rlang::list2(...)
+  items <- collect_nav_items(..., wrapper = wrapper)
 
   pills <- navs_pill(
     !!!items, id = id, selected = selected,
@@ -74,6 +67,19 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
     navs_card_body(pills),
     if (!above) card_footer(!!!nav_args)
   )
+}
+
+
+collect_nav_items <- function(..., wrapper) {
+  items <- rlang::list2(...)
+
+  # The children of each nav() (i.e., tabPanel()) should be card items.
+  lapply(items, function(x) {
+    if (isTabPanel(x)) {
+      x$children <- as_card_items(x$children, wrapper = wrapper)
+    }
+    x
+  })
 }
 
 navs_card_body <- function(tabs) {
