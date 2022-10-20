@@ -85,14 +85,16 @@ Config/Needs/routine:
 Config/Needs/website:
     brio,
     dplyr,
-    DT,
     glue,
     purrr,
     rprojroot,
     stringr,
     tidyr,
-    plotly,
-    leaflet,
+    rstudio/DT,
+    rstudio/leaflet,
+    ropensci/plotly,
+    ramnathv/htmlwidgets,
+    rstudio/shiny,
     ggplot2,
     svglite
 Config/Needs/deploy:
