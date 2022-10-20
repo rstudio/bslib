@@ -4,6 +4,13 @@
 
 * Upgraded Bootstrap 5 (i.e., `bs_theme(version = 5)`) from 5.1.3 to 5.2.0. (#438)
 
+## New features
+
+* Adds a new `card()` API as well as `value_box()` and `layout_column_wrap()`. To learn more about this new functionality, refer to these new pkgdown articles
+
+* https://rstudio.github.io/bslib/articles/cards.html 
+* https://rstudio.github.io/bslib/articles/value-boxes.html 
+* https://rstudio.github.io/bslib/articles/layouts.html 
 
 # bslib 0.4.0
 
