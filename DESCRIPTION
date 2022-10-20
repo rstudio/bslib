@@ -107,4 +107,9 @@ Config/Needs/deploy:
     rprojroot,
     rsconnect
 Remotes:
-    rstudio/bsicons
+    rstudio/bsicons,
+    rstudio/shiny,
+    ramnathv/htmlwidgets,
+    rstudio/DT,
+    rstudio/leaflet,
+    ropensci/plotly
