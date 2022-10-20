@@ -2,12 +2,19 @@
 title: "Cards"
 resource_files:
   - shiny-hex.svg
-  - infobox.svg
 ---
 
 Cards are a common organizing unit for modern user interfaces (UI). At their core, they're just rectangular containers with borders and padding. However, when utilized properly to group related information, they help users better digest, engage, and navigate through content. This is why most successful dashboard/UI frameworks make cards a core feature of their component library. This article provides an overview of the API that bslib provides to create [Bootstrap cards](https://getbootstrap.com/docs/5.0/components/card/).
 
-One major feature that bslib adds to Bootstrap cards is the ability to expand the card to a [full screen view](#responsive-sizing). Often this feature wants to be coupled with [content that responds](#responsive-sizing) to sizing changes in the card. To help illustrate, we'll mostly use statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`, but you can also swap in [content dynamically rendered  by Shiny](#dynamic-rendering-shiny) and things should behave similarly:
+One major feature that bslib adds to Bootstrap cards is the ability to expand the card to a [full screen view](#responsive-sizing). Often this feature wants [output that resizes itself to fit its card container](#responsive-sizing). To do this today in the same way presented in this article, you'll need the development version of numerous packages:
+
+```r
+remotes::install_github(c("rstudio/bslib", "rstudio/shiny", "ramnathv/htmlwidgets", "ropensci/plotly", "rstudio/leaflet", "rstudio/DT"))
+```
+
+Furthermore, if you'd like to use [htmlwidgets](http://www.htmlwidgets.org/) other than `{plotly}`, `{leaflet}`, or `{DT}` with [responsize sizing](#responsive-sizing) in [Shiny](#dynamic-rendering-shiny), you may need to set `height = NULL` in it's output container (i.e., `widgetOutput("id", "height = NULL)`). 
+
+Since this article is statically hosted (i.e., not powered by Shiny), it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`. Here's some code to create those widgets:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -20,23 +27,6 @@ shiny:::setCurrentTheme(bslib::bs_theme())
 ```
 
 ```{scss, echo = FALSE}
-div.infobox {
-  padding: 2em;
-  margin: 1em 0;
-  padding-left: 100px;
-  background-size: 70px;
-  background-repeat: no-repeat;
-  background-position: 15px center;
-  min-height: 120px;
-  color: #1f5386;
-  background-color: #bed3ec;
-  border: solid 5px #dfedff;
-  background-image: url("infobox.svg");
-  a {
-    color: #e783b8;
-  }
-}
-
 /* Credit to https://getcssscan.com/css-box-shadow-examples */
 .card {
   box-shadow:
@@ -230,27 +220,6 @@ card(
 </div>
   </div>
 </div>
-
-
-::: {.infobox}
-In order for `card_body_fill()` to work properly with htmlwidgets, you currently need the dev version:
-
-```r
-remotes::install_github("ramnathv/htmlwidgets")
-```
-
-When rendering htmlwidgets via Shiny, you'll also need `height` set to `NULL` (e.g., `leafletOutput(height = NULL)`), some dev version(s) of now do this by default:
-
-```r
-remotes::install_github(c("ropensci/plotly", "rstudio/leaflet", "rstudio/DT"))
-```
-
-The same goes for `plotOutput()` and `imageOutput()`:
-
-```r
-remotes::install_github("rstudio/shiny")
-```
-:::
 
 ::: row
 ::: col-md-6
