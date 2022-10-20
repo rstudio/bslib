@@ -16,7 +16,7 @@ Authors@R: c(
     person(family = "PayPal", role = c("ctb", "cph"),
     comment = "Bootstrap accessibility plugin")
     )
-Description: Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via 'Bootstrap' 'Sass'. Supports both 'Bootstrap' 3 and 4 as well as their various 'Bootswatch' themes. An interactive widget is also provided for previewing themes in real time.
+Description: Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via 'Bootstrap' 'Sass'. Supports 'Bootstrap' 3, 4 and 5 as well as their various 'Bootswatch' themes. An interactive widget is also provided for previewing themes in real time.
 Depends: R (>= 2.10)
 Imports:
     grDevices,
