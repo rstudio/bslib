@@ -10,10 +10,6 @@ status](https://github.com/rstudio/bslib/actions/workflows/R-CMD-check.yaml/badg
 
 <!-- badges: end -->
 
-<style type="text/css">
-@media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}
-</style>
-
 # bslib
 
 The `bslib` R package provides tools for customizing [Bootstrap
@@ -35,6 +31,12 @@ goals are:
     as seamless as possible.
       - Shiny and R Markdown default to Bootstrap 3 and will continue to
         do so to avoid breaking legacy code.
+  - Provide useful wrappers around modern Bootstrap (and CSS)
+    components, such as
+    [cards](https://rstudio.github.io/bslib/articles/cards.html), [value
+    boxes](https://rstudio.github.io/bslib/articles/value-boxes.html),
+    [layouts](https://rstudio.github.io/bslib/articles/layouts.html),
+    and more.
   - Serve as a general foundation for Shiny and R Markdown extension
     packages.
       - Extensions such as

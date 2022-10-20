@@ -2,7 +2,7 @@ utils::globalVariables("!!")
 
 #' @import htmltools
 #' @import sass
-#' @importFrom utils modifyList packageVersion download.file URLencode getFromNamespace
+#' @importFrom utils modifyList packageVersion download.file URLencode getFromNamespace head
 #' @importFrom stats setNames na.omit
 #' @importFrom grDevices col2rgb
 #' @importFrom tools file_path_sans_ext

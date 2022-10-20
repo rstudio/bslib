@@ -1,12 +1,19 @@
 destination: docs
 
 toc:
-  depth: 2
+  depth: 3
 
 url: https://rstudio.github.io/bslib/
 
 template:
-  package: quillt
+  bootstrap: 5
+  bslib:
+    info: "#E6F2FD"
+    base_font:
+      google: "Atkinson Hyperlegible"
+    headings-color: "#206B72"
+    link-color: "#216B73"
+    link-decoration: underline var(--bs-info) dotted
   params:
     footer: <b>bslib</b> is an R package developed by <a href='https://rstudio.com'>RStudio</a>
     docsearch:
@@ -14,7 +21,8 @@ template:
       index_name: bslib
 
 navbar:
-  type: default
+  bg: info
+  type: light
   structure:
     left:  [intro, articles, integration]
     right: [reference, news, github]
@@ -25,10 +33,14 @@ navbar:
       menu:
         #- text: Why Sass over CSS?
         #  href: articles/why-sass.html
-        - text: BS5 Sass variables
+        - text: Cards
+          href: articles/cards.html
+        - text: Value Boxes
+          href: articles/value-boxes.html
+        - text: Layouts
+          href: articles/layouts.html
+        - text: Theming variables
           href: articles/bs5-variables.html
-        - text: BS4 Sass variables
-          href: articles/bs4-variables.html
         - text: Utility Classes
           href: articles/utility-classes.html
         - text: Custom components
@@ -58,14 +70,30 @@ reference:
     - bs_theme_preview
     - run_with_themer
     - bs_themer
-- title: Create navs and navbars
+- title: Cards
   description: |
-    Tools for creating and dynamically updating navs.
+    Create cards
+  contents:
+    - card
+    - as.card_item
+- title: Value box
+  description: |
+    Highlight important findings
+  contents:
+    - value_box
+- title: Navigation
+  description: |
+    Create (tabbed) sections of content.
   contents:
     - nav
     - navs_tab
     - nav_select
-- title: Create a Bootstrap page
+- title: Layout multiple UI elements
+  description: |
+    Useful layout templates
+  contents:
+    - layout_column_wrap
+- title: Page layouts
   contents:
     - page
 - title: Dynamic theming
