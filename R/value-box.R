@@ -54,13 +54,8 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
     value  <- tags$span(value, class = "h2 mb-2")
   }
 
-  contents <- div(
-    class = "value-box-area",
-    class = vfill_classes,
-    title,
-    value,
-    !!!children
-  )
+  contents <- div(class = "value-box-area", title, value, !!!children)
+  contents <- asFillContainer(contents, asItem = TRUE)
 
   if (!is.null(showcase)) {
     contents <- showcase_layout(showcase, contents)
@@ -116,7 +111,6 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
 
     showcase_container <- div(
       class = "value-box-showcase",
-      class = vfill_classes,
       class = if (top_right) "showcase-top-right",
       style = css(
         "--bslib-value-box-max-height" = max_height,
@@ -124,6 +118,8 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
       ),
       showcase
     )
+
+    showcase_container <- asFillContainer(showcase_container, asItem = TRUE)
 
     if (!top_right) {
       contents <- tagAppendAttributes(contents, class = "border-start")

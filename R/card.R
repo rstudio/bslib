@@ -60,16 +60,15 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
 
   tag <- div(
     class = "card",
-    class = vfill_classes,
-    class = class,
-    style = css(height = validateCssUnit(height)),
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle()
   )
 
+  tag <- asFillContainer(tag, class = class, height = height, asItem = TRUE)
+
   as_fragment(
-    tag_require(tag, version = 4, caller = "card()")
+    tag_require(tag, version = 5, caller = "card()")
   )
 }
 
@@ -137,6 +136,9 @@ card_body <- function(..., height = NULL, class = NULL) {
 #' @export
 card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_screen = max_height, min_height = NULL, class = NULL) {
 
+  register_runtime_package_check("`card_body_fill()`", "shiny", "1.7.2.9001")
+  register_runtime_package_check("`card_body_fill()`", "htmlwidgets", "1.5.4.9001")
+
   card_body_(
     fill = TRUE,
     class = class,
@@ -161,10 +163,8 @@ card_title <- function(..., container = htmltools::h5) {
 
 card_body_ <- function(..., fill = TRUE, height = NULL, class = NULL, container = htmltools::div) {
 
-  res <- container(
+  tag <- container(
     class = "card-body",
-    class = if (fill) vfill_classes,
-    class = class,
     style = css(
       height = validateCssUnit(height),
       flex = if (fill) "1 1 auto" else "0 0 auto"
@@ -172,7 +172,13 @@ card_body_ <- function(..., fill = TRUE, height = NULL, class = NULL, container 
     ...
   )
 
-  as.card_item(res)
+  if (fill) {
+    tag <- asFillContainer(tag, class = class, asItem = TRUE)
+  } else {
+    tag <- tagAppendAttributes(tag, class = class)
+  }
+
+  as.card_item(tag)
 }
 
 
@@ -217,8 +223,6 @@ card_image <- function(
   image <- tags$img(
     src = src,
     class = "img-fluid",
-    class = "vfill-item",
-    class = class,
     class = switch(
       match.arg(border_radius),
       all = "card-img",
@@ -226,19 +230,13 @@ card_image <- function(
       bottom = "card-img-bottom",
       NULL
     ),
-    style = css(
-      height = validateCssUnit(height),
-      width = validateCssUnit(width)
-    ),
     ...
   )
 
+  image <- asFillItem(image, class = class, height = height, width = width)
+
   if (!is.null(href)) {
-    image <- tags$a(
-      href = href,
-      class = vfill_classes,
-      image
-    )
+    image <- asFillContainer(tags$a(href = href, image), asItem = TRUE)
   }
 
   if (is.function(container)) {

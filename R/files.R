@@ -57,8 +57,14 @@ rule_bundles <- function(files) {
 }
 
 get_sass_file_path <- function(x) {
-  path <- attr(x, "sass_file_path")
-  if (length(path)) return(path)
+  if (!inherits(x, "sass_file")) {
+    x <- sass_file(x)
+  }
 
-  stop("Couldn't find file path")
+  path <- attr(x, "sass_file_path")
+  if (length(path) == 0) {
+    stop("Couldn't find file path")
+  }
+
+  path
 }
