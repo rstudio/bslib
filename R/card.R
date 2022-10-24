@@ -65,7 +65,8 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
     if (full_screen) full_screen_toggle()
   )
 
-  tag <- asFillContainer(tag, class = class, height = height, asItem = TRUE)
+  tag <- asFillContainer(tag, height = height, asItem = TRUE)
+  tag <- tagAppendAttributes(tag, class = class)
 
   as_fragment(
     tag_require(tag, version = 5, caller = "card()")
@@ -173,10 +174,10 @@ card_body_ <- function(..., fill = TRUE, height = NULL, class = NULL, container 
   )
 
   if (fill) {
-    tag <- asFillContainer(tag, class = class, asItem = TRUE)
-  } else {
-    tag <- tagAppendAttributes(tag, class = class)
+    tag <- asFillContainer(tag, asItem = TRUE)
   }
+
+  tag <- tagAppendAttributes(tag, class = class)
 
   as.card_item(tag)
 }
@@ -233,7 +234,8 @@ card_image <- function(
     ...
   )
 
-  image <- asFillItem(image, class = class, height = height, width = width)
+  image <- asFillItem(image, height = height, width = width)
+  image <- tagAppendAttributes(image, class = class)
 
   if (!is.null(href)) {
     image <- asFillContainer(tags$a(href = href, image), asItem = TRUE)

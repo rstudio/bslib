@@ -96,7 +96,8 @@ layout_column_wrap <- function(
     children
   )
 
-  tag <- asFillItem(tag, class = class)
+  tag <- asFillItem(tag)
+  tag <- tagAppendAttributes(tag, class = class)
   tag <- as.card_item(tag)
 
   as_fragment(
