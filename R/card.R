@@ -60,12 +60,13 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
 
   tag <- div(
     class = "card",
+    style = css(height = validateCssUnit(height)),
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle()
   )
 
-  tag <- asFillContainer(tag, height = height, asItem = TRUE)
+  tag <- bindFillRole(tag, container = TRUE, item = TRUE)
   tag <- tagAppendAttributes(tag, class = class)
 
   as_fragment(
@@ -173,9 +174,7 @@ card_body_ <- function(..., fill = TRUE, height = NULL, class = NULL, container 
     ...
   )
 
-  if (fill) {
-    tag <- asFillContainer(tag, asItem = TRUE)
-  }
+  tag <- bindFillRole(tag, container = fill, item = fill)
 
   tag <- tagAppendAttributes(tag, class = class)
 
@@ -231,14 +230,18 @@ card_image <- function(
       bottom = "card-img-bottom",
       NULL
     ),
+    style = css(
+      height = validateCssUnit(height),
+      width = validateCssUnit(width)
+    ),
     ...
   )
 
-  image <- asFillItem(image, height = height, width = width)
+  image <- bindFillRole(image, item = TRUE)
   image <- tagAppendAttributes(image, class = class)
 
   if (!is.null(href)) {
-    image <- asFillContainer(tags$a(href = href, image), asItem = TRUE)
+    image <- bindFillRole(tags$a(href = href, image), container = TRUE, item = TRUE)
   }
 
   if (is.function(container)) {

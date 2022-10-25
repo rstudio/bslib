@@ -76,8 +76,9 @@ layout_column_wrap <- function(
   #   2. Allow for fill=FALSE, which useful for allowing contents to
   #      shrink but not grow (i.e., default flex behavior).
   children <- lapply(children, function(x) {
-    asFillContainer(
-      div(asFillContainer(div(x), asItem = fill))
+    bindFillRole(
+      container = TRUE,
+      div(bindFillRole(div(x), container = TRUE, item = fill))
     )
   })
 
@@ -96,7 +97,7 @@ layout_column_wrap <- function(
     children
   )
 
-  tag <- asFillItem(tag)
+  tag <- bindFillRole(tag, item = TRUE)
   tag <- tagAppendAttributes(tag, class = class)
   tag <- as.card_item(tag)
 

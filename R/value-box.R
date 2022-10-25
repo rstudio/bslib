@@ -55,7 +55,7 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
   }
 
   contents <- div(class = "value-box-area", title, value, !!!children)
-  contents <- asFillContainer(contents, asItem = TRUE)
+  contents <- bindFillRole(contents, container = TRUE, item = TRUE)
 
   if (!is.null(showcase)) {
     contents <- showcase_layout(showcase, contents)
@@ -119,7 +119,7 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
       showcase
     )
 
-    showcase_container <- asFillContainer(showcase_container, asItem = TRUE)
+    showcase_container <- bindFillRole(showcase_container, container = TRUE, item = TRUE)
 
     if (!top_right) {
       contents <- tagAppendAttributes(contents, class = "border-start")

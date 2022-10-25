@@ -84,8 +84,8 @@ collect_nav_items <- function(..., wrapper) {
 
 navs_card_body <- function(tabs) {
 
-  tabs <- asFillContainer(tabs, .cssSelector = ".tab-content", asItem = TRUE)
-  tabs <- asFillContainer(tabs, .cssSelector = ".tab-content > *", asItem = TRUE)
+  tabs <- bindFillRole(tabs, .cssSelector = ".tab-content", container = TRUE, item = TRUE)
+  tabs <- bindFillRole(tabs, .cssSelector = ".tab-content > *", container = TRUE, item = TRUE)
 
   content <- tagQuery(tabs)$find(".tab-content")$selectedTags()
 
