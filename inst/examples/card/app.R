@@ -73,9 +73,9 @@ main_grid <- layout_column_wrap(
     card(
       full_screen = TRUE,
       card_header("Scrollable gt()"),
-      card_body(
-        id = "gt_container",
-        height = "100%",
+      card_body_fill(
+        max_height = "400px",
+        max_height_full_screen = "100%",
         gt::gt(mtcars)
       )
     )
@@ -112,12 +112,8 @@ server <- function(input, output, session) {
 
   observeEvent(input$fixed_height, ignoreInit = TRUE, {
     css <- sprintf(
-      "
-      #grid_page { height: %s !important; }
-      #gt_container { height: %s !important; }
-      ",
-      if (input$fixed_height) grid_height else "auto",
-      if (input$fixed_height) "100%" else "400px"
+      "#grid_page { height: %s !important; }",
+      if (input$fixed_height) grid_height else "auto"
     )
 
     insertUI(selector = "head", ui = tags$style(HTML(css)))

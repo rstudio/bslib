@@ -147,9 +147,9 @@ layout_column_wrap(
   anim_height(300, 450)
 ```
 
-### Multi-layered layouts
+### Nested layouts
 
-More complex layouts can be achieved by leveraging the fact that `layout_column_wrap()` can contain other `layout_column_wrap()`s. For example
+More complex layouts can be achieved by leveraging the fact that `layout_column_wrap()` can appear within another `layout_column_wrap()`s. For example
 
 ```{r}
 layout_column_wrap(
@@ -164,9 +164,9 @@ layout_column_wrap(
 )
 ```
 
+### Other grid-based layouts
 
-If you aren't keen on learning and/or using CSS grid directly, you may also want to try the [Shiny UI editor](https://rstudio.github.io/shinyuieditor/) (and/or `{gridlayout}`) to produce the layout.
-
+`layout_column_wrap()` provides a simplified interface to [CSS grid](https://css-tricks.com/snippets/css/complete-guide-grid/) that won't accomodate everything it can do. In this case, we recommend using `{gridlayout}` and/or the [Shiny UI editor](https://rstudio.github.io/shinyuieditor/) to produce the layout.
 
 ## Appendix
 
