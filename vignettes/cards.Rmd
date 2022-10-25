@@ -6,15 +6,13 @@ resource_files:
 
 Cards are a common organizing unit for modern user interfaces (UI). At their core, they're just rectangular containers with borders and padding. However, when utilized properly to group related information, they help users better digest, engage, and navigate through content. This is why most successful dashboard/UI frameworks make cards a core feature of their component library. This article provides an overview of the API that bslib provides to create [Bootstrap cards](https://getbootstrap.com/docs/5.0/components/card/).
 
-One major feature that bslib adds to Bootstrap cards is the ability to expand the card to a [full screen view](#responsive-sizing). Often this feature wants [output that resizes itself to fit its card container](#responsive-sizing). To do this today in the same way presented in this article, you'll need the development version of numerous packages:
+One major feature that bslib adds to Bootstrap cards is the ability to expand the card to a [full screen view](#responsive-sizing). Often this feature wants [output that resizes itself to fit its card container](#responsive-sizing). To do this today in the same way presented in this article, you'll need the development version of numerous packages. Grab all them by installing the development version of bslib this way:
 
 ```r
-remotes::install_github(c("rstudio/bslib", "rstudio/shiny", "ramnathv/htmlwidgets", "ropensci/plotly", "rstudio/leaflet", "rstudio/DT"))
+remotes::install_github("rstudio/bslib")
 ```
 
-Furthermore, if you'd like to use [htmlwidgets](http://www.htmlwidgets.org/) other than `{plotly}`, `{leaflet}`, or `{DT}` with [responsize sizing](#responsive-sizing) in [Shiny](#dynamic-rendering-shiny), you may need to set `height = NULL` in it's output container (i.e., `widgetOutput("id", "height = NULL)`). 
-
-Since this article is statically hosted (i.e., not powered by Shiny), it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`. Here's some code to create those widgets:
+Since this article is statically hosted (i.e., not powered by Shiny), it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}` (but don't worry, `card()`s [work in Shiny equally as well](#dynamic-rendering-shiny)). Here's some code to create those widgets:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -419,38 +417,12 @@ output$plot_id <- renderPlot({
 ::: col-md-6
 ```{r}
 card(
+  height = 300, full_screen = TRUE,
   card_image(
     file = "shiny-hex.svg",
-    height = 200,
     href = "https://github.com/rstudio/shiny"
   ),
   card_title("Shiny for R"),
-  p("Brought to you by RStudio.")
-)
-```
-:::
-:::
-
-
-::: row
-::: col-md-6
-Unlike `shiny::plotOutput()`, `card_image()` won't be able to resize bitmap images (i.e., png, jpeg, etc.) intelligently, so it's highly recommended to use vector-based formats like SVG where possible.
-:::
-
-::: col-md-6
-```{r, message=FALSE}
-library(ggplot2)
-img_file <- tempfile(fileext = ".svg")
-ggsave(
-  img_file, device = "svg",
-  ggplot(mtcars, aes(wt, mpg)) + 
-    geom_point() +
-    theme_bw(base_size = 16)
-)
-card(
-  full_screen = TRUE,
-  card_image(img_file),
-  card_title("ggplot2"),
   p("Brought to you by RStudio.")
 )
 ```
