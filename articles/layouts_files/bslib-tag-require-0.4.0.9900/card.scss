@@ -1,20 +1,3 @@
-.bslib-grid-layout {
-  display: grid !important;
-  gap: $spacer;
-  height: var(--bslib-grid-layout-height);
-  // This undoes the margin-bottom added below
-  .card {
-    margin-bottom: 0;
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  .bslib-grid-layout {
-    grid-template-columns: 1fr !important;
-    height: var(--bslib-grid-layout-height-mobile);
-  }
-}
-
 .card {
   margin-bottom: $spacer;
 
@@ -59,18 +42,39 @@
   .card-footer {
     margin-top: auto;
   }
-}
 
-// For navs_tab_card(title = ...)
-.bslib-card-title {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  .nav {
-    margin-left: auto;
+  // For navs_tab_card(title = ...)
+  .bslib-card-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    .nav {
+      margin-left: auto;
+    }
+  }
+
+  .tab-content {
+    // Workaround for pkgdown's CSS to make tab-pane all a consistent height
+    // https://github.com/r-lib/pkgdown/blob/956f07/inst/BS5/assets/pkgdown.scss#L342-L355
+    > .tab-pane.html-fill-container {
+      display: none;
+    }
+
+    // Take precedence over Bootstrap's `display:block` rule
+    > .active.html-fill-container {
+      display: flex;
+    }
+
+    // Another workaround for pkgdown adding extra padding we didn't ask for
+    // https://github.com/r-lib/pkgdown/blob/956f07/inst/BS5/assets/pkgdown.scss#L335-L337
+    &.html-fill-container {
+      padding: 0;
+    }
   }
 }
+
+
 
 /*************************************************
 * Full screen card logic

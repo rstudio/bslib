@@ -91,7 +91,7 @@ display. For more explanation and illustrative examples, see <a href="https://rs
 following:</p><ul><li><p>A (unit-less) number between 0 and 1.</p><ul><li><p>This should be specified as <code>1/num</code>, where <code>num</code> represents the number
 of desired columns.</p></li>
 </ul></li>
-<li><p>A <a href="https://rdrr.io/pkg/htmltools/man/validateCssUnit.html" class="external-link">CSS length unit</a></p><ul><li><p>Either the minimum (when <code>fixed_width=FALSE</code>) or fixed width
+<li><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a></p><ul><li><p>Either the minimum (when <code>fixed_width=FALSE</code>) or fixed width
 (<code>fixed_width=TRUE</code>).</p></li>
 </ul></li>
 <li><p><code>NULL</code></p><ul><li><p>Allows power users to set the <code>grid-template-columns</code> CSS property
@@ -102,7 +102,7 @@ manually, either via a <code>style</code> attribute or a CSS stylesheet.</p></li
 
 <dt>...</dt>
 <dd><p>Unnamed arguments should be UI elements (e.g., <code><a href="card.html">card()</a></code>)
-Named arguments become attributes on the containing <a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">htmltools::tag</a> element.</p></dd>
+Named arguments become attributes on the containing <a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::tag</a> element.</p></dd>
 
 
 <dt>fixed_width</dt>
@@ -122,7 +122,7 @@ of the grid will have the same height, but heights may vary between rows.</p></d
 
 
 <dt>height</dt>
-<dd><p>Any valid <a href="https://rdrr.io/pkg/htmltools/man/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
+<dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
 <code>height="200px"</code>).</p></dd>
 
 
@@ -132,7 +132,7 @@ devices (or narrow windows).</p></dd>
 
 
 <dt>gap</dt>
-<dd><p>A <a href="https://rdrr.io/pkg/htmltools/man/validateCssUnit.html" class="external-link">CSS length unit</a> defining the
+<dd><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a> defining the
 <code>gap</code> (i.e., spacing) between elements provided to <code>...</code>.</p></dd>
 
 
@@ -148,24 +148,24 @@ devices (or narrow windows).</p></dd>
 <span class="r-in"><span><span class="co"># Always has 2 columns (on non-mobile)</span></span></span>
 <span class="r-in"><span><span class="fu">layout_column_wrap</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, <span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;div class="container-fluid"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="bslib-grid-layout vfill-item" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="4" style="grid-template-columns:1fr 1fr;grid-auto-rows:1fr;--bslib-grid-layout-height:auto;--bslib-grid-layout-height-mobile:auto;"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="vfill-container"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="vfill-container vfill-item"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card vfill-container vfill-item" data-require-bs-caller="card()" data-require-bs-version="4"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="bslib-column-wrap html-fill-item" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:1fr 1fr;grid-auto-rows:1fr;--bslib-column-wrap-height:auto;--bslib-column-wrap-height-mobile:auto;"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="vfill-container"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="vfill-container vfill-item"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card vfill-container vfill-item" data-require-bs-caller="card()" data-require-bs-version="4"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="vfill-container"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="vfill-container vfill-item"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card vfill-container vfill-item" data-require-bs-caller="card()" data-require-bs-version="4"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
@@ -175,24 +175,24 @@ devices (or narrow windows).</p></dd>
 <span class="r-in"><span><span class="co"># Has three columns when viewport is wider than 750px</span></span></span>
 <span class="r-in"><span><span class="fu">layout_column_wrap</span><span class="op">(</span><span class="st">"250px"</span>, <span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;div class="container-fluid"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="bslib-grid-layout vfill-item" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="4" style="grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));grid-auto-rows:1fr;--bslib-grid-layout-height:auto;--bslib-grid-layout-height-mobile:auto;"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="vfill-container"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="vfill-container vfill-item"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card vfill-container vfill-item" data-require-bs-caller="card()" data-require-bs-version="4"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="bslib-column-wrap html-fill-item" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));grid-auto-rows:1fr;--bslib-column-wrap-height:auto;--bslib-column-wrap-height-mobile:auto;"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="vfill-container"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="vfill-container vfill-item"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card vfill-container vfill-item" data-require-bs-caller="card()" data-require-bs-version="4"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="vfill-container"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="vfill-container vfill-item"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card vfill-container vfill-item" data-require-bs-caller="card()" data-require-bs-version="4"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>

@@ -102,18 +102,18 @@ even a <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="exte
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>title, value</dt>
-<dd><p>a <code><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">htmltools::tag()</a></code> child to display above <code>value</code>. If a
+<dd><p>a <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::tag()</a></code> child to display above <code>value</code>. If a
 string a provided, it's automatically wrapped in a header tag.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Unnamed arguments may be any <code><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">htmltools::tag()</a></code> children to
+<dd><p>Unnamed arguments may be any <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::tag()</a></code> children to
 display below <code>value</code>.. Named arguments become attributes on the containing
 element.</p></dd>
 
 
 <dt>showcase</dt>
-<dd><p>a <code><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">htmltools::tag()</a></code> child to showcase (e.g., a
+<dd><p>a <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::tag()</a></code> child to showcase (e.g., a
 <code><a href="https://rdrr.io/pkg/bsicons/man/bs_icon.html" class="external-link">bsicons::bs_icon()</a></code>, a <code><a href="https://rdrr.io/pkg/plotly/man/plotly-shiny.html" class="external-link">plotly::plotlyOutput()</a></code>, etc).</p></dd>
 
 
@@ -136,7 +136,7 @@ match a name in the Bootstrap Sass variable <code>$theme-colors</code> (e.g.,
 
 
 <dt>height</dt>
-<dd><p>Any valid <a href="https://rdrr.io/pkg/htmltools/man/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
+<dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
 <code>height="200px"</code>).</p></dd>
 
 
@@ -149,7 +149,7 @@ card. Use <code>bg-*</code> and <code>text-*</code> classes (e.g, <code>"bg-dang
 <dt>width</dt>
 <dd><p>one of the following:</p><ul><li><p>A proportion (i.e., a number between 0 and 1) of available width to
 allocate to the showcase.</p></li>
-<li><p>A vector of length 2 valid <a href="https://rdrr.io/pkg/htmltools/man/validateCssUnit.html" class="external-link">CSS unit</a> defining
+<li><p>A vector of length 2 valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> defining
 the width of each column (for <code>showcase_left_center()</code> the 1st unit defines
 the showcase width and for <code>showcase_top_right</code> the 2nd unit defines the
 showcase width). Note that any units supported by the CSS grid
@@ -159,7 +159,7 @@ showcase width). Note that any units supported by the CSS grid
 
 <dt>max_height, max_height_full_screen</dt>
 <dd><p>A proportion (i.e., a number between
-0 and 1) or any valid <a href="https://rdrr.io/pkg/htmltools/man/validateCssUnit.html" class="external-link">CSS unit</a> defining the
+0 and 1) or any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> defining the
 showcase max_height.</p></dd>
 
 </dl></div>
@@ -176,8 +176,8 @@ showcase max_height.</p></dd>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu">value_box</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="st">"KPI Title"</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">h1</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/HTML.html" class="external-link">HTML</a></span><span class="op">(</span><span class="st">"$1 &lt;i&gt;Billion&lt;/i&gt; Dollars"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">span</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h1</a></span><span class="op">(</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">HTML</a></span><span class="op">(</span><span class="st">"$1 &lt;i&gt;Billion&lt;/i&gt; Dollars"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">span</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      <span class="fu">bsicons</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsicons/man/bs_icon.html" class="external-link">bs_icon</a></span><span class="op">(</span><span class="st">"arrow-up"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      <span class="st">" 30% VS PREVIOUS 30 DAYS"</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>

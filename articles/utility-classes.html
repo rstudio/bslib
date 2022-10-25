@@ -153,10 +153,10 @@
 <p>Add a <code>bg-*</code> class to any HTML element to set not only its background color to a theme color (e.g., <code>primary</code>, <code>secondary</code>, etc), but note that it’ll also make sure the foreground color properly contrasts the background color (i.e., the foreground switches from white/black intelligently based on dark/light background). Here we use <code>bg-primary</code> on a <a href="https://getbootstrap.com/docs/4.6/components/card/#header-and-footer" class="external-link">card component</a> containing a <a href="https://rstudio.github.io/DT/" class="external-link"><code>{DT}</code> table</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bs4_card</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">body</span>, <span class="va">title</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
 <span>    class <span class="op">=</span> <span class="st">"card"</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-header bg-primary"</span>, <span class="va">title</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-body d-flex justify-content-center"</span>, <span class="va">body</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-header bg-primary"</span>, <span class="va">title</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"card-body d-flex justify-content-center"</span>, <span class="va">body</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
