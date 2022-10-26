@@ -120,7 +120,7 @@ server <- function(input, output, session) {
   })
 
   output$DT <- DT::renderDataTable({
-    DT::datatable(mtcars, fillContainer = T)
+    DT::datatable(mtcars, fillContainer = TRUE)
   })
 
   output$plot <- renderPlot({
@@ -129,7 +129,7 @@ server <- function(input, output, session) {
 
   output$image <- renderImage({
     list(src = "www/shiny-hex.svg", width = "100%", height = "100%")
-  })
+  }, deleteFile = FALSE)
 
   output$cut <- renderPlotly(plot_hist("cut"))
   output$clarity <- renderPlotly(plot_hist("clarity"))

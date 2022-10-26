@@ -5,12 +5,12 @@ library(plotly)
 
 ui <- page_fluid(
   theme = bslib::bs_theme(
-    base_font = font_google("Open Sans")
+    base_font = font_google("Atkinson Hyperlegible")
   ),
   br(),
   layout_column_wrap(
     width = "200px",
-    #height = 200,
+    class = "mt-3",
     value_box(
       title = "Unemployment Rate",
       value = "2.7%",
