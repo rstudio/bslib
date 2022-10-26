@@ -138,7 +138,7 @@ card_body <- function(..., height = NULL, class = NULL) {
 #' @export
 card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_screen = max_height, min_height = NULL, class = NULL) {
 
-  register_runtime_package_check("`card_body_fill()`", "shiny", "1.7.2.9001")
+  register_runtime_package_check("`card_body_fill()`", "shiny", "1.7.3.9001")
   register_runtime_package_check("`card_body_fill()`", "htmlwidgets", "1.5.4.9001")
 
   card_body_(
