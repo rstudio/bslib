@@ -73,13 +73,18 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
 collect_nav_items <- function(..., wrapper) {
   items <- rlang::list2(...)
 
-  # The children of each nav() (i.e., tabPanel()) should be card items.
-  lapply(items, function(x) {
+  # Wrap any nav() children up into card items
+  nav_to_card_item <- function(x) {
+    if (isNavbarMenu(x)) {
+      x$tabs <- lapply(x$tabs, nav_to_card_item)
+    }
     if (isTabPanel(x)) {
       x$children <- as_card_items(x$children, wrapper = wrapper)
     }
     x
-  })
+  }
+
+  lapply(items, nav_to_card_item)
 }
 
 navs_card_body <- function(tabs) {
