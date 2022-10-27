@@ -108,7 +108,9 @@ Config/Needs/deploy:
     rsconnect,
     plotly,
     leaflet,
-    gt
+    gt,
+    rstudio/shiny,
+    ramnathv/htmlwidgets
 Remotes:
     rstudio/bsicons,
     rstudio/htmltools,
