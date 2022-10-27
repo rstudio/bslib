@@ -133,6 +133,7 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
     }
 
     card_body_fill(
+      style = css(padding = 0),
       layout_column_wrap(
         width = NULL, gap = 0,
         heights_equal = "row",
