@@ -105,7 +105,10 @@ Config/Needs/deploy:
     lattice,
     reactable,
     rprojroot,
-    rsconnect
+    rsconnect,
+    plotly,
+    leaflet,
+    gt
 Remotes:
     rstudio/bsicons,
     rstudio/htmltools,
