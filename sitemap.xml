@@ -22,22 +22,13 @@
     <loc>https://rstudio.github.io/bslib/articles/bslib.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/cards.html</loc>
-  </url>
-  <url>
     <loc>https://rstudio.github.io/bslib/articles/custom-components.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/layouts.html</loc>
-  </url>
-  <url>
     <loc>https://rstudio.github.io/bslib/articles/utility-classes.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/value-boxes.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/why-sass.html</loc>
@@ -82,12 +73,6 @@
     <loc>https://rstudio.github.io/bslib/reference/bs_theme_preview.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/reference/card.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/card_body.html</loc>
-  </url>
-  <url>
     <loc>https://rstudio.github.io/bslib/reference/deprecated.html</loc>
   </url>
   <url>
@@ -98,9 +83,6 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/layout_column_wrap.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/nav.html</loc>
@@ -128,9 +110,6 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/theme_version.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/value_box.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/versions.html</loc>
