@@ -1,3 +1,9 @@
+# bslib 0.4.1
+
+## Bug Fixes
+
+* Closed #458. This release `{bslib}` now requires `{memoise}` 2.0.1 or above.
+
 # bslib 0.4.0
 
 ## Breaking changes
