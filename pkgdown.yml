@@ -5,13 +5,10 @@ articles:
   bs4-variables: bs4-variables.html
   bs5-variables: bs5-variables.html
   bslib: bslib.html
-  cards: cards.html
   custom-components: custom-components.html
-  layouts: layouts.html
   utility-classes: utility-classes.html
-  value-boxes: value-boxes.html
   why-sass: why-sass.html
-last_built: 2022-11-01T21:01Z
+last_built: 2022-11-02T20:22Z
 urls:
   reference: https://rstudio.github.io/bslib/reference
   article: https://rstudio.github.io/bslib/articles
