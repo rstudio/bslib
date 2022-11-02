@@ -43,7 +43,7 @@ main_grid <- layout_column_wrap(
     full_screen = TRUE,
     card_header("plotly::plotlyOutput()"),
     layout_column_wrap(
-      width = 1/2,
+      width = 1/2, gap = 0,
       plotlyOutput("cut"),
       plotlyOutput("clarity")
     ),
@@ -54,7 +54,7 @@ main_grid <- layout_column_wrap(
     card_header("Static plotly"),
     card_body_fill(plot_hist("price")),
     layout_column_wrap(
-      width = 1/2,
+      width = 1/2, gap = 0,
       plot_hist("cut"),
       plot_hist("clarity")
     )
@@ -68,7 +68,9 @@ main_grid <- layout_column_wrap(
         file = "www/shiny-hex.svg",
         height = 200,
         href = "https://github.com/rstudio/shiny"
-      )
+      ),
+      card_body(selectInput("foo", "bar", letters), style = css(overflow = "visible"))
+
     ),
     card(
       full_screen = TRUE,
@@ -100,7 +102,8 @@ ui <- page_fluid(
         "fixed_height",
         "Fix height to viewport (this only applies to wide screens)",
         value = TRUE
-      )
+      ),
+      #lorem_ipsum_dolor_sit_amet
     ),
     main_grid
   )
