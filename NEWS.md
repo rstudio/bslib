@@ -1,4 +1,4 @@
-# bslib 0.4.0.9000
+# bslib 0.4.1.9000
 
 ## Potentially breaking changes
 
@@ -11,6 +11,12 @@
 * https://rstudio.github.io/bslib/articles/cards.html 
 * https://rstudio.github.io/bslib/articles/value-boxes.html 
 * https://rstudio.github.io/bslib/articles/layouts.html 
+
+# bslib 0.4.1
+
+## Bug Fixes
+
+* Closed #458. This release `{bslib}` now requires `{memoise}` 2.0.1 or above.
 
 # bslib 0.4.0
 
