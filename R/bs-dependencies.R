@@ -66,12 +66,7 @@ bs_theme_dependencies <- function(
   version <- theme_version(theme)
 
   if (isTRUE(version >= 5)) {
-    shiny_version <- "1.6.0.9001"
-    msg <- sprintf("`bs_theme(version = 5)` is designed to work with shiny %s or higher", shiny_version)
-    if (isNamespaceLoaded("shiny") && !is_installed("shiny", shiny_version)) warning(msg, call. = FALSE)
-    setHook(packageEvent("shiny", "onLoad"), function(...) {
-      if (!is_installed("shiny", shiny_version)) warning(msg, call. = FALSE)
-    })
+    register_runtime_package_check("`bs_theme(version = 5)`", "shiny", "1.7.0")
   }
 
   if (is.character(cache)) {

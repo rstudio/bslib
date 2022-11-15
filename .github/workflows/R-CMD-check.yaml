@@ -35,13 +35,12 @@ jobs:
       - uses: rstudio/shiny-workflows/setup-r-package@v1
         with:
           needs: deploy
-          extra-packages: |
-            rsconnect
 
       # Install from GitHub so that rsconnect can find the package
       - name: Install bslib from GitHub
         shell: Rscript {0}
         run: |
+          install.packages("rsconnect")
           pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
 
       - name: Register account
@@ -56,3 +55,5 @@ jobs:
       - name: Deploy
         run: |
           Rscript 'inst/themer-demo/deploy.R'
+          Rscript 'inst/examples/card/deploy.R'
+          Rscript 'inst/examples/value_box/deploy.R'

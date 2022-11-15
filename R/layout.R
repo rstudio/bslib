@@ -24,6 +24,8 @@
 #'   grid will have the same height. If `"row"`, then every card in _each_ row
 #'   of the grid will have the same height, but heights may vary between rows.
 #' @param fill whether or not the grid items should grow to fill the row height.
+#' @param height_mobile Any valid CSS unit to use for the height when on mobile
+#'   devices (or narrow windows).
 #' @inheritParams card
 #' @inheritParams card_body
 #'
@@ -38,7 +40,7 @@
 #'
 layout_column_wrap <- function(
     width, ..., fixed_width = FALSE, heights_equal = c("all", "row"),
-    fill = TRUE, height = NULL, gap = NULL, class = NULL) {
+    fill = TRUE, height = NULL, height_mobile = NULL, gap = NULL, class = NULL) {
 
   heights_equal <- match.arg(heights_equal)
 
@@ -69,40 +71,38 @@ layout_column_wrap <- function(
   }
 
   # Wrap grid items in flex containers for essentially two reasons:
-  #   1. Allow .vfill-item children (e.g. plotOutput("id", height = NULL))
+  #   1. Allow fill item children (e.g. plotOutput("id", fill = TRUE))
   #      to fill the grid row.
   #   2. Allow for fill=FALSE, which useful for allowing contents to
   #      shrink but not grow (i.e., default flex behavior).
   children <- lapply(children, function(x) {
-    div(
-      class = "vfill-container",
-      div(
-        class = "vfill-container",
-        class = if (fill) "vfill-item",
-        x
-      )
+    bindFillRole(
+      container = TRUE,
+      div(bindFillRole(div(x), container = TRUE, item = fill))
     )
   })
 
   tag <- div(
-    class = "bslib-grid-layout",
-    class = "vfill-item",
-    class = class,
+    class = "bslib-column-wrap",
     style = css(
       grid_template_columns = colspec,
       grid_auto_rows = if (heights_equal == "all") "1fr",
-      height = validateCssUnit(height),
+      # Always provide the `height:auto` default so that the CSS variable
+      # doesn't get inherited in a scenario like layout_column_wrap(height=200, ..., layout_column_wrap(...))
+      "--bslib-column-wrap-height" = validateCssUnit(height %||% "auto"),
+      "--bslib-column-wrap-height-mobile" = validateCssUnit(height_mobile %||% "auto"),
       gap = validateCssUnit(gap)
     ),
     !!!attribs,
     children
   )
 
+  tag <- bindFillRole(tag, item = TRUE)
+  tag <- tagAppendAttributes(tag, class = class)
+  tag <- as.card_item(tag)
+
   as_fragment(
-    tag_require(tag, version = 4, caller = "layout_column_wrap()")
+    tag_require(tag, version = 5, caller = "layout_column_wrap()")
   )
 }
 
-
-
-vfill_classes <- c("vfill-container", "vfill-item")

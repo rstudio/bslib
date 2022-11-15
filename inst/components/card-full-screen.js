@@ -1,13 +1,3 @@
-// Enable tooltips since the .bslib-full-screen-enter icon wants them
-$(function() {
-  var tooltipList = [].slice.call(
-    document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  );
-  tooltipList.map(function(x) {
-    return new bootstrap.Tooltip(x);
-  });
-});
-
 $(document).on('click', '.bslib-full-screen-enter', function(e) {
   const $card = $(e.target).parents('.card').last();
   // Re-size/position the card (and add an overlay behind it)

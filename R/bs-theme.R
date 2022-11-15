@@ -273,25 +273,11 @@ bootstrap_bundle <- function(version) {
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
-      # card() CSS (can be removed)
-      vfill = sass_layer(
-        rules = sass_file(system_file("components/vfill.scss", package = "bslib"))
-      ),
-      card = sass_layer(
-        rules = sass_file(system_file("components/card.scss", package = "bslib"))
-      ),
-      value_box = sass_layer(
-        rules = sass_file(system_file("components/value-box.scss", package = "bslib"))
-      ),
-      sidebar = sass_layer(
-        rules = sass_file(system_file("components/sidebar.scss", package = "bslib"))
-      ),
-      check_search = sass_layer(
-        rules = sass_file(system_file("components/check-search.scss", package = "bslib"))
-      ),
-      toggle_buttons = sass_layer(
-        rules = sass_file(system_file("components/toggle-buttons.scss", package = "bslib"))
-      )
+      !!!rule_bundles(c(
+        system_file("components", "card.scss", package = "bslib"),
+        system_file("components", "value_box.scss", package = "bslib"),
+        system_file("components", "layout_column_wrap.scss", package = "bslib")
+      ))
     ),
     four = sass_bundle(
       sass_layer(

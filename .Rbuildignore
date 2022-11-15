@@ -13,9 +13,9 @@ inst/lib/bsw3/.npmignore
 docs
 sandbox
 revdep
+pkgdown
 ^_pkgdown\.yml$
 vignettes
-pkgdown
 ^\.github$
 ^\.gitattributes$
 ^CODE_OF_CONDUCT\.md$

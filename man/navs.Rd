@@ -49,7 +49,6 @@ navs_tab_card(
   header = NULL,
   footer = NULL,
   height = NULL,
-  width = NULL,
   full_screen = FALSE,
   wrapper = card_body
 )
@@ -58,12 +57,8 @@ navs_pill_card(
   ...,
   id = NULL,
   selected = NULL,
-  title = NULL,
   header = NULL,
   footer = NULL,
-  height = NULL,
-  width = NULL,
-  full_screen = FALSE,
   placement = c("above", "below")
 )
 }
@@ -110,8 +105,10 @@ elements into a menu when the width of the browser is less than 940 pixels
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}
 
-\item{full_screen}{If \code{TRUE}, a icon will appear when hovering over the card body
-to expand the contents to the entire viewport size.}
+\item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
+body. Clicking the icon expands the card to fit viewport size. Consider
+pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
+changes in the size of the card.}
 
 \item{wrapper}{A function (which returns a UI element) to call on unnamed
 arguments in \code{...} which are not already card item(s) (like

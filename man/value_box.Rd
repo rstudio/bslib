@@ -2,56 +2,102 @@
 % Please edit documentation in R/value-box.R
 \name{value_box}
 \alias{value_box}
-\title{A card for displaying a summary of information}
+\alias{showcase_left_center}
+\alias{showcase_top_right}
+\title{Value box}
 \usage{
 value_box(
   title,
   value,
   ...,
   showcase = NULL,
-  showcase_layout = c("top-right", "left-center"),
+  showcase_layout = showcase_left_center(),
   full_screen = FALSE,
+  theme_color = "primary",
+  height = NULL,
   class = NULL
+)
+
+showcase_left_center(
+  width = 0.3,
+  max_height = "100px",
+  max_height_full_screen = 0.67
+)
+
+showcase_top_right(
+  width = 0.3,
+  max_height = "75px",
+  max_height_full_screen = 0.67
 )
 }
 \arguments{
-\item{title}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to display above \code{value}.}
+\item{title, value}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to display above \code{value}. If a
+string a provided, it's automatically wrapped in a header tag.}
 
-\item{value}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to display below \code{title}.}
-
-\item{...}{Unnamed arguments may be any \code{\link[htmltools:builder]{htmltools::tag()}} children
-to display below \code{value} (if these children are not already
-\code{\link[=is.card_item]{is.card_item()}}, then they are wrapped in a \code{\link[=card_body]{card_body()}}).
-Named arguments become attributes on the containing element.}
+\item{...}{Unnamed arguments may be any \code{\link[htmltools:builder]{htmltools::tag()}} children to
+display below \code{value}.. Named arguments become attributes on the containing
+element.}
 
 \item{showcase}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
 \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotly-shiny]{plotly::plotlyOutput()}}, etc).}
 
-\item{showcase_layout}{where to display the showcase relative to the other
-content.}
+\item{showcase_layout}{either \code{showcase_left_center()} or
+\code{showcase_top_right()}.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size. Consider
 pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
 changes in the size of the card.}
 
+\item{theme_color}{a theme color to use for the background color. Should
+match a name in the Bootstrap Sass variable \verb{$theme-colors} (e.g.,
+\code{"secondary"}, \code{"success"}, \code{"danger"}, etc)}
+
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}).}
+
 \item{class}{utility classes for customizing the appearance of the summary
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
+
+\item{width}{one of the following:
+\itemize{
+\item A proportion (i.e., a number between 0 and 1) of available width to
+allocate to the showcase.
+\item A vector of length 2 valid \link[htmltools:validateCssUnit]{CSS unit} defining
+the width of each column (for \code{showcase_left_center()} the 1st unit defines
+the showcase width and for \code{showcase_top_right} the 2nd unit defines the
+showcase width). Note that any units supported by the CSS grid
+\code{grid-template-columns} property may be used (e.g., \code{fr} units).
+}}
+
+\item{max_height, max_height_full_screen}{A proportion (i.e., a number between
+0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
+showcase max_height.}
 }
 \description{
-A card for displaying a summary of information
+An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displaying a \code{value} and
+\code{title}. Optionally, a \code{showcase} can provide for context for what the
+\code{value} represents (for example, it could hold a \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, or
+even a \code{\link[shiny:plotOutput]{shiny::plotOutput()}}).
 }
 \examples{
 
-value_box(
-  "KPI Title",
-  HTML("$1 <i>Billion</i> Dollars"),
-  span(
-    bsicons::bs_icon("arrow-up"),
-    " 30\% VS PREVIOUS 30 DAYS"
-   ),
-  showcase = bsicons::bs_icon("piggy-bank"),
-  class = "bg-success"
-)
+library(htmltools)
+
+if (interactive()) {
+  value_box(
+    "KPI Title",
+    h1(HTML("$1 <i>Billion</i> Dollars")),
+    span(
+      bsicons::bs_icon("arrow-up"),
+      " 30\% VS PREVIOUS 30 DAYS"
+    ),
+    showcase = bsicons::bs_icon("piggy-bank"),
+    class = "bg-success"
+  )
+}
+}
+\seealso{
+\code{\link[=card]{card()}}
 }

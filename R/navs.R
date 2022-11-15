@@ -5,18 +5,10 @@
 #'   provided, other nav items are automatically right aligned.
 #' @rdname navs
 navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
-                          header = NULL, footer = NULL, height = NULL, width = NULL,
+                          header = NULL, footer = NULL, height = NULL,
                           full_screen = FALSE, wrapper = card_body) {
 
-  items <- rlang::list2(...)
-
-  # The children of each nav() (i.e., tabPanel()) should be card items.
-  items <- lapply(items, function(x) {
-    if (isTabPanel(x)) {
-      x$children <- as_card_items(x$children, wrapper = wrapper)
-    }
-    x
-  })
+  items <- collect_nav_items(..., wrapper = wrapper)
 
   tabs <- navs_tab(
     !!!items, id = id, selected = selected, header = header, footer = footer
@@ -29,7 +21,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
     selectedTags()
 
   card(
-    height = height, width = width,
+    height = height,
     full_screen = full_screen,
     if (!is.null(title)) {
       card_header(class = "bslib-card-title", tags$span(title), nav)
@@ -44,10 +36,11 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 #' @param placement placement of the nav items relative to the content.
 #' @rdname navs
 navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
-                           header = NULL, footer = NULL, height = NULL, width = NULL,
-                           full_screen = FALSE, placement = c("above", "below")) {
+                           header = NULL, footer = NULL, height = NULL,
+                           placement = c("above", "below"),
+                           full_screen = FALSE, wrapper = card_body) {
 
-  items <- rlang::list2(...)
+  items <- collect_nav_items(..., wrapper = wrapper)
 
   pills <- navs_pill(
     !!!items, id = id, selected = selected,
@@ -68,7 +61,7 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
   }
 
   card(
-    height = height, width = width,
+    height = height,
     full_screen = full_screen,
     if (above) card_header(!!!nav_args),
     navs_card_body(pills),
@@ -76,10 +69,28 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
   )
 }
 
+
+collect_nav_items <- function(..., wrapper) {
+  items <- rlang::list2(...)
+
+  # Wrap any nav() children up into card items
+  nav_to_card_item <- function(x) {
+    if (isNavbarMenu(x)) {
+      x$tabs <- lapply(x$tabs, nav_to_card_item)
+    }
+    if (isTabPanel(x)) {
+      x$children <- as_card_items(x$children, wrapper = wrapper)
+    }
+    x
+  }
+
+  lapply(items, nav_to_card_item)
+}
+
 navs_card_body <- function(tabs) {
 
-  tabs <- tagAppendAttributes(tabs, class = vfill_classes, .cssSelector = ".tab-content")
-  tabs <- tagAppendAttributes(tabs, class = vfill_classes, .cssSelector = ".tab-content > *")
+  tabs <- bindFillRole(tabs, .cssSelector = ".tab-content", container = TRUE, item = TRUE)
+  tabs <- bindFillRole(tabs, .cssSelector = ".tab-content > *", container = TRUE, item = TRUE)
 
   content <- tagQuery(tabs)$find(".tab-content")$selectedTags()
 

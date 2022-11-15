@@ -47,6 +47,24 @@ is_shiny_runtime <- function() {
   isTRUE(grepl("^shiny", knitr::opts_knit$get("rmarkdown.runtime")))
 }
 
+register_runtime_package_check <- function(feature, pkg, version) {
+  msg <- sprintf(
+    "%s is designed to work with %s %s or higher",
+    feature, pkg, version
+  )
+
+  if (isNamespaceLoaded(pkg) && !is_installed(pkg, version)) {
+    warning(msg, call. = FALSE)
+  }
+
+  setHook(
+    packageEvent(pkg, "onLoad"),
+    function(...) {
+      if (!is_installed(pkg, version)) warning(msg, call. = FALSE)
+    }
+  )
+}
+
 add_class <- function(x, y) {
   class(x) <- unique(c(y, oldClass(x)))
   x

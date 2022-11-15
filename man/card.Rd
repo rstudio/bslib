@@ -4,13 +4,7 @@
 \alias{card}
 \title{A Bootstrap card component}
 \usage{
-card(
-  ...,
-  full_screen = FALSE,
-  height = NULL,
-  class = NULL,
-  wrapper = card_body
-)
+card(..., header = NULL, footer = NULL, caller)
 }
 \arguments{
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} (which includes card items such as \code{\link[=card_body]{card_body()}}.

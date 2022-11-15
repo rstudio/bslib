@@ -35,10 +35,12 @@ navbar:
         #  href: articles/why-sass.html
         - text: Cards
           href: articles/cards.html
-        - text: BS5 Sass variables
+        - text: Value Boxes
+          href: articles/value-boxes.html
+        - text: Layouts
+          href: articles/layouts.html
+        - text: Theming variables
           href: articles/bs5-variables.html
-        - text: BS4 Sass variables
-          href: articles/bs4-variables.html
         - text: Utility Classes
           href: articles/utility-classes.html
         - text: Custom components

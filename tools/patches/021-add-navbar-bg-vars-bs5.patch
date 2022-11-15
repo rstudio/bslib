@@ -12,40 +12,27 @@ index 38e5a83c..f68fd8a1 100644
  
  .navbar-dark {
 +  background-color: $navbar-dark-bg; // not !important so .bg-* utilities can still override
+   // scss-docs-start navbar-dark-css-vars
    --#{$prefix}navbar-color: #{$navbar-dark-color};
    --#{$prefix}navbar-hover-color: #{$navbar-dark-hover-color};
-   --#{$prefix}navbar-disabled-color: #{$navbar-dark-disabled-color};
 diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
-index 7558224..8cd96d0 100644
+index 0f6acf6f..af2db4a6 100644
 --- a/inst/lib/bs5/scss/_variables.scss
 +++ b/inst/lib/bs5/scss/_variables.scss
-@@ -960,19 +960,26 @@ $navbar-toggler-transition:         box-shadow .15s ease-in-out !default;
- // scss-docs-end navbar-variables
- 
- // scss-docs-start navbar-theme-variables
--$navbar-dark-color:                 rgba($white, .55) !default;
--$navbar-dark-hover-color:           rgba($white, .75) !default;
--$navbar-dark-active-color:          $white !default;
--$navbar-dark-disabled-color:        rgba($white, .25) !default;
-+$navbar-bg:                         null !default;  // Background color for any navbarPage()
-+$navbar-dark-bg:                    if($navbar-bg, $navbar-bg, $dark) !default;  // Background color for navbarPage(inverse = TRUE)
-+$navbar-light-bg:                   if($navbar-bg, $navbar-bg, $light) !default;  // Background color for navbarPage(inverse = FALSE)
-+
-+$navbar-dark-contrast:              color-contrast($navbar-dark-bg) !default; // Deepest contrasting color for navbarPage(inverse = TRUE). Defaults to $white or $black based on luminance of $navbar-dark-bg
-+$navbar-light-contrast:             color-contrast($navbar-light-bg) !default; // Deepest contrasting color for navbarPage(inverse = FALSE). Defaults to $white or $black based on luminance of $navbar-light-bg
-+
-+$navbar-dark-color:                 rgba($navbar-dark-contrast, .55) !default;
-+$navbar-dark-hover-color:           rgba($navbar-dark-contrast, .75) !default;
-+$navbar-dark-active-color:          $navbar-dark-contrast !default;
-+$navbar-dark-disabled-color:        rgba($navbar-dark-contrast, .25) !default;
- $navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
--$navbar-dark-toggler-border-color:  rgba($white, .1) !default;
-+$navbar-dark-toggler-border-color:  rgba($navbar-dark-contrast, .1) !default;
+@@ -1112,23 +1112,29 @@ $navbar-toggler-border-radius:      $btn-border-radius !default;
+ $navbar-toggler-focus-width:        $btn-focus-width !default;
+ $navbar-toggler-transition:         box-shadow .15s ease-in-out !default;
  
 -$navbar-light-color:                rgba($black, .55) !default;
 -$navbar-light-hover-color:          rgba($black, .7) !default;
 -$navbar-light-active-color:         rgba($black, .9) !default;
 -$navbar-light-disabled-color:       rgba($black, .3) !default;
++$navbar-bg: null !default; // Background color for any navbarPage()
++$navbar-dark-bg: if($navbar-bg, $navbar-bg, $dark) !default; // Background color for navbarPage(inverse = TRUE)
++$navbar-light-bg: if($navbar-bg, $navbar-bg, $light) !default; // Background color for navbarPage(inverse = FALSE)
++$navbar-dark-contrast: color-contrast($navbar-dark-bg) !default; // Deepest contrasting color for navbarPage(inverse = TRUE). Defaults to $white or $black based on luminance of $navbar-dark-bg
++$navbar-light-contrast: color-contrast($navbar-light-bg) !default; // Deepest contrasting color for navbarPage(inverse = FALSE). Defaults to $white or $black based on luminance of $navbar-light-bg
++
 +$navbar-light-color:                rgba($navbar-light-contrast, .55) !default;
 +$navbar-light-hover-color:          rgba($navbar-light-contrast, .7) !default;
 +$navbar-light-active-color:         rgba($navbar-light-contrast, .9) !default;
@@ -53,9 +40,22 @@ index 7558224..8cd96d0 100644
  $navbar-light-toggler-icon-bg:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
 -$navbar-light-toggler-border-color: rgba($black, .1) !default;
 +$navbar-light-toggler-border-color: rgba($navbar-light-contrast, .1) !default;
+ $navbar-light-brand-color:          $navbar-light-active-color !default;
+ $navbar-light-brand-hover-color:    $navbar-light-active-color !default;
+ // scss-docs-end navbar-variables
  
- $navbar-light-brand-color:                $navbar-light-active-color !default;
- $navbar-light-brand-hover-color:          $navbar-light-active-color !default;
-   --#{$prefix}navbar-color: #{$navbar-dark-color};
-   --#{$prefix}navbar-hover-color: #{$navbar-dark-hover-color};
-   --#{$prefix}navbar-disabled-color: #{$navbar-dark-disabled-color};
+ // scss-docs-start navbar-dark-variables
+-$navbar-dark-color:                 rgba($white, .55) !default;
+-$navbar-dark-hover-color:           rgba($white, .75) !default;
+-$navbar-dark-active-color:          $white !default;
+-$navbar-dark-disabled-color:        rgba($white, .25) !default;
++$navbar-dark-color:                 rgba($navbar-dark-contrast, .55) !default;
++$navbar-dark-hover-color:           rgba($navbar-dark-contrast, .75) !default;
++$navbar-dark-active-color:          $navbar-dark-contrast !default;
++$navbar-dark-disabled-color:        rgba($navbar-dark-contrast, .25) !default;
+ $navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
+-$navbar-dark-toggler-border-color:  rgba($white, .1) !default;
++$navbar-dark-toggler-border-color:  rgba($navbar-dark-contrast, .1) !default;
+ $navbar-dark-brand-color:           $navbar-dark-active-color !default;
+ $navbar-dark-brand-hover-color:     $navbar-dark-active-color !default;
+ // scss-docs-end navbar-dark-variables

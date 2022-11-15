@@ -5,40 +5,40 @@ library(plotly)
 
 ui <- page_fluid(
   theme = bslib::bs_theme(
-    base_font = font_google("Open Sans")
+    base_font = font_google("Atkinson Hyperlegible")
   ),
   br(),
   layout_column_wrap(
     width = "200px",
+    class = "mt-3",
     value_box(
       title = "Unemployment Rate",
       value = "2.7%",
-      div("Started at 1.5%"),
-      div("Averaged 3% over that period"),
-      div("Peaked at 5.2% in Dec 1982"),
-      showcase = plotlyOutput("unemploy", height = "50px", width = "100px"),
+      p("Started at 1.5%"),
+      p("Averaging 3%"),
+      p("Peaked at 5.2% in Dec 1982"),
+      showcase = plotlyOutput("unemploy"),
       full_screen = TRUE
     ),
     value_box(
       title = "Personal Savings Rate",
       value = "7.6%",
-      div("Started at 12.6%"),
-      div("Averaged 8.6% over that period"),
-      div("Peaked 17.3% in May 1975"),
-      showcase = plotlyOutput("psavert", height = "50px", width = "100px"),
-      showcase_layout = "left-center",
+      p("Started at 12.6%"),
+      p("Averaging 8.6%"),
+      p("Peaked at 17.3% in May 1975"),
+      showcase = plotlyOutput("psavert"),
+      showcase_layout = showcase_top_right(),
       full_screen = TRUE,
-      class = "bg-success"
+      theme_color = "success"
     ),
     value_box(
       title = "Personal Consumption",
       value = "$3.8B",
-      div("Started at $0.25B"),
-      div("Averaged $1.7B over that period"),
-      showcase = bsicons::bs_icon("piggy-bank"),
-      showcase_layout = "left-center",
-      #full_screen = TRUE,
-      class = "bg-danger"
+      p("Started at $0.25B"),
+      p("Averaging $1.7B"),
+      showcase = bsicons::bs_icon("piggy-bank", size = "100%"),
+      full_screen = TRUE,
+      theme_color = "danger"
     )
   )
 )

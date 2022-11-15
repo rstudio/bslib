@@ -32,19 +32,24 @@
 #'   columns inside a card).
 #' @examples
 #'
-#' card(
-#'   full_screen = TRUE,
-#'   card_header(
-#'     "This is the header"
-#'   ),
-#'   card_body(
-#'     p("This is the body."),
-#'     p("This is still the body.")
-#'   ),
-#'   card_footer(
-#'     "This is the footer"
+#' library(htmltools)
+#'
+#' if (interactive()) {
+#'   card(
+#'     full_screen = TRUE,
+#'     card_header(
+#'       "This is the header"
+#'     ),
+#'     card_body(
+#'       p("This is the body."),
+#'       p("This is still the body.")
+#'     ),
+#'     card_footer(
+#'       "This is the footer"
+#'     )
 #'   )
-#' )
+#' }
+#'
 card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper = card_body) {
 
   args <- rlang::list2(...)
@@ -55,16 +60,23 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
 
   tag <- div(
     class = "card",
-    class = vfill_classes,
-    class = class,
-    style = css(height = validateCssUnit(height)),
+    style = css(
+      height = validateCssUnit(height),
+      # Since we want cards to be fill containers (and items), it'll receive
+      # `overflow: auto`, but we want stuff like dropdowns be visible
+      overflow = "visible",
+      min_height = 0
+    ),
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle()
   )
 
+  tag <- bindFillRole(tag, container = TRUE, item = TRUE)
+  tag <- tagAppendAttributes(tag, class = class)
+
   as_fragment(
-    tag_require(tag, version = 4, caller = "card()")
+    tag_require(tag, version = 5, caller = "card()")
   )
 }
 
@@ -128,46 +140,51 @@ card_body <- function(..., height = NULL, class = NULL) {
 #' @rdname card_body
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`.
+#' @param max_height,max_height_full_screen,min_height Any valid [CSS length unit][htmltools::validateCssUnit()].
 #' @export
-card_body_fill <- function(..., gap = NULL, class = NULL) {
+card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_screen = max_height, min_height = NULL, class = NULL) {
+
+  register_runtime_package_check("`card_body_fill()`", "shiny", "1.7.3.9001")
+  register_runtime_package_check("`card_body_fill()`", "htmlwidgets", "1.5.4.9001")
+
   card_body_(
     fill = TRUE,
-    gap = gap,
     class = class,
+    style = htmltools::css(
+      gap = validateCssUnit(gap),
+      min_height = validateCssUnit(min_height),
+      "--bslib-card-body-max-height" = validateCssUnit(max_height),
+      "--bslib-card-body-max-height-full-screen" = validateCssUnit(max_height_full_screen),
+      margin_top = "auto",
+      margin_bottom = "auto"
+    ),
     ...
   )
 }
-
 
 #' @rdname card_body
 #' @param container a function to generate an HTML element.
 #' @export
 card_title <- function(..., container = htmltools::h5) {
-  container(
-    class = "card-title",
-    # Our card.scss wants to set margin-bottom on headers, so make
-    # sure this rule isn't overridden
-    style = css(margin_bottom = "var(--bs-card-title-spacer-y, 0.5rem)"),
-    ...
-  )
+  card_body(container(style = css(margin_bottom = 0), ...))
 }
 
-card_body_ <- function(..., fill = TRUE, gap = NULL, height = NULL, class = NULL, container = htmltools::div) {
+card_body_ <- function(..., fill = TRUE, height = NULL, class = NULL, container = htmltools::div) {
 
-  res <- container(
+  tag <- container(
     class = "card-body",
-    class = if (fill) vfill_classes,
-    class = if (fill) "p-0",
-    class = class,
     style = css(
-      flex = if (fill) "1 1 auto" else "0 0 auto",
       height = validateCssUnit(height),
-      gap = validateCssUnit(gap)
+      flex = if (fill) "1 1 auto" else "0 0 auto"
     ),
     ...
   )
 
-  as.card_item(res)
+  tag <- bindFillRole(tag, container = fill, item = fill)
+
+  tag <- tagAppendAttributes(tag, class = class)
+
+  as.card_item(tag)
 }
 
 
@@ -184,7 +201,7 @@ card_header <- function(..., class = NULL, container = htmltools::div) {
 #' @export
 card_footer <- function(..., class = NULL) {
   as.card_item(
-    div(class = "card-footer mt-auto", class = class, ...)
+    div(class = "card-footer", class = class, ...)
   )
 }
 
@@ -192,13 +209,15 @@ card_footer <- function(..., class = NULL) {
 #' @param file a file path pointing an image. The image will be base64 encoded
 #' and provided to the `src` attribute of the `<img>`. Alternatively, you may
 #' set this value to `NULL` and provide the `src` yourself.
-#' @param href An optional URL to link to.
+#' @param href an optional URL to link to.
 #' @param border_radius where to apply `border-radius` on the image.
 #' @param mime_type the mime type of the `file`.
+#' @param container a function to generate an HTML element to contain the image.
+#' @param width Any valid [CSS unit][htmltools::validateCssUnit] (e.g., `width="100%"`).
 #' @export
 card_image <- function(
   file, ..., href = NULL, border_radius = c("top", "bottom", "all", "none"),
-  mime_type = NULL, fill = TRUE, gap = NULL, height = NULL, class = NULL) {
+  mime_type = NULL, class = NULL, height = NULL, width = NULL, container = card_body_fill) {
 
   src <- NULL
   if (length(file) > 0) {
@@ -210,8 +229,6 @@ card_image <- function(
   image <- tags$img(
     src = src,
     class = "img-fluid",
-    class = "vfill-item",
-    class = class,
     class = switch(
       match.arg(border_radius),
       all = "card-img",
@@ -219,18 +236,25 @@ card_image <- function(
       bottom = "card-img-bottom",
       NULL
     ),
+    style = css(
+      height = validateCssUnit(height),
+      width = validateCssUnit(width)
+    ),
     ...
   )
 
+  image <- bindFillRole(image, item = TRUE)
+  image <- tagAppendAttributes(image, class = class)
+
   if (!is.null(href)) {
-    image <- tags$a(
-      href = href,
-      class = if (fill) vfill_classes,
-      image
-    )
+    image <- bindFillRole(tags$a(href = href, image), container = TRUE, item = TRUE)
   }
 
-  card_body_(image, fill = fill, gap = gap, height = height)
+  if (is.function(container)) {
+    image <- container(image)
+  }
+
+  image
 }
 
 #' @rdname card_body
@@ -249,61 +273,63 @@ is.card_item <- function(x) {
 
 
 full_screen_toggle <- function() {
-    tags$a(
-      tags$span(class = "badge rounded-pill bg-dark m-2", style="padding:0.55rem !important;",
-      class = "bslib-full-screen-enter",
-      "data-bs-toggle" = "tooltip",
-      "data-bs-placement" = "bottom",
-      title = "Expand",
-      bsicons::bs_icon("arrows-fullscreen", class = "null"),
-      htmlDependency(
-        name = "bslib-card-full-screen",
-        version = get_package_version("bslib"),
-        package = "bslib",
-        src = "components",
-        script = "card-full-screen.js"
-      ),
-      # TODO: shiny should probably use ResizeObserver() itself (i.e., we
-      # shouldn't need to trigger a resize on the window)
-      # https://github.com/rstudio/shiny/pull/3682
-      tags$script(HTML(
-        "var resizeEvent = window.document.createEvent('UIEvents');
+  tags$span(
+    class = "bslib-full-screen-enter",
+    class = "badge rounded-pill bg-dark",
+    "data-bs-toggle" = "tooltip",
+    "data-bs-placement" = "bottom",
+    title = "Expand",
+    full_screen_toggle_icon(),
+    htmlDependency(
+      name = "bslib-card-full-screen",
+      version = get_package_version("bslib"),
+      package = "bslib",
+      src = "components",
+      script = "card-full-screen.js"
+    ),
+    tags$script(HTML(
+      "
+        var card = $(document.currentScript).parents('.card').last();
+
+        // Let Shiny know to trigger resize when the card size changes
+        // TODO: shiny could/should do this itself (rstudio/shiny#3682)
+        var resizeEvent = window.document.createEvent('UIEvents');
         resizeEvent.initUIEvent('resize', true, false, window, 0);
         var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-        document.querySelectorAll('.card').forEach(function(x) { ro.observe(x); })"
-      ))
-    )
+        ro.observe(card[0]);
+
+        // Enable tooltips (for the expand icon)
+        var tooltipList = card[0].querySelectorAll('[data-bs-toggle=\"tooltip\"]');
+        tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
+
+        // In some complex fill-based layouts with multiple outputs (e.g., plotly),
+        // shiny initializes with the correct sizing, but in-between the 1st and last
+        // renderValue(), the size of the output containers can change, meaning every
+        // output but the 1st gets initialized with the wrong size during their
+        // renderValue(); and then after the render phase, shiny won't know trigger a
+        // resize since all the widgets will return to their original size
+        // (and thus, Shiny thinks there isn't any resizing to do).
+        // We workaround that situation by manually triggering a resize on the binding
+        // when the output container changes (this way, if the size is different during
+        // the render phase, Shiny will know about it)
+        $(document).on('shiny:value', function(x) {
+          var el = x.binding.el;
+          if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
+            var roo = new ResizeObserver(x.binding.onResize);
+            roo.observe(el);
+            $(el).data('bslib-output-observer', true);
+          }
+        });
+        "
+    ))
   )
 }
 
 
-# cpsievert 2022-06-06: this showcase idea is probably still worth considering (for general use inside a card), but we're punting for now since value_box(showcase_layout="left-center") is effectively the same/similar thing (you could probably put it inside a card()?)
-
-# #' @rdname card_body
-# #' @param width a number between 0 and 1 defining # proportion of width to dedicate to `x`
-# #' @param height any valid CSS unit defining the height # of `x`.
-# #' @param width_full a number between 0 and 1 defining # proportion of width to dedicate to `x` when `full_screen # = TRUE`.
-# #' @param height_full any valid CSS unit defining the # height of `x` when `full_screen = TRUE`.
-# #' @export
-# card_body_showcase <- function(x, ..., height = NULL, # width = 1/5, width_full = 4/5, height_full = "100%") {
-#   if (!is.numeric(width) || width > 1 || width < 0) {
-#     stop("width must be a number between 0 and 1")
-#   }
-#
-#   card_body(
-#     class = "bslib-card-showcase",
-#     style = css(
-#       "--showcase-width-1" = paste0(100 * width, "%"),
-#       "--showcase-width-2" = paste0(100 * (1 - width), # "%"),
-#       "--showcase-full-width-1" = paste0(100 * width_full# , "%"),
-#       "--showcase-full-width-2" = paste0(100 * (1 - # width_full), "%"),
-#       "--showcase-height" = validateCssUnit(height),
-#       "--showcase-full-height" = validateCssUnit# (height_full),
-#     ),
-#     x, tags$ul(!!!lapply(rlang::list2(...), tags$li))
-#   )
-# }
-
+# via bsicons::bs_icon("arrows-fullscreen")
+full_screen_toggle_icon <- function() {
+  HTML('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg>')
+}
 
 
 # jcheng 2022-06-06: Removing for now; list items have more features than I'm
