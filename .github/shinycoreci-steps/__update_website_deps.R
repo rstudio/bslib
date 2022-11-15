@@ -15,6 +15,6 @@ set_desc_with_packages <- function(field, known_pkgs) {
 demo_pkgs <- unique(renv::dependencies("inst/themer-demo", progress = FALSE)$Package)
 vig_pkgs <- unique(renv::dependencies("vignettes", progress = FALSE)$Package)
 
-set_desc_with_packages("website", c("rstudio/quillt", vig_pkgs))
+set_desc_with_packages("website", vig_pkgs)
 # BH is not picked up for some reason
 set_desc_with_packages("deploy", c("BH", demo_pkgs))
