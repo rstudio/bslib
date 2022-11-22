@@ -112,7 +112,6 @@ Config/Needs/deploy:
     rstudio/shiny,
     ramnathv/htmlwidgets
 Remotes:
-    rstudio/bsicons,
     rstudio/htmltools,
     rstudio/shiny,
     ramnathv/htmlwidgets
