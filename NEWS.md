@@ -1,4 +1,4 @@
-# bslib 0.4.1.9000
+# bslib 0.4.2
 
 ## Potentially breaking changes
 
