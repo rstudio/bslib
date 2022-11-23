@@ -59,7 +59,7 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
 
   tag <- div(
-    class = "card",
+    class = "card bslib-card",
     style = css(
       height = validateCssUnit(height),
       # Since we want cards to be fill containers (and items), it'll receive
