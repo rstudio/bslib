@@ -11,7 +11,7 @@
 \alias{is.card_item}
 \title{Card items}
 \usage{
-card_body(..., height = NULL, class = NULL)
+card_body(..., fill = FALSE, height = NULL, class = NULL)
 
 card_body_fill(
   ...,
@@ -48,6 +48,9 @@ is.card_item(x)
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag}. Named arguments become HTML attributes on returned
 UI element.}
 
+\item{fill}{whether to allow the \code{card_body()} to grow and shrink to fit its
+\code{card()}.}
+
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}
 
@@ -78,9 +81,30 @@ set this value to \code{NULL} and provide the \code{src} yourself.}
 An \code{\link[htmltools:builder]{htmltools::div()}} tag.
 }
 \description{
-Components designed to be provided as direct children of a \code{\link[=card]{card()}}. To learn
-about \code{\link[=card]{card()}}s, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+Components designed to be provided as direct children of a \code{\link[=card]{card()}}. For a
+general overview of the \code{\link[=card]{card()}} API, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
 }
+\section{Functions}{
+\itemize{
+\item \code{card_body()}: A general container for the "main content" of a \code{\link[=card]{card()}}.
+
+\item \code{card_body_fill()}: Similar to \code{card_body(fill = TRUE)}, but also marks the
+return element as a "fill container" (via \code{\link[htmltools:bindFillRole]{htmltools::bindFillRole()}}) so
+that its immediate children are allowed to grow and shrink to fit.
+
+\item \code{card_title()}: Similar to \code{card_header()} but without the border and background color.
+
+\item \code{card_header()}: A header (with border and background color) for the \code{card()}. Typically appears before a \code{card_body()}.
+
+\item \code{card_footer()}: A header (with border and background color) for the \code{card()}. Typically appears after a \code{card_body()}.
+
+\item \code{card_image()}: Include static (i.e., pre-generated) images.
+
+\item \code{as.card_item()}: Mark an object as a card item. This will prevent the
+\code{\link[=card]{card()}} from putting the object inside a \code{wrapper} (i.e., a
+\code{card_body()}).
+
+}}
 \seealso{
 \code{\link[=card]{card()}} for creating a card component.
 

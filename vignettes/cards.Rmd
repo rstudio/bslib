@@ -142,21 +142,18 @@ card(
 
 ::: row
 ::: col-md-6
-In cases where the `card()` (or a parent of the card, like `layout_column_wrap()`) has a defined height, you may want a relative instead of a fixed CSS unit for the height. For example, `height = 100%` will make the body fit it's container size. In the next section, you'll learn about `card_body_fill()`, which is very similar to `card_body(height="100%")`, but it differs in at least two important ways:
-
-1. It doesn't require a defined height on the `card()` (or a parent of the card).
-2. It allows it's direct children to grow and shrink when the `card()` does have a defined height.
+Alternatively, you can also set the `height` of the card to a fixed size and set `fill = TRUE` to have the `card_body()` container shrink/grow to fit the available space in a `card()`. Note that, by doing this, the _children_ of the `card_body()` aren't necessarily allowed to shrink/grow to fit the `card_body()`, which `card_body_fill()` (aka "[responsize sizing](#responsize-sizing)") is designed to do.
 :::
 
 ::: col-md-6
 ```{r}
 card(
-  height = 200, full_screen = TRUE,
+  height = 200,
   card_header(
     "A long, scrolling, description"
   ),
   card_body(
-    height = "100%", 
+    fill = TRUE,
     lorem_ipsum_dolor_sit_amet
   )
 )
