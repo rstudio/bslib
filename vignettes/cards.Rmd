@@ -423,7 +423,10 @@ card(
     href = "https://github.com/rstudio/shiny"
   ),
   card_title("Shiny for R"),
-  p("Brought to you by RStudio.")
+  card_body(
+    class = "pt-0 fs-6 lead text-muted", 
+    "Brought to you by RStudio."
+  )
 )
 ```
 :::
