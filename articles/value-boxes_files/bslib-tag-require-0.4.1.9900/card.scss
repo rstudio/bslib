@@ -1,4 +1,4 @@
-.card {
+.bslib-card {
   margin-bottom: $spacer;
 
   // Avoid "double padding" when two card_body()s are immediate siblings
@@ -43,8 +43,14 @@
     margin-top: auto;
   }
 
-  // For navs_tab_card(title = ...)
+  // For card_title()
   .bslib-card-title {
+    padding-left: var(--bs-card-spacer-x, 1rem);
+    padding-right: var(--bs-card-spacer-x, 1rem);
+  }
+
+  // For navs_tab_card(title = ...)
+  .bslib-navs-card-title {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
