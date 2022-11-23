@@ -55,7 +55,7 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
     selectedTags()
 
   nav_args <- if (!is.null(title)) {
-    list(class = "bslib-card-title", tags$span(title), nav)
+    list(class = "bslib-navs-card-title", tags$span(title), nav)
   } else {
     list(nav)
   }

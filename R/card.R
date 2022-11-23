@@ -166,7 +166,9 @@ card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_s
 #' @param container a function to generate an HTML element.
 #' @export
 card_title <- function(..., container = htmltools::h5) {
-  card_body(container(style = css(margin_bottom = 0), ...))
+  as.card_item(
+    container(style = css(margin_bottom = 0), class = "bslib-card-title", ...)
+  )
 }
 
 card_body_ <- function(..., fill = TRUE, height = NULL, class = NULL, container = htmltools::div) {
