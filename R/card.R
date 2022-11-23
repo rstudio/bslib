@@ -60,13 +60,7 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
 
   tag <- div(
     class = "card bslib-card",
-    style = css(
-      height = validateCssUnit(height),
-      # Since we want cards to be fill containers (and items), it'll receive
-      # `overflow: auto`, but we want stuff like dropdowns be visible
-      overflow = "visible",
-      min_height = 0
-    ),
+    style = css(height = validateCssUnit(height)),
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle()
