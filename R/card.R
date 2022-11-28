@@ -294,9 +294,15 @@ full_screen_toggle <- function() {
       src = "components",
       script = "card-full-screen.js"
     ),
-    tags$script(HTML(
+    tags$script("data-bslib-card-needs-init" = NA, HTML(
       "
-        var card = $(document.currentScript).parents('.card').last();
+        var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
+        if (!thisScript) throw new Error('Failed to register card() resize observer');
+
+        thisScript.removeAttribute('data-bslib-card-needs-init');
+
+        var card = $(thisScript).parents('.card').last();
+        if (!card) throw new Error('Failed to register card() resize observer');
 
         // Let Shiny know to trigger resize when the card size changes
         // TODO: shiny could/should do this itself (rstudio/shiny#3682)
