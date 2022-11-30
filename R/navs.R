@@ -24,7 +24,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
     height = height,
     full_screen = full_screen,
     if (!is.null(title)) {
-      card_header(class = "bslib-card-title", tags$span(title), nav)
+      card_header(class = "bslib-navs-card-title", tags$span(title), nav)
     } else {
       card_header(nav)
     },
