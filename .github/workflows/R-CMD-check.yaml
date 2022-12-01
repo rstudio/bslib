@@ -57,3 +57,4 @@ jobs:
           Rscript 'inst/themer-demo/deploy.R'
           Rscript 'inst/examples/card/deploy.R'
           Rscript 'inst/examples/value_box/deploy.R'
+          Rscript 'inst/examples/flights/deploy.R'
