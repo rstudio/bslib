@@ -40,7 +40,7 @@ library(bslib)
 
 card1 <- card(
   card_header("Scrolling content"),
-  lorem_ipsum_dolor_sit_amet
+  card_body(lorem_ipsum_dolor_sit_amet, fill = TRUE)
 )
 card2 <- card(
   card_header("Nothing much here"),
