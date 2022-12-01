@@ -446,12 +446,12 @@ navs_tab_card(
   title = "HTML Widgets",
   nav(
     "Plotly", 
-    card_title("A plotly plot"),
+    card_title("A plotly plot", class = "pt-1"),
     card_body_fill(plotly_widget)
   ),
   nav(
     "Leaflet",
-    card_title("A leaflet plot"),
+    card_title("A leaflet plot", class = "pt-1"),
     card_body_fill(leaflet_widget)
   ),
   nav(
