@@ -14,7 +14,7 @@ otherwise be themed via bs_dependency_defer() ."><!-- mathjax --><script src="ht
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1.9900</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,9 +95,9 @@ example:</p><ul><li><p>Inside the <code>preRenderHook</code> of <code><a href="h
 </ul><p>Calling this function at print/render time is important because it does
 different things based on the context in which it's called:</p><ul><li><p>If a reactive context is active, <code>session$getCurrentTheme()</code> is called
 (which is a reactive read).</p></li>
-<li><p>If no reactive context is active, <code><a href="https://rdrr.io/pkg/shiny/man/getCurrentTheme.html" class="external-link">shiny::getCurrentTheme()</a></code> is called
+<li><p>If no reactive context is active, <code><a href="https://shiny.rstudio.com/reference/shiny/latest/getCurrentTheme.html" class="external-link">shiny::getCurrentTheme()</a></code> is called
 (which returns the current app's <code>theme</code>, if relevant).</p></li>
-<li><p>If <code><a href="https://rdrr.io/pkg/shiny/man/getCurrentTheme.html" class="external-link">shiny::getCurrentTheme()</a></code> comes up empty, then <code><a href="bs_global_theme.html">bs_global_get()</a></code>
+<li><p>If <code><a href="https://shiny.rstudio.com/reference/shiny/latest/getCurrentTheme.html" class="external-link">shiny::getCurrentTheme()</a></code> comes up empty, then <code><a href="bs_global_theme.html">bs_global_get()</a></code>
 is called, which is relevant for <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document()</a></code>, and
 possibly other static rendering contexts.</p></li>
 </ul></div>

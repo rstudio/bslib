@@ -24,7 +24,7 @@ chunk). Note that this function is only intended to be used for development!"><!
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1.9900</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@ chunk). Note that this function is only intended to be used for development!"><!
     <p>A 'real-time' theme customization UI that you can use to easily make common
 tweaks to Bootstrap variables and immediately see how they would affect your
 app's appearance. There are two ways you can launch the theming UI. For most
-Shiny apps, just use <code>run_with_themer()</code> in place of <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">shiny::runApp()</a></code>; they
+Shiny apps, just use <code>run_with_themer()</code> in place of <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">shiny::runApp()</a></code>; they
 should take the same arguments and work the same way. Alternatively, you can
 call the <code>bs_themer()</code> function from inside your server function (or in an R
 Markdown app that is using <code>runtime: shiny</code>, you can call this from any code
@@ -95,11 +95,11 @@ chunk). Note that this function is only intended to be used for development!</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>appDir</dt>
 <dd><p>The application to run. This can be a file or directory path,
-or a <code><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shiny::shinyApp()</a></code> object. See <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">shiny::runApp()</a></code> for details.</p></dd>
+or a <code><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html" class="external-link">shiny::shinyApp()</a></code> object. See <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">shiny::runApp()</a></code> for details.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Additional parameters to pass through to <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">shiny::runApp()</a></code>.</p></dd>
+<dd><p>Additional parameters to pass through to <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">shiny::runApp()</a></code>.</p></dd>
 
 
 <dt>gfonts</dt>
@@ -141,7 +141,7 @@ rendered through a <code>context="server"</code> may update in real-time.</p></l
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span>bg <span class="op">=</span> <span class="st">"black"</span>, fg <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h1</a></span><span class="op">(</span><span class="st">"Heading 1"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h2</a></span><span class="op">(</span><span class="st">"Heading 2"</span><span class="op">)</span>,</span></span>
@@ -150,21 +150,21 @@ rendered through a <code>context="server"</code> may update in real-time.</p></l
 <span class="r-in"><span>    <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span>href <span class="op">=</span> <span class="st">"https://www.rstudio.com"</span>, <span class="st">"a link"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"cancel"</span>, <span class="st">"Cancel"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"continue"</span>, <span class="st">"Continue"</span>, class <span class="op">=</span> <span class="st">"btn-primary"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"cancel"</span>, <span class="st">"Cancel"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"continue"</span>, <span class="st">"Continue"</span>, class <span class="op">=</span> <span class="st">"btn-primary"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"First tab"</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"First tab"</span>,</span></span>
 <span class="r-in"><span>      <span class="st">"The contents of the first tab"</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"Second tab"</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"Second tab"</span>,</span></span>
 <span class="r-in"><span>      <span class="st">"The contents of the second tab"</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">run_with_themer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">run_with_themer</span><span class="op">(</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
