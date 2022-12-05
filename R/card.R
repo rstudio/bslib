@@ -59,14 +59,8 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
 
   tag <- div(
-    class = "card",
-    style = css(
-      height = validateCssUnit(height),
-      # Since we want cards to be fill containers (and items), it'll receive
-      # `overflow: auto`, but we want stuff like dropdowns be visible
-      overflow = "visible",
-      min_height = 0
-    ),
+    class = "card bslib-card",
+    style = css(height = validateCssUnit(height)),
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle()
@@ -112,13 +106,15 @@ as_card_items <- function(children, wrapper) {
 
 #' Card items
 #'
-#' Components designed to be provided as direct children of a [card()]. To learn
-#' about [card()]s, see [this
+#' Components designed to be provided as direct children of a [card()]. For a
+#' general overview of the [card()] API, see [this
 #' article](https://rstudio.github.io/bslib/articles/cards.html).
 #'
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags]. Named arguments become HTML attributes on returned
 #'   UI element.
+#' @param fill whether to allow the `card_body()` to grow and shrink to fit its
+#'   `card()`.
 #' @inheritParams card
 #'
 #' @return An [htmltools::div()] tag.
@@ -128,16 +124,20 @@ as_card_items <- function(children, wrapper) {
 #' @seealso [navs_tab_card()] for cards with multiple tabs.
 #' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
 #'   columns inside a card).
-card_body <- function(..., height = NULL, class = NULL) {
+#'
+#' @describeIn card_body A general container for the "main content" of a [card()].
+card_body <- function(..., fill = FALSE, height = NULL, class = NULL) {
   card_body_(
-    fill = FALSE,
+    fill_item = fill,
     height = height,
     class = class,
     ...
   )
 }
 
-#' @rdname card_body
+#' @describeIn card_body Similar to `card_body(fill = TRUE)`, but also marks the
+#'   return element as a "fill container" (via [htmltools::bindFillRole()]) so
+#'   that its immediate children are allowed to grow and shrink to fit.
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`.
 #' @param max_height,max_height_full_screen,min_height Any valid [CSS length unit][htmltools::validateCssUnit()].
@@ -148,7 +148,8 @@ card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_s
   register_runtime_package_check("`card_body_fill()`", "htmlwidgets", "1.5.4.9001")
 
   card_body_(
-    fill = TRUE,
+    fill_item = TRUE,
+    fill_container = TRUE,
     class = class,
     style = htmltools::css(
       gap = validateCssUnit(gap),
@@ -162,33 +163,37 @@ card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_s
   )
 }
 
-#' @rdname card_body
+#' @describeIn card_body Similar to `card_header()` but without the border and background color.
 #' @param container a function to generate an HTML element.
 #' @export
 card_title <- function(..., container = htmltools::h5) {
-  card_body(container(style = css(margin_bottom = 0), ...))
+  as.card_item(
+    container(style = css(margin_bottom = 0), class = "bslib-card-title", ...)
+  )
 }
 
-card_body_ <- function(..., fill = TRUE, height = NULL, class = NULL, container = htmltools::div) {
+card_body_ <- function(..., fill_item = FALSE, fill_container = FALSE, height = NULL, class = NULL, container = htmltools::div) {
 
   tag <- container(
     class = "card-body",
     style = css(
       height = validateCssUnit(height),
-      flex = if (fill) "1 1 auto" else "0 0 auto"
+      # .card-body already adds `flex: 1 1 auto` so make sure to override it
+      flex = if (fill_item) "1 1 auto" else "0 0 auto"
     ),
     ...
   )
 
-  tag <- bindFillRole(tag, container = fill, item = fill)
+  tag <- bindFillRole(tag, item = fill_item, container = fill_container)
 
+  # Make sure user has the opportunity to override the classes added by bindFillRole()
   tag <- tagAppendAttributes(tag, class = class)
 
   as.card_item(tag)
 }
 
 
-#' @rdname card_body
+#' @describeIn card_body A header (with border and background color) for the `card()`. Typically appears before a `card_body()`.
 #' @param container a function that generates an [htmltools tag][htmltools::tags].
 #' @export
 card_header <- function(..., class = NULL, container = htmltools::div) {
@@ -197,7 +202,7 @@ card_header <- function(..., class = NULL, container = htmltools::div) {
   )
 }
 
-#' @rdname card_body
+#' @describeIn card_body A header (with border and background color) for the `card()`. Typically appears after a `card_body()`.
 #' @export
 card_footer <- function(..., class = NULL) {
   as.card_item(
@@ -205,7 +210,7 @@ card_footer <- function(..., class = NULL) {
   )
 }
 
-#' @rdname card_body
+#' @describeIn card_body Include static (i.e., pre-generated) images.
 #' @param file a file path pointing an image. The image will be base64 encoded
 #' and provided to the `src` attribute of the `<img>`. Alternatively, you may
 #' set this value to `NULL` and provide the `src` yourself.
@@ -257,7 +262,9 @@ card_image <- function(
   image
 }
 
-#' @rdname card_body
+#' @describeIn card_body Mark an object as a card item. This will prevent the
+#'   [card()] from putting the object inside a `wrapper` (i.e., a
+#'   `card_body()`).
 #' @param x an object to test (or coerce to) a card item.
 #' @export
 as.card_item <- function(x) {
@@ -287,9 +294,15 @@ full_screen_toggle <- function() {
       src = "components",
       script = "card-full-screen.js"
     ),
-    tags$script(HTML(
+    tags$script("data-bslib-card-needs-init" = NA, HTML(
       "
-        var card = $(document.currentScript).parents('.card').last();
+        var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
+        if (!thisScript) throw new Error('Failed to register card() resize observer');
+
+        thisScript.removeAttribute('data-bslib-card-needs-init');
+
+        var card = $(thisScript).parents('.card').last();
+        if (!card) throw new Error('Failed to register card() resize observer');
 
         // Let Shiny know to trigger resize when the card size changes
         // TODO: shiny could/should do this itself (rstudio/shiny#3682)

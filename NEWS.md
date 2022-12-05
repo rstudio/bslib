@@ -6,11 +6,11 @@
 
 ## New features
 
-* Adds a new `card()` API as well as `value_box()` and `layout_column_wrap()`. To learn more about this new functionality, refer to these new pkgdown articles
+* Adds a new `card()` API as well as `value_box()` and `layout_column_wrap()`. To learn more about this new functionality, refer to these new pkgdown articles:
 
-* https://rstudio.github.io/bslib/articles/cards.html 
-* https://rstudio.github.io/bslib/articles/value-boxes.html 
-* https://rstudio.github.io/bslib/articles/layouts.html 
+  * https://rstudio.github.io/bslib/articles/cards.html 
+  * https://rstudio.github.io/bslib/articles/value-boxes.html 
+  * https://rstudio.github.io/bslib/articles/layouts.html 
 
 # bslib 0.4.1
 

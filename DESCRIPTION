@@ -43,7 +43,7 @@ Suggests:
     bsicons
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 Roxygen: list(markdown = TRUE)
 Collate:
     'accordion.R'
@@ -95,9 +95,9 @@ Config/Needs/website:
     rprojroot,
     stringr,
     tidyr,
-    rstudio/DT,
-    rstudio/leaflet,
-    ropensci/plotly,
+    DT,
+    leaflet,
+    plotly,
     ramnathv/htmlwidgets,
     rstudio/shiny,
     ggplot2,
@@ -108,6 +108,11 @@ Config/Needs/deploy:
     ggplot2,
     hexbin,
     lattice,
+    lubridate,
+    dplyr,
+    modelr,
+    nycflights13,
+    histoslider,
     reactable,
     rprojroot,
     rsconnect,
@@ -117,7 +122,6 @@ Config/Needs/deploy:
     rstudio/shiny,
     ramnathv/htmlwidgets
 Remotes:
-    rstudio/bsicons,
     rstudio/htmltools,
     rstudio/shiny,
     ramnathv/htmlwidgets
