@@ -6,10 +6,11 @@ resource_files:
 
 Cards are a common organizing unit for modern user interfaces (UI). At their core, they're just rectangular containers with borders and padding. However, when utilized properly to group related information, they help users better digest, engage, and navigate through content. This is why most successful dashboard/UI frameworks make cards a core feature of their component library. This article provides an overview of the API that bslib provides to create [Bootstrap cards](https://getbootstrap.com/docs/5.0/components/card/).
 
-One major feature that bslib adds to Bootstrap cards is the ability to expand the card to a [full screen view](#responsive-sizing). Often this feature wants [output that resizes itself to fit its card container](#responsive-sizing). To do this today in the same way presented in this article, you'll need the development version of numerous packages. Grab all them by installing the development version of bslib this way:
+One major feature that bslib adds to Bootstrap cards is the ability to expand the card to a [full screen view](#responsive-sizing). Often this feature wants [output that resizes itself to fit its card container](#responsive-sizing). To do this as advertised, make sure you have the latest version of shiny and htmlwidgets:
 
 ```r
-remotes::install_github("rstudio/bslib")
+install.packages("shiny")
+install.packages("htmlwidgets")
 ```
 
 Since this article is statically hosted (i.e., not powered by Shiny), it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}` (but don't worry, `card()`s [work in Shiny equally as well](#dynamic-rendering-shiny)). Here's some code to create those widgets:
