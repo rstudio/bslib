@@ -60,6 +60,10 @@ accordion <- function(..., id = NULL, selected = NULL, autoclose = FALSE, class 
   attrs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
 
+  if (isNamespaceLoaded("shiny")) {
+    selected <- shiny::restoreInput(id = id, default = selected)
+  }
+
   is_selected <- vapply(children, function(x) {
     isTRUE(tagGetAttribute(x, "data-value") %in% selected) || identical(selected, I("all"))
   }, logical(1))
@@ -80,7 +84,6 @@ accordion <- function(..., id = NULL, selected = NULL, autoclose = FALSE, class 
     class <- c("bslib-accordion-input", class)
   }
 
-  # TODO: support bookmarking (i.e., shiny::restoreInput())
   children <- Map(
     children, is_selected,
     f = function(x, select) {
@@ -148,10 +151,60 @@ accordion_item <- function(title, ..., value = title, icon = NULL) {
 
 #' Update an accordion
 #'
-#' @param id an input id.
-#' @param target The `value` of an existing [accordion_item()]
+#' @param id an character string that matches an existing [accordion()]'s `id`.
+
+
+
 #' @export
-accordion_mutate <- function(id, target, ..., title = NULL, value = NULL, icon = NULL, immediate = FALSE, session = getDefaultReactiveDomain()) {
+#' @rdname accordion_mutate
+#' @param selected a character string used to identify a particular [accordion_item()].
+accordion_select <- function(id, selected, session = get_current_session()) {
+
+
+
+}
+
+#' @export
+#' @rdname accordion_mutate
+#' @param item an [accordion_item()].
+accordion_insert <- function(id, item, target = NULL, position = c("after", "before"), select = FALSE, session = get_current_session()) {
+
+  force(target)
+  force(select)
+  position <- match.arg(position)
+  id <- session$ns(id)
+
+  callback <- function() {
+    session$sendInsertTab(
+      inputId = inputId,
+      liTag = processDeps(item$liTag, session),
+      divTag = processDeps(item$divTag, session),
+      menuName = NULL,
+      target = target,
+      position = position,
+      select = select)
+  }
+  session$onFlush(callback, once = TRUE)
+}
+
+#' @export
+#' @rdname accordion_mutate
+accordion_remove <- function(id, target, session = get_current_session()) {
+  force(target)
+  id <- session$ns(id)
+
+  callback <- function() {
+    msg <- list(target = target, method = "remove")
+    session$sendInputMessage(id, msg)
+  }
+  session$onFlush(callback, once = TRUE)
+}
+
+
+
+#' @param target a character string that matches an existing [accordion_item()]'s `value`.
+#' @export
+accordion_mutate <- function(id, target, ..., title = NULL, value = NULL, icon = NULL, immediate = FALSE, session = get_current_session()) {
 
   body <- rlang::list2(...)
   body <- if (length(body) == 0) NULL else body
@@ -178,11 +231,6 @@ accordion_mutate <- function(id, target, ..., title = NULL, value = NULL, icon =
   if (immediate) callback() else session$onFlushed(callback, once = TRUE)
 }
 
-# TODO: finish off dynamic accordion API (it should probably mirror nav_*())
-# accordion_select <- function() {}
-# accordion_insert <- function() {}
-# accordion_remove <- function() {}
-
 
 accordion_dependency <- function() {
   htmlDependency(
@@ -194,6 +242,22 @@ accordion_dependency <- function() {
   )
 }
 
+
+get_current_session <- function(require_active = TRUE, caller = as.character(sys.call(-1)[[1]])) {
+
+  session <- NULL
+  if (isNamespaceLoaded("shiny")) {
+    session <- shiny::getDefaultReactiveDomain()
+  }
+
+  if (is.null(session) && require_active) {
+    stop(
+      caller, "() must be called within an active Shiny session.", call. = FALSE
+    )
+  }
+
+  session
+}
 
 
 
