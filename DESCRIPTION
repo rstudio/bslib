@@ -20,7 +20,7 @@ Description: Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via
 Depends: R (>= 2.10)
 Imports:
     grDevices,
-    htmltools (>= 0.5.3.9001),
+    htmltools (>= 0.5.4),
     jsonlite,
     sass (>= 0.4.0),
     jquerylib (>= 0.1.3),
@@ -93,8 +93,8 @@ Config/Needs/website:
     DT,
     leaflet,
     plotly,
-    ramnathv/htmlwidgets,
-    rstudio/shiny,
+    htmlwidgets,
+    shiny,
     ggplot2,
     svglite
 Config/Needs/deploy:
@@ -114,9 +114,5 @@ Config/Needs/deploy:
     plotly,
     leaflet,
     gt,
-    rstudio/shiny,
-    ramnathv/htmlwidgets
-Remotes:
-    rstudio/htmltools,
-    rstudio/shiny,
-    ramnathv/htmlwidgets
+    shiny,
+    htmlwidgets
