@@ -46,6 +46,7 @@ Encoding: UTF-8
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Collate:
+    'accordion.R'
     'bootswatch.R'
     'bs-current-theme.R'
     'bs-dependencies.R'
@@ -70,6 +71,7 @@ Collate:
     'precompiled.R'
     'print.R'
     'shiny-devmode.R'
+    'sidebar.R'
     'staticimports.R'
     'utils-shiny.R'
     'utils-tags.R'

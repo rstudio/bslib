@@ -5,6 +5,7 @@
 \alias{page_fluid}
 \alias{page_fixed}
 \alias{page_fill}
+\alias{page_sidebar}
 \alias{page_navbar}
 \title{Create a Bootstrap page}
 \usage{
@@ -15,6 +16,20 @@ page_fluid(..., title = NULL, theme = bs_theme(), lang = NULL)
 page_fixed(..., title = NULL, theme = bs_theme(), lang = NULL)
 
 page_fill(..., padding = 0, title = NULL, theme = bs_theme(), lang = NULL)
+
+page_sidebar(
+  ...,
+  sidebar = list(),
+  sidewidth = 250,
+  title = NULL,
+  collapsible = TRUE,
+  fill = FALSE,
+  bg_colors = c("var(--bs-body-bg)", "var(--bs-gray-200)"),
+  class = NULL,
+  theme = bs_theme(),
+  window_title = NA,
+  lang = NULL
+)
 
 page_navbar(
   ...,
@@ -60,6 +75,21 @@ right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
 
+\item{collapsible}{\code{TRUE} to automatically collapse the navigation
+elements into a menu when the width of the browser is less than 940 pixels
+(useful for viewing on smaller touchscreen device)}
+
+\item{fill}{whether or not the \code{main} content area should be considered a fill (i.e., flexbox) container.}
+
+\item{bg_colors}{A character vector of color codes of length 2. The first color is
+used for the \code{side} content and the second in is used for the \code{main} content.}
+
+\item{class}{Additional CSS classes for the top-level HTML element.}
+
+\item{window_title}{the browser window title. The default value, \code{NA}, means
+to use any character strings that appear in \code{title} (if none are found, the
+host URL of the page is displayed by default).}
+
 \item{id}{a character string used for dynamically updating the container (see \code{\link[=nav_select]{nav_select()}}).}
 
 \item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav]{nav()}} item to selected by default.}
@@ -81,16 +111,8 @@ unless you add padding, e.g.: \code{tags$style(type="text/css", "body
 \item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
 text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
 
-\item{collapsible}{\code{TRUE} to automatically collapse the navigation
-elements into a menu when the width of the browser is less than 940 pixels
-(useful for viewing on smaller touchscreen device)}
-
 \item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
 layout.}
-
-\item{window_title}{the browser window title. The default value, \code{NA}, means
-to use any character strings that appear in \code{title} (if none are found, the
-host URL of the page is displayed by default).}
 }
 \description{
 These functions are small wrappers around shiny's page constructors (i.e., \code{\link[shiny:fluidPage]{shiny::fluidPage()}}, \code{\link[shiny:navbarPage]{shiny::navbarPage()}}, etc) that differ in two ways:

@@ -29,8 +29,7 @@ flights <- flights %>%
 
 PRIMARY <- "#0675DD"
 
-sidebar <- card(
-  card_header("Filter controls"),
+sidebar <- tagList(
   uiOutput("origin_reset"),
   checkboxGroupInput(
     "origin",
@@ -67,13 +66,82 @@ sidebar <- card(
       handleLabelFormat = "0d",
       selectedColor = PRIMARY
     )
+  )
+)
+
+
+sidebar2 <- accordion(
+  selected = c("Origin", "Destination"),
+  accordion_item(
+    "Origin", icon = icon("plane-departure"),
+    uiOutput("origin_reset"),
+    checkboxGroupInput(
+      "origin", NULL,
+      choices = sort(unique(flights$origin)),
+      inline = TRUE
+    )
   ),
-  input_histoslider(
-    "date", "Date",
-    flights$date, breaks = "months",
-    options = list(
-      handleLabelFormat = "%b %e",
-      selectedColor = PRIMARY
+  accordion_item(
+    "Destination", icon = icon("plane-arrival"),
+    #style = "overflow: hidden",
+    selectInput(
+      "dest_name", NULL,
+      sort(unique(flights$dest_name)),
+      width = "100%"
+    )
+  ),
+  accordion_item(
+    "Carrier", icon = icon("user-tie"),
+    #style = "overflow: hidden",
+    selectInput(
+      "carrier_name", NULL,
+      unique(flights$carrier_name),
+      width = "100%"
+    )
+  ),
+  accordion_item(
+    "Flight time", icon = icon("clock"),
+    input_histoslider(
+      "sched_dep_time", "Departure time",
+      flights$sched_dep_time, height = 125,
+      options = list(
+        handleLabelFormat = "0d",
+        selectedColor = PRIMARY
+      )
+    ),
+    input_histoslider(
+      "sched_arr_time", "Arrival time",
+      flights$sched_arr_time, height = 125,
+      options = list(
+        handleLabelFormat = "0d",
+        selectedColor = PRIMARY
+      )
+    ),
+    input_histoslider(
+      "date", "Date",
+      flights$date, height = 125, breaks = "months",
+      options = list(
+        handleLabelFormat = "%b %e",
+        selectedColor = PRIMARY
+      )
+    )
+  ),
+  accordion_item(
+    "Weather", icon = icon("cloud-rain"),
+    input_histoslider(
+      "precip", "Precipitation",
+      flights$precip, height = 125,
+      options = list(selectedColor = PRIMARY)
+    ),
+    input_histoslider(
+      "wind_speed", "Wind speed",
+      flights$wind_speed, height = 125,
+      options = list(selectedColor = PRIMARY)
+    ),
+    input_histoslider(
+      "wind_gust", "Wind gust",
+      flights$wind_gust, height = 125,
+      options = list(selectedColor = PRIMARY)
     )
   )
 )
@@ -124,12 +192,6 @@ main <- layout_column_wrap(
 )
 
 
-flights_ui <- layout_column_wrap(
-  height = "calc(100vh - 90px)",
-  width = NULL, style = "grid-template-columns: 280px 1fr",
-  sidebar, main
-)
-
 
 ui <- page_navbar(
   fluid = TRUE,
@@ -148,7 +210,10 @@ ui <- page_navbar(
     ),
     "Demo"
   ),
-  nav("NYC Flights", flights_ui),
+  nav(
+    "NYC Flights",
+    layout_sidebar(sidebar2, main)
+  ),
   nav_spacer(),
   nav_item(
     tags$a(

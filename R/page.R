@@ -49,6 +49,25 @@ page_fill <- function(..., padding = 0, title = NULL,
 }
 
 #' @rdname page
+#' @inheritParams layout_sidebar
+#' @inheritParams page_fluid
+#' @export
+page_sidebar <- function(..., sidebar = list(), sidewidth = 250, title = NULL,
+                         collapsible = TRUE, fill = FALSE,
+                         bg_colors = c("var(--bs-body-bg)", "var(--bs-gray-200)"),
+                         class = NULL, theme = bs_theme(), window_title = NA, lang = NULL) {
+  page(
+    layout_sidebar(
+      ..., sidebar = sidebar, sidewidth = sidewidth, title = title,
+      collapsible = collapsible, fill = fill, bg_colors = bg_colors, class = class
+    ),
+    title = resolve_window_title(window_title, title),
+    theme = theme,
+    lang = lang,
+  )
+}
+
+#' @rdname page
 #' @inheritParams navs_bar
 #' @inheritParams bs_page
 #' @seealso [shiny::navbarPage()]
@@ -65,15 +84,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         window_title = NA,
                         lang = NULL) {
 
-  # https://github.com/rstudio/shiny/issues/2310
-  if (!is.null(title) && isTRUE(is.na(window_title))) {
-    window_title <- unlist(find_characters(title))
-    if (is.null(window_title)) {
-      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
-    } else {
-      window_title <- paste(window_title, collapse = " ")
-    }
-  }
+  window_title <- resolve_window_title(window_title, title)
 
   page(
     title = window_title,
@@ -86,6 +97,27 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
       collapsible = collapsible, fluid = fluid
     )
   )
+}
+
+
+# https://github.com/rstudio/shiny/issues/2310
+resolve_window_title <- function(window_title, title) {
+  is_missing <- isTRUE(is.na(window_title))
+  if (!is_missing) {
+    return(window_title)
+  }
+
+  if (is.null(title) && is_missing) {
+    return(NULL)
+  }
+
+  window_title <- unlist(find_characters(title))
+  if (is.null(window_title)) {
+    warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
+    window_title
+  } else {
+    paste(window_title, collapse = " ")
+  }
 }
 
 #> unlist(find_characters(div(h1("foo"), h2("bar"))))
