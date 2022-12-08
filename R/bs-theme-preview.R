@@ -298,11 +298,7 @@ as_themer_app <- function(appDir, gfonts = TRUE, gfonts_update = FALSE) {
 #' @rdname run_with_themer
 #' @export
 bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
-  session <- shiny::getDefaultReactiveDomain()
-  if (is.null(session)) {
-    stop(call. = FALSE, "`bslib::bs_themer()` must be called from within a ",
-         "Shiny server function")
-  }
+  session <- get_current_session()
   if (!identical("ok", session$ns("ok"))) {
     stop(call. = FALSE, "`bslib::bs_themer()` must be called from within a ",
          "top-level Shiny server function, not a Shiny module server function")

@@ -8,7 +8,7 @@
 \alias{nav_hide}
 \title{Dynamically update nav containers}
 \usage{
-nav_select(id, selected = NULL, session = getDefaultReactiveDomain())
+nav_select(id, selected = NULL, session = get_current_session())
 
 nav_insert(
   id,
@@ -16,14 +16,14 @@ nav_insert(
   target = NULL,
   position = c("after", "before"),
   select = FALSE,
-  session = getDefaultReactiveDomain()
+  session = get_current_session()
 )
 
-nav_remove(id, target, session = getDefaultReactiveDomain())
+nav_remove(id, target, session = get_current_session())
 
-nav_show(id, target, select = FALSE, session = getDefaultReactiveDomain())
+nav_show(id, target, select = FALSE, session = get_current_session())
 
-nav_hide(id, target, session = getDefaultReactiveDomain())
+nav_hide(id, target, session = get_current_session())
 }
 \arguments{
 \item{id}{a character string used to identify the nav container.}
@@ -43,7 +43,7 @@ nav_hide(id, target, session = getDefaultReactiveDomain())
 \description{
 Functions for dynamically updating nav containers (e.g., select, insert, and
 remove nav items). These functions require an \code{id} on the nav container to be
-specified.
+specified and must be called within an active Shiny session.
 }
 \examples{
 

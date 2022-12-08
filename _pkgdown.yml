@@ -88,6 +88,12 @@ reference:
     - nav
     - navs_tab
     - nav_select
+- title: Accordions
+  description: |
+    Create collapsable sections of content
+  contents:
+    - accordion
+    - accordion_mutate
 - title: Layout multiple UI elements
   description: |
     Useful layout templates

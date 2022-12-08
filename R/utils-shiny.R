@@ -1,6 +1,35 @@
-getDefaultReactiveDomain <- function() {
-  shiny::getDefaultReactiveDomain()
+get_current_session <- function(require_active = TRUE, call = rlang::caller_env()) {
+
+  session <- if (isNamespaceLoaded("shiny")) {
+    shiny::getDefaultReactiveDomain()
+  }
+
+  if (is.null(session) && require_active) {
+    rlang::abort(
+      paste(
+        "This function must be called with a Shiny `server` function",
+        "(i.e., it can only be used inside an active user session)."
+      ),
+      call = call,
+      class = "shiny-no-active-session"
+    )
+  }
+
+  session
 }
+
+
+has_valid_reactive_context <- function(session) {
+  if (is.null(session)) return(FALSE)
+  if (!"getCurrentTheme" %in% names(session)) return(FALSE)
+  hasReactiveContext <- getFromNamespace("hasCurrentContext", "shiny") %||% function() FALSE
+  hasReactiveContext()
+}
+
+get_current_theme <- function() {
+  if (isNamespaceLoaded("shiny")) shiny::getCurrentTheme()
+}
+
 
 # Shiny internal funcs needed for nav() (i.e., tabPanel()) logic
 

@@ -10,7 +10,7 @@ nav_prepend(
   nav,
   menu_title,
   select = FALSE,
-  session = getDefaultReactiveDomain()
+  session = get_current_session()
 )
 
 nav_append(
@@ -18,7 +18,7 @@ nav_append(
   nav,
   menu_title,
   select = FALSE,
-  session = getDefaultReactiveDomain()
+  session = get_current_session()
 )
 }
 \arguments{

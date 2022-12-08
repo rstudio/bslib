@@ -2,7 +2,7 @@
 #'
 #' Functions for dynamically updating nav containers (e.g., select, insert, and
 #' remove nav items). These functions require an `id` on the nav container to be
-#' specified.
+#' specified and must be called within an active Shiny session.
 #'
 #' @param id a character string used to identify the nav container.
 #' @param selected a character string used to identify a particular [nav()] item.
@@ -57,7 +57,7 @@
 #' }
 #'
 nav_select <- function(id, selected = NULL,
-                       session = getDefaultReactiveDomain()) {
+                       session = get_current_session()) {
   shiny::updateTabsetPanel(session, id, selected)
 }
 
@@ -69,7 +69,7 @@ nav_select <- function(id, selected = NULL,
 #' @rdname nav_select
 #' @export
 nav_insert <- function(id, nav, target = NULL, position = c("after", "before"),
-                       select = FALSE, session = getDefaultReactiveDomain()) {
+                       select = FALSE, session = get_current_session()) {
 
   force(target)
   force(select)
@@ -101,7 +101,7 @@ nav_insert <- function(id, nav, target = NULL, position = c("after", "before"),
 
 #' @export
 #' @rdname nav_select
-nav_remove <- function(id, target, session = getDefaultReactiveDomain()) {
+nav_remove <- function(id, target, session = get_current_session()) {
   force(target)
   inputId <- session$ns(id)
 
@@ -117,14 +117,14 @@ nav_remove <- function(id, target, session = getDefaultReactiveDomain()) {
 #' @export
 #' @rdname nav_select
 nav_show <- function(id, target, select = FALSE,
-                     session = getDefaultReactiveDomain()) {
+                     session = get_current_session()) {
   shiny::showTab(id, target, select, session)
 }
 
 #' @export
 #' @rdname nav_select
 nav_hide <- function(id, target,
-                     session = getDefaultReactiveDomain()) {
+                     session = get_current_session()) {
   shiny::hideTab(id, target, session)
 }
 
@@ -140,7 +140,7 @@ nav_hide <- function(id, target,
 #' @param menu_title The title of a [nav_menu()].
 #' @keywords internal
 #' @export
-nav_prepend <- function(id, nav, menu_title, select = FALSE, session = getDefaultReactiveDomain()) {
+nav_prepend <- function(id, nav, menu_title, select = FALSE, session = get_current_session()) {
 
   force(select)
   force(menu_title)
@@ -165,7 +165,7 @@ nav_prepend <- function(id, nav, menu_title, select = FALSE, session = getDefaul
 #' @rdname nav_prepend
 #' @keywords internal
 #' @export
-nav_append <- function(id, nav, menu_title, select = FALSE, session = getDefaultReactiveDomain()) {
+nav_append <- function(id, nav, menu_title, select = FALSE, session = get_current_session()) {
 
   force(select)
   force(menu_title)
