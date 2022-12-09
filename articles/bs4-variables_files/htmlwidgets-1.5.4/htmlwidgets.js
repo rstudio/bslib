@@ -287,31 +287,29 @@
       document.body.style.height = "100%";
       document.documentElement.style.width = "100%";
       document.documentElement.style.height = "100%";
-      cel.style.position = "absolute";
-      var pad = unpackPadding(sizing.padding);
-      cel.style.top = pad.top + "px";
-      cel.style.right = pad.right + "px";
-      cel.style.bottom = pad.bottom + "px";
-      cel.style.left = pad.left + "px";
-      el.style.width = "100%";
-      el.style.height = "100%";
-
-      var rect = cel.getBoundingClientRect();
+      if (cel) {
+        cel.style.position = "absolute";
+        var pad = unpackPadding(sizing.padding);
+        cel.style.top = pad.top + "px";
+        cel.style.right = pad.right + "px";
+        cel.style.bottom = pad.bottom + "px";
+        cel.style.left = pad.left + "px";
+        el.style.width = "100%";
+        el.style.height = "100%";
+      }
 
       return {
-        getWidth: function() { return rect.width; },
-        getHeight: function() { return rect.height; }
+        getWidth: function() { return cel.offsetWidth; },
+        getHeight: function() { return cel.offsetHeight; }
       };
 
     } else {
       el.style.width = px(sizing.width);
       el.style.height = px(sizing.height);
 
-      var rect = cel.getBoundingClientRect();
-
       return {
-        getWidth: function() { return rect.width; },
-        getHeight: function() { return rect.height; }
+        getWidth: function() { return el.offsetWidth; },
+        getHeight: function() { return el.offsetHeight; }
       };
     }
   }
@@ -535,8 +533,8 @@
 
           elementData(el, "initialized", true);
           if (bindingDef.initialize) {
-            var rect = el.getBoundingClientRect();
-            var result = bindingDef.initialize(el, rect.width, rect.height);
+            var result = bindingDef.initialize(el, el.offsetWidth,
+              el.offsetHeight);
             elementData(el, "init_result", result);
           }
         }
@@ -578,30 +576,29 @@
       forEach(matches, function(el) {
         var sizeObj = initSizing(el, binding);
 
-        var getSize = function(el) {
-          if (sizeObj) {
-            return {w: sizeObj.getWidth(), h: sizeObj.getHeight()}
-          } else {
-            var rect = el.getBoundingClientRect();
-            return {w: rect.width, h: rect.height}
-          }
-        };
-
         if (hasClass(el, "html-widget-static-bound"))
           return;
         el.className = el.className + " html-widget-static-bound";
 
         var initResult;
         if (binding.initialize) {
-          var size = getSize(el);
-          initResult = binding.initialize(el, size.w, size.h);
+          initResult = binding.initialize(el,
+            sizeObj ? sizeObj.getWidth() : el.offsetWidth,
+            sizeObj ? sizeObj.getHeight() : el.offsetHeight
+          );
           elementData(el, "init_result", initResult);
         }
 
         if (binding.resize) {
-          var lastSize = getSize(el);
+          var lastSize = {
+            w: sizeObj ? sizeObj.getWidth() : el.offsetWidth,
+            h: sizeObj ? sizeObj.getHeight() : el.offsetHeight
+          };
           var resizeHandler = function(e) {
-            var size = getSize(el);
+            var size = {
+              w: sizeObj ? sizeObj.getWidth() : el.offsetWidth,
+              h: sizeObj ? sizeObj.getHeight() : el.offsetHeight
+            };
             if (size.w === 0 && size.h === 0)
               return;
             if (size.w === lastSize.w && size.h === lastSize.h)
@@ -903,3 +900,4 @@
     return result;
   }
 })();
+
