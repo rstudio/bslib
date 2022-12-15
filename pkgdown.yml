@@ -1,5 +1,5 @@
 pandoc: 2.7.3
-pkgdown: 2.0.6
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   bs4-variables: bs4-variables.html
@@ -11,7 +11,7 @@ articles:
   utility-classes: utility-classes.html
   value-boxes: value-boxes.html
   why-sass: why-sass.html
-last_built: 2022-12-09T16:17Z
+last_built: 2022-12-15T15:57Z
 urls:
   reference: https://rstudio.github.io/bslib/reference
   article: https://rstudio.github.io/bslib/articles
