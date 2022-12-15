@@ -2,7 +2,7 @@
 
 ## Potentially breaking changes
 
-* Upgraded Bootstrap 5 (i.e., `bs_theme(version = 5)`) from 5.1.3 to 5.2.0. (#438)
+* Upgraded Bootstrap 5 (i.e., `bs_theme(version = 5)`) from 5.1.3 to 5.2.2. (#438, #455)
 
 ## New features
 
