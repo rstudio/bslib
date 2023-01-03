@@ -94,7 +94,11 @@ shinyApp(
             actionButton("success", "Success", icon("check"), class = "btn-success m-2"),
             actionButton("info", "Info", icon("info"),  class = "btn-info m-2"),
             actionButton("warning", "warning", icon("exclamation"), class = "btn-warning m-2"),
-            actionButton("danger", "Danger", icon("exclamation-triangle"), class = "btn-danger m-2"),
+            actionButton(
+              "danger", "Danger",
+              icon(if (packageVersion("fontawesome") >= "0.3") "triangle-exclamation" else "exclamation-triangle"),
+              class = "btn-danger m-2"
+            ),
             actionButton("dark", "Dark", icon("moon"), class = "btn-dark m-2"),
             actionButton("light", "Light", icon("sun"), class = "btn-light m-2")
           )
@@ -318,7 +322,7 @@ shinyApp(
     })
 
     output$thematic_needed <- renderUI({
-      if (bslib:::is_available("thematic")) return(NULL)
+      if (bslib:::is_installed("thematic")) return(NULL)
 
       htmltools::HTML(
         "<span class=\"bg-warning\">&nbsp;!! Install the <a href='https://rstudio.github.io/thematic/'><code>thematic</code></a> package to enable auto-theming of static R plots !!&nbsp;</span>"

@@ -7,7 +7,7 @@ output: html_document
 
 ## Add margin
 
-If you look at [the source](https://github.com/rstudio/bslib/tree/master/inst/themer-demo) for the theme demo app, the `actionButton()` logic makes use of the margin spacing (`m-2`) to add some spacing between the buttons (they also make use of [button modifier classes](
+If you look at [the source](https://github.com/rstudio/bslib/tree/main/inst/themer-demo) for the theme demo app, the `actionButton()` logic makes use of the margin spacing (`m-2`) to add some spacing between the buttons (they also make use of [button modifier classes](
 https://getbootstrap.com/docs/5.0/components/buttons) to achieve their different background colors).
 
 ``` {.r}
@@ -80,7 +80,7 @@ Unfortunately, we can't always rely on the `class` argument placing itself on th
 
 ``` {.r}
 fluidPage(
-  theme = bs_theme() %>% 
+  theme = bs_theme() %>%
     bs_add_rules("#my-nav { @extend .justify-content-center }"),
   tabsetPanel(
     type = "pills", id = "my-nav",
@@ -136,4 +136,3 @@ bs_theme("theme-colors" = "('flair': orange)")
 ```{r, echo = FALSE, out.width="67%"}
 knitr::include_graphics("DT-card-custom.png")
 ```
-

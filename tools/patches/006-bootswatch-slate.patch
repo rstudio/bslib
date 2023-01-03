@@ -438,7 +438,7 @@ index 28c6900..3cb702d 100755
 
  // Buttons
 
-@@ -69,56 +93,56 @@ $input-btn-padding-x:         1rem !default;
+@@ -69,56 +93,53 @@ $input-btn-padding-x:         1rem !default;
 
  // Forms
 
@@ -475,9 +475,6 @@ index 28c6900..3cb702d 100755
 -$navbar-dark-hover-color:           $white !default;
 -$navbar-light-hover-color:          $gray-800 !default;
 -$navbar-light-active-color:         $gray-800 !default;
-+$navbar-dark-hover-color:           $contrast-bg !default;
-+$navbar-light-hover-color:          $primary !default;
-+$navbar-light-active-color:         $primary !default;
 
 
  // Pagination

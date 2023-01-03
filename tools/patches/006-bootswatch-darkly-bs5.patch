@@ -37,9 +37,9 @@ index 99bb4ec..1ed10c0 100644
 @@ -56,18 +56,18 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
  
  .alert {
-   border: none;
 -  color: $white;
 +  color: $body-color;
+   border: none;
  
    a,
    .alert-link {

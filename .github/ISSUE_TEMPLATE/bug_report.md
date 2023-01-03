@@ -1,10 +1,10 @@
 ---
 name  : Bug report
-about : Report a bug in thematic.
+about : Report a bug in bslib.
 ---
 
 <!--
-Before you file an issue, please upgrade to the latest version of thematic and confirm that the problem persists.
+Before you file an issue, please upgrade to the latest version of bslib and confirm that the problem persists.
 
 remotes::install_github("rstudio/bslib")
 -->

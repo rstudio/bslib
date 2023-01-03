@@ -51,12 +51,12 @@
 #'  noticeable with remote web fonts on a slow internet connection.
 #'
 #'  ```
-#'  bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif")
+#'  bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
 #'  ````
 #'
 #' @param version The major version of Bootstrap to use (see [versions()]
 #'   for possible values). Defaults to the currently recommended version
-#'   for new projects (currently Bootstrap 4).
+#'   for new projects (currently Bootstrap 5).
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
@@ -251,7 +251,8 @@ bootstrap_bundle <- function(version) {
       sass_layer(
         functions = bs5_sass_files("functions"),
         defaults = bs5_sass_files("variables"),
-        mixins = bs5_sass_files("mixins")
+        mixins = list(bs5_sass_files("maps"), bs5_sass_files("mixins")),
+        rules = list(bs5_sass_files("mixins/banner"), "@include bsBanner('')")
       ),
       # Returns a _named_ list of bundles (i.e., these should be easily removed)
       !!!rule_bundles(
@@ -268,7 +269,12 @@ bootstrap_bundle <- function(version) {
       ),
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
-      bs3compat = bs3compat_bundle()
+      bs3compat = bs3compat_bundle(),
+      !!!rule_bundles(c(
+        system_file("components", "card.scss", package = "bslib"),
+        system_file("components", "value_box.scss", package = "bslib"),
+        system_file("components", "layout_column_wrap.scss", package = "bslib")
+      ))
     ),
     four = sass_bundle(
       sass_layer(

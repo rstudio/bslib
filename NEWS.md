@@ -1,16 +1,45 @@
-# bslib 0.3.1.9000
+# bslib 0.4.2.9000
+
+# bslib 0.4.2
+
+## Potentially breaking changes
+
+* Upgraded Bootstrap 5 (i.e., `bs_theme(version = 5)`) from 5.1.3 to 5.2.2. (#438, #455)
+
+## New features
+
+* Adds a new `card()` API as well as `value_box()` and `layout_column_wrap()`. To learn more about this new functionality, refer to these new pkgdown articles:
+
+  * https://rstudio.github.io/bslib/articles/cards.html 
+  * https://rstudio.github.io/bslib/articles/value-boxes.html 
+  * https://rstudio.github.io/bslib/articles/layouts.html 
+
+# bslib 0.4.1
+
+## Bug Fixes
+
+* Closed #458. This release `{bslib}` now requires `{memoise}` 2.0.1 or above.
+
+# bslib 0.4.0
 
 ## Breaking changes
 
 * `bs_theme()` now defaults to `version = 5` (i.e., Bootstrap 5). If this change happens to break an existing app, consider specifying `bs_theme(version = 4)` to revert the change in the Bootstrap version. (#374)
+* The default coloring on some Bootswatch 4+ theme's `.navbar-default`/`.navbar-inverse` class has changed slightly to better match their Bootswatch 3 coloring. Also, since this coloring is now based solely on [`$navbar-*` variables](https://rstudio.github.io/bslib/articles/bs5-variables.html), Bootswatch themes now work better in combination with custom `$navbar-*` values (e.g., `bs_theme("navbar-bg" = ...)` can be used to provide the background color, and foreground colors will automatically contrast appropriately). (#392)
 
 ## New features
 
 * Upgraded Bootstrap 5 (i.e., `bs_theme(version = 5)`) from 5.1.0 to 5.1.3 (#378)
+* Closed #369: `bs_dependency_defer()` now memoises `func` (by default), reducing the time required to render multiple instances of the same [dynamically themable widget](https://rstudio.github.io/bslib/articles/custom-components.html#dynamically-themeable-component). (#405)
 
 ## Bug fixes
 
+* Closed #393: Bootstrap 5's `$form-check-label-*` variables now work as expected with `shiny::radioButtons()`, `shiny::checkboxInput()`, and `shiny::checkboxGroupInput()`. (#395)
+* Closed #382: Various fixes for using `shiny::checkboxInput()`, `shiny::checkboxGroupInput()`, and `shiny::radioButton()` with `bs_theme(version = 5, bootswatch = "sketchy")`. (#385)
 * Closed #377: make sure `shiny::tabsetPanel(type = "hidden")` (i.e., `bslib::navs_hidden()`) stays hidden when used with `bs_theme()`. (#379)
+* Closed #424: fixed an issue with `nav_menu()` appearing first in a `navs_*()` container with Bootstrap 4+.
+* Closed #431: Bootstrap 5 navbars no longer have an unwanted "Toggle Navigation" label when collapsed. (#432)
+* Closed #400: `nav_menu(align="right")` now works with Bootstrap 5. (#401)
 * Closed #390: using `bs_theme(bootswatch = "paper", version = 5)` or `bs_theme(bootswatch = "readable", version = 5)` no longer errors. (#391)
 
 # bslib 0.3.1

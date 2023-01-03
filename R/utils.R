@@ -1,3 +1,8 @@
+# @staticimports pkg:staticimports
+#  is_installed get_package_version system_file
+#  register_upgrade_message
+#  %||% is_string
+
 switch_version <- function(version, five = default, four = default, three = default, default = NULL) {
   if (is_bs_theme(version)) {
     version <- theme_version(version)
@@ -29,25 +34,6 @@ lib_file <- function(...) {
   )
 }
 
-# copy of shiny:::is_available
-is_available <- function(package, version = NULL) {
-  installed <- nzchar(system.file(package = package))
-  if (is.null(version)) {
-    return(installed)
-  }
-  installed && isTRUE(fastPackageVersion(package) >= version)
-}
-
-# Since I/O can be expensive, only utils::packageVersion() if the package isn't already loaded
-fastPackageVersion <- function(pkg) {
-  ns <- .getNamespace(pkg)
-  if (is.null(ns)) {
-    utils::packageVersion(pkg)
-  } else {
-    as.package_version(ns$.__NAMESPACE__.$spec[["version"]])
-  }
-}
-
 is_shiny_app <- function() {
   # Make sure to not load shiny as a side-effect of calling this function.
   isNamespaceLoaded("shiny") && shiny::isRunning()
@@ -61,13 +47,27 @@ is_shiny_runtime <- function() {
   isTRUE(grepl("^shiny", knitr::opts_knit$get("rmarkdown.runtime")))
 }
 
+register_runtime_package_check <- function(feature, pkg, version) {
+  msg <- sprintf(
+    "%s is designed to work with %s %s or higher",
+    feature, pkg, version
+  )
+
+  if (isNamespaceLoaded(pkg) && !is_installed(pkg, version)) {
+    warning(msg, call. = FALSE)
+  }
+
+  setHook(
+    packageEvent(pkg, "onLoad"),
+    function(...) {
+      if (!is_installed(pkg, version)) warning(msg, call. = FALSE)
+    }
+  )
+}
+
 add_class <- function(x, y) {
   class(x) <- unique(c(y, oldClass(x)))
   x
-}
-
-is_string <- function(x) {
-  is.character(x) && length(x) == 1
 }
 
 dropNulls <- function(x) {
@@ -76,10 +76,6 @@ dropNulls <- function(x) {
 
 names2 <- function(x) {
   names(x) %||% rep.int("", length(x))
-}
-
-"%||%" <- function(x, y) {
-  if (is.null(x)) y else x
 }
 
 #' Rename a named list
@@ -106,25 +102,3 @@ rename2 <- function(x, ...) {
   }
   x
 }
-
-
-# Wrapper around base::system.file. In base::system.file, the package directory
-# lookup is a bit slow. This caches the package directory, so it is much faster.
-system_file <- local({
-  package_dir_cache <- character()
-
-  function(..., package = "base") {
-    if (!is.null(names(list(...)))) {
-      stop("All arguments other than `package` must be unnamed.")
-    }
-
-    if (package %in% names(package_dir_cache)) {
-      package_dir <- package_dir_cache[[package]]
-    } else {
-      package_dir <- system.file(package = package)
-      package_dir_cache[[package]] <<- package_dir
-    }
-
-    file.path(package_dir, ...)
-  }
-})

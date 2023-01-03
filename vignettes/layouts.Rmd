@@ -1,0 +1,248 @@
+---
+title: "UI Layouts"
+---
+
+This article gives an overview of user interface (UI) layout options available in bslib. These options aim to fill a void left by other [layout options available in Shiny](https://shiny.rstudio.com/articles/layout-guide.html), (e.g., `fluidRow()`, `column()`, `sidebarLayout()`, etc). As of right now, these options include:
+
+1. A [modern take on column-based layout](#responsive-column-first-layout), which responsively wraps a 1d sequence of UI elements into a 2d grid.
+
+2. A new, more flexible, consistent, and fully-featured way to create segmented layouts (i.e., a new approach to `tabPanel()`, `tabsetPanel()`, `navlistPanel()`, etc).
+
+  * One obvious new feature is [multiple tabs/pills within a card](cards.html#multiple-tabs) (i.e., `navs_tab_card()`).
+  * Other, less obvious, features this new `nav()` API provides a way to right-align tabs/pills (`nav_spacer()`), embed external links and other UI elements (`nav_item()`), include multiple navbars (`navs_bar()`), and more (see the examples section of `navs_tab()`).
+
+3. Various `page_*()` containers (e.g., `page_fluid()`, `page_navbar()`, etc). 
+  * As of right now, these are just a drop-in replacement for their respective Shiny version (e.g., `page_fluid()` instead of `fluidPage()`) that only changes the default of the `theme` argument to `bs_theme()`.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id nibh tortor id aliquet lectus proin nibh nisl. Adipiscing at in tellus integer feugiat. Arcu bibendum at varius vel pharetra vel turpis nunc eget. Cursus sit amet dictum sit amet justo. Sit amet consectetur adipiscing elit. Vestibulum mattis ullamcorper velit sed ullamcorper. Enim facilisis gravida neque convallis a. Elit duis tristique sollicitudin nibh sit amet. Magna eget est lorem ipsum. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Mauris in aliquam sem fringilla ut morbi. Id semper risus in hendrerit gravida rutrum quisque non tellus. At erat pellentesque adipiscing commodo elit at imperdiet dui. Fames ac turpis egestas maecenas pharetra convallis posuere morbi. Duis convallis convallis tellus id interdum velit laoreet id. Aliquet lectus proin nibh nisl. Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis. Bibendum enim facilisis gravida neque convallis a."
+```
+
+```{css, echo = FALSE}
+.section.level2 {
+  margin-top: 5rem;
+}
+```
+
+```{r ref.label="anim_helpers",echo=FALSE}
+```
+
+## Responsive column-first layout
+
+This section outlines various layouts made possible by `layout_column_wrap()`. To illustrate, we'll use three `card()` instances with varying content, but keep in mind that `layout_column_wrap()` is designed to work other UI elements as well, such as [value boxes](value-boxes.html) or even for [multiple columns within a card](card.html#multiple-columns).
+
+**Note:** The examples in this section are not intended to be viewed on mobile devices. At small window widths, all of the layouts here collapse into a more mobile-friendly approach of "show each card at maximum width".
+
+```{r}
+library(bslib)
+
+card1 <- card(
+  card_header("Scrolling content"),
+  card_body(lorem_ipsum_dolor_sit_amet, fill = TRUE)
+)
+card2 <- card(
+  card_header("Nothing much here"),
+  "This is it."
+)
+card3 <- card(
+  full_screen = TRUE,
+  card_header("Filling content"),
+  card_body_fill(
+    class = "p-0",
+    shiny::plotOutput("p")
+  )
+)
+```
+
+
+### Uniform width and height
+
+When displaying multiple cards (or value boxes, etc) at once, it's often most visually appealing to have them displayed in a grid-like layout where each card has the same height and width. `layout_column_wrap()` optimizes for this design principle, and only demands a `width` for each column (or a number of columns). In the event that there are more cards than columns available, cards are wrapped into a new row (by default, all rows have the same height, but you can easily [vary the row height](#by-row)).
+
+#### Fixed number of columns
+
+For a fixed number of columns, provide `width = 1/n`, where `n` is the number of columns.[^2] As the animation (except on mobile devices) below shows, as the width of the `layout_column_wrap()` container changes, each card grows or shrinks to maintain its 1/2 width.
+
+[^2]: Do not attempt to use percent-based widths with `width`--like `"50%"` instead of `1/2`. Percentages will almost certainly not give you the results you want.
+
+```{r}
+layout_column_wrap(
+  width = 1/2, height = 300, 
+  card1, card2, card3
+) |>
+  anim_width("100%", "67%")
+```
+
+One potential issue with a fixed number of columns is that, on medium sized screens, the card width may become too small. If that happens to be a problem, specifying a "responsive" number of columns may be preferable.
+
+#### Responsive number of columns
+
+For a responsive number of columns (i.e., the number of columns depends on the window size), provide `width` with any valid CSS unit, like 200 pixels. In our case (with three cards), the 3rd card gets wrapped onto a new line when the viewport is less than 600 pixels, but on wider screens, the cards equally distribute the free space. 
+
+```{r}
+layout_column_wrap(
+  width = "200px", height = 300, 
+  card1, card2, card3
+) |>
+  anim_width("100%", "67%")
+```
+
+
+#### Fixed column width
+
+To keep the `width` of each column fixed (don't allow cards to grow to take up free space), set `fixed_width = TRUE`.
+
+```{r}
+layout_column_wrap(
+  width = "200px", height = 300, 
+  fixed_width = TRUE,
+  card1, card2, card3
+) |>
+  anim_width("100%", "67%")
+```
+
+
+### Varying heights
+
+By default, when `layout_column_wrap()` wraps columns onto a new row, _all_ rows are given equal height.
+
+#### By row
+
+To allow the height of each row to be different, set `heights_equal = "row"`:
+
+```{r}
+layout_column_wrap(
+  width = 1/2,
+  heights_equal = "row",
+  card1, card3, card2
+) |>
+  anim_height(300, 450)
+```
+
+#### By column
+
+By default, each the height on each card grows to fill the available vertical space in a particular row. To opt out of that behavior, set `fill = FALSE`.
+
+```{r}
+layout_column_wrap(
+  width = "200px", fill = FALSE,
+  card1, card2, card3
+) |> 
+  anim_height(300, 450)
+```
+
+
+### Varying widths 
+
+Set `width` to `NULL` and provide a custom [`grid-template-columns` property](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns) (and possibly other [CSS grid properties](https://css-tricks.com/snippets/css/complete-guide-grid/)) to accomplish more complex layouts, like varying column widths. This particular layout gives the 1st and 3rd card twice as much space as the 2nd:
+
+```{r}
+layout_column_wrap(
+  width = NULL, height = 300, fill = FALSE,
+  style = css(grid_template_columns = "2fr 1fr 2fr"),
+  card1, card2, card3
+) |>
+  anim_height(300, 450)
+```
+
+### Nested layouts
+
+More complex layouts can be achieved by leveraging the fact that `layout_column_wrap()` can appear within another `layout_column_wrap()`s. For example
+
+```{r}
+layout_column_wrap(
+  width = 1/2, 
+  height = 300,
+  card1,
+  layout_column_wrap(
+    width = 1, 
+    heights_equal = "row",
+    card2, card3
+  )
+)
+```
+
+### Other grid-based layouts
+
+`layout_column_wrap()` provides a simplified interface to [CSS grid](https://css-tricks.com/snippets/css/complete-guide-grid/) that won't accomodate everything it can do. In this case, we recommend using `{gridlayout}` and/or the [Shiny UI editor](https://rstudio.github.io/shinyuieditor/) to produce the layout.
+
+## Appendix
+
+In the spirit of reproducibility, this section discloses custom CSS and R code used in the examples above.
+
+The following CSS is used to give `plotOutput()` a background color; it's necessary here because this documentation page is not actually hooked up to a Shiny app, so we can't show a real plot.
+
+```{css}
+.shiny-plot-output {
+  background-color: #216B7288;
+  height: 400px;
+  width: 100%;
+}
+```
+
+These R functions add animation-related CSS class and styles to whatever tags you give it.
+
+```{r anim_helpers, echo=TRUE, results="hide"}
+library(htmltools)
+
+anim_width <- function(x, width1, width2) {
+  x |> tagAppendAttributes(
+    class = "animate-width",
+    style = css(
+      `--width1` = validateCssUnit(width1),
+      `--width2` = validateCssUnit(width2),
+    ),
+  )
+}
+
+anim_height <- function(x, height1, height2) {
+  # Wrap in a div fixed at the height of height2, so the rest of
+  # the content on the page doesn't shift up and down
+  div(style = css(height = validateCssUnit(height2)),
+    x |> tagAppendAttributes(
+      class = "animate-height",
+      style = css(
+        `--height1` = validateCssUnit(height1),
+        `--height2` = validateCssUnit(height2),
+      ),
+    )
+  )
+}
+```
+
+And here are the CSS animation rules that power those `anim_width` and `anim_height` R functions.
+
+```{css}
+@keyframes changewidth {
+  from { width: var(--width1); }
+  25% { width: var(--width1); }
+  50% { width: var(--width2); }
+  75% { width: var(--width2); }
+  to { width: var(--width1); }
+}
+.animate-width {
+  animation-duration: 6s;
+  animation-name: changewidth;
+  animation-iteration-count: infinite;
+  border-right: 2px solid #DDD;
+  padding-right: 1rem;
+  padding-bottom: 3rem;
+}
+
+@keyframes changeheight {
+  from { height: var(--height1); }
+  25% { height: var(--height1); }
+  50% { height: var(--height2); }
+  75% { height: var(--height2); }
+  to { height: var(--height1); }
+}
+.animate-height {
+  height: 600px;
+  animation-duration: var(--anim-duration, 6s);
+  animation-name: changeheight;
+  animation-iteration-count: infinite;
+  padding-bottom: 3rem;
+}
+```

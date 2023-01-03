@@ -41,15 +41,29 @@ navs_bar(
   fluid = TRUE
 )
 
-navs_tab_card(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+navs_tab_card(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
+  full_screen = FALSE,
+  wrapper = card_body
+)
 
 navs_pill_card(
   ...,
   id = NULL,
   selected = NULL,
+  title = NULL,
   header = NULL,
   footer = NULL,
-  placement = c("above", "below")
+  height = NULL,
+  placement = c("above", "below"),
+  full_screen = FALSE,
+  wrapper = card_body
 )
 }
 \arguments{
@@ -72,7 +86,8 @@ layout.}
 \item{widths}{Column widths of the navigation list and tabset content areas
 respectively.}
 
-\item{title}{The title to display in the navbar}
+\item{title}{A (left-aligned) title to place in the card header/footer. If
+provided, other nav items are automatically right aligned.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at
@@ -90,6 +105,22 @@ text color. If \code{"auto"} (the default), the best contrast to \code{bg} is ch
 \item{collapsible}{\code{TRUE} to automatically collapse the navigation
 elements into a menu when the width of the browser is less than 940 pixels
 (useful for viewing on smaller touchscreen device)}
+
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}).}
+
+\item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
+body. Clicking the icon expands the card to fit viewport size. Consider
+pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
+changes in the size of the card.}
+
+\item{wrapper}{A function (which returns a UI element) to call on unnamed
+arguments in \code{...} which are not already card item(s) (like
+\code{\link[=card_header]{card_header()}}, \code{\link[=card_body]{card_body()}}, etc.). Note that non-card items are grouped
+together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body("c"), "d")}, \code{wrapper} would be called twice, once with \code{"a"} and
+\code{"b"} and once with \code{"d"}). Consider setting \code{wrapper} to \link{card_body_fill}
+if the entire card wants responsive sizing or \code{NULL} to avoid wrapping
+altogether}
 
 \item{placement}{placement of the nav items relative to the content.}
 }

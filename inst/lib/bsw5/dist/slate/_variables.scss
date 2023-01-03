@@ -1,4 +1,4 @@
-// Slate 5.1.3
+// Slate 5.2.2
 // Bootswatch
 
 $theme: "slate" !default;
@@ -33,18 +33,20 @@ $cyan:    #5bc0de !default;
 // Body
 
 @function body-mix($weight) {
-    @return mix($gray-900, $gray-600, $weight);
+  @return mix($gray-900, $gray-600, $weight);
 }
-$body-bg:                   body-mix(100%) !default;
-$body-color:                body-mix(0%) !default;
 
+$body-bg: body-mix(100%) !default;
+$body-color: body-mix(0%) !default;
 $contrast-bg: color-contrast($body-bg) !default;
 $contrast-fg: color-contrast($contrast-bg) !default;
+
 @function lighten($color, $percent) {
-   @return mix($contrast-bg, $color, $percent);
+  @return mix($contrast-bg, $color, $percent);
 }
+
 @function darken($color, $percent) {
-   @return mix($contrast-fg, $color, $percent);
+  @return mix($contrast-fg, $color, $percent);
 }
 
 $primary:       body-mix(66.7%) !default;
@@ -56,8 +58,8 @@ $danger:        $red !default;
 // This is inconsistent with Bootstrap semantics. That is, $dark
 // should actually be a light color in a dark mode setting, :shrug:
 // https://github.com/thomaspark/bootswatch/issues/989
-$light:         lighten($body-color, 50%) !default;
-$dark:          $body-bg !default;
+$light: lighten($body-color, 50%) !default;
+$dark: $body-bg  !default;
 
 $min-contrast-ratio:   1.95 !default;
 
@@ -66,7 +68,7 @@ $enable-gradients: true !default;
 
 // Components
 
-$component-active-color:    $contrast-bg !default;
+$component-active-color: $contrast-bg  !default;
 
 // Links
 
@@ -92,8 +94,8 @@ $input-btn-padding-x:         1rem !default;
 
 // Forms
 
-$input-bg:                              $white !default;
-$input-disabled-bg:          mix($contrast-bg, $contrast-fg, 80%) !default;
+$input-bg:                              $contrast-bg !default;
+$input-disabled-bg:                     mix($contrast-bg, $contrast-fg, 80%) !default;
 
 $input-color:                       $gray-900 !default;
 
@@ -148,7 +150,7 @@ $popover-bg:                        lighten($body-bg, 5%) !default;
 // Toasts
 
 $toast-background-color:            lighten($body-bg, 5%) !default;
-$toast-border-color:                rgba($contrast-bg, .2) !default;
+$toast-border-color:                rgba(0, 0, 0, .2) !default;
 $toast-header-color:                $body-color !default;
 $toast-header-background-color:     $toast-background-color !default;
 $toast-header-border-color:         $toast-border-color !default;
@@ -156,12 +158,12 @@ $toast-header-border-color:         $toast-border-color !default;
 // Modals
 
 $modal-content-bg:                  lighten($body-bg, 5%) !default;
-$modal-header-border-color:         rgba($contrast-bg, .2) !default;
+$modal-header-border-color:         rgba(0, 0, 0, .2) !default;
 
 // Progress bars
 
 $progress-bg:                       darken($gray-900, 5%) !default;
-$progress-bar-color:                body-mix(0%) !default;
+$progress-bar-color:                body-mix(0) !default;
 
 // List group
 

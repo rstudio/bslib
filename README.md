@@ -6,13 +6,9 @@ status](https://www.r-pkg.org/badges/version/bslib)](https://cran.r-project.org/
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R build
-status](https://github.com/rstudio/bslib/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/bslib/actions)
+status](https://github.com/rstudio/bslib/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/bslib/actions)
 
 <!-- badges: end -->
-
-<style type="text/css">
-@media (min-width: 800px){.usage{display:flex}.usage *{flex:1}}
-</style>
 
 # bslib
 
@@ -35,11 +31,17 @@ goals are:
     as seamless as possible.
       - Shiny and R Markdown default to Bootstrap 3 and will continue to
         do so to avoid breaking legacy code.
+  - Provide useful wrappers around modern Bootstrap (and CSS)
+    components, such as
+    [cards](https://rstudio.github.io/bslib/articles/cards.html), [value
+    boxes](https://rstudio.github.io/bslib/articles/value-boxes.html),
+    [layouts](https://rstudio.github.io/bslib/articles/layouts.html),
+    and more.
   - Serve as a general foundation for Shiny and R Markdown extension
     packages.
       - Extensions such as
         [`flexdashboard`](https://flexdashboard-pkg.netlify.app/articles/theme.html),
-        [`pkgdown`](https://pkgdown.r-lib.org/dev/articles/customization.html),
+        [`pkgdown`](https://pkgdown.r-lib.org/dev/articles/customise.html),
         and
         [`bookdown`](https://pkgs.rstudio.com/bookdown/reference/bs4_book.html)
         already fully support [`bslib`’s custom theming
@@ -132,5 +134,5 @@ There are two main places to get help with `bslib`:
 
 Please note that the bslib project is released with a [Contributor Code
 of
-Conduct](https://github.com/rstudio/bslib/blob/master/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/rstudio/bslib/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.

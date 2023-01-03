@@ -1,6 +1,6 @@
 Package: bslib
 Title: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'
-Version: 0.3.1.9000
+Version: 0.4.2.9000
 Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@rstudio.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
@@ -16,15 +16,19 @@ Authors@R: c(
     person(family = "PayPal", role = c("ctb", "cph"),
     comment = "Bootstrap accessibility plugin")
     )
-Description: Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via 'Bootstrap' 'Sass'. Supports both 'Bootstrap' 3 and 4 as well as their various 'Bootswatch' themes. An interactive widget is also provided for previewing themes in real time.
+Description: Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via 'Bootstrap' 'Sass'. Supports 'Bootstrap' 3, 4 and 5 as well as their various 'Bootswatch' themes. An interactive widget is also provided for previewing themes in real time.
 Depends: R (>= 2.10)
 Imports:
     grDevices,
-    htmltools (>= 0.5.2),
+    htmltools (>= 0.5.4),
     jsonlite,
     sass (>= 0.4.0),
     jquerylib (>= 0.1.3),
-    rlang
+    rlang,
+    cachem,
+    memoise (>= 2.0.1),
+    base64enc,
+    mime
 Suggests:
     shiny (>= 1.6.0),
     rmarkdown (>= 2.7),
@@ -34,12 +38,13 @@ Suggests:
     withr,
     rappdirs,
     curl,
-    magrittr
+    magrittr,
+    fontawesome,
+    bsicons
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
-Config/testthat/edition: 3
 Collate:
     'bootswatch.R'
     'bs-current-theme.R'
@@ -51,9 +56,11 @@ Collate:
     'bs-theme-preview.R'
     'bs-theme-update.R'
     'bs-theme.R'
+    'card.R'
     'deprecated.R'
     'files.R'
     'imports.R'
+    'layout.R'
     'nav-items.R'
     'nav-update.R'
     'navs-legacy.R'
@@ -63,14 +70,49 @@ Collate:
     'precompiled.R'
     'print.R'
     'shiny-devmode.R'
+    'staticimports.R'
     'utils-shiny.R'
     'utils-tags.R'
+    'value-box.R'
     'version-default.R'
     'versions.R'
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
+Config/testthat/edition: 3
+Config/Needs/routine:
+    desc,
+    renv
 Config/Needs/website:
+    brio,
+    dplyr,
+    glue,
+    purrr,
+    rprojroot,
+    stringr,
+    tidyr,
+    DT,
+    leaflet,
+    plotly,
+    htmlwidgets,
+    shiny,
+    ggplot2,
+    svglite
+Config/Needs/deploy:
+    BH,
+    DT,
+    ggplot2,
+    hexbin,
+    lattice,
+    lubridate,
+    dplyr,
+    modelr,
+    nycflights13,
+    histoslider,
+    reactable,
+    rprojroot,
     rsconnect,
-    renv,
-    r-lib/pkgdown,
-    apreshill/quillt
+    plotly,
+    leaflet,
+    gt,
+    shiny,
+    htmlwidgets

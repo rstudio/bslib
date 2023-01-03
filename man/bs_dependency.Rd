@@ -15,7 +15,7 @@ bs_dependency(
   .sass_args = list()
 )
 
-bs_dependency_defer(func)
+bs_dependency_defer(func, memoise = TRUE)
 }
 \arguments{
 \item{input}{Sass rules to compile, using \code{theme}.}
@@ -36,9 +36,16 @@ useful to add the version of your package.}
 \item{.sass_args}{A list of additional arguments to pass to
 \code{\link[sass:sass_partial]{sass::sass_partial()}}.}
 
-\item{func}{a \emph{non-anonymous} function, with a \emph{single} argument. This function
-should accept a \code{\link[=bs_theme]{bs_theme()}} object and return a single \code{\link[=htmlDependency]{htmlDependency()}},
-a list of them, or \code{NULL}.}
+\item{func}{a \emph{non-anonymous} function, with a \emph{single} argument.
+This function should accept a \code{\link[=bs_theme]{bs_theme()}} object and return a single
+\code{\link[=htmlDependency]{htmlDependency()}}, a list of them, or \code{NULL}.}
+
+\item{memoise}{whether or not to memoise (i.e., cache) \code{func} results for a
+short period of time. The default, \code{TRUE}, can have large performance
+benefits when many instances of the same themable widget are rendered. Note
+that you may want to avoid memoisation if \code{func} relies on side-effects
+(e.g., files on-disk) that need to change for each themable widget
+instance.}
 }
 \value{
 \code{bs_dependency()} returns an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} and

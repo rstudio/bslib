@@ -197,7 +197,7 @@ navbarPage_ <- function(title,
           # data-bs-* is for BS5+
           `data-bs-toggle` = "collapse",
           `data-bs-target` = paste0("#", navId),
-          span(class="sr-only", "Toggle navigation"),
+          span(class="sr-only visually-hidden", "Toggle navigation"),
           span(class = "icon-bar"),
           span(class = "icon-bar"),
           span(class = "icon-bar")
@@ -475,7 +475,7 @@ buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
     # tabPanelMenu item: build the child tabset
     ulClass <- "dropdown-menu"
     if (identical(divTag$align, "right")) {
-      ulClass <- paste(ulClass, "dropdown-menu-right")
+      ulClass <- paste(ulClass, "dropdown-menu-right dropdown-menu-end")
     }
     tabset <- buildTabset(
       !!!divTag$tabs, ulClass = ulClass,
@@ -584,7 +584,6 @@ buildDropdown <- function(divTag, tabset) {
 
   dropdown <- tags$li(
     class = "dropdown",
-    class = if (active) "active",
     tags$a(
       href = "#",
       class = "dropdown-toggle",
@@ -603,9 +602,10 @@ buildDropdown <- function(divTag, tabset) {
           addClass("nav-item")$
           find(".dropdown-toggle")$
           addClass("nav-link")$
+          addClass(if (active) "active")$
           allTags()
       } else {
-        x
+        tagAppendAttributes(x, class = if (active) "active")
       }
     }
   )

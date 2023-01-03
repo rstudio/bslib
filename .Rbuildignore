@@ -13,6 +13,7 @@ inst/lib/bsw3/.npmignore
 docs
 sandbox
 revdep
+pkgdown
 ^_pkgdown\.yml$
 vignettes
 ^\.github$

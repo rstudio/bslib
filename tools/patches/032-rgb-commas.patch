@@ -1,0 +1,22 @@
+diff --git a/inst/lib/bsw5/dist/sketchy/_bootswatch.scss b/inst/lib/bsw5/dist/sketchy/_bootswatch.scss
+index 2b985c73..182797b4 100644
+--- a/inst/lib/bsw5/dist/sketchy/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/sketchy/_bootswatch.scss
+@@ -194,7 +194,7 @@ select.form-control {
+   }
+ 
+   &:focus::before {
+-    box-shadow: 0 0 0 .25rem rgb(51 51 51 / 25%);
++    box-shadow: 0 0 0 .25rem rgb(51, 51, 51 / 25%);
+   }
+ 
+   &:checked::after {
+@@ -239,7 +239,7 @@ select.form-control {
+   }
+ 
+   &:focus::before {
+-    box-shadow: 0 0 0 .25rem rgb(51 51 51 / 25%);
++    box-shadow: 0 0 0 .25rem rgb(51, 51, 51 / 25%);
+   }
+ 
+   &:checked::before {
