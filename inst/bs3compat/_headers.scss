@@ -4,13 +4,23 @@
 // https://github.com/twbs/bootstrap/blob/4de4874e/scss/_reboot.scss#L82-L89
 
 @if $bootstrap-version >= 5 {
+  // For BS5+, only apply the margin-top if pandoc's CSS classes
+  // are present. This way rmarkdown::html_document_base will continue
+  // to have margin-top (which is good), but 'raw' headers won't, which
+  // leads to a better experience with accordions, popovers, etc
+  // (their design/examples expect headers that don't have margin-top).
+  // It also seems as though Quarto docs don't generate these CSS classes,
+  // but it also seems they've added their own rules https://github.com/quarto-dev/quarto-cli/blob/0e662c/src/resources/formats/html/bootstrap/_bootstrap-rules.scss#L595-L613
   .section.level1, .section.level2, .section.level3 {
     margin-top: 1.5 * $spacer;
   }
   .section.level4, .section.level5, .section.level6 {
     margin-top: $spacer;
   }
+
 } @else {
+
   h1, h2, h3 { margin-top: 1.5 * $spacer;}
   h4, h5, h6 { margin-top: $spacer; }
+
 }
