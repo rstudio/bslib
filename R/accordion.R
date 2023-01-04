@@ -5,13 +5,13 @@
 #' @param id If provided, you can use `input$id` in your server logic to
 #'   determine which of the `accordion_panel()`s are currently active. The value
 #'   will correspond to the `accordion_panel()`'s `value` argument.
-#' @param selected A character vector of `accordion_panel()` `value`s to
-#'   select/show by default. The default value of `NULL` will select the first
-#'   `accordion_panel()`. Use a special value of `I("all")` ( or `I("none")`) to
-#'   select all (or none) of the items. It's only possible to select more than
-#'   one panel when `autoclose=FALSE`.
-#' @param autoclose Upon clicking a new `accordion_panel()`, should the
-#'   previously active one close?
+#' @param selected A character vector of `accordion_panel()` `value`s to select
+#'   (i.e., show) by default. The default value of `NULL` will select the first
+#'   `accordion_panel()`. Use a value of `TRUE` to select all (or `FALSE` to
+#'   select none) of the items. It's only possible to select more than one panel
+#'   when `multiple=TRUE`.
+#' @param multiple Whether multiple `accordion_panel()` can be `selected` at
+#'   once.
 #' @param class Additional CSS classes to include on the accordion div.
 #' @param width,height Any valid CSS unit; for example, height="100%".
 #'
@@ -50,7 +50,7 @@
 #'   shinyApp(ui, server)
 #' }
 #'
-accordion <- function(..., id = NULL, selected = NULL, autoclose = FALSE, class = NULL, width = NULL, height = NULL) {
+accordion <- function(..., id = NULL, selected = NULL, multiple = TRUE, class = NULL, width = NULL, height = NULL) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -63,18 +63,18 @@ accordion <- function(..., id = NULL, selected = NULL, autoclose = FALSE, class 
   }
 
   is_selected <- vapply(children, function(x) {
-    isTRUE(tagGetAttribute(x, "data-value") %in% selected) || identical(selected, I("all"))
+    isTRUE(selected) || isTRUE(tagGetAttribute(x, "data-value") %in% selected)
   }, logical(1))
 
-  if (!any(is_selected) && !identical(selected, I("none"))) {
+  if (!any(is_selected) && !identical(selected, FALSE)) {
     is_selected[1] <- TRUE
   }
 
-  if (autoclose && sum(is_selected) > 1) {
-    abort("Can't select more than one panel when `autoclose = TRUE`")
+  if (!multiple && sum(is_selected) > 1) {
+    abort("Can't select more than one panel when `multiple = FALSE`")
   }
 
-  # Since autoclose=TRUE requires an id, we always include one,
+  # Since multiple=FALSE requires an id, we always include one,
   # but only create a binding when it's provided
   if (is.null(id)) {
     id <- paste0("bslib-accordion-", p_randomInt(1000, 10000))
@@ -86,7 +86,7 @@ accordion <- function(..., id = NULL, selected = NULL, autoclose = FALSE, class 
     children, is_selected,
     f = function(x, select) {
 
-      if (autoclose) {
+      if (!multiple) {
         x <- tagAppendAttributes(
           x, "data-bs-parent" = paste0("#", id),
           .cssSelector = ".accordion-collapse"
@@ -108,7 +108,7 @@ accordion <- function(..., id = NULL, selected = NULL, autoclose = FALSE, class 
   tag <- div(
     id = id,
     class = "accordion",
-    class = if (autoclose) "autoclose", # just for ease of identifying autoclosing client-side
+    class = if (!multiple) "autoclose", # just for ease of identifying autoclosing client-side
     class = class,
     style = css(
       width = validateCssUnit(width),
@@ -141,7 +141,7 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
     "aria-expanded" = "false",
     "aria-controls" = id,
     style = css(gap = "0.5rem"),
-    div(class = "accordion-icon", icon),
+    if (length(icon)) div(class = "accordion-icon", icon),
     div(class = "accordion-title", title)
   )
 
@@ -168,16 +168,16 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
 #'
 #' @param id an character string that matches an existing [accordion()]'s `id`.
 #' @param selected a character string used to identify a particular [accordion_panel()].
-#' @param close whether to close non-`selected` [accordion_panel()]s. Note that `close=FALSE` won't be respected when the [accordion()] has `autoclose=TRUE`.
+#' @param close whether to close non-`selected` [accordion_panel()]s. Note that `close=FALSE` won't be respected when the [accordion()] has `multiple=FALSE`.
 #' @param session a shiny session object (the default should almost always be used).
 #' @export
 accordion_select <- function(id, selected, close = TRUE, session = get_current_session()) {
 
-  # Only the special I("all")/ value is passed as a string
+  # Only a special `TRUE` value is passed as a scalar value
   # (everything else is an array of strings)
-  if (identical(selected, I("all"))) {
-    selected <- "all"
-  } else if (length(selected) == 0 || identical(selected, I("none"))) {
+  if (isTRUE(selected)) {
+    selected <- TRUE
+  } else if (identical(selected, FALSE)) {
     selected <- list()
   } else {
     selected <- as.list(as.character(selected))

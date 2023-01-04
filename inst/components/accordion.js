@@ -42,29 +42,46 @@ $.extend(accordionInputBinding, {
   },
 
   _selectItems: function(el, data) {
-    const items = $(el).find(".accordion-item");
+    const items = Array.from(el.querySelectorAll(".accordion-item"));
+    const itemVals = items.map(x => x.getAttribute("data-value"));
 
-    // An array, unless it contains the special "all" string.
-    let vals = data.value;
-    if (vals === "all") {
-      vals = items.map(function(x) { return $(this).attr("data-value"); }).toArray();
-    }
+    // An array (or 'true' scalar value, which means to select all itemVals)
+    let selectVals = data.value === true ? itemVals : data.value;
 
     // If this accordion is autoclosing, it's only possible to show/select
     // one item at a time anyway, so just select the last item in the list.
     const autoclose = this._isAutoClosing(el);
     if (autoclose) {
-      vals = vals.slice(vals.length - 1, vals.length);
+      selectVals = selectVals.slice(selectVals.length - 1, selectVals.length);
     }
 
-    items.each(function (i) {
-      const val = $(this).attr("data-value");
-      const show = vals.indexOf(val) > -1;
+    const isSelected = items.map(x => {
+      const val = x.getAttribute("data-value");
+      return selectVals.indexOf(val) > -1;
+    });
 
-      if (show) {
-        $(this).find(".accordion-collapse").collapse("show");
-      } else if (!autoclose && data.close) {
-        $(this).find(".accordion-collapse").collapse("hide");
+    const hasSelected = isSelected.some(x => x);
+
+    items.forEach(function(x, i) {
+
+      if (isSelected[i]) {
+
+        const toShow = x.querySelector(".accordion-collapse:not(.show)");
+        if (toShow) $(toShow).collapse("show");
+
+      } else {
+
+        if (!data.close) {
+          return;
+        }
+
+        if (autoclose && hasSelected) {
+          return;
+        }
+
+        const toHide = x.querySelector(".accordion-collapse.show");
+        if (toHide) $(toHide).collapse("hide");
+
       }
     });
   },
