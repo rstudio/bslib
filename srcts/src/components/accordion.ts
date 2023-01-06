@@ -1,12 +1,11 @@
-import { HtmlDep } from "rstudio-shiny/srcts/types/src/shiny/render";
-
-const InputBinding = (window.Shiny ? Shiny.InputBinding : class {}) as typeof Shiny.InputBinding;
+import { InputBinding, registerBinding, HtmlDep } from "./_utils";
 
 type AccordionItem = {
   item: Element,
   value: string,
-  selected: boolean,
-  show?: boolean,
+  isOpen: () => boolean,
+  show: () => void,
+  hide: () => void,
 };
 
 type HTMLContent = {
@@ -14,10 +13,19 @@ type HTMLContent = {
   deps?: HtmlDep[]
 };
 
-type SelectMessage = {
-  method: "select",
-  value: string[] | true,
-  close: boolean,
+type SetMessage = {
+  method: "set",
+  values: string[]
+};
+
+type OpenMessage = {
+  method: "open",
+  values: string[] | true
+};
+
+type CloseMessage = {
+  method: "close",
+  values: string[] | true
 };
 
 type InsertMessage = {
@@ -41,7 +49,7 @@ type UpdateMessage = {
   icon: HTMLContent,
 }
 
-type MessageData = SelectMessage | InsertMessage | RemoveMessage | UpdateMessage;
+type MessageData = SetMessage | OpenMessage | CloseMessage | InsertMessage | RemoveMessage | UpdateMessage;
 
 
 class accordionInputBinding extends InputBinding {
@@ -51,8 +59,8 @@ class accordionInputBinding extends InputBinding {
   }
 
   getValue(el: HTMLElement): string[] | null {
-    const items = this._getItems(el)
-    const selected = items.filter(x => x.selected).map(x => x.value);
+    const items = this._getItemInfo(el)
+    const selected = items.filter(x => x.isOpen()).map(x => x.value);
     return selected.length === 0 ? null : selected;
   }
 
@@ -71,8 +79,12 @@ class accordionInputBinding extends InputBinding {
 
   receiveMessage(el: HTMLElement, data: MessageData) {
     const method = data.method;
-    if (method === "select") {
-      this._selectItems(el, data);
+    if (method === "set") {
+      this._setItems(el, data);
+    } else if (method === "open") {
+      this._openItems(el, data);
+    } else if (method === "close") {
+      this._closeItems(el, data);
     } else if (method === "remove") {
       this._removeItem(el, data);
     } else if (method === "insert") {
@@ -84,47 +96,29 @@ class accordionInputBinding extends InputBinding {
     }
   }
 
-  protected _selectItems(el: HTMLElement, data: SelectMessage) {
-    let items = this._getItems(el);
-
-    let selectVals = data.value !== true ? data.value : items.map(x => x.value);
-
-    // If this accordion is autoclosing, it's only possible to show/select
-    // one item at a time anyway, so just select the last item in the list.
-    const autoclose = this._isAutoClosing(el);
-    if (autoclose) {
-      selectVals = selectVals.slice(selectVals.length - 1, selectVals.length);
-    }
-
-    items = items.map(x => {
-      return {...x, show: selectVals.indexOf(x.value) > -1}
-    });
-
-    const willShow = items.some(x => x.show);
-
+  protected _setItems(el: HTMLElement, data: SetMessage) {
+    const items = this._getItemInfo(el)
+    const vals = this._getValues(el, items, data.values);
     items.forEach(x => {
-      if (x.show) {
-
-        const toShow = x.item.querySelector(".accordion-collapse:not(.show)");
-        if (toShow) $(toShow).collapse("show");
-
-      } else {
-
-        if (!data.close) {
-          return;
-        }
-
-        if (autoclose && willShow) {
-          return;
-        }
-
-        const toHide = x.item.querySelector(".accordion-collapse.show");
-        if (toHide) $(toHide).collapse("hide");
-
-      }
-    });
+      vals.indexOf(x.value) > -1 ? x.show() : x.hide();
+    })
   }
 
+  protected _openItems(el: HTMLElement, data: OpenMessage) {
+    const items = this._getItemInfo(el)
+    const vals = this._getValues(el, items, data.values);
+    items.forEach(x => {
+      if (vals.indexOf(x.value) > -1) x.show();
+    })
+  }
+
+  protected _closeItems(el: HTMLElement, data: CloseMessage) {
+    const items = this._getItemInfo(el)
+    const vals = this._getValues(el, items, data.values);
+    items.forEach(x => {
+      if (vals.indexOf(x.value) > -1) x.hide();
+    })
+  }
 
   protected _insertItem(el: HTMLElement, data: InsertMessage) {
     let targetItem = this._findItem(el, data.target);
@@ -157,7 +151,7 @@ class accordionInputBinding extends InputBinding {
   }
 
   protected _removeItem(el: HTMLElement, data: RemoveMessage) {
-    const targetItems = this._getItems(el).filter(x => data.target.indexOf(x.value) > -1);
+    const targetItems = this._getItemInfo(el).filter(x => data.target.indexOf(x.value) > -1);
 
     targetItems.forEach(x => x.item.remove());
   }
@@ -172,12 +166,13 @@ class accordionInputBinding extends InputBinding {
     if (data.hasOwnProperty("value")) {
       target.dataset.value = data.value;
     }
+
     if (data.hasOwnProperty("body")) {
-      const body = target.querySelector(":scope > .accordion-body") as HTMLElement; // always exists
+      const body = target.querySelector(".accordion-body") as HTMLElement; // always exists
       Shiny.renderContent(body, data.body);
     }
 
-    const header = target.querySelector(":scope > .accordion-header") as HTMLElement; // always exists
+    const header = target.querySelector(".accordion-header") as HTMLElement; // always exists
 
     if (data.hasOwnProperty("title")) {
       const title = header.querySelector(".accordion-title") as HTMLElement; // always exists
@@ -190,22 +185,38 @@ class accordionInputBinding extends InputBinding {
     }
   }
 
-  protected _getItems(el: HTMLElement): AccordionItem[] {
+  protected _getItemInfo(el: HTMLElement): AccordionItem[] {
     const items = Array.from(el.querySelectorAll(":scope > .accordion-item")) as HTMLElement[];
-    return items.length === 0 ? [] : items.map(x => this._getItemInfo(x));
+    return items.map(x => this._getSingleItemInfo(x));
+  }
+
+  protected _getSingleItemInfo(x: HTMLElement): AccordionItem {
+    const collapse = x.querySelector(".accordion-collapse") as HTMLElement;
+    const isOpen = () => $(collapse).hasClass("show")
+    return {
+      item: x,
+      value: x.dataset.value as string,
+      isOpen: isOpen,
+      show: () => {
+        if (!isOpen()) $(collapse).collapse("show")
+      },
+      hide: () => {
+        if (isOpen()) $(collapse).collapse("hide")
+      }
+    };
+  }
+
+  protected _getValues(el: HTMLElement, items: AccordionItem[], values: string[] | true): string[] {
+    let vals = values !== true ? values : items.map(x => x.value);
+    const autoclose = this._isAutoClosing(el);
+    if (autoclose) {
+      vals = vals.slice(vals.length - 1, vals.length);
+    }
+    return vals;
   }
 
   protected _findItem(el: HTMLElement, value: string): HTMLElement | null {
     return el.querySelector(`[data-value="${value}"]`);
-  }
-
-  protected _getItemInfo(x: HTMLElement): AccordionItem {
-    const collapse = x.querySelector(":scope > .accordion-collapse") as HTMLElement;
-    return {
-      item: x,
-      value: x.dataset.value as string,
-      selected: collapse.classList.contains("show"),
-    };
   }
 
   protected _isAutoClosing(el: HTMLElement): boolean {
@@ -213,6 +224,5 @@ class accordionInputBinding extends InputBinding {
   }
 }
 
-if (window.Shiny) {
-  Shiny.inputBindings.register(new accordionInputBinding(), "bslib.accordion");
-}
+
+registerBinding(accordionInputBinding, "accordion");

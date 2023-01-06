@@ -10,6 +10,19 @@ import { build as esbuildBuild } from "esbuild";
 import process from "process";
 import { basename } from "path";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore; Type definitions are not found. This occurs when `strict: true` in tsconfig.json
+import readcontrol from "readcontrol";
+
+type BslibDesc = { version: string; package: string; license: string };
+const bslibDesc = readcontrol.readSync("./DESCRIPTION") as BslibDesc;
+
+const banner = [
+  `/*! ${bslibDesc.package} ${bslibDesc.version}`,
+  `(c) 2012-${new Date().getFullYear()} RStudio, PBC.`,
+  `License: ${bslibDesc.license} */`,
+].join(" | ");
+
 async function build(
   opts: BuildOptions
 ): Promise<BuildIncremental | BuildResult> {
@@ -42,8 +55,9 @@ async function build(
   return esbuildBuild({
     incremental: incremental,
     watch: watch,
-    target: "es5",
+    target: "es6",
     preserveSymlinks: true,
+    banner: {js: banner, css: banner},
     ...opts,
   }).then((x) => {
     onRebuild(null);
