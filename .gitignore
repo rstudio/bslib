@@ -6,6 +6,8 @@ sandbox/
 revdep/
 inst/themer-demo/deploy/rsconnect
 
+node_modules/
+
 # GHA remotes installation
 .github/r-depends.rds
 

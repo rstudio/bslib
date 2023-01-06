@@ -9,7 +9,7 @@ accordion(
   ...,
   id = NULL,
   selected = NULL,
-  autoclose = FALSE,
+  multiple = TRUE,
   class = NULL,
   width = NULL,
   height = NULL
@@ -25,14 +25,14 @@ element. Unnamed arguments should be \code{accordion_panel()}s.}
 determine which of the \code{accordion_panel()}s are currently active. The value
 will correspond to the \code{accordion_panel()}'s \code{value} argument.}
 
-\item{selected}{A character vector of \code{accordion_panel()} \code{value}s to
-select/show by default. The default value of \code{NULL} will select the first
-\code{accordion_panel()}. Use a special value of \code{I("all")} ( or \code{I("none")}) to
-select all (or none) of the items. It's only possible to select more than
-one panel when \code{autoclose=FALSE}.}
+\item{selected}{A character vector of \code{accordion_panel()} \code{value}s to select
+(i.e., show) by default. The default value of \code{NULL} will select the first
+\code{accordion_panel()}. Use a value of \code{TRUE} to select all (or \code{FALSE} to
+select none) of the items. It's only possible to select more than one panel
+when \code{multiple=TRUE}.}
 
-\item{autoclose}{Upon clicking a new \code{accordion_panel()}, should the
-previously active one close?}
+\item{multiple}{Whether multiple \code{accordion_panel()} can be \code{selected} at
+once.}
 
 \item{class}{Additional CSS classes to include on the accordion div.}
 
@@ -56,9 +56,9 @@ items <- lapply(LETTERS, function(x) {
 # First shown by default
 accordion(!!!items)
 # Nothing shown by default
-accordion(!!!items, selected = I("none"))
+accordion(!!!items, selected = FALSE)
 # Everything shown by default
-accordion(!!!items, selected = I("all"))
+accordion(!!!items, selected = TRUE)
 
 # Show particular sections
 accordion(!!!items, selected = "Section B")

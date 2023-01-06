@@ -1,0 +1,4 @@
+.accordion-icon:not(:empty) {
+  margin-right: 0.25rem;
+  display: flex; /* Without flex, the height/alignment is messed up */
+}
