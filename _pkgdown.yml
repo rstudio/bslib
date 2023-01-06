@@ -93,7 +93,7 @@ reference:
     Create collapsable sections of content
   contents:
     - accordion
-    - accordion_select
+    - accordion_panel_set
 - title: Layout multiple UI elements
   description: |
     Useful layout templates

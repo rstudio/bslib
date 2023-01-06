@@ -8,7 +8,7 @@
 accordion(
   ...,
   id = NULL,
-  selected = NULL,
+  open = NULL,
   multiple = TRUE,
   class = NULL,
   width = NULL,
@@ -25,14 +25,13 @@ element. Unnamed arguments should be \code{accordion_panel()}s.}
 determine which of the \code{accordion_panel()}s are currently active. The value
 will correspond to the \code{accordion_panel()}'s \code{value} argument.}
 
-\item{selected}{A character vector of \code{accordion_panel()} \code{value}s to select
-(i.e., show) by default. The default value of \code{NULL} will select the first
-\code{accordion_panel()}. Use a value of \code{TRUE} to select all (or \code{FALSE} to
-select none) of the items. It's only possible to select more than one panel
+\item{open}{A character vector of \code{accordion_panel()} \code{value}s to open
+(i.e., show) by default. The default value of \code{NULL} will open the first
+\code{accordion_panel()}. Use a value of \code{TRUE} to open all (or \code{FALSE} to
+open none) of the items. It's only possible to open more than one panel
 when \code{multiple=TRUE}.}
 
-\item{multiple}{Whether multiple \code{accordion_panel()} can be \code{selected} at
-once.}
+\item{multiple}{Whether multiple \code{accordion_panel()} can be \code{open} at once.}
 
 \item{class}{Additional CSS classes to include on the accordion div.}
 
@@ -56,13 +55,13 @@ items <- lapply(LETTERS, function(x) {
 # First shown by default
 accordion(!!!items)
 # Nothing shown by default
-accordion(!!!items, selected = FALSE)
+accordion(!!!items, open = FALSE)
 # Everything shown by default
-accordion(!!!items, selected = TRUE)
+accordion(!!!items, open = TRUE)
 
 # Show particular sections
-accordion(!!!items, selected = "Section B")
-accordion(!!!items, selected = c("Section A", "Section B"))
+accordion(!!!items, open = "Section B")
+accordion(!!!items, open = c("Section A", "Section B"))
 
 # Provide an id to create a shiny input binding
 if (interactive()) {
@@ -82,4 +81,7 @@ if (interactive()) {
 }
 \references{
 \url{https://getbootstrap.com/docs/5.2/components/accordion/}
+}
+\seealso{
+\code{\link[=accordion_panel_set]{accordion_panel_set()}}
 }
