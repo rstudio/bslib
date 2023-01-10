@@ -14,6 +14,7 @@ if (Sys.which("yarn") == "") {
 }
 
 # Build _our_ JS assets (e.g., accordion component)
+system("yarn install")
 system("yarn build")
 
 # only install the direct deps

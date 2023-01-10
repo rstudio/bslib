@@ -1,5 +1,13 @@
 # bslib 0.4.2.9000
 
+## Potentially breaking changes
+
+* Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
+
+## New features
+
+* Adds a new `accordion()` component API. See `help(accordion)` for details. (#475)
+
 # bslib 0.4.2
 
 ## Potentially breaking changes
