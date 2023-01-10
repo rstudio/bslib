@@ -131,7 +131,7 @@ accordion <- function(..., id = NULL, open = NULL, multiple = TRUE, class = NULL
 #' @export
 accordion_panel <- function(title, ..., value = title, icon = NULL) {
 
-  id <- paste0("bslib-accordion-item-", p_randomInt(1000, 10000))
+  id <- paste0("bslib-accordion-panel-", p_randomInt(1000, 10000))
 
   btn <- tags$button(
     class = "accordion-button collapsed",
@@ -140,7 +140,7 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
     "data-bs-target" = paste0("#", id),
     "aria-expanded" = "false",
     "aria-controls" = id,
-    # Always include an .accordion-icon container to simplify accordion_replace() logic
+    # Always include an .accordion-icon container to simplify accordion_panel_update() logic
     div(class = "accordion-icon", icon),
     div(class = "accordion-title", title)
   )
