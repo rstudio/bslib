@@ -2,3 +2,7 @@
   margin-right: 0.25rem;
   display: flex; /* Without flex, the height/alignment is messed up */
 }
+
+.accordion-header {
+  margin-top: 0;
+}
