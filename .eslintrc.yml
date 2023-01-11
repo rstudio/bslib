@@ -1,3 +1,4 @@
+# This config was copied from rstudio/shiny, but excludes the jest plugins
 root: true
 env:
   browser: true
