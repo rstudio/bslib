@@ -271,6 +271,7 @@ bootstrap_bundle <- function(version) {
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
       !!!rule_bundles(c(
+        system_file("components", "accordion.scss", package = "bslib"),
         system_file("components", "card.scss", package = "bslib"),
         system_file("components", "value_box.scss", package = "bslib"),
         system_file("components", "layout_column_wrap.scss", package = "bslib")

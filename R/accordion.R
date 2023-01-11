@@ -284,7 +284,6 @@ accordion_dependency <- function() {
     version = get_package_version("bslib"),
     package = "bslib",
     src = "components",
-    script = "accordion.min.js",
-    stylesheet = "accordion.css"
+    script = "accordion.min.js"
   )
 }
