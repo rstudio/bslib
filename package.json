@@ -5,15 +5,27 @@
     "yarn": ">= 1.22"
   },
   "devDependencies": {
+    "@types/got": "^9.6.12",
     "@types/node": "^18.11.18",
     "@types/rstudio-shiny": "https://github.com/rstudio/shiny#v1.7.4",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
     "esbuild": "^0.16.14",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-unicorn": "^43.0.2",
+    "prettier": "^2.8.2",
     "readcontrol": "^1.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
   "scripts": {
     "watch": "yarn run build --watch",
-    "build": "ts-node srcts/build/index.ts"
+    "build": "yarn run checks && yarn run build_bslib",
+    "build_bslib": "ts-node srcts/build/index.ts",
+    "checks": "yarn run check_types && yarn run check_lint",
+    "check_lint": "node --eval \"console.log('linting code...')\" && eslint --fix --ext .ts srcts/src",
+    "check_types": "tsc --noEmit -p tsconfig.json"
   }
 }
