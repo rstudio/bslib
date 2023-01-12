@@ -1,5 +1,5 @@
 import type { HtmlDep } from "./_utils";
-import { InputBinding, registerBinding, hasOwnProperty } from "./_utils";
+import { InputBinding, registerBinding, hasDefinedProperty } from "./_utils";
 
 type AccordionItem = {
   item: Element;
@@ -176,23 +176,23 @@ class AccordionInputBinding extends InputBinding {
       );
     }
 
-    if (hasOwnProperty(data, "value")) {
+    if (hasDefinedProperty(data, "value")) {
       target.dataset.value = data.value;
     }
 
-    if (hasOwnProperty(data, "body")) {
+    if (hasDefinedProperty(data, "body")) {
       const body = target.querySelector(".accordion-body") as HTMLElement; // always exists
       Shiny.renderContent(body, data.body);
     }
 
     const header = target.querySelector(".accordion-header") as HTMLElement; // always exists
 
-    if (hasOwnProperty(data, "title")) {
+    if (hasDefinedProperty(data, "title")) {
       const title = header.querySelector(".accordion-title") as HTMLElement; // always exists
       Shiny.renderContent(title, data.title);
     }
 
-    if (hasOwnProperty(data, "icon")) {
+    if (hasDefinedProperty(data, "icon")) {
       const icon = header.querySelector(
         ".accordion-button > .accordion-icon"
       ) as HTMLElement; // always exists

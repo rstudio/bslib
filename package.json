@@ -5,7 +5,6 @@
     "yarn": ">= 1.22"
   },
   "devDependencies": {
-    "@types/got": "^9.6.12",
     "@types/node": "^18.11.18",
     "@types/rstudio-shiny": "https://github.com/rstudio/shiny#v1.7.4",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
