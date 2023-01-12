@@ -18,4 +18,4 @@ build({
   ...opts,
   entryPoints: ["srcts/src/components/accordion.ts"],
   outfile: "inst/components/accordion.min.js",
-})
+});

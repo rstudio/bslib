@@ -5,8 +5,7 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "strict": true,
-    "skipLibCheck": true // 
+    "strict": true
   },
   "include": [
     "srcts/src/**/*.ts"
