@@ -1,0 +1,12 @@
+.accordion {
+  .accordion-header {
+    margin-top: 0;
+  }
+  .accordion-icon:not(:empty) {
+    margin-right: 0.25rem;
+    display: flex; /* Without flex, the height/alignment is messed up */
+  }
+  .accordion-button:not(.collapsed) {
+    box-shadow: $accordion-box-shadow-active;
+  }
+}
