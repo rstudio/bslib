@@ -270,6 +270,9 @@ bootstrap_bundle <- function(version) {
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
+      sass_layer(
+        defaults = sass_file(system_file("components", "_variables.scss", package = "bslib"))
+      ),
       !!!rule_bundles(c(
         system_file("components", "accordion.scss", package = "bslib"),
         system_file("components", "card.scss", package = "bslib"),
