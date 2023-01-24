@@ -213,6 +213,7 @@ card_footer <- function(..., class = NULL) {
 #' @describeIn card_body A [card_body_fill()] with a [layout_sidebar()] inside
 #'   of it. All arguments to this function are passed along to
 #'   [layout_sidebar()].
+#' @inheritParams layout_sidebar
 #' @export
 card_sidebar <- function(sidebar = sidebar(), ..., border = FALSE) {
   card_body_fill(

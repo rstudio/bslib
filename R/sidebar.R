@@ -13,8 +13,8 @@
 #' @export
 #' @seealso [card_sidebar()], [container()], [page_navbar()]
 sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, class = NULL) {
-  
-  # For accessiblity reasons, always provide id (when collapsible), 
+
+  # For accessiblity reasons, always provide id (when collapsible),
   # but only create input binding when id is provided
   if (is.null(id) && collapsible) {
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
@@ -28,7 +28,7 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
       role = "complementary",
       class = c("sidebar", class),
       # TODO: parseCssColors(), once it supports var() and !important
-      style = css(background_color = bg),
+      style = css("--bslib-sidebar-bg" = bg),
       ...
     ),
     collapse_tag = tags$a(
@@ -55,7 +55,8 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
 #' @param border_radius whether or not to add a border radius.
 #'
 #' @export
-layout_sidebar <- function(sidebar = sidebar(), ..., full_bleed = FALSE, fill = FALSE, bg = "var(--bs-body-bg)", border = !full_bleed, border_radius = !full_bleed, class = NULL) {
+layout_sidebar <- function(sidebar = sidebar(), ..., full_bleed = FALSE, fill = FALSE, bg = NULL, border = !full_bleed, border_radius = !full_bleed, class = NULL) {
+
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
@@ -64,7 +65,7 @@ layout_sidebar <- function(sidebar = sidebar(), ..., full_bleed = FALSE, fill = 
     role = "main",
     class = "main",
     # TODO: parseCssColors(), once it supports var() and !important
-    style = css(background_color = bg),
+    style = css("--bslib-sidebar-main-bg" = bg),
     ...
   )
 
@@ -90,7 +91,7 @@ layout_sidebar <- function(sidebar = sidebar(), ..., full_bleed = FALSE, fill = 
   )
 
   if (full_bleed) {
-    res <- tagAppendAttributes(res, style = css(position = "fixed", inset = 0))
+    res <- tagAppendAttributes(res, class = "full-bleed")
     res <- tagAppendChild(res, adjust_full_bleed_inset())
   }
 
@@ -103,6 +104,8 @@ layout_sidebar <- function(sidebar = sidebar(), ..., full_bleed = FALSE, fill = 
 
 
 #' @describeIn sidebar Close a (`collapsible`) [sidebar()].
+#' @param session a shiny session object (the default should almost always be
+#'   used).
 #' @export
 sidebar_open <- function(id, session = get_current_session()) {
   callback <- function() {

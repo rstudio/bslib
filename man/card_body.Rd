@@ -66,6 +66,10 @@ UI element.}
 
 \item{container}{a function to generate an HTML element to contain the image.}
 
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
+
+\item{border}{whether or not to add a border.}
+
 \item{file}{a file path pointing an image. The image will be base64 encoded
 and provided to the \code{src} attribute of the \verb{<img>}. Alternatively, you may
 set this value to \code{NULL} and provide the \code{src} yourself.}

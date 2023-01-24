@@ -21,7 +21,7 @@ layout_sidebar(
   ...,
   full_bleed = FALSE,
   fill = FALSE,
-  bg = "var(--bs-body-bg)",
+  bg = NULL,
   border = !full_bleed,
   border_radius = !full_bleed,
   class = NULL
@@ -57,6 +57,9 @@ fill (i.e., flexbox) container.}
 \item{border}{whether or not to add a border.}
 
 \item{border_radius}{whether or not to add a border radius.}
+
+\item{session}{a shiny session object (the default should almost always be
+used).}
 }
 \description{
 Create various sidebar-based layouts

@@ -1,10 +1,13 @@
 $bslib-sidebar-padding: $spacer * 1.5 !default;
 $bslib-sidebar-icon-size: $spacer * 1.25 !default;
-$bslib-sidebar-border: $border-width $border-style $border-color !default;
+// This is a "mandatory" border; whereas, --bslib-sidebar-border is "optional"
+$bslib-sidebar-separator: $border-width $border-style $border-color !default;
 $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
 
 .bslib-sidebar-layout {
   --bslib-collapse-toggle-transform: 90deg;
+  --bslib-sidebar-bg: #{$card-bg};
+  --bslib-sidebar-main-bg: #{$card-bg};
 
   display: grid;
   grid-template-columns: var(--bslib-sidebar-width) minmax(0, 1fr);
@@ -21,9 +24,10 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
   > .sidebar {
     padding: $bslib-sidebar-padding;
     width: var(--bslib-sidebar-width);
-    border-right: $bslib-sidebar-border;
+    border-right: $bslib-sidebar-separator;
     border-top-left-radius: inherit;
     border-bottom-left-radius: inherit;
+    background-color: var(--bslib-sidebar-bg);
 
     > .accordion {
       margin: - $bslib-sidebar-padding;
@@ -40,6 +44,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     z-index: 1; // Make sure main content is on top of sidebar during transition
     border-top-right-radius: inherit;
     border-bottom-right-radius: inherit;
+    background-color: var(--bslib-sidebar-main-bg);
   }
 
   > .collapse-toggle {
@@ -50,7 +55,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     bottom: $bslib-sidebar-icon-size;
     display: inline-flex;
     align-items: center;
-    border: $bslib-sidebar-border;
+    border: $bslib-sidebar-separator;
     border-left: none;
     border-radius: 0 $border-radius $border-radius 0;
     z-index: $zindex-tooltip;
@@ -86,6 +91,14 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     }
   }
 
+  &.full-bleed {
+    --bslib-sidebar-bg: #{$body-bg};
+    --bslib-sidebar-main-bg: #{$body-bg};
+
+    position: fixed;
+    inset: 0;
+  }
+
 }
 
 // TODO: transition between collapse states on mobile?
@@ -95,9 +108,11 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     --bslib-collapse-toggle-transform: -180deg;
 
     // Override `full_bleed=T`'s position:fixed, so that sidebar can be scrolled sensibly
-    position: relative !important;
-    inset: 0 !important;
-
+    &.full-bleed {
+      position: relative !important;
+      inset: 0 !important;
+    }
+    
     > .sidebar {
       width: 100%;
       border-right: none;
@@ -106,7 +121,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     }
 
     > .main {
-      border-top: $bslib-sidebar-border;
+      border-top: $bslib-sidebar-separator;
       border-top-right-radius: 0;
       border-bottom-left-radius: var(--bslib-sidebar-border-radius);
       border-bottom-right-radius: var(--bslib-sidebar-border-radius);
@@ -117,7 +132,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
       left: $bslib-sidebar-icon-size;
       right: initial;
       border-top: none;
-      border-left: $bslib-sidebar-border;
+      border-left: $bslib-sidebar-separator;
       border-radius: 0 0 $border-radius $border-radius;
     }
 
