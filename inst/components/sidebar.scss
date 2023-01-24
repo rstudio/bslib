@@ -1,0 +1,134 @@
+$bslib-sidebar-padding: $spacer * 1.5 !default;
+$bslib-sidebar-icon-size: $spacer * 1.25 !default;
+$bslib-sidebar-border: $border-width $border-style $border-color !default;
+$bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
+
+.bslib-sidebar-layout {
+  --bslib-collapse-toggle-transform: 90deg;
+
+  display: grid;
+  grid-template-columns: var(--bslib-sidebar-width) minmax(0, 1fr);
+  @include transition($bslib-sidebar-transition);
+  position: relative;
+
+  border: var(--bslib-sidebar-border);
+  border-radius: var(--bslib-sidebar-border-radius);
+
+  > .main, .sidebar {
+    overflow: auto;
+  }
+
+  > .sidebar {
+    padding: $bslib-sidebar-padding;
+    width: var(--bslib-sidebar-width);
+    border-right: $bslib-sidebar-border;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+
+    > .accordion {
+      margin: - $bslib-sidebar-padding;
+      @extend .accordion-flush;
+      .accordion-body {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  > .main {
+    padding: $bslib-sidebar-padding;
+    z-index: 1; // Make sure main content is on top of sidebar during transition
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+
+  > .collapse-toggle {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    position: absolute;
+    right: -$bslib-sidebar-icon-size;
+    bottom: $bslib-sidebar-icon-size;
+    display: inline-flex;
+    align-items: center;
+    border: $bslib-sidebar-border;
+    border-left: none;
+    border-radius: 0 $border-radius $border-radius 0;
+    z-index: $zindex-tooltip;
+    &::after {
+      width: $bslib-sidebar-icon-size;
+      height: $bslib-sidebar-icon-size;
+      content: "";
+      background-image:  #{escape-svg($accordion-button-icon)};
+      background-repeat: no-repeat;
+      background-size: $bslib-sidebar-icon-size;
+      transform: rotate(var(--bslib-collapse-toggle-transform));
+    }
+  }
+
+  &.sidebar-collapsed {
+    grid-template-columns: 0px minmax(0, 1fr);
+    // Putting display: none on .sidebar would change the number of columns
+    // in the grid, and I don't think we can transition between those states
+    > .sidebar {
+      padding: 0;
+      border: none !important;
+      > * {
+        display: none;
+      }
+    }
+
+    > .main {
+      border-radius: var(--bslib-sidebar-border-radius);
+    }
+
+    > .collapse-toggle {
+      --bslib-collapse-toggle-transform: -90deg;
+    }
+  }
+
+}
+
+// TODO: transition between collapse states on mobile?
+@include media-breakpoint-down(sm) {
+  .bslib-sidebar-layout {
+    grid-template-columns: 1fr;
+    --bslib-collapse-toggle-transform: -180deg;
+
+    // Override `full_bleed=T`'s position:fixed, so that sidebar can be scrolled sensibly
+    position: relative !important;
+    inset: 0 !important;
+
+    > .sidebar {
+      width: 100%;
+      border-right: none;
+      border-top-right-radius: var(--bslib-sidebar-border-radius);
+      border-bottom-left-radius: 0;
+    }
+
+    > .main {
+      border-top: $bslib-sidebar-border;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: var(--bslib-sidebar-border-radius);
+      border-bottom-right-radius: var(--bslib-sidebar-border-radius);
+    }
+
+    > .collapse-toggle {
+      bottom: - $bslib-sidebar-icon-size;
+      left: $bslib-sidebar-icon-size;
+      right: initial;
+      border-top: none;
+      border-left: $bslib-sidebar-border;
+      border-radius: 0 0 $border-radius $border-radius;
+    }
+
+    &.sidebar-collapsed {
+      > .collapse-toggle {
+        --bslib-collapse-toggle-transform: 0deg;
+        // Assuming the grid-template-columns from non-mobile .collapsed has precedence
+        grid-column: 2 / 3;
+        top: 0;
+        bottom: initial;
+      }
+    }
+  }
+}

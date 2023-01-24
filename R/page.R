@@ -88,6 +88,33 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   )
 }
 
+#' Contain, pad, and align content
+#'
+#' @param ... A collection of [htmltools::tag()] children.
+#' @param size A size (i.e., max-width policy) for the container.
+#' @param bg A background color.
+#' @param class Additional CSS classes for the container.
+#'
+#' @references <https://getbootstrap.com/docs/5.3/layout/containers/>
+#'
+#' @export
+container <- function(..., size = c("sm", "md", "lg", "xl", "xxl", "fluid"), bg = NULL, class = NULL) {
+
+  size <- match.arg(size)
+
+  res <- div(
+    class = paste0("container-", size),
+    class = class,
+    # TODO: parseCssColors(), once it supports var() and !important
+    style = css(background_color = bg),
+    ...
+  )
+
+  as_fragment(
+    tag_require(res, version = 5, caller = "container()")
+  )
+}
+
 #> unlist(find_characters(div(h1("foo"), h2("bar"))))
 #> [1] "foo" "bar"
 find_characters <- function(x) {

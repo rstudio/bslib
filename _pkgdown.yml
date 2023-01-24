@@ -98,6 +98,7 @@ reference:
   description: |
     Useful layout templates
   contents:
+    - layout_sidebar
     - layout_column_wrap
 - title: Page layouts
   contents:

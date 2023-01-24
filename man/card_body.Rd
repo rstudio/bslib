@@ -6,6 +6,7 @@
 \alias{card_title}
 \alias{card_header}
 \alias{card_footer}
+\alias{card_sidebar}
 \alias{card_image}
 \alias{as.card_item}
 \alias{is.card_item}
@@ -27,6 +28,8 @@ card_title(..., container = htmltools::h5)
 card_header(..., class = NULL, container = htmltools::div)
 
 card_footer(..., class = NULL)
+
+card_sidebar(sidebar = sidebar(), ..., border = FALSE)
 
 card_image(
   file,
@@ -97,6 +100,10 @@ that its immediate children are allowed to grow and shrink to fit.
 \item \code{card_header()}: A header (with border and background color) for the \code{card()}. Typically appears before a \code{card_body()}.
 
 \item \code{card_footer()}: A header (with border and background color) for the \code{card()}. Typically appears after a \code{card_body()}.
+
+\item \code{card_sidebar()}: A \code{\link[=card_body_fill]{card_body_fill()}} with a \code{\link[=layout_sidebar]{layout_sidebar()}} inside
+of it. All arguments to this function are passed along to
+\code{\link[=layout_sidebar]{layout_sidebar()}}.
 
 \item \code{card_image()}: Include static (i.e., pre-generated) images.
 
