@@ -35,7 +35,8 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
       class = "collapse-toggle",
       role = "button",
       "aria-expanded" = "true",
-      "aria-controls" = id
+      "aria-controls" = id,
+      title = "Toggle sidebar"
     ),
     width = validateCssUnit(width)
   )

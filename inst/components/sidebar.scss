@@ -1,5 +1,5 @@
 $bslib-sidebar-padding: $spacer * 1.5 !default;
-$bslib-sidebar-icon-size: $spacer * 1.25 !default;
+$bslib-sidebar-icon-size: $spacer !default;
 // This is a "mandatory" border; whereas, --bslib-sidebar-border is "optional"
 $bslib-sidebar-separator: $border-width $border-style $border-color !default;
 $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
@@ -28,6 +28,8 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     border-top-left-radius: inherit;
     border-bottom-left-radius: inherit;
     background-color: var(--bslib-sidebar-bg);
+    display: flex;
+    flex-direction: column;
 
     > .accordion {
       margin: - $bslib-sidebar-padding;
@@ -36,6 +38,10 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
         display: flex;
         flex-direction: column;
       }
+    }
+
+    .shiny-input-container {
+      width: 100%;
     }
   }
 
@@ -52,13 +58,15 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     grid-column: 1 / 2;
     position: absolute;
     right: -$bslib-sidebar-icon-size;
-    bottom: $bslib-sidebar-icon-size;
+    bottom: $bslib-sidebar-padding;
     display: inline-flex;
     align-items: center;
     border: $bslib-sidebar-separator;
     border-left: none;
     border-radius: 0 $border-radius $border-radius 0;
     z-index: $zindex-tooltip;
+    padding: 4px 0;
+
     &::after {
       width: $bslib-sidebar-icon-size;
       height: $bslib-sidebar-icon-size;
@@ -67,6 +75,11 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
       background-repeat: no-repeat;
       background-size: $bslib-sidebar-icon-size;
       transform: rotate(var(--bslib-collapse-toggle-transform));
+      opacity: 0.65;
+    }
+
+    &:hover:after {
+      opacity: 1;
     }
   }
 
@@ -115,13 +128,13 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     
     > .sidebar {
       width: 100%;
+      border-bottom: $bslib-sidebar-separator;
       border-right: none;
       border-top-right-radius: var(--bslib-sidebar-border-radius);
       border-bottom-left-radius: 0;
     }
 
     > .main {
-      border-top: $bslib-sidebar-separator;
       border-top-right-radius: 0;
       border-bottom-left-radius: var(--bslib-sidebar-border-radius);
       border-bottom-right-radius: var(--bslib-sidebar-border-radius);
@@ -129,11 +142,11 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
 
     > .collapse-toggle {
       bottom: - $bslib-sidebar-icon-size;
-      left: $bslib-sidebar-icon-size;
-      right: initial;
+      right: $bslib-sidebar-padding;
       border-top: none;
       border-left: $bslib-sidebar-separator;
       border-radius: 0 0 $border-radius $border-radius;
+      padding: 0 4px;
     }
 
     &.sidebar-collapsed {
@@ -143,6 +156,12 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
         grid-column: 2 / 3;
         top: 0;
         bottom: initial;
+      }
+    }
+
+    &.sidebar-collapsed.full-bleed {
+      > .main {
+        border-top: $bslib-sidebar-separator;
       }
     }
   }
