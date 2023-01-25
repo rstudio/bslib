@@ -62,6 +62,15 @@ $(document).on("click", ".bslib-sidebar-layout .collapse-toggle", (e) => {
   // Make sure outputs resize properly when the sidebar is opened/closed
   doWindowResizeOnElementResize($main[0]);
 
+  $container.addClass("transitioning");
+
   $container.toggleClass(COLLAPSE_CLASS);
   $side.trigger("toggleCollapse.sidebarInputBinding");
+});
+
+$(document).on("transitionend", ".bslib-sidebar-layout", (e) => {
+  const $el = $(e.target);
+  if ($el.hasClass("collapse-toggle")) {
+    $el.parent().removeClass("transitioning");
+  }
 });

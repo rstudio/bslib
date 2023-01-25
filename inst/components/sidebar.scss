@@ -76,6 +76,9 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
       background-size: $bslib-sidebar-icon-size;
       transform: rotate(var(--bslib-collapse-toggle-transform));
       opacity: 0.65;
+      // N.B. since mobile view won't trigger a transition of grid-template-columns,
+      // we transition this toggle to ensure _some_ transition event always happens
+      transition: transform ease-in-out 0.35s;
     }
 
     &:hover:after {
@@ -85,15 +88,6 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
 
   &.sidebar-collapsed {
     grid-template-columns: 0px minmax(0, 1fr);
-    // Putting display: none on .sidebar would change the number of columns
-    // in the grid, and I don't think we can transition between those states
-    > .sidebar {
-      padding: 0;
-      border: none !important;
-      > * {
-        display: none;
-      }
-    }
 
     > .main {
       border-radius: var(--bslib-sidebar-border-radius);
@@ -101,6 +95,16 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
 
     > .collapse-toggle {
       --bslib-collapse-toggle-transform: -90deg;
+    }
+  }
+
+  // Hide the sidebar contents after it's done transitioning so that 
+  // those contents don't impact the overall layout (i.e., height)
+  &.sidebar-collapsed:not(.transitioning) {
+    // Putting `display:none` on .sidebar would change the number of columns
+    // in the grid, and I don't think we can transition between those states
+    .sidebar > * { 
+      display:none; 
     }
   }
 
