@@ -56,10 +56,11 @@ $(document).on("click", ".bslib-sidebar-layout .collapse-toggle", (e) => {
   e.preventDefault();
 
   const $container = $(e.target).closest(".bslib-sidebar-layout"),
-    $side = $container.find(".sidebar");
+    $main = $container.children(".main"),
+    $side = $container.children(".sidebar");
 
   // Make sure outputs resize properly when the sidebar is opened/closed
-  doWindowResizeOnElementResize($side[0]);
+  doWindowResizeOnElementResize($main[0]);
 
   $container.toggleClass(COLLAPSE_CLASS);
   $side.trigger("toggleCollapse.sidebarInputBinding");
