@@ -276,9 +276,10 @@ bootstrap_bundle <- function(version) {
       !!!rule_bundles(c(
         system_file("components", "accordion.scss", package = "bslib"),
         system_file("components", "card.scss", package = "bslib"),
-        system_file("components", "value_box.scss", package = "bslib"),
+        system_file("components", "fill.scss", package = "bslib"),
         system_file("components", "layout_column_wrap.scss", package = "bslib"),
-        system_file("components", "sidebar.scss", package = "bslib")
+        system_file("components", "sidebar.scss", package = "bslib"),
+        system_file("components", "value_box.scss", package = "bslib")
       ))
     ),
     four = sass_bundle(

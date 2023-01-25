@@ -32,6 +32,8 @@ navs_bar(
   title = NULL,
   id = NULL,
   selected = NULL,
+  sidebar = NULL,
+  fill = FALSE,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
@@ -88,6 +90,11 @@ respectively.}
 
 \item{title}{A (left-aligned) title to place in the card header/footer. If
 provided, other nav items are automatically right aligned.}
+
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
+
+\item{fill}{whether to allow the \code{card_body()} to grow and shrink to fit its
+\code{card()}.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at

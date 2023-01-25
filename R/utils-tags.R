@@ -45,3 +45,8 @@ tag_require_client_side <- function(tag, version = version_default(), caller = "
     )
   )
 }
+
+
+tagify <- function(x) {
+   getFromNamespace("tagify", "htmltools")(x)
+}

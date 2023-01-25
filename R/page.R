@@ -43,8 +43,25 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fill <- function(..., padding = 0, title = NULL,
                       theme = bs_theme(), lang = NULL) {
-  as_page(
-    shiny::fillPage(..., padding = padding, title = title, theme = theme, lang = lang)
+
+  padding_css <- paste(
+    sapply(padding, validateCssUnit, USE.NAMES = FALSE),
+    collapse = " "
+  )
+
+  styles <- tags$style(
+    type = "text/css",
+    "html, body { width: 100%; height: 100%; }",
+     sprintf("body { padding: %s; margin: 0; }", padding_css)
+  )
+
+  page(
+    title = title,
+    theme = theme,
+    lang = lang,
+    tags$head(styles),
+    # TODO: is there a good reason why bootstrapPage() doesn't return a <body> already?
+    bindFillRole(tags$body(...), container = TRUE)
   )
 }
 
@@ -52,11 +69,17 @@ page_fill <- function(..., padding = 0, title = NULL,
 #' @inheritParams navs_bar
 #' @inheritParams bs_page
 #' @seealso [shiny::navbarPage()]
+#' @param sidebar A [sidebar()] component to display on every [nav()] page.
+#' @param fill Whether or not to allow 'fill items' (i.e., UI elements marked with
+#'   `htmltools::bindFillRole(x, item = TRUE)`) to fit the viewport. If `TRUE`,
+#'   all [nav()] pages are filled. A character vector, matching the `value` of
+#'   [nav()]s to be filled, may also be provided.
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
 #' @export
 page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
+                        sidebar = NULL, fill = FALSE,
                         position = c("static-top", "fixed-top", "fixed-bottom"),
                         header = NULL, footer = NULL,
                         bg = NULL, inverse = "auto",
@@ -75,12 +98,19 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     }
   }
 
-  page(
+  if (!is.null(sidebar) && !inherits(sidebar, "sidebar")) {
+    abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
+  }
+
+  page_func <- if (!isFALSE(fill)) page_fill else page
+
+  page_func(
     title = window_title,
     theme = theme,
     lang = lang,
     navs_bar(
       ..., title = title, id = id, selected = selected,
+      sidebar = sidebar, fill = fill,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
       collapsible = collapsible, fluid = fluid

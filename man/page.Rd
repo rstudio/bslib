@@ -21,6 +21,8 @@ page_navbar(
   title = NULL,
   id = NULL,
   selected = NULL,
+  sidebar = NULL,
+  fill = FALSE,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
@@ -63,6 +65,13 @@ be interpreted as top, right, bottom, and left respectively.}
 \item{id}{a character string used for dynamically updating the container (see \code{\link[=nav_select]{nav_select()}}).}
 
 \item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav]{nav()}} item to selected by default.}
+
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav]{nav()}} page.}
+
+\item{fill}{Whether or not to allow 'fill items' (i.e., UI elements marked with
+\code{htmltools::bindFillRole(x, item = TRUE)}) to fit the viewport. If \code{TRUE},
+all \code{\link[=nav]{nav()}} pages are filled. A character vector, matching the \code{value} of
+\code{\link[=nav]{nav()}}s to be filled, may also be provided.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at

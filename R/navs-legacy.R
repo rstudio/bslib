@@ -110,6 +110,7 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
 #' @export
 #' @rdname navs
 navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
+                     sidebar = NULL, fill = FALSE,
                      # TODO: add sticky-top as well?
                      position = c("static-top", "fixed-top", "fixed-bottom"),
                      header = NULL, footer = NULL,
@@ -127,6 +128,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 
   navbar <- navbarPage_(
     title = title, ..., id = id, selected = selected,
+    sidebar = sidebar, fill = fill,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
     inverse = inverse, fluid = fluid
@@ -153,6 +155,8 @@ navbarPage_ <- function(title,
                        ...,
                        id = NULL,
                        selected = NULL,
+                       sidebar = NULL,
+                       fill = FALSE,
                        position = c("static-top", "fixed-top", "fixed-bottom"),
                        header = NULL,
                        footer = NULL,
@@ -237,6 +241,43 @@ navbarPage_ <- function(title,
   contentDiv <- tagAppendChild(contentDiv, tabset$content)
   if (!is.null(footer))
     contentDiv <- tagAppendChild(contentDiv, div(class = "row", footer))
+
+  # Cascade fill roles down to each relevant .tab-pane 
+  # (note for this to work properly, the page-level container must be a fill container
+  #  with height: 100%, or similar)
+  if (!isFALSE(fill)) {
+    contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
+    contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE, .cssSelector = ".tab-content")
+    contentDiv <- tagQuery(contentDiv)$
+      find(".tab-pane")$
+      each(function(x, i) {
+        fill <- isTRUE(fill) || isTRUE(fill == tagGetAttribute(x, "data-value"))
+        tagAppendAttributes(
+          bindFillRole(x, container = fill, item = fill),
+          style = css("--bslib-navbar-margin" = 0)
+        )
+      })$
+      allTags()
+  }
+
+  # Wrap the contents of each .tab-pane with layout_sidebar(sidebar, contents)
+  if (!is.null(sidebar)) {
+    tab_panes <- tagQuery(contentDiv)$find(".tab-pane")
+    fills <- vapply(tab_panes$selectedTags(), function(x) {
+      isTRUE(fill) || isTRUE(fill == tagGetAttribute(x, "data-value"))
+    }, logical(1))
+    content_div <- tab_panes$
+      children("*")$
+      each(function(x, i) { 
+        # each() only allows modification of x, but we can work around that w/ tagAddRenderHook()
+        fill_i <- fills[i]
+        tagAddRenderHook(x, function(y) layout_sidebar(sidebar, y, full_bleed = TRUE, fill = fill_i))
+      })$
+      allTags()
+
+    # Tagify contents now so the return structure can be modified downstream
+    contentDiv <- tagify(content_div)
+  }
 
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
   tagList(
