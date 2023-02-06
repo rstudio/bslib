@@ -1,3 +1,4 @@
+skip_if_not_installed("shiny")
 library(htmltools)
 
 # All page_*() functions are very thin wrappers around
