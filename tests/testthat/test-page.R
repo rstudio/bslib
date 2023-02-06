@@ -1,4 +1,3 @@
-skip_if_not_installed("shiny")
 library(htmltools)
 
 # All page_*() functions are very thin wrappers around
@@ -6,7 +5,7 @@ library(htmltools)
 # which why we only have tests for page_navbar())
 
 test_that("page_navbar()", {
-
+  skip_if_not_installed("shiny")
   expect_snapshot(
     renderTags(
       page_navbar(
