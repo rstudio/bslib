@@ -128,7 +128,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
 #' @references <https://getbootstrap.com/docs/5.3/layout/containers/>
 #'
 #' @export
-container <- function(..., size = c("sm", "md", "lg", "xl", "xxl", "fluid"), bg = NULL, class = NULL) {
+contain_width <- function(..., size = c("sm", "md", "lg", "xl", "xxl", "fluid"), bg = NULL, class = NULL) {
 
   size <- match.arg(size)
 
@@ -141,7 +141,7 @@ container <- function(..., size = c("sm", "md", "lg", "xl", "xxl", "fluid"), bg 
   )
 
   as_fragment(
-    tag_require(res, version = 5, caller = "container()")
+    tag_require(res, version = 5, caller = "contain_width()")
   )
 }
 

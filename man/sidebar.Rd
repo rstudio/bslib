@@ -74,5 +74,5 @@ Create various sidebar-based layouts
 
 }}
 \seealso{
-\code{\link[=card_sidebar]{card_sidebar()}}, \code{\link[=container]{container()}}, \code{\link[=page_navbar]{page_navbar()}}
+\code{\link[=card_sidebar]{card_sidebar()}}, \code{\link[=contain_width]{contain_width()}}, \code{\link[=page_navbar]{page_navbar()}}
 }

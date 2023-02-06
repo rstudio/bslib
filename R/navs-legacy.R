@@ -242,7 +242,7 @@ navbarPage_ <- function(title,
   if (!is.null(footer))
     contentDiv <- tagAppendChild(contentDiv, div(class = "row", footer))
 
-  # Cascade fill roles down to each relevant .tab-pane 
+  # Cascade fill roles down to each relevant .tab-pane
   # (note for this to work properly, the page-level container must be a fill container
   #  with height: 100%, or similar)
   if (!isFALSE(fill)) {
@@ -260,23 +260,13 @@ navbarPage_ <- function(title,
       allTags()
   }
 
-  # Wrap the contents of each .tab-pane with layout_sidebar(sidebar, contents)
   if (!is.null(sidebar)) {
-    tab_panes <- tagQuery(contentDiv)$find(".tab-pane")
-    fills <- vapply(tab_panes$selectedTags(), function(x) {
-      isTRUE(fill) || isTRUE(fill == tagGetAttribute(x, "data-value"))
-    }, logical(1))
-    content_div <- tab_panes$
-      children("*")$
-      each(function(x, i) { 
-        # each() only allows modification of x, but we can work around that w/ tagAddRenderHook()
-        fill_i <- fills[i]
-        tagAddRenderHook(x, function(y) layout_sidebar(sidebar, y, full_bleed = TRUE, fill = fill_i))
-      })$
-      allTags()
-
-    # Tagify contents now so the return structure can be modified downstream
-    contentDiv <- tagify(content_div)
+    contentDiv <- layout_sidebar(
+      sidebar = sidebar, full_bleed = TRUE, fill = !isFALSE(fill),
+      # Since we always do a full-bleed sidebar, the .container/.container-fluid
+      # container isn't needed
+      !!!contentDiv$children
+    )
   }
 
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
