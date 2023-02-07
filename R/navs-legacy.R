@@ -243,7 +243,7 @@ navbarPage_ <- function(title,
     contentDiv <- tagAppendChild(contentDiv, div(class = "row", footer))
 
   # Cascade fill roles down to each relevant .tab-pane
-  # (note for this to work properly, the page-level container must be a fill container
+  # (for this to work properly, the page-level container must be a fill container
   #  with height: 100%, or similar)
   if (!isFALSE(fill)) {
     contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
@@ -251,11 +251,11 @@ navbarPage_ <- function(title,
     contentDiv <- tagQuery(contentDiv)$
       find(".tab-pane")$
       each(function(x, i) {
-        fill <- isTRUE(fill) || isTRUE(fill == tagGetAttribute(x, "data-value"))
-        tagAppendAttributes(
-          bindFillRole(x, container = fill, item = fill),
-          style = css("--bslib-navbar-margin" = 0)
-        )
+        if (isTRUE(fill) || isTRUE(fill == tagGetAttribute(x, "data-value"))) {
+          x <- bindFillRole(x, container = TRUE, item = TRUE)
+          x <- tagAppendAttributes(x, style = css("--bslib-navbar-margin" = 0))
+        }
+        x
       })$
       allTags()
   }

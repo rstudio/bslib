@@ -81,6 +81,12 @@ reference:
     Highlight important findings
   contents:
     - value_box
+- title: Accordions
+  description: |
+    Create collapsable sections of content
+  contents:
+    - accordion
+    - accordion_panel_set
 - title: Navigation
   description: |
     Create (tabbed) sections of content.
@@ -88,12 +94,6 @@ reference:
     - nav
     - navs_tab
     - nav_select
-- title: Accordions
-  description: |
-    Create collapsable sections of content
-  contents:
-    - accordion
-    - accordion_panel_set
 - title: Layout multiple UI elements
   description: |
     Useful layout templates
@@ -103,6 +103,7 @@ reference:
 - title: Page layouts
   contents:
     - page
+    - contain_width
 - title: Dynamic theming
   description: |
     Create dynamically themable HTML widgets.
@@ -122,12 +123,6 @@ reference:
     Reduce the final CSS bundle size.
   contents:
     - bs_remove
-- title: Bootstrap SASS compilation
-  description: |
-    Compile themes into HTML dependencies and CSS strings.
-  contents:
-    - bs_theme_dependencies
-    - bs_dependency
 - title: Other utility functions
   contents:
     - bs_get_variables
