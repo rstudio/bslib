@@ -5,7 +5,7 @@ library(htmltools)
 # which why we only have tests for page_navbar())
 
 test_that("page_navbar()", {
-
+  skip_if_not_installed("shiny")
   expect_snapshot(
     renderTags(
       page_navbar(
