@@ -98,13 +98,13 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     }
   }
 
-  // Hide the sidebar contents after it's done transitioning so that 
+  // Hide the sidebar contents after it's done transitioning so that
   // those contents don't impact the overall layout (i.e., height)
   &.sidebar-collapsed:not(.transitioning) {
     // Putting `display:none` on .sidebar would change the number of columns
     // in the grid, and I don't think we can transition between those states
-    .sidebar > * { 
-      display:none; 
+    .sidebar > * {
+      display:none;
     }
   }
 
@@ -113,7 +113,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     --bslib-sidebar-main-bg: #{$body-bg};
 
     position: fixed;
-    inset: 0;
+    inset: var(--bslib-sidebar-full-bleed-inset, 0);
   }
 
 }
@@ -127,9 +127,9 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     // Override `full_bleed=T`'s position:fixed, so that sidebar can be scrolled sensibly
     &.full-bleed {
       position: relative !important;
-      inset: 0 !important;
+      inset: var(--bslib-sidebar-full-bleed-inset, 0) !important;
     }
-    
+
     > .sidebar {
       width: 100%;
       border-bottom: $bslib-sidebar-separator;

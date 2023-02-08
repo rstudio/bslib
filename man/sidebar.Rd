@@ -3,6 +3,7 @@
 \name{sidebar}
 \alias{sidebar}
 \alias{layout_sidebar}
+\alias{layout_sidebar_full_bleed}
 \alias{sidebar_open}
 \alias{sidebar_close}
 \title{Create various sidebar-based layouts}
@@ -19,11 +20,21 @@ sidebar(
 layout_sidebar(
   sidebar = sidebar(),
   ...,
-  full_bleed = FALSE,
   fill = FALSE,
   bg = NULL,
-  border = !full_bleed,
-  border_radius = !full_bleed,
+  border = TRUE,
+  border_radius = TRUE,
+  height = NULL,
+  width = NULL,
+  class = NULL
+)
+
+layout_sidebar_full_bleed(
+  sidebar = sidebar(),
+  ...,
+  fill = FALSE,
+  bg = NULL,
+  inset = NULL,
   class = NULL
 )
 
@@ -32,8 +43,7 @@ sidebar_open(id, session = get_current_session())
 sidebar_close(id, session = get_current_session())
 }
 \arguments{
-\item{...}{A collection of \code{\link[htmltools:builder]{htmltools::tag()}} children to place in the main
-content area.}
+\item{...}{A collection of \code{\link[htmltools:builder]{htmltools::tag()}} children (i.e., UI elements).}
 
 \item{width}{A valid \link[htmltools:validateCssUnit]{CSS unit} used for the
 width of the sidebar.}
@@ -49,14 +59,16 @@ update) the \code{collapsible} state in a Shiny app.}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
-\item{full_bleed}{whether or not to clip the layout container the entire viewport.}
-
-\item{fill}{whether or not the \code{main} content area should be considered a
+\item{fill}{Whether or not the \code{main} content area should be considered a
 fill (i.e., flexbox) container.}
 
-\item{border}{whether or not to add a border.}
+\item{border}{Whether or not to add a border.}
 
-\item{border_radius}{whether or not to add a border radius.}
+\item{border_radius}{Whether or not to add a border radius.}
+
+\item{inset}{A valid \href{https://developer.mozilla.org/en-US/docs/Web/CSS/inset}{CSS inset} definition.
+If not provided, a sensible default to avoid overlap with \code{\link[=page_navbar]{page_navbar()}}
+is provided.}
 
 \item{session}{a shiny session object (the default should almost always be
 used).}
@@ -66,7 +78,9 @@ Create various sidebar-based layouts
 }
 \section{Functions}{
 \itemize{
-\item \code{layout_sidebar()}: A 'low-level' sidebar layout
+\item \code{layout_sidebar()}: A 'localized' sidebar layout
+
+\item \code{layout_sidebar_full_bleed()}: A 'full-bleed' sidebar layout
 
 \item \code{sidebar_open()}: Close a (\code{collapsible}) \code{\link[=sidebar]{sidebar()}}.
 

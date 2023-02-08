@@ -68,7 +68,7 @@ UI element.}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
-\item{border}{whether or not to add a border.}
+\item{border}{Whether or not to add a border.}
 
 \item{file}{a file path pointing an image. The image will be base64 encoded
 and provided to the \code{src} attribute of the \verb{<img>}. Alternatively, you may

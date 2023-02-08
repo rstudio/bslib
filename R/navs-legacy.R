@@ -261,8 +261,8 @@ navbarPage_ <- function(title,
   }
 
   if (!is.null(sidebar)) {
-    contentDiv <- layout_sidebar(
-      sidebar = sidebar, full_bleed = TRUE, fill = !isFALSE(fill),
+    contentDiv <- layout_sidebar_full_bleed(
+      sidebar = sidebar, fill = !isFALSE(fill),
       # Since we always do a full-bleed sidebar, the .container/.container-fluid
       # container isn't needed
       !!!contentDiv$children
