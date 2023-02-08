@@ -22,6 +22,16 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
     class <- c("bslib-sidebar-input", class)
   }
 
+  collapse_tag <- if (collapsible) {
+    tags$a(
+      class = "collapse-toggle",
+      role = "button",
+      "aria-expanded" = "true",
+      "aria-controls" = id,
+      title = "Toggle sidebar"
+    )
+  }
+
   res <- list2(
     tag = tags$form(
       id = id,
@@ -31,13 +41,7 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
       style = css("--bslib-sidebar-bg" = bg),
       ...
     ),
-    collapse_tag = tags$a(
-      class = "collapse-toggle",
-      role = "button",
-      "aria-expanded" = "true",
-      "aria-controls" = id,
-      title = "Toggle sidebar"
-    ),
+    collapse_tag = collapse_tag,
     width = validateCssUnit(width)
   )
 
