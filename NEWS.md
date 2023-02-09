@@ -2,11 +2,17 @@
 
 ## Potentially breaking changes
 
+* `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`). If this breaks your layout, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`. (#479)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
 
 ## New features
 
-* Adds a new `accordion()` component API. See `help(accordion)` for details. (#475)
+* Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn more. (#479)
+* Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars.html#accordions). (#475)
+* `page_navbar()`, `navs_tab_card()`, and ` navs_pill_card()` gain a `sidebar` argument for putting a `sidebar()` on every page/tab/pill. (#479)
+* `page_navbar()`, `navs_tab_card()`, and ` navs_pill_card()` gain a `fill` argument to make the content of particular page(s) fit the window/card. (#479)
+* `page_fill()` gains support for fill items and containers, which means components like `card()`, `layout_column_wrap()`, and `layout_sidebar()` now grow/shrink to fit the window's height when they appear as a direct child of `page_fill()`. To create custom fill items/containers, see `?htmltools::bindFillRole`. (#479)
+
 
 # bslib 0.4.2
 
