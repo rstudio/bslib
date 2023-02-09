@@ -56,9 +56,10 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
 #'   fill (i.e., flexbox) container.
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
+#' @inheritParams card
 #'
 #' @export
-layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL, width = NULL, class = NULL) {
+layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL, class = NULL) {
 
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
@@ -86,8 +87,7 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
       "--bslib-sidebar-width" = sidebar$width,
       "--bslib-sidebar-border" = border_css,
       "--bslib-sidebar-border-radius" = border_radius_css,
-      height = validateCssUnit(height),
-      width = validateCssUnit(width)
+      height = validateCssUnit(height)
     ),
     sidebar$tag,
     sidebar$collapse_tag,

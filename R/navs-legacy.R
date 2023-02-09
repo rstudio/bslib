@@ -234,6 +234,15 @@ navbarPage_ <- function(title,
       allTags()
   }
 
+
+  tabset$content <- fill_tab_content(tabset$content, fill, navbar_margin = TRUE)
+
+  if (!is.null(sidebar)) {
+    tabset$content <- layout_sidebar_full_bleed(
+      sidebar, tabset$content, fill = !isFALSE(fill)
+    )
+  }
+
   # build the main tab content div
   contentDiv <- div(class = containerClass)
   if (!is.null(header))
@@ -242,31 +251,8 @@ navbarPage_ <- function(title,
   if (!is.null(footer))
     contentDiv <- tagAppendChild(contentDiv, div(class = "row", footer))
 
-  # Cascade fill roles down to each relevant .tab-pane
-  # (for this to work properly, the page-level container must be a fill container
-  #  with height: 100%, or similar)
   if (!isFALSE(fill)) {
     contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
-    contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE, .cssSelector = ".tab-content")
-    contentDiv <- tagQuery(contentDiv)$
-      find(".tab-pane")$
-      each(function(x, i) {
-        if (isTRUE(fill) || isTRUE(fill == tagGetAttribute(x, "data-value"))) {
-          x <- bindFillRole(x, container = TRUE, item = TRUE)
-          x <- tagAppendAttributes(x, style = css("--bslib-navbar-margin" = 0))
-        }
-        x
-      })$
-      allTags()
-  }
-
-  if (!is.null(sidebar)) {
-    contentDiv <- layout_sidebar_full_bleed(
-      sidebar = sidebar, fill = !isFALSE(fill),
-      # Since we always do a full-bleed sidebar, the .container/.container-fluid
-      # container isn't needed
-      !!!contentDiv$children
-    )
   }
 
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part

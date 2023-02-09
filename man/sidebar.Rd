@@ -25,7 +25,6 @@ layout_sidebar(
   border = TRUE,
   border_radius = TRUE,
   height = NULL,
-  width = NULL,
   class = NULL
 )
 
@@ -65,6 +64,9 @@ fill (i.e., flexbox) container.}
 \item{border}{Whether or not to add a border.}
 
 \item{border_radius}{Whether or not to add a border radius.}
+
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}).}
 
 \item{inset}{A valid \href{https://developer.mozilla.org/en-US/docs/Web/CSS/inset}{CSS inset} definition.
 If not provided, a sensible default to avoid overlap with \code{\link[=page_navbar]{page_navbar()}}
