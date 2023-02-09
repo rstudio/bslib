@@ -10,7 +10,7 @@
 #' @param class Additional CSS classes for the top-level HTML element.
 #'
 #' @export
-#' @seealso [card_sidebar()], [contain_width()], [page_navbar()]
+#' @seealso [card_sidebar()], [page_navbar()], [navs_tab_card()]
 sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, class = NULL) {
 
   # For accessiblity reasons, always provide id (when collapsible),
