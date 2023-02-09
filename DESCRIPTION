@@ -86,6 +86,7 @@ Config/Needs/routine:
     renv
 Config/Needs/website:
     brio,
+    crosstalk,
     dplyr,
     DT,
     glue,
