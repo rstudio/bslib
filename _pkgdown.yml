@@ -37,6 +37,8 @@ navbar:
           href: articles/cards.html
         - text: Value Boxes
           href: articles/value-boxes.html
+        - text: Sidebars
+          href: articles/sidebars.html
         - text: Layouts
           href: articles/layouts.html
         - text: Theming variables
