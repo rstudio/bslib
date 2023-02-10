@@ -162,8 +162,11 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
 // TODO: transition between collapse states on mobile?
 @include media-breakpoint-down(sm) {
   .bslib-sidebar-layout {
-    grid-template-columns: 1fr !important;
     --bslib-collapse-toggle-transform: -180deg;
+
+    grid-template-columns: 1fr !important;
+    // Especially important if main content is allowed to grow/shrink
+    grid-template-rows: auto minmax(0, 1fr);    
 
     > .sidebar {
       width: 100%;
@@ -208,7 +211,10 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
       }
     }
 
+    
+
     &.right-sidebar {
+      grid-template-rows: minmax(0, 1fr) auto;
 
       > .main, .sidebar {
         border-radius: inherit;
