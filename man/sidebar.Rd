@@ -6,7 +6,7 @@
 \alias{layout_sidebar_full_bleed}
 \alias{sidebar_open}
 \alias{sidebar_close}
-\title{Create various sidebar-based layouts}
+\title{Sidebar layouts}
 \usage{
 sidebar(
   ...,
@@ -47,6 +47,8 @@ sidebar_close(id, session = get_current_session())
 \item{width}{A valid \link[htmltools:validateCssUnit]{CSS unit} used for the
 width of the sidebar.}
 
+\item{position}{Where the sidebar should appear relative to the main content.}
+
 \item{open}{Whether or not the sidebar should be open on page load. Provide a
 value of \code{NA} to prevent sidebar from being collapsible.}
 
@@ -77,7 +79,8 @@ is provided.}
 used).}
 }
 \description{
-Create various sidebar-based layouts
+Create various sidebar-based layouts. See \href{https://rstudio.github.io/bslib/articles/sidebars.html}{this article} to learn
+more.
 }
 \section{Functions}{
 \itemize{

@@ -1,7 +1,6 @@
 #' @export
 #' @inheritParams card
 #' @inheritParams card_body
-#' @inheritParams page_navbar
 #' @param title A (left-aligned) title to place in the card header/footer. If
 #'   provided, other nav items are automatically right aligned.
 #' @rdname navs

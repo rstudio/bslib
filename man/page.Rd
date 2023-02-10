@@ -73,6 +73,14 @@ be interpreted as top, right, bottom, and left respectively.}
 all \code{\link[=nav]{nav()}} pages are filled. A character vector, matching the \code{value} of
 \code{\link[=nav]{nav()}}s to be filled, may also be provided.}
 
+\item{position}{Determines whether the navbar should be displayed at the top
+of the page with normal scrolling behavior (\code{"static-top"}), pinned at
+the top (\code{"fixed-top"}), or pinned at the bottom
+(\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
+\code{"fixed-bottom"} will cause the navbar to overlay your body content,
+unless you add padding, e.g.: \code{tags$style(type="text/css", "body
+  {padding-top: 70px;}")}}
+
 \item{header}{UI element(s) (\link{tags}) to display \emph{above} the nav content.}
 
 \item{footer}{UI element(s) (\link{tags}) to display \emph{below} the nav content.}
@@ -81,6 +89,13 @@ all \code{\link[=nav]{nav()}} pages are filled. A character vector, matching the
 
 \item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
 text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
+
+\item{collapsible}{\code{TRUE} to automatically collapse the navigation
+elements into a menu when the width of the browser is less than 940 pixels
+(useful for viewing on smaller touchscreen device)}
+
+\item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
+layout.}
 
 \item{window_title}{the browser window title. The default value, \code{NA}, means
 to use any character strings that appear in \code{title} (if none are found, the

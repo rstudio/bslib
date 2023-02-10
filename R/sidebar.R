@@ -1,8 +1,13 @@
-#' Create various sidebar-based layouts
+#' Sidebar layouts
+#'
+#' Create various sidebar-based layouts. See [this
+#' article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn
+#' more.
 #'
 #' @param ... A collection of [htmltools::tag()] children (i.e., UI elements).
 #' @param width A valid [CSS unit][htmltools::validateCssUnit] used for the
 #'   width of the sidebar.
+#' @param position Where the sidebar should appear relative to the main content.
 #' @param open Whether or not the sidebar should be open on page load. Provide a
 #'   value of `NA` to prevent sidebar from being collapsible.
 #' @param id A character string. Required if wanting to re-actively read (or

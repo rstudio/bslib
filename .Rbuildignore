@@ -17,6 +17,7 @@ inst/lib/bsw3/.npmignore
 ^_pkgdown\.yml$
 ^vignettes$
 
+^srcts$
 ^node_modules$
 ^package\.json$
 ^tsconfig\.json$
