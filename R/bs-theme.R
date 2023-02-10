@@ -276,7 +276,6 @@ bootstrap_bundle <- function(version) {
       !!!rule_bundles(c(
         system_file("components", "accordion.scss", package = "bslib"),
         system_file("components", "card.scss", package = "bslib"),
-        system_file("components", "input_check_search.scss", package = "bslib"),
         system_file("components", "value_box.scss", package = "bslib"),
         system_file("components", "layout_column_wrap.scss", package = "bslib")
       ))
