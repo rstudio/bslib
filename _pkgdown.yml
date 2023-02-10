@@ -72,15 +72,16 @@ reference:
     - bs_themer
 - title: Cards
   description: |
-    Create cards
+    Create cards and value boxes
   contents:
     - card
     - as.card_item
-- title: Value box
-  description: |
-    Highlight important findings
-  contents:
     - value_box
+- title: Input controls
+  description: |
+    UI controls for capturing user input
+  contents:
+    - input_switch
 - title: Navigation
   description: |
     Create (tabbed) sections of content.
