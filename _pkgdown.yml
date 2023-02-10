@@ -105,7 +105,6 @@ reference:
 - title: Page layouts
   contents:
     - page
-    - contain_width
 - title: Dynamic theming
   description: |
     Create dynamically themable HTML widgets.
