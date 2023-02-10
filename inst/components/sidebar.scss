@@ -51,6 +51,8 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
     padding: $bslib-sidebar-padding;
     z-index: 1; // Make sure main content is on top of sidebar during transition
     background-color: var(--bslib-sidebar-main-bg);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   > .collapse-toggle {
@@ -95,10 +97,6 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
       border: none;
     }
 
-    > .main {
-      border-radius: var(--bslib-sidebar-border-radius);
-    }
-
     > .collapse-toggle {
       --bslib-collapse-toggle-transform: -90deg;
     }
@@ -120,12 +118,20 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
 
     grid-template-columns: $bslib-sidebar-main-column-width var(--bslib-sidebar-width);
 
+    > .main, .sidebar {
+      border-radius: inherit;
+    }
+
     > .sidebar {
       border-left: $bslib-sidebar-separator;
       border-right: none;
-      border-radius: inherit;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+    }
+
+    > .main {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
 
     > .collapse-toggle {
@@ -137,10 +143,6 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
 
     &.sidebar-collapsed {
       grid-template-columns: $bslib-sidebar-main-column-width 0px;
-
-      > .sidebar {
-        border: none;
-      }
 
       > .collapse-toggle {
         --bslib-collapse-toggle-transform: 90deg;
@@ -170,6 +172,12 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       border-top-right-radius: inherit;
+    }
+
+    > .main {
+      border-radius: inherit;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
 
     > .collapse-toggle {
@@ -202,16 +210,20 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
 
     &.right-sidebar {
 
+      > .main, .sidebar {
+        border-radius: inherit;
+      }
+
       > .sidebar {
         border: none;
         border-top: $bslib-sidebar-separator;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-        border-bottom-left-radius: var(--bslib-sidebar-border-radius);
       }
 
       > .main {
-        border-top-right-radius: var(--bslib-sidebar-border-radius);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
       }
 
       > .collapse-toggle {
