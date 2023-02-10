@@ -11,6 +11,7 @@
 sidebar(
   ...,
   width = 250,
+  position = c("left", "right"),
   collapsible = TRUE,
   id = NULL,
   bg = NULL,
@@ -24,8 +25,7 @@ layout_sidebar(
   bg = NULL,
   border = TRUE,
   border_radius = TRUE,
-  height = NULL,
-  class = NULL
+  height = NULL
 )
 
 layout_sidebar_full_bleed(

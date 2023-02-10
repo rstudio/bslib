@@ -11,7 +11,7 @@
 #'
 #' @export
 #' @seealso [card_sidebar()], [page_navbar()], [navs_tab_card()]
-sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, class = NULL) {
+sidebar <- function(..., width = 250, position = c("left", "right"), collapsible = TRUE, id = NULL, bg = NULL, class = NULL) {
 
   # For accessiblity reasons, always provide id (when collapsible),
   # but only create input binding when id is provided
@@ -31,6 +31,8 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
     )
   }
 
+  position <- match.arg(position)
+
   res <- list2(
     tag = tags$form(
       id = id,
@@ -41,6 +43,7 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
       ...
     ),
     collapse_tag = collapse_tag,
+    position = position,
     width = validateCssUnit(width)
   )
 
@@ -59,7 +62,7 @@ sidebar <- function(..., width = 250, collapsible = TRUE, id = NULL, bg = NULL, 
 #' @inheritParams card
 #'
 #' @export
-layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL, class = NULL) {
+layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL) {
 
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
@@ -73,6 +76,8 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
     ...
   )
 
+  main <- bindFillRole(main, container = fill)
+
   border_css <- if (border) {
     "var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)"
   } else {
@@ -81,17 +86,24 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
 
   border_radius_css <- if (border_radius) "var(--bs-border-radius)" else "initial"
 
+  sidebar_right <- identical(sidebar$position, "right")
+
+  contents <- if (sidebar_right) {
+    list(main, sidebar$collapse_tag, sidebar$tag)
+  } else {
+    list(sidebar$tag, sidebar$collapse_tag, main)
+  }
+
   res <- div(
-    class = c("bslib-sidebar-layout", class),
+    class = "bslib-sidebar-layout",
+    class = if (sidebar_right) "right-sidebar",
     style = css(
       "--bslib-sidebar-width" = sidebar$width,
       "--bslib-sidebar-border" = border_css,
       "--bslib-sidebar-border-radius" = border_radius_css,
       height = validateCssUnit(height)
     ),
-    sidebar$tag,
-    sidebar$collapse_tag,
-    bindFillRole(main, container = fill),
+    !!!contents,
     sidebar_dependency()
   )
 
