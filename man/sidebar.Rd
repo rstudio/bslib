@@ -12,7 +12,7 @@ sidebar(
   ...,
   width = 250,
   position = c("left", "right"),
-  collapsible = TRUE,
+  open = TRUE,
   id = NULL,
   bg = NULL,
   class = NULL
@@ -47,7 +47,8 @@ sidebar_close(id, session = get_current_session())
 \item{width}{A valid \link[htmltools:validateCssUnit]{CSS unit} used for the
 width of the sidebar.}
 
-\item{collapsible}{Whether or not the sidebar should be collapsible.}
+\item{open}{Whether or not the sidebar should be open on page load. Provide a
+value of \code{NA} to prevent sidebar from being collapsible.}
 
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}

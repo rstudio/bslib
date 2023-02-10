@@ -3,7 +3,8 @@
 #' @param ... A collection of [htmltools::tag()] children (i.e., UI elements).
 #' @param width A valid [CSS unit][htmltools::validateCssUnit] used for the
 #'   width of the sidebar.
-#' @param collapsible Whether or not the sidebar should be collapsible.
+#' @param open Whether or not the sidebar should be open on page load. Provide a
+#'   value of `NA` to prevent sidebar from being collapsible.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
 #' @param bg A background color.
@@ -11,27 +12,23 @@
 #'
 #' @export
 #' @seealso [card_sidebar()], [page_navbar()], [navs_tab_card()]
-sidebar <- function(..., width = 250, position = c("left", "right"), collapsible = TRUE, id = NULL, bg = NULL, class = NULL) {
+sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE, id = NULL, bg = NULL, class = NULL) {
 
-  # For accessiblity reasons, always provide id (when collapsible),
+  # For accessiblity reasons, always provide id when collapsible,
   # but only create input binding when id is provided
-  if (is.null(id) && collapsible) {
+  if (is.null(id) && is.logical(open)) {
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
   } else {
     class <- c("bslib-sidebar-input", class)
   }
 
-  collapse_tag <- if (collapsible) {
-    tags$a(
-      class = "collapse-toggle",
-      role = "button",
-      "aria-expanded" = "true",
-      "aria-controls" = id,
-      title = "Toggle sidebar"
-    )
-  }
-
-  position <- match.arg(position)
+  collapse_tag <- tags$a(
+    class = "collapse-toggle",
+    role = "button",
+    "aria-expanded" = "true",
+    "aria-controls" = id,
+    title = "Toggle sidebar"
+  )
 
   res <- list2(
     tag = tags$form(
@@ -42,8 +39,9 @@ sidebar <- function(..., width = 250, position = c("left", "right"), collapsible
       style = css("--bslib-sidebar-bg" = bg),
       ...
     ),
-    collapse_tag = collapse_tag,
-    position = position,
+    collapse_tag = if (!isTRUE(is.na(open))) collapse_tag,
+    position = match.arg(position),
+    open = open,
     width = validateCssUnit(width)
   )
 
@@ -97,6 +95,7 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (sidebar_right) "right-sidebar",
+    class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
     style = css(
       "--bslib-sidebar-width" = sidebar$width,
       "--bslib-sidebar-border" = border_css,
