@@ -5,7 +5,7 @@ resource_files:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(message = FALSE)
 
 # pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
 # (note this isn't a problem for any format based on html_document_base)
@@ -25,25 +25,14 @@ shiny:::setCurrentTheme(bslib::bs_theme())
 
 [^1]: In a Shiny context, you may also want to add an `id` to the `sidebar()` so you can reactively read/update whether the sidebar is open/closed.
 
-```{r}
-library(bslib)
-library(shiny)
-library(crosstalk)
-library(plotly)
-
-# SharedData creates the "link" between filter controls and plotly visuals
-dat <- SharedData$new(dplyr::sample_n(diamonds, 1000))
-
-# Although they aren't used here, sidebar() has named arguments 
-# for customizing its width, background color, etc, and accepts
-# any number of unnamed arguments (i.e., UI elements)
-filters <- sidebar(
-  filter_select("cut", "Cut", dat, ~cut),
-  filter_select("clarity", "Clarity", dat, ~clarity)
+```{r, include=FALSE, cache=FALSE}
+# Each time we source this file, it'll give us a new crosstalk controls/views that use a different crosstalk group (this way, interactions won't be shared across chunks)
+knitr::read_chunk(
+  rprojroot::find_package_root_file("vignettes/sidebar-create-contents.R")
 )
+```
 
-# Example "main" content to show next to the sidebar
-plot_price <- plot_ly(dat, x = ~price)
+```{r, sidebar-create-contents}
 ```
 
 When deciding how to incorporate a `sidebar()`, you should first think through whether the sidebar
@@ -52,7 +41,9 @@ controls should effect the entire page or just a subset of the page. In the latt
 * Local: the layout container's height grows/shrinks to fit its contents and its width  grows/shrinks to fit its **parent container**. 
   - This default behavior can also be customized by changing the `width` and `height` defaults.
 * Global: the layout container grows/shrinks to fit the **viewport** (e.g., browser window).
-  - On mobile devices (or narrow windows); however, the height is no longer influenced by the window. 
+  - On mobile devices (or narrow windows), both the sidebar and main content areas are made full width. Also, the height no longer grows/shrinks to the viewport, and instead
+  
+> TODO: provide an image for the context above? Or put this in a tip?
 
 ### Local sidebar
 
@@ -63,7 +54,10 @@ controls should effect the entire page or just a subset of the page. In the latt
 # but any number of UI elements for the main content 
 # area may be provided via unnamed arguments 
 # (so you could include multiple plots, tables, etc).
-layout_sidebar(filters, plot_price)
+layout_sidebar(
+  sidebar(cut, clarity),
+  plot_price
+)
 ```
 
 <br>
@@ -74,11 +68,18 @@ A convenient short-hand for putting `layout_sidebar()` inside a `card()` is avai
 
 (See [this article](cards.html) to learn more about cards)
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 ```{r}
 card(
   full_screen = TRUE,
   card_header("Filtering diamond price by cut and clarity"),
-  card_sidebar(filters, plot_price, fill = TRUE)
+  card_sidebar(
+    sidebar(cut, clarity), 
+    plot_price, 
+    fill = TRUE
+  )
 )
 ```
 
@@ -93,8 +94,16 @@ card(
 
 As mentioned previously, `layout_sidebar()`'s height grows with the height of it's contents, unless a `height` is specified. If the height of the sidebar and/or main contents are greater than a specified `height`, those contents will be scrollable, but if you'd rather that the main contents be allowed to grow/shrink to fit the container's height (similar to the `card_sidebar()` example above), then set `fill = TRUE`
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 ```{r}
-layout_sidebar(filters, plot_price, fill = TRUE, height = 200)
+layout_sidebar(
+  sidebar(cut, clarity), 
+  plot_price, 
+  fill = TRUE, 
+  height = 200
+)
 ```
 
 <br>
@@ -105,10 +114,13 @@ Sometimes it's convenient to have [multiple tabs of content within a `card()`](c
 
 That is, provide a `sidebar()` object to the `sidebar` argument for singular sidebar.
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 ```{r}
 navs_tab_card(
   title = "Singular sidebar",
-  sidebar = filters, 
+  sidebar = sidebar(cut, clarity), 
   full_screen = TRUE, 
   fill = TRUE,
   nav("Price", plot_price),
@@ -118,6 +130,9 @@ navs_tab_card(
 
 Or, provide a `card_sidebar()` to particular a `nav()` tab.
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 ```{r}
 navs_tab_card(
   title = "Tab-specific sidebar",
@@ -125,7 +140,10 @@ navs_tab_card(
   fill = TRUE,
   nav(
     "Tab 1", 
-    card_sidebar(filters, plot_price, fill = TRUE)
+    card_sidebar(
+      sidebar(cut, clarity), 
+      plot_price, fill = TRUE
+    )
   ),
   nav(
     "Tab 2", 
@@ -145,10 +163,13 @@ Global sidebars are typically paired with `page_navbar()`; and in this case, you
 
 Provide a `sidebar()` object to `page_navbar()`'s `sidebar` argument to make singular, "truly global", sidebar that remains constant and shown on every page. 
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 ```{r, eval = FALSE}
 page_navbar(
   title = "Singular sidebar",
-  sidebar = filters,
+  sidebar = sidebar(cut, clarity),
   nav("Price", plot_price),
   nav("Carat", plot_ly(dat, x = ~carat))
 )
@@ -158,12 +179,18 @@ page_navbar(
 
 Provide a `layout_sidebar_full_bleed()` to a particular `nav()` page to make it so the "full bleed" sidebar only appear when that particular page is active. This function is a special form of `layout_sidebar()` that it uses `position:fixed` to make sure the layout container fits to the viewport (and will also automatically dodge the navbar).
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 ```{r, eval = FALSE}
 page_navbar(
   title = "Page-specific sidebar",
   nav(
     "Page 1", 
-    layout_sidebar_full_bleed(filters, plotly::plot_ly())
+    layout_sidebar_full_bleed(
+      sidebar(cut, clarity), 
+      plot_price
+    )
   ),
   nav(
     "Page 2", 
@@ -177,10 +204,13 @@ page_navbar(
 
 Regardless of whether you have a "truly global" or page-specific sidebar, you might want the main content area to grow/shrink to fit the viewport as well. This can be done globally for every page by setting `page_navbar()`'s `fill` argument to `TRUE`, or done for specific page(s) by providing relevant `nav()` `value`s. For example, by setting `fill = "Price"` here, just the main content of the `Price` page will stretch to fit.
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 ```{r, eval = FALSE}
 page_navbar(
   title = "Global sidebar",
-  sidebar = filters,
+  sidebar = sidebar(cut, clarity),
   fill = "Price",
   nav("Price", plot_price),
   nav("Carat", plot_ly(dat, x = ~carat))
@@ -192,19 +222,63 @@ page_navbar(
 
 To create a global sidebar on a singular page (i.e, without using `page_navbar()`), its recommended to provide `layout_sidebar()` as a direct child of `page_fill()`. This way, you can put UI elements above and below the layout container and it should grow/shrink as needed. 
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 ```{r}
 page_fill(
   h1(
     class = "lead text-center bg-primary bg-gradient my-0 py-3",
     "My full bleed sidebar page"
   ),
-  layout_sidebar(filters, plot_price, border = FALSE, border_radius = FALSE)
+  layout_sidebar(
+    sidebar(cut, clarity), 
+    plot_price,
+    border_radius = FALSE
+  )
 )
 ```
+
+<br>
+
+### Customize
+
+#### Right-hand sidebar
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
+```{r}
+layout_sidebar(
+  sidebar(
+    position = "right", bg = "#CBF4F4", 
+    cut, clarity
+  ), 
+  plot_price
+)
+```
+
+<br>
+
+#### Closed
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
+```{r}
+layout_sidebar(
+  sidebar(open = FALSE, cut, clarity), 
+  plot_price
+)
+```
+
 
 ### Accordions
 
 When an accordion appears as a immediate child inside `sidebar()`, they'll render "flush" to the sidebar, providing a convenient way to group multiple related input controls under a collapsible section. 
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
 
 ```{r}
 filters_acc <- accordion(
@@ -219,6 +293,5 @@ filters_acc <- accordion(
   )
 )
 
-sidebar(filters_acc) |>
-  layout_sidebar(plot_price)
+layout_sidebar(sidebar(filters_acc), plot_price)
 ```
