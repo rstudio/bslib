@@ -12,7 +12,10 @@ input_check_search <- function(id, choices, selected = NULL, placeholder = "🔍
   tag <- div(
     id = id,
     class = "bslib-check-search",
-    style = css(height = height, width = width),
+    style = css(
+      height = validateCssUnit(height),
+      width = validateCssUnit(width)
+    ),
     tags$a(class = "clear-options", role = "button", "Clear all"),
     tags$input(
       type = "text",
@@ -33,9 +36,9 @@ input_check_search <- function(id, choices, selected = NULL, placeholder = "🔍
 
 
 #' @export
-update_check_search <- function(id, choices = NULL, selected = NULL, placeholder = NULL, height = NULL, session = shiny::getDefaultReactiveDomain()) {
+update_check_search <- function(id, choices = NULL, selected = NULL, placeholder = NULL, height = NULL, session = get_current_session()) {
   if (!is.null(choices)) {
-    choices <- process_ui(
+    choices <- processDeps(
       check_search_choices(id, choices, selected),
       session
     )
@@ -101,6 +104,6 @@ check_search_dependency <- function() {
     version = get_package_version("bslib"),
     package = "bslib",
     src = "components",
-    script = "check-search.js"
+    script = "input_check_search.js"
   )
 }
