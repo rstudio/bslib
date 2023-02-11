@@ -17,3 +17,7 @@ inst/doc
 inst/yarn.lock
 
 inst/rmarkdown/templates/*/skeleton/skeleton.html
+
+vignettes/navbar-fill/
+vignettes/navbar-page-sidebar/
+vignettes/navbar-singular/

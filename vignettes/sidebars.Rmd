@@ -2,10 +2,32 @@
 title: "Sidebars"
 resource_files:
   - infobox.svg
+  - navbar-fill
+  - navbar-page-sidebar
+  - navbar-singular
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(message = FALSE)
+library(knitr)
+library(htmltools)
+
+opts_chunk$set(message = FALSE)
+
+render_as_iframe <- function(x, options, ...) {
+  lbl <- opts_current$get("label")
+  if (!dir.exists(lbl)) {
+    dir.create(lbl)
+  }
+  file <- file.path(lbl, paste0(lbl, ".html"))
+  x <- tagList(x, tags$head(tags$style(".plotly { height: 250px !important; }")))
+  tryCatch(
+    save_html(x, file), 
+    error = function(e) {
+      stop("Don't know how to render ", class(x)[[1]], " as an <iframe>")
+    }
+  )
+  include_url(file)
+}
 
 # pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
 # (note this isn't a problem for any format based on html_document_base)
@@ -13,15 +35,18 @@ shiny:::setCurrentTheme(bslib::bs_theme())
 ```
 
 ```{scss, echo = FALSE}
-.plotly  {
+.plotly {
   height: 250px !important;
   .modebar-container {
     display: none;
   }
 }
+iframe {
+  height: 500px;
+}
 ```
 
-`{bslib}` supports a handful of different sidebar layouts, but regardless of the layout type, start by wrapping some UI elements in a `sidebar()`. In a Shiny context[^1], you'll probably want input controls like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the `sidebar()`, but here we'll use `{crosstalk}` input widgets (since this is a statically hosted website).
+This article provides an overview of the various `sidebar()` layout options in `{bslib}`. Before showing any of the layout options, let's first create some UI elements to place in both the sidebar and "main" content areas. In a Shiny context[^1], you'll probably want input controls like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the `sidebar()`, but here we'll use `{crosstalk}` input widgets (since this is a statically hosted website).
 
 [^1]: In a Shiny context, you may also want to add an `id` to the `sidebar()` so you can reactively read/update whether the sidebar is open/closed.
 
@@ -35,10 +60,10 @@ knitr::read_chunk(
 ```{r, sidebar-create-contents}
 ```
 
-When deciding how to incorporate a `sidebar()`, you should first think through whether the sidebar
+When deciding which type of layout to choose, you should first think through whether the sidebar
 controls should effect the entire page or just a subset of the page. In the latter case, you probably want a [local](#local-sidebar) instead of a [global](#global-sidebar) layout. In more specific technical terms, the difference is:
 
-* Local: the layout container's height grows/shrinks to fit its contents and its width  grows/shrinks to fit its **parent container**. 
+* Local: the layout container's height grows/shrinks to fit its contents and its width grows/shrinks to fit its **parent container**. 
   - This default behavior can also be customized by changing the `width` and `height` defaults.
 * Global: the layout container grows/shrinks to fit the **viewport** (e.g., browser window).
   - On mobile devices (or narrow windows), both the sidebar and main content areas are made full width. Also, the height no longer grows/shrinks to the viewport, and instead
@@ -110,7 +135,7 @@ layout_sidebar(
 
 #### Multiple tabs
 
-Sometimes it's convenient to have [multiple tabs of content within a `card()`](cards.html#multiple-tabs). Akin to how you can [provide a singular or page-specific sidebar(s) to `page_navbar()`](#global-sidebar), you can do the same with `navs_tab_card()`/`nav_pill_card()`. 
+Sometimes it's convenient to have [multiple tabs of content within a `card()`](cards.html#multiple-tabs). Similar to how you can [provide a singular or page-specific sidebar(s) to `page_navbar()`](#global-sidebar), you can do the same with `navs_tab_card()`/`nav_pill_card()`.
 
 That is, provide a `sidebar()` object to the `sidebar` argument for singular sidebar.
 
@@ -124,7 +149,7 @@ navs_tab_card(
   full_screen = TRUE, 
   fill = TRUE,
   nav("Price", plot_price),
-  nav("Carat", plot_ly(dat, x = ~carat))
+  nav("Carat", plot_carat)
 )
 ```
 
@@ -166,12 +191,12 @@ Provide a `sidebar()` object to `page_navbar()`'s `sidebar` argument to make sin
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
-```{r, eval = FALSE}
+```{r navbar-singular, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
 page_navbar(
   title = "Singular sidebar",
   sidebar = sidebar(cut, clarity),
   nav("Price", plot_price),
-  nav("Carat", plot_ly(dat, x = ~carat))
+  nav("Carat", plot_carat)
 )
 ```
 
@@ -182,7 +207,7 @@ Provide a `layout_sidebar_full_bleed()` to a particular `nav()` page to make it 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
-```{r, eval = FALSE}
+```{r navbar-page-sidebar, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
 page_navbar(
   title = "Page-specific sidebar",
   nav(
@@ -207,13 +232,13 @@ Regardless of whether you have a "truly global" or page-specific sidebar, you mi
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
-```{r, eval = FALSE}
+```{r navbar-fill, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
 page_navbar(
   title = "Global sidebar",
   sidebar = sidebar(cut, clarity),
   fill = "Price",
   nav("Price", plot_price),
-  nav("Carat", plot_ly(dat, x = ~carat))
+  nav("Carat", plot_carat)
 )
 ```
 
@@ -271,6 +296,8 @@ layout_sidebar(
   plot_price
 )
 ```
+
+<br>
 
 
 ### Accordions
