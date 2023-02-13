@@ -5,9 +5,8 @@
 #'   provided, other nav items are automatically right aligned.
 #' @rdname navs
 navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
-                          sidebar = NULL, fill = FALSE,
-                          header = NULL, footer = NULL, height = NULL,
-                          full_screen = FALSE, wrapper = card_body) {
+                          sidebar = NULL, header = NULL, footer = NULL,
+                          height = NULL, full_screen = FALSE, wrapper = card_body) {
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
@@ -29,7 +28,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
     } else {
       card_header(nav)
     },
-    navs_card_body(content, sidebar, fill)
+    navs_card_body(content, sidebar)
   )
 }
 
@@ -37,9 +36,8 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 #' @param placement placement of the nav items relative to the content.
 #' @rdname navs
 navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
-                           sidebar = NULL, fill = FALSE,
-                           header = NULL, footer = NULL, height = NULL,
-                           placement = c("above", "below"),
+                           sidebar = NULL, header = NULL, footer = NULL,
+                           height = NULL, placement = c("above", "below"),
                            full_screen = FALSE, wrapper = card_body) {
 
   items <- collect_nav_items(..., wrapper = wrapper)
@@ -67,7 +65,7 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
     height = height,
     full_screen = full_screen,
     if (above) card_header(!!!nav_args),
-    navs_card_body(content, sidebar, fill),
+    navs_card_body(content, sidebar),
     if (!above) card_footer(!!!nav_args)
   )
 }
@@ -90,10 +88,13 @@ collect_nav_items <- function(..., wrapper) {
   lapply(items, nav_to_card_item)
 }
 
-navs_card_body <- function(content, sidebar, fill) {
-  content <- fill_tab_content(content, fill)
+# Always give tab contents the potential to fill since that's akin to the
+# normal card() API (i.e. the card() is a fill container) and users have
+# option to make the contents fill via card_body(fill = TRUE) and/or card_body_fill()
+navs_card_body <- function(content, sidebar) {
+  content <- fill_tab_content(content, TRUE)
   if (!is.null(sidebar)) {
-    content <- layout_sidebar(sidebar, content, fill = !isFALSE(fill), border = FALSE)
+    content <- layout_sidebar(sidebar, content, fill = TRUE, border = FALSE)
   }
   as.card_item(content)
 }
