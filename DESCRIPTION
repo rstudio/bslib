@@ -90,6 +90,7 @@ Config/Needs/website:
     dplyr,
     DT,
     glue,
+    rstudio/htmltools@find-language,
     htmlwidgets,
     leaflet,
     plotly,

@@ -182,8 +182,6 @@ navs_tab_card(
 
 Global sidebars are typically paired with `page_navbar()`; and in this case, you can choose from a singular sidebar (i.e., a sidebar that controls content on every page), or sidebar(s) for specific page(s).
 
-> TODO: include gifs for these?
-
 #### Singular sidebar
 
 Provide a `sidebar()` object to `page_navbar()`'s `sidebar` argument to make singular, "truly global", sidebar that remains constant and shown on every page. 

@@ -97,6 +97,11 @@ $bslib-sidebar-main-column-width: minmax(0, 1fr) !default;
       border: none;
     }
 
+    > .main {
+      border-top-left-radius: inherit;
+      border-bottom-left-radius: inherit;
+    }
+
     > .collapse-toggle {
       --bslib-collapse-toggle-transform: -90deg;
     }
