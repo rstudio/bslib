@@ -81,6 +81,20 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
 
   main <- bindFillRole(main, container = fill)
 
+  
+  contents <- list(sidebar$tag, sidebar$collapse_tag, main)
+  columns <- c(sidebar$width, "minmax(0, 1fr)")
+  columns_collapse <- c("0px", "minmax(0, 1fr)")
+
+  if (identical(sidebar$position, "right")) {
+    contents[[2]] <- tagAppendAttributes(
+      contents[[2]], class = "collapse-toggle-right"
+    )
+    contents <- rev(contents)
+    columns <- rev(columns)
+    columns_collapse <- rev(columns_collapse)
+  }
+
   border_css <- if (border) {
     "var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)"
   } else {
@@ -89,20 +103,12 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
 
   border_radius_css <- if (border_radius) "var(--bs-border-radius)" else "initial"
 
-  sidebar_right <- identical(sidebar$position, "right")
-
-  contents <- if (sidebar_right) {
-    list(main, sidebar$collapse_tag, sidebar$tag)
-  } else {
-    list(sidebar$tag, sidebar$collapse_tag, main)
-  }
-
   res <- div(
     class = "bslib-sidebar-layout",
-    class = if (sidebar_right) "right-sidebar",
     class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
     style = css(
-      "--bslib-sidebar-width" = sidebar$width,
+      "--bslib-sidebar-columns" = columns,
+      "--bslib-sidebar-columns-collapsed" = columns_collapse,
       "--bslib-sidebar-border" = border_css,
       "--bslib-sidebar-border-radius" = border_radius_css,
       height = validateCssUnit(height)
