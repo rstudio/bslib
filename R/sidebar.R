@@ -81,7 +81,6 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
 
   main <- bindFillRole(main, container = fill)
 
-  
   contents <- list(sidebar$tag, sidebar$collapse_tag, main)
   columns <- c(sidebar$width, "minmax(0, 1fr)")
   columns_collapse <- c("0px", "minmax(0, 1fr)")
@@ -95,22 +94,15 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
     columns_collapse <- rev(columns_collapse)
   }
 
-  border_css <- if (border) {
-    "var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)"
-  } else {
-    "none"
-  }
-
-  border_radius_css <- if (border_radius) "var(--bs-border-radius)" else "initial"
-
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
     style = css(
+      "--bslib-sidebar-width" = sidebar$width,
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
-      "--bslib-sidebar-border" = border_css,
-      "--bslib-sidebar-border-radius" = border_radius_css,
+      "--bslib-sidebar-border" = if (!border) "none", 
+      "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
       height = validateCssUnit(height)
     ),
     !!!contents,

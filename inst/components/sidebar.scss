@@ -1,19 +1,23 @@
 $bslib-sidebar-padding: $spacer * 1.5 !default;
 $bslib-sidebar-icon-size: $spacer !default;
-$bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
 
 .bslib-sidebar-layout {
-  --bslib-sidebar-bg: #{$card-bg};
-  --bslib-sidebar-main-bg: #{$card-bg};
-  --bslib-sidebar-vert-border: #{$border-width} #{$border-style} #{$border-color};
-  --bslib-collapse-toggle-border: #{$border-width} #{$border-style} #{$border-color};
+  --bslib-sidebar-bg: var(--bs-card-bg);
+  --bslib-sidebar-main-bg: var(--bs-card-bg);
+  --bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s;
+  --bslib-sidebar-border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+  --bslib-sidebar-border-radius: var(--bs-border-radius);
+  --bslib-sidebar-vert-border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+  --bslib-collapse-toggle-border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
   --bslib-collapse-toggle-transform: 90deg;
   --bslib-collapse-toggle-right-transform: -90deg;
   
   display: grid;
+  // Should always be defined as an inline style on the layout_sidebar() container
   grid-template-columns: var(--bslib-sidebar-columns);
-  @include transition($bslib-sidebar-transition);
   position: relative;
+
+  @include transition(var(--bslib-sidebar-transition));
 
   border: var(--bslib-sidebar-border);
   border-radius: var(--bslib-sidebar-border-radius);
@@ -39,7 +43,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
   > .sidebar {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: var(--bslib-sidebar-width);
     background-color: var(--bslib-sidebar-bg);
     
     > .accordion {
@@ -72,7 +76,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     bottom: $bslib-sidebar-padding;
     border: var(--bslib-collapse-toggle-border);
     border-left: none;
-    border-radius: 0 $border-radius $border-radius 0;
+    border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
     padding: 4px 0;
 
     &::after {
@@ -92,15 +96,15 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     &:hover:after {
       opacity: 1;
     }
-  }
 
-  > .collapse-toggle-right {
-    right: 0;
-    border-radius: $border-radius 0 0 $border-radius;
-    border-right: none;
-    border-left: var(--bslib-collapse-toggle-border);
-    &::after {
-      transform: rotate(var(--bslib-collapse-toggle-right-transform));
+    &-right {
+      right: 0;
+      border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
+      border-right: none;
+      border-left: var(--bslib-collapse-toggle-border);
+      &::after {
+        transform: rotate(var(--bslib-collapse-toggle-right-transform));
+      }
     }
   }
 
@@ -109,6 +113,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
     --bslib-collapse-toggle-right-transform: 90deg;
     --bslib-sidebar-vert-border: none;
 
+    // Should always be defined as an inline style on the layout_sidebar() container
     grid-template-columns: var(--bslib-sidebar-columns-collapsed);
 
     // Don't `display:none` the sidebar, because that would change the number of
@@ -141,8 +146,8 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
   }
 
   &.full-bleed {
-    --bslib-sidebar-bg: #{$body-bg};
-    --bslib-sidebar-main-bg: #{$body-bg};
+    --bslib-sidebar-bg: var(--bs-body-bg);
+    --bslib-sidebar-main-bg: var(--bs-body-bg);
 
     position: fixed;
     inset: var(--bslib-sidebar-full-bleed-inset, 0);
@@ -153,7 +158,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
 @include media-breakpoint-down(sm) {
   .bslib-sidebar-layout {
     --bslib-sidebar-vert-border: none;
-    --bslib-sidebar-horiz-border: #{$border-width} #{$border-style} #{$border-color};
+    --bslib-sidebar-horiz-border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
     --bslib-collapse-toggle-transform: -180deg;
     --bslib-collapse-toggle-right-transform: -180deg;
 
@@ -189,7 +194,7 @@ $bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s !default;
       right: $bslib-sidebar-padding;
       border-top: none;
       border: var(--bslib-collapse-toggle-border);
-      border-radius: 0 0 $border-radius $border-radius;
+      border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
       padding: 0 4px;
     }
 
