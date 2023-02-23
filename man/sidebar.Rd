@@ -3,7 +3,6 @@
 \name{sidebar}
 \alias{sidebar}
 \alias{layout_sidebar}
-\alias{layout_sidebar_full_bleed}
 \alias{sidebar_open}
 \alias{sidebar_close}
 \title{Sidebar layouts}
@@ -21,20 +20,12 @@ sidebar(
 layout_sidebar(
   sidebar = sidebar(),
   ...,
-  fill = FALSE,
+  fillable = FALSE,
+  fill = TRUE,
   bg = NULL,
   border = TRUE,
   border_radius = TRUE,
   height = NULL
-)
-
-layout_sidebar_full_bleed(
-  sidebar = sidebar(),
-  ...,
-  fill = FALSE,
-  bg = NULL,
-  inset = NULL,
-  class = NULL
 )
 
 sidebar_open(id, session = get_current_session())
@@ -61,8 +52,11 @@ update) the \code{collapsible} state in a Shiny app.}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
-\item{fill}{Whether or not the \code{main} content area should be considered a
-fill (i.e., flexbox) container.}
+\item{fillable}{Whether or not the \code{main} content area should be considered a
+fillable (i.e., flexbox) container.}
+
+\item{fill}{Whether or not the layout container should grow/shrink to fit
+a fillable container.}
 
 \item{border}{Whether or not to add a border.}
 
@@ -70,10 +64,6 @@ fill (i.e., flexbox) container.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}
-
-\item{inset}{A valid \href{https://developer.mozilla.org/en-US/docs/Web/CSS/inset}{CSS inset} definition.
-If not provided, a sensible default to avoid overlap with \code{\link[=page_navbar]{page_navbar()}}
-is provided.}
 
 \item{session}{a shiny session object (the default should almost always be
 used).}
@@ -85,8 +75,6 @@ more.
 \section{Functions}{
 \itemize{
 \item \code{layout_sidebar()}: A 'localized' sidebar layout
-
-\item \code{layout_sidebar_full_bleed()}: A 'full-bleed' sidebar layout
 
 \item \code{sidebar_open()}: Close a (\code{collapsible}) \code{\link[=sidebar]{sidebar()}}.
 
