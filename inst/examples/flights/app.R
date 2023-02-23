@@ -155,15 +155,12 @@ ui <- page_navbar(
   sidebar = sidebar(sidebar_acc),
   nav(
     "Delays",
+    uiOutput("value_boxes", fill = TRUE),
     layout_column_wrap(
-      width = 1, heights_equal = "row",
-      uiOutput("value_boxes", fill = TRUE),
-      layout_column_wrap(
-        width = "200px", class = "my-3",
-        flights_card, delay_corr_card
-      ),
-      delay_card
-    )
+      width = "200px", class = "my-3",
+      flights_card, delay_corr_card
+    ),
+    delay_card
   ),
   nav(
     "Durations",
