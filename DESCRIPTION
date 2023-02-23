@@ -90,6 +90,7 @@ Config/Needs/website:
     dplyr,
     DT,
     glue,
+    rstudio/htmltools,
     htmlwidgets,
     leaflet,
     plotly,
