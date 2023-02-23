@@ -92,9 +92,9 @@ collect_nav_items <- function(..., wrapper) {
 # normal card() API (i.e. the card() is a fill container) and users have
 # option to make the contents fill via card_body(fill = TRUE) and/or card_body_fill()
 navs_card_body <- function(content, sidebar) {
-  content <- fill_tab_content(content, TRUE)
+  content <- makeTabsFillable(content, fillable = TRUE)
   if (!is.null(sidebar)) {
-    content <- layout_sidebar(sidebar, content, fill = TRUE, border = FALSE)
+    content <- card_sidebar(sidebar, content, fillable = TRUE, border = FALSE)
   }
   as.card_item(content)
 }
@@ -102,29 +102,31 @@ navs_card_body <- function(content, sidebar) {
 
 # Given a .tab-content container, mark each relevant .tab-pane as a
 # fill container/item.
-fill_tab_content <- function(content, fill = FALSE, navbar_margin = FALSE) {
+makeTabsFillable <- function(content, fillable = FALSE, navbar = FALSE) {
   if (!inherits(content, "shiny.tag") || !tagQuery(content)$hasClass("tab-content")) {
     abort("Expected `content` to be a tag with a tab-content class")
   }
 
-  if (isFALSE(fill)) {
+  if (isFALSE(fillable)) {
     return(content)
   }
 
-  # Even if only one .tab-pane wants fill behavior, the .tab-content
-  # must to be a fill container.
+  # Even if only one .tab-pane wants fillable behavior, the .tab-content
+  # must to be a fillable container.
   content <- bindFillRole(content, container = TRUE, item = TRUE)
 
   tagQuery(content)$
     find(".tab-pane")$
     each(function(x, i) {
-      if (isTRUE(fill) || isTRUE(fill == tagGetAttribute(x, "data-value"))) {
-        x <- bindFillRole(x, container = TRUE, item = TRUE)
-        # Only relevant for page_navbar()/navs_bar()
-        if (navbar_margin) {
-          x <- tagAppendAttributes(x, style = css("--bslib-navbar-margin" = 0))
-        }
+
+      if (isTRUE(fillable) || isTRUE(fillable == tagGetAttribute(x, "data-value"))) {
+        x <- tagAppendAttributes(
+          # Remove the margin between nav and content (for page_navbr())
+          style = css("--bslib-navbar-margin" = if (navbar) 0),
+          bindFillRole(x, container = TRUE, item = TRUE)
+        )
       }
+
       x
     })$
     allTags()

@@ -58,14 +58,16 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
 #' @describeIn sidebar A 'localized' sidebar layout
 #'
 #' @param sidebar A [sidebar()] object.
-#' @param fill Whether or not the `main` content area should be considered a
-#'   fill (i.e., flexbox) container.
+#' @param fillable Whether or not the `main` content area should be considered a
+#'   fillable (i.e., flexbox) container.
+#' @param fill Whether or not the layout container should grow/shrink to fit
+#'   a fillable container.
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
 #' @inheritParams card
 #'
 #' @export
-layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL) {
+layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TRUE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL) {
 
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
@@ -79,7 +81,7 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
     ...
   )
 
-  main <- bindFillRole(main, container = fill)
+  main <- bindFillRole(main, container = fillable)
 
   contents <- list(sidebar$tag, sidebar$collapse_tag, main)
   columns <- c(sidebar$width, "minmax(0, 1fr)")
@@ -101,7 +103,7 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
       "--bslib-sidebar-width" = sidebar$width,
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
-      "--bslib-sidebar-border" = if (!border) "none", 
+      "--bslib-sidebar-border" = if (!border) "none",
       "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
       height = validateCssUnit(height)
     ),
@@ -109,35 +111,11 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, bo
     sidebar_dependency()
   )
 
-  res <- bindFillRole(res, item = TRUE)
+  res <- bindFillRole(res, item = fill)
 
   as_fragment(
     tag_require(res, version = 5, caller = "layout_sidebar()")
   )
-}
-
-#' @describeIn sidebar A 'full-bleed' sidebar layout
-#'
-#' @param inset A valid [CSS
-#'   inset](https://developer.mozilla.org/en-US/docs/Web/CSS/inset) definition.
-#'   If not provided, a sensible default to avoid overlap with [page_navbar()]
-#'   is provided.
-#'
-#' @export
-layout_sidebar_full_bleed <- function(sidebar = sidebar(), ..., fill = FALSE, bg = NULL, inset = NULL, class = NULL) {
-
-  res <- layout_sidebar(
-    sidebar, ..., fill = fill, bg = bg, class = class,
-    border = FALSE, border_radius = FALSE
-  )
-
-  res <- tagAppendAttributes(res, class = "full-bleed")
-
-  if (is.null(inset)) {
-    tagAppendChild(res, adjust_full_bleed_inset())
-  } else {
-    tagAppendAttributes(res, style = css("--bslib-sidebar-full-bleed-inset" = inset))
-  }
 }
 
 
@@ -159,29 +137,6 @@ sidebar_close <- function(id, session = get_current_session()) {
     session$sendInputMessage(id, list(method = "close"))
   }
   session$onFlush(callback, once = TRUE)
-}
-
-# TODO: actually handle the multiple navbar case?
-adjust_full_bleed_inset <- function() {
-  tags$script("data-bslib-sidebar-full-bleed-inset" = NA, HTML(
-    "
-    var thisScript = document.querySelector('script[data-bslib-sidebar-full-bleed-inset]');
-    thisScript.removeAttribute('data-bslib-sidebar-full-bleed-inset');
-
-    var navbar = $('.navbar:visible');
-    if (navbar.length > 1) {
-      console.warning('More than one navbar is visible. Will only adjust full_bleed layout for the first navbar.');
-      navbar = navbar.first();
-    }
-    if (navbar.length === 1) {
-      var height = navbar.outerHeight() + 'px';
-      var $el = $(thisScript.parentElement);
-      navbar.hasClass('navbar-fixed-bottom') ?
-        $el.css('bottom', height) :
-        $el.css('top', height);
-    }
-    "
-  ))
 }
 
 sidebar_dependency <- function() {

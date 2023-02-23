@@ -110,7 +110,7 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
 #' @export
 #' @rdname navs
 navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
-                     sidebar = NULL, fill = FALSE,
+                     sidebar = NULL, fillable = FALSE,
                      # TODO: add sticky-top as well?
                      position = c("static-top", "fixed-top", "fixed-bottom"),
                      header = NULL, footer = NULL,
@@ -128,7 +128,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 
   navbar <- navbarPage_(
     title = title, ..., id = id, selected = selected,
-    sidebar = sidebar, fill = fill,
+    sidebar = sidebar, fillable = fillable,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
     inverse = inverse, fluid = fluid
@@ -156,7 +156,7 @@ navbarPage_ <- function(title,
                        id = NULL,
                        selected = NULL,
                        sidebar = NULL,
-                       fill = FALSE,
+                       fillable = FALSE,
                        position = c("static-top", "fixed-top", "fixed-bottom"),
                        header = NULL,
                        footer = NULL,
@@ -234,25 +234,45 @@ navbarPage_ <- function(title,
       allTags()
   }
 
+  # If fillable is truthy, give the relevant .tab-content > .tab-pane containers
+  # the potential to fill
+  tabset$content <- makeTabsFillable(
+    tabset$content, fillable, navbar = TRUE
+  )
 
-  tabset$content <- fill_tab_content(tabset$content, fill, navbar_margin = TRUE)
+  contents <- dropNulls(list(
+    if (!is.null(header)) div(class = "row", header),
+    tabset$content,
+    if (!is.null(footer)) div(class = "row", footer)
+  ))
 
-  if (!is.null(sidebar)) {
-    tabset$content <- layout_sidebar_full_bleed(
-      sidebar, tabset$content, fill = !isFALSE(fill)
+  if (is.null(sidebar)) {
+
+    contentDiv <- div(class = containerClass, !!!contents)
+
+    # If fillable is truthy, the .container also needs to be fillable
+    if (!isFALSE(fillable)) {
+      contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
+    }
+
+  } else {
+
+    contentDiv <- div(
+      # In the fluid case, the sidebar layout should be flush (i.e.,
+      # the .container-fluid class adds padding that we don't want)
+      class = if (!fluid) "container",
+      layout_sidebar(
+        fillable = !isFALSE(fillable),
+        border_radius = FALSE,
+        border = !fluid,
+        sidebar, contents
+      )
     )
-  }
 
-  # build the main tab content div
-  contentDiv <- div(class = containerClass)
-  if (!is.null(header))
-    contentDiv <- tagAppendChild(contentDiv, div(class = "row", header))
-  contentDiv <- tagAppendChild(contentDiv, tabset$content)
-  if (!is.null(footer))
-    contentDiv <- tagAppendChild(contentDiv, div(class = "row", footer))
-
-  if (!isFALSE(fill)) {
+    # Always have the sidebar layout fill its parent (in this case
+    # fillable controls whether the _main_ content portion is fillable)
     contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
+
   }
 
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part

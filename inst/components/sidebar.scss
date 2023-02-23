@@ -45,7 +45,7 @@ $bslib-sidebar-icon-size: $spacer !default;
     flex-direction: column;
     width: var(--bslib-sidebar-width);
     background-color: var(--bslib-sidebar-bg);
-    
+
     > .accordion {
       margin: - $bslib-sidebar-padding;
       @extend .accordion-flush;
@@ -144,14 +144,6 @@ $bslib-sidebar-icon-size: $spacer !default;
       border-bottom-right-radius: inherit;
     }
   }
-
-  &.full-bleed {
-    --bslib-sidebar-bg: var(--bs-body-bg);
-    --bslib-sidebar-main-bg: var(--bs-body-bg);
-
-    position: fixed;
-    inset: var(--bslib-sidebar-full-bleed-inset, 0);
-  }
 }
 
 // TODO: transition between collapse states on mobile?
@@ -207,11 +199,16 @@ $bslib-sidebar-icon-size: $spacer !default;
         height: 0;
       }
     }
+  }
+}
 
-    // Override `full_bleed=T`'s position:fixed, so that sidebar can be scrolled sensibly
-    &.full-bleed {
-      position: relative !important;
-      inset: var(--bslib-sidebar-full-bleed-inset, 0) !important;
-    }
+
+// In the case of page_navbar(nav("Foo", layout_sidebar())), we want the
+// sidebar to be flush with the viewport (just like it will be in the
+// case of page_navbar(sidebar = sidebar()))
+.navbar  {
+  & + .container-fluid:has(>.tab-content>.tab-pane>.bslib-sidebar-layout) {
+    padding-left: 0;
+    padding-right: 0;
   }
 }

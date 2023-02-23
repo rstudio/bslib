@@ -2,7 +2,7 @@
 
 ## Potentially breaking changes
 
-* `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`). If this breaks your layout, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`. (#479)
+* `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`). It also no longer fills the windows height on mobile (i.e., narrow screens) by default. If this breaks your layout, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`. (#479)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
 
 ## New features

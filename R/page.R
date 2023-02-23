@@ -39,29 +39,34 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 
 #' @rdname page
 #' @inheritParams shiny::fillPage
+#' @param fill_mobile Whether or not the page should fill the viewport's
+#'   height on mobile devices (i.e., narrow windows).
 #' @seealso [shiny::fillPage()]
 #' @export
-page_fill <- function(..., padding = 0, title = NULL,
-                      theme = bs_theme(), lang = NULL) {
-
-  padding_css <- paste(
-    sapply(padding, validateCssUnit, USE.NAMES = FALSE),
-    collapse = " "
-  )
-
-  styles <- tags$style(
-    type = "text/css",
-    "html, body { width: 100%; height: 100%; }",
-     sprintf("body { padding: %s; margin: 0; }", padding_css)
-  )
-
+page_fill <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
   page(
     title = title,
     theme = theme,
     lang = lang,
-    tags$head(styles),
-    # TODO: is there a good reason why bootstrapPage() doesn't return a <body> already?
-    bindFillRole(tags$body(...), container = TRUE)
+    tags$head(tags$style(HTML("html { height: 100%; }"))),
+    bindFillRole(
+      tags$body(
+        class = "bslib-page-fill",
+        style = css(
+          padding = validateCssPadding(padding),
+          "--bslib-page-fill-mobile-height" = if (fill_mobile) "100%" else "auto"
+        ),
+        ...
+      ),
+      container = TRUE
+    )
+  )
+}
+
+validateCssPadding <- function(padding = NULL) {
+  paste(
+    vapply(padding, validateCssUnit, character(1)),
+    collapse = " "
   )
 }
 
@@ -70,16 +75,19 @@ page_fill <- function(..., padding = 0, title = NULL,
 #' @inheritParams bs_page
 #' @seealso [shiny::navbarPage()]
 #' @param sidebar A [sidebar()] component to display on every [nav()] page.
-#' @param fill Whether or not to allow 'fill items' (i.e., UI elements marked with
-#'   `htmltools::bindFillRole(x, item = TRUE)`) to fit the viewport. If `TRUE`,
-#'   all [nav()] pages are filled. A character vector, matching the `value` of
-#'   [nav()]s to be filled, may also be provided.
+#' @param fillable Whether or not to allow `fill` items to grow/shrink to fit the
+#'   browser window. If `TRUE`, all [nav()] pages are `fillable`. A character
+#'   vector, matching the `value` of [nav()]s to be filled, may also be
+#'   provided. Note that, if a `sidebar` is provided, `fillable` makes the
+#'   main content portion fillable.
+#' @param fill_mobile Whether or not `fillable` pages should fill the viewport's
+#'   height on mobile devices (i.e., narrow windows).
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
 #' @export
 page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
-                        sidebar = NULL, fill = FALSE,
+                        sidebar = NULL, fillable = FALSE, fill_mobile = FALSE,
                         position = c("static-top", "fixed-top", "fixed-bottom"),
                         header = NULL, footer = NULL,
                         bg = NULL, inverse = "auto",
@@ -102,7 +110,13 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
 
-  page_func <- if (!isFALSE(fill)) page_fill else page
+  # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
+  # (which is a sibling of the <nav>) to always fill the page
+  page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
+    page
+  } else {
+    function(...) page_fill(..., fill_mobile = fill_mobile)
+  }
 
   page_func(
     title = window_title,
@@ -110,7 +124,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     lang = lang,
     navs_bar(
       ..., title = title, id = id, selected = selected,
-      sidebar = sidebar, fill = fill,
+      sidebar = sidebar, fillable = fillable,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
       collapsible = collapsible, fluid = fluid

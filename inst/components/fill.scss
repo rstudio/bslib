@@ -16,3 +16,16 @@
     padding: 0;
   }
 }
+
+
+.bslib-page-fill {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+@include media-breakpoint-down(sm) {
+  .bslib-page-fill {
+    height: var(--bslib-page-fill-mobile-height, auto);
+  }
+}

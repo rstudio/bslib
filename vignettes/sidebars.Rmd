@@ -67,8 +67,6 @@ controls should effect the entire page or just a subset of the page. In the latt
   - This default behavior can also be customized by changing the `width` and `height` defaults.
 * Global: the layout container grows/shrinks to fit the **viewport** (e.g., browser window).
   - On mobile devices (or narrow windows), both the sidebar and main content areas are made full width. Also, the height no longer grows/shrinks to the viewport, and instead
-  
-> TODO: provide an image for the context above? Or put this in a tip?
 
 ### Local sidebar
 
@@ -103,7 +101,7 @@ card(
   card_sidebar(
     sidebar(cut, clarity), 
     plot_price, 
-    fill = TRUE
+    fillable = TRUE
   )
 )
 ```
@@ -126,7 +124,7 @@ As mentioned previously, `layout_sidebar()`'s height grows with the height of it
 layout_sidebar(
   sidebar(cut, clarity), 
   plot_price, 
-  fill = TRUE, 
+  fillable = TRUE, 
   height = 200
 )
 ```
@@ -137,7 +135,7 @@ layout_sidebar(
 
 Sometimes it's convenient to have [multiple tabs of content within a `card()`](cards.html#multiple-tabs). Similar to how you can [provide a singular or page-specific sidebar(s) to `page_navbar()`](#global-sidebar), you can do the same with `navs_tab_card()`/`nav_pill_card()`.
 
-That is, provide a `sidebar()` object to the `sidebar` argument for singular sidebar.
+That is, for a singular sidebar (i.e., a sidebar that is shown on every tab), provide a `sidebar()` object to the `sidebar` argument:
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -147,13 +145,14 @@ navs_tab_card(
   title = "Singular sidebar",
   sidebar = sidebar(cut, clarity), 
   full_screen = TRUE, 
-  fill = TRUE,
-  nav("Price", plot_price),
-  nav("Carat", plot_carat)
+  wrapper = card_body_fill,
+  nav("Tab 1 (Price)", plot_price),
+  nav("Tab 2 (Carat)", plot_carat)
 )
 ```
 
-Or, provide a `card_sidebar()` to particular a `nav()` tab.
+
+Or, if you want only particular tabs to contain a sidebar, provide a `card_sidebar()` to relevant `nav()` tabs:
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -161,13 +160,13 @@ Or, provide a `card_sidebar()` to particular a `nav()` tab.
 ```{r}
 navs_tab_card(
   title = "Tab-specific sidebar",
-  full_screen = TRUE, 
-  fill = TRUE,
+  full_screen = TRUE,
   nav(
     "Tab 1", 
     card_sidebar(
+      fillable = TRUE,
       sidebar(cut, clarity), 
-      plot_price, fill = TRUE
+      plot_price, 
     )
   ),
   nav(
@@ -193,8 +192,8 @@ Provide a `sidebar()` object to `page_navbar()`'s `sidebar` argument to make sin
 page_navbar(
   title = "Singular sidebar",
   sidebar = sidebar(cut, clarity),
-  nav("Price", plot_price),
-  nav("Carat", plot_carat)
+  nav("Page 1 (Price)", plot_price),
+  nav("Page 2 (Carat)", plot_carat)
 )
 ```
 
@@ -208,9 +207,10 @@ Provide a `layout_sidebar_full_bleed()` to a particular `nav()` page to make it 
 ```{r navbar-page-sidebar, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
 page_navbar(
   title = "Page-specific sidebar",
+  fillable = "Page 1",
   nav(
     "Page 1", 
-    layout_sidebar_full_bleed(
+    layout_sidebar(
       sidebar(cut, clarity), 
       plot_price
     )
@@ -234,9 +234,9 @@ Regardless of whether you have a "truly global" or page-specific sidebar, you mi
 page_navbar(
   title = "Global sidebar",
   sidebar = sidebar(cut, clarity),
-  fill = "Price",
-  nav("Price", plot_price),
-  nav("Carat", plot_carat)
+  fillable = "Price",
+  nav("Page 1 (Price)", plot_price, value = "Price"),
+  nav("Page 2 (Carat)", plot_carat)
 )
 ```
 
@@ -264,38 +264,67 @@ page_fill(
 
 <br>
 
-### Customize
+### Customization
 
-#### Right-hand sidebar
+`sidebar()` (and `layout_sidebar()`) has a handful of named arguments for customizing sidebar `position`, the `bg` color, whether sidebar is `open` by default, and more.
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
 ```{r}
 layout_sidebar(
+  bg = "#f9f9f9",
   sidebar(
     position = "right", bg = "#CBF4F4", 
     cut, clarity
   ), 
-  plot_price
+  layout(
+    plot_price, 
+    plot_bgcolor = "#f9f9f9", 
+    paper_bgcolor = "#f9f9f9"
+  )
 )
 ```
 
 <br>
 
-#### Closed
-
-```{r, sidebar-create-contents, echo=FALSE}
-```
+All the arguments to `layout_sidebar()` apply to the main content area. Thus, you could pass a [utility class like `p-0`](https://getbootstrap.com/docs/5.3/utilities/spacing/) to remove/reduce/add to the default padding. 
 
 ```{r}
 layout_sidebar(
-  sidebar(open = FALSE, cut, clarity), 
+  class = "p-1", 
+  sidebar(open = FALSE, cut, clarity),
   plot_price
 )
 ```
 
-<br>
+
+### Shiny
+
+Inside a Shiny context, the `open` state of a `sidebar()` can programmatically updated and/or queried through an input value. Just provide an `id` and refer to that id in the server-side code. Here's an example of using an `actionButton()` as an alternative way of toggling the open/closed state of the sidebar:
+
+```{r, eval = FALSE}
+library(shiny)
+
+ui <- page_fixed(
+  actionButton("toggle", "Toggle sidebar"),
+  layout_sidebar(
+    sidebar(
+      id = "sidebar", 
+      "Sidebar content"
+    ),
+    "Main content"
+  )
+)
+
+server <- function(input, output) {
+  observeEvent(input$toggle, {
+    if (input$sidebar) sidebar_close("sidebar") else sidebar_open("sidebar")
+  })
+}
+
+shinyApp(ui, server)
+```
 
 
 ### Accordions
