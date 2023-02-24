@@ -78,6 +78,7 @@ $bslib-sidebar-icon-size: $spacer !default;
     border-left: none;
     border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
     padding: 4px 0;
+    background-color: transparent;
 
     &::after {
       width: $bslib-sidebar-icon-size;
@@ -146,7 +147,6 @@ $bslib-sidebar-icon-size: $spacer !default;
   }
 }
 
-// TODO: transition between collapse states on mobile?
 @include media-breakpoint-down(sm) {
   .bslib-sidebar-layout {
     --bslib-sidebar-vert-border: none;
@@ -195,9 +195,10 @@ $bslib-sidebar-icon-size: $spacer !default;
       --bslib-collapse-toggle-transform: 0deg;
       --bslib-collapse-toggle-right-transform: 0deg;
 
-      > .sidebar {
-        height: 0;
-      }
+      grid-template-rows: 0 minmax(0, 1fr);
+      // TODO: according to the spec, grid-template-rows should be animatable,
+      // but this doesn't behave quite right, and I'm not sure why
+      //transition: grid-template-rows ease-in-out 0.5s;
     }
   }
 }

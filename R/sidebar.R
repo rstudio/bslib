@@ -27,10 +27,10 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
     class <- c("bslib-sidebar-input", class)
   }
 
-  collapse_tag <- tags$a(
+  collapse_tag <- tags$button(
     class = "collapse-toggle",
-    role = "button",
-    "aria-expanded" = "true",
+    type = "button",
+    "aria-expanded" = if (open) "true" else "false",
     "aria-controls" = id,
     title = "Toggle sidebar"
   )

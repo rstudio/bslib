@@ -52,25 +52,37 @@ class SidebarInputBinding extends InputBinding {
 
 registerBinding(SidebarInputBinding, "sidebar");
 
-$(document).on("click", ".bslib-sidebar-layout .collapse-toggle", (e) => {
+$(document).on("click", ".bslib-sidebar-layout > .collapse-toggle", (e) => {
   e.preventDefault();
 
-  const $container = $(e.target).closest(".bslib-sidebar-layout"),
+  const $toggle = $(e.target),
+    $container = $toggle.parent(),
     $main = $container.children(".main"),
     $side = $container.children(".sidebar");
 
   // Make sure outputs resize properly when the sidebar is opened/closed
   doWindowResizeOnElementResize($main[0]);
 
+  // Add a transitioning class just before adding COLLAPSE_CLASS since we want
+  // some of the transitioning styles to apply before the collapse state
   $container.addClass("transitioning");
-
   $container.toggleClass(COLLAPSE_CLASS);
+
+  // Update the aria-expanded attribute
+  $toggle.attr(
+    "aria-expanded",
+    $container.hasClass(COLLAPSE_CLASS) ? "false" : "true"
+  );
+
   $side.trigger("toggleCollapse.sidebarInputBinding");
 });
 
-$(document).on("transitionend", ".bslib-sidebar-layout", (e) => {
-  const $el = $(e.target);
-  if ($el.hasClass("collapse-toggle")) {
-    $el.parent().removeClass("transitioning");
+// Once the collapse transition completes (on the collapse toggle, which is
+// always guaranteed to transition), then remove the transitioning class
+$(document).on(
+  "transitionend",
+  ".bslib-sidebar-layout > .collapse-toggle",
+  (e) => {
+    e.target.parentElement.classList.remove("transitioning");
   }
-});
+);
