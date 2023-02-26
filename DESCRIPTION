@@ -61,6 +61,7 @@ Collate:
     'deprecated.R'
     'files.R'
     'imports.R'
+    'input-check-search.R'
     'layout.R'
     'nav-items.R'
     'nav-update.R'
