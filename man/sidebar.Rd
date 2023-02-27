@@ -33,7 +33,8 @@ sidebar_open(id, session = get_current_session())
 sidebar_close(id, session = get_current_session())
 }
 \arguments{
-\item{...}{A collection of \code{\link[htmltools:builder]{htmltools::tag()}} children (i.e., UI elements).}
+\item{...}{A collection of \code{\link[htmltools:builder]{htmltools::tag()}} children (i.e., UI elements).
+Named attributes are included as attributes on the sidebar's HTML tag.}
 
 \item{width}{A valid \link[htmltools:validateCssUnit]{CSS unit} used for the
 width of the sidebar.}
@@ -46,7 +47,9 @@ value of \code{NA} to prevent sidebar from being collapsible.}
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
 
-\item{bg}{A background color.}
+\item{bg}{A background color. If provided, an accessible contrasting color is
+provided for the foreground color (consider using a utility \code{class} to
+customize the foreground color).}
 
 \item{class}{Additional CSS classes for the top-level HTML element.}
 
@@ -69,18 +72,29 @@ a fillable container.}
 used).}
 }
 \description{
-Create various sidebar-based layouts. See \href{https://rstudio.github.io/bslib/articles/sidebars.html}{this article} to learn
-more.
+Create a collapsing sidebar layout by providing a \code{sidebar()} object to the \code{sidebar} argument of:
+\itemize{
+\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navs_tabs_card]{navs_tabs_card()}}, and \code{\link[=navs_pill_card]{navs_pill_card()}}
+\itemize{
+\item Display the same sidebar on every page/tab.
+}
+\item \code{\link[=card_sidebar]{card_sidebar()}}
+\itemize{
+\item Use a \code{layout_sidebar()} inside a \code{\link[=card]{card()}} context.
+}
+\item \code{layout_sidebar()}
+\itemize{
+\item Use a sidebar layout inside a larger \code{\link[=page]{page()}} (and/or scoped within a page/tab).
+}
+}
+
+See \href{https://rstudio.github.io/bslib/articles/sidebars.html}{this article} to
+learn more.
 }
 \section{Functions}{
 \itemize{
-\item \code{layout_sidebar()}: A 'localized' sidebar layout
+\item \code{sidebar_open()}: Open a \code{sidebar()} (during an active Shiny user session).
 
-\item \code{sidebar_open()}: Close a (\code{collapsible}) \code{\link[=sidebar]{sidebar()}}.
-
-\item \code{sidebar_close()}: Close a (\code{collapsible}) \code{\link[=sidebar]{sidebar()}}.
+\item \code{sidebar_close()}: Close a \code{sidebar()} (during an active Shiny user session).
 
 }}
-\seealso{
-\code{\link[=card_sidebar]{card_sidebar()}}, \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navs_tab_card]{navs_tab_card()}}
-}
