@@ -2,8 +2,6 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
 $bslib-sidebar-icon-size: $spacer !default;
 
 .bslib-sidebar-layout {
-  --bslib-sidebar-bg: var(--bs-card-bg);
-  --bslib-sidebar-main-bg: var(--bs-card-bg);
   --bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s;
   --bslib-sidebar-border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
   --bslib-sidebar-border-radius: var(--bs-border-radius);
@@ -44,7 +42,6 @@ $bslib-sidebar-icon-size: $spacer !default;
     display: flex;
     flex-direction: column;
     width: var(--bslib-sidebar-width);
-    background-color: var(--bslib-sidebar-bg);
 
     > .accordion {
       margin: - $bslib-sidebar-padding;
@@ -62,7 +59,6 @@ $bslib-sidebar-icon-size: $spacer !default;
 
   > .main {
     z-index: 1; // Make sure main content is on top of sidebar during transition
-    background-color: var(--bslib-sidebar-main-bg);
   }
 
   > .collapse-toggle {

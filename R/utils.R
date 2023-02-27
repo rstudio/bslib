@@ -102,3 +102,19 @@ rename2 <- function(x, ...) {
   }
   x
 }
+
+# Get an accessible color contrast for a specified bg_color
+# (and return NULL+warn on failure)
+get_color_contrast <- function(bg_color) {
+  # Use a specific name that won't clash with other variables
+  nm <- "__bslib-custom-bg-color__"
+  theme <- bs_add_variables(bs_theme(), !!nm := bg_color)
+  tryCatch(
+    bs_get_contrast(theme, nm)[[1]],
+    error = function(e) {
+      warning("Failed to compute a contrasting color for '", bg_color, "'", call. = FALSE)
+      NULL
+    }
+  )
+}
+

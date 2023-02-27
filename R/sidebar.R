@@ -1,10 +1,19 @@
 #' Sidebar layouts
 #'
-#' Create various sidebar-based layouts. See [this
-#' article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn
-#' more.
+#' @description Create a collapsing sidebar layout by providing a `sidebar()` object to the `sidebar` argument of:
+#'
+#' * [page_navbar()], [navs_tabs_card()], and [navs_pill_card()]
+#'   * Display the same sidebar on every page/tab.
+#' * [card_sidebar()]
+#'   * Use a `layout_sidebar()` inside a [card()] context.
+#' * `layout_sidebar()`
+#'   * Use a sidebar layout inside a larger [page()] (and/or scoped within a page/tab).
+#'
+#' See [this article](https://rstudio.github.io/bslib/articles/sidebars.html) to
+#' learn more.
 #'
 #' @param ... A collection of [htmltools::tag()] children (i.e., UI elements).
+#'   Named attributes are included as attributes on the sidebar's HTML tag.
 #' @param width A valid [CSS unit][htmltools::validateCssUnit] used for the
 #'   width of the sidebar.
 #' @param position Where the sidebar should appear relative to the main content.
@@ -12,11 +21,12 @@
 #'   value of `NA` to prevent sidebar from being collapsible.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
-#' @param bg A background color.
+#' @param bg A background color. If provided, an accessible contrasting color is
+#'   provided for the foreground color (consider using a utility `class` to
+#'   customize the foreground color).
 #' @param class Additional CSS classes for the top-level HTML element.
 #'
 #' @export
-#' @seealso [card_sidebar()], [page_navbar()], [navs_tab_card()]
 sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE, id = NULL, bg = NULL, class = NULL) {
 
   # For accessiblity reasons, always provide id when collapsible,
@@ -40,8 +50,10 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
       id = id,
       role = "complementary",
       class = c("sidebar", class),
-      # TODO: parseCssColors(), once it supports var() and !important
-      style = css("--bslib-sidebar-bg" = bg),
+      style = css(
+        background_color = bg,
+        color = if (!is.null(bg)) get_color_contrast(bg)
+      ),
       ...
     ),
     collapse_tag = if (!isTRUE(is.na(open))) collapse_tag,
@@ -54,9 +66,7 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
   res
 }
 
-
-#' @describeIn sidebar A 'localized' sidebar layout
-#'
+#' @rdname sidebar
 #' @param sidebar A [sidebar()] object.
 #' @param fillable Whether or not the `main` content area should be considered a
 #'   fillable (i.e., flexbox) container.
@@ -76,8 +86,10 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
   main <- div(
     role = "main",
     class = "main",
-    # TODO: parseCssColors(), once it supports var() and !important
-    style = css("--bslib-sidebar-main-bg" = bg),
+    style = css(
+      background_color = bg,
+      color = if (!is.null(bg)) get_color_contrast(bg)
+    ),
     ...
   )
 
@@ -119,7 +131,7 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
 }
 
 
-#' @describeIn sidebar Close a (`collapsible`) [sidebar()].
+#' @describeIn sidebar Open a `sidebar()` (during an active Shiny user session).
 #' @param session a shiny session object (the default should almost always be
 #'   used).
 #' @export
@@ -130,7 +142,7 @@ sidebar_open <- function(id, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-#' @describeIn sidebar Close a (`collapsible`) [sidebar()].
+#' @describeIn sidebar Close a `sidebar()` (during an active Shiny user session).
 #' @export
 sidebar_close <- function(id, session = get_current_session()) {
   callback <- function() {
