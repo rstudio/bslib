@@ -50,6 +50,9 @@ knitr::read_chunk(
     display: none;
   }
 }
+.html-widget {
+  margin-bottom: 0;
+}
 iframe, .bslib-page-fill {
   height: 450px;
   border: var(--bs-border-width) solid var(--bs-border-color);
@@ -455,9 +458,9 @@ page_fill(
 
 ### Styling and customization
 
-Both `sidebar()` and `layout_sidebar()` have named arguments which, as we've already seen, are helpful for customizing the styling and behavior of both the sidebar and main content areas. For example, the previous example demonstrates `sidebar()` options such as `position = "right"` and `open = FALSE`
+Both `sidebar()` and `layout_sidebar()` have named arguments which, as we've already seen, are helpful for customizing the styling and behavior of both the sidebar and main content areas. In fact, the previous example demonstrated advanced usage of `sidebar()`'s `position` and `open` as well as `layout_sidebar()`'s `fillable`, `border`, etc. However, there are other useful arguments we haven't seen yet like `bg` color (when specified, a contrasting foreground color may also be provided to dark backgrounds "just work"). 
 
-All the arguments to `layout_sidebar()` apply to the main content area. Thus, you could pass a [utility class like `p-0`](https://getbootstrap.com/docs/5.3/utilities/spacing/) to remove/reduce/add to the default padding.
+For other "lower-level" theming, you may want to leverage [Bootstrap utility `class`es]((https://getbootstrap.com/docs/5.3/utilities/spacing/)) and/or inline styles. When doing this, you'll want to be aware that `layout_sidebar()`'s `...` arguments (and thus `class`, `style`, etc.) are added to the main content's container (_not_ the overall layout container). So, to add `class` or `style` attributes on the layout `container`, use `htmltools::tagAppendAttributes()`. Note also that `layout_sidebar()` derives some of it's default style from Bootstrap CSS variables (e.g., `--bs-border-color`), which enables theming at the component-level ([theming via `bs_theme()`](bs5-variables.html) works on the page-level).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -468,10 +471,10 @@ library(leaflet)
 
 squake <- SharedData$new(quakes)
 
-side <- layout_sidebar(
+container <- layout_sidebar(
   class = "p-0", 
   sidebar(
-    bg = "#CBF4F4", 
+    bg = "#1E1E1E", 
     width = "35%",
     class = "fw-bold font-monospace",
     filter_slider("mag", "Magnitude", squake, ~mag)
@@ -479,7 +482,7 @@ side <- layout_sidebar(
   leaflet(squake) |> addTiles() |> addCircleMarkers()
 )
 
-tagAppendAttributes(side, style = css("--bs-border-color" = "darkgray"))
+tagAppendAttributes(container, style = css("--bs-border-color" = "darkgray"))
 ```
 
 <br>

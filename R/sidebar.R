@@ -12,8 +12,10 @@
 #' See [this article](https://rstudio.github.io/bslib/articles/sidebars.html) to
 #' learn more.
 #'
-#' @param ... A collection of [htmltools::tag()] children (i.e., UI elements).
-#'   Named attributes are included as attributes on the sidebar's HTML tag.
+#' @param ... Unnamed arguments can be any valid child of an [htmltools
+#'   tag][htmltools::tags] and named arguments become HTML attributes on
+#'   returned UI element. In the case of `layout_sidebar()`, these arguments are
+#'   passed to the main content tag (not the sidebar+main content container).
 #' @param width A valid [CSS unit][htmltools::validateCssUnit] used for the
 #'   width of the sidebar.
 #' @param position Where the sidebar should appear relative to the main content.
@@ -37,12 +39,15 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
     class <- c("bslib-sidebar-input", class)
   }
 
+  hide_collapse <- isTRUE(is.na(open))
+
   collapse_tag <- tags$button(
     class = "collapse-toggle",
     type = "button",
-    "aria-expanded" = if (open) "true" else "false",
-    "aria-controls" = id,
-    title = "Toggle sidebar"
+    title = "Toggle sidebar",
+    style = css(display = if (hide_collapse) "none"),
+    "aria-expanded" = if (open || hide_collapse) "true" else "false",
+    "aria-controls" = id
   )
 
   res <- list2(
@@ -56,7 +61,7 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
       ),
       ...
     ),
-    collapse_tag = if (!isTRUE(is.na(open))) collapse_tag,
+    collapse_tag = collapse_tag,
     position = match.arg(position),
     open = open,
     width = validateCssUnit(width)
