@@ -112,7 +112,6 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
     class = "bslib-sidebar-layout",
     class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
     style = css(
-      "--bslib-sidebar-width" = sidebar$width,
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
       "--bslib-sidebar-border" = if (!border) "none",
@@ -120,7 +119,8 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
       height = validateCssUnit(height)
     ),
     !!!contents,
-    sidebar_dependency()
+    sidebar_dependency(),
+    sidebar_js_init()
   )
 
   res <- bindFillRole(res, item = fill)
@@ -128,6 +128,32 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
   as_fragment(
     tag_require(res, version = 5, caller = "layout_sidebar()")
   )
+}
+
+sidebar_js_init <- function() {
+  tags$script("data-bslib-sidebar-init" = NA, HTML(
+    "
+    var thisScript = document.querySelector('script[data-bslib-sidebar-init]');
+    thisScript.removeAttribute('data-bslib-sidebar-init');
+
+    // If this layout is the innermost layout, then allow it to add CSS
+    // variables to it and its ancestors (counting how parent layouts there are)
+    var thisLayout = $(thisScript).parent();
+    var hasLayouts = thisLayout.find('.bslib-sidebar-layout').length > 0;
+    if (!hasLayouts) {
+      var parentLayouts = thisLayout.parents('.bslib-sidebar-layout');
+      // .add() sorts the layouts in DOM order (i.e., innermost is last)
+      var layouts = thisLayout.add(parentLayouts);
+      var ctrs = {left: 0, right: 0};
+      layouts.each(function(i, x) {
+        $(x).css('--bslib-sidebar-counter', i);
+        var right = $(x).children('.collapse-toggle-right').length > 0;
+        $(x).css('--bslib-sidebar-overlap-counter', right ? ctrs.right : ctrs.left);
+        right ? ctrs.right++ : ctrs.left++;
+      });
+    }
+    "
+  ))
 }
 
 

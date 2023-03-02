@@ -33,7 +33,7 @@ $bslib-sidebar-icon-size: $spacer !default;
     border-bottom-right-radius: 0;
   }
 
-  > :last-child {
+  > :nth-child(3) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
@@ -41,7 +41,7 @@ $bslib-sidebar-icon-size: $spacer !default;
   > .sidebar {
     display: flex;
     flex-direction: column;
-    width: var(--bslib-sidebar-width);
+    width: 100%;
 
     > .accordion {
       margin: - $bslib-sidebar-padding;
@@ -69,7 +69,8 @@ $bslib-sidebar-icon-size: $spacer !default;
     align-items: center;
     position: absolute;
     right: - $bslib-sidebar-icon-size;
-    bottom: $bslib-sidebar-padding;
+    // The CSS variable (set via JS) is here to help avoid overlapping toggles
+    bottom: calc(#{$bslib-sidebar-padding} + var(--bslib-sidebar-overlap-counter, 0) * calc(#{$bslib-sidebar-icon-size} + #{$bslib-sidebar-padding}));
     border: var(--bslib-collapse-toggle-border);
     border-left: none;
     border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
@@ -125,8 +126,8 @@ $bslib-sidebar-icon-size: $spacer !default;
     &:not(.transitioning) {
       // Putting `display:none` on .sidebar would change the number of columns
       // in the grid, and I don't think we can transition between those states
-      .sidebar > * {
-        display:none;
+      > .sidebar > * {
+        display: none;
       }
     }
 
@@ -181,7 +182,7 @@ $bslib-sidebar-icon-size: $spacer !default;
       top: 0;
       bottom: initial;
       right: $bslib-sidebar-padding;
-      border-top: none;
+      border-top: none !important;
       border: var(--bslib-collapse-toggle-border);
       border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
       padding: 0 4px;
@@ -195,6 +196,15 @@ $bslib-sidebar-icon-size: $spacer !default;
       // TODO: according to the spec, grid-template-rows should be animatable,
       // but this doesn't behave quite right, and I'm not sure why
       //transition: grid-template-rows ease-in-out 0.5s;
+
+      > .main {
+        border-top: none;
+      }
+
+      > .collapse-toggle {
+        // The CSS variable (set via JS) is here to help avoid overlapping toggles
+        right: calc(#{$bslib-sidebar-padding} + var(--bslib-sidebar-counter, 0) * calc(#{$bslib-sidebar-icon-size} + #{$bslib-sidebar-padding}));
+      }
     }
   }
 }
@@ -204,7 +214,7 @@ $bslib-sidebar-icon-size: $spacer !default;
 // sidebar to be flush with the viewport (just like it will be in the
 // case of page_navbar(sidebar = sidebar()))
 .navbar  {
-  & + .container-fluid:has(>.tab-content>.tab-pane>.bslib-sidebar-layout) {
+  & + .container-fluid:has(>.tab-content>.tab-pane.active>.bslib-sidebar-layout) {
     padding-left: 0;
     padding-right: 0;
   }

@@ -2,9 +2,13 @@
 title: "Sidebars"
 resource_files:
   - infobox.svg
-  - navbar-fill
-  - navbar-page-sidebar
-  - navbar-singular
+  - navbar-global
+  - navbar-global-fillable
+  - navbar-local-scroll
+  - navbar-local-fill
+  - page-scroll
+  - page-fill
+  - page-fill-double
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +23,7 @@ render_as_iframe <- function(x, options, ...) {
     dir.create(lbl)
   }
   file <- file.path(lbl, paste0(lbl, ".html"))
-  x <- tagList(x, tags$head(tags$style(".plotly { height: 250px !important; }")))
+  x <- tagList(x, tags$head(tags$style(".plotly { height: 250px !important; } .modebar-container { display: none; }")))
   tryCatch(
     save_html(x, file), 
     error = function(e) {
@@ -32,6 +36,11 @@ render_as_iframe <- function(x, options, ...) {
 # pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
 # (note this isn't a problem for any format based on html_document_base)
 shiny:::setCurrentTheme(bslib::bs_theme())
+
+# Each time we source this file, it'll give us a new crosstalk controls/views that use a different crosstalk group (this way, interactions won't be shared across chunks)
+knitr::read_chunk(
+  rprojroot::find_package_root_file("vignettes/sidebar-create-contents.R")
+)
 ```
 
 ```{scss, echo = FALSE}
@@ -41,55 +50,222 @@ shiny:::setCurrentTheme(bslib::bs_theme())
     display: none;
   }
 }
-iframe {
-  height: 500px;
+iframe, .bslib-page-fill {
+  height: 450px;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  margin-bottom: 4rem;
+  box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 ```
 
-This article provides an overview of the various `sidebar()` layout options in `{bslib}`. Before showing any of the layout options, let's first create some UI elements to place in both the sidebar and "main" content areas. In a Shiny context[^1], you'll probably want input controls like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the `sidebar()`, but here we'll use `{crosstalk}` input widgets (since this is a statically hosted website).
+### Sidebar layouts
 
-[^1]: In a Shiny context, you may also want to add an `id` to the `sidebar()` so you can reactively read/update whether the sidebar is open/closed.
+To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions: 
 
-```{r, include=FALSE, cache=FALSE}
-# Each time we source this file, it'll give us a new crosstalk controls/views that use a different crosstalk group (this way, interactions won't be shared across chunks)
-knitr::read_chunk(
-  rprojroot::find_package_root_file("vignettes/sidebar-create-contents.R")
-)
-```
+1. `layout_sidebar()` 
+   * A flexible sidebar layout. 
+2. `card_sidebar()`
+   * A `card()`-based sidebar layout.
+3. `navs_tab_card()` (or `navs_pill_card()`)
+   * A multi-tab, `card()`-based, sidebar layout.
+4. `page_navbar()` 
+   * A multi-page sidebar layout.
+   
+Cases 3 and 4 are inherently different from 1 and 2 because, in the former cases, you have the choice of either passing the sidebar directly to the function (which creates a [global sidebar](#global-sidebar)) or passing a sidebar layout to a particular page / tab (i.e., a [local sidebar](#local-sidebar)).[^1]
+
+[^1]: As a general UX rule, sidebar controls should be grouped as closely as possible with the contents that it effects. So, if you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
+
+
+### Setup code
+
+This article's code examples make repeated use of the following UI elements. In a Shiny context[^2], you'll probably want inputs like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the sidebar, but since this is a statically hosted website, we'll use `{crosstalk}` input widgets.
+
+[^2]: In a Shiny context, you may also want to add an `id` to the `sidebar()` so you can reactive-ly read/update whether the sidebar is open/closed.
 
 ```{r, sidebar-create-contents}
 ```
 
-When deciding which type of layout to choose, you should first think through whether the sidebar
-controls should effect the entire page or just a subset of the page. In the latter case, you probably want a [local](#local-sidebar) instead of a [global](#global-sidebar) layout. In more specific technical terms, the difference is:
 
-* Local: the layout container's height grows/shrinks to fit its contents and its width grows/shrinks to fit its **parent container**. 
-  - This default behavior can also be customized by changing the `width` and `height` defaults.
-* Global: the layout container grows/shrinks to fit the **viewport** (e.g., browser window).
-  - On mobile devices (or narrow windows), both the sidebar and main content areas are made full width. Also, the height no longer grows/shrinks to the viewport, and instead
+### Navbar page
 
-### Local sidebar
+The `page_navbar()` function provides a modern version of `shiny::navbarPage()` (i.e., a "multi-page app"[^3]) which not only defaults to a modern version of Bootstrap, but has additional features, such as a `sidebar` argument.
 
-`layout_sidebar()` is the main, low-level, entry point to a "local" sidebar (i.e., a sidebar that effects a subset of the page). By default, it provides rounded borders, padding, and a toggle for collapsing the sidebar in the bottom-left portion of the main content area (upper-right on mobile).
+[^3]: These functions don't actually make what web developers would consider a  multi-page app since they don't actually request different HTML pages (they are based on Bootstrap nav components).
+
+#### Global sidebar
+
+To show the same `sidebar()` on every page (i.e., create a "global" sidebar), pass it to the `sidebar` argument of `page_navbar()`:
+
+```{r navbar-global, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+page_navbar(
+  title = "Global sidebar",
+  sidebar = sidebar(cut, clarity),
+  nav("Page 1", plot_price, plot_carat),
+  nav("Page 2", plot_depth)
+)
+```
+
+With a global sidebar, the `fillable` argument controls whether the _main content area_ of the sidebar layout has the potential to grow/shrink to fit the browser window. By setting `fillable = TRUE`, every page's main contents are allowed to grow/shrink.[^4] In this example, this causes `Page 1`'s plots to shrink and `Page 2`'s plots to grow (in the previous example, the plots on `Page 1` spill over their container, but are still accessible via scrolling).
+
+[^4]: Specific page(s) can also be made `fillable` (e.g., `fillable = "Page 1"`)
+
+```{r navbar-global-fillable, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+page_navbar(
+  title = "Global sidebar w/ fill",
+  sidebar = sidebar(cut, clarity),
+  fillable = TRUE,
+  nav("Page 1", plot_price, plot_carat),
+  nav("Page 2", plot_depth)
+)
+```
+
+#### Dynamic sidebar
+
+Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^5] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
+
+[^5]: If the controls depend on some other application state, we can also, of course, use `shiny::uiOutput()` to fill the contents of a `sidebar()`).
+
+```{r, eval = FALSE}
+shinyApp(
+  page_navbar(
+    title = "Dynamic sidebar",
+    sidebar = sidebar(
+      cut, clarity,
+      conditionalPanel(
+        "input.nav === 'Page 2'", 
+        color
+      )
+    ),
+    id = "nav",
+    nav("Page 1", plot_price, plot_carat),
+    nav("Page 2", plot_depth)
+  ),
+  function(input, output) {}
+)
+```
 
 ```{r}
-# The first argument to must be a `sidebar()`, 
-# but any number of UI elements for the main content 
-# area may be provided via unnamed arguments 
-# (so you could include multiple plots, tables, etc).
-layout_sidebar(
-  sidebar(cut, clarity),
-  plot_price
+# Yields similar result to the examples above 
+# (only difference is `color` filter appears on Page 2)
+```
+
+<br>
+
+#### Local sidebar
+
+To create a sidebar layout that's specific to a page, place a `layout_sidebar()` (and/or a `card_sidebar()`) inside a page (i.e., `nav()`) container. In addition to allowing pages to not have a sidebar, this approach also makes it possible to make a group of related inputs/outputs visually distinct from other (unrelated) inputs/outputs.
+
+```{r navbar-local-scroll, render=render_as_iframe, out.width="100%", out.extra='height=600px seamless="seamless" frameBorder="0"'}
+library(leaflet)
+
+page_navbar(
+  title = "Local sidebar",
+  fluid = FALSE,
+  nav(
+    "Page 1", 
+    layout_sidebar(
+      sidebar(cut, clarity, width = 175), 
+      plot_price
+    ),
+    br(),
+    card(
+      card_header("Some unrelated map"), 
+      leaflet(quakes) |> addTiles() |> addCircleMarkers()
+    )
+  ),
+  nav("Page 2", "Something else")
+)
+```
+
+If the `layout_sidebar()` should fit the browser window (in the same way a [global sidebar](#global-sidebar) does), then make the relevant page `fillable`. In addition, if the main contents want to be `fillable` (e.g., `plot_price` should be allowed to grow/shrink to fit the layout container), then also set `fillable = TRUE` in `layout_sidebar()`.
+
+```{r navbar-local-fill, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+page_navbar(
+  title = "Local sidebar w/ fill",
+  fillable = "Page 1",
+  nav(
+    "Page 1", 
+    layout_sidebar(
+      fillable = TRUE, 
+      border = FALSE,
+      sidebar(cut, clarity), 
+      plot_price
+    )
+  ),
+  nav("Page 2", "Something else")
+)
+```
+
+### Other page layouts
+
+The previous section focused on sidebar layouts in the context of a `page_navbar()`, but as you may have guessed from the last couple [local sidebar](#local-sidebar) examples, `layout_sidebar()` can be also used inside any Bootstrap `page()` (i.e., it works with `page_fixed()`, `page_fluid()`, `page_fill()`, etc). The same also goes for `card_sidebar()` (which we'll cover [later](#cards)), and since it's a thin wrapper around `layout_sidebar()`, many of the same concepts we'll cover here also apply to `card_sidebar()`.
+
+#### Scrolling layout
+
+By default, `layout_sidebar()` provides rounded borders and padding around the container so that it can easily be dropped into any larger page. The sizing rules are also very similar to [cards](cards.html) in the sense that the container grows with the size of it's contents (by default). So, if there's lots of content, consider specifying a `height` in the container (contents will then be scrollable). If, instead, of scrolling contents (the default), you want to allow those contents to resize themselves to that height, also set `fillable = TRUE`:
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
+```{r page-scroll, render=render_as_iframe, out.width="100%", out.extra='height=600px seamless="seamless" frameBorder="0"'}
+page_fixed(
+  h1("My scrolling page", class = "lead fs-2 my-3"), 
+  layout_sidebar(
+    height = 325,
+    sidebar(cut, clarity), 
+    "Scroll down for another plot 👇",
+    plot_price, plot_carat
+  ),
+  br(),
+  layout_sidebar(
+    height = 350, 
+    fillable = TRUE,
+    sidebar(color, position = "right"), 
+    "No scrolling here",
+    plot_price, plot_carat
+  ),
+  br()
 )
 ```
 
 <br>
 
-#### Within a card
+Note that this idea of scrolling multiple sidebar layouts concept also works with a `page_fluid()` or `page()` container (the only difference is the amount of horizontal padding provided on the page level). If, instead of scrolling at the page level, you want sidebar layout(s) to fit the browser window, consider using `page_fill()`.
 
-A convenient short-hand for putting `layout_sidebar()` inside a `card()` is available through `card_sidebar()`. This usage is convenient not only for adding a header, footer, etc., but also for making the entire thing `full_screen`. Just make sure to set `fill = TRUE` if you want [responsive sizing](cards.html#responsive-sizing) of the main content area (i.e., allow it to grow/shrink as it enters/leaves full screen mode).
+#### Filling layout
 
-(See [this article](cards.html) to learn more about cards)
+Since `page_fill()` is a fillable container (with a height of 100%) and `layout_sidebar()` is a fill item (it defaults to `fill = TRUE`, just like the `{plotly}` plots do), `layout_sidebar()`(s) that are direct children of `page_fill()` will grow/shrink as needed to fit the browser window. Note that, this doesn't necessarily mean the _contents_ of the `layout_sidebar()` will grow/shrink (for that behavior, set `fillable = TRUE` in `layout_sidebar()`):
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
+```{r page-fill, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+page_fill(
+  h1(
+    class = "lead text-center bg-primary bg-gradient my-0 p-3",
+    "My filled page"
+  ),
+  layout_sidebar(
+    border = FALSE, 
+    border_radius = FALSE,
+    sidebar(cut, clarity), 
+    "Scroll down for another plot 👇",
+    plot_price, plot_carat
+  )
+)
+```
+
+<br>
+
+
+### Cards 
+
+`card_sidebar()` provides a convenient short-hand for creating a sidebar layout inside a `card()`. This way, you can easily add a `card_header()`, `card_footer()`, or even `full_screen = TRUE` behavior. If you do want `full_screen = TRUE` (and/or specify a `height`), then you may also want `fillable = TRUE` to allow the contents of the main area (e.g., `plot_price`) to grow/shrink to the card container. Also, in a card context, it might make sense to hide the sidebar by default (`open = FALSE`), especially if space is limited (e.g., maybe you want [multiple cards with sidebars](layouts.html#responsive-column-first-layout)).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -97,9 +273,9 @@ A convenient short-hand for putting `layout_sidebar()` inside a `card()` is avai
 ```{r}
 card(
   full_screen = TRUE,
-  card_header("Filtering diamond price by cut and clarity"),
+  card_header("Filter diamond price by cut and clarity"),
   card_sidebar(
-    sidebar(cut, clarity), 
+    sidebar(cut, clarity, open = FALSE), 
     plot_price, 
     fillable = TRUE
   )
@@ -108,51 +284,71 @@ card(
 
 <br>
 
+And, since `card_sidebar(...)` is implemented as `card_body_fill(class = "p-0", layout_sidebar(...))`, other `layout_sidebar()` arguments like `bg`, `class`, etc. can be also passed to `card_sidebar()` (to [customize](#customize) the main content area).[^6]
 
-`card_sidebar()` is actually a thin wrapper around `card_body_fill()` + `layout_sidebar()`, and passes it's arguments to `layout_sidebar()`[^2], so this `fill` argument can also be used outside of a card as well.
+[^6]: To customize the `card_body_fill()` container (e.g., to set a `max_height`), consider explicitly using `card_body_fill(class = "p-0", layout_sidebar(...))` over `card_sidebar()`.
 
-[^2]: To customize the `card_body_fill()` container (e.g., to set a `max_height`), just use `card_body_fill(class = "p-0", layout_sidebar(...))` instead of `card_sidebar()`.
+### Cards with tabs
 
-#### Filling contents
+It's also possible to embed a sidebar layout within a `card()`s that has multiple tabs/pills via `navs_tab_card()`/`navs_pill_card()`. And, similar to `page_navbar()`, a `sidebar()` can either be passed as an argument (i.e., global sidebar) or to a particular tab/pill (i.e., local sidebar).
 
-As mentioned previously, `layout_sidebar()`'s height grows with the height of it's contents, unless a `height` is specified. If the height of the sidebar and/or main contents are greater than a specified `height`, those contents will be scrollable, but if you'd rather that the main contents be allowed to grow/shrink to fit the container's height (similar to the `card_sidebar()` example above), then set `fill = TRUE`
+#### Global sidebar
 
-```{r, sidebar-create-contents, echo=FALSE}
-```
+To show the same `sidebar()` on every tab/pill (i.e., create a "global" sidebar), pass it to the `sidebar` argument of `navs_tab_card()` (or `navs_pill_card()`).
 
-```{r}
-layout_sidebar(
-  sidebar(cut, clarity), 
-  plot_price, 
-  fillable = TRUE, 
-  height = 200
-)
-```
-
-<br>
-
-#### Multiple tabs
-
-Sometimes it's convenient to have [multiple tabs of content within a `card()`](cards.html#multiple-tabs). Similar to how you can [provide a singular or page-specific sidebar(s) to `page_navbar()`](#global-sidebar), you can do the same with `navs_tab_card()`/`nav_pill_card()`.
-
-That is, for a singular sidebar (i.e., a sidebar that is shown on every tab), provide a `sidebar()` object to the `sidebar` argument:
+Remember that, just like `layout_sidebar()` and `card()`, `navs_tab_card()` sizes itself according to it's contents (by default), so consider setting a `height` to keep a fixed height across all tabs. And, to allow the contents to grow/shrink to fit the card container, you'll want to wrap the contents of each tab with `card_body_fill()` (`wrapper = card_body_fill` is a convenient way to do this for all tabs).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
 ```{r}
 navs_tab_card(
-  title = "Singular sidebar",
-  sidebar = sidebar(cut, clarity), 
-  full_screen = TRUE, 
+  title = "Global sidebar",
+  sidebar = sidebar(cut, clarity),
+  height = 450,
+  full_screen = TRUE,
   wrapper = card_body_fill,
-  nav("Tab 1 (Price)", plot_price),
-  nav("Tab 2 (Carat)", plot_carat)
+  nav("Tab 1", plot_price, plot_carat),
+  nav("Tab 2", plot_depth)
 )
 ```
 
+#### Dynamic sidebar
 
-Or, if you want only particular tabs to contain a sidebar, provide a `card_sidebar()` to relevant `nav()` tabs:
+Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^5] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
+
+```{r, eval = FALSE}
+dynamic <- navs_tab_card(
+  title = "Dynamic sidebar",
+  sidebar = sidebar(
+    cut, clarity,
+    conditionalPanel(
+      "input.nav === 'Page 2'", 
+      color
+    )
+  ),
+  id = "nav",
+  nav("Page 1", plot_price),
+  nav("Page 2", plot_carat, plot_depth)
+)
+
+shinyApp(
+  page_fixed(dynamic),
+  function(input, output) {}
+)
+```
+
+```{r}
+# Yields similar result to the examples above 
+# (only difference is `color` filter appears on Page 2)
+```
+
+<br>
+
+
+#### Local sidebar
+
+To create a sidebar layout that’s specific to a page, place a `card_sidebar()` inside a tab (i.e., `nav()`) container (similar to how you would for [a `card()` without tabs](#cards)).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -164,9 +360,9 @@ navs_tab_card(
   nav(
     "Tab 1", 
     card_sidebar(
-      fillable = TRUE,
       sidebar(cut, clarity), 
-      plot_price, 
+      plot_price,
+      fillable = TRUE
     )
   ),
   nav(
@@ -176,150 +372,28 @@ navs_tab_card(
 )
 ```
 
-
-### Global sidebar
-
-Global sidebars are typically paired with `page_navbar()`; and in this case, you can choose from a singular sidebar (i.e., a sidebar that controls content on every page), or sidebar(s) for specific page(s).
-
-#### Singular sidebar
-
-Provide a `sidebar()` object to `page_navbar()`'s `sidebar` argument to make singular, "truly global", sidebar that remains constant and shown on every page. 
-
-```{r, sidebar-create-contents, echo=FALSE}
-```
-
-```{r navbar-singular, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
-page_navbar(
-  title = "Singular sidebar",
-  sidebar = sidebar(cut, clarity),
-  nav("Page 1 (Price)", plot_price),
-  nav("Page 2 (Carat)", plot_carat)
-)
-```
-
-#### Page specific sidebar
-
-Provide a `layout_sidebar_full_bleed()` to a particular `nav()` page to make it so the "full bleed" sidebar only appear when that particular page is active. This function is a special form of `layout_sidebar()` that it uses `position:fixed` to make sure the layout container fits to the viewport (and will also automatically dodge the navbar).
-
-```{r, sidebar-create-contents, echo=FALSE}
-```
-
-```{r navbar-page-sidebar, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
-page_navbar(
-  title = "Page-specific sidebar",
-  fillable = "Page 1",
-  nav(
-    "Page 1", 
-    layout_sidebar(
-      sidebar(cut, clarity), 
-      plot_price
-    )
-  ),
-  nav(
-    "Page 2", 
-    "Something else entirely"
-  )
-)
-```
-
-
-#### Filling contents
-
-Regardless of whether you have a "truly global" or page-specific sidebar, you might want the main content area to grow/shrink to fit the viewport as well. This can be done globally for every page by setting `page_navbar()`'s `fill` argument to `TRUE`, or done for specific page(s) by providing relevant `nav()` `value`s. For example, by setting `fill = "Price"` here, just the main content of the `Price` page will stretch to fit.
-
-```{r, sidebar-create-contents, echo=FALSE}
-```
-
-```{r navbar-fill, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
-page_navbar(
-  title = "Global sidebar",
-  sidebar = sidebar(cut, clarity),
-  fillable = "Price",
-  nav("Page 1 (Price)", plot_price, value = "Price"),
-  nav("Page 2 (Carat)", plot_carat)
-)
-```
-
-
-#### Singular page
-
-To create a global sidebar on a singular page (i.e, without using `page_navbar()`), its recommended to provide `layout_sidebar()` as a direct child of `page_fill()`. This way, you can put UI elements above and below the layout container and it should grow/shrink as needed. 
-
-```{r, sidebar-create-contents, echo=FALSE}
-```
-
-```{r}
-page_fill(
-  h1(
-    class = "lead text-center bg-primary bg-gradient my-0 py-3",
-    "My full bleed sidebar page"
-  ),
-  layout_sidebar(
-    sidebar(cut, clarity), 
-    plot_price,
-    border_radius = FALSE
-  )
-)
-```
-
 <br>
-
-### Customization
-
-`sidebar()` (and `layout_sidebar()`) has a handful of named arguments for customizing sidebar `position`, the `bg` color, whether sidebar is `open` by default, and more.
-
-```{r, sidebar-create-contents, echo=FALSE}
-```
-
-```{r}
-layout_sidebar(
-  bg = "#f9f9f9",
-  sidebar(
-    position = "right", bg = "#CBF4F4", 
-    cut, clarity
-  ), 
-  layout(
-    plot_price, 
-    plot_bgcolor = "#f9f9f9", 
-    paper_bgcolor = "#f9f9f9"
-  )
-)
-```
-
-<br>
-
-All the arguments to `layout_sidebar()` apply to the main content area. Thus, you could pass a [utility class like `p-0`](https://getbootstrap.com/docs/5.3/utilities/spacing/) to remove/reduce/add to the default padding. 
-
-```{r}
-layout_sidebar(
-  class = "p-1", 
-  sidebar(open = FALSE, cut, clarity),
-  plot_price
-)
-```
 
 
 ### Shiny
 
-Inside a Shiny context, the `open` state of a `sidebar()` can programmatically updated and/or queried through an input value. Just provide an `id` and refer to that id in the server-side code. Here's an example of using an `actionButton()` as an alternative way of toggling the open/closed state of the sidebar:
+Inside a Shiny context, the `open` state of a `sidebar()` can programmatically updated and/or queried through an input value. Doing so requires that an `id` is provided to the `sidebar()`. Here's an example of using `sidebar_close()` and `sidebar_open()` to make sure the sidebar is open on `Page 1` but closed on `Page 2`.
 
 ```{r, eval = FALSE}
 library(shiny)
 
-ui <- page_fixed(
-  actionButton("toggle", "Toggle sidebar"),
-  layout_sidebar(
-    sidebar(
-      id = "sidebar", 
-      "Sidebar content"
-    ),
-    "Main content"
-  )
+ui <- page_navbar(
+  title = "Sidebar example",
+  id = "nav",
+  sidebar = sidebar(id = "sidebar", cut, clarity),
+  nav("Page 1", plot_price),
+  nav("Page 2", plot_carat, plot_depth)
 )
 
 server <- function(input, output) {
-  observeEvent(input$toggle, {
-    if (input$sidebar) sidebar_close("sidebar") else sidebar_open("sidebar")
+  observe({
+    func <- if (input$nav == "Page 2") sidebar_close else sidebar_open
+    func("sidebar")
   })
 }
 
@@ -327,7 +401,7 @@ shinyApp(ui, server)
 ```
 
 
-### Accordions
+### Sidebar accordions
 
 When an accordion appears as a immediate child inside `sidebar()`, they'll render "flush" to the sidebar, providing a convenient way to group multiple related input controls under a collapsible section. 
 
@@ -349,3 +423,63 @@ filters_acc <- accordion(
 
 layout_sidebar(sidebar(filters_acc), plot_price)
 ```
+
+<br>
+
+### Nested sidebars
+
+It's possible to nest sidebar layouts, which means you can effectively have any number of left and/or right sidebars in a given layout. When doing this, you'll want the main content area of every `layout_sidebar()` that contains a `layout_sidebar()` to be fillable and have zero padding (`class = "p-0"`).
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
+```{r page-fill-double, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+page_fill(
+    h1(
+        class = "lead fs-2 text-center bg-primary bg-gradient my-0 p-3",
+        "Left and right sidebar"
+    ),
+    layout_sidebar(
+        sidebar(cut, clarity), 
+        layout_sidebar(
+            sidebar(color, position = "right", open = FALSE), 
+            plot_price,
+            border = FALSE
+        ),
+        border_radius = FALSE,
+        fillable = TRUE,
+        class = "p-0"
+    )
+)
+```
+
+### Styling and customization
+
+Both `sidebar()` and `layout_sidebar()` have named arguments which, as we've already seen, are helpful for customizing the styling and behavior of both the sidebar and main content areas. For example, the previous example demonstrates `sidebar()` options such as `position = "right"` and `open = FALSE`
+
+All the arguments to `layout_sidebar()` apply to the main content area. Thus, you could pass a [utility class like `p-0`](https://getbootstrap.com/docs/5.3/utilities/spacing/) to remove/reduce/add to the default padding.
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
+```{r}
+library(htmltools)
+library(leaflet)
+
+squake <- SharedData$new(quakes)
+
+side <- layout_sidebar(
+  class = "p-0", 
+  sidebar(
+    bg = "#CBF4F4", 
+    width = "35%",
+    class = "fw-bold font-monospace",
+    filter_slider("mag", "Magnitude", squake, ~mag)
+  ), 
+  leaflet(squake) |> addTiles() |> addCircleMarkers()
+)
+
+tagAppendAttributes(side, style = css("--bs-border-color" = "darkgray"))
+```
+
+<br>
