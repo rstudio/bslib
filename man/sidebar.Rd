@@ -33,8 +33,9 @@ sidebar_open(id, session = get_current_session())
 sidebar_close(id, session = get_current_session())
 }
 \arguments{
-\item{...}{A collection of \code{\link[htmltools:builder]{htmltools::tag()}} children (i.e., UI elements).
-Named attributes are included as attributes on the sidebar's HTML tag.}
+\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} and named arguments become HTML attributes on
+returned UI element. In the case of \code{layout_sidebar()}, these arguments are
+passed to the main content tag (not the sidebar+main content container).}
 
 \item{width}{A valid \link[htmltools:validateCssUnit]{CSS unit} used for the
 width of the sidebar.}
