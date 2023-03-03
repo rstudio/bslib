@@ -75,7 +75,7 @@ used).}
 \description{
 Create a collapsing sidebar layout by providing a \code{sidebar()} object to the \code{sidebar} argument of:
 \itemize{
-\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navs_tabs_card]{navs_tabs_card()}}, and \code{\link[=navs_pill_card]{navs_pill_card()}}
+\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navs_tab_card]{navs_tab_card()}}, and \code{\link[=navs_pill_card]{navs_pill_card()}}
 \itemize{
 \item Display the same sidebar on every page/tab.
 }
