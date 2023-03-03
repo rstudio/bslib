@@ -122,12 +122,13 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     title = window_title,
     theme = theme,
     lang = lang,
-    navs_bar(
+    navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
-      collapsible = collapsible, fluid = fluid
+      collapsible = collapsible, fluid = fluid,
+      theme = theme
     )
   )
 }

@@ -116,6 +116,30 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
                      header = NULL, footer = NULL,
                      bg = NULL, inverse = "auto",
                      collapsible = TRUE, fluid = TRUE) {
+  navs_bar_(
+    ..., title = title, id = id, selected = selected,
+    sidebar = sidebar, fillable = fillable,
+    position = position,
+    header = header, footer = footer,
+    bg = bg, inverse = inverse,
+    collapsible = collapsible, fluid = fluid,
+    # theme is only used to determine whether legacy style markup should be used
+    # (and, at least at the moment, we don't need legacy markup for this exported function)
+    theme = bs_theme()
+  )
+}
+
+# This internal version of navs_bar() exists so both it and page_navbar()
+# (and thus shiny::navbarPage()) can use it. And in the page_navbar() case,
+# we can use addition theme information as an indication of whether we need
+# to handle backwards compatibility
+navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
+                      sidebar = NULL, fillable = FALSE,
+                      position = c("static-top", "fixed-top", "fixed-bottom"),
+                      header = NULL, footer = NULL,
+                      bg = NULL, inverse = "auto",
+                      collapsible = TRUE, fluid = TRUE,
+                      theme = NULL) {
 
   if (identical(inverse, "auto")) {
     inverse <- TRUE
@@ -131,7 +155,8 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
     sidebar = sidebar, fillable = fillable,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
-    inverse = inverse, fluid = fluid
+    inverse = inverse, fluid = fluid,
+    theme = theme
   )
 
   if (!is.null(bg)) {
@@ -163,9 +188,7 @@ navbarPage_ <- function(title,
                        inverse = FALSE,
                        collapsible = FALSE,
                        fluid = TRUE,
-                       theme = NULL,
-                       windowTitle = title,
-                       lang = NULL) {
+                       theme = NULL) {
 
   # alias title so we can avoid conflicts w/ title in withTags
   pageTitle <- title
@@ -236,15 +259,22 @@ navbarPage_ <- function(title,
 
   # If fillable is truthy, give the relevant .tab-content > .tab-pane containers
   # the potential to fill
-  tabset$content <- makeTabsFillable(
-    tabset$content, fillable, navbar = TRUE
-  )
+  tabset$content <- makeTabsFillable(tabset$content, fillable, navbar = TRUE)
 
-  contents <- dropNulls(list(
-    if (!is.null(header)) div(class = "row", header),
-    tabset$content,
-    if (!is.null(footer)) div(class = "row", footer)
-  ))
+  # For backwards compatibility reasons, wrap header & footer in a .row
+  # container if we're not using BS5+. I'm not entirely sure what the motivation
+  # was for it in the 1st place, but now that, with BS5, .row adds
+  # `display:flex` and makes children `width:100%`, which is surprising and
+  # confusing from a user perspective
+  isLegacy <- as.numeric(theme_version(theme) %||% 3) < 5
+  if (!is.null(header) && isLegacy) {
+    header <- div(class = "row", header)
+  }
+  if (!is.null(footer) && isLegacy) {
+    footer <- div(class = "row", footer)
+  }
+
+  contents <- dropNulls(list(header, tabset$content, footer))
 
   if (is.null(sidebar)) {
 
