@@ -2,7 +2,7 @@
 #'
 #' @description Create a collapsing sidebar layout by providing a `sidebar()` object to the `sidebar` argument of:
 #'
-#' * [page_navbar()], [navs_tabs_card()], and [navs_pill_card()]
+#' * [page_navbar()], [navs_tab_card()], and [navs_pill_card()]
 #'   * Display the same sidebar on every page/tab.
 #' * [card_sidebar()]
 #'   * Use a `layout_sidebar()` inside a [card()] context.

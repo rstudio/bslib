@@ -74,12 +74,6 @@ validateCssPadding <- function(padding = NULL) {
 #' @inheritParams navs_bar
 #' @inheritParams bs_page
 #' @seealso [shiny::navbarPage()]
-#' @param sidebar A [sidebar()] component to display on every [nav()] page.
-#' @param fillable Whether or not to allow `fill` items to grow/shrink to fit the
-#'   browser window. If `TRUE`, all [nav()] pages are `fillable`. A character
-#'   vector, matching the `value` of [nav()]s to be filled, may also be
-#'   provided. Note that, if a `sidebar` is provided, `fillable` makes the
-#'   main content portion fillable.
 #' @param fill_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
 #' @param window_title the browser window title. The default value, `NA`, means

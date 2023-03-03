@@ -104,6 +104,12 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
 
 
 #' @inheritParams shiny::navbarPage
+#' @param sidebar A [sidebar()] component to display on every [nav()] page.
+#' @param fillable Whether or not to allow `fill` items to grow/shrink to fit
+#'   the browser window. If `TRUE`, all [nav()] pages are `fillable`. A
+#'   character vector, matching the `value` of [nav()]s to be filled, may also
+#'   be provided. Note that, if a `sidebar` is provided, `fillable` makes the
+#'   main content portion fillable.
 #' @param bg a CSS color to use for the navbar's background color.
 #' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.

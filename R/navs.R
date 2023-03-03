@@ -119,7 +119,7 @@ makeTabsFillable <- function(content, fillable = FALSE, navbar = FALSE) {
     find(".tab-pane")$
     each(function(x, i) {
 
-      if (isTRUE(fillable) || isTRUE(fillable == tagGetAttribute(x, "data-value"))) {
+      if (isTRUE(fillable) || isTRUE(tagGetAttribute(x, "data-value") %in% fillable)) {
         x <- tagAppendAttributes(
           # Remove the margin between nav and content (for page_navbr())
           style = css("--bslib-navbar-margin" = if (navbar) 0),
