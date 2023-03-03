@@ -94,8 +94,10 @@ $bslib-sidebar-icon-size: $spacer !default;
     &:hover:after {
       opacity: 1;
     }
+  }
 
-    &-right {
+  &.sidebar-right {
+    > .collapse-toggle {
       right: 0;
       border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
       border-right: none;

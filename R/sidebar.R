@@ -104,10 +104,8 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
   columns <- c(sidebar$width, "minmax(0, 1fr)")
   columns_collapse <- c("0px", "minmax(0, 1fr)")
 
-  if (identical(sidebar$position, "right")) {
-    contents[[2]] <- tagAppendAttributes(
-      contents[[2]], class = "collapse-toggle-right"
-    )
+  right <- identical(sidebar$position, "right")
+  if (right) {
     contents <- rev(contents)
     columns <- rev(columns)
     columns_collapse <- rev(columns_collapse)
@@ -115,6 +113,7 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
 
   res <- div(
     class = "bslib-sidebar-layout",
+    class = if (right) "sidebar-right",
     class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
     style = css(
       "--bslib-sidebar-columns" = columns,
@@ -144,15 +143,15 @@ sidebar_js_init <- function() {
     // If this layout is the innermost layout, then allow it to add CSS
     // variables to it and its ancestors (counting how parent layouts there are)
     var thisLayout = $(thisScript).parent();
-    var hasLayouts = thisLayout.find('.bslib-sidebar-layout').length > 0;
-    if (!hasLayouts) {
+    var noChildLayouts = thisLayout.find('.bslib-sidebar-layout').length === 0;
+    if (noChildLayouts) {
       var parentLayouts = thisLayout.parents('.bslib-sidebar-layout');
       // .add() sorts the layouts in DOM order (i.e., innermost is last)
       var layouts = thisLayout.add(parentLayouts);
       var ctrs = {left: 0, right: 0};
       layouts.each(function(i, x) {
         $(x).css('--bslib-sidebar-counter', i);
-        var right = $(x).children('.collapse-toggle-right').length > 0;
+        var right = $(x).hasClass('sidebar-right');
         $(x).css('--bslib-sidebar-overlap-counter', right ? ctrs.right : ctrs.left);
         right ? ctrs.right++ : ctrs.left++;
       });
