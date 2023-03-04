@@ -384,23 +384,28 @@ One neat thing about dynamic rendering is that you can leverage `shiny::getCurre
 ::: col-md-6
 ```{r, message=FALSE, eval=FALSE}
 # UI logic
-card(
-  height = 200, full_screen = TRUE,
-  card_header("A dynamically rendered plot"),
-  card_body_fill(
-    plotOutput("plot_id")
+ui <- page_fluid(
+  card(
+    height = 200,
+    full_screen = TRUE,
+    card_header("A dynamically rendered plot"),
+    card_body_fill(plotOutput("plot_id"))
   )
 )
 
 # Server logic
-output$plot_id <- renderPlot({
-  info <- getCurrentOutputInfo()
-  if (info$height() > 600) {
-    # code for "large" plot
-  } else {
-    # code for "small" plot
-  }
-})
+server <- function(input, output, session) {
+  output$plot_id <- renderPlot({
+    info <- getCurrentOutputInfo()
+    if (info$height() > 600) {
+      # code for "large" plot
+    } else {
+      # code for "small" plot
+    }
+  })
+}
+
+shinyApp(ui, server)
 ```
 :::
 :::
