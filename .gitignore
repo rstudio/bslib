@@ -17,3 +17,11 @@ inst/doc
 inst/yarn.lock
 
 inst/rmarkdown/templates/*/skeleton/skeleton.html
+
+vignettes/navbar-global
+vignettes/navbar-global-fillable
+vignettes/navbar-local-scroll
+vignettes/navbar-local-fill
+vignettes/page-scroll
+vignettes/page-fill
+vignettes/page-fill-double

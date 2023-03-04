@@ -210,6 +210,18 @@ card_footer <- function(..., class = NULL) {
   )
 }
 
+#' @describeIn card_body A [card_body_fill()] with a [layout_sidebar()] inside
+#'   of it. All arguments to this function are passed along to
+#'   [layout_sidebar()].
+#' @inheritParams layout_sidebar
+#' @export
+card_sidebar <- function(sidebar = sidebar(), ..., border = FALSE) {
+  card_body_fill(
+    class = "p-0",
+    layout_sidebar(sidebar = sidebar, ..., border = border)
+  )
+}
+
 #' @describeIn card_body Include static (i.e., pre-generated) images.
 #' @param file a file path pointing an image. The image will be base64 encoded
 #' and provided to the `src` attribute of the `<img>`. Alternatively, you may

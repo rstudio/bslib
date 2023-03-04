@@ -36,5 +36,24 @@ function hasDefinedProperty<
   );
 }
 
-export { InputBinding, registerBinding, hasDefinedProperty };
+// TODO: Shiny should trigger resize events when the output
+// https://github.com/rstudio/shiny/pull/3682
+function doWindowResizeOnElementResize(el: HTMLElement): void {
+  if ($(el).data("window-resize-observer")) {
+    return;
+  }
+  const resizeEvent = new Event("resize");
+  const ro = new ResizeObserver(() => {
+    window.dispatchEvent(resizeEvent);
+  });
+  ro.observe(el);
+  $(el).data("window-resize-observer", ro);
+}
+
+export {
+  InputBinding,
+  registerBinding,
+  hasDefinedProperty,
+  doWindowResizeOnElementResize,
+};
 export type { HtmlDep };

@@ -19,3 +19,9 @@ build({
   entryPoints: ["srcts/src/components/accordion.ts"],
   outfile: "inst/components/accordion.min.js",
 });
+
+build({
+  ...opts,
+  entryPoints: ["srcts/src/components/sidebar.ts"],
+  outfile: "inst/components/sidebar.min.js",
+});
