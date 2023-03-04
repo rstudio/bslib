@@ -26,6 +26,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/cards.html">Cards</a>
     <a class="dropdown-item" href="../articles/value-boxes.html">Value Boxes</a>
+    <a class="dropdown-item" href="../articles/sidebars.html">Sidebars</a>
     <a class="dropdown-item" href="../articles/layouts.html">Layouts</a>
     <a class="dropdown-item" href="../articles/bs5-variables.html">Theming variables</a>
     <a class="dropdown-item" href="../articles/utility-classes.html">Utility Classes</a>
@@ -61,11 +62,26 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.2.9000" id="bslib-0429000">bslib 0.4.2.9000<a class="anchor" aria-label="anchor" href="#bslib-0429000"></a></h2>
 <div class="section level3">
-<h3 id="potentially-breaking-changes-0-4-2-9000">Potentially breaking changes<a class="anchor" aria-label="anchor" href="#potentially-breaking-changes-0-4-2-9000"></a></h3>
-<ul><li>Defaults for the following Bootstrap 5 Sass variables were changed to <code>null</code>: <code>$accordion-button-active-bg</code>, <code>$accordion-button-active-color</code>, and <code>$accordion-icon-active-color</code>. To restore the old behavior, do <code>bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")</code>. (<a href="https://github.com/rstudio/bslib/issues/475" class="external-link">#475</a>)</li></ul></div>
+<h3 id="breaking-changes-0-4-2-9000">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-4-2-9000"></a></h3>
+<ul><li>
+<code><a href="../reference/page.html">page_fill()</a></code> now produces a <code>&lt;body&gt;</code> tag with <code>display:flex</code> (instead of <code>display:block</code>). It also no longer fills the windows height on mobile (i.e., narrow screens) by default. If this breaks existing behavior, consider using <code>shiny::fillPage(theme = bslib::bs_theme(), ...)</code> instead of <code><a href="../reference/page.html">page_fill()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<li>
+<code><a href="../reference/page.html">page_navbar()</a></code> (and consequently <code><a href="https://shiny.rstudio.com/reference/shiny/latest/navbarPage.html" class="external-link">shiny::navbarPage()</a></code>) no longer implicitly wrap <code>header</code> and <code>footer</code> in an additional <code><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">shiny::fluidRow()</a></code> container for Bootstrap 5+ (i.e., <code>theme = bs_theme()</code>). Similarly, <code><a href="../reference/navs.html">navs_bar()</a></code> no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the <code>header</code> and <code>footer</code> value(s) with <code><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">shiny::fluidRow()</a></code>). (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<li>Defaults for the following Bootstrap 5 Sass variables were changed to <code>null</code>: <code>$accordion-button-active-bg</code>, <code>$accordion-button-active-color</code>, and <code>$accordion-icon-active-color</code>. To restore the old behavior, do <code>bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")</code>. (<a href="https://github.com/rstudio/bslib/issues/475" class="external-link">#475</a>)</li>
+</ul></div>
 <div class="section level3">
 <h3 id="new-features-0-4-2-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-2-9000"></a></h3>
-<ul><li>Adds a new <code><a href="../reference/accordion.html">accordion()</a></code> component API. See <code><a href="../reference/accordion.html">help(accordion)</a></code> for details. (<a href="https://github.com/rstudio/bslib/issues/475" class="external-link">#475</a>)</li></ul></div>
+<ul><li>Added a <code><a href="../reference/sidebar.html">sidebar()</a></code> API for creating sidebar layouts in various contexts. See <a href="https://rstudio.github.io/bslib/articles/sidebars.html">the article</a> to learn more. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<li>Adds a new <code><a href="../reference/accordion.html">accordion()</a></code> API. See <code><a href="../reference/accordion.html">help(accordion)</a></code> for examples and details. Note also <code><a href="../reference/accordion.html">accordion()</a></code> is designed to <a href="https://rstudio.github.io/bslib/articles/sidebars.html#accordions">work well inside a <code>sidebar()</code></a>. (<a href="https://github.com/rstudio/bslib/issues/475" class="external-link">#475</a>)</li>
+<li>
+<code><a href="../reference/page.html">page_navbar()</a></code>, <code><a href="../reference/navs.html">navs_tab_card()</a></code>, and <code><a href="../reference/navs.html">navs_pill_card()</a></code> gain a <code>sidebar</code> argument for putting a <code><a href="../reference/sidebar.html">sidebar()</a></code> on every page/tab/pill. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<li>
+<code><a href="../reference/page.html">page_navbar()</a></code> gains a <code>fillable</code> argument to make the content of particular page(s) fit the window/card. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<li>
+<code><a href="../reference/page.html">page_fill()</a></code> is now considered a <code>fillable</code> container, meaning that <code>fill</code> items like <code><a href="../reference/card.html">card()</a></code>, <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code>, and <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> now grow/shrink to fit the window’s height when they appear as a direct child of <code><a href="../reference/page.html">page_fill()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<li>
+<code><a href="../reference/page.html">page_navbar()</a></code> and <code><a href="../reference/page.html">page_fill()</a></code> gain <code>fill_mobile</code> arguments to control whether the page should grow/shrink to fit the viewport on mobile. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.2" id="bslib-042">bslib 0.4.2<a class="anchor" aria-label="anchor" href="#bslib-042"></a></h2><p class="text-muted">CRAN release: 2022-12-16</p>

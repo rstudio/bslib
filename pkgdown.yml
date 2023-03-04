@@ -8,10 +8,11 @@ articles:
   cards: cards.html
   custom-components: custom-components.html
   layouts: layouts.html
+  sidebars: sidebars.html
   utility-classes: utility-classes.html
   value-boxes: value-boxes.html
   why-sass: why-sass.html
-last_built: 2023-02-24T22:17Z
+last_built: 2023-03-04T00:29Z
 urls:
   reference: https://rstudio.github.io/bslib/reference
   article: https://rstudio.github.io/bslib/articles

@@ -34,6 +34,30 @@
     <loc>https://rstudio.github.io/bslib/articles/layouts.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/bslib/articles/navbar-global/navbar-global.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/navbar-global-fillable/navbar-global-fillable.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/navbar-local-fill/navbar-local-fill.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/navbar-local-scroll/navbar-local-scroll.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/page-fill/page-fill.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/page-fill-double/page-fill-double.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/page-scroll/page-scroll.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/sidebars.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/bslib/articles/utility-classes.html</loc>
   </url>
   <url>
@@ -128,6 +152,9 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/run_with_themer.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/sidebar.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/theme_bootswatch.html</loc>
