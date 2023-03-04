@@ -1,6 +1,6 @@
 # bslib 0.4.2.9000
 
-## Potentially breaking changes
+## Breaking changes
 
 * `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`). It also no longer fills the windows height on mobile (i.e., narrow screens) by default. If this breaks existing behavior, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`. (#479)
 * `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`). Similarly, `navs_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
