@@ -73,24 +73,23 @@ a fillable container.}
 used).}
 }
 \description{
-Create a collapsing sidebar layout by providing a \code{sidebar()} object to the \code{sidebar} argument of:
+Create a collapsing sidebar layout by providing a \code{sidebar()}
+object to the \code{sidebar} argument of:
 \itemize{
-\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navs_tab_card]{navs_tab_card()}}, and \code{\link[=navs_pill_card]{navs_pill_card()}}
-\itemize{
-\item Display the same sidebar on every page/tab.
-}
-\item \code{\link[=card_sidebar]{card_sidebar()}}
-\itemize{
-\item Use a \code{layout_sidebar()} inside a \code{\link[=card]{card()}} context.
-}
 \item \code{layout_sidebar()}
 \itemize{
-\item Use a sidebar layout inside a larger \code{\link[=page]{page()}} (and/or scoped within a page/tab).
+\item Creates a sidebar layout component which can be dropped inside any
+\code{\link[=page]{page()}} or \code{\link[=card]{card()}} context.
+}
+\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navs_tab_card]{navs_tab_card()}}, and \code{\link[=navs_pill_card]{navs_pill_card()}}
+\itemize{
+\item Creates a multi page/tab UI with a singular \code{sidebar()} (which is
+shown on every page/tab).
 }
 }
 
-See \href{https://rstudio.github.io/bslib/articles/sidebars.html}{this article} to
-learn more.
+See \href{https://rstudio.github.io/bslib/articles/sidebars.html}{this article}
+to learn more.
 }
 \section{Functions}{
 \itemize{
