@@ -86,8 +86,6 @@ general overview of the <code><a href="card.html">card()</a></code> API, see <a 
 <span></span>
 <span><span class="fu">card_footer</span><span class="op">(</span><span class="va">...</span>, class <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">card_sidebar</span><span class="op">(</span>sidebar <span class="op">=</span> <span class="fu"><a href="sidebar.html">sidebar</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span>, border <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">card_image</span><span class="op">(</span></span>
 <span>  <span class="va">file</span>,</span>
 <span>  <span class="va">...</span>,</span>
@@ -139,14 +137,6 @@ UI element.</p></dd>
 <dd><p>a function to generate an HTML element to contain the image.</p></dd>
 
 
-<dt>sidebar</dt>
-<dd><p>A <code><a href="sidebar.html">sidebar()</a></code> object.</p></dd>
-
-
-<dt>border</dt>
-<dd><p>Whether or not to add a border.</p></dd>
-
-
 <dt>file</dt>
 <dd><p>a file path pointing an image. The image will be base64 encoded
 and provided to the <code>src</code> attribute of the <code>&lt;img&gt;</code>. Alternatively, you may
@@ -189,9 +179,6 @@ that its immediate children are allowed to grow and shrink to fit.</p></li>
 <li><p><code>card_title()</code>: Similar to <code>card_header()</code> but without the border and background color.</p></li>
 <li><p><code>card_header()</code>: A header (with border and background color) for the <code><a href="card.html">card()</a></code>. Typically appears before a <code>card_body()</code>.</p></li>
 <li><p><code>card_footer()</code>: A header (with border and background color) for the <code><a href="card.html">card()</a></code>. Typically appears after a <code>card_body()</code>.</p></li>
-<li><p><code>card_sidebar()</code>: A <code>card_body_fill()</code> with a <code><a href="sidebar.html">layout_sidebar()</a></code> inside
-of it. All arguments to this function are passed along to
-<code><a href="sidebar.html">layout_sidebar()</a></code>.</p></li>
 <li><p><code>card_image()</code>: Include static (i.e., pre-generated) images.</p></li>
 <li><p><code>as.card_item()</code>: Mark an object as a card item. This will prevent the
 <code><a href="card.html">card()</a></code> from putting the object inside a <code>wrapper</code> (i.e., a

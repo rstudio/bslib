@@ -15,10 +15,6 @@
         margin-bottom: 0;
       }
     }
-    > .bslib-sidebar-layout {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
   }
 
   .card-body {
@@ -62,6 +58,12 @@
     .nav {
       margin-left: auto;
     }
+  }
+
+  .bslib-sidebar-layout {
+    border: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 
 }
