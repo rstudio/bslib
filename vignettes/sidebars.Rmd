@@ -1,5 +1,9 @@
 ---
 title: "Sidebars"
+output:
+  html_document:
+    theme:
+      version: 5
 resource_files:
   - infobox.svg
   - navbar-global
