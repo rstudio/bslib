@@ -80,7 +80,7 @@ iframe, .bslib-page-fill {
 }
 ```
 
-### Sidebar layouts
+## Sidebar layouts
 
 To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions:
 
@@ -98,7 +98,7 @@ Cases 3 and 4 are inherently different from 1 and 2 because, in the former cases
 [^1]: As a general UX rule, sidebar controls should be grouped as closely as possible with the contents that it effects. So, if you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
 
 
-### Setup code
+## Setup code
 
 This article's code examples make repeated use of the following UI elements. In a Shiny context[^2], you'll probably want inputs like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the sidebar, but since this is a statically hosted website, we'll use `{crosstalk}` input widgets.
 
@@ -108,13 +108,13 @@ This article's code examples make repeated use of the following UI elements. In 
 ```
 
 
-### Navbar page
+## Navbar page
 
 The `page_navbar()` function provides a modern version of `shiny::navbarPage()` (i.e., a "multi-page app"[^3]) which not only defaults to a modern version of Bootstrap, but has additional features, such as a `sidebar` argument.
 
 [^3]: These functions don't actually make what web developers would consider a  multi-page app since they don't actually request different HTML pages (they are based on Bootstrap nav components).
 
-#### Global sidebar
+### Global sidebar
 
 To show the same `sidebar()` on every page (i.e., create a "global" sidebar), pass it to the `sidebar` argument of `page_navbar()`:
 
@@ -141,7 +141,7 @@ page_navbar(
 )
 ```
 
-#### Dynamic sidebar
+### Dynamic sidebar
 
 Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^5] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
 
@@ -173,7 +173,7 @@ shinyApp(
 
 <br>
 
-#### Local sidebar
+### Local sidebar
 
 To create a sidebar layout that's specific to a page, place a `layout_sidebar()` (and/or a `card_sidebar()`) inside a page (i.e., `nav()`) container. In addition to allowing pages to not have a sidebar, this approach also makes it possible to make a group of related inputs/outputs visually distinct from other (unrelated) inputs/outputs.
 
@@ -218,11 +218,11 @@ page_navbar(
 )
 ```
 
-### Other page layouts
+## Other page layouts
 
 The previous section focused on sidebar layouts in the context of a `page_navbar()`, but as you may have guessed from the last couple [local sidebar](#local-sidebar) examples, `layout_sidebar()` can be also used inside any Bootstrap `page()` (i.e., it works with `page_fixed()`, `page_fluid()`, `page_fill()`, etc). The same also goes for `card_sidebar()` (which we'll cover [later](#cards)), and since it's a thin wrapper around `layout_sidebar()`, many of the same concepts we'll cover here also apply to `card_sidebar()`.
 
-#### Scrolling layout
+### Scrolling layout
 
 By default, `layout_sidebar()` provides rounded borders and padding around the container so that it can easily be dropped into any larger page. The sizing rules are also very similar to [cards](cards.html) in the sense that the container grows with the size of it's contents (by default). So, if there's lots of content, consider specifying a `height` in the container (contents will then be scrollable). If, instead, of scrolling contents (the default), you want to allow those contents to resize themselves to that height, also set `fillable = TRUE`:
 
@@ -254,7 +254,7 @@ page_fixed(
 
 Note that this idea of scrolling multiple sidebar layouts concept also works with a `page_fluid()` or `page()` container (the only difference is the amount of horizontal padding provided on the page level). If, instead of scrolling at the page level, you want sidebar layout(s) to fit the browser window, consider using `page_fill()`.
 
-#### Filling layout
+### Filling layout
 
 Since `page_fill()` is a fillable container (with a height of 100%) and `layout_sidebar()` is a fill item (it defaults to `fill = TRUE`, just like the `{plotly}` plots do), `layout_sidebar()`(s) that are direct children of `page_fill()` will grow/shrink as needed to fit the browser window. Note that, this doesn't necessarily mean the _contents_ of the `layout_sidebar()` will grow/shrink (for that behavior, set `fillable = TRUE` in `layout_sidebar()`):
 
@@ -280,7 +280,7 @@ page_fill(
 <br>
 
 
-### Cards
+## Cards
 
 `card_sidebar()` provides a convenient short-hand for creating a sidebar layout inside a `card()`. This way, you can easily add a `card_header()`, `card_footer()`, or even `full_screen = TRUE` behavior. If you do want `full_screen = TRUE` (and/or specify a `height`), then you may also want `fillable = TRUE` to allow the contents of the main area (e.g., `plot_price`) to grow/shrink to the card container. Also, in a card context, it might make sense to hide the sidebar by default (`open = FALSE`), especially if space is limited (e.g., maybe you want [multiple cards with sidebars](layouts.html#responsive-column-first-layout)).
 
@@ -305,11 +305,11 @@ And, since `card_sidebar(...)` is implemented as `card_body_fill(class = "p-0", 
 
 [^6]: To customize the `card_body_fill()` container (e.g., to set a `max_height`), consider explicitly using `card_body_fill(class = "p-0", layout_sidebar(...))` over `card_sidebar()`.
 
-### Cards with tabs
+## Cards with tabs
 
 It's also possible to embed a sidebar layout within a `card()`s that has multiple tabs/pills via `navs_tab_card()`/`navs_pill_card()`. And, similar to `page_navbar()`, a `sidebar()` can either be passed as an argument (i.e., global sidebar) or to a particular tab/pill (i.e., local sidebar).
 
-#### Global sidebar
+### Global sidebar
 
 To show the same `sidebar()` on every tab/pill (i.e., create a "global" sidebar), pass it to the `sidebar` argument of `navs_tab_card()` (or `navs_pill_card()`).
 
@@ -330,7 +330,7 @@ navs_tab_card(
 )
 ```
 
-#### Dynamic sidebar
+### Dynamic sidebar
 
 Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^5] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
 
@@ -363,7 +363,7 @@ shinyApp(
 <br>
 
 
-#### Local sidebar
+### Local sidebar
 
 To create a sidebar layout that's specific to a page, place a `card_sidebar()` inside a tab (i.e., `nav()`) container (similar to how you would for [a `card()` without tabs](#cards)).
 
@@ -392,7 +392,7 @@ navs_tab_card(
 <br>
 
 
-### Shiny
+## Shiny
 
 Inside a Shiny context, the `open` state of a `sidebar()` can programmatically updated and/or queried through an input value. Doing so requires that an `id` is provided to the `sidebar()`. Here's an example of using `sidebar_close()` and `sidebar_open()` to make sure the sidebar is open on `Page 1` but closed on `Page 2`.
 
@@ -418,7 +418,7 @@ shinyApp(ui, server)
 ```
 
 
-### Sidebar accordions
+## Sidebar accordions
 
 When an accordion appears as a immediate child inside `sidebar()`, they'll render "flush" to the sidebar, providing a convenient way to group multiple related input controls under a collapsible section.
 
@@ -443,7 +443,7 @@ layout_sidebar(sidebar(filters_acc), plot_price)
 
 <br>
 
-### Nested sidebars
+## Nested sidebars
 
 It's possible to nest sidebar layouts, which means you can effectively have any number of left and/or right sidebars in a given layout. When doing this, you'll want the main content area of every `layout_sidebar()` that contains a `layout_sidebar()` to be fillable and have zero padding (`class = "p-0"`).
 
@@ -470,7 +470,7 @@ page_fill(
 )
 ```
 
-### Styling and customization
+## Styling and customization
 
 Both `sidebar()` and `layout_sidebar()` have named arguments which, as we've already seen, are helpful for customizing the styling and behavior of both the sidebar and main content areas. In fact, the previous example demonstrated advanced usage of `sidebar()`'s `position` and `open` as well as `layout_sidebar()`'s `fillable`, `border`, etc. However, there are other useful arguments we haven't seen yet like `bg` color (when specified, a contrasting foreground color may also be provided to dark backgrounds "just work").
 
