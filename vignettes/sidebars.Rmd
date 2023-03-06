@@ -107,7 +107,7 @@ To show the same `sidebar()` on every page (i.e., create a "global" sidebar), pa
 ```{r navbar-global, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
 page_navbar(
   title = "Global sidebar",
-  sidebar = sidebar(cut, clarity),
+  sidebar = sidebar(filter_cut, filter_clarity),
   nav("Page 1", plot_price, plot_carat),
   nav("Page 2", plot_depth)
 )
@@ -120,7 +120,7 @@ With a global sidebar, the `fillable` argument controls whether the _main conten
 ```{r navbar-global-fillable, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
 page_navbar(
   title = "Global sidebar w/ fill",
-  sidebar = sidebar(cut, clarity),
+  sidebar = sidebar(filter_cut, filter_clarity),
   fillable = TRUE,
   nav("Page 1", plot_price, plot_carat),
   nav("Page 2", plot_depth)
@@ -138,10 +138,10 @@ shinyApp(
   page_navbar(
     title = "Dynamic sidebar",
     sidebar = sidebar(
-      cut, clarity,
+      filter_cut, filter_clarity,
       conditionalPanel(
         "input.nav === 'Page 2'", 
-        color
+        filter_color
       )
     ),
     id = "nav",
@@ -172,7 +172,7 @@ page_navbar(
   nav(
     "Page 1", 
     layout_sidebar(
-      sidebar(cut, clarity, width = 175), 
+      sidebar(filter_cut, filter_clarity, width = 175),
       plot_price
     ),
     br(),
@@ -196,7 +196,7 @@ page_navbar(
     layout_sidebar(
       fillable = TRUE, 
       border = FALSE,
-      sidebar(cut, clarity), 
+      sidebar(filter_cut, filter_clarity),
       plot_price
     )
   ),
@@ -220,7 +220,7 @@ page_fixed(
   h1("My scrolling page", class = "lead fs-2 my-3"), 
   layout_sidebar(
     height = 325,
-    sidebar(cut, clarity), 
+    sidebar(filter_cut, filter_clarity),
     "Scroll down for another plot 👇",
     plot_price, plot_carat
   ),
@@ -228,7 +228,7 @@ page_fixed(
   layout_sidebar(
     height = 350, 
     fillable = TRUE,
-    sidebar(color, position = "right"), 
+    sidebar(filter_color, position = "right"),
     "No scrolling here",
     plot_price, plot_carat
   ),
@@ -256,7 +256,7 @@ page_fill(
   layout_sidebar(
     border = FALSE, 
     border_radius = FALSE,
-    sidebar(cut, clarity), 
+    sidebar(filter_cut, filter_clarity),
     "Scroll down for another plot 👇",
     plot_price, plot_carat
   )
@@ -278,7 +278,7 @@ card(
   full_screen = TRUE,
   card_header("Filter diamond price by cut and clarity"),
   card_sidebar(
-    sidebar(cut, clarity, open = FALSE), 
+    sidebar(filter_cut, filter_clarity, open = FALSE),
     plot_price, 
     fillable = TRUE
   )
@@ -307,7 +307,7 @@ Remember that, just like `layout_sidebar()` and `card()`, `navs_tab_card()` size
 ```{r}
 navs_tab_card(
   title = "Global sidebar",
-  sidebar = sidebar(cut, clarity),
+  sidebar = sidebar(filter_cut, filter_clarity),
   height = 450,
   full_screen = TRUE,
   wrapper = card_body_fill,
@@ -324,10 +324,10 @@ Sometimes it's helpful to have the sidebar controls change depending on what pag
 dynamic <- navs_tab_card(
   title = "Dynamic sidebar",
   sidebar = sidebar(
-    cut, clarity,
+    filter_cut, filter_clarity,
     conditionalPanel(
       "input.nav === 'Page 2'", 
-      color
+      filter_color
     )
   ),
   id = "nav",
@@ -363,7 +363,7 @@ navs_tab_card(
   nav(
     "Tab 1", 
     card_sidebar(
-      sidebar(cut, clarity), 
+      sidebar(filter_cut, filter_clarity),
       plot_price,
       fillable = TRUE
     )
@@ -388,7 +388,7 @@ library(shiny)
 ui <- page_navbar(
   title = "Sidebar example",
   id = "nav",
-  sidebar = sidebar(id = "sidebar", cut, clarity),
+  sidebar = sidebar(id = "sidebar", filter_cut, filter_clarity),
   nav("Page 1", plot_price),
   nav("Page 2", plot_carat, plot_depth)
 )
@@ -443,9 +443,9 @@ page_fill(
         "Left and right sidebar"
     ),
     layout_sidebar(
-        sidebar(cut, clarity), 
+        sidebar(filter_cut, filter_clarity),
         layout_sidebar(
-            sidebar(color, position = "right", open = FALSE), 
+            sidebar(filter_color, position = "right", open = FALSE),
             plot_price,
             border = FALSE
         ),
