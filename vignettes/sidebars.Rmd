@@ -33,6 +33,16 @@ render_as_iframe <- function(x, options, ...) {
   include_url(file)
 }
 
+knitr::opts_hooks$set(as_iframe = function(opts) {
+  opts$render <- render_as_iframe
+  opts$out.width <- "100%"
+  opts$out.extra <- paste0(
+    'height=600px seamless="seamless" frameBorder="0"',
+    if (!isTRUE(opts$scrolling)) ' scrolling="no"'
+  )
+  opts
+})
+
 # pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
 # (note this isn't a problem for any format based on html_document_base)
 shiny:::setCurrentTheme(bslib::bs_theme())
@@ -104,7 +114,7 @@ The `page_navbar()` function provides a modern version of `shiny::navbarPage()` 
 
 To show the same `sidebar()` on every page (i.e., create a "global" sidebar), pass it to the `sidebar` argument of `page_navbar()`:
 
-```{r navbar-global, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+```{r navbar-global, as_iframe = TRUE}
 page_navbar(
   title = "Global sidebar",
   sidebar = sidebar(filter_cut, filter_clarity),
@@ -117,7 +127,7 @@ With a global sidebar, the `fillable` argument controls whether the _main conten
 
 [^4]: Specific page(s) can also be made `fillable` (e.g., `fillable = "Page 1"`)
 
-```{r navbar-global-fillable, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+```{r navbar-global-fillable, as_iframe = TRUE}
 page_navbar(
   title = "Global sidebar w/ fill",
   sidebar = sidebar(filter_cut, filter_clarity),
@@ -163,7 +173,7 @@ shinyApp(
 
 To create a sidebar layout that's specific to a page, place a `layout_sidebar()` (and/or a `card_sidebar()`) inside a page (i.e., `nav()`) container. In addition to allowing pages to not have a sidebar, this approach also makes it possible to make a group of related inputs/outputs visually distinct from other (unrelated) inputs/outputs.
 
-```{r navbar-local-scroll, render=render_as_iframe, out.width="100%", out.extra='height=600px seamless="seamless" frameBorder="0"'}
+```{r navbar-local-scroll, as_iframe = TRUE, scrolling = TRUE}
 library(leaflet)
 
 page_navbar(
@@ -187,7 +197,7 @@ page_navbar(
 
 If the `layout_sidebar()` should fit the browser window (in the same way a [global sidebar](#global-sidebar) does), then make the relevant page `fillable`. In addition, if the main contents want to be `fillable` (e.g., `plot_price` should be allowed to grow/shrink to fit the layout container), then also set `fillable = TRUE` in `layout_sidebar()`.
 
-```{r navbar-local-fill, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+```{r navbar-local-fill, as_iframe = TRUE}
 page_navbar(
   title = "Local sidebar w/ fill",
   fillable = "Page 1",
@@ -215,7 +225,7 @@ By default, `layout_sidebar()` provides rounded borders and padding around the c
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
-```{r page-scroll, render=render_as_iframe, out.width="100%", out.extra='height=600px seamless="seamless" frameBorder="0"'}
+```{r page-scroll, as_iframe = TRUE, scrolling = TRUE}
 page_fixed(
   h1("My scrolling page", class = "lead fs-2 my-3"),
   layout_sidebar(
@@ -247,7 +257,7 @@ Since `page_fill()` is a fillable container (with a height of 100%) and `layout_
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
-```{r page-fill, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+```{r page-fill, as_iframe = TRUE}
 page_fill(
   h1(
     class = "lead text-center bg-primary bg-gradient my-0 p-3",
@@ -351,7 +361,7 @@ shinyApp(
 
 #### Local sidebar
 
-To create a sidebar layout that’s specific to a page, place a `card_sidebar()` inside a tab (i.e., `nav()`) container (similar to how you would for [a `card()` without tabs](#cards)).
+To create a sidebar layout that's specific to a page, place a `card_sidebar()` inside a tab (i.e., `nav()`) container (similar to how you would for [a `card()` without tabs](#cards)).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -436,7 +446,7 @@ It's possible to nest sidebar layouts, which means you can effectively have any 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
-```{r page-fill-double, render=render_as_iframe, out.width="100%", out.extra='height=600px scrolling="no" seamless="seamless" frameBorder="0"'}
+```{r page-fill-double, as_iframe = TRUE}
 page_fill(
     h1(
         class = "lead fs-2 text-center bg-primary bg-gradient my-0 p-3",
