@@ -18,6 +18,7 @@ inst/yarn.lock
 
 inst/rmarkdown/templates/*/skeleton/skeleton.html
 
+vignettes/*.html
 vignettes/navbar-global
 vignettes/navbar-global-fillable
 vignettes/navbar-local-scroll
