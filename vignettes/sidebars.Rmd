@@ -195,9 +195,10 @@ describe_layout_function(
 
 ::::
 
+When choosing which layout to use, keep in mind that a good usability rule of thumb is to group sidebar controls as closely as possible with the contents that the sidebar affects.
+If you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
 
-As a general UX rule, sidebar controls should be grouped as closely as possible with the contents that it effects. So, if you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
-
+In the next few sections, we'll dive a little deeper into each of the sidebar layout functions listed above.
 
 ## Setup code
 
