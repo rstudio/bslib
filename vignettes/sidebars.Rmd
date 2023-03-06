@@ -18,6 +18,7 @@ resource_files:
 ```{r setup, include=FALSE}
 library(knitr)
 library(htmltools)
+library(bslib)
 
 opts_chunk$set(message = FALSE)
 
@@ -55,6 +56,23 @@ shiny:::setCurrentTheme(bslib::bs_theme())
 knitr::read_chunk(
   rprojroot::find_package_root_file("vignettes/sidebar-create-contents.R")
 )
+
+describe_layout_function <- function(name, description, element = NULL) {
+  name <- knitr::combine_words(sprintf("<code>%s</code>", name),  and = " or ")
+
+  if (is.null(element)) {
+    element <- card_body_fill(
+      class = "d-flex flex-column align-items-center",
+      div(style = "width: 6em; height: 6em; background-color: gray")
+    )
+  }
+
+  card(
+    card_header(class = "bg-info", HTML(name)),
+    element,
+    card_footer(class = "bg-white", description)
+  )
+}
 ```
 
 ```{scss, echo = FALSE}
@@ -78,24 +96,107 @@ iframe, .bslib-page-fill {
     rgba(0, 0, 0, 0.17) 0px 12px 13px,
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
+.card-header.bg-info code {
+  background: none;
+  color: hsl(209deg, 85%, 25%);
+}
 ```
+
+::: lead
+Sidebar layouts in web interfaces allow your users to easily access filters, settings and other inputs alongside the interactive features they control.
+In this article, you'll learn how to create sidebar layouts with bslib.
+:::
 
 ## Sidebar layouts
 
-To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions:
+To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions.
+Depending on the function, the sidebar is either **global**  -- where the same sidebar is used for all pages or tabs -- or it is **local** to a particular page or tab.
 
-1. `layout_sidebar()`
-   * A flexible sidebar layout.
-2. `card_sidebar()`
-   * A `card()`-based sidebar layout.
-3. `navs_tab_card()` (or `navs_pill_card()`)
-   * A multi-tab, `card()`-based, sidebar layout.
-4. `page_navbar()`
-   * A multi-page sidebar layout.
+:::: {.row .text-center}
 
-Cases 3 and 4 are inherently different from 1 and 2 because, in the former cases, you have the choice of either passing the sidebar directly to the function (which creates a [global sidebar](#global-sidebar)) or passing a sidebar layout to a particular page / tab (i.e., a [local sidebar](#local-sidebar)).[^1]
+::: {.col-sm-12 .col-lg-6}
+### Global Sidebar
 
-[^1]: As a general UX rule, sidebar controls should be grouped as closely as possible with the contents that it effects. So, if you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
+```{r echo = FALSE}
+describe_layout_function(
+  "page_navbar()",
+  "A shared sidebar in a multi-page layout.",
+  card_body_fill(
+    class = "p-0",
+    height = 200,
+    navs_bar(
+      collapsible = FALSE,
+      fillable = TRUE,
+      sidebar = sidebar("Global sidebar", width = "33%", class = "bg-light"),
+      nav("Page 1", "Page 1 content"),
+      nav("Page 2", "Page 2 content")
+    )
+  ) |>
+  tagAppendAttributes(class = "flex-row", .cssSelector = ".navbar-nav") |>
+  tagAppendAttributes(class = "d-none", .cssSelector = ".navbar-header") |>
+  tagAppendAttributes(class = "navbar-dark", .cssSelector = "nav")
+)
+```
+
+```{r echo = FALSE}
+describe_layout_function(
+  c("navs_tab_card()", "navs_pill_card()"),
+  "A shared sidebar for multiple tabs within a card.",
+  card_body_fill(
+    class = "p-2",
+    height = 200,
+    navs_tab_card(
+      title = "Tab Card",
+      sidebar = sidebar("Global sidebar", width = "33%", class = "bg-light"),
+      nav("Tab 1", "Tab 1 content"),
+      nav("Tab 2", "Tab 2 content")
+    )
+  )
+)
+```
+:::
+
+::: {.col-sm-12 .col-lg-6}
+### Local Sidebar
+
+```{r echo = FALSE}
+describe_layout_function(
+  "layout_sidebar()",
+  "A flexible, local sidebar layout.",
+  card_body_fill(
+    class = "p-2",
+    height = 200,
+    layout_sidebar(
+      sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
+      "Content with a sidebar"
+    )
+  )
+)
+```
+
+```{r echo = FALSE}
+describe_layout_function(
+  "card_sidebar()",
+  "A sidebar layout within a card body.",
+  card_body_fill(
+    class = "p-2",
+    height = 200,
+    card(
+      card_header("Card with Sidebar"),
+      card_sidebar(
+        sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
+        "Card content"
+      )
+    )
+  )
+)
+```
+:::
+
+::::
+
+
+As a general UX rule, sidebar controls should be grouped as closely as possible with the contents that it effects. So, if you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
 
 
 ## Setup code
