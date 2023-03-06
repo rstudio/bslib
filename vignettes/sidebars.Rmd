@@ -25,7 +25,7 @@ render_as_iframe <- function(x, options, ...) {
   file <- file.path(lbl, paste0(lbl, ".html"))
   x <- tagList(x, tags$head(tags$style(".plotly { height: 250px !important; } .modebar-container { display: none; }")))
   tryCatch(
-    save_html(x, file), 
+    save_html(x, file),
     error = function(e) {
       stop("Don't know how to render ", class(x)[[1]], " as an <iframe>")
     }
@@ -58,27 +58,27 @@ iframe, .bslib-page-fill {
   border: var(--bs-border-width) solid var(--bs-border-color);
   margin-bottom: 4rem;
   box-shadow:
-    rgba(0, 0, 0, 0.25) 0px 54px 55px, 
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
-    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px,
+    rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px,
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 ```
 
 ### Sidebar layouts
 
-To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions: 
+To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions:
 
-1. `layout_sidebar()` 
-   * A flexible sidebar layout. 
+1. `layout_sidebar()`
+   * A flexible sidebar layout.
 2. `card_sidebar()`
    * A `card()`-based sidebar layout.
 3. `navs_tab_card()` (or `navs_pill_card()`)
    * A multi-tab, `card()`-based, sidebar layout.
-4. `page_navbar()` 
+4. `page_navbar()`
    * A multi-page sidebar layout.
-   
+
 Cases 3 and 4 are inherently different from 1 and 2 because, in the former cases, you have the choice of either passing the sidebar directly to the function (which creates a [global sidebar](#global-sidebar)) or passing a sidebar layout to a particular page / tab (i.e., a [local sidebar](#local-sidebar)).[^1]
 
 [^1]: As a general UX rule, sidebar controls should be grouped as closely as possible with the contents that it effects. So, if you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
@@ -140,7 +140,7 @@ shinyApp(
     sidebar = sidebar(
       filter_cut, filter_clarity,
       conditionalPanel(
-        "input.nav === 'Page 2'", 
+        "input.nav === 'Page 2'",
         filter_color
       )
     ),
@@ -153,7 +153,7 @@ shinyApp(
 ```
 
 ```{r}
-# Yields similar result to the examples above 
+# Yields similar result to the examples above
 # (only difference is `color` filter appears on Page 2)
 ```
 
@@ -170,14 +170,14 @@ page_navbar(
   title = "Local sidebar",
   fluid = FALSE,
   nav(
-    "Page 1", 
+    "Page 1",
     layout_sidebar(
       sidebar(filter_cut, filter_clarity, width = 175),
       plot_price
     ),
     br(),
     card(
-      card_header("Some unrelated map"), 
+      card_header("Some unrelated map"),
       leaflet(quakes) |> addTiles() |> addCircleMarkers()
     )
   ),
@@ -192,9 +192,9 @@ page_navbar(
   title = "Local sidebar w/ fill",
   fillable = "Page 1",
   nav(
-    "Page 1", 
+    "Page 1",
     layout_sidebar(
-      fillable = TRUE, 
+      fillable = TRUE,
       border = FALSE,
       sidebar(filter_cut, filter_clarity),
       plot_price
@@ -217,7 +217,7 @@ By default, `layout_sidebar()` provides rounded borders and padding around the c
 
 ```{r page-scroll, render=render_as_iframe, out.width="100%", out.extra='height=600px seamless="seamless" frameBorder="0"'}
 page_fixed(
-  h1("My scrolling page", class = "lead fs-2 my-3"), 
+  h1("My scrolling page", class = "lead fs-2 my-3"),
   layout_sidebar(
     height = 325,
     sidebar(filter_cut, filter_clarity),
@@ -226,7 +226,7 @@ page_fixed(
   ),
   br(),
   layout_sidebar(
-    height = 350, 
+    height = 350,
     fillable = TRUE,
     sidebar(filter_color, position = "right"),
     "No scrolling here",
@@ -254,7 +254,7 @@ page_fill(
     "My filled page"
   ),
   layout_sidebar(
-    border = FALSE, 
+    border = FALSE,
     border_radius = FALSE,
     sidebar(filter_cut, filter_clarity),
     "Scroll down for another plot 👇",
@@ -266,7 +266,7 @@ page_fill(
 <br>
 
 
-### Cards 
+### Cards
 
 `card_sidebar()` provides a convenient short-hand for creating a sidebar layout inside a `card()`. This way, you can easily add a `card_header()`, `card_footer()`, or even `full_screen = TRUE` behavior. If you do want `full_screen = TRUE` (and/or specify a `height`), then you may also want `fillable = TRUE` to allow the contents of the main area (e.g., `plot_price`) to grow/shrink to the card container. Also, in a card context, it might make sense to hide the sidebar by default (`open = FALSE`), especially if space is limited (e.g., maybe you want [multiple cards with sidebars](layouts.html#responsive-column-first-layout)).
 
@@ -279,7 +279,7 @@ card(
   card_header("Filter diamond price by cut and clarity"),
   card_sidebar(
     sidebar(filter_cut, filter_clarity, open = FALSE),
-    plot_price, 
+    plot_price,
     fillable = TRUE
   )
 )
@@ -326,7 +326,7 @@ dynamic <- navs_tab_card(
   sidebar = sidebar(
     filter_cut, filter_clarity,
     conditionalPanel(
-      "input.nav === 'Page 2'", 
+      "input.nav === 'Page 2'",
       filter_color
     )
   ),
@@ -342,7 +342,7 @@ shinyApp(
 ```
 
 ```{r}
-# Yields similar result to the examples above 
+# Yields similar result to the examples above
 # (only difference is `color` filter appears on Page 2)
 ```
 
@@ -361,7 +361,7 @@ navs_tab_card(
   title = "Tab-specific sidebar",
   full_screen = TRUE,
   nav(
-    "Tab 1", 
+    "Tab 1",
     card_sidebar(
       sidebar(filter_cut, filter_clarity),
       plot_price,
@@ -369,7 +369,7 @@ navs_tab_card(
     )
   ),
   nav(
-    "Tab 2", 
+    "Tab 2",
     "Something else entirely"
   )
 )
@@ -406,7 +406,7 @@ shinyApp(ui, server)
 
 ### Sidebar accordions
 
-When an accordion appears as a immediate child inside `sidebar()`, they'll render "flush" to the sidebar, providing a convenient way to group multiple related input controls under a collapsible section. 
+When an accordion appears as a immediate child inside `sidebar()`, they'll render "flush" to the sidebar, providing a convenient way to group multiple related input controls under a collapsible section.
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -458,7 +458,7 @@ page_fill(
 
 ### Styling and customization
 
-Both `sidebar()` and `layout_sidebar()` have named arguments which, as we've already seen, are helpful for customizing the styling and behavior of both the sidebar and main content areas. In fact, the previous example demonstrated advanced usage of `sidebar()`'s `position` and `open` as well as `layout_sidebar()`'s `fillable`, `border`, etc. However, there are other useful arguments we haven't seen yet like `bg` color (when specified, a contrasting foreground color may also be provided to dark backgrounds "just work"). 
+Both `sidebar()` and `layout_sidebar()` have named arguments which, as we've already seen, are helpful for customizing the styling and behavior of both the sidebar and main content areas. In fact, the previous example demonstrated advanced usage of `sidebar()`'s `position` and `open` as well as `layout_sidebar()`'s `fillable`, `border`, etc. However, there are other useful arguments we haven't seen yet like `bg` color (when specified, a contrasting foreground color may also be provided to dark backgrounds "just work").
 
 For other "lower-level" theming, you may want to leverage [Bootstrap utility `class`es]((https://getbootstrap.com/docs/5.3/utilities/spacing/)) and/or inline styles. When doing this, you'll want to be aware that `layout_sidebar()`'s `...` arguments (and thus `class`, `style`, etc.) are added to the main content's container (_not_ the overall layout container). So, to add `class` or `style` attributes on the layout `container`, use `htmltools::tagAppendAttributes()`. Note also that `layout_sidebar()` derives some of it's default style from Bootstrap CSS variables (e.g., `--bs-border-color`), which enables theming at the component-level ([theming via `bs_theme()`](bs5-variables.html) works on the page-level).
 
@@ -472,13 +472,13 @@ library(leaflet)
 squake <- SharedData$new(quakes)
 
 container <- layout_sidebar(
-  class = "p-0", 
+  class = "p-0",
   sidebar(
-    bg = "#1E1E1E", 
+    bg = "#1E1E1E",
     width = "35%",
     class = "fw-bold font-monospace",
     filter_slider("mag", "Magnitude", squake, ~mag)
-  ), 
+  ),
   leaflet(squake) |> addTiles() |> addCircleMarkers()
 )
 
