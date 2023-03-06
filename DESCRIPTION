@@ -90,12 +90,12 @@ Config/Needs/website:
     dplyr,
     DT,
     glue,
-    rstudio/htmltools,
     htmlwidgets,
     leaflet,
     plotly,
     purrr,
     rprojroot,
+    rstudio/htmltools,
     stringr,
     tidyr
 Config/Needs/deploy:
