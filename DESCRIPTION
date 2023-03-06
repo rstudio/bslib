@@ -95,6 +95,7 @@ Config/Needs/website:
     plotly,
     purrr,
     rprojroot,
+    rstudio/htmltools,
     stringr,
     tidyr
 Config/Needs/deploy:
