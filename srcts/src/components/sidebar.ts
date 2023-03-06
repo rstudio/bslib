@@ -20,6 +20,11 @@ class SidebarInputBinding extends InputBinding {
     return !$(el).parent().hasClass(COLLAPSE_CLASS);
   }
 
+  setValue(el: HTMLElement, value: boolean): void {
+    const method = value ? "open" : "close";
+    this.receiveMessage(el, { method });
+  }
+
   subscribe(el: HTMLElement, callback: (x: boolean) => void) {
     $(el).on(
       "toggleCollapse.sidebarInputBinding",
