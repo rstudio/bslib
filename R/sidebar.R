@@ -1,16 +1,17 @@
 #' Sidebar layouts
 #'
-#' @description Create a collapsing sidebar layout by providing a `sidebar()` object to the `sidebar` argument of:
+#' @description Create a collapsing sidebar layout by providing a `sidebar()`
+#'   object to the `sidebar` argument of:
 #'
-#' * [page_navbar()], [navs_tab_card()], and [navs_pill_card()]
-#'   * Display the same sidebar on every page/tab.
-#' * [card_sidebar()]
-#'   * Use a `layout_sidebar()` inside a [card()] context.
 #' * `layout_sidebar()`
-#'   * Use a sidebar layout inside a larger [page()] (and/or scoped within a page/tab).
+#'   * Creates a sidebar layout component which can be dropped inside any
+#'     [page()] or [card()] context.
+#' * [page_navbar()], [navs_tab_card()], and [navs_pill_card()]
+#'   * Creates a multi page/tab UI with a singular `sidebar()` (which is
+#'     shown on every page/tab).
 #'
-#' See [this article](https://rstudio.github.io/bslib/articles/sidebars.html) to
-#' learn more.
+#' See [this article](https://rstudio.github.io/bslib/articles/sidebars.html)
+#'   to learn more.
 #'
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags] and named arguments become HTML attributes on
@@ -128,6 +129,8 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
   )
 
   res <- bindFillRole(res, item = fill)
+
+  res <- as.card_item(res)
 
   as_fragment(
     tag_require(res, version = 5, caller = "layout_sidebar()")

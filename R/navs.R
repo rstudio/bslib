@@ -94,7 +94,7 @@ collect_nav_items <- function(..., wrapper) {
 navs_card_body <- function(content, sidebar) {
   content <- makeTabsFillable(content, fillable = TRUE)
   if (!is.null(sidebar)) {
-    content <- card_sidebar(sidebar, content, fillable = TRUE, border = FALSE)
+    content <- layout_sidebar(sidebar, content, fillable = TRUE, border = FALSE)
   }
   as.card_item(content)
 }
