@@ -43,7 +43,7 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #'   height on mobile devices (i.e., narrow windows).
 #' @seealso [shiny::fillPage()]
 #' @export
-page_fill <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
+page_fillable <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
   page(
     title = title,
     theme = theme,
@@ -61,6 +61,13 @@ page_fill <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, theme
       container = TRUE
     )
   )
+}
+
+#' @export
+#' @keywords internal
+page_fill <- function(...) {
+  .Deprecated("page_fillable")
+  page_fillable(...)
 }
 
 validateCssPadding <- function(padding = NULL) {
