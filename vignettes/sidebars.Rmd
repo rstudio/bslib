@@ -518,8 +518,11 @@ ui <- page_navbar(
 
 server <- function(input, output) {
   observe({
-    func <- if (input$nav == "Page 2") sidebar_close else sidebar_open
-    func("sidebar")
+    if (input$nav == "Page 2") {
+      sidebar_close("sidebar")
+     } else {
+      sidebar_open("sidebar")
+     }
   })
 }
 
