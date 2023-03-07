@@ -126,28 +126,27 @@ as_card_items <- function(children, wrapper) {
 #'   columns inside a card).
 #'
 #' @describeIn card_body A general container for the "main content" of a [card()].
-card_body <- function(..., fill = FALSE, fillable = FALSE, height = NULL, class = NULL) {
-  # TODO: consider different fill/fillable defaults (e.g., fill = fillable)?
+card_body <- function(..., fill = is.null(height), height = NULL, class = NULL) {
   card_body_(
     fill = fill,
-    fillable = fillable,
     height = height,
     class = class,
     ...
   )
 }
 
-#' @describeIn card_body Similar to `card_body(fill = TRUE)`, but also marks the
-#'   return element as a "fillable container" (via [htmltools::bindFillRole()]) so
-#'   that its immediate children are allowed to grow and shrink to fit.
+#' @describeIn card_body A fillable version of `card_body()`, which allows fill
+#'   items (e.g., `shiny::plotOutput()`, `shiny::imageOutput()`, and generally
+#'   anything marked with [htmltools::bindFillRole()]) to grow/shrink to fit the
+#'   card body's size.
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`.
 #' @param max_height,max_height_full_screen,min_height Any valid [CSS length unit][htmltools::validateCssUnit()].
 #' @export
 card_body_fillable <- function(..., gap = NULL, max_height = NULL, max_height_full_screen = max_height, min_height = NULL, class = NULL) {
 
-  register_runtime_package_check("`card_body_fill()`", "shiny", "1.7.3.9001")
-  register_runtime_package_check("`card_body_fill()`", "htmlwidgets", "1.5.4.9001")
+  register_runtime_package_check("`card_body_fillable()`", "shiny", "1.7.3.9001")
+  register_runtime_package_check("`card_body_fillable()`", "htmlwidgets", "1.5.4.9001")
 
   card_body_(
     fill = TRUE,
@@ -183,12 +182,13 @@ card_title <- function(..., container = htmltools::h5) {
 
 card_body_ <- function(..., fill = FALSE, fillable = FALSE, height = NULL, class = NULL, container = htmltools::div) {
 
+  height <- validateCssUnit(height) %||% "auto"
+
   tag <- container(
     class = "card-body",
     style = css(
-      height = validateCssUnit(height),
       # .card-body already adds `flex: 1 1 auto` so make sure to override it
-      flex = if (fill) "1 1 auto" else "0 0 auto"
+      flex = paste(if (fill) "1 1" else "0 0", height)
     ),
     ...
   )

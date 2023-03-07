@@ -131,3 +131,10 @@ reference:
     - theme_bootswatch
     - bootswatch_themes
     - version_default
+
+
+  redirects:
+    - ["articles/cards.html#fixed-sizing", "articles/cards.html#scrolling-contents"]
+    - ["articles/cards.html#responsive-sizing", "articles/cards.html#filling-contents"]
+    - ["articles/cards.html#fixed-responsive-sizing", "articles/cards.html#scrolling-filling"]
+    - ["articles/cards.html#dynamic-rendering-shiny", "articles/cards.html#shiny"]

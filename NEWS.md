@@ -2,9 +2,15 @@
 
 ## Breaking changes
 
+* `card_body()`'s `fill` argument now defaults to `is.null(height)` and it's `height` argument now sets the CSS `flex-basis` property. (#498)
 * `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`). It also no longer fills the windows height on mobile (i.e., narrow screens) by default. If this breaks existing behavior, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`. (#479)
 * `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`). Similarly, `navs_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
+
+## Deprecations
+
+* `card_body_fill()` has been deprecated in favor of `card_body_fillable()`. (#498)
+* `page_fill()` has been deprecated in favor of `page_fillable()`. (#498)
 
 ## New features
 
