@@ -200,10 +200,15 @@ describe_layout_function(
 
 ::::
 
-Although a [global](#global-sidebar) sidebar approach has been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
+::: {.callout .callout-warning}
+### Prefer local sidebars
+
+Although a [global sidebars](#global-sidebar) have been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
+
 As a general rule, group sidebar controls as closely as possible with the contents they affect.
 Use `layout_sidebar()` to group inputs in a [local sidebar](#local-sidebar) adjacent to the output they control.
 Use global sidebars sparingly and only when the inputs in them are use across many outputs on your page.
+:::
 
 In the next few sections, we'll dive a little deeper into each of the sidebar layout functions listed above.
 
