@@ -214,9 +214,12 @@ In the next few sections, we'll dive a little deeper into each of the sidebar la
 
 ## Setup code
 
-This article's code examples make repeated use of the following UI elements. In a Shiny context[^1], you'll probably want inputs like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the sidebar, but since this is a statically hosted website, we'll use `{crosstalk}` input widgets.
+In this article, we'll explore the flexibility of bslib's sidebar layouts by showing many variations of the same inputs and outputs to filter and visualize diamond quality data[^diamonds].
 
-[^1]: In a Shiny context, you may also want to add an `id` to the `sidebar()` so you can reactive-ly read/update whether the sidebar is open/closed.
+In a Shiny app[^1], you'll probably want to use inputs like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the sidebar, but because you're reading this article in a static website, we'll use [crosstalk](https://rstudio.github.io/crosstalk/) input widgets.
+
+[^diamonds]: The diamonds in our data set are a 1,000 rows randomly sampled from `ggplot2::diamonds`.
+[^1]: In a Shiny app, we also recommend you add an `id` to the `sidebar()` so that you can reactively read/update whether the sidebar is open/closed.
 
 ```{r, sidebar-create-contents}
 ```
