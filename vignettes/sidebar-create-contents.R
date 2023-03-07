@@ -16,3 +16,7 @@ filter_clarity <- filter_select("clarity", "Clarity", dat, ~clarity)
 plot_price <- plot_ly(dat, x = ~price)
 plot_carat <- plot_ly(dat, x = ~carat)
 plot_depth <- plot_ly(dat, x = ~depth)
+
+# An unrelated map
+library(leaflet)
+map_quakes <- leaflet(quakes, height = 350) |> addTiles() |> addCircleMarkers()

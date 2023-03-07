@@ -9,6 +9,7 @@ resource_files:
   - navbar-global
   - navbar-global-fillable
   - navbar-local-scroll
+  - navbar-local-fill-outer
   - navbar-local-fill
   - page-scroll
   - page-fill
@@ -43,7 +44,8 @@ knitr::opts_hooks$set(as_iframe = function(opts) {
   opts$out.width <- "100%"
   opts$out.extra <- paste0(
     'height=600px seamless="seamless" frameBorder="0"',
-    if (!isTRUE(opts$scrolling)) ' scrolling="no"'
+    if (!isTRUE(opts$scrolling)) ' scrolling="no"',
+    if (isTRUE(opts$resizable)) ' class="resizable"'
   )
   opts
 })
@@ -96,6 +98,12 @@ iframe, .bslib-page-fill {
     rgba(0, 0, 0, 0.17) 0px 12px 13px,
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
+
+iframe.resizable {
+  resize: vertical;
+  min-height: 300px;
+}
+
 .card-header.bg-info code {
   background: none;
   color: hsl(209deg, 85%, 25%);
@@ -223,13 +231,15 @@ In a Shiny app[^1], you'll probably want to use inputs like `shiny::selectInput(
 
 ## Navbar page
 
-The `page_navbar()` function provides a modern version of `shiny::navbarPage()` (i.e., a "multi-page app"[^2]) which not only defaults to a modern version of Bootstrap, but has additional features, such as a `sidebar` argument.
+We'll start with the most common sidebar layout: a page-level sidebar.
+With bslib, `page_navbar()` provides a modern version of `shiny::navbarPage()` to create a "multi-page app"[^2].
+`page_navbar()` not only defaults to a modern version of Bootstrap, but also includes a `sidebar` argument to let you add a shared sidebar to all pages.
 
 [^2]: These functions don't actually make what web developers would consider a  multi-page app since they don't actually request different HTML pages (they are based on Bootstrap nav components).
 
-### Global sidebar
+### Shared sidebar
 
-To show the same `sidebar()` on every page (i.e., create a "global" sidebar), pass it to the `sidebar` argument of `page_navbar()`:
+To show the same `sidebar()` on every page -- i.e. a _shared_ or _global_ sidebar  --- pass a `sidebar()` to the `sidebar` argument of `page_navbar()`:
 
 ```{r navbar-global, as_iframe = TRUE}
 page_navbar(
@@ -240,11 +250,48 @@ page_navbar(
 )
 ```
 
-With a global sidebar, the `fillable` argument controls whether the _main content area_ of the sidebar layout has the potential to grow/shrink to fit the browser window. By setting `fillable = TRUE`, every page's main contents are allowed to grow/shrink.[^3] In this example, this causes `Page 1`'s plots to shrink and `Page 2`'s plots to grow (in the previous example, the plots on `Page 1` spill over their container, but are still accessible via scrolling).
+Try changing the filter selections while switching between Page 1 and Page 2.
+The changes you make to the filters while looking at one page are also used to update the plots on other page(s).
+This is a good use of a shared sidebar because the same inputs control all plots in the shared container, which in this case is the pages of the app.
 
-[^3]: Specific page(s) can also be made `fillable` (e.g., `fillable = "Page 1"`)
+### Local sidebar
 
-```{r navbar-global-fillable, as_iframe = TRUE}
+`layout_sidebar()` lets you create a sidebar layout for individual pages when your inputs _aren't shared_ across the outputs on multiple pages.
+Place a `layout_sidebar()` inside a `nav()` container to create a local sidebar.
+In the example below, we used a sidebar layout for Page 1's plot's filter controls without including these inputs next to the unrelated map on Page 2.
+
+```{r navbar-local-scroll, as_iframe = TRUE, scrolling = TRUE}
+page_navbar(
+  title = "Local sidebar",
+  fluid = FALSE,
+  nav(
+    "Page 1",
+    layout_sidebar(
+      sidebar(filter_cut, filter_clarity, width = 175),
+      plot_price,
+      plot_carat
+    ),
+    h3("More content in page 1...")
+  ),
+  nav("Page 2", map_quakes)
+)
+```
+
+Notice that `layout_sidebar()` includes a border by default and doesn't fill its parent page container.
+In fact, there's content on Page 1 below the container with the sidebar -- and that content could even include other containers with local sidebar layouts.
+In the next section, we'll show you how to create a single full-page sidebar for just one page.
+
+### Fillable sidebar layouts
+
+Like many other layout functions in bslib, `page_navbar()` includes a `fillable` argument.
+When `fillable = TRUE`, the main content areas, i.e. the pages, inside the `page_navbar()` become _fillable containers_.
+When a container is fillable, any _fill items_ in the container will grow or shrink to fill all available space in the container.
+
+Let's return to the shared sidebar example.
+If we set `fillable = TRUE`, any fill items in each page will grow or shrink to fill the main content area.
+Because plotly plots are fill items, the single plot on Page 2 will grow to fill the entire page container and the plots on Page 1 will each shrink so that both plots fit in the page (in the [previous example](#shared-sidebar-1) you had to scroll down to see the second plot).
+
+```{r navbar-global-fillable, as_iframe = TRUE, resizable = TRUE}
 page_navbar(
   title = "Global sidebar w/ fill",
   sidebar = sidebar(filter_cut, filter_clarity),
@@ -254,50 +301,50 @@ page_navbar(
 )
 ```
 
-### Local sidebar
+Like plotly plots, `layout_sidebar()` creates a fill item by default, so to create a single-page sidebar layout that fills the browser window we only need to make the relevant page fillable.
+As we just saw, with `page_navbar()` we can make all pages fillable with `fillable = TRUE`.
+Alternatively, we can provide `fillable` with a vector of page titles to make an individual page fillable.
+We'll take the latter approach in the following example.
 
-To create a sidebar layout that's specific to a page, place a `layout_sidebar()` inside a page (i.e., `nav()`) container. In addition to allowing pages to not have a sidebar, this approach also makes it possible to make a group of related inputs/outputs visually distinct from other (unrelated) inputs/outputs.
-
-```{r navbar-local-scroll, as_iframe = TRUE, scrolling = TRUE}
-library(leaflet)
-
+```{r navbar-local-fill-outer, as_iframe = TRUE, scrolling = TRUE, resizable = TRUE}
 page_navbar(
   title = "Local sidebar",
-  fluid = FALSE,
+  fillable = "Page 1",
   nav(
     "Page 1",
     layout_sidebar(
       sidebar(filter_cut, filter_clarity, width = 175),
-      plot_price
-    ),
-    br(),
-    card(
-      card_header("Some unrelated map"),
-      leaflet(quakes) |> addTiles() |> addCircleMarkers()
+      plot_price,
+      plot_carat
     )
   ),
-  nav("Page 2", "Something else")
+  nav("Page 2", map_quakes)
 )
 ```
 
-If the `layout_sidebar()` should fit the browser window (in the same way a [global sidebar](#global-sidebar) does), then make the relevant page `fillable`. In addition, if the main contents want to be `fillable` (e.g., `plot_price` should be allowed to grow/shrink to fit the layout container), then also set `fillable = TRUE` in `layout_sidebar()`.
+To fully recreate the global sidebar look for the first page, you might also want to set `fillable = TRUE` in `layout_sidebar()`.
+Then, the plotly plots (which are fill items) will fill the main content area of the sidebar layout (which is a fillable container _and_ a fill item) which will fill the page (since it's a fillable container).
 
-```{r navbar-local-fill, as_iframe = TRUE}
+```{r navbar-local-fill, as_iframe = TRUE, resizable = TRUE}
 page_navbar(
   title = "Local sidebar w/ fill",
   fillable = "Page 1",
   nav(
     "Page 1",
     layout_sidebar(
+      sidebar(filter_cut, filter_clarity),
       fillable = TRUE,
       border = FALSE,
-      sidebar(filter_cut, filter_clarity),
-      plot_price
+      plot_price,
+      plot_carat
     )
   ),
-  nav("Page 2", "Something else")
+  nav("Page 2", map_quakes)
 )
 ```
+
+The example above has resizable height.
+Try grabbing the lower right corner and resizing the example output to see how the plots grow and shrink to fill their container's height.
 
 ## Other page layouts
 
