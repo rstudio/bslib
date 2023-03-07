@@ -11,7 +11,7 @@
 \alias{is.card_item}
 \title{Card items}
 \usage{
-card_body(..., fill = FALSE, fillable = FALSE, height = NULL, class = NULL)
+card_body(..., fill = is.null(height), height = NULL, class = NULL)
 
 card_body_fillable(
   ...,
@@ -88,9 +88,10 @@ general overview of the \code{\link[=card]{card()}} API, see \href{https://rstud
 \itemize{
 \item \code{card_body()}: A general container for the "main content" of a \code{\link[=card]{card()}}.
 
-\item \code{card_body_fillable()}: Similar to \code{card_body(fill = TRUE)}, but also marks the
-return element as a "fillable container" (via \code{\link[htmltools:bindFillRole]{htmltools::bindFillRole()}}) so
-that its immediate children are allowed to grow and shrink to fit.
+\item \code{card_body_fillable()}: A fillable version of \code{card_body()}, which allows fill
+items (e.g., \code{shiny::plotOutput()}, \code{shiny::imageOutput()}, and generally
+anything marked with \code{\link[htmltools:bindFillRole]{htmltools::bindFillRole()}}) to grow/shrink to fit the
+card body's size.
 
 \item \code{card_title()}: Similar to \code{card_header()} but without the border and background color.
 
