@@ -183,7 +183,7 @@ describe_layout_function(
 ```{r echo = FALSE}
 describe_layout_function(
   c("navs_tab_card()", "navs_pill_card()"),
-  "A shared sidebar for multiple tabs within a card.",
+  "A shared sidebar for tabs within a card.",
   card_body_fill(
     class = "p-2",
     height = 200,
@@ -203,7 +203,7 @@ describe_layout_function(
 ::: {.callout .callout-warning}
 ### Prefer local sidebars
 
-Although a [global sidebars](#global-sidebar) have been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
+Although [global sidebars](#global-sidebar) have been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
 
 As a general rule, group sidebar controls as closely as possible with the contents they affect.
 Use `layout_sidebar()` to group inputs in a [local sidebar](#local-sidebar) adjacent to the output they control.
