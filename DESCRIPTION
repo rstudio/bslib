@@ -92,6 +92,7 @@ Config/Needs/website:
     glue,
     htmlwidgets,
     leaflet,
+    lorem,
     plotly,
     purrr,
     rprojroot,
