@@ -254,38 +254,6 @@ page_navbar(
 )
 ```
 
-### Dynamic sidebar
-
-Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^4] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
-
-[^4]: If the controls depend on some other application state, we can also, of course, use `shiny::uiOutput()` to fill the contents of a `sidebar()`).
-
-```{r, eval = FALSE}
-shinyApp(
-  page_navbar(
-    title = "Dynamic sidebar",
-    sidebar = sidebar(
-      filter_cut, filter_clarity,
-      conditionalPanel(
-        "input.nav === 'Page 2'",
-        filter_color
-      )
-    ),
-    id = "nav",
-    nav("Page 1", plot_price, plot_carat),
-    nav("Page 2", plot_depth)
-  ),
-  function(input, output) {}
-)
-```
-
-```{r}
-# Yields similar result to the examples above
-# (only difference is `color` filter appears on Page 2)
-```
-
-<br>
-
 ### Local sidebar
 
 To create a sidebar layout that's specific to a page, place a `layout_sidebar()` inside a page (i.e., `nav()`) container. In addition to allowing pages to not have a sidebar, this approach also makes it possible to make a group of related inputs/outputs visually distinct from other (unrelated) inputs/outputs.
@@ -503,6 +471,38 @@ navs_tab_card(
 
 ## Shiny
 
+### Dynamic sidebar
+
+Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^4] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
+
+[^4]: If the controls depend on some other application state, we can also, of course, use `shiny::uiOutput()` to fill the contents of a `sidebar()`).
+
+```{r, eval = FALSE}
+shinyApp(
+  page_navbar(
+    title = "Dynamic sidebar",
+    sidebar = sidebar(
+      filter_cut, filter_clarity,
+      conditionalPanel(
+        "input.nav === 'Page 2'",
+        filter_color
+      )
+    ),
+    id = "nav",
+    nav("Page 1", plot_price, plot_carat),
+    nav("Page 2", plot_depth)
+  ),
+  function(input, output) {}
+)
+```
+
+```{r}
+# Yields similar result to the examples above
+# (only difference is `color` filter appears on Page 2)
+```
+
+### Sidebar state
+
 Inside a Shiny context, the `open` state of a `sidebar()` can programmatically updated and/or queried through an input value. Doing so requires that an `id` is provided to the `sidebar()`. Here's an example of using `sidebar_close()` and `sidebar_open()` to make sure the sidebar is open on `Page 1` but closed on `Page 2`.
 
 ```{r, eval = FALSE}
@@ -525,7 +525,6 @@ server <- function(input, output) {
 
 shinyApp(ui, server)
 ```
-
 
 ## Sidebar accordions
 
