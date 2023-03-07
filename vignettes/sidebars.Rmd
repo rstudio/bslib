@@ -122,7 +122,7 @@ Use `layout_sidebar()` whenever you want a **local sidebar** adjacent to a conte
 It also fits nicely into `card()` components and `nav()` pages or tabs.
 :::
 
-::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-5}
+::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
 ```{r echo = FALSE}
 describe_layout_function(
   "layout_sidebar()",
@@ -153,7 +153,7 @@ Provide a `sidebar()` to `page_navbar()` to recreate the classic [shinydashboard
 You can also add a global sidebar to a card with tabs or pills created with `navs_tab_card()` or `navs_pill_card()`.
 :::
 
-::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-5}
+::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
 ```{r echo = FALSE}
 describe_layout_function(
   "page_navbar()",
@@ -161,13 +161,18 @@ describe_layout_function(
   card_body_fill(
     class = "p-0",
     height = 200,
+    id = "page_navbar_example_card",
     navs_bar(
       collapsible = FALSE,
       fillable = TRUE,
       sidebar = sidebar("Global sidebar", width = "33%", class = "bg-light"),
       nav("Page 1", "Page 1 content"),
       nav("Page 2", "Page 2 content")
-    )
+    ),
+    tags$script(HTML("$(document).ready(function() {
+      var demo_nav = $('#page_navbar_example_card nav.navbar');
+      setTimeout(function(){ demo_nav.headroom('destroy') }, 100);
+    });"))
   ) |>
   tagAppendAttributes(class = "flex-row", .cssSelector = ".navbar-nav") |>
   tagAppendAttributes(class = "d-none", .cssSelector = ".navbar-header") |>
@@ -195,10 +200,10 @@ describe_layout_function(
 
 ::::
 
-Although a [global](#global-sidebar) sidebar approach has been popularized by things like `{shinydashboard}`, they're not always ideal for creating a good user experience (UX). As a general UX rule, sidebar controls should be grouped as closely as possible with the contents that it effects. So, if you have multiple groups of outputs you want to show on the same page, you should probably opt for a [local](#local-sidebar) instead of a global sidebar.
-
-When choosing which layout to use, keep in mind that a good usability rule of thumb is to group sidebar controls as closely as possible with the contents that the sidebar affects.
-If you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
+Although a [global](#global-sidebar) sidebar approach has been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
+As a general rule, group sidebar controls as closely as possible with the contents they affect.
+Use `layout_sidebar()` to group inputs in a [local sidebar](#local-sidebar) adjacent to the output they control.
+Use global sidebars sparingly and only when the inputs in them are use across many outputs on your page.
 
 In the next few sections, we'll dive a little deeper into each of the sidebar layout functions listed above.
 
