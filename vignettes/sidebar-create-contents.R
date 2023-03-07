@@ -5,7 +5,7 @@ library(crosstalk)
 library(plotly)
 
 # For creating the "filter" between the controls and plots
-dat <- SharedData$new(dplyr::sample_n(diamonds, 1000))
+dat <- SharedData$new(dplyr::sample_n(ggplot2::diamonds, 1000))
 
 # Sidebar elements (e.g., filter controls)
 filter_cut <- filter_select("cut", "Cut", dat, ~cut)
