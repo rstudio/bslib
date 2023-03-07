@@ -110,22 +110,50 @@ In this article, you'll learn how to create sidebar layouts with bslib.
 ## Sidebar layouts
 
 To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions.
-Depending on the function, the sidebar is either **global**  -- where the same sidebar is used for all pages or tabs -- or it is **local** to a particular page or tab.
 
-1. `layout_sidebar()`
-   * A flexible sidebar layout.
-2. `page_navbar()`
-   * A multi-page sidebar layout.
-3. `navs_tab_card()` (or `navs_pill_card()`)
-   * A multi-tab, `card()`-based, sidebar layout.
+:::: {.row}
 
-Cases 2 and 3 are inherently different from 1. In cases 2 and 3, you have the choice of either passing the sidebar directly to the function (which creates a [global sidebar](#global-sidebar)) or passing a sidebar layout to a particular page / tab (i.e., a [local sidebar](#local-sidebar)).
+::: {.col-sm-12 .col-lg-6}
+### Local Sidebar
 
-:::: {.row .text-center}
+Use `layout_sidebar()` whenever you want a **local sidebar** adjacent to a content panel.
+
+`layout_sidebar()` creates a bordered area by default, making it useful anywhere in your interface.
+It also fits nicely into `card()` components and `nav()` pages or tabs.
+:::
+
+::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-5}
+```{r echo = FALSE}
+describe_layout_function(
+  "layout_sidebar()",
+  "A flexible, local sidebar layout.",
+  card_body_fill(
+    class = "p-2",
+    height = 200,
+    layout_sidebar(
+      sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
+      "Content with a sidebar"
+    )
+  )
+)
+```
+:::
+
+::::
+
+:::: {.row}
 
 ::: {.col-sm-12 .col-lg-6}
 ### Global Sidebar
 
+When `sidebar` is an argument to a function containing multiple pages or panels, it creates a **global sidebar**.
+
+Provide a `sidebar()` to `page_navbar()` to recreate the classic [shinydashboard](http://rstudio.github.io/shinydashboard/) look with a global sidebar shared across several pages.
+
+You can also add a global sidebar to a card with tabs or pills created with `navs_tab_card()` or `navs_pill_card()`.
+:::
+
+::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-5}
 ```{r echo = FALSE}
 describe_layout_function(
   "page_navbar()",
@@ -159,43 +187,6 @@ describe_layout_function(
       sidebar = sidebar("Global sidebar", width = "33%", class = "bg-light"),
       nav("Tab 1", "Tab 1 content"),
       nav("Tab 2", "Tab 2 content")
-    )
-  )
-)
-```
-:::
-
-::: {.col-sm-12 .col-lg-6}
-### Local Sidebar
-
-```{r echo = FALSE}
-describe_layout_function(
-  "layout_sidebar()",
-  "A flexible, local sidebar layout.",
-  card_body_fill(
-    class = "p-2",
-    height = 200,
-    layout_sidebar(
-      sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
-      "Content with a sidebar"
-    )
-  )
-)
-```
-
-```{r echo = FALSE}
-describe_layout_function(
-  "card_sidebar()",
-  "A sidebar layout within a card body.",
-  card_body_fill(
-    class = "p-2",
-    height = 200,
-    card(
-      card_header("Card with Sidebar"),
-      card_sidebar(
-        sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
-        "Card content"
-      )
     )
   )
 )
