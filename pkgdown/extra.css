@@ -24,6 +24,10 @@ table.dataTable.table-bordered {
   border-collapse: collapse !important;
 }
 
+main h2 {
+  margin-top: 1lh;
+}
+
 /* ---- Callouts ---- */
 .callout {
   position: relative;
