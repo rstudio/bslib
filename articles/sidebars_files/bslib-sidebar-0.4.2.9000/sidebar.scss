@@ -1,12 +1,14 @@
 $bslib-sidebar-padding: $spacer * 1.5 !default;
 $bslib-sidebar-icon-size: $spacer !default;
 
+$bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
+
 .bslib-sidebar-layout {
   --bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s;
-  --bslib-sidebar-border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+  --bslib-sidebar-border: #{$bslib-sidebar-border};
   --bslib-sidebar-border-radius: var(--bs-border-radius);
-  --bslib-sidebar-vert-border: var(--bs-card-border-width) solid var(--bs-card-border-color);
-  --bslib-collapse-toggle-border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+  --bslib-sidebar-vert-border: #{$bslib-sidebar-border};
+  --bslib-collapse-toggle-border: #{$bslib-sidebar-border};
   --bslib-collapse-toggle-transform: 90deg;
   --bslib-collapse-toggle-right-transform: -90deg;
 
@@ -149,7 +151,7 @@ $bslib-sidebar-icon-size: $spacer !default;
 @include media-breakpoint-down(sm) {
   .bslib-sidebar-layout {
     --bslib-sidebar-vert-border: none;
-    --bslib-sidebar-horiz-border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    --bslib-sidebar-horiz-border: #{$bslib-sidebar-border};
     --bslib-collapse-toggle-transform: -180deg;
     --bslib-collapse-toggle-right-transform: -180deg;
 
