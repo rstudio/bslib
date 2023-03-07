@@ -112,49 +112,18 @@ In this article, you'll learn how to create sidebar layouts with bslib.
 To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions.
 
 :::: {.row}
-
 ::: {.col-sm-12 .col-lg-6}
-### Local Sidebar
+### Shared Sidebar
 
-Use `layout_sidebar()` whenever you want a **local sidebar** adjacent to a content panel.
-
-`layout_sidebar()` creates a bordered area by default, making it useful anywhere in your interface.
-It also fits nicely into `card()` components and `nav()` pages or tabs.
-:::
-
-::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
-```{r echo = FALSE}
-describe_layout_function(
-  "layout_sidebar()",
-  "A flexible, local sidebar layout.",
-  card_body_fill(
-    class = "p-2",
-    height = 200,
-    layout_sidebar(
-      sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
-      "Content with a sidebar"
-    )
-  )
-)
-```
-:::
-
-::::
-
-:::: {.row}
-
-::: {.col-sm-12 .col-lg-6}
-### Global Sidebar
-
-When `sidebar` is an argument to a function containing multiple pages or panels, it creates a **global sidebar**.
+When `sidebar` is an argument to a function containing multiple pages or panels, it creates a **shared sidebar**.
 
 Provide a `sidebar()` to `page_navbar()` to recreate the classic [shinydashboard](http://rstudio.github.io/shinydashboard/) look with a global sidebar shared across several pages.
 
-You can also add a global sidebar to a card with tabs or pills created with `navs_tab_card()` or `navs_pill_card()`.
+You can also add a shared sidebar to a card with tabs or pills created with `navs_tab_card()` or `navs_pill_card()`.
 :::
 
 ::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
-```{r echo = FALSE}
+```{r preview-page-navbar, echo = FALSE}
 describe_layout_function(
   "page_navbar()",
   "A shared sidebar in a multi-page layout.",
@@ -165,7 +134,7 @@ describe_layout_function(
     navs_bar(
       collapsible = FALSE,
       fillable = TRUE,
-      sidebar = sidebar("Global sidebar", width = "33%", class = "bg-light"),
+      sidebar = sidebar("Shared sidebar", width = "33%", class = "bg-light"),
       nav("Page 1", "Page 1 content"),
       nav("Page 2", "Page 2 content")
     ),
@@ -180,7 +149,7 @@ describe_layout_function(
 )
 ```
 
-```{r echo = FALSE}
+```{r preview-navs-tab-card, echo = FALSE}
 describe_layout_function(
   c("navs_tab_card()", "navs_pill_card()"),
   "A shared sidebar for tabs within a card.",
@@ -189,7 +158,7 @@ describe_layout_function(
     height = 200,
     navs_tab_card(
       title = "Tab Card",
-      sidebar = sidebar("Global sidebar", width = "33%", class = "bg-light"),
+      sidebar = sidebar("Shared sidebar", width = "33%", class = "bg-light"),
       nav("Tab 1", "Tab 1 content"),
       nav("Tab 2", "Tab 2 content")
     )
@@ -197,7 +166,34 @@ describe_layout_function(
 )
 ```
 :::
+::::
 
+:::: {.row}
+::: {.col-sm-12 .col-lg-6}
+### Local Sidebar
+
+Use `layout_sidebar()` whenever you want a **local sidebar** adjacent to a content panel.
+`layout_sidebar()` creates a bordered area by default, making it useful anywhere in your interface.
+
+It also fits nicely into `card()` components and `nav()` pages or tabs allowing you to add a sidebar to individual pages or tabs.
+:::
+
+::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
+```{r preview-layout-sidebar, echo = FALSE}
+describe_layout_function(
+  "layout_sidebar()",
+  "A flexible, local sidebar layout.",
+  card_body_fill(
+    class = "p-2",
+    height = 200,
+    layout_sidebar(
+      sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
+      "Content with a sidebar"
+    )
+  )
+)
+```
+:::
 ::::
 
 ::: {.callout .callout-warning}
