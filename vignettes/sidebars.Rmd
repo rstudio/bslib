@@ -112,6 +112,15 @@ In this article, you'll learn how to create sidebar layouts with bslib.
 To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions.
 Depending on the function, the sidebar is either **global**  -- where the same sidebar is used for all pages or tabs -- or it is **local** to a particular page or tab.
 
+1. `layout_sidebar()`
+   * A flexible sidebar layout.
+2. `page_navbar()`
+   * A multi-page sidebar layout.
+3. `navs_tab_card()` (or `navs_pill_card()`)
+   * A multi-tab, `card()`-based, sidebar layout.
+
+Cases 2 and 3 are inherently different from 1. In cases 2 and 3, you have the choice of either passing the sidebar directly to the function (which creates a [global sidebar](#global-sidebar)) or passing a sidebar layout to a particular page / tab (i.e., a [local sidebar](#local-sidebar)).
+
 :::: {.row .text-center}
 
 ::: {.col-sm-12 .col-lg-6}
@@ -195,6 +204,8 @@ describe_layout_function(
 
 ::::
 
+Although a [global](#global-sidebar) sidebar approach has been popularized by things like `{shinydashboard}`, they're not always ideal for creating a good user experience (UX). As a general UX rule, sidebar controls should be grouped as closely as possible with the contents that it effects. So, if you have multiple groups of outputs you want to show on the same page, you should probably opt for a [local](#local-sidebar) instead of a global sidebar.
+
 When choosing which layout to use, keep in mind that a good usability rule of thumb is to group sidebar controls as closely as possible with the contents that the sidebar affects.
 If you have multiple groups of outputs you want to show on the same page, you may want to put several card-based sidebar layouts on a given page.
 
@@ -202,9 +213,9 @@ In the next few sections, we'll dive a little deeper into each of the sidebar la
 
 ## Setup code
 
-This article's code examples make repeated use of the following UI elements. In a Shiny context[^2], you'll probably want inputs like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the sidebar, but since this is a statically hosted website, we'll use `{crosstalk}` input widgets.
+This article's code examples make repeated use of the following UI elements. In a Shiny context[^1], you'll probably want inputs like `shiny::selectInput()`, `shiny::sliderInput()`, etc., in the sidebar, but since this is a statically hosted website, we'll use `{crosstalk}` input widgets.
 
-[^2]: In a Shiny context, you may also want to add an `id` to the `sidebar()` so you can reactive-ly read/update whether the sidebar is open/closed.
+[^1]: In a Shiny context, you may also want to add an `id` to the `sidebar()` so you can reactive-ly read/update whether the sidebar is open/closed.
 
 ```{r, sidebar-create-contents}
 ```
@@ -212,9 +223,9 @@ This article's code examples make repeated use of the following UI elements. In 
 
 ## Navbar page
 
-The `page_navbar()` function provides a modern version of `shiny::navbarPage()` (i.e., a "multi-page app"[^3]) which not only defaults to a modern version of Bootstrap, but has additional features, such as a `sidebar` argument.
+The `page_navbar()` function provides a modern version of `shiny::navbarPage()` (i.e., a "multi-page app"[^2]) which not only defaults to a modern version of Bootstrap, but has additional features, such as a `sidebar` argument.
 
-[^3]: These functions don't actually make what web developers would consider a  multi-page app since they don't actually request different HTML pages (they are based on Bootstrap nav components).
+[^2]: These functions don't actually make what web developers would consider a  multi-page app since they don't actually request different HTML pages (they are based on Bootstrap nav components).
 
 ### Global sidebar
 
@@ -229,9 +240,9 @@ page_navbar(
 )
 ```
 
-With a global sidebar, the `fillable` argument controls whether the _main content area_ of the sidebar layout has the potential to grow/shrink to fit the browser window. By setting `fillable = TRUE`, every page's main contents are allowed to grow/shrink.[^4] In this example, this causes `Page 1`'s plots to shrink and `Page 2`'s plots to grow (in the previous example, the plots on `Page 1` spill over their container, but are still accessible via scrolling).
+With a global sidebar, the `fillable` argument controls whether the _main content area_ of the sidebar layout has the potential to grow/shrink to fit the browser window. By setting `fillable = TRUE`, every page's main contents are allowed to grow/shrink.[^3] In this example, this causes `Page 1`'s plots to shrink and `Page 2`'s plots to grow (in the previous example, the plots on `Page 1` spill over their container, but are still accessible via scrolling).
 
-[^4]: Specific page(s) can also be made `fillable` (e.g., `fillable = "Page 1"`)
+[^3]: Specific page(s) can also be made `fillable` (e.g., `fillable = "Page 1"`)
 
 ```{r navbar-global-fillable, as_iframe = TRUE}
 page_navbar(
@@ -245,9 +256,9 @@ page_navbar(
 
 ### Dynamic sidebar
 
-Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^5] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
+Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^4] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
 
-[^5]: If the controls depend on some other application state, we can also, of course, use `shiny::uiOutput()` to fill the contents of a `sidebar()`).
+[^4]: If the controls depend on some other application state, we can also, of course, use `shiny::uiOutput()` to fill the contents of a `sidebar()`).
 
 ```{r, eval = FALSE}
 shinyApp(
@@ -277,7 +288,7 @@ shinyApp(
 
 ### Local sidebar
 
-To create a sidebar layout that's specific to a page, place a `layout_sidebar()` (and/or a `card_sidebar()`) inside a page (i.e., `nav()`) container. In addition to allowing pages to not have a sidebar, this approach also makes it possible to make a group of related inputs/outputs visually distinct from other (unrelated) inputs/outputs.
+To create a sidebar layout that's specific to a page, place a `layout_sidebar()` inside a page (i.e., `nav()`) container. In addition to allowing pages to not have a sidebar, this approach also makes it possible to make a group of related inputs/outputs visually distinct from other (unrelated) inputs/outputs.
 
 ```{r navbar-local-scroll, as_iframe = TRUE, scrolling = TRUE}
 library(leaflet)
@@ -322,7 +333,7 @@ page_navbar(
 
 ## Other page layouts
 
-The previous section focused on sidebar layouts in the context of a `page_navbar()`, but as you may have guessed from the last couple [local sidebar](#local-sidebar) examples, `layout_sidebar()` can be also used inside any Bootstrap `page()` (i.e., it works with `page_fixed()`, `page_fluid()`, `page_fill()`, etc). The same also goes for `card_sidebar()` (which we'll cover [later](#cards)), and since it's a thin wrapper around `layout_sidebar()`, many of the same concepts we'll cover here also apply to `card_sidebar()`.
+The previous section focused on sidebar layouts in the context of a `page_navbar()`, but as you may have guessed from the last couple [local sidebar](#local-sidebar) examples, `layout_sidebar()` can be also used inside any Bootstrap `page()` (i.e., it works with `page_fixed()`, `page_fluid()`, `page_fill()`, etc) and/or `card()` (which we'll cover [later](#cards)).
 
 ### Scrolling layout
 
@@ -384,7 +395,7 @@ page_fill(
 
 ## Cards
 
-`card_sidebar()` provides a convenient short-hand for creating a sidebar layout inside a `card()`. This way, you can easily add a `card_header()`, `card_footer()`, or even `full_screen = TRUE` behavior. If you do want `full_screen = TRUE` (and/or specify a `height`), then you may also want `fillable = TRUE` to allow the contents of the main area (e.g., `plot_price`) to grow/shrink to the card container. Also, in a card context, it might make sense to hide the sidebar by default (`open = FALSE`), especially if space is limited (e.g., maybe you want [multiple cards with sidebars](layouts.html#responsive-column-first-layout)).
+`layout_sidebar()` can also be dropped into a `card()`, which is especially convenient for adding a `card_header()`, `card_footer()`, or even `full_screen = TRUE` behavior. If you do want `full_screen = TRUE` (and/or specify a `height`), then you may also want `fillable = TRUE` to allow the contents of the main area (e.g., `plot_price`) to grow/shrink to the card container. Also, in a card context, it might make sense to hide the sidebar by default (`open = FALSE`), especially if space is limited (e.g., maybe you want [multiple cards with sidebars](layouts.html#responsive-column-first-layout)).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -393,7 +404,7 @@ page_fill(
 card(
   full_screen = TRUE,
   card_header("Filter diamond price by cut and clarity"),
-  card_sidebar(
+  layout_sidebar(
     sidebar(filter_cut, filter_clarity, open = FALSE),
     plot_price,
     fillable = TRUE
@@ -402,10 +413,6 @@ card(
 ```
 
 <br>
-
-And, since `card_sidebar(...)` is implemented as `card_body_fill(class = "p-0", layout_sidebar(...))`, other `layout_sidebar()` arguments like `bg`, `class`, etc. can be also passed to `card_sidebar()` (to [customize](#customize) the main content area).[^6]
-
-[^6]: To customize the `card_body_fill()` container (e.g., to set a `max_height`), consider explicitly using `card_body_fill(class = "p-0", layout_sidebar(...))` over `card_sidebar()`.
 
 ## Cards with tabs
 
@@ -434,7 +441,7 @@ navs_tab_card(
 
 ### Dynamic sidebar
 
-Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^5] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
+Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^4] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
 
 ```{r, eval = FALSE}
 dynamic <- navs_tab_card(
@@ -467,7 +474,7 @@ shinyApp(
 
 ### Local sidebar
 
-To create a sidebar layout that's specific to a page, place a `card_sidebar()` inside a tab (i.e., `nav()`) container (similar to how you would for [a `card()` without tabs](#cards)).
+To create a sidebar layout that's specific to a page, place a `layout_sidebar()` inside a tab (i.e., `nav()`) container (similar to how you would for [a `card()` without tabs](#cards)).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -478,7 +485,7 @@ navs_tab_card(
   full_screen = TRUE,
   nav(
     "Tab 1",
-    card_sidebar(
+    layout_sidebar(
       sidebar(filter_cut, filter_clarity),
       plot_price,
       fillable = TRUE

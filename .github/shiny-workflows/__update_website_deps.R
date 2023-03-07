@@ -5,10 +5,13 @@ desc_pkgs <- desc::desc_get_deps()$package
 
 set_desc_with_packages <- function(field, known_pkgs) {
 
-  pkgs <- sort(setdiff(known_pkgs, c("R", "bslib", desc_pkgs, base_pkgs)))
+  config_field <- paste0("Config/Needs/", field)
+  config_pkgs <- strsplit(desc::desc_get_field(config_field), "[[:space:],]+")[[1]]
+  pkgs <- sort(setdiff(known_pkgs, c("R", "bslib", desc_pkgs, base_pkgs, config_pkgs)))
 
-  pkg_txt <- paste0(paste0("\n    ", pkgs), collapse = ",")
-  desc::desc_set(paste0("Config/Needs/", field), pkg_txt)
+  all_pkgs <- sort(c(config_pkgs, pkgs))
+  pkg_txt <- paste0(paste0("\n    ", all_pkgs), collapse = ",")
+  desc::desc_set(config_field, pkg_txt)
 }
 
 

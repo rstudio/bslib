@@ -6,7 +6,6 @@
 \alias{card_title}
 \alias{card_header}
 \alias{card_footer}
-\alias{card_sidebar}
 \alias{card_image}
 \alias{as.card_item}
 \alias{is.card_item}
@@ -28,8 +27,6 @@ card_title(..., container = htmltools::h5)
 card_header(..., class = NULL, container = htmltools::div)
 
 card_footer(..., class = NULL)
-
-card_sidebar(sidebar = sidebar(), ..., border = FALSE)
 
 card_image(
   file,
@@ -66,10 +63,6 @@ UI element.}
 
 \item{container}{a function to generate an HTML element to contain the image.}
 
-\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
-
-\item{border}{Whether or not to add a border.}
-
 \item{file}{a file path pointing an image. The image will be base64 encoded
 and provided to the \code{src} attribute of the \verb{<img>}. Alternatively, you may
 set this value to \code{NULL} and provide the \code{src} yourself.}
@@ -104,10 +97,6 @@ that its immediate children are allowed to grow and shrink to fit.
 \item \code{card_header()}: A header (with border and background color) for the \code{card()}. Typically appears before a \code{card_body()}.
 
 \item \code{card_footer()}: A header (with border and background color) for the \code{card()}. Typically appears after a \code{card_body()}.
-
-\item \code{card_sidebar()}: A \code{\link[=card_body_fill]{card_body_fill()}} with a \code{\link[=layout_sidebar]{layout_sidebar()}} inside
-of it. All arguments to this function are passed along to
-\code{\link[=layout_sidebar]{layout_sidebar()}}.
 
 \item \code{card_image()}: Include static (i.e., pre-generated) images.
 
