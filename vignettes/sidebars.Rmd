@@ -114,7 +114,7 @@ Sidebar layouts in web interfaces allow your users to easily access filters, set
 In this article, you'll learn how to create sidebar layouts with bslib.
 :::
 
-## Sidebar layouts
+## Introduction
 
 To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions.
 
@@ -215,7 +215,7 @@ Use global sidebars sparingly and only when the inputs in them are use across ma
 
 In the next few sections, we'll dive a little deeper into each of the sidebar layout functions listed above.
 
-## Setup code
+## Setup
 
 In this article, we'll explore the flexibility of bslib's sidebar layouts by showing many variations of the same inputs and outputs to filter and visualize diamond quality data[^diamonds].
 
@@ -227,7 +227,7 @@ In a Shiny app[^1], you'll probably want to use inputs like `shiny::selectInput(
 ```{r, sidebar-create-contents}
 ```
 
-## Sidebar foundations
+## Foundations
 
 We'll start with the most common sidebar layout: a page-level sidebar.
 With bslib, `page_navbar()` provides a modern version of `shiny::navbarPage()` to create a "multi-page app"[^2].
