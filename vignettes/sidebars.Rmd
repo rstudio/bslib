@@ -204,7 +204,7 @@ describe_layout_function(
 ::::
 
 ::: {.callout .callout-warning}
-### Prefer local sidebars
+<h3 data-toc-skip>Prefer local sidebars</h3>
 
 Although [shared sidebars](#shared-sidebar) have been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
 
