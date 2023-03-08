@@ -227,8 +227,7 @@ In a Shiny app[^1], you'll probably want to use inputs like `shiny::selectInput(
 ```{r, sidebar-create-contents}
 ```
 
-
-## Page sidebars
+## Sidebar foundations
 
 We'll start with the most common sidebar layout: a page-level sidebar.
 With bslib, `page_navbar()` provides a modern version of `shiny::navbarPage()` to create a "multi-page app"[^2].
@@ -278,9 +277,92 @@ page_navbar(
 
 Notice that `layout_sidebar()` includes a border by default and doesn't fill its parent page container.
 In fact, there is content on Page 1 below the container with the sidebar -- and that content could even include other containers with local sidebar layouts.
-In the next section, we'll show you how to create a single full-page sidebar for just one page.
+FIXME: In the next section, we'll show you how to create a single full-page sidebar for just one page.
+
+### Scrolling layout
+
+By default, `layout_sidebar()` provides rounded borders and padding around the container so that it can easily be dropped into any larger page.
+In this way, the `layout_sidebar()` container is like a pared-down `card()` component.
+
+Like [cards](cards.html), by default, the vertical height of the sidebar layout container will grow with the size of its contents.
+
+:::: {.row}
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-short}
+layout_sidebar(
+  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
+  plot_depth
+)
+```
+:::
+
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-long}
+layout_sidebar(
+  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
+  plot_price, plot_carat
+)
+```
+:::
+::::
+
+If you have a lot of content in a `layout_sidebar()`, one option is to specify a `height` for the container to make its contents scrollable.
+
+:::: {.row}
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-short-300}
+layout_sidebar(
+  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
+  height = 300,
+  plot_depth
+)
+```
+:::
+
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-long-300}
+layout_sidebar(
+  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
+  height = 300,
+  plot_price, plot_carat
+)
+```
+:::
+::::
 
 ### Filling layout
+
+If, instead of scrolling the content area, you want to allow the contents of the sidebar layout to resize themselves to the container height, also set `fillable = TRUE`.
+
+:::: {.row}
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-short-fillable}
+layout_sidebar(
+  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
+  height = 300,
+  fillable = TRUE,
+  plot_depth
+)
+```
+:::
+
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-long-fillable}
+layout_sidebar(
+  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
+  height = 300,
+  fillable = TRUE,
+  plot_price, plot_carat
+)
+```
+:::
+::::
+
+FIXME: this fillable business is super helpful in page layouts.
+
+## Page sidebars
+
+### Navbar pages
 
 Like many other layout functions in bslib, `page_navbar()` includes a `fillable` argument.
 When `fillable = TRUE`, the main content areas, i.e. the pages, inside the `page_navbar()` become _fillable containers_.
@@ -347,6 +429,13 @@ page_navbar(
 The example above has resizable height.
 Try resizing the page frame by grabbing the lower right corner to see how the plots grow and shrink to fill their container's height.
 
+### Other pages
+
+Most of the previous section focused on sidebar layouts within `page_navbar()`.
+As we saw in the [filling](#filling-layouts) and [scrolling layouts](#scrolling-layouts) sections above, `layout_sidebar()` can be also used inside any Bootstrap `page()`: it works with `page_fixed()`, `page_fluid()`, `page_fill()`, and more.
+It's also very uesful within `card()` components, which we'll cover in the next section.
+
+
 So far all of our examples have used `page_navbar()`, but the same filling behavior can be used in any fillable container.
 One such page layout is `page_fill()`, which produces a fillable container by definition.
 
@@ -363,83 +452,6 @@ page_fill(
   )
 )
 ```
-
-### Scrolling layout
-
-By default, `layout_sidebar()` provides rounded borders and padding around the container so that it can easily be dropped into any larger page.
-In this way, the `layout_sidebar()` container is like a pared-down `card()` component.
-
-Like [cards](cards.html), by default, the vertical height of the sidebar layout container will grow with the size of its contents.
-
-:::: {.row}
-::: {.col-lg-6 .col-sm-12 .mb-3}
-```{r scroll-layout-short}
-layout_sidebar(
-  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
-  plot_depth
-)
-```
-:::
-
-::: {.col-lg-6 .col-sm-12 .mb-3}
-```{r scroll-layout-long}
-layout_sidebar(
-  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
-  plot_price, plot_carat
-)
-```
-:::
-::::
-
-If you have a lot of content in a `layout_sidebar()`, one option is to specify a `height` for the container, making its contents scrollable.
-
-:::: {.row}
-::: {.col-lg-6 .col-sm-12 .mb-3}
-```{r scroll-layout-short-300}
-layout_sidebar(
-  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
-  height = 300,
-  plot_depth
-)
-```
-:::
-
-::: {.col-lg-6 .col-sm-12 .mb-3}
-```{r scroll-layout-long-300}
-layout_sidebar(
-  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
-  height = 300,
-  plot_price, plot_carat
-)
-```
-:::
-::::
-
-If, instead of scrolling contents (the default), you want to allow those contents to resize themselves to that height, also set `fillable = TRUE`:
-
-:::: {.row}
-::: {.col-lg-6 .col-sm-12 .mb-3}
-```{r scroll-layout-short-fillable}
-layout_sidebar(
-  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
-  height = 300,
-  fillable = TRUE,
-  plot_depth
-)
-```
-:::
-
-::: {.col-lg-6 .col-sm-12 .mb-3}
-```{r scroll-layout-long-fillable}
-layout_sidebar(
-  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
-  height = 300,
-  fillable = TRUE,
-  plot_price, plot_carat
-)
-```
-:::
-::::
 
 
 ```{r page-scroll, as_iframe = TRUE, scrolling = TRUE}
@@ -464,13 +476,6 @@ page_fixed(
 ```
 
 Note that this idea of scrolling multiple sidebar layouts concept also works with a `page_fluid()` or `page()` container (the only difference is the amount of horizontal padding provided on the page level). If, instead of scrolling at the page level, you want sidebar layout(s) to fit the browser window, consider using `page_fill()`.
-
-
-### Other page layouts
-
-Most of the previous section focused on sidebar layouts within `page_navbar()`.
-As we saw in the [filling](#filling-layouts) and [scrolling layouts](#scrolling-layouts) sections above, `layout_sidebar()` can be also used inside any Bootstrap `page()`: it works with `page_fixed()`, `page_fluid()`, `page_fill()`, and more.
-It's also very uesful within `card()` components, which we'll cover in the next section.
 
 
 ## Cards
