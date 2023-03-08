@@ -258,8 +258,8 @@ This is a good use of a shared sidebar because the same inputs control all plots
 
 ### Local sidebar {#local-sidebar}
 
-`layout_sidebar()` lets you create a sidebar layout for individual pages when your inputs _aren't shared_ across the outputs on multiple pages.
-Place a `layout_sidebar()` inside a `nav()` container to create a local sidebar.
+When your inputs aren't shared across outputs in your app or page, you can create a _local sidebar_ with `layout_sidebar()`.
+Place a `layout_sidebar()` inside a `nav()` container to create a sidebar adjacent to the content items included in your `layout_sidebar()`.
 In the example below, we used a sidebar layout for the filter controls for the plot on Page 1 without including these inputs next to the unrelated map on Page 2.
 
 ```{r navbar-local-scroll, as_iframe = TRUE, scrolling = TRUE}
