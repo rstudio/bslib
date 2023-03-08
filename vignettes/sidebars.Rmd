@@ -284,10 +284,11 @@ In the next section, we'll show you how to create a single full-page sidebar for
 
 Like many other layout functions in bslib, `page_navbar()` includes a `fillable` argument.
 When `fillable = TRUE`, the main content areas, i.e. the pages, inside the `page_navbar()` become _fillable containers_.
-When a container is fillable, any _fill items_ in the container will grow or shrink to fill all available space in the container.
+Fillable containers work together with _fill items_.
+When a container is fillable, any fill items in the container will grow or shrink to fill all available space in the container.
 
 Let's return to the shared sidebar example.
-If we set `fillable = TRUE`, any fill items in each page will grow or shrink to fill the main content area.
+If we set `fillable = TRUE` in `page_navbar()`, any fill items in each page will grow or shrink to fill the main content area.
 Because plotly plots are fill items, the single plot on Page 2 will grow to fill the entire page container and the plots on Page 1 will each shrink so that both plots fit in the page (in the [previous example](#shared-sidebar-1) you had to scroll down to see the second plot).
 
 ```{r navbar-global-fillable, as_iframe = TRUE, resizable = TRUE}
@@ -300,11 +301,11 @@ page_navbar(
 )
 ```
 
-`layout_sidebar()` creates a container to hold the sidebar and content area that, like a plotly plot, is also a fill-item.
+`layout_sidebar()` creates a container to hold the sidebar and content area that, like a plotly plot, is also a fill item.
 To create a single-page sidebar layout that fills the browser window we need to place the `layout_sidebar()` in a fillable container.
 As we just saw, with `page_navbar()` we can make all pages fillable with `fillable = TRUE`.
 Alternatively, we can provide `fillable` with a vector of page titles to make an individual page fillable.
-We'll take the latter approach in the following example.
+We'll take the alternate approach in the following example to make only the first page fillable.
 
 ```{r navbar-local-fill-outer, as_iframe = TRUE, scrolling = TRUE, resizable = TRUE}
 page_navbar(
