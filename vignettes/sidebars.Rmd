@@ -363,7 +363,12 @@ layout_sidebar(
 :::
 ::::
 
-FIXME: this fillable business is super helpful in page layouts.
+By setting `fillable = TRUE`, we tell `layout_sidebar()` that its main content area should be a _fillable container_.
+Fillable containers work together with _fill items_.
+When a container is fillable, any fill items in the container will grow or shrink to fill all available space in the container.
+Because plotly plots are fill items, they grow or shrink to fill the available space of the fillable container in which they are placed.
+
+In the next section, we'll see how we can use fillable pages for full-height sidebar layouts.
 
 ## Page sidebars
 
