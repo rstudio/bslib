@@ -89,6 +89,7 @@ Config/Needs/website:
     crosstalk,
     dplyr,
     DT,
+    ggplot2,
     glue,
     htmlwidgets,
     leaflet,
