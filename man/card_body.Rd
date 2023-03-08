@@ -37,7 +37,7 @@ card_image(
   class = NULL,
   height = NULL,
   width = NULL,
-  container = card_body_fill
+  container = card_body_fillable
 )
 
 as.card_item(x)

@@ -9,6 +9,7 @@ layout_column_wrap(
   ...,
   fixed_width = FALSE,
   heights_equal = c("all", "row", "all-cell", "row-cell"),
+  fill = TRUE,
   height = NULL,
   height_mobile = NULL,
   gap = NULL,
@@ -46,6 +47,9 @@ length unit.}
 \item{heights_equal}{If \code{"all"} (the default), every card in every row of the
 grid will have the same height. If \code{"row"}, then every card in \emph{each} row
 of the grid will have the same height, but heights may vary between rows.}
+
+\item{fill}{whether or not to allow the layout to grow/shrink inside a
+fillable container (e.g., \code{page_fillable()}).}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}

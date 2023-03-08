@@ -123,8 +123,8 @@ elements into a menu when the width of the browser is less than 940 pixels
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size. Consider
-pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
-changes in the size of the card.}
+pairing this feature with \code{\link[=card_body_fillable]{card_body_fillable()}} to get output that
+responds to changes in the size of the card.}
 
 \item{wrapper}{A function (which returns a UI element) to call on unnamed
 arguments in \code{...} which are not already card item(s) (like

@@ -18,8 +18,8 @@ Named arguments become HTML attributes on returned UI element.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size. Consider
-pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
-changes in the size of the card.}
+pairing this feature with \code{\link[=card_body_fillable]{card_body_fillable()}} to get output that
+responds to changes in the size of the card.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}
