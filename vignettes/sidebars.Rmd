@@ -94,6 +94,10 @@ iframe, .bslib-page-fill {
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
+iframe {
+  margin-bottom: calc(55px + 2rem);
+}
+
 iframe.resizable {
   resize: vertical;
   min-height: 300px;
@@ -392,8 +396,6 @@ page_fixed(
 )
 ```
 
-<br>
-
 Note that this idea of scrolling multiple sidebar layouts concept also works with a `page_fluid()` or `page()` container (the only difference is the amount of horizontal padding provided on the page level). If, instead of scrolling at the page level, you want sidebar layout(s) to fit the browser window, consider using `page_fill()`.
 
 ## Cards
@@ -414,8 +416,6 @@ card(
   )
 )
 ```
-
-<br>
 
 ## Cards with tabs
 
@@ -472,9 +472,6 @@ shinyApp(
 # (only difference is `color` filter appears on Page 2)
 ```
 
-<br>
-
-
 ### Local sidebar
 
 To create a sidebar layout that's specific to a page, place a `layout_sidebar()` inside a tab (i.e., `nav()`) container (similar to how you would for [a `card()` without tabs](#cards)).
@@ -500,9 +497,6 @@ navs_tab_card(
   )
 )
 ```
-
-<br>
-
 
 ## Shiny
 
@@ -587,8 +581,6 @@ filters_acc <- accordion(
 layout_sidebar(sidebar(filters_acc), plot_price)
 ```
 
-<br>
-
 ## Nested sidebars
 
 It's possible to nest sidebar layouts, which means you can effectively have any number of left and/or right sidebars in a given layout. When doing this, you'll want the main content area of every `layout_sidebar()` that contains a `layout_sidebar()` to be fillable and have zero padding (`class = "p-0"`).
@@ -644,5 +636,3 @@ container <- layout_sidebar(
 
 tagAppendAttributes(container, style = css("--bs-border-color" = "darkgray"))
 ```
-
-<br>
