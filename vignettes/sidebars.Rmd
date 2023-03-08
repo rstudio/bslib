@@ -291,6 +291,9 @@ In this way, the `layout_sidebar()` container is like a pared-down `card()` comp
 
 Like [cards](cards.html), by default, the vertical height of the sidebar layout container will grow with the size of its contents.
 
+```{r, sidebar-create-contents, echo=FALSE}
+```
+
 :::: {.row}
 ::: {.col-lg-6 .col-sm-12 .mb-3}
 ```{r scroll-layout-short}
@@ -312,6 +315,9 @@ layout_sidebar(
 ::::
 
 If you have a lot of content in a `layout_sidebar()`, one option is to specify a `height` for the container to make its contents scrollable.
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
 
 :::: {.row}
 ::: {.col-lg-6 .col-sm-12 .mb-3}
@@ -338,6 +344,9 @@ layout_sidebar(
 ### Filling layout
 
 If, instead of scrolling the content area, you want to allow the contents of the sidebar layout to resize themselves to the container height, also set `fillable = TRUE`.
+
+```{r, sidebar-create-contents, echo=FALSE}
+```
 
 :::: {.row}
 ::: {.col-lg-6 .col-sm-12 .mb-3}
