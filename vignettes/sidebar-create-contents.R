@@ -5,14 +5,29 @@ library(crosstalk)
 library(plotly)
 
 # For creating the "filter" between the controls and plots
-dat <- SharedData$new(dplyr::sample_n(diamonds, 1000))
+dat <- SharedData$new(dplyr::sample_n(ggplot2::diamonds, 1000))
 
 # Sidebar elements (e.g., filter controls)
-cut <- filter_select("cut", "Cut", dat, ~cut)
-clarity <- filter_select("clarity", "Clarity", dat, ~clarity)
-color <- filter_select("color", "Color", dat, ~color)
+filter_cut <- filter_select("cut", "Cut", dat, ~cut)
+filter_color <- filter_select("color", "Color", dat, ~color)
+filter_clarity <- filter_select("clarity", "Clarity", dat, ~clarity)
+
+# A function to create histograms with plotly
+plot_hist <- function(data, x) {
+  plot_ly(data, x = x) |>
+    config(displayModeBar = FALSE) |>
+    layout(
+      barmode = "overlay",
+      margin = list(t = 0, b = 0, l = 0, r = 0)
+    ) |>
+    highlight("plotly_selected")
+}
 
 # Main elements (e.g., plots)
-plot_price <- plot_ly(dat, x = ~price)
-plot_carat <- plot_ly(dat, x = ~carat)
-plot_depth <- plot_ly(dat, x = ~depth)
+plot_price <- plot_hist(dat, x = ~price)
+plot_carat <- plot_hist(dat, x = ~carat)
+plot_depth <- plot_hist(dat, x = ~depth)
+
+# An unrelated map
+library(leaflet)
+map_quakes <- leaflet(quakes, height = 350) |> addTiles() |> addCircleMarkers()
