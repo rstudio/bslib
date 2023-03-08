@@ -23,6 +23,8 @@
 #' @param heights_equal If `"all"` (the default), every card in every row of the
 #'   grid will have the same height. If `"row"`, then every card in _each_ row
 #'   of the grid will have the same height, but heights may vary between rows.
+#' @param fill whether or not to allow the layout to grow/shrink inside a
+#'   fillable container (e.g., `page_fillable()`).
 #' @param height_mobile Any valid CSS unit to use for the height when on mobile
 #'   devices (or narrow windows).
 #' @inheritParams card
@@ -39,7 +41,7 @@
 #'
 layout_column_wrap <- function(
     width, ..., fixed_width = FALSE, heights_equal = c("all", "row", "all-cell", "row-cell"),
-  height = NULL, height_mobile = NULL, gap = NULL, class = NULL) {
+    fill = TRUE, height = NULL, height_mobile = NULL, gap = NULL, class = NULL) {
 
   heights_equal <- match.arg(heights_equal)
 
@@ -96,7 +98,7 @@ layout_column_wrap <- function(
     children
   )
 
-  tag <- bindFillRole(tag, item = TRUE)
+  tag <- bindFillRole(tag, item = fill)
   tag <- tagAppendAttributes(tag, class = class)
   tag <- as.card_item(tag)
 
