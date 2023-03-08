@@ -466,7 +466,9 @@ page_fill(
 
 ## Cards
 
-`layout_sidebar()` can also be dropped into a `card()`, which is especially convenient for adding a `card_header()`, `card_footer()`, or even `full_screen = TRUE` behavior. If you do want `full_screen = TRUE` (and/or specify a `height`), then you may also want `fillable = TRUE` to allow the contents of the main area (e.g., `plot_price`) to grow/shrink to the card container. Also, in a card context, it might make sense to hide the sidebar by default (`open = FALSE`), especially if space is limited (e.g., maybe you want [multiple cards with sidebars](layouts.html#responsive-column-first-layout)).
+You can create a sidebar layout within a `card()` simply by adding `layout_sidebar()` within the card next to other card elements like `card_header()` and `card_footer()`.
+The card-level sidebar even works with the `full_screen = TRUE` option, in which case you probably also want to set `fillable = TRUE` in `layout_sidebar()` so that its contents will grow or shrink to fill the card container.
+Also, consider hiding the sidebar by default within cards by setting `open = FALSE` within `sidebar()`, especially if space is limited or if you have [multiple cards with sidebars in a responsive layout](layouts.html#responsive-column-first-layout).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
