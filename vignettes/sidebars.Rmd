@@ -372,16 +372,14 @@ In the next section, we'll see how we can use fillable pages for full-height sid
 
 ## Page sidebars
 
+Our [first example](#shared-sidebar) used the `sidebar` argument of `page_navbar()` to create a shared sidebar across all pages in the app.
+In this section, we'll explore a few more page-based sidebar layouts.
+
 ### Navbar pages
 
-Like many other layout functions in bslib, `page_navbar()` includes a `fillable` argument.
-When `fillable = TRUE`, the main content areas, i.e. the pages, inside the `page_navbar()` become _fillable containers_.
-Fillable containers work together with _fill items_.
-When a container is fillable, any fill items in the container will grow or shrink to fill all available space in the container.
-
-Let's return to the shared sidebar example.
+Let's return to the [shared sidebar example](#shared-sidebar) and apply the concepts we learned about in [Filling layout](#filling-layout).
 If we set `fillable = TRUE` in `page_navbar()`, any fill items in each page will grow or shrink to fill the main content area.
-Because plotly plots are fill items, the single plot on Page 2 will grow to fill the entire page container and the plots on Page 1 will each shrink so that both plots fit in the page (in the [previous example](#shared-sidebar-1) you had to scroll down to see the second plot).
+Recall that plotly plots are fill items, so the plots on each fillable page will grow or shrink to fill the available space.
 
 ```{r navbar-global-fillable, as_iframe = TRUE, resizable = TRUE}
 page_navbar(
@@ -393,11 +391,10 @@ page_navbar(
 )
 ```
 
-`layout_sidebar()` creates a container to hold the sidebar and content area that, like a plotly plot, is also a fill item.
-To create a single-page sidebar layout that fills the browser window we need to place the `layout_sidebar()` in a fillable container.
-As we just saw, with `page_navbar()` we can make all pages fillable with `fillable = TRUE`.
-Alternatively, we can provide `fillable` with a vector of page titles to make an individual page fillable.
-We'll take the alternate approach in the following example to make only the first page fillable.
+Suppose we want to include a full-height sidebar on just one page of our app because the other pages include unrelated outputs.
+Like plotly plots, `layout_sidebar()` containers are also fill items by default.
+We can create a local sidebar for Page 1 with `layout_sidebar()` and we can take advantage of the fact that, in addition to accepting logical values, `fillable` in `page_navber()` can accept a vector of page titles.
+We'll take this alternate approach in the following example to make only the first page fillable.
 
 ```{r navbar-local-fill-outer, as_iframe = TRUE, scrolling = TRUE, resizable = TRUE}
 page_navbar(
@@ -407,6 +404,7 @@ page_navbar(
     "Page 1",
     layout_sidebar(
       sidebar(filter_cut, filter_clarity, width = 175),
+      border = FALSE,
       plot_price,
       plot_carat
     )
@@ -415,7 +413,11 @@ page_navbar(
 )
 ```
 
-To fully recreate the global sidebar look for the first page, you might also want to set `fillable = TRUE` in `layout_sidebar()`.
+Notice that the sidebar is full height but the plots are in a scrolling region.
+Which option do we need to change to make the plots also fill the page?
+
+If we want fill items, in this case the plotly plots, to fill available space, we need to make their containing element a fillable container.
+We can do this by setting `fillable = TRUE` in `layout_sidebar()`.
 Then, the plotly plots (which are fill items) will fill the main content area of the sidebar layout (which is a fillable container _and_ a fill item), and the sidebar layout will, in turn, fill the page (which is a fillable container).
 
 ```{r navbar-local-fill, as_iframe = TRUE, resizable = TRUE}
@@ -436,18 +438,16 @@ page_navbar(
 )
 ```
 
-The example above has resizable height.
-Try resizing the page frame by grabbing the lower right corner to see how the plots grow and shrink to fill their container's height.
+The examples above all have resizable height.
+Try resizing the page frame by grabbing the lower right corner to see how the plots grow and shrink to fit in their fillable container's height.
 
 ### Other pages
 
-Most of the previous section focused on sidebar layouts within `page_navbar()`.
-As we saw in the [filling](#filling-layouts) and [scrolling layouts](#scrolling-layouts) sections above, `layout_sidebar()` can be also used inside any Bootstrap `page()`: it works with `page_fixed()`, `page_fluid()`, `page_fill()`, and more.
-It's also very uesful within `card()` components, which we'll cover in the next section.
+Most of our examples so far have focused on sidebar layouts within `page_navbar()`, but `layout_sidebar()` can be also used inside any Bootstrap `page()`: it works with `page_fixed()`, `page_fluid()`, `page_fill()`, and more.
 
+For example, instead of `page_navbar()`, we can add a full-page sidebar to `page_fill()` because `page_fill()` produces a fillable container by definition that `layout_sidebar()` will fill[^why-scrollable].
 
-So far all of our examples have used `page_navbar()`, but the same filling behavior can be used in any fillable container.
-One such page layout is `page_fill()`, which produces a fillable container by definition.
+[^why-scrollable]: **Check your understanding:** Why do you have to scroll to see the second plot? How would you make the plots fill the page too?
 
 ```{r page-fill, as_iframe = TRUE}
 page_fill(
@@ -462,30 +462,6 @@ page_fill(
   )
 )
 ```
-
-
-```{r page-scroll, as_iframe = TRUE, scrolling = TRUE}
-page_fixed(
-  h1("My scrolling page", class = "lead fs-2 my-3"),
-  layout_sidebar(
-    height = 325,
-    sidebar(filter_cut, filter_clarity),
-    "Scroll down for another plot 👇",
-    plot_price, plot_carat
-  ),
-  br(),
-  layout_sidebar(
-    height = 350,
-    fillable = TRUE,
-    sidebar(filter_color, position = "right"),
-    "No scrolling here",
-    plot_price, plot_carat
-  ),
-  br()
-)
-```
-
-Note that this idea of scrolling multiple sidebar layouts concept also works with a `page_fluid()` or `page()` container (the only difference is the amount of horizontal padding provided on the page level). If, instead of scrolling at the page level, you want sidebar layout(s) to fit the browser window, consider using `page_fill()`.
 
 
 ## Cards
