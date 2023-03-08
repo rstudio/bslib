@@ -281,7 +281,8 @@ page_navbar(
 
 Notice that `layout_sidebar()` includes a border by default and doesn't fill its parent page container.
 In fact, there is content on Page 1 below the container with the sidebar -- and that content could even include other containers with local sidebar layouts.
-FIXME: In the next section, we'll show you how to create a single full-page sidebar for just one page.
+
+In the next section, we'll show you how to determine the scrolling or filling behavior of each sidebar content areas.
 
 ### Scrolling layout
 
