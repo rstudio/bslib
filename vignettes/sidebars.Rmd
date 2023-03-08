@@ -319,7 +319,7 @@ page_navbar(
 ```
 
 To fully recreate the global sidebar look for the first page, you might also want to set `fillable = TRUE` in `layout_sidebar()`.
-Then, the plotly plots (which are fill items) will fill the main content area of the sidebar layout (which is a fillable container _and_ a fill item) which will fill the page (since it's a fillable container).
+Then, the plotly plots (which are fill items) will fill the main content area of the sidebar layout (which is a fillable container _and_ a fill item), and the sidebar layout will, in turn, fill the page (which is a fillable container).
 
 ```{r navbar-local-fill, as_iframe = TRUE, resizable = TRUE}
 page_navbar(
@@ -340,7 +340,7 @@ page_navbar(
 ```
 
 The example above has resizable height.
-Try grabbing the lower right corner and resizing the page frame to see how the plots grow and shrink to fill their container's height.
+Try resizing the page frame by grabbing the lower right corner to see how the plots grow and shrink to fill their container's height.
 
 So far all of our examples have used `page_navbar()`, but the same filling behavior can be used in any fillable container.
 One such page layout is `page_fill()`, which produces a fillable container by definition.
