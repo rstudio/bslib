@@ -121,7 +121,7 @@ To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of o
 
 :::: {.row}
 ::: {.col-sm-12 .col-lg-6}
-### Shared Sidebar
+### Shared Sidebar {#intro-shared-sidebar}
 
 When `sidebar` is an argument to a function containing multiple pages or panels, it creates a **shared sidebar**.
 
@@ -178,7 +178,7 @@ describe_layout_function(
 
 :::: {.row}
 ::: {.col-sm-12 .col-lg-6}
-### Local Sidebar
+### Local Sidebar {#intro-local-sidebar}
 
 Use `layout_sidebar()` whenever you want a **local sidebar** adjacent to a content panel.
 `layout_sidebar()` creates a bordered area by default, making it useful anywhere in your interface.
@@ -207,7 +207,7 @@ describe_layout_function(
 ::: {.callout .callout-warning}
 ### Prefer local sidebars
 
-Although [global sidebars](#global-sidebar) have been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
+Although [shared sidebars](#shared-sidebar) have been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
 
 As a general rule, group sidebar controls as closely as possible with the contents they affect.
 Use `layout_sidebar()` to group inputs in a [local sidebar](#local-sidebar) adjacent to the output they control.
@@ -237,7 +237,7 @@ With bslib, `page_navbar()` provides a modern version of `shiny::navbarPage()` t
 
 [^2]: These functions don't actually make what web developers would consider a  multi-page app since they don't actually request different HTML pages (they are based on Bootstrap nav components).
 
-### Shared sidebar
+### Shared sidebar {#shared-sidebar}
 
 To show the same `sidebar()` on every page -- i.e. a _shared_ or _global_ sidebar  --- pass a `sidebar()` to the `sidebar` argument of `page_navbar()`:
 
@@ -254,7 +254,7 @@ Try changing the filter selections while switching between Page 1 and Page 2.
 The changes you make to the filters while looking at one page are also used to update the plots on other page(s).
 This is a good use of a shared sidebar because the same inputs control all plots in the shared container, which in this case is the pages of the app.
 
-### Local sidebar
+### Local sidebar {#local-sidebar}
 
 `layout_sidebar()` lets you create a sidebar layout for individual pages when your inputs _aren't shared_ across the outputs on multiple pages.
 Place a `layout_sidebar()` inside a `nav()` container to create a local sidebar.
@@ -344,7 +344,7 @@ page_navbar(
 ```
 
 The example above has resizable height.
-Try grabbing the lower right corner and resizing the example output to see how the plots grow and shrink to fill their container's height.
+Try grabbing the lower right corner and resizing the page frame to see how the plots grow and shrink to fill their container's height.
 
 ## Other page layouts
 
