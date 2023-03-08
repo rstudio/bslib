@@ -211,6 +211,10 @@ Although [shared sidebars](#shared-sidebar) have been popularized by packages li
 As a general rule, group sidebar controls as closely as possible with the contents they affect.
 Use `layout_sidebar()` to group inputs in a [local sidebar](#local-sidebar) adjacent to the output they control.
 Use global sidebars sparingly and only when the inputs in them are use across many outputs on your page.
+
+Note that while we talk about shared and local sidebars in this article, those are properties of the interface design.
+Controls placed in a sidebar aren't inherently limited to the outputs next to the sidebar.
+It's your job as the app designer to choose where the controls appear and to ensure a good user experience.
 :::
 
 In the next few sections, we'll dive a little deeper into each of the sidebar layout functions listed above.
