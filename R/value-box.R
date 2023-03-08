@@ -65,7 +65,7 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
     class = c("bslib-value-box border-0", paste0("bg-", theme_color), class),
     full_screen = full_screen,
     height = height,
-    wrapper = card_body_fill,
+    wrapper = card_body_fillable,
     !!!attribs,
     contents
   )
@@ -133,7 +133,7 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
       width_fs <- rev(width_fs)
     }
 
-    card_body_fill(
+    card_body_fillable(
       style = css(padding = 0),
       layout_column_wrap(
         width = NULL, gap = 0,
