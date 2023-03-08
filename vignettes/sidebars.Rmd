@@ -6,14 +6,7 @@ output:
       version: 5
 resource_files:
   - infobox.svg
-  - navbar-global
-  - navbar-global-fillable
-  - navbar-local-scroll
-  - navbar-local-fill-outer
-  - navbar-local-fill
-  - page-scroll
-  - page-fill
-  - page-fill-double
+  - examples/sidebars
 ---
 
 ```{r setup, include=FALSE}
@@ -25,10 +18,12 @@ opts_chunk$set(message = FALSE)
 
 render_as_iframe <- function(x, options, ...) {
   lbl <- opts_current$get("label")
-  if (!dir.exists(lbl)) {
-    dir.create(lbl)
+  doc_name <- sub("[.]Rmd", "", knitr::current_input())
+  lbl_dir <- file.path("examples", doc_name, lbl)
+  if (!dir.exists(lbl_dir)) {
+    dir.create(lbl_dir, recursive = TRUE)
   }
-  file <- file.path(lbl, paste0(lbl, ".html"))
+  file <- file.path(lbl_dir, paste0(lbl, ".html"))
   x <- tagList(x, tags$head(tags$style(".plotly { height: 250px !important; } .modebar-container { display: none; }")))
   tryCatch(
     save_html(x, file),

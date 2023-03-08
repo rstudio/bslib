@@ -19,13 +19,5 @@ inst/yarn.lock
 inst/rmarkdown/templates/*/skeleton/skeleton.html
 
 vignettes/*.html
-vignettes/navbar-global
-vignettes/navbar-global-fillable
-vignettes/navbar-local-fillable-scroll
-vignettes/navbar-local-scroll
-vignettes/navbar-local-scroll-two
-vignettes/navbar-local-fill-outer
-vignettes/navbar-local-fill
-vignettes/page-scroll
-vignettes/page-fill
-vignettes/page-fill-double
+# rendered examples that appear in iframes
+vignettes/examples
