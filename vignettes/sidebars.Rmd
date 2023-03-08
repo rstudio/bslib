@@ -366,10 +366,81 @@ page_fill(
 
 ### Scrolling layout
 
-By default, `layout_sidebar()` provides rounded borders and padding around the container so that it can easily be dropped into any larger page. The sizing rules are also very similar to [cards](cards.html) in the sense that the container grows with the size of it's contents (by default). So, if there's lots of content, consider specifying a `height` in the container (contents will then be scrollable). If, instead, of scrolling contents (the default), you want to allow those contents to resize themselves to that height, also set `fillable = TRUE`:
+By default, `layout_sidebar()` provides rounded borders and padding around the container so that it can easily be dropped into any larger page.
+In this way, the `layout_sidebar()` container is like a pared-down `card()` component.
 
-```{r, sidebar-create-contents, echo=FALSE}
+Like [cards](cards.html), by default, the vertical height of the sidebar layout container will grow with the size of its contents.
+
+:::: {.row}
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-short}
+layout_sidebar(
+  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
+  plot_depth
+)
 ```
+:::
+
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-long}
+layout_sidebar(
+  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
+  plot_price, plot_carat
+)
+```
+:::
+::::
+
+If you have a lot of content in a `layout_sidebar()`, one option is to specify a `height` for the container, making its contents scrollable.
+
+:::: {.row}
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-short-300}
+layout_sidebar(
+  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
+  height = 300,
+  plot_depth
+)
+```
+:::
+
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-long-300}
+layout_sidebar(
+  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
+  height = 300,
+  plot_price, plot_carat
+)
+```
+:::
+::::
+
+If, instead of scrolling contents (the default), you want to allow those contents to resize themselves to that height, also set `fillable = TRUE`:
+
+:::: {.row}
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-short-fillable}
+layout_sidebar(
+  sidebar("Short sidebar layout", width = "33%", class = "bg-light"),
+  height = 300,
+  fillable = TRUE,
+  plot_depth
+)
+```
+:::
+
+::: {.col-lg-6 .col-sm-12 .mb-3}
+```{r scroll-layout-long-fillable}
+layout_sidebar(
+  sidebar("Long sidebar layout", width = "33%", class = "bg-light"),
+  height = 300,
+  fillable = TRUE,
+  plot_price, plot_carat
+)
+```
+:::
+::::
+
 
 ```{r page-scroll, as_iframe = TRUE, scrolling = TRUE}
 page_fixed(
