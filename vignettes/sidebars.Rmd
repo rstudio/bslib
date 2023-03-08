@@ -38,7 +38,7 @@ knitr::opts_hooks$set(as_iframe = function(opts) {
   opts$render <- render_as_iframe
   opts$out.width <- "100%"
   opts$out.extra <- paste0(
-    'height=600px seamless="seamless" frameBorder="0"',
+    'height=600px seamless="seamless" frameBorder="0" loading="lazy"',
     if (!isTRUE(opts$scrolling)) ' scrolling="no"',
     if (isTRUE(opts$resizable)) ' class="resizable"'
   )
@@ -496,7 +496,8 @@ card(
 
 ## Cards with tabs
 
-It's also possible to embed a sidebar layout within a `card()`s that has multiple tabs/pills via `navs_tab_card()`/`navs_pill_card()`. And, similar to `page_navbar()`, a `sidebar()` can either be passed as an argument (i.e., global sidebar) or to a particular tab/pill (i.e., local sidebar).
+It's also possible to embed a sidebar layout within a `card()`s that has multiple tabs or pills with `navs_tab_card()` or `navs_pill_card()`.
+And, similar to `page_navbar()`, a shared `sidebar()` can either be passed as an argument to `sidebar` or to created as a local sidebar for a particular ta b or pill with `layout_sidebar()`.
 
 ### Global sidebar
 
