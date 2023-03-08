@@ -364,11 +364,6 @@ page_fill(
 )
 ```
 
-
-### Other page layouts
-
-The previous section focused on sidebar layouts in the context of a `page_navbar()`, but as you may have guessed from the last couple [local sidebar](#local-sidebar) examples, `layout_sidebar()` can be also used inside any Bootstrap `page()` (i.e., it works with `page_fixed()`, `page_fluid()`, `page_fill()`, etc) and/or `card()` (which we'll cover [later](#cards)).
-
 ### Scrolling layout
 
 By default, `layout_sidebar()` provides rounded borders and padding around the container so that it can easily be dropped into any larger page. The sizing rules are also very similar to [cards](cards.html) in the sense that the container grows with the size of it's contents (by default). So, if there's lots of content, consider specifying a `height` in the container (contents will then be scrollable). If, instead, of scrolling contents (the default), you want to allow those contents to resize themselves to that height, also set `fillable = TRUE`:
@@ -398,6 +393,14 @@ page_fixed(
 ```
 
 Note that this idea of scrolling multiple sidebar layouts concept also works with a `page_fluid()` or `page()` container (the only difference is the amount of horizontal padding provided on the page level). If, instead of scrolling at the page level, you want sidebar layout(s) to fit the browser window, consider using `page_fill()`.
+
+
+### Other page layouts
+
+Most of the previous section focused on sidebar layouts within `page_navbar()`.
+As we saw in the [filling](#filling-layouts) and [scrolling layouts](#scrolling-layouts) sections above, `layout_sidebar()` can be also used inside any Bootstrap `page()`: it works with `page_fixed()`, `page_fluid()`, `page_fill()`, and more.
+It's also very uesful within `card()` components, which we'll cover in the next section.
+
 
 ## Cards
 
