@@ -486,10 +486,9 @@ Also, consider hiding the sidebar by default within cards by setting `open = FAL
 ```{r}
 card(
   full_screen = TRUE,
-  style = "max-height: 300px",
   card_header("Filter diamond price by cut and clarity"),
   layout_sidebar(
-    sidebar(filter_cut, filter_clarity, lorem::ipsum(5), open = FALSE),
+    sidebar(filter_cut, filter_clarity, open = FALSE),
     plot_price,
     fillable = TRUE
   )
