@@ -553,11 +553,82 @@ navs_tab_card(
 
 ## Shiny
 
-### Dynamic sidebar page navbar
-
 FIXME: Link here from sections above.
 
-Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^4] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
+When used within Shiny apps, sidebars provide a few additional features you can leverage.
+
+### Sidebar state
+
+In a shiny app, whether or not the `sidebar()` is opened reported through an input named after the `id` of the sidebar.
+In the following Shiny UI, the sidebar has `id = "sidebar"`.
+In the server logic, `input$sidebar` will report `TRUE` when the sidebar is opened and `FALSE` when the sidebar is closed.
+
+```{r eval = FALSE}
+library(shiny)
+
+ui <- page_navbar(
+  title = "Sidebar example",
+  id = "nav",
+  sidebar = sidebar(id = "sidebar", filter_cut, filter_clarity),
+  fillable = "Page 2",
+  nav("Page 1", plot_price),
+  nav("Page 2", plot_carat, plot_depth)
+)
+```
+
+You can also open and close the sidebar reactively in your Shiny `server` function using `sidebar_open()` and `sidebar_close()` and the sidebar `id`.
+In the following chunk, we read the current navbar page and close the sidebar on Page 2 and re-open it on Page 1.
+
+```{r, eval = FALSE}
+server <- function(input, output) {
+  observe({
+    if (input$nav == "Page 1") {
+      sidebar_open("sidebar")
+     } else {
+      sidebar_close("sidebar")
+     }
+  })
+}
+
+shinyApp(ui, server)
+```
+
+
+```{r shiny-sidebar-state, echo = FALSE, as_iframe = TRUE}
+page_navbar(
+  title = "Sidebar example",
+  id = "nav",
+  fillable = "Page 2",
+  sidebar = sidebar(
+    id = "sidebar",
+    filter_cut,
+    filter_clarity
+  ),
+  nav("Page 1", plot_price),
+  nav("Page 2", plot_carat, plot_depth),
+  footer = htmltools::tags$script(htmltools::HTML("
+$('#nav').on('shown.bs.tab', function(ev) {
+  const page = ev.target.dataset.value;
+  const $sb = $('.bslib-sidebar-layout > .bslib-sidebar-input');
+  if (page === 'Page 2') {
+    $sb.parent().addClass('sidebar-collapsed');
+  } else {
+    $sb.parent().removeClass('sidebar-collapsed');
+  }
+  $sb.trigger('toggleCollapse.sidebarInputBinding');
+  setTimeout(function() {
+    const resizeEvent = new Event('resize');
+    window.dispatchEvent(resizeEvent);
+  }, 500);
+});"
+  ))
+)
+```
+
+
+### Dynamic sidebar
+
+When [shared sidebars](#shared-sidebar) include the same inputs in several pages or tabs, it's sometimes helpful to have the sidebar controls change depending on which page or tab is active. Thanks to `shiny::conditionalPanel()`[^4], this can be done fairly easily in a Shiny app with `page_navvar()` or in `navs_tab_card()` or `navs_tab_pill()`.
 
 [^4]: If the controls depend on some other application state, we can also, of course, use `shiny::uiOutput()` to fill the contents of a `sidebar()`).
 
@@ -565,6 +636,7 @@ Sometimes it's helpful to have the sidebar controls change depending on what pag
 shinyApp(
   page_navbar(
     title = "Dynamic sidebar",
+    id = "nav",
     sidebar = sidebar(
       filter_cut, filter_clarity,
       conditionalPanel(
@@ -572,77 +644,39 @@ shinyApp(
         filter_color
       )
     ),
-    id = "nav",
+    fillable = "Page 2",
     nav("Page 1", plot_price, plot_carat),
     nav("Page 2", plot_depth)
   ),
-  function(input, output) {}
+  server = function(...) {
+    # no server logic required
+  }
 )
 ```
 
-```{r}
-# Yields similar result to the examples above
-# (only difference is `color` filter appears on Page 2)
-```
-
-
-### Dynamic sidebar navs_tab_card
-
-Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^4] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
-
-```{r, eval = FALSE}
-dynamic <- navs_tab_card(
-  title = "Dynamic sidebar",
-  sidebar = sidebar(
-    filter_cut, filter_clarity,
-    conditionalPanel(
-      "input.nav === 'Page 2'",
-      filter_color
-    )
-  ),
-  id = "nav",
-  nav("Page 1", plot_price),
-  nav("Page 2", plot_carat, plot_depth)
-)
-
-shinyApp(
-  page_fixed(dynamic),
-  function(input, output) {}
-)
-```
-
-```{r}
-# Yields similar result to the examples above
-# (only difference is `color` filter appears on Page 2)
-```
-
-
-### Sidebar state
-
-Inside a Shiny context, the `open` state of a `sidebar()` can programmatically updated and/or queried through an input value. Doing so requires that an `id` is provided to the `sidebar()`. Here's an example of using `sidebar_close()` and `sidebar_open()` to make sure the sidebar is open on `Page 1` but closed on `Page 2`.
-
-```{r, eval = FALSE}
-library(shiny)
-
-ui <- page_navbar(
+```{r shiny-dynamic-sidebar, echo = FALSE, as_iframe = TRUE}
+page_navbar(
   title = "Sidebar example",
   id = "nav",
-  sidebar = sidebar(id = "sidebar", filter_cut, filter_clarity),
+  fillable = "Page 2",
+  sidebar = sidebar(
+    id = "sidebar",
+    filter_cut,
+    filter_clarity,
+    div(id = "sidebar-page-2", class = "hidden", filter_color)
+  ),
   nav("Page 1", plot_price),
-  nav("Page 2", plot_carat, plot_depth)
+  nav("Page 2", plot_carat, plot_depth),
+  footer = htmltools::tags$script(htmltools::HTML("
+$('#sidebar-page-2').hide();
+
+$('#nav').on('shown.bs.tab', function(ev) {
+  const page = ev.target.dataset.value;
+  page === 'Page 2' ? $('#sidebar-page-2').show() : $('#sidebar-page-2').hide();
+});
+"
+  ))
 )
-
-server <- function(input, output) {
-  observe({
-    if (input$nav == "Page 2") {
-      sidebar_close("sidebar")
-     } else {
-      sidebar_open("sidebar")
-     }
-  })
-}
-
-shinyApp(ui, server)
 ```
 
 ## Sidebar accordions
