@@ -679,9 +679,10 @@ $('#nav').on('shown.bs.tab', function(ev) {
 )
 ```
 
-## Sidebar accordions
+## Accordians
 
-When an accordion appears as a immediate child inside `sidebar()`, they'll render "flush" to the sidebar, providing a convenient way to group multiple related input controls under a collapsible section.
+All sidebars have special treatment for accordians.
+When an `accordion()` appears directly within a `sidebar()` (as an immediate child of the sidebar), the accordian panels will render flush to the sidebar, providing a convenient way to group multiple related input controls under a collapsible section.
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
@@ -711,21 +712,18 @@ It's possible to nest sidebar layouts, which means you can effectively have any 
 
 ```{r page-fill-double, as_iframe = TRUE}
 page_fill(
-    h1(
-        class = "lead fs-2 text-center bg-primary bg-gradient my-0 p-3",
-        "Left and right sidebar"
-    ),
+  h1("Left and right sidebar", class = "px-3 my-3"),
+  layout_sidebar(
+    sidebar(filter_cut, filter_clarity),
     layout_sidebar(
-        sidebar(filter_cut, filter_clarity),
-        layout_sidebar(
-            sidebar(filter_color, position = "right", open = FALSE),
-            plot_price,
-            border = FALSE
-        ),
-        border_radius = FALSE,
-        fillable = TRUE,
-        class = "p-0"
-    )
+        sidebar(filter_color, position = "right", open = FALSE),
+        plot_price,
+        border = FALSE
+    ),
+    border_radius = FALSE,
+    fillable = TRUE,
+    class = "p-0"
+  )
 )
 ```
 
