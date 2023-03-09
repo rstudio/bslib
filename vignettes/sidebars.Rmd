@@ -452,14 +452,14 @@ Try resizing the page frame by grabbing the lower right corner to see how the pl
 
 ### Other pages
 
-Most of our examples so far have focused on sidebar layouts within `page_navbar()`, but `layout_sidebar()` can be also used inside any Bootstrap `page()`: it works with `page_fixed()`, `page_fluid()`, `page_fill()`, and more.
+Most of our examples so far have focused on sidebar layouts within `page_navbar()`, but `layout_sidebar()` can be also used inside any Bootstrap `page()`: it works with `page_fixed()`, `page_fluid()`, `page_fillable()`, and more.
 
-For example, instead of `page_navbar()`, we can add a full-page sidebar to `page_fill()` because `page_fill()` produces a fillable container by definition that `layout_sidebar()` will fill[^why-scrollable].
+For example, instead of `page_navbar()`, we can add a full-page sidebar to `page_fillable()` because `page_fillable()` produces a fillable container by definition that `layout_sidebar()` will fill[^why-scrollable].
 
 [^why-scrollable]: **Check your understanding:** Why do you have to scroll to see the second plot? How would you make the plots fill the page too?
 
 ```{r page-fill, as_iframe = TRUE}
-page_fill(
+page_fillable(
   title = "My filled page",
   h1("My filled page", class = "px-3 my-3"),
   layout_sidebar(
@@ -711,7 +711,7 @@ It's possible to nest sidebar layouts, which means you can effectively have any 
 ```
 
 ```{r page-fill-double, as_iframe = TRUE}
-page_fill(
+page_fillable(
   h1("Left and right sidebar", class = "px-3 my-3"),
   layout_sidebar(
     sidebar(filter_cut, filter_clarity),
