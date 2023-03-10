@@ -146,8 +146,12 @@ describe_layout_function(
       nav("Page 2", "Page 2 content")
     ),
     tags$script(HTML("$(document).ready(function() {
+      // pkgdown activates headroom on the navs_bar() container and ends up
+      // auto-hiding our navbar, so this destroys the unwanted headroom instance
       var demo_nav = $('#page_navbar_example_card nav.navbar');
-      setTimeout(function(){ demo_nav.headroom('destroy') }, 100);
+      setTimeout(function() {
+        if (demo_nav.headroom) demo_nav.headroom('destroy')
+      }, 100);
     });"))
   ) |>
   tagAppendAttributes(class = "flex-row", .cssSelector = ".navbar-nav") |>
@@ -194,10 +198,10 @@ describe_layout_function(
     class = "p-2",
     height = 200,
     layout_sidebar(
+      class = "border rounded-top",
       sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
       "Content with a sidebar"
-    )
-  )
+    )  )
 )
 ```
 :::
@@ -210,10 +214,10 @@ Although [shared sidebars](#shared-sidebar) have been popularized by packages li
 
 As a general rule, group sidebar controls as closely as possible with the contents they affect.
 Use `layout_sidebar()` to group inputs in a [local sidebar](#local-sidebar) adjacent to the output they control.
-Use global sidebars sparingly and only when the inputs in them are use across many outputs on your page.
+Use global sidebars sparingly and only when their controls affect all the outputs on the page.
 
 Note that while we talk about shared and local sidebars in this article, those are properties of the interface design.
-Controls placed in a sidebar aren't inherently limited affecting only the outputs next to the sidebar.
+Controls placed in a sidebar aren't inherently limited to affecting only the outputs next to the sidebar.
 It's your job as the app designer to choose where the controls appear and to ensure a good user experience.
 :::
 
