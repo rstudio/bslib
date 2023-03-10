@@ -129,9 +129,7 @@ card(
   card_header(
     "A long, scrolling, description"
   ),
-  lapply(
-    lorem::ipsum(paragraphs = 3, sentences = c(5, 5, 5)),
-    tags$p
+  lorem::ipsum(paragraphs = 3, sentences = 5)
   )
 )
 ```
