@@ -116,7 +116,7 @@ In this article, you'll learn how to create sidebar layouts with bslib.
 
 ## Introduction
 
-To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of one of the following functions.
+To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument to `layout_sidebar()` or any of the `navs_` or `page_` functions that support sidebars.
 
 :::: {.row}
 ::: {.col-sm-12 .col-lg-6}
