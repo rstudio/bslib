@@ -144,7 +144,7 @@ card(
 <div class="row">
 <div class="col-md-6">
 
-When a `card()` (or one of it's parent elements) is opinionated about it's height (i.e., `height` is specified and/or `full_screen = TRUE`), it's often convenient to allow re-sizable contents (e.g., plots, tables, etc) to grow and shrink as needed to fit inside the card body (i.e., no scrolling). This can be done by first using `card_body_fillable()` to create a fillable card body container and then placing "fill items" inside of the fillable container.
+When a `card()` (or one of it's parent elements) is opinionated about it's height -- i.e., `height` is specified and/or `full_screen = TRUE` -- it's often convenient to allow re-sizable contents (e.g., plots, tables, etc) to grow and shrink as needed to fit inside the card body so the user doesn't need to scroll inside the card. This can be done by first using `card_body_fillable()` to create a fillable card body container and then placing "fill items" inside of the fillable container.
 
 In general, any UI element can be marked as a fill item via `htmltools::bindFillRole()`, but recent versions of htmlwidgets and shiny will make widgets like `shiny::plotOutput()`, `{plotly}`, `{leaflet}`, `{DT}`, etc., fill items by default. Thus, by placing `plotly_widget`, `leaflet_widget`, `plotOutput()`, etc., as a direct child of `card_body_fillable()`, they'll automatically grow and shrink to fit the card body.
 
