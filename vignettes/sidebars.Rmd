@@ -122,11 +122,11 @@ To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of o
 ::: {.col-sm-12 .col-lg-6}
 ### Shared Sidebar {#intro-shared-sidebar}
 
-When `sidebar` is an argument to a function containing multiple pages or panels, it creates a **shared sidebar**.
+When `sidebar` is an argument to a function containing multiple pages or panels, it creates a **[shared sidebar](#shared-sidebar)**.
 
-Provide a `sidebar()` to `page_navbar()` to recreate the classic [shinydashboard](http://rstudio.github.io/shinydashboard/) look with a global sidebar shared across several pages.
+Provide a `sidebar()` to `page_navbar()` to recreate the classic [shinydashboard](http://rstudio.github.io/shinydashboard/) look with a global sidebar [shared across several pages](#navbar-pages).
 
-You can also add a shared sidebar to a card with tabs or pills created with `navs_tab_card()` or `navs_pill_card()`.
+You can also add a [shared sidebar to a card with tabs or pills](#card-tabs-shared-sidebar) created with `navs_tab_card()` or `navs_pill_card()`.
 :::
 
 ::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
@@ -179,10 +179,10 @@ describe_layout_function(
 ::: {.col-sm-12 .col-lg-6}
 ### Local Sidebar {#intro-local-sidebar}
 
-Use `layout_sidebar()` whenever you want a **local sidebar** adjacent to a content panel.
+Use `layout_sidebar()` whenever you want a **[local sidebar](#local-sidebar)** adjacent to a content panel.
 `layout_sidebar()` creates a bordered area by default, making it useful anywhere in your interface.
 
-It also fits nicely into `card()` components and `nav()` pages or tabs allowing you to add a sidebar to individual pages or tabs.
+It also fits nicely into [card components](#cards) and [nav pages or tabs](#navbar-pages) allowing you to add a sidebar to individual pages or tabs.
 :::
 
 ::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
@@ -213,11 +213,9 @@ Use `layout_sidebar()` to group inputs in a [local sidebar](#local-sidebar) adja
 Use global sidebars sparingly and only when the inputs in them are use across many outputs on your page.
 
 Note that while we talk about shared and local sidebars in this article, those are properties of the interface design.
-Controls placed in a sidebar aren't inherently limited to the outputs next to the sidebar.
+Controls placed in a sidebar aren't inherently limited affecting only the outputs next to the sidebar.
 It's your job as the app designer to choose where the controls appear and to ensure a good user experience.
 :::
-
-In the next few sections, we'll dive a little deeper into each of the sidebar layout functions listed above.
 
 ## Setup
 
