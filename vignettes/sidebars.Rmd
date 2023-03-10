@@ -58,7 +58,7 @@ describe_layout_function <- function(name, description, element = NULL) {
   name <- knitr::combine_words(sprintf("<code>%s</code>", name),  and = " or ")
 
   if (is.null(element)) {
-    element <- card_body_fill(
+    element <- card_body_fillable(
       class = "d-flex flex-column align-items-center",
       div(style = "width: 6em; height: 6em; background-color: gray")
     )
@@ -134,7 +134,7 @@ You can also add a shared sidebar to a card with tabs or pills created with `nav
 describe_layout_function(
   "page_navbar()",
   "A shared sidebar in a multi-page layout.",
-  card_body_fill(
+  card_body_fillable(
     class = "p-0",
     height = 200,
     id = "page_navbar_example_card",
@@ -160,7 +160,7 @@ describe_layout_function(
 describe_layout_function(
   c("navs_tab_card()", "navs_pill_card()"),
   "A shared sidebar for tabs within a card.",
-  card_body_fill(
+  card_body_fillable(
     class = "p-2",
     height = 200,
     navs_tab_card(
@@ -190,7 +190,7 @@ It also fits nicely into `card()` components and `nav()` pages or tabs allowing 
 describe_layout_function(
   "layout_sidebar()",
   "A flexible, local sidebar layout.",
-  card_body_fill(
+  card_body_fillable(
     class = "p-2",
     height = 200,
     layout_sidebar(
