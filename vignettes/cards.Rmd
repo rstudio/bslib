@@ -406,7 +406,7 @@ card(
 
 ::: row
 ::: col-md-6
-`navs_tab_card()` (as well as `navs_pill_card()`) makes it easy to create cards with multiple tabs (or pills). These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fillable()` where appropriate to get [filling contents](#filling-contents).
+`navs_tab_card()` and `navs_pill_card()` make it easy to create cards with multiple tabs or pills. These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fillable()` where appropriate to get [filling contents](#filling-contents).
 :::
 
 
