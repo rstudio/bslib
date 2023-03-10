@@ -256,9 +256,11 @@ This is a good use of a shared sidebar because the same inputs control all plots
 
 ### Local sidebar {#local-sidebar}
 
-When your inputs aren't shared across outputs in your app or page, you can create a _local sidebar_ with `layout_sidebar()`.
+When your inputs aren't shared across outputs in your app or page, you can create a _local sidebar_ with `layout_sidebar()`[^dynamic-sidebar].
 Place a `layout_sidebar()` inside a `nav()` container to create a sidebar adjacent to the content items included in your `layout_sidebar()`.
 In the example below, we used a sidebar layout for the filter controls for the plot on Page 1 without including these inputs next to the unrelated map on Page 2.
+
+[^dynamic-sidebar]: If **some** of your inputs overlap across pages in your Shiny app, you can use `conditionalPanel()` to create a [dynamic sidebar](#dynamic-sidebar) with inputs that appear only on certain pages.
 
 ```{r navbar-local-scroll, as_iframe = TRUE, scrolling = TRUE}
 page_navbar(
@@ -523,7 +525,9 @@ navs_tab_card(
 
 ### Local sidebar {#card-tabs-local-sidebar}
 
-To create a sidebar layout that's specific to a page, place a `layout_sidebar()` inside the tab's `nav()` container.
+To create a sidebar layout that's specific to a page[^dynamic-sidebar-tabs], place a `layout_sidebar()` inside the tab's `nav()` container.
+
+[^dynamic-sidebar-tabs]: In Shiny apps, you can also have a shared sidebar with content that conditionally appears based on the current tab selection by using `conditionalPanel()` to create a [dynamic sidebar](#dynamic-sidebar).
 
 In this example, we've used `fillable = TRUE` in the `layout_sidebar()` on the first tab so that plots fill the tab's card body.
 When you expand the example card below, the plotly plot on Tab 1 will grow but the map on Tab 2 will keep the same height.
@@ -549,8 +553,6 @@ navs_tab_card(
 ```
 
 ## Shiny
-
-FIXME: Link here from sections above.
 
 When used within Shiny apps, sidebars provide a few additional features you can leverage.
 
