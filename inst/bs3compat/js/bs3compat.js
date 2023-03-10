@@ -27,7 +27,12 @@ $(function() {
   var SELECTOR = '[data-toggle="tab"], [data-toggle="pill"], [data-bs-toggle="tab"], [data-bs-toggle="pill"]';
   $(document).on(EVENT_KEY, SELECTOR, function(event) {
     event.preventDefault();
-    $(this).tab("show");
+    var $this = $(this);
+   // New (bs5+) tabs use only `data-bs-toggle`, so we provide fallback manually
+    if (!$this.attr("data-bs-toggle") && $this.attr("data-toggle")) {
+      $this.attr("data-bs-toggle", $this.attr("data-toggle"));
+    }
+    $this.tab("show");
   });
 
   function TabPlugin(config) {
