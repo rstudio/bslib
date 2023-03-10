@@ -122,7 +122,7 @@ as_card_items <- function(children, wrapper) {
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags]. Named arguments become HTML attributes on returned
 #'   UI element.
-#' @param fill whether to allow the `card_body()` to grow and shrink to fit its
+#' @param fill whether to allow this element to grow and shrink to fit its
 #'   `card()`.
 #' @inheritParams card
 #'
@@ -234,7 +234,7 @@ card_footer <- function(..., class = NULL) {
 #' @export
 card_image <- function(
   file, ..., href = NULL, border_radius = c("top", "bottom", "all", "none"),
-  mime_type = NULL, class = NULL, height = NULL, width = NULL, container = card_body_fillable) {
+  mime_type = NULL, class = NULL, height = NULL, fill = TRUE, width = NULL, container = card_body_fillable) {
 
   src <- NULL
   if (length(file) > 0) {
@@ -260,7 +260,7 @@ card_image <- function(
     ...
   )
 
-  image <- bindFillRole(image, item = TRUE)
+  image <- bindFillRole(image, item = fill)
   image <- tagAppendAttributes(image, class = class)
 
   if (!is.null(href)) {
