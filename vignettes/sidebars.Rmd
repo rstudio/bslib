@@ -122,7 +122,7 @@ To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of o
 ::: {.col-sm-12 .col-lg-6}
 ### Shared Sidebar {#intro-shared-sidebar}
 
-When `sidebar` is an argument to a function containing multiple pages or panels, it creates a **[shared sidebar](#shared-sidebar)**.
+When `sidebar` is an argument to a function containing multiple pages or tabs, it creates a **[shared sidebar](#shared-sidebar)**, meaning the same sidebar is visible on every page/tab.
 
 Provide a `sidebar()` to `page_navbar()` to recreate the classic [shinydashboard](http://rstudio.github.io/shinydashboard/) look with a global sidebar [shared across several pages](#navbar-pages).
 
@@ -186,7 +186,7 @@ describe_layout_function(
 Use `layout_sidebar()` whenever you want a **[local sidebar](#local-sidebar)** adjacent to a content panel.
 `layout_sidebar()` creates a bordered area by default, making it useful anywhere in your interface.
 
-It also fits nicely into [card components](#cards) and [nav pages or tabs](#navbar-pages) allowing you to add a sidebar to individual pages or tabs.
+It also fits nicely into [card components](#cards) and [nav pages or tabs](#navbar-pages) allowing you to add sidebar(s) within individual pages or tabs.
 :::
 
 ::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
