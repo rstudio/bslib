@@ -17,7 +17,7 @@
 #' @param max_height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
 #'   `max_height="200px"`). Doesn't apply when a card is made `full_screen`
 #'   (in this case, consider setting a `max_height` in [card_body_fillable()]).
-#' @param fill whether or not to allow the card to grow/shrink to fit a
+#' @param fill Whether or not to allow the card to grow/shrink to fit a
 #'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param class Additional CSS classes for the returned UI element.
 #' @param wrapper A function (which returns a UI element) to call on unnamed
