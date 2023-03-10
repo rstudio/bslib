@@ -11,7 +11,7 @@
 \alias{is.card_item}
 \title{Card items}
 \usage{
-card_body(..., fill = is.null(height), height = NULL, class = NULL)
+card_body(..., height = NULL, fill = is.null(height), class = NULL)
 
 card_body_fillable(
   ...,
@@ -36,6 +36,7 @@ card_image(
   mime_type = NULL,
   class = NULL,
   height = NULL,
+  fill = TRUE,
   width = NULL,
   container = card_body_fillable
 )
@@ -48,11 +49,12 @@ is.card_item(x)
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag}. Named arguments become HTML attributes on returned
 UI element.}
 
-\item{fill}{whether to allow the \code{card_body()} to grow and shrink to fit its
-\code{card()}.}
-
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+
+\item{fill}{whether to allow this element to grow and shrink to fit its
+\code{card()}.}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 
