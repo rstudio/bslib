@@ -116,7 +116,7 @@ card(
 
 ::: row
 ::: col-md-6
-By default, a `card()`'s size grows to accommodate the size of it's contents. Thus, if a `card_body()` contains a large amount of text, table(s), etc., you may want to specify a `height`. Although, when laying out [multiple cards](#multiple-cards), you probably shouldn't specify a `height` on the card-level (instead, the height should probably come from a containing element, like `layout_column_wrap()`).
+By default, a `card()`'s size grows to accommodate the size of it's contents. Thus, if a `card_body()` contains a large amount of text, tables, or other elements, you may want to specify a `height`. That said, when laying out [multiple cards](#multiple-cards), you probably shouldn't specify a `height` on the card-level. Instead, the height should probably come from a containing element, like `layout_column_wrap()`.
 
 Although scrolling is convenient for reducing the amount of space required to park lots of content, it can also be a nuisance to the user. To help reduce the need for scrolling, consider pairing scrolling with `full_screen = TRUE` (which adds an icon to expand the card's size to the browser window).
 :::
