@@ -12,7 +12,13 @@
 #'   pairing this feature with [card_body_fillable()] to get output that
 #'   responds to changes in the size of the card.
 #' @param height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
-#'   `height="200px"`).
+#'   `height="200px"`). Doesn't apply when a card is made `full_screen`
+#'   (in this case, consider setting a `height` in [card_body()]).
+#' @param max_height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `max_height="200px"`). Doesn't apply when a card is made `full_screen`
+#'   (in this case, consider setting a `max_height` in [card_body_fillable()]).
+#' @param fill whether or not to allow the card to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param class Additional CSS classes for the returned UI element.
 #' @param wrapper A function (which returns a UI element) to call on unnamed
 #'   arguments in `...` which are not already card item(s) (like
@@ -50,7 +56,7 @@
 #'   )
 #' }
 #'
-card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper = card_body) {
+card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, fill = TRUE, class = NULL, wrapper = card_body) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -60,13 +66,16 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
 
   tag <- div(
     class = "card bslib-card",
-    style = css(height = validateCssUnit(height)),
+    style = css(
+      height = validateCssUnit(height),
+      max_height = validateCssUnit(max_height)
+    ),
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle()
   )
 
-  tag <- bindFillRole(tag, container = TRUE, item = TRUE)
+  tag <- bindFillRole(tag, container = TRUE, item = fill)
   tag <- tagAppendAttributes(tag, class = class)
 
   as_fragment(
