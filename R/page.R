@@ -110,7 +110,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
-    function(...) page_fillable(..., fill_mobile = fill_mobile)
+    function(...) page_fillable(..., fill_mobile = fill_mobile, padding = 0, gap = 0)
   }
 
   page_func(
