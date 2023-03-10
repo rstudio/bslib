@@ -256,7 +256,7 @@ card(
 
 ::: row
 ::: col-md-6
-Both `card_body()` and `card_body_fillable()` include padding between their contents and the `card()` container by default. In either case, you can override those defaults with Bootstrap's [spacing utility classes](https://getbootstrap.com/docs/5.2/utilities/spacing/), like `"p-0"` to remove the padding altogether. This is especially useful if
+Both `card_body()` and `card_body_fillable()` include padding between their contents and the `card()` container by default. In either case, you can override those defaults with Bootstrap's [spacing utility classes](https://getbootstrap.com/docs/5.2/utilities/spacing/), like applying `"p-0"` to remove the padding altogether. This is especially useful if
 
 1. The content itself already provides sufficient padding. 
 2. The content's background color is different from the card.[^2]
