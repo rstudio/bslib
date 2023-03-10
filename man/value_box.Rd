@@ -63,7 +63,7 @@ match a name in the Bootstrap Sass variable \verb{$theme-colors} (e.g.,
 0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
 showcase max_height.}
 
-\item{fill}{whether or not to allow the card to grow/shrink to fit a
+\item{fill}{Whether or not to allow the card to grow/shrink to fit a
 fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{class}{utility classes for customizing the appearance of the summary

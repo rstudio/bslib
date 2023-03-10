@@ -31,7 +31,7 @@ responds to changes in the size of the card.}
 \code{max_height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{max_height} in \code{\link[=card_body_fillable]{card_body_fillable()}}).}
 
-\item{fill}{whether or not to allow the card to grow/shrink to fit a
+\item{fill}{Whether or not to allow the card to grow/shrink to fit a
 fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{class}{Additional CSS classes for the returned UI element.}
