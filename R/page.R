@@ -43,7 +43,7 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #'   height on mobile devices (i.e., narrow windows).
 #' @seealso [shiny::fillPage()]
 #' @export
-page_fillable <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
+page_fillable <- function(..., padding = NULL, gap = NULL, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
   page(
     title = title,
     theme = theme,
@@ -54,6 +54,7 @@ page_fillable <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, t
         class = "bslib-page-fill",
         style = css(
           padding = validateCssPadding(padding),
+          gap = validateCssUnit(gap),
           "--bslib-page-fill-mobile-height" = if (fill_mobile) "100%" else "auto"
         ),
         ...
