@@ -76,8 +76,8 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
 #' @param sidebar A [sidebar()] object.
 #' @param fillable Whether or not the `main` content area should be considered a
 #'   fillable (i.e., flexbox) container.
-#' @param fill Whether or not the layout container should grow/shrink to fit
-#'   a fillable container.
+#' @param fill Whether or not the layout container to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
 #' @inheritParams card

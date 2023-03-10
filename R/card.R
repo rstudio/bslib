@@ -135,7 +135,7 @@ as_card_items <- function(children, wrapper) {
 #'   columns inside a card).
 #'
 #' @describeIn card_body A general container for the "main content" of a [card()].
-card_body <- function(..., fill = is.null(height), height = NULL, class = NULL) {
+card_body <- function(..., height = NULL, fill = is.null(height), class = NULL) {
   card_body_(
     fill = fill,
     height = height,

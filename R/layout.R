@@ -23,8 +23,8 @@
 #' @param heights_equal If `"all"` (the default), every card in every row of the
 #'   grid will have the same height. If `"row"`, then every card in _each_ row
 #'   of the grid will have the same height, but heights may vary between rows.
-#' @param fill whether or not to allow the layout to grow/shrink inside a
-#'   fillable container (e.g., `page_fillable()`).
+#' @param fill whether or not to allow the layout to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param height_mobile Any valid CSS unit to use for the height when on mobile
 #'   devices (or narrow windows).
 #' @inheritParams card
