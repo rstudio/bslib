@@ -8,7 +8,7 @@ Cards are a common organizing unit for modern user interfaces (UI). At their cor
 
 ## Setup code
 
-Since this article is statically hosted (i.e., not powered by Shiny), it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}` (but don't worry, `card()`s [work in Shiny equally as well](#shiny)). Here's some code to create those widgets:
+Since this article is statically hosted and not powered by Shiny, it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`. Don't worry, `card()`s [work in Shiny equally as well](#shiny). Here's some code to create those widgets:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
