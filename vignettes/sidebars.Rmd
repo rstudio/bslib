@@ -231,7 +231,7 @@ In a Shiny app[^1], you'll probably want to use inputs like `shiny::selectInput(
 
 ## Foundations
 
-We'll start with the most common sidebar layout: a page-level sidebar.
+Let's start with the most common sidebar layout: a page-level sidebar.
 With bslib, `page_navbar()` provides a modern version of `shiny::navbarPage()` to create a "multi-page app"[^2].
 `page_navbar()` not only defaults to a modern version of Bootstrap, but also includes a `sidebar` argument to let you add a shared sidebar to all pages.
 
@@ -379,7 +379,7 @@ In the next section, we'll see how we can use fillable pages for full-height sid
 
 ## Page sidebars
 
-Our [first example](#shared-sidebar) used the `sidebar` argument of `page_navbar()` to create a shared sidebar across all pages in the app.
+The [first example](#shared-sidebar) in this article used the `sidebar` argument of `page_navbar()` to create a shared sidebar across all pages in the app.
 In this section, we'll explore a few more page-based sidebar layouts.
 
 ### Navbar pages
