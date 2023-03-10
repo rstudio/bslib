@@ -240,10 +240,7 @@ card(
   card_body_fillable(plotly_widget),
   card_body(
     height = "30%", 
-    lapply(
-      lorem::ipsum(paragraphs = 3, sentences = c(5, 5, 5)),
-      tags$p
-    )
+    lorem::ipsum(paragraphs = 3, sentences = 5)
   )
 )
 ```
