@@ -282,7 +282,7 @@ card(
 
 ::: row
 ::: col-md-6
-Utility classes are really useful since they not only also help with spacing and alignment of stuff _within_ a `card_body()` (or `card_body_fillable()`), but more generally enable easy customization of colors, fonts, and more.
+Not only are utility classes useful to help with spacing and alignment of stuff _within_ a `card_body()` (or `card_body_fillable()`), but they also enable easy customization of [colors](https://getbootstrap.com/docs/5.3/utilities/colors/), [fonts](https://getbootstrap.com/docs/5.3/utilities/text/), and [more](https://getbootstrap.com/docs/5.3/utilities/).
 :::
 
 ::: col-md-6
