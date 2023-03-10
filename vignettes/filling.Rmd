@@ -1,0 +1,299 @@
+---
+title: "Filling layouts"
+resource_files:
+  - infobox.svg
+  - examples/filling
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(htmltools)
+library(bslib)
+
+# TODO: put this stuff in a common.R script?
+render_as_iframe <- function(x, options, ...) {
+  lbl <- opts_current$get("label")
+  doc_name <- sub("[.]Rmd", "", current_input())
+  lbl_dir <- file.path("examples", doc_name, lbl)
+  if (!dir.exists(lbl_dir)) {
+    dir.create(lbl_dir, recursive = TRUE)
+  }
+  file <- file.path(lbl_dir, paste0(lbl, ".html"))
+  x <- tagList(x, tags$head(tags$style(".modebar-container { display: none; }")))
+  tryCatch(
+    save_html(x, file),
+    error = function(e) {
+      stop("Don't know how to render ", class(x)[[1]], " as an <iframe>")
+    }
+  )
+  include_url(file)
+}
+
+opts_hooks$set(as_iframe = function(opts) {
+  opts$render <- render_as_iframe
+  opts$out.width <- "100%"
+  opts$out.extra <- paste0(
+    'height=600px seamless="seamless" frameBorder="0" loading="lazy"',
+    if (!isTRUE(opts$scrolling)) ' scrolling="no"',
+    if (isTRUE(opts$resizable)) ' class="resizable"'
+  )
+  opts
+})
+
+opts_chunk$set(message = FALSE, as_iframe = TRUE, resizable = TRUE)
+
+# pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
+# (note this isn't a problem for any format based on html_document_base)
+shiny:::setCurrentTheme(bslib::bs_theme())
+```
+
+```{scss, echo = FALSE}
+.plotly {
+  //height: 250px !important;
+  .modebar-container {
+    display: none;
+  }
+}
+.html-widget {
+  margin-bottom: 0;
+}
+iframe, .bslib-page-fill {
+  height: 500px;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  margin-bottom: 4rem;
+  box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px,
+    rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px,
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+iframe {
+  margin-bottom: calc(55px + 2rem);
+}
+
+iframe.resizable {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.card-header.bg-info code {
+  background: none;
+  color: hsl(209deg, 85%, 25%);
+}
+```
+
+`{bslib}` UI elements (e.g., [cards](cards.html), [value boxes](value-boxes.html), [sidebars](sidebars.html), etc.), [layout helpers](layouts.html), and page-level containers (e.g., `page_fillable()`) are all designed with filling layouts in mind. The core underlying concept is that any UI element can be: (1) a **fill item**, (2) a **fillable container**, or (3) both. By carefully managing the relationship between fillable containers and fill items, we can not only create layouts that fill the browser window (similar to `{flexdashboard}` and `shiny::fillPage()`), but also create elements that properly fill resizable containers (e.g., [full-screen cards](cards.html#filling-contents)).
+
+<!--
+Before diving into concrete examples, consider the following abstract interactive example below. The "resizable window" below is 
+-->
+
+```{r, eval = FALSE, echo = FALSE, as_iframe = TRUE, resizable = TRUE, scrolling = FALSE}
+make_item <- function(x) {
+  bindFillRole(
+    item = TRUE,
+    div(
+      class = "border border-success d-flex align-items-center justify-content-center", 
+      span(x)
+    )
+  )
+}
+
+page_fillable(
+  class = "p-3", style = "gap: 1rem",
+  make_item("Fill item 1"),
+  make_item("Fill item 2"),
+)
+```
+
+
+## Most outputs can fill
+
+`{bslib}` UI elements (e.g., `card()`, `value_box()`, etc.), as well as other output widgets (e.g., `shiny::plotOutput()`, `plotly::plotlyOutput()`, etc.) are considered **fill items** by default. And thus, if their _immediate parent_ container is a **fillable container** with an opinionated height, then they'll grow/shrink to fit their container.
+
+For example, since `page_fillable()` is a fillable container with a height set to `100%` of the browser window, a single fill item like a `{plotly}` visualization will match the size of that `page_fillable()` container. 
+
+```{r}
+library(plotly)
+price <- plot_ly(diamonds, x = ~price)
+carat <- plot_ly(diamonds, x = ~carat)
+cut_clarity <- plot_ly(diamonds, x = ~cut, color = ~clarity)
+```
+
+```{r, scrolling = FALSE}
+page_fillable(cut_clarity, fill_mobile = TRUE)
+```
+
+Notice, however, if that same fill item's immediate parent is something like `page_fixed()` (which is not a fillable container), it'll simply use if default/natural height (most output widgets have a default height of 400 pixels).
+
+```{r, scrolling = TRUE}
+page_fixed(cut_clarity)
+```
+
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>Resizable examples</h3>
+
+Example containers in this article are resizable, allowing you to examine how the filling/non-filling behavior changes with the "window" size. For example, in the `page_fixed()` example above, there isn't any scrolling since the container is larger than the output, but if you reduce the size of the "example window", the window has a scrollbar.
+:::
+
+## Multiple outputs
+
+And, if we have multiple fill items, they'll still fit the `page_fillable()` container (`page_fillable()` will also, by default, add some `gap` between each row)...
+
+> TODO: tabset?
+
+```{r, scrolling = FALSE}
+page_fillable(
+  price, carat, cut_clarity, 
+  fill_mobile = TRUE
+)
+```
+
+... but inside non-fillable containers (e.g., `page_fixed()`) you'll get scrollable contents:
+
+```{r, scrolling = TRUE}
+page_fixed(price, carat, cut_clarity)
+```
+
+## Filling is fragile
+
+It's important to remember that fill items require their _immediate parent_ to be a fillable container in order to grow/shrink. Also, unlike fill items, fill containers are the exception rather the rule[^1], meaning that other UI elements you may be familiar with (e.g., `shiny::fluidRow()`, `shiny::column()`, `shiny::div()`, etc) are not fillable containers. So, for example, if we wrap the `cut_clarity` in a `div()` to, say, put a border around it, we'd break it's ability to grow/shrink.
+
+[^1]: Part of the reason why fillable containers aren't as ubiquitous as fill items is that marking an element as fillable alters the layout behavior of it's children, regardless of whether those children are fill items (because fillable conatiners are [flexbox containers](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
+
+```{r, scrolling = FALSE}
+page_fillable(
+  price, carat,
+  div(cut_clarity, class = "border border-danger"),
+  fill_mobile = TRUE
+)
+```
+
+We can fix this, however, by marking the `div()` as a fillable container:
+
+```{r, scrolling = FALSE}
+library(htmltools)
+page_fillable(
+  price, carat,
+  div(cut_clarity, class = "border border-danger") |>
+    bindFillRole(container = TRUE),
+  fill_mobile = TRUE
+)
+```
+
+Partially for this reason, it's best to avoid the temptation to reach for other non-`{bslib}` layout utilities like `shiny::fluidRow()` and `shiny::column()` since `{bslib}` provides some newer alternatives like `layout_column_wrap()`.
+
+## Multiple columns
+
+Instead of putting each output in it's own row, it may be desirable to have multiple columns (still will filling behavior), which `layout_column_wrap()` does. It, just each plotly plot, is a fill item, and also wraps each UI element provided to it into a fillable container, so the fill items still grow/shrink as you'd expect them when the window resizes.
+
+```{r, scrolling = FALSE}
+page_fillable(
+  layout_column_wrap(width = 1/2, price, carat),
+  cut_clarity,
+  fill_mobile = TRUE
+)
+```
+
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>Column wrapping layouts</h3>
+
+To learn more about `layout_column_wrap()`, see [this article](layouts.html).
+:::
+
+
+
+## Cascading fill
+
+Since `card()`s are fill items by default they also fill the browser window when they are a direct child of `page_fillable()`. `card()`s are also `fillable` containers by default, and so, you'd might expect the `cut_clarity` to fit the card, but you'd be wrong:
+
+```{r, scrolling = FALSE}
+card_plot <- card(
+  card_header("Diamond cut by clarity"),
+  cut_clarity
+)
+page_fillable(card_plot, card_plot, fill_mobile = TRUE)
+```
+
+This happens because `card()` [implicitly wraps non card items](cards.html#implicit-card_body) into a `card_body()` element (which is a fill item, but not a fill container). To actually cascade the potential to fill down the plot, wrap it with `card_body_fillable()` (which provides some additional utilities to put limits on the growing/shrinking). In this case, you may also want to remove the padding (via `p-0` [utility class](https://getbootstrap.com/docs/5.3/utilities/spacing/)) that comes by default with the card body.
+
+```{r, scrolling = FALSE}
+card_plot_fill <- card(
+  full_screen = TRUE,
+  card_header("Diamond cut by clarity"),
+  card_body_fillable(cut_clarity, class = "p-0")
+)
+page_fillable(card_plot_fill, card_plot_fill, fill_mobile = TRUE)
+```
+
+## Scrollable fill layouts
+
+Thus far, filling examples have started with `page_fillable()`, which doesn't allow for scrolling at the page level. This behavior does not scale very well when trying to many "top-level" components, especially on smaller viewports (this is why `page_fillable()` defaults to `fill_mobile = FALSE`). So, in this case, use a non-fillable container at the page-level (e.g., `page_fixed()`), but still leverage filling concepts to get things like full-screen cards to have contents that grow/shrink.
+
+Also, if you'd like to limit amount by which these "top-level" components are allowed to grow, consider setting a sensible maximum height (`card()`'s `max_height` won't apply when full-screen).
+
+```{r, scrolling = TRUE}
+card_plot_fill <- card(
+  full_screen = TRUE,
+  max_height = 300,
+  card_header("Diamond cut by clarity"),
+  card_body_fillable(cut_clarity, class = "p-0")
+)
+page_fixed(card_plot_fill, card_plot_fill)
+```
+
+## Sidebar layouts
+
+Similar to what we've seen with outputs and `card()`s, `layout_sidebar()` is also a fill item (by default), so placing it as a direct child of `page_fillable()` makes it fit the window. Note, however, that the main content portion of sidebar layout is not a fillable container (by default), but that can easily be changed by setting `fillable = TRUE` in `layout_sidebar()`.
+
+```{r, scrolling = FALSE}
+basic_sidebar <- layout_sidebar(
+  border_radius = FALSE,
+  sidebar = sidebar(
+    bg = "#F1F3F5",
+    "Imagine some controls here",
+  ),
+  layout_column_wrap(
+    width = 1/2,
+    card(
+      full_screen = TRUE,
+      card_header("Diamond price"),
+      card_body_fillable(price, class = "p-0")
+    ),
+    card(
+      full_screen = TRUE,
+      card_header("Diamond carat"),
+      card_body_fillable(carat, class = "p-0")
+    )
+  ),
+  br(),
+  card(
+    full_screen = TRUE,
+    card_header("Diamond cut by clarity"),
+    card_body_fillable(cut_clarity, class = "p-0")
+  )
+)
+
+page_fillable(
+  padding = 0,
+  basic_sidebar
+)
+```
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>Sidebar layouts</h3>
+
+To learn more about `layout_sidebar()`, see [this article](sidebars.html).
+:::
+
+## Filling tables
+
+Remember to `datatable(x, fillContainer = TRUE)` (and suggest some better defaults?)
+
+## Shiny (dynamic UI)
+
+Cover `shiny::uiOutput(fillable = TRUE)`
