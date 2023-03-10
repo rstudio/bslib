@@ -164,12 +164,6 @@ card_body_fillable <- function(..., gap = NULL, max_height = NULL, max_height_fu
   )
 }
 
-#' @export
-#' @keywords internal
-card_body_fill <- function(...) {
-  .Deprecated("card_body_fillable")
-  card_body_fillable(...)
-}
 
 #' @describeIn card_body Similar to `card_header()` but without the border and background color.
 #' @param container a function to generate an HTML element.

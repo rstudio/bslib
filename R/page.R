@@ -63,13 +63,6 @@ page_fillable <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, t
   )
 }
 
-#' @export
-#' @keywords internal
-page_fill <- function(...) {
-  .Deprecated("page_fillable")
-  page_fillable(...)
-}
-
 validateCssPadding <- function(padding = NULL) {
   paste(
     vapply(padding, validateCssUnit, character(1)),
@@ -116,7 +109,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
-    function(...) page_fill(..., fill_mobile = fill_mobile)
+    function(...) page_fillable(..., fill_mobile = fill_mobile)
   }
 
   page_func(

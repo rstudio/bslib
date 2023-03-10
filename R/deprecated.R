@@ -124,3 +124,18 @@ bs_add_declarations <- function(theme, declarations) {
   .Deprecated("bs_add_mixins")
   bs_bundle(theme, sass_layer(declarations = declarations))
 }
+
+
+#' @rdname deprecated
+#' @export
+card_body_fill <- function(...) {
+  .Deprecated("card_body_fillable", old = "card_body_fill")
+  card_body_fillable(...)
+}
+
+#' @rdname deprecated
+#' @export
+page_fill <- function(...) {
+  .Deprecated("page_fillable", old = "page_fill")
+  page_fillable(...)
+}
