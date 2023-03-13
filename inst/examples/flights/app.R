@@ -151,7 +151,7 @@ ui <- page_navbar(
     tags$img(src = "logo.png", width = "46px", height = "auto", class = "me-3"),
     "NYC Flights"
   ),
-  fill = TRUE,
+  fillable = TRUE,
   sidebar = sidebar(sidebar_acc),
   nav(
     "Delays",
