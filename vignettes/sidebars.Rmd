@@ -39,7 +39,7 @@ knitr::opts_hooks$set(as_iframe = function(opts) {
   opts$out.width <- "100%"
   opts$out.extra <- paste0(
     'height=600px seamless="seamless" frameBorder="0" loading="lazy"',
-    if (!isTRUE(opts$scrolling)) ' scrolling="no"',
+    if (isFALSE(opts$scrolling)) ' scrolling="no"',
     if (isTRUE(opts$resizable)) ' class="resizable"'
   )
   opts
@@ -100,7 +100,7 @@ iframe {
 
 iframe.resizable {
   resize: vertical;
-  min-height: 300px;
+  min-height: 200px;
 }
 
 .card-header.bg-info code {
@@ -116,17 +116,40 @@ In this article, you'll learn how to create sidebar layouts with bslib.
 
 ## Introduction
 
-To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument to `layout_sidebar()` or any of the `navs_` or `page_` functions that support sidebars.
+There are two main ways to create a sidebar layout: an **individual** or **shared** sidebar layout. In either case, you'll start by creating a `sidebar()` object and end up with a collapsible sidebar layout.
 
 :::: {.row}
 ::: {.col-sm-12 .col-lg-6}
-### Shared Sidebar {#intro-shared-sidebar}
+### Individual Sidebar
 
-When `sidebar` is an argument to a function containing multiple pages or tabs, it creates a **[shared sidebar](#shared-sidebar)**, meaning the same sidebar is visible on every page/tab.
+All [individual sidebar layouts](#individual) start by providing a `sidebar()` object to `layout_sidebar()`. The resulting `layout_sidebar()` can then be placed inside any page context (e.g., `page_fillable()`, `page_fixed()`, etc) including _within_ individual pages/tabs (e.g., `page_navbar()` `navs_tab_card()`). They also integrate nicely with [cards](#cards) to enable headers, footer, full screen expansion, and more.
+:::
 
-Provide a `sidebar()` to `page_navbar()` to recreate the classic [shinydashboard](http://rstudio.github.io/shinydashboard/) look with a global sidebar [shared across several pages](#navbar-pages).
+::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
+```{r preview-layout-sidebar, echo = FALSE}
+describe_layout_function(
+  "layout_sidebar()",
+  "A flexible, local sidebar layout.",
+  card_body_fillable(
+    class = "p-2",
+    height = 200,
+    layout_sidebar(
+      sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
+      "Content with a sidebar"
+    ) |> 
+      tagAppendAttributes(class = "border rounded-top")
+  )
+)
+```
+:::
+::::
 
-You can also add a [shared sidebar to a card with tabs or pills](#card-tabs-shared-sidebar) created with `navs_tab_card()` or `navs_pill_card()`.
+
+:::: {.row}
+::: {.col-sm-12 .col-lg-6}
+### Shared Sidebar
+
+Provide a `sidebar()` object to the `sidebar` argument of `page_navbar()`, `navs_tab_card()`, or `navs_pill_card()` to create a shared sidebar layout. In this case, that sidebar is visible on every page/tab, and the sidebar layout container fills the page/card.
 :::
 
 ::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
@@ -179,46 +202,16 @@ describe_layout_function(
 :::
 ::::
 
-:::: {.row}
-::: {.col-sm-12 .col-lg-6}
-### Local Sidebar {#intro-local-sidebar}
-
-Use `layout_sidebar()` whenever you want a **[local sidebar](#local-sidebar)** adjacent to a content panel.
-`layout_sidebar()` creates a bordered area by default, making it useful anywhere in your interface.
-
-It also fits nicely into [card components](#cards) and [nav pages or tabs](#navbar-pages) allowing you to add sidebar(s) within individual pages or tabs.
-:::
-
-::: {.col-sm-12 .col-lg-6 .text-center .mt-2 .mt-lg-4}
-```{r preview-layout-sidebar, echo = FALSE}
-describe_layout_function(
-  "layout_sidebar()",
-  "A flexible, local sidebar layout.",
-  card_body_fillable(
-    class = "p-2",
-    height = 200,
-    layout_sidebar(
-      class = "border rounded-top",
-      sidebar = sidebar("Local sidebar", width = "33%", class = "bg-light"),
-      "Content with a sidebar"
-    )  )
-)
-```
-:::
-::::
 
 ::: {.callout .callout-warning}
-<h3 data-toc-skip>Prefer local sidebars</h3>
+<h3 data-toc-skip>Prefer individual sidebars</h3>
 
 Although [shared sidebars](#shared-sidebar) have been popularized by packages like [shinydashboard](http://rstudio.github.io/shinydashboard/), they're not always ideal for creating a good user experience.
 
-As a general rule, group sidebar controls as closely as possible with the contents they affect.
-Use `layout_sidebar()` to group inputs in a [local sidebar](#local-sidebar) adjacent to the output they control.
-Use global sidebars sparingly and only when their controls affect all the outputs on the page.
+As a general rule, sidebars work best when their controls are grouped closely with the contents they affect, which can be done more effectively with [individual sidebars](#individual).
 
-Note that while we talk about shared and local sidebars in this article, those are properties of the interface design.
-Controls placed in a sidebar aren't inherently limited to affecting only the outputs next to the sidebar.
-It's your job as the app designer to choose where the controls appear and to ensure a good user experience.
+Note that choosing a individual sidebar layout won't prevent the sidebar controls from affecting outputs elsewhere in the UI.
+It's your job as the app developer to choose where the controls appear and to ensure a good user experience.
 :::
 
 ## Setup
@@ -233,6 +226,172 @@ In a Shiny app[^1], you'll probably want to use inputs like `shiny::selectInput(
 ```{r, sidebar-create-contents}
 ```
 
+::: {.callout .callout-warning}
+<h3 data-toc-skip>Resizable examples</h3>
+
+Example containers in this article are resizable, allowing you to examine how the filling/non-filling behavior changes with the "window" size.
+:::
+
+## Individual
+
+This section covers individual sidebar layouts (i.e., `layout_sidebar()`) and its integration with `card()`s and filling layouts.
+
+### Standalone {#individual-standalone}
+
+By default, `layout_sidebar()` provides borders and padding around it's content, so that the sidebar controls and the main content that it affects are visually grouped together. This is a great option if you have input controls that are specific to a sub-region of the page. 
+
+```{r, as_iframe = TRUE, resizable = TRUE}
+hello_sidebar <- layout_sidebar(
+  sidebar = sidebar(
+    width = 150,
+    filter_cut, 
+    filter_clarity, 
+  ),
+  plot_price
+)
+
+unrelated_map <- card(
+  class = "mt-3",
+  card_header("An unrelated map"),
+  map_quakes
+)
+
+page_fixed(hello_sidebar, unrelated_map)
+```
+
+### Cards {#individual-cards}
+
+`layout_sidebar()` can also be provided as a child to `card()`, which is convenient for adding headers, footers, full-screen behavior, and more. Also be aware that, just like [cards](cards.html), `layout_sidebar()` grows with the size of it's contents, so you may want to add a `max_height` to prevent the card/sidebar-layout from growing too large.
+
+```{r, as_iframe = TRUE, resizable = TRUE}
+card_sidebar <- card(
+  full_screen = TRUE,
+  max_height = 350,
+  card_header("Filtering diamonds"),
+  layout_sidebar(
+    sidebar = sidebar(
+      width = 150,
+      filter_cut, 
+      filter_clarity, 
+    ),
+    "Scroll for more 👇",
+    plot_price,
+    plot_carat
+  )
+)
+
+unrelated_map <- card(
+  class = "mt-3",
+  card_header("An unrelated map"),
+  map_quakes
+)
+
+page_fixed(card_sidebar, unrelated_map)
+```
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>Multiple tabs in a card</h3>
+  
+:::
+
+### Filling {#individual-filling}
+
+`layout_sidebar()` is considered a fill item (by default), which means, when it appears of a fillable container with an opinionated height (e.g., `page_fillable()` which sets it's height to `100%` of the browser window), then it'll grow/shrink to fit that container.
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>Prefer standalone sidebars</h3>
+
+A `layout_sidebar()` that fills the page may not be an optimal design if sidebar control(s) affect only particular sub-regions of the main content area. In that case, you may want to place the control(s) closer to the regions they affect (by using an approach like those presented above).
+:::
+
+```{r, as_iframe = TRUE, resizable = TRUE}
+page_fillable(
+  padding = 0, 
+  layout_sidebar(
+    border_radius = FALSE,
+    sidebar(
+      bg = "#F1F3F5",
+      filter_cut, 
+      filter_clarity
+    ),
+    plot_price,
+    plot_carat
+  )
+)
+```
+
+If the main content portion should also allow it's contents to fill, set `fillable = TRUE`.
+
+```{r, as_iframe = TRUE, resizable = TRUE}
+page_fillable(
+  padding = 0, 
+  layout_sidebar(
+    fillable = TRUE,
+    border_radius = FALSE,
+    sidebar(filter_cut, filter_clarity, bg = "#F1F3F5"),
+    plot_price,
+    plot_carat
+  )
+)
+```
+
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>Filling layouts</h3>
+
+The plots above fill the main content area because they are also fill items. To learn more, filling layouts see [this article](https://rstudio.github.io/bslib/articles/filling.html).
+:::
+
+
+## Shared
+
+This section covers shared sidebar layouts, meaning that a singular `sidebar()` object is displayed across multiple pages (or tabs).
+
+### Multiple pages
+
+Pass a `sidebar()` to `page_navbar()`'s `sidebar` argument to create a multi-page app with a shared sidebar. Note that, in this example, the sidebar controls affect every output on every page. If, instead, some controls only affect certain pages, consider using `shiny::conditionalPanel()` to hide/show controls on certain pages (see [this section](#dynamic-sidebar) for an example).
+
+```{r, as_iframe = TRUE, resizable = TRUE}
+page_navbar(
+  title = "Shared sidebar",
+  sidebar = sidebar(filter_cut, filter_clarity),
+  nav("Page 1", plot_price, plot_carat),
+  nav("Page 2", plot_depth)
+)
+```
+
+Similar to how you can set `fillable = TRUE` in `layout_sidebar()` to allow the main contents to fill their container in [individual sidebar layouts](#individual-filling), setting `page_navbar()`'s `fillable` to `TRUE` does effectively the same thing. It's also possible to make particular pages `fillable` by providing a suitable value (e.g., `fillable = "Page 1"`).
+
+```{r, as_iframe = TRUE}
+page_navbar(
+  title = "Shared sidebar",
+  sidebar = sidebar(filter_cut, filter_clarity),
+  fillable = TRUE,
+  nav("Page 1", plot_price, plot_carat),
+  nav("Page 2", plot_depth)
+)
+```
+
+
+
+### Multiple tabs
+
+Pass a `sidebar()` to `navs_tab_card()`'s (or `navs_pill_card()`'s) `sidebar` argument to create a card with multiple tabs and a shared sidebar. The interface is quite similar to `page_navbar()`, but since `navs_tab_card()` is based on the [card API](cards.html), in order to make the contents fillable, you'll need to wrap each tab in `card_body_fillable`:
+
+```{r}
+navs_tab_card(
+  title = "Shared sidebar",
+  sidebar = sidebar(filter_cut, filter_clarity),
+  full_screen = TRUE,
+  height = 400,
+  wrapper = card_body_fillable,
+  nav("Tab 1", plot_price, plot_carat),
+  nav("Tab 2", plot_depth)
+)
+```
+
+
+<!--
 ## Foundations
 
 Let's start with the most common sidebar layout: a page-level sidebar.
@@ -555,6 +714,8 @@ navs_tab_card(
   nav("Tab 2", map_quakes)
 )
 ```
+
+-->
 
 ## Shiny
 

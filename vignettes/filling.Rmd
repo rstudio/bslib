@@ -172,14 +172,26 @@ page_fillable(
 )
 ```
 
-We can fix this, however, by marking the `div()` as a fillable container:
+> TODO: highlight the fact that ordinary HTML elements are not fill items
 
 ```{r, scrolling = FALSE}
 library(htmltools)
 page_fillable(
   price, carat,
   div(cut_clarity, class = "border border-danger") |>
-    bindFillRole(container = TRUE),
+    bindFillRole(item = TRUE),
+  fill_mobile = TRUE
+)
+```
+
+> TODO: explain why the container is now needed
+
+```{r, scrolling = FALSE}
+library(htmltools)
+page_fillable(
+  price, carat,
+  div(cut_clarity, class = "border border-danger") |>
+    bindFillRole(item = TRUE, container = TRUE),
   fill_mobile = TRUE
 )
 ```
@@ -230,7 +242,7 @@ card_plot_fill <- card(
 page_fillable(card_plot_fill, card_plot_fill, fill_mobile = TRUE)
 ```
 
-## Scrollable fill layouts
+## Scrollable page layouts
 
 Thus far, filling examples have started with `page_fillable()`, which doesn't allow for scrolling at the page level. This behavior does not scale very well when trying to many "top-level" components, especially on smaller viewports (this is why `page_fillable()` defaults to `fill_mobile = FALSE`). So, in this case, use a non-fillable container at the page-level (e.g., `page_fixed()`), but still leverage filling concepts to get things like full-screen cards to have contents that grow/shrink.
 

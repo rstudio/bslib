@@ -16,11 +16,7 @@ filter_clarity <- filter_select("clarity", "Clarity", dat, ~clarity)
 plot_hist <- function(data, x) {
   plot_ly(data, x = x) |>
     config(displayModeBar = FALSE) |>
-    layout(
-      barmode = "overlay",
-      margin = list(t = 0, b = 0, l = 0, r = 0)
-    ) |>
-    highlight("plotly_selected")
+    layout(margin = list(t = 0, b = 0, l = 0, r = 0))
 }
 
 # Main elements (e.g., plots)
