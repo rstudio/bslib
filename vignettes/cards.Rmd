@@ -130,7 +130,6 @@ card(
     "A long, scrolling, description"
   ),
   lorem::ipsum(paragraphs = 3, sentences = 5)
-  )
 )
 ```
 :::
