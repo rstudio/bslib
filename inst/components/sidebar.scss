@@ -118,6 +118,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     > .sidebar {
       width: 0;
       padding: 0;
+      height: 0;
     }
 
     // Hide the sidebar contents after it's done transitioning so that
