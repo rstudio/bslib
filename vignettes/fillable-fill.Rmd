@@ -1,0 +1,453 @@
+---
+title: "Introduction to Fillabilty"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = FALSE,
+  comment = "#>"
+)
+
+library(bslib)
+library(htmltools)
+```
+
+```{r setup-functions}
+container <- function(..., fillable = FALSE, fill = FALSE, .class = "a-container", tooltip = FALSE) {
+  both <- fillable && fill
+  el <- div(
+    class = .class,
+    `data-bs-toggle` = if (tooltip && (fillable | fill)) "tooltip",
+    `data-bs-placement` = if (!both & fill) "right" else "top",
+    `data-bs-custom-class` = if (both) {
+      "tip-both"
+    } else if (fillable) {
+      "tip-fillable"
+    } else if (fill) {
+      "tip-fill"
+    },
+    `data-bs-title` = if (both) {
+      "Both fillable & fill"
+    } else if (fillable) {
+      "Fillable container"
+    } else if (fill) {
+      "Fill item"
+    },
+    ...
+  )
+  bindFillRole(el, container = fillable, item = fill)
+}
+
+item <- function(..., fill = TRUE) {
+  container(..., .class = "a-box", fill = fill)
+}
+
+fake_sidebar <- container(
+  div(
+    p("Sidebar"),
+    style = "height: 100%; background: #e1e3e5",
+    class = "d-flex align-items-center justify-content-center"
+  ),
+  style = "height: calc(100% - 0.6rem); width: 33%"
+)
+```
+
+```{scss, echo = FALSE}
+.a-box {
+	height: 400px;
+	border: 0.5em solid #f4f4f4;
+	&.html-fill-item {
+		background-color: rgb(131, 58, 180);
+		background-image: linear-gradient(
+      180deg,
+      hsl(202deg, 100%, 38%) 0%,
+      hsl(206deg, 58%, 55%) 25%,
+      hsl(206deg, 58%, 66%) 50%,
+      hsl(205deg, 61%, 77%) 75%,
+      hsl(203deg, 69%, 87%) 100%
+    );
+	}
+	&:not(.html-fill-item) {
+		background-color: hsl(27deg, 98%, 54%);
+		background-image: linear-gradient(
+      180deg,
+      hsl(27deg, 98%, 54%) 0%,
+      hsl(27deg, 97%, 64%) 25%,
+      hsl(27deg, 93%, 73%) 50%,
+      hsl(28deg, 79%, 82%) 75%,
+      hsl(28deg, 27%, 90%) 100%
+    );
+	}
+}
+.a-container {
+	max-width: 600px;
+	margin: 1em 0;
+	border: 2px solid #808080;
+	border-radius: 3px;
+	overflow: auto;
+	padding: 0;
+	position: relative;
+	& > .a-container {
+		margin: 0.25rem;
+		width: calc(100% - 0.5rem);
+	}
+	&.html-fill-container {
+		border-color: var(--bs-pink);
+		& > .a-container {
+			&.html-fill-item {
+				&:not(.html-fill-container) {
+					border-color: var(--bs-blue);
+				}
+			}
+		}
+	}
+	&.html-fill-item {
+		border-style: dashed;
+	}
+}
+.resizable {
+	resize: vertical;
+	height: 200px;
+	min-height: 100px;
+}
+.b-pink {
+	font-weight: bold;
+	color: var(--bs-pink);
+}
+.b-orange {
+	font-weight: bold;
+	color: var(--bs-orange);
+}
+.b-blue {
+	font-weight: bold;
+	color: hsl(202deg, 100%, 38%);
+}
+.squash-last-mb {
+	& > :last-child {
+		margin-bottom: 0;
+	}
+}
+.tip-fillable {
+	color: white;
+	--bs-tooltip-bg: var(--bs-pink);
+}
+.tip-fill {
+	color: white;
+	--bs-tooltip-bg: var(--bs-blue);
+}
+.tip-both {
+	--bs-tooltip-bg: var(--bs-pink);
+	.tooltip-inner {
+		color: white;
+		background-image: linear-gradient(
+      -90deg,
+      hsl(202deg, 100%, 38%) 0%,
+      hsl(227deg, 50% ,57%) 25%,
+      hsl(269deg, 42% ,57%) 50%,
+      hsl(309deg, 44% ,51%) 75%,
+      hsl(330deg, 67% ,52%) 100%
+    );
+	}
+}
+.fake-layout-sidebar {
+	margin-top: 3rem !important;
+	overflow: visible;
+	&::before {
+		position: absolute;
+		top: -1.7em;
+		left: 0;
+		content: "layout_sidebar()";
+		font-family: var(--bs-font-monospace);
+		color: var(--bs-gray-700);
+	}
+}
+// pkgdown css tweaks fixes for this article
+main h3 {
+  margin-top: 2rem;
+}
+main h2 {
+  margin-top: 3rem;
+}
+/* Fix for rstudio/htmltools#370 */
+.html-fill-container {
+	& > :not(.html-fill-item) {
+		flex: 0 0 auto !important;
+	}
+}
+```
+
+## Introduction
+
+The goal of this article is to provide a gentle introduction
+to the concepts underlying fillable containers and fill items
+and their interactions.
+
+## Fundamentals
+
+### A Container
+
+At first, there was _a container_.
+
+```{r 1-container}
+container()
+```
+
+If the container looks like a line, that's on purpose:
+it has a border but its empty.
+On the web, empty containers don't have a height.
+
+There are two ways for a container to have a height:
+
+1. Put something that takes up space into the container, or
+2. Give the container an opinion about its height.
+
+### Container > Item
+
+Let's first put **an item** inside our container.
+Like most htmlwidgets and outputs in Shiny,
+this particular item has a _natural height_ of `400px`.
+Since there are no other constraints on the height of the **container**,
+it grows to `400px` tall to hold the item we put in it.
+
+```{r}
+container(item())
+```
+
+### Container with height > Item {#container-opinionated-item}
+
+What happens if we give the **container** an opinion about its height?
+In this case, we'll tell the container it can't be any taller than `200px`
+by setting its CSS property `min-height: 200px`[^parent].
+
+[^parent]: Sometimes the opinion about height comes from the parent element(s) holding the container.
+
+Now our 400-pixels-tall **item** no longer fits within the container.
+What exactly happens to the part that doesn't fit
+depends on other specific CSS properties,
+but in Shiny and with bslib most often the container will _scroll_
+if the items are too tall for the container.
+
+```{r}
+container(item(), class = "resizable")
+```
+
+Scrolling containers are great for text.
+But if the item is resizable, like a plot, scrolling isn't ideal.
+We'd rather let the item _fill_ the container.
+
+### Fillable container > Fill item
+
+When the item is a [fill item]{.b-blue},
+then it has the ability to fill -- to grow or shrink to fit -- its container.
+To unlock its filling potential,
+the [fill item]{.b-blue} needs to be _a direct child_ of a [Fillable containers]{.b-pink}.
+So you need both: fillable containers pair with fill items.
+
+**A [_fillable container_]{.b-pink} activates [_fill items_]{.b-blue} when they're direct children.**
+
+In this explainer, [fill items]{.b-blue} are [blue]{.b-blue}
+and [fillable containers]{.b-pink} are [pink]{.b-pink}.
+It turns out that our item was a [fill item]{.b-blue} all along,
+it's fillability just wasn't activated yet.
+
+```{r}
+container(
+  item(tooltip = TRUE),
+  fillable = TRUE,
+  tooltip = TRUE,
+  class = "resizable"
+)
+```
+
+Notice that *filling* means both growing and shrinking.
+Grab the lower right corner
+and try increasing and decreasing the height of the [fillable container]{.b-pink}.
+What happens when you change the height of a container that [isn't a fillable container](#container-opinionated-item)?
+(Scroll back to [the previous example](#container-opinionated-item) to find out.)
+
+### Fillable container > Fill items...
+
+What if you have many [fill items]{.b-blue}?
+The [fill items]{.b-blue} share the vertical space in the [fillable container]{.b-pink},
+collectively taking up all of the space they can.
+
+```{r}
+container(
+  item(tooltip = TRUE),
+  item(tooltip = TRUE),
+  item(tooltip = TRUE),
+  fillable = TRUE,
+  tooltip = TRUE,
+  class = "resizable"
+)
+```
+
+### Fillable container > Regular items...
+
+But if the direct children of the height-constrained [fillable containers]{.b-pink}
+are [regular items]{.b-orange} (we'll show non-fill items in the next example as [orange]{.b-orange}),
+then they overflow even if the container is [fillable]{.b-pink}.
+
+Collectively, these options give you a lot of flexibility and control in your apps,
+especially in dashboards where screen real estate is precious.
+
+```{r}
+container(
+  item(fill = FALSE),
+  item(fill = FALSE),
+  item(fill = FALSE),
+  fillable = TRUE,
+  class = "resizable"
+)
+```
+
+## Examples
+
+Repeat [responsive sizing](cards.html#responsive-sizing)?
+
+
+## Extra stuff
+
+Stashing some extra bits here.
+Everything in this section will likely be rewritten but I don't want to forget it.
+
+### Nested containers
+
+*N.B. This example covers elements, like `layout_sidebar()`,
+where the user-facing controls decide if
+the **outer container** is a fill item (`fill = FALSE`)
+or if the **inner container** is a fillable container (`fillable = TRUE`).*
+
+Most plot outputs and htmlwidgets are [fill items]{.b-blue},
+so most often you'll be making decisions about fillability.
+
+For example, `layout_sidebar()` gives you a way to put a sidebar next to some content.
+At a low level, `layout_sidebar()` creates a parent container
+that holds a `sidebar` and a main content area.
+The sidebar is created with the `sidebar()` function, which is passed to the `sidebar` argument.
+Any other HTML objects passed to `layout_sidebar()` are placed in the main content container.
+
+```{r}
+container(
+  fake_sidebar,
+  container(
+    p("Main content area"),
+    tooltip = TRUE,
+    style = "height = 100%",
+    class = "d-flex align-items-center justify-content-center"
+  ),
+  fillable = FALSE,
+  tooltip = TRUE,
+  fill = TRUE,
+  class = "resizable my-3 d-flex flex-row fake-layout-sidebar"
+)
+```
+
+To make things easier to see in this article,
+we'll pretend this `layout_sidebar()`
+was dropped into a height-constrained container,
+making its outer container opinionated about its height.
+
+Note also that the outer container is a [fill item]{.b-blue}.
+Because it's not a content object,
+I've used a dashed border to highlight that it's a [fill item]{.b-blue}.
+But because it isn't activated, it's still gray.
+
+**Why is the outer container a [fill item]{.b-blue}?**
+So that if, or when, you place a sidebar layout inside a [fillable container]{.b-pink},
+the sidebar layout fills the fillable container.
+Imagine we've added this sidebar layout in a `page_fillable()`.
+The [fillable container]{.b-pink} activates the [fill item]{.b-blue}
+and the sidebar layout grows (and shrinks) to fill the container.
+
+```{r}
+container(
+  container(
+    fake_sidebar,
+    container(
+      p("Main content area"),
+      style = "height = 100%",
+      class = "d-flex align-items-center justify-content-center"
+    ),
+    fillable = FALSE,
+    fill = TRUE,
+    tooltip = TRUE,
+    class = "d-flex flex-row",
+    style = "height: 100%"
+  ),
+  fillable = TRUE,
+  tooltip = TRUE,
+  class = "resizable my-3",
+  style = "min-height: 300px;"
+)
+```
+
+**What happens if we put a [fill item]{.b-blue} in the main content area?**
+It overflows the main content area and you have to scroll to see it
+because it's ability to fill isn't activated.
+
+```{r}
+container(
+  container(
+    fake_sidebar,
+    container(
+      item(tooltip = TRUE)
+    ),
+    fillable = FALSE,
+    fill = TRUE,
+    tooltip = TRUE,
+    class = "d-flex flex-row",
+    style = "height: 100%"
+  ),
+  fillable = TRUE,
+  tooltip = TRUE,
+  class = "resizable my-3",
+  style = "min-height: 300px;"
+)
+```
+
+If we make the main content area a [fillable container]{.b-pink}
+by setting [fillable = TRUE]{.b-pink style=\"font-family: var(--bs-font-monospace)\"}
+in `layout_sidebar()`,
+we can activate the [fill item]{.b-blue} inside it.
+
+```{r}
+container(
+  container(
+    fake_sidebar,
+    container(
+      item(tooltip = TRUE),
+      tooltip = TRUE,
+      fillable = TRUE
+    ),
+    fillable = FALSE,
+    fill = TRUE,
+    tooltip = TRUE,
+    class = "d-flex flex-row",
+    style = "height: 100%"
+  ),
+  fillable = TRUE,
+  tooltip = TRUE,
+  class = "resizable my-3",
+  style = "min-height: 300px;"
+)
+```
+
+<!-- Extra js bits --->
+
+```{=html}
+<script>
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle=\"tooltip\"]')
+const tooltipList = [...tooltipTriggerList].map(el => {
+  new bootstrap.Tooltip(el, {
+    trigger: 'hover',
+    boundary: el.parentElement,
+    offset: el.matches('.a-box')
+      ? [0, -10]
+      : el.matches('.a-container.html-fill-item') ? [-40, 0]
+      : el.matches('.html-fill-item.html-fill-container') ? [40, 0] : [0, 0]
+  })
+})
+</script>
+```
