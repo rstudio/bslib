@@ -59,12 +59,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     }
   }
 
-  > .main {
-    z-index: 1; // Make sure main content is on top of sidebar during transition
-  }
-
   > .collapse-toggle {
-    z-index: 2; // Make sure toggle is above the main content
     grid-row: 1 / 2;
     grid-column: 1 / 2;
     display: inline-flex;
