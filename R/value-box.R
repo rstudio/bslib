@@ -6,7 +6,7 @@
 #' even a [shiny::plotOutput()]).
 #'
 #' @param title,value a [htmltools::tag()] child to display above `value`. If a
-#'   string a provided, it's automatically wrapped in a header tag.
+#'   string (or number) a provided, it's automatically wrapped in a header tag.
 #' @param ... Unnamed arguments may be any [htmltools::tag()] children to
 #'   display below `value`.. Named arguments become attributes on the containing
 #'   element.
@@ -47,10 +47,10 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
   attribs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
 
-  if (rlang::is_bare_character(title)) {
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(value)) {
     title <- tags$span(title, class = "h6 mb-1")
   }
-  if (rlang::is_bare_character(value)) {
+  if (rlang::is_bare_character(value) || rlang::is_bare_numeric(value)) {
     value  <- tags$span(value, class = "h2 mb-2")
   }
 
