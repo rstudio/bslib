@@ -24,6 +24,10 @@
 #'   value of `NA` to prevent sidebar from being collapsible.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
+#' @param title A character title to be used as the sidebar title, which will be
+#'   wrapped in a `<div>` element with class `sidebar-title`. You can also
+#'   provide a custom [htmltools::tag()] for the title element, in which case
+#'   you'll likely want to give this element `class = "sidebar-title"`.
 #' @param bg A background color. If provided, an accessible contrasting color is
 #'   provided for the foreground color (consider using a utility `class` to
 #'   customize the foreground color).
@@ -36,6 +40,7 @@ sidebar <- function(
   position = c("left", "right"),
   open = TRUE,
   id = NULL,
+  title = NULL,
   bg = NULL,
   class = NULL
 ) {
@@ -45,6 +50,10 @@ sidebar <- function(
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
   } else {
     class <- c("bslib-sidebar-input", class)
+  }
+
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
+    title <- div(title, class = "sidebar-title")
   }
 
   hide_collapse <- isTRUE(is.na(open))
@@ -67,6 +76,7 @@ sidebar <- function(
         background_color = bg,
         color = if (!is.null(bg)) get_color_contrast(bg)
       ),
+      title,
       ...
     ),
     collapse_tag = collapse_tag,

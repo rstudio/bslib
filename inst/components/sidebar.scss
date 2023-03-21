@@ -100,6 +100,15 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     }
   }
 
+  .sidebar-title {
+    font-size: $font-size-base * 1.25;
+    line-height: $line-height-sm;
+    margin-top: 0;
+    margin-bottom: $spacer;
+    padding-bottom: $spacer;
+    border-bottom: var(--bslib-sidebar-title-border-bottom, var(--bslib-sidebar-border));
+  }
+
   &.sidebar-right {
     > .collapse-toggle {
       right: 0;
