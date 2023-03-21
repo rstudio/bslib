@@ -30,8 +30,15 @@
 #' @param class Additional CSS classes for the top-level HTML element.
 #'
 #' @export
-sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE, id = NULL, bg = NULL, class = NULL) {
-
+sidebar <- function(
+  ...,
+  width = 250,
+  position = c("left", "right"),
+  open = TRUE,
+  id = NULL,
+  bg = NULL,
+  class = NULL
+) {
   # For accessiblity reasons, always provide id when collapsible,
   # but only create input binding when id is provided
   if (is.null(id) && is.logical(open)) {
@@ -83,8 +90,16 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
 #' @inheritParams card
 #'
 #' @export
-layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TRUE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL) {
-
+layout_sidebar <- function(
+  sidebar = sidebar(),
+  ...,
+  fillable = FALSE,
+  fill = TRUE,
+  bg = NULL,
+  border = TRUE,
+  border_radius = TRUE,
+  height = NULL
+) {
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
