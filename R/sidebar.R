@@ -36,6 +36,7 @@ sidebar <- function(
   position = c("left", "right"),
   open = TRUE,
   id = NULL,
+  title = NULL,
   bg = NULL,
   class = NULL
 ) {
@@ -45,6 +46,10 @@ sidebar <- function(
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
   } else {
     class <- c("bslib-sidebar-input", class)
+  }
+
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
+    title <- span(title, class = "sidebar-title")
   }
 
   hide_collapse <- isTRUE(is.na(open))
@@ -67,6 +72,7 @@ sidebar <- function(
         background_color = bg,
         color = if (!is.null(bg)) get_color_contrast(bg)
       ),
+      title,
       ...
     ),
     collapse_tag = collapse_tag,
