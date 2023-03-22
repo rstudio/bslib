@@ -47,7 +47,7 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
   attribs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
 
-  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(value)) {
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- tags$span(title, class = "h6 mb-1")
   }
   if (rlang::is_bare_character(value) || rlang::is_bare_numeric(value)) {
