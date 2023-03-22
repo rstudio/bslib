@@ -5,8 +5,8 @@
 #' `value` represents (for example, it could hold a [bsicons::bs_icon()], or
 #' even a [shiny::plotOutput()]).
 #'
-#' @param title,value a [htmltools::tag()] child to display above `value`. If a
-#'   string (or number) a provided, it's automatically wrapped in a header tag.
+#' @param title,value A string, number, or [htmltools::tag()] child to display as
+#'   the title or value of the value box. The `title` appears above the `value`.
 #' @param ... Unnamed arguments may be any [htmltools::tag()] children to
 #'   display below `value`.. Named arguments become attributes on the containing
 #'   element.
