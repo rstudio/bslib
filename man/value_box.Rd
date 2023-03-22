@@ -31,8 +31,8 @@ showcase_top_right(
 )
 }
 \arguments{
-\item{title, value}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to display above \code{value}. If a
-string a provided, it's automatically wrapped in a header tag.}
+\item{title, value}{A string, number, or \code{\link[htmltools:builder]{htmltools::tag()}} child to display as
+the title or value of the value box. The \code{title} appears above the \code{value}.}
 
 \item{...}{Unnamed arguments may be any \code{\link[htmltools:builder]{htmltools::tag()}} children to
 display below \code{value}.. Named arguments become attributes on the containing
