@@ -51,7 +51,7 @@ sidebar <- function(
   class = NULL,
   max_height_mobile = NULL
 ) {
-  # For accessiblity reasons, always provide id when collapsible,
+  # For accessibility reasons, always provide id when collapsible,
   # but only create input binding when id is provided
   if (is.null(id) && is.logical(open)) {
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
