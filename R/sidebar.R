@@ -28,6 +28,10 @@
 #'   provided for the foreground color (consider using a utility `class` to
 #'   customize the foreground color).
 #' @param class Additional CSS classes for the top-level HTML element.
+#' @param max_height_mobile The maximum height of the horizontal sidebar when
+#'   viewed on mobile devices. The default is `250px` unless the sidebar is
+#'   included in a [layout_sidebar()] with a specified height, in which case
+#'   the default is to take up no more than 50% of the layout container.
 #'
 #' @export
 sidebar <- function(
@@ -37,7 +41,8 @@ sidebar <- function(
   open = TRUE,
   id = NULL,
   bg = NULL,
-  class = NULL
+  class = NULL,
+  max_height_mobile = NULL
 ) {
   # For accessibility reasons, always provide id when collapsible,
   # but only create input binding when id is provided
@@ -72,7 +77,8 @@ sidebar <- function(
     collapse_tag = collapse_tag,
     position = match.arg(position),
     open = open,
-    width = validateCssUnit(width)
+    width = validateCssUnit(width),
+    max_height_mobile = validateCssUnit(max_height_mobile)
   )
 
   class(res) <- c("sidebar", class(res))
@@ -127,6 +133,13 @@ layout_sidebar <- function(
     columns_collapse <- rev(columns_collapse)
   }
 
+  grid_template_rows_mobile <-
+    if (is.null(sidebar$max_height_mobile)) {
+      if (is.null(height)) "fit-content(250px)" else "fit-content(50%)"
+    } else {
+      sprintf("fit-content(%s)", sidebar$max_height_mobile)
+    }
+
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
@@ -136,7 +149,8 @@ layout_sidebar <- function(
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
       "--bslib-sidebar-border" = if (!border) "none",
       "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
-      height = validateCssUnit(height)
+      height = validateCssUnit(height),
+      "--bslib-sidebar-mobile-row-height" = grid_template_rows_mobile
     ),
     !!!contents,
     sidebar_dependency(),
