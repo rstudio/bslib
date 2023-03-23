@@ -15,7 +15,8 @@ sidebar(
   id = NULL,
   title = NULL,
   bg = NULL,
-  class = NULL
+  class = NULL,
+  max_height_mobile = NULL
 )
 
 layout_sidebar(
@@ -61,6 +62,11 @@ provided for the foreground color (consider using a utility \code{class} to
 customize the foreground color).}
 
 \item{class}{Additional CSS classes for the top-level HTML element.}
+
+\item{max_height_mobile}{The maximum height of the horizontal sidebar when
+viewed on mobile devices. The default is \verb{250px} unless the sidebar is
+included in a \code{\link[=layout_sidebar]{layout_sidebar()}} with a specified height, in which case
+the default is to take up no more than 50\% of the layout container.}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
