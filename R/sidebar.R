@@ -20,8 +20,14 @@
 #' @param width A valid [CSS unit][htmltools::validateCssUnit] used for the
 #'   width of the sidebar.
 #' @param position Where the sidebar should appear relative to the main content.
-#' @param open Whether or not the sidebar should be open on page load. Provide a
-#'   value of `NA` to prevent sidebar from being collapsible.
+#' @param open The initial state of the sidebar, choosing from the following
+#'   options:
+#'
+#'   * `"desktop"`: The sidebar starts open on desktop screen, closed on mobile.
+#'     This is default sidebar behavior.
+#'   * `"open"` or `TRUE`: The sidebar starts open.
+#'   * `"closed"` or `FALSE`: The sidebar starts closed.
+#'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
 #' @param bg A background color. If provided, an accessible contrasting color is
@@ -34,7 +40,7 @@ sidebar <- function(
   ...,
   width = 250,
   position = c("left", "right"),
-  open = TRUE,
+  open = c("desktop", "open", "closed", "always"),
   id = NULL,
   bg = NULL,
   class = NULL
@@ -47,14 +53,25 @@ sidebar <- function(
     class <- c("bslib-sidebar-input", class)
   }
 
-  hide_collapse <- isTRUE(is.na(open))
+  if (isTRUE(open)) {
+    open <- "open"
+  } else if (identical(open, FALSE)) {
+    open <- "closed"
+  } else if (isTRUE(is.na(open))) {
+    open <- "always"
+  }
+
+  open <- rlang::arg_match(open)
+  is_init_open <- open %in% c("open", "always")
+
+  hide_collapse <- identical(open, "always")
 
   collapse_tag <- tags$button(
     class = "collapse-toggle",
     type = "button",
     title = "Toggle sidebar",
     style = css(display = if (hide_collapse) "none"),
-    "aria-expanded" = if (open || hide_collapse) "true" else "false",
+    "aria-expanded" = if (is_init_open) "true" else "false",
     "aria-controls" = id
   )
 
@@ -130,7 +147,9 @@ layout_sidebar <- function(
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
-    class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
+    class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
+    `data-sidebar-init-auto-collapse` =
+      if (identical(sidebar$open, "desktop")) "true",
     style = css(
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
@@ -173,6 +192,14 @@ sidebar_js_init <- function() {
         $(x).css('--bslib-sidebar-overlap-counter', right ? ctrs.right : ctrs.left);
         right ? ctrs.right++ : ctrs.left++;
       });
+    }
+
+    // If sidebar is marked open='desktop', collapse sidebar if on mobile
+    if (thisLayout.data('sidebarInitAutoCollapse')) {
+      var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
+      if (initCollapsed === 'true') {
+        thisLayout.addClass('sidebar-collapsed');
+      }
     }
     "
   ))

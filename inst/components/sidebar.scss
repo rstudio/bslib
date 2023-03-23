@@ -158,6 +158,10 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     --bslib-collapse-toggle-transform: -180deg;
     --bslib-collapse-toggle-right-transform: -180deg;
 
+    &[data-sidebar-init-auto-collapse] {
+      --bslib-sidebar-js-init-collapsed: true;
+    }
+
     grid-template-columns: 1fr !important;
     // Especially important if main content is allowed to grow/shrink
     grid-template-rows: auto minmax(0, 1fr);

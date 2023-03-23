@@ -11,7 +11,7 @@ sidebar(
   ...,
   width = 250,
   position = c("left", "right"),
-  open = TRUE,
+  open = c("desktop", "open", "closed", "always"),
   id = NULL,
   bg = NULL,
   class = NULL
@@ -42,8 +42,15 @@ width of the sidebar.}
 
 \item{position}{Where the sidebar should appear relative to the main content.}
 
-\item{open}{Whether or not the sidebar should be open on page load. Provide a
-value of \code{NA} to prevent sidebar from being collapsible.}
+\item{open}{The initial state of the sidebar, choosing from the following
+options:
+\itemize{
+\item \code{"desktop"}: The sidebar starts open on desktop screen, closed on mobile.
+This is default sidebar behavior.
+\item \code{"open"} or \code{TRUE}: The sidebar starts open.
+\item \code{"closed"} or \code{FALSE}: The sidebar starts closed.
+\item \code{"always"} or \code{NA}: The sidebar is always open and cannot be closed.
+}}
 
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
