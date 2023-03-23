@@ -202,8 +202,8 @@ sidebar_js_init <- function() {
 
   // If sidebar is marked open='desktop', collapse sidebar if on mobile
   if (thisLayout.data('sidebarCollapseAtBreakpoint')) {
-    var break_point = thisLayout.css('--bslib-sidebar-collapse-breakpoint');
-    var isMobile = window.matchMedia('(max-width: '+break_point+')').matches;
+    var breakPoint = thisLayout.css('--bslib-sidebar-collapse-breakpoint');
+    var isMobile = window.matchMedia('(max-width: ' + breakPoint + ')').matches;
     if (isMobile) {
       thisLayout.addClass('sidebar-collapsed');
     }
