@@ -30,6 +30,10 @@
 #'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
+#' @param title A character title to be used as the sidebar title, which will be
+#'   wrapped in a `<span>` element with class `sidebar-title`. You can also
+#'   provide a custom [htmltools::tag()] for the title element, in which case
+#'   you'll likely want to give this element `class = "sidebar-title"`.
 #' @param bg A background color. If provided, an accessible contrasting color is
 #'   provided for the foreground color (consider using a utility `class` to
 #'   customize the foreground color).

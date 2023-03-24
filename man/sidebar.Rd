@@ -57,6 +57,11 @@ This is default sidebar behavior.
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
 
+\item{title}{A character title to be used as the sidebar title, which will be
+wrapped in a \verb{<span>} element with class \code{sidebar-title}. You can also
+provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
+you'll likely want to give this element \code{class = "sidebar-title"}.}
+
 \item{bg}{A background color. If provided, an accessible contrasting color is
 provided for the foreground color (consider using a utility \code{class} to
 customize the foreground color).}
