@@ -60,8 +60,10 @@
     }
   }
 
-  .bslib-sidebar-layout {
+  .bslib-sidebar-layout:not(.sidebar-border-enabled) {
     border: none;
+  }
+  .bslib-sidebar-layout:not(.sidebar-border-radius-enabled) {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }

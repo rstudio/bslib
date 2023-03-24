@@ -125,8 +125,8 @@ layout_sidebar <- function(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
-  border = TRUE,
-  border_radius = TRUE,
+  border = NULL,
+  border_radius = NULL,
   height = NULL
 ) {
   if (!inherits(sidebar, "sidebar")) {
@@ -171,13 +171,12 @@ layout_sidebar <- function(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
+    class = sidebar_border_classes(border, border_radius),
     `data-sidebar-collapse-at-breakpoint` =
       if (identical(sidebar$open, "desktop")) "true",
     style = css(
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
-      "--bslib-sidebar-border" = if (!border) "none",
-      "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
       height = validateCssUnit(height),
       "--bslib-sidebar-mobile-row-height" = sidebar_max_height_mobile
     ),
@@ -259,4 +258,25 @@ sidebar_dependency <- function() {
     src = "components",
     script = "sidebar.min.js"
   )
+}
+
+sidebar_border_classes <- function(border = NULL, border_radius = NULL) {
+  class <- NULL
+  if (!is.null(border)) {
+    if (!rlang::is_bare_logical(border, n = 1)) {
+      abort('`border` must be a boolean value or NULL.', .frame = parent.frame())
+    }
+    class <- paste0("sidebar-border-", if (border) "enabled" else "disabled")
+  }
+  if (!is.null(border_radius)) {
+    if (!rlang::is_bare_logical(border_radius, n = 1)) {
+      abort('`border_radius` must be a boolean value or NULL.', .frame = parent.frame())
+    }
+    class <- c(
+      class,
+      paste0("sidebar-border-radius-", if (border_radius) "enabled" else "disabled")
+    )
+  }
+  if (is.null(class)) return()
+  paste(class, collapse = " ")
 }

@@ -19,8 +19,18 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
 
   @include transition(var(--bslib-sidebar-transition));
 
-  border: var(--bslib-sidebar-border);
-  border-radius: var(--bslib-sidebar-border-radius);
+  &, &.sidebar-border-enabled {
+    border: var(--bslib-sidebar-border);
+  }
+  &, &.sidebar-border-radius-enabled {
+    border-radius: var(--bslib-sidebar-border-radius);
+  }
+  &.sidebar-border-disabled {
+    border: none;
+  }
+  &.sidebar-border-radius-disabled {
+    border-radius: initial;
+  }
 
   // Store the `md` grid breakpoint for use by auto-collapsing sidebars
   &[data-sidebar-collapse-at-breakpoint] {
