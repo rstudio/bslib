@@ -176,7 +176,7 @@ layout_sidebar <- function(
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
     class = sidebar_border_classes(border, border_radius),
-    `data-sidebar-collapse-at-breakpoint` =
+    `data-sidebar-init-auto-collapse` =
       if (identical(sidebar$open, "desktop")) "true",
     style = css(
       "--bslib-sidebar-columns" = columns,
@@ -222,10 +222,9 @@ sidebar_js_init <- function() {
     }
 
     // If sidebar is marked open='desktop', collapse sidebar if on mobile
-    if (thisLayout.data('sidebarCollapseAtBreakpoint')) {
-      var breakPoint = thisLayout.css('--bslib-sidebar-collapse-breakpoint');
-      var isMobile = window.matchMedia('(max-width: ' + breakPoint + ')').matches;
-      if (isMobile) {
+    if (thisLayout.data('sidebarInitAutoCollapse')) {
+      var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
+      if (initCollapsed === 'true') {
         thisLayout.addClass('sidebar-collapsed');
       }
     }
