@@ -192,18 +192,16 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
   }
 }
 
-@include media-breakpoint-down(md) {
-  .bslib-sidebar-layout[data-sidebar-init-auto-collapse] {
-    --bslib-sidebar-js-init-collapsed: true;
-  }
-}
-
 @include media-breakpoint-down(sm) {
   .bslib-sidebar-layout {
     --bslib-sidebar-vert-border: none;
     --bslib-sidebar-horiz-border: #{$bslib-sidebar-border};
     --bslib-collapse-toggle-transform: -180deg;
     --bslib-collapse-toggle-right-transform: -180deg;
+
+    &[data-sidebar-init-auto-collapse] {
+      --bslib-sidebar-js-init-collapsed: true;
+    }
 
     grid-template-columns: 1fr !important;
     // Sidebar height is constrained on mobile using `fit-content()` where upper
