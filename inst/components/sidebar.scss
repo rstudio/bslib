@@ -110,14 +110,14 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     display: inline-flex;
     align-items: center;
     position: absolute;
-    right: - $bslib-sidebar-icon-size;
+    right: calc(-#{$bslib-sidebar-icon-size} - var(--bs-card-border-width, #{$card-border-width}));
     // The CSS variable (set via JS) is here to help avoid overlapping toggles
     bottom: calc(#{$bslib-sidebar-padding} + var(--bslib-sidebar-overlap-counter, 0) * calc(#{$bslib-sidebar-icon-size} + #{$bslib-sidebar-padding}));
     border: var(--bslib-collapse-toggle-border);
     border-left: none;
     border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
     padding: 7px 0;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.75);
 
     &::after {
       width: $bslib-sidebar-icon-size;
