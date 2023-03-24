@@ -96,12 +96,24 @@ layout_sidebar <- function(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
-  border = TRUE,
-  border_radius = TRUE,
+  border = NULL,
+  border_radius = NULL,
   height = NULL
 ) {
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
+  }
+
+  if (!(is.null(border) || rlang::is_bare_logical(border, n = 1))) {
+    abort("`border` must be `NULL`, `TRUE`, or `FALSE`.")
+  } else if (!is.null(border) && is.na(border)) {
+    border <- NULL
+  }
+
+  if (!(is.null(border_radius) || rlang::is_bare_logical(border_radius, n = 1))) {
+    abort("`border_radius` must be `NULL`, `TRUE`, or `FALSE`.")
+  } else if (!is.null(border_radius) && is.na(border_radius)) {
+    border_radius <- NULL
   }
 
   main <- div(
@@ -131,11 +143,11 @@ layout_sidebar <- function(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
     class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
+    `data-bslib-sidebar-border` = tolower(border),
+    `data-bslib-sidebar-border-radius` = tolower(border_radius),
     style = css(
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
-      "--bslib-sidebar-border" = if (!border) "none",
-      "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
       height = validateCssUnit(height)
     ),
     !!!contents,
