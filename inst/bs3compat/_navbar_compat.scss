@@ -8,7 +8,7 @@
 .navbar:not(.fixed-bottom):not(.navbar-fixed-bottom) {
   // Instead of exactly re-doing bs3's .navbar { margin-bottom }, set
   // margin-top on each pane (so 'fill' panes can be flush with navbar)
-  & + div .tab-pane {
+  & + div > .tab-content > .tab-pane {
     --bslib-navbar-margin: #{$navbar-margin-bottom};
     margin-top: var(--bslib-navbar-margin);
   }
