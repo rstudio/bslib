@@ -11,7 +11,7 @@ Cards are a common organizing unit for modern user interfaces (UI). At their cor
 Since this article is statically hosted and not powered by Shiny, it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`. Don't worry, `card()`s [work in Shiny equally as well](#shiny). Here's some code to create those widgets:
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, collapse = "#>")
 
 # pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
 # (note this isn't a problem for any format based on html_document_base)
@@ -70,7 +70,7 @@ leaflet_widget <- leaflet() %>%
 
 ::: row
 ::: col-md-6
-A `card()` is designed to handle any number of "known" card items (e.g., `card_header()`, `card_body()`, etc) as unnamed arguments (i.e., children). As we'll see shotly, `card()` also has some useful named arguments (e.g., `full_screen`, `height`, etc).
+A `card()` is designed to handle any number of "known" card items (e.g., `card_header()`, `card_body()`, etc) as unnamed arguments (i.e., children). As we'll see shortly, `card()` also has some useful named arguments (e.g., `full_screen`, `height`, etc).
 
 At their core, `card()` and card items are just an HTML `div()` with a special Bootstrap class, so you can use Bootstrap's utility classes to customize things like [colors](https://getbootstrap.com/docs/5.2/utilities/background/), [text](https://getbootstrap.com/docs/5.2/utilities/text/), [borders](https://getbootstrap.com/docs/5.2/utilities/borders), etc.
 :::
@@ -112,22 +112,154 @@ card(
 :::
 :::
 
-## Scrolling contents
+## Restricting growth
 
 ::: row
 ::: col-md-6
-By default, a `card()`'s size grows to accommodate the size of it's contents. Thus, if a `card_body()` contains a large amount of text, tables, or other elements, you may want to specify a `height`. That said, when laying out [multiple cards](#multiple-cards), you probably shouldn't specify a `height` on the card-level. Instead, the height should probably come from a containing element, like `layout_column_wrap()`.
+By default, a `card()`'s size grows to accommodate the size of it's contents. Thus, if a `card_body()` contains a large amount of text, tables, etc., you may want to specify a `height` or `max_height`. That said, when laying out [multiple cards](#multiple-cards), you probably shouldn't constrain the height on the card-level. Instead, the height should probably come from a containing element, like `layout_column_wrap()`.
 
-Although scrolling is convenient for reducing the amount of space required to park lots of content, it can also be a nuisance to the user. To help reduce the need for scrolling, consider pairing scrolling with `full_screen = TRUE` (which adds an icon to expand the card's size to the browser window).
+Although scrolling is convenient for reducing the amount of space required to park lots of content, it can also be a nuisance to the user. To help reduce the need for scrolling, consider pairing scrolling with `full_screen = TRUE` (which adds an icon to expand the card's size to the browser window). Notice how, when the card is expanded to full-screen, `max_height`/`height` won't effect the full-screen size of the card. 
 :::
 
 ::: col-md-6
 ```{r}
 card(
-  height = 200,
+  max_height = 250,
   full_screen = TRUE,
   card_header(
     "A long, scrolling, description"
+  ),
+  lorem::ipsum(paragraphs = 3, sentences = 5),
+  card_footer(
+    class = "fs-6",
+    "Copyright 2023 RStudio, PBC"
+  )
+)
+```
+:::
+:::
+
+
+## Filling outputs
+
+::: row
+::: col-md-6
+A `card()`'s default behavior is optimized for facilitating [filling layouts](filling.html). For example, if **fill item**(s), like `plotly_widget`, appear as _direct children_ of the card (or a `card_body()`), they grow/shrink in size to fit their `card_body()` container.
+
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 250, 
+  full_screen = TRUE,
+  card_header("A filling plot"),
+  plotly_widget
+)
+```
+:::
+:::
+
+
+::: row
+::: col-md-6
+Although most outputs (e.g., `shiny::plotOutput()`, etc.) are **fill items**, most other UI elements (e.g., `shiny::div()`) are not, so wrapping an output container in additional `shiny::div()` (which something like `shiny::uiOutput()` does implicitly) breaks filling behavior. In this case, you can leverage `as_fill_carrier()` to "carry" the potential to fill from the `card()` down to the relevant contents.
+:::
+
+::: col-md-6
+```{r}
+is_fill(plotly_widget)
+is_fill(uiOutput("some_output"))
+
+card(
+  max_height = 250, 
+  full_screen = TRUE,
+  card_header("A filling plot"),
+  uiOutput("some_output") |>
+    as_fill_carrier()
+)
+```
+:::
+:::
+
+
+::: row
+::: col-md-6
+Beware that, by default, there are no limits to how large or small **fill item**(s) may become, so 
+
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 300, 
+  full_screen = TRUE,
+  card_header("A filling plot"),
+  plotly_widget,
+  plotly_widget
+)
+```
+:::
+:::
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>What's a fill item?</h3>
+
+ See the [article on filling](filling.html) to learn more.
+:::
+
+
+## Multiple `card_body()`
+
+::: {.row .mt-3}
+::: col-md-6
+A `card()` can have multiple `card_body()`s, which is especially useful for putting different grow/shrink limits on different sections of the body. For example, if we had lots of paragraphs
+
+1. For combining both filling and scrolling contents (as shown on the example).
+2. For having multiple rows of filling outputs, each with their own restrictions on the min/max height, etc.
+
+Note that, when combining filling (i.e., ``)
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 300, 
+  full_screen = TRUE,
+  card_header(
+    "A filling plot and scrolling description"
+  ),
+  card_body(
+    min_height = 150,
+    plotly_widget
+  ),
+  lorem::ipsum(paragraphs = 10, sentences = 5)
+)
+```
+:::
+:::
+
+
+## Multiple columns
+
+::: row
+::: col-md-6
+Leverage `layout_column_wrap()` for multiple columns that still support [filling outputs](#filling-outputs) within a card (which can also be used to layout [multiple cards](#multiple-cards)), especially if the height of those columns should grow/shrink as needed.
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 300, 
+  full_screen = TRUE,
+  card_header("A multi-column filling layout"),
+  card_body(
+    min_height = 150,
+    layout_column_wrap(
+      width = 1/2,
+      plotOutput("p1"),
+      plotOutput("p2")
+    )
   ),
   lorem::ipsum(paragraphs = 3, sentences = 5)
 )
@@ -135,71 +267,64 @@ card(
 :::
 :::
 
-
-## Filling contents
-
-<div class="row">
-<div class="col-md-6">
-
-When a `card()` (or one of it's parent elements) is opinionated about it's height -- i.e., `height` is specified and/or `full_screen = TRUE` -- it's often convenient to allow re-sizable contents (e.g., plots, tables, etc) to grow and shrink as needed to fit inside the card body so the user doesn't need to scroll inside the card. This can be done by first using `card_body_fillable()` to create a fillable card body container and then placing "fill items" inside of the fillable container.
-
-In general, any UI element can be marked as a fill item via `htmltools::bindFillRole()`, but recent versions of htmlwidgets and shiny will make widgets like `shiny::plotOutput()`, `{plotly}`, `{leaflet}`, `{DT}`, etc., fill items by default. Thus, by placing `plotly_widget`, `leaflet_widget`, `plotOutput()`, etc., as a direct child of `card_body_fillable()`, they'll automatically grow and shrink to fit the card body.
-
-`card_body_fillable()` not only allows fill items to grow and shrink, but also provides some additional controls to prevent the contents from becoming too small or too large (e.g., `min_height` and `max_height_full_screen`).
-
-</div>
-
-<div class="col-md-6">
-
-<ul class="nav nav-pills justify-content-center" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#filling" type="button" role="tab" aria-controls="filling" aria-selected="true">Filling</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#scrolling" type="button" role="tab" aria-controls="scrolling" aria-selected="false">Scrolling</button>
-  </li>
-  </li>
-</ul>
-<div class="tab-content">
-  <div class="tab-pane show active" id="filling" role="tabpanel" tabindex="0">
-```{r}
-card(
-  height = 250, full_screen = TRUE,
-  card_header("Filling contents"),
-  card_body_fillable(
-    max_height_full_screen = "600px",
-    plotly_widget
-  ),
-  card_footer(
-    class = "fs-6",
-    "Copyright 2022 RStudio, PBC"
-  )
-)
-```
-  </div>
-  <div class="tab-pane" id="scrolling" role="tabpanel" tabindex="0">
-```{r}
-card(
-  height = 250, full_screen = TRUE,
-  card_header("Scrolling contents"),
-  plotly_widget,
-  card_footer(
-    class = "fs-6",
-    "Copyright 2022 RStudio, PBC"
-  )
-)
-```
-  </div>
-</div>
-  </div>
-</div>
-
-<br>
-<br>
+## Sidebars
 
 ::: row
 ::: col-md-6
-Under-the-hood, `card_body_fillable()` is actually a CSS [flex container](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), which makes its direct children flex items. This can lead to surprising, yet useful, differences in behavior from `card_body()`. For example, each inline element (like text, `actionLink()`, `actionButton()`, etc) is placed in a new row and stretches horizontally (as shown in the example). In the case where you want particular elements inside of `card_body_fillable()` to behave as though they're in `card_body()` (i.e., have the `actionLink()` and `actionButton()` appear inline on the same line), wrap those elements in a `div()`.
+
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 300, 
+  full_screen = TRUE,
+  card_header("A card-based sidebar layout"),
+  layout_sidebar(
+    fillable = TRUE,
+    sidebar(
+      width = 100,
+      actionButton("btn", "A button")
+    ),
+    plotly_widget
+  )
+)
+```
+:::
+:::
+
+
+
+## Flexbox
+
+::: {.row .mt-3}
+::: col-md-6
+`card_body()` is a CSS [flexbox container](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) by default, which is a great for enabling [filling output](#filling-output), but does lead to surprising behavior with things like inline tags (e.g., `shiny::actionButton()`, `shiny::span()`, etc). In this case, consider setting `fillable = FALSE` to get the typical layout experience. Also, for textual content, consider using `shiny::markdown()` (or `shiny::includeMarkdown()`), which effectively yields the same result regardless of `fillable`[^markdown]. 
+:::
+
+[^markdown]: This is essentially because each paragraph gets wrapped in a `<p>` tag, which means the children of the `<p>` tag won't be treated as flex items. 
+
+::: col-md-6
+```{r}
+card(
+  "Here's some", tags$i("inline"), "text",
+  actionButton("btn1", "A button"),
+  card_body(fillable = FALSE,
+    "Here's some", tags$i("inline"), "text"
+  ),
+  markdown("Here's some _inline_ text"),
+  card_body(fillable = FALSE,
+    actionButton("btn2", "A button")
+  )
+)
+```
+:::
+:::
+
+
+::: {.row .mt-3}
+::: col-md-6
+Keep in mind though, sometimes the `fillable = TRUE` behavior of stretching each inline element horizontally can be pretty useful. Say, for example, making a button full-width below some filling output. Also, if you're willing to spend some time learning [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), it makes some spacing and alignment issues much easier to address. Say, for example, centering an `actionLink()` (done here with Bootstrap's [flex utility classes](https://getbootstrap.com/docs/5.3/utilities/flex/)):
 :::
 
 ::: col-md-6
@@ -207,15 +332,15 @@ Under-the-hood, `card_body_fillable()` is actually a CSS [flex container](https:
 card(
   height = 250, full_screen = TRUE,
   card_header("A plot with an action links"),
-  card_body_fillable(
+  card_body(
     plotly_widget,
-    actionLink(
-      "go", "Action link", 
-      class = "link-primary align-self-center"
-    ),
     actionButton(
       "go_btn", "Action button", 
       class = "btn-primary rounded-0"
+    ),
+    actionLink(
+      "go", "Action link", 
+      class = "link-primary align-self-center py-1"
     )
   )
 )
@@ -223,28 +348,6 @@ card(
 :::
 :::
 
-
-## Scrolling & filling
-
-::: row
-::: col-md-6
-Keep in mind that it's possible to have multiple card body containers within a given `card()`, which is primarily useful for having both scrolling and fillable behavior.
-:::
-
-::: col-md-6
-```{r}
-card(
-  height = 300, full_screen = TRUE,
-  card_header("Plot with long description"),
-  card_body_fillable(plotly_widget),
-  card_body(
-    height = "30%", 
-    lorem::ipsum(paragraphs = 3, sentences = 5)
-  )
-)
-```
-:::
-:::
 
 ## Spacing & alignment
 
@@ -263,7 +366,7 @@ Both `card_body()` and `card_body_fillable()` include padding between their cont
 card(
   height = 250, full_screen = TRUE,
   card_header("A filling plot (with no padding)"),
-  card_body_fillable(
+  card_body(
     class = "p-0",
     plotOutput("id")
   )
@@ -303,7 +406,7 @@ In the case of `card_body_fillable()`, since it's based on [CSS flexbox](https:/
 ::: col-md-6
 ```{r}
 card(
-  card_body_fillable(
+  card_body(
     gap = "1rem", class = "p-3",
     div(class = "bg-secondary", "Thing 1"),
     div(class = "bg-secondary", "Thing 2"),
@@ -323,7 +426,7 @@ Again, thanks to CSS flexbox, if the contents of a `card_body_fillable()` aren't
 ```{r}
 card(
   height = 150, full_screen = TRUE,
-  card_body_fillable(
+  card_body(
     class = "p-3 align-items-center",
     plotOutput("id", width = "50%")
   )
@@ -346,10 +449,10 @@ One neat thing about dynamic rendering is that you can leverage `shiny::getCurre
 # UI logic
 ui <- page_fluid(
   card(
-    height = 200,
+    max_height = 200,
     full_screen = TRUE,
     card_header("A dynamically rendered plot"),
-    card_body_fillable(plotOutput("plot_id"))
+    plotOutput("plot_id")
   )
 )
 
@@ -400,7 +503,7 @@ card(
 
 ::: row
 ::: col-md-6
-`navs_tab_card()` and `navs_pill_card()` make it easy to create cards with multiple tabs or pills. These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fillable()` where appropriate to get [filling contents](#filling-contents).
+`navs_tab_card()` and `navs_pill_card()` make it easy to create cards with multiple tabs or pills. These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav()` panel will be implicitly wrapped in a `card_body()` call, and so, the children of each `nav()` are rendered as [flex items](#flexbox). To avoid this, wrap those children in an explicit `card_body(fillable = FALSE, ...)`, as done here:
 :::
 
 
@@ -413,17 +516,20 @@ navs_tab_card(
   nav(
     "Plotly", 
     card_title("A plotly plot", class = "pt-1"),
-    card_body_fillable(plotly_widget)
+    plotly_widget
   ),
   nav(
     "Leaflet",
     card_title("A leaflet plot", class = "pt-1"),
-    card_body_fillable(leaflet_widget)
+    leaflet_widget
   ),
   nav(
     shiny::icon("circle-info"),
-    "Learn more about",
-    tags$a("htmlwidgets", href = "http://www.htmlwidgets.org/")
+    card_body(
+      fillable = FALSE,
+      "Learn more about",
+      tags$a("htmlwidgets", href = "http://www.htmlwidgets.org/")
+    )
   )
 )
 ```
@@ -431,30 +537,7 @@ navs_tab_card(
 :::
 
 
-## Multiple columns
 
-::: row
-::: col-md-6
-To create multiple columns within a card, it's recommended to use `layout_column_wrap()` (which can also be used to layout [multiple cards](#multiple-cards)), especially if the height of those columns should grow/shrink as needed.
-:::
-
-::: col-md-6
-```{r}
-card(
-  height = 300, full_screen = TRUE,
-  layout_column_wrap(
-    width = 1/2, class = "p-3",
-    plotOutput("p1"),
-    plotOutput("p2")
-  ),
-  card_body(
-    height = "30%", class = "pt-0",
-    lorem::ipsum(paragraphs = 3, sentences = 5)
-  )
-)
-```
-:::
-:::
 
 
 ## Multiple cards
@@ -466,7 +549,7 @@ See the article on layout, specifically the [section on `layout_column_wrap()`](
 The following CSS is used to give `plotOutput()` a background color; it's necessary here because this documentation page is not actually hooked up to a Shiny app, so we can't show a real plot.
 
 ```{css}
-.shiny-plot-output {
+.shiny-plot-output, .shiny-html-output {
   background-color: #216B7288;
   height: 400px;
   width: 100%;

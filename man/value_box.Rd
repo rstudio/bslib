@@ -41,15 +41,13 @@ display below \code{value}. Named arguments become attributes on the containing
 element.}
 
 \item{showcase}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
-\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotlyOutput]{plotly::plotlyOutput()}}, etc).}
+\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotly-shiny]{plotly::plotlyOutput()}}, etc).}
 
 \item{showcase_layout}{either \code{showcase_left_center()} or
 \code{showcase_top_right()}.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size. Consider
-pairing this feature with \code{\link[=card_body_fillable]{card_body_fillable()}} to get output that
-responds to changes in the size of the card.}
+body. Clicking the icon expands the card to fit viewport size.}
 
 \item{theme_color}{a theme color to use for the background color. Should
 match a name in the Bootstrap Sass variable \verb{$theme-colors} (e.g.,
