@@ -24,9 +24,9 @@
 #'   value of `NA` to prevent sidebar from being collapsible.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
-#' @param bg A background color. If provided, an accessible contrasting color is
-#'   provided for the foreground color (consider using a utility `class` to
-#'   customize the foreground color).
+#' @param bg,fg A background or foreground color. If only one of either is
+#'   provided, an accessible contrasting color is provided for the opposite
+#'   color, e.g. setting `bg` chooses an appropriate `fg` color.
 #' @param class Additional CSS classes for the top-level HTML element.
 #'
 #' @export
@@ -37,6 +37,7 @@ sidebar <- function(
   open = TRUE,
   id = NULL,
   bg = NULL,
+  fg = NULL,
   class = NULL
 ) {
   # For accessibility reasons, always provide id when collapsible,
@@ -47,15 +48,27 @@ sidebar <- function(
     class <- c("bslib-sidebar-input", class)
   }
 
+  if (is.null(fg) && !is.null(bg)) {
+    fg <- get_color_contrast(bg)
+  }
+  if (is.null(bg) && !is.null(fg)) {
+    bg <- get_color_contrast(fg)
+  }
+
   hide_collapse <- isTRUE(is.na(open))
 
   collapse_tag <- tags$button(
     class = "collapse-toggle",
     type = "button",
     title = "Toggle sidebar",
-    style = css(display = if (hide_collapse) "none"),
+    style = css(
+      display = if (hide_collapse) "none",
+      background_color = bg,
+      color = fg
+    ),
     "aria-expanded" = if (open || hide_collapse) "true" else "false",
-    "aria-controls" = id
+    "aria-controls" = id,
+    collapse_icon()
   )
 
   res <- list2(
@@ -65,7 +78,7 @@ sidebar <- function(
       class = c("sidebar", class),
       style = css(
         background_color = bg,
-        color = if (!is.null(bg)) get_color_contrast(bg)
+        color = fg
       ),
       ...
     ),
@@ -96,6 +109,7 @@ layout_sidebar <- function(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
+  fg = NULL,
   border = TRUE,
   border_radius = TRUE,
   height = NULL
@@ -104,12 +118,19 @@ layout_sidebar <- function(
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
 
+  if (is.null(fg) && !is.null(bg)) {
+    fg <- get_color_contrast(bg)
+  }
+  if (is.null(bg) && !is.null(fg)) {
+    bg <- get_color_contrast(fg)
+  }
+
   main <- div(
     role = "main",
     class = "main",
     style = css(
       background_color = bg,
-      color = if (!is.null(bg)) get_color_contrast(bg)
+      color = fg
     ),
     ...
   )
@@ -197,6 +218,10 @@ sidebar_close <- function(id, session = get_current_session()) {
     session$sendInputMessage(id, list(method = "close"))
   }
   session$onFlush(callback, once = TRUE)
+}
+
+collapse_icon <- function() {
+  HTML("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' class='collapse-icon' fill='currentColor'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>")
 }
 
 sidebar_dependency <- function() {

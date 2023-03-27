@@ -74,21 +74,17 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     padding: 7px 0;
     background-color: transparent;
 
-    &::after {
+    > .collapse-icon {
+      opacity: 0.8;
       width: $bslib-sidebar-icon-size;
       height: $bslib-sidebar-icon-size;
-      content: "";
-      background-image:  #{escape-svg($accordion-button-icon)};
-      background-repeat: no-repeat;
-      background-size: $bslib-sidebar-icon-size;
       transform: rotate(var(--bslib-collapse-toggle-transform));
-      opacity: 0.8;
       // N.B. since mobile view won't trigger a transition of grid-template-columns,
       // we transition this toggle to ensure _some_ transition event always happens
       transition: transform ease-in-out 0.35s;
     }
 
-    &:hover:after {
+    &:hover {
       opacity: 1;
     }
   }
@@ -99,7 +95,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
       border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
       border-right: none;
       border-left: var(--bslib-collapse-toggle-border);
-      &::after {
+      > .collapse-icon {
         transform: rotate(var(--bslib-collapse-toggle-right-transform));
       }
     }

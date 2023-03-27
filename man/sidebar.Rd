@@ -14,6 +14,7 @@ sidebar(
   open = TRUE,
   id = NULL,
   bg = NULL,
+  fg = NULL,
   class = NULL
 )
 
@@ -23,6 +24,7 @@ layout_sidebar(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
+  fg = NULL,
   border = TRUE,
   border_radius = TRUE,
   height = NULL
@@ -48,9 +50,9 @@ value of \code{NA} to prevent sidebar from being collapsible.}
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
 
-\item{bg}{A background color. If provided, an accessible contrasting color is
-provided for the foreground color (consider using a utility \code{class} to
-customize the foreground color).}
+\item{bg, fg}{A background or foreground color. If only one of either is
+provided, an accessible contrasting color is provided for the opposite
+color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
 
 \item{class}{Additional CSS classes for the top-level HTML element.}
 
