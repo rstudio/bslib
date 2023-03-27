@@ -105,30 +105,27 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     display: inline-flex;
     align-items: center;
     position: absolute;
-    right: calc(-#{$bslib-sidebar-icon-size} - var(--bs-card-border-width, #{$card-border-width}));
+    right: -$bslib-sidebar-icon-size;
     // The CSS variable (set via JS) is here to help avoid overlapping toggles
     bottom: calc(#{$bslib-sidebar-padding} + var(--bslib-sidebar-overlap-counter, 0) * calc(#{$bslib-sidebar-icon-size} + #{$bslib-sidebar-padding}));
     border: var(--bslib-collapse-toggle-border);
+    border-color: var(--bslib-collapse-toggle-color, var(--bs-card-border-color, #{$card-border-color}));
     border-left: none;
     border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
     padding: 7px 0;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: transparent;
+    opacity: 0.7;
 
-    &::after {
+    > svg {
       width: $bslib-sidebar-icon-size;
       height: $bslib-sidebar-icon-size;
-      content: "";
-      background-image:  #{escape-svg($accordion-button-icon)};
-      background-repeat: no-repeat;
-      background-size: $bslib-sidebar-icon-size;
       transform: rotate(var(--bslib-collapse-toggle-transform));
-      opacity: 0.8;
       // N.B. since mobile view won't trigger a transition of grid-template-columns,
       // we transition this toggle to ensure _some_ transition event always happens
       transition: transform ease-in-out 0.35s;
     }
 
-    &:hover:after {
+    &:hover {
       opacity: 1;
     }
   }
@@ -148,7 +145,8 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
       border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
       border-right: none;
       border-left: var(--bslib-collapse-toggle-border);
-      &::after {
+      border-color: var(--bslib-collapse-toggle-color, var(--bs-card-border-color, #{$card-border-color}));
+      > svg {
         transform: rotate(var(--bslib-collapse-toggle-right-transform));
       }
     }
@@ -230,7 +228,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
       border-bottom-left-radius: inherit;
     }
 
-    > .collapse-toggle {
+    > .collapse-toggle, &.sidebar-right > .collapse-toggle {
       grid-row: 2 / 3;
       grid-column: 1 / 2;
       top: 0;
@@ -239,6 +237,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
       border-top: none !important;
       border: var(--bslib-collapse-toggle-border);
       border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
+      border-color: var(--bslib-collapse-toggle-color, var(--bs-card-border-color, #{$card-border-color}));
       padding: 0 4px;
     }
 

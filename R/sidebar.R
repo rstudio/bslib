@@ -34,9 +34,9 @@
 #'   wrapped in a `<span>` element with class `sidebar-title`. You can also
 #'   provide a custom [htmltools::tag()] for the title element, in which case
 #'   you'll likely want to give this element `class = "sidebar-title"`.
-#' @param bg A background color. If provided, an accessible contrasting color is
-#'   provided for the foreground color (consider using a utility `class` to
-#'   customize the foreground color).
+#' @param bg,fg A background or foreground color. If only one of either is
+#'   provided, an accessible contrasting color is provided for the opposite
+#'   color, e.g. setting `bg` chooses an appropriate `fg` color.
 #' @param class Additional CSS classes for the top-level HTML element.
 #' @param max_height_mobile The maximum height of the horizontal sidebar when
 #'   viewed on mobile devices. The default is `250px` unless the sidebar is
@@ -52,6 +52,7 @@ sidebar <- function(
   id = NULL,
   title = NULL,
   bg = NULL,
+  fg = NULL,
   class = NULL,
   max_height_mobile = NULL
 ) {
@@ -66,6 +67,9 @@ sidebar <- function(
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- span(title, class = "sidebar-title")
   }
+
+  fg <- if (is.null(fg) && !is.null(bg)) get_color_contrast(bg)
+  bg <- if (is.null(bg) && !is.null(fg)) get_color_contrast(fg)
 
   if (isTRUE(open)) {
     open <- "open"
@@ -86,7 +90,8 @@ sidebar <- function(
     title = "Toggle sidebar",
     style = css(display = if (hide_collapse) "none"),
     "aria-expanded" = if (is_init_open || hide_collapse) "true" else "false",
-    "aria-controls" = id
+    "aria-controls" = id,
+    HTML("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='var(--bslib-collapse-toggle-color, var(--bs-accordion-active-color, currentColor))'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>")
   )
 
   res <- list2(
@@ -96,7 +101,7 @@ sidebar <- function(
       class = c("sidebar", class),
       style = css(
         background_color = bg,
-        color = if (!is.null(bg)) get_color_contrast(bg)
+        color = fg
       ),
       title,
       ...
@@ -129,6 +134,7 @@ layout_sidebar <- function(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
+  fg = NULL,
   border = NULL,
   border_radius = NULL,
   height = NULL
@@ -137,12 +143,15 @@ layout_sidebar <- function(
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
 
+  fg <- if (is.null(fg) && !is.null(bg)) get_color_contrast(bg)
+  bg <- if (is.null(bg) && !is.null(fg)) get_color_contrast(fg)
+
   main <- div(
     role = "main",
     class = "main",
     style = css(
       background_color = bg,
-      color = if (!is.null(bg)) get_color_contrast(bg)
+      color = fg
     ),
     ...
   )
@@ -182,7 +191,8 @@ layout_sidebar <- function(
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
       height = validateCssUnit(height),
-      "--bslib-sidebar-mobile-row-height" = sidebar_max_height_mobile
+      "--bslib-sidebar-mobile-row-height" = sidebar_max_height_mobile,
+      "--bslib-collapse-toggle-color" = fg
     ),
     !!!contents,
     sidebar_dependency(),

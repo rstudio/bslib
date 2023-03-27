@@ -60,7 +60,7 @@ registerBinding(SidebarInputBinding, "sidebar");
 $(document).on("click", ".bslib-sidebar-layout > .collapse-toggle", (e) => {
   e.preventDefault();
 
-  const $toggle = $(e.target),
+  const $toggle = $(e.target).closest(".collapse-toggle"),
     $container = $toggle.parent(),
     $main = $container.children(".main"),
     $side = $container.children(".sidebar");

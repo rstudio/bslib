@@ -15,6 +15,7 @@ sidebar(
   id = NULL,
   title = NULL,
   bg = NULL,
+  fg = NULL,
   class = NULL,
   max_height_mobile = NULL
 )
@@ -25,6 +26,7 @@ layout_sidebar(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
+  fg = NULL,
   border = NULL,
   border_radius = NULL,
   height = NULL
@@ -62,9 +64,9 @@ wrapped in a \verb{<span>} element with class \code{sidebar-title}. You can also
 provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
 you'll likely want to give this element \code{class = "sidebar-title"}.}
 
-\item{bg}{A background color. If provided, an accessible contrasting color is
-provided for the foreground color (consider using a utility \code{class} to
-customize the foreground color).}
+\item{bg, fg}{A background or foreground color. If only one of either is
+provided, an accessible contrasting color is provided for the opposite
+color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
 
 \item{class}{Additional CSS classes for the top-level HTML element.}
 
