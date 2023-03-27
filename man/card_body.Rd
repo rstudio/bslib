@@ -2,7 +2,6 @@
 % Please edit documentation in R/card.R
 \name{card_body}
 \alias{card_body}
-\alias{card_body_fillable}
 \alias{card_title}
 \alias{card_header}
 \alias{card_footer}
@@ -11,14 +10,15 @@
 \alias{is.card_item}
 \title{Card items}
 \usage{
-card_body(..., height = NULL, fill = is.null(height), class = NULL)
-
-card_body_fillable(
+card_body(
   ...,
-  gap = NULL,
+  fillable = TRUE,
+  min_height = NULL,
   max_height = NULL,
   max_height_full_screen = max_height,
-  min_height = NULL,
+  height = NULL,
+  gap = NULL,
+  fill = TRUE,
   class = NULL
 )
 
@@ -38,7 +38,7 @@ card_image(
   height = NULL,
   fill = TRUE,
   width = NULL,
-  container = card_body_fillable
+  container = card_body
 )
 
 as.card_item(x)
@@ -49,19 +49,22 @@ is.card_item(x)
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag}. Named arguments become HTML attributes on returned
 UI element.}
 
+\item{fillable}{Whether or not the card item should be a fillable (i.e.
+flexbox) container.}
+
+\item{min_height, max_height, max_height_full_screen}{Any valid \link[htmltools:validateCssUnit]{CSS length unit}.}
+
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
-\item{fill}{whether to allow this element to grow and shrink to fit its
-\code{card()}.}
-
-\item{class}{Additional CSS classes for the returned UI element.}
-
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
 \code{gap} (i.e., spacing) between elements provided to \code{...}.}
 
-\item{max_height, max_height_full_screen, min_height}{Any valid \link[htmltools:validateCssUnit]{CSS length unit}.}
+\item{fill}{Whether to allow this element to grow/shrink to fit its \code{card()}
+container.}
+
+\item{class}{Additional CSS classes for the returned UI element.}
 
 \item{container}{a function to generate an HTML element to contain the image.}
 
@@ -89,11 +92,6 @@ general overview of the \code{\link[=card]{card()}} API, see \href{https://rstud
 \section{Functions}{
 \itemize{
 \item \code{card_body()}: A general container for the "main content" of a \code{\link[=card]{card()}}.
-
-\item \code{card_body_fillable()}: A fillable version of \code{card_body()}, which allows fill
-items (e.g., \code{shiny::plotOutput()}, \code{shiny::imageOutput()}, and generally
-anything marked with \code{\link[htmltools:bindFillRole]{htmltools::bindFillRole()}}) to grow/shrink to fit the
-card body's size.
 
 \item \code{card_title()}: Similar to \code{card_header()} but without the border and background color.
 

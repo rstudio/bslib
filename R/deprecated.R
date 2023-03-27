@@ -129,8 +129,8 @@ bs_add_declarations <- function(theme, declarations) {
 #' @rdname deprecated
 #' @export
 card_body_fill <- function(...) {
-  .Deprecated("card_body_fillable", old = "card_body_fill")
-  card_body_fillable(...)
+  .Deprecated("card_body", old = "card_body_fill")
+  card_body(...)
 }
 
 #' @rdname deprecated

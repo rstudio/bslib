@@ -8,8 +8,9 @@ layout_column_wrap(
   width,
   ...,
   fixed_width = FALSE,
-  heights_equal = c("all", "row", "all-cell", "row-cell"),
+  heights_equal = c("all", "row"),
   fill = TRUE,
+  fillable = TRUE,
   height = NULL,
   height_mobile = NULL,
   gap = NULL,
@@ -50,6 +51,8 @@ of the grid will have the same height, but heights may vary between rows.}
 
 \item{fill}{Whether or not to allow the layout to grow/shrink to fit a
 fillable container with an opinionated height (e.g., \code{page_fillable()}).}
+
+\item{fillable}{Whether or not each element is wrapped in a fillable container.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}

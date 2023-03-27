@@ -109,7 +109,7 @@ sidebar_acc <- accordion(
 flights_card <- card(
   full_screen = TRUE,
   card_header("Flight paths"),
-  card_body_fillable(plotlyOutput("flight_paths")),
+  plotlyOutput("flight_paths"),
   card_footer("Marker areas are proportional to mean arrival delay")
 )
 
@@ -120,13 +120,12 @@ delay_corr_card <- card(
     checkboxInput("scatter_summarize", "Summarize", TRUE, width = "fit-content"),
     class = "d-flex justify-content-between"
   ),
-  card_body_fillable(plotlyOutput("scatter_delay"))
+  plotlyOutput("scatter_delay")
 )
 
 delay_card <- navs_pill_card(
   title = "Arrival delay",
   full_screen = TRUE,
-  wrapper = card_body_fillable,
   nav(
     "Overall",
     plotlyOutput("arr_delay")

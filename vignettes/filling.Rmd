@@ -84,7 +84,10 @@ iframe.resizable {
 }
 ```
 
-`{bslib}` UI elements (e.g., [cards](cards.html), [value boxes](value-boxes.html), [sidebars](sidebars.html), etc.), [layout helpers](layouts.html), and page-level containers (e.g., `page_fillable()`) are all designed with filling layouts in mind. The core underlying concept is that any UI element can be: (1) a **fill item**, (2) a **fillable container**, or (3) both. By carefully managing the relationship between fillable containers and fill items, we can not only create layouts that fill the browser window (similar to `{flexdashboard}` and `shiny::fillPage()`), but also create elements that properly fill resizable containers (e.g., [full-screen cards](cards.html#filling-contents)).
+`{bslib}` UI components (e.g., [cards](cards.html), [sidebars](sidebars), etc) are designed with filling layouts in mind. That is, these components activate their potential to grow/shrink in size when they appear as direct children of a **fillable container** with an opinionated height. 
+
+
+The core underlying concept is that any UI element can be: (1) a **fill item**, (2) a **fillable container**, or (3) both. By carefully managing the relationship between fillable containers and fill items, we can not only create layouts that fill the browser window (similar to `{flexdashboard}` and `shiny::fillPage()`), but also create elements that properly fill a resizable container (e.g., [full-screen cards](cards.html#filling-contents)).
 
 <!--
 Before diving into concrete examples, consider the following abstract interactive example below. The "resizable window" below is 

@@ -8,15 +8,13 @@
 #'   tag][htmltools::tags] (which includes card items such as [card_body()].
 #'   Named arguments become HTML attributes on returned UI element.
 #' @param full_screen If `TRUE`, an icon will appear when hovering over the card
-#'   body. Clicking the icon expands the card to fit viewport size. Consider
-#'   pairing this feature with [card_body_fillable()] to get output that
-#'   responds to changes in the size of the card.
+#'   body. Clicking the icon expands the card to fit viewport size.
 #' @param height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
 #'   `height="200px"`). Doesn't apply when a card is made `full_screen`
 #'   (in this case, consider setting a `height` in [card_body()]).
 #' @param max_height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
 #'   `max_height="200px"`). Doesn't apply when a card is made `full_screen`
-#'   (in this case, consider setting a `max_height` in [card_body_fillable()]).
+#'   (in this case, consider setting a `max_height` in [card_body()]).
 #' @param fill Whether or not to allow the card to grow/shrink to fit a
 #'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param class Additional CSS classes for the returned UI element.
@@ -25,9 +23,7 @@
 #'   [card_header()], [card_body()], etc.). Note that non-card items are grouped
 #'   together into one `wrapper` call (e.g. given `card("a", "b",
 #'   card_body("c"), "d")`, `wrapper` would be called twice, once with `"a"` and
-#'   `"b"` and once with `"d"`). Consider setting `wrapper` to [card_body_fill]
-#'   if the entire card wants responsive sizing or `NULL` to avoid wrapping
-#'   altogether
+#'   `"b"` and once with `"d"`).
 #'
 #' @return A [htmltools::div()] tag.
 #'
@@ -122,8 +118,14 @@ as_card_items <- function(children, wrapper) {
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags]. Named arguments become HTML attributes on returned
 #'   UI element.
-#' @param fill whether to allow this element to grow and shrink to fit its
-#'   `card()`.
+#' @param min_height,max_height,max_height_full_screen Any valid [CSS length
+#'   unit][htmltools::validateCssUnit()].
+#' @param fillable Whether or not the card item should be a fillable (i.e.
+#'   flexbox) container.
+#' @param fill Whether to allow this element to grow/shrink to fit its `card()`
+#'   container.
+#' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
+#'   `gap` (i.e., spacing) between elements provided to `...`.
 #' @inheritParams card
 #'
 #' @return An [htmltools::div()] tag.
@@ -135,63 +137,25 @@ as_card_items <- function(children, wrapper) {
 #'   columns inside a card).
 #'
 #' @describeIn card_body A general container for the "main content" of a [card()].
-card_body <- function(..., height = NULL, fill = is.null(height), class = NULL) {
-  card_body_(
-    fill = fill,
-    height = height,
-    class = class,
-    ...
-  )
-}
+card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL, max_height_full_screen = max_height, height = NULL, gap = NULL, fill = TRUE, class = NULL) {
 
-#' @describeIn card_body A fillable version of `card_body()`, which allows fill
-#'   items (e.g., `shiny::plotOutput()`, `shiny::imageOutput()`, and generally
-#'   anything marked with [htmltools::bindFillRole()]) to grow/shrink to fit the
-#'   card body's size.
-#' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
-#'   `gap` (i.e., spacing) between elements provided to `...`.
-#' @param max_height,max_height_full_screen,min_height Any valid [CSS length unit][htmltools::validateCssUnit()].
-#' @export
-card_body_fillable <- function(..., gap = NULL, max_height = NULL, max_height_full_screen = max_height, min_height = NULL, class = NULL) {
+  if (fillable) {
+    register_runtime_package_check("`card_body()`", "shiny", "1.7.4")
+    register_runtime_package_check("`card_body()`", "htmlwidgets", "1.6.0")
+  }
 
-  register_runtime_package_check("`card_body_fillable()`", "shiny", "1.7.3.9001")
-  register_runtime_package_check("`card_body_fillable()`", "htmlwidgets", "1.5.4.9001")
-
-  card_body_(
-    fill = TRUE,
-    fillable = TRUE,
-    class = class,
-    style = htmltools::css(
-      gap = validateCssUnit(gap),
+  tag <- div(
+    class = "card-body",
+    style = css(
       min_height = validateCssUnit(min_height),
       "--bslib-card-body-max-height" = validateCssUnit(max_height),
       "--bslib-card-body-max-height-full-screen" = validateCssUnit(max_height_full_screen),
       margin_top = "auto",
-      margin_bottom = "auto"
-    ),
-    ...
-  )
-}
-
-
-#' @describeIn card_body Similar to `card_header()` but without the border and background color.
-#' @param container a function to generate an HTML element.
-#' @export
-card_title <- function(..., container = htmltools::h5) {
-  as.card_item(
-    container(style = css(margin_bottom = 0), class = "bslib-card-title", ...)
-  )
-}
-
-card_body_ <- function(..., fill = FALSE, fillable = FALSE, height = NULL, class = NULL, container = htmltools::div) {
-
-  height <- validateCssUnit(height) %||% "auto"
-
-  tag <- container(
-    class = "card-body",
-    style = css(
+      margin_bottom = "auto",
       # .card-body already adds `flex: 1 1 auto` so make sure to override it
-      flex = paste(if (fill) "1 1" else "0 0", height)
+      flex = if (fill) "1 1 auto" else "0 0 auto",
+      gap = validateCssUnit(gap),
+      height = validateCssUnit(height)
     ),
     ...
   )
@@ -202,6 +166,16 @@ card_body_ <- function(..., fill = FALSE, fillable = FALSE, height = NULL, class
   tag <- tagAppendAttributes(tag, class = class)
 
   as.card_item(tag)
+}
+
+
+#' @describeIn card_body Similar to `card_header()` but without the border and background color.
+#' @param container a function to generate an HTML element.
+#' @export
+card_title <- function(..., container = htmltools::h5) {
+  as.card_item(
+    container(style = css(margin_bottom = 0), class = "bslib-card-title", ...)
+  )
 }
 
 
@@ -234,7 +208,7 @@ card_footer <- function(..., class = NULL) {
 #' @export
 card_image <- function(
   file, ..., href = NULL, border_radius = c("top", "bottom", "all", "none"),
-  mime_type = NULL, class = NULL, height = NULL, fill = TRUE, width = NULL, container = card_body_fillable) {
+  mime_type = NULL, class = NULL, height = NULL, fill = TRUE, width = NULL, container = card_body) {
 
   src <- NULL
   if (length(file) > 0) {

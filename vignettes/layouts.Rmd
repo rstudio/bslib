@@ -50,7 +50,7 @@ card2 <- card(
 card3 <- card(
   full_screen = TRUE,
   card_header("Filling content"),
-  card_body_fillable(
+  card_body(
     class = "p-0",
     shiny::plotOutput("p")
   )
@@ -129,7 +129,8 @@ By default, each the height on each card grows to fill the available vertical sp
 ```{r}
 layout_column_wrap(
   width = "200px", 
-  heights_equal = "row-cell",
+  #heights_equal = "row",
+  fillable = FALSE,
   card1, card3, card2
 ) |> 
   anim_height(300, 450)

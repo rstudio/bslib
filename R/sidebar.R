@@ -83,7 +83,7 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
 #' @inheritParams card
 #'
 #' @export
-layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TRUE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL) {
+layout_sidebar <- function(sidebar, ..., fillable = FALSE, fill = TRUE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL) {
 
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")

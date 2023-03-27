@@ -25,6 +25,7 @@
 #'   of the grid will have the same height, but heights may vary between rows.
 #' @param fill Whether or not to allow the layout to grow/shrink to fit a
 #'   fillable container with an opinionated height (e.g., `page_fillable()`).
+#' @param fillable Whether or not each element is wrapped in a fillable container.
 #' @param height_mobile Any valid CSS unit to use for the height when on mobile
 #'   devices (or narrow windows).
 #' @inheritParams card
@@ -40,8 +41,8 @@
 #' layout_column_wrap("250px", x, x, x)
 #'
 layout_column_wrap <- function(
-    width, ..., fixed_width = FALSE, heights_equal = c("all", "row", "all-cell", "row-cell"),
-    fill = TRUE, height = NULL, height_mobile = NULL, gap = NULL, class = NULL) {
+    width, ..., fixed_width = FALSE, heights_equal = c("all", "row"), fill = TRUE,
+    fillable = TRUE, height = NULL, height_mobile = NULL, gap = NULL, class = NULL) {
 
   heights_equal <- match.arg(heights_equal)
 
@@ -79,7 +80,7 @@ layout_column_wrap <- function(
   children <- lapply(children, function(x) {
     bindFillRole(
       container = TRUE,
-      div(bindFillRole(div(x), container = TRUE, item = !grepl("cell$", heights_equal)))
+      div(bindFillRole(div(x), container = fillable, item = TRUE))
     )
   })
 
@@ -100,7 +101,6 @@ layout_column_wrap <- function(
 
   tag <- bindFillRole(tag, item = fill)
   tag <- tagAppendAttributes(tag, class = class)
-  tag <- as.card_item(tag)
 
   as_fragment(
     tag_require(tag, version = 5, caller = "layout_column_wrap()")

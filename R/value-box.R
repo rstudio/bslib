@@ -66,7 +66,6 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
     full_screen = full_screen,
     height = height,
     max_height = max_height,
-    wrapper = card_body_fillable,
     fill = fill,
     !!!attribs,
     contents
@@ -135,7 +134,7 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
       width_fs <- rev(width_fs)
     }
 
-    card_body_fillable(
+    card_body(
       style = css(padding = 0),
       layout_column_wrap(
         width = NULL, gap = 0,

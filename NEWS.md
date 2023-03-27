@@ -1,13 +1,13 @@
 # bslib 0.4.2.9000
 
-This significant release adds [sidebar layouts](https://rstudio.github.io/bslib/articles/sidebars.html), [accordions](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions), and makes many improvements to support for [filling layouts](https://rstudio.github.io/bslib/articles/filling.html).
+This major release adds [sidebar layouts](https://rstudio.github.io/bslib/articles/sidebars.html), [accordions](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions), and makes many improvements to support for [filling layouts](https://rstudio.github.io/bslib/articles/filling.html).
 
 Although `{bslib}` is still maturing, and will continue to receiving new UI features, we now see it as a viable replacement for `{shinydashboard}`. 
 
 ## Breaking changes
 
-* `card_body()`'s `fill` argument now defaults to `is.null(height)` and it's `height` argument now sets the CSS `flex-basis` property. (#498)
-* `layout_column_wrap()`'s `fill` argument now controls whether or not it will grow/shrink to fit a fillable container (e.g., `page_fillable()`). This is more consistent with the meaning of `fill` in other functions, like `card()`, `layout_sidebar()`, etc. (#498)
+* `card_body()` now provides the same behavior as `card_body_fill()` (i.e., it is both a fillable container and fill item) by default. And, now, since `card_body()` can do everything `card_body_fill()` can do, `card_body_fill()` has been deprecated. The main benefit of this change is that `card(full_screen = TRUE, ...)` with output(s) passed to `...` "just works" in an intuitive way. To revert to the previous behavior, set `fillable = FALSE` and `fill = FALSE` in calls to `card_body()` and set `wrapper = function(x) card_body(x, fillable = FALSE, fill = FALSE)` in calls to `card()`. (#498)
+* `layout_column_wrap()`'s `fill` argument now controls whether or not the _layout container_ is allowed to grow/shrink to fit a fillable container (e.g., `page_fillable()`). It also gains a new `fillable` argument for controlling whether _UI elements_ are allowed to fill their row height. This is more consistent with the meaning of `fill` in other functions, like `card()`, `card_body()`, `layout_sidebar()`, etc. (#498)
 * `page_fill()` (now called `page_fillable()`) had several breaking changes (listed below). If this breaks existing behavior, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`. 
   * `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`).
   * `page_fill()` no longer fills the windows height on mobile (i.e., narrow screens) by default (set `fill_mobile = TRUE` to restore the old behavior). 
@@ -24,10 +24,11 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 * `page_fillable()` (aka, `page_fill()`) is now considered a `fillable` container, meaning that `fill` items like `card()`, `layout_column_wrap()`, and `layout_sidebar()` now grow/shrink to fit the window's height when they appear as a direct child of `page_fillable()`. (#479)
 * `page_navbar()` and `page_fillable()` gain `fill_mobile` arguments to control whether the page should grow/shrink to fit the viewport on mobile. (#479)
 * `card()`, `value_box()`, and `card_image()` gain `max_height` and `fill` arguments. (#498)
+* Added new `as_fill()`, `as_fillable()`, `as_fill_carrier()`, `is_fill()`, and `is_fillable()` for testing and coercing potential to fill. (#498)
 
 ## Deprecations
 
-* `card_body_fill()` has been deprecated in favor of `card_body_fillable()`. (#498)
+* `card_body_fill()` has been deprecated in favor of `card_body()`. (#498)
 * `page_fill()` has been deprecated in favor of `page_fillable()`. (#498)
 
 
