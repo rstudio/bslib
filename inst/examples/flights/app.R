@@ -29,51 +29,78 @@ flights <- flights %>%
 
 PRIMARY <- "#0675DD"
 
-sidebar <- card(
-  card_header("Filter controls"),
-  uiOutput("origin_reset"),
-  checkboxGroupInput(
-    "origin",
-    span("Origin", icon("plane-departure")),
-    choices = sort(unique(flights$origin)),
-    inline = TRUE
-  ),
-  selectInput(
-    "dest_name",
-    span("Destination", icon("plane-arrival")),
-    choices = sort(unique(flights$dest_name)),
-    multiple = TRUE,
-    width = "100%"
-  ),
-  selectInput(
-    "carrier_name",
-    span("Carrier", icon("user-tie")),
-    unique(flights$carrier_name),
-    multiple = TRUE,
-    width = "100%"
-  ),
-  input_histoslider(
-    "sched_dep_time", "Departure time",
-    flights$sched_dep_time,
-    options = list(
-      handleLabelFormat = "0d",
-      selectedColor = PRIMARY
+sidebar_acc <- accordion(
+  open = c("Origin", "Destination"),
+  accordion_panel(
+    "Origin", icon = icon("plane-departure"),
+    uiOutput("origin_reset"),
+    checkboxGroupInput(
+      "origin", NULL,
+      choices = sort(unique(flights$origin)),
+      inline = TRUE
     )
   ),
-  input_histoslider(
-    "sched_arr_time", "Arrival time",
-    flights$sched_arr_time,
-    options = list(
-      handleLabelFormat = "0d",
-      selectedColor = PRIMARY
+  accordion_panel(
+    "Destination", icon = icon("plane-arrival"),
+    selectInput(
+      "dest_name", NULL,
+      sort(unique(flights$dest_name)),
+      multiple = TRUE,
+      width = "100%"
     )
   ),
-  input_histoslider(
-    "date", "Date",
-    flights$date, breaks = "months",
-    options = list(
-      handleLabelFormat = "%b %e",
-      selectedColor = PRIMARY
+  accordion_panel(
+    "Carrier", icon = icon("user-tie"),
+    selectInput(
+      "carrier_name", NULL,
+      unique(flights$carrier_name),
+      multiple = TRUE,
+      width = "100%"
+    )
+  ),
+  accordion_panel(
+    "Flight time", icon = icon("clock"),
+    input_histoslider(
+      "sched_dep_time", "Departure time",
+      flights$sched_dep_time, height = 125,
+      options = list(
+        handleLabelFormat = "0d",
+        selectedColor = PRIMARY
+      )
+    ),
+    input_histoslider(
+      "sched_arr_time", "Arrival time",
+      flights$sched_arr_time, height = 125,
+      options = list(
+        handleLabelFormat = "0d",
+        selectedColor = PRIMARY
+      )
+    ),
+    input_histoslider(
+      "date", "Date",
+      flights$date, height = 125, breaks = "months",
+      options = list(
+        handleLabelFormat = "%b %e",
+        selectedColor = PRIMARY
+      )
+    )
+  ),
+  accordion_panel(
+    "Weather", icon = icon("cloud-rain"),
+    input_histoslider(
+      "precip", "Precipitation",
+      flights$precip, height = 125,
+      options = list(selectedColor = PRIMARY)
+    ),
+    input_histoslider(
+      "wind_speed", "Wind speed",
+      flights$wind_speed, height = 125,
+      options = list(selectedColor = PRIMARY)
+    ),
+    input_histoslider(
+      "wind_gust", "Wind gust",
+      flights$wind_gust, height = 125,
+      options = list(selectedColor = PRIMARY)
     )
   )
 )
@@ -110,29 +137,8 @@ delay_card <- navs_pill_card(
   )
 )
 
-main <- layout_column_wrap(
-  width = 1, heights_equal = "row",
-  uiOutput("value_boxes", fill = TRUE),
-  layout_column_wrap(
-    width = "200px", class = "my-3",
-    flights_card, delay_corr_card
-  ),
-  layout_column_wrap(
-    width = 1,
-    delay_card
-  )
-)
-
-
-flights_ui <- layout_column_wrap(
-  height = "calc(100vh - 90px)",
-  width = NULL, style = "grid-template-columns: 280px 1fr",
-  sidebar, main
-)
-
 
 ui <- page_navbar(
-  fluid = TRUE,
   theme = bs_theme(
     base_font = font_google(
       "Open Sans", wght = c(300, 400, 500, 600, 700, 800),
@@ -142,20 +148,31 @@ ui <- page_navbar(
     "navbar-bg" = PRIMARY
   ),
   title = tags$span(
-    tags$img(
-      src = "logo.png",
-      style = "width:46px;height:auto;margin-right:24px;"
-    ),
-    "Demo"
+    tags$img(src = "logo.png", width = "46px", height = "auto", class = "me-3"),
+    "NYC Flights"
   ),
-  nav("NYC Flights", flights_ui),
+  fillable = TRUE,
+  sidebar = sidebar(sidebar_acc),
+  nav(
+    "Delays",
+    uiOutput("value_boxes"),
+    layout_column_wrap(
+      width = "200px", class = "my-3",
+      flights_card, delay_corr_card
+    ),
+    delay_card
+  ),
+  nav(
+    "Durations",
+    "Coming soon"
+  ),
   nav_spacer(),
   nav_item(
     tags$a(
       tags$span(
         bsicons::bs_icon("code-slash"), "Source code"
       ),
-      href = "https://github.com/rstudio/bslib/tree/main/inst/examples/demo",
+      href = "https://github.com/rstudio/bslib/tree/main/inst/examples/flights",
       target = "_blank"
     )
   )
@@ -318,7 +335,8 @@ server <- function(input, output, session) {
     )
 
     layout_column_wrap(width = 1/3, n_flights, delay_dep, delay_arr)
-  })
+  }) %>%
+    bindCache(flight_dat())
 
   output$flight_paths <- renderPlotly({
     flight_dat() %>%
@@ -350,7 +368,8 @@ server <- function(input, output, session) {
           countrycolor = toRGB("gray80")
         )
       )
-  })
+  }) %>%
+    bindCache(flight_dat())
 
   output$scatter_delay <- renderPlotly({
     d <- flight_dat()
@@ -422,7 +441,8 @@ server <- function(input, output, session) {
         yaxis = list(title = "Arrival delay")
       ) %>%
       toWebGL()
-  })
+  }) %>%
+    bindCache(flight_dat(), input$scatter_summarize)
 
 
   output$arr_delay <- renderPlotly({
@@ -444,7 +464,8 @@ server <- function(input, output, session) {
           line = list(color = "orange", dash = "solid")
         )
       )
-  })
+  }) %>%
+    bindCache(flight_dat())
 
   output$arr_delay_series <- renderPlotly({
     d <- flight_dat()
@@ -464,7 +485,8 @@ server <- function(input, output, session) {
         xaxis = list(title = "", tickformat = "%b %e"),
         yaxis = list(title = "Average delay")
       )
-  })
+  }) %>%
+    bindCache(flight_dat())
 
 }
 

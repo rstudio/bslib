@@ -1,0 +1,16 @@
+{
+  "declaration": true,
+  "compilerOptions": {
+    "target": "ES6",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strict": true
+  },
+  "include": [
+    "srcts/src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

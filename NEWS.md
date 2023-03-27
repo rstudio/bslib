@@ -1,5 +1,21 @@
 # bslib 0.4.2.9000
 
+## Breaking changes
+
+* `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`). It also no longer fills the windows height on mobile (i.e., narrow screens) by default. If this breaks existing behavior, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`. (#479)
+* `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`). Similarly, `navs_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
+* Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
+
+## New features
+
+* Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn more. (#479)
+* Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars.html#accordions). (#475)
+* `page_navbar()`, `navs_tab_card()`, and ` navs_pill_card()` gain a `sidebar` argument for putting a `sidebar()` on every page/tab/pill. (#479)
+* `page_navbar()` gains a `fillable` argument to make the content of particular page(s) fit the window/card. (#479)
+* `page_fill()` is now considered a `fillable` container, meaning that `fill` items like `card()`, `layout_column_wrap()`, and `layout_sidebar()` now grow/shrink to fit the window's height when they appear as a direct child of `page_fill()`. (#479)
+* `page_navbar()` and `page_fill()` gain `fill_mobile` arguments to control whether the page should grow/shrink to fit the viewport on mobile. (#479)
+
+
 # bslib 0.4.2
 
 ## Potentially breaking changes

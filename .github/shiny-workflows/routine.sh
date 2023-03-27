@@ -4,5 +4,5 @@ git commit inst -m 'Resave distributed files (GitHub Action)' || echo "No distri
 git commit R/sysdata.rda -m 'Resave data (GitHub Action)' || echo "No updates to R/sysdata.rda"
 
 # Update `Config/Needs/website` deployment dependencies
-Rscript ./.github/shinycoreci-steps/__update_website_deps.R
+Rscript ./.github/shiny-workflows/__update_website_deps.R
 git commit DESCRIPTION -m 'Update website deps (GitHub Action)' || echo "No new website vignette dependencies to commit"

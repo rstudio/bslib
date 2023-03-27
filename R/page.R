@@ -39,12 +39,34 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 
 #' @rdname page
 #' @inheritParams shiny::fillPage
+#' @param fill_mobile Whether or not the page should fill the viewport's
+#'   height on mobile devices (i.e., narrow windows).
 #' @seealso [shiny::fillPage()]
 #' @export
-page_fill <- function(..., padding = 0, title = NULL,
-                      theme = bs_theme(), lang = NULL) {
-  as_page(
-    shiny::fillPage(..., padding = padding, title = title, theme = theme, lang = lang)
+page_fill <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
+  page(
+    title = title,
+    theme = theme,
+    lang = lang,
+    tags$head(tags$style(HTML("html { height: 100%; }"))),
+    bindFillRole(
+      tags$body(
+        class = "bslib-page-fill",
+        style = css(
+          padding = validateCssPadding(padding),
+          "--bslib-page-fill-mobile-height" = if (fill_mobile) "100%" else "auto"
+        ),
+        ...
+      ),
+      container = TRUE
+    )
+  )
+}
+
+validateCssPadding <- function(padding = NULL) {
+  paste(
+    vapply(padding, validateCssUnit, character(1)),
+    collapse = " "
   )
 }
 
@@ -52,11 +74,14 @@ page_fill <- function(..., padding = 0, title = NULL,
 #' @inheritParams navs_bar
 #' @inheritParams bs_page
 #' @seealso [shiny::navbarPage()]
+#' @param fill_mobile Whether or not `fillable` pages should fill the viewport's
+#'   height on mobile devices (i.e., narrow windows).
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
 #' @export
 page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
+                        sidebar = NULL, fillable = FALSE, fill_mobile = FALSE,
                         position = c("static-top", "fixed-top", "fixed-bottom"),
                         header = NULL, footer = NULL,
                         bg = NULL, inverse = "auto",
@@ -75,18 +100,63 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     }
   }
 
-  page(
+  if (!is.null(sidebar) && !inherits(sidebar, "sidebar")) {
+    abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
+  }
+
+  # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
+  # (which is a sibling of the <nav>) to always fill the page
+  page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
+    page
+  } else {
+    function(...) page_fill(..., fill_mobile = fill_mobile)
+  }
+
+  page_func(
     title = window_title,
     theme = theme,
     lang = lang,
-    navs_bar(
+    navs_bar_(
       ..., title = title, id = id, selected = selected,
+      sidebar = sidebar, fillable = fillable,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
-      collapsible = collapsible, fluid = fluid
+      collapsible = collapsible, fluid = fluid,
+      theme = theme
     )
   )
 }
+
+
+# CPS (2023-02-09): Joe is currently working on a potentially
+# more compelling contain_width() interface, so we'll punt on this for now
+#
+# #' Contain, pad, and align content
+# #'
+# #' @param ... A collection of [htmltools::tag()] children.
+# #' @param size A size (i.e., max-width policy) for the container.
+# #' @param bg A background color.
+# #' @param class Additional CSS classes for the container.
+# #'
+# #' @references <https://getbootstrap.com/docs/5.3/layout/containers/>
+# #'
+# #' @export
+# contain_width <- function(..., size = c("sm", "md", "lg", "xl", "xxl", # "fluid"), bg = NULL, class = NULL) {
+#
+#   size <- match.arg(size)
+#
+#   res <- div(
+#     class = paste0("container-", size),
+#     class = class,
+#     # TODO: parseCssColors(), once it supports var() and !important
+#     style = css(background_color = bg),
+#     ...
+#   )
+#
+#   as_fragment(
+#     tag_require(res, version = 5, caller = "contain_width()")
+#   )
+# }
 
 #> unlist(find_characters(div(h1("foo"), h2("bar"))))
 #> [1] "foo" "bar"

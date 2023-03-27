@@ -104,17 +104,48 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
 
 
 #' @inheritParams shiny::navbarPage
+#' @param sidebar A [sidebar()] component to display on every [nav()] page.
+#' @param fillable Whether or not to allow `fill` items to grow/shrink to fit
+#'   the browser window. If `TRUE`, all [nav()] pages are `fillable`. A
+#'   character vector, matching the `value` of [nav()]s to be filled, may also
+#'   be provided. Note that, if a `sidebar` is provided, `fillable` makes the
+#'   main content portion fillable.
 #' @param bg a CSS color to use for the navbar's background color.
 #' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
 #' @export
 #' @rdname navs
 navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
+                     sidebar = NULL, fillable = FALSE,
                      # TODO: add sticky-top as well?
                      position = c("static-top", "fixed-top", "fixed-bottom"),
                      header = NULL, footer = NULL,
                      bg = NULL, inverse = "auto",
                      collapsible = TRUE, fluid = TRUE) {
+  navs_bar_(
+    ..., title = title, id = id, selected = selected,
+    sidebar = sidebar, fillable = fillable,
+    position = position,
+    header = header, footer = footer,
+    bg = bg, inverse = inverse,
+    collapsible = collapsible, fluid = fluid,
+    # theme is only used to determine whether legacy style markup should be used
+    # (and, at least at the moment, we don't need legacy markup for this exported function)
+    theme = bs_theme()
+  )
+}
+
+# This internal version of navs_bar() exists so both it and page_navbar()
+# (and thus shiny::navbarPage()) can use it. And in the page_navbar() case,
+# we can use addition theme information as an indication of whether we need
+# to handle backwards compatibility
+navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
+                      sidebar = NULL, fillable = FALSE,
+                      position = c("static-top", "fixed-top", "fixed-bottom"),
+                      header = NULL, footer = NULL,
+                      bg = NULL, inverse = "auto",
+                      collapsible = TRUE, fluid = TRUE,
+                      theme = NULL) {
 
   if (identical(inverse, "auto")) {
     inverse <- TRUE
@@ -127,9 +158,11 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 
   navbar <- navbarPage_(
     title = title, ..., id = id, selected = selected,
+    sidebar = sidebar, fillable = fillable,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
-    inverse = inverse, fluid = fluid
+    inverse = inverse, fluid = fluid,
+    theme = theme
   )
 
   if (!is.null(bg)) {
@@ -153,15 +186,15 @@ navbarPage_ <- function(title,
                        ...,
                        id = NULL,
                        selected = NULL,
+                       sidebar = NULL,
+                       fillable = FALSE,
                        position = c("static-top", "fixed-top", "fixed-bottom"),
                        header = NULL,
                        footer = NULL,
                        inverse = FALSE,
                        collapsible = FALSE,
                        fluid = TRUE,
-                       theme = NULL,
-                       windowTitle = title,
-                       lang = NULL) {
+                       theme = NULL) {
 
   # alias title so we can avoid conflicts w/ title in withTags
   pageTitle <- title
@@ -230,13 +263,53 @@ navbarPage_ <- function(title,
       allTags()
   }
 
-  # build the main tab content div
-  contentDiv <- div(class = containerClass)
-  if (!is.null(header))
-    contentDiv <- tagAppendChild(contentDiv, div(class = "row", header))
-  contentDiv <- tagAppendChild(contentDiv, tabset$content)
-  if (!is.null(footer))
-    contentDiv <- tagAppendChild(contentDiv, div(class = "row", footer))
+  # If fillable is truthy, give the relevant .tab-content > .tab-pane containers
+  # the potential to fill
+  tabset$content <- makeTabsFillable(tabset$content, fillable, navbar = TRUE)
+
+  # For backwards compatibility reasons, wrap header & footer in a .row
+  # container if we're not using BS5+. I'm not entirely sure what the motivation
+  # was for it in the 1st place, but now that, with BS5, .row adds
+  # `display:flex` and makes children `width:100%`, which is surprising and
+  # confusing from a user perspective
+  isLegacy <- as.numeric(theme_version(theme) %||% 3) < 5
+  if (!is.null(header) && isLegacy) {
+    header <- div(class = "row", header)
+  }
+  if (!is.null(footer) && isLegacy) {
+    footer <- div(class = "row", footer)
+  }
+
+  contents <- dropNulls(list(header, tabset$content, footer))
+
+  if (is.null(sidebar)) {
+
+    contentDiv <- div(class = containerClass, !!!contents)
+
+    # If fillable is truthy, the .container also needs to be fillable
+    if (!isFALSE(fillable)) {
+      contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
+    }
+
+  } else {
+
+    contentDiv <- div(
+      # In the fluid case, the sidebar layout should be flush (i.e.,
+      # the .container-fluid class adds padding that we don't want)
+      class = if (!fluid) "container",
+      layout_sidebar(
+        fillable = !isFALSE(fillable),
+        border_radius = FALSE,
+        border = !fluid,
+        sidebar, contents
+      )
+    )
+
+    # Always have the sidebar layout fill its parent (in this case
+    # fillable controls whether the _main_ content portion is fillable)
+    contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
+
+  }
 
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
   tagList(

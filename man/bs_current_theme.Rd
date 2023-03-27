@@ -4,7 +4,7 @@
 \alias{bs_current_theme}
 \title{Obtain the currently active theme at render time}
 \usage{
-bs_current_theme(session = get_reactive_domain())
+bs_current_theme(session = get_current_session(FALSE))
 }
 \arguments{
 \item{session}{The current Shiny session (if any).}

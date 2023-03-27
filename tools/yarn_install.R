@@ -13,6 +13,10 @@ if (Sys.which("yarn") == "") {
   stop("The yarn CLI must be installed and in your PATH")
 }
 
+# Build _our_ JS assets (e.g., accordion component)
+system("yarn install")
+system("yarn build")
+
 # only install the direct deps
 with_dir("inst", system("yarn install --production"))
 

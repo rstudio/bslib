@@ -46,6 +46,7 @@ Encoding: UTF-8
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Collate:
+    'accordion.R'
     'bootswatch.R'
     'bs-current-theme.R'
     'bs-dependencies.R'
@@ -70,6 +71,7 @@ Collate:
     'precompiled.R'
     'print.R'
     'shiny-devmode.R'
+    'sidebar.R'
     'staticimports.R'
     'utils-shiny.R'
     'utils-tags.R'
@@ -84,35 +86,24 @@ Config/Needs/routine:
     renv
 Config/Needs/website:
     brio,
+    crosstalk,
     dplyr,
-    glue,
-    purrr,
-    rprojroot,
-    stringr,
-    tidyr,
     DT,
+    glue,
+    htmlwidgets,
     leaflet,
     plotly,
-    htmlwidgets,
-    shiny,
-    ggplot2,
-    svglite
+    purrr,
+    rprojroot,
+    rstudio/htmltools,
+    stringr,
+    tidyr
 Config/Needs/deploy:
     BH,
     DT,
     ggplot2,
     hexbin,
     lattice,
-    lubridate,
-    dplyr,
-    modelr,
-    nycflights13,
-    histoslider,
     reactable,
     rprojroot,
-    rsconnect,
-    plotly,
-    leaflet,
-    gt,
-    shiny,
-    htmlwidgets
+    rsconnect

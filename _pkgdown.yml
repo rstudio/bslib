@@ -37,6 +37,8 @@ navbar:
           href: articles/cards.html
         - text: Value Boxes
           href: articles/value-boxes.html
+        - text: Sidebars
+          href: articles/sidebars.html
         - text: Layouts
           href: articles/layouts.html
         - text: Theming variables
@@ -81,6 +83,12 @@ reference:
     Highlight important findings
   contents:
     - value_box
+- title: Accordions
+  description: |
+    Create collapsable sections of content
+  contents:
+    - accordion
+    - accordion_panel_set
 - title: Navigation
   description: |
     Create (tabbed) sections of content.
@@ -92,6 +100,7 @@ reference:
   description: |
     Useful layout templates
   contents:
+    - layout_sidebar
     - layout_column_wrap
 - title: Page layouts
   contents:
@@ -115,12 +124,6 @@ reference:
     Reduce the final CSS bundle size.
   contents:
     - bs_remove
-- title: Bootstrap SASS compilation
-  description: |
-    Compile themes into HTML dependencies and CSS strings.
-  contents:
-    - bs_theme_dependencies
-    - bs_dependency
 - title: Other utility functions
   contents:
     - bs_get_variables
