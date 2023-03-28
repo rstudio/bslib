@@ -1,27 +1,15 @@
 ```{r setup, include = FALSE}
-## Uncomment the line below and knit this document to create or update the
-## screenshots of the navigation containers.
-# SCREENSHOT <- TRUE
-```
-
-```{r echo = FALSE, eval = !exists("SCREENSHOT"), include = FALSE}
-render_screenshot_img <- function(x, options) {
-  file_name <- paste0(options$label, ".png")
-  alt <- options$fig.alt
-  if (is.null(alt)) {
-    alt <- sprintf("Screenshot of a %s() example.", options$label)
-  }
-  img <- sprintf('![](%s "%s")', file_name, alt)
-  knitr::asis_output(img)
-}
-knitr::opts_chunk$set(eval = TRUE, render = render_screenshot_img)
-```
-
-```{r eval = exists("SCREENSHOT"), include = FALSE}
-# take screenshots of each nav panel setup
-library(chromote)
 library(bslib)
-b <- ChromoteSession$new(width = 800, height = 300)
+## Screenshots are created during `devtools::document()` in CI
+## or set to `TRUE` below to test or update locally
+SCREENSHOT <- nzchar(Sys.getenv("CI", "")) || FALSE
+```
+
+```{r include = FALSE}
+if (isTRUE(SCREENSHOT)) {
+  library(chromote)
+  b <- ChromoteSession$new(width = 800, height = 300)
+}
 
 render_screenshot <- function(x, options) {
   if (inherits(x, "bslib_fragment")) {
@@ -51,10 +39,32 @@ render_screenshot <- function(x, options) {
   b$Runtime$evaluate(
     "if ($('.dropdown-toggle').length > 0) $('.dropdown-toggle').dropdown('toggle')"
   )
-  b$screenshot(filename = here::here("man/figures/", file_out))
+  b$screenshot(filename = file.path(
+    rprojroot::find_package_root_file(),
+    "man/figures/", file_out
+  ))
+
+  invisible(file_out)
 }
 
-knitr::opts_chunk$set(eval = TRUE, render = render_screenshot)
+include_screenshot <- function(x, options) {
+  file_name <- paste0(options$label, ".png")
+  alt <- options$fig.alt
+  if (is.null(alt)) {
+    alt <- sprintf("Screenshot of a %s() example.", options$label)
+  }
+  img <- sprintf('![](%s "%s")', file_name, alt)
+  knitr::asis_output(img)
+}
+
+knitr::opts_chunk$set(
+  render = function(x, options) {
+    if (isTRUE(SCREENSHOT)) {
+      render_screenshot(x, options)
+    }
+    include_screenshot(x, options)
+  }
+)
 ```
 
 ## A basic example
