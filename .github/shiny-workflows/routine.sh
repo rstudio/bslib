@@ -10,3 +10,4 @@ git commit DESCRIPTION -m 'Update website deps (GitHub Action)' || echo "No new 
 # Shrink images in man/figures
 sudo apt-get install optipng
 optipng man/figures/*.png
+git commit man/figures/*.png -m "Shrink images in man/figures (Github Action)" || echo "No changes to man/figures/*.png"
