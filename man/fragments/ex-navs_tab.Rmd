@@ -8,7 +8,7 @@ SCREENSHOT <- nzchar(Sys.getenv("CI", "")) || FALSE
 ```{r include = FALSE}
 if (isTRUE(SCREENSHOT)) {
   library(chromote)
-  b <- ChromoteSession$new(width = 800, height = 300)
+  b <- ChromoteSession$new(width = 800, height = 300, wait_ = TRUE)
 }
 
 render_screenshot <- function(x, options) {
