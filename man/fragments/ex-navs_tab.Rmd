@@ -32,8 +32,9 @@ render_screenshot <- function(x, options) {
   file_out <- paste0(options$label, ".png")
 
   {
-    b$Page$navigate(paste0("file://", tmpfile))
-    b$Page$loadEventFired()
+    p <- b$Page$loadEventFired(wait_ = FALSE)
+    b$Page$navigate(paste0("file://", tmpfile), wait_ = FALSE)
+    b$wait_for(p)
   }
 
   b$Runtime$evaluate(
