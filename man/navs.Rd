@@ -139,6 +139,174 @@ altogether}
 \description{
 Render a collection of \code{\link[=nav]{nav()}} items into a container.
 }
+\details{
+\subsection{A basic example}{
+
+This first example creates a simple tabbed navigation container with two
+tabs. The tab name and the content of each tab are specified in the
+\code{nav()} calls and \code{navs_tab()} creates the tabbed navigation around
+these two tabs.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(htmltools)
+
+navs_tab(
+  nav(title = "One", p("First tab content.")),
+  nav(title = "Two", p("Second tab content."))
+)
+}\if{html}{\out{</div>}}
+
+\figure{navs_tab-basic.png}{Screenshot of a basic navs_tab() example.}
+
+In the rest of the examples, we’ll include links among the tabs (or
+pills) in the navigation controls.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{link_shiny <- tags$a(shiny::icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = "_blank")
+link_posit <- tags$a(shiny::icon("r-project"), "Posit", href = "https://posit.co", target = "_blank")
+}\if{html}{\out{</div>}}
+}
+
+\subsection{\code{navs_tab()}}{
+
+You can fully customize the controls in the navigation component. In
+this example, we’ve added a direct link to the Shiny repository using
+\code{nav_item()}. We’ve also included a dropdown menu using \code{nav_menu()}
+containing an option to select a third tab panel and another direct link
+to Posit’s website. Finally, we’ve separated the primary tabs on the
+left from the direct link and dropdown menu on the right using
+\code{nav_spacer()}.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_tab(
+  nav(title = "One", p("First tab content.")),
+  nav(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navs_tab.png}{Screenshot of a navs_tab() example.}
+}
+
+\subsection{\code{navs_pill()}}{
+
+\code{navs_pill()} creats a navigation container that behaves exactly like
+\code{navs_tab()}, but the tab toggles are \emph{pills} or button-shaped.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill(
+  nav(title = "One", p("First tab content.")),
+  nav(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navs_pill.png}{Screenshot of a navs_pill() example.}
+}
+
+\subsection{\code{navs_tab_card()}}{
+
+The tabbed navigation container can also be used in a \code{card()} component
+thanks to \code{navs_tab_card()}. Learn more about this approach in the
+\href{https://pkgs.rstudio.com/bslib/articles/cards.html}{article about Cards}.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_tab_card(
+  nav(title = "One", p("First tab content.")),
+  nav(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navs_tab_card.png}{Screenshot of a navs_tab_card() example.}
+}
+
+\subsection{\code{navs_pill_card()}}{
+
+Similar to \code{navs_pill()}, \code{navs_pill_card()} provides a pill-shaped
+variant to \code{navs_tab_card()}.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill_card(
+  nav(title = "One", p("First tab content.")),
+  nav(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navs_pill_card.png}{Screenshot of a navs_pill_card() example.}
+}
+
+\subsection{\code{navs_pill_list()}}{
+
+Furthermore, \code{navs_pill_list()} creates a vertical list of navigation
+controls adjacent to, rather than on top of, the tab content panels.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill_list(
+  nav(title = "One", p("First tab content.")),
+  nav(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navs_pill_list.png}{Screenshot of a navs_pill_list() example.}
+}
+
+\subsection{\code{page_navbar()}}{
+
+Finally, \code{page_navbar()} provides full-page navigation container similar
+to \code{navs_tab()} but where each \code{nav()} is treated as a full page of
+content and the navigation controls appear in a top-level navigation
+bar.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{page_navbar(
+  title = "My App",
+  bg = "#0062cc",
+  nav(title = "One", p("First page content.")),
+  nav(title = "Two", p("Second page content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav("Three", p("Third page content.")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{page_navbar.png}{Screenshot of a page_navbar() example.}
+}
+}
 \seealso{
 \code{\link[=nav]{nav()}}, \code{\link[=nav_select]{nav_select()}}.
 }
