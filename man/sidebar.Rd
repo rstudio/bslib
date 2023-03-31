@@ -19,7 +19,7 @@ sidebar(
 )
 
 layout_sidebar(
-  sidebar = sidebar(),
+  sidebar,
   ...,
   fillable = FALSE,
   fill = TRUE,

@@ -101,7 +101,7 @@ sidebar <- function(
 #'
 #' @export
 layout_sidebar <- function(
-  sidebar = sidebar(),
+  sidebar,
   ...,
   fillable = FALSE,
   fill = TRUE,
