@@ -23,8 +23,8 @@ layout_sidebar(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
-  border = TRUE,
-  border_radius = TRUE,
+  border = NULL,
+  border_radius = NULL,
   height = NULL
 )
 
