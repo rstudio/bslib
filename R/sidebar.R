@@ -62,18 +62,17 @@ sidebar <- function(
   }
 
   open <- rlang::arg_match(open)
-  is_init_open <- open %in% c("open", "always")
 
-  hide_collapse <- identical(open, "always")
-
-  collapse_tag <- tags$button(
-    class = "collapse-toggle",
-    type = "button",
-    title = "Toggle sidebar",
-    style = css(display = if (hide_collapse) "none"),
-    "aria-expanded" = if (is_init_open) "true" else "false",
-    "aria-controls" = id
-  )
+  collapse_tag <-
+    if (open != "always") {
+      tags$button(
+        class = "collapse-toggle",
+        type = "button",
+        title = "Toggle sidebar",
+        "aria-expanded" = if (open == "open") "true" else "false",
+        "aria-controls" = id
+      )
+    }
 
   res <- list2(
     tag = tags$form(
