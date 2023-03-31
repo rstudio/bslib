@@ -52,6 +52,10 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     flex-direction: column;
     width: 100%;
 
+    > :last-child {
+      margin-bottom: 0;
+    }
+
     > .accordion {
       margin-left: - $bslib-sidebar-padding;
       margin-right: - $bslib-sidebar-padding;
