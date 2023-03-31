@@ -68,18 +68,19 @@ test_that("sidebar() - assigns a random `id` if collapsible and `id` not provide
 })
 
 test_that("sidebar() - sets `aria-expanded` correctly on collapse toggle", {
-  sidebar_open <- sidebar(open = "open")
-
   expect_equal(
-    htmltools::tagGetAttribute(sidebar_open$collapse_tag, "aria-expanded"),
+    htmltools::tagGetAttribute(sidebar(open = "open")$collapse_tag, "aria-expanded"),
     "true"
   )
 
-  sidebar_closed <- sidebar(open = "closed")
+  expect_equal(
+    htmltools::tagGetAttribute(sidebar(open = "closed")$collapse_tag, "aria-expanded"),
+    "false"
+  )
 
   expect_equal(
-    htmltools::tagGetAttribute(sidebar_closed$collapse_tag, "aria-expanded"),
-    "false"
+    htmltools::tagGetAttribute(sidebar(open = "desktop")$collapse_tag, "aria-expanded"),
+    "true"
   )
 })
 

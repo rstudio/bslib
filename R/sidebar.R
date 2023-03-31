@@ -69,7 +69,7 @@ sidebar <- function(
         class = "collapse-toggle",
         type = "button",
         title = "Toggle sidebar",
-        "aria-expanded" = if (open == "open") "true" else "false",
+        "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
         "aria-controls" = id
       )
     }
@@ -198,6 +198,7 @@ sidebar_js_init <- function() {
       var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
       if (initCollapsed === 'true') {
         thisLayout.addClass('sidebar-collapsed');
+        thisLayout.find('.collapse-toggle').attr('aria-expanded', 'false')
       }
     }
     "
