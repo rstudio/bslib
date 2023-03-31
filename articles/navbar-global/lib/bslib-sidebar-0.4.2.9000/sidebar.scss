@@ -19,6 +19,13 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
 
   @include transition(var(--bslib-sidebar-transition));
 
+  // hide sidebar content while transitioning for symmetric collapse/reveal transitions
+  &.transitioning > .sidebar {
+    height: 0;
+    width: 0;
+    padding: 0;
+  }
+
   border: var(--bslib-sidebar-border);
   border-radius: var(--bslib-sidebar-border-radius);
 
@@ -118,6 +125,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     > .sidebar {
       width: 0;
       padding: 0;
+      height: 0;
     }
 
     // Hide the sidebar contents after it's done transitioning so that
