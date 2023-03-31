@@ -45,14 +45,6 @@ sidebar <- function(
   bg = NULL,
   class = NULL
 ) {
-  # For accessibility reasons, always provide id when collapsible,
-  # but only create input binding when id is provided
-  if (is.null(id) && is.logical(open)) {
-    id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
-  } else {
-    class <- c("bslib-sidebar-input", class)
-  }
-
   if (isTRUE(open)) {
     open <- "open"
   } else if (identical(open, FALSE)) {
@@ -62,6 +54,14 @@ sidebar <- function(
   }
 
   open <- rlang::arg_match(open)
+
+  # For accessibility reasons, always provide id when collapsible,
+  # but only create input binding when id is provided
+  if (!is.null(id)) {
+    class <- c("bslib-sidebar-input", class)
+  } else if (open != "always") {
+    id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
+  }
 
   collapse_tag <-
     if (open != "always") {
