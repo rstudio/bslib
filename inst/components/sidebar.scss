@@ -189,13 +189,13 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       grid-column: 1 / 2;
       width: 100%;
       border: none;
+      border-bottom: var(--bslib-sidebar-horiz-border);
       border-radius: 0;
     }
 
     > .main {
       grid-row: 2 / 3;
       grid-column: 1 / 2;
-      border-top: var(--bslib-sidebar-horiz-border);
       border-top-left-radius: 0;
       border-top-right-radius: 0;
       border-bottom-right-radius: inherit;
@@ -225,9 +225,12 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       //transition: grid-template-rows ease-in-out 0.5s;
 
       > .main {
-        border-top: none;
         border-top-left-radius: inherit;
         border-top-right-radius: inherit;
+      }
+
+      > .sidebar {
+        border-bottom: none;
       }
 
       > .collapse-toggle {
