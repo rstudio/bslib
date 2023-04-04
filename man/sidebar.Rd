@@ -27,6 +27,7 @@ layout_sidebar(
   fg = NULL,
   border = TRUE,
   border_radius = TRUE,
+  border_color = NULL,
   height = NULL
 )
 
@@ -67,6 +68,10 @@ a fillable container.}
 \item{border}{Whether or not to add a border.}
 
 \item{border_radius}{Whether or not to add a border radius.}
+
+\item{border_color}{The border color that is applied to the entire layout (if
+\code{border = TRUE}) and the color of the border between the sidebar and the
+main content area.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}

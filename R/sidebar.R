@@ -102,6 +102,9 @@ sidebar <- function(
 #'   a fillable container.
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
+#' @param border_color The border color that is applied to the entire layout (if
+#'   `border = TRUE`) and the color of the border between the sidebar and the
+#'   main content area.
 #' @inheritParams card
 #'
 #' @export
@@ -114,6 +117,7 @@ layout_sidebar <- function(
   fg = NULL,
   border = TRUE,
   border_radius = TRUE,
+  border_color = NULL,
   height = NULL
 ) {
   if (!inherits(sidebar, "sidebar")) {
@@ -160,6 +164,7 @@ layout_sidebar <- function(
       "--bslib-sidebar-width" = sidebar$width,
       "--bslib-sidebar-border" = if (!border) "none",
       "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
+      "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
       background_color = sidebar$bg,
       color = sidebar$fg
