@@ -149,22 +149,15 @@ layout_sidebar <- function(
   main <- bindFillRole(main, container = fillable)
 
   contents <- list(main, sidebar$tag, sidebar$collapse_tag)
-  columns <- c(sidebar$width, "minmax(0, 1fr)")
-  columns_collapse <- c("0px", "minmax(0, 1fr)")
 
   right <- identical(sidebar$position, "right")
-  if (right) {
-    columns <- rev(columns)
-    columns_collapse <- rev(columns_collapse)
-  }
 
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
     class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
     style = css(
-      "--bslib-sidebar-columns" = columns,
-      "--bslib-sidebar-columns-collapsed" = columns_collapse,
+      "--bslib-sidebar-width" = sidebar$width,
       "--bslib-sidebar-border" = if (!border) "none",
       "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
       height = validateCssUnit(height),

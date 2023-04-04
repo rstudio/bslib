@@ -13,8 +13,9 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
   --bslib-collapse-toggle-right-transform: -90deg;
 
   display: grid !important;
-  // Should always be defined as an inline style on the layout_sidebar() container
-  grid-template-columns: var(--bslib-sidebar-columns);
+  grid-template-columns:
+    Min(calc(100% - #{$bslib-sidebar-icon-size}), var(--bslib-sidebar-width, 250px))
+    minmax(0, 1fr);
   position: relative;
 
   @include transition(var(--bslib-sidebar-transition));
@@ -88,6 +89,10 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
   }
 
   &.sidebar-right {
+    grid-template-columns:
+      minmax(0, 1fr)
+      Min(calc(100% - #{$bslib-sidebar-icon-size}), var(--bslib-sidebar-width, 250px));
+
     > .main {
       grid-column: 1 / 2;
       border-top-right-radius: 0;
@@ -121,8 +126,11 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     --bslib-collapse-toggle-right-transform: 90deg;
     --bslib-sidebar-vert-border: none;
 
-    // Should always be defined as an inline style on the layout_sidebar() container
-    grid-template-columns: var(--bslib-sidebar-columns-collapsed);
+    grid-template-columns: 0 minmax(0, 1fr);
+
+    &.sidebar-right {
+      grid-template-columns: minmax(0, 1fr) 0;
+    }
 
     // Don't `display:none` the sidebar, because that would change the number of
     // columns in the grid, and I don't think we can transition between those states
