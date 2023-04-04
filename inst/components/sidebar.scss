@@ -83,7 +83,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
       transition: transform ease-in-out 0.35s;
     }
 
-    &:hover {
+    &:hover > .collapse-icon {
       opacity: 1;
     }
   }
