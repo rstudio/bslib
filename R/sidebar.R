@@ -85,7 +85,9 @@ sidebar <- function(
     collapse_tag = collapse_tag,
     position = match.arg(position),
     open = open,
-    width = validateCssUnit(width)
+    width = validateCssUnit(width),
+    bg = bg,
+    fg = fg
   )
 
   class(res) <- c("sidebar", class(res))
@@ -118,11 +120,20 @@ layout_sidebar <- function(
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
 
+  # main content area colors, if not provided ----
+  # 1. Fill in contrasting color for `fg` or `bg` if only one provided
   if (is.null(fg) && !is.null(bg)) {
     fg <- get_color_contrast(bg)
   }
   if (is.null(bg) && !is.null(fg)) {
     bg <- get_color_contrast(fg)
+  }
+  # 2. If the sidebar has a color, reset main to body fg/bg color
+  if (is.null(fg) && !is.null(sidebar$fg)) {
+    fg <- "var(--bs-body-color)"
+  }
+  if (is.null(bg) && !is.null(sidebar$bg)) {
+    bg <- "var(--bs-body-bg)"
   }
 
   main <- div(
@@ -157,7 +168,9 @@ layout_sidebar <- function(
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
       "--bslib-sidebar-border" = if (!border) "none",
       "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
-      height = validateCssUnit(height)
+      height = validateCssUnit(height),
+      background_color = sidebar$bg,
+      color = sidebar$fg
     ),
     !!!contents,
     sidebar_dependency(),
