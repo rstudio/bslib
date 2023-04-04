@@ -230,9 +230,18 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
 // In the case of page_navbar(nav("Foo", layout_sidebar())), we want the
 // sidebar to be flush with the viewport (just like it will be in the
 // case of page_navbar(sidebar = sidebar()))
-.navbar  {
-  & + .container-fluid:has(>.tab-content>.tab-pane.active>.bslib-sidebar-layout) {
+.navbar + .container-fluid {
+  &:has(>.tab-content>.tab-pane.active>.bslib-sidebar-layout) {
     padding-left: 0;
     padding-right: 0;
   }
+  > .tab-content > .tab-pane.active > .bslib-sidebar-layout {
+    &:not([data-bslib-sidebar-border="true"]) {
+      border: none;
+    }
+    &:not([data-bslib-sidebar-border-radius="true"]) {
+      border-radius: 0;
+    }
+  }
 }
+
