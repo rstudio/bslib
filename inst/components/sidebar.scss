@@ -61,6 +61,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
   }
 
   > .collapse-toggle {
+    grid-row: 1 / 2;
     grid-column: 1 / 2;
     display: inline-flex;
     align-items: center;
@@ -202,7 +203,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       border-radius: 0;
     }
 
-    > .collapse-toggle, &.sidebar-right > .collapse-toggle {
+    > .collapse-toggle {
       grid-row: 2 / 3;
       grid-column: 1 / 2;
       top: 0;
