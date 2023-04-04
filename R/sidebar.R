@@ -63,8 +63,7 @@ sidebar <- function(
     title = "Toggle sidebar",
     style = css(
       display = if (hide_collapse) "none",
-      background_color = bg,
-      color = fg
+      background_color = bg
     ),
     "aria-expanded" = if (open || hide_collapse) "true" else "false",
     "aria-controls" = id,
@@ -76,10 +75,7 @@ sidebar <- function(
       id = id,
       role = "complementary",
       class = c("sidebar", class),
-      style = css(
-        background_color = bg,
-        color = fg
-      ),
+      style = css(background_color = bg),
       ...
     ),
     collapse_tag = collapse_tag,

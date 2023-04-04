@@ -1,6 +1,6 @@
 $bslib-sidebar-padding: $spacer * 1.5 !default;
 $bslib-sidebar-icon-size: $spacer !default;
-
+$bslib-sidebar-bg: var(--bslib-sidebar-bg, #{$gray-200}) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
 
 $bslib-sidebar-column-sidebar: Min(calc(100% - #{$bslib-sidebar-icon-size}), var(--bslib-sidebar-width, 250px));
@@ -45,6 +45,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
     border-right: var(--bslib-sidebar-vert-border);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    background-color: $bslib-sidebar-bg;
 
     > .accordion {
       margin: - $bslib-sidebar-padding;
@@ -73,7 +74,8 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
     border-left: none;
     border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
     padding: 7px 0;
-    background-color: transparent;
+    background-color: $bslib-sidebar-bg;
+    color: inherit;
 
     > .collapse-icon {
       opacity: 0.8;
