@@ -174,7 +174,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
 }
 
 @include media-breakpoint-down(sm) {
-  .bslib-sidebar-layout {
+  .bslib-sidebar-layout, .bslib-sidebar-layout.sidebar-right {
     --bslib-sidebar-vert-border: none;
     --bslib-sidebar-horiz-border: #{$bslib-sidebar-border};
     --bslib-collapse-toggle-transform: -180deg;
@@ -200,13 +200,13 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       border-top-right-radius: 0;
       border-bottom-right-radius: inherit;
       border-bottom-left-radius: inherit;
-      border-radius: 0;
     }
 
     > .collapse-toggle {
       grid-row: 2 / 3;
       grid-column: 1 / 2;
       top: 0;
+      left: initial;
       bottom: initial;
       right: $bslib-sidebar-padding;
       border-top: none !important;
@@ -226,10 +226,13 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
 
       > .main {
         border-top: none;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
       }
 
       > .collapse-toggle {
         // The CSS variable (set via JS) is here to help avoid overlapping toggles
+        left: initial;
         right: calc(#{$bslib-sidebar-padding} + var(--bslib-sidebar-counter, 0) * calc(#{$bslib-sidebar-icon-size} + #{$bslib-sidebar-padding}));
       }
     }
