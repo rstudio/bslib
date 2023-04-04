@@ -205,14 +205,28 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
     > .collapse-toggle {
       grid-row: 2 / 3;
       grid-column: 1 / 2;
-      top: 0;
-      left: initial;
-      bottom: initial;
-      right: $bslib-sidebar-padding;
       border-top: none !important;
       border: var(--bslib-collapse-toggle-border);
       border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
       padding: 0 4px;
+    }
+
+    // Apply same collapse-toggle position adjustment to all states and layouts
+    &, &.sidebar-right {
+      > .collapse-toggle {
+        top: calc(-1 * var(--bs-card-border-width, 1px));
+      }
+      &.sidebar-collapsed > .collapse-toggle {
+        top: 0;
+      }
+      &, &.sidebar-collapsed {
+        > .collapse-toggle {
+          // The CSS variable (set via JS) is here to help avoid overlapping toggles
+          right: calc(#{$bslib-sidebar-padding} + var(--bslib-sidebar-counter, 0) * calc(#{$bslib-sidebar-icon-size} + #{$bslib-sidebar-padding}));
+          bottom: initial;
+          left: initial;
+        }
+      }
     }
 
     &.sidebar-collapsed {
@@ -231,12 +245,6 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
 
       > .sidebar {
         border-bottom: none;
-      }
-
-      > .collapse-toggle {
-        // The CSS variable (set via JS) is here to help avoid overlapping toggles
-        left: initial;
-        right: calc(#{$bslib-sidebar-padding} + var(--bslib-sidebar-counter, 0) * calc(#{$bslib-sidebar-icon-size} + #{$bslib-sidebar-padding}));
       }
     }
   }
