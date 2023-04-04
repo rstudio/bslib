@@ -148,13 +148,12 @@ layout_sidebar <- function(
 
   main <- bindFillRole(main, container = fillable)
 
-  contents <- list(sidebar$tag, sidebar$collapse_tag, main)
+  contents <- list(main, sidebar$tag, sidebar$collapse_tag)
   columns <- c(sidebar$width, "minmax(0, 1fr)")
   columns_collapse <- c("0px", "minmax(0, 1fr)")
 
   right <- identical(sidebar$position, "right")
   if (right) {
-    contents <- rev(contents)
     columns <- rev(columns)
     columns_collapse <- rev(columns_collapse)
   }
