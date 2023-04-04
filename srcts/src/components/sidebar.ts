@@ -88,6 +88,6 @@ $(document).on(
   "transitionend",
   ".bslib-sidebar-layout > .collapse-toggle > .collapse-icon",
   (e) => {
-    $(e.target).closest('.bslib-sidebar-layout').removeClass("transitioning");
+    $(e.target).closest(".bslib-sidebar-layout").removeClass("transitioning");
   }
 );
