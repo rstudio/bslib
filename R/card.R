@@ -125,7 +125,7 @@ as_card_items <- function(children, wrapper) {
 #' @param fill Whether to allow this element to grow/shrink to fit its `card()`
 #'   container.
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
-#'   `gap` (i.e., spacing) between elements provided to `...`.
+#'   `gap` (i.e., spacing) between elements provided to `...`. This argument is only applicable when `fillable = TRUE`
 #' @inheritParams card
 #'
 #' @return An [htmltools::div()] tag.
