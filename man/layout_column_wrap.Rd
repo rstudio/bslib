@@ -55,7 +55,8 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 \item{fillable}{Whether or not each element is wrapped in a fillable container.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
 \item{height_mobile}{Any valid CSS unit to use for the height when on mobile
 devices (or narrow windows).}

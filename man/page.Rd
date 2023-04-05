@@ -71,6 +71,9 @@ right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
 
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+
 \item{fill_mobile}{Whether or not \code{fillable} pages should fill the viewport's
 height on mobile devices (i.e., narrow windows).}
 

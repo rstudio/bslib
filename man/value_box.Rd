@@ -40,29 +40,31 @@ the title or value of the value box. The \code{title} appears above the \code{va
 display below \code{value}. Named arguments become attributes on the containing
 element.}
 
-\item{showcase}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
+\item{showcase}{A \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
 \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{\link[plotly:plotlyOutput]{plotly::plotlyOutput()}}, etc).}
 
 \item{showcase_layout}{either \code{showcase_left_center()} or
 \code{showcase_top_right()}.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size. Consider
-pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
-changes in the size of the card.}
+body. Clicking the icon expands the card to fit viewport size.}
 
-\item{theme_color}{a theme color to use for the background color. Should
+\item{theme_color}{A theme color to use for the background color. Should
 match a name in the Bootstrap Sass variable \verb{$theme-colors} (e.g.,
 \code{"secondary"}, \code{"success"}, \code{"danger"}, etc).}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
 \item{max_height, max_height_full_screen}{A proportion (i.e., a number between
 0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
 showcase max_height.}
 
-\item{class}{utility classes for customizing the appearance of the summary
+\item{fill}{Whether to allow the value box to grow/shrink to fit a fillable
+container with an opinionated height (e.g., \code{page_fillable()}).}
+
+\item{class}{Utility classes for customizing the appearance of the summary
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
 
