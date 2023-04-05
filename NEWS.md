@@ -1,6 +1,6 @@
 # bslib 0.4.2.9000
 
-This major release adds [sidebar layouts](https://rstudio.github.io/bslib/articles/sidebars.html), [accordions](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions), and makes many improvements to make filling layouts easier.
+This significant release adds [sidebar layouts](https://rstudio.github.io/bslib/articles/sidebars.html), [accordions](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions), and makes many improvements to make dashboard-like filling layouts easier to create.
 
 Although `{bslib}` is still maturing, and will continue to receiving new UI features, we now see it as a viable replacement for `{shinydashboard}`. 
 
