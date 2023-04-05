@@ -59,15 +59,16 @@ customize the foreground color).}
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
 
-\item{fill}{Whether or not the layout container should grow/shrink to fit
-a fillable container.}
+\item{fill}{Whether or not to allow the layout container to grow/shrink to fit a
+fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{border}{Whether or not to add a border.}
 
 \item{border_radius}{Whether or not to add a border radius.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
 \item{session}{a shiny session object (the default should almost always be
 used).}

@@ -90,7 +90,7 @@ collect_nav_items <- function(..., wrapper) {
 
 # Always give tab contents the potential to fill since that's akin to the
 # normal card() API (i.e. the card() is a fill container) and users have
-# option to make the contents fill via card_body(fill = TRUE) and/or card_body_fill()
+# option to make the contents fill via card_body(fill = TRUE, fillable = TRUE)
 navs_card_body <- function(content, sidebar) {
   content <- makeTabsFillable(content, fillable = TRUE)
   if (!is.null(sidebar)) {
