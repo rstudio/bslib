@@ -59,7 +59,7 @@ flexbox) container.}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
 
 \item{fill}{Whether to allow this element to grow/shrink to fit its \code{card()}
 container.}
