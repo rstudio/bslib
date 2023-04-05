@@ -30,9 +30,16 @@
 #' @param class Additional CSS classes for the top-level HTML element.
 #'
 #' @export
-sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE, id = NULL, bg = NULL, class = NULL) {
-
-  # For accessiblity reasons, always provide id when collapsible,
+sidebar <- function(
+  ...,
+  width = 250,
+  position = c("left", "right"),
+  open = TRUE,
+  id = NULL,
+  bg = NULL,
+  class = NULL
+) {
+  # For accessibility reasons, always provide id when collapsible,
   # but only create input binding when id is provided
   if (is.null(id) && is.logical(open)) {
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
@@ -76,15 +83,23 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
 #' @param sidebar A [sidebar()] object.
 #' @param fillable Whether or not the `main` content area should be considered a
 #'   fillable (i.e., flexbox) container.
-#' @param fill Whether or not the layout container should grow/shrink to fit
-#'   a fillable container.
+#' @param fill Whether or not to allow the layout container to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
 #' @inheritParams card
 #'
 #' @export
-layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TRUE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL) {
-
+layout_sidebar <- function(
+  sidebar,
+  ...,
+  fillable = FALSE,
+  fill = TRUE,
+  bg = NULL,
+  border = TRUE,
+  border_radius = TRUE,
+  height = NULL
+) {
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }

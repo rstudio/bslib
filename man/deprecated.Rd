@@ -14,6 +14,8 @@
 \alias{bootstrap}
 \alias{bootstrap_sass}
 \alias{bs_add_declarations}
+\alias{card_body_fill}
+\alias{page_fill}
 \title{Deprecated functions}
 \usage{
 bs_theme_new(...)
@@ -41,6 +43,10 @@ bootstrap(theme = bs_theme_get(), ...)
 bootstrap_sass(rules = list(), theme = bs_theme_get(), ...)
 
 bs_add_declarations(theme, declarations)
+
+card_body_fill(...)
+
+page_fill(...)
 }
 \value{
 a \code{\link[=bs_theme]{bs_theme()}} object.
