@@ -6,19 +6,12 @@ resource_files:
 
 Cards are a common organizing unit for modern user interfaces (UI). At their core, they're just rectangular containers with borders and padding. However, when utilized properly to group related information, they help users better digest, engage, and navigate through content. This is why most successful dashboard/UI frameworks make cards a core feature of their component library. This article provides an overview of the API that bslib provides to create [Bootstrap cards](https://getbootstrap.com/docs/5.0/components/card/).
 
-One major feature that bslib adds to Bootstrap cards is the ability to expand the card to a [full screen view](#responsive-sizing). Often this feature wants [output that resizes itself to fit its card container](#responsive-sizing). To do this as advertised, make sure you have the latest version of shiny and htmlwidgets:
+## Setup code
 
-```r
-install.packages("shiny")
-install.packages("htmlwidgets")
-```
-
-Since this article is statically hosted (i.e., not powered by Shiny), it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}` (but don't worry, `card()`s [work in Shiny equally as well](#dynamic-rendering-shiny)). Here's some code to create those widgets:
+Since this article is statically hosted and not powered by Shiny, it uses statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`. Don't worry, `card()`s [work in Shiny equally as well](#shiny). Here's some code to create those widgets:
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-
-lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id nibh tortor id aliquet lectus proin nibh nisl. Adipiscing at in tellus integer feugiat. Arcu bibendum at varius vel pharetra vel turpis nunc eget. Cursus sit amet dictum sit amet justo. Sit amet consectetur adipiscing elit. Vestibulum mattis ullamcorper velit sed ullamcorper. Enim facilisis gravida neque convallis a. Elit duis tristique sollicitudin nibh sit amet. Magna eget est lorem ipsum. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Mauris in aliquam sem fringilla ut morbi. Id semper risus in hendrerit gravida rutrum quisque non tellus. At erat pellentesque adipiscing commodo elit at imperdiet dui. Fames ac turpis egestas maecenas pharetra convallis posuere morbi. Duis convallis convallis tellus id interdum velit laoreet id. Aliquet lectus proin nibh nisl. Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis. Bibendum enim facilisis gravida neque convallis a."
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, collapse = "#>")
 
 # pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
 # (note this isn't a problem for any format based on html_document_base)
@@ -77,7 +70,7 @@ leaflet_widget <- leaflet() %>%
 
 ::: row
 ::: col-md-6
-A `card()` is designed to handle any number of "known" card items (e.g., `card_header()`, `card_body()`, etc) as unnamed arguments (i.e., children). As we'll see shotly, `card()` also has some useful named arguments (e.g., `full_screen`, `height`, etc).
+A `card()` is designed to handle any number of "known" card items (e.g., `card_header()`, `card_body()`, etc) as unnamed arguments (i.e., children). As we'll see shortly, `card()` also has some useful named arguments (e.g., `full_screen`, `height`, etc).
 
 At their core, `card()` and card items are just an HTML `div()` with a special Bootstrap class, so you can use Bootstrap's utility classes to customize things like [colors](https://getbootstrap.com/docs/5.2/utilities/background/), [text](https://getbootstrap.com/docs/5.2/utilities/text/), [borders](https://getbootstrap.com/docs/5.2/utilities/borders), etc.
 :::
@@ -113,113 +106,225 @@ card(
     class = "bg-dark",
     "A header"
   ),
-  markdown("Some text with a [link](https://github.com)")
+  markdown("Some text with a [link](https://github.com).")
 )
 ```
 :::
 :::
 
-## Fixed sizing
+## Restricting growth
 
 ::: row
 ::: col-md-6
-By default, a `card()`'s size grows to accommodate the size of it's contents. Thus, if some portion of the `card_body()` contains a large amount of text, table(s), etc., consider setting a fixed `height`. And in that case, if the contents exceed the specified height, they'll be scrollable.
+By default, a `card()`'s size grows to accommodate the size of it's contents. Thus, if a `card_body()` contains a large amount of text, tables, etc., you may want to specify a `height` or `max_height`. That said, when laying out [multiple cards](#multiple-cards), you probably shouldn't constrain the height on the card-level. Instead, the height should probably come from a containing element, like `layout_column_wrap()`.
+
+Although scrolling is convenient for reducing the amount of space required to park lots of content, it can also be a nuisance to the user. To help reduce the need for scrolling, consider pairing scrolling with `full_screen = TRUE` (which adds an icon to expand the card's size to the browser window). Notice how, when the card is expanded to full-screen, `max_height`/`height` won't effect the full-screen size of the card. 
 :::
 
 ::: col-md-6
 ```{r}
 card(
+  max_height = 250,
+  full_screen = TRUE,
   card_header(
     "A long, scrolling, description"
   ),
-  card_body(
-    height = 150, 
-    lorem_ipsum_dolor_sit_amet
-  )
-)
-```
-:::
-:::
-
-::: row
-::: col-md-6
-Alternatively, you can also set the `height` of the card to a fixed size and set `fill = TRUE` to have the `card_body()` container shrink/grow to fit the available space in a `card()`. Note that, by doing this, the _children_ of the `card_body()` aren't necessarily allowed to shrink/grow to fit the `card_body()`, which `card_body_fill()` (aka "[responsize sizing](#responsize-sizing)") is designed to do.
-:::
-
-::: col-md-6
-```{r}
-card(
-  height = 200,
-  card_header(
-    "A long, scrolling, description"
-  ),
-  card_body(
-    fill = TRUE,
-    lorem_ipsum_dolor_sit_amet
-  )
-)
-```
-:::
-:::
-
-
-
-## Responsive sizing
-
-<div class="row">
-<div class="col-md-6">
-
-Unlike `card_body()`, `card_body_fill()` encourages its children to grow and shrink vertically as needed in response to its `card()`'s height. Responsive sizing is particularly useful for `card(full_screen = TRUE, ...)`, which adds an icon (displayed on hover) to expand the `card()` to a full screen view.
-
-Since many htmlwidgets (like `plotly::plot_ly()`) and Shiny output bindings (like `shiny::plotOutput()`) default to a fixed height of 400 pixels, but are actually capable of responsive sizing, you'll get a better result with `card_body_fill()` instead of `card_body()` in these cases (compare the "Responsive" with the "Fixed" result using the tabs to the right).
-
-</div>
-
-<div class="col-md-6">
-
-<ul class="nav nav-pills justify-content-center" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#responsize" type="button" role="tab" aria-controls="responsize" aria-selected="true">Responsive</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#fixed" type="button" role="tab" aria-controls="fixed" aria-selected="false">Fixed</button>
-  </li>
-  </li>
-</ul>
-<div class="tab-content">
-  <div class="tab-pane show active" id="responsize" role="tabpanel" tabindex="0">
-```{r}
-card(
-  height = 250, full_screen = TRUE,
-  card_header("Responsive sizing"),
-  card_body_fill(plotly_widget),
+  lorem::ipsum(paragraphs = 3, sentences = 5),
   card_footer(
     class = "fs-6",
-    "Copyright 2022 RStudio, PBC"
+    "Copyright 2023 RStudio, PBC"
   )
 )
 ```
-  </div>
-  <div class="tab-pane" id="fixed" role="tabpanel" tabindex="0">
+:::
+:::
+
+
+## Filling outputs
+
+::: row
+::: col-md-6
+A `card()`'s default behavior is optimized for facilitating [filling layouts](filling.html). For example, if **fill item**(s), like `plotly_widget`, appear as _direct children_ of the card (or a `card_body()`), they grow/shrink in size to fit their `card_body()` container.
+
+:::
+
+::: col-md-6
 ```{r}
 card(
-  height = 250, full_screen = TRUE,
-  card_header("Fixed sizing"),
+  max_height = 250, 
+  full_screen = TRUE,
+  card_header("A filling plot"),
+  plotly_widget
+)
+```
+:::
+:::
+
+
+::: row
+::: col-md-6
+Although most outputs (e.g., `shiny::plotOutput()`, etc.) are **fill items**, most other UI elements (e.g., `shiny::div()`) are not, so wrapping an output container in additional `shiny::div()` (which something like `shiny::uiOutput()` does implicitly) breaks filling behavior. In this case, you can leverage `as_fill_carrier()` to "carry" the potential to fill from the `card()` down to the relevant contents.
+:::
+
+::: col-md-6
+```{r}
+is_fill(plotly_widget)
+is_fill(uiOutput("some_output"))
+
+card(
+  max_height = 250, 
+  full_screen = TRUE,
+  card_header("A filling plot"),
+  uiOutput("some_output") |>
+    as_fill_carrier()
+)
+```
+:::
+:::
+
+
+::: row
+::: col-md-6
+Beware that, by default, there are no limits to how large or small **fill item**(s) may become, so 
+
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 300, 
+  full_screen = TRUE,
+  card_header("A filling plot"),
   plotly_widget,
-  card_footer(
-    class = "fs-6",
-    "Copyright 2022 RStudio, PBC"
-  )
+  plotly_widget
 )
 ```
-  </div>
-</div>
-  </div>
-</div>
+:::
+:::
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>What's a fill item?</h3>
+
+ See the [article on filling](filling.html) to learn more.
+:::
+
+
+## Multiple `card_body()`
+
+::: {.row .mt-3}
+::: col-md-6
+A `card()` can have multiple `card_body()`s, which is especially useful for putting different grow/shrink limits on different sections of the body. For example, if we had lots of paragraphs
+
+1. For combining both filling and scrolling contents (as shown on the example).
+2. For having multiple rows of filling outputs, each with their own restrictions on the min/max height, etc.
+
+Note that, when combining filling (i.e., ``)
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 300, 
+  full_screen = TRUE,
+  card_header(
+    "A filling plot and scrolling description"
+  ),
+  card_body(
+    min_height = 150,
+    plotly_widget
+  ),
+  lorem::ipsum(paragraphs = 10, sentences = 5)
+)
+```
+:::
+:::
+
+
+## Multiple columns
 
 ::: row
 ::: col-md-6
-Under-the-hood, `card_body_fill()` achieves its behavior because it is a [flex container](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), which makes its direct children flex items. This can lead to suprising, yet useful, differences in behavior from `card_body()`. For example, each inline element (like text, `actionLink()`, `actionButton()`, etc) is placed in a new row and stretches horizontally (as shown in the example). In the case where you want particular elements inside of `card_body_fill()` to behave as though they're in `card_body()` (i.e., have the `actionLink()` and `actionButton()` appear inline on the same line), just wrap those elements in a `div()`.
+Leverage `layout_column_wrap()` for multiple columns that still support [filling outputs](#filling-outputs) within a card (which can also be used to layout [multiple cards](#multiple-cards)), especially if the height of those columns should grow/shrink as needed.
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 300, 
+  full_screen = TRUE,
+  card_header("A multi-column filling layout"),
+  card_body(
+    min_height = 150,
+    layout_column_wrap(
+      width = 1/2,
+      plotOutput("p1"),
+      plotOutput("p2")
+    )
+  ),
+  lorem::ipsum(paragraphs = 3, sentences = 5)
+)
+```
+:::
+:::
+
+## Sidebars
+
+::: row
+::: col-md-6
+
+:::
+
+::: col-md-6
+```{r}
+card(
+  max_height = 300, 
+  full_screen = TRUE,
+  card_header("A card-based sidebar layout"),
+  layout_sidebar(
+    fillable = TRUE,
+    sidebar(
+      width = 100,
+      actionButton("btn", "A button")
+    ),
+    plotly_widget
+  )
+)
+```
+:::
+:::
+
+
+
+## Flexbox
+
+::: {.row .mt-3}
+::: col-md-6
+`card_body()` is a CSS [flexbox container](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) by default, which is a great for enabling [filling output](#filling-output), but does lead to surprising behavior with things like inline tags (e.g., `shiny::actionButton()`, `shiny::span()`, etc). In this case, consider setting `fillable = FALSE` to get the typical layout experience. Also, for textual content, consider using `shiny::markdown()` (or `shiny::includeMarkdown()`), which effectively yields the same result regardless of `fillable`[^markdown]. 
+:::
+
+[^markdown]: This is essentially because each paragraph gets wrapped in a `<p>` tag, which means the children of the `<p>` tag won't be treated as flex items. 
+
+::: col-md-6
+```{r}
+card(
+  "Here's some", tags$i("inline"), "text",
+  actionButton("btn1", "A button"),
+  card_body(fillable = FALSE,
+    "Here's some", tags$i("inline"), "text"
+  ),
+  markdown("Here's some _inline_ text"),
+  card_body(fillable = FALSE,
+    actionButton("btn2", "A button")
+  )
+)
+```
+:::
+:::
+
+
+::: {.row .mt-3}
+::: col-md-6
+Keep in mind though, sometimes the `fillable = TRUE` behavior of stretching each inline element horizontally can be pretty useful. Say, for example, making a button full-width below some filling output. Also, if you're willing to spend some time learning [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), it makes some spacing and alignment issues much easier to address. Say, for example, centering an `actionLink()` (done here with Bootstrap's [flex utility classes](https://getbootstrap.com/docs/5.3/utilities/flex/)):
 :::
 
 ::: col-md-6
@@ -227,15 +332,15 @@ Under-the-hood, `card_body_fill()` achieves its behavior because it is a [flex c
 card(
   height = 250, full_screen = TRUE,
   card_header("A plot with an action links"),
-  card_body_fill(
+  card_body(
     plotly_widget,
-    actionLink(
-      "go", "Action link", 
-      class = "link-primary align-self-center"
-    ),
     actionButton(
       "go_btn", "Action button", 
       class = "btn-primary rounded-0"
+    ),
+    actionLink(
+      "go", "Action link", 
+      class = "link-primary align-self-center py-1"
     )
   )
 )
@@ -244,53 +349,11 @@ card(
 :::
 
 
-::: row
-::: col-md-6
-Sometimes it's useful to put a limit on how much the contents of `card_body_fill()` may grow or shrink. For example, here's a case where the plot won't expand over 400 pixels (try expanding to full screen).
-:::
-
-::: col-md-6
-```{r}
-card(
-  height = 200, full_screen = TRUE,
-  card_header("Try expanding full screen"),
-  card_body_fill(
-    plotly_widget, 
-    max_height = "400px"
-  )
-)
-```
-:::
-:::
-
-
-## Fixed & responsive sizing
-
-::: row
-::: col-md-6
-Sometimes it's desirable to combine both `card_body_fill()` with `card_body()` to allow some portion of the body to grow/shrink as needed, but also keep another portion at a fixed/defined height. 
-:::
-
-::: col-md-6
-```{r}
-card(
-  height = 300, full_screen = TRUE,
-  card_header("Plot with long description"),
-  card_body_fill(plotly_widget),
-  card_body(
-    height = "30%", 
-    lorem_ipsum_dolor_sit_amet
-  )
-)
-```
-:::
-:::
-
 ## Spacing & alignment
 
 ::: row
 ::: col-md-6
-Both `card_body()` and `card_body_fill()` include padding between their contents and the `card()` container by default. In either case, you can override those defaults with Bootstrap's [spacing utility classes](https://getbootstrap.com/docs/5.2/utilities/spacing/), like `"p-0"` to remove the padding altogether. This is especially useful if
+Both `card_body()` and `card_body_fillable()` include padding between their contents and the `card()` container by default. In either case, you can override those defaults with Bootstrap's [spacing utility classes](https://getbootstrap.com/docs/5.2/utilities/spacing/), like applying `"p-0"` to remove the padding altogether. This is especially useful if
 
 1. The content itself already provides sufficient padding. 
 2. The content's background color is different from the card.[^2]
@@ -302,8 +365,8 @@ Both `card_body()` and `card_body_fill()` include padding between their contents
 ```{r}
 card(
   height = 250, full_screen = TRUE,
-  card_header("A stretchy plot with no padding"),
-  card_body_fill(
+  card_header("A filling plot (with no padding)"),
+  card_body(
     class = "p-0",
     plotOutput("id")
   )
@@ -316,7 +379,7 @@ card(
 
 ::: row
 ::: col-md-6
-Utility classes are really useful since they not only also help with spacing and alignment of stuff _within_ a `card_body()` (or `card_body_fill()`), but more generally enable easy customization of colors, fonts, and more.
+Not only are utility classes useful to help with spacing and alignment of stuff _within_ a `card_body()` (or `card_body_fillable()`), but they also enable easy customization of [colors](https://getbootstrap.com/docs/5.3/utilities/colors/), [fonts](https://getbootstrap.com/docs/5.3/utilities/text/), and [more](https://getbootstrap.com/docs/5.3/utilities/).
 :::
 
 ::: col-md-6
@@ -337,13 +400,13 @@ card(
 
 ::: row
 ::: col-md-6
-In the case of `card_body_fill()`, since it's based on [CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), you can add uniform spacing between children via the `gap` argument. Note there is a similar way to space between [multiple columns](#multiple-columns).
+In the case of `card_body_fillable()`, since it's based on [CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), you can add uniform spacing between children via the `gap` argument. Note there is a similar way to space between [multiple columns](#multiple-columns).
 :::
 
 ::: col-md-6
 ```{r}
 card(
-  card_body_fill(
+  card_body(
     gap = "1rem", class = "p-3",
     div(class = "bg-secondary", "Thing 1"),
     div(class = "bg-secondary", "Thing 2"),
@@ -356,14 +419,14 @@ card(
 
 ::: row
 ::: col-md-6
-Again, thanks to CSS flexbox, if the contents of a `card_body_fill()` aren't full width, you can pretty easily horizontally center them via [flex utility classes](https://getbootstrap.com/docs/5.2/utilities/flex/) (note that you could handle similar alignment issues with `card_body()` by making it a flexbox container with `card_body(class = "d-flex")`.
+Again, thanks to CSS flexbox, if the contents of a `card_body_fillable()` aren't full width, you can pretty easily horizontally center them via [flex utility classes](https://getbootstrap.com/docs/5.2/utilities/flex/) (note that you could handle similar alignment issues with `card_body()` by making it a flexbox container with `card_body(class = "d-flex")`.
 :::
 
 ::: col-md-6
 ```{r}
 card(
   height = 150, full_screen = TRUE,
-  card_body_fill(
+  card_body(
     class = "p-3 align-items-center",
     plotOutput("id", width = "50%")
   )
@@ -372,7 +435,7 @@ card(
 :::
 :::
 
-## Dynamic rendering (Shiny)
+## Shiny
 
 ::: row
 ::: col-md-6
@@ -386,10 +449,10 @@ One neat thing about dynamic rendering is that you can leverage `shiny::getCurre
 # UI logic
 ui <- page_fluid(
   card(
-    height = 200,
+    max_height = 200,
     full_screen = TRUE,
     card_header("A dynamically rendered plot"),
-    card_body_fill(plotOutput("plot_id"))
+    plotOutput("plot_id")
   )
 )
 
@@ -440,7 +503,7 @@ card(
 
 ::: row
 ::: col-md-6
-`navs_tab_card()` (as well as `navs_pill_card()`) makes it easy to create cards with multiple tabs (or pills). These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fill()` where appropriate to get [responsive sizing](#responsive-sizing).
+`navs_tab_card()` and `navs_pill_card()` make it easy to create cards with multiple tabs or pills. These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav()` panel will be implicitly wrapped in a `card_body()` call, and so, the children of each `nav()` are rendered as [flex items](#flexbox). To avoid this, wrap those children in an explicit `card_body(fillable = FALSE, ...)`, as done here:
 :::
 
 
@@ -453,17 +516,20 @@ navs_tab_card(
   nav(
     "Plotly", 
     card_title("A plotly plot", class = "pt-1"),
-    card_body_fill(plotly_widget)
+    plotly_widget
   ),
   nav(
     "Leaflet",
     card_title("A leaflet plot", class = "pt-1"),
-    card_body_fill(leaflet_widget)
+    leaflet_widget
   ),
   nav(
     shiny::icon("circle-info"),
-    "Learn more about",
-    tags$a("htmlwidgets", href = "http://www.htmlwidgets.org/")
+    card_body(
+      fillable = FALSE,
+      "Learn more about",
+      tags$a("htmlwidgets", href = "http://www.htmlwidgets.org/")
+    )
   )
 )
 ```
@@ -471,30 +537,7 @@ navs_tab_card(
 :::
 
 
-## Multiple columns
 
-::: row
-::: col-md-6
-To create multiple columns within a card, it's recommended to use `layout_column_wrap()` (which can also be used to layout [multiple cards](#multiple-cards)), especially if the height of those columns should grow/shrink as needed.
-:::
-
-::: col-md-6
-```{r}
-card(
-  height = 300, full_screen = TRUE,
-  layout_column_wrap(
-    width = 1/2, class = "p-3",
-    plotOutput("p1"),
-    plotOutput("p2")
-  ),
-  card_body(
-    height = "30%", class = "pt-0",
-    lorem_ipsum_dolor_sit_amet
-  )
-)
-```
-:::
-:::
 
 
 ## Multiple cards
@@ -506,7 +549,7 @@ See the article on layout, specifically the [section on `layout_column_wrap()`](
 The following CSS is used to give `plotOutput()` a background color; it's necessary here because this documentation page is not actually hooked up to a Shiny app, so we can't show a real plot.
 
 ```{css}
-.shiny-plot-output {
+.shiny-plot-output, .shiny-html-output {
   background-color: #216B7288;
   height: 400px;
   width: 100%;

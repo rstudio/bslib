@@ -10,7 +10,7 @@ template:
   bslib:
     info: "#E6F2FD"
     base_font:
-      google: "Atkinson Hyperlegible"
+      google: {family: "Atkinson Hyperlegible", wght: [400, 700], ital: [0, 1]}
     headings-color: "#206B72"
     link-color: "#216B73"
     link-decoration: underline var(--bs-info) dotted
@@ -24,29 +24,36 @@ navbar:
   bg: info
   type: light
   structure:
-    left:  [intro, articles, integration]
+    left:  [intro, theming, components, layouts]
     right: [reference, news, github]
   components:
     home: ~
-    articles:
-      text: Articles
+    theming:
+      text: Theming
       menu:
-        #- text: Why Sass over CSS?
-        #  href: articles/why-sass.html
-        - text: Cards
-          href: articles/cards.html
-        - text: Value Boxes
-          href: articles/value-boxes.html
-        - text: Sidebars
-          href: articles/sidebars.html
-        - text: Layouts
-          href: articles/layouts.html
         - text: Theming variables
           href: articles/bs5-variables.html
         - text: Utility Classes
           href: articles/utility-classes.html
         - text: Custom components
           href: articles/custom-components.html
+    components:
+      text: Components
+      menu:
+        - text: Cards
+          href: articles/cards.html
+        - text: Value Boxes
+          href: articles/value-boxes.html
+        - text: Sidebars
+          href: articles/sidebars.html
+    layouts:
+      text: Layouts
+      menu:
+        - text: Filling layouts
+          href: articles/filling.html
+        - text: Column-first layout
+          href: articles/layouts.html
+
     reference:
       text: Reference
       href: reference/index.html
@@ -131,3 +138,10 @@ reference:
     - theme_bootswatch
     - bootswatch_themes
     - version_default
+
+
+  redirects:
+    - ["articles/cards.html#fixed-sizing", "articles/cards.html#scrolling-contents"]
+    - ["articles/cards.html#responsive-sizing", "articles/cards.html#filling-contents"]
+    - ["articles/cards.html#fixed-responsive-sizing", "articles/cards.html#scrolling-filling"]
+    - ["articles/cards.html#dynamic-rendering-shiny", "articles/cards.html#shiny"]
