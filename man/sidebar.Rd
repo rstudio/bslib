@@ -59,8 +59,8 @@ customize the foreground color).}
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
 
-\item{fill}{Whether or not the layout container should grow/shrink to fit
-a fillable container.}
+\item{fill}{Whether or not to allow the layout container to grow/shrink to fit a
+fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{border}{Whether or not to add a border.}
 

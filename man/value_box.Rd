@@ -15,6 +15,8 @@ value_box(
   full_screen = FALSE,
   theme_color = "primary",
   height = NULL,
+  max_height = NULL,
+  fill = TRUE,
   class = NULL
 )
 
@@ -35,7 +37,7 @@ showcase_top_right(
 the title or value of the value box. The \code{title} appears above the \code{value}.}
 
 \item{...}{Unnamed arguments may be any \code{\link[htmltools:builder]{htmltools::tag()}} children to
-display below \code{value}.. Named arguments become attributes on the containing
+display below \code{value}. Named arguments become attributes on the containing
 element.}
 
 \item{showcase}{a \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
@@ -51,10 +53,14 @@ changes in the size of the card.}
 
 \item{theme_color}{a theme color to use for the background color. Should
 match a name in the Bootstrap Sass variable \verb{$theme-colors} (e.g.,
-\code{"secondary"}, \code{"success"}, \code{"danger"}, etc)}
+\code{"secondary"}, \code{"success"}, \code{"danger"}, etc).}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}).}
+
+\item{max_height, max_height_full_screen}{A proportion (i.e., a number between
+0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
+showcase max_height.}
 
 \item{class}{utility classes for customizing the appearance of the summary
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
@@ -70,10 +76,6 @@ the showcase width and for \code{showcase_top_right} the 2nd unit defines the
 showcase width). Note that any units supported by the CSS grid
 \code{grid-template-columns} property may be used (e.g., \code{fr} units).
 }}
-
-\item{max_height, max_height_full_screen}{A proportion (i.e., a number between
-0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
-showcase max_height.}
 }
 \description{
 An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displaying a \code{value} and

@@ -4,7 +4,7 @@
 \alias{page}
 \alias{page_fluid}
 \alias{page_fixed}
-\alias{page_fill}
+\alias{page_fillable}
 \alias{page_navbar}
 \title{Create a Bootstrap page}
 \usage{
@@ -14,9 +14,10 @@ page_fluid(..., title = NULL, theme = bs_theme(), lang = NULL)
 
 page_fixed(..., title = NULL, theme = bs_theme(), lang = NULL)
 
-page_fill(
+page_fillable(
   ...,
-  padding = 0,
+  padding = NULL,
+  gap = NULL,
   fill_mobile = FALSE,
   title = NULL,
   theme = bs_theme(),

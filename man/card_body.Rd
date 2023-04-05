@@ -13,14 +13,7 @@
 \usage{
 card_body(..., fill = FALSE, height = NULL, class = NULL)
 
-card_body_fill(
-  ...,
-  gap = NULL,
-  max_height = NULL,
-  max_height_full_screen = max_height,
-  min_height = NULL,
-  class = NULL
-)
+card_body_fill(...)
 
 card_title(..., container = htmltools::h5)
 
@@ -56,11 +49,6 @@ UI element.}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 
-\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
-
-\item{max_height, max_height_full_screen, min_height}{Any valid \link[htmltools:validateCssUnit]{CSS length unit}.}
-
 \item{container}{a function to generate an HTML element to contain the image.}
 
 \item{file}{a file path pointing an image. The image will be base64 encoded
@@ -76,6 +64,11 @@ set this value to \code{NULL} and provide the \code{src} yourself.}
 \item{width}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g., \code{width="100\%"}).}
 
 \item{x}{an object to test (or coerce to) a card item.}
+
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+
+\item{max_height, max_height_full_screen, min_height}{Any valid \link[htmltools:validateCssUnit]{CSS length unit}.}
 }
 \value{
 An \code{\link[htmltools:builder]{htmltools::div()}} tag.
