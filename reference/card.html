@@ -73,6 +73,8 @@ border and optional padding. To learn more about <code>card()</code>s, see <a hr
 <span>  <span class="va">...</span>,</span>
 <span>  full_screen <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  wrapper <span class="op">=</span> <span class="va">card_body</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -87,14 +89,24 @@ Named arguments become HTML attributes on returned UI element.</p></dd>
 
 <dt>full_screen</dt>
 <dd><p>If <code>TRUE</code>, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size. Consider
-pairing this feature with <code><a href="card_body.html">card_body_fill()</a></code> to get output that responds to
-changes in the size of the card.</p></dd>
+body. Clicking the icon expands the card to fit viewport size.</p></dd>
 
 
 <dt>height</dt>
 <dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
-<code>height="200px"</code>).</p></dd>
+<code>height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
+(in this case, consider setting a <code>height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
+
+
+<dt>max_height</dt>
+<dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
+<code>max_height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
+(in this case, consider setting a <code>max_height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
+
+
+<dt>fill</dt>
+<dd><p>Whether or not to allow the card to grow/shrink to fit a
+fillable container with an opinionated height (e.g., <code><a href="page.html">page_fillable()</a></code>).</p></dd>
 
 
 <dt>class</dt>
@@ -106,9 +118,7 @@ changes in the size of the card.</p></dd>
 arguments in <code>...</code> which are not already card item(s) (like
 <code><a href="card_body.html">card_header()</a></code>, <code><a href="card_body.html">card_body()</a></code>, etc.). Note that non-card items are grouped
 together into one <code>wrapper</code> call (e.g. given <code>card("a", "b", card_body("c"), "d")</code>, <code>wrapper</code> would be called twice, once with <code>"a"</code> and
-<code>"b"</code> and once with <code>"d"</code>). Consider setting <code>wrapper</code> to <a href="card_body.html">card_body_fill</a>
-if the entire card wants responsive sizing or <code>NULL</code> to avoid wrapping
-altogether</p></dd>
+<code>"b"</code> and once with <code>"d"</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">

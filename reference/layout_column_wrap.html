@@ -78,6 +78,7 @@ display. For more explanation and illustrative examples, see <a href="https://rs
 <span>  fixed_width <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  heights_equal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"row"</span><span class="op">)</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fillable <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  height_mobile <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gap <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -119,12 +120,18 @@ of the grid will have the same height, but heights may vary between rows.</p></d
 
 
 <dt>fill</dt>
-<dd><p>whether or not the grid items should grow to fill the row height.</p></dd>
+<dd><p>Whether or not to allow the layout to grow/shrink to fit a
+fillable container with an opinionated height (e.g., <code><a href="page.html">page_fillable()</a></code>).</p></dd>
+
+
+<dt>fillable</dt>
+<dd><p>Whether or not each element is wrapped in a fillable container.</p></dd>
 
 
 <dt>height</dt>
 <dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
-<code>height="200px"</code>).</p></dd>
+<code>height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
+(in this case, consider setting a <code>height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
 
 
 <dt>height_mobile</dt>
@@ -134,7 +141,7 @@ devices (or narrow windows).</p></dd>
 
 <dt>gap</dt>
 <dd><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a> defining the
-<code>gap</code> (i.e., spacing) between elements provided to <code>...</code>.</p></dd>
+<code>gap</code> (i.e., spacing) between elements provided to <code>...</code>. This argument is only applicable when <code>fillable = TRUE</code></p></dd>
 
 
 <dt>class</dt>
@@ -153,21 +160,21 @@ devices (or narrow windows).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
@@ -180,21 +187,21 @@ devices (or narrow windows).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body" style="flex:0 0 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>

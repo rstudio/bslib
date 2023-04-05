@@ -173,8 +173,8 @@ fillable (i.e., flexbox) container.</p></dd>
 
 
 <dt>fill</dt>
-<dd><p>Whether or not the layout container should grow/shrink to fit
-a fillable container.</p></dd>
+<dd><p>Whether or not to allow the layout container to grow/shrink to fit a
+fillable container with an opinionated height (e.g., <code><a href="page.html">page_fillable()</a></code>).</p></dd>
 
 
 <dt>border</dt>
@@ -187,7 +187,8 @@ a fillable container.</p></dd>
 
 <dt>height</dt>
 <dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
-<code>height="200px"</code>).</p></dd>
+<code>height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
+(in this case, consider setting a <code>height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
 
 
 <dt>session</dt>

@@ -69,14 +69,15 @@ general overview of the <code><a href="card.html">card()</a></code> API, see <a 
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">card_body</span><span class="op">(</span><span class="va">...</span>, fill <span class="op">=</span> <span class="cn">FALSE</span>, height <span class="op">=</span> <span class="cn">NULL</span>, class <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">card_body_fill</span><span class="op">(</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">card_body</span><span class="op">(</span></span>
 <span>  <span class="va">...</span>,</span>
-<span>  gap <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fillable <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  min_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_height_full_screen <span class="op">=</span> <span class="va">max_height</span>,</span>
-<span>  min_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  gap <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -94,8 +95,9 @@ general overview of the <code><a href="card.html">card()</a></code> API, see <a 
 <span>  mime_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  container <span class="op">=</span> <span class="va">card_body_fill</span></span>
+<span>  container <span class="op">=</span> <span class="va">card_body</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">as.card_item</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
@@ -110,27 +112,33 @@ general overview of the <code><a href="card.html">card()</a></code> API, see <a 
 UI element.</p></dd>
 
 
-<dt>fill</dt>
-<dd><p>whether to allow the <code>card_body()</code> to grow and shrink to fit its
-<code><a href="card.html">card()</a></code>.</p></dd>
+<dt>fillable</dt>
+<dd><p>Whether or not the card item should be a fillable (i.e.
+flexbox) container.</p></dd>
+
+
+<dt>min_height, max_height, max_height_full_screen</dt>
+<dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a>.</p></dd>
 
 
 <dt>height</dt>
 <dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
-<code>height="200px"</code>).</p></dd>
-
-
-<dt>class</dt>
-<dd><p>Additional CSS classes for the returned UI element.</p></dd>
+<code>height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
+(in this case, consider setting a <code>height</code> in <code>card_body()</code>).</p></dd>
 
 
 <dt>gap</dt>
 <dd><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a> defining the
-<code>gap</code> (i.e., spacing) between elements provided to <code>...</code>.</p></dd>
+<code>gap</code> (i.e., spacing) between elements provided to <code>...</code>. This argument is only applicable when <code>fillable = TRUE</code></p></dd>
 
 
-<dt>max_height, max_height_full_screen, min_height</dt>
-<dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a>.</p></dd>
+<dt>fill</dt>
+<dd><p>Whether to allow this element to grow/shrink to fit its <code><a href="card.html">card()</a></code>
+container.</p></dd>
+
+
+<dt>class</dt>
+<dd><p>Additional CSS classes for the returned UI element.</p></dd>
 
 
 <dt>container</dt>
@@ -173,9 +181,6 @@ set this value to <code>NULL</code> and provide the <code>src</code> yourself.</
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
 <ul><li><p><code>card_body()</code>: A general container for the "main content" of a <code><a href="card.html">card()</a></code>.</p></li>
-<li><p><code>card_body_fill()</code>: Similar to <code>card_body(fill = TRUE)</code>, but also marks the
-return element as a "fill container" (via <code><a href="https://rstudio.github.io/htmltools/reference/bindFillRole.html" class="external-link">htmltools::bindFillRole()</a></code>) so
-that its immediate children are allowed to grow and shrink to fit.</p></li>
 <li><p><code>card_title()</code>: Similar to <code>card_header()</code> but without the border and background color.</p></li>
 <li><p><code>card_header()</code>: A header (with border and background color) for the <code><a href="card.html">card()</a></code>. Typically appears before a <code>card_body()</code>.</p></li>
 <li><p><code>card_footer()</code>: A header (with border and background color) for the <code><a href="card.html">card()</a></code>. Typically appears after a <code>card_body()</code>.</p></li>

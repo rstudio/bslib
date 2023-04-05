@@ -208,14 +208,13 @@ elements into a menu when the width of the browser is less than 940 pixels
 
 <dt>height</dt>
 <dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
-<code>height="200px"</code>).</p></dd>
+<code>height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
+(in this case, consider setting a <code>height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
 
 
 <dt>full_screen</dt>
 <dd><p>If <code>TRUE</code>, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size. Consider
-pairing this feature with <code><a href="card_body.html">card_body_fill()</a></code> to get output that responds to
-changes in the size of the card.</p></dd>
+body. Clicking the icon expands the card to fit viewport size.</p></dd>
 
 
 <dt>wrapper</dt>
@@ -223,9 +222,7 @@ changes in the size of the card.</p></dd>
 arguments in <code>...</code> which are not already card item(s) (like
 <code><a href="card_body.html">card_header()</a></code>, <code><a href="card_body.html">card_body()</a></code>, etc.). Note that non-card items are grouped
 together into one <code>wrapper</code> call (e.g. given <code>card("a", "b", card_body("c"), "d")</code>, <code>wrapper</code> would be called twice, once with <code>"a"</code> and
-<code>"b"</code> and once with <code>"d"</code>). Consider setting <code>wrapper</code> to <a href="card_body.html">card_body_fill</a>
-if the entire card wants responsive sizing or <code>NULL</code> to avoid wrapping
-altogether</p></dd>
+<code>"b"</code> and once with <code>"d"</code>).</p></dd>
 
 
 <dt>placement</dt>

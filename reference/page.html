@@ -81,9 +81,10 @@ The return value is rendered as an static HTML page when printed interactively a
 <span></span>
 <span><span class="fu">page_fixed</span><span class="op">(</span><span class="va">...</span>, title <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>, lang <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">page_fill</span><span class="op">(</span></span>
+<span><span class="fu">page_fillable</span><span class="op">(</span></span>
 <span>  <span class="va">...</span>,</span>
-<span>  padding <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  padding <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  gap <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fill_mobile <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -145,6 +146,11 @@ for the top and bottom, while the second value will be used for left and
 right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.</p></dd>
+
+
+<dt>gap</dt>
+<dd><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a> defining the
+<code>gap</code> (i.e., spacing) between elements provided to <code>...</code>.</p></dd>
 
 
 <dt>fill_mobile</dt>
