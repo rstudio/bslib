@@ -22,9 +22,6 @@
     }
   }
 
-  // For modalDialog(title = ...)
-  h4.modal-title { margin-top: $spacer; }
-
 } @else {
 
   h1, h2, h3 { margin-top: 1.5 * $spacer;}
