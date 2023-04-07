@@ -14,6 +14,7 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
   * `page_fill()` no longer fills the windows height on mobile (i.e., narrow screens) by default (set `fill_mobile = TRUE` to restore the old behavior). 
   * `page_fill()` now adds `padding` and `gap` by default, set `padding = 0` and `gap = 0` to restore the old behavior.
 * `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`) usage. Similarly, `navs_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
+* Closed #510: `card()` no longer includes `margin-bottom`. To revert the old behavior, add `class = "mb-3` to `card()`. (#542)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
 
 ## New features
