@@ -161,6 +161,45 @@ devices (or narrow windows).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;script data-bslib-card-needs-init&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var thisScript = document.querySelector('script[data-bslib-card-needs-init]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!thisScript) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       thisScript.removeAttribute('data-bslib-card-needs-init');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var card = $(thisScript).parents('.card').last();</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!card) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Let Shiny know to trigger resize when the card size changes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // TODO: shiny could/should do this itself (rstudio/shiny#3682)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var resizeEvent = window.document.createEvent('UIEvents');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       resizeEvent.initUIEvent('resize', true, false, window, 0);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var ro = new ResizeObserver(() =&gt; { window.dispatchEvent(resizeEvent); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       ro.observe(card[0]);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Enable tooltips (for the expand icon)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // In some complex fill-based layouts with multiple outputs (e.g., plotly),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // shiny initializes with the correct sizing, but in-between the 1st and last</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(), the size of the output containers can change, meaning every</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // output but the 1st gets initialized with the wrong size during their</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(); and then after the render phase, shiny won't know trigger a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // resize since all the widgets will return to their original size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // (and thus, Shiny thinks there isn't any resizing to do).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // We workaround that situation by manually triggering a resize on the binding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // when the output container changes (this way, if the size is different during</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // the render phase, Shiny will know about it)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       $(document).on('shiny:value', function(x) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         var el = x.binding.el;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (card[0].contains(el) &amp;&amp; !$(el).data('bslib-output-observer')) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           var roo = new ResizeObserver(x.binding.onResize);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           roo.observe(el);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           $(el).data('bslib-output-observer', true);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/script&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
@@ -168,6 +207,45 @@ devices (or narrow windows).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;script data-bslib-card-needs-init&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var thisScript = document.querySelector('script[data-bslib-card-needs-init]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!thisScript) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       thisScript.removeAttribute('data-bslib-card-needs-init');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var card = $(thisScript).parents('.card').last();</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!card) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Let Shiny know to trigger resize when the card size changes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // TODO: shiny could/should do this itself (rstudio/shiny#3682)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var resizeEvent = window.document.createEvent('UIEvents');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       resizeEvent.initUIEvent('resize', true, false, window, 0);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var ro = new ResizeObserver(() =&gt; { window.dispatchEvent(resizeEvent); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       ro.observe(card[0]);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Enable tooltips (for the expand icon)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // In some complex fill-based layouts with multiple outputs (e.g., plotly),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // shiny initializes with the correct sizing, but in-between the 1st and last</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(), the size of the output containers can change, meaning every</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // output but the 1st gets initialized with the wrong size during their</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(); and then after the render phase, shiny won't know trigger a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // resize since all the widgets will return to their original size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // (and thus, Shiny thinks there isn't any resizing to do).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // We workaround that situation by manually triggering a resize on the binding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // when the output container changes (this way, if the size is different during</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // the render phase, Shiny will know about it)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       $(document).on('shiny:value', function(x) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         var el = x.binding.el;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (card[0].contains(el) &amp;&amp; !$(el).data('bslib-output-observer')) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           var roo = new ResizeObserver(x.binding.onResize);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           roo.observe(el);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           $(el).data('bslib-output-observer', true);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/script&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
@@ -175,6 +253,45 @@ devices (or narrow windows).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;script data-bslib-card-needs-init&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var thisScript = document.querySelector('script[data-bslib-card-needs-init]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!thisScript) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       thisScript.removeAttribute('data-bslib-card-needs-init');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var card = $(thisScript).parents('.card').last();</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!card) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Let Shiny know to trigger resize when the card size changes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // TODO: shiny could/should do this itself (rstudio/shiny#3682)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var resizeEvent = window.document.createEvent('UIEvents');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       resizeEvent.initUIEvent('resize', true, false, window, 0);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var ro = new ResizeObserver(() =&gt; { window.dispatchEvent(resizeEvent); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       ro.observe(card[0]);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Enable tooltips (for the expand icon)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // In some complex fill-based layouts with multiple outputs (e.g., plotly),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // shiny initializes with the correct sizing, but in-between the 1st and last</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(), the size of the output containers can change, meaning every</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // output but the 1st gets initialized with the wrong size during their</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(); and then after the render phase, shiny won't know trigger a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // resize since all the widgets will return to their original size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // (and thus, Shiny thinks there isn't any resizing to do).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // We workaround that situation by manually triggering a resize on the binding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // when the output container changes (this way, if the size is different during</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // the render phase, Shiny will know about it)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       $(document).on('shiny:value', function(x) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         var el = x.binding.el;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (card[0].contains(el) &amp;&amp; !$(el).data('bslib-output-observer')) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           var roo = new ResizeObserver(x.binding.onResize);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           roo.observe(el);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           $(el).data('bslib-output-observer', true);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/script&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
@@ -188,6 +305,45 @@ devices (or narrow windows).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;script data-bslib-card-needs-init&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var thisScript = document.querySelector('script[data-bslib-card-needs-init]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!thisScript) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       thisScript.removeAttribute('data-bslib-card-needs-init');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var card = $(thisScript).parents('.card').last();</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!card) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Let Shiny know to trigger resize when the card size changes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // TODO: shiny could/should do this itself (rstudio/shiny#3682)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var resizeEvent = window.document.createEvent('UIEvents');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       resizeEvent.initUIEvent('resize', true, false, window, 0);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var ro = new ResizeObserver(() =&gt; { window.dispatchEvent(resizeEvent); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       ro.observe(card[0]);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Enable tooltips (for the expand icon)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // In some complex fill-based layouts with multiple outputs (e.g., plotly),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // shiny initializes with the correct sizing, but in-between the 1st and last</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(), the size of the output containers can change, meaning every</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // output but the 1st gets initialized with the wrong size during their</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(); and then after the render phase, shiny won't know trigger a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // resize since all the widgets will return to their original size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // (and thus, Shiny thinks there isn't any resizing to do).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // We workaround that situation by manually triggering a resize on the binding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // when the output container changes (this way, if the size is different during</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // the render phase, Shiny will know about it)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       $(document).on('shiny:value', function(x) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         var el = x.binding.el;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (card[0].contains(el) &amp;&amp; !$(el).data('bslib-output-observer')) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           var roo = new ResizeObserver(x.binding.onResize);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           roo.observe(el);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           $(el).data('bslib-output-observer', true);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/script&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
@@ -195,6 +351,45 @@ devices (or narrow windows).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;script data-bslib-card-needs-init&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var thisScript = document.querySelector('script[data-bslib-card-needs-init]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!thisScript) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       thisScript.removeAttribute('data-bslib-card-needs-init');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var card = $(thisScript).parents('.card').last();</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!card) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Let Shiny know to trigger resize when the card size changes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // TODO: shiny could/should do this itself (rstudio/shiny#3682)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var resizeEvent = window.document.createEvent('UIEvents');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       resizeEvent.initUIEvent('resize', true, false, window, 0);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var ro = new ResizeObserver(() =&gt; { window.dispatchEvent(resizeEvent); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       ro.observe(card[0]);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Enable tooltips (for the expand icon)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // In some complex fill-based layouts with multiple outputs (e.g., plotly),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // shiny initializes with the correct sizing, but in-between the 1st and last</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(), the size of the output containers can change, meaning every</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // output but the 1st gets initialized with the wrong size during their</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(); and then after the render phase, shiny won't know trigger a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // resize since all the widgets will return to their original size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // (and thus, Shiny thinks there isn't any resizing to do).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // We workaround that situation by manually triggering a resize on the binding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // when the output container changes (this way, if the size is different during</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // the render phase, Shiny will know about it)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       $(document).on('shiny:value', function(x) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         var el = x.binding.el;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (card[0].contains(el) &amp;&amp; !$(el).data('bslib-output-observer')) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           var roo = new ResizeObserver(x.binding.onResize);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           roo.observe(el);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           $(el).data('bslib-output-observer', true);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/script&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
@@ -202,6 +397,45 @@ devices (or narrow windows).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="html-fill-item html-fill-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;"&gt;A simple card&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;script data-bslib-card-needs-init&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var thisScript = document.querySelector('script[data-bslib-card-needs-init]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!thisScript) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       thisScript.removeAttribute('data-bslib-card-needs-init');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var card = $(thisScript).parents('.card').last();</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       if (!card) throw new Error('Failed to register card() resize observer');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Let Shiny know to trigger resize when the card size changes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // TODO: shiny could/should do this itself (rstudio/shiny#3682)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var resizeEvent = window.document.createEvent('UIEvents');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       resizeEvent.initUIEvent('resize', true, false, window, 0);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var ro = new ResizeObserver(() =&gt; { window.dispatchEvent(resizeEvent); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       ro.observe(card[0]);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // Enable tooltips (for the expand icon)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // In some complex fill-based layouts with multiple outputs (e.g., plotly),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // shiny initializes with the correct sizing, but in-between the 1st and last</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(), the size of the output containers can change, meaning every</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // output but the 1st gets initialized with the wrong size during their</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // renderValue(); and then after the render phase, shiny won't know trigger a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // resize since all the widgets will return to their original size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // (and thus, Shiny thinks there isn't any resizing to do).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // We workaround that situation by manually triggering a resize on the binding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // when the output container changes (this way, if the size is different during</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       // the render phase, Shiny will know about it)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       $(document).on('shiny:value', function(x) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         var el = x.binding.el;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (card[0].contains(el) &amp;&amp; !$(el).data('bslib-output-observer')) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           var roo = new ResizeObserver(x.binding.onResize);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           roo.observe(el);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           $(el).data('bslib-output-observer', true);</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       });</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/script&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
