@@ -1,6 +1,4 @@
 .bslib-card {
-  margin-bottom: $spacer;
-
   // Avoid "double padding" when two card_body()s are immediate siblings
   .card-body + .card-body {
     padding-top: 0;
