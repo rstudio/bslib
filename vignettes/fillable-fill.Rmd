@@ -30,7 +30,7 @@ fillable_container <- function(..., tooltip = NULL, resizable = FALSE, padding =
     ),
     ...,
     wrapper = function(...) {
-      card_body_fillable(
+      card_body(
         class = if (padding) "p-1" else "p-0",
         gap = if (padding) gap,
         ...
@@ -232,7 +232,7 @@ The previous section focuses on the fairly simple case of _one_ parent container
 
 ::: {.row .mt-3}
 ::: col-md-6
-As a result, a common way in which (1) breaks down is that a [non-fill]{.b-orange} element, like a `shiny::div()`, is a parent of the [fill]{.b-blue} and a child of the [fillable container]{.b-pink}. In fact, you'll run into this exact behavior when using `shiny::uiOutput()` to insert a dynamically rendered [fill]{.b-blue} item into a [fillable container]{.b-pink}.
+As a result, a common way in which (1) breaks down is that a [non-fill]{.b-orange} element, like a `shiny::div()`, comes between [fillable]{.b-pink} and [fill]{.b-blue}. In fact, you'll run into this exact behavior when using `shiny::uiOutput()` to insert a dynamically rendered [fill]{.b-blue} item into a [fillable container]{.b-pink}.
 :::
 
 ::: col-md-6
@@ -253,14 +253,6 @@ fillable_container(
 )
 ```
 :::
-:::
-
-
-::: {.callout .callout-warning}
-<h3 data-toc-skip>Fill carriers</h3>
-
-
-Fill carriers
 :::
 
 ::: {.row .mt-3}
@@ -301,7 +293,7 @@ fillable_container(
   ), 
   child(
     fillable = TRUE,
-    tooltip = "<code>card_body_fillable()</code>",
+    tooltip = "<code>card_body()</code>",
     child(
       tooltip = "Fill",
       "data-bs-offset" = "-30,0"

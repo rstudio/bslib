@@ -54,9 +54,6 @@ shiny:::setCurrentTheme(bslib::bs_theme())
     display: none;
   }
 }
-.html-widget {
-  margin-bottom: 0;
-}
 iframe, .bslib-page-fill {
   height: 500px;
   border: var(--bs-border-width) solid var(--bs-border-color);
@@ -84,7 +81,7 @@ iframe.resizable {
 }
 ```
 
-`{bslib}` UI components (e.g., [cards](cards.html), [sidebars](sidebars), etc) are designed with filling layouts in mind. That is, these components activate their potential to grow/shrink in size when they appear as direct children of a **fillable container** with an opinionated height. 
+`{bslib}` UI components (e.g., [cards](cards.html), [sidebars](sidebars), etc) are designed to accommodate filling layouts. In short, these components possess the potential to grow/shrink in size when they appear as direct children of a **fillable container** with an opinionated height (e.g., `page_fillable()`). 
 
 
 The core underlying concept is that any UI element can be: (1) a **fill item**, (2) a **fillable container**, or (3) both. By carefully managing the relationship between fillable containers and fill items, we can not only create layouts that fill the browser window (similar to `{flexdashboard}` and `shiny::fillPage()`), but also create elements that properly fill a resizable container (e.g., [full-screen cards](cards.html#filling-contents)).
@@ -240,7 +237,7 @@ This happens because `card()` [implicitly wraps non card items](cards.html#impli
 card_plot_fill <- card(
   full_screen = TRUE,
   card_header("Diamond cut by clarity"),
-  card_body_fillable(cut_clarity, class = "p-0")
+  card_body(cut_clarity, class = "p-0")
 )
 page_fillable(card_plot_fill, card_plot_fill, fill_mobile = TRUE)
 ```
@@ -256,7 +253,7 @@ card_plot_fill <- card(
   full_screen = TRUE,
   max_height = 300,
   card_header("Diamond cut by clarity"),
-  card_body_fillable(cut_clarity, class = "p-0")
+  card_body(cut_clarity, class = "p-0")
 )
 page_fixed(card_plot_fill, card_plot_fill)
 ```
@@ -277,19 +274,19 @@ basic_sidebar <- layout_sidebar(
     card(
       full_screen = TRUE,
       card_header("Diamond price"),
-      card_body_fillable(price, class = "p-0")
+      card_body(price, class = "p-0")
     ),
     card(
       full_screen = TRUE,
       card_header("Diamond carat"),
-      card_body_fillable(carat, class = "p-0")
+      card_body(carat, class = "p-0")
     )
   ),
   br(),
   card(
     full_screen = TRUE,
     card_header("Diamond cut by clarity"),
-    card_body_fillable(cut_clarity, class = "p-0")
+    card_body(cut_clarity, class = "p-0")
   )
 )
 
