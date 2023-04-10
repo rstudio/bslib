@@ -45,13 +45,51 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     flex-direction: column;
     width: 100%;
 
+    > :last-child {
+      margin-bottom: 0;
+    }
+
     > .accordion {
-      margin: - $bslib-sidebar-padding;
+      margin-left: - $bslib-sidebar-padding;
+      margin-right: - $bslib-sidebar-padding;
+      &:first-child {
+        margin-top: - $bslib-sidebar-padding;
+      }
+      &:last-child {
+        margin-bottom: - $bslib-sidebar-padding;
+      }
+      &:not(:last-child) {
+        margin-bottom: $spacer;
+      }
       @extend .accordion-flush;
       .accordion-body {
         display: flex;
         flex-direction: column;
       }
+    }
+
+    // Accordions in sidebars are made flush with `.accordion-flush`, which
+    // removes the top and bottom border of the first or last accordion item.
+    // But in our usage, the accordions might not be the first or last item in
+    // the sidebar. In that case, it's better to keep the top/bottom borders.
+    > .accordion:not(:first-child) .accordion-item:first-child {
+      border-top: var(--#{$prefix}accordion-border-width) solid var(--#{$prefix}accordion-border-color);
+    }
+    > .accordion:not(:last-child) .accordion-item:last-child {
+      border-bottom: var(--#{$prefix}accordion-border-width) solid var(--#{$prefix}accordion-border-color);
+    }
+
+    // When a sidebar title appears just above an accordion, we use the
+    // accordion's top border as the "underline". The fiddly margin-top bit
+    // adjusts the accordion to cover the title bottom border in browsers
+    // that don't yet support :has().
+    // TODO: this can be removed once :has() has better browser support
+    > .sidebar-title + .accordion {
+      margin-top: calc(-#{$spacer} - var(--bs-card-border-width, #{$card-border-width}));
+    }
+
+    > .sidebar-title:has(+ .accordion) {
+      border-bottom: none;
     }
 
     .shiny-input-container {
@@ -91,6 +129,15 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     &:hover:after {
       opacity: 1;
     }
+  }
+
+  .sidebar-title {
+    font-size: $font-size-base * 1.25;
+    line-height: $line-height-sm;
+    margin-top: 0;
+    margin-bottom: $spacer;
+    padding-bottom: $spacer;
+    border-bottom: var(--bslib-sidebar-border);
   }
 
   &.sidebar-right {
