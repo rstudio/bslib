@@ -88,8 +88,9 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
 
     // When a sidebar title appears just above an accordion, we use the
     // accordion's top border as the "underline". The fiddly margin-top bit
-    // adjusts the accordion item to cover the title bottom border in browsers
+    // adjusts the accordion to cover the title bottom border in browsers
     // that don't yet support :has().
+    // TODO: this can be removed once :has() has better browser support
     > .sidebar-title + .accordion {
       margin-top: calc(-#{$spacer} - var(--bs-card-border-width, #{$card-border-width}));
     }
@@ -143,7 +144,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     margin-top: 0;
     margin-bottom: $spacer;
     padding-bottom: $spacer;
-    border-bottom: var(--bslib-sidebar-title-border-bottom, var(--bslib-sidebar-border));
+    border-bottom: var(--bslib-sidebar-border);
   }
 
   &.sidebar-right {
