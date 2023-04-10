@@ -13,6 +13,7 @@ sidebar(
   position = c("left", "right"),
   open = TRUE,
   id = NULL,
+  title = NULL,
   bg = NULL,
   class = NULL
 )
@@ -47,6 +48,11 @@ value of \code{NA} to prevent sidebar from being collapsible.}
 
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
+
+\item{title}{A character title to be used as the sidebar title, which will be
+wrapped in a \verb{<div>} element with class \code{sidebar-title}. You can also
+provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
+you'll likely want to give this element \code{class = "sidebar-title"}.}
 
 \item{bg}{A background color. If provided, an accessible contrasting color is
 provided for the foreground color (consider using a utility \code{class} to
