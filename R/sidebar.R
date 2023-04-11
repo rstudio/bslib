@@ -63,7 +63,8 @@ sidebar <- function(
     title = "Toggle sidebar",
     style = css(
       display = if (hide_collapse) "none",
-      background_color = bg
+      background_color = bg,
+      color = fg
     ),
     "aria-expanded" = if (open || hide_collapse) "true" else "false",
     "aria-controls" = id,
@@ -71,19 +72,20 @@ sidebar <- function(
   )
 
   res <- list2(
-    tag = tags$form(
+    tag = tags$div(
       id = id,
       role = "complementary",
       class = c("sidebar", class),
-      style = css(background_color = bg),
-      ...
+      style = css(background_color = bg, color = fg),
+      tags$div(
+        class = "sidebar-content",
+        ...
+      )
     ),
     collapse_tag = collapse_tag,
     position = match.arg(position),
     open = open,
-    width = validateCssUnit(width),
-    bg = bg,
-    fg = fg
+    width = validateCssUnit(width)
   )
 
   class(res) <- c("sidebar", class(res))
@@ -121,19 +123,11 @@ layout_sidebar <- function(
   }
 
   # main content area colors, if not provided ----
-  # 1. Fill in contrasting color for `fg` or `bg` if only one provided
   if (is.null(fg) && !is.null(bg)) {
     fg <- get_color_contrast(bg)
   }
   if (is.null(bg) && !is.null(fg)) {
     bg <- get_color_contrast(fg)
-  }
-  # 2. If the sidebar has a color, reset main to body fg/bg color
-  if (is.null(fg) && !is.null(sidebar$fg)) {
-    fg <- "var(--bs-body-color)"
-  }
-  if (is.null(bg) && !is.null(sidebar$bg)) {
-    bg <- "var(--bs-body-bg)"
   }
 
   main <- div(
@@ -161,9 +155,7 @@ layout_sidebar <- function(
       "--bslib-sidebar-border" = if (!border) "none",
       "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
       "--bs-card-border-color" = border_color,
-      height = validateCssUnit(height),
-      background_color = sidebar$bg,
-      color = sidebar$fg
+      height = validateCssUnit(height)
     ),
     !!!contents,
     sidebar_dependency(),
