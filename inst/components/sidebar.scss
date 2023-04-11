@@ -82,7 +82,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
     border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
     padding: 7px 0;
     background-color: $bslib-sidebar-bg;
-    color: inherit;
+    color: $bslib-sidebar-fg;
 
     > .collapse-icon {
       opacity: 0.8;
