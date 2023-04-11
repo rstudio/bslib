@@ -228,7 +228,7 @@ card(
 ```
 :::
 
-::: col-md-6
+::: {.col-md-6 .mt-auto .mb-auto}
 ```{r ref.label="multi-card-body", echo=FALSE}
 ```
 :::
@@ -257,7 +257,7 @@ card(
 ```
 :::
 
-::: col-md-6
+::: {.col-md-6 .mt-auto .mb-auto}
 ```{r ref.label="multi-card-body-2", echo=FALSE}
 ```
 :::
@@ -287,7 +287,7 @@ card(
 ```
 :::
 
-::: col-md-6
+::: {.col-md-6 .mt-auto .mb-auto}
 ```{r ref.label="multi-cols", echo=FALSE}
 ```
 :::
@@ -339,7 +339,7 @@ navs_tab_card(
 :::
 
 
-::: col-md-6
+::: {.col-md-6 .mt-auto .mb-auto}
 ```{r ref.label="multiple-tabs", echo=FALSE}
 ```
 :::
@@ -392,7 +392,7 @@ card(
 ```
 :::
 
-::: col-md-6
+::: {.col-md-6 .mt-auto .mb-auto}
 ```{r ref.label="static-images", echo=FALSE}
 ```
 :::
@@ -422,7 +422,7 @@ card(
 ```
 :::
 
-::: col-md-6
+::: {.col-md-6 .mt-auto .mb-auto}
 ```{r ref.label="flexbox", echo=FALSE}
 ```
 :::
@@ -451,7 +451,7 @@ card(
 ```
 :::
 
-::: col-md-6
+::: {.col-md-6 .mt-auto .mb-auto}
 ```{r ref.label="flexbox2", echo=FALSE}
 ```
 :::
@@ -478,7 +478,7 @@ card(
 ```
 :::
 
-::: col-md-6
+::: {.col-md-6 .mt-auto .mb-auto}
 ```{r ref.label="flexbox3", echo=FALSE}
 ```
 :::
