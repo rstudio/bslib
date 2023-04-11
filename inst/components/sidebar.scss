@@ -1,7 +1,7 @@
 $bslib-sidebar-padding: $spacer * 1.5 !default;
 $bslib-sidebar-icon-size: $spacer !default;
 $bslib-sidebar-bg: $gray-100 !default;
-$bslib-sidebar-fg: $body-color !default;
+$bslib-sidebar-fg: color-contrast($bslib-sidebar-bg) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
 
 $bslib-sidebar-column-sidebar: Min(calc(100% - #{$bslib-sidebar-icon-size}), var(--bslib-sidebar-width, 250px));
