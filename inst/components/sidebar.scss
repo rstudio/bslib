@@ -60,7 +60,10 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       flex-direction: column;
       padding: $bslib-sidebar-padding;
 
-      > :last-child {
+      > :last-child:not(.sidebar-title) {
+        // Remove margin-bottom from the last item because sidebar has padding.
+        // We make an exception for .sidebar-title because it might be common to
+        // have a title and bare text nodes (that don't count as children).
         margin-bottom: 0;
       }
 
