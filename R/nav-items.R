@@ -34,11 +34,6 @@ nav_panel <- function(title, ..., value = title, icon = NULL) {
   tabPanel_(title, ..., value = value, icon = icon)
 }
 
-# TODO: Deprecate nav() in a future version of {bslib}
-#' @describeIn nav An alias for `nav_panel()`.
-#' @export
-nav <- nav_panel
-
 #' @describeIn nav Create a menu of nav items.
 #' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.
 #' @export
@@ -53,11 +48,6 @@ nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "
 nav_panel_hidden <- function(value, ..., icon = NULL) {
   tabPanelBody_(value, ..., icon = icon)
 }
-
-# TODO: Deprecate `nav_content()` in a future version of {bslib}
-#' @describeIn nav An alias for `nav_panel_hidden()`.
-#' @export
-nav_content <- nav_panel_hidden
 
 #' @describeIn nav Place arbitrary content in the navigation panel (e.g., search
 #'   forms, links to external content, etc.)
@@ -88,3 +78,15 @@ tag_has_class <- function(x, class) {
   }
   tagQuery(x)$hasClass(class)
 }
+
+# Aliases for future deprecation -------------------------------------------
+
+# TODO: Deprecate nav() in a future version of {bslib}
+#' @describeIn nav An alias for `nav_panel()`.
+#' @export
+nav <- nav_panel
+
+# TODO: Deprecate `nav_content()` in a future version of {bslib}
+#' @describeIn nav An alias for `nav_panel_hidden()`.
+#' @export
+nav_content <- nav_panel_hidden
