@@ -159,12 +159,8 @@ layout_sidebar <- function(
     columns_collapse <- rev(columns_collapse)
   }
 
-  grid_template_rows_mobile <-
-    if (is.null(sidebar$max_height_mobile)) {
-      if (is.null(height)) "fit-content(250px)" else "fit-content(50%)"
-    } else {
-      sprintf("fit-content(%s)", sidebar$max_height_mobile)
-    }
+  max_height_mobile <- sidebar$max_height_mobile %||%
+    if (is.null(height)) "250px" else "50%"
 
   res <- div(
     class = "bslib-sidebar-layout",
@@ -178,7 +174,7 @@ layout_sidebar <- function(
       "--bslib-sidebar-border" = if (!border) "none",
       "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
       height = validateCssUnit(height),
-      "--bslib-sidebar-mobile-row-height" = grid_template_rows_mobile
+      "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
     sidebar_dependency(),
