@@ -185,11 +185,6 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
     }
   }
 
-  // hide sidebar content while we transition the parent .sidebar
-  &.transitioning > .sidebar > .sidebar-content {
-    display: none;
-  }
-
   &.sidebar-collapsed {
     --bslib-collapse-toggle-transform: -90deg;
     --bslib-collapse-toggle-right-transform: 90deg;
@@ -223,6 +218,14 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       left: calc(#{-$bslib-sidebar-icon-size} - var(--bs-card-border-width, 1px));
       right: unset;
     }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  // hide sidebar content while we transition the parent .sidebar on desktop
+  // (on mobile the reveal happens immediately)
+  &.transitioning > .sidebar > .sidebar-content {
+    display: none;
   }
 }
 
