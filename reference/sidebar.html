@@ -108,7 +108,8 @@ to learn more.</p>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  class <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max_height_mobile <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">layout_sidebar</span><span class="op">(</span></span>
@@ -174,6 +175,13 @@ customize the foreground color).</p></dd>
 
 <dt>class</dt>
 <dd><p>Additional CSS classes for the top-level HTML element.</p></dd>
+
+
+<dt>max_height_mobile</dt>
+<dd><p>The maximum height of the horizontal sidebar when
+viewed on mobile devices. The default is <code>250px</code> unless the sidebar is
+included in a <code>layout_sidebar()</code> with a specified height, in which case
+the default is to take up no more than 50% of the layout container.</p></dd>
 
 
 <dt>sidebar</dt>
