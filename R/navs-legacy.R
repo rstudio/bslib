@@ -132,33 +132,6 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
   as_fragment(navbar, page = page)
 }
 
-# Aliases for future deprecation ----------------------------------------
-
-# TODO: Deprecate `navs_tab()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_tab()`.
-#' @export
-navs_tab <- navset_tab
-
-# TODO: Deprecate `navs_pill()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_pill()`.
-#' @export
-navs_pill <- navset_pill
-
-# TODO: Deprecate `navs_pill_list()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_pill_list()`.
-#' @export
-navs_pill_list <- navset_pill_list
-
-# TODO: Deprecate `navs_hidden()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_hidden()`.
-#' @export
-navs_hidden <- navset_hidden
-
-# TODO: Deprecate `navs_bar()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_bar()`.
-#' @export
-navs_bar <- navset_bar
-
 # -----------------------------------------------------------------------
 # 'Internal' tabset logic that was pulled directly from shiny/R/bootstrap.R
 #  (with minor modifications)

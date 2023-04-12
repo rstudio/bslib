@@ -66,6 +66,7 @@ Collate:
     'nav-update.R'
     'navs-legacy.R'
     'navs.R'
+    'navs-aliases.R'
     'onLoad.R'
     'page.R'
     'precompiled.R'

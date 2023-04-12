@@ -3,6 +3,7 @@
 #' @inheritParams card_body
 #' @param title A (left-aligned) title to place in the card header/footer. If
 #'   provided, other nav items are automatically right aligned.
+#' @include navs-legacy.R
 #' @rdname navs
 navset_card_tab <- function(..., id = NULL, selected = NULL, title = NULL,
                           sidebar = NULL, header = NULL, footer = NULL,
@@ -87,16 +88,6 @@ collect_nav_items <- function(..., wrapper) {
 
   lapply(items, nav_to_card_item)
 }
-
-# TODO: Deprecate `navs_tab_card()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_card_tab()`.
-#' @export
-navs_tab_card <- navset_card_tab
-
-# TODO: Deprecate `navs_pill_card()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_card_pill()`.
-#' @export
-navs_pill_card <- navset_card_pill
 
 # Always give tab contents the potential to fill since that's akin to the
 # normal card() API (i.e. the card() is a fill container) and users have

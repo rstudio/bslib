@@ -78,15 +78,3 @@ tag_has_class <- function(x, class) {
   }
   tagQuery(x)$hasClass(class)
 }
-
-# Aliases for future deprecation -------------------------------------------
-
-# TODO: Deprecate nav() in a future version of {bslib}
-#' @describeIn nav An alias for `nav_panel()`.
-#' @export
-nav <- nav_panel
-
-# TODO: Deprecate `nav_content()` in a future version of {bslib}
-#' @describeIn nav An alias for `nav_panel_hidden()`.
-#' @export
-nav_content <- nav_panel_hidden
