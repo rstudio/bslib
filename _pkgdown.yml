@@ -42,17 +42,19 @@ navbar:
       menu:
         - text: Cards
           href: articles/cards.html
-        - text: Value Boxes
-          href: articles/value-boxes.html
         - text: Sidebars
           href: articles/sidebars.html
+        - text: Value Boxes
+          href: articles/value-boxes.html
     layouts:
       text: Layouts
       menu:
+        - text: Column-based layout
+          href: articles/column-layout.html
         - text: Filling layouts
           href: articles/filling.html
-        - text: Column-first layout
-          href: articles/layouts.html
+        - text: Multi page/tab
+          href: https://rstudio.github.io/bslib/reference/navs.html#details
 
     reference:
       text: Reference

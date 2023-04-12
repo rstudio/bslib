@@ -1,18 +1,6 @@
 ---
-title: "UI Layouts"
+title: "Column-based layout"
 ---
-
-This article gives an overview of user interface (UI) layout options available in bslib. These options aim to fill a void left by other [layout options available in Shiny](https://shiny.rstudio.com/articles/layout-guide.html), (e.g., `fluidRow()`, `column()`, `sidebarLayout()`, etc). As of right now, these options include:
-
-1. A [modern take on column-based layout](#responsive-column-first-layout), which responsively wraps a 1d sequence of UI elements into a 2d grid.
-
-2. A new, more flexible, consistent, and fully-featured way to create segmented layouts (i.e., a new approach to `tabPanel()`, `tabsetPanel()`, `navlistPanel()`, etc).
-
-  * One obvious new feature is [multiple tabs/pills within a card](cards.html#multiple-tabs) (i.e., `navs_tab_card()`).
-  * Other, less obvious, features this new `nav()` API provides a way to right-align tabs/pills (`nav_spacer()`), embed external links and other UI elements (`nav_item()`), include multiple navbars (`navs_bar()`), and more (see the examples section of `navs_tab()`).
-
-3. Various `page_*()` containers (e.g., `page_fluid()`, `page_navbar()`, etc). 
-  * As of right now, these are just a drop-in replacement for their respective Shiny version (e.g., `page_fluid()` instead of `fluidPage()`) that only changes the default of the `theme` argument to `bs_theme()`.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -27,9 +15,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```{r ref.label="anim_helpers",echo=FALSE}
 ```
 
-## Responsive column-first layout
-
-This section outlines various layouts made possible by `layout_column_wrap()`. To illustrate, we'll use three `card()` instances with varying content, but keep in mind that `layout_column_wrap()` is designed to work other UI elements as well, such as [value boxes](value-boxes.html) or even for [multiple columns within a card](card.html#multiple-columns).
+This article outlines various layouts made possible by `layout_column_wrap()`. To illustrate, we'll use three `card()` instances with varying content, but keep in mind that `layout_column_wrap()` is designed to work other UI elements as well, such as [value boxes](value-boxes.html) or even for [multiple columns within a card](card.html#multiple-columns).
 
 **Note:** The examples in this section are not intended to be viewed on mobile devices. At small window widths, all of the layouts here collapse into a more mobile-friendly approach of "show each card at maximum width".
 

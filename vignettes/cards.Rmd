@@ -48,7 +48,7 @@ leaflet_widget <- leafletOptions(attributionControl = FALSE) %>%
 ::: {.callout .callout-note}
 <h3 data-toc-skip>Shiny usage</h3>
 
-Cards work equally well [in Shiny](#shiny). In the examples below, replace `plotly_widget` with `plotly::plotlyOutput()` and `leaflet_widget` with `leaflet::leafletOutput()` to adapt them for Shiny server-rendered plots/maps.
+Cards work equally well [in Shiny](#shiny). In the examples below, replace `plotly_widget` with `plotlyOutput()` and `leaflet_widget` with `leafletOutput()` to adapt them for Shiny server-rendered plots/maps.
 :::
 
 
@@ -145,7 +145,7 @@ card(
 
 ::: {.row .mt-5}
 ::: col-md-6
-Most htmlwidgets (e.g., plotly, leaflet, etc) and some other Shiny output bindings (e.g, `shiny::plotOutput()`, `shiny::imageOutput()`, etc) are **fill item**s by default, so this behavior "just works" in those scenarios. And, in some of these situations, it's helpful to remove `card_body()`'s padding, which can be done via [spacing & alignment utility classes](#spacing-alignment).
+Most htmlwidgets (e.g., plotly, leaflet, etc) and some other Shiny output bindings (e.g, `plotOutput()`, `imageOutput()`, etc) are **fill item**s by default, so this behavior "just works" in those scenarios. And, in some of these situations, it's helpful to remove `card_body()`'s padding, which can be done via [spacing & alignment utility classes](#spacing-alignment).
 :::
 
 ::: col-md-6
@@ -265,7 +265,7 @@ card(
 
 ## Multiple columns
 
-As you'll learn in [column-based layouts](layouts.html), `layout_column_wrap()` is great for multi-column layouts that are responsive and accommodate for [filling output](#filling-outputs). Here we have an equal-width 2-column layout using `width = 1/2`, but it's also possible to have [varying column widths](layouts.html#varying-widths).
+As you'll learn in [column-based layouts](column-layout.html), `layout_column_wrap()` is great for multi-column layouts that are responsive and accommodate for [filling output](#filling-outputs). Here we have an equal-width 2-column layout using `width = 1/2`, but it's also possible to have [varying column widths](column-layout.html#varying-widths).
 
 ::: row
 ::: col-md-6
@@ -296,7 +296,7 @@ card(
 
 ## Multiple cards
 
-`layout_column_wrap()` is especially nice for laying out multiple cards since each card in a particular row will have the same height (by default). Learn more in [column-based layouts](layouts.html).
+`layout_column_wrap()` is especially nice for laying out multiple cards since each card in a particular row will have the same height (by default). Learn more in [column-based layouts](column-layout.html).
 
 ```{r}
 layout_column_wrap(
@@ -403,7 +403,7 @@ card(
 
 ::: {.row .mt-3}
 
-Both `card()` and `card_body()` default to `fillable = TRUE` (that is, they are CSS [flexbox containers](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)), which works wonders for facilitating [filling outputs](#filling-outputs), but it also leads to surprising behavior with inline tags (e.g., `shiny::actionButton()`, `shiny::span()`, strings, etc). Specifically, each inline tag is placed on a new line, but in a "normal" layout flow (`fillable = FALSE`), inline tags render _inline_.
+Both `card()` and `card_body()` default to `fillable = TRUE` (that is, they are CSS [flexbox containers](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)), which works wonders for facilitating [filling outputs](#filling-outputs), but it also leads to surprising behavior with inline tags (e.g., `actionButton()`, `span()`, strings, etc). Specifically, each inline tag is placed on a new line, but in a "normal" layout flow (`fillable = FALSE`), inline tags render _inline_.
 
 ::: col-md-6
 ```{r flexbox, eval = FALSE}
@@ -431,7 +431,7 @@ card(
 
 ::: {.row .mt-3}
 
-That said, sometimes working in a flexbox layout is quite useful, even when working with inline tags. Here we leverage flexbox's [`gap`](https://developer.mozilla.org/en-US/docs/Web/CSS/gap) property to control the spacing between a plot, a (full-width) button, and paragraph. Note that, by using `shiny::markdown()` for the paragraph, it wraps the results in a `<p>` tag, which means the _contents_ of the paragraph are not longer subject to flexbox layout. If we wanted, we could do something similar to render the `actionButton()` inline by wrapping it in a `shiny::div()`. 
+That said, sometimes working in a flexbox layout is quite useful, even when working with inline tags. Here we leverage flexbox's [`gap`](https://developer.mozilla.org/en-US/docs/Web/CSS/gap) property to control the spacing between a plot, a (full-width) button, and paragraph. Note that, by using `markdown()` for the paragraph, it wraps the results in a `<p>` tag, which means the _contents_ of the paragraph are not longer subject to flexbox layout. If we wanted, we could do something similar to render the `actionButton()` inline by wrapping it in a `div()`. 
 
 ::: col-md-6
 ```{r flexbox2, eval=FALSE}
@@ -489,9 +489,9 @@ card(
 
 ::: row
 ::: col-md-6
-Since this article is statically rendered, the examples here use statically rendered content/widgets, but the same `card()` functionality works for dynamically rendered content via Shiny (e.g., `shiny::plotOutput()`, `plotly::plotlyOutput()`, etc).
+Since this article is statically rendered, the examples here use statically rendered content/widgets, but the same `card()` functionality works for dynamically rendered content via Shiny (e.g., `plotOutput()`, `plotlyOutput()`, etc).
 
-An additional benefit that comes with using shiny is the ability to use `shiny::getCurrentOutputInfo()` to render new/different content when the output container becomes large enough, which is particularly useful with `card(full_screen = T, ...)`. For example, you may want additional captions/labels when a plot is large, additional controls on a table, etc (see the [value boxes](value-boxes.html) article for a clever use of this).
+An additional benefit that comes with using shiny is the ability to use `getCurrentOutputInfo()` to render new/different content when the output container becomes large enough, which is particularly useful with `card(full_screen = T, ...)`. For example, you may want additional captions/labels when a plot is large, additional controls on a table, etc (see the [value boxes](value-boxes.html) article for a clever use of this).
 :::
 
 ::: col-md-6

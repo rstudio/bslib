@@ -151,7 +151,7 @@ card(
 
 ```{r preview-layout-sidebar-card, echo = FALSE}
 describe_layout_function(
-  "layout_sidebar() + card()",
+  "layout_sidebar() in card()",
   "A sidebar layout within a card.",
   card_body(
     class = "p-2",
@@ -194,7 +194,7 @@ page_fillable(
 
 ```{r preview-page-fillable, echo = FALSE}
 describe_layout_function(
-  "layout_sidebar() + page_fillable()",
+  "layout_sidebar() in page_fillable()",
   "A sidebar that fills the page.",
   card_body(
     class = "p-0",
@@ -352,6 +352,8 @@ map_quakes <- leaflet(quake_dat) |>
 Since `layout_sidebar()` is a fill item (defaults to `fill = TRUE`), it fills a fillable container with an opinionated height (e.g., `page_fillable()` which sets it's height to `100%` of the browser window). However, the _main content area_ of the layout is not a fillable container by default, so set `fillable = TRUE` if fill items in the main content area (i.e., `plots`) should also fill.
 
 ```{r, as_iframe = TRUE, resizable = TRUE}
+# NOTE: in attempt keep the code brief, we make use of rlang's
+# splice operator (!!!) https://rlang.r-lib.org/reference/splice-operator.html
 diamonds_view <- layout_sidebar(
   sidebar = sidebar(
     title = "Diamond filters",
@@ -369,7 +371,7 @@ page_fillable(
 )
 ```
 
-:::: row
+:::: {.row .my-3}
 ::: {.col-sm-12 .col-lg-6}
 ::: {.callout .callout-note}
 <h3 data-toc-skip>Resizable example</h3>
@@ -389,9 +391,9 @@ To learn more about how fillable containers and fill items work, see the article
 
 ### Multi-page, multi-layout {#multi-page-example}
 
-As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `page_navbar()` puts a sidebar _on each page_ that fills the window. However, sometimes it's better that only particular pages have such a layout. In this case, you'll want to use `page_navbar()`'s `fillable` argument to achieve the same effect of the sidebar filling the window. 
+As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `page_navbar()` puts a sidebar _on each page_ that fills the window. However, sometimes it's better that only particular pages have such a sidebar layout. In this case, you can provide a `layout_sidebar()` as a "root" element of a particular page, then use `page_navbar()`'s `fillable` argument to make that element fill the window.
 
-For example, let's put the same `diamonds_view` sidebar layout on it's own filled page (`fillable = "Diamonds"`), and leverage a [floating layout](#floating-layout) for a view of the `quakes` data. The floating layout provides a more flexible way to group input controls next the outputs that they effect, which would be especially important if we had multiple output groups on the "Earthquakes" page. 
+For example, let's put the same `diamonds_view` sidebar layout on it's own filled page (via `fillable = "Diamonds"`), and leverage a [floating layout](#floating-layout) for a view of the `quakes` data. The floating layout provides a more flexible way to group input controls next the outputs that they effect, which would be especially important if we had multiple output groups on the "Earthquakes" page. 
 
 ```{r, as_iframe = TRUE, resizable = TRUE}
 quakes_view <- card(
@@ -411,6 +413,24 @@ page_navbar(
 )
 ```
 
+
+:::: {.row .my-3}
+::: {.col-sm-12 .col-lg-6}
+::: {.callout .callout-note}
+<h3 data-toc-skip>The fillable argument</h3>
+
+You might have noticed other UI elements like `layout_sidebar()`, `card_body()`, `layout_column_wrap()`, etc., also have a `fillable` argument. In those cases, it's just a boolean value for whether or not the element should be a [fillable container](filling.html). In `page_navbar()`'s case, it can be used to target specific page(s) (by matching their `title`) and/or all pages (`fillable = TRUE`).
+:::
+:::
+
+::: {.col-sm-12 .col-lg-6 .mt-auto .mb-auto}
+::: {.callout .callout-note}
+<h3 data-toc-skip>Multi-tab, multi-layout</h3>
+
+As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `navs_tab_card()` puts a sidebar inside every tab of a multi-tab card. However, just like how we can provide a `layout_sidebar()` to a particular page (as shown above), the same can be done with `navs_tab_card()`.
+:::
+:::
+::::
 
 
 ### Restricting growth

@@ -5,10 +5,12 @@ resource_files:
   - examples/filling
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 library(knitr)
 library(htmltools)
 library(bslib)
+library(shiny)
+library(plotly)
 
 # TODO: put this stuff in a common.R script?
 render_as_iframe <- function(x, options, ...) {
@@ -40,7 +42,13 @@ opts_hooks$set(as_iframe = function(opts) {
   opts
 })
 
-opts_chunk$set(message = FALSE, as_iframe = TRUE, resizable = TRUE)
+
+opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = FALSE,
+  message = FALSE
+)
 
 # pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
 # (note this isn't a problem for any format based on html_document_base)
@@ -48,264 +56,468 @@ shiny:::setCurrentTheme(bslib::bs_theme())
 ```
 
 ```{scss, echo = FALSE}
-.plotly {
-  //height: 250px !important;
-  .modebar-container {
-    display: none;
-  }
+.section.level2 {
+  margin-top: 3rem;
 }
 iframe, .bslib-page-fill {
   height: 500px;
   border: var(--bs-border-width) solid var(--bs-border-color);
-  margin-bottom: 4rem;
-  box-shadow:
-    rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px,
-    rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px,
-    rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-
-iframe {
-  margin-bottom: calc(55px + 2rem);
 }
 
 iframe.resizable {
   resize: vertical;
-  min-height: 100px;
-}
-
-.card-header.bg-info code {
-  background: none;
-  color: hsl(209deg, 85%, 25%);
+  min-height: 200px;
 }
 ```
 
-`{bslib}` UI components (e.g., [cards](cards.html), [sidebars](sidebars), etc) are designed to accommodate filling layouts. In short, these components possess the potential to grow/shrink in size when they appear as direct children of a **fillable container** with an opinionated height (e.g., `page_fillable()`). 
+This article covers the building blocks of filling layouts in `bslib`: **fillable containers** and **fill items**. Filling layout is an inherently nuanced topic, and fully groking takes some effort, but you'll gain a powerful way to get UI elements to fill the window, fill inside [cards](cards.html), fill inside [sidebar layouts](sidebars.html), or generally fill anywhere you want.
 
+Since, in theory, essentially any UI element can be coerced into a **fillable container** and/or **fill item**[^flexbox], it's useful to first study their behavior in the abstract, which we do next in the [In theory](#in-theory) section. After, the [In practice](#in-practice) section reinforces those concepts and demonstrates their power with practical examples.
 
-The core underlying concept is that any UI element can be: (1) a **fill item**, (2) a **fillable container**, or (3) both. By carefully managing the relationship between fillable containers and fill items, we can not only create layouts that fill the browser window (similar to `{flexdashboard}` and `shiny::fillPage()`), but also create elements that properly fill a resizable container (e.g., [full-screen cards](cards.html#filling-contents)).
+[^flexbox]: Technically speaking, a **fillable container** is just a [CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) container with `flex-direction: column` (which makes it's children flex items). And, when a **fill item** appears as a direct child of a **fillable container**, it is given a `flex` property of `1` (i.e., it's allowed to grow/shrink).
 
-<!--
-Before diving into concrete examples, consider the following abstract interactive example below. The "resizable window" below is 
--->
+Throughout these sections, be aware that most `bslib` components, as well as many Shiny outputs (e.g., `plotOutput()`, `plotlyOutput()`, etc) classify as [fill items]{.b-blue} by default. This means they possess the potential to grow/shrink to fit their container, but that potential is only activated when their _immediate parent_ is a [fillable container]{.b-pink} _with a defined height_. Also be aware that `bslib` components and many Shiny outputs have `fill` and/or `fillable` arguments to opt out/in of this behavior (and `bslib` also provides an API for testing/coercing these properties on _any_ UI element -- see `is_fill()` for more).
 
-```{r, eval = FALSE, echo = FALSE, as_iframe = TRUE, resizable = TRUE, scrolling = FALSE}
-make_item <- function(x) {
-  bindFillRole(
-    item = TRUE,
-    div(
-      class = "border border-success d-flex align-items-center justify-content-center", 
-      span(x)
-    )
+## In theory
+
+```{r setup-functions, echo=FALSE}
+fillable_container <- function(..., tooltip = NULL, resizable = FALSE, padding = TRUE) {
+  gap <- "0.25rem"
+  card(
+    "data-bs-toggle" = if (!is.null(tooltip)) "tooltip",
+    "data-bs-title" = paste(tooltip, collapse = "<br>"),
+    "data-bs-html" = "true",
+    "data-bs-placement" = "top",
+    "data-bs-custom-class" = "tip-pink",
+    style = css(
+      "--bs-card-border-color" = "var(--bs-pink)",
+      "--bs-card-border-width" = "0.12rem",
+      gap = if (padding) gap,
+      resize = if (resizable) "vertical"
+    ),
+    ...,
+    wrapper = function(...) {
+      card_body(
+        class = if (padding) "p-1" else "p-0",
+        gap = if (padding) gap,
+        ...
+      )
+    }
   )
 }
 
-page_fillable(
-  class = "p-3", style = "gap: 1rem",
-  make_item("Fill item 1"),
-  make_item("Fill item 2"),
-)
+
+child <- function(..., fill = TRUE, fillable = FALSE, tooltip = NULL, placement = "right", height = 400) {
+  both <- fill && fillable
+  color <- if (both) "purple" else if (fill) "blue" else "orange"
+  div(
+    class = "border border-1 border-dark rounded text-center",
+    class = paste0("bg-fill-", color),
+    "data-bs-toggle" =  if (!is.null(tooltip)) "tooltip",
+    "data-bs-title" = paste(tooltip, collapse = "<br>"),
+    "data-bs-html" = "true",
+    "data-bs-placement" = placement,
+    "data-bs-custom-class" = paste0("tip-", color),
+    style = css(
+      color = "white",
+      "--bs-tooltip-bg" = sprintf("var(--bs-%s)", color),
+      height = validateCssUnit(height),
+      flex_shrink = if (!fill) 0,
+      padding = "0.2rem"
+    ),
+    ...
+  ) |>
+    bindFillRole(item = fill, container = fillable)
+}
+```
+
+```{scss, echo=FALSE}
+.tip-pink {
+  --bs-tooltip-bg: var(--bs-pink);
+}
+.tip-blue {
+  --bs-tooltip-bg: var(--bs-blue);
+}
+.tip-orange {
+  --bs-tooltip-bg: var(--bs-orange);
+}
+.tip-purple {
+  --bs-tooltip-bg: var(--bs-purple);
+}
+
+.b-pink {
+	font-weight: bold;
+	color: var(--bs-pink);
+}
+.b-orange {
+	font-weight: bold;
+	color: var(--bs-orange);
+}
+.b-blue {
+	font-weight: bold;
+	color: hsl(202deg, 100%, 38%);
+}
+.b-purple {
+  font-weight: bold;
+  color: var(--bs-purple);
+}
+
+.bg-fill-blue {
+	background-image: linear-gradient(
+    180deg,
+    hsl(202deg, 100%, 38%) 0%,
+    hsl(206deg, 58%, 55%) 25%,
+    hsl(206deg, 58%, 66%) 50%,
+    hsl(205deg, 61%, 77%) 75%,
+    hsl(203deg, 69%, 87%) 100%
+  );
+}
+
+.bg-fill-orange {
+  background-image: linear-gradient(
+    180deg,
+    hsl(27deg, 98%, 54%) 0%,
+    hsl(27deg, 97%, 64%) 25%,
+    hsl(27deg, 93%, 73%) 50%,
+    hsl(28deg, 79%, 82%) 75%,
+    hsl(28deg, 27%, 90%) 100%
+  );
+}
+
+.bg-fill-purple {
+  background: var(--bs-purple);
+}
+
 ```
 
 
-## Most outputs can fill
+### Activating fill
 
-`{bslib}` UI elements (e.g., `card()`, `value_box()`, etc.), as well as other output widgets (e.g., `shiny::plotOutput()`, `plotly::plotlyOutput()`, etc.) are considered **fill items** by default. And thus, if their _immediate parent_ container is a **fillable container** with an opinionated height, then they'll grow/shrink to fit their container.
+::: row
+::: col-md-6
+Just like any other HTML **container**, a [fillable container]{.b-pink}'s default height depends on the height of it's children. So, for example, if there's a single [fill item]{.b-blue} with a defined height of `400px` (the default for most Shiny outputs), the [fillable container]{.b-pink}'s height is also `400px` (plus any padding, border, etc).
+:::
 
-For example, since `page_fillable()` is a fillable container with a height set to `100%` of the browser window, a single fill item like a `{plotly}` visualization will match the size of that `page_fillable()` container. 
+::: col-md-6
+```{r}
+fillable_container(
+  tooltip = c("Fillable container", "Computed height: 400px"),
+  child(
+    tooltip = c("Fill child", "Defined height: 400px")
+  )
+)
+```
+:::
+:::
+
+
+::: {.row .mt-3}
+::: col-md-6
+Defining the height of a [fillable container]{.b-pink} activates its immediate children's potential to [fill]{.b-blue}. So, for example, if [fillable container]{.b-pink}'s height is set to `200px`, the [fill child]{.b-blue} would shrink to about `200px`:
+:::
+
+::: col-md-6
+```{r}
+fillable_container(
+  tooltip = c("Fillable", "Defined height: 200px"),
+  child(
+    tooltip = c("Fill", "Defined height: 400px", "Computed height: 200px")
+  ),
+  height = 200
+)
+```
+:::
+:::
+
+
+::: {.row .mt-3}
+::: col-md-6
+If multiple [fill items]{.b-blue} were immediate children of this [fillable container]{.b-pink}, they'd keep shrinking (in this case, to about `100px` each):
+:::
+
+::: col-md-6
+```{r}
+fillable_container(
+  tooltip = c("Fillable", "Defined height: 200px"),
+  child(
+    tooltip = c("Fill", "Defined height: 400px", "Computed height: 100px")
+  ), 
+  child(
+    tooltip = c("Fill", "Defined height: 400px", "Computed height: 100px")
+  ),
+  height = 200
+)
+```
+:::
+:::
+
+
+::: {.row .mt-3}
+::: col-md-6
+Adding a [non-fill]{.b-orange} item (e.g., `htmltools::p()`-aragraph of text) won't cause that particular item to grow/shrink, but the [fill]{.b-blue} items divvy up any remaining space (**careful:** if [non-fill]{.b-orange} item(s) are larger than the [fillable container]{.b-pink}, the [fill]{.b-blue} items won't be visible!). This is big reason why `card_body()` includes a `min_height` argument (to prevent [fill]{.b-blue} items from shrinking too much).
+:::
+
+::: col-md-6
+```{r}
+fillable_container(
+  tooltip = c("Fillable container"),
+  child(tooltip = "Fill"), 
+  child(tooltip = "Fill"),
+  child(
+    fill = FALSE, height = 100,
+    tooltip = "Non-fill"
+  ), 
+  height = 200,
+  resizable = TRUE
+)
+```
+:::
+:::
+
+
+::: {.callout .callout-warning}
+<h3 data-toc-skip>Resizable example</h3>
+
+
+Notice the resizing handle on the lower-right hand corner of the [fillable container]{.b-pink} above. Use it to change the size of the [fillable container]{.b-pink} and compare the behavior between [fill]{.b-blue} and [non-fill]{.b-orange} items.
+:::
+
+
+### Carrying fill
+
+The previous section focuses on the fairly simple case of _one_ parent container. However, in practice, you'll likely be working with multiple levels of parents, which quickly complicates things, especially because:
+
+1. [Fill items]{.b-blue} require their _immediate_ parent to be a [fillable container]{.b-pink} in order to fill.
+2. All "raw" HTML tags (e.g., `div()`, `p()`, etc.) as well as many Shiny UI elements (e.g., `wellPanel()`, etc.) are neither [fillable]{.b-pink} nor [fill]{.b-blue} (i.e., we'll call these [non-fill]{.b-orange} elements).
+
+
+::: {.row .mt-3}
+::: col-md-6
+As a result, a common way in which (1) breaks down is that a [non-fill]{.b-orange} element, like a `div()`, comes between [fillable]{.b-pink} and [fill]{.b-blue}. In fact, you'll run into this exact behavior when using `uiOutput()` to insert a dynamically rendered [fill]{.b-blue} item into a [fillable container]{.b-pink}.
+:::
+
+::: col-md-6
+```{r}
+fillable_container(
+  tooltip = "Fillable container",
+  child(
+    fill = FALSE, 
+    tooltip = "Non-fill",
+    "data-bs-offset" = "-140,0",
+    child(
+      tooltip = "Fill",
+      "data-bs-offset" = "-100,0"
+    )
+  ),
+  height = 200,
+  resizable = TRUE
+)
+```
+:::
+:::
+
+::: {.row .mt-3}
+::: col-md-6
+Assuming the goal is for the [fill item]{.b-blue} to fit the [fillable container]{.b-pink}, it's useful to coerce the [non-fill]{.b-orange} element into both [fill item]{.b-blue} _and_ a [fillable container]{.b-pink}, which we call a [fill carriers]{.b-purple}. Any UI element can be coerced into a [fill carrier]{.b-purple} with `as_fill_carrier()`.
+:::
+
+::: col-md-6
+```{r}
+fillable_container(
+  tooltip = "Fillable container",
+  child(
+    fillable = TRUE,
+    tooltip = "Fill carrier",
+    "data-bs-offset" = "-40,0",
+    child(tooltip = "Fill")
+  ),
+  height = 200,
+  resizable = TRUE
+)
+```
+:::
+:::
+
+
+::: {.row .mt-3}
+::: col-md-6
+This concept of a [fill carrier]{.b-purple} is especially useful and relevant for [cards](cards.html). In most cases, a [card]{.b-pink} has numerous children like a [header]{.b-orange} and a [body]{.b-purple}, and the body commonly contains [fill item]{.b-blue}(s) (to ensure [fill item]{.b-blue}s). This is why `card_body()`{.b-purple} defaults to `fillable = TRUE` (and `fill = TRUE`).
+:::
+
+::: col-md-6
+```{r}
+fillable_container(
+  tooltip = c("<code>card()</code> (fillable container)"),
+  child(
+    fill = FALSE, height = 50,
+    tooltip = "<code>card_header()</code>"
+  ), 
+  child(
+    fillable = TRUE,
+    tooltip = "<code>card_body()</code>",
+    child(
+      tooltip = "Fill",
+      "data-bs-offset" = "-30,0"
+    )
+  ),
+  height = 200,
+  resizable = TRUE
+)
+```
+:::
+:::
+
+::: {.row .mt-3}
+::: col-md-6
+You might wonder, why then would we want or need `fillable = FALSE` or `fill = FALSE` on a `card_body()`? One big reason is that [fillable containers]{.b-pink} are powered by [CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), which changes the way it's children are rendered. And, although those changes are nice for "stretchy" children, there are [downsides for rendering inline elements](cards.html#flexbox). So, that's why, it's recommended that you use [multiple card bodies](#multiple-card_body) when combining [fill]{.b-blue} with [non-fill]{.b-orange}
+:::
+
+::: col-md-6
+```{r}
+fillable_container(
+  tooltip = c("<code>card()</code> (fillable container)"),
+  child(
+    fill = FALSE, height = 50,
+    tooltip = "<code>card_header()</code> (not fill)"
+  ), 
+  child(
+    fillable = TRUE, 
+    tooltip = "<code>card_body()</code>",
+    child(
+      tooltip = "Fill",
+      "data-bs-offset" = "-30,0"
+    )
+  ),
+  child(
+    fill = FALSE, height = 40,
+    tooltip = "<code>card_body(fillable = F, fill = F)</code>",
+    placement = "top",
+    child(
+      fill = FALSE, height = 30, 
+      tooltip = "Not fill",
+    )
+  ),
+  height = 300,
+  resizable = TRUE
+)
+```
+:::
+:::
+
+
+## In practice
+
+In this section, we take what we learned about the theory of [fillable containers]{.b-pink} and [fill items]{.b-blue} and put it into practice.
+
+```{r, include = FALSE}
+opts_chunk$set(echo = TRUE)
+```
+
+### Setup code
 
 ```{r}
 library(plotly)
-price <- plot_ly(diamonds, x = ~price)
-carat <- plot_ly(diamonds, x = ~carat)
-cut_clarity <- plot_ly(diamonds, x = ~cut, color = ~clarity)
+plots <- list(
+  plot_ly(diamonds) |> add_histogram(x = ~price),
+  plot_ly(diamonds) |> add_histogram(x = ~carat),
+  plot_ly(diamonds) |> add_histogram(x = ~cut, color = ~clarity)
+)
+plots <- lapply(plots, function(x) {
+  config(x, displayModeBar = FALSE) |>
+    layout(margin = list(t = 0, b = 0, l = 0, r = 0))
+})
 ```
 
-```{r, scrolling = FALSE}
-page_fillable(cut_clarity, fill_mobile = TRUE)
-```
+### Filling the window
 
-Notice, however, if that same fill item's immediate parent is something like `page_fixed()` (which is not a fillable container), it'll simply use if default/natural height (most output widgets have a default height of 400 pixels).
-
-```{r, scrolling = TRUE}
-page_fixed(cut_clarity)
-```
+Perhaps the most important [fillable container]{.b-pink} is `page_fillable()`, which sets it's height equal to the browser window. Thus, if [fill items]{.b-blue} appear as direct children, they'll fill the window. `page_fillable()` also defaults to `fill_mobile = FALSE`, which means the height isn't set equal to the viewport on mobile. As a result, fill items use their own defined height (instead of the viewport size) to determine their size.
 
 
-::: {.callout .callout-warning}
-<h3 data-toc-skip>Resizable examples</h3>
-
-Example containers in this article are resizable, allowing you to examine how the filling/non-filling behavior changes with the "window" size. For example, in the `page_fixed()` example above, there isn't any scrolling since the container is larger than the output, but if you reduce the size of the "example window", the window has a scrollbar.
-:::
-
-## Multiple outputs
-
-And, if we have multiple fill items, they'll still fit the `page_fillable()` container (`page_fillable()` will also, by default, add some `gap` between each row)...
-
-> TODO: tabset?
-
-```{r, scrolling = FALSE}
+```{r as_iframe=TRUE, resizable=TRUE}
 page_fillable(
-  price, carat, cut_clarity, 
-  fill_mobile = TRUE
+  h2("Diamond plots"),
+  plots[[1]], plots[[2]]
 )
 ```
 
-... but inside non-fillable containers (e.g., `page_fixed()`) you'll get scrollable contents:
+### Multiple columns
 
-```{r, scrolling = TRUE}
-page_fixed(price, carat, cut_clarity)
-```
+Since `layout_column_wrap()` is also a [fill item]{.b-blue} (defaults to `fill = TRUE`), it will grow/shrink it a similar fashion. It also defaults to `fillable = TRUE`, which in this case, means each column gets wrapped in a [fillable container]{.b-pink} (and thus, `plots[[1]]` and `plots[[1]]` are allowed to grow/shrink to the `layout_column_wrap()` container).
 
-## Filling is fragile
-
-It's important to remember that fill items require their _immediate parent_ to be a fillable container in order to grow/shrink. Also, unlike fill items, fill containers are the exception rather the rule[^1], meaning that other UI elements you may be familiar with (e.g., `shiny::fluidRow()`, `shiny::column()`, `shiny::div()`, etc) are not fillable containers. So, for example, if we wrap the `cut_clarity` in a `div()` to, say, put a border around it, we'd break it's ability to grow/shrink.
-
-[^1]: Part of the reason why fillable containers aren't as ubiquitous as fill items is that marking an element as fillable alters the layout behavior of it's children, regardless of whether those children are fill items (because fillable conatiners are [flexbox containers](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
-
-```{r, scrolling = FALSE}
+```{r as_iframe=TRUE, resizable=TRUE}
 page_fillable(
-  price, carat,
-  div(cut_clarity, class = "border border-danger"),
-  fill_mobile = TRUE
-)
-```
-
-> TODO: highlight the fact that ordinary HTML elements are not fill items
-
-```{r, scrolling = FALSE}
-library(htmltools)
-page_fillable(
-  price, carat,
-  div(cut_clarity, class = "border border-danger") |>
-    bindFillRole(item = TRUE),
-  fill_mobile = TRUE
-)
-```
-
-> TODO: explain why the container is now needed
-
-```{r, scrolling = FALSE}
-library(htmltools)
-page_fillable(
-  price, carat,
-  div(cut_clarity, class = "border border-danger") |>
-    bindFillRole(item = TRUE, container = TRUE),
-  fill_mobile = TRUE
-)
-```
-
-Partially for this reason, it's best to avoid the temptation to reach for other non-`{bslib}` layout utilities like `shiny::fluidRow()` and `shiny::column()` since `{bslib}` provides some newer alternatives like `layout_column_wrap()`.
-
-## Multiple columns
-
-Instead of putting each output in it's own row, it may be desirable to have multiple columns (still will filling behavior), which `layout_column_wrap()` does. It, just each plotly plot, is a fill item, and also wraps each UI element provided to it into a fillable container, so the fill items still grow/shrink as you'd expect them when the window resizes.
-
-```{r, scrolling = FALSE}
-page_fillable(
-  layout_column_wrap(width = 1/2, price, carat),
-  cut_clarity,
-  fill_mobile = TRUE
-)
-```
-
-
-::: {.callout .callout-warning}
-<h3 data-toc-skip>Column wrapping layouts</h3>
-
-To learn more about `layout_column_wrap()`, see [this article](layouts.html).
-:::
-
-
-
-## Cascading fill
-
-Since `card()`s are fill items by default they also fill the browser window when they are a direct child of `page_fillable()`. `card()`s are also `fillable` containers by default, and so, you'd might expect the `cut_clarity` to fit the card, but you'd be wrong:
-
-```{r, scrolling = FALSE}
-card_plot <- card(
-  card_header("Diamond cut by clarity"),
-  cut_clarity
-)
-page_fillable(card_plot, card_plot, fill_mobile = TRUE)
-```
-
-This happens because `card()` [implicitly wraps non card items](cards.html#implicit-card_body) into a `card_body()` element (which is a fill item, but not a fill container). To actually cascade the potential to fill down the plot, wrap it with `card_body_fillable()` (which provides some additional utilities to put limits on the growing/shrinking). In this case, you may also want to remove the padding (via `p-0` [utility class](https://getbootstrap.com/docs/5.3/utilities/spacing/)) that comes by default with the card body.
-
-```{r, scrolling = FALSE}
-card_plot_fill <- card(
-  full_screen = TRUE,
-  card_header("Diamond cut by clarity"),
-  card_body(cut_clarity, class = "p-0")
-)
-page_fillable(card_plot_fill, card_plot_fill, fill_mobile = TRUE)
-```
-
-## Scrollable page layouts
-
-Thus far, filling examples have started with `page_fillable()`, which doesn't allow for scrolling at the page level. This behavior does not scale very well when trying to many "top-level" components, especially on smaller viewports (this is why `page_fillable()` defaults to `fill_mobile = FALSE`). So, in this case, use a non-fillable container at the page-level (e.g., `page_fixed()`), but still leverage filling concepts to get things like full-screen cards to have contents that grow/shrink.
-
-Also, if you'd like to limit amount by which these "top-level" components are allowed to grow, consider setting a sensible maximum height (`card()`'s `max_height` won't apply when full-screen).
-
-```{r, scrolling = TRUE}
-card_plot_fill <- card(
-  full_screen = TRUE,
-  max_height = 300,
-  card_header("Diamond cut by clarity"),
-  card_body(cut_clarity, class = "p-0")
-)
-page_fixed(card_plot_fill, card_plot_fill)
-```
-
-## Sidebar layouts
-
-Similar to what we've seen with outputs and `card()`s, `layout_sidebar()` is also a fill item (by default), so placing it as a direct child of `page_fillable()` makes it fit the window. Note, however, that the main content portion of sidebar layout is not a fillable container (by default), but that can easily be changed by setting `fillable = TRUE` in `layout_sidebar()`.
-
-```{r, scrolling = FALSE}
-basic_sidebar <- layout_sidebar(
-  border_radius = FALSE,
-  sidebar = sidebar(
-    bg = "#F1F3F5",
-    "Imagine some controls here",
-  ),
+  h2("Diamond plots"),
   layout_column_wrap(
     width = 1/2,
-    card(
-      full_screen = TRUE,
-      card_header("Diamond price"),
-      card_body(price, class = "p-0")
-    ),
-    card(
-      full_screen = TRUE,
-      card_header("Diamond carat"),
-      card_body(carat, class = "p-0")
-    )
+    plots[[1]], plots[[2]]
   ),
-  br(),
-  card(
-    full_screen = TRUE,
-    card_header("Diamond cut by clarity"),
-    card_body(cut_clarity, class = "p-0")
-  )
-)
-
-page_fillable(
-  padding = 0,
-  basic_sidebar
+  plots[[3]]
 )
 ```
 
-::: {.callout .callout-warning}
-<h3 data-toc-skip>Sidebar layouts</h3>
+### Full-screen cards
 
-To learn more about `layout_sidebar()`, see [this article](sidebars.html).
-:::
 
-## Filling tables
+```{r as_iframe=TRUE, resizable=TRUE}
+plot_card <- function(header, ...) {
+  card(
+    full_screen = TRUE,
+    card_header(header, class = "bg-dark"),
+    card_body(..., min_height = 150)
+  )
+}
 
-Remember to `datatable(x, fillContainer = TRUE)` (and suggest some better defaults?)
+page_fillable(
+  h2("Diamond plots"),
+  layout_column_wrap(
+    width = 1/2,
+    plot_card("Diamond price", plots[[1]]), 
+    plot_card("Diamond carat", plots[[2]])
+  ),
+  plot_card("Diamond cut by clarity", plots[[3]])
+)
+```
 
-## Shiny (dynamic UI)
 
-Cover `shiny::uiOutput(fillable = TRUE)`
+### Sidebar layouts
+
+```{r as_iframe=TRUE, resizable=TRUE}
+page_fillable(
+  padding = 0,
+  layout_sidebar(
+    fillable = TRUE,
+    sidebar = sidebar(
+      title = "Diamond plots",
+      "Input controls here..."
+    ),
+    layout_column_wrap(
+      width = 1/2,
+      plot_card("Diamond price", plots[[1]]), 
+      plot_card("Diamond carat", plots[[2]])
+    ),
+    br(),
+    plot_card("Diamond cut by clarity", plots[[3]])
+  )
+)
+```
+
+
+## Appendix
+
+### Don't use `fluidRow()`
+
+
+
+
+<!-- Extra js bits --->
+
+```{=html}
+<script>
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle=\"tooltip\"]')
+const tooltipList = [...tooltipTriggerList].map(el => {
+  new bootstrap.Tooltip(el, {
+    trigger: 'hover'
+  })
+})
+</script>
+```
