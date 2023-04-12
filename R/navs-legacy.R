@@ -5,8 +5,10 @@
 #' @includeRmd man/fragments/ex-navs_tab.Rmd
 #'
 #' @param ... a collection of [nav_panel()] items.
-#' @param id a character string used for dynamically updating the container (see [nav_select()]).
-#' @param selected a character string matching the `value` of a particular [nav_panel()] item to selected by default.
+#' @param id a character string used for dynamically updating the container (see
+#'    [nav_select()]).
+#' @param selected a character string matching the `value` of a particular
+#'   [nav_panel()] item to selected by default.
 #' @param header UI element(s) ([tags]) to display _above_ the nav content.
 #' @param footer UI element(s) ([tags]) to display _below_ the nav content.
 #'
@@ -61,12 +63,13 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 }
 
 #' @inheritParams shiny::navbarPage
-#' @param sidebar A [sidebar()] component to display on every [nav_panel()] page.
+#' @param sidebar A [sidebar()] component to display on every [nav_panel()]
+#'   page.
 #' @param fillable Whether or not to allow `fill` items to grow/shrink to fit
 #'   the browser window. If `TRUE`, all [nav_panel()] pages are `fillable`. A
-#'   character vector, matching the `value` of [nav_panel()]s to be filled, may also
-#'   be provided. Note that, if a `sidebar` is provided, `fillable` makes the
-#'   main content portion fillable.
+#'   character vector, matching the `value` of [nav_panel()]s to be filled, may
+#'   also be provided. Note that, if a `sidebar` is provided, `fillable` makes
+#'   the main content portion fillable.
 #' @param bg a CSS color to use for the navbar's background color.
 #' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.

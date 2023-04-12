@@ -140,9 +140,11 @@ navs_pill_card(
 \arguments{
 \item{...}{a collection of \code{\link[=nav_panel]{nav_panel()}} items.}
 
-\item{id}{a character string used for dynamically updating the container (see \code{\link[=nav_select]{nav_select()}}).}
+\item{id}{a character string used for dynamically updating the container (see
+\code{\link[=nav_select]{nav_select()}}).}
 
-\item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
+\item{selected}{a character string matching the \code{value} of a particular
+\code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
 
 \item{header}{UI element(s) (\link{tags}) to display \emph{above} the nav content.}
 
@@ -160,13 +162,14 @@ respectively.}
 \item{title}{A (left-aligned) title to place in the card header/footer. If
 provided, other nav items are automatically right aligned.}
 
-\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav_panel]{nav_panel()}} page.}
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav_panel]{nav_panel()}}
+page.}
 
 \item{fillable}{Whether or not to allow \code{fill} items to grow/shrink to fit
 the browser window. If \code{TRUE}, all \code{\link[=nav_panel]{nav_panel()}} pages are \code{fillable}. A
-character vector, matching the \code{value} of \code{\link[=nav_panel]{nav_panel()}}s to be filled, may also
-be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes the
-main content portion fillable.}
+character vector, matching the \code{value} of \code{\link[=nav_panel]{nav_panel()}}s to be filled, may
+also be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes
+the main content portion fillable.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at
