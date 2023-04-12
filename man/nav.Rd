@@ -4,6 +4,7 @@
 \alias{nav}
 \alias{nav_panel}
 \alias{nav_menu}
+\alias{nav_panel_hidden}
 \alias{nav_content}
 \alias{nav_item}
 \alias{nav_spacer}
@@ -14,6 +15,8 @@ nav_panel(title, ..., value = title, icon = NULL)
 nav(title, ..., value = title, icon = NULL)
 
 nav_menu(title, ..., value = title, icon = NULL, align = c("left", "right"))
+
+nav_panel_hidden(value, ..., icon = NULL)
 
 nav_content(value, ..., icon = NULL)
 
@@ -27,7 +30,7 @@ nav_spacer()
 
 \item{...}{Depends on the function:
 \itemize{
-\item For \code{nav_panel()} and \code{nav_content()}: UI elements (i.e., \link{tags}) to
+\item For \code{nav_panel()} and \code{nav_panel_hidden()}: UI elements (i.e., \link{tags}) to
 display when the item is active.
 \item For \code{nav_menu()}: a collection of nav items (e.g., \code{nav_panel()},
 \code{nav_item()}).
@@ -41,8 +44,8 @@ particular nav item's content immediately on page load. This value is also
 useful for programmatically updating the selected content via
 \code{\link[=nav_select]{nav_select()}}, \code{\link[=nav_hide]{nav_hide()}}, etc (updating selected tabs this way is often
 useful for showing/hiding panels of content via other UI controls like
-\code{\link[shiny:radioButtons]{shiny::radioButtons()}} -- in this scenario, consider using \code{\link[=nav_content]{nav_content()}}
-with \code{\link[=navs_hidden]{navs_hidden()}}).}
+\code{\link[shiny:radioButtons]{shiny::radioButtons()}} -- in this scenario, consider using
+\code{\link[=nav_panel_hidden]{nav_panel_hidden()}} with \code{\link[=navs_hidden]{navs_hidden()}}).}
 
 \item{icon}{Optional icon to appear next to the nav item's \code{title}.}
 
@@ -63,8 +66,10 @@ Create nav item(s) for use inside nav containers (e.g., \code{\link[=navs_tab]{n
 
 \item \code{nav_menu()}: Create a menu of nav items.
 
-\item \code{nav_content()}: Create nav content for use inside \code{navs_hidden()} (for
+\item \code{nav_panel_hidden()}: Create nav content for use inside \code{navs_hidden()} (for
 creating custom navigation controls via \code{navs_select()}),
+
+\item \code{nav_content()}: An alias for \code{nav_panel_hidden()}.
 
 \item \code{nav_item()}: Place arbitrary content in the navigation panel (e.g., search
 forms, links to external content, etc.)

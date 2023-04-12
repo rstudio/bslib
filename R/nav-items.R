@@ -6,7 +6,7 @@
 #' @param title A title to display. Can be a character string or UI elements
 #'   (i.e., [tags]).
 #' @param ... Depends on the function:
-#'   * For `nav_panel()` and `nav_content()`: UI elements (i.e., [tags]) to
+#'   * For `nav_panel()` and `nav_panel_hidden()`: UI elements (i.e., [tags]) to
 #'     display when the item is active.
 #'   * For `nav_menu()`: a collection of nav items (e.g., `nav_panel()`,
 #'     `nav_item()`).
@@ -18,8 +18,8 @@
 #'   useful for programmatically updating the selected content via
 #'   [nav_select()], [nav_hide()], etc (updating selected tabs this way is often
 #'   useful for showing/hiding panels of content via other UI controls like
-#'   [shiny::radioButtons()] -- in this scenario, consider using [nav_content()]
-#'   with [navs_hidden()]).
+#'   [shiny::radioButtons()] -- in this scenario, consider using
+#'   [nav_panel_hidden()] with [navs_hidden()]).
 #' @param icon Optional icon to appear next to the nav item's `title`.
 #'
 #' @return A nav item that may be passed to a nav container (e.g. [navs_tab()]).
@@ -50,9 +50,14 @@ nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "
 #' @describeIn nav Create nav content for use inside `navs_hidden()` (for
 #'   creating custom navigation controls via `navs_select()`),
 #' @export
-nav_content <- function(value, ..., icon = NULL) {
+nav_panel_hidden <- function(value, ..., icon = NULL) {
   tabPanelBody_(value, ..., icon = icon)
 }
+
+# TODO: Deprecate `nav_content()` in a future version of {bslib}
+#' @describeIn nav An alias for `nav_panel_hidden()`.
+#' @export
+nav_content <- nav_panel_hidden
 
 #' @describeIn nav Place arbitrary content in the navigation panel (e.g., search
 #'   forms, links to external content, etc.)

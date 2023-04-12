@@ -57,8 +57,8 @@ if (can_browse()) {
       radioButtons("item", "Choose", c("A", "B")),
       navs_hidden(
         id = "container",
-        nav_content("A", "a"),
-        nav_content("B", "b")
+        nav_panel_hidden("A", "a"),
+        nav_panel_hidden("B", "b")
       )
     ),
     function(input, output) {
