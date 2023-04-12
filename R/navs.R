@@ -74,7 +74,7 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
 collect_nav_items <- function(..., wrapper) {
   items <- rlang::list2(...)
 
-  # Wrap any nav() children up into card items
+  # Wrap any nav_panel() children up into card items
   nav_to_card_item <- function(x) {
     if (isNavbarMenu(x)) {
       x$tabs <- lapply(x$tabs, nav_to_card_item)

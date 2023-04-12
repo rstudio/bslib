@@ -126,11 +126,11 @@ delay_corr_card <- card(
 delay_card <- navs_pill_card(
   title = "Arrival delay",
   full_screen = TRUE,
-  nav(
+  nav_panel(
     "Overall",
     plotlyOutput("arr_delay")
   ),
-  nav(
+  nav_panel(
     "Over time",
     plotlyOutput("arr_delay_series")
   )
@@ -152,7 +152,7 @@ ui <- page_navbar(
   ),
   fillable = TRUE,
   sidebar = sidebar(sidebar_acc),
-  nav(
+  nav_panel(
     "Delays",
     uiOutput("value_boxes"),
     layout_column_wrap(
@@ -161,7 +161,7 @@ ui <- page_navbar(
     ),
     delay_card
   ),
-  nav(
+  nav_panel(
     "Durations",
     "Coming soon"
   ),

@@ -2,12 +2,15 @@
 % Please edit documentation in R/nav-items.R
 \name{nav}
 \alias{nav}
+\alias{nav_panel}
 \alias{nav_menu}
 \alias{nav_content}
 \alias{nav_item}
 \alias{nav_spacer}
 \title{Navigation items}
 \usage{
+nav_panel(title, ..., value = title, icon = NULL)
+
 nav(title, ..., value = title, icon = NULL)
 
 nav_menu(title, ..., value = title, icon = NULL, align = c("left", "right"))
@@ -24,9 +27,10 @@ nav_spacer()
 
 \item{...}{Depends on the function:
 \itemize{
-\item For \code{nav()} and \code{nav_content()}: UI elements (i.e., \link{tags}) to display
-when the item is active.
-\item For \code{nav_menu()}: a collection of nav items (e.g., \code{nav()}, \code{nav_item()}).
+\item For \code{nav_panel()} and \code{nav_content()}: UI elements (i.e., \link{tags}) to
+display when the item is active.
+\item For \code{nav_menu()}: a collection of nav items (e.g., \code{nav_panel()},
+\code{nav_item()}).
 \item For \code{nav_item()}: UI elements (i.e., \link{tags}) to place directly in
 the navigation panel (e.g., search forms, links to external content, etc).
 }}
@@ -53,7 +57,9 @@ Create nav item(s) for use inside nav containers (e.g., \code{\link[=navs_tab]{n
 }
 \section{Functions}{
 \itemize{
-\item \code{nav()}: Content to display when the given item is selected.
+\item \code{nav_panel()}: Content to display when the given item is selected.
+
+\item \code{nav()}: An alias for \code{nav_panel()}.
 
 \item \code{nav_menu()}: Create a menu of nav items.
 

@@ -319,7 +319,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
 }
 
 
-// In the case of page_navbar(nav("Foo", layout_sidebar())), we want the
+// In the case of page_navbar(nav_panel("Foo", layout_sidebar())), we want the
 // sidebar to be flush with the viewport (just like it will be in the
 // case of page_navbar(sidebar = sidebar()))
 .navbar + .container-fluid {

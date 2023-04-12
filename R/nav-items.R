@@ -6,9 +6,10 @@
 #' @param title A title to display. Can be a character string or UI elements
 #'   (i.e., [tags]).
 #' @param ... Depends on the function:
-#'   * For `nav()` and `nav_content()`: UI elements (i.e., [tags]) to display
-#'     when the item is active.
-#'   * For `nav_menu()`: a collection of nav items (e.g., `nav()`, `nav_item()`).
+#'   * For `nav_panel()` and `nav_content()`: UI elements (i.e., [tags]) to
+#'     display when the item is active.
+#'   * For `nav_menu()`: a collection of nav items (e.g., `nav_panel()`,
+#'     `nav_item()`).
 #'   * For `nav_item()`: UI elements (i.e., [tags]) to place directly in
 #'     the navigation panel (e.g., search forms, links to external content, etc).
 #' @param value A character string to assign to the nav item. This value may be
@@ -20,13 +21,23 @@
 #'   [shiny::radioButtons()] -- in this scenario, consider using [nav_content()]
 #'   with [navs_hidden()]).
 #' @param icon Optional icon to appear next to the nav item's `title`.
+#'
 #' @return A nav item that may be passed to a nav container (e.g. [navs_tab()]).
-#' @export
+#'
 #' @seealso [navs_tab()], [nav_select()].
+#' @name nav
+NULL
+
 #' @describeIn nav Content to display when the given item is selected.
-nav <- function(title, ..., value = title, icon = NULL) {
+#' @export
+nav_panel <- function(title, ..., value = title, icon = NULL) {
   tabPanel_(title, ..., value = value, icon = icon)
 }
+
+# TODO: Deprecate nav() in a future version of {bslib}
+#' @describeIn nav An alias for `nav_panel()`.
+#' @export
+nav <- nav_panel
 
 #' @describeIn nav Create a menu of nav items.
 #' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.

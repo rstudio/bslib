@@ -5,10 +5,11 @@
 #' specified and must be called within an active Shiny session.
 #'
 #' @param id a character string used to identify the nav container.
-#' @param selected a character string used to identify a particular [nav()] item.
+#' @param selected a character string used to identify a particular
+#'   [nav_panel()] item.
 #' @param session a shiny session object (the default should almost always be used).
 #' @export
-#' @seealso [nav()], [navs_tab()].
+#' @seealso [nav_panel()], [navs_tab()].
 #' @examples
 #'
 #' can_browse <- function() interactive() && require("shiny")
@@ -37,16 +38,16 @@
 #'     actionButton("remove", "Remove 'Foo' tab"),
 #'     navs_tab(
 #'       id = "tabs",
-#'       nav("Hello", "hello"),
-#'       nav("Foo", "foo"),
-#'       nav("Bar", "bar tab")
+#'       nav_panel("Hello", "hello"),
+#'       nav_panel("Foo", "foo"),
+#'       nav_panel("Bar", "bar tab")
 #'     )
 #'   )
 #'   server <- function(input, output) {
 #'     observeEvent(input$add, {
 #'       nav_insert(
 #'         "tabs", target = "Bar", select = TRUE,
-#'         nav("Dynamic", "Dynamically added content")
+#'         nav_panel("Dynamic", "Dynamically added content")
 #'       )
 #'     })
 #'     observeEvent(input$remove, {
@@ -62,8 +63,8 @@ nav_select <- function(id, selected = NULL,
 }
 
 
-#' @param nav a [nav()] item.
-#' @param target The `value` of an existing `nav()` item, next to which tab will be added. If removing: the `value` of the `nav()` item that you want to remove.
+#' @param nav a [nav_panel()] item.
+#' @param target The `value` of an existing `nav_panel()` item, next to which tab will be added. If removing: the `value` of the `nav_panel()` item that you want to remove.
 #' @param position Should `nav` be added before or after the target?
 #' @param select Should `nav` be selected upon being inserted?
 #' @rdname nav_select
@@ -133,8 +134,8 @@ nav_hide <- function(id, target,
 #' Exported for use by [shiny::prependTab()]/[shiny::appendTab()]. These
 #' functions have been superseded by [nav_insert()] (i.e.,
 #' [shiny::insertTab()]), since it can do everything these functions do (i.e.,
-#' add a [nav()] to the start or end of a [nav_menu()]) and more (i.e., insert a
-#' [nav()] anywhere inside a nav container).
+#' add a [nav_panel()] to the start or end of a [nav_menu()]) and more (i.e., insert a
+#' [nav_panel()] anywhere inside a nav container).
 #'
 #' @inheritParams nav_insert
 #' @param menu_title The title of a [nav_menu()].

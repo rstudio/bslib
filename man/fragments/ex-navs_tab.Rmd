@@ -1,4 +1,4 @@
-```{r setup, include = FALSE}
+```{r setup-ex-navs-tab, include = FALSE}
 library(bslib)
 ## Screenshots are created during `devtools::document()` in CI
 ## or set to `TRUE` below to test or update locally
@@ -71,15 +71,15 @@ knitr::opts_chunk$set(
 ## A basic example
 
 This first example creates a simple tabbed navigation container with two tabs.
-The tab name and the content of each tab are specified in the `nav()` calls
+The tab name and the content of each tab are specified in the `nav_panel()` calls
 and `navs_tab()` creates the tabbed navigation around these two tabs.
 
 ```{r navs_tab-basic, fig.alt = "Screenshot of a basic navs_tab() example."}
 library(htmltools)
 
 navs_tab(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content."))
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content."))
 )
 ```
 
@@ -103,14 +103,14 @@ using `nav_spacer()`.
 
 ```{r navs_tab}
 navs_tab(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -123,14 +123,14 @@ but the tab toggles are _pills_ or button-shaped.
 
 ```{r navs_pill}
 navs_pill(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -148,14 +148,14 @@ using the `sidebar` argument of `navs_tab_card()`.
 
 ```{r navs_tab_card}
 navs_tab_card(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -171,14 +171,14 @@ You can use the `placement` argument to position the navbar
 ```{r navs_pill_card}
 navs_pill_card(
   placement = "above",
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -191,14 +191,14 @@ adjacent to, rather than on top of, the tab content panels.
 
 ```{r navs_pill_list}
 navs_pill_list(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -207,21 +207,21 @@ navs_pill_list(
 ## `page_navbar()`
 
 Finally, `page_navbar()` provides full-page navigation container
-similar to `navs_tab()` but where each `nav()` is treated as a full page of content
+similar to `navs_tab()` but where each `nav_panel()` is treated as a full page of content
 and the navigation controls appear in a top-level navigation bar.
 
 ```{r page_navbar}
 page_navbar(
   title = "My App",
   bg = "#0062cc",
-  nav(title = "One", p("First page content.")),
-  nav(title = "Two", p("Second page content.")),
+  nav_panel(title = "One", p("First page content.")),
+  nav_panel(title = "Two", p("Second page content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third page content.")),
+    nav_panel("Three", p("Third page content.")),
     nav_item(link_posit)
   )
 )

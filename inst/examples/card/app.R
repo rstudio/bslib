@@ -23,7 +23,7 @@ main_grid <- layout_column_wrap(
   navs_pill_card(
     title = "Shiny outputs",
     full_screen = TRUE,
-    nav(
+    nav_panel(
       "plotOutput",
       plotOutput("plot"),
       card_body(
@@ -31,7 +31,7 @@ main_grid <- layout_column_wrap(
         lorem_ipsum_dolor_sit_amet
       )
     ),
-    nav("imageOutput", plotOutput("image"))
+    nav_panel("imageOutput", plotOutput("image"))
   ),
   card(
     full_screen = TRUE,

@@ -71,11 +71,11 @@ navs_pill_card(
 )
 }
 \arguments{
-\item{...}{a collection of \code{\link[=nav]{nav()}} items.}
+\item{...}{a collection of \code{\link[=nav_panel]{nav_panel()}} items.}
 
 \item{id}{a character string used for dynamically updating the container (see \code{\link[=nav_select]{nav_select()}}).}
 
-\item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav]{nav()}} item to selected by default.}
+\item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
 
 \item{header}{UI element(s) (\link{tags}) to display \emph{above} the nav content.}
 
@@ -93,11 +93,11 @@ respectively.}
 \item{title}{A (left-aligned) title to place in the card header/footer. If
 provided, other nav items are automatically right aligned.}
 
-\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav]{nav()}} page.}
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav_panel]{nav_panel()}} page.}
 
 \item{fillable}{Whether or not to allow \code{fill} items to grow/shrink to fit
-the browser window. If \code{TRUE}, all \code{\link[=nav]{nav()}} pages are \code{fillable}. A
-character vector, matching the \code{value} of \code{\link[=nav]{nav()}}s to be filled, may also
+the browser window. If \code{TRUE}, all \code{\link[=nav_panel]{nav_panel()}} pages are \code{fillable}. A
+character vector, matching the \code{value} of \code{\link[=nav_panel]{nav_panel()}}s to be filled, may also
 be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes the
 main content portion fillable.}
 
@@ -134,21 +134,21 @@ together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body
 \item{placement}{placement of the nav items relative to the content.}
 }
 \description{
-Render a collection of \code{\link[=nav]{nav()}} items into a container.
+Render a collection of \code{\link[=nav_panel]{nav_panel()}} items into a container.
 }
 \details{
 \subsection{A basic example}{
 
 This first example creates a simple tabbed navigation container with two
 tabs. The tab name and the content of each tab are specified in the
-\code{nav()} calls and \code{navs_tab()} creates the tabbed navigation around
-these two tabs.
+\code{nav_panel()} calls and \code{navs_tab()} creates the tabbed navigation
+around these two tabs.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(htmltools)
 
 navs_tab(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content."))
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content."))
 )
 }\if{html}{\out{</div>}}
 
@@ -173,14 +173,14 @@ left from the direct link and dropdown menu on the right using
 \code{nav_spacer()}.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_tab(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -195,14 +195,14 @@ left from the direct link and dropdown menu on the right using
 \code{navs_tab()}, but the tab toggles are \emph{pills} or button-shaped.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -221,14 +221,14 @@ to all tabs in the card using the \code{sidebar} argument of
 \code{navs_tab_card()}.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_tab_card(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -245,14 +245,14 @@ position the navbar \code{"above"} or \code{"below"} the card body.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill_card(
   placement = "above",
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -267,14 +267,14 @@ Furthermore, \code{navs_pill_list()} creates a vertical list of navigation
 controls adjacent to, rather than on top of, the tab content panels.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill_list(
-  nav(title = "One", p("First tab content.")),
-  nav(title = "Two", p("Second tab content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third tab content")),
+    nav_panel("Three", p("Third tab content")),
     nav_item(link_posit)
   )
 )
@@ -286,21 +286,21 @@ controls adjacent to, rather than on top of, the tab content panels.
 \subsection{\code{page_navbar()}}{
 
 Finally, \code{page_navbar()} provides full-page navigation container similar
-to \code{navs_tab()} but where each \code{nav()} is treated as a full page of
-content and the navigation controls appear in a top-level navigation
+to \code{navs_tab()} but where each \code{nav_panel()} is treated as a full page
+of content and the navigation controls appear in a top-level navigation
 bar.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{page_navbar(
   title = "My App",
   bg = "#0062cc",
-  nav(title = "One", p("First page content.")),
-  nav(title = "Two", p("Second page content.")),
+  nav_panel(title = "One", p("First page content.")),
+  nav_panel(title = "Two", p("Second page content.")),
   nav_spacer(),
   nav_item(link_shiny),
   nav_menu(
     title = "Other links",
     align = "right",
-    nav("Three", p("Third page content.")),
+    nav_panel("Three", p("Third page content.")),
     nav_item(link_posit)
   )
 )
@@ -310,5 +310,5 @@ bar.
 }
 }
 \seealso{
-\code{\link[=nav]{nav()}}, \code{\link[=nav_select]{nav_select()}}.
+\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=nav_select]{nav_select()}}.
 }

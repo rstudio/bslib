@@ -1,16 +1,16 @@
 #' Navigation containers
 #'
-#' Render a collection of [nav()] items into a container.
+#' Render a collection of [nav_panel()] items into a container.
 #'
 #' @includeRmd man/fragments/ex-navs_tab.Rmd
 #'
-#' @param ... a collection of [nav()] items.
+#' @param ... a collection of [nav_panel()] items.
 #' @param id a character string used for dynamically updating the container (see [nav_select()]).
-#' @param selected a character string matching the `value` of a particular [nav()] item to selected by default.
+#' @param selected a character string matching the `value` of a particular [nav_panel()] item to selected by default.
 #' @param header UI element(s) ([tags]) to display _above_ the nav content.
 #' @param footer UI element(s) ([tags]) to display _below_ the nav content.
 #'
-#' @seealso [nav()], [nav_select()].
+#' @seealso [nav_panel()], [nav_select()].
 #' @export
 #' @rdname navs
 navs_tab <- function(..., id = NULL, selected = NULL,
@@ -62,10 +62,10 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
 
 
 #' @inheritParams shiny::navbarPage
-#' @param sidebar A [sidebar()] component to display on every [nav()] page.
+#' @param sidebar A [sidebar()] component to display on every [nav_panel()] page.
 #' @param fillable Whether or not to allow `fill` items to grow/shrink to fit
-#'   the browser window. If `TRUE`, all [nav()] pages are `fillable`. A
-#'   character vector, matching the `value` of [nav()]s to be filled, may also
+#'   the browser window. If `TRUE`, all [nav_panel()] pages are `fillable`. A
+#'   character vector, matching the `value` of [nav_panel()]s to be filled, may also
 #'   be provided. Note that, if a `sidebar` is provided, `fillable` makes the
 #'   main content portion fillable.
 #' @param bg a CSS color to use for the navbar's background color.
@@ -528,7 +528,7 @@ buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
 
   # The behavior is undefined at this point, so construct a condition message
   msg <- paste0(
-    "Navigation containers expect a collection of `bslib::nav()`/`shiny::tabPanel()`s ",
+    "Navigation containers expect a collection of `bslib::nav_panel()`/`shiny::tabPanel()`s ",
     "and/or `bslib::nav_menu()`/`shiny::navbarMenu()`s. ",
     "Consider using `header` or `footer` if you wish to place content above ",
     "(or below) every panel's contents."
