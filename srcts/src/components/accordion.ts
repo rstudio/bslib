@@ -2,7 +2,7 @@ import type { HtmlDep } from "./_utils";
 import { InputBinding, registerBinding, hasDefinedProperty } from "./_utils";
 
 type AccordionItem = {
-  item: Element;
+  item: HTMLElement;
   value: string;
   isOpen: () => boolean;
   show: () => void;
@@ -164,7 +164,12 @@ class AccordionInputBinding extends InputBinding {
       (x) => data.target.indexOf(x.value) > -1
     );
 
-    targetItems.forEach((x) => x.item.remove());
+    const unbindAll = Shiny?.unbindAll;
+
+    targetItems.forEach((x) => {
+      if (unbindAll) unbindAll(x.item);
+      x.item.remove();
+    });
   }
 
   protected _updateItem(el: HTMLElement, data: UpdateMessage) {

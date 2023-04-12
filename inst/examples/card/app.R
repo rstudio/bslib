@@ -18,12 +18,11 @@ main_grid <- layout_column_wrap(
   card(
     full_screen = TRUE,
     card_header("DT::dataTableOutput()"),
-    card_body_fill(DT::dataTableOutput("DT"))
+    DT::dataTableOutput("DT")
   ),
   navs_pill_card(
     title = "Shiny outputs",
     full_screen = TRUE,
-    wrapper = card_body_fill,
     nav(
       "plotOutput",
       plotOutput("plot"),
@@ -37,7 +36,7 @@ main_grid <- layout_column_wrap(
   card(
     full_screen = TRUE,
     card_header("leaflet (via uiOutput())"),
-    card_body_fill(uiOutput("leaflet", fill = TRUE))
+    uiOutput("leaflet", fill = TRUE)
   ),
   card(
     full_screen = TRUE,
@@ -47,12 +46,12 @@ main_grid <- layout_column_wrap(
       plotlyOutput("cut"),
       plotlyOutput("clarity")
     ),
-    card_body_fill(plotlyOutput("price"))
+    plotlyOutput("price")
   ),
   card(
     full_screen = TRUE,
     card_header("Static plotly"),
-    card_body_fill(plot_hist("price")),
+    plot_hist("price"),
     layout_column_wrap(
       width = 1/2,
       plot_hist("cut"),
@@ -73,7 +72,7 @@ main_grid <- layout_column_wrap(
     card(
       full_screen = TRUE,
       card_header("Scrollable gt()"),
-      card_body_fill(
+      card_body(
         max_height = "400px",
         max_height_full_screen = "100%",
         gt::gt(mtcars)

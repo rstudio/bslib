@@ -10,6 +10,7 @@ layout_column_wrap(
   fixed_width = FALSE,
   heights_equal = c("all", "row"),
   fill = TRUE,
+  fillable = TRUE,
   height = NULL,
   height_mobile = NULL,
   gap = NULL,
@@ -48,16 +49,20 @@ length unit.}
 grid will have the same height. If \code{"row"}, then every card in \emph{each} row
 of the grid will have the same height, but heights may vary between rows.}
 
-\item{fill}{whether or not the grid items should grow to fill the row height.}
+\item{fill}{Whether or not to allow the layout to grow/shrink to fit a
+fillable container with an opinionated height (e.g., \code{page_fillable()}).}
+
+\item{fillable}{Whether or not each element is wrapped in a fillable container.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
 \item{height_mobile}{Any valid CSS unit to use for the height when on mobile
 devices (or narrow windows).}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 }

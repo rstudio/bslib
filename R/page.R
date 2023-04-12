@@ -41,9 +41,11 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @inheritParams shiny::fillPage
 #' @param fill_mobile Whether or not the page should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
+#' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
+#'   `gap` (i.e., spacing) between elements provided to `...`.
 #' @seealso [shiny::fillPage()]
 #' @export
-page_fill <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
+page_fillable <- function(..., padding = NULL, gap = NULL, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
   page(
     title = title,
     theme = theme,
@@ -54,6 +56,7 @@ page_fill <- function(..., padding = 0, fill_mobile = FALSE, title = NULL, theme
         class = "bslib-page-fill",
         style = css(
           padding = validateCssPadding(padding),
+          gap = validateCssUnit(gap),
           "--bslib-page-fill-mobile-height" = if (fill_mobile) "100%" else "auto"
         ),
         ...
@@ -109,7 +112,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
-    function(...) page_fill(..., fill_mobile = fill_mobile)
+    function(...) page_fillable(..., fill_mobile = fill_mobile, padding = 0, gap = 0)
   }
 
   page_func(

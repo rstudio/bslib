@@ -20,43 +20,73 @@
 #' @param width A valid [CSS unit][htmltools::validateCssUnit] used for the
 #'   width of the sidebar.
 #' @param position Where the sidebar should appear relative to the main content.
-#' @param open Whether or not the sidebar should be open on page load. Provide a
-#'   value of `NA` to prevent sidebar from being collapsible.
+#' @param open The initial state of the sidebar, choosing from the following
+#'   options:
+#'
+#'   * `"desktop"`: The sidebar starts open on desktop screen, closed on mobile.
+#'     This is default sidebar behavior.
+#'   * `"open"` or `TRUE`: The sidebar starts open.
+#'   * `"closed"` or `FALSE`: The sidebar starts closed.
+#'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
+#' @param title A character title to be used as the sidebar title, which will be
+#'   wrapped in a `<div>` element with class `sidebar-title`. You can also
+#'   provide a custom [htmltools::tag()] for the title element, in which case
+#'   you'll likely want to give this element `class = "sidebar-title"`.
 #' @param bg A background color. If provided, an accessible contrasting color is
 #'   provided for the foreground color (consider using a utility `class` to
 #'   customize the foreground color).
 #' @param class Additional CSS classes for the top-level HTML element.
+#' @param max_height_mobile The maximum height of the horizontal sidebar when
+#'   viewed on mobile devices. The default is `250px` unless the sidebar is
+#'   included in a [layout_sidebar()] with a specified height, in which case
+#'   the default is to take up no more than 50% of the layout container.
 #'
 #' @export
 sidebar <- function(
   ...,
   width = 250,
   position = c("left", "right"),
-  open = TRUE,
+  open = c("desktop", "open", "closed", "always"),
   id = NULL,
+  title = NULL,
   bg = NULL,
-  class = NULL
+  class = NULL,
+  max_height_mobile = NULL
 ) {
-  # For accessibility reasons, always provide id when collapsible,
-  # but only create input binding when id is provided
-  if (is.null(id) && is.logical(open)) {
-    id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
-  } else {
-    class <- c("bslib-sidebar-input", class)
+  if (isTRUE(open)) {
+    open <- "open"
+  } else if (identical(open, FALSE)) {
+    open <- "closed"
+  } else if (isTRUE(is.na(open))) {
+    open <- "always"
   }
 
-  hide_collapse <- isTRUE(is.na(open))
+  open <- rlang::arg_match(open)
 
-  collapse_tag <- tags$button(
-    class = "collapse-toggle",
-    type = "button",
-    title = "Toggle sidebar",
-    style = css(display = if (hide_collapse) "none"),
-    "aria-expanded" = if (open || hide_collapse) "true" else "false",
-    "aria-controls" = id
-  )
+  if (!is.null(id)) {
+    # only create input binding when id is provided
+    class <- c("bslib-sidebar-input", class)
+  } else if (open != "always") {
+    # but always provide id when collapsible for accessibility reasons
+    id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
+  }
+
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
+    title <- div(title, class = "sidebar-title")
+  }
+
+  collapse_tag <-
+    if (open != "always") {
+      tags$button(
+        class = "collapse-toggle",
+        type = "button",
+        title = "Toggle sidebar",
+        "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
+        "aria-controls" = id
+      )
+    }
 
   res <- list2(
     tag = tags$form(
@@ -67,12 +97,14 @@ sidebar <- function(
         background_color = bg,
         color = if (!is.null(bg)) get_color_contrast(bg)
       ),
+      title,
       ...
     ),
     collapse_tag = collapse_tag,
     position = match.arg(position),
     open = open,
-    width = validateCssUnit(width)
+    width = validateCssUnit(width),
+    max_height_mobile = validateCssUnit(max_height_mobile)
   )
 
   class(res) <- c("sidebar", class(res))
@@ -83,8 +115,8 @@ sidebar <- function(
 #' @param sidebar A [sidebar()] object.
 #' @param fillable Whether or not the `main` content area should be considered a
 #'   fillable (i.e., flexbox) container.
-#' @param fill Whether or not the layout container should grow/shrink to fit
-#'   a fillable container.
+#' @param fill Whether or not to allow the layout container to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
 #' @inheritParams card
@@ -134,16 +166,22 @@ layout_sidebar <- function(
     columns_collapse <- rev(columns_collapse)
   }
 
+  max_height_mobile <- sidebar$max_height_mobile %||%
+    if (is.null(height)) "250px" else "50%"
+
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
-    class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
+    class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
+    `data-sidebar-init-auto-collapse` =
+      if (identical(sidebar$open, "desktop")) "true",
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
-      height = validateCssUnit(height)
+      height = validateCssUnit(height),
+      "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
     sidebar_dependency(),
@@ -180,6 +218,15 @@ sidebar_js_init <- function() {
         $(x).css('--bslib-sidebar-overlap-counter', right ? ctrs.right : ctrs.left);
         right ? ctrs.right++ : ctrs.left++;
       });
+    }
+
+    // If sidebar is marked open='desktop', collapse sidebar if on mobile
+    if (thisLayout.data('sidebarInitAutoCollapse')) {
+      var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
+      if (initCollapsed === 'true') {
+        thisLayout.addClass('sidebar-collapsed');
+        thisLayout.find('.collapse-toggle').attr('aria-expanded', 'false');
+      }
     }
     "
   ))
