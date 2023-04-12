@@ -104,16 +104,11 @@ layout_sidebar <- function(
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
 
-  if (!(is.null(border) || rlang::is_bare_logical(border, n = 1))) {
-    abort("`border` must be `NULL`, `TRUE`, or `FALSE`.")
-  } else if (!is.null(border) && is.na(border)) {
-    border <- NULL
+  if (!(is.null(border) || isTRUE(border) || isFALSE(border))) {
+    abort("`border` must be `NULL`, `TRUE`, or `FALSE`")
   }
-
-  if (!(is.null(border_radius) || rlang::is_bare_logical(border_radius, n = 1))) {
-    abort("`border_radius` must be `NULL`, `TRUE`, or `FALSE`.")
-  } else if (!is.null(border_radius) && is.na(border_radius)) {
-    border_radius <- NULL
+  if (!(is.null(border_radius) || isTRUE(border_radius) || isFALSE(border_radius))) {
+    abort("`border`_radius must be `NULL`, `TRUE`, or `FALSE`")
   }
 
   main <- div(
