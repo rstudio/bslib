@@ -198,7 +198,7 @@ sidebar_js_init <- function() {
       var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
       if (initCollapsed === 'true') {
         thisLayout.addClass('sidebar-collapsed');
-        thisLayout.find('.collapse-toggle').attr('aria-expanded', 'false')
+        thisLayout.find('.collapse-toggle').attr('aria-expanded', 'false');
       }
     }
     "
