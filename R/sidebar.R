@@ -55,11 +55,11 @@ sidebar <- function(
 
   open <- rlang::arg_match(open)
 
-  # For accessibility reasons, always provide id when collapsible,
-  # but only create input binding when id is provided
   if (!is.null(id)) {
+    # only create input binding when id is provided
     class <- c("bslib-sidebar-input", class)
   } else if (open != "always") {
+    # but always provide id when collapsible for accessibility reasons
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
   }
 
