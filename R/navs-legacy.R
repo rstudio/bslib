@@ -46,7 +46,7 @@ navs_pill <- navset_pill
 #' @export
 #' @inheritParams shiny::navlistPanel
 #' @rdname navs
-navs_pill_list <- function(..., id = NULL, selected = NULL,
+navset_pill_list <- function(..., id = NULL, selected = NULL,
                            header = NULL, footer = NULL,
                            well = TRUE, fluid = TRUE,
                            widths = c(4, 8)) {
@@ -58,6 +58,11 @@ navs_pill_list <- function(..., id = NULL, selected = NULL,
   )
   as_fragment(pill_list)
 }
+
+# TODO: Deprecate `navs_pill_list()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_pill_list()`.
+#' @export
+navs_pill_list <- navset_pill_list
 
 #' @export
 #' @rdname navs

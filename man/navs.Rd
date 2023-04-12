@@ -5,6 +5,7 @@
 \alias{navs_tab}
 \alias{navset_pill}
 \alias{navs_pill}
+\alias{navset_pill_list}
 \alias{navs_pill_list}
 \alias{navs_hidden}
 \alias{navs_bar}
@@ -19,6 +20,17 @@ navs_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 navset_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navs_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navset_pill_list(
+  ...,
+  id = NULL,
+  selected = NULL,
+  header = NULL,
+  footer = NULL,
+  well = TRUE,
+  fluid = TRUE,
+  widths = c(4, 8)
+)
 
 navs_pill_list(
   ...,
@@ -267,12 +279,12 @@ position the navbar \code{"above"} or \code{"below"} the card body.
 \figure{navs_pill_card.png}{Screenshot of a navs_pill_card() example.}
 }
 
-\subsection{\code{navs_pill_list()}}{
+\subsection{\code{navset_pill_list()}}{
 
-Furthermore, \code{navs_pill_list()} creates a vertical list of navigation
+Furthermore, \code{navset_pill_list()} creates a vertical list of navigation
 controls adjacent to, rather than on top of, the tab content panels.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill_list(
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_pill_list(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
@@ -320,6 +332,8 @@ bar.
 \item \code{navs_tab()}: An alias for \code{navset_tab()}.
 
 \item \code{navs_pill()}: An alias for \code{navset_pill()}.
+
+\item \code{navs_pill_list()}: An alias for \code{navset_pill_list()}.
 
 }}
 \seealso{
