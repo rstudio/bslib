@@ -45,7 +45,7 @@ useful for programmatically updating the selected content via
 \code{\link[=nav_select]{nav_select()}}, \code{\link[=nav_hide]{nav_hide()}}, etc (updating selected tabs this way is often
 useful for showing/hiding panels of content via other UI controls like
 \code{\link[shiny:radioButtons]{shiny::radioButtons()}} -- in this scenario, consider using
-\code{\link[=nav_panel_hidden]{nav_panel_hidden()}} with \code{\link[=navs_hidden]{navs_hidden()}}).}
+\code{\link[=nav_panel_hidden]{nav_panel_hidden()}} with \code{\link[=navset_hidden]{navset_hidden()}}).}
 
 \item{icon}{Optional icon to appear next to the nav item's \code{title}.}
 
@@ -64,7 +64,7 @@ Create nav item(s) for use inside nav containers (e.g., \code{\link[=navset_tab]
 
 \item \code{nav_menu()}: Create a menu of nav items.
 
-\item \code{nav_panel_hidden()}: Create nav content for use inside \code{navs_hidden()} (for
+\item \code{nav_panel_hidden()}: Create nav content for use inside \code{navset_hidden()} (for
 creating custom navigation controls via \code{navs_select()}),
 
 \item \code{nav_item()}: Place arbitrary content in the navigation panel (e.g., search

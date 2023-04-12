@@ -66,7 +66,7 @@ navs_pill_list <- navset_pill_list
 
 #' @export
 #' @rdname navs
-navs_hidden <- function(..., id = NULL, selected = NULL,
+navset_hidden <- function(..., id = NULL, selected = NULL,
                         header = NULL, footer = NULL) {
   hidden <- tabsetPanel_(
     ..., type = "hidden", id = id, selected = selected,
@@ -75,6 +75,10 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
   as_fragment(hidden)
 }
 
+# TODO: Deprecate `navs_hidden()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_hidden()`.
+#' @export
+navs_hidden <- navset_hidden
 
 #' @inheritParams shiny::navbarPage
 #' @param sidebar A [sidebar()] component to display on every [nav_panel()] page.

@@ -19,7 +19,7 @@
 #'   [nav_select()], [nav_hide()], etc (updating selected tabs this way is often
 #'   useful for showing/hiding panels of content via other UI controls like
 #'   [shiny::radioButtons()] -- in this scenario, consider using
-#'   [nav_panel_hidden()] with [navs_hidden()]).
+#'   [nav_panel_hidden()] with [navset_hidden()]).
 #' @param icon Optional icon to appear next to the nav item's `title`.
 #'
 #' @return A nav item that may be passed to a nav container (e.g. [navset_tab()]).
@@ -42,7 +42,7 @@ nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "
   navbarMenu_(title, ..., menuName = value, icon = icon, align = align)
 }
 
-#' @describeIn nav Create nav content for use inside `navs_hidden()` (for
+#' @describeIn nav Create nav content for use inside `navset_hidden()` (for
 #'   creating custom navigation controls via `navs_select()`),
 #' @export
 nav_panel_hidden <- function(value, ..., icon = NULL) {

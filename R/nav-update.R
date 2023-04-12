@@ -19,7 +19,7 @@
 #'   shinyApp(
 #'     page_fluid(
 #'       radioButtons("item", "Choose", c("A", "B")),
-#'       navs_hidden(
+#'       navset_hidden(
 #'         id = "container",
 #'         nav_panel_hidden("A", "a"),
 #'         nav_panel_hidden("B", "b")
