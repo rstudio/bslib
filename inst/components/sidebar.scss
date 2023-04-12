@@ -158,6 +158,7 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     --bslib-collapse-toggle-transform: -180deg;
     --bslib-collapse-toggle-right-transform: -180deg;
 
+    // required by sidebar init js when `sidebar(open = "desktop")`
     &[data-sidebar-init-auto-collapse] {
       --bslib-sidebar-js-init-collapsed: true;
     }
