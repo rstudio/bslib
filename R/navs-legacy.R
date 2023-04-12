@@ -2,59 +2,17 @@
 #'
 #' Render a collection of [nav()] items into a container.
 #'
+#' @includeRmd man/fragments/ex-navs_tab.Rmd
+#'
 #' @param ... a collection of [nav()] items.
 #' @param id a character string used for dynamically updating the container (see [nav_select()]).
 #' @param selected a character string matching the `value` of a particular [nav()] item to selected by default.
 #' @param header UI element(s) ([tags]) to display _above_ the nav content.
 #' @param footer UI element(s) ([tags]) to display _below_ the nav content.
-#' @export
+#'
 #' @seealso [nav()], [nav_select()].
+#' @export
 #' @rdname navs
-#' @examples
-#'
-#' library(shiny)
-#'
-#' nav_items <- function(prefix) {
-#'   list(
-#'     nav("a", paste(prefix, ": tab a content")),
-#'     nav("b", paste(prefix, ": tab b content")),
-#'     nav_item(
-#'       tags$a(icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = "_blank")
-#'     ),
-#'     nav_spacer(),
-#'     nav_menu(
-#'       "Other links", align = "right",
-#'       nav("c", paste(prefix, ": tab c content")),
-#'       nav_item(
-#'         tags$a(icon("r-project"), "RStudio", href = "https://rstudio.com", target = "_blank")
-#'       )
-#'     )
-#'   )
-#' }
-#'
-#' if (interactive()) {
-#'   shinyApp(
-#'     page_navbar(
-#'       title = "page_navbar()",
-#'       bg = "#0062cc",
-#'       !!!nav_items("page_navbar()"),
-#'       footer = div(
-#'         style = "width:80%; margin: 0 auto",
-#'         h4("navs_tab()"),
-#'         navs_tab(!!!nav_items("navs_tab()")),
-#'         h4("navs_pill()"),
-#'         navs_pill(!!!nav_items("navs_pill()")),
-#'         h4("navs_tab_card()"),
-#'         navs_tab_card(!!!nav_items("navs_tab_card()")),
-#'         h4("navs_pill_card()"),
-#'         navs_pill_card(!!!nav_items("navs_pill_card()")),
-#'         h4("navs_pill_list()"),
-#'         navs_pill_list(!!!nav_items("navs_pill_list()"))
-#'       )
-#'     ),
-#'     function(...) { }
-#'   )
-#' }
 navs_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
   tabs <- tabsetPanel_(
