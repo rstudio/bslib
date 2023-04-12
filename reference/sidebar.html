@@ -108,6 +108,7 @@ to learn more.</p>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_height_mobile <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
@@ -118,8 +119,10 @@ to learn more.</p>
 <span>  fillable <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  border <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  border_radius <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  border_color <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -167,10 +170,10 @@ provide a custom <code><a href="https://rstudio.github.io/htmltools/reference/bu
 you'll likely want to give this element <code>class = "sidebar-title"</code>.</p></dd>
 
 
-<dt>bg</dt>
-<dd><p>A background color. If provided, an accessible contrasting color is
-provided for the foreground color (consider using a utility <code>class</code> to
-customize the foreground color).</p></dd>
+<dt>bg, fg</dt>
+<dd><p>A background or foreground color. If only one of either is
+provided, an accessible contrasting color is provided for the opposite
+color, e.g. setting <code>bg</code> chooses an appropriate <code>fg</code> color.</p></dd>
 
 
 <dt>class</dt>
@@ -204,6 +207,12 @@ fillable container with an opinionated height (e.g., <code><a href="page.html">p
 
 <dt>border_radius</dt>
 <dd><p>Whether or not to add a border radius.</p></dd>
+
+
+<dt>border_color</dt>
+<dd><p>The border color that is applied to the entire layout (if
+<code>border = TRUE</code>) and the color of the border between the sidebar and the
+main content area.</p></dd>
 
 
 <dt>height</dt>
