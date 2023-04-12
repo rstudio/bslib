@@ -2,14 +2,14 @@
 % Please edit documentation in R/navs-legacy.R, R/navs.R
 \name{navset_tab}
 \alias{navset_tab}
-\alias{navs_tab}
 \alias{navset_pill}
-\alias{navs_pill}
 \alias{navset_pill_list}
-\alias{navs_pill_list}
 \alias{navset_hidden}
-\alias{navs_hidden}
 \alias{navset_bar}
+\alias{navs_tab}
+\alias{navs_pill}
+\alias{navs_pill_list}
+\alias{navs_hidden}
 \alias{navs_bar}
 \alias{navs_tab_card}
 \alias{navs_pill_card}
@@ -17,11 +17,7 @@
 \usage{
 navset_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
-navs_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
-
 navset_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
-
-navs_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill_list(
   ...,
@@ -34,20 +30,7 @@ navset_pill_list(
   widths = c(4, 8)
 )
 
-navs_pill_list(
-  ...,
-  id = NULL,
-  selected = NULL,
-  header = NULL,
-  footer = NULL,
-  well = TRUE,
-  fluid = TRUE,
-  widths = c(4, 8)
-)
-
 navset_hidden(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
-
-navs_hidden(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_bar(
   ...,
@@ -64,6 +47,23 @@ navset_bar(
   collapsible = TRUE,
   fluid = TRUE
 )
+
+navs_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navs_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navs_pill_list(
+  ...,
+  id = NULL,
+  selected = NULL,
+  header = NULL,
+  footer = NULL,
+  well = TRUE,
+  fluid = TRUE,
+  widths = c(4, 8)
+)
+
+navs_hidden(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navs_bar(
   ...,

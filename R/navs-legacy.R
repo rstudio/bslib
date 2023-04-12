@@ -22,11 +22,6 @@ navset_tab <- function(..., id = NULL, selected = NULL,
   as_fragment(tabs)
 }
 
-# TODO: Deprecate `navs_tab()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_tab()`.
-#' @export
-navs_tab <- navset_tab
-
 #' @export
 #' @rdname navs
 navset_pill <- function(..., id = NULL, selected = NULL,
@@ -37,11 +32,6 @@ navset_pill <- function(..., id = NULL, selected = NULL,
   )
   as_fragment(pills)
 }
-
-# TODO: Deprecate `navs_pill()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_pill()`.
-#' @export
-navs_pill <- navset_pill
 
 #' @export
 #' @inheritParams shiny::navlistPanel
@@ -59,11 +49,6 @@ navset_pill_list <- function(..., id = NULL, selected = NULL,
   as_fragment(pill_list)
 }
 
-# TODO: Deprecate `navs_pill_list()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_pill_list()`.
-#' @export
-navs_pill_list <- navset_pill_list
-
 #' @export
 #' @rdname navs
 navset_hidden <- function(..., id = NULL, selected = NULL,
@@ -74,11 +59,6 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
   )
   as_fragment(hidden)
 }
-
-# TODO: Deprecate `navs_hidden()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_hidden()`.
-#' @export
-navs_hidden <- navset_hidden
 
 #' @inheritParams shiny::navbarPage
 #' @param sidebar A [sidebar()] component to display on every [nav_panel()] page.
@@ -111,11 +91,6 @@ navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
     theme = bs_theme()
   )
 }
-
-# TODO: Deprecate `navs_bar()` in a future version of {bslib}
-#' @describeIn navs An alias for `navset_bar()`.
-#' @export
-navs_bar <- navset_bar
 
 # This internal version of navs_bar() exists so both it and page_navbar()
 # (and thus shiny::navbarPage()) can use it. And in the page_navbar() case,
@@ -157,7 +132,32 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
   as_fragment(navbar, page = page)
 }
 
+# Aliases for future deprecation ----------------------------------------
 
+# TODO: Deprecate `navs_tab()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_tab()`.
+#' @export
+navs_tab <- navset_tab
+
+# TODO: Deprecate `navs_pill()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_pill()`.
+#' @export
+navs_pill <- navset_pill
+
+# TODO: Deprecate `navs_pill_list()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_pill_list()`.
+#' @export
+navs_pill_list <- navset_pill_list
+
+# TODO: Deprecate `navs_hidden()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_hidden()`.
+#' @export
+navs_hidden <- navset_hidden
+
+# TODO: Deprecate `navs_bar()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_bar()`.
+#' @export
+navs_bar <- navset_bar
 
 # -----------------------------------------------------------------------
 # 'Internal' tabset logic that was pulled directly from shiny/R/bootstrap.R
