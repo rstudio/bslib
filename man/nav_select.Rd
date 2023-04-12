@@ -72,7 +72,7 @@ if (can_browse()) {
   ui <- page_fluid(
     actionButton("add", "Add 'Dynamic' tab"),
     actionButton("remove", "Remove 'Foo' tab"),
-    navs_tab(
+    navset_tab(
       id = "tabs",
       nav_panel("Hello", "hello"),
       nav_panel("Foo", "foo"),
@@ -95,5 +95,5 @@ if (can_browse()) {
 
 }
 \seealso{
-\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=navs_tab]{navs_tab()}}.
+\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=navset_tab]{navset_tab()}}.
 }

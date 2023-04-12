@@ -1,6 +1,6 @@
 #' Navigation items
 #'
-#' Create nav item(s) for use inside nav containers (e.g., [navs_tab()],
+#' Create nav item(s) for use inside nav containers (e.g., [navset_tab()],
 #' [navs_bar()], etc).
 #'
 #' @param title A title to display. Can be a character string or UI elements
@@ -22,9 +22,9 @@
 #'   [nav_panel_hidden()] with [navs_hidden()]).
 #' @param icon Optional icon to appear next to the nav item's `title`.
 #'
-#' @return A nav item that may be passed to a nav container (e.g. [navs_tab()]).
+#' @return A nav item that may be passed to a nav container (e.g. [navset_tab()]).
 #'
-#' @seealso [navs_tab()], [nav_select()].
+#' @seealso [navset_tab()], [nav_select()].
 #' @name nav
 NULL
 

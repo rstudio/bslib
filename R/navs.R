@@ -10,7 +10,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
-  tabs <- navs_tab(
+  tabs <- navset_tab(
     !!!items, id = id, selected = selected, header = header, footer = footer
   )
 

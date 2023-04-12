@@ -52,10 +52,10 @@ useful for showing/hiding panels of content via other UI controls like
 \item{align}{horizontal alignment of the dropdown menu relative to dropdown toggle.}
 }
 \value{
-A nav item that may be passed to a nav container (e.g. \code{\link[=navs_tab]{navs_tab()}}).
+A nav item that may be passed to a nav container (e.g. \code{\link[=navset_tab]{navset_tab()}}).
 }
 \description{
-Create nav item(s) for use inside nav containers (e.g., \code{\link[=navs_tab]{navs_tab()}},
+Create nav item(s) for use inside nav containers (e.g., \code{\link[=navset_tab]{navset_tab()}},
 \code{\link[=navs_bar]{navs_bar()}}, etc).
 }
 \section{Functions}{
@@ -78,5 +78,5 @@ forms, links to external content, etc.)
 
 }}
 \seealso{
-\code{\link[=navs_tab]{navs_tab()}}, \code{\link[=nav_select]{nav_select()}}.
+\code{\link[=navset_tab]{navset_tab()}}, \code{\link[=nav_select]{nav_select()}}.
 }

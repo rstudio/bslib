@@ -72,12 +72,12 @@ knitr::opts_chunk$set(
 
 This first example creates a simple tabbed navigation container with two tabs.
 The tab name and the content of each tab are specified in the `nav_panel()` calls
-and `navs_tab()` creates the tabbed navigation around these two tabs.
+and `navset_tab()` creates the tabbed navigation around these two tabs.
 
-```{r navs_tab-basic, fig.alt = "Screenshot of a basic navs_tab() example."}
+```{r navs_tab-basic, fig.alt = "Screenshot of a basic navset_tab() example."}
 library(htmltools)
 
-navs_tab(
+navset_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content."))
 )
@@ -90,7 +90,7 @@ link_shiny <- tags$a(shiny::icon("github"), "Shiny", href = "https://github.com/
 link_posit <- tags$a(shiny::icon("r-project"), "Posit", href = "https://posit.co", target = "_blank")
 ```
 
-## `navs_tab()`
+## `navset_tab()`
 
 You can fully customize the controls in the navigation component.
 In this example, we've added a direct link to the Shiny repository using `nav_item()`.
@@ -102,7 +102,7 @@ from the direct link and dropdown menu on the right
 using `nav_spacer()`.
 
 ```{r navs_tab}
-navs_tab(
+navset_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
@@ -118,7 +118,7 @@ navs_tab(
 
 ## `navs_pill()`
 
-`navs_pill()` creates a navigation container that behaves exactly like `navs_tab()`,
+`navs_pill()` creates a navigation container that behaves exactly like `navset_tab()`,
 but the tab toggles are _pills_ or button-shaped.
 
 ```{r navs_pill}
@@ -207,7 +207,7 @@ navs_pill_list(
 ## `page_navbar()`
 
 Finally, `page_navbar()` provides full-page navigation container
-similar to `navs_tab()` but where each `nav_panel()` is treated as a full page of content
+similar to `navset_tab()` but where each `nav_panel()` is treated as a full page of content
 and the navigation controls appear in a top-level navigation bar.
 
 ```{r page_navbar}

@@ -9,7 +9,7 @@
 #'   [nav_panel()] item.
 #' @param session a shiny session object (the default should almost always be used).
 #' @export
-#' @seealso [nav_panel()], [navs_tab()].
+#' @seealso [nav_panel()], [navset_tab()].
 #' @examples
 #'
 #' can_browse <- function() interactive() && require("shiny")
@@ -36,7 +36,7 @@
 #'   ui <- page_fluid(
 #'     actionButton("add", "Add 'Dynamic' tab"),
 #'     actionButton("remove", "Remove 'Foo' tab"),
-#'     navs_tab(
+#'     navset_tab(
 #'       id = "tabs",
 #'       nav_panel("Hello", "hello"),
 #'       nav_panel("Foo", "foo"),

@@ -13,7 +13,7 @@
 #' @seealso [nav_panel()], [nav_select()].
 #' @export
 #' @rdname navs
-navs_tab <- function(..., id = NULL, selected = NULL,
+navset_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
   tabs <- tabsetPanel_(
     ..., type = "tabs", id = id, selected = selected,
@@ -21,6 +21,11 @@ navs_tab <- function(..., id = NULL, selected = NULL,
   )
   as_fragment(tabs)
 }
+
+# TODO: Deprecate `navs_tab()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_tab()`.
+#' @export
+navs_tab <- navset_tab
 
 #' @export
 #' @rdname navs
