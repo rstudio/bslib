@@ -191,7 +191,7 @@ left from the direct link and dropdown menu on the right using
 
 \subsection{\code{navs_pill()}}{
 
-\code{navs_pill()} creats a navigation container that behaves exactly like
+\code{navs_pill()} creates a navigation container that behaves exactly like
 \code{navs_tab()}, but the tab toggles are \emph{pills} or button-shaped.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill(
@@ -215,7 +215,10 @@ left from the direct link and dropdown menu on the right using
 
 The tabbed navigation container can also be used in a \code{card()} component
 thanks to \code{navs_tab_card()}. Learn more about this approach in the
-\href{https://pkgs.rstudio.com/bslib/articles/cards.html}{article about Cards}.
+\href{https://pkgs.rstudio.com/bslib/articles/cards.html}{article about Cards}, including
+how to add \href{https://pkgs.rstudio.com/bslib/articles/sidebars.html#multi-page-layout}{a shared sidebar}
+to all tabs in the card using the \code{sidebar} argument of
+\code{navs_tab_card()}.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_tab_card(
   nav(title = "One", p("First tab content.")),
@@ -237,9 +240,11 @@ thanks to \code{navs_tab_card()}. Learn more about this approach in the
 \subsection{\code{navs_pill_card()}}{
 
 Similar to \code{navs_pill()}, \code{navs_pill_card()} provides a pill-shaped
-variant to \code{navs_tab_card()}.
+variant to \code{navs_tab_card()}. You can use the \code{placement} argument to
+position the navbar \code{"above"} or \code{"below"} the card body.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill_card(
+  placement = "above",
   nav(title = "One", p("First tab content.")),
   nav(title = "Two", p("Second tab content.")),
   nav_spacer(),
