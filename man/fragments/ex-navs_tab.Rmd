@@ -187,8 +187,7 @@ navs_pill_card(
 ## `navs_pill_list()`
 
 Furthermore, `navs_pill_list()` creates a vertical list of navigation controls
-adjacent to, rather than on top of,
-the tab content panels.
+adjacent to, rather than on top of, the tab content panels.
 
 ```{r navs_pill_list}
 navs_pill_list(
