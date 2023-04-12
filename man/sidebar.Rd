@@ -15,6 +15,7 @@ sidebar(
   id = NULL,
   title = NULL,
   bg = NULL,
+  fg = NULL,
   class = NULL,
   max_height_mobile = NULL
 )
@@ -25,8 +26,10 @@ layout_sidebar(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
+  fg = NULL,
   border = NULL,
   border_radius = NULL,
+  border_color = NULL,
   height = NULL
 )
 
@@ -62,9 +65,9 @@ wrapped in a \verb{<div>} element with class \code{sidebar-title}. You can also
 provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
 you'll likely want to give this element \code{class = "sidebar-title"}.}
 
-\item{bg}{A background color. If provided, an accessible contrasting color is
-provided for the foreground color (consider using a utility \code{class} to
-customize the foreground color).}
+\item{bg, fg}{A background or foreground color. If only one of either is
+provided, an accessible contrasting color is provided for the opposite
+color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
 
 \item{class}{Additional CSS classes for the top-level HTML element.}
 
@@ -84,6 +87,10 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 \item{border}{Whether or not to add a border.}
 
 \item{border_radius}{Whether or not to add a border radius.}
+
+\item{border_color}{The border color that is applied to the entire layout (if
+\code{border = TRUE}) and the color of the border between the sidebar and the
+main content area.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}

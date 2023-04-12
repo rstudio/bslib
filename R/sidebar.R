@@ -34,9 +34,9 @@
 #'   wrapped in a `<div>` element with class `sidebar-title`. You can also
 #'   provide a custom [htmltools::tag()] for the title element, in which case
 #'   you'll likely want to give this element `class = "sidebar-title"`.
-#' @param bg A background color. If provided, an accessible contrasting color is
-#'   provided for the foreground color (consider using a utility `class` to
-#'   customize the foreground color).
+#' @param bg,fg A background or foreground color. If only one of either is
+#'   provided, an accessible contrasting color is provided for the opposite
+#'   color, e.g. setting `bg` chooses an appropriate `fg` color.
 #' @param class Additional CSS classes for the top-level HTML element.
 #' @param max_height_mobile The maximum height of the horizontal sidebar when
 #'   viewed on mobile devices. The default is `250px` unless the sidebar is
@@ -52,6 +52,7 @@ sidebar <- function(
   id = NULL,
   title = NULL,
   bg = NULL,
+  fg = NULL,
   class = NULL,
   max_height_mobile = NULL
 ) {
@@ -73,6 +74,13 @@ sidebar <- function(
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
   }
 
+  if (is.null(fg) && !is.null(bg)) {
+    fg <- get_color_contrast(bg)
+  }
+  if (is.null(bg) && !is.null(fg)) {
+    bg <- get_color_contrast(fg)
+  }
+
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- div(title, class = "sidebar-title")
   }
@@ -83,22 +91,27 @@ sidebar <- function(
         class = "collapse-toggle",
         type = "button",
         title = "Toggle sidebar",
+        style = css(
+          background_color = bg,
+          color = fg
+        ),
         "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
-        "aria-controls" = id
+        "aria-controls" = id,
+    collapse_icon()
       )
     }
 
   res <- list2(
-    tag = tags$form(
+    tag = tags$div(
       id = id,
       role = "complementary",
       class = c("sidebar", class),
-      style = css(
-        background_color = bg,
-        color = if (!is.null(bg)) get_color_contrast(bg)
-      ),
-      title,
-      ...
+      style = css(background_color = bg, color = fg),
+      tags$div(
+        class = "sidebar-content",
+        title,
+        ...
+      )
     ),
     collapse_tag = collapse_tag,
     position = match.arg(position),
@@ -119,6 +132,9 @@ sidebar <- function(
 #'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
+#' @param border_color The border color that is applied to the entire layout (if
+#'   `border = TRUE`) and the color of the border between the sidebar and the
+#'   main content area.
 #' @inheritParams card
 #'
 #' @export
@@ -128,8 +144,10 @@ layout_sidebar <- function(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
+  fg = NULL,
   border = NULL,
   border_radius = NULL,
+  border_color = NULL,
   height = NULL
 ) {
   if (!inherits(sidebar, "sidebar")) {
@@ -143,28 +161,29 @@ layout_sidebar <- function(
     abort("`border`_radius must be `NULL`, `TRUE`, or `FALSE`")
   }
 
+  # main content area colors, if not provided ----
+  if (is.null(fg) && !is.null(bg)) {
+    fg <- get_color_contrast(bg)
+  }
+  if (is.null(bg) && !is.null(fg)) {
+    bg <- get_color_contrast(fg)
+  }
+
   main <- div(
     role = "main",
     class = "main",
     style = css(
       background_color = bg,
-      color = if (!is.null(bg)) get_color_contrast(bg)
+      color = fg
     ),
     ...
   )
 
   main <- bindFillRole(main, container = fillable)
 
-  contents <- list(sidebar$tag, sidebar$collapse_tag, main)
-  columns <- c(sidebar$width, "minmax(0, 1fr)")
-  columns_collapse <- c("0px", "minmax(0, 1fr)")
+  contents <- list(main, sidebar$tag, sidebar$collapse_tag)
 
   right <- identical(sidebar$position, "right")
-  if (right) {
-    contents <- rev(contents)
-    columns <- rev(columns)
-    columns_collapse <- rev(columns_collapse)
-  }
 
   max_height_mobile <- sidebar$max_height_mobile %||%
     if (is.null(height)) "250px" else "50%"
@@ -178,8 +197,8 @@ layout_sidebar <- function(
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
-      "--bslib-sidebar-columns" = columns,
-      "--bslib-sidebar-columns-collapsed" = columns_collapse,
+      "--bslib-sidebar-width" = sidebar$width,
+      "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
@@ -251,6 +270,14 @@ sidebar_close <- function(id, session = get_current_session()) {
     session$sendInputMessage(id, list(method = "close"))
   }
   session$onFlush(callback, once = TRUE)
+}
+
+collapse_icon <- function() {
+  if (!is_installed("bsicons")) {
+    icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-chevron-down collapse-icon\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z\"></path></svg>"
+    return(HTML(icon))
+  }
+  bsicons::bs_icon("chevron-down", class = "collapse-icon", size = NULL)
 }
 
 sidebar_dependency <- function() {
