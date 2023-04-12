@@ -118,7 +118,7 @@ navs_tab(
 
 ## `navs_pill()`
 
-`navs_pill()` creats a navigation container that behaves exactly like `navs_tab()`,
+`navs_pill()` creates a navigation container that behaves exactly like `navs_tab()`,
 but the tab toggles are _pills_ or button-shaped.
 
 ```{r navs_pill}
