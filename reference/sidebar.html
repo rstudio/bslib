@@ -104,7 +104,7 @@ to learn more.</p>
 <span>  <span class="va">...</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">250</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"right"</span><span class="op">)</span>,</span>
-<span>  open <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  open <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"desktop"</span>, <span class="st">"open"</span>, <span class="st">"closed"</span>, <span class="st">"always"</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -145,8 +145,13 @@ width of the sidebar.</p></dd>
 
 
 <dt>open</dt>
-<dd><p>Whether or not the sidebar should be open on page load. Provide a
-value of <code>NA</code> to prevent sidebar from being collapsible.</p></dd>
+<dd><p>The initial state of the sidebar, choosing from the following
+options:</p><ul><li><p><code>"desktop"</code>: The sidebar starts open on desktop screen, closed on mobile.
+This is default sidebar behavior.</p></li>
+<li><p><code>"open"</code> or <code>TRUE</code>: The sidebar starts open.</p></li>
+<li><p><code>"closed"</code> or <code>FALSE</code>: The sidebar starts closed.</p></li>
+<li><p><code>"always"</code> or <code>NA</code>: The sidebar is always open and cannot be closed.</p></li>
+</ul></dd>
 
 
 <dt>id</dt>
