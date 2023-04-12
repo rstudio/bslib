@@ -128,12 +128,19 @@ layout_sidebar <- function(
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
-  border = TRUE,
-  border_radius = TRUE,
+  border = NULL,
+  border_radius = NULL,
   height = NULL
 ) {
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
+  }
+
+  if (!(is.null(border) || isTRUE(border) || isFALSE(border))) {
+    abort("`border` must be `NULL`, `TRUE`, or `FALSE`")
+  }
+  if (!(is.null(border_radius) || isTRUE(border_radius) || isFALSE(border_radius))) {
+    abort("`border`_radius must be `NULL`, `TRUE`, or `FALSE`")
   }
 
   main <- div(
@@ -168,11 +175,11 @@ layout_sidebar <- function(
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
     `data-sidebar-init-auto-collapse` =
       if (identical(sidebar$open, "desktop")) "true",
+    `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
+    `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
-      "--bslib-sidebar-border" = if (!border) "none",
-      "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
       height = validateCssUnit(height),
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),

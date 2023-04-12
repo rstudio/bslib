@@ -112,3 +112,26 @@ test_that("sidebar() - throws an error for invalid `open` values", {
     sidebar(open = character())
   )
 })
+test_that("layout_sidebar() - errors with unexpected border, border_radius input values", {
+  expect_error(
+    layout_sidebar(sidebar(), border = "1px solid blue")
+  )
+  expect_error(
+    layout_sidebar(sidebar(), border = c(TRUE, FALSE))
+  )
+  expect_error(
+    layout_sidebar(sidebar(), border_radius = c(TRUE, FALSE))
+  )
+  expect_error(
+    layout_sidebar(sidebar(), border = c(TRUE, NA))
+  )
+  expect_error(
+    layout_sidebar(sidebar(), border_radius = c(TRUE, NA))
+  )
+  expect_error(
+    layout_sidebar(sidebar(), border = NA)
+  )
+  expect_error(
+    layout_sidebar(sidebar(), border_radius = NA)
+  )
+})
