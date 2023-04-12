@@ -8,6 +8,8 @@ card(
   ...,
   full_screen = FALSE,
   height = NULL,
+  max_height = NULL,
+  fill = TRUE,
   class = NULL,
   wrapper = card_body
 )
@@ -17,12 +19,18 @@ card(
 Named arguments become HTML attributes on returned UI element.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
-body. Clicking the icon expands the card to fit viewport size. Consider
-pairing this feature with \code{\link[=card_body_fill]{card_body_fill()}} to get output that responds to
-changes in the size of the card.}
+body. Clicking the icon expands the card to fit viewport size.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+
+\item{max_height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{max_height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{max_height} in \code{\link[=card_body]{card_body()}}).}
+
+\item{fill}{Whether or not to allow the card to grow/shrink to fit a
+fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 
@@ -30,9 +38,7 @@ changes in the size of the card.}
 arguments in \code{...} which are not already card item(s) (like
 \code{\link[=card_header]{card_header()}}, \code{\link[=card_body]{card_body()}}, etc.). Note that non-card items are grouped
 together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body("c"), "d")}, \code{wrapper} would be called twice, once with \code{"a"} and
-\code{"b"} and once with \code{"d"}). Consider setting \code{wrapper} to \link{card_body_fill}
-if the entire card wants responsive sizing or \code{NULL} to avoid wrapping
-altogether}
+\code{"b"} and once with \code{"d"}).}
 }
 \value{
 A \code{\link[htmltools:builder]{htmltools::div()}} tag.
