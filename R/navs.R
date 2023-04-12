@@ -42,7 +42,7 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
-  pills <- navs_pill(
+  pills <- navset_pill(
     !!!items, id = id, selected = selected,
     header = header, footer = footer
   )

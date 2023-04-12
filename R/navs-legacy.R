@@ -29,7 +29,7 @@ navs_tab <- navset_tab
 
 #' @export
 #' @rdname navs
-navs_pill <- function(..., id = NULL, selected = NULL,
+navset_pill <- function(..., id = NULL, selected = NULL,
                       header = NULL, footer = NULL) {
   pills <- tabsetPanel_(
     ..., type = "pills", id = id, selected = selected,
@@ -37,6 +37,11 @@ navs_pill <- function(..., id = NULL, selected = NULL,
   )
   as_fragment(pills)
 }
+
+# TODO: Deprecate `navs_pill()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_pill()`.
+#' @export
+navs_pill <- navset_pill
 
 #' @export
 #' @inheritParams shiny::navlistPanel

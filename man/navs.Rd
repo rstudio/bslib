@@ -3,6 +3,7 @@
 \name{navset_tab}
 \alias{navset_tab}
 \alias{navs_tab}
+\alias{navset_pill}
 \alias{navs_pill}
 \alias{navs_pill_list}
 \alias{navs_hidden}
@@ -14,6 +15,8 @@
 navset_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navs_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navset_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navs_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
@@ -192,12 +195,12 @@ left from the direct link and dropdown menu on the right using
 \figure{navs_tab.png}{Screenshot of a navs_tab() example.}
 }
 
-\subsection{\code{navs_pill()}}{
+\subsection{\code{navset_pill()}}{
 
-\code{navs_pill()} creates a navigation container that behaves exactly like
+\code{navset_pill()} creates a navigation container that behaves exactly like
 \code{navset_tab()}, but the tab toggles are \emph{pills} or button-shaped.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill(
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_pill(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
@@ -242,7 +245,7 @@ to all tabs in the card using the \code{sidebar} argument of
 
 \subsection{\code{navs_pill_card()}}{
 
-Similar to \code{navs_pill()}, \code{navs_pill_card()} provides a pill-shaped
+Similar to \code{navset_pill()}, \code{navs_pill_card()} provides a pill-shaped
 variant to \code{navs_tab_card()}. You can use the \code{placement} argument to
 position the navbar \code{"above"} or \code{"below"} the card body.
 
@@ -316,8 +319,9 @@ bar.
 \itemize{
 \item \code{navs_tab()}: An alias for \code{navset_tab()}.
 
+\item \code{navs_pill()}: An alias for \code{navset_pill()}.
+
 }}
 \seealso{
 \code{\link[=nav_panel]{nav_panel()}}, \code{\link[=nav_select]{nav_select()}}.
 }
-\keyword{internal}
