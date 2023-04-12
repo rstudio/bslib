@@ -136,18 +136,18 @@ navset_pill(
 )
 ```
 
-## `navs_tab_card()`
+## `navset_card_tab()`
 
 The tabbed navigation container can also be used in a `card()` component
-thanks to `navs_tab_card()`.
+thanks to `navset_card_tab()`.
 Learn more about this approach in the
 [article about Cards](https://pkgs.rstudio.com/bslib/articles/cards.html),
 including how to add [a shared sidebar](https://pkgs.rstudio.com/bslib/articles/sidebars.html#multi-page-layout)
 to all tabs in the card
-using the `sidebar` argument of `navs_tab_card()`.
+using the `sidebar` argument of `navset_card_tab()`.
 
 ```{r navs_tab_card}
-navs_tab_card(
+navset_card_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
@@ -161,15 +161,15 @@ navs_tab_card(
 )
 ```
 
-## `navs_pill_card()`
+## `navset_card_pill()`
 
 Similar to `navset_pill()`,
-`navs_pill_card()` provides a pill-shaped variant to `navs_tab_card()`.
+`navset_card_pill()` provides a pill-shaped variant to `navset_card_tab()`.
 You can use the `placement` argument to position the navbar
 `"above"` or `"below"` the card body.
 
-```{r navs_pill_card}
-navs_pill_card(
+```{r navset_card_pill}
+navset_card_pill(
   placement = "above",
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),

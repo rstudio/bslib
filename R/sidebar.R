@@ -6,7 +6,7 @@
 #' * `layout_sidebar()`
 #'   * Creates a sidebar layout component which can be dropped inside any
 #'     [page()] or [card()] context.
-#' * [page_navbar()], [navs_tab_card()], and [navs_pill_card()]
+#' * [page_navbar()], [navset_card_tab()], and [navset_card_pill()]
 #'   * Creates a multi page/tab UI with a singular `sidebar()` (which is
 #'     shown on every page/tab).
 #'

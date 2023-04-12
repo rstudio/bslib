@@ -123,7 +123,7 @@ delay_corr_card <- card(
   plotlyOutput("scatter_delay")
 )
 
-delay_card <- navs_pill_card(
+delay_card <- navset_card_pill(
   title = "Arrival delay",
   full_screen = TRUE,
   nav_panel(

@@ -20,7 +20,7 @@ main_grid <- layout_column_wrap(
     card_header("DT::dataTableOutput()"),
     DT::dataTableOutput("DT")
   ),
-  navs_pill_card(
+  navset_card_pill(
     title = "Shiny outputs",
     full_screen = TRUE,
     nav_panel(

@@ -29,7 +29,7 @@
 #'
 #' @export
 #' @seealso [card_body()] for putting stuff inside the card.
-#' @seealso [navs_tab_card()] for cards with multiple tabs.
+#' @seealso [navset_card_tab()] for cards with multiple tabs.
 #' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
 #'   columns inside a card).
 #' @examples
@@ -133,7 +133,7 @@ as_card_items <- function(children, wrapper) {
 #'
 #' @export
 #' @seealso [card()] for creating a card component.
-#' @seealso [navs_tab_card()] for cards with multiple tabs.
+#' @seealso [navset_card_tab()] for cards with multiple tabs.
 #' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
 #'   columns inside a card).
 #'

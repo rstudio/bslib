@@ -71,7 +71,7 @@ if (interactive()) {
 \seealso{
 \code{\link[=card_body]{card_body()}} for putting stuff inside the card.
 
-\code{\link[=navs_tab_card]{navs_tab_card()}} for cards with multiple tabs.
+\code{\link[=navset_card_tab]{navset_card_tab()}} for cards with multiple tabs.
 
 \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out multiple cards (or multiple
 columns inside a card).

@@ -4,7 +4,7 @@
 #' @param title A (left-aligned) title to place in the card header/footer. If
 #'   provided, other nav items are automatically right aligned.
 #' @rdname navs
-navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
+navset_card_tab <- function(..., id = NULL, selected = NULL, title = NULL,
                           sidebar = NULL, header = NULL, footer = NULL,
                           height = NULL, full_screen = FALSE, wrapper = card_body) {
 
@@ -35,7 +35,7 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 #' @export
 #' @param placement placement of the nav items relative to the content.
 #' @rdname navs
-navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
+navset_card_pill <- function(..., id = NULL, selected = NULL, title = NULL,
                            sidebar = NULL, header = NULL, footer = NULL,
                            height = NULL, placement = c("above", "below"),
                            full_screen = FALSE, wrapper = card_body) {
@@ -87,6 +87,16 @@ collect_nav_items <- function(..., wrapper) {
 
   lapply(items, nav_to_card_item)
 }
+
+# TODO: Deprecate `navs_tab_card()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_card_tab()`.
+#' @export
+navs_tab_card <- navset_card_tab
+
+# TODO: Deprecate `navs_pill_card()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_card_pill()`.
+#' @export
+navs_pill_card <- navset_card_pill
 
 # Always give tab contents the potential to fill since that's akin to the
 # normal card() API (i.e. the card() is a fill container) and users have

@@ -11,6 +11,8 @@
 \alias{navs_pill_list}
 \alias{navs_hidden}
 \alias{navs_bar}
+\alias{navset_card_tab}
+\alias{navset_card_pill}
 \alias{navs_tab_card}
 \alias{navs_pill_card}
 \title{Navigation containers}
@@ -79,6 +81,33 @@ navs_bar(
   inverse = "auto",
   collapsible = TRUE,
   fluid = TRUE
+)
+
+navset_card_tab(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
+  full_screen = FALSE,
+  wrapper = card_body
+)
+
+navset_card_pill(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
+  placement = c("above", "below"),
+  full_screen = FALSE,
+  wrapper = card_body
 )
 
 navs_tab_card(
@@ -249,16 +278,16 @@ left from the direct link and dropdown menu on the right using
 \figure{navs_pill.png}{Screenshot of a navs_pill() example.}
 }
 
-\subsection{\code{navs_tab_card()}}{
+\subsection{\code{navset_card_tab()}}{
 
 The tabbed navigation container can also be used in a \code{card()} component
-thanks to \code{navs_tab_card()}. Learn more about this approach in the
+thanks to \code{navset_card_tab()}. Learn more about this approach in the
 \href{https://pkgs.rstudio.com/bslib/articles/cards.html}{article about Cards}, including
 how to add \href{https://pkgs.rstudio.com/bslib/articles/sidebars.html#multi-page-layout}{a shared sidebar}
 to all tabs in the card using the \code{sidebar} argument of
-\code{navs_tab_card()}.
+\code{navset_card_tab()}.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_tab_card(
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_card_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
   nav_spacer(),
@@ -275,13 +304,13 @@ to all tabs in the card using the \code{sidebar} argument of
 \figure{navs_tab_card.png}{Screenshot of a navs_tab_card() example.}
 }
 
-\subsection{\code{navs_pill_card()}}{
+\subsection{\code{navset_card_pill()}}{
 
-Similar to \code{navset_pill()}, \code{navs_pill_card()} provides a pill-shaped
-variant to \code{navs_tab_card()}. You can use the \code{placement} argument to
+Similar to \code{navset_pill()}, \code{navset_card_pill()} provides a pill-shaped
+variant to \code{navset_card_tab()}. You can use the \code{placement} argument to
 position the navbar \code{"above"} or \code{"below"} the card body.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{navs_pill_card(
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_card_pill(
   placement = "above",
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
@@ -296,7 +325,7 @@ position the navbar \code{"above"} or \code{"below"} the card body.
 )
 }\if{html}{\out{</div>}}
 
-\figure{navs_pill_card.png}{Screenshot of a navs_pill_card() example.}
+\figure{navset_card_pill.png}{Screenshot of a navset_card_pill() example.}
 }
 
 \subsection{\code{navset_pill_list()}}{
@@ -358,6 +387,10 @@ bar.
 \item \code{navs_hidden()}: An alias for \code{navset_hidden()}.
 
 \item \code{navs_bar()}: An alias for \code{navset_bar()}.
+
+\item \code{navs_tab_card()}: An alias for \code{navset_card_tab()}.
+
+\item \code{navs_pill_card()}: An alias for \code{navset_card_pill()}.
 
 }}
 \seealso{
