@@ -22,9 +22,16 @@ test_that("sidebar(open = 'always') doesn't include the collapse toggle", {
 })
 
 test_that("sidebar() - assigns input binding class if `id` is provided", {
+  my_sidebar <- sidebar(id = "my-id")
+
   expect_match(
-    htmltools::tagGetAttribute(sidebar(id = "my-id")$tag, "class"),
+    htmltools::tagGetAttribute(my_sidebar$tag, "class"),
     "bslib-sidebar-input"
+  )
+
+  expect_equal(
+    htmltools::tagGetAttribute(my_sidebar$tag, "id"),
+    "my-id"
   )
 })
 
