@@ -20,52 +20,104 @@
 #' @param width A valid [CSS unit][htmltools::validateCssUnit] used for the
 #'   width of the sidebar.
 #' @param position Where the sidebar should appear relative to the main content.
-#' @param open Whether or not the sidebar should be open on page load. Provide a
-#'   value of `NA` to prevent sidebar from being collapsible.
+#' @param open The initial state of the sidebar, choosing from the following
+#'   options:
+#'
+#'   * `"desktop"`: The sidebar starts open on desktop screen, closed on mobile.
+#'     This is default sidebar behavior.
+#'   * `"open"` or `TRUE`: The sidebar starts open.
+#'   * `"closed"` or `FALSE`: The sidebar starts closed.
+#'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
-#' @param bg A background color. If provided, an accessible contrasting color is
-#'   provided for the foreground color (consider using a utility `class` to
-#'   customize the foreground color).
+#' @param title A character title to be used as the sidebar title, which will be
+#'   wrapped in a `<div>` element with class `sidebar-title`. You can also
+#'   provide a custom [htmltools::tag()] for the title element, in which case
+#'   you'll likely want to give this element `class = "sidebar-title"`.
+#' @param bg,fg A background or foreground color. If only one of either is
+#'   provided, an accessible contrasting color is provided for the opposite
+#'   color, e.g. setting `bg` chooses an appropriate `fg` color.
 #' @param class Additional CSS classes for the top-level HTML element.
+#' @param max_height_mobile The maximum height of the horizontal sidebar when
+#'   viewed on mobile devices. The default is `250px` unless the sidebar is
+#'   included in a [layout_sidebar()] with a specified height, in which case
+#'   the default is to take up no more than 50% of the layout container.
 #'
 #' @export
-sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE, id = NULL, bg = NULL, class = NULL) {
-
-  # For accessiblity reasons, always provide id when collapsible,
-  # but only create input binding when id is provided
-  if (is.null(id) && is.logical(open)) {
-    id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
-  } else {
-    class <- c("bslib-sidebar-input", class)
+sidebar <- function(
+  ...,
+  width = 250,
+  position = c("left", "right"),
+  open = c("desktop", "open", "closed", "always"),
+  id = NULL,
+  title = NULL,
+  bg = NULL,
+  fg = NULL,
+  class = NULL,
+  max_height_mobile = NULL
+) {
+  if (isTRUE(open)) {
+    open <- "open"
+  } else if (identical(open, FALSE)) {
+    open <- "closed"
+  } else if (isTRUE(is.na(open))) {
+    open <- "always"
   }
 
-  hide_collapse <- isTRUE(is.na(open))
+  open <- rlang::arg_match(open)
 
-  collapse_tag <- tags$button(
-    class = "collapse-toggle",
-    type = "button",
-    title = "Toggle sidebar",
-    style = css(display = if (hide_collapse) "none"),
-    "aria-expanded" = if (open || hide_collapse) "true" else "false",
-    "aria-controls" = id
-  )
+  if (!is.null(id)) {
+    # only create input binding when id is provided
+    class <- c("bslib-sidebar-input", class)
+  } else if (open != "always") {
+    # but always provide id when collapsible for accessibility reasons
+    id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
+  }
+
+  if (is.null(fg) && !is.null(bg)) {
+    fg <- get_color_contrast(bg)
+  }
+  if (is.null(bg) && !is.null(fg)) {
+    bg <- get_color_contrast(fg)
+  }
+
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
+    title <- div(title, class = "sidebar-title")
+  }
+
+  collapse_tag <-
+    if (open != "always") {
+      tags$button(
+        class = "collapse-toggle",
+        type = "button",
+        title = "Toggle sidebar",
+        style = css(
+          background_color = bg,
+          color = fg
+        ),
+        "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
+        "aria-controls" = id,
+    collapse_icon()
+      )
+    }
 
   res <- list2(
-    tag = tags$form(
+    tag = tags$div(
       id = id,
       role = "complementary",
       class = c("sidebar", class),
-      style = css(
-        background_color = bg,
-        color = if (!is.null(bg)) get_color_contrast(bg)
-      ),
-      ...
+      style = css(background_color = bg, color = fg),
+      tags$div(
+        class = "sidebar-content",
+        title,
+        ...
+      )
     ),
     collapse_tag = collapse_tag,
     position = match.arg(position),
     open = open,
-    width = validateCssUnit(width)
+    width = validateCssUnit(width),
+    max_height_mobile = validateCssUnit(max_height_mobile)
   )
 
   class(res) <- c("sidebar", class(res))
@@ -76,17 +128,45 @@ sidebar <- function(..., width = 250, position = c("left", "right"), open = TRUE
 #' @param sidebar A [sidebar()] object.
 #' @param fillable Whether or not the `main` content area should be considered a
 #'   fillable (i.e., flexbox) container.
-#' @param fill Whether or not the layout container should grow/shrink to fit
-#'   a fillable container.
+#' @param fill Whether or not to allow the layout container to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
+#' @param border_color The border color that is applied to the entire layout (if
+#'   `border = TRUE`) and the color of the border between the sidebar and the
+#'   main content area.
 #' @inheritParams card
 #'
 #' @export
-layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TRUE, bg = NULL, border = TRUE, border_radius = TRUE, height = NULL) {
-
+layout_sidebar <- function(
+  sidebar,
+  ...,
+  fillable = FALSE,
+  fill = TRUE,
+  bg = NULL,
+  fg = NULL,
+  border = NULL,
+  border_radius = NULL,
+  border_color = NULL,
+  height = NULL
+) {
   if (!inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
+  }
+
+  if (!(is.null(border) || isTRUE(border) || isFALSE(border))) {
+    abort("`border` must be `NULL`, `TRUE`, or `FALSE`")
+  }
+  if (!(is.null(border_radius) || isTRUE(border_radius) || isFALSE(border_radius))) {
+    abort("`border`_radius must be `NULL`, `TRUE`, or `FALSE`")
+  }
+
+  # main content area colors, if not provided ----
+  if (is.null(fg) && !is.null(bg)) {
+    fg <- get_color_contrast(bg)
+  }
+  if (is.null(bg) && !is.null(fg)) {
+    bg <- get_color_contrast(fg)
   }
 
   main <- div(
@@ -94,34 +174,33 @@ layout_sidebar <- function(sidebar = sidebar(), ..., fillable = FALSE, fill = TR
     class = "main",
     style = css(
       background_color = bg,
-      color = if (!is.null(bg)) get_color_contrast(bg)
+      color = fg
     ),
     ...
   )
 
   main <- bindFillRole(main, container = fillable)
 
-  contents <- list(sidebar$tag, sidebar$collapse_tag, main)
-  columns <- c(sidebar$width, "minmax(0, 1fr)")
-  columns_collapse <- c("0px", "minmax(0, 1fr)")
+  contents <- list(main, sidebar$tag, sidebar$collapse_tag)
 
   right <- identical(sidebar$position, "right")
-  if (right) {
-    contents <- rev(contents)
-    columns <- rev(columns)
-    columns_collapse <- rev(columns_collapse)
-  }
+
+  max_height_mobile <- sidebar$max_height_mobile %||%
+    if (is.null(height)) "250px" else "50%"
 
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
-    class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
+    class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
+    `data-sidebar-init-auto-collapse` =
+      if (identical(sidebar$open, "desktop")) "true",
+    `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
+    `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
-      "--bslib-sidebar-columns" = columns,
-      "--bslib-sidebar-columns-collapsed" = columns_collapse,
-      "--bslib-sidebar-border" = if (!border) "none",
-      "--bslib-sidebar-border-radius" = if (!border_radius) "initial",
-      height = validateCssUnit(height)
+      "--bslib-sidebar-width" = sidebar$width,
+      "--bs-card-border-color" = border_color,
+      height = validateCssUnit(height),
+      "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
     sidebar_dependency(),
@@ -159,6 +238,15 @@ sidebar_js_init <- function() {
         right ? ctrs.right++ : ctrs.left++;
       });
     }
+
+    // If sidebar is marked open='desktop', collapse sidebar if on mobile
+    if (thisLayout.data('sidebarInitAutoCollapse')) {
+      var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
+      if (initCollapsed === 'true') {
+        thisLayout.addClass('sidebar-collapsed');
+        thisLayout.find('.collapse-toggle').attr('aria-expanded', 'false');
+      }
+    }
     "
   ))
 }
@@ -182,6 +270,14 @@ sidebar_close <- function(id, session = get_current_session()) {
     session$sendInputMessage(id, list(method = "close"))
   }
   session$onFlush(callback, once = TRUE)
+}
+
+collapse_icon <- function() {
+  if (!is_installed("bsicons")) {
+    icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-chevron-down collapse-icon\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z\"></path></svg>"
+    return(HTML(icon))
+  }
+  bsicons::bs_icon("chevron-down", class = "collapse-icon", size = NULL)
 }
 
 sidebar_dependency <- function() {

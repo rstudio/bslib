@@ -60,7 +60,7 @@ registerBinding(SidebarInputBinding, "sidebar");
 $(document).on("click", ".bslib-sidebar-layout > .collapse-toggle", (e) => {
   e.preventDefault();
 
-  const $toggle = $(e.target),
+  const $toggle = $(e.target).closest(".collapse-toggle"),
     $container = $toggle.parent(),
     $main = $container.children(".main"),
     $side = $container.children(".sidebar");
@@ -86,8 +86,8 @@ $(document).on("click", ".bslib-sidebar-layout > .collapse-toggle", (e) => {
 // always guaranteed to transition), then remove the transitioning class
 $(document).on(
   "transitionend",
-  ".bslib-sidebar-layout > .collapse-toggle",
+  ".bslib-sidebar-layout > .collapse-toggle > .collapse-icon",
   (e) => {
-    e.target.parentElement.classList.remove("transitioning");
+    $(e.target).closest(".bslib-sidebar-layout").removeClass("transitioning");
   }
 );
