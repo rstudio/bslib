@@ -224,7 +224,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
 @include media-breakpoint-up(sm) {
   // hide sidebar content while we transition the parent .sidebar on desktop
   // (on mobile the reveal happens immediately)
-  &.transitioning > .sidebar > .sidebar-content {
+  .bslib-sidebar-layout.transitioning > .sidebar > .sidebar-content {
     display: none;
   }
 }
