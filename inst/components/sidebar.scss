@@ -26,12 +26,9 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
     padding: 0;
   }
 
-  &, &[data-bslib-sidebar-border="true"] {
-    border: var(--bslib-sidebar-border);
-  }
-  &, &[data-bslib-sidebar-border-radius="true"] {
-    border-radius: var(--bslib-sidebar-border-radius);
-  }
+  border: var(--bslib-sidebar-border);
+  border-radius: var(--bslib-sidebar-border-radius);
+
   &[data-bslib-sidebar-border="false"] {
     border: none;
   }
