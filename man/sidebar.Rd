@@ -11,11 +11,13 @@ sidebar(
   ...,
   width = 250,
   position = c("left", "right"),
-  open = TRUE,
+  open = c("desktop", "open", "closed", "always"),
   id = NULL,
+  title = NULL,
   bg = NULL,
   fg = NULL,
-  class = NULL
+  class = NULL,
+  max_height_mobile = NULL
 )
 
 layout_sidebar(
@@ -25,8 +27,8 @@ layout_sidebar(
   fill = TRUE,
   bg = NULL,
   fg = NULL,
-  border = TRUE,
-  border_radius = TRUE,
+  border = NULL,
+  border_radius = NULL,
   border_color = NULL,
   height = NULL
 )
@@ -45,11 +47,23 @@ width of the sidebar.}
 
 \item{position}{Where the sidebar should appear relative to the main content.}
 
-\item{open}{Whether or not the sidebar should be open on page load. Provide a
-value of \code{NA} to prevent sidebar from being collapsible.}
+\item{open}{The initial state of the sidebar, choosing from the following
+options:
+\itemize{
+\item \code{"desktop"}: The sidebar starts open on desktop screen, closed on mobile.
+This is default sidebar behavior.
+\item \code{"open"} or \code{TRUE}: The sidebar starts open.
+\item \code{"closed"} or \code{FALSE}: The sidebar starts closed.
+\item \code{"always"} or \code{NA}: The sidebar is always open and cannot be closed.
+}}
 
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
+
+\item{title}{A character title to be used as the sidebar title, which will be
+wrapped in a \verb{<div>} element with class \code{sidebar-title}. You can also
+provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
+you'll likely want to give this element \code{class = "sidebar-title"}.}
 
 \item{bg, fg}{A background or foreground color. If only one of either is
 provided, an accessible contrasting color is provided for the opposite
@@ -57,13 +71,18 @@ color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
 
 \item{class}{Additional CSS classes for the top-level HTML element.}
 
+\item{max_height_mobile}{The maximum height of the horizontal sidebar when
+viewed on mobile devices. The default is \verb{250px} unless the sidebar is
+included in a \code{\link[=layout_sidebar]{layout_sidebar()}} with a specified height, in which case
+the default is to take up no more than 50\% of the layout container.}
+
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
 
-\item{fill}{Whether or not the layout container should grow/shrink to fit
-a fillable container.}
+\item{fill}{Whether or not to allow the layout container to grow/shrink to fit a
+fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{border}{Whether or not to add a border.}
 
@@ -74,7 +93,8 @@ a fillable container.}
 main content area.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
 \item{session}{a shiny session object (the default should almost always be
 used).}
