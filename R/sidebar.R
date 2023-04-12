@@ -138,8 +138,8 @@ layout_sidebar <- function(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
     class = if (isFALSE(sidebar$open)) "sidebar-collapsed",
-    `data-bslib-sidebar-border` = tolower(border),
-    `data-bslib-sidebar-border-radius` = tolower(border_radius),
+    `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
+    `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
       "--bslib-sidebar-columns" = columns,
       "--bslib-sidebar-columns-collapsed" = columns_collapse,
