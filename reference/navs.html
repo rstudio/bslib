@@ -230,58 +230,176 @@ together into one <code>wrapper</code> call (e.g. given <code>card("a", "b", car
 
 </dl></div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    
+<div class="section">
+<h3 id="a-basic-example">A basic example<a class="anchor" aria-label="anchor" href="#a-basic-example"></a></h3>
+
+
+<p>This first example creates a simple tabbed navigation container with two
+tabs. The tab name and the content of each tab are specified in the
+<code><a href="nav.html">nav()</a></code> calls and <code>navs_tab()</code> creates the tabbed navigation around
+these two tabs.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/navs.html">navs_tab</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"One"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"First tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Two"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Second tab content."</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p><img src="figures/navs_tab-basic.png" alt="Screenshot of a basic navs_tab() example."></p>
+<p>In the rest of the examples, we’ll include links among the tabs (or
+pills) in the navigation controls.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">link_shiny</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/icon.html" class="external-link">icon</a></span><span class="op">(</span><span class="st">"github"</span><span class="op">)</span>, <span class="st">"Shiny"</span>, href <span class="op">=</span> <span class="st">"https://github.com/rstudio/shiny"</span>, target <span class="op">=</span> <span class="st">"_blank"</span><span class="op">)</span></span>
+<span><span class="va">link_posit</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/icon.html" class="external-link">icon</a></span><span class="op">(</span><span class="st">"r-project"</span><span class="op">)</span>, <span class="st">"Posit"</span>, href <span class="op">=</span> <span class="st">"https://posit.co"</span>, target <span class="op">=</span> <span class="st">"_blank"</span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
+
+<div class="section">
+<h3 id="navs-tab-"><code>navs_tab()</code><a class="anchor" aria-label="anchor" href="#navs-tab-"></a></h3>
+
+
+<p>You can fully customize the controls in the navigation component. In
+this example, we’ve added a direct link to the Shiny repository using
+<code><a href="nav.html">nav_item()</a></code>. We’ve also included a dropdown menu using <code><a href="nav.html">nav_menu()</a></code>
+containing an option to select a third tab panel and another direct link
+to Posit’s website. Finally, we’ve separated the primary tabs on the
+left from the direct link and dropdown menu on the right using
+<code><a href="nav.html">nav_spacer()</a></code>.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/navs.html">navs_tab</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"One"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"First tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Two"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Second tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_shiny</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_menu</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Other links"</span>,</span>
+<span>    align <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span><span class="st">"Three"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Third tab content"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_posit</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p><img src="figures/navs_tab.png" alt="Screenshot of a navs_tab() example."></p>
+</div>
+
+<div class="section">
+<h3 id="navs-pill-"><code>navs_pill()</code><a class="anchor" aria-label="anchor" href="#navs-pill-"></a></h3>
+
+
+<p><code>navs_pill()</code> creates a navigation container that behaves exactly like
+<code>navs_tab()</code>, but the tab toggles are <em>pills</em> or button-shaped.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/navs.html">navs_pill</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"One"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"First tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Two"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Second tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_shiny</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_menu</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Other links"</span>,</span>
+<span>    align <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span><span class="st">"Three"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Third tab content"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_posit</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p><img src="figures/navs_pill.png" alt="Screenshot of a navs_pill() example."></p>
+</div>
+
+<div class="section">
+<h3 id="navs-tab-card-"><code>navs_tab_card()</code><a class="anchor" aria-label="anchor" href="#navs-tab-card-"></a></h3>
+
+
+<p>The tabbed navigation container can also be used in a <code><a href="card.html">card()</a></code> component
+thanks to <code>navs_tab_card()</code>. Learn more about this approach in the
+<a href="https://pkgs.rstudio.com/bslib/articles/cards.html" class="external-link">article about Cards</a>, including
+how to add <a href="https://pkgs.rstudio.com/bslib/articles/sidebars.html#multi-page-layout" class="external-link">a shared sidebar</a>
+to all tabs in the card using the <code>sidebar</code> argument of
+<code>navs_tab_card()</code>.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/navs.html">navs_tab_card</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"One"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"First tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Two"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Second tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_shiny</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_menu</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Other links"</span>,</span>
+<span>    align <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span><span class="st">"Three"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Third tab content"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_posit</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p><img src="figures/navs_tab_card.png" alt="Screenshot of a navs_tab_card() example."></p>
+</div>
+
+<div class="section">
+<h3 id="navs-pill-card-"><code>navs_pill_card()</code><a class="anchor" aria-label="anchor" href="#navs-pill-card-"></a></h3>
+
+
+<p>Similar to <code>navs_pill()</code>, <code>navs_pill_card()</code> provides a pill-shaped
+variant to <code>navs_tab_card()</code>. You can use the <code>placement</code> argument to
+position the navbar <code>"above"</code> or <code>"below"</code> the card body.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/navs.html">navs_pill_card</a></span><span class="op">(</span></span>
+<span>  placement <span class="op">=</span> <span class="st">"above"</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"One"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"First tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Two"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Second tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_shiny</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_menu</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Other links"</span>,</span>
+<span>    align <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span><span class="st">"Three"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Third tab content"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_posit</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p><img src="figures/navs_pill_card.png" alt="Screenshot of a navs_pill_card() example."></p>
+</div>
+
+<div class="section">
+<h3 id="navs-pill-list-"><code>navs_pill_list()</code><a class="anchor" aria-label="anchor" href="#navs-pill-list-"></a></h3>
+
+
+<p>Furthermore, <code>navs_pill_list()</code> creates a vertical list of navigation
+controls adjacent to, rather than on top of, the tab content panels.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/navs.html">navs_pill_list</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"One"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"First tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Two"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Second tab content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_shiny</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_menu</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Other links"</span>,</span>
+<span>    align <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span><span class="st">"Three"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Third tab content"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_posit</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p><img src="figures/navs_pill_list.png" alt="Screenshot of a navs_pill_list() example."></p>
+</div>
+
+<div class="section">
+<h3 id="page-navbar-"><code><a href="page.html">page_navbar()</a></code><a class="anchor" aria-label="anchor" href="#page-navbar-"></a></h3>
+
+
+<p>Finally, <code><a href="page.html">page_navbar()</a></code> provides full-page navigation container similar
+to <code>navs_tab()</code> but where each <code><a href="nav.html">nav()</a></code> is treated as a full page of
+content and the navigation controls appear in a top-level navigation
+bar.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/page.html">page_navbar</a></span><span class="op">(</span></span>
+<span>  title <span class="op">=</span> <span class="st">"My App"</span>,</span>
+<span>  bg <span class="op">=</span> <span class="st">"#0062cc"</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"One"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"First page content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Two"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Second page content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_shiny</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nav.html">nav_menu</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Other links"</span>,</span>
+<span>    align <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav</a></span><span class="op">(</span><span class="st">"Three"</span>, <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Third page content."</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/nav.html">nav_item</a></span><span class="op">(</span><span class="va">link_posit</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p><img src="figures/page_navbar.png" alt="Screenshot of a page_navbar() example."></p>
+</div>
+
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="nav.html">nav()</a></code>, <code><a href="nav_select.html">nav_select()</a></code>.</p></div>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">nav_items</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">prefix</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="nav.html">nav</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">prefix</span>, <span class="st">": tab a content"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="nav.html">nav</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">prefix</span>, <span class="st">": tab b content"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="nav.html">nav_item</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/icon.html" class="external-link">icon</a></span><span class="op">(</span><span class="st">"github"</span><span class="op">)</span>, <span class="st">"Shiny"</span>, href <span class="op">=</span> <span class="st">"https://github.com/rstudio/shiny"</span>, target <span class="op">=</span> <span class="st">"_blank"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="nav.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="nav.html">nav_menu</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="st">"Other links"</span>, align <span class="op">=</span> <span class="st">"right"</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="nav.html">nav</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">prefix</span>, <span class="st">": tab c content"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="nav.html">nav_item</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>        <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/icon.html" class="external-link">icon</a></span><span class="op">(</span><span class="st">"r-project"</span><span class="op">)</span>, <span class="st">"RStudio"</span>, href <span class="op">=</span> <span class="st">"https://rstudio.com"</span>, target <span class="op">=</span> <span class="st">"_blank"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      <span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="page.html">page_navbar</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      title <span class="op">=</span> <span class="st">"page_navbar()"</span>,</span></span>
-<span class="r-in"><span>      bg <span class="op">=</span> <span class="st">"#0062cc"</span>,</span></span>
-<span class="r-in"><span>      <span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu">nav_items</span><span class="op">(</span><span class="st">"page_navbar()"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      footer <span class="op">=</span> <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>        style <span class="op">=</span> <span class="st">"width:80%; margin: 0 auto"</span>,</span></span>
-<span class="r-in"><span>        <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h4</a></span><span class="op">(</span><span class="st">"navs_tab()"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu">navs_tab</span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu">nav_items</span><span class="op">(</span><span class="st">"navs_tab()"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h4</a></span><span class="op">(</span><span class="st">"navs_pill()"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu">navs_pill</span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu">nav_items</span><span class="op">(</span><span class="st">"navs_pill()"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h4</a></span><span class="op">(</span><span class="st">"navs_tab_card()"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu">navs_tab_card</span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu">nav_items</span><span class="op">(</span><span class="st">"navs_tab_card()"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h4</a></span><span class="op">(</span><span class="st">"navs_pill_card()"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu">navs_pill_card</span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu">nav_items</span><span class="op">(</span><span class="st">"navs_pill_card()"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h4</a></span><span class="op">(</span><span class="st">"navs_pill_list()"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu">navs_pill_list</span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu">nav_items</span><span class="op">(</span><span class="st">"navs_pill_list()"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      <span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="op">}</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
