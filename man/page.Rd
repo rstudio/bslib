@@ -4,7 +4,7 @@
 \alias{page}
 \alias{page_fluid}
 \alias{page_fixed}
-\alias{page_fill}
+\alias{page_fillable}
 \alias{page_navbar}
 \title{Create a Bootstrap page}
 \usage{
@@ -14,9 +14,10 @@ page_fluid(..., title = NULL, theme = bs_theme(), lang = NULL)
 
 page_fixed(..., title = NULL, theme = bs_theme(), lang = NULL)
 
-page_fill(
+page_fillable(
   ...,
-  padding = 0,
+  padding = NULL,
+  gap = NULL,
   fill_mobile = FALSE,
   title = NULL,
   theme = bs_theme(),
@@ -69,6 +70,9 @@ for the top and bottom, while the second value will be used for left and
 right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
+
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
 
 \item{fill_mobile}{Whether or not \code{fillable} pages should fill the viewport's
 height on mobile devices (i.e., narrow windows).}

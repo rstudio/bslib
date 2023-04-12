@@ -23,7 +23,9 @@
 #' @param heights_equal If `"all"` (the default), every card in every row of the
 #'   grid will have the same height. If `"row"`, then every card in _each_ row
 #'   of the grid will have the same height, but heights may vary between rows.
-#' @param fill whether or not the grid items should grow to fill the row height.
+#' @param fill Whether or not to allow the layout to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
+#' @param fillable Whether or not each element is wrapped in a fillable container.
 #' @param height_mobile Any valid CSS unit to use for the height when on mobile
 #'   devices (or narrow windows).
 #' @inheritParams card
@@ -39,8 +41,8 @@
 #' layout_column_wrap("250px", x, x, x)
 #'
 layout_column_wrap <- function(
-    width, ..., fixed_width = FALSE, heights_equal = c("all", "row"),
-    fill = TRUE, height = NULL, height_mobile = NULL, gap = NULL, class = NULL) {
+    width, ..., fixed_width = FALSE, heights_equal = c("all", "row"), fill = TRUE,
+    fillable = TRUE, height = NULL, height_mobile = NULL, gap = NULL, class = NULL) {
 
   heights_equal <- match.arg(heights_equal)
 
@@ -73,12 +75,12 @@ layout_column_wrap <- function(
   # Wrap grid items in flex containers for essentially two reasons:
   #   1. Allow fill item children (e.g. plotOutput("id", fill = TRUE))
   #      to fill the grid row.
-  #   2. Allow for fill=FALSE, which useful for allowing contents to
+  #   2. Allow for heights_equal="-cell", which useful for allowing contents to
   #      shrink but not grow (i.e., default flex behavior).
   children <- lapply(children, function(x) {
     bindFillRole(
       container = TRUE,
-      div(bindFillRole(div(x), container = TRUE, item = fill))
+      div(bindFillRole(div(x), container = fillable, item = TRUE))
     )
   })
 
@@ -97,9 +99,8 @@ layout_column_wrap <- function(
     children
   )
 
-  tag <- bindFillRole(tag, item = TRUE)
+  tag <- bindFillRole(tag, item = fill)
   tag <- tagAppendAttributes(tag, class = class)
-  tag <- as.card_item(tag)
 
   as_fragment(
     tag_require(tag, version = 5, caller = "layout_column_wrap()")

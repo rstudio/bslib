@@ -13,6 +13,7 @@ sidebar(
   position = c("left", "right"),
   open = c("desktop", "open", "closed", "always"),
   id = NULL,
+  title = NULL,
   bg = NULL,
   class = NULL
 )
@@ -55,6 +56,11 @@ This is default sidebar behavior.
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
 
+\item{title}{A character title to be used as the sidebar title, which will be
+wrapped in a \verb{<div>} element with class \code{sidebar-title}. You can also
+provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
+you'll likely want to give this element \code{class = "sidebar-title"}.}
+
 \item{bg}{A background color. If provided, an accessible contrasting color is
 provided for the foreground color (consider using a utility \code{class} to
 customize the foreground color).}
@@ -66,15 +72,16 @@ customize the foreground color).}
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
 
-\item{fill}{Whether or not the layout container should grow/shrink to fit
-a fillable container.}
+\item{fill}{Whether or not to allow the layout container to grow/shrink to fit a
+fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{border}{Whether or not to add a border.}
 
 \item{border_radius}{Whether or not to add a border radius.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
 \item{session}{a shiny session object (the default should almost always be
 used).}

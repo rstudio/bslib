@@ -30,6 +30,10 @@
 #'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
+#' @param title A character title to be used as the sidebar title, which will be
+#'   wrapped in a `<div>` element with class `sidebar-title`. You can also
+#'   provide a custom [htmltools::tag()] for the title element, in which case
+#'   you'll likely want to give this element `class = "sidebar-title"`.
 #' @param bg A background color. If provided, an accessible contrasting color is
 #'   provided for the foreground color (consider using a utility `class` to
 #'   customize the foreground color).
@@ -42,6 +46,7 @@ sidebar <- function(
   position = c("left", "right"),
   open = c("desktop", "open", "closed", "always"),
   id = NULL,
+  title = NULL,
   bg = NULL,
   class = NULL
 ) {
@@ -61,6 +66,10 @@ sidebar <- function(
   } else if (open != "always") {
     # but always provide id when collapsible for accessibility reasons
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
+  }
+
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
+    title <- div(title, class = "sidebar-title")
   }
 
   collapse_tag <-
@@ -83,6 +92,7 @@ sidebar <- function(
         background_color = bg,
         color = if (!is.null(bg)) get_color_contrast(bg)
       ),
+      title,
       ...
     ),
     collapse_tag = collapse_tag,
@@ -99,8 +109,8 @@ sidebar <- function(
 #' @param sidebar A [sidebar()] object.
 #' @param fillable Whether or not the `main` content area should be considered a
 #'   fillable (i.e., flexbox) container.
-#' @param fill Whether or not the layout container should grow/shrink to fit
-#'   a fillable container.
+#' @param fill Whether or not to allow the layout container to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param border Whether or not to add a border.
 #' @param border_radius Whether or not to add a border radius.
 #' @inheritParams card
