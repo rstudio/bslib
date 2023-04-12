@@ -56,7 +56,7 @@ A nav item that may be passed to a nav container (e.g. \code{\link[=navset_tab]{
 }
 \description{
 Create nav item(s) for use inside nav containers (e.g., \code{\link[=navset_tab]{navset_tab()}},
-\code{\link[=navs_bar]{navs_bar()}}, etc).
+\code{\link[=navset_bar]{navset_bar()}}, etc).
 }
 \section{Functions}{
 \itemize{

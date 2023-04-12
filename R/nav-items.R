@@ -1,7 +1,7 @@
 #' Navigation items
 #'
 #' Create nav item(s) for use inside nav containers (e.g., [navset_tab()],
-#' [navs_bar()], etc).
+#' [navset_bar()], etc).
 #'
 #' @param title A title to display. Can be a character string or UI elements
 #'   (i.e., [tags]).
@@ -54,7 +54,7 @@ nav_panel_hidden <- function(value, ..., icon = NULL) {
 #' @export
 nav_item <- function(...) {
   # TODO: drop form-inline since BS5 dropped it?
-  # If we do that do we need navs_bar() to generate valid BS5 markup?
+  # If we do that do we need navset_bar() to generate valid BS5 markup?
   tags$li(class = "bslib-nav-item nav-item form-inline", ...)
 }
 

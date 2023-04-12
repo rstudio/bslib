@@ -92,7 +92,7 @@ navs_hidden <- navset_hidden
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
 #' @export
 #' @rdname navs
-navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
+navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
                      sidebar = NULL, fillable = FALSE,
                      # TODO: add sticky-top as well?
                      position = c("static-top", "fixed-top", "fixed-bottom"),
@@ -111,6 +111,11 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
     theme = bs_theme()
   )
 }
+
+# TODO: Deprecate `navs_bar()` in a future version of {bslib}
+#' @describeIn navs An alias for `navset_bar()`.
+#' @export
+navs_bar <- navset_bar
 
 # This internal version of navs_bar() exists so both it and page_navbar()
 # (and thus shiny::navbarPage()) can use it. And in the page_navbar() case,

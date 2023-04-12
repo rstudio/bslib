@@ -9,6 +9,7 @@
 \alias{navs_pill_list}
 \alias{navset_hidden}
 \alias{navs_hidden}
+\alias{navset_bar}
 \alias{navs_bar}
 \alias{navs_tab_card}
 \alias{navs_pill_card}
@@ -47,6 +48,22 @@ navs_pill_list(
 navset_hidden(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navs_hidden(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navset_bar(
+  ...,
+  title = NULL,
+  id = NULL,
+  selected = NULL,
+  sidebar = NULL,
+  fillable = FALSE,
+  position = c("static-top", "fixed-top", "fixed-bottom"),
+  header = NULL,
+  footer = NULL,
+  bg = NULL,
+  inverse = "auto",
+  collapsible = TRUE,
+  fluid = TRUE
+)
 
 navs_bar(
   ...,
@@ -339,6 +356,8 @@ bar.
 \item \code{navs_pill_list()}: An alias for \code{navset_pill_list()}.
 
 \item \code{navs_hidden()}: An alias for \code{navset_hidden()}.
+
+\item \code{navs_bar()}: An alias for \code{navset_bar()}.
 
 }}
 \seealso{
