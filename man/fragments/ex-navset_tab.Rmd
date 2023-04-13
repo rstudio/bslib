@@ -74,7 +74,7 @@ This first example creates a simple tabbed navigation container with two tabs.
 The tab name and the content of each tab are specified in the `nav_panel()` calls
 and `navset_tab()` creates the tabbed navigation around these two tabs.
 
-```{r navs_tab-basic, fig.alt = "Screenshot of a basic navset_tab() example."}
+```{r navset_tab-basic, fig.alt = "Screenshot of a basic navset_tab() example."}
 library(htmltools)
 
 navset_tab(
@@ -101,7 +101,7 @@ Finally, we've separated the primary tabs on the left
 from the direct link and dropdown menu on the right
 using `nav_spacer()`.
 
-```{r navs_tab}
+```{r navset_tab}
 navset_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
@@ -121,7 +121,7 @@ navset_tab(
 `navset_pill()` creates a navigation container that behaves exactly like `navset_tab()`,
 but the tab toggles are _pills_ or button-shaped.
 
-```{r navs_pill}
+```{r navset_pill}
 navset_pill(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
@@ -146,7 +146,7 @@ including how to add [a shared sidebar](https://pkgs.rstudio.com/bslib/articles/
 to all tabs in the card
 using the `sidebar` argument of `navset_card_tab()`.
 
-```{r navs_tab_card}
+```{r navset_tab_card}
 navset_card_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
@@ -189,7 +189,7 @@ navset_card_pill(
 Furthermore, `navset_pill_list()` creates a vertical list of navigation controls
 adjacent to, rather than on top of, the tab content panels.
 
-```{r navs_pill_list}
+```{r navset_pill_list}
 navset_pill_list(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),

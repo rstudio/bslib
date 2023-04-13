@@ -222,7 +222,7 @@ navset_tab(
 )
 }\if{html}{\out{</div>}}
 
-\figure{navs_tab-basic.png}{Screenshot of a basic navset_tab() example.}
+\figure{navset_tab-basic.png}{Screenshot of a basic navset_tab() example.}
 
 In the rest of the examples, we’ll include links among the tabs (or
 pills) in the navigation controls.
@@ -256,7 +256,7 @@ left from the direct link and dropdown menu on the right using
 )
 }\if{html}{\out{</div>}}
 
-\figure{navs_tab.png}{Screenshot of a navs_tab() example.}
+\figure{navset_tab.png}{Screenshot of a navset_tab() example.}
 }
 
 \subsection{\code{navset_pill()}}{
@@ -278,7 +278,7 @@ left from the direct link and dropdown menu on the right using
 )
 }\if{html}{\out{</div>}}
 
-\figure{navs_pill.png}{Screenshot of a navs_pill() example.}
+\figure{navset_pill.png}{Screenshot of a navset_pill() example.}
 }
 
 \subsection{\code{navset_card_tab()}}{
@@ -304,7 +304,7 @@ to all tabs in the card using the \code{sidebar} argument of
 )
 }\if{html}{\out{</div>}}
 
-\figure{navs_tab_card.png}{Screenshot of a navs_tab_card() example.}
+\figure{navset_tab_card.png}{Screenshot of a navset_tab_card() example.}
 }
 
 \subsection{\code{navset_card_pill()}}{
@@ -350,7 +350,7 @@ controls adjacent to, rather than on top of, the tab content panels.
 )
 }\if{html}{\out{</div>}}
 
-\figure{navs_pill_list.png}{Screenshot of a navs_pill_list() example.}
+\figure{navset_pill_list.png}{Screenshot of a navset_pill_list() example.}
 }
 
 \subsection{\code{page_navbar()}}{
