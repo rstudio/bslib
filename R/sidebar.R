@@ -97,7 +97,7 @@ sidebar <- function(
         ),
         "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
         "aria-controls" = id,
-    collapse_icon()
+        collapse_icon()
       )
     }
 
