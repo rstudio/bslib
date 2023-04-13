@@ -37,7 +37,8 @@
 #' @param bg,fg A background or foreground color. If only one of either is
 #'   provided, an accessible contrasting color is provided for the opposite
 #'   color, e.g. setting `bg` chooses an appropriate `fg` color.
-#' @param class Additional CSS classes for the top-level HTML element.
+#' @param class CSS classes for the sidebar container element, in addition to
+#'   the fixed `.sidebar` class.
 #' @param max_height_mobile The maximum height of the horizontal sidebar when
 #'   viewed on mobile devices. The default is `250px` unless the sidebar is
 #'   included in a [layout_sidebar()] with a specified height, in which case
@@ -97,7 +98,7 @@ sidebar <- function(
         ),
         "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
         "aria-controls" = id,
-    collapse_icon()
+        collapse_icon()
       )
     }
 
