@@ -99,6 +99,7 @@ Config/Needs/website:
     purrr,
     rprojroot,
     rstudio/htmltools,
+    scales,
     stringr,
     tidyr
 Config/Needs/deploy:
