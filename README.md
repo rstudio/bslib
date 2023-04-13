@@ -17,33 +17,33 @@ The `bslib` R package provides a modern UI toolkit for
 Markdown](https://rmarkdown.rstudio.com/) based on
 [Bootstrap](https://getbootstrap.com/). `bslib`’s primary goals are:
 
-- Provide modern UI components, such as
-  [cards](https://rstudio.github.io/bslib/articles/cards.html),
-  [sidebars](https://rstudio.github.io/bslib/articles/sidebars.html),
-  [value
-  boxes](https://rstudio.github.io/bslib/articles/value-boxes.html),
-  [layouts](https://rstudio.github.io/bslib/articles/column-layout.html),
-  and more.
-- Make [custom
-  theming](https://rstudio.github.io/bslib/articles/bslib.html#custom)
-  as easy as possible.
-  - Custom themes may even be created interactively in
-    [real-time](https://rstudio.github.io/bslib/articles/bslib.html#real-time).
-- Also provide easy access to pre-packaged [Bootswatch
-  themes](https://rstudio.github.io/bslib/articles/bslib.html#bootswatch).
-- Make it seamless to use any version of
-  [Bootstrap](https://rstudio.github.io/bslib/articles/bslib.html#versions).
-  - Shiny and R Markdown currently default to Bootstrap 3 and may
-    continue to do so to avoid breaking legacy code.
-- Serve as a general foundation for Shiny and R Markdown extension
-  packages.
-  - Extensions such as
-    [`flexdashboard`](https://flexdashboard-pkg.netlify.app/articles/theme.html),
-    [`pkgdown`](https://pkgdown.r-lib.org/dev/articles/customise.html),
-    and
-    [`bookdown`](https://pkgs.rstudio.com/bookdown/reference/bs4_book.html)
-    already fully support [`bslib`’s custom theming
-    capabilities](https://rstudio.github.io/bslib/articles/bslib.html#custom).
+  - Provide modern UI components, such as
+    [cards](https://rstudio.github.io/bslib/articles/cards.html),
+    [sidebars](https://rstudio.github.io/bslib/articles/sidebars.html),
+    [value
+    boxes](https://rstudio.github.io/bslib/articles/value-boxes.html),
+    [layouts](https://rstudio.github.io/bslib/articles/column-layout.html),
+    and more.
+  - Make [custom
+    theming](https://rstudio.github.io/bslib/articles/bslib.html#custom)
+    as easy as possible.
+      - Custom themes may even be created interactively in
+        [real-time](https://rstudio.github.io/bslib/articles/bslib.html#real-time).
+  - Also provide easy access to pre-packaged [Bootswatch
+    themes](https://rstudio.github.io/bslib/articles/bslib.html#bootswatch).
+  - Make it seamless to use any version of
+    [Bootstrap](https://rstudio.github.io/bslib/articles/bslib.html#versions).
+      - Shiny and R Markdown currently default to Bootstrap 3 and may
+        continue to do so to avoid breaking legacy code.
+  - Serve as a general foundation for Shiny and R Markdown extension
+    packages.
+      - Extensions such as
+        [`flexdashboard`](https://flexdashboard-pkg.netlify.app/articles/theme.html),
+        [`pkgdown`](https://pkgdown.r-lib.org/dev/articles/customise.html),
+        and
+        [`bookdown`](https://pkgs.rstudio.com/bookdown/reference/bs4_book.html)
+        already fully support [`bslib`’s custom theming
+        capabilities](https://rstudio.github.io/bslib/articles/bslib.html#custom).
 
 ## Installation
 
@@ -128,17 +128,17 @@ Template:
 
 There are two main places to get help with `bslib`:
 
-- The [RStudio community](https://community.rstudio.com) is a friendly
-  place to ask any questions (be sure to add a `bslib` tag when creating
-  a topic).
+  - The [RStudio community](https://community.rstudio.com) is a friendly
+    place to ask any questions (be sure to add a `bslib` tag when
+    creating a topic).
 
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/bslib) is
-  a great source of answers to common `bslib` questions. It is also a
-  great place to get help, once you have created a reproducible example
-  that illustrates your problem. Use the tags
-  [`[r][bslib]`](https://stackoverflow.com/questions/tagged/bslib+r) if
-  you ask a question. Add the tag `[bslib]` if you are using a Shiny
-  runtime.
+  - [Stack Overflow](https://stackoverflow.com/questions/tagged/bslib)
+    is a great source of answers to common `bslib` questions. It is also
+    a great place to get help, once you have created a reproducible
+    example that illustrates your problem. Use the tags
+    [`[r][bslib]`](https://stackoverflow.com/questions/tagged/bslib+r)
+    if you ask a question. Add the tag `[bslib]` if you are using a
+    Shiny runtime.
 
 ## Code of Conduct
 
