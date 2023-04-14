@@ -34,19 +34,19 @@ nav_panel <- function(title, ..., value = title, icon = NULL) {
   tabPanel_(title, ..., value = value, icon = icon)
 }
 
+#' @describeIn nav Create nav content for use inside `navset_hidden()` (for
+#'   creating custom navigation controls via `navs_select()`),
+#' @export
+nav_panel_hidden <- function(value, ..., icon = NULL) {
+  tabPanelBody_(value, ..., icon = icon)
+}
+
 #' @describeIn nav Create a menu of nav items.
 #' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.
 #' @export
 nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "right")) {
   align <- match.arg(align)
   navbarMenu_(title, ..., menuName = value, icon = icon, align = align)
-}
-
-#' @describeIn nav Create nav content for use inside `navset_hidden()` (for
-#'   creating custom navigation controls via `navs_select()`),
-#' @export
-nav_panel_hidden <- function(value, ..., icon = NULL) {
-  tabPanelBody_(value, ..., icon = icon)
 }
 
 #' @describeIn nav Place arbitrary content in the navigation panel (e.g., search

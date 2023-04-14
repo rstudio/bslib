@@ -3,17 +3,17 @@
 \name{nav}
 \alias{nav}
 \alias{nav_panel}
-\alias{nav_menu}
 \alias{nav_panel_hidden}
+\alias{nav_menu}
 \alias{nav_item}
 \alias{nav_spacer}
 \title{Navigation items}
 \usage{
 nav_panel(title, ..., value = title, icon = NULL)
 
-nav_menu(title, ..., value = title, icon = NULL, align = c("left", "right"))
-
 nav_panel_hidden(value, ..., icon = NULL)
+
+nav_menu(title, ..., value = title, icon = NULL, align = c("left", "right"))
 
 nav_item(...)
 
@@ -57,10 +57,10 @@ Create nav item(s) for use inside nav containers (e.g., \code{\link[=navset_tab]
 \itemize{
 \item \code{nav_panel()}: Content to display when the given item is selected.
 
-\item \code{nav_menu()}: Create a menu of nav items.
-
 \item \code{nav_panel_hidden()}: Create nav content for use inside \code{navset_hidden()} (for
 creating custom navigation controls via \code{navs_select()}),
+
+\item \code{nav_menu()}: Create a menu of nav items.
 
 \item \code{nav_item()}: Place arbitrary content in the navigation panel (e.g., search
 forms, links to external content, etc.)
