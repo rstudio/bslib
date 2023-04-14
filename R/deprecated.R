@@ -2,8 +2,22 @@
 #'
 #' These functions have been deprecated but remain for backwards compatibility.
 #'
+#' @section Navigation Containers:
+#'
+#'   Several functions for navigation containers were renamed in version 0.5.0:
+#'
+#'   - `nav()` was renamed [nav_panel()]
+#'   - `nav_content()` was renamed [nav_panel_hidden()]
+#'   - `navs_tab()` was renamed [navset_tab()]
+#'   - `navs_pill()` was renamed [navset_pill()]
+#'   - `navs_pill_list()` was renamed [navset_pill_list()]
+#'   - `navs_hidden()` was renamed [navset_hidden()]
+#'   - `navs_bar()` was renamed [navset_bar()]
+#'   - `navs_tab_card()` was renamed [navset_card_tab()]
+#'   - `navs_pill_card()` was renamed [navset_card_pill()]
+#'
 #' @keywords internal
-#' @rdname deprecated
+#' @name deprecated
 #' @returns a [bs_theme()] object.
 #' @export
 bs_theme_new <- function(...) {
@@ -141,62 +155,64 @@ page_fill <- function(...) {
 }
 
 #  Legacy Nav Containers --------------------------------------------------
-#' @describeIn deprecated Deprecated in v0.5.0, use [nav_panel()].
+#' @rdname deprecated
+#' @aliases NULL
 #' @export
 nav <- function(...) {
   .Deprecated("nav_panel", old = "nav")
   nav_panel(...)
 }
 
-#' @describeIn deprecated Deprecated in v0.5.0, use [nav_panel_hidden()].
+#' @rdname deprecated
 #' @export
 nav_content <- function(...) {
   .Deprecated("nav_panel_hidden", old = "nav_content")
   nav_panel_hidden(...)
 }
 
-#' @describeIn deprecated Deprecated in v0.5.0, use [navset_tab()].
+#' @rdname deprecated
 #' @export
 navs_tab <- function(...) {
   .Deprecated("navset_tab", old = "navs_tab")
   navset_tab(...)
 }
 
-#' @describeIn deprecated Deprecated in v0.5.0, use [navset_pill()].
+#' @rdname deprecated
 #' @export
 navs_pill <- function(...) {
   .Deprecated("navset_pill", old = "navs_pill")
   navset_pill(...)
 }
 
-#' @describeIn deprecated Deprecated in v0.5.0, use [navset_pill_list()].
+#' @rdname deprecated
 #' @export
 navs_pill_list <- function(...) {
   .Deprecated("navset_pill_list", old = "navs_pill_list")
   navset_pill_list(...)
 }
 
-#' @describeIn deprecated Deprecated in v0.5.0, use [navset_hidden()].
+#' @rdname deprecated
 #' @export
 navs_hidden <- function(...) {
   .Deprecated("navset_hidden", old = "navs_hidden")
   navset_hidden(...)
 }
 
-#' @describeIn deprecated Deprecated in v0.5.0, use [navset_bar()].
+#' @rdname deprecated
 #' @export
 navs_bar <- function(...) {
   .Deprecated("navset_bar", old = "navs_bar")
   navset_bar(...)
 }
-#' @describeIn deprecated Deprecated in v0.5.0, use [navset_card_tab()].
+
+#' @rdname deprecated
 #' @export
 navs_tab_card <- function(...) {
   .Deprecated("navset_card_tab", old = "navs_tab_card")
   navset_card_tab(...)
 }
 
-#' @describeIn deprecated Deprecated in v0.5.0, use [navset_card_pill()].
+#' @rdname deprecated
 #' @export
 navs_pill_card <- function(...) {
   .Deprecated("navset_card_pill", old = "navs_pill_card")
