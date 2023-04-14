@@ -8,8 +8,8 @@ This article gives an overview of user interface (UI) layout options available i
 
 2. A new, more flexible, consistent, and fully-featured way to create segmented layouts (i.e., a new approach to `tabPanel()`, `tabsetPanel()`, `navlistPanel()`, etc).
 
-  * One obvious new feature is [multiple tabs/pills within a card](cards.html#multiple-tabs) (i.e., `navs_tab_card()`).
-  * Other, less obvious, features this new `navset` API provides a way to right-align tabs/pills (`nav_spacer()`), embed external links and other UI elements (`nav_item()`), include multiple navbars (`navs_bar()`), and more (see the examples section of `navs_tab()`).
+  * One obvious new feature is [multiple tabs/pills within a card](cards.html#multiple-tabs) (i.e., `navset_card_tab()`).
+  * Other, less obvious, features this new `navset` API provides a way to right-align tabs/pills (`nav_spacer()`), embed external links and other UI elements (`nav_item()`), include multiple navbars (`navset_bar()`), and more (see the examples section of `navset_tab()`).
 
 3. Various `page_*()` containers (e.g., `page_fluid()`, `page_navbar()`, etc).
   * As of right now, these are just a drop-in replacement for their respective Shiny version (e.g., `page_fluid()` instead of `fluidPage()`) that only changes the default of the `theme` argument to `bs_theme()`.

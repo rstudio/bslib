@@ -74,7 +74,7 @@ To create a sidebar layout, provide a `sidebar()` to the `sidebar` argument of o
    * A flexible sidebar layout.
 2. `page_navbar()`
    * A multi-page sidebar layout.
-3. `navs_tab_card()` (or `navs_pill_card()`)
+3. `navset_card_tab()` (or `navset_card_pill()`)
    * A multi-tab, `card()`-based, sidebar layout.
 
 Cases 2 and 3 are inherently different from 1. In cases 2 and 3, you have the choice of either passing the sidebar directly to the function (which creates a [global sidebar](#global-sidebar)) or passing a sidebar layout to a particular page / tab (i.e., a [local sidebar](#local-sidebar)).
@@ -287,19 +287,19 @@ card(
 
 ### Cards with tabs
 
-It's also possible to embed a sidebar layout within a `card()`s that has multiple tabs/pills via `navs_tab_card()`/`navs_pill_card()`. And, similar to `page_navbar()`, a `sidebar()` can either be passed as an argument (i.e., global sidebar) or to a particular tab/pill (i.e., local sidebar).
+It's also possible to embed a sidebar layout within a `card()`s that has multiple tabs/pills via `navset_card_tab()`/`navset_card_pill()`. And, similar to `page_navbar()`, a `sidebar()` can either be passed as an argument (i.e., global sidebar) or to a particular tab/pill (i.e., local sidebar).
 
 #### Global sidebar
 
-To show the same `sidebar()` on every tab/pill (i.e., create a "global" sidebar), pass it to the `sidebar` argument of `navs_tab_card()` (or `navs_pill_card()`).
+To show the same `sidebar()` on every tab/pill (i.e., create a "global" sidebar), pass it to the `sidebar` argument of `navset_card_tab()` (or `navset_card_pill()`).
 
-Remember that, just like `layout_sidebar()` and `card()`, `navs_tab_card()` sizes itself according to it's contents (by default), so consider setting a `height` to keep a fixed height across all tabs. And, to allow the contents to grow/shrink to fit the card container, you'll want to wrap the contents of each tab with `card_body_fill()` (`wrapper = card_body_fill` is a convenient way to do this for all tabs).
+Remember that, just like `layout_sidebar()` and `card()`, `navset_card_tab()` sizes itself according to it's contents (by default), so consider setting a `height` to keep a fixed height across all tabs. And, to allow the contents to grow/shrink to fit the card container, you'll want to wrap the contents of each tab with `card_body_fill()` (`wrapper = card_body_fill` is a convenient way to do this for all tabs).
 
 ```{r, sidebar-create-contents, echo=FALSE}
 ```
 
 ```{r}
-navs_tab_card(
+navset_card_tab(
   title = "Global sidebar",
   sidebar = sidebar(cut, clarity),
   height = 450,
@@ -315,7 +315,7 @@ navs_tab_card(
 Sometimes it's helpful to have the sidebar controls change depending on what page is active (especially with a global sidebar).[^4] Thanks to `shiny::conditionalPanel()`, this can be done fairly easily in a Shiny app:
 
 ```{r, eval = FALSE}
-dynamic <- navs_tab_card(
+dynamic <- navset_card_tab(
   title = "Dynamic sidebar",
   sidebar = sidebar(
     cut, clarity,
@@ -351,7 +351,7 @@ To create a sidebar layout that’s specific to a page, place a `layout_sidebar(
 ```
 
 ```{r}
-navs_tab_card(
+navset_card_tab(
   title = "Tab-specific sidebar",
   full_screen = TRUE,
   nav_panel(

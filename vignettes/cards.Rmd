@@ -440,14 +440,14 @@ card(
 
 ::: row
 ::: col-md-6
-`navs_tab_card()` (as well as `navs_pill_card()`) makes it easy to create cards with multiple tabs (or pills). These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav_panel()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fill()` where appropriate to get [responsive sizing](#responsive-sizing).
+`navset_card_tab()` (as well as `navset_card_pill()`) makes it easy to create cards with multiple tabs (or pills). These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav_panel()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fill()` where appropriate to get [responsive sizing](#responsive-sizing).
 :::
 
 
 ::: col-md-6
 ```{r}
 library(leaflet)
-navs_tab_card(
+navset_card_tab(
   height = 300, full_screen = TRUE,
   title = "HTML Widgets",
   nav_panel(
