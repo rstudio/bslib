@@ -139,3 +139,67 @@ page_fill <- function(...) {
   .Deprecated("page_fillable", old = "page_fill")
   page_fillable(...)
 }
+
+#  Legacy Nav Containers --------------------------------------------------
+#' @rdname deprecated
+#' @export
+nav <- function(...) {
+  .Deprecated("nav_panel", old = "nav")
+  nav_panel(...)
+}
+
+#' @rdname deprecated
+#' @export
+nav_content <- function(...) {
+  .Deprecated("nav_panel_hidden", old = "nav_content")
+  nav_panel_hidden(...)
+}
+
+#' @rdname deprecated
+#' @export
+navs_tab <- function(...) {
+  .Deprecated("navset_tab", old = "navs_tab")
+  navset_tab(...)
+}
+
+#' @rdname deprecated
+#' @export
+navs_pill <- function(...) {
+  .Deprecated("navset_pill", old = "navs_pill")
+  navset_pill(...)
+}
+
+#' @rdname deprecated
+#' @export
+navs_pill_list <- function(...) {
+  .Deprecated("navset_pill_list", old = "navs_pill_list")
+  navset_pill_list(...)
+}
+
+#' @rdname deprecated
+#' @export
+navs_hidden <- function(...) {
+  .Deprecated("navset_hidden", old = "navs_hidden")
+  navset_hidden(...)
+}
+
+#' @rdname deprecated
+#' @export
+navs_bar <- function(...) {
+  .Deprecated("navset_bar", old = "navs_bar")
+  navset_bar(...)
+}
+
+#' @rdname deprecated
+#' @export
+navs_tab_card <- function(...) {
+  .Deprecated("navset_card_tab", old = "navs_tab_card")
+  navset_card_tab(...)
+}
+
+#' @rdname deprecated
+#' @export
+navs_pill_card <- function(...) {
+  .Deprecated("navset_card_pill", old = "navs_pill_card")
+  navset_card_pill(...)
+}

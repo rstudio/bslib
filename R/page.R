@@ -74,7 +74,7 @@ validateCssPadding <- function(padding = NULL) {
 }
 
 #' @rdname page
-#' @inheritParams navs_bar
+#' @inheritParams navset_bar
 #' @inheritParams bs_page
 #' @seealso [shiny::navbarPage()]
 #' @param fill_mobile Whether or not `fillable` pages should fill the viewport's

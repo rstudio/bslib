@@ -16,6 +16,15 @@
 \alias{bs_add_declarations}
 \alias{card_body_fill}
 \alias{page_fill}
+\alias{nav}
+\alias{nav_content}
+\alias{navs_tab}
+\alias{navs_pill}
+\alias{navs_pill_list}
+\alias{navs_hidden}
+\alias{navs_bar}
+\alias{navs_tab_card}
+\alias{navs_pill_card}
 \title{Deprecated functions}
 \usage{
 bs_theme_new(...)
@@ -47,6 +56,24 @@ bs_add_declarations(theme, declarations)
 card_body_fill(...)
 
 page_fill(...)
+
+nav(...)
+
+nav_content(...)
+
+navs_tab(...)
+
+navs_pill(...)
+
+navs_pill_list(...)
+
+navs_hidden(...)
+
+navs_bar(...)
+
+navs_tab_card(...)
+
+navs_pill_card(...)
 }
 \value{
 a \code{\link[=bs_theme]{bs_theme()}} object.
