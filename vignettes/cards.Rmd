@@ -29,10 +29,10 @@ shiny:::setCurrentTheme(bslib::bs_theme())
 /* Credit to https://getcssscan.com/css-box-shadow-examples */
 .card {
   box-shadow:
-    rgba(0, 0, 0, 0.25) 0px 54px 55px, 
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
-    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px,
+    rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px,
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
   margin-bottom: 3rem;
 }
@@ -133,7 +133,7 @@ card(
     "A long, scrolling, description"
   ),
   card_body(
-    height = 150, 
+    height = 150,
     lorem_ipsum_dolor_sit_amet
   )
 )
@@ -230,11 +230,11 @@ card(
   card_body_fill(
     plotly_widget,
     actionLink(
-      "go", "Action link", 
+      "go", "Action link",
       class = "link-primary align-self-center"
     ),
     actionButton(
-      "go_btn", "Action button", 
+      "go_btn", "Action button",
       class = "btn-primary rounded-0"
     )
   )
@@ -255,7 +255,7 @@ card(
   height = 200, full_screen = TRUE,
   card_header("Try expanding full screen"),
   card_body_fill(
-    plotly_widget, 
+    plotly_widget,
     max_height = "400px"
   )
 )
@@ -268,7 +268,7 @@ card(
 
 ::: row
 ::: col-md-6
-Sometimes it's desirable to combine both `card_body_fill()` with `card_body()` to allow some portion of the body to grow/shrink as needed, but also keep another portion at a fixed/defined height. 
+Sometimes it's desirable to combine both `card_body_fill()` with `card_body()` to allow some portion of the body to grow/shrink as needed, but also keep another portion at a fixed/defined height.
 :::
 
 ::: col-md-6
@@ -278,7 +278,7 @@ card(
   card_header("Plot with long description"),
   card_body_fill(plotly_widget),
   card_body(
-    height = "30%", 
+    height = "30%",
     lorem_ipsum_dolor_sit_amet
   )
 )
@@ -292,7 +292,7 @@ card(
 ::: col-md-6
 Both `card_body()` and `card_body_fill()` include padding between their contents and the `card()` container by default. In either case, you can override those defaults with Bootstrap's [spacing utility classes](https://getbootstrap.com/docs/5.2/utilities/spacing/), like `"p-0"` to remove the padding altogether. This is especially useful if
 
-1. The content itself already provides sufficient padding. 
+1. The content itself already provides sufficient padding.
 2. The content's background color is different from the card.[^2]
 :::
 
@@ -427,7 +427,7 @@ card(
   ),
   card_title("Shiny for R"),
   card_body(
-    class = "pt-0 fs-6 lead text-muted", 
+    class = "pt-0 fs-6 lead text-muted",
     "Brought to you by RStudio."
   )
 )
@@ -440,7 +440,7 @@ card(
 
 ::: row
 ::: col-md-6
-`navs_tab_card()` (as well as `navs_pill_card()`) makes it easy to create cards with multiple tabs (or pills). These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fill()` where appropriate to get [responsive sizing](#responsive-sizing).
+`navs_tab_card()` (as well as `navs_pill_card()`) makes it easy to create cards with multiple tabs (or pills). These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, similar to `card()`, the children of each `nav_panel()` panel will be implicitly wrapped in a `card_body()` call, so use `card_body_fill()` where appropriate to get [responsive sizing](#responsive-sizing).
 :::
 
 
@@ -450,17 +450,17 @@ library(leaflet)
 navs_tab_card(
   height = 300, full_screen = TRUE,
   title = "HTML Widgets",
-  nav(
-    "Plotly", 
+  nav_panel(
+    "Plotly",
     card_title("A plotly plot", class = "pt-1"),
     card_body_fill(plotly_widget)
   ),
-  nav(
+  nav_panel(
     "Leaflet",
     card_title("A leaflet plot", class = "pt-1"),
     card_body_fill(leaflet_widget)
   ),
-  nav(
+  nav_panel(
     shiny::icon("circle-info"),
     "Learn more about",
     tags$a("htmlwidgets", href = "http://www.htmlwidgets.org/")
