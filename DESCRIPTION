@@ -60,6 +60,7 @@ Collate:
     'card.R'
     'deprecated.R'
     'files.R'
+    'fill.R'
     'imports.R'
     'layout.R'
     'nav-items.R'
