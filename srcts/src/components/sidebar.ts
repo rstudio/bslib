@@ -25,6 +25,62 @@ class BslibSidebar {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   public static readonly LAYOUT_CLASS = "bslib-sidebar-layout";
 
+  public static initSidebar(el: HTMLElement): void {
+    const container = BslibSidebar._findLayoutContainer(el);
+    // remove script with onload attribute to signal initialization happened
+    container.removeChild(el);
+
+    const childLayouts = container.getElementsByClassName(
+      BslibSidebar.LAYOUT_CLASS
+    );
+
+    if (childLayouts.length > 0) {
+      BslibSidebar._initAutoCollapse(container);
+      return;
+    }
+
+    // This layout is the innermost layout, so we add CSS variables to it and
+    // any ancestor sidebar layouts, counting the number of parent layouts there
+    // are. This is used to ensure the collapse toggles don't overlap.
+    const layouts = [container];
+    let parent = container.parentElement;
+
+    while (parent && parent !== document.body) {
+      if (parent.classList.contains(BslibSidebar.LAYOUT_CLASS)) {
+        // Add parent to front of layouts array, so we sort outer -> inner
+        layouts.unshift(parent);
+      }
+      parent = parent.parentElement;
+    }
+
+    const count = { left: 0, right: 0 };
+    layouts.forEach(function (x: HTMLElement, i: number): void {
+      x.style.setProperty("--bslib-sidebar-counter", i.toString());
+      const isRight = x.classList.contains("sidebar-right");
+      const thisCount = isRight ? count.right++ : count.left++;
+      x.style.setProperty(
+        "--bslib-sidebar-overlap-counter",
+        thisCount.toString()
+      );
+    });
+
+    BslibSidebar._initAutoCollapse(container);
+  }
+
+  private static _initAutoCollapse(container: HTMLElement): void {
+    if (!container.dataset.sidebarInitAutoCollapse) {
+      return;
+    }
+
+    // If sidebar is marked open='desktop', then close sidebar on mobile
+    const initCollapsed = window
+      .getComputedStyle(container)
+      .getPropertyValue("--bslib-sidebar-js-init-collapsed");
+    if (initCollapsed === "true") {
+      BslibSidebar.toggleCollapse(container, "close");
+    }
+  }
+
   private static _findLayoutContainer(el: HTMLElement): HTMLElement {
     if (el.classList.contains(BslibSidebar.LAYOUT_CLASS)) {
       return el;
@@ -147,3 +203,6 @@ $(document).on(
     $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
   }
 );
+
+// attach BslibSidebar class to window for global usage
+(window as any).BslibSidebar = BslibSidebar;

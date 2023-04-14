@@ -218,40 +218,11 @@ layout_sidebar <- function(
 }
 
 sidebar_js_init <- function() {
-  tags$script("data-bslib-sidebar-init" = NA, HTML(
-    "
-    var thisScript = document.querySelector('script[data-bslib-sidebar-init]');
-    thisScript.removeAttribute('data-bslib-sidebar-init');
-
-    // If this layout is the innermost layout, then allow it to add CSS
-    // variables to it and its ancestors (counting how parent layouts there are)
-    var thisLayout = $(thisScript).parent();
-    var noChildLayouts = thisLayout.find('.bslib-sidebar-layout').length === 0;
-    if (noChildLayouts) {
-      var parentLayouts = thisLayout.parents('.bslib-sidebar-layout');
-      // .add() sorts the layouts in DOM order (i.e., innermost is last)
-      var layouts = thisLayout.add(parentLayouts);
-      var ctrs = {left: 0, right: 0};
-      layouts.each(function(i, x) {
-        $(x).css('--bslib-sidebar-counter', i);
-        var right = $(x).hasClass('sidebar-right');
-        $(x).css('--bslib-sidebar-overlap-counter', right ? ctrs.right : ctrs.left);
-        right ? ctrs.right++ : ctrs.left++;
-      });
-    }
-
-    // If sidebar is marked open='desktop', collapse sidebar if on mobile
-    if (thisLayout.data('sidebarInitAutoCollapse')) {
-      var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
-      if (initCollapsed === 'true') {
-        thisLayout.addClass('sidebar-collapsed');
-        thisLayout.find('.collapse-toggle').attr('aria-expanded', 'false');
-      }
-    }
-    "
-  ))
+  tags$script(
+     "data-bslib-sidebar-init" = NA,
+    "BslibSidebar.initSidebar(document.currentScript)"
+  )
 }
-
 
 #' @describeIn sidebar Open a `sidebar()` (during an active Shiny user session).
 #' @param session a shiny session object (the default should almost always be
