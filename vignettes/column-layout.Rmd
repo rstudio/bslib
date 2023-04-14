@@ -1,23 +1,9 @@
 ---
-title: "UI Layouts"
+title: "Column-based layout"
 ---
-
-This article gives an overview of user interface (UI) layout options available in bslib. These options aim to fill a void left by other [layout options available in Shiny](https://shiny.rstudio.com/articles/layout-guide.html), (e.g., `fluidRow()`, `column()`, `sidebarLayout()`, etc). As of right now, these options include:
-
-1. A [modern take on column-based layout](#responsive-column-first-layout), which responsively wraps a 1d sequence of UI elements into a 2d grid.
-
-2. A new, more flexible, consistent, and fully-featured way to create segmented layouts (i.e., a new approach to `tabPanel()`, `tabsetPanel()`, `navlistPanel()`, etc).
-
-  * One obvious new feature is [multiple tabs/pills within a card](cards.html#multiple-tabs) (i.e., `navs_tab_card()`).
-  * Other, less obvious, features this new `nav()` API provides a way to right-align tabs/pills (`nav_spacer()`), embed external links and other UI elements (`nav_item()`), include multiple navbars (`navs_bar()`), and more (see the examples section of `navs_tab()`).
-
-3. Various `page_*()` containers (e.g., `page_fluid()`, `page_navbar()`, etc). 
-  * As of right now, these are just a drop-in replacement for their respective Shiny version (e.g., `page_fluid()` instead of `fluidPage()`) that only changes the default of the `theme` argument to `bs_theme()`.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-
-lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id nibh tortor id aliquet lectus proin nibh nisl. Adipiscing at in tellus integer feugiat. Arcu bibendum at varius vel pharetra vel turpis nunc eget. Cursus sit amet dictum sit amet justo. Sit amet consectetur adipiscing elit. Vestibulum mattis ullamcorper velit sed ullamcorper. Enim facilisis gravida neque convallis a. Elit duis tristique sollicitudin nibh sit amet. Magna eget est lorem ipsum. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Mauris in aliquam sem fringilla ut morbi. Id semper risus in hendrerit gravida rutrum quisque non tellus. At erat pellentesque adipiscing commodo elit at imperdiet dui. Fames ac turpis egestas maecenas pharetra convallis posuere morbi. Duis convallis convallis tellus id interdum velit laoreet id. Aliquet lectus proin nibh nisl. Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis. Bibendum enim facilisis gravida neque convallis a."
 ```
 
 ```{css, echo = FALSE}
@@ -29,9 +15,7 @@ lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscin
 ```{r ref.label="anim_helpers",echo=FALSE}
 ```
 
-## Responsive column-first layout
-
-This section outlines various layouts made possible by `layout_column_wrap()`. To illustrate, we'll use three `card()` instances with varying content, but keep in mind that `layout_column_wrap()` is designed to work other UI elements as well, such as [value boxes](value-boxes.html) or even for [multiple columns within a card](card.html#multiple-columns).
+This article outlines various layouts made possible by `layout_column_wrap()`. To illustrate, we'll use three `card()` instances with varying content, but keep in mind that `layout_column_wrap()` is designed to work other UI elements as well, such as [value boxes](value-boxes.html) or even for [multiple columns within a card](card.html#multiple-columns).
 
 **Note:** The examples in this section are not intended to be viewed on mobile devices. At small window widths, all of the layouts here collapse into a more mobile-friendly approach of "show each card at maximum width".
 
@@ -40,7 +24,10 @@ library(bslib)
 
 card1 <- card(
   card_header("Scrolling content"),
-  card_body(lorem_ipsum_dolor_sit_amet, fill = TRUE)
+  lapply(
+    lorem::ipsum(paragraphs = 3, sentences = c(5, 5, 5)),
+    tags$p
+  )
 )
 card2 <- card(
   card_header("Nothing much here"),
@@ -49,7 +36,7 @@ card2 <- card(
 card3 <- card(
   full_screen = TRUE,
   card_header("Filling content"),
-  card_body_fill(
+  card_body(
     class = "p-0",
     shiny::plotOutput("p")
   )
@@ -121,14 +108,16 @@ layout_column_wrap(
   anim_height(300, 450)
 ```
 
-#### By column
+#### By cell
 
-By default, each the height on each card grows to fill the available vertical space in a particular row. To opt out of that behavior, set `fill = FALSE`.
+By default, each the height on each card grows to fill the available vertical space in a particular row. This can be prevented  
 
 ```{r}
 layout_column_wrap(
-  width = "200px", fill = FALSE,
-  card1, card2, card3
+  width = "200px", 
+  #heights_equal = "row",
+  fillable = FALSE,
+  card1, card3, card2
 ) |> 
   anim_height(300, 450)
 ```
@@ -166,7 +155,7 @@ layout_column_wrap(
 
 ### Other grid-based layouts
 
-`layout_column_wrap()` provides a simplified interface to [CSS grid](https://css-tricks.com/snippets/css/complete-guide-grid/) that won't accomodate everything it can do. In this case, we recommend using `{gridlayout}` and/or the [Shiny UI editor](https://rstudio.github.io/shinyuieditor/) to produce the layout.
+`layout_column_wrap()` provides a simplified interface to [CSS grid](https://css-tricks.com/snippets/css/complete-guide-grid/) that won't accommodate everything it can do. In this case, we recommend using `{gridlayout}` and/or the [Shiny UI editor](https://rstudio.github.io/shinyuieditor/) to produce the layout.
 
 ## Appendix
 
