@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+<script src="lib/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="lib/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet" />
+<script src="lib/bootstrap-5.2.2/bootstrap.bundle.min.js"></script>
+<script src="lib/bs3compat-0.4.2.9000/transition.js"></script>
+<script src="lib/bs3compat-0.4.2.9000/tabs.js"></script>
+<script src="lib/bs3compat-0.4.2.9000/bs3compat.js"></script>
+<script src="lib/bslib-sidebar-0.4.2.9000/sidebar.min.js"></script>
+<script src="lib/bslib-tag-require-0.4.2.9000/tag-require.js"></script>
+<link href="lib/htmltools-fill-0.5.5.9000/fill.css" rel="stylesheet" />
+  <title>Conditional sidebar</title>
+  <style>html { height: 100%; }</style>
+  <style>.html-widget { height: 250px !important; } .modebar-container { display: none; }</style>
+</head>
+<body class="bslib-page-fill html-fill-container" style="padding:0px;gap:0px;--bslib-page-fill-mobile-height:auto;">
+  <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-7395" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-7395">
+          <span class="sr-only visually-hidden">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <span class="navbar-brand">Conditional sidebar</span>
+      </div>
+      <div class="navbar-collapse collapse" id="navbar-collapse-7395">
+        <ul class="nav navbar-nav shiny-tab-input" id="nav" data-tabsetid="6111">
+          <li class="nav-item">
+            <a href="#tab-6111-1" data-toggle="tab" data-bs-toggle="tab" data-value="Page 1" class="nav-link active">Page 1</a>
+          </li>
+          <li class="nav-item">
+            <a href="#tab-6111-2" data-toggle="tab" data-bs-toggle="tab" data-value="Page 2" class="nav-link">Page 2</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="html-fill-item html-fill-container">
+    <div class="bslib-sidebar-layout html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" data-sidebar-init-auto-collapse="true" style="--bslib-sidebar-width:250px;--bslib-sidebar-max-height-mobile:250px;">
+      <div role="main" class="main">
+        <div class="tab-content" data-tabsetid="6111">
+          <div class="tab-pane active" data-value="Page 1" id="tab-6111-1">Page 1 contents</div>
+          <div class="tab-pane" data-value="Page 2" id="tab-6111-2">Page 2 contents</div>
+        </div>
+        <script>
+$('.sidebar > :last').hide();
+
+$('#nav').on('shown.bs.tab', function(ev) {
+  const page = ev.target.dataset.value;
+  if (page === 'Page 2') {
+    $('.sidebar > :first').hide();
+    $('.sidebar > :last').show();
+  } else {
+    $('.sidebar > :first').show();
+    $('.sidebar > :last').hide();
+  }
+  });
+</script>
+      </div>
+      <div id="bslib-sidebar-1164" role="complementary" class="sidebar">
+        <div class="sidebar-content">
+          <div data-display-if="input.nav === &#39;Page 1&#39;" data-ns-prefix="">Page 1 sidebar</div>
+          <div data-display-if="input.nav === &#39;Page 2&#39;" data-ns-prefix="">Page 2 sidebar</div>
+        </div>
+      </div>
+      <button class="collapse-toggle" type="button" title="Toggle sidebar" aria-expanded="true" aria-controls="bslib-sidebar-1164"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-chevron-down collapse-icon" style="height:;width:;fill:currentColor;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path></svg></button>
+      <script data-bslib-sidebar-init>
+    var thisScript = document.querySelector('script[data-bslib-sidebar-init]');
+    thisScript.removeAttribute('data-bslib-sidebar-init');
+
+    // If this layout is the innermost layout, then allow it to add CSS
+    // variables to it and its ancestors (counting how parent layouts there are)
+    var thisLayout = $(thisScript).parent();
+    var noChildLayouts = thisLayout.find('.bslib-sidebar-layout').length === 0;
+    if (noChildLayouts) {
+      var parentLayouts = thisLayout.parents('.bslib-sidebar-layout');
+      // .add() sorts the layouts in DOM order (i.e., innermost is last)
+      var layouts = thisLayout.add(parentLayouts);
+      var ctrs = {left: 0, right: 0};
+      layouts.each(function(i, x) {
+        $(x).css('--bslib-sidebar-counter', i);
+        var right = $(x).hasClass('sidebar-right');
+        $(x).css('--bslib-sidebar-overlap-counter', right ? ctrs.right : ctrs.left);
+        right ? ctrs.right++ : ctrs.left++;
+      });
+    }
+
+    // If sidebar is marked open='desktop', collapse sidebar if on mobile
+    if (thisLayout.data('sidebarInitAutoCollapse')) {
+      var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
+      if (initCollapsed === 'true') {
+        thisLayout.addClass('sidebar-collapsed');
+        thisLayout.find('.collapse-toggle').attr('aria-expanded', 'false');
+      }
+    }
+    </script>
+    </div>
+  </div>
+</body>
+</html>

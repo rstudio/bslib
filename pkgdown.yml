@@ -6,13 +6,14 @@ articles:
   bs5-variables: bs5-variables.html
   bslib: bslib.html
   cards: cards.html
+  column-layout: column-layout.html
   custom-components: custom-components.html
-  layouts: layouts.html
+  filling: filling.html
   sidebars: sidebars.html
   utility-classes: utility-classes.html
   value-boxes: value-boxes.html
   why-sass: why-sass.html
-last_built: 2023-04-14T17:27Z
+last_built: 2023-04-14T17:37Z
 urls:
   reference: https://rstudio.github.io/bslib/reference
   article: https://rstudio.github.io/bslib/articles
