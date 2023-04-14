@@ -35,7 +35,7 @@
 #' @export
 as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL, class = NULL, style = NULL, css_selector = NULL) {
 
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   x <- as_fillable(
     x, min_height = min_height,
@@ -54,7 +54,7 @@ as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = 
 #' @export
 as_fillable <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL, class = NULL, style = NULL, css_selector = NULL) {
 
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   x <- bindFillRole(x, container = TRUE, .cssSelector = css_selector)
 
@@ -74,7 +74,7 @@ as_fillable <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL
 #' @export
 as_fill <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, style = NULL, css_selector = NULL) {
 
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   x <- bindFillRole(x, item = TRUE, .cssSelector = css_selector)
 
