@@ -224,6 +224,28 @@ sidebar_js_init <- function() {
   )
 }
 
+#' @describeIn sidebar Toggle a `sidebar()` state during an active Shiny user
+#'   session.
+#' @param show Used by `sidebar_toggle()` only to show or hide the sidebar in
+#'   the app. When `NULL`, the state of the sidebar will be toggled in the app.
+#' @export
+sidebar_toggle <- function(id, show = NULL, session = get_current_session()) {
+  if (!is.null(show) && identical(show, NA)) {
+    # Treat NULL and NA the same
+    show <- NULL
+  }
+  if (!is.null(show) && !(isTRUE(show) || isFALSE(show))) {
+    abort("`show` must be `TRUE`, `FALSE`, or `NULL`.")
+  }
+
+  method <- if (is.logical(show)) if (show) "open" else "close"
+
+  callback <- function() {
+    session$sendInputMessage(id, list(method = method))
+  }
+  session$onFlush(callback, once = TRUE)
+}
+
 #' @describeIn sidebar Open a `sidebar()` (during an active Shiny user session).
 #' @param session a shiny session object (the default should almost always be
 #'   used).

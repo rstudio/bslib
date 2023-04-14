@@ -3,6 +3,7 @@
 \name{sidebar}
 \alias{sidebar}
 \alias{layout_sidebar}
+\alias{sidebar_toggle}
 \alias{sidebar_open}
 \alias{sidebar_close}
 \title{Sidebar layouts}
@@ -32,6 +33,8 @@ layout_sidebar(
   border_color = NULL,
   height = NULL
 )
+
+sidebar_toggle(id, show = NULL, session = get_current_session())
 
 sidebar_open(id, session = get_current_session())
 
@@ -97,6 +100,9 @@ main content area.}
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
+\item{show}{Used by \code{sidebar_toggle()} only to show or hide the sidebar in
+the app. When \code{NULL}, the state of the sidebar will be toggled in the app.}
+
 \item{session}{a shiny session object (the default should almost always be
 used).}
 }
@@ -121,6 +127,9 @@ to learn more.
 }
 \section{Functions}{
 \itemize{
+\item \code{sidebar_toggle()}: Toggle a \code{sidebar()} state during an active Shiny user
+session.
+
 \item \code{sidebar_open()}: Open a \code{sidebar()} (during an active Shiny user session).
 
 \item \code{sidebar_close()}: Close a \code{sidebar()} (during an active Shiny user session).
