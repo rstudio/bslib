@@ -526,7 +526,7 @@ To learn more about `layout_column_wrap()`, see [this article](column-layout.htm
 
 ### Full-screen cards
 
-As eluded to in the [Carrying fill](#carrying-fill) section, `card()` and `card_body()` are [fill carriers]{.b-purple} (that is, they are both [fillable]{.b-pink} and [fill]{.b-blue}, by default). Therefore, by wrapping each plot in a card, the card not only grows/shrinks (since they are [fill]{.b-blue}), but also retain the plot's ability to grow/shrink (since they are [fillable]{.b-pink}).
+As alluded to in the [Carrying fill](#carrying-fill) section, `card()` and `card_body()` are [fill carriers]{.b-purple} (that is, they are both [fillable]{.b-pink} and [fill]{.b-blue}, by default). Therefore, by wrapping each plot in a card, the card not only grows/shrinks (since they are [fill]{.b-blue}), but also retain the plot's ability to grow/shrink (since they are [fillable]{.b-pink}).
 
 ```{r as_iframe=TRUE, resizable=TRUE}
 plot_card <- function(header, ...) {
@@ -589,7 +589,7 @@ To learn more about `layout_sidebar()`, see [this article](sidebars.html).
 :::: {.row .mt-3}
 
 ::: col-md-6
-As eluded to in the [Carrying fill](#carrying-fill) section, `uiOutput()` puts an additional UI element around `renderUI()`'s return value. So, in order to carry the potential to fill down to a fill item (e.g., `plot_ly()`), mark `uiOutput()` as a fill carrier.
+As alluded to in the [Carrying fill](#carrying-fill) section, `uiOutput()` puts an additional UI element around `renderUI()`'s return value. So, in order to carry the potential to fill down to a fill item (e.g., `plot_ly()`), mark `uiOutput()` as a fill carrier.
 :::
 
 ::: col-md-6
