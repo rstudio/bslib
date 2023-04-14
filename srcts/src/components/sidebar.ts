@@ -7,7 +7,7 @@ import {
 type SidebarMethod = "close" | "open";
 
 type MessageData = {
-  method: SidebarMethod;
+  method: SidebarMethod | null;
 };
 
 type SidebarComponents = {
