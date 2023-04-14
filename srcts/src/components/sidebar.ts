@@ -39,18 +39,30 @@ class BslibSidebar {
       return;
     }
 
-    // This layout is the innermost layout, so we add CSS variables to it and
-    // any ancestor sidebar layouts, counting the number of parent layouts there
-    // are. This is used to ensure the collapse toggles don't overlap.
-    const layouts = [container];
-    let parent = container.parentElement;
+    // This layout is the innermost layout, so we add CSS variables to it, and
+    // any direct ancestor sidebar layouts, that count the number of parent
+    // layouts in this subtree. This is used to ensure the collapse toggles
+    // don't overlap.
 
-    while (parent && parent !== document.body) {
-      if (parent.classList.contains(BslibSidebar.LAYOUT_CLASS)) {
-        // Add parent to front of layouts array, so we sort outer -> inner
-        layouts.unshift(parent);
+    function nextSidebarParent(el: HTMLElement | null): HTMLElement | null {
+      el = el ? el.parentElement : null;
+      if (el && el.classList.contains("main")) {
+        // .bslib-sidebar-layout > .main > .bslib-sidedbar-layout
+        el = el.parentElement;
       }
-      parent = parent.parentElement;
+      if (el && el.classList.contains(BslibSidebar.LAYOUT_CLASS)) {
+        return el;
+      }
+      return null;
+    }
+
+    const layouts = [container];
+    let parent = nextSidebarParent(el);
+
+    while (parent) {
+      // Add parent to front of layouts array, so we sort outer -> inner
+      layouts.unshift(parent);
+      parent = nextSidebarParent(el);
     }
 
     const count = { left: 0, right: 0 };
