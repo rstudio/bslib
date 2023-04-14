@@ -31,7 +31,13 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 
 * `card_body_fill()` has been deprecated in favor of `card_body()`. (#498)
 * `page_fill()` has been deprecated in favor of `page_fillable()`. (#498)
-
+* `nav()` has been deprecated in favor of `nav_panel()` and `nav_content()` in favor of `nav_panel_hidden()`. (#476)
+* The `navs_*()` family of functions have been deprecated in favor of `navset_*()` (#476):
+  * `navs_tab()` is now `navset_tab()`
+  * `navs_pill()` is now `navset_pill()`
+  * `navs_pill_list()` is now `navset_pill_list()`
+  * `navs_bar()` is now `navset_bar()`
+  * `navs_tab_card()` and `navs_pill_card()` are now `navset_card_tab()` and `navset_card_pill()`, respectively.
 
 # bslib 0.4.2
 
