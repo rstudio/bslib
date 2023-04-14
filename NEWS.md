@@ -47,7 +47,7 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 
   * https://rstudio.github.io/bslib/articles/cards.html 
   * https://rstudio.github.io/bslib/articles/value-boxes.html 
-  * https://rstudio.github.io/bslib/articles/layouts.html 
+  * https://rstudio.github.io/bslib/articles/column-layout.html
 
 # bslib 0.4.1
 
