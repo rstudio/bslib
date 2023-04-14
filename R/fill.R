@@ -93,7 +93,7 @@ as_fill <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, 
 #' @rdname as_fill_carrier
 #' @export
 undo_fill <- function(x) {
-  htmltools::bindFillRole(
+  bindFillRole(
     x, item = FALSE, container = FALSE,
     overwrite = TRUE
   )
