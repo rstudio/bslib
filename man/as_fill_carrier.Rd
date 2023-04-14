@@ -8,9 +8,18 @@
 \alias{is_fill_carrier}
 \alias{is_fillable}
 \alias{is_fill}
-\title{Coerce a UI element to be a fill carrier / item / fillable container}
+\title{Test and/or coerce fill behavior}
 \usage{
-as_fill_carrier(x, ..., class = NULL, style = NULL, .selector = NULL)
+as_fill_carrier(
+  x,
+  ...,
+  min_height = NULL,
+  max_height = NULL,
+  gap = NULL,
+  class = NULL,
+  style = NULL,
+  css_selector = NULL
+)
 
 as_fillable(
   x,
@@ -20,7 +29,7 @@ as_fillable(
   gap = NULL,
   class = NULL,
   style = NULL,
-  .selector = NULL
+  css_selector = NULL
 )
 
 as_fill(
@@ -30,7 +39,7 @@ as_fill(
   max_height = NULL,
   class = NULL,
   style = NULL,
-  .selector = NULL
+  css_selector = NULL
 )
 
 undo_fill(x)
@@ -43,11 +52,46 @@ is_fill(x)
 }
 \arguments{
 \item{x}{a \code{\link[htmltools:builder]{htmltools::tag()}}.}
+
+\item{...}{currently ignored.}
+
+\item{min_height, max_height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}
+(e.g., \code{150}).}
+
+\item{gap}{Any valid \link[htmltools:validateCssUnit]{CSS unit}.}
+
+\item{class}{A character vector of class names to add to the tag.}
+
+\item{style}{A character vector of CSS properties to add to the tag.}
+
+\item{css_selector}{A character string containing a CSS selector for
+targeting particular (inner) tag(s) of interest. For more details on what
+selector(s) are supported, see \code{\link[=tagAppendAttributes]{tagAppendAttributes()}}.}
+}
+\value{
+\itemize{
+\item For \code{as_fill()}, \code{as_fillable()}, and \code{as_fill_carrier()}: the \emph{tagified}
+version \code{x}, with relevant tags modified to possess the relevant fill
+properties.
+\item For \code{is_fill()}, \code{is_fillable()}, and \code{is_fill_carrier()}: a logical vector,
+with length matching the number of top-level tags that possess the relevant
+fill properties.
+}
 }
 \description{
-TODO:
-\enumerate{
-\item link to filling layout article.
-\item Add disclaimer about coercing htmlwidget objects
+Filling layouts in bslib are built on the foundation of fillable
+containers and fill items (fill carriers are both fillable and
+fill). This is why most bslib components (e.g., \code{\link[=card]{card()}}, \code{\link[=card_body]{card_body()}},
+\code{\link[=layout_sidebar]{layout_sidebar()}}) possess both \code{fillable} and \code{fill} arguments (to control
+their fill behavior). However, sometimes it's useful to add, remove, and/or
+test fillable/fill properties on arbitrary \code{\link[htmltools:builder]{htmltools::tag()}}, which these
+functions are designed to do.
 }
+\details{
+Although \code{as_fill()}, \code{as_fillable()}, and \code{as_fill_carrier()}
+can work with non-tag objects that have a \link{as.tags} method (e.g., htmlwidgets),
+they return the "tagified" version of that object
+}
+\references{
+\url{https://rstudio.github.io/bslib/articles/filling.html}
 }
