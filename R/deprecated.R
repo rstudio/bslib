@@ -141,63 +141,62 @@ page_fill <- function(...) {
 }
 
 #  Legacy Nav Containers --------------------------------------------------
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [nav_panel()].
 #' @export
 nav <- function(...) {
   .Deprecated("nav_panel", old = "nav")
   nav_panel(...)
 }
 
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [nav_panel_hidden()].
 #' @export
 nav_content <- function(...) {
   .Deprecated("nav_panel_hidden", old = "nav_content")
   nav_panel_hidden(...)
 }
 
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [navset_tab()].
 #' @export
 navs_tab <- function(...) {
   .Deprecated("navset_tab", old = "navs_tab")
   navset_tab(...)
 }
 
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [navset_pill()].
 #' @export
 navs_pill <- function(...) {
   .Deprecated("navset_pill", old = "navs_pill")
   navset_pill(...)
 }
 
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [navset_pill_list()].
 #' @export
 navs_pill_list <- function(...) {
   .Deprecated("navset_pill_list", old = "navs_pill_list")
   navset_pill_list(...)
 }
 
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [navset_hidden()].
 #' @export
 navs_hidden <- function(...) {
   .Deprecated("navset_hidden", old = "navs_hidden")
   navset_hidden(...)
 }
 
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [navset_bar()].
 #' @export
 navs_bar <- function(...) {
   .Deprecated("navset_bar", old = "navs_bar")
   navset_bar(...)
 }
-
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [navset_card_tab()].
 #' @export
 navs_tab_card <- function(...) {
   .Deprecated("navset_card_tab", old = "navs_tab_card")
   navset_card_tab(...)
 }
 
-#' @rdname deprecated
+#' @describeIn deprecated Deprecated in v0.5.0, use [navset_card_pill()].
 #' @export
 navs_pill_card <- function(...) {
   .Deprecated("navset_card_pill", old = "navs_pill_card")

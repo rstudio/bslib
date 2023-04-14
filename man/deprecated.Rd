@@ -81,4 +81,25 @@ a \code{\link[=bs_theme]{bs_theme()}} object.
 \description{
 These functions have been deprecated but remain for backwards compatibility.
 }
+\section{Functions}{
+\itemize{
+\item \code{nav()}: Deprecated in v0.5.0, use \code{\link[=nav_panel]{nav_panel()}}.
+
+\item \code{nav_content()}: Deprecated in v0.5.0, use \code{\link[=nav_panel_hidden]{nav_panel_hidden()}}.
+
+\item \code{navs_tab()}: Deprecated in v0.5.0, use \code{\link[=navset_tab]{navset_tab()}}.
+
+\item \code{navs_pill()}: Deprecated in v0.5.0, use \code{\link[=navset_pill]{navset_pill()}}.
+
+\item \code{navs_pill_list()}: Deprecated in v0.5.0, use \code{\link[=navset_pill_list]{navset_pill_list()}}.
+
+\item \code{navs_hidden()}: Deprecated in v0.5.0, use \code{\link[=navset_hidden]{navset_hidden()}}.
+
+\item \code{navs_bar()}: Deprecated in v0.5.0, use \code{\link[=navset_bar]{navset_bar()}}.
+
+\item \code{navs_tab_card()}: Deprecated in v0.5.0, use \code{\link[=navset_card_tab]{navset_card_tab()}}.
+
+\item \code{navs_pill_card()}: Deprecated in v0.5.0, use \code{\link[=navset_card_pill]{navset_card_pill()}}.
+
+}}
 \keyword{internal}
