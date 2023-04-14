@@ -120,11 +120,11 @@ class BslibSidebar {
     return { container: el, main, sidebar, toggle, isClosed };
   }
 
-  public static toggleCollapse(el: HTMLElement, method?: SidebarMethod) {
+  public static toggleCollapse(el: HTMLElement, method: SidebarMethod | null) {
     const { container, main, sidebar, isClosed } =
       BslibSidebar.sidebarComponents(el);
 
-    if (typeof method === "undefined") {
+    if (method === null) {
       method = isClosed ? "open" : "close";
     }
 
@@ -197,7 +197,7 @@ $(document).on(
   `.${BslibSidebar.LAYOUT_CLASS} > .collapse-toggle`,
   (e) => {
     e.preventDefault();
-    BslibSidebar.toggleCollapse(e.target);
+    BslibSidebar.toggleCollapse(e.target, null);
   }
 );
 
