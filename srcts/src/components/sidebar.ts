@@ -193,9 +193,7 @@ class SidebarInputBinding extends InputBinding {
   }
 
   receiveMessage(el: HTMLElement, data: MessageData) {
-    const method = data.method;
-    const $container = $(el).parent();
-    BslibSidebar.toggleCollapse($container[0], method);
+    BslibSidebar.toggleCollapse(el, data.method);
   }
 }
 
