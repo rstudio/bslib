@@ -151,6 +151,15 @@ class BslibSidebar {
     container.classList.add("transitioning");
     container.classList.toggle(BslibSidebar.COLLAPSE_CLASS);
   }
+
+  public static finalizeState(el: HTMLElement): HTMLElement {
+    const { container, sidebar, toggle, isClosed } =
+      BslibSidebar.sidebarComponents(el);
+    container.classList.remove("transitioning");
+    sidebar.hidden = isClosed;
+    toggle.ariaExpanded = isClosed ? "false" : "true";
+    return sidebar;
+  }
 }
 
 class SidebarInputBinding extends InputBinding {
@@ -207,11 +216,7 @@ $(document).on(
   "transitionend",
   ".bslib-sidebar-layout > .collapse-toggle > .collapse-icon",
   (e) => {
-    const { container, sidebar, toggle, isClosed } =
-      BslibSidebar.sidebarComponents(e.target);
-    container.classList.remove("transitioning");
-    sidebar.hidden = isClosed;
-    toggle.ariaExpanded = isClosed ? "false" : "true";
+    const sidebar = BslibSidebar.finalizeState(e.target);
     $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
   }
 );
