@@ -18,7 +18,7 @@ type SidebarComponents = {
   isClosed: boolean;
 };
 
-class BslibSidebar {
+class Sidebar {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   public static readonly COLLAPSE_CLASS = "sidebar-collapsed";
 
@@ -26,16 +26,16 @@ class BslibSidebar {
   public static readonly LAYOUT_CLASS = "bslib-sidebar-layout";
 
   public static initSidebar(el: HTMLElement): void {
-    const container = BslibSidebar._findLayoutContainer(el);
+    const container = Sidebar._findLayoutContainer(el);
     // remove script with onload attribute to signal initialization happened
     container.removeChild(el);
 
     const childLayouts = container.getElementsByClassName(
-      BslibSidebar.LAYOUT_CLASS
+      Sidebar.LAYOUT_CLASS
     );
 
     if (childLayouts.length > 0) {
-      BslibSidebar._initAutoCollapse(container);
+      Sidebar._initAutoCollapse(container);
       return;
     }
 
@@ -50,7 +50,7 @@ class BslibSidebar {
         // .bslib-sidebar-layout > .main > .bslib-sidedbar-layout
         el = el.parentElement;
       }
-      if (el && el.classList.contains(BslibSidebar.LAYOUT_CLASS)) {
+      if (el && el.classList.contains(Sidebar.LAYOUT_CLASS)) {
         return el;
       }
       return null;
@@ -76,7 +76,7 @@ class BslibSidebar {
       );
     });
 
-    BslibSidebar._initAutoCollapse(container);
+    Sidebar._initAutoCollapse(container);
   }
 
   private static _initAutoCollapse(container: HTMLElement): void {
@@ -89,25 +89,25 @@ class BslibSidebar {
       .getComputedStyle(container)
       .getPropertyValue("--bslib-sidebar-js-init-collapsed");
     if (initCollapsed === "true") {
-      BslibSidebar.toggleCollapse(container, "close");
+      Sidebar.toggleCollapse(container, "close");
     }
   }
 
   private static _findLayoutContainer(el: HTMLElement): HTMLElement {
-    if (el.classList.contains(BslibSidebar.LAYOUT_CLASS)) {
+    if (el.classList.contains(Sidebar.LAYOUT_CLASS)) {
       return el;
     }
-    const container = el.closest(`.${BslibSidebar.LAYOUT_CLASS}`);
+    const container = el.closest(`.${Sidebar.LAYOUT_CLASS}`);
     if (!container) {
       throw new Error(
-        `Expected container or direct ancestor with class ${BslibSidebar.LAYOUT_CLASS}`
+        `Expected container or direct ancestor with class ${Sidebar.LAYOUT_CLASS}`
       );
     }
     return container as HTMLElement;
   }
 
   public static sidebarComponents(el: HTMLElement): SidebarComponents {
-    el = BslibSidebar._findLayoutContainer(el);
+    el = Sidebar._findLayoutContainer(el);
 
     // sidebar components
     const main = el.querySelector(":scope > .main") as HTMLElement;
@@ -115,14 +115,14 @@ class BslibSidebar {
     const toggle = el.querySelector(":scope > .collapse-toggle") as HTMLElement;
 
     // sidebar state
-    const isClosed = el.classList.contains(BslibSidebar.COLLAPSE_CLASS);
+    const isClosed = el.classList.contains(Sidebar.COLLAPSE_CLASS);
 
     return { container: el, main, sidebar, toggle, isClosed };
   }
 
   public static toggleCollapse(el: HTMLElement, method: SidebarMethod | null) {
     const { container, main, sidebar, isClosed } =
-      BslibSidebar.sidebarComponents(el);
+      Sidebar.sidebarComponents(el);
 
     if (method === null) {
       method = isClosed ? "open" : "close";
@@ -149,12 +149,12 @@ class BslibSidebar {
     // Add a transitioning class just before adding COLLAPSE_CLASS since we want
     // some of the transitioning styles to apply before the collapse state
     container.classList.add("transitioning");
-    container.classList.toggle(BslibSidebar.COLLAPSE_CLASS);
+    container.classList.toggle(Sidebar.COLLAPSE_CLASS);
   }
 
   public static finalizeState(el: HTMLElement): HTMLElement {
     const { container, sidebar, toggle, isClosed } =
-      BslibSidebar.sidebarComponents(el);
+      Sidebar.sidebarComponents(el);
     container.classList.remove("transitioning");
     sidebar.hidden = isClosed;
     toggle.ariaExpanded = isClosed ? "false" : "true";
@@ -165,12 +165,12 @@ class BslibSidebar {
 class SidebarInputBinding extends InputBinding {
   find(scope: HTMLElement) {
     return $(scope).find(
-      `.${BslibSidebar.LAYOUT_CLASS} > .bslib-sidebar-input`
+      `.${Sidebar.LAYOUT_CLASS} > .bslib-sidebar-input`
     );
   }
 
   getValue(el: HTMLElement): boolean {
-    return !$(el).parent().hasClass(BslibSidebar.COLLAPSE_CLASS);
+    return !$(el).parent().hasClass(Sidebar.COLLAPSE_CLASS);
   }
 
   setValue(el: HTMLElement, value: boolean): void {
@@ -193,7 +193,7 @@ class SidebarInputBinding extends InputBinding {
   }
 
   receiveMessage(el: HTMLElement, data: MessageData) {
-    BslibSidebar.toggleCollapse(el, data.method);
+    Sidebar.toggleCollapse(el, data.method);
   }
 }
 
@@ -201,10 +201,10 @@ registerBinding(SidebarInputBinding, "sidebar");
 
 $(document).on(
   "click",
-  `.${BslibSidebar.LAYOUT_CLASS} > .collapse-toggle`,
+  `.${Sidebar.LAYOUT_CLASS} > .collapse-toggle`,
   (e) => {
     e.preventDefault();
-    BslibSidebar.toggleCollapse(e.target, null);
+    Sidebar.toggleCollapse(e.target, null);
   }
 );
 
@@ -214,10 +214,11 @@ $(document).on(
   "transitionend",
   ".bslib-sidebar-layout > .collapse-toggle > .collapse-icon",
   (e) => {
-    const sidebar = BslibSidebar.finalizeState(e.target);
+    const sidebar = Sidebar.finalizeState(e.target);
     $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
   }
 );
 
-// attach BslibSidebar class to window for global usage
-(window as any).BslibSidebar = BslibSidebar;
+// attach Sidebar class to window for global usage
+(window as any).bslib = (window as any).bslib || {};
+(window as any).bslib.Sidebar = Sidebar;
