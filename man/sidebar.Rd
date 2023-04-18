@@ -69,7 +69,8 @@ you'll likely want to give this element \code{class = "sidebar-title"}.}
 provided, an accessible contrasting color is provided for the opposite
 color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
 
-\item{class}{Additional CSS classes for the top-level HTML element.}
+\item{class}{CSS classes for the sidebar container element, in addition to
+the fixed \code{.sidebar} class.}
 
 \item{max_height_mobile}{The maximum height of the horizontal sidebar when
 viewed on mobile devices. The default is \verb{250px} unless the sidebar is

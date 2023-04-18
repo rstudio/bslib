@@ -26,6 +26,8 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 * `page_fillable()` (aka, `page_fill()`) is now considered a `fillable` container, meaning that `fill` items like `card()`, `layout_column_wrap()`, and `layout_sidebar()` now grow/shrink to fit the window's height when they appear as a direct child of `page_fillable()`. (#479)
 * `page_navbar()` and `page_fillable()` gain `fill_mobile` arguments to control whether the page should grow/shrink to fit the viewport on mobile. (#479)
 * `card()`, `value_box()`, and `card_image()` gain `max_height` and `fill` arguments. (#498)
+* Added new `as_fill()`, `as_fillable()`, `as_fill_carrier()`, `is_fill()`, and `is_fillable()` for testing and coercing potential to fill. (#498)
+
 
 ## Deprecations
 
@@ -51,7 +53,7 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 
   * https://rstudio.github.io/bslib/articles/cards.html 
   * https://rstudio.github.io/bslib/articles/value-boxes.html 
-  * https://rstudio.github.io/bslib/articles/layouts.html 
+  * https://rstudio.github.io/bslib/articles/column-layout.html
 
 # bslib 0.4.1
 
