@@ -105,7 +105,7 @@ card(
 ::: col-md-6
 By default, a `card()`'s size grows to accommodate the size of it's contents. Thus, if a `card_body()` contains a large amount of text, tables, etc., you may want to specify a `height` or `max_height`. That said, when laying out [multiple cards](#multiple-cards), it's likely best not to specify height on the `card()`, and instead, let the layout determine the height `layout_column_wrap()`.
 
-Although scrolling is convenient for reducing the amount of space required to park lots of content, it can also be a nuisance to the user. To help reduce the need for scrolling, consider pairing scrolling with `full_screen = TRUE` (which adds an icon to expand the card's size to the browser window). Notice how, when the card is expanded to full-screen, `max_height`/`height` won't effect the full-screen size of the card. 
+Although scrolling is convenient for reducing the amount of space required to park lots of content, it can also be a nuisance to the user. To help reduce the need for scrolling, consider pairing scrolling with `full_screen = TRUE` (which adds an icon to expand the card's size to the browser window). Notice how, when the card is expanded to full-screen, `max_height`/`height` won't effect the full-screen size of the card.
 :::
 
 ::: col-md-6
@@ -133,7 +133,7 @@ A `card()`'s default behavior is optimized for facilitating [filling layouts](fi
 ::: col-md-6
 ```{r}
 card(
-  height = 250, 
+  height = 250,
   full_screen = TRUE,
   card_header("A filling plot"),
   card_body(plotly_widget)
@@ -151,12 +151,12 @@ Most htmlwidgets (e.g., plotly, leaflet, etc) and some other Shiny output bindin
 ::: col-md-6
 ```{r}
 card(
-  height = 275, 
+  height = 275,
   full_screen = TRUE,
   card_header("A filling map"),
   card_body(
     class = "p-0",
-    leaflet_widget 
+    leaflet_widget
   ),
   card_footer(
     class = "fs-6",
@@ -170,7 +170,7 @@ card(
 
 ::: {.row .mt-5}
 ::: col-md-6
-**Fill item**(s) aren't limited in how much they grow and shrink, which can be problematic when a card becomes very small. To work around this, consider adding a `min_height` on the `card_body()` container. For example, try using the handle on the lower-right portion of this card example to make the card taller/smaller. 
+**Fill item**(s) aren't limited in how much they grow and shrink, which can be problematic when a card becomes very small. To work around this, consider adding a `min_height` on the `card_body()` container. For example, try using the handle on the lower-right portion of this card example to make the card taller/smaller.
 
 This interactive example is a bit contrived in that we're using [CSS resize](https://developer.mozilla.org/en-US/docs/Web/CSS/resize) to demonstrate how to make plots that don't shrink beyond a certain point, but this concept becomes quite useful when implementing page-level [filling layouts](filling.html) (i.e., `page_fillable()`) with [multiple cards](#multiple-cards).
 :::
@@ -211,7 +211,7 @@ For example, when pairing filling output with scrolling content, you may want `m
 ::: col-md-6
 ```{r multi-card-body, eval = FALSE}
 card(
-  height = 375, 
+  height = 375,
   full_screen = TRUE,
   card_header(
     "Filling plot, scrolling description"
@@ -242,7 +242,7 @@ Also, when the content has a fixed size, and should not be allowed to scroll, se
 ::: col-md-6
 ```{r multi-card-body-2, eval = FALSE}
 card(
-  height = 350, 
+  height = 350,
   full_screen = TRUE,
   card_header(
     "Filling plot, short description"
@@ -271,7 +271,7 @@ As you'll learn in [column-based layouts](column-layout.html), `layout_column_wr
 ::: col-md-6
 ```{r multi-cols, eval = FALSE}
 card(
-  height = 350, 
+  height = 350,
   full_screen = TRUE,
   card_header("A multi-column filling layout"),
   card_body(
@@ -310,27 +310,27 @@ layout_column_wrap(
 
 ## Multiple tabs
 
-`navs_tab_card()` and `navs_pill_card()` make it possible to create cards with multiple tabs or pills. These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, each `nav()` object is similar to a `card()`. That is, if the direct children aren't already card items (e.g., `card_title()`), they get [implicitly wrapped](#implicit-card_body) in a `card_body()`.
+`navset_card_tab()` and `navset_card_pill()` make it possible to create cards with multiple tabs or pills. These functions have the same `full_screen` capabilities as normal `card()`s as well some other options like `title` (since there is no natural place for a `card_header()` to be used). Note that, each `nav_panel()` object is similar to a `card()`. That is, if the direct children aren't already card items (e.g., `card_title()`), they get [implicitly wrapped](#implicit-card_body) in a `card_body()`.
 
 ::: {.row .mt-3}
 ::: col-md-6
 ```{r multiple-tabs, eval=FALSE}
 library(leaflet)
-navs_tab_card(
+navset_card_tab(
   height = 450,
   full_screen = TRUE,
   title = "HTML Widgets",
-  nav(
-    "Plotly", 
+  nav_panel(
+    "Plotly",
     card_title("A plotly plot"),
     plotly_widget
   ),
-  nav(
+  nav_panel(
     "Leaflet",
     card_title("A leaflet plot"),
     leaflet_widget
   ),
-  nav(
+  nav_panel(
     shiny::icon("circle-info"),
     markdown("Learn more about [htmlwidgets](http://www.htmlwidgets.org/)")
   )
@@ -353,7 +353,7 @@ As you'll learn more about in [sidebar layouts](sidebars.html), `layout_sidebar(
 
 ```{r}
 card(
-  height = 300, 
+  height = 300,
   full_screen = TRUE,
   card_header("A sidebar layout inside a card"),
   layout_sidebar(
@@ -374,7 +374,7 @@ card(
 ::: col-md-6
 ```{r static-images, eval = FALSE}
 card(
-  height = 300, 
+  height = 300,
   full_screen = TRUE,
   card_image(
     file = "shiny-hex.svg",
@@ -384,7 +384,7 @@ card(
     fill = FALSE,
     card_title("Shiny for R"),
     p(
-      class = "fw-light text-muted", 
+      class = "fw-light text-muted",
       "Brought to you by RStudio."
     )
   )
@@ -431,18 +431,18 @@ card(
 
 ::: {.row .mt-3}
 
-That said, sometimes working in a flexbox layout is quite useful, even when working with inline tags. Here we leverage flexbox's [`gap`](https://developer.mozilla.org/en-US/docs/Web/CSS/gap) property to control the spacing between a plot, a (full-width) button, and paragraph. Note that, by using `markdown()` for the paragraph, it wraps the results in a `<p>` tag, which means the _contents_ of the paragraph are not longer subject to flexbox layout. If we wanted, we could do something similar to render the `actionButton()` inline by wrapping it in a `div()`. 
+That said, sometimes working in a flexbox layout is quite useful, even when working with inline tags. Here we leverage flexbox's [`gap`](https://developer.mozilla.org/en-US/docs/Web/CSS/gap) property to control the spacing between a plot, a (full-width) button, and paragraph. Note that, by using `markdown()` for the paragraph, it wraps the results in a `<p>` tag, which means the _contents_ of the paragraph are not longer subject to flexbox layout. If we wanted, we could do something similar to render the `actionButton()` inline by wrapping it in a `div()`.
 
 ::: col-md-6
 ```{r flexbox2, eval=FALSE}
 card(
-  height = 325, full_screen = TRUE, 
+  height = 325, full_screen = TRUE,
   card_header("A plot with an action links"),
   card_body(
     class = "gap-2 container",
     plotly_widget,
     actionButton(
-      "go_btn", "Action button", 
+      "go_btn", "Action button",
       class = "btn-primary rounded-0"
     ),
     markdown("Here's a _simple_ [hyperlink](https://www.google.com/).")

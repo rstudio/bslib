@@ -126,7 +126,7 @@ describe_layout_function(
     layout_sidebar(
       sidebar = sidebar("Sidebar", width = "33%", class = "bg-light"),
       "Main contents"
-    ) |> 
+    ) |>
       tagAppendAttributes(class = "border rounded-top")
   )
 )
@@ -219,7 +219,7 @@ describe_layout_function(
 
 ### Multi-page layout
 
-For a multi-page (or multi-tab) layout, pass a `sidebar()` to the `sidebar` argument of `page_navbar()` (or `navs_tab_card()`). In this case, we get a sidebar that not only fills the page, but also _remains visible on every page/tab_. Later on, we'll explore how to [put sidebar layouts inside of particular pages](#multi-page-example); but also keep in mind, if it's desirable to have a sidebar on every page, it often helps to [hide/show sidebar contents on certain pages](#conditional-contents) via `conditionalPanel()`.
+For a multi-page (or multi-tab) layout, pass a `sidebar()` to the `sidebar` argument of `page_navbar()` (or `navset_card_tab()`). In this case, we get a sidebar that not only fills the page, but also _remains visible on every page/tab_. Later on, we'll explore how to [put sidebar layouts inside of particular pages](#multi-page-example); but also keep in mind, if it's desirable to have a sidebar on every page, it often helps to [hide/show sidebar contents on certain pages](#conditional-contents) via `conditionalPanel()`.
 
 ::: {.col-sm-12 .col-lg-6}
 
@@ -228,8 +228,8 @@ For a multi-page (or multi-tab) layout, pass a `sidebar()` to the `sidebar` argu
 ```r
 page_navbar(
   sidebar = sidebar("Sidebar"),
-  nav("Page 1", "Page 1 content"),
-  nav("Page 2", "Page 2 content")
+  nav_panel("Page 1", "Page 1 content"),
+  nav_panel("Page 2", "Page 2 content")
 )
 ```
 </details>
@@ -242,14 +242,14 @@ describe_layout_function(
     class = "p-0",
     height = 200,
     id = "page_navbar_example_card",
-    navs_bar(
+    navset_bar(
       collapsible = FALSE,
       sidebar = sidebar("Shared sidebar", width = "33%", class = "bg-light"),
-      nav("Page 1", "Page 1 content"),
-      nav("Page 2", "Page 2 content")
+      nav_panel("Page 1", "Page 1 content"),
+      nav_panel("Page 2", "Page 2 content")
     ),
     tags$script(HTML("$(document).ready(function() {
-      // pkgdown activates headroom on the navs_bar() container and ends up
+      // pkgdown activates headroom on the navset_bar() container and ends up
       // auto-hiding our navbar, so this destroys the unwanted headroom instance
       var demo_nav = $('#page_navbar_example_card nav.navbar');
       setTimeout(function() {
@@ -269,26 +269,26 @@ describe_layout_function(
 <details>
 <summary>Show code</summary>
 ```r
-navs_tab_card(
+navset_card_tab(
   sidebar = sidebar("Sidebar"),
-  nav("Tab 1", "Tab 1 content"),
-  nav("Tab 2", "Tab 2 content")
+  nav_panel("Tab 1", "Tab 1 content"),
+  nav_panel("Tab 2", "Tab 2 content")
 )
 ```
 </details>
 
 ```{r preview-navs-tab-card, echo = FALSE}
 describe_layout_function(
-  "navs_tab_card()",
+  "navset_card_tab()",
   "A sidebar shared across multiple tabs.",
   card_body(
     class = "p-2",
     height = 200,
-    navs_tab_card(
+    navset_card_tab(
       title = "Tab Card",
       sidebar = sidebar("Shared sidebar", width = "33%", class = "bg-light"),
-      nav("Tab 1", "Tab 1 content"),
-      nav("Tab 2", "Tab 2 content")
+      nav_panel("Tab 1", "Tab 1 content"),
+      nav_panel("Tab 2", "Tab 2 content")
     )
   )
 )
@@ -299,7 +299,7 @@ describe_layout_function(
 
 ## A real example
 
-Now that we've enumerated bslib's sidebar layout options, lets use some real data[^real-data] to create some real inputs and outputs, and explore some additional features of sidebar layouts. 
+Now that we've enumerated bslib's sidebar layout options, lets use some real data[^real-data] to create some real inputs and outputs, and explore some additional features of sidebar layouts.
 
 In a Shiny app[^shiny-id], you'll probably want to use inputs like `selectInput()`, `sliderInput()`, etc., in the sidebar, but because you're reading this article in a static website, we'll use [crosstalk](https://rstudio.github.io/crosstalk/) input widgets.
 
@@ -312,6 +312,7 @@ Throughout this section, we'll make repeated use of the following widgets from `
 
 <details>
 <summary>Show code</summary>
+
 ```{r}
 library(bslib)
 library(shiny)
@@ -343,8 +344,8 @@ map_filter <- filter_slider("mag", "Magnitude", quake_dat, ~mag)
 map_quakes <- leaflet(quake_dat) |>
   addTiles() |>
   addCircleMarkers()
-
 ```
+
 </details>
 
 ### Fillable contents
@@ -393,7 +394,7 @@ To learn more about how fillable containers and fill items work, see the article
 
 As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `page_navbar()` puts a sidebar _on each page_ that fills the window. However, sometimes it's better that only particular pages have such a sidebar layout. In this case, you can provide a `layout_sidebar()` as a "root" element of a particular page, then use `page_navbar()`'s `fillable` argument to make that element fill the window.
 
-For example, let's put the same `diamonds_view` sidebar layout on it's own filled page (via `fillable = "Diamonds"`), and leverage a [floating layout](#floating-layout) for a view of the `quakes` data. The floating layout provides a more flexible way to group input controls next the outputs that they effect, which would be especially important if we had multiple output groups on the "Earthquakes" page. 
+For example, let's put the same `diamonds_view` sidebar layout on it's own filled page (via `fillable = "Diamonds"`), and leverage a [floating layout](#floating-layout) for a view of the `quakes` data. The floating layout provides a more flexible way to group input controls next the outputs that they effect, which would be especially important if we had multiple output groups on the "Earthquakes" page.
 
 ```{r, as_iframe = TRUE, resizable = TRUE}
 quakes_view <- card(
@@ -408,8 +409,8 @@ quakes_view <- card(
 page_navbar(
   title = "Sidebar demo",
   fillable = "Diamonds",
-  nav("Diamonds", diamonds_view),
-  nav("Earthquakes", quakes_view)
+  nav_panel("Diamonds", diamonds_view),
+  nav_panel("Earthquakes", quakes_view)
 )
 ```
 
@@ -427,7 +428,7 @@ You might have noticed other UI elements like `layout_sidebar()`, `card_body()`,
 ::: {.callout .callout-note}
 <h3 data-toc-skip>Multi-tab, multi-layout</h3>
 
-As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `navs_tab_card()` puts a sidebar inside every tab of a multi-tab card. However, just like how we can provide a `layout_sidebar()` to a particular page (as shown above), the same can be done with `navs_tab_card()`.
+As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `navset_card_tab()` puts a sidebar inside every tab of a multi-tab card. However, just like how we can provide a `layout_sidebar()` to a particular page (as shown above), the same can be done with `navset_card_tab()`.
 :::
 :::
 ::::
@@ -452,7 +453,7 @@ page_fixed(
 )
 ```
 
-Although we don't show it here, do keep in mind that setting `fillable=TRUE` in `layout_sidebar()` would allow the fill items (i.e., `plots`) to shrink/grow to fit the `card()` containers specified size. 
+Although we don't show it here, do keep in mind that setting `fillable=TRUE` in `layout_sidebar()` would allow the fill items (i.e., `plots`) to shrink/grow to fit the `card()` containers specified size.
 
 
 ## Shiny
@@ -461,7 +462,7 @@ Although sidebars work just fine outside Shiny, using them in Shiny provides a f
 
 ### Conditional contents
 
-Sometimes in a multiple page/tab setting, it's useful to have a sidebar on every page/tab, but changes it's contents based on which page/tab is active.[^4] Thanks to `conditionalPanel()`, this can be done fairly easily in a Shiny app with `page_navbar()` (or in `navs_tab_card()`/`navs_tab_pill()`). The trick is to provide an `id` to the `page_navbar()` and then reference that `id` in the `conditionalPanel()`:
+Sometimes in a multiple page/tab setting, it's useful to have a sidebar on every page/tab, but changes it's contents based on which page/tab is active.[^4] Thanks to `conditionalPanel()`, this can be done fairly easily in a Shiny app with `page_navbar()` (or in `navset_card_tab()`/`navs_tab_pill()`). The trick is to provide an `id` to the `page_navbar()` and then reference that `id` in the `conditionalPanel()`:
 
 [^4]: If the controls depend on some other application state, you'll need to use `uiOutput()` to fill the contents of a `sidebar()`).
 
@@ -482,8 +483,8 @@ shinyApp(
         "Page 2 sidebar"
       )
     ),
-    nav("Page 1", "Page 1 contents"),
-    nav("Page 2", "Page 2 contents")
+    nav_panel("Page 1", "Page 1 contents"),
+    nav_panel("Page 2", "Page 2 contents")
   ),
   server = function(...) {
     # no server logic required
@@ -507,8 +508,8 @@ page_navbar(
       "Page 2 sidebar"
     )
   ),
-  nav("Page 1", "Page 1 contents"),
-  nav("Page 2", "Page 2 contents"),
+  nav_panel("Page 1", "Page 1 contents"),
+  nav_panel("Page 2", "Page 2 contents"),
   footer = htmltools::tags$script(htmltools::HTML("
 $('.sidebar > :last').hide();
 
@@ -544,12 +545,12 @@ ui <- page_navbar(
   title = "Sidebar updates",
   id = "nav",
   sidebar = sidebar(
-    id = "sidebar", 
-    open = FALSE, 
+    id = "sidebar",
+    open = FALSE,
     "Sidebar"
   ),
-  nav("Page 1", "Go to Page 2 (to open)"),
-  nav("Page 2", "Go to Page 1 (to close)"),
+  nav_panel("Page 1", "Go to Page 2 (to open)"),
+  nav_panel("Page 2", "Go to Page 1 (to close)"),
 )
 
 server <- function(input, output) {
@@ -573,8 +574,8 @@ page_navbar(
   id = "nav",
   collapsible = FALSE,
   sidebar = sidebar(id = "sidebar", open = FALSE, "Sidebar"),
-  nav("Page 1", "Go to Page 2 (to open)"),
-  nav("Page 2", "Go to Page 1 (to close)"),
+  nav_panel("Page 1", "Go to Page 2 (to open)"),
+  nav_panel("Page 2", "Go to Page 1 (to close)"),
   footer = htmltools::tags$script(htmltools::HTML("
 $('#nav').on('shown.bs.tab', function(ev) {
   const page = ev.target.dataset.value;
@@ -650,7 +651,7 @@ page_fillable(
 ## Styling and customization
 
 In the above sections we've focused primarily on the variety of interface layouts where sidebars can be used.
-Along the way, we've touched on a few of the named arguments of `sidebar()` and `layout_sidebar()` that are helpful for customizing the styling and behavior of both the sidebar and main content areas. 
+Along the way, we've touched on a few of the named arguments of `sidebar()` and `layout_sidebar()` that are helpful for customizing the styling and behavior of both the sidebar and main content areas.
 However, there are a handful of other arguments to further customize the look and feel if the sidebar layout.
 
 Both `sidebar()` and `layout_sidebar()` allow for a specific background color (via `bg`), which is applied to the sidebar area and main content area respectively.
