@@ -13,8 +13,9 @@
 #' @param footer UI element(s) ([tags]) to display _below_ the nav content.
 #'
 #' @seealso [nav_panel()], [nav_select()].
+#' @rdname navset
+#' @name navset
 #' @export
-#' @rdname navs
 navset_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
   tabs <- tabsetPanel_(
@@ -25,7 +26,7 @@ navset_tab <- function(..., id = NULL, selected = NULL,
 }
 
 #' @export
-#' @rdname navs
+#' @rdname navset
 navset_pill <- function(..., id = NULL, selected = NULL,
                       header = NULL, footer = NULL) {
   pills <- tabsetPanel_(
@@ -37,7 +38,7 @@ navset_pill <- function(..., id = NULL, selected = NULL,
 
 #' @export
 #' @inheritParams shiny::navlistPanel
-#' @rdname navs
+#' @rdname navset
 navset_pill_list <- function(..., id = NULL, selected = NULL,
                            header = NULL, footer = NULL,
                            well = TRUE, fluid = TRUE,
@@ -52,7 +53,7 @@ navset_pill_list <- function(..., id = NULL, selected = NULL,
 }
 
 #' @export
-#' @rdname navs
+#' @rdname navset
 navset_hidden <- function(..., id = NULL, selected = NULL,
                         header = NULL, footer = NULL) {
   hidden <- tabsetPanel_(
@@ -74,7 +75,7 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 #' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
 #' @export
-#' @rdname navs
+#' @rdname navset
 navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
                      sidebar = NULL, fillable = FALSE,
                      # TODO: add sticky-top as well?

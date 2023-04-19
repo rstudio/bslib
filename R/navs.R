@@ -4,7 +4,7 @@
 #' @param title A (left-aligned) title to place in the card header/footer. If
 #'   provided, other nav items are automatically right aligned.
 #' @include navs-legacy.R
-#' @rdname navs
+#' @rdname navset
 navset_card_tab <- function(..., id = NULL, selected = NULL, title = NULL,
                           sidebar = NULL, header = NULL, footer = NULL,
                           height = NULL, full_screen = FALSE, wrapper = card_body) {
@@ -35,7 +35,7 @@ navset_card_tab <- function(..., id = NULL, selected = NULL, title = NULL,
 
 #' @export
 #' @param placement placement of the nav items relative to the content.
-#' @rdname navs
+#' @rdname navset
 navset_card_pill <- function(..., id = NULL, selected = NULL, title = NULL,
                            sidebar = NULL, header = NULL, footer = NULL,
                            height = NULL, placement = c("above", "below"),

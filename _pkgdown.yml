@@ -103,7 +103,7 @@ reference:
     Create (tabbed) sections of content.
   contents:
     - nav
-    - navs_tab
+    - navset
     - nav_select
 - title: Layout multiple UI elements
   description: |
