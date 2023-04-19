@@ -155,66 +155,90 @@ page_fill <- function(...) {
 }
 
 #  Legacy Nav Containers --------------------------------------------------
+deprecate_if_not_called_from_shiny <- function(old_name, new, version) {
+  new_name <- deparse(substitute(new))
+
+  function(...) {
+    caller_fn_env <- environment(rlang::caller_fn())
+    if (!identical(rlang::env_name(caller_fn_env), "namespace:shiny")) {
+      msg <- sprintf(
+        "`%s()` was deprecated in {bslib} version %s, use `%s()` instead.",
+        old_name, version, new_name
+      )
+      .Deprecated(msg = msg)
+    }
+    new(...)
+  }
+}
 #' @rdname deprecated
 #' @aliases NULL
 #' @export
-nav <- function(...) {
-  .Deprecated("nav_panel", old = "nav")
-  nav_panel(...)
-}
+nav <- deprecate_if_not_called_from_shiny(
+  old_name = "nav",
+  new = nav_panel,
+  version = "0.5.0"
+)
 
 #' @rdname deprecated
 #' @export
-nav_content <- function(...) {
-  .Deprecated("nav_panel_hidden", old = "nav_content")
-  nav_panel_hidden(...)
-}
+nav_content <- deprecate_if_not_called_from_shiny(
+  old_name = "nav_content",
+  new = nav_panel_hidden,
+  version = "0.5.0"
+)
 
 #' @rdname deprecated
 #' @export
-navs_tab <- function(...) {
-  .Deprecated("navset_tab", old = "navs_tab")
-  navset_tab(...)
-}
+navs_tab <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_tab",
+  new = navset_tab,
+  version = "0.5.0"
+)
 
 #' @rdname deprecated
 #' @export
-navs_pill <- function(...) {
-  .Deprecated("navset_pill", old = "navs_pill")
-  navset_pill(...)
-}
+navs_pill <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_pill",
+  new = navset_pill,
+  version = "0.5.0"
+)
 
 #' @rdname deprecated
 #' @export
-navs_pill_list <- function(...) {
-  .Deprecated("navset_pill_list", old = "navs_pill_list")
-  navset_pill_list(...)
-}
+navs_pill_list <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_pill_list",
+  new = navset_pill_list,
+  version = "0.5.0"
+)
 
 #' @rdname deprecated
 #' @export
-navs_hidden <- function(...) {
-  .Deprecated("navset_hidden", old = "navs_hidden")
-  navset_hidden(...)
-}
+navs_hidden <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_hidden",
+  new = navset_hidden,
+  version = "0.5.0"
+)
 
 #' @rdname deprecated
 #' @export
-navs_bar <- function(...) {
-  .Deprecated("navset_bar", old = "navs_bar")
-  navset_bar(...)
-}
+navs_bar <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_bar",
+  new = navset_bar,
+  version = "0.5.0"
+)
 
 #' @rdname deprecated
 #' @export
-navs_tab_card <- function(...) {
-  .Deprecated("navset_card_tab", old = "navs_tab_card")
-  navset_card_tab(...)
-}
+navs_tab_card <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_tab_card",
+  new = navset_card_tab,
+  version = "0.5.0"
+)
 
 #' @rdname deprecated
 #' @export
-navs_pill_card <- function(...) {
-  .Deprecated("navset_card_pill", old = "navs_pill_card")
-  navset_card_pill(...)
-}
+navs_pill_card <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_pill_card",
+  new = navset_card_pill,
+  version = "0.5.0"
+)
