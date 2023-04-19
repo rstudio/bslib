@@ -462,7 +462,7 @@ Although sidebars work just fine outside Shiny, using them in Shiny provides a f
 
 ### Conditional contents
 
-Sometimes in a multiple page/tab setting, it's useful to have a sidebar on every page/tab, but changes it's contents based on which page/tab is active.[^4] Thanks to `conditionalPanel()`, this can be done fairly easily in a Shiny app with `page_navbar()` (or in `navset_card_tab()`/`navs_tab_pill()`). The trick is to provide an `id` to the `page_navbar()` and then reference that `id` in the `conditionalPanel()`:
+Sometimes in a multiple page/tab setting, it's useful to have a sidebar on every page/tab, but changes it's contents based on which page/tab is active.[^4] Thanks to `conditionalPanel()`, this can be done fairly easily in a Shiny app with `page_navbar()` (or in `navset_card_tab()`/`navset_tab_pill()`). The trick is to provide an `id` to the `page_navbar()` and then reference that `id` in the `conditionalPanel()`:
 
 [^4]: If the controls depend on some other application state, you'll need to use `uiOutput()` to fill the contents of a `sidebar()`).
 
