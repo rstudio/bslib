@@ -219,8 +219,8 @@ layout_sidebar <- function(
 
 sidebar_js_init <- function() {
   tags$script(
-     "data-bslib-sidebar-init" = NA,
-    "window.bslib.Sidebar.initSidebar(document.currentScript)"
+    "data-bslib-sidebar-init" = NA,
+    "window.bslib.Sidebar.initSidebar(document.querySelector('[data-bslib-sidebar-init]'))"
   )
 }
 

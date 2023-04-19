@@ -30,9 +30,7 @@ class Sidebar {
     // remove script with onload attribute to signal initialization happened
     container.removeChild(el);
 
-    const childLayouts = container.getElementsByClassName(
-      Sidebar.LAYOUT_CLASS
-    );
+    const childLayouts = container.getElementsByClassName(Sidebar.LAYOUT_CLASS);
 
     if (childLayouts.length > 0) {
       Sidebar._initAutoCollapse(container);
@@ -57,12 +55,12 @@ class Sidebar {
     }
 
     const layouts = [container];
-    let parent = nextSidebarParent(el);
+    let parent = nextSidebarParent(container);
 
     while (parent) {
       // Add parent to front of layouts array, so we sort outer -> inner
       layouts.unshift(parent);
-      parent = nextSidebarParent(el);
+      parent = nextSidebarParent(parent);
     }
 
     const count = { left: 0, right: 0 };
@@ -164,9 +162,7 @@ class Sidebar {
 
 class SidebarInputBinding extends InputBinding {
   find(scope: HTMLElement) {
-    return $(scope).find(
-      `.${Sidebar.LAYOUT_CLASS} > .bslib-sidebar-input`
-    );
+    return $(scope).find(`.${Sidebar.LAYOUT_CLASS} > .bslib-sidebar-input`);
   }
 
   getValue(el: HTMLElement): boolean {
@@ -199,14 +195,10 @@ class SidebarInputBinding extends InputBinding {
 
 registerBinding(SidebarInputBinding, "sidebar");
 
-$(document).on(
-  "click",
-  `.${Sidebar.LAYOUT_CLASS} > .collapse-toggle`,
-  (e) => {
-    e.preventDefault();
-    Sidebar.toggleCollapse(e.target, null);
-  }
-);
+$(document).on("click", `.${Sidebar.LAYOUT_CLASS} > .collapse-toggle`, (e) => {
+  e.preventDefault();
+  Sidebar.toggleCollapse(e.target, null);
+});
 
 // Once the collapse transition completes (on the collapse toggle icon, which is
 // always guaranteed to transition), then remove the transitioning class
