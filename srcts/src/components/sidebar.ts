@@ -25,14 +25,16 @@ class Sidebar {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   public static readonly LAYOUT_CLASS = "bslib-sidebar-layout";
 
-  public static initSidebar(el: HTMLElement): void {
-    const container = Sidebar._findLayoutContainer(el);
-    // remove script because we don't want to re-initialize
-    container.removeChild(el);
+  public static initCollapsible(container: HTMLElement): void {
+    // Signal that this layout is initialized by removing the init attribute
+    container.removeAttribute("data-bslib-sidebar-init");
 
     const childLayouts = container.getElementsByClassName(Sidebar.LAYOUT_CLASS);
 
     if (childLayouts.length > 0) {
+      // This layout has children sidebar layouts so we only need to initialize
+      // auto-collapsed state. The innermost layout will handle the CSS
+      // variables for avoiding overlapping collapse toggles.
       Sidebar._initAutoCollapse(container);
       return;
     }
