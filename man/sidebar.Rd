@@ -4,8 +4,6 @@
 \alias{sidebar}
 \alias{layout_sidebar}
 \alias{sidebar_toggle}
-\alias{sidebar_open}
-\alias{sidebar_close}
 \title{Sidebar layouts}
 \usage{
 sidebar(
@@ -35,10 +33,6 @@ layout_sidebar(
 )
 
 sidebar_toggle(id, open = NULL, session = get_current_session())
-
-sidebar_open(id, session = get_current_session())
-
-sidebar_close(id, session = get_current_session())
 }
 \arguments{
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} and named arguments become HTML attributes on
@@ -105,9 +99,6 @@ main content area.}
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
-
-\item{session}{a shiny session object (the default should almost always be
-used).}
 }
 \description{
 Create a collapsing sidebar layout by providing a \code{sidebar()}
@@ -132,9 +123,5 @@ to learn more.
 \itemize{
 \item \code{sidebar_toggle()}: Toggle a \code{sidebar()} state during an active Shiny user
 session.
-
-\item \code{sidebar_open()}: Open a \code{sidebar()} (during an active Shiny user session).
-
-\item \code{sidebar_close()}: Close a \code{sidebar()} (during an active Shiny user session).
 
 }}

@@ -275,26 +275,6 @@ sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-#' @describeIn sidebar Open a `sidebar()` (during an active Shiny user session).
-#' @param session a shiny session object (the default should almost always be
-#'   used).
-#' @export
-sidebar_open <- function(id, session = get_current_session()) {
-  callback <- function() {
-    session$sendInputMessage(id, list(method = "open"))
-  }
-  session$onFlush(callback, once = TRUE)
-}
-
-#' @describeIn sidebar Close a `sidebar()` (during an active Shiny user session).
-#' @export
-sidebar_close <- function(id, session = get_current_session()) {
-  callback <- function() {
-    session$sendInputMessage(id, list(method = "close"))
-  }
-  session$onFlush(callback, once = TRUE)
-}
-
 collapse_icon <- function() {
   if (!is_installed("bsicons")) {
     icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-chevron-down collapse-icon\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z\"></path></svg>"
