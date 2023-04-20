@@ -548,17 +548,16 @@ ui <- page_navbar(
     open = FALSE, 
     "Sidebar"
   ),
-  nav("Page 1", "Go to Page 2 (to open)"),
-  nav("Page 2", "Go to Page 1 (to close)"),
+  nav("Page 1", "Sidebar closed. Go to Page 2 to open."),
+  nav("Page 2", "Sidebar open. Go to Page 1 to close."),
 )
 
 server <- function(input, output) {
   observe({
-    if (input$nav == "Page 2") {
-      sidebar_open(id = "sidebar")
-    } else {
-      sidebar_close(id = "sidebar")
-    }
+    sidebar_toggle(
+      id = "sidebar",
+      open = input$nav == "Page 2"
+    )
   })
 }
 
