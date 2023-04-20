@@ -91,7 +91,7 @@ class Sidebar {
       .getComputedStyle(container)
       .getPropertyValue("--bslib-sidebar-js-init-collapsed");
     if (initCollapsed === "true") {
-      Sidebar.toggleCollapse(container, "close");
+      Sidebar.toggle(container, "close");
     }
   }
 
@@ -105,7 +105,7 @@ class Sidebar {
     return container as HTMLElement;
   }
 
-  public static sidebarComponents(el: HTMLElement): SidebarComponents {
+  public static components(el: HTMLElement): SidebarComponents {
     el = Sidebar._findLayoutContainer(el);
 
     // sidebar components
@@ -119,9 +119,8 @@ class Sidebar {
     return { container: el, main, sidebar, toggle, isClosed };
   }
 
-  public static toggleCollapse(el: HTMLElement, method: SidebarMethod) {
-    const { container, main, sidebar, isClosed } =
-      Sidebar.sidebarComponents(el);
+  public static toggle(el: HTMLElement, method: SidebarMethod) {
+    const { container, main, sidebar, isClosed } = Sidebar.components(el);
 
     if (["open", "close", "toggle"].indexOf(method) === -1) {
       throw new Error(`Unknown method ${method}`);
@@ -152,8 +151,7 @@ class Sidebar {
   }
 
   public static finalizeState(el: HTMLElement): HTMLElement {
-    const { container, sidebar, toggle, isClosed } =
-      Sidebar.sidebarComponents(el);
+    const { container, sidebar, toggle, isClosed } = Sidebar.components(el);
     container.classList.remove("transitioning");
     sidebar.hidden = isClosed;
     toggle.ariaExpanded = isClosed ? "false" : "true";
@@ -190,7 +188,7 @@ class SidebarInputBinding extends InputBinding {
   }
 
   receiveMessage(el: HTMLElement, data: MessageData) {
-    Sidebar.toggleCollapse(el, data.method);
+    Sidebar.toggle(el, data.method);
   }
 }
 
@@ -198,7 +196,7 @@ registerBinding(SidebarInputBinding, "sidebar");
 
 $(document).on("click", `.${Sidebar.LAYOUT_CLASS} > .collapse-toggle`, (e) => {
   e.preventDefault();
-  Sidebar.toggleCollapse(e.target, "toggle");
+  Sidebar.toggle(e.target, "toggle");
 });
 
 // Once the collapse transition completes (on the collapse toggle icon, which is
