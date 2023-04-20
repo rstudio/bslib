@@ -4,10 +4,10 @@ import {
   doWindowResizeOnElementResize,
 } from "./_utils";
 
-type SidebarMethod = "close" | "open";
+type SidebarMethod = "close" | "open" | "toggle";
 
 type MessageData = {
-  method: SidebarMethod | null;
+  method: SidebarMethod;
 };
 
 type SidebarComponents = {
@@ -40,7 +40,8 @@ class Sidebar {
     // toggles from overlapping.
 
     const selectorChildLayouts = `.${Sidebar.LAYOUT_CLASS} > .main > .${Sidebar.LAYOUT_CLASS}`;
-    const isInnermostLayout = container.querySelector(selectorChildLayouts) === null;
+    const isInnermostLayout =
+      container.querySelector(selectorChildLayouts) === null;
 
     if (!isInnermostLayout) {
       // There are sidebar layouts nested within this layout; defer to children
@@ -118,16 +119,16 @@ class Sidebar {
     return { container: el, main, sidebar, toggle, isClosed };
   }
 
-  public static toggleCollapse(el: HTMLElement, method: SidebarMethod | null) {
+  public static toggleCollapse(el: HTMLElement, method: SidebarMethod) {
     const { container, main, sidebar, isClosed } =
       Sidebar.sidebarComponents(el);
 
-    if (method === null) {
-      method = isClosed ? "open" : "close";
+    if (["open", "close", "toggle"].indexOf(method) === -1) {
+      throw new Error(`Unknown method ${method}`);
     }
 
-    if (method !== "open" && method !== "close") {
-      throw new Error(`Unknown method ${method}`);
+    if (method === "toggle") {
+      method = isClosed ? "open" : "close";
     }
 
     if ((isClosed && method === "close") || (!isClosed && method === "open")) {
@@ -197,7 +198,7 @@ registerBinding(SidebarInputBinding, "sidebar");
 
 $(document).on("click", `.${Sidebar.LAYOUT_CLASS} > .collapse-toggle`, (e) => {
   e.preventDefault();
-  Sidebar.toggleCollapse(e.target, null);
+  Sidebar.toggleCollapse(e.target, "toggle");
 });
 
 // Once the collapse transition completes (on the collapse toggle icon, which is

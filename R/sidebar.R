@@ -28,6 +28,12 @@
 #'   * `"open"` or `TRUE`: The sidebar starts open.
 #'   * `"closed"` or `FALSE`: The sidebar starts closed.
 #'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
+#'
+#'   In `sidebar_toggle()`, `open` indicates the desired state of the sidebar,
+#'   where the default of `open = NULL` will cause the sidebar to be toggled
+#'   open if closed or vice versa. Note that `sidebar_toggle()` can only open or
+#'   close the sidebar, so it does not support the `"desktop"` and `"always"`
+#'   options.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
 #' @param title A character title to be used as the sidebar title, which will be
@@ -246,19 +252,22 @@ sidebar_js_init <- function(id) {
 
 #' @describeIn sidebar Toggle a `sidebar()` state during an active Shiny user
 #'   session.
-#' @param show Used by `sidebar_toggle()` only to show or hide the sidebar in
-#'   the app. When `NULL`, the state of the sidebar will be toggled in the app.
 #' @export
-sidebar_toggle <- function(id, show = NULL, session = get_current_session()) {
-  if (!is.null(show) && identical(show, NA)) {
-    # Treat NULL and NA the same
-    show <- NULL
-  }
-  if (!is.null(show) && !(isTRUE(show) || isFALSE(show))) {
-    abort("`show` must be `TRUE`, `FALSE`, or `NULL`.")
-  }
-
-  method <- if (is.logical(show)) if (show) "open" else "close"
+sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
+  method <-
+    if (is.null(open)) {
+      "toggle"
+    } else if (isTRUE(open) || identical(open, "open")) {
+      "open"
+    } else if (isFALSE(open) || identical(open, "closed")) {
+      "close"
+    } else if (isTRUE(is.na(open)) || identical(open, "always")) {
+      abort('`open = "always"` is not supported by `sidebar_toggle()`.')
+    } else if (identical(open, "desktop")) {
+      abort('`open = "desktop"` is not supported by `sidebar_toggle()`.')
+    } else {
+      abort('`open` must be `NULL`, `TRUE` (or "open"), or `FALSE` (or "closed").')
+    }
 
   callback <- function() {
     session$sendInputMessage(id, list(method = method))

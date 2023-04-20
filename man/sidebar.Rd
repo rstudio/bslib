@@ -34,7 +34,7 @@ layout_sidebar(
   height = NULL
 )
 
-sidebar_toggle(id, show = NULL, session = get_current_session())
+sidebar_toggle(id, open = NULL, session = get_current_session())
 
 sidebar_open(id, session = get_current_session())
 
@@ -58,7 +58,13 @@ This is default sidebar behavior.
 \item \code{"open"} or \code{TRUE}: The sidebar starts open.
 \item \code{"closed"} or \code{FALSE}: The sidebar starts closed.
 \item \code{"always"} or \code{NA}: The sidebar is always open and cannot be closed.
-}}
+}
+
+In \code{sidebar_toggle()}, \code{open} indicates the desired state of the sidebar,
+where the default of \code{open = NULL} will cause the sidebar to be toggled
+open if closed or vice versa. Note that \code{sidebar_toggle()} can only open or
+close the sidebar, so it does not support the \code{"desktop"} and \code{"always"}
+options.}
 
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
@@ -99,9 +105,6 @@ main content area.}
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
-
-\item{show}{Used by \code{sidebar_toggle()} only to show or hide the sidebar in
-the app. When \code{NULL}, the state of the sidebar will be toggled in the app.}
 
 \item{session}{a shiny session object (the default should almost always be
 used).}
