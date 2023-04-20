@@ -205,7 +205,10 @@ layout_sidebar <- function(
     ),
     !!!contents,
     sidebar_dependency(),
-    sidebar_js_init()
+    if (!identical(sidebar$open, "always")) {
+      # we only need to initialize the sidebar state if its collapsible
+      sidebar_js_init()
+    }
   )
 
   res <- bindFillRole(res, item = fill)
