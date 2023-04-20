@@ -95,9 +95,6 @@ class Sidebar {
   }
 
   private static _findLayoutContainer(el: HTMLElement): HTMLElement {
-    if (el.classList.contains(Sidebar.LAYOUT_CLASS)) {
-      return el;
-    }
     const container = el.closest(`.${Sidebar.LAYOUT_CLASS}`);
     if (!container) {
       throw new Error(
