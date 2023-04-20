@@ -27,7 +27,7 @@ class Sidebar {
 
   public static initSidebar(el: HTMLElement): void {
     const container = Sidebar._findLayoutContainer(el);
-    // remove script with onload attribute to signal initialization happened
+    // remove script because we don't want to re-initialize
     container.removeChild(el);
 
     const childLayouts = container.getElementsByClassName(Sidebar.LAYOUT_CLASS);
