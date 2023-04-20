@@ -29,20 +29,23 @@ class Sidebar {
     // Signal that this layout is initialized by removing the init attribute
     container.removeAttribute("data-bslib-sidebar-init");
 
-    const childLayouts = container.getElementsByClassName(Sidebar.LAYOUT_CLASS);
+    Sidebar._initSidebarCounters(container);
+    Sidebar._initAutoCollapse(container);
+  }
 
-    if (childLayouts.length > 0) {
-      // This layout has children sidebar layouts so we only need to initialize
-      // auto-collapsed state. The innermost layout will handle the CSS
-      // variables for avoiding overlapping collapse toggles.
-      Sidebar._initAutoCollapse(container);
+  private static _initSidebarCounters(container: HTMLElement): void {
+    // This function walks up the DOM tree, adding CSS variables to each
+    // direct parent sidebar layout that count the layout's position in the
+    // stack of nested layouts. We use these counters to keep the collapse
+    // toggles from overlapping.
+
+    const selectorChildLayouts = `.${Sidebar.LAYOUT_CLASS} > .main > .${Sidebar.LAYOUT_CLASS}`;
+    const isInnermostLayout = container.querySelector(selectorChildLayouts) === null;
+
+    if (!isInnermostLayout) {
+      // There are sidebar layouts nested within this layout; defer to children
       return;
     }
-
-    // This layout is the innermost layout, so we add CSS variables to it, and
-    // any direct ancestor sidebar layouts, that count the number of parent
-    // layouts in this subtree. This is used to ensure the collapse toggles
-    // don't overlap.
 
     function nextSidebarParent(el: HTMLElement | null): HTMLElement | null {
       el = el ? el.parentElement : null;
@@ -75,8 +78,6 @@ class Sidebar {
         thisCount.toString()
       );
     });
-
-    Sidebar._initAutoCollapse(container);
   }
 
   private static _initAutoCollapse(container: HTMLElement): void {
