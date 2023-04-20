@@ -82,7 +82,7 @@ class Sidebar {
   }
 
   private static _initAutoCollapse(container: HTMLElement): void {
-    if (!container.dataset.sidebarInitAutoCollapse) {
+    if (!container.dataset.bslibSidebarInitAutoCollapse) {
       return;
     }
 
