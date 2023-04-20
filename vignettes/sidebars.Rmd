@@ -510,18 +510,18 @@ page_navbar(
   nav("Page 1", "Page 1 contents"),
   nav("Page 2", "Page 2 contents"),
   footer = htmltools::tags$script(htmltools::HTML("
-$('.sidebar > :last').hide();
+var $page1,$page2;
+$(document).ready(function() {
+  $page1 = $(`[data-display-if*='Page 1']`);
+  $page2 = $(`[data-display-if*='Page 2']`);
+  $page2.hide();
+});
 
 $('#nav').on('shown.bs.tab', function(ev) {
   const page = ev.target.dataset.value;
-  if (page === 'Page 2') {
-    $('.sidebar > :first').hide();
-    $('.sidebar > :last').show();
-  } else {
-    $('.sidebar > :first').show();
-    $('.sidebar > :last').hide();
-  }
-  });
+  page === 'Page 2' ? $page1.hide() : $page1.show();
+  page === 'Page 1' ? $page2.hide() : $page2.show();
+});
 "
   ))
 )
