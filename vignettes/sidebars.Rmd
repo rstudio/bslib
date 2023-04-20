@@ -126,7 +126,7 @@ describe_layout_function(
     layout_sidebar(
       sidebar = sidebar("Sidebar", width = "33%", class = "bg-light"),
       "Main contents"
-    ) |> 
+    ) |>
       tagAppendAttributes(class = "border rounded-top")
   )
 )
@@ -299,7 +299,7 @@ describe_layout_function(
 
 ## A real example
 
-Now that we've enumerated bslib's sidebar layout options, lets use some real data[^real-data] to create some real inputs and outputs, and explore some additional features of sidebar layouts. 
+Now that we've enumerated bslib's sidebar layout options, lets use some real data[^real-data] to create some real inputs and outputs, and explore some additional features of sidebar layouts.
 
 In a Shiny app[^shiny-id], you'll probably want to use inputs like `selectInput()`, `sliderInput()`, etc., in the sidebar, but because you're reading this article in a static website, we'll use [crosstalk](https://rstudio.github.io/crosstalk/) input widgets.
 
@@ -393,7 +393,7 @@ To learn more about how fillable containers and fill items work, see the article
 
 As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `page_navbar()` puts a sidebar _on each page_ that fills the window. However, sometimes it's better that only particular pages have such a sidebar layout. In this case, you can provide a `layout_sidebar()` as a "root" element of a particular page, then use `page_navbar()`'s `fillable` argument to make that element fill the window.
 
-For example, let's put the same `diamonds_view` sidebar layout on it's own filled page (via `fillable = "Diamonds"`), and leverage a [floating layout](#floating-layout) for a view of the `quakes` data. The floating layout provides a more flexible way to group input controls next the outputs that they effect, which would be especially important if we had multiple output groups on the "Earthquakes" page. 
+For example, let's put the same `diamonds_view` sidebar layout on it's own filled page (via `fillable = "Diamonds"`), and leverage a [floating layout](#floating-layout) for a view of the `quakes` data. The floating layout provides a more flexible way to group input controls next the outputs that they effect, which would be especially important if we had multiple output groups on the "Earthquakes" page.
 
 ```{r, as_iframe = TRUE, resizable = TRUE}
 quakes_view <- card(
@@ -452,7 +452,7 @@ page_fixed(
 )
 ```
 
-Although we don't show it here, do keep in mind that setting `fillable=TRUE` in `layout_sidebar()` would allow the fill items (i.e., `plots`) to shrink/grow to fit the `card()` containers specified size. 
+Although we don't show it here, do keep in mind that setting `fillable=TRUE` in `layout_sidebar()` would allow the fill items (i.e., `plots`) to shrink/grow to fit the `card()` containers specified size.
 
 
 ## Shiny
@@ -528,6 +528,8 @@ $('#nav').on('shown.bs.tab', function(ev) {
 ```
 :::
 ::::
+:::
+::::
 
 
 ### Reactive updates
@@ -563,6 +565,7 @@ server <- function(input, output) {
 
 shinyApp(ui, server)
 ```
+:::
 :::
 
 ::: {.col-sm-12 .col-lg-6 .mt-auto .mb-auto}
@@ -649,7 +652,7 @@ page_fillable(
 ## Styling and customization
 
 In the above sections we've focused primarily on the variety of interface layouts where sidebars can be used.
-Along the way, we've touched on a few of the named arguments of `sidebar()` and `layout_sidebar()` that are helpful for customizing the styling and behavior of both the sidebar and main content areas. 
+Along the way, we've touched on a few of the named arguments of `sidebar()` and `layout_sidebar()` that are helpful for customizing the styling and behavior of both the sidebar and main content areas.
 However, there are a handful of other arguments to further customize the look and feel if the sidebar layout.
 
 Both `sidebar()` and `layout_sidebar()` allow for a specific background color (via `bg`), which is applied to the sidebar area and main content area respectively.
