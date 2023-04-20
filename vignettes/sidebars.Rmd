@@ -544,12 +544,12 @@ ui <- page_navbar(
   title = "Sidebar updates",
   id = "nav",
   sidebar = sidebar(
-    id = "sidebar", 
-    open = FALSE, 
+    id = "sidebar",
+    open = FALSE,
     "Sidebar"
   ),
   nav("Page 1", "Sidebar closed. Go to Page 2 to open."),
-  nav("Page 2", "Sidebar open. Go to Page 1 to close."),
+  nav("Page 2", "Sidebar open. Go to Page 1 to close.")
 )
 
 server <- function(input, output) {
@@ -572,14 +572,14 @@ page_navbar(
   id = "nav",
   collapsible = FALSE,
   sidebar = sidebar(id = "sidebar", open = FALSE, "Sidebar"),
-  nav("Page 1", "Go to Page 2 (to open)"),
-  nav("Page 2", "Go to Page 1 (to close)"),
+  nav("Page 1", "Sidebar closed. Go to Page 2 to open."),
+  nav("Page 2", "Sidebar open. Go to Page 1 to close."),
   footer = htmltools::tags$script(htmltools::HTML("
 $('#nav').on('shown.bs.tab', function(ev) {
   const page = ev.target.dataset.value;
-  const $sb = $('.bslib-sidebar-layout > .bslib-sidebar-input');
-  $sb.parent().toggleClass('sidebar-collapsed');
-  $sb.trigger('toggleCollapse.sidebarInputBinding');
+  const layout = document.getElementById('sidebar').parentElement;
+  const open = page === 'Page 2' ? 'open' : 'close';
+  window.bslib.Sidebar.toggle(layout, open);
 });"
   ))
 )
