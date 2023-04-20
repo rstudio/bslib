@@ -215,8 +215,7 @@ layout_sidebar <- function(
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
     `data-bslib-sidebar-init` = sidebar_id,
-    `data-bslib-sidebar-init-auto-collapse` =
-      if (identical(sidebar$open, "desktop")) "true",
+    `data-bslib-sidebar-open` = sidebar$open,
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(

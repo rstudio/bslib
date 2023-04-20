@@ -30,16 +30,21 @@ class Sidebar {
     container.removeAttribute("data-bslib-sidebar-init");
 
     Sidebar._initSidebarCounters(container);
-    Sidebar._initAutoCollapse(container);
+    Sidebar._initDesktop(container);
   }
 
   private static _initSidebarCounters(container: HTMLElement): void {
     // This function walks up the DOM tree, adding CSS variables to each
     // direct parent sidebar layout that count the layout's position in the
     // stack of nested layouts. We use these counters to keep the collapse
-    // toggles from overlapping.
+    // toggles from overlapping. Note that always-open sidebars that don't
+    // have collapse toggles break the chain of nesting.
 
-    const selectorChildLayouts = `.${Sidebar.LAYOUT_CLASS} > .main > .${Sidebar.LAYOUT_CLASS}`;
+    const selectorChildLayouts =
+      `.${Sidebar.LAYOUT_CLASS}` +
+      "> .main > " +
+      `.${Sidebar.LAYOUT_CLASS}:not([data-bslib-sidebar-open="always"])`;
+
     const isInnermostLayout =
       container.querySelector(selectorChildLayouts) === null;
 
@@ -81,15 +86,17 @@ class Sidebar {
     });
   }
 
-  private static _initAutoCollapse(container: HTMLElement): void {
-    if (!container.dataset.bslibSidebarInitAutoCollapse) {
+  private static _initDesktop(container: HTMLElement): void {
+    // If sidebar is marked open='desktop'...
+    if (container.dataset.bslibSidebarOpen !== "desktop") {
       return;
     }
 
-    // If sidebar is marked open='desktop', then close sidebar on mobile
+    // then close sidebar on mobile
     const initCollapsed = window
       .getComputedStyle(container)
       .getPropertyValue("--bslib-sidebar-js-init-collapsed");
+
     if (initCollapsed === "true") {
       Sidebar.toggle(container, "close");
     }
