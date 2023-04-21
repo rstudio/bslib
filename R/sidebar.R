@@ -256,7 +256,7 @@ sidebar_js_init <- function(id) {
 #' @export
 sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
   method <-
-    if (is.null(open)) {
+    if (is.null(open) || identical(open, "toggle")) {
       "toggle"
     } else if (isTRUE(open) || identical(open, "open")) {
       "open"
