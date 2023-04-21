@@ -99,6 +99,9 @@ main content area.}
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+
+\item{session}{A Shiny session object (the default should almost always be
+used).}
 }
 \description{
 Create a collapsing sidebar layout by providing a \code{sidebar()}

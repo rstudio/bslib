@@ -251,6 +251,8 @@ sidebar_js_init <- function(id) {
 
 #' @describeIn sidebar Toggle a `sidebar()` state during an active Shiny user
 #'   session.
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
 #' @export
 sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
   method <-
