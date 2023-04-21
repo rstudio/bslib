@@ -19,11 +19,14 @@ type SidebarComponents = {
 };
 
 class Sidebar {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  public static readonly COLLAPSE_CLASS = "sidebar-collapsed";
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  public static readonly LAYOUT_CLASS = "bslib-sidebar-layout";
+  public static readonly classes = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    LAYOUT: "bslib-sidebar-layout",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    COLLAPSE: "sidebar-collapsed",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    TRANSITIONING: "transitioning",
+  };
 
   public static initCollapsible(container: HTMLElement): void {
     // Signal that this layout is initialized by removing the init attribute
@@ -41,9 +44,9 @@ class Sidebar {
     // have collapse toggles break the chain of nesting.
 
     const selectorChildLayouts =
-      `.${Sidebar.LAYOUT_CLASS}` +
+      `.${Sidebar.classes.LAYOUT}` +
       "> .main > " +
-      `.${Sidebar.LAYOUT_CLASS}:not([data-bslib-sidebar-open="always"])`;
+      `.${Sidebar.classes.LAYOUT}:not([data-bslib-sidebar-open="always"])`;
 
     const isInnermostLayout =
       container.querySelector(selectorChildLayouts) === null;
@@ -59,7 +62,7 @@ class Sidebar {
         // .bslib-sidebar-layout > .main > .bslib-sidedbar-layout
         el = el.parentElement;
       }
-      if (el && el.classList.contains(Sidebar.LAYOUT_CLASS)) {
+      if (el && el.classList.contains(Sidebar.classes.LAYOUT)) {
         return el;
       }
       return null;
@@ -103,10 +106,10 @@ class Sidebar {
   }
 
   private static _findLayoutContainer(el: HTMLElement): HTMLElement {
-    const container = el.closest(`.${Sidebar.LAYOUT_CLASS}`);
+    const container = el.closest(`.${Sidebar.classes.LAYOUT}`);
     if (!container) {
       throw new Error(
-        `Expected container or direct ancestor with class ${Sidebar.LAYOUT_CLASS}`
+        `Expected container or direct ancestor with class ${Sidebar.classes.LAYOUT}`
       );
     }
     return container as HTMLElement;
@@ -121,7 +124,7 @@ class Sidebar {
     const toggle = el.querySelector(":scope > .collapse-toggle") as HTMLElement;
 
     // sidebar state
-    const isClosed = el.classList.contains(Sidebar.COLLAPSE_CLASS);
+    const isClosed = el.classList.contains(Sidebar.classes.COLLAPSE);
 
     return { container: el, main, sidebar, toggle, isClosed };
   }
@@ -153,13 +156,13 @@ class Sidebar {
 
     // Add a transitioning class just before adding COLLAPSE_CLASS since we want
     // some of the transitioning styles to apply before the collapse state
-    container.classList.add("transitioning");
-    container.classList.toggle(Sidebar.COLLAPSE_CLASS);
+    container.classList.add(Sidebar.classes.TRANSITIONING);
+    container.classList.toggle(Sidebar.classes.COLLAPSE);
   }
 
   public static finalizeState(el: HTMLElement): HTMLElement {
     const { container, sidebar, toggle, isClosed } = Sidebar.components(el);
-    container.classList.remove("transitioning");
+    container.classList.remove(Sidebar.classes.TRANSITIONING);
     sidebar.hidden = isClosed;
     toggle.ariaExpanded = isClosed ? "false" : "true";
     return sidebar;
@@ -168,11 +171,11 @@ class Sidebar {
 
 class SidebarInputBinding extends InputBinding {
   find(scope: HTMLElement) {
-    return $(scope).find(`.${Sidebar.LAYOUT_CLASS} > .bslib-sidebar-input`);
+    return $(scope).find(`.${Sidebar.classes.LAYOUT} > .bslib-sidebar-input`);
   }
 
   getValue(el: HTMLElement): boolean {
-    return !$(el).parent().hasClass(Sidebar.COLLAPSE_CLASS);
+    return !$(el).parent().hasClass(Sidebar.classes.COLLAPSE);
   }
 
   setValue(el: HTMLElement, value: boolean): void {
@@ -201,16 +204,20 @@ class SidebarInputBinding extends InputBinding {
 
 registerBinding(SidebarInputBinding, "sidebar");
 
-$(document).on("click", `.${Sidebar.LAYOUT_CLASS} > .collapse-toggle`, (e) => {
-  e.preventDefault();
-  Sidebar.toggle(e.target, "toggle");
-});
+$(document).on(
+  "click",
+  `.${Sidebar.classes.LAYOUT} > .collapse-toggle`,
+  (e) => {
+    e.preventDefault();
+    Sidebar.toggle(e.target, "toggle");
+  }
+);
 
 // Once the collapse transition completes (on the collapse toggle icon, which is
 // always guaranteed to transition), then remove the transitioning class
 $(document).on(
   "transitionend",
-  ".bslib-sidebar-layout > .collapse-toggle > .collapse-icon",
+  `.${Sidebar.classes.LAYOUT} > .collapse-toggle > .collapse-icon`,
   (e) => {
     const sidebar = Sidebar.finalizeState(e.target);
     $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
