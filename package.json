@@ -26,5 +26,8 @@
     "checks": "yarn run check_types && yarn run check_lint",
     "check_lint": "node --eval \"console.log('linting code...')\" && eslint --fix --ext .ts srcts/src",
     "check_types": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "mutation-summary": "^1.0.0"
   }
 }

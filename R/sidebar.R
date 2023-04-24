@@ -201,20 +201,15 @@ layout_sidebar <- function(
   max_height_mobile <- sidebar$max_height_mobile %||%
     if (is.null(height)) "250px" else "50%"
 
-  if (identical(sidebar$open, "always")) {
-    # sidebar initialization is only needed if collapsible
-    sidebar_id <- NULL
-    sidebar_init_js <- NULL
-  } else {
-    sidebar_id <- tagGetAttribute(sidebar$tag, "id")
-    sidebar_init_js <- sidebar_js_init(sidebar_id)
-  }
+  sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
+  sidebar_border <- if (!is.null(border)) tolower(border)
+  sidebar_border_radius <- if (!is.null(border_radius)) tolower(border_radius)
 
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
-    `data-bslib-sidebar-init` = sidebar_id,
+    `data-bslib-sidebar-init` = sidebar_init,
     `data-bslib-sidebar-open` = sidebar$open,
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
@@ -225,8 +220,7 @@ layout_sidebar <- function(
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
-    sidebar_dependency(),
-    sidebar_init_js
+    sidebar_dependency()
   )
 
   res <- bindFillRole(res, item = fill)
@@ -235,17 +229,6 @@ layout_sidebar <- function(
 
   as_fragment(
     tag_require(res, version = 5, caller = "layout_sidebar()")
-  )
-}
-
-sidebar_js_init <- function(id) {
-  # Requires Shiny >= 1.7.2 and works thanks to rstudio/shiny#3630 (2022-05-09)
-  tags$script(
-    "document.currentScript.parentElement.removeChild(document.currentScript);\n",
-    sprintf(
-      "window.bslib.Sidebar.initCollapsible(document.querySelector('[data-bslib-sidebar-init=\"%s\"]'));",
-      id
-    )
   )
 }
 

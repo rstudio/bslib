@@ -3,6 +3,7 @@ import {
   registerBinding,
   doWindowResizeOnElementResize,
 } from "./_utils";
+import { MutationSummary } from "mutation-summary";
 
 type SidebarMethod = "close" | "open" | "toggle";
 
@@ -91,7 +92,7 @@ class Sidebar {
 
   private static _initDesktop(container: HTMLElement): void {
     // If sidebar is marked open='desktop'...
-    if (container.dataset.bslibSidebarOpen !== "desktop") {
+    if (container.dataset.bslibSidebarOpen?.trim() !== "desktop") {
       return;
     }
 
@@ -100,7 +101,7 @@ class Sidebar {
       .getComputedStyle(container)
       .getPropertyValue("--bslib-sidebar-js-init-collapsed");
 
-    if (initCollapsed === "true") {
+    if (initCollapsed.trim() === "true") {
       Sidebar.toggle(container, "close");
     }
   }
@@ -223,6 +224,34 @@ $(document).on(
     $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
   }
 );
+
+document.addEventListener("DOMContentLoaded", () => {
+  const containers = document.getElementsByClassName(
+    Sidebar.classes.LAYOUT
+  ) as HTMLCollectionOf<HTMLElement>;
+
+  Array.from(containers).forEach((container) => {
+    if (container.matches("[data-bslib-sidebar-init]")) {
+      Sidebar.initCollapsible(container);
+    }
+  });
+});
+
+new MutationSummary({
+  callback: (summaries) => {
+    const sbSummary = summaries[0];
+    if (sbSummary.added.length > 0) {
+      sbSummary.added.forEach((container) =>
+        Sidebar.initCollapsible(container as HTMLElement)
+      );
+    }
+  },
+  queries: [
+    {
+      element: ".bslib-sidebar-layout[data-bslib-sidebar-init]",
+    },
+  ],
+});
 
 // attach Sidebar class to window for global usage
 (window as any).bslib = (window as any).bslib || {};
