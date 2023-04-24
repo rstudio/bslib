@@ -15,7 +15,9 @@ type SidebarComponents = {
   container: HTMLElement;
   main: HTMLElement;
   sidebar: HTMLElement;
-  toggle: HTMLElement;
+  toggle: HTMLElement & {
+    handlers?: { start: (ev: MouseEvent) => void; end: () => void };
+  };
   isClosed: boolean;
 };
 
@@ -33,8 +35,34 @@ class Sidebar {
     // Signal that this layout is initialized by removing the init attribute
     container.removeAttribute("data-bslib-sidebar-init");
 
+    Sidebar._initEventListeners(container);
     Sidebar._initSidebarCounters(container);
     Sidebar._initDesktop(container);
+  }
+
+  private static _initEventListeners(container: HTMLElement): void {
+    const { sidebar, toggle } = Sidebar.components(container);
+
+    // We store a reference to the sidebar toggle event handlers on the toggle
+    // element itself, so that we can remove them later if needed.
+    toggle.handlers = {
+      start: (ev) => {
+        ev.preventDefault();
+        Sidebar.toggle(container, "toggle");
+      },
+      end: () => {
+        Sidebar.finalizeState(container);
+        $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
+      },
+    };
+
+    toggle.addEventListener("click", toggle.handlers.start);
+
+    // Once the collapse transition completes (on the collapse toggle icon, which is
+    // always guaranteed to transition), then remove the transitioning class
+    toggle
+      .querySelector(".collapse-icon")
+      ?.addEventListener("transitionend", toggle.handlers.end);
   }
 
   private static _initSidebarCounters(container: HTMLElement): void {
@@ -168,6 +196,17 @@ class Sidebar {
     toggle.ariaExpanded = isClosed ? "false" : "true";
     return sidebar;
   }
+
+  public static removeEventListeners(el: HTMLElement): void {
+    // If a sidebar layout is removed from the page, we should also clean up any
+    // event listeners that were added to the layout's components.
+    const { toggle } = Sidebar.components(el);
+    if (!toggle.handlers) return;
+    toggle.removeEventListener("click", toggle.handlers.start);
+    toggle
+      .querySelector(".collapse-icon")
+      ?.removeEventListener("transitionend", toggle.handlers.end);
+  }
 }
 
 class SidebarInputBinding extends InputBinding {
@@ -205,26 +244,7 @@ class SidebarInputBinding extends InputBinding {
 
 registerBinding(SidebarInputBinding, "sidebar");
 
-$(document).on(
-  "click",
-  `.${Sidebar.classes.LAYOUT} > .collapse-toggle`,
-  (e) => {
-    e.preventDefault();
-    Sidebar.toggle(e.target, "toggle");
-  }
-);
-
-// Once the collapse transition completes (on the collapse toggle icon, which is
-// always guaranteed to transition), then remove the transitioning class
-$(document).on(
-  "transitionend",
-  `.${Sidebar.classes.LAYOUT} > .collapse-toggle > .collapse-icon`,
-  (e) => {
-    const sidebar = Sidebar.finalizeState(e.target);
-    $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
-  }
-);
-
+// Initialize sidebars on page load or when added to the page ----------------
 document.addEventListener("DOMContentLoaded", () => {
   const containers = document.getElementsByClassName(
     Sidebar.classes.LAYOUT
@@ -237,18 +257,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Detect when sidebar layouts that require initialization are added to the page
 new MutationSummary({
   callback: (summaries) => {
-    const sbSummary = summaries[0];
-    if (sbSummary.added.length > 0) {
-      sbSummary.added.forEach((container) =>
-        Sidebar.initCollapsible(container as HTMLElement)
-      );
-    }
+    const summary = summaries[0];
+    summary.added.forEach((container) =>
+      Sidebar.initCollapsible(container as HTMLElement)
+    );
+    summary.removed.forEach((container) =>
+      Sidebar.removeEventListeners(container as HTMLElement)
+    );
   },
   queries: [
     {
       element: ".bslib-sidebar-layout[data-bslib-sidebar-init]",
+    },
+  ],
+});
+
+// Remove event listeners when the sidebar layouts are removed from the page
+new MutationSummary({
+  callback: (summaries) => {
+    const summary = summaries[0];
+    summary.removed.forEach((container) =>
+      Sidebar.removeEventListeners(container as HTMLElement)
+    );
+  },
+  queries: [
+    {
+      element: '.bslib-sidebar-layout',
     },
   ],
 });
