@@ -240,7 +240,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
     --bslib-collapse-toggle-right-transform: -180deg;
 
     // required by sidebar init js when `sidebar(open = "desktop")`
-    &[data-sidebar-init-auto-collapse] {
+    &[data-bslib-sidebar-open="desktop"] {
       --bslib-sidebar-js-init-collapsed: true;
     }
 
