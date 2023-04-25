@@ -67,8 +67,16 @@ class Sidebar {
         Sidebar.toggle(container, "toggle");
       },
       end: () => {
-        Sidebar.finalizeState(container);
-        $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
+        const {isClosed} = Sidebar.components(container);
+        setTimeout(
+          () => {
+            Sidebar.finalizeState(container);
+            $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
+          },
+          // Add a small delay before finalizing the closed state, otherwise
+          // this happens just before the sidebar reaches the final state and
+          // the sidebar disappears abruptly.
+          isClosed ? 100 : 0);
       },
     };
 
@@ -205,16 +213,11 @@ class Sidebar {
     container.classList.toggle(Sidebar.classes.COLLAPSE);
   }
 
-  public static finalizeState(el: HTMLElement, force = false): HTMLElement {
+  public static finalizeState(el: HTMLElement, force = false): void {
     const { container, sidebar, toggle, isClosed } = Sidebar.components(el);
-    if (isClosed && !force) {
-      setTimeout(() => Sidebar.finalizeState(el, true), 100);
-    } else {
-      container.classList.remove(Sidebar.classes.TRANSITIONING);
-      sidebar.hidden = isClosed;
-      toggle.ariaExpanded = isClosed ? "false" : "true";
-    }
-    return sidebar;
+    container.classList.remove(Sidebar.classes.TRANSITIONING);
+    sidebar.hidden = isClosed;
+    toggle.ariaExpanded = isClosed ? "false" : "true";
   }
 
   public static removeEventListeners(el: HTMLElement): void {
