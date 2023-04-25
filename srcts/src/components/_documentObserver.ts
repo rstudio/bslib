@@ -67,7 +67,6 @@ class DocumentObserver {
 
   connect(): void {
     this._callback(document.body, this.config.added);
-    console.log("connecting observer");
     this.observer.observe(document, { childList: true, subtree: true });
   }
 

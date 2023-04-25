@@ -254,14 +254,12 @@ const observer = new DocumentObserver({
   added: {
     selector: `.${Sidebar.classes.LAYOUT}[data-bslib-sidebar-init]`,
     callback: (container) => {
-      console.log("added", container);
       Sidebar.initCollapsible(container as HTMLElement);
     },
   },
   removed: {
     selector: `.${Sidebar.classes.LAYOUT}:not([data-bslib-sidebar-open="always"])`,
     callback: (container) => {
-      console.log("removed", container);
       Sidebar.removeEventListeners(container as HTMLElement);
     },
   },
