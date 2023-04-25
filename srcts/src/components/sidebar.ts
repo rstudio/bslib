@@ -3,7 +3,8 @@ import {
   registerBinding,
   doWindowResizeOnElementResize,
 } from "./_utils";
-import { MutationSummary } from "mutation-summary";
+
+import "arrive";
 
 type SidebarMethod = "close" | "open" | "toggle";
 
@@ -245,50 +246,21 @@ class SidebarInputBinding extends InputBinding {
 registerBinding(SidebarInputBinding, "sidebar");
 
 // Initialize sidebars on page load or when added to the page ----------------
-document.addEventListener("DOMContentLoaded", () => {
-  const containers = document.getElementsByClassName(
-    Sidebar.classes.LAYOUT
-  ) as HTMLCollectionOf<HTMLElement>;
+document.arrive(
+  `.${Sidebar.classes.LAYOUT}[data-bslib-sidebar-init]`,
+  (container) => {
+    console.log("arrive", container);
+    Sidebar.initCollapsible(container as HTMLElement);
+  }
+);
 
-  Array.from(containers).forEach((container) => {
-    if (container.matches("[data-bslib-sidebar-init]")) {
-      Sidebar.initCollapsible(container);
-    }
-  });
-});
-
-// Detect when sidebar layouts that require initialization are added to the page
-new MutationSummary({
-  callback: (summaries) => {
-    const summary = summaries[0];
-    summary.added.forEach((container) =>
-      Sidebar.initCollapsible(container as HTMLElement)
-    );
-    summary.removed.forEach((container) =>
-      Sidebar.removeEventListeners(container as HTMLElement)
-    );
-  },
-  queries: [
-    {
-      element: ".bslib-sidebar-layout[data-bslib-sidebar-init]",
-    },
-  ],
-});
-
-// Remove event listeners when the sidebar layouts are removed from the page
-new MutationSummary({
-  callback: (summaries) => {
-    const summary = summaries[0];
-    summary.removed.forEach((container) =>
-      Sidebar.removeEventListeners(container as HTMLElement)
-    );
-  },
-  queries: [
-    {
-      element: '.bslib-sidebar-layout',
-    },
-  ],
-});
+document.leave(
+  `.${Sidebar.classes.LAYOUT}:not([data-bslib-sidebar-open="always"])`,
+  (container) => {
+    console.log("leave", container);
+    Sidebar.removeEventListeners(container as HTMLElement);
+  }
+);
 
 // attach Sidebar class to window for global usage
 (window as any).bslib = (window as any).bslib || {};
