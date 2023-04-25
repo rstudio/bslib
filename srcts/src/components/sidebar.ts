@@ -4,7 +4,7 @@ import {
   doWindowResizeOnElementResize,
 } from "./_utils";
 
-import "arrive";
+import { DocumentObserver } from "./_documentObserver";
 
 type SidebarMethod = "close" | "open" | "toggle";
 
@@ -250,22 +250,24 @@ class SidebarInputBinding extends InputBinding {
 registerBinding(SidebarInputBinding, "sidebar");
 
 // Initialize sidebars on page load or when added to the page ----------------
-document.arrive(
-  `.${Sidebar.classes.LAYOUT}[data-bslib-sidebar-init]`,
-  (container) => {
-    console.log("arrive", container);
-    Sidebar.initCollapsible(container as HTMLElement);
-  }
-);
-
-document.leave(
-  `.${Sidebar.classes.LAYOUT}:not([data-bslib-sidebar-open="always"])`,
-  (container) => {
-    console.log("leave", container);
-    Sidebar.removeEventListeners(container as HTMLElement);
-  }
-);
+const observer = new DocumentObserver({
+  added: {
+    selector: `.${Sidebar.classes.LAYOUT}[data-bslib-sidebar-init]`,
+    callback: (container) => {
+      console.log("added", container);
+      Sidebar.initCollapsible(container as HTMLElement);
+    },
+  },
+  removed: {
+    selector: `.${Sidebar.classes.LAYOUT}:not([data-bslib-sidebar-open="always"])`,
+    callback: (container) => {
+      console.log("removed", container);
+      Sidebar.removeEventListeners(container as HTMLElement);
+    },
+  },
+});
 
 // attach Sidebar class to window for global usage
 (window as any).bslib = (window as any).bslib || {};
 (window as any).bslib.Sidebar = Sidebar;
+(window as any).bslib.SidebarObserver = observer;

@@ -233,11 +233,6 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.3.tgz#472eaab5f15c1ffdd7f8628bd4c4f753995ec79e"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
-"@types/arrive@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@types/arrive/-/arrive-2.4.1.tgz#996c9046fe83c90e2ba02d3e1e63cad276dbe9f0"
-  integrity sha512-T4fPI0e3XOCFgS4YDpKf230IVlgMKEk/sGW2yl7UExuIsH0V0FshNjrbVZOogjUaRINsnFJzoJpsTmJ2xoJxFQ==
-
 "@types/bootstrap-datepicker@0.0.14":
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/@types/bootstrap-datepicker/-/bootstrap-datepicker-0.0.14.tgz#89bc5816dd0b802bf8d4923cf5461e2c98cbb450"
@@ -460,11 +455,6 @@ array-union@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/array-union/-/array-union-2.1.0.tgz#b798420adbeb1de828d84acd8a2e23d3efe85e8d"
   integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
-
-arrive@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/arrive/-/arrive-2.4.1.tgz#564c87f20bc09b80de781124d9431695004b8020"
-  integrity sha512-gnpcKdKN4HJAmzpZIxDBJsw/z59sBvh9i4mJyHJCk+enrKnEZ/l1GspM1MGPxMxnRcdt+v/OIWEY5mNQSGisPQ==
 
 balanced-match@^1.0.0:
   version "1.0.2"
