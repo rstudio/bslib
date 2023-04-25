@@ -190,11 +190,15 @@ class Sidebar {
     container.classList.toggle(Sidebar.classes.COLLAPSE);
   }
 
-  public static finalizeState(el: HTMLElement): HTMLElement {
+  public static finalizeState(el: HTMLElement, force = false): HTMLElement {
     const { container, sidebar, toggle, isClosed } = Sidebar.components(el);
-    container.classList.remove(Sidebar.classes.TRANSITIONING);
-    sidebar.hidden = isClosed;
-    toggle.ariaExpanded = isClosed ? "false" : "true";
+    if (isClosed && !force) {
+      setTimeout(() => Sidebar.finalizeState(el, true), 100);
+    } else {
+      container.classList.remove(Sidebar.classes.TRANSITIONING);
+      sidebar.hidden = isClosed;
+      toggle.ariaExpanded = isClosed ? "false" : "true";
+    }
     return sidebar;
   }
 
