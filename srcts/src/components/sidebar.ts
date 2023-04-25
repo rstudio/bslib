@@ -32,6 +32,21 @@ class Sidebar {
     TRANSITIONING: "transitioning",
   };
 
+  public static observer: DocumentObserver = new DocumentObserver({
+    added: {
+      selector: `.${Sidebar.classes.LAYOUT}[data-bslib-sidebar-init]`,
+      callback: (container) => {
+        Sidebar.initCollapsible(container as HTMLElement);
+      },
+    },
+    removed: {
+      selector: `.${Sidebar.classes.LAYOUT}:not([data-bslib-sidebar-open="always"])`,
+      callback: (container) => {
+        Sidebar.removeEventListeners(container as HTMLElement);
+      },
+    },
+  });
+
   public static initCollapsible(container: HTMLElement): void {
     // Signal that this layout is initialized by removing the init attribute
     container.removeAttribute("data-bslib-sidebar-init");
@@ -249,23 +264,6 @@ class SidebarInputBinding extends InputBinding {
 
 registerBinding(SidebarInputBinding, "sidebar");
 
-// Initialize sidebars on page load or when added to the page ----------------
-const observer = new DocumentObserver({
-  added: {
-    selector: `.${Sidebar.classes.LAYOUT}[data-bslib-sidebar-init]`,
-    callback: (container) => {
-      Sidebar.initCollapsible(container as HTMLElement);
-    },
-  },
-  removed: {
-    selector: `.${Sidebar.classes.LAYOUT}:not([data-bslib-sidebar-open="always"])`,
-    callback: (container) => {
-      Sidebar.removeEventListeners(container as HTMLElement);
-    },
-  },
-});
-
 // attach Sidebar class to window for global usage
 (window as any).bslib = (window as any).bslib || {};
 (window as any).bslib.Sidebar = Sidebar;
-(window as any).bslib.SidebarObserver = observer;
