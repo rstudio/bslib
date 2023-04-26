@@ -67,7 +67,7 @@ class Sidebar {
         Sidebar.toggle(container, "toggle");
       },
       end: () => {
-        const {isClosed} = Sidebar.components(container);
+        const { isClosed } = Sidebar.components(container);
         setTimeout(
           () => {
             Sidebar.finalizeState(container);
@@ -76,7 +76,8 @@ class Sidebar {
           // Add a small delay before finalizing the closed state, otherwise
           // this happens just before the sidebar reaches the final state and
           // the sidebar disappears abruptly.
-          isClosed ? 100 : 0);
+          isClosed ? 100 : 0
+        );
       },
     };
 
@@ -213,7 +214,7 @@ class Sidebar {
     container.classList.toggle(Sidebar.classes.COLLAPSE);
   }
 
-  public static finalizeState(el: HTMLElement, force = false): void {
+  public static finalizeState(el: HTMLElement): void {
     const { container, sidebar, toggle, isClosed } = Sidebar.components(el);
     container.classList.remove(Sidebar.classes.TRANSITIONING);
     sidebar.hidden = isClosed;
