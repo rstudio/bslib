@@ -99,11 +99,12 @@ class Card {
 
   exitFullScreen(): void {
     const overlay = document.getElementById("bslib-full-screen-overlay");
+
+    overlay ? overlay.remove() : null;
+    this.container.classList.remove("bslib-full-screen");
+
     overlay?.removeEventListener("click", () => this.exitFullScreen());
     document.removeEventListener("keyup", this._exitFullScreenOnEscape, false);
-    overlay ? overlay.remove() : null;
-
-    this.container.classList.remove("bslib-full-screen");
   }
 
   private _exitFullScreenOnEscape(event: KeyboardEvent): void {
