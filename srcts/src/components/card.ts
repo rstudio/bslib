@@ -8,8 +8,6 @@ const Tooltip = (
 ) as typeof TooltipType;
 
 class Card {
-  private static instanceMap: WeakMap<HTMLElement, Card> = new WeakMap();
-
   private container: HTMLElement;
   cardResizeObserver: ResizeObserver;
   shinyOutputResizeObserver: ResizeObserver | undefined;
@@ -31,6 +29,36 @@ class Card {
     this._addEventListeners();
     this._enableTooltips();
     this._startShinyOutputResizeObserver();
+  }
+
+  enterFullScreen(event?: Event): void {
+    if (event) event.preventDefault();
+
+    const overlay = this._createOverlay();
+    overlay.addEventListener("click", () => this.exitFullScreen());
+    document.addEventListener("keyup", this._exitFullScreenOnEscape, false);
+
+    this.container.classList.add("bslib-full-screen");
+    this.container.insertAdjacentElement("beforebegin", overlay);
+  }
+
+  exitFullScreen(): void {
+    const overlay = document.getElementById("bslib-full-screen-overlay");
+
+    overlay ? overlay.remove() : null;
+    this.container.classList.remove("bslib-full-screen");
+
+    overlay?.removeEventListener("click", () => this.exitFullScreen());
+    document.removeEventListener("keyup", this._exitFullScreenOnEscape, false);
+  }
+
+  destroy(): void {
+    this._removeEventListeners();
+    this.cardResizeObserver.disconnect();
+    if (this.shinyOutputResizeObserver) {
+      this.shinyOutputResizeObserver.disconnect();
+    }
+    Card.instanceMap.delete(this.container);
   }
 
   private _addEventListeners(): void {
@@ -86,40 +114,10 @@ class Card {
     });
   }
 
-  enterFullScreen(event?: Event): void {
-    if (event) event.preventDefault();
-
-    const overlay = this._createOverlay();
-    overlay.addEventListener("click", () => this.exitFullScreen());
-    document.addEventListener("keyup", this._exitFullScreenOnEscape, false);
-
-    this.container.classList.add("bslib-full-screen");
-    this.container.insertAdjacentElement("beforebegin", overlay);
-  }
-
-  exitFullScreen(): void {
-    const overlay = document.getElementById("bslib-full-screen-overlay");
-
-    overlay ? overlay.remove() : null;
-    this.container.classList.remove("bslib-full-screen");
-
-    overlay?.removeEventListener("click", () => this.exitFullScreen());
-    document.removeEventListener("keyup", this._exitFullScreenOnEscape, false);
-  }
-
   private _exitFullScreenOnEscape(event: KeyboardEvent): void {
     if (event.key === "Escape") {
       this.exitFullScreen();
     }
-  }
-
-  destroy(): void {
-    this._removeEventListeners();
-    this.cardResizeObserver.disconnect();
-    if (this.shinyOutputResizeObserver) {
-      this.shinyOutputResizeObserver.disconnect();
-    }
-    Card.instanceMap.delete(this.container);
   }
 
   private _createOverlay(): HTMLElement {
@@ -146,11 +144,13 @@ class Card {
     );
   }
 
+  private static instanceMap: WeakMap<HTMLElement, Card> = new WeakMap();
+
   public static getInstance(el: HTMLElement): Card | undefined {
     return Card.instanceMap.get(el);
   }
 
-  public static observer: DocumentObserver = new DocumentObserver({
+  private static documentObserver: DocumentObserver = new DocumentObserver({
     added: {
       selector: ".bslib-card[data-bslib-card-needs-init]",
       callback: (card: HTMLElement) => {
@@ -164,6 +164,10 @@ class Card {
       },
     },
   });
+
+  static get observer(): DocumentObserver {
+    return Card.documentObserver;
+  }
 }
 
 // attach Sidebar class to window for global usage
