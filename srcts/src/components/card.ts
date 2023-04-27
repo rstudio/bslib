@@ -95,4 +95,8 @@ class Card {
   });
 }
 
+// attach Sidebar class to window for global usage
+(window as any).bslib = (window as any).bslib || {};
+(window as any).bslib.Card = Card;
+
 export { Card };
