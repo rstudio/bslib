@@ -272,14 +272,7 @@ full_screen_toggle <- function() {
     "data-bs-toggle" = "tooltip",
     "data-bs-placement" = "bottom",
     title = "Expand",
-    full_screen_toggle_icon(),
-    htmlDependency(
-      name = "bslib-card-full-screen",
-      version = get_package_version("bslib"),
-      package = "bslib",
-      src = "components",
-      script = "card-full-screen.js"
-    )
+    full_screen_toggle_icon()
   )
 }
 
