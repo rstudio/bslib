@@ -66,6 +66,7 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, fil
       height = validateCssUnit(height),
       max_height = validateCssUnit(max_height)
     ),
+    "data-bslib-card-needs-init" = NA,
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(),
