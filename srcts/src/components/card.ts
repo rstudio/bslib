@@ -1,6 +1,11 @@
-import { Tooltip } from "bootstrap";
+import type { Tooltip as TooltipType } from "bootstrap";
 import type { ShinyEventValue } from "rstudio-shiny/srcts/types/src/events/shinyEvents";
 import { DocumentObserver } from "./_documentObserver";
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const Tooltip = (
+  window.bootstrap ? window.bootstrap.Tooltip : class {}
+) as typeof TooltipType;
 
 class Card {
   private static instanceMap: WeakMap<HTMLElement, Card> = new WeakMap();
@@ -17,7 +22,6 @@ class Card {
 
     // Let Shiny know to trigger resize when the card size changes
     // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-    // rstudio/shiny#3682
     const resizeEvent = new Event("resize");
     this.cardResizeObserver = new ResizeObserver(() => {
       window.dispatchEvent(resizeEvent);
