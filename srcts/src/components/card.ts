@@ -101,6 +101,7 @@ class Card {
     // when the output container changes (this way, if the size is different during
     // the render phase, Shiny will know about it)
 
+    // TODO: Remove disable/ignore comments when rstudio/shiny#3815 is available
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore; Type definitions are not found. This occurs when `strict: true`
     $(document).on("shiny:value", (x: ShinyEventValue) => {
