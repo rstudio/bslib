@@ -11,6 +11,7 @@ const opts: BuildOptions = {
   bundle: true,
   sourcemap: true,
   minify: true,
+  external: ["bootstrap"],
 };
 
 // TODO: build all components?
