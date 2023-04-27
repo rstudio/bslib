@@ -26,3 +26,9 @@ build({
   entryPoints: ["srcts/src/components/sidebar.ts"],
   outfile: "inst/components/sidebar.min.js",
 });
+
+build({
+  ...opts,
+  entryPoints: ["srcts/src/components/card.ts"],
+  outfile: "inst/components/card.min.js",
+});
