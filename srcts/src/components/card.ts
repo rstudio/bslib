@@ -159,6 +159,13 @@ class Card {
 
     const overlayAnchor = document.createElement("a");
     overlayAnchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
+    overlayAnchor.tabIndex = 0;
+    overlayAnchor.onClick = () => this.exitFullScreen();
+    overlayAnchor.onkeyup = (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") {
+        this.exitFullScreen();
+      }
+    };
     overlayAnchor.innerHTML = this._overlayCloseHtml();
 
     overlay.appendChild(overlayAnchor);
