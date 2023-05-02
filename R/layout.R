@@ -77,12 +77,15 @@ layout_column_wrap <- function(
   #      to fill the grid row.
   #   2. Allow for heights_equal="-cell", which useful for allowing contents to
   #      shrink but not grow (i.e., default flex behavior).
-  children <- lapply(children, function(x) {
-    bindFillRole(
-      container = TRUE,
-      div(bindFillRole(div(x), container = fillable, item = TRUE))
-    )
-  })
+  children <- dropNulls(children)
+  children <- if (length(children) > 0) {
+    lapply(children, function(x) {
+      bindFillRole(
+        container = TRUE,
+        div(bindFillRole(div(x), container = fillable, item = TRUE))
+      )
+    })
+  }
 
   tag <- div(
     class = "bslib-column-wrap",
