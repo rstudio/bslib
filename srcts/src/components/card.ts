@@ -1,6 +1,7 @@
 import type { Tooltip as TooltipType } from "bootstrap";
 import type { ShinyEventValue } from "rstudio-shiny/srcts/types/src/events/shinyEvents";
 import { DocumentObserver } from "./_documentObserver";
+import { getAllFocusableChildren } from "./_utils";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const Tooltip = (
@@ -11,6 +12,7 @@ class Card {
   private container: HTMLElement;
   cardResizeObserver: ResizeObserver;
   shinyOutputResizeObserver: ResizeObserver | undefined;
+  lastInteriorFocusElement: HTMLElement | undefined;
 
   private static attr = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -51,13 +53,47 @@ class Card {
   enterFullScreen(event?: Event): void {
     if (event) event.preventDefault();
 
-    const overlay = this._createOverlay();
+    const { overlay, anchor: overlayAnchor } = this._createOverlay();
     overlay.addEventListener("click", () => this.exitFullScreen());
     document.addEventListener(
       "keyup",
       (ev) => this._exitFullScreenOnEscape(ev),
       false
     );
+
+    const focusableElements = getAllFocusableChildren(this.container);
+    if (focusableElements.length > 0) {
+      // set focus on first focusable element
+      focusableElements[0].focus();
+      // store the last focusable element so we can cycle focus
+      this.lastInteriorFocusElement =
+        focusableElements[focusableElements.length - 1];
+    } else {
+      this.lastInteriorFocusElement = overlayAnchor;
+      if (document.activeElement) {
+        document.activeElement.addEventListener(
+          "keydown",
+          (ev) => {
+            if (!(ev instanceof KeyboardEvent)) return;
+            if (ev.key === "Tab") {
+              ev.preventDefault();
+              overlayAnchor.focus();
+            }
+          },
+          { once: true }
+        );
+      }
+    }
+
+    if (this.lastInteriorFocusElement) {
+      this.lastInteriorFocusElement.onkeydown = (ev) => {
+        // If tabbing out of the card, return to close button
+        if (ev.key === "Tab" && !ev.shiftKey) {
+          ev.preventDefault();
+          overlayAnchor.focus();
+        }
+      };
+    }
 
     this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
@@ -68,8 +104,14 @@ class Card {
     const overlay = document.getElementById(Card.attr.ID_FULL_SCREEN_OVERLAY);
 
     overlay ? overlay.remove() : null;
+    this.container.removeAttribute("tabindex");
     this.container.classList.remove(Card.attr.CLASS_FULL_SCREEN);
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
+
+    if (this.lastInteriorFocusElement) {
+      this.lastInteriorFocusElement.onkeydown = null;
+      this.lastInteriorFocusElement = undefined;
+    }
 
     overlay?.removeEventListener("click", () => this.exitFullScreen());
     document.removeEventListener(
@@ -152,7 +194,7 @@ class Card {
     }
   }
 
-  private _createOverlay(): HTMLElement {
+  private _createOverlay(): { overlay: HTMLElement; anchor: HTMLElement } {
     const overlay = document.createElement("div");
     overlay.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
     overlay.classList.add(Card.attr.ID_FULL_SCREEN_OVERLAY);
@@ -160,16 +202,23 @@ class Card {
     const overlayAnchor = document.createElement("a");
     overlayAnchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
     overlayAnchor.tabIndex = 0;
-    overlayAnchor.onClick = () => this.exitFullScreen();
+    overlayAnchor.onclick = () => this.exitFullScreen();
     overlayAnchor.onkeyup = (ev) => {
       if (ev.key === "Enter" || ev.key === " ") {
         this.exitFullScreen();
       }
     };
+    overlayAnchor.onkeydown = (ev) => {
+      // if tabbing out of the card, cycle focus back to last focus element
+      if (ev.key === "Tab" && ev.shiftKey) {
+        ev.preventDefault();
+        this.lastInteriorFocusElement?.focus();
+      }
+    };
     overlayAnchor.innerHTML = this._overlayCloseHtml();
 
     overlay.appendChild(overlayAnchor);
-    return overlay;
+    return { overlay, anchor: overlayAnchor };
   }
 
   private _overlayCloseHtml(): string {

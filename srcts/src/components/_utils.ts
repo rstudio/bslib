@@ -50,10 +50,26 @@ function doWindowResizeOnElementResize(el: HTMLElement): void {
   $(el).data("window-resize-observer", ro);
 }
 
+function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
+  const selectors = [
+    "[href]",
+    "input:not([disabled])",
+    "button:not([disabled])",
+    "select:not([disabled])",
+    "summary:not(:disabled)",
+    "details:not([disabled])",
+    "textarea:not([disabled])",
+    '[tabindex]:not([tabindex="-1"]):not([disabled])',
+  ];
+  const focusable = el.querySelectorAll(selectors.join(", "));
+  return Array.from(focusable) as HTMLElement[];
+}
+
 export {
   InputBinding,
   registerBinding,
   hasDefinedProperty,
   doWindowResizeOnElementResize,
+  getAllFocusableChildren,
 };
 export type { HtmlDep };
