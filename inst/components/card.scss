@@ -93,8 +93,13 @@
   z-index: $zindex-popover;
 }
 
-.card:hover:not(.bslib-full-screen) .bslib-full-screen-enter {
+.card:hover:not(.bslib-full-screen) > .bslib-full-screen-enter {
   display: block;
+}
+
+// Hide all enter-full-screen buttons when *any* card is full-screenified
+.bslib-has-full-screen .card:hover > .bslib-full-screen-enter {
+  display: none;
 }
 
 // Only allow full_screen on desktop screens

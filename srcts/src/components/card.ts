@@ -20,6 +20,8 @@ class Card {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_FULL_SCREEN: "bslib-full-screen",
     // eslint-disable-next-line @typescript-eslint/naming-convention
+    CLASS_HAS_FULL_SCREEN: "bslib-has-full-screen",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_FULL_SCREEN_ENTER: "bslib-full-screen-enter",
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_FULL_SCREEN_EXIT: "bslib-full-screen-exit",
@@ -54,6 +56,7 @@ class Card {
     document.addEventListener("keyup", this._exitFullScreenOnEscape, false);
 
     this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
+    document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
     this.container.insertAdjacentElement("beforebegin", overlay);
   }
 
@@ -62,6 +65,7 @@ class Card {
 
     overlay ? overlay.remove() : null;
     this.container.classList.remove(Card.attr.CLASS_FULL_SCREEN);
+    document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
 
     overlay?.removeEventListener("click", () => this.exitFullScreen());
     document.removeEventListener("keyup", this._exitFullScreenOnEscape, false);
