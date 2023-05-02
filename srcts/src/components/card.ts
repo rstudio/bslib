@@ -53,7 +53,11 @@ class Card {
 
     const overlay = this._createOverlay();
     overlay.addEventListener("click", () => this.exitFullScreen());
-    document.addEventListener("keyup", this._exitFullScreenOnEscape, false);
+    document.addEventListener(
+      "keyup",
+      (ev) => this._exitFullScreenOnEscape(ev),
+      false
+    );
 
     this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
@@ -68,7 +72,11 @@ class Card {
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
 
     overlay?.removeEventListener("click", () => this.exitFullScreen());
-    document.removeEventListener("keyup", this._exitFullScreenOnEscape, false);
+    document.removeEventListener(
+      "keyup",
+      (ev) => this._exitFullScreenOnEscape(ev),
+      false
+    );
   }
 
   destroy(): void {
