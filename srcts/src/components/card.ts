@@ -142,6 +142,11 @@ class Card {
   }
 
   private _exitFullScreenOnEscape(event: KeyboardEvent): void {
+    // if a select input element has focus, then don't exit full screen
+    if (document.activeElement instanceof HTMLSelectElement) {
+      return;
+    }
+
     if (event.key === "Escape") {
       this.exitFullScreen();
     }
