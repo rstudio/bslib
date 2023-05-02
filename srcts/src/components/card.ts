@@ -8,11 +8,18 @@ const Tooltip = (
   window.bootstrap ? window.bootstrap.Tooltip : class {}
 ) as typeof TooltipType;
 
+interface CardOverlay {
+  container: HTMLDivElement;
+  anchor: HTMLAnchorElement;
+}
+
 class Card {
   private container: HTMLElement;
-  cardResizeObserver: ResizeObserver;
-  shinyOutputResizeObserver: ResizeObserver | undefined;
-  lastInteriorFocusElement: HTMLElement | undefined;
+  private overlay: CardOverlay;
+  private cardResizeObserver: ResizeObserver;
+  private shinyOutputResizeObserver: ResizeObserver | undefined;
+  private lastFocusInterior: HTMLElement | undefined;
+  private prevFocusExterior: HTMLElement | undefined;
 
   private static attr = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -48,13 +55,15 @@ class Card {
     this._addEventListeners();
     this._enableTooltips();
     this._startShinyOutputResizeObserver();
+    this.overlay = this._createOverlay();
   }
 
   enterFullScreen(event?: Event): void {
     if (event) event.preventDefault();
 
-    const { overlay, anchor: overlayAnchor } = this._createOverlay();
-    overlay.addEventListener("click", () => this.exitFullScreen());
+    this.overlay.container.addEventListener("click", () =>
+      this.exitFullScreen()
+    );
     document.addEventListener(
       "keyup",
       (ev) => this._exitFullScreenOnEscape(ev),
@@ -63,62 +72,66 @@ class Card {
 
     const focusableElements = getAllFocusableChildren(this.container);
     if (focusableElements.length > 0) {
-      // set focus on first focusable element
+      // set focus on first focusable element in the card
       focusableElements[0].focus();
       // store the last focusable element so we can cycle focus
-      this.lastInteriorFocusElement =
-        focusableElements[focusableElements.length - 1];
+      this.lastFocusInterior = focusableElements[focusableElements.length - 1];
     } else {
-      this.lastInteriorFocusElement = overlayAnchor;
-      if (document.activeElement) {
-        document.activeElement.addEventListener(
+      // this card doesn't have any focusable elements, so focus is vaguely
+      // within the card (having clicked the full screen button). We're can't
+      // know exactly where focus is located (we've hidden the button), so we
+      // attach a listener to the next Tab keydown event to entrap focus within
+      // the full screen card.
+      this.lastFocusInterior = this.overlay.anchor;
+      if (!this.container.contains(document.activeElement)) {
+        this.prevFocusExterior = document.activeElement as HTMLElement;
+        this.prevFocusExterior.addEventListener(
           "keydown",
-          (ev) => {
-            if (!(ev instanceof KeyboardEvent)) return;
-            if (ev.key === "Tab") {
-              ev.preventDefault();
-              overlayAnchor.focus();
-            }
-          },
+          (ev) => this._entrapFocus(ev),
           { once: true }
         );
       }
     }
 
-    if (this.lastInteriorFocusElement) {
-      this.lastInteriorFocusElement.onkeydown = (ev) => {
-        // If tabbing out of the card, return to close button
+    if (this.lastFocusInterior) {
+      this.lastFocusInterior.onkeydown = (ev) => {
+        // If tabbing forwards out of the card, return to close button
         if (ev.key === "Tab" && !ev.shiftKey) {
           ev.preventDefault();
-          overlayAnchor.focus();
+          this.overlay.anchor.focus();
         }
       };
     }
 
     this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
-    this.container.insertAdjacentElement("beforebegin", overlay);
+    this.container.insertAdjacentElement("beforebegin", this.overlay.container);
   }
 
   exitFullScreen(): void {
-    const overlay = document.getElementById(Card.attr.ID_FULL_SCREEN_OVERLAY);
+    // Remove event listeners that were added when entering full screen
+    this.overlay.container.removeEventListener("click", () =>
+      this.exitFullScreen()
+    );
 
-    overlay ? overlay.remove() : null;
-    this.container.removeAttribute("tabindex");
-    this.container.classList.remove(Card.attr.CLASS_FULL_SCREEN);
-    document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
-
-    if (this.lastInteriorFocusElement) {
-      this.lastInteriorFocusElement.onkeydown = null;
-      this.lastInteriorFocusElement = undefined;
+    if (this.lastFocusInterior) {
+      this.lastFocusInterior.onkeydown = null;
     }
 
-    overlay?.removeEventListener("click", () => this.exitFullScreen());
     document.removeEventListener(
       "keyup",
       (ev) => this._exitFullScreenOnEscape(ev),
       false
     );
+
+    // Remove overlay and remove full screen classes from card
+    this.overlay.container.remove();
+    this.container.classList.remove(Card.attr.CLASS_FULL_SCREEN);
+    document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
+
+    // Reset focus tracking state
+    this.lastFocusInterior = undefined;
+    this.prevFocusExterior = undefined;
   }
 
   destroy(): void {
@@ -194,31 +207,44 @@ class Card {
     }
   }
 
-  private _createOverlay(): { overlay: HTMLElement; anchor: HTMLElement } {
-    const overlay = document.createElement("div");
-    overlay.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
-    overlay.classList.add(Card.attr.ID_FULL_SCREEN_OVERLAY);
+  private _entrapFocus(event: KeyboardEvent): void {
+    // This event handler is only enabled when the card doesn't have any
+    // focusable elements. If the user presses Tab, we want to trap focus in the
+    // full screen card, so we move focus to the close button.
+    if (!(event instanceof KeyboardEvent)) return;
+    if (!this.container.matches(`.${Card.attr.CLASS_FULL_SCREEN}`)) return;
+    if (event.key === "Tab") {
+      event.preventDefault();
+      this.overlay.anchor.focus();
+    }
+  }
 
-    const overlayAnchor = document.createElement("a");
-    overlayAnchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
-    overlayAnchor.tabIndex = 0;
-    overlayAnchor.onclick = () => this.exitFullScreen();
-    overlayAnchor.onkeyup = (ev) => {
+  private _createOverlay(): CardOverlay {
+    const container = document.createElement("div");
+    container.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
+    container.classList.add(Card.attr.ID_FULL_SCREEN_OVERLAY);
+
+    const anchor = document.createElement("a");
+    anchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
+    anchor.tabIndex = 0;
+    anchor.onclick = () => this.exitFullScreen();
+    anchor.onkeyup = (ev) => {
       if (ev.key === "Enter" || ev.key === " ") {
         this.exitFullScreen();
       }
     };
-    overlayAnchor.onkeydown = (ev) => {
-      // if tabbing out of the card, cycle focus back to last focus element
+    anchor.onkeydown = (ev) => {
+      // if tabbing backwards out of the card,
+      // cycle focus back to last focus element within the card
       if (ev.key === "Tab" && ev.shiftKey) {
         ev.preventDefault();
-        this.lastInteriorFocusElement?.focus();
+        this.lastFocusInterior?.focus();
       }
     };
-    overlayAnchor.innerHTML = this._overlayCloseHtml();
+    anchor.innerHTML = this._overlayCloseHtml();
 
-    overlay.appendChild(overlayAnchor);
-    return { overlay, anchor: overlayAnchor };
+    container.appendChild(anchor);
+    return { container, anchor };
   }
 
   private _overlayCloseHtml(): string {
