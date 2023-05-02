@@ -12,8 +12,23 @@ class Card {
   cardResizeObserver: ResizeObserver;
   shinyOutputResizeObserver: ResizeObserver | undefined;
 
+  private static attr = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    ATTR_INIT: "data-bslib-card-needs-init",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    CLASS_CARD: "bslib-card",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    CLASS_FULL_SCREEN: "bslib-full-screen",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    CLASS_FULL_SCREEN_ENTER: "bslib-full-screen-enter",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    CLASS_FULL_SCREEN_EXIT: "bslib-full-screen-exit",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    ID_FULL_SCREEN_OVERLAY: "bslib-full-screen-overlay",
+  };
+
   constructor(el: HTMLElement) {
-    el.removeAttribute("data-bslib-card-needs-init");
+    el.removeAttribute(Card.attr.ATTR_INIT);
 
     this.container = el;
     Card.instanceMap.set(el, this);
@@ -38,15 +53,15 @@ class Card {
     overlay.addEventListener("click", () => this.exitFullScreen());
     document.addEventListener("keyup", this._exitFullScreenOnEscape, false);
 
-    this.container.classList.add("bslib-full-screen");
+    this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
     this.container.insertAdjacentElement("beforebegin", overlay);
   }
 
   exitFullScreen(): void {
-    const overlay = document.getElementById("bslib-full-screen-overlay");
+    const overlay = document.getElementById(Card.attr.ID_FULL_SCREEN_OVERLAY);
 
     overlay ? overlay.remove() : null;
-    this.container.classList.remove("bslib-full-screen");
+    this.container.classList.remove(Card.attr.CLASS_FULL_SCREEN);
 
     overlay?.removeEventListener("click", () => this.exitFullScreen());
     document.removeEventListener("keyup", this._exitFullScreenOnEscape, false);
@@ -63,7 +78,7 @@ class Card {
 
   private _addEventListeners(): void {
     const btnFullScreen = this.container.querySelector(
-      ".bslib-full-screen-enter"
+      `:scope > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
     );
     if (!btnFullScreen) return;
     btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
@@ -71,7 +86,7 @@ class Card {
 
   private _removeEventListeners(): void {
     const btnFullScreen = this.container.querySelector(
-      ".bslib-full-screen-enter"
+      `:scope > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
     );
     if (!btnFullScreen) return;
     btnFullScreen.removeEventListener("click", (ev) =>
@@ -80,12 +95,11 @@ class Card {
   }
 
   private _enableTooltips(): void {
-    if (!this.container.querySelector('[data-bs-toggle="tooltip"]')) {
+    const selector = `.${Card.attr.CLASS_FULL_SCREEN_ENTER}[data-bs-toggle='tooltip']`;
+    if (!this.container.querySelector(selector)) {
       return;
     }
-    const tooltipList = this.container.querySelectorAll(
-      '[data-bs-toggle="tooltip"]'
-    );
+    const tooltipList = this.container.querySelectorAll(selector);
     tooltipList.forEach((tt) => new Tooltip(tt));
   }
 
@@ -123,11 +137,11 @@ class Card {
 
   private _createOverlay(): HTMLElement {
     const overlay = document.createElement("div");
-    overlay.id = "bslib-full-screen-overlay";
-    overlay.classList.add("bslib-full-screen-overlay");
+    overlay.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
+    overlay.classList.add(Card.attr.ID_FULL_SCREEN_OVERLAY);
 
     const overlayAnchor = document.createElement("a");
-    overlayAnchor.classList.add("bslib-full-screen-exit");
+    overlayAnchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
     overlayAnchor.innerHTML = this._overlayCloseHtml();
 
     overlay.appendChild(overlayAnchor);
@@ -153,13 +167,13 @@ class Card {
 
   private static documentObserver: DocumentObserver = new DocumentObserver({
     added: {
-      selector: ".bslib-card[data-bslib-card-needs-init]",
+      selector: `.${Card.attr.CLASS_CARD}[data-bslib-card-needs-init]`,
       callback: (card: HTMLElement) => {
         new Card(card);
       },
     },
     removed: {
-      selector: ".bslib-card",
+      selector: `.${Card.attr.CLASS_CARD}`,
       callback: (card: HTMLElement) => {
         Card.getInstance(card)?.destroy();
       },
