@@ -254,6 +254,7 @@ sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
       abort('`open` must be `NULL`, `TRUE` (or "open"), or `FALSE` (or "closed").')
     }
 
+  force(id)
   callback <- function() {
     session$sendInputMessage(id, list(method = method))
   }
