@@ -119,6 +119,7 @@ sidebar <- function(
       id = id,
       role = "complementary",
       class = c("sidebar", class),
+      hidden = if (open == "closed") NA,
       style = css(background_color = bg, color = fg),
       tags$div(
         class = "sidebar-content",
