@@ -28,6 +28,12 @@
 #'   * `"open"` or `TRUE`: The sidebar starts open.
 #'   * `"closed"` or `FALSE`: The sidebar starts closed.
 #'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
+#'
+#'   In `sidebar_toggle()`, `open` indicates the desired state of the sidebar,
+#'   where the default of `open = NULL` will cause the sidebar to be toggled
+#'   open if closed or vice versa. Note that `sidebar_toggle()` can only open or
+#'   close the sidebar, so it does not support the `"desktop"` and `"always"`
+#'   options.
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
 #' @param title A character title to be used as the sidebar title, which will be
@@ -68,10 +74,16 @@ sidebar <- function(
   open <- rlang::arg_match(open)
 
   if (!is.null(id)) {
-    # only create input binding when id is provided
+    if (length(id) != 1 || is.na(id) || !nzchar(id)) {
+      rlang::abort("`id` must be a non-empty, length-1 character string or `NULL`.")
+    }
+
+    # create input binding when id is provided by adding input class
     class <- c("bslib-sidebar-input", class)
-  } else if (open != "always") {
-    # but always provide id when collapsible for accessibility reasons
+  }
+
+  if (is.null(id) && open != "always") {
+    # always provide id when collapsible for accessibility reasons
     id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
   }
 
@@ -189,12 +201,21 @@ layout_sidebar <- function(
   max_height_mobile <- sidebar$max_height_mobile %||%
     if (is.null(height)) "250px" else "50%"
 
+  if (identical(sidebar$open, "always")) {
+    # sidebar initialization is only needed if collapsible
+    sidebar_id <- NULL
+    sidebar_init_js <- NULL
+  } else {
+    sidebar_id <- tagGetAttribute(sidebar$tag, "id")
+    sidebar_init_js <- sidebar_js_init(sidebar_id)
+  }
+
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
-    `data-sidebar-init-auto-collapse` =
-      if (identical(sidebar$open, "desktop")) "true",
+    `data-bslib-sidebar-init` = sidebar_id,
+    `data-bslib-sidebar-open` = sidebar$open,
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
@@ -205,7 +226,7 @@ layout_sidebar <- function(
     ),
     !!!contents,
     sidebar_dependency(),
-    sidebar_js_init()
+    sidebar_init_js
   )
 
   res <- bindFillRole(res, item = fill)
@@ -217,58 +238,40 @@ layout_sidebar <- function(
   )
 }
 
-sidebar_js_init <- function() {
-  tags$script("data-bslib-sidebar-init" = NA, HTML(
-    "
-    var thisScript = document.querySelector('script[data-bslib-sidebar-init]');
-    thisScript.removeAttribute('data-bslib-sidebar-init');
-
-    // If this layout is the innermost layout, then allow it to add CSS
-    // variables to it and its ancestors (counting how parent layouts there are)
-    var thisLayout = $(thisScript).parent();
-    var noChildLayouts = thisLayout.find('.bslib-sidebar-layout').length === 0;
-    if (noChildLayouts) {
-      var parentLayouts = thisLayout.parents('.bslib-sidebar-layout');
-      // .add() sorts the layouts in DOM order (i.e., innermost is last)
-      var layouts = thisLayout.add(parentLayouts);
-      var ctrs = {left: 0, right: 0};
-      layouts.each(function(i, x) {
-        $(x).css('--bslib-sidebar-counter', i);
-        var right = $(x).hasClass('sidebar-right');
-        $(x).css('--bslib-sidebar-overlap-counter', right ? ctrs.right : ctrs.left);
-        right ? ctrs.right++ : ctrs.left++;
-      });
-    }
-
-    // If sidebar is marked open='desktop', collapse sidebar if on mobile
-    if (thisLayout.data('sidebarInitAutoCollapse')) {
-      var initCollapsed = thisLayout.css('--bslib-sidebar-js-init-collapsed');
-      if (initCollapsed === 'true') {
-        thisLayout.addClass('sidebar-collapsed');
-        thisLayout.find('.collapse-toggle').attr('aria-expanded', 'false');
-      }
-    }
-    "
-  ))
+sidebar_js_init <- function(id) {
+  # Requires Shiny >= 1.7.2 and works thanks to rstudio/shiny#3630 (2022-05-09)
+  tags$script(
+    "document.currentScript.parentElement.removeChild(document.currentScript);\n",
+    sprintf(
+      "window.bslib.Sidebar.initCollapsible(document.querySelector('[data-bslib-sidebar-init=\"%s\"]'));",
+      id
+    )
+  )
 }
 
-
-#' @describeIn sidebar Open a `sidebar()` (during an active Shiny user session).
-#' @param session a shiny session object (the default should almost always be
+#' @describeIn sidebar Toggle a `sidebar()` state during an active Shiny user
+#'   session.
+#' @param session A Shiny session object (the default should almost always be
 #'   used).
 #' @export
-sidebar_open <- function(id, session = get_current_session()) {
-  callback <- function() {
-    session$sendInputMessage(id, list(method = "open"))
-  }
-  session$onFlush(callback, once = TRUE)
-}
+sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
+  method <-
+    if (is.null(open) || identical(open, "toggle")) {
+      "toggle"
+    } else if (isTRUE(open) || identical(open, "open")) {
+      "open"
+    } else if (isFALSE(open) || identical(open, "closed")) {
+      "close"
+    } else if (isTRUE(is.na(open)) || identical(open, "always")) {
+      abort('`open = "always"` is not supported by `sidebar_toggle()`.')
+    } else if (identical(open, "desktop")) {
+      abort('`open = "desktop"` is not supported by `sidebar_toggle()`.')
+    } else {
+      abort('`open` must be `NULL`, `TRUE` (or "open"), or `FALSE` (or "closed").')
+    }
 
-#' @describeIn sidebar Close a `sidebar()` (during an active Shiny user session).
-#' @export
-sidebar_close <- function(id, session = get_current_session()) {
   callback <- function() {
-    session$sendInputMessage(id, list(method = "close"))
+    session$sendInputMessage(id, list(method = method))
   }
   session$onFlush(callback, once = TRUE)
 }
