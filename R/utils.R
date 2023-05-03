@@ -44,7 +44,7 @@ is_hosted_app <- function() {
 }
 
 is_shiny_runtime <- function() {
-  if (!is_available("knitr")) return(FALSE)
+  if (!is_installed("knitr")) return(FALSE)
   isTRUE(grepl("^shiny", knitr::opts_knit$get("rmarkdown.runtime")))
 }
 
