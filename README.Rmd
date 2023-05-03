@@ -53,53 +53,9 @@ Usage with R Markdown requires version 2.7 or higher:
 install.packages("rmarkdown")
 ```
 
-## Basic usage {#usage}
+## Examples
 
-### Shiny
-
-To get started using `bslib` in Shiny, use one of its `page_*()` functions. These drop-in replacements for `shiny::*Page()` updates the page to use the latest supported version Bootstrap. 
-
-```r
-ui <- page_fluid(
-  h2("Hello world")
-)
-shinyApp(ui, function(...) {})
-```
-
-In production, it's recommended to pin the version of Bootstrap (currently 5) via `bs_theme()`. As you'll learn in [getting started](https://rstudio.github.io/bslib/articles/bslib.html), `bs_theme()` also makes it easy to theme the app by customizing (and/or adding to) Bootstrap CSS. 
-
-```r
-library(shiny)
-ui <- page_fixed(
-  theme = bs_theme(version = 5),
-  h2("Hello world")
-)
-shinyApp(ui, function(...) {})
-```
-
-### R Markdown
-
-To get started using `bslib` in R Markdown (and compatible extensions like [`flexdashboard`](https://flexdashboard-pkg.netlify.app/articles/theme.html)), provide `bs_theme()` parameters to the `theme` parameter of the output format. For example, here's how to use "stock" Bootstrap 5 with `rmarkdown::html_document`:
-
-```r
----
-output:
-  html_document:
-    theme:
-      version: 5
----
-```
-
-`bslib` also provides some R Markdown templates that can be accessed from RStudio by going to File -> New File -> R Markdown -> From Template:
-
-```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics("man/figures/rstudio-templates.png")
-```
-
-### pkgdown
-
-`{pkgdown}` has its way of using `bslib`, see <https://pkgdown.r-lib.org/articles/customise.html>
-
+TODO: examples 
 
 ## Getting help
 

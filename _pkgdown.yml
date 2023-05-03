@@ -31,6 +31,8 @@ navbar:
     theming:
       text: Theming
       menu:
+        - text: Custom theming
+          href: articles/custom-theming.html
         - text: Theming variables
           href: articles/bs5-variables.html
         - text: Utility Classes
