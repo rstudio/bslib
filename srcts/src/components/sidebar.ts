@@ -10,17 +10,50 @@ type MessageData = {
   method: SidebarMethod;
 };
 
-type SidebarComponents = {
+interface SidebarComponents {
   container: HTMLElement;
   main: HTMLElement;
   sidebar: HTMLElement;
-  toggle: HTMLElement & {
-    handlers?: { start: (ev: MouseEvent) => void; end: () => void };
-  };
-  isClosed: boolean;
-};
+  toggle: HTMLElement;
+}
 
 class Sidebar {
+  private layout: SidebarComponents;
+  #isClosed = false;
+
+  constructor(container: HTMLElement) {
+    container.removeAttribute("data-bslib-sidebar-init");
+
+    Sidebar.instanceMap.set(container, this);
+    this.layout = {
+      container,
+      main: container.querySelector(":scope > .main") as HTMLElement,
+      sidebar: container.querySelector(":scope > .sidebar") as HTMLElement,
+      toggle: container.querySelector(
+        ":scope > .collapse-toggle"
+      ) as HTMLElement,
+    } as SidebarComponents;
+
+    if (!this.layout.toggle) {
+      throw new Error("Tried to initialize a non-collapsible sidebar.");
+    }
+
+    this.#isClosed = this._isClosedOrClosing();
+
+    this._initEventListeners();
+    this._initSidebarCounters();
+    this._initDesktop();
+  }
+
+  get isClosed(): boolean {
+    return this.#isClosed;
+  }
+
+  private _isClosedOrClosing(): boolean {
+    // While in the middle of toggling, the user may want to reverse course
+    return this.layout.container.classList.contains(Sidebar.classes.COLLAPSE);
+  }
+
   public static readonly classes = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     LAYOUT: "bslib-sidebar-layout",
@@ -31,87 +64,74 @@ class Sidebar {
   };
 
   private static onReadyScheduled = false;
+  private static instanceMap: WeakMap<HTMLElement, Sidebar> = new WeakMap();
 
-  public static initCollapsibleAll(scope: HTMLElement | Document): void {
+  public static getInstance(el: HTMLElement): Sidebar | undefined {
+    return Sidebar.instanceMap.get(el);
+  }
+
+  public static initCollapsibleAll(scope: Document | HTMLElement): void {
     if (document.readyState === "loading") {
       if (!Sidebar.onReadyScheduled) {
         Sidebar.onReadyScheduled = true;
-        document.addEventListener("DOMContentLoaded", () => Sidebar.initCollapsibleAll(document));
+        document.addEventListener("DOMContentLoaded", () =>
+          Sidebar.initCollapsibleAll(document)
+        );
       }
       return;
     }
 
     const initSelector = "[data-bslib-sidebar-init]";
-    const scopeMatches = scope === document ? false : scope.matches(initSelector);
+    let scopeMatches = false;
+    if (scope instanceof HTMLElement) {
+      scopeMatches = scope.matches(initSelector);
+    }
     if (!(scopeMatches || scope.querySelector(initSelector))) {
       // no sidebars to initialize
       return;
     }
 
     const containers = Array.from(scope.querySelectorAll(initSelector));
-    if (scopeMatches) {
+    if (scopeMatches && scope instanceof HTMLElement) {
       containers.unshift(scope);
     }
 
-    containers.forEach((container) =>
-      Sidebar.initCollapsible(container as HTMLElement)
-    );
+    containers.forEach((container) => new Sidebar(container as HTMLElement));
   }
 
-  public static initCollapsible(container: HTMLElement): void {
-    if (!container.hasAttribute("data-bslib-sidebar-init")) {
-      // Do not reinitialize a sidebar that has already been initialized
-      return;
-    } else {
-      // Signal that this layout is initialized by removing the init attribute
-      container.removeAttribute("data-bslib-sidebar-init");
-    }
+  private _initEventListeners(): void {
+    const { sidebar, toggle } = this.layout;
 
-    Sidebar._initEventListeners(container);
-    Sidebar._initSidebarCounters(container);
-    Sidebar._initDesktop(container);
-  }
-
-  private static _initEventListeners(container: HTMLElement): void {
-    const { sidebar, toggle } = Sidebar.components(container);
-
-    // We store a reference to the sidebar toggle event handlers on the toggle
-    // element itself, so that we can remove them later if needed.
-    toggle.handlers = {
-      start: (ev) => {
-        ev.preventDefault();
-        Sidebar.toggle(container, "toggle");
-      },
-      end: () => {
-        const { isClosed } = Sidebar.components(container);
-        setTimeout(
-          () => {
-            Sidebar.finalizeState(container);
-            $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
-          },
-          // Add a small delay before finalizing the closed state, otherwise
-          // this happens just before the sidebar reaches the final state and
-          // the sidebar disappears abruptly.
-          isClosed ? 100 : 0
-        );
-      },
-    };
-
-    toggle.addEventListener("click", toggle.handlers.start);
+    toggle.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      this.toggle("toggle");
+    });
 
     // Once the collapse transition completes (on the collapse toggle icon, which is
     // always guaranteed to transition), then remove the transitioning class
     toggle
       .querySelector(".collapse-icon")
-      ?.addEventListener("transitionend", toggle.handlers.end);
+      ?.addEventListener("transitionend", () => {
+        setTimeout(
+          () => {
+            this._finalizeState();
+            $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
+          },
+          // Add a small delay before finalizing the closed state, otherwise
+          // this happens just before the sidebar reaches the final state and
+          // the sidebar disappears abruptly.
+          this.isClosed ? 100 : 0
+        );
+      });
   }
 
-  private static _initSidebarCounters(container: HTMLElement): void {
+  private _initSidebarCounters(): void {
     // This function walks up the DOM tree, adding CSS variables to each
     // direct parent sidebar layout that count the layout's position in the
     // stack of nested layouts. We use these counters to keep the collapse
     // toggles from overlapping. Note that always-open sidebars that don't
     // have collapse toggles break the chain of nesting.
+    const { container } = this.layout;
 
     const selectorChildLayouts =
       `.${Sidebar.classes.LAYOUT}` +
@@ -159,7 +179,8 @@ class Sidebar {
     });
   }
 
-  private static _initDesktop(container: HTMLElement): void {
+  private _initDesktop(): void {
+    const { container } = this.layout;
     // If sidebar is marked open='desktop'...
     if (container.dataset.bslibSidebarOpen?.trim() !== "desktop") {
       return;
@@ -171,36 +192,13 @@ class Sidebar {
       .getPropertyValue("--bslib-sidebar-js-init-collapsed");
 
     if (initCollapsed.trim() === "true") {
-      Sidebar.toggle(container, "close");
+      this.toggle("close");
     }
   }
 
-  private static _findLayoutContainer(el: HTMLElement): HTMLElement {
-    const container = el.closest(`.${Sidebar.classes.LAYOUT}`);
-    if (!container) {
-      throw new Error(
-        `Expected container or direct ancestor with class ${Sidebar.classes.LAYOUT}`
-      );
-    }
-    return container as HTMLElement;
-  }
-
-  public static components(el: HTMLElement): SidebarComponents {
-    el = Sidebar._findLayoutContainer(el);
-
-    // sidebar components
-    const main = el.querySelector(":scope > .main") as HTMLElement;
-    const sidebar = el.querySelector(":scope > .sidebar") as HTMLElement;
-    const toggle = el.querySelector(":scope > .collapse-toggle") as HTMLElement;
-
-    // sidebar state
-    const isClosed = el.classList.contains(Sidebar.classes.COLLAPSE);
-
-    return { container: el, main, sidebar, toggle, isClosed };
-  }
-
-  public static toggle(el: HTMLElement, method: SidebarMethod) {
-    const { container, main, sidebar, isClosed } = Sidebar.components(el);
+  public toggle(method: SidebarMethod) {
+    const { container, main, sidebar } = this.layout;
+    const isClosed = this._isClosedOrClosing();
 
     if (["open", "close", "toggle"].indexOf(method) === -1) {
       throw new Error(`Unknown method ${method}`);
@@ -230,22 +228,12 @@ class Sidebar {
     container.classList.toggle(Sidebar.classes.COLLAPSE);
   }
 
-  public static finalizeState(el: HTMLElement): void {
-    const { container, sidebar, toggle, isClosed } = Sidebar.components(el);
+  private _finalizeState(): void {
+    const { container, sidebar, toggle } = this.layout;
     container.classList.remove(Sidebar.classes.TRANSITIONING);
-    sidebar.hidden = isClosed;
-    toggle.ariaExpanded = isClosed ? "false" : "true";
-  }
-
-  public static removeEventListeners(el: HTMLElement): void {
-    // If a sidebar layout is removed from the page, we should also clean up any
-    // event listeners that were added to the layout's components.
-    const { toggle } = Sidebar.components(el);
-    if (!toggle.handlers) return;
-    toggle.removeEventListener("click", toggle.handlers.start);
-    toggle
-      .querySelector(".collapse-icon")
-      ?.removeEventListener("transitionend", toggle.handlers.end);
+    this.#isClosed = container.classList.contains(Sidebar.classes.COLLAPSE);
+    sidebar.hidden = this.#isClosed;
+    toggle.ariaExpanded = this.#isClosed ? "false" : "true";
   }
 }
 
@@ -255,7 +243,8 @@ class SidebarInputBinding extends InputBinding {
   }
 
   getValue(el: HTMLElement): boolean {
-    return !$(el).parent().hasClass(Sidebar.classes.COLLAPSE);
+    const sb = Sidebar.getInstance(el.parentElement as HTMLElement);
+    return sb ? sb.isClosed : false;
   }
 
   setValue(el: HTMLElement, value: boolean): void {
@@ -278,7 +267,8 @@ class SidebarInputBinding extends InputBinding {
   }
 
   receiveMessage(el: HTMLElement, data: MessageData) {
-    Sidebar.toggle(el, data.method);
+    const sb = Sidebar.getInstance(el.parentElement as HTMLElement);
+    if (sb) sb.toggle(data.method);
   }
 }
 
