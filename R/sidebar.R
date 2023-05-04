@@ -119,6 +119,7 @@ sidebar <- function(
       id = id,
       role = "complementary",
       class = c("sidebar", class),
+      hidden = if (open == "closed") NA,
       style = css(background_color = bg, color = fg),
       tags$div(
         class = "sidebar-content",
@@ -201,20 +202,13 @@ layout_sidebar <- function(
   max_height_mobile <- sidebar$max_height_mobile %||%
     if (is.null(height)) "250px" else "50%"
 
-  if (identical(sidebar$open, "always")) {
-    # sidebar initialization is only needed if collapsible
-    sidebar_id <- NULL
-    sidebar_init_js <- NULL
-  } else {
-    sidebar_id <- tagGetAttribute(sidebar$tag, "id")
-    sidebar_init_js <- sidebar_js_init(sidebar_id)
-  }
+  sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
 
   res <- div(
     class = "bslib-sidebar-layout",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
-    `data-bslib-sidebar-init` = sidebar_id,
+    `data-bslib-sidebar-init` = sidebar_init,
     `data-bslib-sidebar-open` = sidebar$open,
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
@@ -226,7 +220,7 @@ layout_sidebar <- function(
     ),
     !!!contents,
     sidebar_dependency(),
-    sidebar_init_js
+    sidebar_init_js()
   )
 
   res <- bindFillRole(res, item = fill)
@@ -235,17 +229,6 @@ layout_sidebar <- function(
 
   as_fragment(
     tag_require(res, version = 5, caller = "layout_sidebar()")
-  )
-}
-
-sidebar_js_init <- function(id) {
-  # Requires Shiny >= 1.7.2 and works thanks to rstudio/shiny#3630 (2022-05-09)
-  tags$script(
-    "document.currentScript.parentElement.removeChild(document.currentScript);\n",
-    sprintf(
-      "window.bslib.Sidebar.initCollapsible(document.querySelector('[data-bslib-sidebar-init=\"%s\"]'));",
-      id
-    )
   )
 }
 
@@ -270,6 +253,7 @@ sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
       abort('`open` must be `NULL`, `TRUE` (or "open"), or `FALSE` (or "closed").')
     }
 
+  force(id)
   callback <- function() {
     session$sendInputMessage(id, list(method = method))
   }
@@ -291,5 +275,15 @@ sidebar_dependency <- function() {
     package = "bslib",
     src = "components",
     script = "sidebar.min.js"
+  )
+}
+
+sidebar_init_js <- function() {
+  # Note: if we want to avoid inline `<script>` tags in the future for
+  # initialization code, we might be able to do so by turning the sidebar layout
+  # container into a web component
+  tags$script(
+    `data-bslib-sidebar-init` = NA,
+    HTML("bslib.Sidebar.initCollapsibleAll()")
   )
 }
