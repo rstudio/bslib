@@ -246,7 +246,7 @@ class Sidebar {
     function nextSidebarParent(el: HTMLElement | null): HTMLElement | null {
       el = el ? el.parentElement : null;
       if (el && el.classList.contains("main")) {
-        // .bslib-sidebar-layout > .main > .bslib-sidedbar-layout
+        // .bslib-sidebar-layout > .main > .bslib-sidebar-layout
         el = el.parentElement;
       }
       if (el && el.classList.contains(Sidebar.classes.LAYOUT)) {
