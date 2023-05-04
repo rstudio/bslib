@@ -203,8 +203,6 @@ layout_sidebar <- function(
     if (is.null(height)) "250px" else "50%"
 
   sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
-  sidebar_border <- if (!is.null(border)) tolower(border)
-  sidebar_border_radius <- if (!is.null(border_radius)) tolower(border_radius)
 
   res <- div(
     class = "bslib-sidebar-layout",
@@ -212,8 +210,8 @@ layout_sidebar <- function(
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
     `data-bslib-sidebar-init` = sidebar_init,
     `data-bslib-sidebar-open` = sidebar$open,
-    `data-bslib-sidebar-border` = sidebar_border,
-    `data-bslib-sidebar-border-radius` = sidebar_border_radius,
+    `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
+    `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
       "--bslib-sidebar-width" = sidebar$width,
       "--bs-card-border-color" = border_color,
