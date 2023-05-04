@@ -4,8 +4,6 @@ import {
   doWindowResizeOnElementResize,
 } from "./_utils";
 
-import { DocumentObserver } from "./_documentObserver";
-
 type SidebarMethod = "close" | "open" | "toggle";
 
 type MessageData = {
@@ -32,24 +30,42 @@ class Sidebar {
     TRANSITIONING: "transitioning",
   };
 
-  public static observer: DocumentObserver = new DocumentObserver({
-    added: {
-      selector: `.${Sidebar.classes.LAYOUT}[data-bslib-sidebar-init]`,
-      callback: (container) => {
-        Sidebar.initCollapsible(container as HTMLElement);
-      },
-    },
-    removed: {
-      selector: `.${Sidebar.classes.LAYOUT}:not([data-bslib-sidebar-open="always"])`,
-      callback: (container) => {
-        Sidebar.removeEventListeners(container as HTMLElement);
-      },
-    },
-  });
+  private static onReadyScheduled = false;
+
+  public static initCollapsibleAll(scope: HTMLElement | Document): void {
+    if (document.readyState === "loading") {
+      if (!Sidebar.onReadyScheduled) {
+        Sidebar.onReadyScheduled = true;
+        document.addEventListener("DOMContentLoaded", () => Sidebar.initCollapsibleAll(document));
+      }
+      return;
+    }
+
+    const initSelector = "[data-bslib-sidebar-init]";
+    const scopeMatches = scope === document ? false : scope.matches(initSelector);
+    if (!(scopeMatches || scope.querySelector(initSelector))) {
+      // no sidebars to initialize
+      return;
+    }
+
+    const containers = Array.from(scope.querySelectorAll(initSelector));
+    if (scopeMatches) {
+      containers.unshift(scope);
+    }
+
+    containers.forEach((container) =>
+      Sidebar.initCollapsible(container as HTMLElement)
+    );
+  }
 
   public static initCollapsible(container: HTMLElement): void {
-    // Signal that this layout is initialized by removing the init attribute
-    container.removeAttribute("data-bslib-sidebar-init");
+    if (!container.hasAttribute("data-bslib-sidebar-init")) {
+      // Do not reinitialize a sidebar that has already been initialized
+      return;
+    } else {
+      // Signal that this layout is initialized by removing the init attribute
+      container.removeAttribute("data-bslib-sidebar-init");
+    }
 
     Sidebar._initEventListeners(container);
     Sidebar._initSidebarCounters(container);

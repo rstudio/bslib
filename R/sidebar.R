@@ -221,7 +221,8 @@ layout_sidebar <- function(
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
-    sidebar_dependency()
+    sidebar_dependency(),
+    if (!identical(sidebar$open, "always")) sidebar_init_js()
   )
 
   res <- bindFillRole(res, item = fill)
@@ -277,4 +278,8 @@ sidebar_dependency <- function() {
     src = "components",
     script = "sidebar.min.js"
   )
+}
+
+sidebar_init_js <- function() {
+  tags$script(HTML("bslib.Sidebar.initCollapsibleAll(document);"))
 }
