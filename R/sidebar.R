@@ -282,5 +282,8 @@ sidebar_init_js <- function() {
   # Note: if we want to avoid inline `<script>` tags in the future for
   # initialization code, we might be able to do so by turning the sidebar layout
   # container into a web component
-  tags$script(HTML("bslib.Sidebar.initCollapsibleAll()"))
+  tags$script(
+    `data-bslib-sidebar-init` = NA,
+    HTML("bslib.Sidebar.initCollapsibleAll()")
+  )
 }
