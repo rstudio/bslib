@@ -281,11 +281,8 @@ sidebar_dependency <- function() {
 }
 
 sidebar_init_js <- function() {
-  tags$script(HTML(paste(
-    c(
-      "bslib.Sidebar.initCollapsibleAll()",
-      "if (document.currentScript) document.currentScript.remove()"
-    ),
-    collapse = "; "
-  )))
+  tags$script(
+    `data-bslib-sidebar-init` = NA,
+    HTML("bslib.Sidebar.initCollapsibleAll()")
+  )
 }
