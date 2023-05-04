@@ -61,32 +61,24 @@ class Sidebar {
     return Sidebar.instanceMap.get(el);
   }
 
-  public static initCollapsibleAll(scope: Document | HTMLElement): void {
+  public static initCollapsibleAll(): void {
     if (document.readyState === "loading") {
       if (!Sidebar.onReadyScheduled) {
         Sidebar.onReadyScheduled = true;
         document.addEventListener("DOMContentLoaded", () =>
-          Sidebar.initCollapsibleAll(document)
+          Sidebar.initCollapsibleAll()
         );
       }
       return;
     }
 
     const initSelector = "[data-bslib-sidebar-init]";
-    let scopeMatches = false;
-    if (scope instanceof HTMLElement) {
-      scopeMatches = scope.matches(initSelector);
-    }
-    if (!(scopeMatches || scope.querySelector(initSelector))) {
+    if (!document.querySelector(initSelector)) {
       // no sidebars to initialize
       return;
     }
 
-    const containers = Array.from(scope.querySelectorAll(initSelector));
-    if (scopeMatches && scope instanceof HTMLElement) {
-      containers.unshift(scope);
-    }
-
+    const containers = document.querySelectorAll(initSelector);
     containers.forEach((container) => new Sidebar(container as HTMLElement));
   }
 

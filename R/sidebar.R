@@ -281,5 +281,5 @@ sidebar_dependency <- function() {
 }
 
 sidebar_init_js <- function() {
-  tags$script(HTML("bslib.Sidebar.initCollapsibleAll(document);"))
+  tags$script(HTML("bslib.Sidebar.initCollapsibleAll();"))
 }
