@@ -112,16 +112,8 @@ class Sidebar {
     toggle
       .querySelector(".collapse-icon")
       ?.addEventListener("transitionend", () => {
-        setTimeout(
-          () => {
-            this._finalizeState();
-            $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
-          },
-          // Add a small delay before finalizing the closed state, otherwise
-          // this happens just before the sidebar reaches the final state and
-          // the sidebar disappears abruptly.
-          this.isClosed ? 100 : 0
-        );
+        this._finalizeState();
+        $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
       });
   }
 
