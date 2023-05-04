@@ -294,10 +294,15 @@ class Sidebar {
   /**
    * Toggle the sidebar's open/closed state.
    * @public
-   * @param {SidebarToggleMethod} method Whether to `"open"`, `"close"` or
-   * `"toggle"` the sidebar.
+   * @param {SidebarToggleMethod | undefined} method Whether to `"open"`,
+   * `"close"` or `"toggle"` the sidebar. If `.toggle()` is called without an
+   * argument, it will toggle the sidebar's state.
    */
-  public toggle(method: SidebarToggleMethod): void {
+  public toggle(method: SidebarToggleMethod | undefined): void {
+    if (typeof method === "undefined") {
+      method = "toggle";
+    }
+
     const { container, main, sidebar } = this.layout;
     const isClosed = this.isClosed;
 
