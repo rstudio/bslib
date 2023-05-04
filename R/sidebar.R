@@ -222,7 +222,7 @@ layout_sidebar <- function(
     ),
     !!!contents,
     sidebar_dependency(),
-    if (!identical(sidebar$open, "always")) sidebar_init_js()
+    sidebar_init_js()
   )
 
   res <- bindFillRole(res, item = fill)
