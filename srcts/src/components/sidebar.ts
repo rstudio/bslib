@@ -90,8 +90,10 @@ class Sidebar {
       this.toggle("toggle");
     });
 
-    // Once the collapse transition completes (on the collapse toggle icon, which is
-    // always guaranteed to transition), then remove the transitioning class
+    // Remove the transitioning class when the transition ends. We watch the
+    // collapse toggle icon because it's guaranteed to transition, whereas the
+    // sidebar doesn't animate on mobile (or in browsers where animating
+    // grid-template-columns is not supported).
     toggle
       .querySelector(".collapse-icon")
       ?.addEventListener("transitionend", () => {
