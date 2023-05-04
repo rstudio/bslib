@@ -4,21 +4,73 @@ import {
   doWindowResizeOnElementResize,
 } from "./_utils";
 
-type SidebarMethod = "close" | "open" | "toggle";
+/**
+ * Methods for programmatically toggling the state of the sidebar. These methods
+ * describe the desired state of the sidebar: `"close"` and `"open"` transition
+ * the sidebar to the desired state, unless the sidebar is already in that
+ * state. `"toggle"` transitions the sidebar to the state opposite of its
+ * current state.
+ * @typedef {SidebarToggleMethod}
+ */
+type SidebarToggleMethod = "close" | "open" | "toggle";
 
-type MessageData = {
-  method: SidebarMethod;
+/**
+ * Data received by the input binding's `receiveMessage` method.
+ * @typedef {SidebarMessageData}
+ */
+type SidebarMessageData = {
+  method: SidebarToggleMethod;
 };
 
+/**
+ * The DOM elements that make up the sidebar. `main`, `sidebar`, and `toggle`
+ * are all direct children of `container` (in that order).
+ * @interface SidebarComponents
+ * @typedef {SidebarComponents}
+ */
 interface SidebarComponents {
+  /**
+   * The `layout_sidebar()` parent container, with class
+   * `Sidebar.classes.LAYOUT`.
+   * @type {HTMLElement}
+   */
   container: HTMLElement;
+  /**
+   * The main content area of the sidebar layout.
+   * @type {HTMLElement}
+   */
   main: HTMLElement;
+  /**
+   * The sidebar container of the sidebar layout.
+   * @type {HTMLElement}
+   */
   sidebar: HTMLElement;
+  /**
+   * The toggle button that is used to toggle the sidebar state.
+   * @type {HTMLElement}
+   */
   toggle: HTMLElement;
 }
 
+/**
+ * The bslib sidebar component class. This class is only used for collapsible
+ * sidebars.
+ *
+ * @class Sidebar
+ * @typedef {Sidebar}
+ */
 class Sidebar {
+  /**
+   * The DOM elements that make up the sidebar, see `SidebarComponents`.
+   * @private
+   * @type {SidebarComponents}
+   */
   private layout: SidebarComponents;
+  /**
+   * Creates an instance of a collapsible bslib Sidebar.
+   * @constructor
+   * @param {HTMLElement} container
+   */
   constructor(container: HTMLElement) {
     container.removeAttribute("data-bslib-sidebar-init");
 
@@ -41,10 +93,37 @@ class Sidebar {
     this._initDesktop();
   }
 
+  /**
+   * Read the current state of the sidebar. Note that, when calling this method,
+   * the sidebar may be transitioning into the state returned by this method.
+   *
+   * @description
+   * The sidebar state works as follows, starting from the open state. When the
+   * sidebar is closed:
+   * 1. We add both the `COLLAPSE` and `TRANSITIONING` classes to the sidebar.
+   * 2. The sidebar collapse begins to animate. On desktop devices, and where it
+   *    is supported, we transition the `grid-template-columns` property of the
+   *    sidebar layout. On mobile, the sidebar is hidden immediately. In both
+   *    cases, the collapse icon rotates and we use this rotation to determine
+   *    when the transition is complete.
+   * 3. If another sidebar state toggle is requested while closing the sidebar,
+   *    we remove the `COLLAPSE` class and the animation immediately starts to
+   *    reverse.
+   * 4. When the `transition` is complete, we remove the `TRANSITIONING` class.
+   * @readonly
+   * @type {boolean}
+   */
   get isClosed(): boolean {
     return this.layout.container.classList.contains(Sidebar.classes.COLLAPSE);
   }
 
+  /**
+   * Static classes related to the sidebar layout or state.
+   * @public
+   * @static
+   * @readonly
+   * @type {{ LAYOUT: string; COLLAPSE: string; TRANSITIONING: string; }}
+   */
   public static readonly classes = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     LAYOUT: "bslib-sidebar-layout",
@@ -54,13 +133,38 @@ class Sidebar {
     TRANSITIONING: "transitioning",
   };
 
+  /**
+   * If sidebars are initialized before the DOM is ready, we re-schedule the
+   * initialization to occur on DOMContentLoaded.
+   * @private
+   * @static
+   * @type {boolean}
+   */
   private static onReadyScheduled = false;
+  /**
+   * A map of initialized sidebars to their respective Sidebar instances.
+   * @private
+   * @static
+   * @type {WeakMap<HTMLElement, Sidebar>}
+   */
   private static instanceMap: WeakMap<HTMLElement, Sidebar> = new WeakMap();
 
+  /**
+   * Given a sidebar container, return the Sidebar instance associated with it.
+   * @public
+   * @static
+   * @param {HTMLElement} el
+   * @returns {(Sidebar | undefined)}
+   */
   public static getInstance(el: HTMLElement): Sidebar | undefined {
     return Sidebar.instanceMap.get(el);
   }
 
+  /**
+   * Initialize all collapsible sidebars on the page.
+   * @public
+   * @static
+   */
   public static initCollapsibleAll(): void {
     if (document.readyState === "loading") {
       if (!Sidebar.onReadyScheduled) {
@@ -82,6 +186,10 @@ class Sidebar {
     containers.forEach((container) => new Sidebar(container as HTMLElement));
   }
 
+  /**
+   * Initialize event listeners for the sidebar toggle button.
+   * @private
+   */
   private _initEventListeners(): void {
     const { sidebar, toggle } = this.layout;
 
@@ -102,12 +210,18 @@ class Sidebar {
       });
   }
 
+  /**
+   * Initialize nested sidebar counters.
+   *
+   * @description
+   * This function walks up the DOM tree, adding CSS variables to each direct
+   * parent sidebar layout that count the layout's position in the stack of
+   * nested layouts. We use these counters to keep the collapse toggles from
+   * overlapping. Note that always-open sidebars that don't have collapse
+   * toggles break the chain of nesting.
+   * @private
+   */
   private _initSidebarCounters(): void {
-    // This function walks up the DOM tree, adding CSS variables to each
-    // direct parent sidebar layout that count the layout's position in the
-    // stack of nested layouts. We use these counters to keep the collapse
-    // toggles from overlapping. Note that always-open sidebars that don't
-    // have collapse toggles break the chain of nesting.
     const { container } = this.layout;
 
     const selectorChildLayouts =
@@ -156,6 +270,10 @@ class Sidebar {
     });
   }
 
+  /**
+   * Initialize the sidebar's initial state when `open = "desktop"`.
+   * @private
+   */
   private _initDesktop(): void {
     const { container } = this.layout;
     // If sidebar is marked open='desktop'...
@@ -173,7 +291,13 @@ class Sidebar {
     }
   }
 
-  public toggle(method: SidebarMethod) {
+  /**
+   * Toggle the sidebar's open/closed state.
+   * @public
+   * @param {SidebarToggleMethod} method Whether to `"open"`, `"close"` or
+   * `"toggle"` the sidebar.
+   */
+  public toggle(method: SidebarToggleMethod): void {
     const { container, main, sidebar } = this.layout;
     const isClosed = this.isClosed;
 
@@ -205,6 +329,10 @@ class Sidebar {
     container.classList.toggle(Sidebar.classes.COLLAPSE);
   }
 
+  /**
+   * When the sidebar open/close transition ends, finalize the sidebar's state.
+   * @private
+   */
   private _finalizeState(): void {
     const { container, sidebar, toggle } = this.layout;
     container.classList.remove(Sidebar.classes.TRANSITIONING);
@@ -213,6 +341,12 @@ class Sidebar {
   }
 }
 
+/**
+ * A Shiny input binding for a sidebar.
+ * @class SidebarInputBinding
+ * @typedef {SidebarInputBinding}
+ * @extends {InputBinding}
+ */
 class SidebarInputBinding extends InputBinding {
   find(scope: HTMLElement) {
     return $(scope).find(`.${Sidebar.classes.LAYOUT} > .bslib-sidebar-input`);
@@ -242,7 +376,7 @@ class SidebarInputBinding extends InputBinding {
     $(el).off(".sidebarInputBinding");
   }
 
-  receiveMessage(el: HTMLElement, data: MessageData) {
+  receiveMessage(el: HTMLElement, data: SidebarMessageData) {
     const sb = Sidebar.getInstance(el.parentElement as HTMLElement);
     if (sb) sb.toggle(data.method);
   }
