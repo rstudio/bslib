@@ -19,8 +19,6 @@ interface SidebarComponents {
 
 class Sidebar {
   private layout: SidebarComponents;
-  #isClosed = false;
-
   constructor(container: HTMLElement) {
     container.removeAttribute("data-bslib-sidebar-init");
 
@@ -38,19 +36,12 @@ class Sidebar {
       throw new Error("Tried to initialize a non-collapsible sidebar.");
     }
 
-    this.#isClosed = this._isClosedOrClosing();
-
     this._initEventListeners();
     this._initSidebarCounters();
     this._initDesktop();
   }
 
   get isClosed(): boolean {
-    return this.#isClosed;
-  }
-
-  private _isClosedOrClosing(): boolean {
-    // While in the middle of toggling, the user may want to reverse course
     return this.layout.container.classList.contains(Sidebar.classes.COLLAPSE);
   }
 
@@ -190,7 +181,7 @@ class Sidebar {
 
   public toggle(method: SidebarMethod) {
     const { container, main, sidebar } = this.layout;
-    const isClosed = this._isClosedOrClosing();
+    const isClosed = this.isClosed;
 
     if (["open", "close", "toggle"].indexOf(method) === -1) {
       throw new Error(`Unknown method ${method}`);
@@ -223,9 +214,8 @@ class Sidebar {
   private _finalizeState(): void {
     const { container, sidebar, toggle } = this.layout;
     container.classList.remove(Sidebar.classes.TRANSITIONING);
-    this.#isClosed = container.classList.contains(Sidebar.classes.COLLAPSE);
-    sidebar.hidden = this.#isClosed;
-    toggle.ariaExpanded = this.#isClosed ? "false" : "true";
+    sidebar.hidden = this.isClosed;
+    toggle.ariaExpanded = this.isClosed ? "false" : "true";
   }
 }
 
