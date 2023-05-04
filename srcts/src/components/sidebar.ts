@@ -79,22 +79,24 @@ class Sidebar {
       sidebar: container.querySelector(":scope > .sidebar") as HTMLElement,
       toggle: container.querySelector(
         ":scope > .collapse-toggle"
-        ) as HTMLElement,
-      } as SidebarComponents;
+      ) as HTMLElement,
+    } as SidebarComponents;
 
-      if (!this.layout.toggle) {
-        throw new Error("Tried to initialize a non-collapsible sidebar.");
-      }
+    if (!this.layout.toggle) {
+      throw new Error("Tried to initialize a non-collapsible sidebar.");
+    }
 
-      this._initEventListeners();
-      this._initSidebarCounters();
-      this._initDesktop();
+    this._initEventListeners();
+    this._initSidebarCounters();
+    this._initDesktop();
 
-      container.removeAttribute("data-bslib-sidebar-init");
-      const initScript = container.querySelector(":scope > script[data-bslib-sidebar-init]");
-      if (initScript) {
-        container.removeChild(initScript);
-      }
+    container.removeAttribute("data-bslib-sidebar-init");
+    const initScript = container.querySelector(
+      ":scope > script[data-bslib-sidebar-init]"
+    );
+    if (initScript) {
+      container.removeChild(initScript);
+    }
   }
 
   /**
