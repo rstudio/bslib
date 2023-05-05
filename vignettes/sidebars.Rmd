@@ -528,8 +528,6 @@ $('#nav').on('shown.bs.tab', function(ev) {
 ```
 :::
 ::::
-:::
-::::
 
 
 ### Reactive updates
