@@ -77,10 +77,16 @@ class ShinyResizeObserver {
           const { binding, onResize } = $(el).data("shinyOutputBinding");
           if (!binding || !binding.resize) return;
 
+          // if this output is owned by another observer, skip it
+          const owner = (el as any).shinyResizeObserver
+          if (owner && owner !== this) return;
+
           // trigger immediate resizing of outputs with a resize method
           onResize(el);
           // only once per output and resize event
           resized.push(el);
+          // mark this output as owned by this shinyResizeObserver instance
+          (el as any).shinyResizeObserver = this;
         });
 
         // set plot images to 100% width/height temporarily during the transition
