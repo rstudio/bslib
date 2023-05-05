@@ -78,7 +78,7 @@ class ShinyResizeObserver {
           if (!binding || !binding.resize) return;
 
           // if this output is owned by another observer, skip it
-          const owner = (el as any).shinyResizeObserver
+          const owner = (el as any).shinyResizeObserver;
           if (owner && owner !== this) return;
 
           // trigger immediate resizing of outputs with a resize method
