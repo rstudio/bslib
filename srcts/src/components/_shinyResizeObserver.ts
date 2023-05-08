@@ -64,6 +64,9 @@ class ShinyResizeObserver {
       const resizeEvent = new Event("resize");
       window.dispatchEvent(resizeEvent);
 
+      // the rest of this callback is only relevant in Shiny apps
+      if (!window.Shiny) return;
+
       const resized = [] as HTMLElement[];
 
       for (const entry of entries) {
