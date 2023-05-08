@@ -73,32 +73,33 @@ class ShinyResizeObserver {
         if (!(entry.target instanceof HTMLElement)) continue;
         if (!entry.target.querySelector(".shiny-bound-output")) continue;
 
-        entry.target.querySelectorAll(".shiny-bound-output").forEach((el) => {
-          if (!(el instanceof HTMLElement)) return;
-          if (resized.includes(el)) return;
-
-          const { binding, onResize } = $(el).data("shinyOutputBinding");
-          if (!binding || !binding.resize) return;
-
-          // if this output is owned by another observer, skip it
-          const owner = (el as any).shinyResizeObserver;
-          if (owner && owner !== this) return;
-          // mark this output as owned by this shinyResizeObserver instance
-          (el as any).shinyResizeObserver = this;
-
-          // trigger immediate resizing of outputs with a resize method
-          onResize(el);
-          // only once per output and resize event
-          resized.push(el);
-        });
-
-        // set plot images to 100% width/height temporarily during the transition
         entry.target
-          .querySelectorAll('.shiny-plot-output img:not([width="100%"])')
+          .querySelectorAll<HTMLElement>(".shiny-bound-output")
           .forEach((el) => {
-            if (!(el instanceof HTMLImageElement)) return;
+            if (resized.includes(el)) return;
+
+            const { binding, onResize } = $(el).data("shinyOutputBinding");
+            if (!binding || !binding.resize) return;
+
+            // if this output is owned by another observer, skip it
+            const owner = (el as any).shinyResizeObserver;
+            if (owner && owner !== this) return;
+            // mark this output as owned by this shinyResizeObserver instance
+            (el as any).shinyResizeObserver = this;
+
+            // trigger immediate resizing of outputs with a resize method
+            onResize(el);
+            // only once per output and resize event
+            resized.push(el);
+          });
+
+        // set plot images to 100% width temporarily during the transition
+        entry.target
+          .querySelectorAll<HTMLImageElement>(
+            '.shiny-plot-output img:not([width="100%"])'
+          )
+          .forEach((el) => {
             el.setAttribute("width", "100%");
-            el.setAttribute("height", "100%");
           });
       }
     });
