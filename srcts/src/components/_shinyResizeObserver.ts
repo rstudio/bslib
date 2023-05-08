@@ -115,6 +115,18 @@ class ShinyResizeObserver {
   }
 
   /**
+   * Stop observing an element for size changes.
+   * @param {HTMLElement} el - The element to stop observing.
+   */
+  unobserve(el: HTMLElement): void {
+    const idxEl = this.resizeObserverEntries.indexOf(el);
+    if (idxEl < 0) return;
+
+    this.resizeObserver.unobserve(el);
+    this.resizeObserverEntries.splice(idxEl, 1);
+  }
+
+  /**
    * This method checks that we're not continuing to watch elements that no
    * longer exist in the DOM. If any are found, we stop observing them and
    * remove them from our array of observed elements.
@@ -132,9 +144,7 @@ class ShinyResizeObserver {
 
     // Remove the non-existent elements from the ResizeObserver
     missing.forEach((el) => {
-      this.resizeObserver.unobserve(el);
-      const idxEl = this.resizeObserverEntries.indexOf(el);
-      this.resizeObserverEntries.splice(idxEl, 1);
+      this.unobserve(el);
     });
   }
 }
