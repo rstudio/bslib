@@ -2,12 +2,12 @@
 % Please edit documentation in R/fill.R
 \name{as_fill_carrier}
 \alias{as_fill_carrier}
-\alias{as_fillable}
-\alias{as_fill}
-\alias{undo_fill}
+\alias{as_fillable_container}
+\alias{as_fill_item}
+\alias{remove_all_fill}
 \alias{is_fill_carrier}
-\alias{is_fillable}
-\alias{is_fill}
+\alias{is_fillable_container}
+\alias{is_fill_item}
 \title{Test and/or coerce fill behavior}
 \usage{
 as_fill_carrier(
@@ -21,7 +21,7 @@ as_fill_carrier(
   css_selector = NULL
 )
 
-as_fillable(
+as_fillable_container(
   x,
   ...,
   min_height = NULL,
@@ -32,7 +32,7 @@ as_fillable(
   css_selector = NULL
 )
 
-as_fill(
+as_fill_item(
   x,
   ...,
   min_height = NULL,
@@ -42,13 +42,13 @@ as_fill(
   css_selector = NULL
 )
 
-undo_fill(x)
+remove_all_fill(x)
 
 is_fill_carrier(x)
 
-is_fillable(x)
+is_fillable_container(x)
 
-is_fill(x)
+is_fill_item(x)
 }
 \arguments{
 \item{x}{a \code{\link[htmltools:builder]{htmltools::tag()}}.}
