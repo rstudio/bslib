@@ -37,7 +37,7 @@ as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = 
 
   rlang::check_dots_empty()
 
-  x <- as_fillable(
+  x <- as_fillable_container(
     x, min_height = min_height,
     max_height = max_height,
     gap = gap,
@@ -52,7 +52,7 @@ as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = 
 
 #' @rdname as_fill_carrier
 #' @export
-as_fillable <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL, class = NULL, style = NULL, css_selector = NULL) {
+as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL, class = NULL, style = NULL, css_selector = NULL) {
 
   rlang::check_dots_empty()
 
@@ -72,7 +72,7 @@ as_fillable <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL
 
 #' @rdname as_fill_carrier
 #' @export
-as_fill <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, style = NULL, css_selector = NULL) {
+as_fill_item <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, style = NULL, css_selector = NULL) {
 
   rlang::check_dots_empty()
 
@@ -92,7 +92,7 @@ as_fill <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, 
 
 #' @rdname as_fill_carrier
 #' @export
-undo_fill <- function(x) {
+remove_all_fill <- function(x) {
   bindFillRole(
     x, item = FALSE, container = FALSE,
     overwrite = TRUE
@@ -109,35 +109,35 @@ is_fill_carrier <- function(x) {
 
 #' @rdname as_fill_carrier
 #' @export
-is_fillable <- function(x) {
+is_fillable_container <- function(x) {
   UseMethod("is_fillable")
 }
 
 #' @export
-is_fillable.htmlwidget <- function(x) {
+is_fillable_container.htmlwidget <- function(x) {
   # won't actually work until (htmltools#334) gets fixed
   renders_to_tag_class(x, "html-fill-container", ".html-widget")
 }
 
 #' @export
-is_fillable.default <- function(x) {
+is_fillable_container.default <- function(x) {
   renders_to_tag_class(x, "html-fill-container")
 }
 
 #' @rdname as_fill_carrier
 #' @export
-is_fill <- function(x) {
-  UseMethod("is_fill")
+is_fill_item <- function(x) {
+  UseMethod("is_fill_item")
 }
 
 #' @export
-is_fill.htmlwidget <- function(x) {
+is_fill_item.htmlwidget <- function(x) {
   # won't actually work until (htmltools#334) gets fixed
   renders_to_tag_class(x, "html-fill-item", ".html-widget")
 }
 
 #' @export
-is_fill.default <- function(x) {
+is_fill_item.default <- function(x) {
   renders_to_tag_class(x, "html-fill-item")
 }
 
