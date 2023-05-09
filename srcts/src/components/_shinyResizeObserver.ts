@@ -51,7 +51,7 @@ class ShinyResizeObserver {
    * initializes with the correct sizing, but in-between the 1st and last
    * renderValue(), the size of the output containers can change, meaning every
    * output but the 1st gets initialized with the wrong size during their
-   * renderValue(). Then, after the render phase, shiny won't know trigger a
+   * renderValue(). Then, after the render phase, shiny won't know to trigger a
    * resize since all the widgets will return to their original size (and thus,
    * Shiny thinks there isn't any resizing to do). The resize observer works
    * around this by ensuring that the output is resized whenever its container
@@ -135,16 +135,8 @@ class ShinyResizeObserver {
    * @static
    */
   flush(): void {
-    if (this.resizeObserverEntries.length == 0) return;
-
-    // Find the elements in the ResizeObserver that no longer exist in the DOM
-    const missing = this.resizeObserverEntries.filter((el) => {
-      return !document.body.contains(el);
-    });
-
-    // Remove the non-existent elements from the ResizeObserver
-    missing.forEach((el) => {
-      this.unobserve(el);
+    this.resizeObserverEntries.forEach((el) => {
+      if (!document.body.contains(el)) this.unobserve(el);
     });
   }
 }
