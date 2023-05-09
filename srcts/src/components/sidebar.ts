@@ -1,8 +1,5 @@
-import {
-  InputBinding,
-  registerBinding,
-  doWindowResizeOnElementResize,
-} from "./_utils";
+import { InputBinding, registerBinding } from "./_utils";
+import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
 /**
  * Methods for programmatically toggling the state of the sidebar. These methods
@@ -66,6 +63,16 @@ class Sidebar {
    * @type {SidebarComponents}
    */
   private layout: SidebarComponents;
+
+  /**
+   * A Shiny-specific resize observer that ensures Shiny outputs in the main
+   * content areas of the sidebar resize appropriately.
+   * @private
+   * @type {ShinyResizeObserver}
+   * @static
+   */
+  private static shinyResizeObserver = new ShinyResizeObserver();
+
   /**
    * Creates an instance of a collapsible bslib Sidebar.
    * @constructor
@@ -89,6 +96,10 @@ class Sidebar {
     this._initEventListeners();
     this._initSidebarCounters();
     this._initDesktop();
+
+    // Start watching the main content area for size changes to ensure Shiny
+    // outputs resize appropriately during sidebar transitions.
+    Sidebar.shinyResizeObserver.observe(this.layout.main);
 
     container.removeAttribute("data-bslib-sidebar-init");
     const initScript = container.querySelector(
@@ -170,13 +181,17 @@ class Sidebar {
    * Initialize all collapsible sidebars on the page.
    * @public
    * @static
+   * @param {boolean} [flushResizeObserver=true] When `true`, we remove
+   * non-existent elements from the ResizeObserver. This is required
+   * periodically to prevent memory leaks. To avoid over-checking, we only flush
+   * the ResizeObserver when initializing sidebars after page load.
    */
-  public static initCollapsibleAll(): void {
+  public static initCollapsibleAll(flushResizeObserver = true): void {
     if (document.readyState === "loading") {
       if (!Sidebar.onReadyScheduled) {
         Sidebar.onReadyScheduled = true;
         document.addEventListener("DOMContentLoaded", () => {
-          Sidebar.initCollapsibleAll();
+          Sidebar.initCollapsibleAll(false);
         });
       }
       return;
@@ -187,6 +202,8 @@ class Sidebar {
       // no sidebars to initialize
       return;
     }
+
+    if (flushResizeObserver) Sidebar.shinyResizeObserver.flush();
 
     const containers = document.querySelectorAll(initSelector);
     containers.forEach((container) => new Sidebar(container as HTMLElement));
@@ -309,7 +326,7 @@ class Sidebar {
       method = "toggle";
     }
 
-    const { container, main, sidebar } = this.layout;
+    const { container, sidebar } = this.layout;
     const isClosed = this.isClosed;
 
     if (["open", "close", "toggle"].indexOf(method) === -1) {
@@ -324,9 +341,6 @@ class Sidebar {
       // nothing to do, sidebar is already in the desired state
       return;
     }
-
-    // Make sure outputs resize properly when the sidebar is opened/closed
-    doWindowResizeOnElementResize(main);
 
     if (method === "open") {
       // unhide sidebar immediately when opening,
