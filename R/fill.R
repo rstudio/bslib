@@ -37,16 +37,21 @@ as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = 
 
   rlang::check_dots_empty()
 
-  x <- as_fillable_container(
-    x, min_height = min_height,
+  attrs <- fillable_attributes(
+    min_height = min_height,
     max_height = max_height,
-    gap = gap,
     class = class,
-    style = style,
-    css_selector = css_selector
+    style = style
   )
 
-  bindFillRole(x, item = TRUE, .cssSelector = css_selector)
+  if (rlang::is_missing(x)) {
+    warn_css_selector_null(css_selector)
+    attrs <- c(attrs, list(class = "html-fill-item html-fill-container"))
+    return(rlang::splice(attrs))
+  }
+
+  x <- bindFillRole(x, item = TRUE, container = TRUE, .cssSelector = css_selector)
+  tagAppendAttributes(x, .cssSelector = css_selector, !!!attrs)
 }
 
 
@@ -56,10 +61,56 @@ as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, 
 
   rlang::check_dots_empty()
 
+  attrs <- fillable_attributes(
+    min_height = min_height,
+    max_height = max_height,
+    class = class,
+    style = style
+  )
+
+  if (rlang::is_missing(x)) {
+    warn_css_selector_null(css_selector)
+    attrs <- c(attrs, list(class = "html-fill-container"))
+    return(rlang::splice(attrs))
+  }
+
   x <- bindFillRole(x, container = TRUE, .cssSelector = css_selector)
 
-  tagAppendAttributes(
-    x, .cssSelector = css_selector,
+  tagAppendAttributes(x, .cssSelector = css_selector, !!!attrs)
+}
+
+#' @rdname as_fill_carrier
+#' @export
+as_fill_item <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, style = NULL, css_selector = NULL) {
+
+  rlang::check_dots_empty()
+
+  attrs <- fillable_attributes(
+    min_height = min_height,
+    max_height = max_height,
+    class = class,
+    style = style
+  )
+
+  if (rlang::is_missing(x)) {
+    warn_css_selector_null(css_selector)
+    attrs <- c(attrs, list(class = "html-fill-item"))
+    return(rlang::splice(attrs))
+  }
+
+  x <- bindFillRole(x, item = TRUE, .cssSelector = css_selector)
+
+  tagAppendAttributes(x, .cssSelector = css_selector, !!!attrs)
+}
+
+fillable_attributes <- function(
+  min_height = NULL,
+  max_height = NULL,
+  gap = NULL,
+  class = NULL,
+  style = NULL
+) {
+  list(
     style = css(
       min_height = validateCssUnit(min_height),
       max_height = validateCssUnit(max_height),
@@ -70,25 +121,14 @@ as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, 
   )
 }
 
-#' @rdname as_fill_carrier
-#' @export
-as_fill_item <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, style = NULL, css_selector = NULL) {
+warn_css_selector_null <- function(x) {
+  if (is.null(x)) return()
 
-  rlang::check_dots_empty()
-
-  x <- bindFillRole(x, item = TRUE, .cssSelector = css_selector)
-
-  tagAppendAttributes(
-    x, .cssSelector = css_selector,
-    style = css(
-      min_height = validateCssUnit(min_height),
-      max_height = validateCssUnit(max_height)
-    ),
-    class = class,
-    style = style
+  rlang::warn(
+    "If `x` is not provided, `css_selector` is ignored if it is not `NULL`.",
+    call = rlang::caller_env()
   )
 }
-
 
 #' @rdname as_fill_carrier
 #' @export
