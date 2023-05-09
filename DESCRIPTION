@@ -110,10 +110,14 @@ Config/Needs/website:
     tidyr
 Config/Needs/deploy:
     BH,
+    dplyr,
     DT,
+    GGally,
     ggplot2,
     hexbin,
     lattice,
     reactable,
+    reshape2,
     rprojroot,
-    rsconnect
+    rsconnect,
+    scales
