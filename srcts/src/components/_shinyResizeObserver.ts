@@ -94,6 +94,11 @@ class ShinyResizeObserver {
           });
 
         // set plot images to 100% width temporarily during the transition
+        const needsPlotAdjustment = entry.target.querySelector(
+          '.shiny-plot-output img:not([width="100%"])'
+        );
+        if (!needsPlotAdjustment) continue;
+
         entry.target
           .querySelectorAll<HTMLImageElement>(
             '.shiny-plot-output img:not([width="100%"])'
