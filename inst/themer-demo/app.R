@@ -3,6 +3,8 @@ library(ggplot2)
 library(bslib)
 library(rlang)
 library(curl)
+library(reshape2)
+data(tips, package = "reshape2")
 
 # enlarged auto fonts
 if (is_installed("thematic")) {
@@ -63,13 +65,71 @@ progressBar <- div(
   )
 )
 
+dashboardTab <- tabPanel(
+  "Dashboard",
+  layout_sidebar(
+    fillable = TRUE,
+    sidebar = sidebar(
+      title = "Restaurant tipping", 
+      id = "sidebar",
+      selectInput("tip_vars", "Variables", names(tips), multiple = TRUE, selected = c("total_bill", "time", "tip")),
+      sliderInput(
+        "total_bill", 
+        "Bill amount", 
+        min(tips$total_bill), 
+        max(tips$total_bill), 
+        value = range(tips$total_bill),
+        pre = "$"
+      ),
+      actionButton("sidebar_toggle", "Hide sidebar")
+    ),
+    layout_column_wrap(
+      width = 1/3,
+      fill = FALSE,
+      value_box(
+        "Total tippers",
+        uiOutput("total_tippers", container = h2),
+        showcase = bsicons::bs_icon("person")
+      ),
+      value_box(
+        "Average bill",
+        uiOutput("average_bill", container = h2),
+        showcase = bsicons::bs_icon("currency-dollar"),
+        theme_color = "success"
+      ),
+      value_box(
+        "Average tip",
+        uiOutput("average_tip", container = h2),
+        showcase = bsicons::bs_icon("wallet2"),
+        theme_color = "info"
+      )
+    ),
+    card(
+      full_screen = TRUE,
+      class = "mt-3",
+      card_header("Pairwise plot matrix of tips data", class = "bg-dark"),
+      plotOutput("dashPlot")
+    )
+  )
+)
+
+# This is here for shinycoreci to take advantage of (so we don't need to update a bunch of screenshots)
+IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
+if (isTRUE(IS_LEGACY)) {
+  dashboardTab <- NULL
+} else {
+  theme_set(theme_bw())
+}
+
 shinyApp(
-  navbarPage(
+  page_navbar(
     theme = theme,
     title = "Theme demo",
     collapsible = TRUE,
     id = "navbar",
-    tabPanel(
+    fillable = "Dashboard",
+    dashboardTab,
+    nav(
       "Inputs",
       tabsetPanel(
         type = "pills", id = "inputs",
@@ -131,7 +191,7 @@ shinyApp(
         )
       )
     ),
-    tabPanel(
+    nav(
       "Plots",
       uiOutput("thematic_needed"),
       plotOutput("plot"),
@@ -145,11 +205,11 @@ shinyApp(
         )
       )
     ),
-    tabPanel(
+    nav(
       "Tables",
       DT::dataTableOutput("DT")
     ),
-    tabPanel(
+    nav(
       "Notifications",
       tabsetPanel(
         id = "otherNav",
@@ -176,7 +236,7 @@ shinyApp(
         )
       )
     ),
-    tabPanel(
+    nav(
       "Fonts",
       h1("Heading font:", class = "text-primary"),
       hr(class = "bg-primary", style = "height: 5px"),
@@ -196,7 +256,7 @@ shinyApp(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
       )
     ),
-    tabPanel(
+    nav(
       "Options",
       if ("4" %in% theme_version(theme)) {
         p(
@@ -327,6 +387,32 @@ shinyApp(
       htmltools::HTML(
         "<span class=\"bg-warning\">&nbsp;!! Install the <a href='https://rstudio.github.io/thematic/'><code>thematic</code></a> package to enable auto-theming of static R plots !!&nbsp;</span>"
       )
+    })
+
+    tips_data <- reactive({
+      tips %>%
+        dplyr::filter(dplyr::between(total_bill, input$total_bill[1], input$total_bill[2]))
+    })
+
+    output$dashPlot <- renderPlot({
+      GGally::ggpairs(tips_data(), columns = input$tip_vars)
+    })
+
+    output$total_tippers <- renderUI({
+      nrow(tips_data())
+    })
+
+    output$average_bill <- renderUI({
+      scales::dollar(mean(tips_data()$total_bill))
+    })
+
+    output$average_tip <- renderUI({
+      d <- tips_data()
+      scales::percent(mean(d$tip / d$total_bill))
+    })
+
+    observeEvent(input$sidebar_toggle, {
+      sidebar_toggle("sidebar")
     })
 
   }
