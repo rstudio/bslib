@@ -91,20 +91,13 @@ class ShinyResizeObserver {
             onResize(el);
             // only once per output and resize event
             resized.push(el);
-          });
 
-        // set plot images to 100% width temporarily during the transition
-        const needsPlotAdjustment = entry.target.querySelector(
-          '.shiny-plot-output img:not([width="100%"])'
-        );
-        if (!needsPlotAdjustment) continue;
-
-        entry.target
-          .querySelectorAll<HTMLImageElement>(
-            '.shiny-plot-output img:not([width="100%"])'
-          )
-          .forEach((el) => {
-            el.setAttribute("width", "100%");
+            // set plot images to 100% width temporarily during the transition
+            if (!el.classList.contains("shiny-plot-output")) return;
+            const img = el.querySelector<HTMLImageElement>(
+              'img:not([width="100%"]])'
+            );
+            if (img) img.setAttribute("width", "100%");
           });
       }
     });
