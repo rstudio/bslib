@@ -1,6 +1,6 @@
 import type { Tooltip as TooltipType } from "bootstrap";
-import type { ShinyEventValue } from "rstudio-shiny/srcts/types/src/events/shinyEvents";
 import { getAllFocusableChildren } from "./_utils";
+import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const Tooltip = (
@@ -15,8 +15,6 @@ interface CardOverlay {
 class Card {
   private container: HTMLElement;
   private overlay: CardOverlay;
-  private cardResizeObserver: ResizeObserver;
-  private shinyOutputResizeObserver: ResizeObserver | undefined;
   private lastFocusInterior: HTMLElement | undefined;
   private prevFocusExterior: HTMLElement | undefined;
 
@@ -37,6 +35,15 @@ class Card {
     ID_FULL_SCREEN_OVERLAY: "bslib-full-screen-overlay",
   };
 
+  /**
+   * A Shiny-specific resize observer that ensures Shiny outputs in the main
+   * content areas of the sidebar resize appropriately.
+   * @private
+   * @type {ShinyResizeObserver}
+   * @static
+   */
+  private static shinyResizeObserver = new ShinyResizeObserver();
+
   constructor(el: HTMLElement) {
     // remove initialization attribute and script
     el.removeAttribute(Card.attr.ATTR_INIT);
@@ -49,15 +56,10 @@ class Card {
 
     // Let Shiny know to trigger resize when the card size changes
     // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-    const resizeEvent = new Event("resize");
-    this.cardResizeObserver = new ResizeObserver(() => {
-      window.dispatchEvent(resizeEvent);
-    });
-    this.cardResizeObserver.observe(this.container);
+    Card.shinyResizeObserver.observe(this.container);
 
     this._addEventListeners();
     this._enableTooltips();
-    this._startShinyOutputResizeObserver();
     this.overlay = this._createOverlay();
   }
 
@@ -137,15 +139,6 @@ class Card {
     this.prevFocusExterior = undefined;
   }
 
-  destroy(): void {
-    this._removeEventListeners();
-    this.cardResizeObserver.disconnect();
-    if (this.shinyOutputResizeObserver) {
-      this.shinyOutputResizeObserver.disconnect();
-    }
-    Card.instanceMap.delete(this.container);
-  }
-
   private _addEventListeners(): void {
     const btnFullScreen = this.container.querySelector(
       `:scope > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
@@ -171,32 +164,6 @@ class Card {
     }
     const tooltipList = this.container.querySelectorAll(selector);
     tooltipList.forEach((tt) => new Tooltip(tt));
-  }
-
-  private _startShinyOutputResizeObserver(): void {
-    // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-    // shiny initializes with the correct sizing, but in-between the 1st and last
-    // renderValue(), the size of the output containers can change, meaning every
-    // output but the 1st gets initialized with the wrong size during their
-    // renderValue(); and then after the render phase, shiny won't know trigger a
-    // resize since all the widgets will return to their original size
-    // (and thus, Shiny thinks there isn't any resizing to do).
-    // We workaround that situation by manually triggering a resize on the binding
-    // when the output container changes (this way, if the size is different during
-    // the render phase, Shiny will know about it)
-
-    // TODO: Remove disable/ignore comments when rstudio/shiny#3815 is available
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore; Type definitions are not found. This occurs when `strict: true`
-    $(document).on("shiny:value", (x: ShinyEventValue) => {
-      const el = x.binding.el;
-      if (!this.container.contains(el)) return;
-      if (el.dataset.bslibOutputObserver) return;
-
-      this.shinyOutputResizeObserver = new ResizeObserver(x.binding.onResize);
-      this.shinyOutputResizeObserver.observe(el);
-      el.dataset.bslibOutputObserver = "true";
-    });
   }
 
   private _exitFullScreenOnEscape(event: KeyboardEvent): void {
@@ -276,15 +243,20 @@ class Card {
    */
   private static onReadyScheduled = false;
 
-  public static initializeAllCards(): void {
+  public static initializeAllCards(flushResizeObserver = true): void {
     if (document.readyState === "loading") {
       if (!Card.onReadyScheduled) {
         Card.onReadyScheduled = true;
         document.addEventListener("DOMContentLoaded", () => {
-          Card.initializeAllCards();
+          Card.initializeAllCards(false);
         });
       }
       return;
+    }
+
+    if (flushResizeObserver) {
+      // Trigger a recheck of observed cards to unobserve non-existent cards
+      Card.shinyResizeObserver.flush();
     }
 
     const initSelector = `.${Card.attr.CLASS_CARD}[${Card.attr.ATTR_INIT}]`;
