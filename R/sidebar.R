@@ -95,7 +95,7 @@ sidebar <- function(
   }
 
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
-    title <- div(title, class = "sidebar-title" role="heading")
+    title <- div(title, class = "sidebar-title", role="heading")
   }
 
   collapse_tag <-
