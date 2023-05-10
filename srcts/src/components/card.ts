@@ -1,6 +1,5 @@
 import type { Tooltip as TooltipType } from "bootstrap";
 import type { ShinyEventValue } from "rstudio-shiny/srcts/types/src/events/shinyEvents";
-import { DocumentObserver } from "./_documentObserver";
 import { getAllFocusableChildren } from "./_utils";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -23,7 +22,7 @@ class Card {
 
   private static attr = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    ATTR_INIT: "data-bslib-card-needs-init",
+    ATTR_INIT: "data-bslib-card-init",
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_CARD: "bslib-card",
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -39,7 +38,11 @@ class Card {
   };
 
   constructor(el: HTMLElement) {
+    // remove initialization attribute and script
     el.removeAttribute(Card.attr.ATTR_INIT);
+    el.querySelector<HTMLScriptElement>(
+      `script[${Card.attr.ATTR_INIT}]`
+    )?.remove();
 
     this.container = el;
     Card.instanceMap.set(el, this);
@@ -264,23 +267,34 @@ class Card {
     return Card.instanceMap.get(el);
   }
 
-  private static documentObserver: DocumentObserver = new DocumentObserver({
-    added: {
-      selector: `.${Card.attr.CLASS_CARD}[data-bslib-card-needs-init]`,
-      callback: (card: HTMLElement) => {
-        new Card(card);
-      },
-    },
-    removed: {
-      selector: `.${Card.attr.CLASS_CARD}`,
-      callback: (card: HTMLElement) => {
-        Card.getInstance(card)?.destroy();
-      },
-    },
-  });
+  /**
+   * If cards are initialized before the DOM is ready, we re-schedule the
+   * initialization to occur on DOMContentLoaded.
+   * @private
+   * @static
+   * @type {boolean}
+   */
+  private static onReadyScheduled = false;
 
-  static get observer(): DocumentObserver {
-    return Card.documentObserver;
+  public static initializeAllCards(): void {
+    if (document.readyState === "loading") {
+      if (!Card.onReadyScheduled) {
+        Card.onReadyScheduled = true;
+        document.addEventListener("DOMContentLoaded", () => {
+          Card.initializeAllCards();
+        });
+      }
+      return;
+    }
+
+    const initSelector = `.${Card.attr.CLASS_CARD}[${Card.attr.ATTR_INIT}]`;
+    if (!document.querySelector(initSelector)) {
+      // no cards to initialize
+      return;
+    }
+
+    const cards = document.querySelectorAll(initSelector);
+    cards.forEach((card) => new Card(card as HTMLElement));
   }
 }
 

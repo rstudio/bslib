@@ -66,11 +66,12 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, fil
       height = validateCssUnit(height),
       max_height = validateCssUnit(max_height)
     ),
-    "data-bslib-card-needs-init" = NA,
+    "data-bslib-card-init" = NA,
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(),
-    card_dependency()
+    card_dependency(),
+    card_init_js()
   )
 
   tag <- bindFillRole(tag, container = TRUE, item = fill)
@@ -283,6 +284,13 @@ card_dependency <- function() {
     package = "bslib",
     src = "components",
     script = "card.min.js"
+  )
+}
+
+card_init_js <- function() {
+  tags$script(
+    `data-bslib-card-init` = NA,
+    HTML("bslib.Card.initializeAllCards();")
   )
 }
 
