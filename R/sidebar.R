@@ -119,6 +119,7 @@ sidebar <- function(
       id = id,
       role = "complementary",
       class = c("sidebar", class),
+      hidden = if (open == "closed") NA,
       style = css(background_color = bg, color = fg),
       tags$div(
         class = "sidebar-content",
@@ -202,8 +203,6 @@ layout_sidebar <- function(
     if (is.null(height)) "250px" else "50%"
 
   sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
-  sidebar_border <- if (!is.null(border)) tolower(border)
-  sidebar_border_radius <- if (!is.null(border_radius)) tolower(border_radius)
 
   res <- div(
     class = "bslib-sidebar-layout",
@@ -220,7 +219,8 @@ layout_sidebar <- function(
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
-    sidebar_dependency()
+    sidebar_dependency(),
+    sidebar_init_js()
   )
 
   res <- bindFillRole(res, item = fill)
@@ -253,6 +253,7 @@ sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
       abort('`open` must be `NULL`, `TRUE` (or "open"), or `FALSE` (or "closed").')
     }
 
+  force(id)
   callback <- function() {
     session$sendInputMessage(id, list(method = method))
   }
@@ -274,5 +275,15 @@ sidebar_dependency <- function() {
     package = "bslib",
     src = "components",
     script = "sidebar.min.js"
+  )
+}
+
+sidebar_init_js <- function() {
+  # Note: if we want to avoid inline `<script>` tags in the future for
+  # initialization code, we might be able to do so by turning the sidebar layout
+  # container into a web component
+  tags$script(
+    `data-bslib-sidebar-init` = NA,
+    HTML("bslib.Sidebar.initCollapsibleAll()")
   )
 }

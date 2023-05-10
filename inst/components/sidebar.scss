@@ -3,12 +3,12 @@ $bslib-sidebar-icon-size: $spacer !default;
 $bslib-sidebar-bg: $gray-100 !default;
 $bslib-sidebar-fg: color-contrast($bslib-sidebar-bg) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
-
+$bslib-sidebar-transition-duration: 500ms !default;
 $bslib-sidebar-column-sidebar: Min(calc(100% - #{$bslib-sidebar-icon-size}), var(--bslib-sidebar-width, 250px));
 $bslib-sidebar-column-main: minmax(0, 1fr);
 
 .bslib-sidebar-layout {
-  --bslib-sidebar-transition: grid-template-columns ease-in-out 0.5s;
+  --bslib-sidebar-transition: grid-template-columns ease-in-out #{$bslib-sidebar-transition-duration};
   --bslib-sidebar-border: #{$bslib-sidebar-border};
   --bslib-sidebar-border-radius: var(--bs-border-radius);
   --bslib-sidebar-vert-border: #{$bslib-sidebar-border};
@@ -138,8 +138,8 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       height: $bslib-sidebar-icon-size;
       transform: rotate(var(--bslib-collapse-toggle-transform));
       // N.B. since mobile view won't trigger a transition of grid-template-columns,
-      // we transition this toggle to ensure _some_ transition event always happens
-      transition: transform ease-in-out 0.35s;
+      // we transition this toggle to ensure _some_ transition event always happens.
+      transition: transform cubic-bezier(0.68, -0.55, 0.27, 1.55) $bslib-sidebar-transition-duration;
     }
 
     &:hover > .collapse-icon {
@@ -277,6 +277,10 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       border: var(--bslib-collapse-toggle-border);
       border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
       padding: 0 4px;
+      > .collapse-icon {
+        // On mobile we can transition the icon orientation immediately and quickly
+        transition-duration: $bslib-sidebar-transition-duration * 0.33;
+      }
     }
 
     // Apply same collapse-toggle position adjustment to all states and layouts
@@ -304,7 +308,7 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
       grid-template-rows: 0 minmax(0, 1fr);
       // TODO: according to the spec, grid-template-rows should be animatable,
       // but this doesn't behave quite right, and I'm not sure why
-      //transition: grid-template-rows ease-in-out 0.5s;
+      // transition: grid-template-rows ease-in-out $bslib-sidebar-transition-duration;
 
       > .main {
         border-top-left-radius: inherit;
