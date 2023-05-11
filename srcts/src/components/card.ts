@@ -147,16 +147,6 @@ class Card {
     btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
   }
 
-  private _removeEventListeners(): void {
-    const btnFullScreen = this.container.querySelector(
-      `:scope > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
-    );
-    if (!btnFullScreen) return;
-    btnFullScreen.removeEventListener("click", (ev) =>
-      this.enterFullScreen(ev)
-    );
-  }
-
   private _enableTooltips(): void {
     const selector = `.${Card.attr.CLASS_FULL_SCREEN_ENTER}[data-bs-toggle='tooltip']`;
     if (!this.container.querySelector(selector)) {
