@@ -51,8 +51,7 @@ function doWindowResizeOnElementResize(el: HTMLElement): void {
 }
 
 function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
-  // Built from https://stackoverflow.com/a/36410810
-  // And cross-referenced with https://allyjs.io/data-tables/focusable.html
+  // Cross-referenced with https://allyjs.io/data-tables/focusable.html
   const base = [
     "a[href]",
     "area[href]",
