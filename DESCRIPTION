@@ -114,6 +114,7 @@ Config/Needs/deploy:
     ggplot2,
     hexbin,
     lattice,
+    plotly,
     reactable,
     rprojroot,
     rsconnect
