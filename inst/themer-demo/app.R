@@ -3,8 +3,7 @@ library(ggplot2)
 library(bslib)
 library(rlang)
 library(curl)
-library(reshape2)
-data(tips, package = "reshape2")
+tips <- reshape2::tips
 
 # enlarged auto fonts
 if (is_installed("thematic")) {
@@ -72,7 +71,6 @@ dashboardTab <- tabPanel(
     sidebar = sidebar(
       title = "Restaurant tipping", 
       id = "sidebar",
-      selectInput("tip_vars", "Variables", names(tips), multiple = TRUE, selected = c("total_bill", "time", "tip")),
       sliderInput(
         "total_bill", 
         "Bill amount", 
@@ -81,7 +79,8 @@ dashboardTab <- tabPanel(
         value = range(tips$total_bill),
         pre = "$"
       ),
-      actionButton("sidebar_toggle", "Hide sidebar")
+      checkboxGroupInput("time", "Food service", c("Lunch", "Dinner"), c("Lunch", "Dinner")),
+      actionButton("tips_reset", "Reset filter"),
     ),
     layout_column_wrap(
       width = 1/3,
@@ -92,23 +91,54 @@ dashboardTab <- tabPanel(
         showcase = bsicons::bs_icon("person")
       ),
       value_box(
+        "Average tip",
+        uiOutput("average_tip", container = h2),
+        showcase = bsicons::bs_icon("wallet2"),
+        theme_color = "secondary"
+      ),
+      value_box(
         "Average bill",
         uiOutput("average_bill", container = h2),
         showcase = bsicons::bs_icon("currency-dollar"),
         theme_color = "success"
-      ),
-      value_box(
-        "Average tip",
-        uiOutput("average_tip", container = h2),
-        showcase = bsicons::bs_icon("wallet2"),
-        theme_color = "info"
       )
+    ),
+    layout_column_wrap(
+      width = 1/2,
+      class = "mt-3",
+      card(
+        full_screen = TRUE,
+        card_header("Total bill vs tip"),
+        layout_sidebar(
+          fillable = TRUE,
+          sidebar(
+            position = "right", 
+            open = FALSE,
+            width = 150,
+            selectInput("tips_scatter_color", "Color by:", c("none", "sex", "smoker", "day", "time")),
+          ),
+          plotOutput("tips_scatterplot")
+        )
+      ),
+      card(
+        full_screen = TRUE,
+        card_header("Tips data"),
+        DT::dataTableOutput("tips_table")
+      ),
     ),
     card(
       full_screen = TRUE,
       class = "mt-3",
-      card_header("Pairwise plot matrix of tips data", class = "bg-dark"),
-      plotOutput("dashPlot")
+      card_header("Tip percentages"),
+      layout_sidebar(
+        fillable = TRUE,
+        sidebar(
+          position = "right",
+          selectInput("tips_perc_y", "Split by:", c("sex", "smoker", "day", "time"), "day"),
+          selectInput("tips_perc_facet", "Facet by:", c("none", "sex", "smoker", "day", "time"), "none"),
+        ),
+        plotOutput("tips_perc")
+      )
     )
   )
 )
@@ -118,7 +148,7 @@ IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
 if (isTRUE(IS_LEGACY)) {
   dashboardTab <- NULL
 } else {
-  theme_set(theme_bw())
+  theme_set(theme_minimal())
 }
 
 shinyApp(
@@ -390,12 +420,35 @@ shinyApp(
     })
 
     tips_data <- reactive({
-      tips %>%
-        dplyr::filter(dplyr::between(total_bill, input$total_bill[1], input$total_bill[2]))
+      d <- tips
+      d <- d[d$total_bill >= input$total_bill[1] & d$total_bill <= input$total_bill[2], ]
+      d <- d[d$time %in% input$time, ]
+      d
     })
 
-    output$dashPlot <- renderPlot({
-      GGally::ggpairs(tips_data(), columns = input$tip_vars)
+    output$tips_table <- DT::renderDataTable({
+      DT::datatable(tips_data(), fillContainer = TRUE, rownames = FALSE)
+    })
+
+    output$tips_scatterplot <- renderPlot({
+      color <-  if (input$tips_scatter_color != "none") sym(input$tips_scatter_color)
+      ggplot(tips_data(), aes(x = total_bill, y = tip, color = !!color)) +
+        geom_point() +
+        geom_smooth() +
+        labs(x = NULL, y = NULL)
+    })
+
+    output$tips_perc <- renderPlot({
+      p <- ggplot(tips_data(), aes(x = tip / total_bill, y = !!sym(input$tips_perc_y))) +
+        ggridges::geom_density_ridges(scale = 0.9) +
+        coord_cartesian(clip = "off") +
+        labs(x = NULL, y = NULL)
+
+      if (input$tips_perc_facet != "none") {
+        p <- p + facet_wrap(vars(!!sym(input$tips_perc_facet)))
+      }
+
+      p
     })
 
     output$total_tippers <- renderUI({
@@ -411,8 +464,9 @@ shinyApp(
       scales::percent(mean(d$tip / d$total_bill))
     })
 
-    observeEvent(input$sidebar_toggle, {
-      sidebar_toggle("sidebar")
+    observeEvent(input$tips_reset, {
+      updateSliderInput(session, "total_bill", value = range(tips$total_bill))
+      updateCheckboxGroupInput(session, "time", selected = c("Lunch", "Dinner"))
     })
 
   }
