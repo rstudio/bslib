@@ -82,25 +82,13 @@ class Card {
     if (focusableElements.length > 0) {
       // set focus on first focusable element in the card
       focusableElements[0].focus();
-    } else {
-      // this card doesn't have any focusable elements, so focus is vaguely
-      // within the card (having clicked the full screen button). We can't
-      // know exactly where focus is located (we've hidden the button), so we
-      // attach a listener to the next Tab keydown event to entrap focus within
-      // the full screen card.
-      if (!this.container.contains(document.activeElement)) {
-        this.prevFocusExterior = document.activeElement as HTMLElement;
-        this.prevFocusExterior.addEventListener(
-          "keydown",
-          (ev) => this._entrapFocus(ev),
-          { once: true }
-        );
-      }
     }
 
     this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
     this.container.insertAdjacentElement("beforebegin", this.overlay.container);
+    this.container.querySelector(".card-body")?.setAttribute("tabindex", "-1");
+    this.container.querySelector<HTMLElement>(".card-body")?.focus();
   }
 
   exitFullScreen(): void {
@@ -122,6 +110,7 @@ class Card {
     // Remove overlay and remove full screen classes from card
     this.overlay.container.remove();
     this.container.classList.remove(Card.attr.CLASS_FULL_SCREEN);
+    this.container.querySelector(".card-body")?.removeAttribute("tabindex");
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
 
     // Reset focus tracking state
@@ -171,18 +160,6 @@ class Card {
     this.overlay.anchor.focus();
   }
 
-  private _entrapFocus(event: KeyboardEvent): void {
-    // This event handler is only enabled when the card doesn't have any
-    // focusable elements. If the user presses Tab, we want to trap focus in the
-    // full screen card, so we move focus to the close button.
-    if (!(event instanceof KeyboardEvent)) return;
-    if (!this.container.matches(`.${Card.attr.CLASS_FULL_SCREEN}`)) return;
-    if (event.key === "Tab") {
-      event.preventDefault();
-      this.overlay.anchor.focus();
-    }
-  }
-
   private _createOverlay(): CardOverlay {
     const container = document.createElement("div");
     container.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
@@ -225,6 +202,8 @@ class Card {
       lastFocusable.focus();
     };
     anchor.innerHTML = this._overlayCloseHtml();
+
+    return anchor;
   }
 
   private _overlayCloseHtml(): string {
