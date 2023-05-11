@@ -114,6 +114,7 @@ Config/Needs/deploy:
     DT,
     GGally,
     ggplot2,
+    ggridges,
     hexbin,
     lattice,
     reactable,
