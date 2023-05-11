@@ -51,16 +51,24 @@ function doWindowResizeOnElementResize(el: HTMLElement): void {
 }
 
 function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
-  const selectors = [
-    "[href]",
-    "input:not([disabled])",
-    "button:not([disabled])",
-    "select:not([disabled])",
-    "summary:not(:disabled)",
-    "details:not([disabled])",
-    "textarea:not([disabled])",
-    '[tabindex]:not([tabindex="-1"]):not([disabled])',
+  // Built from https://stackoverflow.com/a/36410810
+  // And cross-referenced with https://allyjs.io/data-tables/focusable.html
+  const base = [
+    "a[href]",
+    "area[href]",
+    "button",
+    "details summary",
+    "input",
+    "iframe",
+    "select",
+    "textarea",
+    '[contentEditable=""]',
+    '[contentEditable="true"]',
+    '[contentEditable="TRUE"]',
+    "[tabindex]",
   ];
+  const modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
+  const selectors = base.map((b) => b + modifiers.join(""));
   const focusable = el.querySelectorAll(selectors.join(", "));
   return Array.from(focusable) as HTMLElement[];
 }
