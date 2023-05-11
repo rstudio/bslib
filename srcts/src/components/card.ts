@@ -15,7 +15,6 @@ interface CardOverlay {
 class Card {
   private container: HTMLElement;
   private overlay: CardOverlay;
-  private lastFocusInterior: HTMLElement | undefined;
   private prevFocusExterior: HTMLElement | undefined;
 
   private static attr = {
@@ -69,25 +68,26 @@ class Card {
     this.overlay.container.addEventListener("click", () =>
       this.exitFullScreen()
     );
+
     document.addEventListener(
       "keyup",
       (ev) => this._exitFullScreenOnEscape(ev),
       false
     );
 
+    this.container.addEventListener("keydown", (ev) => this._trapFocusExit(ev));
+
+    // Set initial focus, either moving into the card or setting up a trap
     const focusableElements = getAllFocusableChildren(this.container);
     if (focusableElements.length > 0) {
       // set focus on first focusable element in the card
       focusableElements[0].focus();
-      // store the last focusable element so we can cycle focus
-      this.lastFocusInterior = focusableElements[focusableElements.length - 1];
     } else {
       // this card doesn't have any focusable elements, so focus is vaguely
       // within the card (having clicked the full screen button). We can't
       // know exactly where focus is located (we've hidden the button), so we
       // attach a listener to the next Tab keydown event to entrap focus within
       // the full screen card.
-      this.lastFocusInterior = this.overlay.anchor;
       if (!this.container.contains(document.activeElement)) {
         this.prevFocusExterior = document.activeElement as HTMLElement;
         this.prevFocusExterior.addEventListener(
@@ -96,16 +96,6 @@ class Card {
           { once: true }
         );
       }
-    }
-
-    if (this.lastFocusInterior) {
-      this.lastFocusInterior.onkeydown = (ev) => {
-        // If tabbing forwards out of the card, return to close button
-        if (ev.key === "Tab" && !ev.shiftKey) {
-          ev.preventDefault();
-          this.overlay.anchor.focus();
-        }
-      };
     }
 
     this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
@@ -119,14 +109,14 @@ class Card {
       this.exitFullScreen()
     );
 
-    if (this.lastFocusInterior) {
-      this.lastFocusInterior.onkeydown = null;
-    }
-
     document.removeEventListener(
       "keyup",
       (ev) => this._exitFullScreenOnEscape(ev),
       false
+    );
+
+    this.container.removeEventListener("keydown", (ev) =>
+      this._trapFocusExit(ev)
     );
 
     // Remove overlay and remove full screen classes from card
@@ -135,7 +125,6 @@ class Card {
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
 
     // Reset focus tracking state
-    this.lastFocusInterior = undefined;
     this.prevFocusExterior = undefined;
   }
 
@@ -167,6 +156,21 @@ class Card {
     }
   }
 
+  private _trapFocusExit(event: KeyboardEvent): void {
+    if (!(event instanceof KeyboardEvent)) return;
+    if (event.key !== "Tab") return;
+    if (event.shiftKey) return;
+
+    // We have to check every time because the card contents may have changed
+    const focusableElements = getAllFocusableChildren(this.container);
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    if (event.target !== lastFocusable) return;
+    // If tabbing forwards out of the card, return to close button
+    event.preventDefault();
+    this.overlay.anchor.focus();
+  }
+
   private _entrapFocus(event: KeyboardEvent): void {
     // This event handler is only enabled when the card doesn't have any
     // focusable elements. If the user presses Tab, we want to trap focus in the
@@ -195,10 +199,23 @@ class Card {
     anchor.onkeydown = (ev) => {
       // if tabbing backwards out of the card,
       // cycle focus back to last focus element within the card
-      if (ev.key === "Tab" && ev.shiftKey) {
+      if (ev.key !== "Tab") return;
+
+      const focusableElements = getAllFocusableChildren(this.container);
+
+      if (focusableElements.length === 0) {
+        // nothing to move to in any direction so stay on the close button
         ev.preventDefault();
-        this.lastFocusInterior?.focus();
+        return;
       }
+
+      // can move forward to the next focusable element (don't prevent default)
+      if (!ev.shiftKey) return;
+
+      // we are tabbing backwards, cycle back to the last focusable element
+      ev.preventDefault();
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+      lastFocusable.focus();
     };
     anchor.innerHTML = this._overlayCloseHtml();
 
