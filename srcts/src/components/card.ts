@@ -187,6 +187,13 @@ class Card {
     const container = document.createElement("div");
     container.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
 
+    const anchor = this._createOverlayCloseAnchor();
+    container.appendChild(anchor);
+
+    return { container, anchor };
+  }
+
+  private _createOverlayCloseAnchor(): HTMLAnchorElement {
     const anchor = document.createElement("a");
     anchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
     anchor.tabIndex = 0;
@@ -218,9 +225,6 @@ class Card {
       lastFocusable.focus();
     };
     anchor.innerHTML = this._overlayCloseHtml();
-
-    container.appendChild(anchor);
-    return { container, anchor };
   }
 
   private _overlayCloseHtml(): string {
