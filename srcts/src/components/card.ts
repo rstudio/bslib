@@ -83,7 +83,7 @@ class Card {
       this.lastFocusInterior = focusableElements[focusableElements.length - 1];
     } else {
       // this card doesn't have any focusable elements, so focus is vaguely
-      // within the card (having clicked the full screen button). We're can't
+      // within the card (having clicked the full screen button). We can't
       // know exactly where focus is located (we've hidden the button), so we
       // attach a listener to the next Tab keydown event to entrap focus within
       // the full screen card.
@@ -192,7 +192,6 @@ class Card {
   private _createOverlay(): CardOverlay {
     const container = document.createElement("div");
     container.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
-    container.classList.add(Card.attr.ID_FULL_SCREEN_OVERLAY);
 
     const anchor = document.createElement("a");
     anchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
