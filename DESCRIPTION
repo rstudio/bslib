@@ -94,6 +94,7 @@ Config/Needs/routine:
 Config/Needs/website:
     brio,
     crosstalk,
+    dplyr,
     DT,
     ggplot2,
     glue,
