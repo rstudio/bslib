@@ -104,12 +104,12 @@ compiling <code><a href="https://rstudio.github.io/sass/reference/sass.html" cla
 <code>theme</code>, and packaging up the result into an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmlDependency()</a></code>.</p>
 <p>Themable components can also be  <em>dynamically</em> themed inside of Shiny (i.e.,
 they may be themed in 'real-time' via <code><a href="run_with_themer.html">bs_themer()</a></code>, and more generally,
-update their styles in response to <a href="https://shiny.rstudio.com/reference/shiny/latest/session.html" class="external-link">shiny::session</a>'s <code>setCurrentTheme()</code>
+update their styles in response to <a href="https://rdrr.io/pkg/shiny/man/session.html" class="external-link">shiny::session</a>'s <code>setCurrentTheme()</code>
 method). Dynamically themeable components provide a "recipe" (i.e., a
 function) to <code>bs_dependency_defer()</code>, describing how to generate new CSS
 stylesheet(s) from a new <code>theme</code>. This function is called when the HTML page
 is first rendered, and may be invoked again with a new <code>theme</code> whenever
-<a href="https://shiny.rstudio.com/reference/shiny/latest/session.html" class="external-link">shiny::session</a>'s <code>setCurrentTheme()</code> is called.</p>
+<a href="https://rdrr.io/pkg/shiny/man/session.html" class="external-link">shiny::session</a>'s <code>setCurrentTheme()</code> is called.</p>
     </div>
 
     <div class="section level2">

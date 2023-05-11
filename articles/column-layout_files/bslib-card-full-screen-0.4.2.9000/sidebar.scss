@@ -1,6 +1,6 @@
 $bslib-sidebar-padding: $spacer * 1.5 !default;
 $bslib-sidebar-icon-size: $spacer !default;
-$bslib-sidebar-bg: $gray-100 !default;
+$bslib-sidebar-bg: mix($body-color, $body-bg, 3.66%) !default;
 $bslib-sidebar-fg: color-contrast($bslib-sidebar-bg) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
 $bslib-sidebar-transition-duration: 500ms !default;
@@ -12,6 +12,8 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
   --bslib-sidebar-border: #{$bslib-sidebar-border};
   --bslib-sidebar-border-radius: var(--bs-border-radius);
   --bslib-sidebar-vert-border: #{$bslib-sidebar-border};
+  --bslib-sidebar-bg: #{$bslib-sidebar-bg};
+  --bslib-sidebar-fg: #{$bslib-sidebar-fg};
   --bslib-collapse-toggle-border: #{$bslib-sidebar-border};
   --bslib-collapse-toggle-transform: 90deg;
   --bslib-collapse-toggle-right-transform: -90deg;
@@ -52,8 +54,8 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
     border-right: var(--bslib-sidebar-vert-border);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: $bslib-sidebar-bg;
-    color: $bslib-sidebar-fg;
+    background-color: var(--bslib-sidebar-bg);
+    color: var(--bslib-sidebar-fg);
 
     > .sidebar-content {
       display: flex;
@@ -129,8 +131,8 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
     border-left: none;
     border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
     padding: 7px 0;
-    background-color: $bslib-sidebar-bg;
-    color: $bslib-sidebar-fg;
+    background-color: var(--bslib-sidebar-bg);
+    color: var(--bslib-sidebar-fg);
 
     > .collapse-icon {
       opacity: 0.8;
