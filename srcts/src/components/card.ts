@@ -77,18 +77,13 @@ class Card {
 
     this.container.addEventListener("keydown", (ev) => this._trapFocusExit(ev));
 
-    // Set initial focus, either moving into the card or setting up a trap
-    const focusableElements = getAllFocusableChildren(this.container);
-    if (focusableElements.length > 0) {
-      // set focus on first focusable element in the card
-      focusableElements[0].focus();
-    }
+    // Set initial focus on the card
+    this.container.setAttribute("tabindex", "-1");
+    this.container.focus();
 
     this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
     this.container.insertAdjacentElement("beforebegin", this.overlay.container);
-    this.container.querySelector(".card-body")?.setAttribute("tabindex", "-1");
-    this.container.querySelector<HTMLElement>(".card-body")?.focus();
   }
 
   exitFullScreen(): void {
@@ -110,7 +105,7 @@ class Card {
     // Remove overlay and remove full screen classes from card
     this.overlay.container.remove();
     this.container.classList.remove(Card.attr.CLASS_FULL_SCREEN);
-    this.container.querySelector(".card-body")?.removeAttribute("tabindex");
+    this.container.removeAttribute("tabindex");
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
 
     // Reset focus tracking state
@@ -148,16 +143,32 @@ class Card {
   private _trapFocusExit(event: KeyboardEvent): void {
     if (!(event instanceof KeyboardEvent)) return;
     if (event.key !== "Tab") return;
-    if (event.shiftKey) return;
+
+    const isFocusedContainer = event.target === this.container;
+    const isFocusedWithin = this.container.contains(event.target as Node);
+
+    if (event.shiftKey && !(isFocusedWithin || isFocusedContainer)) return;
 
     // We have to check every time because the card contents may have changed
     const focusableElements = getAllFocusableChildren(this.container);
+    const hasFocusableElements = focusableElements.length > 0;
     const lastFocusable = focusableElements[focusableElements.length - 1];
 
-    if (event.target !== lastFocusable) return;
-    // If tabbing forwards out of the card, return to close button
+    if (event.target !== lastFocusable && !isFocusedContainer) {
+      return;
+    }
+
+    // We're going to take control over tab focus now
     event.preventDefault();
-    this.overlay.anchor.focus();
+
+    if (isFocusedContainer) {
+      hasFocusableElements
+        ? focusableElements[0].focus()
+        : this.overlay.anchor.focus();
+    } else {
+      // If tabbing forwards out of the card, return to close button
+      this.overlay.anchor.focus();
+    }
   }
 
   private _createOverlay(): CardOverlay {
