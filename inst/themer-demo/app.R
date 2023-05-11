@@ -3,7 +3,10 @@ library(ggplot2)
 library(bslib)
 library(rlang)
 library(curl)
-tips <- reshape2::tips
+check_installed("reshape2")
+library(reshape2)
+
+data(tips, package = "reshape2")
 
 # enlarged auto fonts
 if (is_installed("thematic")) {
