@@ -19,8 +19,8 @@ demo_pkgs <-renv::dependencies(
   c("inst/themer-demo", list.dirs("inst/examples")), 
   progress = FALSE
 )$Package
-# BH is not picked up for some reason
-set_desc_with_packages("deploy", unique(c("BH", demo_pkgs)))
+# BH/cpp11 is not picked up for some reason
+set_desc_with_packages("deploy", unique(c("BH", "cpp11", demo_pkgs)))
 
 vig_pkgs <- renv::dependencies("vignettes", progress = FALSE)$Package
 set_desc_with_packages("website", unique(vig_pkgs))
