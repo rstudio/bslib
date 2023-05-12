@@ -113,6 +113,7 @@ Config/Needs/deploy:
     dplyr,
     DT,
     ggplot2,
+    ggridges,
     gt,
     hexbin,
     histoslider,
@@ -123,6 +124,7 @@ Config/Needs/deploy:
     nycflights13,
     plotly,
     reactable,
+    reshape2,
     rprojroot,
     rsconnect,
     scales
