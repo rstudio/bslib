@@ -40,6 +40,7 @@ as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = 
   attrs <- fillable_attributes(
     min_height = min_height,
     max_height = max_height,
+    gap = gap,
     class = class,
     style = style
   )
@@ -64,6 +65,7 @@ as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, 
   attrs <- fillable_attributes(
     min_height = min_height,
     max_height = max_height,
+    gap = gap,
     class = class,
     style = style
   )
@@ -150,7 +152,7 @@ is_fill_carrier <- function(x) {
 #' @rdname as_fill_carrier
 #' @export
 is_fillable_container <- function(x) {
-  UseMethod("is_fillable")
+  UseMethod("is_fillable_container")
 }
 
 #' @export
