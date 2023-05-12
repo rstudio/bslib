@@ -131,10 +131,10 @@ class Card {
   }
 
   private _exitFullScreenOnEscape(event: KeyboardEvent): void {
-    // if a select input element has focus, then don't exit full screen
-    if (document.activeElement instanceof HTMLSelectElement) {
-      return;
-    }
+    if (!(event.target instanceof HTMLElement)) return;
+    // If the user is in the middle of a select input choice, don't exit
+    const selOpenSelectInput = ["select[open]", "input[aria-expanded='true']"];
+    if (event.target.matches(selOpenSelectInput.join(", "))) return;
 
     if (event.key === "Escape") {
       this.exitFullScreen();
