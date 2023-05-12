@@ -7,14 +7,14 @@ const Tooltip = (
   window.bootstrap ? window.bootstrap.Tooltip : class {}
 ) as typeof TooltipType;
 
-interface CardOverlay {
+interface CardFullScreenOverlay {
   container: HTMLDivElement;
   anchor: HTMLAnchorElement;
 }
 
 class Card {
   private container: HTMLElement;
-  private overlay: CardOverlay;
+  private overlay: CardFullScreenOverlay;
   private prevFocusExterior: HTMLElement | undefined;
 
   private static attr = {
@@ -207,7 +207,7 @@ class Card {
     }
   }
 
-  private _createOverlay(): CardOverlay {
+  private _createOverlay(): CardFullScreenOverlay {
     const container = document.createElement("div");
     container.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
 
