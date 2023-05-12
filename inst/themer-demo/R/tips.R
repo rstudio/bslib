@@ -1,4 +1,4 @@
-check_installed("reshape2")
+rlang::check_installed("reshape2")
 library(reshape2)
 
 data(tips, package = "reshape2")
