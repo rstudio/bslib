@@ -89,9 +89,9 @@ class Card {
   constructor(card: HTMLElement) {
     // remove initialization attribute and script
     card.removeAttribute(Card.attr.ATTR_INIT);
-    card.querySelector<HTMLScriptElement>(
-      `script[${Card.attr.ATTR_INIT}]`
-    )?.remove();
+    card
+      .querySelector<HTMLScriptElement>(`script[${Card.attr.ATTR_INIT}]`)
+      ?.remove();
 
     this.card = card;
     Card.instanceMap.set(card, this);
