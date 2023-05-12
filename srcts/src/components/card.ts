@@ -73,7 +73,7 @@ class Card {
       this.exitFullScreen()
     );
 
-    document.addEventListener("keyup", this._exitFullScreenOnEscape, false);
+    document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
 
     // trap focus in the fullscreen container, listening for Tab key on the
     // capture phase so we have a better chance of preventing other handlers
@@ -96,7 +96,11 @@ class Card {
       this.exitFullScreen()
     );
 
-    document.removeEventListener("keyup", this._exitFullScreenOnEscape, false);
+    document.removeEventListener(
+      "keydown",
+      this._exitFullScreenOnEscape,
+      false
+    );
     document.removeEventListener("keydown", this._trapFocusExit, true);
 
     // Remove overlay and remove full screen classes from card
@@ -218,7 +222,7 @@ class Card {
     anchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
     anchor.tabIndex = 0;
     anchor.onclick = () => this.exitFullScreen();
-    anchor.onkeyup = (ev) => {
+    anchor.onkeydown = (ev) => {
       if (ev.key === "Enter" || ev.key === " ") {
         this.exitFullScreen();
       }
