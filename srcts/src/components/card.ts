@@ -7,16 +7,53 @@ const Tooltip = (
   window.bootstrap ? window.bootstrap.Tooltip : class {}
 ) as typeof TooltipType;
 
+/**
+ * The overlay element that is placed behind the card when expanded full screen.
+ *
+ * @interface CardFullScreenOverlay
+ * @typedef {CardFullScreenOverlay}
+ */
 interface CardFullScreenOverlay {
+  /**
+   * The full screen overlay container.
+   * @type {HTMLDivElement}
+   */
   container: HTMLDivElement;
+  /**
+   * The anchor element used to close the full screen overlay.
+   * @type {HTMLAnchorElement}
+   */
   anchor: HTMLAnchorElement;
 }
 
+/**
+ * The bslib card component class.
+ *
+ * @class Card
+ * @typedef {Card}
+ */
 class Card {
-  private container: HTMLElement;
+  /**
+   * The card container element.
+   * @private
+   * @type {HTMLElement}
+   */
+  private card: HTMLElement;
+  /**
+   * The card's full screen overlay element. We create this element once and add
+   * and remove it from the DOM as needed (this simplifies focus management
+   * while in full screen mode).
+   * @private
+   * @type {CardFullScreenOverlay}
+   */
   private overlay: CardFullScreenOverlay;
-  private prevFocusExterior: HTMLElement | undefined;
 
+  /**
+   * Key bslib-specific classes and attributes used by the card component.
+   * @private
+   * @static
+   * @type {{ ATTR_INIT: string; CLASS_CARD: string; CLASS_FULL_SCREEN: string; CLASS_HAS_FULL_SCREEN: string; CLASS_FULL_SCREEN_ENTER: string; CLASS_FULL_SCREEN_EXIT: string; ID_FULL_SCREEN_OVERLAY: string; }}
+   */
   private static attr = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     ATTR_INIT: "data-bslib-card-init",
@@ -35,27 +72,33 @@ class Card {
   };
 
   /**
-   * A Shiny-specific resize observer that ensures Shiny outputs in the main
-   * content areas of the sidebar resize appropriately.
+   * A Shiny-specific resize observer that ensures Shiny outputs in within the
+   * card resize appropriately.
    * @private
    * @type {ShinyResizeObserver}
    * @static
    */
   private static shinyResizeObserver = new ShinyResizeObserver();
 
-  constructor(el: HTMLElement) {
+  /**
+   * Creates an instance of a bslib Card component.
+   *
+   * @constructor
+   * @param {HTMLElement} card
+   */
+  constructor(card: HTMLElement) {
     // remove initialization attribute and script
-    el.removeAttribute(Card.attr.ATTR_INIT);
-    el.querySelector<HTMLScriptElement>(
+    card.removeAttribute(Card.attr.ATTR_INIT);
+    card.querySelector<HTMLScriptElement>(
       `script[${Card.attr.ATTR_INIT}]`
     )?.remove();
 
-    this.container = el;
-    Card.instanceMap.set(el, this);
+    this.card = card;
+    Card.instanceMap.set(card, this);
 
     // Let Shiny know to trigger resize when the card size changes
     // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-    Card.shinyResizeObserver.observe(this.container);
+    Card.shinyResizeObserver.observe(this.card);
 
     this._addEventListeners();
     this._enableTooltips();
@@ -66,6 +109,15 @@ class Card {
     this._trapFocusExit = this._trapFocusExit.bind(this);
   }
 
+  /**
+   * Enter the card's full screen mode, either programmatically or via an event
+   * handler. Full screen mode is activated by adding a class to the card that
+   * positions it absolutely and expands it to fill the viewport. In addition,
+   * we add a full screen overlay element behind the card and we trap focus in
+   * the expanded card while in full screen mode.
+   *
+   * @param {?Event} [event]
+   */
   enterFullScreen(event?: Event): void {
     if (event) event.preventDefault();
 
@@ -76,20 +128,25 @@ class Card {
     document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
 
     // trap focus in the fullscreen container, listening for Tab key on the
-    // capture phase so we have a better chance of preventing other handlers
+    // capture phase so we have the best chance of preventing other handlers
     document.addEventListener("keydown", this._trapFocusExit, true);
 
     // Set initial focus on the card, if not already
-    if (!this.container.contains(document.activeElement)) {
-      this.container.setAttribute("tabindex", "-1");
-      this.container.focus();
+    if (!this.card.contains(document.activeElement)) {
+      this.card.setAttribute("tabindex", "-1");
+      this.card.focus();
     }
 
-    this.container.classList.add(Card.attr.CLASS_FULL_SCREEN);
+    this.card.classList.add(Card.attr.CLASS_FULL_SCREEN);
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
-    this.container.insertAdjacentElement("beforebegin", this.overlay.container);
+    this.card.insertAdjacentElement("beforebegin", this.overlay.container);
   }
 
+  /**
+   * Exit full screen mode. This removes the full screen overlay element,
+   * removes the full screen class from the card, and removes the keyboard event
+   * listeners that were added when entering full screen mode.
+   */
   exitFullScreen(): void {
     // Remove event listeners that were added when entering full screen
     this.overlay.container.removeEventListener("click", () =>
@@ -105,31 +162,41 @@ class Card {
 
     // Remove overlay and remove full screen classes from card
     this.overlay.container.remove();
-    this.container.classList.remove(Card.attr.CLASS_FULL_SCREEN);
-    this.container.removeAttribute("tabindex");
+    this.card.classList.remove(Card.attr.CLASS_FULL_SCREEN);
+    this.card.removeAttribute("tabindex");
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
-
-    // Reset focus tracking state
-    this.prevFocusExterior = undefined;
   }
 
+  /**
+   * Adds general card-specific event listeners.
+   * @private
+   */
   private _addEventListeners(): void {
-    const btnFullScreen = this.container.querySelector(
+    const btnFullScreen = this.card.querySelector(
       `:scope > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
     );
     if (!btnFullScreen) return;
     btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
   }
 
+  /**
+   * Enable tooltips used by the card component.
+   * @private
+   */
   private _enableTooltips(): void {
     const selector = `.${Card.attr.CLASS_FULL_SCREEN_ENTER}[data-bs-toggle='tooltip']`;
-    if (!this.container.querySelector(selector)) {
+    if (!this.card.querySelector(selector)) {
       return;
     }
-    const tooltipList = this.container.querySelectorAll(selector);
+    const tooltipList = this.card.querySelectorAll(selector);
     tooltipList.forEach((tt) => new Tooltip(tt));
   }
 
+  /**
+   * An event handler to exit full screen mode when the Escape key is pressed.
+   * @private
+   * @param {KeyboardEvent} event
+   */
   private _exitFullScreenOnEscape(event: KeyboardEvent): void {
     if (!(event.target instanceof HTMLElement)) return;
     // If the user is in the middle of a select input choice, don't exit
@@ -141,24 +208,46 @@ class Card {
     }
   }
 
+  /**
+   * An event handler to trap focus within the card when in full screen mode.
+   *
+   * @description
+   * This keyboard event handler ensures that tab focus stays within the card
+   * when in full screen mode. When the card is first expanded,
+   * we move focus to the card element itself. If focus somehow leaves the card,
+   * we returns focus to the card container.
+   *
+   * Within the card, we handle only tabbing from the close anchor or the last
+   * focusable element and only when tab focus would have otherwise left the
+   * card. In those cases, we cycle focus to the last focusable element or back
+   * to the anchor. If the card doesn't have any focusable elements, we move
+   * focus to the close anchor.
+   *
+   * @note
+   * Because the card contents may change, we check for focusable elements
+   * every time the handler is called.
+   *
+   * @private
+   * @param {KeyboardEvent} event
+   */
   private _trapFocusExit(event: KeyboardEvent): void {
     if (!(event instanceof KeyboardEvent)) return;
     if (event.key !== "Tab") return;
 
-    const isFocusedContainer = event.target === this.container;
+    const isFocusedContainer = event.target === this.card;
     const isFocusedAnchor = event.target === this.overlay.anchor;
-    const isFocusedWithin = this.container.contains(event.target as Node);
+    const isFocusedWithin = this.card.contains(event.target as Node);
 
     if (!(isFocusedWithin || isFocusedContainer || isFocusedAnchor)) {
       // If focus is outside the card, return to the card
       event.preventDefault();
       event.stopImmediatePropagation();
-      this.container.focus();
+      this.card.focus();
       return;
     }
 
     // Check focusables every time because the card contents may have changed
-    const focusableElements = getAllFocusableChildren(this.container);
+    const focusableElements = getAllFocusableChildren(this.card);
     const hasFocusableElements = focusableElements.length > 0;
 
     // We need to handle four cases:
@@ -207,6 +296,11 @@ class Card {
     }
   }
 
+  /**
+   * Creates the full screen overlay.
+   * @private
+   * @returns {CardFullScreenOverlay}
+   */
   private _createOverlay(): CardFullScreenOverlay {
     const container = document.createElement("div");
     container.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
@@ -217,6 +311,11 @@ class Card {
     return { container, anchor };
   }
 
+  /**
+   * Creates the anchor element used to exit the full screen mode.
+   * @private
+   * @returns {HTMLAnchorElement}
+   */
   private _createOverlayCloseAnchor(): HTMLAnchorElement {
     const anchor = document.createElement("a");
     anchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
@@ -232,6 +331,11 @@ class Card {
     return anchor;
   }
 
+  /**
+   * Returns the HTML for the close icon.
+   * @private
+   * @returns {string}
+   */
   private _overlayCloseHtml(): string {
     return (
       "Close " +
@@ -243,8 +347,21 @@ class Card {
     );
   }
 
+  /**
+   * The registry of card instances and their associated DOM elements.
+   * @private
+   * @static
+   * @type {WeakMap<HTMLElement, Card>}
+   */
   private static instanceMap: WeakMap<HTMLElement, Card> = new WeakMap();
 
+  /**
+   * Returns the card instance associated with the given element, if any.
+   * @public
+   * @static
+   * @param {HTMLElement} el
+   * @returns {(Card | undefined)}
+   */
   public static getInstance(el: HTMLElement): Card | undefined {
     return Card.instanceMap.get(el);
   }
@@ -258,6 +375,13 @@ class Card {
    */
   private static onReadyScheduled = false;
 
+  /**
+   * Initializes all cards that require initialization on the page, or schedules
+   * initialization if the DOM is not yet ready.
+   * @public
+   * @static
+   * @param {boolean} [flushResizeObserver=true]
+   */
   public static initializeAllCards(flushResizeObserver = true): void {
     if (document.readyState === "loading") {
       if (!Card.onReadyScheduled) {
