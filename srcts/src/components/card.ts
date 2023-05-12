@@ -273,24 +273,16 @@ class Card {
     const lastFocusable = focusableElements[focusableElements.length - 1];
     const isFocusedLast = event.target === lastFocusable;
 
-    const needsFocusMgmt =
-      (isFocusedAnchor && event.shiftKey) || (isFocusedLast && !event.shiftKey);
-
-    // case 5 (no focus management needed)
-    if (!needsFocusMgmt) return;
-
-    // We're going to take control over tab focus now
-    event.preventDefault();
-    event.stopImmediatePropagation();
-
-    if (isFocusedAnchor) {
-      // case 3
+    if (isFocusedAnchor && event.shiftKey) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
       lastFocusable.focus();
       return;
     }
 
-    if (isFocusedLast) {
-      // case 4
+    if (isFocusedLast && !event.shiftKey) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
       this.overlay.anchor.focus();
       return;
     }
