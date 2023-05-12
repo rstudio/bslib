@@ -127,7 +127,7 @@ warn_css_selector_null <- function(x) {
   if (is.null(x)) return()
 
   rlang::warn(
-    "If `x` is not provided, `css_selector` is ignored if it is not `NULL`.",
+    "Ignoring non-NULL `css_selector` because an input tag `x` was not provided.",
     call = rlang::caller_env()
   )
 }

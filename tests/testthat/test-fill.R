@@ -327,3 +327,53 @@ test_that("remove_all_fill() removes fill from outer element", {
     format(tag_simple())
   )
 })
+
+# Unexpected Uses -----------------------------------------------------------
+
+test_that("as_fill_item() warns about usage of `css_selector` without an input tag", {
+  expect_warning(
+    expect_equal(
+      as_fill_item(class = "test", css_selector = ".inner"),
+      as_fill_item(class = "test")
+    )
+  )
+
+  expect_warning(
+    expect_equal(
+      div(as_fill_item(class = "test", css_selector = ".inner")),
+      div(as_fill_item(class = "test"))
+    )
+  )
+})
+
+test_that("as_fillable_container() warns about usage of `css_selector` without an input tag", {
+  expect_warning(
+    expect_equal(
+      as_fillable_container(class = "test", css_selector = ".inner"),
+      as_fillable_container(class = "test")
+    )
+  )
+
+  expect_warning(
+    expect_equal(
+      div(as_fillable_container(class = "test", css_selector = ".inner")),
+      div(as_fillable_container(class = "test"))
+    )
+  )
+})
+
+test_that("as_fill_carrier() warns about usage of `css_selector` without an input tag", {
+  expect_warning(
+    expect_equal(
+      as_fill_carrier(class = "test", css_selector = ".inner"),
+      as_fill_carrier(class = "test")
+    )
+  )
+
+  expect_warning(
+    expect_equal(
+      div(as_fill_carrier(class = "test", css_selector = ".inner")),
+      div(as_fill_carrier(class = "test"))
+    )
+  )
+})
