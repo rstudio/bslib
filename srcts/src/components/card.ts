@@ -250,7 +250,7 @@ class Card {
     const focusableElements = getAllFocusableChildren(this.card);
     const hasFocusableElements = focusableElements.length > 0;
 
-    // We need to handle four cases:
+    // We need to handle five cases:
     // 1. The card has no focusable elements --> focus the anchor
     // 2. Focus is on the card container (do nothing, natural tab order)
     // 3. Focus is on the anchor and the user pressed Tab + Shift (backwards)
