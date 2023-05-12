@@ -118,6 +118,10 @@ tipsServer <- function(id) {
         requireNamespace("ggridges", quietly = TRUE),
         "Please install the ggridges package to see this plot."
       ))
+      validate(need(
+        requireNamespace("ggridges", quietly = TRUE),
+        "Please install the ggridges package to see this plot."
+      ))
       p <- ggplot(tips_data(), aes(x = tip / total_bill, y = !!sym(input$tip_perc_y))) +
         ggridges::geom_density_ridges(scale = 0.9) +
         coord_cartesian(clip = "off") +
