@@ -238,10 +238,14 @@ class Card {
     const isFocusedAnchor = event.target === this.overlay.anchor;
     const isFocusedWithin = this.card.contains(event.target as Node);
 
-    if (!(isFocusedWithin || isFocusedContainer || isFocusedAnchor)) {
-      // If focus is outside the card, return to the card
+    const stopEvent = () => {
       event.preventDefault();
       event.stopImmediatePropagation();
+    };
+
+    if (!(isFocusedWithin || isFocusedContainer || isFocusedAnchor)) {
+      // If focus is outside the card, return to the card
+      stopEvent();
       this.card.focus();
       return;
     }
@@ -261,8 +265,7 @@ class Card {
 
     if (!hasFocusableElements) {
       // case 1
-      event.preventDefault();
-      event.stopImmediatePropagation();
+      stopEvent();
       this.overlay.anchor.focus();
       return;
     }
@@ -274,15 +277,13 @@ class Card {
     const isFocusedLast = event.target === lastFocusable;
 
     if (isFocusedAnchor && event.shiftKey) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
+      stopEvent();
       lastFocusable.focus();
       return;
     }
 
     if (isFocusedLast && !event.shiftKey) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
+      stopEvent();
       this.overlay.anchor.focus();
       return;
     }
