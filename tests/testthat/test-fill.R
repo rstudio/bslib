@@ -307,3 +307,23 @@ test_that("as_fill_carrier() with a nested tag on inner tag", {
     format(nested_carrier_tq)
   )
 })
+
+# Remove All Fill -----------------------------------------------------------
+
+test_that("remove_all_fill() removes fill from outer element", {
+  expect_equal(
+    remove_all_fill(as_fill_item(tag_simple())),
+    tag_simple()
+  )
+
+  # ignoring the 'htmltools-fill' dependency
+  expect_equal(
+    format(remove_all_fill(as_fillable_container(tag_simple()))),
+    format(tag_simple())
+  )
+
+  expect_equal(
+    format(remove_all_fill(as_fill_carrier(tag_simple()))),
+    format(tag_simple())
+  )
+})

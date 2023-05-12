@@ -135,6 +135,7 @@ warn_css_selector_null <- function(x) {
 #' @rdname as_fill_carrier
 #' @export
 remove_all_fill <- function(x) {
+  # NOTE: this doesn't remove the `htmltools-fill` dependency from `x`
   bindFillRole(
     x, item = FALSE, container = FALSE,
     overwrite = TRUE
