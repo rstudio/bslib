@@ -104,10 +104,6 @@ sidebar <- function(
         class = "collapse-toggle",
         type = "button",
         title = "Toggle sidebar",
-        style = css(
-          background_color = bg,
-          color = fg
-        ),
         "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
         "aria-controls" = id,
         collapse_icon()
@@ -120,7 +116,6 @@ sidebar <- function(
       role = "complementary",
       class = c("sidebar", class),
       hidden = if (open == "closed") NA,
-      style = css(background_color = bg, color = fg),
       tags$div(
         class = "sidebar-content",
         title,
@@ -131,7 +126,8 @@ sidebar <- function(
     position = match.arg(position),
     open = open,
     width = validateCssUnit(width),
-    max_height_mobile = validateCssUnit(max_height_mobile)
+    max_height_mobile = validateCssUnit(max_height_mobile),
+    color = list(bg = bg, fg = fg)
   )
 
   class(res) <- c("sidebar", class(res))
@@ -214,6 +210,8 @@ layout_sidebar <- function(
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
       "--bslib-sidebar-width" = sidebar$width,
+      "--bslib-sidebar-bg" = if (!is.null(sidebar$color$bg)) sidebar$color$bg,
+      "--bslib-sidebar-fg" = if (!is.null(sidebar$color$fg)) sidebar$color$fg,
       "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
