@@ -102,6 +102,10 @@ tipsServer <- function(id) {
     })
 
     output$scatterplot <- renderPlot({
+      validate(need(
+        nrow(tips_data()) > 0,
+        "No tips match the current filter. Try adjusting your filter settings."
+      ))
       color <-  if (input$scatter_color != "none") sym(input$scatter_color)
       ggplot(tips_data(), aes(x = total_bill, y = tip, color = !!color)) +
         geom_point() +
