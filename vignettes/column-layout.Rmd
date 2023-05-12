@@ -3,7 +3,9 @@ title: "Column-based layout"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+source(
+  rprojroot::find_package_root_file("vignettes/common.R")
+)
 ```
 
 ```{css, echo = FALSE}

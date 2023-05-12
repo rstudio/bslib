@@ -24,15 +24,25 @@ navbar:
   bg: info
   type: light
   structure:
-    left:  [intro, theming, components, layouts]
+    left:  [get-started, examples, theming, components, layouts]
     right: [reference, news, github]
   components:
     home: ~
+    get-started:
+      text: Get Started
+      menu:
+        - text: Shiny dashboards
+          href: articles/dashboards.html
+        - text: Any Bootstrap project
+          href: articles/any-project.html
+        - text: Theming
+          href: articles/theming.html
+    #examples:
+    #  text: Examples
+    #  href: articles/examples.html
     theming:
       text: Theming
       menu:
-        - text: Custom theming
-          href: articles/custom-theming.html
         - text: Theming variables
           href: articles/bs5-variables.html
         - text: Utility Classes
@@ -51,12 +61,13 @@ navbar:
     layouts:
       text: Layouts
       menu:
-        - text: Column-based layout
+        - text: Multiple columns
           href: articles/column-layout.html
-        - text: Filling layouts
-          href: articles/filling.html
-        - text: Multi page/tab
+        - text: Multiple panels
           href: https://rstudio.github.io/bslib/reference/navset.html#details
+        - text: Filling layout
+          href: articles/filling.html
+        
 
     reference:
       text: Reference
@@ -161,3 +172,5 @@ reference:
     - ["articles/cards.html#dynamic-rendering-shiny", "articles/cards.html#shiny"]
     - ["reference/nav.html", "reference/nav-items.html"]
     - ["reference/navs.html", "reference/navset.html"]
+    - ["articles/custom-theming.html", "articles/theming.html"]
+    - ["articles/bslib.html", "articles/any-project.html"]
