@@ -121,10 +121,6 @@ class Card {
   enterFullScreen(event?: Event): void {
     if (event) event.preventDefault();
 
-    this.overlay.container.addEventListener("click", () =>
-      this.exitFullScreen()
-    );
-
     document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
 
     // trap focus in the fullscreen container, listening for Tab key on the
@@ -148,11 +144,6 @@ class Card {
    * listeners that were added when entering full screen mode.
    */
   exitFullScreen(): void {
-    // Remove event listeners that were added when entering full screen
-    this.overlay.container.removeEventListener("click", () =>
-      this.exitFullScreen()
-    );
-
     document.removeEventListener(
       "keydown",
       this._exitFullScreenOnEscape,
@@ -297,6 +288,7 @@ class Card {
   private _createOverlay(): CardFullScreenOverlay {
     const container = document.createElement("div");
     container.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
+    container.onclick = this.exitFullScreen.bind(this);
 
     const anchor = this._createOverlayCloseAnchor();
     container.appendChild(anchor);
