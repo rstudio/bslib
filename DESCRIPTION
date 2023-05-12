@@ -110,11 +110,19 @@ Config/Needs/website:
     tidyr
 Config/Needs/deploy:
     BH,
+    dplyr,
     DT,
     ggplot2,
+    gt,
     hexbin,
+    histoslider,
     lattice,
+    leaflet,
+    lubridate,
+    modelr,
+    nycflights13,
     plotly,
     reactable,
     rprojroot,
-    rsconnect
+    rsconnect,
+    scales
