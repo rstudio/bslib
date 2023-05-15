@@ -110,6 +110,7 @@ Config/Needs/website:
     tidyr
 Config/Needs/deploy:
     BH,
+    cpp11,
     dplyr,
     DT,
     ggplot2,
