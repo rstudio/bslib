@@ -92,7 +92,7 @@
 
 
 <script src="filling_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="filling_files/htmltools-fill-0.5.5.9000/fill.css" rel="stylesheet">
-<script src="filling_files/bslib-tag-require-0.4.2.9000/tag-require.js"></script><div class="row">
+<script src="filling_files/bslib-card-0.4.2.9000/card.min.js"></script><script src="filling_files/bslib-tag-require-0.4.2.9000/tag-require.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Filling layouts</h1>
             
@@ -123,49 +123,11 @@
 <p>Just like any other HTML <strong>container</strong>, a <span class="b-pink">fillable container</span>’s default height depends on the height of it’s children. So, for example, if there’s a single <span class="b-blue">fill item</span> with a defined height of <code>400px</code> (the default for most Shiny outputs), the <span class="b-pink">fillable container</span>’s height is also <code>400px</code> (plus any padding, border, etc).</p>
 </div>
 <div class="col-md-6">
-<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container&lt;br&gt;Computed height: 400px" data-bs-toggle="tooltip" data-require-bs-caller="card()" data-require-bs-version="5" style="--bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
+<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container&lt;br&gt;Computed height: 400px" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="--bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
 <div class="card-body html-fill-item html-fill-container p-1" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;gap:0.25rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-placement="right" data-bs-title="Fill child&lt;br&gt;Defined height: 400px" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -174,49 +136,11 @@
 <p>Defining the height of a <span class="b-pink">fillable container</span> activates its immediate children’s potential to <span class="b-blue">fill</span>. So, for example, if <span class="b-pink">fillable container</span>’s height is set to <code>200px</code>, the <span class="b-blue">fill child</span> would shrink to about <code>200px</code>:</p>
 </div>
 <div class="col-md-6">
-<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable&lt;br&gt;Defined height: 200px" data-bs-toggle="tooltip" data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
+<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable&lt;br&gt;Defined height: 200px" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
 <div class="card-body html-fill-item html-fill-container p-1" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;gap:0.25rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-placement="right" data-bs-title="Fill&lt;br&gt;Defined height: 400px&lt;br&gt;Computed height: 200px" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -225,50 +149,12 @@
 <p>If multiple <span class="b-blue">fill items</span> were immediate children of this <span class="b-pink">fillable container</span>, they’d keep shrinking (in this case, to about <code>100px</code> each):</p>
 </div>
 <div class="col-md-6">
-<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable&lt;br&gt;Defined height: 200px" data-bs-toggle="tooltip" data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
+<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable&lt;br&gt;Defined height: 200px" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
 <div class="card-body html-fill-item html-fill-container p-1" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;gap:0.25rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-placement="right" data-bs-title="Fill&lt;br&gt;Defined height: 400px&lt;br&gt;Computed height: 100px" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-placement="right" data-bs-title="Fill&lt;br&gt;Defined height: 400px&lt;br&gt;Computed height: 100px" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -277,51 +163,13 @@
 <p>Adding a <span class="b-orange">non-fill</span> item (e.g., <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::p()</a></code>-aragraph of text) won’t cause that particular item to grow/shrink, but the <span class="b-blue">fill</span> items divvy up any remaining space (<strong>careful:</strong> if <span class="b-orange">non-fill</span> item(s) are larger than the <span class="b-pink">fillable container</span>, the <span class="b-blue">fill</span> items won’t be visible!). This is big reason why <code><a href="../reference/card_body.html">card_body()</a></code> includes a <code>min_height</code> argument (to prevent <span class="b-blue">fill</span> items from shrinking too much).</p>
 </div>
 <div class="col-md-6">
-<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
+<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
 <div class="card-body html-fill-item html-fill-container p-1" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;gap:0.25rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-placement="right" data-bs-title="Fill" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-placement="right" data-bs-title="Fill" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 <div class="border border-1 border-dark rounded text-center bg-fill-orange" data-bs-custom-class="tip-orange" data-bs-html="true" data-bs-placement="right" data-bs-title="Non-fill" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-orange);height:100px;flex-shrink:0;padding:0.2rem;"></div>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -346,51 +194,13 @@ Resizable example
 <p>As a result, a common way in which (1) breaks down is that a <span class="b-orange">non-fill</span> element, like a <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div()</a></code>, comes between <span class="b-pink">fillable</span> and <span class="b-blue">fill</span>. In fact, you’ll run into this exact behavior when using <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code> to insert a dynamically rendered <span class="b-blue">fill</span> item into a <span class="b-pink">fillable container</span> (see <a href="#ui-output">this section</a> for a concrete example).</p>
 </div>
 <div class="col-md-6">
-<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
+<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
 <div class="card-body html-fill-item html-fill-container p-1" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;gap:0.25rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-orange" data-bs-custom-class="tip-orange" data-bs-html="true" data-bs-offset="-140,0" data-bs-placement="right" data-bs-title="Non-fill" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-orange);height:400px;flex-shrink:0;padding:0.2rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-offset="-100,0" data-bs-placement="right" data-bs-title="Fill" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 </div>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -399,51 +209,13 @@ Resizable example
 <p>Assuming the goal is for the <span class="b-blue">fill item</span> to fit the <span class="b-pink">fillable container</span>, it’s useful to coerce the <span class="b-orange">non-fill</span> element into both <span class="b-blue">fill item</span> <em>and</em> a <span class="b-pink">fillable container</span>, which we call a <span class="b-purple">fill carriers</span>. Any UI element can be coerced into a <span class="b-purple">fill carrier</span> with <code><a href="../reference/as_fill_carrier.html">as_fill_carrier()</a></code>.</p>
 </div>
 <div class="col-md-6">
-<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
+<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
 <div class="card-body html-fill-item html-fill-container p-1" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;gap:0.25rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-purple html-fill-item html-fill-container" data-bs-custom-class="tip-purple" data-bs-html="true" data-bs-offset="-40,0" data-bs-placement="right" data-bs-title="Fill carrier" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-purple);height:400px;padding:0.2rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-placement="right" data-bs-title="Fill" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 </div>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -452,52 +224,14 @@ Resizable example
 <p>This concept of a <span class="b-purple">fill carrier</span> is especially useful and relevant for <a href="cards.html">cards</a>. In most cases, a <span class="b-pink">card</span> has numerous children like a <span class="b-orange">header</span> and a <span class="b-purple">body</span>, and the body commonly contains <span class="b-blue">fill item</span>(s) (to ensure <span class="b-blue">fill item</span>s). This is why <code class="b-purple"><a href="../reference/card_body.html">card_body()</a></code> defaults to <code>fillable = TRUE</code> (and <code>fill = TRUE</code>).</p>
 </div>
 <div class="col-md-6">
-<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="&lt;code&gt;card()&lt;/code&gt; (fillable container)" data-bs-toggle="tooltip" data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
+<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="&lt;code&gt;card()&lt;/code&gt; (fillable container)" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
 <div class="card-body html-fill-item html-fill-container p-1" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;gap:0.25rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-orange" data-bs-custom-class="tip-orange" data-bs-html="true" data-bs-placement="right" data-bs-title="&lt;code&gt;card_header()&lt;/code&gt;" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-orange);height:50px;flex-shrink:0;padding:0.2rem;"></div>
 <div class="border border-1 border-dark rounded text-center bg-fill-purple html-fill-item html-fill-container" data-bs-custom-class="tip-purple" data-bs-html="true" data-bs-placement="right" data-bs-title="&lt;code&gt;card_body()&lt;/code&gt;" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-purple);height:400px;padding:0.2rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-blue html-fill-item" data-bs-custom-class="tip-blue" data-bs-html="true" data-bs-offset="-30,0" data-bs-placement="right" data-bs-title="Fill" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-blue);height:400px;padding:0.2rem;"></div>
 </div>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -506,7 +240,7 @@ Resizable example
 <p>You might wonder, why then would we want or need <code>fillable = FALSE</code> or <code>fill = FALSE</code> on a <code><a href="../reference/card_body.html">card_body()</a></code>? One big reason is that <span class="b-pink">fillable containers</span> are powered by <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link">CSS flexbox</a>, which changes the way it’s children are rendered. And, although those changes are nice for “stretchy” children, there are <a href="cards.html#flexbox">downsides for rendering inline elements</a>. So, that’s why, it’s recommended that you use <a href="#multiple-card_body">multiple card bodies</a> when combining <span class="b-blue">fill</span> with <span class="b-orange">non-fill</span></p>
 </div>
 <div class="col-md-6">
-<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="&lt;code&gt;card()&lt;/code&gt; (fillable container)" data-bs-toggle="tooltip" data-require-bs-caller="card()" data-require-bs-version="5" style="height:300px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
+<div class="card bslib-card html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="&lt;code&gt;card()&lt;/code&gt; (fillable container)" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:300px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
 <div class="card-body html-fill-item html-fill-container p-1" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;gap:0.25rem;">
 <div class="border border-1 border-dark rounded text-center bg-fill-orange" data-bs-custom-class="tip-orange" data-bs-html="true" data-bs-placement="right" data-bs-title="&lt;code&gt;card_header()&lt;/code&gt; (not fill)" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-orange);height:50px;flex-shrink:0;padding:0.2rem;"></div>
 <div class="border border-1 border-dark rounded text-center bg-fill-purple html-fill-item html-fill-container" data-bs-custom-class="tip-purple" data-bs-html="true" data-bs-placement="right" data-bs-title="&lt;code&gt;card_body()&lt;/code&gt;" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-purple);height:400px;padding:0.2rem;">
@@ -516,45 +250,7 @@ Resizable example
 <div class="border border-1 border-dark rounded text-center bg-fill-orange" data-bs-custom-class="tip-orange" data-bs-html="true" data-bs-placement="right" data-bs-title="Not fill" data-bs-toggle="tooltip" style="color:white;--bs-tooltip-bg:var(--bs-orange);height:30px;flex-shrink:0;padding:0.2rem;"></div>
 </div>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>

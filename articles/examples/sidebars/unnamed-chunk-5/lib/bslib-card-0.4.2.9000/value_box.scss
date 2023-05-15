@@ -1,0 +1,65 @@
+.bslib-value-box {
+
+  .value-box-grid {
+    grid-template-columns: var(--bslib-value-box-widths);
+  }
+
+  // Should also be .vfill-container/.vfill-item
+  .value-box-showcase {
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 1rem;
+
+    .bi, .fa { opacity: .85; }
+    .bi { font-size: 5rem; }
+    .fa { font-size: 4rem; }
+
+    max-height: var(--bslib-value-box-max-height);
+
+    &.showcase-top-right {
+      align-items: end;
+      padding-left: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  // Should also be .vfill-container/.vfill-item
+  .value-box-area {
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    font-size: .9rem;
+    font-weight: 500;
+    * {
+      color: inherit;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+    &.border-start {
+      border-color: rgba($border-color, 0.3) !important;
+    }
+  }
+
+  &.bslib-full-screen {
+    .value-box-grid {
+      grid-template-columns: var(--bslib-value-box-widths-full-screen);
+    }
+    .value-box-showcase {
+      max-height: var(--bslib-value-box-max-height-full-screen);
+    }
+  }
+
+  &:not(.bslib-full-screen) {
+    .value-box-showcase.showcase-top-right {
+      margin-top: 0;
+    }
+  }
+}
+
+// Override layout_inline_grid()'s preference to collapse to full-width on mobile (inside the value box)
+@include media-breakpoint-down(sm) {
+  .bslib-value-box .value-box-grid {
+    grid-template-columns: var(--bslib-value-box-widths) !important;
+  }
+}

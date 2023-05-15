@@ -93,8 +93,13 @@
   z-index: $zindex-popover;
 }
 
-.card:hover:not(.bslib-full-screen) .bslib-full-screen-enter {
+.card:hover:not(.bslib-full-screen) > .bslib-full-screen-enter {
   display: block;
+}
+
+// Hide all enter-full-screen buttons when *any* card is full-screenified
+.bslib-has-full-screen .card:hover > .bslib-full-screen-enter {
+  display: none;
 }
 
 // Only allow full_screen on desktop screens
@@ -126,5 +131,17 @@
   position: fixed;
   inset: 0;
   background-color: rgba(var(--bs-body-color-rgb), 0.6);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   z-index: $zindex-popover - 1;
+  animation: bslib-full-screen-overlay-enter 400ms cubic-bezier(.6,.02,.65,1) forwards;
+}
+
+@keyframes bslib-full-screen-overlay-enter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

@@ -92,7 +92,7 @@
 
 
 <script src="column-layout_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="column-layout_files/htmltools-fill-0.5.5.9000/fill.css" rel="stylesheet">
-<script src="column-layout_files/bslib-tag-require-0.4.2.9000/tag-require.js"></script><script src="column-layout_files/bslib-card-full-screen-0.4.2.9000/card-full-screen.js"></script><div class="row">
+<script src="column-layout_files/bslib-card-0.4.2.9000/card.min.js"></script><script src="column-layout_files/bslib-tag-require-0.4.2.9000/tag-require.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Column-based layout</h1>
             
@@ -149,149 +149,35 @@
 <div class="bslib-column-wrap html-fill-item animate-width" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:1fr 1fr;grid-auto-rows:1fr;--bslib-column-wrap-height:300px;--bslib-column-wrap-height-mobile:auto; --width1:100%;--width2:67%;">
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem egestas ultricies parturient ultricies tempus sem egestas. Praesent sed pretium porttitor ante: curabitur neque tempus faucibus. Fames massa fringilla turpis. Eu aliquam egestas scelerisque quam habitant. Dictum fringilla sem vivamus porttitor egestas torquent integer ante, primis ornare, sem malesuada mollis elementum fames in; cursus duis habitant placerat habitasse facilisi euismod?</p>
-<p>Consectetur in velit, gravida hac, imperdiet turpis urna hac magnis; lectus malesuada risus. Eleifend aliquet rhoncus non phasellus natoque quisque nec varius erat. Arcu magna tellus malesuada fusce rhoncus egestas fermentum augue aliquet gravida. Fames vitae et potenti porta sollicitudin justo vehicula, sociis curabitur. Pharetra porta ullamcorper etiam magna libero, parturient faucibus sed.</p>
-<p>Consectetur litora viverra odio aptent malesuada neque nec semper. Vulputate mi convallis tellus morbi, lobortis ad libero felis tortor duis non aliquet. Duis fusce morbi sollicitudin integer dictumst, per aptent, torquent maecenas egestas eros lobortis. Sociosqu nullam purus vulputate hac cursus sem aptent malesuada dapibus. Class duis auctor facilisis inceptos ultricies metus.</p>
+<p>Amet magnis cras bibendum nisi id nunc. Cum suscipit odio class erat leo aptent. Magnis at, libero commodo quam ornare aliquet curae non habitant consequat. Consequat vestibulum vel morbi scelerisque, nulla vestibulum sapien netus! Dictum pulvinar vel fringilla, aliquam suscipit, parturient penatibus aliquet ultricies nibh convallis donec.</p>
+<p>Adipiscing laoreet viverra aliquet sed ac vestibulum mi proin. Nam turpis condimentum natoque inceptos eleifend enim nostra scelerisque egestas porttitor maecenas? Senectus fusce habitant curabitur mauris, quis iaculis, purus dui dis est luctus. Tempor dignissim platea et diam nostra netus – proin inceptos tristique congue phasellus? Vestibulum commodo nostra sagittis pulvinar conubia volutpat!</p>
+<p>Lorem pellentesque lectus sollicitudin cursus, cubilia commodo? Nec dignissim non felis felis fringilla faucibus turpis malesuada. Semper sapien mattis urna natoque nec, phasellus curae senectus. Torquent donec ultricies facilisis nisi turpis, non montes, tincidunt arcu pharetra class quisque. Pretium malesuada purus sapien, natoque neque sagittis leo!</p>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Filling content</div>
 <div class="card-body html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
 <span class="bslib-full-screen-enter badge rounded-pill bg-dark" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Expand"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg></span>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -311,149 +197,35 @@
 <div class="bslib-column-wrap html-fill-item animate-width" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));grid-auto-rows:1fr;--bslib-column-wrap-height:300px;--bslib-column-wrap-height-mobile:auto; --width1:100%;--width2:67%;">
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem egestas ultricies parturient ultricies tempus sem egestas. Praesent sed pretium porttitor ante: curabitur neque tempus faucibus. Fames massa fringilla turpis. Eu aliquam egestas scelerisque quam habitant. Dictum fringilla sem vivamus porttitor egestas torquent integer ante, primis ornare, sem malesuada mollis elementum fames in; cursus duis habitant placerat habitasse facilisi euismod?</p>
-<p>Consectetur in velit, gravida hac, imperdiet turpis urna hac magnis; lectus malesuada risus. Eleifend aliquet rhoncus non phasellus natoque quisque nec varius erat. Arcu magna tellus malesuada fusce rhoncus egestas fermentum augue aliquet gravida. Fames vitae et potenti porta sollicitudin justo vehicula, sociis curabitur. Pharetra porta ullamcorper etiam magna libero, parturient faucibus sed.</p>
-<p>Consectetur litora viverra odio aptent malesuada neque nec semper. Vulputate mi convallis tellus morbi, lobortis ad libero felis tortor duis non aliquet. Duis fusce morbi sollicitudin integer dictumst, per aptent, torquent maecenas egestas eros lobortis. Sociosqu nullam purus vulputate hac cursus sem aptent malesuada dapibus. Class duis auctor facilisis inceptos ultricies metus.</p>
+<p>Amet magnis cras bibendum nisi id nunc. Cum suscipit odio class erat leo aptent. Magnis at, libero commodo quam ornare aliquet curae non habitant consequat. Consequat vestibulum vel morbi scelerisque, nulla vestibulum sapien netus! Dictum pulvinar vel fringilla, aliquam suscipit, parturient penatibus aliquet ultricies nibh convallis donec.</p>
+<p>Adipiscing laoreet viverra aliquet sed ac vestibulum mi proin. Nam turpis condimentum natoque inceptos eleifend enim nostra scelerisque egestas porttitor maecenas? Senectus fusce habitant curabitur mauris, quis iaculis, purus dui dis est luctus. Tempor dignissim platea et diam nostra netus – proin inceptos tristique congue phasellus? Vestibulum commodo nostra sagittis pulvinar conubia volutpat!</p>
+<p>Lorem pellentesque lectus sollicitudin cursus, cubilia commodo? Nec dignissim non felis felis fringilla faucibus turpis malesuada. Semper sapien mattis urna natoque nec, phasellus curae senectus. Torquent donec ultricies facilisis nisi turpis, non montes, tincidunt arcu pharetra class quisque. Pretium malesuada purus sapien, natoque neque sagittis leo!</p>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Filling content</div>
 <div class="card-body html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
 <span class="bslib-full-screen-enter badge rounded-pill bg-dark" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Expand"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg></span>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -473,149 +245,35 @@
 <div class="bslib-column-wrap html-fill-item animate-width" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(auto-fit, 200px);grid-auto-rows:1fr;--bslib-column-wrap-height:300px;--bslib-column-wrap-height-mobile:auto; --width1:100%;--width2:67%;">
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem egestas ultricies parturient ultricies tempus sem egestas. Praesent sed pretium porttitor ante: curabitur neque tempus faucibus. Fames massa fringilla turpis. Eu aliquam egestas scelerisque quam habitant. Dictum fringilla sem vivamus porttitor egestas torquent integer ante, primis ornare, sem malesuada mollis elementum fames in; cursus duis habitant placerat habitasse facilisi euismod?</p>
-<p>Consectetur in velit, gravida hac, imperdiet turpis urna hac magnis; lectus malesuada risus. Eleifend aliquet rhoncus non phasellus natoque quisque nec varius erat. Arcu magna tellus malesuada fusce rhoncus egestas fermentum augue aliquet gravida. Fames vitae et potenti porta sollicitudin justo vehicula, sociis curabitur. Pharetra porta ullamcorper etiam magna libero, parturient faucibus sed.</p>
-<p>Consectetur litora viverra odio aptent malesuada neque nec semper. Vulputate mi convallis tellus morbi, lobortis ad libero felis tortor duis non aliquet. Duis fusce morbi sollicitudin integer dictumst, per aptent, torquent maecenas egestas eros lobortis. Sociosqu nullam purus vulputate hac cursus sem aptent malesuada dapibus. Class duis auctor facilisis inceptos ultricies metus.</p>
+<p>Amet magnis cras bibendum nisi id nunc. Cum suscipit odio class erat leo aptent. Magnis at, libero commodo quam ornare aliquet curae non habitant consequat. Consequat vestibulum vel morbi scelerisque, nulla vestibulum sapien netus! Dictum pulvinar vel fringilla, aliquam suscipit, parturient penatibus aliquet ultricies nibh convallis donec.</p>
+<p>Adipiscing laoreet viverra aliquet sed ac vestibulum mi proin. Nam turpis condimentum natoque inceptos eleifend enim nostra scelerisque egestas porttitor maecenas? Senectus fusce habitant curabitur mauris, quis iaculis, purus dui dis est luctus. Tempor dignissim platea et diam nostra netus – proin inceptos tristique congue phasellus? Vestibulum commodo nostra sagittis pulvinar conubia volutpat!</p>
+<p>Lorem pellentesque lectus sollicitudin cursus, cubilia commodo? Nec dignissim non felis felis fringilla faucibus turpis malesuada. Semper sapien mattis urna natoque nec, phasellus curae senectus. Torquent donec ultricies facilisis nisi turpis, non montes, tincidunt arcu pharetra class quisque. Pretium malesuada purus sapien, natoque neque sagittis leo!</p>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Filling content</div>
 <div class="card-body html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
 <span class="bslib-full-screen-enter badge rounded-pill bg-dark" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Expand"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg></span>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -641,149 +299,35 @@
 <div class="bslib-column-wrap html-fill-item animate-height" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:1fr 1fr;--bslib-column-wrap-height:auto;--bslib-column-wrap-height-mobile:auto; --height1:300px;--height2:450px;">
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem egestas ultricies parturient ultricies tempus sem egestas. Praesent sed pretium porttitor ante: curabitur neque tempus faucibus. Fames massa fringilla turpis. Eu aliquam egestas scelerisque quam habitant. Dictum fringilla sem vivamus porttitor egestas torquent integer ante, primis ornare, sem malesuada mollis elementum fames in; cursus duis habitant placerat habitasse facilisi euismod?</p>
-<p>Consectetur in velit, gravida hac, imperdiet turpis urna hac magnis; lectus malesuada risus. Eleifend aliquet rhoncus non phasellus natoque quisque nec varius erat. Arcu magna tellus malesuada fusce rhoncus egestas fermentum augue aliquet gravida. Fames vitae et potenti porta sollicitudin justo vehicula, sociis curabitur. Pharetra porta ullamcorper etiam magna libero, parturient faucibus sed.</p>
-<p>Consectetur litora viverra odio aptent malesuada neque nec semper. Vulputate mi convallis tellus morbi, lobortis ad libero felis tortor duis non aliquet. Duis fusce morbi sollicitudin integer dictumst, per aptent, torquent maecenas egestas eros lobortis. Sociosqu nullam purus vulputate hac cursus sem aptent malesuada dapibus. Class duis auctor facilisis inceptos ultricies metus.</p>
+<p>Amet magnis cras bibendum nisi id nunc. Cum suscipit odio class erat leo aptent. Magnis at, libero commodo quam ornare aliquet curae non habitant consequat. Consequat vestibulum vel morbi scelerisque, nulla vestibulum sapien netus! Dictum pulvinar vel fringilla, aliquam suscipit, parturient penatibus aliquet ultricies nibh convallis donec.</p>
+<p>Adipiscing laoreet viverra aliquet sed ac vestibulum mi proin. Nam turpis condimentum natoque inceptos eleifend enim nostra scelerisque egestas porttitor maecenas? Senectus fusce habitant curabitur mauris, quis iaculis, purus dui dis est luctus. Tempor dignissim platea et diam nostra netus – proin inceptos tristique congue phasellus? Vestibulum commodo nostra sagittis pulvinar conubia volutpat!</p>
+<p>Lorem pellentesque lectus sollicitudin cursus, cubilia commodo? Nec dignissim non felis felis fringilla faucibus turpis malesuada. Semper sapien mattis urna natoque nec, phasellus curae senectus. Torquent donec ultricies facilisis nisi turpis, non montes, tincidunt arcu pharetra class quisque. Pretium malesuada purus sapien, natoque neque sagittis leo!</p>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Filling content</div>
 <div class="card-body html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
 <span class="bslib-full-screen-enter badge rounded-pill bg-dark" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Expand"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg></span>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -806,149 +350,35 @@
 <div class="bslib-column-wrap html-fill-item animate-height" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));grid-auto-rows:1fr;--bslib-column-wrap-height:auto;--bslib-column-wrap-height-mobile:auto; --height1:300px;--height2:450px;">
 <div class="html-fill-container">
 <div class="html-fill-item">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem egestas ultricies parturient ultricies tempus sem egestas. Praesent sed pretium porttitor ante: curabitur neque tempus faucibus. Fames massa fringilla turpis. Eu aliquam egestas scelerisque quam habitant. Dictum fringilla sem vivamus porttitor egestas torquent integer ante, primis ornare, sem malesuada mollis elementum fames in; cursus duis habitant placerat habitasse facilisi euismod?</p>
-<p>Consectetur in velit, gravida hac, imperdiet turpis urna hac magnis; lectus malesuada risus. Eleifend aliquet rhoncus non phasellus natoque quisque nec varius erat. Arcu magna tellus malesuada fusce rhoncus egestas fermentum augue aliquet gravida. Fames vitae et potenti porta sollicitudin justo vehicula, sociis curabitur. Pharetra porta ullamcorper etiam magna libero, parturient faucibus sed.</p>
-<p>Consectetur litora viverra odio aptent malesuada neque nec semper. Vulputate mi convallis tellus morbi, lobortis ad libero felis tortor duis non aliquet. Duis fusce morbi sollicitudin integer dictumst, per aptent, torquent maecenas egestas eros lobortis. Sociosqu nullam purus vulputate hac cursus sem aptent malesuada dapibus. Class duis auctor facilisis inceptos ultricies metus.</p>
+<p>Amet magnis cras bibendum nisi id nunc. Cum suscipit odio class erat leo aptent. Magnis at, libero commodo quam ornare aliquet curae non habitant consequat. Consequat vestibulum vel morbi scelerisque, nulla vestibulum sapien netus! Dictum pulvinar vel fringilla, aliquam suscipit, parturient penatibus aliquet ultricies nibh convallis donec.</p>
+<p>Adipiscing laoreet viverra aliquet sed ac vestibulum mi proin. Nam turpis condimentum natoque inceptos eleifend enim nostra scelerisque egestas porttitor maecenas? Senectus fusce habitant curabitur mauris, quis iaculis, purus dui dis est luctus. Tempor dignissim platea et diam nostra netus – proin inceptos tristique congue phasellus? Vestibulum commodo nostra sagittis pulvinar conubia volutpat!</p>
+<p>Lorem pellentesque lectus sollicitudin cursus, cubilia commodo? Nec dignissim non felis felis fringilla faucibus turpis malesuada. Semper sapien mattis urna natoque nec, phasellus curae senectus. Torquent donec ultricies facilisis nisi turpis, non montes, tincidunt arcu pharetra class quisque. Pretium malesuada purus sapien, natoque neque sagittis leo!</p>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Filling content</div>
 <div class="card-body html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
 <span class="bslib-full-screen-enter badge rounded-pill bg-dark" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Expand"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg></span>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -971,149 +401,35 @@
 <div class="bslib-column-wrap animate-height" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-auto-rows:1fr;--bslib-column-wrap-height:300px;--bslib-column-wrap-height-mobile:auto; grid-template-columns:2fr 1fr 2fr; --height1:300px;--height2:450px;">
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem egestas ultricies parturient ultricies tempus sem egestas. Praesent sed pretium porttitor ante: curabitur neque tempus faucibus. Fames massa fringilla turpis. Eu aliquam egestas scelerisque quam habitant. Dictum fringilla sem vivamus porttitor egestas torquent integer ante, primis ornare, sem malesuada mollis elementum fames in; cursus duis habitant placerat habitasse facilisi euismod?</p>
-<p>Consectetur in velit, gravida hac, imperdiet turpis urna hac magnis; lectus malesuada risus. Eleifend aliquet rhoncus non phasellus natoque quisque nec varius erat. Arcu magna tellus malesuada fusce rhoncus egestas fermentum augue aliquet gravida. Fames vitae et potenti porta sollicitudin justo vehicula, sociis curabitur. Pharetra porta ullamcorper etiam magna libero, parturient faucibus sed.</p>
-<p>Consectetur litora viverra odio aptent malesuada neque nec semper. Vulputate mi convallis tellus morbi, lobortis ad libero felis tortor duis non aliquet. Duis fusce morbi sollicitudin integer dictumst, per aptent, torquent maecenas egestas eros lobortis. Sociosqu nullam purus vulputate hac cursus sem aptent malesuada dapibus. Class duis auctor facilisis inceptos ultricies metus.</p>
+<p>Amet magnis cras bibendum nisi id nunc. Cum suscipit odio class erat leo aptent. Magnis at, libero commodo quam ornare aliquet curae non habitant consequat. Consequat vestibulum vel morbi scelerisque, nulla vestibulum sapien netus! Dictum pulvinar vel fringilla, aliquam suscipit, parturient penatibus aliquet ultricies nibh convallis donec.</p>
+<p>Adipiscing laoreet viverra aliquet sed ac vestibulum mi proin. Nam turpis condimentum natoque inceptos eleifend enim nostra scelerisque egestas porttitor maecenas? Senectus fusce habitant curabitur mauris, quis iaculis, purus dui dis est luctus. Tempor dignissim platea et diam nostra netus – proin inceptos tristique congue phasellus? Vestibulum commodo nostra sagittis pulvinar conubia volutpat!</p>
+<p>Lorem pellentesque lectus sollicitudin cursus, cubilia commodo? Nec dignissim non felis felis fringilla faucibus turpis malesuada. Semper sapien mattis urna natoque nec, phasellus curae senectus. Torquent donec ultricies facilisis nisi turpis, non montes, tincidunt arcu pharetra class quisque. Pretium malesuada purus sapien, natoque neque sagittis leo!</p>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Filling content</div>
 <div class="card-body html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
 <span class="bslib-full-screen-enter badge rounded-pill bg-dark" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Expand"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg></span>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -1138,52 +454,14 @@
 <div class="bslib-column-wrap html-fill-item" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:1fr 1fr;grid-auto-rows:1fr;--bslib-column-wrap-height:300px;--bslib-column-wrap-height-mobile:auto;">
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem egestas ultricies parturient ultricies tempus sem egestas. Praesent sed pretium porttitor ante: curabitur neque tempus faucibus. Fames massa fringilla turpis. Eu aliquam egestas scelerisque quam habitant. Dictum fringilla sem vivamus porttitor egestas torquent integer ante, primis ornare, sem malesuada mollis elementum fames in; cursus duis habitant placerat habitasse facilisi euismod?</p>
-<p>Consectetur in velit, gravida hac, imperdiet turpis urna hac magnis; lectus malesuada risus. Eleifend aliquet rhoncus non phasellus natoque quisque nec varius erat. Arcu magna tellus malesuada fusce rhoncus egestas fermentum augue aliquet gravida. Fames vitae et potenti porta sollicitudin justo vehicula, sociis curabitur. Pharetra porta ullamcorper etiam magna libero, parturient faucibus sed.</p>
-<p>Consectetur litora viverra odio aptent malesuada neque nec semper. Vulputate mi convallis tellus morbi, lobortis ad libero felis tortor duis non aliquet. Duis fusce morbi sollicitudin integer dictumst, per aptent, torquent maecenas egestas eros lobortis. Sociosqu nullam purus vulputate hac cursus sem aptent malesuada dapibus. Class duis auctor facilisis inceptos ultricies metus.</p>
+<p>Amet magnis cras bibendum nisi id nunc. Cum suscipit odio class erat leo aptent. Magnis at, libero commodo quam ornare aliquet curae non habitant consequat. Consequat vestibulum vel morbi scelerisque, nulla vestibulum sapien netus! Dictum pulvinar vel fringilla, aliquam suscipit, parturient penatibus aliquet ultricies nibh convallis donec.</p>
+<p>Adipiscing laoreet viverra aliquet sed ac vestibulum mi proin. Nam turpis condimentum natoque inceptos eleifend enim nostra scelerisque egestas porttitor maecenas? Senectus fusce habitant curabitur mauris, quis iaculis, purus dui dis est luctus. Tempor dignissim platea et diam nostra netus – proin inceptos tristique congue phasellus? Vestibulum commodo nostra sagittis pulvinar conubia volutpat!</p>
+<p>Lorem pellentesque lectus sollicitudin cursus, cubilia commodo? Nec dignissim non felis felis fringilla faucibus turpis malesuada. Semper sapien mattis urna natoque nec, phasellus curae senectus. Torquent donec ultricies facilisis nisi turpis, non montes, tincidunt arcu pharetra class quisque. Pretium malesuada purus sapien, natoque neque sagittis leo!</p>
 </div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
@@ -1192,98 +470,22 @@
 <div class="bslib-column-wrap html-fill-item" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:1fr;--bslib-column-wrap-height:auto;--bslib-column-wrap-height-mobile:auto;">
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
 <div class="html-fill-container">
 <div class="html-fill-item html-fill-container">
-<div class="card bslib-card html-fill-item html-fill-container" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="card bslib-card html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Filling content</div>
 <div class="card-body html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
 <span class="bslib-full-screen-enter badge rounded-pill bg-dark" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Expand"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg></span>
-<script data-bslib-card-needs-init>
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    </script>
+<script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
 </div>
