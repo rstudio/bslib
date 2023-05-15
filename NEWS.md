@@ -2,20 +2,21 @@
 
 This significant release adds [sidebar layouts](https://rstudio.github.io/bslib/articles/sidebars.html), [accordions](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions), and makes many improvements to make dashboard-like filling layouts easier to create.
 
-Although `{bslib}` is still maturing, and will continue to receiving new UI features, we now see it as a viable replacement for `{shinydashboard}`. 
+Although `{bslib}` is still maturing, and will continue to receiving new UI features, we now see it as a viable replacement for `{shinydashboard}`.
 
 ## Breaking changes
 
 * `card_body()` now provides the same behavior as `card_body_fill()` (i.e., it is both a fillable container and fill item) by default. And, now, since `card_body()` can do everything `card_body_fill()` can do, `card_body_fill()` has been deprecated. The main benefit of this change is that `card(full_screen = TRUE, ...)` with output(s) passed to `...` "just works" in an intuitive way. To revert to the previous behavior, set `fillable = FALSE` and `fill = FALSE` in calls to `card_body()` and set `wrapper = function(x) card_body(x, fillable = FALSE, fill = FALSE)` in calls to `card()`. (#498)
 * Closed #375: `margin-top` is no longer included on header tags that aren't created via pandoc. If this negatively impacts spacing above headers, consider adding a suitable [utility class](https://rstudio.github.io/bslib/articles/utility-classes.html) (for example, change `shiny::titlePanel("My title")` to `tagAppendAttributes(titlePanel("My title"), class = "mt-3", .selector = "h2")`). (#396)
 * `layout_column_wrap()`'s `fill` argument now controls whether or not the _layout container_ is allowed to grow/shrink to fit a fillable container (e.g., `page_fillable()`). It also gains a new `fillable` argument for controlling whether _UI elements_ are allowed to fill their row height. This is more consistent with the meaning of `fill` in other functions, like `card()`, `card_body()`, `layout_sidebar()`, etc. (#498)
-* `page_fill()` (now called `page_fillable()`) had several breaking changes (listed below). If this breaks existing behavior, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`. 
+* `page_fill()` (now called `page_fillable()`) had several breaking changes (listed below). If this breaks existing behavior, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`.
   * `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`).
-  * `page_fill()` no longer fills the windows height on mobile (i.e., narrow screens) by default (set `fill_mobile = TRUE` to restore the old behavior). 
+  * `page_fill()` no longer fills the windows height on mobile (i.e., narrow screens) by default (set `fill_mobile = TRUE` to restore the old behavior).
   * `page_fill()` now adds `padding` and `gap` by default, set `padding = 0` and `gap = 0` to restore the old behavior.
 * `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`) usage. Similarly, `navs_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
 * Closed #510: `card()` no longer includes `margin-bottom`. To revert the old behavior, add `class = "mb-3` to `card()`. (#542)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
+* Closed #558: nested cards with `fullscreen = TRUE` now correctly and individually expand to fill the window. Tab focus behavior while in full screen mode has also been improved. (#557)
 
 ## New features
 
@@ -45,8 +46,8 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 
 * Adds a new `card()` API as well as `value_box()` and `layout_column_wrap()`. To learn more about this new functionality, refer to these new pkgdown articles:
 
-  * https://rstudio.github.io/bslib/articles/cards.html 
-  * https://rstudio.github.io/bslib/articles/value-boxes.html 
+  * https://rstudio.github.io/bslib/articles/cards.html
+  * https://rstudio.github.io/bslib/articles/value-boxes.html
   * https://rstudio.github.io/bslib/articles/column-layout.html
 
 # bslib 0.4.1
@@ -123,7 +124,7 @@ Small patch release to fix failing test on Solaris.
 
 ## Bug fixes
 
-* Closed #236, #230, #242, #187, #215, #250: Addressed various cosmetic issues with CSS (#249). 
+* Closed #236, #230, #242, #187, #215, #250: Addressed various cosmetic issues with CSS (#249).
 * Closed #289: collapsed navbar toggle now correctly floats to the right (#290).
 * Closed [rstudio/flexdashboard#316](https://github.com/rstudio/flexdashboard/issues/316): fixed an issue with navbar nav spacing/alignment (#286).
 
