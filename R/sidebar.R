@@ -135,9 +135,8 @@ sidebar <- function(
     }
 
   res <- list2(
-    tag = tags$div(
+    tag = tags$aside(
       id = id,
-      role = "complementary",
       class = c("sidebar", class),
       hidden = if (open == "closed") NA,
       tags$div(
