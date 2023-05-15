@@ -1,18 +1,34 @@
 #' Test and/or coerce fill behavior
 #'
-#' @description Filling layouts in bslib are built on the foundation of fillable
-#' containers and fill items (fill carriers are both fillable and
-#' fill). This is why most bslib components (e.g., [card()], [card_body()],
-#' [layout_sidebar()]) possess both `fillable` and `fill` arguments (to control
-#' their fill behavior). However, sometimes it's useful to add, remove, and/or
-#' test fillable/fill properties on arbitrary [htmltools::tag()], which these
-#' functions are designed to do.
+#' Filling layouts in bslib are built on the foundation of fillable containers
+#' and fill items (fill carriers are both fillable and fill). This is why most
+#' bslib components (e.g., [card()], [card_body()], [layout_sidebar()]) possess
+#' both `fillable` and `fill` arguments (to control their fill behavior).
+#' However, sometimes it's useful to add, remove, and/or test fillable/fill
+#' properties on arbitrary [htmltools::tag()], which these functions are
+#' designed to do.
 #'
 #' @references <https://rstudio.github.io/bslib/articles/filling.html>
 #'
-#' @details Although `as_fill()`, `as_fillable()`, and `as_fill_carrier()`
-#' can work with non-tag objects that have a [as.tags] method (e.g., htmlwidgets),
-#' they return the "tagified" version of that object
+#' @details
+#' Although `as_fill()`, `as_fillable()`, and `as_fill_carrier()` can work with
+#' non-tag objects that have a [as.tags] method (e.g., htmlwidgets), they return
+#' the "tagified" version of that object.
+#'
+#' @examplesIf interactive()
+#' library(shiny)
+#' shinyApp(
+#'   page_fillable(
+#'     # without `as_fill_carrier()`, the plot won't fill the page because
+#'     # `uiOutput()` is neither a fillable container nor a fill item by default.
+#'     as_fill_carrier(uiOutput("ui"))
+#'   ),
+#'   function(input, output) {
+#'     output$ui <- renderUI({
+#'       plotly::plot_ly(x = rnorm(100))
+#'     })
+#'   }
+#' )
 #'
 #' @return
 #'   * For `as_fill()`, `as_fillable()`, and `as_fill_carrier()`: the _tagified_
