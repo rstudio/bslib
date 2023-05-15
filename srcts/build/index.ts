@@ -11,6 +11,7 @@ const opts: BuildOptions = {
   bundle: true,
   sourcemap: true,
   minify: true,
+  external: ["bootstrap"],
 };
 
 // TODO: build all components?
@@ -24,4 +25,10 @@ build({
   ...opts,
   entryPoints: ["srcts/src/components/sidebar.ts"],
   outfile: "inst/components/sidebar.min.js",
+});
+
+build({
+  ...opts,
+  entryPoints: ["srcts/src/components/card.ts"],
+  outfile: "inst/components/card.min.js",
 });

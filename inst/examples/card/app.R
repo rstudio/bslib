@@ -16,12 +16,14 @@ lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscin
 main_grid <- layout_column_wrap(
   width = 1/3, heights_equal = "row",
   card(
+    id = "card-dt",
     full_screen = TRUE,
     card_header("DT::dataTableOutput()"),
     DT::dataTableOutput("DT")
   ),
   navset_card_pill(
     title = "Shiny outputs",
+    id = "card-navset-pill",
     full_screen = TRUE,
     nav_panel(
       "plotOutput",
@@ -34,11 +36,13 @@ main_grid <- layout_column_wrap(
     nav_panel("imageOutput", plotOutput("image"))
   ),
   card(
+    id = "card-leaflet",
     full_screen = TRUE,
     card_header("leaflet (via uiOutput())"),
     uiOutput("leaflet", fill = TRUE)
   ),
   card(
+    id = "card-plotly",
     full_screen = TRUE,
     card_header("plotly::plotlyOutput()"),
     layout_column_wrap(
@@ -49,6 +53,7 @@ main_grid <- layout_column_wrap(
     plotlyOutput("price")
   ),
   card(
+    id = "card-plotly-static",
     full_screen = TRUE,
     card_header("Static plotly"),
     plot_hist("price"),
@@ -61,6 +66,7 @@ main_grid <- layout_column_wrap(
   layout_column_wrap(
     width = 1,
     card(
+      id = "card-image",
       full_screen = TRUE,
       card_header("card_image()"),
       card_image(
@@ -70,6 +76,7 @@ main_grid <- layout_column_wrap(
       )
     ),
     card(
+      id = "card-gt",
       full_screen = TRUE,
       card_header("Scrollable gt()"),
       card_body(

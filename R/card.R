@@ -66,10 +66,12 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, fil
       height = validateCssUnit(height),
       max_height = validateCssUnit(max_height)
     ),
+    "data-bslib-card-init" = NA,
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(),
-    card_js_init()
+    card_dependency(),
+    card_init_js()
   )
 
   tag <- bindFillRole(tag, container = TRUE, item = fill)
@@ -271,64 +273,31 @@ full_screen_toggle <- function() {
     "data-bs-toggle" = "tooltip",
     "data-bs-placement" = "bottom",
     title = "Expand",
-    full_screen_toggle_icon(),
-    htmlDependency(
-      name = "bslib-card-full-screen",
-      version = get_package_version("bslib"),
-      package = "bslib",
-      src = "components",
-      script = "card-full-screen.js"
-    )
+    full_screen_toggle_icon()
   )
 }
 
-
-card_js_init <- function() {
-  tags$script("data-bslib-card-needs-init" = NA, HTML(
-    "
-      var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-      if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-      thisScript.removeAttribute('data-bslib-card-needs-init');
-
-      var card = $(thisScript).parents('.card').last();
-      if (!card) throw new Error('Failed to register card() resize observer');
-
-      // Let Shiny know to trigger resize when the card size changes
-      // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-      var resizeEvent = window.document.createEvent('UIEvents');
-      resizeEvent.initUIEvent('resize', true, false, window, 0);
-      var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-      ro.observe(card[0]);
-
-      // Enable tooltips (for the expand icon)
-      var tooltipList = card[0].querySelectorAll('[data-bs-toggle=\"tooltip\"]');
-      tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-      // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-      // shiny initializes with the correct sizing, but in-between the 1st and last
-      // renderValue(), the size of the output containers can change, meaning every
-      // output but the 1st gets initialized with the wrong size during their
-      // renderValue(); and then after the render phase, shiny won't know trigger a
-      // resize since all the widgets will return to their original size
-      // (and thus, Shiny thinks there isn't any resizing to do).
-      // We workaround that situation by manually triggering a resize on the binding
-      // when the output container changes (this way, if the size is different during
-      // the render phase, Shiny will know about it)
-      $(document).on('shiny:value', function(x) {
-        var el = x.binding.el;
-        if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-          var roo = new ResizeObserver(x.binding.onResize);
-          roo.observe(el);
-          $(el).data('bslib-output-observer', true);
-        }
-      });
-    "
-  ))
+card_dependency <- function() {
+  htmlDependency(
+    name = "bslib-card",
+    version = get_package_version("bslib"),
+    package = "bslib",
+    src = "components",
+    script = "card.min.js"
+  )
 }
 
-# via bsicons::bs_icon("arrows-fullscreen")
+card_init_js <- function() {
+  tags$script(
+    `data-bslib-card-init` = NA,
+    HTML("bslib.Card.initializeAllCards();")
+  )
+}
+
 full_screen_toggle_icon <- function() {
+  if (is_installed("bsicons")) {
+    return(bsicons::bs_icon("arrows-fullscreen"))
+  }
   HTML('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg>')
 }
 

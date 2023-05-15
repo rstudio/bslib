@@ -43,6 +43,18 @@ jobs:
           install.packages("rsconnect")
           pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
 
+      # Workaround for this (probably spurious error):
+      # https://github.com/rstudio/bslib/actions/runs/4963164313/jobs/8882217868#step:6:32
+      - name: Install rlang
+        shell: Rscript {0}
+        run: |
+          install.packages("rlang")
+
+      - name: Install cpp11
+        shell: Rscript {0}
+        run: |
+          install.packages("cpp11")
+
       - name: Register account
         shell: Rscript {0}
         run: |

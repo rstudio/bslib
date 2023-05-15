@@ -3,8 +3,7 @@
 \name{sidebar}
 \alias{sidebar}
 \alias{layout_sidebar}
-\alias{sidebar_open}
-\alias{sidebar_close}
+\alias{sidebar_toggle}
 \title{Sidebar layouts}
 \usage{
 sidebar(
@@ -33,9 +32,7 @@ layout_sidebar(
   height = NULL
 )
 
-sidebar_open(id, session = get_current_session())
-
-sidebar_close(id, session = get_current_session())
+sidebar_toggle(id, open = NULL, session = get_current_session())
 }
 \arguments{
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} and named arguments become HTML attributes on
@@ -55,7 +52,13 @@ This is default sidebar behavior.
 \item \code{"open"} or \code{TRUE}: The sidebar starts open.
 \item \code{"closed"} or \code{FALSE}: The sidebar starts closed.
 \item \code{"always"} or \code{NA}: The sidebar is always open and cannot be closed.
-}}
+}
+
+In \code{sidebar_toggle()}, \code{open} indicates the desired state of the sidebar,
+where the default of \code{open = NULL} will cause the sidebar to be toggled
+open if closed or vice versa. Note that \code{sidebar_toggle()} can only open or
+close the sidebar, so it does not support the \code{"desktop"} and \code{"always"}
+options.}
 
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
@@ -97,7 +100,7 @@ main content area.}
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
-\item{session}{a shiny session object (the default should almost always be
+\item{session}{A Shiny session object (the default should almost always be
 used).}
 }
 \description{
@@ -121,8 +124,7 @@ to learn more.
 }
 \section{Functions}{
 \itemize{
-\item \code{sidebar_open()}: Open a \code{sidebar()} (during an active Shiny user session).
-
-\item \code{sidebar_close()}: Close a \code{sidebar()} (during an active Shiny user session).
+\item \code{sidebar_toggle()}: Toggle a \code{sidebar()} state during an active Shiny user
+session.
 
 }}

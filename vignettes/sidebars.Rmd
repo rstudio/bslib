@@ -511,18 +511,18 @@ page_navbar(
   nav_panel("Page 1", "Page 1 contents"),
   nav_panel("Page 2", "Page 2 contents"),
   footer = htmltools::tags$script(htmltools::HTML("
-$('.sidebar > :last').hide();
+var $page1,$page2;
+$(document).ready(function() {
+  $page1 = $(`[data-display-if*='Page 1']`);
+  $page2 = $(`[data-display-if*='Page 2']`);
+  $page2.hide();
+});
 
 $('#nav').on('shown.bs.tab', function(ev) {
   const page = ev.target.dataset.value;
-  if (page === 'Page 2') {
-    $('.sidebar > :first').hide();
-    $('.sidebar > :last').show();
-  } else {
-    $('.sidebar > :first').show();
-    $('.sidebar > :last').hide();
-  }
-  });
+  page === 'Page 2' ? $page1.hide() : $page1.show();
+  page === 'Page 1' ? $page2.hide() : $page2.show();
+});
 "
   ))
 )
@@ -549,22 +549,22 @@ ui <- page_navbar(
     open = FALSE,
     "Sidebar"
   ),
-  nav_panel("Page 1", "Go to Page 2 (to open)"),
-  nav_panel("Page 2", "Go to Page 1 (to close)"),
+  nav_panel("Page 1", "Sidebar closed. Go to Page 2 to open."),
+  nav_panel("Page 2", "Sidebar open. Go to Page 1 to close.")
 )
 
 server <- function(input, output) {
   observe({
-    if (input$nav == "Page 2") {
-      sidebar_open(id = "sidebar")
-    } else {
-      sidebar_close(id = "sidebar")
-    }
+    sidebar_toggle(
+      id = "sidebar",
+      open = input$nav == "Page 2"
+    )
   })
 }
 
 shinyApp(ui, server)
 ```
+:::
 :::
 
 ::: {.col-sm-12 .col-lg-6 .mt-auto .mb-auto}
@@ -574,14 +574,14 @@ page_navbar(
   id = "nav",
   collapsible = FALSE,
   sidebar = sidebar(id = "sidebar", open = FALSE, "Sidebar"),
-  nav_panel("Page 1", "Go to Page 2 (to open)"),
-  nav_panel("Page 2", "Go to Page 1 (to close)"),
+  nav_panel("Page 1", "Sidebar closed. Go to Page 2 to open."),
+  nav_panel("Page 2", "Sidebar open. Go to Page 1 to close."),
   footer = htmltools::tags$script(htmltools::HTML("
 $('#nav').on('shown.bs.tab', function(ev) {
   const page = ev.target.dataset.value;
-  const $sb = $('.bslib-sidebar-layout > .bslib-sidebar-input');
-  $sb.parent().toggleClass('sidebar-collapsed');
-  $sb.trigger('toggleCollapse.sidebarInputBinding');
+  const layout = document.getElementById('sidebar').parentElement;
+  const open = page === 'Page 2' ? 'open' : 'close';
+  window.bslib.Sidebar.toggle(layout, open);
 });"
   ))
 )

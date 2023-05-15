@@ -63,13 +63,24 @@ progressBar <- div(
   )
 )
 
+# This is here for shinycoreci to take advantage of (so we don't need to update a bunch of screenshots)
+IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
+if (isTRUE(IS_LEGACY)) {
+  dashboardTab <- NULL
+} else {
+  dashboardTab <- nav("Dashboard", tipsUI("tips"))
+  theme_set(theme_minimal())
+}
+
 shinyApp(
-  navbarPage(
+  page_navbar(
     theme = theme,
     title = "Theme demo",
     collapsible = TRUE,
     id = "navbar",
-    tabPanel(
+    fillable = "Dashboard",
+    dashboardTab,
+    nav(
       "Inputs",
       tabsetPanel(
         type = "pills", id = "inputs",
@@ -131,7 +142,7 @@ shinyApp(
         )
       )
     ),
-    tabPanel(
+    nav(
       "Plots",
       uiOutput("thematic_needed"),
       plotOutput("plot"),
@@ -145,11 +156,11 @@ shinyApp(
         )
       )
     ),
-    tabPanel(
+    nav(
       "Tables",
       DT::dataTableOutput("DT")
     ),
-    tabPanel(
+    nav(
       "Notifications",
       tabsetPanel(
         id = "otherNav",
@@ -176,7 +187,7 @@ shinyApp(
         )
       )
     ),
-    tabPanel(
+    nav(
       "Fonts",
       h1("Heading font:", class = "text-primary"),
       hr(class = "bg-primary", style = "height: 5px"),
@@ -196,7 +207,7 @@ shinyApp(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
       )
     ),
-    tabPanel(
+    nav(
       "Options",
       if ("4" %in% theme_version(theme)) {
         p(
@@ -328,6 +339,8 @@ shinyApp(
         "<span class=\"bg-warning\">&nbsp;!! Install the <a href='https://rstudio.github.io/thematic/'><code>thematic</code></a> package to enable auto-theming of static R plots !!&nbsp;</span>"
       )
     })
+
+    if (!IS_LEGACY) tipsServer("tips")
 
   }
 )
