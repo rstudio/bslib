@@ -71,7 +71,7 @@ options.}
 update) the \code{collapsible} state in a Shiny app.}
 
 \item{title}{A character title to be used as the sidebar title, which will be
-wrapped in a \verb{<div>} element with class \code{sidebar-title}. You can also
+wrapped in a \verb{<header>} element with class \code{sidebar-title}. You can also
 provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
 you'll likely want to give this element \code{class = "sidebar-title"}.}
 
