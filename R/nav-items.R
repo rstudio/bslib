@@ -25,23 +25,23 @@
 #' @return A nav item that may be passed to a nav container (e.g. [navset_tab()]).
 #'
 #' @seealso [navset_tab()], [nav_select()].
-#' @name nav
+#' @name nav-items
 NULL
 
-#' @describeIn nav Content to display when the given item is selected.
+#' @describeIn nav-items Content to display when the given item is selected.
 #' @export
 nav_panel <- function(title, ..., value = title, icon = NULL) {
   tabPanel_(title, ..., value = value, icon = icon)
 }
 
-#' @describeIn nav Create nav content for use inside `navset_hidden()` (for
+#' @describeIn nav-items Create nav content for use inside `navset_hidden()` (for
 #'   creating custom navigation controls via `navs_select()`),
 #' @export
 nav_panel_hidden <- function(value, ..., icon = NULL) {
   tabPanelBody_(value, ..., icon = icon)
 }
 
-#' @describeIn nav Create a menu of nav items.
+#' @describeIn nav-items Create a menu of nav items.
 #' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.
 #' @export
 nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "right")) {
@@ -49,7 +49,7 @@ nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "
   navbarMenu_(title, ..., menuName = value, icon = icon, align = align)
 }
 
-#' @describeIn nav Place arbitrary content in the navigation panel (e.g., search
+#' @describeIn nav-items Place arbitrary content in the navigation panel (e.g., search
 #'   forms, links to external content, etc.)
 #' @export
 nav_item <- function(...) {
@@ -62,7 +62,7 @@ is_nav_item <- function(x) {
   tag_has_class(x, "bslib-nav-item")
 }
 
-#' @describeIn nav Adding spacing between nav items.
+#' @describeIn nav-items Adding spacing between nav items.
 #' @export
 nav_spacer <- function() {
   div(class = "bslib-nav-spacer")

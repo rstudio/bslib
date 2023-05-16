@@ -17,6 +17,7 @@
 \alias{bs_add_declarations}
 \alias{card_body_fill}
 \alias{page_fill}
+\alias{nav}
 \alias{nav_content}
 \alias{navs_tab}
 \alias{navs_pill}
