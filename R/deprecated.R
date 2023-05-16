@@ -155,6 +155,10 @@ page_fill <- function(...) {
 }
 
 #  Legacy Nav Containers --------------------------------------------------
+# This is needed since some shiny functions like `tabPanel()` call
+# `nav()` underneath the hood. In a future release of shiny, we 
+# could/should require bslib > 0.4.2, update it to use the new version 
+# (`nav_panel()`), then we won't need this fancy deprecation 
 deprecate_if_not_called_from_shiny <- function(old_name, new, version) {
   new_name <- deparse(substitute(new))
 
@@ -170,6 +174,7 @@ deprecate_if_not_called_from_shiny <- function(old_name, new, version) {
     new(...)
   }
 }
+
 #' @rdname deprecated
 #' @aliases NULL
 #' @export
