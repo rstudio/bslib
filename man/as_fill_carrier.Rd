@@ -79,18 +79,39 @@ fill properties.
 }
 }
 \description{
-Filling layouts in bslib are built on the foundation of fillable
-containers and fill items (fill carriers are both fillable and
-fill). This is why most bslib components (e.g., \code{\link[=card]{card()}}, \code{\link[=card_body]{card_body()}},
-\code{\link[=layout_sidebar]{layout_sidebar()}}) possess both \code{fillable} and \code{fill} arguments (to control
-their fill behavior). However, sometimes it's useful to add, remove, and/or
-test fillable/fill properties on arbitrary \code{\link[htmltools:builder]{htmltools::tag()}}, which these
-functions are designed to do.
+Filling layouts in bslib are built on the foundation of fillable containers
+and fill items (fill carriers are both fillable and fill). This is why most
+bslib components (e.g., \code{\link[=card]{card()}}, \code{\link[=card_body]{card_body()}}, \code{\link[=layout_sidebar]{layout_sidebar()}}) possess
+both \code{fillable} and \code{fill} arguments (to control their fill behavior).
+However, sometimes it's useful to add, remove, and/or test fillable/fill
+properties on arbitrary \code{\link[htmltools:builder]{htmltools::tag()}}, which these functions are
+designed to do.
 }
 \details{
-Although \code{as_fill()}, \code{as_fillable()}, and \code{as_fill_carrier()}
-can work with non-tag objects that have a \link{as.tags} method (e.g., htmlwidgets),
-they return the "tagified" version of that object
+Although \code{as_fill()}, \code{as_fillable()}, and \code{as_fill_carrier()} can work with
+non-tag objects that have a \link{as.tags} method (e.g., htmlwidgets), they return
+the "tagified" version of that object.
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(shiny)
+shinyApp(
+  page_fillable(
+    # without `as_fill_carrier()`, the plot won't fill the page because
+    # `uiOutput()` is neither a fillable container nor a fill item by default.
+    as_fill_carrier(uiOutput("ui"))
+  ),
+  function(input, output) {
+    output$ui <- renderUI({
+      div(
+        class = "bg-info text-white",
+        as_fill_item(),
+        "A fill item"
+      )
+    })
+  }
+)
+\dontshow{\}) # examplesIf}
 }
 \references{
 \url{https://rstudio.github.io/bslib/articles/filling.html}

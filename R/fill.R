@@ -1,18 +1,38 @@
 #' Test and/or coerce fill behavior
 #'
-#' @description Filling layouts in bslib are built on the foundation of fillable
-#' containers and fill items (fill carriers are both fillable and
-#' fill). This is why most bslib components (e.g., [card()], [card_body()],
-#' [layout_sidebar()]) possess both `fillable` and `fill` arguments (to control
-#' their fill behavior). However, sometimes it's useful to add, remove, and/or
-#' test fillable/fill properties on arbitrary [htmltools::tag()], which these
-#' functions are designed to do.
+#' Filling layouts in bslib are built on the foundation of fillable containers
+#' and fill items (fill carriers are both fillable and fill). This is why most
+#' bslib components (e.g., [card()], [card_body()], [layout_sidebar()]) possess
+#' both `fillable` and `fill` arguments (to control their fill behavior).
+#' However, sometimes it's useful to add, remove, and/or test fillable/fill
+#' properties on arbitrary [htmltools::tag()], which these functions are
+#' designed to do.
 #'
 #' @references <https://rstudio.github.io/bslib/articles/filling.html>
 #'
-#' @details Although `as_fill()`, `as_fillable()`, and `as_fill_carrier()`
-#' can work with non-tag objects that have a [as.tags] method (e.g., htmlwidgets),
-#' they return the "tagified" version of that object
+#' @details
+#' Although `as_fill()`, `as_fillable()`, and `as_fill_carrier()` can work with
+#' non-tag objects that have a [as.tags] method (e.g., htmlwidgets), they return
+#' the "tagified" version of that object.
+#'
+#' @examplesIf interactive()
+#' library(shiny)
+#' shinyApp(
+#'   page_fillable(
+#'     # without `as_fill_carrier()`, the plot won't fill the page because
+#'     # `uiOutput()` is neither a fillable container nor a fill item by default.
+#'     as_fill_carrier(uiOutput("ui"))
+#'   ),
+#'   function(input, output) {
+#'     output$ui <- renderUI({
+#'       div(
+#'         class = "bg-info text-white",
+#'         as_fill_item(),
+#'         "A fill item"
+#'       )
+#'     })
+#'   }
+#' )
 #'
 #' @return
 #'   * For `as_fill()`, `as_fillable()`, and `as_fill_carrier()`: the _tagified_
@@ -37,16 +57,22 @@ as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = 
 
   rlang::check_dots_empty()
 
-  x <- as_fillable_container(
-    x, min_height = min_height,
+  attrs <- fillable_attributes(
+    min_height = min_height,
     max_height = max_height,
     gap = gap,
     class = class,
-    style = style,
-    css_selector = css_selector
+    style = style
   )
 
-  bindFillRole(x, item = TRUE, .cssSelector = css_selector)
+  if (rlang::is_missing(x)) {
+    warn_css_selector_null(css_selector)
+    attrs <- c(attrs, list(class = "html-fill-item html-fill-container"))
+    return(rlang::splice(attrs))
+  }
+
+  x <- bindFillRole(x, item = TRUE, container = TRUE, .cssSelector = css_selector)
+  tagAppendAttributes(x, .cssSelector = css_selector, !!!attrs)
 }
 
 
@@ -56,10 +82,57 @@ as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, 
 
   rlang::check_dots_empty()
 
+  attrs <- fillable_attributes(
+    min_height = min_height,
+    max_height = max_height,
+    gap = gap,
+    class = class,
+    style = style
+  )
+
+  if (rlang::is_missing(x)) {
+    warn_css_selector_null(css_selector)
+    attrs <- c(attrs, list(class = "html-fill-container"))
+    return(rlang::splice(attrs))
+  }
+
   x <- bindFillRole(x, container = TRUE, .cssSelector = css_selector)
 
-  tagAppendAttributes(
-    x, .cssSelector = css_selector,
+  tagAppendAttributes(x, .cssSelector = css_selector, !!!attrs)
+}
+
+#' @rdname as_fill_carrier
+#' @export
+as_fill_item <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, style = NULL, css_selector = NULL) {
+
+  rlang::check_dots_empty()
+
+  attrs <- fillable_attributes(
+    min_height = min_height,
+    max_height = max_height,
+    class = class,
+    style = style
+  )
+
+  if (rlang::is_missing(x)) {
+    warn_css_selector_null(css_selector)
+    attrs <- c(attrs, list(class = "html-fill-item"))
+    return(rlang::splice(attrs))
+  }
+
+  x <- bindFillRole(x, item = TRUE, .cssSelector = css_selector)
+
+  tagAppendAttributes(x, .cssSelector = css_selector, !!!attrs)
+}
+
+fillable_attributes <- function(
+  min_height = NULL,
+  max_height = NULL,
+  gap = NULL,
+  class = NULL,
+  style = NULL
+) {
+  list(
     style = css(
       min_height = validateCssUnit(min_height),
       max_height = validateCssUnit(max_height),
@@ -70,29 +143,19 @@ as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, 
   )
 }
 
-#' @rdname as_fill_carrier
-#' @export
-as_fill_item <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, style = NULL, css_selector = NULL) {
+warn_css_selector_null <- function(x) {
+  if (is.null(x)) return()
 
-  rlang::check_dots_empty()
-
-  x <- bindFillRole(x, item = TRUE, .cssSelector = css_selector)
-
-  tagAppendAttributes(
-    x, .cssSelector = css_selector,
-    style = css(
-      min_height = validateCssUnit(min_height),
-      max_height = validateCssUnit(max_height)
-    ),
-    class = class,
-    style = style
+  rlang::warn(
+    "Ignoring non-NULL `css_selector` because an input tag `x` was not provided.",
+    call = rlang::caller_env()
   )
 }
-
 
 #' @rdname as_fill_carrier
 #' @export
 remove_all_fill <- function(x) {
+  # NOTE: this doesn't remove the `htmltools-fill` dependency from `x`
   bindFillRole(
     x, item = FALSE, container = FALSE,
     overwrite = TRUE
@@ -110,7 +173,7 @@ is_fill_carrier <- function(x) {
 #' @rdname as_fill_carrier
 #' @export
 is_fillable_container <- function(x) {
-  UseMethod("is_fillable")
+  UseMethod("is_fillable_container")
 }
 
 #' @export
