@@ -112,7 +112,7 @@ object to the \code{sidebar} argument of:
 \item Creates a sidebar layout component which can be dropped inside any
 \code{\link[=page]{page()}} or \code{\link[=card]{card()}} context.
 }
-\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navs_tab_card]{navs_tab_card()}}, and \code{\link[=navs_pill_card]{navs_pill_card()}}
+\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navset_card_tab]{navset_card_tab()}}, and \code{\link[=navset_card_pill]{navset_card_pill()}}
 \itemize{
 \item Creates a multi page/tab UI with a singular \code{sidebar()} (which is
 shown on every page/tab).

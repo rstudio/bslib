@@ -31,7 +31,7 @@ get_current_theme <- function() {
 }
 
 
-# Shiny internal funcs needed for nav() (i.e., tabPanel()) logic
+# Shiny internal funcs needed for nav_panel() (i.e., tabPanel()) logic
 
 processDeps <- function(...) {
   getFromNamespace("processDeps", "shiny")(...)

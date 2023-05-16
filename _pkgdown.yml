@@ -54,7 +54,7 @@ navbar:
         - text: Filling layouts
           href: articles/filling.html
         - text: Multi page/tab
-          href: https://rstudio.github.io/bslib/reference/navs.html#details
+          href: https://rstudio.github.io/bslib/reference/navset.html#details
 
     reference:
       text: Reference
@@ -94,7 +94,7 @@ reference:
     - value_box
 - title: Accordions
   description: |
-    Create collapsable sections of content
+    Create collapsible sections of content
   contents:
     - accordion
     - accordion_panel_set
@@ -102,8 +102,8 @@ reference:
   description: |
     Create (tabbed) sections of content.
   contents:
-    - nav
-    - navs_tab
+    - nav-items
+    - navset
     - nav_select
 - title: Layout multiple UI elements
   description: |
@@ -152,3 +152,5 @@ reference:
     - ["articles/cards.html#responsive-sizing", "articles/cards.html#filling-contents"]
     - ["articles/cards.html#fixed-responsive-sizing", "articles/cards.html#scrolling-filling"]
     - ["articles/cards.html#dynamic-rendering-shiny", "articles/cards.html#shiny"]
+    - ["reference/nav.html", "reference/nav-items.html"]
+    - ["reference/navs.html", "reference/navset.html"]

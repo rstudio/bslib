@@ -3,14 +3,15 @@
 #' @inheritParams card_body
 #' @param title A (left-aligned) title to place in the card header/footer. If
 #'   provided, other nav items are automatically right aligned.
-#' @rdname navs
-navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
+#' @include navs-legacy.R
+#' @rdname navset
+navset_card_tab <- function(..., id = NULL, selected = NULL, title = NULL,
                           sidebar = NULL, header = NULL, footer = NULL,
                           height = NULL, full_screen = FALSE, wrapper = card_body) {
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
-  tabs <- navs_tab(
+  tabs <- navset_tab(
     !!!items, id = id, selected = selected, header = header, footer = footer
   )
 
@@ -34,15 +35,15 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 
 #' @export
 #' @param placement placement of the nav items relative to the content.
-#' @rdname navs
-navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
+#' @rdname navset
+navset_card_pill <- function(..., id = NULL, selected = NULL, title = NULL,
                            sidebar = NULL, header = NULL, footer = NULL,
                            height = NULL, placement = c("above", "below"),
                            full_screen = FALSE, wrapper = card_body) {
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
-  pills <- navs_pill(
+  pills <- navset_pill(
     !!!items, id = id, selected = selected,
     header = header, footer = footer
   )
@@ -74,7 +75,7 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
 collect_nav_items <- function(..., wrapper) {
   items <- rlang::list2(...)
 
-  # Wrap any nav() children up into card items
+  # Wrap any nav_panel() children up into card items
   nav_to_card_item <- function(x) {
     if (isNavbarMenu(x)) {
       x$tabs <- lapply(x$tabs, nav_to_card_item)

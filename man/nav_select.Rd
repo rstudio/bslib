@@ -28,13 +28,14 @@ nav_hide(id, target, session = get_current_session())
 \arguments{
 \item{id}{a character string used to identify the nav container.}
 
-\item{selected}{a character string used to identify a particular \code{\link[=nav]{nav()}} item.}
+\item{selected}{a character string used to identify a particular
+\code{\link[=nav_panel]{nav_panel()}} item.}
 
 \item{session}{a shiny session object (the default should almost always be used).}
 
-\item{nav}{a \code{\link[=nav]{nav()}} item.}
+\item{nav}{a \code{\link[=nav_panel]{nav_panel()}} item.}
 
-\item{target}{The \code{value} of an existing \code{nav()} item, next to which tab will be added. If removing: the \code{value} of the \code{nav()} item that you want to remove.}
+\item{target}{The \code{value} of an existing \code{nav_panel()} item, next to which tab will be added. If removing: the \code{value} of the \code{nav_panel()} item that you want to remove.}
 
 \item{position}{Should \code{nav} be added before or after the target?}
 
@@ -54,10 +55,10 @@ if (can_browse()) {
   shinyApp(
     page_fluid(
       radioButtons("item", "Choose", c("A", "B")),
-      navs_hidden(
+      navset_hidden(
         id = "container",
-        nav_content("A", "a"),
-        nav_content("B", "b")
+        nav_panel_hidden("A", "a"),
+        nav_panel_hidden("B", "b")
       )
     ),
     function(input, output) {
@@ -71,18 +72,18 @@ if (can_browse()) {
   ui <- page_fluid(
     actionButton("add", "Add 'Dynamic' tab"),
     actionButton("remove", "Remove 'Foo' tab"),
-    navs_tab(
+    navset_tab(
       id = "tabs",
-      nav("Hello", "hello"),
-      nav("Foo", "foo"),
-      nav("Bar", "bar tab")
+      nav_panel("Hello", "hello"),
+      nav_panel("Foo", "foo"),
+      nav_panel("Bar", "bar tab")
     )
   )
   server <- function(input, output) {
     observeEvent(input$add, {
       nav_insert(
         "tabs", target = "Bar", select = TRUE,
-        nav("Dynamic", "Dynamically added content")
+        nav_panel("Dynamic", "Dynamically added content")
       )
     })
     observeEvent(input$remove, {
@@ -94,5 +95,5 @@ if (can_browse()) {
 
 }
 \seealso{
-\code{\link[=nav]{nav()}}, \code{\link[=navs_tab]{navs_tab()}}.
+\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=navset_tab]{navset_tab()}}.
 }

@@ -13,7 +13,7 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
   * `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`).
   * `page_fill()` no longer fills the windows height on mobile (i.e., narrow screens) by default (set `fill_mobile = TRUE` to restore the old behavior).
   * `page_fill()` now adds `padding` and `gap` by default, set `padding = 0` and `gap = 0` to restore the old behavior.
-* `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`) usage. Similarly, `navs_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
+* `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`) usage. Similarly, `navset_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
 * Closed #510: `card()` no longer includes `margin-bottom`. To revert the old behavior, add `class = "mb-3` to `card()`. (#542)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
 * Closed #558: nested cards with `fullscreen = TRUE` now correctly and individually expand to fill the window. Tab focus behavior while in full screen mode has also been improved. (#557)
@@ -22,7 +22,7 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 
 * Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn more. (#479)
 * Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions). (#475)
-* `page_navbar()`, `navs_tab_card()`, and ` navs_pill_card()` gain a `sidebar` argument for putting a `sidebar()` on every page/tab/pill. (#479)
+* `page_navbar()`, `navset_card_tab()`, and ` navset_card_pill()` gain a `sidebar` argument for putting a `sidebar()` on every page/tab/pill. (#479)
 * `page_navbar()` gains a `fillable` argument to make the content of particular page(s) fit the window/card. (#479)
 * `page_fillable()` (aka, `page_fill()`) is now considered a `fillable` container, meaning that `fill` items like `card()`, `layout_column_wrap()`, and `layout_sidebar()` now grow/shrink to fit the window's height when they appear as a direct child of `page_fillable()`. (#479)
 * `page_navbar()` and `page_fillable()` gain `fill_mobile` arguments to control whether the page should grow/shrink to fit the viewport on mobile. (#479)
@@ -34,7 +34,13 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 
 * `card_body_fill()` has been deprecated in favor of `card_body()`. (#498)
 * `page_fill()` has been deprecated in favor of `page_fillable()`. (#498)
-
+* `nav()` has been deprecated in favor of `nav_panel()` and `nav_content()` in favor of `nav_panel_hidden()`. (#476)
+* The `navs_*()` family of functions have been deprecated in favor of `navset_*()` (#476):
+  * `navs_tab()` is now `navset_tab()`
+  * `navs_pill()` is now `navset_pill()`
+  * `navs_pill_list()` is now `navset_pill_list()`
+  * `navs_bar()` is now `navset_bar()`
+  * `navs_tab_card()` and `navs_pill_card()` are now `navset_card_tab()` and `navset_card_pill()`, respectively.
 
 # bslib 0.4.2
 

@@ -109,7 +109,7 @@ general overview of the \code{\link[=card]{card()}} API, see \href{https://rstud
 \seealso{
 \code{\link[=card]{card()}} for creating a card component.
 
-\code{\link[=navs_tab_card]{navs_tab_card()}} for cards with multiple tabs.
+\code{\link[=navset_card_tab]{navset_card_tab()}} for cards with multiple tabs.
 
 \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out multiple cards (or multiple
 columns inside a card).

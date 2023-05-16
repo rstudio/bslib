@@ -77,17 +77,20 @@ be interpreted as top, right, bottom, and left respectively.}
 \item{fill_mobile}{Whether or not \code{fillable} pages should fill the viewport's
 height on mobile devices (i.e., narrow windows).}
 
-\item{id}{a character string used for dynamically updating the container (see \code{\link[=nav_select]{nav_select()}}).}
+\item{id}{a character string used for dynamically updating the container (see
+\code{\link[=nav_select]{nav_select()}}).}
 
-\item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav]{nav()}} item to selected by default.}
+\item{selected}{a character string matching the \code{value} of a particular
+\code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
 
-\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav]{nav()}} page.}
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav_panel]{nav_panel()}}
+page.}
 
 \item{fillable}{Whether or not to allow \code{fill} items to grow/shrink to fit
-the browser window. If \code{TRUE}, all \code{\link[=nav]{nav()}} pages are \code{fillable}. A
-character vector, matching the \code{value} of \code{\link[=nav]{nav()}}s to be filled, may also
-be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes the
-main content portion fillable.}
+the browser window. If \code{TRUE}, all \code{\link[=nav_panel]{nav_panel()}} pages are \code{fillable}. A
+character vector, matching the \code{value} of \code{\link[=nav_panel]{nav_panel()}}s to be filled, may
+also be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes
+the main content portion fillable.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at

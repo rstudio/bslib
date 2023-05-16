@@ -21,11 +21,11 @@ main_grid <- layout_column_wrap(
     card_header("DT::dataTableOutput()"),
     DT::dataTableOutput("DT")
   ),
-  navs_pill_card(
+  navset_card_pill(
     title = "Shiny outputs",
     id = "card-navset-pill",
     full_screen = TRUE,
-    nav(
+    nav_panel(
       "plotOutput",
       plotOutput("plot"),
       card_body(
@@ -33,7 +33,7 @@ main_grid <- layout_column_wrap(
         lorem_ipsum_dolor_sit_amet
       )
     ),
-    nav("imageOutput", plotOutput("image"))
+    nav_panel("imageOutput", plotOutput("image"))
   ),
   card(
     id = "card-leaflet",
