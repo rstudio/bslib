@@ -103,7 +103,11 @@ shinyApp(
   ),
   function(input, output) {
     output$ui <- renderUI({
-      plotly::plot_ly(x = rnorm(100))
+      div(
+        class = "bg-info text-white",
+        as_fill_item(),
+        "A fill item"
+      )
     })
   }
 )
