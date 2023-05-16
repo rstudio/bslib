@@ -42,7 +42,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-layouts">
     <a class="dropdown-item" href="../articles/column-layout.html">Column-based layout</a>
     <a class="dropdown-item" href="../articles/filling.html">Filling layouts</a>
-    <a class="dropdown-item" href="https://rstudio.github.io/bslib/reference/navs.html#details">Multi page/tab</a>
+    <a class="dropdown-item" href="https://rstudio.github.io/bslib/reference/navset.html#details">Multi page/tab</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -91,7 +91,7 @@
 <code><a href="../reference/deprecated.html">page_fill()</a></code> now adds <code>padding</code> and <code>gap</code> by default, set <code>padding = 0</code> and <code>gap = 0</code> to restore the old behavior.</li>
 </ul></li>
 <li>
-<code><a href="../reference/page.html">page_navbar()</a></code> (and consequently <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarPage()</a></code>) no longer implicitly wrap <code>header</code> and <code>footer</code> in an additional <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">shiny::fluidRow()</a></code> container for Bootstrap 5+ (i.e., <code>theme = bs_theme()</code>) usage. Similarly, <code><a href="../reference/navs.html">navs_bar()</a></code> no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the <code>header</code> and <code>footer</code> value(s) with <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">shiny::fluidRow()</a></code>). (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<code><a href="../reference/page.html">page_navbar()</a></code> (and consequently <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarPage()</a></code>) no longer implicitly wrap <code>header</code> and <code>footer</code> in an additional <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">shiny::fluidRow()</a></code> container for Bootstrap 5+ (i.e., <code>theme = bs_theme()</code>) usage. Similarly, <code><a href="../reference/navset.html">navset_bar()</a></code> no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the <code>header</code> and <code>footer</code> value(s) with <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">shiny::fluidRow()</a></code>). (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/510" class="external-link">#510</a>: <code><a href="../reference/card.html">card()</a></code> no longer includes <code>margin-bottom</code>. To revert the old behavior, add <code>class = "mb-3</code> to <code><a href="../reference/card.html">card()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/542" class="external-link">#542</a>)</li>
 <li>Defaults for the following Bootstrap 5 Sass variables were changed to <code>null</code>: <code>$accordion-button-active-bg</code>, <code>$accordion-button-active-color</code>, and <code>$accordion-icon-active-color</code>. To restore the old behavior, do <code>bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")</code>. (<a href="https://github.com/rstudio/bslib/issues/475" class="external-link">#475</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/558" class="external-link">#558</a>: nested cards with <code>fullscreen = TRUE</code> now correctly and individually expand to fill the window. Tab focus behavior while in full screen mode has also been improved. (<a href="https://github.com/rstudio/bslib/issues/557" class="external-link">#557</a>)</li>
@@ -101,7 +101,7 @@
 <ul><li>Added a <code><a href="../reference/sidebar.html">sidebar()</a></code> API for creating sidebar layouts in various contexts. See <a href="https://rstudio.github.io/bslib/articles/sidebars.html">the article</a> to learn more. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
 <li>Adds a new <code><a href="../reference/accordion.html">accordion()</a></code> API. See <code><a href="../reference/accordion.html">help(accordion)</a></code> for examples and details. Note also <code><a href="../reference/accordion.html">accordion()</a></code> is designed to <a href="https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions">work well inside a <code>sidebar()</code></a>. (<a href="https://github.com/rstudio/bslib/issues/475" class="external-link">#475</a>)</li>
 <li>
-<code><a href="../reference/page.html">page_navbar()</a></code>, <code><a href="../reference/navs.html">navs_tab_card()</a></code>, and <code><a href="../reference/navs.html">navs_pill_card()</a></code> gain a <code>sidebar</code> argument for putting a <code><a href="../reference/sidebar.html">sidebar()</a></code> on every page/tab/pill. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<code><a href="../reference/page.html">page_navbar()</a></code>, <code><a href="../reference/navset.html">navset_card_tab()</a></code>, and <code><a href="../reference/navset.html">navset_card_pill()</a></code> gain a <code>sidebar</code> argument for putting a <code><a href="../reference/sidebar.html">sidebar()</a></code> on every page/tab/pill. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
 <li>
 <code><a href="../reference/page.html">page_navbar()</a></code> gains a <code>fillable</code> argument to make the content of particular page(s) fit the window/card. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
 <li>
@@ -118,6 +118,23 @@
 <code><a href="../reference/deprecated.html">card_body_fill()</a></code> has been deprecated in favor of <code><a href="../reference/card_body.html">card_body()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/498" class="external-link">#498</a>)</li>
 <li>
 <code><a href="../reference/deprecated.html">page_fill()</a></code> has been deprecated in favor of <code><a href="../reference/page.html">page_fillable()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/498" class="external-link">#498</a>)</li>
+<li>
+<code><a href="../reference/deprecated.html">nav()</a></code> has been deprecated in favor of <code><a href="../reference/nav-items.html">nav_panel()</a></code> and <code><a href="../reference/deprecated.html">nav_content()</a></code> in favor of <code><a href="../reference/nav-items.html">nav_panel_hidden()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/476" class="external-link">#476</a>)</li>
+<li>The <code>navs_*()</code> family of functions have been deprecated in favor of <code>navset_*()</code> (<a href="https://github.com/rstudio/bslib/issues/476" class="external-link">#476</a>):<ul><li>
+<code><a href="../reference/deprecated.html">navs_tab()</a></code> is now <code><a href="../reference/navset.html">navset_tab()</a></code>
+</li>
+<li>
+<code><a href="../reference/deprecated.html">navs_pill()</a></code> is now <code><a href="../reference/navset.html">navset_pill()</a></code>
+</li>
+<li>
+<code><a href="../reference/deprecated.html">navs_pill_list()</a></code> is now <code><a href="../reference/navset.html">navset_pill_list()</a></code>
+</li>
+<li>
+<code><a href="../reference/deprecated.html">navs_bar()</a></code> is now <code><a href="../reference/navset.html">navset_bar()</a></code>
+</li>
+<li>
+<code><a href="../reference/deprecated.html">navs_tab_card()</a></code> and <code><a href="../reference/deprecated.html">navs_pill_card()</a></code> are now <code><a href="../reference/navset.html">navset_card_tab()</a></code> and <code><a href="../reference/navset.html">navset_card_pill()</a></code>, respectively.</li>
+</ul></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -157,8 +174,8 @@
 <h3 id="bug-fixes-0-4-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-0"></a></h3>
 <ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/393" class="external-link">#393</a>: Bootstrap 5’s <code>$form-check-label-*</code> variables now work as expected with <code><a href="https://rdrr.io/pkg/shiny/man/radioButtons.html" class="external-link">shiny::radioButtons()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html" class="external-link">shiny::checkboxInput()</a></code>, and <code><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html" class="external-link">shiny::checkboxGroupInput()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/395" class="external-link">#395</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/382" class="external-link">#382</a>: Various fixes for using <code><a href="https://rdrr.io/pkg/shiny/man/checkboxInput.html" class="external-link">shiny::checkboxInput()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html" class="external-link">shiny::checkboxGroupInput()</a></code>, and <code>shiny::radioButton()</code> with <code>bs_theme(version = 5, bootswatch = "sketchy")</code>. (<a href="https://github.com/rstudio/bslib/issues/385" class="external-link">#385</a>)</li>
-<li>Closed <a href="https://github.com/rstudio/bslib/issues/377" class="external-link">#377</a>: make sure <code>shiny::tabsetPanel(type = "hidden")</code> (i.e., <code><a href="../reference/navs.html">bslib::navs_hidden()</a></code>) stays hidden when used with <code><a href="../reference/bs_theme.html">bs_theme()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/379" class="external-link">#379</a>)</li>
-<li>Closed <a href="https://github.com/rstudio/bslib/issues/424" class="external-link">#424</a>: fixed an issue with <code><a href="../reference/nav.html">nav_menu()</a></code> appearing first in a <code>navs_*()</code> container with Bootstrap 4+.</li>
+<li>Closed <a href="https://github.com/rstudio/bslib/issues/377" class="external-link">#377</a>: make sure <code>shiny::tabsetPanel(type = "hidden")</code> (i.e., <code><a href="../reference/deprecated.html">bslib::navs_hidden()</a></code>) stays hidden when used with <code><a href="../reference/bs_theme.html">bs_theme()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/379" class="external-link">#379</a>)</li>
+<li>Closed <a href="https://github.com/rstudio/bslib/issues/424" class="external-link">#424</a>: fixed an issue with <code><a href="../reference/nav-items.html">nav_menu()</a></code> appearing first in a <code>navs_*()</code> container with Bootstrap 4+.</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/431" class="external-link">#431</a>: Bootstrap 5 navbars no longer have an unwanted “Toggle Navigation” label when collapsed. (<a href="https://github.com/rstudio/bslib/issues/432" class="external-link">#432</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/400" class="external-link">#400</a>: <code>nav_menu(align="right")</code> now works with Bootstrap 5. (<a href="https://github.com/rstudio/bslib/issues/401" class="external-link">#401</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/390" class="external-link">#390</a>: using <code>bs_theme(bootswatch = "paper", version = 5)</code> or <code>bs_theme(bootswatch = "readable", version = 5)</code> no longer errors. (<a href="https://github.com/rstudio/bslib/issues/391" class="external-link">#391</a>)</li>
@@ -171,7 +188,7 @@
 <ul><li>Upgraded Bootstrap 5 (i.e., <code>bs_theme(version = 5)</code>) from 5.0.2 to 5.1.0 (<a href="https://github.com/rstudio/bslib/issues/365" class="external-link">#365</a>)</li></ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1"></a></h3>
-<ul><li>Closed rstudio/shiny#3519: <code><a href="../reference/nav.html">nav_menu()</a></code> (i.e., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarMenu()</a></code>) wasn’t producing an <code>.active</code> class on it’s <code>.dropdown</code> container properly. (<a href="https://github.com/rstudio/bslib/issues/372" class="external-link">#372</a>)</li></ul></div>
+<ul><li>Closed rstudio/shiny#3519: <code><a href="../reference/nav-items.html">nav_menu()</a></code> (i.e., <code><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html" class="external-link">shiny::navbarMenu()</a></code>) wasn’t producing an <code>.active</code> class on it’s <code>.dropdown</code> container properly. (<a href="https://github.com/rstudio/bslib/issues/372" class="external-link">#372</a>)</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="bslib-030">bslib 0.3.0<a class="anchor" aria-label="anchor" href="#bslib-030"></a></h2><p class="text-muted">CRAN release: 2021-09-02</p>

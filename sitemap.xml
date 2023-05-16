@@ -151,7 +151,7 @@
     <loc>https://rstudio.github.io/bslib/reference/layout_column_wrap.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/reference/nav.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/nav-items.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/nav_prepend.html</loc>
@@ -160,7 +160,7 @@
     <loc>https://rstudio.github.io/bslib/reference/nav_select.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/reference/navs.html</loc>
+    <loc>https://rstudio.github.io/bslib/reference/navset.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/page.html</loc>

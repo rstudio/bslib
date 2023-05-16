@@ -46,7 +46,7 @@ specified and must be called within an active Shiny session."><!-- mathjax --><s
   <div class="dropdown-menu" aria-labelledby="dropdown-layouts">
     <a class="dropdown-item" href="../articles/column-layout.html">Column-based layout</a>
     <a class="dropdown-item" href="../articles/filling.html">Filling layouts</a>
-    <a class="dropdown-item" href="https://rstudio.github.io/bslib/reference/navs.html#details">Multi page/tab</a>
+    <a class="dropdown-item" href="https://rstudio.github.io/bslib/reference/navset.html#details">Multi page/tab</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -109,7 +109,8 @@ specified and must be called within an active Shiny session.</p>
 
 
 <dt>selected</dt>
-<dd><p>a character string used to identify a particular <code><a href="nav.html">nav()</a></code> item.</p></dd>
+<dd><p>a character string used to identify a particular
+<code><a href="nav-items.html">nav_panel()</a></code> item.</p></dd>
 
 
 <dt>session</dt>
@@ -117,11 +118,11 @@ specified and must be called within an active Shiny session.</p>
 
 
 <dt>nav</dt>
-<dd><p>a <code><a href="nav.html">nav()</a></code> item.</p></dd>
+<dd><p>a <code><a href="nav-items.html">nav_panel()</a></code> item.</p></dd>
 
 
 <dt>target</dt>
-<dd><p>The <code>value</code> of an existing <code><a href="nav.html">nav()</a></code> item, next to which tab will be added. If removing: the <code>value</code> of the <code><a href="nav.html">nav()</a></code> item that you want to remove.</p></dd>
+<dd><p>The <code>value</code> of an existing <code><a href="nav-items.html">nav_panel()</a></code> item, next to which tab will be added. If removing: the <code>value</code> of the <code><a href="nav-items.html">nav_panel()</a></code> item that you want to remove.</p></dd>
 
 
 <dt>position</dt>
@@ -134,7 +135,7 @@ specified and must be called within an active Shiny session.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="nav.html">nav()</a></code>, <code><a href="navs.html">navs_tab()</a></code>.</p></div>
+    <div class="dont-index"><p><code><a href="nav-items.html">nav_panel()</a></code>, <code><a href="navset.html">navset_tab()</a></code>.</p></div>
     </div>
 
     <div class="section level2">
@@ -147,10 +148,10 @@ specified and must be called within an active Shiny session.</p>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="page.html">page_fluid</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/radioButtons.html" class="external-link">radioButtons</a></span><span class="op">(</span><span class="st">"item"</span>, <span class="st">"Choose"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="navs.html">navs_hidden</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="navset.html">navset_hidden</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>        id <span class="op">=</span> <span class="st">"container"</span>,</span></span>
-<span class="r-in"><span>        <span class="fu"><a href="nav.html">nav_content</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"a"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu"><a href="nav.html">nav_content</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"b"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="nav-items.html">nav_panel_hidden</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"a"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="nav-items.html">nav_panel_hidden</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"b"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -164,18 +165,18 @@ specified and must be called within an active Shiny session.</p>
 <span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="page.html">page_fluid</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"add"</span>, <span class="st">"Add 'Dynamic' tab"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">"remove"</span>, <span class="st">"Remove 'Foo' tab"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="navs.html">navs_tab</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="navset.html">navset_tab</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      id <span class="op">=</span> <span class="st">"tabs"</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="nav.html">nav</a></span><span class="op">(</span><span class="st">"Hello"</span>, <span class="st">"hello"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="nav.html">nav</a></span><span class="op">(</span><span class="st">"Foo"</span>, <span class="st">"foo"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="nav.html">nav</a></span><span class="op">(</span><span class="st">"Bar"</span>, <span class="st">"bar tab"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Hello"</span>, <span class="st">"hello"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Foo"</span>, <span class="st">"foo"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Bar"</span>, <span class="st">"bar tab"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">add</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span>      <span class="fu">nav_insert</span><span class="op">(</span></span></span>
 <span class="r-in"><span>        <span class="st">"tabs"</span>, target <span class="op">=</span> <span class="st">"Bar"</span>, select <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>        <span class="fu"><a href="nav.html">nav</a></span><span class="op">(</span><span class="st">"Dynamic"</span>, <span class="st">"Dynamically added content"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Dynamic"</span>, <span class="st">"Dynamically added content"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">remove</span>, <span class="op">{</span></span></span>
