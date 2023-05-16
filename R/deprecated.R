@@ -164,7 +164,10 @@ deprecate_if_not_called_from_shiny <- function(old_name, new, version) {
 
   function(...) {
     caller_fn_env <- environment(rlang::caller_fn())
-    if (!identical(rlang::env_name(caller_fn_env), "namespace:shiny")) {
+    if (!is.null(caller_fn_env)) {
+      caller_fn_env <- rlang::env_name(caller_fn_env)
+    }
+    if (!identical(caller_fn_env, "namespace:shiny")) {
       msg <- sprintf(
         "`%s()` was deprecated in {bslib} version %s, use `%s()` instead.",
         old_name, version, new_name
