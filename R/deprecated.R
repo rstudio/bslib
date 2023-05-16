@@ -164,7 +164,7 @@ deprecate_if_not_called_from_shiny <- function(old_name, new, version) {
 
   function(...) {
     caller_fn_env <- environment(rlang::caller_fn())
-    if (!is.null(caller_fn_env) && rlang::is_environment(caller_fn_env))) {
+    if (!is.null(caller_fn_env) && rlang::is_environment(caller_fn_env)) {
       caller_fn_env <- rlang::env_name(caller_fn_env)
     }
     if (!identical(caller_fn_env, "namespace:shiny")) {
