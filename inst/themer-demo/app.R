@@ -68,7 +68,7 @@ IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
 if (isTRUE(IS_LEGACY)) {
   dashboardTab <- NULL
 } else {
-  dashboardTab <- nav("Dashboard", tipsUI("tips"))
+  dashboardTab <- nav_panel("Dashboard", tipsUI("tips"))
   theme_set(theme_minimal())
 }
 
@@ -80,7 +80,7 @@ shinyApp(
     id = "navbar",
     fillable = "Dashboard",
     dashboardTab,
-    nav(
+    nav_panel(
       "Inputs",
       tabsetPanel(
         type = "pills", id = "inputs",
@@ -142,7 +142,7 @@ shinyApp(
         )
       )
     ),
-    nav(
+    nav_panel(
       "Plots",
       uiOutput("thematic_needed"),
       plotOutput("plot"),
@@ -156,11 +156,11 @@ shinyApp(
         )
       )
     ),
-    nav(
+    nav_panel(
       "Tables",
       DT::dataTableOutput("DT")
     ),
-    nav(
+    nav_panel(
       "Notifications",
       tabsetPanel(
         id = "otherNav",
@@ -187,7 +187,7 @@ shinyApp(
         )
       )
     ),
-    nav(
+    nav_panel(
       "Fonts",
       h1("Heading font:", class = "text-primary"),
       hr(class = "bg-primary", style = "height: 5px"),
@@ -207,7 +207,7 @@ shinyApp(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
       )
     ),
-    nav(
+    nav_panel(
       "Options",
       if ("4" %in% theme_version(theme)) {
         p(
