@@ -77,6 +77,7 @@ shinyApp(
     theme = theme,
     title = "Theme demo",
     collapsible = TRUE,
+    inverse = FALSE,
     id = "navbar",
     fillable = "Dashboard",
     dashboardTab,
