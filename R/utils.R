@@ -79,6 +79,12 @@ names2 <- function(x) {
   names(x) %||% rep.int("", length(x))
 }
 
+any_unnamed <- function(x) {
+  if (length(x) == 0) return(FALSE)
+  nms <- names(x)
+  is.null(nms) || !all(nzchar(nms))
+}
+
 #' Rename a named list
 #'
 #' @param x a named list to be renamed

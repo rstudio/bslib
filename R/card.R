@@ -61,7 +61,7 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, fil
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
 
   tag <- div(
-    class = "card bslib-card",
+    class = "card bslib-card mb-spacer",
     style = css(
       height = validateCssUnit(height),
       max_height = validateCssUnit(max_height)
@@ -148,7 +148,7 @@ card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL
   }
 
   tag <- div(
-    class = "card-body",
+    class = "card-body bslib-gap-spacing",
     style = css(
       min_height = validateCssUnit(min_height),
       "--bslib-card-body-max-height" = validateCssUnit(max_height),
