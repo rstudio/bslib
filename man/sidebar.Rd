@@ -22,13 +22,15 @@ sidebar(
 layout_sidebar(
   sidebar,
   ...,
-  fillable = FALSE,
+  fillable = TRUE,
   fill = TRUE,
   bg = NULL,
   fg = NULL,
   border = NULL,
   border_radius = NULL,
   border_color = NULL,
+  padding = NULL,
+  gap = NULL,
   height = NULL
 )
 
