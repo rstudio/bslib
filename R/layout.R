@@ -178,6 +178,10 @@ layout_columns <- function(
       # doesn't get inherited in a scenario like layout_column_wrap(height=200, ..., layout_column_wrap(...))
       "--bslib-grid-height" = validateCssUnit(height %||% "auto"),
       "--bslib-grid-height-mobile" = validateCssUnit(height_mobile %||% "auto"),
+      # For some reason, Bootstrap sets `grid-template-rows: 1fr` by default, which is
+      # problematic for a multi-row filling layout. This fixes it...
+      # > page_fillable(layout_columns(c(12, 12), plotly::plot_ly(), plotly::plot_ly()))
+      grid_auto_rows = "1fr"
     ),
     !!!attribs,
     !!!children
