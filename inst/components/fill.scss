@@ -22,8 +22,18 @@
   width: 100%;
   height: 100%;
   margin: 0;
-  padding: 1rem;
-  gap: 1rem;
+  padding: $spacer;
+  gap: $spacer;
+}
+
+.bslib-page-title {
+  background-color: $bslib-page-title-bg;
+  color: $bslib-page-title-color;
+  font-size: $h4-font-size;
+  font-weight: 300;
+  padding: $spacer * 0.5;
+  padding-left: $bslib-sidebar-padding;
+  margin-bottom: 0;
 }
 
 @include media-breakpoint-down(sm) {

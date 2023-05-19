@@ -73,6 +73,66 @@ validateCssPadding <- function(padding = NULL) {
   )
 }
 
+#' A sidebar page (i.e., dashboard)
+#'
+#' Easily create a traditional dashboard layout with a full-bleed header
+#' (`title`) and [sidebar()].
+#'
+#' @inheritParams page_fillable
+#' @inheritParams layout_sidebar
+#' @param title A string, number, or [htmltools::tag()] child to display as the
+#'   title (just above the [layout_sidebar()]).
+#'
+#' @export
+#' @examplesIf interactive()
+#'
+#' library(shiny)
+#' library(ggplot2)
+#'
+#' ui <- page_sidebar(
+#'   title = "Example dashboard",
+#'   sidebar = sidebar(
+#'     varSelectInput("var", "Select variable", mtcars)
+#'   ),
+#'   card(
+#'     full_screen = TRUE,
+#'     card_header("My plot"),
+#'     plotOutput("p")
+#'   )
+#' )
+#'
+#' server <- function(input, output) {
+#'   output$p <- renderPlot({
+#'     ggplot(mtcars) + geom_histogram(aes(!!input$var))
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+page_sidebar <- function(..., sidebar = sidebar(), title = NULL, fillable = TRUE, fill_mobile = FALSE, theme = bs_theme(), window_title = NULL, lang = NULL) {
+
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
+    title <- h2(title, class = "bslib-page-title")
+  }
+
+  page_fillable(
+    padding = 0,
+    gap = 0,
+    title = get_window_title(title, window_title),
+    theme = theme,
+    lang = lang,
+    fill_mobile = fill_mobile,
+    title,
+    layout_sidebar(
+      sidebar = sidebar,
+      fillable = fillable,
+      border = FALSE,
+      border_radius = FALSE,
+      ...
+    )
+  )
+}
+
 #' @rdname page
 #' @inheritParams navset_bar
 #' @inheritParams bs_page
