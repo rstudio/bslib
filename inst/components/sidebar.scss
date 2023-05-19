@@ -325,21 +325,31 @@ $bslib-sidebar-column-main: minmax(0, 1fr);
 }
 
 
-// In the case of page_navbar(nav_panel("Foo", layout_sidebar())), we want the
-// sidebar to be flush with the viewport (just like it will be in the
-// case of page_navbar(sidebar = sidebar()))
 .navbar + .container-fluid {
-  &:has(>.tab-content>.tab-pane.active>.bslib-sidebar-layout) {
+  // When the tab/page is fillable, undo the padding on the container-fluid
+  // (in this case, the user has control over fill_padding/fill_gap)
+  &:has(> .tab-content > .tab-pane.active.html-fill-container) {
     padding-left: 0;
     padding-right: 0;
   }
-  > .tab-content > .tab-pane.active > .bslib-sidebar-layout {
-    &:not([data-bslib-sidebar-border="true"]) {
-      border: none;
-    }
-    &:not([data-bslib-sidebar-border-radius="true"]) {
-      border-radius: 0;
-    }
-  }
-}
+  > .tab-content > .tab-pane.active {
 
+    // When the tab/page is fillable, add sensible default padding
+    &.html-fill-container {
+      padding: $spacer;
+      &:has(> .bslib-sidebar-layout) {
+        padding: 0;
+      }
+      // And smart border defaults for nav_panel("Foo", layout_sidebar())
+      > .bslib-sidebar-layout.html-fill-container {
+        &:not([data-bslib-sidebar-border="true"]) {
+          border: none;
+        }
+        &:not([data-bslib-sidebar-border-radius="true"]) {
+          border-radius: 0;
+        }
+      }
+    }
+
+  } 
+}
