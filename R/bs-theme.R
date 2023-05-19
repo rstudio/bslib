@@ -283,7 +283,7 @@ bootstrap_bundle <- function(version) {
       )),
       # Enable CSS Grid powered Bootstrap grid
       sass_layer(
-        defaults = list("enable-cssgrid" = TRUE)
+        defaults = list("enable-cssgrid" = "true !default")
       )
     ),
     four = sass_bundle(
