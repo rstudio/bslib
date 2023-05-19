@@ -144,7 +144,8 @@ page_sidebar <- function(..., sidebar = sidebar(), title = NULL, fillable = TRUE
 #'   host URL of the page is displayed by default).
 #' @export
 page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
-                        sidebar = NULL, fillable = FALSE, fill_mobile = FALSE,
+                        sidebar = NULL, fillable = TRUE, fill_mobile = FALSE,
+                        fill_gap = NULL, fill_padding = NULL,
                         position = c("static-top", "fixed-top", "fixed-bottom"),
                         header = NULL, footer = NULL,
                         bg = NULL, inverse = "auto",
@@ -152,16 +153,6 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         theme =  bs_theme(),
                         window_title = NA,
                         lang = NULL) {
-
-  # https://github.com/rstudio/shiny/issues/2310
-  if (!is.null(title) && isTRUE(is.na(window_title))) {
-    window_title <- unlist(find_characters(title))
-    if (is.null(window_title)) {
-      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
-    } else {
-      window_title <- paste(window_title, collapse = " ")
-    }
-  }
 
   if (!is.null(sidebar) && !inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
@@ -176,12 +167,13 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   }
 
   page_func(
-    title = window_title,
+    title = get_window_title(title, window_title),
     theme = theme,
     lang = lang,
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
+      fill_gap = fill_gap, fill_padding = fill_padding,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
       collapsible = collapsible, fluid = fluid,
@@ -190,6 +182,23 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   )
 }
 
+# https://github.com/rstudio/shiny/issues/2310
+get_window_title <- function(title = NULL, window_title = NA) {
+  if (!isTRUE(is.na(window_title))) {
+    return(window_title)
+  }
+
+  if (!is.null(title)) {
+    window_title <- unlist(find_characters(title))
+    if (is.null(window_title)) {
+      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
+    } else {
+      window_title <- paste(window_title, collapse = " ")
+    }
+  }
+
+  window_title
+}
 
 # CPS (2023-02-09): Joe is currently working on a potentially
 # more compelling contain_width() interface, so we'll punt on this for now

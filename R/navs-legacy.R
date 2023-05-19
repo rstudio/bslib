@@ -102,6 +102,7 @@ navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 # to handle backwards compatibility
 navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
                       sidebar = NULL, fillable = FALSE,
+                      fill_gap = NULL, fill_padding = NULL,
                       position = c("static-top", "fixed-top", "fixed-bottom"),
                       header = NULL, footer = NULL,
                       bg = NULL, inverse = "auto",
@@ -120,6 +121,7 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
   navbar <- navbarPage_(
     title = title, ..., id = id, selected = selected,
     sidebar = sidebar, fillable = fillable,
+    fill_gap = fill_gap, fill_padding = fill_padding,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
     inverse = inverse, fluid = fluid,
@@ -147,6 +149,8 @@ navbarPage_ <- function(title,
                        selected = NULL,
                        sidebar = NULL,
                        fillable = FALSE,
+                       fill_gap = NULL,
+                       fill_padding = NULL,
                        position = c("static-top", "fixed-top", "fixed-bottom"),
                        header = NULL,
                        footer = NULL,
@@ -224,7 +228,7 @@ navbarPage_ <- function(title,
 
   # If fillable is truthy, give the relevant .tab-content > .tab-pane containers
   # the potential to fill
-  tabset$content <- makeTabsFillable(tabset$content, fillable, navbar = TRUE)
+  tabset$content <- makeTabsFillable(tabset$content, fillable, navbar = TRUE, fill_gap = fill_gap, fill_padding = fill_padding)
 
   # For backwards compatibility reasons, wrap header & footer in a .row
   # container if we're not using BS5+. I'm not entirely sure what the motivation
