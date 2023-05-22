@@ -41,8 +41,17 @@
 #' layout_column_wrap("250px", x, x, x)
 #'
 layout_column_wrap <- function(
-    width, ..., fixed_width = FALSE, heights_equal = c("all", "row"), fill = TRUE,
-    fillable = TRUE, height = NULL, height_mobile = NULL, gap = NULL, class = NULL) {
+  width,
+  ...,
+  fixed_width = FALSE,
+  heights_equal = c("all", "row"),
+  fill = TRUE,
+  fillable = TRUE,
+  height = NULL,
+  height_mobile = NULL,
+  gap = NULL,
+  class = NULL
+) {
 
   heights_equal <- match.arg(heights_equal)
 
