@@ -2,7 +2,7 @@
 $accordion-box-shadow-active: none !default;
 
 // page_sidebar()
-$bslib-page-title-bg: $dark !default;
+$bslib-page-title-bg: if($navbar-bg, $navbar-bg, $dark) !default;
 $bslib-page-title-color: color-contrast($bslib-page-title-bg) !default;
 
 // layout_sidebar()
