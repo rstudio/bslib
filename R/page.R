@@ -150,7 +150,7 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
 #' @export
 page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         sidebar = NULL, fillable = TRUE, fill_mobile = FALSE,
-                        fill_gap = NULL, fill_padding = NULL,
+                        gap = NULL, padding = NULL,
                         position = c("static-top", "fixed-top", "fixed-bottom"),
                         header = NULL, footer = NULL,
                         bg = NULL, inverse = "auto",
@@ -178,7 +178,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
-      fill_gap = fill_gap, fill_padding = fill_padding,
+      gap = gap, padding = padding,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
       collapsible = collapsible, fluid = fluid,

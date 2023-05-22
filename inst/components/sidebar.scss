@@ -318,7 +318,7 @@
 
 .navbar + .container-fluid {
   // When the tab/page is fillable, undo the padding on the container-fluid
-  // (in this case, the user has control over fill_padding/fill_gap)
+  // (in this case, the user has control over padding/gap)
   &:has(> .tab-content > .tab-pane.active.html-fill-container) {
     padding-left: 0;
     padding-right: 0;

@@ -103,7 +103,7 @@ navs_card_body <- function(content, sidebar) {
 
 # Given a .tab-content container, mark each relevant .tab-pane as a
 # fill container/item.
-makeTabsFillable <- function(content, fillable = FALSE, navbar = FALSE, fill_gap = NULL, fill_padding = NULL) {
+makeTabsFillable <- function(content, fillable = FALSE, navbar = FALSE, gap = NULL, padding = NULL) {
   if (!inherits(content, "shiny.tag") || !tagQuery(content)$hasClass("tab-content")) {
     abort("Expected `content` to be a tag with a tab-content class")
   }
@@ -126,8 +126,8 @@ makeTabsFillable <- function(content, fillable = FALSE, navbar = FALSE, fill_gap
           style = css(
             # Remove the margin between nav and content (for page_navbar())
             "--bslib-navbar-margin" = if (navbar) 0,
-            gap = fill_gap,
-            padding = fill_padding
+            gap = gap,
+            padding = padding
           ),
           bindFillRole(x, container = TRUE, item = TRUE)
         )
