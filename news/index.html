@@ -73,8 +73,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.2.9000" id="bslib-0429000">bslib 0.4.2.9000<a class="anchor" aria-label="anchor" href="#bslib-0429000"></a></h2>
-<p>This significant release adds <a href="https://rstudio.github.io/bslib/articles/sidebars.html">sidebar layouts</a>, <a href="https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions">accordions</a>, and makes many improvements to make dashboard-like filling layouts easier to create.</p>
-<p>Although <a href="https://rstudio.github.io/bslib/">bslib</a> is still maturing, and will continue to receiving new UI features, we now see it as a viable replacement for <a href="http://rstudio.github.io/shinydashboard/" class="external-link">shinydashboard</a>.</p>
+<p>This significant release focuses on making dashboards and filling layouts easier. It also includes many improvements and bug fixes for existing features and components (e.g., <code><a href="../reference/card.html">card()</a></code>).</p>
+<p><a href="https://rstudio.github.io/bslib/">bslib</a> is still maturing, but this release is a significant step towards this project superseding <a href="http://rstudio.github.io/shinydashboard/" class="external-link">shinydashboard</a>.</p>
 <div class="section level3">
 <h3 id="breaking-changes-0-4-2-9000">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-4-2-9000"></a></h3>
 <ul><li>
@@ -98,7 +98,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-0-4-2-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-2-9000"></a></h3>
-<ul><li>Added a <code><a href="../reference/sidebar.html">sidebar()</a></code> API for creating sidebar layouts in various contexts. See <a href="https://rstudio.github.io/bslib/articles/sidebars.html">the article</a> to learn more. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
+<ul><li>Added a <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> for easy creation of a “classic” dashboard layout. (<a href="https://github.com/rstudio/bslib/issues/588" class="external-link">#588</a>)</li>
+<li>Added a <code><a href="../reference/sidebar.html">sidebar()</a></code> API for creating sidebar layouts in various contexts. See <a href="https://rstudio.github.io/bslib/articles/sidebars.html">the article</a> to learn more. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
 <li>Adds a new <code><a href="../reference/accordion.html">accordion()</a></code> API. See <code><a href="../reference/accordion.html">help(accordion)</a></code> for examples and details. Note also <code><a href="../reference/accordion.html">accordion()</a></code> is designed to <a href="https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions">work well inside a <code>sidebar()</code></a>. (<a href="https://github.com/rstudio/bslib/issues/475" class="external-link">#475</a>)</li>
 <li>
 <code><a href="../reference/page.html">page_navbar()</a></code>, <code><a href="../reference/navset.html">navset_card_tab()</a></code>, and <code><a href="../reference/navset.html">navset_card_pill()</a></code> gain a <code>sidebar</code> argument for putting a <code><a href="../reference/sidebar.html">sidebar()</a></code> on every page/tab/pill. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
