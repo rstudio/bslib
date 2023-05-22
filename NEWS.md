@@ -4,7 +4,7 @@ This significant release focuses on making dashboards and filling layouts easier
 
 `{bslib}` is still maturing, but this release is a significant step towards this project superseding `{shinydashboard}`.
 
-## Breaking changes
+## Breaking changes / improvements
 
 * `card_body()` now provides the same behavior as `card_body_fill()` (i.e., it is both a fillable container and fill item) by default. And, now, since `card_body()` can do everything `card_body_fill()` can do, `card_body_fill()` has been deprecated. The main benefit of this change is that `card(full_screen = TRUE, ...)` with output(s) passed to `...` "just works" in an intuitive way. To revert to the previous behavior, set `fillable = FALSE` and `fill = FALSE` in calls to `card_body()` and set `wrapper = function(x) card_body(x, fillable = FALSE, fill = FALSE)` in calls to `card()`. (#498)
 * Closed #375: `margin-top` is no longer included on header tags that aren't created via pandoc. If this negatively impacts spacing above headers, consider adding a suitable [utility class](https://rstudio.github.io/bslib/articles/utility-classes.html) (for example, change `shiny::titlePanel("My title")` to `tagAppendAttributes(titlePanel("My title"), class = "mt-3", .selector = "h2")`). (#396)
@@ -16,7 +16,6 @@ This significant release focuses on making dashboards and filling layouts easier
 * `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`) usage. Similarly, `navset_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
 * Closed #510: `card()` no longer includes `margin-bottom`. To revert the old behavior, add `class = "mb-3` to `card()`. (#542)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
-* Closed #558: nested cards with `fullscreen = TRUE` now correctly and individually expand to fill the window. Tab focus behavior while in full screen mode has also been improved. (#557)
 
 ## New features
 
@@ -29,6 +28,10 @@ This significant release focuses on making dashboards and filling layouts easier
 * `page_navbar()` and `page_fillable()` gain `fill_mobile` arguments to control whether the page should grow/shrink to fit the viewport on mobile. (#479)
 * `card()`, `value_box()`, and `card_image()` gain `max_height` and `fill` arguments. (#498)
 * Added new `as_fill()`, `as_fillable()`, `as_fill_carrier()`, `is_fill()`, and `is_fillable()` for testing and coercing potential to fill. (#498)
+
+## Bug fixes
+
+* Closed #558: nested cards with `fullscreen = TRUE` now correctly and individually expand to fill the window. Tab focus behavior while in full screen mode has also been improved. (#557)
 
 
 ## Deprecations
