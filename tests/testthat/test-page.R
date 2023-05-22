@@ -25,4 +25,21 @@ test_that("page_navbar()", {
     cran = TRUE
   )
 
+  expect_snapshot(
+    renderTags(
+      page_sidebar(title = "foo")
+    )$head,
+    cran = TRUE
+  )
+
+  expect_snapshot(
+    renderTags(
+      page_sidebar(
+        title = "foo",
+        window_title = "bar"
+      )
+    )$head,
+    cran = TRUE
+  )
+
 })

@@ -114,7 +114,7 @@ validateCssPadding <- function(padding = NULL) {
 #'
 #' shinyApp(ui, server)
 #'
-page_sidebar <- function(..., sidebar = sidebar(), title = NULL, fillable = TRUE, fill_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
+page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fill_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
 
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- h2(title, class = "bslib-page-title")
