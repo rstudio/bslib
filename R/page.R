@@ -9,6 +9,7 @@
 #'  * The return value is rendered as an static HTML page when printed interactively at the console.
 #'
 #' @inheritParams shiny::bootstrapPage
+#' @param theme A [bslib::bs_theme()] object.
 #' @seealso [shiny::bootstrapPage()]
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
@@ -109,7 +110,7 @@ validateCssPadding <- function(padding = NULL) {
 #'
 #' shinyApp(ui, server)
 #'
-page_sidebar <- function(..., sidebar = sidebar(), title = NULL, fillable = TRUE, fill_mobile = FALSE, theme = bs_theme(), window_title = NULL, lang = NULL) {
+page_sidebar <- function(..., sidebar = sidebar(), title = NULL, fillable = TRUE, fill_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
 
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- h2(title, class = "bslib-page-title")
@@ -153,16 +154,6 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         window_title = NA,
                         lang = NULL) {
 
-  # https://github.com/rstudio/shiny/issues/2310
-  if (!is.null(title) && isTRUE(is.na(window_title))) {
-    window_title <- unlist(find_characters(title))
-    if (is.null(window_title)) {
-      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
-    } else {
-      window_title <- paste(window_title, collapse = " ")
-    }
-  }
-
   if (!is.null(sidebar) && !inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
@@ -176,7 +167,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   }
 
   page_func(
-    title = window_title,
+    title = get_window_title(title, window_title),
     theme = theme,
     lang = lang,
     navs_bar_(
@@ -188,6 +179,25 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
       theme = theme
     )
   )
+}
+
+
+# https://github.com/rstudio/shiny/issues/2310
+get_window_title <- function(title = NULL, window_title = NA) {
+  if (!isTRUE(is.na(window_title))) {
+    return(window_title)
+  }
+
+  if (!is.null(title)) {
+    window_title <- unlist(find_characters(title))
+    if (is.null(window_title)) {
+      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
+    } else {
+      window_title <- paste(window_title, collapse = " ")
+    }
+  }
+
+  window_title
 }
 
 
