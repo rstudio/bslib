@@ -11,7 +11,7 @@ page_sidebar(
   fillable = TRUE,
   fill_mobile = FALSE,
   theme = bs_theme(),
-  window_title = NULL,
+  window_title = NA,
   lang = NULL
 )
 }
@@ -33,14 +33,7 @@ the main content portion fillable.}
 \item{fill_mobile}{Whether or not \code{fillable} pages should fill the viewport's
 height on mobile devices (i.e., narrow windows).}
 
-\item{theme}{One of the following:
-\itemize{
-\item \code{NULL} (the default), which implies a "stock" build of Bootstrap 3.
-\item A \code{\link[bslib:bs_theme]{bslib::bs_theme()}} object. This can be used to replace a stock
-build of Bootstrap 3 with a customized version of Bootstrap 3 or higher.
-\item A character string pointing to an alternative Bootstrap stylesheet
-(normally a css file within the www directory, e.g. \code{www/bootstrap.css}).
-}}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{window_title}{the browser window title. The default value, \code{NA}, means
 to use any character strings that appear in \code{title} (if none are found, the
