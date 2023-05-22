@@ -214,6 +214,21 @@ breakpoints <- function(sm = NULL, md = NULL, lg = NULL, ...) {
   res
 }
 
+#' @export
+print.bslib_breakpoints <- function(x, ...) {
+  cat("<bslib breakpoints>\n")
+
+  break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(x))
+  break_names <- c(break_names, setdiff(names(x), break_names))
+
+  for (bp in break_names) {
+    breaks <- paste(x[[bp]], collapse = ", ")
+    cat(" ", bp, ": ", breaks, "\n", sep = "")
+  }
+
+  invisible(x)
+}
+
 is_breakpoints <- function(x) {
   inherits(x, "bslib_breakpoints")
 }
