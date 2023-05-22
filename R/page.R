@@ -9,7 +9,8 @@
 #'  * The return value is rendered as an static HTML page when printed interactively at the console.
 #'
 #' @inheritParams shiny::bootstrapPage
-#' @seealso [shiny::bootstrapPage()]
+#' @param theme A [bslib::bs_theme()] object.
+#' @seealso [page_sidebar()]
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
@@ -19,7 +20,6 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 
 #' @rdname page
 #' @inheritParams shiny::fluidPage
-#' @seealso [shiny::fluidPage()]
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
@@ -29,7 +29,6 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 
 #' @rdname page
 #' @inheritParams shiny::fixedPage
-#' @seealso [shiny::fixedPage()]
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
@@ -43,7 +42,6 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #'   height on mobile devices (i.e., narrow windows).
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`.
-#' @seealso [shiny::fillPage()]
 #' @export
 page_fillable <- function(..., padding = NULL, gap = NULL, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
   page(
@@ -73,6 +71,73 @@ validateCssPadding <- function(padding = NULL) {
   )
 }
 
+#' A sidebar page (i.e., dashboard)
+#'
+#' Create a dashboard layout with a full-bleed header (`title`) and [sidebar()].
+#'
+#' @inheritParams layout_sidebar
+#' @inheritParams page_fillable
+#' @param ... UI elements to display in the 'main' content area (i.e., next to
+#'   the `sidebar`). These arguments are passed to `layout_sidebar()`, which has
+#'   more details.
+#' @param title A string, number, or [htmltools::tag()] child to display as the
+#'   title (just above the `sidebar`).
+#'
+#' @export
+#' @seealso [layout_sidebar()] for 'floating' sidebar layouts.
+#' @seealso [accordion()] for grouping related input controls in the `sidebar`.
+#' @seealso [card()] for wrapping outputs in the 'main' content area.
+#' @seealso [value_box()] for highlighting values.
+#'
+#' @examplesIf interactive()
+#'
+#' library(shiny)
+#' library(ggplot2)
+#'
+#' ui <- page_sidebar(
+#'   title = "Example dashboard",
+#'   sidebar = sidebar(
+#'     varSelectInput("var", "Select variable", mtcars)
+#'   ),
+#'   card(
+#'     full_screen = TRUE,
+#'     card_header("My plot"),
+#'     plotOutput("p")
+#'   )
+#' )
+#'
+#' server <- function(input, output) {
+#'   output$p <- renderPlot({
+#'     ggplot(mtcars) + geom_histogram(aes(!!input$var))
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fill_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
+
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
+    title <- h1(title, class = "bslib-page-title")
+  }
+
+  page_fillable(
+    padding = 0,
+    gap = 0,
+    title = infer_window_title(title, window_title),
+    theme = theme,
+    lang = lang,
+    fill_mobile = fill_mobile,
+    title,
+    layout_sidebar(
+      sidebar = sidebar,
+      fillable = fillable,
+      border = FALSE,
+      border_radius = FALSE,
+      ...
+    )
+  )
+}
+
 #' @rdname page
 #' @inheritParams navset_bar
 #' @inheritParams bs_page
@@ -93,16 +158,6 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         window_title = NA,
                         lang = NULL) {
 
-  # https://github.com/rstudio/shiny/issues/2310
-  if (!is.null(title) && isTRUE(is.na(window_title))) {
-    window_title <- unlist(find_characters(title))
-    if (is.null(window_title)) {
-      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
-    } else {
-      window_title <- paste(window_title, collapse = " ")
-    }
-  }
-
   if (!is.null(sidebar) && !inherits(sidebar, "sidebar")) {
     abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
   }
@@ -116,7 +171,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   }
 
   page_func(
-    title = window_title,
+    title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
     navs_bar_(
@@ -128,6 +183,25 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
       theme = theme
     )
   )
+}
+
+
+# https://github.com/rstudio/shiny/issues/2310
+infer_window_title <- function(title = NULL, window_title = NA) {
+  if (!isTRUE(is.na(window_title))) {
+    return(window_title)
+  }
+
+  if (!is.null(title)) {
+    window_title <- unlist(find_characters(title))
+    if (is.null(window_title)) {
+      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
+    } else {
+      window_title <- paste(window_title, collapse = " ")
+    }
+  }
+
+  window_title
 }
 
 
