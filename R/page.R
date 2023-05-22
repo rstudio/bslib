@@ -10,7 +10,7 @@
 #'
 #' @inheritParams shiny::bootstrapPage
 #' @param theme A [bslib::bs_theme()] object.
-#' @seealso [shiny::bootstrapPage()]
+#' @seealso [page_sidebar()]
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
@@ -20,7 +20,6 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 
 #' @rdname page
 #' @inheritParams shiny::fluidPage
-#' @seealso [shiny::fluidPage()]
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
@@ -30,7 +29,6 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 
 #' @rdname page
 #' @inheritParams shiny::fixedPage
-#' @seealso [shiny::fixedPage()]
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
@@ -44,7 +42,6 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #'   height on mobile devices (i.e., narrow windows).
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`.
-#' @seealso [shiny::fillPage()]
 #' @export
 page_fillable <- function(..., padding = NULL, gap = NULL, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
   page(
@@ -76,15 +73,22 @@ validateCssPadding <- function(padding = NULL) {
 
 #' A sidebar page (i.e., dashboard)
 #'
-#' Easily create a traditional dashboard layout with a full-bleed header
-#' (`title`) and [sidebar()].
+#' Create a dashboard layout with a full-bleed header (`title`) and [sidebar()].
 #'
-#' @inheritParams page_fillable
 #' @inheritParams layout_sidebar
+#' @inheritParams page_fillable
+#' @param ... UI elements to display in the 'main' content area (i.e., next to
+#'   the `sidebar`). These arguments are passed to `layout_sidebar()`, which has
+#'   more details.
 #' @param title A string, number, or [htmltools::tag()] child to display as the
-#'   title (just above the [layout_sidebar()]).
+#'   title (just above the `sidebar`).
 #'
 #' @export
+#' @seealso [layout_sidebar()] for 'floating' sidebar layouts.
+#' @seealso [accordion()] for grouping related input controls in the `sidebar`.
+#' @seealso [card()] for wrapping outputs in the 'main' content area.
+#' @seealso [value_box()] for highlighting values.
+#'
 #' @examplesIf interactive()
 #'
 #' library(shiny)
