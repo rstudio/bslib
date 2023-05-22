@@ -16,19 +16,17 @@ page_sidebar(
 )
 }
 \arguments{
-\item{...}{The contents of the document body.}
+\item{...}{UI elements to display in the 'main' content area (i.e., next to
+the \code{sidebar}). These arguments are passed to \code{layout_sidebar()}, which has
+more details.}
 
-\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav_panel]{nav_panel()}}
-page.}
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
 \item{title}{A string, number, or \code{\link[htmltools:builder]{htmltools::tag()}} child to display as the
-title (just above the \code{\link[=layout_sidebar]{layout_sidebar()}}).}
+title (just above the \code{sidebar}).}
 
-\item{fillable}{Whether or not to allow \code{fill} items to grow/shrink to fit
-the browser window. If \code{TRUE}, all \code{\link[=nav_panel]{nav_panel()}} pages are \code{fillable}. A
-character vector, matching the \code{value} of \code{\link[=nav_panel]{nav_panel()}}s to be filled, may
-also be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes
-the main content portion fillable.}
+\item{fillable}{Whether or not the \code{main} content area should be considered a
+fillable (i.e., flexbox) container.}
 
 \item{fill_mobile}{Whether or not \code{fillable} pages should fill the viewport's
 height on mobile devices (i.e., narrow windows).}
@@ -44,8 +42,7 @@ This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="
 The default (NULL) results in an empty string.}
 }
 \description{
-Easily create a traditional dashboard layout with a full-bleed header
-(\code{title}) and \code{\link[=sidebar]{sidebar()}}.
+Create a dashboard layout with a full-bleed header (\code{title}) and \code{\link[=sidebar]{sidebar()}}.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
@@ -73,4 +70,13 @@ server <- function(input, output) {
 
 shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{\link[=layout_sidebar]{layout_sidebar()}} for 'floating' sidebar layouts.
+
+\code{\link[=accordion]{accordion()}} for grouping related input controls in the \code{sidebar}.
+
+\code{\link[=card]{card()}} for wrapping outputs in the 'main' content area.
+
+\code{\link[=value_box]{value_box()}} for highlighting values.
 }

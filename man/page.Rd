@@ -121,13 +121,7 @@ These functions are small wrappers around shiny's page constructors (i.e., \code
 }
 }
 \seealso{
-\code{\link[shiny:bootstrapPage]{shiny::bootstrapPage()}}
-
-\code{\link[shiny:fluidPage]{shiny::fluidPage()}}
-
-\code{\link[shiny:fixedPage]{shiny::fixedPage()}}
-
-\code{\link[shiny:fillPage]{shiny::fillPage()}}
+\code{\link[=page_sidebar]{page_sidebar()}}
 
 \code{\link[shiny:navbarPage]{shiny::navbarPage()}}
 }
