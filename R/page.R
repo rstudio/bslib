@@ -119,7 +119,7 @@ page_sidebar <- function(..., sidebar = sidebar(), title = NULL, fillable = TRUE
   page_fillable(
     padding = 0,
     gap = 0,
-    title = get_window_title(title, window_title),
+    title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
     fill_mobile = fill_mobile,
@@ -167,7 +167,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   }
 
   page_func(
-    title = get_window_title(title, window_title),
+    title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
     navs_bar_(
@@ -183,7 +183,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
 
 
 # https://github.com/rstudio/shiny/issues/2310
-get_window_title <- function(title = NULL, window_title = NA) {
+infer_window_title <- function(title = NULL, window_title = NA) {
   if (!isTRUE(is.na(window_title))) {
     return(window_title)
   }
