@@ -20,8 +20,8 @@ sidebar(
 )
 
 layout_sidebar(
-  sidebar,
   ...,
+  sidebar = NULL,
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,

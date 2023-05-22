@@ -6,7 +6,7 @@
 \usage{
 page_sidebar(
   ...,
-  sidebar = sidebar(),
+  sidebar = NULL,
   title = NULL,
   fillable = TRUE,
   fill_mobile = FALSE,
