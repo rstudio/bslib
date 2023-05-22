@@ -77,7 +77,7 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 #' @export
 #' @rdname navset
 navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
-                     sidebar = NULL, fillable = FALSE,
+                     sidebar = NULL, fillable = TRUE,
                      # TODO: add sticky-top as well?
                      position = c("static-top", "fixed-top", "fixed-bottom"),
                      header = NULL, footer = NULL,
@@ -101,7 +101,7 @@ navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 # we can use addition theme information as an indication of whether we need
 # to handle backwards compatibility
 navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
-                      sidebar = NULL, fillable = FALSE,
+                      sidebar = NULL, fillable = TRUE,
                       gap = NULL, padding = NULL,
                       position = c("static-top", "fixed-top", "fixed-bottom"),
                       header = NULL, footer = NULL,
@@ -148,7 +148,7 @@ navbarPage_ <- function(title,
                        id = NULL,
                        selected = NULL,
                        sidebar = NULL,
-                       fillable = FALSE,
+                       fillable = TRUE,
                        gap = NULL,
                        padding = NULL,
                        position = c("static-top", "fixed-top", "fixed-bottom"),

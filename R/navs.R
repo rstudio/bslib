@@ -103,7 +103,7 @@ navs_card_body <- function(content, sidebar) {
 
 # Given a .tab-content container, mark each relevant .tab-pane as a
 # fill container/item.
-makeTabsFillable <- function(content, fillable = FALSE, navbar = FALSE, gap = NULL, padding = NULL) {
+makeTabsFillable <- function(content, fillable = TRUE, navbar = FALSE, gap = NULL, padding = NULL) {
   if (!inherits(content, "shiny.tag") || !tagQuery(content)$hasClass("tab-content")) {
     abort("Expected `content` to be a tag with a tab-content class")
   }
