@@ -34,7 +34,7 @@ navset_bar(
   id = NULL,
   selected = NULL,
   sidebar = NULL,
-  fillable = FALSE,
+  fillable = TRUE,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
