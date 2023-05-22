@@ -1,8 +1,8 @@
 # bslib 0.4.2.9000
 
-This significant release adds [sidebar layouts](https://rstudio.github.io/bslib/articles/sidebars.html), [accordions](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions), and makes many improvements to make dashboard-like filling layouts easier to create.
+This significant release focuses on making dashboards and filling layouts easier. It also includes many improvements and bug fixes for existing features and components (e.g., `card()`).
 
-Although `{bslib}` is still maturing, and will continue to receiving new UI features, we now see it as a viable replacement for `{shinydashboard}`.
+`{bslib}` is still maturing, but this release is a significant step towards this project superseding `{shinydashboard}`.
 
 ## Breaking changes
 
@@ -20,6 +20,7 @@ Although `{bslib}` is still maturing, and will continue to receiving new UI feat
 
 ## New features
 
+* Added a `page_sidebar()` for easy creation of a "classic" dashboard layout. (#588) 
 * Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn more. (#479)
 * Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions). (#475)
 * `page_navbar()`, `navset_card_tab()`, and ` navset_card_pill()` gain a `sidebar` argument for putting a `sidebar()` on every page/tab/pill. (#479)

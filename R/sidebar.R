@@ -149,8 +149,8 @@ sidebar <- function(
 #'
 #' @export
 layout_sidebar <- function(
-  sidebar,
   ...,
+  sidebar = NULL,
   fillable = FALSE,
   fill = TRUE,
   bg = NULL,
@@ -160,8 +160,9 @@ layout_sidebar <- function(
   border_color = NULL,
   height = NULL
 ) {
+
   if (!inherits(sidebar, "sidebar")) {
-    abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
+    sidebar <- sidebar(sidebar)
   }
 
   if (!(is.null(border) || isTRUE(border) || isFALSE(border))) {
