@@ -46,11 +46,9 @@ layout_column_wrap <- function(
 
   heights_equal <- match.arg(heights_equal)
 
-  args <- rlang::list2(...)
-  argnames <- rlang::names2(args)
-
-  attribs <- args[nzchar(argnames)]
-  children <- dropNulls(args[!nzchar(argnames)])
+  args <- list_split_named(rlang::list2(...))
+  attribs <- args[["named"]]
+  children <- dropNulls(args[["unnamed"]])
 
   if (length(width) > 1) {
     stop("`width` of length greater than 1 is not currently supported.")
@@ -122,11 +120,9 @@ layout_columns <- function(
     class = NULL
   ) {
 
-  args <- rlang::list2(...)
-  argnames <- rlang::names2(args)
-
-  attribs <- args[nzchar(argnames)]
-  children <- dropNulls(args[!nzchar(argnames)])
+  args <- list_split_named(rlang::list2(...))
+  attribs <- args[["named"]]
+  children <- dropNulls(args[["unnamed"]])
   n_kids <- length(children)
 
   # If no widths info is supplied, define number of columns as the number of elements
