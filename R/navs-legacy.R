@@ -257,10 +257,11 @@ navbarPage_ <- function(title,
       # the .container-fluid class adds padding that we don't want)
       class = if (!fluid) "container",
       layout_sidebar(
+        sidebar = sidebar,
         fillable = !isFALSE(fillable),
         border_radius = FALSE,
         border = !fluid,
-        sidebar, contents
+        contents
       )
     )
 
