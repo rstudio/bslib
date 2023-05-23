@@ -207,9 +207,66 @@ layout_columns <- function(
 #' @export
 breakpoints <- function(sm = NULL, md = NULL, lg = NULL, ...) {
   res <- dropNulls(rlang::list2(sm = sm, md = md, lg = lg, ...))
+
+  # TODO: check that values are integerish
+
   if (any_unnamed(res)) {
     rlang::abort("All `breakpoints` values must be named")
   }
+
+  is_na_or_positive <- function(x) is.na(x) | x > 0
+
+  for (break_name in names(res)) {
+    breaks <- res[[break_name]]
+
+    if (any(breaks[!is.na(breaks)] == 0)) {
+      rlang::abort("Column values must be greater than 0 to indicate width, or negative to indicate a column offset.")
+    }
+
+    if (all(is_na_or_positive(breaks))) {
+      attr(res[[break_name]], "before") <- integer(length(breaks))
+      attr(res[[break_name]], "after") <- integer(length(breaks))
+      next
+    }
+
+    if (!any(is_na_or_positive(breaks))) {
+      rlang::abort("Column values must include at least one positive integer width.")
+    }
+
+    actual <- breaks[is_na_or_positive(breaks)]
+    idx_actual <- which(is_na_or_positive(breaks))
+    last_actual <- max(idx_actual)
+
+    n_actual <- length(actual)
+    before <- integer(n_actual)
+    after  <- integer(n_actual)
+
+    i <- 1L
+    idx_before <- 1L
+    while (i <= length(breaks)) {
+      if (is_na_or_positive(breaks[i])) {
+        i <- i + 1L
+        idx_before <- idx_before + 1L
+        next
+      }
+
+      if (i > last_actual) {
+        # accumulate trailing offsets
+        after[length(after)] <- after[length(after)] + abs(breaks[i])
+        i <- i + 1L
+        next
+      }
+
+      # accumulate leading offsets
+      before[idx_before] <- before[idx_before] + abs(breaks[i])
+      i <- i + 1L
+    }
+
+    res[[break_name]] <- actual
+    attr(res[[break_name]], "before") <- before
+    attr(res[[break_name]], "after") <- after
+  }
+
   class(res) <- c("bslib_breakpoints", class(res))
   res
 }
@@ -222,7 +279,13 @@ print.bslib_breakpoints <- function(x, ...) {
   break_names <- c(break_names, setdiff(names(x), break_names))
 
   for (bp in break_names) {
-    breaks <- paste(x[[bp]], collapse = ", ")
+    before <- attr(x[[bp]], "before")
+    after <- attr(x[[bp]], "after")
+
+    before <- ifelse(before > 0, paste0("(", before, ") "), "")
+    after <- ifelse(after > 0, paste0(" (", after, ")"), "")
+    breaks <- paste0(before, x[[bp]], after, collapse = " ")
+
     cat(" ", bp, ": ", breaks, "\n", sep = "")
   }
 
