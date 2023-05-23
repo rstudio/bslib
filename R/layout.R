@@ -225,7 +225,7 @@ breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
 #' TODO: describe me
 #'
 #' @export
-breakpoints_column_widths <- function(..., sm = NULL, md = NULL, lg = NULL) {
+breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
   res <- rlang::list2(...)
   if (!is.null(sm)) res$sm <- sm
   if (!is.null(md)) res$md <- md
