@@ -118,16 +118,18 @@ layout_column_wrap <- function(
 #'
 #' @export
 layout_columns <- function(
-    ...,
-    widths = NA,
-    # TODO: add offsets argument?
-    gap = "1rem",
-    fill = TRUE,
-    fillable = TRUE,
-    height = NULL,
-    height_mobile = NULL,
-    class = NULL
-  ) {
+  ...,
+  widths = NA,
+  # TODO: add offsets argument?
+  gap = "1rem",
+  fill = TRUE,
+  fillable = TRUE,
+  height = NULL,
+  height_mobile = NULL,
+  class = NULL,
+  n_cols = NULL
+) {
+  # TODO: should we catch `width` vs `widths`?
 
   args <- list_split_named(rlang::list2(...))
   attribs <- args[["named"]]
@@ -136,31 +138,15 @@ layout_columns <- function(
 
   # If no widths info is supplied, define number of columns as the number of elements
   # TODO: maybe it's useful to control n_cols?
-  n_cols <- if (all(is.na(widths))) n_kids else 12
+  if (is.null(n_cols)) {
+    n_cols <- if (all(is.na(widths))) n_kids else 12
+  }
 
   if (!is_breakpoints(widths)) {
-    widths <- breakpoints(md = widths)
+    widths <- breakpoints_columns(md = widths)
   }
 
-  width_class <- function(w, breakpoint) {
-    if (length(w) > n_kids) {
-      rlang::warn("Too many `widths` provided; truncating")
-    }
-
-    w <- rep_len(w, n_kids)
-
-    idx_na <- which(is.na(w))
-    if (length(idx_na) > 0) {
-      remaining <- n_cols - sum(w, na.rm = TRUE)
-      w[idx_na] <- max(1, floor(remaining / length(idx_na)))
-    }
-
-    paste0("g-col-", breakpoint, "-", w)
-  }
-
-  width_classes <- do.call(paste,
-    Map(width_class, widths, names(widths))
-  )
+  width_classes <- bs_grid_width_classes(widths, n_kids, n_cols)
 
   children <- Map(
     function(el, w, f) {
@@ -200,6 +186,81 @@ layout_columns <- function(
   )
 }
 
+bs_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
+  classes <- vector("list", n_kids)
+
+  add_class <- function(idx, new) {
+    classes[[idx]] <<- c(classes[[idx]], new)
+  }
+
+  for (break_name in names(breakpoints)) {
+    bk <- breakpoints[[break_name]]
+
+    if (length(bk$width) > n_kids) {
+      # TODO: more informative warning
+      rlang::warn("Too many `widths` provided; truncating")
+    }
+
+    widths <- rep_len(bk$width, n_kids)
+    before <- rep_len(bk$before, n_kids)
+    after <- rep_len(bk$after, n_kids)
+
+    # Fill NA widths with equal shares of remaining space
+    idx_na <- which(is.na(widths))
+    if (length(idx_na) > 0) {
+      n_accounted <- sum(widths, na.rm = TRUE) + sum(before) + sum(after)
+      n_remaining <- n_cols - n_accounted
+      widths[idx_na] <- max(1, floor(n_remaining / length(idx_na)))
+    }
+
+    cursor <- 0L
+    update_cursor <- function(incr, can_split = FALSE) {
+      new <- cursor + incr
+      if (new > n_cols) {
+        if (can_split) {
+          new <- new %% n_cols
+        } else {
+          # signal that we've forced a move to the next row
+          new <- -1L
+        }
+      }
+      cursor <<- new
+    }
+
+    add_start_class <- FALSE
+    for (idx in seq_len(n_kids)) {
+      if (before[idx] > 0) {
+        update_cursor(before[idx], can_split = TRUE)
+        add_start_class <- TRUE
+      }
+
+      this_width <- min(widths[idx], n_cols)
+
+      start_at <- cursor
+      update_cursor(this_width, can_split = FALSE)
+      if (cursor < 0) {
+        add_start_class <- TRUE
+        start_at <- 0
+        cursor <- this_width
+      }
+
+      if (add_start_class) {
+        add_class(idx, sprintf("g-start-%s-%s", break_name, start_at + 1L))
+        add_start_class <- FALSE
+      }
+
+      add_class(idx, sprintf("g-col-%s-%s", break_name, this_width))
+
+      if (after[idx] > 0) {
+        update_cursor(after[idx], can_split = TRUE)
+        add_start_class <- TRUE
+        # There isn't an "end" class, so we just move the cursor forward
+      }
+    }
+  }
+
+  vapply(classes, paste, character(1), collapse = " ")
+}
 
 #' Define responsive breakpoints
 #'

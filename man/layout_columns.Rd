@@ -12,7 +12,8 @@ layout_columns(
   fillable = TRUE,
   height = NULL,
   height_mobile = NULL,
-  class = NULL
+  class = NULL,
+  n_cols = NULL
 )
 }
 \description{
