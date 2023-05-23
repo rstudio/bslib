@@ -210,7 +210,6 @@ bs_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
         bk_cols <- sum(bk$width + bk$before + bk$after)
       }
     }
-    message("bk_cols: ", bk_cols)
 
     if (length(bk$width) > n_kids) {
       # TODO: more informative warning
