@@ -358,7 +358,7 @@ card(
   card_header("A sidebar layout inside a card"),
   layout_sidebar(
     fillable = TRUE,
-    sidebar(
+    sidebar = sidebar(
       actionButton("btn", "A button")
     ),
     plotly_widget
