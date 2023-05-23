@@ -217,7 +217,12 @@ breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
   if (any_unnamed(res)) {
     rlang::abort("All `breakpoints` values must be named")
   }
-  structure(res, class = "bslib_breakpoints")
+
+  # TODO: can we get breakpoint names from the breakpoint map to validate?
+  break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(res))
+  break_names <- c(break_names, setdiff(names(res), break_names))
+
+  structure(res[break_names], class = "bslib_breakpoints")
 }
 
 #' Define responsive breakpoints
@@ -296,7 +301,7 @@ breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
   }
 
   res <- breakpoints(!!!res)
-  class(res) <- c("bslib_breakpoints_column_widths", class(res))
+  class(res) <- c("bslib_breakpoints_columns", class(res))
 
   res
 }
@@ -305,10 +310,7 @@ breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
 print.bslib_breakpoints <- function(x, ...) {
   cat("<breakpoints>\n")
 
-  break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(x))
-  break_names <- c(break_names, setdiff(names(x), break_names))
-
-  for (bp in break_names) {
+  for (bp in names(x)) {
     breaks <- paste0(x[[bp]], collapse = ", ")
     cat(" ", bp, ": ", breaks, "\n", sep = "")
   }
@@ -317,19 +319,16 @@ print.bslib_breakpoints <- function(x, ...) {
 }
 
 #' @export
-print.bslib_breakpoints_column_widths <- function(x, ...) {
+print.bslib_breakpoints_columns <- function(x, ...) {
   cat("<breakpoints<column_widths>>\n")
 
-  break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(x))
-  break_names <- c(break_names, setdiff(names(x), break_names))
-
-  for (bp in break_names) {
-    before <- attr(x[[bp]], "before")
-    after <- attr(x[[bp]], "after")
+  for (bp in names(x)) {
+    before <- x[[bp]][["before"]]
+    after <- x[[bp]][["after"]]
 
     before <- ifelse(before > 0, paste0("(", before, ") "), "")
     after <- ifelse(after > 0, paste0(" (", after, ")"), "")
-    breaks <- paste0(before, x[[bp]], after, collapse = " ")
+    breaks <- paste0(before, x[[bp]][["width"]], after, collapse = " ")
 
     cat(" ", bp, ": ", breaks, "\n", sep = "")
   }
