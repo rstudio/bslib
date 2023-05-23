@@ -195,6 +195,22 @@ bs_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
 
   for (break_name in names(breakpoints)) {
     bk <- breakpoints[[break_name]]
+    bk_cols <-
+      if (inherits(n_cols, "bslib_breakpoints")) {
+        n_cols[[break_name]]
+      } else {
+        n_cols
+      }
+
+    if (is.null(bk_cols)) {
+      if (any(is.na(bk$width))) {
+        # we can't infer the number of columns from the widths, so assume 12
+        bk_cols <- 12
+      } else {
+        bk_cols <- sum(bk$width + bk$before + bk$after)
+      }
+    }
+    message("bk_cols: ", bk_cols)
 
     if (length(bk$width) > n_kids) {
       # TODO: more informative warning
@@ -209,16 +225,17 @@ bs_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
     idx_na <- which(is.na(widths))
     if (length(idx_na) > 0) {
       n_accounted <- sum(widths, na.rm = TRUE) + sum(before) + sum(after)
-      n_remaining <- n_cols - n_accounted
+      n_remaining <- bk_cols - n_accounted
       widths[idx_na] <- max(1, floor(n_remaining / length(idx_na)))
     }
+
 
     cursor <- 0L
     update_cursor <- function(incr, can_split = FALSE) {
       new <- cursor + incr
-      if (new > n_cols) {
+      if (new > bk_cols) {
         if (can_split) {
-          new <- new %% n_cols
+          new <- new %% bk_cols
         } else {
           # signal that we've forced a move to the next row
           new <- -1L
@@ -234,7 +251,7 @@ bs_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
         add_start_class <- TRUE
       }
 
-      this_width <- min(widths[idx], n_cols)
+      this_width <- min(widths[idx], bk_cols)
 
       start_at <- cursor
       update_cursor(this_width, can_split = FALSE)
@@ -255,6 +272,12 @@ bs_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
         update_cursor(after[idx], can_split = TRUE)
         add_start_class <- TRUE
         # There isn't an "end" class, so we just move the cursor forward
+      }
+
+      if (cursor == bk_cols) {
+        # Row is full, no start class needed even if after columns were added
+        cursor <- 0L
+        add_start_class <- FALSE
       }
     }
   }
