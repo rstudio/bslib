@@ -200,13 +200,36 @@ layout_columns <- function(
   )
 }
 
+
+#' Define responsive breakpoints
+#'
+#' TODO: describe me
+#'
+#' @keywords internal
+#' @export
+breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
+  res <- rlang::list2(...)
+  if (!is.null(sm)) res$sm <- sm
+  if (!is.null(md)) res$md <- md
+  if (!is.null(lg)) res$lg <- lg
+
+  res <- dropNulls(res)
+  if (any_unnamed(res)) {
+    rlang::abort("All `breakpoints` values must be named")
+  }
+  structure(res, class = "bslib_breakpoints")
+}
+
 #' Define responsive breakpoints
 #'
 #' TODO: describe me
 #'
 #' @export
-breakpoints_column_widths <- function(sm = NULL, md = NULL, lg = NULL, ...) {
-  res <- dropNulls(rlang::list2(sm = sm, md = md, lg = lg, ...))
+breakpoints_column_widths <- function(..., sm = NULL, md = NULL, lg = NULL) {
+  res <- rlang::list2(...)
+  if (!is.null(sm)) res$sm <- sm
+  if (!is.null(md)) res$md <- md
+  if (!is.null(lg)) res$lg <- lg
 
   # TODO: check that values are integerish
 
@@ -224,8 +247,11 @@ breakpoints_column_widths <- function(sm = NULL, md = NULL, lg = NULL, ...) {
     }
 
     if (all(is_na_or_positive(breaks))) {
-      attr(res[[break_name]], "before") <- integer(length(breaks))
-      attr(res[[break_name]], "after") <- integer(length(breaks))
+      res[[break_name]] <- list(
+        width = breaks,
+        before = integer(length(breaks)),
+        after = integer(length(breaks))
+      )
       next
     }
 
@@ -262,15 +288,17 @@ breakpoints_column_widths <- function(sm = NULL, md = NULL, lg = NULL, ...) {
       i <- i + 1L
     }
 
-    res[[break_name]] <- actual
-    attr(res[[break_name]], "before") <- before
-    attr(res[[break_name]], "after") <- after
+    res[[break_name]] <- list(
+      width = actual,
+      before = before,
+      after = after
+    )
   }
 
-  structure(
-    res,
-    class = c("bslib_breakpoints_column_widths", "bslib_breakpoints")
-  )
+  res <- breakpoints(!!!res)
+  class(res) <- c("bslib_breakpoints_column_widths", class(res))
+
+  res
 }
 
 #' @export
