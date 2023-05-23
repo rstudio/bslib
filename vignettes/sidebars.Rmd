@@ -401,7 +401,7 @@ quakes_view <- card(
   full_screen = TRUE,
   card_header("Earthquake locations"),
   layout_sidebar(
-    sidebar(map_filter),
+    sidebar = sidebar(map_filter),
     map_quakes
   )
 )
@@ -620,7 +620,7 @@ card(
   card_header("Groups of diamond filters"),
   layout_sidebar(
     fillable = TRUE,
-    sidebar(accordion_filters),
+    sidebar = sidebar(accordion_filters),
     plots[[1]]
   )
 )
@@ -635,9 +635,9 @@ It's possible to nest sidebar layouts, which means you can effectively have any 
 page_fillable(
   h1("Left and right sidebar", class = "px-3 my-3"),
   layout_sidebar(
-    sidebar("Left sidebar"),
+    sidebar = sidebar("Left sidebar"),
     layout_sidebar(
-        sidebar("Right sidebar", position = "right", open = FALSE),
+        sidebar = sidebar("Right sidebar", position = "right", open = FALSE),
         "Main contents",
         border = FALSE
     ),
@@ -673,7 +673,7 @@ squake <- SharedData$new(quakes)
 
 container <- layout_sidebar(
   class = "p-0",
-  sidebar(
+  sidebar = sidebar(
     title = "Earthquakes off Fiji",
     bg = "#1E1E1E",
     width = "35%",
