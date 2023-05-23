@@ -205,7 +205,7 @@ layout_columns <- function(
 #' TODO: describe me
 #'
 #' @export
-breakpoints <- function(sm = NULL, md = NULL, lg = NULL, ...) {
+breakpoints_column_widths <- function(sm = NULL, md = NULL, lg = NULL, ...) {
   res <- dropNulls(rlang::list2(sm = sm, md = md, lg = lg, ...))
 
   # TODO: check that values are integerish
@@ -267,13 +267,30 @@ breakpoints <- function(sm = NULL, md = NULL, lg = NULL, ...) {
     attr(res[[break_name]], "after") <- after
   }
 
-  class(res) <- c("bslib_breakpoints", class(res))
-  res
+  structure(
+    res,
+    class = c("bslib_breakpoints_column_widths", "bslib_breakpoints")
+  )
 }
 
 #' @export
 print.bslib_breakpoints <- function(x, ...) {
-  cat("<bslib breakpoints>\n")
+  cat("<breakpoints>\n")
+
+  break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(x))
+  break_names <- c(break_names, setdiff(names(x), break_names))
+
+  for (bp in break_names) {
+    breaks <- paste0(x[[bp]], collapse = ", ")
+    cat(" ", bp, ": ", breaks, "\n", sep = "")
+  }
+
+  invisible(x)
+}
+
+#' @export
+print.bslib_breakpoints_column_widths <- function(x, ...) {
+  cat("<breakpoints<column_widths>>\n")
 
   break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(x))
   break_names <- c(break_names, setdiff(names(x), break_names))
@@ -292,6 +309,7 @@ print.bslib_breakpoints <- function(x, ...) {
   invisible(x)
 }
 
-is_breakpoints <- function(x) {
-  inherits(x, "bslib_breakpoints")
+is_breakpoints <- function(x, subclass = NULL) {
+  inherits(x, "bslib_breakpoints") &&
+    (is.null(subclass) || inherits(x, paste0("bslib_breakpoints_", subclass)))
 }
