@@ -184,8 +184,7 @@ bs_grid_wrapper <- function(el, bs_grid_classes = NULL, fillable = TRUE) {
 }
 
 bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
-  base_cols <- if (is_breakpoints(n_cols)) 12 else n_cols
-  classes <- as.list(rep(paste0("g-col-", base_cols), n_kids))
+  classes <- vector("list", n_kids)
 
   add_class <- function(idx, new) {
     classes[[idx]] <<- c(classes[[idx]], new)
@@ -193,21 +192,6 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
 
   for (break_name in names(breakpoints)) {
     bk <- breakpoints[[break_name]]
-    bk_cols <-
-      if (inherits(n_cols, "bslib_breakpoints")) {
-        n_cols[[break_name]]
-      } else {
-        n_cols
-      }
-
-    if (is.null(bk_cols)) {
-      if (any(is.na(bk$width))) {
-        # we can't infer the number of columns from the widths, so assume 12
-        bk_cols <- 12
-      } else {
-        bk_cols <- sum(bk$width + bk$before + bk$after)
-      }
-    }
 
     if (length(bk$width) > n_kids) {
       # TODO: more informative warning
@@ -222,17 +206,16 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
     idx_na <- which(is.na(widths))
     if (length(idx_na) > 0) {
       n_accounted <- sum(widths, na.rm = TRUE) + sum(before) + sum(after)
-      n_remaining <- bk_cols - n_accounted
+      n_remaining <- n_cols - n_accounted
       widths[idx_na] <- max(1, floor(n_remaining / length(idx_na)))
     }
-
 
     cursor <- 0L
     update_cursor <- function(incr, can_split = FALSE) {
       new <- cursor + incr
-      if (new > bk_cols) {
+      if (new > n_cols) {
         if (can_split) {
-          new <- new %% bk_cols
+          new <- new %% n_cols
         } else {
           # signal that we've forced a move to the next row
           new <- -1L
@@ -248,7 +231,7 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
         add_start_class <- TRUE
       }
 
-      this_width <- min(widths[idx], bk_cols)
+      this_width <- min(widths[idx], n_cols)
 
       start_at <- cursor
       update_cursor(this_width, can_split = FALSE)
@@ -271,7 +254,7 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
         # There isn't an "end" class, so we just move the cursor forward
       }
 
-      if (cursor == bk_cols) {
+      if (cursor == n_cols) {
         # Row is full, no start class needed even if after columns were added
         cursor <- 0L
         add_start_class <- FALSE
@@ -300,6 +283,8 @@ breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
   }
 
   # TODO: can we get breakpoint names from the breakpoint map to validate?
+  # Sort known breakpoints first (in order), then custom breakpoint names.
+  # This uses the fact that `intersect` preserves order of the first arg.
   break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(res))
   break_names <- c(break_names, setdiff(names(res), break_names))
 
@@ -328,7 +313,7 @@ breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
   for (break_name in names(res)) {
     breaks <- res[[break_name]]
 
-    if (any(breaks[!is.na(breaks)] == 0)) {
+    if (isTRUE(any(breaks == 0))) {
       rlang::abort("Column values must be greater than 0 to indicate width, or negative to indicate a column offset.")
     }
 
@@ -345,11 +330,11 @@ breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
       rlang::abort("Column values must include at least one positive integer width.")
     }
 
-    actual <- breaks[is_na_or_positive(breaks)]
     idx_actual <- which(is_na_or_positive(breaks))
     last_actual <- max(idx_actual)
+    n_actual <- length(idx_actual)
 
-    n_actual <- length(actual)
+    actual <- breaks[idx_actual]
     before <- integer(n_actual)
     after  <- integer(n_actual)
 
