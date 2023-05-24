@@ -145,7 +145,7 @@ layout_columns <- function(
     widths <- breakpoints_columns(md = widths)
   }
 
-  width_classes <- bs_grid_width_classes(widths, n_kids, n_cols)
+  width_classes <- bs_css_grid_width_classes(widths, n_kids, n_cols)
 
   children <- Map(f = bs_grid_wrapper, children, width_classes, fillable)
 
@@ -184,7 +184,7 @@ bs_grid_wrapper <- function(el, bs_grid_classes = NULL, fillable = TRUE) {
   )
 }
 
-bs_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
+bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
   classes <- as.list(rep(paste0("g-col-", n_cols), n_kids))
 
   add_class <- function(idx, new) {
