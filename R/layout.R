@@ -137,7 +137,6 @@ layout_columns <- function(
   n_kids <- length(children)
 
   # If no widths info is supplied, define number of columns as the number of elements
-  # TODO: maybe it's useful to control n_cols?
   if (is.null(n_cols)) {
     n_cols <- if (all(is.na(widths))) n_kids else 12
   }
@@ -148,17 +147,7 @@ layout_columns <- function(
 
   width_classes <- bs_grid_width_classes(widths, n_kids, n_cols)
 
-  children <- Map(
-    function(el, w, f) {
-      div(
-        class = paste0("g-col-", n_cols),
-        class = w,
-        class = "bslib-gap-spacing",
-        if (f) as_fillable_container(),
-        el
-      )
-    }, children, width_classes, fillable
-  )
+  children <- Map(f = bs_grid_wrapper, children, width_classes, fillable)
 
   tag <- div(
     class = "grid bslib-grid",
@@ -186,8 +175,17 @@ layout_columns <- function(
   )
 }
 
+bs_grid_wrapper <- function(el, bs_grid_classes = NULL, fillable = TRUE) {
+  div(
+    class = bs_grid_classes,
+    class = "bslib-gap-spacing",
+    if (fillable) as_fillable_container(),
+    el
+  )
+}
+
 bs_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
-  classes <- vector("list", n_kids)
+  classes <- as.list(rep(paste0("g-col-", n_cols), n_kids))
 
   add_class <- function(idx, new) {
     classes[[idx]] <<- c(classes[[idx]], new)
