@@ -185,7 +185,8 @@ bs_grid_wrapper <- function(el, bs_grid_classes = NULL, fillable = TRUE) {
 }
 
 bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
-  classes <- as.list(rep(paste0("g-col-", n_cols), n_kids))
+  base_cols <- if (is_breakpoints(n_cols)) 12 else n_cols
+  classes <- as.list(rep(paste0("g-col-", base_cols), n_kids))
 
   add_class <- function(idx, new) {
     classes[[idx]] <<- c(classes[[idx]], new)
