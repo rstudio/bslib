@@ -177,6 +177,7 @@ layout_columns <- function(
 bs_grid_wrapper <- function(el, bs_grid_classes = NULL, fillable = TRUE) {
   div(
     class = bs_grid_classes,
+    class = "bslib-grid-item",
     class = "bslib-gap-spacing",
     if (fillable) as_fillable_container(),
     el
