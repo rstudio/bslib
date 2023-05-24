@@ -120,7 +120,6 @@ layout_column_wrap <- function(
 layout_columns <- function(
   ...,
   widths = NA,
-  # TODO: add offsets argument?
   gap = "1rem",
   fill = TRUE,
   fillable = TRUE,
@@ -141,7 +140,7 @@ layout_columns <- function(
     n_cols <- if (all(is.na(widths))) n_kids else 12
   }
 
-  if (!is_breakpoints(widths)) {
+  if (!is_breakpoints(widths, "columns")) {
     widths <- breakpoints_columns(md = widths)
   }
 
