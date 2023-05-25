@@ -67,3 +67,98 @@ test_that("breakpoints_columns() with NA widths to indicate space-filling column
   expect_equal(bp$xl[["after"]], c(0, 0, 0))
 })
 
+test_that("bs_css_grid_width_classes() warns when too many column widths", {
+  expect_snapshot_warning(
+    expect_equal(
+      bs_css_grid_width_classes(breakpoints_columns(md = 1:4), 3),
+      c("g-col-md-1", "g-col-md-2", "g-col-md-3")
+    )
+  )
+})
+
+test_that("bs_css_grid_width_classes() requires a breakpoints_columns() object", {
+  expect_error(
+    bs_css_grid_width_classes(breakpoints(md = 1:2), 3)
+  )
+})
+
+test_that("bs_css_grid_width_classes()", {
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(md = 6), n_kids = 3),
+    c("g-col-md-6", "g-col-md-6", "g-col-md-6")
+  )
+
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(4, 8)), n_kids = 3),
+    c("g-col-lg-4", "g-col-lg-8", "g-col-lg-4")
+  )
+
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(12)), n_kids = 3),
+    c("g-col-lg-12", "g-col-lg-12", "g-col-lg-12")
+  )
+
+  # accounts for leading and trailing empty columns
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(-1, 4, 6, -1)), n_kids = 3),
+    c("g-start-lg-2 g-col-lg-4", "g-col-lg-6", "g-start-lg-2 g-col-lg-4")
+  )
+
+  # accounts for trailing empty columns (restarts on first column with class if needed)
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(1, 3, -1, 6, -1)), n_kids = 4),
+    c("g-col-lg-1", "g-col-lg-3", "g-start-lg-6 g-col-lg-6", "g-start-lg-1 g-col-lg-1")
+  )
+
+  # accounts for trailing empty columns (restarts on first column without class if possible)
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(4, -1, 6, -1)), n_kids = 3),
+    c("g-col-lg-4", "g-start-lg-6 g-col-lg-6", "g-col-lg-4")
+  )
+
+  # doesn't allow empty columns to cause an empty row due to row break
+  # skipping 8 columns would start the second row on column 5, but the next 9
+  # column-item would cause a row break, leaving an empty row (which we avoid)
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(8, -8, 9)), n_kids = 4),
+    c("g-col-lg-8", "g-col-lg-9", "g-col-lg-8", "g-col-lg-9")
+  )
+
+  # Same as above, except that 8 columns *will* fit on next row with an offset
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(8, -8, 8)), n_kids = 4),
+    c("g-col-lg-8", "g-start-lg-5 g-col-lg-8", "g-col-lg-8", "g-start-lg-5 g-col-lg-8")
+  )
+
+  # recycles the pattern to match number of kids
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(5, -2, 5, 12)), n_kids = 7),
+    c(
+      "g-col-lg-5",
+      "g-start-lg-8 g-col-lg-5",
+      "g-col-lg-12",
+      # repeats
+      "g-col-lg-5",
+      "g-start-lg-8 g-col-lg-5",
+      "g-col-lg-12",
+      # repeats (partially)
+      "g-col-lg-5"
+    )
+  )
+
+  # variant of previous test where first/last columns are empty
+  expect_equal(
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(-1,  5, 5, -1, 12)), n_kids = 7),
+    c(
+      "g-start-lg-2 g-col-lg-5",
+      "g-col-lg-5",
+      "g-col-lg-12",
+      # repeats
+      "g-start-lg-2 g-col-lg-5",
+      "g-col-lg-5",
+      "g-col-lg-12",
+      # repeats (partially)
+      "g-start-lg-2 g-col-lg-5"
+    )
+  )
+})

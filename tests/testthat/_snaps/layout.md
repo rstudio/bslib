@@ -10,3 +10,9 @@
        xl: 1 2 3
        huge: 1 2 3
 
+# bs_css_grid_width_classes() warns when too many column widths
+
+    Truncating number of widths at 'md' breakpoint to match number of elements.
+    * widths: 4
+    * elements: 3
+

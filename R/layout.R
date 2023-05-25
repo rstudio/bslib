@@ -205,6 +205,11 @@ bslib_grid_rows_css_vars <- function(row_heights) {
 }
 
 bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
+  stopifnot(
+    "`breakpoints` must be a breakpoints_columns() object" =
+      is_breakpoints(breakpoints, "columns")
+  )
+
   classes <- vector("list", n_kids)
 
   add_class <- function(idx, new) {
@@ -215,8 +220,15 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
     bk <- breakpoints[[break_name]]
 
     if (length(bk$width) > n_kids) {
-      # TODO: more informative warning
-      rlang::warn("Too many `widths` provided; truncating")
+      msg <- sprintf(
+        "Truncating number of widths at '%s' breakpoint to match number of elements.",
+        break_name
+      )
+      rlang::warn(c(
+        msg,
+        "*" = paste("widths:", length(bk$width)),
+        "*" = paste("elements:", n_kids)
+      ))
     }
 
     widths <- rep_len(bk$width, n_kids)
@@ -231,55 +243,87 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
       widths[idx_na] <- max(1, floor(n_remaining / length(idx_na)))
     }
 
+    # This next section implements a content-layout algorithm, motivated by
+    # supporting empty columns. In particular, we need to know two things about
+    # the content item:
+    #
+    # 1. How wide is the content item?
+    # 2. What is its starting column position?
+    #
+    # Because we recycle column widths to match the number of kids, we can't
+    # guarantee that the pattern repeats by row. To quickly summarize:
+    #
+    # * Each content item has a width (`widths[idx]`) and empty space before
+    #   the item: `before[idx]` + `after[idx - 1]` (the space before this item
+    #   plus the space _after_ the previous item).
+    # * We maintain a cursor that knows the 0-indexed column position. At each
+    #   step we:
+    #   * Move the cursor forward by the empty space before the item
+    #   * Decide if we require a starting class (`g-start-{break}-{cursor + 1}`)
+    #   * Add starting class and content width class (`g-start-{break}-{width}`)
+    #     for the item
+    #   * Move the cursor forward by the width of the item.
+    #
+    # We take into account a few edge cases:
+    #
+    # * We *don't need* a starting class if the item would naturally reflow to the
+    #   next row.
+    # * We *do need* a starting class if the item would fit into the empty space
+    #   of the current row, but there isn't enough room for the item _after_
+    #   accounting for blocked empty space.
+    # * If adding empty space causes a new row, but adding the content item
+    #   would cause _another row break_, we skip the empty row.
+
     cursor <- 0L
-    update_cursor <- function(incr, can_split = FALSE) {
+    update_cursor <- function(incr, is_empty = FALSE) {
+      cursor <<- abs(cursor)
       new <- cursor + incr
-      if (new > n_cols) {
-        if (can_split) {
-          new <- new %% n_cols
-        } else {
-          # signal that we've forced a move to the next row
-          new <- -1L
-        }
+      if (new == n_cols) {
+        # we reached the final column, allow for a natural break
+        new <- 0L
       }
+      if (new > n_cols) {
+        # this row is full, empty columns can break (with -ive cursor to signal)
+        # and content columns fit on the next row
+        new <- if (is_empty) -1 * new %% n_cols else incr
+      }
+      # message("cursor: ", cursor, " -> ", new, " (+", incr, if (is_empty) " empty", ")")
       cursor <<- new
     }
 
     add_start_class <- FALSE
     for (idx in seq_len(n_kids)) {
-      if (before[idx] > 0) {
-        update_cursor(before[idx], can_split = TRUE)
-        add_start_class <- TRUE
-      }
-
+      move_ahead <- before[idx] + if (idx > 1) after[idx - 1] else 0L
       this_width <- min(widths[idx], n_cols)
 
-      start_at <- cursor
-      update_cursor(this_width, can_split = FALSE)
-      if (cursor < 0) {
-        add_start_class <- TRUE
-        start_at <- 0
-        cursor <- this_width
+      # when we move ahead, we need a start class unless the current item
+      # wouldn't fit on the row anyway (ignoring empty cols)
+      row_remaining <- n_cols - cursor
+
+      if (move_ahead > 0) {
+        update_cursor(move_ahead, is_empty = TRUE)
+        if (cursor < 0) {
+          cursor <- abs(cursor)
+          # adding empty cols caused a row wrap, so we need a start class if
+          # 1. we're not at the beginning of the row
+          # 2. But: if the current item is wider than the remaining space after
+          #    accounting for empty columns, reset cursor to start of the row
+          #    rather than causing an empty row.
+          if (widths[idx] > (n_cols - cursor)) {
+            cursor <- 0L
+          }
+          row_remaining <- 0L
+        }
+        add_start_class <- row_remaining >= widths[idx] || cursor > 0
       }
 
       if (add_start_class) {
-        add_class(idx, sprintf("g-start-%s-%s", break_name, start_at + 1L))
+        add_class(idx, sprintf("g-start-%s-%s", break_name, cursor + 1L))
         add_start_class <- FALSE
       }
 
       add_class(idx, sprintf("g-col-%s-%s", break_name, this_width))
-
-      if (after[idx] > 0) {
-        update_cursor(after[idx], can_split = TRUE)
-        add_start_class <- TRUE
-        # There isn't an "end" class, so we just move the cursor forward
-      }
-
-      if (cursor == n_cols) {
-        # Row is full, no start class needed even if after columns were added
-        cursor <- 0L
-        add_start_class <- FALSE
-      }
+      update_cursor(this_width, is_empty = FALSE)
     }
   }
 
@@ -304,7 +348,7 @@ breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
   }
 
   # TODO: can we get breakpoint names from the breakpoint map to validate?
-  # Sort known breakpoints first (in order), then custom breakpoint names.
+  # Sort well-known breakpoints first (in order), then custom breakpoint names.
   # This uses the fact that `intersect` preserves order of the first arg.
   break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(res))
   break_names <- c(break_names, setdiff(names(res), break_names))
