@@ -67,6 +67,12 @@ navbar:
       href: https://github.com/rstudio/bslib
 
 reference:
+- title: Create a dashboard
+  contents:
+    - page_sidebar
+- title: Page layouts
+  contents:
+    - page
 - title: Theme creation
   description: |
     Tools for creating customized Bootstrap themes.
@@ -111,9 +117,6 @@ reference:
   contents:
     - layout_sidebar
     - layout_column_wrap
-- title: Page layouts
-  contents:
-    - page
 - title: Fill items and fillable containers
   description: |
     Create and test for fill items and fillable containers

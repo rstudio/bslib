@@ -1,5 +1,5 @@
 test_that("breakpoints_columns_widths() has correct classes and structure", {
-   bp <- breakpoints_columns(
+  bp <- breakpoints_columns(
     lg = c(-2, 2, -1, -2, 3, -2),
     md = c(-1, 2, -2, 3),
     sm = c(1, -1, 1),
@@ -148,7 +148,7 @@ test_that("bs_css_grid_width_classes()", {
 
   # variant of previous test where first/last columns are empty
   expect_equal(
-    bs_css_grid_width_classes(breakpoints_columns(lg = c(-1,  5, 5, -1, 12)), n_kids = 7),
+    bs_css_grid_width_classes(breakpoints_columns(lg = c(-1, 5, 5, -1, 12)), n_kids = 7),
     c(
       "g-start-lg-2 g-col-lg-5",
       "g-col-lg-5",
