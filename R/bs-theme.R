@@ -271,7 +271,8 @@ bootstrap_bundle <- function(version) {
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
       sass_layer(
-        defaults = sass_file(system_file("components", "_variables.scss", package = "bslib"))
+        defaults = sass_file(system_file("components", "_variables.scss", package = "bslib")),
+        mixins = sass_file(system_file("components", "_mixins.scss", package = "bslib"))
       ),
       !!!rule_bundles(c(
         system_file("components", "accordion.scss", package = "bslib"),
