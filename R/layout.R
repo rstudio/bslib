@@ -250,6 +250,14 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
     # 1. How wide is the content item?
     # 2. What is its starting column position?
     #
+    # The following example illustrates a few layout cases (. = empty column):
+    # > breakpoint_columns(md = c(-1, 4, 5, -4, 3, 9, -3, 2))
+    #
+    # | . | 4 | 4 | 4 | 4 | 5 | 5 | 5 | 5 | . | . |
+    # | . | . | 3 | 3 | 3 |   |   |   |   |   |   |
+    # | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | . | . | . |
+    # | 2 | 2 | . | 4 | 4 | 4 | 4 |   |   |   |   | ...
+    #
     # Because we recycle column widths to match the number of kids, we can't
     # guarantee that the pattern repeats by row. To quickly summarize:
     #
