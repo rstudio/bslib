@@ -11,11 +11,14 @@
   grid-column: auto/span 1;
 }
 
-@include media-breakpoint-down(sm) {
-  // collapse all columns to a single column
+@include media-breakpoint-down(md) {
+  // collapse all columns to a single column below medium (by default only)
   .bslib-grid-item {
     grid-column: 1 / -1;
   }
+}
+
+@include media-breakpoint-down(sm) {
   // with each "row" taking its natural height
   .bslib-grid.grid {
     height: unset !important;

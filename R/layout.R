@@ -125,7 +125,6 @@ layout_columns <- function(
   fillable = TRUE,
   height = NULL,
   class = NULL,
-  n_cols = NULL,
   row_heights = 1
 ) {
   # TODO: should we catch `width` vs `widths`?
@@ -135,9 +134,10 @@ layout_columns <- function(
   children <- dropNulls(args[["unnamed"]])
   n_kids <- length(children)
 
-  # If no widths info is supplied, define number of columns as the number of elements
-  if (is.null(n_cols)) {
-    n_cols <- if (all(is.na(widths))) n_kids else 12
+  # Assume 12 columns, but if widths are all NULL, use number of children
+  n_cols <- 12
+  if (!is_breakpoints(widths, "columns") && all(is.na(widths))) {
+    n_cols <- min(n_kids, 12)
   }
 
   if (!is_breakpoints(widths, "columns")) {
