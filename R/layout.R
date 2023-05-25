@@ -124,9 +124,9 @@ layout_columns <- function(
   fill = TRUE,
   fillable = TRUE,
   height = NULL,
-  height_mobile = NULL,
   class = NULL,
-  n_cols = NULL
+  n_cols = NULL,
+  row_heights = 1
 ) {
   # TODO: should we catch `width` vs `widths`?
 
@@ -144,6 +144,10 @@ layout_columns <- function(
     widths <- breakpoints_columns(md = widths)
   }
 
+  if (!is_breakpoints(row_heights)) {
+    row_heights <- breakpoints(sm = row_heights)
+  }
+
   width_classes <- bs_css_grid_width_classes(widths, n_kids, n_cols)
 
   children <- Map(f = bs_grid_wrapper, children, width_classes, fillable)
@@ -151,17 +155,11 @@ layout_columns <- function(
   tag <- div(
     class = "grid bslib-grid",
     style = css(
+      height = height,
       "--bs-gap" = gap,
-      "--bs-columns" = n_cols,
-      # Always provide the `height:auto` default so that the CSS variable
-      # doesn't get inherited in a scenario like layout_column_wrap(height=200, ..., layout_column_wrap(...))
-      "--bslib-grid-height" = validateCssUnit(height %||% "auto"),
-      "--bslib-grid-height-mobile" = validateCssUnit(height_mobile %||% "auto"),
-      # For some reason, Bootstrap sets `grid-template-rows: 1fr` by default, which is
-      # problematic for a multi-row filling layout. This fixes it...
-      # > page_fillable(layout_columns(c(12, 12), plotly::plot_ly(), plotly::plot_ly()))
-      grid_auto_rows = "1fr"
+      "--bs-columns" = n_cols
     ),
+    !!!bslib_grid_rows_css_vars(row_heights),
     !!!attribs,
     !!!children
   )
@@ -182,6 +180,28 @@ bs_grid_wrapper <- function(el, bs_grid_classes = NULL, fillable = TRUE) {
     if (fillable) as_fillable_container(),
     el
   )
+}
+
+bslib_grid_rows_css_vars <- function(row_heights) {
+  if (!is_breakpoints(row_heights)) return(NULL)
+
+  # creates classes that pair with CSS variables when set
+  classes <- sprintf("bslib-grid--row-heights--%s", names(row_heights))
+
+  css_vars <- row_heights
+  names(css_vars) <- paste0("--", classes)
+
+  # mobile row height is derived from xs or defaults to auto in the CSS,
+  # so we don't need the class to activate it
+  classes <- setdiff(classes, "bslib-grid--row-heights--xs")
+
+  css_vars <- lapply(css_vars, function(x) {
+    if (is.character(x)) return(x)
+    paste0(x, ifelse(x <= 12, "fr", "px"))
+  })
+
+  styles <- css(!!!css_vars)
+  list(class = classes, style = styles)
 }
 
 bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
