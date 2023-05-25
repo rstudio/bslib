@@ -6,14 +6,14 @@
 \usage{
 layout_columns(
   ...,
-  widths = NA,
+  col_widths = NA,
+  row_heights = 1,
   gap = "1rem",
   fill = TRUE,
   fillable = TRUE,
-  height = NULL,
-  height_mobile = NULL,
   class = NULL,
-  n_cols = NULL
+  height = NULL,
+  width = NULL
 )
 }
 \description{
