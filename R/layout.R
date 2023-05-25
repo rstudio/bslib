@@ -119,44 +119,44 @@ layout_column_wrap <- function(
 #' @export
 layout_columns <- function(
   ...,
-  widths = NA,
+  col_widths = NA,
+  row_heights = 1,
   gap = "1rem",
   fill = TRUE,
   fillable = TRUE,
-  height = NULL,
   class = NULL,
-  row_heights = 1
+  height = NULL,
+  width = NULL
 ) {
-  # TODO: should we catch `width` vs `widths`?
-
   args <- list_split_named(rlang::list2(...))
   attribs <- args[["named"]]
   children <- dropNulls(args[["unnamed"]])
   n_kids <- length(children)
 
-  # Assume 12 columns, but if widths are all NULL, use number of children
+  # Assume or cap at 12 columns, but if col_widths are all NA, use # of children
   n_cols <- 12
-  if (!is_breakpoints(widths, "columns") && all(is.na(widths))) {
+  if (!is_breakpoints(col_widths, "columns") && all(is.na(col_widths))) {
     n_cols <- min(n_kids, 12)
   }
 
-  if (!is_breakpoints(widths, "columns")) {
-    widths <- breakpoints_columns(md = widths)
+  if (!is_breakpoints(col_widths, "columns")) {
+    col_widths <- breakpoints_columns(md = col_widths)
   }
 
   if (!is_breakpoints(row_heights)) {
     row_heights <- breakpoints(sm = row_heights)
   }
 
-  width_classes <- bs_css_grid_width_classes(widths, n_kids, n_cols)
+  width_classes <- bs_css_grid_width_classes(col_widths, n_kids, n_cols)
 
   children <- Map(f = bs_grid_wrapper, children, width_classes, fillable)
 
   tag <- div(
     class = "grid bslib-grid",
     style = css(
-      height = height,
-      "--bs-gap" = gap,
+      height = validateCssUnit(height),
+      width = validateCssUnit(width),
+      "--bs-gap" = validateCssUnit(gap),
       "--bs-columns" = n_cols
     ),
     !!!bslib_grid_rows_css_vars(row_heights),
