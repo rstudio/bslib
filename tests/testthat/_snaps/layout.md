@@ -1,3 +1,18 @@
+# breakpoints() re-orders well-known breaks and test print method
+
+    Code
+      bp
+    Output
+      <breakpoints>
+       xs: 1
+       sm: 2
+       md: 3
+       lg: 4
+       xl: 5
+       xxl: 6
+       giant: 7
+       huge: 8
+
 # breakpoints_columns_widths() has correct classes and structure
 
     Code

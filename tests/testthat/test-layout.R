@@ -1,3 +1,19 @@
+test_that("breakpoints() re-orders well-known breaks and test print method", {
+  bp <- breakpoints(
+    xl = 5,
+    sm = 2,
+    xs = 1,
+    giant = 7,
+    lg = 4,
+    huge = 8,
+    md = 3,
+    xxl = 6
+  )
+
+  expect_snapshot(bp)
+  expect_equal(unclass(unname(unlist(bp))), 1:8)
+})
+
 test_that("breakpoints_columns_widths() has correct classes and structure", {
   bp <- breakpoints_columns(
     lg = c(-2, 2, -1, -2, 3, -2),
@@ -41,6 +57,11 @@ test_that("breakpoints_columns() with negative widths to indicate empty columns"
   expect_equal(bp$md[["after"]], c(0, 0))
   expect_equal(bp$lg[["after"]], c(0, 2))
   expect_equal(bp$xl[["after"]], c(0, 0, 0))
+})
+
+test_that("breakpoints() must be named", {
+  expect_error(breakpoints(1:3))
+  expect_error(breakpoints_columns(1:3))
 })
 
 test_that("breakpoints_columns() with NA widths to indicate space-filling columns", {
@@ -161,4 +182,13 @@ test_that("bs_css_grid_width_classes()", {
       "g-start-lg-2 g-col-lg-5"
     )
   )
+})
+
+test_that("breakpoint_columns() throws if a column is 0", {
+  expect_error(breakpoint_columns(md = c(-1, 0, 1)))
+})
+
+test_that("breakpoint_columns() throws if no columns are positive or NA", {
+  expect_error(breakpoints_columns(md = c(-1, -1, -1)))
+  expect_silent(breakpoints_columns(md = c(-1, NA, -1)))
 })
