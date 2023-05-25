@@ -283,7 +283,7 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
         new <- 0L
       }
       if (new > n_cols) {
-        # this row is full, empty columns can break (with -ive cursor to signal)
+        # this row is full, empty columns can break (with <0 cursor to signal)
         # and content columns fit on the next row
         new <- if (is_empty) -1 * new %% n_cols else incr
       }
