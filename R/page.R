@@ -158,10 +158,6 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         window_title = NA,
                         lang = NULL) {
 
-  if (!is.null(sidebar) && !inherits(sidebar, "sidebar")) {
-    abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
-  }
-
   # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
   # (which is a sibling of the <nav>) to always fill the page
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
