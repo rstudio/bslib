@@ -222,10 +222,16 @@ bslib_grid_rows_css_vars <- function(row_heights) {
   # so we don't need the class to activate it
   classes <- setdiff(classes, "bslib-grid--row-heights--xs")
 
-  css_vars <- lapply(css_vars, function(x) {
+  as_grid_value <- function(x) {
+    if (is.list(x)) {
+      x <- vapply(x, as_grid_value, character(1))
+      return(paste(x, collapse = " "))
+    }
     if (is.character(x)) return(x)
     paste0(x, ifelse(x <= 12, "fr", "px"))
-  })
+  }
+
+  css_vars <- lapply(css_vars, as_grid_value)
 
   styles <- css(!!!css_vars)
   list(class = classes, style = styles)

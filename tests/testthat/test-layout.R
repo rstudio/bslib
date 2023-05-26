@@ -277,3 +277,36 @@ test_that("bs_css_grid_col_spec() base case", {
     list(n_cols = 12, col_widths = breakpoints_columns(md = 1:3))
   )
 })
+
+test_that("bslib_grid_rows_css_vars() assumes fr unless >12", {
+  for (i in 1:12) {
+    expect_match(
+      bslib_grid_rows_css_vars(breakpoints(md = i))$style,
+      sprintf("%dfr", i),
+      fixed = TRUE
+    )
+  }
+
+  expect_match(
+    bslib_grid_rows_css_vars(breakpoints(md = 13))$style,
+    "13px",
+    fixed = TRUE
+  )
+})
+
+test_that("bslib_grid_rows_css_vars() decides fr/px for numeric, passes character", {
+  expect_equal(
+    bslib_grid_rows_css_vars(breakpoints(md = list(200, 1))),
+    bslib_grid_rows_css_vars(breakpoints(md = "200px 1fr"))
+  )
+
+  expect_equal(
+    bslib_grid_rows_css_vars(breakpoints(md = c(200, 1))),
+    bslib_grid_rows_css_vars(breakpoints(md = "200px 1fr"))
+  )
+
+  expect_equal(
+    bslib_grid_rows_css_vars(breakpoints(md = list("auto", 1))),
+    bslib_grid_rows_css_vars(breakpoints(md = "auto 1fr"))
+  )
+})
