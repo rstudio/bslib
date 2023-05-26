@@ -64,28 +64,34 @@ test_that("breakpoints() must be named", {
   expect_error(breakpoints_columns(1:3))
 })
 
-test_that("breakpoints_columns() with NA widths to indicate space-filling columns", {
+test_that("breakpoints_columns() can be a single NA", {
   bp <- breakpoints_columns(
-    sm = c(1, -1, NA),
-    md = c(-1, NA, -2, 3),
-    lg = c(-2, 2, -1, -2, NA, -2),
-    xl = c(1, 2, NA)
+    sm = NA,
+    md = c(-1, 2, -2, 3),
+    lg = c(-2, 2, -1, -2, 3, -2),
+    xl = NA
   )
 
-  expect_equal(bp$sm$width, c(1, NA), ignore_attr = TRUE)
-  expect_equal(bp$md$width, c(NA, 3), ignore_attr = TRUE)
-  expect_equal(bp$lg$width, c(2, NA), ignore_attr = TRUE)
-  expect_equal(bp$xl$width, c(1, 2, NA), ignore_attr = TRUE)
+  expect_equal(bp$sm$width, NA, ignore_attr = TRUE)
+  expect_equal(bp$md$width, c(2, 3), ignore_attr = TRUE)
+  expect_equal(bp$lg$width, c(2, 3), ignore_attr = TRUE)
+  expect_equal(bp$xl$width, NA, ignore_attr = TRUE)
 
-  expect_equal(bp$sm[["before"]], c(0, 1))
+  expect_equal(bp$sm[["before"]], c(0))
   expect_equal(bp$md[["before"]], c(1, 2))
   expect_equal(bp$lg[["before"]], c(2, 3))
-  expect_equal(bp$xl[["before"]], c(0, 0, 0))
+  expect_equal(bp$xl[["before"]], c(0))
 
-  expect_equal(bp$sm[["after"]], c(0, 0))
+  expect_equal(bp$sm[["after"]], c(0))
   expect_equal(bp$md[["after"]], c(0, 0))
   expect_equal(bp$lg[["after"]], c(0, 2))
-  expect_equal(bp$xl[["after"]], c(0, 0, 0))
+  expect_equal(bp$xl[["after"]], c(0))
+})
+
+test_that("breakpoints_columns() throws if NAs are mixed with other column values", {
+  expect_snapshot_error(
+    breakpoints_columns(sm = c(-1, NA, 1))
+  )
 })
 
 test_that("bs_css_grid_width_classes() warns when too many column widths", {
@@ -188,7 +194,7 @@ test_that("breakpoint_columns() throws if a column is 0", {
   expect_error(breakpoint_columns(md = c(-1, 0, 1)))
 })
 
-test_that("breakpoint_columns() throws if no columns are positive or NA", {
+test_that("breakpoint_columns() throws if no columns are positive", {
+  expect_error(breakpoints_columns(md = c(-1)))
   expect_error(breakpoints_columns(md = c(-1, -1, -1)))
-  expect_silent(breakpoints_columns(md = c(-1, NA, -1)))
 })
