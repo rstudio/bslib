@@ -275,8 +275,8 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids) {
     # The following example illustrates a few layout cases (. = empty column):
     # > breakpoint_columns(md = c(-1, 4, 5, -4, 3, 9, -3, 2))
     #
-    # | . | 4 | 4 | 4 | 4 | 5 | 5 | 5 | 5 | . | . |
-    # | . | . | 3 | 3 | 3 |   |   |   |   |   |   |
+    # | . | 4 | 4 | 4 | 4 | 5 | 5 | 5 | 5 | 5 | . |
+    # | . | . | . | 3 | 3 | 3 |   |   |   |   |   |
     # | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | . | . | . |
     # | 2 | 2 | . | 4 | 4 | 4 | 4 |   |   |   |   | ...
     #
