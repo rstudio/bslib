@@ -237,7 +237,7 @@ bslib_grid_rows_css_vars <- function(row_heights) {
   list(class = classes, style = styles)
 }
 
-bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols) {
+bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
   stopifnot(
     "`breakpoints` must be a breakpoints_columns() object" =
       is_breakpoints(breakpoints, "columns")
