@@ -160,7 +160,7 @@ layout_columns <- function(
   }
 
   if (isTRUE(is.na(col_widths))) {
-    col_width <- breakpoints_columns(sm = NA, md = NA)
+    col_widths <- breakpoints_columns(sm = NA, lg = NA)
   } else if (!is_breakpoints(col_widths, "columns")) {
     col_widths <- breakpoints_columns(md = col_widths)
   }
