@@ -133,43 +133,15 @@ layout_columns <- function(
   children <- dropNulls(args[["unnamed"]])
   n_kids <- length(children)
 
-  unit_col_width <- FALSE
-  if (n_kids <= 7) {
-    special_case <- n_kids >= 4 & n_kids <= 7
-    if (!is_breakpoints(col_widths, "columns")) {
-      unit_col_width <- isTRUE(is.na(col_widths))
-      if (unit_col_width) {
-        col_widths <- if (!special_case) 1L else {
-          breakpoints_columns(sm = n_kids, md = 2)
-        }
-      }
-    } else {
-      unit_col_width <- all(
-        vapply(col_widths, function(x) isTRUE(is.na(x$width)), logical(1))
-      )
-      if (unit_col_width) {
-        for (w in names(col_widths)) {
-          if (special_case) {
-            col_widths[[w]]$width <- if (w == "sm") n_kids else 2L
-          } else {
-            col_widths[[w]]$width <- 1L
-          }
-        }
-      }
-    }
-  }
-
-  if (isTRUE(is.na(col_widths))) {
-    col_widths <- breakpoints_columns(sm = NA, lg = NA)
-  } else if (!is_breakpoints(col_widths, "columns")) {
-    col_widths <- breakpoints_columns(md = col_widths)
-  }
+  spec <- bs_css_grid_col_spec(col_widths, n_kids)
+  n_cols <- spec$n_cols
+  col_widths <- spec$col_widths
 
   if (!is_breakpoints(row_heights)) {
     row_heights <- breakpoints(sm = row_heights)
   }
 
-  width_classes <- bs_css_grid_width_classes(col_widths, n_kids)
+  width_classes <- bs_css_grid_width_classes(col_widths, n_kids, n_cols)
 
   children <- Map(f = bs_grid_wrapper, children, width_classes, fillable)
 
@@ -179,9 +151,7 @@ layout_columns <- function(
       height = validateCssUnit(height),
       width = validateCssUnit(width),
       gap = validateCssUnit(gap),
-      "--bs-columns" = if (unit_col_width) {
-        if (n_kids < 4) n_kids else n_kids * 2
-      },
+      "--bs-columns" = n_cols
     ),
     !!!bslib_grid_rows_css_vars(row_heights),
     !!!attribs,
@@ -194,6 +164,37 @@ layout_columns <- function(
   as_fragment(
     tag_require(tag, version = 5, caller = "layout_column_grid()")
   )
+}
+
+bs_css_grid_col_spec <- function(col_widths, n_kids) {
+  if (isTRUE(is.na(col_widths))) {
+    col_widths <- breakpoints_columns(sm = NA, lg = NA)
+  }
+
+  if (!is_breakpoints(col_widths, "columns")) {
+    col_widths <- breakpoints_columns(md = col_widths)
+  }
+
+  # auto-layout when single NA or all breakpoints are NA
+  has_auto_spec <- vapply(col_widths, function(x) isTRUE(is.na(x$width)), logical(1))
+
+  if (any(names(col_widths)[1] %in% c("lg", "xl", "xxl"))) {
+    # smallest first defined breakpoint is large, so we fill in gap with 'md'
+    col_widths[["md"]] <- col_widths[[names(col_widths)[1]]]
+  }
+
+  if (!any(has_auto_spec)) {
+    return(list(n_cols = 12, col_widths = col_widths))
+  }
+
+  n_cols <- if (n_kids > 7) 12 else if (n_kids > 3) n_kids * 2 else n_kids
+
+  for (break_name in names(col_widths)[has_auto_spec]) {
+    prefer_wider <- break_name %in% c("sm", "md")
+    col_widths[[break_name]]$width <- bs_best_col_width_fit(n_kids, prefer_wider)
+  }
+
+  list(n_cols = n_cols, col_widths = col_widths)
 }
 
 bs_grid_wrapper <- function(el, bs_grid_classes = NULL, fillable = TRUE) {
@@ -228,7 +229,7 @@ bslib_grid_rows_css_vars <- function(row_heights) {
   list(class = classes, style = styles)
 }
 
-bs_css_grid_width_classes <- function(breakpoints, n_kids) {
+bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols) {
   stopifnot(
     "`breakpoints` must be a breakpoints_columns() object" =
       is_breakpoints(breakpoints, "columns")
@@ -253,12 +254,6 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids) {
         "*" = paste("widths:", length(bk$width)),
         "*" = paste("elements:", n_kids)
       ))
-    }
-
-    # Auto-layout: if width is NA, then we'll choose the "best" column width
-    n_cols <- 12
-    if (length(bk$width) == 1 && is.na(bk$width)) {
-      bk$width <- bs_best_col_width_fit(n_kids, prefer_wider = break_name %in% c("sm", "md"))
     }
 
     widths <- rep_len(bk$width, n_kids)
@@ -361,9 +356,7 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids) {
 }
 
 bs_best_col_width_fit <- function(kids, prefer_wider = FALSE) {
-  if (kids == 1) return(12)
-  if (kids == 2) return(6)
-  if (kids == 3) return(4)
+  if (kids < 4) return(1)
   if (kids <= 7) {
     # sizes 4-7 are special cased to use (2 * kids) columns
     return(if (prefer_wider) kids else 2)
