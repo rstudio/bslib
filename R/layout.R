@@ -181,6 +181,8 @@ bs_css_grid_col_spec <- function(col_widths, n_kids) {
   if (any(names(col_widths)[1] %in% c("lg", "xl", "xxl"))) {
     # smallest first defined breakpoint is large, so we fill in gap with 'md'
     col_widths[["md"]] <- col_widths[[names(col_widths)[1]]]
+    col_widths <- col_widths[c("md", setdiff(names(col_widths), "md"))]
+    col_widths <- as_breakpoints(col_widths, "columns")
   }
 
   if (!any(has_auto_spec)) {
@@ -401,7 +403,7 @@ breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
   break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(res))
   break_names <- c(break_names, setdiff(names(res), break_names))
 
-  structure(res[break_names], class = "bslib_breakpoints")
+  as_breakpoints(res[break_names])
 }
 
 #' Define responsive breakpoints
@@ -515,6 +517,11 @@ print.bslib_breakpoints_columns <- function(x, ...) {
   }
 
   invisible(x)
+}
+
+as_breakpoints <- function(x, subclass = NULL) {
+  if (!is.null(subclass)) subclass <- paste0("bslib_breakpoints_", subclass)
+  structure(x, class = c(subclass, "bslib_breakpoints"))
 }
 
 is_breakpoints <- function(x, subclass = NULL) {

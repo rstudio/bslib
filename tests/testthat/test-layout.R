@@ -198,3 +198,82 @@ test_that("breakpoint_columns() throws if no columns are positive", {
   expect_error(breakpoints_columns(md = c(-1)))
   expect_error(breakpoints_columns(md = c(-1, -1, -1)))
 })
+
+test_that("bs_css_grid_col_spec() auto layout with col_widths = NA", {
+  kids_1 <- bs_css_grid_col_spec(NA, 1)
+
+  # bare NA is the same as NA breakpoints at sm and lg
+  expect_equal(
+    bs_css_grid_col_spec(breakpoints_columns(sm = NA, lg = NA), 1),
+    kids_1
+  )
+
+  expect_equal(kids_1$n_cols, 1)
+  expect_equal(kids_1$col_widths$sm, list(width = 1, before = 0, after = 0))
+
+  kids_2 <- bs_css_grid_col_spec(NA, 2)
+  expect_equal(kids_2$n_cols, 2)
+  expect_equal(kids_2$col_widths$sm, list(width = 1, before = 0, after = 0))
+
+  kids_3 <- bs_css_grid_col_spec(NA, 3)
+  expect_equal(kids_3$n_cols, 3)
+  expect_equal(kids_3$col_widths$sm, list(width = 1, before = 0, after = 0))
+
+  kids_4 <- bs_css_grid_col_spec(NA, 4)
+  expect_equal(kids_4$n_cols, 8)
+  expect_equal(kids_4$col_widths$sm, list(width = 4, before = 0, after = 0))
+  expect_equal(kids_4$col_widths$lg, list(width = 2, before = 0, after = 0))
+
+  kids_5 <- bs_css_grid_col_spec(NA, 5)
+  expect_equal(kids_5$n_cols, 5 * 2)
+  expect_equal(kids_5$col_widths$sm, list(width = 5, before = 0, after = 0))
+  expect_equal(kids_5$col_widths$lg, list(width = 2, before = 0, after = 0))
+
+  kids_6 <- bs_css_grid_col_spec(NA, 6)
+  expect_equal(kids_6$n_cols, 6 * 2)
+  expect_equal(kids_6$col_widths$sm, list(width = 6, before = 0, after = 0))
+  expect_equal(kids_6$col_widths$lg, list(width = 2, before = 0, after = 0))
+
+  kids_7 <- bs_css_grid_col_spec(NA, 7)
+  expect_equal(kids_7$n_cols, 7 * 2)
+  expect_equal(kids_7$col_widths$sm, list(width = 7, before = 0, after = 0))
+  expect_equal(kids_7$col_widths$lg, list(width = 2, before = 0, after = 0))
+
+  kids_8 <- bs_css_grid_col_spec(NA, 8)
+  expect_equal(kids_8$n_cols, 12)
+  expect_equal(kids_8$col_widths$sm, list(width = 6, before = 0, after = 0))
+  expect_equal(kids_8$col_widths$lg, list(width = 3, before = 0, after = 0))
+})
+
+test_that("bs_css_grid_col_spec() missing smaller breakpoints inherit from lg+", {
+  expect_equal(
+    bs_css_grid_col_spec(breakpoints_columns(lg = c(4, -4, 4)), 2)$col_widths,
+    breakpoints_columns(
+      md = c(4, -4, 4),
+      lg = c(4, -4, 4)
+    )
+  )
+
+  expect_equal(
+    bs_css_grid_col_spec(breakpoints_columns(xl = c(4, -4, 4)), 2)$col_widths,
+    breakpoints_columns(
+      md = c(4, -4, 4),
+      xl = c(4, -4, 4)
+    )
+  )
+
+  expect_equal(
+    bs_css_grid_col_spec(breakpoints_columns(xxl = c(4, -4, 4)), 2)$col_widths,
+    breakpoints_columns(
+      md = c(4, -4, 4),
+      xxl = c(4, -4, 4)
+    )
+  )
+})
+
+test_that("bs_css_grid_col_spec() base case", {
+  expect_equal(
+    bs_css_grid_col_spec(1:3, 6),
+    list(n_cols = 12, col_widths = breakpoints_columns(md = 1:3))
+  )
+})
