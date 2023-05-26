@@ -133,13 +133,35 @@ layout_columns <- function(
   children <- dropNulls(args[["unnamed"]])
   n_kids <- length(children)
 
-  # Assume or cap at 12 columns, but if col_widths are all NA, use # of children
-  n_cols <- 12
-  if (!is_breakpoints(col_widths, "columns") && all(is.na(col_widths))) {
-    n_cols <- min(n_kids, 12)
+  unit_col_width <- FALSE
+  if (n_kids <= 7) {
+    special_case <- n_kids >= 4 & n_kids <= 7
+    if (!is_breakpoints(col_widths, "columns")) {
+      unit_col_width <- isTRUE(is.na(col_widths))
+      if (unit_col_width) {
+        col_widths <- if (!special_case) 1L else {
+          breakpoints_columns(sm = n_kids, md = 2)
+        }
+      }
+    } else {
+      unit_col_width <- all(
+        vapply(col_widths, function(x) isTRUE(is.na(x$width)), logical(1))
+      )
+      if (unit_col_width) {
+        for (w in names(col_widths)) {
+          if (special_case) {
+            col_widths[[w]]$width <- if (w == "sm") n_kids else 2L
+          } else {
+            col_widths[[w]]$width <- 1L
+          }
+        }
+      }
+    }
   }
 
-  if (!is_breakpoints(col_widths, "columns")) {
+  if (isTRUE(is.na(col_widths))) {
+    col_width <- breakpoints_columns(sm = NA, md = NA)
+  } else if (!is_breakpoints(col_widths, "columns")) {
     col_widths <- breakpoints_columns(md = col_widths)
   }
 
@@ -147,7 +169,7 @@ layout_columns <- function(
     row_heights <- breakpoints(sm = row_heights)
   }
 
-  width_classes <- bs_css_grid_width_classes(col_widths, n_kids, n_cols)
+  width_classes <- bs_css_grid_width_classes(col_widths, n_kids)
 
   children <- Map(f = bs_grid_wrapper, children, width_classes, fillable)
 
@@ -156,8 +178,10 @@ layout_columns <- function(
     style = css(
       height = validateCssUnit(height),
       width = validateCssUnit(width),
-      "--bs-gap" = validateCssUnit(gap),
-      "--bs-columns" = n_cols
+      gap = validateCssUnit(gap),
+      "--bs-columns" = if (unit_col_width) {
+        if (n_kids < 4) n_kids else n_kids * 2
+      },
     ),
     !!!bslib_grid_rows_css_vars(row_heights),
     !!!attribs,
@@ -204,7 +228,7 @@ bslib_grid_rows_css_vars <- function(row_heights) {
   list(class = classes, style = styles)
 }
 
-bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
+bs_css_grid_width_classes <- function(breakpoints, n_kids) {
   stopifnot(
     "`breakpoints` must be a breakpoints_columns() object" =
       is_breakpoints(breakpoints, "columns")
@@ -231,17 +255,15 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
       ))
     }
 
+    # Auto-layout: if width is NA, then we'll choose the "best" column width
+    n_cols <- 12
+    if (length(bk$width) == 1 && is.na(bk$width)) {
+      bk$width <- bs_best_col_width_fit(n_kids, prefer_wider = break_name %in% c("sm", "md"))
+    }
+
     widths <- rep_len(bk$width, n_kids)
     before <- rep_len(bk$before, n_kids)
     after <- rep_len(bk$after, n_kids)
-
-    # Fill NA widths with equal shares of remaining space
-    idx_na <- which(is.na(widths))
-    if (length(idx_na) > 0) {
-      n_accounted <- sum(widths, na.rm = TRUE) + sum(before) + sum(after)
-      n_remaining <- n_cols - n_accounted
-      widths[idx_na] <- max(1, floor(n_remaining / length(idx_na)))
-    }
 
     # This next section implements a content-layout algorithm, motivated by
     # supporting empty columns. In particular, we need to know two things about
@@ -338,6 +360,31 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
   vapply(classes, paste, character(1), collapse = " ")
 }
 
+bs_best_col_width_fit <- function(kids, prefer_wider = FALSE) {
+  if (kids == 1) return(12)
+  if (kids == 2) return(6)
+  if (kids == 3) return(4)
+  if (kids <= 7) {
+    # sizes 4-7 are special cased to use (2 * kids) columns
+    return(if (prefer_wider) kids else 2)
+  }
+
+  fctrs <- c(if (!prefer_wider) 2, 3, 4, if (prefer_wider) 6)
+
+  col_units <- kids * fctrs
+  rows <- ceiling(col_units / 12)
+  total_units <- rows * 12
+  empty_units <- total_units - col_units
+
+  if (prefer_wider) {
+    fctrs <- rev(fctrs)
+    empty_units <- rev(empty_units)
+  }
+
+  fctrs[which.min(empty_units)]
+}
+
+
 #' Define responsive breakpoints
 #'
 #' TODO: describe me
@@ -381,8 +428,6 @@ breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
     rlang::abort("All `breakpoints` values must be named")
   }
 
-  is_na_or_positive <- function(x) is.na(x) | x > 0
-
   for (break_name in names(res)) {
     breaks <- res[[break_name]]
 
@@ -390,7 +435,11 @@ breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
       rlang::abort("Column values must be greater than 0 to indicate width, or negative to indicate a column offset.")
     }
 
-    if (all(is_na_or_positive(breaks))) {
+    if (length(breaks) > 1 && any(is.na(breaks))) {
+      rlang::abort("Cannot mix widths and `NA` values. All column widths must be specified, or choose auto widths using a single `NA` value.")
+    }
+
+    if (isTRUE(is.na(breaks)) || all(breaks > 0)) {
       res[[break_name]] <- list(
         width = breaks,
         before = integer(length(breaks)),
@@ -399,11 +448,11 @@ breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
       next
     }
 
-    if (!any(is_na_or_positive(breaks))) {
+    if (!any(breaks > 0)) {
       rlang::abort("Column values must include at least one positive integer width.")
     }
 
-    idx_actual <- which(is_na_or_positive(breaks))
+    idx_actual <- which(breaks > 0)
     last_actual <- max(idx_actual)
     n_actual <- length(idx_actual)
 
@@ -414,7 +463,7 @@ breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
     i <- 1L
     idx_before <- 1L
     while (i <= length(breaks)) {
-      if (is_na_or_positive(breaks[i])) {
+      if (breaks[i] > 0) {
         i <- i + 1L
         idx_before <- idx_before + 1L
         next
