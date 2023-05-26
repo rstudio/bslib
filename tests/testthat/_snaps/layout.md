@@ -1,3 +1,23 @@
+# bs_grid_wrapper()
+
+    Code
+      bs_grid_wrapper(div(class = "layout-column-child-element"), bs_grid_classes = "g-col-md-6 g-col-lg-4",
+      fillable = TRUE)
+    Output
+      <div class="g-col-md-6 g-col-lg-4 bslib-grid-item bslib-gap-spacing html-fill-container">
+        <div class="layout-column-child-element"></div>
+      </div>
+
+---
+
+    Code
+      bs_grid_wrapper(div(class = "layout-column-child-element"), bs_grid_classes = "g-col-md-6 g-col-lg-4",
+      fillable = FALSE)
+    Output
+      <div class="g-col-md-6 g-col-lg-4 bslib-grid-item bslib-gap-spacing">
+        <div class="layout-column-child-element"></div>
+      </div>
+
 # breakpoints() re-orders well-known breaks and test print method
 
     Code

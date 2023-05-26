@@ -1,3 +1,21 @@
+test_that("bs_grid_wrapper()", {
+  expect_snapshot(
+    bs_grid_wrapper(
+      div(class = "layout-column-child-element"),
+      bs_grid_classes = "g-col-md-6 g-col-lg-4",
+      fillable = TRUE
+    )
+  )
+
+  expect_snapshot(
+    bs_grid_wrapper(
+      div(class = "layout-column-child-element"),
+      bs_grid_classes = "g-col-md-6 g-col-lg-4",
+      fillable = FALSE
+    )
+  )
+})
+
 test_that("breakpoints() re-orders well-known breaks and test print method", {
   bp <- breakpoints(
     xl = 5,
