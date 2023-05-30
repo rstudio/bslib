@@ -1,20 +1,20 @@
-# bs_grid_wrapper()
+# grid_item_container()
 
     Code
-      bs_grid_wrapper(div(class = "layout-column-child-element"), bs_grid_classes = "g-col-md-6 g-col-lg-4",
+      grid_item_container(div(class = "layout-column-child-element"), class = "g-col-md-6 g-col-lg-4",
       fillable = TRUE)
     Output
-      <div class="g-col-md-6 g-col-lg-4 bslib-grid-item bslib-gap-spacing html-fill-container">
+      <div class="g-col-md-6 g-col-lg-4 bslib-gap-spacing html-fill-container">
         <div class="layout-column-child-element"></div>
       </div>
 
 ---
 
     Code
-      bs_grid_wrapper(div(class = "layout-column-child-element"), bs_grid_classes = "g-col-md-6 g-col-lg-4",
+      grid_item_container(div(class = "layout-column-child-element"), class = "g-col-md-6 g-col-lg-4",
       fillable = FALSE)
     Output
-      <div class="g-col-md-6 g-col-lg-4 bslib-grid-item bslib-gap-spacing">
+      <div class="g-col-md-6 g-col-lg-4 bslib-gap-spacing">
         <div class="layout-column-child-element"></div>
       </div>
 
@@ -24,26 +24,26 @@
       bp
     Output
       <breakpoints>
-       xs: 1
-       sm: 2
-       md: 3
-       lg: 4
-       xl: 5
-       xxl: 6
+          xs: 1
+          sm: 2
+          md: 3
+          lg: 4
+          xl: 5
+         xxl: 6
        giant: 7
-       huge: 8
+        huge: 8
 
 # breakpoints_columns_widths() has correct classes and structure
 
     Code
       bp
     Output
-      <breakpoints<column_widths>>
-       sm: 1 (1) 1
-       md: (1) 2 (2) 3
-       lg: (2) 2 (3) 3 (2)
-       xl: 1 2 3
-       huge: 1 2 3
+      <breakpoints>
+         sm:    1   -1    1
+         md:   -1    2   -2    3
+         lg:   -2    2   -1   -2    3   -2
+         xl:    1    2    3   NA
+       huge:    1    2    3 auto
 
 # breakpoints_columns() throws if NAs are mixed with other column values
 

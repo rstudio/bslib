@@ -17,6 +17,7 @@ inst/lib/bsw3/.npmignore
 ^pkgdown$
 ^_pkgdown\.yml$
 ^vignettes$
+^sandbox$
 
 ^srcts$
 ^node_modules$

@@ -87,16 +87,16 @@ any_unnamed <- function(x) {
 
 list_split_named <- function(x) {
   x_names <- rlang::names2(x)
+  is_named <- nzchar(x_names)
 
-  if (all(!nzchar(x_names))) {
-    return(list(named = list(), unnamed = x))
-  }
-
-  if (all(nzchar(x_names))) {
+  if (all(is_named)) {
     return(list(named = x, unnamed = list()))
   }
 
-  is_named <- nzchar(x_names)
+  if (!any(is_named)) {
+    return(list(named = list(), unnamed = x))
+  }
+
   list(named = x[is_named], unnamed = unname(x[!is_named]))
 }
 

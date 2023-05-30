@@ -3,12 +3,17 @@
 #' @description Create a collapsing sidebar layout by providing a `sidebar()`
 #'   object to the `sidebar` argument of:
 #'
-#' * `layout_sidebar()`
-#'   * Creates a sidebar layout component which can be dropped inside any
-#'     [page()] or [card()] context.
-#' * [page_navbar()], [navset_card_tab()], and [navset_card_pill()]
+#' * [page_sidebar()]
+#'     * Creates a "page-level" sidebar.
+#' * [page_navbar()]
+#'     * Creates a multi-page app with a "page-level" sidebar.
 #'   * Creates a multi page/tab UI with a singular `sidebar()` (which is
 #'     shown on every page/tab).
+#' * `layout_sidebar()`
+#'   * Creates a "floating" sidebar layout component which can be dropped
+#'     inside any [page()] and/or [card()] context.
+#' * [navset_card_tab()] and [navset_card_pill()]
+#'   * Creates a multi-tab card with a sidebar inside of it.
 #'
 #' See [this article](https://rstudio.github.io/bslib/articles/sidebars.html)
 #'   to learn more.
@@ -146,6 +151,7 @@ sidebar <- function(
 #'   `border = TRUE`) and the color of the border between the sidebar and the
 #'   main content area.
 #' @inheritParams card
+#' @inheritParams page_fillable
 #'
 #' @export
 layout_sidebar <- function(

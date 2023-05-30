@@ -81,13 +81,7 @@ layout_column_wrap <- function(
 
   # If relevant (i.e., fillable=TRUE), wrap each child in a fillable context
   # (so fill/flex items can fill the available area)
-  children <- Map(function(el, f) {
-    div(
-      class = "bslib-gap-spacing",
-      if (f) as_fillable_container(),
-      el
-    )
-  }, children, fillable)
+  children <- lapply(children, grid_item_container, fillable = fillable)
 
   tag <- div(
     class = "bslib-grid",
@@ -112,48 +106,119 @@ layout_column_wrap <- function(
   )
 }
 
-#' Bootstrap grid layout
+#' Responsive column-based grid layouts
 #'
-#' TODO: describe me
+#' Create responsive, column-based grid layouts, based on a 12-column grid.
+#'
+#' @inheritParams layout_column_wrap
+#' @param col_widths One of the following:
+#'   * `NA` (the default): Automatically determines a sensible number of columns
+#'     based on the number of children.
+#'   * A numeric vector of integers between 1 and 12, where each element
+#'     represents the number of columns for the relevant UI element. Elements
+#'     that happen to go beyond 12 columns wrap onto the next row. For example,
+#'     `col_widths = c(4, 8, 12)` allocates 4 columns to the first element, 8
+#'     columns to the second element, and 12 columns to the third element (which
+#'     wraps to the next row). Negative values are also allowed, and are treated
+#'     as empty columns. For example, `col_widths = c(-2, 8, -2)` would allocate
+#'     8 columns to an element (with 2 empty columns on either side).
+#'   * A [breakpoints()] object, where each breakpoint may be either of the
+#'     above.
+#' @param row_heights One of the following:
+#'   * A numeric vector, where each value represents the
+#'     [fractional unit](https://css-tricks.com/introduction-fr-css-unit/) (`fr`)
+#'     height of the relevant row. If there are more rows than values provided,
+#'     the pattern will repeat. For example, `row_heights = c(1, 2)` allows even
+#'     rows to take up twice as much space as odd rows.
+#'   * A list of numeric and [CSS length units][htmltools::validateCssUnit()],
+#'     where each value represents the height of the relevant row. If more rows
+#'     are needed than values provided, the pattern will repeat. For example,
+#'     `row_heights = list("auto", 1)` allows the height of odd rows to be
+#'     driven my it's contents and even rows to be
+#'     [`1fr`](https://css-tricks.com/introduction-fr-css-unit/).
+#'   * A character vector/string of [CSS length units][htmltools::validateCssUnit()].
+#'     In this case, the value is supplied directly to `grid-auto-rows`.
+#'   * A [breakpoints()] object, where each breakpoint may be either of the above.
 #'
 #' @export
+#' @seealso [breakpoints()] for more information on breakpoints.
+#' @examplesIf interactive()
+#'
+#'
+#' x <- card("A simple card")
+#'
+#' page_fillable(
+#'   layout_columns(x, x, x, x)
+#' )
+#'
+#' page_fillable(
+#'   layout_columns(
+#'     col_widths = c(6, 6, 12),
+#'     x, x, x
+#'   )
+#' )
+#'
+#' page_fillable(
+#'   layout_columns(
+#'     col_widths = c(6, 6, -2, 8),
+#'     row_heights = c(1, 3),
+#'     x, x, x
+#'   )
+#' )
+#'
+#' page_fillable(
+#'   fill_mobile = TRUE,
+#'   layout_columns(
+#'     col_widths = breakpoints(
+#'       sm = c(12, 12, 12),
+#'       md = c(6, 6, 12),
+#'       lg = c(4, 4, 4)
+#'     ),
+#'     x, x, x
+#'   )
+#' )
+#'
 layout_columns <- function(
   ...,
   col_widths = NA,
-  row_heights = 1,
-  gap = "1rem",
+  row_heights = NULL,
   fill = TRUE,
   fillable = TRUE,
+  gap = NULL,
   class = NULL,
-  height = NULL,
-  width = NULL
+  height = NULL
 ) {
   args <- list_split_named(rlang::list2(...))
   attribs <- args[["named"]]
   children <- dropNulls(args[["unnamed"]])
   n_kids <- length(children)
 
-  spec <- bs_css_grid_col_spec(col_widths, n_kids)
-  n_cols <- spec$n_cols
-  col_widths <- spec$col_widths
+  # Resolve missing value(s) for col_widths, etc.
+  spec <- impute_col_spec(col_widths, n_kids)
 
-  if (!is_breakpoints(row_heights)) {
-    row_heights <- breakpoints(sm = row_heights)
-  }
+  # Translate col_widths into Bootstrap's .g-col-* classes
+  width_classes <- col_width_grid_classes(
+    spec$col_widths, n_kids, spec$n_cols
+  )
 
-  width_classes <- bs_css_grid_width_classes(col_widths, n_kids, n_cols)
+  # Add a class to each item that helps provide "fallback" rules
+  width_classes <- paste0(width_classes, " bslib-grid-item")
 
-  children <- Map(f = bs_grid_wrapper, children, width_classes, fillable)
+  # Wrap each child in a container (so fill/flex items can fill the available area)
+  children <- Map(
+    f = grid_item_container, children,
+    class = width_classes,
+    fillable = fillable
+  )
 
   tag <- div(
     class = "grid bslib-grid",
     style = css(
       height = validateCssUnit(height),
-      width = validateCssUnit(width),
       gap = validateCssUnit(gap),
-      "--bs-columns" = n_cols
+      "--bs-columns" = spec$n_cols
     ),
-    !!!bslib_grid_rows_css_vars(row_heights),
+    !!!row_heights_css_vars(row_heights),
     !!!attribs,
     !!!children
   )
@@ -162,95 +227,90 @@ layout_columns <- function(
   tag <- tagAppendAttributes(tag, class = class)
 
   as_fragment(
-    tag_require(tag, version = 5, caller = "layout_column_grid()")
+    tag_require(tag, version = 5, caller = "layout_columns()")
   )
 }
 
-bs_css_grid_col_spec <- function(col_widths, n_kids) {
-  if (isTRUE(is.na(col_widths))) {
-    col_widths <- breakpoints_columns(sm = NA, lg = NA)
+
+
+impute_col_spec <- function(x, n_kids) {
+  if (isTRUE(is.na(x))) {
+    x <- breakpoints(sm = NA, lg = NA)
   }
 
-  if (!is_breakpoints(col_widths, "columns")) {
-    col_widths <- breakpoints_columns(md = col_widths)
+  if (!is_breakpoints(x)) {
+    x <- breakpoints(md = x)
   }
 
-  # auto-layout when single NA or all breakpoints are NA
-  has_auto_spec <- vapply(col_widths, function(x) isTRUE(is.na(x$width)), logical(1))
-
-  if (any(names(col_widths)[1] %in% c("lg", "xl", "xxl"))) {
-    # smallest first defined breakpoint is large, so we fill in gap with 'md'
-    col_widths[["md"]] <- col_widths[[names(col_widths)[1]]]
-    col_widths <- col_widths[c("md", setdiff(names(col_widths), "md"))]
-    col_widths <- as_breakpoints(col_widths, "columns")
+  # if smallest defined breakpoint is large, fill in gap with 'md'
+  if (names(x)[1] %in% c("lg", "xl", "xxl")) {
+    x <- breakpoints(md = x[[1]], !!!x)
   }
+
+  has_auto_spec <- vapply(x, function(y) isTRUE(is.na(y)), logical(1))
 
   if (!any(has_auto_spec)) {
-    return(list(n_cols = 12, col_widths = col_widths))
+    return(list(n_cols = 12, col_widths = x))
   }
 
   n_cols <- if (n_kids > 7) 12 else if (n_kids > 3) n_kids * 2 else n_kids
 
-  for (break_name in names(col_widths)[has_auto_spec]) {
+  for (break_name in names(x)[has_auto_spec]) {
     prefer_wider <- break_name %in% c("sm", "md")
-    col_widths[[break_name]]$width <- bs_best_col_width_fit(n_kids, prefer_wider)
+    x[[break_name]] <- col_width_best_fit(n_kids, prefer_wider)
   }
 
-  list(n_cols = n_cols, col_widths = col_widths)
+  list(n_cols = n_cols, col_widths = x)
 }
 
-bs_grid_wrapper <- function(el, bs_grid_classes = NULL, fillable = TRUE) {
-  div(
-    class = bs_grid_classes,
-    class = "bslib-grid-item",
-    class = "bslib-gap-spacing",
-    if (fillable) as_fillable_container(),
-    el
-  )
-}
 
-bslib_grid_rows_css_vars <- function(row_heights) {
-  if (!is_breakpoints(row_heights)) return(NULL)
+
+row_heights_css_vars <- function(x) {
+  if (is.null(x)) return(list())
+
+  if (!is_breakpoints(x)) {
+    x <- breakpoints(sm = x)
+  }
 
   # creates classes that pair with CSS variables when set
-  classes <- sprintf("bslib-grid--row-heights--%s", names(row_heights))
+  classes <- paste0("bslib-grid--row-heights--", names(x))
 
-  css_vars <- row_heights
-  names(css_vars) <- paste0("--", classes)
+  css_vars <- setNames(x, paste0("--", classes))
 
   # mobile row height is derived from xs or defaults to auto in the CSS,
   # so we don't need the class to activate it
   classes <- setdiff(classes, "bslib-grid--row-heights--xs")
 
-  as_grid_value <- function(x) {
-    if (is.list(x)) {
-      x <- vapply(x, as_grid_value, character(1))
-      return(paste(x, collapse = " "))
+  # Treat numeric values as fractional units
+  css_vars <- rapply(
+    css_vars, how = "replace",
+    function(x) {
+      if (is.numeric(x)) paste0(x, "fr") else x
     }
-    if (is.character(x)) return(x)
-    paste0(x, ifelse(x <= 12, "fr", "px"))
-  }
-
-  css_vars <- lapply(css_vars, as_grid_value)
-
-  styles <- css(!!!css_vars)
-  list(class = classes, style = styles)
-}
-
-bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
-  stopifnot(
-    "`breakpoints` must be a breakpoints_columns() object" =
-      is_breakpoints(breakpoints, "columns")
   )
 
-  classes <- vector("list", n_kids)
+  list(
+    style = css(!!!css_vars),
+    class = classes
+  )
+}
 
+
+
+col_width_grid_classes <- function(breaks, n_kids, n_cols = 12) {
+  if (!is_breakpoints(breaks)) {
+    abort("`breaks` must be a `breakpoints()` object")
+  }
+
+  classes <- vector("list", n_kids)
   add_class <- function(idx, new) {
     classes[[idx]] <<- c(classes[[idx]], new)
   }
 
-  for (break_name in names(breakpoints)) {
-    bk <- breakpoints[[break_name]]
+  breaks <- as_column_breakpoints(breaks)
+
+  for (break_name in names(breaks)) {
+    bk <- breaks[[break_name]]
 
     if (length(bk$width) > n_kids) {
       msg <- sprintf(
@@ -363,7 +423,8 @@ bs_css_grid_width_classes <- function(breakpoints, n_kids, n_cols = 12) {
   vapply(classes, paste, character(1), collapse = " ")
 }
 
-bs_best_col_width_fit <- function(kids, prefer_wider = FALSE) {
+
+col_width_best_fit <- function(kids, prefer_wider = FALSE) {
   if (kids < 4) return(1)
   if (kids <= 7) {
     # sizes 4-7 are special cased to use (2 * kids) columns
@@ -386,151 +447,12 @@ bs_best_col_width_fit <- function(kids, prefer_wider = FALSE) {
 }
 
 
-#' Define responsive breakpoints
-#'
-#' TODO: describe me
-#'
-#' @keywords internal
-#' @export
-breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
-  res <- rlang::list2(...)
-  if (!is.null(sm)) res$sm <- sm
-  if (!is.null(md)) res$md <- md
-  if (!is.null(lg)) res$lg <- lg
 
-  res <- dropNulls(res)
-  if (any_unnamed(res)) {
-    rlang::abort("All `breakpoints` values must be named")
-  }
-
-  # TODO: can we get breakpoint names from the breakpoint map to validate?
-  # Sort well-known breakpoints first (in order), then custom breakpoint names.
-  # This uses the fact that `intersect` preserves order of the first arg.
-  break_names <- intersect(c("xs", "sm", "md", "lg", "xl", "xxl"), names(res))
-  break_names <- c(break_names, setdiff(names(res), break_names))
-
-  as_breakpoints(res[break_names])
-}
-
-#' Define responsive breakpoints
-#'
-#' TODO: describe me
-#'
-#' @export
-breakpoints_columns <- function(..., sm = NULL, md = NULL, lg = NULL) {
-  res <- rlang::list2(...)
-  if (!is.null(sm)) res$sm <- sm
-  if (!is.null(md)) res$md <- md
-  if (!is.null(lg)) res$lg <- lg
-
-  # TODO: check that values are integerish
-
-  if (any_unnamed(res)) {
-    rlang::abort("All `breakpoints` values must be named")
-  }
-
-  for (break_name in names(res)) {
-    breaks <- res[[break_name]]
-
-    if (isTRUE(any(breaks == 0))) {
-      rlang::abort("Column values must be greater than 0 to indicate width, or negative to indicate a column offset.")
-    }
-
-    if (length(breaks) > 1 && any(is.na(breaks))) {
-      rlang::abort("Cannot mix widths and `NA` values. All column widths must be specified, or choose auto widths using a single `NA` value.")
-    }
-
-    if (isTRUE(is.na(breaks)) || all(breaks > 0)) {
-      res[[break_name]] <- list(
-        width = breaks,
-        before = integer(length(breaks)),
-        after = integer(length(breaks))
-      )
-      next
-    }
-
-    if (!any(breaks > 0)) {
-      rlang::abort("Column values must include at least one positive integer width.")
-    }
-
-    idx_actual <- which(breaks > 0)
-    last_actual <- max(idx_actual)
-    n_actual <- length(idx_actual)
-
-    actual <- breaks[idx_actual]
-    before <- integer(n_actual)
-    after  <- integer(n_actual)
-
-    i <- 1L
-    idx_before <- 1L
-    while (i <= length(breaks)) {
-      if (breaks[i] > 0) {
-        i <- i + 1L
-        idx_before <- idx_before + 1L
-        next
-      }
-
-      if (i > last_actual) {
-        # accumulate trailing offsets
-        after[length(after)] <- after[length(after)] + abs(breaks[i])
-        i <- i + 1L
-        next
-      }
-
-      # accumulate leading offsets
-      before[idx_before] <- before[idx_before] + abs(breaks[i])
-      i <- i + 1L
-    }
-
-    res[[break_name]] <- list(
-      width = actual,
-      before = before,
-      after = after
-    )
-  }
-
-  res <- breakpoints(!!!res)
-  class(res) <- c("bslib_breakpoints_columns", class(res))
-
-  res
-}
-
-#' @export
-print.bslib_breakpoints <- function(x, ...) {
-  cat("<breakpoints>\n")
-
-  for (bp in names(x)) {
-    breaks <- paste0(x[[bp]], collapse = ", ")
-    cat(" ", bp, ": ", breaks, "\n", sep = "")
-  }
-
-  invisible(x)
-}
-
-#' @export
-print.bslib_breakpoints_columns <- function(x, ...) {
-  cat("<breakpoints<column_widths>>\n")
-
-  for (bp in names(x)) {
-    before <- x[[bp]][["before"]]
-    after <- x[[bp]][["after"]]
-
-    before <- ifelse(before > 0, paste0("(", before, ") "), "")
-    after <- ifelse(after > 0, paste0(" (", after, ")"), "")
-    breaks <- paste0(before, x[[bp]][["width"]], after, collapse = " ")
-
-    cat(" ", bp, ": ", breaks, "\n", sep = "")
-  }
-
-  invisible(x)
-}
-
-as_breakpoints <- function(x, subclass = NULL) {
-  if (!is.null(subclass)) subclass <- paste0("bslib_breakpoints_", subclass)
-  structure(x, class = c(subclass, "bslib_breakpoints"))
-}
-
-is_breakpoints <- function(x, subclass = NULL) {
-  inherits(x, "bslib_breakpoints") &&
-    (is.null(subclass) || inherits(x, paste0("bslib_breakpoints_", subclass)))
+grid_item_container <- function(el, ..., fillable = TRUE) {
+  div(
+    ...,
+    class = "bslib-gap-spacing",
+    if (fillable) as_fillable_container(),
+    el
+  )
 }

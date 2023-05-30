@@ -3,7 +3,7 @@
   // is problematic for a multi-row filling layout. This fixes it...
   // > page_fillable(layout_columns(c(12, 12), plotly::plot_ly(), plotly::plot_ly()))
   grid-template-rows: unset;
-  grid-auto-rows: var(--bslib-grid--row-heights, 1fr);
+  grid-auto-rows: var(--bslib-grid--row-heights);
   @include bslib-breakpoints-css-vars('bslib-grid--row-heights', map-keys($grid-breakpoints));
 }
 
@@ -25,4 +25,3 @@
     grid-auto-rows: var(--bslib-grid--row-heights--xs, auto);
   }
 }
-
