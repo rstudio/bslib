@@ -2,20 +2,112 @@
 % Please edit documentation in R/layout.R
 \name{layout_columns}
 \alias{layout_columns}
-\title{Bootstrap grid layout}
+\title{Responsive column-based grid layouts}
 \usage{
 layout_columns(
   ...,
   col_widths = NA,
-  row_heights = 1,
-  gap = "1rem",
+  row_heights = NULL,
   fill = TRUE,
   fillable = TRUE,
+  gap = NULL,
   class = NULL,
-  height = NULL,
-  width = NULL
+  height = NULL
 )
 }
+\arguments{
+\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}})
+Named arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
+
+\item{col_widths}{One of the following:
+\itemize{
+\item \code{NA} (the default): Automatically determines a sensible number of columns
+based on the number of children.
+\item A numeric vector of integers between 1 and 12, where each element
+represents the number of columns for the relevant UI element. Elements
+that happen to go beyond 12 columns wrap onto the next row. For example,
+\code{col_widths = c(4, 8, 12)} allocates 4 columns to the first element, 8
+columns to the second element, and 12 columns to the third element (which
+wraps to the next row). Negative values are also allowed, and are treated
+as empty columns. For example, \code{col_widths = c(-2, 8, -2)} would allocate
+8 columns to an element (with 2 empty columns on either side).
+\item A \code{\link[=breakpoints]{breakpoints()}} object, where each breakpoint may be either of the
+above.
+}}
+
+\item{row_heights}{One of the following:
+\itemize{
+\item A numeric vector, where each value represents the
+\href{https://css-tricks.com/introduction-fr-css-unit/}{fractional unit} (\code{fr})
+height of the relevant row. If there are more rows than values provided,
+the pattern will repeat. For example, \code{row_heights = c(1, 2)} allows even
+rows to take up twice as much space as odd rows.
+\item A list of numeric and \link[htmltools:validateCssUnit]{CSS length units},
+where each value represents the height of the relevant row. If more rows
+are needed than values provided, the pattern will repeat. For example,
+\code{row_heights = list("auto", 1)} allows the height of odd rows to be
+driven my it's contents and even rows to be
+\href{https://css-tricks.com/introduction-fr-css-unit/}{\verb{1fr}}.
+\item A character vector/string of \link[htmltools:validateCssUnit]{CSS length units}.
+In this case, the value is supplied directly to \code{grid-auto-rows}.
+\item A \code{\link[=breakpoints]{breakpoints()}} object, where each breakpoint may be either of the above.
+}}
+
+\item{fill}{Whether or not to allow the layout to grow/shrink to fit a
+fillable container with an opinionated height (e.g., \code{page_fillable()}).}
+
+\item{fillable}{Whether or not each element is wrapped in a fillable container.}
+
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
+
+\item{class}{Additional CSS classes for the returned UI element.}
+
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+}
 \description{
-TODO: describe me
+Create responsive, column-based grid layouts, based on a 12-column grid.
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
+
+x <- card("A simple card")
+
+page_fillable(
+  layout_columns(x, x, x, x)
+)
+
+page_fillable(
+  layout_columns(
+    col_widths = c(6, 6, 12),
+    x, x, x
+  )
+)
+
+page_fillable(
+  layout_columns(
+    col_widths = c(6, 6, -2, 8),
+    row_heights = c(1, 3),
+    x, x, x
+  )
+)
+
+page_fillable(
+  fill_mobile = TRUE,
+  layout_columns(
+    col_widths = breakpoints(
+      sm = c(12, 12, 12),
+      md = c(6, 6, 12),
+      lg = c(4, 4, 4)
+    ),
+    x, x, x
+  )
+)
+\dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{\link[=breakpoints]{breakpoints()}} for more information on breakpoints.
 }

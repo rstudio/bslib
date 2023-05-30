@@ -98,6 +98,18 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 \code{border = TRUE}) and the color of the border between the sidebar and the
 main content area.}
 
+\item{padding}{Padding to use for the body. This can be a numeric vector
+(which will be interpreted as pixels) or a character vector with valid CSS
+lengths. The length can be between one and four. If one, then that value
+will be used for all four sides. If two, then the first value will be used
+for the top and bottom, while the second value will be used for left and
+right. If three, then the first will be used for top, the second will be
+left and right, and the third will be bottom. If four, then the values will
+be interpreted as top, right, bottom, and left respectively.}
+
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
@@ -109,15 +121,24 @@ used).}
 Create a collapsing sidebar layout by providing a \code{sidebar()}
 object to the \code{sidebar} argument of:
 \itemize{
-\item \code{layout_sidebar()}
+\item \code{\link[=page_sidebar]{page_sidebar()}}
 \itemize{
-\item Creates a sidebar layout component which can be dropped inside any
-\code{\link[=page]{page()}} or \code{\link[=card]{card()}} context.
+\item Creates a "page-level" sidebar.
 }
-\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navset_card_tab]{navset_card_tab()}}, and \code{\link[=navset_card_pill]{navset_card_pill()}}
+\item \code{\link[=page_navbar]{page_navbar()}}
 \itemize{
+\item Creates a multi-page app with a "page-level" sidebar.
 \item Creates a multi page/tab UI with a singular \code{sidebar()} (which is
 shown on every page/tab).
+}
+\item \code{layout_sidebar()}
+\itemize{
+\item Creates a "floating" sidebar layout component which can be dropped
+inside any \code{\link[=page]{page()}} and/or \code{\link[=card]{card()}} context.
+}
+\item \code{\link[=navset_card_tab]{navset_card_tab()}} and \code{\link[=navset_card_pill]{navset_card_pill()}}
+\itemize{
+\item Creates a multi-tab card with a sidebar inside of it.
 }
 }
 
