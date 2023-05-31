@@ -10,6 +10,7 @@
 #' @references <https://getbootstrap.com/docs/5.3/layout/breakpoints/>
 #'
 #' @export
+#' @seealso [layout_columns()]
 breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
   breaks <- dropNulls(
     rlang::list2(..., sm = sm, md = md, lg = lg)
@@ -35,16 +36,16 @@ breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
 print.bslib_breakpoints <- function(x, ...) {
   cat("<breakpoints>\n")
 
-  width_vals <- max(nchar(Reduce(c, x)), na.rm = TRUE)
+  width_vals <- max(nchar(unlist(x)), na.rm = TRUE)
   width_nms <- max(nchar(names(x)), na.rm = TRUE)
 
   for (bp in names(x)) {
-    vals <- paste0(
-      format(x[[bp]], width = width_vals, justify = "right"),
-      collapse = " "
+    vals <- format(x[[bp]], width = width_vals, justify = "right")
+    cat(
+      " ", format(bp, width = width_nms, justify = "right"), ": ",
+      paste0(vals, collapse = " "), "\n",
+      sep = ""
     )
-    bp <- format(bp, width = width_nms, justify = "right")
-    cat(" ", bp, ": ", vals, "\n", sep = "")
   }
 
   invisible(x)
@@ -55,11 +56,9 @@ is_breakpoints <- function(x) {
   inherits(x, "bslib_breakpoints")
 }
 
-# TODO: add unit test that breaks if these change
 bs_breakpoints <- function() {
   c("xs", "sm", "md", "lg", "xl", "xxl")
 }
-
 
 # breakpoints() passed to layout_columns(col_widths = ) is special in the sense
 # that negative values are supported
@@ -125,7 +124,3 @@ as_column_breakpoints <- function(breaks) {
   breaks
 }
 
-
-breakpoints_columns <- function(...) {
-  as_column_breakpoints(breakpoints(...))
-}

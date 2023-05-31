@@ -33,7 +33,7 @@
        giant: 7
         huge: 8
 
-# breakpoints_columns_widths() has correct classes and structure
+# breakpoints() has correct classes and structure
 
     Code
       bp
@@ -45,7 +45,7 @@
          xl:    1    2    3   NA
        huge:    1    2    3 auto
 
-# breakpoints_columns() throws if NAs are mixed with other column values
+# breakpoints() throws if NAs are mixed with other column values
 
     Cannot mix widths and `NA` values. All column widths must be specified, or choose auto widths using a single `NA` value.
 

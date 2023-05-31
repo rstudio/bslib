@@ -16,6 +16,25 @@ test_that("grid_item_container()", {
   )
 })
 
+test_that("grid-breakpoints are known", {
+  brks <- bs_get_variables(
+    bs_add_variables(
+      bs_theme(),
+      "grid-brk-names" = "map-keys($grid-breakpoints)",
+      .where = "declarations"
+    ),
+    "grid-brk-names"
+  )
+
+  # In bslib::breakpoints() we flag these as "known" breakpoints...
+  # which mostly means we order them, but also, in the NA case,
+  # we use lg/xl/xxl to fill in md
+  expect_equal(
+    strsplit(brks, ", ")[[1]],
+    c("xs", "sm", "md", "lg", "xl", "xxl")
+  )
+})
+
 test_that("breakpoints() re-orders well-known breaks and test print method", {
   bp <- breakpoints(
     xl = 5,
@@ -32,7 +51,7 @@ test_that("breakpoints() re-orders well-known breaks and test print method", {
   expect_equal(unclass(unname(unlist(bp))), 1:8)
 })
 
-test_that("breakpoints_columns_widths() has correct classes and structure", {
+test_that("breakpoints() has correct classes and structure", {
   bp <- breakpoints(
     lg = c(-2, 2, -1, -2, 3, -2),
     md = c(-1, 2, -2, 3),
@@ -49,13 +68,15 @@ test_that("breakpoints_columns_widths() has correct classes and structure", {
   expect_snapshot(bp)
 })
 
-test_that("breakpoints_columns() with negative widths to indicate empty columns", {
-  bp <- breakpoints_columns(
+test_that("breakpoints() with negative widths to indicate empty columns", {
+  bp <- breakpoints(
     sm = c(1, -1, 1),
     md = c(-1, 2, -2, 3),
     lg = c(-2, 2, -1, -2, 3, -2),
     xl = c(1, 2, 3)
   )
+
+  bp <- as_column_breakpoints(bp)
 
   expect_equal(bp$sm$width, c(1, 1), ignore_attr = TRUE)
   expect_equal(bp$md$width, c(2, 3), ignore_attr = TRUE)
@@ -77,13 +98,15 @@ test_that("breakpoints() must be named", {
   expect_error(breakpoints(1:3))
 })
 
-test_that("breakpoints_columns() can be a single NA", {
-  bp <- breakpoints_columns(
+test_that("breakpoints() can be a single NA", {
+  bp <- breakpoints(
     sm = NA,
     md = c(-1, 2, -2, 3),
     lg = c(-2, 2, -1, -2, 3, -2),
     xl = NA
   )
+
+  bp <- as_column_breakpoints(bp)
 
   expect_equal(bp$sm$width, NA, ignore_attr = TRUE)
   expect_equal(bp$md$width, c(2, 3), ignore_attr = TRUE)
@@ -101,9 +124,9 @@ test_that("breakpoints_columns() can be a single NA", {
   expect_equal(bp$xl[["after"]], c(0))
 })
 
-test_that("breakpoints_columns() throws if NAs are mixed with other column values", {
+test_that("breakpoints() throws if NAs are mixed with other column values", {
   expect_snapshot_error(
-    breakpoints_columns(sm = c(-1, NA, 1))
+    layout_columns(col_widths = breakpoints(sm = c(-1, NA, 1)))
   )
 })
 
