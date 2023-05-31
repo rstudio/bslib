@@ -103,6 +103,9 @@
     <loc>https://rstudio.github.io/bslib/reference/bootswatch_themes.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/bslib/reference/breakpoints.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/bslib/reference/bs_bundle.html</loc>
   </url>
   <url>
@@ -149,6 +152,9 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/layout_column_wrap.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/reference/layout_columns.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/nav-items.html</loc>

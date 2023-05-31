@@ -1,0 +1,27 @@
+.bslib-grid.grid {
+  // For some reason, Bootstrap sets `grid-template-rows: 1fr` by default, which
+  // is problematic for a multi-row filling layout. This fixes it...
+  // > page_fillable(layout_columns(c(12, 12), plotly::plot_ly(), plotly::plot_ly()))
+  grid-template-rows: unset;
+  grid-auto-rows: var(--bslib-grid--row-heights);
+  @include bslib-breakpoints-css-vars('bslib-grid--row-heights', map-keys($grid-breakpoints));
+}
+
+.bslib-grid-item {
+  grid-column: auto/span 1;
+}
+
+@include media-breakpoint-down(md) {
+  // collapse all columns to a single column below medium (by default only)
+  .bslib-grid-item {
+    grid-column: 1 / -1;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  // with each "row" taking its natural height
+  .bslib-grid.grid {
+    height: unset !important;
+    grid-auto-rows: var(--bslib-grid--row-heights--xs, auto);
+  }
+}

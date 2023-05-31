@@ -41,3 +41,20 @@
     height: var(--bslib-page-fill-mobile-height, auto);
   }
 }
+
+// Generic utility class that we can add to things that need a margin-bottom
+// in a non-flex/grid context, but can still be turned off when in a flex/grid
+:root {
+  --bslib-mb-spacer: $spacer;
+}
+
+.bslib-mb-spacer {
+  margin-bottom: var(--bslib-mb-spacer);
+}
+
+.bslib-gap-spacing {
+  gap: var(--bslib-mb-spacer);
+  > .bslib-mb-spacer {
+    margin-bottom: 0;
+  }
+}

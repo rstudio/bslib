@@ -1,17 +1,12 @@
-.bslib-column-wrap {
+.bslib-grid {
   display: grid !important;
   gap: $spacer;
-  height: var(--bslib-column-wrap-height);
-  // Vanilla Bootstrap doesn't have a margin-bottom, but bslib's
-  // does (as long as it appears outside of a grid)
-  .card {
-    margin-bottom: 0;
-  }
+  height: var(--bslib-grid-height);
 }
 
 @include media-breakpoint-down(sm) {
-  .bslib-column-wrap {
+  .bslib-grid {
     grid-template-columns: 1fr !important;
-    height: var(--bslib-column-wrap-height-mobile);
+    height: var(--bslib-grid-height-mobile);
   }
 }
