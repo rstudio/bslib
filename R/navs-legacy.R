@@ -64,6 +64,7 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 }
 
 #' @inheritParams shiny::navbarPage
+#' @inheritParams page_fillable
 #' @param sidebar A [sidebar()] component to display on every [nav_panel()]
 #'   page.
 #' @param fillable Whether or not to allow `fill` items to grow/shrink to fit
