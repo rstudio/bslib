@@ -37,13 +37,20 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 }
 
 #' @rdname page
-#' @inheritParams shiny::fillPage
-#' @param fill_mobile Whether or not the page should fill the viewport's
+#' @param padding Padding to use for the body. This can be a numeric vector
+#'   (which will be interpreted as pixels) or a character vector with valid CSS
+#'   lengths. The length can be between one and four. If one, then that value
+#'   will be used for all four sides. If two, then the first value will be used
+#'   for the top and bottom, while the second value will be used for left and
+#'   right. If three, then the first will be used for top, the second will be
+#'   left and right, and the third will be bottom. If four, then the values will
+#'   be interpreted as top, right, bottom, and left respectively.
+#' @param fillable_mobile Whether or not the page should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`.
 #' @export
-page_fillable <- function(..., padding = NULL, gap = NULL, fill_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
+page_fillable <- function(..., padding = NULL, gap = NULL, fillable_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
   page(
     title = title,
     theme = theme,
@@ -55,7 +62,7 @@ page_fillable <- function(..., padding = NULL, gap = NULL, fill_mobile = FALSE, 
         style = css(
           padding = validateCssPadding(padding),
           gap = validateCssUnit(gap),
-          "--bslib-page-fill-mobile-height" = if (fill_mobile) "100%" else "auto"
+          "--bslib-page-fill-mobile-height" = if (fillable_mobile) "100%" else "auto"
         ),
         ...
       ),
@@ -114,7 +121,7 @@ validateCssPadding <- function(padding = NULL) {
 #'
 #' shinyApp(ui, server)
 #'
-page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fill_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
+page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fillable_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
 
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- h1(title, class = "bslib-page-title")
@@ -126,7 +133,7 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
     title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
-    fill_mobile = fill_mobile,
+    fillable_mobile = fillable_mobile,
     title,
     layout_sidebar(
       sidebar = sidebar,
@@ -140,16 +147,16 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
 
 #' @rdname page
 #' @inheritParams navset_bar
-#' @inheritParams bs_page
 #' @seealso [shiny::navbarPage()]
-#' @param fill_mobile Whether or not `fillable` pages should fill the viewport's
+#' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
 #' @export
 page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
-                        sidebar = NULL, fillable = FALSE, fill_mobile = FALSE,
+                        sidebar = NULL, fillable = TRUE, fillable_mobile = FALSE,
+                        gap = NULL, padding = NULL,
                         position = c("static-top", "fixed-top", "fixed-bottom"),
                         header = NULL, footer = NULL,
                         bg = NULL, inverse = "auto",
@@ -163,7 +170,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
-    function(...) page_fillable(..., fill_mobile = fill_mobile, padding = 0, gap = 0)
+    function(...) page_fillable(..., fillable_mobile = fillable_mobile, padding = 0, gap = 0)
   }
 
   page_func(
@@ -173,6 +180,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
+      gap = gap, padding = padding,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
       collapsible = collapsible, fluid = fluid,
@@ -180,7 +188,6 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     )
   )
 }
-
 
 # https://github.com/rstudio/shiny/issues/2310
 infer_window_title <- function(title = NULL, window_title = NA) {

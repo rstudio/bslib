@@ -8,11 +8,13 @@ This significant release focuses on making dashboards (e.g., `page_sidebar()`) a
 
 * `card_body()` now provides the same behavior as `card_body_fill()` (i.e., it is both a fillable container and fill item) by default. And, now, since `card_body()` can do everything `card_body_fill()` can do, `card_body_fill()` has been deprecated. The main benefit of this change is that `card(full_screen = TRUE, ...)` with output(s) passed to `...` "just works" in an intuitive way. To revert to the previous behavior, set `fillable = FALSE` and `fill = FALSE` in calls to `card_body()` and set `wrapper = function(x) card_body(x, fillable = FALSE, fill = FALSE)` in calls to `card()`. (#498)
 * Closed #375: `margin-top` is no longer included on header tags that aren't created via pandoc. If this negatively impacts spacing above headers, consider adding a suitable [utility class](https://rstudio.github.io/bslib/articles/utility-classes.html) (for example, change `shiny::titlePanel("My title")` to `tagAppendAttributes(titlePanel("My title"), class = "mt-3", .selector = "h2")`). (#396)
-* `page_fill()` (now called `page_fillable()`) had several breaking changes (listed below). If this breaks existing behavior, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`.
+* `page_fill()` (now called `page_fillable()`) had several breaking changes (listed below) to better accommodate filling layouts. If this breaks existing behavior, consider using `shiny::fillPage(theme = bslib::bs_theme(), ...)` instead of `page_fill()`.
   * `page_fill()` now produces a `<body>` tag with `display:flex` (instead of `display:block`).
-  * `page_fill()` no longer fills the windows height on mobile (i.e., narrow screens) by default (set `fill_mobile = TRUE` to restore the old behavior).
+  * `page_fill()` no longer fills the windows height on mobile (i.e., narrow screens) by default (set `fillable_mobile = TRUE` to restore the old behavior).
   * `page_fill()` now adds `padding` and `gap` by default, set `padding = 0` and `gap = 0` to restore the old behavior.
-* `page_navbar()` (and consequently `shiny::navbarPage()`) no longer implicitly wrap `header` and `footer` in an additional `shiny::fluidRow()` container for Bootstrap 5+ (i.e., `theme = bs_theme()`) usage. Similarly, `navset_bar()` no longer does this (for any version of Bootstrap). If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
+* `page_navbar()` (and also `shiny::navbarPage()` with `theme = bs_theme()`) had a couple breaking changes:
+  * The container of each page is now `display:flex` (instead of `display:block`). If this breaks existing behavior, set `page_navbar()`'s `fillable` argument to `FALSE`.
+  * `header` and `footer` is no longer wrapped in an additional `shiny::fluidRow()` container. If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
 * `layout_column_wrap()`'s `fill` argument now controls whether or not the _layout container_ is allowed to grow/shrink to fit a fillable container (e.g., `page_fillable()`). It also gains a new `fillable` argument for controlling whether _UI elements_ are allowed to fill their row height. This is more consistent with the meaning of `fill` in other functions, like `card()`, `card_body()`, `layout_sidebar()`, etc. (#498)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
 
@@ -25,7 +27,7 @@ This significant release focuses on making dashboards (e.g., `page_sidebar()`) a
 * `page_navbar()`, `navset_card_tab()`, and ` navset_card_pill()` gain a `sidebar` argument for putting a `sidebar()` on every page/tab/pill. (#479)
 * `page_navbar()` gains a `fillable` argument to make the content of particular page(s) fit the window/card. (#479)
 * `page_fillable()` (aka, `page_fill()`) is now considered a `fillable` container, meaning that `fill` items like `card()`, `layout_column_wrap()`, and `layout_sidebar()` now grow/shrink to fit the window's height when they appear as a direct child of `page_fillable()`. (#479)
-* `page_navbar()` and `page_fillable()` gain `fill_mobile` arguments to control whether the page should grow/shrink to fit the viewport on mobile. (#479)
+* `page_navbar()` and `page_fillable()` gain `fillable_mobile` arguments to control whether the page should grow/shrink to fit the viewport on mobile. (#479)
 * `card()`, `value_box()`, and `card_image()` gain `max_height` and `fill` arguments. (#498)
 * `card_body()` gains a `padding` argument. (#587)
 * Added new `as_fill()`, `as_fillable()`, `as_fill_carrier()`, `is_fill()`, and `is_fillable()` for testing and coercing potential to fill. (#498)

@@ -64,6 +64,7 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 }
 
 #' @inheritParams shiny::navbarPage
+#' @inheritParams page_fillable
 #' @param sidebar A [sidebar()] component to display on every [nav_panel()]
 #'   page.
 #' @param fillable Whether or not to allow `fill` items to grow/shrink to fit
@@ -77,7 +78,8 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 #' @export
 #' @rdname navset
 navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
-                     sidebar = NULL, fillable = FALSE,
+                     sidebar = NULL, fillable = TRUE,
+                     gap = NULL, padding = NULL,
                      # TODO: add sticky-top as well?
                      position = c("static-top", "fixed-top", "fixed-bottom"),
                      header = NULL, footer = NULL,
@@ -86,6 +88,7 @@ navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
   navs_bar_(
     ..., title = title, id = id, selected = selected,
     sidebar = sidebar, fillable = fillable,
+    gap = gap, padding = padding,
     position = position,
     header = header, footer = footer,
     bg = bg, inverse = inverse,
@@ -101,7 +104,8 @@ navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 # we can use addition theme information as an indication of whether we need
 # to handle backwards compatibility
 navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
-                      sidebar = NULL, fillable = FALSE,
+                      sidebar = NULL, fillable = TRUE,
+                      gap = NULL, padding = NULL,
                       position = c("static-top", "fixed-top", "fixed-bottom"),
                       header = NULL, footer = NULL,
                       bg = NULL, inverse = "auto",
@@ -120,6 +124,7 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
   navbar <- navbarPage_(
     title = title, ..., id = id, selected = selected,
     sidebar = sidebar, fillable = fillable,
+    gap = gap, padding = padding,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
     inverse = inverse, fluid = fluid,
@@ -146,7 +151,9 @@ navbarPage_ <- function(title,
                        id = NULL,
                        selected = NULL,
                        sidebar = NULL,
-                       fillable = FALSE,
+                       fillable = TRUE,
+                       gap = NULL,
+                       padding = NULL,
                        position = c("static-top", "fixed-top", "fixed-bottom"),
                        header = NULL,
                        footer = NULL,
@@ -224,7 +231,7 @@ navbarPage_ <- function(title,
 
   # If fillable is truthy, give the relevant .tab-content > .tab-pane containers
   # the potential to fill
-  tabset$content <- makeTabsFillable(tabset$content, fillable, navbar = TRUE)
+  tabset$content <- makeTabsFillable(tabset$content, fillable, navbar = TRUE, gap = gap, padding = padding)
 
   # For backwards compatibility reasons, wrap header & footer in a .row
   # container if we're not using BS5+. I'm not entirely sure what the motivation

@@ -437,7 +437,7 @@ plots <- lapply(plots, function(x) {
 
 ### Filling the window
 
-Perhaps the most important [fillable container]{.b-pink} is `page_fillable()`, which sets it's height equal to the browser window. Thus, if [fill items]{.b-blue} appear as direct children, they'll fill the window. `page_fillable()` also defaults to `fill_mobile = FALSE`, which means the height isn't set equal to the viewport on mobile. As a result, fill items use their own defined height (instead of the viewport size) on mobile, which is often better behavior when showing multiple outputs.
+Perhaps the most important [fillable container]{.b-pink} is `page_fillable()`, which sets it's height equal to the browser window. Thus, if [fill items]{.b-blue} appear as direct children, they'll fill the window. `page_fillable()` also defaults to `fillable_mobile = FALSE`, which means the height isn't set equal to the viewport on mobile. As a result, fill items use their own defined height (instead of the viewport size) on mobile, which is often better behavior when showing multiple outputs.
 
 
 ```{r as_iframe=TRUE, resizable=TRUE}
