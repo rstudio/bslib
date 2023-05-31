@@ -271,16 +271,24 @@ bootstrap_bundle <- function(version) {
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
       sass_layer(
-        mixins = sass_file(system_file("components", "_variables.scss", package = "bslib"))
+        mixins = list(
+          sass_file(system_file("components", "_variables.scss", package = "bslib")),
+          sass_file(system_file("components", "_mixins.scss", package = "bslib"))
+        )
       ),
       !!!rule_bundles(c(
         system_file("components", "accordion.scss", package = "bslib"),
         system_file("components", "card.scss", package = "bslib"),
         system_file("components", "fill.scss", package = "bslib"),
         system_file("components", "layout_column_wrap.scss", package = "bslib"),
+        system_file("components", "layout_columns.scss", package = "bslib"),
         system_file("components", "sidebar.scss", package = "bslib"),
         system_file("components", "value_box.scss", package = "bslib")
-      ))
+      )),
+      # Enable CSS Grid powered Bootstrap grid
+      sass_layer(
+        defaults = list("enable-cssgrid" = "true !default")
+      )
     ),
     four = sass_bundle(
       sass_layer(

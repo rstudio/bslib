@@ -51,7 +51,7 @@ page_fillable <- function(..., padding = NULL, gap = NULL, fill_mobile = FALSE, 
     tags$head(tags$style(HTML("html { height: 100%; }"))),
     bindFillRole(
       tags$body(
-        class = "bslib-page-fill",
+        class = "bslib-page-fill bslib-gap-spacing",
         style = css(
           padding = validateCssPadding(padding),
           gap = validateCssUnit(gap),

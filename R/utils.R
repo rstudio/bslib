@@ -79,6 +79,27 @@ names2 <- function(x) {
   names(x) %||% rep.int("", length(x))
 }
 
+any_unnamed <- function(x) {
+  if (length(x) == 0) return(FALSE)
+  nms <- names(x)
+  is.null(nms) || !all(nzchar(nms))
+}
+
+list_split_named <- function(x) {
+  x_names <- rlang::names2(x)
+  is_named <- nzchar(x_names)
+
+  if (all(is_named)) {
+    return(list(named = x, unnamed = list()))
+  }
+
+  if (!any(is_named)) {
+    return(list(named = list(), unnamed = x))
+  }
+
+  list(named = x[is_named], unnamed = unname(x[!is_named]))
+}
+
 #' Rename a named list
 #'
 #' @param x a named list to be renamed

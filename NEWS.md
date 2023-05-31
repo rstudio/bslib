@@ -19,14 +19,16 @@ This significant release focuses on making dashboards and filling layouts easier
 
 ## New features
 
-* Added a `page_sidebar()` for easy creation of a "classic" dashboard layout. (#588) 
+* Added `page_sidebar()`, for easy creation of a "classic" dashboard layout. (#588) 
 * Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn more. (#479)
+* Added `layout_columns()`, for responsive column-based grid layouts. (#587)
 * Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions). (#475)
 * `page_navbar()`, `navset_card_tab()`, and ` navset_card_pill()` gain a `sidebar` argument for putting a `sidebar()` on every page/tab/pill. (#479)
 * `page_navbar()` gains a `fillable` argument to make the content of particular page(s) fit the window/card. (#479)
 * `page_fillable()` (aka, `page_fill()`) is now considered a `fillable` container, meaning that `fill` items like `card()`, `layout_column_wrap()`, and `layout_sidebar()` now grow/shrink to fit the window's height when they appear as a direct child of `page_fillable()`. (#479)
 * `page_navbar()` and `page_fillable()` gain `fill_mobile` arguments to control whether the page should grow/shrink to fit the viewport on mobile. (#479)
 * `card()`, `value_box()`, and `card_image()` gain `max_height` and `fill` arguments. (#498)
+* `card_body()` gains a `padding` argument. (#587)
 * Added new `as_fill()`, `as_fillable()`, `as_fill_carrier()`, `is_fill()`, and `is_fillable()` for testing and coercing potential to fill. (#498)
 
 ## Bug fixes
