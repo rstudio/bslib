@@ -21,3 +21,6 @@ A generic constructor for responsive breakpoints.
 \references{
 \url{https://getbootstrap.com/docs/5.3/layout/breakpoints/}
 }
+\seealso{
+\code{\link[=layout_columns]{layout_columns()}}
+}
