@@ -96,7 +96,7 @@ page_fillable(
 )
 
 page_fillable(
-  fill_mobile = TRUE,
+  fillable_mobile = TRUE,
   layout_columns(
     col_widths = breakpoints(
       sm = c(12, 12, 12),

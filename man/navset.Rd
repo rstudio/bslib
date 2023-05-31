@@ -35,6 +35,8 @@ navset_bar(
   selected = NULL,
   sidebar = NULL,
   fillable = TRUE,
+  gap = NULL,
+  padding = NULL,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
@@ -104,6 +106,9 @@ the browser window. If \code{TRUE}, all \code{\link[=nav_panel]{nav_panel()}} pa
 character vector, matching the \code{value} of \code{\link[=nav_panel]{nav_panel()}}s to be filled, may
 also be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes
 the main content portion fillable.}
+
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at

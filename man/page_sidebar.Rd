@@ -9,7 +9,7 @@ page_sidebar(
   sidebar = NULL,
   title = NULL,
   fillable = TRUE,
-  fill_mobile = FALSE,
+  fillable_mobile = FALSE,
   theme = bs_theme(),
   window_title = NA,
   lang = NULL
@@ -28,7 +28,7 @@ title (just above the \code{sidebar}).}
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
 
-\item{fill_mobile}{Whether or not \code{fillable} pages should fill the viewport's
+\item{fillable_mobile}{Whether or not \code{fillable} pages should fill the viewport's
 height on mobile devices (i.e., narrow windows).}
 
 \item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}

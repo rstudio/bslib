@@ -18,7 +18,7 @@ page_fillable(
   ...,
   padding = NULL,
   gap = NULL,
-  fill_mobile = FALSE,
+  fillable_mobile = FALSE,
   title = NULL,
   theme = bs_theme(),
   lang = NULL
@@ -31,7 +31,7 @@ page_navbar(
   selected = NULL,
   sidebar = NULL,
   fillable = TRUE,
-  fill_mobile = FALSE,
+  fillable_mobile = FALSE,
   gap = NULL,
   padding = NULL,
   position = c("static-top", "fixed-top", "fixed-bottom"),
@@ -69,7 +69,7 @@ be interpreted as top, right, bottom, and left respectively.}
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
 \code{gap} (i.e., spacing) between elements provided to \code{...}.}
 
-\item{fill_mobile}{Whether or not \code{fillable} pages should fill the viewport's
+\item{fillable_mobile}{Whether or not \code{fillable} pages should fill the viewport's
 height on mobile devices (i.e., narrow windows).}
 
 \item{id}{a character string used for dynamically updating the container (see
