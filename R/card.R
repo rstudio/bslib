@@ -61,7 +61,7 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, fil
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
 
   tag <- div(
-    class = "card bslib-card",
+    class = "card bslib-card bslib-mb-spacer",
     style = css(
       height = validateCssUnit(height),
       max_height = validateCssUnit(max_height)
@@ -130,6 +130,7 @@ as_card_items <- function(children, wrapper) {
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`. This argument is only applicable when `fillable = TRUE`
 #' @inheritParams card
+#' @inheritParams page_fillable
 #'
 #' @return An [htmltools::div()] tag.
 #'
@@ -140,7 +141,7 @@ as_card_items <- function(children, wrapper) {
 #'   columns inside a card).
 #'
 #' @describeIn card_body A general container for the "main content" of a [card()].
-card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL, max_height_full_screen = max_height, height = NULL, gap = NULL, fill = TRUE, class = NULL) {
+card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL, max_height_full_screen = max_height, height = NULL, padding = NULL, gap = NULL, fill = TRUE, class = NULL) {
 
   if (fillable) {
     register_runtime_package_check("`card_body()`", "shiny", "1.7.4")
@@ -148,7 +149,7 @@ card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL
   }
 
   tag <- div(
-    class = "card-body",
+    class = "card-body bslib-gap-spacing",
     style = css(
       min_height = validateCssUnit(min_height),
       "--bslib-card-body-max-height" = validateCssUnit(max_height),
@@ -157,6 +158,7 @@ card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL
       margin_bottom = "auto",
       # .card-body already adds `flex: 1 1 auto` so make sure to override it
       flex = if (fill) "1 1 auto" else "0 0 auto",
+      padding = validateCssPadding(padding),
       gap = validateCssUnit(gap),
       height = validateCssUnit(height)
     ),

@@ -51,7 +51,7 @@ page_fillable <- function(..., padding = NULL, gap = NULL, fill_mobile = FALSE, 
     tags$head(tags$style(HTML("html { height: 100%; }"))),
     bindFillRole(
       tags$body(
-        class = "bslib-page-fill",
+        class = "bslib-page-fill bslib-gap-spacing",
         style = css(
           padding = validateCssPadding(padding),
           gap = validateCssUnit(gap),
@@ -158,10 +158,6 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         theme =  bs_theme(),
                         window_title = NA,
                         lang = NULL) {
-
-  if (!is.null(sidebar) && !inherits(sidebar, "sidebar")) {
-    abort("`sidebar` argument must contain a `bslib::sidebar()` component.")
-  }
 
   # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
   # (which is a sibling of the <nav>) to always fill the page

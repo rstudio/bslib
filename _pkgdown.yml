@@ -113,8 +113,10 @@ reference:
     - nav_select
 - title: Layout multiple UI elements
   description: |
-    Useful layout templates
+    Layout helpers
   contents:
+    - layout_columns
+    - breakpoints
     - layout_sidebar
     - layout_column_wrap
 - title: Fill items and fillable containers

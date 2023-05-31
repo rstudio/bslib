@@ -6,16 +6,16 @@ data(tips, package = "reshape2")
 
 tipsUI <- function(id) {
   ns <- NS(id)
-  
+
   layout_sidebar(
     fillable = TRUE,
     sidebar = sidebar(
-      title = "Restaurant tipping", 
+      title = "Restaurant tipping",
       sliderInput(
-        ns("total_bill"), 
-        "Bill amount", 
-        min(tips$total_bill), 
-        max(tips$total_bill), 
+        ns("total_bill"),
+        "Bill amount",
+        min(tips$total_bill),
+        max(tips$total_bill),
         value = range(tips$total_bill),
         pre = "$"
       ),
@@ -51,8 +51,8 @@ tipsUI <- function(id) {
         card_header("Total bill vs tip"),
         layout_sidebar(
           fillable = TRUE,
-          sidebar(
-            position = "right", 
+          sidebar = sidebar(
+            position = "right",
             open = FALSE,
             width = 150,
             selectInput(ns("scatter_color"), "Color by:", c("none", "sex", "smoker", "day", "time")),
@@ -72,7 +72,7 @@ tipsUI <- function(id) {
       card_header("Tip percentages"),
       layout_sidebar(
         fillable = TRUE,
-        sidebar(
+        sidebar = sidebar(
           position = "right",
           selectInput(ns("tip_perc_y"), "Split by:", c("sex", "smoker", "day", "time"), "day"),
           selectInput(ns("tip_perc_facet"), "Facet by:", c("none", "sex", "smoker", "day", "time"), "none"),

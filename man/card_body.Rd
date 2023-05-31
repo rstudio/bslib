@@ -17,6 +17,7 @@ card_body(
   max_height = NULL,
   max_height_full_screen = max_height,
   height = NULL,
+  padding = NULL,
   gap = NULL,
   fill = TRUE,
   class = NULL
@@ -57,6 +58,15 @@ flexbox) container.}
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+
+\item{padding}{Padding to use for the body. This can be a numeric vector
+(which will be interpreted as pixels) or a character vector with valid CSS
+lengths. The length can be between one and four. If one, then that value
+will be used for all four sides. If two, then the first value will be used
+for the top and bottom, while the second value will be used for left and
+right. If three, then the first will be used for top, the second will be
+left and right, and the third will be bottom. If four, then the values will
+be interpreted as top, right, bottom, and left respectively.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
 \code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
