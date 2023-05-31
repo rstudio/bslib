@@ -1,6 +1,5 @@
 # bslib 0.4.2.9000
 
-
 This significant release focuses on making dashboards (e.g., `page_sidebar()`) and filling/responsive layouts (e.g., `page_fillable()`, `layout_columns()`) easier. It also includes many improvements and bug fixes for existing features and components (e.g., `card()`).
 
 `{bslib}` is still maturing, but this release is a significant step towards this project superseding `{shinydashboard}`.
