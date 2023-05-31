@@ -97,7 +97,7 @@ The return value is rendered as an static HTML page when printed interactively a
 <span>  <span class="va">...</span>,</span>
 <span>  padding <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gap <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fill_mobile <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fillable_mobile <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  lang <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -109,8 +109,10 @@ The return value is rendered as an static HTML page when printed interactively a
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  selected <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sidebar <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fillable <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  fill_mobile <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fillable <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fillable_mobile <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  gap <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  padding <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"static-top"</span>, <span class="st">"fixed-top"</span>, <span class="st">"fixed-bottom"</span><span class="op">)</span>,</span>
 <span>  header <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  footer <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -160,7 +162,7 @@ be interpreted as top, right, bottom, and left respectively.</p></dd>
 <code>gap</code> (i.e., spacing) between elements provided to <code>...</code>.</p></dd>
 
 
-<dt>fill_mobile</dt>
+<dt>fillable_mobile</dt>
 <dd><p>Whether or not <code>fillable</code> pages should fill the viewport's
 height on mobile devices (i.e., narrow windows).</p></dd>
 
