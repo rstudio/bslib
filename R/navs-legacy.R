@@ -78,6 +78,7 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 #' @rdname navset
 navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
                      sidebar = NULL, fillable = TRUE,
+                     gap = NULL, padding = NULL,
                      # TODO: add sticky-top as well?
                      position = c("static-top", "fixed-top", "fixed-bottom"),
                      header = NULL, footer = NULL,
@@ -86,6 +87,7 @@ navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
   navs_bar_(
     ..., title = title, id = id, selected = selected,
     sidebar = sidebar, fillable = fillable,
+    gap = gap, padding = padding,
     position = position,
     header = header, footer = footer,
     bg = bg, inverse = inverse,
