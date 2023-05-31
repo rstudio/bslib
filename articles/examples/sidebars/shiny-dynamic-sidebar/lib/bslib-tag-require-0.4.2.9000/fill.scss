@@ -45,7 +45,7 @@
 // Generic utility class that we can add to things that need a margin-bottom
 // in a non-flex/grid context, but can still be turned off when in a flex/grid
 :root {
-  --bslib-mb-spacer: $spacer;
+  --bslib-mb-spacer: #{$spacer};
 }
 
 .bslib-mb-spacer {
