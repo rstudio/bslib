@@ -1,6 +1,6 @@
 # bslib 0.4.2.9000
 
-This significant release focuses on making dashboards and filling layouts easier. It also includes many improvements and bug fixes for existing features and components (e.g., `card()`).
+This significant release focuses on making dashboards (e.g., `page_sidebar()`) and filling/responsive layouts (e.g., `page_fillable()`, `layout_columns()`) easier. It also includes many improvements and bug fixes for existing features and components (e.g., `card()`).
 
 `{bslib}` is still maturing, but this release is a significant step towards this project superseding `{shinydashboard}`.
 
@@ -16,12 +16,12 @@ This significant release focuses on making dashboards and filling layouts easier
 * `page_navbar()` (and also `shiny::navbarPage()` with `theme = bs_theme()`) had a couple breaking changes:
   * The container of each page is now `display:flex` (instead of `display:block`). If this breaks existing behavior, set `page_navbar()`'s `fillable` argument to `FALSE`.
   * `header` and `footer` is no longer wrapped in an additional `shiny::fluidRow()` container. If this breaks existing behavior, consider wrapping the `header` and `footer` value(s) with `shiny::fluidRow()`). (#479)
-* Closed #510: `card()` no longer includes `margin-bottom`. To revert the old behavior, add `class = "mb-3` to `card()`. (#542)
+* `layout_column_wrap()`'s `fill` argument now controls whether or not the _layout container_ is allowed to grow/shrink to fit a fillable container (e.g., `page_fillable()`). It also gains a new `fillable` argument for controlling whether _UI elements_ are allowed to fill their row height. This is more consistent with the meaning of `fill` in other functions, like `card()`, `card_body()`, `layout_sidebar()`, etc. (#498)
 * Defaults for the following Bootstrap 5 Sass variables were changed to `null`: `$accordion-button-active-bg`, `$accordion-button-active-color`, and `$accordion-icon-active-color`. To restore the old behavior, do `bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")`. (#475)
 
 ## New features
 
-* Added `page_sidebar()`, for easy creation of a "classic" dashboard layout. (#588) 
+* Added `page_sidebar()`, for easy dashboard creation. (#588) 
 * Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn more. (#479)
 * Added `layout_columns()`, for responsive column-based grid layouts. (#587)
 * Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions). (#475)
