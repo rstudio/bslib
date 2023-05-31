@@ -108,7 +108,16 @@ also be provided. Note that, if a \code{sidebar} is provided, \code{fillable} ma
 the main content portion fillable.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+
+\item{padding}{Padding to use for the body. This can be a numeric vector
+(which will be interpreted as pixels) or a character vector with valid CSS
+lengths. The length can be between one and four. If one, then that value
+will be used for all four sides. If two, then the first value will be used
+for the top and bottom, while the second value will be used for left and
+right. If three, then the first will be used for top, the second will be
+left and right, and the third will be bottom. If four, then the values will
+be interpreted as top, right, bottom, and left respectively.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at
