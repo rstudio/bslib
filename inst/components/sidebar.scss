@@ -347,6 +347,6 @@
 
 // Make sure a border appears between the navbar and the sidebar layout
 // (especially important when page_navbar(inverse = FALSE, sidebar = sidebar())
-.navbar + div > .bslib-sidebar-layout:only-of-type {
+.navbar + div > .bslib-sidebar-layout {
   border-top: var(--bslib-sidebar-border);
 }
