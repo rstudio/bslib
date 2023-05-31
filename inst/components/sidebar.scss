@@ -323,24 +323,30 @@
     padding-left: 0;
     padding-right: 0;
   }
-  > .tab-content > .tab-pane.active {
-
-    // When the tab/page is fillable, add sensible default padding
-    &.html-fill-container {
-      padding: $spacer;
-      &:has(> .bslib-sidebar-layout) {
-        padding: 0;
+  // When the tab/page is fillable, add sensible default padding
+  > .tab-content > .tab-pane.active.html-fill-container {
+    padding: $spacer;
+    gap: $spacer;
+    // ...but if it holds a single sidebar layout, remove the padding
+    &:has(> .bslib-sidebar-layout:only-child) {
+      padding: 0;
+    }
+    // And smart border defaults for nav_panel("Foo", layout_sidebar())
+    > .bslib-sidebar-layout:only-child {
+      &:not([data-bslib-sidebar-border="true"]) {
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
       }
-      // And smart border defaults for nav_panel("Foo", layout_sidebar())
-      > .bslib-sidebar-layout.html-fill-container {
-        &:not([data-bslib-sidebar-border="true"]) {
-          border: none;
-        }
-        &:not([data-bslib-sidebar-border-radius="true"]) {
-          border-radius: 0;
-        }
+      &:not([data-bslib-sidebar-border-radius="true"]) {
+        border-radius: 0;
       }
     }
-
   } 
+}
+
+// Make sure a border appears between the navbar and the sidebar layout
+// (especially important when page_navbar(inverse = FALSE, sidebar = sidebar())
+.navbar + div > .bslib-sidebar-layout:only-of-type {
+  border-top: var(--bslib-sidebar-border);
 }
