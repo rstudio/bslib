@@ -93,7 +93,7 @@ collect_nav_items <- function(..., wrapper) {
 # normal card() API (i.e. the card() is a fill container) and users have
 # option to make the contents fill via card_body(fill = TRUE, fillable = TRUE)
 navs_card_body <- function(content, sidebar) {
-  content <- makeTabsFillable(content, fillable = TRUE)
+  content <- makeTabsFillable(content, fillable = TRUE, gap = 0, padding = 0)
   if (!is.null(sidebar)) {
     content <- layout_sidebar(
       sidebar = sidebar,
