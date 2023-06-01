@@ -59,7 +59,7 @@
 // Our own utility class that we add to our layout utilities, like page_fillable().
 .bslib-gap-spacing {
   gap: var(--bslib-mb-spacer);
-  > .bslib-mb-spacer, p, .form-group {
+  > .bslib-mb-spacer, .form-group, p, pre {
     margin-bottom: 0;
   }
 }
