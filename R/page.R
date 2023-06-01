@@ -165,6 +165,16 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         window_title = NA,
                         lang = NULL) {
 
+
+  # Default to fillable = F when this is called from shiny::navbarPage()
+  # TODO: update shiny::navbarPage() to set fillable = FALSE and get rid of this hack
+  if (missing(fillable)) {
+    isNavbarPage <- isNamespaceLoaded("shiny") && identical(rlang::caller_fn(), shiny::navbarPage)
+    if (isNavbarPage) {
+      fillable <- FALSE
+    }
+  }
+
   # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
   # (which is a sibling of the <nav>) to always fill the page
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
