@@ -50,10 +50,10 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
   children <- args[!nzchar(argnames)]
 
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
-    title <- tags$span(title, class = "h6 mb-1")
+    title <- tags$p(title)
   }
   if (rlang::is_bare_character(value) || rlang::is_bare_numeric(value)) {
-    value  <- tags$span(value, class = "h2 mb-2")
+    value <- tags$p(value)
   }
 
   contents <- div(class = "value-box-area", title, value, !!!children)
