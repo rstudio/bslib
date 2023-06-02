@@ -13,13 +13,13 @@
     <loc>https://rstudio.github.io/bslib/PULL_REQUEST_TEMPLATE.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/bslib/articles/any-project.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/bslib/articles/bs4-variables.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/bs5-variables.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/bslib.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/cards.html</loc>
@@ -29,6 +29,15 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/custom-components.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/dashboards.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/examples/any-project/unnamed-chunk-3/unnamed-chunk-3.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/examples/any-project/unnamed-chunk-5/unnamed-chunk-5.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/examples/filling/unnamed-chunk-13/unnamed-chunk-13.html</loc>
@@ -64,6 +73,12 @@
     <loc>https://rstudio.github.io/bslib/articles/examples/sidebars/unnamed-chunk-5/unnamed-chunk-5.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/bslib/articles/examples/value-boxes/unnamed-chunk-6/unnamed-chunk-6.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/examples.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/bslib/articles/filling.html</loc>
   </url>
   <url>
@@ -71,6 +86,9 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/sidebars.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/theming.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/utility-classes.html</loc>

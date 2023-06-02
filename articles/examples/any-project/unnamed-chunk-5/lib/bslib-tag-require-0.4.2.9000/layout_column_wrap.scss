@@ -1,0 +1,12 @@
+.bslib-grid {
+  display: grid !important;
+  gap: $spacer;
+  height: var(--bslib-grid-height);
+}
+
+@include media-breakpoint-down(sm) {
+  .bslib-grid {
+    grid-template-columns: 1fr !important;
+    height: var(--bslib-grid-height-mobile);
+  }
+}

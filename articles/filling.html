@@ -37,8 +37,13 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../articles/bslib.html">Get started</a>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-get-started">Get Started</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-get-started">
+    <a class="dropdown-item" href="../articles/dashboards.html">Shiny dashboards</a>
+    <a class="dropdown-item" href="../articles/any-project.html">Any Bootstrap project</a>
+    <a class="dropdown-item" href="../articles/theming.html">Theming</a>
+  </div>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-theming">Theming</a>
@@ -59,9 +64,9 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-layouts">Layouts</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-layouts">
-    <a class="dropdown-item" href="../articles/column-layout.html">Column-based layout</a>
-    <a class="dropdown-item" href="../articles/filling.html">Filling layouts</a>
-    <a class="dropdown-item" href="https://rstudio.github.io/bslib/reference/navset.html#details">Multi page/tab</a>
+    <a class="dropdown-item" href="../articles/column-layout.html">Multiple columns</a>
+    <a class="dropdown-item" href="https://rstudio.github.io/bslib/reference/navset.html#details">Multiple panels</a>
+    <a class="dropdown-item" href="../articles/filling.html">Filling layout</a>
   </div>
 </li>
       </ul>
@@ -104,7 +109,7 @@
     
     
 <style type="text/css">
-.section.level2{margin-top:2rem}.section.level3{margin-top:1rem}iframe,.bslib-page-fill{height:500px;border:var(--bs-border-width) solid var(--bs-border-color)}iframe.resizable{resize:vertical;min-height:200px}
+.section.level2{margin-top:2rem}.section.level3{margin-top:1rem}
 </style>
 <p>This article covers the building blocks of filling layouts in <code>bslib</code>: <strong>fillable containers</strong> and <strong>fill items</strong>. Filling layout is an inherently nuanced topic, and fully groking takes some effort, but you’ll gain a powerful way to get UI elements to fill the window, fill inside <a href="cards.html">cards</a>, fill inside <a href="sidebars.html">sidebar layouts</a>, or generally fill anywhere you want.</p>
 <p>Since, in theory, essentially any UI element can be coerced into a <strong>fillable container</strong> and/or <strong>fill item</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Technically speaking, a &lt;strong&gt;fillable container&lt;/strong&gt; is just a &lt;a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link"&gt;CSS flexbox&lt;/a&gt; container with &lt;code&gt;flex-direction: column&lt;/code&gt; (which makes it’s children flex items). And, when a &lt;strong&gt;fill item&lt;/strong&gt; appears as a direct child of a &lt;strong&gt;fillable container&lt;/strong&gt;, it is given a &lt;code&gt;flex&lt;/code&gt; property of &lt;code&gt;1&lt;/code&gt; (i.e., it’s allowed to grow/shrink).&lt;/p&gt;'><sup>1</sup></a>, it’s useful to first study their behavior in the abstract, which we do next in the <a href="#in-theory">In theory</a> section. After, the <a href="#in-practice">In practice</a> section reinforces those concepts and demonstrates their power with practical examples.</p>
@@ -160,7 +165,7 @@
 </div>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>Adding a <span class="b-orange">non-fill</span> item (e.g., <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::p()</a></code>-aragraph of text) won’t cause that particular item to grow/shrink, but the <span class="b-blue">fill</span> items divvy up any remaining space (<strong>careful:</strong> if <span class="b-orange">non-fill</span> item(s) are larger than the <span class="b-pink">fillable container</span>, the <span class="b-blue">fill</span> items won’t be visible!). This is big reason why <code><a href="../reference/card_body.html">card_body()</a></code> includes a <code>min_height</code> argument (to prevent <span class="b-blue">fill</span> items from shrinking too much).</p>
+<p>Adding a <span class="b-orange">non-fill</span> item (e.g., <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::p()</a></code>-aragraph of text) won’t cause that particular item to grow/shrink, but the <span class="b-blue">fill</span> items divvy up any remaining space (<strong>careful:</strong> if <span class="b-orange">non-fill</span> item(s) are larger than the <span class="b-pink">fillable container</span>, the <span class="b-blue">fill</span> items won’t be visible!). This is big reason why <code><a href="../reference/card.html">card()</a></code>s have a <code>min_height</code> argument (to prevent <span class="b-blue">fill</span> items from shrinking too much).</p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
@@ -285,7 +290,7 @@ Resizable example
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h2</a></span><span class="op">(</span><span class="st">"Diamond plots"</span><span class="op">)</span>,</span>
 <span>  <span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<iframe src="examples/filling/unnamed-chunk-13/unnamed-chunk-13.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" scrolling="no" class="resizable">
+<iframe src="examples/filling/unnamed-chunk-13/unnamed-chunk-13.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" class="resizable">
 </iframe>
 <div class="row mt-3">
 <div class="col-md-6 mt-auto mb-auto">
@@ -309,17 +314,14 @@ Limiting shrinkage
 <div class="section level3">
 <h3 id="multiple-columns">Multiple columns<a class="anchor" aria-label="anchor" href="#multiple-columns"></a>
 </h3>
-<p>Since <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> is a <span class="b-blue">fill item</span> (by default), it grows/shrinks just like any other <span class="b-blue">fill item</span>. It also defaults to <code>fillable = TRUE</code>, which in this case, means each column gets wrapped in a <span class="b-pink">fillable container</span>. That’s why, in this example, <code>plots[[1]]</code> and <code>plots[[1]]</code> also grow/shrink to match the size of the <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> container.</p>
+<p>Since <code><a href="../reference/layout_columns.html">layout_columns()</a></code> is a <span class="b-blue">fill item</span> (by default), it grows/shrinks just like any other <span class="b-blue">fill item</span>. It also defaults to <code>fillable = TRUE</code>, which in this case, means each column gets wrapped in a <span class="b-pink">fillable container</span>. That’s why, in this example, <code>plots[[1]]</code> and <code>plots[[1]]</code> also grow/shrink to match the size of the <code><a href="../reference/layout_columns.html">layout_columns()</a></code> container.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h2</a></span><span class="op">(</span><span class="st">"Diamond plots"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
-<span>    width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>,</span>
-<span>    <span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
-<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  <span class="va">plots</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<iframe src="examples/filling/unnamed-chunk-14/unnamed-chunk-14.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" scrolling="no" class="resizable">
+<iframe src="examples/filling/unnamed-chunk-14/unnamed-chunk-14.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" class="resizable">
 </iframe>
 </div>
 <div class="section level3">
@@ -327,8 +329,8 @@ Limiting shrinkage
 </h3>
 <p>Since <code><a href="../reference/value_box.html">value_box()</a></code> is a <span class="b-blue">fill item</span> (by default), it grows/shrinks just like any other <span class="b-blue">fill item</span>. This is especially useful for keeping a common baseline in a multi-column layout. That said, the multi-layout column that holds value boxes probably doesn’t want it default <code>fill = TRUE</code> behavior, since the value boxes should be given more/less space and the window becomes larger/smaller:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boxes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
-<span>  width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, fill <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<code class="sourceCode R"><span><span class="va">boxes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span></span>
+<span>  fill <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="fu"><a href="../reference/value_box.html">value_box</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Total diamonds"</span>,</span>
 <span>    <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -350,19 +352,16 @@ Limiting shrinkage
 <span></span>
 <span><span class="fu"><a href="../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="va">boxes</span>,</span>
-<span>  <span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
-<span>    width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>,</span>
-<span>    <span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
-<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  <span class="va">plots</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<iframe src="examples/filling/unnamed-chunk-15/unnamed-chunk-15.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" scrolling="no" class="resizable">
+<iframe src="examples/filling/unnamed-chunk-15/unnamed-chunk-15.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" class="resizable">
 </iframe>
 <div class="callout callout-note">
 <h3 data-toc-skip>
 Column wrapping layouts
 </h3>
-<p>To learn more about <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code>, see <a href="column-layout.html">this article</a>.</p>
+<p>To learn more about <code><a href="../reference/layout_columns.html">layout_columns()</a></code>, see <a href="column-layout.html">this article</a>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -379,41 +378,38 @@ Column wrapping layouts
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
-<span>    width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>,</span>
+<span>  <span class="fu"><a href="../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span></span>
 <span>    <span class="fu">plot_card</span><span class="op">(</span><span class="st">"Diamond price"</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, </span>
 <span>    <span class="fu">plot_card</span><span class="op">(</span><span class="st">"Diamond carat"</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  <span class="fu">plot_card</span><span class="op">(</span><span class="st">"Diamond cut by clarity"</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<iframe src="examples/filling/unnamed-chunk-16/unnamed-chunk-16.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" scrolling="no" class="resizable">
+<iframe src="examples/filling/unnamed-chunk-16/unnamed-chunk-16.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" class="resizable">
 </iframe>
 <p>Note that, if we changed <code><a href="../reference/page.html">page_fillable()</a></code> to <code><a href="../reference/page.html">page_fluid()</a></code> (or <code><a href="../reference/page.html">page_fixed()</a></code>), each plot would render to it’s default height (<code>400px</code>) since we no longer have a <span class="b-pink">fillable</span> with a specified height. That said, even in that case, if we expand the card to full-screen, the plot still grows to fit the full screen card (since the <code><a href="../reference/card.html">card()</a></code> is then a <span class="b-pink">fillable</span> container with a specified height, the <code><a href="../reference/card_body.html">card_body()</a></code> is a <span class="b-purple">fill carrier</span>, and the plot is a <span class="b-blue">fill item</span>).</p>
 </div>
 <div class="section level3">
 <h3 id="sidebar-layouts">Sidebar layouts<a class="anchor" aria-label="anchor" href="#sidebar-layouts"></a>
 </h3>
-<p>Similar to what we’ve seen with outputs and <code><a href="../reference/card.html">card()</a></code>s, <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> is also a fill item (by default), so placing it as a direct child of <code><a href="../reference/page.html">page_fillable()</a></code> makes it fit the window. Note, however, that the main content portion of sidebar layout is not a fillable container (by default), but that can easily be changed by setting <code>fillable = TRUE</code> in <code><a href="../reference/sidebar.html">layout_sidebar()</a></code>.</p>
+<p>Similar to what we’ve seen with outputs and <code><a href="../reference/card.html">card()</a></code>s, <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> is also a fill item (by default), so placing it as a direct child of <code><a href="../reference/page.html">page_fillable()</a></code> makes it fit the window. Also, the main content’s container defaults to a fillable container, so if that behavior is undesirable, set <code>fillable = FALSE</code> in <code><a href="../reference/sidebar.html">layout_sidebar()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  padding <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  <span class="fu"><a href="../reference/sidebar.html">layout_sidebar</a></span><span class="op">(</span></span>
-<span>    fillable <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    border <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    fillable <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    sidebar <span class="op">=</span> <span class="fu"><a href="../reference/sidebar.html">sidebar</a></span><span class="op">(</span></span>
 <span>      title <span class="op">=</span> <span class="st">"Diamond plots"</span>,</span>
 <span>      <span class="st">"Input controls here..."</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
-<span>      width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>,</span>
+<span>    <span class="fu"><a href="../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span></span>
 <span>      <span class="fu">plot_card</span><span class="op">(</span><span class="st">"Diamond price"</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, </span>
 <span>      <span class="fu">plot_card</span><span class="op">(</span><span class="st">"Diamond carat"</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">br</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    <span class="fu">plot_card</span><span class="op">(</span><span class="st">"Diamond cut by clarity"</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<iframe src="examples/filling/unnamed-chunk-17/unnamed-chunk-17.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" scrolling="no" class="resizable">
+<iframe src="examples/filling/unnamed-chunk-17/unnamed-chunk-17.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" class="resizable">
 </iframe>
 <div class="callout callout-note">
 <h3 data-toc-skip>
@@ -442,9 +438,7 @@ Sidebar layouts
 <span>    full_screen <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    max_height <span class="op">=</span> <span class="fl">300</span>,</span>
 <span>    <span class="fu"><a href="../reference/card_body.html">card_header</a></span><span class="op">(</span><span class="st">"My plot"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="../reference/as_fill_carrier.html">as_fill_carrier</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput</a></span><span class="op">(</span><span class="st">"plot"</span>, <span class="fu"><a href="../reference/as_fill_carrier.html">as_fill_carrier</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -498,7 +492,7 @@ Sidebar layouts
 <div class="section level3">
 <h3 id="avoid-fluidrowcolumn">Avoid <code>fluidRow()</code>/<code>column()</code><a class="anchor" aria-label="anchor" href="#avoid-fluidrowcolumn"></a>
 </h3>
-<p>Modern versions of <a href="https://getbootstrap.com/docs/5.3/layout/grid/" class="external-link">Bootstrap Grid</a> currently use <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link">CSS Flexbox</a> in such a way that filling layout is incompatible with <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidRow()</a></code>/<code><a href="https://rdrr.io/pkg/shiny/man/column.html" class="external-link">column()</a></code>. For the time being, we recommend you use <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> to achieve <a href="column-layout.html">multi-column filling layouts</a>. We hope, in a future version of <code>bslib</code>, we’ll have a modern version of <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidRow()</a></code>/<code><a href="https://rdrr.io/pkg/shiny/man/column.html" class="external-link">column()</a></code> that makes varying-width layouts easier than it <a href="column-layout.html#varying-widths">currently is</a> with <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> (see <a href="https://github.com/rstudio/bslib/issues/514" class="external-link uri">https://github.com/rstudio/bslib/issues/514</a>).</p>
+<p>Modern versions of <a href="https://getbootstrap.com/docs/5.3/layout/grid/" class="external-link">Bootstrap Grid</a> currently use <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link">CSS Flexbox</a> in such a way that filling layout is mostly incompatible with <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidRow()</a></code>/<code><a href="https://rdrr.io/pkg/shiny/man/column.html" class="external-link">column()</a></code>. Instead, use <code><a href="../reference/layout_columns.html">layout_columns()</a></code> to implement <a href="column-layout.html">multi-column filling layouts</a></p>
 <!-- Extra js bits --->
 <script>
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle=\"tooltip\"]')

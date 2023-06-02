@@ -1,0 +1,16 @@
+// accordion()
+$accordion-box-shadow-active: none !default;
+
+// page_sidebar()
+$bslib-page-title-bg: if($navbar-bg, $navbar-bg, $dark) !default;
+$bslib-page-title-color: color-contrast($bslib-page-title-bg) !default;
+
+// layout_sidebar()
+$bslib-sidebar-padding: $spacer * 1.5 !default;
+$bslib-sidebar-icon-size: $spacer !default;
+$bslib-sidebar-bg: mix($body-color, $body-bg, 3.66%) !default;
+$bslib-sidebar-fg: color-contrast($bslib-sidebar-bg) !default;
+$bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
+$bslib-sidebar-transition-duration: 500ms !default;
+$bslib-sidebar-column-sidebar: Min(calc(100% - #{$bslib-sidebar-icon-size}), var(--bslib-sidebar-width, 250px));
+$bslib-sidebar-column-main: minmax(0, 1fr);

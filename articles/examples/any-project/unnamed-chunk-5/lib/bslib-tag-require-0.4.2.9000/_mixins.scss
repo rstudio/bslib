@@ -1,0 +1,17 @@
+@mixin bslib-breakpoints-css-vars(
+  $breakpoint-var,
+  $breakpoints,
+  $allow-cascade: false
+) {
+  @each $breakpoint in $breakpoints {
+    @if not $allow-cascade {
+      --#{$breakpoint-var}--#{$breakpoint}: unset;
+    }
+
+    @include media-breakpoint-up(#{$breakpoint}) {
+      &.#{$breakpoint-var}--#{$breakpoint} {
+        --#{$breakpoint-var}: var(--#{$breakpoint-var}--#{$breakpoint});
+      }
+    }
+  }
+}
