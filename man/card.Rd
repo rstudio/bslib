@@ -9,6 +9,7 @@ card(
   full_screen = FALSE,
   height = NULL,
   max_height = NULL,
+  min_height = NULL,
   fill = TRUE,
   class = NULL,
   wrapper = card_body
@@ -25,7 +26,7 @@ body. Clicking the icon expands the card to fit viewport size.}
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
-\item{max_height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\item{max_height, min_height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{max_height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{max_height} in \code{\link[=card_body]{card_body()}}).}
 

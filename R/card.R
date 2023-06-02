@@ -12,7 +12,7 @@
 #' @param height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
 #'   `height="200px"`). Doesn't apply when a card is made `full_screen`
 #'   (in this case, consider setting a `height` in [card_body()]).
-#' @param max_height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#' @param max_height,min_height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
 #'   `max_height="200px"`). Doesn't apply when a card is made `full_screen`
 #'   (in this case, consider setting a `max_height` in [card_body()]).
 #' @param fill Whether or not to allow the card to grow/shrink to fit a
@@ -52,7 +52,7 @@
 #'   )
 #' }
 #'
-card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, fill = TRUE, class = NULL, wrapper = card_body) {
+card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min_height = NULL, fill = TRUE, class = NULL, wrapper = card_body) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -64,7 +64,8 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, fil
     class = "card bslib-card bslib-mb-spacer",
     style = css(
       height = validateCssUnit(height),
-      max_height = validateCssUnit(max_height)
+      max_height = validateCssUnit(max_height),
+      min_height = validateCssUnit(min_height)
     ),
     "data-bslib-card-init" = NA,
     !!!attribs,
