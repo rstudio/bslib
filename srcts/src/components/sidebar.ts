@@ -379,7 +379,8 @@ class SidebarInputBinding extends InputBinding {
 
   getValue(el: HTMLElement): boolean {
     const sb = Sidebar.getInstance(el.parentElement as HTMLElement);
-    return sb ? sb.isClosed : false;
+    const closed = sb?.isClosed;
+    return closed === undefined ? false : !closed;
   }
 
   setValue(el: HTMLElement, value: boolean): void {
