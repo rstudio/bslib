@@ -35,6 +35,7 @@ This significant release focuses on making dashboards (e.g., `page_sidebar()`) a
 ## Bug fixes
 
 * Closed #558: nested cards with `fullscreen = TRUE` now correctly and individually expand to fill the window. Tab focus behavior while in full screen mode has also been improved. (#557)
+* Closed #573: Improved styling when a dynamic result is supplied to `value_box()`'s `title`/`value` (e.g., `value_box("Dynamic value", uiOutput("value"))`). (#605)
 
 
 ## Deprecations
