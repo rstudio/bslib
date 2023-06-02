@@ -36,15 +36,23 @@
       margin-bottom: 0;
       margin-top: 0;
     }
-    // the title
+    // value_box(title = )
     > :first-child { 
       font-size: $h6-font-size;
       margin-bottom: $spacer / 4;
+      // add a non-breaking space to ensure it's not 0 height
+      &::after {
+        content: '\00a0 '
+      }
     }
-    // the value
+    // value_box(value = )
     > :nth-child(2) { 
       font-size: $h2-font-size;
       margin-bottom: $spacer / 2;
+      // add a non-breaking space to ensure it's not 0 height
+      &::after {
+        content: '\00a0 '
+      }
     }
     &.border-start {
       border-color: rgba($border-color, 0.3) !important;
