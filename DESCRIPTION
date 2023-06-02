@@ -109,7 +109,8 @@ Config/Needs/website:
     rstudio/htmltools,
     scales,
     stringr,
-    tidyr
+    tidyr,
+    webshot2
 Config/Needs/deploy:
     BH,
     cpp11,
