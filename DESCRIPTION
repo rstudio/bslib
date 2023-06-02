@@ -103,6 +103,7 @@ Config/Needs/website:
     htmlwidgets,
     leaflet,
     lorem,
+    palmerpenguins,
     plotly,
     purrr,
     rprojroot,
