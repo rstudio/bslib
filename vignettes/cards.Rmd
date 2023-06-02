@@ -4,18 +4,10 @@ resource_files:
   - shiny-hex.svg
 ---
 
-Cards are a common organizing unit for modern user interfaces (UI). At their core, they're just rectangular containers with borders and padding. However, when utilized properly to group related information, they help users better digest, engage, and navigate through content. This is why most successful dashboard/UI frameworks make cards a core feature of their component library. This article provides an overview of the API that bslib provides to create [Bootstrap cards](https://getbootstrap.com/docs/5.0/components/card/).
-
-## Setup code
-
-To demonstrate that bslib cards work outside of Shiny (i.e., in R Markdown, static HTML, etc), we'll make repeated use of statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`. Here's some code to create those widgets:
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-
-# pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
-# (note this isn't a problem for any format based on html_document_base)
-shiny:::setCurrentTheme(bslib::bs_theme())
+source(
+  rprojroot::find_package_root_file("vignettes/common.R")
+)
 ```
 
 ```{scss, echo = FALSE}
@@ -27,6 +19,11 @@ shiny:::setCurrentTheme(bslib::bs_theme())
 ```{r ref.label="anim_helpers",echo=FALSE}
 ```
 
+Cards are a common organizing unit for modern user interfaces (UI). At their core, they're just rectangular containers with borders and padding. However, when utilized properly to group related information, they help users better digest, engage, and navigate through content. This is why most successful dashboard/UI frameworks make cards a core feature of their component library. This article provides an overview of the API that bslib provides to create [Bootstrap cards](https://getbootstrap.com/docs/5.0/components/card/).
+
+## Setup code
+
+To demonstrate that bslib cards work outside of Shiny (i.e., in R Markdown, static HTML, etc), we'll make repeated use of statically rendered [htmlwidgets](http://www.htmlwidgets.org/) like `{plotly}` and `{leaflet}`. Here's some code to create those widgets:
 
 ```{r}
 library(bslib)

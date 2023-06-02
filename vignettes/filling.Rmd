@@ -1,58 +1,15 @@
 ---
 title: "Filling layouts"
 resource_files:
-  - infobox.svg
   - examples/filling
 ---
 
 ```{r setup, include = FALSE}
-library(knitr)
-library(htmltools)
-library(bslib)
-library(shiny)
 library(plotly)
-
-# TODO: put this stuff in a common.R script?
-render_as_iframe <- function(x, options, ...) {
-  lbl <- opts_current$get("label")
-  doc_name <- sub("[.]Rmd", "", current_input())
-  lbl_dir <- file.path("examples", doc_name, lbl)
-  if (!dir.exists(lbl_dir)) {
-    dir.create(lbl_dir, recursive = TRUE)
-  }
-  file <- file.path(lbl_dir, paste0(lbl, ".html"))
-  x <- tagList(x, tags$head(tags$style(".modebar-container { display: none; }")))
-  tryCatch(
-    save_html(x, file),
-    error = function(e) {
-      stop("Don't know how to render ", class(x)[[1]], " as an <iframe>")
-    }
-  )
-  include_url(file)
-}
-
-opts_hooks$set(as_iframe = function(opts) {
-  opts$render <- render_as_iframe
-  opts$out.width <- "100%"
-  opts$out.extra <- paste0(
-    'height=600px seamless="seamless" frameBorder="0" loading="lazy"',
-    if (!isTRUE(opts$scrolling)) ' scrolling="no"',
-    if (isTRUE(opts$resizable)) ' class="resizable"'
-  )
-  opts
-})
-
-
-opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  echo = FALSE,
-  message = FALSE
+source(
+  rprojroot::find_package_root_file("vignettes/common.R")
 )
-
-# pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
-# (note this isn't a problem for any format based on html_document_base)
-shiny:::setCurrentTheme(bslib::bs_theme())
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{scss, echo = FALSE}
@@ -61,15 +18,6 @@ shiny:::setCurrentTheme(bslib::bs_theme())
 }
 .section.level3 {
   margin-top: 1rem;
-}
-iframe, .bslib-page-fill {
-  height: 500px;
-  border: var(--bs-border-width) solid var(--bs-border-color);
-}
-
-iframe.resizable {
-  resize: vertical;
-  min-height: 200px;
 }
 ```
 
@@ -257,7 +205,7 @@ fillable_container(
 
 ::: {.row .mt-3}
 ::: col-md-6
-Adding a [non-fill]{.b-orange} item (e.g., `htmltools::p()`-aragraph of text) won't cause that particular item to grow/shrink, but the [fill]{.b-blue} items divvy up any remaining space (**careful:** if [non-fill]{.b-orange} item(s) are larger than the [fillable container]{.b-pink}, the [fill]{.b-blue} items won't be visible!). This is big reason why `card_body()` includes a `min_height` argument (to prevent [fill]{.b-blue} items from shrinking too much).
+Adding a [non-fill]{.b-orange} item (e.g., `htmltools::p()`-aragraph of text) won't cause that particular item to grow/shrink, but the [fill]{.b-blue} items divvy up any remaining space (**careful:** if [non-fill]{.b-orange} item(s) are larger than the [fillable container]{.b-pink}, the [fill]{.b-blue} items won't be visible!). This is big reason why `card()`s have a `min_height` argument (to prevent [fill]{.b-blue} items from shrinking too much).
 :::
 
 ::: col-md-6
@@ -468,15 +416,12 @@ If you're worried about plots becoming too small, consider putting them in a `ca
 
 ### Multiple columns
 
-Since `layout_column_wrap()` is a [fill item]{.b-blue} (by default), it grows/shrinks just like any other [fill item]{.b-blue}. It also defaults to `fillable = TRUE`, which in this case, means each column gets wrapped in a [fillable container]{.b-pink}. That's why, in this example, `plots[[1]]` and `plots[[1]]` also grow/shrink to match the size of the `layout_column_wrap()` container.
+Since `layout_columns()` is a [fill item]{.b-blue} (by default), it grows/shrinks just like any other [fill item]{.b-blue}. It also defaults to `fillable = TRUE`, which in this case, means each column gets wrapped in a [fillable container]{.b-pink}. That's why, in this example, `plots[[1]]` and `plots[[1]]` also grow/shrink to match the size of the `layout_columns()` container.
 
 ```{r as_iframe=TRUE, resizable=TRUE}
 page_fillable(
   h2("Diamond plots"),
-  layout_column_wrap(
-    width = 1/2,
-    plots[[1]], plots[[2]]
-  ),
+  layout_columns(plots[[1]], plots[[2]]),
   plots[[3]]
 )
 ```
@@ -486,8 +431,8 @@ page_fillable(
 Since `value_box()` is a [fill item]{.b-blue} (by default), it grows/shrinks just like any other [fill item]{.b-blue}. This is especially useful for keeping a common baseline in a multi-column layout. That said, the multi-layout column that holds value boxes probably doesn't want it default `fill = TRUE` behavior, since the value boxes should be given more/less space and the window becomes larger/smaller:
 
 ```{r as_iframe=TRUE, resizable=TRUE}
-boxes <- layout_column_wrap(
-  width = 1/3, fill = FALSE,
+boxes <- layout_columns(
+  fill = FALSE,
   value_box(
     "Total diamonds",
     scales::comma(nrow(diamonds)),
@@ -509,10 +454,7 @@ boxes <- layout_column_wrap(
 
 page_fillable(
   boxes,
-  layout_column_wrap(
-    width = 1/2,
-    plots[[1]], plots[[2]]
-  ),
+  layout_columns(plots[[1]], plots[[2]]),
   plots[[3]]
 )
 ```
@@ -520,7 +462,7 @@ page_fillable(
 ::: {.callout .callout-note}
 <h3 data-toc-skip>Column wrapping layouts</h3>
 
-To learn more about `layout_column_wrap()`, see [this article](column-layout.html).
+To learn more about `layout_columns()`, see [this article](column-layout.html).
 :::
 
 
@@ -538,8 +480,7 @@ plot_card <- function(header, ...) {
 }
 
 page_fillable(
-  layout_column_wrap(
-    width = 1/2,
+  layout_columns(
     plot_card("Diamond price", plots[[1]]), 
     plot_card("Diamond carat", plots[[2]])
   ),
@@ -552,24 +493,22 @@ Note that, if we changed `page_fillable()` to `page_fluid()` (or `page_fixed()`)
 
 ### Sidebar layouts
 
-Similar to what we've seen with outputs and `card()`s, `layout_sidebar()` is also a fill item (by default), so placing it as a direct child of `page_fillable()` makes it fit the window. Note, however, that the main content portion of sidebar layout is not a fillable container (by default), but that can easily be changed by setting `fillable = TRUE` in `layout_sidebar()`.
+Similar to what we've seen with outputs and `card()`s, `layout_sidebar()` is also a fill item (by default), so placing it as a direct child of `page_fillable()` makes it fit the window. Also, the main content's container defaults to a fillable container, so if that behavior is undesirable, set `fillable = FALSE` in `layout_sidebar()`.
 
 ```{r as_iframe=TRUE, resizable=TRUE}
 page_fillable(
   padding = 0,
   layout_sidebar(
-    fillable = TRUE,
     border = FALSE,
+    fillable = FALSE,
     sidebar = sidebar(
       title = "Diamond plots",
       "Input controls here..."
     ),
-    layout_column_wrap(
-      width = 1/2,
+    layout_columns(
       plot_card("Diamond price", plots[[1]]), 
       plot_card("Diamond carat", plots[[2]])
     ),
-    br(),
     plot_card("Diamond cut by clarity", plots[[3]])
   )
 )
@@ -601,9 +540,7 @@ ui <- page_fluid(
     full_screen = TRUE,
     max_height = 300,
     card_header("My plot"),
-    as_fill_carrier(
-      uiOutput("plot")
-    )
+    uiOutput("plot", as_fill_carrier())
   )
 )
 
@@ -659,7 +596,7 @@ Broadly speaking, most `htmlwidgets` like `{plotly}` and `{leaflet}` are [fill i
 
 ### Avoid `fluidRow()`/`column()`
 
-Modern versions of [Bootstrap Grid](https://getbootstrap.com/docs/5.3/layout/grid/) currently use [CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) in such a way that filling layout is incompatible with `fluidRow()`/`column()`. For the time being, we recommend you use `layout_column_wrap()` to achieve [multi-column filling layouts](column-layout.html). We hope, in a future version of `bslib`, we'll have a modern version of `fluidRow()`/`column()` that makes varying-width layouts easier than it [currently is](column-layout.html#varying-widths) with `layout_column_wrap()` (see <https://github.com/rstudio/bslib/issues/514>).
+Modern versions of [Bootstrap Grid](https://getbootstrap.com/docs/5.3/layout/grid/) currently use [CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) in such a way that filling layout is mostly incompatible with `fluidRow()`/`column()`. Instead, use `layout_columns()` to implement [multi-column filling layouts](column-layout.html)
 
 
 <!-- Extra js bits --->

@@ -103,13 +103,15 @@ Config/Needs/website:
     htmlwidgets,
     leaflet,
     lorem,
+    palmerpenguins,
     plotly,
     purrr,
     rprojroot,
     rstudio/htmltools,
     scales,
     stringr,
-    tidyr
+    tidyr,
+    webshot2
 Config/Needs/deploy:
     BH,
     cpp11,

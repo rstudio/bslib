@@ -5,49 +5,13 @@ output:
     theme:
       version: 5
 resource_files:
-  - infobox.svg
   - examples/sidebars
 ---
 
 ```{r setup, include=FALSE}
-library(knitr)
-library(htmltools)
-library(bslib)
-
-opts_chunk$set(message = FALSE)
-
-render_as_iframe <- function(x, options, ...) {
-  lbl <- opts_current$get("label")
-  doc_name <- sub("[.]Rmd", "", knitr::current_input())
-  lbl_dir <- file.path("examples", doc_name, lbl)
-  if (!dir.exists(lbl_dir)) {
-    dir.create(lbl_dir, recursive = TRUE)
-  }
-  file <- file.path(lbl_dir, paste0(lbl, ".html"))
-  x <- tagList(x, tags$head(tags$style(".html-widget { height: 250px !important; } .modebar-container { display: none; }")))
-  tryCatch(
-    save_html(x, file),
-    error = function(e) {
-      stop("Don't know how to render ", class(x)[[1]], " as an <iframe>")
-    }
-  )
-  include_url(file)
-}
-
-knitr::opts_hooks$set(as_iframe = function(opts) {
-  opts$render <- render_as_iframe
-  opts$out.width <- "100%"
-  opts$out.extra <- paste0(
-    'seamless="seamless" frameBorder="0" loading="lazy"',
-    if (isFALSE(opts$scrolling)) ' scrolling="no"',
-    if (isTRUE(opts$resizable)) ' class="resizable"'
-  )
-  opts
-})
-
-# pkgdown really wants BS5+ markup for tabs, and this is currently the best way to achieving that :(
-# (note this isn't a problem for any format based on html_document_base)
-shiny:::setCurrentTheme(bslib::bs_theme())
+source(
+  rprojroot::find_package_root_file("vignettes/common.R")
+)
 
 describe_layout_function <- function(name, description, element = NULL) {
   name <- knitr::combine_words(sprintf("<code>%s</code>", name),  and = " or ")
@@ -74,14 +38,9 @@ describe_layout_function <- function(name, description, element = NULL) {
     display: none;
   }
 }
-iframe, .bslib-page-fill {
-  height: 500px;
-  border: var(--bs-border-width) solid var(--bs-border-color);
-}
 
-iframe.resizable {
-  resize: vertical;
-  min-height: 200px;
+.section {
+  margin-top: 2rem;
 }
 
 .card-header.bg-info code {
@@ -92,17 +51,17 @@ iframe.resizable {
 
 ::: lead
 Sidebar layouts in web interfaces allow your users to easily access filters, settings and other inputs alongside the interactive features they control.
-In this article, you'll learn how to create sidebar layouts with bslib.
+In the [Getting Started with dashboards](dashboards.html) article, we covered "page-level" sidebar layouts via the `page_sidebar()` and `page_navbar()` functions. In this article, we'll explore the full range of sidebar layouts available in bslib.
 :::
 
 ## Overview
 
-There are three main types of sidebar layouts: floating, filled, and multi-page/tab. In any scenario, start by creating a `sidebar()` object. And, unless you want a `sidebar()` to be shared across [multiple pages/tabs](#multi-page-layout), pass that object to `layout_sidebar()`.
+There are three main types of sidebar layouts: floating, filling, and multi-page/tab.
 
 :::: {.row .mt-3}
 ### Floating layout
 
-For a sidebar layout that can go anywhere on any page, first provide a `sidebar()` object to `layout_sidebar()`. The `layout_sidebar()` can also be placed inside a `card()` to add a header/footer, full screen expansion, and more. This layout approach is great for visually grouping together semantically related inputs and output(s):
+Use `layout_sidebar()` to create a sidebar layout that can go anywhere on any page. This layout approach is great for visually grouping together semantically related inputs and output(s). It can also be paired with  a `card()` to leverage `full_screen` expansion, add a header/footer, and more.
 
 ::: {.col-sm-12 .col-lg-6}
 
@@ -175,7 +134,7 @@ describe_layout_function(
 ### Filling layout
 
 ::: {.col-sm-12 .col-lg-6}
-For a sidebar layout that fills the entire page, pass `layout_sidebar()` directly to `page_fillable()`. However, if your app has multiple groups of input and outputs, a floating layout (for each group) is often preferable to a filling layout. That's because, when a sidebar fills the page, it gives the impression that its controls impact _everything_ in the main content area.
+In the [Getting Started with dashboards](dashboards.html) article, we saw how `page_sidebar()` yields a sidebar layout that fills the page. Underneath the hood, `page_sidebar()` is just a simple wrapper around `page_fillable()` and `layout_sidebar()`. Understanding this unlocks the potential to have (any number of) sidebar layouts within a filling layout. 
 :::
 
 ::: {.col-sm-12 .col-lg-6}
@@ -219,7 +178,7 @@ describe_layout_function(
 
 ### Multi-page layout
 
-For a multi-page (or multi-tab) layout, pass a `sidebar()` to the `sidebar` argument of `page_navbar()` (or `navset_card_tab()`). In this case, we get a sidebar that not only fills the page, but also _remains visible on every page/tab_. Later on, we'll explore how to [put sidebar layouts inside of particular pages](#multi-page-example); but also keep in mind, if it's desirable to have a sidebar on every page, it often helps to [hide/show sidebar contents on certain pages](#conditional-contents) via `conditionalPanel()`.
+For a multi-page (or multi-tab) layout, use the `sidebar` argument of `page_navbar()` (or `navset_card_tab()`). In this case, we get a sidebar that not only fills the page, but that _same sidebar remains visible on every page/tab_. Later on, we'll explore how to put [multiple, varied, layouts on different pages](#multi-page-example); but also keep in mind, if it is actually desirable to have the _same sidebar_ on every page, it often helps to [hide/show sidebar contents on certain pages](#conditional-contents) via `conditionalPanel()`.
 
 ::: {.col-sm-12 .col-lg-6}
 
@@ -239,7 +198,8 @@ describe_layout_function(
   "page_navbar()",
   "A sidebar shared across multiple pages.",
   card_body(
-    class = "p-0",
+    class = "p-0", 
+    style = "gap:0;",
     height = 200,
     id = "page_navbar_example_card",
     navset_bar(
@@ -348,27 +308,27 @@ map_quakes <- leaflet(quake_dat) |>
 
 </details>
 
-### Fillable contents
+### Hello `layout_sidebar()` {#hello-sidebar}
 
-Since `layout_sidebar()` is a fill item (defaults to `fill = TRUE`), it fills a fillable container with an opinionated height (e.g., `page_fillable()` which sets it's height to `100%` of the browser window). However, the _main content area_ of the layout is not a fillable container by default, so set `fillable = TRUE` if fill items in the main content area (i.e., `plots`) should also fill.
+`layout_sidebar()` behaves a lot like a [card](cards.html). For example, when used inside `page_fillable()` they'll also grow/shrink to fit the page (because they default to `fill = TRUE`). They also default to `fillable = TRUE` which allows fill items in the main content area (e.g., `plots[[1]]`) to also grow/shrink to fit their container. They also behave a lot like a `card_body()` in that they can be put directly inside a `card()` (which is useful for adding a header/footer, `full_screen = TRUE`, etc.).
 
 ```{r, as_iframe = TRUE, resizable = TRUE}
-# NOTE: in attempt keep the code brief, we make use of rlang's
-# splice operator (!!!) https://rlang.r-lib.org/reference/splice-operator.html
-diamonds_view <- layout_sidebar(
-  sidebar = sidebar(
-    title = "Diamond filters",
-    !!!filters
-  ),
-  fillable = TRUE,
-  border = FALSE,
-  border_radius = FALSE,
-  !!!plots
+sidebar_diamonds <- layout_sidebar(
+  sidebar = filters[[1]],
+  plots[[1]]
+)
+
+sidebar_quakes <- layout_sidebar(
+  sidebar = map_filter,
+  map_quakes
 )
 
 page_fillable(
-  padding = 0,
-  diamonds_view
+  sidebar_diamonds,
+  card(
+    card_header("Earthquakes"),
+    sidebar_quakes
+  )
 )
 ```
 
@@ -390,70 +350,58 @@ To learn more about how fillable containers and fill items work, see the article
 :::
 ::::
 
-### Multi-page, multi-layout {#multi-page-example}
+### Multi-page varied layout {#multi-page-example}
 
-As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `page_navbar()` puts a sidebar _on each page_ that fills the window. However, sometimes it's better that only particular pages have such a sidebar layout. In this case, you can provide a `layout_sidebar()` as a "root" element of a particular page, then use `page_navbar()`'s `fillable` argument to make that element fill the window.
+As we covered in [Getting Started with dashboards](dashboards.html), the `sidebar` argument of `page_navbar()` puts a sidebar _on each page_ that fills the window. However, sometimes it's better that only particular pages have such a sidebar layout. To acheive this, just provide a `layout_sidebar()` as a "root" element of a `fillable` page.
 
-For example, let's put the same `diamonds_view` sidebar layout on it's own filled page (via `fillable = "Diamonds"`), and leverage a [floating layout](#floating-layout) for a view of the `quakes` data. The floating layout provides a more flexible way to group input controls next the outputs that they effect, which would be especially important if we had multiple output groups on the "Earthquakes" page.
+For example, let's put a "page-level" sidebar on a page dedicated to Earthquakes, and then put multiple sidebar layouts on a page dedicated to Diamonds (one for each plot). In this case, we've only allowed the Earthquakes page to be `fillable` since there are multiple plots on the Diamonds page (you could also keep the Diamonds page `fillable` an put a `min_height` on the cards to prevent them from shrinking too much).
 
 ```{r, as_iframe = TRUE, resizable = TRUE}
-quakes_view <- card(
-  full_screen = TRUE,
-  card_header("Earthquake locations"),
-  layout_sidebar(
-    sidebar = sidebar(map_filter),
-    map_quakes
-  )
-)
-
 page_navbar(
   title = "Sidebar demo",
-  fillable = "Diamonds",
-  nav_panel("Diamonds", diamonds_view),
-  nav_panel("Earthquakes", quakes_view)
-)
-```
-
-
-:::: {.row .my-3}
-::: {.col-sm-12 .col-lg-6}
-::: {.callout .callout-note}
-<h3 data-toc-skip>The fillable argument</h3>
-
-You might have noticed other UI elements like `layout_sidebar()`, `card_body()`, `layout_column_wrap()`, etc., also have a `fillable` argument. In those cases, it's just a boolean value for whether or not the element should be a [fillable container](filling.html). In `page_navbar()`'s case, it can be used to target specific page(s) (by matching their `title`) and/or all pages (`fillable = TRUE`).
-:::
-:::
-
-::: {.col-sm-12 .col-lg-6 .mt-auto .mb-auto}
-::: {.callout .callout-note}
-<h3 data-toc-skip>Multi-tab, multi-layout</h3>
-
-As we saw in the [overview](#overview), providing a `sidebar()` to the `sidebar` argument of `navset_card_tab()` puts a sidebar inside every tab of a multi-tab card. However, just like how we can provide a `layout_sidebar()` to a particular page (as shown above), the same can be done with `navset_card_tab()`.
-:::
-:::
-::::
-
-
-### Restricting growth
-
-With a [floating layout](#floating-layout), the layout container's size matches the size of it's contents (just like [cards do](cards.html#restricting-growth)). Thus, if there a large amount of sidebar/main contents, consider specifying a `height` or `max_height` via `card()` (as well as `full_screen = TRUE` to reduce the need for scrolling).
-
-```{r, as_iframe = TRUE, resizable = TRUE}
-page_fixed(
-  h2("Diamonds data", class = "lead mt-3"),
-  card(
-    max_height = 350,
-    full_screen = TRUE,
-    layout_sidebar(
-      sidebar = sidebar(!!!filters),
-      "Scroll for more plots 👇",
-      !!!plots
+  fillable = "Earthquakes",
+  nav_panel("Earthquakes", sidebar_quakes),
+  nav_panel(
+    "Diamonds", 
+    Map(
+      function(filter, plot) {
+        card(
+          full_screen = TRUE,
+          layout_sidebar(sidebar = filter, plot)
+        )
+      },
+      filters, plots
     )
   )
 )
 ```
 
-Although we don't show it here, do keep in mind that setting `fillable=TRUE` in `layout_sidebar()` would allow the fill items (i.e., `plots`) to shrink/grow to fit the `card()` containers specified size.
+
+::: {.callout .callout-note}
+<h3 data-toc-skip>Multiple tabs</h3>
+
+Just like `page_navbar()`, `navset_card_tab()` also has a `sidebar` argument that puts _the same sidebar_ on each tab. The same approach (i.e., putting a `layout_sidebar()` within each `nav_panel()`) can be used to put different sidebars on different tabs.
+:::
+
+
+### Restricting growth
+
+Just like with [cards](cards.html#restricting-growth), when a [filling layout](#hello-sidebar) isn't enforcing the size of the `layout_sidebar()`, it will allow it's contents to decide how big it should be. Thus, if there a large amount of sidebar/main contents, consider specifying a `height` or `max_height` via `card()` (as well as `full_screen = TRUE` to reduce the need for scrolling).
+
+```{r, as_iframe = TRUE, resizable = TRUE}
+page_fixed(
+  h1("Sidebar demo", class = "lead mt-3"),
+  card(
+    height = 400,
+    full_screen = TRUE,
+    layout_sidebar(sidebar = filters, plots)
+  ),
+  card(
+    full_screen = TRUE,
+    layout_sidebar(sidebar = map_filter, map_quakes)
+  )
+)
+```
 
 
 ## Shiny
@@ -498,7 +446,9 @@ shinyApp(
 page_navbar(
   title = "Conditional sidebar",
   id = "nav",
+  collapsible = FALSE,
   sidebar = sidebar(
+    open = TRUE,
     conditionalPanel(
       "input.nav === 'Page 1'",
       "Page 1 sidebar"
@@ -565,7 +515,6 @@ server <- function(input, output) {
 shinyApp(ui, server)
 ```
 :::
-:::
 
 ::: {.col-sm-12 .col-lg-6 .mt-auto .mb-auto}
 ```{r shiny-sidebar-state, echo = FALSE, as_iframe = TRUE}
@@ -581,7 +530,7 @@ $('#nav').on('shown.bs.tab', function(ev) {
   const page = ev.target.dataset.value;
   const layout = document.getElementById('sidebar').parentElement;
   const open = page === 'Page 2' ? 'open' : 'close';
-  window.bslib.Sidebar.toggle(layout, open);
+  bslib.Sidebar.getInstance(layout).toggle(open);
 });"
   ))
 )
@@ -619,8 +568,7 @@ accordion_filters <- accordion(
 card(
   card_header("Groups of diamond filters"),
   layout_sidebar(
-    fillable = TRUE,
-    sidebar = sidebar(accordion_filters),
+    sidebar = accordion_filters,
     plots[[1]]
   )
 )
@@ -685,5 +633,3 @@ container <- layout_sidebar(
 
 tagAppendAttributes(container, style = css("--bs-card-border-color" = "#1E1E1E"))
 ```
-
-
