@@ -272,6 +272,12 @@ ui <- page_sidebar(
 shinyApp(ui, server)
 ```
 
+::: {.callout .callout-note}
+<h3 data-toc-skip>A note on <code>page_navbar()</code></h3>
+
+Like `page_sidebar()`, `page_navbar()` also has a `fillable` argument which also defaults to `TRUE`, which makes _every_ page (i.e.,  `nav_panel()`) fillable. To make just a subset of pages fillable, pass a vector of page names to `fillable` (e.g., `fillable = c("Bill Length", "Bill Depth")`). To make _all_ pages non-fillable, set `fillable = FALSE`. 
+:::
+
 
 ### Mobile layout
 
