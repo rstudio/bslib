@@ -86,6 +86,7 @@ border and optional padding. To learn more about <code>card()</code>s, see <a hr
 <span>  full_screen <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  min_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  wrapper <span class="op">=</span> <span class="va">card_body</span></span>
@@ -110,7 +111,7 @@ body. Clicking the icon expands the card to fit viewport size.</p></dd>
 (in this case, consider setting a <code>height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
 
 
-<dt>max_height</dt>
+<dt>max_height, min_height</dt>
 <dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
 <code>max_height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
 (in this case, consider setting a <code>max_height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
