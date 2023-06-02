@@ -10,7 +10,7 @@
 #'   `bg`, `fg`, `primary`, etc).
 #' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`.
 #'
-#' To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, [see here](https://rstudio.github.io/bslib/articles/bslib.html).
+#' To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, [see here](https://rstudio.github.io/bslib/articles/theming.html).
 #'
 #' @section Colors:
 #'
@@ -85,7 +85,7 @@
 #'
 #' @return a [sass::sass_bundle()] (list-like) object.
 #'
-#' @references \url{https://rstudio.github.io/bslib/articles/bslib.html}
+#' @references \url{https://rstudio.github.io/bslib/articles/theming.html}
 #' @references \url{https://rstudio.github.io/sass/}
 #' @seealso [bs_add_variables()], [bs_theme_preview()]
 #' @examples

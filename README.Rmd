@@ -22,12 +22,12 @@ library(bslib)
 
 # bslib
 
-The `bslib` R package provides a modern UI toolkit for [Shiny](https://shiny.rstudio.com/) and [R Markdown](https://rmarkdown.rstudio.com/) based on [Bootstrap](https://getbootstrap.com/). It facilitates:   
+The `bslib` R package provides a modern UI toolkit for [Shiny](https://shiny.posit.co/) and [R Markdown](https://rmarkdown.rstudio.com/) based on [Bootstrap](https://getbootstrap.com/). It facilitates:   
 
-* Creation of delightful and customizable [Shiny dashboards](dashboards.html).
+* Creation of delightful and customizable [Shiny dashboards](https://rstudio.github.io/bslib/articles/dashboards.html).
   * The underlying UI components (e.g., [cards](https://rstudio.github.io/bslib/articles/cards.html), [value boxes](https://rstudio.github.io/bslib/articles/value-boxes.html), [sidebars](https://rstudio.github.io/bslib/articles/sidebars.html), etc) are also designed to work in other contexts (e.g., in R Markdown).
 * [Custom theming](https://rstudio.github.io/bslib/articles/theming.html) of Shiny apps and R Markdown documents.
-  * Apps can even be themed interactively in [real-time](https://rstudio.github.io/bslib/articles/bslib.html#real-time).
+  * Apps can even be themed interactively in real-time.
 * Use of modern versions of Bootstrap and [Bootswatch](https://bootswatch.com/)
   * Shiny and R Markdown currently default to Bootstrap 3 and may continue to do so to maintain backwards compatibility.
 
