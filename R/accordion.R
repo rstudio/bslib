@@ -169,7 +169,7 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
 #'
 #' @param id an character string that matches an existing [accordion()]'s `id`.
 #' @param values either a character string (used to identify particular
-#'   [accordion_panel()](s) by their `value`) or `TRUE` (i.e., all `values`).
+#'   [accordion_panel()]s by their `value`) or `TRUE` (i.e., all `values`).
 #' @param session a shiny session object (the default should almost always be
 #'   used).
 #'
