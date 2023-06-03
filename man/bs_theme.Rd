@@ -105,7 +105,7 @@ Creates a Bootstrap theme object, where you can:
 \item Customize other, lower-level, Bootstrap Sass variable defaults via \code{...}.
 }
 
-To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, \href{https://rstudio.github.io/bslib/articles/bslib.html}{see here}.
+To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, \href{https://rstudio.github.io/bslib/articles/theming.html}{see here}.
 }
 \section{Colors}{
 
@@ -177,7 +177,7 @@ theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 
 }
 \references{
-\url{https://rstudio.github.io/bslib/articles/bslib.html}
+\url{https://rstudio.github.io/bslib/articles/theming.html}
 
 \url{https://rstudio.github.io/sass/}
 }
