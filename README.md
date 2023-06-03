@@ -13,12 +13,12 @@ status](https://github.com/rstudio/bslib/actions/workflows/R-CMD-check.yaml/badg
 # bslib
 
 The `bslib` R package provides a modern UI toolkit for
-[Shiny](https://shiny.rstudio.com/) and [R
+[Shiny](https://shiny.posit.co/) and [R
 Markdown](https://rmarkdown.rstudio.com/) based on
 [Bootstrap](https://getbootstrap.com/). It facilitates:
 
   - Creation of delightful and customizable [Shiny
-    dashboards](dashboards.html).
+    dashboards](https://rstudio.github.io/bslib/articles/dashboards.html).
       - The underlying UI components (e.g.,
         [cards](https://rstudio.github.io/bslib/articles/cards.html),
         [value
@@ -29,8 +29,7 @@ Markdown](https://rmarkdown.rstudio.com/) based on
   - [Custom
     theming](https://rstudio.github.io/bslib/articles/theming.html) of
     Shiny apps and R Markdown documents.
-      - Apps can even be themed interactively in
-        [real-time](https://rstudio.github.io/bslib/articles/bslib.html#real-time).
+      - Apps can even be themed interactively in real-time.
   - Use of modern versions of Bootstrap and
     [Bootswatch](https://bootswatch.com/)
       - Shiny and R Markdown currently default to Bootstrap 3 and may
