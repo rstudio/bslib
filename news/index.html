@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,11 +77,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.2.9000" id="bslib-0429000">bslib 0.4.2.9000<a class="anchor" aria-label="anchor" href="#bslib-0429000"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.5.0" id="bslib-050">bslib 0.5.0<a class="anchor" aria-label="anchor" href="#bslib-050"></a></h2>
 <p>This significant release focuses on making dashboards (e.g., <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>) and filling/responsive layouts (e.g., <code><a href="../reference/page.html">page_fillable()</a></code>, <code><a href="../reference/layout_columns.html">layout_columns()</a></code>) easier. It also includes many improvements and bug fixes for existing features and components (e.g., <code><a href="../reference/card.html">card()</a></code>).</p>
 <p><a href="https://rstudio.github.io/bslib/">bslib</a> is still maturing, but this release is a significant step towards this project superseding <a href="http://rstudio.github.io/shinydashboard/" class="external-link">shinydashboard</a>.</p>
 <div class="section level3">
-<h3 id="breaking-changes--improvements-0-4-2-9000">Breaking changes / improvements<a class="anchor" aria-label="anchor" href="#breaking-changes--improvements-0-4-2-9000"></a></h3>
+<h3 id="breaking-changes--improvements-0-5-0">Breaking changes / improvements<a class="anchor" aria-label="anchor" href="#breaking-changes--improvements-0-5-0"></a></h3>
 <ul><li>
 <code><a href="../reference/card_body.html">card_body()</a></code> now provides the same behavior as <code><a href="../reference/deprecated.html">card_body_fill()</a></code> (i.e., it is both a fillable container and fill item) by default. And, now, since <code><a href="../reference/card_body.html">card_body()</a></code> can do everything <code><a href="../reference/deprecated.html">card_body_fill()</a></code> can do, <code><a href="../reference/deprecated.html">card_body_fill()</a></code> has been deprecated. The main benefit of this change is that <code>card(full_screen = TRUE, ...)</code> with output(s) passed to <code>...</code> “just works” in an intuitive way. To revert to the previous behavior, set <code>fillable = FALSE</code> and <code>fill = FALSE</code> in calls to <code><a href="../reference/card_body.html">card_body()</a></code> and set <code>wrapper = function(x) card_body(x, fillable = FALSE, fill = FALSE)</code> in calls to <code><a href="../reference/card.html">card()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/498" class="external-link">#498</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/375" class="external-link">#375</a>: <code>margin-top</code> is no longer included on header tags that aren’t created via pandoc. If this negatively impacts spacing above headers, consider adding a suitable <a href="https://rstudio.github.io/bslib/articles/utility-classes.html">utility class</a> (for example, change <code>shiny::titlePanel("My title")</code> to <code>tagAppendAttributes(titlePanel("My title"), class = "mt-3", .selector = "h2")</code>). (<a href="https://github.com/rstudio/bslib/issues/396" class="external-link">#396</a>)</li>
@@ -103,7 +103,7 @@
 <li>Defaults for the following Bootstrap 5 Sass variables were changed to <code>null</code>: <code>$accordion-button-active-bg</code>, <code>$accordion-button-active-color</code>, and <code>$accordion-icon-active-color</code>. To restore the old behavior, do <code>bs_add_variables(theme, "accordion-button-active-bg" = "tint-color($component-active-bg, 90%)", "accordion-button-active-color" = "shade-color($primary, 10%)", "accordion-icon-active-color" = "$accordion-button-active-color", .where = "declarations")</code>. (<a href="https://github.com/rstudio/bslib/issues/475" class="external-link">#475</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-0-4-2-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-2-9000"></a></h3>
+<h3 id="new-features-0-5-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-5-0"></a></h3>
 <ul><li>Added <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>, for easy dashboard creation. (<a href="https://github.com/rstudio/bslib/issues/588" class="external-link">#588</a>)</li>
 <li>Added a <code><a href="../reference/sidebar.html">sidebar()</a></code> API for creating sidebar layouts in various contexts. See <a href="https://rstudio.github.io/bslib/articles/sidebars.html">the article</a> to learn more. (<a href="https://github.com/rstudio/bslib/issues/479" class="external-link">#479</a>)</li>
 <li>Added <code><a href="../reference/layout_columns.html">layout_columns()</a></code>, for responsive column-based grid layouts. (<a href="https://github.com/rstudio/bslib/issues/587" class="external-link">#587</a>)</li>
@@ -123,12 +123,12 @@
 <li>Added new <code>as_fill()</code>, <code>as_fillable()</code>, <code><a href="../reference/as_fill_carrier.html">as_fill_carrier()</a></code>, <code>is_fill()</code>, and <code>is_fillable()</code> for testing and coercing potential to fill. (<a href="https://github.com/rstudio/bslib/issues/498" class="external-link">#498</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-0-4-2-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-2-9000"></a></h3>
+<h3 id="bug-fixes-0-5-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-0"></a></h3>
 <ul><li>Closed <a href="https://github.com/rstudio/bslib/issues/558" class="external-link">#558</a>: nested cards with <code>fullscreen = TRUE</code> now correctly and individually expand to fill the window. Tab focus behavior while in full screen mode has also been improved. (<a href="https://github.com/rstudio/bslib/issues/557" class="external-link">#557</a>)</li>
 <li>Closed <a href="https://github.com/rstudio/bslib/issues/573" class="external-link">#573</a>: Improved styling when a dynamic result is supplied to <code><a href="../reference/value_box.html">value_box()</a></code>’s <code>title</code>/<code>value</code> (e.g., <code>value_box("Dynamic value", uiOutput("value"))</code>). (<a href="https://github.com/rstudio/bslib/issues/605" class="external-link">#605</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="deprecations-0-4-2-9000">Deprecations<a class="anchor" aria-label="anchor" href="#deprecations-0-4-2-9000"></a></h3>
+<h3 id="deprecations-0-5-0">Deprecations<a class="anchor" aria-label="anchor" href="#deprecations-0-5-0"></a></h3>
 <ul><li>
 <code><a href="../reference/deprecated.html">card_body_fill()</a></code> has been deprecated in favor of <code><a href="../reference/card_body.html">card_body()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/498" class="external-link">#498</a>)</li>
 <li>
