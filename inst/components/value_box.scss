@@ -38,8 +38,7 @@
     }
     // value_box(title = )
     > :first-child { 
-      font-size: $h6-font-size;
-      margin-bottom: $spacer / 4;
+      @extend .h6;
       // add a non-breaking space to ensure it's not 0 height
       &::after {
         content: '\00a0 '
@@ -47,8 +46,7 @@
     }
     // value_box(value = )
     > :nth-child(2) { 
-      font-size: $h2-font-size;
-      margin-bottom: $spacer / 2;
+      @extend .h2;
       // add a non-breaking space to ensure it's not 0 height
       &::after {
         content: '\00a0 '
