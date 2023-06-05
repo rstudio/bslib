@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,8 @@
 
 
 
-<script src="dashboards_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Dashboards</h1>
             
@@ -117,17 +118,27 @@ img {
   margin-top: 2rem;
 }
 </style>
-<p>This article focuses on using <code>bslib</code> to create the user interface (UI) for <a href="https://shiny.posit.co/" class="external-link">Shiny</a> dashboards. In the <a href="any-project.html">next getting started article</a>, we’ll also cover how these dashboard <a href="#components">components</a>, <a href="#layouts">layout helpers</a>, etc. be also be used in isolation inside of any Bootstrap project (e.g., R Markdown, <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>, etc), not just Shiny dashboards.</p>
+<p>This article focuses on using <code>bslib</code> to create the user
+interface (UI) for <a href="https://shiny.posit.co/" class="external-link">Shiny</a>
+dashboards. In the <a href="any-project.html">next getting started
+article</a>, we’ll also cover how these dashboard <a href="#components">components</a>, <a href="#layouts">layout
+helpers</a>, etc. be also be used in isolation inside of any Bootstrap
+project (e.g., R Markdown, <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>, etc), not just Shiny
+dashboards.</p>
 <div class="callout callout-note">
 <h3 data-toc-skip>
 Running examples
 </h3>
-<p>To run the Shiny app examples in this article, consider copy/paste/run/edit the code in <a href="https://posit.cloud/content/5603136" class="external-link">this RStudio Cloud project</a>.</p>
+<p>To run the Shiny app examples in this article, consider
+copy/paste/run/edit the code in <a href="https://posit.cloud/content/5603136" class="external-link">this RStudio Cloud
+project</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="hello-dashboards">Hello dashboards<a class="anchor" aria-label="anchor" href="#hello-dashboards"></a>
 </h2>
-<p>Quickly create a dashboard by providing a <code>title</code>, <code>sidebar</code>, and main area contents to <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>.</p>
+<p>Quickly create a dashboard by providing a <code>title</code>,
+<code>sidebar</code>, and main area contents to
+<code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/bslib/">bslib</a></span><span class="op">)</span></span>
@@ -140,8 +151,15 @@ Running examples
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples/dashboards/unnamed-chunk-3/unnamed-chunk-3.png" width="900" height="200" style="display: block; margin: auto;"></p>
-<p>Both the <code>sidebar</code> and main content areas can hold any arbitrary collection of UI elements, but it’s good practice to keep inputs in the <code>sidebar</code> and outputs in the main content area. Also, consider wrapping outputs in a <code><a href="../reference/card.html">card()</a></code> and <code>sidebar</code> contents in a <code><a href="../reference/sidebar.html">sidebar()</a></code> object to add a title and/or customize styling, positioning, etc.</p>
-<p>Let’s start with a basic yet interesting example of a customizable histogram with numeric variables from the <a href="https://allisonhorst.github.io/palmerpenguins/" class="external-link">palmerpenguins</a> dataset.</p>
+<p>Both the <code>sidebar</code> and main content areas can hold any
+arbitrary collection of UI elements, but it’s good practice to keep
+inputs in the <code>sidebar</code> and outputs in the main content area.
+Also, consider wrapping outputs in a <code><a href="../reference/card.html">card()</a></code> and
+<code>sidebar</code> contents in a <code><a href="../reference/sidebar.html">sidebar()</a></code> object to add
+a title and/or customize styling, positioning, etc.</p>
+<p>Let’s start with a basic yet interesting example of a customizable
+histogram with numeric variables from the <a href="https://allisonhorst.github.io/palmerpenguins/" class="external-link">palmerpenguins</a>
+dataset.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">penguins</span>, package <span class="op">=</span> <span class="st">"palmerpenguins"</span><span class="op">)</span></span>
@@ -172,7 +190,13 @@ Running examples
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples/dashboards/unnamed-chunk-4/unnamed-chunk-4.png" width="900" height="400" style="display: block; margin: auto;"></p>
-<p>Throughout the rest of this article, we’ll cover how to layout multiple outputs, add multiple pages, and more. For that, it’ll be useful to have some reusable outputs and inputs. So, let’s create a list of <code>cards</code>, each with a <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code> container for a numeric variable of interest, plus a <code>color_by</code> input control to color the histograms by <code>species</code>, <code>island</code>, or <code>sex</code>.</p>
+<p>Throughout the rest of this article, we’ll cover how to layout
+multiple outputs, add multiple pages, and more. For that, it’ll be
+useful to have some reusable outputs and inputs. So, let’s create a list
+of <code>cards</code>, each with a <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code> container
+for a numeric variable of interest, plus a <code>color_by</code> input
+control to color the histograms by <code>species</code>,
+<code>island</code>, or <code>sex</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cards</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span></span>
@@ -197,7 +221,12 @@ Running examples
 <span>  <span class="va">penguins</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span>, <span class="st">"island"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">]</span>, </span>
 <span>  selected <span class="op">=</span> <span class="st">"species"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Now, for a quick example, let’s pass <code>color_by</code> directly to <code>sidebar</code> and the <code>cards</code> to the main content area. By default, each card is placed in a new row, and the cards are allowed to grow/shrink to fit the browser window (if the browser window is wide enough). In the next section, we’ll cover how to customize the layout.</p>
+<p>Now, for a quick example, let’s pass <code>color_by</code> directly
+to <code>sidebar</code> and the <code>cards</code> to the main content
+area. By default, each card is placed in a new row, and the cards are
+allowed to grow/shrink to fit the browser window (if the browser window
+is wide enough). In the next section, we’ll cover how to customize the
+layout.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -227,7 +256,9 @@ Running examples
 <div class="section level3">
 <h3 id="multi-column">Multi-column<a class="anchor" aria-label="anchor" href="#multi-column"></a>
 </h3>
-<p>Create multi-column layouts with <code><a href="../reference/layout_columns.html">layout_columns()</a></code>. If no <code>col_widths</code> are specified, it divides space evenly among the UI elements in a row.</p>
+<p>Create multi-column layouts with <code><a href="../reference/layout_columns.html">layout_columns()</a></code>. If no
+<code>col_widths</code> are specified, it divides space evenly among the
+UI elements in a row.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -238,7 +269,12 @@ Running examples
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples/dashboards/unnamed-chunk-7/unnamed-chunk-7.png" width="1200" height="800" style="display: block; margin: auto;"></p>
-<p>A vector of column widths may also be supplied to allocate a given number of columns (out of 12) to each element. And, if elements go beyond the 12 column mark, they get wrapped onto a new row. By default, all row heights are equal, but this can be customized with the <code>row_heights</code> argument (numeric values are interpreted as fractional units, but fixed length units are also supported).</p>
+<p>A vector of column widths may also be supplied to allocate a given
+number of columns (out of 12) to each element. And, if elements go
+beyond the 12 column mark, they get wrapped onto a new row. By default,
+all row heights are equal, but this can be customized with the
+<code>row_heights</code> argument (numeric values are interpreted as
+fractional units, but fixed length units are also supported).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -254,7 +290,8 @@ Running examples
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples/dashboards/unnamed-chunk-8/unnamed-chunk-8.png" width="1200" height="800" style="display: block; margin: auto;"></p>
-<p>Negative <code>col_widths</code> may also be provided to easily create negative/empty space:</p>
+<p>Negative <code>col_widths</code> may also be provided to easily
+create negative/empty space:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -269,12 +306,21 @@ Running examples
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples/dashboards/unnamed-chunk-9/unnamed-chunk-9.png" width="1600" height="800" style="display: block; margin: auto;"></p>
-<p>Although we don’t show it here, <code><a href="../reference/layout_columns.html">layout_columns()</a></code> also supports different <code>col_widths</code> and <code>row_heights</code> at different <code><a href="../reference/breakpoints.html">breakpoints()</a></code>. This is useful for creating responsive layouts that adapt to different screen sizes. To learn more, visit <code><a href="../reference/layout_columns.html">layout_columns()</a></code>.</p>
+<p>Although we don’t show it here, <code><a href="../reference/layout_columns.html">layout_columns()</a></code> also
+supports different <code>col_widths</code> and <code>row_heights</code>
+at different <code><a href="../reference/breakpoints.html">breakpoints()</a></code>. This is useful for creating
+responsive layouts that adapt to different screen sizes. To learn more,
+visit <code><a href="../reference/layout_columns.html">layout_columns()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="multi-page">Multi-page<a class="anchor" aria-label="anchor" href="#multi-page"></a>
 </h3>
-<p>To add multiple pages, change <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> to <code><a href="../reference/page.html">page_navbar()</a></code> and use <code><a href="../reference/nav-items.html">nav_panel()</a></code> to supply the title and content for each page. Here you can also take advantage of <code>bslib</code>’s <code><a href="../reference/nav-items.html">nav_spacer()</a></code> and <code><a href="../reference/nav-items.html">nav_item()</a></code> to control the alignment and UI elements to the navbar (e.g., an external hyperlink).</p>
+<p>To add multiple pages, change <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> to
+<code><a href="../reference/page.html">page_navbar()</a></code> and use <code><a href="../reference/nav-items.html">nav_panel()</a></code> to supply
+the title and content for each page. Here you can also take advantage of
+<code>bslib</code>’s <code><a href="../reference/nav-items.html">nav_spacer()</a></code> and
+<code><a href="../reference/nav-items.html">nav_item()</a></code> to control the alignment and UI elements to the
+navbar (e.g., an external hyperlink).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page.html">page_navbar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -288,12 +334,22 @@ Running examples
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples/dashboards/unnamed-chunk-10/unnamed-chunk-10.png" width="900" height="400" style="display: block; margin: auto;"></p>
-<p>Be wary that <code><a href="../reference/page.html">page_navbar()</a></code>’s <code>sidebar</code> argument puts the same sidebar on every page, which may or may not be desirable. In the <a href="sidebar.html">sidebar article</a>, you’ll learn some strategies for keeping the sidebar’s contents close to the stuff they effect. Specifically, that article covers how to: (1) <a href="sidebars.html#conditional-contents">hide/show <code>sidebar</code> contents on particular pages</a> (2) <a href="sidebars.html#multi-page-example">put a particular <code>sidebar()</code> with a given page</a>, and even (3) <a href="sidebars.html#multi-page-example">put sidebar layouts inside of a <code>card()</code></a>.</p>
+<p>Be wary that <code><a href="../reference/page.html">page_navbar()</a></code>’s <code>sidebar</code>
+argument puts the same sidebar on every page, which may or may not be
+desirable. In the <a href="sidebar.html">sidebar article</a>, you’ll
+learn some strategies for keeping the sidebar’s contents close to the
+stuff they effect. Specifically, that article covers how to: (1) <a href="sidebars.html#conditional-contents">hide/show <code>sidebar</code>
+contents on particular pages</a> (2) <a href="sidebars.html#multi-page-example">put a particular
+<code>sidebar()</code> with a given page</a>, and even (3) <a href="sidebars.html#multi-page-example">put sidebar layouts inside of a
+<code>card()</code></a>.</p>
 </div>
 <div class="section level3">
 <h3 id="multi-panel">Multi-panel<a class="anchor" aria-label="anchor" href="#multi-panel"></a>
 </h3>
-<p>Multiple <code><a href="../reference/nav-items.html">nav_panel()</a></code>s don’t necessarily need to go directly into <code><a href="../reference/page.html">page_navbar()</a></code>. They can also be consumed by any <code>navset_*()</code> component, including <code><a href="../reference/navset.html">navset_card_tab()</a></code>.</p>
+<p>Multiple <code><a href="../reference/nav-items.html">nav_panel()</a></code>s don’t necessarily need to go
+directly into <code><a href="../reference/page.html">page_navbar()</a></code>. They can also be consumed by
+any <code>navset_*()</code> component, including
+<code><a href="../reference/navset.html">navset_card_tab()</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -312,13 +368,24 @@ Running examples
 <h3 data-toc-skip>
 Multi-panel layouts
 </h3>
-<p><a href="https://rstudio.github.io/bslib/reference/navset.html#details">See here</a> to learn more about multi-panel layout options.</p>
+<p><a href="https://rstudio.github.io/bslib/reference/navset.html#details">See
+here</a> to learn more about multi-panel layout options.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="scrolling-vs-filling">Scrolling vs filling<a class="anchor" aria-label="anchor" href="#scrolling-vs-filling"></a>
 </h3>
-<p>Both <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page.html">page_navbar()</a></code> default to a <a href="filling.html">filling layout</a>, meaning that outputs like <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>, <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a>, etc. are encouraged to grow/shrink to fit the browser window. As a result, when contents have an large intrinsic minimum height (e.g., a long textual description), filling layout may cause cards/outputs to grow/shrink beyond what is desirable. To combat this, consider by a setting a <code>height</code> on <code><a href="../reference/card.html">card()</a></code>s that shouldn’t grow/shrink and <code>min_height</code>/<code>max_height</code> on <code><a href="../reference/card.html">card()</a></code>s that shouldn’t shrink/grow beyond a certain point.</p>
+<p>Both <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page.html">page_navbar()</a></code>
+default to a <a href="filling.html">filling layout</a>, meaning that
+outputs like <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>, <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a>, etc.
+are encouraged to grow/shrink to fit the browser window. As a result,
+when contents have an large intrinsic minimum height (e.g., a long
+textual description), filling layout may cause cards/outputs to
+grow/shrink beyond what is desirable. To combat this, consider by a
+setting a <code>height</code> on <code><a href="../reference/card.html">card()</a></code>s that shouldn’t
+grow/shrink and <code>min_height</code>/<code>max_height</code> on
+<code><a href="../reference/card.html">card()</a></code>s that shouldn’t shrink/grow beyond a certain
+point.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -329,7 +396,11 @@ Multi-panel layouts
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples/dashboards/unnamed-chunk-12/unnamed-chunk-12.png" width="900" height="600" style="display: block; margin: auto;"></p>
-<p>Filling layout, in general, may not be desirable, especially when there is a lot of output to display on a single page. In this case, consider setting <code>fillable = FALSE</code> to prevent growing/shrinking altogether (in this case, outputs then ‘fallback’ to their default height which is usually 400px).</p>
+<p>Filling layout, in general, may not be desirable, especially when
+there is a lot of output to display on a single page. In this case,
+consider setting <code>fillable = FALSE</code> to prevent
+growing/shrinking altogether (in this case, outputs then ‘fallback’ to
+their default height which is usually 400px).</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -344,14 +415,27 @@ Multi-panel layouts
 <h3 data-toc-skip>
 A note on <code>page_navbar()</code>
 </h3>
-<p>Like <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>, <code><a href="../reference/page.html">page_navbar()</a></code> also has a <code>fillable</code> argument which also defaults to <code>TRUE</code>, which makes <em>every</em> page (i.e., <code><a href="../reference/nav-items.html">nav_panel()</a></code>) fillable. To make just a subset of pages fillable, pass a vector of page names to <code>fillable</code> (e.g., <code>fillable = c("Bill Length", "Bill Depth")</code>). To make <em>all</em> pages non-fillable, set <code>fillable = FALSE</code>.</p>
+<p>Like <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>, <code><a href="../reference/page.html">page_navbar()</a></code> also has
+a <code>fillable</code> argument which also defaults to
+<code>TRUE</code>, which makes <em>every</em> page (i.e.,
+<code><a href="../reference/nav-items.html">nav_panel()</a></code>) fillable. To make just a subset of pages
+fillable, pass a vector of page names to <code>fillable</code> (e.g.,
+<code>fillable = c("Bill Length", "Bill Depth")</code>). To make
+<em>all</em> pages non-fillable, set <code>fillable = FALSE</code>.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="mobile-layout">Mobile layout<a class="anchor" aria-label="anchor" href="#mobile-layout"></a>
 </h3>
-<p>By default, filling layout is not enabled on mobile devices, meaning that <code>fillable</code> is effectively <code>FALSE</code> in that case. To enable filling layout on mobile devices, set <code>fillable_mobile = TRUE</code>. In this case, it’s good practice to set <code>min_height</code> on <code><a href="../reference/card.html">card()</a></code>s to prevent them from growing/shrinking beyond what is desirable.</p>
-<p>Also, sidebars are collapsed by default on mobile devices, but they can be opened via <code><a href="../reference/sidebar.html">sidebar()</a></code>’s <code>open</code> argument.</p>
+<p>By default, filling layout is not enabled on mobile devices, meaning
+that <code>fillable</code> is effectively <code>FALSE</code> in that
+case. To enable filling layout on mobile devices, set
+<code>fillable_mobile = TRUE</code>. In this case, it’s good practice to
+set <code>min_height</code> on <code><a href="../reference/card.html">card()</a></code>s to prevent them from
+growing/shrinking beyond what is desirable.</p>
+<p>Also, sidebars are collapsed by default on mobile devices, but they
+can be opened via <code><a href="../reference/sidebar.html">sidebar()</a></code>’s <code>open</code>
+argument.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -371,7 +455,11 @@ A note on <code>page_navbar()</code>
 <div class="section level3">
 <h3 id="value-boxes">Value boxes<a class="anchor" aria-label="anchor" href="#value-boxes"></a>
 </h3>
-<p>A <code><a href="../reference/value_box.html">value_box()</a></code> is a special kind of card designed for highlighting a value along with a title and a <code>showcase</code> placeholder (typically a <a href="https://github.com/rstudio/bsicons" class="external-link">bsicons</a> icon). They are covered in more detail in the <a href="value-boxes.html">value boxes</a> article, but here’s a <a href="https://allisonhorst.github.io/palmerpenguins/" class="external-link">palmerpenguins</a> example:</p>
+<p>A <code><a href="../reference/value_box.html">value_box()</a></code> is a special kind of card designed for
+highlighting a value along with a title and a <code>showcase</code>
+placeholder (typically a <a href="https://github.com/rstudio/bsicons" class="external-link">bsicons</a> icon). They are covered
+in more detail in the <a href="value-boxes.html">value boxes</a>
+article, but here’s a <a href="https://allisonhorst.github.io/palmerpenguins/" class="external-link">palmerpenguins</a> example:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colMeans</a></span><span class="op">(</span></span>
 <span>  <span class="va">penguins</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bill_length_mm"</span>, <span class="st">"bill_length_mm"</span>, <span class="st">"body_mass_g"</span><span class="op">)</span><span class="op">]</span>,</span>
@@ -413,7 +501,12 @@ A note on <code>page_navbar()</code>
 <div class="section level3">
 <h3 id="accordions">Accordions<a class="anchor" aria-label="anchor" href="#accordions"></a>
 </h3>
-<p>An <code><a href="../reference/accordion.html">accordion()</a></code> uses vertical collapsing to provide scalable navigation through many sections of content. Accordions can be placed anywhere on the page, including to a <code>sidebar</code>, which is convenient for grouping sections of input controls. Learn more about accordions on their <a href="https://rstudio.github.io/bslib/reference/accordion.html">reference page</a>.</p>
+<p>An <code><a href="../reference/accordion.html">accordion()</a></code> uses vertical collapsing to provide
+scalable navigation through many sections of content. Accordions can be
+placed anywhere on the page, including to a <code>sidebar</code>, which
+is convenient for grouping sections of input controls. Learn more about
+accordions on their <a href="https://rstudio.github.io/bslib/reference/accordion.html">reference
+page</a>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -455,7 +548,14 @@ A note on <code>page_navbar()</code>
 <div class="section level3">
 <h3 id="cards-with-sidebars">Cards with sidebars<a class="anchor" aria-label="anchor" href="#cards-with-sidebars"></a>
 </h3>
-<p>We’ve already seen how the <code>sidebar</code> argument of <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page.html">page_navbar()</a></code> yields a “page-level” sidebar layout, but they can also be made at the “component-level” via <code><a href="../reference/sidebar.html">layout_sidebar()</a></code>. This is especially useful for keeping input controls near the outputs they effect in more complex apps. <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> also works inside of a <code><a href="../reference/card.html">card()</a></code>, making it easy to add headers, footers, <code>full_screen</code> behavior, etc.</p>
+<p>We’ve already seen how the <code>sidebar</code> argument of
+<code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page.html">page_navbar()</a></code> yields a
+“page-level” sidebar layout, but they can also be made at the
+“component-level” via <code><a href="../reference/sidebar.html">layout_sidebar()</a></code>. This is especially
+useful for keeping input controls near the outputs they effect in more
+complex apps. <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> also works inside of a
+<code><a href="../reference/card.html">card()</a></code>, making it easy to add headers, footers,
+<code>full_screen</code> behavior, etc.</p>
 <p>To learn more, visit the <a href="cards.html">cards</a> and <a href="sidebars.html">sidebars</a> articles.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
@@ -487,7 +587,18 @@ A note on <code>page_navbar()</code>
 <div class="section level2">
 <h2 id="theming">Theming<a class="anchor" aria-label="anchor" href="#theming"></a>
 </h2>
-<p>In the getting started with <a href="theming.html">theming article</a>, you’ll learn some general theming strategies that also translate to dashboards. That is, by passing a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object to the <code>theme</code> argument of <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> (or <code><a href="../reference/page.html">page_navbar()</a></code>), we can add a <a href="https://bootswatch.com/" class="external-link">Bootswatch</a> theme, easily use <a href="https://fonts.google.com/" class="external-link">Google Fonts</a>, customize 100s of <a href="bs5-variables.html">theming variables</a>, and much more. Keep in mind, however, that <code><a href="../reference/bs_theme.html">bs_theme()</a></code> only customizes CSS styles. So, if you want <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>s to match the CSS, consider using the <a href="https://rstudio.github.io/thematic/" class="external-link">thematic</a> package to translate the styles to <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">ggplot2::theme()</a></code> settings. When doing so, also be aware that “complete” <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a> themes (e.g., <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw()</a></code>) only work sensibly when setting them globally (i.e., <code>theme_set(theme_bw())</code>).</p>
+<p>In the getting started with <a href="theming.html">theming
+article</a>, you’ll learn some general theming strategies that also
+translate to dashboards. That is, by passing a <code><a href="../reference/bs_theme.html">bs_theme()</a></code>
+object to the <code>theme</code> argument of <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>
+(or <code><a href="../reference/page.html">page_navbar()</a></code>), we can add a <a href="https://bootswatch.com/" class="external-link">Bootswatch</a> theme, easily use <a href="https://fonts.google.com/" class="external-link">Google Fonts</a>, customize 100s of <a href="bs5-variables.html">theming variables</a>, and much more. Keep in
+mind, however, that <code><a href="../reference/bs_theme.html">bs_theme()</a></code> only customizes CSS styles.
+So, if you want <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>s to match the CSS, consider
+using the <a href="https://rstudio.github.io/thematic/" class="external-link">thematic</a> package to translate the styles to
+<code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">ggplot2::theme()</a></code> settings. When doing so, also be aware
+that “complete” <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a> themes (e.g.,
+<code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw()</a></code>) only work sensibly when setting them globally
+(i.e., <code>theme_set(theme_bw())</code>).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
@@ -525,7 +636,14 @@ A note on <code>page_navbar()</code>
 <div class="section level2">
 <h2 id="in-production">In production<a class="anchor" aria-label="anchor" href="#in-production"></a>
 </h2>
-<p>Before deploying a dashboard to production, it’s wise to “hard-code” the version of Bootstrap used when it was developed. This reduces the chance of the dashboard breaking if and when <code>bslib</code> updates it’s Bootstrap dependency. To do so, call <code><a href="../reference/versions.html">version_default()</a></code> to get the current version of Bootstrap, then pass that value to <code>bs_theme(version = ...)</code> (and pass that theme object to the <code>theme</code> argument of the relevant <code>page_*()</code> function).</p>
+<p>Before deploying a dashboard to production, it’s wise to “hard-code”
+the version of Bootstrap used when it was developed. This reduces the
+chance of the dashboard breaking if and when <code>bslib</code> updates
+it’s Bootstrap dependency. To do so, call <code><a href="../reference/versions.html">version_default()</a></code>
+to get the current version of Bootstrap, then pass that value to
+<code>bs_theme(version = ...)</code> (and pass that theme object to the
+<code>theme</code> argument of the relevant <code>page_*()</code>
+function).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span></span>

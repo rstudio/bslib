@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,8 @@
 
 
 
-<script src="custom-components_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Custom components</h1>
             
@@ -107,11 +108,18 @@
 
     
     
-<p>This article is for Shiny and R Markdown developers who wish to write custom HTML components that “just work” with . Readers should already have some basic understanding of the <a href="https://sass-lang.com/" class="external-link">Sass language</a> as well as the <a href="https://rstudio.github.io/sass/" class="external-link">sass</a> package.</p>
+<p>This article is for Shiny and R Markdown developers who wish to write
+custom HTML components that “just work” with . Readers should already
+have some basic understanding of the <a href="https://sass-lang.com/" class="external-link">Sass language</a> as well as the
+<a href="https://rstudio.github.io/sass/" class="external-link">sass</a> package.</p>
 <div class="section level2">
 <h2 id="a-basic-themeable-component">A basic themeable component<a class="anchor" aria-label="anchor" href="#a-basic-themeable-component"></a>
 </h2>
-<p>Before going through a full-blown <a href="#dynamic-shiny">dynamically themeable</a> custom component, let’s start from a relatively straight-forward example of implementing a custom <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component. Say we have the following R function to generate some HTML with classes that we’ll write custom Sass/CSS styles for:</p>
+<p>Before going through a full-blown <a href="#dynamic-shiny">dynamically themeable</a> custom component, let’s
+start from a relatively straight-forward example of implementing a
+custom <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component. Say we have the following R
+function to generate some HTML with classes that we’ll write custom
+Sass/CSS styles for:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">person</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">title</span>, <span class="va">company</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
@@ -121,34 +129,40 @@
 <span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"company"</span>, <span class="va">company</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>And here’s some custom Sass to style those classes. Since these Sass rules listen to Bootstrap Sass variables like <code>$gray-600</code>, <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> styles works great with different <code><a href="../reference/bs_theme.html">bs_theme()</a></code> input:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">.person</span> {</span>
-<span id="cb2-2"><a href="#cb2-2"></a>  <span class="kw">display</span>: <span class="dv">inline-block</span><span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>  <span class="kw">padding</span>: $spacer<span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>  <span class="kw">border</span>: $border-width <span class="dv">solid</span> $border-color<span class="op">;</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="im">@include</span> border-radius<span class="op">;</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>  <span class="im">@include</span> box-shadow<span class="op">;</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>  <span class="kw">outline</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>  <span class="kw">width</span>: <span class="dv">300</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">.title</span> {</span>
-<span id="cb2-10"><a href="#cb2-10"></a>    <span class="kw">font-weight</span>: <span class="dv">bold</span><span class="op">;</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>  }</span>
-<span id="cb2-12"><a href="#cb2-12"></a>  <span class="fu">.title</span><span class="op">,</span> <span class="fu">.company</span> {</span>
-<span id="cb2-13"><a href="#cb2-13"></a>    <span class="kw">color</span>: $gray-600<span class="op">;</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a>  }</span>
-<span id="cb2-15"><a href="#cb2-15"></a>  <span class="kw">margin</span>: $grid-gutter-width<span class="op">;</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a>  <span class="kw">margin-right</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a>  <span class="er">// On mobile, span entire width</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a>  <span class="im">@include</span> media-breakpoint-down<span class="fu">(</span>sm<span class="fu">)</span> {</span>
-<span id="cb2-19"><a href="#cb2-19"></a>    <span class="kw">display</span>: <span class="dv">block</span><span class="op">;</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a>    <span class="kw">width</span>: <span class="bu">auto</span><span class="op">;</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a>    <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a>  }</span>
-<span id="cb2-23"><a href="#cb2-23"></a>}</span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="fu">.person</span><span class="in">:last-of-type</span> {</span>
-<span id="cb2-25"><a href="#cb2-25"></a>  <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
-<span id="cb2-26"><a href="#cb2-26"></a>}</span></code></pre></div>
-<p>If we were to save these Sass rules to a file named <code>person.scss</code>, then we can then <code><a href="../reference/bs_bundle.html">bs_add_rules()</a></code> to the <code><a href="../reference/bs_theme.html">bs_theme()</a></code> and use our themeable <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component like so:</p>
+<p>And here’s some custom Sass to style those classes. Since these Sass
+rules listen to Bootstrap Sass variables like <code>$gray-600</code>,
+<code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> styles works great with different
+<code><a href="../reference/bs_theme.html">bs_theme()</a></code> input:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">.person</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">inline-block</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="kw">padding</span>: $spacer<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="kw">border</span>: $border-width <span class="dv">solid</span> $border-color<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="im">@include</span> border-radius<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="im">@include</span> box-shadow<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="kw">outline</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="kw">width</span>: <span class="dv">300</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="fu">.title</span> {</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="kw">font-weight</span>: <span class="dv">bold</span><span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  }</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="fu">.title</span><span class="op">,</span> <span class="fu">.company</span> {</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>    <span class="kw">color</span>: $gray-600<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  }</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  <span class="kw">margin</span>: $grid-gutter-width<span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  <span class="kw">margin-right</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>  <span class="er">// On mobile, span entire width</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>  <span class="im">@include</span> media-breakpoint-down<span class="fu">(</span>sm<span class="fu">)</span> {</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>    <span class="kw">display</span>: <span class="dv">block</span><span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>    <span class="kw">width</span>: <span class="bu">auto</span><span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>    <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>  }</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>}</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="fu">.person</span><span class="in">:last-of-type</span> {</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>  <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>}</span></code></pre></div>
+<p>If we were to save these Sass rules to a file named
+<code>person.scss</code>, then we can then <code><a href="../reference/bs_bundle.html">bs_add_rules()</a></code>
+to the <code><a href="../reference/bs_theme.html">bs_theme()</a></code> and use our themeable
+<code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component like so:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
 <span>  theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span>bg <span class="op">=</span> <span class="st">"#002B36"</span>, fg <span class="op">=</span> <span class="st">"#EEE8D5"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -162,7 +176,15 @@
 <div class="section level2">
 <h2 id="dynamically-themeable-component">Dynamically themeable component<a class="anchor" aria-label="anchor" href="#dynamically-themeable-component"></a>
 </h2>
-<p>To make the custom <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component <em>dynamically</em> themeable (i.e., make it work with <code>session$setCurrentTheme()</code>), we need an R function that generates an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> from a given <code>theme</code>. While not required, suppose this function, <code>person_dependency</code>, lives in an R package called <code>{mypkg}</code> which includes the <code>person.scss</code> (and pre-compiled <code>person.css</code>) file under the <code>inst/</code> directory. Then we could do the following:</p>
+<p>To make the custom <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component
+<em>dynamically</em> themeable (i.e., make it work with
+<code>session$setCurrentTheme()</code>), we need an R function that
+generates an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> from a given
+<code>theme</code>. While not required, suppose this function,
+<code>person_dependency</code>, lives in an R package called
+<code>{mypkg}</code> which includes the <code>person.scss</code> (and
+pre-compiled <code>person.css</code>) file under the <code>inst/</code>
+directory. Then we could do the following:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">name</span> <span class="op">&lt;-</span> <span class="st">"person"</span></span>
 <span><span class="va">version</span> <span class="op">&lt;-</span> <span class="st">"1.0.0"</span></span>
@@ -196,12 +218,29 @@
 <span>    <span class="fu"><a href="../reference/bs_dependency.html">bs_dependency_defer</a></span><span class="op">(</span><span class="va">person_dependency</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>Note that when <code>theme</code> is a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code>person.scss</code> is compiled with Bootstrap Sass variables and mixins included via <code><a href="../reference/bs_dependency.html">bs_dependency()</a></code> (which returns the compiled CSS as an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmlDependency()</a></code>). Otherwise, if <code>theme</code> is <em>not</em> a <code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> is being used in a context where <a href="https://rstudio.github.io/bslib/">bslib</a> is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn’t necessarily a requirement, but it’s a good idea for increasing performance and reducing software dependencies for end users.</p>
+<p>Note that when <code>theme</code> is a <code><a href="../reference/bs_theme.html">bs_theme()</a></code>
+object, then <code>person.scss</code> is compiled with Bootstrap Sass
+variables and mixins included via <code><a href="../reference/bs_dependency.html">bs_dependency()</a></code> (which
+returns the compiled CSS as an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmlDependency()</a></code>).
+Otherwise, if <code>theme</code> is <em>not</em> a
+<code><a href="../reference/bs_theme.html">bs_theme()</a></code> object, then <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> is being used
+in a context where <a href="https://rstudio.github.io/bslib/">bslib</a> is not relevant, so a
+pre-compiled CSS file is returned instead. Pre-complied CSS isn’t
+necessarily a requirement, but it’s a good idea for increasing
+performance and reducing software dependencies for end users.</p>
 </div>
 <div class="section level2">
 <h2 id="html-widgets">HTML widgets<a class="anchor" aria-label="anchor" href="#html-widgets"></a>
 </h2>
-<p>For <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a> that can be themed via CSS, we recommend supplying a <code><a href="../reference/bs_dependency.html">bs_dependency_defer()</a></code> to the <code>dependencies</code> argument of <code>createWidget()</code> (similar to the <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component from the last section), which will make the widget dynamically themeable. For widgets that can <em>not</em> be themed via CSS, the best option may be to query the active theme inside a <code>preRenderHook()</code> via <code><a href="../reference/bs_current_theme.html">bs_current_theme()</a></code>, and then translate any relevant information to the widget’s instance data, for example:</p>
+<p>For <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a> that can be themed via CSS, we
+recommend supplying a <code><a href="../reference/bs_dependency.html">bs_dependency_defer()</a></code> to the
+<code>dependencies</code> argument of <code>createWidget()</code>
+(similar to the <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> component from the last section),
+which will make the widget dynamically themeable. For widgets that can
+<em>not</em> be themed via CSS, the best option may be to query the
+active theme inside a <code>preRenderHook()</code> via
+<code><a href="../reference/bs_current_theme.html">bs_current_theme()</a></code>, and then translate any relevant
+information to the widget’s instance data, for example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_widget</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">createWidget</span><span class="op">(</span></span>

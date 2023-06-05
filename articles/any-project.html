@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,8 @@
 
 
 
-<script src="any-project_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Any project</h1>
             
@@ -121,11 +122,20 @@
 <style type="text/css">
 @media (min-width: 800px){.usage{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;align-items:center}}
 </style>
-<p>In addition to providing components for <a href="dashboards.html">Shiny dashboards</a>, <code>bslib</code> can also provide the Bootstrap dependency for any compatible R project (e.g., Shiny, R Markdown, crosstalk, etc). When doing so, you not only upgrade the Bootstrap version, but also gain access to <code>bslib</code>’s UI components and theming capabilites. In this article, we’ll cover how to do this for a handful of important uses cases.</p>
+<p>In addition to providing components for <a href="dashboards.html">Shiny dashboards</a>, <code>bslib</code> can also
+provide the Bootstrap dependency for any compatible R project (e.g.,
+Shiny, R Markdown, crosstalk, etc). When doing so, you not only upgrade
+the Bootstrap version, but also gain access to <code>bslib</code>’s UI
+components and theming capabilites. In this article, we’ll cover how to
+do this for a handful of important uses cases.</p>
 <div class="section level2">
 <h2 id="shiny">Shiny<a class="anchor" aria-label="anchor" href="#shiny"></a>
 </h2>
-<p><code>bslib</code> provides a handful of <code>page_*()</code> functions that can be used as drop-in replacements for <code>shiny::*Page()</code>. The first and most important difference is that <code>page_*()</code> provides the latest version of Bootstrap (by default). For example:</p>
+<p><code>bslib</code> provides a handful of <code>page_*()</code>
+functions that can be used as drop-in replacements for
+<code>shiny::*Page()</code>. The first and most important difference is
+that <code>page_*()</code> provides the latest version of Bootstrap (by
+default). For example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span></span>
@@ -135,13 +145,28 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>In addition, some of <code>bslib</code>’s <code>page_*()</code> functions provide other new capabilities. Most importantly, as we cover in <a href="dashboards.html">Shiny dashboards</a>, <code><a href="../reference/page.html">page_navbar()</a></code> and <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> provide deep integration with sidebar layouts, filling layouts, navbar customizations, theming, and more.</p>
-<p>Another new and important <code>page_*()</code> function is <code><a href="../reference/page.html">page_fillable()</a></code>. This function provides a new approach to filling layouts and forms a foundation for higher-level abstractions such as <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page.html">page_navbar()</a></code>. See <a href="filling.html">filling layouts</a> (especially the <a href="filling.html#in-practice">In Practice</a> section) to learn more about <code><a href="../reference/page.html">page_fillable()</a></code>.</p>
+<p>In addition, some of <code>bslib</code>’s <code>page_*()</code>
+functions provide other new capabilities. Most importantly, as we cover
+in <a href="dashboards.html">Shiny dashboards</a>,
+<code><a href="../reference/page.html">page_navbar()</a></code> and <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> provide deep
+integration with sidebar layouts, filling layouts, navbar
+customizations, theming, and more.</p>
+<p>Another new and important <code>page_*()</code> function is
+<code><a href="../reference/page.html">page_fillable()</a></code>. This function provides a new approach to
+filling layouts and forms a foundation for higher-level abstractions
+such as <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page.html">page_navbar()</a></code>. See
+<a href="filling.html">filling layouts</a> (especially the <a href="filling.html#in-practice">In Practice</a> section) to learn more
+about <code><a href="../reference/page.html">page_fillable()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="without-shiny">Without Shiny<a class="anchor" aria-label="anchor" href="#without-shiny"></a>
 </h2>
-<p>The same <code>page_*()</code> functions that offer a means for getting started with Shiny can also be used to create static HTML pages (i.e., an HTML file with no server-side code). Probably the most intriguing use case for this is <a href="https://rstudio.github.io/crosstalk/" class="external-link">crosstalk</a> (i.e., <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a> that can be linked together). For example:</p>
+<p>The same <code>page_*()</code> functions that offer a means for
+getting started with Shiny can also be used to create static HTML pages
+(i.e., an HTML file with no server-side code). Probably the most
+intriguing use case for this is <a href="https://rstudio.github.io/crosstalk/" class="external-link">crosstalk</a> (i.e.,
+<a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a> that can be linked together). For
+example:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/crosstalk/" class="external-link">crosstalk</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/leaflet/" class="external-link">leaflet</a></span><span class="op">)</span></span>
@@ -160,10 +185,13 @@
 <span><span class="op">)</span></span></code></pre></div>
 <iframe src="examples/any-project/unnamed-chunk-3/unnamed-chunk-3.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy">
 </iframe>
-<p>And since the result is static HTML, you can save it to an HTML file and share it with others through email, Slack, etc.:</p>
+<p>And since the result is static HTML, you can save it to an HTML file
+and share it with others through email, Slack, etc.:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/save_html.html" class="external-link">save_html</a></span><span class="op">(</span><span class="va">.Last.value</span>, <span class="st">"index.html"</span><span class="op">)</span></span></code></pre></div>
-<p>Also, to be clear, static HTML can also be useful without crosstalk. For example, we can use <code><a href="../reference/page.html">page_fillable()</a></code> to layout numerous htmlwidgets:</p>
+<p>Also, to be clear, static HTML can also be useful without crosstalk.
+For example, we can use <code><a href="../reference/page.html">page_fillable()</a></code> to layout numerous
+htmlwidgets:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_card</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span></span>
 <span>  full_screen <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -181,37 +209,62 @@
 <div class="section level2">
 <h2 id="r-markdown">R Markdown<a class="anchor" aria-label="anchor" href="#r-markdown"></a>
 </h2>
-<p>Use the <code>theme</code> parameter of a compatible output format<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;In theory, any format that passes it’s &lt;code&gt;theme&lt;/code&gt; parameter to &lt;code&gt;&lt;a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document_base.html" class="external-link"&gt;rmarkdown::html_document_base()&lt;/a&gt;&lt;/code&gt; is compatible with &lt;code&gt;bslib&lt;/code&gt;. However, in practice, the format may not be compatible with modern versions of Bootstrap.&lt;/p&gt;'><sup>1</sup></a> to get started in R Markdown. By supplying <code>bslib: true</code> to that parameter, you’ll get the latest “stock” version of Bootstrap (akin to using <code>page_*()</code> in Shiny). Alternatively, you can supply <code><a href="../reference/bs_theme.html">bs_theme()</a></code> parameters to the <code>theme</code> parameter to specify the Bootstrap version, add a Bootswatch theme, and customize theming colors (<a href="theming.html">Getting Started with Theming</a> covers this in more depth).</p>
+<p>Use the <code>theme</code> parameter of a compatible output format<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;In theory, any format that passes it’s
+&lt;code&gt;theme&lt;/code&gt; parameter to
+&lt;code&gt;&lt;a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document_base.html" class="external-link"&gt;rmarkdown::html_document_base()&lt;/a&gt;&lt;/code&gt; is compatible with
+&lt;code&gt;bslib&lt;/code&gt;. However, in practice, the format may not be
+compatible with modern versions of Bootstrap.&lt;/p&gt;'><sup>1</sup></a> to get
+started in R Markdown. By supplying <code>bslib: true</code> to that
+parameter, you’ll get the latest “stock” version of Bootstrap (akin to
+using <code>page_*()</code> in Shiny). Alternatively, you can supply
+<code><a href="../reference/bs_theme.html">bs_theme()</a></code> parameters to the <code>theme</code> parameter
+to specify the Bootstrap version, add a Bootswatch theme, and customize
+theming colors (<a href="theming.html">Getting Started with Theming</a>
+covers this in more depth).</p>
 <div class="usage">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">---</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>output<span class="op">:</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span>html_document<span class="op">:</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">    </span>theme<span class="op">:</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="st">      </span>bslib<span class="op">:</span><span class="st"> </span>true</span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="op">---</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">---</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>output<span class="op">:</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span>html_document<span class="op">:</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">    </span>theme<span class="op">:</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">      </span>version<span class="op">:</span><span class="st"> </span><span class="dv">5</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>      bootswatch<span class="op">:</span><span class="st"> </span>minty</span>
-<span id="cb6-7"><a href="#cb6-7"></a>      primary<span class="op">:</span><span class="st"> "#6CC3D4"</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="op">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="sc">---</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>output<span class="sc">:</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  html_document<span class="sc">:</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    theme<span class="sc">:</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>      bslib<span class="sc">:</span> true</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="sc">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="sc">---</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>output<span class="sc">:</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  html_document<span class="sc">:</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    theme<span class="sc">:</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>      version<span class="sc">:</span> <span class="dv">5</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>      bootswatch<span class="sc">:</span> minty</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>      primary<span class="sc">:</span> <span class="st">"#6CC3D4"</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="sc">---</span></span></code></pre></div>
 </div>
 <div class="row my-3">
 <div class="col-md-6">
-<p><code>bslib</code> also provides some R Markdown templates that can be accessed from RStudio by going to File -&gt; New File -&gt; R Markdown -&gt; From Template:</p>
+<p><code>bslib</code> also provides some R Markdown templates that can
+be accessed from RStudio by going to File -&gt; New File -&gt; R
+Markdown -&gt; From Template:</p>
 </div>
 <div class="col-md-6">
 <p><img src="rstudio-templates.png" width="582" style="display: block; margin: auto;"></p>
 </div>
 </div>
-<p>In addition to <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document</a></code>, there are at least a few other R Markdown projects that are compatible with <code>bslib</code>. In most of these cases, you can get started with these projects in a pretty similar fashion to <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document</a></code>. See the following articles to learn more: <a href="https://flexdashboard-pkg.netlify.app/articles/theme.html" class="external-link">flexdashboard</a>, <a href="https://pkgdown.r-lib.org/articles/customise.html" class="external-link">pkgdown</a>, and <a href="https://pkgs.rstudio.com/bookdown/reference/bs4_book.html" class="external-link">bookdown</a>.</p>
+<p>In addition to <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document</a></code>, there are at
+least a few other R Markdown projects that are compatible with
+<code>bslib</code>. In most of these cases, you can get started with
+these projects in a pretty similar fashion to
+<code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document</a></code>. See the following articles to
+learn more: <a href="https://flexdashboard-pkg.netlify.app/articles/theme.html" class="external-link">flexdashboard</a>,
+<a href="https://pkgdown.r-lib.org/articles/customise.html" class="external-link">pkgdown</a>,
+and <a href="https://pkgs.rstudio.com/bookdown/reference/bs4_book.html" class="external-link">bookdown</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="in-production">In production<a class="anchor" aria-label="anchor" href="#in-production"></a>
 </h2>
-<p>Before deploying any <a href="https://rstudio.github.io/bslib/">bslib</a> project to production, it’s wise to “hard-code” the version of Bootstrap used when it was developed. This reduces the chance of the project breaking if and when <a href="https://rstudio.github.io/bslib/">bslib</a> updates it’s Bootstrap dependency. To do so, call <code><a href="../reference/versions.html">version_default()</a></code> to get the current version of Bootstrap, then pass that value to relevant <code>theme</code> object.</p>
+<p>Before deploying any <a href="https://rstudio.github.io/bslib/">bslib</a> project to production, it’s
+wise to “hard-code” the version of Bootstrap used when it was developed.
+This reduces the chance of the project breaking if and when
+<a href="https://rstudio.github.io/bslib/">bslib</a> updates it’s Bootstrap dependency. To do so, call
+<code><a href="../reference/versions.html">version_default()</a></code> to get the current version of Bootstrap,
+then pass that value to relevant <code>theme</code> object.</p>
 <div class="usage">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
@@ -222,12 +275,12 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">---</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>output<span class="op">:</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span>html_document<span class="op">:</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="st">    </span>theme<span class="op">:</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="st">      </span>version<span class="op">:</span><span class="st"> </span><span class="dv">5</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="op">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="sc">---</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>output<span class="sc">:</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  html_document<span class="sc">:</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    theme<span class="sc">:</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>      version<span class="sc">:</span> <span class="dv">5</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="sc">---</span></span></code></pre></div>
 </div>
 </div>
 

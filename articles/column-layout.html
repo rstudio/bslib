@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,8 +96,8 @@
 
 
 
-<script src="column-layout_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="column-layout_files/htmltools-fill-0.5.5.9000/fill.css" rel="stylesheet">
-<script src="column-layout_files/bslib-card-0.4.2.9000/card.min.js"></script><script src="column-layout_files/bslib-tag-require-0.4.2.9000/tag-require.js"></script><div class="row">
+<link href="column-layout_files/htmltools-fill-0.5.5.9000/fill.css" rel="stylesheet">
+<script src="column-layout_files/bslib-card-0.5.0/card.min.js"></script><script src="column-layout_files/bslib-tag-require-0.5.0/tag-require.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Column-based layout</h1>
             
@@ -113,8 +113,17 @@
   margin-top: 5rem;
 }
 </style>
-<p>This article outlines various layouts made possible by <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code>. To illustrate, we’ll use three <code><a href="../reference/card.html">card()</a></code> instances with varying content, but keep in mind that <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> is designed to work other UI elements as well, such as <a href="value-boxes.html">value boxes</a> or even for <a href="card.html#multiple-columns">multiple columns within a card</a>.</p>
-<p><strong>Note:</strong> The examples in this section are not intended to be viewed on mobile devices. At small window widths, all of the layouts here collapse into a more mobile-friendly approach of “show each card at maximum width”.</p>
+<p>This article outlines various layouts made possible by
+<code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code>. To illustrate, we’ll use three
+<code><a href="../reference/card.html">card()</a></code> instances with varying content, but keep in mind
+that <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> is designed to work other UI
+elements as well, such as <a href="value-boxes.html">value boxes</a> or
+even for <a href="card.html#multiple-columns">multiple columns within a
+card</a>.</p>
+<p><strong>Note:</strong> The examples in this section are not intended
+to be viewed on mobile devices. At small window widths, all of the
+layouts here collapse into a more mobile-friendly approach of “show each
+card at maximum width”.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/bslib/">bslib</a></span><span class="op">)</span></span>
 <span></span>
@@ -140,11 +149,25 @@
 <div class="section level3">
 <h3 id="uniform-width-and-height">Uniform width and height<a class="anchor" aria-label="anchor" href="#uniform-width-and-height"></a>
 </h3>
-<p>When displaying multiple cards (or value boxes, etc) at once, it’s often most visually appealing to have them displayed in a grid-like layout where each card has the same height and width. <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> optimizes for this design principle, and only demands a <code>width</code> for each column (or a number of columns). In the event that there are more cards than columns available, cards are wrapped into a new row (by default, all rows have the same height, but you can easily <a href="#by-row">vary the row height</a>).</p>
+<p>When displaying multiple cards (or value boxes, etc) at once, it’s
+often most visually appealing to have them displayed in a grid-like
+layout where each card has the same height and width.
+<code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> optimizes for this design principle,
+and only demands a <code>width</code> for each column (or a number of
+columns). In the event that there are more cards than columns available,
+cards are wrapped into a new row (by default, all rows have the same
+height, but you can easily <a href="#by-row">vary the row
+height</a>).</p>
 <div class="section level4">
 <h4 id="fixed-number-of-columns">Fixed number of columns<a class="anchor" aria-label="anchor" href="#fixed-number-of-columns"></a>
 </h4>
-<p>For a fixed number of columns, provide <code>width = 1/n</code>, where <code>n</code> is the number of columns.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Do not attempt to use percent-based widths with &lt;code&gt;width&lt;/code&gt;–like &lt;code&gt;"50%"&lt;/code&gt; instead of &lt;code&gt;1/2&lt;/code&gt;. Percentages will almost certainly not give you the results you want.&lt;/p&gt;'><sup>1</sup></a> As the animation (except on mobile devices) below shows, as the width of the <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> container changes, each card grows or shrinks to maintain its 1/2 width.</p>
+<p>For a fixed number of columns, provide <code>width = 1/n</code>,
+where <code>n</code> is the number of columns.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Do not attempt to use percent-based widths with
+&lt;code&gt;width&lt;/code&gt;–like &lt;code&gt;"50%"&lt;/code&gt; instead of &lt;code&gt;1/2&lt;/code&gt;.
+Percentages will almost certainly not give you the results you want.&lt;/p&gt;'><sup>1</sup></a> As the animation
+(except on mobile devices) below shows, as the width of the
+<code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> container changes, each card grows or
+shrinks to maintain its 1/2 width.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
 <span>  width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, height <span class="op">=</span> <span class="fl">300</span>, </span>
@@ -156,9 +179,9 @@
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Consectetur suspendisse scelerisque libero hac donec tortor taciti, nascetur enim fermentum habitant? Vel lacus montes justo sapien, ac aenean per per quisque dictumst etiam aliquam. Penatibus lectus nunc bibendum tempor eleifend commodo, nulla facilisi mauris vehicula. Eleifend ac dictumst molestie augue in massa maecenas a. Venenatis.</p>
-<p>Dolor volutpat varius diam gravida, pretium, mollis tempor tincidunt volutpat morbi facilisi posuere. Iaculis cubilia primis placerat quam scelerisque interdum dictumst, donec ornare, vulputate blandit molestie. Vel feugiat natoque imperdiet posuere posuere. Elementum curabitur inceptos est feugiat natoque laoreet. Iaculis et habitant, mauris montes diam, non porta integer turpis pulvinar, aptent elementum urna.</p>
-<p>Consectetur arcu at, duis, tincidunt platea netus elementum nascetur. Dictumst interdum maecenas quisque morbi – id magna habitant eleifend. Netus pharetra conubia ridiculus facilisis diam ligula class habitasse! Viverra tellus per accumsan libero turpis a lobortis potenti primis sagittis lectus. Tellus faucibus est suspendisse taciti habitant aliquam dis.</p>
+<p>Lorem libero libero – sem neque natoque diam nascetur turpis; eget semper vel lobortis hac? Natoque aenean felis platea sodales, dis ac varius ligula metus sapien. Posuere nascetur lacinia est habitasse tempor, molestie arcu; iaculis accumsan elementum. Lacus quam nam fames sagittis tellus dignissim proin, nullam porttitor integer, fringilla hac. Libero fringilla ut euismod blandit dapibus mollis potenti bibendum!</p>
+<p>Ipsum placerat habitasse, at magna enim nisl, cum eros vulputate suscipit diam! Justo justo urna non leo; aliquam sagittis praesent ultricies. Congue mattis parturient dapibus, lacus vehicula, accumsan nisi diam dis. Aenean habitant convallis ridiculus faucibus, luctus habitasse metus: turpis dignissim. Odio pulvinar proin hac – mauris, luctus scelerisque class malesuada.</p>
+<p>Lorem ad senectus nascetur pharetra egestas – tincidunt, platea mauris malesuada vitae. Sociosqu lobortis nulla iaculis cubilia netus dui libero, natoque; porta convallis sociis diam? Lacinia donec montes taciti, gravida per sapien etiam sollicitudin. Interdum sociis risus etiam, suscipit porttitor augue; facilisis tincidunt, mattis curabitur enim nunc. Vivamus morbi primis quam vulputate gravida inceptos nostra posuere hac non.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
@@ -181,12 +204,19 @@
 </div>
 </div>
 </div>
-<p>One potential issue with a fixed number of columns is that, on medium sized screens, the card width may become too small. If that happens to be a problem, specifying a “responsive” number of columns may be preferable.</p>
+<p>One potential issue with a fixed number of columns is that, on medium
+sized screens, the card width may become too small. If that happens to
+be a problem, specifying a “responsive” number of columns may be
+preferable.</p>
 </div>
 <div class="section level4">
 <h4 id="responsive-number-of-columns">Responsive number of columns<a class="anchor" aria-label="anchor" href="#responsive-number-of-columns"></a>
 </h4>
-<p>For a responsive number of columns (i.e., the number of columns depends on the window size), provide <code>width</code> with any valid CSS unit, like 200 pixels. In our case (with three cards), the 3rd card gets wrapped onto a new line when the viewport is less than 600 pixels, but on wider screens, the cards equally distribute the free space.</p>
+<p>For a responsive number of columns (i.e., the number of columns
+depends on the window size), provide <code>width</code> with any valid
+CSS unit, like 200 pixels. In our case (with three cards), the 3rd card
+gets wrapped onto a new line when the viewport is less than 600 pixels,
+but on wider screens, the cards equally distribute the free space.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
 <span>  width <span class="op">=</span> <span class="st">"200px"</span>, height <span class="op">=</span> <span class="fl">300</span>, </span>
@@ -198,9 +228,9 @@
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Consectetur suspendisse scelerisque libero hac donec tortor taciti, nascetur enim fermentum habitant? Vel lacus montes justo sapien, ac aenean per per quisque dictumst etiam aliquam. Penatibus lectus nunc bibendum tempor eleifend commodo, nulla facilisi mauris vehicula. Eleifend ac dictumst molestie augue in massa maecenas a. Venenatis.</p>
-<p>Dolor volutpat varius diam gravida, pretium, mollis tempor tincidunt volutpat morbi facilisi posuere. Iaculis cubilia primis placerat quam scelerisque interdum dictumst, donec ornare, vulputate blandit molestie. Vel feugiat natoque imperdiet posuere posuere. Elementum curabitur inceptos est feugiat natoque laoreet. Iaculis et habitant, mauris montes diam, non porta integer turpis pulvinar, aptent elementum urna.</p>
-<p>Consectetur arcu at, duis, tincidunt platea netus elementum nascetur. Dictumst interdum maecenas quisque morbi – id magna habitant eleifend. Netus pharetra conubia ridiculus facilisis diam ligula class habitasse! Viverra tellus per accumsan libero turpis a lobortis potenti primis sagittis lectus. Tellus faucibus est suspendisse taciti habitant aliquam dis.</p>
+<p>Lorem libero libero – sem neque natoque diam nascetur turpis; eget semper vel lobortis hac? Natoque aenean felis platea sodales, dis ac varius ligula metus sapien. Posuere nascetur lacinia est habitasse tempor, molestie arcu; iaculis accumsan elementum. Lacus quam nam fames sagittis tellus dignissim proin, nullam porttitor integer, fringilla hac. Libero fringilla ut euismod blandit dapibus mollis potenti bibendum!</p>
+<p>Ipsum placerat habitasse, at magna enim nisl, cum eros vulputate suscipit diam! Justo justo urna non leo; aliquam sagittis praesent ultricies. Congue mattis parturient dapibus, lacus vehicula, accumsan nisi diam dis. Aenean habitant convallis ridiculus faucibus, luctus habitasse metus: turpis dignissim. Odio pulvinar proin hac – mauris, luctus scelerisque class malesuada.</p>
+<p>Lorem ad senectus nascetur pharetra egestas – tincidunt, platea mauris malesuada vitae. Sociosqu lobortis nulla iaculis cubilia netus dui libero, natoque; porta convallis sociis diam? Lacinia donec montes taciti, gravida per sapien etiam sollicitudin. Interdum sociis risus etiam, suscipit porttitor augue; facilisis tincidunt, mattis curabitur enim nunc. Vivamus morbi primis quam vulputate gravida inceptos nostra posuere hac non.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
@@ -227,7 +257,9 @@
 <div class="section level4">
 <h4 id="fixed-column-width">Fixed column width<a class="anchor" aria-label="anchor" href="#fixed-column-width"></a>
 </h4>
-<p>To keep the <code>width</code> of each column fixed (don’t allow cards to grow to take up free space), set <code>fixed_width = TRUE</code>.</p>
+<p>To keep the <code>width</code> of each column fixed (don’t allow
+cards to grow to take up free space), set
+<code>fixed_width = TRUE</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
 <span>  width <span class="op">=</span> <span class="st">"200px"</span>, height <span class="op">=</span> <span class="fl">300</span>, </span>
@@ -240,9 +272,9 @@
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Consectetur suspendisse scelerisque libero hac donec tortor taciti, nascetur enim fermentum habitant? Vel lacus montes justo sapien, ac aenean per per quisque dictumst etiam aliquam. Penatibus lectus nunc bibendum tempor eleifend commodo, nulla facilisi mauris vehicula. Eleifend ac dictumst molestie augue in massa maecenas a. Venenatis.</p>
-<p>Dolor volutpat varius diam gravida, pretium, mollis tempor tincidunt volutpat morbi facilisi posuere. Iaculis cubilia primis placerat quam scelerisque interdum dictumst, donec ornare, vulputate blandit molestie. Vel feugiat natoque imperdiet posuere posuere. Elementum curabitur inceptos est feugiat natoque laoreet. Iaculis et habitant, mauris montes diam, non porta integer turpis pulvinar, aptent elementum urna.</p>
-<p>Consectetur arcu at, duis, tincidunt platea netus elementum nascetur. Dictumst interdum maecenas quisque morbi – id magna habitant eleifend. Netus pharetra conubia ridiculus facilisis diam ligula class habitasse! Viverra tellus per accumsan libero turpis a lobortis potenti primis sagittis lectus. Tellus faucibus est suspendisse taciti habitant aliquam dis.</p>
+<p>Lorem libero libero – sem neque natoque diam nascetur turpis; eget semper vel lobortis hac? Natoque aenean felis platea sodales, dis ac varius ligula metus sapien. Posuere nascetur lacinia est habitasse tempor, molestie arcu; iaculis accumsan elementum. Lacus quam nam fames sagittis tellus dignissim proin, nullam porttitor integer, fringilla hac. Libero fringilla ut euismod blandit dapibus mollis potenti bibendum!</p>
+<p>Ipsum placerat habitasse, at magna enim nisl, cum eros vulputate suscipit diam! Justo justo urna non leo; aliquam sagittis praesent ultricies. Congue mattis parturient dapibus, lacus vehicula, accumsan nisi diam dis. Aenean habitant convallis ridiculus faucibus, luctus habitasse metus: turpis dignissim. Odio pulvinar proin hac – mauris, luctus scelerisque class malesuada.</p>
+<p>Lorem ad senectus nascetur pharetra egestas – tincidunt, platea mauris malesuada vitae. Sociosqu lobortis nulla iaculis cubilia netus dui libero, natoque; porta convallis sociis diam? Lacinia donec montes taciti, gravida per sapien etiam sollicitudin. Interdum sociis risus etiam, suscipit porttitor augue; facilisis tincidunt, mattis curabitur enim nunc. Vivamus morbi primis quam vulputate gravida inceptos nostra posuere hac non.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
@@ -270,11 +302,13 @@
 <div class="section level3">
 <h3 id="varying-heights">Varying heights<a class="anchor" aria-label="anchor" href="#varying-heights"></a>
 </h3>
-<p>By default, when <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> wraps columns onto a new row, <em>all</em> rows are given equal height.</p>
+<p>By default, when <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> wraps columns onto
+a new row, <em>all</em> rows are given equal height.</p>
 <div class="section level4">
 <h4 id="by-row">By row<a class="anchor" aria-label="anchor" href="#by-row"></a>
 </h4>
-<p>To allow the height of each row to be different, set <code>heights_equal = "row"</code>:</p>
+<p>To allow the height of each row to be different, set
+<code>heights_equal = "row"</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
 <span>  width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>,</span>
@@ -288,9 +322,9 @@
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Consectetur suspendisse scelerisque libero hac donec tortor taciti, nascetur enim fermentum habitant? Vel lacus montes justo sapien, ac aenean per per quisque dictumst etiam aliquam. Penatibus lectus nunc bibendum tempor eleifend commodo, nulla facilisi mauris vehicula. Eleifend ac dictumst molestie augue in massa maecenas a. Venenatis.</p>
-<p>Dolor volutpat varius diam gravida, pretium, mollis tempor tincidunt volutpat morbi facilisi posuere. Iaculis cubilia primis placerat quam scelerisque interdum dictumst, donec ornare, vulputate blandit molestie. Vel feugiat natoque imperdiet posuere posuere. Elementum curabitur inceptos est feugiat natoque laoreet. Iaculis et habitant, mauris montes diam, non porta integer turpis pulvinar, aptent elementum urna.</p>
-<p>Consectetur arcu at, duis, tincidunt platea netus elementum nascetur. Dictumst interdum maecenas quisque morbi – id magna habitant eleifend. Netus pharetra conubia ridiculus facilisis diam ligula class habitasse! Viverra tellus per accumsan libero turpis a lobortis potenti primis sagittis lectus. Tellus faucibus est suspendisse taciti habitant aliquam dis.</p>
+<p>Lorem libero libero – sem neque natoque diam nascetur turpis; eget semper vel lobortis hac? Natoque aenean felis platea sodales, dis ac varius ligula metus sapien. Posuere nascetur lacinia est habitasse tempor, molestie arcu; iaculis accumsan elementum. Lacus quam nam fames sagittis tellus dignissim proin, nullam porttitor integer, fringilla hac. Libero fringilla ut euismod blandit dapibus mollis potenti bibendum!</p>
+<p>Ipsum placerat habitasse, at magna enim nisl, cum eros vulputate suscipit diam! Justo justo urna non leo; aliquam sagittis praesent ultricies. Congue mattis parturient dapibus, lacus vehicula, accumsan nisi diam dis. Aenean habitant convallis ridiculus faucibus, luctus habitasse metus: turpis dignissim. Odio pulvinar proin hac – mauris, luctus scelerisque class malesuada.</p>
+<p>Lorem ad senectus nascetur pharetra egestas – tincidunt, platea mauris malesuada vitae. Sociosqu lobortis nulla iaculis cubilia netus dui libero, natoque; porta convallis sociis diam? Lacinia donec montes taciti, gravida per sapien etiam sollicitudin. Interdum sociis risus etiam, suscipit porttitor augue; facilisis tincidunt, mattis curabitur enim nunc. Vivamus morbi primis quam vulputate gravida inceptos nostra posuere hac non.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
@@ -318,7 +352,8 @@
 <div class="section level4">
 <h4 id="by-cell">By cell<a class="anchor" aria-label="anchor" href="#by-cell"></a>
 </h4>
-<p>By default, each the height on each card grows to fill the available vertical space in a particular row. This can be prevented</p>
+<p>By default, each the height on each card grows to fill the available
+vertical space in a particular row. This can be prevented</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
 <span>  width <span class="op">=</span> <span class="st">"200px"</span>, </span>
@@ -333,9 +368,9 @@
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Consectetur suspendisse scelerisque libero hac donec tortor taciti, nascetur enim fermentum habitant? Vel lacus montes justo sapien, ac aenean per per quisque dictumst etiam aliquam. Penatibus lectus nunc bibendum tempor eleifend commodo, nulla facilisi mauris vehicula. Eleifend ac dictumst molestie augue in massa maecenas a. Venenatis.</p>
-<p>Dolor volutpat varius diam gravida, pretium, mollis tempor tincidunt volutpat morbi facilisi posuere. Iaculis cubilia primis placerat quam scelerisque interdum dictumst, donec ornare, vulputate blandit molestie. Vel feugiat natoque imperdiet posuere posuere. Elementum curabitur inceptos est feugiat natoque laoreet. Iaculis et habitant, mauris montes diam, non porta integer turpis pulvinar, aptent elementum urna.</p>
-<p>Consectetur arcu at, duis, tincidunt platea netus elementum nascetur. Dictumst interdum maecenas quisque morbi – id magna habitant eleifend. Netus pharetra conubia ridiculus facilisis diam ligula class habitasse! Viverra tellus per accumsan libero turpis a lobortis potenti primis sagittis lectus. Tellus faucibus est suspendisse taciti habitant aliquam dis.</p>
+<p>Lorem libero libero – sem neque natoque diam nascetur turpis; eget semper vel lobortis hac? Natoque aenean felis platea sodales, dis ac varius ligula metus sapien. Posuere nascetur lacinia est habitasse tempor, molestie arcu; iaculis accumsan elementum. Lacus quam nam fames sagittis tellus dignissim proin, nullam porttitor integer, fringilla hac. Libero fringilla ut euismod blandit dapibus mollis potenti bibendum!</p>
+<p>Ipsum placerat habitasse, at magna enim nisl, cum eros vulputate suscipit diam! Justo justo urna non leo; aliquam sagittis praesent ultricies. Congue mattis parturient dapibus, lacus vehicula, accumsan nisi diam dis. Aenean habitant convallis ridiculus faucibus, luctus habitasse metus: turpis dignissim. Odio pulvinar proin hac – mauris, luctus scelerisque class malesuada.</p>
+<p>Lorem ad senectus nascetur pharetra egestas – tincidunt, platea mauris malesuada vitae. Sociosqu lobortis nulla iaculis cubilia netus dui libero, natoque; porta convallis sociis diam? Lacinia donec montes taciti, gravida per sapien etiam sollicitudin. Interdum sociis risus etiam, suscipit porttitor augue; facilisis tincidunt, mattis curabitur enim nunc. Vivamus morbi primis quam vulputate gravida inceptos nostra posuere hac non.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
@@ -364,7 +399,11 @@
 <div class="section level3">
 <h3 id="varying-widths">Varying widths<a class="anchor" aria-label="anchor" href="#varying-widths"></a>
 </h3>
-<p>Set <code>width</code> to <code>NULL</code> and provide a custom <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns" class="external-link"><code>grid-template-columns</code> property</a> (and possibly other <a href="https://css-tricks.com/snippets/css/complete-guide-grid/" class="external-link">CSS grid properties</a>) to accomplish more complex layouts, like varying column widths. This particular layout gives the 1st and 3rd card twice as much space as the 2nd:</p>
+<p>Set <code>width</code> to <code>NULL</code> and provide a custom <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns" class="external-link"><code>grid-template-columns</code>
+property</a> (and possibly other <a href="https://css-tricks.com/snippets/css/complete-guide-grid/" class="external-link">CSS grid
+properties</a>) to accomplish more complex layouts, like varying column
+widths. This particular layout gives the 1st and 3rd card twice as much
+space as the 2nd:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
 <span>  width <span class="op">=</span> <span class="cn">NULL</span>, height <span class="op">=</span> <span class="fl">300</span>, fill <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -378,9 +417,9 @@
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Consectetur suspendisse scelerisque libero hac donec tortor taciti, nascetur enim fermentum habitant? Vel lacus montes justo sapien, ac aenean per per quisque dictumst etiam aliquam. Penatibus lectus nunc bibendum tempor eleifend commodo, nulla facilisi mauris vehicula. Eleifend ac dictumst molestie augue in massa maecenas a. Venenatis.</p>
-<p>Dolor volutpat varius diam gravida, pretium, mollis tempor tincidunt volutpat morbi facilisi posuere. Iaculis cubilia primis placerat quam scelerisque interdum dictumst, donec ornare, vulputate blandit molestie. Vel feugiat natoque imperdiet posuere posuere. Elementum curabitur inceptos est feugiat natoque laoreet. Iaculis et habitant, mauris montes diam, non porta integer turpis pulvinar, aptent elementum urna.</p>
-<p>Consectetur arcu at, duis, tincidunt platea netus elementum nascetur. Dictumst interdum maecenas quisque morbi – id magna habitant eleifend. Netus pharetra conubia ridiculus facilisis diam ligula class habitasse! Viverra tellus per accumsan libero turpis a lobortis potenti primis sagittis lectus. Tellus faucibus est suspendisse taciti habitant aliquam dis.</p>
+<p>Lorem libero libero – sem neque natoque diam nascetur turpis; eget semper vel lobortis hac? Natoque aenean felis platea sodales, dis ac varius ligula metus sapien. Posuere nascetur lacinia est habitasse tempor, molestie arcu; iaculis accumsan elementum. Lacus quam nam fames sagittis tellus dignissim proin, nullam porttitor integer, fringilla hac. Libero fringilla ut euismod blandit dapibus mollis potenti bibendum!</p>
+<p>Ipsum placerat habitasse, at magna enim nisl, cum eros vulputate suscipit diam! Justo justo urna non leo; aliquam sagittis praesent ultricies. Congue mattis parturient dapibus, lacus vehicula, accumsan nisi diam dis. Aenean habitant convallis ridiculus faucibus, luctus habitasse metus: turpis dignissim. Odio pulvinar proin hac – mauris, luctus scelerisque class malesuada.</p>
+<p>Lorem ad senectus nascetur pharetra egestas – tincidunt, platea mauris malesuada vitae. Sociosqu lobortis nulla iaculis cubilia netus dui libero, natoque; porta convallis sociis diam? Lacinia donec montes taciti, gravida per sapien etiam sollicitudin. Interdum sociis risus etiam, suscipit porttitor augue; facilisis tincidunt, mattis curabitur enim nunc. Vivamus morbi primis quam vulputate gravida inceptos nostra posuere hac non.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
@@ -408,7 +447,9 @@
 <div class="section level3">
 <h3 id="nested-layouts">Nested layouts<a class="anchor" aria-label="anchor" href="#nested-layouts"></a>
 </h3>
-<p>More complex layouts can be achieved by leveraging the fact that <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> can appear within another <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code>s. For example</p>
+<p>More complex layouts can be achieved by leveraging the fact that
+<code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> can appear within another
+<code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code>s. For example</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layout_column_wrap.html">layout_column_wrap</a></span><span class="op">(</span></span>
 <span>  width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, </span>
@@ -425,9 +466,9 @@
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Consectetur suspendisse scelerisque libero hac donec tortor taciti, nascetur enim fermentum habitant? Vel lacus montes justo sapien, ac aenean per per quisque dictumst etiam aliquam. Penatibus lectus nunc bibendum tempor eleifend commodo, nulla facilisi mauris vehicula. Eleifend ac dictumst molestie augue in massa maecenas a. Venenatis.</p>
-<p>Dolor volutpat varius diam gravida, pretium, mollis tempor tincidunt volutpat morbi facilisi posuere. Iaculis cubilia primis placerat quam scelerisque interdum dictumst, donec ornare, vulputate blandit molestie. Vel feugiat natoque imperdiet posuere posuere. Elementum curabitur inceptos est feugiat natoque laoreet. Iaculis et habitant, mauris montes diam, non porta integer turpis pulvinar, aptent elementum urna.</p>
-<p>Consectetur arcu at, duis, tincidunt platea netus elementum nascetur. Dictumst interdum maecenas quisque morbi – id magna habitant eleifend. Netus pharetra conubia ridiculus facilisis diam ligula class habitasse! Viverra tellus per accumsan libero turpis a lobortis potenti primis sagittis lectus. Tellus faucibus est suspendisse taciti habitant aliquam dis.</p>
+<p>Lorem libero libero – sem neque natoque diam nascetur turpis; eget semper vel lobortis hac? Natoque aenean felis platea sodales, dis ac varius ligula metus sapien. Posuere nascetur lacinia est habitasse tempor, molestie arcu; iaculis accumsan elementum. Lacus quam nam fames sagittis tellus dignissim proin, nullam porttitor integer, fringilla hac. Libero fringilla ut euismod blandit dapibus mollis potenti bibendum!</p>
+<p>Ipsum placerat habitasse, at magna enim nisl, cum eros vulputate suscipit diam! Justo justo urna non leo; aliquam sagittis praesent ultricies. Congue mattis parturient dapibus, lacus vehicula, accumsan nisi diam dis. Aenean habitant convallis ridiculus faucibus, luctus habitasse metus: turpis dignissim. Odio pulvinar proin hac – mauris, luctus scelerisque class malesuada.</p>
+<p>Lorem ad senectus nascetur pharetra egestas – tincidunt, platea mauris malesuada vitae. Sociosqu lobortis nulla iaculis cubilia netus dui libero, natoque; porta convallis sociis diam? Lacinia donec montes taciti, gravida per sapien etiam sollicitudin. Interdum sociis risus etiam, suscipit porttitor augue; facilisis tincidunt, mattis curabitur enim nunc. Vivamus morbi primis quam vulputate gravida inceptos nostra posuere hac non.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
@@ -458,18 +499,25 @@
 <div class="section level3">
 <h3 id="other-grid-based-layouts">Other grid-based layouts<a class="anchor" aria-label="anchor" href="#other-grid-based-layouts"></a>
 </h3>
-<p><code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> provides a simplified interface to <a href="https://css-tricks.com/snippets/css/complete-guide-grid/" class="external-link">CSS grid</a> that won’t accommodate everything it can do. In this case, we recommend using <code>{gridlayout}</code> and/or the <a href="https://rstudio.github.io/shinyuieditor/" class="external-link">Shiny UI editor</a> to produce the layout.</p>
+<p><code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> provides a simplified interface to
+<a href="https://css-tricks.com/snippets/css/complete-guide-grid/" class="external-link">CSS
+grid</a> that won’t accommodate everything it can do. In this case, we
+recommend using <code>{gridlayout}</code> and/or the <a href="https://rstudio.github.io/shinyuieditor/" class="external-link">Shiny UI editor</a> to
+produce the layout.</p>
 </div>
 <div class="section level2">
 <h2 id="appendix">Appendix<a class="anchor" aria-label="anchor" href="#appendix"></a>
 </h2>
-<p>In the spirit of reproducibility, this section discloses custom CSS and R code used in the examples above.</p>
-<p>The following CSS is used to give <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code> a background color; it’s necessary here because this documentation page is not actually hooked up to a Shiny app, so we can’t show a real plot.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">.shiny-plot-output</span> {</span>
-<span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw">background-color</span>: #<span class="dv">216</span>B7288<span class="op">;</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="kw">height</span>: <span class="dv">400</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>  <span class="kw">width</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>}</span></code></pre></div>
+<p>In the spirit of reproducibility, this section discloses custom CSS
+and R code used in the examples above.</p>
+<p>The following CSS is used to give <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code> a
+background color; it’s necessary here because this documentation page is
+not actually hooked up to a Shiny app, so we can’t show a real plot.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">.shiny-plot-output</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">#216B7288</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="kw">height</span>: <span class="dv">400</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="kw">width</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>}</span></code></pre></div>
 <style type="text/css">
 .shiny-plot-output {
   background-color: #216B7288;
@@ -477,7 +525,8 @@
   width: 100%;
 }
 </style>
-<p>These R functions add animation-related CSS class and styles to whatever tags you give it.</p>
+<p>These R functions add animation-related CSS class and styles to
+whatever tags you give it.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
 <span></span>
@@ -504,37 +553,38 @@
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>And here are the CSS animation rules that power those <code>anim_width</code> and <code>anim_height</code> R functions.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">@keyframes</span> changewidth {</span>
-<span id="cb11-2"><a href="#cb11-2"></a>  <span class="dv">from</span> { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width1</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-3"><a href="#cb11-3"></a>  <span class="dv">25%</span> { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width1</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-4"><a href="#cb11-4"></a>  <span class="dv">50%</span> { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width2</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-5"><a href="#cb11-5"></a>  <span class="dv">75%</span> { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width2</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dv">to</span> { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width1</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-7"><a href="#cb11-7"></a>}</span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="fu">.animate-width</span> {</span>
-<span id="cb11-9"><a href="#cb11-9"></a>  <span class="kw">animation-duration</span>: <span class="dv">6</span><span class="dt">s</span><span class="op">;</span></span>
-<span id="cb11-10"><a href="#cb11-10"></a>  <span class="kw">animation-name</span>: changewidth<span class="op">;</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a>  <span class="kw">animation-iteration-count</span>: <span class="dv">infinite</span><span class="op">;</span></span>
-<span id="cb11-12"><a href="#cb11-12"></a>  <span class="kw">border-right</span>: <span class="dv">2</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#DDD</span><span class="op">;</span></span>
-<span id="cb11-13"><a href="#cb11-13"></a>  <span class="kw">padding-right</span>: <span class="dv">1</span><span class="dt">rem</span><span class="op">;</span></span>
-<span id="cb11-14"><a href="#cb11-14"></a>  <span class="kw">padding-bottom</span>: <span class="dv">3</span><span class="dt">rem</span><span class="op">;</span></span>
-<span id="cb11-15"><a href="#cb11-15"></a>}</span>
-<span id="cb11-16"><a href="#cb11-16"></a></span>
-<span id="cb11-17"><a href="#cb11-17"></a><span class="im">@keyframes</span> changeheight {</span>
-<span id="cb11-18"><a href="#cb11-18"></a>  <span class="dv">from</span> { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height1</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-19"><a href="#cb11-19"></a>  <span class="dv">25%</span> { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height1</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-20"><a href="#cb11-20"></a>  <span class="dv">50%</span> { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height2</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-21"><a href="#cb11-21"></a>  <span class="dv">75%</span> { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height2</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-22"><a href="#cb11-22"></a>  <span class="dv">to</span> { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height1</span><span class="fu">)</span><span class="op">;</span> }</span>
-<span id="cb11-23"><a href="#cb11-23"></a>}</span>
-<span id="cb11-24"><a href="#cb11-24"></a><span class="fu">.animate-height</span> {</span>
-<span id="cb11-25"><a href="#cb11-25"></a>  <span class="kw">height</span>: <span class="dv">600</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb11-26"><a href="#cb11-26"></a>  <span class="kw">animation-duration</span>: <span class="fu">var(</span><span class="va">--anim-duration</span><span class="op">,</span> <span class="dv">6</span><span class="dt">s</span><span class="fu">)</span><span class="op">;</span></span>
-<span id="cb11-27"><a href="#cb11-27"></a>  <span class="kw">animation-name</span>: changeheight<span class="op">;</span></span>
-<span id="cb11-28"><a href="#cb11-28"></a>  <span class="kw">animation-iteration-count</span>: <span class="dv">infinite</span><span class="op">;</span></span>
-<span id="cb11-29"><a href="#cb11-29"></a>  <span class="kw">padding-bottom</span>: <span class="dv">3</span><span class="dt">rem</span><span class="op">;</span></span>
-<span id="cb11-30"><a href="#cb11-30"></a>}</span></code></pre></div>
+<p>And here are the CSS animation rules that power those
+<code>anim_width</code> and <code>anim_height</code> R functions.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="im">@keyframes</span> changewidth {</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  from { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width1</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  25% { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width1</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  50% { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width2</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  75% { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width2</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  to { <span class="kw">width</span>: <span class="fu">var(</span><span class="va">--width1</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>}</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">.animate-width</span> {</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="kw">animation-duration</span>: <span class="dv">6</span><span class="dt">s</span><span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="kw">animation-name</span>: changewidth<span class="op">;</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>  <span class="kw">animation-iteration-count</span>: <span class="dv">infinite</span><span class="op">;</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>  <span class="kw">border-right</span>: <span class="dv">2</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#DDD</span><span class="op">;</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>  <span class="kw">padding-right</span>: <span class="dv">1</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>  <span class="kw">padding-bottom</span>: <span class="dv">3</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>}</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="im">@keyframes</span> changeheight {</span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>  from { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height1</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>  25% { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height1</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>  50% { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height2</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>  75% { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height2</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>  to { <span class="kw">height</span>: <span class="fu">var(</span><span class="va">--height1</span><span class="fu">)</span><span class="op">;</span> }</span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>}</span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="fu">.animate-height</span> {</span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a>  <span class="kw">height</span>: <span class="dv">600</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a>  <span class="kw">animation-duration</span>: <span class="fu">var(</span><span class="va">--anim-duration</span><span class="op">,</span> <span class="dv">6</span><span class="dt">s</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a>  <span class="kw">animation-name</span>: changeheight<span class="op">;</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>  <span class="kw">animation-iteration-count</span>: <span class="dv">infinite</span><span class="op">;</span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a>  <span class="kw">padding-bottom</span>: <span class="dv">3</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a>}</span></code></pre></div>
 <style type="text/css">
 @keyframes changewidth {
   from { width: var(--width1); }

@@ -26,7 +26,7 @@ To learn more about how to implement custom themes, as well as how to use them i
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -262,13 +262,13 @@ character vector can have:</p><ul><li><p>A single unquoted name (e.g., <code>"So
 </ul><p>Since <code>font_google(..., local = TRUE)</code> guarantees that the client has access to
 the font family, meaning it's relatively safe to specify just one font
 family, for instance:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">bs_theme</span>(<span class="dt">base_font =</span> <span class="kw">font_google</span>(<span class="st">"Pacifico"</span>, <span class="dt">local =</span> <span class="ot">TRUE</span>))</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">bs_theme</span>(<span class="at">base_font =</span> <span class="fu">font_google</span>(<span class="st">"Pacifico"</span>, <span class="at">local =</span> <span class="cn">TRUE</span>))</span></code></pre><p></p></div>
 <p>However, specifying multiple "fallback" font families is recommended,
 especially when relying on remote and/or system fonts being available, for
 instance. Fallback fonts are useful not only for handling missing fonts, but
 also for handling a Flash of Invisible Text (FOIT) which can be quite
 noticeable with remote web fonts on a slow internet connection.</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">bs_theme</span>(<span class="dt">base_font =</span> <span class="kw">font_collection</span>(<span class="kw">font_google</span>(<span class="st">"Pacifico"</span>, <span class="dt">local =</span> <span class="ot">FALSE</span>), <span class="st">"Roboto"</span>, <span class="st">"sans-serif"</span>))</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">bs_theme</span>(<span class="at">base_font =</span> <span class="fu">font_collection</span>(<span class="fu">font_google</span>(<span class="st">"Pacifico"</span>, <span class="at">local =</span> <span class="cn">FALSE</span>), <span class="st">"Roboto"</span>, <span class="st">"sans-serif"</span>))</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

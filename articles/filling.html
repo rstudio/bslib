@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,8 +96,8 @@
 
 
 
-<script src="filling_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="filling_files/htmltools-fill-0.5.5.9000/fill.css" rel="stylesheet">
-<script src="filling_files/bslib-card-0.4.2.9000/card.min.js"></script><script src="filling_files/bslib-tag-require-0.4.2.9000/tag-require.js"></script><div class="row">
+<link href="filling_files/htmltools-fill-0.5.5.9000/fill.css" rel="stylesheet">
+<script src="filling_files/bslib-card-0.5.0/card.min.js"></script><script src="filling_files/bslib-tag-require-0.5.0/tag-require.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Filling layouts</h1>
             
@@ -111,9 +111,35 @@
 <style type="text/css">
 .section.level2{margin-top:2rem}.section.level3{margin-top:1rem}
 </style>
-<p>This article covers the building blocks of filling layouts in <code>bslib</code>: <strong>fillable containers</strong> and <strong>fill items</strong>. Filling layout is an inherently nuanced topic, and fully groking takes some effort, but you’ll gain a powerful way to get UI elements to fill the window, fill inside <a href="cards.html">cards</a>, fill inside <a href="sidebars.html">sidebar layouts</a>, or generally fill anywhere you want.</p>
-<p>Since, in theory, essentially any UI element can be coerced into a <strong>fillable container</strong> and/or <strong>fill item</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Technically speaking, a &lt;strong&gt;fillable container&lt;/strong&gt; is just a &lt;a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link"&gt;CSS flexbox&lt;/a&gt; container with &lt;code&gt;flex-direction: column&lt;/code&gt; (which makes it’s children flex items). And, when a &lt;strong&gt;fill item&lt;/strong&gt; appears as a direct child of a &lt;strong&gt;fillable container&lt;/strong&gt;, it is given a &lt;code&gt;flex&lt;/code&gt; property of &lt;code&gt;1&lt;/code&gt; (i.e., it’s allowed to grow/shrink).&lt;/p&gt;'><sup>1</sup></a>, it’s useful to first study their behavior in the abstract, which we do next in the <a href="#in-theory">In theory</a> section. After, the <a href="#in-practice">In practice</a> section reinforces those concepts and demonstrates their power with practical examples.</p>
-<p>Throughout these sections, be aware that most <code>bslib</code> components, as well as many Shiny outputs (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>, <code><a href="https://rdrr.io/pkg/plotly/man/plotly-shiny.html" class="external-link">plotlyOutput()</a></code>, etc) classify as <span class="b-blue">fill items</span> by default. This means they possess the potential to grow/shrink to fit their container, but that potential is only activated when their <em>immediate parent</em> is a <span class="b-pink">fillable container</span> <em>with a defined height</em>. Also be aware that <code>bslib</code> components and many Shiny outputs have <code>fill</code> and/or <code>fillable</code> arguments to opt out/in of this behavior (and <code>bslib</code> also provides an API for testing/coercing these properties on <em>any</em> UI element – see <code>is_fill()</code> for more).</p>
+<p>This article covers the building blocks of filling layouts in
+<code>bslib</code>: <strong>fillable containers</strong> and
+<strong>fill items</strong>. Filling layout is an inherently nuanced
+topic, and fully groking takes some effort, but you’ll gain a powerful
+way to get UI elements to fill the window, fill inside <a href="cards.html">cards</a>, fill inside <a href="sidebars.html">sidebar
+layouts</a>, or generally fill anywhere you want.</p>
+<p>Since, in theory, essentially any UI element can be coerced into a
+<strong>fillable container</strong> and/or <strong>fill item</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Technically speaking, a &lt;strong&gt;fillable
+container&lt;/strong&gt; is just a &lt;a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link"&gt;CSS
+flexbox&lt;/a&gt; container with &lt;code&gt;flex-direction: column&lt;/code&gt; (which
+makes it’s children flex items). And, when a &lt;strong&gt;fill item&lt;/strong&gt;
+appears as a direct child of a &lt;strong&gt;fillable container&lt;/strong&gt;, it
+is given a &lt;code&gt;flex&lt;/code&gt; property of &lt;code&gt;1&lt;/code&gt; (i.e., it’s
+allowed to grow/shrink).&lt;/p&gt;'><sup>1</sup></a>, it’s
+useful to first study their behavior in the abstract, which we do next
+in the <a href="#in-theory">In theory</a> section. After, the <a href="#in-practice">In practice</a> section reinforces those concepts
+and demonstrates their power with practical examples.</p>
+<p>Throughout these sections, be aware that most <code>bslib</code>
+components, as well as many Shiny outputs (e.g.,
+<code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>, <code><a href="https://rdrr.io/pkg/plotly/man/plotly-shiny.html" class="external-link">plotlyOutput()</a></code>, etc) classify as
+<span class="b-blue">fill items</span> by default. This means they
+possess the potential to grow/shrink to fit their container, but that
+potential is only activated when their <em>immediate parent</em> is a
+<span class="b-pink">fillable container</span> <em>with a defined
+height</em>. Also be aware that <code>bslib</code> components and many
+Shiny outputs have <code>fill</code> and/or <code>fillable</code>
+arguments to opt out/in of this behavior (and <code>bslib</code> also
+provides an API for testing/coercing these properties on <em>any</em> UI
+element – see <code>is_fill()</code> for more).</p>
 <div class="section level2">
 <h2 id="in-theory">In theory<a class="anchor" aria-label="anchor" href="#in-theory"></a>
 </h2>
@@ -125,7 +151,10 @@
 </h3>
 <div class="row">
 <div class="col-md-6">
-<p>Just like any other HTML <strong>container</strong>, a <span class="b-pink">fillable container</span>’s default height depends on the height of it’s children. So, for example, if there’s a single <span class="b-blue">fill item</span> with a defined height of <code>400px</code> (the default for most Shiny outputs), the <span class="b-pink">fillable container</span>’s height is also <code>400px</code> (plus any padding, border, etc).</p>
+<p>Just like any other HTML <strong>container</strong>, a <span class="b-pink">fillable container</span>’s default height depends on the
+height of it’s children. So, for example, if there’s a single <span class="b-blue">fill item</span> with a defined height of
+<code>400px</code> (the default for most Shiny outputs), the <span class="b-pink">fillable container</span>’s height is also
+<code>400px</code> (plus any padding, border, etc).</p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container&lt;br&gt;Computed height: 400px" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="--bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
@@ -138,7 +167,10 @@
 </div>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>Defining the height of a <span class="b-pink">fillable container</span> activates its immediate children’s potential to <span class="b-blue">fill</span>. So, for example, if <span class="b-pink">fillable container</span>’s height is set to <code>200px</code>, the <span class="b-blue">fill child</span> would shrink to about <code>200px</code>:</p>
+<p>Defining the height of a <span class="b-pink">fillable
+container</span> activates its immediate children’s potential to <span class="b-blue">fill</span>. So, for example, if <span class="b-pink">fillable container</span>’s height is set to
+<code>200px</code>, the <span class="b-blue">fill child</span> would
+shrink to about <code>200px</code>:</p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable&lt;br&gt;Defined height: 200px" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
@@ -151,7 +183,9 @@
 </div>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>If multiple <span class="b-blue">fill items</span> were immediate children of this <span class="b-pink">fillable container</span>, they’d keep shrinking (in this case, to about <code>100px</code> each):</p>
+<p>If multiple <span class="b-blue">fill items</span> were immediate
+children of this <span class="b-pink">fillable container</span>, they’d
+keep shrinking (in this case, to about <code>100px</code> each):</p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable&lt;br&gt;Defined height: 200px" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;">
@@ -165,7 +199,13 @@
 </div>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>Adding a <span class="b-orange">non-fill</span> item (e.g., <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::p()</a></code>-aragraph of text) won’t cause that particular item to grow/shrink, but the <span class="b-blue">fill</span> items divvy up any remaining space (<strong>careful:</strong> if <span class="b-orange">non-fill</span> item(s) are larger than the <span class="b-pink">fillable container</span>, the <span class="b-blue">fill</span> items won’t be visible!). This is big reason why <code><a href="../reference/card.html">card()</a></code>s have a <code>min_height</code> argument (to prevent <span class="b-blue">fill</span> items from shrinking too much).</p>
+<p>Adding a <span class="b-orange">non-fill</span> item (e.g.,
+<code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::p()</a></code>-aragraph of text) won’t cause that
+particular item to grow/shrink, but the <span class="b-blue">fill</span>
+items divvy up any remaining space (<strong>careful:</strong> if <span class="b-orange">non-fill</span> item(s) are larger than the <span class="b-pink">fillable container</span>, the <span class="b-blue">fill</span> items won’t be visible!). This is big reason
+why <code><a href="../reference/card.html">card()</a></code>s have a <code>min_height</code> argument (to
+prevent <span class="b-blue">fill</span> items from shrinking too
+much).</p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
@@ -182,21 +222,35 @@
 <h3 data-toc-skip>
 Resizable example
 </h3>
-<p>Notice the resizing handle on the lower-right hand corner of the <span class="b-pink">fillable container</span> above. Use it to change the size of the <span class="b-pink">fillable container</span> and compare the behavior between <span class="b-blue">fill</span> and <span class="b-orange">non-fill</span> items.</p>
+<p>Notice the resizing handle on the lower-right hand corner of the
+<span class="b-pink">fillable container</span> above. Use it to change
+the size of the <span class="b-pink">fillable container</span> and
+compare the behavior between <span class="b-blue">fill</span> and <span class="b-orange">non-fill</span> items.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="carrying-fill">Carrying fill<a class="anchor" aria-label="anchor" href="#carrying-fill"></a>
 </h3>
-<p>The previous section focuses on the fairly simple case of <em>one</em> parent container. However, in practice, you’ll likely be working with multiple levels of parents, which quickly complicates things, especially because:</p>
+<p>The previous section focuses on the fairly simple case of
+<em>one</em> parent container. However, in practice, you’ll likely be
+working with multiple levels of parents, which quickly complicates
+things, especially because:</p>
 <ol style="list-style-type: decimal">
 <li>
-<span class="b-blue">Fill items</span> require their <em>immediate</em> parent to be a <span class="b-pink">fillable container</span> in order to fill.</li>
-<li>All “raw” HTML tags (e.g., <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div()</a></code>, <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p()</a></code>, etc.) as well as many Shiny UI elements (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html" class="external-link">wellPanel()</a></code>, etc.) are neither <span class="b-pink">fillable</span> nor <span class="b-blue">fill</span> (i.e., we’ll call these <span class="b-orange">non-fill</span> elements).</li>
+<span class="b-blue">Fill items</span> require their
+<em>immediate</em> parent to be a <span class="b-pink">fillable
+container</span> in order to fill.</li>
+<li>All “raw” HTML tags (e.g., <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div()</a></code>, <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p()</a></code>,
+etc.) as well as many Shiny UI elements (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/wellPanel.html" class="external-link">wellPanel()</a></code>,
+etc.) are neither <span class="b-pink">fillable</span> nor <span class="b-blue">fill</span> (i.e., we’ll call these <span class="b-orange">non-fill</span> elements).</li>
 </ol>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>As a result, a common way in which (1) breaks down is that a <span class="b-orange">non-fill</span> element, like a <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div()</a></code>, comes between <span class="b-pink">fillable</span> and <span class="b-blue">fill</span>. In fact, you’ll run into this exact behavior when using <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code> to insert a dynamically rendered <span class="b-blue">fill</span> item into a <span class="b-pink">fillable container</span> (see <a href="#ui-output">this section</a> for a concrete example).</p>
+<p>As a result, a common way in which (1) breaks down is that a <span class="b-orange">non-fill</span> element, like a <code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div()</a></code>,
+comes between <span class="b-pink">fillable</span> and <span class="b-blue">fill</span>. In fact, you’ll run into this exact behavior
+when using <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code> to insert a dynamically rendered
+<span class="b-blue">fill</span> item into a <span class="b-pink">fillable container</span> (see <a href="#ui-output">this
+section</a> for a concrete example).</p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
@@ -211,7 +265,12 @@ Resizable example
 </div>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>Assuming the goal is for the <span class="b-blue">fill item</span> to fit the <span class="b-pink">fillable container</span>, it’s useful to coerce the <span class="b-orange">non-fill</span> element into both <span class="b-blue">fill item</span> <em>and</em> a <span class="b-pink">fillable container</span>, which we call a <span class="b-purple">fill carriers</span>. Any UI element can be coerced into a <span class="b-purple">fill carrier</span> with <code><a href="../reference/as_fill_carrier.html">as_fill_carrier()</a></code>.</p>
+<p>Assuming the goal is for the <span class="b-blue">fill item</span> to
+fit the <span class="b-pink">fillable container</span>, it’s useful to
+coerce the <span class="b-orange">non-fill</span> element into both
+<span class="b-blue">fill item</span> <em>and</em> a <span class="b-pink">fillable container</span>, which we call a <span class="b-purple">fill carriers</span>. Any UI element can be coerced
+into a <span class="b-purple">fill carrier</span> with
+<code><a href="../reference/as_fill_carrier.html">as_fill_carrier()</a></code>.</p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="Fillable container" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
@@ -226,7 +285,13 @@ Resizable example
 </div>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>This concept of a <span class="b-purple">fill carrier</span> is especially useful and relevant for <a href="cards.html">cards</a>. In most cases, a <span class="b-pink">card</span> has numerous children like a <span class="b-orange">header</span> and a <span class="b-purple">body</span>, and the body commonly contains <span class="b-blue">fill item</span>(s) (to ensure <span class="b-blue">fill item</span>s). This is why <code class="b-purple"><a href="../reference/card_body.html">card_body()</a></code> defaults to <code>fillable = TRUE</code> (and <code>fill = TRUE</code>).</p>
+<p>This concept of a <span class="b-purple">fill carrier</span> is
+especially useful and relevant for <a href="cards.html">cards</a>. In
+most cases, a <span class="b-pink">card</span> has numerous children
+like a <span class="b-orange">header</span> and a <span class="b-purple">body</span>, and the body commonly contains <span class="b-blue">fill item</span>(s) (to ensure <span class="b-blue">fill
+item</span>s). This is why <code class="b-purple"><a href="../reference/card_body.html">card_body()</a></code>
+defaults to <code>fillable = TRUE</code> (and
+<code>fill = TRUE</code>).</p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="&lt;code&gt;card()&lt;/code&gt; (fillable container)" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:200px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
@@ -242,7 +307,12 @@ Resizable example
 </div>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>You might wonder, why then would we want or need <code>fillable = FALSE</code> or <code>fill = FALSE</code> on a <code><a href="../reference/card_body.html">card_body()</a></code>? One big reason is that <span class="b-pink">fillable containers</span> are powered by <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link">CSS flexbox</a>, which changes the way it’s children are rendered. And, although those changes are nice for “stretchy” children, there are <a href="cards.html#flexbox">downsides for rendering inline elements</a>. So, that’s why, it’s recommended that you use <a href="#multiple-card_body">multiple card bodies</a> when combining <span class="b-blue">fill</span> with <span class="b-orange">non-fill</span></p>
+<p>You might wonder, why then would we want or need
+<code>fillable = FALSE</code> or <code>fill = FALSE</code> on a
+<code><a href="../reference/card_body.html">card_body()</a></code>? One big reason is that <span class="b-pink">fillable containers</span> are powered by <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link">CSS
+flexbox</a>, which changes the way it’s children are rendered. And,
+although those changes are nice for “stretchy” children, there are <a href="cards.html#flexbox">downsides for rendering inline elements</a>.
+So, that’s why, it’s recommended that you use <a href="#multiple-card_body">multiple card bodies</a> when combining <span class="b-blue">fill</span> with <span class="b-orange">non-fill</span></p>
 </div>
 <div class="col-md-6">
 <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bs-custom-class="tip-pink" data-bs-html="true" data-bs-placement="top" data-bs-title="&lt;code&gt;card()&lt;/code&gt; (fillable container)" data-bs-toggle="tooltip" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="height:300px; --bs-card-border-color:var(--bs-pink);--bs-card-border-width:0.12rem;gap:0.25rem;resize:vertical;">
@@ -264,11 +334,19 @@ Resizable example
 <div class="section level2">
 <h2 id="in-practice">In practice<a class="anchor" aria-label="anchor" href="#in-practice"></a>
 </h2>
-<p>This section puts into practice what we learned in <a href="#in-theory">the theory</a> of <span class="b-pink">fillable containers</span> and <span class="b-blue">fill items</span>.</p>
+<p>This section puts into practice what we learned in <a href="#in-theory">the theory</a> of <span class="b-pink">fillable
+containers</span> and <span class="b-blue">fill items</span>.</p>
 <div class="section level3">
 <h3 id="setup-code">Setup code<a class="anchor" aria-label="anchor" href="#setup-code"></a>
 </h3>
-<p>The example in the sub-sections that follow assume you’ve ran the following code. Here we’re using <a href="https://plotly-r.com" class="external-link">plotly</a> to create a list of <span class="b-blue">fill items</span>, but the same concepts extend to other htmlwidgets (e.g., <a href="https://rstudio.github.io/leaflet/" class="external-link">leaflet</a>) and Shiny outputs like <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;If these techniques don’t extend as advertised to your output(s) of choice, see the &lt;a href="#other-advice"&gt;other advice&lt;/a&gt; section to help troubleshoot. If that doesn’t help, please &lt;a href="https://github.com/rstudio/bslib/issues/new/choose" class="external-link"&gt;let us know about it&lt;/a&gt;!&lt;/p&gt;'><sup>2</sup></a></p>
+<p>The example in the sub-sections that follow assume you’ve ran the
+following code. Here we’re using <a href="https://plotly-r.com" class="external-link">plotly</a> to create a list
+of <span class="b-blue">fill items</span>, but the same concepts extend
+to other htmlwidgets (e.g., <a href="https://rstudio.github.io/leaflet/" class="external-link">leaflet</a>) and Shiny outputs
+like <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;If these techniques don’t extend as advertised to your
+output(s) of choice, see the &lt;a href="#other-advice"&gt;other advice&lt;/a&gt;
+section to help troubleshoot. If that doesn’t help, please &lt;a href="https://github.com/rstudio/bslib/issues/new/choose" class="external-link"&gt;let us know
+about it&lt;/a&gt;!&lt;/p&gt;'><sup>2</sup></a></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com" class="external-link">plotly</a></span><span class="op">)</span></span>
 <span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -284,7 +362,15 @@ Resizable example
 <div class="section level3">
 <h3 id="filling-the-window">Filling the window<a class="anchor" aria-label="anchor" href="#filling-the-window"></a>
 </h3>
-<p>Perhaps the most important <span class="b-pink">fillable container</span> is <code><a href="../reference/page.html">page_fillable()</a></code>, which sets it’s height equal to the browser window. Thus, if <span class="b-blue">fill items</span> appear as direct children, they’ll fill the window. <code><a href="../reference/page.html">page_fillable()</a></code> also defaults to <code>fillable_mobile = FALSE</code>, which means the height isn’t set equal to the viewport on mobile. As a result, fill items use their own defined height (instead of the viewport size) on mobile, which is often better behavior when showing multiple outputs.</p>
+<p>Perhaps the most important <span class="b-pink">fillable
+container</span> is <code><a href="../reference/page.html">page_fillable()</a></code>, which sets it’s height
+equal to the browser window. Thus, if <span class="b-blue">fill
+items</span> appear as direct children, they’ll fill the window.
+<code><a href="../reference/page.html">page_fillable()</a></code> also defaults to
+<code>fillable_mobile = FALSE</code>, which means the height isn’t set
+equal to the viewport on mobile. As a result, fill items use their own
+defined height (instead of the viewport size) on mobile, which is often
+better behavior when showing multiple outputs.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h2</a></span><span class="op">(</span><span class="st">"Diamond plots"</span><span class="op">)</span>,</span>
@@ -298,7 +384,9 @@ Resizable example
 <h3 data-toc-skip>
 Resizable example
 </h3>
-<p>Notice the resizing handle on the lower-right hand corner of the example above. Use it to change the size of the “window” and see the behavior of the filling plots</p>
+<p>Notice the resizing handle on the lower-right hand corner of the
+example above. Use it to change the size of the “window” and see the
+behavior of the filling plots</p>
 </div>
 </div>
 <div class="col-md-6">
@@ -306,7 +394,10 @@ Resizable example
 <h3 data-toc-skip>
 Limiting shrinkage
 </h3>
-<p>If you’re worried about plots becoming too small, consider putting them in a <code><a href="../reference/card_body.html">card_body()</a></code> with a <code>min_height</code> (like we do later on). Also, if you don’t want the card border, you can do <code>card(class = "border-0", ...)</code></p>
+<p>If you’re worried about plots becoming too small, consider putting
+them in a <code><a href="../reference/card_body.html">card_body()</a></code> with a <code>min_height</code> (like
+we do later on). Also, if you don’t want the card border, you can do
+<code>card(class = "border-0", ...)</code></p>
 </div>
 </div>
 </div>
@@ -314,7 +405,13 @@ Limiting shrinkage
 <div class="section level3">
 <h3 id="multiple-columns">Multiple columns<a class="anchor" aria-label="anchor" href="#multiple-columns"></a>
 </h3>
-<p>Since <code><a href="../reference/layout_columns.html">layout_columns()</a></code> is a <span class="b-blue">fill item</span> (by default), it grows/shrinks just like any other <span class="b-blue">fill item</span>. It also defaults to <code>fillable = TRUE</code>, which in this case, means each column gets wrapped in a <span class="b-pink">fillable container</span>. That’s why, in this example, <code>plots[[1]]</code> and <code>plots[[1]]</code> also grow/shrink to match the size of the <code><a href="../reference/layout_columns.html">layout_columns()</a></code> container.</p>
+<p>Since <code><a href="../reference/layout_columns.html">layout_columns()</a></code> is a <span class="b-blue">fill
+item</span> (by default), it grows/shrinks just like any other <span class="b-blue">fill item</span>. It also defaults to
+<code>fillable = TRUE</code>, which in this case, means each column gets
+wrapped in a <span class="b-pink">fillable container</span>. That’s why,
+in this example, <code>plots[[1]]</code> and <code>plots[[1]]</code>
+also grow/shrink to match the size of the <code><a href="../reference/layout_columns.html">layout_columns()</a></code>
+container.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h2</a></span><span class="op">(</span><span class="st">"Diamond plots"</span><span class="op">)</span>,</span>
@@ -327,7 +424,12 @@ Limiting shrinkage
 <div class="section level3">
 <h3 id="value-boxes">Value boxes<a class="anchor" aria-label="anchor" href="#value-boxes"></a>
 </h3>
-<p>Since <code><a href="../reference/value_box.html">value_box()</a></code> is a <span class="b-blue">fill item</span> (by default), it grows/shrinks just like any other <span class="b-blue">fill item</span>. This is especially useful for keeping a common baseline in a multi-column layout. That said, the multi-layout column that holds value boxes probably doesn’t want it default <code>fill = TRUE</code> behavior, since the value boxes should be given more/less space and the window becomes larger/smaller:</p>
+<p>Since <code><a href="../reference/value_box.html">value_box()</a></code> is a <span class="b-blue">fill
+item</span> (by default), it grows/shrinks just like any other <span class="b-blue">fill item</span>. This is especially useful for keeping a
+common baseline in a multi-column layout. That said, the multi-layout
+column that holds value boxes probably doesn’t want it default
+<code>fill = TRUE</code> behavior, since the value boxes should be given
+more/less space and the window becomes larger/smaller:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">boxes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span></span>
 <span>  fill <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -367,7 +469,11 @@ Column wrapping layouts
 <div class="section level3">
 <h3 id="full-screen-cards">Full-screen cards<a class="anchor" aria-label="anchor" href="#full-screen-cards"></a>
 </h3>
-<p>As alluded to in the <a href="#carrying-fill">Carrying fill</a> section, <code><a href="../reference/card.html">card()</a></code> and <code><a href="../reference/card_body.html">card_body()</a></code> are <span class="b-purple">fill carriers</span> (that is, they are both <span class="b-pink">fillable</span> and <span class="b-blue">fill</span>, by default). Therefore, by wrapping each plot in a card, the card not only grows/shrinks (since they are <span class="b-blue">fill</span>), but also retain the plot’s ability to grow/shrink (since they are <span class="b-pink">fillable</span>).</p>
+<p>As alluded to in the <a href="#carrying-fill">Carrying fill</a>
+section, <code><a href="../reference/card.html">card()</a></code> and <code><a href="../reference/card_body.html">card_body()</a></code> are <span class="b-purple">fill carriers</span> (that is, they are both <span class="b-pink">fillable</span> and <span class="b-blue">fill</span>, by
+default). Therefore, by wrapping each plot in a card, the card not only
+grows/shrinks (since they are <span class="b-blue">fill</span>), but
+also retain the plot’s ability to grow/shrink (since they are <span class="b-pink">fillable</span>).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_card</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">header</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span></span>
@@ -386,12 +492,25 @@ Column wrapping layouts
 <span><span class="op">)</span></span></code></pre></div>
 <iframe src="examples/filling/unnamed-chunk-16/unnamed-chunk-16.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" class="resizable">
 </iframe>
-<p>Note that, if we changed <code><a href="../reference/page.html">page_fillable()</a></code> to <code><a href="../reference/page.html">page_fluid()</a></code> (or <code><a href="../reference/page.html">page_fixed()</a></code>), each plot would render to it’s default height (<code>400px</code>) since we no longer have a <span class="b-pink">fillable</span> with a specified height. That said, even in that case, if we expand the card to full-screen, the plot still grows to fit the full screen card (since the <code><a href="../reference/card.html">card()</a></code> is then a <span class="b-pink">fillable</span> container with a specified height, the <code><a href="../reference/card_body.html">card_body()</a></code> is a <span class="b-purple">fill carrier</span>, and the plot is a <span class="b-blue">fill item</span>).</p>
+<p>Note that, if we changed <code><a href="../reference/page.html">page_fillable()</a></code> to
+<code><a href="../reference/page.html">page_fluid()</a></code> (or <code><a href="../reference/page.html">page_fixed()</a></code>), each plot
+would render to it’s default height (<code>400px</code>) since we no
+longer have a <span class="b-pink">fillable</span> with a specified
+height. That said, even in that case, if we expand the card to
+full-screen, the plot still grows to fit the full screen card (since the
+<code><a href="../reference/card.html">card()</a></code> is then a <span class="b-pink">fillable</span>
+container with a specified height, the <code><a href="../reference/card_body.html">card_body()</a></code> is a
+<span class="b-purple">fill carrier</span>, and the plot is a <span class="b-blue">fill item</span>).</p>
 </div>
 <div class="section level3">
 <h3 id="sidebar-layouts">Sidebar layouts<a class="anchor" aria-label="anchor" href="#sidebar-layouts"></a>
 </h3>
-<p>Similar to what we’ve seen with outputs and <code><a href="../reference/card.html">card()</a></code>s, <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> is also a fill item (by default), so placing it as a direct child of <code><a href="../reference/page.html">page_fillable()</a></code> makes it fit the window. Also, the main content’s container defaults to a fillable container, so if that behavior is undesirable, set <code>fillable = FALSE</code> in <code><a href="../reference/sidebar.html">layout_sidebar()</a></code>.</p>
+<p>Similar to what we’ve seen with outputs and <code><a href="../reference/card.html">card()</a></code>s,
+<code><a href="../reference/sidebar.html">layout_sidebar()</a></code> is also a fill item (by default), so
+placing it as a direct child of <code><a href="../reference/page.html">page_fillable()</a></code> makes it
+fit the window. Also, the main content’s container defaults to a
+fillable container, so if that behavior is undesirable, set
+<code>fillable = FALSE</code> in <code><a href="../reference/sidebar.html">layout_sidebar()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  padding <span class="op">=</span> <span class="fl">0</span>,</span>
@@ -427,7 +546,11 @@ Sidebar layouts
 </h3>
 <div class="row mt-3">
 <div class="col-md-6">
-<p>As alluded to in the <a href="#carrying-fill">Carrying fill</a> section, <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code> puts an additional UI element around <code><a href="https://rdrr.io/pkg/shiny/man/renderUI.html" class="external-link">renderUI()</a></code>’s return value. So, in order to carry the potential to fill down to a fill item (e.g., <code><a href="https://rdrr.io/pkg/plotly/man/plot_ly.html" class="external-link">plot_ly()</a></code>), mark <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code> as a fill carrier.</p>
+<p>As alluded to in the <a href="#carrying-fill">Carrying fill</a>
+section, <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code> puts an additional UI element around
+<code><a href="https://rdrr.io/pkg/shiny/man/renderUI.html" class="external-link">renderUI()</a></code>’s return value. So, in order to carry the
+potential to fill down to a fill item (e.g., <code><a href="https://rdrr.io/pkg/plotly/man/plot_ly.html" class="external-link">plot_ly()</a></code>),
+mark <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code> as a fill carrier.</p>
 </div>
 <div class="col-md-6">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -457,7 +580,10 @@ Sidebar layouts
 </h3>
 <div class="row mt-3">
 <div class="col-md-6">
-<p><a href="https://github.com/rstudio/DT" class="external-link">DT</a>’s <code><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable()</a></code> has it’s own unique interface for filling a container. Specifically, make sure to set <code>datatable(fillContainer = TRUE)</code> in order for the table to grow/shrink as you’d expect it to.</p>
+<p><a href="https://github.com/rstudio/DT" class="external-link">DT</a>’s <code><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable()</a></code> has it’s own unique
+interface for filling a container. Specifically, make sure to set
+<code>datatable(fillContainer = TRUE)</code> in order for the table to
+grow/shrink as you’d expect it to.</p>
 </div>
 <div class="col-md-6">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -487,12 +613,27 @@ Sidebar layouts
 <div class="section level3">
 <h3 id="other-htmlwidgets">Other htmlwidgets<a class="anchor" aria-label="anchor" href="#other-htmlwidgets"></a>
 </h3>
-<p>Broadly speaking, most <code>htmlwidgets</code> like <a href="https://plotly-r.com" class="external-link">plotly</a> and <a href="https://rstudio.github.io/leaflet/" class="external-link">leaflet</a> are <span class="b-blue">fill items</span> by default, but that might not always be the case. Also, sometimes, you might not want a particular widget to be treated as a <span class="b-blue">fill item</span>. In the Shiny case, you should be able to control this through a <code>fill</code> argument on the output container (e.g., <code>plotlyOutput("id", fill = FALSE)</code>), but if no <code>fill</code> argument is available you can also use <code>bslib</code>’s <code>as_fill()</code> API to opt in/out. In the non-Shiny case, you can control <code>fill</code> through the widget’s <code><a href="https://rdrr.io/pkg/htmlwidgets/man/sizingPolicy.html" class="external-link">htmlwidgets::sizingPolicy()</a></code> (e.g., <code>leaflet()$sizingPolicy$fill</code>).</p>
+<p>Broadly speaking, most <code>htmlwidgets</code> like
+<a href="https://plotly-r.com" class="external-link">plotly</a> and <a href="https://rstudio.github.io/leaflet/" class="external-link">leaflet</a> are <span class="b-blue">fill items</span> by default, but that might not always
+be the case. Also, sometimes, you might not want a particular widget to
+be treated as a <span class="b-blue">fill item</span>. In the Shiny
+case, you should be able to control this through a <code>fill</code>
+argument on the output container (e.g.,
+<code>plotlyOutput("id", fill = FALSE)</code>), but if no
+<code>fill</code> argument is available you can also use
+<code>bslib</code>’s <code>as_fill()</code> API to opt in/out. In the
+non-Shiny case, you can control <code>fill</code> through the widget’s
+<code><a href="https://rdrr.io/pkg/htmlwidgets/man/sizingPolicy.html" class="external-link">htmlwidgets::sizingPolicy()</a></code> (e.g.,
+<code>leaflet()$sizingPolicy$fill</code>).</p>
 </div>
 <div class="section level3">
 <h3 id="avoid-fluidrowcolumn">Avoid <code>fluidRow()</code>/<code>column()</code><a class="anchor" aria-label="anchor" href="#avoid-fluidrowcolumn"></a>
 </h3>
-<p>Modern versions of <a href="https://getbootstrap.com/docs/5.3/layout/grid/" class="external-link">Bootstrap Grid</a> currently use <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link">CSS Flexbox</a> in such a way that filling layout is mostly incompatible with <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidRow()</a></code>/<code><a href="https://rdrr.io/pkg/shiny/man/column.html" class="external-link">column()</a></code>. Instead, use <code><a href="../reference/layout_columns.html">layout_columns()</a></code> to implement <a href="column-layout.html">multi-column filling layouts</a></p>
+<p>Modern versions of <a href="https://getbootstrap.com/docs/5.3/layout/grid/" class="external-link">Bootstrap Grid</a>
+currently use <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link">CSS
+Flexbox</a> in such a way that filling layout is mostly incompatible
+with <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidRow()</a></code>/<code><a href="https://rdrr.io/pkg/shiny/man/column.html" class="external-link">column()</a></code>. Instead, use
+<code><a href="../reference/layout_columns.html">layout_columns()</a></code> to implement <a href="column-layout.html">multi-column filling layouts</a></p>
 <!-- Extra js bits --->
 <script>
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle=\"tooltip\"]')
