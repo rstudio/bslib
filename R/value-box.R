@@ -11,7 +11,7 @@
 #'   display below `value`. Named arguments become attributes on the containing
 #'   element.
 #' @param showcase A [htmltools::tag()] child to showcase (e.g., a
-#'   [bsicons::bs_icon()], a [plotly::plotlyOutput()], etc).
+#'   [bsicons::bs_icon()], a `plotly::plotlyOutput()`, etc).
 #' @param showcase_layout either `showcase_left_center()` or
 #'   `showcase_top_right()`.
 #' @param theme_color A theme color to use for the background color. Should
