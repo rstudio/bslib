@@ -42,12 +42,15 @@ Install the `bslib` package from CRAN as follows:
 install.packages("bslib")
 ```
 
-## Examples
+## An example
 
-The quickest way to gain a sense of what `{bslib}` is capable of is to
-run `bslib::bs_theme_preview()` at the console. This launches a demo app
+The quickest way to see what `{bslib}` can do is to run
+`bslib::bs_theme_preview()` at the console. This launches a demo app
 containing both `{bslib}` and `{shiny}` UI components as well as an
-theming widget (`bslib::bs_themer()`) overlaid on the app.
+theming widget (`bslib::bs_themer()`) overlaid on the app. See
+[real-time
+theming](https://rstudio.github.io/bslib/articles/theming.html#real-time)
+to learn more.
 
 <img src="vignettes/themer.gif" width="100%" style="display: block; margin: auto;" />
 

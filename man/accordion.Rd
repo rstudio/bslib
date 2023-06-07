@@ -47,6 +47,7 @@ when \code{multiple=TRUE}.}
 Create a vertically collapsing accordion
 }
 \examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 items <- lapply(LETTERS, function(x) {
   accordion_panel(paste("Section", x), paste("Some narrative for section", x))
@@ -64,20 +65,18 @@ accordion(!!!items, open = "Section B")
 accordion(!!!items, open = c("Section A", "Section B"))
 
 # Provide an id to create a shiny input binding
-if (interactive()) {
-  library(shiny)
+library(shiny)
 
-  ui <- page_fluid(
-    accordion(!!!items, id = "acc")
-  )
+ui <- page_fluid(
+  accordion(!!!items, id = "acc")
+)
 
-  server <- function(input, output) {
-    observe(print(input$acc))
-  }
-
-  shinyApp(ui, server)
+server <- function(input, output) {
+  observe(print(input$acc))
 }
 
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
 }
 \references{
 \url{https://getbootstrap.com/docs/5.2/components/accordion/}
