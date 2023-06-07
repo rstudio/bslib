@@ -1,8 +1,8 @@
 # bslib 0.5.0
 
-This significant release focuses on making dashboards (e.g., `page_sidebar()`) and filling/responsive layouts (e.g., `page_fillable()`, `layout_columns()`) easier. It also includes many improvements and bug fixes for existing features and components (e.g., `card()`).
+This significant release focuses on making dashboards with filling/responsive layouts easier. See the new [Getting Started with Dashboards article](https://rstudio.github.io/bslib/articles/dashboards.html) to learn more. It also includes new components (`accordion()`) as well as many improvements and bug fixes for existing features and components.
 
-`{bslib}` is still maturing, but this release is a significant step towards this project superseding `{shinydashboard}`.
+`{bslib}`'s dashboarding features are still experimental at this point, but this release represents a significant step towards being our recommended way to create Shiny dashboards.
 
 ## Breaking changes / improvements
 
