@@ -170,11 +170,6 @@ navset_tab(
 )
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## shiny devmode - Disabling the use of bslib precompiled themes. To be able to use precompiled themes, call `options(bslib.precompiled = TRUE)`
-## shiny devmode - Enabling warnings about low color contrasts found inside `bslib::bs_theme()`. To suppress these warnings, set `options(bslib.color_contrast_warnings = FALSE)`
-## This message is displayed once every 8 hours.
-}\if{html}{\out{</div>}}
-
 \figure{navset-tab-basic.png}{Screenshot of a basic navset_tab() example.}
 
 In the rest of the examples, we’ll include links among the tabs (or
