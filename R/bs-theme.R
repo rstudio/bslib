@@ -10,7 +10,7 @@
 #'   `bg`, `fg`, `primary`, etc).
 #' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`.
 #'
-#' To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, [see here](https://rstudio.github.io/bslib/articles/bslib.html).
+#' To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, [see here](https://rstudio.github.io/bslib/articles/theming.html).
 #'
 #' @section Colors:
 #'
@@ -85,7 +85,7 @@
 #'
 #' @return a [sass::sass_bundle()] (list-like) object.
 #'
-#' @references \url{https://rstudio.github.io/bslib/articles/bslib.html}
+#' @references \url{https://rstudio.github.io/bslib/articles/theming.html}
 #' @references \url{https://rstudio.github.io/sass/}
 #' @seealso [bs_add_variables()], [bs_theme_preview()]
 #' @examples
@@ -271,16 +271,24 @@ bootstrap_bundle <- function(version) {
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
       sass_layer(
-        defaults = sass_file(system_file("components", "_variables.scss", package = "bslib"))
+        mixins = list(
+          sass_file(system_file("components", "_variables.scss", package = "bslib")),
+          sass_file(system_file("components", "_mixins.scss", package = "bslib"))
+        )
       ),
       !!!rule_bundles(c(
         system_file("components", "accordion.scss", package = "bslib"),
         system_file("components", "card.scss", package = "bslib"),
         system_file("components", "fill.scss", package = "bslib"),
         system_file("components", "layout_column_wrap.scss", package = "bslib"),
+        system_file("components", "layout_columns.scss", package = "bslib"),
         system_file("components", "sidebar.scss", package = "bslib"),
         system_file("components", "value_box.scss", package = "bslib")
-      ))
+      )),
+      # Enable CSS Grid powered Bootstrap grid
+      sass_layer(
+        defaults = list("enable-cssgrid" = "true !default")
+      )
     ),
     four = sass_bundle(
       sass_layer(

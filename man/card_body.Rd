@@ -2,7 +2,6 @@
 % Please edit documentation in R/card.R
 \name{card_body}
 \alias{card_body}
-\alias{card_body_fill}
 \alias{card_title}
 \alias{card_header}
 \alias{card_footer}
@@ -11,14 +10,16 @@
 \alias{is.card_item}
 \title{Card items}
 \usage{
-card_body(..., fill = FALSE, height = NULL, class = NULL)
-
-card_body_fill(
+card_body(
   ...,
-  gap = NULL,
+  fillable = TRUE,
+  min_height = NULL,
   max_height = NULL,
   max_height_full_screen = max_height,
-  min_height = NULL,
+  height = NULL,
+  padding = NULL,
+  gap = NULL,
+  fill = TRUE,
   class = NULL
 )
 
@@ -36,8 +37,9 @@ card_image(
   mime_type = NULL,
   class = NULL,
   height = NULL,
+  fill = TRUE,
   width = NULL,
-  container = card_body_fill
+  container = card_body
 )
 
 as.card_item(x)
@@ -48,18 +50,31 @@ is.card_item(x)
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag}. Named arguments become HTML attributes on returned
 UI element.}
 
-\item{fill}{whether to allow the \code{card_body()} to grow and shrink to fit its
-\code{card()}.}
+\item{fillable}{Whether or not the card item should be a fillable (i.e.
+flexbox) container.}
+
+\item{min_height, max_height, max_height_full_screen}{Any valid \link[htmltools:validateCssUnit]{CSS length unit}.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
-\item{class}{Additional CSS classes for the returned UI element.}
+\item{padding}{Padding to use for the body. This can be a numeric vector
+(which will be interpreted as pixels) or a character vector with valid CSS
+lengths. The length can be between one and four. If one, then that value
+will be used for all four sides. If two, then the first value will be used
+for the top and bottom, while the second value will be used for left and
+right. If three, then the first will be used for top, the second will be
+left and right, and the third will be bottom. If four, then the values will
+be interpreted as top, right, bottom, and left respectively.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
 
-\item{max_height, max_height_full_screen, min_height}{Any valid \link[htmltools:validateCssUnit]{CSS length unit}.}
+\item{fill}{Whether to allow this element to grow/shrink to fit its \code{card()}
+container.}
+
+\item{class}{Additional CSS classes for the returned UI element.}
 
 \item{container}{a function to generate an HTML element to contain the image.}
 
@@ -88,10 +103,6 @@ general overview of the \code{\link[=card]{card()}} API, see \href{https://rstud
 \itemize{
 \item \code{card_body()}: A general container for the "main content" of a \code{\link[=card]{card()}}.
 
-\item \code{card_body_fill()}: Similar to \code{card_body(fill = TRUE)}, but also marks the
-return element as a "fill container" (via \code{\link[htmltools:bindFillRole]{htmltools::bindFillRole()}}) so
-that its immediate children are allowed to grow and shrink to fit.
-
 \item \code{card_title()}: Similar to \code{card_header()} but without the border and background color.
 
 \item \code{card_header()}: A header (with border and background color) for the \code{card()}. Typically appears before a \code{card_body()}.
@@ -108,7 +119,7 @@ that its immediate children are allowed to grow and shrink to fit.
 \seealso{
 \code{\link[=card]{card()}} for creating a card component.
 
-\code{\link[=navs_tab_card]{navs_tab_card()}} for cards with multiple tabs.
+\code{\link[=navset_card_tab]{navset_card_tab()}} for cards with multiple tabs.
 
 \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out multiple cards (or multiple
 columns inside a card).

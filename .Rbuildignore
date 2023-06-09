@@ -11,11 +11,13 @@ inst/lib/bsw3/.npmignore
 ^README\.Rmd$
 ^\.travis\.yml$
 ^docs$
-^sandbox$
+^sandbox$'
+^_dev$
 ^revdep$
 ^pkgdown$
 ^_pkgdown\.yml$
 ^vignettes$
+^sandbox$
 
 ^srcts$
 ^node_modules$

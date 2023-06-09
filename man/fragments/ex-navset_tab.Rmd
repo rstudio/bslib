@@ -1,0 +1,228 @@
+```{r setup-ex-navs-tab, include = FALSE}
+library(bslib)
+## Screenshots are created during `devtools::document()` in CI
+## or set to `TRUE` below to test or update locally
+SCREENSHOT <- nzchar(Sys.getenv("CI", "")) || FALSE
+```
+
+```{r include = FALSE}
+if (isTRUE(SCREENSHOT)) {
+  library(chromote)
+  b <- ChromoteSession$new(width = 800, height = 300, wait_ = TRUE)
+}
+
+render_screenshot <- function(x, options) {
+  if (inherits(x, "bslib_fragment")) {
+    x <- attr(x, "bslib_page")(x)
+  }
+  x <- tagList(
+    x,
+    tags$head(tags$style("
+      body { min-height: 300px; padding: 1rem }
+      .bslib-card .card-body { min-height: 200px; }
+    "))
+  )
+  tmpdir <- tempfile()
+  dir.create(tmpdir)
+  on.exit(unlink(tmpdir, recursive = TRUE))
+
+  tmpfile <- file.path(tmpdir, basename(tempfile(fileext = ".html")))
+  save_html(x, tmpfile)
+
+  file_out <- paste0(options$label, ".png")
+
+  {
+    p <- b$Page$loadEventFired(wait_ = FALSE)
+    b$Page$navigate(paste0("file://", tmpfile), wait_ = FALSE)
+    b$wait_for(p)
+  }
+
+  b$Runtime$evaluate(
+    "if ($('.dropdown-toggle').length > 0) $('.dropdown-toggle').dropdown('toggle')"
+  )
+  b$screenshot(filename = file.path(
+    rprojroot::find_package_root_file(),
+    "man/figures/", file_out
+  ))
+
+  invisible(file_out)
+}
+
+include_screenshot <- function(x, options) {
+  file_name <- paste0(options$label, ".png")
+  alt <- options$fig.alt
+  if (is.null(alt)) {
+    alt <- sprintf("Screenshot of a %s() example.", options$label)
+  }
+  img <- sprintf('![](%s "%s")', file_name, alt)
+  knitr::asis_output(img)
+}
+
+knitr::opts_chunk$set(
+  render = function(x, options) {
+    if (isTRUE(SCREENSHOT)) {
+      render_screenshot(x, options)
+    }
+    include_screenshot(x, options)
+  }
+)
+```
+
+## A basic example
+
+This first example creates a simple tabbed navigation container with two tabs.
+The tab name and the content of each tab are specified in the `nav_panel()` calls
+and `navset_tab()` creates the tabbed navigation around these two tabs.
+
+```{r navset_tab-basic, fig.alt = "Screenshot of a basic navset_tab() example."}
+library(htmltools)
+
+navset_tab(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content."))
+)
+```
+
+In the rest of the examples, we'll include links among the tabs (or pills) in the navigation controls.
+
+```{r echo = TRUE, eval = TRUE, results="hide"}
+link_shiny <- tags$a(shiny::icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = "_blank")
+link_posit <- tags$a(shiny::icon("r-project"), "Posit", href = "https://posit.co", target = "_blank")
+```
+
+## `navset_tab()`
+
+You can fully customize the controls in the navigation component.
+In this example, we've added a direct link to the Shiny repository using `nav_item()`.
+We've also included a dropdown menu using `nav_menu()`
+containing an option to select a third tab panel
+and another direct link to Posit's website.
+Finally, we've separated the primary tabs on the left
+from the direct link and dropdown menu on the right
+using `nav_spacer()`.
+
+```{r navset_tab}
+navset_tab(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
+## `navset_pill()`
+
+`navset_pill()` creates a navigation container that behaves exactly like `navset_tab()`,
+but the tab toggles are _pills_ or button-shaped.
+
+```{r navset_pill}
+navset_pill(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
+## `navset_card_tab()`
+
+The tabbed navigation container can also be used in a `card()` component
+thanks to `navset_card_tab()`.
+Learn more about this approach in the
+[article about Cards](https://pkgs.rstudio.com/bslib/articles/cards.html),
+including how to add [a shared sidebar](https://pkgs.rstudio.com/bslib/articles/sidebars.html#multi-page-layout)
+to all tabs in the card
+using the `sidebar` argument of `navset_card_tab()`.
+
+```{r navset_tab_card}
+navset_card_tab(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
+## `navset_card_pill()`
+
+Similar to `navset_pill()`,
+`navset_card_pill()` provides a pill-shaped variant to `navset_card_tab()`.
+You can use the `placement` argument to position the navbar
+`"above"` or `"below"` the card body.
+
+```{r navset_card_pill}
+navset_card_pill(
+  placement = "above",
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
+## `navset_pill_list()`
+
+Furthermore, `navset_pill_list()` creates a vertical list of navigation controls
+adjacent to, rather than on top of, the tab content panels.
+
+```{r navset_pill_list}
+navset_pill_list(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
+## `page_navbar()`
+
+Finally, `page_navbar()` provides full-page navigation container
+similar to `navset_tab()` but where each `nav_panel()` is treated as a full page of content
+and the navigation controls appear in a top-level navigation bar.
+
+```{r page_navbar}
+page_navbar(
+  title = "My App",
+  bg = "#0062cc",
+  nav_panel(title = "One", p("First page content.")),
+  nav_panel(title = "Two", p("Second page content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third page content.")),
+    nav_item(link_posit)
+  )
+)
+```

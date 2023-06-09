@@ -24,7 +24,7 @@ nav_append(
 \arguments{
 \item{id}{a character string used to identify the nav container.}
 
-\item{nav}{a \code{\link[=nav]{nav()}} item.}
+\item{nav}{a \code{\link[=nav_panel]{nav_panel()}} item.}
 
 \item{menu_title}{The title of a \code{\link[=nav_menu]{nav_menu()}}.}
 
@@ -36,7 +36,7 @@ nav_append(
 Exported for use by \code{\link[shiny:insertTab]{shiny::prependTab()}}/\code{\link[shiny:insertTab]{shiny::appendTab()}}. These
 functions have been superseded by \code{\link[=nav_insert]{nav_insert()}} (i.e.,
 \code{\link[shiny:insertTab]{shiny::insertTab()}}), since it can do everything these functions do (i.e.,
-add a \code{\link[=nav]{nav()}} to the start or end of a \code{\link[=nav_menu]{nav_menu()}}) and more (i.e., insert a
-\code{\link[=nav]{nav()}} anywhere inside a nav container).
+add a \code{\link[=nav_panel]{nav_panel()}} to the start or end of a \code{\link[=nav_menu]{nav_menu()}}) and more (i.e., insert a
+\code{\link[=nav_panel]{nav_panel()}} anywhere inside a nav container).
 }
 \keyword{internal}

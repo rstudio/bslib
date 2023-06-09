@@ -8,26 +8,28 @@
 #'   tag][htmltools::tags] (which includes card items such as [card_body()].
 #'   Named arguments become HTML attributes on returned UI element.
 #' @param full_screen If `TRUE`, an icon will appear when hovering over the card
-#'   body. Clicking the icon expands the card to fit viewport size. Consider
-#'   pairing this feature with [card_body_fill()] to get output that responds to
-#'   changes in the size of the card.
+#'   body. Clicking the icon expands the card to fit viewport size.
 #' @param height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
-#'   `height="200px"`).
+#'   `height="200px"`). Doesn't apply when a card is made `full_screen`
+#'   (in this case, consider setting a `height` in [card_body()]).
+#' @param max_height,min_height Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `max_height="200px"`). Doesn't apply when a card is made `full_screen`
+#'   (in this case, consider setting a `max_height` in [card_body()]).
+#' @param fill Whether or not to allow the card to grow/shrink to fit a
+#'   fillable container with an opinionated height (e.g., `page_fillable()`).
 #' @param class Additional CSS classes for the returned UI element.
 #' @param wrapper A function (which returns a UI element) to call on unnamed
 #'   arguments in `...` which are not already card item(s) (like
 #'   [card_header()], [card_body()], etc.). Note that non-card items are grouped
 #'   together into one `wrapper` call (e.g. given `card("a", "b",
 #'   card_body("c"), "d")`, `wrapper` would be called twice, once with `"a"` and
-#'   `"b"` and once with `"d"`). Consider setting `wrapper` to [card_body_fill]
-#'   if the entire card wants responsive sizing or `NULL` to avoid wrapping
-#'   altogether
+#'   `"b"` and once with `"d"`).
 #'
 #' @return A [htmltools::div()] tag.
 #'
 #' @export
 #' @seealso [card_body()] for putting stuff inside the card.
-#' @seealso [navs_tab_card()] for cards with multiple tabs.
+#' @seealso [navset_card_tab()] for cards with multiple tabs.
 #' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
 #'   columns inside a card).
 #' @examples
@@ -50,7 +52,7 @@
 #'   )
 #' }
 #'
-card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper = card_body) {
+card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min_height = NULL, fill = TRUE, class = NULL, wrapper = card_body) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -59,14 +61,21 @@ card <- function(..., full_screen = FALSE, height = NULL, class = NULL, wrapper 
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
 
   tag <- div(
-    class = "card bslib-card",
-    style = css(height = validateCssUnit(height)),
+    class = "card bslib-card bslib-mb-spacer",
+    style = css(
+      height = validateCssUnit(height),
+      max_height = validateCssUnit(max_height),
+      min_height = validateCssUnit(min_height)
+    ),
+    "data-bslib-card-init" = NA,
     !!!attribs,
     !!!children,
-    if (full_screen) full_screen_toggle()
+    if (full_screen) full_screen_toggle(),
+    card_dependency(),
+    card_init_js()
   )
 
-  tag <- bindFillRole(tag, container = TRUE, item = TRUE)
+  tag <- bindFillRole(tag, container = TRUE, item = fill)
   tag <- tagAppendAttributes(tag, class = class)
 
   as_fragment(
@@ -113,83 +122,64 @@ as_card_items <- function(children, wrapper) {
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags]. Named arguments become HTML attributes on returned
 #'   UI element.
-#' @param fill whether to allow the `card_body()` to grow and shrink to fit its
-#'   `card()`.
+#' @param min_height,max_height,max_height_full_screen Any valid [CSS length
+#'   unit][htmltools::validateCssUnit()].
+#' @param fillable Whether or not the card item should be a fillable (i.e.
+#'   flexbox) container.
+#' @param fill Whether to allow this element to grow/shrink to fit its `card()`
+#'   container.
+#' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
+#'   `gap` (i.e., spacing) between elements provided to `...`. This argument is only applicable when `fillable = TRUE`
 #' @inheritParams card
+#' @inheritParams page_fillable
 #'
 #' @return An [htmltools::div()] tag.
 #'
 #' @export
 #' @seealso [card()] for creating a card component.
-#' @seealso [navs_tab_card()] for cards with multiple tabs.
+#' @seealso [navset_card_tab()] for cards with multiple tabs.
 #' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
 #'   columns inside a card).
 #'
 #' @describeIn card_body A general container for the "main content" of a [card()].
-card_body <- function(..., fill = FALSE, height = NULL, class = NULL) {
-  card_body_(
-    fill_item = fill,
-    height = height,
-    class = class,
-    ...
-  )
-}
+card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL, max_height_full_screen = max_height, height = NULL, padding = NULL, gap = NULL, fill = TRUE, class = NULL) {
 
-#' @describeIn card_body Similar to `card_body(fill = TRUE)`, but also marks the
-#'   return element as a "fill container" (via [htmltools::bindFillRole()]) so
-#'   that its immediate children are allowed to grow and shrink to fit.
-#' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
-#'   `gap` (i.e., spacing) between elements provided to `...`.
-#' @param max_height,max_height_full_screen,min_height Any valid [CSS length unit][htmltools::validateCssUnit()].
-#' @export
-card_body_fill <- function(..., gap = NULL, max_height = NULL, max_height_full_screen = max_height, min_height = NULL, class = NULL) {
+  if (fillable) {
+    register_runtime_package_check("`card_body()`", "shiny", "1.7.4")
+    register_runtime_package_check("`card_body()`", "htmlwidgets", "1.6.0")
+  }
 
-  register_runtime_package_check("`card_body_fill()`", "shiny", "1.7.3.9001")
-  register_runtime_package_check("`card_body_fill()`", "htmlwidgets", "1.5.4.9001")
-
-  card_body_(
-    fill_item = TRUE,
-    fill_container = TRUE,
-    class = class,
-    style = htmltools::css(
-      gap = validateCssUnit(gap),
+  tag <- div(
+    class = "card-body bslib-gap-spacing",
+    style = css(
       min_height = validateCssUnit(min_height),
       "--bslib-card-body-max-height" = validateCssUnit(max_height),
       "--bslib-card-body-max-height-full-screen" = validateCssUnit(max_height_full_screen),
       margin_top = "auto",
-      margin_bottom = "auto"
-    ),
-    ...
-  )
-}
-
-#' @describeIn card_body Similar to `card_header()` but without the border and background color.
-#' @param container a function to generate an HTML element.
-#' @export
-card_title <- function(..., container = htmltools::h5) {
-  as.card_item(
-    container(style = css(margin_bottom = 0), class = "bslib-card-title", ...)
-  )
-}
-
-card_body_ <- function(..., fill_item = FALSE, fill_container = FALSE, height = NULL, class = NULL, container = htmltools::div) {
-
-  tag <- container(
-    class = "card-body",
-    style = css(
-      height = validateCssUnit(height),
+      margin_bottom = "auto",
       # .card-body already adds `flex: 1 1 auto` so make sure to override it
-      flex = if (fill_item) "1 1 auto" else "0 0 auto"
+      flex = if (fill) "1 1 auto" else "0 0 auto",
+      padding = validateCssPadding(padding),
+      gap = validateCssUnit(gap),
+      height = validateCssUnit(height)
     ),
     ...
   )
 
-  tag <- bindFillRole(tag, item = fill_item, container = fill_container)
+  tag <- bindFillRole(tag, item = fill, container = fillable)
 
   # Make sure user has the opportunity to override the classes added by bindFillRole()
   tag <- tagAppendAttributes(tag, class = class)
 
   as.card_item(tag)
+}
+
+
+#' @describeIn card_body Similar to `card_header()` but without the border and background color.
+#' @param container a function to generate an HTML element.
+#' @export
+card_title <- function(..., container = htmltools::h5) {
+  container(...)
 }
 
 
@@ -222,7 +212,7 @@ card_footer <- function(..., class = NULL) {
 #' @export
 card_image <- function(
   file, ..., href = NULL, border_radius = c("top", "bottom", "all", "none"),
-  mime_type = NULL, class = NULL, height = NULL, width = NULL, container = card_body_fill) {
+  mime_type = NULL, class = NULL, height = NULL, fill = TRUE, width = NULL, container = card_body) {
 
   src <- NULL
   if (length(file) > 0) {
@@ -248,7 +238,7 @@ card_image <- function(
     ...
   )
 
-  image <- bindFillRole(image, item = TRUE)
+  image <- bindFillRole(image, item = fill)
   image <- tagAppendAttributes(image, class = class)
 
   if (!is.null(href)) {
@@ -286,61 +276,31 @@ full_screen_toggle <- function() {
     "data-bs-toggle" = "tooltip",
     "data-bs-placement" = "bottom",
     title = "Expand",
-    full_screen_toggle_icon(),
-    htmlDependency(
-      name = "bslib-card-full-screen",
-      version = get_package_version("bslib"),
-      package = "bslib",
-      src = "components",
-      script = "card-full-screen.js"
-    ),
-    tags$script("data-bslib-card-needs-init" = NA, HTML(
-      "
-        var thisScript = document.querySelector('script[data-bslib-card-needs-init]');
-        if (!thisScript) throw new Error('Failed to register card() resize observer');
-
-        thisScript.removeAttribute('data-bslib-card-needs-init');
-
-        var card = $(thisScript).parents('.card').last();
-        if (!card) throw new Error('Failed to register card() resize observer');
-
-        // Let Shiny know to trigger resize when the card size changes
-        // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-        var resizeEvent = window.document.createEvent('UIEvents');
-        resizeEvent.initUIEvent('resize', true, false, window, 0);
-        var ro = new ResizeObserver(() => { window.dispatchEvent(resizeEvent); });
-        ro.observe(card[0]);
-
-        // Enable tooltips (for the expand icon)
-        var tooltipList = card[0].querySelectorAll('[data-bs-toggle=\"tooltip\"]');
-        tooltipList.forEach(function(x) { new bootstrap.Tooltip(x); });
-
-        // In some complex fill-based layouts with multiple outputs (e.g., plotly),
-        // shiny initializes with the correct sizing, but in-between the 1st and last
-        // renderValue(), the size of the output containers can change, meaning every
-        // output but the 1st gets initialized with the wrong size during their
-        // renderValue(); and then after the render phase, shiny won't know trigger a
-        // resize since all the widgets will return to their original size
-        // (and thus, Shiny thinks there isn't any resizing to do).
-        // We workaround that situation by manually triggering a resize on the binding
-        // when the output container changes (this way, if the size is different during
-        // the render phase, Shiny will know about it)
-        $(document).on('shiny:value', function(x) {
-          var el = x.binding.el;
-          if (card[0].contains(el) && !$(el).data('bslib-output-observer')) {
-            var roo = new ResizeObserver(x.binding.onResize);
-            roo.observe(el);
-            $(el).data('bslib-output-observer', true);
-          }
-        });
-        "
-    ))
+    full_screen_toggle_icon()
   )
 }
 
+card_dependency <- function() {
+  htmlDependency(
+    name = "bslib-card",
+    version = get_package_version("bslib"),
+    package = "bslib",
+    src = "components",
+    script = "card.min.js"
+  )
+}
 
-# via bsicons::bs_icon("arrows-fullscreen")
+card_init_js <- function() {
+  tags$script(
+    `data-bslib-card-init` = NA,
+    HTML("bslib.Card.initializeAllCards();")
+  )
+}
+
 full_screen_toggle_icon <- function() {
+  if (is_installed("bsicons")) {
+    return(bsicons::bs_icon("arrows-fullscreen"))
+  }
   HTML('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg>')
 }
 

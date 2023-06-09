@@ -22,69 +22,39 @@ library(bslib)
 
 # bslib
 
-The `bslib` R package provides tools for customizing [Bootstrap themes](https://getbootstrap.com/docs/4.6/getting-started/theming/) directly from R, making it much easier to customize the appearance of [Shiny](https://shiny.rstudio.com/) apps & [R Markdown](https://rmarkdown.rstudio.com/) documents. `bslib`'s primary goals are:
+The `bslib` R package provides a modern UI toolkit for [Shiny](https://shiny.posit.co/) and [R Markdown](https://rmarkdown.rstudio.com/) based on [Bootstrap](https://getbootstrap.com/). It facilitates:   
 
-* Make [custom theming](https://rstudio.github.io/bslib/articles/bslib.html#custom) as easy as possible.
-  * Custom themes may even be created interactively in [real-time](https://rstudio.github.io/bslib/articles/bslib.html#real-time).
-* Also provide easy access to pre-packaged [Bootswatch themes](https://rstudio.github.io/bslib/articles/bslib.html#bootswatch).
-* Make [upgrading from Bootstrap 3 to 4 (and beyond)](https://rstudio.github.io/bslib/articles/bslib.html#versions) as seamless as possible.
-  * Shiny and R Markdown default to Bootstrap 3 and will continue to do so to avoid breaking legacy code.
-* Provide useful wrappers around modern Bootstrap (and CSS) components, such as [cards](https://rstudio.github.io/bslib/articles/cards.html), [value boxes](https://rstudio.github.io/bslib/articles/value-boxes.html), [layouts](https://rstudio.github.io/bslib/articles/layouts.html), and more.
-* Serve as a general foundation for Shiny and R Markdown extension packages.
-  * Extensions such as [`flexdashboard`](https://flexdashboard-pkg.netlify.app/articles/theme.html), [`pkgdown`](https://pkgdown.r-lib.org/dev/articles/customise.html), and [`bookdown`](https://pkgs.rstudio.com/bookdown/reference/bs4_book.html) already fully support [`bslib`'s custom theming capabilities](https://rstudio.github.io/bslib/articles/bslib.html#custom).
+* Creation of delightful and customizable [Shiny dashboards](https://rstudio.github.io/bslib/articles/dashboards.html).
+  * The underlying UI components (e.g., [cards](https://rstudio.github.io/bslib/articles/cards.html), [value boxes](https://rstudio.github.io/bslib/articles/value-boxes.html), [sidebars](https://rstudio.github.io/bslib/articles/sidebars.html), etc) are also designed to work in other contexts (e.g., in R Markdown).
+* [Custom theming](https://rstudio.github.io/bslib/articles/theming.html) of Shiny apps and R Markdown documents.
+  * Apps can even be themed interactively in real-time.
+* Use of modern versions of Bootstrap and [Bootswatch](https://bootswatch.com/)
+  * Shiny and R Markdown currently default to Bootstrap 3 and may continue to do so to maintain backwards compatibility.
 
 ## Installation
 
-Install the stable release of `bslib` on CRAN:
+Install the `bslib` package from CRAN as follows:
 
 ```r
 install.packages("bslib")
 ```
 
-Usage with Shiny requires version 1.6 or higher:
+## An example
 
-```r
-install.packages("shiny")
+The quickest way to see what `{bslib}` can do is to run `bslib::bs_theme_preview()` at the console. This launches a demo app containing both `{bslib}` and `{shiny}` UI components as well as an theming widget (`bslib::bs_themer()`) overlaid on the app. See [real-time theming](https://rstudio.github.io/bslib/articles/theming.html#real-time) to learn more.
+
+```{r, echo = FALSE}
+knitr::include_graphics("vignettes/themer.gif")
 ```
 
-Usage with R Markdown requires version 2.7 or higher:
+## Get started
 
-```r
-install.packages("rmarkdown")
-```
+Since `{bslib}` covers a wide array of uses, it has numerous getting started articles, each focusing on a particular interest:
 
-## Basic usage {#usage}
+* [Shiny dashboards](https://rstudio.github.io/bslib/articles/dashboards.html)
+* [Any Bootstrap project](https://rstudio.github.io/bslib/articles/any-project.html)
+* [Theming](https://rstudio.github.io/bslib/articles/theming.html)
 
-`bslib` is designed for use with any Shiny or R Markdown project that uses Bootstrap. In most cases, you can identify a project that uses Bootstrap when the relevant page constructor has a `theme` parameter. For example, most Shiny page layout functions (e.g., `shiny::navbarPage()`) and some popular R Markdown formats (e.g., `rmarkdown::html_document`) all have a `theme` parameter.
-
-To use `bslib` in Shiny, provide a `bs_theme()` _object_ to the `theme` parameter; and in R Markdown, provide `bs_theme()` _parameters_ to `theme`. For example, here's a way to upgrade Shiny (left) and R Markdown (right) from Bootstrap 3 to 5:
-
-<div class="usage">
-```r
-library(shiny)
-ui <- navbarPage(
-  theme = bs_theme(version = 5),
-  ...
-)
-shinyApp(ui, function(...) {})
-```
-```r
----
-output:
-  html_document:
-    theme:
-      version: 5
----
-```
-</div>
-
-See the [Get Started](https://rstudio.github.io/bslib/articles/bslib.html) article to learn more about Bootstrap versions, pre-packaged Bootswatch themes, (real-time) custom theming, and more.
-
-To get started more quickly, choose a relevant R Markdown template from inside RStudio by going to File -> New File -> R Markdown -> From Template:
-
-```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics("man/figures/rstudio-templates.png")
-```
 
 ## Getting help
 

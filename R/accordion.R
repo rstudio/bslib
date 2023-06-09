@@ -18,7 +18,7 @@
 #'
 #' @export
 #' @seealso [accordion_panel_set()]
-#' @examples
+#' @examplesIf interactive()
 #'
 #' items <- lapply(LETTERS, function(x) {
 #'   accordion_panel(paste("Section", x), paste("Some narrative for section", x))
@@ -36,19 +36,17 @@
 #' accordion(!!!items, open = c("Section A", "Section B"))
 #'
 #' # Provide an id to create a shiny input binding
-#' if (interactive()) {
-#'   library(shiny)
+#' library(shiny)
 #'
-#'   ui <- page_fluid(
-#'     accordion(!!!items, id = "acc")
-#'   )
+#' ui <- page_fluid(
+#'   accordion(!!!items, id = "acc")
+#' )
 #'
-#'   server <- function(input, output) {
-#'     observe(print(input$acc))
-#'   }
-#'
-#'   shinyApp(ui, server)
+#' server <- function(input, output) {
+#'   observe(print(input$acc))
 #' }
+#'
+#' shinyApp(ui, server)
 #'
 accordion <- function(..., id = NULL, open = NULL, multiple = TRUE, class = NULL, width = NULL, height = NULL) {
 
@@ -169,7 +167,7 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
 #'
 #' @param id an character string that matches an existing [accordion()]'s `id`.
 #' @param values either a character string (used to identify particular
-#'   [accordion_panel()](s) by their `value`) or `TRUE` (i.e., all `values`).
+#'   [accordion_panel()]s by their `value`) or `TRUE` (i.e., all `values`).
 #' @param session a shiny session object (the default should almost always be
 #'   used).
 #'

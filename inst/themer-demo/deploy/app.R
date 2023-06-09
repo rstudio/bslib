@@ -8,6 +8,9 @@ library(curl)
 library(DT)
 library(knitr)
 library(reactable)
+library(reshape2)
+library(bsicons)
+library(ggridges)
 
 theme <- bs_theme(
   bg = "#202123",

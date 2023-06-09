@@ -5,21 +5,23 @@
 #' `value` represents (for example, it could hold a [bsicons::bs_icon()], or
 #' even a [shiny::plotOutput()]).
 #'
-#' @param title,value a [htmltools::tag()] child to display above `value`. If a
-#'   string a provided, it's automatically wrapped in a header tag.
+#' @param title,value A string, number, or [htmltools::tag()] child to display as
+#'   the title or value of the value box. The `title` appears above the `value`.
 #' @param ... Unnamed arguments may be any [htmltools::tag()] children to
-#'   display below `value`.. Named arguments become attributes on the containing
+#'   display below `value`. Named arguments become attributes on the containing
 #'   element.
-#' @param showcase a [htmltools::tag()] child to showcase (e.g., a
-#'   [bsicons::bs_icon()], a [plotly::plotlyOutput()], etc).
+#' @param showcase A [htmltools::tag()] child to showcase (e.g., a
+#'   [bsicons::bs_icon()], a `plotly::plotlyOutput()`, etc).
 #' @param showcase_layout either `showcase_left_center()` or
 #'   `showcase_top_right()`.
-#' @param theme_color a theme color to use for the background color. Should
+#' @param theme_color A theme color to use for the background color. Should
 #'   match a name in the Bootstrap Sass variable `$theme-colors` (e.g.,
-#'   `"secondary"`, `"success"`, `"danger"`, etc)
-#' @param class utility classes for customizing the appearance of the summary
+#'   `"secondary"`, `"success"`, `"danger"`, etc).
+#' @param class Utility classes for customizing the appearance of the summary
 #'   card. Use `bg-*` and `text-*` classes (e.g, `"bg-danger"` and
 #'   `"text-light"`) to customize the background/foreground colors.
+#' @param fill Whether to allow the value box to grow/shrink to fit a fillable
+#'   container with an opinionated height (e.g., `page_fillable()`).
 #' @inheritParams card
 #' @export
 #' @seealso [card()]
@@ -39,7 +41,7 @@
 #'     class = "bg-success"
 #'   )
 #' }
-value_box <- function(title, value, ..., showcase = NULL, showcase_layout = showcase_left_center(), full_screen = FALSE, theme_color = "primary", height = NULL, class = NULL) {
+value_box <- function(title, value, ..., showcase = NULL, showcase_layout = showcase_left_center(), full_screen = FALSE, theme_color = "primary", height = NULL, max_height = NULL, fill = TRUE, class = NULL) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -47,11 +49,11 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
   attribs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
 
-  if (rlang::is_bare_character(title)) {
-    title <- tags$span(title, class = "h6 mb-1")
+  if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
+    title <- tags$p(title)
   }
-  if (rlang::is_bare_character(value)) {
-    value  <- tags$span(value, class = "h2 mb-2")
+  if (rlang::is_bare_character(value) || rlang::is_bare_numeric(value)) {
+    value <- tags$p(value)
   }
 
   contents <- div(class = "value-box-area", title, value, !!!children)
@@ -65,7 +67,8 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
     class = c("bslib-value-box border-0", paste0("bg-", theme_color), class),
     full_screen = full_screen,
     height = height,
-    wrapper = card_body_fill,
+    max_height = max_height,
+    fill = fill,
     !!!attribs,
     contents
   )
@@ -133,7 +136,7 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
       width_fs <- rev(width_fs)
     }
 
-    card_body_fill(
+    card_body(
       style = css(padding = 0),
       layout_column_wrap(
         width = NULL, gap = 0,

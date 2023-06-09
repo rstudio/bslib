@@ -109,7 +109,7 @@ sidebar_acc <- accordion(
 flights_card <- card(
   full_screen = TRUE,
   card_header("Flight paths"),
-  card_body_fill(plotlyOutput("flight_paths")),
+  plotlyOutput("flight_paths"),
   card_footer("Marker areas are proportional to mean arrival delay")
 )
 
@@ -120,18 +120,17 @@ delay_corr_card <- card(
     checkboxInput("scatter_summarize", "Summarize", TRUE, width = "fit-content"),
     class = "d-flex justify-content-between"
   ),
-  card_body_fill(plotlyOutput("scatter_delay"))
+  plotlyOutput("scatter_delay")
 )
 
-delay_card <- navs_pill_card(
+delay_card <- navset_card_pill(
   title = "Arrival delay",
   full_screen = TRUE,
-  wrapper = card_body_fill,
-  nav(
+  nav_panel(
     "Overall",
     plotlyOutput("arr_delay")
   ),
-  nav(
+  nav_panel(
     "Over time",
     plotlyOutput("arr_delay_series")
   )
@@ -151,18 +150,18 @@ ui <- page_navbar(
     tags$img(src = "logo.png", width = "46px", height = "auto", class = "me-3"),
     "NYC Flights"
   ),
-  fill = TRUE,
+  fillable = TRUE,
   sidebar = sidebar(sidebar_acc),
-  nav(
+  nav_panel(
     "Delays",
-    uiOutput("value_boxes", fill = TRUE),
+    uiOutput("value_boxes"),
     layout_column_wrap(
       width = "200px", class = "my-3",
       flights_card, delay_corr_card
     ),
     delay_card
   ),
-  nav(
+  nav_panel(
     "Durations",
     "Coming soon"
   ),
@@ -335,7 +334,8 @@ server <- function(input, output, session) {
     )
 
     layout_column_wrap(width = 1/3, n_flights, delay_dep, delay_arr)
-  })
+  }) %>%
+    bindCache(flight_dat())
 
   output$flight_paths <- renderPlotly({
     flight_dat() %>%
@@ -367,7 +367,8 @@ server <- function(input, output, session) {
           countrycolor = toRGB("gray80")
         )
       )
-  })
+  }) %>%
+    bindCache(flight_dat())
 
   output$scatter_delay <- renderPlotly({
     d <- flight_dat()
@@ -439,7 +440,8 @@ server <- function(input, output, session) {
         yaxis = list(title = "Arrival delay")
       ) %>%
       toWebGL()
-  })
+  }) %>%
+    bindCache(flight_dat(), input$scatter_summarize)
 
 
   output$arr_delay <- renderPlotly({
@@ -461,7 +463,8 @@ server <- function(input, output, session) {
           line = list(color = "orange", dash = "solid")
         )
       )
-  })
+  }) %>%
+    bindCache(flight_dat())
 
   output$arr_delay_series <- renderPlotly({
     d <- flight_dat()
@@ -481,7 +484,8 @@ server <- function(input, output, session) {
         xaxis = list(title = "", tickformat = "%b %e"),
         yaxis = list(title = "Average delay")
       )
-  })
+  }) %>%
+    bindCache(flight_dat())
 
 }
 

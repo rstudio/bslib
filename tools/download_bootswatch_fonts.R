@@ -31,7 +31,18 @@ download_and_copy_fonts <-  function(theme) {
   urls <- sass:::extract_group(css, "url\\(([^)]+)")
   basenames <- basename(urls)
   Map(function(url, nm) {
-    sass:::download_file(url, file.path(fonts_home, nm))
+    target <- file.path(fonts_home, nm)
+    # The basename can sometimes be very long, and R CMD check
+    # will complain if the target file is over 100 characters long,
+    # so shorten it if necessary
+    if (nchar(target) > 100) {
+      nm <- paste0(
+        rlang::hash(tools::file_path_sans_ext(nm)),
+        ".", tools::file_ext(nm)
+      )
+      target <- file.path(fonts_home, nm)
+    }
+    sass:::download_file(url, target)
     css <<- sub(url, file.path("fonts", nm), css, fixed = TRUE)
   }, urls, basenames)
   writeLines(css, css_file)
@@ -58,4 +69,3 @@ themes3 <- list.dirs(
 lapply(themes5, download_and_copy_fonts)
 lapply(themes4, download_and_copy_fonts)
 lapply(themes3, download_and_copy_fonts)
-

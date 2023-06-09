@@ -1,6 +1,4 @@
 .bslib-card {
-  margin-bottom: $spacer;
-
   // Avoid "double padding" when two card_body()s are immediate siblings
   .card-body + .card-body {
     padding-top: 0;
@@ -8,7 +6,7 @@
 
   .card-body {
     overflow: auto;
-    p, h1, h2, h3, h4, h5, h6 {
+    p {
       margin-top: 0;
 
       &:last-child {
@@ -43,12 +41,6 @@
     margin-top: auto;
   }
 
-  // For card_title()
-  .bslib-card-title {
-    padding-left: var(--bs-card-spacer-x, 1rem);
-    padding-right: var(--bs-card-spacer-x, 1rem);
-  }
-
   // For navs_tab_card(title = ...)
   .bslib-navs-card-title {
     display: flex;
@@ -60,8 +52,10 @@
     }
   }
 
-  .bslib-sidebar-layout {
+  .bslib-sidebar-layout:not([data-bslib-sidebar-border="true"]) {
     border: none;
+  }
+  .bslib-sidebar-layout:not([data-bslib-sidebar-border-radius="true"]) {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
@@ -77,6 +71,7 @@
   position: fixed;
   inset: 3.5rem 1rem 1rem;
   height: auto !important;
+  max-height: none !important;
   width: auto !important;
   z-index: $zindex-popover;
 }
@@ -98,8 +93,13 @@
   z-index: $zindex-popover;
 }
 
-.card:hover:not(.bslib-full-screen) .bslib-full-screen-enter {
+.card:hover:not(.bslib-full-screen) > .bslib-full-screen-enter {
   display: block;
+}
+
+// Hide all enter-full-screen buttons when *any* card is full-screenified
+.bslib-has-full-screen .card:hover > .bslib-full-screen-enter {
+  display: none;
 }
 
 // Only allow full_screen on desktop screens
@@ -131,5 +131,17 @@
   position: fixed;
   inset: 0;
   background-color: rgba(var(--bs-body-color-rgb), 0.6);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   z-index: $zindex-popover - 1;
+  animation: bslib-full-screen-overlay-enter 400ms cubic-bezier(.6,.02,.65,1) forwards;
+}
+
+@keyframes bslib-full-screen-overlay-enter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

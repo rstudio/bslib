@@ -17,3 +17,25 @@ test_that("get_color_contrast() works", {
   expect_equal(get_color_contrast("black"), "#FFFFFF")
   expect_warning(expect_null(get_color_contrast("fsdnffdgdsfsd")))
 })
+
+test_that("list_split_named() works", {
+  expect_equal(
+    list_split_named(list(1, 2, 3))$unnamed,
+    list(1, 2, 3)
+  )
+
+  expect_equal(
+    list_split_named(list(a = 1, b = 2, c = 3))$named,
+    list(a = 1, b = 2, c = 3)
+  )
+
+  expect_equal(
+    list_split_named(list(a = 1, 2, 3)),
+    list(named = list(a = 1), unnamed = list(2, 3))
+  )
+
+  expect_equal(
+    list_split_named(list(1, a = 2, 3)),
+    list(named = list(a = 2), unnamed = list(1, 3))
+  )
+})

@@ -23,3 +23,79 @@ a:focus, a:hover {
 table.dataTable.table-bordered {
   border-collapse: collapse !important;
 }
+
+main h2 {
+  margin-top: 1lh;
+}
+
+.html-widget {
+  margin-bottom: 0;
+}
+
+/* ---- Callouts ---- */
+.callout {
+  position: relative;
+  border: 1px solid gray;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: var(--bs-border-radius);
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+.callout > h3 {
+  position: relative;
+  margin: -1rem;
+  margin-bottom: 10px;
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.callout > h3 > .anchor {
+  display: none;
+}
+
+.callout.callout-warning {
+  border-color: gold
+}
+
+.callout.callout-warning > h3 {
+  color: #473D00;
+  background-color: hsl(51 100% 94% / 1);
+}
+
+.callout.callout-warning > h3:before {
+  /* https://icons.getbootstrap.com/icons/exclamation-diamond-fill/ */
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16px' height='16px' fill='%23473D00' class='bi bi-exclamation-diamond-fill' viewBox='0 0 16 16'%3E%3Cpath d='M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z'/%3E%3C/svg%3E");
+  margin-right: 4px
+}
+
+.callout.callout-note {
+  border-color: #bdccdc;
+}
+
+.callout.callout-note > h3 {
+  color: #373a3c;
+  background-color: #e9f2fc;
+}
+
+.callout.callout-note > h3:before {
+  /* https://icons.getbootstrap.com/icons/info-circle/ */
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16px' height='16px' fill='%232780e3' class='bi bi-exclamation-diamond-fill' viewBox='0 0 16 16'%3E%3Cpath d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z'/%3E%3C/svg%3E");
+  margin-right: 4px
+}
+
+
+iframe, .bslib-page-fill {
+  height: 500px;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+iframe.resizable {
+  resize: vertical;
+  min-height: 200px;
+}

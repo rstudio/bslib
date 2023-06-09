@@ -1,61 +1,22 @@
 #' Navigation containers
 #'
-#' Render a collection of [nav()] items into a container.
+#' Render a collection of [nav_panel()] items into a container.
 #'
-#' @param ... a collection of [nav()] items.
-#' @param id a character string used for dynamically updating the container (see [nav_select()]).
-#' @param selected a character string matching the `value` of a particular [nav()] item to selected by default.
+#' @includeRmd man/fragments/ex-navset_tab.Rmd
+#'
+#' @param ... a collection of [nav_panel()] items.
+#' @param id a character string used for dynamically updating the container (see
+#'    [nav_select()]).
+#' @param selected a character string matching the `value` of a particular
+#'   [nav_panel()] item to selected by default.
 #' @param header UI element(s) ([tags]) to display _above_ the nav content.
 #' @param footer UI element(s) ([tags]) to display _below_ the nav content.
+#'
+#' @seealso [nav_panel()], [nav_select()].
+#' @rdname navset
+#' @name navset
 #' @export
-#' @seealso [nav()], [nav_select()].
-#' @rdname navs
-#' @examples
-#'
-#' library(shiny)
-#'
-#' nav_items <- function(prefix) {
-#'   list(
-#'     nav("a", paste(prefix, ": tab a content")),
-#'     nav("b", paste(prefix, ": tab b content")),
-#'     nav_item(
-#'       tags$a(icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = "_blank")
-#'     ),
-#'     nav_spacer(),
-#'     nav_menu(
-#'       "Other links", align = "right",
-#'       nav("c", paste(prefix, ": tab c content")),
-#'       nav_item(
-#'         tags$a(icon("r-project"), "RStudio", href = "https://rstudio.com", target = "_blank")
-#'       )
-#'     )
-#'   )
-#' }
-#'
-#' if (interactive()) {
-#'   shinyApp(
-#'     page_navbar(
-#'       title = "page_navbar()",
-#'       bg = "#0062cc",
-#'       !!!nav_items("page_navbar()"),
-#'       footer = div(
-#'         style = "width:80%; margin: 0 auto",
-#'         h4("navs_tab()"),
-#'         navs_tab(!!!nav_items("navs_tab()")),
-#'         h4("navs_pill()"),
-#'         navs_pill(!!!nav_items("navs_pill()")),
-#'         h4("navs_tab_card()"),
-#'         navs_tab_card(!!!nav_items("navs_tab_card()")),
-#'         h4("navs_pill_card()"),
-#'         navs_pill_card(!!!nav_items("navs_pill_card()")),
-#'         h4("navs_pill_list()"),
-#'         navs_pill_list(!!!nav_items("navs_pill_list()"))
-#'       )
-#'     ),
-#'     function(...) { }
-#'   )
-#' }
-navs_tab <- function(..., id = NULL, selected = NULL,
+navset_tab <- function(..., id = NULL, selected = NULL,
                      header = NULL, footer = NULL) {
   tabs <- tabsetPanel_(
     ..., type = "tabs", id = id, selected = selected,
@@ -65,8 +26,8 @@ navs_tab <- function(..., id = NULL, selected = NULL,
 }
 
 #' @export
-#' @rdname navs
-navs_pill <- function(..., id = NULL, selected = NULL,
+#' @rdname navset
+navset_pill <- function(..., id = NULL, selected = NULL,
                       header = NULL, footer = NULL) {
   pills <- tabsetPanel_(
     ..., type = "pills", id = id, selected = selected,
@@ -77,8 +38,8 @@ navs_pill <- function(..., id = NULL, selected = NULL,
 
 #' @export
 #' @inheritParams shiny::navlistPanel
-#' @rdname navs
-navs_pill_list <- function(..., id = NULL, selected = NULL,
+#' @rdname navset
+navset_pill_list <- function(..., id = NULL, selected = NULL,
                            header = NULL, footer = NULL,
                            well = TRUE, fluid = TRUE,
                            widths = c(4, 8)) {
@@ -92,8 +53,8 @@ navs_pill_list <- function(..., id = NULL, selected = NULL,
 }
 
 #' @export
-#' @rdname navs
-navs_hidden <- function(..., id = NULL, selected = NULL,
+#' @rdname navset
+navset_hidden <- function(..., id = NULL, selected = NULL,
                         header = NULL, footer = NULL) {
   hidden <- tabsetPanel_(
     ..., type = "hidden", id = id, selected = selected,
@@ -102,21 +63,23 @@ navs_hidden <- function(..., id = NULL, selected = NULL,
   as_fragment(hidden)
 }
 
-
 #' @inheritParams shiny::navbarPage
-#' @param sidebar A [sidebar()] component to display on every [nav()] page.
+#' @inheritParams page_fillable
+#' @param sidebar A [sidebar()] component to display on every [nav_panel()]
+#'   page.
 #' @param fillable Whether or not to allow `fill` items to grow/shrink to fit
-#'   the browser window. If `TRUE`, all [nav()] pages are `fillable`. A
-#'   character vector, matching the `value` of [nav()]s to be filled, may also
-#'   be provided. Note that, if a `sidebar` is provided, `fillable` makes the
-#'   main content portion fillable.
+#'   the browser window. If `TRUE`, all [nav_panel()] pages are `fillable`. A
+#'   character vector, matching the `value` of [nav_panel()]s to be filled, may
+#'   also be provided. Note that, if a `sidebar` is provided, `fillable` makes
+#'   the main content portion fillable.
 #' @param bg a CSS color to use for the navbar's background color.
 #' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
 #' @export
-#' @rdname navs
-navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
-                     sidebar = NULL, fillable = FALSE,
+#' @rdname navset
+navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
+                     sidebar = NULL, fillable = TRUE,
+                     gap = NULL, padding = NULL,
                      # TODO: add sticky-top as well?
                      position = c("static-top", "fixed-top", "fixed-bottom"),
                      header = NULL, footer = NULL,
@@ -125,6 +88,7 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
   navs_bar_(
     ..., title = title, id = id, selected = selected,
     sidebar = sidebar, fillable = fillable,
+    gap = gap, padding = padding,
     position = position,
     header = header, footer = footer,
     bg = bg, inverse = inverse,
@@ -140,7 +104,8 @@ navs_bar <- function(..., title = NULL, id = NULL, selected = NULL,
 # we can use addition theme information as an indication of whether we need
 # to handle backwards compatibility
 navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
-                      sidebar = NULL, fillable = FALSE,
+                      sidebar = NULL, fillable = TRUE,
+                      gap = NULL, padding = NULL,
                       position = c("static-top", "fixed-top", "fixed-bottom"),
                       header = NULL, footer = NULL,
                       bg = NULL, inverse = "auto",
@@ -159,6 +124,7 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
   navbar <- navbarPage_(
     title = title, ..., id = id, selected = selected,
     sidebar = sidebar, fillable = fillable,
+    gap = gap, padding = padding,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
     inverse = inverse, fluid = fluid,
@@ -175,8 +141,6 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
   as_fragment(navbar, page = page)
 }
 
-
-
 # -----------------------------------------------------------------------
 # 'Internal' tabset logic that was pulled directly from shiny/R/bootstrap.R
 #  (with minor modifications)
@@ -187,7 +151,9 @@ navbarPage_ <- function(title,
                        id = NULL,
                        selected = NULL,
                        sidebar = NULL,
-                       fillable = FALSE,
+                       fillable = TRUE,
+                       gap = NULL,
+                       padding = NULL,
                        position = c("static-top", "fixed-top", "fixed-bottom"),
                        header = NULL,
                        footer = NULL,
@@ -265,7 +231,7 @@ navbarPage_ <- function(title,
 
   # If fillable is truthy, give the relevant .tab-content > .tab-pane containers
   # the potential to fill
-  tabset$content <- makeTabsFillable(tabset$content, fillable, navbar = TRUE)
+  tabset$content <- makeTabsFillable(tabset$content, fillable, navbar = TRUE, gap = gap, padding = padding)
 
   # For backwards compatibility reasons, wrap header & footer in a .row
   # container if we're not using BS5+. I'm not entirely sure what the motivation
@@ -298,10 +264,11 @@ navbarPage_ <- function(title,
       # the .container-fluid class adds padding that we don't want)
       class = if (!fluid) "container",
       layout_sidebar(
+        sidebar = sidebar,
         fillable = !isFALSE(fillable),
         border_radius = FALSE,
         border = !fluid,
-        sidebar, contents
+        contents
       )
     )
 
@@ -570,7 +537,7 @@ buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
 
   # The behavior is undefined at this point, so construct a condition message
   msg <- paste0(
-    "Navigation containers expect a collection of `bslib::nav()`/`shiny::tabPanel()`s ",
+    "Navigation containers expect a collection of `bslib::nav_panel()`/`shiny::tabPanel()`s ",
     "and/or `bslib::nav_menu()`/`shiny::navbarMenu()`s. ",
     "Consider using `header` or `footer` if you wish to place content above ",
     "(or below) every panel's contents."

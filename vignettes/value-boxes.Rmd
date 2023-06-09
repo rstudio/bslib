@@ -1,12 +1,14 @@
 ---
 title: "Value boxes"
 resource_files:
-  - infobox.svg
+  - examples/value-boxes
   - value-box.svg
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+source(
+  rprojroot::find_package_root_file("vignettes/common.R")
+)
 ```
 
 ```{css, echo = FALSE}
@@ -83,13 +85,44 @@ value_box(
 </div>
 
 
+
+
+## Dynamic rendering (Shiny)
+
+:::: row
+::: col-md-6
+When using Shiny to dynamically render `value_box()` contents, it's good practice to use `textOutput()` to serve as a placeholder for `value`, `title`, etc. This way, if the value takes a moment to compute, the value box will appear before the value is ready, and thus reduces "layout shift" when the value is actually rendered.
+:::
+
+::: col-md-6
+```r
+ui <- page_fixed(
+  value_box(
+    title = "The current time",
+    value = textOutput("time"),
+    showcase = bs_icon("clock")
+  )
+)
+
+server <- function(input, output) {
+  output$time <- renderText({
+    invalidateLater(1000)
+    format(Sys.time())
+  })
+}
+
+shinyApp(ui, server)
+```
+:::
+::::
+
+
 ## Multiple value boxes
 
-To layout multiple value boxes, it's recommended to use `layout_column_wrap()`, which ensures a uniform height and width (at least by default) across the boxes.
+To layout multiple value boxes, it's recommended to use `layout_column_wrap()` (or `layout_columns()`), which ensures a uniform height and width (at least by default) across the boxes.
 
 ```{r}
-layout_column_wrap(
-  width = "250px",
+vbs <- list(
   value_box(
     title = "1st value", 
     value = "123",
@@ -112,7 +145,33 @@ layout_column_wrap(
     p("The 6th detail")
   )
 )
+
+layout_column_wrap(
+  width = "250px",
+  !!!vbs
+)
 ```
+
+<br>
+
+And, when incorporating multiple value boxes into a larger [filling layout](filling.html), it's good practice to set `fill = FALSE` on the layout container since that'll prevent the boxes from using up more space than they really need. For example, try resizing the following example vertically. Notice how the height of the value boxes don't change, but the height of the plot does (and it isn't allowed to shrink below 200 pixels):
+
+```{r, as_iframe = TRUE, resizable = TRUE}
+page_fillable(
+  layout_column_wrap(
+    width = "250px",
+    fill = FALSE,
+    vbs[[1]], vbs[[2]]
+  ),
+  card(
+    min_height = 200,
+    plotly::plot_ly(x = rnorm(100))
+  )
+)
+```
+
+
+
 
 
 ## Expandable sparklines

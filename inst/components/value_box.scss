@@ -4,7 +4,7 @@
     grid-template-columns: var(--bslib-value-box-widths);
   }
 
-  // Should also be .vfill-container/.vfill-item
+  // Should also be fillable/fill (i.e., d-flex; flex: 1)
   .value-box-showcase {
     align-items: center;
     justify-content: center;
@@ -25,7 +25,7 @@
     }
   }
 
-  // Should also be .vfill-container/.vfill-item
+  // Should also be fillable/fill (i.e., d-flex; flex: 1)
   .value-box-area {
     justify-content: center;
     padding: 1.5rem 1rem;
@@ -35,6 +35,24 @@
       color: inherit;
       margin-bottom: 0;
       margin-top: 0;
+    }
+    // value_box(title = )
+    > :first-child { 
+      @extend .h6;
+      color: inherit;
+      // add a non-breaking space to ensure it's not 0 height
+      &::after {
+        content: '\00a0 '
+      }
+    }
+    // value_box(value = )
+    > :nth-child(2) { 
+      @extend .h2;
+      color: inherit;
+      // add a non-breaking space to ensure it's not 0 height
+      &::after {
+        content: '\00a0 '
+      }
     }
     &.border-start {
       border-color: rgba($border-color, 0.3) !important;

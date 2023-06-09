@@ -3,34 +3,38 @@
 \name{sidebar}
 \alias{sidebar}
 \alias{layout_sidebar}
-\alias{sidebar_open}
-\alias{sidebar_close}
+\alias{sidebar_toggle}
 \title{Sidebar layouts}
 \usage{
 sidebar(
   ...,
   width = 250,
   position = c("left", "right"),
-  open = TRUE,
+  open = c("desktop", "open", "closed", "always"),
   id = NULL,
+  title = NULL,
   bg = NULL,
-  class = NULL
+  fg = NULL,
+  class = NULL,
+  max_height_mobile = NULL
 )
 
 layout_sidebar(
-  sidebar = sidebar(),
   ...,
-  fillable = FALSE,
+  sidebar = NULL,
+  fillable = TRUE,
   fill = TRUE,
   bg = NULL,
-  border = TRUE,
-  border_radius = TRUE,
+  fg = NULL,
+  border = NULL,
+  border_radius = NULL,
+  border_color = NULL,
+  padding = NULL,
+  gap = NULL,
   height = NULL
 )
 
-sidebar_open(id, session = get_current_session())
-
-sidebar_close(id, session = get_current_session())
+sidebar_toggle(id, open = NULL, session = get_current_session())
 }
 \arguments{
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} and named arguments become HTML attributes on
@@ -42,49 +46,99 @@ width of the sidebar.}
 
 \item{position}{Where the sidebar should appear relative to the main content.}
 
-\item{open}{Whether or not the sidebar should be open on page load. Provide a
-value of \code{NA} to prevent sidebar from being collapsible.}
+\item{open}{The initial state of the sidebar, choosing from the following
+options:
+\itemize{
+\item \code{"desktop"}: The sidebar starts open on desktop screen, closed on mobile.
+This is default sidebar behavior.
+\item \code{"open"} or \code{TRUE}: The sidebar starts open.
+\item \code{"closed"} or \code{FALSE}: The sidebar starts closed.
+\item \code{"always"} or \code{NA}: The sidebar is always open and cannot be closed.
+}
+
+In \code{sidebar_toggle()}, \code{open} indicates the desired state of the sidebar,
+where the default of \code{open = NULL} will cause the sidebar to be toggled
+open if closed or vice versa. Note that \code{sidebar_toggle()} can only open or
+close the sidebar, so it does not support the \code{"desktop"} and \code{"always"}
+options.}
 
 \item{id}{A character string. Required if wanting to re-actively read (or
 update) the \code{collapsible} state in a Shiny app.}
 
-\item{bg}{A background color. If provided, an accessible contrasting color is
-provided for the foreground color (consider using a utility \code{class} to
-customize the foreground color).}
+\item{title}{A character title to be used as the sidebar title, which will be
+wrapped in a \verb{<div>} element with class \code{sidebar-title}. You can also
+provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
+you'll likely want to give this element \code{class = "sidebar-title"}.}
 
-\item{class}{Additional CSS classes for the top-level HTML element.}
+\item{bg, fg}{A background or foreground color. If only one of either is
+provided, an accessible contrasting color is provided for the opposite
+color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
+
+\item{class}{CSS classes for the sidebar container element, in addition to
+the fixed \code{.sidebar} class.}
+
+\item{max_height_mobile}{The maximum height of the horizontal sidebar when
+viewed on mobile devices. The default is \verb{250px} unless the sidebar is
+included in a \code{\link[=layout_sidebar]{layout_sidebar()}} with a specified height, in which case
+the default is to take up no more than 50\% of the layout container.}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
 
-\item{fill}{Whether or not the layout container should grow/shrink to fit
-a fillable container.}
+\item{fill}{Whether or not to allow the layout container to grow/shrink to fit a
+fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{border}{Whether or not to add a border.}
 
 \item{border_radius}{Whether or not to add a border radius.}
 
-\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}).}
+\item{border_color}{The border color that is applied to the entire layout (if
+\code{border = TRUE}) and the color of the border between the sidebar and the
+main content area.}
 
-\item{session}{a shiny session object (the default should almost always be
+\item{padding}{Padding to use for the body. This can be a numeric vector
+(which will be interpreted as pixels) or a character vector with valid CSS
+lengths. The length can be between one and four. If one, then that value
+will be used for all four sides. If two, then the first value will be used
+for the top and bottom, while the second value will be used for left and
+right. If three, then the first will be used for top, the second will be
+left and right, and the third will be bottom. If four, then the values will
+be interpreted as top, right, bottom, and left respectively.}
+
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+
+\item{session}{A Shiny session object (the default should almost always be
 used).}
 }
 \description{
 Create a collapsing sidebar layout by providing a \code{sidebar()}
 object to the \code{sidebar} argument of:
 \itemize{
-\item \code{layout_sidebar()}
+\item \code{\link[=page_sidebar]{page_sidebar()}}
 \itemize{
-\item Creates a sidebar layout component which can be dropped inside any
-\code{\link[=page]{page()}} or \code{\link[=card]{card()}} context.
+\item Creates a "page-level" sidebar.
 }
-\item \code{\link[=page_navbar]{page_navbar()}}, \code{\link[=navs_tab_card]{navs_tab_card()}}, and \code{\link[=navs_pill_card]{navs_pill_card()}}
+\item \code{\link[=page_navbar]{page_navbar()}}
 \itemize{
+\item Creates a multi-page app with a "page-level" sidebar.
 \item Creates a multi page/tab UI with a singular \code{sidebar()} (which is
 shown on every page/tab).
+}
+\item \code{layout_sidebar()}
+\itemize{
+\item Creates a "floating" sidebar layout component which can be dropped
+inside any \code{\link[=page]{page()}} and/or \code{\link[=card]{card()}} context.
+}
+\item \code{\link[=navset_card_tab]{navset_card_tab()}} and \code{\link[=navset_card_pill]{navset_card_pill()}}
+\itemize{
+\item Creates a multi-tab card with a sidebar inside of it.
 }
 }
 
@@ -93,8 +147,7 @@ to learn more.
 }
 \section{Functions}{
 \itemize{
-\item \code{sidebar_open()}: Open a \code{sidebar()} (during an active Shiny user session).
-
-\item \code{sidebar_close()}: Close a \code{sidebar()} (during an active Shiny user session).
+\item \code{sidebar_toggle()}: Toggle a \code{sidebar()} state during an active Shiny user
+session.
 
 }}

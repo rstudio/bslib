@@ -3,14 +3,15 @@
 #' @inheritParams card_body
 #' @param title A (left-aligned) title to place in the card header/footer. If
 #'   provided, other nav items are automatically right aligned.
-#' @rdname navs
-navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
+#' @include navs-legacy.R
+#' @rdname navset
+navset_card_tab <- function(..., id = NULL, selected = NULL, title = NULL,
                           sidebar = NULL, header = NULL, footer = NULL,
                           height = NULL, full_screen = FALSE, wrapper = card_body) {
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
-  tabs <- navs_tab(
+  tabs <- navset_tab(
     !!!items, id = id, selected = selected, header = header, footer = footer
   )
 
@@ -34,15 +35,15 @@ navs_tab_card <- function(..., id = NULL, selected = NULL, title = NULL,
 
 #' @export
 #' @param placement placement of the nav items relative to the content.
-#' @rdname navs
-navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
+#' @rdname navset
+navset_card_pill <- function(..., id = NULL, selected = NULL, title = NULL,
                            sidebar = NULL, header = NULL, footer = NULL,
                            height = NULL, placement = c("above", "below"),
                            full_screen = FALSE, wrapper = card_body) {
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
-  pills <- navs_pill(
+  pills <- navset_pill(
     !!!items, id = id, selected = selected,
     header = header, footer = footer
   )
@@ -74,7 +75,7 @@ navs_pill_card <- function(..., id = NULL, selected = NULL, title = NULL,
 collect_nav_items <- function(..., wrapper) {
   items <- rlang::list2(...)
 
-  # Wrap any nav() children up into card items
+  # Wrap any nav_panel() children up into card items
   nav_to_card_item <- function(x) {
     if (isNavbarMenu(x)) {
       x$tabs <- lapply(x$tabs, nav_to_card_item)
@@ -90,11 +91,16 @@ collect_nav_items <- function(..., wrapper) {
 
 # Always give tab contents the potential to fill since that's akin to the
 # normal card() API (i.e. the card() is a fill container) and users have
-# option to make the contents fill via card_body(fill = TRUE) and/or card_body_fill()
+# option to make the contents fill via card_body(fill = TRUE, fillable = TRUE)
 navs_card_body <- function(content, sidebar) {
-  content <- makeTabsFillable(content, fillable = TRUE)
+  content <- makeTabsFillable(content, fillable = TRUE, gap = 0, padding = 0)
   if (!is.null(sidebar)) {
-    content <- layout_sidebar(sidebar, content, fillable = TRUE, border = FALSE)
+    content <- layout_sidebar(
+      sidebar = sidebar,
+      fillable = TRUE,
+      border = FALSE,
+      content
+    )
   }
   as.card_item(content)
 }
@@ -102,7 +108,7 @@ navs_card_body <- function(content, sidebar) {
 
 # Given a .tab-content container, mark each relevant .tab-pane as a
 # fill container/item.
-makeTabsFillable <- function(content, fillable = FALSE, navbar = FALSE) {
+makeTabsFillable <- function(content, fillable = TRUE, navbar = FALSE, gap = NULL, padding = NULL) {
   if (!inherits(content, "shiny.tag") || !tagQuery(content)$hasClass("tab-content")) {
     abort("Expected `content` to be a tag with a tab-content class")
   }
@@ -121,8 +127,13 @@ makeTabsFillable <- function(content, fillable = FALSE, navbar = FALSE) {
 
       if (isTRUE(fillable) || isTRUE(tagGetAttribute(x, "data-value") %in% fillable)) {
         x <- tagAppendAttributes(
-          # Remove the margin between nav and content (for page_navbr())
-          style = css("--bslib-navbar-margin" = if (navbar) 0),
+          class = "bslib-gap-spacing",
+          style = css(
+            # Remove the margin between nav and content (for page_navbar())
+            "--bslib-navbar-margin" = if (navbar) 0,
+            gap = gap,
+            padding = padding
+          ),
           bindFillRole(x, container = TRUE, item = TRUE)
         )
       }
