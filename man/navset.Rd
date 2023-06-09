@@ -170,7 +170,12 @@ navset_tab(
 )
 }\if{html}{\out{</div>}}
 
-\figure{navset_tab-basic.png}{Screenshot of a basic navset_tab() example.}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## shiny devmode - Disabling the use of bslib precompiled themes. To be able to use precompiled themes, call `options(bslib.precompiled = TRUE)`
+## shiny devmode - Enabling warnings about low color contrasts found inside `bslib::bs_theme()`. To suppress these warnings, set `options(bslib.color_contrast_warnings = FALSE)`
+## This message is displayed once every 8 hours.
+}\if{html}{\out{</div>}}
+
+\figure{navset-tab-basic.png}{Screenshot of a basic navset_tab() example.}
 
 In the rest of the examples, we’ll include links among the tabs (or
 pills) in the navigation controls.
@@ -204,7 +209,7 @@ left from the direct link and dropdown menu on the right using
 )
 }\if{html}{\out{</div>}}
 
-\figure{navset_tab.png}{Screenshot of a navset_tab() example.}
+\figure{navset-tab.png}{Screenshot of a navset_tab() example.}
 }
 
 \subsection{\code{navset_pill()}}{
@@ -226,7 +231,7 @@ left from the direct link and dropdown menu on the right using
 )
 }\if{html}{\out{</div>}}
 
-\figure{navset_pill.png}{Screenshot of a navset_pill() example.}
+\figure{navset-pill.png}{Screenshot of a navset_pill() example.}
 }
 
 \subsection{\code{navset_card_tab()}}{
@@ -252,7 +257,7 @@ to all tabs in the card using the \code{sidebar} argument of
 )
 }\if{html}{\out{</div>}}
 
-\figure{navset_tab_card.png}{Screenshot of a navset_tab_card() example.}
+\figure{navset-tab-card.png}{Screenshot of a navset_tab_card() example.}
 }
 
 \subsection{\code{navset_card_pill()}}{
@@ -276,7 +281,7 @@ position the navbar \code{"above"} or \code{"below"} the card body.
 )
 }\if{html}{\out{</div>}}
 
-\figure{navset_card_pill.png}{Screenshot of a navset_card_pill() example.}
+\figure{navset-card-pill.png}{Screenshot of a navset_card_pill() example.}
 }
 
 \subsection{\code{navset_pill_list()}}{
@@ -298,7 +303,7 @@ controls adjacent to, rather than on top of, the tab content panels.
 )
 }\if{html}{\out{</div>}}
 
-\figure{navset_pill_list.png}{Screenshot of a navset_pill_list() example.}
+\figure{navset-pill-list.png}{Screenshot of a navset_pill_list() example.}
 }
 
 \subsection{\code{page_navbar()}}{
@@ -324,7 +329,7 @@ bar.
 )
 }\if{html}{\out{</div>}}
 
-\figure{page_navbar.png}{Screenshot of a page_navbar() example.}
+\figure{page-navbar.png}{Screenshot of a page_navbar() example.}
 }
 }
 \seealso{
