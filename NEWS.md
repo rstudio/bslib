@@ -1,3 +1,6 @@
+# bslib 0.5.0.9000
+
+
 # bslib 0.5.0
 
 This significant release focuses on making dashboards with filling/responsive layouts easier. See the new [Getting Started with Dashboards article](https://rstudio.github.io/bslib/articles/dashboards.html) to learn more. It also includes new components (`accordion()`) as well as many improvements and bug fixes for existing features and components.
