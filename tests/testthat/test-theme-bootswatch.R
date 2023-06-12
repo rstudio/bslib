@@ -25,5 +25,5 @@ test_that("Can retrieve version from theme object", {
   # Can use default as a way to "explicitly don't use" a Bootswatch theme
   default <- bs_theme(version = "4", bootswatch = "default")
   expect_equal(default, bs_theme(version = "4"), ignore_attr = TRUE)
-  expect_equal(theme_bootswatch(default), "default")
+  expect_no_match(class(default), "bs_bootswatch_")
 })

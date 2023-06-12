@@ -8,7 +8,7 @@
 \usage{
 bs_theme(
   version = version_default(),
-  bootswatch = NULL,
+  name = NULL,
   ...,
   bg = NULL,
   fg = NULL,
@@ -21,13 +21,14 @@ bs_theme(
   base_font = NULL,
   code_font = NULL,
   heading_font = NULL,
-  font_scale = NULL
+  font_scale = NULL,
+  bootswatch = NULL
 )
 
 bs_theme_update(
   theme,
   ...,
-  bootswatch = NULL,
+  name = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -39,7 +40,8 @@ bs_theme_update(
   base_font = NULL,
   code_font = NULL,
   heading_font = NULL,
-  font_scale = NULL
+  font_scale = NULL,
+  bootswatch = NULL
 )
 
 is_bs_theme(x)
@@ -48,11 +50,6 @@ is_bs_theme(x)
 \item{version}{The major version of Bootstrap to use (see \code{\link[=versions]{versions()}}
 for possible values). Defaults to the currently recommended version
 for new projects (currently Bootstrap 5).}
-
-\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
-for possible values). When provided to \code{bs_theme_update()}, any previous
-Bootswatch theme is first removed before the new one is applied (use
-\code{bootswatch = "default"} to effectively remove the Bootswatch theme).}
 
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
@@ -87,6 +84,11 @@ Typically a shade of blue-green.}
 \item{font_scale}{A scalar multiplier to apply to the base font size. For
 example, a value of \code{1.5} scales font sizes to 150\% and a value of \code{0.8}
 scales to 80\%. Must be a positive number.}
+
+\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
+for possible values). When provided to \code{bs_theme_update()}, any previous
+Bootswatch theme is first removed before the new one is applied (use
+\code{bootswatch = "default"} to effectively remove the Bootswatch theme).}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 

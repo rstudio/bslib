@@ -46,7 +46,7 @@ bs_global_bundle(...)
 
 bs_global_theme_update(
   ...,
-  bootswatch = NULL,
+  name = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -57,7 +57,8 @@ bs_global_theme_update(
   danger = NULL,
   base_font = NULL,
   code_font = NULL,
-  heading_font = NULL
+  heading_font = NULL,
+  bootswatch = NULL
 )
 }
 \arguments{

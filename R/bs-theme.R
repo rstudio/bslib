@@ -111,19 +111,22 @@
 #' theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 #'
 #' @export
-bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
+bs_theme <- function(version = version_default(), name = NULL, ...,
                      bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
-                     font_scale = NULL) {
+                     font_scale = NULL, bootswatch = NULL) {
 
-  theme <- bs_bundle(
-    bs_theme_init(version, bootswatch),
+  preset <- new_theme_preset(name, bootswatch, version = version)
+
+  bundle <- bs_bundle(
+    bs_theme_init(version, preset),
     bootstrap_bundle(version),
-    bootswatch_bundle(bootswatch, version)
+    bs_preset_bundle(preset)
   )
+
   bs_theme_update(
-    theme, ...,
+    bundle, ...,
     bg = bg, fg = fg,
     primary = primary,
     secondary = secondary,
@@ -141,25 +144,31 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
 #' @rdname bs_theme
 #' @param theme a [bs_theme()] object.
 #' @export
-bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
+bs_theme_update <- function(theme, ..., name = NULL, bg = NULL, fg = NULL,
                             primary = NULL, secondary = NULL, success = NULL,
                             info = NULL, warning = NULL, danger = NULL,
                             base_font = NULL, code_font = NULL, heading_font = NULL,
-                            font_scale = NULL) {
+                            font_scale = NULL, bootswatch = NULL) {
   assert_bs_theme(theme)
 
-  if (!is.null(bootswatch)) {
-    old_swatch <- theme_bootswatch(theme)
-    # You're only allowed one Bootswatch theme!
-    if (length(old_swatch)) {
-      theme <- bs_remove(theme, "bootswatch")
-      class(theme) <- setdiff(class(theme), bootswatch_class(old_swatch))
+  theme_has_preset <- any(grepl("^bs_(builtin|bootswatch)_", class(theme)))
+
+  preset <- new_theme_preset(name, bootswatch, version = theme_version(theme))
+
+  if (!is.null(preset)) {
+    if (theme_has_preset) {
+      old_preset_class <- grep("^bs_(builtin|bootswatch)_", class(theme), value = TRUE)
+      old_preset_type <- sub("^bs_(builtin|bootswatch)_.+", "\\1", old_preset_class)
+
+      # remove the old preset
+      theme <- bs_remove(theme, old_preset_type)
+      class(theme) <- setdiff(class(theme), old_preset_class)
     }
-    if (!identical(bootswatch, "default")) {
-      theme <- add_class(theme, bootswatch_class(bootswatch))
-      theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
-    }
+
+    theme <- add_class(theme, preset$class)
+    theme <- bs_bundle(theme, bs_preset_bundle(preset))
   }
+
   # See R/bs-theme-update.R for the implementation of these
   theme <- bs_base_colors(theme, bg = bg, fg = fg)
   theme <- bs_accent_colors(
@@ -180,13 +189,15 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
 
 #' @rdname bs_global_theme
 #' @export
-bs_global_theme_update <- function(..., bootswatch = NULL, bg = NULL, fg = NULL,
+bs_global_theme_update <- function(..., name = NULL, bg = NULL, fg = NULL,
                                    primary = NULL,  secondary = NULL, success = NULL,
                                    info = NULL, warning = NULL, danger = NULL,
-                                   base_font = NULL, code_font = NULL, heading_font = NULL) {
+                                   base_font = NULL, code_font = NULL, heading_font = NULL, bootswatch = NULL) {
   theme <- assert_global_theme("bs_theme_global_update()")
   bs_global_set(bs_theme_update(
     theme, ...,
+    name = name,
+    bootswatch = bootswatch,
     bg = bg, fg = fg,
     primary = primary,
     secondary = secondary,
@@ -209,19 +220,15 @@ is_bs_theme <- function(x) {
 
 # Start an empty bundle with special classes that
 # theme_version() & theme_bootswatch() search for
-bs_theme_init <- function(version, bootswatch = NULL) {
+bs_theme_init <- function(version, preset = NULL) {
   add_class(
     sass_layer(defaults = list("bootstrap-version" = version)),
     c(
-      bootswatch_class(bootswatch),
+      preset$class,
       paste0("bs_version_", version),
       "bs_theme"
     )
   )
-}
-
-bootswatch_class <- function(bootswatch = NULL) {
-  if (is.null(bootswatch)) NULL else paste0("bs_bootswatch_", bootswatch)
 }
 
 assert_bs_theme <- function(theme) {
@@ -421,7 +428,11 @@ bs3_accessibility_bundle <- function() {
 # Bootswatch bundle
 # -----------------------------------------------------------------
 
-bootswatch_bundle <- function(bootswatch, version) {
+#' @export
+bs_preset_bundle.bs_preset_bootswatch <- function(preset, ...) {
+  bootswatch <- preset$name
+  version <- preset$version
+
   if (!length(bootswatch) || isTRUE(bootswatch %in% c("default", "bootstrap"))) {
     return(NULL)
   }
