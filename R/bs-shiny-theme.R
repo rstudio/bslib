@@ -1,3 +1,16 @@
+#' Obtain a list of all available built-in \pkg{bslib} themes.
+#'
+#' @param version the major version of Bootstrap.
+#' @param full_path whether to return a path to the installed theme.
+#' @export
+#' @return a character vector of built-in themes provided by \pkg{bslib}.
+builtin_themes <- function(version = version_default(), full_path = FALSE) {
+  path_builtins <- path_builtin_theme(version = version)
+  if (is.null(path_builtins)) return(NULL)
+
+  list.dirs(path_builtins, full.names = full_path, recursive = FALSE)
+}
+
 #' @export
 bs_preset_bundle.bs_preset_builtin <- function(
   preset = new_theme_preset("shiny"),
@@ -32,13 +45,6 @@ validate_builtin_theme_name <- function(name, version = version_default()) {
   }
 
   name
-}
-
-builtin_themes <- function(version = version_default(), full_path = FALSE) {
-  path_builtins <- path_builtin_theme(version = version)
-  if (is.null(path_builtins)) return(NULL)
-
-  list.dirs(path_builtins, full.names = full_path, recursive = FALSE)
 }
 
 path_builtin_theme <- function(..., version = version_default()) {
