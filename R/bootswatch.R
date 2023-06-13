@@ -49,7 +49,6 @@ bootswatch_dist <- function(version) {
 # Bootswatch bundle
 # -----------------------------------------------------------------
 
-#' @export
 bootswatch_bundle <- function(bootswatch, version) {
   if (!length(bootswatch) || isTRUE(bootswatch %in% c("default", "bootstrap"))) {
     return(NULL)
