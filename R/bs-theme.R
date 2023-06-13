@@ -120,7 +120,7 @@ bs_theme <- function(version = version_default(), name = NULL, ...,
   preset <- new_theme_preset(name, bootswatch, version = version)
 
   bundle <- bs_bundle(
-    bs_theme_init(version, preset),
+    bs_theme_init(version, subclass = preset$class),
     bootstrap_bundle(version),
     bs_preset_bundle(preset)
   )
@@ -220,11 +220,11 @@ is_bs_theme <- function(x) {
 
 # Start an empty bundle with special classes that
 # theme_version() & theme_bootswatch() search for
-bs_theme_init <- function(version, preset = NULL) {
+bs_theme_init <- function(version, subclass = NULL) {
   add_class(
     sass_layer(defaults = list("bootstrap-version" = version)),
     c(
-      preset$class,
+      subclass,
       paste0("bs_version_", version),
       "bs_theme"
     )
