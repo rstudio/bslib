@@ -51,6 +51,15 @@ is_bs_theme(x)
 for possible values). Defaults to the currently recommended version
 for new projects (currently Bootstrap 5).}
 
+\item{name}{The name of a theme preset, either a built-in theme provided by
+bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}} and
+\code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values). This argument takes precedence
+over the \code{bootswatch} argument and only one \code{theme} or \code{bootswatch} can be
+provided. When provided to \code{bs_theme_update()}, any previous preset theme
+is first removed before the new theme preset is applied. You can use
+\code{theme = "default"} to remove any preset theme and to revert to a base
+Bootstrap theme.}
+
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
 \item{bg}{A color string for the background.}
