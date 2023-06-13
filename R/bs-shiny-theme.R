@@ -11,14 +11,7 @@ builtin_themes <- function(version = version_default(), full_path = FALSE) {
   list.dirs(path_builtins, full.names = full_path, recursive = FALSE)
 }
 
-#' @export
-bs_preset_bundle.bs_preset_builtin <- function(
-  preset = new_theme_preset("shiny"),
-  ...
-) {
-  name <- preset$name
-  version <- preset$version
-
+builtin_bundle <- function(name = "shiny", version = version_default()) {
   theme <- validate_builtin_theme_name(name, version = version)
 
   switch_version(

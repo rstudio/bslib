@@ -50,10 +50,7 @@ bootswatch_dist <- function(version) {
 # -----------------------------------------------------------------
 
 #' @export
-bs_preset_bundle.bs_preset_bootswatch <- function(preset, ...) {
-  bootswatch <- preset$name
-  version <- preset$version
-
+bootswatch_bundle <- function(bootswatch, version) {
   if (!length(bootswatch) || isTRUE(bootswatch %in% c("default", "bootstrap"))) {
     return(NULL)
   }

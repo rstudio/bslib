@@ -41,11 +41,13 @@ new_theme_preset <- function(
 
   if (length(builtin_themes) > 0 && preset$name %in% builtin_themes) {
     preset$class <- preset_class("builtin", preset$name)
+    preset$type <- "builtin"
     return(as_preset(preset, "bs_preset_builtin"))
   }
 
   if (length(bootswatch_themes) > 0 && preset$name %in% bootswatch_themes) {
     preset$class <- preset_class("bootswatch", preset$name)
+    preset$type <- "bootswatch"
     return(as_preset(preset, "bs_preset_bootswatch"))
   }
 
@@ -65,4 +67,14 @@ bs_preset_bundle.default <- function(preset, ...) {
   # Sub-classes are used to create a bundle for a specific type of preset; this
   # default case is used for "bare" Bootstrap, or an empty preset bundle.
   NULL
+}
+
+#' @export
+bs_preset_bundle.bs_preset <- function(preset, ...) {
+  switch(
+    preset$type %||% "",
+    builtin = builtin_bundle(preset$name, version = preset$version),
+    bootswatch = bootswatch_bundle(preset$name, version = preset$version),
+    NextMethod()
+  )
 }
