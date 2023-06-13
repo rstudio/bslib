@@ -21,7 +21,7 @@ new_theme_preset <- function(
   }
 
   as_preset <- function(preset, subclass = NULL) {
-    structure(preset, class = c(subclass, "bs_theme_preset"))
+    structure(preset, class = c(subclass, "bs_preset"))
   }
 
   if (preset$name %in% c("default", "bootstrap")) {
