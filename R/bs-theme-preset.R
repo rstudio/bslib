@@ -5,17 +5,20 @@ resolve_bs_preset <- function(
 ) {
   if (is.null(name) && is.null(bootswatch)) return(NULL)
 
+  if (!rlang::is_string(name %||% "")) {
+    abort_preset_not_scalar_string("name")
+  }
+
+   if (!rlang::is_string(bootswatch %||% "")) {
+    abort_preset_not_scalar_string("bootswatch")
+  }
+
   if (!is.null(name) && !is.null(bootswatch)) {
-    # TODO [preset] better error message
-    rlang::abort("Can't specify both `name` and `bootswatch`")
+    abort_preset_only_one_name_arg(name, bootswatch)
   }
 
+  version <- switch_version(version, five = "5", four = "4", three = "3")
   preset_name <- name %||% bootswatch
-
-  if (!rlang::is_string(preset_name)) {
-    # TODO [preset] better error message
-    rlang::abort("The preset built-in or Bootswatch theme name must be a single character string.")
-  }
 
   if (preset_name %in% c("default", "bootstrap")) {
     # "default" means no preset bundle, just bare default Bootstrap
@@ -33,8 +36,7 @@ resolve_bs_preset <- function(
     return(new_bs_preset(preset_name, version, type = "bootswatch"))
   }
 
-  # TODO [preset] better error message
-  rlang::abort(sprintf("Unknown theme: '%s'", preset_name))
+  abort_preset_unknown_name(preset_name, version)
 }
 
 new_bs_preset <- function(name, version, type = NULL) {
@@ -77,4 +79,34 @@ bs_preset_bundle.bs_preset <- function(preset, ...) {
     bootswatch = bootswatch_bundle(preset$name, version = preset$version),
     NextMethod()
   )
+}
+
+abort_preset_not_scalar_string <- function(var = "name", .frame = rlang::caller_env()) {
+  msg <- c(
+    sprintf("The preset theme `%s` must be a single character string.", var),
+    "x" = sprintf('Bad: `%s = c("flatly", "darkly")`', var),
+    "v" = sprintf('Good: `%s = "flatly"`', var)
+  )
+  rlang::abort(msg, .frame = .frame)
+}
+
+abort_preset_only_one_name_arg <- function(name, bootswatch, .frame = rlang::caller_env()) {
+  msg <- c(
+    "Only one of `name` or `bootswatch` may be provided, and `name` is preferred.",
+    "i" = "Did you mean one of the following options?",
+    "*" = sprintf('`name = "%s"`', name),
+    "*" = sprintf('`name = "%s"`', bootswatch),
+    "*" = sprintf('`bootswatch = "%s"`', bootswatch)
+  )
+  rlang::abort(msg, .frame = .frame)
+}
+
+abort_preset_unknown_name <- function(name, version, .frame = rlang::caller_env()) {
+  msg <- c(
+    sprintf("'%s' is not a known preset theme name", name),
+    "i" = "You can list available preset themes:",
+    "*" = sprintf("Built-in: `builtin_themes(%s)`", version),
+    "*" = sprintf("Bootswatch: `bootswatch_themes(%s)`.", version)
+  )
+  rlang::abort(msg, .frame = .frame)
 }

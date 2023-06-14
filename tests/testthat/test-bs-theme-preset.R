@@ -4,12 +4,21 @@ describe("new_theme_preset()", {
   })
 
   it("throws an error if both `name` and `bootswatch` are provided", {
-    expect_error(resolve_bs_preset(name = "name", bootswatch = "bootswatch"))
+    expect_snapshot(
+      error = TRUE,
+      resolve_bs_preset(name = "name", bootswatch = "bootswatch")
+    )
   })
 
   it("throws an error if `name` or `bootswatch` are not scalar strings", {
-    expect_error(resolve_bs_preset(name = c("a", "b")))
-    expect_error(resolve_bs_preset(bootswatch = c("a", "b")))
+    expect_snapshot(
+      error = TRUE,
+      resolve_bs_preset(name = c("a", "b"))
+    )
+    expect_snapshot(
+      error = TRUE,
+      resolve_bs_preset(bootswatch = c("a", "b"))
+    )
 
     expect_error(resolve_bs_preset(name = 1))
     expect_error(resolve_bs_preset(bootswatch = 1))
@@ -22,8 +31,21 @@ describe("new_theme_preset()", {
   })
 
   it("throws an error if `name` or `bootswatch` don't match existing presets", {
-    expect_error(resolve_bs_preset(name = "not_a_preset"))
-    expect_error(resolve_bs_preset(bootswatch = "not_a_preset"))
+    expect_snapshot(
+      error = TRUE,
+      resolve_bs_preset(name = "not_a_preset", version = 4)
+    )
+    expect_snapshot(
+      error = TRUE,
+      resolve_bs_preset(bootswatch = "not_a_preset", version = 4)
+    )
+  })
+
+  it("throws an error for unknown bootstrap version", {
+    expect_error(resolve_bs_preset(name = "cerulean", version = "2"))
+    expect_error(resolve_bs_preset(bootswatch = "cerulean", version = "99"))
+
+    expect_warning(resolve_bs_preset(bootswatch = "cerulean", version = "4-3"))
   })
 
   it("returns a 'default' preset if name or bootswatch is 'default' or 'bootstrap'", {
@@ -56,7 +78,7 @@ describe("new_theme_preset()", {
     expect_s3_class(bsw_darkly, "bs_preset")
     expect_s3_class(bsw_darkly, "bs_preset_bootswatch")
     expect_equal(bsw_darkly$name, "darkly")
-    expect_equal(bsw_darkly$version, 5)
+    expect_equal(bsw_darkly$version, "5")
     expect_equal(bsw_darkly$class, "bs_bootswatch_darkly")
   })
 
@@ -66,7 +88,7 @@ describe("new_theme_preset()", {
     expect_s3_class(bsw_cosmo, "bs_preset")
     expect_s3_class(bsw_cosmo, "bs_preset_bootswatch")
     expect_equal(bsw_cosmo$name, "cosmo")
-    expect_equal(bsw_cosmo$version, 4)
+    expect_equal(bsw_cosmo$version, "4")
     expect_equal(bsw_cosmo$class, "bs_bootswatch_cosmo")
   })
 
@@ -76,7 +98,7 @@ describe("new_theme_preset()", {
     expect_s3_class(bsw_readable, "bs_preset")
     expect_s3_class(bsw_readable, "bs_preset_bootswatch")
     expect_equal(bsw_readable$name, "readable")
-    expect_equal(bsw_readable$version, 3)
+    expect_equal(bsw_readable$version, "3")
     expect_equal(bsw_readable$class, "bs_bootswatch_readable")
   })
 
@@ -103,7 +125,7 @@ describe("new_theme_preset()", {
     expect_s3_class(shiny, "bs_preset")
     expect_s3_class(shiny, "bs_preset_builtin")
     expect_equal(shiny$name, "shiny")
-    expect_equal(shiny$version, 5)
+    expect_equal(shiny$version, "5")
     expect_equal(shiny$class, "bs_builtin_shiny")
   })
 })
