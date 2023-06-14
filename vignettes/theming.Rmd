@@ -167,7 +167,7 @@ When choosing `bg` and `fg` colors, keep in mind that it's generally a good idea
 ::: {.callout .callout-note}
 <h3 data-toc-skip>Choosing fonts</h3>
 
-When choosing fonts, keep in mind that it's generally good practice to put serif fonts in `base_font`, sans-serif fonts in `heading_font`, and monospace fonts in `code_font`. If you aren't sure where to start, [this page](https://fontpair.co/all) has a nice gallery of Google Font pairings. 
+When choosing fonts, keep in mind that it's generally good practice to put serif fonts in `base_font`, sans-serif fonts in `heading_font`, and monospace fonts in `code_font`. If you aren't sure where to start, [fontpair.co has a nice gallery](https://fontpair.co/all) of Google Font pairings.
 :::
 
 ## Theming variables
