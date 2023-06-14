@@ -125,7 +125,7 @@ bs_theme <- function(version = version_default(), name = NULL, ...,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
                      font_scale = NULL, bootswatch = NULL) {
 
-  preset <- new_theme_preset(name, bootswatch, version = version)
+  preset <- resolve_bs_preset(name, bootswatch, version = version)
 
   bundle <- bs_bundle(
     bs_theme_init(version, subclass = preset$class),
@@ -161,7 +161,7 @@ bs_theme_update <- function(theme, ..., name = NULL, bg = NULL, fg = NULL,
 
   theme_has_preset <- any(grepl("^bs_(builtin|bootswatch)_", class(theme)))
 
-  preset <- new_theme_preset(name, bootswatch, version = theme_version(theme))
+  preset <- resolve_bs_preset(name, bootswatch, version = theme_version(theme))
 
   if (!is.null(preset)) {
     if (theme_has_preset) {
@@ -173,6 +173,7 @@ bs_theme_update <- function(theme, ..., name = NULL, bg = NULL, fg = NULL,
       class(theme) <- setdiff(class(theme), old_preset_class)
     }
 
+    # Add the new preset (both no-op when preset$name is "default")
     theme <- add_class(theme, preset$class)
     theme <- bs_bundle(theme, bs_preset_bundle(preset))
   }

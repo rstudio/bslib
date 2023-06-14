@@ -1,4 +1,4 @@
-new_theme_preset <- function(
+resolve_bs_preset <- function(
   name = NULL,
   bootswatch = NULL,
   version = version_default()
@@ -10,49 +10,49 @@ new_theme_preset <- function(
     rlang::abort("Can't specify both `name` and `bootswatch`")
   }
 
-  preset <- list(
-    version = version,
-    name = name %||% bootswatch
-  )
+  preset_name <- name %||% bootswatch
 
-  if (!rlang::is_string(preset$name)) {
+  if (!rlang::is_string(preset_name)) {
     # TODO [preset] better error message
     rlang::abort("The preset built-in or Bootswatch theme name must be a single character string.")
   }
 
-  as_preset <- function(preset, subclass = NULL) {
-    structure(preset, class = c(subclass, "bs_preset"))
-  }
-
-  if (preset$name %in% c("default", "bootstrap")) {
+  if (preset_name %in% c("default", "bootstrap")) {
     # "default" means no preset bundle, just bare default Bootstrap
-    # note that `preset` doesn't include a `class` item
-    preset$name <- "default"
-    return(as_preset(preset))
-  }
-
-  preset_class <- function(type, name) {
-    name_safe <- gsub("[^[:alnum:]]", "_", name)
-    paste("bs", type, name_safe, sep = "_")
+    return(new_bs_preset("default", version))
   }
 
   builtin_themes <- builtin_themes(version)
   bootswatch_themes <- bootswatch_themes(version)
 
-  if (length(builtin_themes) > 0 && preset$name %in% builtin_themes) {
-    preset$class <- preset_class("builtin", preset$name)
-    preset$type <- "builtin"
-    return(as_preset(preset, "bs_preset_builtin"))
+  if (length(builtin_themes) > 0 && preset_name %in% builtin_themes) {
+    return(new_bs_preset(preset_name, version, type = "builtin"))
   }
 
-  if (length(bootswatch_themes) > 0 && preset$name %in% bootswatch_themes) {
-    preset$class <- preset_class("bootswatch", preset$name)
-    preset$type <- "bootswatch"
-    return(as_preset(preset, "bs_preset_bootswatch"))
+  if (length(bootswatch_themes) > 0 && preset_name %in% bootswatch_themes) {
+    return(new_bs_preset(preset_name, version, type = "bootswatch"))
   }
 
   # TODO [preset] better error message
-  rlang::abort(sprintf("Unknown theme: '%s'", preset$name))
+  rlang::abort(sprintf("Unknown theme: '%s'", preset_name))
+}
+
+new_bs_preset <- function(name, version, type = NULL) {
+  subclass <- if (!is.null(type)) paste0("bs_preset_", type)
+
+  preset_class <- if (!is.null(type)) {
+    name_safe <- gsub("[^[:alnum:]]", "_", name)
+    paste("bs", type, name_safe, sep = "_")
+  }
+
+  preset <- list(
+    version = version,
+    name = name,
+    type = type,
+    class = preset_class
+  )
+
+  structure(dropNulls(preset), class = c(subclass, "bs_preset"))
 }
 
 # The `bs_preset_bundle()` function is the main entry point for creating a
