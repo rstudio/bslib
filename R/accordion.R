@@ -150,7 +150,7 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
     "data-value" = value,
     # We don't use an <h2> because it would get included in rmd/pkgdown/qmd TOC
     # TODO: can we provide a way to put more stuff in the header? Like maybe some right-aligned controls?
-    span(class = "accordion-header", btn),
+    div(class = "accordion-header", btn),
     div(
       id = id,
       class = "accordion-collapse collapse",

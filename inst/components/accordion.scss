@@ -1,6 +1,7 @@
 .accordion {
   .accordion-header {
     @extend .h2;
+    margin-bottom: 0;
   }
   .accordion-icon:not(:empty) {
     margin-right: 0.25rem;
