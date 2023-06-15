@@ -43,6 +43,6 @@ validate_builtin_theme_name <- function(name, version = version_default()) {
 path_builtin_theme <- function(..., version = version_default()) {
   switch_version(
     version,
-    five = system.file("custom-themes", "bs5", ..., package = "bslib")
+    five = system.file("builtin", "bs5", ..., package = "bslib")
   )
 }
