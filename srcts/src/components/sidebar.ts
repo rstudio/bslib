@@ -214,7 +214,7 @@ class Sidebar {
    * @private
    */
   private _initEventListeners(): void {
-    const { sidebar, toggle } = this.layout;
+    const { toggle } = this.layout;
 
     toggle.addEventListener("click", (ev) => {
       ev.preventDefault();
@@ -227,10 +227,7 @@ class Sidebar {
     // grid-template-columns is not supported).
     toggle
       .querySelector(".collapse-icon")
-      ?.addEventListener("transitionend", () => {
-        this._finalizeState();
-        $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
-      });
+      ?.addEventListener("transitionend", () => this._finalizeState());
   }
 
   /**
@@ -363,6 +360,7 @@ class Sidebar {
     container.classList.remove(Sidebar.classes.TRANSITIONING);
     sidebar.hidden = this.isClosed;
     toggle.ariaExpanded = this.isClosed ? "false" : "true";
+    $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
   }
 }
 
