@@ -360,7 +360,14 @@ class Sidebar {
     container.classList.remove(Sidebar.classes.TRANSITIONING);
     sidebar.hidden = this.isClosed;
     toggle.ariaExpanded = this.isClosed ? "false" : "true";
+
+    // Trigger Shiny input and output binding events
     $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
+    $(sidebar).trigger(
+      this.isClosed
+        ? "hidden.sendOutputHiddenState"
+        : "shown.sendOutputHiddenState"
+    );
   }
 }
 
