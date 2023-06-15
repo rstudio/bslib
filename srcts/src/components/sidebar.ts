@@ -361,6 +361,13 @@ class Sidebar {
     sidebar.hidden = this.isClosed;
     toggle.ariaExpanded = this.isClosed ? "false" : "true";
 
+    // Send browser-native event with updated sidebar state
+    const event = new CustomEvent("bslib.sidebar", {
+      bubbles: true,
+      detail: { open: !this.isClosed },
+    });
+    sidebar.dispatchEvent(event);
+
     // Trigger Shiny input and output binding events
     $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
     $(sidebar).trigger(
