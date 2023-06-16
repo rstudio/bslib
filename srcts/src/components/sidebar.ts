@@ -214,7 +214,7 @@ class Sidebar {
    * @private
    */
   private _initEventListeners(): void {
-    const { sidebar, toggle } = this.layout;
+    const { toggle } = this.layout;
 
     toggle.addEventListener("click", (ev) => {
       ev.preventDefault();
@@ -227,10 +227,7 @@ class Sidebar {
     // grid-template-columns is not supported).
     toggle
       .querySelector(".collapse-icon")
-      ?.addEventListener("transitionend", () => {
-        this._finalizeState();
-        $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
-      });
+      ?.addEventListener("transitionend", () => this._finalizeState());
   }
 
   /**
@@ -363,6 +360,17 @@ class Sidebar {
     container.classList.remove(Sidebar.classes.TRANSITIONING);
     sidebar.hidden = this.isClosed;
     toggle.ariaExpanded = this.isClosed ? "false" : "true";
+
+    // Send browser-native event with updated sidebar state
+    const event = new CustomEvent("bslib.sidebar", {
+      bubbles: true,
+      detail: { open: !this.isClosed },
+    });
+    sidebar.dispatchEvent(event);
+
+    // Trigger Shiny input and output binding events
+    $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
+    $(sidebar).trigger(this.isClosed ? "hidden" : "shown");
   }
 }
 
@@ -379,8 +387,8 @@ class SidebarInputBinding extends InputBinding {
 
   getValue(el: HTMLElement): boolean {
     const sb = Sidebar.getInstance(el.parentElement as HTMLElement);
-    const closed = sb?.isClosed;
-    return closed === undefined ? false : !closed;
+    if (!sb) return false;
+    return !sb.isClosed;
   }
 
   setValue(el: HTMLElement, value: boolean): void {
