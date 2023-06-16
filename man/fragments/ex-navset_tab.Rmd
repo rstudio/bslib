@@ -18,7 +18,7 @@ render_screenshot <- function(x, options) {
   x <- tagList(
     x,
     tags$head(tags$style("
-      body { min-height: 300px; padding: 1rem }
+      body { min-height: 300px; padding: 1rem; overflow: hidden; }
       .bslib-card .card-body { min-height: 200px; }
     "))
   )
@@ -29,7 +29,9 @@ render_screenshot <- function(x, options) {
   tmpfile <- file.path(tmpdir, basename(tempfile(fileext = ".html")))
   save_html(x, tmpfile)
 
-  file_out <- paste0(options$label, ".png")
+  file_out <- paste0(
+    gsub("_", "-", options$label), ".png"
+  )
 
   {
     p <- b$Page$loadEventFired(wait_ = FALSE)
@@ -49,7 +51,9 @@ render_screenshot <- function(x, options) {
 }
 
 include_screenshot <- function(x, options) {
-  file_name <- paste0(options$label, ".png")
+  file_name <- paste0(
+    gsub("_", "-", options$label), ".png"
+  )
   alt <- options$fig.alt
   if (is.null(alt)) {
     alt <- sprintf("Screenshot of a %s() example.", options$label)
