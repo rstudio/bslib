@@ -10,6 +10,7 @@ $green: #00891a !default;
 $teal: #00bf7f !default;
 $cyan: #03c7e8 !default;
 $white: #ffffff !default;
+
 $gray: #606060 !default;
 $gray-dark: #303030 !default;
 $gray-100: #f8f8f8 !default;
@@ -21,6 +22,7 @@ $gray-600: #707782 !default;
 $gray-700: #48505f !default;
 $gray-800: #343a46 !default;
 $gray-900: #1d1f21 !default;
+
 $default: #dee2e6 !default;
 $primary: #007bc2 !default;
 $secondary: #404040 !default;
@@ -30,6 +32,7 @@ $warning: #f9b928 !default;
 $danger: #c10000 !default;
 $light: #f8f8f8 !default;
 $dark: #202020 !default;
+
 $default-rgb: 222, 226, 230 !default;
 $primary-rgb: 0, 123, 194 !default;
 $secondary-rgb: 64, 64, 64 !default;
@@ -43,53 +46,40 @@ $white-rgb: 255, 255, 255 !default;
 $black-rgb: 0, 0, 0 !default;
 $body-color-rgb: 52, 58, 70 !default;
 $body-bg-rgb: 255, 255, 255 !default;
+
 $gradient: linear-gradient(
   180deg,
   rgba(255, 255, 255, 0.15),
   rgba(255, 255, 255, 0)
 ) !default;
+
+$base-font: "Open Sans" !default;
+$font-family-sans-serif: $base-font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-monospace: "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace	!default;
+$headings-font-family: $font-family-sans-serif !default;
+
 $root-font-size: 18px !default;
 $body-font-size: 1rem !default;
 $body-font-weight: 400 !default;
+$h1-font-size: 2.1rem !default;
+
 $body-color: $gray-900 !default;
 $body-bg: #ffffff !default;
+
 $hr-margin-y: 2rem !default;
+
 $input-btn-font-size: 15px !default;
+
 $btn-font-weight: 500 !default;
 $btn-padding-y: 0.75em !default;
 $btn-padding-x: 2em !default;
-$h1-font-size: 2.1rem !default;
+
+
 $form-check-input-width: 1.2em !default;
 $form-check-input-border-radius: 2px !default;
 $form-check-margin-bottom: 0.25rem !default;
-$input-border-color: $gray-500 !default;
 $form-text-color: $red !default;
+
+$input-border-color: $gray-500 !default;
+
 $border-radius: 3px !default;
-
-/*-- scss:rules --*/
-
-// move checkbox and radio text slightly to the right
-.checkbox input,
-.radio input {
-  margin-right: 0.35em;
-}
-
-// make selected item more accessible
-.selectize-dropdown-content .option.selected.active,
-.selectize-dropdown-content .option:hover,
-.selectize-dropdown-content .option:active {
-  background-color: $blue;
-  color: $white;
-}
-
-// make non-selected items slightly different visually (but still 3:1 contrast)
-// TODO: Restore this if we fix https://github.com/rstudio/shiny/issues/3839
-// .selectize-dropdown-content .option.active {
-//   background-color: tint-color($blue, 25%);
-//   color: $white;
-// }
-
-// fix "to" width in the middle of the date picker
-.shiny-date-range-input .input-daterange .input-group-addon {
-  margin-right: -1px;
-}
