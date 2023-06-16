@@ -5,17 +5,9 @@ resolve_bs_preset <- function(
 ) {
   if (is.null(name) && is.null(bootswatch)) return(NULL)
 
-  if (!rlang::is_string(name %||% "")) {
-    abort_preset_not_scalar_string("name")
-  }
-
-   if (!rlang::is_string(bootswatch %||% "")) {
-    abort_preset_not_scalar_string("bootswatch")
-  }
-
-  if (!is.null(name) && !is.null(bootswatch)) {
-    abort_preset_only_one_name_arg(name, bootswatch)
-  }
+  assert_preset_scalar_string(name)
+  assert_preset_scalar_string(bootswatch)
+  assert_preset_only_one_name_arg(name, bootswatch)
 
   version <- switch_version(version, five = "5", four = "4", three = "3")
   preset_name <- name %||% bootswatch
@@ -82,16 +74,28 @@ bs_preset_bundle.bs_preset <- function(preset, ...) {
   )
 }
 
-abort_preset_not_scalar_string <- function(var = "name", .frame = rlang::caller_env()) {
+assert_preset_scalar_string <- function(var, .frame = rlang::caller_env()) {
+  var_name <- deparse(substitute(var))
+
+  if (is.null(var) || rlang::is_string(var)) {
+    return(invisible())
+  }
+
   msg <- c(
-    sprintf("The preset theme `%s` must be a single character string.", var),
-    "x" = sprintf('Bad: `%s = c("flatly", "darkly")`', var),
-    "v" = sprintf('Good: `%s = "flatly"`', var)
+    sprintf("The preset theme `%s` must be a single character string.", var_name),
+    "x" = sprintf('Bad: `%s = c("flatly", "darkly")`', var_name),
+    "v" = sprintf('Good: `%s = "flatly"`', var_name)
   )
   rlang::abort(msg, .frame = .frame)
 }
 
-abort_preset_only_one_name_arg <- function(name, bootswatch, .frame = rlang::caller_env()) {
+assert_preset_only_one_name_arg <- function(name, bootswatch, .frame = rlang::caller_env()) {
+  both_provided <- !is.null(name) && !is.null(bootswatch)
+
+  if (!both_provided) {
+    return(invisible())
+  }
+
   msg <- c(
     "Only one of `name` or `bootswatch` may be provided, and `name` is preferred.",
     "i" = "Did you mean one of the following options?",
