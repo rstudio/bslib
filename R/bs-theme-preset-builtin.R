@@ -12,7 +12,7 @@ builtin_themes <- function(version = version_default(), full_path = FALSE) {
 }
 
 builtin_bundle <- function(name = "shiny", version = version_default()) {
-  theme <- validate_builtin_theme_name(name, version = version)
+  theme <- validate_builtin_preset_name(name, version = version)
 
   switch_version(
     version,
@@ -27,17 +27,26 @@ builtin_bundle <- function(name = "shiny", version = version_default()) {
   )
 }
 
-validate_builtin_theme_name <- function(name, version = version_default()) {
-  if (!name %in% builtin_themes(version)) {
-    msg <- "'%s' is not a valid bslib-provided theme."
-    info <- "Available Bootstrap %s themes are: '%s'"
-    rlang::abort(c(
-      sprintf(msg, name),
-      i = sprintf(info, version, paste0(builtin_themes(version), collapse = "', '"))
-    ))
+validate_builtin_preset_name <- function(name, version = version_default()) {
+  builtin_names <- builtin_themes(version)
+
+  if (name %in% builtin_names) {
+    return(name)
   }
 
-  name
+  msg <- "'%s' is not a valid built-in theme preset provided by {bslib}."
+
+  info <-
+    if (length(builtin_names)) {
+      sprintf(
+        "Available Bootstrap %s themes are: '%s'",
+        version,
+        paste0(builtin_themes(version), collapse = "', '"))
+    } else {
+      "No built-in theme presets are available for this version of Bootstrap."
+    }
+
+  rlang::abort(c(sprintf(msg, name), "i" = info))
 }
 
 path_builtin_theme <- function(..., version = version_default()) {
