@@ -26,11 +26,12 @@ resolve_bs_preset <- function(
   }
 
   builtin_themes <- builtin_themes(version)
-  bootswatch_themes <- bootswatch_themes(version)
 
   if (length(builtin_themes) > 0 && preset_name %in% builtin_themes) {
     return(new_bs_preset(preset_name, version, type = "builtin"))
   }
+
+  bootswatch_themes <- bootswatch_themes(version)
 
   if (length(bootswatch_themes) > 0 && preset_name %in% bootswatch_themes) {
     return(new_bs_preset(preset_name, version, type = "bootswatch"))
