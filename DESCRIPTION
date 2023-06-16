@@ -55,13 +55,15 @@ RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Collate:
     'accordion.R'
-    'bootswatch.R'
     'breakpoints.R'
     'bs-current-theme.R'
     'bs-dependencies.R'
     'bs-global.R'
     'bs-remove.R'
     'bs-theme-layers.R'
+    'bs-theme-preset-bootswatch.R'
+    'bs-theme-preset-builtin.R'
+    'bs-theme-preset.R'
     'utils.R'
     'bs-theme-preview.R'
     'bs-theme-update.R'
