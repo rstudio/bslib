@@ -1,5 +1,6 @@
 # bslib 0.5.0.9000
 
+* Closed (#636): Outputs in sidebars now work as expected when an initially-closed sidebar is opened. (#624)
 
 # bslib 0.5.0
 
@@ -23,7 +24,7 @@ This significant release focuses on making dashboards with filling/responsive la
 
 ## New features
 
-* Added `page_sidebar()`, for easy dashboard creation. (#588) 
+* Added `page_sidebar()`, for easy dashboard creation. (#588)
 * Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn more. (#479)
 * Added `layout_columns()`, for responsive column-based grid layouts. (#587)
 * Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions). (#475)
