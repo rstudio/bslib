@@ -6,7 +6,7 @@ pkgload::load_all()
 
 lapply(c(
   "yarn_install.R",
-  "download_bootswatch_fonts.R",
+  "download_preset_fonts.R",
   "update_gfont_info.R",
   "expand_variables_article_template.R"
 ), function(file) {
