@@ -124,7 +124,7 @@ argument defaults to <code>bs_global_get()</code>, which get the current global 
 <span></span>
 <span><span class="fu">bs_global_theme_update</span><span class="op">(</span></span>
 <span>  <span class="va">...</span>,</span>
-<span>  bootswatch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  primary <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -135,7 +135,8 @@ argument defaults to <code>bs_global_get()</code>, which get the current global 
 <span>  danger <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  base_font <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  code_font <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  heading_font <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  heading_font <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bootswatch <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -221,6 +222,17 @@ Typically a shade of blue-green.</p></dd>
 <dt>.default_flag</dt>
 <dd><p>Whether or not to add a <code>!default</code> flag (if missing) to
 variable expressions. It's recommended to keep this as <code>TRUE</code> when <code>.where = "defaults"</code>.</p></dd>
+
+
+<dt>name</dt>
+<dd><p>The name of a theme preset, either a built-in theme provided by
+bslib or a Bootswatch theme (see <code><a href="builtin_themes.html">builtin_themes()</a></code> and
+<code><a href="bootswatch_themes.html">bootswatch_themes()</a></code> for possible values). This argument takes precedence
+over the <code>bootswatch</code> argument and only one <code>theme</code> or <code>bootswatch</code> can be
+provided. When provided to <code><a href="bs_theme.html">bs_theme_update()</a></code>, any previous preset theme
+is first removed before the new theme preset is applied. You can use
+<code>theme = "default"</code> to remove any preset theme and to revert to a base
+Bootstrap theme.</p></dd>
 
 </dl></div>
     <div class="section level2">
