@@ -14,13 +14,11 @@ extract_first_group <- function(x, pattern) {
   na.omit(sapply(matches, "[", 2))
 }
 
-download_and_copy_fonts <-  function(theme) {
-  theme_file_choices <- paste0(c("_bootswatch", "_rules"), ".scss")
-  theme_files <- file.path(theme, theme_file_choices)
-  theme_file <- theme_files[file.exists(theme_files)][1]
+download_and_copy_fonts <-  function(theme, rule_file = "_bootswatch.scss") {
+  theme_file <- file.path(theme, rule_file)
 
-  if (!length(theme_file)) {
-    stop("Couldn't find a theme file in ", theme)
+  if (!file.exists(theme_file)) {
+    stop("Couldn't find '", rule_file, "' in ", theme)
   }
 
   theme_scss <- readLines(theme_file)
@@ -84,4 +82,4 @@ lapply(themes5, download_and_copy_fonts)
 lapply(themes4, download_and_copy_fonts)
 lapply(themes3, download_and_copy_fonts)
 
-lapply(builtin5, download_and_copy_fonts)
+lapply(builtin5, download_and_copy_fonts, rule_file = "_rules.scss")
