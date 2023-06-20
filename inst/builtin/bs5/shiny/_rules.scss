@@ -12,14 +12,6 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   }
 }
 
-// make selected item more accessible
-.selectize-dropdown-content .option.selected.active,
-.selectize-dropdown-content .option:hover,
-.selectize-dropdown-content .option:active {
-  background-color: $blue;
-  color: $white;
-}
-
 // make non-selected items slightly different visually (but still 3:1 contrast)
 // TODO: Restore this if we fix https://github.com/rstudio/shiny/issues/3839
 // .selectize-dropdown-content .option.active {

@@ -81,5 +81,10 @@ $form-check-margin-bottom: 0.25rem !default;
 $form-text-color: $red !default;
 
 $input-border-color: $gray-500 !default;
-
 $border-radius: 3px !default;
+
+$component-active-bg: $primary !default;
+$component-active-color: color-contrast($component-active-bg, $white) !default;
+
+$selectize-color-dropdown-item-active: $component-active-bg !default;
+$selectize-color-dropdown-item-active-text: $component-active-color !default;
