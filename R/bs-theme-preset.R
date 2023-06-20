@@ -1,16 +1,16 @@
 resolve_bs_preset <- function(
-  name = NULL,
+  preset = NULL,
   bootswatch = NULL,
   version = version_default()
 ) {
-  if (is.null(name) && is.null(bootswatch)) return(NULL)
+  if (is.null(preset) && is.null(bootswatch)) return(NULL)
 
-  assert_preset_scalar_string(name)
+  assert_preset_scalar_string(preset)
   assert_preset_scalar_string(bootswatch)
-  assert_preset_only_one_name_arg(name, bootswatch)
+  assert_preset_only_one_name_arg(preset, bootswatch)
 
   version <- switch_version(version, five = "5", four = "4", three = "3")
-  preset_name <- name %||% bootswatch
+  preset_name <- preset %||% bootswatch
 
   if (preset_name %in% c("default", "bootstrap")) {
     # "default" means no preset bundle, just bare default Bootstrap
@@ -89,18 +89,18 @@ assert_preset_scalar_string <- function(var, .frame = rlang::caller_env()) {
   rlang::abort(msg, .frame = .frame)
 }
 
-assert_preset_only_one_name_arg <- function(name, bootswatch, .frame = rlang::caller_env()) {
-  both_provided <- !is.null(name) && !is.null(bootswatch)
+assert_preset_only_one_name_arg <- function(preset, bootswatch, .frame = rlang::caller_env()) {
+  both_provided <- !is.null(preset) && !is.null(bootswatch)
 
   if (!both_provided) {
     return(invisible())
   }
 
   msg <- c(
-    "Only one of `name` or `bootswatch` may be provided, and `name` is preferred.",
+    "Only one of `preset` or `bootswatch` may be provided, and `name` is preferred.",
     "i" = "Did you mean one of the following options?",
-    "*" = sprintf('`name = "%s"`', name),
-    "*" = sprintf('`name = "%s"`', bootswatch),
+    "*" = sprintf('`preset = "%s"`', preset),
+    "*" = sprintf('`preset = "%s"`', bootswatch),
     "*" = sprintf('`bootswatch = "%s"`', bootswatch)
   )
   rlang::abort(msg, .frame = .frame)

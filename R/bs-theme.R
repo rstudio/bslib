@@ -57,7 +57,7 @@
 #' @param version The major version of Bootstrap to use (see [versions()]
 #'   for possible values). Defaults to the currently recommended version
 #'   for new projects (currently Bootstrap 5).
-#' @param name The name of a theme preset, either a built-in theme provided by
+#' @param preset The name of a theme preset, either a built-in theme provided by
 #'   bslib or a Bootswatch theme (see [builtin_themes()] and
 #'   [bootswatch_themes()] for possible values). This argument takes precedence
 #'   over the `bootswatch` argument and only one `theme` or `bootswatch` can be
@@ -119,13 +119,13 @@
 #' theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 #'
 #' @export
-bs_theme <- function(version = version_default(), name = NULL, ...,
+bs_theme <- function(version = version_default(), preset = NULL, ...,
                      bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
                      font_scale = NULL, bootswatch = NULL) {
 
-  preset <- resolve_bs_preset(name, bootswatch, version = version)
+  preset <- resolve_bs_preset(preset, bootswatch, version = version)
 
   bundle <- bs_bundle(
     bs_theme_init(version, subclass = preset$class),
@@ -152,7 +152,7 @@ bs_theme <- function(version = version_default(), name = NULL, ...,
 #' @rdname bs_theme
 #' @param theme a [bs_theme()] object.
 #' @export
-bs_theme_update <- function(theme, ..., name = NULL, bg = NULL, fg = NULL,
+bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
                             primary = NULL, secondary = NULL, success = NULL,
                             info = NULL, warning = NULL, danger = NULL,
                             base_font = NULL, code_font = NULL, heading_font = NULL,
@@ -161,7 +161,7 @@ bs_theme_update <- function(theme, ..., name = NULL, bg = NULL, fg = NULL,
 
   theme_has_preset <- any(grepl("^bs_(builtin|bootswatch)_", class(theme)))
 
-  preset <- resolve_bs_preset(name, bootswatch, version = theme_version(theme))
+  preset <- resolve_bs_preset(preset, bootswatch, version = theme_version(theme))
 
   if (!is.null(preset)) {
     if (theme_has_preset) {
@@ -198,14 +198,14 @@ bs_theme_update <- function(theme, ..., name = NULL, bg = NULL, fg = NULL,
 
 #' @rdname bs_global_theme
 #' @export
-bs_global_theme_update <- function(..., name = NULL, bg = NULL, fg = NULL,
+bs_global_theme_update <- function(..., preset = NULL, bg = NULL, fg = NULL,
                                    primary = NULL,  secondary = NULL, success = NULL,
                                    info = NULL, warning = NULL, danger = NULL,
                                    base_font = NULL, code_font = NULL, heading_font = NULL, bootswatch = NULL) {
   theme <- assert_global_theme("bs_theme_global_update()")
   bs_global_set(bs_theme_update(
     theme, ...,
-    name = name,
+    preset = preset,
     bootswatch = bootswatch,
     bg = bg, fg = fg,
     primary = primary,

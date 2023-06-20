@@ -46,7 +46,7 @@ bs_global_bundle(...)
 
 bs_global_theme_update(
   ...,
-  name = NULL,
+  preset = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -110,7 +110,7 @@ Typically a shade of blue-green.}
 \item{.default_flag}{Whether or not to add a \code{!default} flag (if missing) to
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 
-\item{name}{The name of a theme preset, either a built-in theme provided by
+\item{preset}{The name of a theme preset, either a built-in theme provided by
 bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}} and
 \code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values). This argument takes precedence
 over the \code{bootswatch} argument and only one \code{theme} or \code{bootswatch} can be
