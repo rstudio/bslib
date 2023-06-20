@@ -63,12 +63,12 @@
 #'   over the `bootswatch` argument and only one `theme` or `bootswatch` can be
 #'   provided. When provided to `bs_theme_update()`, any previous preset theme
 #'   is first removed before the new theme preset is applied. You can use
-#'   `theme = "default"` to remove any preset theme and to revert to a base
+#'   `theme = "bootstrap"` to remove any preset theme and to revert to a base
 #'   Bootstrap theme.
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
-#'   `bootswatch = "default"` to effectively remove the Bootswatch theme).
+#'   `bootswatch = "bootstrap"` to effectively remove the Bootswatch theme).
 #' @param ... arguments passed along to [bs_add_variables()].
 #' @param bg A color string for the background.
 #' @param fg A color string for the foreground.
@@ -173,7 +173,7 @@ bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
       class(theme) <- setdiff(class(theme), old_preset_class)
     }
 
-    # Add the new preset (both no-op when preset$name is "default")
+    # Add the new preset (both no-op when preset$name is "bootstrap")
     theme <- add_class(theme, preset$class)
     theme <- bs_bundle(theme, bs_preset_bundle(preset))
   }

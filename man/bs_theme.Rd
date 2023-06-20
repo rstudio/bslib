@@ -57,7 +57,7 @@ bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}}
 over the \code{bootswatch} argument and only one \code{theme} or \code{bootswatch} can be
 provided. When provided to \code{bs_theme_update()}, any previous preset theme
 is first removed before the new theme preset is applied. You can use
-\code{theme = "default"} to remove any preset theme and to revert to a base
+\code{theme = "bootstrap"} to remove any preset theme and to revert to a base
 Bootstrap theme.}
 
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
@@ -97,7 +97,7 @@ scales to 80\%. Must be a positive number.}
 \item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
 for possible values). When provided to \code{bs_theme_update()}, any previous
 Bootswatch theme is first removed before the new one is applied (use
-\code{bootswatch = "default"} to effectively remove the Bootswatch theme).}
+\code{bootswatch = "bootstrap"} to effectively remove the Bootswatch theme).}
 
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 

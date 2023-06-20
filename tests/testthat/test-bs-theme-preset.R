@@ -66,7 +66,7 @@ describe("new_theme_preset()", {
 
     expect_equal(
       unclass(resolve_bs_preset(preset = "default")),
-      list(version = version_default(), name = "default")
+      list(version = version_default(), name = "bootstrap")
     )
 
     expect_identical(class(resolve_bs_preset(preset = "default")), "bs_preset")

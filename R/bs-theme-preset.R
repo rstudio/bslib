@@ -13,8 +13,8 @@ resolve_bs_preset <- function(
   preset_name <- preset %||% bootswatch
 
   if (preset_name %in% c("default", "bootstrap")) {
-    # "default" means no preset bundle, just bare default Bootstrap
-    return(new_bs_preset("default", version))
+    # "bootstrap" means no preset bundle, just bare default Bootstrap
+    return(new_bs_preset("bootstrap", version))
   }
 
   builtin_themes <- builtin_themes(version)
