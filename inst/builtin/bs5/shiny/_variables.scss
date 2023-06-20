@@ -23,14 +23,14 @@ $gray-700: #48505f !default;
 $gray-800: #343a46 !default;
 $gray-900: #1d1f21 !default;
 
-$default: #dee2e6 !default;
-$primary: #007bc2 !default;
+$default: $gray-300 !default;
+$primary: $blue !default;
 $secondary: #404040 !default;
-$success: #00891a !default;
-$info: #03c7e8 !default;
-$warning: #f9b928 !default;
-$danger: #c10000 !default;
-$light: #f8f8f8 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
 $dark: #202020 !default;
 
 $default-rgb: 222, 226, 230 !default;
@@ -53,10 +53,8 @@ $gradient: linear-gradient(
   rgba(255, 255, 255, 0)
 ) !default;
 
-$base-font: "Open Sans" !default;
-$font-family-sans-serif: $base-font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-base: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $font-family-monospace: "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace	!default;
-$headings-font-family: $font-family-sans-serif !default;
 
 $root-font-size: 18px !default;
 $body-font-size: 1rem !default;
@@ -66,7 +64,7 @@ $body-font-weight: 400 !default;
 $headings-font-weight: 400 !default;
 
 $body-color: $gray-900 !default;
-$body-bg: #ffffff !default;
+$body-bg: $white !default;
 
 $hr-margin-y: 2rem !default;
 

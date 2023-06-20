@@ -5,9 +5,11 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 }
 
 // move checkbox and radio text slightly to the right
-.checkbox input,
-.radio input {
-  margin-right: 0.35em;
+.checkbox,
+.radio {
+  input {
+    margin-right: 0.35em;
+  }
 }
 
 // make selected item more accessible
