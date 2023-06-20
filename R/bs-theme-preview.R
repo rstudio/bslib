@@ -49,8 +49,13 @@ opts_metadata <- function(theme) {
     system_file("themer/options.json", package = "bslib"),
     simplifyDataFrame = FALSE
   )
-  themes <- bootswatch_themes(theme_version(theme))
-  opts[[1]]$bootswatch$choices <- c("default", themes)
+  version <- theme_version(theme)
+  themes <- list(
+    "default",
+    "bslib" = builtin_themes(version),
+    "Bootswatch" = bootswatch_themes(version)
+  )
+  opts[[1]]$bootswatch$choices <- themes
   opts
 }
 
@@ -96,11 +101,19 @@ bs_themer_ui <- function(opts, vals, theme) {
         tags$select(
           class = "form-control", "data-id" = id,
           class = "bs-theme-value bs-theme-value-select",
-          lapply(opts$choices, function(x) {
-            tags$option(
-              value = x, selected = if (identical(x, value)) NA else NULL,
-              tools::toTitleCase(x)
-            )
+          # This select is designed for the 'bootswatch' input and assumes that
+          # the choices options are a list of lists, each list is an optgroup.
+          lapply(seq_along(opts$choices), function(idx) {
+            group_name <- names(opts$choices)[[idx]]
+            choice_group <- opts$choices[[idx]]
+            opts <- lapply(choice_group, function(x) {
+              tags$option(
+                value = x, selected = if (identical(x, value)) NA else NULL,
+                tools::toTitleCase(x)
+              )
+            })
+            if (!nzchar(group_name)) return(opts)
+            tags$optgroup(label = group_name, opts)
           })
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
@@ -345,7 +358,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # consequence of a new bootswatch value
   shiny::observeEvent(input$bs_theme_bootswatch, {
     theme <<- set_current_theme(
-      theme, list(bootswatch = input$bs_theme_bootswatch),
+      theme, list(preset = input$bs_theme_bootswatch),
       session, rmd = isRmd
     )
     vals <- as.list(bs_get_variables(theme, sass_vars))
