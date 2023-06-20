@@ -53,6 +53,10 @@ $gradient: linear-gradient(
   rgba(255, 255, 255, 0)
 ) !default;
 
+$body-color: $gray-900 !default;
+$body-bg: $white !default;
+
+// Fonts
 $font-family-base: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $font-family-monospace: "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace	!default;
 
@@ -63,28 +67,29 @@ $h1-font-size: 2.1rem !default;
 $body-font-weight: 400 !default;
 $headings-font-weight: 400 !default;
 
-$body-color: $gray-900 !default;
-$body-bg: $white !default;
-
+// Spacing
 $hr-margin-y: 2rem !default;
 
+// Buttons
 $input-btn-font-size: 15px !default;
-
 $btn-font-weight: 500 !default;
 $btn-padding-y: 0.75em !default;
 $btn-padding-x: 2em !default;
 
-
+// Form controls
 $form-check-input-width: 1.2em !default;
 $form-check-input-border-radius: 2px !default;
 $form-check-margin-bottom: 0.25rem !default;
 $form-text-color: $red !default;
 
+// Borders
 $input-border-color: $gray-500 !default;
 $border-radius: 3px !default;
 
+// Components
 $component-active-bg: $primary !default;
 $component-active-color: color-contrast($component-active-bg, $white) !default;
 
+// Shiny: selectInput() and selectizeInput()
 $selectize-color-dropdown-item-active: $component-active-bg !default;
 $selectize-color-dropdown-item-active-text: $component-active-color !default;
