@@ -32,7 +32,7 @@
     Code
       resolve_bs_preset(name = "not_a_preset", version = 4)
     Error <rlang_error>
-      'not_a_preset' is not a known preset theme name
+      'not_a_preset' is not a known preset theme name for Bootstrap version 4.
       i You can list available preset themes:
       * Built-in: `builtin_themes(4)`
       * Bootswatch: `bootswatch_themes(4)`.
@@ -42,7 +42,7 @@
     Code
       resolve_bs_preset(bootswatch = "not_a_preset", version = 4)
     Error <rlang_error>
-      'not_a_preset' is not a known preset theme name
+      'not_a_preset' is not a known preset theme name for Bootstrap version 4.
       i You can list available preset themes:
       * Built-in: `builtin_themes(4)`
       * Bootswatch: `bootswatch_themes(4)`.

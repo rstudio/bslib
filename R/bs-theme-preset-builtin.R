@@ -12,16 +12,28 @@ builtin_themes <- function(version = version_default(), full_path = FALSE) {
 }
 
 builtin_bundle <- function(name = "shiny", version = version_default()) {
-  theme <- validate_builtin_preset_name(name, version = version)
+  name <- validate_builtin_preset_name(name, version = version)
 
-  switch_version(
-    version,
-    five = switch(
-      theme,
-      shiny = sass_bundle(
-        "builtin" = sass_layer(
-          defaults = sass_file(path_builtin_theme("shiny", "shiny.scss", version = version))
-        )
+  font_css <- path_builtin_theme(name, "font.css", version = version)
+  attachments <- if (file.exists(font_css)) {
+    c(
+      "font.css" = font_css,
+      fonts = system_file("fonts", package = "bslib")
+    )
+  }
+
+  path_variables <- path_builtin_theme(name, "_variables.scss", version = version)
+  path_rules <- path_builtin_theme(name, "_rules.scss", version = version)
+
+  sass_bundle(
+    "builtin" = sass_layer(
+      file_attachments = attachments,
+      defaults = list(
+        '$web-font-path: "font.css" !default;',
+        sass_file(path_variables)
+      ),
+      rules = list(
+        if (file.exists(path_rules)) sass_file(path_rules)
       )
     )
   )

@@ -108,7 +108,7 @@ assert_preset_only_one_name_arg <- function(name, bootswatch, .frame = rlang::ca
 
 abort_preset_unknown_name <- function(name, version, .frame = rlang::caller_env()) {
   msg <- c(
-    sprintf("'%s' is not a known preset theme name", name),
+    sprintf("'%s' is not a known preset theme name for Bootstrap version %s.", name, version),
     "i" = "You can list available preset themes:",
     "*" = sprintf("Built-in: `builtin_themes(%s)`", version),
     "*" = sprintf("Bootswatch: `bootswatch_themes(%s)`.", version)
