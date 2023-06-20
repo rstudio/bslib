@@ -159,18 +159,19 @@ bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
                             font_scale = NULL, bootswatch = NULL) {
   assert_bs_theme(theme)
 
-  theme_has_preset <- any(grepl("^bs_(builtin|bootswatch)_", class(theme)))
-
   preset <- resolve_bs_preset(preset, bootswatch, version = theme_version(theme))
 
   if (!is.null(preset)) {
-    if (theme_has_preset) {
-      old_preset_class <- grep("^bs_(builtin|bootswatch)_", class(theme), value = TRUE)
-      old_preset_type <- sub("^bs_(builtin|bootswatch)_.+", "\\1", old_preset_class)
+    theme_has_preset <- inherits(theme, "bs_theme_with_preset")
 
+    if (theme_has_preset) {
       # remove the old preset
-      theme <- bs_remove(theme, old_preset_type)
-      class(theme) <- setdiff(class(theme), old_preset_class)
+      theme <- bs_remove(theme, theme_preset_info(theme)$type)
+      old_preset_classes <- c(
+        grep("^bs_preset_", class(theme), value = TRUE),
+        "bs_theme_with_preset"
+      )
+      class(theme) <- setdiff(class(theme), old_preset_classes)
     }
 
     # Add the new preset (both no-op when preset$name is "bootstrap")

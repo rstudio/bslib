@@ -35,16 +35,11 @@ resolve_bs_preset <- function(
 new_bs_preset <- function(name, version, type = NULL) {
   subclass <- if (!is.null(type)) paste0("bs_preset_", type)
 
-  preset_class <- if (!is.null(type)) {
-    name_safe <- gsub("[^[:alnum:]]", "_", name)
-    paste("bs", type, name_safe, sep = "_")
-  }
-
   preset <- list(
     version = version,
     name = name,
     type = type,
-    class = preset_class
+    class = if (!is.null(subclass)) c(subclass, "bs_theme_with_preset")
   )
 
   structure(dropNulls(preset), class = c(subclass, "bs_preset"))
@@ -71,12 +66,30 @@ bs_preset_bundle.bs_preset <- function(preset, ...) {
 
 #' @export
 bs_preset_bundle.bs_preset_builtin <- function(preset, ...) {
+  stopifnot(inherits(preset, "bs_preset"))
   builtin_bundle(preset$name, version = preset$version)
 }
 
 #' @export
 bs_preset_bundle.bs_preset_bootswatch <- function(preset, ...) {
+  stopifnot(inherits(preset, "bs_preset"))
   bootswatch_bundle(preset$name, version = preset$version)
+}
+
+theme_preset_info <- function(theme) {
+  if (!is_bs_theme(theme)) return(NULL)
+
+  theme_vars <- c("bslib-preset-type", "bslib-preset-name", "bootstrap-version")
+  info <- bs_get_variables(theme, theme_vars)
+
+  name <- if (!is.na(info[["bslib-preset-name"]])) info[["bslib-preset-name"]]
+  type <- if (!is.na(info[["bslib-preset-type"]])) info[["bslib-preset-type"]]
+
+  new_bs_preset(
+    name = name %||% "bootstrap",
+    version = info[["bootstrap-version"]],
+    type = type
+  )
 }
 
 assert_preset_scalar_string <- function(var, .frame = rlang::caller_env()) {

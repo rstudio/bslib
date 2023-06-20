@@ -79,7 +79,10 @@ describe("new_theme_preset()", {
     expect_s3_class(bsw_darkly, "bs_preset_bootswatch")
     expect_equal(bsw_darkly$name, "darkly")
     expect_equal(bsw_darkly$version, "5")
-    expect_equal(bsw_darkly$class, "bs_bootswatch_darkly")
+    expect_equal(
+      bsw_darkly$class,
+      c("bs_preset_bootswatch", "bs_theme_with_preset")
+    )
   })
 
   it("returns a BS4 Bootswatch theme preset", {
@@ -89,7 +92,10 @@ describe("new_theme_preset()", {
     expect_s3_class(bsw_cosmo, "bs_preset_bootswatch")
     expect_equal(bsw_cosmo$name, "cosmo")
     expect_equal(bsw_cosmo$version, "4")
-    expect_equal(bsw_cosmo$class, "bs_bootswatch_cosmo")
+    expect_equal(
+      bsw_cosmo$class,
+      c("bs_preset_bootswatch", "bs_theme_with_preset")
+    )
   })
 
   it("returns a BS3 Bootswatch theme preset", {
@@ -99,7 +105,10 @@ describe("new_theme_preset()", {
     expect_s3_class(bsw_readable, "bs_preset_bootswatch")
     expect_equal(bsw_readable$name, "readable")
     expect_equal(bsw_readable$version, "3")
-    expect_equal(bsw_readable$class, "bs_bootswatch_readable")
+    expect_equal(
+      bsw_readable$class,
+      c("bs_preset_bootswatch", "bs_theme_with_preset")
+    )
   })
 
   it("returns a bootswatch theme preset if `name` is used instead of `bootswatch`", {
@@ -126,7 +135,10 @@ describe("new_theme_preset()", {
     expect_s3_class(shiny, "bs_preset_builtin")
     expect_equal(shiny$name, "shiny")
     expect_equal(shiny$version, "5")
-    expect_equal(shiny$class, "bs_builtin_shiny")
+    expect_equal(
+      shiny$class,
+      c("bs_preset_builtin", "bs_theme_with_preset")
+    )
   })
 })
 
@@ -134,4 +146,51 @@ test_that("bs_preset_bundle() returns `NULL` for default or empty preset", {
   expect_null(bs_preset_bundle(resolve_bs_preset(preset = "default")))
   expect_null(bs_preset_bundle(resolve_bs_preset(bootswatch = "default")))
   expect_null(bs_preset_bundle(NULL))
+})
+
+describe("theme_preset_info()", {
+  it("returns bootswatch theme information", {
+    expect_equal(
+      theme_preset_info(bs_theme(version = 5, bootswatch = "flatly")),
+      new_bs_preset("flatly", version = "5", type = "bootswatch")
+    )
+
+    expect_equal(
+      theme_preset_info(bs_theme(version = 4, bootswatch = "superhero")),
+      new_bs_preset("superhero", version = "4", type = "bootswatch")
+    )
+
+    expect_equal(
+      theme_preset_info(bs_theme(version = 3, bootswatch = "yeti")),
+      new_bs_preset("yeti", version = "3", type = "bootswatch")
+    )
+  })
+
+  it("returns builtin preset theme information", {
+    expect_equal(
+      theme_preset_info(bs_theme(version = 5, preset = "shiny")),
+      new_bs_preset("shiny", version = "5", type = "builtin")
+    )
+  })
+
+  it("returns vanilla bootstrap theme information", {
+    expect_equal(
+      theme_preset_info(bs_theme(version = 5)),
+      new_bs_preset("bootstrap", version = "5")
+    )
+
+    expect_equal(
+      theme_preset_info(bs_theme(version = 4)),
+      new_bs_preset("bootstrap", version = "4")
+    )
+
+    expect_equal(
+      theme_preset_info(bs_theme(version = 3)),
+      new_bs_preset("bootstrap", version = "3")
+    )
+  })
+
+  it("returns NULL if not given a bs_theme object", {
+    expect_null(theme_preset_info(list()))
+  })
 })

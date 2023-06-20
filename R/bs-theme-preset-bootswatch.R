@@ -15,11 +15,8 @@ bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
 #' @export
 theme_bootswatch <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
-
-  swatch <- grep("^bs_bootswatch_", class(theme), value = TRUE)
-  if (!length(swatch)) return(NULL)
-
-  sub("^bs_bootswatch_", "", swatch)
+  if (!"bs_preset_bootswatch" %in% class(theme)) return(NULL)
+  theme_preset_info(theme)$name
 }
 
 #' Obtain a theme's Bootstrap version
@@ -30,8 +27,12 @@ theme_bootswatch <- function(theme) {
 theme_version <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
 
-  version <- grep("^bs_version_", class(theme), value = TRUE)
-  sub("^bs_version_", "", version)
+  version_class <- grep("^bs_version_", class(theme), value = TRUE)
+  if (length(version_class) > 0) {
+    sub("^bs_version_", "", version_class)
+  } else {
+    theme_preset_info(theme)$version
+  }
 }
 
 
@@ -86,6 +87,8 @@ bootswatch_bundle <- function(bootswatch, version) {
     bootswatch = sass_layer(
       file_attachments = attachments,
       defaults = list(
+        "bslib-preset-type" = "bootswatch",
+        "bslib-preset-name" = bootswatch,
         # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
         '$web-font-path: "font.css" !default;',
         bootswatch_sass_file(bootswatch, "variables", version),
