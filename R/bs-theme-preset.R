@@ -66,12 +66,17 @@ bs_preset_bundle.default <- function(preset, ...) {
 
 #' @export
 bs_preset_bundle.bs_preset <- function(preset, ...) {
-  switch(
-    preset$type %||% "",
-    builtin = builtin_bundle(preset$name, version = preset$version),
-    bootswatch = bootswatch_bundle(preset$name, version = preset$version),
-    NextMethod()
-  )
+  NextMethod()
+}
+
+#' @export
+bs_preset_bundle.bs_preset_builtin <- function(preset, ...) {
+  builtin_bundle(preset$name, version = preset$version)
+}
+
+#' @export
+bs_preset_bundle.bs_preset_bootswatch <- function(preset, ...) {
+  bootswatch_bundle(preset$name, version = preset$version)
 }
 
 assert_preset_scalar_string <- function(var, .frame = rlang::caller_env()) {
