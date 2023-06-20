@@ -8,7 +8,7 @@
 \usage{
 bs_theme(
   version = version_default(),
-  name = NULL,
+  preset = NULL,
   ...,
   bg = NULL,
   fg = NULL,
@@ -28,7 +28,7 @@ bs_theme(
 bs_theme_update(
   theme,
   ...,
-  name = NULL,
+  preset = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -51,7 +51,7 @@ is_bs_theme(x)
 for possible values). Defaults to the currently recommended version
 for new projects (currently Bootstrap 5).}
 
-\item{name}{The name of a theme preset, either a built-in theme provided by
+\item{preset}{The name of a theme preset, either a built-in theme provided by
 bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}} and
 \code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values). This argument takes precedence
 over the \code{bootswatch} argument and only one \code{theme} or \code{bootswatch} can be
