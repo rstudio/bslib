@@ -106,7 +106,7 @@ To learn more about how to implement custom themes, as well as how to use them i
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bs_theme</span><span class="op">(</span></span>
 <span>  version <span class="op">=</span> <span class="fu"><a href="versions.html">version_default</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  preset <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fg <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -126,7 +126,7 @@ To learn more about how to implement custom themes, as well as how to use them i
 <span><span class="fu">bs_theme_update</span><span class="op">(</span></span>
 <span>  <span class="va">theme</span>,</span>
 <span>  <span class="va">...</span>,</span>
-<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  preset <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  primary <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -153,7 +153,7 @@ for possible values). Defaults to the currently recommended version
 for new projects (currently Bootstrap 5).</p></dd>
 
 
-<dt>name</dt>
+<dt>preset</dt>
 <dd><p>The name of a theme preset, either a built-in theme provided by
 bslib or a Bootswatch theme (see <code><a href="builtin_themes.html">builtin_themes()</a></code> and
 <code><a href="bootswatch_themes.html">bootswatch_themes()</a></code> for possible values). This argument takes precedence
