@@ -85,11 +85,3 @@ $form-text-color: $red !default;
 // Borders
 $input-border-color: $gray-500 !default;
 $border-radius: 3px !default;
-
-// Components
-$component-active-bg: $primary !default;
-$component-active-color: color-contrast($component-active-bg, $white) !default;
-
-// Shiny: selectInput() and selectizeInput()
-$selectize-color-dropdown-item-active: $component-active-bg !default;
-$selectize-color-dropdown-item-active-text: $component-active-color !default;
