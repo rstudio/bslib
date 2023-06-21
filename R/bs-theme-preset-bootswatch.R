@@ -15,8 +15,8 @@ bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
 #' @export
 theme_bootswatch <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
-  if (!"bs_preset_bootswatch" %in% class(theme)) return(NULL)
-  theme_preset_info(theme)$name
+  info <- theme_preset_info(theme)
+  if (identical("bootswatch", info$type)) info$name else NULL
 }
 
 #' Obtain a theme's Bootstrap version
@@ -27,12 +27,10 @@ theme_bootswatch <- function(theme) {
 theme_version <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
 
-  version_class <- grep("^bs_version_", class(theme), value = TRUE)
-  if (length(version_class) > 0) {
-    sub("^bs_version_", "", version_class)
-  } else {
-    theme_preset_info(theme)$version
-  }
+  if (inherits(theme, "bs_version_3")) return("3")
+  if (inherits(theme, "bs_version_4")) return("4")
+  if (inherits(theme, "bs_version_5")) return("5")
+  theme_preset_info(theme)$version
 }
 
 
