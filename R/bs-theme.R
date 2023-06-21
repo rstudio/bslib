@@ -128,10 +128,14 @@ bs_theme <- function(version = version_default(), preset = NULL, ...,
   preset <- resolve_bs_preset(preset, bootswatch, version = version)
 
   bundle <- bs_bundle(
-    bs_theme_init(version, subclass = preset$theme_class),
+    bs_theme_init(version),
     bootstrap_bundle(version),
     bs_preset_bundle(preset)
   )
+
+  if (!is.null(preset$type)) {
+    bundle <- add_class(bundle, "bs_theme_with_preset")
+  }
 
   bs_theme_update(
     bundle, ...,
@@ -172,7 +176,7 @@ bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
 
     # Add in the new preset unless vanilla bootstrap was requested
     if (!identical(preset$name, "bootstrap")) {
-      theme <- add_class(theme, preset$theme_class)
+      theme <- add_class(theme, "bs_theme_with_preset")
       theme <- bs_bundle(theme, bs_preset_bundle(preset))
     }
   }
@@ -228,7 +232,7 @@ is_bs_theme <- function(x) {
 
 # Start an empty bundle with special classes that
 # theme_version() & theme_bootswatch() search for
-bs_theme_init <- function(version, subclass = NULL) {
+bs_theme_init <- function(version) {
   init_layer <- sass_layer(
       defaults = list(
         "bootstrap-version" = version,
@@ -244,7 +248,7 @@ bs_theme_init <- function(version, subclass = NULL) {
       )
     )
 
-  add_class(init_layer, c(subclass, paste0("bs_version_", version), "bs_theme"))
+  add_class(init_layer, c(paste0("bs_version_", version), "bs_theme"))
 }
 
 assert_bs_theme <- function(theme) {

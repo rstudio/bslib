@@ -1,4 +1,4 @@
-describe("new_theme_preset()", {
+describe("resolve_bs_preset()", {
   it("returns NULL if both `name` and `bootswatch` are missing", {
     expect_null(resolve_bs_preset(preset = NULL, bootswatch = NULL))
   })
@@ -76,30 +76,24 @@ describe("new_theme_preset()", {
     bsw_darkly <- resolve_bs_preset(bootswatch = "darkly", version = 5)
 
     expect_s3_class(bsw_darkly, "bs_preset")
-    expect_s3_class(bsw_darkly, "bs_preset_bootswatch")
     expect_equal(bsw_darkly$name, "darkly")
     expect_equal(bsw_darkly$version, "5")
-    expect_equal(bsw_darkly$theme_class, "bs_theme_with_preset")
   })
 
   it("returns a BS4 Bootswatch theme preset", {
     bsw_cosmo <- resolve_bs_preset(bootswatch = "cosmo", version = 4)
 
     expect_s3_class(bsw_cosmo, "bs_preset")
-    expect_s3_class(bsw_cosmo, "bs_preset_bootswatch")
     expect_equal(bsw_cosmo$name, "cosmo")
     expect_equal(bsw_cosmo$version, "4")
-    expect_equal(bsw_cosmo$theme_class, "bs_theme_with_preset")
   })
 
   it("returns a BS3 Bootswatch theme preset", {
     bsw_readable <- resolve_bs_preset(bootswatch = "readable", version = 3)
 
     expect_s3_class(bsw_readable, "bs_preset")
-    expect_s3_class(bsw_readable, "bs_preset_bootswatch")
     expect_equal(bsw_readable$name, "readable")
     expect_equal(bsw_readable$version, "3")
-    expect_equal(bsw_readable$theme_class, "bs_theme_with_preset")
   })
 
   it("returns a bootswatch theme preset if `name` is used instead of `bootswatch`", {
@@ -123,10 +117,8 @@ describe("new_theme_preset()", {
     shiny <- resolve_bs_preset(preset = "shiny", version = 5)
 
     expect_s3_class(shiny, "bs_preset")
-    expect_s3_class(shiny, "bs_preset_builtin")
     expect_equal(shiny$name, "shiny")
     expect_equal(shiny$version, "5")
-    expect_equal(shiny$theme_class, "bs_theme_with_preset")
   })
 })
 
@@ -134,6 +126,10 @@ test_that("bs_preset_bundle() returns `NULL` for default or empty preset", {
   expect_null(bs_preset_bundle(resolve_bs_preset(preset = "default")))
   expect_null(bs_preset_bundle(resolve_bs_preset(bootswatch = "default")))
   expect_null(bs_preset_bundle(NULL))
+})
+
+test_that("bs_preset_bundle() throws for unknown preset$type", {
+  expect_error(bs_preset_bundle(new_bs_preset("invalid", 5, type = "unknown")))
 })
 
 describe("theme_preset_info()", {

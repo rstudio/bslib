@@ -33,48 +33,28 @@ resolve_bs_preset <- function(
 }
 
 new_bs_preset <- function(name, version, type = NULL) {
-  subclass <- if (!is.null(type)) paste0("bs_preset_", type)
-
   preset <- list(
     version = version, # bootstrap version
     name = name,       # preset name
-    type = type,       # preset type (e.g. "builtin", "bootswatch")
-    # class to add to `bs_theme` object when this preset is included
-    theme_class = if (!is.null(type)) "bs_theme_with_preset"
+    type = type        # preset type (e.g. "builtin", "bootswatch")
   )
 
-  structure(dropNulls(preset), class = c(subclass, "bs_preset"))
+  structure(dropNulls(preset), class = "bs_preset")
 }
 
-# The `bs_preset_bundle()` function is the main entry point for creating a
-# SASS bundle for a theme preset. This currently dispatches to create a
-# bundle for a built-in theme or for a Bootswatch theme.
-bs_preset_bundle <- function(preset, ...) {
-  UseMethod("bs_preset_bundle", preset)
-}
+# The `bs_preset_bundle()` function is the main entry point for creating a SASS
+# bundle for a theme preset. This calls out to the appropriate functions to
+# create a bundle for a built-in theme or for a Bootswatch theme.
+bs_preset_bundle <- function(preset) {
+  if (!inherits(preset, "bs_preset")) return(NULL)
+  if (is.null(preset$type)) return(NULL)
 
-#' @export
-bs_preset_bundle.default <- function(preset, ...) {
-  # Sub-classes are used to create a bundle for a specific type of preset; this
-  # default case is used for "bare" Bootstrap, or an empty preset bundle.
-  NULL
-}
-
-#' @export
-bs_preset_bundle.bs_preset <- function(preset, ...) {
-  NextMethod()
-}
-
-#' @export
-bs_preset_bundle.bs_preset_builtin <- function(preset, ...) {
-  stopifnot(inherits(preset, "bs_preset"))
-  builtin_bundle(preset$name, version = preset$version)
-}
-
-#' @export
-bs_preset_bundle.bs_preset_bootswatch <- function(preset, ...) {
-  stopifnot(inherits(preset, "bs_preset"))
-  bootswatch_bundle(preset$name, version = preset$version)
+  switch(
+    preset$type,
+    bootswatch = bootswatch_bundle(preset$name, version = preset$version),
+    builtin = builtin_bundle(preset$name, version = preset$version),
+    stop("Unknown preset type: ", preset$type)
+  )
 }
 
 theme_preset_info <- function(theme) {
