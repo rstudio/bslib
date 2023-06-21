@@ -78,6 +78,7 @@ describe("resolve_bs_preset()", {
     expect_s3_class(bsw_darkly, "bs_preset")
     expect_equal(bsw_darkly$name, "darkly")
     expect_equal(bsw_darkly$version, "5")
+    expect_equal(bsw_darkly$theme_class, theme_preset_class())
   })
 
   it("returns a BS4 Bootswatch theme preset", {
@@ -86,6 +87,7 @@ describe("resolve_bs_preset()", {
     expect_s3_class(bsw_cosmo, "bs_preset")
     expect_equal(bsw_cosmo$name, "cosmo")
     expect_equal(bsw_cosmo$version, "4")
+    expect_equal(bsw_cosmo$theme_class, theme_preset_class())
   })
 
   it("returns a BS3 Bootswatch theme preset", {
@@ -94,6 +96,7 @@ describe("resolve_bs_preset()", {
     expect_s3_class(bsw_readable, "bs_preset")
     expect_equal(bsw_readable$name, "readable")
     expect_equal(bsw_readable$version, "3")
+    expect_equal(bsw_readable$theme_class, theme_preset_class())
   })
 
   it("returns a bootswatch theme preset if `name` is used instead of `bootswatch`", {
@@ -119,6 +122,7 @@ describe("resolve_bs_preset()", {
     expect_s3_class(shiny, "bs_preset")
     expect_equal(shiny$name, "shiny")
     expect_equal(shiny$version, "5")
+    expect_equal(shiny$theme_class, theme_preset_class())
   })
 })
 
