@@ -68,7 +68,7 @@ theme_preset_info <- function(theme) {
   new_bs_preset(
     name = if (!is.na(name)) name else "bootstrap",
     version = info[["bootstrap-version"]],
-    type = if (!is_na(type)) type
+    type = if (!is.na(type)) type
   )
 }
 
