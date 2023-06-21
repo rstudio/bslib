@@ -36,10 +36,11 @@ new_bs_preset <- function(name, version, type = NULL) {
   subclass <- if (!is.null(type)) paste0("bs_preset_", type)
 
   preset <- list(
-    version = version,
-    name = name,
-    type = type,
-    class = if (!is.null(subclass)) c(subclass, "bs_theme_with_preset")
+    version = version, # bootstrap version
+    name = name,       # preset name
+    type = type,       # preset type (e.g. "builtin", "bootswatch")
+    # class to add to `bs_theme` object when this preset is included
+    theme_class = if (!is.null(type)) "bs_theme_with_preset"
   )
 
   structure(dropNulls(preset), class = c(subclass, "bs_preset"))

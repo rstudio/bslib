@@ -128,7 +128,7 @@ bs_theme <- function(version = version_default(), preset = NULL, ...,
   preset <- resolve_bs_preset(preset, bootswatch, version = version)
 
   bundle <- bs_bundle(
-    bs_theme_init(version, subclass = preset$class),
+    bs_theme_init(version, subclass = preset$theme_class),
     bootstrap_bundle(version),
     bs_preset_bundle(preset)
   )
@@ -167,16 +167,14 @@ bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
     if (theme_has_preset) {
       # remove the old preset
       theme <- bs_remove(theme, theme_preset_info(theme)$type)
-      old_preset_classes <- c(
-        grep("^bs_preset_", class(theme), value = TRUE),
-        "bs_theme_with_preset"
-      )
-      class(theme) <- setdiff(class(theme), old_preset_classes)
+      class(theme) <- setdiff(class(theme), "bs_theme_with_preset")
     }
 
-    # Add the new preset (both no-op when preset$name is "bootstrap")
-    theme <- add_class(theme, preset$class)
-    theme <- bs_bundle(theme, bs_preset_bundle(preset))
+    # Add in the new preset unless vanilla bootstrap was requested
+    if (!identical(preset$name, "bootstrap")) {
+      theme <- add_class(theme, preset$theme_class)
+      theme <- bs_bundle(theme, bs_preset_bundle(preset))
+    }
   }
 
   # See R/bs-theme-update.R for the implementation of these
