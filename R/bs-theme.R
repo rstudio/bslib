@@ -230,7 +230,11 @@ is_bs_theme <- function(x) {
 # theme_version() & theme_bootswatch() search for
 bs_theme_init <- function(version, subclass = NULL) {
   add_class(
-    sass_layer(defaults = list("bootstrap-version" = version)),
+    sass_layer(defaults = list(
+      "bootstrap-version" = version,
+      "bslib-preset-name" = "null !default",
+      "bslib-preset-type" = "null !default"
+    )),
     c(
       subclass,
       paste0("bs_version_", version),
