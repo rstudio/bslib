@@ -60,16 +60,15 @@ bs_preset_bundle <- function(preset) {
 theme_preset_info <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
 
-  theme_vars <- c("bslib-preset-type", "bslib-preset-name", "bootstrap-version")
-  info <- bs_get_variables(theme, theme_vars)
+  info <- bs_get_variables(theme, c("bslib-preset-type", "bslib-preset-name", "bootstrap-version"))
 
-  name <- if (!is.na(info[["bslib-preset-name"]])) info[["bslib-preset-name"]]
-  type <- if (!is.na(info[["bslib-preset-type"]])) info[["bslib-preset-type"]]
+  name <- info[["bslib-preset-name"]]
+  type <- info[["bslib-preset-type"]]
 
   new_bs_preset(
-    name = name %||% "bootstrap",
+    name = if (!is.na(name)) name else "bootstrap",
     version = info[["bootstrap-version"]],
-    type = type
+    type = if (!is_na(type)) type
   )
 }
 
