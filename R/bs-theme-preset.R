@@ -1,5 +1,5 @@
 # Class added or removed from `bs_theme` when a theme includes a preset
-THEME_PRESET_CLASS <- "bs_theme_preset"
+THEME_PRESET_CLASS <- "bs_theme_with_preset"
 
 resolve_bs_preset <- function(
   preset = NULL,
