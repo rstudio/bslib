@@ -1,4 +1,4 @@
-# resolve_bs_preset(): throws an error if both `name` and `bootswatch` are provided
+# new_theme_preset(): throws an error if both `name` and `bootswatch` are provided
 
     Code
       resolve_bs_preset(preset = "name", bootswatch = "bootswatch")
@@ -9,7 +9,7 @@
       * `preset = "bootswatch"`
       * `bootswatch = "bootswatch"`
 
-# resolve_bs_preset(): throws an error if `name` or `bootswatch` are not scalar strings
+# new_theme_preset(): throws an error if `name` or `bootswatch` are not scalar strings
 
     Code
       resolve_bs_preset(preset = c("a", "b"))
@@ -27,7 +27,7 @@
       x Bad: `bootswatch = c("flatly", "darkly")`
       v Good: `bootswatch = "flatly"`
 
-# resolve_bs_preset(): throws an error if `name` or `bootswatch` don't match existing presets
+# new_theme_preset(): throws an error if `name` or `bootswatch` don't match existing presets
 
     Code
       resolve_bs_preset(preset = "not_a_preset", version = 4)

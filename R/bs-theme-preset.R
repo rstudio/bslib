@@ -36,8 +36,7 @@ new_bs_preset <- function(name, version, type = NULL) {
   preset <- list(
     version = version, # bootstrap version
     name = name,       # preset name
-    type = type,       # preset type (e.g. "builtin", "bootswatch")
-    theme_class = if (!is.null(type)) theme_preset_class()
+    type = type        # preset type (e.g. "builtin", "bootswatch")
   )
 
   structure(dropNulls(preset), class = "bs_preset")
@@ -71,10 +70,6 @@ theme_preset_info <- function(theme) {
     version = info[["bootstrap-version"]],
     type = if (!is.na(type)) type
   )
-}
-
-theme_preset_class <- function() {
-  "bs_theme_with_preset"
 }
 
 assert_preset_scalar_string <- function(var, .frame = rlang::caller_env()) {
