@@ -7,8 +7,8 @@ test_that("theme_version() works for current versions", {
 })
 
 test_that("theme_version() uses class first, then sass bundle", {
-  theme <- bs_theme(version = 5)
-  theme_unclassed <- `class<-`(theme, setdiff(class(theme), "bs_version_5"))
+  theme <- theme_unclassed <- bs_theme(version = 5)
+  class(theme_unclassed) <- setdiff(class(theme), "bs_version_5")
   theme_99 <- add_class(theme_unclassed, "bs_version_99")
 
   # These should use the class information
