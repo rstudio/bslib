@@ -27,9 +27,9 @@ theme_bootswatch <- function(theme) {
 theme_version <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
 
-  swatch <- grep("^bs_bootswatch_", class(theme), value = TRUE)
-  if (length(swatch)) {
-    return(sub("^bs_bootswatch_", "", swatch))
+  version <- grep("^bs_version_", class(theme), value = TRUE)
+  if (length(version)) {
+    return(sub("^bs_version_", "", version))
   }
 
   theme_preset_info(theme)$version

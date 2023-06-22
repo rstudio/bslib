@@ -166,7 +166,7 @@ bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
   preset <- resolve_bs_preset(preset, bootswatch, version = theme_version(theme))
 
   if (!is.null(preset)) {
-    theme_has_preset <- inherits(theme, "bs_theme_with_preset")
+    theme_has_preset <- inherits(theme, theme_preset_class())
 
     if (theme_has_preset) {
       # remove the old preset
