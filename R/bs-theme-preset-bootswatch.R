@@ -28,10 +28,11 @@ theme_version <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
 
   version <- grep("^bs_version_", class(theme), value = TRUE)
-  if (length(version)) {
+  if (length(version) == 1) {
     return(sub("^bs_version_", "", version))
   }
 
+  # If no version class, or more than one class, we consult the sass bundle
   theme_preset_info(theme)$version
 }
 
