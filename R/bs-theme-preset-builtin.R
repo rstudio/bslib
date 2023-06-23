@@ -22,19 +22,22 @@ builtin_bundle <- function(name = "shiny", version = version_default()) {
     )
   }
 
-  path_variables <- path_builtin_theme(name, "_variables.scss", version = version)
-  path_rules <- path_builtin_theme(name, "_rules.scss", version = version)
+  sass_parts <- rlang::set_names(c("variables", "mixins", "rules"))
+
+  sass_files <- lapply(sass_parts, function(part) {
+    path <- path_builtin_theme(name, paste0("_", part, ".scss"), version = version)
+    if (file.exists(path)) sass_file(path)
+  })
 
   sass_bundle(
     "builtin" = sass_layer(
       file_attachments = attachments,
       defaults = list(
         '$web-font-path: "font.css" !default;',
-        sass_file(path_variables)
+        sass_files$variables
       ),
-      rules = list(
-        if (file.exists(path_rules)) sass_file(path_rules)
-      )
+      mixins = list(sass_files$mixins),
+      rules = list(sass_files$rules)
     )
   )
 }
