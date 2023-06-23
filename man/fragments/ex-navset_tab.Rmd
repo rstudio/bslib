@@ -18,7 +18,7 @@ render_screenshot <- function(x, options) {
   x <- tagList(
     x,
     tags$head(tags$style("
-      body { min-height: 300px; padding: 1rem }
+      body { min-height: 300px; padding: 1rem; overflow: hidden; }
       .bslib-card .card-body { min-height: 200px; }
     "))
   )

@@ -1,0 +1,87 @@
+/*-- scss:defaults --*/
+$blue: #007bc2 !default;
+$indigo: #4b00c1 !default;
+$purple: #74149c !default;
+$pink: #bf007f !default;
+$red: #c10000 !default;
+$orange: #f45100 !default;
+$yellow: #f9b928 !default;
+$green: #00891a !default;
+$teal: #00bf7f !default;
+$cyan: #03c7e8 !default;
+$white: #ffffff !default;
+
+$gray: #606060 !default;
+$gray-dark: #303030 !default;
+$gray-100: #f8f8f8 !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #cdd4da !default;
+$gray-500: #8d959e !default;
+$gray-600: #707782 !default;
+$gray-700: #48505f !default;
+$gray-800: #343a46 !default;
+$gray-900: #1d1f21 !default;
+
+$default: #dee2e6 !default;
+$primary: #007bc2 !default;
+$secondary: #404040 !default;
+$success: #00891a !default;
+$info: #03c7e8 !default;
+$warning: #f9b928 !default;
+$danger: #c10000 !default;
+$light: #f8f8f8 !default;
+$dark: #202020 !default;
+
+$default-rgb: 222, 226, 230 !default;
+$primary-rgb: 0, 123, 194 !default;
+$secondary-rgb: 64, 64, 64 !default;
+$success-rgb: 0, 137, 26 !default;
+$info-rgb: 3, 199, 232 !default;
+$warning-rgb: 249, 185, 40 !default;
+$danger-rgb: 193, 0, 0 !default;
+$light-rgb: 248, 248, 248 !default;
+$dark-rgb: 32, 32, 32 !default;
+$white-rgb: 255, 255, 255 !default;
+$black-rgb: 0, 0, 0 !default;
+$body-color-rgb: 52, 58, 70 !default;
+$body-bg-rgb: 255, 255, 255 !default;
+
+$gradient: linear-gradient(
+  180deg,
+  rgba(255, 255, 255, 0.15),
+  rgba(255, 255, 255, 0)
+) !default;
+
+$base-font: "Open Sans" !default;
+$font-family-sans-serif: $base-font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-monospace: "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace	!default;
+$headings-font-family: $font-family-sans-serif !default;
+
+$root-font-size: 18px !default;
+$body-font-size: 1rem !default;
+$h1-font-size: 2.1rem !default;
+
+$body-font-weight: 400 !default;
+$headings-font-weight: 400 !default;
+
+$body-color: $gray-900 !default;
+$body-bg: #ffffff !default;
+
+$hr-margin-y: 2rem !default;
+
+$input-btn-font-size: 15px !default;
+
+$btn-font-weight: 500 !default;
+$btn-padding-y: 0.75em !default;
+$btn-padding-x: 2em !default;
+
+
+$form-check-input-width: 1.2em !default;
+$form-check-input-border-radius: 2px !default;
+$form-check-margin-bottom: 0.25rem !default;
+$form-text-color: $red !default;
+
+$input-border-color: $gray-500 !default;
+
+$border-radius: 3px !default;

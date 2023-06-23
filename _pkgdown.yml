@@ -67,7 +67,7 @@ navbar:
           href: https://rstudio.github.io/bslib/reference/navset.html#details
         - text: Filling layout
           href: articles/filling.html
-        
+
 
     reference:
       text: Reference
@@ -162,6 +162,7 @@ reference:
     - theme_version
     - theme_bootswatch
     - bootswatch_themes
+    - builtin_themes
     - version_default
 
 

@@ -57,6 +57,14 @@
 #' @param version The major version of Bootstrap to use (see [versions()]
 #'   for possible values). Defaults to the currently recommended version
 #'   for new projects (currently Bootstrap 5).
+#' @param preset The name of a theme preset, either a built-in theme provided by
+#'   bslib or a Bootswatch theme (see [builtin_themes()] and
+#'   [bootswatch_themes()] for possible values). This argument takes precedence
+#'   over the `bootswatch` argument and only one `theme` or `bootswatch` can be
+#'   provided. When provided to `bs_theme_update()`, any previous preset theme
+#'   is first removed before the new theme preset is applied. You can use
+#'   `theme = "default"` to remove any preset theme and to revert to a base
+#'   Bootstrap theme.
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
@@ -111,19 +119,22 @@
 #' theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 #'
 #' @export
-bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
+bs_theme <- function(version = version_default(), preset = NULL, ...,
                      bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
-                     font_scale = NULL) {
+                     font_scale = NULL, bootswatch = NULL) {
 
-  theme <- bs_bundle(
-    bs_theme_init(version, bootswatch),
+  preset <- resolve_bs_preset(preset, bootswatch, version = version)
+
+  bundle <- bs_bundle(
+    bs_theme_init(version, subclass = preset$class),
     bootstrap_bundle(version),
-    bootswatch_bundle(bootswatch, version)
+    bs_preset_bundle(preset)
   )
+
   bs_theme_update(
-    theme, ...,
+    bundle, ...,
     bg = bg, fg = fg,
     primary = primary,
     secondary = secondary,
@@ -141,25 +152,32 @@ bs_theme <- function(version = version_default(), bootswatch = NULL, ...,
 #' @rdname bs_theme
 #' @param theme a [bs_theme()] object.
 #' @export
-bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
+bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
                             primary = NULL, secondary = NULL, success = NULL,
                             info = NULL, warning = NULL, danger = NULL,
                             base_font = NULL, code_font = NULL, heading_font = NULL,
-                            font_scale = NULL) {
+                            font_scale = NULL, bootswatch = NULL) {
   assert_bs_theme(theme)
 
-  if (!is.null(bootswatch)) {
-    old_swatch <- theme_bootswatch(theme)
-    # You're only allowed one Bootswatch theme!
-    if (length(old_swatch)) {
-      theme <- bs_remove(theme, "bootswatch")
-      class(theme) <- setdiff(class(theme), bootswatch_class(old_swatch))
+  theme_has_preset <- any(grepl("^bs_(builtin|bootswatch)_", class(theme)))
+
+  preset <- resolve_bs_preset(preset, bootswatch, version = theme_version(theme))
+
+  if (!is.null(preset)) {
+    if (theme_has_preset) {
+      old_preset_class <- grep("^bs_(builtin|bootswatch)_", class(theme), value = TRUE)
+      old_preset_type <- sub("^bs_(builtin|bootswatch)_.+", "\\1", old_preset_class)
+
+      # remove the old preset
+      theme <- bs_remove(theme, old_preset_type)
+      class(theme) <- setdiff(class(theme), old_preset_class)
     }
-    if (!identical(bootswatch, "default")) {
-      theme <- add_class(theme, bootswatch_class(bootswatch))
-      theme <- bs_bundle(theme, bootswatch_bundle(bootswatch, theme_version(theme)))
-    }
+
+    # Add the new preset (both no-op when preset$name is "default")
+    theme <- add_class(theme, preset$class)
+    theme <- bs_bundle(theme, bs_preset_bundle(preset))
   }
+
   # See R/bs-theme-update.R for the implementation of these
   theme <- bs_base_colors(theme, bg = bg, fg = fg)
   theme <- bs_accent_colors(
@@ -180,13 +198,15 @@ bs_theme_update <- function(theme, ..., bootswatch = NULL, bg = NULL, fg = NULL,
 
 #' @rdname bs_global_theme
 #' @export
-bs_global_theme_update <- function(..., bootswatch = NULL, bg = NULL, fg = NULL,
+bs_global_theme_update <- function(..., preset = NULL, bg = NULL, fg = NULL,
                                    primary = NULL,  secondary = NULL, success = NULL,
                                    info = NULL, warning = NULL, danger = NULL,
-                                   base_font = NULL, code_font = NULL, heading_font = NULL) {
+                                   base_font = NULL, code_font = NULL, heading_font = NULL, bootswatch = NULL) {
   theme <- assert_global_theme("bs_theme_global_update()")
   bs_global_set(bs_theme_update(
     theme, ...,
+    preset = preset,
+    bootswatch = bootswatch,
     bg = bg, fg = fg,
     primary = primary,
     secondary = secondary,
@@ -209,19 +229,15 @@ is_bs_theme <- function(x) {
 
 # Start an empty bundle with special classes that
 # theme_version() & theme_bootswatch() search for
-bs_theme_init <- function(version, bootswatch = NULL) {
+bs_theme_init <- function(version, subclass = NULL) {
   add_class(
     sass_layer(defaults = list("bootstrap-version" = version)),
     c(
-      bootswatch_class(bootswatch),
+      subclass,
       paste0("bs_version_", version),
       "bs_theme"
     )
   )
-}
-
-bootswatch_class <- function(bootswatch = NULL) {
-  if (is.null(bootswatch)) NULL else paste0("bs_bootswatch_", bootswatch)
 }
 
 assert_bs_theme <- function(theme) {
@@ -414,109 +430,5 @@ bs3_accessibility_bundle <- function() {
       script = "plugins/js/bootstrap-accessibility.min.js",
       all_files = FALSE
     )
-  )
-}
-
-# -----------------------------------------------------------------
-# Bootswatch bundle
-# -----------------------------------------------------------------
-
-bootswatch_bundle <- function(bootswatch, version) {
-  if (!length(bootswatch) || isTRUE(bootswatch %in% c("default", "bootstrap"))) {
-    return(NULL)
-  }
-
-  bootswatch <- switch_version(
-    version,
-    default = {
-      switch(
-        bootswatch,
-        paper = {
-          message("Bootswatch 3 theme paper has been renamed to materia in version 4 (using that theme instead)")
-          "materia"
-        },
-        readable = {
-          message("Bootswatch 3 theme readable has been renamed to litera in version 4 (using that theme instead)")
-          "litera"
-        },
-        match.arg(bootswatch, bootswatch_themes(version))
-      )
-    },
-    three = match.arg(bootswatch, bootswatch_themes(version))
-  )
-
-  # Attach local font files, if necessary
-  font_css <- file.path(bootswatch_dist(version), bootswatch, "font.css")
-  attachments <- if (file.exists(font_css)) {
-    c(
-      "font.css" = font_css,
-      fonts = system_file("fonts", package = "bslib")
-    )
-  }
-
-  sass_bundle(
-    bootswatch = sass_layer(
-      file_attachments = attachments,
-      defaults = list(
-        # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
-        '$web-font-path: "font.css" !default;',
-        bootswatch_sass_file(bootswatch, "variables", version),
-        # Unless we change navbarPage()'s markup, BS4+ will likely want BS3 compatibility
-        switch_version(
-          version, three = "", default = bs3compat_navbar_defaults(bootswatch)
-        )
-      ),
-      rules = list(
-        bootswatch_sass_file(bootswatch, "bootswatch", version),
-        # For some reason sketchy sets .dropdown-menu{overflow: hidden}
-        # but this prevents .dropdown-submenu from working properly
-        # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
-        if (identical(bootswatch, "sketchy")) ".dropdown-menu{ overflow: inherit; }" else "",
-        # Several Bootswatch themes (e.g., zephyr, simplex, etc) add custom .btn-secondary
-        # rules that should also apply to .btn-default
-        ".btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-outline-primary):not(.btn-outline-info):not(.btn-outline-success):not(.btn-outline-warning):not(.btn-outline-danger):not(.btn-outline-dark) {
-          @extend .btn-secondary !optional;
-        }"
-      )
-    )
-  )
-}
-
-
-# Mappings from BS3 navbar classes to BS4
-bs3compat_navbar_defaults <- function(bootswatch) {
-  # Do nothing if this isn't a Bootswatch 3 theme
-  if (!bootswatch %in% c("materia", "litera", bootswatch_themes(3))) {
-    return("")
-  }
-
-  bg_colors <- switch(
-    bootswatch,
-    cerulean = c("primary", "info"),
-    cosmo = c("dark", "primary"),
-    cyborg = c("body-bg", "secondary"),
-    darkly = c("primary", "success"),
-    flatly = c("primary", "success"),
-    journal = c("light", "primary"),
-    lumen = c("light", "white"),
-    # i.e., materia
-    paper = ,
-    materia = c("light", "primary"),
-    readable = ,
-    litera = c("light", "dark"),
-    sandstone = c("dark", "success"),
-    simplex = c("light", "primary"),
-    slate = c("primary", "light"),
-    spacelab = c("light", "primary"),
-    superhero = c("dark", "primary"),
-    united = c("primary", "dark"),
-    yeti = c("dark", "primary"),
-    stop("Didn't recognize Bootswatch 3 theme: ", bootswatch, call. = FALSE)
-  )
-
-
-  list(
-    sprintf('$navbar-light-bg: $%s !default;', bg_colors[1]),
-    sprintf('$navbar-dark-bg: $%s !default;', bg_colors[2])
   )
 }

@@ -56,7 +56,7 @@ accordion <- function(..., id = NULL, open = NULL, multiple = TRUE, class = NULL
   attrs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
 
-  if (isNamespaceLoaded("shiny")) {
+  if (!is.null(id) && isNamespaceLoaded("shiny")) {
     open <- shiny::restoreInput(id = id, default = open)
   }
 

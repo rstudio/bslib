@@ -1,7 +1,7 @@
 library(stringr)
 
 # if (Sys.getenv("RSTUDIO") == "1") {
-#   stop("Please run this script from the command line: `Rscript tools/fonts.R`")
+#   stop("Please run this script from the command line: `Rscript tools/download_preset_fonts.R`")
 # }
 
 # TODO: make sure this isn't drastically different from 2.1 Mb
@@ -14,8 +14,15 @@ extract_first_group <- function(x, pattern) {
   na.omit(sapply(matches, "[", 2))
 }
 
-download_and_copy_fonts <-  function(theme) {
-  theme_scss <- readLines(file.path(theme, "_bootswatch.scss"))
+download_and_copy_fonts <-  function(theme, rule_file = "_bootswatch.scss") {
+  theme_file <- file.path(theme, rule_file)
+
+  if (!file.exists(theme_file)) {
+    stop("Couldn't find '", rule_file, "' in ", theme)
+  }
+
+  theme_scss <- readLines(theme_file)
+
   web_font_path <- grep("$web-font-path:", theme_scss, value = TRUE, fixed = TRUE)
   if (!length(web_font_path)) {
     return()
@@ -65,7 +72,14 @@ themes3 <- list.dirs(
   recursive = FALSE,
   full.names = TRUE
 )
+builtin5 <- list.dirs(
+  "inst/builtin/bs5",
+  recursive = FALSE,
+  full.names = TRUE
+)
 
 lapply(themes5, download_and_copy_fonts)
 lapply(themes4, download_and_copy_fonts)
 lapply(themes3, download_and_copy_fonts)
+
+lapply(builtin5, download_and_copy_fonts, rule_file = "_rules.scss")
