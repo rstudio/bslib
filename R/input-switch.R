@@ -1,19 +1,23 @@
-#' Create a switch input
+#' Switch input control
 #'
-#' @param id an input id.
-#' @param label a label for the switch.
-#' @param value whether or not the switch should be checked by default.
-#' @param width a valid CSS unit defining the width.
+#' Create a switch control used to specify logical values.
+#'
+#' @param id An input id.
+#' @param label A label for the switch.
+#' @param value Whether or not the switch should be checked by default.
+#' @param width Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `width="200px"`).
 #' @export
-input_switch <- function(id, label, value = FALSE, width = NULL, inline = TRUE) {
-  tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width, inline = inline)
+input_switch <- function(id, label, value = FALSE, width = NULL) {
+  tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width)
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
   as_fragment(tag)
 }
 
 #' @rdname input_switch
+#' @inheritParams nav_insert
 #' @export
-update_switch <- function(id, label = NULL, value = NULL, session = shiny::getDefaultReactiveDomain()) {
+update_switch <- function(id, label = NULL, value = NULL, session = get_current_session()) {
   message <- dropNulls(list(label = label, value = value))
   session$sendInputMessage(id, message)
 }
