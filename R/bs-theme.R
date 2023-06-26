@@ -63,12 +63,12 @@
 #'   over the `bootswatch` argument and only one `theme` or `bootswatch` can be
 #'   provided. When provided to `bs_theme_update()`, any previous preset theme
 #'   is first removed before the new theme preset is applied. You can use
-#'   `theme = "default"` to remove any preset theme and to revert to a base
+#'   `theme = "bootstrap"` to remove any preset theme and to revert to a base
 #'   Bootstrap theme.
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
-#'   `bootswatch = "default"` to effectively remove the Bootswatch theme).
+#'   `bootswatch = "bootstrap"` to effectively remove the Bootswatch theme).
 #' @param ... arguments passed along to [bs_add_variables()].
 #' @param bg A color string for the background.
 #' @param fg A color string for the foreground.
@@ -128,10 +128,14 @@ bs_theme <- function(version = version_default(), preset = NULL, ...,
   preset <- resolve_bs_preset(preset, bootswatch, version = version)
 
   bundle <- bs_bundle(
-    bs_theme_init(version, subclass = preset$class),
+    bs_theme_init(version),
     bootstrap_bundle(version),
     bs_preset_bundle(preset)
   )
+
+  if (!is.null(preset$type)) {
+    bundle <- add_class(bundle, THEME_PRESET_CLASS)
+  }
 
   bs_theme_update(
     bundle, ...,
@@ -159,23 +163,22 @@ bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
                             font_scale = NULL, bootswatch = NULL) {
   assert_bs_theme(theme)
 
-  theme_has_preset <- any(grepl("^bs_(builtin|bootswatch)_", class(theme)))
-
   preset <- resolve_bs_preset(preset, bootswatch, version = theme_version(theme))
 
   if (!is.null(preset)) {
-    if (theme_has_preset) {
-      old_preset_class <- grep("^bs_(builtin|bootswatch)_", class(theme), value = TRUE)
-      old_preset_type <- sub("^bs_(builtin|bootswatch)_.+", "\\1", old_preset_class)
+    theme_has_preset <- inherits(theme, THEME_PRESET_CLASS)
 
+    if (theme_has_preset) {
       # remove the old preset
-      theme <- bs_remove(theme, old_preset_type)
-      class(theme) <- setdiff(class(theme), old_preset_class)
+      theme <- bs_remove(theme, theme_preset_info(theme)$type)
+      class(theme) <- setdiff(class(theme), THEME_PRESET_CLASS)
     }
 
-    # Add the new preset (both no-op when preset$name is "default")
-    theme <- add_class(theme, preset$class)
-    theme <- bs_bundle(theme, bs_preset_bundle(preset))
+    # Add in the new preset unless vanilla bootstrap was requested
+    if (!identical(preset$name, "bootstrap")) {
+      theme <- add_class(theme, THEME_PRESET_CLASS)
+      theme <- bs_bundle(theme, bs_preset_bundle(preset))
+    }
   }
 
   # See R/bs-theme-update.R for the implementation of these
@@ -229,15 +232,23 @@ is_bs_theme <- function(x) {
 
 # Start an empty bundle with special classes that
 # theme_version() & theme_bootswatch() search for
-bs_theme_init <- function(version, subclass = NULL) {
-  add_class(
-    sass_layer(defaults = list("bootstrap-version" = version)),
-    c(
-      subclass,
-      paste0("bs_version_", version),
-      "bs_theme"
+bs_theme_init <- function(version) {
+  init_layer <- sass_layer(
+      defaults = list(
+        "bootstrap-version" = version,
+        "bslib-preset-name" = "null !default",
+        "bslib-preset-type" = "null !default"
+      ),
+      rules = c(
+        ":root {",
+        "--bslib-bootstrap-version: #{$bootstrap-version};",
+        "--bslib-preset-name: #{$bslib-preset-name};",
+        "--bslib-preset-type: #{$bslib-preset-type};",
+        "}"
+      )
     )
-  )
+
+  add_class(init_layer, c(paste0("bs_version_", version), "bs_theme"))
 }
 
 assert_bs_theme <- function(theme) {

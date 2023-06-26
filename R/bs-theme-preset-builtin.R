@@ -33,6 +33,8 @@ builtin_bundle <- function(name = "shiny", version = version_default()) {
     "builtin" = sass_layer(
       file_attachments = attachments,
       defaults = list(
+        "bslib-preset-type" = "builtin",
+        "bslib-preset-name" = name,
         '$web-font-path: "font.css" !default;',
         sass_files$variables
       ),
