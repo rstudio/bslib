@@ -2,8 +2,22 @@
 #'
 #' These functions have been deprecated but remain for backwards compatibility.
 #'
+#' @section Navigation Containers:
+#'
+#'   Several functions for navigation containers were renamed in version 0.5.0:
+#'
+#'   - `nav()` was renamed [nav_panel()]
+#'   - `nav_content()` was renamed [nav_panel_hidden()]
+#'   - `navs_tab()` was renamed [navset_tab()]
+#'   - `navs_pill()` was renamed [navset_pill()]
+#'   - `navs_pill_list()` was renamed [navset_pill_list()]
+#'   - `navs_hidden()` was renamed [navset_hidden()]
+#'   - `navs_bar()` was renamed [navset_bar()]
+#'   - `navs_tab_card()` was renamed [navset_card_tab()]
+#'   - `navs_pill_card()` was renamed [navset_card_pill()]
+#'
 #' @keywords internal
-#' @rdname deprecated
+#' @name deprecated
 #' @returns a [bs_theme()] object.
 #' @export
 bs_theme_new <- function(...) {
@@ -124,3 +138,114 @@ bs_add_declarations <- function(theme, declarations) {
   .Deprecated("bs_add_mixins")
   bs_bundle(theme, sass_layer(declarations = declarations))
 }
+
+
+#' @rdname deprecated
+#' @export
+card_body_fill <- function(...) {
+  .Deprecated("card_body", old = "card_body_fill")
+  card_body(...)
+}
+
+#' @rdname deprecated
+#' @export
+page_fill <- function(...) {
+  .Deprecated("page_fillable", old = "page_fill")
+  page_fillable(...)
+}
+
+#  Legacy Nav Containers --------------------------------------------------
+# This is needed since some shiny functions like `tabPanel()` call
+# `nav()` underneath the hood. In a future release of shiny, we
+# could/should require bslib > 0.4.2, update it to use the new version
+# (`nav_panel()`), then we won't need this fancy deprecation
+deprecate_if_not_called_from_shiny <- function(old_name, new, version) {
+  new_name <- deparse(substitute(new))
+
+  function(...) {
+    caller_fn_env <- environment(rlang::caller_fn())
+    if (!is.null(caller_fn_env) && rlang::is_environment(caller_fn_env)) {
+      caller_fn_env <- rlang::env_name(caller_fn_env)
+    }
+    if (!identical(caller_fn_env, "namespace:shiny")) {
+      msg <- sprintf(
+        "`%s()` was deprecated in {bslib} version %s, use `%s()` instead.",
+        old_name, version, new_name
+      )
+      .Deprecated(msg = msg)
+    }
+    new(...)
+  }
+}
+
+#' @rdname deprecated
+#' @export
+nav <- deprecate_if_not_called_from_shiny(
+  old_name = "nav",
+  new = nav_panel,
+  version = "0.5.0"
+)
+
+#' @rdname deprecated
+#' @export
+nav_content <- deprecate_if_not_called_from_shiny(
+  old_name = "nav_content",
+  new = nav_panel_hidden,
+  version = "0.5.0"
+)
+
+#' @rdname deprecated
+#' @export
+navs_tab <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_tab",
+  new = navset_tab,
+  version = "0.5.0"
+)
+
+#' @rdname deprecated
+#' @export
+navs_pill <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_pill",
+  new = navset_pill,
+  version = "0.5.0"
+)
+
+#' @rdname deprecated
+#' @export
+navs_pill_list <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_pill_list",
+  new = navset_pill_list,
+  version = "0.5.0"
+)
+
+#' @rdname deprecated
+#' @export
+navs_hidden <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_hidden",
+  new = navset_hidden,
+  version = "0.5.0"
+)
+
+#' @rdname deprecated
+#' @export
+navs_bar <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_bar",
+  new = navset_bar,
+  version = "0.5.0"
+)
+
+#' @rdname deprecated
+#' @export
+navs_tab_card <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_tab_card",
+  new = navset_card_tab,
+  version = "0.5.0"
+)
+
+#' @rdname deprecated
+#' @export
+navs_pill_card <- deprecate_if_not_called_from_shiny(
+  old_name = "navs_pill_card",
+  new = navset_card_pill,
+  version = "0.5.0"
+)

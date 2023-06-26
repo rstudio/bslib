@@ -10,7 +10,7 @@ template:
   bslib:
     info: "#E6F2FD"
     base_font:
-      google: "Atkinson Hyperlegible"
+      google: {family: "Atkinson Hyperlegible", wght: [300, 400, 700], ital: [0, 1]}
     headings-color: "#206B72"
     link-color: "#216B73"
     link-decoration: underline var(--bs-info) dotted
@@ -24,27 +24,51 @@ navbar:
   bg: info
   type: light
   structure:
-    left:  [intro, articles, integration]
+    left:  [get-started, examples, theming, components, layouts]
     right: [reference, news, github]
   components:
     home: ~
-    articles:
-      text: Articles
+    get-started:
+      text: Get Started
       menu:
-        #- text: Why Sass over CSS?
-        #  href: articles/why-sass.html
-        - text: Cards
-          href: articles/cards.html
-        - text: Value Boxes
-          href: articles/value-boxes.html
-        - text: Layouts
-          href: articles/layouts.html
+        - text: Shiny dashboards
+          href: articles/dashboards.html
+        - text: Any Bootstrap project
+          href: articles/any-project.html
+        - text: Theming
+          href: articles/theming.html
+    #examples:
+    #  text: Examples
+    #  href: articles/examples.html
+    theming:
+      text: Theming
+      menu:
         - text: Theming variables
           href: articles/bs5-variables.html
         - text: Utility Classes
           href: articles/utility-classes.html
         - text: Custom components
           href: articles/custom-components.html
+    components:
+      text: Components
+      menu:
+        - text: Cards
+          href: articles/cards.html
+        - text: Sidebars
+          href: articles/sidebars.html
+        - text: Value Boxes
+          href: articles/value-boxes.html
+    layouts:
+      text: Layouts
+      menu:
+        - text: Multiple columns
+          href: articles/column-layout.html
+        - text: Multiple panels
+          href: https://rstudio.github.io/bslib/reference/navset.html#details
+        - text: Filling layout
+          href: articles/filling.html
+
+
     reference:
       text: Reference
       href: reference/index.html
@@ -56,6 +80,12 @@ navbar:
       href: https://github.com/rstudio/bslib
 
 reference:
+- title: Create a dashboard
+  contents:
+    - page_sidebar
+- title: Page layouts
+  contents:
+    - page
 - title: Theme creation
   description: |
     Tools for creating customized Bootstrap themes.
@@ -82,27 +112,32 @@ reference:
     UI controls for capturing user input
   contents:
     - input_switch
+- title: Accordions
+  description: |
+    Create collapsible sections of content
+  contents:
+    - accordion
+    - accordion_panel_set
 - title: Navigation
   description: |
     Create (tabbed) sections of content.
   contents:
-    - nav
-    - navs_tab
+    - nav-items
+    - navset
     - nav_select
-- title: Accordions
-  description: |
-    Create collapsable sections of content
-  contents:
-    - accordion
-    - accordion_panel_set
 - title: Layout multiple UI elements
   description: |
-    Useful layout templates
+    Layout helpers
   contents:
+    - layout_columns
+    - breakpoints
+    - layout_sidebar
     - layout_column_wrap
-- title: Page layouts
+- title: Fill items and fillable containers
+  description: |
+    Create and test for fill items and fillable containers
   contents:
-    - page
+    - as_fill_carrier
 - title: Dynamic theming
   description: |
     Create dynamically themable HTML widgets.
@@ -122,16 +157,22 @@ reference:
     Reduce the final CSS bundle size.
   contents:
     - bs_remove
-- title: Bootstrap SASS compilation
-  description: |
-    Compile themes into HTML dependencies and CSS strings.
-  contents:
-    - bs_theme_dependencies
-    - bs_dependency
 - title: Other utility functions
   contents:
     - bs_get_variables
     - theme_version
     - theme_bootswatch
     - bootswatch_themes
+    - builtin_themes
     - version_default
+
+
+  redirects:
+    - ["articles/cards.html#fixed-sizing", "articles/cards.html#scrolling-contents"]
+    - ["articles/cards.html#responsive-sizing", "articles/cards.html#filling-contents"]
+    - ["articles/cards.html#fixed-responsive-sizing", "articles/cards.html#scrolling-filling"]
+    - ["articles/cards.html#dynamic-rendering-shiny", "articles/cards.html#shiny"]
+    - ["reference/nav.html", "reference/nav-items.html"]
+    - ["reference/navs.html", "reference/navset.html"]
+    - ["articles/custom-theming.html", "articles/theming.html"]
+    - ["articles/bslib.html", "articles/any-project.html"]

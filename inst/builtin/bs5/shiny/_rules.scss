@@ -1,0 +1,25 @@
+/*-- scss:rules --*/
+$web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Source+Code+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap" !default;
+@if $web-font-path {
+  @import url($web-font-path);
+}
+
+// move checkbox and radio text slightly to the right
+.checkbox,
+.radio {
+  input {
+    margin-right: 0.35em;
+  }
+}
+
+// make non-selected items slightly different visually (but still 3:1 contrast)
+// TODO: Restore this if we fix https://github.com/rstudio/shiny/issues/3839
+// .selectize-dropdown-content .option.active {
+//   background-color: tint-color($blue, 25%);
+//   color: $white;
+// }
+
+// fix "to" width in the middle of the date picker
+.shiny-date-range-input .input-daterange .input-group-addon {
+  margin-right: -1px;
+}

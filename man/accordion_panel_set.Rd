@@ -39,7 +39,7 @@ accordion_panel_update(
 \item{id}{an character string that matches an existing \code{\link[=accordion]{accordion()}}'s \code{id}.}
 
 \item{values}{either a character string (used to identify particular
-\href{s}{accordion_panel()} by their \code{value}) or \code{TRUE} (i.e., all \code{values}).}
+\code{\link[=accordion_panel]{accordion_panel()}}s by their \code{value}) or \code{TRUE} (i.e., all \code{values}).}
 
 \item{session}{a shiny session object (the default should almost always be
 used).}

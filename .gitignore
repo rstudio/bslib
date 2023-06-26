@@ -5,6 +5,7 @@ docs/
 sandbox/
 revdep/
 inst/themer-demo/deploy/rsconnect
+inst/examples/*/rsconnect/
 
 node_modules/
 
@@ -17,3 +18,7 @@ inst/doc
 inst/yarn.lock
 
 inst/rmarkdown/templates/*/skeleton/skeleton.html
+
+vignettes/*.html
+# rendered examples that appear in iframes
+vignettes/examples

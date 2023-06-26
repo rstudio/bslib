@@ -4,7 +4,7 @@
 \alias{page}
 \alias{page_fluid}
 \alias{page_fixed}
-\alias{page_fill}
+\alias{page_fillable}
 \alias{page_navbar}
 \title{Create a Bootstrap page}
 \usage{
@@ -14,13 +14,26 @@ page_fluid(..., title = NULL, theme = bs_theme(), lang = NULL)
 
 page_fixed(..., title = NULL, theme = bs_theme(), lang = NULL)
 
-page_fill(..., padding = 0, title = NULL, theme = bs_theme(), lang = NULL)
+page_fillable(
+  ...,
+  padding = NULL,
+  gap = NULL,
+  fillable_mobile = FALSE,
+  title = NULL,
+  theme = bs_theme(),
+  lang = NULL
+)
 
 page_navbar(
   ...,
   title = NULL,
   id = NULL,
   selected = NULL,
+  sidebar = NULL,
+  fillable = TRUE,
+  fillable_mobile = FALSE,
+  gap = NULL,
+  padding = NULL,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
@@ -38,14 +51,7 @@ page_navbar(
 
 \item{title}{The browser window title (defaults to the host URL of the page)}
 
-\item{theme}{One of the following:
-\itemize{
-\item \code{NULL} (the default), which implies a "stock" build of Bootstrap 3.
-\item A \code{\link[bslib:bs_theme]{bslib::bs_theme()}} object. This can be used to replace a stock
-build of Bootstrap 3 with a customized version of Bootstrap 3 or higher.
-\item A character string pointing to an alternative Bootstrap stylesheet
-(normally a css file within the www directory, e.g. \code{www/bootstrap.css}).
-}}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{lang}{ISO 639-1 language code for the HTML page, such as "en" or "ko".
 This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="en">}.
@@ -60,9 +66,26 @@ right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
 
-\item{id}{a character string used for dynamically updating the container (see \code{\link[=nav_select]{nav_select()}}).}
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
 
-\item{selected}{a character string matching the \code{value} of a particular \code{\link[=nav]{nav()}} item to selected by default.}
+\item{fillable_mobile}{Whether or not \code{fillable} pages should fill the viewport's
+height on mobile devices (i.e., narrow windows).}
+
+\item{id}{a character string used for dynamically updating the container (see
+\code{\link[=nav_select]{nav_select()}}).}
+
+\item{selected}{a character string matching the \code{value} of a particular
+\code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
+
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav_panel]{nav_panel()}}
+page.}
+
+\item{fillable}{Whether or not to allow \code{fill} items to grow/shrink to fit
+the browser window. If \code{TRUE}, all \code{\link[=nav_panel]{nav_panel()}} pages are \code{fillable}. A
+character vector, matching the \code{value} of \code{\link[=nav_panel]{nav_panel()}}s to be filled, may
+also be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes
+the main content portion fillable.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at
@@ -100,13 +123,7 @@ These functions are small wrappers around shiny's page constructors (i.e., \code
 }
 }
 \seealso{
-\code{\link[shiny:bootstrapPage]{shiny::bootstrapPage()}}
-
-\code{\link[shiny:fluidPage]{shiny::fluidPage()}}
-
-\code{\link[shiny:fixedPage]{shiny::fixedPage()}}
-
-\code{\link[shiny:fillPage]{shiny::fillPage()}}
+\code{\link[=page_sidebar]{page_sidebar()}}
 
 \code{\link[shiny:navbarPage]{shiny::navbarPage()}}
 }

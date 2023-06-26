@@ -6,7 +6,12 @@
 }
 
 .navbar:not(.fixed-bottom):not(.navbar-fixed-bottom) {
-  margin-bottom: $navbar-margin-bottom;
+  // Instead of exactly re-doing bs3's .navbar { margin-bottom }, set
+  // margin-top on each pane (so 'fill' panes can be flush with navbar)
+  & + div > .tab-content > .tab-pane {
+    --bslib-navbar-margin: #{$navbar-margin-bottom};
+    margin-top: var(--bslib-navbar-margin);
+  }
 }
 
 // Map BS3 navbar positioning to general utilities

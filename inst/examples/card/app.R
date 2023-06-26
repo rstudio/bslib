@@ -16,15 +16,16 @@ lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscin
 main_grid <- layout_column_wrap(
   width = 1/3, heights_equal = "row",
   card(
+    id = "card-dt",
     full_screen = TRUE,
     card_header("DT::dataTableOutput()"),
-    card_body_fill(DT::dataTableOutput("DT"))
+    DT::dataTableOutput("DT")
   ),
-  navs_pill_card(
+  navset_card_pill(
     title = "Shiny outputs",
+    id = "card-navset-pill",
     full_screen = TRUE,
-    wrapper = card_body_fill,
-    nav(
+    nav_panel(
       "plotOutput",
       plotOutput("plot"),
       card_body(
@@ -32,14 +33,16 @@ main_grid <- layout_column_wrap(
         lorem_ipsum_dolor_sit_amet
       )
     ),
-    nav("imageOutput", plotOutput("image"))
+    nav_panel("imageOutput", plotOutput("image"))
   ),
   card(
+    id = "card-leaflet",
     full_screen = TRUE,
     card_header("leaflet (via uiOutput())"),
-    card_body_fill(uiOutput("leaflet", fill = TRUE))
+    uiOutput("leaflet", fill = TRUE)
   ),
   card(
+    id = "card-plotly",
     full_screen = TRUE,
     card_header("plotly::plotlyOutput()"),
     layout_column_wrap(
@@ -47,12 +50,13 @@ main_grid <- layout_column_wrap(
       plotlyOutput("cut"),
       plotlyOutput("clarity")
     ),
-    card_body_fill(plotlyOutput("price"))
+    plotlyOutput("price")
   ),
   card(
+    id = "card-plotly-static",
     full_screen = TRUE,
     card_header("Static plotly"),
-    card_body_fill(plot_hist("price")),
+    plot_hist("price"),
     layout_column_wrap(
       width = 1/2,
       plot_hist("cut"),
@@ -62,6 +66,7 @@ main_grid <- layout_column_wrap(
   layout_column_wrap(
     width = 1,
     card(
+      id = "card-image",
       full_screen = TRUE,
       card_header("card_image()"),
       card_image(
@@ -71,9 +76,10 @@ main_grid <- layout_column_wrap(
       )
     ),
     card(
+      id = "card-gt",
       full_screen = TRUE,
       card_header("Scrollable gt()"),
-      card_body_fill(
+      card_body(
         max_height = "400px",
         max_height_full_screen = "100%",
         gt::gt(mtcars)

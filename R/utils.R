@@ -44,6 +44,7 @@ is_hosted_app <- function() {
 }
 
 is_shiny_runtime <- function() {
+  if (!is_installed("knitr")) return(FALSE)
   isTRUE(grepl("^shiny", knitr::opts_knit$get("rmarkdown.runtime")))
 }
 
@@ -78,6 +79,27 @@ names2 <- function(x) {
   names(x) %||% rep.int("", length(x))
 }
 
+any_unnamed <- function(x) {
+  if (length(x) == 0) return(FALSE)
+  nms <- names(x)
+  is.null(nms) || !all(nzchar(nms))
+}
+
+list_split_named <- function(x) {
+  x_names <- rlang::names2(x)
+  is_named <- nzchar(x_names)
+
+  if (all(is_named)) {
+    return(list(named = x, unnamed = list()))
+  }
+
+  if (!any(is_named)) {
+    return(list(named = list(), unnamed = x))
+  }
+
+  list(named = x[is_named], unnamed = unname(x[!is_named]))
+}
+
 #' Rename a named list
 #'
 #' @param x a named list to be renamed
@@ -102,3 +124,19 @@ rename2 <- function(x, ...) {
   }
   x
 }
+
+# Get an accessible color contrast for a specified bg_color
+# (and return NULL+warn on failure)
+get_color_contrast <- function(bg_color) {
+  # Use a specific name that won't clash with other variables
+  nm <- "__bslib-custom-bg-color__"
+  theme <- bs_add_variables(bs_theme(), !!nm := bg_color)
+  tryCatch(
+    bs_get_contrast(theme, nm)[[1]],
+    error = function(e) {
+      warning("Failed to compute a contrasting color for '", bg_color, "'", call. = FALSE)
+      NULL
+    }
+  )
+}
+

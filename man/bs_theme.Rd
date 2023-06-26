@@ -8,7 +8,7 @@
 \usage{
 bs_theme(
   version = version_default(),
-  bootswatch = NULL,
+  preset = NULL,
   ...,
   bg = NULL,
   fg = NULL,
@@ -21,13 +21,14 @@ bs_theme(
   base_font = NULL,
   code_font = NULL,
   heading_font = NULL,
-  font_scale = NULL
+  font_scale = NULL,
+  bootswatch = NULL
 )
 
 bs_theme_update(
   theme,
   ...,
-  bootswatch = NULL,
+  preset = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -39,7 +40,8 @@ bs_theme_update(
   base_font = NULL,
   code_font = NULL,
   heading_font = NULL,
-  font_scale = NULL
+  font_scale = NULL,
+  bootswatch = NULL
 )
 
 is_bs_theme(x)
@@ -49,10 +51,14 @@ is_bs_theme(x)
 for possible values). Defaults to the currently recommended version
 for new projects (currently Bootstrap 5).}
 
-\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
-for possible values). When provided to \code{bs_theme_update()}, any previous
-Bootswatch theme is first removed before the new one is applied (use
-\code{bootswatch = "default"} to effectively remove the Bootswatch theme).}
+\item{preset}{The name of a theme preset, either a built-in theme provided by
+bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}} and
+\code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values). This argument takes precedence
+over the \code{bootswatch} argument and only one \code{theme} or \code{bootswatch} can be
+provided. When provided to \code{bs_theme_update()}, any previous preset theme
+is first removed before the new theme preset is applied. You can use
+\code{theme = "bootstrap"} to remove any preset theme and to revert to a base
+Bootstrap theme.}
 
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
@@ -88,6 +94,11 @@ Typically a shade of blue-green.}
 example, a value of \code{1.5} scales font sizes to 150\% and a value of \code{0.8}
 scales to 80\%. Must be a positive number.}
 
+\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
+for possible values). When provided to \code{bs_theme_update()}, any previous
+Bootswatch theme is first removed before the new one is applied (use
+\code{bootswatch = "bootstrap"} to effectively remove the Bootswatch theme).}
+
 \item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{x}{an object.}
@@ -105,7 +116,7 @@ Creates a Bootstrap theme object, where you can:
 \item Customize other, lower-level, Bootstrap Sass variable defaults via \code{...}.
 }
 
-To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, \href{https://rstudio.github.io/bslib/articles/bslib.html}{see here}.
+To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, \href{https://rstudio.github.io/bslib/articles/theming.html}{see here}.
 }
 \section{Colors}{
 
@@ -177,7 +188,7 @@ theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 
 }
 \references{
-\url{https://rstudio.github.io/bslib/articles/bslib.html}
+\url{https://rstudio.github.io/bslib/articles/theming.html}
 
 \url{https://rstudio.github.io/sass/}
 }
