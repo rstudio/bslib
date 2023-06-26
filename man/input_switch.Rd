@@ -3,26 +3,24 @@
 \name{input_switch}
 \alias{input_switch}
 \alias{update_switch}
-\title{Create a switch input}
+\title{Switch input control}
 \usage{
-input_switch(id, label, value = FALSE, width = NULL, inline = TRUE)
+input_switch(id, label, value = FALSE, width = NULL)
 
-update_switch(
-  id,
-  label = NULL,
-  value = NULL,
-  session = shiny::getDefaultReactiveDomain()
-)
+update_switch(id, label = NULL, value = NULL, session = get_current_session())
 }
 \arguments{
-\item{id}{an input id.}
+\item{id}{An input id.}
 
-\item{label}{a label for the switch.}
+\item{label}{A label for the switch.}
 
-\item{value}{whether or not the switch should be checked by default.}
+\item{value}{Whether or not the switch should be checked by default.}
 
-\item{width}{a valid CSS unit defining the width.}
+\item{width}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{width="200px"}).}
+
+\item{session}{a shiny session object (the default should almost always be used).}
 }
 \description{
-Create a switch input
+Create a switch control used to specify logical values.
 }
