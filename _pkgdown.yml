@@ -102,10 +102,14 @@ reference:
     - bs_themer
 - title: Cards
   description: |
-    Create cards and value boxes
+    Create cards
   contents:
     - card
     - as.card_item
+- title: Value box
+  description: |
+    Highlight important findings
+  contents:
     - value_box
 - title: Input controls
   description: |
