@@ -220,8 +220,8 @@
 
   $(document).on("change", ".bs-theme-value-select", function(e) {
     var select = $(e.target);
-    if (select.data("id") === "bootswatch") {
-      Shiny.setInputValue("bs_theme_bootswatch", select.val());
+    if (select.data("id") === "preset") {
+      Shiny.setInputValue("bs_theme_preset", select.val());
     } else {
       select.trigger("validinput");
     }
@@ -276,7 +276,7 @@
 
   // When the Bootswatch theme changes, apply new input defaults
   var syncing = false;
-  Shiny.addCustomMessageHandler("bs-themer-bootswatch", function(msg) {
+  Shiny.addCustomMessageHandler("bs-themer-preset", function(msg) {
     syncing = true;
     var vals = msg.values;
     var keys = Object.keys(vals);
