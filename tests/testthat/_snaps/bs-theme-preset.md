@@ -1,22 +1,22 @@
-# new_theme_preset(): throws an error if both `name` and `bootswatch` are provided
+# resolve_bs_preset(): throws an error if both `name` and `bootswatch` are provided
 
     Code
-      resolve_bs_preset(name = "name", bootswatch = "bootswatch")
+      resolve_bs_preset(preset = "name", bootswatch = "bootswatch")
     Error <rlang_error>
-      Only one of `name` or `bootswatch` may be provided, and `name` is preferred.
+      Only one of `preset` or `bootswatch` may be provided, and `name` is preferred.
       i Did you mean one of the following options?
-      * `name = "name"`
-      * `name = "bootswatch"`
+      * `preset = "name"`
+      * `preset = "bootswatch"`
       * `bootswatch = "bootswatch"`
 
-# new_theme_preset(): throws an error if `name` or `bootswatch` are not scalar strings
+# resolve_bs_preset(): throws an error if `name` or `bootswatch` are not scalar strings
 
     Code
-      resolve_bs_preset(name = c("a", "b"))
+      resolve_bs_preset(preset = c("a", "b"))
     Error <rlang_error>
-      The preset theme `name` must be a single character string.
-      x Bad: `name = c("flatly", "darkly")`
-      v Good: `name = "flatly"`
+      The preset theme `preset` must be a single character string.
+      x Bad: `preset = c("flatly", "darkly")`
+      v Good: `preset = "flatly"`
 
 ---
 
@@ -27,10 +27,10 @@
       x Bad: `bootswatch = c("flatly", "darkly")`
       v Good: `bootswatch = "flatly"`
 
-# new_theme_preset(): throws an error if `name` or `bootswatch` don't match existing presets
+# resolve_bs_preset(): throws an error if `name` or `bootswatch` don't match existing presets
 
     Code
-      resolve_bs_preset(name = "not_a_preset", version = 4)
+      resolve_bs_preset(preset = "not_a_preset", version = 4)
     Error <rlang_error>
       'not_a_preset' is not a known preset theme name for Bootstrap version 4.
       i You can list available preset themes:

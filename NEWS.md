@@ -1,6 +1,9 @@
 # bslib 0.5.0.9000
 
-* Closed (#636): Outputs in sidebars now work as expected when an initially-closed sidebar is opened. (#624)
+## Bug fixes
+
+* Closed #636: Outputs in sidebars now work as expected when an initially-closed sidebar is opened. (#624)
+* Closed #640: `accordion()` no longer errors when an `id` isn't supplied inside a Shiny `session` context. (#646)
 
 # bslib 0.5.0
 

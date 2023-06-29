@@ -46,7 +46,7 @@ bs_global_bundle(...)
 
 bs_global_theme_update(
   ...,
-  name = NULL,
+  preset = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -69,7 +69,7 @@ for new projects (currently Bootstrap 5).}
 \item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
 for possible values). When provided to \code{bs_theme_update()}, any previous
 Bootswatch theme is first removed before the new one is applied (use
-\code{bootswatch = "default"} to effectively remove the Bootswatch theme).}
+\code{bootswatch = "bootstrap"} to effectively remove the Bootswatch theme).}
 
 \item{bg}{A color string for the background.}
 
@@ -110,13 +110,13 @@ Typically a shade of blue-green.}
 \item{.default_flag}{Whether or not to add a \code{!default} flag (if missing) to
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 
-\item{name}{The name of a theme preset, either a built-in theme provided by
+\item{preset}{The name of a theme preset, either a built-in theme provided by
 bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}} and
 \code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values). This argument takes precedence
 over the \code{bootswatch} argument and only one \code{theme} or \code{bootswatch} can be
 provided. When provided to \code{bs_theme_update()}, any previous preset theme
 is first removed before the new theme preset is applied. You can use
-\code{theme = "default"} to remove any preset theme and to revert to a base
+\code{theme = "bootstrap"} to remove any preset theme and to revert to a base
 Bootstrap theme.}
 }
 \value{
