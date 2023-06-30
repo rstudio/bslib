@@ -85,3 +85,6 @@ $form-text-color: $red !default;
 // Borders
 $input-border-color: $gray-500 !default;
 $border-radius: 3px !default;
+
+// Component Variables
+@import "ionrangeslider/_variables.scss";

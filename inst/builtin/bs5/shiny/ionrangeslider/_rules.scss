@@ -1,0 +1,58 @@
+.irs.irs--shiny {
+  $irs-shiny-space: 3px;
+
+  margin-top: $irs-shiny-space;
+
+  .irs-min,
+  .irs-max,
+  .irs-from,
+  .irs-to,
+  .irs-single {
+    padding: $irs-shiny-space $irs-shiny-space * 2;
+    top: -$irs-shiny-space;
+  }
+
+  .irs-bar {
+    top: 31px;
+    height: $irs-shiny-space;
+    border: none;
+    // FIXME: next one should be covered by vars
+    background-color: var(--irs-shiny--bar_color);
+    border-color: var(--irs-shiny--bar_color);
+  }
+
+  .irs-line {
+    // NOTE: not sure we need this border radius
+    border-radius: 8px;
+  }
+
+  .irs-handle {
+    // FIXME: this should be covered by vars
+    // top: $handle_radius;
+    background-color: var(--irs-shiny--handle_color);
+  }
+
+  .irs-grid-pol {
+    height: 6px;
+  }
+
+  .irs-grid-text {
+    bottom: 8px;
+  }
+
+  // make handles keyboard accessible
+  //
+  // We might need some javascript shenanigans to make the handles on the slider
+  // keyboard accessible.  I think we can do this by assigning it a role and and
+  // a tabindex? check out this article:
+  // https://www.456bereastreet.com/archive/201302/making_elements_keyboard_focusable_and_clickable/
+  .irs-handle:focus-visible,
+  .irs-handle:active {
+    // FIXME
+    // color: shade-color($handle_color, 30%);
+    // background-color: shade-color($handle_color, 30%);
+    // border-color: shade-color($handle_color, 30);
+    outline: 0;
+    box-shadow: $btn-focus-box-shadow;
+  }
+}
