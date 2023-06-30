@@ -12,7 +12,11 @@
     margin-bottom: auto;
     padding: 1rem;
 
-    .bi, .fa { opacity: .85; }
+    .bi, .fa {
+      opacity: .85;
+      min-width: 50px;
+      max-width: 125%;
+    }
     .bi { font-size: 5rem; }
     .fa { font-size: 4rem; }
 
