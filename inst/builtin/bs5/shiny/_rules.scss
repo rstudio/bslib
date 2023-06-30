@@ -25,3 +25,18 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 .shiny-date-range-input .input-daterange .input-group-addon {
   margin-right: -1px;
 }
+
+// Make all buttons outline buttons by default, but users can add `btn-solid`
+// to use the "normal" solid styles
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @if $color == "default" {
+      @include button-outline-variant($dark);
+    } @else {
+      @include button-outline-variant($value);
+    }
+  }
+  .btn-#{$color}.btn-solid {
+    @include button-variant($value, $value);
+  }
+}
