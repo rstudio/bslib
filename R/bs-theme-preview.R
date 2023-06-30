@@ -49,8 +49,13 @@ opts_metadata <- function(theme) {
     system_file("themer/options.json", package = "bslib"),
     simplifyDataFrame = FALSE
   )
-  themes <- bootswatch_themes(theme_version(theme))
-  opts[[1]]$bootswatch$choices <- c("default", themes)
+  version <- theme_version(theme)
+  themes <- list(
+    "Bootstrap" = "bootstrap",
+    "bslib" = builtin_themes(version),
+    "Bootswatch" = bootswatch_themes(version)
+  )
+  opts[[1]]$preset$choices <- themes
   opts
 }
 
@@ -96,11 +101,19 @@ bs_themer_ui <- function(opts, vals, theme) {
         tags$select(
           class = "form-control", "data-id" = id,
           class = "bs-theme-value bs-theme-value-select",
-          lapply(opts$choices, function(x) {
-            tags$option(
-              value = x, selected = if (identical(x, value)) NA else NULL,
-              tools::toTitleCase(x)
-            )
+          # This select is designed for the 'bootswatch' input and assumes that
+          # the choices options are a list of lists, each list is an optgroup.
+          lapply(seq_along(opts$choices), function(idx) {
+            group_name <- names(opts$choices)[[idx]]
+            choice_group <- opts$choices[[idx]]
+            opts <- lapply(choice_group, function(x) {
+              tags$option(
+                value = x, selected = if (identical(x, value)) NA else NULL,
+                tools::toTitleCase(x)
+              )
+            })
+            if (!nzchar(group_name)) return(opts)
+            tags$optgroup(label = group_name, opts)
           })
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
@@ -312,7 +325,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
          "in the app's UI. Consider providing `bslib::bs_theme()` to the theme argument of the ",
          "relevant page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
   }
-  bootswatch <- theme_bootswatch(theme)
+  preset_initial <- theme_preset_info(theme)$name
   switch_version(
     theme, three = stop("Interactive theming for Bootstrap 3 isn't supported")
   )
@@ -328,9 +341,9 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # Insert the theming control panel with values informed by the theme settings
   themer_opts <- opts_metadata(theme)
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
-  sass_vars <- setdiff(themer_vars, "bootswatch")
+  sass_vars <- setdiff(themer_vars, "preset")
   themer_vals <- as.list(get_themer_vals(theme, sass_vars))
-  themer_vals$bootswatch <- bootswatch
+  themer_vals$preset <- preset_initial
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals, theme))
 
   input <- session$input
@@ -343,13 +356,13 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # and effectively throw out any other theming changes made (i.e., start from a new theme)
   # since it'd be messy to figure out whether changes are "real" or just a
   # consequence of a new bootswatch value
-  shiny::observeEvent(input$bs_theme_bootswatch, {
+  shiny::observeEvent(input$bs_theme_preset, {
     theme <<- set_current_theme(
-      theme, list(bootswatch = input$bs_theme_bootswatch),
+      theme, list(preset = input$bs_theme_preset),
       session, rmd = isRmd
     )
     vals <- as.list(bs_get_variables(theme, sass_vars))
-    session$sendCustomMessage("bs-themer-bootswatch", list(values = vals))
+    session$sendCustomMessage("bs-themer-preset", list(values = vals))
   })
 
   # Fires when anything other then the Bootswatch theme changes
@@ -379,8 +392,8 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     theme_vals <- get_themer_vals(theme, names(vals[sass_vars]))
     changed_vals <- as.list(diff_css_values(vals[sass_vars], theme_vals))
 
-    if (!identical(bootswatch, input$bs_theme_bootswatch)) {
-      changed_vals$bootswatch <- input$bs_theme_bootswatch
+    if (!identical(preset_initial, input$bs_theme_preset)) {
+      changed_vals$preset <- input$bs_theme_preset
     }
 
     # If _either_ fg/bg has changed, bs_theme() must to be called with *both* fg and bg populated.
