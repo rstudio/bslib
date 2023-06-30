@@ -394,7 +394,6 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
     if (!identical(preset_initial, input$bs_theme_preset)) {
       changed_vals$preset <- input$bs_theme_preset
-      # preset_initial <<- NULL
     }
 
     # If _either_ fg/bg has changed, bs_theme() must to be called with *both* fg and bg populated.
