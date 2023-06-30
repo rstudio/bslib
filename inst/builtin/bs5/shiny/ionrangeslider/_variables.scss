@@ -9,7 +9,7 @@ $line_bg: none !default;
 $line_bg_color: $gray-600 !default;
 $line_border: none !default;
 
-$handle_color: $primary !default;
+$handle_color: $component-active-bg !default;
 $handle_color_hover: tint-color($handle_color, 15%) !default;
 $handle_border: none !default;
 $handle_box_shadow: none !default;
@@ -17,7 +17,7 @@ $handle_radius: $top - 10px !default;
 $handle_height: 19px !default;
 $handle_width: $handle_height !default;
 
-$bar_color: $primary !default;
+$bar_color: $component-active-bg !default;
 
 $grid_major_color: $gray-600 !default;
 $grid_minor_color: transparent !default;
