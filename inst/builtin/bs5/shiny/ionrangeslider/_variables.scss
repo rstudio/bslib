@@ -1,29 +1,24 @@
 // https://github.com/rstudio/shiny/blob/main/inst/www/shared/ionrangeslider/scss/shiny.scss
 
-.irs--shiny {
-  $minmax_bg_color: $gray-200 !default;
+$minmax_bg_color: $gray-200 !default;
 
-  $top: 32px !default;
+$top: 32px !default;
 
-  $line_height: 1px !default;
-  $line_bg: none !default;
-  $line_bg_color: $gray-600 !default;
-  $line_border: none !default;
+$line_height: 1px !default;
+$line_bg: none !default;
+$line_bg_color: $gray-600 !default;
+$line_border: none !default;
 
-  $handle_color: $primary !default;
-  $handle_box_shadow: none !default;
-  $handle_radius: 22px !default;
-  $handle_height: 19px !default;
-  $handle_width: $handle_height !default;
+$handle_color: $primary !default;
+$handle_color_hover: tint-color($handle_color, 15%) !default;
+$handle_border: none !default;
+$handle_box_shadow: none !default;
+$handle_radius: $top - 10px !default;
+$handle_height: 19px !default;
+$handle_width: $handle_height !default;
 
-  $bar_color: $primary !default;
+$bar_color: $primary !default;
 
-  $grid_major_color: $gray-600 !default;
-  $grid_minor_color: transparent !default;
-  $grid_text_color: $gray-800 !default;
-
-  // we're clearly setting $bar_color, but it's being overwritten by
-  // ionrangeslider shiny.scss
-  --irs-shiny--bar_color: #{$bar_color};
-  --irs-shiny--handle_color: #{$handle_color};
-}
+$grid_major_color: $gray-600 !default;
+$grid_minor_color: transparent !default;
+$grid_text_color: $gray-800 !default;
