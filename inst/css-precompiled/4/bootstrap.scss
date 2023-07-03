@@ -1,0 +1,47 @@
+@import "inst/lib/bs4/scss/_deprecated.scss";
+@import "inst/lib/bs4/scss/_functions.scss";
+@import "inst/sass-utils/color-contrast.scss";
+
+
+
+@import "inst/lib/bs4/scss/_variables.scss";
+$bootstrap-version: 4;
+@import "inst/lib/bs4/scss/_mixins.scss";
+@import "inst/lib/bs4/scss/_root.scss";
+@import "inst/lib/bs4/scss/_reboot.scss";
+@import "inst/lib/bs4/scss/_type.scss";
+@import "inst/lib/bs4/scss/_images.scss";
+@import "inst/lib/bs4/scss/_code.scss";
+@import "inst/lib/bs4/scss/_grid.scss";
+@import "inst/lib/bs4/scss/_tables.scss";
+@import "inst/lib/bs4/scss/_forms.scss";
+@import "inst/lib/bs4/scss/_buttons.scss";
+@import "inst/lib/bs4/scss/_transitions.scss";
+@import "inst/lib/bs4/scss/_dropdown.scss";
+@import "inst/lib/bs4/scss/_button-group.scss";
+@import "inst/lib/bs4/scss/_input-group.scss";
+@import "inst/lib/bs4/scss/_custom-forms.scss";
+@import "inst/lib/bs4/scss/_nav.scss";
+@import "inst/lib/bs4/scss/_navbar.scss";
+@import "inst/lib/bs4/scss/_card.scss";
+@import "inst/lib/bs4/scss/_breadcrumb.scss";
+@import "inst/lib/bs4/scss/_pagination.scss";
+@import "inst/lib/bs4/scss/_badge.scss";
+@import "inst/lib/bs4/scss/_jumbotron.scss";
+@import "inst/lib/bs4/scss/_alert.scss";
+@import "inst/lib/bs4/scss/_progress.scss";
+@import "inst/lib/bs4/scss/_media.scss";
+@import "inst/lib/bs4/scss/_list-group.scss";
+@import "inst/lib/bs4/scss/_close.scss";
+@import "inst/lib/bs4/scss/_toasts.scss";
+@import "inst/lib/bs4/scss/_modal.scss";
+@import "inst/lib/bs4/scss/_tooltip.scss";
+@import "inst/lib/bs4/scss/_popover.scss";
+@import "inst/lib/bs4/scss/_carousel.scss";
+@import "inst/lib/bs4/scss/_spinners.scss";
+@import "inst/lib/bs4/scss/_utilities.scss";
+@import "inst/lib/bs4/scss/_print.scss";
+.table th[align=left] { text-align: left; }
+.table th[align=right] { text-align: right; }
+.table th[align=center] { text-align: center; }
+@import "inst/nav-spacer/nav-spacer.scss";
