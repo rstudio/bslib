@@ -432,15 +432,19 @@ lapply(versions(), function(version) {
   }
   file.copy(tmp_css, dest_dir)
 
-  # Also save the Sass code used to generate the CSS.
-  # This is primarily here for Quarto to consume/approximate. And since they
-  # don't need BS3 compatibility we remove it from the default bundle
-  theme <- bs_remove(bs_theme(version), "bs3compat")
-  theme_sass <- gsub(paste0("@import \"", getwd(), "/"), "@import \"", as_sass(theme))
-  writeLines(theme_sass, file.path(dest_dir, "bootstrap.scss"))
-  # Sanity check that we we can compile by moving file to home dir
-  file.copy(file.path(dest_dir, "bootstrap.scss"), "bootstrap.scss")
-  on.exit(unlink("bootstrap.scss"), add = TRUE)
-  testthat::expect_error(sass(sass_file("bootstrap.scss")), NA)
+  # Also save the BS5+ Sass code used to generate the pre-compiled CSS.
+  # This is primarily here to help Quarto more easily replicate bs_theme()'s Sass.
+  if (version >= 5) {
+    theme_sass <- gsub(
+      paste0("@import \"", getwd(), "/"),
+      "@import \"",
+      as_sass(bs_theme(version))
+    )
+    writeLines(theme_sass, file.path(dest_dir, "bootstrap.scss"))
+    # Sanity check that we we can compile by moving file to home dir
+    file.copy(file.path(dest_dir, "bootstrap.scss"), "bootstrap.scss")
+    on.exit(unlink("bootstrap.scss"), add = TRUE)
+    testthat::expect_error(sass(sass_file("bootstrap.scss")), NA)
+  }
 })
 

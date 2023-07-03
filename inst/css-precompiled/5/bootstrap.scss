@@ -4,12 +4,21 @@
 
 
 $enable-cssgrid: true !default;
+@import "inst/bs3compat/_defaults.scss";
 @import "inst/lib/bs5/scss/_variables.scss";
 $bootstrap-version: 5;
+$bslib-preset-name: null !default;
+$bslib-preset-type: null !default;
 @import "inst/lib/bs5/scss/_maps.scss";
 @import "inst/lib/bs5/scss/_mixins.scss";
+@import "inst/bs3compat/_declarations.scss";
 @import "inst/components/_variables.scss";
 @import "inst/components/_mixins.scss";
+:root {
+--bslib-bootstrap-version: #{$bootstrap-version};
+--bslib-preset-name: #{$bslib-preset-name};
+--bslib-preset-type: #{$bslib-preset-type};
+}
 @import "inst/lib/bs5/scss/mixins/_banner.scss";
 @include bsBanner('')
 @import "inst/lib/bs5/scss/_utilities.scss";
@@ -49,6 +58,7 @@ $bootstrap-version: 5;
 .table th[align=left] { text-align: left; }
 .table th[align=right] { text-align: right; }
 .table th[align=center] { text-align: center; }
+@import "inst/bs3compat/_rules.scss";
 @import "inst/components/accordion.scss";
 @import "inst/components/card.scss";
 @import "inst/components/fill.scss";
