@@ -302,7 +302,7 @@
 
 "@types/rstudio-shiny@https://github.com/rstudio/shiny#v1.7.4":
   version "1.7.4"
-  resolved "https://github.com/rstudio/shiny#4d276b307e73b1d312833f03a873e5c16a2dad48"
+  resolved "https://github.com/rstudio/shiny#6176f03ad0a706bfdf265ff23bd5ea7d90802a06"
   dependencies:
     "@types/bootstrap" "3.4.0"
     "@types/bootstrap-datepicker" "0.0.14"
