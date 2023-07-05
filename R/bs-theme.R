@@ -299,18 +299,18 @@ bootstrap_bundle <- function(version) {
       bs3compat = bs3compat_bundle(),
       sass_layer(
         mixins = list(
-          sass_file(system_file("components", "_variables.scss", package = "bslib")),
-          sass_file(system_file("components", "_mixins.scss", package = "bslib"))
+          sass_file(path_bslib_component("scss", "_variables.scss")),
+          sass_file(path_bslib_component("scss", "_mixins.scss"))
         )
       ),
       !!!rule_bundles(c(
-        system_file("components", "accordion.scss", package = "bslib"),
-        system_file("components", "card.scss", package = "bslib"),
-        system_file("components", "fill.scss", package = "bslib"),
-        system_file("components", "layout_column_wrap.scss", package = "bslib"),
-        system_file("components", "layout_columns.scss", package = "bslib"),
-        system_file("components", "sidebar.scss", package = "bslib"),
-        system_file("components", "value_box.scss", package = "bslib")
+        path_bslib_component("scss", "accordion.scss"),
+        path_bslib_component("scss", "card.scss"),
+        path_bslib_component("scss", "fill.scss"),
+        path_bslib_component("scss", "layout_column_wrap.scss"),
+        path_bslib_component("scss", "layout_columns.scss"),
+        path_bslib_component("scss", "sidebar.scss"),
+        path_bslib_component("scss", "value_box.scss")
       )),
       # Enable CSS Grid powered Bootstrap grid
       sass_layer(
@@ -382,6 +382,9 @@ bootstrap_bundle <- function(version) {
   )
 }
 
+path_bslib_component <- function(...) {
+  system.file("components", ..., package = "bslib")
+}
 
 bootstrap_javascript_map <- function(version) {
   switch_version(

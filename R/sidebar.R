@@ -283,7 +283,7 @@ sidebar_dependency <- function() {
     name = "bslib-sidebar",
     version = get_package_version("bslib"),
     package = "bslib",
-    src = "components",
+    src = "components/dist/sidebar",
     script = "sidebar.min.js"
   )
 }

@@ -15,20 +15,18 @@ const opts: BuildOptions = {
 };
 
 // TODO: build all components?
-build({
-  ...opts,
-  entryPoints: ["srcts/src/components/accordion.ts"],
-  outfile: "inst/components/accordion.min.js",
-});
+const components = ["accordion", "sidebar", "card"];
 
-build({
-  ...opts,
-  entryPoints: ["srcts/src/components/sidebar.ts"],
-  outfile: "inst/components/sidebar.min.js",
-});
-
-build({
-  ...opts,
-  entryPoints: ["srcts/src/components/card.ts"],
-  outfile: "inst/components/card.min.js",
-});
+for (const component of components) {
+  for (const minified of [true, false]) {
+    build({
+      ...opts,
+      entryPoints: [`srcts/src/components/${component}.ts`],
+      outfile: `inst/components/dist/${component}/${component}${
+        minified ? ".min" : ""
+      }.js`,
+      minify: minified,
+      sourcemap: minified,
+    });
+  }
+}

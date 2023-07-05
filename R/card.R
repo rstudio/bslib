@@ -285,7 +285,7 @@ card_dependency <- function() {
     name = "bslib-card",
     version = get_package_version("bslib"),
     package = "bslib",
-    src = "components",
+    src = "components/dist/card",
     script = "card.min.js"
   )
 }
