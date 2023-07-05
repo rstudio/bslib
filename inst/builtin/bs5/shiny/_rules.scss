@@ -26,17 +26,8 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   margin-right: -1px;
 }
 
-// Make all buttons outline buttons by default, but users can add `btn-solid`
-// to use the "normal" solid styles
-@each $color, $value in $theme-colors {
-  .btn-#{$color} {
-    @if $color == "default" {
-      @include button-outline-variant($dark);
-    } @else {
-      @include button-outline-variant($value);
-    }
-  }
-  .btn-#{$color}.btn-solid {
-    @include button-variant($value, $value);
-  }
+// Make the default action button an outline variant, but not others
+.btn-outline-default,
+.btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
+  @include button-outline-variant($secondary);
 }

@@ -17,11 +17,11 @@ $gray-100: #f8f8f8 !default;
 $gray-200: #e9ecef !default;
 $gray-300: #dee2e6 !default;
 $gray-400: #cdd4da !default;
-$gray-500: #8d959e !default;
+$gray-500: #8D959E !default;
 $gray-600: #707782 !default;
-$gray-700: #48505f !default;
-$gray-800: #343a46 !default;
-$gray-900: #1d1f21 !default;
+$gray-700: #48505F !default;
+$gray-800: #343A46 !default;
+$gray-900: #1D1F21 !default;
 
 $default: $gray-300 !default;
 $primary: $blue !default;
@@ -80,7 +80,7 @@ $btn-padding-x: 2em !default;
 $form-check-input-width: 1.2em !default;
 $form-check-input-border-radius: 2px !default;
 $form-check-margin-bottom: 0.25rem !default;
-$form-text-color: $red !default;
+$form-text-color: $gray-600 !default;
 
 // Borders
 $input-border-color: $gray-500 !default;
