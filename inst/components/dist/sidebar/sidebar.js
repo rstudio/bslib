@@ -402,3 +402,4 @@
   window.bslib = window.bslib || {};
   window.bslib.Sidebar = Sidebar;
 })();
+//# sourceMappingURL=sidebar.js.map
