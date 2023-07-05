@@ -140,3 +140,9 @@ get_color_contrast <- function(bg_color) {
   )
 }
 
+js_file_names_with_map <- function(name, minified = NULL) {
+  minified <- get_shiny_devmode_option_minified(minified)
+
+  files <- paste0(name, if (minified) ".min" else "", ".js")
+  paste0(files, c("", ".map"))
+}

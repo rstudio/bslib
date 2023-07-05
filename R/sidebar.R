@@ -278,13 +278,16 @@ collapse_icon <- function() {
   bsicons::bs_icon("chevron-down", class = "collapse-icon", size = NULL)
 }
 
-sidebar_dependency <- function() {
+sidebar_dependency <- function(minified = NULL) {
+  minified <- get_shiny_devmode_option_minified(minified)
+
   htmlDependency(
     name = "bslib-sidebar",
     version = get_package_version("bslib"),
     package = "bslib",
     src = "components/dist/sidebar",
-    script = "sidebar.min.js"
+    all_files = FALSE,
+    script = js_file_names_with_map("sidebar", minified = minified)
   )
 }
 

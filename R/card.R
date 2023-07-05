@@ -280,13 +280,16 @@ full_screen_toggle <- function() {
   )
 }
 
-card_dependency <- function() {
+card_dependency <- function(minified = NULL) {
+  minified <- get_shiny_devmode_option_minified(minified)
+
   htmlDependency(
     name = "bslib-card",
     version = get_package_version("bslib"),
     package = "bslib",
     src = "components/dist/card",
-    script = "card.min.js"
+    all_files = FALSE,
+    script = js_file_names_with_map("card", minified = minified),
   )
 }
 
