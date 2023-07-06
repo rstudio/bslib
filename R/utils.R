@@ -22,8 +22,8 @@ get_exact_version <- function(version) {
   switch_version(version, five = version_bs5, four = version_bs4, three = version_bs3)
 }
 
-lib_file <- function(...) {
-  files <- system_file("lib", ..., package = "bslib")
+inst_file <- function(...) {
+  files <- system_file(..., package = "bslib")
   files_found <- files != ""
   if (all(files_found)) return(files)
 
@@ -33,6 +33,9 @@ lib_file <- function(...) {
     call. = FALSE
   )
 }
+
+lib_file <- function(...) inst_file("lib", ...)
+components_file <- function(...) inst_file("components", ...)
 
 is_shiny_app <- function() {
   # Make sure to not load shiny as a side-effect of calling this function.
@@ -138,11 +141,4 @@ get_color_contrast <- function(bg_color) {
       NULL
     }
   )
-}
-
-js_file_names_with_map <- function(name, minified = NULL) {
-  minified <- get_shiny_devmode_option_minified(minified)
-
-  files <- paste0(name, if (minified) ".min" else "", ".js")
-  paste0(files, c("", ".map"))
 }

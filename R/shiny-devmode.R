@@ -60,11 +60,3 @@ get_shiny_devmode_option <- function(
     maybe_missing(devmode_default, default)
   })
 }
-
-get_shiny_devmode_option_minified <- function(minified = NULL) {
-  if (!is.null(minified)) {
-    return(minified)
-  }
-
-  get_shiny_devmode_option("shiny.minified", default = TRUE)
-}

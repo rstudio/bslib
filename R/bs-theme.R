@@ -299,18 +299,18 @@ bootstrap_bundle <- function(version) {
       bs3compat = bs3compat_bundle(),
       sass_layer(
         mixins = list(
-          sass_file(path_bslib_component("scss", "_variables.scss")),
-          sass_file(path_bslib_component("scss", "_mixins.scss"))
+          sass_file(components_file("scss", "_variables.scss")),
+          sass_file(components_file("scss", "_mixins.scss"))
         )
       ),
       !!!rule_bundles(c(
-        path_bslib_component("scss", "accordion.scss"),
-        path_bslib_component("scss", "card.scss"),
-        path_bslib_component("scss", "fill.scss"),
-        path_bslib_component("scss", "layout_column_wrap.scss"),
-        path_bslib_component("scss", "layout_columns.scss"),
-        path_bslib_component("scss", "sidebar.scss"),
-        path_bslib_component("scss", "value_box.scss")
+        components_file("scss", "accordion.scss"),
+        components_file("scss", "card.scss"),
+        components_file("scss", "fill.scss"),
+        components_file("scss", "layout_column_wrap.scss"),
+        components_file("scss", "layout_columns.scss"),
+        components_file("scss", "sidebar.scss"),
+        components_file("scss", "value_box.scss")
       )),
       # Enable CSS Grid powered Bootstrap grid
       sass_layer(
@@ -377,13 +377,9 @@ bootstrap_bundle <- function(version) {
     ),
     # nav_spacer() CSS (can be removed)
     nav_spacer = sass_layer(
-      rules = sass_file(path_bslib_component("scss", "nav-spacer.scss"))
+      rules = sass_file(components_file("scss", "nav-spacer.scss"))
     )
   )
-}
-
-path_bslib_component <- function(...) {
-  system.file("components", ..., package = "bslib")
 }
 
 bootstrap_javascript_map <- function(version) {

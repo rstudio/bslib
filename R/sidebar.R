@@ -279,16 +279,7 @@ collapse_icon <- function() {
 }
 
 sidebar_dependency <- function(minified = NULL) {
-  minified <- get_shiny_devmode_option_minified(minified)
-
-  htmlDependency(
-    name = "bslib-sidebar",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = "components/dist/sidebar",
-    all_files = FALSE,
-    script = js_file_names_with_map("sidebar", minified = minified)
-  )
+  component_js_dependency("sidebar", minified = minified)
 }
 
 sidebar_init_js <- function() {
