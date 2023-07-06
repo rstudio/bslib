@@ -23,11 +23,11 @@ test_that("Can access the sass behind all versions and Bootswatch themes", {
 # (and once we have, then this hash should be updated as well).
 test_that("Make sure bootstrap.scss hasn't changed", {
   expect_snapshot_file(
-    lib_file("bs4", "scss", "bootstrap.scss"),
+    path_lib("bs4", "scss", "bootstrap.scss"),
     name = "bs4-imports"
   )
   expect_snapshot_file(
-    lib_file("bs5", "scss", "bootstrap.scss"),
+    path_lib("bs5", "scss", "bootstrap.scss"),
     name = "bs5-imports"
   )
 })

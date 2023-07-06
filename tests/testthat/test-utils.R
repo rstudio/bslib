@@ -1,4 +1,4 @@
-test_that("lib_file returns multiple system files", {
+test_that("path_lib returns multiple system files", {
 
   # version 4 has a js file and a js map file
   js_files <- bootstrap_javascript("4")
