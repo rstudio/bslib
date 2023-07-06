@@ -280,14 +280,8 @@ full_screen_toggle <- function() {
   )
 }
 
-card_dependency <- function() {
-  htmlDependency(
-    name = "bslib-card",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = "components",
-    script = "card.min.js"
-  )
+card_dependency <- function(minified = NULL) {
+  component_js_dependency("card", minified = minified)
 }
 
 card_init_js <- function() {
