@@ -26,6 +26,7 @@ for (const component of components) {
         minified ? ".min" : ""
       }.js`,
       minify: minified,
+      sourcemap: !minified,
     });
   }
 }
