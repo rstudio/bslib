@@ -8,7 +8,7 @@ component_js_dependency <- function(name, minified = NULL) {
     version = get_package_version("bslib"),
     package = "bslib",
     src = file.path("components", "dist", name),
-    all_files = !minified,
+    all_files = TRUE,
     script = paste0(name, if (minified) ".min", ".js")
   )
 }
