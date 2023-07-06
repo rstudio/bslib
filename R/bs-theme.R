@@ -299,18 +299,18 @@ bootstrap_bundle <- function(version) {
       bs3compat = bs3compat_bundle(),
       sass_layer(
         mixins = list(
-          sass_file(components_file("scss", "_variables.scss")),
-          sass_file(components_file("scss", "_mixins.scss"))
+          sass_file(path_components("scss", "_variables.scss")),
+          sass_file(path_components("scss", "_mixins.scss"))
         )
       ),
       !!!rule_bundles(c(
-        components_file("scss", "accordion.scss"),
-        components_file("scss", "card.scss"),
-        components_file("scss", "fill.scss"),
-        components_file("scss", "layout_column_wrap.scss"),
-        components_file("scss", "layout_columns.scss"),
-        components_file("scss", "sidebar.scss"),
-        components_file("scss", "value_box.scss")
+        path_components("scss", "accordion.scss"),
+        path_components("scss", "card.scss"),
+        path_components("scss", "fill.scss"),
+        path_components("scss", "layout_column_wrap.scss"),
+        path_components("scss", "layout_columns.scss"),
+        path_components("scss", "sidebar.scss"),
+        path_components("scss", "value_box.scss")
       )),
       # Enable CSS Grid powered Bootstrap grid
       sass_layer(
@@ -359,7 +359,7 @@ bootstrap_bundle <- function(version) {
       glyphicon_font_files = sass_layer(
         defaults = list("icon-font-path" = "'glyphicon-fonts/'"),
         file_attachments = c(
-          "glyphicon-fonts" = lib_file("bs3", "assets", "fonts", "bootstrap")
+          "glyphicon-fonts" = path_lib("bs3", "assets", "fonts", "bootstrap")
         )
       )
     )
@@ -377,7 +377,7 @@ bootstrap_bundle <- function(version) {
     ),
     # nav_spacer() CSS (can be removed)
     nav_spacer = sass_layer(
-      rules = sass_file(components_file("scss", "nav-spacer.scss"))
+      rules = sass_file(path_components("scss", "nav-spacer.scss"))
     )
   )
 }
@@ -385,16 +385,16 @@ bootstrap_bundle <- function(version) {
 bootstrap_javascript_map <- function(version) {
   switch_version(
     version,
-    five = lib_file("bs5", "dist", "js", "bootstrap.bundle.min.js.map"),
-    four = lib_file("bs4", "dist", "js", "bootstrap.bundle.min.js.map")
+    five = path_lib("bs5", "dist", "js", "bootstrap.bundle.min.js.map"),
+    four = path_lib("bs4", "dist", "js", "bootstrap.bundle.min.js.map")
   )
 }
 bootstrap_javascript <- function(version) {
   switch_version(
     version,
-    five = lib_file("bs5", "dist", "js", "bootstrap.bundle.min.js"),
-    four = lib_file("bs4", "dist", "js", "bootstrap.bundle.min.js"),
-    three = lib_file("bs3", "assets", "javascripts", "bootstrap.min.js")
+    five = path_lib("bs5", "dist", "js", "bootstrap.bundle.min.js"),
+    four = path_lib("bs4", "dist", "js", "bootstrap.bundle.min.js"),
+    three = path_lib("bs3", "assets", "javascripts", "bootstrap.min.js")
   )
 }
 
@@ -410,7 +410,7 @@ bs3compat_bundle <- function() {
     rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
     # Gyliphicon font files
     file_attachments = c(
-      fonts = lib_file("bs3", "assets", "fonts")
+      fonts = path_lib("bs3", "assets", "fonts")
     ),
     html_deps = htmltools::htmlDependency(
       "bs3compat", packageVersion("bslib"),

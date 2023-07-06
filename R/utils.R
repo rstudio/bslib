@@ -22,7 +22,7 @@ get_exact_version <- function(version) {
   switch_version(version, five = version_bs5, four = version_bs4, three = version_bs3)
 }
 
-inst_file <- function(...) {
+path_inst <- function(...) {
   files <- system_file(..., package = "bslib")
   files_found <- files != ""
   if (all(files_found)) return(files)
@@ -34,8 +34,8 @@ inst_file <- function(...) {
   )
 }
 
-lib_file <- function(...) inst_file("lib", ...)
-components_file <- function(...) inst_file("components", ...)
+path_lib <- function(...) path_inst("lib", ...)
+path_components <- function(...) path_inst("components", ...)
 
 is_shiny_app <- function() {
   # Make sure to not load shiny as a side-effect of calling this function.
