@@ -229,7 +229,7 @@ layout_sidebar <- function(
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
-    sidebar_dependency(),
+    component_js_dependency("sidebar"),
     sidebar_init_js()
   )
 
@@ -276,10 +276,6 @@ collapse_icon <- function() {
     return(HTML(icon))
   }
   bsicons::bs_icon("chevron-down", class = "collapse-icon", size = NULL)
-}
-
-sidebar_dependency <- function(minified = NULL) {
-  component_js_dependency("sidebar", minified = minified)
 }
 
 sidebar_init_js <- function() {

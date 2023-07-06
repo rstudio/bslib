@@ -114,7 +114,7 @@ accordion <- function(..., id = NULL, open = NULL, multiple = TRUE, class = NULL
     ),
     !!!attrs,
     !!!children,
-    accordion_dependency()
+    component_js_dependency("accordion")
   )
 
   tag <- tag_require(tag, version = 5, caller = "accordion()")
@@ -275,8 +275,4 @@ check_character <- function(x, max_length = Inf, min_length = 1, call = rlang::c
     )
   }
   x
-}
-
-accordion_dependency <- function(minified = NULL) {
-  component_js_dependency("accordion", minified = minified)
 }

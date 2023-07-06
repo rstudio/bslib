@@ -14,8 +14,7 @@ const opts: BuildOptions = {
   external: ["bootstrap"],
 };
 
-// TODO: build all components?
-const components = ["accordion", "sidebar", "card"];
+const components = ["accordion", "sidebar", "card", "webComponents"];
 
 for (const component of components) {
   for (const minified of [true, false]) {

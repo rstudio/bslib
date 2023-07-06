@@ -71,7 +71,7 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(),
-    card_dependency(),
+    component_js_dependency("card"),
     card_init_js()
   )
 
@@ -270,18 +270,15 @@ is.card_item <- function(x) {
 
 
 full_screen_toggle <- function() {
-  tags$span(
-    class = "bslib-full-screen-enter",
-    class = "badge rounded-pill bg-dark",
-    "data-bs-toggle" = "tooltip",
-    "data-bs-placement" = "bottom",
-    title = "Expand",
-    full_screen_toggle_icon()
+  tooltip(
+    tags$span(
+      class = "bslib-full-screen-enter",
+      class = "badge rounded-pill bg-dark",
+      title = "Expand",
+      full_screen_toggle_icon()
+    ),
+    placement = "bottom"
   )
-}
-
-card_dependency <- function(minified = NULL) {
-  component_js_dependency("card", minified = minified)
 }
 
 card_init_js <- function() {
