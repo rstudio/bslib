@@ -57,7 +57,7 @@ page_fillable <- function(..., padding = NULL, gap = NULL, fillable_mobile = FAL
     lang = lang,
     bindFillRole(
       tags$body(
-        class = "bslib-page-fillable bslib-gap-spacing",
+        class = "bslib-page-fill bslib-gap-spacing",
         style = css(
           padding = validateCssPadding(padding),
           gap = validateCssUnit(gap),
