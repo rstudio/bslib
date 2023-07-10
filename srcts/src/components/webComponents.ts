@@ -1,5 +1,5 @@
 import { BslibTooltip } from "./tooltip";
-import { makeInputBinding } from "./_utils";
+import { makeInputBinding } from "./webcomponents/_makeInputBinding";
 
 [BslibTooltip].forEach((cls) => {
   customElements.define(cls.tagName, cls);

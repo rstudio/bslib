@@ -1,6 +1,6 @@
 import { nothing } from "lit";
 import { property } from "lit/decorators.js";
-import { LightElement } from "./_utils";
+import { LightElement } from "./webcomponents/_lightElement";
 import type { HtmlDep } from "./_utils";
 import type { Tooltip as TooltipType } from "bootstrap";
 

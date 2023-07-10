@@ -649,9 +649,7 @@
   var n6;
   var e5 = null != (null === (n6 = window.HTMLSlotElement) || void 0 === n6 ? void 0 : n6.prototype.assignedElements) ? (o6, n7) => o6.assignedElements(n7) : (o6, n7) => o6.assignedNodes(n7).filter((o7) => o7.nodeType === Node.ELEMENT_NODE);
 
-  // srcts/src/components/_utils.ts
-  var InputBinding = window.Shiny ? Shiny.InputBinding : class {
-  };
+  // srcts/src/components/webcomponents/_lightElement.ts
   var LightElement = class extends s4 {
     constructor() {
       super(...arguments);
@@ -691,41 +689,6 @@
     }
   };
   LightElement.isShinyInput = false;
-  function makeInputBinding(tagName, { type = null } = {}) {
-    if (!window.Shiny) {
-      return;
-    }
-    class NewCustomBinding extends Shiny["InputBinding"] {
-      constructor() {
-        super();
-      }
-      find(scope) {
-        return $(scope).find(tagName);
-      }
-      getValue(el) {
-        if ("getValue" in el) {
-          return el.getValue();
-        } else {
-          return el.value;
-        }
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      getType(el) {
-        return type;
-      }
-      subscribe(el, callback) {
-        el.onChangeCallback = callback;
-      }
-      unsubscribe(el) {
-        el.onChangeCallback = (x2) => {
-        };
-      }
-      receiveMessage(el, data) {
-        el.receiveMessage(el, data);
-      }
-    }
-    Shiny.inputBindings.register(new NewCustomBinding(), `${tagName}-Binding`);
-  }
 
   // srcts/src/components/tooltip.ts
   var Tooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
@@ -835,6 +798,43 @@
   __decorateClass([
     n5({ type: Boolean })
   ], BslibTooltip.prototype, "sanitize", 2);
+
+  // srcts/src/components/webcomponents/_makeInputBinding.ts
+  function makeInputBinding(tagName, { type = null } = {}) {
+    if (!window.Shiny) {
+      return;
+    }
+    class NewCustomBinding extends Shiny["InputBinding"] {
+      constructor() {
+        super();
+      }
+      find(scope) {
+        return $(scope).find(tagName);
+      }
+      getValue(el) {
+        if ("getValue" in el) {
+          return el.getValue();
+        } else {
+          return el.value;
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      getType(el) {
+        return type;
+      }
+      subscribe(el, callback) {
+        el.onChangeCallback = callback;
+      }
+      unsubscribe(el) {
+        el.onChangeCallback = (x2) => {
+        };
+      }
+      receiveMessage(el, data) {
+        el.receiveMessage(el, data);
+      }
+    }
+    Shiny.inputBindings.register(new NewCustomBinding(), `${tagName}-Binding`);
+  }
 
   // srcts/src/components/webComponents.ts
   [BslibTooltip].forEach((cls) => {
