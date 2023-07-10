@@ -24,7 +24,7 @@ component_dependency_css <- function(name) {
 
 # Run-time (Sass) component styles
 component_dependency_sass <- function(theme, name) {
-  if (!is_bs_theme(theme)) {
+  if (!is_bs_theme(theme) || identical(theme, bs_theme())) {
     return(component_dependency_css(name))
   }
 
