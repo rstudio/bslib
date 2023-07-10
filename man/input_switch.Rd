@@ -29,4 +29,34 @@ received for the input corresponding to \code{id} will be a logical
 \description{
 Create an on-off style switch control for specifying logical values.
 }
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(shiny)
+library(bslib)
+
+ui <- page_fixed(
+  title = "Keyboard Settings",
+  h2("Keyboard Settings"),
+  input_switch("auto_capitalization", "Auto-Capitalization",  TRUE),
+  input_switch("auto_correction", "Auto-Correction",  TRUE),
+  input_switch("check_spelling", "Check Spelling", TRUE),
+  input_switch("smart_punctuation", "Smart Punctuation"),
+  h2("Preview"),
+  verbatimTextOutput("preview")
+)
+
+server <- function(input, output, session) {
+  output$preview <- renderPrint({
+    list(
+      auto_capitalization = input$auto_capitalization,
+      auto_correction = input$auto_correction,
+      check_spelling = input$check_spelling,
+      smart_punctuation = input$smart_punctuation
+    )
+  })
+}
+
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
+}
 \concept{input controls}
