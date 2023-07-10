@@ -55,16 +55,16 @@ page_fillable <- function(..., padding = NULL, gap = NULL, fillable_mobile = FAL
     title = title,
     theme = theme,
     lang = lang,
-    tags$head(tags$style(HTML("html { height: 100%; }"))),
     bindFillRole(
       tags$body(
-        class = "bslib-page-fill bslib-gap-spacing",
+        class = "bslib-page-fillable bslib-gap-spacing",
         style = css(
           padding = validateCssPadding(padding),
           gap = validateCssUnit(gap),
           "--bslib-page-fill-mobile-height" = if (fillable_mobile) "100%" else "auto"
         ),
-        ...
+        ...,
+        component_dependency_css("page_fillable")
       ),
       container = TRUE
     )
@@ -141,9 +141,15 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
       border = FALSE,
       border_radius = FALSE,
       ...
-    )
+    ),
+    bslib::bs_dependency_defer(page_sidebar_dependency_sass)
   )
 }
+
+page_sidebar_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "page_sidebar")
+}
+
 
 #' @rdname page
 #' @inheritParams navset_bar

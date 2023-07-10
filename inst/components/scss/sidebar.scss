@@ -1,5 +1,13 @@
+$bslib-sidebar-padding: $spacer * 1.5 !default;
+$bslib-sidebar-icon-size: $spacer !default;
+$bslib-sidebar-bg: mix($body-color, $body-bg, 3.66%) !default;
+$bslib-sidebar-fg: color-contrast($bslib-sidebar-bg) !default;
+$bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
+$bslib-sidebar-column-sidebar: Min(calc(100% - #{$bslib-sidebar-icon-size}), var(--bslib-sidebar-width, 250px));
+
+
 .bslib-sidebar-layout {
-  --bslib-sidebar-transition: grid-template-columns ease-in-out #{$bslib-sidebar-transition-duration};
+  --bslib-sidebar-transition-duration: 500ms;
   --bslib-sidebar-border: #{$bslib-sidebar-border};
   --bslib-sidebar-border-radius: var(--bs-border-radius);
   --bslib-sidebar-vert-border: #{$bslib-sidebar-border};
@@ -8,12 +16,13 @@
   --bslib-collapse-toggle-border: #{$bslib-sidebar-border};
   --bslib-collapse-toggle-transform: 90deg;
   --bslib-collapse-toggle-right-transform: -90deg;
+  --bslib-sidebar-column-main: minmax(0, 1fr);
 
   display: grid !important;
-  grid-template-columns: $bslib-sidebar-column-sidebar $bslib-sidebar-column-main;
+  grid-template-columns: $bslib-sidebar-column-sidebar var(--bslib-sidebar-column-main);
   position: relative;
 
-  @include transition(var(--bslib-sidebar-transition));
+  @include transition(grid-template-columns ease-in-out var(--bslib-sidebar-transition-duration));
 
   border: var(--bslib-sidebar-border);
   border-radius: var(--bslib-sidebar-border-radius);
@@ -72,7 +81,6 @@
         &:not(:last-child) {
           margin-bottom: $spacer;
         }
-        @extend .accordion-flush;
         .accordion-body {
           display: flex;
           flex-direction: column;
@@ -132,7 +140,7 @@
       transform: rotate(var(--bslib-collapse-toggle-transform));
       // N.B. since mobile view won't trigger a transition of grid-template-columns,
       // we transition this toggle to ensure _some_ transition event always happens.
-      transition: transform cubic-bezier(0.68, -0.55, 0.27, 1.55) $bslib-sidebar-transition-duration;
+      transition: transform cubic-bezier(0.68, -0.55, 0.27, 1.55) var(--bslib-sidebar-transition-duration);
     }
 
     &:hover > .collapse-icon {
@@ -150,7 +158,7 @@
   }
 
   &.sidebar-right {
-    grid-template-columns: $bslib-sidebar-column-main $bslib-sidebar-column-sidebar;
+    grid-template-columns: var(--bslib-sidebar-column-main) $bslib-sidebar-column-sidebar;
 
     > .main {
       grid-column: 1 / 2;
@@ -272,7 +280,7 @@
       padding: 0 4px;
       > .collapse-icon {
         // On mobile we can transition the icon orientation immediately and quickly
-        transition-duration: $bslib-sidebar-transition-duration * 0.33;
+        transition-duration: calc(var(--bslib-sidebar-transition-duration) * 0.33);
       }
     }
 
@@ -301,7 +309,7 @@
       grid-template-rows: 0 minmax(0, 1fr);
       // TODO: according to the spec, grid-template-rows should be animatable,
       // but this doesn't behave quite right, and I'm not sure why
-      // transition: grid-template-rows ease-in-out $bslib-sidebar-transition-duration;
+      // transition: grid-template-rows ease-in-out var(--bslib-sidebar-transition-duration);
 
       > .main {
         border-top-left-radius: inherit;
@@ -342,7 +350,7 @@
         border-radius: 0;
       }
     }
-  } 
+  }
 }
 
 // Make sure a border appears between the navbar and the sidebar layout

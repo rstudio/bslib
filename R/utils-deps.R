@@ -1,14 +1,43 @@
-component_js_dependency <- function(name, minified = NULL) {
-  minified <-
-    minified %||%
-    get_shiny_devmode_option("shiny.minified", default = TRUE)
+component_dependency_js <- function(name) {
+  minified <- get_shiny_devmode_option("shiny.minified", default = TRUE)
 
   htmlDependency(
-    name = paste0("bslib-", name),
+    name = paste0("bslib-", name, "-js"),
     version = get_package_version("bslib"),
     package = "bslib",
     src = file.path("components", "dist", name),
-    all_files = TRUE,
-    script = paste0(name, if (minified) ".min", ".js")
+    script = paste0(name, if (minified) ".min", ".js"),
+    all_files = TRUE
+  )
+}
+
+# Pre-compiled component styles
+component_dependency_css <- function(name) {
+  htmlDependency(
+    name = paste0("bslib-", name, "-styles"),
+    version = get_package_version("bslib"),
+    package = "bslib",
+    src = file.path("components", "dist", name),
+    stylesheet = paste0(name, ".css")
+  )
+}
+
+# Run-time (Sass) component styles
+component_dependency_sass <- function(theme, name) {
+  if (!is_bs_theme(theme)) {
+    return(component_dependency_css(name))
+  }
+
+  scss_files <- list(
+    path_components("scss", "mixins", "_mixins.scss"),
+    path_components("scss", paste0(name, ".scss"))
+  )
+
+  bslib::bs_dependency(
+    input = lapply(scss_files, sass_file),
+    theme = theme,
+    name = paste0("bslib-", name, "-styles"),
+    version = get_package_version("bslib"),
+    cache_key_extra = get_package_version("bslib")
   )
 }
