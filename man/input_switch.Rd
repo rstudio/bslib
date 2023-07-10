@@ -21,6 +21,12 @@ update_switch(id, label = NULL, value = NULL, session = get_current_session())
 
 \item{session}{a shiny session object (the default should almost always be used).}
 }
-\description{
-Create a switch control used to specify logical values.
+\value{
+Returns a UI element for a switch input control. The server value
+received for the input corresponding to \code{id} will be a logical
+(\code{TRUE}/\code{FALSE}) value.
 }
+\description{
+Create an on-off style switch control for specifying logical values.
+}
+\concept{input controls}
