@@ -1,5 +1,5 @@
 @import "inst/lib/bs5/scss/_functions.scss";
-@import "inst/bslib-scss/color-contrast.scss";
+@import "inst/sass-utils/color-contrast.scss";
 
 
 
@@ -57,5 +57,4 @@ $bslib-preset-type: null !default;
 .table th[align=right] { text-align: right; }
 .table th[align=center] { text-align: center; }
 @import "inst/bs3compat/_rules.scss";
-@import "inst/bslib-scss/tab-fill.scss";
-@import "inst/bslib-scss/spacer.scss";
+@import "inst/bslib-scss/bslib.scss";
