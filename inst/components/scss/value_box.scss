@@ -39,7 +39,7 @@
     }
     // value_box(title = )
     > :first-child {
-      @include bootstrap-heading(h6);
+      @include bootstrap-heading($h6-font-size);
       color: inherit;
       // add a non-breaking space to ensure it's not 0 height
       &::after {
@@ -48,7 +48,7 @@
     }
     // value_box(value = )
     > :nth-child(2) {
-      @include bootstrap-heading(h2);
+      @include bootstrap-heading($h2-font-size);
       color: inherit;
       // add a non-breaking space to ensure it's not 0 height
       &::after {

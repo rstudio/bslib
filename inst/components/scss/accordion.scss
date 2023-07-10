@@ -1,6 +1,6 @@
 .accordion {
   .accordion-header {
-    @include bootstrap-heading(h2);
+    @include bootstrap-heading($h2-font-size);
     margin-bottom: 0;
   }
   .accordion-icon:not(:empty) {

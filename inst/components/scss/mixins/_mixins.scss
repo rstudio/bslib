@@ -20,8 +20,8 @@
 // Intentionally replicates Bootstrap's %heading placeholder
 // https://github.com/twbs/bootstrap/blob/2c7f88/scss/_reboot.scss#L83-L96
 // TODO: unit test to ensure `@extend .h2` is equvalent to `@include bootstrap-heading(h2)`
-@mixin bootstrap-heading($header) {
-  @include font-size(#{$header}-font-size);
+@mixin bootstrap-heading($font-size) {
+  @include font-size($font-size);
   margin-top: 0; // 1
   margin-bottom: $headings-margin-bottom;
   font-family: $headings-font-family;

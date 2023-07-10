@@ -38,6 +38,7 @@ component_dependency_sass <- function(theme, name) {
     theme = theme,
     name = paste0("bslib-", name, "-styles"),
     version = get_package_version("bslib"),
-    cache_key_extra = get_package_version("bslib")
+    cache_key_extra = get_package_version("bslib"),
+    .sass_args = list(options = sass_options(output_style = "compressed"))
   )
 }

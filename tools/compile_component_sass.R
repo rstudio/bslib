@@ -14,5 +14,5 @@ lapply(components, function(x) {
   target_dir <- file.path(path_components("dist"), x)
   if (!dir.exists(target_dir)) dir.create(target_dir)
   target_css <- file.path(target_dir, paste0(x, ".css"))
-  file.copy(css, target_css)
+  file.copy(css, target_css, overwrite = TRUE)
 })
