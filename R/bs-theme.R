@@ -358,12 +358,8 @@ bootstrap_bundle <- function(version) {
     # 2. Allow Bootstrap 3 & 4 to use color-contrast() in variable definitions
     # 3. Allow Bootstrap 3 & 4 to use bs_get_contrast()
     sass_layer(
-      functions = sass_file(path_inst("bslib-scss", "color-contrast.scss")),
-      rules = list(
-        sass_file(path_inst("bslib-scss", "tab-fill.scss")),
-        # TODO: could component-ize this?
-        sass_file(path_inst("bslib-scss", "spacer.scss"))
-      )
+      functions = sass_file(path_inst("sass-utils/color-contrast.scss")),
+      rules = sass_file(path_inst("bslib-scss", "bslib.scss"))
     )
   )
 }
