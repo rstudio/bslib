@@ -1,5 +1,5 @@
 @import "inst/lib/bs5/scss/_functions.scss";
-@import "inst/sass-utils/color-contrast.scss";
+@import "inst/bslib-scss/color-contrast.scss";
 
 
 
@@ -12,8 +12,6 @@ $bslib-preset-type: null !default;
 @import "inst/lib/bs5/scss/_maps.scss";
 @import "inst/lib/bs5/scss/_mixins.scss";
 @import "inst/bs3compat/_declarations.scss";
-@import "inst/components/scss/_variables.scss";
-@import "inst/components/scss/_mixins.scss";
 :root {
 --bslib-bootstrap-version: #{$bootstrap-version};
 --bslib-preset-name: #{$bslib-preset-name};
@@ -59,11 +57,5 @@ $bslib-preset-type: null !default;
 .table th[align=right] { text-align: right; }
 .table th[align=center] { text-align: center; }
 @import "inst/bs3compat/_rules.scss";
-@import "inst/components/scss/accordion.scss";
-@import "inst/components/scss/card.scss";
-@import "inst/components/scss/fill.scss";
-@import "inst/components/scss/layout_column_wrap.scss";
-@import "inst/components/scss/layout_columns.scss";
-@import "inst/components/scss/sidebar.scss";
-@import "inst/components/scss/value_box.scss";
-@import "inst/components/scss/nav-spacer.scss";
+@import "inst/bslib-scss/tab-fill.scss";
+@import "inst/bslib-scss/spacer.scss";
