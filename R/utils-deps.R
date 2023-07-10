@@ -25,9 +25,13 @@ component_dependency_css <- function(name) {
 # Run-time (Sass) component styles
 component_dependency_sass <- function(theme, name) {
   if (!is_bs_theme(theme) || identical(theme, bs_theme())) {
-    return(component_dependency_css(name))
+    component_dependency_css(name)
+  } else {
+    component_dependency_sass_(theme, name)
   }
+}
 
+component_dependency_sass_ <- function(theme, name) {
   scss_files <- list(
     path_components("scss", "mixins", "_mixins.scss"),
     path_components("scss", paste0(name, ".scss"))
