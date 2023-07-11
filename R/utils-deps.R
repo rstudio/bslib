@@ -1,10 +1,10 @@
 web_component <- function(tagName, ...) {
-  js_dep <- component_js_dependency("webComponents", type = "module")
+  js_dep <- component_dependency_js("webComponents", type = "module")
   args <- c(list(js_dep), rlang::list2(...))
   tag(tagName, args)
 }
 
-component_js_dependency <- function(name, ...) {
+component_dependency_js <- function(name, ...) {
   minified <- get_shiny_devmode_option("shiny.minified", default = TRUE)
 
   htmlDependency(
