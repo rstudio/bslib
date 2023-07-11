@@ -1,6 +1,6 @@
 .bslib-grid {
   display: grid !important;
-  gap: var(--bslib-spacer);
+  gap: var(--bslib-spacer, 1rem);
   height: var(--bslib-grid-height);
   &.grid {
     // For some reason, Bootstrap sets `grid-template-rows: 1fr` by default, which

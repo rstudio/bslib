@@ -7,7 +7,7 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
   color: $bslib-page-title-color;
   font-size: $h4-font-size;
   font-weight: 300;
-  padding: var(--bslib-spacer);
+  padding: var(--bslib-spacer, 1rem);
   padding-left: $bslib-sidebar-padding;
   margin-bottom: 0;
 }

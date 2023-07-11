@@ -9,8 +9,8 @@
 
   // When the tab/page is fillable, add sensible default padding
   >.tab-content>.tab-pane.active.html-fill-container {
-    padding: var(--bslib-spacer);
-    gap: var(--bslib-spacer);
+    padding: var(--bslib-spacer, 1rem);
+    gap: var(--bslib-spacer, 1rem);
 
     // ...but if it holds a single sidebar layout, remove the padding
     &:has(> .bslib-sidebar-layout:only-child) {
