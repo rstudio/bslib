@@ -697,8 +697,7 @@
     constructor() {
       super();
       this.placement = "auto";
-      this.html = false;
-      this.sanitize = false;
+      this.options = "{}";
       // Visibility state management
       this.visible = false;
       // This is a placeholder function that will be overwritten by the Shiny input
@@ -711,20 +710,15 @@
       this._onHidden = this._onHidden.bind(this);
       this.style.display = "contents";
     }
-    get options() {
-      const opts = {
+    get allOptions() {
+      const opts = JSON.parse(this.options);
+      return __spreadValues({
         title: this.title,
         placement: this.placement,
-        html: this.html,
-        sanitize: this.sanitize
-      };
-      for (const attr of this.attributes) {
-        if (attr.name.startsWith("data-bs-")) {
-          const key = attr.name.replace("data-bs-", "");
-          opts[key] = attr.value;
-        }
-      }
-      return opts;
+        // Bootstrap defaults to false, but we have our own HTML escaping
+        html: true,
+        sanitize: true
+      }, opts);
     }
     get title() {
       return this.children[0].innerHTML;
@@ -732,7 +726,7 @@
     connectedCallback() {
       super.connectedCallback();
       this.reference.setAttribute("data-bs-toggle", "tooltip");
-      this._tooltip = new Tooltip(this.reference, this.options);
+      this._tooltip = new Tooltip(this.reference, this.allOptions);
       this.reference.addEventListener("shown.bs.tooltip", this._onShown);
       this.reference.addEventListener("hidden.bs.tooltip", this._onHidden);
     }
@@ -752,10 +746,13 @@
     // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
     get reference() {
       if (this.children.length > 1) {
-        return this.children[this.children.length - 1];
+        const ref = this.children[this.children.length - 1];
+        ref.setAttribute("tabindex", "0");
+        return ref;
       }
       if (this.childNodes.length > 1) {
         const ref = document.createElement("span");
+        ref.setAttribute("tabindex", "0");
         ref.append(this.childNodes[this.childNodes.length - 1]);
         this.appendChild(ref);
         return ref;
@@ -779,6 +776,7 @@
         this._tooltip[data.value]();
       } else if (method === "update") {
         if (data.title) {
+          Shiny.renderDependencies(data.title.deps);
           this._tooltip.setContent({ ".tooltip-inner": data.title.html });
         }
       } else {
@@ -793,11 +791,8 @@
     n5({ type: String })
   ], BslibTooltip.prototype, "placement", 2);
   __decorateClass([
-    n5({ type: Boolean })
-  ], BslibTooltip.prototype, "html", 2);
-  __decorateClass([
-    n5({ type: Boolean })
-  ], BslibTooltip.prototype, "sanitize", 2);
+    n5({ type: String })
+  ], BslibTooltip.prototype, "options", 2);
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {

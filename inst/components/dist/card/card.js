@@ -195,7 +195,7 @@
      */
     _addEventListeners() {
       const btnFullScreen = this.card.querySelector(
-        `:scope > .${_Card.attr.CLASS_FULL_SCREEN_ENTER}`
+        `:scope > * > .${_Card.attr.CLASS_FULL_SCREEN_ENTER}`
       );
       if (!btnFullScreen)
         return;
