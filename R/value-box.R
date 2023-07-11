@@ -71,7 +71,7 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
     fill = fill,
     !!!attribs,
     contents,
-    component_dependency_css("value_box")
+    as.card_item(component_dependency_css("value_box"))
   )
 
   as_fragment(tag_require(res, version = 5, caller = "value_box()"))
