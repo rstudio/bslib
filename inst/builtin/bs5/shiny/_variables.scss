@@ -85,3 +85,7 @@ $form-text-color: $gray-600 !default;
 // Borders
 $input-border-color: $gray-500 !default;
 $border-radius: 3px !default;
+
+// Tables
+$table-striped-bg: tint-color($blue, 94%) !default;
+$bslib-dt-row-active-bg: $blue !default;

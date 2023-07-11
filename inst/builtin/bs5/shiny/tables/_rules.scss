@@ -1,7 +1,7 @@
 :root {
   --bslib-dt-row-selected: #{red($blue), green($blue), blue($blue)};
-  --bslib-table-striped-bg: #{$bslib-table-striped-bg};
-  --bslib-dt-row-striped-bg: #{$bslib-dt-row-striped-bg};
+  --bslib-table-striped-bg: #{$table-striped-bg};
+  --bslib-dt-row-striped-bg: #{$table-striped-bg};
   --bslib-dt-row-active-bg: #{$bslib-dt-row-active-bg};
 }
 
