@@ -283,7 +283,7 @@ full_screen_toggle <- function() {
 card_dependency <- function() {
   list(
     component_dependency_js("card"),
-    bslib::bs_dependency_defer(card_dependency_sass)
+    bs_dependency_defer(card_dependency_sass)
   )
 }
 

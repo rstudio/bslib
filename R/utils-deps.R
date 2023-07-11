@@ -37,7 +37,7 @@ component_dependency_sass_ <- function(theme, name) {
     path_components("scss", paste0(name, ".scss"))
   )
 
-  bslib::bs_dependency(
+  bs_dependency(
     input = lapply(scss_files, sass_file),
     theme = theme,
     name = paste0("bslib-", name, "-styles"),

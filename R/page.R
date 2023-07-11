@@ -142,7 +142,7 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
       border_radius = FALSE,
       ...
     ),
-    bslib::bs_dependency_defer(page_sidebar_dependency_sass)
+    bs_dependency_defer(page_sidebar_dependency_sass)
   )
 }
 

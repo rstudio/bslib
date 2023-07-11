@@ -292,7 +292,7 @@ sidebar_init_js <- function() {
 sidebar_dependency <- function() {
   list(
     component_dependency_js("sidebar"),
-    bslib::bs_dependency_defer(sidebar_dependency_sass)
+    bs_dependency_defer(sidebar_dependency_sass)
   )
 }
 

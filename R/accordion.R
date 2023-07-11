@@ -280,7 +280,7 @@ check_character <- function(x, max_length = Inf, min_length = 1, call = rlang::c
 accordion_dependency <- function() {
   list(
     component_dependency_js("accordion"),
-    bslib::bs_dependency_defer(accordion_dependency_sass)
+    bs_dependency_defer(accordion_dependency_sass)
   )
 }
 
