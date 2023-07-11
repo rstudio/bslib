@@ -1,5 +1,9 @@
 # bslib 0.5.0.9000
 
+## Improvements
+
+* Closed quarto-dev/quarto-cli#6081: `{bslib}`'s components (e.g., `card()`, `sidebar()`, etc.) now work more sensibly in Quarto docs. (#664)
+
 ## Bug fixes
 
 * Closed #636: Outputs in sidebars now work as expected when an initially-closed sidebar is opened. (#624)

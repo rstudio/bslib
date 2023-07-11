@@ -71,7 +71,7 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(),
-    component_js_dependency("card"),
+    card_dependency(),
     card_init_js()
   )
 
@@ -279,6 +279,17 @@ full_screen_toggle <- function() {
     ),
     placement = "bottom"
   )
+}
+
+card_dependency <- function() {
+  list(
+    component_dependency_js("card"),
+    bs_dependency_defer(card_dependency_sass)
+  )
+}
+
+card_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "card")
 }
 
 card_init_js <- function() {

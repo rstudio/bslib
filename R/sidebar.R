@@ -229,7 +229,7 @@ layout_sidebar <- function(
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
-    component_js_dependency("sidebar"),
+    sidebar_dependency(),
     sidebar_init_js()
   )
 
@@ -287,3 +287,16 @@ sidebar_init_js <- function() {
     HTML("bslib.Sidebar.initCollapsibleAll()")
   )
 }
+
+
+sidebar_dependency <- function() {
+  list(
+    component_dependency_js("sidebar"),
+    bs_dependency_defer(sidebar_dependency_sass)
+  )
+}
+
+sidebar_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "sidebar")
+}
+
