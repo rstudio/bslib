@@ -135,6 +135,11 @@
       if (!this.layout.toggle) {
         throw new Error("Tried to initialize a non-collapsible sidebar.");
       }
+      const sideAccordion = this.layout.sidebar.querySelector(
+        ":scope > .sidebar-content > .accordion"
+      );
+      if (sideAccordion)
+        sideAccordion.classList.add("accordion-flush");
       this._initEventListeners();
       this._initSidebarCounters();
       this._initDesktop();
