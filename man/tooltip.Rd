@@ -7,36 +7,31 @@
 \title{Add a tooltip to a UI element}
 \usage{
 tooltip(
+  trigger,
   ...,
-  body = "Tooltip",
+  id = NULL,
   placement = c("auto", "top", "right", "bottom", "left"),
-  html = FALSE,
-  sanitize = FALSE,
-  id = NULL
+  options = list()
 )
 
 tooltip_toggle(id, show = NULL, session = get_current_session())
 
-tooltip_update(id, body = NULL, session = get_current_session())
+tooltip_update(id, ..., session = get_current_session())
 }
 \arguments{
-\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag}. Named arguments become HTML attributes on returned
-UI element. Attributes starting with \verb{data-bs-*} may be supplied to further
-customize \href{https://getbootstrap.com/docs/5.3/components/tooltips/}{tooltip options}.}
+\item{trigger}{A UI element (i.e., \link[htmltools:builder]{htmltools tag}) to serve as the
+tooltips trigger. It's good practice for this element to be a keyboard-focusable
+and interactive element (e.g., \code{actionButton()}, \code{actionLink()}, etc) so that
+the tooltip is accessible to keyboard and assistive technology users.}
 
-\item{body}{Content to display in the tooltip.}
-
-\item{placement}{The placement of the tooltip relative to the target element.}
-
-\item{html}{Whether to treat \code{body} as HTML. WARNING: setting this \code{TRUE}
-when the \code{body} is a function of user \code{inputs} is dangerous and not
-recommended.}
-
-\item{sanitize}{Whether to sanitize HTML (only relevant when \code{html = TRUE}).
-This can be useful if \code{body} is a function of user \code{inputs}, but should
-also be treated as HTML.}
+\item{...}{UI elements for the tooltip. Character strings are automatically
+\code{\link[=htmlEscape]{htmlEscape()}}d unless marked as \code{\link[=HTML]{HTML()}}.}
 
 \item{id}{a character string that matches an existing tooltip id.}
+
+\item{placement}{The placement of the tooltip relative to its trigger.}
+
+\item{options}{A list of additional \href{https://getbootstrap.com/docs/5.3/components/tooltips/#options}{Bootstrap options}.}
 
 \item{show}{Whether to show (\code{TRUE}) or hide (\code{FALSE}) the tooltip. The
 default (\code{NULL}) will show if currently hidden and hide if currently shown.}
@@ -49,7 +44,7 @@ Tooltips are useful for showing additional information when focusing (or
 hovering over) a UI element.
 }
 \details{
-If multiple UI elements are provided to \code{...}, the last element is
+If \code{x} yields multiple HTML elements, the last element is
 used as the tooltip's target. If the target should contain multiple elements,
 then wrap those elements in a \code{\link[=span]{span()}} or \code{\link[=div]{div()}}.
 }
@@ -59,7 +54,7 @@ then wrap those elements in a \code{\link[=span]{span()}} or \code{\link[=div]{d
 
 \item \code{tooltip_toggle()}: Programmatically show/hide a tooltip.
 
-\item \code{tooltip_update()}: Update the \code{body} of a tooltip.
+\item \code{tooltip_update()}: Update the contents of a tooltip.
 
 }}
 \examples{
@@ -67,14 +62,14 @@ then wrap those elements in a \code{\link[=span]{span()}} or \code{\link[=div]{d
 
 tooltip(
   shiny::actionButton("btn", "A button"),
-  body = "A message"
+  "A message"
 )
 
 card(
   card_header(
     tooltip(
       span("Card title ", bsicons::bs_icon("question-circle-fill")),
-      body = "Additional info",
+      "Additional info",
       placement = "right"
     )
   ),
