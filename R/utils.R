@@ -22,8 +22,8 @@ get_exact_version <- function(version) {
   switch_version(version, five = version_bs5, four = version_bs4, three = version_bs3)
 }
 
-lib_file <- function(...) {
-  files <- system_file("lib", ..., package = "bslib")
+path_inst <- function(...) {
+  files <- system_file(..., package = "bslib")
   files_found <- files != ""
   if (all(files_found)) return(files)
 
@@ -33,6 +33,9 @@ lib_file <- function(...) {
     call. = FALSE
   )
 }
+
+path_lib <- function(...) path_inst("lib", ...)
+path_components <- function(...) path_inst("components", ...)
 
 is_shiny_app <- function() {
   # Make sure to not load shiny as a side-effect of calling this function.
@@ -139,4 +142,3 @@ get_color_contrast <- function(bg_color) {
     }
   )
 }
-

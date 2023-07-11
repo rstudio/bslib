@@ -25,9 +25,9 @@ bs_sass_file <- function(file, version) {
 
   f <- switch_version(
     version,
-    five = lib_file("bs5", "scss", file),
-    four = lib_file("bs4", "scss", file),
-    three = lib_file("bs3", "assets", "stylesheets", "bootstrap", file)
+    five = path_lib("bs5", "scss", file),
+    four = path_lib("bs4", "scss", file),
+    three = path_lib("bs3", "assets", "stylesheets", "bootstrap", file)
   )
   if (f == "") stop("The bootstrap stylesheet '", file, "' doesn't exist.", call. = FALSE)
   sass_file(f)

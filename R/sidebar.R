@@ -278,14 +278,8 @@ collapse_icon <- function() {
   bsicons::bs_icon("chevron-down", class = "collapse-icon", size = NULL)
 }
 
-sidebar_dependency <- function() {
-  htmlDependency(
-    name = "bslib-sidebar",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = "components",
-    script = "sidebar.min.js"
-  )
+sidebar_dependency <- function(minified = NULL) {
+  component_js_dependency("sidebar", minified = minified)
 }
 
 sidebar_init_js <- function() {

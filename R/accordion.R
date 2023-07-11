@@ -277,12 +277,6 @@ check_character <- function(x, max_length = Inf, min_length = 1, call = rlang::c
   x
 }
 
-accordion_dependency <- function() {
-  htmlDependency(
-    name = "bslib-accordion",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = "components",
-    script = "accordion.min.js"
-  )
+accordion_dependency <- function(minified = NULL) {
+  component_js_dependency("accordion", minified = minified)
 }
