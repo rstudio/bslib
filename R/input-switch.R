@@ -9,8 +9,8 @@
 #' ui <- page_fixed(
 #'   title = "Keyboard Settings",
 #'   h2("Keyboard Settings"),
-#'   input_switch("auto_capitalization", "Auto-Capitalization",  TRUE),
-#'   input_switch("auto_correction", "Auto-Correction",  TRUE),
+#'   input_switch("auto_capitalization", "Auto-Capitalization", TRUE),
+#'   input_switch("auto_correction", "Auto-Correction", TRUE),
 #'   input_switch("check_spelling", "Check Spelling", TRUE),
 #'   input_switch("smart_punctuation", "Smart Punctuation"),
 #'   h2("Preview"),
