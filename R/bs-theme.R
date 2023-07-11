@@ -297,21 +297,6 @@ bootstrap_bundle <- function(version) {
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
-      sass_layer(
-        mixins = list(
-          sass_file(path_components("scss", "_variables.scss")),
-          sass_file(path_components("scss", "_mixins.scss"))
-        )
-      ),
-      !!!rule_bundles(c(
-        path_components("scss", "accordion.scss"),
-        path_components("scss", "card.scss"),
-        path_components("scss", "fill.scss"),
-        path_components("scss", "layout_column_wrap.scss"),
-        path_components("scss", "layout_columns.scss"),
-        path_components("scss", "sidebar.scss"),
-        path_components("scss", "value_box.scss")
-      )),
       # Enable CSS Grid powered Bootstrap grid
       sass_layer(
         defaults = list("enable-cssgrid" = "true !default")
@@ -373,11 +358,8 @@ bootstrap_bundle <- function(version) {
     # 2. Allow Bootstrap 3 & 4 to use color-contrast() in variable definitions
     # 3. Allow Bootstrap 3 & 4 to use bs_get_contrast()
     sass_layer(
-      functions = sass_file(system_file("sass-utils/color-contrast.scss", package = "bslib"))
-    ),
-    # nav_spacer() CSS (can be removed)
-    nav_spacer = sass_layer(
-      rules = sass_file(path_components("scss", "nav-spacer.scss"))
+      functions = sass_file(path_inst("sass-utils/color-contrast.scss")),
+      rules = sass_file(path_inst("bslib-scss", "bslib.scss"))
     )
   )
 }

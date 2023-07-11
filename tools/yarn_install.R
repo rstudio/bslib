@@ -45,7 +45,7 @@ unlink("inst/lib/popper.js", recursive = TRUE)
 scss_files <- dir("inst", pattern = "\\.scss$", recursive = TRUE, full.names = TRUE)
 # These libs should already have prefixes in their source
 # TODO: add test(s) that we aren't missing vendor prefixes
-scss_files <- scss_files[!grepl("(^inst/lib/bs3)|(^inst/bs3compat)|(^inst/themer)|(^inst/components)", scss_files)]
+scss_files <- scss_files[!grepl("(^inst/lib/bs3)|(^inst/bs3compat)|(^inst/themer)|(^inst/components)|(^inst/bslib-scss)", scss_files)]
 
 scss_src <- lapply(scss_files, readLines)
 
