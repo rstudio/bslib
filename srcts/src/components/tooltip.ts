@@ -34,27 +34,18 @@ export class BslibTooltip extends LightElement {
   _tooltip!: TooltipType;
 
   @property({ type: String }) placement: TooltipOptions["placement"] = "auto";
-  @property({ type: Boolean }) html = false;
-  @property({ type: Boolean }) sanitize = false;
+  @property({ type: String }) options = "{}";
 
-  get options(): TooltipOptions {
-    // Offical 'public' API
-    const opts: TooltipOptions = {
+  get allOptions(): TooltipOptions {
+    const opts = JSON.parse(this.options);
+    return {
       title: this.title,
       placement: this.placement,
-      html: this.html,
-      sanitize: this.sanitize,
+      // Bootstrap defaults to false, but we have our own HTML escaping
+      html: true,
+      sanitize: true,
+      ...opts,
     };
-
-    // Support 'unofficial' `data-bs-*` attributes
-    for (const attr of this.attributes) {
-      if (attr.name.startsWith("data-bs-")) {
-        const key = attr.name.replace("data-bs-", "");
-        (opts as any)[key] = attr.value;
-      }
-    }
-
-    return opts;
   }
 
   get title(): string {
@@ -71,7 +62,7 @@ export class BslibTooltip extends LightElement {
   connectedCallback(): void {
     super.connectedCallback();
     this.reference.setAttribute("data-bs-toggle", "tooltip");
-    this._tooltip = new Tooltip(this.reference, this.options);
+    this._tooltip = new Tooltip(this.reference, this.allOptions);
 
     this.reference.addEventListener("shown.bs.tooltip", this._onShown);
     this.reference.addEventListener("hidden.bs.tooltip", this._onHidden);
@@ -98,12 +89,15 @@ export class BslibTooltip extends LightElement {
     // Note: a child template will always be present as the first child,
     // so ignore the 1st child
     if (this.children.length > 1) {
-      return this.children[this.children.length - 1];
+      const ref = this.children[this.children.length - 1];
+      ref.setAttribute("tabindex", "0");
+      return ref;
     }
     // If there are childNodes (i.e., a text node), then wrap the last one in a
     // span and use that as the reference
     if (this.childNodes.length > 1) {
       const ref = document.createElement("span");
+      ref.setAttribute("tabindex", "0");
       ref.append(this.childNodes[this.childNodes.length - 1]);
       this.appendChild(ref);
       return ref;
@@ -119,7 +113,6 @@ export class BslibTooltip extends LightElement {
 
   private _onShown(): void {
     this.visible = true;
-    // TODO: do we need to trigger a shown/hidden for Shiny?
     this.onChangeCallback(true);
   }
 
@@ -143,6 +136,7 @@ export class BslibTooltip extends LightElement {
       this._tooltip[data.value]();
     } else if (method === "update") {
       if (data.title) {
+        Shiny.renderDependencies(data.title.deps);
         // eslint-disable-next-line @typescript-eslint/naming-convention
         this._tooltip.setContent({ ".tooltip-inner": data.title.html });
       }

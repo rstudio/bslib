@@ -274,10 +274,9 @@ full_screen_toggle <- function() {
     tags$span(
       class = "bslib-full-screen-enter",
       class = "badge rounded-pill bg-dark",
-      title = "Expand",
       full_screen_toggle_icon()
     ),
-    placement = "bottom"
+    "Expand"
   )
 }
 

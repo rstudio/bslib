@@ -157,7 +157,7 @@ class Card {
    */
   private _addEventListeners(): void {
     const btnFullScreen = this.card.querySelector(
-      `:scope > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
+      `:scope > * > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
     );
     if (!btnFullScreen) return;
     btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));

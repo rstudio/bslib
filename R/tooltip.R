@@ -3,23 +3,18 @@
 #' Tooltips are useful for showing additional information when focusing (or
 #' hovering over) a UI element.
 #'
-#' @param ... Unnamed arguments can be any valid child of an [htmltools
-#'   tag][htmltools::tags]. Named arguments become HTML attributes on returned
-#'   UI element. Attributes starting with `data-bs-*` may be supplied to further
-#'   customize [tooltip
-#'   options](https://getbootstrap.com/docs/5.3/components/tooltips/).
-#' @param body Content to display in the tooltip.
-#' @param placement The placement of the tooltip relative to the target element.
-#' @param html Whether to treat `body` as HTML. WARNING: setting this `TRUE`
-#'   when the `body` is a function of user `inputs` is dangerous and not
-#'   recommended.
-#' @param sanitize Whether to sanitize HTML (only relevant when `html = TRUE`).
-#'   This can be useful if `body` is a function of user `inputs`, but should
-#'   also be treated as HTML.
+#' @param trigger A UI element (i.e., [htmltools tag][htmltools::tags]) to serve as the
+#'   tooltips trigger. It's good practice for this element to be a keyboard-focusable
+#'   and interactive element (e.g., `actionButton()`, `actionLink()`, etc) so that
+#'   the tooltip is accessible to keyboard and assistive technology users.
+#' @param ... UI elements for the tooltip. Character strings are automatically
+#'   [htmlEscape()]d unless marked as [HTML()].
 #' @param id If provided, you can use `input$id` in your server logic to
 #'   determine whether the tooltip is currently shown/hidden.
+#' @param placement The placement of the tooltip relative to its trigger.
+#' @param options A list of additional [Bootstrap options](https://getbootstrap.com/docs/5.3/components/tooltips/#options).
 #'
-#' @details If multiple UI elements are provided to `...`, the last element is
+#' @details If `x` yields multiple HTML elements, the last element is
 #' used as the tooltip's target. If the target should contain multiple elements,
 #' then wrap those elements in a [span()] or [div()].
 #'
@@ -30,38 +25,48 @@
 #'
 #' tooltip(
 #'   shiny::actionButton("btn", "A button"),
-#'   body = "A message"
+#'   "A message"
 #' )
 #'
 #' card(
 #'   card_header(
 #'     tooltip(
 #'       span("Card title ", bsicons::bs_icon("question-circle-fill")),
-#'       body = "Additional info",
+#'       "Additional info",
 #'       placement = "right"
 #'     )
 #'   ),
 #'   "Card body content..."
 #' )
 tooltip <- function(
-  ...,
-  body = "Tooltip",
-  placement = c("auto", "top", "right", "bottom", "left"),
-  html = FALSE,
-  sanitize = FALSE,
-  id = NULL
-) {
+    trigger, ..., id = NULL,
+    placement = c("auto", "top", "right", "bottom", "left"),
+    options = list()
+  ) {
+
+  args <- rlang::list2(...)
+  argnames <- rlang::names2(args)
+
+  children <- args[!nzchar(argnames)]
+  attribs <- args[nzchar(argnames)]
+
+  #if (length(attribs) > 0) {
+  #  abort(c(
+  #    paste0("Unknown named argument: '", names(attribs)[1], "'."),
+  #    "i" = "Did you intend to pass it to `options`?"
+  #  ))
+  #}
 
   res <- web_component(
     "bslib-tooltip",
-    placement = rlang::arg_match(placement),
-    html = if (html) NA,
-    sanitize = if (sanitize) NA,
     id = id,
+    placement = rlang::arg_match(placement),
+    options = jsonlite::toJSON(options),
+    !!!attribs,
     # Use display:none instead of <template> since shiny.js
     # doesn't bind to the contents of the latter
-    div(body, style = "display:none;"),
-    ...
+    div(!!!children, style = "display:none;"),
+    trigger
   )
 
   res <- tag_require(res, version = 5, caller = "tooltip()")
@@ -89,13 +94,15 @@ tooltip_toggle <- function(id, show = NULL, session = get_current_session()) {
 }
 
 
-#' @describeIn tooltip Update the `body` of a tooltip.
+#' @describeIn tooltip Update the contents of a tooltip.
 #' @export
-tooltip_update <- function(id, body = NULL, session = get_current_session()) {
+tooltip_update <- function(id, ..., session = get_current_session()) {
+
+  title <- tagList(...)
 
   msg <- dropNulls(list(
     method = "update",
-    title = if (!is.null(body)) processDeps(body, session)
+    title = if (length(title) > 0) processDeps(title, session)
   ))
 
   force(id)
@@ -104,6 +111,10 @@ tooltip_update <- function(id, body = NULL, session = get_current_session()) {
   }
   session$onFlush(callback, once = TRUE)
 }
+
+# TODO: worth it?
+# tooltip_disable <- function(id) {}
+# tooltip_enable <- function(id) {}
 
 
 normalize_show_value <- function(show) {
