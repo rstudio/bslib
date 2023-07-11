@@ -18,6 +18,7 @@
       min-width: 50px;
       max-width: 125%;
     }
+    // We set font size because {bsicons} sets height/width to 1em by default
     .bi { font-size: 5rem; }
     .fa { font-size: 4rem; }
 
