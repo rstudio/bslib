@@ -5,7 +5,12 @@ as_fragment <- function(x, page = page_fluid) {
   x
 }
 
-as_page <- function(x) {
+as_page <- function(x, theme) {
+  x <- tagList(
+    tagFunction(function() { options(bslib.theme = theme); NULL }),
+    x,
+    tagFunction(function() { options(bslib.theme = NULL); NULL }),
+  )
   class(x) <- c("bslib_page", class(x))
   x
 }

@@ -14,7 +14,8 @@
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::bootstrapPage(..., title = title, theme = theme, lang = lang)
+    shiny::bootstrapPage(..., title = title, theme = theme, lang = lang),
+    theme
   )
 }
 
@@ -23,7 +24,8 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fluidPage(..., title = title, theme = theme, lang = lang)
+    shiny::fluidPage(..., title = title, theme = theme, lang = lang),
+    theme
   )
 }
 
@@ -32,7 +34,8 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fixedPage(..., title = title, theme = theme, lang = lang)
+    shiny::fixedPage(..., title = title, theme = theme, lang = lang),
+    theme
   )
 }
 

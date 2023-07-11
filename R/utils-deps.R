@@ -24,7 +24,9 @@ component_dependency_css <- function(name) {
 
 # Run-time (Sass) component styles
 component_dependency_sass <- function(theme, name) {
-  if (!is_bs_theme(theme) || identical(theme, bs_theme())) {
+  use_precompiled <- !is_bs_theme(theme) ||
+    (identical(theme, bs_theme()) && isTRUE(get_precompiled_option()))
+  if (use_precompiled) {
     component_dependency_css(name)
   } else {
     component_dependency_sass_(theme, name)
