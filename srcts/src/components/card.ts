@@ -54,7 +54,7 @@ class Card {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_CARD: "bslib-card",
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    CLASS_FULL_SCREEN: "bslib-full-screen",
+    ATTR_FULL_SCREEN: "data-full-screen",
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_HAS_FULL_SCREEN: "bslib-has-full-screen",
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -126,7 +126,7 @@ class Card {
       this.card.focus();
     }
 
-    this.card.classList.add(Card.attr.CLASS_FULL_SCREEN);
+    this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "true");
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
     this.card.insertAdjacentElement("beforebegin", this.overlay.container);
   }
@@ -146,7 +146,7 @@ class Card {
 
     // Remove overlay and remove full screen classes from card
     this.overlay.container.remove();
-    this.card.classList.remove(Card.attr.CLASS_FULL_SCREEN);
+    this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "false");
     this.card.removeAttribute("tabindex");
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
   }
