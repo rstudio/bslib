@@ -278,10 +278,6 @@ collapse_icon <- function() {
   bsicons::bs_icon("chevron-down", class = "collapse-icon", size = NULL)
 }
 
-sidebar_dependency <- function(minified = NULL) {
-  component_js_dependency("sidebar", minified = minified)
-}
-
 sidebar_init_js <- function() {
   # Note: if we want to avoid inline `<script>` tags in the future for
   # initialization code, we might be able to do so by turning the sidebar layout
@@ -291,3 +287,16 @@ sidebar_init_js <- function() {
     HTML("bslib.Sidebar.initCollapsibleAll()")
   )
 }
+
+
+sidebar_dependency <- function() {
+  list(
+    component_dependency_js("sidebar"),
+    bs_dependency_defer(sidebar_dependency_sass)
+  )
+}
+
+sidebar_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "sidebar")
+}
+

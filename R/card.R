@@ -280,8 +280,15 @@ full_screen_toggle <- function() {
   )
 }
 
-card_dependency <- function(minified = NULL) {
-  component_js_dependency("card", minified = minified)
+card_dependency <- function() {
+  list(
+    component_dependency_js("card"),
+    bs_dependency_defer(card_dependency_sass)
+  )
+}
+
+card_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "card")
 }
 
 card_init_js <- function() {

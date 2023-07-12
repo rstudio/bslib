@@ -1,4 +1,5 @@
 .bslib-value-box {
+  --bslib-value-box-separator-color: rgba(var(--bs-white-rgb, 255,255,255), 0.175);
 
   .value-box-grid {
     grid-template-columns: var(--bslib-value-box-widths);
@@ -45,7 +46,7 @@
     }
     // value_box(title = )
     > :first-child {
-      @extend .h6;
+      @include bootstrap-heading($h6-font-size);
       color: inherit;
       // add a non-breaking space to ensure it's not 0 height
       &::after {
@@ -54,7 +55,7 @@
     }
     // value_box(value = )
     > :nth-child(2) {
-      @extend .h2;
+      @include bootstrap-heading($h2-font-size);
       color: inherit;
       // add a non-breaking space to ensure it's not 0 height
       &::after {
@@ -62,7 +63,7 @@
       }
     }
     &.border-start {
-      border-color: rgba($border-color, 0.3) !important;
+      border-color: var(--bslib-value-box-separator-color) !important;
     }
   }
 

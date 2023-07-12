@@ -277,6 +277,13 @@ check_character <- function(x, max_length = Inf, min_length = 1, call = rlang::c
   x
 }
 
-accordion_dependency <- function(minified = NULL) {
-  component_js_dependency("accordion", minified = minified)
+accordion_dependency <- function() {
+  list(
+    component_dependency_js("accordion"),
+    bs_dependency_defer(accordion_dependency_sass)
+  )
+}
+
+accordion_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "accordion")
 }
