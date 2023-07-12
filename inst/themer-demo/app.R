@@ -65,11 +65,17 @@ progressBar <- div(
 
 # This is here for shinycoreci to take advantage of (so we don't need to update a bunch of screenshots)
 IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
-if (isTRUE(IS_LEGACY)) {
+if (isTRUE(IS_LEGACY) || theme_version(theme) %in% c("3", "4")) {
   dashboardTab <- NULL
 } else {
   dashboardTab <- nav_panel("Dashboard", tipsUI("tips"))
   theme_set(theme_minimal())
+}
+
+bs_table <- function(x, class = NULL, ...) {
+  class <- paste(c("table", class), collapse = " ")
+  class <- sprintf('class="%s"', class)
+  HTML(knitr::kable(x, format = "html", table.attr = class))
 }
 
 shinyApp(
@@ -159,7 +165,22 @@ shinyApp(
     ),
     nav_panel(
       "Tables",
-      DT::dataTableOutput("DT")
+      tabsetPanel(
+        id = "tables",
+        tab(
+          "DataTables",
+          DT::dataTableOutput("DT")
+        ),
+        tab(
+          "Bootstrap",
+          h3("Plain tables", class = "mt-2 mb-1"),
+          bs_table(mtcars[1:5, 1:5]),
+          h3("Striped tables", class = "mt-4 mb-1"),
+          bs_table(mtcars[1:5, 1:5], class = "table-striped"),
+          h3("Striped tables with hover", class = "mt-4 mb-1"),
+          bs_table(mtcars[1:5, 1:5], class = "table-striped table-hover")
+        )
+      )
     ),
     nav_panel(
       "Notifications",
@@ -247,7 +268,17 @@ shinyApp(
   function(input, output, session) {
 
     output$DT <- DT::renderDataTable({
-      DT::datatable(mtcars, style = "bootstrap4")
+      cars <- mtcars
+      for (var in c("cyl", "vs", "am", "gear", "carb")) {
+        cars[[var]] <- factor(cars[[var]])
+      }
+
+      DT::datatable(
+        cars,
+        style = "auto",
+        caption = "A generic table made with the DT package and the DataTables library.",
+        filter = "top"
+      )
     })
 
     output$inputPanelOutputHeader <- renderText({
