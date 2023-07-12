@@ -1,5 +1,9 @@
 # bslib 0.5.0.9000
 
+## New features
+
+* The new `input_switch()` function provides a [Bootstrap 5 switch input](https://getbootstrap.com/docs/5.2/forms/checks-radios/#switches) (an on-off toggle) for binary input values. (#483)
+
 ## Improvements
 
 * Closed quarto-dev/quarto-cli#6081: `{bslib}`'s components (e.g., `card()`, `sidebar()`, etc.) now work more sensibly in Quarto docs. (#664)
