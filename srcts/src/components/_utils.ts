@@ -2,8 +2,6 @@ import type { HtmlDep } from "rstudio-shiny/srcts/types/src/shiny/render";
 
 import type { InputBinding as InputBindingType } from "rstudio-shiny/srcts/types/src/bindings/input";
 
-import type { BindScope } from "rstudio-shiny/srcts/types/src/shiny/bind";
-
 // Exclude undefined from T
 type NotUndefined<T> = T extends undefined ? never : T;
 
@@ -74,22 +72,11 @@ function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
   return Array.from(focusable) as HTMLElement[];
 }
 
-function bindAll(scope: BindScope): void {
-  if (Shiny && Shiny.bindAll) Shiny.bindAll(scope);
-}
-
-function unbindAll(scope: BindScope): void {
-  if (Shiny && Shiny.unbindAll) Shiny.unbindAll(scope);
-}
-
 export {
   InputBinding,
   registerBinding,
   hasDefinedProperty,
   doWindowResizeOnElementResize,
   getAllFocusableChildren,
-  bindAll,
-  unbindAll,
 };
-
 export type { HtmlDep };

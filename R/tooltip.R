@@ -3,20 +3,23 @@
 #' Tooltips are useful for showing additional information when focusing (or
 #' hovering over) a UI element.
 #'
-#' @param trigger A UI element (i.e., [htmltools tag][htmltools::tags]) to serve as the
-#'   tooltips trigger. It's good practice for this element to be a keyboard-focusable
-#'   and interactive element (e.g., `actionButton()`, `actionLink()`, etc) so that
-#'   the tooltip is accessible to keyboard and assistive technology users.
+#' @param trigger A UI element (i.e., [htmltools tag][htmltools::tags]) to serve
+#'   as the tooltips trigger. It's good practice for this element to be a
+#'   keyboard-focusable and interactive element (e.g., `actionButton()`,
+#'   `actionLink()`, etc) so that the tooltip is accessible to keyboard and
+#'   assistive technology users.
 #' @param ... UI elements for the tooltip. Character strings are automatically
 #'   [htmlEscape()]d unless marked as [HTML()].
 #' @param id If provided, you can use `input$id` in your server logic to
 #'   determine whether the tooltip is currently shown/hidden.
 #' @param placement The placement of the tooltip relative to its trigger.
-#' @param options A list of additional [Bootstrap options](https://getbootstrap.com/docs/5.3/components/tooltips/#options).
+#' @param options A list of additional [Bootstrap
+#'   options](https://getbootstrap.com/docs/5.3/components/tooltips/#options).
 #'
-#' @details If `x` yields multiple HTML elements, the last element is
-#' used as the tooltip's target. If the target should contain multiple elements,
-#' then wrap those elements in a [span()] or [div()].
+#' @details If `trigger` yields multiple HTML elements (i.e., it's a `tagList()`
+#'   or complex `{htmlwidgets}` object), the last HTML element is used as the
+#'   tooltip's target. If the `trigger` should contain all of those elements,
+#'   consider wrapping the object in a [span()] or [div()].
 #'
 #' @describeIn tooltip Add a tooltip to a UI element
 #' @references <https://getbootstrap.com/docs/5.3/components/tooltips/>
@@ -39,10 +42,12 @@
 #'   "Card body content..."
 #' )
 tooltip <- function(
-    trigger, ..., id = NULL,
-    placement = c("auto", "top", "right", "bottom", "left"),
-    options = list()
-  ) {
+  trigger,
+  ...,
+  id = NULL,
+  placement = c("auto", "top", "right", "bottom", "left"),
+  options = list()
+) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
@@ -50,18 +55,15 @@ tooltip <- function(
   children <- args[!nzchar(argnames)]
   attribs <- args[nzchar(argnames)]
 
-  #if (length(attribs) > 0) {
-  #  abort(c(
-  #    paste0("Unknown named argument: '", names(attribs)[1], "'."),
-  #    "i" = "Did you intend to pass it to `options`?"
-  #  ))
-  #}
+  if (length(children) == 0) {
+    abort("At least one value must be provided to `...`.")
+  }
 
   res <- web_component(
     "bslib-tooltip",
     id = id,
     placement = rlang::arg_match(placement),
-    options = jsonlite::toJSON(options),
+    options = jsonlite::toJSON(options, auto_unbox = TRUE),
     !!!attribs,
     # Use display:none instead of <template> since shiny.js
     # doesn't bind to the contents of the latter
@@ -111,11 +113,6 @@ tooltip_update <- function(id, ..., session = get_current_session()) {
   }
   session$onFlush(callback, once = TRUE)
 }
-
-# TODO: worth it?
-# tooltip_disable <- function(id) {}
-# tooltip_enable <- function(id) {}
-
 
 normalize_show_value <- function(show) {
   if (is.null(show)) return("toggle")

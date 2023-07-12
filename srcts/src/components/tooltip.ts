@@ -28,6 +28,10 @@ type UpdateMessage = {
 
 type MessageData = ToggleMessage | UpdateMessage;
 
+type TooltipTypeWithTip = TooltipType & {
+  tip: HTMLElement | null;
+};
+
 export class BslibTooltip extends LightElement {
   static tagName = "bslib-tooltip";
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -133,15 +137,45 @@ export class BslibTooltip extends LightElement {
   receiveMessage(el: HTMLElement, data: MessageData): void {
     const method = data.method;
     if (method === "toggle") {
-      this._tooltip[data.value]();
+      this._toggle(data.value);
     } else if (method === "update") {
-      if (data.title) {
-        Shiny.renderDependencies(data.title.deps);
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        this._tooltip.setContent({ ".tooltip-inner": data.title.html });
-      }
+      this._updateTitle(data.title);
     } else {
       throw new Error(`Unknown method ${method}`);
+    }
+  }
+
+  private _toggle(x: ToggleMessage["value"]): void {
+    if (x === "toggle") {
+      this._tooltip.toggle();
+    } else if (x === "show") {
+      if (!this.visible) this._tooltip.show();
+    } else if (x === "hide") {
+      if (this.visible) this._tooltip.hide();
+    }
+  }
+
+  private _updateTitle(title: UpdateMessage["title"]): void {
+    if (!title) return;
+    Shiny.renderDependencies(title.deps);
+    this._setContent(title.html);
+  }
+
+  // Workaround for a bug with .setContent() where it inadverently removes a currently
+  // visible tooltip. See: https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
+  private _setContent(html: string): void {
+    // Bootstrap hangs a tip element off of the tooltip instance. This doesn't appear to be
+    // part of the public API, but it's a convenient way to get at the tooltip, so we'll use it
+    // if available and *visible* (and fall back to the public API if not)
+    const tooltip = this._tooltip as TooltipTypeWithTip;
+    const tip = tooltip.tip;
+    if (tip && tip.offsetParent !== null) {
+      const inner = tip.querySelector(".tooltip-inner");
+      if (inner) inner.innerHTML = html;
+      this._tooltip.update();
+    } else {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      this._tooltip.setContent({ ".tooltip-inner": html });
     }
   }
 }
