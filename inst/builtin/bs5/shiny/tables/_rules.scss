@@ -1,13 +1,11 @@
-:root {
-  --bslib-dt-row-selected: #{red($blue), green($blue), blue($blue)};
+.table.dataTable {
+  // CSS variables are scoped to datatables in Bootstrap
+  --dt-row-selected: var(--bs-primary-rgb, "0,123,194");
+  --dt-row-selected-text: var(--bs-white-rgb, "255,255,255");
+  --dt-row-selected-link: var(--bs-light-rgh, "248,248,248");
 }
 
-.dataTable {
-  --dt-row-selected: var(--bslib-dt-row-selected);
-  --dt-row-selected-text: 255, 255, 255;
-  --dt-row-selected-link: 9, 10, 11; // TODO
-}
-
+// Note CSS specificity hack becuase DT's CSS deps are loaded after the theme
 .table.dataTable.dataTable {
   &.table-striped > tbody > tr.odd:not(.selected) > * {
     box-shadow: none;
