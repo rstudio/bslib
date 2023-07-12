@@ -171,7 +171,7 @@
         this.card.setAttribute("tabindex", "-1");
         this.card.focus();
       }
-      this.card.classList.add(_Card.attr.CLASS_FULL_SCREEN);
+      this.card.setAttribute(_Card.attr.ATTR_FULL_SCREEN, "true");
       document.body.classList.add(_Card.attr.CLASS_HAS_FULL_SCREEN);
       this.card.insertAdjacentElement("beforebegin", this.overlay.container);
     }
@@ -188,7 +188,7 @@
       );
       document.removeEventListener("keydown", this._trapFocusExit, true);
       this.overlay.container.remove();
-      this.card.classList.remove(_Card.attr.CLASS_FULL_SCREEN);
+      this.card.setAttribute(_Card.attr.ATTR_FULL_SCREEN, "false");
       this.card.removeAttribute("tabindex");
       document.body.classList.remove(_Card.attr.CLASS_HAS_FULL_SCREEN);
     }
@@ -382,7 +382,7 @@
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_CARD: "bslib-card",
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    CLASS_FULL_SCREEN: "bslib-full-screen",
+    ATTR_FULL_SCREEN: "data-full-screen",
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_HAS_FULL_SCREEN: "bslib-has-full-screen",
     // eslint-disable-next-line @typescript-eslint/naming-convention

@@ -19,7 +19,7 @@
     max-height: var(--bslib-card-body-max-height, none);
   }
 
-  &.bslib-full-screen > .card-body {
+  &[data-full-screen="true"] > .card-body {
     max-height: var(--bslib-card-body-max-height-full-screen, none);
   }
 
@@ -67,7 +67,7 @@
 * Full screen card logic
 *************************************************/
 
-.bslib-full-screen {
+[data-full-screen="true"] {
   position: fixed;
   inset: 3.5rem 1rem 1rem;
   height: auto !important;
@@ -93,7 +93,7 @@
   z-index: $zindex-popover;
 }
 
-.card:hover:not(.bslib-full-screen) > .bslib-full-screen-enter {
+.card[data-full-screen="false"]:hover > .bslib-full-screen-enter {
   display: block;
 }
 
