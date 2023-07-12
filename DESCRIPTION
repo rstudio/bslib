@@ -73,6 +73,7 @@ Collate:
     'files.R'
     'fill.R'
     'imports.R'
+    'input-switch.R'
     'layout.R'
     'nav-items.R'
     'nav-update.R'
