@@ -66,7 +66,7 @@ th {
   }
 }
 
-.bslib-card:not(.bslib-full-screen) .datatables .dataTables_wrapper {
+.bslib-card[data-full-screen="false"] .datatables .dataTables_wrapper {
   font-size: 80%;
 
   // Force the pagination buttons to stay in their assigned space, otherwise
@@ -76,8 +76,11 @@ th {
     flex-shrink: 1;
   }
 
-  // it seems like `.dt-row` holds the data table itself, so the idea here is to
-  // hide the supporting elements (search, pagination, etc.) when the table is
-  // inside a non-full-screen card. In practice, this blocks DT initialization.
-  // & > .row:not(.dt-row) { display: none; }
+  // hide the supporting elements when inside a non-full-screen card
+  .dataTables_length,  // show ___ entries
+  .dataTables_filter,  // search
+  .dataTables_info,    // showing 1 to 10 of 100 entries
+  .dataTables_paginate {
+    display: none;
+  }
 }
