@@ -72,23 +72,16 @@ th {
   }
 }
 
-.bslib-card[data-full-screen="false"] .datatables .dataTables_wrapper {
-  font-size: 80%;
+.bslib-card-table-sm {
+  &.bslib-card[data-full-screen="false"] .datatables .dataTables_wrapper {
+    font-size: 85%;
 
-  // Force the pagination buttons to stay in their assigned space, otherwise
-  // they use flex to fill up the available space and push out the left col.
-  .dataTables_paginate > ul.pagination > li {
-    min-width: 0;
-    flex-shrink: 1;
-    -webkit-flex-shrink: 1;
-    -webkit-flex-shrink: 1;
-  }
-
-  // hide the supporting elements when inside a non-full-screen card
-  .dataTables_length,  // show ___ entries
-  .dataTables_filter,  // search
-  .dataTables_info,    // showing 1 to 10 of 100 entries
-  .dataTables_paginate {
-    display: none;
+    // hide the supporting elements when inside a non-full-screen card
+    .dataTables_length,  // show ___ entries
+    .dataTables_filter,  // search
+    .dataTables_info,    // showing 1 to 10 of 100 entries
+    .dataTables_paginate {
+      display: none;
+    }
   }
 }
