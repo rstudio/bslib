@@ -82,6 +82,7 @@ th {
   .dataTables_paginate > ul.pagination > li {
     min-width: 0;
     flex-shrink: 1;
+    -webkit-flex-shrink: 1;
   }
 
   // hide the supporting elements when inside a non-full-screen card
