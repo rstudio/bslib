@@ -40,12 +40,12 @@ th {
 .datatables {
   // Table pagination row tweaks
   .dataTables_wrapper div.dataTables_info {
-    padding-top: 1.65em;
+    padding-top: calc(var(--bslib-spacer, 1rem) * 1.65);
     font-size: .95rem;
   }
 
   .dataTables_paginate {
-    padding-top: 1rem;
+    padding-top: var(--bslib-spacer, 1rem);
   }
 
   .paginate_button a {
@@ -54,7 +54,7 @@ th {
 
   // create space between 'show ___ entries' and 'search' above table
   .dataTables_length, .dataTables_filter {
-    padding-bottom: 1rem;
+    padding-bottom: var(--bslib-spacer, 1rem);
   }
 
   // Scroll the data table container, not the entire wrapper
