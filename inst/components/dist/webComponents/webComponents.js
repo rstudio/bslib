@@ -773,14 +773,42 @@
     receiveMessage(el, data) {
       const method = data.method;
       if (method === "toggle") {
-        this._tooltip[data.value]();
+        this._toggle(data.value);
       } else if (method === "update") {
-        if (data.title) {
-          Shiny.renderDependencies(data.title.deps);
-          this._tooltip.setContent({ ".tooltip-inner": data.title.html });
-        }
+        this._updateTitle(data.title);
       } else {
         throw new Error(`Unknown method ${method}`);
+      }
+    }
+    _toggle(x2) {
+      if (x2 === "toggle") {
+        this._tooltip.toggle();
+      } else if (x2 === "show") {
+        if (!this.visible)
+          this._tooltip.show();
+      } else if (x2 === "hide") {
+        if (this.visible)
+          this._tooltip.hide();
+      }
+    }
+    _updateTitle(title) {
+      if (!title)
+        return;
+      Shiny.renderDependencies(title.deps);
+      this._setContent(title.html);
+    }
+    // Workaround for a bug with .setContent() where it inadverently removes a currently
+    // visible tooltip. See: https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
+    _setContent(html) {
+      const tooltip = this._tooltip;
+      const tip = tooltip.tip;
+      if (tip && tip.offsetParent !== null) {
+        const inner = tip.querySelector(".tooltip-inner");
+        if (inner)
+          inner.innerHTML = html;
+        this._tooltip.update();
+      } else {
+        this._tooltip.setContent({ ".tooltip-inner": html });
       }
     }
   };
