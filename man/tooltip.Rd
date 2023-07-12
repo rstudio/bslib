@@ -19,10 +19,11 @@ tooltip_toggle(id, show = NULL, session = get_current_session())
 tooltip_update(id, ..., session = get_current_session())
 }
 \arguments{
-\item{trigger}{A UI element (i.e., \link[htmltools:builder]{htmltools tag}) to serve as the
-tooltips trigger. It's good practice for this element to be a keyboard-focusable
-and interactive element (e.g., \code{actionButton()}, \code{actionLink()}, etc) so that
-the tooltip is accessible to keyboard and assistive technology users.}
+\item{trigger}{A UI element (i.e., \link[htmltools:builder]{htmltools tag}) to serve
+as the tooltips trigger. It's good practice for this element to be a
+keyboard-focusable and interactive element (e.g., \code{actionButton()},
+\code{actionLink()}, etc) so that the tooltip is accessible to keyboard and
+assistive technology users.}
 
 \item{...}{UI elements for the tooltip. Character strings are automatically
 \code{\link[=htmlEscape]{htmlEscape()}}d unless marked as \code{\link[=HTML]{HTML()}}.}
@@ -44,9 +45,10 @@ Tooltips are useful for showing additional information when focusing (or
 hovering over) a UI element.
 }
 \details{
-If \code{x} yields multiple HTML elements, the last element is
-used as the tooltip's target. If the target should contain multiple elements,
-then wrap those elements in a \code{\link[=span]{span()}} or \code{\link[=div]{div()}}.
+If \code{trigger} yields multiple HTML elements (i.e., it's a \code{tagList()}
+or complex \code{{htmlwidgets}} object), the last HTML element is used as the
+tooltip's target. If the \code{trigger} should contain all of those elements,
+consider wrapping the object in a \code{\link[=span]{span()}} or \code{\link[=div]{div()}}.
 }
 \section{Functions}{
 \itemize{
