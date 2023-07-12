@@ -45,7 +45,7 @@ unlink("inst/lib/popper.js", recursive = TRUE)
 scss_files <- dir("inst", pattern = "\\.scss$", recursive = TRUE, full.names = TRUE)
 # These libs should already have prefixes in their source
 # TODO: add test(s) that we aren't missing vendor prefixes
-scss_files <- scss_files[!grepl("(^inst/lib/bs3)|(^inst/bs3compat)|(^inst/themer)|(^inst/nav-spacer)|(^inst/components)", scss_files)]
+scss_files <- scss_files[!grepl("(^inst/lib/bs3)|(^inst/bs3compat)|(^inst/themer)|(^inst/components)|(^inst/bslib-scss)", scss_files)]
 
 scss_src <- lapply(scss_files, readLines)
 
@@ -431,4 +431,20 @@ lapply(versions(), function(version) {
     dir.create(dest_dir)
   }
   file.copy(tmp_css, dest_dir)
+
+  # Also save the BS5+ Sass code used to generate the pre-compiled CSS.
+  # This is primarily here to help Quarto more easily replicate bs_theme()'s Sass.
+  if (version >= 5) {
+    theme_sass <- gsub(
+      paste0("@import \"", getwd(), "/"),
+      "@import \"",
+      as_sass(bs_theme(version))
+    )
+    writeLines(theme_sass, file.path(dest_dir, "bootstrap.scss"))
+    # Sanity check that we we can compile by moving file to home dir
+    file.copy(file.path(dest_dir, "bootstrap.scss"), "bootstrap.scss")
+    on.exit(unlink("bootstrap.scss"), add = TRUE)
+    testthat::expect_error(sass(sass_file("bootstrap.scss")), NA)
+  }
 })
+

@@ -1,4 +1,6 @@
 /*-- scss:rules --*/
+@import "ionrangeslider/_rules.scss";
+
 $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Source+Code+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap" !default;
 @if $web-font-path {
   @import url($web-font-path);
@@ -22,4 +24,10 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 // fix "to" width in the middle of the date picker
 .shiny-date-range-input .input-daterange .input-group-addon {
   margin-right: -1px;
+}
+
+// Make the default action button an outline variant, but not others
+.btn-outline-default,
+.btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
+  @include button-outline-variant($secondary);
 }

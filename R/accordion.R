@@ -278,11 +278,12 @@ check_character <- function(x, max_length = Inf, min_length = 1, call = rlang::c
 }
 
 accordion_dependency <- function() {
-  htmlDependency(
-    name = "bslib-accordion",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = "components",
-    script = "accordion.min.js"
+  list(
+    component_dependency_js("accordion"),
+    bs_dependency_defer(accordion_dependency_sass)
   )
+}
+
+accordion_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "accordion")
 }

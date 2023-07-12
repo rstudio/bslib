@@ -297,21 +297,6 @@ bootstrap_bundle <- function(version) {
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),
-      sass_layer(
-        mixins = list(
-          sass_file(system_file("components", "_variables.scss", package = "bslib")),
-          sass_file(system_file("components", "_mixins.scss", package = "bslib"))
-        )
-      ),
-      !!!rule_bundles(c(
-        system_file("components", "accordion.scss", package = "bslib"),
-        system_file("components", "card.scss", package = "bslib"),
-        system_file("components", "fill.scss", package = "bslib"),
-        system_file("components", "layout_column_wrap.scss", package = "bslib"),
-        system_file("components", "layout_columns.scss", package = "bslib"),
-        system_file("components", "sidebar.scss", package = "bslib"),
-        system_file("components", "value_box.scss", package = "bslib")
-      )),
       # Enable CSS Grid powered Bootstrap grid
       sass_layer(
         defaults = list("enable-cssgrid" = "true !default")
@@ -359,7 +344,7 @@ bootstrap_bundle <- function(version) {
       glyphicon_font_files = sass_layer(
         defaults = list("icon-font-path" = "'glyphicon-fonts/'"),
         file_attachments = c(
-          "glyphicon-fonts" = lib_file("bs3", "assets", "fonts", "bootstrap")
+          "glyphicon-fonts" = path_lib("bs3", "assets", "fonts", "bootstrap")
         )
       )
     )
@@ -373,29 +358,25 @@ bootstrap_bundle <- function(version) {
     # 2. Allow Bootstrap 3 & 4 to use color-contrast() in variable definitions
     # 3. Allow Bootstrap 3 & 4 to use bs_get_contrast()
     sass_layer(
-      functions = sass_file(system_file("sass-utils/color-contrast.scss", package = "bslib"))
-    ),
-    # nav_spacer() CSS (can be removed)
-    nav_spacer = sass_layer(
-      rules = sass_file(system_file("nav-spacer/nav-spacer.scss", package = "bslib"))
+      functions = sass_file(path_inst("sass-utils/color-contrast.scss")),
+      rules = sass_file(path_inst("bslib-scss", "bslib.scss"))
     )
   )
 }
 
-
 bootstrap_javascript_map <- function(version) {
   switch_version(
     version,
-    five = lib_file("bs5", "dist", "js", "bootstrap.bundle.min.js.map"),
-    four = lib_file("bs4", "dist", "js", "bootstrap.bundle.min.js.map")
+    five = path_lib("bs5", "dist", "js", "bootstrap.bundle.min.js.map"),
+    four = path_lib("bs4", "dist", "js", "bootstrap.bundle.min.js.map")
   )
 }
 bootstrap_javascript <- function(version) {
   switch_version(
     version,
-    five = lib_file("bs5", "dist", "js", "bootstrap.bundle.min.js"),
-    four = lib_file("bs4", "dist", "js", "bootstrap.bundle.min.js"),
-    three = lib_file("bs3", "assets", "javascripts", "bootstrap.min.js")
+    five = path_lib("bs5", "dist", "js", "bootstrap.bundle.min.js"),
+    four = path_lib("bs4", "dist", "js", "bootstrap.bundle.min.js"),
+    three = path_lib("bs3", "assets", "javascripts", "bootstrap.min.js")
   )
 }
 
@@ -411,7 +392,7 @@ bs3compat_bundle <- function() {
     rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
     # Gyliphicon font files
     file_attachments = c(
-      fonts = lib_file("bs3", "assets", "fonts")
+      fonts = path_lib("bs3", "assets", "fonts")
     ),
     html_deps = htmltools::htmlDependency(
       "bs3compat", packageVersion("bslib"),

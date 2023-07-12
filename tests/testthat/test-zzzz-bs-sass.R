@@ -21,13 +21,31 @@ test_that("Can access the sass behind all versions and Bootswatch themes", {
 # and so, has to make assumptions about what's in that file. Thus, everytime this file
 # changes, we should check to make sure we've made the appropriate changes in bootstrap_bundle()
 # (and once we have, then this hash should be updated as well).
-test_that("Make sure bootstrap.scss hasn't changed", {
+test_that("bootstrap.scss hasn't changed", {
   expect_snapshot_file(
-    lib_file("bs4", "scss", "bootstrap.scss"),
+    path_lib("bs4", "scss", "bootstrap.scss"),
     name = "bs4-imports"
   )
   expect_snapshot_file(
-    lib_file("bs5", "scss", "bootstrap.scss"),
+    path_lib("bs5", "scss", "bootstrap.scss"),
     name = "bs5-imports"
   )
+})
+
+# If Bootstrap changes their %heading placeholder, then we'll likely
+# need to update our bootstrap-heading() mixin to replicate those changes
+# https://github.com/twbs/bootstrap/blob/2c7f88/scss/_reboot.scss#L83-L96
+# https://github.com/rstudio/bslib/tree/main/inst/components/scss/mixins/_mixins.scss
+test_that("bootstrap-heading() mixin approximates %heading placeholder", {
+  reboot <- readLines(path_lib("bs5", "scss", "_reboot.scss"))
+  idx_start <- which(reboot == "%heading {")
+  idx_end <- NA
+  for (idx in which(reboot == "}")) {
+    if (idx > idx_start) {
+      idx_end <- idx
+      break
+    }
+  }
+  heading_placeholder <- reboot[seq.int(idx_start, idx_end)]
+  expect_snapshot(heading_placeholder)
 })
