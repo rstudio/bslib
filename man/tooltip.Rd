@@ -2,8 +2,8 @@
 % Please edit documentation in R/tooltip.R
 \name{tooltip}
 \alias{tooltip}
-\alias{tooltip_toggle}
-\alias{tooltip_update}
+\alias{toggle_tooltip}
+\alias{update_tooltip}
 \title{Add a tooltip to a UI element}
 \usage{
 tooltip(
@@ -14,9 +14,9 @@ tooltip(
   options = list()
 )
 
-tooltip_toggle(id, show = NULL, session = get_current_session())
+toggle_tooltip(id, show = NULL, session = get_current_session())
 
-tooltip_update(id, ..., session = get_current_session())
+update_tooltip(id, ..., session = get_current_session())
 }
 \arguments{
 \item{trigger}{A UI element (i.e., \link[htmltools:builder]{htmltools tag}) to serve
@@ -25,8 +25,7 @@ keyboard-focusable and interactive element (e.g., \code{actionButton()},
 \code{actionLink()}, etc) so that the tooltip is accessible to keyboard and
 assistive technology users.}
 
-\item{...}{UI elements for the tooltip. Character strings are automatically
-\code{\link[=htmlEscape]{htmlEscape()}}d unless marked as \code{\link[=HTML]{HTML()}}.}
+\item{...}{UI elements for the tooltip. Character strings are \link[=htmlEscape]{automatically escaped} unless marked as \code{\link[=HTML]{HTML()}}.}
 
 \item{id}{a character string that matches an existing tooltip id.}
 
@@ -35,28 +34,29 @@ assistive technology users.}
 \item{options}{A list of additional \href{https://getbootstrap.com/docs/5.3/components/tooltips/#options}{Bootstrap options}.}
 
 \item{show}{Whether to show (\code{TRUE}) or hide (\code{FALSE}) the tooltip. The
-default (\code{NULL}) will show if currently hidden and hide if currently shown.}
+default (\code{NULL}) will show if currently hidden and hide if currently shown.
+Note that a tooltip will not be shown if the trigger is not visible (e.g.,
+it's hidden behind a tab).}
 
 \item{session}{A Shiny session object (the default should almost always be
 used).}
 }
 \description{
-Tooltips are useful for showing additional information when focusing (or
-hovering over) a UI element.
+Display additional information when focusing (or hovering over) a UI element.
 }
 \details{
-If \code{trigger} yields multiple HTML elements (i.e., it's a \code{tagList()}
-or complex \code{{htmlwidgets}} object), the last HTML element is used as the
-tooltip's target. If the \code{trigger} should contain all of those elements,
-consider wrapping the object in a \code{\link[=span]{span()}} or \code{\link[=div]{div()}}.
+If \code{trigger} yields multiple HTML elements (e.g., a \code{tagList()} or
+complex \code{{htmlwidgets}} object), the last HTML element is used as the
+trigger. If the \code{trigger} should contain all of those elements, wrap the
+object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.
 }
 \section{Functions}{
 \itemize{
 \item \code{tooltip()}: Add a tooltip to a UI element
 
-\item \code{tooltip_toggle()}: Programmatically show/hide a tooltip.
+\item \code{toggle_tooltip()}: Programmatically show/hide a tooltip.
 
-\item \code{tooltip_update()}: Update the contents of a tooltip.
+\item \code{update_tooltip()}: Update the contents of a tooltip.
 
 }}
 \examples{
