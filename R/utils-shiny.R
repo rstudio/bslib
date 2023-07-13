@@ -27,8 +27,7 @@ has_valid_reactive_context <- function(session) {
 }
 
 get_current_theme <- function() {
-  res <- if (isNamespaceLoaded("shiny")) shiny::getCurrentTheme()
-  res %||% getOption("bslib.theme")
+  if (isNamespaceLoaded("shiny")) shiny::getCurrentTheme()
 }
 
 

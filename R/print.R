@@ -6,11 +6,17 @@ as_fragment <- function(x, page = page_fluid) {
 }
 
 as_page <- function(x, theme) {
+  old_theme <- bs_global_get()
+
+  # TODO: this _almost_ works, but fails to clean-up properly when x is a object
+  # which has an `as.tags()` method, and an error occurs inside that method. I think,
+  # to do this properly, we might have to re-visit this PR https://github.com/rstudio/htmltools/pull/267
   x <- tagList(
-    tagFunction(function() { options(bslib.theme = theme); NULL }),
+    tagFunction(function() { bs_global_set(theme); NULL }),
     x,
-    tagFunction(function() { options(bslib.theme = NULL); NULL }),
+    tagFunction(function() { bs_global_set(old_theme); NULL }),
   )
+
   class(x) <- c("bslib_page", class(x))
   x
 }

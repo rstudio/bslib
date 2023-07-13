@@ -341,7 +341,8 @@ bs_dependency_defer <- function(func, memoise = TRUE) {
       return(mfunc(get_current_theme()))
     }
 
-    mfunc(bs_current_theme())
+    # Outside of a Shiny context, we'll just get the global theme.
+    mfunc(bs_global_get())
   })
 }
 
