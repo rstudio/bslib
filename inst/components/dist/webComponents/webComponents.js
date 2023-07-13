@@ -725,14 +725,18 @@
     }
     connectedCallback() {
       super.connectedCallback();
-      this.reference.setAttribute("data-bs-toggle", "tooltip");
-      this._tooltip = new Tooltip(this.reference, this.allOptions);
-      this.reference.addEventListener("shown.bs.tooltip", this._onShown);
-      this.reference.addEventListener("hidden.bs.tooltip", this._onHidden);
+      this.triggerElement.setAttribute("data-bs-toggle", "tooltip");
+      this._tooltip = new Tooltip(this.triggerElement, this.allOptions);
+      this._observer = this._createVisibilityObserver();
+      this.triggerElement.addEventListener("shown.bs.tooltip", this._onShown);
+      this.triggerElement.addEventListener("hidden.bs.tooltip", this._onHidden);
     }
     disconnectedCallback() {
-      this.reference.removeEventListener("shown.bs.tooltip", this._onShown);
-      this.reference.removeEventListener("hidden.bs.tooltip", this._onHidden);
+      this.triggerElement.removeEventListener("shown.bs.tooltip", this._onShown);
+      this.triggerElement.removeEventListener(
+        "hidden.bs.tooltip",
+        this._onHidden
+      );
       super.disconnectedCallback();
     }
     render() {
@@ -744,7 +748,7 @@
     // a rectangle around `this.childNodes` instead of just the last HTMLElement.
     // As of today, bootstrap.Tooltip doesn't seem to support floating-ui's virtual elements,
     // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
-    get reference() {
+    get triggerElement() {
       if (this.children.length > 1) {
         const ref = this.children[this.children.length - 1];
         ref.setAttribute("tabindex", "0");
@@ -765,10 +769,12 @@
     _onShown() {
       this.visible = true;
       this.onChangeCallback(true);
+      this._observer.observe(this.triggerElement);
     }
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
+      this._observer.unobserve(this.triggerElement);
     }
     receiveMessage(el, data) {
       const method = data.method;
@@ -782,34 +788,65 @@
     }
     _toggle(x2) {
       if (x2 === "toggle") {
-        this._tooltip.toggle();
-      } else if (x2 === "show") {
-        if (!this.visible)
-          this._tooltip.show();
-      } else if (x2 === "hide") {
-        if (this.visible)
-          this._tooltip.hide();
+        x2 = this.visible ? "hide" : "show";
       }
+      if (x2 === "hide") {
+        this._tooltip.hide();
+      }
+      if (x2 === "show") {
+        this._show();
+      }
+    }
+    // No-op if the tooltip is already visible or if the trigger element is not visible
+    // (in either case the tooltip likely won't be positioned correctly anyway)
+    _show() {
+      if (!this.visible && this.visibleTrigger) {
+        this._tooltip.show();
+      }
+    }
+    get visibleTrigger() {
+      const el = this.triggerElement;
+      return el && el.offsetParent !== null;
     }
     _updateTitle(title) {
       if (!title)
         return;
       Shiny.renderDependencies(title.deps);
-      this._setContent(title.html);
+      this._setContentCarefully(title.html);
     }
     // Workaround for a bug with .setContent() where it inadverently removes a currently
     // visible tooltip. See: https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
-    _setContent(html) {
-      const tooltip = this._tooltip;
-      const tip = tooltip.tip;
+    _setContentCarefully(html) {
+      const { tip } = this._tooltip;
       if (tip && tip.offsetParent !== null) {
         const inner = tip.querySelector(".tooltip-inner");
         if (inner)
           inner.innerHTML = html;
         this._tooltip.update();
+        $(this).one("hidden.bs.tooltip", function() {
+          this._setContent(html);
+        });
       } else {
-        this._tooltip.setContent({ ".tooltip-inner": html });
+        this._setContent(html);
       }
+    }
+    _setContent(html) {
+      this._tooltip.setContent({ ".tooltip-inner": html });
+    }
+    _createVisibilityObserver() {
+      const options = {
+        root: document.documentElement
+      };
+      this._handleIntersection = this._handleIntersection.bind(this);
+      return new IntersectionObserver(this._handleIntersection, options);
+    }
+    _handleIntersection(entries) {
+      if (!this.visible)
+        return;
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting)
+          this._tooltip.hide();
+      });
     }
   };
   BslibTooltip.tagName = "bslib-tooltip";
