@@ -49,11 +49,9 @@ tooltip <- function(
   options = list()
 ) {
 
-  args <- rlang::list2(...)
-  argnames <- rlang::names2(args)
-
-  children <- args[!nzchar(argnames)]
-  attribs <- args[nzchar(argnames)]
+  args <- separate_arguments(...)
+  children <- args$children
+  attribs <- args$attribs
 
   if (length(children) == 0) {
     abort("At least one value must be provided to `...`.")
