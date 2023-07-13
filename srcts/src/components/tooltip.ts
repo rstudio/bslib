@@ -36,6 +36,8 @@ export class BslibTooltip extends LightElement {
   static tagName = "bslib-tooltip";
   // eslint-disable-next-line @typescript-eslint/naming-convention
   _tooltip!: TooltipType;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _observer!: IntersectionObserver;
 
   @property({ type: String }) placement: TooltipOptions["placement"] = "auto";
   @property({ type: String }) options = "{}";
@@ -65,16 +67,25 @@ export class BslibTooltip extends LightElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.reference.setAttribute("data-bs-toggle", "tooltip");
-    this._tooltip = new Tooltip(this.reference, this.allOptions);
+    this.triggerElement.setAttribute("data-bs-toggle", "tooltip");
+    this._tooltip = new Tooltip(this.triggerElement, this.allOptions);
 
-    this.reference.addEventListener("shown.bs.tooltip", this._onShown);
-    this.reference.addEventListener("hidden.bs.tooltip", this._onHidden);
+    // This observer watches for changes in the trigger element's visibility
+    // (only when the tooltip is visible). If the trigger element is no longer
+    // visible, then we hide the tooltip (Bootstrap doesn't do this automatically
+    // when programmatically showing a tooltip)
+    this._observer = this._createVisibilityObserver();
+
+    this.triggerElement.addEventListener("shown.bs.tooltip", this._onShown);
+    this.triggerElement.addEventListener("hidden.bs.tooltip", this._onHidden);
   }
 
   disconnectedCallback(): void {
-    this.reference.removeEventListener("shown.bs.tooltip", this._onShown);
-    this.reference.removeEventListener("hidden.bs.tooltip", this._onHidden);
+    this.triggerElement.removeEventListener("shown.bs.tooltip", this._onShown);
+    this.triggerElement.removeEventListener(
+      "hidden.bs.tooltip",
+      this._onHidden
+    );
 
     super.disconnectedCallback();
   }
@@ -89,8 +100,8 @@ export class BslibTooltip extends LightElement {
   // a rectangle around `this.childNodes` instead of just the last HTMLElement.
   // As of today, bootstrap.Tooltip doesn't seem to support floating-ui's virtual elements,
   // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
-  get reference(): Element {
-    // Note: a child template will always be present as the first child,
+  get triggerElement(): Element {
+    // Note: the first child of the web component always contains the tooltip content,
     // so ignore the 1st child
     if (this.children.length > 1) {
       const ref = this.children[this.children.length - 1];
@@ -118,11 +129,13 @@ export class BslibTooltip extends LightElement {
   private _onShown(): void {
     this.visible = true;
     this.onChangeCallback(true);
+    this._observer.observe(this.triggerElement);
   }
 
   private _onHidden(): void {
     this.visible = false;
     this.onChangeCallback(true);
+    this._observer.unobserve(this.triggerElement);
   }
 
   // Shiny-specific stuff
@@ -147,35 +160,73 @@ export class BslibTooltip extends LightElement {
 
   private _toggle(x: ToggleMessage["value"]): void {
     if (x === "toggle") {
-      this._tooltip.toggle();
-    } else if (x === "show") {
-      if (!this.visible) this._tooltip.show();
-    } else if (x === "hide") {
-      if (this.visible) this._tooltip.hide();
+      x = this.visible ? "hide" : "show";
     }
+    if (x === "hide") {
+      this._tooltip.hide();
+    }
+    if (x === "show") {
+      this._show();
+    }
+  }
+
+  // No-op if the tooltip is already visible or if the trigger element is not visible
+  // (in either case the tooltip likely won't be positioned correctly anyway)
+  private _show(): void {
+    if (!this.visible && this.visibleTrigger) {
+      this._tooltip.show();
+    }
+  }
+
+  get visibleTrigger(): boolean {
+    const el = this.triggerElement as HTMLElement;
+    return el && el.offsetParent !== null;
   }
 
   private _updateTitle(title: UpdateMessage["title"]): void {
     if (!title) return;
     Shiny.renderDependencies(title.deps);
-    this._setContent(title.html);
+    this._setContentCarefully(title.html);
   }
 
   // Workaround for a bug with .setContent() where it inadverently removes a currently
   // visible tooltip. See: https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
-  private _setContent(html: string): void {
+  private _setContentCarefully(html: string): void {
     // Bootstrap hangs a tip element off of the tooltip instance. This doesn't appear to be
     // part of the public API, but it's a convenient way to get at the tooltip, so we'll use it
     // if available and *visible* (and fall back to the public API if not)
-    const tooltip = this._tooltip as TooltipTypeWithTip;
-    const tip = tooltip.tip;
+    const { tip } = this._tooltip as TooltipTypeWithTip;
     if (tip && tip.offsetParent !== null) {
       const inner = tip.querySelector(".tooltip-inner");
       if (inner) inner.innerHTML = html;
       this._tooltip.update();
+      // Once the tooltip is hidden, officially replace the content (otherwise the next time the
+      // tooltip is shown, it will revert to the old content)
+      $(this).one("hidden.bs.tooltip", function () {
+        this._setContent(html);
+      });
     } else {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      this._tooltip.setContent({ ".tooltip-inner": html });
+      this._setContent(html);
     }
+  }
+
+  private _setContent(html: string): void {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    this._tooltip.setContent({ ".tooltip-inner": html });
+  }
+
+  private _createVisibilityObserver(): IntersectionObserver {
+    const options = {
+      root: document.documentElement,
+    };
+    this._handleIntersection = this._handleIntersection.bind(this);
+    return new IntersectionObserver(this._handleIntersection, options);
+  }
+
+  private _handleIntersection(entries: IntersectionObserverEntry[]): void {
+    if (!this.visible) return;
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) this._tooltip.hide();
+    });
   }
 }
