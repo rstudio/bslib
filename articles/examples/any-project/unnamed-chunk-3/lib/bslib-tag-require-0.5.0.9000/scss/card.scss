@@ -93,12 +93,12 @@
   z-index: $zindex-popover;
 }
 
-.card[data-full-screen="false"]:hover > .bslib-full-screen-enter {
+.card[data-full-screen="false"]:hover > * > .bslib-full-screen-enter {
   display: block;
 }
 
 // Hide all enter-full-screen buttons when *any* card is full-screenified
-.bslib-has-full-screen .card:hover > .bslib-full-screen-enter {
+.bslib-has-full-screen .card:hover > * > .bslib-full-screen-enter {
   display: none;
 }
 

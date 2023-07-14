@@ -131,8 +131,6 @@
   };
 
   // srcts/src/components/card.ts
-  var Tooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
-  };
   var _Card = class {
     /**
      * Creates an instance of a bslib Card component.
@@ -148,7 +146,6 @@
       _Card.instanceMap.set(card, this);
       _Card.shinyResizeObserver.observe(this.card);
       this._addEventListeners();
-      this._enableTooltips();
       this.overlay = this._createOverlay();
       this._exitFullScreenOnEscape = this._exitFullScreenOnEscape.bind(this);
       this._trapFocusExit = this._trapFocusExit.bind(this);
@@ -198,23 +195,11 @@
      */
     _addEventListeners() {
       const btnFullScreen = this.card.querySelector(
-        `:scope > .${_Card.attr.CLASS_FULL_SCREEN_ENTER}`
+        `:scope > * > .${_Card.attr.CLASS_FULL_SCREEN_ENTER}`
       );
       if (!btnFullScreen)
         return;
       btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
-    }
-    /**
-     * Enable tooltips used by the card component.
-     * @private
-     */
-    _enableTooltips() {
-      const selector = `.${_Card.attr.CLASS_FULL_SCREEN_ENTER}[data-bs-toggle='tooltip']`;
-      if (!this.card.querySelector(selector)) {
-        return;
-      }
-      const tooltipList = this.card.querySelectorAll(selector);
-      tooltipList.forEach((tt) => new Tooltip(tt));
     }
     /**
      * An event handler to exit full screen mode when the Escape key is pressed.
