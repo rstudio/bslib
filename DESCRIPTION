@@ -81,6 +81,7 @@ Collate:
     'navs.R'
     'onLoad.R'
     'page.R'
+    'popover.R'
     'precompiled.R'
     'print.R'
     'shiny-devmode.R'

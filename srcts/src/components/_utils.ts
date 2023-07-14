@@ -50,26 +50,33 @@ function doWindowResizeOnElementResize(el: HTMLElement): void {
   $(el).data("window-resize-observer", ro);
 }
 
-function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
-  // Cross-referenced with https://allyjs.io/data-tables/focusable.html
-  const base = [
-    "a[href]",
-    "area[href]",
-    "button",
-    "details summary",
-    "input",
-    "iframe",
-    "select",
-    "textarea",
-    '[contentEditable=""]',
-    '[contentEditable="true"]',
-    '[contentEditable="TRUE"]',
-    "[tabindex]",
-  ];
-  const modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
-  const selectors = base.map((b) => b + modifiers.join(""));
-  const focusable = el.querySelectorAll(selectors.join(", "));
-  return Array.from(focusable) as HTMLElement[];
+// Cross-referenced with https://allyjs.io/data-tables/focusable.html
+const focusSelectors = [
+  "a[href]",
+  "area[href]",
+  "button",
+  "details summary",
+  "input",
+  "iframe",
+  "select",
+  "textarea",
+  '[contentEditable=""]',
+  '[contentEditable="true"]',
+  '[contentEditable="TRUE"]',
+  "[tabindex]",
+];
+const modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const FOCUS_SELECTOR = focusSelectors
+  .map((x) => x + modifiers.join(""))
+  .join(", ");
+
+function getAllFocusableChildren(el: Element): HTMLElement[] {
+  return Array.from(el.querySelectorAll(FOCUS_SELECTOR));
+}
+
+function getFirstFocusableChild(el: Element): HTMLElement | null {
+  return el.querySelector(FOCUS_SELECTOR);
 }
 
 export {
@@ -78,5 +85,6 @@ export {
   hasDefinedProperty,
   doWindowResizeOnElementResize,
   getAllFocusableChildren,
+  getFirstFocusableChild,
 };
 export type { HtmlDep };

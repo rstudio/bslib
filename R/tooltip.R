@@ -24,6 +24,7 @@
 #' @describeIn tooltip Add a tooltip to a UI element
 #' @references <https://getbootstrap.com/docs/5.3/components/tooltips/>
 #' @export
+#' @seealso [popover()]
 #' @examplesIf interactive()
 #'
 #' tooltip(

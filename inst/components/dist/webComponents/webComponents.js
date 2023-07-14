@@ -725,24 +725,23 @@
     }
     connectedCallback() {
       super.connectedCallback();
-      this.triggerElement.setAttribute("data-bs-toggle", "tooltip");
-      this._tooltip = new Tooltip(this.triggerElement, this.allOptions);
+      const el = this.triggerElement;
+      el.setAttribute("data-bs-toggle", "tooltip");
+      this._tooltip = new Tooltip(el, this.allOptions);
       this._observer = this._createVisibilityObserver();
-      this.triggerElement.addEventListener("shown.bs.tooltip", this._onShown);
-      this.triggerElement.addEventListener("hidden.bs.tooltip", this._onHidden);
+      el.addEventListener("shown.bs.tooltip", this._onShown);
+      el.addEventListener("hidden.bs.tooltip", this._onHidden);
     }
     disconnectedCallback() {
-      this.triggerElement.removeEventListener("shown.bs.tooltip", this._onShown);
-      this.triggerElement.removeEventListener(
-        "hidden.bs.tooltip",
-        this._onHidden
-      );
+      const el = this.triggerElement;
+      el.removeEventListener("shown.bs.tooltip", this._onShown);
+      el.removeEventListener("hidden.bs.tooltip", this._onHidden);
       super.disconnectedCallback();
     }
     render() {
       return A;
     }
-    // Find an Element to use as the reference for the tooltip
+    // Find an Element to use as the trigger (aka, reference) for the tooltip
     //
     // TODO: In the future, it'd be nice if the reference was a virtual element (defining)
     // a rectangle around `this.childNodes` instead of just the last HTMLElement.
@@ -855,6 +854,126 @@
     n5({ type: String })
   ], BslibTooltip.prototype, "options", 2);
 
+  // srcts/src/components/popover.ts
+  var Popover = window.bootstrap ? window.bootstrap.Popover : class {
+  };
+  var BslibPopover = class extends LightElement {
+    constructor() {
+      super();
+      this.placement = "auto";
+      this.trigger = "click";
+      this.options = "{}";
+      // Visibility state management
+      this.visible = false;
+      // This is a placeholder function that will be overwritten by the Shiny input
+      // binding. When the input value changes, it invokes this function to notify
+      // Shiny that it has changed.
+      // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+      this.onChangeCallback = (x2) => {
+      };
+      this._onShown = this._onShown.bind(this);
+      this._onHidden = this._onHidden.bind(this);
+      this.style.display = "contents";
+    }
+    get allOptions() {
+      const opts = JSON.parse(this.options);
+      return __spreadValues({
+        content: this.content,
+        title: this.title,
+        placement: this.placement,
+        // Bootstrap defaults to false, but we have our own HTML escaping
+        html: true,
+        sanitize: true,
+        // TODO: don't officially support this?
+        trigger: this.trigger
+      }, opts);
+    }
+    // TODO: possible to avoid duplication of DOM elements?
+    get content() {
+      return this.children[0].innerHTML;
+    }
+    get title() {
+      return this.children[1].innerHTML;
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      const el = this.triggerElement;
+      el.setAttribute("data-bs-toggle", "popover");
+      this._popover = new Popover(el, this.allOptions);
+      el.addEventListener("shown.bs.popover", this._onShown);
+      el.addEventListener("hidden.bs.popover", this._onHidden);
+    }
+    disconnectedCallback() {
+      const el = this.triggerElement;
+      el.removeEventListener("shown.bs.popover", this._onShown);
+      el.removeEventListener("hidden.bs.popover", this._onHidden);
+      this._observer.disconnect();
+      super.disconnectedCallback();
+    }
+    render() {
+      return A;
+    }
+    // Find an Element to use as the trigger (aka, reference) for the popover
+    //
+    // TODO: In the future, it'd be nice if the reference was a virtual element (defining)
+    // a rectangle around `this.childNodes` instead of just the last HTMLElement.
+    // As of today, bootstrap.Popover doesn't seem to support floating-ui's virtual elements,
+    // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
+    get triggerElement() {
+      if (this.children.length > 2) {
+        const ref = this.children[this.children.length - 1];
+        ref.setAttribute("tabindex", "0");
+        return ref;
+      }
+      if (this.childNodes.length > 2) {
+        const ref = document.createElement("span");
+        ref.setAttribute("tabindex", "0");
+        ref.append(this.childNodes[this.childNodes.length - 1]);
+        this.appendChild(ref);
+        return ref;
+      }
+      return this;
+    }
+    getValue() {
+      return this.visible;
+    }
+    _onShown() {
+      this.visible = true;
+      this.onChangeCallback(true);
+    }
+    _onHidden() {
+      this.visible = false;
+      this.onChangeCallback(true);
+    }
+    receiveMessage(el, data) {
+      const method = data.method;
+      if (method === "toggle") {
+        this._popover[data.value]();
+      } else if (method === "update") {
+        if (data.content) {
+          this._popover.setContent({ ".popover-content": data.content.html });
+        }
+        if (data.title) {
+          this._popover.setContent({ ".popover-header": data.title.html });
+        }
+      } else {
+        throw new Error(`Unknown method ${method}`);
+      }
+    }
+  };
+  BslibPopover.tagName = "bslib-popover";
+  // Shiny-specific stuff
+  BslibPopover.isShinyInput = true;
+  __decorateClass([
+    n5({ type: String })
+  ], BslibPopover.prototype, "placement", 2);
+  __decorateClass([
+    n5({ type: String })
+  ], BslibPopover.prototype, "trigger", 2);
+  __decorateClass([
+    n5({ type: String })
+  ], BslibPopover.prototype, "options", 2);
+
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {
     if (!window.Shiny) {
@@ -893,7 +1012,7 @@
   }
 
   // srcts/src/components/webComponents.ts
-  [BslibTooltip].forEach((cls) => {
+  [BslibTooltip, BslibPopover].forEach((cls) => {
     customElements.define(cls.tagName, cls);
     if (cls.isShinyInput)
       makeInputBinding(cls.tagName);
