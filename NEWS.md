@@ -2,7 +2,8 @@
 
 ## New features
 
-* The new `input_switch()` function provides a [Bootstrap 5 switch input](https://getbootstrap.com/docs/5.2/forms/checks-radios/#switches) (an on-off toggle) for binary input values. (#483)
+* Added `tooltip()`, `update_tooltip()`, and `toggle_tooltip()` for easy creation (and server-side updating) of [Bootstrap tooltips](https://getbootstrap.com/docs/5.2/components/tooltips/). (a way to display additional information when focusing (or hovering over) a UI element). ()
+* Added `input_switch()` and `update_switch()` for easy creation (and server-side updating) of a [Bootstrap's switch input](https://getbootstrap.com/docs/5.2/forms/checks-radios/#switches) (an on-off toggle for binary input values). (#483)
 
 ## Improvements
 
