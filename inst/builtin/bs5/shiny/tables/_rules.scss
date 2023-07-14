@@ -1,3 +1,4 @@
+// TODO: Many of these rules could be applied to all bslib themes
 .table.dataTable {
   // CSS variables are scoped to datatables in Bootstrap
   --dt-row-selected: var(--bs-primary-rgb, "0,123,194");
@@ -5,7 +6,7 @@
   --dt-row-selected-link: var(--bs-light-rgh, "248,248,248");
 }
 
-// Note CSS specificity hack becuase DT's CSS deps are loaded after the theme
+// Note CSS specificity hack because DT's CSS deps are loaded after the theme
 .table.dataTable.dataTable {
   &.table-striped > tbody > tr.odd:not(.selected) > * {
     box-shadow: none;
