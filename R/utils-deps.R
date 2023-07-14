@@ -41,7 +41,10 @@ component_dependency_sass_ <- function(theme, name) {
 
   bs_dependency(
     input = lapply(scss_files, sass_file),
-    theme = theme,
+    # At least currently, when statically rendering a component, 
+    # bs_dependency_defer() passes along a NULL theme. We should 
+    # eventually fix that, but for now, fall back to the default theme
+    theme = theme %||% bs_theme(),
     name = paste0("bslib-", name, "-styles"),
     version = get_package_version("bslib"),
     cache_key_extra = get_package_version("bslib"),
