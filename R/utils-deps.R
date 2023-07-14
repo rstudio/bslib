@@ -1,4 +1,10 @@
-component_dependency_js <- function(name) {
+web_component <- function(tagName, ...) {
+  js_dep <- component_dependency_js("webComponents", type = "module")
+  args <- c(list(js_dep), rlang::list2(...))
+  tag(tagName, args)
+}
+
+component_dependency_js <- function(name, ...) {
   minified <- get_shiny_devmode_option("shiny.minified", default = TRUE)
 
   htmlDependency(
@@ -6,7 +12,10 @@ component_dependency_js <- function(name) {
     version = get_package_version("bslib"),
     package = "bslib",
     src = file.path("components", "dist", name),
-    script = paste0(name, if (minified) ".min", ".js"),
+    script = list(
+      src = paste0(name, if (minified) ".min", ".js"),
+      ...
+    ),
     all_files = TRUE
   )
 }

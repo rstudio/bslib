@@ -88,19 +88,20 @@ any_unnamed <- function(x) {
   is.null(nms) || !all(nzchar(nms))
 }
 
-list_split_named <- function(x) {
+separate_arguments <- function(...) {
+  x <- rlang::list2(...)
   x_names <- rlang::names2(x)
   is_named <- nzchar(x_names)
 
   if (all(is_named)) {
-    return(list(named = x, unnamed = list()))
+    return(list(attribs = x, children = list()))
   }
 
   if (!any(is_named)) {
-    return(list(named = list(), unnamed = x))
+    return(list(attribs = list(), children = x))
   }
 
-  list(named = x[is_named], unnamed = unname(x[!is_named]))
+  list(attribs = x[is_named], children = unname(dropNulls(x[!is_named])))
 }
 
 #' Rename a named list

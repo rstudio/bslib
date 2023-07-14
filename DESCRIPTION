@@ -86,6 +86,7 @@ Collate:
     'shiny-devmode.R'
     'sidebar.R'
     'staticimports.R'
+    'tooltip.R'
     'utils-deps.R'
     'utils-shiny.R'
     'utils-tags.R'

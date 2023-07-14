@@ -18,24 +18,24 @@ test_that("get_color_contrast() works", {
   expect_warning(expect_null(get_color_contrast("fsdnffdgdsfsd")))
 })
 
-test_that("list_split_named() works", {
+test_that("separate_arguments() works", {
   expect_equal(
-    list_split_named(list(1, 2, 3))$unnamed,
+    separate_arguments(1, 2, 3)$children,
     list(1, 2, 3)
   )
 
   expect_equal(
-    list_split_named(list(a = 1, b = 2, c = 3))$named,
+    separate_arguments(a = 1, b = 2, c = 3)$attribs,
     list(a = 1, b = 2, c = 3)
   )
 
   expect_equal(
-    list_split_named(list(a = 1, 2, 3)),
-    list(named = list(a = 1), unnamed = list(2, 3))
+    separate_arguments(a = 1, 2, 3),
+    list(attribs = list(a = 1), children = list(2, 3))
   )
 
   expect_equal(
-    list_split_named(list(1, a = 2, 3)),
-    list(named = list(a = 2), unnamed = list(1, 3))
+    separate_arguments(1, a = 2, 3),
+    list(attribs = list(a = 2), children = list(1, 3))
   )
 })
