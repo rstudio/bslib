@@ -81,6 +81,7 @@ th {
   }
 }
 
+// TODO: This could be applied more generally via the card scss
 .bslib-card-table-sm {
   &.bslib-card[data-full-screen="false"] .datatables .dataTables_wrapper {
     font-size: 85%;
