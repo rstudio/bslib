@@ -439,16 +439,13 @@ findAndMarkSelectedTab <- function(tabs, selected, foundSelected) {
 }
 
 prepTabIcon <- function(x = NULL) {
+  if (!inherits(x, "shiny.tag")) return(x)
 
-  if (inherits(x, "shiny.tag")) {
-    is_fa <- grepl("fa-", tagGetAttribute(x, "class") %||% "", fixed = TRUE)
-    if (is_fa) {
-      # specify fixed-width for font-awesome
-      x <- tagAppendAttributes(x, class = "fa-fw")
-    }
-  }
+  is_fa <- grepl("fa-", tagGetAttribute(x, "class") %||% "", fixed = TRUE)
+  if (!is_fa) return(x)
 
-  x
+  # specify fixed-width for font-awesome
+  tagAppendAttributes(x, class = "fa-fw")
 }
 
 # Text filter for navbarMenu's (plain text) separators
