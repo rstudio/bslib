@@ -171,7 +171,7 @@ export class BslibTooltip extends LightElement {
   }
 
   // No-op if the tooltip is already visible or if the trigger element is not visible
-  // (in either case the tooltip likely won't be positioned correctly anyway)
+  // (in either case the tooltip likely won't be positioned correctly)
   private _show(): void {
     if (!this.visible && this.visibleTrigger) {
       this._tooltip.show();
@@ -216,17 +216,14 @@ export class BslibTooltip extends LightElement {
   }
 
   private _createVisibilityObserver(): IntersectionObserver {
-    const options = {
-      root: document.documentElement,
+    const handler = (entries: IntersectionObserverEntry[]) => {
+      if (!this.visible) return;
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) this._tooltip.hide();
+      });
     };
-    this._handleIntersection = this._handleIntersection.bind(this);
-    return new IntersectionObserver(this._handleIntersection, options);
-  }
-
-  private _handleIntersection(entries: IntersectionObserverEntry[]): void {
-    if (!this.visible) return;
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) this._tooltip.hide();
+    return new IntersectionObserver(handler, {
+      root: document.documentElement,
     });
   }
 }
