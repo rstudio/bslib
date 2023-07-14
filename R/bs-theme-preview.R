@@ -55,7 +55,7 @@ opts_metadata <- function(theme) {
     "bslib" = builtin_themes(version),
     "Bootswatch" = bootswatch_themes(version)
   )
-  opts[[1]]$preset$choices <- themes
+  opts[[1]]$preset$choices <- dropNulls(themes)
   opts
 }
 
