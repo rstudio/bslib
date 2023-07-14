@@ -8,11 +8,19 @@
 
 // Note CSS specificity hack because DT's CSS deps are loaded after the theme
 .table.dataTable.dataTable {
-  &.table-striped > tbody > tr.odd:not(.selected) > * {
+  $class-stripe: "even";
+  $class-unstriped: "odd";
+
+  @if $table-striped-order == odd {
+    $class-stripe: "odd";
+    $class-unstriped: "even";
+  }
+
+  &.table-striped > tbody > tr.#{$class-unstriped}:not(.selected) > * {
     box-shadow: none;
   }
 
-  &.table-striped > tbody > tr.even:not(.selected) > * {
+  &.table-striped > tbody > tr.#{$class-stripe}:not(.selected) > * {
     box-shadow: inset 0 0 0 9999px var(--bs-table-striped-bg);
   }
 
