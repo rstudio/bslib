@@ -111,6 +111,11 @@ reference:
     Highlight important findings
   contents:
     - value_box
+- title: Tooltips
+  description: |
+    Provide additional context
+  contents:
+    - tooltip
 - title: Input controls
   description: |
     UI controls for capturing user input
