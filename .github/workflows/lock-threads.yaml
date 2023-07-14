@@ -1,0 +1,38 @@
+name: 'Lock Threads'
+
+on:
+  schedule:
+    - cron: '42 5 * * *' # 5:42 AM UTC every day
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  # Enable the line below if you turn on pull request locking
+  # pull-requests: write
+
+concurrency:
+  group: lock-threads
+
+jobs:
+  action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dessant/lock-threads@v4
+        with:
+          # Remove the line below to turn on pull request locking
+          process-only: 'issues'
+
+          # Issue-locking options
+          issue-inactive-days: 60
+          issue-comment: >
+            This issue has been automatically locked. If you believe you have
+            found a related problem, please open a new issue (with
+            [a reprex](https://reprex.tidyverse.org/)) and link to this issue.
+
+          # Pull request-locking options
+          pr-inactive-days: 60
+          pull-comment: >
+            This pull request has been automatically locked. If you believe
+            you have found a related problem, please open a new issue
+            (with [a reprex](https://reprex.tidyverse.org/)) and link to this
+            pull request.
