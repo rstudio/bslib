@@ -1,3 +1,6 @@
+# Class added or removed from `bs_theme` when a theme includes a preset
+THEME_PRESET_CLASS <- "bs_theme_with_preset"
+
 resolve_bs_preset <- function(
   preset = NULL,
   bootswatch = NULL,
@@ -13,8 +16,8 @@ resolve_bs_preset <- function(
   preset_name <- preset %||% bootswatch
 
   if (preset_name %in% c("default", "bootstrap")) {
-    # "default" means no preset bundle, just bare default Bootstrap
-    return(new_bs_preset("default", version))
+    # "bootstrap" means no preset bundle, just bare default Bootstrap
+    return(new_bs_preset("bootstrap", version))
   }
 
   builtin_themes <- builtin_themes(version)
@@ -33,44 +36,42 @@ resolve_bs_preset <- function(
 }
 
 new_bs_preset <- function(name, version, type = NULL) {
-  subclass <- if (!is.null(type)) paste0("bs_preset_", type)
-
-  preset_class <- if (!is.null(type)) {
-    name_safe <- gsub("[^[:alnum:]]", "_", name)
-    paste("bs", type, name_safe, sep = "_")
-  }
-
   preset <- list(
-    version = version,
-    name = name,
-    type = type,
-    class = preset_class
+    version = version, # bootstrap version
+    name = name,       # preset name
+    type = type        # preset type (e.g. "builtin", "bootswatch")
   )
 
-  structure(dropNulls(preset), class = c(subclass, "bs_preset"))
+  structure(dropNulls(preset), class = "bs_preset")
 }
 
-# The `bs_preset_bundle()` function is the main entry point for creating a
-# SASS bundle for a theme preset. This currently dispatches to create a
-# bundle for a built-in theme or for a Bootswatch theme.
-bs_preset_bundle <- function(preset, ...) {
-  UseMethod("bs_preset_bundle", preset)
-}
+# The `bs_preset_bundle()` function is the main entry point for creating a SASS
+# bundle for a theme preset. This calls out to the appropriate functions to
+# create a bundle for a built-in theme or for a Bootswatch theme.
+bs_preset_bundle <- function(preset) {
+  if (!inherits(preset, "bs_preset")) return(NULL)
+  if (is.null(preset$type)) return(NULL)
 
-#' @export
-bs_preset_bundle.default <- function(preset, ...) {
-  # Sub-classes are used to create a bundle for a specific type of preset; this
-  # default case is used for "bare" Bootstrap, or an empty preset bundle.
-  NULL
-}
-
-#' @export
-bs_preset_bundle.bs_preset <- function(preset, ...) {
   switch(
-    preset$type %||% "",
-    builtin = builtin_bundle(preset$name, version = preset$version),
+    preset$type,
     bootswatch = bootswatch_bundle(preset$name, version = preset$version),
-    NextMethod()
+    builtin = builtin_bundle(preset$name, version = preset$version),
+    stop("Unknown preset type: ", preset$type)
+  )
+}
+
+theme_preset_info <- function(theme) {
+  if (!is_bs_theme(theme)) return(NULL)
+
+  info <- bs_get_variables(theme, c("bslib-preset-type", "bslib-preset-name", "bootstrap-version"))
+
+  name <- info[["bslib-preset-name"]]
+  type <- info[["bslib-preset-type"]]
+
+  new_bs_preset(
+    name = if (!is.na(name)) name else "bootstrap",
+    version = info[["bootstrap-version"]],
+    type = if (!is.na(type)) type
   )
 }
 

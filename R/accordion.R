@@ -56,7 +56,7 @@ accordion <- function(..., id = NULL, open = NULL, multiple = TRUE, class = NULL
   attrs <- args[nzchar(argnames)]
   children <- args[!nzchar(argnames)]
 
-  if (isNamespaceLoaded("shiny")) {
+  if (!is.null(id) && isNamespaceLoaded("shiny")) {
     open <- shiny::restoreInput(id = id, default = open)
   }
 
@@ -148,9 +148,9 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
   div(
     class = "accordion-item",
     "data-value" = value,
-    # Use a <span.h2> instead of <h2> so that it doesn't get included in rmd/pkgdown/qmd TOC
+    # We don't use an <h2> because it would get included in rmd/pkgdown/qmd TOC
     # TODO: can we provide a way to put more stuff in the header? Like maybe some right-aligned controls?
-    span(class = "accordion-header h2", btn),
+    div(class = "accordion-header", btn),
     div(
       id = id,
       class = "accordion-collapse collapse",
@@ -278,11 +278,12 @@ check_character <- function(x, max_length = Inf, min_length = 1, call = rlang::c
 }
 
 accordion_dependency <- function() {
-  htmlDependency(
-    name = "bslib-accordion",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = "components",
-    script = "accordion.min.js"
+  list(
+    component_dependency_js("accordion"),
+    bs_dependency_defer(accordion_dependency_sass)
   )
+}
+
+accordion_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "accordion")
 }

@@ -1,11 +1,5 @@
-import type { Tooltip as TooltipType } from "bootstrap";
 import { getAllFocusableChildren } from "./_utils";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const Tooltip = (
-  window.bootstrap ? window.bootstrap.Tooltip : class {}
-) as typeof TooltipType;
 
 /**
  * The overlay element that is placed behind the card when expanded full screen.
@@ -60,7 +54,7 @@ class Card {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_CARD: "bslib-card",
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    CLASS_FULL_SCREEN: "bslib-full-screen",
+    ATTR_FULL_SCREEN: "data-full-screen",
     // eslint-disable-next-line @typescript-eslint/naming-convention
     CLASS_HAS_FULL_SCREEN: "bslib-has-full-screen",
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -101,7 +95,6 @@ class Card {
     Card.shinyResizeObserver.observe(this.card);
 
     this._addEventListeners();
-    this._enableTooltips();
     this.overlay = this._createOverlay();
 
     // bind event handler methods to this card instance
@@ -133,7 +126,7 @@ class Card {
       this.card.focus();
     }
 
-    this.card.classList.add(Card.attr.CLASS_FULL_SCREEN);
+    this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "true");
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
     this.card.insertAdjacentElement("beforebegin", this.overlay.container);
   }
@@ -153,7 +146,7 @@ class Card {
 
     // Remove overlay and remove full screen classes from card
     this.overlay.container.remove();
-    this.card.classList.remove(Card.attr.CLASS_FULL_SCREEN);
+    this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "false");
     this.card.removeAttribute("tabindex");
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
   }
@@ -164,23 +157,10 @@ class Card {
    */
   private _addEventListeners(): void {
     const btnFullScreen = this.card.querySelector(
-      `:scope > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
+      `:scope > * > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
     );
     if (!btnFullScreen) return;
     btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
-  }
-
-  /**
-   * Enable tooltips used by the card component.
-   * @private
-   */
-  private _enableTooltips(): void {
-    const selector = `.${Card.attr.CLASS_FULL_SCREEN_ENTER}[data-bs-toggle='tooltip']`;
-    if (!this.card.querySelector(selector)) {
-      return;
-    }
-    const tooltipList = this.card.querySelectorAll(selector);
-    tooltipList.forEach((tt) => new Tooltip(tt));
   }
 
   /**

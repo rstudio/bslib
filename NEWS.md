@@ -1,6 +1,18 @@
 # bslib 0.5.0.9000
 
-* Closed (#636): Outputs in sidebars now work as expected when an initially-closed sidebar is opened. (#624)
+## New features
+
+* Added `tooltip()`, `update_tooltip()`, and `toggle_tooltip()` for easy creation (and server-side updating) of [Bootstrap tooltips](https://getbootstrap.com/docs/5.2/components/tooltips/). (a way to display additional information when focusing (or hovering over) a UI element). ()
+* Added `input_switch()` and `update_switch()` for easy creation (and server-side updating) of a [Bootstrap's switch input](https://getbootstrap.com/docs/5.2/forms/checks-radios/#switches) (an on-off toggle for binary input values). (#483)
+
+## Improvements
+
+* Closed quarto-dev/quarto-cli#6081: `{bslib}`'s components (e.g., `card()`, `sidebar()`, etc.) now work more sensibly in Quarto docs. (#664)
+
+## Bug fixes
+
+* Closed #636: Outputs in sidebars now work as expected when an initially-closed sidebar is opened. (#624)
+* Closed #640: `accordion()` no longer errors when an `id` isn't supplied inside a Shiny `session` context. (#646)
 
 # bslib 0.5.0
 

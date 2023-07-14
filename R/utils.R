@@ -22,8 +22,8 @@ get_exact_version <- function(version) {
   switch_version(version, five = version_bs5, four = version_bs4, three = version_bs3)
 }
 
-lib_file <- function(...) {
-  files <- system_file("lib", ..., package = "bslib")
+path_inst <- function(...) {
+  files <- system_file(..., package = "bslib")
   files_found <- files != ""
   if (all(files_found)) return(files)
 
@@ -33,6 +33,9 @@ lib_file <- function(...) {
     call. = FALSE
   )
 }
+
+path_lib <- function(...) path_inst("lib", ...)
+path_components <- function(...) path_inst("components", ...)
 
 is_shiny_app <- function() {
   # Make sure to not load shiny as a side-effect of calling this function.
@@ -85,19 +88,20 @@ any_unnamed <- function(x) {
   is.null(nms) || !all(nzchar(nms))
 }
 
-list_split_named <- function(x) {
+separate_arguments <- function(...) {
+  x <- rlang::list2(...)
   x_names <- rlang::names2(x)
   is_named <- nzchar(x_names)
 
   if (all(is_named)) {
-    return(list(named = x, unnamed = list()))
+    return(list(attribs = x, children = list()))
   }
 
   if (!any(is_named)) {
-    return(list(named = list(), unnamed = x))
+    return(list(attribs = list(), children = x))
   }
 
-  list(named = x[is_named], unnamed = unname(x[!is_named]))
+  list(attribs = x[is_named], children = unname(dropNulls(x[!is_named])))
 }
 
 #' Rename a named list
@@ -139,4 +143,3 @@ get_color_contrast <- function(bg_color) {
     }
   )
 }
-
