@@ -14,6 +14,7 @@
 * Closed #636: Outputs in sidebars now work as expected when an initially-closed sidebar is opened. (#624)
 * Closed #640: `accordion()` no longer errors when an `id` isn't supplied inside a Shiny `session` context. (#646)
 * Closed #639: `nav_panel()`'s `icon` argument now supports generic `HTML()`, meaning that things like `bsicons::bs_icon()` and `fontawesome::fa()` can be used as values. (#645)
+* Light-styled buttons in bslib-provided Bootswatch themes are now consistent with their design in Bootswatch. Previously, they were inadvertently styled similarly to secondary buttons. (#687)
 
 # bslib 0.5.0
 
