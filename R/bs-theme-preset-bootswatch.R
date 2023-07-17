@@ -106,7 +106,7 @@ bootswatch_bundle <- function(bootswatch, version) {
         if (identical(bootswatch, "sketchy")) ".dropdown-menu{ overflow: inherit; }" else "",
         # Several Bootswatch themes (e.g., zephyr, simplex, etc) add custom .btn-secondary
         # rules that should also apply to .btn-default
-        ".btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-outline-primary):not(.btn-outline-info):not(.btn-outline-success):not(.btn-outline-warning):not(.btn-outline-danger):not(.btn-outline-dark) {
+        ".btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-light):not(.btn-outline-primary):not(.btn-outline-info):not(.btn-outline-success):not(.btn-outline-warning):not(.btn-outline-danger):not(.btn-outline-dark) {
           @extend .btn-secondary !optional;
         }"
       )
