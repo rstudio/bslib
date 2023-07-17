@@ -222,8 +222,6 @@ export class BslibTooltip extends LightElement {
         if (!entry.isIntersecting) this._tooltip.hide();
       });
     };
-    return new IntersectionObserver(handler, {
-      root: document.documentElement,
-    });
+    return new IntersectionObserver(handler);
   }
 }
