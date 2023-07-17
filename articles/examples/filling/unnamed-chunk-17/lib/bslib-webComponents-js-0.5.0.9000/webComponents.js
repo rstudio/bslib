@@ -842,9 +842,7 @@
             this._tooltip.hide();
         });
       };
-      return new IntersectionObserver(handler, {
-        root: document.documentElement
-      });
+      return new IntersectionObserver(handler);
     }
   };
   BslibTooltip.tagName = "bslib-tooltip";
