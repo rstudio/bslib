@@ -62,6 +62,7 @@ tipsUI <- function(id) {
       ),
       card(
         full_screen = TRUE,
+        class = "bslib-card-table-sm",
         card_header("Tips data"),
         DT::dataTableOutput(ns("table"))
       ),
