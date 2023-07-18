@@ -1,0 +1,19 @@
+name: 'Lock Closed Threads'
+
+on:
+  schedule:
+    - cron: '42 5 * * 1' # 5:42 AM UTC every Monday
+  repository_dispatch: { types: [lock_threads] }
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  # Enable the line below if you turn on pull request locking
+  # pull-requests: write
+
+concurrency:
+  group: lock-threads
+
+jobs:
+  lock-threads:
+    uses: rstudio/shiny-workflows/.github/workflows/lock-threads.yaml@v1
