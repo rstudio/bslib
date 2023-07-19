@@ -120,15 +120,20 @@ class Card {
     // capture phase so we have the best chance of preventing other handlers
     document.addEventListener("keydown", this._trapFocusExit, true);
 
-    // Set initial focus on the card, if not already
-    if (!this.card.contains(document.activeElement)) {
-      this.card.setAttribute("tabindex", "-1");
-      this.card.focus();
-    }
-
     this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "true");
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
     this.card.insertAdjacentElement("beforebegin", this.overlay.container);
+
+    // Set initial focus on the card, if not already
+    if (
+      !this.card.contains(document.activeElement) ||
+      document.activeElement?.classList.contains(
+        Card.attr.CLASS_FULL_SCREEN_ENTER
+      )
+    ) {
+      this.card.setAttribute("tabindex", "-1");
+      this.card.focus();
+    }
   }
 
   /**
@@ -222,7 +227,10 @@ class Card {
     }
 
     // Check focusables every time because the card contents may have changed
-    const focusableElements = getAllFocusableChildren(this.card);
+    // but exclude the full screen enter button from this list of elements
+    const focusableElements = getAllFocusableChildren(this.card).filter(
+      (el) => !el.classList.contains(Card.attr.CLASS_FULL_SCREEN_ENTER)
+    );
     const hasFocusableElements = focusableElements.length > 0;
 
     // We need to handle five cases:
