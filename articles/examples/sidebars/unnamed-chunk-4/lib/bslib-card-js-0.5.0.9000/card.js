@@ -160,17 +160,20 @@
      * @param {?Event} [event]
      */
     enterFullScreen(event) {
+      var _a;
       if (event)
         event.preventDefault();
       document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
       document.addEventListener("keydown", this._trapFocusExit, true);
-      if (!this.card.contains(document.activeElement)) {
-        this.card.setAttribute("tabindex", "-1");
-        this.card.focus();
-      }
       this.card.setAttribute(_Card.attr.ATTR_FULL_SCREEN, "true");
       document.body.classList.add(_Card.attr.CLASS_HAS_FULL_SCREEN);
       this.card.insertAdjacentElement("beforebegin", this.overlay.container);
+      if (!this.card.contains(document.activeElement) || ((_a = document.activeElement) == null ? void 0 : _a.classList.contains(
+        _Card.attr.CLASS_FULL_SCREEN_ENTER
+      ))) {
+        this.card.setAttribute("tabindex", "-1");
+        this.card.focus();
+      }
     }
     /**
      * Exit full screen mode. This removes the full screen overlay element,
@@ -255,7 +258,9 @@
         this.card.focus();
         return;
       }
-      const focusableElements = getAllFocusableChildren(this.card);
+      const focusableElements = getAllFocusableChildren(this.card).filter(
+        (el) => !el.classList.contains(_Card.attr.CLASS_FULL_SCREEN_ENTER)
+      );
       const hasFocusableElements = focusableElements.length > 0;
       if (!hasFocusableElements) {
         stopEvent();
