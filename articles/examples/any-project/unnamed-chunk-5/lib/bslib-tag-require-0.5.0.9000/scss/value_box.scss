@@ -67,7 +67,7 @@
     }
   }
 
-  &.bslib-full-screen {
+  &[data-full-screen="true"] {
     .value-box-grid {
       grid-template-columns: var(--bslib-value-box-widths-full-screen);
     }
@@ -76,7 +76,7 @@
     }
   }
 
-  &:not(.bslib-full-screen) {
+  &:not([data-full-screen="true"]) {
     .value-box-showcase.showcase-top-right {
       margin-top: 0;
     }
