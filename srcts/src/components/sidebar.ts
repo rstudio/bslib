@@ -364,7 +364,7 @@ class Sidebar {
     const { container, sidebar, toggle } = this.layout;
     container.classList.remove(Sidebar.classes.TRANSITIONING);
     sidebar.hidden = this.isClosed;
-    toggle.ariaExpanded = this.isClosed ? "false" : "true";
+    toggle.setAttribute("aria-expanded", this.isClosed ? "false" : "true");
 
     // Send browser-native event with updated sidebar state
     const event = new CustomEvent("bslib.sidebar", {
