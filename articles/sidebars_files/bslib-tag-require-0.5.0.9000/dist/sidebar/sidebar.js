@@ -322,7 +322,7 @@
       const { container, sidebar, toggle } = this.layout;
       container.classList.remove(_Sidebar.classes.TRANSITIONING);
       sidebar.hidden = this.isClosed;
-      toggle.ariaExpanded = this.isClosed ? "false" : "true";
+      toggle.setAttribute("aria-expanded", this.isClosed ? "false" : "true");
       const event = new CustomEvent("bslib.sidebar", {
         bubbles: true,
         detail: { open: !this.isClosed }
