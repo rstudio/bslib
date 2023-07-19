@@ -71,10 +71,18 @@ value_box <- function(title, value, ..., showcase = NULL, showcase_layout = show
     fill = fill,
     !!!attribs,
     contents,
-    as.card_item(component_dependency_css("value_box"))
+    as.card_item(value_box_dependency())
   )
 
   as_fragment(tag_require(res, version = 5, caller = "value_box()"))
+}
+
+value_box_dependency <- function() {
+  bs_dependency_defer(value_box_dependency_sass)
+}
+
+value_box_dependency_sass <- function(theme) {
+  component_dependency_sass(theme, "value_box")
 }
 
 #' @param width one of the following:
