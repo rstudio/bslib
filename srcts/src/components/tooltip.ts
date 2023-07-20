@@ -4,6 +4,7 @@ import { LightElement } from "./webcomponents/_lightElement";
 import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
 import type { HtmlDep } from "./_utils";
 import type { Tooltip as TooltipType } from "bootstrap";
+import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
 const bsTooltip = (
   window.bootstrap ? window.bootstrap.Tooltip : class {}
@@ -32,6 +33,7 @@ export class BslibTooltip extends LightElement {
   static tagName = "bslib-tooltip";
   private tooltip!: TooltipType & { tip?: HTMLElement };
   private visibilityObserver!: IntersectionObserver;
+  private static shinyResizeObserver = new ShinyResizeObserver();
 
   @property({ type: String }) placement: TooltipOptions["placement"] = "auto";
   @property({ type: String }) bsOptions = "{}";
@@ -74,6 +76,7 @@ export class BslibTooltip extends LightElement {
   constructor() {
     super();
     this._onShown = this._onShown.bind(this);
+    this._onInsert = this._onInsert.bind(this);
     this._onHidden = this._onHidden.bind(this);
     this.style.display = "contents";
   }
@@ -96,12 +99,14 @@ export class BslibTooltip extends LightElement {
     this.visibilityObserver = this._createVisibilityObserver();
     trigger.addEventListener("shown.bs.tooltip", this._onShown);
     trigger.addEventListener("hidden.bs.tooltip", this._onHidden);
+    trigger.addEventListener("inserted.bs.tooltip", this._onInsert);
   }
 
   disconnectedCallback(): void {
     const trigger = this.triggerElement;
     trigger.removeEventListener("shown.bs.tooltip", this._onShown);
     trigger.removeEventListener("hidden.bs.tooltip", this._onHidden);
+    trigger.removeEventListener("inserted.bs.tooltip", this._onInsert);
 
     super.disconnectedCallback();
   }
@@ -127,6 +132,11 @@ export class BslibTooltip extends LightElement {
     this.onChangeCallback(true);
     this.visibilityObserver.unobserve(this.triggerElement);
     this._restoreContent();
+  }
+
+  private _onInsert(): void {
+    const { tip } = this.tooltip;
+    if (tip) BslibTooltip.shinyResizeObserver.observe(tip);
   }
 
   // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
