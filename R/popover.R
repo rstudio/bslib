@@ -4,7 +4,10 @@
 #' button).
 #'
 #' @param trigger The UI element to serve as the popover trigger (typically a
-#'   [shiny::actionButton()] or similar).
+#'   [shiny::actionButton()] or similar). If `trigger` renders as multiple HTML
+#'   elements (e.g., it's a `tagList()`), the last HTML element is used for the
+#'   trigger. If the `trigger` should contain all of those elements, wrap the
+#'   object in a [div()] or [span()].
 #' @param ... UI elements for the popover's body. Character strings are
 #'   [automatically escaped][htmlEscape()] unless marked as [HTML()].
 #' @param title A title (header) for the popover.
@@ -16,14 +19,33 @@
 #' @param options A list of additional
 #'   [options](https://getbootstrap.com/docs/5.3/components/popovers/#options).
 #'
-#' @details If `trigger` yields multiple HTML elements (e.g., a `tagList()` or
-#'   complex `{htmlwidgets}` object), the last HTML element is used as the
-#'   trigger. If the `trigger` should contain all of those elements, wrap the
-#'   object in a [div()] or [span()].
+#' @section Closing popovers:
 #'
-#' @section Closing popovers In addition to clicking the `close_button`,
-#'   popovers can be closed by pressing the escape key when the popover (and/or
-#'   its trigger) is focused.
+#'   In addition to clicking the `close_button`, popovers can be closed by
+#'   pressing the Esc/Space key when the popover (and/or its trigger) is
+#'   focused.
+#'
+#' @section Theming/Styling:
+#'
+#'   Like other bslib components, popovers can be themed by supplying [relevant
+#'   theming
+#'   variables](https://rstudio.github.io/bslib/articles/bs5-variables.html#popover-bg)
+#'   to [bs_theme()], which effects styling of every popover on the page. To
+#'   style a _specific_ popover differently from other popovers, utilize the
+#'   `customClass` option:
+#'
+#'   ```
+#'   popover(
+#'     "Trigger", "Popover message",
+#'     options = list(customClass = "my-pop")
+#'   )
+#'   ```
+#'
+#'   And then add relevant rules to [bs_theme()] via [bs_add_rules()]:
+#'
+#'   ```
+#'   bs_theme() |> bs_add_rules(".my-pop { max-width: none; }")
+#'   ```
 #'
 #' @describeIn popover Add a popover to a UI element
 #' @references <https://getbootstrap.com/docs/5.3/components/popovers/>
@@ -37,7 +59,28 @@
 #'   title = "Popover title"
 #' )
 #'
-#' # TODO: example of popover with input in a card header
+#' library(shiny)
+#'
+#' ui <- page_fixed(
+#'   card(class = "mt-5",
+#'     card_header(
+#'       popover(
+#'         uiOutput("card_title", inline = TRUE),
+#'         title = "Provide a new title",
+#'         textInput("card_title", NULL, "An editable title")
+#'       )
+#'     ),
+#'     "The card body..."
+#'   )
+#' )
+#'
+#' server <- function(input, output) {
+#'   output$card_title <- renderUI({
+#'     list(input$card_title, bsicons::bs_icon("pencil-square"))
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
 popover <- function(
   trigger,
   ...,
@@ -79,7 +122,6 @@ popover <- function(
 
 #' @describeIn popover Programmatically show/hide a popover.
 #'
-#' @param id a character string that matches an existing popover id.
 #' @param show Whether to show (`TRUE`) or hide (`FALSE`) the popover. The
 #'   default (`NULL`) will show if currently hidden and hide if currently shown.
 #'   Note that a popover will not be shown if the trigger is not visible (e.g.,
