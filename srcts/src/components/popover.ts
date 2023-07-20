@@ -126,6 +126,7 @@ export class BslibPopover extends LightElement {
       btn.classList.add("btn-close");
       btn.setAttribute("aria-label", "Close");
       btn.onclick = this._hide;
+      btn.style.marginLeft = "auto";
       this.header.append(btn);
     }
 
@@ -188,7 +189,14 @@ export class BslibPopover extends LightElement {
 
   private _onInsert(): void {
     const { tip } = this.pop;
-    if (tip) BslibPopover.shinyResizeObserver.observe(tip);
+    if (tip) {
+      const header = tip.querySelector(".popover-header") as HTMLElement;
+      if (header) {
+        header.style.display = "flex";
+        header.style.alignItems = "center";
+      }
+      BslibPopover.shinyResizeObserver.observe(tip);
+    }
   }
 
   // If there is focusable input in a shown popover, move focus there
