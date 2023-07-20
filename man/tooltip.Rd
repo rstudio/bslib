@@ -20,10 +20,10 @@ update_tooltip(id, ..., session = get_current_session())
 }
 \arguments{
 \item{trigger}{A UI element (i.e., \link[htmltools:builder]{htmltools tag}) to serve
-as the tooltips trigger. It's good practice for this element to be a
-keyboard-focusable and interactive element (e.g., \code{actionButton()},
-\code{actionLink()}, etc) so that the tooltip is accessible to keyboard and
-assistive technology users.}
+as the tooltip trigger. If \code{trigger} renders as multiple HTML
+elements (e.g., it's a \code{tagList()}), the last HTML element is used for the
+trigger. If the \code{trigger} should contain all of those elements, wrap the
+object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.}
 
 \item{...}{UI elements for the tooltip. Character strings are \link[=htmlEscape]{automatically escaped} unless marked as \code{\link[=HTML]{HTML()}}.}
 
@@ -44,12 +44,6 @@ used).}
 \description{
 Display additional information when focusing (or hovering over) a UI element.
 }
-\details{
-If \code{trigger} yields multiple HTML elements (e.g., a \code{tagList()} or
-complex \code{{htmlwidgets}} object), the last HTML element is used as the
-trigger. If the \code{trigger} should contain all of those elements, wrap the
-object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.
-}
 \section{Functions}{
 \itemize{
 \item \code{tooltip()}: Add a tooltip to a UI element
@@ -59,6 +53,26 @@ object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.
 \item \code{update_tooltip()}: Update the contents of a tooltip.
 
 }}
+\section{Theming/Styling}{
+
+
+Like other bslib components, tooltips can be themed by supplying \href{https://rstudio.github.io/bslib/articles/bs5-variables.html#tooltip-bg}{relevant theming variables}
+to \code{\link[=bs_theme]{bs_theme()}}, which effects styling of every popover on the page. To
+style a \emph{specific} popover differently from other popovers, utilize the
+\code{customClass} option:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{tooltip(
+  "Trigger", "Tooltip message",
+  options = list(customClass = "my-tip")
+)
+}\if{html}{\out{</div>}}
+
+And then add relevant rules to \code{\link[=bs_theme]{bs_theme()}} via \code{\link[=bs_add_rules]{bs_add_rules()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{bs_theme() |> bs_add_rules(".my-tip \{ max-width: none; \}")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 

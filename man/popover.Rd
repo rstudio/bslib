@@ -22,14 +22,19 @@ update_popover(id, ..., title = NULL, session = get_current_session())
 }
 \arguments{
 \item{trigger}{The UI element to serve as the popover trigger (typically a
-\code{\link[shiny:actionButton]{shiny::actionButton()}} or similar).}
+\code{\link[shiny:actionButton]{shiny::actionButton()}} or similar). If \code{trigger} renders as multiple HTML
+elements (e.g., it's a \code{tagList()}), the last HTML element is used for the
+trigger. If the \code{trigger} should contain all of those elements, wrap the
+object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.}
 
 \item{...}{UI elements for the popover's body. Character strings are
 \link[=htmlEscape]{automatically escaped} unless marked as \code{\link[=HTML]{HTML()}}.}
 
 \item{title}{A title (header) for the popover.}
 
-\item{id}{a character string that matches an existing popover id.}
+\item{id}{A character string. Required to re-actively respond to the
+visibility of the popover (via the \code{input[[id]]} value) and/or update the
+visibility/contents of the popover.}
 
 \item{placement}{The placement of the popover relative to its trigger.}
 
@@ -50,12 +55,6 @@ used).}
 Display additional information when clicking on a UI element (typically a
 button).
 }
-\details{
-If \code{trigger} yields multiple HTML elements (e.g., a \code{tagList()} or
-complex \code{{htmlwidgets}} object), the last HTML element is used as the
-trigger. If the \code{trigger} should contain all of those elements, wrap the
-object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.
-}
 \section{Functions}{
 \itemize{
 \item \code{popover()}: Add a popover to a UI element
@@ -65,6 +64,34 @@ object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.
 \item \code{update_popover()}: Update the contents of a popover.
 
 }}
+\section{Closing popovers}{
+
+
+In addition to clicking the \code{close_button}, popovers can be closed by
+pressing the Esc/Space key when the popover (and/or its trigger) is
+focused.
+}
+
+\section{Theming/Styling}{
+
+
+Like other bslib components, popovers can be themed by supplying \href{https://rstudio.github.io/bslib/articles/bs5-variables.html#popover-bg}{relevant theming variables}
+to \code{\link[=bs_theme]{bs_theme()}}, which effects styling of every popover on the page. To
+style a \emph{specific} popover differently from other popovers, utilize the
+\code{customClass} option:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{popover(
+  "Trigger", "Popover message",
+  options = list(customClass = "my-pop")
+)
+}\if{html}{\out{</div>}}
+
+And then add relevant rules to \code{\link[=bs_theme]{bs_theme()}} via \code{\link[=bs_add_rules]{bs_add_rules()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{bs_theme() |> bs_add_rules(".my-pop \{ max-width: none; \}")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
@@ -74,7 +101,28 @@ popover(
   title = "Popover title"
 )
 
-# TODO: example of popover with input in a card header
+library(shiny)
+
+ui <- page_fixed(
+  card(class = "mt-5",
+    card_header(
+      popover(
+        uiOutput("card_title", inline = TRUE),
+        title = "Provide a new title",
+        textInput("card_title", NULL, "An editable title")
+      )
+    ),
+    "The card body..."
+  )
+)
+
+server <- function(input, output) {
+  output$card_title <- renderUI({
+    list(input$card_title, bsicons::bs_icon("pencil-square"))
+  })
+}
+
+shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \references{
