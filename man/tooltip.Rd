@@ -31,7 +31,7 @@ assistive technology users.}
 
 \item{placement}{The placement of the tooltip relative to its trigger.}
 
-\item{options}{A list of additional \href{https://getbootstrap.com/docs/5.3/components/tooltips/#options}{Bootstrap options}.}
+\item{options}{A list of additional \href{https://getbootstrap.com/docs/5.3/components/tooltips/#options}{options}.}
 
 \item{show}{Whether to show (\code{TRUE}) or hide (\code{FALSE}) the tooltip. The
 default (\code{NULL}) will show if currently hidden and hide if currently shown.

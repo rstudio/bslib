@@ -21,17 +21,22 @@ toggle_popover(id, show = NULL, session = get_current_session())
 update_popover(id, ..., title = NULL, session = get_current_session())
 }
 \arguments{
-\item{trigger}{The UI element to which the popover should be attached.}
+\item{trigger}{The UI element to serve as the popover trigger (typically a
+\code{\link[shiny:actionButton]{shiny::actionButton()}} or similar).}
 
-\item{...}{UI elements for the popover. Character strings are \link[=htmlEscape]{automatically escaped} unless marked as \code{\link[=HTML]{HTML()}}.}
+\item{...}{UI elements for the popover's body. Character strings are
+\link[=htmlEscape]{automatically escaped} unless marked as \code{\link[=HTML]{HTML()}}.}
 
-\item{title}{The title of the popover.}
+\item{title}{A title (header) for the popover.}
 
 \item{id}{a character string that matches an existing popover id.}
 
 \item{placement}{The placement of the popover relative to its trigger.}
 
-\item{options}{A list of additional \href{https://getbootstrap.com/docs/5.3/components/popovers/#options}{Bootstrap options}.}
+\item{close_button}{Whether to include a close button in the popover.}
+
+\item{options}{A list of additional
+\href{https://getbootstrap.com/docs/5.3/components/popovers/#options}{options}.}
 
 \item{show}{Whether to show (\code{TRUE}) or hide (\code{FALSE}) the popover. The
 default (\code{NULL}) will show if currently hidden and hide if currently shown.
@@ -42,18 +47,14 @@ it's hidden behind a tab).}
 used).}
 }
 \description{
-Add a popover to a UI element
+Display additional information when clicking on a UI element (typically a
+button).
 }
 \details{
 If \code{trigger} yields multiple HTML elements (e.g., a \code{tagList()} or
 complex \code{{htmlwidgets}} object), the last HTML element is used as the
 trigger. If the \code{trigger} should contain all of those elements, wrap the
 object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.
-
-TODO:
-\itemize{
-\item mention only popovers (not tooltips) support input(s) in the body
-}
 }
 \section{Functions}{
 \itemize{
