@@ -82,3 +82,6 @@ card(
 \references{
 \url{https://getbootstrap.com/docs/5.3/components/tooltips/}
 }
+\seealso{
+\code{\link[=popover]{popover()}}
+}
