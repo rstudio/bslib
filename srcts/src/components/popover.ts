@@ -37,6 +37,7 @@ export class BslibPopover extends LightElement {
   // of the popover instance, which provides a convenient way to find where the
   // popover is located in the DOM.
   private pop!: PopoverType & { tip?: HTMLElement };
+  private visibilityObserver!: IntersectionObserver;
 
   @property({ type: String }) placement: PopoverOptions["placement"] = "auto";
   @property({ type: Boolean }) closeButton = false;
@@ -100,6 +101,7 @@ export class BslibPopover extends LightElement {
     this._onShown = this._onShown.bind(this);
     this._onHidden = this._onHidden.bind(this);
     this._hide = this._hide.bind(this);
+    this._maybeCloseonEscape = this._maybeCloseonEscape.bind(this);
     this.style.display = "contents";
   }
 
@@ -124,7 +126,7 @@ export class BslibPopover extends LightElement {
       this.header.append(btn);
     }
 
-    const el = this.triggerElement as HTMLElement;
+    const el = this.triggerElement;
     el.setAttribute("data-bs-toggle", "popover");
     el.setAttribute("tabindex", "0");
     this.pop = new bsPopover(el, this.options);
@@ -165,14 +167,15 @@ export class BslibPopover extends LightElement {
   private _onShown(): void {
     this.visible = true;
     this.onChangeCallback(true);
+    this.visibilityObserver.observe(this.triggerElement);
     this._maybeFocusInput();
-    this._maybeCloseonEscape = this._maybeCloseonEscape.bind(this);
     window.addEventListener("keydown", this._maybeCloseonEscape);
   }
 
   private _onHidden(): void {
     this.visible = false;
     this.onChangeCallback(true);
+    this.visibilityObserver.unobserve(this.triggerElement);
     this._restoreContent();
     window.removeEventListener("keydown", this._maybeCloseonEscape);
   }
@@ -271,12 +274,38 @@ export class BslibPopover extends LightElement {
   private _updateTitle(title: UpdateMessage["title"]): void {
     if (!title) return;
     Shiny.renderDependencies(title.deps);
-    setContentCarefully(this.pop, title.html, ".popover-header", "popover");
+    setContentCarefully(
+      this.pop,
+      this.triggerElement,
+      title.html,
+      ".popover-header",
+      "popover"
+    );
   }
 
   private _updateContent(content: UpdateMessage["content"]): void {
     if (!content) return;
     Shiny.renderDependencies(content.deps);
-    setContentCarefully(this.pop, content.html, ".popover-body", "popover");
+    setContentCarefully(
+      this.pop,
+      this.triggerElement,
+      content.html,
+      ".popover-body",
+      "popover"
+    );
+  }
+
+  // While the popover is shown, watches for changes in the _trigger_
+  // visibility. If the trigger element becomes no longer visible, then we hide
+  // the popover (Bootstrap doesn't do this automatically when showing
+  // programmatically)
+  private _createVisibilityObserver(): IntersectionObserver {
+    const handler = (entries: IntersectionObserverEntry[]) => {
+      if (!this.visible) return;
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) this._hide();
+      });
+    };
+    return new IntersectionObserver(handler);
   }
 }

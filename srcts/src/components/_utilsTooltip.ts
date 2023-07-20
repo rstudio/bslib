@@ -33,6 +33,7 @@ interface UpdatableTooltip {
 // https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
 export function setContentCarefully(
   x: UpdatableTooltip,
+  trigger: HTMLElement,
   html: string,
   selector: string,
   type: "popover" | "tooltip"
@@ -47,14 +48,16 @@ export function setContentCarefully(
     return;
   }
 
-  console.log("carefully", x, html, selector);
-
   const inner = tip.querySelector(selector);
   if (inner) inner.innerHTML = html;
   x.update();
   // The next time the tip is hidden, officially replace the content (otherwise
   // the next time its shown, it will revert to the old content)
-  $(x).one(`hidden.bs.${type}`, function () {
-    x.setContent({ [selector]: html });
-  });
+  trigger.addEventListener(
+    `hidden.bs.${type}`,
+    () => {
+      x.setContent({ [selector]: html });
+    },
+    { once: true }
+  );
 }

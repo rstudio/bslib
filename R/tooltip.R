@@ -66,7 +66,10 @@ tooltip <- function(
     !!!attribs,
     # Use display:none instead of <template> since shiny.js
     # doesn't bind to the contents of the latter
-    div(!!!children, style = "display:none;"),
+    div(
+      style = "display:none;",
+      div(!!!children)
+    ),
     trigger
   )
 
