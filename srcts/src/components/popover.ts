@@ -47,10 +47,10 @@ export class BslibPopover extends LightElement {
 
   private get options(): PopoverOptions {
     const opts = JSON.parse(this.bsOptions);
-    const header = this.header.childNodes.length > 0 ? this.header : "";
+    const hasHeader = this.header && this.header.childNodes.length > 0;
     return {
       content: this.content,
-      title: header,
+      title: hasHeader ? this.header : "",
       placement: this.placement,
       // Bootstrap defaults to false, but we have our own HTML escaping
       html: true,
@@ -60,11 +60,11 @@ export class BslibPopover extends LightElement {
     };
   }
 
-  private get content(): HTMLElement {
+  private get content(): HTMLElement | undefined {
     return this.contentContainer.children[0] as HTMLElement;
   }
 
-  private get header(): HTMLElement {
+  private get header(): HTMLElement | undefined {
     return this.contentContainer.children[1] as HTMLElement;
   }
 
@@ -116,7 +116,7 @@ export class BslibPopover extends LightElement {
     // bootstrap.Popover(), which moves the content/header from within this
     // component to the popover's location). These inline styles are here
     // to prevent any styling suprises caused by the wrapping <div>.
-    this.content.style.display = "contents";
+    if (this.content) this.content.style.display = "contents";
     if (this.header instanceof HTMLElement) {
       this.header.style.display = "contents";
     }
@@ -127,7 +127,7 @@ export class BslibPopover extends LightElement {
       btn.setAttribute("aria-label", "Close");
       btn.onclick = this._hide;
       btn.style.marginLeft = "auto";
-      this.header.append(btn);
+      if (this.header) this.header.append(btn);
     }
 
     const trigger = this.triggerElement;

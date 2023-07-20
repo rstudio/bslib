@@ -50,7 +50,7 @@ export class BslibTooltip extends LightElement {
     };
   }
 
-  private get content(): HTMLElement {
+  private get content(): HTMLElement | undefined {
     return this.contentContainer.children[0] as HTMLElement;
   }
 
@@ -89,7 +89,7 @@ export class BslibTooltip extends LightElement {
     // moves the content from within this component to the tooltip's location).
     // These inline styles are here to prevent any styling suprises caused by
     // the wrapping <div>.
-    this.content.style.display = "contents";
+    if (this.content) this.content.style.display = "contents";
 
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "tooltip");
