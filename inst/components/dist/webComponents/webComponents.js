@@ -880,7 +880,8 @@
     }
     connectedCallback() {
       super.connectedCallback();
-      this.content.style.display = "contents";
+      if (this.content)
+        this.content.style.display = "contents";
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "tooltip");
       trigger.setAttribute("tabindex", "0");
@@ -1058,10 +1059,10 @@
     }
     get options() {
       const opts = JSON.parse(this.bsOptions);
-      const header = this.header.childNodes.length > 0 ? this.header : "";
+      const hasHeader = this.header && this.header.childNodes.length > 0;
       return __spreadValues({
         content: this.content,
-        title: header,
+        title: hasHeader ? this.header : "",
         placement: this.placement,
         // Bootstrap defaults to false, but we have our own HTML escaping
         html: true,
@@ -1096,7 +1097,8 @@
     }
     connectedCallback() {
       super.connectedCallback();
-      this.content.style.display = "contents";
+      if (this.content)
+        this.content.style.display = "contents";
       if (this.header instanceof HTMLElement) {
         this.header.style.display = "contents";
       }
@@ -1106,7 +1108,8 @@
         btn.setAttribute("aria-label", "Close");
         btn.onclick = this._hide;
         btn.style.marginLeft = "auto";
-        this.header.append(btn);
+        if (this.header)
+          this.header.append(btn);
       }
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "popover");
