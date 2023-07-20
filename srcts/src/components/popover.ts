@@ -126,30 +126,31 @@ export class BslibPopover extends LightElement {
       this.header.append(btn);
     }
 
-    const el = this.triggerElement;
-    el.setAttribute("data-bs-toggle", "popover");
-    el.setAttribute("tabindex", "0");
-    this.pop = new bsPopover(el, this.options);
+    const trigger = this.triggerElement;
+    trigger.setAttribute("data-bs-toggle", "popover");
+    trigger.setAttribute("tabindex", "0");
+    this.pop = new bsPopover(trigger, this.options);
 
     if (this.isButtonLike) {
-      el.setAttribute("role", "button");
-      el.setAttribute("aria-pressed", "false");
-      el.onkeydown = (e) => {
+      trigger.setAttribute("role", "button");
+      trigger.setAttribute("aria-pressed", "false");
+      trigger.onkeydown = (e) => {
         if (e.key === "Enter" || e.key === " ") {
           this._toggle();
         }
       };
-      el.style.cursor = "pointer";
+      trigger.style.cursor = "pointer";
     }
 
-    el.addEventListener("shown.bs.popover", this._onShown);
-    el.addEventListener("hidden.bs.popover", this._onHidden);
+    this.visibilityObserver = this._createVisibilityObserver();
+    trigger.addEventListener("shown.bs.popover", this._onShown);
+    trigger.addEventListener("hidden.bs.popover", this._onHidden);
   }
 
   disconnectedCallback(): void {
-    const el = this.triggerElement;
-    el.removeEventListener("shown.bs.popover", this._onShown);
-    el.removeEventListener("hidden.bs.popover", this._onHidden);
+    const trigger = this.triggerElement;
+    trigger.removeEventListener("shown.bs.popover", this._onShown);
+    trigger.removeEventListener("hidden.bs.popover", this._onHidden);
 
     super.disconnectedCallback();
   }

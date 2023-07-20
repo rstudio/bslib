@@ -88,20 +88,20 @@ export class BslibTooltip extends LightElement {
     // the wrapping <div>.
     this.content.style.display = "contents";
 
-    const el = this.triggerElement;
-    el.setAttribute("data-bs-toggle", "tooltip");
-    el.setAttribute("tabindex", "0");
-    this.tooltip = new bsTooltip(el, this.options);
+    const trigger = this.triggerElement;
+    trigger.setAttribute("data-bs-toggle", "tooltip");
+    trigger.setAttribute("tabindex", "0");
+    this.tooltip = new bsTooltip(trigger, this.options);
 
     this.visibilityObserver = this._createVisibilityObserver();
-    el.addEventListener("shown.bs.tooltip", this._onShown);
-    el.addEventListener("hidden.bs.tooltip", this._onHidden);
+    trigger.addEventListener("shown.bs.tooltip", this._onShown);
+    trigger.addEventListener("hidden.bs.tooltip", this._onHidden);
   }
 
   disconnectedCallback(): void {
-    const el = this.triggerElement;
-    el.removeEventListener("shown.bs.tooltip", this._onShown);
-    el.removeEventListener("hidden.bs.tooltip", this._onHidden);
+    const trigger = this.triggerElement;
+    trigger.removeEventListener("shown.bs.tooltip", this._onShown);
+    trigger.removeEventListener("hidden.bs.tooltip", this._onHidden);
 
     super.disconnectedCallback();
   }
