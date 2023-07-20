@@ -1,23 +1,29 @@
 #' Add a popover to a UI element
 #'
-#' @param trigger The UI element to which the popover should be attached.
-#' @param ... UI elements for the popover. Character strings are [automatically
-#'   escaped][htmlEscape()] unless marked as [HTML()].
-#' @param title The title of the popover.
+#' Display additional information when clicking on a UI element (typically a
+#' button).
+#'
+#' @param trigger The UI element to serve as the popover trigger (typically a
+#'   [shiny::actionButton()] or similar).
+#' @param ... UI elements for the popover's body. Character strings are
+#'   [automatically escaped][htmlEscape()] unless marked as [HTML()].
+#' @param title A title (header) for the popover.
 #' @param id A character string. Required to re-actively respond to the
 #'   visibility of the popover (via the `input[[id]]` value) and/or update the
 #'   visibility/contents of the popover.
 #' @param placement The placement of the popover relative to its trigger.
-#' @param options A list of additional [Bootstrap
-#'   options](https://getbootstrap.com/docs/5.3/components/popovers/#options).
+#' @param close_button Whether to include a close button in the popover.
+#' @param options A list of additional
+#'   [options](https://getbootstrap.com/docs/5.3/components/popovers/#options).
 #'
 #' @details If `trigger` yields multiple HTML elements (e.g., a `tagList()` or
 #'   complex `{htmlwidgets}` object), the last HTML element is used as the
 #'   trigger. If the `trigger` should contain all of those elements, wrap the
 #'   object in a [div()] or [span()].
 #'
-#' TODO:
-#'  * mention only popovers (not tooltips) support input(s) in the body
+#' @section Closing popovers In addition to clicking the `close_button`,
+#'   popovers can be closed by pressing the escape key when the popover (and/or
+#'   its trigger) is focused.
 #'
 #' @describeIn popover Add a popover to a UI element
 #' @references <https://getbootstrap.com/docs/5.3/components/popovers/>

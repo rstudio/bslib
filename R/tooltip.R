@@ -13,8 +13,7 @@
 #'   visibility of the tooltip (via the `input[[id]]` value) and/or update the
 #'   visibility/contents of the tooltip.
 #' @param placement The placement of the tooltip relative to its trigger.
-#' @param options A list of additional [Bootstrap
-#'   options](https://getbootstrap.com/docs/5.3/components/tooltips/#options).
+#' @param options A list of additional [options](https://getbootstrap.com/docs/5.3/components/tooltips/#options).
 #'
 #' @details If `trigger` yields multiple HTML elements (e.g., a `tagList()` or
 #'   complex `{htmlwidgets}` object), the last HTML element is used as the
