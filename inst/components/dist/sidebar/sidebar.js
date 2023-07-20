@@ -9,6 +9,22 @@
       Shiny.inputBindings.register(new inputBindingClass(), "bslib." + name);
     }
   }
+  var focusSelectors = [
+    "a[href]",
+    "area[href]",
+    "button",
+    "details summary",
+    "input",
+    "iframe",
+    "select",
+    "textarea",
+    '[contentEditable=""]',
+    '[contentEditable="true"]',
+    '[contentEditable="TRUE"]',
+    "[tabindex]"
+  ];
+  var modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
+  var FOCUS_SELECTOR = focusSelectors.map((x) => x + modifiers.join("")).join(", ");
 
   // srcts/src/components/_shinyResizeObserver.ts
   var ShinyResizeObserver = class {

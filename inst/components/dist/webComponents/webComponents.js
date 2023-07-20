@@ -690,14 +690,48 @@
   };
   LightElement.isShinyInput = false;
 
+  // srcts/src/components/_utilsTooltip.ts
+  function getOrCreateTriggerEl(el) {
+    if (el.children.length > 1) {
+      const ref = el.children[el.children.length - 1];
+      return ref;
+    }
+    if (el.childNodes.length > 1) {
+      const ref = document.createElement("span");
+      ref.append(el.childNodes[el.childNodes.length - 1]);
+      el.appendChild(ref);
+      return ref;
+    }
+    return el;
+  }
+  function setContentCarefully(x2, html, selector, type) {
+    const { tip } = x2;
+    const tipIsVisible = tip && tip.offsetParent !== null;
+    if (!tipIsVisible) {
+      x2.setContent({ [selector]: html });
+      return;
+    }
+    console.log("carefully", x2, html, selector);
+    const inner = tip.querySelector(selector);
+    if (inner)
+      inner.innerHTML = html;
+    x2.update();
+    $(x2).one(`hidden.bs.${type}`, function() {
+      x2.setContent({ [selector]: html });
+    });
+  }
+
   // srcts/src/components/tooltip.ts
-  var Tooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
+  var bsTooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
   };
   var BslibTooltip = class extends LightElement {
+    ///////////////////////////////////////////////////////////////
+    // Methods
+    ///////////////////////////////////////////////////////////////
     constructor() {
       super();
       this.placement = "auto";
-      this.options = "{}";
+      this.bsOptions = "{}";
       // Visibility state management
       this.visible = false;
       // This is a placeholder function that will be overwritten by the Shiny input
@@ -710,25 +744,35 @@
       this._onHidden = this._onHidden.bind(this);
       this.style.display = "contents";
     }
-    get allOptions() {
-      const opts = JSON.parse(this.options);
+    get options() {
+      const opts = JSON.parse(this.bsOptions);
       return __spreadValues({
-        title: this.title,
+        title: this.content,
         placement: this.placement,
         // Bootstrap defaults to false, but we have our own HTML escaping
         html: true,
         sanitize: true
       }, opts);
     }
-    get title() {
+    get content() {
       return this.children[0].innerHTML;
+    }
+    // The element that triggers the tooltip to be shown
+    get triggerElement() {
+      return getOrCreateTriggerEl(this);
+    }
+    // Is the trigger element visible?
+    get visibleTrigger() {
+      const el = this.triggerElement;
+      return el && el.offsetParent !== null;
     }
     connectedCallback() {
       super.connectedCallback();
       const el = this.triggerElement;
       el.setAttribute("data-bs-toggle", "tooltip");
-      this._tooltip = new Tooltip(el, this.allOptions);
-      this._observer = this._createVisibilityObserver();
+      el.setAttribute("tabindex", "0");
+      this.tooltip = new bsTooltip(el, this.options);
+      this.observer = this._createVisibilityObserver();
       el.addEventListener("shown.bs.tooltip", this._onShown);
       el.addEventListener("hidden.bs.tooltip", this._onHidden);
     }
@@ -741,39 +785,18 @@
     render() {
       return A;
     }
-    // Find an Element to use as the trigger (aka, reference) for the tooltip
-    //
-    // TODO: In the future, it'd be nice if the reference was a virtual element (defining)
-    // a rectangle around `this.childNodes` instead of just the last HTMLElement.
-    // As of today, bootstrap.Tooltip doesn't seem to support floating-ui's virtual elements,
-    // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
-    get triggerElement() {
-      if (this.children.length > 1) {
-        const ref = this.children[this.children.length - 1];
-        ref.setAttribute("tabindex", "0");
-        return ref;
-      }
-      if (this.childNodes.length > 1) {
-        const ref = document.createElement("span");
-        ref.setAttribute("tabindex", "0");
-        ref.append(this.childNodes[this.childNodes.length - 1]);
-        this.appendChild(ref);
-        return ref;
-      }
-      return this;
-    }
     getValue() {
       return this.visible;
     }
     _onShown() {
       this.visible = true;
       this.onChangeCallback(true);
-      this._observer.observe(this.triggerElement);
+      this.observer.observe(this.triggerElement);
     }
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
-      this._observer.unobserve(this.triggerElement);
+      this.observer.unobserve(this.triggerElement);
     }
     receiveMessage(el, data) {
       const method = data.method;
@@ -790,7 +813,7 @@
         x2 = this.visible ? "hide" : "show";
       }
       if (x2 === "hide") {
-        this._tooltip.hide();
+        this.tooltip.hide();
       }
       if (x2 === "show") {
         this._show();
@@ -800,37 +823,14 @@
     // (in either case the tooltip likely won't be positioned correctly)
     _show() {
       if (!this.visible && this.visibleTrigger) {
-        this._tooltip.show();
+        this.tooltip.show();
       }
-    }
-    get visibleTrigger() {
-      const el = this.triggerElement;
-      return el && el.offsetParent !== null;
     }
     _updateTitle(title) {
       if (!title)
         return;
       Shiny.renderDependencies(title.deps);
-      this._setContentCarefully(title.html);
-    }
-    // Workaround for a bug with .setContent() where it inadverently removes a currently
-    // visible tooltip. See: https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
-    _setContentCarefully(html) {
-      const { tip } = this._tooltip;
-      if (tip && tip.offsetParent !== null) {
-        const inner = tip.querySelector(".tooltip-inner");
-        if (inner)
-          inner.innerHTML = html;
-        this._tooltip.update();
-        $(this).one("hidden.bs.tooltip", function() {
-          this._setContent(html);
-        });
-      } else {
-        this._setContent(html);
-      }
-    }
-    _setContent(html) {
-      this._tooltip.setContent({ ".tooltip-inner": html });
+      setContentCarefully(this.tooltip, title.html, ".tooltip-inner", "tooltip");
     }
     _createVisibilityObserver() {
       const handler = (entries) => {
@@ -838,7 +838,7 @@
           return;
         entries.forEach((entry) => {
           if (!entry.isIntersecting)
-            this._tooltip.hide();
+            this.tooltip.hide();
         });
       };
       return new IntersectionObserver(handler);
@@ -852,17 +852,43 @@
   ], BslibTooltip.prototype, "placement", 2);
   __decorateClass([
     n5({ type: String })
-  ], BslibTooltip.prototype, "options", 2);
+  ], BslibTooltip.prototype, "bsOptions", 2);
+
+  // srcts/src/components/_utils.ts
+  var InputBinding = window.Shiny ? Shiny.InputBinding : class {
+  };
+  var focusSelectors = [
+    "a[href]",
+    "area[href]",
+    "button",
+    "details summary",
+    "input",
+    "iframe",
+    "select",
+    "textarea",
+    '[contentEditable=""]',
+    '[contentEditable="true"]',
+    '[contentEditable="TRUE"]',
+    "[tabindex]"
+  ];
+  var modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
+  var FOCUS_SELECTOR = focusSelectors.map((x2) => x2 + modifiers.join("")).join(", ");
+  function getFirstFocusableChild(el) {
+    return el.querySelector(FOCUS_SELECTOR);
+  }
 
   // srcts/src/components/popover.ts
-  var Popover = window.bootstrap ? window.bootstrap.Popover : class {
+  var bsPopover = window.bootstrap ? window.bootstrap.Popover : class {
   };
   var BslibPopover = class extends LightElement {
+    ///////////////////////////////////////////////////////////////
+    // Methods
+    ///////////////////////////////////////////////////////////////
     constructor() {
       super();
       this.placement = "auto";
-      this.trigger = "click";
-      this.options = "{}";
+      this.closeButton = false;
+      this.bsOptions = "{}";
       // Visibility state management
       this.visible = false;
       // This is a placeholder function that will be overwritten by the Shiny input
@@ -873,33 +899,74 @@
       };
       this._onShown = this._onShown.bind(this);
       this._onHidden = this._onHidden.bind(this);
+      this._hide = this._hide.bind(this);
       this.style.display = "contents";
     }
-    get allOptions() {
-      const opts = JSON.parse(this.options);
+    get options() {
+      const opts = JSON.parse(this.bsOptions);
+      const header = this.header.childNodes.length > 0 ? this.header : "";
       return __spreadValues({
         content: this.content,
-        title: this.title,
+        title: header,
         placement: this.placement,
         // Bootstrap defaults to false, but we have our own HTML escaping
         html: true,
-        sanitize: true,
-        // TODO: don't officially support this?
-        trigger: this.trigger
+        sanitize: false,
+        trigger: "click"
       }, opts);
     }
-    // TODO: possible to avoid duplication of DOM elements?
     get content() {
-      return this.children[0].innerHTML;
+      return this.contentContainer.children[0];
     }
-    get title() {
-      return this.children[1].innerHTML;
+    get header() {
+      return this.contentContainer.children[1];
+    }
+    get contentContainer() {
+      return this.children[0];
+    }
+    // The element that triggers the popover to be shown
+    get triggerElement() {
+      return getOrCreateTriggerEl(this);
+    }
+    // Is the trigger element visible?
+    get visibleTrigger() {
+      const el = this.triggerElement;
+      return el && el.offsetParent !== null;
+    }
+    // By default (when trigger is "click"), treat the trigger element like a
+    // button (even if it's not a <button> element). Meaning mostly that we'll
+    // manage aria-pressed and Enter/Space keydown events.
+    // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
+    get isButtonLike() {
+      return this.options.trigger === "click" && this.triggerElement.tagName !== "BUTTON";
     }
     connectedCallback() {
       super.connectedCallback();
+      this.content.style.display = "contents";
+      if (this.header instanceof HTMLElement) {
+        this.header.style.display = "contents";
+      }
+      if (this.closeButton) {
+        const btn = document.createElement("button");
+        btn.classList.add("btn-close");
+        btn.setAttribute("aria-label", "Close");
+        btn.onclick = this._hide;
+        this.header.append(btn);
+      }
       const el = this.triggerElement;
       el.setAttribute("data-bs-toggle", "popover");
-      this._popover = new Popover(el, this.allOptions);
+      el.setAttribute("tabindex", "0");
+      this.pop = new bsPopover(el, this.options);
+      if (this.isButtonLike) {
+        el.setAttribute("role", "button");
+        el.setAttribute("aria-pressed", "false");
+        el.onkeydown = (e6) => {
+          if (e6.key === "Enter" || e6.key === " ") {
+            this._toggle();
+          }
+        };
+        el.style.cursor = "pointer";
+      }
       el.addEventListener("shown.bs.popover", this._onShown);
       el.addEventListener("hidden.bs.popover", this._onHidden);
     }
@@ -907,32 +974,10 @@
       const el = this.triggerElement;
       el.removeEventListener("shown.bs.popover", this._onShown);
       el.removeEventListener("hidden.bs.popover", this._onHidden);
-      this._observer.disconnect();
       super.disconnectedCallback();
     }
     render() {
       return A;
-    }
-    // Find an Element to use as the trigger (aka, reference) for the popover
-    //
-    // TODO: In the future, it'd be nice if the reference was a virtual element (defining)
-    // a rectangle around `this.childNodes` instead of just the last HTMLElement.
-    // As of today, bootstrap.Popover doesn't seem to support floating-ui's virtual elements,
-    // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
-    get triggerElement() {
-      if (this.children.length > 2) {
-        const ref = this.children[this.children.length - 1];
-        ref.setAttribute("tabindex", "0");
-        return ref;
-      }
-      if (this.childNodes.length > 2) {
-        const ref = document.createElement("span");
-        ref.setAttribute("tabindex", "0");
-        ref.append(this.childNodes[this.childNodes.length - 1]);
-        this.appendChild(ref);
-        return ref;
-      }
-      return this;
     }
     getValue() {
       return this.visible;
@@ -940,25 +985,108 @@
     _onShown() {
       this.visible = true;
       this.onChangeCallback(true);
+      this._maybeFocusInput();
+      this._maybeCloseonEscape = this._maybeCloseonEscape.bind(this);
+      window.addEventListener("keydown", this._maybeCloseonEscape);
     }
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
+      this._restoreContent();
+      window.removeEventListener("keydown", this._maybeCloseonEscape);
+    }
+    // If there is focusable input in a shown popover, move focus there
+    _maybeFocusInput() {
+      const { tip } = this.pop;
+      if (!tip)
+        return;
+      const input = tip.querySelector(".shiny-input-container");
+      if (!input)
+        return;
+      const el = getFirstFocusableChild(input);
+      if (el)
+        el.focus();
+    }
+    // Allow ESC to close the popover when:
+    // - the trigger is the active element
+    // - the activeElement is inside the popover
+    _maybeCloseonEscape(e6) {
+      var _a;
+      if (e6.key === "Escape") {
+        const active = document.activeElement;
+        if (active === this.triggerElement || ((_a = this.pop.tip) == null ? void 0 : _a.contains(active))) {
+          this._hide();
+        }
+      }
+    }
+    // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
+    // will move the DOM element from this web container to the popover's
+    // container (which, by default, is the body, but can also be customized). So,
+    // when the popover is hidden, we're responsible for moving it back to this
+    // element.
+    _restoreContent() {
+      const { tip } = this.pop;
+      if (!tip) {
+        throw new Error(
+          "Failed to find the popover's DOM element. Please report this bug."
+        );
+      }
+      const body = tip.querySelector(".popover-body");
+      if (body)
+        this.contentContainer.append(body == null ? void 0 : body.firstChild);
+      const header = tip.querySelector(".popover-header");
+      if (header)
+        this.contentContainer.append(header == null ? void 0 : header.firstChild);
     }
     receiveMessage(el, data) {
       const method = data.method;
       if (method === "toggle") {
-        this._popover[data.value]();
+        this._toggle(data.value);
       } else if (method === "update") {
-        if (data.content) {
-          this._popover.setContent({ ".popover-content": data.content.html });
-        }
-        if (data.title) {
-          this._popover.setContent({ ".popover-header": data.title.html });
-        }
+        this._updateTitle(data.title);
+        this._updateContent(data.content);
       } else {
         throw new Error(`Unknown method ${method}`);
       }
+    }
+    _toggle(x2) {
+      if (x2 === "toggle" || x2 === void 0) {
+        x2 = this.visible ? "hide" : "show";
+      }
+      if (x2 === "hide") {
+        this._hide();
+      }
+      if (x2 === "show") {
+        this._show();
+      }
+    }
+    _hide() {
+      this.pop.hide();
+      if (this.isButtonLike) {
+        this.triggerElement.setAttribute("aria-pressed", "false");
+      }
+    }
+    // No-op if the popover is already visible or if the trigger element is not visible
+    // (in either case the tooltip likely won't be positioned correctly)
+    _show() {
+      if (!this.visible && this.visibleTrigger) {
+        this.pop.show();
+        if (this.isButtonLike) {
+          this.triggerElement.setAttribute("aria-pressed", "true");
+        }
+      }
+    }
+    _updateTitle(title) {
+      if (!title)
+        return;
+      Shiny.renderDependencies(title.deps);
+      setContentCarefully(this.pop, title.html, ".popover-header", "popover");
+    }
+    _updateContent(content) {
+      if (!content)
+        return;
+      Shiny.renderDependencies(content.deps);
+      setContentCarefully(this.pop, content.html, ".popover-body", "popover");
     }
   };
   BslibPopover.tagName = "bslib-popover";
@@ -968,11 +1096,11 @@
     n5({ type: String })
   ], BslibPopover.prototype, "placement", 2);
   __decorateClass([
-    n5({ type: String })
-  ], BslibPopover.prototype, "trigger", 2);
+    n5({ type: Boolean })
+  ], BslibPopover.prototype, "closeButton", 2);
   __decorateClass([
     n5({ type: String })
-  ], BslibPopover.prototype, "options", 2);
+  ], BslibPopover.prototype, "bsOptions", 2);
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {

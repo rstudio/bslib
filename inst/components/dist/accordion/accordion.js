@@ -12,6 +12,22 @@
   function hasDefinedProperty(obj, prop) {
     return Object.prototype.hasOwnProperty.call(obj, prop) && obj[prop] !== void 0;
   }
+  var focusSelectors = [
+    "a[href]",
+    "area[href]",
+    "button",
+    "details summary",
+    "input",
+    "iframe",
+    "select",
+    "textarea",
+    '[contentEditable=""]',
+    '[contentEditable="true"]',
+    '[contentEditable="TRUE"]',
+    "[tabindex]"
+  ];
+  var modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
+  var FOCUS_SELECTOR = focusSelectors.map((x) => x + modifiers.join("")).join(", ");
 
   // srcts/src/components/accordion.ts
   var AccordionInputBinding = class extends InputBinding {
