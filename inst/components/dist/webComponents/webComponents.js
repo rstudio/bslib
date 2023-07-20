@@ -704,27 +704,135 @@
     }
     return el;
   }
-  function setContentCarefully(x2, html, selector, type) {
+  function setContentCarefully(x2, trigger, html, selector, type) {
     const { tip } = x2;
     const tipIsVisible = tip && tip.offsetParent !== null;
     if (!tipIsVisible) {
       x2.setContent({ [selector]: html });
       return;
     }
-    console.log("carefully", x2, html, selector);
     const inner = tip.querySelector(selector);
     if (inner)
       inner.innerHTML = html;
     x2.update();
-    $(x2).one(`hidden.bs.${type}`, function() {
-      x2.setContent({ [selector]: html });
-    });
+    trigger.addEventListener(
+      `hidden.bs.${type}`,
+      () => {
+        x2.setContent({ [selector]: html });
+      },
+      { once: true }
+    );
   }
+
+  // srcts/src/components/_shinyResizeObserver.ts
+  var ShinyResizeObserver = class {
+    /**
+     * Watch containers for size changes and ensure that Shiny outputs and
+     * htmlwidgets within resize appropriately.
+     *
+     * @details
+     * The ShinyResizeObserver is used to watch the containers, such as Sidebars
+     * and Cards for size changes, in particular when the sidebar state is toggled
+     * or the card body is expanded full screen. It performs two primary tasks:
+     *
+     * 1. Dispatches a `resize` event on the window object. This is necessary to
+     *    ensure that Shiny outputs resize appropriately. In general, the window
+     *    resizing is throttled and the output update occurs when the transition
+     *    is complete.
+     * 2. If an output with a resize method on the output binding is detected, we
+     *    directly call the `.onResize()` method of the binding. This ensures that
+     *    htmlwidgets transition smoothly. In static mode, htmlwidgets does this
+     *    already.
+     *
+     * @note
+     * This resize observer also handles race conditions in some complex
+     * fill-based layouts with multiple outputs (e.g., plotly), where shiny
+     * initializes with the correct sizing, but in-between the 1st and last
+     * renderValue(), the size of the output containers can change, meaning every
+     * output but the 1st gets initialized with the wrong size during their
+     * renderValue(). Then, after the render phase, shiny won't know to trigger a
+     * resize since all the widgets will return to their original size (and thus,
+     * Shiny thinks there isn't any resizing to do). The resize observer works
+     * around this by ensuring that the output is resized whenever its container
+     * size changes.
+     * @constructor
+     */
+    constructor() {
+      this.resizeObserverEntries = [];
+      this.resizeObserver = new ResizeObserver((entries) => {
+        const resizeEvent = new Event("resize");
+        window.dispatchEvent(resizeEvent);
+        if (!window.Shiny)
+          return;
+        const resized = [];
+        for (const entry of entries) {
+          if (!(entry.target instanceof HTMLElement))
+            continue;
+          if (!entry.target.querySelector(".shiny-bound-output"))
+            continue;
+          entry.target.querySelectorAll(".shiny-bound-output").forEach((el) => {
+            if (resized.includes(el))
+              return;
+            const { binding, onResize } = $(el).data("shinyOutputBinding");
+            if (!binding || !binding.resize)
+              return;
+            const owner = el.shinyResizeObserver;
+            if (owner && owner !== this)
+              return;
+            if (!owner)
+              el.shinyResizeObserver = this;
+            onResize(el);
+            resized.push(el);
+            if (!el.classList.contains("shiny-plot-output"))
+              return;
+            const img = el.querySelector(
+              'img:not([width="100%"])'
+            );
+            if (img)
+              img.setAttribute("width", "100%");
+          });
+        }
+      });
+    }
+    /**
+     * Observe an element for size changes.
+     * @param {HTMLElement} el - The element to observe.
+     */
+    observe(el) {
+      this.resizeObserver.observe(el);
+      this.resizeObserverEntries.push(el);
+    }
+    /**
+     * Stop observing an element for size changes.
+     * @param {HTMLElement} el - The element to stop observing.
+     */
+    unobserve(el) {
+      const idxEl = this.resizeObserverEntries.indexOf(el);
+      if (idxEl < 0)
+        return;
+      this.resizeObserver.unobserve(el);
+      this.resizeObserverEntries.splice(idxEl, 1);
+    }
+    /**
+     * This method checks that we're not continuing to watch elements that no
+     * longer exist in the DOM. If any are found, we stop observing them and
+     * remove them from our array of observed elements.
+     *
+     * @private
+     * @static
+     */
+    flush() {
+      this.resizeObserverEntries.forEach((el) => {
+        if (!document.body.contains(el))
+          this.unobserve(el);
+      });
+    }
+  };
 
   // srcts/src/components/tooltip.ts
   var bsTooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
   };
-  var BslibTooltip = class extends LightElement {
+  var _BslibTooltip = class extends LightElement {
     ///////////////////////////////////////////////////////////////
     // Methods
     ///////////////////////////////////////////////////////////////
@@ -741,6 +849,7 @@
       this.onChangeCallback = (x2) => {
       };
       this._onShown = this._onShown.bind(this);
+      this._onInsert = this._onInsert.bind(this);
       this._onHidden = this._onHidden.bind(this);
       this.style.display = "contents";
     }
@@ -751,11 +860,14 @@
         placement: this.placement,
         // Bootstrap defaults to false, but we have our own HTML escaping
         html: true,
-        sanitize: true
+        sanitize: false
       }, opts);
     }
     get content() {
-      return this.children[0].innerHTML;
+      return this.contentContainer.children[0];
+    }
+    get contentContainer() {
+      return this.children[0];
     }
     // The element that triggers the tooltip to be shown
     get triggerElement() {
@@ -768,18 +880,21 @@
     }
     connectedCallback() {
       super.connectedCallback();
-      const el = this.triggerElement;
-      el.setAttribute("data-bs-toggle", "tooltip");
-      el.setAttribute("tabindex", "0");
-      this.tooltip = new bsTooltip(el, this.options);
-      this.observer = this._createVisibilityObserver();
-      el.addEventListener("shown.bs.tooltip", this._onShown);
-      el.addEventListener("hidden.bs.tooltip", this._onHidden);
+      this.content.style.display = "contents";
+      const trigger = this.triggerElement;
+      trigger.setAttribute("data-bs-toggle", "tooltip");
+      trigger.setAttribute("tabindex", "0");
+      this.tooltip = new bsTooltip(trigger, this.options);
+      this.visibilityObserver = this._createVisibilityObserver();
+      trigger.addEventListener("shown.bs.tooltip", this._onShown);
+      trigger.addEventListener("hidden.bs.tooltip", this._onHidden);
+      trigger.addEventListener("inserted.bs.tooltip", this._onInsert);
     }
     disconnectedCallback() {
-      const el = this.triggerElement;
-      el.removeEventListener("shown.bs.tooltip", this._onShown);
-      el.removeEventListener("hidden.bs.tooltip", this._onHidden);
+      const trigger = this.triggerElement;
+      trigger.removeEventListener("shown.bs.tooltip", this._onShown);
+      trigger.removeEventListener("hidden.bs.tooltip", this._onHidden);
+      trigger.removeEventListener("inserted.bs.tooltip", this._onInsert);
       super.disconnectedCallback();
     }
     render() {
@@ -791,12 +906,37 @@
     _onShown() {
       this.visible = true;
       this.onChangeCallback(true);
-      this.observer.observe(this.triggerElement);
+      this.visibilityObserver.observe(this.triggerElement);
     }
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
-      this.observer.unobserve(this.triggerElement);
+      this.visibilityObserver.unobserve(this.triggerElement);
+      this._restoreContent();
+    }
+    _onInsert() {
+      const { tip } = this.tooltip;
+      if (tip)
+        _BslibTooltip.shinyResizeObserver.observe(tip);
+    }
+    // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
+    // will move the DOM element from this web container to the popover's
+    // container (which, by default, is the body, but can also be customized). So,
+    // when the popover is hidden, we're responsible for moving it back to this
+    // element.
+    _restoreContent() {
+      const { tip } = this.tooltip;
+      if (!tip) {
+        throw new Error(
+          "Failed to find the popover's DOM element. Please report this bug."
+        );
+      }
+      const body = tip.querySelector(".popover-body");
+      if (body)
+        this.contentContainer.append(body == null ? void 0 : body.firstChild);
+      const header = tip.querySelector(".popover-header");
+      if (header)
+        this.contentContainer.append(header == null ? void 0 : header.firstChild);
     }
     receiveMessage(el, data) {
       const method = data.method;
@@ -809,7 +949,7 @@
       }
     }
     _toggle(x2) {
-      if (x2 === "toggle") {
+      if (x2 === "toggle" || x2 === void 0) {
         x2 = this.visible ? "hide" : "show";
       }
       if (x2 === "hide") {
@@ -830,8 +970,18 @@
       if (!title)
         return;
       Shiny.renderDependencies(title.deps);
-      setContentCarefully(this.tooltip, title.html, ".tooltip-inner", "tooltip");
+      setContentCarefully(
+        this.tooltip,
+        this.triggerElement,
+        title.html,
+        ".tooltip-inner",
+        "tooltip"
+      );
     }
+    // While the tooltip is shown, watches for changes in the _trigger_
+    // visibility. If the trigger element becomes no longer visible, then we hide
+    // the tooltip (Bootstrap doesn't do this automatically when showing
+    // programmatically)
     _createVisibilityObserver() {
       const handler = (entries) => {
         if (!this.visible)
@@ -844,7 +994,9 @@
       return new IntersectionObserver(handler);
     }
   };
+  var BslibTooltip = _BslibTooltip;
   BslibTooltip.tagName = "bslib-tooltip";
+  BslibTooltip.shinyResizeObserver = new ShinyResizeObserver();
   // Shiny-specific stuff
   BslibTooltip.isShinyInput = true;
   __decorateClass([
@@ -880,7 +1032,7 @@
   // srcts/src/components/popover.ts
   var bsPopover = window.bootstrap ? window.bootstrap.Popover : class {
   };
-  var BslibPopover = class extends LightElement {
+  var _BslibPopover = class extends LightElement {
     ///////////////////////////////////////////////////////////////
     // Methods
     ///////////////////////////////////////////////////////////////
@@ -898,8 +1050,10 @@
       this.onChangeCallback = (x2) => {
       };
       this._onShown = this._onShown.bind(this);
+      this._onInsert = this._onInsert.bind(this);
       this._onHidden = this._onHidden.bind(this);
       this._hide = this._hide.bind(this);
+      this._maybeCloseonEscape = this._maybeCloseonEscape.bind(this);
       this.style.display = "contents";
     }
     get options() {
@@ -953,27 +1107,30 @@
         btn.onclick = this._hide;
         this.header.append(btn);
       }
-      const el = this.triggerElement;
-      el.setAttribute("data-bs-toggle", "popover");
-      el.setAttribute("tabindex", "0");
-      this.pop = new bsPopover(el, this.options);
+      const trigger = this.triggerElement;
+      trigger.setAttribute("data-bs-toggle", "popover");
+      trigger.setAttribute("tabindex", "0");
+      this.pop = new bsPopover(trigger, this.options);
       if (this.isButtonLike) {
-        el.setAttribute("role", "button");
-        el.setAttribute("aria-pressed", "false");
-        el.onkeydown = (e6) => {
+        trigger.setAttribute("role", "button");
+        trigger.setAttribute("aria-pressed", "false");
+        trigger.onkeydown = (e6) => {
           if (e6.key === "Enter" || e6.key === " ") {
             this._toggle();
           }
         };
-        el.style.cursor = "pointer";
+        trigger.style.cursor = "pointer";
       }
-      el.addEventListener("shown.bs.popover", this._onShown);
-      el.addEventListener("hidden.bs.popover", this._onHidden);
+      this.visibilityObserver = this._createVisibilityObserver();
+      trigger.addEventListener("shown.bs.popover", this._onShown);
+      trigger.addEventListener("hidden.bs.popover", this._onHidden);
+      trigger.addEventListener("inserted.bs.popover", this._onInsert);
     }
     disconnectedCallback() {
-      const el = this.triggerElement;
-      el.removeEventListener("shown.bs.popover", this._onShown);
-      el.removeEventListener("hidden.bs.popover", this._onHidden);
+      const trigger = this.triggerElement;
+      trigger.removeEventListener("shown.bs.popover", this._onShown);
+      trigger.removeEventListener("hidden.bs.popover", this._onHidden);
+      trigger.removeEventListener("inserted.bs.popover", this._onInsert);
       super.disconnectedCallback();
     }
     render() {
@@ -985,15 +1142,21 @@
     _onShown() {
       this.visible = true;
       this.onChangeCallback(true);
+      this.visibilityObserver.observe(this.triggerElement);
       this._maybeFocusInput();
-      this._maybeCloseonEscape = this._maybeCloseonEscape.bind(this);
       window.addEventListener("keydown", this._maybeCloseonEscape);
     }
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
+      this.visibilityObserver.unobserve(this.triggerElement);
       this._restoreContent();
       window.removeEventListener("keydown", this._maybeCloseonEscape);
+    }
+    _onInsert() {
+      const { tip } = this.pop;
+      if (tip)
+        _BslibPopover.shinyResizeObserver.observe(tip);
     }
     // If there is focusable input in a shown popover, move focus there
     _maybeFocusInput() {
@@ -1080,16 +1243,45 @@
       if (!title)
         return;
       Shiny.renderDependencies(title.deps);
-      setContentCarefully(this.pop, title.html, ".popover-header", "popover");
+      setContentCarefully(
+        this.pop,
+        this.triggerElement,
+        title.html,
+        ".popover-header",
+        "popover"
+      );
     }
     _updateContent(content) {
       if (!content)
         return;
       Shiny.renderDependencies(content.deps);
-      setContentCarefully(this.pop, content.html, ".popover-body", "popover");
+      setContentCarefully(
+        this.pop,
+        this.triggerElement,
+        content.html,
+        ".popover-body",
+        "popover"
+      );
+    }
+    // While the popover is shown, watches for changes in the _trigger_
+    // visibility. If the trigger element becomes no longer visible, then we hide
+    // the popover (Bootstrap doesn't do this automatically when showing
+    // programmatically)
+    _createVisibilityObserver() {
+      const handler = (entries) => {
+        if (!this.visible)
+          return;
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting)
+            this._hide();
+        });
+      };
+      return new IntersectionObserver(handler);
     }
   };
+  var BslibPopover = _BslibPopover;
   BslibPopover.tagName = "bslib-popover";
+  BslibPopover.shinyResizeObserver = new ShinyResizeObserver();
   // Shiny-specific stuff
   BslibPopover.isShinyInput = true;
   __decorateClass([
