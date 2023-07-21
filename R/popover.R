@@ -104,7 +104,7 @@ popover <- function(
     id = id,
     placement = rlang::arg_match(placement),
     closeButton = if (close_button) NA,
-    bsOptions = jsonlite::toJSON(options, auto_unbox = TRUE),
+    bsOptions = to_json(options),
     !!!attribs,
     # Use display:none instead of <template> since shiny.js
     # doesn't bind to the contents of the latter

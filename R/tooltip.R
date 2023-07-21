@@ -78,7 +78,7 @@ tooltip <- function(
     "bslib-tooltip",
     id = id,
     placement = rlang::arg_match(placement),
-    bsOptions = jsonlite::toJSON(options, auto_unbox = TRUE),
+    bsOptions = to_json(options),
     !!!attribs,
     # Use display:none instead of <template> since shiny.js
     # doesn't bind to the contents of the latter
@@ -142,4 +142,9 @@ normalize_show_value <- function(show) {
   }
 
   if (show) "show" else "hide"
+}
+
+
+to_json <- function(..., auto_unbox = TRUE, null = "null") {
+  jsonlite::toJSON(..., auto_unbox = auto_unbox, null = null)
 }
