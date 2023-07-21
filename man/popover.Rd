@@ -38,8 +38,6 @@ visibility/contents of the popover.}
 
 \item{placement}{The placement of the popover relative to its trigger.}
 
-\item{close_button}{Whether to include a close button in the popover.}
-
 \item{options}{A list of additional
 \href{https://getbootstrap.com/docs/5.3/components/popovers/#options}{options}.}
 
