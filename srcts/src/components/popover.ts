@@ -104,7 +104,8 @@ export class BslibPopover extends LightElement {
     this._onInsert = this._onInsert.bind(this);
     this._onHidden = this._onHidden.bind(this);
     this._hide = this._hide.bind(this);
-    this._maybeCloseonEscape = this._maybeCloseonEscape.bind(this);
+    this._handleTabKey = this._handleTabKey.bind(this);
+    this._handleEscapeKey = this._handleEscapeKey.bind(this);
     this.style.display = "contents";
   }
 
@@ -125,7 +126,10 @@ export class BslibPopover extends LightElement {
       const btn = document.createElement("button");
       btn.classList.add("btn-close");
       btn.setAttribute("aria-label", "Close");
-      btn.onclick = this._hide;
+      btn.onclick = () => {
+        this._hide();
+        this.triggerElement.focus();
+      };
       btn.style.marginLeft = "auto";
       if (this.header) this.header.append(btn);
     }
@@ -174,50 +178,76 @@ export class BslibPopover extends LightElement {
   private _onShown(): void {
     this.visible = true;
     this.onChangeCallback(true);
+
     this.visibilityObserver.observe(this.triggerElement);
-    this._maybeFocusInput();
-    window.addEventListener("keydown", this._maybeCloseonEscape);
+
+    document.addEventListener("keydown", this._handleTabKey);
+    document.addEventListener("keydown", this._handleEscapeKey);
   }
 
   private _onHidden(): void {
     this.visible = false;
     this.onChangeCallback(true);
+
     this.visibilityObserver.unobserve(this.triggerElement);
     this._restoreContent();
-    window.removeEventListener("keydown", this._maybeCloseonEscape);
+
+    document.removeEventListener("keydown", this._handleTabKey);
+    document.removeEventListener("keydown", this._handleEscapeKey);
   }
 
   private _onInsert(): void {
     const { tip } = this.pop;
-    if (tip) {
-      const header = tip.querySelector(".popover-header") as HTMLElement;
-      if (header) {
-        header.style.display = "flex";
-        header.style.alignItems = "center";
-      }
-      BslibPopover.shinyResizeObserver.observe(tip);
+    if (!tip) return;
+
+    tip.setAttribute("tabindex", "0");
+
+    const header = tip.querySelector(".popover-header") as HTMLElement;
+    if (header) {
+      header.style.display = "flex";
+      header.style.alignItems = "center";
     }
+    BslibPopover.shinyResizeObserver.observe(tip);
   }
 
-  // If there is focusable input in a shown popover, move focus there
-  private _maybeFocusInput(): void {
+  // 1. Tab on an active trigger focuses the popover.
+  // 2. Shift+Tab on active popover focuses the trigger.
+  private _handleTabKey(e: KeyboardEvent): void {
+    if (e.key !== "Tab") return;
     const { tip } = this.pop;
     if (!tip) return;
-    const input = tip.querySelector(".shiny-input-container");
-    if (!input) return;
-    const el = getFirstFocusableChild(input);
-    if (el) (el as HTMLElement).focus();
+
+    const stopEvent = () => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    };
+
+    const active = document.activeElement;
+    if (active === this.triggerElement && !e.shiftKey) {
+      stopEvent();
+      tip.focus();
+    }
+
+    if (active === tip && e.shiftKey) {
+      stopEvent();
+      this.triggerElement.focus();
+    }
   }
 
   // Allow ESC to close the popover when:
   // - the trigger is the active element
   // - the activeElement is inside the popover
-  private _maybeCloseonEscape(e: KeyboardEvent): void {
-    if (e.key === "Escape") {
-      const active = document.activeElement;
-      if (active === this.triggerElement || this.pop.tip?.contains(active)) {
-        this._hide();
-      }
+  private _handleEscapeKey(e: KeyboardEvent): void {
+    if (e.key !== "Escape") return;
+    const { tip } = this.pop;
+    if (!tip) return;
+
+    const active = document.activeElement;
+    if (active === this.triggerElement || tip.contains(active)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      this._hide();
+      this.triggerElement.focus();
     }
   }
 
