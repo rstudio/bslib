@@ -4,24 +4,25 @@
   // srcts/src/components/_utils.ts
   var InputBinding = window.Shiny ? Shiny.InputBinding : class {
   };
-  var focusSelectors = [
-    "a[href]",
-    "area[href]",
-    "button",
-    "details summary",
-    "input",
-    "iframe",
-    "select",
-    "textarea",
-    '[contentEditable=""]',
-    '[contentEditable="true"]',
-    '[contentEditable="TRUE"]',
-    "[tabindex]"
-  ];
-  var modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
-  var FOCUS_SELECTOR = focusSelectors.map((x) => x + modifiers.join("")).join(", ");
   function getAllFocusableChildren(el) {
-    return Array.from(el.querySelectorAll(FOCUS_SELECTOR));
+    const base = [
+      "a[href]",
+      "area[href]",
+      "button",
+      "details summary",
+      "input",
+      "iframe",
+      "select",
+      "textarea",
+      '[contentEditable=""]',
+      '[contentEditable="true"]',
+      '[contentEditable="TRUE"]',
+      "[tabindex]"
+    ];
+    const modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
+    const selectors = base.map((b) => b + modifiers.join(""));
+    const focusable = el.querySelectorAll(selectors.join(", "));
+    return Array.from(focusable);
   }
 
   // srcts/src/components/_shinyResizeObserver.ts

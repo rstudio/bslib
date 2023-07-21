@@ -864,9 +864,6 @@
       }, opts);
     }
     get content() {
-      return this.contentContainer.children[0];
-    }
-    get contentContainer() {
       return this.children[0];
     }
     // The element that triggers the tooltip to be shown
@@ -880,8 +877,6 @@
     }
     connectedCallback() {
       super.connectedCallback();
-      if (this.content)
-        this.content.style.display = "contents";
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "tooltip");
       trigger.setAttribute("tabindex", "0");
@@ -916,9 +911,15 @@
       this._restoreContent();
     }
     _onInsert() {
+      var _a;
       const { tip } = this.tooltip;
-      if (tip)
-        _BslibTooltip.shinyResizeObserver.observe(tip);
+      if (!tip)
+        return;
+      _BslibTooltip.shinyResizeObserver.observe(tip);
+      const content = (_a = tip.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
+      if (content instanceof HTMLElement) {
+        content.style.display = "contents";
+      }
     }
     // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
     // will move the DOM element from this web container to the popover's
@@ -926,18 +927,18 @@
     // when the popover is hidden, we're responsible for moving it back to this
     // element.
     _restoreContent() {
+      var _a;
       const { tip } = this.tooltip;
       if (!tip) {
         throw new Error(
           "Failed to find the popover's DOM element. Please report this bug."
         );
       }
-      const body = tip.querySelector(".popover-body");
-      if (body)
-        this.contentContainer.append(body == null ? void 0 : body.firstChild);
-      const header = tip.querySelector(".popover-header");
-      if (header)
-        this.contentContainer.append(header == null ? void 0 : header.firstChild);
+      const content = (_a = tip.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
+      if (content instanceof HTMLElement) {
+        content.style.display = "none";
+        this.append(content);
+      }
     }
     receiveMessage(el, data) {
       const method = data.method;
@@ -1007,29 +1008,6 @@
     n5({ type: String })
   ], BslibTooltip.prototype, "bsOptions", 2);
 
-  // srcts/src/components/_utils.ts
-  var InputBinding = window.Shiny ? Shiny.InputBinding : class {
-  };
-  var focusSelectors = [
-    "a[href]",
-    "area[href]",
-    "button",
-    "details summary",
-    "input",
-    "iframe",
-    "select",
-    "textarea",
-    '[contentEditable=""]',
-    '[contentEditable="true"]',
-    '[contentEditable="TRUE"]',
-    "[tabindex]"
-  ];
-  var modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
-  var FOCUS_SELECTOR = focusSelectors.map((x2) => x2 + modifiers.join("")).join(", ");
-  function getFirstFocusableChild(el) {
-    return el.querySelector(FOCUS_SELECTOR);
-  }
-
   // srcts/src/components/popover.ts
   var bsPopover = window.bootstrap ? window.bootstrap.Popover : class {
   };
@@ -1040,7 +1018,6 @@
     constructor() {
       super();
       this.placement = "auto";
-      this.closeButton = false;
       this.bsOptions = "{}";
       // Visibility state management
       this.visible = false;
@@ -1054,15 +1031,15 @@
       this._onInsert = this._onInsert.bind(this);
       this._onHidden = this._onHidden.bind(this);
       this._hide = this._hide.bind(this);
-      this._maybeCloseonEscape = this._maybeCloseonEscape.bind(this);
+      this._handleTabKey = this._handleTabKey.bind(this);
+      this._handleEscapeKey = this._handleEscapeKey.bind(this);
       this.style.display = "contents";
     }
     get options() {
       const opts = JSON.parse(this.bsOptions);
-      const hasHeader = this.header && this.header.childNodes.length > 0;
       return __spreadValues({
         content: this.content,
-        title: hasHeader ? this.header : "",
+        title: this.hasHeader ? this.header : "",
         placement: this.placement,
         // Bootstrap defaults to false, but we have our own HTML escaping
         html: true,
@@ -1075,6 +1052,9 @@
     }
     get header() {
       return this.contentContainer.children[1];
+    }
+    get hasHeader() {
+      return !!this.header && this.header.childNodes.length > 0;
     }
     get contentContainer() {
       return this.children[0];
@@ -1096,20 +1076,28 @@
       return this.options.trigger === "click" && this.triggerElement.tagName !== "BUTTON";
     }
     connectedCallback() {
+      var _a, _b;
       super.connectedCallback();
       if (this.content)
         this.content.style.display = "contents";
       if (this.header instanceof HTMLElement) {
         this.header.style.display = "contents";
       }
-      if (this.closeButton) {
-        const btn = document.createElement("button");
-        btn.classList.add("btn-close");
-        btn.setAttribute("aria-label", "Close");
-        btn.onclick = this._hide;
-        btn.style.marginLeft = "auto";
-        if (this.header)
-          this.header.append(btn);
+      const btn = document.createElement("button");
+      btn.classList.add("btn-close");
+      btn.setAttribute("aria-label", "Close");
+      btn.onclick = () => {
+        this._hide();
+        this.triggerElement.focus();
+      };
+      btn.style.marginLeft = "auto";
+      if (this.hasHeader) {
+        (_a = this.header) == null ? void 0 : _a.append(btn);
+      } else {
+        const btnDiv = document.createElement("div");
+        btnDiv.style.display = "flex";
+        btnDiv.append(btn);
+        (_b = this.content) == null ? void 0 : _b.prepend(btnDiv);
       }
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "popover");
@@ -1147,49 +1135,66 @@
       this.visible = true;
       this.onChangeCallback(true);
       this.visibilityObserver.observe(this.triggerElement);
-      this._maybeFocusInput();
-      window.addEventListener("keydown", this._maybeCloseonEscape);
+      document.addEventListener("keydown", this._handleTabKey);
+      document.addEventListener("keydown", this._handleEscapeKey);
     }
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
       this.visibilityObserver.unobserve(this.triggerElement);
       this._restoreContent();
-      window.removeEventListener("keydown", this._maybeCloseonEscape);
+      document.removeEventListener("keydown", this._handleTabKey);
+      document.removeEventListener("keydown", this._handleEscapeKey);
     }
     _onInsert() {
       const { tip } = this.pop;
-      if (tip) {
-        const header = tip.querySelector(".popover-header");
-        if (header) {
-          header.style.display = "flex";
-          header.style.alignItems = "center";
-        }
-        _BslibPopover.shinyResizeObserver.observe(tip);
+      if (!tip)
+        return;
+      tip.setAttribute("tabindex", "0");
+      const header = tip.querySelector(".popover-header");
+      if (header) {
+        header.style.display = "flex";
+        header.style.alignItems = "center";
       }
+      _BslibPopover.shinyResizeObserver.observe(tip);
     }
-    // If there is focusable input in a shown popover, move focus there
-    _maybeFocusInput() {
+    // 1. Tab on an active trigger focuses the popover.
+    // 2. Shift+Tab on active popover focuses the trigger.
+    _handleTabKey(e6) {
+      if (e6.key !== "Tab")
+        return;
       const { tip } = this.pop;
       if (!tip)
         return;
-      const input = tip.querySelector(".shiny-input-container");
-      if (!input)
-        return;
-      const el = getFirstFocusableChild(input);
-      if (el)
-        el.focus();
+      const stopEvent = () => {
+        e6.preventDefault();
+        e6.stopImmediatePropagation();
+      };
+      const active = document.activeElement;
+      if (active === this.triggerElement && !e6.shiftKey) {
+        stopEvent();
+        tip.focus();
+      }
+      if (active === tip && e6.shiftKey) {
+        stopEvent();
+        this.triggerElement.focus();
+      }
     }
     // Allow ESC to close the popover when:
     // - the trigger is the active element
     // - the activeElement is inside the popover
-    _maybeCloseonEscape(e6) {
-      var _a;
-      if (e6.key === "Escape") {
-        const active = document.activeElement;
-        if (active === this.triggerElement || ((_a = this.pop.tip) == null ? void 0 : _a.contains(active))) {
-          this._hide();
-        }
+    _handleEscapeKey(e6) {
+      if (e6.key !== "Escape")
+        return;
+      const { tip } = this.pop;
+      if (!tip)
+        return;
+      const active = document.activeElement;
+      if (active === this.triggerElement || tip.contains(active)) {
+        e6.preventDefault();
+        e6.stopImmediatePropagation();
+        this._hide();
+        this.triggerElement.focus();
       }
     }
     // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
@@ -1297,9 +1302,6 @@
   __decorateClass([
     n5({ type: String })
   ], BslibPopover.prototype, "placement", 2);
-  __decorateClass([
-    n5({ type: Boolean })
-  ], BslibPopover.prototype, "closeButton", 2);
   __decorateClass([
     n5({ type: String })
   ], BslibPopover.prototype, "bsOptions", 2);
