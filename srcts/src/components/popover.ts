@@ -2,7 +2,7 @@ import { nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { LightElement } from "./webcomponents/_lightElement";
 import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
-import { getFirstFocusableChild, type HtmlDep } from "./_utils";
+import type { HtmlDep } from "./_utils";
 import type { Popover as PopoverType } from "bootstrap";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
