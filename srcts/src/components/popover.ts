@@ -42,15 +42,13 @@ export class BslibPopover extends LightElement {
   private static shinyResizeObserver = new ShinyResizeObserver();
 
   @property({ type: String }) placement: PopoverOptions["placement"] = "auto";
-  @property({ type: Boolean }) closeButton = false;
   @property({ type: String }) bsOptions = "{}";
 
   private get options(): PopoverOptions {
     const opts = JSON.parse(this.bsOptions);
-    const hasHeader = this.header && this.header.childNodes.length > 0;
     return {
       content: this.content,
-      title: hasHeader ? this.header : "",
+      title: this.hasHeader ? this.header : "",
       placement: this.placement,
       // Bootstrap defaults to false, but we have our own HTML escaping
       html: true,
@@ -66,6 +64,10 @@ export class BslibPopover extends LightElement {
 
   private get header(): HTMLElement | undefined {
     return this.contentContainer.children[1] as HTMLElement;
+  }
+
+  private get hasHeader(): boolean {
+    return !!this.header && this.header.childNodes.length > 0;
   }
 
   private get contentContainer(): HTMLElement {
@@ -122,18 +124,25 @@ export class BslibPopover extends LightElement {
       this.header.style.display = "contents";
     }
 
-    if (this.closeButton) {
-      const btn = document.createElement("button");
-      btn.classList.add("btn-close");
-      btn.setAttribute("aria-label", "Close");
-      btn.onclick = () => {
-        this._hide();
-        this.triggerElement.focus();
-      };
-      btn.style.marginLeft = "auto";
-      if (this.header) this.header.append(btn);
+    // Add a close button to the header (if there is one) or the content
+    const btn = document.createElement("button");
+    btn.classList.add("btn-close");
+    btn.setAttribute("aria-label", "Close");
+    btn.onclick = () => {
+      this._hide();
+      this.triggerElement.focus();
+    };
+    btn.style.marginLeft = "auto";
+    if (this.hasHeader) {
+      this.header?.append(btn);
+    } else {
+      const btnDiv = document.createElement("div");
+      btnDiv.style.display = "flex";
+      btnDiv.append(btn);
+      this.content?.prepend(btnDiv);
     }
 
+    // Create the popover (and make sure it's focusable)
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "popover");
     trigger.setAttribute("tabindex", "0");

@@ -15,7 +15,6 @@
 #'   visibility of the popover (via the `input[[id]]` value) and/or update the
 #'   visibility/contents of the popover.
 #' @param placement The placement of the popover relative to its trigger.
-#' @param close_button Whether to include a close button in the popover.
 #' @param options A list of additional
 #'   [options](https://getbootstrap.com/docs/5.3/components/popovers/#options).
 #'
@@ -103,7 +102,6 @@ popover <- function(
     "bslib-popover",
     id = id,
     placement = rlang::arg_match(placement),
-    closeButton = if (close_button) NA,
     bsOptions = to_json(options),
     !!!attribs,
     # Use display:none instead of <template> since shiny.js
