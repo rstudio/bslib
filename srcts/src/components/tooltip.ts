@@ -51,10 +51,6 @@ export class BslibTooltip extends LightElement {
   }
 
   private get content(): HTMLElement | undefined {
-    return this.contentContainer.children[0] as HTMLElement;
-  }
-
-  private get contentContainer(): HTMLElement {
     return this.children[0] as HTMLElement;
   }
 
@@ -83,13 +79,6 @@ export class BslibTooltip extends LightElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-
-    // The user-supplied content is wrapped up in to an additional <div> (this
-    // guarantees that we can pass an _Element_ to bootstrap.Tooltip(), which
-    // moves the content from within this component to the tooltip's location).
-    // These inline styles are here to prevent any styling suprises caused by
-    // the wrapping <div>.
-    if (this.content) this.content.style.display = "contents";
 
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "tooltip");
@@ -136,7 +125,20 @@ export class BslibTooltip extends LightElement {
 
   private _onInsert(): void {
     const { tip } = this.tooltip;
-    if (tip) BslibTooltip.shinyResizeObserver.observe(tip);
+    if (!tip) return;
+
+    // If outputs happen to be in the tooltip, make sure they sized correctly
+    BslibTooltip.shinyResizeObserver.observe(tip);
+
+    // The user-supplied content is wrapped up in to an additional <div> (this
+    // guarantees that we can pass an _Element_ to bootstrap.Tooltip(), which
+    // moves the content from within this component to the tooltip's location).
+    // These inline styles are here to prevent any styling suprises caused by
+    // the wrapping <div>.
+    const content = tip.querySelector(".tooltip-inner")?.firstChild;
+    if (content instanceof HTMLElement) {
+      content.style.display = "contents";
+    }
   }
 
   // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
@@ -151,10 +153,11 @@ export class BslibTooltip extends LightElement {
         "Failed to find the popover's DOM element. Please report this bug."
       );
     }
-    const body = tip.querySelector(".popover-body");
-    if (body) this.contentContainer.append(body?.firstChild as HTMLElement);
-    const header = tip.querySelector(".popover-header");
-    if (header) this.contentContainer.append(header?.firstChild as HTMLElement);
+    const content = tip.querySelector(".tooltip-inner")?.firstChild;
+    if (content instanceof HTMLElement) {
+      content.style.display = "none";
+      this.append(content);
+    }
   }
 
   // Shiny-specific stuff
