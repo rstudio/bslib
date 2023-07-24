@@ -704,24 +704,38 @@
     }
     return el;
   }
-  function setContentCarefully(x2, trigger, html, selector, type) {
+  function setContentCarefully(x2, trigger, obj, type) {
+    var _a;
     const { tip } = x2;
     const tipIsVisible = tip && tip.offsetParent !== null;
     if (!tipIsVisible) {
-      x2.setContent({ [selector]: html });
+      x2.setContent(obj);
       return;
     }
-    const inner = tip.querySelector(selector);
-    if (inner)
-      inner.innerHTML = html;
+    for (const [selector, html] of Object.entries(obj)) {
+      let target = tip.querySelector(selector);
+      if (!target) {
+        if (selector === ".popover-header") {
+          const header = document.createElement("div");
+          header.classList.add("popover-header");
+          (_a = tip.querySelector(".popover-body")) == null ? void 0 : _a.before(header);
+          target = header;
+        }
+      }
+      if (!target) {
+        console.warn(`Could not find ${selector} in ${type} content`);
+        continue;
+      }
+      if (target instanceof HTMLElement) {
+        target.replaceChildren(html);
+      } else {
+        target.innerHTML = html;
+      }
+    }
     x2.update();
-    trigger.addEventListener(
-      `hidden.bs.${type}`,
-      () => {
-        x2.setContent({ [selector]: html });
-      },
-      { once: true }
-    );
+    trigger.addEventListener(`hidden.bs.${type}`, () => x2.setContent(obj), {
+      once: true
+    });
   }
 
   // srcts/src/components/_shinyResizeObserver.ts
@@ -975,8 +989,8 @@
       setContentCarefully(
         this.tooltip,
         this.triggerElement,
-        title.html,
-        ".tooltip-inner",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        { ".tooltip-inner": title.html },
         "tooltip"
       );
     }
@@ -1030,16 +1044,16 @@
       this._onShown = this._onShown.bind(this);
       this._onInsert = this._onInsert.bind(this);
       this._onHidden = this._onHidden.bind(this);
-      this._hide = this._hide.bind(this);
       this._handleTabKey = this._handleTabKey.bind(this);
       this._handleEscapeKey = this._handleEscapeKey.bind(this);
+      this._createCloseButton = this._createCloseButton.bind(this);
       this.style.display = "contents";
     }
     get options() {
       const opts = JSON.parse(this.bsOptions);
       return __spreadValues({
         content: this.content,
-        title: this.hasHeader ? this.header : "",
+        title: hasHeader(this.header) ? this.header : "",
         placement: this.placement,
         // Bootstrap defaults to false, but we have our own HTML escaping
         html: true,
@@ -1052,9 +1066,6 @@
     }
     get header() {
       return this.contentContainer.children[1];
-    }
-    get hasHeader() {
-      return !!this.header && this.header.childNodes.length > 0;
     }
     get contentContainer() {
       return this.children[0];
@@ -1076,29 +1087,14 @@
       return this.options.trigger === "click" && this.triggerElement.tagName !== "BUTTON";
     }
     connectedCallback() {
-      var _a, _b;
+      var _a;
       super.connectedCallback();
       if (this.content)
         this.content.style.display = "contents";
       if (this.header instanceof HTMLElement) {
         this.header.style.display = "contents";
       }
-      const btn = document.createElement("button");
-      btn.classList.add("btn-close");
-      btn.setAttribute("aria-label", "Close");
-      btn.onclick = () => {
-        this._hide();
-        this.triggerElement.focus();
-      };
-      btn.style.marginLeft = "auto";
-      if (this.hasHeader) {
-        (_a = this.header) == null ? void 0 : _a.append(btn);
-      } else {
-        const btnDiv = document.createElement("div");
-        btnDiv.style.display = "flex";
-        btnDiv.append(btn);
-        (_b = this.content) == null ? void 0 : _b.prepend(btnDiv);
-      }
+      (_a = this.content) == null ? void 0 : _a.append(this._createCloseButton(this.header));
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "popover");
       trigger.setAttribute("tabindex", "0");
@@ -1150,13 +1146,8 @@
       const { tip } = this.pop;
       if (!tip)
         return;
-      tip.setAttribute("tabindex", "0");
-      const header = tip.querySelector(".popover-header");
-      if (header) {
-        header.style.display = "flex";
-        header.style.alignItems = "center";
-      }
       _BslibPopover.shinyResizeObserver.observe(tip);
+      tip.setAttribute("tabindex", "0");
     }
     // 1. Tab on an active trigger focuses the popover.
     // 2. Shift+Tab on active popover focuses the trigger.
@@ -1221,8 +1212,7 @@
       if (method === "toggle") {
         this._toggle(data.value);
       } else if (method === "update") {
-        this._updateTitle(data.title);
-        this._updateContent(data.content);
+        this._updatePopover(data);
       } else {
         throw new Error(`Unknown method ${method}`);
       }
@@ -1254,29 +1244,59 @@
         }
       }
     }
-    _updateTitle(title) {
-      if (!title)
-        return;
-      Shiny.renderDependencies(title.deps);
+    _updatePopover(data) {
+      const { content, header } = data;
+      const deps = [];
+      if (content)
+        deps.push(...content.deps);
+      if (header)
+        deps.push(...header.deps);
+      Shiny.renderDependencies(deps);
+      const htmlToElement = (x2, fallback, selector) => {
+        var _a;
+        if (x2)
+          return this._htmlToElement(x2.html);
+        if (fallback)
+          return fallback;
+        return (_a = this.pop.tip) == null ? void 0 : _a.querySelector(selector);
+      };
+      const newHeader = htmlToElement(header, this.header, ".popover-header");
+      const newContent = htmlToElement(content, this.content, ".popover-body");
+      newContent.append(this._createCloseButton(newHeader));
       setContentCarefully(
         this.pop,
         this.triggerElement,
-        title.html,
-        ".popover-header",
+        {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          ".popover-header": hasHeader(newHeader) ? newHeader : "",
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          ".popover-body": newContent
+        },
         "popover"
       );
     }
-    _updateContent(content) {
-      if (!content)
-        return;
-      Shiny.renderDependencies(content.deps);
-      setContentCarefully(
-        this.pop,
-        this.triggerElement,
-        content.html,
-        ".popover-body",
-        "popover"
-      );
+    _htmlToElement(html) {
+      const div = document.createElement("div");
+      div.style.display = "contents";
+      div.innerHTML = html;
+      return div;
+    }
+    _createCloseButton(header) {
+      const btn = document.createElement("button");
+      btn.classList.add("btn-close");
+      btn.setAttribute("aria-label", "Close");
+      btn.onclick = () => {
+        this._hide();
+        this.triggerElement.focus();
+      };
+      const width = "0.65rem";
+      btn.style.position = "absolute";
+      btn.style.width = width;
+      btn.style.height = width;
+      btn.style.backgroundSize = width;
+      btn.style.top = hasHeader(header) ? "0.75rem" : "0.25rem";
+      btn.style.right = hasHeader(header) ? "0.5rem" : "0.25rem";
+      return btn;
     }
     // While the popover is shown, watches for changes in the _trigger_
     // visibility. If the trigger element becomes no longer visible, then we hide
@@ -1305,6 +1325,9 @@
   __decorateClass([
     n5({ type: String })
   ], BslibPopover.prototype, "bsOptions", 2);
+  function hasHeader(header) {
+    return !!header && header.childNodes.length > 0;
+  }
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {
