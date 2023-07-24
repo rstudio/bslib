@@ -148,7 +148,7 @@ update_popover <- function(id, ..., title = NULL, session = get_current_session(
   msg <- dropNulls(list(
     method = "update",
     content = if (length(body) > 0) processDeps(body, session),
-    title = if (length(title) > 0) processDeps(title, session)
+    header = if (length(title) > 0) processDeps(title, session)
   ))
 
   force(id)

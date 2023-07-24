@@ -25,7 +25,7 @@ export function getOrCreateTriggerEl(el: Element): HTMLElement {
 interface UpdatableTooltip {
   tip?: HTMLElement;
   update: () => void;
-  setContent: (x: { [key: string]: string }) => void;
+  setContent: (x: { [key: string]: HTMLElement | string }) => void;
 }
 
 // Workaround for a bug with .setContent() where it inadverently removes a
@@ -34,8 +34,7 @@ interface UpdatableTooltip {
 export function setContentCarefully(
   x: UpdatableTooltip,
   trigger: HTMLElement,
-  html: string,
-  selector: string,
+  obj: { [key: string]: HTMLElement | string },
   type: "popover" | "tooltip"
 ): void {
   const { tip } = x;
@@ -44,20 +43,38 @@ export function setContentCarefully(
   // API
   const tipIsVisible = tip && tip.offsetParent !== null;
   if (!tipIsVisible) {
-    x.setContent({ [selector]: html });
+    x.setContent(obj);
     return;
   }
 
-  const inner = tip.querySelector(selector);
-  if (inner) inner.innerHTML = html;
+  // Do the "careful" update
+  for (const [selector, html] of Object.entries(obj)) {
+    let target = tip.querySelector(selector);
+    if (!target) {
+      // Make sure we can update the header even there currently isn't one
+      if (selector === ".popover-header") {
+        const header = document.createElement("div");
+        header.classList.add("popover-header");
+        tip.querySelector(".popover-body")?.before(header);
+        target = header;
+      }
+    }
+    if (!target) {
+      console.warn(`Could not find ${selector} in ${type} content`);
+      continue;
+    }
+    if (target instanceof HTMLElement) {
+      target.replaceChildren(html);
+    } else {
+      target.innerHTML = html as string;
+    }
+  }
+
   x.update();
+
   // The next time the tip is hidden, officially replace the content (otherwise
   // the next time its shown, it will revert to the old content)
-  trigger.addEventListener(
-    `hidden.bs.${type}`,
-    () => {
-      x.setContent({ [selector]: html });
-    },
-    { once: true }
-  );
+  trigger.addEventListener(`hidden.bs.${type}`, () => x.setContent(obj), {
+    once: true,
+  });
 }

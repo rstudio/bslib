@@ -202,12 +202,13 @@ export class BslibTooltip extends LightElement {
 
   private _updateTitle(title: UpdateMessage["title"]): void {
     if (!title) return;
+
     Shiny.renderDependencies(title.deps);
     setContentCarefully(
       this.tooltip,
       this.triggerElement,
-      title.html,
-      ".tooltip-inner",
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      { ".tooltip-inner": title.html },
       "tooltip"
     );
   }

@@ -2,9 +2,9 @@ import { nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { LightElement } from "./webcomponents/_lightElement";
 import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
+import { ShinyResizeObserver } from "./_shinyResizeObserver";
 import type { HtmlDep } from "./_utils";
 import type { Popover as PopoverType } from "bootstrap";
-import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
 const bsPopover = (
   window.bootstrap ? window.bootstrap.Popover : class {}
@@ -27,7 +27,7 @@ type ToggleMessage = {
 type UpdateMessage = {
   method: "update";
   content?: { html: string; deps: HtmlDep[] };
-  title?: { html: string; deps: HtmlDep[] };
+  header?: { html: string; deps: HtmlDep[] };
 };
 
 type MessageData = ToggleMessage | UpdateMessage;
@@ -48,7 +48,7 @@ export class BslibPopover extends LightElement {
     const opts = JSON.parse(this.bsOptions);
     return {
       content: this.content,
-      title: this.hasHeader ? this.header : "",
+      title: hasHeader(this.header) ? this.header : "",
       placement: this.placement,
       // Bootstrap defaults to false, but we have our own HTML escaping
       html: true,
@@ -64,10 +64,6 @@ export class BslibPopover extends LightElement {
 
   private get header(): HTMLElement | undefined {
     return this.contentContainer.children[1] as HTMLElement;
-  }
-
-  private get hasHeader(): boolean {
-    return !!this.header && this.header.childNodes.length > 0;
   }
 
   private get contentContainer(): HTMLElement {
@@ -105,9 +101,9 @@ export class BslibPopover extends LightElement {
     this._onShown = this._onShown.bind(this);
     this._onInsert = this._onInsert.bind(this);
     this._onHidden = this._onHidden.bind(this);
-    this._hide = this._hide.bind(this);
     this._handleTabKey = this._handleTabKey.bind(this);
     this._handleEscapeKey = this._handleEscapeKey.bind(this);
+    this._createCloseButton = this._createCloseButton.bind(this);
     this.style.display = "contents";
   }
 
@@ -124,23 +120,8 @@ export class BslibPopover extends LightElement {
       this.header.style.display = "contents";
     }
 
-    // Add a close button to the header (if there is one) or the content
-    const btn = document.createElement("button");
-    btn.classList.add("btn-close");
-    btn.setAttribute("aria-label", "Close");
-    btn.onclick = () => {
-      this._hide();
-      this.triggerElement.focus();
-    };
-    btn.style.marginLeft = "auto";
-    if (this.hasHeader) {
-      this.header?.append(btn);
-    } else {
-      const btnDiv = document.createElement("div");
-      btnDiv.style.display = "flex";
-      btnDiv.append(btn);
-      this.content?.prepend(btnDiv);
-    }
+    // Append the close button
+    this.content?.append(this._createCloseButton(this.header));
 
     // Create the popover (and make sure it's focusable)
     const trigger = this.triggerElement;
@@ -209,14 +190,11 @@ export class BslibPopover extends LightElement {
     const { tip } = this.pop;
     if (!tip) return;
 
-    tip.setAttribute("tabindex", "0");
-
-    const header = tip.querySelector(".popover-header") as HTMLElement;
-    if (header) {
-      header.style.display = "flex";
-      header.style.alignItems = "center";
-    }
+    // If outputs happen to be in the tooltip, make sure they sized correctly
     BslibPopover.shinyResizeObserver.observe(tip);
+
+    // Make the popover focusable
+    tip.setAttribute("tabindex", "0");
   }
 
   // 1. Tab on an active trigger focuses the popover.
@@ -292,8 +270,7 @@ export class BslibPopover extends LightElement {
     if (method === "toggle") {
       this._toggle(data.value);
     } else if (method === "update") {
-      this._updateTitle(data.title);
-      this._updateContent(data.content);
+      this._updatePopover(data);
     } else {
       throw new Error(`Unknown method ${method}`);
     }
@@ -329,28 +306,68 @@ export class BslibPopover extends LightElement {
     }
   }
 
-  private _updateTitle(title: UpdateMessage["title"]): void {
-    if (!title) return;
-    Shiny.renderDependencies(title.deps);
+  private _updatePopover(data: UpdateMessage): void {
+    const { content, header } = data;
+
+    const deps = [];
+    if (content) deps.push(...content.deps);
+    if (header) deps.push(...header.deps);
+    Shiny.renderDependencies(deps);
+
+    // Since we may need to add a close button (with event handlers),
+    // parse the string into an HTMLElement. And, since .setContent() is less
+    // error-prone if we pass _both_ the header and content, we fallback to the
+    // existing header/content if the user didn't supply one.
+    const htmlToElement = (
+      x: typeof content | typeof header,
+      fallback: HTMLElement | undefined,
+      selector: string
+    ): HTMLElement => {
+      if (x) return this._htmlToElement(x.html);
+      if (fallback) return fallback;
+      return this.pop.tip?.querySelector(selector) as HTMLElement;
+    };
+
+    const newHeader = htmlToElement(header, this.header, ".popover-header");
+    const newContent = htmlToElement(content, this.content, ".popover-body");
+    newContent.append(this._createCloseButton(newHeader));
+
     setContentCarefully(
       this.pop,
       this.triggerElement,
-      title.html,
-      ".popover-header",
+      {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        ".popover-header": hasHeader(newHeader) ? newHeader : "",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        ".popover-body": newContent,
+      },
       "popover"
     );
   }
 
-  private _updateContent(content: UpdateMessage["content"]): void {
-    if (!content) return;
-    Shiny.renderDependencies(content.deps);
-    setContentCarefully(
-      this.pop,
-      this.triggerElement,
-      content.html,
-      ".popover-body",
-      "popover"
-    );
+  private _htmlToElement(html: string): HTMLElement {
+    const div = document.createElement("div");
+    div.style.display = "contents";
+    div.innerHTML = html;
+    return div;
+  }
+
+  private _createCloseButton(header: HTMLElement | undefined): HTMLElement {
+    const btn = document.createElement("button");
+    btn.classList.add("btn-close");
+    btn.setAttribute("aria-label", "Close");
+    btn.onclick = () => {
+      this._hide();
+      this.triggerElement.focus();
+    };
+    const width = "0.65rem";
+    btn.style.position = "absolute";
+    btn.style.width = width;
+    btn.style.height = width;
+    btn.style.backgroundSize = width;
+    btn.style.top = hasHeader(header) ? "0.75rem" : "0.25rem";
+    btn.style.right = hasHeader(header) ? "0.5rem" : "0.25rem";
+    return btn;
   }
 
   // While the popover is shown, watches for changes in the _trigger_
@@ -366,4 +383,8 @@ export class BslibPopover extends LightElement {
     };
     return new IntersectionObserver(handler);
   }
+}
+
+function hasHeader(header: HTMLElement | undefined): boolean {
+  return !!header && header.childNodes.length > 0;
 }
