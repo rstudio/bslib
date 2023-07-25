@@ -105,7 +105,8 @@ unless you add padding, e.g.: \code{tags$style(type="text/css", "body
 text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
 
 \item{collapsible}{\code{TRUE} to automatically collapse the navigation
-elements into an expandable menu on mobile devices or narrow window widths.}
+elements into a menu when the width of the browser is less than 940 pixels
+(useful for viewing on smaller touchscreen device)}
 
 \item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
 layout.}
