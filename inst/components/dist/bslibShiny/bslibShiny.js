@@ -5,7 +5,7 @@
   var InputBinding = window.Shiny ? Shiny.InputBinding : class {
   };
 
-  // srcts/src/components/toggleInputBinary.ts
+  // srcts/src/components/bslibShiny.ts
   Shiny.addCustomMessageHandler("bslib.toggle-input-binary", function(msg) {
     const el = document.getElementById(msg.id);
     if (!el) {
@@ -23,4 +23,4 @@
     binding.receiveMessage(el, { value });
   });
 })();
-//# sourceMappingURL=toggleInputBinary.js.map
+//# sourceMappingURL=bslibShiny.js.map

@@ -19,7 +19,7 @@ const components = [
   "sidebar",
   "card",
   "webComponents",
-  "toggleInputBinary",
+  "bslibShiny",
 ];
 
 for (const component of components) {
