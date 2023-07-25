@@ -1,20 +1,25 @@
 $bslib-sidebar-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05) !default;
 $bslib-sidebar-fg: var(--bs-emphasis-color, black) !default;
+$bslib-sidebar-toggle-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.1) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
 $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), var(--bslib-sidebar-width, 250px));
 
 .bslib-sidebar-layout {
   --bslib-sidebar-transition-duration: 500ms;
+  --bslib-sidebar-transition-easing-x: cubic-bezier(0.8, 0.78, 0.22, 1.07);
   --bslib-sidebar-border: #{$bslib-sidebar-border};
   --bslib-sidebar-border-radius: var(--bs-border-radius);
   --bslib-sidebar-vert-border: #{$bslib-sidebar-border};
   --bslib-sidebar-bg: #{$bslib-sidebar-bg};
   --bslib-sidebar-fg: #{$bslib-sidebar-fg};
+  --bslib-sidebar-toggle-bg: #{$bslib-sidebar-toggle-bg};
   --bslib-sidebar-padding: calc(var(--bslib-spacer) * 1.5);
   --bslib-sidebar-icon-size: var(--bslib-spacer, 1rem);
-  --bslib-collapse-toggle-border: #{$bslib-sidebar-border};
-  --bslib-collapse-toggle-transform: 90deg;
-  --bslib-collapse-toggle-right-transform: -90deg;
+  // --bslib-collapse-toggle-border: ;
+  --bslib-collapse-toggle-border-radius: var(--bs-border-radius, #{$border-radius});
+  --bslib-collapse-toggle-transform: 0deg;
+  --bslib-sidebar-toggle-transition-easing: cubic-bezier(1, 0, 0, 1);
+  --bslib-collapse-toggle-right-transform: 180deg;
   --bslib-sidebar-column-main: minmax(0, 1fr);
 
 
@@ -45,6 +50,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     padding: var(--bslib-sidebar-padding);
+    transition: padding var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
   }
 
   > .sidebar {
@@ -62,6 +68,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       flex-direction: column;
       gap: var(--bslib-spacer, 1rem);
       padding: var(--bslib-sidebar-padding);
+      padding-top: calc(var(--bslib-sidebar-padding, 1rem) * 2);
 
       > :last-child:not(.sidebar-title) {
         // Remove margin-bottom from the last item because sidebar has padding.
@@ -73,9 +80,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       > .accordion {
         margin-left: calc(-1 * var(--bslib-sidebar-padding));
         margin-right: calc(-1 * var(--bslib-sidebar-padding));
-        &:first-child {
-          margin-top: calc(-1 * var(--bslib-sidebar-padding));
-        }
         &:last-child {
             margin-bottom: calc(-1 * var(--bslib-sidebar-padding));
         }
@@ -99,17 +103,9 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
         border-bottom: var(--#{$prefix}accordion-border-width) solid var(--#{$prefix}accordion-border-color);
       }
 
-      // When a sidebar title appears just above an accordion, we use the
-      // accordion's top border as the "underline". The fiddly margin-top bit
-      // adjusts the accordion to cover the title bottom border in browsers
-      // that don't yet support :has().
-      // TODO: this can be removed once :has() has better browser support
-      > .sidebar-title + .accordion {
-        margin-top: calc(-#{$spacer} - var(--bs-card-border-width, #{$card-border-width}));
-      }
-
-      > .sidebar-title:has(+ .accordion) {
+      &.has-accordion > .sidebar-title {
         border-bottom: none;
+        padding-bottom: 0;
       }
     }
 
@@ -124,24 +120,39 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     display: inline-flex;
     align-items: center;
     position: absolute;
-    right: calc(-1 * var(--bslib-sidebar-icon-size));
+    right: calc(var(--bslib-sidebar-icon-size));
     // The CSS variable (set via JS) is here to help avoid overlapping toggles
-    bottom: calc(var(--bslib-sidebar-padding) + var(--bslib-sidebar-overlap-counter, 0) * calc(var(--bslib-sidebar-icon-size) + var(--bslib-sidebar-padding)));
-    border: var(--bslib-collapse-toggle-border);
-    border-left: none;
-    border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
-    padding: 7px 0;
-    background-color: var(--bslib-sidebar-bg);
+    top: calc(
+        var(--bslib-sidebar-overlap-counter, 0) *
+        calc(var(--bslib-sidebar-icon-size) +
+        var(--bslib-sidebar-padding)
+      ) + var(--bslib-sidebar-icon-size, 1rem) / 2);
+    border: none;
+    border-radius: var(--bslib-collapse-toggle-border-radius);
+    height: calc(var(--bslib-sidebar-icon-size) * 2);
+    width: calc(var(--bslib-sidebar-icon-size) * 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     color: var(--bslib-sidebar-fg);
+    background-color: unset;
+    transition:
+      right var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
+      left var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
+
+    &:hover {
+      background-color: var(--bslib-sidebar-toggle-bg);
+    }
 
     > .collapse-icon {
       opacity: 0.8;
       width: var(--bslib-sidebar-icon-size);
       height: var(--bslib-sidebar-icon-size);
-      transform: rotate(var(--bslib-collapse-toggle-transform));
+      transform: rotateY(var(--bslib-collapse-toggle-transform));
       // N.B. since mobile view won't trigger a transition of grid-template-columns,
       // we transition this toggle to ensure _some_ transition event always happens.
-      transition: transform cubic-bezier(0.68, -0.55, 0.27, 1.55) var(--bslib-sidebar-transition-duration);
+      transition: transform var(--bslib-sidebar-toggle-transition-easing) var(--bslib-sidebar-transition-duration);
     }
 
     &:hover > .collapse-icon {
@@ -179,20 +190,18 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
 
     > .collapse-toggle {
       grid-column: 2 / 3;
-      left: calc(-1 * var(--bslib-sidebar-icon-size));
+      left: var(--bslib-sidebar-icon-size);
       right: unset;
-      border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
-      border-right: none;
-      border-left: var(--bslib-collapse-toggle-border);
+      border: var(--bslib-collapse-toggle-border);
       > .collapse-icon {
-        transform: rotate(var(--bslib-collapse-toggle-right-transform));
+        transform: rotateY(var(--bslib-collapse-toggle-right-transform));
       }
     }
   }
 
   &.sidebar-collapsed {
-    --bslib-collapse-toggle-transform: -90deg;
-    --bslib-collapse-toggle-right-transform: 90deg;
+    --bslib-collapse-toggle-transform: 180deg;
+    --bslib-collapse-toggle-right-transform: 0deg;
     --bslib-sidebar-vert-border: none;
 
     grid-template-columns: 0 minmax(0, 1fr);
@@ -215,12 +224,19 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       border-radius: inherit;
     }
 
+    &:not(.sidebar-right) > .main {
+      padding-left: calc(var(--bslib-sidebar-padding) * 2);
+    }
+    &.sidebar-right > .main {
+      padding-right: calc(var(--bslib-sidebar-padding) * 2);
+    }
+
     > .collapse-toggle {
-      right: calc(-1 * var(--bslib-sidebar-icon-size) - var(--bs-card-border-width, 1px));
+      right: calc(-2.5 * var(--bslib-sidebar-icon-size) - var(--bs-card-border-width, 1px));
     }
 
     &.sidebar-right > .collapse-toggle {
-      left: calc(-1 * var(--bslib-sidebar-icon-size) - var(--bs-card-border-width, 1px));
+      left: calc(-2.5 * var(--bslib-sidebar-icon-size) - var(--bs-card-border-width, 1px));
       right: unset;
     }
   }

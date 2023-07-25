@@ -93,6 +93,9 @@ class Sidebar {
       ":scope > .sidebar-content > .accordion"
     );
     if (sideAccordion) {
+      this.layout.sidebar
+        .querySelector(".sidebar-content")
+        ?.classList?.add("has-accordion");
       sideAccordion.classList.add("accordion-flush");
     }
 
