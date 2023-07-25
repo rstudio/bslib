@@ -12,7 +12,6 @@ popover(
   title = NULL,
   id = NULL,
   placement = c("auto", "top", "right", "bottom", "left"),
-  close_button = TRUE,
   options = list()
 )
 
