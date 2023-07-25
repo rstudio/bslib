@@ -704,23 +704,22 @@
     }
     return el;
   }
-  function setContentCarefully(x2, trigger, obj, type) {
+  function setContentCarefully(x2) {
     var _a;
-    const { tip } = x2;
+    const { instance, trigger, content, type } = x2;
+    const { tip } = instance;
     const tipIsVisible = tip && tip.offsetParent !== null;
     if (!tipIsVisible) {
-      x2.setContent(obj);
+      instance.setContent(content);
       return;
     }
-    for (const [selector, html] of Object.entries(obj)) {
+    for (const [selector, html] of Object.entries(content)) {
       let target = tip.querySelector(selector);
-      if (!target) {
-        if (selector === ".popover-header") {
-          const header = document.createElement("div");
-          header.classList.add("popover-header");
-          (_a = tip.querySelector(".popover-body")) == null ? void 0 : _a.before(header);
-          target = header;
-        }
+      if (!target && selector === ".popover-header") {
+        const header = document.createElement("div");
+        header.classList.add("popover-header");
+        (_a = tip.querySelector(".popover-body")) == null ? void 0 : _a.before(header);
+        target = header;
       }
       if (!target) {
         console.warn(`Could not find ${selector} in ${type} content`);
@@ -732,10 +731,12 @@
         target.innerHTML = html;
       }
     }
-    x2.update();
-    trigger.addEventListener(`hidden.bs.${type}`, () => x2.setContent(obj), {
-      once: true
-    });
+    instance.update();
+    trigger.addEventListener(
+      `hidden.bs.${type}`,
+      () => instance.setContent(content),
+      { once: true }
+    );
   }
 
   // srcts/src/components/_shinyResizeObserver.ts
@@ -894,17 +895,19 @@
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "tooltip");
       trigger.setAttribute("tabindex", "0");
-      this.tooltip = new bsTooltip(trigger, this.options);
-      this.visibilityObserver = this._createVisibilityObserver();
+      this.bsTooltip = new bsTooltip(trigger, this.options);
       trigger.addEventListener("shown.bs.tooltip", this._onShown);
       trigger.addEventListener("hidden.bs.tooltip", this._onHidden);
       trigger.addEventListener("inserted.bs.tooltip", this._onInsert);
+      this.visibilityObserver = this._createVisibilityObserver();
     }
     disconnectedCallback() {
       const trigger = this.triggerElement;
       trigger.removeEventListener("shown.bs.tooltip", this._onShown);
       trigger.removeEventListener("hidden.bs.tooltip", this._onHidden);
       trigger.removeEventListener("inserted.bs.tooltip", this._onInsert);
+      this.visibilityObserver.disconnect();
+      this.bsTooltip.dispose();
       super.disconnectedCallback();
     }
     render() {
@@ -921,12 +924,13 @@
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
-      this.visibilityObserver.unobserve(this.triggerElement);
       this._restoreContent();
+      this.visibilityObserver.unobserve(this.triggerElement);
+      _BslibTooltip.shinyResizeObserver.flush();
     }
     _onInsert() {
       var _a;
-      const { tip } = this.tooltip;
+      const { tip } = this.bsTooltip;
       if (!tip)
         return;
       _BslibTooltip.shinyResizeObserver.observe(tip);
@@ -942,7 +946,7 @@
     // element.
     _restoreContent() {
       var _a;
-      const { tip } = this.tooltip;
+      const { tip } = this.bsTooltip;
       if (!tip) {
         throw new Error(
           "Failed to find the popover's DOM element. Please report this bug."
@@ -969,7 +973,7 @@
         x2 = this.visible ? "hide" : "show";
       }
       if (x2 === "hide") {
-        this.tooltip.hide();
+        this.bsTooltip.hide();
       }
       if (x2 === "show") {
         this._show();
@@ -979,20 +983,20 @@
     // (in either case the tooltip likely won't be positioned correctly)
     _show() {
       if (!this.visible && this.visibleTrigger) {
-        this.tooltip.show();
+        this.bsTooltip.show();
       }
     }
     _updateTitle(title) {
       if (!title)
         return;
       Shiny.renderDependencies(title.deps);
-      setContentCarefully(
-        this.tooltip,
-        this.triggerElement,
+      setContentCarefully({
+        instance: this.bsTooltip,
+        trigger: this.triggerElement,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        { ".tooltip-inner": title.html },
-        "tooltip"
-      );
+        content: { ".tooltip-inner": title.html },
+        type: "tooltip"
+      });
     }
     // While the tooltip is shown, watches for changes in the _trigger_
     // visibility. If the trigger element becomes no longer visible, then we hide
@@ -1004,7 +1008,7 @@
           return;
         entries.forEach((entry) => {
           if (!entry.isIntersecting)
-            this.tooltip.hide();
+            this.bsTooltip.hide();
         });
       };
       return new IntersectionObserver(handler);
@@ -1033,7 +1037,9 @@
       super();
       this.placement = "auto";
       this.bsOptions = "{}";
+      ///////////////////////////////////////////////////////////////
       // Visibility state management
+      ///////////////////////////////////////////////////////////////
       this.visible = false;
       // This is a placeholder function that will be overwritten by the Shiny input
       // binding. When the input value changes, it invokes this function to notify
@@ -1046,7 +1052,7 @@
       this._onHidden = this._onHidden.bind(this);
       this._handleTabKey = this._handleTabKey.bind(this);
       this._handleEscapeKey = this._handleEscapeKey.bind(this);
-      this._createCloseButton = this._createCloseButton.bind(this);
+      this._closeButton = this._closeButton.bind(this);
       this.style.display = "contents";
     }
     get options() {
@@ -1087,18 +1093,19 @@
       return this.options.trigger === "click" && this.triggerElement.tagName !== "BUTTON";
     }
     connectedCallback() {
-      var _a;
       super.connectedCallback();
       if (this.content)
         this.content.style.display = "contents";
       if (this.header instanceof HTMLElement) {
         this.header.style.display = "contents";
       }
-      (_a = this.content) == null ? void 0 : _a.append(this._createCloseButton(this.header));
+      if (this.content) {
+        D(this._closeButton(this.header), this.content);
+      }
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "popover");
       trigger.setAttribute("tabindex", "0");
-      this.pop = new bsPopover(trigger, this.options);
+      this.bsPopover = new bsPopover(trigger, this.options);
       if (this.isButtonLike) {
         trigger.setAttribute("role", "button");
         trigger.setAttribute("aria-pressed", "false");
@@ -1109,16 +1116,18 @@
         };
         trigger.style.cursor = "pointer";
       }
-      this.visibilityObserver = this._createVisibilityObserver();
       trigger.addEventListener("shown.bs.popover", this._onShown);
       trigger.addEventListener("hidden.bs.popover", this._onHidden);
       trigger.addEventListener("inserted.bs.popover", this._onInsert);
+      this.visibilityObserver = this._createVisibilityObserver();
     }
     disconnectedCallback() {
       const trigger = this.triggerElement;
       trigger.removeEventListener("shown.bs.popover", this._onShown);
       trigger.removeEventListener("hidden.bs.popover", this._onHidden);
       trigger.removeEventListener("inserted.bs.popover", this._onInsert);
+      this.visibilityObserver.disconnect();
+      this.bsPopover.dispose();
       super.disconnectedCallback();
     }
     render() {
@@ -1137,13 +1146,14 @@
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
-      this.visibilityObserver.unobserve(this.triggerElement);
       this._restoreContent();
+      this.visibilityObserver.unobserve(this.triggerElement);
+      _BslibPopover.shinyResizeObserver.flush();
       document.removeEventListener("keydown", this._handleTabKey);
       document.removeEventListener("keydown", this._handleEscapeKey);
     }
     _onInsert() {
-      const { tip } = this.pop;
+      const { tip } = this.bsPopover;
       if (!tip)
         return;
       _BslibPopover.shinyResizeObserver.observe(tip);
@@ -1154,7 +1164,7 @@
     _handleTabKey(e6) {
       if (e6.key !== "Tab")
         return;
-      const { tip } = this.pop;
+      const { tip } = this.bsPopover;
       if (!tip)
         return;
       const stopEvent = () => {
@@ -1177,7 +1187,7 @@
     _handleEscapeKey(e6) {
       if (e6.key !== "Escape")
         return;
-      const { tip } = this.pop;
+      const { tip } = this.bsPopover;
       if (!tip)
         return;
       const active = document.activeElement;
@@ -1194,7 +1204,7 @@
     // when the popover is hidden, we're responsible for moving it back to this
     // element.
     _restoreContent() {
-      const { tip } = this.pop;
+      const { tip } = this.bsPopover;
       if (!tip) {
         throw new Error(
           "Failed to find the popover's DOM element. Please report this bug."
@@ -1229,7 +1239,7 @@
       }
     }
     _hide() {
-      this.pop.hide();
+      this.bsPopover.hide();
       if (this.isButtonLike) {
         this.triggerElement.setAttribute("aria-pressed", "false");
       }
@@ -1238,7 +1248,7 @@
     // (in either case the tooltip likely won't be positioned correctly)
     _show() {
       if (!this.visible && this.visibleTrigger) {
-        this.pop.show();
+        this.bsPopover.show();
         if (this.isButtonLike) {
           this.triggerElement.setAttribute("aria-pressed", "true");
         }
@@ -1252,51 +1262,51 @@
       if (header)
         deps.push(...header.deps);
       Shiny.renderDependencies(deps);
-      const htmlToElement = (x2, fallback, selector) => {
+      const getOrCreateElement = (x2, fallback, selector) => {
         var _a;
         if (x2)
-          return this._htmlToElement(x2.html);
+          return createContentElement(x2.html);
         if (fallback)
           return fallback;
-        return (_a = this.pop.tip) == null ? void 0 : _a.querySelector(selector);
+        return (_a = this.bsPopover.tip) == null ? void 0 : _a.querySelector(selector);
       };
-      const newHeader = htmlToElement(header, this.header, ".popover-header");
-      const newContent = htmlToElement(content, this.content, ".popover-body");
-      newContent.append(this._createCloseButton(newHeader));
-      setContentCarefully(
-        this.pop,
-        this.triggerElement,
-        {
+      const newHeader = getOrCreateElement(
+        header,
+        this.header,
+        ".popover-header"
+      );
+      const newContent = getOrCreateElement(
+        content,
+        this.content,
+        ".popover-body"
+      );
+      D(this._closeButton(newHeader), newContent);
+      setContentCarefully({
+        instance: this.bsPopover,
+        trigger: this.triggerElement,
+        content: {
           // eslint-disable-next-line @typescript-eslint/naming-convention
           ".popover-header": hasHeader(newHeader) ? newHeader : "",
           // eslint-disable-next-line @typescript-eslint/naming-convention
           ".popover-body": newContent
         },
-        "popover"
-      );
+        type: "popover"
+      });
     }
-    _htmlToElement(html) {
-      const div = document.createElement("div");
-      div.style.display = "contents";
-      div.innerHTML = html;
-      return div;
-    }
-    _createCloseButton(header) {
-      const btn = document.createElement("button");
-      btn.classList.add("btn-close");
-      btn.setAttribute("aria-label", "Close");
-      btn.onclick = () => {
+    _closeButton(header) {
+      const onclick = () => {
         this._hide();
         this.triggerElement.focus();
       };
-      const width = "0.65rem";
-      btn.style.position = "absolute";
-      btn.style.width = width;
-      btn.style.height = width;
-      btn.style.backgroundSize = width;
-      btn.style.top = hasHeader(header) ? "0.75rem" : "0.25rem";
-      btn.style.right = hasHeader(header) ? "0.5rem" : "0.25rem";
-      return btn;
+      const top = hasHeader(header) ? "0.75rem" : "0.25rem";
+      const right = hasHeader(header) ? "0.5rem" : "0.25rem";
+      return x`<button
+      type="button"
+      aria-label="Close"
+      class="btn-close"
+      @click=${onclick}
+      style="position:absolute; top:${top}; right:${right}; width:0.65rem; height:0.65rem; background-size:0.65rem;"
+    ></button>`;
     }
     // While the popover is shown, watches for changes in the _trigger_
     // visibility. If the trigger element becomes no longer visible, then we hide
@@ -1317,7 +1327,9 @@
   var BslibPopover = _BslibPopover;
   BslibPopover.tagName = "bslib-popover";
   BslibPopover.shinyResizeObserver = new ShinyResizeObserver();
+  ///////////////////////////////////////////////////////////////
   // Shiny-specific stuff
+  ///////////////////////////////////////////////////////////////
   BslibPopover.isShinyInput = true;
   __decorateClass([
     n5({ type: String })
@@ -1327,6 +1339,12 @@
   ], BslibPopover.prototype, "bsOptions", 2);
   function hasHeader(header) {
     return !!header && header.childNodes.length > 0;
+  }
+  function createContentElement(html) {
+    const div = document.createElement("div");
+    div.style.display = "contents";
+    div.innerHTML = html;
+    return div;
   }
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
