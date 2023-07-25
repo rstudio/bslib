@@ -354,8 +354,9 @@ export class BslibPopover extends LightElement {
 
   private _createCloseButton(header: HTMLElement | undefined): HTMLElement {
     const btn = document.createElement("button");
-    btn.classList.add("btn-close");
+    btn.setAttribute("type", "button");
     btn.setAttribute("aria-label", "Close");
+    btn.classList.add("btn-close");
     btn.onclick = () => {
       this._hide();
       this.triggerElement.focus();
