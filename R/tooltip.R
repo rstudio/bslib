@@ -74,6 +74,13 @@ tooltip <- function(
     abort("At least one value must be provided to `...`.")
   }
 
+  bad_opts <- intersect(c("title", "placement"), names(options))
+  if (length(bad_opts) > 0) {
+    rlang::abort(
+      sprintf("The `%s` option cannot be specified directly.", bad_opts[1])
+    )
+  }
+
   res <- web_component(
     "bslib-tooltip",
     id = id,

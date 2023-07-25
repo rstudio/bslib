@@ -111,7 +111,7 @@ reference:
     Highlight important findings
   contents:
     - value_box
-- title: Tooltips
+- title: Tooltips & Popovers
   description: |
     Provide details on demand
   contents:

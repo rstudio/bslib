@@ -1,4 +1,4 @@
-import { nothing } from "lit";
+import { nothing, html, render } from "lit";
 import { property } from "lit/decorators.js";
 import { LightElement } from "./webcomponents/_lightElement";
 import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
@@ -37,7 +37,7 @@ export class BslibPopover extends LightElement {
   // Although it isn't included in the type, Bootstrap hangs a tip element off
   // of the popover instance, which provides a convenient way to find where the
   // popover is located in the DOM.
-  private pop!: PopoverType & { tip?: HTMLElement };
+  private bsPopover!: PopoverType & { tip?: HTMLElement };
   private visibilityObserver!: IntersectionObserver;
   private static shinyResizeObserver = new ShinyResizeObserver();
 
@@ -103,7 +103,7 @@ export class BslibPopover extends LightElement {
     this._onHidden = this._onHidden.bind(this);
     this._handleTabKey = this._handleTabKey.bind(this);
     this._handleEscapeKey = this._handleEscapeKey.bind(this);
-    this._createCloseButton = this._createCloseButton.bind(this);
+    this._closeButton = this._closeButton.bind(this);
     this.style.display = "contents";
   }
 
@@ -121,13 +121,15 @@ export class BslibPopover extends LightElement {
     }
 
     // Append the close button
-    this.content?.append(this._createCloseButton(this.header));
+    if (this.content) {
+      render(this._closeButton(this.header), this.content);
+    }
 
     // Create the popover (and make sure it's focusable)
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "popover");
     trigger.setAttribute("tabindex", "0");
-    this.pop = new bsPopover(trigger, this.options);
+    this.bsPopover = new bsPopover(trigger, this.options);
 
     if (this.isButtonLike) {
       trigger.setAttribute("role", "button");
@@ -140,10 +142,10 @@ export class BslibPopover extends LightElement {
       trigger.style.cursor = "pointer";
     }
 
-    this.visibilityObserver = this._createVisibilityObserver();
     trigger.addEventListener("shown.bs.popover", this._onShown);
     trigger.addEventListener("hidden.bs.popover", this._onHidden);
     trigger.addEventListener("inserted.bs.popover", this._onInsert);
+    this.visibilityObserver = this._createVisibilityObserver();
   }
 
   disconnectedCallback(): void {
@@ -151,6 +153,9 @@ export class BslibPopover extends LightElement {
     trigger.removeEventListener("shown.bs.popover", this._onShown);
     trigger.removeEventListener("hidden.bs.popover", this._onHidden);
     trigger.removeEventListener("inserted.bs.popover", this._onInsert);
+    this.visibilityObserver.disconnect();
+
+    this.bsPopover.dispose();
 
     super.disconnectedCallback();
   }
@@ -159,7 +164,9 @@ export class BslibPopover extends LightElement {
     return nothing;
   }
 
+  ///////////////////////////////////////////////////////////////
   // Visibility state management
+  ///////////////////////////////////////////////////////////////
   visible = false;
   getValue(): boolean {
     return this.visible;
@@ -179,15 +186,16 @@ export class BslibPopover extends LightElement {
     this.visible = false;
     this.onChangeCallback(true);
 
-    this.visibilityObserver.unobserve(this.triggerElement);
     this._restoreContent();
+    this.visibilityObserver.unobserve(this.triggerElement);
+    BslibPopover.shinyResizeObserver.flush();
 
     document.removeEventListener("keydown", this._handleTabKey);
     document.removeEventListener("keydown", this._handleEscapeKey);
   }
 
   private _onInsert(): void {
-    const { tip } = this.pop;
+    const { tip } = this.bsPopover;
     if (!tip) return;
 
     // If outputs happen to be in the tooltip, make sure they sized correctly
@@ -201,7 +209,7 @@ export class BslibPopover extends LightElement {
   // 2. Shift+Tab on active popover focuses the trigger.
   private _handleTabKey(e: KeyboardEvent): void {
     if (e.key !== "Tab") return;
-    const { tip } = this.pop;
+    const { tip } = this.bsPopover;
     if (!tip) return;
 
     const stopEvent = () => {
@@ -226,7 +234,7 @@ export class BslibPopover extends LightElement {
   // - the activeElement is inside the popover
   private _handleEscapeKey(e: KeyboardEvent): void {
     if (e.key !== "Escape") return;
-    const { tip } = this.pop;
+    const { tip } = this.bsPopover;
     if (!tip) return;
 
     const active = document.activeElement;
@@ -244,7 +252,7 @@ export class BslibPopover extends LightElement {
   // when the popover is hidden, we're responsible for moving it back to this
   // element.
   private _restoreContent(): void {
-    const { tip } = this.pop;
+    const { tip } = this.bsPopover;
     if (!tip) {
       throw new Error(
         "Failed to find the popover's DOM element. Please report this bug."
@@ -256,7 +264,9 @@ export class BslibPopover extends LightElement {
     if (header) this.contentContainer.append(header?.firstChild as HTMLElement);
   }
 
+  ///////////////////////////////////////////////////////////////
   // Shiny-specific stuff
+  ///////////////////////////////////////////////////////////////
   static isShinyInput = true;
 
   // This is a placeholder function that will be overwritten by the Shiny input
@@ -289,7 +299,7 @@ export class BslibPopover extends LightElement {
   }
 
   private _hide(): void {
-    this.pop.hide();
+    this.bsPopover.hide();
     if (this.isButtonLike) {
       this.triggerElement.setAttribute("aria-pressed", "false");
     }
@@ -299,7 +309,7 @@ export class BslibPopover extends LightElement {
   // (in either case the tooltip likely won't be positioned correctly)
   private _show(): void {
     if (!this.visible && this.visibleTrigger) {
-      this.pop.show();
+      this.bsPopover.show();
       if (this.isButtonLike) {
         this.triggerElement.setAttribute("aria-pressed", "true");
       }
@@ -318,57 +328,57 @@ export class BslibPopover extends LightElement {
     // parse the string into an HTMLElement. And, since .setContent() is less
     // error-prone if we pass _both_ the header and content, we fallback to the
     // existing header/content if the user didn't supply one.
-    const htmlToElement = (
+    const getOrCreateElement = (
       x: typeof content | typeof header,
       fallback: HTMLElement | undefined,
       selector: string
     ): HTMLElement => {
-      if (x) return this._htmlToElement(x.html);
+      if (x) return createContentElement(x.html);
       if (fallback) return fallback;
-      return this.pop.tip?.querySelector(selector) as HTMLElement;
+      return this.bsPopover.tip?.querySelector(selector) as HTMLElement;
     };
 
-    const newHeader = htmlToElement(header, this.header, ".popover-header");
-    const newContent = htmlToElement(content, this.content, ".popover-body");
-    newContent.append(this._createCloseButton(newHeader));
+    const newHeader = getOrCreateElement(
+      header,
+      this.header,
+      ".popover-header"
+    );
+    const newContent = getOrCreateElement(
+      content,
+      this.content,
+      ".popover-body"
+    );
+    render(this._closeButton(newHeader), newContent);
 
-    setContentCarefully(
-      this.pop,
-      this.triggerElement,
-      {
+    setContentCarefully({
+      instance: this.bsPopover,
+      trigger: this.triggerElement,
+      content: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         ".popover-header": hasHeader(newHeader) ? newHeader : "",
         // eslint-disable-next-line @typescript-eslint/naming-convention
         ".popover-body": newContent,
       },
-      "popover"
-    );
+      type: "popover",
+    });
   }
 
-  private _htmlToElement(html: string): HTMLElement {
-    const div = document.createElement("div");
-    div.style.display = "contents";
-    div.innerHTML = html;
-    return div;
-  }
-
-  private _createCloseButton(header: HTMLElement | undefined): HTMLElement {
-    const btn = document.createElement("button");
-    btn.setAttribute("type", "button");
-    btn.setAttribute("aria-label", "Close");
-    btn.classList.add("btn-close");
-    btn.onclick = () => {
+  private _closeButton(
+    header: HTMLElement | undefined
+  ): ReturnType<typeof html> {
+    const onclick = () => {
       this._hide();
       this.triggerElement.focus();
     };
-    const width = "0.65rem";
-    btn.style.position = "absolute";
-    btn.style.width = width;
-    btn.style.height = width;
-    btn.style.backgroundSize = width;
-    btn.style.top = hasHeader(header) ? "0.75rem" : "0.25rem";
-    btn.style.right = hasHeader(header) ? "0.5rem" : "0.25rem";
-    return btn;
+    const top = hasHeader(header) ? "0.75rem" : "0.25rem";
+    const right = hasHeader(header) ? "0.5rem" : "0.25rem";
+    return html`<button
+      type="button"
+      aria-label="Close"
+      class="btn-close"
+      @click=${onclick}
+      style="position:absolute; top:${top}; right:${right}; width:0.65rem; height:0.65rem; background-size:0.65rem;"
+    ></button>`;
   }
 
   // While the popover is shown, watches for changes in the _trigger_
@@ -388,4 +398,11 @@ export class BslibPopover extends LightElement {
 
 function hasHeader(header: HTMLElement | undefined): boolean {
   return !!header && header.childNodes.length > 0;
+}
+
+function createContentElement(html: string): HTMLElement {
+  const div = document.createElement("div");
+  div.style.display = "contents";
+  div.innerHTML = html;
+  return div;
 }

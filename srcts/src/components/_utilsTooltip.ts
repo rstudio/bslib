@@ -31,33 +31,33 @@ interface UpdatableTooltip {
 // Workaround for a bug with .setContent() where it inadverently removes a
 // currently visible tooltip/popover. See:
 // https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
-export function setContentCarefully(
-  x: UpdatableTooltip,
-  trigger: HTMLElement,
-  obj: { [key: string]: HTMLElement | string },
-  type: "popover" | "tooltip"
-): void {
-  const { tip } = x;
+export function setContentCarefully(x: {
+  instance: UpdatableTooltip;
+  trigger: HTMLElement;
+  content: { [key: string]: HTMLElement | string };
+  type: "popover" | "tooltip";
+}): void {
+  const { instance, trigger, content, type } = x;
+
+  const { tip } = instance;
   // If we have access to the tooltip/popover's DOM element, and it's currently
   // visible, then update the content "carefully". Otherwise, use the official
   // API
   const tipIsVisible = tip && tip.offsetParent !== null;
   if (!tipIsVisible) {
-    x.setContent(obj);
+    instance.setContent(content);
     return;
   }
 
   // Do the "careful" update
-  for (const [selector, html] of Object.entries(obj)) {
+  for (const [selector, html] of Object.entries(content)) {
     let target = tip.querySelector(selector);
-    if (!target) {
+    if (!target && selector === ".popover-header") {
       // Make sure we can update the header even there currently isn't one
-      if (selector === ".popover-header") {
-        const header = document.createElement("div");
-        header.classList.add("popover-header");
-        tip.querySelector(".popover-body")?.before(header);
-        target = header;
-      }
+      const header = document.createElement("div");
+      header.classList.add("popover-header");
+      tip.querySelector(".popover-body")?.before(header);
+      target = header;
     }
     if (!target) {
       console.warn(`Could not find ${selector} in ${type} content`);
@@ -70,11 +70,13 @@ export function setContentCarefully(
     }
   }
 
-  x.update();
+  instance.update();
 
   // The next time the tip is hidden, officially replace the content (otherwise
   // the next time its shown, it will revert to the old content)
-  trigger.addEventListener(`hidden.bs.${type}`, () => x.setContent(obj), {
-    once: true,
-  });
+  trigger.addEventListener(
+    `hidden.bs.${type}`,
+    () => instance.setContent(content),
+    { once: true }
+  );
 }

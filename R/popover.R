@@ -86,7 +86,6 @@ popover <- function(
   title = NULL,
   id = NULL,
   placement = c("auto", "top", "right", "bottom", "left"),
-  close_button = TRUE,
   options = list()
 ) {
 
@@ -96,6 +95,17 @@ popover <- function(
 
   if (length(children) == 0) {
     abort("At least one value must be provided to `...`.")
+  }
+
+  if ("trigger" %in% names(options)) {
+    rlang::abort("The `trigger` option is not currently supported.")
+  }
+
+  bad_opts <- intersect(c("content", "title", "placement"), names(options))
+  if (length(bad_opts) > 0) {
+    rlang::abort(
+      sprintf("The `%s` option cannot be specified directly.", bad_opts[1])
+    )
   }
 
   res <- web_component(

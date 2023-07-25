@@ -31,7 +31,7 @@ type MessageData = ToggleMessage | UpdateMessage;
 
 export class BslibTooltip extends LightElement {
   static tagName = "bslib-tooltip";
-  private tooltip!: TooltipType & { tip?: HTMLElement };
+  private bsTooltip!: TooltipType & { tip?: HTMLElement };
   private visibilityObserver!: IntersectionObserver;
   private static shinyResizeObserver = new ShinyResizeObserver();
 
@@ -83,12 +83,12 @@ export class BslibTooltip extends LightElement {
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "tooltip");
     trigger.setAttribute("tabindex", "0");
-    this.tooltip = new bsTooltip(trigger, this.options);
+    this.bsTooltip = new bsTooltip(trigger, this.options);
 
-    this.visibilityObserver = this._createVisibilityObserver();
     trigger.addEventListener("shown.bs.tooltip", this._onShown);
     trigger.addEventListener("hidden.bs.tooltip", this._onHidden);
     trigger.addEventListener("inserted.bs.tooltip", this._onInsert);
+    this.visibilityObserver = this._createVisibilityObserver();
   }
 
   disconnectedCallback(): void {
@@ -96,6 +96,9 @@ export class BslibTooltip extends LightElement {
     trigger.removeEventListener("shown.bs.tooltip", this._onShown);
     trigger.removeEventListener("hidden.bs.tooltip", this._onHidden);
     trigger.removeEventListener("inserted.bs.tooltip", this._onInsert);
+    this.visibilityObserver.disconnect();
+
+    this.bsTooltip.dispose();
 
     super.disconnectedCallback();
   }
@@ -119,12 +122,13 @@ export class BslibTooltip extends LightElement {
   private _onHidden(): void {
     this.visible = false;
     this.onChangeCallback(true);
-    this.visibilityObserver.unobserve(this.triggerElement);
     this._restoreContent();
+    this.visibilityObserver.unobserve(this.triggerElement);
+    BslibTooltip.shinyResizeObserver.flush();
   }
 
   private _onInsert(): void {
-    const { tip } = this.tooltip;
+    const { tip } = this.bsTooltip;
     if (!tip) return;
 
     // If outputs happen to be in the tooltip, make sure they sized correctly
@@ -147,7 +151,7 @@ export class BslibTooltip extends LightElement {
   // when the popover is hidden, we're responsible for moving it back to this
   // element.
   private _restoreContent(): void {
-    const { tip } = this.tooltip;
+    const { tip } = this.bsTooltip;
     if (!tip) {
       throw new Error(
         "Failed to find the popover's DOM element. Please report this bug."
@@ -185,7 +189,7 @@ export class BslibTooltip extends LightElement {
       x = this.visible ? "hide" : "show";
     }
     if (x === "hide") {
-      this.tooltip.hide();
+      this.bsTooltip.hide();
     }
     if (x === "show") {
       this._show();
@@ -196,7 +200,7 @@ export class BslibTooltip extends LightElement {
   // (in either case the tooltip likely won't be positioned correctly)
   private _show(): void {
     if (!this.visible && this.visibleTrigger) {
-      this.tooltip.show();
+      this.bsTooltip.show();
     }
   }
 
@@ -204,13 +208,13 @@ export class BslibTooltip extends LightElement {
     if (!title) return;
 
     Shiny.renderDependencies(title.deps);
-    setContentCarefully(
-      this.tooltip,
-      this.triggerElement,
+    setContentCarefully({
+      instance: this.bsTooltip,
+      trigger: this.triggerElement,
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      { ".tooltip-inner": title.html },
-      "tooltip"
-    );
+      content: { ".tooltip-inner": title.html },
+      type: "tooltip",
+    });
   }
 
   // While the tooltip is shown, watches for changes in the _trigger_
@@ -221,7 +225,7 @@ export class BslibTooltip extends LightElement {
     const handler = (entries: IntersectionObserverEntry[]) => {
       if (!this.visible) return;
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) this.tooltip.hide();
+        if (!entry.isIntersecting) this.bsTooltip.hide();
       });
     };
     return new IntersectionObserver(handler);
