@@ -45,6 +45,7 @@
 input_switch <- function(id, label, value = FALSE, width = NULL) {
   tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width)
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
+  tag <- tagList(tag, toggle_switch_js())
   as_fragment(tag)
 }
 
@@ -54,6 +55,44 @@ input_switch <- function(id, label, value = FALSE, width = NULL) {
 update_switch <- function(id, label = NULL, value = NULL, session = get_current_session()) {
   message <- dropNulls(list(label = label, value = value))
   session$sendInputMessage(id, message)
+}
+
+#' @rdname input_switch
+#' @inheritParams toggle_sidebar
+#' @export
+toggle_switch <- function(id, value = NULL, session = get_current_session()) {
+  if (!is.null(value) && !rlang::is_logical(value, n = 1)) {
+    abort("`value` must be a `NULL` or a single logical value.")
+  }
+
+  msg <- dropNulls(list(id = id, value = value))
+
+  callback <- function() {
+    session$sendCustomMessage("bslib.toggle-switch", msg)
+  }
+
+  session$onFlush(callback, once = TRUE)
+}
+
+toggle_switch_js <- function() {
+  js <- "if (window.Shiny) {
+  Shiny.addCustomMessageHandler('bslib.toggle-switch', function(msg) {
+    const el = document.getElementById(msg.id);
+    const binding = $(el).data('shiny-input-binding');
+    if (!binding) {
+      console.error('No input binding found for id ' + msg.id);
+      return;
+    };
+
+    let value = msg.value;
+    if (typeof value === 'undefined') {
+      value = !binding.getValue(el);
+    }
+    binding.receiveMessage(el, { value });
+  });
+}"
+
+  tags$script(HTML(js))
 }
 
 input_checkbox <- function(id, label, class = "form-check", value = FALSE, width = NULL, inline = FALSE) {
