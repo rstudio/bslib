@@ -45,7 +45,7 @@
 input_switch <- function(id, label, value = FALSE, width = NULL) {
   tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width)
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
-  tag <- tagList(tag, toggle_switch_js())
+  tag <- tagList(tag, toggle_input_binary_js())
   as_fragment(tag)
 }
 
@@ -68,15 +68,15 @@ toggle_switch <- function(id, value = NULL, session = get_current_session()) {
   msg <- dropNulls(list(id = id, value = value))
 
   callback <- function() {
-    session$sendCustomMessage("bslib.toggle-switch", msg)
+    session$sendCustomMessage("bslib.toggle-input-binary", msg)
   }
 
   session$onFlush(callback, once = TRUE)
 }
 
-toggle_switch_js <- function() {
+toggle_input_binary_js <- function() {
   js <- "if (window.Shiny) {
-  Shiny.addCustomMessageHandler('bslib.toggle-switch', function(msg) {
+  Shiny.addCustomMessageHandler('bslib.toggle-input-binary', function(msg) {
     const el = document.getElementById(msg.id);
     const binding = $(el).data('shiny-input-binding');
     if (!binding) {
