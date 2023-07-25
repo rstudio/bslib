@@ -45,7 +45,7 @@
 input_switch <- function(id, label, value = FALSE, width = NULL) {
   tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width)
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
-  tag <- tagList(tag, toggle_input_binary_js())
+  tag <- attachDependencies(tag, component_dependency_js("toggleInputBinary"))
   as_fragment(tag)
 }
 
@@ -72,27 +72,6 @@ toggle_switch <- function(id, value = NULL, session = get_current_session()) {
   }
 
   session$onFlush(callback, once = TRUE)
-}
-
-toggle_input_binary_js <- function() {
-  js <- "if (window.Shiny) {
-  Shiny.addCustomMessageHandler('bslib.toggle-input-binary', function(msg) {
-    const el = document.getElementById(msg.id);
-    const binding = $(el).data('shiny-input-binding');
-    if (!binding) {
-      console.error('No input binding found for id ' + msg.id);
-      return;
-    };
-
-    let value = msg.value;
-    if (typeof value === 'undefined') {
-      value = !binding.getValue(el);
-    }
-    binding.receiveMessage(el, { value });
-  });
-}"
-
-  tags$script(HTML(js))
 }
 
 input_checkbox <- function(id, label, class = "form-check", value = FALSE, width = NULL, inline = FALSE) {
