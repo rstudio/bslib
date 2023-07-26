@@ -164,6 +164,8 @@ to learn more.</p>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">toggle_sidebar</span><span class="op">(</span><span class="va">id</span>, open <span class="op">=</span> <span class="cn">NULL</span>, session <span class="op">=</span> <span class="fu">get_current_session</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">sidebar_toggle</span><span class="op">(</span><span class="va">id</span>, open <span class="op">=</span> <span class="cn">NULL</span>, session <span class="op">=</span> <span class="fu">get_current_session</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -286,8 +288,9 @@ used).</p></dd>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
-<ul><li><p><code>sidebar_toggle()</code>: Toggle a <code>sidebar()</code> state during an active Shiny user
+<ul><li><p><code>toggle_sidebar()</code>: Toggle a <code>sidebar()</code> state during an active Shiny user
 session.</p></li>
+<li><p><code>sidebar_toggle()</code>: An alias for <code>toggle_sidebar()</code>.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
