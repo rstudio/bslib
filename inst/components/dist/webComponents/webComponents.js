@@ -1064,7 +1064,7 @@
         // Bootstrap defaults to false, but we have our own HTML escaping
         html: true,
         sanitize: false,
-        trigger: "click"
+        trigger: this.isHyperLink ? "focus hover" : "click"
       }, opts);
     }
     get content() {
@@ -1092,6 +1092,16 @@
     get isButtonLike() {
       return this.options.trigger === "click" && this.triggerElement.tagName !== "BUTTON";
     }
+    // If the visibility of the popover is _not_ triggered via focus (i.e., it's
+    // triggered by clicking a button), then we make the popover focusable (so that
+    // the user can tab to it).
+    get focusablePopover() {
+      return !this.options.trigger.includes("focus");
+    }
+    get isHyperLink() {
+      const trigger = this.triggerElement;
+      return trigger.tagName === "A" && trigger.hasAttribute("href") && trigger.getAttribute("href") !== "#";
+    }
     connectedCallback() {
       super.connectedCallback();
       if (this.content)
@@ -1104,16 +1114,18 @@
       }
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "popover");
-      trigger.setAttribute("tabindex", "0");
       this.bsPopover = new bsPopover(trigger, this.options);
       if (this.isButtonLike) {
         trigger.setAttribute("role", "button");
+        trigger.setAttribute("tabindex", "0");
         trigger.setAttribute("aria-pressed", "false");
-        trigger.onkeydown = (e6) => {
-          if (e6.key === "Enter" || e6.key === " ") {
-            this._toggle();
-          }
-        };
+        if (this.triggerElement.tagName !== "A") {
+          trigger.onkeydown = (e6) => {
+            if (e6.key === "Enter" || e6.key === " ") {
+              this._toggle();
+            }
+          };
+        }
         trigger.style.cursor = "pointer";
       }
       trigger.addEventListener("shown.bs.popover", this._onShown);
@@ -1140,8 +1152,13 @@
       this.visible = true;
       this.onChangeCallback(true);
       this.visibilityObserver.observe(this.triggerElement);
-      document.addEventListener("keydown", this._handleTabKey);
-      document.addEventListener("keydown", this._handleEscapeKey);
+      if (this.focusablePopover) {
+        document.addEventListener("keydown", this._handleTabKey);
+        document.addEventListener("keydown", this._handleEscapeKey);
+      }
+      if (this.isButtonLike) {
+        this.triggerElement.setAttribute("aria-pressed", "true");
+      }
     }
     _onHidden() {
       this.visible = false;
@@ -1149,15 +1166,22 @@
       this._restoreContent();
       this.visibilityObserver.unobserve(this.triggerElement);
       _BslibPopover.shinyResizeObserver.flush();
-      document.removeEventListener("keydown", this._handleTabKey);
-      document.removeEventListener("keydown", this._handleEscapeKey);
+      if (this.focusablePopover) {
+        document.removeEventListener("keydown", this._handleTabKey);
+        document.removeEventListener("keydown", this._handleEscapeKey);
+      }
+      if (this.isButtonLike) {
+        this.triggerElement.setAttribute("aria-pressed", "false");
+      }
     }
     _onInsert() {
       const { tip } = this.bsPopover;
       if (!tip)
         return;
       _BslibPopover.shinyResizeObserver.observe(tip);
-      tip.setAttribute("tabindex", "0");
+      if (this.focusablePopover) {
+        tip.setAttribute("tabindex", "0");
+      }
     }
     // 1. Tab on an active trigger focuses the popover.
     // 2. Shift+Tab on active popover focuses the trigger.
@@ -1240,18 +1264,12 @@
     }
     _hide() {
       this.bsPopover.hide();
-      if (this.isButtonLike) {
-        this.triggerElement.setAttribute("aria-pressed", "false");
-      }
     }
     // No-op if the popover is already visible or if the trigger element is not visible
     // (in either case the tooltip likely won't be positioned correctly)
     _show() {
       if (!this.visible && this.visibleTrigger) {
         this.bsPopover.show();
-        if (this.isButtonLike) {
-          this.triggerElement.setAttribute("aria-pressed", "true");
-        }
       }
     }
     _updatePopover(data) {
@@ -1294,18 +1312,21 @@
       });
     }
     _closeButton(header) {
+      if (!this.focusablePopover) {
+        return A;
+      }
       const onclick = () => {
         this._hide();
-        this.triggerElement.focus();
+        if (this.focusablePopover)
+          this.triggerElement.focus();
       };
-      const top = hasHeader(header) ? "0.75rem" : "0.25rem";
-      const right = hasHeader(header) ? "0.5rem" : "0.25rem";
+      const top = hasHeader(header) ? "0.6rem" : "0.25rem";
       return x`<button
       type="button"
       aria-label="Close"
       class="btn-close"
       @click=${onclick}
-      style="position:absolute; top:${top}; right:${right}; width:0.65rem; height:0.65rem; background-size:0.65rem;"
+      style="position:absolute; top:${top}; right:0.25rem; width:0.55rem; height:0.55rem; background-size:0.55rem;"
     ></button>`;
     }
     // While the popover is shown, watches for changes in the _trigger_
