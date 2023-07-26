@@ -3,11 +3,14 @@
 \name{input_switch}
 \alias{input_switch}
 \alias{update_switch}
+\alias{toggle_switch}
 \title{Switch input control}
 \usage{
 input_switch(id, label, value = FALSE, width = NULL)
 
 update_switch(id, label = NULL, value = NULL, session = get_current_session())
+
+toggle_switch(id, value = NULL, session = get_current_session())
 }
 \arguments{
 \item{id}{An input id.}

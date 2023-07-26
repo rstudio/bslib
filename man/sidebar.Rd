@@ -3,6 +3,7 @@
 \name{sidebar}
 \alias{sidebar}
 \alias{layout_sidebar}
+\alias{toggle_sidebar}
 \alias{sidebar_toggle}
 \title{Sidebar layouts}
 \usage{
@@ -33,6 +34,8 @@ layout_sidebar(
   gap = NULL,
   height = NULL
 )
+
+toggle_sidebar(id, open = NULL, session = get_current_session())
 
 sidebar_toggle(id, open = NULL, session = get_current_session())
 }
@@ -147,7 +150,9 @@ to learn more.
 }
 \section{Functions}{
 \itemize{
-\item \code{sidebar_toggle()}: Toggle a \code{sidebar()} state during an active Shiny user
+\item \code{toggle_sidebar()}: Toggle a \code{sidebar()} state during an active Shiny user
 session.
+
+\item \code{sidebar_toggle()}: An alias for \code{\link[=toggle_sidebar]{toggle_sidebar()}}.
 
 }}

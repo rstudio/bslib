@@ -14,7 +14,13 @@ const opts: BuildOptions = {
   external: ["bootstrap"],
 };
 
-const components = ["accordion", "sidebar", "card", "webComponents"];
+const components = [
+  "accordion",
+  "sidebar",
+  "card",
+  "webComponents",
+  "bslibShiny",
+];
 
 for (const component of components) {
   for (const minified of [true, false]) {

@@ -56,6 +56,23 @@ update_switch <- function(id, label = NULL, value = NULL, session = get_current_
   session$sendInputMessage(id, message)
 }
 
+#' @rdname input_switch
+#' @inheritParams toggle_sidebar
+#' @export
+toggle_switch <- function(id, value = NULL, session = get_current_session()) {
+  if (!is.null(value) && !rlang::is_logical(value, n = 1)) {
+    abort("`value` must be a `NULL` or a single logical value.")
+  }
+
+  msg <- dropNulls(list(id = id, value = value))
+
+  callback <- function() {
+    session$sendCustomMessage("bslib.toggle-input-binary", msg)
+  }
+
+  session$onFlush(callback, once = TRUE)
+}
+
 input_checkbox <- function(id, label, class = "form-check", value = FALSE, width = NULL, inline = FALSE) {
   div(
     class = "form-group shiny-input-container",
@@ -77,6 +94,7 @@ input_checkbox <- function(id, label, class = "form-check", value = FALSE, width
         class = "form-check-label",
         `for` = id
       )
-    )
+    ),
+    component_dependency_js("bslibShiny")
   )
 }
