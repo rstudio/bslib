@@ -40,6 +40,9 @@ jobs:
       - name: Install bslib from GitHub
         shell: Rscript {0}
         run: |
+          # Install dev version to obtain a fix for this issue 
+          # https://github.com/rstudio/rsconnect/issues/926
+          # Once it's on CRAN, we can go back to the CRAN release
           pak::pkg_install("rstudio/rsconnect")
           pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
 
