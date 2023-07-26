@@ -6,9 +6,15 @@
 \alias{toggle_switch}
 \title{Switch input control}
 \usage{
-input_switch(id, label, value = FALSE, width = NULL)
+input_switch(id, label, value = FALSE, width = NULL, disabled = FALSE)
 
-update_switch(id, label = NULL, value = NULL, session = get_current_session())
+update_switch(
+  id,
+  label = NULL,
+  value = NULL,
+  disabled = NULL,
+  session = get_current_session()
+)
 
 toggle_switch(id, value = NULL, session = get_current_session())
 }
@@ -21,6 +27,8 @@ toggle_switch(id, value = NULL, session = get_current_session())
 
 \item{width}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{width="200px"}).}
+
+\item{disabled}{Whether or not the switch should be disabled by default.}
 
 \item{session}{a shiny session object (the default should almost always be used).}
 }

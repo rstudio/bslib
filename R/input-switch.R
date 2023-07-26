@@ -33,6 +33,7 @@
 #' @param id An input id.
 #' @param label A label for the switch.
 #' @param value Whether or not the switch should be checked by default.
+#' @param disabled Whether or not the switch should be disabled by default.
 #' @param width Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
 #'   `width="200px"`).
 #'
@@ -42,8 +43,15 @@
 #'
 #' @family input controls
 #' @export
-input_switch <- function(id, label, value = FALSE, width = NULL) {
-  tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width)
+input_switch <- function(id, label, value = FALSE, width = NULL, disabled = FALSE) {
+  tag <- input_checkbox(
+    id,
+    label,
+    class = "form-check form-switch",
+    value = value,
+    width = width,
+    disabled = disabled
+  )
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
   as_fragment(tag)
 }
@@ -51,7 +59,29 @@ input_switch <- function(id, label, value = FALSE, width = NULL) {
 #' @rdname input_switch
 #' @inheritParams nav_insert
 #' @export
-update_switch <- function(id, label = NULL, value = NULL, session = get_current_session()) {
+update_switch <- function(
+  id,
+  label = NULL,
+  value = NULL,
+  disabled = NULL,
+  session = get_current_session()
+) {
+  if (!is.null(disabled) && !rlang::is_logical(disabled, n = 1)) {
+    abort("`disabled` must be a `NULL` or a single logical value.")
+  }
+
+  if (!is.null(disabled)) {
+    cb_disable <- function() {
+     session$sendCustomMessage("bslib.disable-input", list(id = id, disable = disabled))
+    }
+
+    session$onFlush(cb_disable, once = TRUE)
+  }
+
+  if (!is.null(value) && !rlang::is_logical(value, n = 1)) {
+    abort("`value` must be a `NULL` or a single logical value.")
+  }
+
   message <- dropNulls(list(label = label, value = value))
   session$sendInputMessage(id, message)
 }
@@ -73,7 +103,7 @@ toggle_switch <- function(id, value = NULL, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-input_checkbox <- function(id, label, class = "form-check", value = FALSE, width = NULL, inline = FALSE) {
+input_checkbox <- function(id, label, class = "form-check", value = FALSE, width = NULL, disabled = FALSE, inline = FALSE) {
   div(
     class = "form-group shiny-input-container",
     class = if (inline) "shiny-input-container-inline",
@@ -83,9 +113,11 @@ input_checkbox <- function(id, label, class = "form-check", value = FALSE, width
       tags$input(
         id = id,
         class = "form-check-input",
+        class = if (disabled) "disabled",
         type = "checkbox",
         role = "switch",
         checked = if (value) NA,
+        disabled = if (disabled) NA
       ),
       tags$label(
         # The span here is needed to adhere to shiny.js' checkbox binding logic
