@@ -103,7 +103,15 @@ toggle_switch <- function(id, value = NULL, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-input_checkbox <- function(id, label, class = "form-check", value = FALSE, width = NULL, disabled = FALSE, inline = FALSE) {
+input_checkbox <- function(
+  id,
+  label,
+  class = "form-check",
+  value = FALSE,
+  width = NULL,
+  disabled = FALSE,
+  inline = FALSE
+) {
   div(
     class = "form-group shiny-input-container",
     class = if (inline) "shiny-input-container-inline",
