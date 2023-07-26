@@ -247,7 +247,7 @@ layout_sidebar <- function(
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #' @export
-sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
+toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
   method <-
     if (is.null(open) || identical(open, "toggle")) {
       "toggle"
@@ -269,6 +269,10 @@ sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
   }
   session$onFlush(callback, once = TRUE)
 }
+
+#' @describeIn sidebar An alias for [toggle_sidebar()].
+#' @export
+sidebar_toggle <- toggle_sidebar
 
 collapse_icon <- function() {
   if (!is_installed("bsicons")) {
