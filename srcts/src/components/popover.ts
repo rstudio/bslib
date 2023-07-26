@@ -53,7 +53,7 @@ export class BslibPopover extends LightElement {
       // Bootstrap defaults to false, but we have our own HTML escaping
       html: true,
       sanitize: false,
-      trigger: "click",
+      trigger: this.isHyperLink ? "focus hover" : "click",
       ...opts,
     };
   }
@@ -89,6 +89,22 @@ export class BslibPopover extends LightElement {
     return (
       this.options.trigger === "click" &&
       this.triggerElement.tagName !== "BUTTON"
+    );
+  }
+
+  // If the visibility of the popover is _not_ triggered via focus (i.e., it's
+  // triggered by clicking a button), then we make the popover focusable (so that
+  // the user can tab to it).
+  private get focusablePopover(): boolean {
+    return !this.options.trigger.includes("focus");
+  }
+
+  private get isHyperLink(): boolean {
+    const trigger = this.triggerElement;
+    return (
+      trigger.tagName === "A" &&
+      trigger.hasAttribute("href") &&
+      trigger.getAttribute("href") !== "#"
     );
   }
 
@@ -128,17 +144,20 @@ export class BslibPopover extends LightElement {
     // Create the popover (and make sure it's focusable)
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "popover");
-    trigger.setAttribute("tabindex", "0");
     this.bsPopover = new bsPopover(trigger, this.options);
 
     if (this.isButtonLike) {
       trigger.setAttribute("role", "button");
+      trigger.setAttribute("tabindex", "0");
       trigger.setAttribute("aria-pressed", "false");
-      trigger.onkeydown = (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          this._toggle();
-        }
-      };
+      // An <a> trigger can already be shown via Enter (since that simulates a click)
+      if (this.triggerElement.tagName !== "A") {
+        trigger.onkeydown = (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            this._toggle();
+          }
+        };
+      }
       trigger.style.cursor = "pointer";
     }
 
@@ -178,8 +197,10 @@ export class BslibPopover extends LightElement {
 
     this.visibilityObserver.observe(this.triggerElement);
 
-    document.addEventListener("keydown", this._handleTabKey);
-    document.addEventListener("keydown", this._handleEscapeKey);
+    if (this.focusablePopover) {
+      document.addEventListener("keydown", this._handleTabKey);
+      document.addEventListener("keydown", this._handleEscapeKey);
+    }
   }
 
   private _onHidden(): void {
@@ -190,8 +211,10 @@ export class BslibPopover extends LightElement {
     this.visibilityObserver.unobserve(this.triggerElement);
     BslibPopover.shinyResizeObserver.flush();
 
-    document.removeEventListener("keydown", this._handleTabKey);
-    document.removeEventListener("keydown", this._handleEscapeKey);
+    if (this.focusablePopover) {
+      document.removeEventListener("keydown", this._handleTabKey);
+      document.removeEventListener("keydown", this._handleEscapeKey);
+    }
   }
 
   private _onInsert(): void {
@@ -202,7 +225,9 @@ export class BslibPopover extends LightElement {
     BslibPopover.shinyResizeObserver.observe(tip);
 
     // Make the popover focusable
-    tip.setAttribute("tabindex", "0");
+    if (this.focusablePopover) {
+      tip.setAttribute("tabindex", "0");
+    }
   }
 
   // 1. Tab on an active trigger focuses the popover.
@@ -365,10 +390,14 @@ export class BslibPopover extends LightElement {
 
   private _closeButton(
     header: HTMLElement | undefined
-  ): ReturnType<typeof html> {
+  ): ReturnType<typeof html> | typeof nothing {
+    if (!this.focusablePopover) {
+      return nothing;
+    }
+
     const onclick = () => {
       this._hide();
-      this.triggerElement.focus();
+      if (this.focusablePopover) this.triggerElement.focus();
     };
     const top = hasHeader(header) ? "0.75rem" : "0.25rem";
     const right = hasHeader(header) ? "0.5rem" : "0.25rem";
