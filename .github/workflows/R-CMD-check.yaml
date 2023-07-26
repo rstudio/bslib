@@ -40,7 +40,7 @@ jobs:
       - name: Install bslib from GitHub
         shell: Rscript {0}
         run: |
-          install.packages("rsconnect")
+          pak::pkg_install("rstudio/rsconnect")
           pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
 
       # Workaround for this (probably spurious error):
