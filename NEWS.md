@@ -3,6 +3,7 @@
 ## New features
 
 * Added `tooltip()`, `update_tooltip()`, and `toggle_tooltip()` for easy creation (and server-side updating) of [Bootstrap tooltips](https://getbootstrap.com/docs/5.2/components/tooltips/) (a way to display additional information when focusing (or hovering over) a UI element). (#662)
+* Added `popover()`, `update_popover()`, and `toggle_popover()` for easy creation (and server-side updating) of [Bootstrap popovers](https://getbootstrap.com/docs/5.2/components/popovers/). Popovers are similar to tooltips, but are more persistent, and should primarily be used with button-link UI elements (e.g., `actionButton()`). (#702)
 * Added `input_switch()` and `update_switch()` for easy creation (and server-side updating) of a [Bootstrap's switch input](https://getbootstrap.com/docs/5.2/forms/checks-radios/#switches) (an on-off toggle for binary input values). (#483)
 * Added two new toggle functions: `toggle_switch()` for toggling the state of an `input_switch()` element and `toggle_sidebar()` for toggling the state of a `sidebar()` element (`sidebar_toggle()` remains as an alias of `toggle_sidebar()`). (#709)
 
