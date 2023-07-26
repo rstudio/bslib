@@ -45,7 +45,6 @@
 input_switch <- function(id, label, value = FALSE, width = NULL) {
   tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width)
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
-  tag <- attachDependencies(tag, component_dependency_js("toggleInputBinary"))
   as_fragment(tag)
 }
 
@@ -95,6 +94,7 @@ input_checkbox <- function(id, label, class = "form-check", value = FALSE, width
         class = "form-check-label",
         `for` = id
       )
-    )
+    ),
+    component_dependency_js("bslibShiny")
   )
 }
