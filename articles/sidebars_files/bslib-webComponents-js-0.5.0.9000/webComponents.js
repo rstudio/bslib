@@ -690,14 +690,171 @@
   };
   LightElement.isShinyInput = false;
 
-  // srcts/src/components/tooltip.ts
-  var Tooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
+  // srcts/src/components/_utilsTooltip.ts
+  function getOrCreateTriggerEl(el) {
+    if (el.children.length > 1) {
+      const ref = el.children[el.children.length - 1];
+      return ref;
+    }
+    if (el.childNodes.length > 1) {
+      const ref = document.createElement("span");
+      ref.append(el.childNodes[el.childNodes.length - 1]);
+      el.appendChild(ref);
+      return ref;
+    }
+    return el;
+  }
+  function setContentCarefully(x2) {
+    var _a;
+    const { instance, trigger, content, type } = x2;
+    const { tip } = instance;
+    const tipIsVisible = tip && tip.offsetParent !== null;
+    if (!tipIsVisible) {
+      instance.setContent(content);
+      return;
+    }
+    for (const [selector, html] of Object.entries(content)) {
+      let target = tip.querySelector(selector);
+      if (!target && selector === ".popover-header") {
+        const header = document.createElement("div");
+        header.classList.add("popover-header");
+        (_a = tip.querySelector(".popover-body")) == null ? void 0 : _a.before(header);
+        target = header;
+      }
+      if (!target) {
+        console.warn(`Could not find ${selector} in ${type} content`);
+        continue;
+      }
+      if (target instanceof HTMLElement) {
+        target.replaceChildren(html);
+      } else {
+        target.innerHTML = html;
+      }
+    }
+    instance.update();
+    trigger.addEventListener(
+      `hidden.bs.${type}`,
+      () => instance.setContent(content),
+      { once: true }
+    );
+  }
+
+  // srcts/src/components/_shinyResizeObserver.ts
+  var ShinyResizeObserver = class {
+    /**
+     * Watch containers for size changes and ensure that Shiny outputs and
+     * htmlwidgets within resize appropriately.
+     *
+     * @details
+     * The ShinyResizeObserver is used to watch the containers, such as Sidebars
+     * and Cards for size changes, in particular when the sidebar state is toggled
+     * or the card body is expanded full screen. It performs two primary tasks:
+     *
+     * 1. Dispatches a `resize` event on the window object. This is necessary to
+     *    ensure that Shiny outputs resize appropriately. In general, the window
+     *    resizing is throttled and the output update occurs when the transition
+     *    is complete.
+     * 2. If an output with a resize method on the output binding is detected, we
+     *    directly call the `.onResize()` method of the binding. This ensures that
+     *    htmlwidgets transition smoothly. In static mode, htmlwidgets does this
+     *    already.
+     *
+     * @note
+     * This resize observer also handles race conditions in some complex
+     * fill-based layouts with multiple outputs (e.g., plotly), where shiny
+     * initializes with the correct sizing, but in-between the 1st and last
+     * renderValue(), the size of the output containers can change, meaning every
+     * output but the 1st gets initialized with the wrong size during their
+     * renderValue(). Then, after the render phase, shiny won't know to trigger a
+     * resize since all the widgets will return to their original size (and thus,
+     * Shiny thinks there isn't any resizing to do). The resize observer works
+     * around this by ensuring that the output is resized whenever its container
+     * size changes.
+     * @constructor
+     */
+    constructor() {
+      this.resizeObserverEntries = [];
+      this.resizeObserver = new ResizeObserver((entries) => {
+        const resizeEvent = new Event("resize");
+        window.dispatchEvent(resizeEvent);
+        if (!window.Shiny)
+          return;
+        const resized = [];
+        for (const entry of entries) {
+          if (!(entry.target instanceof HTMLElement))
+            continue;
+          if (!entry.target.querySelector(".shiny-bound-output"))
+            continue;
+          entry.target.querySelectorAll(".shiny-bound-output").forEach((el) => {
+            if (resized.includes(el))
+              return;
+            const { binding, onResize } = $(el).data("shinyOutputBinding");
+            if (!binding || !binding.resize)
+              return;
+            const owner = el.shinyResizeObserver;
+            if (owner && owner !== this)
+              return;
+            if (!owner)
+              el.shinyResizeObserver = this;
+            onResize(el);
+            resized.push(el);
+            if (!el.classList.contains("shiny-plot-output"))
+              return;
+            const img = el.querySelector(
+              'img:not([width="100%"])'
+            );
+            if (img)
+              img.setAttribute("width", "100%");
+          });
+        }
+      });
+    }
+    /**
+     * Observe an element for size changes.
+     * @param {HTMLElement} el - The element to observe.
+     */
+    observe(el) {
+      this.resizeObserver.observe(el);
+      this.resizeObserverEntries.push(el);
+    }
+    /**
+     * Stop observing an element for size changes.
+     * @param {HTMLElement} el - The element to stop observing.
+     */
+    unobserve(el) {
+      const idxEl = this.resizeObserverEntries.indexOf(el);
+      if (idxEl < 0)
+        return;
+      this.resizeObserver.unobserve(el);
+      this.resizeObserverEntries.splice(idxEl, 1);
+    }
+    /**
+     * This method checks that we're not continuing to watch elements that no
+     * longer exist in the DOM. If any are found, we stop observing them and
+     * remove them from our array of observed elements.
+     *
+     * @private
+     * @static
+     */
+    flush() {
+      this.resizeObserverEntries.forEach((el) => {
+        if (!document.body.contains(el))
+          this.unobserve(el);
+      });
+    }
   };
-  var BslibTooltip = class extends LightElement {
+
+  // srcts/src/components/tooltip.ts
+  var bsTooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
+  };
+  var _BslibTooltip = class extends LightElement {
+    ///////////////////////////////////////////////////////////////
+    // Methods
+    ///////////////////////////////////////////////////////////////
     constructor() {
       super();
       this.placement = "auto";
-      this.options = "{}";
+      this.bsOptions = "{}";
       // Visibility state management
       this.visible = false;
       // This is a placeholder function that will be overwritten by the Shiny input
@@ -707,61 +864,54 @@
       this.onChangeCallback = (x2) => {
       };
       this._onShown = this._onShown.bind(this);
+      this._onInsert = this._onInsert.bind(this);
       this._onHidden = this._onHidden.bind(this);
       this.style.display = "contents";
     }
-    get allOptions() {
-      const opts = JSON.parse(this.options);
+    get options() {
+      const opts = JSON.parse(this.bsOptions);
       return __spreadValues({
-        title: this.title,
+        title: this.content,
         placement: this.placement,
         // Bootstrap defaults to false, but we have our own HTML escaping
         html: true,
-        sanitize: true
+        sanitize: false
       }, opts);
     }
-    get title() {
-      return this.children[0].innerHTML;
+    get content() {
+      return this.children[0];
+    }
+    // The element that triggers the tooltip to be shown
+    get triggerElement() {
+      return getOrCreateTriggerEl(this);
+    }
+    // Is the trigger element visible?
+    get visibleTrigger() {
+      const el = this.triggerElement;
+      return el && el.offsetParent !== null;
     }
     connectedCallback() {
       super.connectedCallback();
-      this.triggerElement.setAttribute("data-bs-toggle", "tooltip");
-      this._tooltip = new Tooltip(this.triggerElement, this.allOptions);
-      this._observer = this._createVisibilityObserver();
-      this.triggerElement.addEventListener("shown.bs.tooltip", this._onShown);
-      this.triggerElement.addEventListener("hidden.bs.tooltip", this._onHidden);
+      const trigger = this.triggerElement;
+      trigger.setAttribute("data-bs-toggle", "tooltip");
+      trigger.setAttribute("tabindex", "0");
+      this.bsTooltip = new bsTooltip(trigger, this.options);
+      trigger.addEventListener("shown.bs.tooltip", this._onShown);
+      trigger.addEventListener("hidden.bs.tooltip", this._onHidden);
+      trigger.addEventListener("inserted.bs.tooltip", this._onInsert);
+      this.visibilityObserver = this._createVisibilityObserver();
     }
     disconnectedCallback() {
-      this.triggerElement.removeEventListener("shown.bs.tooltip", this._onShown);
-      this.triggerElement.removeEventListener(
-        "hidden.bs.tooltip",
-        this._onHidden
-      );
+      const trigger = this.triggerElement;
+      trigger.removeEventListener("shown.bs.tooltip", this._onShown);
+      trigger.removeEventListener("hidden.bs.tooltip", this._onHidden);
+      trigger.removeEventListener("inserted.bs.tooltip", this._onInsert);
+      this.visibilityObserver.disconnect();
+      this.bsTooltip.dispose();
       super.disconnectedCallback();
     }
     render() {
       return A;
-    }
-    // Find an Element to use as the reference for the tooltip
-    //
-    // TODO: In the future, it'd be nice if the reference was a virtual element (defining)
-    // a rectangle around `this.childNodes` instead of just the last HTMLElement.
-    // As of today, bootstrap.Tooltip doesn't seem to support floating-ui's virtual elements,
-    // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
-    get triggerElement() {
-      if (this.children.length > 1) {
-        const ref = this.children[this.children.length - 1];
-        ref.setAttribute("tabindex", "0");
-        return ref;
-      }
-      if (this.childNodes.length > 1) {
-        const ref = document.createElement("span");
-        ref.setAttribute("tabindex", "0");
-        ref.append(this.childNodes[this.childNodes.length - 1]);
-        this.appendChild(ref);
-        return ref;
-      }
-      return this;
     }
     getValue() {
       return this.visible;
@@ -769,12 +919,44 @@
     _onShown() {
       this.visible = true;
       this.onChangeCallback(true);
-      this._observer.observe(this.triggerElement);
+      this.visibilityObserver.observe(this.triggerElement);
     }
     _onHidden() {
       this.visible = false;
       this.onChangeCallback(true);
-      this._observer.unobserve(this.triggerElement);
+      this._restoreContent();
+      this.visibilityObserver.unobserve(this.triggerElement);
+      _BslibTooltip.shinyResizeObserver.flush();
+    }
+    _onInsert() {
+      var _a;
+      const { tip } = this.bsTooltip;
+      if (!tip)
+        return;
+      _BslibTooltip.shinyResizeObserver.observe(tip);
+      const content = (_a = tip.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
+      if (content instanceof HTMLElement) {
+        content.style.display = "contents";
+      }
+    }
+    // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
+    // will move the DOM element from this web container to the popover's
+    // container (which, by default, is the body, but can also be customized). So,
+    // when the popover is hidden, we're responsible for moving it back to this
+    // element.
+    _restoreContent() {
+      var _a;
+      const { tip } = this.bsTooltip;
+      if (!tip) {
+        throw new Error(
+          "Failed to find the popover's DOM element. Please report this bug."
+        );
+      }
+      const content = (_a = tip.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
+      if (content instanceof HTMLElement) {
+        content.style.display = "none";
+        this.append(content);
+      }
     }
     receiveMessage(el, data) {
       const method = data.method;
@@ -787,11 +969,11 @@
       }
     }
     _toggle(x2) {
-      if (x2 === "toggle") {
+      if (x2 === "toggle" || x2 === void 0) {
         x2 = this.visible ? "hide" : "show";
       }
       if (x2 === "hide") {
-        this._tooltip.hide();
+        this.bsTooltip.hide();
       }
       if (x2 === "show") {
         this._show();
@@ -801,51 +983,40 @@
     // (in either case the tooltip likely won't be positioned correctly)
     _show() {
       if (!this.visible && this.visibleTrigger) {
-        this._tooltip.show();
+        this.bsTooltip.show();
       }
-    }
-    get visibleTrigger() {
-      const el = this.triggerElement;
-      return el && el.offsetParent !== null;
     }
     _updateTitle(title) {
       if (!title)
         return;
       Shiny.renderDependencies(title.deps);
-      this._setContentCarefully(title.html);
+      setContentCarefully({
+        instance: this.bsTooltip,
+        trigger: this.triggerElement,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        content: { ".tooltip-inner": title.html },
+        type: "tooltip"
+      });
     }
-    // Workaround for a bug with .setContent() where it inadverently removes a currently
-    // visible tooltip. See: https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
-    _setContentCarefully(html) {
-      const { tip } = this._tooltip;
-      if (tip && tip.offsetParent !== null) {
-        const inner = tip.querySelector(".tooltip-inner");
-        if (inner)
-          inner.innerHTML = html;
-        this._tooltip.update();
-        $(this).one("hidden.bs.tooltip", function() {
-          this._setContent(html);
-        });
-      } else {
-        this._setContent(html);
-      }
-    }
-    _setContent(html) {
-      this._tooltip.setContent({ ".tooltip-inner": html });
-    }
+    // While the tooltip is shown, watches for changes in the _trigger_
+    // visibility. If the trigger element becomes no longer visible, then we hide
+    // the tooltip (Bootstrap doesn't do this automatically when showing
+    // programmatically)
     _createVisibilityObserver() {
       const handler = (entries) => {
         if (!this.visible)
           return;
         entries.forEach((entry) => {
           if (!entry.isIntersecting)
-            this._tooltip.hide();
+            this.bsTooltip.hide();
         });
       };
       return new IntersectionObserver(handler);
     }
   };
+  var BslibTooltip = _BslibTooltip;
   BslibTooltip.tagName = "bslib-tooltip";
+  BslibTooltip.shinyResizeObserver = new ShinyResizeObserver();
   // Shiny-specific stuff
   BslibTooltip.isShinyInput = true;
   __decorateClass([
@@ -853,7 +1024,349 @@
   ], BslibTooltip.prototype, "placement", 2);
   __decorateClass([
     n5({ type: String })
-  ], BslibTooltip.prototype, "options", 2);
+  ], BslibTooltip.prototype, "bsOptions", 2);
+
+  // srcts/src/components/popover.ts
+  var bsPopover = window.bootstrap ? window.bootstrap.Popover : class {
+  };
+  var _BslibPopover = class extends LightElement {
+    ///////////////////////////////////////////////////////////////
+    // Methods
+    ///////////////////////////////////////////////////////////////
+    constructor() {
+      super();
+      this.placement = "auto";
+      this.bsOptions = "{}";
+      ///////////////////////////////////////////////////////////////
+      // Visibility state management
+      ///////////////////////////////////////////////////////////////
+      this.visible = false;
+      // This is a placeholder function that will be overwritten by the Shiny input
+      // binding. When the input value changes, it invokes this function to notify
+      // Shiny that it has changed.
+      // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+      this.onChangeCallback = (x2) => {
+      };
+      this._onShown = this._onShown.bind(this);
+      this._onInsert = this._onInsert.bind(this);
+      this._onHidden = this._onHidden.bind(this);
+      this._handleTabKey = this._handleTabKey.bind(this);
+      this._handleEscapeKey = this._handleEscapeKey.bind(this);
+      this._closeButton = this._closeButton.bind(this);
+      this.style.display = "contents";
+    }
+    get options() {
+      const opts = JSON.parse(this.bsOptions);
+      return __spreadValues({
+        content: this.content,
+        title: hasHeader(this.header) ? this.header : "",
+        placement: this.placement,
+        // Bootstrap defaults to false, but we have our own HTML escaping
+        html: true,
+        sanitize: false,
+        trigger: this.isHyperLink ? "focus hover" : "click"
+      }, opts);
+    }
+    get content() {
+      return this.contentContainer.children[0];
+    }
+    get header() {
+      return this.contentContainer.children[1];
+    }
+    get contentContainer() {
+      return this.children[0];
+    }
+    // The element that triggers the popover to be shown
+    get triggerElement() {
+      return getOrCreateTriggerEl(this);
+    }
+    // Is the trigger element visible?
+    get visibleTrigger() {
+      const el = this.triggerElement;
+      return el && el.offsetParent !== null;
+    }
+    // By default (when trigger is "click"), treat the trigger element like a
+    // button (even if it's not a <button> element). Meaning mostly that we'll
+    // manage aria-pressed and Enter/Space keydown events.
+    // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
+    get isButtonLike() {
+      return this.options.trigger === "click" && this.triggerElement.tagName !== "BUTTON";
+    }
+    // If the visibility of the popover is _not_ triggered via focus (i.e., it's
+    // triggered by clicking a button), then we make the popover focusable (so that
+    // the user can tab to it).
+    get focusablePopover() {
+      return !this.options.trigger.includes("focus");
+    }
+    get isHyperLink() {
+      const trigger = this.triggerElement;
+      return trigger.tagName === "A" && trigger.hasAttribute("href") && trigger.getAttribute("href") !== "#";
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      if (this.content)
+        this.content.style.display = "contents";
+      if (this.header instanceof HTMLElement) {
+        this.header.style.display = "contents";
+      }
+      if (this.content) {
+        D(this._closeButton(this.header), this.content);
+      }
+      const trigger = this.triggerElement;
+      trigger.setAttribute("data-bs-toggle", "popover");
+      this.bsPopover = new bsPopover(trigger, this.options);
+      if (this.isButtonLike) {
+        trigger.setAttribute("role", "button");
+        trigger.setAttribute("tabindex", "0");
+        trigger.setAttribute("aria-pressed", "false");
+        if (this.triggerElement.tagName !== "A") {
+          trigger.onkeydown = (e6) => {
+            if (e6.key === "Enter" || e6.key === " ") {
+              this._toggle();
+            }
+          };
+        }
+        trigger.style.cursor = "pointer";
+      }
+      trigger.addEventListener("shown.bs.popover", this._onShown);
+      trigger.addEventListener("hidden.bs.popover", this._onHidden);
+      trigger.addEventListener("inserted.bs.popover", this._onInsert);
+      this.visibilityObserver = this._createVisibilityObserver();
+    }
+    disconnectedCallback() {
+      const trigger = this.triggerElement;
+      trigger.removeEventListener("shown.bs.popover", this._onShown);
+      trigger.removeEventListener("hidden.bs.popover", this._onHidden);
+      trigger.removeEventListener("inserted.bs.popover", this._onInsert);
+      this.visibilityObserver.disconnect();
+      this.bsPopover.dispose();
+      super.disconnectedCallback();
+    }
+    render() {
+      return A;
+    }
+    getValue() {
+      return this.visible;
+    }
+    _onShown() {
+      this.visible = true;
+      this.onChangeCallback(true);
+      this.visibilityObserver.observe(this.triggerElement);
+      if (this.focusablePopover) {
+        document.addEventListener("keydown", this._handleTabKey);
+        document.addEventListener("keydown", this._handleEscapeKey);
+      }
+      if (this.isButtonLike) {
+        this.triggerElement.setAttribute("aria-pressed", "true");
+      }
+    }
+    _onHidden() {
+      this.visible = false;
+      this.onChangeCallback(true);
+      this._restoreContent();
+      this.visibilityObserver.unobserve(this.triggerElement);
+      _BslibPopover.shinyResizeObserver.flush();
+      if (this.focusablePopover) {
+        document.removeEventListener("keydown", this._handleTabKey);
+        document.removeEventListener("keydown", this._handleEscapeKey);
+      }
+      if (this.isButtonLike) {
+        this.triggerElement.setAttribute("aria-pressed", "false");
+      }
+    }
+    _onInsert() {
+      const { tip } = this.bsPopover;
+      if (!tip)
+        return;
+      _BslibPopover.shinyResizeObserver.observe(tip);
+      if (this.focusablePopover) {
+        tip.setAttribute("tabindex", "0");
+      }
+    }
+    // 1. Tab on an active trigger focuses the popover.
+    // 2. Shift+Tab on active popover focuses the trigger.
+    _handleTabKey(e6) {
+      if (e6.key !== "Tab")
+        return;
+      const { tip } = this.bsPopover;
+      if (!tip)
+        return;
+      const stopEvent = () => {
+        e6.preventDefault();
+        e6.stopImmediatePropagation();
+      };
+      const active = document.activeElement;
+      if (active === this.triggerElement && !e6.shiftKey) {
+        stopEvent();
+        tip.focus();
+      }
+      if (active === tip && e6.shiftKey) {
+        stopEvent();
+        this.triggerElement.focus();
+      }
+    }
+    // Allow ESC to close the popover when:
+    // - the trigger is the active element
+    // - the activeElement is inside the popover
+    _handleEscapeKey(e6) {
+      if (e6.key !== "Escape")
+        return;
+      const { tip } = this.bsPopover;
+      if (!tip)
+        return;
+      const active = document.activeElement;
+      if (active === this.triggerElement || tip.contains(active)) {
+        e6.preventDefault();
+        e6.stopImmediatePropagation();
+        this._hide();
+        this.triggerElement.focus();
+      }
+    }
+    // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
+    // will move the DOM element from this web container to the popover's
+    // container (which, by default, is the body, but can also be customized). So,
+    // when the popover is hidden, we're responsible for moving it back to this
+    // element.
+    _restoreContent() {
+      const { tip } = this.bsPopover;
+      if (!tip) {
+        throw new Error(
+          "Failed to find the popover's DOM element. Please report this bug."
+        );
+      }
+      const body = tip.querySelector(".popover-body");
+      if (body)
+        this.contentContainer.append(body == null ? void 0 : body.firstChild);
+      const header = tip.querySelector(".popover-header");
+      if (header)
+        this.contentContainer.append(header == null ? void 0 : header.firstChild);
+    }
+    receiveMessage(el, data) {
+      const method = data.method;
+      if (method === "toggle") {
+        this._toggle(data.value);
+      } else if (method === "update") {
+        this._updatePopover(data);
+      } else {
+        throw new Error(`Unknown method ${method}`);
+      }
+    }
+    _toggle(x2) {
+      if (x2 === "toggle" || x2 === void 0) {
+        x2 = this.visible ? "hide" : "show";
+      }
+      if (x2 === "hide") {
+        this._hide();
+      }
+      if (x2 === "show") {
+        this._show();
+      }
+    }
+    _hide() {
+      this.bsPopover.hide();
+    }
+    // No-op if the popover is already visible or if the trigger element is not visible
+    // (in either case the tooltip likely won't be positioned correctly)
+    _show() {
+      if (!this.visible && this.visibleTrigger) {
+        this.bsPopover.show();
+      }
+    }
+    _updatePopover(data) {
+      const { content, header } = data;
+      const deps = [];
+      if (content)
+        deps.push(...content.deps);
+      if (header)
+        deps.push(...header.deps);
+      Shiny.renderDependencies(deps);
+      const getOrCreateElement = (x2, fallback, selector) => {
+        var _a;
+        if (x2)
+          return createContentElement(x2.html);
+        if (fallback)
+          return fallback;
+        return (_a = this.bsPopover.tip) == null ? void 0 : _a.querySelector(selector);
+      };
+      const newHeader = getOrCreateElement(
+        header,
+        this.header,
+        ".popover-header"
+      );
+      const newContent = getOrCreateElement(
+        content,
+        this.content,
+        ".popover-body"
+      );
+      D(this._closeButton(newHeader), newContent);
+      setContentCarefully({
+        instance: this.bsPopover,
+        trigger: this.triggerElement,
+        content: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          ".popover-header": hasHeader(newHeader) ? newHeader : "",
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          ".popover-body": newContent
+        },
+        type: "popover"
+      });
+    }
+    _closeButton(header) {
+      if (!this.focusablePopover) {
+        return A;
+      }
+      const onclick = () => {
+        this._hide();
+        if (this.focusablePopover)
+          this.triggerElement.focus();
+      };
+      const top = hasHeader(header) ? "0.6rem" : "0.25rem";
+      return x`<button
+      type="button"
+      aria-label="Close"
+      class="btn-close"
+      @click=${onclick}
+      style="position:absolute; top:${top}; right:0.25rem; width:0.55rem; height:0.55rem; background-size:0.55rem;"
+    ></button>`;
+    }
+    // While the popover is shown, watches for changes in the _trigger_
+    // visibility. If the trigger element becomes no longer visible, then we hide
+    // the popover (Bootstrap doesn't do this automatically when showing
+    // programmatically)
+    _createVisibilityObserver() {
+      const handler = (entries) => {
+        if (!this.visible)
+          return;
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting)
+            this._hide();
+        });
+      };
+      return new IntersectionObserver(handler);
+    }
+  };
+  var BslibPopover = _BslibPopover;
+  BslibPopover.tagName = "bslib-popover";
+  BslibPopover.shinyResizeObserver = new ShinyResizeObserver();
+  ///////////////////////////////////////////////////////////////
+  // Shiny-specific stuff
+  ///////////////////////////////////////////////////////////////
+  BslibPopover.isShinyInput = true;
+  __decorateClass([
+    n5({ type: String })
+  ], BslibPopover.prototype, "placement", 2);
+  __decorateClass([
+    n5({ type: String })
+  ], BslibPopover.prototype, "bsOptions", 2);
+  function hasHeader(header) {
+    return !!header && header.childNodes.length > 0;
+  }
+  function createContentElement(html) {
+    const div = document.createElement("div");
+    div.style.display = "contents";
+    div.innerHTML = html;
+    return div;
+  }
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {
@@ -893,7 +1406,7 @@
   }
 
   // srcts/src/components/webComponents.ts
-  [BslibTooltip].forEach((cls) => {
+  [BslibTooltip, BslibPopover].forEach((cls) => {
     customElements.define(cls.tagName, cls);
     if (cls.isShinyInput)
       makeInputBinding(cls.tagName);
