@@ -125,7 +125,7 @@ bs_theme <- function(version = version_default(), preset = NULL, ...,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
                      font_scale = NULL, bootswatch = NULL) {
 
-  if (is.null(preset) && is.null(bootswatch)) {
+  if (is.null(preset) && is.null(bootswatch) && version >= 5) {
     preset <- "shiny"
   }
 
