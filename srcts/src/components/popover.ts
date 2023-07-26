@@ -201,6 +201,9 @@ export class BslibPopover extends LightElement {
       document.addEventListener("keydown", this._handleTabKey);
       document.addEventListener("keydown", this._handleEscapeKey);
     }
+    if (this.isButtonLike) {
+      this.triggerElement.setAttribute("aria-pressed", "true");
+    }
   }
 
   private _onHidden(): void {
@@ -214,6 +217,9 @@ export class BslibPopover extends LightElement {
     if (this.focusablePopover) {
       document.removeEventListener("keydown", this._handleTabKey);
       document.removeEventListener("keydown", this._handleEscapeKey);
+    }
+    if (this.isButtonLike) {
+      this.triggerElement.setAttribute("aria-pressed", "false");
     }
   }
 
@@ -325,9 +331,6 @@ export class BslibPopover extends LightElement {
 
   private _hide(): void {
     this.bsPopover.hide();
-    if (this.isButtonLike) {
-      this.triggerElement.setAttribute("aria-pressed", "false");
-    }
   }
 
   // No-op if the popover is already visible or if the trigger element is not visible
@@ -335,9 +338,6 @@ export class BslibPopover extends LightElement {
   private _show(): void {
     if (!this.visible && this.visibleTrigger) {
       this.bsPopover.show();
-      if (this.isButtonLike) {
-        this.triggerElement.setAttribute("aria-pressed", "true");
-      }
     }
   }
 
