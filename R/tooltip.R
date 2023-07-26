@@ -3,27 +3,44 @@
 #' Display additional information when focusing (or hovering over) a UI element.
 #'
 #' @param trigger A UI element (i.e., [htmltools tag][htmltools::tags]) to serve
-#'   as the tooltips trigger. It's good practice for this element to be a
-#'   keyboard-focusable and interactive element (e.g., `actionButton()`,
-#'   `actionLink()`, etc) so that the tooltip is accessible to keyboard and
-#'   assistive technology users.
+#'   as the tooltip trigger. If `trigger` renders as multiple HTML
+#'   elements (e.g., it's a `tagList()`), the last HTML element is used for the
+#'   trigger. If the `trigger` should contain all of those elements, wrap the
+#'   object in a [div()] or [span()].
 #' @param ... UI elements for the tooltip. Character strings are [automatically
 #'   escaped][htmlEscape()] unless marked as [HTML()].
 #' @param id A character string. Required to re-actively respond to the
 #'   visibility of the tooltip (via the `input[[id]]` value) and/or update the
 #'   visibility/contents of the tooltip.
 #' @param placement The placement of the tooltip relative to its trigger.
-#' @param options A list of additional [Bootstrap
-#'   options](https://getbootstrap.com/docs/5.3/components/tooltips/#options).
+#' @param options A list of additional [options](https://getbootstrap.com/docs/5.3/components/tooltips/#options).
 #'
-#' @details If `trigger` yields multiple HTML elements (e.g., a `tagList()` or
-#'   complex `{htmlwidgets}` object), the last HTML element is used as the
-#'   trigger. If the `trigger` should contain all of those elements, wrap the
-#'   object in a [div()] or [span()].
+#' @section Theming/Styling:
+#'
+#'   Like other bslib components, tooltips can be themed by supplying [relevant
+#'   theming
+#'   variables](https://rstudio.github.io/bslib/articles/bs5-variables.html#tooltip-bg)
+#'   to [bs_theme()], which effects styling of every popover on the page. To
+#'   style a _specific_ popover differently from other popovers, utilize the
+#'   `customClass` option:
+#'
+#'   ```
+#'   tooltip(
+#'     "Trigger", "Tooltip message",
+#'     options = list(customClass = "my-tip")
+#'   )
+#'   ```
+#'
+#'   And then add relevant rules to [bs_theme()] via [bs_add_rules()]:
+#'
+#'   ```
+#'   bs_theme() |> bs_add_rules(".my-tip { max-width: none; }")
+#'   ```
 #'
 #' @describeIn tooltip Add a tooltip to a UI element
 #' @references <https://getbootstrap.com/docs/5.3/components/tooltips/>
 #' @export
+#' @seealso [popover()]
 #' @examplesIf interactive()
 #'
 #' tooltip(
@@ -57,11 +74,18 @@ tooltip <- function(
     abort("At least one value must be provided to `...`.")
   }
 
+  bad_opts <- intersect(c("title", "placement"), names(options))
+  if (length(bad_opts) > 0) {
+    rlang::abort(
+      sprintf("The `%s` option cannot be specified directly.", bad_opts[1])
+    )
+  }
+
   res <- web_component(
     "bslib-tooltip",
     id = id,
     placement = rlang::arg_match(placement),
-    options = jsonlite::toJSON(options, auto_unbox = TRUE),
+    bsOptions = to_json(options),
     !!!attribs,
     # Use display:none instead of <template> since shiny.js
     # doesn't bind to the contents of the latter
@@ -122,4 +146,9 @@ normalize_show_value <- function(show) {
   }
 
   if (show) "show" else "hide"
+}
+
+
+to_json <- function(..., auto_unbox = TRUE, null = "null") {
+  jsonlite::toJSON(..., auto_unbox = auto_unbox, null = null)
 }

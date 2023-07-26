@@ -111,11 +111,12 @@ reference:
     Highlight important findings
   contents:
     - value_box
-- title: Tooltips
+- title: Tooltips & Popovers
   description: |
-    Provide additional context
+    Provide details on demand
   contents:
     - tooltip
+    - popover
 - title: Input controls
   description: |
     UI controls for capturing user input

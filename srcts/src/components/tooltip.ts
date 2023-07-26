@@ -1,11 +1,12 @@
 import { nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { LightElement } from "./webcomponents/_lightElement";
+import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
 import type { HtmlDep } from "./_utils";
 import type { Tooltip as TooltipType } from "bootstrap";
+import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const Tooltip = (
+const bsTooltip = (
   window.bootstrap ? window.bootstrap.Tooltip : class {}
 ) as typeof TooltipType;
 
@@ -28,96 +29,82 @@ type UpdateMessage = {
 
 type MessageData = ToggleMessage | UpdateMessage;
 
-type TooltipTypeWithTip = TooltipType & {
-  tip: HTMLElement | null;
-};
-
 export class BslibTooltip extends LightElement {
   static tagName = "bslib-tooltip";
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  _tooltip!: TooltipType;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  _observer!: IntersectionObserver;
+  private bsTooltip!: TooltipType & { tip?: HTMLElement };
+  private visibilityObserver!: IntersectionObserver;
+  private static shinyResizeObserver = new ShinyResizeObserver();
 
   @property({ type: String }) placement: TooltipOptions["placement"] = "auto";
-  @property({ type: String }) options = "{}";
+  @property({ type: String }) bsOptions = "{}";
 
-  get allOptions(): TooltipOptions {
-    const opts = JSON.parse(this.options);
+  private get options(): TooltipOptions {
+    const opts = JSON.parse(this.bsOptions);
     return {
-      title: this.title,
+      title: this.content,
       placement: this.placement,
       // Bootstrap defaults to false, but we have our own HTML escaping
       html: true,
-      sanitize: true,
+      sanitize: false,
       ...opts,
     };
   }
 
-  get title(): string {
-    return (this.children[0] as Element).innerHTML;
+  private get content(): HTMLElement | undefined {
+    return this.children[0] as HTMLElement;
   }
+
+  // The element that triggers the tooltip to be shown
+  private get triggerElement(): ReturnType<typeof getOrCreateTriggerEl> {
+    return getOrCreateTriggerEl(this);
+  }
+
+  // Is the trigger element visible?
+  get visibleTrigger(): boolean {
+    const el = this.triggerElement;
+    return el && el.offsetParent !== null;
+  }
+
+  ///////////////////////////////////////////////////////////////
+  // Methods
+  ///////////////////////////////////////////////////////////////
 
   constructor() {
     super();
     this._onShown = this._onShown.bind(this);
+    this._onInsert = this._onInsert.bind(this);
     this._onHidden = this._onHidden.bind(this);
     this.style.display = "contents";
   }
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.triggerElement.setAttribute("data-bs-toggle", "tooltip");
-    this._tooltip = new Tooltip(this.triggerElement, this.allOptions);
 
-    // This observer watches for changes in the trigger element's visibility
-    // (only when the tooltip is visible). If the trigger element is no longer
-    // visible, then we hide the tooltip (Bootstrap doesn't do this automatically
-    // when programmatically showing a tooltip)
-    this._observer = this._createVisibilityObserver();
+    const trigger = this.triggerElement;
+    trigger.setAttribute("data-bs-toggle", "tooltip");
+    trigger.setAttribute("tabindex", "0");
+    this.bsTooltip = new bsTooltip(trigger, this.options);
 
-    this.triggerElement.addEventListener("shown.bs.tooltip", this._onShown);
-    this.triggerElement.addEventListener("hidden.bs.tooltip", this._onHidden);
+    trigger.addEventListener("shown.bs.tooltip", this._onShown);
+    trigger.addEventListener("hidden.bs.tooltip", this._onHidden);
+    trigger.addEventListener("inserted.bs.tooltip", this._onInsert);
+    this.visibilityObserver = this._createVisibilityObserver();
   }
 
   disconnectedCallback(): void {
-    this.triggerElement.removeEventListener("shown.bs.tooltip", this._onShown);
-    this.triggerElement.removeEventListener(
-      "hidden.bs.tooltip",
-      this._onHidden
-    );
+    const trigger = this.triggerElement;
+    trigger.removeEventListener("shown.bs.tooltip", this._onShown);
+    trigger.removeEventListener("hidden.bs.tooltip", this._onHidden);
+    trigger.removeEventListener("inserted.bs.tooltip", this._onInsert);
+    this.visibilityObserver.disconnect();
+
+    this.bsTooltip.dispose();
 
     super.disconnectedCallback();
   }
 
   render(): typeof nothing {
     return nothing;
-  }
-
-  // Find an Element to use as the reference for the tooltip
-  //
-  // TODO: In the future, it'd be nice if the reference was a virtual element (defining)
-  // a rectangle around `this.childNodes` instead of just the last HTMLElement.
-  // As of today, bootstrap.Tooltip doesn't seem to support floating-ui's virtual elements,
-  // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
-  get triggerElement(): Element {
-    // Note: the first child of the web component always contains the tooltip content,
-    // so ignore the 1st child
-    if (this.children.length > 1) {
-      const ref = this.children[this.children.length - 1];
-      ref.setAttribute("tabindex", "0");
-      return ref;
-    }
-    // If there are childNodes (i.e., a text node), then wrap the last one in a
-    // span and use that as the reference
-    if (this.childNodes.length > 1) {
-      const ref = document.createElement("span");
-      ref.setAttribute("tabindex", "0");
-      ref.append(this.childNodes[this.childNodes.length - 1]);
-      this.appendChild(ref);
-      return ref;
-    }
-    return this;
   }
 
   // Visibility state management
@@ -129,13 +116,52 @@ export class BslibTooltip extends LightElement {
   private _onShown(): void {
     this.visible = true;
     this.onChangeCallback(true);
-    this._observer.observe(this.triggerElement);
+    this.visibilityObserver.observe(this.triggerElement);
   }
 
   private _onHidden(): void {
     this.visible = false;
     this.onChangeCallback(true);
-    this._observer.unobserve(this.triggerElement);
+    this._restoreContent();
+    this.visibilityObserver.unobserve(this.triggerElement);
+    BslibTooltip.shinyResizeObserver.flush();
+  }
+
+  private _onInsert(): void {
+    const { tip } = this.bsTooltip;
+    if (!tip) return;
+
+    // If outputs happen to be in the tooltip, make sure they sized correctly
+    BslibTooltip.shinyResizeObserver.observe(tip);
+
+    // The user-supplied content is wrapped up in to an additional <div> (this
+    // guarantees that we can pass an _Element_ to bootstrap.Tooltip(), which
+    // moves the content from within this component to the tooltip's location).
+    // These inline styles are here to prevent any styling suprises caused by
+    // the wrapping <div>.
+    const content = tip.querySelector(".tooltip-inner")?.firstChild;
+    if (content instanceof HTMLElement) {
+      content.style.display = "contents";
+    }
+  }
+
+  // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
+  // will move the DOM element from this web container to the popover's
+  // container (which, by default, is the body, but can also be customized). So,
+  // when the popover is hidden, we're responsible for moving it back to this
+  // element.
+  private _restoreContent(): void {
+    const { tip } = this.bsTooltip;
+    if (!tip) {
+      throw new Error(
+        "Failed to find the popover's DOM element. Please report this bug."
+      );
+    }
+    const content = tip.querySelector(".tooltip-inner")?.firstChild;
+    if (content instanceof HTMLElement) {
+      content.style.display = "none";
+      this.append(content);
+    }
   }
 
   // Shiny-specific stuff
@@ -158,12 +184,12 @@ export class BslibTooltip extends LightElement {
     }
   }
 
-  private _toggle(x: ToggleMessage["value"]): void {
-    if (x === "toggle") {
+  private _toggle(x?: ToggleMessage["value"]): void {
+    if (x === "toggle" || x === undefined) {
       x = this.visible ? "hide" : "show";
     }
     if (x === "hide") {
-      this._tooltip.hide();
+      this.bsTooltip.hide();
     }
     if (x === "show") {
       this._show();
@@ -174,52 +200,32 @@ export class BslibTooltip extends LightElement {
   // (in either case the tooltip likely won't be positioned correctly)
   private _show(): void {
     if (!this.visible && this.visibleTrigger) {
-      this._tooltip.show();
+      this.bsTooltip.show();
     }
-  }
-
-  get visibleTrigger(): boolean {
-    const el = this.triggerElement as HTMLElement;
-    return el && el.offsetParent !== null;
   }
 
   private _updateTitle(title: UpdateMessage["title"]): void {
     if (!title) return;
+
     Shiny.renderDependencies(title.deps);
-    this._setContentCarefully(title.html);
+    setContentCarefully({
+      instance: this.bsTooltip,
+      trigger: this.triggerElement,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      content: { ".tooltip-inner": title.html },
+      type: "tooltip",
+    });
   }
 
-  // Workaround for a bug with .setContent() where it inadverently removes a currently
-  // visible tooltip. See: https://github.com/twbs/bootstrap/issues/37206#issuecomment-1259541205
-  private _setContentCarefully(html: string): void {
-    // Bootstrap hangs a tip element off of the tooltip instance. This doesn't appear to be
-    // part of the public API, but it's a convenient way to get at the tooltip, so we'll use it
-    // if available and *visible* (and fall back to the public API if not)
-    const { tip } = this._tooltip as TooltipTypeWithTip;
-    if (tip && tip.offsetParent !== null) {
-      const inner = tip.querySelector(".tooltip-inner");
-      if (inner) inner.innerHTML = html;
-      this._tooltip.update();
-      // Once the tooltip is hidden, officially replace the content (otherwise the next time the
-      // tooltip is shown, it will revert to the old content)
-      $(this).one("hidden.bs.tooltip", function () {
-        this._setContent(html);
-      });
-    } else {
-      this._setContent(html);
-    }
-  }
-
-  private _setContent(html: string): void {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    this._tooltip.setContent({ ".tooltip-inner": html });
-  }
-
+  // While the tooltip is shown, watches for changes in the _trigger_
+  // visibility. If the trigger element becomes no longer visible, then we hide
+  // the tooltip (Bootstrap doesn't do this automatically when showing
+  // programmatically)
   private _createVisibilityObserver(): IntersectionObserver {
     const handler = (entries: IntersectionObserverEntry[]) => {
       if (!this.visible) return;
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) this._tooltip.hide();
+        if (!entry.isIntersecting) this.bsTooltip.hide();
       });
     };
     return new IntersectionObserver(handler);
