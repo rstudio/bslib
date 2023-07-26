@@ -399,14 +399,13 @@ export class BslibPopover extends LightElement {
       this._hide();
       if (this.focusablePopover) this.triggerElement.focus();
     };
-    const top = hasHeader(header) ? "0.75rem" : "0.25rem";
-    const right = hasHeader(header) ? "0.5rem" : "0.25rem";
+    const top = hasHeader(header) ? "0.6rem" : "0.25rem";
     return html`<button
       type="button"
       aria-label="Close"
       class="btn-close"
       @click=${onclick}
-      style="position:absolute; top:${top}; right:${right}; width:0.65rem; height:0.65rem; background-size:0.65rem;"
+      style="position:absolute; top:${top}; right:0.25rem; width:0.55rem; height:0.55rem; background-size:0.55rem;"
     ></button>`;
   }
 
