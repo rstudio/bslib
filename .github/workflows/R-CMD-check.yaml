@@ -40,10 +40,10 @@ jobs:
       - name: Install bslib from GitHub
         shell: Rscript {0}
         run: |
-          # Install dev version to obtain a fix for this issue 
-          # https://github.com/rstudio/rsconnect/issues/926
-          # Once it's on CRAN, we can go back to the CRAN release
-          pak::pkg_install("rstudio/rsconnect")
+          # rsconnect 1.0 introduced an issue with deploying from CI
+          # Once a proper fix is CRAN, we can go back install.packages
+          if (!require('remotes')) install.packages('remotes')
+          remotes::install_version("rsconnect", "0.8.29")
           pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
 
       # Workaround for this (probably spurious error):
