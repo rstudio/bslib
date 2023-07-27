@@ -47,6 +47,11 @@ $form-group-margin-bottom: 1rem !default;
   }
 }
 
+.shiny-input-checkboxgroup .checkbox-inline,
+.shiny-input-radiogroup .radio-inline {
+  cursor: pointer;
+}
+
 // Fix the position of checkbox and radio group labels to match other inputs
 // labels, see https://github.com/rstudio/shiny/blob/6fc06281/inst/www/shared/shiny_scss/shiny.scss#L344-L356
 @if $bootstrap-version == 4 {
