@@ -41,11 +41,8 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 .shiny-input-container-inline {
   .shiny-options-group {
     display: flex;
-    display: -webkit-flex;
     flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
     flex-direction: row;
-    -webkit-flex-direction: row;
     column-gap: 1em;
 
     .checkbox-inline, .radio-inline {
