@@ -8,10 +8,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 }
 
 // move checkbox and radio text slightly to the right
+$bslib-checkbox-radio-margin-right: 0.35em !default;
+
 .checkbox,
 .radio {
   input {
-    margin-right: 0.35em;
+    margin-right: $bslib-checkbox-radio-margin-right;
   }
 }
 
@@ -31,4 +33,28 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 .btn-outline-default,
 .btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
   @include button-outline-variant($secondary);
+}
+
+// This next section fixes inline checkbox and radio groups.
+// TODO: It would be nice to do this for all inline groups, but that would
+// require updating the input markup to use <fieldset> and <legend>.
+.shiny-input-container-inline {
+  .shiny-options-group {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    column-gap: 1em;
+
+    .checkbox-inline, .radio-inline {
+      position: relative;
+      padding-left: calc(#{$form-check-input-width} + #{$bslib-checkbox-radio-margin-right} * 2);
+
+      input {
+        position: absolute;
+        margin-top: 0;
+        left: 0;
+        top: calc(#{($line-height-base - $form-check-input-width) * .5} + #{$input-btn-border-width});
+      }
+    }
+  }
 }
