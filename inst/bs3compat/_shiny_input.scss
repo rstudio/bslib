@@ -54,15 +54,8 @@ $form-group-margin-bottom: 1rem !default;
 
 // Fix the position of checkbox and radio group labels to match other inputs
 // labels, see https://github.com/rstudio/shiny/blob/6fc06281/inst/www/shared/shiny_scss/shiny.scss#L344-L356
-@if $bootstrap-version == 4 {
-  .shiny-input-checkboxgroup,
-  .shiny-input-radiogroup {
-    label ~ .shiny-options-group {
-      // Margin is in rem/em and border is px and Sass math requires same units
-      margin-top: calc(-1 * #{$form-check-input-margin-y} - #{$input-border-width});
-    }
-  }
-} @else if $bootstrap-version == 5 {
+// TODO: Consider removing if we add `input_checkbox()` and `input_radio()`
+@if $bootstrap-version == 5 {
   .shiny-input-checkboxgroup,
   .shiny-input-radiogroup {
     label ~ .shiny-options-group {
