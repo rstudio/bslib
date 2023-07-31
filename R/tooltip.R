@@ -149,6 +149,6 @@ normalize_show_value <- function(show) {
 }
 
 
-to_json <- function(..., auto_unbox = TRUE, null = "null") {
-  jsonlite::toJSON(..., auto_unbox = auto_unbox, null = null)
+to_json <- function(..., auto_unbox = TRUE, null = "null", force = TRUE) {
+  jsonlite::toJSON(..., auto_unbox = auto_unbox, null = null, force = force)
 }
