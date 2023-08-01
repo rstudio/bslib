@@ -1,4 +1,4 @@
-import { nothing } from "lit";
+import { css, nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { LightElement } from "./webcomponents/_lightElement";
 
@@ -53,6 +53,30 @@ export class BslibStatusButton extends LightElement {
   private failure: BslibStatusState = { disable: false };
 
   @property({ type: String }) state = "ready";
+
+  static get styles() {
+    return css`
+      .bslib-status-button {
+        position: relative;
+        display: flex;
+        gap: 0.5em;
+        flex-direction: row;
+        text-align: start;
+        transition: all 250ms ease-in-out;
+        overflow: hidden;
+      }
+      .bslib-status-button > .bslib-status-icon {
+        align-self: center;
+      }
+      .bslib-status-button > .bslib-status-icon > .bi {
+        position: relative;
+        top: -0.125em;
+      }
+      .bslib-status-label {
+        flex: 1 1 auto;
+      }
+    `;
+  }
 
   constructor() {
     super();
