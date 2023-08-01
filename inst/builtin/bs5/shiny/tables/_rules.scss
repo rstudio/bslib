@@ -89,7 +89,7 @@ th {
     // hide the supporting elements when inside a non-full-screen card
     .dataTables_length,  // show ___ entries
     .dataTables_filter,  // search
-    .dataTables_info,    // showing 1 to 10 of 100 entries
+    // .dataTables_info,    // showing 1 to 10 of 100 entries
     .dataTables_paginate {
       display: none;
     }
