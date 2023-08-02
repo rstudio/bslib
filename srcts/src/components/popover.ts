@@ -1,6 +1,6 @@
 import { nothing, html, render } from "lit";
 import { property } from "lit/decorators.js";
-import { LightElement } from "./webcomponents/_lightElement";
+import { BslibElement } from "./webcomponents/bslibElement";
 import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
 import type { HtmlDep } from "./_utils";
@@ -32,7 +32,7 @@ type UpdateMessage = {
 
 type MessageData = ToggleMessage | UpdateMessage;
 
-export class BslibPopover extends LightElement {
+export class BslibPopover extends BslibElement {
   static tagName = "bslib-popover";
   // Although it isn't included in the type, Bootstrap hangs a tip element off
   // of the popover instance, which provides a convenient way to find where the
@@ -120,7 +120,6 @@ export class BslibPopover extends LightElement {
     this._handleTabKey = this._handleTabKey.bind(this);
     this._handleEscapeKey = this._handleEscapeKey.bind(this);
     this._closeButton = this._closeButton.bind(this);
-    this.style.display = "contents";
   }
 
   connectedCallback(): void {
@@ -177,10 +176,6 @@ export class BslibPopover extends LightElement {
     this.bsPopover.dispose();
 
     super.disconnectedCallback();
-  }
-
-  render(): typeof nothing {
-    return nothing;
   }
 
   ///////////////////////////////////////////////////////////////

@@ -1,23 +1,22 @@
-import { LitElement } from "lit";
+import { LitElement, css, html } from "lit";
+import type { CSSResult, CSSResultArray } from "lit";
 
-export class LightElement extends LitElement {
-  elementChildren: ChildNode[] = [];
-  slotContents: any;
-
+export class BslibElement extends LitElement {
+  static tagName = "bslib-element";
   static isShinyInput = false;
+  static styles: CSSResult | CSSResultArray = css`
+    :host {
+      display: contents;
+    }
+  `;
 
   connectedCallback(): void {
-    this.elementChildren = Array.from(this.childNodes);
     this.maybeCarryFill();
     super.connectedCallback();
   }
 
-  get slotElements(): ChildNode[] {
-    return this.elementChildren;
-  }
-
-  createRenderRoot(): this {
-    return this;
+  render(): ReturnType<LitElement["render"]> {
+    return html`<slot></slot>`;
   }
 
   maybeCarryFill(): void {

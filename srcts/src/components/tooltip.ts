@@ -1,6 +1,5 @@
-import { nothing } from "lit";
 import { property } from "lit/decorators.js";
-import { LightElement } from "./webcomponents/_lightElement";
+import { BslibElement } from "./webcomponents/bslibElement";
 import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
 import type { HtmlDep } from "./_utils";
 import type { Tooltip as TooltipType } from "bootstrap";
@@ -29,7 +28,7 @@ type UpdateMessage = {
 
 type MessageData = ToggleMessage | UpdateMessage;
 
-export class BslibTooltip extends LightElement {
+export class BslibTooltip extends BslibElement {
   static tagName = "bslib-tooltip";
   private bsTooltip!: TooltipType & { tip?: HTMLElement };
   private visibilityObserver!: IntersectionObserver;
@@ -74,7 +73,6 @@ export class BslibTooltip extends LightElement {
     this._onShown = this._onShown.bind(this);
     this._onInsert = this._onInsert.bind(this);
     this._onHidden = this._onHidden.bind(this);
-    this.style.display = "contents";
   }
 
   connectedCallback(): void {
@@ -101,10 +99,6 @@ export class BslibTooltip extends LightElement {
     this.bsTooltip.dispose();
 
     super.disconnectedCallback();
-  }
-
-  render(): typeof nothing {
-    return nothing;
   }
 
   // Visibility state management

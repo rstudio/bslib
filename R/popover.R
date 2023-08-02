@@ -112,10 +112,11 @@ popover <- function(
     !!!attribs,
     # Use display:none instead of <template> since shiny.js
     # doesn't bind to the contents of the latter
-    div(
+    web_component(
+      "bslib-element",
       style = "display:none;",
-      div(!!!children),
-      div(title)
+      span(!!!children),
+      span(title)
     ),
     trigger
   )
