@@ -31,7 +31,7 @@ This article provides a general overview of theming techniques available in `{bs
 
 ## Real-time theming {#real-time}
 
-To get started theming, consider overlaying a real-time theming widget on your Shiny app (or `runtime: shiny` R Markdown document). This is a great way to experiment with different [Bootswatch](#bootswatch) themes, [main colors](#main-colors), fonts, and more. To add the widget, call `bs_themer()` in a Shiny runtime content (i.e., within the `server` function) and also make sure the app/document [uses `{bslib}` for it's Bootstrap dependency](any-project.html).
+To get started theming, consider overlaying a real-time theming widget on your Shiny app (or `runtime: shiny` R Markdown document). This is a great way to experiment with different [Bootswatch](#bootswatch) themes, [main colors](#main-colors), fonts, and more. To add the widget, call `bs_themer()` in a Shiny runtime content (i.e., within the `server` function) and also make sure the app/document [uses `{bslib}` for it's Bootstrap dependency](../any-project).
 
 <div class="usage">
 ```r

@@ -7,7 +7,7 @@ This article is for Shiny and R Markdown developers who wish to write custom HTM
 
 ## A basic themeable component
 
-Before going through a full-blown [dynamically themeable](#dynamic-shiny) custom component, let's start from a relatively straight-forward example of implementing a custom `person()` component. Say we have the following R function to generate some HTML with classes that we'll write custom Sass/CSS styles for:
+Before going through a full-blown [dynamically themeable](#dynamically-themeable-component) custom component, let's start from a relatively straight-forward example of implementing a custom `person()` component. Say we have the following R function to generate some HTML with classes that we'll write custom Sass/CSS styles for:
 
 ``` {.r}
 person <- function(name, title, company) {

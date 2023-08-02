@@ -27,7 +27,7 @@ img {
 }
 ```
 
-This article focuses on using `bslib` to create the user interface (UI) for [Shiny](https://shiny.posit.co/) dashboards. In the [next getting started article](any-project.html), we'll also cover how these dashboard [components](#components), [layout helpers](#layouts), etc. be also be used in isolation inside of any Bootstrap project (e.g., R Markdown, `{pkgdown}`, etc), not just Shiny dashboards.
+This article focuses on using `bslib` to create the user interface (UI) for [Shiny](https://shiny.posit.co/) dashboards. In the [next getting started article](../any-project), we'll also cover how these dashboard [components](#components), [layout helpers](#layouts), etc. be also be used in isolation inside of any Bootstrap project (e.g., R Markdown, `{pkgdown}`, etc), not just Shiny dashboards.
 
 ::: {.callout .callout-note}
 <h3 data-toc-skip>Running examples</h3>
@@ -213,7 +213,7 @@ ui <- page_navbar(
 shinyApp(ui, server)
 ```
 
-Be wary that `page_navbar()`'s `sidebar` argument puts the same sidebar on every page, which may or may not be desirable. In the [sidebar article](sidebar.html), you'll learn some strategies for keeping the sidebar's contents close to the stuff they effect. Specifically, that article covers how to: (1) [hide/show `sidebar` contents on particular pages](../sidebars#conditional-contents) (2) [put a particular `sidebar()` with a given page](../sidebars#multi-page-example), and even (3) [put sidebar layouts inside of a `card()`](../sidebars#multi-page-example).
+Be wary that `page_navbar()`'s `sidebar` argument puts the same sidebar on every page, which may or may not be desirable. In the [sidebar article](../sidebars), you'll learn some strategies for keeping the sidebar's contents close to the stuff they effect. Specifically, that article covers how to: (1) [hide/show `sidebar` contents on particular pages](../sidebars#conditional-contents) (2) [put a particular `sidebar()` with a given page](../sidebars#multi-page-example), and even (3) [put sidebar layouts inside of a `card()`](../sidebars#multi-page-example).
 
 
 
