@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 variables_html_deps()
 ```
 
-Below is a search-able table of Bootstrap 4 Sass variables. If you aren't sure what a Sass variable is or how to use them, see this [Get Started article](theming.html). A few things to keep in mind when using this table:
+Below is a search-able table of Bootstrap 4 Sass variables. If you aren't sure what a Sass variable is or how to use them, see this [Get Started article](../theming). A few things to keep in mind when using this table:
 
 * Each row represents a different Sass variable, showing its name and default value.
     * For Sass variables whose value defaults to another Sass variable (e.g., [`border-color`](#border-color)), you may hover over the value to get the (default) CSS value that it represents.

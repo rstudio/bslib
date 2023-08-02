@@ -124,7 +124,7 @@ card(
 
 ::: {.row .mt-3}
 ::: col-md-6
-A `card()`'s default behavior is optimized for facilitating [filling layouts](filling.html). More specifically, if a **fill item** (e.g., `plotly_widget`), appears as a _direct child_ of a `card_body()`, it resizes to fit the `card()`s specified height. This means, by specifying `height = 250` we've effectively shrunk the plot's height from its default of 400 down to about 200 pixels. And, when expanded to `full_screen`, the plot grows to match the `card()`'s new size.
+A `card()`'s default behavior is optimized for facilitating [filling layouts](../filling). More specifically, if a **fill item** (e.g., `plotly_widget`), appears as a _direct child_ of a `card_body()`, it resizes to fit the `card()`s specified height. This means, by specifying `height = 250` we've effectively shrunk the plot's height from its default of 400 down to about 200 pixels. And, when expanded to `full_screen`, the plot grows to match the `card()`'s new size.
 :::
 
 ::: col-md-6
@@ -169,7 +169,7 @@ card(
 ::: col-md-6
 **Fill item**(s) aren't limited in how much they grow and shrink, which can be problematic when a card becomes very small. To work around this, consider adding a `min_height` on the `card_body()` container. For example, try using the handle on the lower-right portion of this card example to make the card taller/smaller.
 
-This interactive example is a bit contrived in that we're using [CSS resize](https://developer.mozilla.org/en-US/docs/Web/CSS/resize) to demonstrate how to make plots that don't shrink beyond a certain point, but this concept becomes quite useful when implementing page-level [filling layouts](filling.html) (i.e., `page_fillable()`) with [multiple cards](#multiple-cards).
+This interactive example is a bit contrived in that we're using [CSS resize](https://developer.mozilla.org/en-US/docs/Web/CSS/resize) to demonstrate how to make plots that don't shrink beyond a certain point, but this concept becomes quite useful when implementing page-level [filling layouts](../filling) (i.e., `page_fillable()`) with [multiple cards](#multiple-cards).
 :::
 
 ::: col-md-6
@@ -191,7 +191,7 @@ card(
 ::: {.callout .callout-warning}
 <h3 data-toc-skip>Troubleshooting fill</h3>
 
-As you'll learn more about in [filling layouts](filling.html), a **fill item** loses its ability to fill when wrapped in additional UI element that isn't a **fillable** container. To fix the situation, use `as_fill_carrier()` to allow the additional element to carry the potential to fill from the `card_body()` down to the fill item.
+As you'll learn more about in [filling layouts](../filling), a **fill item** loses its ability to fill when wrapped in additional UI element that isn't a **fillable** container. To fix the situation, use `as_fill_carrier()` to allow the additional element to carry the potential to fill from the `card_body()` down to the fill item.
 :::
 
 
@@ -262,7 +262,7 @@ card(
 
 ## Multiple columns
 
-As you'll learn in [column-based layouts](column-layout.html), `layout_column_wrap()` is great for multi-column layouts that are responsive and accommodate for [filling output](#filling-outputs). Here we have an equal-width 2-column layout using `width = 1/2`, but it's also possible to have [varying column widths](column-layout.html#varying-widths).
+As you'll learn in [column-based layouts](../column-layout), `layout_column_wrap()` is great for multi-column layouts that are responsive and accommodate for [filling output](#filling-outputs). Here we have an equal-width 2-column layout using `width = 1/2`, but it's also possible to have [varying column widths](../column-layout#varying-widths).
 
 ::: row
 ::: col-md-6
@@ -293,7 +293,7 @@ card(
 
 ## Multiple cards
 
-`layout_column_wrap()` is especially nice for laying out multiple cards since each card in a particular row will have the same height (by default). Learn more in [column-based layouts](column-layout.html).
+`layout_column_wrap()` is especially nice for laying out multiple cards since each card in a particular row will have the same height (by default). Learn more in [column-based layouts](../column-layout).
 
 ```{r}
 layout_column_wrap(
@@ -346,7 +346,7 @@ navset_card_tab(
 
 ## Sidebars
 
-As you'll learn more about in [sidebar layouts](sidebars.html), `layout_sidebar()` just works when placed inside in a `card()`. In this case, if you want **fill item**s (e.g., `plotly_widget`) to still fill the card like we've [seen before](#filling-outputs), you'll need to set `fillable = TRUE` in `layout_sidebar()`.
+As you'll learn more about in [sidebar layouts](../sidebars), `layout_sidebar()` just works when placed inside in a `card()`. In this case, if you want **fill item**s (e.g., `plotly_widget`) to still fill the card like we've [seen before](#filling-outputs), you'll need to set `fillable = TRUE` in `layout_sidebar()`.
 
 ```{r}
 card(
@@ -488,7 +488,7 @@ card(
 ::: col-md-6
 Since this article is statically rendered, the examples here use statically rendered content/widgets, but the same `card()` functionality works for dynamically rendered content via Shiny (e.g., `plotOutput()`, `plotlyOutput()`, etc).
 
-An additional benefit that comes with using shiny is the ability to use `getCurrentOutputInfo()` to render new/different content when the output container becomes large enough, which is particularly useful with `card(full_screen = T, ...)`. For example, you may want additional captions/labels when a plot is large, additional controls on a table, etc (see the [value boxes](value-boxes.html) article for a clever use of this).
+An additional benefit that comes with using shiny is the ability to use `getCurrentOutputInfo()` to render new/different content when the output container becomes large enough, which is particularly useful with `card(full_screen = T, ...)`. For example, you may want additional captions/labels when a plot is large, additional controls on a table, etc (see the [value boxes](../value-boxes) article for a clever use of this).
 :::
 
 ::: col-md-6

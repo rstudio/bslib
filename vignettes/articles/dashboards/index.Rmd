@@ -213,7 +213,7 @@ ui <- page_navbar(
 shinyApp(ui, server)
 ```
 
-Be wary that `page_navbar()`'s `sidebar` argument puts the same sidebar on every page, which may or may not be desirable. In the [sidebar article](sidebar.html), you'll learn some strategies for keeping the sidebar's contents close to the stuff they effect. Specifically, that article covers how to: (1) [hide/show `sidebar` contents on particular pages](sidebars.html#conditional-contents) (2) [put a particular `sidebar()` with a given page](sidebars.html#multi-page-example), and even (3) [put sidebar layouts inside of a `card()`](sidebars.html#multi-page-example).
+Be wary that `page_navbar()`'s `sidebar` argument puts the same sidebar on every page, which may or may not be desirable. In the [sidebar article](sidebar.html), you'll learn some strategies for keeping the sidebar's contents close to the stuff they effect. Specifically, that article covers how to: (1) [hide/show `sidebar` contents on particular pages](../sidebars#conditional-contents) (2) [put a particular `sidebar()` with a given page](../sidebars#multi-page-example), and even (3) [put sidebar layouts inside of a `card()`](../sidebars#multi-page-example).
 
 
 
@@ -246,7 +246,7 @@ shinyApp(ui, server)
 
 ### Scrolling vs filling
 
-Both `page_sidebar()` and `page_navbar()` default to a [filling layout](filling.html), meaning that outputs like `plotOutput()`, `{htmlwidgets}`, etc. are encouraged to grow/shrink to fit the browser window. As a result, when contents have an large intrinsic minimum height (e.g., a long textual description), filling layout may cause cards/outputs to grow/shrink beyond what is desirable. To combat this, consider by a setting a `height` on `card()`s that shouldn't grow/shrink and `min_height`/`max_height` on `card()`s that shouldn't shrink/grow beyond a certain point.
+Both `page_sidebar()` and `page_navbar()` default to a [filling layout](../filling), meaning that outputs like `plotOutput()`, `{htmlwidgets}`, etc. are encouraged to grow/shrink to fit the browser window. As a result, when contents have an large intrinsic minimum height (e.g., a long textual description), filling layout may cause cards/outputs to grow/shrink beyond what is desirable. To combat this, consider by a setting a `height` on `card()`s that shouldn't grow/shrink and `min_height`/`max_height` on `card()`s that shouldn't shrink/grow beyond a certain point.
 
 ```{r filling-layout}
 ui <- page_sidebar(
@@ -302,7 +302,7 @@ shinyApp(ui, server)
 
 ### Value boxes
 
-A `value_box()` is a special kind of card designed for highlighting a value along with a title and a `showcase` placeholder (typically a `{bsicons}` icon). They are covered in more detail in the [value boxes](value-boxes.html) article, but here's a `{palmerpenguins}` example:
+A `value_box()` is a special kind of card designed for highlighting a value along with a title and a `showcase` placeholder (typically a `{bsicons}` icon). They are covered in more detail in the [value boxes](../value-boxes) article, but here's a `{palmerpenguins}` example:
 
 ```{r value-boxes, out.height = 900, out.width = 1200}
 means <- colMeans(
@@ -390,7 +390,7 @@ shinyApp(ui, server)
 
 We've already seen how the `sidebar` argument of `page_sidebar()` and `page_navbar()` yields a "page-level" sidebar layout, but they can also be made at the "component-level" via `layout_sidebar()`. This is especially useful for keeping input controls near the outputs they effect in more complex apps. `layout_sidebar()` also works inside of a `card()`, making it easy to add headers, footers, `full_screen` behavior, etc.
 
-To learn more, visit the [cards](cards.html) and [sidebars](sidebars.html) articles.
+To learn more, visit the [cards](../cards) and [sidebars](../sidebars) articles.
 
 ```{r cards-with-sidebars, out.height = 800, out.width = 1200}
 ui <- page_sidebar(
@@ -422,7 +422,7 @@ shinyApp(ui, server)
 
 ## Theming
 
-In the getting started with [theming article](theming.html), you'll learn some general theming strategies that also translate to dashboards. That is, by passing a `bs_theme()` object to the `theme` argument of `page_sidebar()` (or `page_navbar()`), we can add a [Bootswatch](https://bootswatch.com/) theme, easily use [Google Fonts](https://fonts.google.com/), customize 100s of [theming variables](bs5-variables.html), and much more. Keep in mind, however, that `bs_theme()` only customizes CSS styles. So, if you want `plotOutput()`s to match the CSS, consider using the `{thematic}` package to translate the styles to `ggplot2::theme()` settings. When doing so, also be aware that "complete" `{ggplot2}` themes (e.g., `theme_bw()`) only work sensibly when setting them globally (i.e., `theme_set(theme_bw())`).
+In the getting started with [theming article](../theming), you'll learn some general theming strategies that also translate to dashboards. That is, by passing a `bs_theme()` object to the `theme` argument of `page_sidebar()` (or `page_navbar()`), we can add a [Bootswatch](https://bootswatch.com/) theme, easily use [Google Fonts](https://fonts.google.com/), customize 100s of [theming variables](bs5-variables.html), and much more. Keep in mind, however, that `bs_theme()` only customizes CSS styles. So, if you want `plotOutput()`s to match the CSS, consider using the `{thematic}` package to translate the styles to `ggplot2::theme()` settings. When doing so, also be aware that "complete" `{ggplot2}` themes (e.g., `theme_bw()`) only work sensibly when setting them globally (i.e., `theme_set(theme_bw())`).
 
 ```{r theming, delay = 2, out.height=700}
 ui <- page_sidebar(

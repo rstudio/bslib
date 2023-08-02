@@ -154,7 +154,7 @@ layout_column_wrap(
 
 <br>
 
-And, when incorporating multiple value boxes into a larger [filling layout](filling.html), it's good practice to set `fill = FALSE` on the layout container since that'll prevent the boxes from using up more space than they really need. For example, try resizing the following example vertically. Notice how the height of the value boxes don't change, but the height of the plot does (and it isn't allowed to shrink below 200 pixels):
+And, when incorporating multiple value boxes into a larger [filling layout](../filling), it's good practice to set `fill = FALSE` on the layout container since that'll prevent the boxes from using up more space than they really need. For example, try resizing the following example vertically. Notice how the height of the value boxes don't change, but the height of the plot does (and it isn't allowed to shrink below 200 pixels):
 
 ```{r fill-false, as_iframe = TRUE, resizable = TRUE}
 page_fillable(
@@ -182,7 +182,7 @@ Under-the-hood, `value_box()` is implemented using `card()`, mainly to inherit i
 
 Note that, since this example is statically rendered (outside of Shiny), we make use of `htmlwidgets::onRender()` to add some JavaScript that effectively says: "Show the xaxis of the chart when it's taller than 200 pixels; otherwise, hide it".
 
-Those of you who aren't wanting to write JavaScript can achieve similar behavior (i.e., displaying a different chart depending on it's size) via `shiny::getCurrentOutputInfo()`, as mentioned in the [article on cards](cards.html#dynamic-rendering-shiny). In fact, here's the [source code](https://github.com/rstudio/bslib/tree/main/inst/examples/value_box) for a Shiny app does effectively the same thing without any JavaScript (note how it also leverages other `getCurrentOutputInfo()` values to avoid hard coding `"white"` into the colors of the sparklines).
+Those of you who aren't wanting to write JavaScript can achieve similar behavior (i.e., displaying a different chart depending on it's size) via `shiny::getCurrentOutputInfo()`, as mentioned in the [article on cards](../cards#dynamic-rendering-shiny). In fact, here's the [source code](https://github.com/rstudio/bslib/tree/main/inst/examples/value_box) for a Shiny app does effectively the same thing without any JavaScript (note how it also leverages other `getCurrentOutputInfo()` values to avoid hard coding `"white"` into the colors of the sparklines).
 :::
 
 ::: col-md-6

@@ -303,7 +303,7 @@ Hello custom block with custom styles!
 
 ## Utility Classes {#utility-classes}
 
-Utility classes are primarily helpful for styling at the component (rather than the page) level, and is particularly handy for things like spacing, border, colors, and more. See the article on [Utility Classes](utility-classes.html) for some useful examples specific to Shiny and R Markdown.
+Utility classes are primarily helpful for styling at the component (rather than the page) level, and is particularly handy for things like spacing, border, colors, and more. See the article on [Utility Classes](../utility-classes) for some useful examples specific to Shiny and R Markdown.
 
 ## Component support
 
@@ -318,7 +318,7 @@ Below is a list of known-to-be themeable HTML components that "just work" well w
 
 * Some `{htmlwidgets}` like `{DT}` and `{plotly}` (only `ggplotly()` is supported through `{thematic}` right now)
 
-Over time, we're hoping this list grows as package authors and developers embrace `bslib`'s tools for making [themeable custom components](custom-components.html).
+Over time, we're hoping this list grows as package authors and developers embrace `bslib`'s tools for making [themeable custom components](../custom-components).
 
 ## Dynamic theming {#dynamic}
 

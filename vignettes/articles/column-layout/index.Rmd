@@ -17,7 +17,7 @@ source(
 ```{r ref.label="anim_helpers",echo=FALSE}
 ```
 
-This article outlines various layouts made possible by `layout_column_wrap()`. To illustrate, we'll use three `card()` instances with varying content, but keep in mind that `layout_column_wrap()` is designed to work other UI elements as well, such as [value boxes](value-boxes.html) or even for [multiple columns within a card](card.html#multiple-columns).
+This article outlines various layouts made possible by `layout_column_wrap()`. To illustrate, we'll use three `card()` instances with varying content, but keep in mind that `layout_column_wrap()` is designed to work other UI elements as well, such as [value boxes](../value-boxes) or even for [multiple columns within a card](card.html#multiple-columns).
 
 **Note:** The examples in this section are not intended to be viewed on mobile devices. At small window widths, all of the layouts here collapse into a more mobile-friendly approach of "show each card at maximum width".
 

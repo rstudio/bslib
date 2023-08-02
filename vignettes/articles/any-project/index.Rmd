@@ -34,7 +34,7 @@ source(
 ```
 
 
-In addition to providing components for [Shiny dashboards](dashboards.html), `bslib` can also provide the Bootstrap dependency for any compatible R project (e.g., Shiny, R Markdown, crosstalk, etc). When doing so, you not only upgrade the Bootstrap version, but also gain access to `bslib`'s UI components and theming capabilites. In this article, we'll cover how to do this for a handful of important uses cases.
+In addition to providing components for [Shiny dashboards](../dashboards), `bslib` can also provide the Bootstrap dependency for any compatible R project (e.g., Shiny, R Markdown, crosstalk, etc). When doing so, you not only upgrade the Bootstrap version, but also gain access to `bslib`'s UI components and theming capabilites. In this article, we'll cover how to do this for a handful of important uses cases.
 
 ## Shiny
 
@@ -51,9 +51,9 @@ ui <- page_fluid(
 shinyApp(ui, function(...) {})
 ```
 
-In addition, some of `bslib`'s `page_*()` functions provide other new capabilities. Most importantly, as we cover in [Shiny dashboards](dashboards.html), `page_navbar()` and  `page_sidebar()` provide deep integration with sidebar layouts, filling layouts, navbar customizations, theming, and more.
+In addition, some of `bslib`'s `page_*()` functions provide other new capabilities. Most importantly, as we cover in [Shiny dashboards](../dashboards), `page_navbar()` and  `page_sidebar()` provide deep integration with sidebar layouts, filling layouts, navbar customizations, theming, and more.
 
-Another new and important `page_*()` function is `page_fillable()`. This function provides a new approach to filling layouts and forms a foundation for higher-level abstractions such as `page_sidebar()` and `page_navbar()`. See [filling layouts](filling.html) (especially the [In Practice](filling.html#in-practice) section) to learn more about `page_fillable()`.
+Another new and important `page_*()` function is `page_fillable()`. This function provides a new approach to filling layouts and forms a foundation for higher-level abstractions such as `page_sidebar()` and `page_navbar()`. See [filling layouts](../filling) (especially the [In Practice](../filling#in-practice) section) to learn more about `page_fillable()`.
 
 
 ## Without Shiny
@@ -103,7 +103,7 @@ page_fillable(
 ## R Markdown
 
 Use the `theme` parameter of a compatible output format[^output-format] to get started in R Markdown.
-By supplying `bslib: true` to that parameter, you'll get the latest "stock" version of Bootstrap (akin to using `page_*()` in Shiny). Alternatively, you can supply `bs_theme()` parameters to the `theme` parameter to specify the Bootstrap version, add a Bootswatch theme, and customize theming colors ([Getting Started with Theming](theming.html) covers this in more depth).
+By supplying `bslib: true` to that parameter, you'll get the latest "stock" version of Bootstrap (akin to using `page_*()` in Shiny). Alternatively, you can supply `bs_theme()` parameters to the `theme` parameter to specify the Bootstrap version, add a Bootswatch theme, and customize theming colors ([Getting Started with Theming](../theming) covers this in more depth).
 
 [^output-format]: In theory, any format that passes it's `theme` parameter to `rmarkdown::html_document_base()` is compatible with `bslib`.
 However, in practice, the format may not be compatible with modern versions of Bootstrap.

@@ -32,41 +32,41 @@ navbar:
       text: Get Started
       menu:
         - text: Shiny dashboards
-          href: articles/dashboards.html
+          href: articles/dashboards/index.html
         - text: Any Bootstrap project
-          href: articles/any-project.html
+          href: articles/any-project/index.html
         - text: Theming
-          href: articles/theming.html
+          href: articles/theming/index.html
     #examples:
     #  text: Examples
-    #  href: articles/examples.html
+    #  href: articles/examples/index.html
     theming:
       text: Theming
       menu:
         - text: Theming variables
-          href: articles/bs5-variables.html
+          href: articles/bs5-variables/index.html
         - text: Utility Classes
-          href: articles/utility-classes.html
+          href: articles/utility-classes/index.html
         - text: Custom components
-          href: articles/custom-components.html
+          href: articles/custom-components/index.html
     components:
       text: Components
       menu:
         - text: Cards
-          href: articles/cards.html
+          href: articles/cards/index.html
         - text: Sidebars
-          href: articles/sidebars.html
+          href: articles/sidebars/index.html
         - text: Value Boxes
-          href: articles/value-boxes.html
+          href: articles/value-boxes/index.html
     layouts:
       text: Layouts
       menu:
         - text: Multiple columns
-          href: articles/column-layout.html
+          href: articles/column-layout/index.html
         - text: Multiple panels
           href: https://rstudio.github.io/bslib/reference/navset.html#details
         - text: Filling layout
-          href: articles/filling.html
+          href: articles/filling/index.html
 
 
     reference:
@@ -180,19 +180,19 @@ reference:
   redirects:
     - ["reference/nav.html", "reference/nav-items.html"]
     - ["reference/navs.html", "reference/navset.html"]
-    - ["articles/custom-theming.html", "articles/theming.html"]
-    - ["articles/bslib.html", "articles/any-project/index.html"]
-    - ["articles/any-project.html", "articles/any-project/index.html"]
-    - ["articles/bs4-variables.html", "articles/bs4-variables/index.html"]
-    - ["articles/bs5-variables.html", "articles/bs5-variables/index.html"]
-    - ["articles/cards.html", "articles/cards/index.html"]
-    - ["articles/column-layout.html", "articles/column-layout/index.html"]
-    - ["articles/custom-components.html", "articles/custom-components/index.html"]
-    - ["articles/dashboards.html", "articles/dashboards/index.html"]
-    - ["articles/filling.html", "articles/filling/index.html"]
-    - ["articles/sidebars.html", "articles/sidebars/index.html"]
-    - ["articles/theming.html", "articles/theming/index.html"]
-    - ["articles/utility-classes.html", "articles/utility-classes/index.html"]
-    - ["articles/value-boxes.html", "articles/value-boxes/index.html"]
-    - ["articles/why-sass.html", "articles/why-sass/index.html"]
+    - ["articles/custom-theming.html", "articles/theming/index.html"]
+    - ["articles/bslib.html", "articles/any-project/index/index.html"]
+    - ["articles/any-project.html", "articles/any-project/index/index.html"]
+    - ["articles/bs4-variables.html", "articles/bs4-variables/index/index.html"]
+    - ["articles/bs5-variables.html", "articles/bs5-variables/index/index.html"]
+    - ["articles/cards.html", "articles/cards/index/index.html"]
+    - ["articles/column-layout.html", "articles/column-layout/index/index.html"]
+    - ["articles/custom-components.html", "articles/custom-components/index/index.html"]
+    - ["articles/dashboards.html", "articles/dashboards/index/index.html"]
+    - ["articles/filling.html", "articles/filling/index/index.html"]
+    - ["articles/sidebars.html", "articles/sidebars/index/index.html"]
+    - ["articles/theming.html", "articles/theming/index/index.html"]
+    - ["articles/utility-classes.html", "articles/utility-classes/index/index.html"]
+    - ["articles/value-boxes.html", "articles/value-boxes/index/index.html"]
+    - ["articles/why-sass.html", "articles/why-sass/index/index.html"]
 
