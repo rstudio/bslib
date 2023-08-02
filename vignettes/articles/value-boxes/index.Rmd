@@ -7,7 +7,7 @@ resource_files:
 
 ```{r setup, include=FALSE}
 source(
-  rprojroot::find_package_root_file("vignettes/common.R")
+  rprojroot::find_package_root_file("vignettes/articles/_common.R")
 )
 ```
 
@@ -35,7 +35,7 @@ A `value_box()` has 4 main parts:
 
 1. `value`: Some text value.
 2. `title`: Optional text to display above `value`.
-3. `showcase`: Optional UI element(s) to display alongside the value. 
+3. `showcase`: Optional UI element(s) to display alongside the value.
 4. `...`: Any other text/UI elements to appear below `value`.
 
 As we'll see later, one can be clever with what goes in the `showcase`, but in many cases an icon provides enough visual context for the box to feel "complete". We recommend using the new `{bsicons}` package since it's designed with Bootstrap in mind, but you could also use `{fontawesome}` or `{icons}`.
@@ -59,7 +59,7 @@ By default, the `showcase` is displayed to the left of the `value`, but it can a
   <div class="tab-pane show active" id="left-center" role="tabpanel" tabindex="0">
 ```{r}
 value_box(
-  title = "I got", 
+  title = "I got",
   value = "99 problems",
   showcase = bs_icon("music-note-beamed"),
   p("bslib ain't one", bs_icon("emoji-smile")),
@@ -70,7 +70,7 @@ value_box(
   <div class="tab-pane" id="top-right" role="tabpanel" tabindex="0">
 ```{r}
 value_box(
-  title = "I got", 
+  title = "I got",
   value = "99 problems",
   showcase = bs_icon("music-note-beamed"),
   showcase_layout = showcase_top_right(),
@@ -124,20 +124,20 @@ To layout multiple value boxes, it's recommended to use `layout_column_wrap()` (
 ```{r}
 vbs <- list(
   value_box(
-    title = "1st value", 
+    title = "1st value",
     value = "123",
     showcase = bs_icon("bar-chart"),
     p("The 1st detail")
   ),
   value_box(
-    title = "2nd value", 
+    title = "2nd value",
     value = "456",
     showcase = bs_icon("graph-up"),
     p("The 2nd detail"),
     p("The 3rd detail")
   ),
   value_box(
-    title = "3rd value", 
+    title = "3rd value",
     value = "789",
     showcase = bs_icon("pie-chart"),
     p("The 4th detail"),
@@ -156,7 +156,7 @@ layout_column_wrap(
 
 And, when incorporating multiple value boxes into a larger [filling layout](filling.html), it's good practice to set `fill = FALSE` on the layout container since that'll prevent the boxes from using up more space than they really need. For example, try resizing the following example vertically. Notice how the height of the value boxes don't change, but the height of the plot does (and it isn't allowed to shrink below 200 pixels):
 
-```{r, as_iframe = TRUE, resizable = TRUE}
+```{r fill-false, as_iframe = TRUE, resizable = TRUE}
 page_fillable(
   layout_column_wrap(
     width = "250px",
@@ -178,9 +178,9 @@ page_fillable(
 
 ::: row
 ::: col-md-6
-Under-the-hood, `value_box()` is implemented using `card()`, mainly to inherit it's `full_screen` capabilities. Expanding a `value_box()` to full screen isn't so useful when the `showcase` is something simple like an icon, but it becomes quite compelling for something like an "expandable [sparkline](https://en.wikipedia.org/wiki/Sparkline)". The code to the right demonstrates one way you might go about that with plotly. 
+Under-the-hood, `value_box()` is implemented using `card()`, mainly to inherit it's `full_screen` capabilities. Expanding a `value_box()` to full screen isn't so useful when the `showcase` is something simple like an icon, but it becomes quite compelling for something like an "expandable [sparkline](https://en.wikipedia.org/wiki/Sparkline)". The code to the right demonstrates one way you might go about that with plotly.
 
-Note that, since this example is statically rendered (outside of Shiny), we make use of `htmlwidgets::onRender()` to add some JavaScript that effectively says: "Show the xaxis of the chart when it's taller than 200 pixels; otherwise, hide it". 
+Note that, since this example is statically rendered (outside of Shiny), we make use of `htmlwidgets::onRender()` to add some JavaScript that effectively says: "Show the xaxis of the chart when it's taller than 200 pixels; otherwise, hide it".
 
 Those of you who aren't wanting to write JavaScript can achieve similar behavior (i.e., displaying a different chart depending on it's size) via `shiny::getCurrentOutputInfo()`, as mentioned in the [article on cards](cards.html#dynamic-rendering-shiny). In fact, here's the [source code](https://github.com/rstudio/bslib/tree/main/inst/examples/value_box) for a Shiny app does effectively the same thing without any JavaScript (note how it also leverages other `getCurrentOutputInfo()` values to avoid hard coding `"white"` into the colors of the sparklines).
 :::

@@ -1,5 +1,5 @@
 ---
-title: "Bootstrap 4 variables"
+title: "Bootstrap 5 variables"
 output: html_document
 ---
 
@@ -7,18 +7,18 @@ output: html_document
 
 ```{r setup, include = FALSE}
 source(
-  rprojroot::find_package_root_file("vignettes/variables-table/variables-table.R")
+  rprojroot::find_package_root_file("vignettes/articles/_variables-table/variables-table.R")
 )
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  echo = FALSE, 
+  echo = FALSE,
   message = FALSE
 )
 variables_html_deps()
 ```
 
-Below is a search-able table of Bootstrap 4 Sass variables. If you aren't sure what a Sass variable is or how to use them, see this [Get Started article](theming.html). A few things to keep in mind when using this table:
+Below is a search-able table of Bootstrap 5 Sass variables. If you aren't sure what a Sass variable is or how to use them, see this [Get Started article](theming.html). A few things to keep in mind when using this table:
 
 * Each row represents a different Sass variable, showing its name and default value.
     * For Sass variables whose value defaults to another Sass variable (e.g., [`border-color`](#border-color)), you may hover over the value to get the (default) CSS value that it represents.
@@ -28,5 +28,5 @@ Below is a search-able table of Bootstrap 4 Sass variables. If you aren't sure w
     * `bs_theme()`'s `bg` and `fg` arguments provide a more convenient way to set the `white`, `gray-*`, and `black` variables, so there is no need to set these Sass variables directly (same goes for `base_font` -> `$font-family-base`, `heading_font` -> `$headings-font-family`, and `code_font` -> `$font-family-monospace`).
 
 ```{r}
-variables_dt(4)
+variables_dt(5)
 ```

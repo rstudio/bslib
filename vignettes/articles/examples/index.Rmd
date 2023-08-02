@@ -6,7 +6,7 @@ title: "Examples"
 # TODO: should probably bring in the iframe stuff to common
 # (but be careful about difference between articles!)
 source(
-  rprojroot::find_package_root_file("vignettes/common.R")
+  rprojroot::find_package_root_file("vignettes/articles/_common.R")
 )
 knitr::opts_chunk$set(
   message = FALSE,
@@ -67,6 +67,6 @@ Coming soon
 
 ### Shared sidebar
 
-### 
+###
 
-### 
+###

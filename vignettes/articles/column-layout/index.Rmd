@@ -4,7 +4,7 @@ title: "Column-based layout"
 
 ```{r setup, include=FALSE}
 source(
-  rprojroot::find_package_root_file("vignettes/common.R")
+  rprojroot::find_package_root_file("vignettes/articles/_common.R")
 )
 ```
 
@@ -58,7 +58,7 @@ For a fixed number of columns, provide `width = 1/n`, where `n` is the number of
 
 ```{r}
 layout_column_wrap(
-  width = 1/2, height = 300, 
+  width = 1/2, height = 300,
   card1, card2, card3
 ) |>
   anim_width("100%", "67%")
@@ -68,11 +68,11 @@ One potential issue with a fixed number of columns is that, on medium sized scre
 
 #### Responsive number of columns
 
-For a responsive number of columns (i.e., the number of columns depends on the window size), provide `width` with any valid CSS unit, like 200 pixels. In our case (with three cards), the 3rd card gets wrapped onto a new line when the viewport is less than 600 pixels, but on wider screens, the cards equally distribute the free space. 
+For a responsive number of columns (i.e., the number of columns depends on the window size), provide `width` with any valid CSS unit, like 200 pixels. In our case (with three cards), the 3rd card gets wrapped onto a new line when the viewport is less than 600 pixels, but on wider screens, the cards equally distribute the free space.
 
 ```{r}
 layout_column_wrap(
-  width = "200px", height = 300, 
+  width = "200px", height = 300,
   card1, card2, card3
 ) |>
   anim_width("100%", "67%")
@@ -85,7 +85,7 @@ To keep the `width` of each column fixed (don't allow cards to grow to take up f
 
 ```{r}
 layout_column_wrap(
-  width = "200px", height = 300, 
+  width = "200px", height = 300,
   fixed_width = TRUE,
   card1, card2, card3
 ) |>
@@ -112,20 +112,20 @@ layout_column_wrap(
 
 #### By cell
 
-By default, each the height on each card grows to fill the available vertical space in a particular row. This can be prevented  
+By default, each the height on each card grows to fill the available vertical space in a particular row. This can be prevented
 
 ```{r}
 layout_column_wrap(
-  width = "200px", 
+  width = "200px",
   #heights_equal = "row",
   fillable = FALSE,
   card1, card3, card2
-) |> 
+) |>
   anim_height(300, 450)
 ```
 
 
-### Varying widths 
+### Varying widths
 
 Set `width` to `NULL` and provide a custom [`grid-template-columns` property](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns) (and possibly other [CSS grid properties](https://css-tricks.com/snippets/css/complete-guide-grid/)) to accomplish more complex layouts, like varying column widths. This particular layout gives the 1st and 3rd card twice as much space as the 2nd:
 
@@ -144,11 +144,11 @@ More complex layouts can be achieved by leveraging the fact that `layout_column_
 
 ```{r}
 layout_column_wrap(
-  width = 1/2, 
+  width = 1/2,
   height = 300,
   card1,
   layout_column_wrap(
-    width = 1, 
+    width = 1,
     heights_equal = "row",
     card2, card3
   )

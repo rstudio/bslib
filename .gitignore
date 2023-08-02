@@ -19,6 +19,8 @@ inst/yarn.lock
 
 inst/rmarkdown/templates/*/skeleton/skeleton.html
 
-vignettes/*.html
+vignettes/articles/*/*.html
 # rendered examples that appear in iframes
-vignettes/examples
+vignettes/**/examples
+!vignettes/articles/examples
+

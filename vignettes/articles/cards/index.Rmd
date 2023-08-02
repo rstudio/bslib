@@ -6,7 +6,7 @@ resource_files:
 
 ```{r setup, include=FALSE}
 source(
-  rprojroot::find_package_root_file("vignettes/common.R")
+  rprojroot::find_package_root_file("vignettes/articles/_common.R")
 )
 ```
 

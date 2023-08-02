@@ -178,11 +178,21 @@ reference:
 
 
   redirects:
-    - ["articles/cards.html#fixed-sizing", "articles/cards.html#scrolling-contents"]
-    - ["articles/cards.html#responsive-sizing", "articles/cards.html#filling-contents"]
-    - ["articles/cards.html#fixed-responsive-sizing", "articles/cards.html#scrolling-filling"]
-    - ["articles/cards.html#dynamic-rendering-shiny", "articles/cards.html#shiny"]
     - ["reference/nav.html", "reference/nav-items.html"]
     - ["reference/navs.html", "reference/navset.html"]
     - ["articles/custom-theming.html", "articles/theming.html"]
-    - ["articles/bslib.html", "articles/any-project.html"]
+    - ["articles/bslib.html", "articles/any-project/index.html"]
+    - ["articles/any-project.html", "articles/any-project/index.html"]
+    - ["articles/bs4-variables.html", "articles/bs4-variables/index.html"]
+    - ["articles/bs5-variables.html", "articles/bs5-variables/index.html"]
+    - ["articles/cards.html", "articles/cards/index.html"]
+    - ["articles/column-layout.html", "articles/column-layout/index.html"]
+    - ["articles/custom-components.html", "articles/custom-components/index.html"]
+    - ["articles/dashboards.html", "articles/dashboards/index.html"]
+    - ["articles/filling.html", "articles/filling/index.html"]
+    - ["articles/sidebars.html", "articles/sidebars/index.html"]
+    - ["articles/theming.html", "articles/theming/index.html"]
+    - ["articles/utility-classes.html", "articles/utility-classes/index.html"]
+    - ["articles/value-boxes.html", "articles/value-boxes/index.html"]
+    - ["articles/why-sass.html", "articles/why-sass/index.html"]
+

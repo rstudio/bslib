@@ -4,7 +4,7 @@ title: "Theming"
 
 ```{r, include=FALSE}
 source(
-  rprojroot::find_package_root_file("vignettes/common.R")
+  rprojroot::find_package_root_file("vignettes/articles/_common.R")
 )
 knitr::opts_chunk$set(
   out.width = "100%",
@@ -106,7 +106,7 @@ output:
 </div>
 
 ```{r, echo = FALSE}
-knitr::include_graphics("images/bootswatch.png")
+knitr::include_graphics("bootswatch.png")
 ```
 
 ## Main colors & fonts {#main-colors}
@@ -119,9 +119,9 @@ knitr::include_graphics("images/bootswatch.png")
 page_sidebar(
   title = "My app",
   bs_theme(
-    bg = "#101010", 
-    fg = "#FFF", 
-    primary = "#E69F00", 
+    bg = "#101010",
+    fg = "#FFF",
+    primary = "#E69F00",
     secondary = "#0072B2",
     success = "#009E73",
     base_font = font_google("Inter"),
@@ -151,7 +151,7 @@ output:
 :::
 
 ```{r, echo = FALSE}
-knitr::include_graphics("images/custom-dark-mode.png")
+knitr::include_graphics("custom-dark-mode.png")
 ```
 
 Among all the coloring options in `bs_theme()`, `bg`, `fg`, and `primary` are by far the most influential as they effect nearly every color on the page. In fact, `bg` and `fg` alone impact 100s of defaults --- everything from text color, `card()`s, `accordion()`s, and much more. The accent colors don't impact nearly as much, but `primary` does control the color for some important things like hyperlinks, `navset_pill()` links, accent/focus colors for inputs, and more. That being said, other accent colors can be handy for customizing things like `shiny::actionButton()` (defaults to the `secondary` color), `shiny::showNotification()` , or more generally any HTML content that leverages [Color Utility Classes](https://getbootstrap.com/docs/5.0/utilities/colors/).
@@ -178,7 +178,7 @@ When choosing fonts, keep in mind that it's generally good practice to put serif
 ```r
 # Shiny example
 bs_theme(
-  bg = "#002B36", fg = "#EEE8D5", 
+  bg = "#002B36", fg = "#EEE8D5",
   "progress-bar-bg" = "orange"
 )
 ```
@@ -189,7 +189,7 @@ bs_theme(
 output:
   html_document:
     theme:
-      bg: "#002B36" 
+      bg: "#002B36"
       fg: "#EEE8D5"
       progress-bar-bg: "orange"
 ---
@@ -200,7 +200,7 @@ output:
 knitr::include_graphics("progress-orange.png")
 ```
 
-In addition to CSS values (e.g., `"orange"`), a variable can be any valid [Sass expression](https://sass-lang.com/documentation/variables), which is quite useful for leveraging Sass' built-in module's (e.g., [`mix()` for mixing colors](https://sass-lang.com/documentation/modules/color#mix)) 
+In addition to CSS values (e.g., `"orange"`), a variable can be any valid [Sass expression](https://sass-lang.com/documentation/variables), which is quite useful for leveraging Sass' built-in module's (e.g., [`mix()` for mixing colors](https://sass-lang.com/documentation/modules/color#mix))
 
 ```r
 bs_theme("progress-bar-bg" = "mix(white, orange, 20%)")
@@ -235,7 +235,7 @@ Thankfully `bs_add_variables()` provides a workaround. By default, `bs_add_varia
 ```r
 bs_theme()  |>
   bs_add_variables(
-    "progress-bar-bg" = "$secondary", 
+    "progress-bar-bg" = "$secondary",
     .where = "declarations"
   )
 #> @import "scss/_variables.scss";
@@ -268,7 +268,7 @@ bs_theme(
       sass::sass_file("nes.min.css"),
       sass::sass_file("custom.scss"),
       "body { background-color: $body-bg; }"
-    ) 
+    )
   )
 ```
 
@@ -282,7 +282,7 @@ In the R Markdown case, it's recommended that additional CSS (or Sass) rules com
 ---
 output:
   html_document:
-    theme: 
+    theme:
       bslib: true
     css: my-rules.scss
 ---
@@ -309,9 +309,9 @@ Utility classes are primarily helpful for styling at the component (rather than 
 
 Below is a list of known-to-be themeable HTML components that "just work" well with custom real-time themes:
 
-* All of "core" Shiny UI (e.g., `sliderInput()`, `selectInput()`, etc.) 
+* All of "core" Shiny UI (e.g., `sliderInput()`, `selectInput()`, etc.)
   * The one exception is `plotOutput()`, but in that case, [the `{thematic}` package can be used to essentially translate CSS to R plot theming defaults](https://rstudio.github.io/thematic/articles/auto.html). Just put `thematic_shiny()` in your Shiny apps and `thematic_rmd()` in your R Markdown documents.
-  
+
 * All of `rmarkdown::html_document()` specific [features](https://bookdown.org/yihui/rmarkdown/html-document.html) as well as [`{flexdashboard}`](https://flexdashboard-pkg.netlify.app/articles/theme.html).
 
 * Any un-styled HTML content (e.g., `tags$input(type = "checkbox")`).
@@ -328,7 +328,7 @@ The functionality behind [real-time](#real-time) theming can be leveraged in any
 light <- bs_theme()
 dark <- bs_theme(bg = "black", fg = "white", primary = "purple")
 ui <- fluidPage(
-  theme = light, 
+  theme = light,
   checkboxInput("dark_mode", "Dark mode")
 )
 server <- function(input, output, session) {
