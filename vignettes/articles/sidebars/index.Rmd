@@ -608,7 +608,7 @@ Both functions also include a `class` argument that works well with [Bootstrap u
 
 Be aware that in `layout_sidebar()`, `bg`, `class` and `style` attributes are applied to the main content area's container and _not_ the overall layout container.
 To add additional classes to the layout container, use `htmltools::tagAppendAttributes()`.
-Also note that `layout_sidebar()` derives some of it's default style from Bootstrap CSS variables (e.g., `--bs-card-border-color`), which enables theming at the component-level ([theming via `bs_theme()`](bs5-variables.html) works on the page-level).
+Also note that `layout_sidebar()` derives some of it's default style from Bootstrap CSS variables (e.g., `--bs-card-border-color`), which enables theming at the component-level ([theming via `bs_theme()`](../bs5-variables) works on the page-level).
 
 The following example combines all of these concepts to create sidebar with a dark background.
 Utility classes are used to make the sidebar text monospace and bold, and we used `tagAppendAttributes()` to tweak the border color of the sidebar layout to match the sidebar background.

@@ -172,7 +172,7 @@ When choosing fonts, keep in mind that it's generally good practice to put serif
 
 ## Theming variables
 
-`bs_theme()` also provides access to 100s of more specific [theming options](bs5-variables.html) by considering anything passed through it's `...` argument to be a new [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults). This allows you to get more targetted with your theming; for example, let's set the [`$progress-bar-bg`](bs5-variables.html#progress-bar-bg) Sass variable to `'orange'` (a CSS color).
+`bs_theme()` also provides access to 100s of more specific [theming options](../bs5-variables) by considering anything passed through it's `...` argument to be a new [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults). This allows you to get more targetted with your theming; for example, let's set the [`$progress-bar-bg`](../bs5-variables#progress-bar-bg) Sass variable to `'orange'` (a CSS color).
 
 <div class="usage">
 ```r
@@ -209,7 +209,7 @@ bs_theme("progress-bar-bg" = "mix(white, orange, 20%)")
 ```
 
 
-Underneath the hood, `bs_theme()` works by placing [Sass variable defaults](https://sass-lang.com/documentation/variables#default-values) _before_ Bootstrap's variable defaults. That's why something like `bs_theme(primary = "red")` "just works" in the sense that it not only provides `$primary` with a new default value, but it also passes the value to other variables that default to `$primary` (e.g. [`$progress-bar-bg`](bs5-variables.html#progress-bar-bg)).
+Underneath the hood, `bs_theme()` works by placing [Sass variable defaults](https://sass-lang.com/documentation/variables#default-values) _before_ Bootstrap's variable defaults. That's why something like `bs_theme(primary = "red")` "just works" in the sense that it not only provides `$primary` with a new default value, but it also passes the value to other variables that default to `$primary` (e.g. [`$progress-bar-bg`](../bs5-variables#progress-bar-bg)).
 
 ```r
 # Reduced version of the Sass code behind `bs_theme(primary = "red")`

@@ -422,7 +422,7 @@ shinyApp(ui, server)
 
 ## Theming
 
-In the getting started with [theming article](../theming), you'll learn some general theming strategies that also translate to dashboards. That is, by passing a `bs_theme()` object to the `theme` argument of `page_sidebar()` (or `page_navbar()`), we can add a [Bootswatch](https://bootswatch.com/) theme, easily use [Google Fonts](https://fonts.google.com/), customize 100s of [theming variables](bs5-variables.html), and much more. Keep in mind, however, that `bs_theme()` only customizes CSS styles. So, if you want `plotOutput()`s to match the CSS, consider using the `{thematic}` package to translate the styles to `ggplot2::theme()` settings. When doing so, also be aware that "complete" `{ggplot2}` themes (e.g., `theme_bw()`) only work sensibly when setting them globally (i.e., `theme_set(theme_bw())`).
+In the getting started with [theming article](../theming), you'll learn some general theming strategies that also translate to dashboards. That is, by passing a `bs_theme()` object to the `theme` argument of `page_sidebar()` (or `page_navbar()`), we can add a [Bootswatch](https://bootswatch.com/) theme, easily use [Google Fonts](https://fonts.google.com/), customize 100s of [theming variables](../bs5-variables), and much more. Keep in mind, however, that `bs_theme()` only customizes CSS styles. So, if you want `plotOutput()`s to match the CSS, consider using the `{thematic}` package to translate the styles to `ggplot2::theme()` settings. When doing so, also be aware that "complete" `{ggplot2}` themes (e.g., `theme_bw()`) only work sensibly when setting them globally (i.e., `theme_set(theme_bw())`).
 
 ```{r theming, delay = 2, out.height=700}
 ui <- page_sidebar(
