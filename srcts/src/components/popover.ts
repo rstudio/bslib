@@ -104,7 +104,8 @@ export class BslibPopover extends BslibElement {
     return (
       trigger.tagName === "A" &&
       trigger.hasAttribute("href") &&
-      trigger.getAttribute("href") !== "#"
+      trigger.getAttribute("href") !== "#" &&
+      trigger.getAttribute("href") !== "javascript:void(0)"
     );
   }
 
@@ -125,16 +126,6 @@ export class BslibPopover extends BslibElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    // The user-supplied content & header are both wrapped up into an additional
-    // <div> (this guarantees that we can pass an _Element_ to
-    // bootstrap.Popover(), which moves the content/header from within this
-    // component to the popover's location). These inline styles are here
-    // to prevent any styling suprises caused by the wrapping <div>.
-    if (this.content) this.content.style.display = "contents";
-    if (this.header instanceof HTMLElement) {
-      this.header.style.display = "contents";
-    }
-
     // Append the close button
     if (this.content) {
       render(this._closeButton(this.header), this.content);
@@ -143,7 +134,6 @@ export class BslibPopover extends BslibElement {
     // Create the popover (and make sure it's focusable)
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "popover");
-    this.bsPopover = new bsPopover(trigger, this.options);
 
     if (this.isButtonLike) {
       trigger.setAttribute("role", "button");
@@ -159,6 +149,8 @@ export class BslibPopover extends BslibElement {
       }
       trigger.style.cursor = "pointer";
     }
+
+    this.bsPopover = new bsPopover(trigger, this.options);
 
     trigger.addEventListener("shown.bs.popover", this._onShown);
     trigger.addEventListener("hidden.bs.popover", this._onHidden);
@@ -424,8 +416,8 @@ function hasHeader(header: HTMLElement | undefined): boolean {
 }
 
 function createContentElement(html: string): HTMLElement {
-  const div = document.createElement("div");
-  div.style.display = "contents";
-  div.innerHTML = html;
-  return div;
+  const el = document.createElement("span");
+  el.style.display = "contents";
+  el.innerHTML = html;
+  return el;
 }

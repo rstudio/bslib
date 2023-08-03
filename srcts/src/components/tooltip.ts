@@ -128,11 +128,11 @@ export class BslibTooltip extends BslibElement {
     // If outputs happen to be in the tooltip, make sure they sized correctly
     BslibTooltip.shinyResizeObserver.observe(tip);
 
-    // The user-supplied content is wrapped up in to an additional <div> (this
+    // The user-supplied content is wrapped up in to an additional <span> (this
     // guarantees that we can pass an _Element_ to bootstrap.Tooltip(), which
     // moves the content from within this component to the tooltip's location).
     // These inline styles are here to prevent any styling suprises caused by
-    // the wrapping <div>.
+    // the wrapping <span>.
     const content = tip.querySelector(".tooltip-inner")?.firstChild;
     if (content instanceof HTMLElement) {
       content.style.display = "contents";

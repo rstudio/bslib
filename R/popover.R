@@ -110,13 +110,13 @@ popover <- function(
     placement = rlang::arg_match(placement),
     bsOptions = to_json(options),
     !!!attribs,
-    # Use display:none instead of <template> since shiny.js
-    # doesn't bind to the contents of the latter
-    web_component(
-      "bslib-element",
+    # This `display:none` becomes `display:contents` when shown.
+    # Also, use span over div to ensure these children are 
+    # always available as children (inside a p tag, for example)
+    span( 
       style = "display:none;",
-      span(!!!children),
-      span(title)
+      span(!!!children, style = "display:contents;"),
+      span(title, style = "display:contents;")
     ),
     trigger
   )
