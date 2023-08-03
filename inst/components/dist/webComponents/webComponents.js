@@ -746,6 +746,16 @@
       { once: true }
     );
   }
+  function createWrapperElement(html, display) {
+    const wrapper = document.createElement("div");
+    wrapper.style.display = display;
+    if (html instanceof DocumentFragment) {
+      wrapper.append(html);
+    } else {
+      wrapper.innerHTML = html;
+    }
+    return wrapper;
+  }
 
   // srcts/src/components/_shinyResizeObserver.ts
   var ShinyResizeObserver = class {
@@ -899,6 +909,9 @@
     }
     connectedCallback() {
       super.connectedCallback();
+      const template = this.querySelector("template");
+      this.prepend(createWrapperElement(template.content, "none"));
+      template.remove();
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "tooltip");
       trigger.setAttribute("tabindex", "0");
@@ -1107,6 +1120,9 @@
     }
     connectedCallback() {
       super.connectedCallback();
+      const template = this.querySelector("template");
+      this.prepend(createWrapperElement(template.content, "none"));
+      template.remove();
       if (this.content) {
         D(this._closeButton(this.header), this.content);
       }
@@ -1278,7 +1294,7 @@
       const getOrCreateElement = (x2, fallback, selector) => {
         var _a;
         if (x2)
-          return createContentElement(x2.html);
+          return createWrapperElement(x2.html, "contents");
         if (fallback)
           return fallback;
         return (_a = this.bsPopover.tip) == null ? void 0 : _a.querySelector(selector);
@@ -1355,12 +1371,6 @@
   ], BslibPopover.prototype, "bsOptions", 2);
   function hasHeader(header) {
     return !!header && header.childNodes.length > 0;
-  }
-  function createContentElement(html) {
-    const el = document.createElement("span");
-    el.style.display = "contents";
-    el.innerHTML = html;
-    return el;
   }
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
