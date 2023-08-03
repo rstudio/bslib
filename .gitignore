@@ -22,5 +22,4 @@ inst/rmarkdown/templates/*/skeleton/skeleton.html
 vignettes/articles/*/*.html
 # rendered examples that appear in iframes
 vignettes/**/examples
-!vignettes/articles/examples
-
+!vignettes/examples
