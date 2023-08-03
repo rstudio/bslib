@@ -1,6 +1,6 @@
 import { nothing, html, render } from "lit";
 import { property } from "lit/decorators.js";
-import { BslibElement } from "./webcomponents/bslibElement";
+import { BslibElement } from "./webcomponents/_bslibElement";
 import {
   createWrapperElement,
   getOrCreateTriggerEl,

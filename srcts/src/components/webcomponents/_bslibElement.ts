@@ -2,7 +2,6 @@ import { LitElement, css, html } from "lit";
 import type { CSSResult, CSSResultArray } from "lit";
 
 export class BslibElement extends LitElement {
-  static tagName = "bslib-element";
   static isShinyInput = false;
   static styles: CSSResult | CSSResultArray = css`
     :host {
