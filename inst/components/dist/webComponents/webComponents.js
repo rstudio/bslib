@@ -659,7 +659,7 @@
   null == n6 || n6({ LitElement: s4 });
   (null !== (o5 = globalThis.litElementVersions) && void 0 !== o5 ? o5 : globalThis.litElementVersions = []).push("3.3.2");
 
-  // srcts/src/components/webcomponents/bslibElement.ts
+  // srcts/src/components/webcomponents/_bslibElement.ts
   var BslibElement = class extends s4 {
     connectedCallback() {
       this.maybeCarryFill();
@@ -690,7 +690,6 @@
       return inContainer && hasFillItem;
     }
   };
-  BslibElement.tagName = "bslib-element";
   BslibElement.isShinyInput = false;
   BslibElement.styles = i2`
     :host {
@@ -1411,7 +1410,7 @@
   }
 
   // srcts/src/components/webComponents.ts
-  [BslibTooltip, BslibPopover, BslibElement].forEach((cls) => {
+  [BslibTooltip, BslibPopover].forEach((cls) => {
     customElements.define(cls.tagName, cls);
     if (cls.isShinyInput)
       makeInputBinding(cls.tagName);
