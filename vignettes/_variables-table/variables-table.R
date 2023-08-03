@@ -28,7 +28,7 @@ variables_html_deps <- function() {
     htmlDependency(
       name = "variables-table",
       version = packageVersion("bslib"),
-      src = find_package_root_file("vignettes/variables-table"),
+      src = find_package_root_file("vignettes/_variables-table"),
       stylesheet = "variables-table.css",
       script = "variables-table.js",
       head = format(tagList(

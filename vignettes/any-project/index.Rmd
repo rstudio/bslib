@@ -1,12 +1,12 @@
 ---
 title: "Any project"
 resource_files:
-  - examples/any-project
+  - examples
 ---
 
 ```{r setup, include=FALSE}
 source(
-  rprojroot::find_package_root_file("vignettes/common.R")
+  rprojroot::find_package_root_file("vignettes/_common.R")
 )
 ```
 
@@ -34,7 +34,7 @@ source(
 ```
 
 
-In addition to providing components for [Shiny dashboards](dashboards.html), `bslib` can also provide the Bootstrap dependency for any compatible R project (e.g., Shiny, R Markdown, crosstalk, etc). When doing so, you not only upgrade the Bootstrap version, but also gain access to `bslib`'s UI components and theming capabilites. In this article, we'll cover how to do this for a handful of important uses cases.
+In addition to providing components for [Shiny dashboards](../dashboards), `bslib` can also provide the Bootstrap dependency for any compatible R project (e.g., Shiny, R Markdown, crosstalk, etc). When doing so, you not only upgrade the Bootstrap version, but also gain access to `bslib`'s UI components and theming capabilites. In this article, we'll cover how to do this for a handful of important uses cases.
 
 ## Shiny
 
@@ -51,16 +51,16 @@ ui <- page_fluid(
 shinyApp(ui, function(...) {})
 ```
 
-In addition, some of `bslib`'s `page_*()` functions provide other new capabilities. Most importantly, as we cover in [Shiny dashboards](dashboards.html), `page_navbar()` and  `page_sidebar()` provide deep integration with sidebar layouts, filling layouts, navbar customizations, theming, and more. 
+In addition, some of `bslib`'s `page_*()` functions provide other new capabilities. Most importantly, as we cover in [Shiny dashboards](../dashboards), `page_navbar()` and  `page_sidebar()` provide deep integration with sidebar layouts, filling layouts, navbar customizations, theming, and more.
 
-Another new and important `page_*()` function is `page_fillable()`. This function provides a new approach to filling layouts and forms a foundation for higher-level abstractions such as `page_sidebar()` and `page_navbar()`. See [filling layouts](filling.html) (especially the [In Practice](filling.html#in-practice) section) to learn more about `page_fillable()`.
+Another new and important `page_*()` function is `page_fillable()`. This function provides a new approach to filling layouts and forms a foundation for higher-level abstractions such as `page_sidebar()` and `page_navbar()`. See [filling layouts](../filling) (especially the [In Practice](../filling#in-practice) section) to learn more about `page_fillable()`.
 
 
 ## Without Shiny
 
 The same `page_*()` functions that offer a means for getting started with Shiny can also be used to create static HTML pages (i.e., an HTML file with no server-side code). Probably the most intriguing use case for this is [crosstalk](https://rstudio.github.io/crosstalk/) (i.e., `{htmlwidgets}` that can be linked together). For example:
 
-```{r, as_iframe=TRUE}
+```{r linked-htmlwidgets, as_iframe=TRUE}
 library(crosstalk)
 library(leaflet)
 
@@ -72,7 +72,7 @@ map_quakes <- leaflet(quake_dat) |> addTiles() |> addCircleMarkers()
 page_sidebar(
   title = "Client-side filtering",
   sidebar = map_filter,
-  # Can also put other bslib components here 
+  # Can also put other bslib components here
   # like cards, value boxes, etc.
   map_quakes
 )
@@ -83,10 +83,10 @@ And since the result is static HTML, you can save it to an HTML file and share i
 ```{r, eval=FALSE}
 htmltools::save_html(.Last.value, "index.html")
 ```
- 
+
 Also, to be clear, static HTML can also be useful without crosstalk. For example, we can use `page_fillable()` to layout numerous htmlwidgets:
 
-```{r, as_iframe=TRUE}
+```{r page-fillable-htmlwidgets, as_iframe=TRUE}
 plot_card <- card(
   full_screen = TRUE,
   card_header("Plot"),
@@ -103,7 +103,7 @@ page_fillable(
 ## R Markdown
 
 Use the `theme` parameter of a compatible output format[^output-format] to get started in R Markdown.
-By supplying `bslib: true` to that parameter, you'll get the latest "stock" version of Bootstrap (akin to using `page_*()` in Shiny). Alternatively, you can supply `bs_theme()` parameters to the `theme` parameter to specify the Bootstrap version, add a Bootswatch theme, and customize theming colors ([Getting Started with Theming](theming.html) covers this in more depth).
+By supplying `bslib: true` to that parameter, you'll get the latest "stock" version of Bootstrap (akin to using `page_*()` in Shiny). Alternatively, you can supply `bs_theme()` parameters to the `theme` parameter to specify the Bootstrap version, add a Bootswatch theme, and customize theming colors ([Getting Started with Theming](../theming) covers this in more depth).
 
 [^output-format]: In theory, any format that passes it's `theme` parameter to `rmarkdown::html_document_base()` is compatible with `bslib`.
 However, in practice, the format may not be compatible with modern versions of Bootstrap.

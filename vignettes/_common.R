@@ -33,14 +33,25 @@ knitr::opts_hooks$set(
   }
 )
 
-render_as_iframe <- function(x, options, ...) {
-  lbl <- opts_current$get("label")
+examples_path <- function() {
   doc_name <- sub("[.]Rmd", "", knitr::current_input())
-  lbl_dir <- file.path("examples", doc_name, lbl)
+  if (doc_name == "index") return("examples")
+  file.path("examples", doc_name)
+}
+
+get_chunk_label <- function(reason) {
+  label <- opts_current$get("label")
+  if (!(is.null(label) || grepl("^unnamed", label))) return(label)
+  stop("`", reason, "` requires a named chunk label", call. = FALSE)
+}
+
+render_as_iframe <- function(x, options, ...) {
+  lbl <- get_chunk_label("as_iframe = TRUE")
+  lbl_dir <- file.path(examples_path(), lbl)
   if (!dir.exists(lbl_dir)) {
     dir.create(lbl_dir, recursive = TRUE)
   }
-  file <- file.path(lbl_dir, paste0(lbl, ".html"))
+  file <- file.path(lbl_dir, "index.html")
   x <- tagList(x, tags$head(tags$style(".html-widget { height: 250px !important; } .modebar-container { display: none; }")))
   tryCatch(
     save_html(x, file),
@@ -52,9 +63,8 @@ render_as_iframe <- function(x, options, ...) {
 }
 
 render_as_image <- function(x, options, ...) {
-  lbl <- opts_current$get("label")
-  doc_name <- sub("[.]Rmd", "", knitr::current_input())
-  lbl_dir <- file.path("examples", doc_name, lbl)
+  lbl <- get_chunk_label("as_image = TRUE")
+  lbl_dir <- examples_path()
   if (!dir.exists(lbl_dir)) {
     dir.create(lbl_dir, recursive = TRUE)
   }

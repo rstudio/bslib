@@ -52,7 +52,7 @@ theming widget (`bslib::bs_themer()`) overlaid on the app. See
 theming](https://rstudio.github.io/bslib/articles/theming.html#real-time)
 to learn more.
 
-<img src="vignettes/themer.gif" width="100%" style="display: block; margin: auto;" />
+<img src="vignettes/theming/themer.gif" alt="An animation showing bslib theming app. As the user changes the Bootswatch theme and Bootstrap settings, the app's appearance changes in real-time." width="100%" style="display: block; margin: auto;" />
 
 ## Get started
 

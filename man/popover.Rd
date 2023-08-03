@@ -72,7 +72,7 @@ focused.
 \section{Theming/Styling}{
 
 
-Like other bslib components, popovers can be themed by supplying \href{https://rstudio.github.io/bslib/articles/bs5-variables.html#popover-bg}{relevant theming variables}
+Like other bslib components, popovers can be themed by supplying \href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html#popover-bg}{relevant theming variables}
 to \code{\link[=bs_theme]{bs_theme()}}, which effects styling of every popover on the page. To
 style a \emph{specific} popover differently from other popovers, utilize the
 \code{customClass} option:

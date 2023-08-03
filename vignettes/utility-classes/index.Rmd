@@ -3,7 +3,7 @@ title: "Utility classes"
 output: html_document
 ---
 
-[Bootstrap 4 (and higher)](bslib.html#versions) comes with a suite of handy utility classes for handling common yet fickle styling issues like [spacing](https://getbootstrap.com/docs/5.0/utilities/spacing/), [borders](https://getbootstrap.com/docs/5.0/utilities/borders/), [sizing](https://getbootstrap.com/docs/5.0/utilities/sizing/), [layout](https://getbootstrap.com/docs/5.0/utilities/flex/), [colors](https://getbootstrap.com/docs/5.0/utilities/colors/), and more.
+[Bootstrap 4 (and higher)](../any-project/#in-production) comes with a suite of handy utility classes for handling common yet fickle styling issues like [spacing](https://getbootstrap.com/docs/5.0/utilities/spacing/), [borders](https://getbootstrap.com/docs/5.0/utilities/borders/), [sizing](https://getbootstrap.com/docs/5.0/utilities/sizing/), [layout](https://getbootstrap.com/docs/5.0/utilities/flex/), [colors](https://getbootstrap.com/docs/5.0/utilities/colors/), and more.
 
 ## Add margin
 

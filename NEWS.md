@@ -41,9 +41,9 @@ This significant release focuses on making dashboards with filling/responsive la
 ## New features
 
 * Added `page_sidebar()`, for easy dashboard creation. (#588)
-* Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars.html) to learn more. (#479)
+* Added a `sidebar()` API for creating sidebar layouts in various contexts. See [the article](https://rstudio.github.io/bslib/articles/sidebars/index.html) to learn more. (#479)
 * Added `layout_columns()`, for responsive column-based grid layouts. (#587)
-* Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars.html#sidebar-accordions). (#475)
+* Adds a new `accordion()` API. See `help(accordion)` for examples and details. Note also `accordion()` is designed to [work well inside a `sidebar()`](https://rstudio.github.io/bslib/articles/sidebars/index.html#sidebar-accordions). (#475)
 * `page_navbar()`, `navset_card_tab()`, and ` navset_card_pill()` gain a `sidebar` argument for putting a `sidebar()` on every page/tab/pill. (#479)
 * `page_navbar()` gains a `fillable` argument to make the content of particular page(s) fit the window/card. (#479)
 * `page_fillable()` (aka, `page_fill()`) is now considered a `fillable` container, meaning that `fill` items like `card()`, `layout_column_wrap()`, and `layout_sidebar()` now grow/shrink to fit the window's height when they appear as a direct child of `page_fillable()`. (#479)
