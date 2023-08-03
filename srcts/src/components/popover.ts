@@ -104,8 +104,7 @@ export class BslibPopover extends BslibElement {
     return (
       trigger.tagName === "A" &&
       trigger.hasAttribute("href") &&
-      trigger.getAttribute("href") !== "#" &&
-      trigger.getAttribute("href") !== "javascript:void(0)"
+      trigger.getAttribute("href") !== "#"
     );
   }
 
