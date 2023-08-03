@@ -1103,21 +1103,15 @@
     }
     get isHyperLink() {
       const trigger = this.triggerElement;
-      return trigger.tagName === "A" && trigger.hasAttribute("href") && trigger.getAttribute("href") !== "#";
+      return trigger.tagName === "A" && trigger.hasAttribute("href") && trigger.getAttribute("href") !== "#" && trigger.getAttribute("href") !== "javascript:void(0)";
     }
     connectedCallback() {
       super.connectedCallback();
-      if (this.content)
-        this.content.style.display = "contents";
-      if (this.header instanceof HTMLElement) {
-        this.header.style.display = "contents";
-      }
       if (this.content) {
         D(this._closeButton(this.header), this.content);
       }
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "popover");
-      this.bsPopover = new bsPopover(trigger, this.options);
       if (this.isButtonLike) {
         trigger.setAttribute("role", "button");
         trigger.setAttribute("tabindex", "0");
@@ -1131,6 +1125,7 @@
         }
         trigger.style.cursor = "pointer";
       }
+      this.bsPopover = new bsPopover(trigger, this.options);
       trigger.addEventListener("shown.bs.popover", this._onShown);
       trigger.addEventListener("hidden.bs.popover", this._onHidden);
       trigger.addEventListener("inserted.bs.popover", this._onInsert);
@@ -1362,10 +1357,10 @@
     return !!header && header.childNodes.length > 0;
   }
   function createContentElement(html) {
-    const div = document.createElement("div");
-    div.style.display = "contents";
-    div.innerHTML = html;
-    return div;
+    const el = document.createElement("span");
+    el.style.display = "contents";
+    el.innerHTML = html;
+    return el;
   }
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
