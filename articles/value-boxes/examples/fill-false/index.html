@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+<script src="lib/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="lib/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet" />
+<script src="lib/bootstrap-5.2.2/bootstrap.bundle.min.js"></script>
+<script src="lib/bs3compat-0.5.0.9000/transition.js"></script>
+<script src="lib/bs3compat-0.5.0.9000/tabs.js"></script>
+<script src="lib/bs3compat-0.5.0.9000/bs3compat.js"></script>
+<link href="lib/htmltools-fill-0.5.5.9000/fill.css" rel="stylesheet" />
+<link href="lib/bslib-grid-styles-0.5.0.9000/grid.css" rel="stylesheet" />
+<script src="lib/bslib-tag-require-0.5.0.9000/tag-require.js"></script>
+<link href="lib/bslib-value_box-styles-0.5.0.9000/value_box.css" rel="stylesheet" />
+<script src="lib/bslib-card-js-0.5.0.9000/card.min.js"></script>
+<link href="lib/bslib-card-styles-0.5.0.9000/card.css" rel="stylesheet" />
+<script src="lib/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="lib/plotly-binding-4.10.2/plotly.js"></script>
+<script src="lib/typedarray-0.1/typedarray.min.js"></script>
+<link href="lib/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="lib/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="lib/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="lib/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="lib/bslib-page_fillable-styles-0.5.0.9000/page_fillable.css" rel="stylesheet" />
+  <style>.html-widget { height: 250px !important; } .modebar-container { display: none; }</style>
+</head>
+<body class="bslib-page-fill bslib-gap-spacing html-fill-container" style="--bslib-page-fill-mobile-height:auto;">
+  <div class="bslib-grid" style="grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));grid-auto-rows:1fr;--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;" data-require-bs-version="5" data-require-bs-caller="layout_column_wrap()">
+    <div class="bslib-gap-spacing html-fill-container">
+      <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container bslib-value-box border-0 bg-primary" data-bslib-card-init data-require-bs-caller="card() value_box()" data-require-bs-version="5 5">
+        <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+          <div class="bslib-grid html-fill-item value-box-grid" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;gap:0px; --bslib-value-box-widths:30% 70%;--bslib-value-box-widths-full-screen:1fr auto;">
+            <div class="bslib-gap-spacing html-fill-container">
+              <div class="value-box-showcase overflow-hidden html-fill-item html-fill-container" style="--bslib-value-box-max-height:100px;--bslib-value-box-max-height-full-screen:67%;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-bar-chart " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img" ><path d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z"></path></svg></div>
+            </div>
+            <div class="bslib-gap-spacing html-fill-container">
+              <div class="value-box-area html-fill-item html-fill-container border-start">
+                <p>1st value</p>
+                <p>123</p>
+                <p>The 1st detail</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
+      </div>
+    </div>
+    <div class="bslib-gap-spacing html-fill-container">
+      <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container bslib-value-box border-0 bg-primary" data-bslib-card-init data-require-bs-caller="card() value_box()" data-require-bs-version="5 5">
+        <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
+          <div class="bslib-grid html-fill-item value-box-grid" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;gap:0px; --bslib-value-box-widths:30% 70%;--bslib-value-box-widths-full-screen:1fr auto;">
+            <div class="bslib-gap-spacing html-fill-container">
+              <div class="value-box-showcase overflow-hidden html-fill-item html-fill-container" style="--bslib-value-box-max-height:100px;--bslib-value-box-max-height-full-screen:67%;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-graph-up " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"></path></svg></div>
+            </div>
+            <div class="bslib-gap-spacing html-fill-container">
+              <div class="value-box-area html-fill-item html-fill-container border-start">
+                <p>2nd value</p>
+                <p>456</p>
+                <p>The 2nd detail</p>
+                <p>The 3rd detail</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
+      </div>
+    </div>
+  </div>
+  <div class="card bslib-card bslib-mb-spacer html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5" style="min-height:200px;">
+    <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
+      <div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-87e8d7eb525eb54c3e80" style="width:100%;height:400px;"></div>
+      <script type="application/json" data-for="htmlwidget-87e8d7eb525eb54c3e80">{"x":{"visdat":{"4021231ae77e":["function () ","plotlyVisDat"]},"cur_data":"4021231ae77e","attrs":{"4021231ae77e":{"x":[0.62143678584782158,-0.9499699433522969,-0.8199391190468166,2.1554686057260937,0.23504517288597329,0.79653454098393783,-0.72375567471441693,0.15076054263857991,-0.44209258962137266,0.75410874034046738,-1.4323198085567557,-0.080114368958484949,-2.1406428379298239,0.8804501071262768,2.0298211749784865,0.13424038452998599,0.3466590266714033,-1.7403525745881883,1.242960156736608,-2.1593501808785991,0.86810577606556394,-0.7460105393525841,0.81769730758685866,-0.64986632982074022,0.46346389837370777,1.4406860148412077,0.19999811352271019,0.90918147845401964,-1.2171318700768778,1.7610750993156534,-0.5955994959798484,0.56463067407118883,-1.7860797851767891,-0.63016142973056466,0.20776536936627168,0.03477353470127114,0.60476929012964908,2.2188612944400394,-0.13205742814580079,-1.5992160000500328,0.28195866306459644,0.32685155129586202,-0.076698443993963417,-2.6402809699820713,-0.48434970388264981,-0.22305707172785827,0.81340401431506781,-1.2259103013189725,1.4519171586463451,-0.091638711410460857,0.50614214020914583,-0.46005334074680365,0.56746941893713276,-0.57931767299069092,0.78741480497946026,-0.75587631747845763,-0.045928225790155999,1.7122511142127805,-2.0573085517406917,-0.65178124176673302,-0.19614682711978126,0.84334184912775478,0.84722326134177217,-1.2247528053469985,0.81789986031243112,1.0127650292176158,1.2011934517895315,-0.01930796062770836,-0.92628768452424359,1.2412297827746177,0.47526301133677057,0.1469226886736264,-0.11414798542092072,-0.87635640657954283,0.23687879620487123,-1.2332130319646251,0.68491747411757442,0.29686663431577254,-1.0427002873318356,1.3112673242291972,-0.19291680040056441,0.041501283906024311,0.53604184331967786,-0.043037943648045918,2.7340907329869197,-0.88540995380637966,0.8421499256116195,1.2474324854723757,-1.5305672596400539,0.31011944135131692,-0.5364332473771638,0.99345089509758322,-2.3813821665957056,1.1540085692303759,-0.8664118453205697,-0.68928557840872662,-0.21970980041881374,-0.67398237460815724,0.12354136864158127,0.59494429093196399],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":[]},"yaxis":{"domain":[0,1],"automargin":true},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.62143678584782158,-0.9499699433522969,-0.8199391190468166,2.1554686057260937,0.23504517288597329,0.79653454098393783,-0.72375567471441693,0.15076054263857991,-0.44209258962137266,0.75410874034046738,-1.4323198085567557,-0.080114368958484949,-2.1406428379298239,0.8804501071262768,2.0298211749784865,0.13424038452998599,0.3466590266714033,-1.7403525745881883,1.242960156736608,-2.1593501808785991,0.86810577606556394,-0.7460105393525841,0.81769730758685866,-0.64986632982074022,0.46346389837370777,1.4406860148412077,0.19999811352271019,0.90918147845401964,-1.2171318700768778,1.7610750993156534,-0.5955994959798484,0.56463067407118883,-1.7860797851767891,-0.63016142973056466,0.20776536936627168,0.03477353470127114,0.60476929012964908,2.2188612944400394,-0.13205742814580079,-1.5992160000500328,0.28195866306459644,0.32685155129586202,-0.076698443993963417,-2.6402809699820713,-0.48434970388264981,-0.22305707172785827,0.81340401431506781,-1.2259103013189725,1.4519171586463451,-0.091638711410460857,0.50614214020914583,-0.46005334074680365,0.56746941893713276,-0.57931767299069092,0.78741480497946026,-0.75587631747845763,-0.045928225790155999,1.7122511142127805,-2.0573085517406917,-0.65178124176673302,-0.19614682711978126,0.84334184912775478,0.84722326134177217,-1.2247528053469985,0.81789986031243112,1.0127650292176158,1.2011934517895315,-0.01930796062770836,-0.92628768452424359,1.2412297827746177,0.47526301133677057,0.1469226886736264,-0.11414798542092072,-0.87635640657954283,0.23687879620487123,-1.2332130319646251,0.68491747411757442,0.29686663431577254,-1.0427002873318356,1.3112673242291972,-0.19291680040056441,0.041501283906024311,0.53604184331967786,-0.043037943648045918,2.7340907329869197,-0.88540995380637966,0.8421499256116195,1.2474324854723757,-1.5305672596400539,0.31011944135131692,-0.5364332473771638,0.99345089509758322,-2.3813821665957056,1.1540085692303759,-0.8664118453205697,-0.68928557840872662,-0.21970980041881374,-0.67398237460815724,0.12354136864158127,0.59494429093196399],"type":"histogram","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+    </div>
+    <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
+  </div>
+</body>
+</html>

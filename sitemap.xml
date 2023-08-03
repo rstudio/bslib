@@ -13,91 +13,91 @@
     <loc>https://rstudio.github.io/bslib/PULL_REQUEST_TEMPLATE.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/any-project.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/any-project/examples/linked-htmlwidgets/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/bs4-variables.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/any-project/examples/page-fillable-htmlwidgets/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/bs5-variables.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/any-project/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/cards.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/bs4-variables/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/column-layout.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/bs5-variables/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/custom-components.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/cards/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/dashboards.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/column-layout/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/any-project/unnamed-chunk-3/unnamed-chunk-3.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/custom-components/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/any-project/unnamed-chunk-5/unnamed-chunk-5.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/dashboards/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/filling/unnamed-chunk-13/unnamed-chunk-13.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/examples/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/filling/unnamed-chunk-14/unnamed-chunk-14.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/filling/examples/full-screen-cards/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/filling/unnamed-chunk-15/unnamed-chunk-15.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/filling/examples/multiple-columns/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/filling/unnamed-chunk-16/unnamed-chunk-16.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/filling/examples/page-fillable/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/filling/unnamed-chunk-17/unnamed-chunk-17.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/filling/examples/sidebar-layouts/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/sidebars/page-fill-double/page-fill-double.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/filling/examples/value-boxes/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/sidebars/shiny-dynamic-sidebar/shiny-dynamic-sidebar.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/sidebars/shiny-sidebar-state/shiny-sidebar-state.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/sidebars/unnamed-chunk-3/unnamed-chunk-3.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/sidebars/unnamed-chunk-4/unnamed-chunk-4.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/sidebars/unnamed-chunk-5/unnamed-chunk-5.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/value-boxes/unnamed-chunk-6/unnamed-chunk-6.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/filling.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/filling/index.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/sidebars.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/hello-layout-sidebar/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/theming.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/multi-page/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/utility-classes.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/page-fill-double/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/value-boxes.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/restricting-growth/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/articles/why-sass.html</loc>
+    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/shiny-dynamic-sidebar/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/shiny-sidebar-state/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/sidebars/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/theming/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/utility-classes/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/value-boxes/examples/fill-false/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/value-boxes/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/articles/why-sass/index.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/authors.html</loc>
