@@ -1,6 +1,10 @@
 import { property } from "lit/decorators.js";
 import { BslibElement } from "./webcomponents/bslibElement";
-import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
+import {
+  createWrapperElement,
+  getOrCreateTriggerEl,
+  setContentCarefully,
+} from "./_utilsTooltip";
 import type { HtmlDep } from "./_utils";
 import type { Tooltip as TooltipType } from "bootstrap";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
@@ -77,6 +81,13 @@ export class BslibTooltip extends BslibElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+
+    // Use <template> as a way to protect these children from potentially being
+    // pulled outside this element (the browser's parser does this to, for
+    // example, block elements inside a <p> tag)
+    const template = this.querySelector("template") as HTMLTemplateElement;
+    this.prepend(createWrapperElement(template.content, "none"));
+    template.remove();
 
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "tooltip");

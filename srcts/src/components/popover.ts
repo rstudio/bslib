@@ -1,7 +1,11 @@
 import { nothing, html, render } from "lit";
 import { property } from "lit/decorators.js";
 import { BslibElement } from "./webcomponents/bslibElement";
-import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
+import {
+  createWrapperElement,
+  getOrCreateTriggerEl,
+  setContentCarefully,
+} from "./_utilsTooltip";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
 import type { HtmlDep } from "./_utils";
 import type { Popover as PopoverType } from "bootstrap";
@@ -124,6 +128,13 @@ export class BslibPopover extends BslibElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+
+    // Use <template> as a way to protect these children from potentially being
+    // pulled outside this element (the browser's parser does this to, for
+    // example, block elements inside a <p> tag)
+    const template = this.querySelector("template") as HTMLTemplateElement;
+    this.prepend(createWrapperElement(template.content, "none"));
+    template.remove();
 
     // Append the close button
     if (this.content) {
@@ -344,7 +355,7 @@ export class BslibPopover extends BslibElement {
       fallback: HTMLElement | undefined,
       selector: string
     ): HTMLElement => {
-      if (x) return createContentElement(x.html);
+      if (x) return createWrapperElement(x.html, "contents");
       if (fallback) return fallback;
       return this.bsPopover.tip?.querySelector(selector) as HTMLElement;
     };
@@ -412,11 +423,4 @@ export class BslibPopover extends BslibElement {
 
 function hasHeader(header: HTMLElement | undefined): boolean {
   return !!header && header.childNodes.length > 0;
-}
-
-function createContentElement(html: string): HTMLElement {
-  const el = document.createElement("span");
-  el.style.display = "contents";
-  el.innerHTML = html;
-  return el;
 }

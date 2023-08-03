@@ -87,10 +87,10 @@ tooltip <- function(
     placement = rlang::arg_match(placement),
     bsOptions = to_json(options),
     !!!attribs,
-    # This `display:none` becomes `display:contents` when shown.
-    # Also, use span over div to ensure these children are
-    # always available as children (inside a p tag, for example)
-    span(!!!children, style = "display:none;"),
+    # Use <template> as a way to protect these children from potentially being
+    # pulled outside this element (the browser's parser does this to, for
+    # example, block elements inside a <p> tag)
+    tags$template(!!!children),
     trigger
   )
 
