@@ -56,7 +56,7 @@ Display additional information when focusing (or hovering over) a UI element.
 \section{Theming/Styling}{
 
 
-Like other bslib components, tooltips can be themed by supplying \href{https://rstudio.github.io/bslib/articles/bs5-variables.html#tooltip-bg}{relevant theming variables}
+Like other bslib components, tooltips can be themed by supplying \href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html#tooltip-bg}{relevant theming variables}
 to \code{\link[=bs_theme]{bs_theme()}}, which effects styling of every popover on the page. To
 style a \emph{specific} popover differently from other popovers, utilize the
 \code{customClass} option:

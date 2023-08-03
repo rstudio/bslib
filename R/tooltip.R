@@ -19,7 +19,7 @@
 #'
 #'   Like other bslib components, tooltips can be themed by supplying [relevant
 #'   theming
-#'   variables](https://rstudio.github.io/bslib/articles/bs5-variables.html#tooltip-bg)
+#'   variables](https://rstudio.github.io/bslib/articles/bs5-variables/index.html#tooltip-bg)
 #'   to [bs_theme()], which effects styling of every popover on the page. To
 #'   style a _specific_ popover differently from other popovers, utilize the
 #'   `customClass` option:

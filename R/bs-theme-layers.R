@@ -125,7 +125,7 @@ bs_add_rules <- function(theme, rules) {
 }
 
 #' @describeIn bs_bundle Add additional [Sass
-#'   functions](https://rstudio.github.io/sass/articles/sass.html#functions-1)
+#'   functions](https://rstudio.github.io/sass/articles/sass.html#functions)
 #' @param functions A character vector or [sass::sass_file()] containing
 #'   functions definitions.
 #' @export
@@ -134,7 +134,7 @@ bs_add_functions <- function(theme, functions) {
 }
 
 #' @describeIn bs_bundle Add additional [Sass
-#'   mixins](https://rstudio.github.io/sass/articles/sass.html#mixins-1)
+#'   mixins](https://rstudio.github.io/sass/articles/sass.html#mixins)
 #' @param mixins A character vector or [sass::sass_file()] containing
 #'   mixin definitions.
 #' @export
