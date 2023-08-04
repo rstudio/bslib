@@ -1,0 +1,446 @@
+---
+title: "Tooltips & Popovers"
+resource_files:
+  - examples
+  - editable-title.mp4
+  - tooltips-popovers.mp4
+  - toggle-tooltip.mp4
+  - update-tooltip.mp4
+---
+
+```{r setup, include=FALSE}
+source(
+  rprojroot::find_package_root_file("vignettes/_common.R")
+)
+```
+
+```{css, echo = FALSE}
+.section.level2 {
+  margin-top: 4rem;
+}
+.section.level3 {
+  margin-top: 2rem;
+}
+.section.level4 {
+  margin-top: 1rem;
+}
+.shiny-label-null {
+  display: none;
+}
+video {
+  max-width: 100%;
+}
+```
+
+This article on `tooltip()` and `popover()` assumes you've loaded the following packages:
+
+```{r}
+library(bslib)
+library(shiny)
+library(bsicons)
+```
+
+## Motivation
+
+Tooltips and popovers are a useful means for both displaying (tooltips) and interacting with (popovers) additional information in a non-obtrusive way. The motivating example below applies these components to achieve a few useful patterns:
+
+1. Attaches a `tooltip()` to a "tip" icon in a `card_header()`, allowing the user to learn more about the data being visualized. 
+2. Attaches a `popover()` to a "settings" icon in the `card_header()`,
+allowing the user to control parameters of the visualization
+3. Attaches a `popover()` to a link in the `card_footer()`, which facilitates not only display of more information, but also allowing for more interaction with that information (e.g., a hyperlink). 
+
+<details>
+<summary>Show code</summary>
+```r
+library(shiny)
+library(bslib)
+library(palmerpenguins)
+
+ui <- page_fillable(
+  card(
+    card_header(
+      "Penguin body mass",
+      tooltip(
+        bsicons::bs_icon("question-circle"),
+        "Mass measured in grams.",
+        placement = "right"
+      ),
+      popover(
+        bsicons::bs_icon("gear", class = "ms-auto"),
+        selectInput("yvar", "Split by", c("sex", "species", "island")),
+        selectInput("color", "Color by", c("species", "island", "sex"), "island"),
+        title = "Plot settings"
+      ),
+      class = "d-flex align-items-center gap-1"
+    ),
+    plotOutput("plt"),
+    card_footer(
+      "Source: Gorman KB, Williams TD, Fraser WR (2014).",
+      popover(
+        a("Learn more", href = "#"),
+        markdown(
+          "Originally published in: Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis). PLoS ONE 9(3): e90081. [doi:10.1371/journal.pone.0090081](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081)"
+        )
+      )
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  output$plt <- renderPlot({
+    ggplot(penguins, aes(x = body_mass_g, y = !!sym(input$yvar), fill = !!sym(input$color))) +
+      ggridges::geom_density_ridges(scale = 0.9, alpha = 0.5) +
+      coord_cartesian(clip = "off") +
+      labs(x = NULL, y = NULL) +
+      ggokabeito::scale_fill_okabe_ito() +
+      theme_minimal(base_size = 20) +
+      theme(legend.position = "top")
+  })
+}
+
+shinyApp(ui, server)
+```
+</details>
+
+
+<video controls muted>
+  <source src="tooltips-popovers.mp4" type="video/mp4">
+</video>
+
+
+## Get started
+
+::: {.row .mt-3}
+::: col-md-6
+In terms of how they're implemented, tooltips and popovers are quite similar. They both require a UI element to serve as the "trigger" (i.e., the UI that the user must interact with to toggle visibility) as well as a message to show. Both `tooltip()` and `popover()` treat their 1st argument as the `trigger`, whereas other unnamed arguments go into the message. Optionally, with `popover()`, a `title` may also be provided.
+
+In terms of their UX and applications, tooltips and popovers are quite different. Tooltips are toggled via focus / hover whereas popovers are toggled via click. As a result, popovers are much more "persistent" (i.e., harder to open/close), and thus should only be used over tooltips when further interaction may be needed. To put it another way, use tooltips for small "read-only" messages, and popovers when the user should be able to interact with the message itself.
+:::
+
+::: col-md-6
+```{r}
+actionButton(
+  "btn_tip",
+  "Focus/hover here for tooltip"
+) |>
+  tooltip("Tooltip message")
+```
+
+<br class="my-5">
+
+```{r}
+actionButton(
+  "btn_pop", 
+  "Click here for popover"
+) |>
+  popover(
+    "Popover message",
+    title = "Popover title"
+  )
+```
+
+:::
+:::
+
+## Examples
+
+### Icons
+
+::: {.row .mt-3}
+::: col-md-6
+In general, icons are probably the most ubiquitous trigger for a `tooltip()` (or `popover()`). They're small, unobtrusive, and provide a clear affordance that there's more information available. If you'd like to display an icon inline with other text, and also treat that text as part of the trigger, wrap the icon and text in a `span()`.
+:::
+
+::: col-md-6
+```{r}
+tooltip(
+  span(
+    "This text does trigger",
+    bs_icon("info-circle")
+  ),
+  "Tooltip message",
+  placement = "bottom"
+)
+```
+
+:::
+:::
+
+
+
+::: {.row .mt-5}
+::: col-md-6
+Alternatively, if you wanted just the icon to be the trigger, you could bring the `tooltip()` modifier inside the `span()` (i.e., the containing element for the text). Another way to do this would be replace the `span()` in the 1st example with a `list()` (or `tagList()`), which happens to work since `tooltip()` and `popover()` use the last HTML element in their 1st argument as the trigger.
+:::
+
+::: col-md-6
+```{r}
+span(
+  "This text doesn't trigger",
+  tooltip(
+    bs_icon("info-circle"),
+    "Tooltip message",
+    placement = "bottom"
+  )
+)
+```
+:::
+:::
+
+
+### Input labels
+
+
+::: {.row .mt-3}
+::: col-md-6
+Input labels are great place to apply what we learned in [icons](#icons). They're already a common place to provide information about an input, so adding a tooltip or popover to them is a natural place to provide additional context.
+:::
+
+::: col-md-6
+```{r}
+textInput(
+  "txt",
+  label = tooltip(
+    trigger = list(
+      "Input label",
+      bs_icon("info-circle")
+    ),
+    "Tooltip message"
+  )
+)
+```
+:::
+:::
+
+### Cards
+
+[Cards](cards.html) provide a wealth of opportunity to apply what we learned in [icons](#icons). More specifically, tooltips/popovers often work well inside a `card_header()`/`card_footer()` since they're already designed for providing additional information about output(s). The next few sections explore a few useful patterns.
+
+#### Simple tooltip
+
+Often times it's useful to provide additional information about a card's header, especially if that header contains acronyms or other jargon. In this case, a `tooltip()` can help non-expert users gain more context about the data being visualized.
+
+::: {.row .mt-3}
+::: col-md-6
+```{r simple-tooltip, eval = FALSE}
+card(
+  card_header(
+    "Card header",
+    tooltip(
+      bs_icon("info-circle"),
+      "Tooltip message"
+    )
+  ),
+  "Card body..."
+)
+```
+:::
+
+::: {.col-md-6 .mt-auto .mb-auto}
+```{r ref.label="simple-tooltip", echo=FALSE}
+```
+:::
+:::
+
+
+#### Input toolbar {#input-toolbar}
+
+When your app has "secondary" inputs that are specific to a given card, it can be useful to "hideaway" those inputs into a `popover()` attached to the card's header. This is especially useful when the inputs are just meant to tweak parameters and/or only relevant to a subset of users. In this case, it can be useful to provide a "settings" icon in the card's header, which when clicked, opens a `popover()` containing the inputs.
+
+::: {.row .mt-3}
+::: col-md-6
+```{r input-toolbar, eval = FALSE}
+gear <- popover(
+  bs_icon("gear"),
+  textInput("txt", NULL, "Enter input"),
+  title = "Input controls"
+)
+
+card(
+  card_header(
+    "Card header", gear,
+    class = "d-flex justify-content-between"
+  ),
+  "Card body..."
+)
+```
+:::
+
+::: {.col-md-6 .mt-auto .mb-auto}
+```{r ref.label="input-toolbar", echo=FALSE}
+```
+:::
+:::
+
+
+#### Popover with hyperlink
+
+`popover()`s are not only useful for creating [input toolbars](#input-toolbar), but can also be useful in non-input situations, like providing more context along with hyperlinks. Taking inspiration from the motivating example, we can provide a `popover()` attached to a `actionLink()` in the card's footer.[^action-link]
+
+[^action-link]: Using an `actionLink()` will only work as expected in Shiny apps. In a static document, you'll need to use a `a(href = 'javascript:void(0)')` instead.
+
+::: {.row .mt-3}
+::: col-md-6
+```{r eval=FALSE}
+foot <- popover(
+  actionLink("link", "Card footer"),
+  "Here's a ",
+  a("hyperlink", href = "https://google.com")
+)
+
+card(
+  card_header("Card header"),
+  "Card body...",
+  card_footer(foot)
+)
+```
+:::
+
+::: {.col-md-6 .mt-auto .mb-auto}
+```{r echo=FALSE}
+# Need to fake the actionLink() in the popover since shiny.js isn't on the page
+foot <- popover(
+  a("Card footer", href = "javascript:void(0)"),
+  "Here's a ",
+  a("hyperlink", href = "https://google.com")
+)
+
+card(
+  card_header("Card header"),
+  "Card body...",
+  card_footer(foot)
+)
+```
+:::
+:::
+
+
+#### Editable header
+
+Combining the idea of a [input toolbar](#input-toolbar) with Shiny's `uiOutput()`/`renderUI()` (i.e., dynamic UI) pattern, we can create an editable header. In this case, we'll use a `popover()` attached to a `uiOutput()` in the card's header, which when clicked, opens a `textInput()`.
+
+<details open>
+<summary>Show code</summary>
+```r
+ui <- page_fixed(
+  card(
+    card_header(
+      popover(
+        uiOutput("card_title", inline = TRUE),
+        title = "Provide a new title",
+        textInput("card_title", NULL, "An editable title")
+      )
+    ), 
+    "The card body..."
+  )
+)
+
+server <- function(input, output) {
+  output$card_title <- renderUI({
+    list(
+      input$card_title, 
+      bsicons::bs_icon("pencil-square")
+    )
+  })
+}
+
+shinyApp(ui, server)
+```
+</details>
+
+
+
+<video controls muted>
+  <source src="editable-title.mp4" type="video/mp4">
+</video>
+
+
+## Shiny
+
+In Shiny, it's possible to programmatically show, hide, and update the contents of a `tooltip()` or `popover()`. This can be useful for creating more dynamic apps, where the tooltip/popover's contents are dependent on user input. The next few sections explore a few useful patterns.
+
+### Read/update visibility
+
+Use `toggle_tooltip()`/`toggle_popover()` to programmatically show/hide a `tooltip()`/`popover()`. This is useful if you want a tooltip to be shown on page load and/or a tooltip should be shown in response to some user input (e.g., a button click).
+
+<details open>
+<summary>Show code</summary>
+```r
+library(shiny)
+
+ui <- page_fixed(
+  "Here's a tooltip:",
+  tooltip(
+    bsicons::bs_icon("info-circle"),
+    "Tooltip message", 
+    id = "tooltip"
+  ),
+  actionButton("show_tooltip", "Show tooltip"),
+  actionButton("hide_tooltip", "Hide tooltip")
+)
+
+server <- function(input, output) {
+  observeEvent(input$show_tooltip, {
+    toggle_tooltip("tooltip", show = TRUE)
+  })
+
+  observeEvent(input$hide_tooltip, {
+    toggle_tooltip("tooltip", show = FALSE)
+  })
+}
+
+shinyApp(ui, server)
+```
+</details>
+
+<video controls muted>
+  <source src="toggle-tooltip.mp4" type="video/mp4">
+</video>
+
+### Update contents
+
+Use `update_tooltip()`/`update_popover()` to programmatically update the contents of a `tooltip()`/`popover()`. This is especially useful of the tooltip/popover should reflect some user input (e.g., a text input).
+
+<details open>
+<summary>Show code</summary>
+```r
+library(shiny)
+
+ui <- page_fixed(
+  "Here's a tooltip:",
+  tooltip(
+    bsicons::bs_icon("info-circle"),
+    "Tooltip message",
+    id = "tooltip"
+  ),
+  textInput("tooltip_msg", NULL, "Tooltip message")
+)
+
+server <- function(input, output) {
+  observeEvent(input$tooltip_msg, {
+    update_tooltip("tooltip", input$tooltip_msg)
+  })
+}
+
+shinyApp(ui, server)
+```
+</details>
+
+<video controls muted>
+  <source src="update-tooltip.mp4" type="video/mp4">
+</video>
+
+## Appendix
+
+### Additional options
+
+Both `tooltip()` and `popover()` support a number of additional options not covered in this article, but are documented on their respective reference pages (`?tooltip` and `?popover`).
+
+### Popovers vs modals
+
+Those already familiar with Shiny's `modalDialog()`/`showModal()` might wonder when a `popover()` is more appropriate. In general, `modalDialog()`s are more appropriate for "blocking" interactions (i.e., the user must or should interact with the modal before they interact with anything else). In contrast, `popover()`s are more appropriate for "non-blocking" interactions (i.e., the user can interact with the popover and other UI elements at the same time). That said, popovers don't always scale well to larger messages/menus. In those cases, consider a [offcanvas menu](https://getbootstrap.com/docs/5.3/components/offcanvas/) (`{bslib}` doesn't currently support offcanvas menus, but it's on the roadmap).
+
+
+### Popovers on hyperlinks
+
+In general, it's not recommended to use a hyperlink as the trigger for a `popover()`. That's because, the typical click action of a hyperlink (i.e., navigating to a new page) conflicts with the click action of a `popover()`. For this reason, `popover()` changes the trigger interaction to hover/focus when attached to a hyperlink (i.e., it acts more like a `tooltip()` in this case), which at least makes the popover content visible. That said, this is still a bit of a confusing UX, and thus should be avoided. Instead, consider using a [icon](#icons) (next to a hyperlink) as the trigger for the `popover()`.
