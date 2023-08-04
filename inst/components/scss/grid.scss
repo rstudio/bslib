@@ -11,7 +11,7 @@
     @include bslib-breakpoints-css-vars('bslib-grid--row-heights', map-keys($grid-breakpoints));
   }
 
-  > * > .shiny-input-container {
+  & > * > .shiny-input-container {
     width: 100%;
   }
 }
