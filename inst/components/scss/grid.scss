@@ -10,6 +10,10 @@
     grid-auto-rows: var(--bslib-grid--row-heights);
     @include bslib-breakpoints-css-vars('bslib-grid--row-heights', map-keys($grid-breakpoints));
   }
+
+  > * > .shiny-input-container {
+    width: 100%;
+  }
 }
 
 .bslib-grid-item {
