@@ -213,7 +213,7 @@ layout_columns <- function(
   )
 
   tag <- div(
-    class = "bslib-grid grid bslib-mb-spacer",
+    class = "bslib-grid grid bslib-mb-spacing",
     style = css(
       height = validateCssUnit(height),
       gap = validateCssUnit(gap),

@@ -13,14 +13,14 @@ $spacer: 1rem !default;
 // need a way to reset those margin-bottom to 0 in those special contexts
 //
 // We do this by adding this class to components (e.g., card())...
-.bslib-mb-spacer {
+.bslib-mb-spacing {
   margin-bottom: var(--bslib-mb-spacer);
 }
 
 // ...And this class for layout containers (e.g, layout_columns())
 .bslib-gap-spacing {
   gap: var(--bslib-mb-spacer);
-  > .bslib-mb-spacer, > .form-group, > p, > pre {
+  > .bslib-mb-spacing, > .form-group, > p, > pre {
     margin-bottom: 0;
   }
 }
