@@ -7,9 +7,9 @@
 export function getOrCreateTriggerEl(el: Element): HTMLElement {
   // If we've already identified and marked the trigger, then use it
   // (this should be done when the custom element is connected)
-  const tip = el.querySelector("[data-bs-toggle='tooltip']");
+  const tip = el.querySelector(":scope > [data-bs-toggle='tooltip']");
   if (tip) return tip as HTMLElement;
-  const pop = el.querySelector("[data-bs-toggle='popover']");
+  const pop = el.querySelector(":scope > [data-bs-toggle='popover']");
   if (pop) return pop as HTMLElement;
 
   // The first child of the web component always contains the tooltip/popover content,
