@@ -699,6 +699,12 @@
 
   // srcts/src/components/_utilsTooltip.ts
   function getOrCreateTriggerEl(el) {
+    const tip = el.querySelector(":scope > [data-bs-toggle='tooltip']");
+    if (tip)
+      return tip;
+    const pop = el.querySelector(":scope > [data-bs-toggle='popover']");
+    if (pop)
+      return pop;
     if (el.children.length > 1) {
       const ref = el.children[el.children.length - 1];
       return ref;
@@ -971,7 +977,7 @@
       const content = (_a = tip.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
       if (content instanceof HTMLElement) {
         content.style.display = "none";
-        this.append(content);
+        this.prepend(content);
       }
     }
     receiveMessage(el, data) {
