@@ -138,8 +138,8 @@ sidebar <- function(
         class = "sidebar-content bslib-gap-spacing",
         title,
         style = css(
-          "--bslib-mb-spacing" = validateCssUnit(gap),
-          "--bslib-sidebar-content-padding" = validateCssPadding(padding)
+          gap = validateCssUnit(gap),
+          padding = validateCssPadding(padding)
         ),
         ...
       )
