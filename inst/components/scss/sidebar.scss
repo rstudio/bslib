@@ -11,6 +11,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   --bslib-sidebar-bg: #{$bslib-sidebar-bg};
   --bslib-sidebar-fg: #{$bslib-sidebar-fg};
   --bslib-sidebar-padding: calc(var(--bslib-spacer) * 1.5);
+  --bslib-sidebar-content-padding: var(--bslib-sidebar-padding, 1.5rem);
   --bslib-sidebar-icon-size: var(--bslib-spacer, 1rem);
   --bslib-collapse-toggle-border: #{$bslib-sidebar-border};
   --bslib-collapse-toggle-transform: 90deg;
@@ -61,7 +62,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       display: flex;
       flex-direction: column;
       gap: var(--bslib-spacer, 1rem);
-      padding: var(--bslib-sidebar-padding);
+      padding: var(--bslib-sidebar-content-padding);
 
       > :last-child:not(.sidebar-title) {
         // Remove margin-bottom from the last item because sidebar has padding.
