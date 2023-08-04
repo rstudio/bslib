@@ -5,6 +5,13 @@
 // As of today, bootstrap.Tooltip doesn't seem to support floating-ui's virtual elements,
 // (but that should change in Bootstrap v6 https://github.com/twbs/bootstrap/pull/36683)
 export function getOrCreateTriggerEl(el: Element): HTMLElement {
+  // If we've already identified and marked the trigger, then use it
+  // (this should be done when the custom element is connected)
+  const tip = el.querySelector("[data-bs-toggle='tooltip']");
+  if (tip) return tip as HTMLElement;
+  const pop = el.querySelector("[data-bs-toggle='popover']");
+  if (pop) return pop as HTMLElement;
+
   // The first child of the web component always contains the tooltip/popover content,
   // so ignore the 1st child
   if (el.children.length > 1) {
