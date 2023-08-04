@@ -135,7 +135,7 @@ sidebar <- function(
       class = c("sidebar", class),
       hidden = if (open == "closed") NA,
       tags$div(
-        class = "sidebar-content",
+        class = "sidebar-content bslib-gap-spacing",
         title,
         style = css(
           "--bslib-mb-spacing" = validateCssUnit(gap),
