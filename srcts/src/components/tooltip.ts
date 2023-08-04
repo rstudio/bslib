@@ -165,7 +165,7 @@ export class BslibTooltip extends BslibElement {
     const content = tip.querySelector(".tooltip-inner")?.firstChild;
     if (content instanceof HTMLElement) {
       content.style.display = "none";
-      this.append(content);
+      this.prepend(content);
     }
   }
 
