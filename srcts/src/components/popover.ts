@@ -1,7 +1,11 @@
 import { nothing, html, render } from "lit";
 import { property } from "lit/decorators.js";
-import { LightElement } from "./webcomponents/_lightElement";
-import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
+import { BslibElement } from "./webcomponents/_bslibElement";
+import {
+  createWrapperElement,
+  getOrCreateTriggerEl,
+  setContentCarefully,
+} from "./_utilsTooltip";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
 import type { HtmlDep } from "./_utils";
 import type { Popover as PopoverType } from "bootstrap";
@@ -32,7 +36,7 @@ type UpdateMessage = {
 
 type MessageData = ToggleMessage | UpdateMessage;
 
-export class BslibPopover extends LightElement {
+export class BslibPopover extends BslibElement {
   static tagName = "bslib-popover";
   // Although it isn't included in the type, Bootstrap hangs a tip element off
   // of the popover instance, which provides a convenient way to find where the
@@ -120,21 +124,17 @@ export class BslibPopover extends LightElement {
     this._handleTabKey = this._handleTabKey.bind(this);
     this._handleEscapeKey = this._handleEscapeKey.bind(this);
     this._closeButton = this._closeButton.bind(this);
-    this.style.display = "contents";
   }
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    // The user-supplied content & header are both wrapped up into an additional
-    // <div> (this guarantees that we can pass an _Element_ to
-    // bootstrap.Popover(), which moves the content/header from within this
-    // component to the popover's location). These inline styles are here
-    // to prevent any styling suprises caused by the wrapping <div>.
-    if (this.content) this.content.style.display = "contents";
-    if (this.header instanceof HTMLElement) {
-      this.header.style.display = "contents";
-    }
+    // Use <template> as a way to protect these children from potentially being
+    // pulled outside this element (the browser's parser does this to, for
+    // example, block elements inside a <p> tag)
+    const template = this.querySelector("template") as HTMLTemplateElement;
+    this.prepend(createWrapperElement(template.content, "none"));
+    template.remove();
 
     // Append the close button
     if (this.content) {
@@ -144,7 +144,6 @@ export class BslibPopover extends LightElement {
     // Create the popover (and make sure it's focusable)
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "popover");
-    this.bsPopover = new bsPopover(trigger, this.options);
 
     if (this.isButtonLike) {
       trigger.setAttribute("role", "button");
@@ -160,6 +159,8 @@ export class BslibPopover extends LightElement {
       }
       trigger.style.cursor = "pointer";
     }
+
+    this.bsPopover = new bsPopover(trigger, this.options);
 
     trigger.addEventListener("shown.bs.popover", this._onShown);
     trigger.addEventListener("hidden.bs.popover", this._onHidden);
@@ -177,10 +178,6 @@ export class BslibPopover extends LightElement {
     this.bsPopover.dispose();
 
     super.disconnectedCallback();
-  }
-
-  render(): typeof nothing {
-    return nothing;
   }
 
   ///////////////////////////////////////////////////////////////
@@ -358,7 +355,7 @@ export class BslibPopover extends LightElement {
       fallback: HTMLElement | undefined,
       selector: string
     ): HTMLElement => {
-      if (x) return createContentElement(x.html);
+      if (x) return createWrapperElement(x.html, "contents");
       if (fallback) return fallback;
       return this.bsPopover.tip?.querySelector(selector) as HTMLElement;
     };
@@ -426,11 +423,4 @@ export class BslibPopover extends LightElement {
 
 function hasHeader(header: HTMLElement | undefined): boolean {
   return !!header && header.childNodes.length > 0;
-}
-
-function createContentElement(html: string): HTMLElement {
-  const div = document.createElement("div");
-  div.style.display = "contents";
-  div.innerHTML = html;
-  return div;
 }

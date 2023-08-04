@@ -80,3 +80,17 @@ export function setContentCarefully(x: {
     { once: true }
   );
 }
+
+export function createWrapperElement(
+  html: DocumentFragment | string,
+  display: CSSStyleDeclaration["display"]
+): HTMLElement {
+  const wrapper = document.createElement("div");
+  wrapper.style.display = display;
+  if (html instanceof DocumentFragment) {
+    wrapper.append(html);
+  } else {
+    wrapper.innerHTML = html;
+  }
+  return wrapper;
+}

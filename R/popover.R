@@ -110,12 +110,12 @@ popover <- function(
     placement = rlang::arg_match(placement),
     bsOptions = to_json(options),
     !!!attribs,
-    # Use display:none instead of <template> since shiny.js
-    # doesn't bind to the contents of the latter
-    div(
-      style = "display:none;",
-      div(!!!children),
-      div(title)
+    # Use <template> as a way to protect these children from potentially being
+    # pulled outside this element (the browser's parser does this to, for
+    # example, block elements inside a <p> tag)
+    tags$template(
+      div(!!!children, style = "display:contents;"),
+      div(title, style = "display:contents;")
     ),
     trigger
   )

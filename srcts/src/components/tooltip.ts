@@ -1,7 +1,10 @@
-import { nothing } from "lit";
 import { property } from "lit/decorators.js";
-import { LightElement } from "./webcomponents/_lightElement";
-import { getOrCreateTriggerEl, setContentCarefully } from "./_utilsTooltip";
+import { BslibElement } from "./webcomponents/_bslibElement";
+import {
+  createWrapperElement,
+  getOrCreateTriggerEl,
+  setContentCarefully,
+} from "./_utilsTooltip";
 import type { HtmlDep } from "./_utils";
 import type { Tooltip as TooltipType } from "bootstrap";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
@@ -29,7 +32,7 @@ type UpdateMessage = {
 
 type MessageData = ToggleMessage | UpdateMessage;
 
-export class BslibTooltip extends LightElement {
+export class BslibTooltip extends BslibElement {
   static tagName = "bslib-tooltip";
   private bsTooltip!: TooltipType & { tip?: HTMLElement };
   private visibilityObserver!: IntersectionObserver;
@@ -74,11 +77,17 @@ export class BslibTooltip extends LightElement {
     this._onShown = this._onShown.bind(this);
     this._onInsert = this._onInsert.bind(this);
     this._onHidden = this._onHidden.bind(this);
-    this.style.display = "contents";
   }
 
   connectedCallback(): void {
     super.connectedCallback();
+
+    // Use <template> as a way to protect these children from potentially being
+    // pulled outside this element (the browser's parser does this to, for
+    // example, block elements inside a <p> tag)
+    const template = this.querySelector("template") as HTMLTemplateElement;
+    this.prepend(createWrapperElement(template.content, "none"));
+    template.remove();
 
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "tooltip");
@@ -101,10 +110,6 @@ export class BslibTooltip extends LightElement {
     this.bsTooltip.dispose();
 
     super.disconnectedCallback();
-  }
-
-  render(): typeof nothing {
-    return nothing;
   }
 
   // Visibility state management
