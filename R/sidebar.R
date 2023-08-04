@@ -213,7 +213,7 @@ layout_sidebar <- function(
   sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
 
   res <- div(
-    class = "bslib-sidebar-layout",
+    class = "bslib-sidebar-layout bslib-mb-spacing",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
     `data-bslib-sidebar-init` = sidebar_init,
