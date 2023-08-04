@@ -24,8 +24,3 @@ $spacer: 1rem !default;
     margin-bottom: 0;
   }
 }
-
-// Remove bslib margin bottom spacing for fill items in a fillable container
-.html-fill-container > .html-fill-item.bslib-mb-spacing {
-  margin-bottom: 0;
-}
