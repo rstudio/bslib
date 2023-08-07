@@ -1121,7 +1121,7 @@
     }
     get isHyperLink() {
       const trigger = this.triggerElement;
-      return trigger.tagName === "A" && trigger.hasAttribute("href") && trigger.getAttribute("href") !== "#";
+      return trigger.tagName === "A" && trigger.hasAttribute("href") && trigger.getAttribute("href") !== "#" && trigger.getAttribute("href") !== "" && trigger.getAttribute("href") !== "javascript:void(0)";
     }
     connectedCallback() {
       super.connectedCallback();
