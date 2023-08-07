@@ -84,7 +84,7 @@ layout_column_wrap <- function(
   children <- lapply(children, grid_item_container, fillable = fillable)
 
   tag <- div(
-    class = "bslib-grid",
+    class = "bslib-grid bslib-mb-spacing",
     style = css(
       grid_template_columns = colspec,
       grid_auto_rows = if (heights_equal == "all") "1fr",
@@ -213,7 +213,7 @@ layout_columns <- function(
   )
 
   tag <- div(
-    class = "grid bslib-grid",
+    class = "bslib-grid grid bslib-mb-spacing",
     style = css(
       height = validateCssUnit(height),
       gap = validateCssUnit(gap),

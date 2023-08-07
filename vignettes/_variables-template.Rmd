@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup, include = FALSE}
 source(
-  rprojroot::find_package_root_file("vignettes/variables-table/variables-table.R")
+  rprojroot::find_package_root_file("vignettes/_variables-table/variables-table.R")
 )
 knitr::opts_chunk$set(
   collapse = TRUE,

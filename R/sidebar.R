@@ -54,6 +54,17 @@
 #'   viewed on mobile devices. The default is `250px` unless the sidebar is
 #'   included in a [layout_sidebar()] with a specified height, in which case
 #'   the default is to take up no more than 50% of the layout container.
+#' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
+#'   vertical `gap` (i.e., spacing) between adjacent elements provided to `...`.
+#' @param padding Padding within the sidebar itself. This can be a numeric
+#'   vector (which will be interpreted as pixels) or a character vector with
+#'   valid CSS lengths. `padding` may be one to four values. If one, then
+#'   that value will be used for all four sides. If two, then the first value
+#'   will be used for the top and bottom, while the second value will be used
+#'   for left and right. If three, then the first will be used for top, the
+#'   second will be left and right, and the third will be bottom. If four, then
+#'   the values will be interpreted as top, right, bottom, and left
+#'   respectively.
 #'
 #' @export
 sidebar <- function(
@@ -66,7 +77,9 @@ sidebar <- function(
   bg = NULL,
   fg = NULL,
   class = NULL,
-  max_height_mobile = NULL
+  max_height_mobile = NULL,
+  gap = NULL,
+  padding = NULL
 ) {
   if (isTRUE(open)) {
     open <- "open"
@@ -122,8 +135,12 @@ sidebar <- function(
       class = c("sidebar", class),
       hidden = if (open == "closed") NA,
       tags$div(
-        class = "sidebar-content",
+        class = "sidebar-content bslib-gap-spacing",
         title,
+        style = css(
+          gap = validateCssUnit(gap),
+          padding = validateCssPadding(padding)
+        ),
         ...
       )
     ),
@@ -213,7 +230,7 @@ layout_sidebar <- function(
   sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
 
   res <- div(
-    class = "bslib-sidebar-layout",
+    class = "bslib-sidebar-layout bslib-mb-spacing",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
     `data-bslib-sidebar-init` = sidebar_init,
