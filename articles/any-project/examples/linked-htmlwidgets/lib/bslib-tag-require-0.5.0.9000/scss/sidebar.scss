@@ -16,7 +16,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   --bslib-collapse-toggle-transform: 90deg;
   --bslib-collapse-toggle-right-transform: -90deg;
   --bslib-sidebar-column-main: minmax(0, 1fr);
-  
+
 
   display: grid !important;
   grid-template-columns: $bslib-sidebar-column-sidebar var(--bslib-sidebar-column-main);
@@ -60,6 +60,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     > .sidebar-content {
       display: flex;
       flex-direction: column;
+      gap: var(--bslib-spacer, 1rem);
       padding: var(--bslib-sidebar-padding);
 
       > :last-child:not(.sidebar-title) {
