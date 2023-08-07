@@ -69,7 +69,7 @@ layout_column_wrap <- function(
       if (num_cols != as.integer(num_cols)) {
         stop("Could not interpret width argument; see ?layout_column_wrap")
       }
-      paste0(rep_len("1fr", num_cols), collapse = " ")
+      sprintf("repeat(%s, minmax(0, 1fr))", num_cols)
     } else {
       if (fixed_width) {
         paste0("repeat(auto-fit, ", validateCssUnit(width), ")")
