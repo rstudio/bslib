@@ -58,6 +58,8 @@ navbar:
           href: articles/sidebars/index.html
         - text: Value Boxes
           href: articles/value-boxes/index.html
+        - text: Tooltips & Popovers
+          href: articles/tooltips-popovers/index.html
     layouts:
       text: Layouts
       menu:
@@ -195,4 +197,3 @@ redirects:
   - ["articles/utility-classes.html", "articles/utility-classes/index.html"]
   - ["articles/value-boxes.html", "articles/value-boxes/index.html"]
   - ["articles/why-sass.html", "articles/why-sass/index.html"]
-
