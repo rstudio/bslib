@@ -5,7 +5,7 @@ Authors@R: c(
     person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@posit.co", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Joe", "Cheng", role = "aut", email = "joe@posit.co"),
     person("Garrick", "Aden-Buie", role = "aut", email = "garrick@posit.co", comment = c(ORCID = "0000-0002-7111-0077")),
-    person(given = "Posit Software, PBC", role = c("cph", "fnd")),
+    person("Posit Software, PBC", role = c("cph", "fnd")),
     person(family = "Bootstrap contributors", role = "ctb",
     comment = "Bootstrap library"),
     person(family = "Twitter, Inc", role = "cph",
