@@ -36,7 +36,5 @@
 // (especially important when page_navbar(inverse = FALSE, sidebar = sidebar())
 .navbar+div>.bslib-sidebar-layout {
   border-top: var(--bslib-sidebar-border);
-  &.html-fill-item {
-    margin-bottom: 0;
-  }
+  margin-bottom: 0;
 }
