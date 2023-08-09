@@ -26,6 +26,6 @@ $spacer: 1rem !default;
 }
 
 // We generally don't want mb spacing for _activated_ fill items
-.html-fill-container>.html-fill-item.bslib-mb-spacing {
+.html-fill-container > .html-fill-item.bslib-mb-spacing {
   margin-bottom: 0;
 }
