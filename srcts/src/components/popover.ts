@@ -288,6 +288,7 @@ export class BslibPopover extends BslibElement {
         "Failed to find the popover's DOM element. Please report this bug."
       );
     }
+    this.contentContainer.innerHTML = "";
     const body = tip.querySelector(".popover-body");
     if (body) this.contentContainer.append(body?.firstChild as HTMLElement);
     const header = tip.querySelector(".popover-header");
