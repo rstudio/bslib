@@ -738,6 +738,9 @@
         console.warn(`Could not find ${selector} in ${type} content`);
         continue;
       }
+      if (target === html) {
+        continue;
+      }
       if (target instanceof HTMLElement) {
         target.replaceChildren(html);
       } else {
@@ -1250,6 +1253,7 @@
           "Failed to find the popover's DOM element. Please report this bug."
         );
       }
+      this.contentContainer.innerHTML = "";
       const body = tip.querySelector(".popover-body");
       if (body)
         this.contentContainer.append(body == null ? void 0 : body.firstChild);
