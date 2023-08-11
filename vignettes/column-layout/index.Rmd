@@ -112,14 +112,16 @@ layout_column_wrap(
 
 #### By cell
 
-By default, each the height on each card grows to fill the available vertical space in a particular row. This can be prevented
+Since each card is a fill item by default (i.e., `fill = TRUE`), each card grows/shrinks to fill the available vertical space in a particular row. This can be prevented by setting `fill = FALSE` on a particular card.
 
 ```{r}
 layout_column_wrap(
   width = "200px",
-  #heights_equal = "row",
-  fillable = FALSE,
-  card1, card3, card2
+  card1, card3, 
+  card(fill = FALSE,
+    card_header("Nothing much here"),
+    "This is it."
+  )
 ) |>
   anim_height(300, 450)
 ```
