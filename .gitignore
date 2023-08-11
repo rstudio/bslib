@@ -3,7 +3,6 @@
 .DS_Store
 docs/
 sandbox/
-revdep/
 inst/themer-demo/deploy/rsconnect
 inst/examples/*/rsconnect/
 

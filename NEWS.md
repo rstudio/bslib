@@ -1,4 +1,4 @@
-# bslib 0.5.0.9000
+# bslib 0.5.1
 
 ## New features
 
@@ -10,7 +10,7 @@
 ## Improvements
 
 * Closed quarto-dev/quarto-cli#6081: `{bslib}`'s components (e.g., `card()`, `sidebar()`, etc.) now work more sensibly in Quarto docs. (#664)
-* `sidebar()` gains `gap` and `padding` arguments to control the vertical gap between items in the sidebar and the padding around the sidebar's content. (#725)
+* Closed #672: `sidebar()` gains `gap` and `padding` arguments to control the vertical gap between items in the sidebar and the padding around the sidebar's content. (#725)
 
 ## Bug fixes
 
