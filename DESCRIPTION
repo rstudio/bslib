@@ -52,13 +52,47 @@ Suggests:
     testthat,
     thematic,
     withr
-Config/Needs/deploy:BH, cpp11, dplyr, DT, ggplot2, ggridges, gt, hexbin,
-    histoslider, lattice, leaflet, lubridate, modelr, nycflights13,
-    plotly, reactable, reshape2, rprojroot, rsconnect, scales
-Config/Needs/routine:chromote, desc, renv
-Config/Needs/website:brio, crosstalk, dplyr, DT, ggplot2, glue,
-    htmlwidgets, leaflet, lorem, palmerpenguins, plotly, purrr, rprojroot,
-    rstudio/htmltools, scales, stringr, tidyr, webshot2
+Config/Needs/deploy: 
+    BH,
+    cpp11,
+    dplyr,
+    DT,
+    ggplot2,
+    ggridges,
+    gt,
+    hexbin,
+    histoslider,
+    lattice,
+    leaflet,
+    lubridate,
+    modelr,
+    nycflights13,
+    plotly,
+    reactable,
+    reshape2,
+    rprojroot,
+    rsconnect,
+    scales
+Config/Needs/routine: chromote, desc, renv
+Config/Needs/website: 
+    brio,
+    crosstalk,
+    dplyr,
+    DT,
+    ggplot2,
+    glue,
+    htmlwidgets,
+    leaflet,
+    lorem,
+    palmerpenguins,
+    plotly,
+    purrr,
+    rprojroot,
+    rstudio/htmltools,
+    scales,
+    stringr,
+    tidyr,
+    webshot2
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
