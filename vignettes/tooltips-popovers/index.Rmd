@@ -55,6 +55,7 @@ allowing the user to control parameters of the visualization
 library(shiny)
 library(bslib)
 library(palmerpenguins)
+library(ggplot2)
 
 ui <- page_fillable(
   card(

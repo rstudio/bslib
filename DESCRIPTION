@@ -2,21 +2,23 @@ Package: bslib
 Title: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'
 Version: 0.5.1.9000
 Authors@R: c(
-    person("Carson", "Sievert", role = c("aut", "cre"), email = "carson@posit.co", comment = c(ORCID = "0000-0002-4958-2844")),
-    person("Joe", "Cheng", role = "aut", email = "joe@posit.co"),
-    person("Garrick", "Aden-Buie", role = "aut", email = "garrick@posit.co", comment = c(ORCID = "0000-0002-7111-0077")),
+    person("Carson", "Sievert", , "carson@posit.co", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4958-2844")),
+    person("Joe", "Cheng", , "joe@posit.co", role = "aut"),
+    person("Garrick", "Aden-Buie", , "garrick@posit.co", role = "aut",
+           comment = c(ORCID = "0000-0002-7111-0077")),
     person("Posit Software, PBC", role = c("cph", "fnd")),
-    person(family = "Bootstrap contributors", role = "ctb",
-    comment = "Bootstrap library"),
-    person(family = "Twitter, Inc", role = "cph",
-    comment = "Bootstrap library"),
+    person(, "Bootstrap contributors", role = "ctb",
+           comment = "Bootstrap library"),
+    person(, "Twitter, Inc", role = "cph",
+           comment = "Bootstrap library"),
     person("Javi", "Aguilar", role = c("ctb", "cph"),
-    comment = "Bootstrap colorpicker library"),
+           comment = "Bootstrap colorpicker library"),
     person("Thomas", "Park", role = c("ctb", "cph"),
-    comment = "Bootswatch library"),
-    person(family = "PayPal", role = c("ctb", "cph"),
-    comment = "Bootstrap accessibility plugin")
-    )
+           comment = "Bootswatch library"),
+    person(, "PayPal", role = c("ctb", "cph"),
+           comment = "Bootstrap accessibility plugin")
+  )
 Description: Simplifies custom 'CSS' styling of both 'shiny' and
     'rmarkdown' via 'Bootstrap' 'Sass'. Supports 'Bootstrap' 3, 4 and 5 as
     well as their various 'Bootswatch' themes. An interactive widget is
@@ -50,9 +52,17 @@ Suggests:
     testthat,
     thematic,
     withr
+Config/Needs/deploy:BH, cpp11, dplyr, DT, ggplot2, ggridges, gt, hexbin,
+    histoslider, lattice, leaflet, lubridate, modelr, nycflights13,
+    plotly, reactable, reshape2, rprojroot, rsconnect, scales
+Config/Needs/routine:chromote, desc, renv
+Config/Needs/website:brio, crosstalk, dplyr, DT, ggplot2, glue,
+    htmlwidgets, leaflet, lorem, palmerpenguins, plotly, purrr, rprojroot,
+    rstudio/htmltools, scales, stringr, tidyr, webshot2
+Config/testthat/edition: 3
 Encoding: UTF-8
-RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
 Collate:
     'accordion.R'
     'breakpoints.R'
@@ -95,48 +105,3 @@ Collate:
     'value-box.R'
     'version-default.R'
     'versions.R'
-Config/testthat/edition: 3
-Config/Needs/routine:
-    chromote,
-    desc,
-    renv
-Config/Needs/website:
-    brio,
-    crosstalk,
-    dplyr,
-    DT,
-    ggplot2,
-    glue,
-    htmlwidgets,
-    leaflet,
-    lorem,
-    palmerpenguins,
-    plotly,
-    purrr,
-    rprojroot,
-    rstudio/htmltools,
-    scales,
-    stringr,
-    tidyr,
-    webshot2
-Config/Needs/deploy:
-    BH,
-    cpp11,
-    dplyr,
-    DT,
-    ggplot2,
-    ggridges,
-    gt,
-    hexbin,
-    histoslider,
-    lattice,
-    leaflet,
-    lubridate,
-    modelr,
-    nycflights13,
-    plotly,
-    reactable,
-    reshape2,
-    rprojroot,
-    rsconnect,
-    scales
