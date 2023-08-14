@@ -15,3 +15,11 @@ utils::globalVariables("!!")
 #' @importFrom rlang := list2 abort
 ## usethis namespace: end
 NULL
+
+
+# For usethis::use_release_issue()
+release_bullets <- function() {
+  c(
+    "Update static imports: `staticimports::import()`"
+  )
+}
