@@ -2,13 +2,13 @@
 // Check/radio
 //
 
-.form-check {
+.form-check, #{$shiny-check}, #{$shiny-radio} {
   display: block;
   min-height: $form-check-min-height;
   padding-left: $form-check-padding-start;
   margin-bottom: $form-check-margin-bottom;
 
-  .form-check-input {
+  .form-check-input, #{$shiny-check} input, #{$shiny-radio} input {
     float: left;
     margin-left: $form-check-padding-start * -1;
   }
@@ -26,7 +26,7 @@
   }
 }
 
-.form-check-input {
+#{$form-check-label-selector} {
   --#{$prefix}form-check-bg: #{$form-check-input-bg};
 
   width: $form-check-input-width;
@@ -108,14 +108,14 @@
   // See: https://github.com/twbs/bootstrap/issues/28247
   &[disabled],
   &:disabled {
-    ~ .form-check-label {
+    ~ .form-check-label, ~ span {
       cursor: default;
       opacity: $form-check-label-disabled-opacity;
     }
   }
 }
 
-.form-check-label {
+#{$form-check-label-selector} {
   color: $form-check-label-color;
   cursor: $form-check-label-cursor;
 }

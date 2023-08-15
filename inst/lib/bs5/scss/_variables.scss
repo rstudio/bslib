@@ -946,10 +946,10 @@ $form-color-width:                      3rem !default;
 // scss-docs-start form-check-variables
 $form-check-input-width:                  1em !default;
 $form-check-min-height:                   $font-size-base * $line-height-base !default;
-$form-check-padding-start:                $form-check-input-width + .5em !default;
+$form-check-padding-start:                0 !default;
 $form-check-margin-bottom:                .125rem !default;
 $form-check-label-color:                  null !default;
-$form-check-label-cursor:                 null !default;
+$form-check-label-cursor:                 pointer !default;
 $form-check-transition:                   null !default;
 
 $form-check-input-active-filter:          brightness(90%) !default;
