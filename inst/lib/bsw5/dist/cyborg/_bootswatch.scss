@@ -1,4 +1,4 @@
-// Cyborg 5.2.2
+// Cyborg 5.3.1
 // Bootswatch
 
 
@@ -9,24 +9,20 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
   @import url($web-font-path);
 }
 
-:root {
-  color-scheme: dark;
-}
-
 // Navbar
 
 .navbar {
   &.bg-primary {
-    border: 1px solid body-mix(50%);
+    border: 1px solid $gray-700;
   }
 
   &.bg-dark {
     background-color: $body-bg !important;
-    border: 1px solid body-mix(50%);
+    border: 1px solid $gray-700;
   }
 
   &.bg-light {
-    background-color: body-mix(16%) !important;
+    background-color: $gray-500 !important;
   }
 
   &.fixed-top {
@@ -44,7 +40,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($contrast-bg, $value, 15%), $value) repeat-x;
+        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
       } @else {
         background-color: $value;
       }
@@ -55,12 +51,10 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
 // Forms
 
 legend {
-  color: $contrast-bg;
+  color: $white;
 }
 
 .form-control {
-  background-clip: border-box;
-
   &:disabled,
   &[readonly] {
     border-color: transparent;
@@ -72,10 +66,10 @@ legend {
 .nav-tabs,
 .nav-pills {
   .nav-link {
-    color: $contrast-bg;
+    color: $white;
 
     &:hover {
-      background-color: body-mix(50%);
+      background-color: $gray-700;
     }
 
     &.disabled,
@@ -92,7 +86,7 @@ legend {
 
 .breadcrumb {
   a {
-    color: $contrast-bg;
+    color: $white;
   }
 }
 
@@ -105,19 +99,19 @@ legend {
 // Indicators
 
 .alert {
-  color: $contrast-bg;
+  color: $white;
   border: none;
 
   a,
   .alert-link {
-    color: $contrast-bg;
+    color: $white;
     text-decoration: underline;
   }
 
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($contrast-bg, $value, 15%), $value) repeat-x;
+        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
       } @else {
         background-color: $value;
       }
@@ -129,6 +123,11 @@ legend {
   &.bg-dark {
     color: $gray-900;
   }
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--bs-tertiary-bg);
+  --bs-tooltip-color: var(--bs-emphasis-color);
 }
 
 // Containers

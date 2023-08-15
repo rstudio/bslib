@@ -1,4 +1,4 @@
-// Cyborg 5.2.2
+// Cyborg 5.3.1
 // Bootswatch
 
 $theme: "cyborg" !default;
@@ -31,31 +31,21 @@ $teal:    #20c997 !default;
 $cyan:    #93c !default;
 
 $primary:       $blue !default;
+$secondary:     $gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
+$light:         $gray-800 !default;
+$dark:          $gray-400 !default;
 
 $min-contrast-ratio:   2.25 !default;
 
 
 // Body
 
-// Body
-
-@function body-mix($weight) {
-    @return mix(#060606, $gray-400, $weight);
-}
-$body-bg:                   body-mix(100%) !default;
-$body-color:                body-mix(0%) !default;
-
-// Most defaults to cascade from body bg/color, but some
-// colors really want to a full contrast from the bg color
-$contrast-bg: color-contrast($body-bg) !default;
-$secondary:   body-mix(67%) !default;
-$light:       body-mix(33%) !default;
-$dark:        $body-color !default;
-
+$body-bg:       #060606 !default;
+$body-color:    $gray-400 !default;
 
 // Fonts
 
@@ -70,14 +60,14 @@ $headings-color:          $white !default;
 
 // Tables
 
-$table-color:                   $contrast-bg !default;
-$table-accent-bg:               rgba($contrast-bg, .05) !default;
-$table-hover-bg:                rgba($contrast-bg, .075) !default;
-$table-border-color:            body-mix(50%) !default;
-$table-dark-bg:                 body-mix(16%) !default;
-$table-dark-border-color:       body-mix(23%) !default;
+$table-color:                   $white !default;
+$table-accent-bg:               rgba($white, .05) !default;
+$table-hover-bg:                rgba($white, .075) !default;
+$table-border-color:            $gray-700 !default;
+$table-dark-bg:                 $gray-500 !default;
+$table-dark-border-color:       darken($gray-500, 7.5%) !default;
 
-$table-bg-scale:              0 !default;
+$table-bg-scale:              0% !default;
 
 // Buttons
 
@@ -86,47 +76,49 @@ $input-btn-padding-x:       1rem !default;
 // Forms
 
 $input-bg:                          $white !default;
-$input-disabled-bg:                 $body-color !default;
+$input-disabled-bg:                 $gray-400 !default;
 
-$input-color:                       body-mix(85%) !default;
-$input-border-color:                $contrast-bg !default;
+$input-color:                       $gray-900 !default;
+$input-border-color:                $white !default;
 $input-border-width:                0 !default;
 
-$input-group-addon-color:           $contrast-bg !default;
-$input-group-addon-bg:              body-mix(50%) !default;
+$input-group-addon-color:           $white !default;
+$input-group-addon-bg:              $gray-700 !default;
 $input-group-addon-border-color:    transparent !default;
 
-$form-check-input-bg:                     $contrast-bg !default;
+$form-check-input-bg:                     $white !default;
 $form-check-input-border:                 none !default;
 
-$form-file-button-color:          $contrast-bg !default;
+$form-file-button-color:          $input-group-addon-color !default;
+$form-file-button-bg:             $input-group-addon-bg !default;
+$form-file-button-hover-bg:       darken($form-file-button-bg, 2%) !default;
 
 // Dropdowns
 
-$dropdown-bg:                    body-mix(50%) !default;
-$dropdown-divider-bg:            body-mix(67%) !default;
-$dropdown-link-color:            $contrast-bg !default;
-$dropdown-link-hover-color:      $contrast-bg !default;
+$dropdown-bg:                    $gray-700 !default;
+$dropdown-divider-bg:            $gray-800 !default;
+$dropdown-link-color:            $white !default;
+$dropdown-link-hover-color:      $white !default;
 $dropdown-link-hover-bg:         $primary !default;
 
 // Navs
 
 $nav-tabs-border-color:                       $table-border-color !default;
 $nav-tabs-link-hover-border-color:            $nav-tabs-border-color !default;
-$nav-tabs-link-active-color:                  $contrast-bg !default;
+$nav-tabs-link-active-color:                  $white !default;
 $nav-tabs-link-active-bg:                     $nav-tabs-border-color !default;
 $nav-tabs-link-active-border-color:           $nav-tabs-border-color !default;
 
 // Navbar
 
-$navbar-dark-hover-color:           $contrast-bg !default;
+$navbar-dark-hover-color:           $white !default;
 
 // Pagination
 
-$pagination-color:                     $contrast-bg !default;
-$pagination-bg:                        body-mix(50%) !default;
+$pagination-color:                     $white !default;
+$pagination-bg:                        $gray-700 !default;
 $pagination-border-color:              transparent !default;
-$pagination-hover-color:               $contrast-bg !default;
+$pagination-hover-color:               $white !default;
 $pagination-hover-bg:                  $primary !default;
 $pagination-hover-border-color:        $pagination-border-color !default;
 $pagination-disabled-bg:               $pagination-bg !default;
@@ -134,55 +126,54 @@ $pagination-disabled-border-color:     $pagination-border-color !default;
 
 // Cards
 
-$card-bg:                           body-mix(50%) !default;
+$card-bg:                           $gray-700 !default;
 
 // Tooltips
 
-$tooltip-bg:                        body-mix(50%) !default;
 $tooltip-opacity:                   1 !default;
 
 // Popovers
 
-$popover-bg:                        body-mix(50%) !default;
+$popover-bg:                        $gray-700 !default;
 
 // Toasts
 
-$toast-color:                       $contrast-bg !default;
-$toast-background-color:            body-mix(67%) !default;
-$toast-border-color:                body-mix(50%) !default;
+$toast-color:                       $white !default;
+$toast-background-color:            $gray-800 !default;
+$toast-border-color:                $gray-700 !default;
 $toast-header-color:                $body-color !default;
 $toast-header-background-color:     $toast-background-color !default;
 $toast-header-border-color:         $toast-border-color !default;
 
 // Modals
 
-$modal-content-bg:                  body-mix(67%) !default;
-$modal-header-border-color:         body-mix(50%) !default;
+$modal-content-bg:                  $gray-800 !default;
+$modal-header-border-color:         $gray-700 !default;
 
 // Progress bars
 
-$progress-bg:                       body-mix(50%) !default;
+$progress-bg:                       $gray-700 !default;
 
 // List group
 
-$list-group-color:                  $contrast-bg !default;
-$list-group-bg:                     body-mix(67%) !default;
-$list-group-border-color:           body-mix(50%) !default;
+$list-group-color:                  $white !default;
+$list-group-bg:                     $gray-800 !default;
+$list-group-border-color:           $gray-700 !default;
 $list-group-hover-bg:               $primary !default;
-$list-group-disabled-bg:            body-mix(50%) !default;
-$list-group-action-color:           $contrast-bg !default;
+$list-group-disabled-bg:            $gray-700 !default;
+$list-group-action-color:           $white !default;
 $list-group-action-active-bg:       $primary !default;
 
 // Breadcrumbs
 
 $breadcrumb-padding-y:              .375rem !default;
 $breadcrumb-padding-x:              .75rem !default;
-$breadcrumb-bg:                     body-mix(50%) !default;
+$breadcrumb-bg:                     $gray-700 !default;
 $breadcrumb-border-radius:          .25rem !default;
 
 // Close
 
-$btn-close-color:            $contrast-bg !default;
+$btn-close-color:            $white !default;
 $btn-close-opacity:          .6 !default;
 $btn-close-hover-opacity:    1 !default;
 
