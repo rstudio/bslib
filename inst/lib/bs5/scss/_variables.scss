@@ -570,8 +570,8 @@ $box-shadow-lg:               0 1rem 3rem rgba($black, .175) !default;
 $box-shadow-inset:            inset 0 1px 2px rgba($black, .075) !default;
 // scss-docs-end box-shadow-variables
 
-$component-active-color:      $white !default;
 $component-active-bg:         $primary !default;
+$component-active-color:      color-contrast($component-active-bg) !default;
 
 // scss-docs-start focus-ring-variables
 $focus-ring-width:      .25rem !default;
@@ -1183,8 +1183,8 @@ $nav-tabs-link-active-bg:           var(--#{$prefix}body-bg) !default;
 $nav-tabs-link-active-border-color: var(--#{$prefix}border-color) var(--#{$prefix}border-color) $nav-tabs-link-active-bg !default;
 
 $nav-pills-border-radius:           var(--#{$prefix}border-radius) !default;
-$nav-pills-link-active-color:       $component-active-color !default;
 $nav-pills-link-active-bg:          $component-active-bg !default;
+$nav-pills-link-active-color:       color-contrast($nav-pills-link-active-bg, $component-active-color) !default;
 
 $nav-underline-gap:                 1rem !default;
 $nav-underline-border-width:        .125rem !default;
@@ -1262,8 +1262,8 @@ $dropdown-link-color:               var(--#{$prefix}body-color) !default;
 $dropdown-link-hover-color:         $dropdown-link-color !default;
 $dropdown-link-hover-bg:            var(--#{$prefix}tertiary-bg) !default;
 
-$dropdown-link-active-color:        $component-active-color !default;
 $dropdown-link-active-bg:           $component-active-bg !default;
+$dropdown-link-active-color:        color-contrast($dropdown-link-active-bg, $component-active-color) !default;
 
 $dropdown-link-disabled-color:      var(--#{$prefix}tertiary-color) !default;
 
@@ -1599,8 +1599,8 @@ $list-group-item-color-scale:       40% !default; // Deprecated in v5.3.0
 // fusv-enable
 
 $list-group-hover-bg:               var(--#{$prefix}tertiary-bg) !default;
-$list-group-active-color:           $component-active-color !default;
 $list-group-active-bg:              $component-active-bg !default;
+$list-group-active-color:           color-contrast($list-group-active-bg, $component-active-color) !default;
 $list-group-active-border-color:    $list-group-active-bg !default;
 
 $list-group-disabled-color:         var(--#{$prefix}secondary-color) !default;
