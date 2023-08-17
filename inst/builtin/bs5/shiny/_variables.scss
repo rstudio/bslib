@@ -90,3 +90,8 @@ $border-radius: 3px !default;
 $table-striped-bg: tint-color($blue, 94%) !default;
 $table-hover-bg: tint-color($blue, 90%) !default;
 $table-striped-order: even !default;
+
+// Modals
+$modal-dialog-margin-y-sm-up: 10% !default;
+$modal-header-border-width: none !default;
+$modal-header-padding: 1.5rem !default;

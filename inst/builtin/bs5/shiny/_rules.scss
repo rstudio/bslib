@@ -59,6 +59,15 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
+// Modals
+.modal-body, .modal-footer {
+  padding: 1.5rem;
+}
+.modal-header .btn-close {
+  align-self: start;
+  display: flex;
+}
+
 // Progress Bars & Notifications
 #shiny-notification-panel {
   position: fixed;
