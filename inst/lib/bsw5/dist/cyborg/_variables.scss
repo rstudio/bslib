@@ -44,7 +44,7 @@ $min-contrast-ratio:   2.25 !default;
 // Body
 
 @function body-mix($weight) {
-    @return mix(#060606, body-mix(67%)400, $weight);
+  @return mix(#060606, $gray-400, $weight);
 }
 $body-bg:                   body-mix(100%) !default;
 $body-color:                body-mix(0%) !default;
