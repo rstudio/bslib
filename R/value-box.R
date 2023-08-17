@@ -41,7 +41,19 @@
 #'     class = "bg-success"
 #'   )
 #' }
-value_box <- function(title, value, ..., showcase = NULL, showcase_layout = showcase_left_center(), full_screen = FALSE, theme_color = "primary", height = NULL, max_height = NULL, fill = TRUE, class = NULL) {
+value_box <- function(
+  title,
+  value,
+  ...,
+  showcase = NULL,
+  showcase_layout = showcase_left_center(),
+  full_screen = FALSE,
+  theme_color = "primary",
+  height = NULL,
+  max_height = NULL,
+  fill = TRUE,
+  class = NULL
+) {
 
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
