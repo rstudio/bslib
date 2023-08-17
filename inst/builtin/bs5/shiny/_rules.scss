@@ -67,6 +67,10 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   align-self: start;
   display: flex;
 }
+#shiny-modal-wrapper:has( ~ .modal-backdrop) .modal {
+  // Blur the background when the modal has a backdrop
+  backdrop-filter: blur(2px);
+}
 
 // Progress Bars & Notifications
 #shiny-notification-panel {
