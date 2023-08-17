@@ -58,3 +58,65 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     }
   }
 }
+
+// Progress Bars & Notifications
+#shiny-notification-panel {
+  position: fixed;
+  bottom: calc(var(--bslib-spacer, 1rem) / 2);
+  right: calc(var(--bslib-spacer, 1rem) / 2);
+  width: 450px;
+  z-index: $zindex-toast;
+}
+
+.progress-message {
+  margin-right: .6rem;
+}
+
+.shiny-notification {
+  position: relative;
+  opacity: 0.96;
+  padding: calc(var(--bslib-spacer, 1rem) * 2);
+  margin: var(--bslib-spacer, 1rem);
+  border: 1px solid $gray-200;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(29, 31, 33, .1), 0px 3px 7px rgba(29, 31, 33, .1), 0px 12px 30px rgba(29, 31, 33, .08);
+
+  &:not(.shiny-notification-message, .shiny-notification-warning, .shiny-notification-error) {
+    color: $gray-900;
+    background-color: $white;
+  }
+
+  &.shiny-notification-message {
+    color: adjust-color($color: $info, $lightness: -28%);
+  }
+  &.shiny-notification-warning {
+    color: adjust-color($color: $warning, $lightness: -34%);
+  }
+  &.shiny-notification-error {
+    color: adjust-color($color: $danger, $lightness: -7%);
+  }
+
+  .shiny-notification-close {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    top: 0;
+    right: 0;
+    bottom: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    cursor: pointer;
+    font-weight: 200;
+    color: currentColor;
+
+    &:hover {
+      font-weight: normal;
+    }
+  }
+
+  .shiny-notification-content-text :last-child {
+    margin-bottom: 0;
+  }
+}
