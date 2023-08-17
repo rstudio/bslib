@@ -13,16 +13,16 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
 
 .navbar {
   &.bg-primary {
-    border: 1px solid $gray-700;
+    border: 1px solid body-mix(50%);
   }
 
   &.bg-dark {
     background-color: $body-bg !important;
-    border: 1px solid $gray-700;
+    border: 1px solid body-mix(50%);
   }
 
   &.bg-light {
-    background-color: $gray-500 !important;
+    background-color: body-mix(16%) !important;
   }
 
   &.fixed-top {
@@ -40,7 +40,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+        background: $value linear-gradient(180deg, mix($contrast-bg, $value, 15%), $value) repeat-x;
       } @else {
         background-color: $value;
       }
@@ -51,7 +51,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
 // Forms
 
 legend {
-  color: $white;
+  color: $contrast-bg;
 }
 
 .form-control {
@@ -66,10 +66,10 @@ legend {
 .nav-tabs,
 .nav-pills {
   .nav-link {
-    color: $white;
+    color: $contrast-bg;
 
     &:hover {
-      background-color: $gray-700;
+      background-color: body-mix(50%);
     }
 
     &.disabled,
@@ -86,7 +86,7 @@ legend {
 
 .breadcrumb {
   a {
-    color: $white;
+    color: $contrast-bg;
   }
 }
 
@@ -99,19 +99,19 @@ legend {
 // Indicators
 
 .alert {
-  color: $white;
+  color: $contrast-bg;
   border: none;
 
   a,
   .alert-link {
-    color: $white;
+    color: $contrast-bg;
     text-decoration: underline;
   }
 
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+        background: $value linear-gradient(180deg, mix($contrast-bg, $value, 15%), $value) repeat-x;
       } @else {
         background-color: $value;
       }
