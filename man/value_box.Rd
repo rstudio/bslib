@@ -13,7 +13,7 @@ value_box(
   showcase = NULL,
   showcase_layout = showcase_left_center(),
   full_screen = FALSE,
-  theme_color = "primary",
+  theme_color = NULL,
   height = NULL,
   max_height = NULL,
   fill = TRUE,

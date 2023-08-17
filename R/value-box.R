@@ -48,7 +48,7 @@ value_box <- function(
   showcase = NULL,
   showcase_layout = showcase_left_center(),
   full_screen = FALSE,
-  theme_color = "primary",
+  theme_color = NULL,
   height = NULL,
   max_height = NULL,
   fill = TRUE,
@@ -75,8 +75,12 @@ value_box <- function(
     contents <- showcase_layout(showcase, contents)
   }
 
+  if (!is.null(theme_color)) {
+    theme_color <- paste0("bg-", theme_color)
+  }
+
   res <- card(
-    class = c("bslib-value-box border-0", paste0("bg-", theme_color), class),
+    class = c("bslib-value-box border-0", theme_color, class),
     full_screen = full_screen,
     height = height,
     max_height = max_height,
