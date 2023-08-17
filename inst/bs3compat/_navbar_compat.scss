@@ -38,11 +38,20 @@ ul.nav.navbar-nav {
   }
 }
 
-ul.nav.navbar-nav>li:not(.dropdown) {
-  @extend .nav-item;
-}
-ul.nav.navbar-nav>li>a {
-  @extend .nav-link;
+ul.nav.navbar-nav > li {
+  &:not(.dropdown) {
+    @extend .nav-item;
+  }
+
+  > a {
+    @extend .nav-link;
+  }
+  
+  &.active, &.show {
+    > a {
+      color: var(--#{$prefix}navbar-active-color);
+    }
+  }
 }
 
 // BS3 .navbar-default -> BS4 .navbar-light
