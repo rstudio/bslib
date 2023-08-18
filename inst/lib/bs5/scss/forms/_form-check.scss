@@ -26,7 +26,7 @@
   }
 }
 
-#{$form-check-label-selector} {
+#{$form-check-input-selector} {
   --#{$prefix}form-check-bg: #{$form-check-input-bg};
 
   width: $form-check-input-width;

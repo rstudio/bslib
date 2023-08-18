@@ -59,7 +59,7 @@ index c5a09c0f..2166dc73 100644
  }
  
 -.form-check-input {
-+#{$form-check-label-selector} {
++#{$form-check-input-selector} {
    --#{$prefix}form-check-bg: #{$form-check-input-bg};
  
    width: $form-check-input-width;
