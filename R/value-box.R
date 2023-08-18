@@ -75,12 +75,16 @@ value_box <- function(
     contents <- showcase_layout(showcase, contents)
   }
 
-  if (!is.null(theme_color)) {
-    theme_color <- paste0("bg-", theme_color)
+  style <- NULL
+
+  if (is.null(theme_color)) {
+    theme_color <- "default"
   }
 
+  border_class <- value_box_auto_border_class(theme_color, class)
+
   res <- card(
-    class = c("bslib-value-box border-0", theme_color, class),
+    class = c("bslib-value-box", theme_color, class, border_class),
     full_screen = full_screen,
     height = height,
     max_height = max_height,
@@ -91,6 +95,36 @@ value_box <- function(
   )
 
   as_fragment(tag_require(res, version = 5, caller = "value_box()"))
+}
+
+value_box_auto_border_class <- function(theme_color, class = NULL) {
+  # We add .border-auto to value boxes that might benefit from a border.
+  # These are disabled if `$bslib-value-box-enable-border` is set to `"never"`
+  # and are ignored if `$bslib-value-box-enable-border` is set to `"always".
+  # When `$bslib-value-box-enable-border` is set to `"auto"` (the default), we
+  # add a border if the theme color changes only the text and not the background
+  # and when shadows are disabled for the value boxes (via `$enable-shadows` or
+  # `$bslib-value-box-enable-shadow`).
+
+  if (!is.null(class) && grepl("border-?", class)) {
+    # If the user does anything with the border, we don't get involved
+    return(NULL)
+  }
+
+  if (identical(theme_color, "default")) {
+    # Add border to default boxes (which generally don't have a bg color)
+    return("border-auto")
+  }
+
+  theme <- paste(c(theme_color, class), collapse = " ")
+
+  if (grepl("text-", theme) && !grepl("bg-", theme)) {
+    # Add a border if the theme changes only text and not background
+    return("border-auto")
+  }
+
+  # Otherwise disable borders
+  return(NULL)
 }
 
 value_box_dependency <- function() {
