@@ -173,7 +173,6 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
 
     showcase_container <- div(
       class = "value-box-showcase",
-      class = "overflow-hidden",
       class = if (top_right) "showcase-top-right",
       style = css(
         "--bslib-value-box-max-height" = max_height,
