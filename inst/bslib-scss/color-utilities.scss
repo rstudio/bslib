@@ -1,0 +1,50 @@
+$bslib-enable-color-utilities: true !default;
+
+@if ($bslib-enable-color-utilities) {
+  $bslib-gradient-colors: () !default;
+  $bslib-gradient-colors: map-merge(
+    (
+      "blue":   $blue,
+      "indigo": $indigo,
+      "purple": $purple,
+      "pink":   $pink,
+      "red":    $red,
+      "orange": $orange,
+      "yellow": $yellow,
+      "green":  $green,
+      "teal":   $teal,
+      "cyan":   $cyan,
+      ),
+      $bslib-gradient-colors
+      );
+
+      // Named color background and foreground utility classes ---------------------
+      @each $name, $color in $bslib-gradient-colors {
+        .bg-#{$name} {
+          background-color: $color;
+          color: color-contrast($color);
+        }
+
+        .text-#{$name} {
+          color: $color;
+        }
+      }
+
+
+  // Gradient backgrounds ------------------------------------------------------
+  //
+  // Creates gradient background for every named color pair. Users can add
+  // additional colors into the mix by setting $bslib-gradient-colors to a map of
+  // color names to colors. Creates class names like: .bg-gradient-{from}-{to}.
+  @each $name1, $color1 in $bslib-gradient-colors {
+    @each $name2, $color2 in $bslib-gradient-colors {
+      @if $name1 != $name2 {
+        .bg-gradient-#{$name1}-#{$name2} {
+          $color: mix($color1, $color2, 60%);
+          background: linear-gradient(140deg, $color1 36%, $color2 180%) $color;
+          color: color-contrast($color);
+        }
+      }
+    }
+  }
+}

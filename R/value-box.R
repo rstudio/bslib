@@ -79,6 +79,14 @@ value_box <- function(
 
   if (is.null(theme_color)) {
     theme_color <- "default"
+  } else {
+    if (!rlang::is_string(theme_color)) {
+      rlang::abort('`theme_color` must be a single value, e.g. "primary", "danger", "purple", etc.')
+    }
+
+    if (!grepl("^(text|bg)-", theme_color)) {
+      theme_color <- paste0("bg-", theme_color)
+    }
   }
 
   border_class <- value_box_auto_border_class(theme_color, class)
