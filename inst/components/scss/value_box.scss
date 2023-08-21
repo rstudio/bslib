@@ -33,12 +33,12 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
     .fa { font-size: 4rem; }
 
     max-height: var(--bslib-value-box-max-height);
+  }
 
-    &.showcase-top-right {
-      align-items: end;
-      padding-left: 0;
-      padding-bottom: 0;
-    }
+  &.showcase-top-right .value-box-showcase {
+    align-items: end;
+    padding-left: 0;
+    padding-bottom: 0;
   }
 
   // Should also be fillable/fill (i.e., d-flex; flex: 1)
@@ -84,8 +84,8 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
     }
   }
 
-  &:not([data-full-screen="true"]) {
-    .value-box-showcase.showcase-top-right {
+  &:not([data-full-screen="true"]).showcase-top-right {
+    .value-box-showcase {
       margin-top: 0;
     }
   }

@@ -100,7 +100,13 @@ value_box <- function(
   border_class <- value_box_auto_border_class(theme_color, class)
 
   res <- card(
-    class = c("bslib-value-box", theme_color, class, border_class),
+    class = c(
+      "bslib-value-box",
+      theme_color,
+      class,
+      border_class,
+      paste0("showcase-", gsub(" ", "-", showcase_layout$position))
+    ),
     full_screen = full_screen,
     height = height,
     max_height = max_height,
@@ -225,7 +231,6 @@ showcase_layout_factory <- function(showcase_layout) {
   function(showcase, contents) {
     showcase_container <- div(
       class = "value-box-showcase",
-      # class = if (position == "top right") "showcase-top-right",
       style = css(
         "--bslib-value-box-max-height" = max_height,
         "--bslib-value-box-max-height-full-screen" = max_height_full_screen
