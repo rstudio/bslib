@@ -2,3 +2,21 @@
 // that it appears gray by default
 $well-bg: rgba($black, .03) !default;
 $well-color: $body-color !default;
+
+
+// Bootstrap 5.3.1 + selectize.js v0.12.4 (i.e., shiny v1.7.5) shim
+//
+// Starting with 5.3.x, Bootstrap started having Sass variables default to CSS
+// variables (e.g., $input-color: var(--bs-body-color)), which is problematic for
+// compuation that happens in Sass (e.g., `mix($color1, $color2)`). This bundle
+// fixes this problem for shiny::selectizeInput()'s Sass code (future versions of
+// selectizeInput() should hopefully address this problem, making this temporary
+// stopgap solution no longer required).
+@if $bootstrap-version >= 5 {
+  $selectize-color-text: if(is-css-variable($input-color), $body-color, $input-color) !default;
+  $selectize-color-item: rgba($selectize-color-text, 0.1) !default;
+  $selectize-color-item-border: if(is-css-variable($input-border-color), $border-color, $input-border-color) !default;
+  $selectize-color-dropdown: if(is-css-variable($dropdown-bg), $body-bg, $dropdown-bg) !default;
+  $selectize-color-dropdown-border-top: rgba($input-border-color, 0.2) !default;
+  $selectize-color-dropdown-item-create-text: rgba($selectize-color-text, 0.5) !default;
+}
