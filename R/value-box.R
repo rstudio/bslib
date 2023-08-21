@@ -79,7 +79,8 @@ value_box <- function(
   contents <- bindFillRole(contents, container = TRUE, item = TRUE)
 
   if (!is.null(showcase)) {
-    contents <- showcase_layout(showcase, contents)
+    showcase_layout_fn <- showcase_layout_factory(showcase_layout)
+    contents <- showcase_layout_fn(showcase, contents)
   }
 
   style <- NULL
@@ -165,7 +166,12 @@ value_box_dependency_sass <- function(theme) {
 #' @export
 #' @rdname value_box
 showcase_left_center <- function(width = 0.3, max_height = "100px", max_height_full_screen = 0.67) {
-  showcase_layout_(width, max_height, max_height_full_screen, top_right = FALSE)
+  new_showcase_layout(
+    position = "left center",
+    width = width,
+    max_height = max_height,
+    max_height_full_screen = max_height_full_screen
+  )
 }
 
 #' @export
@@ -174,21 +180,52 @@ showcase_top_right <- function(width = 0.3, max_height = "75px", max_height_full
   if (is_01_scalar(width)) {
     width <- 1 - width
   }
-  showcase_layout_(width, max_height, max_height_full_screen, top_right = TRUE)
+  new_showcase_layout(
+    position = "top right",
+    width = width,
+    max_height = max_height,
+    max_height_full_screen = max_height_full_screen
+  )
+}
+
+new_showcase_layout <- function(
+    position = c("left center", "top right"),
+    width = 0.3,
+    max_height = "100px",
+    max_height_full_screen = 0.67) {
+  position <- rlang::arg_match(position)
+
+  structure(
+    list(
+      position = position,
+      width = width,
+      max_height = max_height,
+      max_height_full_screen = max_height_full_screen
+    ),
+    class = "bslib_showcase_layout"
+  )
+}
+
+#' @export
+print.bslib_showcase_layout <- function(x, ...) {
+  cat("<showcase-layout: ", x$position, ">\n", sep = "")
+  cat("width:", x$width, "\n")
+  cat("max_height:", x$max_height, "\n")
+  cat("max_height_full_screen:", x$max_height_full_screen, "\n")
+  invisible(x)
 }
 
 
-showcase_layout_ <- function(width, max_height, max_height_full_screen, top_right) {
-
-  width <- validate_width_unit(width)
-  max_height <- validate_height_unit(max_height)
-  max_height_full_screen <- validate_height_unit(max_height_full_screen)
+showcase_layout_factory <- function(showcase_layout) {
+  position <- showcase_layout$position
+  width <- validate_width_unit(showcase_layout$width)
+  max_height <- validate_height_unit(showcase_layout$max_height)
+  max_height_full_screen <- validate_height_unit(showcase_layout$max_height_full_screen)
 
   function(showcase, contents) {
-
     showcase_container <- div(
       class = "value-box-showcase",
-      class = if (top_right) "showcase-top-right",
+      # class = if (position == "top right") "showcase-top-right",
       style = css(
         "--bslib-value-box-max-height" = max_height,
         "--bslib-value-box-max-height-full-screen" = max_height_full_screen
@@ -198,16 +235,21 @@ showcase_layout_ <- function(width, max_height, max_height_full_screen, top_righ
 
     showcase_container <- bindFillRole(showcase_container, container = TRUE, item = TRUE)
 
-    if (!top_right) {
+    if (position == "left center") {
       contents <- tagAppendAttributes(contents, class = "border-start")
     }
 
-    items <- list(showcase_container, contents)
-    width_fs <- c("1fr", "auto")
-    if (top_right) {
-      items <- rev(items)
-      width_fs <- rev(width_fs)
-    }
+    items <- switch(
+      position,
+      "left center" = list(showcase_container, contents),
+      "top right" = list(contents, showcase_container)
+    )
+
+    width_fs <- switch(
+      position,
+      "left center" = c("1fr", "auto"),
+      "top right" = c("auto", "1fr")
+    )
 
     card_body(
       style = css(padding = 0),
