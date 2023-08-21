@@ -68,6 +68,13 @@ value_box <- function(
     value <- tags$p(value)
   }
 
+  if (!is.null(title)) {
+    title <- tag_add_outer_class(title, class = "value-box-title")
+  }
+  if (!is.null(value)) {
+    value <- tag_add_outer_class(value, class = "value-box-value")
+  }
+
   contents <- div(class = "value-box-area", title, value, !!!children)
   contents <- bindFillRole(contents, container = TRUE, item = TRUE)
 
