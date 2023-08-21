@@ -171,10 +171,16 @@ value_box_dependency_sass <- function(theme) {
 #'
 #' @export
 #' @rdname value_box
-showcase_left_center <- function(width = 0.3, max_height = "100px", max_height_full_screen = 0.67) {
+showcase_left_center <- function(
+  width = 0.3,
+  max_height = "100px",
+  max_height_full_screen = 0.67,
+  width_full_screen = "1fr"
+) {
   new_showcase_layout(
     position = "left center",
     width = width,
+    width_full_screen = width_full_screen,
     max_height = max_height,
     max_height_full_screen = max_height_full_screen
   )
@@ -182,13 +188,16 @@ showcase_left_center <- function(width = 0.3, max_height = "100px", max_height_f
 
 #' @export
 #' @rdname value_box
-showcase_top_right <- function(width = 0.3, max_height = "75px", max_height_full_screen = 0.67) {
-  if (is_01_scalar(width)) {
-    width <- 1 - width
-  }
+showcase_top_right <- function(
+  width = 0.4,
+  max_height = "75px",
+  max_height_full_screen = 0.67,
+  width_full_screen = "1fr"
+) {
   new_showcase_layout(
     position = "top right",
     width = width,
+    width_full_screen = width_full_screen,
     max_height = max_height,
     max_height_full_screen = max_height_full_screen
   )
@@ -197,6 +206,7 @@ showcase_top_right <- function(width = 0.3, max_height = "75px", max_height_full
 new_showcase_layout <- function(
     position = c("left center", "top right"),
     width = 0.3,
+    width_full_screen = "1fr",
     max_height = "100px",
     max_height_full_screen = 0.67) {
   position <- rlang::arg_match(position)
@@ -205,6 +215,7 @@ new_showcase_layout <- function(
     list(
       position = position,
       width = width,
+      width_full_screen = width_full_screen,
       max_height = max_height,
       max_height_full_screen = max_height_full_screen
     ),
@@ -215,16 +226,18 @@ new_showcase_layout <- function(
 #' @export
 print.bslib_showcase_layout <- function(x, ...) {
   cat("<showcase-layout: ", x$position, ">\n", sep = "")
-  cat("width:", x$width, "\n")
-  cat("max_height:", x$max_height, "\n")
-  cat("max_height_full_screen:", x$max_height_full_screen, "\n")
+  cat("width: ", x$width, " [", x$width_full_screen, "]\n", sep = "")
+  cat("max_height:", x$max_height, " [", x$max_height_full_screen, "]\n", sep = "")
   invisible(x)
 }
 
 
 showcase_layout_factory <- function(showcase_layout) {
   position <- showcase_layout$position
+
   width <- validate_width_unit(showcase_layout$width)
+  width_full_screen <- validate_width_unit(showcase_layout$width_full_screen)
+
   max_height <- validate_height_unit(showcase_layout$max_height)
   max_height_full_screen <- validate_height_unit(showcase_layout$max_height_full_screen)
 
@@ -232,8 +245,8 @@ showcase_layout_factory <- function(showcase_layout) {
     showcase_container <- div(
       class = "value-box-showcase",
       style = css(
-        "--bslib-value-box-max-height" = max_height,
-        "--bslib-value-box-max-height-full-screen" = max_height_full_screen
+        "---bslib-value-box-max-height" = max_height,
+        "---bslib-value-box-max-height-full-screen" = max_height_full_screen
       ),
       showcase
     )
@@ -248,8 +261,8 @@ showcase_layout_factory <- function(showcase_layout) {
 
     width_fs <- switch(
       position,
-      "left center" = c("1fr", "auto"),
-      "top right" = c("auto", "1fr")
+      "left center" = c(width_full_screen, "auto"),
+      "top right" = c("auto", width_full_screen)
     )
 
     card_body(
@@ -259,8 +272,8 @@ showcase_layout_factory <- function(showcase_layout) {
         heights_equal = "row",
         class = "value-box-grid",
         style = css(
-          "--bslib-value-box-widths" = width,
-          "--bslib-value-box-widths-full-screen" = width_fs
+          "---bslib-value-box-showcase-width" = width,
+          "---bslib-value-box-widths-full-screen" = width_fs
         ),
         !!!items
       )
@@ -272,10 +285,12 @@ showcase_layout_factory <- function(showcase_layout) {
 # It seems to be to use % over fr here since there is no gap on the grid
 validate_width_unit <- function(x) {
   if (!is_01_scalar(x)) {
-    # TODO: validateCssUnit() should maybe support fr units?
+    if (!grepl("\\d+\\s*fr", x)) {
+      x <- validateCssUnit(x)
+    }
     return(paste(x, collapse = " "))
   }
-  paste(paste0(c(100 * x, 100 * (1 - x)), "%"), collapse = " ")
+  paste0(100 * x, "%")
 }
 
 validate_height_unit <- function(x) {

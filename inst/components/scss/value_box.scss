@@ -6,8 +6,18 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
     box-shadow: $box-shadow;
   }
 
-  .value-box-grid {
-    grid-template-columns: var(--bslib-value-box-widths);
+  container-name: bslib-value-box;
+  container-type: inline-size;
+
+  &.showcase-left-center {
+    .value-box-grid {
+      grid-template-columns: var(---bslib-value-box-showcase-width, 30%) auto;
+    }
+  }
+  &.showcase-top-right {
+    .value-box-grid {
+      grid-template-columns: auto var(---bslib-value-box-showcase-width, 50%);
+    }
   }
 
   // Should also be fillable/fill (i.e., d-flex; flex: 1)
@@ -27,7 +37,7 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
     @include bootstrap-heading($h6-font-size);
     color: inherit;
     // add a non-breaking space to ensure it's not 0 height
-    &::after {
+    &:empty::after {
       content: '\00a0 '
     }
   }
@@ -36,7 +46,7 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
     @include bootstrap-heading($h2-font-size);
     color: inherit;
     // add a non-breaking space to ensure it's not 0 height
-    &::after {
+    &:empty::after {
       content: '\00a0 '
     }
   }
@@ -60,28 +70,70 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
     .bi { font-size: 5rem; }
     .fa { font-size: 4rem; }
 
-    max-height: var(--bslib-value-box-max-height);
+    max-height: var(---bslib-value-box-max-height);
   }
 
-  &.showcase-top-right .value-box-showcase {
-    align-items: end;
-    padding-left: 0;
-    padding-bottom: 0;
+  &.showcase-top-right {
+    .value-box-showcase {
+      align-items: end;
+      padding-left: 0;
+      padding-bottom: 0;
+    }
+
+    &:not([data-full-screen="true"]) {
+      .value-box-showcase {
+        margin-top: 0;
+        overflow: visible;
+      }
+
+      .value-box-grid {
+        grid-template-columns: 1fr var(---bslib-value-box-showcase-width, 50%);
+
+        > :first-child {
+          grid-column: 1 / 2;
+          align-self: end;
+          position: absolute;
+        }
+
+        > :nth-child(2) {
+          grid-column: 2 / 3;
+          margin-left: auto;
+        }
+      }
+
+      @container bslib-value-box (max-width: 300px) {
+        .value-box-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto auto;
+          > :first-child, > :nth-child(2) {
+            grid-column: 1 / 2;
+          }
+          > :nth-child(2) {
+            padding-left: 1rem;
+          }
+        }
+      }
+    }
   }
 
+  &.showcase-left-center {
+    @container bslib-value-box (max-width: 300px) {
+      .value-box-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+      > * {
+        grid-column: 1 / 2;
+      }
+    }
+  }
 
   &[data-full-screen="true"] {
     .value-box-grid {
-      grid-template-columns: var(--bslib-value-box-widths-full-screen);
+      grid-template-columns: var(---bslib-value-box-widths-full-screen);
     }
     .value-box-showcase {
-      max-height: var(--bslib-value-box-max-height-full-screen);
-    }
-  }
-
-  &:not([data-full-screen="true"]).showcase-top-right {
-    .value-box-showcase {
-      margin-top: 0;
+      max-height: var(---bslib-value-box-max-height-full-screen);
     }
   }
 }
@@ -105,7 +157,10 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
 
 // Override layout_inline_grid()'s preference to collapse to full-width on mobile (inside the value box)
 @include media-breakpoint-down(sm) {
-  .bslib-value-box .value-box-grid {
-    grid-template-columns: var(--bslib-value-box-widths) !important;
+  .bslib-value-box.showcase-left-center .value-box-grid {
+    grid-template-columns: var(---bslib-value-box-showcase-width) auto !important;
+  }
+  .bslib-value-box.showcase-top-right .value-box-grid {
+    grid-template-columns: auto var(---bslib-value-box-showcase-width) !important;
   }
 }
