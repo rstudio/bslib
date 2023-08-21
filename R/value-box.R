@@ -240,10 +240,6 @@ showcase_layout_factory <- function(showcase_layout) {
 
     showcase_container <- bindFillRole(showcase_container, container = TRUE, item = TRUE)
 
-    if (position == "left center") {
-      contents <- tagAppendAttributes(contents, class = "border-start")
-    }
-
     items <- switch(
       position,
       "left center" = list(showcase_container, contents),

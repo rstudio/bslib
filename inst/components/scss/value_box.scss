@@ -1,10 +1,7 @@
 $bslib-value-box-enable-border: "auto" !default; // "auto" | "never" | "always"
 $bslib-value-box-enable-shadow: $enable-shadows !default;
 
-
 .bslib-value-box {
-  --bslib-value-box-separator-color: rgba(var(--bs-white-rgb, 255,255,255), 0.175);
-
   @if ($bslib-value-box-enable-shadow) {
     box-shadow: $box-shadow;
   }
@@ -51,9 +48,6 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
       color: inherit;
       margin-bottom: 0;
       margin-top: 0;
-    }
-    &.border-start {
-      border-color: var(--bslib-value-box-separator-color) !important;
     }
   }
 
