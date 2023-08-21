@@ -11,34 +11,6 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
   }
 
   // Should also be fillable/fill (i.e., d-flex; flex: 1)
-  .value-box-showcase {
-    align-items: center;
-    justify-content: center;
-    margin-top: auto;
-    margin-bottom: auto;
-    padding: 1rem;
-    overflow: hidden;
-
-    .bi, .fa {
-      opacity: .85;
-      min-width: 50px;
-      max-width: 125%;
-    }
-    // We set font size because {bsicons}/{fontawesome} both
-    // set height/width to 1em by default (as an inline style)
-    .bi { font-size: 5rem; }
-    .fa { font-size: 4rem; }
-
-    max-height: var(--bslib-value-box-max-height);
-  }
-
-  &.showcase-top-right .value-box-showcase {
-    align-items: end;
-    padding-left: 0;
-    padding-bottom: 0;
-  }
-
-  // Should also be fillable/fill (i.e., d-flex; flex: 1)
   .value-box-area {
     justify-content: center;
     padding: 1.5rem 1rem;
@@ -68,6 +40,35 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
       content: '\00a0 '
     }
   }
+
+  // Should also be fillable/fill (i.e., d-flex; flex: 1)
+  .value-box-showcase {
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 1rem;
+    overflow: hidden;
+
+    .bi, .fa {
+      opacity: .85;
+      min-width: 50px;
+      max-width: 125%;
+    }
+    // We set font size because {bsicons}/{fontawesome} both
+    // set height/width to 1em by default (as an inline style)
+    .bi { font-size: 5rem; }
+    .fa { font-size: 4rem; }
+
+    max-height: var(--bslib-value-box-max-height);
+  }
+
+  &.showcase-top-right .value-box-showcase {
+    align-items: end;
+    padding-left: 0;
+    padding-bottom: 0;
+  }
+
 
   &[data-full-screen="true"] {
     .value-box-grid {
