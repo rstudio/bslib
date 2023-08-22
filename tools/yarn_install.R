@@ -180,6 +180,7 @@ whitelist <- c(
   "sticky",
   # Already applied conditional prefixing
   "text-decoration",
+  "text-decoration-color",
   # IE11 technically needs a prefix, but this is just for floating labels
   # and I'm lazy https://caniuse.com/?search=placeholder-shown
   "placeholder-shown",
@@ -220,10 +221,10 @@ with_dir(
       file.remove(file.path(js_dist, non_bundle))
     }
 
-    # Downsize bootswatch
+    # Only keep Bootswatch's Sass source files
     for (bsw in c("bsw5", "bsw4")) {
-      file.remove(Sys.glob(file.path(bsw, "dist/*/bootstrap.css")))
-      file.remove(Sys.glob(file.path(bsw, "dist/*/bootstrap.min.css")))
+      file.remove(Sys.glob(file.path(bsw, "dist/*/*.css")))
+      file.remove(Sys.glob(file.path(bsw, "dist/*/*.map")))
       unlink("bsw5/docs", recursive = TRUE)
       # Remove hidden files
       unlink(
@@ -416,7 +417,7 @@ precompiled_dir <- find_package_root_file("inst/css-precompiled")
 unlink(precompiled_dir, recursive = TRUE)
 dir.create(precompiled_dir, recursive = TRUE)
 
-lapply(versions(), function(version) {
+invisible(lapply(versions(), function(version) {
   res <- bs_theme_dependencies(
     bs_theme(version), precompiled = FALSE,
     sass_options = sass_options(output_style = "compressed"),
@@ -446,5 +447,4 @@ lapply(versions(), function(version) {
     on.exit(unlink("bootstrap.scss"), add = TRUE)
     testthat::expect_error(sass(sass_file("bootstrap.scss")), NA)
   }
-})
-
+}))

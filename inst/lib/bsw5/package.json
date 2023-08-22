@@ -1,7 +1,7 @@
 {
   "name": "bootswatch",
   "description": "Bootswatch is a collection of themes for Bootstrap.",
-  "version": "5.2.2",
+  "version": "5.3.1",
   "author": "Thomas Park",
   "homepage": "https://bootswatch.com",
   "license": "MIT",
@@ -16,9 +16,9 @@
     "build": "grunt swatch",
     "docs": "grunt docs",
     "htmllint": "grunt htmllint",
-    "stylelint": "stylelint \"dist/**/*.scss\" --rd",
+    "stylelint": "stylelint \"dist/**/*.scss\"",
     "release": "grunt release",
     "test": "npm run stylelint"
   },
-  "files": "dist/**/*.{css,scss}"
+  "files": "dist/**/*.{css,scss,map}"
 }

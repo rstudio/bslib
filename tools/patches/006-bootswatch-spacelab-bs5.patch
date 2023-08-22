@@ -1,17 +1,17 @@
 diff --git a/inst/lib/bsw5/dist/spacelab/_bootswatch.scss b/inst/lib/bsw5/dist/spacelab/_bootswatch.scss
-index bb96102..23c230c 100644
+index 815fbe7a..e0a303ec 100644
 --- a/inst/lib/bsw5/dist/spacelab/_bootswatch.scss
 +++ b/inst/lib/bsw5/dist/spacelab/_bootswatch.scss
 @@ -22,7 +22,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
  .navbar {
    .nav-link,
    .navbar-brand {
--    text-shadow: -1px -1px 0 rgba(0, 0, 0, .1);
-+    text-shadow: -1px -1px 0 rgba($black, .1);
+-    text-shadow: -1px -1px 0 rgba(0, 0, 0, .05);
++    text-shadow: -1px -1px 0 rgba($black, .05);
      transition: color ease-in-out .2s;
    }
  
-@@ -55,7 +55,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
+@@ -51,7 +51,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
  // Buttons
  
  .btn {
