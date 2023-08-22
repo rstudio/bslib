@@ -246,8 +246,8 @@ showcase_layout_factory <- function(showcase_layout) {
     showcase_container <- div(
       class = "value-box-showcase",
       style = css(
-        "---bslib-value-box-max-height" = max_height,
-        "---bslib-value-box-max-height-full-screen" = max_height_full_screen
+        "---bslib-value-box-showcase-max-h" = max_height,
+        "---bslib-value-box-showcase-max-h-fs" = max_height_full_screen
       ),
       showcase
     )
@@ -260,12 +260,6 @@ showcase_layout_factory <- function(showcase_layout) {
       "top right" = list(contents, showcase_container)
     )
 
-    width_fs <- switch(
-      position,
-      "left center" = c(width_full_screen, "auto"),
-      "top right" = c("auto", width_full_screen)
-    )
-
     card_body(
       style = css(padding = 0),
       layout_column_wrap(
@@ -273,8 +267,8 @@ showcase_layout_factory <- function(showcase_layout) {
         heights_equal = "row",
         class = "value-box-grid",
         style = css(
-          "---bslib-value-box-showcase-width" = width,
-          "---bslib-value-box-widths-full-screen" = width_fs
+          "---bslib-value-box-showcase-w" = width,
+          "---bslib-value-box-showcase-w-fs" = width_fs
         ),
         !!!items
       )

@@ -9,17 +9,6 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
   container-name: bslib-value-box;
   container-type: inline-size;
 
-  &.showcase-left-center {
-    .value-box-grid {
-      grid-template-columns: var(---bslib-value-box-showcase-width, 30%) auto;
-    }
-  }
-  &.showcase-top-right {
-    .value-box-grid {
-      grid-template-columns: auto var(---bslib-value-box-showcase-width, 50%);
-    }
-  }
-
   // Should also be fillable/fill (i.e., d-flex; flex: 1)
   .value-box-area {
     justify-content: center;
@@ -70,10 +59,26 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
     .bi { font-size: 5rem; }
     .fa { font-size: 4rem; }
 
-    max-height: var(---bslib-value-box-max-height);
+    max-height: var(---bslib-value-box-showcase-max-h);
+  }
+
+  &[data-full-screen="true"] {
+    .value-box-showcase {
+      max-height: var(---bslib-value-box-showcase-max-h-fs);
+    }
   }
 
   &.showcase-top-right {
+    .value-box-grid {
+      grid-template-columns: auto var(---bslib-value-box-showcase-w, 50%);
+    }
+
+    &[data-full-screen="true"] {
+      .value-box-grid {
+        grid-template-columns: auto var(---bslib-value-box-showcase-w-fs, 1fr);
+      }
+    }
+
     .value-box-showcase {
       align-items: end;
       padding-left: 0;
@@ -87,7 +92,7 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
       }
 
       .value-box-grid {
-        grid-template-columns: 1fr var(---bslib-value-box-showcase-width, 50%);
+        grid-template-columns: 1fr var(---bslib-value-box-showcase-w, 50%);
 
         > :first-child {
           grid-column: 1 / 2;
@@ -117,6 +122,14 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
   }
 
   &.showcase-left-center {
+    .value-box-grid {
+      grid-template-columns: var(---bslib-value-box-showcase-w, 30%) auto;
+    }
+
+    &[data-full-screen="true"] .value-box-grid {
+      grid-template-columns: var(---bslib-value-box-showcase-w-fs, 1fr) auto;
+    }
+
     @container bslib-value-box (max-width: 300px) {
       .value-box-grid {
         grid-template-columns: 1fr;
@@ -125,15 +138,6 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
       > * {
         grid-column: 1 / 2;
       }
-    }
-  }
-
-  &[data-full-screen="true"] {
-    .value-box-grid {
-      grid-template-columns: var(---bslib-value-box-widths-full-screen);
-    }
-    .value-box-showcase {
-      max-height: var(---bslib-value-box-max-height-full-screen);
     }
   }
 }
@@ -158,9 +162,9 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
 // Override layout_inline_grid()'s preference to collapse to full-width on mobile (inside the value box)
 @include media-breakpoint-down(sm) {
   .bslib-value-box.showcase-left-center .value-box-grid {
-    grid-template-columns: var(---bslib-value-box-showcase-width) auto !important;
+    grid-template-columns: var(---bslib-value-box-showcase-w, 30%) auto !important;
   }
   .bslib-value-box.showcase-top-right .value-box-grid {
-    grid-template-columns: auto var(---bslib-value-box-showcase-width) !important;
+    grid-template-columns: auto var(---bslib-value-box-showcase-w, 50%) !important;
   }
 }
