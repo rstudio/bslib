@@ -29,6 +29,10 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
         > :last-child { // contents
           grid-area: bottom !important;
         }
+
+        .value-box-area {
+          justify-content: end;
+        }
       }
     }
   }
