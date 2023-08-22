@@ -79,8 +79,7 @@ value_box <- function(
   contents <- bindFillRole(contents, container = TRUE, item = TRUE)
 
   if (!is.null(showcase)) {
-    showcase_layout_fn <- showcase_layout_factory(showcase_layout)
-    contents <- showcase_layout_fn(showcase, contents)
+    contents <- layout_showcase(showcase_layout, showcase, contents)
   }
 
   style <- NULL
@@ -239,33 +238,30 @@ print.bslib_showcase_layout <- function(x, ...) {
   invisible(x)
 }
 
+layout_showcase <- function(showcase_layout, showcase, contents) {
+  showcase_container <- div(
+    class = "value-box-showcase",
+    style = css(
+      "---bslib-value-box-showcase-max-h" = showcase_layout$max_height,
+      "---bslib-value-box-showcase-max-h-fs" = showcase_layout$max_height_full_screen
+    ),
+    showcase
+  )
 
-showcase_layout_factory <- function(showcase_layout) {
-  function(showcase, contents) {
-    showcase_container <- div(
-      class = "value-box-showcase",
+  card_body(
+    style = css(padding = 0),
+    layout_column_wrap(
+      width = NULL, gap = 0,
+      heights_equal = "row",
+      class = "value-box-grid",
       style = css(
-        "---bslib-value-box-showcase-max-h" = showcase_layout$max_height,
-        "---bslib-value-box-showcase-max-h-fs" = showcase_layout$max_height_full_screen
+        "---bslib-value-box-showcase-w" = showcase_layout$width,
+        "---bslib-value-box-showcase-w-fs" = showcase_layout$width_full_screen
       ),
-      showcase
+      as_fill_carrier(showcase_container),
+      contents
     )
-
-    card_body(
-      style = css(padding = 0),
-      layout_column_wrap(
-        width = NULL, gap = 0,
-        heights_equal = "row",
-        class = "value-box-grid",
-        style = css(
-          "---bslib-value-box-showcase-w" = showcase_layout$width,
-          "---bslib-value-box-showcase-w-fs" = showcase_layout$width_full_screen
-        ),
-        as_fill_carrier(showcase_container),
-        contents
-      )
-    )
-  }
+  )
 }
 
 
