@@ -20,18 +20,17 @@ $bslib-enable-color-utilities: $bootstrap-version >= 5 !default;
     $bslib-gradient-colors
   );
 
-      // Named color background and foreground utility classes ---------------------
-      @each $name, $color in $bslib-gradient-colors {
-        .bg-#{$name} {
-          background-color: $color;
-          color: color-contrast($color);
-        }
+  // Named color background and foreground utility classes ---------------------
+  @each $name, $color in $bslib-gradient-colors {
+    .bg-#{$name} {
+      background-color: $color;
+      color: color-contrast($color);
+    }
 
-        .text-#{$name} {
-          color: $color;
-        }
-      }
-
+    .text-#{$name} {
+      color: $color;
+    }
+  }
 
   // Gradient backgrounds ------------------------------------------------------
   //
