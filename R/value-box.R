@@ -289,7 +289,7 @@ validate_width_unit <- function(x) {
     if (!grepl("\\d+\\s*fr", x)) {
       x <- validateCssUnit(x)
     }
-    return(paste(x, collapse = " "))
+    return(x)
   }
   paste0(100 * x, "%")
 }
