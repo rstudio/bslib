@@ -56,13 +56,11 @@ value_box <- function(
   fill = TRUE,
   class = NULL
 ) {
+  dots <- separate_arguments(...)
+  attribs <- dots$attribs
+  children <- dots$children
 
-  args <- rlang::list2(...)
-  argnames <- rlang::names2(args)
-
-  attribs <- args[nzchar(argnames)]
-  children <- args[!nzchar(argnames)]
-
+  # ---- Title and value ----
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- tags$p(title)
   }
@@ -77,9 +75,11 @@ value_box <- function(
     value <- tag_add_outer_class(value, class = "value-box-value")
   }
 
+  # ---- Contents ----
   contents <- div(class = "value-box-area", title, value, !!!children)
-  contents <- bindFillRole(contents, container = TRUE, item = TRUE)
+  contents <- as_fill_carrier(contents)
 
+  # ---- Showcase ----
   if (!is.null(showcase)) {
     if (is.character(showcase_layout)) {
       showcase_layout <- rlang::arg_match(showcase_layout)
@@ -94,8 +94,7 @@ value_box <- function(
     contents <- layout_showcase(showcase_layout, showcase, contents)
   }
 
-  style <- NULL
-
+  # ---- Theme ----
   if (is.null(theme_color)) {
     theme_color <- "default"
   } else {
@@ -110,6 +109,7 @@ value_box <- function(
 
   border_class <- value_box_auto_border_class(theme_color, class)
 
+  # ---- Layout ----
   res <- card(
     class = c(
       "bslib-value-box",
