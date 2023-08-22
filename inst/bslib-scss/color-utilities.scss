@@ -1,4 +1,4 @@
-$bslib-enable-color-utilities: variable-exists("colors") !default;
+$bslib-enable-color-utilities: $bootstrap-version >= 5 !default;
 
 @if ($bslib-enable-color-utilities) {
   $bslib-gradient-colors: () !default;
