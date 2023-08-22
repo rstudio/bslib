@@ -168,7 +168,7 @@ value_box_dependency_sass <- function(theme) {
   component_dependency_sass(theme, "value_box")
 }
 
-#' @param width, width_full_screen one of the following:
+#' @param width,width_full_screen one of the following:
 #'   * A proportion (i.e., a number between 0 and 1) of available width to
 #'     allocate to the showcase.
 #'   * A valid [CSS unit][htmltools::validateCssUnit] defining the width of the

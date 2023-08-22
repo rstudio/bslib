@@ -72,7 +72,7 @@ container with an opinionated height (e.g., \code{page_fillable()}).}
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
 
-\item{width, }{width_full_screen one of the following:
+\item{width, width_full_screen}{one of the following:
 \itemize{
 \item A proportion (i.e., a number between 0 and 1) of available width to
 allocate to the showcase.
