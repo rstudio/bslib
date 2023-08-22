@@ -13,20 +13,22 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
     grid-template-areas: "left right";
   }
 
-  @container bslib-value-box (max-width: 300px) {
-    .value-box-grid {
-      // override specificity of showcase layouts for small value boxes
-      grid-template-columns: 1fr !important;
-      grid-template-rows: auto auto;
-      grid-template-areas:
-        "top"
-        "bottom";
+  @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
+    @container bslib-value-box (max-width: 300px) {
+      .value-box-grid {
+        // override specificity of showcase layouts for small value boxes
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+          "top"
+          "bottom";
 
-      > :first-child { // showcase
-        grid-area: top !important;
-      }
-      > :last-child { // contents
-        grid-area: bottom !important;
+        > :first-child { // showcase
+          grid-area: top !important;
+        }
+        > :last-child { // contents
+          grid-area: bottom !important;
+        }
       }
     }
   }
