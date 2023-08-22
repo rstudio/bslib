@@ -13,6 +13,6 @@
   @if (type-of($x) != string) {
     @return false;
   } @else {
-    @return str-slice($x, 1, 9) == 'var(--bs-';
+    @return str-slice($x, 1, 6) == 'var(--';
   }
 }
