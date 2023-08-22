@@ -12,8 +12,10 @@
 #'   element.
 #' @param showcase A [htmltools::tag()] child to showcase (e.g., a
 #'   [bsicons::bs_icon()], a `plotly::plotlyOutput()`, etc).
-#' @param showcase_layout either `showcase_left_center()` or
-#'   `showcase_top_right()`.
+#' @param showcase_layout One of `"left center"` (default) or `"top right"`, or
+#'   the showcase options provided by [showcase_left_center()] or
+#'   [showcase_top_right()]. Use the showcase functions when you want to control
+#'   the height and width of the showcase area.
 #' @param theme_color A theme color to use for the background color. Should
 #'   match a name in the Bootstrap Sass variable `$theme-colors` (e.g.,
 #'   `"secondary"`, `"success"`, `"danger"`, etc).
@@ -46,7 +48,7 @@ value_box <- function(
   value,
   ...,
   showcase = NULL,
-  showcase_layout = showcase_left_center(),
+  showcase_layout = c("left center", "top right"),
   full_screen = FALSE,
   theme_color = NULL,
   height = NULL,
@@ -79,6 +81,16 @@ value_box <- function(
   contents <- bindFillRole(contents, container = TRUE, item = TRUE)
 
   if (!is.null(showcase)) {
+    if (is.character(showcase_layout)) {
+      showcase_layout <- rlang::arg_match(showcase_layout)
+      showcase_layout <- switch(
+        showcase_layout,
+        "left center" = showcase_left_center(),
+        "top right" = showcase_top_right()
+      )
+    } else if (!inherits(showcase_layout, "bslib_showcase_layout")) {
+      rlang::abort("`showcase_layout` must be a string or a `showcase_*()` layout")
+    }
     contents <- layout_showcase(showcase_layout, showcase, contents)
   }
 
