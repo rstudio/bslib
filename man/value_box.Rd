@@ -23,13 +23,15 @@ value_box(
 showcase_left_center(
   width = 0.3,
   max_height = "100px",
-  max_height_full_screen = 0.67
+  max_height_full_screen = 0.67,
+  width_full_screen = "1fr"
 )
 
 showcase_top_right(
-  width = 0.3,
+  width = 0.4,
   max_height = "75px",
-  max_height_full_screen = 0.67
+  max_height_full_screen = 0.67,
+  width_full_screen = "1fr"
 )
 }
 \arguments{
@@ -68,15 +70,16 @@ container with an opinionated height (e.g., \code{page_fillable()}).}
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
 
-\item{width}{one of the following:
+\item{width, }{width_full_screen one of the following:
 \itemize{
 \item A proportion (i.e., a number between 0 and 1) of available width to
 allocate to the showcase.
-\item A vector of length 2 valid \link[htmltools:validateCssUnit]{CSS unit} defining
-the width of each column (for \code{showcase_left_center()} the 1st unit defines
-the showcase width and for \code{showcase_top_right} the 2nd unit defines the
-showcase width). Note that any units supported by the CSS grid
-\code{grid-template-columns} property may be used (e.g., \code{fr} units).
+\item A valid \link[htmltools:validateCssUnit]{CSS unit} defining the width of the
+showcase column, or a valid value accepted by the \code{grid-template-columns}
+CSS property to define the width of the showcase column. Accepted values
+in the second category are \code{"auto"}, \code{"min-content"}, \code{"max-content"}, a
+fractional unit (e.g. \verb{2fr}), or a \code{minmax()} function (e.g.,
+\verb{minmax(100px, 1fr)}).
 }}
 }
 \description{

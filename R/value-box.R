@@ -157,14 +157,15 @@ value_box_dependency_sass <- function(theme) {
   component_dependency_sass(theme, "value_box")
 }
 
-#' @param width one of the following:
+#' @param width, width_full_screen one of the following:
 #'   * A proportion (i.e., a number between 0 and 1) of available width to
 #'     allocate to the showcase.
-#'   * A vector of length 2 valid [CSS unit][htmltools::validateCssUnit] defining
-#'     the width of each column (for `showcase_left_center()` the 1st unit defines
-#'     the showcase width and for `showcase_top_right` the 2nd unit defines the
-#'     showcase width). Note that any units supported by the CSS grid
-#'     `grid-template-columns` property may be used (e.g., `fr` units).
+#'   * A valid [CSS unit][htmltools::validateCssUnit] defining the width of the
+#'     showcase column, or a valid value accepted by the `grid-template-columns`
+#'     CSS property to define the width of the showcase column. Accepted values
+#'     in the second category are `"auto"`, `"min-content"`, `"max-content"`, a
+#'     fractional unit (e.g. `2fr`), or a `minmax()` function (e.g.,
+#'     `minmax(100px, 1fr)`).
 #' @param max_height,max_height_full_screen A proportion (i.e., a number between
 #'   0 and 1) or any valid [CSS unit][htmltools::validateCssUnit] defining the
 #'   showcase max_height.
@@ -236,8 +237,8 @@ print.bslib_showcase_layout <- function(x, ...) {
 showcase_layout_factory <- function(showcase_layout) {
   position <- showcase_layout$position
 
-  width <- validate_width_unit(showcase_layout$width)
-  width_full_screen <- validate_width_unit(showcase_layout$width_full_screen)
+  width <- validate_grid_width_unit(showcase_layout$width)
+  width_full_screen <- validate_grid_width_unit(showcase_layout$width_full_screen)
 
   max_height <- validate_height_unit(showcase_layout$max_height)
   max_height_full_screen <- validate_height_unit(showcase_layout$max_height_full_screen)
@@ -271,8 +272,14 @@ showcase_layout_factory <- function(showcase_layout) {
 
 
 # It seems to be to use % over fr here since there is no gap on the grid
-validate_width_unit <- function(x) {
+validate_grid_width_unit <- function(x) {
   if (!is_01_scalar(x)) {
+    if (tolower(x) %in% c("auto", "min-content", "max-content")) {
+      return(tolower(x))
+    }
+    if (grepl("^minmax\\(", x)) {
+      return(x)
+    }
     if (!grepl("\\d+\\s*fr", x)) {
       x <- validateCssUnit(x)
     }
