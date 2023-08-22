@@ -2,9 +2,27 @@ $bslib-value-box-enable-border: "auto" !default; // "auto" | "never" | "always"
 $bslib-value-box-enable-shadow: $enable-shadows !default;
 $bslib-value-box-horizontal-min-width: 300px;
 
+// CSS variables that start with --- (3 dashes instead of 2) are private vars
+// that are set by user arguments in the R calls. The CSS properties below only
+// apply to the default value box style; the standard way to theme individual
+// value boxes is with CSS classes on the value box container.
+:root {
+  --bslib-value-box-fg: inherit;
+  --bslib-value-box-bg: inherit;
+  --bslib-value-box-border-color: inherit;
+  --bslib-value-box-border-width: inherit;
+}
+
 .bslib-value-box {
   @if ($bslib-value-box-enable-shadow) {
     box-shadow: $box-shadow;
+  }
+
+  &.default {
+    color: var(--bslib-value-box-fg);
+    background-color: var(--bslib-value-box-bg);
+    border-color: var(--bslib-value-box-border);
+    border-width: var(--bslib-value-box-border-width);
   }
 
   container-name: bslib-value-box;
