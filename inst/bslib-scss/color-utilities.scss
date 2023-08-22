@@ -1,4 +1,4 @@
-$bslib-enable-color-utilities: true !default;
+$bslib-enable-color-utilities: variable-exists("colors") !default;
 
 @if ($bslib-enable-color-utilities) {
   $bslib-gradient-colors: () !default;
