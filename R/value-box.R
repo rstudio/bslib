@@ -204,11 +204,12 @@ showcase_top_right <- function(
 }
 
 new_showcase_layout <- function(
-    position = c("left center", "top right"),
-    width = 0.3,
-    width_full_screen = "1fr",
-    max_height = "100px",
-    max_height_full_screen = 0.67) {
+  position = c("left center", "top right"),
+  width = 0.3,
+  width_full_screen = "1fr",
+  max_height = "100px",
+  max_height_full_screen = 0.67
+) {
   position <- rlang::arg_match(position)
 
   structure(
