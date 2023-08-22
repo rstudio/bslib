@@ -70,19 +70,18 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 }
 
 .bslib-value-box {
-  &.text-info {
-    color: hsl(188.6, 97.4%, 30%) !important;
+  &.text-info,
+  &.text-cyan.text-cyan {
+    color: #028097 !important; // Contrast 4.63
   }
   &.text-light {
     color: $gray-600 !important;
   }
-  &.text-yellow.text-yellow {
-    color: hsl(42, 100%, 42.44%);
+  &.text-yellow.text-yellow,
+  &.text-warning.text-warning {
+    color: #A87600; // Contrast 4 (okay for 16px+ text)
   }
   &.text-teal.text-teal {
-    color: #00a870;
-  }
-  &.text-cyan.text-cyan {
-    color: #03a3bf;
+    color: #008558; // Contrast 4.67
   }
 }
