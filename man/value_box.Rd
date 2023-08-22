@@ -53,9 +53,30 @@ the height and width of the showcase area.}
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size.}
 
-\item{theme_color}{A theme color to use for the background color. Should
-match a name in the Bootstrap Sass variable \verb{$theme-colors} (e.g.,
-\code{"secondary"}, \code{"success"}, \code{"danger"}, etc).}
+\item{theme_color}{The name of a theme for the value box. There are many
+theme options available to you:
+\enumerate{
+\item \strong{Named themes.} Choose from the names of Bootstrap theme colors (from
+\verb{$theme-colors}, e.g. \code{primary}, \code{secondary}, \code{success}, \code{danger}, etc)
+or named main colors (from \verb{$colors}, e.g. \code{purple}, \code{orange}, \code{blue},
+etc.).
+\item \strong{Background colors.} If the theme or color name is provided without
+any prefix, the color will be used for the background of the value box.
+You can also explicitly prefix the theme or color name with \verb{bg-} to
+indicate that it should apply to the value box background. An
+appropriate text color is chosen automatically.
+\item \strong{Foreground colors.} If the theme or color name is prefixed with
+\verb{text-}, the color will be be applied to the foreground of the value box
+and the background color remains the default card background color.
+\item \strong{Gradient backgrounds.} You can also choose a vibrant gradient
+background for the value box by using a theme name of the form
+\code{bg-gradient-{from}-{to}} where \code{{from}} and \code{{to}} are named main
+colors, e.g. \code{bg-gradient-purple-orange}.
+\item \strong{Further customization.} For further customization, you can always
+set the \code{theme_color} and add additional classes using the \code{class}
+argument. If you want to create your own custom themes, for best results
+be sure to include the \verb{text-} or \verb{bg-} prefix in your theme's class.
+}}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}

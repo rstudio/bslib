@@ -16,9 +16,29 @@
 #'   the showcase options provided by [showcase_left_center()] or
 #'   [showcase_top_right()]. Use the showcase functions when you want to control
 #'   the height and width of the showcase area.
-#' @param theme_color A theme color to use for the background color. Should
-#'   match a name in the Bootstrap Sass variable `$theme-colors` (e.g.,
-#'   `"secondary"`, `"success"`, `"danger"`, etc).
+#' @param theme_color The name of a theme for the value box. There are many
+#'   theme options available to you:
+#'
+#'   1. **Named themes.** Choose from the names of Bootstrap theme colors (from
+#'      `$theme-colors`, e.g. `primary`, `secondary`, `success`, `danger`, etc)
+#'      or named main colors (from `$colors`, e.g. `purple`, `orange`, `blue`,
+#'      etc.).
+#'   2. **Background colors.** If the theme or color name is provided without
+#'      any prefix, the color will be used for the background of the value box.
+#'      You can also explicitly prefix the theme or color name with `bg-` to
+#'      indicate that it should apply to the value box background. An
+#'      appropriate text color is chosen automatically.
+#'   3. **Foreground colors.** If the theme or color name is prefixed with
+#'      `text-`, the color will be be applied to the foreground of the value box
+#'      and the background color remains the default card background color.
+#'   4. **Gradient backgrounds.** You can also choose a vibrant gradient
+#'      background for the value box by using a theme name of the form
+#'      `bg-gradient-{from}-{to}` where `{from}` and `{to}` are named main
+#'      colors, e.g. `bg-gradient-purple-orange`.
+#'   5. **Further customization.** For further customization, you can always
+#'      set the `theme_color` and add additional classes using the `class`
+#'      argument. If you want to create your own custom themes, for best results
+#'      be sure to include the `text-` or `bg-` prefix in your theme's class.
 #' @param class Utility classes for customizing the appearance of the summary
 #'   card. Use `bg-*` and `text-*` classes (e.g, `"bg-danger"` and
 #'   `"text-light"`) to customize the background/foreground colors.
