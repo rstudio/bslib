@@ -9,6 +9,28 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
   container-name: bslib-value-box;
   container-type: inline-size;
 
+  .value-box-grid {
+    grid-template-areas: "left right";
+  }
+
+  @container bslib-value-box (max-width: 300px) {
+    .value-box-grid {
+      // override specificity of showcase layouts for small value boxes
+      grid-template-columns: 1fr !important;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "top"
+        "bottom";
+
+      > :first-child { // showcase
+        grid-area: top !important;
+      }
+      > :last-child { // contents
+        grid-area: bottom !important;
+      }
+    }
+  }
+
   // Should also be fillable/fill (i.e., d-flex; flex: 1)
   .value-box-area {
     justify-content: center;
@@ -94,26 +116,21 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
       .value-box-grid {
         grid-template-columns: 1fr var(---bslib-value-box-showcase-w, 50%);
 
-        > :first-child {
-          grid-column: 1 / 2;
-          align-self: end;
-          position: absolute;
+        > :first-child { // showcase_container
+          grid-area: right;
+          margin-left: auto;
         }
 
-        > :nth-child(2) {
-          grid-column: 2 / 3;
-          margin-left: auto;
+        > :nth-child(2) { // contents
+          grid-area: left;
+          align-self: end;
+          position: absolute;
         }
       }
 
       @container bslib-value-box (max-width: 300px) {
         .value-box-grid {
-          grid-template-columns: 1fr;
-          grid-template-rows: auto auto;
-          > :first-child, > :nth-child(2) {
-            grid-column: 1 / 2;
-          }
-          > :nth-child(2) {
+          .value-box-showcase { // reset padding on showcase_container
             padding-left: 1rem;
           }
         }
@@ -130,13 +147,15 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
       grid-template-columns: var(---bslib-value-box-showcase-w-fs, 1fr) auto;
     }
 
-    @container bslib-value-box (max-width: 300px) {
+    &:not([data-fill-screen="true"]) {
       .value-box-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-      }
-      > * {
-        grid-column: 1 / 2;
+        & > :first-child { // showcase_container
+          grid-area: left;
+        }
+
+        & > :nth-child(2) { // contents
+          grid-area: right;
+        }
       }
     }
   }

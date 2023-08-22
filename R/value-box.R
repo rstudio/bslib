@@ -254,12 +254,6 @@ showcase_layout_factory <- function(showcase_layout) {
 
     showcase_container <- bindFillRole(showcase_container, container = TRUE, item = TRUE)
 
-    items <- switch(
-      position,
-      "left center" = list(showcase_container, contents),
-      "top right" = list(contents, showcase_container)
-    )
-
     card_body(
       style = css(padding = 0),
       layout_column_wrap(
@@ -268,9 +262,10 @@ showcase_layout_factory <- function(showcase_layout) {
         class = "value-box-grid",
         style = css(
           "---bslib-value-box-showcase-w" = width,
-          "---bslib-value-box-showcase-w-fs" = width_fs
+          "---bslib-value-box-showcase-w-fs" = width_full_screen
         ),
-        !!!items
+        showcase_container,
+        contents
       )
     )
   }
