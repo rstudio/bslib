@@ -52,6 +52,10 @@ ul.nav.navbar-nav > li {
       color: var(--#{$prefix}navbar-active-color);
     }
   }
+
+  &.bslib-nav-item {
+    color: var(--#{$prefix}navbar-active-color);
+  }
 }
 
 // BS3 .navbar-default -> BS4 .navbar-light
@@ -69,6 +73,19 @@ ul.nav.navbar-nav > li {
   @extend .navbar-dark;
   // See comments above for $navbar-light-bg
   background-color: $navbar-dark-bg !important;
+  // For BS5+ lean on emphasis-color
+  --bs-emphasis-color: white;
+  --bs-emphasis-color-rgb: 255, 255, 255;
+}
+
+// If Bs5+ dark color mode is enabled, change .navbar-default's bg from light to dark
+$enable-dark-mode: false !default;
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .navbar.navbar-default {
+      background-color: $navbar-dark-bg !important;
+    }
+  }
 }
 
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.
