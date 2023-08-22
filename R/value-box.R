@@ -252,8 +252,6 @@ showcase_layout_factory <- function(showcase_layout) {
       showcase
     )
 
-    showcase_container <- bindFillRole(showcase_container, container = TRUE, item = TRUE)
-
     card_body(
       style = css(padding = 0),
       layout_column_wrap(
@@ -264,7 +262,7 @@ showcase_layout_factory <- function(showcase_layout) {
           "---bslib-value-box-showcase-w" = width,
           "---bslib-value-box-showcase-w-fs" = width_full_screen
         ),
-        showcase_container,
+        as_fill_carrier(showcase_container),
         contents
       )
     )
