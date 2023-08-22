@@ -213,6 +213,12 @@ new_showcase_layout <- function(
 ) {
   position <- rlang::arg_match(position)
 
+  width <- validate_grid_width_unit(width)
+  width_full_screen <- validate_grid_width_unit(width_full_screen)
+
+  max_height <- validate_height_unit(max_height)
+  max_height_full_screen <- validate_height_unit(max_height_full_screen)
+
   structure(
     list(
       position = position,
@@ -235,20 +241,12 @@ print.bslib_showcase_layout <- function(x, ...) {
 
 
 showcase_layout_factory <- function(showcase_layout) {
-  position <- showcase_layout$position
-
-  width <- validate_grid_width_unit(showcase_layout$width)
-  width_full_screen <- validate_grid_width_unit(showcase_layout$width_full_screen)
-
-  max_height <- validate_height_unit(showcase_layout$max_height)
-  max_height_full_screen <- validate_height_unit(showcase_layout$max_height_full_screen)
-
   function(showcase, contents) {
     showcase_container <- div(
       class = "value-box-showcase",
       style = css(
-        "---bslib-value-box-showcase-max-h" = max_height,
-        "---bslib-value-box-showcase-max-h-fs" = max_height_full_screen
+        "---bslib-value-box-showcase-max-h" = showcase_layout$max_height,
+        "---bslib-value-box-showcase-max-h-fs" = showcase_layout$max_height_full_screen
       ),
       showcase
     )
@@ -260,8 +258,8 @@ showcase_layout_factory <- function(showcase_layout) {
         heights_equal = "row",
         class = "value-box-grid",
         style = css(
-          "---bslib-value-box-showcase-w" = width,
-          "---bslib-value-box-showcase-w-fs" = width_full_screen
+          "---bslib-value-box-showcase-w" = showcase_layout$width,
+          "---bslib-value-box-showcase-w-fs" = showcase_layout$width_full_screen
         ),
         as_fill_carrier(showcase_container),
         contents
