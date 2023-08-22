@@ -99,12 +99,25 @@ $bslib-value-box-horizontal-min-width: 300px;
 
   &.showcase-top-right {
     .value-box-grid {
-      grid-template-columns: auto var(---bslib-value-box-showcase-w, 50%);
+      grid-template-columns: 1fr var(---bslib-value-box-showcase-w, 50%);
+
+      > :first-child { // showcase_container
+        grid-area: right;
+        margin-left: auto;
+      }
+
+      > :nth-child(2) { // contents
+        grid-area: left;
+        align-self: end;
+      }
     }
 
     &[data-full-screen="true"] {
       .value-box-grid {
         grid-template-columns: auto var(---bslib-value-box-showcase-w-fs, 1fr);
+        > :nth-child(2) { // contents
+          align-self: center;
+        }
       }
     }
 
@@ -118,21 +131,6 @@ $bslib-value-box-horizontal-min-width: 300px;
       .value-box-showcase {
         margin-top: 0;
         overflow: visible;
-      }
-
-      .value-box-grid {
-        grid-template-columns: 1fr var(---bslib-value-box-showcase-w, 50%);
-
-        > :first-child { // showcase_container
-          grid-area: right;
-          margin-left: auto;
-        }
-
-        > :nth-child(2) { // contents
-          grid-area: left;
-          align-self: end;
-          position: absolute;
-        }
       }
 
       @container bslib-value-box (max-width: 300px) {
