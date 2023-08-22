@@ -104,7 +104,7 @@ value_box <- function(
       theme_color,
       class,
       border_class,
-      paste0("showcase-", gsub(" ", "-", showcase_layout$position))
+      showcase_layout$class
     ),
     full_screen = full_screen,
     height = height,
@@ -178,7 +178,7 @@ showcase_left_center <- function(
   width_full_screen = "1fr"
 ) {
   new_showcase_layout(
-    position = "left center",
+    class = "showcase-left-center",
     width = width,
     width_full_screen = width_full_screen,
     max_height = max_height,
@@ -195,7 +195,7 @@ showcase_top_right <- function(
   width_full_screen = "1fr"
 ) {
   new_showcase_layout(
-    position = "top right",
+    class = "showcase-top-right",
     width = width,
     width_full_screen = width_full_screen,
     max_height = max_height,
@@ -204,14 +204,12 @@ showcase_top_right <- function(
 }
 
 new_showcase_layout <- function(
-  position = c("left center", "top right"),
+  class,
   width = 0.3,
   width_full_screen = "1fr",
   max_height = "100px",
   max_height_full_screen = 0.67
 ) {
-  position <- rlang::arg_match(position)
-
   width <- validate_grid_width_unit(width)
   width_full_screen <- validate_grid_width_unit(width_full_screen)
 
@@ -220,7 +218,7 @@ new_showcase_layout <- function(
 
   structure(
     list(
-      position = position,
+      class = class,
       width = width,
       width_full_screen = width_full_screen,
       max_height = max_height,
@@ -232,7 +230,7 @@ new_showcase_layout <- function(
 
 #' @export
 print.bslib_showcase_layout <- function(x, ...) {
-  cat("<showcase-layout: ", x$position, ">\n", sep = "")
+  cat("<", x$class, ">\n", sep = "")
   cat("width: ", x$width, " [fs: ", x$width_full_screen, "]\n", sep = "")
   cat("max_height:", x$max_height, " [fs: ", x$max_height_full_screen, "]\n", sep = "")
   invisible(x)
