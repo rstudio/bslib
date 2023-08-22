@@ -1,5 +1,6 @@
 $bslib-value-box-enable-border: "auto" !default; // "auto" | "never" | "always"
 $bslib-value-box-enable-shadow: $enable-shadows !default;
+$bslib-value-box-horizontal-min-width: 300px;
 
 .bslib-value-box {
   @if ($bslib-value-box-enable-shadow) {
@@ -14,7 +15,7 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
   }
 
   @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
-    @container bslib-value-box (max-width: 300px) {
+    @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-min-width}) {
       .value-box-grid {
         // override specificity of showcase layouts for small value boxes
         grid-template-columns: 1fr !important;
