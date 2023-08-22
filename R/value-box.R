@@ -227,8 +227,8 @@ new_showcase_layout <- function(
 #' @export
 print.bslib_showcase_layout <- function(x, ...) {
   cat("<showcase-layout: ", x$position, ">\n", sep = "")
-  cat("width: ", x$width, " [", x$width_full_screen, "]\n", sep = "")
-  cat("max_height:", x$max_height, " [", x$max_height_full_screen, "]\n", sep = "")
+  cat("width: ", x$width, " [fs: ", x$width_full_screen, "]\n", sep = "")
+  cat("max_height:", x$max_height, " [fs: ", x$max_height_full_screen, "]\n", sep = "")
   invisible(x)
 }
 
