@@ -36,14 +36,16 @@ $bslib-value-box-horizontal-min-width: 300px;
     grid-template-areas: "left right";
     align-items: center;
   }
-  .value-box-grid > .value-box-showcase { // showcase_container
+  .value-box-grid > .value-box-showcase {
     height: 100%;
     max-height: var(---bslib-value-box-showcase-max-h, 100%);
   }
-  &[data-full-screen="true"] .value-box-grid > .value-box-showcase { // showcase full screen
-    height: 100%;
-    max-height: var(---bslib-value-box-showcase-max-h-fs, 100%);
+  &[data-full-screen="true"] {
+    .value-box-grid > .value-box-showcase {
+      max-height: var(---bslib-value-box-showcase-max-h-fs, 100%);
+    }
   }
+
 
   @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
     @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-min-width}) {
@@ -122,13 +124,16 @@ $bslib-value-box-horizontal-min-width: 300px;
     .value-box-grid {
       grid-template-columns: 1fr var(---bslib-value-box-showcase-w, 50%);
 
-      > .value-box-showcase { // showcase_container
+      > .value-box-showcase {
         grid-area: right;
         margin-left: auto;
         align-self: start;
+        align-items: end;
+        padding-left: 0;
+        padding-bottom: 0;
       }
 
-      > .value-box-area { // contents
+      > .value-box-area {
         grid-area: left;
         align-self: end;
       }
@@ -141,12 +146,6 @@ $bslib-value-box-horizontal-min-width: 300px;
           align-self: center;
         }
       }
-    }
-
-    .value-box-showcase {
-      align-items: end;
-      padding-left: 0;
-      padding-bottom: 0;
     }
 
     &:not([data-full-screen="true"]) {
@@ -170,17 +169,19 @@ $bslib-value-box-horizontal-min-width: 300px;
       grid-template-columns: var(---bslib-value-box-showcase-w, 30%) auto;
     }
 
-    &[data-full-screen="true"] .value-box-grid {
-      grid-template-columns: var(---bslib-value-box-showcase-w-fs, 1fr) auto;
+    &[data-full-screen="true"] {
+      .value-box-grid {
+        grid-template-columns: var(---bslib-value-box-showcase-w-fs, 1fr) auto;
+      }
     }
 
     &:not([data-fill-screen="true"]) {
       .value-box-grid {
-        & > .value-box-showcase { // showcase_container
+        & > .value-box-showcase {
           grid-area: left;
         }
 
-        & > :nth-child(2) { // contents
+        & > .value-box-area {
           grid-area: right;
         }
       }
@@ -197,15 +198,14 @@ $bslib-value-box-horizontal-min-width: 300px;
       overflow: hidden;
       > .value-box-showcase {
         grid-area: bottom;
+        padding: 0;
+        margin: 0;
       }
       > .value-box-area {
         grid-area: top;
       }
     }
-    .value-box-showcase {
-        padding: 0;
-        margin: 0;
-    }
+
     &[data-full-screen="true"] {
       .value-box-grid {
         grid-template-rows: 1fr var(---bslib-value-box-showcase-h-fs, 2fr);
