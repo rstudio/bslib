@@ -1,5 +1,5 @@
 diff --git a/inst/lib/bs5/scss/_forms.scss b/inst/lib/bs5/scss/_forms.scss
-index 7b17d84..82c9e0b 100644
+index 7b17d849..31eae5d3 100644
 --- a/inst/lib/bs5/scss/_forms.scss
 +++ b/inst/lib/bs5/scss/_forms.scss
 @@ -1,3 +1,14 @@
@@ -18,10 +18,10 @@ index 7b17d84..82c9e0b 100644
  @import "forms/form-text";
  @import "forms/form-control";
 diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
-index 0fb5284..2615d70 100644
+index 11d78f81..71c56bad 100644
 --- a/inst/lib/bs5/scss/_variables.scss
 +++ b/inst/lib/bs5/scss/_variables.scss
-@@ -732,8 +732,8 @@ $input-transition:                      border-color .15s ease-in-out, box-shado
+@@ -946,10 +946,10 @@ $form-color-width:                      3rem !default;
  // scss-docs-start form-check-variables
  $form-check-input-width:                  1em !default;
  $form-check-min-height:                   $font-size-base * $line-height-base !default;
@@ -32,8 +32,10 @@ index 0fb5284..2615d70 100644
 -$form-check-label-cursor:                 null !default;
 +$form-check-label-cursor:                 pointer !default;
  $form-check-transition:                   null !default;
+ 
+ $form-check-input-active-filter:          brightness(90%) !default;
 diff --git a/inst/lib/bs5/scss/forms/_form-check.scss b/inst/lib/bs5/scss/forms/_form-check.scss
-index ca6d6a27..06313665 100644
+index c5a09c0f..2166dc73 100644
 --- a/inst/lib/bs5/scss/forms/_form-check.scss
 +++ b/inst/lib/bs5/scss/forms/_form-check.scss
 @@ -2,13 +2,13 @@
@@ -58,10 +60,10 @@ index ca6d6a27..06313665 100644
  
 -.form-check-input {
 +#{$form-check-input-selector} {
+   --#{$prefix}form-check-bg: #{$form-check-input-bg};
+ 
    width: $form-check-input-width;
-   height: $form-check-input-width;
-   margin-top: ($line-height-base - $form-check-input-width) * .5; // line-height minus check height
-@@ -105,14 +105,14 @@
+@@ -108,14 +108,14 @@
    // See: https://github.com/twbs/bootstrap/issues/28247
    &[disabled],
    &:disabled {
@@ -79,7 +81,7 @@ index ca6d6a27..06313665 100644
    cursor: $form-check-label-cursor;
  }
 diff --git a/inst/lib/bs5/scss/forms/_labels.scss b/inst/lib/bs5/scss/forms/_labels.scss
-index 39ecafc..efcab1f 100644
+index 39ecafcd..efcab1f4 100644
 --- a/inst/lib/bs5/scss/forms/_labels.scss
 +++ b/inst/lib/bs5/scss/forms/_labels.scss
 @@ -2,7 +2,7 @@
