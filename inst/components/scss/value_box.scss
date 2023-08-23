@@ -19,8 +19,8 @@ $bslib-value-box-horizontal-min-width: 300px;
   }
 
   &.default {
-    --bslib-value-box-fg-default: var(--bs-card-color, var(--bs-body-color, var(--#{$prefix}body-color)));
-    --bslib-value-box-bg-default: var(--bs-card-bg, var(--bs-body-bg, var(--#{$prefix}body-bg)));
+    --bslib-value-box-fg-default: var(--bs-card-color, #{$body-color});
+    --bslib-value-box-bg-default: var(--bs-card-bg, #{$body-bg});
     --bslib-value-box-border-color-default: var(--bs-card-border-color, #{$card-border-color});
     --bslib-value-box-border-width-default: var(--bs-card-border-width, #{$card-border-width});
     color: var(--bslib-value-box-fg, var(--bslib-value-box-fg-default));
@@ -131,7 +131,7 @@ $bslib-value-box-horizontal-min-width: 300px;
         align-self: start;
       }
 
-      > :nth-child(2) { // contents
+      > :last-child { // contents
         grid-area: left;
         align-self: end;
       }
@@ -140,7 +140,7 @@ $bslib-value-box-horizontal-min-width: 300px;
     &[data-full-screen="true"] {
       .value-box-grid {
         grid-template-columns: auto var(---bslib-value-box-showcase-w-fs, 1fr);
-        > :nth-child(2) { // contents
+        > div {
           align-self: center;
         }
       }
