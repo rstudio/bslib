@@ -101,16 +101,7 @@ value_box <- function(
 
   # ---- Showcase ----
   if (!is.null(showcase)) {
-    if (is.character(showcase_layout)) {
-      showcase_layout <- rlang::arg_match(showcase_layout)
-      showcase_layout <- switch(
-        showcase_layout,
-        "left center" = showcase_left_center(),
-        "top right" = showcase_top_right()
-      )
-    } else if (!inherits(showcase_layout, "bslib_showcase_layout")) {
-      rlang::abort("`showcase_layout` must be a string or a `showcase_*()` layout")
-    }
+    showcase_layout <- resolve_showcase_layout(showcase_layout)
     contents <- layout_showcase(showcase_layout, showcase, contents)
   }
 
@@ -136,7 +127,7 @@ value_box <- function(
       theme_color,
       class,
       border_class,
-      showcase_layout$class
+      if (!is.null(showcase)) showcase_layout$class
     ),
     full_screen = full_screen,
     height = height,
@@ -266,6 +257,25 @@ print.bslib_showcase_layout <- function(x, ...) {
   cat("width: ", x$width, " [fs: ", x$width_full_screen, "]\n", sep = "")
   cat("max_height:", x$max_height, " [fs: ", x$max_height_full_screen, "]\n", sep = "")
   invisible(x)
+}
+
+resolve_showcase_layout <- function(showcase_layout) {
+  if (inherits(showcase_layout, "bslib_showcase_layout")) {
+    return(showcase_layout)
+  }
+
+  if (is.character(showcase_layout)) {
+    layout_choices <- c("left center", "top right")
+    showcase_layout <- rlang::arg_match(showcase_layout, layout_choices)
+    showcase_layout <- switch(
+      showcase_layout,
+      "left center" = showcase_left_center(),
+      "top right" = showcase_top_right()
+    )
+    return(showcase_layout)
+  }
+
+  rlang::abort("`showcase_layout` must be a string or a `showcase_*()` layout")
 }
 
 layout_showcase <- function(showcase_layout, showcase, contents) {
