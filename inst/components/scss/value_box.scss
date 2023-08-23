@@ -36,16 +36,17 @@ $bslib-value-box-horizontal-min-width: 300px;
     grid-template-areas: "left right";
     align-items: center;
   }
-  .value-box-grid > .value-box-showcase {
+
+  .value-box-showcase {
     height: 100%;
     max-height: var(---bslib-value-box-showcase-max-h, 100%);
   }
+
   &[data-full-screen="true"] {
-    .value-box-grid > .value-box-showcase {
+    .value-box-showcase {
       max-height: var(---bslib-value-box-showcase-max-h-fs, 100%);
     }
   }
-
 
   @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
     @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-min-width}) {
@@ -57,10 +58,11 @@ $bslib-value-box-horizontal-min-width: 300px;
           "top"
           "bottom";
 
-        > .value-box-showcase { // showcase
+        .value-box-showcase {
           grid-area: top !important;
         }
-        > .value-box-area { // contents
+
+        .value-box-area {
           grid-area: bottom !important;
           justify-content: end;
         }
@@ -124,7 +126,7 @@ $bslib-value-box-horizontal-min-width: 300px;
     .value-box-grid {
       grid-template-columns: 1fr var(---bslib-value-box-showcase-w, 50%);
 
-      > .value-box-showcase {
+      .value-box-showcase {
         grid-area: right;
         margin-left: auto;
         align-self: start;
@@ -133,7 +135,7 @@ $bslib-value-box-horizontal-min-width: 300px;
         padding-bottom: 0;
       }
 
-      > .value-box-area {
+      .value-box-area {
         grid-area: left;
         align-self: end;
       }
@@ -177,11 +179,11 @@ $bslib-value-box-horizontal-min-width: 300px;
 
     &:not([data-fill-screen="true"]) {
       .value-box-grid {
-        & > .value-box-showcase {
+        .value-box-showcase {
           grid-area: left;
         }
 
-        & > .value-box-area {
+        .value-box-area {
           grid-area: right;
         }
       }
@@ -196,12 +198,14 @@ $bslib-value-box-horizontal-min-width: 300px;
           "top"
           "bottom";
       overflow: hidden;
-      > .value-box-showcase {
+
+      .value-box-showcase {
         grid-area: bottom;
         padding: 0;
         margin: 0;
       }
-      > .value-box-area {
+
+      .value-box-area {
         grid-area: top;
       }
     }
@@ -209,9 +213,10 @@ $bslib-value-box-horizontal-min-width: 300px;
     &[data-full-screen="true"] {
       .value-box-grid {
         grid-template-rows: 1fr var(---bslib-value-box-showcase-h-fs, 2fr);
-      }
-      .value-box-showcase {
-        padding: 1rem;
+
+        .value-box-showcase {
+          padding: 1rem;
+        }
       }
     }
   }
