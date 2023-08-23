@@ -7,7 +7,7 @@ $bslib-value-box-horizontal-min-width: 300px;
 // apply to the default value box style; the standard way to theme individual
 // value boxes is with CSS classes on the value box container.
 // :root {
-//   --bslib-value-box-fg:;
+//   --bslib-value-box-color:;
 //   --bslib-value-box-bg:;
 //   --bslib-value-box-border-color:;
 //   --bslib-value-box-border-width:;
@@ -19,11 +19,10 @@ $bslib-value-box-horizontal-min-width: 300px;
   }
 
   &.default {
-    --bslib-value-box-fg-default: var(--bs-card-color, #{$body-color});
     --bslib-value-box-bg-default: var(--bs-card-bg, #{$body-bg});
     --bslib-value-box-border-color-default: var(--bs-card-border-color, #{$card-border-color});
     --bslib-value-box-border-width-default: var(--bs-card-border-width, #{$card-border-width});
-    color: var(--bslib-value-box-fg, var(--bslib-value-box-fg-default));
+    color: var(--bslib-value-box-color);
     background-color: var(--bslib-value-box-bg, var(--bslib-value-box-bg-default));
     border-color: var(--bslib-value-box-border-color, var(--bslib-value-box-border-color-default));
     border-width: var(--bslib-value-box-border-width, var(--bslib-value-box-border-width-default));
