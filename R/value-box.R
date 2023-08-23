@@ -172,7 +172,21 @@ value_box_auto_border_class <- function(theme_color, class = NULL) {
 }
 
 value_box_dependency <- function() {
-  bs_dependency_defer(value_box_dependency_sass)
+  ig_svg <- readLines(path_inst("components", "assets", "icon-gradient.svg"))
+
+  list(
+    bs_dependency_defer(value_box_dependency_sass),
+    singleton(tags$script(HTML(
+      sprintf(
+        "(function() {
+          var temp = document.createElement('div');
+          temp.innerHTML = `%s`;
+          document.body.appendChild(temp.firstChild);
+        })()",
+        paste(ig_svg, collapse = "\n")
+      )
+    )))
+  )
 }
 
 value_box_dependency_sass <- function(theme) {

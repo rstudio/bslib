@@ -65,8 +65,9 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-.bslib-value-box.default .value-box-showcase > svg.bi {
-	fill: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><linearGradient id='grad' x1='0' y1='0' x2='1.6' y2='2.4'> <stop offset='0%' stop-color='%23007bc2'/> <stop offset='14.29%' stop-color='%230770c9'/> <stop offset='28.57%' stop-color='%230d63da'/> <stop offset='42.86%' stop-color='%232b4af9'/> <stop offset='57.14%' stop-color='%235e29f7'/> <stop offset='71.43%' stop-color='%237217d7'/> <stop offset='100%' stop-color='%2374149c'/> </linearGradient></svg>#grad") #007bc2 !important;
+.bslib-value-box.default .value-box-showcase > svg:is(.bi, .fa) {
+  // Requires icon-gradient.svg included as singleton in value_box()
+	fill: url('#bslib---icon-gradient') #007bc2 !important;
 }
 
 .bslib-value-box {
