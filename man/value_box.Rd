@@ -4,6 +4,7 @@
 \alias{value_box}
 \alias{showcase_left_center}
 \alias{showcase_top_right}
+\alias{showcase_bottom}
 \title{Value box}
 \usage{
 value_box(
@@ -11,7 +12,7 @@ value_box(
   value,
   ...,
   showcase = NULL,
-  showcase_layout = c("left center", "top right"),
+  showcase_layout = c("left center", "top right", "bottom"),
   full_screen = FALSE,
   theme_color = NULL,
   height = NULL,
@@ -32,6 +33,15 @@ showcase_top_right(
   max_height = "75px",
   max_height_full_screen = 0.67,
   width_full_screen = "1fr"
+)
+
+showcase_bottom(
+  width = "100\%",
+  width_full_screen = NULL,
+  height = "auto",
+  height_full_screen = "2fr",
+  max_height = "100px",
+  max_height_full_screen = NULL
 )
 }
 \arguments{
@@ -78,10 +88,6 @@ argument. If you want to create your own custom themes, for best results
 be sure to include the \verb{text-} or \verb{bg-} prefix in your theme's class.
 }}
 
-\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
-(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
-
 \item{max_height, max_height_full_screen}{A proportion (i.e., a number between
 0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
 showcase max_height.}
@@ -93,16 +99,18 @@ container with an opinionated height (e.g., \code{page_fillable()}).}
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
 
-\item{width, width_full_screen}{one of the following:
+\item{width, width_full_screen, height, height_full_screen}{one of the
+following:
 \itemize{
-\item A proportion (i.e., a number between 0 and 1) of available width to
-allocate to the showcase.
-\item A valid \link[htmltools:validateCssUnit]{CSS unit} defining the width of the
-showcase column, or a valid value accepted by the \code{grid-template-columns}
-CSS property to define the width of the showcase column. Accepted values
-in the second category are \code{"auto"}, \code{"min-content"}, \code{"max-content"}, a
-fractional unit (e.g. \verb{2fr}), or a \code{minmax()} function (e.g.,
-\verb{minmax(100px, 1fr)}).
+\item A proportion (i.e., a number between 0 and 1) of available width or
+height to allocate to the showcase.
+\item A valid \link[htmltools:validateCssUnit]{CSS unit} defining the width or
+height of the showcase column, or a valid value accepted by the
+\code{grid-template-columns} (width) or \code{grid-template-rows} (height) CSS
+property to define the width or height of the showcase column or row.
+Accepted values in the second category are \code{"auto"}, \code{"min-content"},
+\code{"max-content"}, a fractional unit (e.g. \verb{2fr}), or a \code{minmax()} function
+(e.g., \verb{minmax(100px, 1fr)}).
 }}
 }
 \description{

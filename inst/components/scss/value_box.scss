@@ -34,11 +34,20 @@ $bslib-value-box-horizontal-min-width: 300px;
 
   .value-box-grid {
     grid-template-areas: "left right";
+    align-items: center;
+  }
+  .value-box-grid > :first-child { // showcase_container
+    height: 100%;
+    max-height: var(---bslib-value-box-showcase-max-h, 100%);
+  }
+  &[data-full-screen="true"] .value-box-grid > :first-child { // showcase full screen
+    height: 100%;
+    max-height: var(---bslib-value-box-showcase-max-h-fs, 100%);
   }
 
   @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
     @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-min-width}) {
-      .value-box-grid {
+      &:not(.showcase-bottom) .value-box-grid {
         // override specificity of showcase layouts for small value boxes
         grid-template-columns: 1fr !important;
         grid-template-rows: auto auto;
@@ -109,15 +118,8 @@ $bslib-value-box-horizontal-min-width: 300px;
     // set height/width to 1em by default (as an inline style)
     .bi { font-size: 5rem; }
     .fa { font-size: 4rem; }
-
-    max-height: var(---bslib-value-box-showcase-max-h);
   }
 
-  &[data-full-screen="true"] {
-    .value-box-showcase {
-      max-height: var(---bslib-value-box-showcase-max-h-fs);
-    }
-  }
 
   &.showcase-top-right {
     .value-box-grid {
@@ -126,6 +128,7 @@ $bslib-value-box-horizontal-min-width: 300px;
       > :first-child { // showcase_container
         grid-area: right;
         margin-left: auto;
+        align-self: start;
       }
 
       > :nth-child(2) { // contents
@@ -183,6 +186,35 @@ $bslib-value-box-horizontal-min-width: 300px;
         & > :nth-child(2) { // contents
           grid-area: right;
         }
+      }
+    }
+  }
+
+  &.showcase-bottom {
+    .value-box-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr var(---bslib-value-box-showcase-h, auto);
+      grid-template-areas:
+          "top"
+          "bottom";
+      overflow: hidden;
+      > :first-child {
+        grid-area: bottom;
+      }
+      > :last-child {
+        grid-area: top;
+      }
+    }
+    .value-box-showcase {
+        padding: 0;
+        margin: 0;
+    }
+    &[data-full-screen="true"] {
+      .value-box-grid {
+        grid-template-rows: 1fr var(---bslib-value-box-showcase-h-fs, 2fr);
+      }
+      .value-box-showcase {
+        padding: 1rem;
       }
     }
   }

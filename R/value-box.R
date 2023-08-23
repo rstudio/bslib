@@ -68,7 +68,7 @@ value_box <- function(
   value,
   ...,
   showcase = NULL,
-  showcase_layout = c("left center", "top right"),
+  showcase_layout = c("left center", "top right", "bottom"),
   full_screen = FALSE,
   theme_color = NULL,
   height = NULL,
@@ -179,15 +179,17 @@ value_box_dependency_sass <- function(theme) {
   component_dependency_sass(theme, "value_box")
 }
 
-#' @param width,width_full_screen one of the following:
-#'   * A proportion (i.e., a number between 0 and 1) of available width to
-#'     allocate to the showcase.
-#'   * A valid [CSS unit][htmltools::validateCssUnit] defining the width of the
-#'     showcase column, or a valid value accepted by the `grid-template-columns`
-#'     CSS property to define the width of the showcase column. Accepted values
-#'     in the second category are `"auto"`, `"min-content"`, `"max-content"`, a
-#'     fractional unit (e.g. `2fr`), or a `minmax()` function (e.g.,
-#'     `minmax(100px, 1fr)`).
+#' @param width,width_full_screen,height,height_full_screen one of the
+#'   following:
+#'   * A proportion (i.e., a number between 0 and 1) of available width or
+#'     height to allocate to the showcase.
+#'   * A valid [CSS unit][htmltools::validateCssUnit] defining the width or
+#'     height of the showcase column, or a valid value accepted by the
+#'     `grid-template-columns` (width) or `grid-template-rows` (height) CSS
+#'     property to define the width or height of the showcase column or row.
+#'     Accepted values in the second category are `"auto"`, `"min-content"`,
+#'     `"max-content"`, a fractional unit (e.g. `2fr`), or a `minmax()` function
+#'     (e.g., `minmax(100px, 1fr)`).
 #' @param max_height,max_height_full_screen A proportion (i.e., a number between
 #'   0 and 1) or any valid [CSS unit][htmltools::validateCssUnit] defining the
 #'   showcase max_height.
@@ -226,15 +228,41 @@ showcase_top_right <- function(
   )
 }
 
+#' @export
+#' @rdname value_box
+showcase_bottom <- function(
+  width = "100%",
+  width_full_screen = NULL,
+  height = "auto",
+  height_full_screen = "2fr",
+  max_height = "100px",
+  max_height_full_screen = NULL
+) {
+  new_showcase_layout(
+    class = "showcase-bottom",
+    width = width,
+    width_full_screen = width_full_screen,
+    height = height,
+    height_full_screen = height_full_screen,
+    max_height = max_height,
+    max_height_full_screen = max_height_full_screen
+  )
+}
+
 new_showcase_layout <- function(
   class,
   width = 0.3,
   width_full_screen = "1fr",
+  height = NULL,
+  height_full_screen = NULL,
   max_height = "100px",
   max_height_full_screen = 0.67
 ) {
   width <- validate_grid_width_unit(width)
   width_full_screen <- validate_grid_width_unit(width_full_screen)
+
+  height <- validate_grid_width_unit(height)
+  height_full_screen <- validate_grid_width_unit(height_full_screen)
 
   max_height <- validate_height_unit(max_height)
   max_height_full_screen <- validate_height_unit(max_height_full_screen)
@@ -244,6 +272,8 @@ new_showcase_layout <- function(
       class = class,
       width = width,
       width_full_screen = width_full_screen,
+      height = height,
+      height_full_screen = height_full_screen,
       max_height = max_height,
       max_height_full_screen = max_height_full_screen
     ),
@@ -265,12 +295,13 @@ resolve_showcase_layout <- function(showcase_layout) {
   }
 
   if (is.character(showcase_layout)) {
-    layout_choices <- c("left center", "top right")
+    layout_choices <- c("left center", "top right", "bottom")
     showcase_layout <- rlang::arg_match(showcase_layout, layout_choices)
     showcase_layout <- switch(
       showcase_layout,
       "left center" = showcase_left_center(),
-      "top right" = showcase_top_right()
+      "top right" = showcase_top_right(),
+      bottom = showcase_bottom()
     )
     return(showcase_layout)
   }
@@ -279,26 +310,27 @@ resolve_showcase_layout <- function(showcase_layout) {
 }
 
 layout_showcase <- function(showcase_layout, showcase, contents) {
-  showcase_container <- div(
-    class = "value-box-showcase",
-    style = css(
-      "---bslib-value-box-showcase-max-h" = showcase_layout$max_height,
-      "---bslib-value-box-showcase-max-h-fs" = showcase_layout$max_height_full_screen
-    ),
-    showcase
-  )
-
   card_body(
     style = css(padding = 0),
     layout_column_wrap(
-      width = NULL, gap = 0,
+      width = NULL,
+      gap = 0,
       heights_equal = "row",
       class = "value-box-grid",
       style = css(
         "---bslib-value-box-showcase-w" = showcase_layout$width,
-        "---bslib-value-box-showcase-w-fs" = showcase_layout$width_full_screen
+        "---bslib-value-box-showcase-w-fs" = showcase_layout$width_full_screen,
+        "---bslib-value-box-showcase-h" = showcase_layout$height,
+        "---bslib-value-box-showcase-h-fs" = showcase_layout$height_full_screen,
+        "---bslib-value-box-showcase-max-h" = showcase_layout$max_height,
+        "---bslib-value-box-showcase-max-h-fs" = showcase_layout$max_height_full_screen
       ),
-      as_fill_carrier(showcase_container),
+      as_fill_carrier(
+        div(
+          class = "value-box-showcase",
+          showcase
+        )
+      ),
       contents
     )
   )
