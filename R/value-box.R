@@ -307,6 +307,8 @@ layout_showcase <- function(showcase_layout, showcase, contents) {
 
 # It seems to be to use % over fr here since there is no gap on the grid
 validate_grid_width_unit <- function(x) {
+  if (is.null(x)) return(x)
+
   if (!is_01_scalar(x)) {
     if (tolower(x) %in% c("auto", "min-content", "max-content")) {
       return(tolower(x))
@@ -323,6 +325,8 @@ validate_grid_width_unit <- function(x) {
 }
 
 validate_height_unit <- function(x) {
+  if (is.null(x)) return(x)
+
   if (!is_01_scalar(x)) {
     return(validateCssUnit(x))
   }
