@@ -258,11 +258,11 @@ new_showcase_layout <- function(
   max_height = "100px",
   max_height_full_screen = 0.67
 ) {
-  width <- validate_grid_width_unit(width)
-  width_full_screen <- validate_grid_width_unit(width_full_screen)
+  width <- validate_grid_unit(width)
+  width_full_screen <- validate_grid_unit(width_full_screen)
 
-  height <- validate_grid_width_unit(height)
-  height_full_screen <- validate_grid_width_unit(height_full_screen)
+  height <- validate_grid_unit(height)
+  height_full_screen <- validate_grid_unit(height_full_screen)
 
   max_height <- validate_height_unit(max_height)
   max_height_full_screen <- validate_height_unit(max_height_full_screen)
@@ -338,7 +338,7 @@ layout_showcase <- function(showcase_layout, showcase, contents) {
 
 
 # It seems to be to use % over fr here since there is no gap on the grid
-validate_grid_width_unit <- function(x) {
+validate_grid_unit <- function(x) {
   if (is.null(x)) return(x)
 
   if (!is_01_scalar(x)) {
