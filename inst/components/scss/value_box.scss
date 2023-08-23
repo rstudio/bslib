@@ -32,14 +32,15 @@ $bslib-value-box-horizontal-min-width: 300px;
   container-type: inline-size;
 
   .value-box-grid {
+    display: grid;
     grid-template-areas: "left right";
     align-items: center;
   }
-  .value-box-grid > :first-child { // showcase_container
+  .value-box-grid > .value-box-showcase { // showcase_container
     height: 100%;
     max-height: var(---bslib-value-box-showcase-max-h, 100%);
   }
-  &[data-full-screen="true"] .value-box-grid > :first-child { // showcase full screen
+  &[data-full-screen="true"] .value-box-grid > .value-box-showcase { // showcase full screen
     height: 100%;
     max-height: var(---bslib-value-box-showcase-max-h-fs, 100%);
   }
@@ -54,14 +55,11 @@ $bslib-value-box-horizontal-min-width: 300px;
           "top"
           "bottom";
 
-        > :first-child { // showcase
+        > .value-box-showcase { // showcase
           grid-area: top !important;
         }
-        > :last-child { // contents
+        > .value-box-area { // contents
           grid-area: bottom !important;
-        }
-
-        .value-box-area {
           justify-content: end;
         }
       }
@@ -124,13 +122,13 @@ $bslib-value-box-horizontal-min-width: 300px;
     .value-box-grid {
       grid-template-columns: 1fr var(---bslib-value-box-showcase-w, 50%);
 
-      > :first-child { // showcase_container
+      > .value-box-showcase { // showcase_container
         grid-area: right;
         margin-left: auto;
         align-self: start;
       }
 
-      > :last-child { // contents
+      > .value-box-area { // contents
         grid-area: left;
         align-self: end;
       }
@@ -178,7 +176,7 @@ $bslib-value-box-horizontal-min-width: 300px;
 
     &:not([data-fill-screen="true"]) {
       .value-box-grid {
-        & > :first-child { // showcase_container
+        & > .value-box-showcase { // showcase_container
           grid-area: left;
         }
 
@@ -197,10 +195,10 @@ $bslib-value-box-horizontal-min-width: 300px;
           "top"
           "bottom";
       overflow: hidden;
-      > :first-child {
+      > .value-box-showcase {
         grid-area: bottom;
       }
-      > :last-child {
+      > .value-box-area {
         grid-area: top;
       }
     }

@@ -324,29 +324,31 @@ resolve_showcase_layout <- function(showcase_layout) {
 }
 
 layout_showcase <- function(showcase_layout, showcase, contents) {
+  showcase <- div(class = "value-box-showcase", showcase)
+  showcase <- as_fill_carrier(showcase)
+
+  grid_props <- css(
+    "--bslib-grid-height" = "auto",
+    "--bslib-grid-height-mobile" = "auto",
+    "---bslib-value-box-showcase-w" = showcase_layout$width,
+    "---bslib-value-box-showcase-w-fs" = showcase_layout$width_full_screen,
+    "---bslib-value-box-showcase-h" = showcase_layout$height,
+    "---bslib-value-box-showcase-h-fs" = showcase_layout$height_full_screen,
+    "---bslib-value-box-showcase-max-h" = showcase_layout$max_height,
+    "---bslib-value-box-showcase-max-h-fs" = showcase_layout$max_height_full_screen
+  )
+
+  grid <- div(
+    class = "value-box-grid",
+    style = grid_props,
+    showcase, # .value-box-showcase
+    contents  # .value-box-area (prepared in value_box())
+  )
+
   card_body(
     style = css(padding = 0),
-    layout_column_wrap(
-      width = NULL,
-      gap = 0,
-      heights_equal = "row",
-      class = "value-box-grid",
-      style = css(
-        "---bslib-value-box-showcase-w" = showcase_layout$width,
-        "---bslib-value-box-showcase-w-fs" = showcase_layout$width_full_screen,
-        "---bslib-value-box-showcase-h" = showcase_layout$height,
-        "---bslib-value-box-showcase-h-fs" = showcase_layout$height_full_screen,
-        "---bslib-value-box-showcase-max-h" = showcase_layout$max_height,
-        "---bslib-value-box-showcase-max-h-fs" = showcase_layout$max_height_full_screen
-      ),
-      as_fill_carrier(
-        div(
-          class = "value-box-showcase",
-          showcase
-        )
-      ),
-      contents
-    )
+    fillable = TRUE,
+    as_fill_item(value_box_grid)
   )
 }
 
