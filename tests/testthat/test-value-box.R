@@ -72,6 +72,8 @@ test_that("value_box_theme() basic usage", {
 
   expect_null(value_box_theme("orange")$style)
   expect_null(value_box_theme(bg = "orange")$class)
+
+  expect_error(value_box_theme(c("text-primary", "bg-dark")))
 })
 
 test_that("value_box_theme() fills in `fg` when only `bg` is provided", {
