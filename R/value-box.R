@@ -167,7 +167,7 @@ value_box_auto_border_class <- function(theme, class = NULL) {
   # and when shadows are disabled for the value boxes (via `$enable-shadows` or
   # `$bslib-value-box-enable-shadow`).
 
-  if (!is.null(class) && grepl("border-?", class)) {
+  if (!is.null(class) && any(grepl("border", class))) {
     # If the user does anything with the border, we don't get involved
     return(NULL)
   }
@@ -187,7 +187,6 @@ value_box_auto_border_class <- function(theme, class = NULL) {
     return("border-auto")
   }
 
-  # Otherwise disable borders
   return(NULL)
 }
 

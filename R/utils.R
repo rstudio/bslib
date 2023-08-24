@@ -148,7 +148,7 @@ pair_colors_bg_fg <- function(bg = NULL, fg = NULL) {
   props <- list("background-color" = bg, "color" = fg)
   colors <- validate_and_normalize_colors(props)
 
-  if (!length(colors)) return(colors)
+  if (length(colors) == 0) return(colors)
 
   if (is.null(colors[["color"]])) {
     colors[["color"]] <- get_color_contrast(colors[["background-color"]])

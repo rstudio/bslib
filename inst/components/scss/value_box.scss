@@ -48,6 +48,10 @@ $bslib-value-box-horizontal-min-width: 300px;
     }
   }
 
+  // When value boxes get too small, we lay them out vertically using a container query.
+  // But we don't need this for mobile, where we have one box per row. This media query
+  // is the inverse of `@include media-breakpoint-down(sm)` but that mixin doesn't work
+  // inside nested queries.
   @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
     @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-min-width}) {
       &:not(.showcase-bottom) .value-box-grid {
