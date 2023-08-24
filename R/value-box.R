@@ -16,7 +16,7 @@
 #'   the showcase options provided by [showcase_left_center()] or
 #'   [showcase_top_right()]. Use the showcase functions when you want to control
 #'   the height and width of the showcase area.
-#' @param theme_color The name of a theme for the value box. There are many
+#' @param theme The name of a theme for the value box. There are many
 #'   theme options available to you:
 #'
 #'   1. **Named themes.** Choose from the names of Bootstrap theme colors (from
@@ -35,20 +35,19 @@
 #'      background for the value box by using a theme name of the form
 #'      `bg-gradient-{from}-{to}` where `{from}` and `{to}` are named main
 #'      colors, e.g. `bg-gradient-purple-orange`.
-#'   5. **Further customization.** For further customization, you can always
-#'      set the `theme_color` and add additional classes using the `class`
-#'      argument. If you want to create your own custom themes, for best results
-#'      be sure to include the `text-` or `bg-` prefix in your theme's class.
+#'   5. **Further customization.** For further customization, you can always set
+#'      the `theme` and add additional classes using the `class` argument. If
+#'      you want to create your own custom themes, for best results be sure to
+#'      include the `text-` or `bg-` prefix in your theme's class.
 #' @param class Utility classes for customizing the appearance of the summary
 #'   card. Use `bg-*` and `text-*` classes (e.g, `"bg-danger"` and
 #'   `"text-light"`) to customize the background/foreground colors.
 #' @param fill Whether to allow the value box to grow/shrink to fit a fillable
 #'   container with an opinionated height (e.g., `page_fillable()`).
 #' @inheritParams card
-#' @export
-#' @seealso [card()]
-#' @examples
+#' @param theme_card `r lifecycle::badge("deprecated")` Use `theme` instead.
 #'
+#' @examples
 #' library(htmltools)
 #'
 #' if (interactive()) {
@@ -63,6 +62,9 @@
 #'     class = "bg-success"
 #'   )
 #' }
+#'
+#' @seealso [card()]
+#' @export
 value_box <- function(
   title,
   value,
@@ -70,11 +72,12 @@ value_box <- function(
   showcase = NULL,
   showcase_layout = c("left center", "top right", "bottom"),
   full_screen = FALSE,
-  theme_color = NULL,
+  theme = NULL,
   height = NULL,
   max_height = NULL,
   fill = TRUE,
-  class = NULL
+  class = NULL,
+  theme_color = lifecycle::deprecated()
 ) {
   dots <- separate_arguments(...)
   attribs <- dots$attribs
@@ -106,25 +109,40 @@ value_box <- function(
   }
 
   # ---- Theme ----
-  if (is.null(theme_color)) {
-    theme_color <- "default"
-  } else {
-    if (!rlang::is_string(theme_color)) {
-      rlang::abort('`theme_color` must be a single value, e.g. "primary", "danger", "purple", etc.')
-    }
+  if (lifecycle::is_present(theme_color)) {
+    lifecycle::deprecate_soft(
+      "0.5.2",
+      "value_box(theme_color =)",
+      "value_box(theme =)",
+      details = if (!missing(theme)) {
+        "Both `theme` and `theme_color` were provided, but only the `theme` argument will be used."
+      }
+    )
 
-    if (!grepl("^(text|bg)-", theme_color)) {
-      theme_color <- paste0("bg-", theme_color)
+    if (missing(theme)) {
+      theme <- theme_color
     }
   }
 
-  border_class <- value_box_auto_border_class(theme_color, class)
+  if (is.null(theme)) {
+    theme <- "default"
+  } else {
+    if (!rlang::is_string(theme)) {
+      rlang::abort('`theme` must be a single value, e.g. "primary", "danger", "purple", etc.')
+    }
+
+    if (!grepl("^(text|bg)-", theme)) {
+      theme <- paste0("bg-", theme)
+    }
+  }
+
+  border_class <- value_box_auto_border_class(theme, class)
 
   # ---- Layout ----
   res <- card(
     class = c(
       "bslib-value-box",
-      theme_color,
+      theme,
       class,
       border_class,
       if (!is.null(showcase)) showcase_layout$class

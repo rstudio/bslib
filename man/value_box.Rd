@@ -14,11 +14,12 @@ value_box(
   showcase = NULL,
   showcase_layout = c("left center", "top right", "bottom"),
   full_screen = FALSE,
-  theme_color = NULL,
+  theme = NULL,
   height = NULL,
   max_height = NULL,
   fill = TRUE,
-  class = NULL
+  class = NULL,
+  theme_color = lifecycle::deprecated()
 )
 
 showcase_left_center(
@@ -63,7 +64,7 @@ the height and width of the showcase area.}
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size.}
 
-\item{theme_color}{The name of a theme for the value box. There are many
+\item{theme}{The name of a theme for the value box. There are many
 theme options available to you:
 \enumerate{
 \item \strong{Named themes.} Choose from the names of Bootstrap theme colors (from
@@ -82,10 +83,10 @@ and the background color remains the default card background color.
 background for the value box by using a theme name of the form
 \code{bg-gradient-{from}-{to}} where \code{{from}} and \code{{to}} are named main
 colors, e.g. \code{bg-gradient-purple-orange}.
-\item \strong{Further customization.} For further customization, you can always
-set the \code{theme_color} and add additional classes using the \code{class}
-argument. If you want to create your own custom themes, for best results
-be sure to include the \verb{text-} or \verb{bg-} prefix in your theme's class.
+\item \strong{Further customization.} For further customization, you can always set
+the \code{theme} and add additional classes using the \code{class} argument. If
+you want to create your own custom themes, for best results be sure to
+include the \verb{text-} or \verb{bg-} prefix in your theme's class.
 }}
 
 \item{max_height, max_height_full_screen}{A proportion (i.e., a number between
@@ -112,6 +113,8 @@ Accepted values in the second category are \code{"auto"}, \code{"min-content"},
 \code{"max-content"}, a fractional unit (e.g. \verb{2fr}), or a \code{minmax()} function
 (e.g., \verb{minmax(100px, 1fr)}).
 }}
+
+\item{theme_card}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{theme} instead.}
 }
 \description{
 An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displaying a \code{value} and
@@ -120,7 +123,6 @@ An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displayin
 even a \code{\link[shiny:plotOutput]{shiny::plotOutput()}}).
 }
 \examples{
-
 library(htmltools)
 
 if (interactive()) {
@@ -135,6 +137,7 @@ if (interactive()) {
     class = "bg-success"
   )
 }
+
 }
 \seealso{
 \code{\link[=card]{card()}}
