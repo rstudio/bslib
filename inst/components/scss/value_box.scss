@@ -1,6 +1,19 @@
 $bslib-value-box-enable-border: "auto" !default; // "auto" | "never" | "always"
 $bslib-value-box-enable-shadow: $enable-shadows !default;
-$bslib-value-box-horizontal-min-width: 300px;
+$bslib-value-box-horizontal-break-point: 300px;
+
+:root {
+  --bslib-value-box-horizontal-break-point: #{$bslib-value-box-horizontal-break-point};
+  --bslib-value-box-shadow: #{if($bslib-value-box-enable-shadow, #{$box-shadow}, none)};
+  // value box border width is set to "-auto-yes" when the card has .border-auto
+  // or "-auto-no" by default. These cards all use "-baseline", where the border
+  // can be disabled entirely by setting $bslib-value-box-enable-border: "never"
+  // or --bslib-value-box-border-width-baseline: 0. In "auto" mode, the border
+  // is disabled without the border-auto class, or disabled if shadow is enabled.
+  --bslib-value-box-border-width-auto-yes: #{if($bslib-value-box-enable-shadow, 0, var(--bslib-value-box-border-width-baseline))};
+  --bslib-value-box-border-width-auto-no: #{if($bslib-value-box-enable-border == "auto", 0, var(--bslib-value-box-border-width-baseline))};
+  --bslib-value-box-border-width-baseline: #{if($bslib-value-box-enable-border == "never", 0, $card-border-width)};
+}
 
 // CSS variables that start with --- (3 dashes instead of 2) are private vars
 // that are set by user arguments in the R calls. The CSS properties below only
@@ -14,18 +27,18 @@ $bslib-value-box-horizontal-min-width: 300px;
 // }
 
 .bslib-value-box {
-  @if ($bslib-value-box-enable-shadow) {
-    box-shadow: $box-shadow;
+  box-shadow: var(--bslib-value-box-shadow);
+  border-width: var(--bslib-value-box-border-width-auto-no);
+  &.border-auto {
+    border-width: var(--bslib-value-box-border-width-auto-yes);
   }
 
   &.default {
     --bslib-value-box-bg-default: var(--bs-card-bg, #{$body-bg});
     --bslib-value-box-border-color-default: var(--bs-card-border-color, #{$card-border-color});
-    --bslib-value-box-border-width-default: var(--bs-card-border-width, #{$card-border-width});
     color: var(--bslib-value-box-color);
     background-color: var(--bslib-value-box-bg, var(--bslib-value-box-bg-default));
     border-color: var(--bslib-value-box-border-color, var(--bslib-value-box-border-color-default));
-    border-width: var(--bslib-value-box-border-width, var(--bslib-value-box-border-width-default));
   }
 
   container-name: bslib-value-box;
@@ -53,7 +66,7 @@ $bslib-value-box-horizontal-min-width: 300px;
   // is the inverse of `@include media-breakpoint-down(sm)` but that mixin doesn't work
   // inside nested queries.
   @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
-    @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-min-width}) {
+    @container bslib-value-box (max-width: var(--bslib-value-box-horizontal-break-point)) {
       &:not(.showcase-bottom) .value-box-grid {
         // override specificity of showcase layouts for small value boxes
         grid-template-columns: 1fr !important;
@@ -160,7 +173,7 @@ $bslib-value-box-horizontal-min-width: 300px;
         overflow: visible;
       }
 
-      @container bslib-value-box (max-width: 300px) {
+      @container bslib-value-box (max-width: var(--bslib-value-box-horizontal-break-point)) {
         .value-box-grid {
           .value-box-showcase { // reset padding on showcase_container
             padding-left: 1rem;
@@ -222,23 +235,6 @@ $bslib-value-box-horizontal-min-width: 300px;
           padding: 1rem;
         }
       }
-    }
-  }
-}
-
-@if ($bslib-value-box-enable-border == "never") {
-  .bslib-value-box {
-    border: 0;
-  }
-}
-@else if ($bslib-value-box-enable-border == "auto") {
-  @if $bslib-value-box-enable-shadow {
-    .bslib-value-box {
-      border: 0;
-    }
-  } @else {
-    .bslib-value-box:not(.border-auto) {
-      border: 0;
     }
   }
 }
