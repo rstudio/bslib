@@ -330,6 +330,8 @@ layout_showcase <- function(showcase_layout, showcase, contents) {
   grid_props <- css(
     "--bslib-grid-height" = "auto",
     "--bslib-grid-height-mobile" = "auto",
+    # These are private variables but css() can't handle _ prefix yet
+    # FIXME: rstudio/htmltools#397
     "---bslib-value-box-showcase-w" = showcase_layout$width,
     "---bslib-value-box-showcase-w-fs" = showcase_layout$width_full_screen,
     "---bslib-value-box-showcase-h" = showcase_layout$height,
