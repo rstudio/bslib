@@ -1,6 +1,10 @@
 # bslib (development version)
 
-# New features
+## Breaking changes
+
+* `value_box()` no longer defaults to `theme_color = "primary"`. To restore the previous behavior, please use `theme = "primary"`. In addition to the default style change, the `theme_color` is now deprecated in favor of `theme`. (#758)
+
+## New features
 
 * `value_box()` now supports many new themes and styles, or fully customizable themes using the new `value_box_theme()` function. To reflect the new capabilities, we've replaced `theme_color` with a new `theme` argument. The previous argument will continue work as expected, but with a deprecation warning. (#758)
 
