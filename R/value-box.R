@@ -206,11 +206,18 @@ value_box_dependency_icon_gradient <- function() {
 
   x <- tags$script(HTML(
     sprintf(
-      "document.addEventListener('DOMContentLoaded', function() {
-        var temp = document.createElement('div');
-        temp.innerHTML = `%s`;
-        document.body.appendChild(temp.firstChild);
-      })",
+      "(function() {
+        function insert_svg() {
+          var temp = document.createElement('div');
+          temp.innerHTML = `%s`;
+          document.body.appendChild(temp.firstChild);
+        }
+        if (document.readyState === 'complete') {
+          insert_svg();
+        } else {
+          document.addEventListener('DOMContentLoaded', insert_svg);
+        }
+      })()",
       paste(ig_svg, collapse = "\n")
     )
   ))
