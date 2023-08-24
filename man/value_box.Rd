@@ -2,6 +2,7 @@
 % Please edit documentation in R/value-box.R
 \name{value_box}
 \alias{value_box}
+\alias{value_box_theme}
 \alias{showcase_left_center}
 \alias{showcase_top_right}
 \alias{showcase_bottom}
@@ -21,6 +22,8 @@ value_box(
   class = NULL,
   theme_color = lifecycle::deprecated()
 )
+
+value_box_theme(name = NULL, bg = NULL, fg = NULL)
 
 showcase_left_center(
   width = 0.3,
@@ -64,8 +67,14 @@ the height and width of the showcase area.}
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size.}
 
-\item{theme}{The name of a theme for the value box. There are many
-theme options available to you:
+\item{theme}{The name of a theme for the value box, or a theme constructed
+with \code{value_box_theme()}. The theme names provide a convenient way to use
+your app's Bootstrap theme colors as the foreground or background colors of
+the value box. See below for more details on the provided themes. For more
+control, you can create your own theme with \code{value_box_theme()} where you
+can pass foreground and background colors directly.
+
+There are many prepared theme options available to you:
 \enumerate{
 \item \strong{Named themes.} Choose from the names of Bootstrap theme colors (from
 \verb{$theme-colors}, e.g. \code{primary}, \code{secondary}, \code{success}, \code{danger}, etc)
@@ -99,6 +108,13 @@ container with an opinionated height (e.g., \code{page_fillable()}).}
 \item{class}{Utility classes for customizing the appearance of the summary
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
+
+\item{name}{The name of the theme, e.g. \code{"primary"}, \code{"danger"}, \code{"purple"}.}
+
+\item{bg, fg}{The background and foreground colors for the theme. If only \code{bg}
+is provided, then the foreground color is automatically chosen from
+\verb{$black} or \verb{$white} to provide the best contrast with the background
+color.}
 
 \item{width, width_full_screen, height, height_full_screen}{one of the
 following:

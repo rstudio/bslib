@@ -16,8 +16,14 @@
 #'   the showcase options provided by [showcase_left_center()] or
 #'   [showcase_top_right()]. Use the showcase functions when you want to control
 #'   the height and width of the showcase area.
-#' @param theme The name of a theme for the value box. There are many
-#'   theme options available to you:
+#' @param theme The name of a theme for the value box, or a theme constructed
+#'   with `value_box_theme()`. The theme names provide a convenient way to use
+#'   your app's Bootstrap theme colors as the foreground or background colors of
+#'   the value box. See below for more details on the provided themes. For more
+#'   control, you can create your own theme with `value_box_theme()` where you
+#'   can pass foreground and background colors directly.
+#'
+#'   There are many prepared theme options available to you:
 #'
 #'   1. **Named themes.** Choose from the names of Bootstrap theme colors (from
 #'      `$theme-colors`, e.g. `primary`, `secondary`, `success`, `danger`, etc)
@@ -124,16 +130,8 @@ value_box <- function(
     }
   }
 
-  if (is.null(theme)) {
-    theme <- "default"
-  } else {
-    if (!rlang::is_string(theme)) {
-      rlang::abort('`theme` must be a single value, e.g. "primary", "danger", "purple", etc.')
-    }
-
-    if (!grepl("^(text|bg)-", theme)) {
-      theme <- paste0("bg-", theme)
-    }
+  if (!inherits(theme, "bslib_value_box_theme")) {
+    theme <- value_box_theme(theme)
   }
 
   border_class <- value_box_auto_border_class(theme, class)
@@ -142,7 +140,7 @@ value_box <- function(
   res <- card(
     class = c(
       "bslib-value-box",
-      theme,
+      theme$class,
       class,
       border_class,
       if (!is.null(showcase)) showcase_layout$class
@@ -151,6 +149,7 @@ value_box <- function(
     height = height,
     max_height = max_height,
     fill = fill,
+    style = theme$style,
     !!!attribs,
     contents,
     as.card_item(value_box_dependency())
@@ -209,6 +208,66 @@ value_box_dependency <- function() {
 
 value_box_dependency_sass <- function(theme) {
   component_dependency_sass(theme, "value_box")
+}
+
+#' @param name The name of the theme, e.g. `"primary"`, `"danger"`, `"purple"`.
+#' @param bg,fg The background and foreground colors for the theme. If only `bg`
+#'   is provided, then the foreground color is automatically chosen from
+#'   `$black` or `$white` to provide the best contrast with the background
+#'   color.
+#'
+#' @rdname value_box
+#' @export
+value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
+  colors <- pair_colors_bg_fg(bg, fg)
+
+  if (is.null(name) && !length(colors)) {
+    return("default")
+  }
+
+  if (is.null(name)) {
+    return(new_value_box_theme(style = colors))
+  }
+
+  if (!rlang::is_string(name)) {
+    rlang::abort('`theme` must be a single value, e.g. "primary", "danger", "purple", etc.')
+  }
+
+  if (!grepl("^(text|bg)-", name)) {
+    name <- paste0("bg-", name)
+  }
+
+  if (is.null(fg) && !is.null(colors[["color"]])) {
+    # the foreground color was filled in by `pair_colors_bg_fg()`
+    # but we want to allow e.g. `name="text-red", bg="lightblue"` to work
+    colors[["color"]] <- NULL
+  }
+
+  new_value_box_theme(name, colors)
+}
+
+new_value_box_theme <- function(class = NULL, style = list()) {
+  structure(
+    list(
+      class = class,
+      style = css(!!!style)
+    ),
+    class = "bslib_value_box_theme"
+  )
+}
+
+#' @export
+print.bslib_value_box_theme <- function(x, ...) {
+  cat("<bslib_value_box_theme>\n")
+  if (!is.null(x$class)) {
+    cat("theme: ", x$class, "\n", sep = "")
+  }
+  if (!is.null(x$style)) {
+    styles <- gsub(";", "\n", x$style)
+    styles <- gsub(":", ": ", styles)
+    cat(styles, "\n")
+  }
+  invisible(x)
 }
 
 #' @param width,width_full_screen,height,height_full_screen one of the

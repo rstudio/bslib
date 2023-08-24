@@ -51,3 +51,24 @@ test_that("resolve_showcase_layout() can resolve all layouts in value_box()", {
     expect_silent(resolve_showcase_layout(layout))
   }
 })
+
+test_that("value_box_theme()", {
+  expect_equal(
+    value_box_theme("primary"),
+    value_box_theme("bg-primary")
+  )
+
+  expect_equal(
+    value_box_theme("text-blue"),
+    value_box_theme("text-blue")
+  )
+
+  expect_null(value_box_theme("orange")$style)
+  expect_null(value_box_theme(bg = "orange")$class)
+
+  expect_snapshot(value_box_theme("bg-gradient-blue-purple"))
+  expect_snapshot(value_box_theme("red", fg = "white"))
+  expect_snapshot(value_box_theme(bg = "black"))
+  # Can set `name` and `bg` but not `fg` without automatic contrast calculation
+  expect_snapshot(value_box_theme("text-red", bg = "#FFE8E8"))
+})
