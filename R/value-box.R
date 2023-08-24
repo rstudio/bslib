@@ -380,8 +380,24 @@ new_showcase_layout <- function(
 #' @export
 print.bslib_showcase_layout <- function(x, ...) {
   cat("<", x$class, ">\n", sep = "")
-  cat("width: ", x$width, " [fs: ", x$width_full_screen, "]\n", sep = "")
-  cat("max_height:", x$max_height, " [fs: ", x$max_height_full_screen, "]\n", sep = "")
+
+  fields <- c("width", "height", "max_height")
+  unset <- "---"
+  nchar_fields <- max(nchar(fields))
+  nchar_value <- max(vapply(dropNulls(x[fields]), nchar, integer(1)))
+
+  if (any(vapply(x[fields], is.null, logical(1)))) {
+    nchar_value <- max(nchar_value, nchar(unset))
+  }
+
+  for (field in fields) {
+    t_field <- format(paste0(field, ": "), width = nchar_fields + 2, align = "left")
+    t_value <- format(x[[field]] %||% unset, width = nchar_value, align = "right")
+    t_value_fs <- x[[paste0(field, "_full_screen")]] %||% unset
+
+    cat(t_field, t_value, " [fs: ", t_value_fs, "]\n", sep = "")
+  }
+
   invisible(x)
 }
 

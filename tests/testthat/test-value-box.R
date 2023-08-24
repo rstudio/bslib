@@ -52,6 +52,12 @@ test_that("resolve_showcase_layout() can resolve all layouts in value_box()", {
   }
 })
 
+test_that("print.bslib_showcase_layout()", {
+  expect_snapshot(showcase_left_center())
+  expect_snapshot(showcase_top_right())
+  expect_snapshot(showcase_bottom())
+})
+
 test_that("value_box_theme() basic usage", {
   expect_equal(
     value_box_theme(),

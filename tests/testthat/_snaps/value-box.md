@@ -1,3 +1,33 @@
+# print.bslib_showcase_layout()
+
+    Code
+      showcase_left_center()
+    Output
+      <showcase-left-center>
+      width:      30%   [fs: 1fr]
+      height:     ---   [fs: ---]
+      max_height: 100px [fs: 67%]
+
+---
+
+    Code
+      showcase_top_right()
+    Output
+      <showcase-top-right>
+      width:      40%  [fs: 1fr]
+      height:     ---  [fs: ---]
+      max_height: 75px [fs: 67%]
+
+---
+
+    Code
+      showcase_bottom()
+    Output
+      <showcase-bottom>
+      width:      100%  [fs: ---]
+      height:     auto  [fs: 2fr]
+      max_height: 100px [fs: ---]
+
 # value_box_theme() print method
 
     Code
