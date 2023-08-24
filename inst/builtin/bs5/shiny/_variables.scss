@@ -87,6 +87,6 @@ $input-border-color: $gray-500 !default;
 $border-radius: 3px !default;
 
 // Tables
-$table-striped-bg: tint-color($blue, 94%) !default;
-$table-hover-bg: tint-color($blue, 90%) !default;
+$table-striped-bg: rgba($blue, 0.05) !default;
+$table-hover-bg: rgba($blue, 0.1) !default;
 $table-striped-order: even !default;

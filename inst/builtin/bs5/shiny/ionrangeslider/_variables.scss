@@ -1,6 +1,8 @@
 // https://github.com/rstudio/shiny/blob/main/inst/www/shared/ionrangeslider/scss/shiny.scss
 
-$minmax_bg_color: $gray-200 !default;
+$emphasis-color-rgb: var(--bs-emphasis-color-rgb, 0, 0, 0) !default;
+
+$minmax_bg_color: RGBA($emphasis-color-rgb, 0.1) !default;
 
 $top: 32px !default;
 
@@ -19,6 +21,6 @@ $handle_width: $handle_height !default;
 
 $bar_color: $component-active-bg !default;
 
-$grid_major_color: $gray-600 !default;
+$grid_major_color: RGBA($minmax_bg_color, 0.7) !default;
 $grid_minor_color: transparent !default;
-$grid_text_color: $gray-800 !default;
+$grid_text_color: RGBA($minmax_bg_color, 0.9) !default;
