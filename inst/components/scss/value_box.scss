@@ -110,7 +110,7 @@ $bslib-value-box-horizontal-min-width: 300px;
     padding: 1rem;
     overflow: hidden;
 
-    .bi, .fa {
+    .bi, .fa, .fab, .fas, .far {
       opacity: .85;
       min-width: 50px;
       max-width: 125%;
@@ -118,7 +118,7 @@ $bslib-value-box-horizontal-min-width: 300px;
     // We set font size because {bsicons}/{fontawesome} both
     // set height/width to 1em by default (as an inline style)
     .bi { font-size: 5rem; }
-    .fa { font-size: 4rem; }
+    .fa, .fab, .fas, .far { font-size: 4rem; }
   }
 
 
