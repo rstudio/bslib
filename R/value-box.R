@@ -192,25 +192,31 @@ value_box_auto_border_class <- function(theme, class = NULL) {
 }
 
 value_box_dependency <- function() {
-  ig_svg <- readLines(path_inst("components", "assets", "icon-gradient.svg"))
-
-  list(
-    bs_dependency_defer(value_box_dependency_sass),
-    singleton(tags$script(HTML(
-      sprintf(
-        "(function() {
-          var temp = document.createElement('div');
-          temp.innerHTML = `%s`;
-          document.body.appendChild(temp.firstChild);
-        })()",
-        paste(ig_svg, collapse = "\n")
-      )
-    )))
-  )
+  bs_dependency_defer(value_box_dependency_sass)
 }
 
 value_box_dependency_sass <- function(theme) {
-  component_dependency_sass(theme, "value_box")
+  deps <- component_dependency_sass(theme, "value_box")
+  # Inject the icon gradient SVG into the dependency $head slot
+  deps$head <- value_box_dependency_icon_gradient()
+  deps
+}
+
+value_box_dependency_icon_gradient <- function() {
+  ig_svg <- readLines(path_inst("components", "assets", "icon-gradient.svg"))
+
+  x <- tags$script(HTML(
+    sprintf(
+      "document.addEventListener('DOMContentLoaded', function() {
+        var temp = document.createElement('div');
+        temp.innerHTML = `%s`;
+        document.body.appendChild(temp.firstChild);
+      })",
+      paste(ig_svg, collapse = "\n")
+    )
+  ))
+
+  format(x)
 }
 
 #' @param name The name of the theme, e.g. `"primary"`, `"danger"`, `"purple"`.
