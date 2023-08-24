@@ -1,4 +1,4 @@
-# value_box_theme()
+# value_box_theme() print method
 
     Code
       value_box_theme("bg-gradient-blue-purple")

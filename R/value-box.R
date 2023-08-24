@@ -158,7 +158,7 @@ value_box <- function(
   as_fragment(tag_require(res, version = 5, caller = "value_box()"))
 }
 
-value_box_auto_border_class <- function(theme_color, class = NULL) {
+value_box_auto_border_class <- function(theme, class = NULL) {
   # We add .border-auto to value boxes that might benefit from a border.
   # These are disabled if `$bslib-value-box-enable-border` is set to `"never"`
   # and are ignored if `$bslib-value-box-enable-border` is set to `"always".
@@ -172,14 +172,17 @@ value_box_auto_border_class <- function(theme_color, class = NULL) {
     return(NULL)
   }
 
-  if (identical(theme_color, "default")) {
+  if (identical(theme$class, "default") && is.null(class)) {
     # Add border to default boxes (which generally don't have a bg color)
     return("border-auto")
   }
 
-  theme <- paste(c(theme_color, class), collapse = " ")
+  all_classes <- paste(c(theme$class, class), collapse = " ")
 
-  if (grepl("text-", theme) && !grepl("bg-", theme)) {
+  sets_foreground <- grepl("text-", all_classes) || !is.null(theme$fg)
+  sets_background <- grepl("bg-", all_classes) || !is.null(theme$bg)
+
+  if (sets_foreground && !sets_background) {
     # Add a border if the theme changes only text and not background
     return("border-auto")
   }
@@ -222,19 +225,20 @@ value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
   colors <- pair_colors_bg_fg(bg, fg)
 
   if (is.null(name) && !length(colors)) {
-    return("default")
+    return(new_value_box_theme("default"))
   }
 
   if (is.null(name)) {
-    return(new_value_box_theme(style = colors))
+    return(new_value_box_theme(style = colors, fg = fg, bg = bg))
   }
 
   if (!rlang::is_string(name)) {
     rlang::abort('`theme` must be a single value, e.g. "primary", "danger", "purple", etc.')
   }
 
-  if (!grepl("^(text|bg)-", name)) {
-    name <- paste0("bg-", name)
+  class <- name
+  if (!grepl("^(text|bg)-", class)) {
+    class <- paste0("bg-", class)
   }
 
   if (is.null(fg) && !is.null(colors[["color"]])) {
@@ -243,14 +247,15 @@ value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
     colors[["color"]] <- NULL
   }
 
-  new_value_box_theme(name, colors)
+  new_value_box_theme(class, colors, name = name, fg = fg, bg = bg)
 }
 
-new_value_box_theme <- function(class = NULL, style = list()) {
+new_value_box_theme <- function(class = NULL, style = list(), ...) {
   structure(
     list(
       class = class,
-      style = css(!!!style)
+      style = css(!!!style),
+      ...
     ),
     class = "bslib_value_box_theme"
   )
