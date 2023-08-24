@@ -109,6 +109,8 @@ container with an opinionated height (e.g., \code{page_fillable()}).}
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
 
+\item{theme_color}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{theme} instead.}
+
 \item{name}{The name of the theme, e.g. \code{"primary"}, \code{"danger"}, \code{"purple"}.}
 
 \item{bg, fg}{The background and foreground colors for the theme. If only \code{bg}
@@ -129,8 +131,6 @@ Accepted values in the second category are \code{"auto"}, \code{"min-content"},
 \code{"max-content"}, a fractional unit (e.g. \verb{2fr}), or a \code{minmax()} function
 (e.g., \verb{minmax(100px, 1fr)}).
 }}
-
-\item{theme_card}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{theme} instead.}
 }
 \description{
 An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displaying a \code{value} and

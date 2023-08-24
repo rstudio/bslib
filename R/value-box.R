@@ -51,7 +51,7 @@
 #' @param fill Whether to allow the value box to grow/shrink to fit a fillable
 #'   container with an opinionated height (e.g., `page_fillable()`).
 #' @inheritParams card
-#' @param theme_card `r lifecycle::badge("deprecated")` Use `theme` instead.
+#' @param theme_color `r lifecycle::badge("deprecated")` Use `theme` instead.
 #'
 #' @examples
 #' library(htmltools)
