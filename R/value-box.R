@@ -338,7 +338,7 @@ layout_showcase <- function(showcase_layout, showcase, contents) {
     "---bslib-value-box-showcase-max-h-fs" = showcase_layout$max_height_full_screen
   )
 
-  grid <- div(
+  value_box_grid <- div(
     class = "value-box-grid",
     style = grid_props,
     showcase, # .value-box-showcase
