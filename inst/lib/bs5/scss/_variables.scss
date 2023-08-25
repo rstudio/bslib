@@ -1218,13 +1218,13 @@ $navbar-bg: null !default; // Background color for any navbarPage()
 $navbar-light-bg: if($navbar-bg, $navbar-bg, var(--bs-light)) !default; // Background color for navbarPage(inverse = FALSE)
 $navbar-dark-bg: if($navbar-bg, $navbar-bg, var(--bs-dark)) !default; // Background color for navbarPage(inverse = TRUE)
 $navbar-light-contrast: if(
-  type-of($navbar-light-bg) == color, 
-  color-contrast($navbar-light-bg), 
+  type-of($navbar-light-bg) == color,
+  color-contrast($navbar-light-bg),
   var(--#{$prefix}emphasis-color-rgb)
 ) !default; // Deepest contrasting color for navbarPage(inverse = FALSE).
 $navbar-dark-contrast: if(
-  type-of($navbar-light-bg)==color, 
-  color-contrast($navbar-dark-bg), 
+  type-of($navbar-light-bg) == color,
+  color-contrast($navbar-dark-bg),
   var(--#{$prefix}emphasis-color-rgb)
 ) !default; // Deepest contrasting color for navbarPage(inverse = TRUE).
 
