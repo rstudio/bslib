@@ -35,6 +35,7 @@ type MessageData = ToggleMessage | UpdateMessage;
 export class BslibTooltip extends BslibElement {
   static tagName = "bslib-tooltip";
   private bsTooltip!: TooltipType & { tip?: HTMLElement };
+  private bsTooltipEl!: HTMLElement;
   private visibilityObserver!: IntersectionObserver;
   private static shinyResizeObserver = new ShinyResizeObserver();
 
@@ -134,7 +135,16 @@ export class BslibTooltip extends BslibElement {
 
   private _onInsert(): void {
     const { tip } = this.bsTooltip;
-    if (!tip) return;
+    if (!tip) {
+      throw new Error(
+        "Failed to find the tooltip's DOM element. Please report this bug."
+      );
+    }
+
+    // Store a reference to the tooltip's DOM element so that we can use it
+    // later to _restoreContent() (i.e., bring the tooltip contents back to
+    // this element)
+    this.bsTooltipEl = tip;
 
     // If outputs happen to be in the tooltip, make sure they sized correctly
     BslibTooltip.shinyResizeObserver.observe(tip);
@@ -151,18 +161,13 @@ export class BslibTooltip extends BslibElement {
   }
 
   // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
-  // will move the DOM element from this web container to the popover's
+  // will move the DOM element from this web container to the tooltip's
   // container (which, by default, is the body, but can also be customized). So,
   // when the popover is hidden, we're responsible for moving it back to this
   // element.
   private _restoreContent(): void {
-    const { tip } = this.bsTooltip;
-    if (!tip) {
-      throw new Error(
-        "Failed to find the popover's DOM element. Please report this bug."
-      );
-    }
-    const content = tip.querySelector(".tooltip-inner")?.firstChild;
+    const el = this.bsTooltipEl;
+    const content = el.querySelector(".tooltip-inner")?.firstChild;
     if (content instanceof HTMLElement) {
       content.style.display = "none";
       this.prepend(content);
