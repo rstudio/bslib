@@ -47,6 +47,7 @@ $bslib-value-box-horizontal-break-point: 300px;
     display: grid;
     grid-template-areas: "left right";
     align-items: center;
+    overflow: hidden;
   }
 
   .value-box-showcase {
