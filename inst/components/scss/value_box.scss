@@ -22,14 +22,14 @@ $bslib-value-box-horizontal-break-point: 300px;
 //   --bslib-value-box-color:;
 //   --bslib-value-box-bg:;
 //   --bslib-value-box-border-color:;
-//   --bslib-value-box-border-width:;
 // }
 
 .bslib-value-box {
   box-shadow: var(--bslib-value-box-shadow);
-  border-width: var(--bslib-value-box-border-width-auto-no);
+
+  border-width: var(--bslib-value-box-border-width-auto-no, var(--bslib-value-box-border-width-baseline));
   &.border-auto {
-    border-width: var(--bslib-value-box-border-width-auto-yes);
+    border-width: var(--bslib-value-box-border-width-auto-yes, var(--bslib-value-box-border-width-baseline));
   }
 
   &.default {
