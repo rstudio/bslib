@@ -59,12 +59,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-@if ($enable-shadows) {
-  .bslib-value-box {
-    box-shadow: $box-shadow;
-  }
-}
-
 .bslib-value-box.default .value-box-showcase > svg {
   &.bi, &.fa, &.fas, &.far, &.fab, &.material-icons {
     // Requires icon-gradient.svg which is added in the value_box() dependency
