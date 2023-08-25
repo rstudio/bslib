@@ -3,7 +3,6 @@ $bslib-value-box-enable-shadow: $enable-shadows !default;
 $bslib-value-box-horizontal-break-point: 300px;
 
 :root {
-  --bslib-value-box-horizontal-break-point: #{$bslib-value-box-horizontal-break-point};
   --bslib-value-box-shadow: #{if($bslib-value-box-enable-shadow, #{$box-shadow}, none)};
   // value box border width is set to "-auto-yes" when the card has .border-auto
   // or "-auto-no" by default. These cards all use "-baseline", where the border
@@ -66,7 +65,7 @@ $bslib-value-box-horizontal-break-point: 300px;
   // is the inverse of `@include media-breakpoint-down(sm)` but that mixin doesn't work
   // inside nested queries.
   @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
-    @container bslib-value-box (max-width: var(--bslib-value-box-horizontal-break-point)) {
+    @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-break-point}) {
       &:not(.showcase-bottom) .value-box-grid {
         // override specificity of showcase layouts for small value boxes
         grid-template-columns: 1fr !important;
@@ -171,7 +170,7 @@ $bslib-value-box-horizontal-break-point: 300px;
         margin-top: 0;
       }
 
-      @container bslib-value-box (max-width: var(--bslib-value-box-horizontal-break-point)) {
+      @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-break-point}) {
         .value-box-grid {
           .value-box-showcase { // reset padding on showcase_container
             padding-left: 1rem;
