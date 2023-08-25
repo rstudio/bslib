@@ -59,10 +59,25 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-.bslib-value-box.default .value-box-showcase > svg {
-  &.bi, &.fa, &.fas, &.far, &.fab, &.material-icons {
-    // Requires icon-gradient.svg which is added in the value_box() dependency
-    fill: url('#bslib---icon-gradient') #007bc2 !important;
+$icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
+
+.bslib-value-box.default .value-box-showcase {
+  > i {
+    @each $icon-class in $icon-classes {
+      &.#{$icon-class} {
+        background: linear-gradient(140deg, $blue 36%, $purple 180%) $blue;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+  > svg {
+    @each $icon-class in $icon-classes {
+      &.#{$icon-class} {
+        // Requires icon-gradient.svg which is added in the value_box() dependency
+        fill: url('#bslib---icon-gradient') $blue !important;
+      }
+    }
   }
 }
 
