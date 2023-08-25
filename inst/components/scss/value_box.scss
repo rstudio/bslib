@@ -125,7 +125,6 @@ $bslib-value-box-horizontal-break-point: 300px;
     margin-top: auto;
     margin-bottom: auto;
     padding: 1rem;
-    overflow: hidden;
 
     .bi, .fa, .fab, .fas, .far {
       opacity: .85;
@@ -170,7 +169,6 @@ $bslib-value-box-horizontal-break-point: 300px;
     &:not([data-full-screen="true"]) {
       .value-box-showcase {
         margin-top: 0;
-        overflow: visible;
       }
 
       @container bslib-value-box (max-width: var(--bslib-value-box-horizontal-break-point)) {
