@@ -12,7 +12,7 @@ $line_bg_color: RGBA($emphasis-color-rgb, 0.65) !default;
 $line_border: none !default;
 
 $handle_color: $component-active-bg !default;
-$handle_color_hover: rgba($handle_color, 0.85) !default;
+$handle_color_hover: RGBA($handle_color, 0.85) !default;
 $handle_border: none !default;
 $handle_box_shadow: none !default;
 $handle_radius: $top - 10px !default;
