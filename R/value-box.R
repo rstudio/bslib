@@ -5,6 +5,16 @@
 #' `value` represents (for example, it could hold a [bsicons::bs_icon()], or
 #' even a [shiny::plotOutput()]).
 #'
+#' @section Themes:
+#'
+#'   ```{r child="man/fragments/value-box-themes.Rmd"}
+#'   ```
+#'
+#' @section Showcase Layouts:
+#'
+#'   ```{r child="man/fragments/value-box-showcase.Rmd"}
+#'   ```
+#'
 #' @param title,value A string, number, or [htmltools::tag()] child to display as
 #'   the title or value of the value box. The `title` appears above the `value`.
 #' @param ... Unnamed arguments may be any [htmltools::tag()] children to
@@ -22,30 +32,8 @@
 #'   your app's Bootstrap theme colors as the foreground or background colors of
 #'   the value box. See below for more details on the provided themes. For more
 #'   control, you can create your own theme with `value_box_theme()` where you
-#'   can pass foreground and background colors directly.
-#'
-#'   There are many prepared theme options available to you:
-#'
-#'   1. **Named themes.** Choose from the names of Bootstrap theme colors (from
-#'      `$theme-colors`, e.g. `primary`, `secondary`, `success`, `danger`, etc)
-#'      or named main colors (from `$colors`, e.g. `purple`, `orange`, `blue`,
-#'      etc.).
-#'   2. **Background colors.** If the theme or color name is provided without
-#'      any prefix, the color will be used for the background of the value box.
-#'      You can also explicitly prefix the theme or color name with `bg-` to
-#'      indicate that it should apply to the value box background. An
-#'      appropriate text color is chosen automatically.
-#'   3. **Foreground colors.** If the theme or color name is prefixed with
-#'      `text-`, the color will be be applied to the foreground of the value box
-#'      and the background color remains the default card background color.
-#'   4. **Gradient backgrounds.** You can also choose a vibrant gradient
-#'      background for the value box by using a theme name of the form
-#'      `bg-gradient-{from}-{to}` where `{from}` and `{to}` are named main
-#'      colors, e.g. `bg-gradient-purple-orange`.
-#'   5. **Further customization.** For further customization, you can always set
-#'      the `theme` and add additional classes using the `class` argument. If
-#'      you want to create your own custom themes, for best results be sure to
-#'      include the `text-` or `bg-` prefix in your theme's class.
+#'   can pass foreground and background colors directly. See the **Themes**
+#'   section for more details.
 #' @param class Utility classes for customizing the appearance of the summary
 #'   card. Use `bg-*` and `text-*` classes (e.g, `"bg-danger"` and
 #'   `"text-light"`) to customize the background/foreground colors.

@@ -1,0 +1,139 @@
+---
+output:
+  html_document:
+    theme:
+      version: 5
+---
+
+```{r setup-ex-navs-tab, include = FALSE}
+pkgload::load_all()
+
+## Screenshots are created during `devtools::document()` in CI
+## or set to `TRUE` below to test or update locally
+SCREENSHOT <- nzchar(Sys.getenv("CI", "")) || FALSE
+
+knitr::opts_chunk$set(
+  "fig.width" = 5,
+  "fig.height" = 2.5,
+  "dpi" = 100
+)
+```
+
+```{r child="0-screenshot-examples.Rmd"}
+```
+
+Use the `showcase` argument to add a plot or icon to your `value_box()`.
+There are three layouts available: `"left center"`, `"top right"`, and `"bottom"`.
+Set `showcase` to the name of the layout you'd like, or use the `showcase_left_center()`, `showcase_top_right()`, or `showcase_bottom()` helper functions to customize the height or width of the showcase area.
+
+If you're using a plot as your showcase, you may also want to set `fullscreen = TRUE` so that your users can expand the value box into a full screen card.
+See the [value box article](https://rstudio.github.io/bslib/articles/value-boxes/index.html) for more details.
+
+### Left-center showcase
+
+The `"left center"` showcase layout is the default, and is perfect for an icon or a small plot.
+This layout works best for short value boxes.
+
+```{r value-box-showcase-left-center, fig.alt = "A value box using the left-center showcase option."}
+value_box(
+  title = "Energy consumption",
+  value = "345 kwh/month",
+  showcase = bsicons::bs_icon("ev-station-fill")
+)
+```
+
+### Top-right showcase
+
+The `"top right"` showcase layout places the icon or plot in the upper right corner of the value box.
+This layout works best for medium-height to square value boxes.
+
+```{r value-box-showcase-top-right, fig.alt = "A value box using the top-right showcase option."}
+value_box(
+  title = "Energy consumption",
+  value = "345 kwh/month",
+  showcase = bsicons::bs_icon("ev-station-fill"),
+  showcase_layout = "top right"
+)
+```
+
+### Bottom showcase
+
+Finally, the `"bottom"` showcase layout is perfect for full-bleed plots.
+This layout places the plot below the title and value, with the plot taking up the full width of the bottom half.
+
+Try this layout with sparkline-style plots.
+These can be a little tricky to set up, so be sure to check out the [Expandable sparklines](https://rstudio.github.io/bslib/articles/value-boxes/index.html#expandable-sparklines) section of the [value boxes article](https://rstudio.github.io/bslib/articles/value-boxes/index.html) on the bslib website.
+In this example, we've created a sparkline plot using base R graphics, which isn't generally recommended.
+\if{latex}{View the bslib documentation online to see the source of \verb{sparkline_plot()}.}
+
+```{r showcase-plot, include = FALSE}
+#| fig.width: 10
+#| fig.show: hide
+
+set.seed(4242)
+
+timeseries <- cumsum(runif(100, -2, 2))
+x_axis <- seq_along(timeseries)
+x_lim <- c(1, length(timeseries))
+y_lim <- range(timeseries) + c(-2, 0)
+
+par(mar = c(0, 0, 0, 0))
+
+# Set up the plot area
+plot(
+  timeseries, type = "n",
+  axes = FALSE, frame.plot = FALSE,
+  ylim = y_lim, xlim = x_lim,
+  ylab = "",    xlab = "",
+  yaxs = "i",   xaxs = "i",
+)
+
+# Add the sparkline line
+lines(timeseries, type = "l", pch = NA, col = "#0B538E", lwd = 3)
+
+# Create polygon coordinates for shading
+polygon_x <- c(1, x_axis, length(timeseries))
+polygon_y <- c(min(y_lim), timeseries, min(y_lim))
+
+# Add shading under the line
+polygon(polygon_x, polygon_y, col = "#e6f2fd", border = NA)
+```
+
+```{r sparkline_plot, include = FALSE}
+sparkline_plot <- function() {
+  prepped_sparkline <- system.file("man", "figures", "showcase-plot-1.png",  package = "bslib")
+  img <- htmltools::tags$img(
+    src = paste0("file://", prepped_sparkline),
+    alt = paste(
+      "A sparkline plot with a randomly-generated timeseries.",
+      "The timeseries starts high and ends low, with lots of variation."
+    )
+  )
+  as_fill_item(img)
+}
+```
+
+```{r show-source, echo=FALSE, comment = "", results = "asis"}
+x <- htmltools::withTags(
+  .noWS = c("after-begin", "before-end"),
+  details(
+    summary("Code for a sparkline plot with base R"),
+    pre(code(paste0(
+      paste(knitr::knit_code$get("showcase-plot"), collapse = "\n"),
+      "\n\n",
+      trimws(paste(knitr::knit_code$get("sparkline_plot"), collapse = "\n"))
+    )))
+  )
+)
+x <- gsub("\n", "<br>", x)
+cat(sprintf("\\if{html}{\\out{%s}}", x))
+```
+
+```{r value-box-showcase-bottom, fig.alt = "A value box using the top-right showcase option."}
+value_box(
+  title = "Energy consumption",
+  value = "345 kwh/month",
+  showcase = sparkline_plot(),
+  showcase_layout = "bottom"
+)
+```

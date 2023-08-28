@@ -1,0 +1,101 @@
+```{r 0-screenshot-examples, include = FALSE}
+if (isTRUE(SCREENSHOT)) {
+  library(chromote)
+  b <- ChromoteSession$new(width = 300, height = 800, wait_ = TRUE)
+  knitr::opts_knit$set(document = function(x) {
+    b$close()
+    x
+  })
+}
+
+render_screenshot <- function(x, options) {
+  ss_width <- options$fig.width
+  ss_height <- options$fig.height
+  dpi <- options$dpi
+
+  ss_width <- ss_width * dpi
+  ss_height <- ss_height * dpi
+
+  b$Emulation$setDeviceMetricsOverride(
+    width = ss_width,
+    height = ss_height,
+    deviceScaleFactor = 0,
+    mobile = FALSE,
+    wait_ = TRUE
+  )
+
+  if (inherits(x, "bslib_fragment")) {
+    x <- attr(x, "bslib_page")(x)
+  }
+
+  page_style <- sprintf(
+    "body { min-height: %spx; padding: 1rem; overflow: hidden; }
+    .bslib-card .card-body { min-height: 200px; }",
+    ss_height
+  )
+
+  x <- tagList(
+    x,
+    tags$head(tags$style(HTML(page_style)))
+  )
+  tmpdir <- tempfile()
+  dir.create(tmpdir)
+  on.exit(unlink(tmpdir, recursive = TRUE))
+
+  tmpfile <- file.path(tmpdir, basename(tempfile(fileext = ".html")))
+  save_html(x, tmpfile)
+
+  file_out <- paste0(
+    gsub("_", "-", options$label), ".png"
+  )
+
+  {
+    p <- b$Page$loadEventFired(wait_ = FALSE)
+    b$Page$navigate(paste0("file://", tmpfile), wait_ = FALSE)
+    b$wait_for(p)
+  }
+
+  b$Runtime$evaluate(
+    "if ($('.dropdown-toggle').length > 0) $('.dropdown-toggle').dropdown('toggle')"
+  )
+  b$screenshot(filename = file.path(
+    rprojroot::find_package_root_file(),
+    "man/figures/", file_out
+  ))
+
+  invisible(file_out)
+}
+
+include_screenshot <- function(x, options) {
+  file_name <- paste0(
+    gsub("_", "-", options$label), ".png"
+  )
+  alt <- options$fig.alt
+  if (is.null(alt)) {
+    alt <- sprintf("Screenshot of a %s() example.", options$label)
+  }
+  img <- sprintf('![](%s "%s")', file_name, alt)
+  knitr::asis_output(img)
+}
+
+og_render <- knitr::opts_chunk$get("render")
+
+knitr::opts_chunk$set(
+  render = function(x, options) {
+    no_screenshot <- isTRUE(options$no_screenshot)
+    if (!(inherits(x, "shiny.tag") || inherits(x, "shiny.tag.list"))) {
+      no_screenshot <- TRUE
+    }
+
+    if (no_screenshot) {
+      if (is.null(og_render)) return(x)
+      else return(og_render(x, options))
+    }
+
+    if (isTRUE(SCREENSHOT)) {
+      render_screenshot(x, options)
+    }
+    include_screenshot(x, options)
+  }
+)
+```
