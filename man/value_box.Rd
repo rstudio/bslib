@@ -20,7 +20,7 @@ value_box(
   max_height = NULL,
   fill = TRUE,
   class = NULL,
-  theme_color = lifecycle::deprecated()
+  theme_color = deprecated()
 )
 
 value_box_theme(name = NULL, bg = NULL, fg = NULL)

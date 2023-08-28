@@ -84,7 +84,7 @@ value_box <- function(
   max_height = NULL,
   fill = TRUE,
   class = NULL,
-  theme_color = lifecycle::deprecated()
+  theme_color = deprecated()
 ) {
   dots <- separate_arguments(...)
   attribs <- dots$attribs
