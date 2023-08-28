@@ -87,10 +87,14 @@ $form-text-color: $gray-600 !default;
 // Borders
 $input-border-color: $gray-500 !default;
 $border-radius: 3px !default;
+// Defaults to $gray700, of which we've set to a blueish-gray, which looks a bit weird...
+// We could go forward with the blue-ish gray, but if we do, we'll want to also make
+// $border-color-translucent-dark a bit more blueish
+$border-color-dark: #495057 !default;
 
 // Tables
-$table-striped-bg: tint-color($blue, 94%) !default;
-$table-hover-bg: tint-color($blue, 90%) !default;
+$table-striped-bg: rgba($primary, 0.06) !default;
+$table-hover-bg: rgba($primary, 0.1) !default;
 $table-striped-order: even !default;
 
 // bslib variables

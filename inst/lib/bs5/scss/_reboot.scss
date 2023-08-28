@@ -306,7 +306,7 @@ pre {
   color: $pre-color;
   background-color: $pre-bg;
   padding: $spacer / 2;
-  border: $pre-border;
+  border: $border-width solid var(--#{$prefix}border-color, $border-color);
   @include border-radius($border-radius);
 
   // Account for some code outputs that place code tags in pre tags

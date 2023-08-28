@@ -6,6 +6,8 @@
 
 ## New features
 
+* Upgraded the default version of Bootstrap from v5.2.2 to v5.3.1. The most notable thing that comes with the update is the ability to toggle between light/dark [color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/) purely client-side (i.e., no calls to Sass required). (#749, #764)
+
 * `value_box()` now supports many new themes and styles, or fully customizable themes using the new `value_box_theme()` function. To reflect the new capabilities, we've replaced `theme_color` with a new `theme` argument. The previous argument will continue work as expected, but with a deprecation warning. (#758)
 
   In addition to the Bootstrap theme names (`primary` ,`secondary`, etc.), you can now use the main Boostrap colors (`purple`, `blue`, `red`, etc.). You can also choose to apply the color to the background or foreground by prepending a `bg-` or `text-` prefix to the theme or color name. Finally, we've also added new gradient themes allowing you to pair any two color names as `bg-gradient-{from}-{to}` (e.g., `bg-gradient-purple-blue`).
