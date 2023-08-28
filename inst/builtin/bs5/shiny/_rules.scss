@@ -35,6 +35,16 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   @include button-outline-variant($secondary);
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .btn-outline-default,
+    .btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
+      @include button-outline-variant($dark-text-emphasis-dark);
+    }
+  }
+}
+
+
 // This next section fixes inline checkbox and radio groups.
 // TODO: It would be nice to do this for all inline groups, but that would
 // require updating the input markup to use <fieldset> and <legend>.
