@@ -12,10 +12,11 @@
 #'   element.
 #' @param showcase A [htmltools::tag()] child to showcase (e.g., a
 #'   [bsicons::bs_icon()], a `plotly::plotlyOutput()`, etc).
-#' @param showcase_layout One of `"left center"` (default) or `"top right"`, or
-#'   the showcase options provided by [showcase_left_center()] or
-#'   [showcase_top_right()]. Use the showcase functions when you want to control
-#'   the height and width of the showcase area.
+#' @param showcase_layout One of `"left center"` (default), `"top right"` or
+#'   `"bottom"`. Alternatively, you can customize the showcase layout options
+#'   with the [showcase_left_center()], [showcase_top_right()], or
+#'   [showcase_bottom()] functions. Use the options functions when you want to
+#'   control the height or width of the showcase area.
 #' @param theme The name of a theme for the value box, or a theme constructed
 #'   with `value_box_theme()`. The theme names provide a convenient way to use
 #'   your app's Bootstrap theme colors as the foreground or background colors of

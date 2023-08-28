@@ -59,10 +59,11 @@ element.}
 \item{showcase}{A \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
 \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{plotly::plotlyOutput()}, etc).}
 
-\item{showcase_layout}{One of \code{"left center"} (default) or \code{"top right"}, or
-the showcase options provided by \code{\link[=showcase_left_center]{showcase_left_center()}} or
-\code{\link[=showcase_top_right]{showcase_top_right()}}. Use the showcase functions when you want to control
-the height and width of the showcase area.}
+\item{showcase_layout}{One of \code{"left center"} (default), \code{"top right"} or
+\code{"bottom"}. Alternatively, you can customize the showcase layout options
+with the \code{\link[=showcase_left_center]{showcase_left_center()}}, \code{\link[=showcase_top_right]{showcase_top_right()}}, or
+\code{\link[=showcase_bottom]{showcase_bottom()}} functions. Use the options functions when you want to
+control the height or width of the showcase area.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size.}
