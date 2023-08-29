@@ -1,11 +1,12 @@
 @import "inst/lib/bs5/scss/_functions.scss";
-@import "inst/sass-utils/color-contrast.scss";
+@import "inst/bslib-scss/functions.scss";
 
 
 
 $enable-cssgrid: true !default;
 @import "inst/bs3compat/_defaults.scss";
 @import "inst/lib/bs5/scss/_variables.scss";
+@import "inst/lib/bs5/scss/_variables-dark.scss";
 $bootstrap-version: 5;
 $bslib-preset-name: null !default;
 $bslib-preset-type: null !default;

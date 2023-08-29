@@ -63,6 +63,8 @@ test_that("page_sidebar()", {
 
   with_private_seed()
 
+  skip_if_not_installed("bsicons", "0.1.0.9000")
+
   expect_snapshot(
     renderTags(
       page_sidebar(

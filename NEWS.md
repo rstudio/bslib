@@ -1,4 +1,10 @@
-# bslib 0.5.0.9000
+# bslib (development version)
+
+## New features
+
+* Upgraded the default version of Bootstrap from v5.2.2 to v5.3.1. The most notable thing that comes with the update is the ability to toggle between light/dark [color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/) purely client-side (i.e., no calls to Sass required). (#749, #764)
+
+# bslib 0.5.1
 
 ## New features
 
@@ -10,7 +16,7 @@
 ## Improvements
 
 * Closed quarto-dev/quarto-cli#6081: `{bslib}`'s components (e.g., `card()`, `sidebar()`, etc.) now work more sensibly in Quarto docs. (#664)
-* `sidebar()` gains `gap` and `padding` arguments to control the vertical gap between items in the sidebar and the padding around the sidebar's content. (#725)
+* Closed #672: `sidebar()` gains `gap` and `padding` arguments to control the vertical gap between items in the sidebar and the padding around the sidebar's content. (#725)
 
 ## Bug fixes
 

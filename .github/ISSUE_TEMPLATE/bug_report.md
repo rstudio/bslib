@@ -13,7 +13,7 @@ remotes::install_github("rstudio/bslib")
 ## Describe the problem
 
 <!--
-Include a short decription of the current problem and how it should be different
+Include a short description of the current problem and how it should be different
 -->
 
 ```r

@@ -20,6 +20,8 @@
 }
 
 // For wellPanel() inside absolutePanel()
-.draggable .well {
-  background-color: opaque($body-bg, $well-bg);
+@if $bootstrap-version == 4 {
+  .draggable .well {
+    background-color: opaque($body-bg, $well-bg);
+  }
 }

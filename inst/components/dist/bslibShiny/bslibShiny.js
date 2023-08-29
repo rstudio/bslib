@@ -1,4 +1,4 @@
-/*! bslib 0.5.0.9000 | (c) 2012-2023 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.5.1.9000 | (c) 2012-2023 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   // srcts/src/components/_utils.ts
