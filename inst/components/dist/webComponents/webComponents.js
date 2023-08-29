@@ -958,12 +958,12 @@
           "Failed to find the tooltip's DOM element. Please report this bug."
         );
       }
-      this.bsTooltipEl = tip;
       _BslibTooltip.shinyResizeObserver.observe(tip);
       const content = (_a = tip.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
       if (content instanceof HTMLElement) {
         content.style.display = "contents";
       }
+      this.bsTooltipEl = tip;
     }
     // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
     // will move the DOM element from this web container to the tooltip's
@@ -973,11 +973,14 @@
     _restoreContent() {
       var _a;
       const el = this.bsTooltipEl;
+      if (!el)
+        return;
       const content = (_a = el.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
       if (content instanceof HTMLElement) {
         content.style.display = "none";
         this.prepend(content);
       }
+      this.bsTooltipEl = void 0;
     }
     receiveMessage(el, data) {
       const method = data.method;
@@ -1196,11 +1199,11 @@
           "Failed to find the popover's DOM element. Please report this bug."
         );
       }
-      this.bsPopoverEl = tip;
       _BslibPopover.shinyResizeObserver.observe(tip);
       if (this.focusablePopover) {
         tip.setAttribute("tabindex", "0");
       }
+      this.bsPopoverEl = tip;
     }
     // 1. Tab on an active trigger focuses the popover.
     // 2. Shift+Tab on active popover focuses the trigger.
@@ -1248,12 +1251,15 @@
     // element.
     _restoreContent() {
       const el = this.bsPopoverEl;
+      if (!el)
+        return;
       const body = el.querySelector(".popover-body");
       if (body)
         this.contentContainer.append(body == null ? void 0 : body.firstChild);
       const header = el.querySelector(".popover-header");
       if (header)
         this.contentContainer.append(header == null ? void 0 : header.firstChild);
+      this.bsPopoverEl = void 0;
     }
     receiveMessage(el, data) {
       const method = data.method;
