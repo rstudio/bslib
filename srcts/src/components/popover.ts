@@ -38,10 +38,8 @@ type MessageData = ToggleMessage | UpdateMessage;
 
 export class BslibPopover extends BslibElement {
   static tagName = "bslib-popover";
-  // Although it isn't included in the type, Bootstrap hangs a tip element off
-  // of the popover instance, which provides a convenient way to find where the
-  // popover is located in the DOM.
   private bsPopover!: PopoverType & { tip?: HTMLElement };
+  private bsPopoverEl: HTMLElement | undefined;
   private visibilityObserver!: IntersectionObserver;
   private static shinyResizeObserver = new ShinyResizeObserver();
 
@@ -224,7 +222,11 @@ export class BslibPopover extends BslibElement {
 
   private _onInsert(): void {
     const { tip } = this.bsPopover;
-    if (!tip) return;
+    if (!tip) {
+      throw new Error(
+        "Failed to find the popover's DOM element. Please report this bug."
+      );
+    }
 
     // If outputs happen to be in the tooltip, make sure they sized correctly
     BslibPopover.shinyResizeObserver.observe(tip);
@@ -233,6 +235,11 @@ export class BslibPopover extends BslibElement {
     if (this.focusablePopover) {
       tip.setAttribute("tabindex", "0");
     }
+
+    // Keep a reference to the DOM element so that we can use it later to
+    // _restoreContent() (i.e., bring the contents, as they currently exist,
+    // back to this element)
+    this.bsPopoverEl = tip;
   }
 
   // 1. Tab on an active trigger focuses the popover.
@@ -282,16 +289,13 @@ export class BslibPopover extends BslibElement {
   // when the popover is hidden, we're responsible for moving it back to this
   // element.
   private _restoreContent(): void {
-    const { tip } = this.bsPopover;
-    if (!tip) {
-      throw new Error(
-        "Failed to find the popover's DOM element. Please report this bug."
-      );
-    }
-    const body = tip.querySelector(".popover-body");
+    const el = this.bsPopoverEl;
+    if (!el) return;
+    const body = el.querySelector(".popover-body");
     if (body) this.contentContainer.append(body?.firstChild as HTMLElement);
-    const header = tip.querySelector(".popover-header");
+    const header = el.querySelector(".popover-header");
     if (header) this.contentContainer.append(header?.firstChild as HTMLElement);
+    this.bsPopoverEl = undefined;
   }
 
   ///////////////////////////////////////////////////////////////
