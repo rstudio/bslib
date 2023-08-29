@@ -35,7 +35,7 @@ type MessageData = ToggleMessage | UpdateMessage;
 export class BslibTooltip extends BslibElement {
   static tagName = "bslib-tooltip";
   private bsTooltip!: TooltipType & { tip?: HTMLElement };
-  private bsTooltipEl!: HTMLElement;
+  private bsTooltipEl: HTMLElement | undefined;
   private visibilityObserver!: IntersectionObserver;
   private static shinyResizeObserver = new ShinyResizeObserver();
 
@@ -141,11 +141,6 @@ export class BslibTooltip extends BslibElement {
       );
     }
 
-    // Store a reference to the tooltip's DOM element so that we can use it
-    // later to _restoreContent() (i.e., bring the tooltip contents back to
-    // this element)
-    this.bsTooltipEl = tip;
-
     // If outputs happen to be in the tooltip, make sure they sized correctly
     BslibTooltip.shinyResizeObserver.observe(tip);
 
@@ -158,6 +153,11 @@ export class BslibTooltip extends BslibElement {
     if (content instanceof HTMLElement) {
       content.style.display = "contents";
     }
+
+    // Keep a reference to the DOM element so that we can use it later to
+    // _restoreContent() (i.e., bring the contents, as they currently exist,
+    // back to this element)
+    this.bsTooltipEl = tip;
   }
 
   // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
@@ -167,11 +167,13 @@ export class BslibTooltip extends BslibElement {
   // element.
   private _restoreContent(): void {
     const el = this.bsTooltipEl;
+    if (!el) return;
     const content = el.querySelector(".tooltip-inner")?.firstChild;
     if (content instanceof HTMLElement) {
       content.style.display = "none";
       this.prepend(content);
     }
+    this.bsTooltipEl = undefined;
   }
 
   // Shiny-specific stuff

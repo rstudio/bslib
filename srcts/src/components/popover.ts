@@ -39,7 +39,7 @@ type MessageData = ToggleMessage | UpdateMessage;
 export class BslibPopover extends BslibElement {
   static tagName = "bslib-popover";
   private bsPopover!: PopoverType & { tip?: HTMLElement };
-  private bsPopoverEl!: HTMLElement;
+  private bsPopoverEl: HTMLElement | undefined;
   private visibilityObserver!: IntersectionObserver;
   private static shinyResizeObserver = new ShinyResizeObserver();
 
@@ -228,8 +228,6 @@ export class BslibPopover extends BslibElement {
       );
     }
 
-    this.bsPopoverEl = tip;
-
     // If outputs happen to be in the tooltip, make sure they sized correctly
     BslibPopover.shinyResizeObserver.observe(tip);
 
@@ -237,6 +235,11 @@ export class BslibPopover extends BslibElement {
     if (this.focusablePopover) {
       tip.setAttribute("tabindex", "0");
     }
+
+    // Keep a reference to the DOM element so that we can use it later to
+    // _restoreContent() (i.e., bring the contents, as they currently exist,
+    // back to this element)
+    this.bsPopoverEl = tip;
   }
 
   // 1. Tab on an active trigger focuses the popover.
@@ -287,10 +290,12 @@ export class BslibPopover extends BslibElement {
   // element.
   private _restoreContent(): void {
     const el = this.bsPopoverEl;
+    if (!el) return;
     const body = el.querySelector(".popover-body");
     if (body) this.contentContainer.append(body?.firstChild as HTMLElement);
     const header = el.querySelector(".popover-header");
     if (header) this.contentContainer.append(header?.firstChild as HTMLElement);
+    this.bsPopoverEl = undefined;
   }
 
   ///////////////////////////////////////////////////////////////
