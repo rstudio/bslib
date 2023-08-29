@@ -190,29 +190,33 @@ value_box_dependency_sass <- function(theme) {
   deps
 }
 
-value_box_dependency_icon_gradient <- function() {
-  ig_svg <- readLines(path_inst("components", "assets", "icon-gradient.svg"))
+value_box_dependency_icon_gradient <- local({
+  cached <- NULL
 
-  x <- tags$script(HTML(
-    sprintf(
-      "(function() {
-        function insert_svg() {
-          var temp = document.createElement('div');
-          temp.innerHTML = `%s`;
-          document.body.appendChild(temp.firstChild);
-        }
-        if (document.readyState === 'complete') {
-          insert_svg();
-        } else {
-          document.addEventListener('DOMContentLoaded', insert_svg);
-        }
-      })()",
-      paste(ig_svg, collapse = "\n")
-    )
-  ))
+  function() {
+    if (!is.null(cached)) return(cached)
 
-  format(x)
-}
+    x <- tags$script(HTML(
+      sprintf(
+        "(function() {
+          function insert_svg() {
+            var temp = document.createElement('div');
+            temp.innerHTML = `%s`;
+            document.body.appendChild(temp.firstChild);
+          }
+          if (document.readyState === 'complete') {
+            insert_svg();
+          } else {
+            document.addEventListener('DOMContentLoaded', insert_svg);
+          }
+        })()",
+        read_utf8(path_inst("components", "assets", "icon-gradient.svg"))
+      )
+    ))
+
+    (cached <<- format(x))
+  }
+})
 
 #' @param name The name of the theme, e.g. `"primary"`, `"danger"`, `"purple"`.
 #' @param bg,fg The background and foreground colors for the theme. If only `bg`
