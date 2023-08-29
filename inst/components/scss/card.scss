@@ -86,7 +86,8 @@
   font-size: .8rem;
   cursor: pointer;
   opacity: .6;
-  color: rgba(var(--bs-body-bg-rgb), 1);
+  color: var(--bs-body-bg);
+  background-color: var(--bs-body-color);
   &:hover {
     opacity: 1;
   }
