@@ -3,6 +3,12 @@ library(bslib)
 ## Screenshots are created during `devtools::document()` in CI
 ## or set to `TRUE` below to test or update locally
 SCREENSHOT <- nzchar(Sys.getenv("CI", "")) || FALSE
+
+knitr::opts_chunk$set(
+  "fig.width" = 8,
+  "fig.height" = 3,
+  "dpi" = 100
+)
 ```
 
 ```{r child="0-screenshot-examples.Rmd"}
