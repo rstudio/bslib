@@ -54,7 +54,7 @@
 #'       " 30% VS PREVIOUS 30 DAYS"
 #'     ),
 #'     showcase = bsicons::bs_icon("piggy-bank"),
-#'     class = "bg-success"
+#'     theme = "success"
 #'   )
 #' }
 #'
@@ -225,7 +225,7 @@ value_box_dependency_icon_gradient <- function() {
 value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
   colors <- pair_colors_bg_fg(bg, fg)
 
-  if (is.null(name) && !length(colors)) {
+  if (is.null(name) && length(colors) == 0) {
     return(new_value_box_theme("default"))
   }
 
