@@ -64,6 +64,10 @@ toggle_switch <- function(id, value = NULL, session = get_current_session()) {
     abort("`value` must be a `NULL` or a single logical value.")
   }
 
+  if (!rlang::is_string(id, n = 1)) {
+    abort("`id` must be a single string containing the `id` of a switch input.")
+  }
+
   msg <- dropNulls(list(id = session$ns(id), value = value))
 
   callback <- function() {
