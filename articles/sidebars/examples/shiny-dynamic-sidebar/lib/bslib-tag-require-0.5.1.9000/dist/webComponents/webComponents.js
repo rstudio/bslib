@@ -953,32 +953,34 @@
     _onInsert() {
       var _a;
       const { tip } = this.bsTooltip;
-      if (!tip)
-        return;
+      if (!tip) {
+        throw new Error(
+          "Failed to find the tooltip's DOM element. Please report this bug."
+        );
+      }
       _BslibTooltip.shinyResizeObserver.observe(tip);
       const content = (_a = tip.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
       if (content instanceof HTMLElement) {
         content.style.display = "contents";
       }
+      this.bsTooltipEl = tip;
     }
     // Since this.content is an HTMLElement, when it's shown bootstrap.Popover()
-    // will move the DOM element from this web container to the popover's
+    // will move the DOM element from this web container to the tooltip's
     // container (which, by default, is the body, but can also be customized). So,
     // when the popover is hidden, we're responsible for moving it back to this
     // element.
     _restoreContent() {
       var _a;
-      const { tip } = this.bsTooltip;
-      if (!tip) {
-        throw new Error(
-          "Failed to find the popover's DOM element. Please report this bug."
-        );
-      }
-      const content = (_a = tip.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
+      const el = this.bsTooltipEl;
+      if (!el)
+        return;
+      const content = (_a = el.querySelector(".tooltip-inner")) == null ? void 0 : _a.firstChild;
       if (content instanceof HTMLElement) {
         content.style.display = "none";
         this.prepend(content);
       }
+      this.bsTooltipEl = void 0;
     }
     receiveMessage(el, data) {
       const method = data.method;
@@ -1192,12 +1194,16 @@
     }
     _onInsert() {
       const { tip } = this.bsPopover;
-      if (!tip)
-        return;
+      if (!tip) {
+        throw new Error(
+          "Failed to find the popover's DOM element. Please report this bug."
+        );
+      }
       _BslibPopover.shinyResizeObserver.observe(tip);
       if (this.focusablePopover) {
         tip.setAttribute("tabindex", "0");
       }
+      this.bsPopoverEl = tip;
     }
     // 1. Tab on an active trigger focuses the popover.
     // 2. Shift+Tab on active popover focuses the trigger.
@@ -1244,18 +1250,16 @@
     // when the popover is hidden, we're responsible for moving it back to this
     // element.
     _restoreContent() {
-      const { tip } = this.bsPopover;
-      if (!tip) {
-        throw new Error(
-          "Failed to find the popover's DOM element. Please report this bug."
-        );
-      }
-      const body = tip.querySelector(".popover-body");
+      const el = this.bsPopoverEl;
+      if (!el)
+        return;
+      const body = el.querySelector(".popover-body");
       if (body)
         this.contentContainer.append(body == null ? void 0 : body.firstChild);
-      const header = tip.querySelector(".popover-header");
+      const header = el.querySelector(".popover-header");
       if (header)
         this.contentContainer.append(header == null ? void 0 : header.firstChild);
+      this.bsPopoverEl = void 0;
     }
     receiveMessage(el, data) {
       const method = data.method;
