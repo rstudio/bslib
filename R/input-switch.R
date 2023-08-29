@@ -43,7 +43,7 @@
 #' @family input controls
 #' @export
 input_switch <- function(id, label, value = FALSE, width = NULL) {
-  tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width)
+  tag <- input_checkbox(id, label, class = "bslib-input-switch form-switch", value = value, width = width)
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
   as_fragment(tag)
 }
@@ -84,13 +84,14 @@ input_dark_mode_switch <- function(id, label, ..., width = "auto") {
   )
 }
 
-input_checkbox <- function(id, label, class = "form-check", value = FALSE, width = NULL, inline = FALSE) {
+input_checkbox <- function(id, label, class = "bslib-input-checkbox", value = FALSE, width = NULL, inline = FALSE) {
   div(
     class = "form-group shiny-input-container",
     class = if (inline) "shiny-input-container-inline",
     style = css(width = width),
     div(
       class = class,
+      class = "form-check",
       tags$input(
         id = id,
         class = "form-check-input",
