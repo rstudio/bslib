@@ -13,21 +13,28 @@ template:
       google: {family: "Atkinson Hyperlegible", wght: [300, 400, 700], ital: [0, 1]}
     headings-color: "#206B72"
     link-color: "#216B73"
-    link-decoration: underline var(--bs-info) dotted
+    link-color-dark: "#cef4f9"
+    link-decoration: underline dotted
   params:
     footer: <b>bslib</b> is an R package developed by <a href='https://rstudio.com'>RStudio</a>
     docsearch:
       api_key: 53fd87c79a13e431b4298611470d023a
       index_name: bslib
+  includes:
+    in_header: >
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 navbar:
   bg: info
   type: light
   structure:
     left:  [get-started, examples, theming, components, layouts]
-    right: [reference, news, github]
+    right: [reference, news, github, dark-mode]
   components:
     home: ~
+    dark-mode:
+      href: "#dark-mode"
+
     get-started:
       text: Get Started
       menu:
@@ -66,7 +73,7 @@ navbar:
         - text: Multiple columns
           href: articles/column-layout/index.html
         - text: Multiple panels
-          href: https://rstudio.github.io/bslib/reference/navset.html#details
+          href: reference/navset.html#details
         - text: Filling layout
           href: articles/filling/index.html
 
@@ -78,7 +85,7 @@ navbar:
       text: News
       href: news/index.html
     github:
-      icon: fab fa-github fa-lg
+      icon: bi-github
       href: https://github.com/rstudio/bslib
 
 reference:
