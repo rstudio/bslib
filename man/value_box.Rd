@@ -333,7 +333,7 @@ if (interactive()) {
       " 30\% VS PREVIOUS 30 DAYS"
     ),
     showcase = bsicons::bs_icon("piggy-bank"),
-    class = "bg-success"
+    theme = "success"
   )
 }
 
