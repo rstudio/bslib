@@ -274,7 +274,7 @@ full_screen_toggle <- function() {
   tooltip(
     tags$span(
       class = "bslib-full-screen-enter",
-      class = "badge rounded-pill bg-dark",
+      class = "badge rounded-pill",
       full_screen_toggle_icon()
     ),
     "Expand"
