@@ -391,7 +391,7 @@ resolve_showcase_layout <- function(showcase_layout) {
 }
 
 render_showcase_layout <- function(showcase_layout, showcase, contents) {
-  stopifnot(!inherits(showcase_layout, "bslib_showcase_layout"))
+  stopifnot(inherits(showcase_layout, "bslib_showcase_layout"))
 
   showcase <- div(class = "value-box-showcase", showcase)
   showcase <- as_fill_carrier(showcase)
