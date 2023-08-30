@@ -170,6 +170,13 @@ footer {
   background-color: rgba(var(--bs-info-rgb), 0.75);
 }
 
+@include media-breakpoint-down(sm) {
+  aside {
+    background-color: var(--bs-tertiary-bg);
+    border-color: var(--bs-border-color);
+  }
+}
+
 /* ---- Dark Mode ---- */
 [data-bs-theme="dark"] {
   .navbar.bg-info {
