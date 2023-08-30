@@ -20,6 +20,14 @@
 
 * The `showcase_layout` argument of `value_box()` now accepts one of three character values: `"left center"`, `"top right"`, `"bottom"`. (#758)
 
+## Improvements
+
+* The `bs_themer()` app now supports previewing the dark mode variant of Bootstrap 5 themes. (#767)
+
+## Bug fixes
+
+* `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)
+
 # bslib 0.5.1
 
 ## New features

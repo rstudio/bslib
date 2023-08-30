@@ -43,7 +43,7 @@
 #' @family input controls
 #' @export
 input_switch <- function(id, label, value = FALSE, width = NULL) {
-  tag <- input_checkbox(id, label, class = "form-check form-switch", value = value, width = width)
+  tag <- input_checkbox(id, label, class = "bslib-input-switch form-switch", value = value, width = width)
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
   as_fragment(tag)
 }
@@ -64,7 +64,11 @@ toggle_switch <- function(id, value = NULL, session = get_current_session()) {
     abort("`value` must be a `NULL` or a single logical value.")
   }
 
-  msg <- dropNulls(list(id = id, value = value))
+  if (!rlang::is_string(id, n = 1)) {
+    abort("`id` must be a single string containing the `id` of a switch input.")
+  }
+
+  msg <- dropNulls(list(id = session$ns(id), value = value))
 
   callback <- function() {
     session$sendCustomMessage("bslib.toggle-input-binary", msg)
@@ -84,13 +88,14 @@ input_dark_mode_switch <- function(id, label, ..., width = "auto") {
   )
 }
 
-input_checkbox <- function(id, label, class = "form-check", value = FALSE, width = NULL, inline = FALSE) {
+input_checkbox <- function(id, label, class = "bslib-input-checkbox", value = FALSE, width = NULL, inline = FALSE) {
   div(
     class = "form-group shiny-input-container",
     class = if (inline) "shiny-input-container-inline",
     style = css(width = width),
     div(
       class = class,
+      class = "form-check",
       tags$input(
         id = id,
         class = "form-check-input",
