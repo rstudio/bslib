@@ -287,9 +287,9 @@ new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {
 #' @rdname value_box
 showcase_left_center <- function(
   width = 0.3,
+  width_full_screen = "1fr",
   max_height = "100px",
-  max_height_full_screen = 0.67,
-  width_full_screen = "1fr"
+  max_height_full_screen = 0.67
 ) {
   new_showcase_layout(
     class = "showcase-left-center",
@@ -304,9 +304,9 @@ showcase_left_center <- function(
 #' @rdname value_box
 showcase_top_right <- function(
   width = 0.4,
+  width_full_screen = "1fr",
   max_height = "75px",
-  max_height_full_screen = 0.67,
-  width_full_screen = "1fr"
+  max_height_full_screen = 0.67
 ) {
   new_showcase_layout(
     class = "showcase-top-right",
