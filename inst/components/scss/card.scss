@@ -85,9 +85,10 @@
   padding: 0.55rem !important;
   font-size: .8rem;
   cursor: pointer;
-  opacity: .6;
-  color: var(--bs-body-bg);
-  background-color: var(--bs-body-color);
+  opacity: .7;
+  color: var(--bs-card-color, var(--bs-body-color));
+  background-color: var(--bs-card-bg, var(--bs-body-bg));
+  box-shadow: 0 1px 4px rgba(var(--bs-body-color-rgb), 0.5);
   &:hover {
     opacity: 1;
   }
