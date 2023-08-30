@@ -138,7 +138,10 @@ value_box <- function(
     height = height,
     max_height = max_height,
     fill = fill,
-    style = theme$style,
+    style = css(
+      color = theme$fg,
+      background_color = theme$bg
+    ),
     !!!attribs,
     contents,
     as.card_item(value_box_dependency())
@@ -227,14 +230,18 @@ value_box_dependency_icon_gradient <- local({
 #' @rdname value_box
 #' @export
 value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
-  colors <- pair_colors_bg_fg(bg, fg)
-
-  if (is.null(name) && length(colors) == 0) {
-    return(new_value_box_theme("default"))
+  if (is.null(name) && is.null(fg) && is.null(bg)) {
+    return(new_value_box_theme("default", bg, fg))
   }
 
   if (is.null(name)) {
-    return(new_value_box_theme(style = colors, fg = fg, bg = bg))
+    if (!is.null(bg) && is.null(fg)) {
+      # don't warng if we can't get a contrast color, `bg` might be valid
+      # CSS but not something sass can compute on
+      fg <- suppressWarnings(get_color_contrast(bg))
+    }
+
+    return(new_value_box_theme(NULL, bg, fg))
   }
 
   if (!rlang::is_string(name)) {
@@ -246,21 +253,16 @@ value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
     class <- paste0("bg-", class)
   }
 
-  if (is.null(fg) && !is.null(colors[["color"]])) {
-    # the foreground color was filled in by `pair_colors_bg_fg()`
-    # but we want to allow e.g. `name="text-red", bg="lightblue"` to work
-    colors[["color"]] <- NULL
-  }
 
-  new_value_box_theme(class, colors, name = name, fg = fg, bg = bg)
+  new_value_box_theme(class, bg, fg)
 }
 
-new_value_box_theme <- function(class = NULL, style = list(), ...) {
+new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {
   structure(
     list(
       class = class,
-      style = css(!!!style),
-      ...
+      fg = fg,
+      bg = bg
     ),
     class = "bslib_value_box_theme"
   )
@@ -462,10 +464,11 @@ print.bslib_value_box_theme <- function(x, ...) {
   if (!is.null(x$class)) {
     cat("theme: ", x$class, "\n", sep = "")
   }
-  if (!is.null(x$style)) {
-    styles <- gsub(";", "\n", x$style)
-    styles <- gsub(":", ": ", styles)
-    cat(styles, "\n")
+  if (!is.null(x$bg)) {
+    cat("background-color: ", x$bg, "\n", sep = "")
+  }
+  if (!is.null(x$fg)) {
+    cat("color: ", x$fg, "\n", sep = "")
   }
   invisible(x)
 }

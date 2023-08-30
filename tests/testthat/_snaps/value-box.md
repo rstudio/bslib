@@ -43,8 +43,7 @@
     Output
       <bslib_value_box_theme>
       theme: bg-red
-      color: #FFFFFF
-       
+      color: white
 
 ---
 
@@ -52,9 +51,8 @@
       value_box_theme(bg = "black")
     Output
       <bslib_value_box_theme>
-      background-color: #000000
+      background-color: black
       color: #FFFFFF
-       
 
 ---
 
@@ -64,5 +62,4 @@
       <bslib_value_box_theme>
       theme: text-red
       background-color: #FFE8E8
-       
 

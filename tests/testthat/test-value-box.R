@@ -64,13 +64,13 @@ test_that("value_box_theme() basic usage", {
     new_value_box_theme("default")
   )
 
-  # class and style are used be value_box(), but theme keeps original values
   expect_equal(
-    value_box_theme("primary")[c("class", "style")],
-    value_box_theme("bg-primary")[c("class", "style")]
+    value_box_theme("primary"),
+    value_box_theme("bg-primary")
   )
 
-  expect_null(value_box_theme("orange")$style)
+  expect_null(value_box_theme("orange")$fg)
+  expect_null(value_box_theme("orange")$bg)
   expect_null(value_box_theme(bg = "orange")$class)
 
   expect_error(value_box_theme(c("text-primary", "bg-dark")))
@@ -79,14 +79,26 @@ test_that("value_box_theme() basic usage", {
 test_that("value_box_theme() fills in `fg` when only `bg` is provided", {
   # fills in foreground
   expect_equal(
-    value_box_theme(bg = "black")[c("class", "style")],
-    value_box_theme(bg = "#000000", fg = "#FFFFFF")[c("class", "style")]
+    value_box_theme(bg = "black"),
+    value_box_theme(bg = "black", fg = "#FFFFFF")
   )
 
   # doesn't fill in foreground because `name` was used
+  theme_no_fg <- value_box_theme("text-yellow", bg = "black")
+  expect_equal(theme_no_fg$class, "text-yellow")
+  expect_equal(theme_no_fg$bg, "black")
+  expect_null(theme_no_fg$fg)
+})
+
+test_that("value_box_theme() allows `bg` and `fg` to be CSS variables", {
   expect_equal(
-    value_box_theme("text-yellow", bg = "black")$style,
-    "background-color:#000000;"
+    value_box_theme(bg = "var(--bs-primary)")$bg,
+    "var(--bs-primary)"
+  )
+
+  expect_equal(
+    value_box_theme(fg = "var(--bs-secondary)")$fg,
+    "var(--bs-secondary)"
   )
 })
 
@@ -96,13 +108,6 @@ test_that("value_box_theme() print method", {
   expect_snapshot(value_box_theme(bg = "black"))
   # Can set `name` and `bg` but not `fg` without automatic contrast calculation
   expect_snapshot(value_box_theme("text-red", bg = "#FFE8E8"))
-})
-
-test_that("value_box_theme() includes the user's original values", {
-  expect_equal(value_box_theme("orange")$name, "orange")
-  expect_equal(value_box_theme("orange")$class, "bg-orange")
-  expect_equal(value_box_theme(bg = "orange")$bg, "orange")
-  expect_equal(value_box_theme(fg = "orange")$fg, "orange")
 })
 
 test_that("value_box_auto_border_class() returns NULL if border* is in `class`", {
