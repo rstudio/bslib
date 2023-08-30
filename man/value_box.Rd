@@ -216,7 +216,7 @@ This changes the text color without affecting the background color.
 \figure{value-box-text-color.png}{A value box using 'text-orange', a named Bootstrap main color.}
 
 Occasionally you may want to adjust use both background and foreground themes on your value box.
-To acheive this, set \code{theme} to one of the theme names and use \code{class} for the complimentary style.
+To achieve this, set \code{theme} to one of the theme names and use \code{class} for the complementary style.
 The example below uses \code{theme = "purple"} (which could also be \code{"bg-purple"}) for a purple background, and \code{class = "text-light"} for light-colored text.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
@@ -271,7 +271,7 @@ Note that \code{value_box_theme()} optionally takes a \code{theme} name, which c
 value_box_theme(name = "text-danger", fg = "#FFB6C1")
 }\if{html}{\out{</div>}}
 
-Also note that these colors must be CSS colors, not Bootstrap theme or color names.
+Also note that \code{bg}/\code{fg} \emph{must} be CSS colors, not Bootstrap theme or color names.
 This means that \code{theme = "purple"} will use your Bootstrap theme's purple color, and \code{bg = "purple"} will use the CSS color for \emph{purple}, i.e. \code{"#800080"}.
 }
 }
