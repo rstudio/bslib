@@ -27,16 +27,16 @@ value_box_theme(name = NULL, bg = NULL, fg = NULL)
 
 showcase_left_center(
   width = 0.3,
+  width_full_screen = "1fr",
   max_height = "100px",
-  max_height_full_screen = 0.67,
-  width_full_screen = "1fr"
+  max_height_full_screen = 0.67
 )
 
 showcase_top_right(
   width = 0.4,
+  width_full_screen = "1fr",
   max_height = "75px",
-  max_height_full_screen = 0.67,
-  width_full_screen = "1fr"
+  max_height_full_screen = 0.67
 )
 
 showcase_bottom(
@@ -122,10 +122,9 @@ even a \code{\link[shiny:plotOutput]{shiny::plotOutput()}}).
 The appearance of a \code{value_box()}
 can be controlled via the \code{theme} argument
 in one of two ways:
-you can provide a character value describing the theme, e.g. \code{theme = "primary"};
-or you can use \code{value_box_theme()} to create a custom theme.
-We recommend you use the first approach (using named themes)
-for most value boxes,
+(1) a character value describing the theme, e.g. \code{theme = "primary"}
+or (2) \code{theme = value_box_theme()} to create a custom theme.
+We recommend using named themes for most value boxes (the first approach),
 because these themes will automatically match your Bootstrap theme.
 \subsection{Named themes}{
 
@@ -215,6 +214,21 @@ This changes the text color without affecting the background color.
 }\if{html}{\out{</div>}}
 
 \figure{value-box-text-color.png}{A value box using 'text-orange', a named Bootstrap main color.}
+
+Occasionally you may want to adjust use both background and foreground themes on your value box.
+To acheive this, set \code{theme} to one of the theme names and use \code{class} for the complimentary style.
+The example below uses \code{theme = "purple"} (which could also be \code{"bg-purple"}) for a purple background, and \code{class = "text-light"} for light-colored text.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "purple",
+  class = "text-light"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-theme-class.png}{A value box using 'purple' for the background and 'text-light' for the text color.}
 }
 
 \subsection{Gradient backgrounds}{
@@ -251,7 +265,12 @@ Like with the \verb{bg-} theme names, if only \code{bg} is provided, \code{value
 
 \figure{value-box-custom.png}{A value box using 'value_box_theme()' for complete customization.}
 
-Note that \code{value_box_theme()} also takes the \code{theme} name, which can be helpful if you want to use a named theme and modify the default \code{bg} or \code{fg} colors of that theme.
+Note that \code{value_box_theme()} optionally takes a \code{theme} name, which can be helpful if you want to use a named theme and modify the default \code{bg} or \code{fg} colors of that theme.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box_theme(name = "orange", bg = "#FFFFFF")
+value_box_theme(name = "text-danger", fg = "#FFB6C1")
+}\if{html}{\out{</div>}}
+
 Also note that these colors must be CSS colors, not Bootstrap theme or color names.
 This means that \code{theme = "purple"} will use your Bootstrap theme's purple color, and \code{bg = "purple"} will use the CSS color for \emph{purple}, i.e. \code{"#800080"}.
 }
@@ -262,7 +281,7 @@ This means that \code{theme = "purple"} will use your Bootstrap theme's purple c
 
 Use the \code{showcase} argument to add a plot or icon to your \code{value_box()}.
 There are three layouts available: \code{"left center"}, \code{"top right"}, and \code{"bottom"}.
-Set \code{showcase} to the name of the layout you'd like, or use the \code{showcase_left_center()}, \code{showcase_top_right()}, or \code{showcase_bottom()} helper functions to customize the height or width of the showcase area.
+Set \code{showcase} to the name of the layout you'd like, or use the \code{showcase_left_center()}, \code{showcase_top_right()}, or \code{showcase_bottom()} helper functions to customize the showcase area's size.
 
 If you're using a plot as your showcase, you may also want to set \code{fullscreen = TRUE} so that your users can expand the value box into a full screen card.
 See the \href{https://rstudio.github.io/bslib/articles/value-boxes/index.html}{value box article} for more details.

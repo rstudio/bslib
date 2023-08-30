@@ -1,6 +1,6 @@
 ```{r 0-screenshot-examples, include = FALSE}
 .IN_CI <- nzchar(Sys.getenv("CI"))
-.UPDATE_SCREENSHOT <- isTRUE(as.logical(Sys.getenv("UPDATE_SCREENSHOT")))
+.UPDATE_SCREENSHOT <- isTRUE(knitr::opts_chunk$get(".update_screenshot"))
 
 if (.UPDATE_SCREENSHOT || .IN_CI) {
   library(chromote)
@@ -95,7 +95,7 @@ knitr::opts_chunk$set(
       else return(og_render(x, options))
     }
 
-    if (isTRUE(SCREENSHOT)) {
+    if (isTRUE(.UPDATE_SCREENSHOT)) {
       render_screenshot(x, options)
     }
     include_screenshot(x, options)

@@ -1,11 +1,10 @@
 ```{r setup, include = FALSE}
-## Screenshots are created during `devtools::document()` in CI
-## or set to `TRUE` below to test or update locally
-# Sys.setenv(UPDATE_SCREENSHOT = TRUE)
-
 library(bslib)
 
 knitr::opts_chunk$set(
+  ## Screenshots are created during `devtools::document()` in CI
+  ## or set to `TRUE` below to test or update locally
+  # .update_screenshot = TRUE,
   "fig.width" = 5,
   "fig.height" = 2.5,
   "dpi" = 100
