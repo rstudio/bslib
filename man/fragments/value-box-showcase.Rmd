@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 Use the `showcase` argument to add a plot or icon to your `value_box()`.
 There are three layouts available: `"left center"`, `"top right"`, and `"bottom"`.
-Set `showcase` to the name of the layout you'd like, or use the `showcase_left_center()`, `showcase_top_right()`, or `showcase_bottom()` helper functions to customize the height or width of the showcase area.
+Set `showcase` to the name of the layout you'd like, or use the `showcase_left_center()`, `showcase_top_right()`, or `showcase_bottom()` helper functions to customize the showcase area's size.
 
 If you're using a plot as your showcase, you may also want to set `fullscreen = TRUE` so that your users can expand the value box into a full screen card.
 See the [value box article](https://rstudio.github.io/bslib/articles/value-boxes/index.html) for more details.
