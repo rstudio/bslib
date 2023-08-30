@@ -83,7 +83,7 @@ describe_layout_function(
     class = "p-2",
     height = 200,
     layout_sidebar(
-      sidebar = sidebar("Sidebar", width = "33%", class = "bg-light"),
+      sidebar = sidebar("Sidebar", width = "33%"),
       "Main contents"
     ) |>
       tagAppendAttributes(class = "border rounded-top")
@@ -119,7 +119,7 @@ describe_layout_function(
       full_screen = TRUE,
       card_header("Title"),
       layout_sidebar(
-        sidebar = sidebar("Sidebar", width = "33%", class = "bg-light"),
+        sidebar = sidebar("Sidebar", width = "33%"),
         "Main contents"
       )
     )
@@ -160,7 +160,7 @@ describe_layout_function(
     height = 200,
     page_fillable(
       layout_sidebar(
-        sidebar = sidebar("Sidebar", width = "33%", class = "bg-light"),
+        sidebar = sidebar("Sidebar", width = "33%"),
         "Main contents"
       )
     )
@@ -204,7 +204,7 @@ describe_layout_function(
     id = "page_navbar_example_card",
     navset_bar(
       collapsible = FALSE,
-      sidebar = sidebar("Shared sidebar", width = "33%", class = "bg-light"),
+      sidebar = sidebar("Shared sidebar", width = "33%"),
       nav_panel("Page 1", "Page 1 content"),
       nav_panel("Page 2", "Page 2 content")
     ),
@@ -246,7 +246,7 @@ describe_layout_function(
     height = 200,
     navset_card_tab(
       title = "Tab Card",
-      sidebar = sidebar("Shared sidebar", width = "33%", class = "bg-light"),
+      sidebar = sidebar("Shared sidebar", width = "33%"),
       nav_panel("Tab 1", "Tab 1 content"),
       nav_panel("Tab 2", "Tab 2 content")
     )
