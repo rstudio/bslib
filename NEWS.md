@@ -4,6 +4,10 @@
 
 * Upgraded the default version of Bootstrap from v5.2.2 to v5.3.1. The most notable thing that comes with the update is the ability to toggle between light/dark [color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/) purely client-side (i.e., no calls to Sass required). (#749, #764)
 
+## Improvements
+
+* The `bs_themer()` app now supports previewing the dark mode variant of Bootstrap 5 themes. (#767)
+
 ## Bug fixes
 
 * `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)

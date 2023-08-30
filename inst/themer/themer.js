@@ -227,6 +227,11 @@
     }
   });
 
+  $(document).on("change", "#bsthemer-dark-mode", function(ev) {
+    document.body.dataset.bsTheme = ev.target.checked ? "dark" : "light";
+    $(window).resize();
+  });
+
   function initSelectInput(el) {
   }
 
@@ -297,6 +302,13 @@
     }
     syncing = false;
   })
+
+  // Initialize tooltips in the themer container
+  $(document).ready(function() {
+    document
+      .querySelectorAll('#bsthemerContainer [data-bs-toggle="tooltip"]')
+      .forEach((tooltipNode) => new window.bootstrap.Tooltip(tooltipNode));
+  });
 
   /*** Begin dragging logic ***/
 
