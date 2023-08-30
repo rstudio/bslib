@@ -5,12 +5,12 @@ output:
       version: 5
 ---
 
-```{r setup-ex-navs-tab, include = FALSE}
-pkgload::load_all()
-
+```{r setup, include = FALSE}
 ## Screenshots are created during `devtools::document()` in CI
 ## or set to `TRUE` below to test or update locally
-SCREENSHOT <- nzchar(Sys.getenv("CI", "")) || FALSE
+# Sys.setenv(UPDATE_SCREENSHOT = TRUE)
+
+library(bslib)
 
 knitr::opts_chunk$set(
   "fig.width" = 5,

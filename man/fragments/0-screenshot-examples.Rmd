@@ -1,5 +1,8 @@
 ```{r 0-screenshot-examples, include = FALSE}
-if (isTRUE(SCREENSHOT)) {
+.IN_CI <- nzchar(Sys.getenv("CI"))
+.UPDATE_SCREENSHOT <- isTRUE(as.logical(Sys.getenv("UPDATE_SCREENSHOT")))
+
+if (.UPDATE_SCREENSHOT || .IN_CI) {
   library(chromote)
   b <- ChromoteSession$new(width = 300, height = 800, wait_ = TRUE)
   knitr::opts_knit$set(document = function(x) {
