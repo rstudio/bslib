@@ -17,6 +17,9 @@ $selectize-color-item-border: if(is-css-variable($input-border-color), $border-c
 $selectize-color-dropdown: if(is-css-variable($dropdown-bg), $body-bg, $dropdown-bg) !default;
 $selectize-color-dropdown-border-top: rgba($input-border-color, 0.2) !default;
 $selectize-color-dropdown-item-create-text: rgba($selectize-color-text, 0.5) !default;
-$selectize-font-size: $input-btn-font-size !default;
-$selectize-font-weight: $input-btn-font-weight !default;
+@if variable-exists("input-btn-font-size") {
+  $selectize-font-size: $input-btn-font-size !default;
+} @else if variable-exists("font-size-base") {
+  $selectize-font-size: $font-size-base !default;
+}
 $selectize-font-family: if($input-btn-font-family, $input-btn-font-family, inherit) !default;
