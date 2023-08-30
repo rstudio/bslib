@@ -20,3 +20,16 @@ $selectize-color-item-border: if(is-css-variable($input-border-color), $border-c
 $selectize-color-dropdown: if(is-css-variable($dropdown-bg), $body-bg, $dropdown-bg) !default;
 $selectize-color-dropdown-border-top: rgba($input-border-color, 0.2) !default;
 $selectize-color-dropdown-item-create-text: rgba($selectize-color-text, 0.5) !default;
+
+// For DataTables with BS 5+
+@if $bootstrap-version >= 5 {
+  // Currently not possible through DT: rstudio/DT#1081
+  .datatables thead .form-group.has-feedback + div {
+    background-color: var(--bs-body-bg) !important;
+    color: var(--bs-body-color) !important;
+    border-color: var(--bs-border-color) !important;
+    border-width: var(--bs-border-width);
+    border-radius: var(--bs-border-radius);
+    border-style: var(--bs-border-style);
+  }
+}
