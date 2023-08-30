@@ -230,31 +230,27 @@ value_box_dependency_icon_gradient <- local({
 #' @rdname value_box
 #' @export
 value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
-  if (is.null(name) && is.null(fg) && is.null(bg)) {
-    return(new_value_box_theme("default", bg, fg))
-  }
-
   if (is.null(name)) {
-    if (!is.null(bg) && is.null(fg)) {
-      # don't warng if we can't get a contrast color, `bg` might be valid
+    if (is.null(bg)) {
+      name <- "default"
+    } else {
+      # don't warn if we can't get a contrast color, `bg` might be valid
       # CSS but not something sass can compute on
-      fg <- suppressWarnings(get_color_contrast(bg))
+      fg <- fg %||% suppressWarnings(get_color_contrast(bg))      
     }
-
-    return(new_value_box_theme(NULL, bg, fg))
+    
+    return(new_value_box_theme(name, bg, fg))
   }
 
   if (!rlang::is_string(name)) {
     rlang::abort('`theme` must be a single value, e.g. "primary", "danger", "purple", etc.')
   }
 
-  class <- name
-  if (!grepl("^(text|bg)-", class)) {
-    class <- paste0("bg-", class)
+  if (!grepl("^(text|bg)-", name)) {
+    name <- paste0("bg-", name)
   }
-
-
-  new_value_box_theme(class, bg, fg)
+  
+  new_value_box_theme(name, bg, fg)
 }
 
 new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {

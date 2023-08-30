@@ -104,7 +104,7 @@ value_box(
 ```
 
 Occasionally you may want to adjust use both background and foreground themes on your value box.
-To acheive this, set `theme` to one of the theme names and use `class` for the complimentary style.
+To achieve this, set `theme` to one of the theme names and use `class` for the complementary style.
 The example below uses `theme = "purple"` (which could also be `"bg-purple"`) for a purple background, and `class = "text-light"` for light-colored text.
 
 ```{r value-box-theme-class, fig.alt = "A value box using 'purple' for the background and 'text-light' for the text color."}
@@ -155,5 +155,5 @@ value_box_theme(name = "orange", bg = "#FFFFFF")
 value_box_theme(name = "text-danger", fg = "#FFB6C1")
 ```
 
-Also note that these colors must be CSS colors, not Bootstrap theme or color names.
+Also note that `bg`/`fg` _must_ be CSS colors, not Bootstrap theme or color names.
 This means that `theme = "purple"` will use your Bootstrap theme's purple color, and `bg = "purple"` will use the CSS color for _purple_, i.e. `"`r htmltools::parseCssColors("purple")`"`.
