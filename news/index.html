@@ -90,6 +90,11 @@
 <h3 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h3>
 <ul><li>The <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> app now supports previewing the dark mode variant of Bootstrap 5 themes. (<a href="https://github.com/rstudio/bslib/issues/767" class="external-link">#767</a>)</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/input_switch.html">toggle_switch()</a></code> now works correctly when called from within a Shiny module. <code><a href="../reference/input_switch.html">update_switch()</a></code> worked as expected, but <code><a href="../reference/input_switch.html">toggle_switch()</a></code> didn’t apply the module’s namespace to the <code>id</code> of the switch to be updated. (<a href="https://github.com/rstudio/bslib/issues/769" class="external-link">#769</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.1" id="bslib-051">bslib 0.5.1<a class="anchor" aria-label="anchor" href="#bslib-051"></a></h2><p class="text-muted">CRAN release: 2023-08-11</p>
