@@ -1,4 +1,4 @@
-:root{--bslib-bootstrap-version: 5;--bslib-preset-name: ;--bslib-preset-type: }/*!
+.datatables thead .form-group.has-feedback+div{background-color:var(--bs-body-bg) !important;color:var(--bs-body-color) !important;border-color:var(--bs-border-color) !important;border-width:var(--bs-border-width);border-radius:var(--bs-border-radius);border-style:var(--bs-border-style)}:root{--bslib-bootstrap-version: 5;--bslib-preset-name: ;--bslib-preset-type: }/*!
    * Bootstrap  v5.3.1 (https://getbootstrap.com/)
    * Copyright 2011-2023 The Bootstrap Authors
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
