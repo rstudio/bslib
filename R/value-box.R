@@ -100,7 +100,7 @@ value_box <- function(
   # ---- Showcase ----
   if (!is.null(showcase)) {
     showcase_layout <- resolve_showcase_layout(showcase_layout)
-    contents <- layout_showcase(showcase_layout, showcase, contents)
+    contents <- render_showcase_layout(showcase_layout, showcase, contents)
   }
 
   # ---- Theme ----
@@ -388,7 +388,9 @@ resolve_showcase_layout <- function(showcase_layout) {
   rlang::abort("`showcase_layout` must be a string or a `showcase_*()` layout")
 }
 
-layout_showcase <- function(showcase_layout, showcase, contents) {
+render_showcase_layout <- function(showcase_layout, showcase, contents) {
+  stopifnot(!inherits(showcase_layout, "bslib_showcase_layout"))
+
   showcase <- div(class = "value-box-showcase", showcase)
   showcase <- as_fill_carrier(showcase)
 
