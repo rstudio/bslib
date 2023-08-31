@@ -81,17 +81,15 @@
   position: absolute;
   bottom: 1px;
   right: 3px;
-  margin: 0.5rem;
+  color: var(--color-fg, var(--bs-card-color));
+  background-color: var(--color-bg, var(--bs-card-bg, var(--bs-body-bg)));
+  border: var(--bs-card-border-width) solid var(--color-fg, var(--bs-card-border-color));
+  margin: 0.2rem 0.4rem;
   padding: 0.55rem !important;
   font-size: .8rem;
   cursor: pointer;
-  opacity: .7;
-  color: var(--bs-card-color, var(--bs-body-color));
-  background-color: var(--bs-card-bg, var(--bs-body-bg));
-  box-shadow: 0 1px 4px rgba(var(--bs-body-color-rgb), 0.5);
-  &:hover {
-    opacity: 1;
-  }
+  opacity: .5;
+  &:hover { opacity: 1; }
   z-index: $zindex-popover;
 }
 
