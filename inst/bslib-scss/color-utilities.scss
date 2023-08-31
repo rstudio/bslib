@@ -41,7 +41,7 @@ $bslib-enable-color-utilities: $bootstrap-version >= 5 !default;
     @each $name2, $color2 in $bslib-gradient-colors {
       @if $name1 != $name2 {
         .bg-gradient-#{$name1}-#{$name2} {
-          $color-mid: mix($color1, $color2, 50%);
+          $color-mid: mix($color1, $color2, 60%);
           background: linear-gradient(
             var(--bg-gradient-deg, 140deg),
             $color1 var(--bg-gradient-start, 36%),
