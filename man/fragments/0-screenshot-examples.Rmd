@@ -4,11 +4,19 @@
 
 if (.UPDATE_SCREENSHOT || .IN_CI) {
   library(chromote)
-  b <- ChromoteSession$new(width = 300, height = 800, wait_ = TRUE)
-  knitr::opts_knit$set(document = function(x) {
-    b$close()
-    x
-  })
+  tryCatch(
+    {
+      b <- ChromoteSession$new(width = 300, height = 800, wait_ = TRUE)
+      knitr::opts_knit$set(document = function(x) {
+        b$close()
+        x
+      })
+    },
+    error = function(err) {
+      message("Failed to start chromote session. Screenshots will not be updated.")
+      .UPDATE_SCREENSHOT <<- FALSE
+    }
+  )
 }
 
 render_screenshot <- function(x, options) {
