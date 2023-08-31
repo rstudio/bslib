@@ -1,0 +1,12 @@
+<svg aria-hidden="true" focusable="false" style="width:0;height:0;position:absolute;">
+  <!-- ref: https://fvsch.com/svg-gradient-fill -->
+  <linearGradient id='bslib---icon-gradient' x1='0' y1='0' x2='1.6' y2='2.4'>
+    <stop offset='0%' stop-color='var(--bslib-icon-gradient-0, #007bc2)' />
+    <stop offset='14.29%' stop-color='var(--bslib-icon-gradient-1, #0770c9)' />
+    <stop offset='28.57%' stop-color='var(--bslib-icon-gradient-2, #0d63da)' />
+    <stop offset='42.86%' stop-color='var(--bslib-icon-gradient-3, #2b4af9)' />
+    <stop offset='57.14%' stop-color='var(--bslib-icon-gradient-4, #5e29f7)' />
+    <stop offset='71.43%' stop-color='var(--bslib-icon-gradient-5, #7217d7)' />
+    <stop offset='100%' stop-color='var(--bslib-icon-gradient-6, #74149c)' />
+  </linearGradient>
+</svg>
