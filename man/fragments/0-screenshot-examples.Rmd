@@ -1,8 +1,9 @@
 ```{r 0-screenshot-examples, include = FALSE}
-.IN_CI <- nzchar(Sys.getenv("CI"))
-.UPDATE_SCREENSHOT <- isTRUE(knitr::opts_chunk$get(".update_screenshot"))
+.UPDATE_SCREENSHOT <-
+  isTRUE(knitr::opts_chunk$get(".update_screenshot")) ||
+  nzchar(Sys.getenv("CI"))
 
-if (.UPDATE_SCREENSHOT || .IN_CI) {
+if (.UPDATE_SCREENSHOT) {
   library(chromote)
   tryCatch(
     {
