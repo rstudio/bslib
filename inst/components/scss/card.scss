@@ -79,8 +79,10 @@
 .bslib-full-screen-enter {
   display: none;
   position: absolute;
-  bottom: 1px;
-  right: 3px;
+  bottom: var(--bslib-full-screen-enter-bottom, 0.2rem);
+  right: var(--bslib-full-screen-enter-right, 0);
+  top: var(--bslib-full-screen-enter-top);
+  left: var(--bslib-full-screen-enter-left);
   color: var(--color-fg, var(--bs-card-color));
   background-color: var(--color-bg, var(--bs-card-bg, var(--bs-body-bg)));
   border: var(--bs-card-border-width) solid var(--color-fg, var(--bs-card-border-color));
