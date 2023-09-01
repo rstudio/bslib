@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```{r child="0-screenshot-examples.Rmd"}
 ```
 
-## A basic example
+### A basic example
 
 This first example creates a simple tabbed navigation container with two tabs.
 The tab name and the content of each tab are specified in the `nav_panel()` calls
@@ -36,7 +36,7 @@ link_shiny <- tags$a(shiny::icon("github"), "Shiny", href = "https://github.com/
 link_posit <- tags$a(shiny::icon("r-project"), "Posit", href = "https://posit.co", target = "_blank")
 ```
 
-## `navset_tab()`
+### `navset_tab()`
 
 You can fully customize the controls in the navigation component.
 In this example, we've added a direct link to the Shiny repository using `nav_item()`.
@@ -62,7 +62,7 @@ navset_tab(
 )
 ```
 
-## `navset_pill()`
+### `navset_pill()`
 
 `navset_pill()` creates a navigation container that behaves exactly like `navset_tab()`,
 but the tab toggles are _pills_ or button-shaped.
@@ -82,7 +82,7 @@ navset_pill(
 )
 ```
 
-## `navset_card_tab()`
+### `navset_card_tab()`
 
 The tabbed navigation container can also be used in a `card()` component
 thanks to `navset_card_tab()`.
@@ -107,7 +107,7 @@ navset_card_tab(
 )
 ```
 
-## `navset_card_pill()`
+### `navset_card_pill()`
 
 Similar to `navset_pill()`,
 `navset_card_pill()` provides a pill-shaped variant to `navset_card_tab()`.
@@ -130,7 +130,7 @@ navset_card_pill(
 )
 ```
 
-## `navset_pill_list()`
+### `navset_pill_list()`
 
 Furthermore, `navset_pill_list()` creates a vertical list of navigation controls
 adjacent to, rather than on top of, the tab content panels.
@@ -150,7 +150,7 @@ navset_pill_list(
 )
 ```
 
-## `page_navbar()`
+### `page_navbar()`
 
 Finally, `page_navbar()` provides full-page navigation container
 similar to `navset_tab()` but where each `nav_panel()` is treated as a full page of content
