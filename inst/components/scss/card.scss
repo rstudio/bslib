@@ -1,4 +1,6 @@
 .bslib-card {
+  //color: red;
+
   // Avoid "double padding" when two card_body()s are immediate siblings
   .card-body + .card-body {
     padding-top: 0;
@@ -145,3 +147,21 @@
     opacity: 1;
   }
 }
+
+// Workaround to get box-shadows working
+//.bslib-shadow { 
+//  overflow: visible !important;
+//  position: relative;
+//  &::before {
+//    content: ''; 
+//    position: absolute; 
+//    inset: 0; 
+//    box-shadow: $box-shadow; 
+//    z-index: -1;
+//  }
+//}
+//
+//:has(> .bslib-shadow) {
+//  overflow: visible !important;
+//  color: red;
+//}

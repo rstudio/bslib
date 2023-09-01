@@ -121,7 +121,7 @@ validateCssPadding <- function(padding = NULL) {
 #'
 #' shinyApp(ui, server)
 #'
-page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fillable_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
+page_sidebar <- function(..., sidebar = NULL, title = NULL, logo = NULL, fillable = TRUE, fillable_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
 
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- h1(title, class = "bslib-page-title")
@@ -130,6 +130,7 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
   page_fillable(
     padding = 0,
     gap = 0,
+    # TODO: add logo to title
     title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
@@ -167,7 +168,7 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
                         header = NULL, footer = NULL,
                         bg = NULL, inverse = "auto",
                         collapsible = TRUE, fluid = TRUE,
-                        theme =  bs_theme(),
+                        theme = bs_theme(),
                         window_title = NA,
                         lang = NULL) {
 

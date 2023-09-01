@@ -107,3 +107,34 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
     color: #008558; // Contrast 4.67
   }
 }
+
+
+@if $bslib-enable-shadow {
+  :root {
+    --bslib-spacer: 0.5rem !important;
+    --bslib-mb-spacer: 0 !important;
+  }
+  
+  .bslib-sidebar-layout {
+    --bslib-sidebar-bg: transparent !important;
+  
+    > .main {
+      background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05); //#F8F8F8
+    }
+  }
+  
+  .bslib-card, .bslib-value-box {
+    box-shadow: $box-shadow;
+    border: 0;
+    margin: $bslib-box-shadow-margin !important;
+    width: auto !important; // TODO: maybe .html-fill-item shouldn't set width:100%?
+    .card-header, .card-footer {
+      border: 0;
+    }
+    .card-header {
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.375rem;
+    }
+  }
+}

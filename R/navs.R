@@ -71,6 +71,36 @@ navset_card_pill <- function(..., id = NULL, selected = NULL, title = NULL,
   )
 }
 
+#' @export
+#' @rdname navset
+navset_card_underline <- function(..., id = NULL, selected = NULL, title = NULL,
+  sidebar = NULL, header = NULL, footer = NULL,
+  height = NULL, full_screen = FALSE, wrapper = card_body) {
+
+  items <- collect_nav_items(..., wrapper = wrapper)
+
+  tabs <- navset_underline(
+    !!!items, id = id, selected = selected, header = header, footer = footer
+  )
+
+  tabQ <- tagQuery(tabs)
+
+  # https://getbootstrap.com/docs/5.0/components/card/#navigation
+  linkStyles <- "--bs-link-color: rgba(var(--bs-body-color-rgb), 0.65); --bs-link-hover-color: rgba(var(--bs-body-color-rgb), 0.8);"
+  nav <- tabQ$children(".nav")$addClass("nav-underline")$addAttrs(style = linkStyles)$selectedTags()[[1]]
+  content <- tabQ$children(".tab-content")$selectedTags()[[1]]
+
+  card(
+    height = height,
+    full_screen = full_screen,
+    if (!is.null(title)) {
+      card_header(class = "bslib-navs-card-title", tags$span(title), nav)
+    } else {
+      card_header(nav)
+    },
+    navs_card_body(content, sidebar)
+  )
+}
 
 collect_nav_items <- function(..., wrapper) {
   items <- rlang::list2(...)

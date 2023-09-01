@@ -1,4 +1,4 @@
-$bslib-page-title-bg: if($navbar-bg, $navbar-bg, $dark) !default;
+$bslib-page-title-bg: red !default;
 $bslib-page-title-color: color-contrast($bslib-page-title-bg) !default;
 $bslib-sidebar-padding: $spacer * 1.5 !default;
 
@@ -10,4 +10,5 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
   padding: var(--bslib-spacer, 1rem);
   padding-left: $bslib-sidebar-padding;
   margin-bottom: 0;
+  border-bottom: $border-width solid $border-color;
 }

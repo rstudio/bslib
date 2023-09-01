@@ -38,7 +38,7 @@ ul.nav.navbar-nav {
   }
 }
 
-ul.nav.navbar-nav > li {
+:where(ul.nav.navbar-nav > li) {
   &:not(.dropdown) {
     @extend .nav-item;
   }

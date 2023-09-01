@@ -40,6 +40,22 @@ navset_pill <- function(..., id = NULL, selected = NULL,
 }
 
 #' @export
+#' @rdname navset
+navset_underline <- function(
+  ...,
+  id = NULL,
+  selected = NULL,
+  header = NULL,
+  footer = NULL
+) {
+  res <- tabsetPanel_(
+    ..., type = "underline", id = id, selected = selected,
+    header = header, footer = footer
+  )
+  as_fragment(res)
+}
+
+#' @export
 #' @inheritParams shiny::navlistPanel
 #' @rdname navset
 navset_pill_list <- function(..., id = NULL, selected = NULL,
@@ -117,6 +133,9 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
 
   if (identical(inverse, "auto")) {
     inverse <- TRUE
+    if (identical(theme_preset_info(theme)$name, "shiny")) {
+      inverse <- FALSE
+    }
     if (!is.null(bg)) {
       bg <- htmltools::parseCssColors(bg)
       bg_contrast <- bs_get_contrast(bs_theme("navbar-bg" = bg), "navbar-bg")
@@ -180,7 +199,7 @@ navbarPage_ <- function(title,
     selected <- shiny::restoreInput(id = id, default = selected)
 
   # build the tabset
-  tabset <- buildTabset(..., ulClass = "nav navbar-nav", id = id, selected = selected)
+  tabset <- buildTabset(..., ulClass = "nav navbar-nav nav-underline", id = id, selected = selected)
 
   containerClass <- paste0("container", if (fluid) "-fluid")
 
@@ -346,7 +365,7 @@ tabPanelBody_ <- function(value, ..., icon = NULL) {
 tabsetPanel_ <- function(...,
                         id = NULL,
                         selected = NULL,
-                        type = c("tabs", "pills", "hidden"),
+                        type = c("tabs", "pills", "hidden", "underline"),
                         header = NULL,
                         footer = NULL) {
 
