@@ -140,7 +140,10 @@ value_box <- function(
     fill = fill,
     style = css(
       color = theme$fg,
-      background_color = theme$bg
+      background_color = theme$bg,
+      # These variables are used by the full screen card button
+      "--color-fg" = theme$fg,
+      "--color-bg" = theme$bg
     ),
     !!!attribs,
     contents,
@@ -236,9 +239,9 @@ value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
     } else {
       # don't warn if we can't get a contrast color, `bg` might be valid
       # CSS but not something sass can compute on
-      fg <- fg %||% suppressWarnings(get_color_contrast(bg))      
+      fg <- fg %||% suppressWarnings(get_color_contrast(bg))
     }
-    
+
     return(new_value_box_theme(name, bg, fg))
   }
 
@@ -249,7 +252,7 @@ value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
   if (!grepl("^(text|bg)-", name)) {
     name <- paste0("bg-", name)
   }
-  
+
   new_value_box_theme(name, bg, fg)
 }
 
