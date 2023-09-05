@@ -83,9 +83,9 @@
   right: var(--bslib-full-screen-enter-right, 0);
   top: var(--bslib-full-screen-enter-top);
   left: var(--bslib-full-screen-enter-left);
-  color: var(--color-fg, var(--bs-card-color));
-  background-color: var(--color-bg, var(--bs-card-bg, var(--bs-body-bg)));
-  border: var(--bs-card-border-width) solid var(--color-fg, var(--bs-card-border-color));
+  color: var(--bslib-color-fg, var(--bs-card-color));
+  background-color: var(--bslib-color-bg, var(--bs-card-bg, var(--bs-body-bg)));
+  border: var(--bs-card-border-width) solid var(--bslib-color-fg, var(--bs-card-border-color));
   margin: 0.2rem 0.4rem;
   padding: 0.55rem !important;
   font-size: .8rem;
