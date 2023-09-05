@@ -38,7 +38,11 @@ ul.nav.navbar-nav {
   }
 }
 
-ul.nav.navbar-nav > li {
+// :where() lowers the specificity of the eventually @extend selector, which is
+// important to make sure those selectors don't get an artificial specificity
+// boost (e.g., we don't want `ul.nav.navbar-nav>li>a` to be more specific than
+// `.nav-underline .nav-link`)
+:where(ul.nav.navbar-nav > li) {
   &:not(.dropdown) {
     @extend .nav-item;
   }
