@@ -1,0 +1,50 @@
+/* FIXME: Remove after rstudio/htmltools#401 */
+.html-fill-container > .html-fill-item {
+  overflow: visible;
+}
+
+.bslib-card .card-body {
+  /* Needs important in case theme is updated in-app */
+  overflow: visible !important;
+}
+
+.shiny-input-container:not(.shiny-input-container-inline) {
+  width: 100%;
+}
+
+.active-preview::before {
+  --active-border: 4px solid rgba(var(--bs-danger-rgb), 0.25);
+  content: '';
+  border-top: var(--active-border);
+  position: absolute;
+  top: -12px;
+  width: 100%;
+}
+
+#preview .bslib-grid > div {
+  position: relative;
+}
+
+body {
+  padding-bottom: 4rem;
+}
+
+.bslib-gap-spacing > .shiny-html-output > .bslib-mb-spacing {
+  margin-bottom: 0;
+}
+
+@media (max-width: 575.98px) {
+  .value-box-previews {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .active-preview::before {
+    border-top: unset;
+    border-left: var(--active-border);
+    top: 0;
+    bottom: 0;
+    left: -0.75rem;
+    height: 100%;
+  }
+}

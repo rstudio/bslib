@@ -53,8 +53,9 @@ Suggests:
     testthat,
     thematic,
     withr
-Config/Needs/deploy: 
+Config/Needs/deploy:
     BH,
+    colourpicker,
     cpp11,
     dplyr,
     DT,
@@ -75,7 +76,7 @@ Config/Needs/deploy:
     rsconnect,
     scales
 Config/Needs/routine: chromote, desc, renv
-Config/Needs/website: 
+Config/Needs/website:
     brio,
     crosstalk,
     dplyr,
