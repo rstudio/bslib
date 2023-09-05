@@ -10,4 +10,5 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
   padding: var(--bslib-spacer, 1rem);
   padding-left: $bslib-sidebar-padding;
   margin-bottom: 0;
+  border-bottom: $border-width solid $border-color;
 }
