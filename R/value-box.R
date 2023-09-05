@@ -142,8 +142,8 @@ value_box <- function(
       color = theme$fg,
       background_color = theme$bg,
       # These variables are used by the full screen card button
-      "--color-fg" = theme$fg,
-      "--color-bg" = theme$bg
+      "--bslib-color-fg" = theme$fg,
+      "--bslib-color-bg" = theme$bg
     ),
     !!!attribs,
     contents,
