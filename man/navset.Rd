@@ -4,16 +4,20 @@
 \alias{navset}
 \alias{navset_tab}
 \alias{navset_pill}
+\alias{navset_underline}
 \alias{navset_pill_list}
 \alias{navset_hidden}
 \alias{navset_bar}
 \alias{navset_card_tab}
 \alias{navset_card_pill}
+\alias{navset_card_underline}
 \title{Navigation containers}
 \usage{
 navset_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navset_underline(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill_list(
   ...,
@@ -69,6 +73,19 @@ navset_card_pill(
   footer = NULL,
   height = NULL,
   placement = c("above", "below"),
+  full_screen = FALSE,
+  wrapper = card_body
+)
+
+navset_card_underline(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
   full_screen = FALSE,
   wrapper = card_body
 )

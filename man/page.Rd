@@ -39,6 +39,7 @@ page_navbar(
   footer = NULL,
   bg = NULL,
   inverse = "auto",
+  underline = TRUE,
   collapsible = TRUE,
   fluid = TRUE,
   theme = bs_theme(),
