@@ -1456,8 +1456,6 @@
     onClick(e6) {
       e6.stopPropagation();
       this.themeValue = this.themeValue === "light" ? "dark" : "light";
-      this.setPreference();
-      this.onChangeCallback(true);
     }
     updated(changedProperties) {
       if (changedProperties.has("themeValue")) {

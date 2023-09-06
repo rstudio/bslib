@@ -270,8 +270,6 @@ export class DarkModeSwitch extends BslibElement {
   onClick(e: MouseEvent): void {
     e.stopPropagation();
     this.themeValue = this.themeValue === "light" ? "dark" : "light";
-    this.setPreference();
-    this.onChangeCallback(true);
   }
 
   updated(changedProperties: Map<string, any>): void {
