@@ -13,8 +13,8 @@ type ToggleMessage = {
   value: DarkModeSwitch["themeValue"] | "toggle";
 };
 
-// This class extends BslibElement only as a convenience for registering the custom element 
-// and Shiny input binding. All the logic here (besides the `isShinyInput`/`tagName` fields) is 
+// This class extends BslibElement only as a convenience for registering the custom element
+// and Shiny input binding. All the logic here (besides the `isShinyInput`/`tagName` fields) is
 // designed to work without Bootstrap/bslib
 export class DarkModeSwitch extends BslibElement {
   static isShinyInput = true;
