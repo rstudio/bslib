@@ -1224,7 +1224,7 @@ $navbar-light-contrast: if(
   var(--#{$prefix}emphasis-color-rgb)
 ) !default; // Deepest contrasting color for navbarPage(inverse = FALSE).
 $navbar-dark-contrast: if(
-  type-of($navbar-light-bg) == color,
+  type-of($navbar-dark-bg) == color,
   color-contrast($navbar-dark-bg),
   var(--#{$prefix}emphasis-color-rgb)
 ) !default; // Deepest contrasting color for navbarPage(inverse = TRUE).

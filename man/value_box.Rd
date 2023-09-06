@@ -2,8 +2,10 @@
 % Please edit documentation in R/value-box.R
 \name{value_box}
 \alias{value_box}
+\alias{value_box_theme}
 \alias{showcase_left_center}
 \alias{showcase_top_right}
+\alias{showcase_bottom}
 \title{Value box}
 \usage{
 value_box(
@@ -11,25 +13,39 @@ value_box(
   value,
   ...,
   showcase = NULL,
-  showcase_layout = showcase_left_center(),
+  showcase_layout = c("left center", "top right", "bottom"),
   full_screen = FALSE,
-  theme_color = "primary",
+  theme = NULL,
   height = NULL,
   max_height = NULL,
   fill = TRUE,
-  class = NULL
+  class = NULL,
+  theme_color = deprecated()
 )
+
+value_box_theme(name = NULL, bg = NULL, fg = NULL)
 
 showcase_left_center(
   width = 0.3,
+  width_full_screen = "1fr",
   max_height = "100px",
   max_height_full_screen = 0.67
 )
 
 showcase_top_right(
-  width = 0.3,
+  width = 0.4,
+  width_full_screen = "1fr",
   max_height = "75px",
   max_height_full_screen = 0.67
+)
+
+showcase_bottom(
+  width = "100\%",
+  width_full_screen = NULL,
+  height = "auto",
+  height_full_screen = "2fr",
+  max_height = "100px",
+  max_height_full_screen = NULL
 )
 }
 \arguments{
@@ -43,19 +59,22 @@ element.}
 \item{showcase}{A \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
 \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{plotly::plotlyOutput()}, etc).}
 
-\item{showcase_layout}{either \code{showcase_left_center()} or
-\code{showcase_top_right()}.}
+\item{showcase_layout}{One of \code{"left center"} (default), \code{"top right"} or
+\code{"bottom"}. Alternatively, you can customize the showcase layout options
+with the \code{\link[=showcase_left_center]{showcase_left_center()}}, \code{\link[=showcase_top_right]{showcase_top_right()}}, or
+\code{\link[=showcase_bottom]{showcase_bottom()}} functions. Use the options functions when you want to
+control the height or width of the showcase area.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
 body. Clicking the icon expands the card to fit viewport size.}
 
-\item{theme_color}{A theme color to use for the background color. Should
-match a name in the Bootstrap Sass variable \verb{$theme-colors} (e.g.,
-\code{"secondary"}, \code{"success"}, \code{"danger"}, etc).}
-
-\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
-(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+\item{theme}{The name of a theme for the value box, or a theme constructed
+with \code{value_box_theme()}. The theme names provide a convenient way to use
+your app's Bootstrap theme colors as the foreground or background colors of
+the value box. See below for more details on the provided themes. For more
+control, you can create your own theme with \code{value_box_theme()} where you
+can pass foreground and background colors directly. See the \strong{Themes}
+section for more details.}
 
 \item{max_height, max_height_full_screen}{A proportion (i.e., a number between
 0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
@@ -68,15 +87,27 @@ container with an opinionated height (e.g., \code{page_fillable()}).}
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
 
-\item{width}{one of the following:
+\item{theme_color}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{theme} instead.}
+
+\item{name}{The name of the theme, e.g. \code{"primary"}, \code{"danger"}, \code{"purple"}.}
+
+\item{bg, fg}{The background and foreground colors for the theme. If only \code{bg}
+is provided, then the foreground color is automatically chosen from
+\verb{$black} or \verb{$white} to provide the best contrast with the background
+color.}
+
+\item{width, width_full_screen, height, height_full_screen}{one of the
+following:
 \itemize{
-\item A proportion (i.e., a number between 0 and 1) of available width to
-allocate to the showcase.
-\item A vector of length 2 valid \link[htmltools:validateCssUnit]{CSS unit} defining
-the width of each column (for \code{showcase_left_center()} the 1st unit defines
-the showcase width and for \code{showcase_top_right} the 2nd unit defines the
-showcase width). Note that any units supported by the CSS grid
-\code{grid-template-columns} property may be used (e.g., \code{fr} units).
+\item A proportion (i.e., a number between 0 and 1) of available width or
+height to allocate to the showcase.
+\item A valid \link[htmltools:validateCssUnit]{CSS unit} defining the width or
+height of the showcase column, or a valid value accepted by the
+\code{grid-template-columns} (width) or \code{grid-template-rows} (height) CSS
+property to define the width or height of the showcase column or row.
+Accepted values in the second category are \code{"auto"}, \code{"min-content"},
+\code{"max-content"}, a fractional unit (e.g. \verb{2fr}), or a \code{minmax()} function
+(e.g., \verb{minmax(100px, 1fr)}).
 }}
 }
 \description{
@@ -85,8 +116,231 @@ An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displayin
 \code{value} represents (for example, it could hold a \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, or
 even a \code{\link[shiny:plotOutput]{shiny::plotOutput()}}).
 }
-\examples{
+\section{Themes}{
 
+
+The appearance of a \code{value_box()}
+can be controlled via the \code{theme} argument
+in one of two ways:
+(1) a character value describing the theme, e.g. \code{theme = "primary"}
+or (2) \code{theme = value_box_theme()} to create a custom theme.
+We recommend using named themes for most value boxes (the first approach),
+because these themes will automatically match your Bootstrap theme.
+\subsection{Named themes}{
+
+Bootstrap provides a list of
+\href{https://getbootstrap.com/docs/5.3/customize/color/#theme-colors}{theme colors},
+with semantic names like \code{"primary"}, \code{"secondary"}, \code{"success"}, \code{"danger"}, etc.
+You can set \code{theme} to one of these names to use the corresponding theme color as the background color of your value box.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "primary"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-named-theme.png}{A value box using 'primary', a named Bootstrap theme color.}
+
+Bootstrap's theme colors are drawn from
+\href{https://getbootstrap.com/docs/5.3/customize/color/#all-colors}{a second color list}
+that includes variations on several main colors,
+named literally.
+These colors include \code{"blue"}, \code{"purple"}, \code{"pink"}, \code{"red"}, \code{"orange"},
+\code{"yellow"}, \code{"green"}, \code{"teal"}, and \code{"cyan"}.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "teal"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-named-color.png}{A value box using 'purple', a named Bootstrap main color.}
+}
+
+\subsection{Background colors}{
+
+If the theme or color name is provided without any prefix, the color will be used for the background of the value box.
+You can also explicitly prefix the theme or color name with \verb{bg-} to indicate that it should apply to the value box background.
+When the theme sets the background color, either black or white is chosen automatically for the text color using Bootstrap's color contrast algorithm.
+
+As before, you can reference semantic theme color names or literal color names.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "bg-success"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-background-theme.png}{A value box using 'bg-success', a named Bootstrap theme color.}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "bg-purple"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-background-color.png}{A value box using 'bg-orange', a named Bootstrap main color.}
+}
+
+\subsection{Foreground colors}{
+
+To set only the foreground colors of the value box, you can prefix the theme or color name with \verb{text-}.
+This changes the text color without affecting the background color.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "text-success"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-text-theme.png}{A value box using 'text-success', a named Bootstrap theme color.}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "text-purple"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-text-color.png}{A value box using 'text-orange', a named Bootstrap main color.}
+
+Occasionally you may want to adjust use both background and foreground themes on your value box.
+To achieve this, set \code{theme} to one of the theme names and use \code{class} for the complementary style.
+The example below uses \code{theme = "purple"} (which could also be \code{"bg-purple"}) for a purple background, and \code{class = "text-light"} for light-colored text.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "purple",
+  class = "text-light"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-theme-class.png}{A value box using 'purple' for the background and 'text-light' for the text color.}
+}
+
+\subsection{Gradient backgrounds}{
+
+For a vibrant and attention-grabbing effect, bslib provides an array of gradient
+background options.
+Provide \code{theme} with a theme name in the form \code{bg-gradient-{from}-{to}}, where \code{{from}} and \code{{to}} are named main colors, e.g. \code{bg-gradient-indigo-blue}.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "bg-gradient-indigo-blue"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-gradient-1.png}{A value box using 'bg-gradient-blue-purple', a gradient background between two named Bootstrap colors.}
+}
+
+\subsection{Custom colors}{
+
+Finally, for complete customization, you can use \code{value_box_theme()} to create a custom theme.
+This function takes arguments \code{bg} and \code{fg} to set the background and foreground colors, respectively.
+Like with the \verb{bg-} theme names, if only \code{bg} is provided, \code{value_box_theme()} will choose an appropriate light or dark color for the text color.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = value_box_theme(bg = "#e6f2fd", fg = "#0B538E"),
+  class = "border"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-custom.png}{A value box using 'value_box_theme()' for complete customization.}
+
+Note that \code{value_box_theme()} optionally takes a \code{theme} name, which can be helpful if you want to use a named theme and modify the default \code{bg} or \code{fg} colors of that theme.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box_theme(name = "orange", bg = "#FFFFFF")
+value_box_theme(name = "text-danger", fg = "#FFB6C1")
+}\if{html}{\out{</div>}}
+
+Also note that \code{bg}/\code{fg} \emph{must} be CSS colors, not Bootstrap theme or color names.
+This means that \code{theme = "purple"} will use your Bootstrap theme's purple color, and \code{bg = "purple"} will use the CSS color for \emph{purple}, i.e. \code{"#800080"}.
+}
+}
+
+\section{Showcase Layouts}{
+
+
+Use the \code{showcase} argument to add a plot or icon to your \code{value_box()}.
+There are three layouts available: \code{"left center"}, \code{"top right"}, and \code{"bottom"}.
+Set \code{showcase} to the name of the layout you'd like, or use the \code{showcase_left_center()}, \code{showcase_top_right()}, or \code{showcase_bottom()} helper functions to customize the showcase area's size.
+
+If you're using a plot as your showcase, you may also want to set \code{fullscreen = TRUE} so that your users can expand the value box into a full screen card.
+See the \href{https://rstudio.github.io/bslib/articles/value-boxes/index.html}{value box article} for more details.
+\subsection{Left-center showcase}{
+
+The \code{"left center"} showcase layout is the default, and is perfect for an icon or a small plot.
+This layout works best for short value boxes.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Energy consumption",
+  value = "345 kwh/month",
+  showcase = bsicons::bs_icon("ev-station-fill")
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-showcase-left-center.png}{A value box using the left-center showcase option.}
+}
+
+\subsection{Top-right showcase}{
+
+The \code{"top right"} showcase layout places the icon or plot in the upper right corner of the value box.
+This layout works best for medium-height to square value boxes.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Energy consumption",
+  value = "345 kwh/month",
+  showcase = bsicons::bs_icon("ev-station-fill"),
+  showcase_layout = "top right"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-showcase-top-right.png}{A value box using the top-right showcase option.}
+}
+
+\subsection{Bottom showcase}{
+
+Finally, the \code{"bottom"} showcase layout is perfect for full-bleed plots.
+This layout places the plot below the title and value, with the plot taking up the full width of the bottom half.
+
+Try this layout with sparkline-style plots.
+These can be a little tricky to set up, so be sure to check out the \href{https://rstudio.github.io/bslib/articles/value-boxes/index.html#expandable-sparklines}{Expandable sparklines} section of the \href{https://rstudio.github.io/bslib/articles/value-boxes/index.html}{value boxes article} on the bslib website.
+In this example, we've created a sparkline plot using base R graphics, which isn't generally recommended.
+\if{latex}{View the bslib documentation online to see the source of \verb{sparkline_plot()}.}
+
+\if{html}{\out{<details><summary>Code for a sparkline plot with base R</summary><br>  <pre><code>set.seed(4242)<br><br>random_sparkline_plot &lt;- function() {<br>  timeseries &lt;- cumsum(runif(100, -2, 2))<br>  x_axis &lt;- seq_along(timeseries)<br>  x_lim &lt;- c(1, length(timeseries))<br>  y_lim &lt;- range(timeseries) + c(-2, 0)<br><br>  par(mar = c(0, 0, 0, 0))<br><br>  # Set up the plot area<br>  plot(<br>    timeseries, type = "n",<br>    axes = FALSE, frame.plot = FALSE,<br>    ylim = y_lim, xlim = x_lim,<br>    ylab = "",    xlab = "",<br>    yaxs = "i",   xaxs = "i",<br>  )<br><br>  # Add the sparkline line<br>  lines(timeseries, type = "l", pch = NA, col = "#0B538E", lwd = 3)<br><br>  # Create polygon coordinates for shading<br>  polygon_x &lt;- c(1, x_axis, length(timeseries))<br>  polygon_y &lt;- c(min(y_lim), timeseries, min(y_lim))<br><br>  # Add shading under the line<br>  polygon(polygon_x, polygon_y, col = "#e6f2fd", border = NA)<br>}<br><br>sparkline_plot &lt;- function() {<br>  as_fill_item(<br>    htmltools::plotTag(<br>      random_sparkline_plot(),<br>      width = 500,<br>      height = 125,<br>      suppressSize = "xy",<br>      alt = paste(<br>        "A sparkline plot with a randomly-generated timeseries.",<br>        "The timeseries starts high and ends low, with lots of variation."<br>      )<br>    )<br>  )<br>}</code></pre></details>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box(
+  title = "Energy consumption",
+  value = "345 kwh/month",
+  showcase = sparkline_plot(),
+  showcase_layout = "bottom"
+)
+}\if{html}{\out{</div>}}
+
+\figure{value-box-showcase-bottom.png}{A value box using the top-right showcase option.}
+}
+}
+
+\examples{
 library(htmltools)
 
 if (interactive()) {
@@ -98,9 +352,10 @@ if (interactive()) {
       " 30\% VS PREVIOUS 30 DAYS"
     ),
     showcase = bsicons::bs_icon("piggy-bank"),
-    class = "bg-success"
+    theme = "success"
   )
 }
+
 }
 \seealso{
 \code{\link[=card]{card()}}

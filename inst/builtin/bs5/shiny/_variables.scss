@@ -70,8 +70,10 @@ $headings-font-weight: 400 !default;
 // Spacing
 $hr-margin-y: 2rem !default;
 
-// Buttons
+// Inputs
 $input-btn-font-size: 15px !default;
+
+// Buttons
 $btn-font-weight: 500 !default;
 $btn-padding-y: 0.75em !default;
 $btn-padding-x: 2em !default;
@@ -94,3 +96,6 @@ $border-color-dark: #495057 !default;
 $table-striped-bg: rgba($primary, 0.06) !default;
 $table-hover-bg: rgba($primary, 0.1) !default;
 $table-striped-order: even !default;
+
+// bslib variables
+$bslib-value-box-enable-shadow: true !default;

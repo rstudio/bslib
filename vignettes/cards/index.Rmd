@@ -246,7 +246,7 @@ card(
   ),
   plotly_widget,
   card_body(
-    fill = FALSE,
+    fill = FALSE, gap = 0,
     card_title("A subtitle"),
     p(class = "text-muted", "And a caption")
   )
