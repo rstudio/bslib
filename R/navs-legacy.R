@@ -2,7 +2,10 @@
 #'
 #' Render a collection of [nav_panel()] items into a container.
 #'
-#' @includeRmd man/fragments/ex-navset_tab.Rmd
+#' @section Examples:
+#'
+#' ```{r child="man/fragments/ex-navset_tab.Rmd"}
+#' ```
 #'
 #' @param ... a collection of [nav_panel()] items.
 #' @param id a character string used for dynamically updating the container (see

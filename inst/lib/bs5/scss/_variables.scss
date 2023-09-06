@@ -1214,17 +1214,26 @@ $navbar-toggler-border-radius:      $btn-border-radius !default;
 $navbar-toggler-focus-width:        $btn-focus-width !default;
 $navbar-toggler-transition:         box-shadow .15s ease-in-out !default;
 
-$navbar-bg: null !default; // Background color for any navbarPage()
-$navbar-light-bg: if($navbar-bg, $navbar-bg, $light) !default; // Background color for navbarPage(inverse = FALSE)
-$navbar-dark-bg: if($navbar-bg, $navbar-bg, $dark) !default; // Background color for navbarPage(inverse = TRUE)
-$navbar-light-contrast: color-contrast($navbar-light-bg) !default; // Deepest contrasting color for navbarPage(inverse = FALSE). Defaults to $white or $black based on luminance of $navbar-light-bg
-$navbar-dark-contrast: color-contrast($navbar-dark-bg) !default; // Deepest contrasting color for navbarPage(inverse = TRUE). Defaults to $white or $black based on luminance of $navbar-dark-bg
+$navbar-bg:       null !default; // Background color for any navbarPage()
+$navbar-light-bg: if($navbar-bg, $navbar-bg, var(--bs-light)) !default; // Background color for navbarPage(inverse = FALSE)
+$navbar-dark-bg:  if($navbar-bg, $navbar-bg, var(--bs-dark)) !default; // Background color for navbarPage(inverse = TRUE)
+
+$navbar-light-contrast: if(
+  type-of($navbar-light-bg) == color,
+  color-contrast($navbar-light-bg),
+  var(--#{$prefix}emphasis-color-rgb)
+) !default; // Deepest contrasting color for navbarPage(inverse = FALSE).
+$navbar-dark-contrast: if(
+  type-of($navbar-dark-bg) == color,
+  color-contrast($navbar-dark-bg),
+  var(--#{$prefix}emphasis-color-rgb)
+) !default; // Deepest contrasting color for navbarPage(inverse = TRUE).
 
 $navbar-light-color:                rgba($navbar-light-contrast, .65) !default;
 $navbar-light-hover-color:          rgba($navbar-light-contrast, .8) !default;
 $navbar-light-active-color:         rgba($navbar-light-contrast, 1) !default;
 $navbar-light-disabled-color:       rgba($navbar-light-contrast, .3) !default;
-$navbar-light-icon-color:           rgba($body-color, .75) !default;
+$navbar-light-icon-color:           rgba(if(type-of($navbar-light-contrast)==color, $navbar-light-contrast, $body-color), .75) !default;
 $navbar-light-toggler-icon-bg:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-icon-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
 $navbar-light-toggler-border-color: rgba($navbar-light-contrast, .15) !default;
 $navbar-light-brand-color:          $navbar-light-active-color !default;
@@ -1234,9 +1243,9 @@ $navbar-light-brand-hover-color:    $navbar-light-active-color !default;
 // scss-docs-start navbar-dark-variables
 $navbar-dark-color:                 rgba($navbar-dark-contrast, .55) !default;
 $navbar-dark-hover-color:           rgba($navbar-dark-contrast, .75) !default;
-$navbar-dark-active-color:          $navbar-dark-contrast !default;
+$navbar-dark-active-color:          rgba($navbar-dark-contrast, 1) !default;
 $navbar-dark-disabled-color:        rgba($navbar-dark-contrast, .25) !default;
-$navbar-dark-icon-color:            $navbar-dark-color !default;
+$navbar-dark-icon-color:            rgba(if(type-of($navbar-dark-contrast)==color, $navbar-dark-contrast, $white), .75) !default;
 $navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-icon-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
 $navbar-dark-toggler-border-color:  rgba($navbar-dark-contrast, .1) !default;
 $navbar-dark-brand-color:           $navbar-dark-active-color !default;
@@ -1751,8 +1760,9 @@ $offcanvas-backdrop-opacity:        $modal-backdrop-opacity !default;
 $code-font-size:                    $small-font-size !default;
 // Amount intentionally matches mixture amount of shiny::inputPanel()
 // https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
-$code-bg: mix($body-bg, $body-color, 96%) !default;
-$code-color: color-contrast($code-bg) !default;
+$code-bg:                           RGBA(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.04) !default;
+$code-color:                        black !default;
+$code-color-dark:                   white !default;
 
 $kbd-padding-y:                     .1875rem !default;
 $kbd-padding-x:                     .375rem !default;
@@ -1761,6 +1771,5 @@ $kbd-color:                         var(--#{$prefix}body-bg) !default;
 $kbd-bg:                            var(--#{$prefix}body-color) !default;
 $nested-kbd-font-weight:            null !default; // Deprecated in v5.2.0, removing in v6
 
-$pre-bg: $code-bg  !default;
-$pre-color: color-contrast($pre-bg) !default;
-$pre-border: $border-width solid $border-color  !default;
+$pre-bg:                            $code-bg  !default;
+$pre-color:                         RGB(var(--#{$prefix}emphasis-color-rgb, 0,0,0)) !default;

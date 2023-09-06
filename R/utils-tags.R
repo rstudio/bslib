@@ -45,3 +45,13 @@ tag_require_client_side <- function(tag, version = version_default(), caller = "
     )
   )
 }
+
+tag_add_outer_class <- function(x, class = NULL, ...) {
+  if (is.null(class)) return(x)
+
+  if (inherits(x, "shiny.tag")) {
+    return(tagAppendAttributes(x, class = class, ...))
+  }
+
+  as_fill_carrier(div(x, class = class, ...))
+}

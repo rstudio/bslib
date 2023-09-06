@@ -35,6 +35,16 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   @include button-outline-variant($secondary);
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .btn-outline-default,
+    .btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
+      @include button-outline-variant($dark-text-emphasis-dark);
+    }
+  }
+}
+
+
 // This next section fixes inline checkbox and radio groups.
 // TODO: It would be nice to do this for all inline groups, but that would
 // require updating the input markup to use <fieldset> and <legend>.
@@ -56,5 +66,44 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
         top: calc(#{($line-height-base - $form-check-input-width) * .5} + #{$input-btn-border-width});
       }
     }
+  }
+}
+
+$icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
+
+.bslib-value-box.default .value-box-showcase {
+  > i {
+    @each $icon-class in $icon-classes {
+      &.#{$icon-class} {
+        background: linear-gradient(140deg, $blue 36%, $purple 180%) $blue;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+  > svg {
+    @each $icon-class in $icon-classes {
+      &.#{$icon-class} {
+        // Requires icon-gradient.svg which is added in the value_box() dependency
+        fill: url('#bslib---icon-gradient') $blue !important;
+      }
+    }
+  }
+}
+
+.bslib-value-box {
+  &.text-info,
+  &.text-cyan {
+    color: #028097 !important; // Contrast 4.63
+  }
+  &.text-light {
+    color: $gray-600 !important;
+  }
+  &.text-yellow.text-yellow,
+  &.text-warning.text-warning {
+    color: #A87600; // Contrast 4 (okay for 16px+ text)
+  }
+  &.text-teal.text-teal {
+    color: #008558; // Contrast 4.67
   }
 }
