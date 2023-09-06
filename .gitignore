@@ -14,7 +14,13 @@ node_modules/
 inst/doc
 
 # yarn
-inst/yarn.lock
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+yarn-error.log
+
 
 inst/rmarkdown/templates/*/skeleton/skeleton.html
 
