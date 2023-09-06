@@ -40,8 +40,6 @@ export class DarkModeSwitch extends BslibElement {
         --speed-fast: 0.15s;
         --speed-normal: 0.3s;
 
-        /* Move down to adjust for being large than 1em */
-
         /* Size of the icon, uses em units so it scales to font-size */
         --size: 1.3em;
 
@@ -170,6 +168,7 @@ export class DarkModeSwitch extends BslibElement {
         -webkit-tap-highlight-color: transparent;
         outline-offset: var(--size-xxs);
 
+        /* Move down to adjust for being larger than 1em */
         transform: translateY(var(--vertical-correction));
         margin-block-end: var(--vertical-correction);
       }
