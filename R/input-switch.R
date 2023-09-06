@@ -95,7 +95,7 @@ input_dark_mode_switch <- function(id, ..., mode = NULL) {
     style = css(
       "--text-1" = "var(--bs-emphasis-color)",
       "--text-2" = "var(--bs-tertiary-color)",
-      "--vertical-correction" = 0
+      "--vertical-correction" = " "
     ),
     ...
   )
