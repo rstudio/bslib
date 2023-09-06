@@ -1395,7 +1395,7 @@
     connectedCallback() {
       super.connectedCallback();
       this.themeAttribute = this.getAttribute("theme-attribute") || "data-shinytheme";
-      if (!this.themeValue) {
+      if (typeof this.themeValue === "undefined") {
         this.themeValue = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       }
       this.reflectPreference();
