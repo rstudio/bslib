@@ -1398,10 +1398,10 @@
       if (!this.themeValue) {
         this.themeValue = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       }
-      this.setPreference();
+      this.reflectPreference();
       window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches: isDark }) => {
         this.themeValue = isDark ? "dark" : "light";
-        this.setPreference();
+        this.reflectPreference();
       });
     }
     getValue() {
@@ -1457,16 +1457,13 @@
     }
     updated(changedProperties) {
       if (changedProperties.has("themeValue")) {
-        this.setPreference();
+        this.reflectPreference();
         this.onChangeCallback(true);
       }
     }
-    setPreference() {
-      document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
-      this.reflectPreference();
-    }
     reflectPreference() {
       var _a, _b, _c, _d;
+      document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
       (_b = (_a = this.shadowRoot) == null ? void 0 : _a.querySelector("button")) == null ? void 0 : _b.setAttribute("data-theme", this.themeValue);
       (_d = (_c = this.shadowRoot) == null ? void 0 : _c.querySelector("button")) == null ? void 0 : _d.setAttribute("aria-label", this.themeValue);
     }

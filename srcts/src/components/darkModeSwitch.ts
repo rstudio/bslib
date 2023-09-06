@@ -211,14 +211,14 @@ export class DarkModeSwitch extends BslibElement {
         : "light";
     }
 
-    this.setPreference();
+    this.reflectPreference();
 
     // Sync with system changes
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", ({ matches: isDark }) => {
         this.themeValue = isDark ? "dark" : "light";
-        this.setPreference();
+        this.reflectPreference();
       });
   }
 
@@ -279,17 +279,14 @@ export class DarkModeSwitch extends BslibElement {
 
   updated(changedProperties: Map<string, any>): void {
     if (changedProperties.has("themeValue")) {
-      this.setPreference();
+      this.reflectPreference();
       this.onChangeCallback(true);
     }
   }
 
-  setPreference(): void {
-    document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
-    this.reflectPreference();
-  }
-
   reflectPreference(): void {
+    document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
+
     this.shadowRoot
       ?.querySelector("button")
       ?.setAttribute("data-theme", this.themeValue);
