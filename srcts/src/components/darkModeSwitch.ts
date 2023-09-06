@@ -1,23 +1,47 @@
-import { CSSResultGroup, LitElement, css, html } from "lit";
+import type { CSSResultGroup, LitElement } from "lit";
+import { css, html } from "lit";
 import { property } from "lit/decorators.js";
-import { makeValueChangeEmitter } from "../make_value_change_emitter";
-import {
-  CustomElementInputGetValue,
-  makeInputBinding,
-} from "../shiny/make-input-binding";
+import { BslibElement } from "./webcomponents/_bslibElement";
 
 // Inspired by:
 // https://web.dev/building-a-theme-switch-component/
 // https://web.dev/patterns/theming/theme-switch/
 // https://github.com/argyleink/gui-challenges/tree/main/theme-switch
 
-export class ForgeDarkModeSwitch
-  extends LitElement
-  implements CustomElementInputGetValue<string>
-{
-  @property({ type: String }) themeValue: "light" | "dark" = "light";
+export class DarkModeSwitch extends BslibElement {
+  static isShinyInput = true;
+  static tagName = "bslib-dark-mode-switch";
+  private themeAttribute = "data-shinytheme";
+
+  @property({ type: String, attribute: "theme-value" }) themeValue:
+    | "dark"
+    | "light" = "light";
 
   static styles: CSSResultGroup = [
+    // CSS Variables
+    css`
+      :host {
+        /* open-props.style via shinycomponent */
+        --text-1: var(--text-1-light, var(--gray-8, #343a40));
+        --text-2: var(--text-2-light, var(--gray-7, #495057));
+        --size-xxs: var(--size-1, 0.25rem);
+        --ease-in-out-1: cubic-bezier(0.1, 0, 0.9, 1);
+        --ease-in-out-2: cubic-bezier(0.3, 0, 0.7, 1);
+
+        /* shinycomponent */
+        --speed-fast: 0.15s;
+        --speed-normal: 0.3s;
+
+        /* Move down to adjust for being large than 1em */
+
+        /* Size of the icon, uses em units so it scales to font-size */
+        --size: 1.3em;
+
+        /* Because we are (most likely) bigger than one em we will need to move
+        the button up or down to keep it looking right inline */
+        --vertical-correction: calc((var(--size) - 1em) / 2);
+      }
+    `,
     css`
       .sun-and-moon > :is(.moon, .sun, .sun-beams) {
         transform-origin: center center;
@@ -138,17 +162,8 @@ export class ForgeDarkModeSwitch
         -webkit-tap-highlight-color: transparent;
         outline-offset: var(--size-xxs);
 
-        /* Move down to adjust for being large than 1em */
-
-        /* Size of the icon, uses em units so it scales to font-size */
-        --size: 1.3em;
-
-        /* Because we are (most likely) bigger than one em we will need to move
-        the button up or down to keep it looking right inline */
-        --vertical_correction: calc((var(--size) - 1em) / 2);
-
-        transform: translateY(var(--vertical_correction));
-        margin-block-end: var(--vertical_correction);
+        transform: translateY(var(--vertical-correction));
+        margin-block-end: var(--vertical-correction);
       }
 
       /*
@@ -171,12 +186,16 @@ export class ForgeDarkModeSwitch
     `,
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   onChangeCallback: (x: boolean) => void = (x: boolean) => {};
 
-  onValueChange = makeValueChangeEmitter(this, this.id);
+  // onValueChange = makeValueChangeEmitter(this, this.id);
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
+
+    this.themeAttribute =
+      this.getAttribute("theme-attribute") || "data-shinytheme";
 
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       this.themeValue = "dark";
@@ -197,7 +216,7 @@ export class ForgeDarkModeSwitch
     return this.themeValue;
   }
 
-  render() {
+  render(): ReturnType<LitElement["render"]> {
     return html`
       <button
         title="Toggles light & dark"
@@ -241,12 +260,12 @@ export class ForgeDarkModeSwitch
     this.onChangeCallback(true);
   }
 
-  setPreference() {
-    document.documentElement.dataset["shinytheme"] = this.themeValue;
+  setPreference(): void {
+    document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
     this.reflectPreference();
   }
 
-  reflectPreference() {
+  reflectPreference(): void {
     this.shadowRoot
       ?.querySelector("button")
       ?.setAttribute("data-theme", this.themeValue);
@@ -254,15 +273,5 @@ export class ForgeDarkModeSwitch
     this.shadowRoot
       ?.querySelector("button")
       ?.setAttribute("aria-label", this.themeValue);
-  }
-}
-
-customElements.define("forge-dark-mode-switch", ForgeDarkModeSwitch);
-
-makeInputBinding("forge-dark-mode-switch");
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "forge-dark-mode-switch": ForgeDarkModeSwitch;
   }
 }

@@ -78,15 +78,32 @@ toggle_switch <- function(id, value = NULL, session = get_current_session()) {
 }
 
 # Keep this internal for now until we agree on the UX
-input_dark_mode_switch <- function(id, label, ..., width = "auto") {
-  res <- input_switch(id, label, ..., width = width)
-  # TODO: .navbar should probably do this for .shiny-input-container
-  res <- tagAppendAttributes(res, style = "margin-bottom: 0;")
-  tagAppendAttributes(
-    res, .cssSelector = "input",
-    onclick = "document.documentElement.setAttribute('data-bs-theme', this.checked ? 'dark' : 'light'); $(window).resize();"
+input_dark_mode_switch <- function(id, ..., mode = NULL) {
+  if (!is.null(mode)) {
+    mode <- rlang::arg_match(mode, c("light", "dark"))
+  }
+
+  if (any(!nzchar(rlang::names2(rlang::list2(...))))) {
+    abort("All arguments in `...` must be named.")
+  }
+
+  res <- web_component(
+    "bslib-dark-mode-switch",
+    id = id,
+    "theme-attribute" = "data-bs-theme",
+    "theme-value" = mode,
+    style = css(
+      "--text-1" = "var(--bs-emphasis-color)",
+      "--text-2" = "var(--bs-tertiary-color)",
+      "--vertical-correction" = 0
+    ),
+    ...
   )
+
+  res <- tag_require(res, version = 5, caller = "input_dark_mode_switch()")
+  as_fragment(res)
 }
+
 
 input_checkbox <- function(id, label, class = "bslib-input-checkbox", value = FALSE, width = NULL, inline = FALSE) {
   div(

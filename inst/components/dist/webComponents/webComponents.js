@@ -1382,6 +1382,258 @@
     return !!header && header.childNodes.length > 0;
   }
 
+  // srcts/src/components/darkModeSwitch.ts
+  var DarkModeSwitch = class extends BslibElement {
+    constructor() {
+      super(...arguments);
+      this.themeAttribute = "data-shinytheme";
+      this.themeValue = "light";
+      // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+      this.onChangeCallback = (x2) => {
+      };
+    }
+    // onValueChange = makeValueChangeEmitter(this, this.id);
+    connectedCallback() {
+      super.connectedCallback();
+      this.themeAttribute = this.getAttribute("theme-attribute") || "data-shinytheme";
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        this.themeValue = "dark";
+      }
+      this.setPreference();
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches: isDark }) => {
+        this.themeValue = isDark ? "dark" : "light";
+        this.setPreference();
+      });
+    }
+    getValue() {
+      return this.themeValue;
+    }
+    render() {
+      return x`
+      <button
+        title="Toggles light & dark"
+        aria-label="auto"
+        aria-live="polite"
+        data-theme="${this.themeValue}"
+        @click="${this.onClick}"
+      >
+        <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24">
+          <mask class="moon" id="moon-mask">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <circle cx="25" cy="10" r="6" fill="black" />
+          </mask>
+          <circle
+            class="sun"
+            cx="12"
+            cy="12"
+            r="6"
+            mask="url(#moon-mask)"
+            fill="currentColor"
+          />
+          <g class="sun-beams" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </g>
+        </svg>
+      </button>
+    `;
+    }
+    onClick(e6) {
+      e6.stopPropagation();
+      this.themeValue = this.themeValue === "light" ? "dark" : "light";
+      this.setPreference();
+      this.onChangeCallback(true);
+    }
+    setPreference() {
+      document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
+      this.reflectPreference();
+    }
+    reflectPreference() {
+      var _a, _b, _c, _d;
+      (_b = (_a = this.shadowRoot) == null ? void 0 : _a.querySelector("button")) == null ? void 0 : _b.setAttribute("data-theme", this.themeValue);
+      (_d = (_c = this.shadowRoot) == null ? void 0 : _c.querySelector("button")) == null ? void 0 : _d.setAttribute("aria-label", this.themeValue);
+    }
+  };
+  DarkModeSwitch.isShinyInput = true;
+  DarkModeSwitch.tagName = "bslib-dark-mode-switch";
+  DarkModeSwitch.styles = [
+    // CSS Variables
+    i2`
+      :host {
+        /* open-props.style via shinycomponent */
+        --text-1: var(--text-1-light, var(--gray-8, #343a40));
+        --text-2: var(--text-2-light, var(--gray-7, #495057));
+        --size-xxs: var(--size-1, 0.25rem);
+        --ease-in-out-1: cubic-bezier(0.1, 0, 0.9, 1);
+        --ease-in-out-2: cubic-bezier(0.3, 0, 0.7, 1);
+
+        /* shinycomponent */
+        --speed-fast: 0.15s;
+        --speed-normal: 0.3s;
+
+        /* Move down to adjust for being large than 1em */
+
+        /* Size of the icon, uses em units so it scales to font-size */
+        --size: 1.3em;
+
+        /* Because we are (most likely) bigger than one em we will need to move
+        the button up or down to keep it looking right inline */
+        --vertical-correction: calc((var(--size) - 1em) / 2);
+      }
+    `,
+    i2`
+      .sun-and-moon > :is(.moon, .sun, .sun-beams) {
+        transform-origin: center center;
+      }
+
+      .sun-and-moon > .sun {
+        fill: none;
+        stroke: var(--text-1);
+        stroke-width: var(--stroke-w);
+      }
+
+      button:is(:hover, :focus-visible)
+        > :is(.sun-and-moon > :is(.moon, .sun)) {
+        fill: var(--text-2);
+      }
+
+      .sun-and-moon > .sun-beams {
+        stroke: var(--text-1);
+        stroke-width: var(--stroke-w);
+      }
+
+      button:is(:hover, :focus-visible) :is(.sun-and-moon > .sun-beams) {
+        background-color: var(--text-2);
+      }
+
+      [data-theme="dark"] .sun-and-moon > .sun {
+        fill: var(--text-1);
+        stroke: none;
+        stroke-width: 0;
+        transform: scale(1.6);
+      }
+
+      [data-theme="dark"] .sun-and-moon > .sun-beams {
+        opacity: 0;
+      }
+
+      [data-theme="dark"] .sun-and-moon > .moon > circle {
+        transform: translateX(-10px);
+      }
+
+      @supports (cx: 1) {
+        [data-theme="dark"] .sun-and-moon > .moon > circle {
+          transform: translateX(0);
+          cx: 15;
+        }
+      }
+    `,
+    // Transitions
+    i2`
+      .sun-and-moon > .sun {
+        transition: transform var(--speed-fast) var(--ease-in-out-2)
+            var(--speed-fast),
+          fill var(--speed-fast) var(--ease-in-out-2) var(--speed-fast),
+          stroke-width var(--speed-normal) var(--ease-in-out-2);
+      }
+
+      .sun-and-moon > .sun-beams {
+        transition: transform var(--speed-fast) var(--ease-out-3),
+          opacity var(--speed-fast) var(--ease-out-4);
+        transition-delay: var(--speed-normal);
+      }
+
+      .sun-and-moon .moon > circle {
+        transition: transform var(--speed-fast) var(--ease-in-out-2),
+          fill var(--speed-fast) var(--ease-in-out-2);
+        transition-delay: 0s;
+      }
+
+      @supports (cx: 1) {
+        .sun-and-moon .moon > circle {
+          transition: cx var(--speed-normal) var(--ease-in-out-2);
+        }
+
+        [data-theme="dark"] .sun-and-moon .moon > circle {
+          transition: cx var(--speed-fast) var(--ease-in-out-2);
+          transition-delay: var(--speed-fast);
+        }
+      }
+
+      [data-theme="dark"] .sun-and-moon > .sun {
+        transition-delay: 0s;
+        transition-duration: var(--speed-normal);
+        transition-timing-function: var(--ease-in-out-2);
+      }
+
+      [data-theme="dark"] .sun-and-moon > .sun-beams {
+        transform: scale(0.3);
+        transition: transform var(--speed-normal) var(--ease-in-out-2),
+          opacity var(--speed-fast) var(--ease-out-1);
+        transition-delay: 0s;
+      }
+    `,
+    i2`
+      :host {
+        display: inline-block;
+
+        /* We control the stroke size manually here. We don't want it getting so
+        small its not visible but also not so big it looks cartoonish */
+        --stroke-w: clamp(1px, 0.1em, 6px);
+      }
+
+      button {
+        /* This is needed to let the svg use the em sizes */
+        font-size: inherit;
+
+        /* Make sure the button is fully centered */
+        display: grid;
+        place-content: center;
+
+        /* A little bit of padding to make it easier to press */
+        padding: var(--size-xxs);
+        background: none;
+        border: none;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        outline-offset: var(--size-xxs);
+
+        transform: translateY(var(--vertical-correction));
+        margin-block-end: var(--vertical-correction);
+      }
+
+      /*
+      button:is(:hover, :focus-visible) {
+        background: var(--surface-4);
+      }
+      */
+
+      button > svg {
+        height: var(--size);
+        width: var(--size);
+        stroke-linecap: round;
+        overflow: visible;
+      }
+
+      svg line,
+      svg circle {
+        vector-effect: non-scaling-stroke;
+      }
+    `
+  ];
+  __decorateClass([
+    n({ type: String, attribute: "theme-value" })
+  ], DarkModeSwitch.prototype, "themeValue", 2);
+
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {
     if (!window.Shiny) {
@@ -1420,7 +1672,7 @@
   }
 
   // srcts/src/components/webComponents.ts
-  [BslibTooltip, BslibPopover].forEach((cls) => {
+  [BslibTooltip, BslibPopover, DarkModeSwitch].forEach((cls) => {
     customElements.define(cls.tagName, cls);
     if (cls.isShinyInput)
       makeInputBinding(cls.tagName);
