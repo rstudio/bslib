@@ -77,56 +77,6 @@ toggle_switch <- function(id, value = NULL, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-# Keep this internal for now until we agree on the UX
-input_dark_mode_switch <- function(id, ..., mode = NULL) {
-  if (!is.null(mode)) {
-    mode <- rlang::arg_match(mode, c("light", "dark"))
-  }
-
-  if (any(!nzchar(rlang::names2(rlang::list2(...))))) {
-    abort("All arguments in `...` must be named.")
-  }
-
-  res <- web_component(
-    "bslib-dark-mode-switch",
-    id = id,
-    "theme-attribute" = "data-bs-theme",
-    "theme-value" = mode,
-    style = css(
-      "--text-1" = "var(--bs-emphasis-color)",
-      "--text-2" = "var(--bs-tertiary-color)",
-      # The vertical correction used in the dark mode component isn't quite
-      # right on Bootstrap pages. This next line overrides it and removes the
-      # vertical correction. But users can still set the CSS property manually
-      # in their a `style` argument passed in via `...` if they want.
-      "--vertical-correction" = " "
-    ),
-    ...
-  )
-
-  res <- tag_require(res, version = 5, caller = "input_dark_mode_switch()")
-  as_fragment(res)
-}
-
-toggle_dark_mode_switch <- function(id, mode = NULL, session = get_current_session()) {
-  mode <- mode %||% "toggle"
-
-  mode <- tryCatch(
-    rlang::arg_match(mode, c("light", "dark", "toggle")),
-    error = function(err) {
-      rlang::warn(rlang::cnd_message(err))
-      mode
-    }
-  )
-
-  if (!rlang::is_string(id)) {
-    abort("`id` must be a single string containing the `id` of a switch input.")
-  }
-
-  session$sendInputMessage(id, list(method = "toggle", value = mode))
-}
-
-
 input_checkbox <- function(id, label, class = "bslib-input-checkbox", value = FALSE, width = NULL, inline = FALSE) {
   div(
     class = "form-group shiny-input-container",
