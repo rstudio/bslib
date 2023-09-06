@@ -95,6 +95,10 @@ input_dark_mode_switch <- function(id, ..., mode = NULL) {
     style = css(
       "--text-1" = "var(--bs-emphasis-color)",
       "--text-2" = "var(--bs-tertiary-color)",
+      # The vertical correction used in the dark mode component isn't quite
+      # right on Bootstrap pages. This next line overrides it and removes the
+      # vertical correction. But users can still set the CSS property manually
+      # in their a `style` argument passed in via `...` if they want.
       "--vertical-correction" = " "
     ),
     ...
