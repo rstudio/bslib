@@ -1387,8 +1387,6 @@
     constructor() {
       super(...arguments);
       this.themeAttribute = "data-shinytheme";
-      // eslint-disable-next-line indent
-      this.themeValue = "light";
       // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
       this.onChangeCallback = (x2) => {
       };
@@ -1397,8 +1395,8 @@
     connectedCallback() {
       super.connectedCallback();
       this.themeAttribute = this.getAttribute("theme-attribute") || "data-shinytheme";
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        this.themeValue = "dark";
+      if (!this.themeValue) {
+        this.themeValue = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       }
       this.setPreference();
       window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches: isDark }) => {
@@ -1642,6 +1640,7 @@
       }
     `
   ];
+  // eslint-disable-next-line indent
   __decorateClass([
     n({ type: String, attribute: "theme-value", reflect: true })
   ], DarkModeSwitch.prototype, "themeValue", 2);
