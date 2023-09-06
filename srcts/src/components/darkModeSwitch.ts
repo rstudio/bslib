@@ -13,9 +13,9 @@ export class DarkModeSwitch extends BslibElement {
   static tagName = "bslib-dark-mode-switch";
   private themeAttribute = "data-shinytheme";
 
-  @property({ type: String, attribute: "theme-value" }) themeValue:
-    | "dark"
-    | "light" = "light";
+  @property({ type: String, attribute: "theme-value", reflect: true })
+  // eslint-disable-next-line indent
+  themeValue: "dark" | "light" = "light";
 
   static styles: CSSResultGroup = [
     // CSS Variables
@@ -258,6 +258,13 @@ export class DarkModeSwitch extends BslibElement {
     this.themeValue = this.themeValue === "light" ? "dark" : "light";
     this.setPreference();
     this.onChangeCallback(true);
+  }
+
+  updated(changedProperties: Map<string, any>): void {
+    if (changedProperties.has("themeValue")) {
+      this.setPreference();
+      this.onChangeCallback(true);
+    }
   }
 
   setPreference(): void {
