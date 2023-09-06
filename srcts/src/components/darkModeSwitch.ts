@@ -8,6 +8,11 @@ import { BslibElement } from "./webcomponents/_bslibElement";
 // https://web.dev/patterns/theming/theme-switch/
 // https://github.com/argyleink/gui-challenges/tree/main/theme-switch
 
+type ToggleMessage = {
+  method: "toggle";
+  value: DarkModeSwitch["themeValue"] | "toggle";
+};
+
 export class DarkModeSwitch extends BslibElement {
   static isShinyInput = true;
   static tagName = "bslib-dark-mode-switch";
@@ -251,6 +256,15 @@ export class DarkModeSwitch extends BslibElement {
         </svg>
       </button>
     `;
+  }
+
+  receiveMessage(el: DarkModeSwitch, data: ToggleMessage): void {
+    if (data.method === "toggle") {
+      if (data.value === "toggle") {
+        data.value = this.themeValue === "light" ? "dark" : "light";
+      }
+      el.setAttribute("theme-value", data.value);
+    }
   }
 
   onClick(e: MouseEvent): void {

@@ -1387,6 +1387,7 @@
     constructor() {
       super(...arguments);
       this.themeAttribute = "data-shinytheme";
+      // eslint-disable-next-line indent
       this.themeValue = "light";
       // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
       this.onChangeCallback = (x2) => {
@@ -1444,11 +1445,25 @@
       </button>
     `;
     }
+    receiveMessage(el, data) {
+      if (data.method === "toggle") {
+        if (data.value === "toggle") {
+          data.value = this.themeValue === "light" ? "dark" : "light";
+        }
+        el.setAttribute("theme-value", data.value);
+      }
+    }
     onClick(e6) {
       e6.stopPropagation();
       this.themeValue = this.themeValue === "light" ? "dark" : "light";
       this.setPreference();
       this.onChangeCallback(true);
+    }
+    updated(changedProperties) {
+      if (changedProperties.has("themeValue")) {
+        this.setPreference();
+        this.onChangeCallback(true);
+      }
     }
     setPreference() {
       document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
@@ -1631,7 +1646,7 @@
     `
   ];
   __decorateClass([
-    n({ type: String, attribute: "theme-value" })
+    n({ type: String, attribute: "theme-value", reflect: true })
   ], DarkModeSwitch.prototype, "themeValue", 2);
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts

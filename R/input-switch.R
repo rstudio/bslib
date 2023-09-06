@@ -104,6 +104,17 @@ input_dark_mode_switch <- function(id, ..., mode = NULL) {
   as_fragment(res)
 }
 
+toggle_dark_mode_switch <- function(id, mode = NULL, session = get_current_session()) {
+  mode <- mode %||% "toggle"
+  mode <- rlang::arg_match(mode, c("light", "dark", "toggle"))
+
+  if (!rlang::is_string(id)) {
+    abort("`id` must be a single string containing the `id` of a switch input.")
+  }
+
+  session$sendInputMessage(id, list(method = "toggle", value = mode))
+}
+
 
 input_checkbox <- function(id, label, class = "bslib-input-checkbox", value = FALSE, width = NULL, inline = FALSE) {
   div(
