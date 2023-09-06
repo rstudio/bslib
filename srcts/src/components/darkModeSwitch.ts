@@ -219,7 +219,7 @@ export class DarkModeSwitch extends BslibElement {
   render(): ReturnType<LitElement["render"]> {
     return html`
       <button
-        title="Toggles light & dark"
+        title="Switch to ${this.themeValue === "light" ? "dark" : "light"} mode"
         aria-label="auto"
         aria-live="polite"
         data-theme="${this.themeValue}"

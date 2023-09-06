@@ -1411,7 +1411,7 @@
     render() {
       return x`
       <button
-        title="Toggles light & dark"
+        title="Switch to ${this.themeValue === "light" ? "dark" : "light"} mode"
         aria-label="auto"
         aria-live="polite"
         data-theme="${this.themeValue}"
