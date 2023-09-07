@@ -17,7 +17,6 @@
 #'   to `NULL`, the user's system settings for preferred color scheme will be
 #'   used. Otherwise, set to `"light"` or `"dark"` to force a particular initial
 #'   mode.
-#' @inheritParams tooltip
 #'
 #' @return Returns a UI element for a dark mode switch input control. The server
 #'   value received for the input corresponding to `id` will be a string value
@@ -59,6 +58,8 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
 
 #' @describeIn input_dark_mode Programmatically toggle or set the current light
 #'   or dark color mode.
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
 #' @export
 toggle_dark_mode <- function(mode = NULL, ..., session = get_current_session()) {
   rlang::check_dots_empty(
