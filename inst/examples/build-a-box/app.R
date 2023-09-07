@@ -82,42 +82,16 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$show_code, {
-    code <- paste0(
-      "layout_columns(\n  ",
-      rlang::expr_text(code_one()), ",\n  ",
-      rlang::expr_text(code_two()), ",\n  ",
-      rlang::expr_text(code_three()), "\n",
-      ")"
-    )
-
-    if (requireNamespace("styler", quietly = TRUE)) {
-      code <- styler::style_text(code)
-    }
-
-    code <- paste(code, collapse = "\n")
-
-    showModal(
-      modalDialog(
-        HTML(sprintf(
-          '<pre><code id="value-box-code">%s</code></pre>',
-          code
-        )),
-        p(
-          id = "copy-clipboard-not-supported",
-          class = "text-muted",
-          HTML("Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy the value box example code."),
-          tags$script(HTML("checkCopyPermissions()"))
-        ),
-        tags$button(
-          id = "copy-code-to-clipboard",
-          class = "btn btn-outline-primary",
-          onclick = "copyValueBoxCode()",
-          "Copy to clipboard"
-        ),
-        footer = modalButton("Done"),
-        easyClose = TRUE
+    layout_value_boxes <-
+      paste0(
+        "layout_columns(\n  ",
+        rlang::expr_text(code_one()), ",\n  ",
+        rlang::expr_text(code_two()), ",\n  ",
+        rlang::expr_text(code_three()), "\n",
+        ")"
       )
-    )
+
+    code_modal(layout_value_boxes)
   })
 }
 
