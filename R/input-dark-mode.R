@@ -35,8 +35,8 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
   res <- web_component(
     "bslib-input-dark-mode",
     id = id,
-    "theme-attribute" = "data-bs-theme",
-    "theme-value" = mode,
+    attribute = "data-bs-theme",
+    mode = mode,
     style = css(
       "--text-1" = "var(--bs-emphasis-color)",
       "--text-2" = "var(--bs-tertiary-color)",

@@ -10,18 +10,16 @@ import { property } from "lit/decorators.js";
 
 type ToggleMessage = {
   method: "toggle";
-  value: DarkModeSwitch["themeValue"] | "toggle";
+  value: DarkModeSwitch["mode"] | "toggle";
 };
 
 export class DarkModeSwitch extends LitElement {
   static isShinyInput = true;
   static tagName = "bslib-input-dark-mode";
 
-  private themeAttribute = "data-shinytheme";
+  private attribute = "data-shinytheme";
 
-  @property({ type: String, attribute: "theme-value", reflect: true })
-  // eslint-disable-next-line indent
-  themeValue!: "dark" | "light";
+  @property({ type: String, reflect: true }) mode!: "dark" | "light";
 
   static styles: CSSResultGroup = [
     // CSS Variables
@@ -199,12 +197,10 @@ export class DarkModeSwitch extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.themeAttribute =
-      this.getAttribute("theme-attribute") || "data-shinytheme";
+    this.attribute = this.getAttribute("attribute") || "data-shinytheme";
 
-    if (typeof this.themeValue === "undefined") {
-      this.themeValue = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
+    if (typeof this.mode === "undefined") {
+      this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
     }
@@ -215,7 +211,7 @@ export class DarkModeSwitch extends LitElement {
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", ({ matches: isDark }) => {
-        this.themeValue = isDark ? "dark" : "light";
+        this.mode = isDark ? "dark" : "light";
         this.reflectPreference();
       });
 
@@ -226,12 +222,10 @@ export class DarkModeSwitch extends LitElement {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.target !== document.documentElement) return;
-        if (mutation.attributeName !== this.themeAttribute) return;
-        const newValue = document.documentElement.getAttribute(
-          this.themeAttribute
-        );
-        if (!newValue || newValue === this.themeValue) return;
-        this.themeValue = newValue as DarkModeSwitch["themeValue"];
+        if (mutation.attributeName !== this.attribute) return;
+        const newValue = document.documentElement.getAttribute(this.attribute);
+        if (!newValue || newValue === this.mode) return;
+        this.mode = newValue as DarkModeSwitch["mode"];
       });
     });
 
@@ -245,16 +239,16 @@ export class DarkModeSwitch extends LitElement {
   }
 
   getValue(): string {
-    return this.themeValue;
+    return this.mode;
   }
 
   render(): ReturnType<LitElement["render"]> {
     return html`
       <button
-        title="Toggle theme (${this.themeValue})"
-        aria-label="Toggle theme (${this.themeValue})"
+        title="Toggle theme (${this.mode})"
+        aria-label="Toggle theme (${this.mode})"
         aria-live="polite"
-        data-theme="${this.themeValue}"
+        data-theme="${this.mode}"
         @click="${this.onClick}"
       >
         <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24">
@@ -288,25 +282,25 @@ export class DarkModeSwitch extends LitElement {
   receiveMessage(el: DarkModeSwitch, data: ToggleMessage): void {
     if (data.method === "toggle") {
       if (data.value === "toggle") {
-        data.value = this.themeValue === "light" ? "dark" : "light";
+        data.value = this.mode === "light" ? "dark" : "light";
       }
-      el.setAttribute("theme-value", data.value);
+      el.setAttribute("mode", data.value);
     }
   }
 
   onClick(e: MouseEvent): void {
     e.stopPropagation();
-    this.themeValue = this.themeValue === "light" ? "dark" : "light";
+    this.mode = this.mode === "light" ? "dark" : "light";
   }
 
   updated(changedProperties: Map<string, any>): void {
-    if (changedProperties.has("themeValue")) {
+    if (changedProperties.has("mode")) {
       this.reflectPreference();
       this.onChangeCallback(true);
     }
   }
 
   reflectPreference(): void {
-    document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
+    document.documentElement.setAttribute(this.attribute, this.mode);
   }
 }
