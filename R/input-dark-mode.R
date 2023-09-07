@@ -57,20 +57,21 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
 #'   or dark color mode.
 #' @export
 toggle_dark_mode <- function(id, mode = NULL, session = get_current_session()) {
-  mode <- mode %||% "toggle"
-
-  mode <- tryCatch(
-    rlang::arg_match(mode, c("light", "dark", "toggle")),
-    error = function(err) {
-      rlang::warn(rlang::cnd_message(err))
-      mode
-    }
-  )
-
   if (!rlang::is_string(id)) {
     abort("`id` must be a single string containing the `id` of a switch input.")
   }
 
-  session$sendInputMessage(id, list(method = "toggle", value = mode))
-}
+  if (!is.null(mode)) {
+    mode <- tryCatch(
+      rlang::arg_match(mode, c("light", "dark")),
+      error = function(err) {
+        rlang::warn(rlang::cnd_message(err))
+        mode
+      }
+    )
+  }
 
+  data <- list(method = "toggle", value = mode)
+
+  session$sendInputMessage(id, dropNulls(data))
+}

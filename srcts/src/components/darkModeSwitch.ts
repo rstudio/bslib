@@ -10,7 +10,7 @@ import { property } from "lit/decorators.js";
 
 type ToggleMessage = {
   method: "toggle";
-  value: DarkModeSwitch["mode"] | "toggle";
+  value: DarkModeSwitch["mode"] | undefined;
 };
 
 export class DarkModeSwitch extends LitElement {
@@ -281,7 +281,7 @@ export class DarkModeSwitch extends LitElement {
 
   receiveMessage(el: DarkModeSwitch, data: ToggleMessage): void {
     if (data.method === "toggle") {
-      if (data.value === "toggle") {
+      if (typeof data.value === "undefined" || data.value === null) {
         data.value = this.mode === "light" ? "dark" : "light";
       }
       el.setAttribute("mode", data.value);

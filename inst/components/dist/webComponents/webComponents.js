@@ -1466,7 +1466,7 @@
     }
     receiveMessage(el, data) {
       if (data.method === "toggle") {
-        if (data.value === "toggle") {
+        if (typeof data.value === "undefined" || data.value === null) {
           data.value = this.mode === "light" ? "dark" : "light";
         }
         el.setAttribute("mode", data.value);
