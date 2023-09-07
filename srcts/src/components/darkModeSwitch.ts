@@ -220,6 +220,30 @@ export class DarkModeSwitch extends BslibElement {
         this.themeValue = isDark ? "dark" : "light";
         this.reflectPreference();
       });
+
+    this.observeDocumentThemeAttribute();
+  }
+
+  observeDocumentThemeAttribute(): void {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target !== document.documentElement) return;
+        if (mutation.attributeName !== this.themeAttribute) return;
+        const newValue = document.documentElement.getAttribute(
+          this.themeAttribute
+        );
+        if (!newValue || newValue === this.themeValue) return;
+        this.themeValue = newValue as DarkModeSwitch["themeValue"];
+      });
+    });
+
+    const config = {
+      attributes: true,
+      childList: false,
+      subtree: false,
+    };
+
+    observer.observe(document.documentElement, config);
   }
 
   getValue(): string {
