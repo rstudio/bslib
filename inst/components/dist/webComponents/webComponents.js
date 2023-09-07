@@ -1383,10 +1383,10 @@
   }
 
   // srcts/src/components/darkModeSwitch.ts
-  var DarkModeSwitch = class extends BslibElement {
+  var DarkModeSwitch = class extends s4 {
     constructor() {
       super(...arguments);
-      this.themeAttribute = "data-shinytheme";
+      this.attribute = "data-shinytheme";
       // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
       this.onChangeCallback = (x2) => {
       };
@@ -1394,26 +1394,47 @@
     // onValueChange = makeValueChangeEmitter(this, this.id);
     connectedCallback() {
       super.connectedCallback();
-      this.themeAttribute = this.getAttribute("theme-attribute") || "data-shinytheme";
-      if (typeof this.themeValue === "undefined") {
-        this.themeValue = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      this.attribute = this.getAttribute("attribute") || "data-shinytheme";
+      if (typeof this.mode === "undefined") {
+        this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       }
       this.reflectPreference();
       window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches: isDark }) => {
-        this.themeValue = isDark ? "dark" : "light";
+        this.mode = isDark ? "dark" : "light";
         this.reflectPreference();
       });
+      this.observeDocumentThemeAttribute();
+    }
+    observeDocumentThemeAttribute() {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.target !== document.documentElement)
+            return;
+          if (mutation.attributeName !== this.attribute)
+            return;
+          const newValue = document.documentElement.getAttribute(this.attribute);
+          if (!newValue || newValue === this.mode)
+            return;
+          this.mode = newValue;
+        });
+      });
+      const config = {
+        attributes: true,
+        childList: false,
+        subtree: false
+      };
+      observer.observe(document.documentElement, config);
     }
     getValue() {
-      return this.themeValue;
+      return this.mode;
     }
     render() {
       return x`
       <button
-        title="Switch to ${this.themeValue === "light" ? "dark" : "light"} mode"
-        aria-label="auto"
+        title="Toggle theme (${this.mode})"
+        aria-label="Toggle theme (${this.mode})"
         aria-live="polite"
-        data-theme="${this.themeValue}"
+        data-theme="${this.mode}"
         @click="${this.onClick}"
       >
         <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24">
@@ -1446,30 +1467,27 @@
     receiveMessage(el, data) {
       if (data.method === "toggle") {
         if (data.value === "toggle") {
-          data.value = this.themeValue === "light" ? "dark" : "light";
+          data.value = this.mode === "light" ? "dark" : "light";
         }
-        el.setAttribute("theme-value", data.value);
+        el.setAttribute("mode", data.value);
       }
     }
     onClick(e6) {
       e6.stopPropagation();
-      this.themeValue = this.themeValue === "light" ? "dark" : "light";
+      this.mode = this.mode === "light" ? "dark" : "light";
     }
     updated(changedProperties) {
-      if (changedProperties.has("themeValue")) {
+      if (changedProperties.has("mode")) {
         this.reflectPreference();
         this.onChangeCallback(true);
       }
     }
     reflectPreference() {
-      var _a, _b, _c, _d;
-      document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
-      (_b = (_a = this.shadowRoot) == null ? void 0 : _a.querySelector("button")) == null ? void 0 : _b.setAttribute("data-theme", this.themeValue);
-      (_d = (_c = this.shadowRoot) == null ? void 0 : _c.querySelector("button")) == null ? void 0 : _d.setAttribute("aria-label", this.themeValue);
+      document.documentElement.setAttribute(this.attribute, this.mode);
     }
   };
   DarkModeSwitch.isShinyInput = true;
-  DarkModeSwitch.tagName = "bslib-dark-mode-switch";
+  DarkModeSwitch.tagName = "bslib-input-dark-mode";
   DarkModeSwitch.styles = [
     // CSS Variables
     i2`
@@ -1637,10 +1655,9 @@
       }
     `
   ];
-  // eslint-disable-next-line indent
   __decorateClass([
-    n({ type: String, attribute: "theme-value", reflect: true })
-  ], DarkModeSwitch.prototype, "themeValue", 2);
+    n({ type: String, reflect: true })
+  ], DarkModeSwitch.prototype, "mode", 2);
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {
