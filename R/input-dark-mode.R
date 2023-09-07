@@ -61,6 +61,10 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
 #'   or dark color mode.
 #' @export
 toggle_dark_mode <- function(mode = NULL, ..., session = get_current_session()) {
+  rlang::check_dots_empty(
+    error = function(err) rlang::warn(rlang::cnd_message(err))
+  )
+
   if (!is.null(mode)) {
     mode <- tryCatch(
       rlang::arg_match(mode, c("light", "dark")),
