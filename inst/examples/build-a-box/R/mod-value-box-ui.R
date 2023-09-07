@@ -40,7 +40,10 @@ ui_value_box_options <- function(id) {
     "title_value" = list(
       textInput(ns("title"), "Title", init$title),
       textInput(ns("value"), "Value", init$value),
-      textAreaInput(ns("extra"), "Extra text", ""),
+      tagAppendAttributes(
+        textAreaInput(ns("extra"), "Extra text (markdown allowed)", ""),
+        class = "input-text-code"
+      ),
       actionButton(ns("random_stat"), "Random stat")
     ),
     "theme_opts" = list(

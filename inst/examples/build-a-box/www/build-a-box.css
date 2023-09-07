@@ -12,6 +12,10 @@
   width: 100%;
 }
 
+.input-text-code textarea {
+  font-family: var(--bs-font-monospace);
+}
+
 .active-preview::before {
   --active-border: 4px solid rgba(var(--bs-danger-rgb), 0.25);
   content: '';
