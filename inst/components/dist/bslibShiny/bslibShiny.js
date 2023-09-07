@@ -5,6 +5,16 @@
   var InputBinding = window.Shiny ? Shiny.InputBinding : class {
   };
 
+  // srcts/src/components/webcomponents/_shinyAddCustomMessageHandlers.ts
+  function shinyAddCustomMessageHandlers(handlers) {
+    if (!window.Shiny) {
+      return;
+    }
+    for (const [name, handler] of Object.entries(handlers)) {
+      Shiny.addCustomMessageHandler(name, handler);
+    }
+  }
+
   // srcts/src/components/bslibShiny.ts
   var bslibMessageHandlers = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -23,22 +33,10 @@
         value = !binding.getValue(el);
       }
       binding.receiveMessage(el, { value });
-    },
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    "bslib.toggle-dark-mode": ({ method, value }) => {
-      if (method !== "toggle")
-        return;
-      if (typeof value === "undefined" || value === null) {
-        const current = document.documentElement.dataset.bsTheme || "light";
-        value = current === "light" ? "dark" : "light";
-      }
-      document.documentElement.dataset.bsTheme = value;
     }
   };
   if (window.Shiny) {
-    for (const [name, handler] of Object.entries(bslibMessageHandlers)) {
-      Shiny.addCustomMessageHandler(name, handler);
-    }
+    shinyAddCustomMessageHandlers(bslibMessageHandlers);
   }
 })();
 //# sourceMappingURL=bslibShiny.js.map

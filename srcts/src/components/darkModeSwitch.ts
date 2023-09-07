@@ -16,6 +16,26 @@ export type DarkModeMessageToggle = {
 export class DarkModeSwitch extends LitElement {
   static isShinyInput = true;
   static tagName = "bslib-input-dark-mode";
+  static shinyCustomMessageHandlers = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    "bslib.toggle-dark-mode": ({
+      method,
+      value,
+    }: DarkModeMessageToggle): void => {
+      // Similar to DarkModeSwitch.receiveMessage(), but we directly update the
+      // Bootstrap attribute on the <html> element. Currently, all toggle switches
+      // follow this value.
+
+      if (method !== "toggle") return;
+
+      if (typeof value === "undefined" || value === null) {
+        const current = document.documentElement.dataset.bsTheme || "light";
+        value = current === "light" ? "dark" : "light";
+      }
+
+      document.documentElement.dataset.bsTheme = value;
+    },
+  };
 
   private attribute = "data-shinytheme";
 
@@ -280,15 +300,6 @@ export class DarkModeSwitch extends LitElement {
         </svg>
       </button>
     `;
-  }
-
-  receiveMessage(el: DarkModeSwitch, data: DarkModeMessageToggle): void {
-    if (data.method === "toggle") {
-      if (typeof data.value === "undefined" || data.value === null) {
-        data.value = this.mode === "light" ? "dark" : "light";
-      }
-      el.setAttribute("mode", data.value);
-    }
   }
 
   onClick(e: MouseEvent): void {

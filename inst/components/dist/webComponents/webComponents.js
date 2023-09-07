@@ -1466,14 +1466,6 @@
       </button>
     `;
     }
-    receiveMessage(el, data) {
-      if (data.method === "toggle") {
-        if (typeof data.value === "undefined" || data.value === null) {
-          data.value = this.mode === "light" ? "dark" : "light";
-        }
-        el.setAttribute("mode", data.value);
-      }
-    }
     onClick(e6) {
       e6.stopPropagation();
       this.mode = this.mode === "light" ? "dark" : "light";
@@ -1491,6 +1483,21 @@
   };
   DarkModeSwitch.isShinyInput = true;
   DarkModeSwitch.tagName = "bslib-input-dark-mode";
+  DarkModeSwitch.shinyCustomMessageHandlers = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    "bslib.toggle-dark-mode": ({
+      method,
+      value
+    }) => {
+      if (method !== "toggle")
+        return;
+      if (typeof value === "undefined" || value === null) {
+        const current = document.documentElement.dataset.bsTheme || "light";
+        value = current === "light" ? "dark" : "light";
+      }
+      document.documentElement.dataset.bsTheme = value;
+    }
+  };
   DarkModeSwitch.styles = [
     // CSS Variables
     i2`
@@ -1699,11 +1706,26 @@
     Shiny.inputBindings.register(new NewCustomBinding(), `${tagName}-Binding`);
   }
 
+  // srcts/src/components/webcomponents/_shinyAddCustomMessageHandlers.ts
+  function shinyAddCustomMessageHandlers(handlers) {
+    if (!window.Shiny) {
+      return;
+    }
+    for (const [name, handler] of Object.entries(handlers)) {
+      Shiny.addCustomMessageHandler(name, handler);
+    }
+  }
+
   // srcts/src/components/webComponents.ts
   [BslibTooltip, BslibPopover, DarkModeSwitch].forEach((cls) => {
     customElements.define(cls.tagName, cls);
-    if (cls.isShinyInput)
-      makeInputBinding(cls.tagName);
+    if (window.Shiny) {
+      if (cls.isShinyInput)
+        makeInputBinding(cls.tagName);
+      if ("shinyCustomMessageHandlers" in cls) {
+        shinyAddCustomMessageHandlers(cls["shinyCustomMessageHandlers"]);
+      }
+    }
   });
 })();
 /*! Bundled license information:

@@ -1,5 +1,5 @@
 import { InputBinding } from "./_utils";
-import type { DarkModeMessageToggle } from "./darkModeSwitch";
+import { shinyAddCustomMessageHandlers } from "./webcomponents/_shinyAddCustomMessageHandlers";
 
 const bslibMessageHandlers = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -23,26 +23,8 @@ const bslibMessageHandlers = {
     }
     binding.receiveMessage(el, { value });
   },
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "bslib.toggle-dark-mode": ({ method, value }: DarkModeMessageToggle) => {
-    // Similar to DarkModeSwitch.receiveMessage(), but we directly update the
-    // Bootstrap attribute on the <html> element. Currently, all toggle switches
-    // follow this value.
-
-    if (method !== "toggle") return;
-
-    if (typeof value === "undefined" || value === null) {
-      const current = document.documentElement.dataset.bsTheme || "light";
-      value = current === "light" ? "dark" : "light";
-    }
-
-    document.documentElement.dataset.bsTheme = value;
-  },
 };
 
 if (window.Shiny) {
-  for (const [name, handler] of Object.entries(bslibMessageHandlers)) {
-    Shiny.addCustomMessageHandler(name, handler);
-  }
+  shinyAddCustomMessageHandlers(bslibMessageHandlers)
 }
