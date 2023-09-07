@@ -26,5 +26,5 @@ const bslibMessageHandlers = {
 };
 
 if (window.Shiny) {
-  shinyAddCustomMessageHandlers(bslibMessageHandlers)
+  shinyAddCustomMessageHandlers(bslibMessageHandlers);
 }
