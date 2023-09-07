@@ -181,10 +181,10 @@ server_value_box <- function(input, output, session, ...) {
         )
       }
 
-    list(
+    rlang::list2(
       title = input$title,
       value = input$value,
-      if (!is.null(extra)) extra,
+      if (!is.null(extra)) extra else rlang::missing_arg(),
       theme = theme,
       showcase = showcase,
       showcase_layout = input$showcase_layout,
