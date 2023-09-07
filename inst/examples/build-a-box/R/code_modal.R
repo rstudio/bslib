@@ -17,9 +17,8 @@ code_modal <- function(code) {
       )),
       p(
         id = "copy-clipboard-not-supported",
-        class = "text-muted",
-        HTML("Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy the value box example code."),
-        tags$script(HTML("checkCopyPermissions()"))
+        class = "text-muted d-none",
+        HTML("Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy the value box example code.")
       ),
       tags$button(
         id = "copy-code-to-clipboard",
@@ -27,6 +26,7 @@ code_modal <- function(code) {
         onclick = "copyValueBoxCode()",
         "Copy to clipboard"
       ),
+      tags$script(HTML("checkCopyPermissions()")),
       footer = modalButton("Done"),
       easyClose = TRUE
     )

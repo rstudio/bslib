@@ -68,21 +68,20 @@ window.watchForThemer = function () {
 function checkCopyPermissions() {
   navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
     const allowed = result.state == "granted" || result.state == "prompt";
-    if (allowed) {
-      // clipboard is supported, hide the fallback text
-      document
-        .getElementById("copy-clipboard-not-supported")
-        .classList.add("d-none");
-    } else {
+    if (!allowed) {
       // clipboard isn't supported, hide the copy button
-      document.getElementById("copy-code-to-clipboard").classList.add("d-none");
+      document
+        .getElementById("copy-code-to-clipboard")
+        .classList.add("d-none");
+      // fall back to manual copy/paste with a little help
+      showValueBoxCodeHelp();
       selectValueBoxCode();
     }
   });
 }
 
 function showValueBoxCodeHelp() {
-  document.getElementById("value-box-code-help").classList.remove("d-none");
+  document.getElementById("copy-clipboard-not-supported").classList.remove("d-none");
 }
 
 function selectValueBoxCode() {
