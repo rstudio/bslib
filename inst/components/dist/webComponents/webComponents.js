@@ -1429,10 +1429,12 @@
       return this.mode;
     }
     render() {
+      const other = this.mode === "light" ? "dark" : "light";
+      const label = `Switch from ${this.mode} to ${other} mode`;
       return x`
       <button
-        title="Toggle theme (${this.mode})"
-        aria-label="Toggle theme (${this.mode})"
+        title="${label}"
+        aria-label="${label}"
         aria-live="polite"
         data-theme="${this.mode}"
         @click="${this.onClick}"

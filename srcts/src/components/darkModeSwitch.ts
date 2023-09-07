@@ -243,10 +243,13 @@ export class DarkModeSwitch extends LitElement {
   }
 
   render(): ReturnType<LitElement["render"]> {
+    const other = this.mode === "light" ? "dark" : "light";
+    const label = `Switch from ${this.mode} to ${other} mode`;
+
     return html`
       <button
-        title="Toggle theme (${this.mode})"
-        aria-label="Toggle theme (${this.mode})"
+        title="${label}"
+        aria-label="${label}"
         aria-live="polite"
         data-theme="${this.mode}"
         @click="${this.onClick}"
