@@ -69,8 +69,11 @@ jobs:
           )
 
       - name: Deploy
+        shell: bash
         run: |
-          Rscript 'inst/themer-demo/deploy.R'
-          Rscript 'inst/examples/card/deploy.R'
-          Rscript 'inst/examples/value_box/deploy.R'
-          Rscript 'inst/examples/flights/deploy.R'
+          deployScripts=$(find inst -name "deploy.R" -type f)
+
+          for deployScript in $deployScripts; do
+            echo "Deploying $deployScript"
+            Rscript $deployScript
+          done
