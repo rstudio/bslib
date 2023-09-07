@@ -23,12 +23,26 @@ $bslib-enable-color-utilities: $bootstrap-version >= 5 !default;
   // Named color background and foreground utility classes ---------------------
   @each $name, $color in $bslib-gradient-colors {
     .bg-#{$name} {
-      background-color: $color;
-      color: color-contrast($color);
+      --bslib-color-bg: #{$color};
+      --bslib-color-fg: #{color-contrast($color)};
+      background-color: var(--bslib-color-bg);
+      color: var(--bslib-color-fg);
     }
 
     .text-#{$name} {
-      color: $color;
+      --bslib-color-fg: #{$color};
+      color: var(--bslib-color-fg);
+    }
+  }
+
+  // Fill in the `--color-*` variables
+  @each $name, $color in $theme-colors {
+    .text-#{$name} {
+      --bslib-color-fg: #{$color};
+    }
+    .bg-#{$name} {
+      --bslib-color-bg: #{$color};
+      --bslib-color-fg: #{color-contrast($color)};
     }
   }
 
@@ -42,12 +56,17 @@ $bslib-enable-color-utilities: $bootstrap-version >= 5 !default;
       @if $name1 != $name2 {
         .bg-gradient-#{$name1}-#{$name2} {
           $color-mid: mix($color1, $color2, 60%);
+          $color-fg: color-contrast($color-mid);
+
+          --bslib-color-fg: #{$color-fg};
+          --bslib-color-bg: #{$color-mid};
+
           background: linear-gradient(
             var(--bg-gradient-deg, 140deg),
             $color1 var(--bg-gradient-start, 36%),
             $color2 var(--bg-gradient-end, 180%)
           ) $color-mid;
-          color: color-contrast($color-mid);
+          color: $color-fg;
         }
       }
     }
