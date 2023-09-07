@@ -105,10 +105,17 @@ server <- function(input, output, session) {
           '<pre><code id="value-box-code">%s</code></pre>',
           code
         )),
-        tags$script(HTML("selectValueBoxCode()")),
         p(
+          id = "copy-clipboard-not-supported",
           class = "text-muted",
-          HTML("Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy the value box example code.")
+          HTML("Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy the value box example code."),
+          tags$script(HTML("checkCopyPermissions()"))
+        ),
+        tags$button(
+          id = "copy-code-to-clipboard",
+          class = "btn btn-outline-primary",
+          onclick = "copyValueBoxCode()",
+          "Copy to clipboard"
         ),
         footer = modalButton("Done"),
         easyClose = TRUE
