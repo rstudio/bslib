@@ -23,10 +23,7 @@ ui <- page_fixed(
   h2("Build a Box", class = "mt-4"),
   tags$head(
     tags$script(src = "clipboard.min.js"),
-    tags$link(rel = "stylesheet", href = "build-a-box.css"),
-    tags$script(HTML(
-      "$(document).on('shiny:value', ev => console.log(ev))"
-    ))
+    tags$link(rel = "stylesheet", href = "build-a-box.css")
   ),
   div(
     id = "preview",
