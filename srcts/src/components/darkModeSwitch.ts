@@ -15,7 +15,8 @@ type ToggleMessage = {
 
 export class DarkModeSwitch extends LitElement {
   static isShinyInput = true;
-  static tagName = "bslib-dark-mode-switch";
+  static tagName = "bslib-input-dark-mode";
+
   private themeAttribute = "data-shinytheme";
 
   @property({ type: String, attribute: "theme-value", reflect: true })

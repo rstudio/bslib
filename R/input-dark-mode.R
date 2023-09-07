@@ -33,7 +33,7 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
   }
 
   res <- web_component(
-    "bslib-dark-mode-switch",
+    "bslib-input-dark-mode",
     id = id,
     "theme-attribute" = "data-bs-theme",
     "theme-value" = mode,
@@ -49,7 +49,7 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
     ...
   )
 
-  res <- tag_require(res, version = 5, caller = "input_dark_mode_switch()")
+  res <- tag_require(res, version = 5, caller = "input_dark_mode()")
   as_fragment(res)
 }
 
