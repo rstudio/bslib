@@ -1484,6 +1484,7 @@
     }
     reflectPreference() {
       document.documentElement.setAttribute(this.attribute, this.mode);
+      window.dispatchEvent(new Event("resize"));
     }
   };
   DarkModeSwitch.isShinyInput = true;

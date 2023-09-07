@@ -302,5 +302,8 @@ export class DarkModeSwitch extends LitElement {
 
   reflectPreference(): void {
     document.documentElement.setAttribute(this.attribute, this.mode);
+
+    // Emit a window resize event to trigger redraw of htmlwidgets and plots
+    window.dispatchEvent(new Event("resize"));
   }
 }
