@@ -6,9 +6,10 @@
 #' feature added in [Bootstrap
 #' 5.3](https://getbootstrap.com/docs/5.3/migration/#color-modes).
 #'
-#' @param id An input id.
 #' @param ... Additional attributes to be passed to the input control UI, such
 #'   as `class`, `style`, etc.
+#' @param id An optional input id, required if you'd like to be able to
+#'   reactively read programmatically toggle the current color mode.
 #' @param mode The initial mode of the dark mode switch. By default or when set
 #'   to `NULL`, the user's system settings for preferred color scheme will be
 #'   used. Otherwise, set to `"light"` or `"dark"` to force a particular initial
@@ -22,7 +23,7 @@
 #' @describeIn input_dark_mode Create a dark mode switch input control
 #' @family input controls
 #' @export
-input_dark_mode <- function(id, ..., mode = NULL) {
+input_dark_mode <- function(..., id = NULL, mode = NULL) {
   if (!is.null(mode)) {
     mode <- rlang::arg_match(mode, c("light", "dark"))
   }

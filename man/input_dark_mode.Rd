@@ -5,15 +5,16 @@
 \alias{toggle_dark_mode}
 \title{Dark mode input control}
 \usage{
-input_dark_mode(id, ..., mode = NULL)
+input_dark_mode(..., id = NULL, mode = NULL)
 
 toggle_dark_mode(id, mode = NULL, session = get_current_session())
 }
 \arguments{
-\item{id}{An input id.}
-
 \item{...}{Additional attributes to be passed to the input control UI, such
 as \code{class}, \code{style}, etc.}
+
+\item{id}{An optional input id, required if you'd like to be able to
+reactively read programmatically toggle the current color mode.}
 
 \item{mode}{The initial mode of the dark mode switch. By default or when set
 to \code{NULL}, the user's system settings for preferred color scheme will be
