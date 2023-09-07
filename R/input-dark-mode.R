@@ -8,6 +8,9 @@
 #'
 #' @param ... Additional attributes to be passed to the input control UI, such
 #'   as `class`, `style`, etc.
+#'
+#'   In `toggle_dark_mode()`, the `...` are included for future extensibility
+#'   and are currently ignored.
 #' @param id An optional input id, required if you'd like to be able to
 #'   reactively read programmatically toggle the current color mode.
 #' @param mode The initial mode of the dark mode switch. By default or when set
@@ -46,7 +49,8 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
       # in their a `style` argument passed in via `...` if they want.
       "--vertical-correction" = " "
     ),
-    ...
+    ...,
+    component_dependency_js("bslibShiny")
   )
 
   res <- tag_require(res, version = 5, caller = "input_dark_mode()")
@@ -56,11 +60,7 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
 #' @describeIn input_dark_mode Programmatically toggle or set the current light
 #'   or dark color mode.
 #' @export
-toggle_dark_mode <- function(id, mode = NULL, session = get_current_session()) {
-  if (!rlang::is_string(id)) {
-    abort("`id` must be a single string containing the `id` of a switch input.")
-  }
-
+toggle_dark_mode <- function(mode = NULL, ..., session = get_current_session()) {
   if (!is.null(mode)) {
     mode <- tryCatch(
       rlang::arg_match(mode, c("light", "dark")),
@@ -71,7 +71,14 @@ toggle_dark_mode <- function(id, mode = NULL, session = get_current_session()) {
     )
   }
 
-  data <- list(method = "toggle", value = mode)
+  data <- dropNulls(list(method = "toggle", value = mode))
 
-  session$sendInputMessage(id, dropNulls(data))
+  # We're using sendCustomMessage() here because dark mode is set globally and
+  # `id` is not required for `toggle_dark_mode()`. `$sendInputMessage()` would
+  # require us to know the `id` of at least one input control.
+  callback <- function() {
+    session$sendCustomMessage("bslib.toggle-dark-mode", data)
+  }
+
+  session$onFlush(callback, once = TRUE)
 }

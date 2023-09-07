@@ -8,7 +8,7 @@ import { property } from "lit/decorators.js";
 // https://web.dev/patterns/theming/theme-switch/
 // https://github.com/argyleink/gui-challenges/tree/main/theme-switch
 
-type ToggleMessage = {
+export type DarkModeMessageToggle = {
   method: "toggle";
   value: DarkModeSwitch["mode"] | undefined;
 };
@@ -282,7 +282,7 @@ export class DarkModeSwitch extends LitElement {
     `;
   }
 
-  receiveMessage(el: DarkModeSwitch, data: ToggleMessage): void {
+  receiveMessage(el: DarkModeSwitch, data: DarkModeMessageToggle): void {
     if (data.method === "toggle") {
       if (typeof data.value === "undefined" || data.value === null) {
         data.value = this.mode === "light" ? "dark" : "light";
