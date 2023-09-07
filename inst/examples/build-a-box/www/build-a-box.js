@@ -25,7 +25,7 @@ function reportValueBoxForegroundColor(id) {
 
   const styles = window.getComputedStyle(vb);
   const fg = styles.getPropertyValue("color");
-  const inputId = id + "_colors";
+  const inputId = id + "_fg_color";
 
   Shiny.setInputValue(inputId, fg, { priority: "event" });
 }

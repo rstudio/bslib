@@ -129,11 +129,9 @@ server_value_box <- function(input, output, session, ...) {
       return()
     }
 
-    if (!is.null(input$value_box_colors)) {
-      fg <- input$value_box_colors
-      if (grepl("^rgb", fg)) {
-        fg <- htmltools::parseCssColors(fg)
-      }
+    if (!is.null(input$value_box_fg_color)) {
+      fg <- input$value_box_fg_color
+      fg <- htmltools::parseCssColors(fg)
       plot_color(fg)
     } else {
       plot_color("#808080")
