@@ -229,8 +229,8 @@ export class DarkModeSwitch extends BslibElement {
   render(): ReturnType<LitElement["render"]> {
     return html`
       <button
-        title="Switch to ${this.themeValue === "light" ? "dark" : "light"} mode"
-        aria-label="auto"
+        title="Toggle theme (${this.themeValue})"
+        aria-label="Toggle theme (${this.themeValue})"
         aria-live="polite"
         data-theme="${this.themeValue}"
         @click="${this.onClick}"
@@ -286,13 +286,5 @@ export class DarkModeSwitch extends BslibElement {
 
   reflectPreference(): void {
     document.documentElement.setAttribute(this.themeAttribute, this.themeValue);
-
-    this.shadowRoot
-      ?.querySelector("button")
-      ?.setAttribute("data-theme", this.themeValue);
-
-    this.shadowRoot
-      ?.querySelector("button")
-      ?.setAttribute("aria-label", this.themeValue);
   }
 }
