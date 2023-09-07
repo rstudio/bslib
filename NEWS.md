@@ -30,6 +30,8 @@
 
 * `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)
 
+* Filter controls in the popovers of `DT::datatable()` tables now better match the current Bootstrap theme and are responsive to the dark mode setting in Bootstrap 5.3. (#267, #775).
+
 # bslib 0.5.1
 
 ## New features
