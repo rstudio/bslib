@@ -16,8 +16,8 @@ as \code{class}, \code{style}, etc.
 In \code{toggle_dark_mode()}, the \code{...} are included for future extensibility
 and are currently ignored.}
 
-\item{id}{An optional input id, required if you'd like to be able to
-reactively read programmatically toggle the current color mode.}
+\item{id}{An optional input id, required to reactively read the current color
+mode.}
 
 \item{mode}{The initial mode of the dark mode switch. By default or when set
 to \code{NULL}, the user's system settings for preferred color scheme will be

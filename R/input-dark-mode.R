@@ -11,8 +11,8 @@
 #'
 #'   In `toggle_dark_mode()`, the `...` are included for future extensibility
 #'   and are currently ignored.
-#' @param id An optional input id, required if you'd like to be able to
-#'   reactively read programmatically toggle the current color mode.
+#' @param id An optional input id, required to reactively read the current color
+#'   mode.
 #' @param mode The initial mode of the dark mode switch. By default or when set
 #'   to `NULL`, the user's system settings for preferred color scheme will be
 #'   used. Otherwise, set to `"light"` or `"dark"` to force a particular initial
