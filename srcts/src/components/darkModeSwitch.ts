@@ -215,10 +215,10 @@ export class DarkModeSwitch extends LitElement {
         this.reflectPreference();
       });
 
-    this.observeDocumentThemeAttribute();
+    this._observeDocumentThemeAttribute();
   }
 
-  observeDocumentThemeAttribute(): void {
+  private _observeDocumentThemeAttribute(): void {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.target !== document.documentElement) return;

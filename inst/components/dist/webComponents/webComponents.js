@@ -1403,9 +1403,9 @@
         this.mode = isDark ? "dark" : "light";
         this.reflectPreference();
       });
-      this.observeDocumentThemeAttribute();
+      this._observeDocumentThemeAttribute();
     }
-    observeDocumentThemeAttribute() {
+    _observeDocumentThemeAttribute() {
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           if (mutation.target !== document.documentElement)
