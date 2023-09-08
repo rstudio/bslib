@@ -48,8 +48,7 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
       # in their a `style` argument passed in via `...` if they want.
       "--vertical-correction" = " "
     ),
-    ...,
-    component_dependency_js("bslibShiny")
+    ...
   )
 
   res <- tag_require(res, version = 5, caller = "input_dark_mode()")
