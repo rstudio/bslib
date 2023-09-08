@@ -5,22 +5,38 @@
   var InputBinding = window.Shiny ? Shiny.InputBinding : class {
   };
 
-  // srcts/src/components/bslibShiny.ts
-  Shiny.addCustomMessageHandler("bslib.toggle-input-binary", function(msg) {
-    const el = document.getElementById(msg.id);
-    if (!el) {
-      console.warn("[bslib.toggle-input-binary] No element found", msg);
-    }
-    const binding = $(el).data("shiny-input-binding");
-    if (!(binding instanceof InputBinding)) {
-      console.warn("[bslib.toggle-input-binary] No input binding found", msg);
+  // srcts/src/components/webcomponents/_shinyAddCustomMessageHandlers.ts
+  function shinyAddCustomMessageHandlers(handlers) {
+    if (!window.Shiny) {
       return;
     }
-    let value = msg.value;
-    if (typeof value === "undefined") {
-      value = !binding.getValue(el);
+    for (const [name, handler] of Object.entries(handlers)) {
+      Shiny.addCustomMessageHandler(name, handler);
     }
-    binding.receiveMessage(el, { value });
-  });
+  }
+
+  // srcts/src/components/bslibShiny.ts
+  var bslibMessageHandlers = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    "bslib.toggle-input-binary": (msg) => {
+      const el = document.getElementById(msg.id);
+      if (!el) {
+        console.warn("[bslib.toggle-input-binary] No element found", msg);
+      }
+      const binding = $(el).data("shiny-input-binding");
+      if (!(binding instanceof InputBinding)) {
+        console.warn("[bslib.toggle-input-binary] No input binding found", msg);
+        return;
+      }
+      let value = msg.value;
+      if (typeof value === "undefined") {
+        value = !binding.getValue(el);
+      }
+      binding.receiveMessage(el, { value });
+    }
+  };
+  if (window.Shiny) {
+    shinyAddCustomMessageHandlers(bslibMessageHandlers);
+  }
 })();
 //# sourceMappingURL=bslibShiny.js.map

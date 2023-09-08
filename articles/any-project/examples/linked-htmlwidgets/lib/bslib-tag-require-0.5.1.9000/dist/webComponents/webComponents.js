@@ -1382,6 +1382,300 @@
     return !!header && header.childNodes.length > 0;
   }
 
+  // srcts/src/components/inputDarkMode.ts
+  var BslibInputDarkMode = class extends s4 {
+    constructor() {
+      super(...arguments);
+      this.attribute = "data-shinytheme";
+      // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+      this.onChangeCallback = (x2) => {
+      };
+    }
+    // onValueChange = makeValueChangeEmitter(this, this.id);
+    connectedCallback() {
+      super.connectedCallback();
+      this.attribute = this.getAttribute("attribute") || this.attribute;
+      if (typeof this.mode === "undefined") {
+        this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      this.reflectPreference();
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches: isDark }) => {
+        this.mode = isDark ? "dark" : "light";
+        this.reflectPreference();
+      });
+      this._observeDocumentThemeAttribute();
+    }
+    disconnectedCallback() {
+      this.observer.disconnect();
+      super.disconnectedCallback();
+    }
+    _observeDocumentThemeAttribute() {
+      this.observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.target !== document.documentElement)
+            return;
+          if (mutation.attributeName !== this.attribute)
+            return;
+          const newValue = document.documentElement.getAttribute(this.attribute);
+          if (!newValue || newValue === this.mode)
+            return;
+          this.mode = newValue;
+        });
+      });
+      const config = {
+        attributes: true,
+        childList: false,
+        subtree: false
+      };
+      this.observer.observe(document.documentElement, config);
+    }
+    getValue() {
+      return this.mode;
+    }
+    render() {
+      const other = this.mode === "light" ? "dark" : "light";
+      const label = `Switch from ${this.mode} to ${other} mode`;
+      return x`
+      <button
+        title="${label}"
+        aria-label="${label}"
+        aria-live="polite"
+        data-theme="${this.mode}"
+        @click="${this.onClick}"
+      >
+        <svg class="sun-and-moon" aria-hidden="true" viewBox="0 0 24 24">
+          <mask class="moon" id="moon-mask">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <circle cx="25" cy="10" r="6" fill="black" />
+          </mask>
+          <circle
+            class="sun"
+            cx="12"
+            cy="12"
+            r="6"
+            mask="url(#moon-mask)"
+            fill="currentColor"
+          />
+          <g class="sun-beams" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </g>
+        </svg>
+      </button>
+    `;
+    }
+    onClick(e6) {
+      e6.stopPropagation();
+      this.mode = this.mode === "light" ? "dark" : "light";
+    }
+    updated(changedProperties) {
+      if (changedProperties.has("mode")) {
+        this.reflectPreference();
+        this.onChangeCallback(true);
+      }
+    }
+    reflectPreference() {
+      document.documentElement.setAttribute(this.attribute, this.mode);
+      window.dispatchEvent(new Event("resize"));
+    }
+  };
+  BslibInputDarkMode.isShinyInput = true;
+  BslibInputDarkMode.tagName = "bslib-input-dark-mode";
+  BslibInputDarkMode.shinyCustomMessageHandlers = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    "bslib.toggle-dark-mode": ({
+      method,
+      value
+    }) => {
+      if (method !== "toggle")
+        return;
+      if (typeof value === "undefined" || value === null) {
+        const current = document.documentElement.dataset.bsTheme || "light";
+        value = current === "light" ? "dark" : "light";
+      }
+      document.documentElement.dataset.bsTheme = value;
+    }
+  };
+  BslibInputDarkMode.styles = [
+    // CSS Variables
+    i2`
+      :host {
+        /* open-props.style via shinycomponent */
+        --text-1: var(--text-1-light, var(--gray-8, #343a40));
+        --text-2: var(--text-2-light, var(--gray-7, #495057));
+        --size-xxs: var(--size-1, 0.25rem);
+        --ease-in-out-1: cubic-bezier(0.1, 0, 0.9, 1);
+        --ease-in-out-2: cubic-bezier(0.3, 0, 0.7, 1);
+        --ease-out-1: cubic-bezier(0, 0, 0.75, 1);
+        --ease-out-3: cubic-bezier(0, 0, 0.3, 1);
+        --ease-out-4: cubic-bezier(0, 0, 0.1, 1);
+
+        /* shinycomponent */
+        --speed-fast: 0.15s;
+        --speed-normal: 0.3s;
+
+        /* Size of the icon, uses em units so it scales to font-size */
+        --size: 1.3em;
+
+        /* Because we are (most likely) bigger than one em we will need to move
+        the button up or down to keep it looking right inline */
+        --vertical-correction: calc((var(--size) - 1em) / 2);
+      }
+    `,
+    i2`
+      .sun-and-moon > :is(.moon, .sun, .sun-beams) {
+        transform-origin: center center;
+      }
+
+      .sun-and-moon > .sun {
+        fill: none;
+        stroke: var(--text-1);
+        stroke-width: var(--stroke-w);
+      }
+
+      button:is(:hover, :focus-visible)
+        > :is(.sun-and-moon > :is(.moon, .sun)) {
+        fill: var(--text-2);
+      }
+
+      .sun-and-moon > .sun-beams {
+        stroke: var(--text-1);
+        stroke-width: var(--stroke-w);
+      }
+
+      button:is(:hover, :focus-visible) :is(.sun-and-moon > .sun-beams) {
+        background-color: var(--text-2);
+      }
+
+      [data-theme="dark"] .sun-and-moon > .sun {
+        fill: var(--text-1);
+        stroke: none;
+        stroke-width: 0;
+        transform: scale(1.6);
+      }
+
+      [data-theme="dark"] .sun-and-moon > .sun-beams {
+        opacity: 0;
+      }
+
+      [data-theme="dark"] .sun-and-moon > .moon > circle {
+        transform: translateX(-10px);
+      }
+
+      @supports (cx: 1) {
+        [data-theme="dark"] .sun-and-moon > .moon > circle {
+          transform: translateX(0);
+          cx: 15;
+        }
+      }
+    `,
+    // Transitions
+    i2`
+      .sun-and-moon > .sun {
+        transition: transform var(--speed-fast) var(--ease-in-out-2)
+            var(--speed-fast),
+          fill var(--speed-fast) var(--ease-in-out-2) var(--speed-fast),
+          stroke-width var(--speed-normal) var(--ease-in-out-2);
+      }
+
+      .sun-and-moon > .sun-beams {
+        transition: transform var(--speed-fast) var(--ease-out-3),
+          opacity var(--speed-fast) var(--ease-out-4);
+        transition-delay: var(--speed-normal);
+      }
+
+      .sun-and-moon .moon > circle {
+        transition: transform var(--speed-fast) var(--ease-in-out-2),
+          fill var(--speed-fast) var(--ease-in-out-2);
+        transition-delay: 0s;
+      }
+
+      @supports (cx: 1) {
+        .sun-and-moon .moon > circle {
+          transition: cx var(--speed-normal) var(--ease-in-out-2);
+        }
+
+        [data-theme="dark"] .sun-and-moon .moon > circle {
+          transition: cx var(--speed-fast) var(--ease-in-out-2);
+          transition-delay: var(--speed-fast);
+        }
+      }
+
+      [data-theme="dark"] .sun-and-moon > .sun {
+        transition-delay: 0s;
+        transition-duration: var(--speed-normal);
+        transition-timing-function: var(--ease-in-out-2);
+      }
+
+      [data-theme="dark"] .sun-and-moon > .sun-beams {
+        transform: scale(0.3);
+        transition: transform var(--speed-normal) var(--ease-in-out-2),
+          opacity var(--speed-fast) var(--ease-out-1);
+        transition-delay: 0s;
+      }
+    `,
+    i2`
+      :host {
+        display: inline-block;
+
+        /* We control the stroke size manually here. We don't want it getting so
+        small its not visible but also not so big it looks cartoonish */
+        --stroke-w: clamp(1px, 0.1em, 6px);
+      }
+
+      button {
+        /* This is needed to let the svg use the em sizes */
+        font-size: inherit;
+
+        /* Make sure the button is fully centered */
+        display: grid;
+        place-content: center;
+
+        /* A little bit of padding to make it easier to press */
+        padding: var(--size-xxs);
+        background: none;
+        border: none;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        outline-offset: var(--size-xxs);
+
+        /* Move down to adjust for being larger than 1em */
+        transform: translateY(var(--vertical-correction));
+        margin-block-end: var(--vertical-correction);
+      }
+
+      /*
+      button:is(:hover, :focus-visible) {
+        background: var(--surface-4);
+      }
+      */
+
+      button > svg {
+        height: var(--size);
+        width: var(--size);
+        stroke-linecap: round;
+        overflow: visible;
+      }
+
+      svg line,
+      svg circle {
+        vector-effect: non-scaling-stroke;
+      }
+    `
+  ];
+  __decorateClass([
+    n({ type: String, reflect: true })
+  ], BslibInputDarkMode.prototype, "mode", 2);
+
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {
     if (!window.Shiny) {
@@ -1419,11 +1713,26 @@
     Shiny.inputBindings.register(new NewCustomBinding(), `${tagName}-Binding`);
   }
 
+  // srcts/src/components/webcomponents/_shinyAddCustomMessageHandlers.ts
+  function shinyAddCustomMessageHandlers(handlers) {
+    if (!window.Shiny) {
+      return;
+    }
+    for (const [name, handler] of Object.entries(handlers)) {
+      Shiny.addCustomMessageHandler(name, handler);
+    }
+  }
+
   // srcts/src/components/webComponents.ts
-  [BslibTooltip, BslibPopover].forEach((cls) => {
+  [BslibTooltip, BslibPopover, BslibInputDarkMode].forEach((cls) => {
     customElements.define(cls.tagName, cls);
-    if (cls.isShinyInput)
-      makeInputBinding(cls.tagName);
+    if (window.Shiny) {
+      if (cls.isShinyInput)
+        makeInputBinding(cls.tagName);
+      if ("shinyCustomMessageHandlers" in cls) {
+        shinyAddCustomMessageHandlers(cls["shinyCustomMessageHandlers"]);
+      }
+    }
   });
 })();
 /*! Bundled license information:
