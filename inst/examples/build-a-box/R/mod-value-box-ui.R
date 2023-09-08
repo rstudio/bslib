@@ -47,13 +47,13 @@ ui_value_box_options <- function(id) {
       actionButton(ns("random_stat"), "Random stat")
     ),
     "theme_opts" = list(
-      input_switch(ns("use_theme"), "Use theme", TRUE),
+      input_switch(ns("use_custom_colors"), "Use custom colors", FALSE),
       conditional_panel(
-        "input.use_theme",
+        "!input.use_custom_colors",
         ui_selextra(ns("theme"), "Theme")
       ),
       conditional_panel(
-        "!input.use_theme",
+        "input.use_custom_colors",
         colourpicker::colourInput(ns("foreground"), "Foreground", value = "#000000"),
         colourpicker::colourInput(ns("background"), "Background", value = "#FFFFFF")
       ),
@@ -74,7 +74,7 @@ ui_value_box_options <- function(id) {
       )
     ),
     showcase = list(
-      input_switch(ns("showcase"), "Showcase", value = TRUE),
+      input_switch(ns("showcase"), "Include showcase", value = TRUE),
       conditional_panel(
         "input.showcase",
         radioButtons(
@@ -127,7 +127,7 @@ server_value_box <- function(input, output, session, ...) {
       return()
     }
 
-    if (!input$use_theme) {
+    if (input$use_custom_colors) {
       plot_color(input$foreground)
       return()
     }
@@ -156,14 +156,14 @@ server_value_box <- function(input, output, session, ...) {
     req(input$title, input$value)
 
     theme <-
-      if (input$use_theme) {
-        if (nzchar(theme$value())) theme$value()
-      } else {
+      if (input$use_custom_colors) {
         rlang::call2(
           "value_box_theme",
           bg = input$background,
           fg = input$foreground
         )
+      } else {
+        if (nzchar(theme$value())) theme$value()
       }
 
     extra <-
