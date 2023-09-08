@@ -1,10 +1,9 @@
 /* FIXME: Remove after rstudio/htmltools#401 */
 .html-fill-container > .html-fill-item {
-  overflow: visible;
+  overflow: visible !important;
 }
 
 .bslib-card .card-body {
-  /* Needs important in case theme is updated in-app */
   overflow: visible !important;
 }
 
@@ -34,7 +33,7 @@
 }
 
 .shuffle-button {
-  display: grid !important;
+  display: grid;
   grid-template-columns: minmax(0, 2em) auto;
   align-items: center;
   justify-content: center;
@@ -52,7 +51,7 @@ body {
   margin-bottom: 0;
 }
 
-@media (max-width: 575.98px) {
+@include media-breakpoint-down(sm) {
   .value-box-previews {
     margin-left: 0.5rem;
     margin-right: 0.5rem;

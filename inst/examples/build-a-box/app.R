@@ -25,14 +25,17 @@ layout_value_box_options <- function(ui_opts) {
   )
 }
 
+# Theme ---------------------------------------
+theme_build_a_box <- bs_add_rules(
+  bs_theme(preset = "shiny"),
+  sass::sass_file("www/build-a-box.scss")
+)
+
 # UI ---------------------------------------
 ui <- page_fixed(
   title = "Build a Box | bslib",
-  theme = bs_theme(preset = "shiny"),
+  theme = theme_build_a_box,
   h2("Build a Box", class = "mt-4"),
-  tags$head(
-    tags$link(rel = "stylesheet", href = "build-a-box.css")
-  ),
   # Value Box Previews ----
   div(
     id = "preview",
