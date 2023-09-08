@@ -35,61 +35,93 @@ theme_build_a_box <- bs_add_rules(
 ui <- page_fixed(
   title = "Build a Box | bslib",
   theme = theme_build_a_box,
-  h2("Build a Box", class = "mt-4"),
-  # Value Box Previews ----
-  div(
-    id = "preview",
-    class = "my-5",
-    layout_columns(
-      class = "value-box-previews",
-      ui_value_box_output("one"),
-      ui_value_box_output("two"),
-      ui_value_box_output("three")
+
+  # Header ----
+  tags$header(
+    h2("Build a Box", class = "mt-4"),
+  ),
+
+  # Main ----
+  tags$main(
+    # Value Box Previews ----
+    div(
+      id = "preview",
+      class = "my-5",
+      layout_columns(
+        class = "value-box-previews",
+        ui_value_box_output("one"),
+        ui_value_box_output("two"),
+        ui_value_box_output("three")
+      )
+    ),
+
+    # Settings Panel ----
+    navset_card_pill(
+      id = "settings",
+      title = "Value box settings",
+      nav_panel(
+        "All",
+        value = "all",
+        ui_global_controls("all")
+      ),
+      nav_panel(
+        "One",
+        value = "one-value_box",
+        layout_value_box_options(
+          ui_value_box_options("one")
+        )
+      ),
+      nav_panel(
+        "Two",
+        value = "two-value_box",
+        layout_value_box_options(
+          ui_value_box_options("two")
+        )
+      ),
+      nav_panel(
+        "Three",
+        value = "three-value_box",
+        layout_value_box_options(
+          ui_value_box_options("three")
+        )
+      ),
+      nav_item(
+        actionLink(
+          "show_code",
+          tooltip(icon("code"), "Show code"),
+          class = "nav-link"
+        ),
+      ),
+      nav_item(
+        input_dark_mode(
+          style = htmltools::css(
+            "--vertical-correction" = "5px",
+            "--text-1" = "var(--bs-nav-link-color)"
+          )
+        )
+      )
     )
   ),
-  # Settings Panel ----
-  navset_card_pill(
-    id = "settings",
-    title = "Value box settings",
-    nav_panel(
-      "All",
-      value = "all",
-      ui_global_controls("all")
-    ),
-    nav_panel(
-      "One",
-      value = "one-value_box",
-      layout_value_box_options(
-        ui_value_box_options("one")
-      )
-    ),
-    nav_panel(
-      "Two",
-      value = "two-value_box",
-      layout_value_box_options(
-        ui_value_box_options("two")
-      )
-    ),
-    nav_panel(
-      "Three",
-      value = "three-value_box",
-      layout_value_box_options(
-        ui_value_box_options("three")
-      )
-    ),
-    nav_item(
-      actionLink(
-        "show_code",
-        tooltip(icon("code"), "Show code"),
-        class = "nav-link"
-      ),
-    ),
-    nav_item(
-      input_dark_mode(
-        style = htmltools::css(
-          "--vertical-correction" = "5px",
-          "--text-1" = "var(--bs-nav-link-color)"
+
+  # Footer ----
+  tags$footer(
+    class = "footer mt-auto py-3",
+    layout_columns(
+      class = "border-top pt-3 text-muted",
+      div(
+        class = "text-center text-sm-start",
+        "Made with",
+        a(href = "https://rstudio.github.io/bslib", "{bslib}"),
+        "and",
+        a(
+          href = "https://shiny.rstudio.com",
+          img(src = "shiny.png", width = "22px", alt = " "),
+          "Shiny"
         )
+      ),
+      div(
+        class = "text-center text-sm-end",
+        HTML('Proudly supported by <a href="https://posit.co/"><img src="https://www.rstudio.com/assets/img/posit-logo-fullcolor-TM.svg" class="img-fluid" alt="Posit" width="65"></a>')
       )
     )
   ),

@@ -43,8 +43,14 @@
   padding: 0;
 }
 
-body {
-  padding-bottom: 4rem;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  header, main {
+    flex-shrink: 0;
+  }
 }
 
 .bslib-gap-spacing > .shiny-html-output > .bslib-mb-spacing {
