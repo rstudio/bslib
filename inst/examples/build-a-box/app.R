@@ -7,7 +7,7 @@ pkgs_yes <- vapply(pkgs_extra, rlang::is_installed, logical(1))
 if (any(!pkgs_yes)) {
   rlang::abort(paste0(
     "The `build-a-box` app requires additional packages: ",
-    paste(pkgs_extra[!pkgs_yes], collapse = ", "),
+    paste(pkgs_extra[!pkgs_yes], collapse = ", ")
   ))
 }
 
@@ -82,16 +82,42 @@ ui <- page_fixed(
         tooltip(icon("code"), "Show code"),
         class = "nav-link"
       ),
+    ),
+    nav_item(
+      input_dark_mode(
+        style = css(
+          "--vertical-correction" = "5px",
+          "--text-1" = "var(--bs-nav-link-color)"
+        )
+      )
     )
   ),
   # Extras ----
-  tags$script(src = "build-a-box.js"),
-  if (ENABLE_THEMER) tags$script("window.watchForThemer()")
+  tags$script(src = "build-a-box.js")
 )
 
 # Server ---------------------------------------
 server <- function(input, output, session) {
-  if (ENABLE_THEMER) bs_themer()
+  enable_themer <- reactive({
+    query <- shiny::getQueryString()
+    query_has_themer <- "themer" %in% names(query)
+
+    if (!length(query) || !query_has_themer) return(ENABLE_THEMER)
+
+    query$themer %in% c(1, "true", "") || ENABLE_THEMER
+  })
+
+  observeEvent(enable_themer(), {
+    # TODO: This only runs on app startup right now
+    req(enable_themer())
+
+    insertUI(
+      selector = "body",
+      where = "beforeEnd",
+      ui = tags$script("window.watchForThemer()")
+    )
+    bs_themer()
+  })
 
   one <- module_value_box("one")
   two <- module_value_box("two")

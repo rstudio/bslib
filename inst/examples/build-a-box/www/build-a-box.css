@@ -9,11 +9,11 @@
 }
 
 .shiny-input-container:not(.shiny-input-container-inline) {
-  width: 100%;
+  width: 100% !important;
 }
 
 .selectize-control {
-  margin-bottom: 0 ;
+  margin-bottom: 0 !important;
 }
 
 .input-text-code textarea {
@@ -34,7 +34,7 @@
 }
 
 .shuffle-button {
-  display: grid;
+  display: grid !important;
   grid-template-columns: minmax(0, 2em) auto;
   align-items: center;
   justify-content: center;

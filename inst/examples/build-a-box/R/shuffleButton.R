@@ -1,9 +1,20 @@
-shuffleButton <- function(id, label, class = "btn-outline-secondary") {
+iconButton <- function(
+  id,
+  label,
+  class = NULL,
+  icon = "shuffle",
+  icon_title = "Random",
+  ...
+) {
   tags$button(
     id = id,
-    class = "btn action-button shuffle-button",
+    class = "btn btn-default action-button",
     class = class,
     bsicons::bs_icon("shuffle", title = "Random"),
     label
   )
+}
+
+shuffleButton <- function(id, label, class = NULL) {
+  iconButton(id, label, class = c("shuffle-button", class))
 }

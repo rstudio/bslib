@@ -1,5 +1,5 @@
 rsconnect::deployApp(
-  rprojroot::find_package_root_file("inst/examples/build-a-box"),
+  app_root,
   appName = "build-a-box",
   account = "bslib",
   forceUpdate = TRUE
