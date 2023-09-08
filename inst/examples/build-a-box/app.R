@@ -136,8 +136,8 @@ server <- function(input, output, session) {
     layout_value_boxes <-
       paste0(
         "layout_columns(\n  ",
-        rlang::expr_text(two$code()), ",\n  ",
         rlang::expr_text(one$code()), ",\n  ",
+        rlang::expr_text(two$code()), ",\n  ",
         rlang::expr_text(three$code()), "\n",
         ")"
       )
