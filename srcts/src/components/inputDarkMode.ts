@@ -38,7 +38,6 @@ export class BslibInputDarkMode extends LitElement {
   };
 
   private attribute = "data-shinytheme";
-
   @property({ type: String, reflect: true }) mode!: "dark" | "light";
 
   static styles: CSSResultGroup = [
@@ -217,7 +216,7 @@ export class BslibInputDarkMode extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.attribute = this.getAttribute("attribute") || "data-shinytheme";
+    this.attribute = this.getAttribute("attribute") || this.attribute;
 
     if (typeof this.mode === "undefined") {
       this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches
