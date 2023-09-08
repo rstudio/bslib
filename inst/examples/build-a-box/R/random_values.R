@@ -49,7 +49,26 @@ random_values <- tibble::tribble(
   "Market share growth", "+2.3%",
   "Production capacity utilization", "87%",
   "Website traffic source diversity", "5 channels",
-  "Brand equity", "$1.2 billion"
+  "Brand equity", "$1.2 billion",
+  "Code Coverage", "85%",
+  "Lines of Code", "46,157",
+  "Commits", "339",
+  "Review Turnaround", "2 days",
+  "Community Contributors", "34",
+  "Project Forks", "36",
+  "Open Issues", "87",
+  "Open Pull Requests", "12",
+  "Closed Issues", "19",
+  "AWS Cloud Spending", "$3,463",
+  "Diversity Index", "0.75",
+  "API Response Time", "150 ms",
+  "Daily Active Users", "8,507",
+  "Project Stars", "5,100",
+  "Package Downloads", "409,446",
+  "Average Response Time", "50 ms",
+  "Uptime", "99.97%",
+  "Developer Satisfaction", "4.8/5",
+  "Project Funding", "$2,805"
 )
 
 random_title_value <- function() {

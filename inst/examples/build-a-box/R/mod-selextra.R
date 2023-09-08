@@ -94,7 +94,17 @@ server_selextra <- function(input, output, session, choices) {
     "value" = reactive(input$selected %||% ""),
     "shuffle" = function() trigger_shuffle(as.integer(Sys.time())),
     "next" = function() trigger_next(as.integer(Sys.time())),
-    "prev" = function() trigger_prev(as.integer(Sys.time()))
+    "prev" = function() trigger_prev(as.integer(Sys.time())),
+    "choices" = choices,
+    "set" = function(value) {
+      updateSelectizeInput(
+        session,
+        "selected",
+        selected = value,
+        choices = choices,
+        server = TRUE
+      )
+    }
   )
 }
 

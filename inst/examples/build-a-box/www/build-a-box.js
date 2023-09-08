@@ -12,7 +12,10 @@ Shiny.addCustomMessageHandler("active-value-box", function (id) {
     .forEach((el) => el.classList.remove("active-preview"));
 
   const vb = document.getElementById(id);
-  if (!vb) return;
+  if (!vb) {
+    Shiny.setInputValue("clicked_value_box", "");
+    return;
+  }
   vb.parentElement.classList.add("active-preview");
 });
 
@@ -125,3 +128,11 @@ window.copyValueBoxCode = function () {
       selectValueBoxCode();
     });
 };
+
+Shiny.addCustomMessageHandler("take-action", function (msg) {
+  if (msg.action === "randomize-theme") {
+    ["one", "two", "three"].forEach(function (id) {
+      document.getElementById(`${id}-theme-shuffle`).click();
+    });
+  }
+});

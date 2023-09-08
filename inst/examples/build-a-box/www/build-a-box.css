@@ -12,6 +12,10 @@
   width: 100%;
 }
 
+.selectize-control {
+  margin-bottom: 0 ;
+}
+
 .input-text-code textarea {
   font-family: var(--bs-font-monospace);
 }
@@ -27,6 +31,17 @@
 
 #preview .bslib-grid > div {
   position: relative;
+}
+
+.shuffle-button {
+  display: grid;
+  grid-template-columns: minmax(0, 2em) auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-group > .shuffle-button {
+  padding: 0;
 }
 
 body {

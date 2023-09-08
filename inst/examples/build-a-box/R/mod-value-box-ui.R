@@ -232,7 +232,22 @@ server_value_box <- function(input, output, session, ...) {
     updateSelectInput(session, "showcase_icon", selected = paste0("bsicons::", new))
   })
 
-  return(value_box_call)
+  list(
+    code = value_box_call,
+    theme = theme,
+    showcase_icon = showcase_icon,
+    random_stat = function() {
+      random <- random_title_value()
+      updateTextInput(session, "title", value = random$title)
+      updateTextInput(session, "value", value = random$value)
+    },
+    set_showcase_layout = function(layout) {
+      updateRadioButtons(session, "showcase_layout", selected = layout)
+    },
+    set_showcase_item = function(item) {
+      updateRadioButtons(session, "showcase_item", selected = item)
+    }
+  )
 }
 
 module_value_box <- function(id) {
