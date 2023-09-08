@@ -84,7 +84,7 @@ ui <- page_fixed(
     ),
     nav_item(
       input_dark_mode(
-        style = css(
+        style = htmltools::css(
           "--vertical-correction" = "5px",
           "--text-1" = "var(--bs-nav-link-color)"
         )
