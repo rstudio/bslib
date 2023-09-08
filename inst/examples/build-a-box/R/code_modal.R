@@ -26,7 +26,7 @@ code_modal <- function(code) {
         onclick = "copyValueBoxCode()",
         "Copy to clipboard"
       ),
-      tags$script(HTML("checkCopyPermissions()")),
+      singleton(tags$script(src = "code-modal.js")),
       footer = modalButton("Done"),
       easyClose = TRUE
     )
