@@ -32,7 +32,6 @@ ui <- page_fixed(
   theme = bs_theme(preset = "shiny"),
   h2("Build a Box", class = "mt-4"),
   tags$head(
-    tags$script(src = "clipboard.min.js"),
     tags$link(rel = "stylesheet", href = "build-a-box.css")
   ),
   # Value Box Previews ----
