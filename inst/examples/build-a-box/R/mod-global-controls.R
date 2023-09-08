@@ -34,11 +34,11 @@ ui_global_controls <- function(id) {
     layout_columns(
       class = "align-items-start",
       div(
-        selectInput(
+        radioButtons(
           ns("showcase_item"),
           "Showcase Item",
-          c("", "plot", "icon"),
-          "plot"
+          choices = c("Plot", "Icon"),
+          inline = TRUE
         ),
         conditionalPanel(
           "input.showcase_item == 'icon'",
@@ -46,11 +46,11 @@ ui_global_controls <- function(id) {
           shuffleButton(ns("random_icon"), "Icons")
         )
       ),
-      selectInput(
+      radioButtons(
         ns("showcase_layout"),
         "Showcase Layout",
-        c("", "left center", "top right", "bottom"),
-        "left center"
+        choices = c("Left center", "Top right", "Bottom"),
+        inline = TRUE
       )
     )
   )
@@ -99,15 +99,17 @@ server_global_controls <- function(input, output, sessions, one, two, three) {
   })
 
   observeEvent(input$showcase_item, {
-    one$set_showcase_item(input$showcase_item)
-    two$set_showcase_item(input$showcase_item)
-    three$set_showcase_item(input$showcase_item)
+    item <- tolower(input$showcase_item)
+    one$set_showcase_item(item)
+    two$set_showcase_item(item)
+    three$set_showcase_item(item)
   }, ignoreInit = TRUE)
 
   observeEvent(input$showcase_layout, {
-    one$set_showcase_layout(input$showcase_layout)
-    two$set_showcase_layout(input$showcase_layout)
-    three$set_showcase_layout(input$showcase_layout)
+    layout <- tolower(input$showcase_layout)
+    one$set_showcase_layout(layout)
+    two$set_showcase_layout(layout)
+    three$set_showcase_layout(layout)
   }, ignoreInit = TRUE)
 }
 
