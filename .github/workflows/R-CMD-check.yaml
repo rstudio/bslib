@@ -64,7 +64,7 @@ jobs:
             secret = '${{ secrets.SHINYAPPS_SECRET }}'
           )
           rsconnect::setAccountInfo(
-            name   = '${{ secrets.SHINYAPPS_BSLIB_NAME }}',
+            name   = 'bslib',
             token  = '${{ secrets.SHINYAPPS_BSLIB_TOKEN }}',
             secret = '${{ secrets.SHINYAPPS_BSLIB_SECRET }}'
           )
