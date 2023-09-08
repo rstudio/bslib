@@ -19,7 +19,6 @@ ENABLE_THEMER <- identical(Sys.getenv("ENABLE_THEMER"), "true")
 # Functions ---------------------------------------
 layout_value_box_options <- function(ui_opts) {
   layout_columns(
-    gap = "1rem",
     div(h4("Content", class = "border-bottom"), ui_opts$title_value),
     div(h4("Theme", class = "border-bottom"), ui_opts$theme_opts),
     div(h4("Showcase", class = "border-bottom"), ui_opts$showcase)
