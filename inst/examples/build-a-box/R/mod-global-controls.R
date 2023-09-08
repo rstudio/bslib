@@ -57,7 +57,7 @@ ui_global_controls <- function(id) {
 }
 
 server_global_controls <- function(input, output, sessions, one, two, three) {
-  observeEvent(input$random_theme, {
+  observeEvent(c(input$random_theme, input$theme_style), {
     new_values <- switch(
       input$theme_style,
       all = {
@@ -78,7 +78,7 @@ server_global_controls <- function(input, output, sessions, one, two, three) {
     one$theme$set(new_values[[1]])
     two$theme$set(new_values[[2]])
     three$theme$set(new_values[[3]])
-  })
+  }, ignoreInit = TRUE)
 
   observeEvent(input$random_stat, {
     one$random_stat()
