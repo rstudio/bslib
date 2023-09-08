@@ -1,9 +1,9 @@
 import { LitElement, css, html } from "lit";
-import type { CSSResult, CSSResultArray } from "lit";
+import type { CSSResult, CSSResultArray, CSSResultGroup } from "lit";
 
 export class BslibElement extends LitElement {
   static isShinyInput = false;
-  static styles: CSSResult | CSSResultArray = css`
+  static styles: CSSResult | CSSResultArray | CSSResultGroup = css`
     :host {
       display: contents;
     }

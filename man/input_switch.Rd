@@ -62,4 +62,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other input controls: 
+\code{\link{input_dark_mode}()}
+}
 \concept{input controls}

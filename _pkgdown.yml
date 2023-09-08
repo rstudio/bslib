@@ -131,6 +131,7 @@ reference:
     UI controls for capturing user input
   contents:
     - input_switch
+    - input_dark_mode
 - title: Accordions
   description: |
     Create collapsible sections of content
