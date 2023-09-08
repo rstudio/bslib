@@ -1382,8 +1382,8 @@
     return !!header && header.childNodes.length > 0;
   }
 
-  // srcts/src/components/darkModeSwitch.ts
-  var DarkModeSwitch = class extends s4 {
+  // srcts/src/components/inputDarkMode.ts
+  var BslibInputDarkMode = class extends s4 {
     constructor() {
       super(...arguments);
       this.attribute = "data-shinytheme";
@@ -1394,7 +1394,7 @@
     // onValueChange = makeValueChangeEmitter(this, this.id);
     connectedCallback() {
       super.connectedCallback();
-      this.attribute = this.getAttribute("attribute") || "data-shinytheme";
+      this.attribute = this.getAttribute("attribute") || this.attribute;
       if (typeof this.mode === "undefined") {
         this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       }
@@ -1405,8 +1405,12 @@
       });
       this._observeDocumentThemeAttribute();
     }
+    disconnectedCallback() {
+      this.observer.disconnect();
+      super.disconnectedCallback();
+    }
     _observeDocumentThemeAttribute() {
-      const observer = new MutationObserver((mutations) => {
+      this.observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           if (mutation.target !== document.documentElement)
             return;
@@ -1423,7 +1427,7 @@
         childList: false,
         subtree: false
       };
-      observer.observe(document.documentElement, config);
+      this.observer.observe(document.documentElement, config);
     }
     getValue() {
       return this.mode;
@@ -1481,9 +1485,9 @@
       window.dispatchEvent(new Event("resize"));
     }
   };
-  DarkModeSwitch.isShinyInput = true;
-  DarkModeSwitch.tagName = "bslib-input-dark-mode";
-  DarkModeSwitch.shinyCustomMessageHandlers = {
+  BslibInputDarkMode.isShinyInput = true;
+  BslibInputDarkMode.tagName = "bslib-input-dark-mode";
+  BslibInputDarkMode.shinyCustomMessageHandlers = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     "bslib.toggle-dark-mode": ({
       method,
@@ -1498,7 +1502,7 @@
       document.documentElement.dataset.bsTheme = value;
     }
   };
-  DarkModeSwitch.styles = [
+  BslibInputDarkMode.styles = [
     // CSS Variables
     i2`
       :host {
@@ -1508,6 +1512,9 @@
         --size-xxs: var(--size-1, 0.25rem);
         --ease-in-out-1: cubic-bezier(0.1, 0, 0.9, 1);
         --ease-in-out-2: cubic-bezier(0.3, 0, 0.7, 1);
+        --ease-out-1: cubic-bezier(0, 0, 0.75, 1);
+        --ease-out-3: cubic-bezier(0, 0, 0.3, 1);
+        --ease-out-4: cubic-bezier(0, 0, 0.1, 1);
 
         /* shinycomponent */
         --speed-fast: 0.15s;
@@ -1667,7 +1674,7 @@
   ];
   __decorateClass([
     n({ type: String, reflect: true })
-  ], DarkModeSwitch.prototype, "mode", 2);
+  ], BslibInputDarkMode.prototype, "mode", 2);
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
   function makeInputBinding(tagName, { type = null } = {}) {
@@ -1717,7 +1724,7 @@
   }
 
   // srcts/src/components/webComponents.ts
-  [BslibTooltip, BslibPopover, DarkModeSwitch].forEach((cls) => {
+  [BslibTooltip, BslibPopover, BslibInputDarkMode].forEach((cls) => {
     customElements.define(cls.tagName, cls);
     if (window.Shiny) {
       if (cls.isShinyInput)
