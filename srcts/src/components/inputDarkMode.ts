@@ -50,6 +50,9 @@ export class BslibInputDarkMode extends LitElement {
         --size-xxs: var(--size-1, 0.25rem);
         --ease-in-out-1: cubic-bezier(0.1, 0, 0.9, 1);
         --ease-in-out-2: cubic-bezier(0.3, 0, 0.7, 1);
+        --ease-out-1: cubic-bezier(0, 0, 0.75, 1);
+        --ease-out-3: cubic-bezier(0, 0, 0.3, 1);
+        --ease-out-4: cubic-bezier(0, 0, 0.1, 1);
 
         /* shinycomponent */
         --speed-fast: 0.15s;
