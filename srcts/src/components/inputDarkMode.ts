@@ -23,8 +23,8 @@ export class BslibInputDarkMode extends LitElement {
       value,
     }: DarkModeMessageToggle): void => {
       // Similar to DarkModeSwitch.receiveMessage(), but we directly update the
-      // Bootstrap attribute on the <html> element. Currently, all toggle switches
-      // follow this value.
+      // Bootstrap attribute on the <html> element. Currently, all toggle
+      // switches follow this value.
 
       if (method !== "toggle") return;
 
@@ -37,6 +37,7 @@ export class BslibInputDarkMode extends LitElement {
     },
   };
 
+  private observer!: MutationObserver;
   private attribute = "data-shinytheme";
   @property({ type: String, reflect: true }) mode!: "dark" | "light";
 
@@ -240,13 +241,20 @@ export class BslibInputDarkMode extends LitElement {
     this._observeDocumentThemeAttribute();
   }
 
+  disconnectedCallback(): void {
+    this.observer.disconnect();
+    super.disconnectedCallback();
+  }
+
   private _observeDocumentThemeAttribute(): void {
-    const observer = new MutationObserver((mutations) => {
+    this.observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.target !== document.documentElement) return;
         if (mutation.attributeName !== this.attribute) return;
+
         const newValue = document.documentElement.getAttribute(this.attribute);
         if (!newValue || newValue === this.mode) return;
+
         this.mode = newValue as BslibInputDarkMode["mode"];
       });
     });
@@ -257,7 +265,7 @@ export class BslibInputDarkMode extends LitElement {
       subtree: false,
     };
 
-    observer.observe(document.documentElement, config);
+    this.observer.observe(document.documentElement, config);
   }
 
   getValue(): string {
