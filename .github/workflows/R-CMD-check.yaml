@@ -59,13 +59,18 @@ jobs:
         run: |
           install.packages("cpp11")
 
-      - name: Register account
+      - name: Register account(s)
         shell: Rscript {0}
         run: |
           rsconnect::setAccountInfo(
             name   = '${{ secrets.SHINYAPPS_NAME }}',
             token  = '${{ secrets.SHINYAPPS_TOKEN }}',
             secret = '${{ secrets.SHINYAPPS_SECRET }}'
+          )
+          rsconnect::setAccountInfo(
+            name   = '${{ secrets.SHINYAPPS_BSLIB_NAME }}',
+            token  = '${{ secrets.SHINYAPPS_BSLIB_TOKEN }}',
+            secret = '${{ secrets.SHINYAPPS_BSLIB_SECRET }}'
           )
 
       - name: Deploy
