@@ -43,7 +43,11 @@ ui <- page_fixed(
       # width = "100%",
       "Build a Box",
       popover(
-        bsicons::bs_icon("info-square-fill", class = "float-end icon-gradient"),
+        bsicons::bs_icon(
+          "info-square-fill",
+          title = "About Value Boxes",
+          class = "float-end icon-gradient"
+        ),
         title = "About Value Boxes",
         includeMarkdown("about-value-boxes.md"),
       )
