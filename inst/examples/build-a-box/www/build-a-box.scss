@@ -37,7 +37,9 @@
   grid-template-columns: minmax(0, 2em) auto;
   align-items: center;
   -webkit-align-items: center;
+  -webkit-align-items: center;
   justify-content: center;
+  -webkit-justify-content: center;
   -webkit-justify-content: center;
 }
 
@@ -48,12 +50,15 @@
 .container {
   display: flex;
   display: -webkit-flex;
+  display: -webkit-flex;
   flex-direction: column;
+  -webkit-flex-direction: column;
   -webkit-flex-direction: column;
   height: 100vh;
 
   header, main {
     flex-shrink: 0;
+    -webkit-flex-shrink: 0;
     -webkit-flex-shrink: 0;
   }
 }
