@@ -1,10 +1,10 @@
 import { BslibTooltip } from "./tooltip";
 import { BslibPopover } from "./popover";
-import { DarkModeSwitch } from "./darkModeSwitch";
+import { BslibInputDarkMode } from "./inputDarkMode";
 import { makeInputBinding } from "./webcomponents/_makeInputBinding";
 import { shinyAddCustomMessageHandlers } from "./webcomponents/_shinyAddCustomMessageHandlers";
 
-[BslibTooltip, BslibPopover, DarkModeSwitch].forEach((cls) => {
+[BslibTooltip, BslibPopover, BslibInputDarkMode].forEach((cls) => {
   customElements.define(cls.tagName, cls);
   if (window.Shiny) {
     if (cls.isShinyInput) makeInputBinding(cls.tagName);

@@ -10,10 +10,10 @@ import { property } from "lit/decorators.js";
 
 export type DarkModeMessageToggle = {
   method: "toggle";
-  value: DarkModeSwitch["mode"] | undefined;
+  value: BslibInputDarkMode["mode"] | undefined;
 };
 
-export class DarkModeSwitch extends LitElement {
+export class BslibInputDarkMode extends LitElement {
   static isShinyInput = true;
   static tagName = "bslib-input-dark-mode";
   static shinyCustomMessageHandlers = {
@@ -245,7 +245,7 @@ export class DarkModeSwitch extends LitElement {
         if (mutation.attributeName !== this.attribute) return;
         const newValue = document.documentElement.getAttribute(this.attribute);
         if (!newValue || newValue === this.mode) return;
-        this.mode = newValue as DarkModeSwitch["mode"];
+        this.mode = newValue as BslibInputDarkMode["mode"];
       });
     });
 
