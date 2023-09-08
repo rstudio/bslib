@@ -123,6 +123,7 @@ Collate:
     'files.R'
     'fill.R'
     'imports.R'
+    'input-dark-mode.R'
     'input-switch.R'
     'layout.R'
     'nav-items.R'

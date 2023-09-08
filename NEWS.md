@@ -20,6 +20,8 @@
 
 * The `showcase_layout` argument of `value_box()` now accepts one of three character values: `"left center"`, `"top right"`, `"bottom"`. (#758)
 
+* Added `input_dark_mode()`, a new input control that provides a toggle button that can be used to switch between the dark and light modes when using Bootstrap 5.3. By default, dark mode is applied automatically if the user's operating system is also in dark mode. App authors can toggle dark mode programmatically from the server using `toggle_dark_mode()`, and if you provide `input_dark_mode()` with an `id`, you can read the current color mode via the corresponding input value. (#787)
+
 ## Improvements
 
 * The `bs_themer()` app now supports previewing the dark mode variant of Bootstrap 5 themes. (#767)
@@ -29,6 +31,8 @@
 ## Bug fixes
 
 * `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)
+
+* Filter controls in the popovers of `DT::datatable()` tables now better match the current Bootstrap theme and are responsive to the dark mode setting in Bootstrap 5.3. (#267, #775).
 
 # bslib 0.5.1
 
