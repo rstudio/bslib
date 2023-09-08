@@ -38,7 +38,16 @@ ui <- page_fixed(
 
   # Header ----
   tags$header(
-    h2("Build a Box", class = "mt-4"),
+    h2(
+      class = "mt-4",
+      # width = "100%",
+      "Build a Box",
+      popover(
+        bsicons::bs_icon("info-square-fill", class = "float-end icon-gradient"),
+        title = "About Value Boxes",
+        includeMarkdown("about-value-boxes.md"),
+      )
+    ),
   ),
 
   # Main ----

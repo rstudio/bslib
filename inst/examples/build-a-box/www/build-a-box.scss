@@ -57,6 +57,12 @@
   margin-bottom: 0;
 }
 
+.icon-gradient {
+  opacity: 0.8;
+  &:hover, &:focus { opacity: 1 }
+  fill: url('#bslib---icon-gradient') $blue !important;
+}
+
 @include media-breakpoint-down(sm) {
   .value-box-previews {
     margin-left: 0.5rem;
