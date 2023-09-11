@@ -156,6 +156,8 @@ page_sidebar_dependency_sass <- function(theme) {
 #' @seealso [shiny::navbarPage()]
 #' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
+#' @param underline Whether or not to add underline styling to page links when
+#'   active or focused.
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
