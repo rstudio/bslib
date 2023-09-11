@@ -4,16 +4,20 @@
 \alias{navset}
 \alias{navset_tab}
 \alias{navset_pill}
+\alias{navset_underline}
 \alias{navset_pill_list}
 \alias{navset_hidden}
 \alias{navset_bar}
 \alias{navset_card_tab}
 \alias{navset_card_pill}
+\alias{navset_card_underline}
 \title{Navigation containers}
 \usage{
 navset_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navset_underline(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill_list(
   ...,
@@ -69,6 +73,19 @@ navset_card_pill(
   footer = NULL,
   height = NULL,
   placement = c("above", "below"),
+  full_screen = FALSE,
+  wrapper = card_body
+)
+
+navset_card_underline(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
   full_screen = FALSE,
   wrapper = card_body
 )
@@ -228,6 +245,27 @@ but the tab toggles are \emph{pills} or button-shaped.
 \figure{navset-pill.png}{Screenshot of a navset_pill() example.}
 }
 
+\subsection{\code{navset_underline()}}{
+
+\code{navset_underline()} creates a navigation container that behaves exactly like \code{navset_tab()} and \code{navset_pill()}, but the active/focused navigation links are styled with an underline.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_underline(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navset-underline.png}{Screenshot of a navset_underline() example.}
+}
+
 \subsection{\code{navset_card_tab()}}{
 
 The tabbed navigation container can also be used in a \code{card()} component
@@ -280,6 +318,27 @@ You can use the \code{placement} argument to position the navbar
 \figure{navset-card-pill.png}{Screenshot of a navset_card_pill() example.}
 }
 
+\subsection{\code{navset_card_underline()}}{
+
+\code{navset_card_underline()} provides a card-based variant of \code{navset_underline()}.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_card_underline(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navset-card-underline.png}{Screenshot of a navset_card_underline() example.}
+}
+
 \subsection{\code{navset_pill_list()}}{
 
 Furthermore, \code{navset_pill_list()} creates a vertical list of navigation controls
@@ -305,12 +364,14 @@ adjacent to, rather than on top of, the tab content panels.
 \subsection{\code{page_navbar()}}{
 
 Finally, \code{page_navbar()} provides full-page navigation container
-similar to \code{navset_tab()} but where each \code{nav_panel()} is treated as a full page of content
+similar to \code{navset_underline()} but where each \code{nav_panel()} is treated as a full page of content
 and the navigation controls appear in a top-level navigation bar.
+Note also that the underline styling can be removed via the \code{underline} argument.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{page_navbar(
   title = "My App",
   bg = "#0062cc",
+  underline = TRUE,
   nav_panel(title = "One", p("First page content.")),
   nav_panel(title = "Two", p("Second page content.")),
   nav_spacer(),

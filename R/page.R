@@ -156,20 +156,34 @@ page_sidebar_dependency_sass <- function(theme) {
 #' @seealso [shiny::navbarPage()]
 #' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
+#' @param underline Whether or not to add underline styling to page links when
+#'   active or focused.
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
 #' @export
-page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
-                        sidebar = NULL, fillable = TRUE, fillable_mobile = FALSE,
-                        gap = NULL, padding = NULL,
-                        position = c("static-top", "fixed-top", "fixed-bottom"),
-                        header = NULL, footer = NULL,
-                        bg = NULL, inverse = "auto",
-                        collapsible = TRUE, fluid = TRUE,
-                        theme =  bs_theme(),
-                        window_title = NA,
-                        lang = NULL) {
+page_navbar <- function(
+  ...,
+  title = NULL,
+  id = NULL,
+  selected = NULL,
+  sidebar = NULL,
+  fillable = TRUE,
+  fillable_mobile = FALSE,
+  gap = NULL,
+  padding = NULL,
+  position = c("static-top", "fixed-top", "fixed-bottom"),
+  header = NULL,
+  footer = NULL,
+  bg = NULL,
+  inverse = "auto",
+  underline = TRUE,
+  collapsible = TRUE,
+  fluid = TRUE,
+  theme = bs_theme(),
+  window_title = NA,
+  lang = NULL
+) {
 
 
   # Default to fillable = F when this is called from shiny::navbarPage()
@@ -199,8 +213,8 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
       gap = gap, padding = padding,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
-      collapsible = collapsible, fluid = fluid,
-      theme = theme
+      underline = underline, collapsible = collapsible,
+      fluid = fluid, theme = theme
     )
   )
 }
