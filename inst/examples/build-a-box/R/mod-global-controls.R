@@ -8,6 +8,7 @@ ui_global_controls <- function(id) {
         ns("theme_style"),
         "Theme style",
         list(
+          "Default" = "default",
           "All" = "all",
           "Semantic Colors" = list(
             "Semantic Background" = "semantic-bg",
@@ -22,14 +23,8 @@ ui_global_controls <- function(id) {
           )
         )
       ),
-      div(
-        class = "btn-group",
-        role = "group",
-        "aria-label" = "Theme actions",
-        shuffleButton(ns("random_theme"), "Theme"),
-        shuffleButton(ns("random_stat"), "Stats"),
-        actionButton(ns("reset_theme"), "Reset")
-      )
+      shuffleButton(ns("random_theme"), "Theme"),
+      shuffleButton(ns("random_stat"), "Stats")
     ),
     layout_columns(
       class = "align-items-start",
@@ -41,7 +36,7 @@ ui_global_controls <- function(id) {
           inline = TRUE
         ),
         conditionalPanel(
-          "input.showcase_item == 'icon'",
+          "input.showcase_item == 'Icon'",
           ns = ns,
           shuffleButton(ns("random_icon"), "Icons")
         )
@@ -64,6 +59,12 @@ server_global_controls <- function(input, output, sessions, one, two, three) {
         one$theme$shuffle()
         two$theme$shuffle()
         three$theme$shuffle()
+        NULL
+      },
+      default = {
+        one$theme$set("Default")
+        two$theme$set("Default")
+        three$theme$set("Default")
         NULL
       },
       "semantic-bg" = sample(setdiff(theme_colors, c("light", "dark")), 3),
@@ -90,12 +91,6 @@ server_global_controls <- function(input, output, sessions, one, two, three) {
     one$showcase_icon$shuffle()
     two$showcase_icon$shuffle()
     three$showcase_icon$shuffle()
-  })
-
-  observeEvent(input$reset_theme, {
-    one$theme$set("Default")
-    two$theme$set("Default")
-    three$theme$set("Default")
   })
 
   observeEvent(input$showcase_item, {
