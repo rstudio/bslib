@@ -40,7 +40,9 @@
   -webkit-align-items: center;
   -webkit-align-items: center;
   -webkit-align-items: center;
+  -webkit-align-items: center;
   justify-content: center;
+  -webkit-justify-content: center;
   -webkit-justify-content: center;
   -webkit-justify-content: center;
   -webkit-justify-content: center;
@@ -57,7 +59,9 @@
   display: -webkit-flex;
   display: -webkit-flex;
   display: -webkit-flex;
+  display: -webkit-flex;
   flex-direction: column;
+  -webkit-flex-direction: column;
   -webkit-flex-direction: column;
   -webkit-flex-direction: column;
   -webkit-flex-direction: column;
@@ -66,6 +70,7 @@
 
   header, main {
     flex-shrink: 0;
+    -webkit-flex-shrink: 0;
     -webkit-flex-shrink: 0;
     -webkit-flex-shrink: 0;
     -webkit-flex-shrink: 0;
