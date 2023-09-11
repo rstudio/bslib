@@ -10,15 +10,15 @@ ui_global_controls <- function(id) {
         list(
           "All" = "all",
           "Semantic Colors" = list(
-            "Background" = "semantic-bg",
-            "Text" = "semantic-fg"
+            "Semantic Background" = "semantic-bg",
+            "Semantic Text" = "semantic-fg"
           ),
           "Theme Colors" = list(
-            "Background" = "colors-bg",
-            "Text" = "colors-fg"
+            "Colored Background" = "colors-bg",
+            "Colored Text" = "colors-fg"
           ),
           "Vibrant" = list(
-            "Gradient" = "gradient"
+            "Gradient Background" = "gradient"
           )
         )
       ),
