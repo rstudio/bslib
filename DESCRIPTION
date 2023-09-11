@@ -55,6 +55,7 @@ Suggests:
     withr
 Config/Needs/deploy:
     BH,
+    commonmark,
     colourpicker,
     cpp11,
     dplyr,
