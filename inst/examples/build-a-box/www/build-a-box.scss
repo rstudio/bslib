@@ -1,3 +1,7 @@
+.popover {
+  --bs-popover-max-width: 400px;
+}
+
 /* FIXME: Remove after rstudio/htmltools#401 */
 .html-fill-container > .html-fill-item {
   overflow: visible !important;

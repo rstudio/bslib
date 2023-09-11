@@ -71,7 +71,26 @@ ui <- page_fixed(
     # Settings Panel ----
     navset_card_pill(
       id = "settings",
-      title = "Value box settings",
+      title = span(
+        "Value box settings",
+        popover(
+          bsicons::bs_icon("question-square-fill"),
+          class = "ms-1 d-inline-block text-orange",
+          title = "Getting started",
+          shiny::markdown("
+            The Build-a-Box app includes three value boxes. You can customize
+            all three at once from the **All** tab.
+
+            Pick an overall theme, choose whether you'd like to **showcase** a plot or icon, and decide which **showcase layout** works best for your data.
+
+            Then, click directly on a value box or switch to the
+            <a id=\"switch_to_one\" href=\"#\" class=\"action-button\">One</a>,
+            <a id=\"switch_to_two\" href=\"#\" class=\"action-button\">Two</a>, or
+            <a id=\"switch_to_three\" href=\"#\" class=\"action-button\">Three</a>
+            tabs to customize its settings individually.
+          ")
+        )
+      ),
       nav_panel(
         "All",
         value = "all",
@@ -174,6 +193,10 @@ server <- function(input, output, session) {
   observeEvent(input$clicked_value_box, {
     nav_select("settings", input$clicked_value_box)
   })
+
+  observeEvent(input$switch_to_one, nav_select("settings", "one-value_box"))
+  observeEvent(input$switch_to_two, nav_select("settings", "two-value_box"))
+  observeEvent(input$switch_to_three, nav_select("settings", "three-value_box"))
 
   observeEvent(input$settings, {
     session$sendCustomMessage("active-value-box", input$settings)
