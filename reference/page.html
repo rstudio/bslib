@@ -127,6 +127,7 @@ The return value is rendered as an static HTML page when printed interactively a
 <span>  footer <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  inverse <span class="op">=</span> <span class="st">"auto"</span>,</span>
+<span>  underline <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  collapsible <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  fluid <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  theme <span class="op">=</span> <span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -224,6 +225,11 @@ unless you add padding, e.g.: <code>tags$style(type="text/css", "body
 <dt>inverse</dt>
 <dd><p>Either <code>TRUE</code> for a light text color or <code>FALSE</code> for a dark
 text color. If <code>"auto"</code> (the default), the best contrast to <code>bg</code> is chosen.</p></dd>
+
+
+<dt>underline</dt>
+<dd><p>Whether or not to add underline styling to page links when
+active or focused.</p></dd>
 
 
 <dt>collapsible</dt>
