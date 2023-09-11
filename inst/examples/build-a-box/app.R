@@ -49,7 +49,7 @@ ui <- page_fixed(
           class = "float-end icon-gradient"
         ),
         title = "About Value Boxes",
-        includeMarkdown("about-value-boxes.md"),
+        HTML(commonmark::markdown_html(readLines("about-value-boxes.md")))
       )
     ),
   ),
