@@ -116,23 +116,21 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 
 
 @if $bslib-enable-shadow {
-  
-  // TODO: should other components (e.g., accordion, sidebar, etc) also have shadows?
-  .bslib-card, .bslib-value-box {
-    box-shadow: $box-shadow;
-    border: 0;
-    .card-header, .card-footer {
-      border: 0;
-    }
-    .card-header {
-      font-weight: 600;
-      font-size: 1rem;
-      line-height: 1.375rem;
-    }
-  }
-
   .bslib-sidebar-layout > .main {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
-  }
 
+    // TODO: should other components (e.g., img, accordion, sidebar, etc) also have shadows?
+    .bslib-card, .bslib-value-box {
+      box-shadow: $box-shadow;
+      border: 0;
+      .card-header, .card-footer {
+        border: 0;
+      }
+      .card-header {
+        font-weight: $font-weight-semibold;
+        font-size: $font-size-base;
+        line-height: 1.375rem;
+      }
+    }
+  }
 }
