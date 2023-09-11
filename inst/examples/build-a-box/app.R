@@ -25,6 +25,15 @@ layout_value_box_options <- function(ui_opts) {
   )
 }
 
+value_box_placeholder <- function() {
+  value_box(
+    class = "placeholder-glow",
+    title = span(class = "placeholder col-7"),
+    value = span(class = "placeholder col-4"),
+    showcase = div(class = "placeholder bg-primary col-12", as_fill_item())
+  )
+}
+
 # Theme ---------------------------------------
 theme_build_a_box <- bs_add_rules(
   bs_theme(preset = "shiny"),
@@ -60,6 +69,12 @@ ui <- page_fixed(
     div(
       id = "preview",
       class = "my-5",
+      layout_columns(
+        id = "value-box-previews-loading",
+        value_box_placeholder(),
+        value_box_placeholder(),
+        value_box_placeholder()
+      ),
       layout_columns(
         class = "value-box-previews",
         ui_value_box_output("one"),

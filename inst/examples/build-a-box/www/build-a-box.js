@@ -40,6 +40,20 @@ function reportValueBoxForegroundColor(id) {
   });
 });
 
+(function() {
+  let count = 0;
+
+  $(document).on("shiny:recalculated", "#one-value_box", function() {
+    if (count < 1) {
+      // the first pass is empty, the second has our value boxes
+      count++;
+      return;
+    }
+
+    $("#value-box-previews-loading").remove();
+  });
+})();
+
 // Watch for the themer to be added to the DOM
 window.watchForThemer = function () {
   const hideThemer = () => {
