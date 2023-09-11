@@ -62,6 +62,10 @@ ul.nav.navbar-nav {
   }
 }
 
+.navbar .nav.nav-underline {
+  --bs-navbar-nav-link-padding-x: 0;
+}
+
 // BS3 .navbar-default -> BS4 .navbar-light
 .navbar.navbar-default {
   // Sets a variety of fg colors which are configurable via $navbar-light-* options
