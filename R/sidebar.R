@@ -227,13 +227,11 @@ layout_sidebar <- function(
   max_height_mobile <- sidebar$max_height_mobile %||%
     if (is.null(height)) "250px" else "50%"
 
-  sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
-
   res <- div(
     class = "bslib-sidebar-layout bslib-mb-spacing",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
-    `data-bslib-sidebar-init` = sidebar_init,
+    `data-bslib-sidebar-init` = TRUE,
     `data-bslib-sidebar-open` = sidebar$open,
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
@@ -320,4 +318,3 @@ sidebar_dependency <- function() {
 sidebar_dependency_sass <- function(theme) {
   component_dependency_sass(theme, "sidebar")
 }
-

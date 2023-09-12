@@ -89,18 +89,18 @@ class Sidebar {
       ) as HTMLElement,
     } as SidebarComponents;
 
-    if (!this.layout.toggle) {
-      throw new Error("Tried to initialize a non-collapsible sidebar.");
-    }
-
     const sideAccordion = this.layout.sidebar.querySelector(
       ":scope > .sidebar-content > .accordion"
     );
-    if (sideAccordion) sideAccordion.classList.add("accordion-flush");
+    if (sideAccordion) {
+      sideAccordion.classList.add("accordion-flush");
+    }
 
-    this._initEventListeners();
-    this._initSidebarCounters();
-    this._initDesktop();
+    if (this.layout.toggle) {
+      this._initEventListeners();
+      this._initSidebarCounters();
+      this._initDesktop();
+    }
 
     // Start watching the main content area for size changes to ensure Shiny
     // outputs resize appropriately during sidebar transitions.
