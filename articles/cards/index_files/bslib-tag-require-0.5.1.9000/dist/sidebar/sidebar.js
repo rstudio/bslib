@@ -132,17 +132,17 @@
           ":scope > .collapse-toggle"
         )
       };
-      if (!this.layout.toggle) {
-        throw new Error("Tried to initialize a non-collapsible sidebar.");
-      }
       const sideAccordion = this.layout.sidebar.querySelector(
         ":scope > .sidebar-content > .accordion"
       );
-      if (sideAccordion)
+      if (sideAccordion) {
         sideAccordion.classList.add("accordion-flush");
-      this._initEventListeners();
-      this._initSidebarCounters();
-      this._initDesktop();
+      }
+      if (this.layout.toggle) {
+        this._initEventListeners();
+        this._initSidebarCounters();
+        this._initDesktop();
+      }
       _Sidebar.shinyResizeObserver.observe(this.layout.main);
       container.removeAttribute("data-bslib-sidebar-init");
       const initScript = container.querySelector(
