@@ -58,6 +58,7 @@ Remotes:
 Config/Needs/deploy: 
     BH,
     cpp11,
+    cpsievert/histoslider,
     dplyr,
     DT,
     ggplot2,

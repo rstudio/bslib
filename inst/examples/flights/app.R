@@ -31,6 +31,7 @@ PRIMARY <- "#0675DD"
 
 sidebar_acc <- accordion(
   open = c("Origin", "Destination"),
+  class = "accordion-flush", #TODO: remove when fix lands
   accordion_panel(
     "Origin", icon = icon("plane-departure"),
     uiOutput("origin_reset"),
@@ -44,7 +45,7 @@ sidebar_acc <- accordion(
     "Destination", icon = icon("plane-arrival"),
     selectInput(
       "dest_name", NULL,
-      sort(unique(flights$dest_name)),
+      c("Choose one" = "", sort(unique(flights$dest_name))),
       multiple = TRUE,
       width = "100%"
     )
@@ -53,7 +54,7 @@ sidebar_acc <- accordion(
     "Carrier", icon = icon("user-tie"),
     selectInput(
       "carrier_name", NULL,
-      unique(flights$carrier_name),
+      c("Choose one" = "", unique(flights$carrier_name)),
       multiple = TRUE,
       width = "100%"
     )
@@ -63,39 +64,28 @@ sidebar_acc <- accordion(
     input_histoslider(
       "sched_dep_time", "Departure time",
       flights$sched_dep_time, height = 125,
-      options = list(
-        handleLabelFormat = "0d",
-        selectedColor = PRIMARY
-      )
+      options = list(handleLabelFormat = "0d")
     ),
     input_histoslider(
       "sched_arr_time", "Arrival time",
       flights$sched_arr_time, height = 125,
-      options = list(
-        handleLabelFormat = "0d",
-        selectedColor = PRIMARY
-      )
+      options = list(handleLabelFormat = "0d")
     ),
     input_histoslider(
       "date", "Date",
       flights$date, height = 125, breaks = "months",
-      options = list(
-        handleLabelFormat = "%b %e",
-        selectedColor = PRIMARY
-      )
+      options = list(handleLabelFormat = "%b %e")
     )
   ),
   accordion_panel(
     "Weather", icon = icon("cloud-rain"),
     input_histoslider(
       "precip", "Precipitation",
-      flights$precip, height = 125,
-      options = list(selectedColor = PRIMARY)
+      flights$precip, height = 125
     ),
     input_histoslider(
       "wind_speed", "Wind speed",
-      flights$wind_speed, height = 125,
-      options = list(selectedColor = PRIMARY)
+      flights$wind_speed, height = 125
     ),
     input_histoslider(
       "wind_gust", "Wind gust",
@@ -117,13 +107,13 @@ delay_corr_card <- card(
   full_screen = TRUE,
   card_header(
     "Arrival vs departure delay",
-    checkboxInput("scatter_summarize", "Summarize", TRUE, width = "fit-content"),
+    input_switch("scatter_summarize", "Summarize", TRUE, width = "auto"),
     class = "d-flex justify-content-between"
   ),
   plotlyOutput("scatter_delay")
 )
 
-delay_card <- navset_card_pill(
+delay_card <- navset_card_underline(
   title = "Arrival delay",
   full_screen = TRUE,
   nav_panel(
@@ -139,33 +129,31 @@ delay_card <- navset_card_pill(
 
 ui <- page_navbar(
   theme = bs_theme(
-    base_font = font_google(
-      "Open Sans", wght = c(300, 400, 500, 600, 700, 800),
-      ital = c(0, 1)
-    ),
-    "primary" = PRIMARY,
-    "navbar-bg" = PRIMARY
+    preset = "shiny",
+    "primary" = PRIMARY
   ),
   title = tags$span(
     tags$img(src = "logo.png", width = "46px", height = "auto", class = "me-3"),
     "NYC Flights"
   ),
-  fillable = TRUE,
-  sidebar = sidebar(sidebar_acc),
+  sidebar = sidebar(
+    open = "always",
+    sidebar_acc,
+  ),
+  nav_spacer(),
   nav_panel(
-    "Delays",
+    "Delay overview",
     uiOutput("value_boxes"),
-    layout_column_wrap(
-      width = "200px", class = "my-3",
-      flights_card, delay_corr_card
-    ),
+    layout_column_wrap(width = "200px", flights_card, delay_corr_card),
     delay_card
   ),
   nav_panel(
-    "Durations",
-    "Coming soon"
+    "Data export",
+    card(
+      card_header("Flight data"),
+      DT::dataTableOutput("export")
+    )
   ),
-  nav_spacer(),
   nav_item(
     tags$a(
       tags$span(
@@ -174,6 +162,9 @@ ui <- page_navbar(
       href = "https://github.com/rstudio/bslib/tree/main/inst/examples/flights",
       target = "_blank"
     )
+  ),
+  nav_item(
+    input_dark_mode(mode = "light")
   )
 )
 
@@ -333,7 +324,7 @@ server <- function(input, output, session) {
       showcase = bsicons::bs_icon("hourglass-bottom")
     )
 
-    layout_column_wrap(width = 1/3, n_flights, delay_dep, delay_arr)
+    layout_column_wrap(width = 1/3, class = "mb-0", n_flights, delay_dep, delay_arr)
   }) %>%
     bindCache(flight_dat())
 
@@ -486,6 +477,10 @@ server <- function(input, output, session) {
       )
   }) %>%
     bindCache(flight_dat())
+
+  output$export <- DT::renderDataTable({
+    DT::datatable(flight_dat(), fillContainer = TRUE)
+  })
 
 }
 
