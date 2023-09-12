@@ -40,6 +40,12 @@ render_screenshot <- function(x, options) {
     x <- attr(x, "bslib_page")(x)
   }
 
+  # Without this hack, bslib won't generate BS4+ compliant nav markup (when
+  # rendered statically). We should really fix this situation...
+  oldTheme <- shiny::getCurrentTheme()
+  shiny:::setCurrentTheme(bs_theme())
+  on.exit(shiny:::setCurrentTheme(oldTheme), add = TRUE)
+
   page_style <- sprintf(
     "body { min-height: %spx; padding: 1rem; overflow: hidden; }
     .bslib-card .card-body { min-height: 200px; }",

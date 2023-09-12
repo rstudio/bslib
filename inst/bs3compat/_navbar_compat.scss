@@ -5,6 +5,14 @@
   @extend .navbar-expand-sm;
 }
 
+// Unfortunately the @extend above, combined with the @extend .nav-link below
+// results in .navbar-expand's padding rules taking precedence over
+// .nav-underline's padding rules (and unfortunately :where()/css-layers doesn't
+// help here, so just re-apply the padding rules)
+.navbar .nav.nav-underline {
+  --#{$prefix}navbar-nav-link-padding-x: 0;
+}
+
 .navbar:not(.fixed-bottom):not(.navbar-fixed-bottom) {
   // Instead of exactly re-doing bs3's .navbar { margin-bottom }, set
   // margin-top on each pane (so 'fill' panes can be flush with navbar)
@@ -38,7 +46,11 @@ ul.nav.navbar-nav {
   }
 }
 
-ul.nav.navbar-nav > li {
+// :where() lowers the specificity of the eventually @extend selector, which is
+// important to make sure those selectors don't get an artificial specificity
+// boost (e.g., we don't want `ul.nav.navbar-nav>li>a` to be more specific than
+// `.nav-underline .nav-link`)
+:where(ul.nav.navbar-nav > li) {
   &:not(.dropdown) {
     @extend .nav-item;
   }

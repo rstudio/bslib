@@ -82,6 +82,25 @@ navset_pill(
 )
 ```
 
+### `navset_underline()`
+
+`navset_underline()` creates a navigation container that behaves exactly like `navset_tab()` and `navset_pill()`, but the active/focused navigation links are styled with an underline.
+
+```{r navset_underline}
+navset_underline(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
 ### `navset_card_tab()`
 
 The tabbed navigation container can also be used in a `card()` component
@@ -130,6 +149,25 @@ navset_card_pill(
 )
 ```
 
+### `navset_card_underline()`
+
+`navset_card_underline()` provides a card-based variant of `navset_underline()`.
+
+```{r navset_card_underline}
+navset_card_underline(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
 ### `navset_pill_list()`
 
 Furthermore, `navset_pill_list()` creates a vertical list of navigation controls
@@ -153,13 +191,15 @@ navset_pill_list(
 ### `page_navbar()`
 
 Finally, `page_navbar()` provides full-page navigation container
-similar to `navset_tab()` but where each `nav_panel()` is treated as a full page of content
+similar to `navset_underline()` but where each `nav_panel()` is treated as a full page of content
 and the navigation controls appear in a top-level navigation bar.
+Note also that the underline styling can be removed via the `underline` argument.
 
 ```{r page_navbar}
 page_navbar(
   title = "My App",
   bg = "#0062cc",
+  underline = TRUE,
   nav_panel(title = "One", p("First page content.")),
   nav_panel(title = "Two", p("Second page content.")),
   nav_spacer(),

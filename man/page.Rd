@@ -39,6 +39,7 @@ page_navbar(
   footer = NULL,
   bg = NULL,
   inverse = "auto",
+  underline = TRUE,
   collapsible = TRUE,
   fluid = TRUE,
   theme = bs_theme(),
@@ -103,6 +104,9 @@ unless you add padding, e.g.: \code{tags$style(type="text/css", "body
 
 \item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
 text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
+
+\item{underline}{Whether or not to add underline styling to page links when
+active or focused.}
 
 \item{collapsible}{\code{TRUE} to automatically collapse the navigation
 elements into an expandable menu on mobile devices or narrow window widths.}

@@ -40,6 +40,22 @@ navset_pill <- function(..., id = NULL, selected = NULL,
 }
 
 #' @export
+#' @rdname navset
+navset_underline <- function(
+  ...,
+  id = NULL,
+  selected = NULL,
+  header = NULL,
+  footer = NULL
+) {
+  res <- tabsetPanel_(
+    ..., type = "underline", id = id, selected = selected,
+    header = header, footer = footer
+  )
+  as_fragment(res)
+}
+
+#' @export
 #' @inheritParams shiny::navlistPanel
 #' @rdname navset
 navset_pill_list <- function(..., id = NULL, selected = NULL,
@@ -112,6 +128,7 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
                       position = c("static-top", "fixed-top", "fixed-bottom"),
                       header = NULL, footer = NULL,
                       bg = NULL, inverse = "auto",
+                      underline = TRUE,
                       collapsible = TRUE, fluid = TRUE,
                       theme = NULL) {
 
@@ -130,7 +147,7 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
     gap = gap, padding = padding,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
-    inverse = inverse, fluid = fluid,
+    inverse = inverse, underline = underline, fluid = fluid,
     theme = theme
   )
 
@@ -161,6 +178,7 @@ navbarPage_ <- function(title,
                        header = NULL,
                        footer = NULL,
                        inverse = FALSE,
+                       underline = TRUE,
                        collapsible = FALSE,
                        fluid = TRUE,
                        theme = NULL) {
@@ -180,7 +198,10 @@ navbarPage_ <- function(title,
     selected <- shiny::restoreInput(id = id, default = selected)
 
   # build the tabset
-  tabset <- buildTabset(..., ulClass = "nav navbar-nav", id = id, selected = selected)
+  ulClass <- "nav navbar-nav"
+  if (underline)
+    ulClass <- paste(ulClass, "nav-underline")
+  tabset <- buildTabset(..., ulClass = ulClass, id = id, selected = selected)
 
   containerClass <- paste0("container", if (fluid) "-fluid")
 
@@ -346,7 +367,7 @@ tabPanelBody_ <- function(value, ..., icon = NULL) {
 tabsetPanel_ <- function(...,
                         id = NULL,
                         selected = NULL,
-                        type = c("tabs", "pills", "hidden"),
+                        type = c("tabs", "pills", "hidden", "underline"),
                         header = NULL,
                         footer = NULL) {
 
