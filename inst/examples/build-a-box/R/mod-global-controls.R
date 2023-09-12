@@ -36,6 +36,16 @@ ui_global_controls <- function(id) {
           inline = TRUE
         ),
         conditionalPanel(
+          "input.showcase_item == 'Plot'",
+          ns = ns,
+          p(
+            class = "text-muted",
+            "See",
+            tags$a(href = "https://rstudio.github.io/bslib/articles/value-boxes/index.html#expandable-sparklines", "Expandable Sparklines"),
+            "for example plot code."
+          )
+        ),
+        conditionalPanel(
           "input.showcase_item == 'Icon'",
           ns = ns,
           shuffleButton(ns("random_icon"), "Icons")
