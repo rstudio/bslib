@@ -2,34 +2,20 @@
 % Please edit documentation in R/input-button-group.R
 \name{input_check_buttons}
 \alias{input_check_buttons}
-\alias{update_check_buttons}
 \alias{input_radio_buttons}
+\alias{update_check_buttons}
 \alias{update_radio_buttons}
 \title{Create a button group of radio/check boxes}
 \usage{
-input_check_buttons(
-  id,
-  choices,
-  ...,
-  selected = NULL,
-  size = c("md", "sm", "lg"),
-  bg = "primary"
-)
+input_check_buttons(id, choices, ..., selected = NULL, gap = 0, theme = NULL)
+
+input_radio_buttons(id, choices, ..., selected = NULL, gap = 0, theme = NULL)
 
 update_check_buttons(
   id,
   choices = NULL,
   selected = NULL,
   session = get_current_session()
-)
-
-input_radio_buttons(
-  id,
-  choices,
-  ...,
-  selected = NULL,
-  size = c("md", "sm", "lg"),
-  bg = "primary"
 )
 
 update_radio_buttons(
@@ -40,9 +26,7 @@ update_radio_buttons(
 )
 }
 \arguments{
-\item{size}{size of the button group}
-
-\item{bg}{a theme color to use for the btn modifier class}
+\item{theme}{a theme color.}
 }
 \description{
 Use \code{input_check_buttons()} if multiple choices may be selected at once; otherwise, use \code{input_radio_buttons()}
