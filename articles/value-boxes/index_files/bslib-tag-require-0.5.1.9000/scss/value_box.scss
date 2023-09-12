@@ -56,6 +56,9 @@ $bslib-value-box-horizontal-break-point: 300px;
   .value-box-showcase {
     height: 100%;
     max-height: var(---bslib-value-box-showcase-max-h, 100%);
+    &, > .html-fill-item {
+      width: 100%;
+    }
   }
 
   &[data-full-screen="true"] {

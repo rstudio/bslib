@@ -1,4 +1,7 @@
 .bslib-card {
+  // TODO: allow a way to opt out
+  overflow: auto;
+
   // Avoid "double padding" when two card_body()s are immediate siblings
   .card-body + .card-body {
     padding-top: 0;
