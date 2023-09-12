@@ -35,24 +35,15 @@ function reportValueBoxForegroundColor(id) {
 
 ["one", "two", "three"].forEach(function (id) {
   id = `${id}-value_box`;
+  let count = 0;
   $(document).on("shiny:value", `#${id}`, () => {
     Shiny.shinyapp.taskQueue.enqueue(() => reportValueBoxForegroundColor(id));
+    if (++count !== 1) return;
+    // the first pass is empty, the second has our value boxes
+    // after that, updates are fast enough that we don't need a placeholder
+    document.getElementById(id + "_placeholder").style.display = "none";
   });
 });
-
-(function() {
-  let count = 0;
-
-  $(document).on("shiny:recalculated", "#one-value_box", function() {
-    if (count < 1) {
-      // the first pass is empty, the second has our value boxes
-      count++;
-      return;
-    }
-
-    $("#value-box-previews-loading").remove();
-  });
-})();
 
 // Watch for the themer to be added to the DOM
 window.watchForThemer = function () {
