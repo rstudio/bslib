@@ -33,15 +33,21 @@ function reportValueBoxForegroundColor(id) {
   Shiny.setInputValue(inputId, fg, { priority: "event" });
 }
 
+function showOrHideLoadingBox(id) {
+  const hasBox = document.getElementById(id).querySelector(".bslib-value-box");
+  document.getElementById(id + "_placeholder").style.display = hasBox
+    ? "none"
+    : "block";
+}
+
 ["one", "two", "three"].forEach(function (id) {
   id = `${id}-value_box`;
-  let count = 0;
   $(document).on("shiny:value", `#${id}`, () => {
-    Shiny.shinyapp.taskQueue.enqueue(() => reportValueBoxForegroundColor(id));
-    if (++count !== 1) return;
-    // the first pass is empty, the second has our value boxes
-    // after that, updates are fast enough that we don't need a placeholder
-    document.getElementById(id + "_placeholder").style.display = "none";
+    showOrHideLoadingBox(id);
+    Shiny.shinyapp.taskQueue.enqueue(() => {
+      showOrHideLoadingBox(id);
+      reportValueBoxForegroundColor(id)
+    });
   });
 });
 
