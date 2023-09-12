@@ -2,34 +2,69 @@
 #'
 #' Use `input_check_buttons()` if multiple choices may be selected at once; otherwise, use `input_radio_buttons()`
 #'
-#' @inheritParams input_check_search
-#' @param size size of the button group
-#' @param bg a theme color to use for the btn modifier class
+#' @param theme a theme color.
 #' @export
-input_check_buttons <- function(id, choices, ..., selected = NULL, size = c("md", "sm", "lg"), bg = "primary") {
-  size <- match.arg(size)
-  tag <- div(
-    id = id,
-    class = "btn-group bslib-toggle-buttons",
-    class = if (size != "md") paste0("btn-group-", size),
-    role = "group",
-    ...,
-    !!!input_buttons_container(
-      type = "checkbox", id = id, choices = choices, selected = selected,
-      size = size, bg = bg
-    ),
-    toggle_dependency()
+input_check_buttons <- function(
+  id,
+  choices,
+  ...,
+  selected = NULL,
+  gap = 0,
+  theme = NULL
+) {
+
+  input_tags <- toggle_button_tags(
+    type = "checkbox", id = id, choices = choices,
+    selected = selected, theme = theme
   )
-  tag <- tag_require(tag, version = 5, caller = "input_check_buttons()")
-  as_fragment(tag)
+
+  res <- toggle_button_container(
+    id = id,
+    input_tags = input_tags,
+    gap = gap,
+    ...
+  )
+
+  as_fragment(
+    tag_require(res, version = 5, caller = "input_check_buttons()")
+  )
 }
+
+#' @export
+#' @rdname input_check_buttons
+input_radio_buttons <- function(
+  id,
+  choices,
+  ...,
+  selected = NULL,
+  gap = 0,
+  theme = NULL
+) {
+
+  input_tags <- toggle_button_tags(
+    type = "radio", id = id, choices = choices,
+    selected = selected, theme = theme
+  )
+
+  res <- toggle_button_container(
+    id = id,
+    input_tags = input_tags,
+    gap = gap,
+    ...
+  )
+
+  as_fragment(
+    tag_require(res, version = 5, caller = "input_radio_buttons()")
+  )
+}
+
 
 #' @export
 #' @rdname input_check_buttons
 update_check_buttons <- function(id, choices = NULL, selected = NULL, session = get_current_session()) {
   if (!is.null(choices)) {
     choices <- processDeps(
-      input_buttons_container(type = "checkbox", id, choices, selected),
+      toggle_button_tags(type = "checkbox", id, choices, selected),
       session
     )
   }
@@ -38,26 +73,6 @@ update_check_buttons <- function(id, choices = NULL, selected = NULL, session = 
     selected = as.list(selected)
   ))
   session$sendInputMessage(id, message)
-}
-
-#' @export
-#' @rdname input_check_buttons
-input_radio_buttons <- function(id, choices, ..., selected = NULL, size = c("md", "sm", "lg"), bg = "primary") {
-  size <- match.arg(size)
-  tag <- div(
-    id = id,
-    class = "btn-group bslib-toggle-buttons",
-    class = if (size != "md") paste0("btn-group-", size),
-    role = "group",
-    ...,
-    !!!input_buttons_container(
-      type = "radio", id = id, choices = choices, selected = selected,
-      size = size, bg = bg
-    ),
-    toggle_dependency()
-  )
-  tag <- tag_require(tag, version = 5, caller = "input_radio_buttons()")
-  as_fragment(tag)
 }
 
 #' @export
@@ -65,7 +80,7 @@ input_radio_buttons <- function(id, choices, ..., selected = NULL, size = c("md"
 update_radio_buttons <- function(id, choices = NULL, selected = NULL, session = get_current_session()) {
   if (!is.null(choices)) {
     choices <- processDeps(
-      input_buttons_container(type = "radio", id, choices, selected),
+      toggle_button_tags(type = "radio", id, choices, selected),
       session
     )
   }
@@ -77,7 +92,29 @@ update_radio_buttons <- function(id, choices = NULL, selected = NULL, session = 
 }
 
 
-input_buttons_container <- function(type = c("radio", "checkbox"), id, choices, selected, size = "md", bg = "primary") {
+# TODO: container should have an aria-label!
+toggle_button_container <- function(id, input_tags, gap = 0, ...) {
+
+  has_gap <- !identical(gap, 0)
+
+  div(
+    id = id,
+    class = "bslib-toggle-buttons bslib-mb-spacing",
+    class = if (!has_gap) "btn-group",
+    style = css(
+      display = "flex",
+      gap = validateCssUnit(gap),
+      flexWrap = if (has_gap) "wrap"
+    ),
+    role = "group",
+    ...,
+    !!!input_tags,
+    toggle_dependency()
+  )
+}
+
+
+toggle_button_tags <- function(type = c("radio", "checkbox"), id, choices, selected, theme = NULL) {
 
   if (is.null(names(choices)) && is.atomic(choices)) {
     names(choices) <- choices
@@ -102,7 +139,7 @@ input_buttons_container <- function(type = c("radio", "checkbox"), id, choices, 
     stop("input_radio_buttons() doesn't support more than one selected choice (do you want input_check_buttons() instead?)", call. = FALSE)
   }
 
-  inputs <- Map(
+  unname(Map(
     vals, choices, is_checked, paste0(id, "-", seq_along(is_checked)),
     f = function(val, lbl, checked, this_id) {
       list(
@@ -113,14 +150,12 @@ input_buttons_container <- function(type = c("radio", "checkbox"), id, choices, 
           checked = if (checked) NA
         ),
         tags$label(
-          class = paste0("btn btn-outline-", bg),
+          class = paste0("btn btn-outline-", theme %||% "secondary"),
           `for` = this_id, lbl
         )
       )
     }
-  )
-
-  inputs <- unlist(inputs, recursive = FALSE, use.names = FALSE)
+  ))
 }
 
 toggle_dependency <- function() {
