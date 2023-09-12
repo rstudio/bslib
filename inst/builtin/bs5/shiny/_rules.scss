@@ -160,38 +160,6 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
   border-radius: 8px;
   box-shadow: 0px 1px 2px rgba(29, 31, 33, .1), 0px 3px 7px rgba(29, 31, 33, .1), 0px 12px 30px rgba(29, 31, 33, .08);
 
-  background-color: var(--#{$prefix}body-bg);
-
-  &.shiny-notification-message {
-    color: var(--#{$prefix}info-text-emphasis);
-    background-color: var(--#{$prefix}info-bg-subtle);
-    border-color: var(--#{$prefix}info-border-subtle);
-
-    a {
-      color: var(--#{$prefix}info-text-emphasis);
-    }
-  }
-
-  &.shiny-notification-warning {
-    color: var(--#{$prefix}warning-text-emphasis);
-    background-color: var(--#{$prefix}warning-bg-subtle);
-    border-color: var(--#{$prefix}warning-border-subtle);
-
-    a {
-      color: var(--#{$prefix}warning-text-emphasis);
-    }
-  }
-
-  &.shiny-notification-error {
-    color: var(--#{$prefix}danger-text-emphasis);
-    background-color: var(--#{$prefix}danger-bg-subtle);
-    border-color: var(--#{$prefix}danger-border-subtle);
-
-    a {
-      color: var(--#{$prefix}danger-text-emphasis);
-    }
-  }
-
   .shiny-notification-close {
     position: absolute;
     font-size: 1.5em;
