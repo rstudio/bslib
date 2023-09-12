@@ -60,11 +60,22 @@ opts_metadata <- function(theme) {
 }
 
 bs_themer_ui <- function(opts, vals, theme) {
+  theme_v <- theme_version(theme)
 
   make_control <- function(id, opts) {
+    if (!is.null(opts$version)) {
+      if (!is.null(opts$version$min) && theme_v < opts$version$min) {
+        return(NULL)
+      }
+      if (!is.null(opts$version$max) && theme_v > opts$version$max) {
+        return(NULL)
+      }
+    }
+
     value <- vals[[id]]
     lbl <- HTML(opts$label)
     desc <- HTML(opts$desc)
+
     text_input <- function(input_class = NULL, type = "text", ...) {
       div(
         class = "form-row form-group",
@@ -77,6 +88,25 @@ bs_themer_ui <- function(opts, vals, theme) {
         if (!is.null(desc)) div(class = "form-text small", desc)
       )
     }
+
+    switch_input <- function(input_class = NULL, ...) {
+      # https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
+      div(
+        class = "form-row form-group form-check form-switch",
+        tags$label(
+          class = "form-check-label",
+          tags$input(
+            class = "form-check-input",
+            class = input_class,
+            type = "checkbox",
+            role = "switch",
+            id = paste0("bsthemer-", id)
+          ),
+          lbl
+        )
+      )
+    }
+
     switch(
       opts$type,
       color = text_input(input_class = "bs-theme-value-color text-monospace"),
@@ -95,6 +125,7 @@ bs_themer_ui <- function(opts, vals, theme) {
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
       ),
+      switch = switch_input(),
       select = div(
         class = "form-row form-group",
         tags$label(class = "control-label", lbl),
@@ -341,7 +372,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # Insert the theming control panel with values informed by the theme settings
   themer_opts <- opts_metadata(theme)
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
-  sass_vars <- setdiff(themer_vars, "preset")
+  sass_vars <- setdiff(themer_vars, c("preset", "dark-mode"))
   themer_vals <- as.list(get_themer_vals(theme, sass_vars))
   themer_vals$preset <- preset_initial
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals, theme))

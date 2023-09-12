@@ -5,41 +5,50 @@
 #'   provided, other nav items are automatically right aligned.
 #' @include navs-legacy.R
 #' @rdname navset
-navset_card_tab <- function(..., id = NULL, selected = NULL, title = NULL,
-                          sidebar = NULL, header = NULL, footer = NULL,
-                          height = NULL, full_screen = FALSE, wrapper = card_body) {
-
-  items <- collect_nav_items(..., wrapper = wrapper)
-
-  tabs <- navset_tab(
-    !!!items, id = id, selected = selected, header = header, footer = footer
-  )
-
-  tabQ <- tagQuery(tabs)
-
-  # https://getbootstrap.com/docs/5.0/components/card/#navigation
-  nav <- tabQ$children(".nav")$addClass("card-header-tabs")$selectedTags()[[1]]
-  content <- tabQ$children(".tab-content")$selectedTags()[[1]]
-
-  card(
+navset_card_tab <- function(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
+  full_screen = FALSE,
+  wrapper = card_body
+) {
+  navset_card(
+    navset_tab,
+    "card-header-tabs",
+    ...,
+    id = id,
+    selected = selected,
+    title = title,
+    sidebar = sidebar,
+    header = header,
+    footer = footer,
     height = height,
     full_screen = full_screen,
-    if (!is.null(title)) {
-      card_header(class = "bslib-navs-card-title", tags$span(title), nav)
-    } else {
-      card_header(nav)
-    },
-    navs_card_body(content, sidebar)
+    wrapper = wrapper
   )
 }
 
 #' @export
 #' @param placement placement of the nav items relative to the content.
 #' @rdname navset
-navset_card_pill <- function(..., id = NULL, selected = NULL, title = NULL,
-                           sidebar = NULL, header = NULL, footer = NULL,
-                           height = NULL, placement = c("above", "below"),
-                           full_screen = FALSE, wrapper = card_body) {
+navset_card_pill <- function(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
+  placement = c("above", "below"),
+  full_screen = FALSE,
+  wrapper = card_body
+) {
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
@@ -68,6 +77,77 @@ navset_card_pill <- function(..., id = NULL, selected = NULL, title = NULL,
     if (above) card_header(!!!nav_args),
     navs_card_body(content, sidebar),
     if (!above) card_footer(!!!nav_args)
+  )
+}
+
+#' @export
+#' @rdname navset
+navset_card_underline <- function(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
+  full_screen = FALSE,
+  wrapper = card_body
+) {
+  navset_card(
+    navset_underline,
+    "nav-underline",
+    ...,
+    id = id,
+    selected = selected,
+    title = title,
+    sidebar = sidebar,
+    header = header,
+    footer = footer,
+    height = height,
+    full_screen = full_screen,
+    wrapper = wrapper
+  )
+}
+
+
+
+navset_card <- function(
+  navset_func,
+  nav_class,
+  ...,
+  id,
+  selected,
+  title,
+  sidebar,
+  header,
+  footer,
+  height,
+  full_screen,
+  wrapper
+) {
+
+  items <- collect_nav_items(..., wrapper = wrapper)
+
+  tabs <- navset_func(
+    !!!items, id = id, selected = selected, header = header, footer = footer
+  )
+
+  tabQ <- tagQuery(tabs)
+
+  # https://getbootstrap.com/docs/5.3/components/card/#navigation
+  nav <- tabQ$children(".nav")$addClass(nav_class)$selectedTags()[[1]]
+  content <- tabQ$children(".tab-content")$selectedTags()[[1]]
+
+  card(
+    height = height,
+    full_screen = full_screen,
+    if (!is.null(title)) {
+      card_header(class = "bslib-navs-card-title", tags$span(title), nav)
+    } else {
+      card_header(nav)
+    },
+    navs_card_body(content, sidebar)
   )
 }
 

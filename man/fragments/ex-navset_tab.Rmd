@@ -1,78 +1,20 @@
-```{r setup-ex-navs-tab, include = FALSE}
+```{r setup, include = FALSE}
 library(bslib)
-## Screenshots are created during `devtools::document()` in CI
-## or set to `TRUE` below to test or update locally
-SCREENSHOT <- nzchar(Sys.getenv("CI", "")) || FALSE
-```
-
-```{r include = FALSE}
-if (isTRUE(SCREENSHOT)) {
-  library(chromote)
-  b <- ChromoteSession$new(width = 800, height = 300, wait_ = TRUE)
-}
-
-render_screenshot <- function(x, options) {
-  if (inherits(x, "bslib_fragment")) {
-    x <- attr(x, "bslib_page")(x)
-  }
-  x <- tagList(
-    x,
-    tags$head(tags$style("
-      body { min-height: 300px; padding: 1rem; overflow: hidden; }
-      .bslib-card .card-body { min-height: 200px; }
-    "))
-  )
-  tmpdir <- tempfile()
-  dir.create(tmpdir)
-  on.exit(unlink(tmpdir, recursive = TRUE))
-
-  tmpfile <- file.path(tmpdir, basename(tempfile(fileext = ".html")))
-  save_html(x, tmpfile)
-
-  file_out <- paste0(
-    gsub("_", "-", options$label), ".png"
-  )
-
-  {
-    p <- b$Page$loadEventFired(wait_ = FALSE)
-    b$Page$navigate(paste0("file://", tmpfile), wait_ = FALSE)
-    b$wait_for(p)
-  }
-
-  b$Runtime$evaluate(
-    "if ($('.dropdown-toggle').length > 0) $('.dropdown-toggle').dropdown('toggle')"
-  )
-  b$screenshot(filename = file.path(
-    rprojroot::find_package_root_file(),
-    "man/figures/", file_out
-  ))
-
-  invisible(file_out)
-}
-
-include_screenshot <- function(x, options) {
-  file_name <- paste0(
-    gsub("_", "-", options$label), ".png"
-  )
-  alt <- options$fig.alt
-  if (is.null(alt)) {
-    alt <- sprintf("Screenshot of a %s() example.", options$label)
-  }
-  img <- sprintf('![](%s "%s")', file_name, alt)
-  knitr::asis_output(img)
-}
 
 knitr::opts_chunk$set(
-  render = function(x, options) {
-    if (isTRUE(SCREENSHOT)) {
-      render_screenshot(x, options)
-    }
-    include_screenshot(x, options)
-  }
+  ## Screenshots are created during `devtools::document()` in CI
+  ## or set to `TRUE` below to test or update locally
+  # .update_screenshot = TRUE,
+  "fig.width" = 8,
+  "fig.height" = 3,
+  "dpi" = 100
 )
 ```
 
-## A basic example
+```{r child="0-screenshot-examples.Rmd"}
+```
+
+### A basic example
 
 This first example creates a simple tabbed navigation container with two tabs.
 The tab name and the content of each tab are specified in the `nav_panel()` calls
@@ -94,7 +36,7 @@ link_shiny <- tags$a(shiny::icon("github"), "Shiny", href = "https://github.com/
 link_posit <- tags$a(shiny::icon("r-project"), "Posit", href = "https://posit.co", target = "_blank")
 ```
 
-## `navset_tab()`
+### `navset_tab()`
 
 You can fully customize the controls in the navigation component.
 In this example, we've added a direct link to the Shiny repository using `nav_item()`.
@@ -120,7 +62,7 @@ navset_tab(
 )
 ```
 
-## `navset_pill()`
+### `navset_pill()`
 
 `navset_pill()` creates a navigation container that behaves exactly like `navset_tab()`,
 but the tab toggles are _pills_ or button-shaped.
@@ -140,7 +82,26 @@ navset_pill(
 )
 ```
 
-## `navset_card_tab()`
+### `navset_underline()`
+
+`navset_underline()` creates a navigation container that behaves exactly like `navset_tab()` and `navset_pill()`, but the active/focused navigation links are styled with an underline.
+
+```{r navset_underline}
+navset_underline(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
+### `navset_card_tab()`
 
 The tabbed navigation container can also be used in a `card()` component
 thanks to `navset_card_tab()`.
@@ -165,7 +126,7 @@ navset_card_tab(
 )
 ```
 
-## `navset_card_pill()`
+### `navset_card_pill()`
 
 Similar to `navset_pill()`,
 `navset_card_pill()` provides a pill-shaped variant to `navset_card_tab()`.
@@ -188,7 +149,26 @@ navset_card_pill(
 )
 ```
 
-## `navset_pill_list()`
+### `navset_card_underline()`
+
+`navset_card_underline()` provides a card-based variant of `navset_underline()`.
+
+```{r navset_card_underline}
+navset_card_underline(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+```
+
+### `navset_pill_list()`
 
 Furthermore, `navset_pill_list()` creates a vertical list of navigation controls
 adjacent to, rather than on top of, the tab content panels.
@@ -208,16 +188,18 @@ navset_pill_list(
 )
 ```
 
-## `page_navbar()`
+### `page_navbar()`
 
 Finally, `page_navbar()` provides full-page navigation container
-similar to `navset_tab()` but where each `nav_panel()` is treated as a full page of content
+similar to `navset_underline()` but where each `nav_panel()` is treated as a full page of content
 and the navigation controls appear in a top-level navigation bar.
+Note also that the underline styling can be removed via the `underline` argument.
 
 ```{r page_navbar}
 page_navbar(
   title = "My App",
   bg = "#0062cc",
+  underline = TRUE,
   nav_panel(title = "One", p("First page content.")),
   nav_panel(title = "Two", p("Second page content.")),
   nav_spacer(),

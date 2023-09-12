@@ -2,6 +2,7 @@
 #  is_installed get_package_version system_file
 #  register_upgrade_message
 #  %||% is_string
+#  read_utf8
 
 switch_version <- function(version, five = default, four = default, three = default, default = NULL) {
   if (is_bs_theme(version)) {

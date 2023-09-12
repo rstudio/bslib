@@ -1,0 +1,159 @@
+```{r setup, include = FALSE}
+library(bslib)
+
+knitr::opts_chunk$set(
+  ## Screenshots are created during `devtools::document()` in CI
+  ## or set to `TRUE` below to test or update locally
+  # .update_screenshot = TRUE,
+  "fig.width" = 5,
+  "fig.height" = 2.5,
+  "dpi" = 100
+)
+```
+
+```{r child="0-screenshot-examples.Rmd"}
+```
+
+The appearance of a `value_box()`
+can be controlled via the `theme` argument
+in one of two ways:
+(1) a character value describing the theme, e.g. `theme = "primary"`
+or (2) `theme = value_box_theme()` to create a custom theme.
+We recommend using named themes for most value boxes (the first approach),
+because these themes will automatically match your Bootstrap theme.
+
+### Named themes
+
+Bootstrap provides a list of
+[theme colors](https://getbootstrap.com/docs/5.3/customize/color/#theme-colors),
+with semantic names like `"primary"`, `"secondary"`, `"success"`, `"danger"`, etc.
+You can set `theme` to one of these names to use the corresponding theme color as the background color of your value box.
+
+```{r value-box-named-theme, fig.alt = "A value box using 'primary', a named Bootstrap theme color."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "primary"
+)
+```
+
+Bootstrap's theme colors are drawn from
+[a second color list](https://getbootstrap.com/docs/5.3/customize/color/#all-colors)
+that includes variations on several main colors,
+named literally.
+These colors include `"blue"`, `"purple"`, `"pink"`, `"red"`, `"orange"`,
+`"yellow"`, `"green"`, `"teal"`, and `"cyan"`.
+
+```{r value-box-named-color, fig.alt = "A value box using 'purple', a named Bootstrap main color."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "teal"
+)
+```
+
+### Background colors
+
+If the theme or color name is provided without any prefix, the color will be used for the background of the value box.
+You can also explicitly prefix the theme or color name with `bg-` to indicate that it should apply to the value box background.
+When the theme sets the background color, either black or white is chosen automatically for the text color using Bootstrap's color contrast algorithm.
+
+As before, you can reference semantic theme color names or literal color names.
+
+```{r value-box-background-theme, fig.alt = "A value box using 'bg-success', a named Bootstrap theme color."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "bg-success"
+)
+```
+
+```{r value-box-background-color, fig.alt = "A value box using 'bg-orange', a named Bootstrap main color."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "bg-purple"
+)
+```
+
+### Foreground colors
+
+To set only the foreground colors of the value box, you can prefix the theme or color name with `text-`.
+This changes the text color without affecting the background color.
+
+```{r value-box-text-theme, fig.alt = "A value box using 'text-success', a named Bootstrap theme color."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "text-success"
+)
+```
+
+```{r value-box-text-color, fig.alt = "A value box using 'text-orange', a named Bootstrap main color."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "text-purple"
+)
+```
+
+Occasionally you may want to adjust use both background and foreground themes on your value box.
+To achieve this, set `theme` to one of the theme names and use `class` for the complementary style.
+The example below uses `theme = "purple"` (which could also be `"bg-purple"`) for a purple background, and `class = "text-light"` for light-colored text.
+
+```{r value-box-theme-class, fig.alt = "A value box using 'purple' for the background and 'text-light' for the text color."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "purple",
+  class = "text-light"
+)
+```
+
+### Gradient backgrounds
+
+For a vibrant and attention-grabbing effect, bslib provides an array of gradient
+background options.
+Provide `theme` with a theme name in the form `bg-gradient-{from}-{to}`, where `{from}` and `{to}` are named main colors, e.g. `bg-gradient-indigo-blue`.
+
+```{r value-box-gradient-1, fig.alt = "A value box using 'bg-gradient-blue-purple', a gradient background between two named Bootstrap colors."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = "bg-gradient-indigo-blue"
+)
+```
+
+### Custom colors
+
+Finally, for complete customization, you can use `value_box_theme()` to create a custom theme.
+This function takes arguments `bg` and `fg` to set the background and foreground colors, respectively.
+Like with the `bg-` theme names, if only `bg` is provided, `value_box_theme()` will choose an appropriate light or dark color for the text color.
+
+```{r value-box-custom, fig.alt = "A value box using 'value_box_theme()' for complete customization."}
+value_box(
+  title = "Customer lifetime value",
+  value = "$5,000",
+  showcase = bsicons::bs_icon("bank2"),
+  theme = value_box_theme(bg = "#e6f2fd", fg = "#0B538E"),
+  class = "border"
+)
+```
+
+Note that `value_box_theme()` optionally takes a `theme` name, which can be helpful if you want to use a named theme and modify the default `bg` or `fg` colors of that theme.
+
+```{r}
+value_box_theme(name = "orange", bg = "#FFFFFF")
+value_box_theme(name = "text-danger", fg = "#FFB6C1")
+```
+
+Also note that `bg`/`fg` _must_ be CSS colors, not Bootstrap theme or color names.
+This means that `theme = "purple"` will use your Bootstrap theme's purple color, and `bg = "purple"` will use the CSS color for _purple_, i.e. `"`r htmltools::parseCssColors("purple")`"`.

@@ -4,16 +4,20 @@
 \alias{navset}
 \alias{navset_tab}
 \alias{navset_pill}
+\alias{navset_underline}
 \alias{navset_pill_list}
 \alias{navset_hidden}
 \alias{navset_bar}
 \alias{navset_card_tab}
 \alias{navset_card_pill}
+\alias{navset_card_underline}
 \title{Navigation containers}
 \usage{
 navset_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navset_underline(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill_list(
   ...,
@@ -69,6 +73,19 @@ navset_card_pill(
   footer = NULL,
   height = NULL,
   placement = c("above", "below"),
+  full_screen = FALSE,
+  wrapper = card_body
+)
+
+navset_card_underline(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
   full_screen = FALSE,
   wrapper = card_body
 )
@@ -153,13 +170,13 @@ together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body
 \description{
 Render a collection of \code{\link[=nav_panel]{nav_panel()}} items into a container.
 }
-\details{
+\section{Examples}{
+
 \subsection{A basic example}{
 
-This first example creates a simple tabbed navigation container with two
-tabs. The tab name and the content of each tab are specified in the
-\code{nav_panel()} calls and \code{navset_tab()} creates the tabbed navigation
-around these two tabs.
+This first example creates a simple tabbed navigation container with two tabs.
+The tab name and the content of each tab are specified in the \code{nav_panel()} calls
+and \code{navset_tab()} creates the tabbed navigation around these two tabs.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(htmltools)
 
@@ -171,8 +188,7 @@ navset_tab(
 
 \figure{navset-tab-basic.png}{Screenshot of a basic navset_tab() example.}
 
-In the rest of the examples, we’ll include links among the tabs (or
-pills) in the navigation controls.
+In the rest of the examples, we'll include links among the tabs (or pills) in the navigation controls.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{link_shiny <- tags$a(shiny::icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = "_blank")
 link_posit <- tags$a(shiny::icon("r-project"), "Posit", href = "https://posit.co", target = "_blank")
@@ -181,13 +197,14 @@ link_posit <- tags$a(shiny::icon("r-project"), "Posit", href = "https://posit.co
 
 \subsection{\code{navset_tab()}}{
 
-You can fully customize the controls in the navigation component. In
-this example, we’ve added a direct link to the Shiny repository using
-\code{nav_item()}. We’ve also included a dropdown menu using \code{nav_menu()}
-containing an option to select a third tab panel and another direct link
-to Posit’s website. Finally, we’ve separated the primary tabs on the
-left from the direct link and dropdown menu on the right using
-\code{nav_spacer()}.
+You can fully customize the controls in the navigation component.
+In this example, we've added a direct link to the Shiny repository using \code{nav_item()}.
+We've also included a dropdown menu using \code{nav_menu()}
+containing an option to select a third tab panel
+and another direct link to Posit's website.
+Finally, we've separated the primary tabs on the left
+from the direct link and dropdown menu on the right
+using \code{nav_spacer()}.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_tab(
   nav_panel(title = "One", p("First tab content.")),
@@ -208,8 +225,8 @@ left from the direct link and dropdown menu on the right using
 
 \subsection{\code{navset_pill()}}{
 
-\code{navset_pill()} creates a navigation container that behaves exactly like
-\code{navset_tab()}, but the tab toggles are \emph{pills} or button-shaped.
+\code{navset_pill()} creates a navigation container that behaves exactly like \code{navset_tab()},
+but the tab toggles are \emph{pills} or button-shaped.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_pill(
   nav_panel(title = "One", p("First tab content.")),
@@ -228,14 +245,36 @@ left from the direct link and dropdown menu on the right using
 \figure{navset-pill.png}{Screenshot of a navset_pill() example.}
 }
 
+\subsection{\code{navset_underline()}}{
+
+\code{navset_underline()} creates a navigation container that behaves exactly like \code{navset_tab()} and \code{navset_pill()}, but the active/focused navigation links are styled with an underline.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_underline(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navset-underline.png}{Screenshot of a navset_underline() example.}
+}
+
 \subsection{\code{navset_card_tab()}}{
 
 The tabbed navigation container can also be used in a \code{card()} component
-thanks to \code{navset_card_tab()}. Learn more about this approach in the
-\href{https://pkgs.rstudio.com/bslib/articles/cards.html}{article about Cards}, including
-how to add \href{https://pkgs.rstudio.com/bslib/articles/sidebars.html#multi-page-layout}{a shared sidebar}
-to all tabs in the card using the \code{sidebar} argument of
-\code{navset_card_tab()}.
+thanks to \code{navset_card_tab()}.
+Learn more about this approach in the
+\href{https://pkgs.rstudio.com/bslib/articles/cards.html}{article about Cards},
+including how to add \href{https://pkgs.rstudio.com/bslib/articles/sidebars.html#multi-page-layout}{a shared sidebar}
+to all tabs in the card
+using the \code{sidebar} argument of \code{navset_card_tab()}.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_card_tab(
   nav_panel(title = "One", p("First tab content.")),
@@ -256,9 +295,10 @@ to all tabs in the card using the \code{sidebar} argument of
 
 \subsection{\code{navset_card_pill()}}{
 
-Similar to \code{navset_pill()}, \code{navset_card_pill()} provides a pill-shaped
-variant to \code{navset_card_tab()}. You can use the \code{placement} argument to
-position the navbar \code{"above"} or \code{"below"} the card body.
+Similar to \code{navset_pill()},
+\code{navset_card_pill()} provides a pill-shaped variant to \code{navset_card_tab()}.
+You can use the \code{placement} argument to position the navbar
+\code{"above"} or \code{"below"} the card body.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_card_pill(
   placement = "above",
@@ -278,10 +318,31 @@ position the navbar \code{"above"} or \code{"below"} the card body.
 \figure{navset-card-pill.png}{Screenshot of a navset_card_pill() example.}
 }
 
+\subsection{\code{navset_card_underline()}}{
+
+\code{navset_card_underline()} provides a card-based variant of \code{navset_underline()}.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_card_underline(
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_spacer(),
+  nav_item(link_shiny),
+  nav_menu(
+    title = "Other links",
+    align = "right",
+    nav_panel("Three", p("Third tab content")),
+    nav_item(link_posit)
+  )
+)
+}\if{html}{\out{</div>}}
+
+\figure{navset-card-underline.png}{Screenshot of a navset_card_underline() example.}
+}
+
 \subsection{\code{navset_pill_list()}}{
 
-Furthermore, \code{navset_pill_list()} creates a vertical list of navigation
-controls adjacent to, rather than on top of, the tab content panels.
+Furthermore, \code{navset_pill_list()} creates a vertical list of navigation controls
+adjacent to, rather than on top of, the tab content panels.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_pill_list(
   nav_panel(title = "One", p("First tab content.")),
@@ -302,14 +363,15 @@ controls adjacent to, rather than on top of, the tab content panels.
 
 \subsection{\code{page_navbar()}}{
 
-Finally, \code{page_navbar()} provides full-page navigation container similar
-to \code{navset_tab()} but where each \code{nav_panel()} is treated as a full page
-of content and the navigation controls appear in a top-level navigation
-bar.
+Finally, \code{page_navbar()} provides full-page navigation container
+similar to \code{navset_underline()} but where each \code{nav_panel()} is treated as a full page of content
+and the navigation controls appear in a top-level navigation bar.
+Note also that the underline styling can be removed via the \code{underline} argument.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{page_navbar(
   title = "My App",
   bg = "#0062cc",
+  underline = TRUE,
   nav_panel(title = "One", p("First page content.")),
   nav_panel(title = "Two", p("Second page content.")),
   nav_spacer(),
@@ -326,6 +388,7 @@ bar.
 \figure{page-navbar.png}{Screenshot of a page_navbar() example.}
 }
 }
+
 \seealso{
 \code{\link[=nav_panel]{nav_panel()}}, \code{\link[=nav_select]{nav_select()}}.
 }

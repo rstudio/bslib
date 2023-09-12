@@ -1,5 +1,42 @@
 # bslib (development version)
 
+## Breaking changes
+
+* `value_box()` no longer defaults to `theme_color = "primary"`. To restore the previous behavior, please use `theme = "primary"`. In addition to the default style change, the `theme_color` is now deprecated in favor of `theme`. (#758)
+* `page_navbar()` now defaults to `underline = TRUE`, meaning that navigation links in the navbar now have underline styling by default (set `underline = FALSE` to revert to previous behavior). (#784)
+
+## New features
+
+* Upgraded the default version of Bootstrap from v5.2.2 to v5.3.1. The most notable thing that comes with the update is the ability to toggle between light/dark [color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/) purely client-side (i.e., no calls to Sass required). (#749, #764)
+
+* Added new `navset_underline()` & `navset_card_underline()` functions as well as a `underline` argument to `page_navbar()` to leverage the new [nav-underline](https://getbootstrap.com/docs/5.3/components/navs-tabs/#underline) styling on navigation links. (#784)
+
+* `value_box()` now supports many new themes and styles, or fully customizable themes using the new `value_box_theme()` function. To reflect the new capabilities, we've replaced `theme_color` with a new `theme` argument. The previous argument will continue work as expected, but with a deprecation warning. (#758)
+
+  In addition to the Bootstrap theme names (`primary` ,`secondary`, etc.), you can now use the main Boostrap colors (`purple`, `blue`, `red`, etc.). You can also choose to apply the color to the background or foreground by prepending a `bg-` or `text-` prefix to the theme or color name. Finally, we've also added new gradient themes allowing you to pair any two color names as `bg-gradient-{from}-{to}` (e.g., `bg-gradient-purple-blue`).
+
+  These named color themes aren't limited to value boxes: because they're powered by small utility classes, you can use them anywhere within your bslib-powered UI.
+
+* Added `showcase_bottom()`, a new `value_box()` layout that places the showcase below the value box title and value, perfect for a full-bleed plot. (#758)
+
+* `showcase_left_center()` and `showcase_top_right()` no longer take two values for the `width` argument. Instead, they now take a single value (e.g., `width = "30%"`) representing the width of the showcase are in the value box. Furthermore, they've both gained `width_full_screen` arguments that determine the width of the showcase area when the value box is expanded to fill the screen. (#758)
+
+* The `showcase_layout` argument of `value_box()` now accepts one of three character values: `"left center"`, `"top right"`, `"bottom"`. (#758)
+
+* Added `input_dark_mode()`, a new input control that provides a toggle button that can be used to switch between the dark and light modes when using Bootstrap 5.3. By default, dark mode is applied automatically if the user's operating system is also in dark mode. App authors can toggle dark mode programmatically from the server using `toggle_dark_mode()`, and if you provide `input_dark_mode()` with an `id`, you can read the current color mode via the corresponding input value. (#787)
+
+## Improvements
+
+* The `bs_themer()` app now supports previewing the dark mode variant of Bootstrap 5 themes. (#767)
+
+* Improved the style and appearance of the button to enter full screen in `card()`s and `value_box()`es to better adapt to Bootstrap's dark mode. (#780)
+
+## Bug fixes
+
+* `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)
+
+* Filter controls in the popovers of `DT::datatable()` tables now better match the current Bootstrap theme and are responsive to the dark mode setting in Bootstrap 5.3. (#267, #775).
+
 # bslib 0.5.1
 
 ## New features
