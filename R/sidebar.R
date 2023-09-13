@@ -211,8 +211,6 @@ layout_sidebar <- function(
     class = "main",
     class = if (fillable) "bslib-gap-spacing",
     style = css(
-      background_color = bg,
-      color = fg,
       padding = validateCssPadding(padding),
       gap = validateCssUnit(gap)
     ),
@@ -238,8 +236,10 @@ layout_sidebar <- function(
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
       "--bslib-sidebar-width" = sidebar$width,
-      "--bslib-sidebar-bg" = if (!is.null(sidebar$color$bg)) sidebar$color$bg,
-      "--bslib-sidebar-fg" = if (!is.null(sidebar$color$fg)) sidebar$color$fg,
+      "--bslib-sidebar-bg" = sidebar$color$bg,
+      "--bslib-sidebar-fg" = sidebar$color$fg,
+      "--bslib-sidebar-main-fg" = fg,
+      "--bslib-sidebar-main-bg" = bg,
       "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
       "--bslib-sidebar-max-height-mobile" = max_height_mobile

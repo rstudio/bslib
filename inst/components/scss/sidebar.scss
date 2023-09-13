@@ -12,6 +12,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   --bslib-sidebar-vert-border: #{$bslib-sidebar-border};
   --bslib-sidebar-bg: #{$bslib-sidebar-bg};
   --bslib-sidebar-fg: #{$bslib-sidebar-fg};
+  --bslib-sidebar-main-fg: var(--bs-card-color, var(--bs-body-color));
+  --bslib-sidebar-main-bg: var(--bs-card-bg, var(--bs-body-bg));
   --bslib-sidebar-toggle-bg: #{$bslib-sidebar-toggle-bg};
   --bslib-sidebar-padding: calc(var(--bslib-spacer) * 1.5);
   --bslib-sidebar-icon-size: var(--bslib-spacer, 1rem);
@@ -51,6 +53,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     border-bottom-left-radius: 0;
     padding: var(--bslib-sidebar-padding);
     transition: padding var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
+    color: var(--bslib-sidebar-main-fg);
+    background-color: var(--bslib-sidebar-main-bg);
   }
 
   > .sidebar {
@@ -121,12 +125,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     align-items: center;
     position: absolute;
     right: calc(var(--bslib-sidebar-icon-size));
-    // The CSS variable (set via JS) is here to help avoid overlapping toggles
-    top: calc(
-        var(--bslib-sidebar-overlap-counter, 0) *
-        calc(var(--bslib-sidebar-icon-size) +
-        var(--bslib-sidebar-padding)
-      ) + var(--bslib-sidebar-icon-size, 1rem) / 2);
+    top: calc(var(--bslib-sidebar-icon-size, 1rem) / 2);
     border: none;
     border-radius: var(--bslib-collapse-toggle-border-radius);
     height: calc(var(--bslib-sidebar-icon-size) * 2);
@@ -138,6 +137,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     color: var(--bslib-sidebar-fg);
     background-color: unset;
     transition:
+      color var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
+      top var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
       right var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
       left var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
 
@@ -232,6 +233,13 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     }
 
     > .collapse-toggle {
+      color: var(--bslib-sidebar-main-fg);
+      // The CSS variable (set via JS) is here to help avoid overlapping toggles
+      top: calc(
+          var(--bslib-sidebar-overlap-counter, 0) *
+          calc(var(--bslib-sidebar-icon-size) +
+          var(--bslib-sidebar-padding)
+        ) + var(--bslib-sidebar-icon-size, 1rem) / 2);
       right: calc(-2.5 * var(--bslib-sidebar-icon-size) - var(--bs-card-border-width, 1px));
     }
 
