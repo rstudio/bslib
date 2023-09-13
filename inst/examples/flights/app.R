@@ -27,7 +27,13 @@ flights <- flights %>%
     date = lubridate::ymd(paste(year, month, day, sep = "-"))
   )
 
-PRIMARY <- "#0675DD"
+
+SLIDER_HEIGHT <- 150
+CHOICES <- list(
+  origin = sort(unique(flights$origin)),
+  dest_name = c("Choose destination(s)" = "", sort(unique(flights$dest_name))),
+  carrier_name = c("Choose carrier(s)" = "", unique(flights$carrier_name))
+)
 
 sidebar_acc <- accordion(
   open = c("Origin", "Destination"),
@@ -37,43 +43,47 @@ sidebar_acc <- accordion(
     uiOutput("origin_reset"),
     checkboxGroupInput(
       "origin", NULL,
-      choices = sort(unique(flights$origin)),
+      choices = CHOICES$origin,
       inline = TRUE
     )
   ),
   accordion_panel(
     "Destination", icon = icon("plane-arrival"),
-    selectInput(
+    selectizeInput(
       "dest_name", NULL,
-      c("Choose one" = "", sort(unique(flights$dest_name))),
+      CHOICES$dest_name,
       multiple = TRUE,
-      width = "100%"
+      options = list(plugins = "remove_button")
     )
   ),
   accordion_panel(
     "Carrier", icon = icon("user-tie"),
-    selectInput(
+    selectizeInput(
       "carrier_name", NULL,
-      c("Choose one" = "", unique(flights$carrier_name)),
+      CHOICES$carrier_name,
       multiple = TRUE,
-      width = "100%"
+      options = list(plugins = "remove_button")
     )
   ),
   accordion_panel(
     "Flight time", icon = icon("clock"),
     input_histoslider(
       "sched_dep_time", "Departure time",
-      flights$sched_dep_time, height = 125,
+      flights$sched_dep_time,
+      height = SLIDER_HEIGHT,
       options = list(handleLabelFormat = "0d")
     ),
     input_histoslider(
       "sched_arr_time", "Arrival time",
-      flights$sched_arr_time, height = 125,
+      flights$sched_arr_time,
+      height = SLIDER_HEIGHT,
       options = list(handleLabelFormat = "0d")
     ),
     input_histoslider(
       "date", "Date",
-      flights$date, height = 125, breaks = "months",
+      flights$date,
+      height = SLIDER_HEIGHT,
+      breaks = "months",
       options = list(handleLabelFormat = "%b %e")
     )
   ),
@@ -81,16 +91,18 @@ sidebar_acc <- accordion(
     "Weather", icon = icon("cloud-rain"),
     input_histoslider(
       "precip", "Precipitation",
-      flights$precip, height = 125
+      flights$precip,
+      height = SLIDER_HEIGHT
     ),
     input_histoslider(
       "wind_speed", "Wind speed",
-      flights$wind_speed, height = 125
+      flights$wind_speed,
+      height = SLIDER_HEIGHT
     ),
     input_histoslider(
       "wind_gust", "Wind gust",
-      flights$wind_gust, height = 125,
-      options = list(selectedColor = PRIMARY)
+      flights$wind_gust,
+      height = SLIDER_HEIGHT
     )
   )
 )
@@ -126,6 +138,7 @@ delay_card <- navset_card_underline(
   )
 )
 
+PRIMARY <- "#0675DD"
 
 ui <- page_navbar(
   theme = bs_theme(
@@ -136,10 +149,7 @@ ui <- page_navbar(
     tags$img(src = "logo.png", width = "46px", height = "auto", class = "me-3"),
     "NYC Flights"
   ),
-  sidebar = sidebar(
-    open = "always",
-    sidebar_acc,
-  ),
+  sidebar = sidebar_acc,
   nav_spacer(),
   nav_panel(
     "Delay overview",
@@ -180,8 +190,8 @@ server <- function(input, output, session) {
   # Mapping from input id name to updating input function
   input_discrete_vars <- list(
     origin = function(...) updateCheckboxGroupInput(..., inline = TRUE),
-    dest_name = updateSelectInput,
-    carrier_name = updateSelectInput
+    carrier_name = updateSelectInput,
+    dest_name = updateSelectInput
   )
   input_numeric_vars <- list(
     sched_dep_time = update_histoslider,
@@ -240,7 +250,8 @@ server <- function(input, output, session) {
       update_input_func <- input_vars[[var]]
 
       if (var %in% names(input_discrete_vars)) {
-        choices <- sort(unique(d[[var]]))
+        choices <- CHOICES[[var]] %||% sort(unique(d[[var]]))
+
         update_input_func(
           inputId = var, choices = choices, selected = input_val %||% character(0)
         )
@@ -273,7 +284,7 @@ server <- function(input, output, session) {
   observeEvent(input$origin_reset, {
     updateCheckboxGroupInput(
       inputId = "origin",
-      choices = sort(unique(flights$origin)),
+      choices = CHOICES$origin,
       selected = character(0)
     )
   })
@@ -332,7 +343,7 @@ server <- function(input, output, session) {
     flight_dat() %>%
       group_by(start_lon, start_lat, end_lon, end_lat, origin, dest) %>%
       summarise(mean_delay = mean(arr_delay, na.rm = TRUE)) %>%
-      plot_geo(color = I("#0D6EFD"), showlegend = FALSE) %>%
+      plot_geo(color = I(PRIMARY), showlegend = FALSE) %>%
       add_segments(
         x = ~start_lon, xend = ~end_lon,
         y = ~start_lat, yend = ~end_lat,

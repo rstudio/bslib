@@ -61,6 +61,14 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
+// For selectizeInput(options = list(plugins = "remove_button"))
+.selectize-control.plugin-remove_button .item {
+  align-items: flex-start !important;
+  .remove {
+    border-left: none !important;
+  }
+}
+
 // When cards/value-boxes appear in main content area of bslib::layout_sidebar(),
 // use shadows instead of borders to separate them from the background.
 @if $bslib-enable-shadow {
