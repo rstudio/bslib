@@ -48,20 +48,30 @@ ui <- page_fixed(
 
   # Header ----
   tags$header(
-    h2(
-      class = "mt-4",
-      # width = "100%",
-      "Build a Box",
+    class = "mt-4 d-flex flex-row justify-content-between align-items-center",
+    h2("Build a Box"),
+    div(
+      class = "d-flex flex-row align-items-center gap-3",
       popover(
         bsicons::bs_icon(
           "info-square-fill",
           title = "About Value Boxes",
-          class = "float-end icon-gradient"
+          class = "icon-gradient"
         ),
         title = "About Value Boxes",
         HTML(commonmark::markdown_html(readLines("about-value-boxes.md")))
+      ),
+      actionLink(
+        "show_code",
+        tooltip(icon("code"), "Show code"),
+        class = "nav-link text-blue",
+        style = css(width = "1em")
+      ),
+      input_dark_mode(
+        id = "color_mode",
+        style = css("--text-1" = "var(--bs-blue)")
       )
-    ),
+    )
   ),
 
   # Main ----
@@ -137,21 +147,6 @@ ui <- page_fixed(
         value = "three-value_box",
         layout_value_box_options(
           ui_value_box_options("three")
-        )
-      ),
-      nav_item(
-        actionLink(
-          "show_code",
-          tooltip(icon("code"), "Show code"),
-          class = "nav-link"
-        ),
-      ),
-      nav_item(
-        input_dark_mode(
-          style = htmltools::css(
-            "--vertical-correction" = "5px",
-            "--text-1" = "var(--bs-nav-link-color)"
-          )
         )
       )
     )
