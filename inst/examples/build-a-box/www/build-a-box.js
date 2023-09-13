@@ -46,8 +46,14 @@ function showOrHideLoadingBox(id) {
     showOrHideLoadingBox(id);
     Shiny.shinyapp.taskQueue.enqueue(() => {
       showOrHideLoadingBox(id);
-      reportValueBoxForegroundColor(id)
+      reportValueBoxForegroundColor(id);
     });
+  });
+});
+
+$(document).on("shiny:inputchanged", "#color_mode", function() {
+  ['one', 'two', 'three'].forEach(id => {
+    reportValueBoxForegroundColor(`${id}-value_box`);
   });
 });
 
