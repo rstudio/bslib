@@ -124,7 +124,6 @@ sidebar <- function(
         title = "Toggle sidebar",
         "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
         "aria-controls" = id,
-        div(class = "collapse-backdrop"),
         collapse_icon()
       )
     }
