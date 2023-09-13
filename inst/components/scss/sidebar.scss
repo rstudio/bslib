@@ -64,8 +64,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     border-right: var(--bslib-sidebar-vert-border);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: var(--bslib-sidebar-bg);
     color: var(--bslib-sidebar-fg);
+    background-color: var(--bslib-sidebar-bg);
+    // TODO: background can be transparent to be dark mode adaptive, need opaque "subtle" variant
+    backdrop-filter: blur(5px);
 
     > .sidebar-content {
       display: flex;
