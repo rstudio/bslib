@@ -276,44 +276,69 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   }
 
   .bslib-sidebar-layout {
-    &:not(.sidebar-collapsed) {
-      > .sidebar { z-index: 1; }
-      > .collapse-toggle { z-index: 1; }
+    // Remove left or right edge sidebar borders in mobile view
+    &:not(.sidebar-right) {
+      > .sidebar { border-right: none }
     }
-
-    $full-closed: 100% 0;
-    $closed-full: 0 100%;
-    grid-template-columns: $full-closed;
     &.sidebar-right {
-      grid-template-columns: $closed-full;
+      > .sidebar { border-left: none }
     }
 
-    &.sidebar-collapsed {
-      grid-template-columns: $closed-full;
+    // Always open sidebars become "flow" layouts in mobile view
+    &[data-bslib-sidebar-open="always"] {
+      display: block !important;
+    }
+
+    &:not([data-bslib-sidebar-open="always"]) {
+      // Sidebar layer has to be lifted up to cover other (nested) sidebars
+      &:not(.sidebar-collapsed) {
+        > .sidebar { z-index: 1; }
+        > .collapse-toggle { z-index: 1; }
+      }
+
+      // Either sidebar or main area take up entire layout depending on state
+      $full-closed: 100% 0;
+      $closed-full: 0 100%;
+      grid-template-columns: $full-closed;
       &.sidebar-right {
-        grid-template-columns: $full-closed;
+        grid-template-columns: $closed-full;
       }
-    }
 
-    &, &.sidebar-right {
+      &.sidebar-collapsed {
+        grid-template-columns: $closed-full;
+        &.sidebar-right {
+          grid-template-columns: $full-closed;
+        }
+      }
+
+      // Main area takes up entire layout area to avoid layout shift when
+      // sidebar is expanded as an overlay.
+      &, &.sidebar-right {
+        > .main {
+          grid-column: 1 / 3;
+        }
+      }
+
+      // Keep padding on main contents when sidebar is expanded (avoid shifts)
+      &:not(.sidebar-right) {
+        > .main {
+          padding-left: calc(var(--bslib-sidebar-padding) * 2);
+        }
+      }
+      &.sidebar-right {
+        > .main {
+          padding-right: calc(var(--bslib-sidebar-padding) * 2);
+        }
+      }
+
+      // Make main contents transparent while sidebar is expanded
       > .main {
-        grid-column: 1 / 3;
+        opacity: 0;
+        transition: opacity var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration)
       }
-    }
-
-    > .main {
-      opacity: 0;
-      transition: opacity var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration)
-    }
-    &.sidebar-collapsed > .main {
-      opacity: 1;
-    }
-
-    &:not(.sidebar-right) > .main {
-      padding-left: calc(var(--bslib-sidebar-padding) * 2);
-    }
-    &.sidebar-right > .main {
-      padding-right: calc(var(--bslib-sidebar-padding) * 2);
+      &.sidebar-collapsed > .main {
+        opacity: 1;
+      }
     }
   }
 }
