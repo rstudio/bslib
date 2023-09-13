@@ -76,6 +76,7 @@ Config/Needs/deploy:
     reshape2,
     rprojroot,
     rsconnect,
+    rstudio/shiny,
     scales,
     styler,
     tibble
