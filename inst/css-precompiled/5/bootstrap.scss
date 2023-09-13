@@ -12,7 +12,7 @@ $bslib-preset-name: null !default;
 $bslib-preset-type: null !default;
 @import "inst/lib/bs5/scss/_maps.scss";
 @import "inst/lib/bs5/scss/_mixins.scss";
-@import "inst/shiny-scss/bs5/_shiny-bs5.scss";
+@import "inst/shiny-scss/bs5/_variables.scss";
 @import "inst/bs3compat/_declarations.scss";
 :root {
 --bslib-bootstrap-version: #{$bootstrap-version};
