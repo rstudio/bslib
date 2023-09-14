@@ -143,7 +143,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     justify-content: center;
     padding: 0;
     color: var(--bslib-sidebar-fg);
-    background-color: unset;
+    background-color: unset; // don't take `button` background color
     transition:
       color var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
       top var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
