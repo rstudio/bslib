@@ -73,6 +73,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       flex-direction: column;
       gap: var(--bslib-spacer, 1rem);
       padding: var(--bslib-sidebar-padding);
+      // Add space for the toggle button (removed if sidebar is always open)
       padding-top: calc(var(--bslib-sidebar-padding, 1rem) * 2);
 
       > :last-child:not(.sidebar-title) {
