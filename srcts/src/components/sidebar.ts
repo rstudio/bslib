@@ -93,9 +93,8 @@ class Sidebar {
       ":scope > .sidebar-content > .accordion"
     );
     if (sideAccordion) {
-      this.layout.sidebar
-        .querySelector(".sidebar-content")
-        ?.classList?.add("has-accordion");
+      // Add `.has-accordion` class to `.sidebar-content` container
+      sideAccordion.parentElement.classList.add("has-accordion");
       sideAccordion.classList.add("accordion-flush");
     }
 
