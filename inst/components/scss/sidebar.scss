@@ -17,7 +17,9 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   --bslib-sidebar-toggle-bg: #{$bslib-sidebar-toggle-bg};
   --bslib-sidebar-padding: calc(var(--bslib-spacer) * 1.5);
   --bslib-sidebar-icon-size: var(--bslib-spacer, 1rem);
-  // We intentionally don't give a value here, but it could be set by someone else 
+  --bslib-sidebar-icon-button-size: calc(var(--bslib-sidebar-icon-size, 1rem) * 2);
+  --bslib-sidebar-padding-icon: calc(var(--bslib-sidebar-icon-button-size, 2rem) * 1.5);
+  // We intentionally don't give a value here, but it could be set by someone else
   // --bslib-collapse-toggle-border: ;
   --bslib-collapse-toggle-border-radius: var(--bs-border-radius, #{$border-radius});
   --bslib-collapse-toggle-transform: 0deg;
@@ -75,7 +77,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       gap: var(--bslib-spacer, 1rem);
       padding: var(--bslib-sidebar-padding);
       // Add space for the toggle button (removed if sidebar is always open)
-      padding-top: calc(var(--bslib-sidebar-padding, 1rem) * 2);
+      padding-top: var(--bslib-sidebar-padding-icon);
 
       > :last-child:not(.sidebar-title) {
         // Remove margin-bottom from the last item because sidebar has padding.
@@ -138,8 +140,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     top: calc(var(--bslib-sidebar-icon-size, 1rem) / 2);
     border: none;
     border-radius: var(--bslib-collapse-toggle-border-radius);
-    height: calc(var(--bslib-sidebar-icon-size) * 2);
-    width: calc(var(--bslib-sidebar-icon-size) * 2);
+    height: var(--bslib-sidebar-icon-button-size, 2rem);
+    width: var(--bslib-sidebar-icon-button-size, 2rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -236,10 +238,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     }
 
     &:not(.sidebar-right) > .main {
-      padding-left: calc(var(--bslib-sidebar-padding) * 2);
+      padding-left: var(--bslib-sidebar-padding-icon);
     }
     &.sidebar-right > .main {
-      padding-right: calc(var(--bslib-sidebar-padding) * 2);
+      padding-right: var(--bslib-sidebar-padding-icon);
     }
 
     > .collapse-toggle {
@@ -321,10 +323,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
 
       // Keep padding on main contents when sidebar is expanded (avoid shifts)
       &:not(.sidebar-right) > .main {
-        padding-left: calc(var(--bslib-sidebar-padding) * 2);
+        padding-left: var(--bslib-sidebar-padding-icon);
       }
       &.sidebar-right > .main {
-        padding-right: calc(var(--bslib-sidebar-padding) * 2);
+        padding-right: var(--bslib-sidebar-padding-icon);
       }
 
       // Make main contents transparent while sidebar is expanded
