@@ -25,7 +25,10 @@ $bslib-value-box-horizontal-break-point: 300px;
 // }
 
 .bslib-value-box {
-  box-shadow: var(--bslib-value-box-shadow);
+  &.card {
+    // .card also sets box-shadow by default, likely to an empty css variable
+    box-shadow: var(--bslib-value-box-shadow);
+  }
 
   border-width: var(--bslib-value-box-border-width-auto-no, var(--bslib-value-box-border-width-baseline));
   &.border-auto {
@@ -53,6 +56,9 @@ $bslib-value-box-horizontal-break-point: 300px;
   .value-box-showcase {
     height: 100%;
     max-height: var(---bslib-value-box-showcase-max-h, 100%);
+    &, > .html-fill-item {
+      width: 100%;
+    }
   }
 
   &[data-full-screen="true"] {
