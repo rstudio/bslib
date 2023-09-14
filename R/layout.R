@@ -77,7 +77,10 @@ layout_column_wrap <- function(
       if (fixed_width) {
         paste0("repeat(auto-fit, ", validateCssUnit(width), ")")
       } else {
-        paste0("repeat(auto-fit, minmax(", validateCssUnit(width), ", 1fr))")
+        sprintf(
+          "repeat(auto-fit, minmax(min(%s, 100%%), 1fr))",
+          validateCssUnit(width)
+        )
       }
     }
   }
