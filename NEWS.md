@@ -33,6 +33,8 @@
 
 * Improved the style and appearance of the button to enter full screen in `card()`s and `value_box()`es to better adapt to Bootstrap's dark mode. (#780)
 
+* `layout_sidebar()` received a new design. The button to collapse and expand the sidebar now appears at the top edge of the sidebar, and we now use the [arrow-bar-left](https://icons.getbootstrap.com/icons/arrow-bar-left/) icon instead of [chevron-left](https://icons.getbootstrap.com/icons/chevron-left/). On mobile devices, the sidebar now fills the `layout_sidebar()` area as an overlay, rather than expanding from above the main content area. **Note** the `max_mobile_height` argument of `sidebar()` determines the maximum height of the sidebar area on mobile, but it now only applies when `open = "always"`. (#798)
+
 ## Bug fixes
 
 * `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)
