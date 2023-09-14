@@ -94,7 +94,7 @@ class Sidebar {
     );
     if (sideAccordion) {
       // Add `.has-accordion` class to `.sidebar-content` container
-      sideAccordion.parentElement.classList.add("has-accordion");
+      sideAccordion?.parentElement?.classList.add("has-accordion");
       sideAccordion.classList.add("accordion-flush");
     }
 
