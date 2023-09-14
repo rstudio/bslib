@@ -267,14 +267,14 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
 }
 
 @include media-breakpoint-down(sm) {
-  .bslib-sidebar-layout, .bslib-sidebar-layout.sidebar-right {
-    // required by sidebar init js when `sidebar(open = "desktop")`
-    &[data-bslib-sidebar-open="desktop"] {
-      --bslib-sidebar-js-init-collapsed: true;
-    }
-  }
-
   .bslib-sidebar-layout {
+    // Tell sidebar init js we're on mobile for `sidebar(open = "desktop")`
+    &, &.sidebar-right {
+      &[data-bslib-sidebar-open="desktop"] {
+        --bslib-sidebar-js-init-collapsed: true;
+      }
+    }
+
     // Remove left or right edge sidebar borders in mobile view
     &:not(.sidebar-right) {
       > .sidebar { border-right: none }
