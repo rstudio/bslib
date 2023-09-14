@@ -57,6 +57,8 @@ Remotes:
     rstudio/htmltools
 Config/Needs/deploy: 
     BH,
+    colourpicker,
+    commonmark,
     cpp11,
     dplyr,
     DT,
@@ -65,6 +67,7 @@ Config/Needs/deploy:
     gt,
     hexbin,
     histoslider,
+    htmlwidgets,
     lattice,
     leaflet,
     lubridate,
@@ -75,9 +78,12 @@ Config/Needs/deploy:
     reshape2,
     rprojroot,
     rsconnect,
-    scales
+    rstudio/shiny,
+    scales,
+    styler,
+    tibble
 Config/Needs/routine: chromote, desc, renv
-Config/Needs/website: 
+Config/Needs/website:
     brio,
     crosstalk,
     dplyr,
