@@ -71,7 +71,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 
 // When cards/value-boxes appear in main content area of bslib::layout_sidebar(),
 // use shadows instead of borders to separate them from the background.
-@if $bslib-enable-shadow {
+@if $bslib-enable-shadows {
   .bslib-sidebar-layout > .main {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
 
