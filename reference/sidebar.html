@@ -230,10 +230,11 @@ the fixed <code>.sidebar</code> class.</p></dd>
 
 
 <dt>max_height_mobile</dt>
-<dd><p>The maximum height of the horizontal sidebar when
-viewed on mobile devices. The default is <code>250px</code> unless the sidebar is
-included in a <code>layout_sidebar()</code> with a specified height, in which case
-the default is to take up no more than 50% of the layout container.</p></dd>
+<dd><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a>
+defining the maximum height of the horizontal sidebar when viewed on mobile
+devices. Only applies to always-open sidebars that use <code>open = "always"</code>,
+where by default the sidebar container is placed below the main content
+container on mobile devices.</p></dd>
 
 
 <dt>gap</dt>

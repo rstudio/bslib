@@ -123,6 +123,7 @@
      * @param {HTMLElement} container
      */
     constructor(container) {
+      var _a;
       _Sidebar.instanceMap.set(container, this);
       this.layout = {
         container,
@@ -136,6 +137,7 @@
         ":scope > .sidebar-content > .accordion"
       );
       if (sideAccordion) {
+        (_a = sideAccordion == null ? void 0 : sideAccordion.parentElement) == null ? void 0 : _a.classList.add("has-accordion");
         sideAccordion.classList.add("accordion-flush");
       }
       if (this.layout.toggle) {
