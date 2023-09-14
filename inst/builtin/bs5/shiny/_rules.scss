@@ -82,9 +82,13 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     // page_sidebar() vars
     --bslib-page-sidebar-title-color: var(--bs-body-color);
     --bslib-page-sidebar-title-bg: var(--bs-body-bg);
+
     background-color: var(--bslib-sidebar-main-bg);
 
     .bslib-card, .bslib-value-box {
+      // card_header() bg color
+      --#{$prefix}card-cap-bg: transparent;
+
       box-shadow: $box-shadow;
       border: 0;
       .card-header, .card-footer {
