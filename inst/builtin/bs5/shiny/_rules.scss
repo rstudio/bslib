@@ -62,6 +62,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 }
 
 // For selectizeInput(options = list(plugins = "remove_button"))
+// TODO: we should probably make this the default behavior in shiny
 .selectize-control.plugin-remove_button .item {
   align-items: flex-start !important;
   .remove {
@@ -69,13 +70,20 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// When cards/value-boxes appear in main content area of bslib::layout_sidebar(),
-// use shadows instead of borders to separate them from the background.
+// When cards/value-boxes appear in a page_sidebar()/page_navbar() context,
+// apply a subtle background color and a box shadow
+// TODO: move this logic into a "core" bundle that comes with any theme
+// (but you only get the shadows by default in the preset theme)
 @if $bslib-enable-shadows {
-  .bslib-sidebar-layout > .main {
-    background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+  .bslib-page-sidebar, .bslib-page-navbar {
+    // layout_sidebar() vars
+    --bslib-sidebar-bg: var(--bs-body-bg);
+    --bslib-sidebar-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+    // page_sidebar() vars
+    --bslib-page-sidebar-title-color: var(--bs-body-color);
+    --bslib-page-sidebar-title-bg: var(--bs-body-bg);
+    background-color: var(--bslib-sidebar-main-bg);
 
-    // TODO: should other components (e.g., img, accordion, sidebar, etc) also have shadows?
     .bslib-card, .bslib-value-box {
       box-shadow: $box-shadow;
       border: 0;
