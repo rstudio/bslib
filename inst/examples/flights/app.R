@@ -35,34 +35,35 @@ CHOICES <- list(
   carrier_name = c("Choose carrier(s)" = "", unique(flights$carrier_name))
 )
 
+SELECT_OPTS <- list(
+  plugins = list("remove_button"),
+  closeAfterSelect = TRUE
+)
+
 sidebar_acc <- accordion(
   open = c("Origin", "Destination"),
-  class = "accordion-flush", #TODO: remove when fix lands
+  class = "border-top", # TODO: this shouldn't be needed
   accordion_panel(
-    "Origin", icon = icon("plane-departure"),
-    uiOutput("origin_reset"),
-    checkboxGroupInput(
-      "origin", NULL,
+    "Flight Path", icon = icon("plane-departure"),
+    uiOutput("flight_path_reset"),
+    selectizeInput(
+      "origin", "Origin",
       choices = CHOICES$origin,
-      inline = TRUE
-    )
-  ),
-  accordion_panel(
-    "Destination", icon = icon("plane-arrival"),
-    selectizeInput(
-      "dest_name", NULL,
-      CHOICES$dest_name,
+      selected = CHOICES$origin,
       multiple = TRUE,
-      options = list(plugins = "remove_button")
-    )
-  ),
-  accordion_panel(
-    "Carrier", icon = icon("user-tie"),
+      options = SELECT_OPTS
+    ),
     selectizeInput(
-      "carrier_name", NULL,
-      CHOICES$carrier_name,
+      "dest_name", "Destination",
+      choices = CHOICES$dest_name,
       multiple = TRUE,
-      options = list(plugins = "remove_button")
+      options = SELECT_OPTS
+    ),
+    selectizeInput(
+      "carrier_name", "Carrier",
+      choices = CHOICES$carrier_name,
+      multiple = TRUE,
+      options = SELECT_OPTS
     )
   ),
   accordion_panel(
@@ -149,7 +150,7 @@ ui <- page_navbar(
     tags$img(src = "logo.png", width = "46px", height = "auto", class = "me-3"),
     "NYC Flights"
   ),
-  sidebar = sidebar_acc,
+  sidebar = sidebar(width = 275, sidebar_acc),
   nav_spacer(),
   nav_panel(
     "Delay overview",
@@ -189,9 +190,9 @@ server <- function(input, output, session) {
 
   # Mapping from input id name to updating input function
   input_discrete_vars <- list(
-    origin = function(...) updateCheckboxGroupInput(..., inline = TRUE),
-    carrier_name = updateSelectInput,
-    dest_name = updateSelectInput
+    origin = updateSelectInput,
+    dest_name = updateSelectInput,
+    carrier_name = updateSelectInput
   )
   input_numeric_vars <- list(
     sched_dep_time = update_histoslider,
@@ -250,7 +251,7 @@ server <- function(input, output, session) {
       update_input_func <- input_vars[[var]]
 
       if (var %in% names(input_discrete_vars)) {
-        choices <- CHOICES[[var]] %||% sort(unique(d[[var]]))
+        choices <- sort(unique(d[[var]]))
 
         update_input_func(
           inputId = var, choices = choices, selected = input_val %||% character(0)
@@ -267,24 +268,38 @@ server <- function(input, output, session) {
     })
   })
 
-  output$origin_reset <- renderUI({
+  output$flight_path_reset <- renderUI({
+    isVisible <- !identical(input$origin, CHOICES$origin) ||
+      length(input$dest_name) > 0 ||
+      length(input$carrier_name) > 0
+
     actionLink(
-      "origin_reset", "Reset",
+      "flight_path_reset", "Show all",
       style = htmltools::css(
         text_decoration = "none",
         font_weight = 700,
         font_size = ".875rem",
         float = "right",
-        visibility = if (length(input$origin) > 0) "visible" else "hidden",
+        visibility = if (isVisible) "visible" else "hidden",
         margin_top = "-7px"
       )
     )
   })
 
-  observeEvent(input$origin_reset, {
-    updateCheckboxGroupInput(
+  observeEvent(input$flight_path_reset, {
+    updateSelectInput(
       inputId = "origin",
       choices = CHOICES$origin,
+      selected = CHOICES$origin
+    )
+    updateSelectInput(
+      inputId = "dest_name",
+      choices = CHOICES$dest_name,
+      selected = character(0)
+    )
+    updateSelectInput(
+      inputId = "carrier_name",
+      choices = CHOICES$carrier_name,
       selected = character(0)
     )
   })
