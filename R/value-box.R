@@ -5,6 +5,17 @@
 #' `value` represents (for example, it could hold a [bsicons::bs_icon()], or
 #' even a [shiny::plotOutput()]).
 #'
+#' @section Build a Box App:
+#'
+#'   Explore all of the `value_box()` options and layouts interactively with the
+#'   [Build a Box app](https://bslib.shinyapps.io/build-a-box/), available
+#'   online thanks to [shinyapps.io](https://www.shinyapps.io/). Or, you can
+#'   run the app locally with:
+#'
+#'   ```r
+#'   shiny::runApp(system.file("examples", "build-a-box", package = "bslib"))
+#'   ```
+#'
 #' @section Themes:
 #'
 #'   ```{r child="man/fragments/value-box-themes.Rmd"}

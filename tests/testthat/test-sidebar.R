@@ -112,6 +112,17 @@ test_that("sidebar() - throws an error for invalid `open` values", {
     sidebar(open = character())
   )
 })
+
+test_that("sidebar() - warns if `max_height_mobile` used with `open != 'always'", {
+  expect_warning(
+    sidebar(open = "open", max_height_mobile = "100px")
+  )
+
+  expect_silent(
+    sidebar(open = "always", max_height_mobile = "100px")
+  )
+})
+
 test_that("layout_sidebar() - errors with unexpected border, border_radius input values", {
   expect_error(
     layout_sidebar(sidebar(), border = "1px solid blue")

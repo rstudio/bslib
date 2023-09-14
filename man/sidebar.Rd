@@ -82,10 +82,11 @@ color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
 \item{class}{CSS classes for the sidebar container element, in addition to
 the fixed \code{.sidebar} class.}
 
-\item{max_height_mobile}{The maximum height of the horizontal sidebar when
-viewed on mobile devices. The default is \verb{250px} unless the sidebar is
-included in a \code{\link[=layout_sidebar]{layout_sidebar()}} with a specified height, in which case
-the default is to take up no more than 50\% of the layout container.}
+\item{max_height_mobile}{A \link[htmltools:validateCssUnit]{CSS length unit}
+defining the maximum height of the horizontal sidebar when viewed on mobile
+devices. Only applies to always-open sidebars that use \code{open = "always"},
+where by default the sidebar container is placed below the main content
+container on mobile devices.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
 vertical \code{gap} (i.e., spacing) between adjacent elements provided to \code{...}.}
