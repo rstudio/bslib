@@ -17,6 +17,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   --bslib-sidebar-toggle-bg: #{$bslib-sidebar-toggle-bg};
   --bslib-sidebar-padding: calc(var(--bslib-spacer) * 1.5);
   --bslib-sidebar-icon-size: var(--bslib-spacer, 1rem);
+  // We intentionally don't give a value here, but it could be set by someone else 
   // --bslib-collapse-toggle-border: ;
   --bslib-collapse-toggle-border-radius: var(--bs-border-radius, #{$border-radius});
   --bslib-collapse-toggle-transform: 0deg;
