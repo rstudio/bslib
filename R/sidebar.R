@@ -50,10 +50,11 @@
 #'   color, e.g. setting `bg` chooses an appropriate `fg` color.
 #' @param class CSS classes for the sidebar container element, in addition to
 #'   the fixed `.sidebar` class.
-#' @param max_height_mobile The maximum height of the horizontal sidebar when
-#'   viewed on mobile devices. The default is `250px` unless the sidebar is
-#'   included in a [layout_sidebar()] with a specified height, in which case
-#'   the default is to take up no more than 50% of the layout container.
+#' @param max_height_mobile A [CSS length unit][htmltools::validateCssUnit()]
+#'   defining the maximum height of the horizontal sidebar when viewed on mobile
+#'   devices. Only applies to always-open sidebars that use `open = "always"`,
+#'   where by default the sidebar container is placed below the main content
+#'   container on mobile devices.
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   vertical `gap` (i.e., spacing) between adjacent elements provided to `...`.
 #' @param padding Padding within the sidebar itself. This can be a numeric
@@ -90,6 +91,11 @@ sidebar <- function(
   }
 
   open <- rlang::arg_match(open)
+
+  if (!is.null(max_height_mobile) && open != "always") {
+    rlang::warn('The `max_height_mobile` argument only applies to when `open = "always"`.')
+    max_height_mobile <- NULL
+  }
 
   if (!is.null(id)) {
     if (length(id) != 1 || is.na(id) || !nzchar(id)) {

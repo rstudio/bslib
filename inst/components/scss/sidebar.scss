@@ -286,6 +286,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     // Always open sidebars become "flow" layouts in mobile view
     &[data-bslib-sidebar-open="always"] {
       display: block !important;
+      > .sidebar {
+        max-height: var(--bslib-sidebar-max-height-mobile);
+        overflow-y: auto;
+      }
     }
 
     &:not([data-bslib-sidebar-open="always"]) {
