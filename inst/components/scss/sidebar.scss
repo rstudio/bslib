@@ -121,7 +121,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
 
   &[data-bslib-sidebar-open="always"] {
     > .sidebar > .sidebar-content {
-      // remove toggle button padding adjustment if there isn't a button
+      // Always-open sidebars don't have a toggle & can use normal top padding
       padding-top: var(--bslib-sidebar-padding);
     }
   }
