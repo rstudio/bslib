@@ -51,9 +51,9 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 }
 
 // By default, non-active .nav links reflect the primary color. This styling
-// tweak brings them closer to how they'll appear in a navbar. 
+// tweak brings them closer to how they'll appear in a navbar.
 .nav-underline {
-  --bs-link-color: rgba(var(--bs-body-color-rgb), 0.65); 
+  --bs-link-color: rgba(var(--bs-body-color-rgb), 0.65);
   --bs-link-hover-color: rgba(var(--bs-body-color-rgb), 0.8);
 }
 
