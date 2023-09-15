@@ -70,35 +70,61 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// When cards/value-boxes appear in a page_sidebar()/page_navbar() context,
-// apply a subtle background color and a box shadow
+// In a page_sidebar()/page_navbar() context,
+// apply a subtle background color and a box shadow to cards
+@mixin bslib-sidebar-layout {
+  > .sidebar {
+    background-color: var(--bs-body-bg);
+  }
+  > .main {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+
+    @include bslib-box-shadows;
+  }
+}
+
+@mixin bslib-box-shadows {
+  .bslib-card {
+    --bslib-sidebar-bg: var(--bs-body-bg);
+    box-shadow: $box-shadow;
+    border: 0;
+    .card-header, .card-footer {
+      background-color: transparent;
+      border: 0;
+    }
+    .card-header {
+      font-weight: $font-weight-semibold;
+      font-size: 0.9rem;
+      line-height: 1.375rem;
+    }
+  }
+}
+
+
 // TODO: move this logic into a "core" bundle that comes with any theme
 // (but you only get the shadows by default in the preset theme)
 @if $bslib-enable-shadows {
-  .bslib-page-sidebar, .bslib-page-navbar {
-    // layout_sidebar() vars
-    --bslib-sidebar-bg: var(--bs-body-bg);
-    --bslib-sidebar-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
-    // page_sidebar() vars
+
+  .bslib-page-sidebar {
     --bslib-page-sidebar-title-color: var(--bs-body-color);
     --bslib-page-sidebar-title-bg: var(--bs-body-bg);
 
-    background-color: var(--bslib-sidebar-main-bg);
+    > .bslib-sidebar-layout {
+      @include bslib-sidebar-layout;
+    }
+  }
 
-    .bslib-card, .bslib-value-box {
-      // card_header() bg color
-      --#{$prefix}card-cap-bg: transparent;
+  .bslib-page-navbar {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
 
-      box-shadow: $box-shadow;
-      border: 0;
-      .card-header, .card-footer {
-        border: 0;
-      }
-      .card-header {
-        font-weight: $font-weight-semibold;
-        font-size: 0.9rem;
-        line-height: 1.375rem;
-      }
+    // page_navbar(sidebar = ...)
+    > * > .bslib-sidebar-layout {
+      @include bslib-sidebar-layout;
+    }
+
+    // page_navbar(nav_panel("A", layout_sidebar()))
+    .tab-pane > .bslib-sidebar-layout  {
+      @include bslib-sidebar-layout;
     }
   }
 }
