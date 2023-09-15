@@ -42,6 +42,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       @include button-outline-variant($dark-text-emphasis-dark);
     }
   }
+
+  @include color-mode(dark) {
+    .bslib-value-box {
+      --bslib-value-box-shadow: #{$box-shadow-dark};
+    }
+  }
 }
 
 // By default, non-active .nav links reflect the primary color. This styling
