@@ -20,7 +20,6 @@ jobs:
   R-CMD-check:
     uses: rstudio/shiny-workflows/.github/workflows/R-CMD-check.yaml@v1
   deploy:
-    #if: github.repository == 'rstudio/bslib' && github.event_name == 'push'
     if: github.repository == 'rstudio/bslib'
     runs-on: ubuntu-20.04
 
@@ -41,7 +40,7 @@ jobs:
       - name: Install bslib from GitHub
         shell: Rscript {0}
         run: |
-          pak::pkg_install("rstudio/bslib#786", dependencies = TRUE, upgrade = TRUE)
+          pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
 
       # Workaround for this (probably spurious error):
       # https://github.com/rstudio/bslib/actions/runs/4963164313/jobs/8882217868#step:6:32
