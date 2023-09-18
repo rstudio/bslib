@@ -57,11 +57,12 @@ Remotes:
     rstudio/htmltools
 Config/Needs/deploy: 
     BH,
+    chiflights22,
     colourpicker,
     commonmark,
     cpp11,
-    cpsievert/histoslider,
     cpsievert/chiflights22,
+    cpsievert/histoslider,
     dplyr,
     DT,
     ggplot2,
