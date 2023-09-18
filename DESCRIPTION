@@ -57,7 +57,6 @@ Remotes:
     rstudio/htmltools
 Config/Needs/deploy: 
     BH,
-    chiflights22,
     colourpicker,
     commonmark,
     cpp11,
