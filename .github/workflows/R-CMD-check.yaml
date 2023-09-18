@@ -20,7 +20,7 @@ jobs:
   R-CMD-check:
     uses: rstudio/shiny-workflows/.github/workflows/R-CMD-check.yaml@v1
   deploy:
-    if: github.repository == 'rstudio/bslib'
+    if: github.repository == 'rstudio/bslib' && github.event_name == 'push'
     runs-on: ubuntu-20.04
 
     name: "Deploy to shinyapps.io"
