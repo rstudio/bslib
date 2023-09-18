@@ -1,6 +1,7 @@
 # Packages ---------------------------------------
 library(shiny)
 library(bslib)
+library(htmltools)
 
 pkgs_extra <- c("plotly", "colourpicker")
 pkgs_yes <- vapply(pkgs_extra, rlang::is_installed, logical(1))
