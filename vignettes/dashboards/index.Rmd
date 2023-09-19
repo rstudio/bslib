@@ -203,10 +203,10 @@ To add multiple pages, change `page_sidebar()` to `page_navbar()` and use `nav_p
 ui <- page_navbar(
   title = "Penguins dashboard",
   sidebar = color_by,
+  nav_spacer(),
   nav_panel("Bill Length", cards[[1]]),
   nav_panel("Bill Depth", cards[[2]]),
   nav_panel("Body Mass", cards[[3]]),
-  nav_spacer(),
   nav_item(tags$a("Posit", href = "https://posit.co"))
 )
 
@@ -288,7 +288,7 @@ Also, sidebars are collapsed by default on mobile devices, but they can be opene
 ```{r mobile-layout, out.height = 600, out.width = 400}
 ui <- page_sidebar(
   title = "Penguins dashboard",
-  sidebar = sidebar(color_by, open = TRUE),
+  sidebar = color_by,
   fillable_mobile = TRUE,
   card(min_height = 200, plotOutput("bill_length")),
   card(height = 200, lorem::ipsum(15))
@@ -304,7 +304,7 @@ shinyApp(ui, server)
 
 A `value_box()` is a special kind of card designed for highlighting a value along with a title and a `showcase` placeholder (typically a `{bsicons}` icon). They are covered in more detail in the [value boxes](../value-boxes) article, but here's a `{palmerpenguins}` example:
 
-```{r value-boxes, out.height = 900, out.width = 1200}
+```{r value-boxes, out.height = 900, out.width = 1400}
 means <- colMeans(
   penguins[c("bill_length_mm", "bill_length_mm", "body_mass_g")],
   na.rm = TRUE
@@ -323,14 +323,12 @@ ui <- page_sidebar(
     value_box(
       title = "Average bill depth",
       value = scales::unit_format(unit = "mm")(means[[2]]),
-      showcase = bsicons::bs_icon("align-center"),
-      theme_color = "dark"
+      showcase = bsicons::bs_icon("align-center")
     ),
     value_box(
       title = "Average body mass",
       value = scales::unit_format(unit = "g", big.mark = ",")(means[[3]]),
-      showcase = bsicons::bs_icon("handbag"),
-      theme_color = "secondary"
+      showcase = bsicons::bs_icon("handbag")
     )
   ),
   layout_columns(
