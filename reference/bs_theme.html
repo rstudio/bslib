@@ -161,11 +161,11 @@ for new projects (currently Bootstrap 5).</p></dd>
 <dd><p>The name of a theme preset, either a built-in theme provided by
 bslib or a Bootswatch theme (see <code><a href="builtin_themes.html">builtin_themes()</a></code> and
 <code><a href="bootswatch_themes.html">bootswatch_themes()</a></code> for possible values). This argument takes precedence
-over the <code>bootswatch</code> argument and only one <code>theme</code> or <code>bootswatch</code> can be
-provided. When provided to <code>bs_theme_update()</code>, any previous preset theme
-is first removed before the new theme preset is applied. You can use
-<code>theme = "bootstrap"</code> to remove any preset theme and to revert to a base
-Bootstrap theme.</p></dd>
+over the <code>bootswatch</code> argument and only one <code>preset</code> or <code>bootswatch</code> can be
+provided. When no <code>bootswatch</code> theme is specified, and <code>version</code> is 5 or
+higher, <code>preset</code> defaults to <code>"shiny"</code>. To remove the <code>"shiny"</code> preset,
+provide a value of <code>"bootstrap"</code> (this value will also work in
+<code>bs_theme_update()</code> to remove a <code>preset</code> or <code>bootswatch</code> theme).</p></dd>
 
 
 <dt>...</dt>

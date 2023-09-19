@@ -4,7 +4,7 @@ $bslib-sidebar-toggle-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.1) !defaul
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
 $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), var(--bslib-sidebar-width, 250px));
 
-.bslib-sidebar-layout {
+:root {
   --bslib-sidebar-transition-duration: 500ms;
   --bslib-sidebar-transition-easing-x: cubic-bezier(0.8, 0.78, 0.22, 1.07);
   --bslib-sidebar-border: #{$bslib-sidebar-border};
@@ -26,8 +26,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   --bslib-sidebar-toggle-transition-easing: cubic-bezier(1, 0, 0, 1);
   --bslib-collapse-toggle-right-transform: 180deg;
   --bslib-sidebar-column-main: minmax(0, 1fr);
+}
 
-
+.bslib-sidebar-layout {
+  
   display: grid !important;
   grid-template-columns: $bslib-sidebar-column-sidebar var(--bslib-sidebar-column-main);
   position: relative;
