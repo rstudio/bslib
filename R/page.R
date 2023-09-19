@@ -134,6 +134,7 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
     theme = theme,
     lang = lang,
     fillable_mobile = fillable_mobile,
+    class = "bslib-page-sidebar",
     title,
     layout_sidebar(
       sidebar = sidebar,
@@ -156,20 +157,34 @@ page_sidebar_dependency_sass <- function(theme) {
 #' @seealso [shiny::navbarPage()]
 #' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
+#' @param underline Whether or not to add underline styling to page links when
+#'   active or focused.
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
 #' @export
-page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
-                        sidebar = NULL, fillable = TRUE, fillable_mobile = FALSE,
-                        gap = NULL, padding = NULL,
-                        position = c("static-top", "fixed-top", "fixed-bottom"),
-                        header = NULL, footer = NULL,
-                        bg = NULL, inverse = "auto",
-                        collapsible = TRUE, fluid = TRUE,
-                        theme =  bs_theme(),
-                        window_title = NA,
-                        lang = NULL) {
+page_navbar <- function(
+  ...,
+  title = NULL,
+  id = NULL,
+  selected = NULL,
+  sidebar = NULL,
+  fillable = TRUE,
+  fillable_mobile = FALSE,
+  gap = NULL,
+  padding = NULL,
+  position = c("static-top", "fixed-top", "fixed-bottom"),
+  header = NULL,
+  footer = NULL,
+  bg = NULL,
+  inverse = "auto",
+  underline = TRUE,
+  collapsible = TRUE,
+  fluid = TRUE,
+  theme = bs_theme(),
+  window_title = NA,
+  lang = NULL
+) {
 
 
   # Default to fillable = F when this is called from shiny::navbarPage()
@@ -193,14 +208,15 @@ page_navbar <- function(..., title = NULL, id = NULL, selected = NULL,
     title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
+    class = "bslib-page-navbar",
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
       gap = gap, padding = padding,
       position = match.arg(position), header = header,
       footer = footer, bg = bg, inverse = inverse,
-      collapsible = collapsible, fluid = fluid,
-      theme = theme
+      underline = underline, collapsible = collapsible,
+      fluid = fluid, theme = theme
     )
   )
 }

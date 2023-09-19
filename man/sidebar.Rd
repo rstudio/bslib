@@ -17,7 +17,9 @@ sidebar(
   bg = NULL,
   fg = NULL,
   class = NULL,
-  max_height_mobile = NULL
+  max_height_mobile = NULL,
+  gap = NULL,
+  padding = NULL
 )
 
 layout_sidebar(
@@ -80,10 +82,24 @@ color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
 \item{class}{CSS classes for the sidebar container element, in addition to
 the fixed \code{.sidebar} class.}
 
-\item{max_height_mobile}{The maximum height of the horizontal sidebar when
-viewed on mobile devices. The default is \verb{250px} unless the sidebar is
-included in a \code{\link[=layout_sidebar]{layout_sidebar()}} with a specified height, in which case
-the default is to take up no more than 50\% of the layout container.}
+\item{max_height_mobile}{A \link[htmltools:validateCssUnit]{CSS length unit}
+defining the maximum height of the horizontal sidebar when viewed on mobile
+devices. Only applies to always-open sidebars that use \code{open = "always"},
+where by default the sidebar container is placed below the main content
+container on mobile devices.}
+
+\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
+vertical \code{gap} (i.e., spacing) between adjacent elements provided to \code{...}.}
+
+\item{padding}{Padding within the sidebar itself. This can be a numeric
+vector (which will be interpreted as pixels) or a character vector with
+valid CSS lengths. \code{padding} may be one to four values. If one, then
+that value will be used for all four sides. If two, then the first value
+will be used for the top and bottom, while the second value will be used
+for left and right. If three, then the first will be used for top, the
+second will be left and right, and the third will be bottom. If four, then
+the values will be interpreted as top, right, bottom, and left
+respectively.}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
@@ -100,18 +116,6 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 \item{border_color}{The border color that is applied to the entire layout (if
 \code{border = TRUE}) and the color of the border between the sidebar and the
 main content area.}
-
-\item{padding}{Padding to use for the body. This can be a numeric vector
-(which will be interpreted as pixels) or a character vector with valid CSS
-lengths. The length can be between one and four. If one, then that value
-will be used for all four sides. If two, then the first value will be used
-for the top and bottom, while the second value will be used for left and
-right. If three, then the first will be used for top, the second will be
-left and right, and the third will be bottom. If four, then the values will
-be interpreted as top, right, bottom, and left respectively.}
-
-\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}

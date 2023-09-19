@@ -1,0 +1,248 @@
+---
+title: "Value boxes"
+resource_files:
+  - examples
+---
+
+```{r setup, include=FALSE}
+source(
+  rprojroot::find_package_root_file("vignettes/_common.R")
+)
+```
+
+```{css, echo = FALSE}
+.section.level2 {
+  margin-top: 5rem;
+}
+```
+
+This (short) article on `value_box()` assumes you've loaded the following packages:
+
+```{r}
+library(bslib)
+library(shiny)
+library(bsicons)
+```
+
+::: {.callout .callout-note .mt-5}
+### Build a Box App
+
+Want to explore all of the `value_box()` options and layouts in an interactive app?
+Check out the [Build a Box App](https://bslib.shinyapps.io/build-a-box)!
+Use the app to quickly choose the right layout and theme for your value boxes,
+and then copy the code right into your own app.
+:::
+
+
+## Hello `value_box()`
+
+<div class="row">
+<div class="col-md-6">
+
+A `value_box()` has 4 main parts:
+
+1. `value`: Some text value.
+2. `title`: Optional text to display above `value`.
+3. `showcase`: Optional UI element(s) to display alongside the value.
+4. `theme`: Optional theme to change the appearance of the value box.
+4. `...`: Any other text/UI elements to appear below `value`.
+
+As we'll see later, one can be clever with what goes in the `showcase`, but in many cases an icon provides enough visual context for the box to feel "complete". We recommend using the new `{bsicons}` package since it's designed with Bootstrap in mind, but you could also use `{fontawesome}` or `{icons}`.
+
+With each value box you can `showcase` a plot or an icon, choosing from one of three values for `showcase_layout`: `"left center"`, `"top right"`, or `"bottom"`.
+See [the Showcase Layouts section](../reference/value_box.html#showcase-layouts) in the `value_box()` documentation for more details.
+
+The overall appearance of the value box may be customized with the `theme` argument, where you can choose from a wide variety of themes —
+[the Themes section](../reference/value_box.html#showcase-layouts) of the `value_box()` documentation lays out all of your options.
+
+</div>
+
+<div class="col-md-6">
+
+<ul class="nav nav-pills justify-content-center" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#left-center" type="button" role="tab" aria-controls="left-center" aria-selected="true">Left center</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#top-right" type="button" role="tab" aria-controls="top-right" aria-selected="false">Top Right</button>
+  </li>
+  </li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane show active" id="left-center" role="tabpanel" tabindex="0">
+```{r}
+value_box(
+  title = "I got",
+  value = "99 problems",
+  showcase = bs_icon("music-note-beamed"),
+  p("bslib ain't one", bs_icon("emoji-smile")),
+  p("hit me", bs_icon("suit-spade"))
+)
+```
+</div>
+  <div class="tab-pane" id="top-right" role="tabpanel" tabindex="0">
+```{r}
+value_box(
+  title = "I got",
+  value = "99 problems",
+  showcase = bs_icon("music-note-beamed"),
+  showcase_layout = "top right",
+  theme = "secondary",
+  p("bslib ain't one", bs_icon("emoji-smile")),
+  p("hit me", bs_icon("suit-spade"))
+)
+```
+</div>
+</div>
+  </div>
+</div>
+
+
+
+
+## Dynamic rendering (Shiny)
+
+:::: row
+::: col-md-6
+When using Shiny to dynamically render `value_box()` contents, it's good practice to use `textOutput()` to serve as a placeholder for `value`, `title`, etc. This way, if the value takes a moment to compute, the value box will appear before the value is ready, and thus reduces "layout shift" when the value is actually rendered.
+:::
+
+::: col-md-6
+```r
+ui <- page_fixed(
+  value_box(
+    title = "The current time",
+    value = textOutput("time"),
+    showcase = bs_icon("clock")
+  )
+)
+
+server <- function(input, output) {
+  output$time <- renderText({
+    invalidateLater(1000)
+    format(Sys.time())
+  })
+}
+
+shinyApp(ui, server)
+```
+:::
+::::
+
+
+## Multiple value boxes
+
+To layout multiple value boxes, it's recommended to use `layout_column_wrap()` (or `layout_columns()`), which ensures a uniform height and width (at least by default) across the boxes.
+
+```{r}
+vbs <- list(
+  value_box(
+    title = "1st value",
+    value = "123",
+    showcase = bs_icon("bar-chart"),
+    theme = "purple",
+    p("The 1st detail")
+  ),
+  value_box(
+    title = "2nd value",
+    value = "456",
+    showcase = bs_icon("graph-up"),
+    theme = "teal",
+    p("The 2nd detail"),
+    p("The 3rd detail")
+  ),
+  value_box(
+    title = "3rd value",
+    value = "789",
+    showcase = bs_icon("pie-chart"),
+    theme = "pink",
+    p("The 4th detail"),
+    p("The 5th detail"),
+    p("The 6th detail")
+  )
+)
+
+layout_column_wrap(
+  width = "250px",
+  !!!vbs
+)
+```
+
+<br>
+
+And, when incorporating multiple value boxes into a larger [filling layout](../filling), it's good practice to set `fill = FALSE` on the layout container since that'll prevent the boxes from using up more space than they really need. For example, try resizing the following example vertically. Notice how the height of the value boxes don't change, but the height of the plot does (and it isn't allowed to shrink below 200 pixels):
+
+```{r fill-false, as_iframe = TRUE, resizable = TRUE}
+page_fillable(
+  layout_column_wrap(
+    width = "250px",
+    fill = FALSE,
+    vbs[[1]], vbs[[2]]
+  ),
+  card(
+    min_height = 200,
+    plotly::plot_ly(x = rnorm(100))
+  )
+)
+```
+
+
+
+
+
+## Expandable sparklines
+
+::: row
+::: col-md-6
+Under-the-hood, `value_box()` is implemented using `card()`, mainly to inherit it's `full_screen` capabilities. Expanding a `value_box()` to full screen isn't so useful when the `showcase` is something simple like an icon, but it becomes quite compelling for something like an "expandable [sparkline](https://en.wikipedia.org/wiki/Sparkline)". The code to the right demonstrates one way you might go about that with plotly.
+
+Note that, since this example is statically rendered (outside of Shiny), we make use of `htmlwidgets::onRender()` to add some JavaScript that effectively says: "Show the xaxis of the chart when it's taller than 200 pixels; otherwise, hide it".
+
+Those of you who aren't wanting to write JavaScript can achieve similar behavior (i.e., displaying a different chart depending on it's size) via `shiny::getCurrentOutputInfo()`, as mentioned in the [article on cards](../cards#shiny). In fact, here's the [source code](https://github.com/rstudio/bslib/tree/main/inst/examples/value_box) for a Shiny app does effectively the same thing without any JavaScript (note how it also leverages other `getCurrentOutputInfo()` values to avoid hard coding `"white"` into the colors of the sparklines).
+:::
+
+::: col-md-6
+```{r}
+library(plotly)
+
+sparkline <- plot_ly(economics) %>%
+  add_lines(
+    x = ~date, y = ~psavert,
+    color = I("white"), span = I(1),
+    fill = 'tozeroy', alpha = 0.2
+  ) %>%
+  layout(
+    xaxis = list(visible = F, showgrid = F, title = ""),
+    yaxis = list(visible = F, showgrid = F, title = ""),
+    hovermode = "x",
+    margin = list(t = 0, r = 0, l = 0, b = 0),
+    font = list(color = "white"),
+    paper_bgcolor = "transparent",
+    plot_bgcolor = "transparent"
+  ) %>%
+  config(displayModeBar = F) %>%
+  htmlwidgets::onRender(
+    "function(el) {
+      var ro = new ResizeObserver(function() {
+         var visible = el.offsetHeight > 200;
+         Plotly.relayout(el, {'xaxis.visible': visible});
+      });
+      ro.observe(el);
+    }"
+  )
+
+
+value_box(
+  title = "Personal Savings Rate",
+  value = "7.6%",
+  p("Started at 12.6%"),
+  p("Averaged 8.6% over that period"),
+  p("Peaked 17.3% in May 1975"),
+  showcase = sparkline,
+  full_screen = TRUE,
+  theme = "success"
+)
+```
+
+:::
+:::

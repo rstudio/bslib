@@ -13,60 +13,69 @@ template:
       google: {family: "Atkinson Hyperlegible", wght: [300, 400, 700], ital: [0, 1]}
     headings-color: "#206B72"
     link-color: "#216B73"
-    link-decoration: underline var(--bs-info) dotted
+    link-color-dark: "#cef4f9"
+    link-decoration: underline dotted
   params:
     footer: <b>bslib</b> is an R package developed by <a href='https://rstudio.com'>RStudio</a>
     docsearch:
       api_key: 53fd87c79a13e431b4298611470d023a
       index_name: bslib
+  includes:
+    in_header: >
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css">
 
 navbar:
   bg: info
   type: light
   structure:
     left:  [get-started, examples, theming, components, layouts]
-    right: [reference, news, github]
+    right: [reference, news, github, dark-mode]
   components:
     home: ~
+    dark-mode:
+      href: "#dark-mode"
+
     get-started:
       text: Get Started
       menu:
         - text: Shiny dashboards
-          href: articles/dashboards.html
+          href: articles/dashboards/index.html
         - text: Any Bootstrap project
-          href: articles/any-project.html
+          href: articles/any-project/index.html
         - text: Theming
-          href: articles/theming.html
+          href: articles/theming/index.html
     #examples:
     #  text: Examples
-    #  href: articles/examples.html
+    #  href: articles/examples/index.html
     theming:
       text: Theming
       menu:
         - text: Theming variables
-          href: articles/bs5-variables.html
+          href: articles/bs5-variables/index.html
         - text: Utility Classes
-          href: articles/utility-classes.html
+          href: articles/utility-classes/index.html
         - text: Custom components
-          href: articles/custom-components.html
+          href: articles/custom-components/index.html
     components:
       text: Components
       menu:
         - text: Cards
-          href: articles/cards.html
+          href: articles/cards/index.html
         - text: Sidebars
-          href: articles/sidebars.html
+          href: articles/sidebars/index.html
         - text: Value Boxes
-          href: articles/value-boxes.html
+          href: articles/value-boxes/index.html
+        - text: Tooltips & Popovers
+          href: articles/tooltips-popovers/index.html
     layouts:
       text: Layouts
       menu:
         - text: Multiple columns
-          href: articles/column-layout.html
+          href: articles/column-layout/index.html
         - text: Multiple panels
-          href: https://rstudio.github.io/bslib/reference/navset.html#details
+          href: reference/navset.html#details
         - text: Filling layout
-          href: articles/filling.html
+          href: articles/filling/index.html
 
 
     reference:
@@ -76,7 +85,7 @@ navbar:
       text: News
       href: news/index.html
     github:
-      icon: fab fa-github fa-lg
+      icon: bi-github
       href: https://github.com/rstudio/bslib
 
 reference:
@@ -111,16 +120,18 @@ reference:
     Highlight important findings
   contents:
     - value_box
-- title: Tooltips
+- title: Tooltips & Popovers
   description: |
-    Provide additional context
+    Provide details on demand
   contents:
     - tooltip
+    - popover
 - title: Input controls
   description: |
     UI controls for capturing user input
   contents:
     - input_switch
+    - input_dark_mode
 - title: Accordions
   description: |
     Create collapsible sections of content
@@ -176,12 +187,21 @@ reference:
     - version_default
 
 
-  redirects:
-    - ["articles/cards.html#fixed-sizing", "articles/cards.html#scrolling-contents"]
-    - ["articles/cards.html#responsive-sizing", "articles/cards.html#filling-contents"]
-    - ["articles/cards.html#fixed-responsive-sizing", "articles/cards.html#scrolling-filling"]
-    - ["articles/cards.html#dynamic-rendering-shiny", "articles/cards.html#shiny"]
-    - ["reference/nav.html", "reference/nav-items.html"]
-    - ["reference/navs.html", "reference/navset.html"]
-    - ["articles/custom-theming.html", "articles/theming.html"]
-    - ["articles/bslib.html", "articles/any-project.html"]
+redirects:
+  - ["reference/nav.html", "reference/nav-items.html"]
+  - ["reference/navs.html", "reference/navset.html"]
+  - ["articles/custom-theming.html", "articles/theming/index.html"]
+  - ["articles/bslib.html", "articles/any-project/index.html"]
+  - ["articles/any-project.html", "articles/any-project/index.html"]
+  - ["articles/bs4-variables.html", "articles/bs4-variables/index.html"]
+  - ["articles/bs5-variables.html", "articles/bs5-variables/index.html"]
+  - ["articles/cards.html", "articles/cards/index.html"]
+  - ["articles/column-layout.html", "articles/column-layout/index.html"]
+  - ["articles/custom-components.html", "articles/custom-components/index.html"]
+  - ["articles/dashboards.html", "articles/dashboards/index.html"]
+  - ["articles/filling.html", "articles/filling/index.html"]
+  - ["articles/sidebars.html", "articles/sidebars/index.html"]
+  - ["articles/theming.html", "articles/theming/index.html"]
+  - ["articles/utility-classes.html", "articles/utility-classes/index.html"]
+  - ["articles/value-boxes.html", "articles/value-boxes/index.html"]
+  - ["articles/why-sass.html", "articles/why-sass/index.html"]

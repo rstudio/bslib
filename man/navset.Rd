@@ -4,16 +4,20 @@
 \alias{navset}
 \alias{navset_tab}
 \alias{navset_pill}
+\alias{navset_underline}
 \alias{navset_pill_list}
 \alias{navset_hidden}
 \alias{navset_bar}
 \alias{navset_card_tab}
 \alias{navset_card_pill}
+\alias{navset_card_underline}
 \title{Navigation containers}
 \usage{
 navset_tab(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
+
+navset_underline(..., id = NULL, selected = NULL, header = NULL, footer = NULL)
 
 navset_pill_list(
   ...,
@@ -69,6 +73,19 @@ navset_card_pill(
   footer = NULL,
   height = NULL,
   placement = c("above", "below"),
+  full_screen = FALSE,
+  wrapper = card_body
+)
+
+navset_card_underline(
+  ...,
+  id = NULL,
+  selected = NULL,
+  title = NULL,
+  sidebar = NULL,
+  header = NULL,
+  footer = NULL,
+  height = NULL,
   full_screen = FALSE,
   wrapper = card_body
 )
@@ -133,8 +150,7 @@ unless you add padding, e.g.: \code{tags$style(type="text/css", "body
 text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
 
 \item{collapsible}{\code{TRUE} to automatically collapse the navigation
-elements into a menu when the width of the browser is less than 940 pixels
-(useful for viewing on smaller touchscreen device)}
+elements into an expandable menu on mobile devices or narrow window widths.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
@@ -154,6 +170,12 @@ together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body
 \description{
 Render a collection of \code{\link[=nav_panel]{nav_panel()}} items into a container.
 }
+\section{Examples}{
+
+
+\if{html}{\out{<div class="sourceCode {r child="man/fragments/ex-navset_tab.Rmd"}">}}\preformatted{}\if{html}{\out{</div>}}
+}
+
 \seealso{
 \code{\link[=nav_panel]{nav_panel()}}, \code{\link[=nav_select]{nav_select()}}.
 }

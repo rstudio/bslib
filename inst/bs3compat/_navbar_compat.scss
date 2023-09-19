@@ -5,6 +5,14 @@
   @extend .navbar-expand-sm;
 }
 
+// Unfortunately the @extend above, combined with the @extend .nav-link below
+// results in .navbar-expand's padding rules taking precedence over
+// .nav-underline's padding rules (and unfortunately :where()/css-layers doesn't
+// help here, so just re-apply the padding rules)
+.navbar .nav.nav-underline {
+  --#{$prefix}navbar-nav-link-padding-x: 0;
+}
+
 .navbar:not(.fixed-bottom):not(.navbar-fixed-bottom) {
   // Instead of exactly re-doing bs3's .navbar { margin-bottom }, set
   // margin-top on each pane (so 'fill' panes can be flush with navbar)
@@ -38,11 +46,28 @@ ul.nav.navbar-nav {
   }
 }
 
-ul.nav.navbar-nav>li:not(.dropdown) {
-  @extend .nav-item;
-}
-ul.nav.navbar-nav>li>a {
-  @extend .nav-link;
+// :where() lowers the specificity of the eventually @extend selector, which is
+// important to make sure those selectors don't get an artificial specificity
+// boost (e.g., we don't want `ul.nav.navbar-nav>li>a` to be more specific than
+// `.nav-underline .nav-link`)
+:where(ul.nav.navbar-nav > li) {
+  &:not(.dropdown) {
+    @extend .nav-item;
+  }
+
+  > a {
+    @extend .nav-link;
+  }
+  
+  &.active, &.show {
+    > a {
+      color: var(--#{$prefix}navbar-active-color);
+    }
+  }
+
+  &.bslib-nav-item {
+    color: var(--#{$prefix}navbar-active-color);
+  }
 }
 
 // BS3 .navbar-default -> BS4 .navbar-light
@@ -60,6 +85,19 @@ ul.nav.navbar-nav>li>a {
   @extend .navbar-dark;
   // See comments above for $navbar-light-bg
   background-color: $navbar-dark-bg !important;
+  // For BS5+ lean on emphasis-color
+  --bs-emphasis-color: white;
+  --bs-emphasis-color-rgb: 255, 255, 255;
+}
+
+// If Bs5+ dark color mode is enabled, change .navbar-default's bg from light to dark
+$enable-dark-mode: false !default;
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .navbar.navbar-default {
+      background-color: $navbar-dark-bg !important;
+    }
+  }
 }
 
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.

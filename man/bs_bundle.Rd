@@ -61,9 +61,9 @@ ensure theme customizations are portable between major Bootstrap versions.
 
 \item \code{bs_add_rules()}: Add additional \href{https://sass-lang.com/documentation/style-rules}{Sass rules}
 
-\item \code{bs_add_functions()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#functions-1}{Sass functions}
+\item \code{bs_add_functions()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#functions}{Sass functions}
 
-\item \code{bs_add_mixins()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#mixins-1}{Sass mixins}
+\item \code{bs_add_mixins()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#mixins}{Sass mixins}
 
 \item \code{bs_bundle()}: Add additional \code{\link[sass:sass_layer]{sass::sass_bundle()}} objects to an existing \code{theme}.
 

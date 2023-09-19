@@ -50,10 +50,22 @@
 #'   color, e.g. setting `bg` chooses an appropriate `fg` color.
 #' @param class CSS classes for the sidebar container element, in addition to
 #'   the fixed `.sidebar` class.
-#' @param max_height_mobile The maximum height of the horizontal sidebar when
-#'   viewed on mobile devices. The default is `250px` unless the sidebar is
-#'   included in a [layout_sidebar()] with a specified height, in which case
-#'   the default is to take up no more than 50% of the layout container.
+#' @param max_height_mobile A [CSS length unit][htmltools::validateCssUnit()]
+#'   defining the maximum height of the horizontal sidebar when viewed on mobile
+#'   devices. Only applies to always-open sidebars that use `open = "always"`,
+#'   where by default the sidebar container is placed below the main content
+#'   container on mobile devices.
+#' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
+#'   vertical `gap` (i.e., spacing) between adjacent elements provided to `...`.
+#' @param padding Padding within the sidebar itself. This can be a numeric
+#'   vector (which will be interpreted as pixels) or a character vector with
+#'   valid CSS lengths. `padding` may be one to four values. If one, then
+#'   that value will be used for all four sides. If two, then the first value
+#'   will be used for the top and bottom, while the second value will be used
+#'   for left and right. If three, then the first will be used for top, the
+#'   second will be left and right, and the third will be bottom. If four, then
+#'   the values will be interpreted as top, right, bottom, and left
+#'   respectively.
 #'
 #' @export
 sidebar <- function(
@@ -66,7 +78,9 @@ sidebar <- function(
   bg = NULL,
   fg = NULL,
   class = NULL,
-  max_height_mobile = NULL
+  max_height_mobile = NULL,
+  gap = NULL,
+  padding = NULL
 ) {
   if (isTRUE(open)) {
     open <- "open"
@@ -77,6 +91,11 @@ sidebar <- function(
   }
 
   open <- rlang::arg_match(open)
+
+  if (!is.null(max_height_mobile) && open != "always") {
+    rlang::warn('The `max_height_mobile` argument only applies to when `open = "always"`.')
+    max_height_mobile <- NULL
+  }
 
   if (!is.null(id)) {
     if (length(id) != 1 || is.na(id) || !nzchar(id)) {
@@ -122,8 +141,12 @@ sidebar <- function(
       class = c("sidebar", class),
       hidden = if (open == "closed") NA,
       tags$div(
-        class = "sidebar-content",
+        class = "sidebar-content bslib-gap-spacing",
         title,
+        style = css(
+          gap = validateCssUnit(gap),
+          padding = validateCssPadding(padding)
+        ),
         ...
       )
     ),
@@ -193,8 +216,6 @@ layout_sidebar <- function(
     class = "main",
     class = if (fillable) "bslib-gap-spacing",
     style = css(
-      background_color = bg,
-      color = fg,
       padding = validateCssPadding(padding),
       gap = validateCssUnit(gap)
     ),
@@ -210,20 +231,20 @@ layout_sidebar <- function(
   max_height_mobile <- sidebar$max_height_mobile %||%
     if (is.null(height)) "250px" else "50%"
 
-  sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
-
   res <- div(
-    class = "bslib-sidebar-layout",
+    class = "bslib-sidebar-layout bslib-mb-spacing",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
-    `data-bslib-sidebar-init` = sidebar_init,
+    `data-bslib-sidebar-init` = TRUE,
     `data-bslib-sidebar-open` = sidebar$open,
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
       "--bslib-sidebar-width" = sidebar$width,
-      "--bslib-sidebar-bg" = if (!is.null(sidebar$color$bg)) sidebar$color$bg,
-      "--bslib-sidebar-fg" = if (!is.null(sidebar$color$fg)) sidebar$color$fg,
+      "--bslib-sidebar-bg" = sidebar$color$bg,
+      "--bslib-sidebar-fg" = sidebar$color$fg,
+      "--bslib-sidebar-main-fg" = fg,
+      "--bslib-sidebar-main-bg" = bg,
       "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
@@ -276,10 +297,10 @@ sidebar_toggle <- toggle_sidebar
 
 collapse_icon <- function() {
   if (!is_installed("bsicons")) {
-    icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-chevron-down collapse-icon\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z\"></path></svg>"
+    icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-arrow-bar-left collapse-icon\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5Z\"></path></svg>"
     return(HTML(icon))
   }
-  bsicons::bs_icon("chevron-down", class = "collapse-icon", size = NULL)
+  bsicons::bs_icon("arrow-bar-left", class = "collapse-icon", size = NULL)
 }
 
 sidebar_init_js <- function() {
@@ -303,4 +324,3 @@ sidebar_dependency <- function() {
 sidebar_dependency_sass <- function(theme) {
   component_dependency_sass(theme, "sidebar")
 }
-

@@ -8,9 +8,16 @@ tipsUI <- function(id) {
   ns <- NS(id)
 
   layout_sidebar(
-    fillable = TRUE,
     sidebar = sidebar(
-      title = "Restaurant tipping",
+      title = tooltip(
+        span(
+          "Restaurant tipping",
+          bsicons::bs_icon("info-circle-fill"),
+          class = "sidebar-title"
+        ),
+        "One waiter recorded information about each tip he received",
+        "over a period of a few months working in one restaurant."
+      ),
       sliderInput(
         ns("total_bill"),
         "Bill amount",
@@ -19,7 +26,7 @@ tipsUI <- function(id) {
         value = range(tips$total_bill),
         pre = "$"
       ),
-      checkboxGroupInput(ns("time"), "Food service", c("Lunch", "Dinner"), c("Lunch", "Dinner")),
+      checkboxGroupInput(ns("time"), "Food service", c("Lunch", "Dinner"), c("Lunch", "Dinner"), inline = TRUE),
       actionButton(ns("reset"), "Reset filter"),
     ),
     layout_column_wrap(
@@ -33,14 +40,12 @@ tipsUI <- function(id) {
       value_box(
         "Average tip",
         uiOutput(ns("average_tip"), container = h2),
-        showcase = bsicons::bs_icon("wallet2"),
-        theme_color = "secondary"
+        showcase = bsicons::bs_icon("wallet2")
       ),
       value_box(
         "Average bill",
         uiOutput(ns("average_bill"), container = h2),
-        showcase = bsicons::bs_icon("currency-dollar"),
-        theme_color = "success"
+        showcase = bsicons::bs_icon("currency-dollar")
       )
     ),
     layout_column_wrap(
@@ -48,17 +53,20 @@ tipsUI <- function(id) {
       class = "mt-3",
       card(
         full_screen = TRUE,
-        card_header("Total bill vs tip"),
-        layout_sidebar(
-          fillable = TRUE,
-          sidebar = sidebar(
-            position = "right",
-            open = FALSE,
-            width = 150,
-            selectInput(ns("scatter_color"), "Color by:", c("none", "sex", "smoker", "day", "time")),
+        card_header(
+          "Total bill vs tip",
+          popover(
+            bsicons::bs_icon("gear"),
+            radioButtons(
+              ns("scatter_color"), NULL, inline = TRUE,
+              c("none", "sex", "smoker", "day", "time")
+            ),
+            title = "Add a color variable",
+            placement = "top"
           ),
-          plotOutput(ns("scatterplot"))
-        )
+          class = "d-flex justify-content-between align-items-center"
+        ),
+        plotOutput(ns("scatterplot"))
       ),
       card(
         full_screen = TRUE,
@@ -70,16 +78,23 @@ tipsUI <- function(id) {
     card(
       full_screen = TRUE,
       class = "mt-3",
-      card_header("Tip percentages"),
-      layout_sidebar(
-        fillable = TRUE,
-        sidebar = sidebar(
-          position = "right",
-          selectInput(ns("tip_perc_y"), "Split by:", c("sex", "smoker", "day", "time"), "day"),
-          selectInput(ns("tip_perc_facet"), "Facet by:", c("none", "sex", "smoker", "day", "time"), "none"),
+      card_header(
+        "Tip percentages",
+        popover(
+          bsicons::bs_icon("gear"),
+          radioButtons(
+            ns("tip_perc_y"), "Split by:", inline = TRUE,
+            c("sex", "smoker", "day", "time"), "day"
+          ),
+          radioButtons(
+            ns("tip_perc_facet"), "Facet by:", inline = TRUE,
+            c("none", "sex", "smoker", "day", "time"), "none"
+          ),
+          title = "Add a color variable"
         ),
-        plotOutput(ns("tip_perc"))
-      )
+        class = "d-flex justify-content-between align-items-center"
+      ),
+      plotOutput(ns("tip_perc"))
     )
   )
 }

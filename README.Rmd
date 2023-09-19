@@ -22,7 +22,7 @@ library(bslib)
 
 # bslib
 
-The `bslib` R package provides a modern UI toolkit for [Shiny](https://shiny.posit.co/) and [R Markdown](https://rmarkdown.rstudio.com/) based on [Bootstrap](https://getbootstrap.com/). It facilitates:   
+The `bslib` R package provides a modern UI toolkit for [Shiny](https://shiny.posit.co/) and [R Markdown](https://rmarkdown.rstudio.com/) based on [Bootstrap](https://getbootstrap.com/). It facilitates:
 
 * Creation of delightful and customizable [Shiny dashboards](https://rstudio.github.io/bslib/articles/dashboards.html).
   * The underlying UI components (e.g., [cards](https://rstudio.github.io/bslib/articles/cards.html), [value boxes](https://rstudio.github.io/bslib/articles/value-boxes.html), [sidebars](https://rstudio.github.io/bslib/articles/sidebars.html), etc) are also designed to work in other contexts (e.g., in R Markdown).
@@ -44,7 +44,10 @@ install.packages("bslib")
 The quickest way to see what `{bslib}` can do is to run `bslib::bs_theme_preview()` at the console. This launches a demo app containing both `{bslib}` and `{shiny}` UI components as well as an theming widget (`bslib::bs_themer()`) overlaid on the app. See [real-time theming](https://rstudio.github.io/bslib/articles/theming.html#real-time) to learn more.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("vignettes/themer.gif")
+#| fig.alt: >
+#|   An animation showing bslib theming app. As the user changes the Bootswatch
+#|   theme and Bootstrap settings, the app's appearance changes in real-time.
+knitr::include_graphics("vignettes/theming/themer.gif")
 ```
 
 ## Get started

@@ -1,8 +1,8 @@
 diff --git a/inst/lib/bsw5/dist/darkly/_bootswatch.scss b/inst/lib/bsw5/dist/darkly/_bootswatch.scss
-index 99bb4ec..1ed10c0 100644
+index 6a4caa08..e7f15d3f 100644
 --- a/inst/lib/bsw5/dist/darkly/_bootswatch.scss
 +++ b/inst/lib/bsw5/dist/darkly/_bootswatch.scss
-@@ -13,14 +13,14 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
+@@ -13,7 +13,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
  
  .blockquote {
    &-footer {
@@ -11,15 +11,16 @@ index 99bb4ec..1ed10c0 100644
    }
  }
  
- // Forms
+@@ -21,7 +21,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
  
- .input-group-addon {
--  color: $white;
-+  color: $body-color;
+ @include color-mode(dark) {
+   .input-group-text {
+-    // color: $white;
++    // color: $body-color;
+   }
  }
  
- .form-floating > label {
-@@ -38,12 +38,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
+@@ -44,12 +44,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
    .nav-item.open .nav-link,
    .nav-item.open .nav-link:focus,
    .nav-item.open .nav-link:hover {
@@ -34,7 +35,8 @@ index 99bb4ec..1ed10c0 100644
  }
  
  .pagination {
-@@ -56,18 +56,18 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
+@@ -61,19 +61,19 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
+ // Indicators
  
  .alert {
 -  color: $white;
@@ -57,7 +59,7 @@ index 99bb4ec..1ed10c0 100644
          background-color: $value;
        }
 diff --git a/inst/lib/bsw5/dist/darkly/_variables.scss b/inst/lib/bsw5/dist/darkly/_variables.scss
-index b628e0d..e45a65d 100755
+index d44daf4b..dc997b4a 100755
 --- a/inst/lib/bsw5/dist/darkly/_variables.scss
 +++ b/inst/lib/bsw5/dist/darkly/_variables.scss
 @@ -30,22 +30,28 @@ $green:   #00bc8c !default;
@@ -97,7 +99,7 @@ index b628e0d..e45a65d 100755
  // Links
  
  $link-color:                $success !default;
-@@ -56,112 +66,108 @@ $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI
+@@ -57,27 +63,27 @@ $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI
  $h1-font-size:                3rem !default;
  $h2-font-size:                2.5rem !default;
  $h3-font-size:                2rem !default;
@@ -109,25 +111,32 @@ index b628e0d..e45a65d 100755
 -$table-border-color:          $gray-700 !default;
 +$table-border-color:          body-mix(85%) !default;
  
- $table-bg-scale:              0 !default;
+ $table-bg-scale:              0% !default;
  
  // Forms
  
- $input-bg:                          $white !default;
+-$input-bg:                          $white !default;
 -$input-color:                       $gray-800 !default;
++$input-bg:                          $body-color !default;
 +$input-color:                       body-mix(95%) !default;
  $input-border-color:                $body-bg !default;
 -$input-group-addon-color:           $gray-500 !default;
 -$input-group-addon-bg:              $gray-700 !default;
+-$input-placeholder-color:           $gray-600 !default;
 +$input-group-addon-color:           body-mix(65%) !default;
 +$input-group-addon-bg:              body-mix(85%) !default;
++$input-placeholder-color:           body-mix(75%) !default;
  
 -$form-check-input-bg:                     $white !default;
 +$form-check-input-bg:                     $body-color !default;
  $form-check-input-border:                 none !default;
  
--$form-file-button-color:          $white !default;
-+$form-file-button-color:          $body-color !default;
+-$form-select-disabled-color:        $gray-600 !default;
++$form-select-disabled-color:        body-mix(75%) !default;
+ 
+ $form-file-button-color:          $input-group-addon-color !default;
+ $form-file-button-bg:             $input-group-addon-bg !default;
+@@ -85,91 +91,91 @@ $form-file-button-hover-bg:       darken($form-file-button-bg, 5%) !default;
  
  // Dropdowns
  
@@ -164,8 +173,12 @@ index b628e0d..e45a65d 100755
 -$navbar-light-hover-color:          $gray-900 !default;
 -$navbar-light-active-color:         $gray-900 !default;
 -$navbar-light-toggler-border-color: rgba($gray-900, .1) !default;
-+$navbar-light-bg:                   $primary !default;
-+$navbar-dark-bg:                    $success !default;
++$navbar-dark-color:                rgba($body-color, .6) !default;
++$navbar-dark-hover-color:          $body-color !default;
++$navbar-light-color:                rgba($body-bg, .7) !default;
++$navbar-light-hover-color:          $body-bg !default;
++$navbar-light-active-color:         $body-bg !default;
++$navbar-light-toggler-border-color: rgba($body-bg, .1) !default;
  
  // Pagination
  
@@ -231,7 +244,7 @@ index b628e0d..e45a65d 100755
 +$list-group-hover-bg:               body-mix(85%) !default;
  $list-group-action-hover-color:     $list-group-color !default;
 -$list-group-action-active-bg:       $gray-900 !default;
-+$list-group-action-active-bg:       body-mix(99%) !default;
++$list-group-action-active-bg:       $body-bg !default;
  
  // Breadcrumbs
  

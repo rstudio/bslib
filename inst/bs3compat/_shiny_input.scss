@@ -46,3 +46,20 @@ $form-group-margin-bottom: 1rem !default;
     border-radius: 0;
   }
 }
+
+.shiny-input-checkboxgroup .checkbox-inline,
+.shiny-input-radiogroup .radio-inline {
+  cursor: pointer;
+}
+
+// Fix the position of checkbox and radio group labels to match other inputs
+// labels, see https://github.com/rstudio/shiny/blob/6fc06281/inst/www/shared/shiny_scss/shiny.scss#L344-L356
+// TODO: Consider removing if we add `input_checkbox()` and `input_radio()`
+@if $bootstrap-version == 5 {
+  .shiny-input-checkboxgroup,
+  .shiny-input-radiogroup {
+    label ~ .shiny-options-group {
+      margin-top: calc(#{-($line-height-base - $form-check-input-width) * .5} - #{$input-btn-border-width});
+    }
+  }
+}

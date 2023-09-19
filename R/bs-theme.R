@@ -281,7 +281,7 @@ bootstrap_bundle <- function(version) {
       # Don't name this "core" bundle so it can't easily be removed
       sass_layer(
         functions = bs5_sass_files("functions"),
-        defaults = bs5_sass_files("variables"),
+        defaults = list(bs5_sass_files("variables"), bs5_sass_files("variables-dark")),
         mixins = list(bs5_sass_files("maps"), bs5_sass_files("mixins")),
         rules = list(bs5_sass_files("mixins/banner"), "@include bsBanner('')")
       ),
@@ -356,15 +356,7 @@ bootstrap_bundle <- function(version) {
 
   sass_bundle(
     main_bundle,
-    # color-contrast() was introduced in Bootstrap 5.
-    # We include our own version for a few reasons:
-    # 1. Easily turn off warnings options(bslib.color_contrast_warnings=F)
-    # 2. Allow Bootstrap 3 & 4 to use color-contrast() in variable definitions
-    # 3. Allow Bootstrap 3 & 4 to use bs_get_contrast()
-    sass_layer(
-      functions = sass_file(path_inst("sass-utils/color-contrast.scss")),
-      rules = sass_file(path_inst("bslib-scss", "bslib.scss"))
-    )
+    bslib_bundle()
   )
 }
 
@@ -384,6 +376,16 @@ bootstrap_javascript <- function(version) {
   )
 }
 
+# -----------------------------------------------------------------
+# bslib specific Sass that gets bundled with Bootstrap
+# -----------------------------------------------------------------
+
+bslib_bundle <- function() {
+  sass_layer(
+    functions = sass_file(path_inst("bslib-scss", "functions.scss")),
+    rules = sass_file(path_inst("bslib-scss", "bslib.scss"))
+  )
+}
 
 # -----------------------------------------------------------------
 # BS3 compatibility bundle

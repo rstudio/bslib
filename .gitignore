@@ -3,7 +3,6 @@
 .DS_Store
 docs/
 sandbox/
-revdep/
 inst/themer-demo/deploy/rsconnect
 inst/examples/*/rsconnect/
 
@@ -19,6 +18,7 @@ inst/yarn.lock
 
 inst/rmarkdown/templates/*/skeleton/skeleton.html
 
-vignettes/*.html
+vignettes/*/index.html
 # rendered examples that appear in iframes
-vignettes/examples
+vignettes/**/examples
+!vignettes/examples

@@ -5,12 +5,12 @@ withr::with_dir(
       file = "_variables-template.Rmd",
       version = 4
     )
-    writeLines(src4, "bs4-variables.Rmd")
+    writeLines(src4, "bs4-variables/index.Rmd")
 
     src5 <- knitr::knit_expand(
       file = "_variables-template.Rmd",
       version = 5
     )
-    invisible(writeLines(src5, "bs5-variables.Rmd"))
+    invisible(writeLines(src5, "bs5-variables/index.Rmd"))
   }
 )

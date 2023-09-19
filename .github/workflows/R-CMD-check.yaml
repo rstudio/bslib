@@ -40,7 +40,6 @@ jobs:
       - name: Install bslib from GitHub
         shell: Rscript {0}
         run: |
-          install.packages("rsconnect")
           pak::pkg_install("rstudio/bslib", dependencies = TRUE, upgrade = TRUE)
 
       # Workaround for this (probably spurious error):
@@ -55,7 +54,7 @@ jobs:
         run: |
           install.packages("cpp11")
 
-      - name: Register account
+      - name: Register account(s)
         shell: Rscript {0}
         run: |
           rsconnect::setAccountInfo(
@@ -63,10 +62,18 @@ jobs:
             token  = '${{ secrets.SHINYAPPS_TOKEN }}',
             secret = '${{ secrets.SHINYAPPS_SECRET }}'
           )
+          rsconnect::setAccountInfo(
+            name   = 'bslib',
+            token  = '${{ secrets.SHINYAPPS_BSLIB_TOKEN }}',
+            secret = '${{ secrets.SHINYAPPS_BSLIB_SECRET }}'
+          )
 
       - name: Deploy
+        shell: bash
         run: |
-          Rscript 'inst/themer-demo/deploy.R'
-          Rscript 'inst/examples/card/deploy.R'
-          Rscript 'inst/examples/value_box/deploy.R'
-          Rscript 'inst/examples/flights/deploy.R'
+          deployScripts=$(find inst -name "deploy.R" -type f)
+
+          for deployScript in $deployScripts; do
+            echo "Deploying $deployScript"
+            Rscript $deployScript
+          done
