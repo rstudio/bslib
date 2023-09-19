@@ -352,12 +352,12 @@ contents on particular pages</a> (2) <a href="../sidebars#multi-page-example">pu
 <p>Multiple <code><a href="../../reference/nav-items.html">nav_panel()</a></code>s don’t necessarily need to go
 directly into <code><a href="../../reference/page.html">page_navbar()</a></code>. They can also be consumed by
 any <code>navset_*()</code> component, including
-<code><a href="../../reference/navset.html">navset_card_tab()</a></code>.</p>
+<code><a href="../../reference/navset.html">navset_card_underline()</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
 <span>  sidebar <span class="op">=</span> <span class="va">color_by</span>,</span>
-<span>  <span class="fu"><a href="../../reference/navset.html">navset_card_tab</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../../reference/navset.html">navset_card_underline</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Histograms by species"</span>,</span>
 <span>    <span class="fu"><a href="../../reference/nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Bill Length"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput</a></span><span class="op">(</span><span class="st">"bill_length"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="../../reference/nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Bill Depth"</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput</a></span><span class="op">(</span><span class="st">"bill_depth"</span><span class="op">)</span><span class="op">)</span>,</span>
