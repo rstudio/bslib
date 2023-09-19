@@ -54,7 +54,7 @@ test_that("bs_theme_update() can update the bootswatch theme", {
   default <- bs_theme_update(cosmo, bootswatch = "default")
   expect_identical(
     sass::sass(default),
-    sass::sass(bs_theme())
+    sass::sass(bs_theme(preset="bootstrap"))
   )
   expect_null(theme_bootswatch(default))
 })
