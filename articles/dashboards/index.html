@@ -328,10 +328,10 @@ navbar (e.g., an external hyperlink).</p>
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/page.html">page_navbar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
 <span>  sidebar <span class="op">=</span> <span class="va">color_by</span>,</span>
+<span>  <span class="fu"><a href="../../reference/nav-items.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../../reference/nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Bill Length"</span>, <span class="va">cards</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../../reference/nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Bill Depth"</span>, <span class="va">cards</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../../reference/nav-items.html">nav_panel</a></span><span class="op">(</span><span class="st">"Body Mass"</span>, <span class="va">cards</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="../../reference/nav-items.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../../reference/nav-items.html">nav_item</a></span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span><span class="st">"Posit"</span>, href <span class="op">=</span> <span class="st">"https://posit.co"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -442,7 +442,7 @@ argument.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/page_sidebar.html">page_sidebar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
-<span>  sidebar <span class="op">=</span> <span class="fu"><a href="../../reference/sidebar.html">sidebar</a></span><span class="op">(</span><span class="va">color_by</span>, open <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  sidebar <span class="op">=</span> <span class="va">color_by</span>,</span>
 <span>  fillable_mobile <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="fu"><a href="../../reference/card.html">card</a></span><span class="op">(</span>min_height <span class="op">=</span> <span class="fl">200</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput</a></span><span class="op">(</span><span class="st">"bill_length"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../../reference/card.html">card</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fl">200</span>, <span class="fu">lorem</span><span class="fu">::</span><span class="fu"><a href="http://pkg.garrickadenbuie.com/lorem/reference/ipsum.html" class="external-link">ipsum</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
@@ -482,14 +482,12 @@ but here’s a <a href="https://allisonhorst.github.io/palmerpenguins/" class="e
 <span>    <span class="fu"><a href="../../reference/value_box.html">value_box</a></span><span class="op">(</span></span>
 <span>      title <span class="op">=</span> <span class="st">"Average bill depth"</span>,</span>
 <span>      value <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/unit_format.html" class="external-link">unit_format</a></span><span class="op">(</span>unit <span class="op">=</span> <span class="st">"mm"</span><span class="op">)</span><span class="op">(</span><span class="va">means</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>      showcase <span class="op">=</span> <span class="fu">bsicons</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsicons/man/bs_icon.html" class="external-link">bs_icon</a></span><span class="op">(</span><span class="st">"align-center"</span><span class="op">)</span>,</span>
-<span>      theme_color <span class="op">=</span> <span class="st">"dark"</span></span>
+<span>      showcase <span class="op">=</span> <span class="fu">bsicons</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsicons/man/bs_icon.html" class="external-link">bs_icon</a></span><span class="op">(</span><span class="st">"align-center"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="../../reference/value_box.html">value_box</a></span><span class="op">(</span></span>
 <span>      title <span class="op">=</span> <span class="st">"Average body mass"</span>,</span>
 <span>      value <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/unit_format.html" class="external-link">unit_format</a></span><span class="op">(</span>unit <span class="op">=</span> <span class="st">"g"</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">(</span><span class="va">means</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>      showcase <span class="op">=</span> <span class="fu">bsicons</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsicons/man/bs_icon.html" class="external-link">bs_icon</a></span><span class="op">(</span><span class="st">"handbag"</span><span class="op">)</span>,</span>
-<span>      theme_color <span class="op">=</span> <span class="st">"secondary"</span></span>
+<span>      showcase <span class="op">=</span> <span class="fu">bsicons</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsicons/man/bs_icon.html" class="external-link">bs_icon</a></span><span class="op">(</span><span class="st">"handbag"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span></span>
@@ -499,7 +497,7 @@ but here’s a <a href="https://allisonhorst.github.io/palmerpenguins/" class="e
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/value-boxes.png" width="1200" height="900" style="display: block; margin: auto;"></p>
+<p><img src="examples/value-boxes.png" width="1400" height="900" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="accordions">Accordions<a class="anchor" aria-label="anchor" href="#accordions"></a>
