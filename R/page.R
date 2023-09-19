@@ -134,6 +134,7 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
     theme = theme,
     lang = lang,
     fillable_mobile = fillable_mobile,
+    class = "bslib-page-sidebar",
     title,
     layout_sidebar(
       sidebar = sidebar,
@@ -207,6 +208,7 @@ page_navbar <- function(
     title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
+    class = "bslib-page-navbar",
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,

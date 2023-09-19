@@ -32,7 +32,7 @@
       renderTags(page_sidebar("main", title = "Title", sidebar = sidebar(open = "always")))$
         html
     Output
-      <body class="bslib-page-fill bslib-gap-spacing html-fill-container" style="padding:0px;gap:0px;--bslib-page-fill-mobile-height:auto;">
+      <body class="bslib-page-fill bslib-gap-spacing bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;--bslib-page-fill-mobile-height:auto;">
         <h1 class="bslib-page-title">Title</h1>
         <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-bslib-sidebar-open="always" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--bslib-sidebar-width:250px;--bslib-sidebar-max-height-mobile:250px;">
           <div class="main bslib-gap-spacing html-fill-container" role="main">main</div>
@@ -48,7 +48,7 @@
     Code
       renderTags(page_sidebar("main", title = "Title", sidebar = "side"))$html
     Output
-      <body class="bslib-page-fill bslib-gap-spacing html-fill-container" style="padding:0px;gap:0px;--bslib-page-fill-mobile-height:auto;">
+      <body class="bslib-page-fill bslib-gap-spacing bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;--bslib-page-fill-mobile-height:auto;">
         <h1 class="bslib-page-title">Title</h1>
         <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-bslib-sidebar-open="desktop" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--bslib-sidebar-width:250px;--bslib-sidebar-max-height-mobile:250px;">
           <div class="main bslib-gap-spacing html-fill-container" role="main">main</div>

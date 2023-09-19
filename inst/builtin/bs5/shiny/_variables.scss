@@ -92,6 +92,10 @@ $border-radius: 3px !default;
 // $border-color-translucent-dark a bit more blueish
 $border-color-dark: #495057 !default;
 
+// Navbars
+$navbar-light-bg: var(--bs-body-bg) !default;
+$navbar-dark-bg: var(--bs-body-color) !default;
+
 // Tables
 $table-striped-bg: rgba($primary, 0.06) !default;
 $table-hover-bg: rgba($primary, 0.1) !default;
@@ -112,4 +116,5 @@ $box-shadow-dark:
 $card-border-radius: 8px !default;
 
 // bslib variables
-$bslib-value-box-enable-shadow: true !default;
+$bslib-enable-shadows: true !default;
+$bslib-value-box-enable-shadow: $bslib-enable-shadows !default;

@@ -7,9 +7,8 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   @import url($web-font-path);
 }
 
-// move checkbox and radio text slightly to the right
+// For radioButtons()/checkboxGroupInput(), move text slightly to the right
 $bslib-checkbox-radio-margin-right: 0.35em !default;
-
 .checkbox,
 .radio {
   input {
@@ -17,47 +16,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// make non-selected items slightly different visually (but still 3:1 contrast)
-// TODO: Restore this if we fix https://github.com/rstudio/shiny/issues/3839
-// .selectize-dropdown-content .option.active {
-//   background-color: tint-color($blue, 25%);
-//   color: $white;
-// }
-
-// fix "to" width in the middle of the date picker
-.shiny-date-range-input .input-daterange .input-group-addon {
-  margin-right: -1px;
-}
-
-// Make the default action button an outline variant, but not others
-.btn-outline-default,
-.btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
-  @include button-outline-variant($secondary);
-}
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    .btn-outline-default,
-    .btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
-      @include button-outline-variant($dark-text-emphasis-dark);
-    }
-  }
-
-  @include color-mode(dark) {
-    .bslib-value-box {
-      --bslib-value-box-shadow: #{$box-shadow-dark};
-    }
-  }
-}
-
-// By default, non-active .nav links reflect the primary color. This styling
-// tweak brings them closer to how they'll appear in a navbar.
-.nav-underline {
-  --bs-link-color: rgba(var(--bs-body-color-rgb), 0.65);
-  --bs-link-hover-color: rgba(var(--bs-body-color-rgb), 0.8);
-}
-
-// This next section fixes inline checkbox and radio groups.
+// Alignment fixes for radioButtons(inline=TRUE)/checkboxGroupInput(inline=TRUE)
 // TODO: It would be nice to do this for all inline groups, but that would
 // require updating the input markup to use <fieldset> and <legend>.
 .shiny-input-container-inline {
@@ -81,8 +40,115 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-$icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
+// For shiny::dateRangeInput(), fix "to" width in the middle of the date picker
+.shiny-date-range-input .input-daterange .input-group-addon {
+  margin-right: -1px;
+}
 
+// Make the default shiny::actionButton() an outline variant, but not others
+.btn-outline-default,
+.btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
+  @include button-outline-variant($secondary);
+}
+
+// ... and make it look better in dark mode
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .btn-outline-default,
+    .btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
+      @include button-outline-variant($dark-text-emphasis-dark);
+    }
+  }
+}
+
+// For selectizeInput(options = list(plugins = "remove_button"))
+// TODO: we should probably make this the default behavior in shiny
+.selectize-control.plugin-remove_button .item {
+  align-items: flex-start !important;
+  .remove {
+    border-left: none !important;
+  }
+}
+
+// In a page_sidebar()/page_navbar() context,
+// apply a subtle background color and a box shadow to cards
+@mixin bslib-sidebar-layout {
+  > .sidebar {
+    background-color: var(--bs-body-bg);
+  }
+  > .main {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+
+    @include bslib-box-shadows;
+  }
+}
+
+@mixin bslib-box-shadows {
+  .bslib-card {
+    --bslib-sidebar-bg: var(--bs-body-bg);
+    box-shadow: $box-shadow;
+    border: 0;
+    .card-header, .card-footer {
+      background-color: transparent;
+      border: 0;
+    }
+    .card-header {
+      font-weight: $font-weight-semibold;
+      font-size: 0.9rem;
+      line-height: 1.375rem;
+    }
+  }
+}
+
+
+// TODO: move this logic into a "core" bundle that comes with any theme
+// (but you only get the shadows by default in the preset theme)
+@if $bslib-enable-shadows {
+
+  .bslib-page-sidebar {
+    --bslib-page-sidebar-title-color: var(--bs-body-color);
+    --bslib-page-sidebar-title-bg: var(--bs-body-bg);
+
+    > .bslib-sidebar-layout {
+      @include bslib-sidebar-layout;
+    }
+  }
+
+  .bslib-page-navbar {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+
+    // page_navbar(sidebar = ...)
+    > * > .bslib-sidebar-layout {
+      @include bslib-sidebar-layout;
+    }
+
+    // page_navbar(nav_panel("A", layout_sidebar()))
+    .tab-pane > .bslib-sidebar-layout  {
+      @include bslib-sidebar-layout;
+    }
+  }
+}
+
+// By default, non-active .nav links reflect the primary color. This styling
+// tweak brings them closer to how they'll appear in a navbar. 
+.nav-underline {
+  --#{$prefix}link-color: rgba(var(--bs-body-color-rgb), 0.65); 
+  --#{$prefix}link-hover-color: rgba(var(--bs-body-color-rgb), 0.8);
+  --#{$prefix}nav-link-font-size: 0.875rem;
+
+  .nav-link {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+
+    &.active {
+      font-weight: 500;
+    }
+  }
+}
+
+
+// For value_box(), apply a gradient to the icon (by default)
+$icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 .bslib-value-box.default .value-box-showcase {
   > i {
     @each $icon-class in $icon-classes {
@@ -103,7 +169,7 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
   }
 }
 
-
+// For value_box(), improve contrast of text colors
 .bslib-value-box {
   $cyan: #028097; // Contrast 4.63
   $warning: #A87600; // Contrast 4 (okay for 16px+ text)
