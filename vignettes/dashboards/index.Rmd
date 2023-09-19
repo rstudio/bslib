@@ -219,13 +219,13 @@ Be wary that `page_navbar()`'s `sidebar` argument puts the same sidebar on every
 
 ### Multi-panel
 
-Multiple `nav_panel()`s don't necessarily need to go directly into `page_navbar()`. They can also be consumed by any `navset_*()` component, including `navset_card_tab()`.
+Multiple `nav_panel()`s don't necessarily need to go directly into `page_navbar()`. They can also be consumed by any `navset_*()` component, including `navset_card_underline()`.
 
 ```{r multi-panel, out.height = 400}
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
-  navset_card_tab(
+  navset_card_underline(
     title = "Histograms by species",
     nav_panel("Bill Length", plotOutput("bill_length")),
     nav_panel("Bill Depth", plotOutput("bill_depth")),
