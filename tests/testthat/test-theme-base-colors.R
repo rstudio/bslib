@@ -185,7 +185,7 @@ test_that("validate_and_normalize_colors", {
 test_that("bs_get_variables is fg/bg aware", {
   expect_equal(
     bs_get_variables(bs_theme(), c("bg", "fg")),
-    c(bg = "#fff", fg = "#000")
+    c(bg = "#ffffff", fg = "#000")
   )
   expect_equal(
     bs_get_variables(bs_theme(version = 3), c("bg", "fg")),
