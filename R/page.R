@@ -201,14 +201,14 @@ page_navbar <- function(
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
-    function(...) page_fillable(..., fillable_mobile = fillable_mobile, padding = 0, gap = 0)
+    # TODO: does bslib-page-navbar make sense for fillable = FALSE?
+    function(...) page_fillable(..., fillable_mobile = fillable_mobile, padding = 0, gap = 0, class = "bslib-page-navbar")
   }
 
   page_func(
     title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
-    class = "bslib-page-navbar",
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
