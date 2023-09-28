@@ -90,6 +90,8 @@
 <code><a href="../reference/value_box.html">value_box()</a></code> no longer defaults to <code>theme_color = "primary"</code>. To restore the previous behavior, please use <code>theme = "primary"</code>. In addition to the default style change, the <code>theme_color</code> is now deprecated in favor of <code>theme</code>. (<a href="https://github.com/rstudio/bslib/issues/758" class="external-link">#758</a>)</li>
 <li>
 <code><a href="../reference/page.html">page_navbar()</a></code> now defaults to <code>underline = TRUE</code>, meaning that navigation links in the navbar now have underline styling by default (set <code>underline = FALSE</code> to revert to previous behavior). (<a href="https://github.com/rstudio/bslib/issues/784" class="external-link">#784</a>)</li>
+<li>
+<code><a href="../reference/page.html">page()</a></code> now returns a <code>&lt;body&gt;</code> tag instead of <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList()</a></code>. This change allows <code><a href="../reference/page.html">page()</a></code> to treat named arguments as HTML attributes. (<a href="https://github.com/rstudio/bslib/issues/809" class="external-link">#809</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
