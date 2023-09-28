@@ -70,22 +70,9 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// In a page_sidebar()/page_navbar() context,
-// apply a subtle background color and a box shadow to cards
-@mixin bslib-sidebar-layout {
-  > .sidebar {
-    background-color: var(--bs-body-bg);
-  }
-  > .main {
-    background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
-
-    @include bslib-box-shadows;
-  }
-}
-
+// Apply box shadow effect to cards
 @mixin bslib-box-shadows {
   .bslib-card {
-    --bslib-sidebar-bg: var(--bs-body-bg);
     box-shadow: $box-shadow;
     border: 0;
     .card-header, .card-footer {
@@ -100,32 +87,38 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-
 // TODO: move this logic into a "core" bundle that comes with any theme
 // (but you only get the shadows by default in the preset theme)
 @if $bslib-enable-shadows {
+
+  :root {
+    --bslib-shiny-preset-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+  }
 
   .bslib-page-sidebar {
     --bslib-page-sidebar-title-color: var(--bs-body-color);
     --bslib-page-sidebar-title-bg: var(--bs-body-bg);
 
-    > .bslib-sidebar-layout {
-      @include bslib-sidebar-layout;
+    > .bslib-sidebar-layout:first-of-type > .main {
+      background-color: var(--bslib-shiny-preset-main-bg);
+      @include bslib-box-shadows;
     }
   }
 
   .bslib-page-navbar {
-    background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+    background-color: var(--bslib-shiny-preset-main-bg);
 
-    // page_navbar(sidebar = ...)
-    > * > .bslib-sidebar-layout {
-      @include bslib-sidebar-layout;
+    // 1st selector is for page_navbar(sidebar = ...)
+    // 2nd selector is for page_navbar(nav_panel("A", layout_sidebar()))
+    > *, .tab-pane {
+      > .bslib-sidebar-layout:first-of-type > .main {
+        @include bslib-box-shadows;
+      }
     }
+  }
 
-    // page_navbar(nav_panel("A", layout_sidebar()))
-    .tab-pane > .bslib-sidebar-layout  {
-      @include bslib-sidebar-layout;
-    }
+  .bslib-sidebar-layout.bslib-sidebar-layout {
+    --bslib-sidebar-bg: var(--bs-body-bg);
   }
 }
 
