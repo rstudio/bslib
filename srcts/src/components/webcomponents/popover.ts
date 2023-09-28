@@ -1,13 +1,13 @@
 import { nothing, html, render } from "lit";
 import { property } from "lit/decorators.js";
-import { BslibElement } from "./webcomponents/_bslibElement";
+import { BslibElement } from "./_bslibElement";
 import {
   createWrapperElement,
   getOrCreateTriggerEl,
   setContentCarefully,
-} from "./_utilsTooltip";
-import { ShinyResizeObserver } from "./_shinyResizeObserver";
-import type { HtmlDep } from "./_utils";
+} from "../_utilsTooltip";
+import { ShinyResizeObserver } from "../_shinyResizeObserver";
+import type { HtmlDep } from "../_utils";
 import type { Popover as PopoverType } from "bootstrap";
 
 const bsPopover = (

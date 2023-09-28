@@ -1,3 +1,13 @@
+// ----------------------------------------------------------------------------
+// First, bring in non-webcomponent (legacy) components (they attach to the window)
+// ----------------------------------------------------------------------------
+import "./accordion";
+import "./card";
+import "./sidebar";
+
+// ----------------------------------------------------------------------------
+// Other initialization code
+// ----------------------------------------------------------------------------
 import { InputBinding } from "./_utils";
 import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
 

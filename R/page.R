@@ -22,7 +22,8 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       tags$body(...),
       title = title,
       theme = theme,
-      lang = lang
+      lang = lang,
+      component_dependencies()
     )
   )
 }
@@ -32,7 +33,13 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fluidPage(..., title = title, theme = theme, lang = lang)
+    shiny::fluidPage(
+      ...,
+      title = title,
+      theme = theme,
+      lang = lang,
+      component_dependencies()
+    )
   )
 }
 
@@ -41,7 +48,13 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fixedPage(..., title = title, theme = theme, lang = lang)
+    shiny::fixedPage(
+      ...,
+      title = title,
+      theme = theme,
+      lang = lang,
+      component_dependencies()
+    )
   )
 }
 
@@ -71,8 +84,7 @@ page_fillable <- function(..., padding = NULL, gap = NULL, fillable_mobile = FAL
       "--bslib-page-fill-mobile-height" = if (fillable_mobile) "100%" else "auto"
     ),
     ...,
-    as_fillable_container(),
-    component_dependency_css("page_fillable")
+    as_fillable_container()
   )
 }
 
@@ -147,13 +159,8 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
       border = FALSE,
       border_radius = FALSE,
       ...
-    ),
-    bs_dependency_defer(page_sidebar_dependency_sass)
+    )
   )
-}
-
-page_sidebar_dependency_sass <- function(theme) {
-  component_dependency_sass(theme, "page_sidebar")
 }
 
 

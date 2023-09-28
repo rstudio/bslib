@@ -867,7 +867,7 @@
     }
   };
 
-  // srcts/src/components/tooltip.ts
+  // srcts/src/components/webcomponents/tooltip.ts
   var bsTooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
   };
   var _BslibTooltip = class extends BslibElement {
@@ -1050,7 +1050,7 @@
     n({ type: String })
   ], BslibTooltip.prototype, "bsOptions", 2);
 
-  // srcts/src/components/popover.ts
+  // srcts/src/components/webcomponents/popover.ts
   var bsPopover = window.bootstrap ? window.bootstrap.Popover : class {
   };
   var _BslibPopover = class extends BslibElement {
@@ -1382,7 +1382,7 @@
     return !!header && header.childNodes.length > 0;
   }
 
-  // srcts/src/components/inputDarkMode.ts
+  // srcts/src/components/webcomponents/inputDarkMode.ts
   var BslibInputDarkMode = class extends s4 {
     constructor() {
       super(...arguments);
@@ -1713,7 +1713,7 @@
     Shiny.inputBindings.register(new NewCustomBinding(), `${tagName}-Binding`);
   }
 
-  // srcts/src/components/webcomponents/_shinyAddCustomMessageHandlers.ts
+  // srcts/src/components/_shinyAddCustomMessageHandlers.ts
   function shinyAddCustomMessageHandlers(handlers) {
     if (!window.Shiny) {
       return;
@@ -1723,7 +1723,7 @@
     }
   }
 
-  // srcts/src/components/webComponents.ts
+  // srcts/src/components/webcomponents/index.ts
   [BslibTooltip, BslibPopover, BslibInputDarkMode].forEach((cls) => {
     customElements.define(cls.tagName, cls);
     if (window.Shiny) {
@@ -1842,4 +1842,4 @@ lit-html/is-server.js:
    * SPDX-License-Identifier: BSD-3-Clause
    *)
 */
-//# sourceMappingURL=webComponents.js.map
+//# sourceMappingURL=web-components.js.map

@@ -113,8 +113,7 @@ accordion <- function(..., id = NULL, open = NULL, multiple = TRUE, class = NULL
       height = validateCssUnit(height)
     ),
     !!!attrs,
-    !!!children,
-    accordion_dependency()
+    !!!children
   )
 
   tag <- tag_require(tag, version = 5, caller = "accordion()")
@@ -275,15 +274,4 @@ check_character <- function(x, max_length = Inf, min_length = 1, call = rlang::c
     )
   }
   x
-}
-
-accordion_dependency <- function() {
-  list(
-    component_dependency_js("accordion"),
-    bs_dependency_defer(accordion_dependency_sass)
-  )
-}
-
-accordion_dependency_sass <- function(theme) {
-  component_dependency_sass(theme, "accordion")
 }

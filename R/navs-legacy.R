@@ -308,8 +308,7 @@ navbarPage_ <- function(title,
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
   tagList(
     tags$nav(class = navbarClass, role = "navigation", containerDiv),
-    contentDiv,
-    component_dependency_css("page_navbar")
+    contentDiv
   )
 }
 

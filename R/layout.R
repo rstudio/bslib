@@ -95,8 +95,7 @@ layout_column_wrap <- function(
       gap = validateCssUnit(gap)
     ),
     !!!attribs,
-    children,
-    component_dependency_css("grid")
+    children
   )
 
   tag <- bindFillRole(tag, item = fill)
@@ -221,8 +220,7 @@ layout_columns <- function(
     ),
     !!!row_heights_css_vars(row_heights),
     !!!attribs,
-    !!!children,
-    component_dependency_css("grid")
+    !!!children
   )
 
   tag <- bindFillRole(tag, item = fill)
