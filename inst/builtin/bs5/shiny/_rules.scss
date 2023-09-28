@@ -86,14 +86,13 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     }
   }
 }
-  
 
 // TODO: move this logic into a "core" bundle that comes with any theme
 // (but you only get the shadows by default in the preset theme)
 @if $bslib-enable-shadows {
 
   :root {
-    --bslib-shiny-present-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+    --bslib-shiny-preset-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
   }
 
   .bslib-page-sidebar {
@@ -101,13 +100,13 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     --bslib-page-sidebar-title-bg: var(--bs-body-bg);
 
     > .bslib-sidebar-layout:first-of-type > .main {
-      background-color: var(--bslib-shiny-present-main-bg);
+      background-color: var(--bslib-shiny-preset-main-bg);
       @include bslib-box-shadows;
     }
   }
 
   .bslib-page-navbar {
-    background-color: var(--bslib-shiny-present-main-bg);
+    background-color: var(--bslib-shiny-preset-main-bg);
 
     // 1st selector is for page_navbar(sidebar = ...)
     // 2nd selector is for page_navbar(nav_panel("A", layout_sidebar()))
