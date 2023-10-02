@@ -1,7 +1,6 @@
 component_dependencies <- function() {
   list(
     component_dependency_js(),
-    web_component_dependency_js(),
     bs_dependency_defer(component_dependency_sass)
   )
 }
@@ -13,22 +12,13 @@ component_dependency_js <- function() {
     name = "bslib-component-js",
     version = get_package_version("bslib"),
     package = "bslib",
-    src = file.path("components", "dist"),
-    script = paste0("components", if (minified) ".min", ".js")
-  )
-}
-
-web_component_dependency_js <- function() {
-  minified <- get_shiny_devmode_option("shiny.minified", default = TRUE)
-
-  htmlDependency(
-    name = "bslib-web-component-js",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = file.path("components", "dist"),
+    src = "components/dist",
     script = list(
-      src = paste0("web-components", if (minified) ".min", ".js"),
-      type = "module"
+      list(src = paste0("components", if (minified) ".min", ".js")),
+      list(
+        src = paste0("web-components", if (minified) ".min", ".js"),
+        type = "module"
+      )
     )
   )
 }
@@ -39,7 +29,7 @@ component_dependency_css <- function() {
     name = "bslib-component-css",
     version = get_package_version("bslib"),
     package = "bslib",
-    src = file.path("components", "dist"),
+    src = "components/dist",
     stylesheet = "components.css"
   )
 }

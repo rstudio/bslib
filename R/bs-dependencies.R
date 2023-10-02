@@ -147,7 +147,7 @@ bs_theme_dependencies <- function(
         meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
       )
     ),
-    component_dependencies(),
+    if (version >= 5) component_dependencies(),
     htmlDependencies(out_file)
   ))
 }
