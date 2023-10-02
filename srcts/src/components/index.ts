@@ -39,10 +39,11 @@ if (window.Shiny) {
   shinyAddCustomMessageHandlers(bslibMessageHandlers);
 }
 
-// ----------------------------------------------------------------------------
-// Append the (global) linearGradient that value_box() applies to icons when
-// bs_theme(preset="shiny")
-// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------
+// Append the (global) SVG linearGradient to the body.
+// value_box() uses this (i.e., bslib---icon-gradient element) to apply a
+// gradient to the icon when bs_theme(preset="shiny").
+// ----------------------------------------------------------------------
 
 function insertSvgGradient() {
   const temp = document.createElement("div");
