@@ -92,7 +92,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 @if $bslib-enable-shadows {
 
   :root {
-    --bslib-shiny-preset-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
+    --bslib-shiny-preset-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.03);
   }
 
   .bslib-page-sidebar {
