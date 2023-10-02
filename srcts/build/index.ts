@@ -14,23 +14,18 @@ const opts: BuildOptions = {
   external: ["bootstrap"],
 };
 
-const components = [
-  "accordion",
-  "sidebar",
-  "card",
-  "webComponents",
-  "bslibShiny",
-];
+for (const minified of [true, false]) {
+  build({
+    ...opts,
+    entryPoints: ["srcts/src/components/index.ts"],
+    outfile: `inst/components/dist/components${minified ? ".min" : ""}.js`,
+    minify: minified,
+  });
 
-for (const component of components) {
-  for (const minified of [true, false]) {
-    build({
-      ...opts,
-      entryPoints: [`srcts/src/components/${component}.ts`],
-      outfile: `inst/components/dist/${component}/${component}${
-        minified ? ".min" : ""
-      }.js`,
-      minify: minified,
-    });
-  }
+  build({
+    ...opts,
+    entryPoints: ["srcts/src/components/webcomponents/index.ts"],
+    outfile: `inst/components/dist/web-components${minified ? ".min" : ""}.js`,
+    minify: minified,
+  });
 }

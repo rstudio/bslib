@@ -1,13 +1,13 @@
 import { property } from "lit/decorators.js";
-import { BslibElement } from "./webcomponents/_bslibElement";
+import { BslibElement } from "./_bslibElement";
 import {
   createWrapperElement,
   getOrCreateTriggerEl,
   setContentCarefully,
-} from "./_utilsTooltip";
-import type { HtmlDep } from "./_utils";
+} from "../_utilsTooltip";
+import type { HtmlDep } from "../_utils";
 import type { Tooltip as TooltipType } from "bootstrap";
-import { ShinyResizeObserver } from "./_shinyResizeObserver";
+import { ShinyResizeObserver } from "../_shinyResizeObserver";
 
 const bsTooltip = (
   window.bootstrap ? window.bootstrap.Tooltip : class {}

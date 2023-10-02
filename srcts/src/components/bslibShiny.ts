@@ -1,5 +1,5 @@
 import { InputBinding } from "./_utils";
-import { shinyAddCustomMessageHandlers } from "./webcomponents/_shinyAddCustomMessageHandlers";
+import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
 
 const bslibMessageHandlers = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
