@@ -139,6 +139,13 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
+// When the navbar is collapsed (or collapsing) on mobile, remove the 
+// .nav-underline border
+.navbar-collapse.show, .navbar-collapse.collapsing {
+  .nav-underline {
+    --#{$prefix}nav-underline-border-width: 0;
+  }
+}
 
 // For value_box(), apply a gradient to the icon (by default)
 $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
