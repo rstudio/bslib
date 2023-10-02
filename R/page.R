@@ -22,8 +22,7 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       tags$body(...),
       title = title,
       theme = theme,
-      lang = lang,
-      component_dependencies()
+      lang = lang
     )
   )
 }
@@ -33,13 +32,7 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fluidPage(
-      ...,
-      title = title,
-      theme = theme,
-      lang = lang,
-      component_dependencies()
-    )
+    shiny::fluidPage(..., title = title, theme = theme, lang = lang)
   )
 }
 
@@ -48,13 +41,7 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fixedPage(
-      ...,
-      title = title,
-      theme = theme,
-      lang = lang,
-      component_dependencies()
-    )
+    shiny::fixedPage(..., title = title, theme = theme, lang = lang)
   )
 }
 
