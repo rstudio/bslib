@@ -190,7 +190,7 @@ navbarPage_ <- function(title,
   pageTitle <- title
 
   # navbar class based on options
-  navbarClass <- "navbar navbar-default"
+  navbarClass <- "navbar navbar-default navbar-expand-lg"
   position <- match.arg(position)
   if (!is.null(position))
     navbarClass <- paste0(navbarClass, " navbar-", position)

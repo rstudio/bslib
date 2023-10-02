@@ -118,11 +118,30 @@ $enable-dark-mode: false !default;
 // https://github.com/rstudio/bslib/issues/289
 // In BS4, media-breakpoint-down() does the _next_ breakpoint (xs->sm)
 // In BS5+, it takes the breakpoint (sm) verbatim
-@include media-breakpoint-down(if($bootstrap-version==4, xs, sm)) {
-  .navbar-header {
-    width: 100%;
-    .navbar-toggle {
-      float: right;
+@if $bootstrap-version>=5 {
+
+  @include media-breakpoint-down(lg) {
+    .navbar-header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .navbar-toggle {
+        order: 2;
+      }
     }
   }
+  
+} @else {
+
+  @include media-breakpoint-down(xs) {
+    .navbar-header {
+      width: 100%;
+      .navbar-toggle {
+        float: right;
+      }
+    }
+  }
+
 }
