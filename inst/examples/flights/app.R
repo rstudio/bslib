@@ -49,7 +49,6 @@ CHOICES <- list(
 
 sidebar_acc <- accordion(
   open = c("Origin", "Destination"),
-  class = "border-top", # TODO: this shouldn't be needed
   accordion_panel(
     "Flight Path",
     # See https://github.com/rstudio/fontawesome/issues/114
