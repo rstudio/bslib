@@ -3,7 +3,7 @@
     Code
       resolve_bs_preset(preset = "name", bootswatch = "bootswatch")
     Error <rlang_error>
-      Only one of `preset` or `bootswatch` may be provided, and `name` is preferred.
+      Only one of `preset` or `bootswatch` may be provided (`preset` is the preferred choice).
       i Did you mean one of the following options?
       * `preset = "name"`
       * `preset = "bootswatch"`
