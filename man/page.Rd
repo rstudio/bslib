@@ -48,7 +48,7 @@ page_navbar(
 )
 }
 \arguments{
-\item{...}{The contents of the document body.}
+\item{...}{UI elements for the page. Named arguments become HTML attributes.}
 
 \item{title}{The browser window title (defaults to the host URL of the page)}
 
