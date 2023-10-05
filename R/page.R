@@ -10,7 +10,7 @@
 #'  * The return value is rendered as an static HTML page when printed interactively at the console.
 #'
 #' @inheritParams shiny::bootstrapPage
-#' @params ... UI elements for the page. Named arguments become HTML attributes.
+#' @param ... UI elements for the page. Named arguments become HTML attributes.
 #' @param theme A [bslib::bs_theme()] object.
 #' @seealso [page_sidebar()]
 #' @export
@@ -23,7 +23,8 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       title = title,
       theme = theme,
       lang = lang
-    )
+    ),
+    theme = theme
   )
 }
 
@@ -32,7 +33,8 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fluidPage(..., title = title, theme = theme, lang = lang)
+    shiny::fluidPage(..., title = title, theme = theme, lang = lang),
+    theme = theme
   )
 }
 
@@ -41,7 +43,8 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fixedPage(..., title = title, theme = theme, lang = lang)
+    shiny::fixedPage(..., title = title, theme = theme, lang = lang),
+    theme = theme
   )
 }
 
