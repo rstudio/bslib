@@ -36,12 +36,3 @@ print.bslib_page <- function(x, ...) {
 
   invisible(NextMethod())
 }
-
-#' @export
-as.tags.bslib_page <- function(x, ...) {
-  old_global <- bs_global_get()
-  bs_global_set(attr(x, "bs_theme", exact = TRUE))
-  on.exit(bs_global_set(old_global))
-
-  NextMethod()
-}
