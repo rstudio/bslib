@@ -113,7 +113,8 @@ accordion <- function(..., id = NULL, open = NULL, multiple = TRUE, class = NULL
       height = validateCssUnit(height)
     ),
     !!!attrs,
-    !!!children
+    !!!children,
+    component_dependencies()
   )
 
   tag <- tag_require(tag, version = 5, caller = "accordion()")
