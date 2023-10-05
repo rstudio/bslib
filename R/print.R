@@ -36,3 +36,18 @@ print.bslib_page <- function(x, ...) {
 
   invisible(NextMethod())
 }
+
+#' @export
+save_html.bslib_fragment <- function(html, file, ...) {
+  html <- attr(html, "bslib_page")(html)
+  save_html(html, file, ...)
+}
+
+#' @export
+save_html.bslib_page <- function(html, file, ...) {
+  old_theme <- bs_global_get()
+  bs_global_set(attr(html, "bs_theme", exact = TRUE))
+  on.exit(bs_global_set(old_theme), add = TRUE)
+
+  NextMethod()
+}
