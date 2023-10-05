@@ -250,7 +250,8 @@ layout_sidebar <- function(
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
-    sidebar_init_js()
+    sidebar_init_js(),
+    component_dependencies()
   )
 
   res <- bindFillRole(res, item = fill)

@@ -67,5 +67,7 @@ component_dependency_sass_ <- function(theme) {
 
 
 web_component <- function(tagName, ...) {
-  htmltools::tag(tagName, rlang::list2(...))
+  deps <- component_dependencies()
+  args <- c(deps, rlang::list2(...))
+  htmltools::tag(tagName, args)
 }
