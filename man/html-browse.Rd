@@ -3,18 +3,18 @@
 \name{print.bslib_fragment}
 \alias{print.bslib_fragment}
 \alias{print.bslib_page}
-\title{Make HTML browsable by default}
+\title{Print a bslib page/fragment}
 \usage{
 \method{print}{bslib_fragment}(x, ...)
 
 \method{print}{bslib_page}(x, ...)
 }
 \arguments{
-\item{x}{a \code{\link[=tag]{tag()}} object.}
+\item{x}{a bslib page/fragment.}
 
-\item{...}{passed along to an underlying print method}
+\item{...}{passed along to an underlying print method.}
 }
 \description{
-Make HTML browsable by default
+Print a bslib page/fragment
 }
 \keyword{internal}
