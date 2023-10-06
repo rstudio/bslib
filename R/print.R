@@ -23,6 +23,12 @@ print.bslib_fragment <- function(x, ...) {
   invisible(print(x, ...))
 }
 
+#' @export
+save_html.bslib_fragment <- function(html, file, ...) {
+  html <- attr(html, "bslib_page")(html)
+  save_html(html, file, ...)
+}
+
 #' @rdname html-browse
 #' @export
 print.bslib_page <- function(x, ...) {
@@ -35,12 +41,6 @@ print.bslib_page <- function(x, ...) {
   }
 
   invisible(NextMethod())
-}
-
-#' @export
-save_html.bslib_fragment <- function(html, file, ...) {
-  html <- attr(html, "bslib_page")(html)
-  save_html(html, file, ...)
 }
 
 #' @export
