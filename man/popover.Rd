@@ -72,10 +72,11 @@ focused.
 \section{Theming/Styling}{
 
 
-Like other bslib components, popovers can be themed by supplying \href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html#popover-bg}{relevant theming variables}
-to \code{\link[=bs_theme]{bs_theme()}}, which effects styling of every popover on the page. To
-style a \emph{specific} popover differently from other popovers, utilize the
-\code{customClass} option:
+Like other bslib components, popovers can be themed by supplying
+\href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html#popover-bg}{relevant theming variables}
+to \code{\link[=bs_theme]{bs_theme()}},
+which effects styling of every popover on the page.
+To style a \emph{specific} popover differently from other popover, utilize the \code{customClass} option:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{popover(
   "Trigger", "Popover message",
@@ -86,6 +87,27 @@ style a \emph{specific} popover differently from other popovers, utilize the
 And then add relevant rules to \code{\link[=bs_theme]{bs_theme()}} via \code{\link[=bs_add_rules]{bs_add_rules()}}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{bs_theme() |> bs_add_rules(".my-pop \{ max-width: none; \}")
+}\if{html}{\out{</div>}}
+}
+
+\section{Accessibility of Popover Triggers}{
+
+
+Because the user needs to interact with the \code{trigger} element to see the popover, it's best practice to use an element that is typically accessible via keyboard interactions, like a button or a link.
+If you use a non-interactive element, like a \verb{<span>} or text, bslib will automatically add the \code{tabindex="0"} attribute to the trigger element to make sure that users can reach the element with the keyboard.
+This means that in most cases you can use any element you want as the trigger.
+
+One place where it's important to consider the accessibility of the trigger is when using an icon without any accompanying text.
+In these cases, many R packages that provide icons will create an icon element with the assumption that the icon is decorative, which will make it inaccessible to users of assistive technologies.
+
+When using an icon as the primary trigger, ensure that the icon does not have \code{aria-hidden="true"} or \code{role="presentation"} attributes.
+For best results, use \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}} and provide a \code{title} that describes the purpose of the trigger (rather than the icon itself). For example:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{popover(
+  bsicons::bs_icon("gear", title = "Settings"),
+  title = "Settings",
+  sliderInput("n", "Number of points", 1, 100, 50)
+)
 }\if{html}{\out{</div>}}
 }
 

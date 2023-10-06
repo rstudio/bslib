@@ -26,12 +26,8 @@
 #'
 #' @section Theming/Styling:
 #'
-#'   Like other bslib components, popovers can be themed by supplying [relevant
-#'   theming
-#'   variables](https://rstudio.github.io/bslib/articles/bs5-variables/index.html#popover-bg)
-#'   to [bs_theme()], which effects styling of every popover on the page. To
-#'   style a _specific_ popover differently from other popovers, utilize the
-#'   `customClass` option:
+#'   ```{r child="man/fragments/tooltip-popover_theming.Rmd", el = "popover"}
+#'   ```
 #'
 #'   ```
 #'   popover(
@@ -44,6 +40,19 @@
 #'
 #'   ```
 #'   bs_theme() |> bs_add_rules(".my-pop { max-width: none; }")
+#'   ```
+#'
+#' @section Accessibility of Popover Triggers:
+#'
+#'   ```{r child="man/fragments/tooltip-popover_a11y-trigger.Rmd", el = "popover"}
+#'   ```
+#'
+#'   ```r
+#'   popover(
+#'     bsicons::bs_icon("gear", title = "Settings"),
+#'     title = "Settings",
+#'     sliderInput("n", "Number of points", 1, 100, 50)
+#'   )
 #'   ```
 #'
 #' @describeIn popover Add a popover to a UI element
