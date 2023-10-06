@@ -211,7 +211,6 @@ layout_sidebar <- function(
   }
 
   main <- div(
-    role = "main",
     class = "main",
     class = if (fillable) "bslib-gap-spacing",
     style = css(
