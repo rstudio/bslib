@@ -46,11 +46,6 @@ CHOICES <- list(
   )
 )
 
-remove_aria_label <- function(x) {
-  x$attribs$`aria-label` <- NULL
-  x
-}
-
 
 sidebar_acc <- accordion(
   open = c("Origin", "Destination"),
@@ -58,7 +53,7 @@ sidebar_acc <- accordion(
   accordion_panel(
     "Flight Path",
     # See https://github.com/rstudio/fontawesome/issues/114
-    icon = remove_aria_label(icon("plane-departure")),
+    icon = fontawesome::fa("plane-departure"),
     uiOutput("flight_path_reset"),
     selectizeInput(
       "origin", "Origin",
@@ -81,7 +76,7 @@ sidebar_acc <- accordion(
   ),
   accordion_panel(
     "Flight time",
-    icon = remove_aria_label(icon("clock")),
+    icon = fontawesome::fa("clock"),
     input_histoslider(
       "sched_dep_time", "Departure time",
       flights$sched_dep_time,
@@ -104,7 +99,7 @@ sidebar_acc <- accordion(
   ),
   accordion_panel(
     "Weather",
-    icon = remove_aria_label(icon("cloud-rain")),
+    icon = fontawesome::fa("cloud-rain"),
     # TODO: problematic (many NAs)
     #input_histoslider(
     #  "precip", "Precipitation",
