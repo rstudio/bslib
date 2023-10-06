@@ -32,7 +32,7 @@ Imports:
     base64enc,
     cachem,
     grDevices,
-    htmltools (>= 0.5.4),
+    htmltools (>= 0.5.4.9000),
     jquerylib (>= 0.1.3),
     jsonlite,
     lifecycle,
@@ -53,9 +53,16 @@ Suggests:
     testthat,
     thematic,
     withr
+Remotes:
+    rstudio/htmltools
 Config/Needs/deploy: 
     BH,
+    chiflights22,
+    colourpicker,
+    commonmark,
     cpp11,
+    cpsievert/chiflights22,
+    cpsievert/histoslider,
     dplyr,
     DT,
     ggplot2,
@@ -63,19 +70,22 @@ Config/Needs/deploy:
     gt,
     hexbin,
     histoslider,
+    htmlwidgets,
     lattice,
     leaflet,
     lubridate,
     modelr,
-    nycflights13,
     plotly,
     reactable,
     reshape2,
     rprojroot,
     rsconnect,
-    scales
+    rstudio/shiny,
+    scales,
+    styler,
+    tibble
 Config/Needs/routine: chromote, desc, renv
-Config/Needs/website: 
+Config/Needs/website:
     brio,
     crosstalk,
     dplyr,

@@ -5,6 +5,17 @@
 #' `value` represents (for example, it could hold a [bsicons::bs_icon()], or
 #' even a [shiny::plotOutput()]).
 #'
+#' @section Build a Box App:
+#'
+#'   Explore all of the `value_box()` options and layouts interactively with the
+#'   [Build a Box app](https://bslib.shinyapps.io/build-a-box/), available
+#'   online thanks to [shinyapps.io](https://www.shinyapps.io/). Or, you can
+#'   run the app locally with:
+#'
+#'   ```r
+#'   shiny::runApp(system.file("examples", "build-a-box", package = "bslib"))
+#'   ```
+#'
 #' @section Themes:
 #'
 #'   ```{r child="man/fragments/value-box-themes.Rmd"}
@@ -146,8 +157,7 @@ value_box <- function(
       "--bslib-color-bg" = theme$bg
     ),
     !!!attribs,
-    contents,
-    as.card_item(value_box_dependency())
+    contents
   )
 
   as_fragment(tag_require(res, version = 5, caller = "value_box()"))
@@ -184,45 +194,6 @@ value_box_auto_border_class <- function(theme, class = NULL) {
 
   return(NULL)
 }
-
-value_box_dependency <- function() {
-  bs_dependency_defer(value_box_dependency_sass)
-}
-
-value_box_dependency_sass <- function(theme) {
-  deps <- component_dependency_sass(theme, "value_box")
-  # Inject the icon gradient SVG into the dependency $head slot
-  deps$head <- value_box_dependency_icon_gradient()
-  deps
-}
-
-value_box_dependency_icon_gradient <- local({
-  cached <- NULL
-
-  function() {
-    if (!is.null(cached)) return(cached)
-
-    x <- tags$script(HTML(
-      sprintf(
-        "(function() {
-          function insert_svg() {
-            var temp = document.createElement('div');
-            temp.innerHTML = `%s`;
-            document.body.appendChild(temp.firstChild);
-          }
-          if (document.readyState === 'complete') {
-            insert_svg();
-          } else {
-            document.addEventListener('DOMContentLoaded', insert_svg);
-          }
-        })()",
-        read_utf8(path_inst("components", "assets", "icon-gradient.svg"))
-      )
-    ))
-
-    (cached <<- format(x))
-  }
-})
 
 #' @param name The name of the theme, e.g. `"primary"`, `"danger"`, `"purple"`.
 #' @param bg,fg The background and foreground colors for the theme. If only `bg`

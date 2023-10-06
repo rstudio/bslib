@@ -134,6 +134,9 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
 
   if (identical(inverse, "auto")) {
     inverse <- TRUE
+    if (identical(theme_preset_info(theme)$name, "shiny")) {
+      inverse <- FALSE
+    }
     if (!is.null(bg)) {
       bg <- htmltools::parseCssColors(bg)
       bg_contrast <- bs_get_contrast(bs_theme("navbar-bg" = bg), "navbar-bg")
@@ -305,8 +308,7 @@ navbarPage_ <- function(title,
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
   tagList(
     tags$nav(class = navbarClass, role = "navigation", containerDiv),
-    contentDiv,
-    component_dependency_css("page_navbar")
+    contentDiv
   )
 }
 

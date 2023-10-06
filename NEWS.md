@@ -2,8 +2,11 @@
 
 ## Breaking changes
 
+* `bs_theme()` now defaults to `preset="shiny"`. This provides an additional set of theming defaults and rules that make it easier to create Shiny apps (in particular, dashboards) that look good out of the box. To revert to the previous behavior, set `bs_theme(preset="bootstrap")`. (#711)
 * `value_box()` no longer defaults to `theme_color = "primary"`. To restore the previous behavior, please use `theme = "primary"`. In addition to the default style change, the `theme_color` is now deprecated in favor of `theme`. (#758)
 * `page_navbar()` now defaults to `underline = TRUE`, meaning that navigation links in the navbar now have underline styling by default (set `underline = FALSE` to revert to previous behavior). (#784)
+* `page()` now returns a `<body>` tag instead of `tagList()`. This change allows `page()` to treat named arguments as HTML attributes. (#809)
+* The JS/CSS assets behind `{bslib}` components (e.g., `card()`, `value_box()`, etc) are all now bundled into one `htmlDependency()` and included with the return value of `bs_theme_dependencies()` (previously they were attached at the component-level). (#810)
 
 ## New features
 
@@ -23,6 +26,8 @@
 
 * The `showcase_layout` argument of `value_box()` now accepts one of three character values: `"left center"`, `"top right"`, `"bottom"`. (#758)
 
+* A new [Build a Box app](https://bslib.shinyapps.io/build-a-box/) is now available online or via bslib. See `?value_box()` for details. The app helps preview a set of value boxes while you configure and customize their appearance and provides you with code to copy and paste into your app. (#790)
+
 * Added `input_dark_mode()`, a new input control that provides a toggle button that can be used to switch between the dark and light modes when using Bootstrap 5.3. By default, dark mode is applied automatically if the user's operating system is also in dark mode. App authors can toggle dark mode programmatically from the server using `toggle_dark_mode()`, and if you provide `input_dark_mode()` with an `id`, you can read the current color mode via the corresponding input value. (#787)
 
 ## Improvements
@@ -31,11 +36,16 @@
 
 * Improved the style and appearance of the button to enter full screen in `card()`s and `value_box()`es to better adapt to Bootstrap's dark mode. (#780)
 
+* `layout_sidebar()` received a new design. The button to collapse and expand the sidebar now appears at the top edge of the sidebar, and we now use the [arrow-bar-left](https://icons.getbootstrap.com/icons/arrow-bar-left/) icon instead of [chevron-left](https://icons.getbootstrap.com/icons/chevron-left/). On mobile devices, the sidebar now fills the `layout_sidebar()` area as an overlay, rather than expanding from above the main content area. **Note** the `max_mobile_height` argument of `sidebar()` determines the maximum height of the sidebar area on mobile, but it now only applies when `open = "always"`. (#798)
+
 ## Bug fixes
 
 * `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)
 
 * Filter controls in the popovers of `DT::datatable()` tables now better match the current Bootstrap theme and are responsive to the dark mode setting in Bootstrap 5.3. (#267, #775).
+
+* A double border no longer appears when an accordion is used inside a `sidebar(open="always")` context. (#795)
+
 
 # bslib 0.5.1
 

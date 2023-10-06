@@ -4,17 +4,27 @@
 
 #' Create a Bootstrap page
 #'
-#' These functions are small wrappers around shiny's page constructors (i.e., [shiny::fluidPage()], [shiny::navbarPage()], etc) that differ in two ways:
+#' These functions are small wrappers around shiny's page constructors (i.e.,
+#' [shiny::fluidPage()], [shiny::navbarPage()], etc) that differ in two ways:
 #'  * The `theme` parameter defaults bslib's recommended version of Bootstrap (for new projects).
 #'  * The return value is rendered as an static HTML page when printed interactively at the console.
 #'
 #' @inheritParams shiny::bootstrapPage
+#' @param ... UI elements for the page. Named arguments become HTML attributes.
 #' @param theme A [bslib::bs_theme()] object.
 #' @seealso [page_sidebar()]
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
+  # Wrap ... in <body> since bootstrapPage() passes ... to tagList(),
+  # which means named arguments aren't handled sensibly
   as_page(
-    shiny::bootstrapPage(..., title = title, theme = theme, lang = lang)
+    shiny::bootstrapPage(
+      tags$body(...),
+      title = title,
+      theme = theme,
+      lang = lang
+    ),
+    theme = theme
   )
 }
 
@@ -23,7 +33,8 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fluidPage(..., title = title, theme = theme, lang = lang)
+    shiny::fluidPage(..., title = title, theme = theme, lang = lang),
+    theme = theme
   )
 }
 
@@ -32,7 +43,8 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fixedPage(..., title = title, theme = theme, lang = lang)
+    shiny::fixedPage(..., title = title, theme = theme, lang = lang),
+    theme = theme
   )
 }
 
@@ -55,19 +67,14 @@ page_fillable <- function(..., padding = NULL, gap = NULL, fillable_mobile = FAL
     title = title,
     theme = theme,
     lang = lang,
-    bindFillRole(
-      tags$body(
-        class = "bslib-page-fill bslib-gap-spacing",
-        style = css(
-          padding = validateCssPadding(padding),
-          gap = validateCssUnit(gap),
-          "--bslib-page-fill-mobile-height" = if (fillable_mobile) "100%" else "auto"
-        ),
-        ...,
-        component_dependency_css("page_fillable")
-      ),
-      container = TRUE
-    )
+    class = "bslib-page-fill bslib-gap-spacing",
+    style = css(
+      padding = validateCssPadding(padding),
+      gap = validateCssUnit(gap),
+      "--bslib-page-fill-mobile-height" = if (fillable_mobile) "100%" else "auto"
+    ),
+    ...,
+    as_fillable_container()
   )
 }
 
@@ -134,6 +141,7 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
     theme = theme,
     lang = lang,
     fillable_mobile = fillable_mobile,
+    class = "bslib-page-sidebar",
     title,
     layout_sidebar(
       sidebar = sidebar,
@@ -141,13 +149,8 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
       border = FALSE,
       border_radius = FALSE,
       ...
-    ),
-    bs_dependency_defer(page_sidebar_dependency_sass)
+    )
   )
-}
-
-page_sidebar_dependency_sass <- function(theme) {
-  component_dependency_sass(theme, "page_sidebar")
 }
 
 
@@ -207,6 +210,7 @@ page_navbar <- function(
     title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
+    class = "bslib-page-navbar",
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,

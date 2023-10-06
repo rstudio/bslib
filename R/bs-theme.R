@@ -60,11 +60,11 @@
 #' @param preset The name of a theme preset, either a built-in theme provided by
 #'   bslib or a Bootswatch theme (see [builtin_themes()] and
 #'   [bootswatch_themes()] for possible values). This argument takes precedence
-#'   over the `bootswatch` argument and only one `theme` or `bootswatch` can be
-#'   provided. When provided to `bs_theme_update()`, any previous preset theme
-#'   is first removed before the new theme preset is applied. You can use
-#'   `theme = "bootstrap"` to remove any preset theme and to revert to a base
-#'   Bootstrap theme.
+#'   over the `bootswatch` argument and only one `preset` or `bootswatch` can be
+#'   provided. When no `bootswatch` theme is specified, and `version` is 5 or
+#'   higher, `preset` defaults to `"shiny"`. To remove the `"shiny"` preset,
+#'   provide a value of `"bootstrap"` (this value will also work in
+#'   `bs_theme_update()` to remove a `preset` or `bootswatch` theme).
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
@@ -124,6 +124,10 @@ bs_theme <- function(version = version_default(), preset = NULL, ...,
                      success = NULL, info = NULL, warning = NULL, danger = NULL,
                      base_font = NULL, code_font = NULL, heading_font = NULL,
                      font_scale = NULL, bootswatch = NULL) {
+
+  if (is.null(preset) && is.null(bootswatch) && version >= 5) {
+    preset <- "shiny"
+  }
 
   preset <- resolve_bs_preset(preset, bootswatch, version = version)
 

@@ -48,7 +48,7 @@ page_navbar(
 )
 }
 \arguments{
-\item{...}{The contents of the document body.}
+\item{...}{UI elements for the page. Named arguments become HTML attributes.}
 
 \item{title}{The browser window title (defaults to the host URL of the page)}
 
@@ -119,7 +119,8 @@ to use any character strings that appear in \code{title} (if none are found, the
 host URL of the page is displayed by default).}
 }
 \description{
-These functions are small wrappers around shiny's page constructors (i.e., \code{\link[shiny:fluidPage]{shiny::fluidPage()}}, \code{\link[shiny:navbarPage]{shiny::navbarPage()}}, etc) that differ in two ways:
+These functions are small wrappers around shiny's page constructors (i.e.,
+\code{\link[shiny:fluidPage]{shiny::fluidPage()}}, \code{\link[shiny:navbarPage]{shiny::navbarPage()}}, etc) that differ in two ways:
 \itemize{
 \item The \code{theme} parameter defaults bslib's recommended version of Bootstrap (for new projects).
 \item The return value is rendered as an static HTML page when printed interactively at the console.

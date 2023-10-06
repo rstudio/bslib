@@ -116,6 +116,18 @@ An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displayin
 \code{value} represents (for example, it could hold a \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, or
 even a \code{\link[shiny:plotOutput]{shiny::plotOutput()}}).
 }
+\section{Build a Box App}{
+
+
+Explore all of the \code{value_box()} options and layouts interactively with the
+\href{https://bslib.shinyapps.io/build-a-box/}{Build a Box app}, available
+online thanks to \href{https://www.shinyapps.io/}{shinyapps.io}. Or, you can
+run the app locally with:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::runApp(system.file("examples", "build-a-box", package = "bslib"))
+}\if{html}{\out{</div>}}
+}
+
 \section{Themes}{
 
 

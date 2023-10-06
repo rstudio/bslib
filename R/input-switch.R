@@ -98,8 +98,8 @@ input_checkbox <- function(id, label, class = "bslib-input-checkbox", value = FA
         tags$span(label),
         class = "form-check-label",
         `for` = id
-      )
-    ),
-    component_dependency_js("bslibShiny")
+      ),
+      component_dependencies()
+    )
   )
 }

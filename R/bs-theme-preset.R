@@ -98,7 +98,7 @@ assert_preset_only_one_name_arg <- function(preset, bootswatch, .frame = rlang::
   }
 
   msg <- c(
-    "Only one of `preset` or `bootswatch` may be provided, and `name` is preferred.",
+    "Only one of `preset` or `bootswatch` may be provided (`preset` is the preferred choice).",
     "i" = "Did you mean one of the following options?",
     "*" = sprintf('`preset = "%s"`', preset),
     "*" = sprintf('`preset = "%s"`', bootswatch),

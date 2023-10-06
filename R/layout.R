@@ -96,7 +96,7 @@ layout_column_wrap <- function(
     ),
     !!!attribs,
     children,
-    component_dependency_css("grid")
+    component_dependencies()
   )
 
   tag <- bindFillRole(tag, item = fill)
@@ -222,7 +222,7 @@ layout_columns <- function(
     !!!row_heights_css_vars(row_heights),
     !!!attribs,
     !!!children,
-    component_dependency_css("grid")
+    component_dependencies()
   )
 
   tag <- bindFillRole(tag, item = fill)

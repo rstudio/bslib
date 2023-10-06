@@ -72,8 +72,8 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(),
-    card_dependency(),
-    card_init_js()
+    card_init_js(),
+    component_dependencies()
   )
 
   tag <- bindFillRole(tag, container = TRUE, item = fill)
@@ -279,17 +279,6 @@ full_screen_toggle <- function() {
     ),
     "Expand"
   )
-}
-
-card_dependency <- function() {
-  list(
-    component_dependency_js("card"),
-    bs_dependency_defer(card_dependency_sass)
-  )
-}
-
-card_dependency_sass <- function(theme) {
-  component_dependency_sass(theme, "card")
 }
 
 card_init_js <- function() {

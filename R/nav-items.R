@@ -65,7 +65,7 @@ is_nav_item <- function(x) {
 #' @describeIn nav-items Adding spacing between nav items.
 #' @export
 nav_spacer <- function() {
-  div(class = "bslib-nav-spacer", component_dependency_css("nav_spacer"))
+  div(class = "bslib-nav-spacer", component_dependencies())
 }
 
 is_nav_spacer <- function(x) {

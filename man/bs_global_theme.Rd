@@ -113,11 +113,11 @@ variable expressions. It's recommended to keep this as \code{TRUE} when \code{.w
 \item{preset}{The name of a theme preset, either a built-in theme provided by
 bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}} and
 \code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values). This argument takes precedence
-over the \code{bootswatch} argument and only one \code{theme} or \code{bootswatch} can be
-provided. When provided to \code{bs_theme_update()}, any previous preset theme
-is first removed before the new theme preset is applied. You can use
-\code{theme = "bootstrap"} to remove any preset theme and to revert to a base
-Bootstrap theme.}
+over the \code{bootswatch} argument and only one \code{preset} or \code{bootswatch} can be
+provided. When no \code{bootswatch} theme is specified, and \code{version} is 5 or
+higher, \code{preset} defaults to \code{"shiny"}. To remove the \code{"shiny"} preset,
+provide a value of \code{"bootstrap"} (this value will also work in
+\code{bs_theme_update()} to remove a \code{preset} or \code{bootswatch} theme).}
 }
 \value{
 functions that modify the global theme (e.g., \code{bs_global_set()})

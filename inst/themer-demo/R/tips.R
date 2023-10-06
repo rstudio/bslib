@@ -40,14 +40,12 @@ tipsUI <- function(id) {
       value_box(
         "Average tip",
         uiOutput(ns("average_tip"), container = h2),
-        showcase = bsicons::bs_icon("wallet2"),
-        theme_color = "secondary"
+        showcase = bsicons::bs_icon("wallet2")
       ),
       value_box(
         "Average bill",
         uiOutput(ns("average_bill"), container = h2),
-        showcase = bsicons::bs_icon("currency-dollar"),
-        theme_color = "success"
+        showcase = bsicons::bs_icon("currency-dollar")
       )
     ),
     layout_column_wrap(

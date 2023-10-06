@@ -24,6 +24,15 @@ library(shiny)
 library(bsicons)
 ```
 
+::: {.callout .callout-note .mt-5}
+### Build a Box App
+
+Want to explore all of the `value_box()` options and layouts in an interactive app?
+Check out the [Build a Box App](https://bslib.shinyapps.io/build-a-box)!
+Use the app to quickly choose the right layout and theme for your value boxes,
+and then copy the code right into your own app.
+:::
+
 
 ## Hello `value_box()`
 
