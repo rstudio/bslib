@@ -46,12 +46,19 @@ CHOICES <- list(
   )
 )
 
+remove_aria_label <- function(x) {
+  x$attribs$`aria-label` <- NULL
+  x
+}
+
 
 sidebar_acc <- accordion(
   open = c("Origin", "Destination"),
   class = "border-top", # TODO: this shouldn't be needed
   accordion_panel(
-    "Flight Path", icon = icon("plane-departure"),
+    "Flight Path",
+    # See https://github.com/rstudio/fontawesome/issues/114
+    icon = remove_aria_label(icon("plane-departure")),
     uiOutput("flight_path_reset"),
     selectizeInput(
       "origin", "Origin",
@@ -73,7 +80,8 @@ sidebar_acc <- accordion(
     )
   ),
   accordion_panel(
-    "Flight time", icon = icon("clock"),
+    "Flight time",
+    icon = remove_aria_label(icon("clock")),
     input_histoslider(
       "sched_dep_time", "Departure time",
       flights$sched_dep_time,
@@ -95,7 +103,8 @@ sidebar_acc <- accordion(
     )
   ),
   accordion_panel(
-    "Weather", icon = icon("cloud-rain"),
+    "Weather",
+    icon = remove_aria_label(icon("cloud-rain")),
     # TODO: problematic (many NAs)
     #input_histoslider(
     #  "precip", "Precipitation",
@@ -121,7 +130,7 @@ flights_card <- card(
   card_header(
     "Flight paths",
     tooltip(
-      bsicons::bs_icon("info-circle"),
+      bsicons::bs_icon("info-circle", title = "About marker areas"),
       "Marker areas are proportional to mean arrival delay"
     ),
     class = "d-flex justify-content-between align-items-center"
@@ -134,7 +143,7 @@ avg_delay_by_category <- card(
   card_header(
     "Average delay by category",
     popover(
-      bsicons::bs_icon("gear"),
+      bsicons::bs_icon("gear", title = "Settings"),
       selectInput(
         "avg_delay_category", "Category",
         c("Carrier", "Month", "Weekday")
@@ -189,8 +198,15 @@ ui <- page_navbar(
     preset = "shiny",
     "primary" = PRIMARY
   ),
+  lang = "en",
   title = tags$span(
-    tags$img(src = "logo.png", width = "46px", height = "auto", class = "me-3"),
+    tags$img(
+      src = "logo.png",
+      width = "46px",
+      height = "auto",
+      class = "me-3",
+      alt = "Shiny hex logo"
+    ),
     "Chicago Flights"
   ),
   sidebar = sidebar(width = 275, sidebar_acc),
