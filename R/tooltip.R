@@ -40,7 +40,14 @@
 #'
 #'   ```r
 #'   tooltip(
-#'     bsicons::bs_icon("info-circle", title = "About tooltips."),
+#'     bsicons::bs_icon("info-circle", title = "About tooltips"),
+#'     "Text shown in the tooltip."
+#'   )
+#'   ```
+#'
+#'   ```r
+#'   tooltip(
+#'     fontawesome::fa("info-circle", title = "About tooltips"),
 #'     "Text shown in the tooltip."
 #'   )
 #'   ```

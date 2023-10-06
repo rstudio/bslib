@@ -55,6 +55,14 @@
 #'   )
 #'   ```
 #'
+#'   ```r
+#'   popover(
+#'     fontawesome::fa("gear", a11y = "sem", title = "Settings"),
+#'     title = "Settings",
+#'     sliderInput("n", "Number of points", 1, 100, 50)
+#'   )
+#'   ```
+#'
 #' @describeIn popover Add a popover to a UI element
 #' @references <https://getbootstrap.com/docs/5.3/components/popovers/>
 #' @export

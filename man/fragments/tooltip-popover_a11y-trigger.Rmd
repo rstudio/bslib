@@ -10,4 +10,10 @@ One place where it's important to consider the accessibility of the trigger is w
 In these cases, many R packages that provide icons will create an icon element with the assumption that the icon is decorative, which will make it inaccessible to users of assistive technologies.
 
 When using an icon as the primary trigger, ensure that the icon does not have `aria-hidden="true"` or `role="presentation"` attributes.
-For best results, use [bsicons::bs_icon()] and provide a `title` that describes the purpose of the trigger (rather than the icon itself). For example:
+Icon packages typically provide a way to specify a title for the icon, as well as a way to specify that the icon is not decorative.
+The title should be a short description of the purpose of the trigger, rather than a description of the icon itself.
+
+* If you're using [bsicons::bs_icon()], provide a `title`.
+* If you're using [fontawesome::fa()], set `a11y = "sem"` and provide a `title`.
+
+For example:

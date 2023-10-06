@@ -101,10 +101,24 @@ One place where it's important to consider the accessibility of the trigger is w
 In these cases, many R packages that provide icons will create an icon element with the assumption that the icon is decorative, which will make it inaccessible to users of assistive technologies.
 
 When using an icon as the primary trigger, ensure that the icon does not have \code{aria-hidden="true"} or \code{role="presentation"} attributes.
-For best results, use \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}} and provide a \code{title} that describes the purpose of the trigger (rather than the icon itself). For example:
+Icon packages typically provide a way to specify a title for the icon, as well as a way to specify that the icon is not decorative.
+The title should be a short description of the purpose of the trigger, rather than a description of the icon itself.
+\itemize{
+\item If you're using \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, provide a \code{title}.
+\item If you're using \code{\link[fontawesome:fa]{fontawesome::fa()}}, set \code{a11y = "sem"} and provide a \code{title}.
+}
+
+For example:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{popover(
   bsicons::bs_icon("gear", title = "Settings"),
+  title = "Settings",
+  sliderInput("n", "Number of points", 1, 100, 50)
+)
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{popover(
+  fontawesome::fa("gear", a11y = "sem", title = "Settings"),
   title = "Settings",
   sliderInput("n", "Number of points", 1, 100, 50)
 )
