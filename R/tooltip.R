@@ -17,12 +17,8 @@
 #'
 #' @section Theming/Styling:
 #'
-#'   Like other bslib components, tooltips can be themed by supplying [relevant
-#'   theming
-#'   variables](https://rstudio.github.io/bslib/articles/bs5-variables/index.html#tooltip-bg)
-#'   to [bs_theme()], which effects styling of every popover on the page. To
-#'   style a _specific_ popover differently from other popovers, utilize the
-#'   `customClass` option:
+#'   ```{r child="man/fragments/tooltip-popover_theming.Rmd", el="tooltip"}
+#'   ```
 #'
 #'   ```
 #'   tooltip(
@@ -35,6 +31,25 @@
 #'
 #'   ```
 #'   bs_theme() |> bs_add_rules(".my-tip { max-width: none; }")
+#'   ```
+#'
+#' @section Accessibility of Tooltip Triggers:
+#'
+#'   ```{r child="man/fragments/tooltip-popover_a11y-trigger.Rmd", el = "tooltip"}
+#'   ```
+#'
+#'   ```r
+#'   tooltip(
+#'     bsicons::bs_icon("info-circle", title = "About tooltips"),
+#'     "Text shown in the tooltip."
+#'   )
+#'   ```
+#'
+#'   ```r
+#'   tooltip(
+#'     fontawesome::fa("info-circle", title = "About tooltips"),
+#'     "Text shown in the tooltip."
+#'   )
 #'   ```
 #'
 #' @describeIn tooltip Add a tooltip to a UI element
