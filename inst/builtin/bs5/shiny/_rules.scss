@@ -238,7 +238,8 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 }
 
 // Progress Bars & Notifications
-#shiny-notification-panel {
+// FIXME: Use css layers (dynamic themeing issue)
+#shiny-notification-panel#shiny-notification-panel {
   position: fixed;
   bottom: calc(var(--bslib-spacer, 1rem) / 2);
   right: calc(var(--bslib-spacer, 1rem) / 2);
@@ -250,14 +251,18 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
   margin-right: .6rem;
 }
 
-.shiny-notification {
+// FIXME: Use css layers (dynamic themeing issue)
+.shiny-notification.shiny-notification {
   position: relative;
   opacity: 0.96;
   padding: calc(var(--bslib-spacer, 1rem) * 2);
   margin: var(--bslib-spacer, 1rem);
   border: 1px solid rgba(var(--#{prefix}emphasis-color-rgb), 0.8);
   border-radius: 8px;
-  box-shadow: 0px 1px 2px rgba(29, 31, 33, .1), 0px 3px 7px rgba(29, 31, 33, .1), 0px 12px 30px rgba(29, 31, 33, .08);
+  box-shadow:
+    0px 1px 2px rgba(29, 31, 33, .1),
+    0px 3px 7px rgba(29, 31, 33, .1),
+    0px 12px 30px rgba(29, 31, 33, .08);
 
   .shiny-notification-close {
     position: absolute;
