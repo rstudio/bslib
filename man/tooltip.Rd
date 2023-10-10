@@ -56,10 +56,11 @@ Display additional information when focusing (or hovering over) a UI element.
 \section{Theming/Styling}{
 
 
-Like other bslib components, tooltips can be themed by supplying \href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html#tooltip-bg}{relevant theming variables}
-to \code{\link[=bs_theme]{bs_theme()}}, which effects styling of every popover on the page. To
-style a \emph{specific} popover differently from other popovers, utilize the
-\code{customClass} option:
+Like other bslib components, tooltips can be themed by supplying
+\href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html#tooltip-bg}{relevant theming variables}
+to \code{\link[=bs_theme]{bs_theme()}},
+which effects styling of every tooltip on the page.
+To style a \emph{specific} tooltip differently from other tooltip, utilize the \code{customClass} option:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{tooltip(
   "Trigger", "Tooltip message",
@@ -70,6 +71,39 @@ style a \emph{specific} popover differently from other popovers, utilize the
 And then add relevant rules to \code{\link[=bs_theme]{bs_theme()}} via \code{\link[=bs_add_rules]{bs_add_rules()}}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{bs_theme() |> bs_add_rules(".my-tip \{ max-width: none; \}")
+}\if{html}{\out{</div>}}
+}
+
+\section{Accessibility of Tooltip Triggers}{
+
+
+Because the user needs to interact with the \code{trigger} element to see the tooltip, it's best practice to use an element that is typically accessible via keyboard interactions, like a button or a link.
+If you use a non-interactive element, like a \verb{<span>} or text, bslib will automatically add the \code{tabindex="0"} attribute to the trigger element to make sure that users can reach the element with the keyboard.
+This means that in most cases you can use any element you want as the trigger.
+
+One place where it's important to consider the accessibility of the trigger is when using an icon without any accompanying text.
+In these cases, many R packages that provide icons will create an icon element with the assumption that the icon is decorative, which will make it inaccessible to users of assistive technologies.
+
+When using an icon as the primary trigger, ensure that the icon does not have \code{aria-hidden="true"} or \code{role="presentation"} attributes.
+Icon packages typically provide a way to specify a title for the icon, as well as a way to specify that the icon is not decorative.
+The title should be a short description of the purpose of the trigger, rather than a description of the icon itself.
+\itemize{
+\item If you're using \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, provide a \code{title}.
+\item If you're using \code{\link[fontawesome:fa]{fontawesome::fa()}}, set \code{a11y = "sem"} and provide a \code{title}.
+}
+
+For example:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{tooltip(
+  bsicons::bs_icon("info-circle", title = "About tooltips"),
+  "Text shown in the tooltip."
+)
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{tooltip(
+  fontawesome::fa("info-circle", title = "About tooltips"),
+  "Text shown in the tooltip."
+)
 }\if{html}{\out{</div>}}
 }
 
