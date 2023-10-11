@@ -1,0 +1,9 @@
+```{r include = FALSE}
+el <- function() knitr::opts_current$get("el")
+```
+
+Like other bslib components, `r el()`s can be themed by supplying
+[relevant theming variables](https://rstudio.github.io/bslib/articles/bs5-variables/index.html#`r el()`-bg)
+to [bs_theme()],
+which effects styling of every `r el()` on the page.
+To style a _specific_ `r el()` differently from other `r el()`, utilize the `customClass` option:

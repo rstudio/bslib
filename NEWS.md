@@ -36,9 +36,11 @@
 
 * Improved the style and appearance of the button to enter full screen in `card()`s and `value_box()`es to better adapt to Bootstrap's dark mode. (#780)
 
+* `htmltools::save_html()` now works as expected when applied directly to components (e.g., `card()`, etc) and pages with a non-default theme. (#823, #815)
+
 * `layout_sidebar()` received a new design. The button to collapse and expand the sidebar now appears at the top edge of the sidebar, and we now use the [arrow-bar-left](https://icons.getbootstrap.com/icons/arrow-bar-left/) icon instead of [chevron-left](https://icons.getbootstrap.com/icons/chevron-left/). On mobile devices, the sidebar now fills the `layout_sidebar()` area as an overlay, rather than expanding from above the main content area. **Note** the `max_mobile_height` argument of `sidebar()` determines the maximum height of the sidebar area on mobile, but it now only applies when `open = "always"`. (#798)
 
-* `htmltools::save_html()` now works as expected when applied directly to components (e.g., `card()`, etc) and pages with a non-default theme. (#823, #815)
+* `layout_sidebar()` now uses an `<aside>` element for the sidebar's container and a `<header>` element for the sidebar title. The classes of each element remain the same, but the semantic meaning of the elements is now better reflected in the HTML markup. (#580)
 
 ## Bug fixes
 
@@ -47,6 +49,8 @@
 * Filter controls in the popovers of `DT::datatable()` tables now better match the current Bootstrap theme and are responsive to the dark mode setting in Bootstrap 5.3. (#267, #775).
 
 * A double border no longer appears when an accordion is used inside a `sidebar(open="always")` context. (#795)
+
+* `layout_sidebar()` no longer gives the sidebar main content area the `role="main"` attribute. (#580)
 
 
 # bslib 0.5.1
