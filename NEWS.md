@@ -3,7 +3,10 @@
 ## Breaking changes
 
 * `value_box()` no longer defaults to `theme_color = "primary"`. To restore the previous behavior, please use `theme = "primary"`. In addition to the default style change, the `theme_color` is now deprecated in favor of `theme`. (#758)
+
 * `page_navbar()` now defaults to `underline = TRUE`, meaning that navigation links in the navbar now have underline styling by default (set `underline = FALSE` to revert to previous behavior). (#784)
+
+* `layout_column_wrap()` no longer requires `width` and `width` is no longer the first argument, meaning that `width` must be named if used. The new default is `width = "200px"`, which combines with `fixed_width = FALSE`, and produces an automatically responsive layout where each column is at least 200px wide. This means that, in most cases, `layout_column_wrap()` can layout an unknown number of items without you having to set `width`. (#799)
 
 ## New features
 
