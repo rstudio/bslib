@@ -16,40 +16,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// make non-selected items slightly different visually (but still 3:1 contrast)
-// TODO: Restore this if we fix https://github.com/rstudio/shiny/issues/3839
-// .selectize-dropdown-content .option.active {
-//   background-color: tint-color($blue, 25%);
-//   color: $white;
-// }
-
-// fix "to" width in the middle of the date picker
-.shiny-date-range-input .input-daterange .input-group-addon {
-  margin-right: -1px;
-}
-
-// Make the default action button an outline variant, but not others
-.btn-outline-default,
-.btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
-  @include button-outline-variant($secondary);
-}
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    .btn-outline-default,
-    .btn-default:not(.btn-primary, .btn-secondary, .btn-info, .btn-success, .btn-danger, .btn-warning, .btn-light, .btn-dark, .btn-link, [class*="btn-outline-"]) {
-      @include button-outline-variant($dark-text-emphasis-dark);
-    }
-  }
-}
-
-// By default, non-active .nav links reflect the primary color. This styling
-// tweak brings them closer to how they'll appear in a navbar.
-.nav-underline {
-  --#{prefix}link-color: rgba(var(--#{prefix}body-color-rgb), 0.65);
-  --#{prefix}link-hover-color: rgba(var(--#{prefix}body-color-rgb), 0.8);
-}
-
 // Alignment fixes for radioButtons(inline=TRUE)/checkboxGroupInput(inline=TRUE)
 // TODO: It would be nice to do this for all inline groups, but that would
 // require updating the input markup to use <fieldset> and <legend>.
