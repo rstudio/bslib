@@ -11,16 +11,28 @@ as_page <- function(x, theme = bs_theme()) {
   x
 }
 
-#' Make HTML browsable by default
+#' Print a bslib page/fragment
 #'
-#' @param x a [tag()] object.
-#' @param ... passed along to an underlying print method
+#' @param x a bslib page/fragment.
+#' @param ... passed along to an underlying print method.
 #' @export
 #' @keywords internal
 #' @rdname html-browse
 print.bslib_fragment <- function(x, ...) {
   x <- attr(x, "bslib_page")(x)
   invisible(print(x, ...))
+}
+
+#' Save a bslib page/fragment as HTML
+#'
+#' @param x a bslib page/fragment.
+#' @param ... passed along to an underlying [save_html()] method.
+#' @export
+#' @keywords internal
+#' @rdname save-html
+save_html.bslib_fragment <- function(html, file, ...) {
+  html <- attr(html, "bslib_page")(html)
+  save_html(html, file, ...)
 }
 
 #' @rdname html-browse
@@ -35,4 +47,14 @@ print.bslib_page <- function(x, ...) {
   }
 
   invisible(NextMethod())
+}
+
+#' @rdname save-html
+#' @export
+save_html.bslib_page <- function(html, file, ...) {
+  old_theme <- bs_global_get()
+  bs_global_set(attr(html, "bs_theme", exact = TRUE))
+  on.exit(bs_global_set(old_theme), add = TRUE)
+
+  NextMethod()
 }
