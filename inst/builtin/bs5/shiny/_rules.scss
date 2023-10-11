@@ -223,8 +223,8 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
   opacity: 0.96;
   padding: calc(var(--bslib-spacer, 1rem) * 2);
   margin: var(--bslib-spacer, 1rem);
-  border: 1px solid rgba(var(--#{prefix}emphasis-color-rgb), 0.8);
-  border-radius: 8px;
+  border: $border-width solid rgba(var(--#{prefix}emphasis-color-rgb), 0.8);
+  border-radius: $card-border-radius;
   box-shadow: $box-shadow;
 
   .shiny-notification-close {
