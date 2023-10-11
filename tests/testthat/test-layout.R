@@ -344,3 +344,51 @@ test_that("row_heights_css_vars() decides fr/px for numeric, passes character", 
     "--bslib-grid--row-heights--md:10px 1fr;"
   )
 })
+
+test_that("layout_column_wrap() handles deprecated width as first arg", {
+  # first arg is fractional
+  lifecycle::expect_deprecated(
+    lc_implicit_width_frac <- layout_column_wrap(1/2, "one", "two")
+  )
+
+  expect_equal(
+    as.character(lc_implicit_width_frac),
+    as.character(layout_column_wrap(width = 1/2, "one", "two"))
+  )
+
+  # first arg is explicitly px character
+  lifecycle::expect_deprecated(
+    lc_implicit_width_px <- layout_column_wrap("400px", "one", "two")
+  )
+
+  expect_equal(
+    as.character(lc_implicit_width_px),
+    as.character(layout_column_wrap(width = "400px", "one", "two"))
+  )
+
+  # first arg is px, but numeric
+  lifecycle::expect_deprecated(
+    lc_implicit_width_px_implied <- layout_column_wrap(365, "one", "two")
+  )
+
+  expect_equal(
+    as.character(lc_implicit_width_px_implied),
+    as.character(layout_column_wrap(width = 365, "one", "two"))
+  )
+
+  # first arg is NULL
+  lifecycle::expect_deprecated(
+    lc_implicit_width_null <- layout_column_wrap(NULL, "one", "two")
+  )
+
+  expect_equal(
+    as.character(lc_implicit_width_null),
+    as.character(layout_column_wrap(width = NULL, "one", "two"))
+  )
+
+  # first arg is not a CSS unit
+  rlang::local_options(lifecycle_verbosity = "warning")
+  testthat::expect_silent(
+    as.character(layout_column_wrap("1ft", "one", "two"))
+  )
+})

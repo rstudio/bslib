@@ -16,8 +16,8 @@ layout_columns(
 )
 }
 \arguments{
-\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}})
-Named arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
+\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}}). Named
+arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
 
 \item{col_widths}{One of the following:
 \itemize{

@@ -5,8 +5,8 @@
 \title{Column-first uniform grid layouts}
 \usage{
 layout_column_wrap(
-  width,
   ...,
+  width = "200px",
   fixed_width = FALSE,
   heights_equal = c("all", "row"),
   fill = TRUE,
@@ -18,6 +18,9 @@ layout_column_wrap(
 )
 }
 \arguments{
+\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}}). Named
+arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
+
 \item{width}{The desired width of each card, which can be any of the
 following:
 \itemize{
@@ -37,9 +40,6 @@ of desired columns.
 manually, either via a \code{style} attribute or a CSS stylesheet.
 }
 }}
-
-\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}})
-Named arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
 
 \item{fixed_width}{When \code{width} is greater than 1 or is a CSS length unit,
 e.g. \code{"200px"}, \code{fixed_width} indicates whether that \code{width} value
@@ -76,14 +76,20 @@ devices (or narrow windows).}
 
 Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 rows) in the grid dependent on the column \code{width} as well as the size of the
-display. For more explanation and illustrative examples, see \href{https://rstudio.github.io/bslib/articles/cards.html#multiple-cards}{here}
+display. For more explanation and illustrative examples, see
+\href{https://rstudio.github.io/bslib/articles/cards.html#multiple-cards}{here}.
 }
 \examples{
-
 x <- card("A simple card")
 # Always has 2 columns (on non-mobile)
-layout_column_wrap(1/2, x, x, x)
-# Has three columns when viewport is wider than 750px
-layout_column_wrap("250px", x, x, x)
+layout_column_wrap(width = 1/2, x, x, x)
+
+# Automatically lays out three cards into columns
+# such that each column is at least 200px wide:
+layout_column_wrap(x, x, x)
+
+# To use larger column widths by default, set `width`.
+# This example has 3 columns when the screen is at least 900px wide:
+layout_column_wrap(width = "300px", x, x, x)
 
 }
