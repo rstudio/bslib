@@ -84,6 +84,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       font-size: 0.9rem;
       line-height: 1.375rem;
     }
+    // If we did `@include color-mode(dark)` here,
+    // the selector wouldn't include the top-level @include
+    // selector scope, which is not what we want.
+    [data-#{$prefix}theme="dark"] & {
+      box-shadow: $box-shadow-dark;
+    }
   }
 }
 
