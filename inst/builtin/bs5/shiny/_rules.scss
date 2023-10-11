@@ -61,6 +61,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
+// Change navbar bg color defaults from $light -> $body-bg & $dark -> $body-color
+.navbar {
+  --bslib-navbar-default-bg: var(--#{$prefix}body-bg);
+  --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
+}
+
 // For selectizeInput(options = list(plugins = "remove_button"))
 // TODO: we should probably make this the default behavior in shiny
 .selectize-control.plugin-remove_button .item {
