@@ -298,9 +298,6 @@ bootstrap_bundle <- function(version) {
           "offcanvas", "placeholders", "helpers", "utilities/api"
         ))
       ),
-      shiny = sass_layer(
-        mixins = sass_file(path_inst("shiny-scss", "bs5", "_variables.scss"))
-      ),
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
       bs3compat = bs3compat_bundle(),

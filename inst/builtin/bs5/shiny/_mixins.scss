@@ -8,5 +8,8 @@ $accordion-icon-active-color: null;
 $selectize-color-dropdown-item-active: $component-active-bg !default;
 $selectize-color-dropdown-item-active-text: $component-active-color !default;
 
+// Shiny: Base shiny.scss variables
+$notification-close-color: currentColor !default;
+
 // Component Variables
 @import "ionrangeslider/_variables.scss";
