@@ -232,9 +232,9 @@ class Sidebar {
     // collapse toggle icon because it's guaranteed to transition, whereas the
     // sidebar doesn't animate on mobile (or in browsers where animating
     // grid-template-columns is not supported).
-    toggle
-      .querySelector(".collapse-icon")
-      ?.addEventListener("transitionend", () => this._finalizeState());
+    toggle.firstElementChild?.addEventListener("transitionend", () =>
+      this._finalizeState()
+    );
   }
 
   /**

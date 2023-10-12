@@ -158,7 +158,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       background-color: var(--bslib-sidebar-toggle-bg);
     }
 
-    > .collapse-icon {
+    > * {
       opacity: 0.8;
       width: var(--bslib-sidebar-icon-size);
       height: var(--bslib-sidebar-icon-size);
@@ -168,7 +168,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       transition: transform var(--bslib-sidebar-toggle-transition-easing) var(--bslib-sidebar-transition-duration);
     }
 
-    &:hover > .collapse-icon {
+    &:hover > * {
       opacity: 1;
     }
   }
@@ -206,7 +206,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       left: var(--bslib-sidebar-icon-size);
       right: unset;
       border: var(--bslib-collapse-toggle-border);
-      > .collapse-icon {
+      > * {
         transform: rotateY(var(--bslib-collapse-toggle-right-transform));
       }
     }
