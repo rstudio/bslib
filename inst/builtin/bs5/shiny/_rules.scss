@@ -123,9 +123,9 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 }
 
 // By default, non-active .nav links reflect the primary color. This styling
-// tweak brings them closer to how they'll appear in a navbar. 
+// tweak brings them closer to how they'll appear in a navbar.
 .nav-underline {
-  --#{$prefix}link-color: rgba(var(--bs-body-color-rgb), 0.65); 
+  --#{$prefix}link-color: rgba(var(--bs-body-color-rgb), 0.65);
   --#{$prefix}link-hover-color: rgba(var(--bs-body-color-rgb), 0.8);
   --#{$prefix}nav-link-font-size: 0.875rem;
 
@@ -187,5 +187,74 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 
   &.text-teal.text-teal {
     --bslib-color-fg: #008558; // Contrast 4.67
+  }
+}
+
+// Modals
+.modal-body, .modal-footer {
+  padding: 1.5rem;
+}
+.modal-header .btn-close {
+  align-self: start;
+  display: flex;
+}
+#shiny-modal-wrapper:has( ~ .modal-backdrop) .modal {
+  // Blur the background when the modal has a backdrop
+  backdrop-filter: blur(2px);
+}
+
+// Progress Bars & Notifications
+// FIXME: Use css layers (dynamic themeing issue)
+#shiny-notification-panel#shiny-notification-panel {
+  position: fixed;
+  bottom: calc(var(--bslib-spacer, 1rem) / 2);
+  right: calc(var(--bslib-spacer, 1rem) / 2);
+  width: 450px;
+  z-index: $zindex-toast;
+}
+
+.progress-message {
+  margin-right: .6rem;
+}
+
+// FIXME: Use css layers (dynamic themeing issue)
+.shiny-notification.shiny-notification {
+  position: relative;
+  opacity: 0.96;
+  padding: calc(var(--bslib-spacer, 1rem) * 2);
+  margin: var(--bslib-spacer, 1rem);
+  border: $border-width solid rgba(var(--#{prefix}emphasis-color-rgb), 0.8);
+  border-radius: $card-border-radius;
+  box-shadow: $box-shadow;
+
+  .shiny-notification-close {
+    position: absolute;
+    font-size: 1.5em;
+    width: 2rem;
+    height: 2rem;
+    top: 0;
+    right: 0;
+    bottom: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    cursor: pointer;
+    font-weight: 200;
+    color: currentColor;
+
+    &:hover {
+      font-weight: normal;
+    }
+  }
+
+  .shiny-notification-content-text :last-child {
+    margin-bottom: 0;
+  }
+}
+
+@include color-mode(dark) {
+  .shiny-notification.shiny-notification {
+    box-shadow: $box-shadow-dark;
   }
 }

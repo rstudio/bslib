@@ -117,3 +117,12 @@ $card-border-radius: 8px !default;
 // bslib variables
 $bslib-enable-shadows: true !default;
 $bslib-value-box-enable-shadow: $bslib-enable-shadows !default;
+
+// Modals
+$modal-dialog-margin-y-sm-up: 10% !default;
+$modal-header-border-width: none !default;
+$modal-header-padding: 1.5rem !default;
+$modal-backdrop-bg: #464646 !default;
+
+// Shiny: Base shiny.scss variables
+$notification-close-color: currentColor !default;
