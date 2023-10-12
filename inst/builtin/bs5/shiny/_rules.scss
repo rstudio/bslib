@@ -92,12 +92,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 @if $bslib-enable-shadows {
 
   :root {
-    --bslib-shiny-preset-main-bg: rgba(var(--#{prefix}emphasis-color-rgb, 0,0,0), 0.05);
+    --bslib-shiny-preset-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
   }
 
   .bslib-page-sidebar {
-    --bslib-page-sidebar-title-color: var(--#{prefix}body-color);
-    --bslib-page-sidebar-title-bg: var(--#{prefix}body-bg);
+    --bslib-page-sidebar-title-color: var(--bs-body-color);
+    --bslib-page-sidebar-title-bg: var(--bs-body-bg);
 
     > .bslib-sidebar-layout:first-of-type > .main {
       background-color: var(--bslib-shiny-preset-main-bg);
@@ -118,15 +118,15 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 
   .bslib-sidebar-layout.bslib-sidebar-layout {
-    --bslib-sidebar-bg: var(--#{prefix}body-bg);
+    --bslib-sidebar-bg: var(--bs-body-bg);
   }
 }
 
 // By default, non-active .nav links reflect the primary color. This styling
 // tweak brings them closer to how they'll appear in a navbar.
 .nav-underline {
-  --#{$prefix}link-color: rgba(var(--#{prefix}body-color-rgb), 0.65);
-  --#{$prefix}link-hover-color: rgba(var(--#{prefix}body-color-rgb), 0.8);
+  --#{$prefix}link-color: rgba(var(--bs-body-color-rgb), 0.65);
+  --#{$prefix}link-hover-color: rgba(var(--bs-body-color-rgb), 0.8);
   --#{$prefix}nav-link-font-size: 0.875rem;
 
   .nav-link {
