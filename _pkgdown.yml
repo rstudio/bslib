@@ -81,12 +81,19 @@ navbar:
     reference:
       text: Reference
       href: reference/index.html
-    news:
-      text: News
-      href: news/index.html
+    
     github:
       icon: bi-github
       href: https://github.com/rstudio/bslib
+    
+news:
+  releases:
+  - text: "v0.5.1"
+    href: https://shiny.posit.co/blog/posts/bslib-tooltips/
+  - text: "v0.5.0"
+    href: https://shiny.posit.co/blog/posts/bslib-dashboards/
+  - text: "v0.4.2"
+    href: https://shiny.posit.co/blog/posts/announcing-new-r-shiny-ui-components/
 
 reference:
 - title: Create a dashboard
