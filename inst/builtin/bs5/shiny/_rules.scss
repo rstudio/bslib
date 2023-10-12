@@ -61,12 +61,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// Change navbar bg color defaults from $light -> $body-bg & $dark -> $body-color
-.navbar {
-  --bslib-navbar-default-bg: var(--#{$prefix}body-bg);
-  --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
-}
-
 // For selectizeInput(options = list(plugins = "remove_button"))
 // TODO: we should probably make this the default behavior in shiny
 .selectize-control.plugin-remove_button .item {
@@ -76,11 +70,27 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// Apply box shadow effect to cards
+
 @mixin bslib-box-shadows {
-  .bslib-card {
+
+  // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
+  .bslib-card, .bslib-sidebar-layout {
     box-shadow: $box-shadow;
-    border: 0;
+    --#{$prefix}card-border-width: 0;
+    .bslib-card, .bslib-sidebar-layout {
+      box-shadow: none;
+      --#{$prefix}card-border-width: #{$card-border-width};
+    }
+    // If we did `@include color-mode(dark)` here,
+    // the selector wouldn't include the top-level @include
+    // selector scope, which is not what we want.
+    [data-#{$prefix}theme="dark"] & {
+      box-shadow: $box-shadow-dark;
+    }
+  }
+
+  // Additional card styling (w/ box shadows in mind)
+  .bslib-card {
     .card-header, .card-footer {
       background-color: transparent;
       border: 0;
@@ -90,13 +100,11 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       font-size: 0.9rem;
       line-height: 1.375rem;
     }
-    // If we did `@include color-mode(dark)` here,
-    // the selector wouldn't include the top-level @include
-    // selector scope, which is not what we want.
-    [data-#{$prefix}theme="dark"] & {
-      box-shadow: $box-shadow-dark;
+    .bslib-sidebar-layout > .sidebar {
+      border-top: var(--bslib-sidebar-border); 
     }
   }
+
 }
 
 // TODO: move this logic into a "core" bundle that comes with any theme
@@ -104,42 +112,56 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 @if $bslib-enable-shadows {
 
   :root {
-    --bslib-shiny-preset-main-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.03);
+    --bslib-shiny-preset-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
+  }
+
+  .bslib-page-sidebar, .bslib-page-navbar {
+    .bslib-sidebar-layout {
+      --bslib-sidebar-bg: var(--#{$prefix}body-bg);
+      --bslib-sidebar-main-bg: var(--#{$prefix}body-bg);
+    }
   }
 
   .bslib-page-sidebar {
-    --bslib-page-sidebar-title-color: var(--bs-body-color);
-    --bslib-page-sidebar-title-bg: var(--bs-body-bg);
-
-    > .bslib-sidebar-layout:first-of-type > .main {
+    --bslib-page-sidebar-title-bg: transparent;
+    --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
+    
+    > .bslib-sidebar-layout > .main {
       background-color: var(--bslib-shiny-preset-main-bg);
       @include bslib-box-shadows;
-    }
+    } 
   }
 
   .bslib-page-navbar {
-    background-color: var(--bslib-shiny-preset-main-bg);
 
-    // 1st selector is for page_navbar(sidebar = ...)
-    // 2nd selector is for page_navbar(nav_panel("A", layout_sidebar()))
-    > *, .tab-pane {
-      > .bslib-sidebar-layout:first-of-type > .main {
-        @include bslib-box-shadows;
+    > .navbar {
+      --bslib-navbar-default-bg: transparent;
+      --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
+    }
+
+    > div {
+      // Since we're using a transparent navbar, we need to (generally) add a border-top
+      border-top: $card-border-width solid $card-border-color;
+
+      // Case 1: page_navbar(sidebar = ...)
+      // Case 2: page_navbar(nav_panel(layout_sidebar()))
+      > .bslib-sidebar-layout, 
+      > .tab-content > .tab-pane.active.html-fill-container > .bslib-sidebar-layout.html-fill-item {
+        border-top: none !important; // Make sure we don't end up w/ a double border
+        > .main {
+          background-color: var(--bslib-shiny-preset-main-bg);
+          @include bslib-box-shadows;
+        }
       }
     }
-  }
-
-  .bslib-sidebar-layout.bslib-sidebar-layout {
-    --bslib-sidebar-bg: var(--bs-body-bg);
-    --bslib-sidebar-main-bg: transparent;
   }
 }
 
 // By default, non-active .nav links reflect the primary color. This styling
 // tweak brings them closer to how they'll appear in a navbar. 
 .nav-underline {
-  --#{$prefix}link-color: rgba(var(--bs-body-color-rgb), 0.65); 
-  --#{$prefix}link-hover-color: rgba(var(--bs-body-color-rgb), 0.8);
+  --#{$prefix}link-color: rgba(var(--#{$prefix}body-color-rgb), 0.65); 
+  --#{$prefix}link-hover-color: rgba(var(--#{$prefix}body-color-rgb), 0.8);
   --#{$prefix}nav-link-font-size: 0.875rem;
 
   .nav-link {
