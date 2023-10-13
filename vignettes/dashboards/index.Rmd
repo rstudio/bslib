@@ -213,7 +213,7 @@ ui <- page_navbar(
 shinyApp(ui, server)
 ```
 
-Be wary that `page_navbar()`'s `sidebar` argument puts the same sidebar on every page, which may or may not be desirable. In the [sidebar article](../sidebars), you'll learn some strategies for keeping the sidebar's contents close to the stuff they effect. Specifically, that article covers how to: (1) [hide/show `sidebar` contents on particular pages](../sidebars#conditional-contents) (2) [put a particular `sidebar()` with a given page](../sidebars#multi-page-example), and even (3) [put sidebar layouts inside of a `card()`](../sidebars#multi-page-example).
+Be wary that `page_navbar()`'s `sidebar` argument puts the same sidebar on every page, which may or may not be desirable. In the [sidebar article](../sidebars), you'll learn some strategies for keeping the sidebar's contents close to the elements they affect. Specifically, that article covers how to: (1) [hide/show `sidebar` contents on particular pages](../sidebars/index.html#conditional-contents), (2) [put a particular `sidebar()` with a given page](../sidebars/index.html#multi-page-example), and even (3) [put sidebar layouts inside of a `card()`](../sidebars/index.html#multi-page-example).
 
 
 
@@ -246,7 +246,7 @@ shinyApp(ui, server)
 
 ### Scrolling vs filling
 
-Both `page_sidebar()` and `page_navbar()` default to a [filling layout](../filling), meaning that outputs like `plotOutput()`, `{htmlwidgets}`, etc. are encouraged to grow/shrink to fit the browser window. As a result, when contents have an large intrinsic minimum height (e.g., a long textual description), filling layout may cause cards/outputs to grow/shrink beyond what is desirable. To combat this, consider by a setting a `height` on `card()`s that shouldn't grow/shrink and `min_height`/`max_height` on `card()`s that shouldn't shrink/grow beyond a certain point.
+Both `page_sidebar()` and `page_navbar()` default to a [filling layout](../filling), meaning that outputs like `plotOutput()`, `{htmlwidgets}`, etc. are encouraged to grow/shrink to fit the browser window. As a result, when contents have an large intrinsic minimum height (e.g., a long textual description), filling layout may cause cards/outputs to grow/shrink beyond what is desirable. To combat this, consider setting a `height` on `card()`s that shouldn't grow/shrink and `min_height`/`max_height` on `card()`s that shouldn't shrink/grow beyond a certain point.
 
 ```{r filling-layout}
 ui <- page_sidebar(
@@ -259,7 +259,7 @@ ui <- page_sidebar(
 shinyApp(ui, server)
 ```
 
-Filling layout, in general, may not be desirable, especially when there is a lot of output to display on a single page. In this case, consider setting `fillable = FALSE` to prevent growing/shrinking altogether (in this case, outputs then 'fallback' to their default height which is usually 400px).
+Filling layout may not be desirable when there are a lot of outputs to display on a single page. In this case, consider setting `fillable = FALSE` to prevent growing/shrinking altogether. When not using `fillable`, outputs will "fall back" to their default height, which is usually 400px, and scrollbars will be used if the content is too large for its container.
 
 ```{r scrolling-layout, out.height = 700, out.width = 1000}
 ui <- page_sidebar(
@@ -386,7 +386,7 @@ shinyApp(ui, server)
 
 ### Cards with sidebars
 
-We've already seen how the `sidebar` argument of `page_sidebar()` and `page_navbar()` yields a "page-level" sidebar layout, but they can also be made at the "component-level" via `layout_sidebar()`. This is especially useful for keeping input controls near the outputs they effect in more complex apps. `layout_sidebar()` also works inside of a `card()`, making it easy to add headers, footers, `full_screen` behavior, etc.
+We've already seen how the `sidebar` argument of `page_sidebar()` and `page_navbar()` yields a "page-level" sidebar layout, but they can also be made at the "component-level" via `layout_sidebar()`. This is especially useful for keeping input controls near the outputs they affect in more complex apps. `layout_sidebar()` also works inside of a `card()`, making it easy to add headers, footers, `full_screen` behavior, etc.
 
 To learn more, visit the [cards](../cards) and [sidebars](../sidebars) articles.
 
