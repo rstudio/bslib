@@ -59,8 +59,16 @@ button)."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
       <ul class="navbar-nav"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">News</a>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-news">
+    <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/bslib-tooltips/">v0.5.1</a>
+    <a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/bslib-dashboards/">v0.5.0</a>
+    <a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/announcing-new-r-shiny-ui-components/">v0.4.2</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../news/index.html">Changelog</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="external-link nav-link" href="https://github.com/rstudio/bslib">
