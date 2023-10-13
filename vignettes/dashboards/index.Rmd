@@ -259,7 +259,7 @@ ui <- page_sidebar(
 shinyApp(ui, server)
 ```
 
-Filling layout may not be desirable when there are a lot of outputs to display on a single page. In this case, consider setting `fillable = FALSE` to prevent growing/shrinking altogether. When not using `fillable`, outputs will "fall back" to their default height, which is usually 400px, and scrollbars will be used if the content is too large for its container.
+Filling layout may not be desirable when there are a lot of outputs to display on a single page. In this case, consider setting `fillable = FALSE` to prevent growing/shrinking altogether. When the page layout is not `fillable`, outputs will fall back to their intrinsic height, which is usually 400px. Users will be able to scroll the page if the outputs take up more vertical space than the height of the window.
 
 ```{r scrolling-layout, out.height = 700, out.width = 1000}
 ui <- page_sidebar(
