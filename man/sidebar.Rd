@@ -14,6 +14,7 @@ sidebar(
   open = c("desktop", "open", "closed", "always"),
   id = NULL,
   title = NULL,
+  collapse_icon = NULL,
   bg = NULL,
   fg = NULL,
   class = NULL,
@@ -74,6 +75,9 @@ update) the \code{collapsible} state in a Shiny app.}
 wrapped in a \verb{<header>} element with class \code{sidebar-title}. You can also
 provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
 you'll likely want to give this element \code{class = "sidebar-title"}.}
+
+\item{collapse_icon}{A \code{\link[htmltools:builder]{htmltools::tag()}} child to use for the collapse icon.
+Consider using a \pkg{bsicons} icon like \code{bsicons::bs_icon("sliders")}.}
 
 \item{bg, fg}{A background or foreground color. If only one of either is
 provided, an accessible contrasting color is provided for the opposite
