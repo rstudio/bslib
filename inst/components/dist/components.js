@@ -681,13 +681,18 @@
      * @private
      */
     _initEventListeners() {
-      var _a;
       const { toggle } = this.layout;
       toggle.addEventListener("click", (ev) => {
         ev.preventDefault();
         this.toggle("toggle");
       });
-      (_a = toggle.querySelector(".collapse-icon")) == null ? void 0 : _a.addEventListener("transitionend", () => this._finalizeState());
+      toggle.addEventListener("transitionend", (e) => {
+        if (e.target !== toggle)
+          return;
+        if (e.propertyName === "right" || e.propertyName === "left") {
+          this._finalizeState();
+        }
+      });
     }
     /**
      * Initialize nested sidebar counters.
