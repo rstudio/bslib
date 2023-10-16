@@ -133,8 +133,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   > .collapse-toggle {
     grid-row: 1 / 2;
     grid-column: 1 / 2;
-    display: inline-flex;
-    align-items: center;
     position: absolute;
     right: calc(var(--bslib-sidebar-icon-size));
     top: calc(var(--bslib-sidebar-icon-size, 1rem) / 2);
@@ -147,29 +145,26 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     justify-content: center;
     padding: 0;
     color: var(--bslib-sidebar-fg);
-    background-color: unset; // don't take `button` background color
+    transform: rotateY(var(--bslib-collapse-toggle-transform));
     transition:
-      color var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
-      top var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
+      // N.B. In order to properly add/remove the .transitioning class (in JS), 
+      // we assume on this `right` property will fire a transitionend event
       right var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
-      left var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
+      top var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
+      left var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
+      color var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
+      transform var(--bslib-sidebar-toggle-transition-easing) var(--bslib-sidebar-transition-duration);
 
+    opacity: 0.8;
+    background-color: unset; // don't take `button` background color
     &:hover {
+      opacity: 1;
       background-color: var(--bslib-sidebar-toggle-bg);
     }
 
-    > * {
-      opacity: 0.8;
+    > * {  
       width: var(--bslib-sidebar-icon-size);
       height: var(--bslib-sidebar-icon-size);
-      transform: rotateY(var(--bslib-collapse-toggle-transform));
-      // N.B. since mobile view won't trigger a transition of grid-template-columns,
-      // we transition this toggle to ensure _some_ transition event always happens.
-      transition: transform var(--bslib-sidebar-toggle-transition-easing) var(--bslib-sidebar-transition-duration);
-    }
-
-    &:hover > * {
-      opacity: 1;
     }
   }
 
@@ -206,9 +201,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       left: var(--bslib-sidebar-icon-size);
       right: unset;
       border: var(--bslib-collapse-toggle-border);
-      > * {
-        transform: rotateY(var(--bslib-collapse-toggle-right-transform));
-      }
+      transform: rotateY(var(--bslib-collapse-toggle-right-transform));
     }
   }
 
