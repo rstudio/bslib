@@ -81,9 +81,9 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       box-shadow: none;
       --#{$prefix}card-border-width: #{$card-border-width};
     }
-    // If we did `@include color-mode(dark)` here,
-    // the selector wouldn't include the top-level @include
-    // selector scope, which is not what we want.
+    // We're deliberately avoiding `@include color-mode(dark)` here since
+    // that'd require a fair amount of duplication to properly implement
+    // https://github.com/rstudio/bslib/pull/829/files#r1361262514
     [data-#{$prefix}theme="dark"] & {
       box-shadow: $box-shadow-dark;
     }
