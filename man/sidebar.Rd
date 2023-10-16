@@ -77,7 +77,10 @@ provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title
 you'll likely want to give this element \code{class = "sidebar-title"}.}
 
 \item{collapse_icon}{A \code{\link[htmltools:builder]{htmltools::tag()}} child to use for the collapse icon.
-Consider using a \pkg{bsicons} icon like \code{bsicons::bs_icon("sliders")}.}
+Consider using a \pkg{bsicons} icon like \code{bsicons::bs_icon("sliders")}.
+To ensure an accessible experience with other icons, set the \code{aria-hidden}
+attribute on the icon element to \code{"true"} (the icon is purely decorative
+-- its parent element provides the toggle functionality).}
 
 \item{bg, fg}{A background or foreground color. If only one of either is
 provided, an accessible contrasting color is provided for the opposite
