@@ -47,6 +47,9 @@
 #'   you'll likely want to give this element `class = "sidebar-title"`.
 #' @param collapse_icon A [htmltools::tag()] child to use for the collapse icon.
 #'   Consider using a \pkg{bsicons} icon like `bsicons::bs_icon("sliders")`.
+#'   To ensure an accessible experience with other icons, set the `aria-hidden`
+#'   attribute on the icon element to `"true"` (the icon is purely decorative
+#'   -- its parent element provides the toggle functionality).
 #' @param bg,fg A background or foreground color. If only one of either is
 #'   provided, an accessible contrasting color is provided for the opposite
 #'   color, e.g. setting `bg` chooses an appropriate `fg` color.
@@ -131,6 +134,7 @@ sidebar <- function(
         class = "collapse-toggle",
         type = "button",
         title = "Toggle sidebar",
+        "aria-label" = "Toggle sidebar",
         "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
         "aria-controls" = id,
         collapse_icon %||% sidebar_collapse_icon()

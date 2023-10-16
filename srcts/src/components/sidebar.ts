@@ -229,10 +229,12 @@ class Sidebar {
     });
 
     // When the toggle's done transitioning, finalize the sidebar state
-    // (e.g., remove the transitioning class).
-    // N.B. assumes the toggle's right property is transitioned...
+    // (e.g., remove the transitioning class, etc).
     toggle.addEventListener("transitionend", (e) => {
       if (e.target !== toggle) return;
+      // We don't want to finalize state for _every_ transition, so only
+      // finalize when the toggle's horizontal positioning changes (which should
+      // usually be right, unless `sidebar(position="right")`)
       if (e.propertyName === "right" || e.propertyName === "left") {
         this._finalizeState();
       }
