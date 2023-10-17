@@ -175,11 +175,11 @@ reference:
     - input_dark_mode
 - subtitle: Tooltips & Popovers
   desc: |
-    Provide details on demand. By default, tooltips are ephemeral and provide a
+    Provide details on demand. In general, tooltips are ephemeral and provide a
     little extra information when the user hovers over or focuses on an element.
-    Popovers are more persistent and can be triggered by a click or a hover, and
-    they can include more content than tooltips -- even Shiny inputs and
-    outputs!
+    Popovers are more persistent and are triggered by a click or via the
+    keyboard. Popovers can include more content than tooltips -- even Shiny
+    inputs and outputs!
   contents:
     - tooltip
     - popover
