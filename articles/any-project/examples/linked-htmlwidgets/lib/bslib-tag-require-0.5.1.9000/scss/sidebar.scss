@@ -235,12 +235,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
 
     > .main {
       border-radius: inherit;
-    }
-
-    &:not(.sidebar-right) > .main {
       padding-left: var(--bslib-sidebar-padding-icon);
-    }
-    &.sidebar-right > .main {
       padding-right: var(--bslib-sidebar-padding-icon);
     }
 
@@ -320,19 +315,13 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
         }
       }
 
-
-      // Keep padding on main contents when sidebar is expanded (avoid shifts)
-      &:not(.sidebar-right) > .main {
-        padding-left: var(--bslib-sidebar-padding-icon);
-      }
-      &.sidebar-right > .main {
-        padding-right: var(--bslib-sidebar-padding-icon);
-      }
-
       // Make main contents transparent while sidebar is expanded
       > .main {
         opacity: 0;
-        transition: opacity var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration)
+        transition: opacity var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
+        padding-top: var(--bslib-sidebar-padding-icon);
+        padding-left: var(--bslib-sidebar-padding);
+        padding-right: var(--bslib-sidebar-padding);
       }
       &.sidebar-collapsed > .main {
         opacity: 1;
