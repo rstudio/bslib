@@ -99,7 +99,7 @@ reference:
 - title: Page Layouts
   desc: >
     Page layouts are the basic building blocks of any UI. bslib pages always
-    include Bootstrap and are can be themed with bslib's theming capabilities.
+    include Bootstrap and can be themed with bslib's [theming capabilities](#theming).
 - subtitle: Dashboard layouts
   desc: >
     These page layouts work best for dashboards. For a single-page dashboards
@@ -121,7 +121,7 @@ reference:
   desc: >
     These functions help you layout the user interface (UI) elements of your
     app.
-- subtitle: Layout multiple UI elements
+- subtitle: Multiple columns
   desc: |
     Organize inputs and outputs into Bootstrap's
     [12-column CSS grid](https://getbootstrap.com/docs/5.3/layout/css-grid/)
@@ -133,7 +133,7 @@ reference:
     - layout_column_wrap
     - layout_sidebar
     - breakpoints
-- subtitle: Navigation
+- subtitle: Multiple panels
   desc: |
     Create tabbed sections of content. First, choose the style of navigation
     container. Then add navigation panels or items to the container. You can
