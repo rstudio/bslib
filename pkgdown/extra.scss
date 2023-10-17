@@ -32,6 +32,11 @@ main h2 {
   margin-bottom: 0;
 }
 
+.template-reference-index .section > p {
+  // Soften the section description slightly
+  color: rgba(var(--bs-emphasis-color-rgb), 0.6);
+}
+
 /* ---- Callouts ---- */
 .callout {
   position: relative;
