@@ -91,7 +91,9 @@ validateCssPadding <- function(padding = NULL) {
 
 #' A sidebar page (i.e., dashboard)
 #'
+#' @description
 #' `r lifecycle::badge("experimental")`
+#'
 #' Create a dashboard layout with a full-bleed header (`title`) and [sidebar()].
 #'
 #' @inheritParams layout_sidebar
@@ -108,7 +110,7 @@ validateCssPadding <- function(padding = NULL) {
 #' @seealso [card()] for wrapping outputs in the 'main' content area.
 #' @seealso [value_box()] for highlighting values.
 #'
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #'
 #' library(shiny)
 #' library(ggplot2)

@@ -30,6 +30,8 @@ received for the input corresponding to \code{id} will be a logical
 (\code{TRUE}/\code{FALSE}) value.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Create an on-off style switch control for specifying logical values.
 }
 \examples{

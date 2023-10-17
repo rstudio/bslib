@@ -45,6 +45,8 @@ together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body
 A \code{\link[htmltools:builder]{htmltools::div()}} tag.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 A general purpose container for grouping related UI elements together with a
 border and optional padding. To learn more about \code{\link[=card]{card()}}s, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
 }

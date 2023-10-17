@@ -16,6 +16,8 @@ breakpoints(..., sm = NULL, md = NULL, lg = NULL)
 \item{lg}{Values to apply at the \code{lg} breakpoint.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 A generic constructor for responsive breakpoints.
 }
 \references{

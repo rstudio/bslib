@@ -1,5 +1,8 @@
 #' Add a popover to a UI element
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Display additional information when clicking on a UI element (typically a
 #' button).
 #'
