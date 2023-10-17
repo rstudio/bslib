@@ -1215,8 +1215,8 @@ $navbar-toggler-focus-width:        $btn-focus-width !default;
 $navbar-toggler-transition:         box-shadow .15s ease-in-out !default;
 
 $navbar-bg:       null !default; // Background color for any navbarPage()
-$navbar-light-bg: if($navbar-bg, $navbar-bg, var(--bs-light)) !default; // Background color for navbarPage(inverse = FALSE)
-$navbar-dark-bg:  if($navbar-bg, $navbar-bg, var(--bs-dark)) !default; // Background color for navbarPage(inverse = TRUE)
+$navbar-light-bg: $navbar-bg !default; // Background color for navbarPage(inverse = FALSE)
+$navbar-dark-bg:  $navbar-bg !default; // Background color for navbarPage(inverse = TRUE)
 
 $navbar-light-contrast: if(
   type-of($navbar-light-bg) == color,
