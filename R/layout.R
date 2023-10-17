@@ -1,5 +1,8 @@
 #' A grid-like, column-first, layout
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 #' rows) in the grid dependent on the column `width` as well as the size of the
 #' display. For more explanation and illustrative examples, see [here](https://rstudio.github.io/bslib/articles/cards.html#multiple-cards)

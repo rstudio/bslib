@@ -1,7 +1,10 @@
 #' Sidebar layouts
 #'
-#' @description Create a collapsing sidebar layout by providing a `sidebar()`
-#'   object to the `sidebar` argument of:
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Create a collapsing sidebar layout by providing a `sidebar()` object to the
+#' `sidebar` argument of:
 #'
 #' * [page_sidebar()]
 #'     * Creates a "page-level" sidebar.

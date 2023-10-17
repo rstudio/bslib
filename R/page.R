@@ -28,7 +28,8 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   )
 }
 
-#' @rdname page
+#' @describeIn page A \pkg{bslib} wrapper for [shiny::fluidPage()], a fluid
+#'   Bootstrap-based page layout that extends to the full viewport width.
 #' @inheritParams shiny::fluidPage
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
@@ -38,7 +39,9 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   )
 }
 
-#' @rdname page
+#' @describeIn page A \pkg{bslib} wrapper for [shiny::fixedPage()], a fixed
+#'   Bootstrap-based page layout where the page content container is centered
+#'   horizontally and its width is constrained.
 #' @inheritParams shiny::fixedPage
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
@@ -48,7 +51,8 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   )
 }
 
-#' @rdname page
+#' @describeIn page `r lifecycle::badge("experimental")` A Bootstrap-based page
+#'   layout whose contents fill the full height and width of the browser window.
 #' @param padding Padding to use for the body. This can be a numeric vector
 #'   (which will be interpreted as pixels) or a character vector with valid CSS
 #'   lengths. The length can be between one and four. If one, then that value
@@ -87,6 +91,9 @@ validateCssPadding <- function(padding = NULL) {
 
 #' A sidebar page (i.e., dashboard)
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Create a dashboard layout with a full-bleed header (`title`) and [sidebar()].
 #'
 #' @inheritParams layout_sidebar
@@ -103,7 +110,7 @@ validateCssPadding <- function(padding = NULL) {
 #' @seealso [card()] for wrapping outputs in the 'main' content area.
 #' @seealso [value_box()] for highlighting values.
 #'
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #'
 #' library(shiny)
 #' library(ggplot2)

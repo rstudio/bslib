@@ -1,5 +1,8 @@
 #' Value box
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' An opinionated ([card()]-powered) box, designed for displaying a `value` and
 #' `title`. Optionally, a `showcase` can provide for context for what the
 #' `value` represents (for example, it could hold a [bsicons::bs_icon()], or

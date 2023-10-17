@@ -16,7 +16,13 @@ breakpoints(..., sm = NULL, md = NULL, lg = NULL)
 \item{lg}{Values to apply at the \code{lg} breakpoint.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 A generic constructor for responsive breakpoints.
+}
+\examples{
+breakpoints(sm = c(4, 4, 4), md = c(3, 3, 6), lg = c(-2, 8, -2))
+
 }
 \references{
 \url{https://getbootstrap.com/docs/5.3/layout/breakpoints/}

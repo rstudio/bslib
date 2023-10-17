@@ -1,5 +1,8 @@
 #' Create a vertically collapsing accordion
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' @param ... Named arguments become attributes on the `<div class="accordion">`
 #'   element. Unnamed arguments should be `accordion_panel()`s.
 #' @param id If provided, you can use `input$id` in your server logic to
@@ -18,7 +21,7 @@
 #'
 #' @export
 #' @seealso [accordion_panel_set()]
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #'
 #' items <- lapply(LETTERS, function(x) {
 #'   accordion_panel(paste("Section", x), paste("Some narrative for section", x))
@@ -160,6 +163,9 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
 }
 
 #' Dynamically update accordions
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
 #'
 #' Dynamically (i.e., programmatically) update/modify [`accordion()`]s in a
 #' Shiny app. These functions require an `id` to be provided to the

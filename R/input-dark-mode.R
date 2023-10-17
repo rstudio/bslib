@@ -1,5 +1,8 @@
 #' Dark mode input control
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Creates a button that toggles between dark and light modes, specifically for
 #' toggling between light and dark [Bootstrap color
 #' modes](https://getbootstrap.com/docs/5.3/customize/color-modes/) -- a new

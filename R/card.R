@@ -1,5 +1,8 @@
 #' A Bootstrap card component
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' A general purpose container for grouping related UI elements together with a
 #' border and optional padding. To learn more about [card()]s, see [this
 #' article](https://rstudio.github.io/bslib/articles/cards.html).
