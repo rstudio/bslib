@@ -49,7 +49,6 @@ CHOICES <- list(
 
 sidebar_acc <- accordion(
   open = c("Origin", "Destination"),
-  class = "border-top", # TODO: this shouldn't be needed
   accordion_panel(
     "Flight Path",
     # See https://github.com/rstudio/fontawesome/issues/114
@@ -161,7 +160,6 @@ delay_dist <- navset_card_underline(
   sidebar = sidebar(
     position = "right",
     open = FALSE,
-    class = "border-top", # TODO: make this happen by default
     radioButtons(
       "delay_dist_type", "Delay type",
       c("Arrival" = "arr_delay", "Departure" = "dep_delay"),
