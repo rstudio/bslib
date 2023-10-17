@@ -148,14 +148,6 @@ reference:
     bslib brings a collection of Bootstrap components to Shiny. These components
     require the latest version of Bootstrap and work best when used with the
     [page functions listed above](#page-layouts).
-- subtitle: Accordions
-  desc: |
-    Create collapsible sections of content. Each collapsible section is defined
-    with `accordion_panel()` and the collection of sections are grouped together
-    within an `accordion()`.
-  contents:
-    - accordion
-    - accordion_panel_set
 - subtitle: Cards
   desc: |
     Cards are a great way to group content into a single, contained unit. Cards
@@ -166,12 +158,21 @@ reference:
   contents:
     - card
     - as.card_item
-- subtitle: Input controls
+- subtitle: Value box
   desc: |
-    UI controls for capturing user input
+    Value boxes are a special type of card that highlight a single piece of
+    information, optionally showcasing an icon or plot. They are often used in
+    [dashboard layouts](#dashboard-layouts) to highlight key metrics.
   contents:
-    - input_switch
-    - input_dark_mode
+    - value_box
+- subtitle: Accordions
+  desc: |
+    Create collapsible sections of content. Each collapsible section is defined
+    with `accordion_panel()` and the collection of sections are grouped together
+    within an `accordion()`.
+  contents:
+    - accordion
+    - accordion_panel_set
 - subtitle: Tooltips & Popovers
   desc: |
     Provide details on demand. In general, tooltips are ephemeral and provide a
@@ -182,13 +183,12 @@ reference:
   contents:
     - tooltip
     - popover
-- subtitle: Value box
+- subtitle: Miscellaneous inputs
   desc: |
-    Value boxes are a special type of card that highlight a single piece of
-    information, optionally showcasing an icon or plot. They are often used in
-    [dashboard layouts](#dashboard-layouts) to highlight key metrics.
+    UI controls for capturing user input
   contents:
-    - value_box
+    - input_switch
+    - input_dark_mode
 
 - title: Theming
   desc: >
