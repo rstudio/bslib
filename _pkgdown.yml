@@ -81,11 +81,11 @@ navbar:
     reference:
       text: Reference
       href: reference/index.html
-    
+
     github:
       icon: bi-github
       href: https://github.com/rstudio/bslib
-    
+
 news:
   releases:
   - text: "v0.5.1"
@@ -96,95 +96,149 @@ news:
     href: https://shiny.posit.co/blog/posts/announcing-new-r-shiny-ui-components/
 
 reference:
-- title: Create a dashboard
-  contents:
+- title: Page Layouts
+  desc: >
+    Page layouts are the basic building blocks of any UI. bslib pages always
+    include Bootstrap and are can be themed with bslib's theming capabilities.
+- subtitle: Dashboard layouts
+  desc: >
+    These page layouts work best for dashboards. For a single-page dashboards
+    with an optional sidebar, try `page_sidebar()`. For multi-tab dashboards
+    organized as pages in a navbar, also with an optional sidebar, try
+    `page_navbar()`.
+- contents:
     - page_sidebar
-- title: Page layouts
-  contents:
+    - page_navbar
+- subtitle: Basic page layouts
+  desc: >
+    bslib variants of classic Shiny page layouts.
+- contents:
     - page
-- title: Theme creation
-  description: |
-    Tools for creating customized Bootstrap themes.
+
+- title: User Interface Layouts
+  desc: >
+    These functions help you layout the user interface (UI) elements of your
+    app.
+- subtitle: Layout multiple UI elements
+  desc: |
+    Organize inputs and outputs into Bootstrap's
+    [12-column CSS grid](https://getbootstrap.com/docs/5.3/layout/css-grid/)
+    with `layout_columns()` or into a responsive, column-first grid layout with
+    `layout_column_wrap()`. Place a sidebar next to any UI elements with
+    `layout_sidebar()`.
+  contents:
+    - layout_columns
+    - layout_column_wrap
+    - layout_sidebar
+    - breakpoints
+- subtitle: Navigation
+  desc: |
+    Create tabbed sections of content. First, choose the style of navigation
+    container. Then add navigation panels or items to the container. You can
+    programmatically control or update the navigation containers with
+    server-side logic.
+  contents:
+    - navset
+    - nav-items
+    - nav_select
+
+- title: Components
+  desc: >
+    bslib brings a collection of Bootstrap components to Shiny. These components
+    require the latest version of Bootstrap and work best when used with the
+    [page functions listed above](#page-layouts).
+- subtitle: Accordions
+  desc: |
+    Create collapsible sections of content. Each collapsible section is defined
+    with `accordion_panel()` and the collection of sections are grouped together
+    within an `accordion()`.
+  contents:
+    - accordion
+    - accordion_panel_set
+- subtitle: Cards
+  desc: |
+    Cards are a great way to group content into a single, contained unit. Cards
+    combine nicely with many other functions in bslib. They can be added to
+    [dashboard page layouts](#dashboard-layouts), laid out with helpers like
+    `layout_columns()`, or have sidebars when used with `layout_sidebar()`. You
+    can even create [tabbed card interfaces](#navigation) with the `navset_card_*()` functions.
+  contents:
+    - card
+    - as.card_item
+- subtitle: Input controls
+  desc: |
+    UI controls for capturing user input
+  contents:
+    - input_switch
+    - input_dark_mode
+- subtitle: Tooltips & Popovers
+  desc: |
+    Provide details on demand. By default, tooltips are ephemeral and provide a
+    little extra information when the user hovers over or focuses on an element.
+    Popovers are more persistent and can be triggered by a click or a hover, and
+    they can include more content than tooltips -- even Shiny inputs and
+    outputs!
+  contents:
+    - tooltip
+    - popover
+- subtitle: Value box
+  desc: |
+    Value boxes are a special type of card that highlight a single piece of
+    information, optionally showcasing an icon or plot. They are often used in
+    [dashboard layouts](#dashboard-layouts) to highlight key metrics.
+  contents:
+    - value_box
+
+- title: Theming
+  desc: >
+    bslib provides a flexible interface for customizing Bootstrap themes. You
+    can create your own Bootstrap themes, customize existing themes, or create
+    dynamic themes that can even be modified at runtime.
+- subtitle: Create a Bootstrap theme
+  desc: |
+    Tools for creating customized Bootstrap themes. Create your own, highly
+    customized theme, or use a preset theme -- either built into bslib or
+    provided by [Bootswatch](https://bootswatch.com/).
   contents:
     - bs_theme
     - bs_add_variables
     - font_face
-- title: Interactive theming
-  description: |
+- subtitle: Interactive theming
+  desc: |
     Interactively customize themes.
   contents:
     - bs_theme_preview
     - run_with_themer
     - bs_themer
-- title: Cards
-  description: |
-    Create cards
-  contents:
-    - card
-    - as.card_item
-- title: Value box
-  description: |
-    Highlight important findings
-  contents:
-    - value_box
-- title: Tooltips & Popovers
-  description: |
-    Provide details on demand
-  contents:
-    - tooltip
-    - popover
-- title: Input controls
-  description: |
-    UI controls for capturing user input
-  contents:
-    - input_switch
-    - input_dark_mode
-- title: Accordions
-  description: |
-    Create collapsible sections of content
-  contents:
-    - accordion
-    - accordion_panel_set
-- title: Navigation
-  description: |
-    Create (tabbed) sections of content.
-  contents:
-    - nav-items
-    - navset
-    - nav_select
-- title: Layout multiple UI elements
-  description: |
-    Layout helpers
-  contents:
-    - layout_columns
-    - breakpoints
-    - layout_sidebar
-    - layout_column_wrap
-- title: Fill items and fillable containers
-  description: |
-    Create and test for fill items and fillable containers
-  contents:
-    - as_fill_carrier
-- title: Dynamic theming
-  description: |
-    Create dynamically themable HTML widgets.
+- subtitle: Dynamic theming
+  desc: |
+    For package developers or advanced app authors, bslib provides tools for
+    creating dynamically themable HTML widgets.
   contents:
     - bs_dependency
     - bs_dependency_defer
     - bs_theme_dependencies
     - bs_current_theme
-- title: Global theme creation
-  description: |
+- subtitle: Global theme creation
+  desc: |
     Use Bootstrap themes globally.
   contents:
     - bs_global_theme
     - bs_global_add_variables
-- title: Theme subsetting
-  description: |
-    Reduce the final CSS bundle size.
+- subtitle: Theme subsetting
+  desc: |
+    Reduce the final CSS bundle size by removing unwanted portions of a Sass
+    bundle.
   contents:
     - bs_remove
-- title: Other utility functions
+
+- title: Utility Functions
+- subtitle: Fill items and fillable containers
+  desc: |
+    Create and test for fill items and fillable containers.
+  contents:
+    - as_fill_carrier
+- subtitle: Other utility functions
   contents:
     - bs_get_variables
     - theme_version
