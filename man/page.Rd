@@ -126,6 +126,19 @@ These functions are small wrappers around shiny's page constructors (i.e.,
 \item The return value is rendered as an static HTML page when printed interactively at the console.
 }
 }
+\section{Functions}{
+\itemize{
+\item \code{page_fluid()}: A \pkg{bslib} wrapper for \code{\link[shiny:fluidPage]{shiny::fluidPage()}}, a fluid
+Bootstrap-based page layout that extends to the full viewport width.
+
+\item \code{page_fixed()}: A \pkg{bslib} wrapper for \code{\link[shiny:fixedPage]{shiny::fixedPage()}}, a fixed
+Bootstrap-based page layout where the page content container is centered
+horizontally and its width is constrained.
+
+\item \code{page_fillable()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} A Bootstrap-based page
+layout whose contents fill the full height and width of the browser window.
+
+}}
 \seealso{
 \code{\link[=page_sidebar]{page_sidebar()}}
 
