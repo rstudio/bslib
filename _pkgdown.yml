@@ -132,7 +132,6 @@ reference:
     - layout_columns
     - layout_column_wrap
     - layout_sidebar
-    - breakpoints
 - subtitle: Multiple panels
   desc: |
     Create tabbed sections of content. First, choose the style of navigation
@@ -240,7 +239,7 @@ reference:
     Create and test for fill items and fillable containers.
   contents:
     - as_fill_carrier
-- subtitle: Other utility functions
+- subtitle: Theming utility functions
   contents:
     - bs_get_variables
     - theme_version
@@ -248,6 +247,9 @@ reference:
     - bootswatch_themes
     - builtin_themes
     - version_default
+- subtitle: Other utility functions
+  contents:
+    - breakpoints
 
 
 redirects:
