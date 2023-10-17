@@ -105,10 +105,12 @@ reference:
     These page layouts work best for dashboards. For a single-page dashboards
     with an optional sidebar, try `page_sidebar()`. For multi-tab dashboards
     organized as pages in a navbar, also with an optional sidebar, try
-    `page_navbar()`.
+    `page_navbar()`. For a full-page dashboard with items that fill the screen,
+    try `page_fillable()`.
 - contents:
     - page_sidebar
     - page_navbar
+    - page_fillable
 - subtitle: Basic page layouts
   desc: >
     bslib variants of classic Shiny page layouts.
