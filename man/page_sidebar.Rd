@@ -28,7 +28,7 @@ title (just above the \code{sidebar}).}
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
 
-\item{fillable_mobile}{Whether or not \code{fillable} pages should fill the viewport's
+\item{fillable_mobile}{Whether or not the page should fill the viewport's
 height on mobile devices (i.e., narrow windows).}
 
 \item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}

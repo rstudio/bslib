@@ -71,7 +71,7 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 Create responsive, column-based grid layouts, based on a 12-column grid.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 
 x <- card("A simple card")

@@ -146,7 +146,7 @@ layout_column_wrap <- function(
 #'
 #' @export
 #' @seealso [breakpoints()] for more information on breakpoints.
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #'
 #'
 #' x <- card("A simple card")
