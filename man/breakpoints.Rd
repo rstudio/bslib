@@ -20,6 +20,10 @@ breakpoints(..., sm = NULL, md = NULL, lg = NULL)
 
 A generic constructor for responsive breakpoints.
 }
+\examples{
+breakpoints(sm = c(4, 4, 4), md = c(3, 3, 6), lg = c(-2, 8, -2))
+
+}
 \references{
 \url{https://getbootstrap.com/docs/5.3/layout/breakpoints/}
 }
