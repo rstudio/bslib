@@ -97,7 +97,9 @@ An \code{\link[htmltools:builder]{htmltools::div()}} tag.
 }
 \description{
 Components designed to be provided as direct children of a \code{\link[=card]{card()}}. For a
-general overview of the \code{\link[=card]{card()}} API, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+general overview of the \code{\link[=card]{card()}} API, see \href{https://rstudio.github.io/bslib/articles/cards/index.html}{the Cards article} or the
+other articles listed in the \emph{References} section of the \code{\link[=card]{card()}}
+documentation.
 }
 \section{Functions}{
 \itemize{
@@ -117,10 +119,18 @@ general overview of the \code{\link[=card]{card()}} API, see \href{https://rstud
 
 }}
 \seealso{
-\code{\link[=card]{card()}} for creating a card component.
+\code{\link[=card]{card()}} creates a card component.
 
-\code{\link[=navset_card_tab]{navset_card_tab()}} for cards with multiple tabs.
+\code{\link[=navset_card_tab]{navset_card_tab()}}, \code{\link[=navset_card_pill]{navset_card_pill()}} and
+\code{\link[=navset_card_underline]{navset_card_underline()}} create cards with tabbed navigation.
 
-\code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out multiple cards (or multiple
-columns inside a card).
+\code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} help position multiple
+cards into columns and rows and can also be used inside a card.
+
+\code{\link[=layout_sidebar]{layout_sidebar()}} adds a sidebar to a card when nested in \code{\link[=card]{card()}}
+or \code{\link[=card_body]{card_body()}}.
+
+Other Cards: 
+\code{\link{card}()}
 }
+\concept{Cards}
