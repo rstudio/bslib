@@ -188,7 +188,7 @@ similar to `navset_underline()` but where each `nav_panel()` is treated as a ful
 and the navigation controls appear in a top-level navigation bar.
 Note also that the underline styling can be removed via the `underline` argument.
 
-```{r page_navbar}
+```{r page_navbar, fig.width=10}
 page_navbar(
   title = "My App",
   bg = "#0062cc",
