@@ -198,6 +198,8 @@ validateCssPadding <- function(padding = NULL) {
 #' @export
 #' @family Dashboard page layouts
 #'
+#' @seealso [layout_columns()] and [layout_column_wrap()] for laying out content
+#'   into rows and columns.
 #' @seealso [accordion()] for grouping related input controls in the `sidebar`.
 #' @seealso [card()] for wrapping outputs in the 'main' content area.
 #' @seealso [value_box()] for highlighting values.

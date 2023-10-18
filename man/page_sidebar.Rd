@@ -78,7 +78,8 @@ shinyApp(ui, server)
 on the bslib website.
 }
 \seealso{
-\code{\link[=layout_sidebar]{layout_sidebar()}} for 'floating' sidebar layouts.
+\code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out content
+into rows and columns.
 
 \code{\link[=accordion]{accordion()}} for grouping related input controls in the \code{sidebar}.
 

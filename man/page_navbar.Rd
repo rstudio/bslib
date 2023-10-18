@@ -151,9 +151,6 @@ sections and organizing or creating items in the navigation bar.
 \code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out content
 into rows and columns.
 
-\code{\link[=layout_sidebar]{layout_sidebar()}} for 'floating' sidebar layouts, or for details
-about the \code{sidebar} argument.
-
 \code{\link[=card]{card()}} for wrapping outputs in the 'main' content area.
 
 \code{\link[=value_box]{value_box()}} for highlighting values.
