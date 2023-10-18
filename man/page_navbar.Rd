@@ -121,16 +121,14 @@ link_posit <- tags$a(
 
 ui <- page_navbar(
   title = "My App",
-  bg = "#0062cc",
-  underline = TRUE,
   nav_panel(title = "One", p("First page content.")),
   nav_panel(title = "Two", p("Second page content.")),
+  nav_panel("Three", p("Third page content.")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
+    title = "Links",
     align = "right",
-    nav_panel("Three", p("Third page content.")),
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
