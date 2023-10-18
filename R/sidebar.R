@@ -292,7 +292,6 @@ toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-#' @describeIn sidebar An alias for [toggle_sidebar()].
 #' @keywords internal
 #' @export
 sidebar_toggle <- toggle_sidebar
