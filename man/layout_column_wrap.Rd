@@ -82,3 +82,12 @@ layout_column_wrap(1/2, x, x, x)
 layout_column_wrap("250px", x, x, x)
 
 }
+\references{
+\href{https://rstudio.github.io/bslib/articles/column-layout/index.html}{Column-based layouts}
+on the bslib website.
+}
+\seealso{
+Other Column layouts: 
+\code{\link{layout_columns}()}
+}
+\concept{Column layouts}

@@ -38,10 +38,10 @@ above.
 \item{row_heights}{One of the following:
 \itemize{
 \item A numeric vector, where each value represents the
-\href{https://css-tricks.com/introduction-fr-css-unit/}{fractional unit} (\code{fr})
-height of the relevant row. If there are more rows than values provided,
-the pattern will repeat. For example, \code{row_heights = c(1, 2)} allows even
-rows to take up twice as much space as odd rows.
+\href{https://css-tricks.com/introduction-fr-css-unit/}{fractional unit}
+(\code{fr}) height of the relevant row. If there are more rows than values
+provided, the pattern will repeat. For example, \code{row_heights = c(1, 2)}
+allows even rows to take up twice as much space as odd rows.
 \item A list of numeric and \link[htmltools:validateCssUnit]{CSS length units},
 where each value represents the height of the relevant row. If more rows
 are needed than values provided, the pattern will repeat. For example,
@@ -72,8 +72,6 @@ Create responsive, column-based grid layouts, based on a 12-column grid.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-
-
 x <- card("A simple card")
 
 page_fillable(
@@ -108,6 +106,15 @@ page_fillable(
 )
 \dontshow{\}) # examplesIf}
 }
-\seealso{
-\code{\link[=breakpoints]{breakpoints()}} for more information on breakpoints.
+\references{
+\href{https://rstudio.github.io/bslib/articles/column-layout/index.html}{Column-based layouts}
+on the bslib website.
 }
+\seealso{
+\code{\link[=breakpoints]{breakpoints()}} for more information on specifying column widths at
+responsive breakpoints.
+
+Other Column layouts: 
+\code{\link{layout_column_wrap}()}
+}
+\concept{Column layouts}
