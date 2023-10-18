@@ -183,6 +183,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
+// Align the bottom of .nav-link w/ the bottom of the navbar (when underlined)
+.navbar .nav-underline .nav-link {
+  padding-bottom: calc(var(--#{$prefix}navbar-padding-y, #{$navbar-padding-y}) * 2);
+  margin-bottom:  calc(var(--#{$prefix}navbar-padding-y, #{$navbar-padding-y}) * -1);
+}
+
 // For value_box(), apply a gradient to the icon (by default)
 $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 .bslib-value-box.default .value-box-showcase {
