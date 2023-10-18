@@ -162,3 +162,4 @@ session.
 \item \code{sidebar_toggle()}: An alias for \code{\link[=toggle_sidebar]{toggle_sidebar()}}.
 
 }}
+\keyword{internal}

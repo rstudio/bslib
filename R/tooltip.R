@@ -59,7 +59,7 @@
 #' @references <https://getbootstrap.com/docs/5.3/components/tooltips/>
 #' @export
 #' @seealso [popover()]
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #'
 #' tooltip(
 #'   shiny::actionButton("btn", "A button"),

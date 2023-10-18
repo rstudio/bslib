@@ -1,4 +1,4 @@
-#' A grid-like, column-first, layout
+#' Column-first uniform grid layouts
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
@@ -110,7 +110,7 @@ layout_column_wrap <- function(
   )
 }
 
-#' Responsive column-based grid layouts
+#' Responsive 12-column grid layouts
 #'
 #' Create responsive, column-based grid layouts, based on a 12-column grid.
 #'
@@ -146,7 +146,7 @@ layout_column_wrap <- function(
 #'
 #' @export
 #' @seealso [breakpoints()] for more information on breakpoints.
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #'
 #'
 #' x <- card("A simple card")

@@ -93,7 +93,7 @@ non-tag objects that have a \link{as.tags} method (e.g., htmlwidgets), they retu
 the "tagified" version of that object.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(shiny)
 shinyApp(
   page_fillable(
