@@ -103,14 +103,30 @@ server <- function(input, output) {
 }
 
 shinyApp(ui, server)
-
 \dontshow{\}) # examplesIf}
 }
+\references{
+\itemize{
+\item \href{https://rstudio.github.io/bslib/articles/filling/index.html}{Filling Layouts}
+on the bslib website.
+\item \href{https://rstudio.github.io/bslib/articles/dashboards/index.html}{Getting Started with Dashboards}
+on the bslib website.
+}
+}
 \seealso{
+\code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out content
+into rows and columns.
+
+\code{\link[=layout_sidebar]{layout_sidebar()}} for 'floating' sidebar layouts.
+
+\code{\link[=accordion]{accordion()}} for grouping related input controls in the \code{sidebar}.
+
 \code{\link[=card]{card()}} for wrapping outputs in the 'main' content area.
 
 \code{\link[=value_box]{value_box()}} for highlighting values.
 
-\code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out content
-into rows and columns.
+Other Dashboard page layouts: 
+\code{\link{page_navbar}()},
+\code{\link{page_sidebar}()}
 }
+\concept{Dashboard page layouts}

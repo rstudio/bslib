@@ -76,10 +76,21 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #'   `gap` (i.e., spacing) between elements provided to `...`.
 #' @inheritParams page
 #'
-#' @seealso [card()] for wrapping outputs in the 'main' content area.
-#' @seealso [value_box()] for highlighting values.
+#' @export
+#' @family Dashboard page layouts
+#'
 #' @seealso [layout_columns()] and [layout_column_wrap()] for laying out content
 #'   into rows and columns.
+#' @seealso [layout_sidebar()] for 'floating' sidebar layouts.
+#' @seealso [accordion()] for grouping related input controls in the `sidebar`.
+#' @seealso [card()] for wrapping outputs in the 'main' content area.
+#' @seealso [value_box()] for highlighting values.
+#'
+#' @references
+#'   * [Filling Layouts](https://rstudio.github.io/bslib/articles/filling/index.html)
+#'     on the bslib website.
+#'   * [Getting Started with Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
+#'     on the bslib website.
 #'
 #' @examplesIf rlang::is_interactive()
 #'
@@ -137,9 +148,6 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' }
 #'
 #' shinyApp(ui, server)
-#'
-#'
-#' @export
 page_fillable <- function(
   ...,
   padding = NULL,
@@ -188,10 +196,15 @@ validateCssPadding <- function(padding = NULL) {
 #' @inheritParams page_navbar
 #'
 #' @export
+#' @family Dashboard page layouts
+#'
 #' @seealso [layout_sidebar()] for 'floating' sidebar layouts.
 #' @seealso [accordion()] for grouping related input controls in the `sidebar`.
 #' @seealso [card()] for wrapping outputs in the 'main' content area.
 #' @seealso [value_box()] for highlighting values.
+#'
+#' @references [Getting Started with Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
+#'   on the bslib website.
 #'
 #' @examplesIf rlang::is_interactive()
 #'
@@ -268,7 +281,21 @@ page_sidebar <- function(
 #' @inheritParams navset_bar
 #' @inheritParams page
 #'
-#' @seealso [shiny::navbarPage()]
+#' @export
+#' @family Dashboard page layouts
+#'
+#' @seealso [nav_panel()], [nav_menu()], and [nav_item()] for adding content
+#'   sections and organizing or creating items in the navigation bar.
+#' @seealso [layout_columns()] and [layout_column_wrap()] for laying out content
+#'   into rows and columns.
+#' @seealso [layout_sidebar()] for 'floating' sidebar layouts, or for details
+#'   about the `sidebar` argument.
+#' @seealso [card()] for wrapping outputs in the 'main' content area.
+#' @seealso [value_box()] for highlighting values.
+#' @seealso [accordion()] for grouping related input controls in the `sidebar`.
+#'
+#' @references [Getting Started with Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
+#'   on the bslib website.
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(shiny)
@@ -304,8 +331,6 @@ page_sidebar <- function(
 #' server <- function(...) { } # not used in this example
 #'
 #' shinyApp(ui, server)
-#'
-#' @export
 page_navbar <- function(
   ...,
   title = NULL,

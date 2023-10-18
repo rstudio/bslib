@@ -140,6 +140,28 @@ server <- function(...) { } # not used in this example
 shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
-\seealso{
-\code{\link[shiny:navbarPage]{shiny::navbarPage()}}
+\references{
+\href{https://rstudio.github.io/bslib/articles/dashboards/index.html}{Getting Started with Dashboards}
+on the bslib website.
 }
+\seealso{
+\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=nav_menu]{nav_menu()}}, and \code{\link[=nav_item]{nav_item()}} for adding content
+sections and organizing or creating items in the navigation bar.
+
+\code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out content
+into rows and columns.
+
+\code{\link[=layout_sidebar]{layout_sidebar()}} for 'floating' sidebar layouts, or for details
+about the \code{sidebar} argument.
+
+\code{\link[=card]{card()}} for wrapping outputs in the 'main' content area.
+
+\code{\link[=value_box]{value_box()}} for highlighting values.
+
+\code{\link[=accordion]{accordion()}} for grouping related input controls in the \code{sidebar}.
+
+Other Dashboard page layouts: 
+\code{\link{page_fillable}()},
+\code{\link{page_sidebar}()}
+}
+\concept{Dashboard page layouts}
