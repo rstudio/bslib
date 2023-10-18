@@ -175,6 +175,20 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 }
 
 
+// Aligns the bottom-border of nav links (i.e., underline) 
+// with the bottom-border of the navbar
+.navbar:has(.nav-underline) {
+  --#{$prefix}navbar-padding-y: 0;
+  .navbar-header {
+    padding-top: $navbar-padding-y;
+    padding-bottom: $navbar-padding-y;
+  }
+  .nav-link {
+    padding-top: $navbar-padding-y * 2;
+    padding-bottom: $navbar-padding-y * 2;
+  }
+}
+
 // For value_box(), apply a gradient to the icon (by default)
 $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 .bslib-value-box.default .value-box-showcase {
