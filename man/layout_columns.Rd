@@ -2,7 +2,7 @@
 % Please edit documentation in R/layout.R
 \name{layout_columns}
 \alias{layout_columns}
-\title{Responsive column-based grid layouts}
+\title{Responsive 12-column grid layouts}
 \usage{
 layout_columns(
   ...,
