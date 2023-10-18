@@ -293,6 +293,7 @@ toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
 }
 
 #' @describeIn sidebar An alias for [toggle_sidebar()].
+#' @keywords internal
 #' @export
 sidebar_toggle <- toggle_sidebar
 

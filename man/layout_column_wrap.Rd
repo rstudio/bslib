@@ -2,7 +2,7 @@
 % Please edit documentation in R/layout.R
 \name{layout_column_wrap}
 \alias{layout_column_wrap}
-\title{A grid-like, column-first, layout}
+\title{Column-first uniform grid layouts}
 \usage{
 layout_column_wrap(
   width,

@@ -70,7 +70,8 @@
 #' @references <https://getbootstrap.com/docs/5.3/components/popovers/>
 #' @export
 #' @seealso [tooltip()]
-#' @examplesIf interactive()
+#'
+#' @examplesIf rlang::is_interactive()
 #'
 #' popover(
 #'   shiny::actionButton("btn", "A button"),

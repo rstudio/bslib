@@ -28,7 +28,7 @@ title (just above the \code{sidebar}).}
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
 
-\item{fillable_mobile}{Whether or not \code{fillable} pages should fill the viewport's
+\item{fillable_mobile}{Whether or not the page should fill the viewport's
 height on mobile devices (i.e., narrow windows).}
 
 \item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
@@ -73,12 +73,22 @@ server <- function(input, output) {
 shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
+\references{
+\href{https://rstudio.github.io/bslib/articles/dashboards/index.html}{Getting Started with Dashboards}
+on the bslib website.
+}
 \seealso{
-\code{\link[=layout_sidebar]{layout_sidebar()}} for 'floating' sidebar layouts.
+\code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out content
+into rows and columns.
 
 \code{\link[=accordion]{accordion()}} for grouping related input controls in the \code{sidebar}.
 
 \code{\link[=card]{card()}} for wrapping outputs in the 'main' content area.
 
 \code{\link[=value_box]{value_box()}} for highlighting values.
+
+Other Dashboard page layouts: 
+\code{\link{page_fillable}()},
+\code{\link{page_navbar}()}
 }
+\concept{Dashboard page layouts}

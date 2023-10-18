@@ -15,7 +15,7 @@
 #' non-tag objects that have a [as.tags] method (e.g., htmlwidgets), they return
 #' the "tagified" version of that object.
 #'
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #' library(shiny)
 #' shinyApp(
 #'   page_fillable(
