@@ -328,13 +328,13 @@ visit <code><a href="../../reference/layout_columns.html">layout_columns()</a></
 <h3 id="multi-page">Multi-page<a class="anchor" aria-label="anchor" href="#multi-page"></a>
 </h3>
 <p>To add multiple pages, change <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> to
-<code><a href="../../reference/page.html">page_navbar()</a></code> and use <code><a href="../../reference/nav-items.html">nav_panel()</a></code> to supply
+<code><a href="../../reference/page_navbar.html">page_navbar()</a></code> and use <code><a href="../../reference/nav-items.html">nav_panel()</a></code> to supply
 the title and content for each page. Here you can also take advantage of
 <code>bslib</code>’s <code><a href="../../reference/nav-items.html">nav_spacer()</a></code> and
 <code><a href="../../reference/nav-items.html">nav_item()</a></code> to control the alignment and UI elements to the
 navbar (e.g., an external hyperlink).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/page.html">page_navbar</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/page_navbar.html">page_navbar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Penguins dashboard"</span>,</span>
 <span>  sidebar <span class="op">=</span> <span class="va">color_by</span>,</span>
 <span>  <span class="fu"><a href="../../reference/nav-items.html">nav_spacer</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -346,7 +346,7 @@ navbar (e.g., an external hyperlink).</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples/multi-page.png" width="900" height="400" style="display: block; margin: auto;"></p>
-<p>Be wary that <code><a href="../../reference/page.html">page_navbar()</a></code>’s <code>sidebar</code>
+<p>Be wary that <code><a href="../../reference/page_navbar.html">page_navbar()</a></code>’s <code>sidebar</code>
 argument puts the same sidebar on every page, which may or may not be
 desirable. In the <a href="../sidebars">sidebar article</a>, you’ll
 learn some strategies for keeping the sidebar’s contents close to the
@@ -359,7 +359,7 @@ inside of a <code>card()</code></a>.</p>
 <h3 id="multi-panel">Multi-panel<a class="anchor" aria-label="anchor" href="#multi-panel"></a>
 </h3>
 <p>Multiple <code><a href="../../reference/nav-items.html">nav_panel()</a></code>s don’t necessarily need to go
-directly into <code><a href="../../reference/page.html">page_navbar()</a></code>. They can also be consumed by
+directly into <code><a href="../../reference/page_navbar.html">page_navbar()</a></code>. They can also be consumed by
 any <code>navset_*()</code> component, including
 <code><a href="../../reference/navset.html">navset_card_underline()</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -387,7 +387,7 @@ here</a> to learn more about multi-panel layout options.</p>
 <div class="section level3">
 <h3 id="scrolling-vs-filling">Scrolling vs filling<a class="anchor" aria-label="anchor" href="#scrolling-vs-filling"></a>
 </h3>
-<p>Both <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../../reference/page.html">page_navbar()</a></code>
+<p>Both <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../../reference/page_navbar.html">page_navbar()</a></code>
 default to a <a href="../filling">filling layout</a>, meaning that
 outputs like <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>, <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">htmlwidgets</a>, etc.
 are encouraged to grow/shrink to fit the browser window. As a result,
@@ -429,7 +429,7 @@ the height of the window.</p>
 <h3 data-toc-skip>
 A note on <code>page_navbar()</code>
 </h3>
-<p>Like <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code>, <code><a href="../../reference/page.html">page_navbar()</a></code> also has
+<p>Like <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code>, <code><a href="../../reference/page_navbar.html">page_navbar()</a></code> also has
 a <code>fillable</code> argument which also defaults to
 <code>TRUE</code>, which makes <em>every</em> page (i.e.,
 <code><a href="../../reference/nav-items.html">nav_panel()</a></code>) fillable. To make just a subset of pages
@@ -561,7 +561,7 @@ page</a>.</p>
 <h3 id="cards-with-sidebars">Cards with sidebars<a class="anchor" aria-label="anchor" href="#cards-with-sidebars"></a>
 </h3>
 <p>We’ve already seen how the <code>sidebar</code> argument of
-<code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../../reference/page.html">page_navbar()</a></code> yields a
+<code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../../reference/page_navbar.html">page_navbar()</a></code> yields a
 “page-level” sidebar layout, but they can also be made at the
 “component-level” via <code><a href="../../reference/sidebar.html">layout_sidebar()</a></code>. This is especially
 useful for keeping input controls near the outputs they affect in more
@@ -603,7 +603,7 @@ complex apps. <code><a href="../../reference/sidebar.html">layout_sidebar()</a><
 you’ll learn some general theming strategies that also translate to
 dashboards. That is, by passing a <code><a href="../../reference/bs_theme.html">bs_theme()</a></code> object to the
 <code>theme</code> argument of <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> (or
-<code><a href="../../reference/page.html">page_navbar()</a></code>), we can add a <a href="https://bootswatch.com/" class="external-link">Bootswatch</a> theme, easily use <a href="https://fonts.google.com/" class="external-link">Google Fonts</a>, customize 100s of <a href="../bs5-variables">theming variables</a>, and much more. Keep in
+<code><a href="../../reference/page_navbar.html">page_navbar()</a></code>), we can add a <a href="https://bootswatch.com/" class="external-link">Bootswatch</a> theme, easily use <a href="https://fonts.google.com/" class="external-link">Google Fonts</a>, customize 100s of <a href="../bs5-variables">theming variables</a>, and much more. Keep in
 mind, however, that <code><a href="../../reference/bs_theme.html">bs_theme()</a></code> only customizes CSS styles.
 So, if you want <code><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html" class="external-link">plotOutput()</a></code>s to match the CSS, consider
 using the <a href="https://rstudio.github.io/thematic/" class="external-link">thematic</a> package to translate the styles to

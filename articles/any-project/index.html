@@ -161,15 +161,15 @@ default). For example:</p>
 <p>In addition, some of <code>bslib</code>’s <code>page_*()</code>
 functions provide other new capabilities. Most importantly, as we cover
 in <a href="../dashboards">Shiny dashboards</a>,
-<code><a href="../../reference/page.html">page_navbar()</a></code> and <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> provide deep
+<code><a href="../../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> provide deep
 integration with sidebar layouts, filling layouts, navbar
 customizations, theming, and more.</p>
 <p>Another new and important <code>page_*()</code> function is
-<code><a href="../../reference/page.html">page_fillable()</a></code>. This function provides a new approach to
+<code><a href="../../reference/page_fillable.html">page_fillable()</a></code>. This function provides a new approach to
 filling layouts and forms a foundation for higher-level abstractions
-such as <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../../reference/page.html">page_navbar()</a></code>. See
+such as <code><a href="../../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../../reference/page_navbar.html">page_navbar()</a></code>. See
 <a href="../filling">filling layouts</a> (especially the <a href="../filling#in-practice">In Practice</a> section) to learn more
-about <code><a href="../../reference/page.html">page_fillable()</a></code>.</p>
+about <code><a href="../../reference/page_fillable.html">page_fillable()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="without-shiny">Without Shiny<a class="anchor" aria-label="anchor" href="#without-shiny"></a>
@@ -203,7 +203,7 @@ and share it with others through email, Slack, etc.:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/save_html.html" class="external-link">save_html</a></span><span class="op">(</span><span class="va">.Last.value</span>, <span class="st">"index.html"</span><span class="op">)</span></span></code></pre></div>
 <p>Also, to be clear, static HTML can also be useful without crosstalk.
-For example, we can use <code><a href="../../reference/page.html">page_fillable()</a></code> to layout numerous
+For example, we can use <code><a href="../../reference/page_fillable.html">page_fillable()</a></code> to layout numerous
 htmlwidgets:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_card</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/card.html">card</a></span><span class="op">(</span></span>
@@ -212,7 +212,7 @@ htmlwidgets:</p>
 <span>  <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plot_ly.html" class="external-link">plot_ly</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../../reference/page_fillable.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span><span class="va">plot_card</span>, <span class="va">plot_card</span><span class="op">)</span>,</span>
 <span>  <span class="va">plot_card</span></span>
 <span><span class="op">)</span></span></code></pre></div>

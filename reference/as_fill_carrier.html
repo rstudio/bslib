@@ -211,10 +211,10 @@ the "tagified" version of that object.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># rlang::is_interactive()</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="page.html">page_fillable</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="page_fillable.html">page_fillable</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="co"># without `as_fill_carrier()`, the plot won't fill the page because</span></span></span>
 <span class="r-in"><span>    <span class="co"># `uiOutput()` is neither a fillable container nor a fill item by default.</span></span></span>
 <span class="r-in"><span>    <span class="fu">as_fill_carrier</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput</a></span><span class="op">(</span><span class="st">"ui"</span><span class="op">)</span><span class="op">)</span></span></span>

@@ -377,16 +377,16 @@ about it&lt;/a&gt;!&lt;/p&gt;'><sup>2</sup></a></p>
 <h3 id="filling-the-window">Filling the window<a class="anchor" aria-label="anchor" href="#filling-the-window"></a>
 </h3>
 <p>Perhaps the most important <span class="b-pink">fillable
-container</span> is <code><a href="../../reference/page.html">page_fillable()</a></code>, which sets it’s height
+container</span> is <code><a href="../../reference/page_fillable.html">page_fillable()</a></code>, which sets it’s height
 equal to the browser window. Thus, if <span class="b-blue">fill
 items</span> appear as direct children, they’ll fill the window.
-<code><a href="../../reference/page.html">page_fillable()</a></code> also defaults to
+<code><a href="../../reference/page_fillable.html">page_fillable()</a></code> also defaults to
 <code>fillable_mobile = FALSE</code>, which means the height isn’t set
 equal to the viewport on mobile. As a result, fill items use their own
 defined height (instead of the viewport size) on mobile, which is often
 better behavior when showing multiple outputs.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/page_fillable.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h2</a></span><span class="op">(</span><span class="st">"Diamond plots"</span><span class="op">)</span>,</span>
 <span>  <span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -427,7 +427,7 @@ in this example, <code>plots[[1]]</code> and <code>plots[[1]]</code>
 also grow/shrink to match the size of the <code><a href="../../reference/layout_columns.html">layout_columns()</a></code>
 container.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/page_fillable.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">h2</a></span><span class="op">(</span><span class="st">"Diamond plots"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  <span class="va">plots</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
@@ -466,7 +466,7 @@ more/less space and the window becomes larger/smaller:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../../reference/page_fillable.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="va">boxes</span>,</span>
 <span>  <span class="fu"><a href="../../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  <span class="va">plots</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
@@ -497,7 +497,7 @@ also retain the plot’s ability to grow/shrink (since they are <span class="b-p
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="fu"><a href="../../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../../reference/page_fillable.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../../reference/layout_columns.html">layout_columns</a></span><span class="op">(</span></span>
 <span>    <span class="fu">plot_card</span><span class="op">(</span><span class="st">"Diamond price"</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>    <span class="fu">plot_card</span><span class="op">(</span><span class="st">"Diamond carat"</span>, <span class="va">plots</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
@@ -506,7 +506,7 @@ also retain the plot’s ability to grow/shrink (since they are <span class="b-p
 <span><span class="op">)</span></span></code></pre></div>
 <iframe src="examples/full-screen-cards/index.html" width="100%" height="400px" data-external="1" seamless="seamless" frameborder="0" loading="lazy" class="resizable">
 </iframe>
-<p>Note that, if we changed <code><a href="../../reference/page.html">page_fillable()</a></code> to
+<p>Note that, if we changed <code><a href="../../reference/page_fillable.html">page_fillable()</a></code> to
 <code><a href="../../reference/page.html">page_fluid()</a></code> (or <code><a href="../../reference/page.html">page_fixed()</a></code>), each plot
 would render to it’s default height (<code>400px</code>) since we no
 longer have a <span class="b-pink">fillable</span> with a specified
@@ -521,12 +521,12 @@ container with a specified height, the <code><a href="../../reference/card_body.
 </h3>
 <p>Similar to what we’ve seen with outputs and <code><a href="../../reference/card.html">card()</a></code>s,
 <code><a href="../../reference/sidebar.html">layout_sidebar()</a></code> is also a fill item (by default), so
-placing it as a direct child of <code><a href="../../reference/page.html">page_fillable()</a></code> makes it
+placing it as a direct child of <code><a href="../../reference/page_fillable.html">page_fillable()</a></code> makes it
 fit the window. Also, the main content’s container defaults to a
 fillable container, so if that behavior is undesirable, set
 <code>fillable = FALSE</code> in <code><a href="../../reference/sidebar.html">layout_sidebar()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../../reference/page.html">page_fillable</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/page_fillable.html">page_fillable</a></span><span class="op">(</span></span>
 <span>  padding <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  <span class="fu"><a href="../../reference/sidebar.html">layout_sidebar</a></span><span class="op">(</span></span>
 <span>    border <span class="op">=</span> <span class="cn">FALSE</span>,</span>
