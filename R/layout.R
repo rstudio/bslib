@@ -5,7 +5,8 @@
 #'
 #' Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 #' rows) in the grid dependent on the column `width` as well as the size of the
-#' display. For more explanation and illustrative examples, see [here](https://rstudio.github.io/bslib/articles/cards.html#multiple-cards)
+#' display. For more explanation and illustrative examples, see the _References_
+#' section below.
 #'
 #' @param ... Unnamed arguments should be UI elements (e.g., [card()])
 #'   Named arguments become attributes on the containing [htmltools::tag] element.
@@ -37,14 +38,16 @@
 #' @export
 #' @family Column layouts
 #'
-#' @references [Column-based layouts](https://rstudio.github.io/bslib/articles/column-layout/index.html)
-#'   on the bslib website.
+#' @references The bslib website features `layout_column_wrap()` in two places:
+#'   * [Column-based layouts](https://rstudio.github.io/bslib/articles/column-layout/index.html)
+#'   * [Cards: Multiple cards](https://rstudio.github.io/bslib/articles/cards/index.html#multiple-cards)
 #'
-#' @examples
-#'
+#' @examplesIf rlang::is_interactive()
 #' x <- card("A simple card")
+#'
 #' # Always has 2 columns (on non-mobile)
 #' layout_column_wrap(1/2, x, x, x)
+#'
 #' # Has three columns when viewport is wider than 750px
 #' layout_column_wrap("250px", x, x, x)
 #'
