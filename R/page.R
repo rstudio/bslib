@@ -198,7 +198,6 @@ validateCssPadding <- function(padding = NULL) {
 #' @export
 #' @family Dashboard page layouts
 #'
-#' @seealso [layout_sidebar()] for 'floating' sidebar layouts.
 #' @seealso [accordion()] for grouping related input controls in the `sidebar`.
 #' @seealso [card()] for wrapping outputs in the 'main' content area.
 #' @seealso [value_box()] for highlighting values.
@@ -290,8 +289,6 @@ page_sidebar <- function(
 #'   sections and organizing or creating items in the navigation bar.
 #' @seealso [layout_columns()] and [layout_column_wrap()] for laying out content
 #'   into rows and columns.
-#' @seealso [layout_sidebar()] for 'floating' sidebar layouts, or for details
-#'   about the `sidebar` argument.
 #' @seealso [card()] for wrapping outputs in the 'main' content area.
 #' @seealso [value_box()] for highlighting values.
 #' @seealso [accordion()] for grouping related input controls in the `sidebar`.

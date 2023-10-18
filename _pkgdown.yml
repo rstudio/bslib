@@ -123,9 +123,9 @@ reference:
     app.
 - subtitle: Multiple columns
   desc: |
-    Organize inputs and outputs into Bootstrap's
+    Organize UI elements into Bootstrap's
     [12-column CSS grid](https://getbootstrap.com/docs/5.3/layout/css-grid/)
-    with `layout_columns()`. Or organize items into a grid of equal-width
+    with `layout_columns()`. Or organize elements into a grid of equal-width
     columns with `layout_column_wrap()`. Both functions can layout an arbitrary
     number of elements without needing to specify the number of columns, but
     `layout_columns()` can be used to create more complex layouts whereas
