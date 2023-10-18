@@ -100,8 +100,10 @@ This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="
 The default (NULL) results in an empty string.}
 }
 \description{
-\code{page_navbar()} provides a full-screen app with a navigation bar that behaves
-like a multi-page app (but is really a single-page app).
+Create a page that contains a top level navigation bar that can be used to
+toggle a set of \code{\link[=nav_panel]{nav_panel()}} elements. Use this page layout to create the
+effect of a multi-page app, where your app's content is broken up into
+multiple "pages" that can be navigated to via the top navigation bar.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

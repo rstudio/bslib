@@ -268,8 +268,10 @@ page_sidebar <- function(
 #' Multi-page app with a top navigation bar
 #'
 #' @description
-#' `page_navbar()` provides a full-screen app with a navigation bar that behaves
-#' like a multi-page app (but is really a single-page app).
+#' Create a page that contains a top level navigation bar that can be used to
+#' toggle a set of [nav_panel()] elements. Use this page layout to create the
+#' effect of a multi-page app, where your app's content is broken up into
+#' multiple "pages" that can be navigated to via the top navigation bar.
 #'
 #' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
