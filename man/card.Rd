@@ -96,7 +96,10 @@ or \code{\link[=card_body]{card_body()}}.
 \code{\link[=value_box]{value_box()}} uses \code{\link[=card]{card()}} to highlight a showcase a key piece of
 information.
 
-Other Cards: 
-\code{\link{card_body}()}
+Other Components: 
+\code{\link{accordion}()},
+\code{\link{popover}()},
+\code{\link{tooltip}()},
+\code{\link{value_box}()}
 }
-\concept{Cards}
+\concept{Components}

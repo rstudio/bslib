@@ -100,7 +100,10 @@ accordion panel.
 \code{\link[=accordion_panel_update]{accordion_panel_update()}} add or remove accordion panels from an
 accordion.
 
-Other Accordions: 
-\code{\link{accordion_panel_set}()}
+Other Components: 
+\code{\link{card}()},
+\code{\link{popover}()},
+\code{\link{tooltip}()},
+\code{\link{value_box}()}
 }
-\concept{Accordions}
+\concept{Components}

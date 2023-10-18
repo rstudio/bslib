@@ -165,4 +165,11 @@ shinyApp(ui, server)
 }
 \seealso{
 \code{\link[=tooltip]{tooltip()}}
+
+Other Components: 
+\code{\link{accordion}()},
+\code{\link{card}()},
+\code{\link{tooltip}()},
+\code{\link{value_box}()}
 }
+\concept{Components}

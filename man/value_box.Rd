@@ -389,5 +389,10 @@ Value boxes are a specialized form of a \code{\link[=card]{card()}} component.
 \code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} help position multiple
 value boxes into columns and rows.
 
-\code{\link[=card]{card()}}
+Other Components: 
+\code{\link{accordion}()},
+\code{\link{card}()},
+\code{\link{popover}()},
+\code{\link{tooltip}()}
 }
+\concept{Components}

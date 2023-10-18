@@ -24,7 +24,7 @@
 #' @param width,height Any valid CSS unit; for example, height="100%".
 #'
 #' @export
-#' @family Accordions
+#' @family Components
 #'
 #' @references bslib's accordion component is derived from the [Bootstrap
 #'   Accordion
@@ -202,7 +202,6 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
 #' @describeIn accordion_panel_set same as `accordion_panel_open()`, except it
 #'   also closes any currently open panels.
 #'
-#' @family Accordions
 #' @export
 accordion_panel_set <- function(id, values, session = get_current_session()) {
   send_panel_message(

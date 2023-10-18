@@ -134,4 +134,11 @@ card(
 }
 \seealso{
 \code{\link[=popover]{popover()}}
+
+Other Components: 
+\code{\link{accordion}()},
+\code{\link{card}()},
+\code{\link{popover}()},
+\code{\link{value_box}()}
 }
+\concept{Components}

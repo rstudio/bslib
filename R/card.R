@@ -32,7 +32,7 @@
 #' @return A [htmltools::div()] tag.
 #'
 #' @export
-#' @family Cards
+#' @family Components
 #'
 #' @seealso [Card item functions][card_body()] create the various parts of a
 #'   card.
@@ -157,7 +157,6 @@ as_card_items <- function(children, wrapper) {
 #' @return An [htmltools::div()] tag.
 #'
 #' @export
-#' @family Cards
 #'
 #' @seealso [card()] creates a card component.
 #' @seealso [navset_card_tab()], [navset_card_pill()] and

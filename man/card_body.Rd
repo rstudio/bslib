@@ -129,8 +129,4 @@ cards into columns and rows and can also be used inside a card.
 
 \code{\link[=layout_sidebar]{layout_sidebar()}} adds a sidebar to a card when nested in \code{\link[=card]{card()}}
 or \code{\link[=card_body]{card_body()}}.
-
-Other Cards: 
-\code{\link{card}()}
 }
-\concept{Cards}

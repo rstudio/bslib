@@ -88,8 +88,4 @@ also closes any currently open panels.
 \seealso{
 \code{\link[=accordion]{accordion()}} and \code{\link[=accordion_panel]{accordion_panel()}} create the accordion
 component.
-
-Other Accordions: 
-\code{\link{accordion}()}
 }
-\concept{Accordions}

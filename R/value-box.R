@@ -82,7 +82,7 @@
 #'   theme = "success"
 #' )
 #'
-#' @seealso [card()]
+#' @family Components
 #' @export
 value_box <- function(
   title,

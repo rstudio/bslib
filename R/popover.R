@@ -69,6 +69,7 @@
 #' @describeIn popover Add a popover to a UI element
 #' @references <https://getbootstrap.com/docs/5.3/components/popovers/>
 #' @export
+#' @family Components
 #' @seealso [tooltip()]
 #'
 #' @examplesIf rlang::is_interactive()
