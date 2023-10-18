@@ -22,7 +22,8 @@ toggle_switch(id, value = NULL, session = get_current_session())
 \item{width}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{width="200px"}).}
 
-\item{session}{a shiny session object (the default should almost always be used).}
+\item{session}{a shiny session object (the default should almost always be
+used).}
 }
 \value{
 Returns a UI element for a switch input control. The server value

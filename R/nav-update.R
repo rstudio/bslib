@@ -7,12 +7,21 @@
 #' @param id a character string used to identify the nav container.
 #' @param selected a character string used to identify a particular
 #'   [nav_panel()] item.
-#' @param session a shiny session object (the default should almost always be used).
+#' @param session a shiny session object (the default should almost always be
+#'   used).
+#'
+#' @seealso [Navset functions][navset] create the navigation container holding
+#'   the nav panels.
+#' @seealso [nav_panel()], [nav_panel_hidden()] create panels of content.
+#' @seealso [nav_menu()], [nav_item()], [nav_spacer()] create menus, items, or
+#'   space in the navset control area.
+#'
 #' @export
-#' @seealso [nav_panel()], [navset_tab()].
+#' @family Panel container functions
+#'
 #' @examples
 #'
-#' can_browse <- function() interactive() && require("shiny")
+#' can_browse <- function() rlang::is_interactive() && require("shiny")
 #'
 #' # Selecting a tab
 #' if (can_browse()) {
