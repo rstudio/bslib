@@ -17,8 +17,10 @@ knitr::opts_chunk$set(
 The appearance of a `value_box()`
 can be controlled via the `theme` argument
 in one of two ways:
-(1) a character value describing the theme, e.g. `theme = "primary"`
-or (2) `theme = value_box_theme()` to create a custom theme.
+1.  a character value describing the theme,
+    such as `theme = "primary"` or `theme = "blue"`; or
+3.  `theme = value_box_theme()` to create a custom theme.
+
 We recommend using named themes for most value boxes (the first approach),
 because these themes will automatically match your Bootstrap theme.
 

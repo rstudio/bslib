@@ -6,12 +6,14 @@
 #' An opinionated ([card()]-powered) box, designed for displaying a `value` and
 #' `title`. Optionally, a `showcase` can provide for context for what the
 #' `value` represents (for example, it could hold a [bsicons::bs_icon()], or
-#' even a [shiny::plotOutput()]).
+#' even a [shiny::plotOutput()]). Find examples and template code you can use to
+#' create engaging [value boxes on the bslib
+#' website](https://rstudio.github.io/bslib/articles/value-boxes/index.html).
 #'
-#' @section Build a Box App:
+#' @section Build-a-Box App:
 #'
 #'   Explore all of the `value_box()` options and layouts interactively with the
-#'   [Build a Box app](https://bslib.shinyapps.io/build-a-box/), available
+#'   [Build-a-Box app](https://bslib.shinyapps.io/build-a-box/), available
 #'   online thanks to [shinyapps.io](https://www.shinyapps.io/). Or, you can
 #'   run the app locally with:
 #'
@@ -55,6 +57,16 @@
 #'   container with an opinionated height (e.g., `page_fillable()`).
 #' @inheritParams card
 #' @param theme_color `r lifecycle::badge("deprecated")` Use `theme` instead.
+#'
+#' @seealso Value boxes are a specialized form of a [card()] component.
+#' @seealso [layout_columns()] and [layout_column_wrap()] help position multiple
+#'   value boxes into columns and rows.
+#'
+#' @references Value boxes are featured on the bslib website in a few articles:
+#'
+#'   * [Value boxes](https://rstudio.github.io/bslib/articles/value-boxes/index.html)
+#'   * [Build-a-Box App](https://bslib.shinyapps.io/build-a-box)
+#'   * [Get Started: Dashboards](http://localhost:8080/articles/dashboards/index.html#value-boxes)
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(htmltools)
