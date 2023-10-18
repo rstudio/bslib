@@ -125,15 +125,16 @@ reference:
   desc: |
     Organize inputs and outputs into Bootstrap's
     [12-column CSS grid](https://getbootstrap.com/docs/5.3/layout/css-grid/)
-    with `layout_columns()` or into a responsive, column-first grid layout with
-    `layout_column_wrap()`. Place a sidebar next to any UI elements with
-    `layout_sidebar()`.
+    with `layout_columns()`. Or organize items into a grid of equal-width
+    columns with `layout_column_wrap()`. Both functions can layout an arbitrary
+    number of elements without needing to specify the number of columns, but
+    `layout_columns()` can be used to create more complex layouts whereas
+    `layout_column_wrap()` creates a grid of equal column and row sizes.
   contents:
     - layout_columns
     - layout_column_wrap
-    - layout_sidebar
 - subtitle: Multiple panels
-  desc: |
+  desc: >
     Create tabbed sections of content. First, choose the style of navigation
     container. Then add navigation panels or items to the container. You can
     programmatically control or update the navigation containers with
@@ -142,6 +143,13 @@ reference:
     - navset
     - nav-items
     - nav_select
+- subtitle: Sidebar layout
+  desc: >
+    Place input controls or additional context in a sidebar next to the main
+    contents. Sidebar layouts combine well with [cards](#cards) and are built
+    into the `page_sidebar()` and `page_navbar()` page layouts.
+  contents:
+    - layout_sidebar
 
 - title: Components
   desc: >
