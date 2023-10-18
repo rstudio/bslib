@@ -32,6 +32,36 @@ main h2 {
   margin-bottom: 0;
 }
 
+.page-header {
+  border-bottom: rgba(var(--bs-emphasis-color-rgb), 0.1) 2px solid;
+}
+
+.template-reference-index {
+  p:empty {
+    display: none;
+  }
+
+  .section > p {
+    // Soften the section description slightly
+    color: rgba(var(--bs-emphasis-color-rgb), 0.6);
+  }
+
+  main h2 {
+    border-bottom: rgba(var(--bs-emphasis-color-rgb), 0.1) 2px solid;
+    margin-top: 1.5lh;
+    padding-bottom: 0.25lh;
+    margin-bottom: 0.25lh;
+  }
+
+  .section.level2 {
+    margin-top: 1.25em;
+
+    h3 {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
 /* ---- Callouts ---- */
 .callout {
   position: relative;

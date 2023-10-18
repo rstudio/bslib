@@ -2,7 +2,7 @@
 # page constructors from shiny so folks can create static
 # pages without a shiny dependency.
 
-#' Create a Bootstrap page
+#' Modern Bootstrap page layouts
 #'
 #' These functions are small wrappers around shiny's page constructors (i.e.,
 #' [shiny::fluidPage()], [shiny::navbarPage()], etc) that differ in two ways:
@@ -12,7 +12,10 @@
 #' @inheritParams shiny::bootstrapPage
 #' @param ... UI elements for the page. Named arguments become HTML attributes.
 #' @param theme A [bslib::bs_theme()] object.
-#' @seealso [page_sidebar()]
+#'
+#' @seealso Dashboard-style pages: [page_sidebar()], [page_navbar()],
+#'   [page_fillable()].
+#'
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   # Wrap ... in <body> since bootstrapPage() passes ... to tagList(),
@@ -51,8 +54,14 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   )
 }
 
-#' @describeIn page `r lifecycle::badge("experimental")` A Bootstrap-based page
-#'   layout whose contents fill the full height and width of the browser window.
+#' A screen-filling page layout
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' A Bootstrap-based page layout whose contents fill the full height and width
+#' of the browser window.
+#'
 #' @param padding Padding to use for the body. This can be a numeric vector
 #'   (which will be interpreted as pixels) or a character vector with valid CSS
 #'   lengths. The length can be between one and four. If one, then that value
@@ -65,8 +74,89 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #'   height on mobile devices (i.e., narrow windows).
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   `gap` (i.e., spacing) between elements provided to `...`.
+#' @inheritParams page
+#'
 #' @export
-page_fillable <- function(..., padding = NULL, gap = NULL, fillable_mobile = FALSE, title = NULL, theme = bs_theme(), lang = NULL) {
+#' @family Dashboard page layouts
+#'
+#' @seealso [layout_columns()] and [layout_column_wrap()] for laying out content
+#'   into rows and columns.
+#' @seealso [layout_sidebar()] for 'floating' sidebar layouts.
+#' @seealso [accordion()] for grouping related input controls in the `sidebar`.
+#' @seealso [card()] for wrapping outputs in the 'main' content area.
+#' @seealso [value_box()] for highlighting values.
+#'
+#' @references
+#'   * [Filling Layouts](https://rstudio.github.io/bslib/articles/filling/index.html)
+#'     on the bslib website.
+#'   * [Getting Started with Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
+#'     on the bslib website.
+#'
+#' @examplesIf rlang::is_interactive()
+#'
+#' library(shiny)
+#' library(ggplot2)
+#'
+#' ui <- page_fillable(
+#'   h1("Example", code("mtcars"), "dashboard"),
+#'   layout_columns(
+#'     card(
+#'       full_screen = TRUE,
+#'       card_header("Number of forward gears"),
+#'       plotOutput("gear")
+#'     ),
+#'     card(
+#'       full_screen = TRUE,
+#'       card_header("Number of carburetors"),
+#'       plotOutput("carb")
+#'     )
+#'   ),
+#'   card(
+#'     full_screen = TRUE,
+#'     card_header("Weight vs. Quarter Mile Time"),
+#'     layout_sidebar(
+#'       sidebar = sidebar(
+#'         varSelectInput("var_x", "Compare to qsec:", mtcars[-7], "wt"),
+#'         varSelectInput("color", "Color by:", mtcars[-7], "cyl"),
+#'         position = "right"
+#'       ),
+#'       plotOutput("var_vs_qsec")
+#'     )
+#'   )
+#' )
+#'
+#' server <- function(input, output) {
+#'   for (var in c("cyl", "vs", "am", "gear", "carb")) {
+#'     mtcars[[var]] <- as.factor(mtcars[[var]])
+#'   }
+#'
+#'   output$gear <- renderPlot({
+#'     ggplot(mtcars, aes(gear)) + geom_bar()
+#'   })
+#'
+#'   output$carb <- renderPlot({
+#'     ggplot(mtcars, aes(carb)) + geom_bar()
+#'   })
+#'
+#'   output$var_vs_qsec <- renderPlot({
+#'     req(input$var_x, input$color)
+#'
+#'     ggplot(mtcars) +
+#'       aes(y = qsec, x = !!input$var_x, color = !!input$color) +
+#'       geom_point()
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+page_fillable <- function(
+  ...,
+  padding = NULL,
+  gap = NULL,
+  fillable_mobile = FALSE,
+  title = NULL,
+  theme = bs_theme(),
+  lang = NULL
+) {
   page(
     title = title,
     theme = theme,
@@ -96,19 +186,26 @@ validateCssPadding <- function(padding = NULL) {
 #'
 #' Create a dashboard layout with a full-bleed header (`title`) and [sidebar()].
 #'
-#' @inheritParams layout_sidebar
-#' @inheritParams page_fillable
 #' @param ... UI elements to display in the 'main' content area (i.e., next to
 #'   the `sidebar`). These arguments are passed to `layout_sidebar()`, which has
 #'   more details.
 #' @param title A string, number, or [htmltools::tag()] child to display as the
 #'   title (just above the `sidebar`).
+#' @inheritParams layout_sidebar
+#' @inheritParams page_fillable
+#' @inheritParams page_navbar
 #'
 #' @export
-#' @seealso [layout_sidebar()] for 'floating' sidebar layouts.
+#' @family Dashboard page layouts
+#'
+#' @seealso [layout_columns()] and [layout_column_wrap()] for laying out content
+#'   into rows and columns.
 #' @seealso [accordion()] for grouping related input controls in the `sidebar`.
 #' @seealso [card()] for wrapping outputs in the 'main' content area.
 #' @seealso [value_box()] for highlighting values.
+#'
+#' @references [Getting Started with Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
+#'   on the bslib website.
 #'
 #' @examplesIf rlang::is_interactive()
 #'
@@ -135,8 +232,16 @@ validateCssPadding <- function(padding = NULL) {
 #'
 #' shinyApp(ui, server)
 #'
-page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fillable_mobile = FALSE, theme = bs_theme(), window_title = NA, lang = NULL) {
-
+page_sidebar <- function(
+  ...,
+  sidebar = NULL,
+  title = NULL,
+  fillable = TRUE,
+  fillable_mobile = FALSE,
+  theme = bs_theme(),
+  window_title = NA,
+  lang = NULL
+) {
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
     title <- h1(title, class = "bslib-page-title")
   }
@@ -161,9 +266,14 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
 }
 
 
-#' @rdname page
-#' @inheritParams navset_bar
-#' @seealso [shiny::navbarPage()]
+#' Multi-page app with a top navigation bar
+#'
+#' @description
+#' Create a page that contains a top level navigation bar that can be used to
+#' toggle a set of [nav_panel()] elements. Use this page layout to create the
+#' effect of a multi-page app, where your app's content is broken up into
+#' multiple "pages" that can be navigated to via the top navigation bar.
+#'
 #' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
 #' @param underline Whether or not to add underline styling to page links when
@@ -171,7 +281,55 @@ page_sidebar <- function(..., sidebar = NULL, title = NULL, fillable = TRUE, fil
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
+#' @inheritParams navset_bar
+#' @inheritParams page
+#'
 #' @export
+#' @family Dashboard page layouts
+#'
+#' @seealso [nav_panel()], [nav_menu()], and [nav_item()] for adding content
+#'   sections and organizing or creating items in the navigation bar.
+#' @seealso [layout_columns()] and [layout_column_wrap()] for laying out content
+#'   into rows and columns.
+#' @seealso [card()] for wrapping outputs in the 'main' content area.
+#' @seealso [value_box()] for highlighting values.
+#' @seealso [accordion()] for grouping related input controls in the `sidebar`.
+#'
+#' @references [Getting Started with Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
+#'   on the bslib website.
+#'
+#' @examplesIf rlang::is_interactive()
+#' library(shiny)
+#' library(bslib)
+#'
+#' link_shiny <- tags$a(
+#'   shiny::icon("github"), "Shiny",
+#'   href = "https://github.com/rstudio/shiny",
+#'   target = "_blank"
+#' )
+#' link_posit <- tags$a(
+#'   shiny::icon("r-project"), "Posit",
+#'   href = "https://posit.co",
+#'   target = "_blank"
+#' )
+#'
+#' ui <- page_navbar(
+#'   title = "My App",
+#'   nav_panel(title = "One", p("First page content.")),
+#'   nav_panel(title = "Two", p("Second page content.")),
+#'   nav_panel("Three", p("Third page content.")),
+#'   nav_spacer(),
+#'   nav_menu(
+#'     title = "Links",
+#'     align = "right",
+#'     nav_item(link_shiny),
+#'     nav_item(link_posit)
+#'   )
+#' )
+#'
+#' server <- function(...) { } # not used in this example
+#'
+#' shinyApp(ui, server)
 page_navbar <- function(
   ...,
   title = NULL,
