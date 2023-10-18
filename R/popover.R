@@ -67,10 +67,17 @@
 #'   ```
 #'
 #' @describeIn popover Add a popover to a UI element
-#' @references <https://getbootstrap.com/docs/5.3/components/popovers/>
+#'
 #' @export
 #' @family Components
-#' @seealso [tooltip()]
+#'
+#' @references Popovers are based on [Bootstrap's Popover
+#'   component](https://getbootstrap.com/docs/5.3/components/popovers/). See the
+#'   bslib website for an [interactive introduction to tooltips and
+#'   popovers](https://rstudio.github.io/bslib/articles/tooltips-popovers/index.html).
+#'
+#' @seealso [tooltip()] provides an alternative way to display informational
+#'   text on demand, typically when focusing or hovering over a trigger element.
 #'
 #' @examplesIf rlang::is_interactive()
 #'
