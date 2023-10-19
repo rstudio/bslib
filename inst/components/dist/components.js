@@ -573,8 +573,6 @@
    * @type {boolean}
    */
   Card.onReadyScheduled = false;
-  window.bslib = window.bslib || {};
-  window.bslib.Card = Card;
 
   // srcts/src/components/sidebar.ts
   var _Sidebar = class {
