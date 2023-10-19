@@ -10,7 +10,9 @@
 #'   `bg`, `fg`, `primary`, etc).
 #' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`.
 #'
-#' To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, [see here](https://rstudio.github.io/bslib/articles/theming.html).
+#' To learn more about how to implement custom themes, as well as how to use
+#' them inside Shiny and R Markdown, [see
+#' here](https://rstudio.github.io/bslib/articles/theming.html).
 #'
 #' @section Colors:
 #'
@@ -28,31 +30,50 @@
 #'  both set CSS properties _and_ import font files, consider using the various
 #'  [font_face()] helpers.
 #'
-#'  Each `*_font` argument may be collection of character vectors,
-#'  [font_google()]s, [font_link()]s and/or [font_face()]s. Note that a
-#'  character vector can have:
+#'  Each `*_font` argument may be a single font or a `font_collection()`.
+#'  A font can be created with [font_google()], [font_link()], or [font_face()],
+#'  or it can be a character vector of font names in the following format:
 #'    * A single unquoted name (e.g., `"Source Sans Pro"`).
 #'    * A single quoted name (e.g., `"'Source Sans Pro'"`).
 #'    * A comma-separated list of names w/ individual names quoted as necessary.
 #'      (e.g. `c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")`)
 #'
-#'  Since `font_google(..., local = TRUE)` guarantees that the client has access to
-#'  the font family, meaning it's relatively safe to specify just one font
-#'  family, for instance:
+#'  `font_google()` sets `local = TRUE` by default, which ensures that the font
+#'  files are downloaded from [Google Fonts](https://fonts.google.com/) when
+#'  your document or app is rendered. This guarantees that the client has access
+#'  to the font family, making it relatively safe to specify just one font
+#'  family:
 #'
-#'  ```
+#'  ```r
 #'  bs_theme(base_font = font_google("Pacifico", local = TRUE))
 #'  ```
 #'
-#'  However, specifying multiple "fallback" font families is recommended,
-#'  especially when relying on remote and/or system fonts being available, for
-#'  instance. Fallback fonts are useful not only for handling missing fonts, but
-#'  also for handling a Flash of Invisible Text (FOIT) which can be quite
-#'  noticeable with remote web fonts on a slow internet connection.
+#'  That said, we recommend you specify multiple "fallback" font families,
+#'  especially when relying on remote and/or system fonts being available.
+#'  Fallback fonts are useful not only for handling missing fonts, but also
+#'  ensure that your users don't experience a Flash of Invisible Text (FOIT)
+#'  which can be quite noticeable with remote web fonts on a slow internet
+#'  connection.
 #'
-#'  ```
+#'  ```r
 #'  bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
 #'  ````
+#'
+#' @references
+#'   * [Get Started: Theming](https://rstudio.github.io/bslib/articles/theming/index.html)
+#'     introduces theming with bslib in Shiny apps and R Markdown documents.
+#'   * [Theming: Bootstrap 5 variables](https://rstudio.github.io/bslib/articles/bs5-variables/index.html)
+#'     provides a searchable reference of all theming variables available in
+#'     Bootstrap 5.
+#'   * [Theming: Custom components](https://rstudio.github.io/bslib/articles/custom-components/index.html)
+#'     gives a tutorial on creating a dynamically themable custom component.
+#'   * bslib's theming capabilities are powered by
+#'     [the {sass} package](https://rstudio.github.io/sass/).
+#'   * [Bootstrap's utility classes](https://rstudio.github.io/bslib/articles/utility-classes/index.html)
+#'     can be helpful when you want to change the appearance of an element
+#'     without writing CSS or customizing your `bs_theme()`.
+#'
+#' @family Bootstrap theme functions
 #'
 #' @param version The major version of Bootstrap to use (see [versions()]
 #'   for possible values). Defaults to the currently recommended version
@@ -91,12 +112,9 @@
 #'   example, a value of `1.5` scales font sizes to 150% and a value of `0.8`
 #'   scales to 80%. Must be a positive number.
 #'
-#' @return a [sass::sass_bundle()] (list-like) object.
+#' @return Returns a [sass::sass_bundle()] (list-like) object.
 #'
-#' @references \url{https://rstudio.github.io/bslib/articles/theming.html}
-#' @references \url{https://rstudio.github.io/sass/}
-#' @seealso [bs_add_variables()], [bs_theme_preview()]
-#' @examples
+#' @examplesIf rlang::is_interactive()
 #'
 #' theme <- bs_theme(
 #'   # Controls the default grayscale palette
@@ -109,9 +127,8 @@
 #'   # Can also add lower-level customization
 #'   "input-border-color" = "#EA80FC"
 #' )
-#' if (interactive()) {
-#'   bs_theme_preview(theme)
-#' }
+#'
+#' bs_theme_preview(theme)
 #'
 #' # Lower-level bs_add_*() functions allow you to work more
 #' # directly with the underlying Sass code
