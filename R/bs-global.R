@@ -1,36 +1,58 @@
 #' Global theming
 #'
-#' `bs_global_theme()` creates a new (global) Bootstrap Sass theme which
-#' [bs_theme_dependencies()] (or [sass_partial()]) can consume (their `theme`
-#' argument defaults to `bs_global_get()`, which get the current global theme).
+#' `bs_global_theme()` creates and sets the global Bootstrap Sass theme. This
+#' theme is typically found by [bs_theme_dependencies()] in the app or document
+#' where the global theme is being used. You can obtain the current global theme
+#' with [bs_global_get()] or directly set the global theme with
+#' [bs_global_set()].
 #'
 #' @inheritParams bs_theme
 #'
-#' @return functions that modify the global theme (e.g., `bs_global_set()`)
+#' @return Functions that modify the global theme (e.g., `bs_global_set()`)
 #'   invisibly return the previously set theme. `bs_global_get()` returns the
 #'   current global theme.
 #'
-#' @seealso [bs_theme()], [bs_theme_preview()]
-#' @examples
+#' @family Bootstrap theme functions
 #'
+#' @examples
 #' # Remember the global state now (so we can restore later)
 #' theme <- bs_global_get()
+#'
 #' # Use Bootstrap 3 (globally) with some theme customization
 #' bs_global_theme(3, bg = "#444", fg = "#e4e4e4", primary = "#e39777")
-#' if (interactive()) bs_theme_preview(with_themer = FALSE)
+#' if (rlang::is_interactive()) {
+#'   bs_theme_preview(with_themer = FALSE)
+#' }
+#'
 #' # If no global theme is active, bs_global_get() returns NULL
 #' bs_global_clear()
 #' bs_global_get()
+#'
 #' # Restore the original state
 #' bs_global_set(theme)
 #'
 #' @export
-bs_global_theme <- function(version = version_default(), bootswatch = NULL, bg = NULL, fg = NULL,
-                            primary = NULL, secondary = NULL, success = NULL, info = NULL, warning = NULL,
-                            danger = NULL, base_font = NULL, code_font = NULL, heading_font = NULL, ...) {
+bs_global_theme <- function(
+  version = version_default(),
+  bootswatch = NULL,
+  bg = NULL,
+  fg = NULL,
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL,
+  base_font = NULL,
+  code_font = NULL,
+  heading_font = NULL,
+  ...
+) {
   bs_global_set(bs_theme(
-    version, bootswatch,
-    bg = bg, fg = fg,
+    version,
+    bootswatch,
+    bg = bg,
+    fg = fg,
     primary = primary,
     secondary = secondary,
     success = success,

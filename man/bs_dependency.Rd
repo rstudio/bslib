@@ -130,6 +130,7 @@ gives a tutorial on creating a dynamically themable custom component.
 Other Bootstrap theme functions: 
 \code{\link{bs_add_variables}()},
 \code{\link{bs_current_theme}()},
+\code{\link{bs_global_theme}()},
 \code{\link{bs_theme_dependencies}()},
 \code{\link{bs_theme}()}
 }

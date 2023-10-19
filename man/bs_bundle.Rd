@@ -145,6 +145,7 @@ to start learning about bslib's theming capabilities.
 Other Bootstrap theme functions: 
 \code{\link{bs_current_theme}()},
 \code{\link{bs_dependency}()},
+\code{\link{bs_global_theme}()},
 \code{\link{bs_theme_dependencies}()},
 \code{\link{bs_theme}()}
 }
