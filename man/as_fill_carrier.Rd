@@ -51,9 +51,9 @@ is_fillable_container(x)
 is_fill_item(x)
 }
 \arguments{
-\item{x}{a \code{\link[htmltools:builder]{htmltools::tag()}}.}
+\item{x}{An \code{\link[htmltools:builder]{htmltools::tag()}}.}
 
-\item{...}{currently ignored.}
+\item{...}{Currently ignored.}
 
 \item{min_height, max_height}{Any valid \link[htmltools:validateCssUnit]{CSS unit}
 (e.g., \code{150}).}
@@ -114,5 +114,11 @@ shinyApp(
 \dontshow{\}) # examplesIf}
 }
 \references{
-\url{https://rstudio.github.io/bslib/articles/filling.html}
+The \href{https://rstudio.github.io/bslib/articles/filling.html}{Filling Layouts}
+article on the bslib website introduces the concept of fillable containers
+and fill items.
+}
+\seealso{
+These functions provide a convenient interface to the underlying
+\code{\link[htmltools:bindFillRole]{htmltools::bindFillRole()}} function.
 }
