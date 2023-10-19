@@ -43,6 +43,7 @@ Other Bootstrap theme functions:
 \code{\link{bs_add_variables}()},
 \code{\link{bs_dependency}()},
 \code{\link{bs_global_theme}()},
+\code{\link{bs_remove}()},
 \code{\link{bs_theme_dependencies}()},
 \code{\link{bs_theme}()}
 }
