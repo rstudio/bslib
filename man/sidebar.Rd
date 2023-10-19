@@ -135,8 +135,8 @@ layout by providing a \code{sidebar()} object to the \code{sidebar} argument the
 following functions.
 \itemize{
 \item \code{\link[=page_sidebar]{page_sidebar()}} creates a "page-level" sidebar.
-\item \code{\link[=page_navbar]{page_navbar()}} creates a multi-panel app with a "page-level" sidebar that
-is shown on every panel.
+\item \code{\link[=page_navbar]{page_navbar()}} creates a multi-panel app with an (optional, page-level)
+sidebar that is shown on every panel.
 \item \code{layout_sidebar()} creates a "floating" sidebar layout component which can
 be used inside any \code{\link[=page]{page()}} and/or \code{\link[=card]{card()}} context.
 \item \code{\link[=navset_card_tab]{navset_card_tab()}} and \code{\link[=navset_card_pill]{navset_card_pill()}} create multi-tab cards with a

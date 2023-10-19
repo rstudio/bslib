@@ -12,8 +12,8 @@
 #' following functions.
 #'
 #' * [page_sidebar()] creates a "page-level" sidebar.
-#' * [page_navbar()] creates a multi-panel app with a "page-level" sidebar that
-#'   is shown on every panel.
+#' * [page_navbar()] creates a multi-panel app with an (optional, page-level)
+#'   sidebar that is shown on every panel.
 #' * `layout_sidebar()` creates a "floating" sidebar layout component which can
 #'   be used inside any [page()] and/or [card()] context.
 #' * [navset_card_tab()] and [navset_card_pill()] create multi-tab cards with a
