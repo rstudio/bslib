@@ -7,6 +7,7 @@
 * `page_navbar()` now defaults to `underline = TRUE`, meaning that navigation links in the navbar now have underline styling by default (set `underline = FALSE` to revert to previous behavior). (#784)
 * `page()` now returns a `<body>` tag instead of `tagList()`. This change allows `page()` to treat named arguments as HTML attributes. (#809)
 * The JS/CSS assets behind `{bslib}` components (e.g., `card()`, `value_box()`, etc) are all now bundled into one `htmlDependency()` and included with the return value of `bs_theme_dependencies()` (previously they were attached at the component-level). (#810)
+* `layout_column_wrap()` no longer requires `width` and `width` is no longer the first argument, meaning that `width` must be named if used. The new default is `width = "200px"`, which combines with `fixed_width = FALSE` and produces an automatically responsive layout where each column is at least 200px wide. This means that, in most cases, `layout_column_wrap()` can layout an unknown number of items without you having to set `width`. (#853)
 
 ## New features
 
