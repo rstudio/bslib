@@ -41,9 +41,14 @@ manually, either via a \code{style} attribute or a CSS stylesheet.
 \item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}})
 Named arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
 
-\item{fixed_width}{Whether or not to interpret the \code{width} as a minimum
-(\code{fixed_width=FALSE}) or fixed (\code{fixed_width=TRUE}) width when it is a CSS
-length unit.}
+\item{fixed_width}{When \code{width} is greater than 1 or is a CSS length unit,
+e.g. \code{"200px"}, \code{fixed_width} indicates whether that \code{width} value
+represents the absolute size of each column (\code{fixed_width=TRUE}) or the
+minimum size of a column (\code{fixed_width=FALSE}). When \code{fixed_width=FALSE},
+new columns are added to a row when \code{width} space is available and columns
+will never exceed the container or viewport size. When \code{fixed_width=TRUE},
+all columns will be exactly \code{width} wide, which may result in columns
+overflowing the parent container.}
 
 \item{heights_equal}{If \code{"all"} (the default), every card in every row of the
 grid will have the same height. If \code{"row"}, then every card in \emph{each} row
