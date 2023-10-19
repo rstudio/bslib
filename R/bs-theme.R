@@ -136,12 +136,24 @@
 #' theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 #'
 #' @export
-bs_theme <- function(version = version_default(), preset = NULL, ...,
-                     bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
-                     success = NULL, info = NULL, warning = NULL, danger = NULL,
-                     base_font = NULL, code_font = NULL, heading_font = NULL,
-                     font_scale = NULL, bootswatch = NULL) {
-
+bs_theme <- function(
+  version = version_default(),
+  preset = NULL,
+  ...,
+  bg = NULL,
+  fg = NULL,
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL,
+  base_font = NULL,
+  code_font = NULL,
+  heading_font = NULL,
+  font_scale = NULL,
+  bootswatch = NULL
+) {
   if (is.null(preset) && is.null(bootswatch) && version >= 5) {
     preset <- "shiny"
   }
@@ -175,13 +187,26 @@ bs_theme <- function(version = version_default(), preset = NULL, ...,
 }
 
 #' @rdname bs_theme
-#' @param theme a [bs_theme()] object.
+#' @param theme A [bs_theme()] object.
 #' @export
-bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
-                            primary = NULL, secondary = NULL, success = NULL,
-                            info = NULL, warning = NULL, danger = NULL,
-                            base_font = NULL, code_font = NULL, heading_font = NULL,
-                            font_scale = NULL, bootswatch = NULL) {
+bs_theme_update <- function(
+  theme,
+  ...,
+  preset = NULL,
+  bg = NULL,
+  fg = NULL,
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL,
+  base_font = NULL,
+  code_font = NULL,
+  heading_font = NULL,
+  font_scale = NULL,
+  bootswatch = NULL
+) {
   assert_bs_theme(theme)
 
   preset <- resolve_bs_preset(preset, bootswatch, version = theme_version(theme))

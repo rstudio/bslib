@@ -12,8 +12,17 @@ bootswatch_themes(version = version_default(), full_path = FALSE)
 \item{full_path}{whether to return a path to the installed theme.}
 }
 \value{
-a character vector of Bootswatch themes.
+Returns a character vector of Bootswatch themes.
 }
 \description{
 Obtain a list of all available bootswatch themes.
 }
+\seealso{
+Other Bootstrap theme utility functions: 
+\code{\link{bs_get_variables}()},
+\code{\link{builtin_themes}()},
+\code{\link{theme_bootswatch}()},
+\code{\link{theme_version}()},
+\code{\link{versions}()}
+}
+\concept{Bootstrap theme utility functions}

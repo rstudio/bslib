@@ -596,21 +596,27 @@ gfont_key <- function() {
 
 #' Retrieve Sass variable values from the current theme
 #'
-#' Useful for retriving a variable from the current theme and using
+#' Useful for retrieving a variable from the current theme and using
 #' the value to inform another R function.
 #'
 #' @inheritParams bs_theme_update
-#' @param varnames a character string referencing a Sass variable
-#' in the current theme.
-#' @return a character string containing a CSS/Sass value.
-#' If the variable(s) are not defined, their value is `NA`.
+#' @param varnames A character string referencing a Sass variable in the current
+#'   theme.
+#'
+#' @return Returns a character string containing a CSS/Sass value. If the
+#'   variable(s) are not defined, their value is `NA`.
+#'
+#' @references [Theming: Bootstrap 5 variables](https://rstudio.github.io/bslib/articles/bs5-variables/index.html)
+#'   provides a searchable reference of all theming variables available in
+#'   Bootstrap 5.
 #'
 #' @export
+#' @family Bootstrap theme utility functions
+#'
 #' @examples
 #' vars <- c("body-bg", "body-color", "primary", "border-radius")
 #' bs_get_variables(bs_theme(), varnames = vars)
 #' bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
-#'
 bs_get_variables <- function(theme, varnames) {
   if (length(varnames) == 0) {
     return(stats::setNames(character(0), character(0)))
