@@ -1,8 +1,10 @@
+$navbar-expand-breakpoint: if($bootstrap-version>=5, lg, sm) !default; 
+
 // bs4 navbars require .navbar-expand[-sm|-md|-lg|-xl], but bs3 navbars
 // don't have them. This selector matches .navbar without .navbar-expand
 // and defaults it to .navbar-expand-sm.
 .navbar:not(.navbar-expand):not(.navbar-expand-sm):not(.navbar-expand-md):not(.navbar-expand-lg):not(.navbar-expand-xl) {
-  @extend .navbar-expand-sm;
+  @extend .navbar-expand-#{$navbar-expand-breakpoint};
 }
 
 // Unfortunately the @extend above, combined with the @extend .nav-link below
@@ -122,15 +124,32 @@ $enable-dark-mode: false !default;
   }
 }
 
-// Make sure navbar-toggle floats right when navbar is collapsed
-// https://github.com/rstudio/bslib/issues/289
-// In BS4, media-breakpoint-down() does the _next_ breakpoint (xs->sm)
-// In BS5+, it takes the breakpoint (sm) verbatim
-@include media-breakpoint-down(if($bootstrap-version==4, xs, sm)) {
-  .navbar-header {
-    width: 100%;
-    .navbar-toggle {
-      float: right;
+// Make sure .navbar-toggle is right and center aligned when navbar is collapsed
+@if $bootstrap-version>=5 {
+
+  @include media-breakpoint-down($navbar-expand-breakpoint) {
+    .navbar-header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .navbar-toggle {
+        order: 2;
+      }
     }
   }
+  
+} @else {
+
+  // In BS4, media-breakpoint-down() does the _next_ breakpoint (xs->sm)
+  @include media-breakpoint-down(xs) {
+    .navbar-header {
+      width: 100%;
+      .navbar-toggle {
+        float: right;
+      }
+    }
+  }
+
 }

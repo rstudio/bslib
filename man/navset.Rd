@@ -209,12 +209,11 @@ using \code{nav_spacer()}.
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -231,12 +230,11 @@ but the tab toggles are \emph{pills} or button-shaped.
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_pill(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -252,12 +250,11 @@ but the tab toggles are \emph{pills} or button-shaped.
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_underline(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -279,12 +276,11 @@ using the \code{sidebar} argument of \code{navset_card_tab()}.
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_card_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -304,12 +300,11 @@ You can use the \code{placement} argument to position the navbar
   placement = "above",
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -325,12 +320,11 @@ You can use the \code{placement} argument to position the navbar
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_card_underline(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -347,12 +341,11 @@ adjacent to, rather than on top of, the tab content panels.
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{navset_pill_list(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -372,14 +365,14 @@ Note also that the underline styling can be removed via the \code{underline} arg
   title = "My App",
   bg = "#0062cc",
   underline = TRUE,
-  nav_panel(title = "One", p("First page content.")),
-  nav_panel(title = "Two", p("Second page content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
+    title = "Links",
     align = "right",
-    nav_panel("Three", p("Third page content.")),
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
