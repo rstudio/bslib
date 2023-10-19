@@ -209,6 +209,9 @@ without writing CSS or customizing your \code{bs_theme()}.
 }
 \seealso{
 Other Bootstrap theme functions: 
-\code{\link{bs_add_variables}()}
+\code{\link{bs_add_variables}()},
+\code{\link{bs_current_theme}()},
+\code{\link{bs_dependency}()},
+\code{\link{bs_theme_dependencies}()}
 }
 \concept{Bootstrap theme functions}
