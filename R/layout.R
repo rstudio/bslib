@@ -5,10 +5,11 @@
 #'
 #' Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 #' rows) in the grid dependent on the column `width` as well as the size of the
-#' display. For more explanation and illustrative examples, see [here](https://rstudio.github.io/bslib/articles/cards.html#multiple-cards)
+#' display. For more explanation and illustrative examples, see
+#' [here](https://rstudio.github.io/bslib/articles/cards.html#multiple-cards).
 #'
-#' @param ... Unnamed arguments should be UI elements (e.g., [card()])
-#'   Named arguments become attributes on the containing [htmltools::tag] element.
+#' @param ... Unnamed arguments should be UI elements (e.g., [card()]). Named
+#'   arguments become attributes on the containing [htmltools::tag] element.
 #' @param width The desired width of each card, which can be any of the
 #'  following:
 #'   * A (unit-less) number between 0 and 1.
@@ -39,18 +40,23 @@
 #' @inheritParams card
 #' @inheritParams card_body
 #'
-#' @export
 #' @examples
-#'
 #' x <- card("A simple card")
 #' # Always has 2 columns (on non-mobile)
-#' layout_column_wrap(1/2, x, x, x)
-#' # Has three columns when viewport is wider than 750px
-#' layout_column_wrap("250px", x, x, x)
+#' layout_column_wrap(width = 1/2, x, x, x)
 #'
+#' # Automatically lays out three cards into columns
+#' # such that each column is at least 200px wide:
+#' layout_column_wrap(x, x, x)
+#'
+#' # To use larger column widths by default, set `width`.
+#' # This example has 3 columns when the screen is at least 900px wide:
+#' layout_column_wrap(width = "300px", x, x, x)
+#'
+#' @export
 layout_column_wrap <- function(
-  width,
   ...,
+  width = "200px",
   fixed_width = FALSE,
   heights_equal = c("all", "row"),
   fill = TRUE,
@@ -66,6 +72,23 @@ layout_column_wrap <- function(
   args <- separate_arguments(...)
   attribs <- args$attribs
   children <- args$children
+
+  if (missing(width)) {
+    first_is_width <-
+      is.null(children[[1]]) ||
+      is_probably_a_css_unit(children[[1]])
+
+    if (first_is_width) {
+      # Assume an unnamed first argument that matches our expectations for
+      # `width` is actually the width argument, with a warning
+      lifecycle::deprecate_warn(
+        "0.6.0",
+        "layout_column_wrap(width = 'must be named')"
+      )
+      width <- children[[1]]
+      children <- children[-1]
+    }
+  }
 
   if (length(width) > 1) {
     stop("`width` of length greater than 1 is not currently supported.")
@@ -115,6 +138,16 @@ layout_column_wrap <- function(
 
   as_fragment(
     tag_require(tag, version = 5, caller = "layout_column_wrap()")
+  )
+}
+
+is_probably_a_css_unit <- function(x) {
+  if (length(x) != 1) return(FALSE)
+  if (is.numeric(x)) return(TRUE)
+  if (!is.character(x)) return(FALSE)
+  tryCatch(
+    { validateCssUnit(x); TRUE },
+    error = function(e) FALSE
   )
 }
 
