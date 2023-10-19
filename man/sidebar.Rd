@@ -4,6 +4,7 @@
 \alias{sidebar}
 \alias{layout_sidebar}
 \alias{toggle_sidebar}
+\alias{sidebar_toggle}
 \title{Sidebar layouts}
 \usage{
 sidebar(

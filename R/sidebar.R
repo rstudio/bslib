@@ -300,10 +300,8 @@ toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-#' Toggle the sidebar state (internal alias)
-#'
-#' @inheritParams toggle_sidebar
-#' @keywords internal
+#' @rdname sidebar
+#' @usage NULL
 #' @export
 sidebar_toggle <- toggle_sidebar
 
