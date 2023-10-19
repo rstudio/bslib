@@ -380,7 +380,7 @@ Value boxes are featured on the bslib website in a few articles:
 \itemize{
 \item \href{https://rstudio.github.io/bslib/articles/value-boxes/index.html}{Value boxes}
 \item \href{https://bslib.shinyapps.io/build-a-box}{Build-a-Box App}
-\item \href{http://localhost:8080/articles/dashboards/index.html#value-boxes}{Get Started: Dashboards}
+\item \href{https://rstudio.github.io/bslib/articles/dashboards/index.html#value-boxes}{Get Started: Dashboards}
 }
 }
 \seealso{

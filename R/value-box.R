@@ -66,7 +66,7 @@
 #'
 #'   * [Value boxes](https://rstudio.github.io/bslib/articles/value-boxes/index.html)
 #'   * [Build-a-Box App](https://bslib.shinyapps.io/build-a-box)
-#'   * [Get Started: Dashboards](http://localhost:8080/articles/dashboards/index.html#value-boxes)
+#'   * [Get Started: Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html#value-boxes)
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(htmltools)
