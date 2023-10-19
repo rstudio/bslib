@@ -10,7 +10,7 @@ bs_remove(theme, ids = character(0))
 bs_retrieve(theme, ids = character(0), include_unnamed = TRUE)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{ids}{a character vector of ids}
 
@@ -49,6 +49,7 @@ Other Bootstrap theme functions:
 \code{\link{bs_dependency}()},
 \code{\link{bs_global_theme}()},
 \code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()},
 \code{\link{bs_theme}()}
 }
 \concept{Bootstrap theme functions}

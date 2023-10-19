@@ -1,7 +1,7 @@
 #' Obtain a list of all available bootswatch themes.
 #'
-#' @param version the major version of Bootswatch.
-#' @param full_path whether to return a path to the installed theme.
+#' @param version The major version of Bootswatch.
+#' @param full_path Whether to return a path to the installed theme.
 #' @return Returns a character vector of Bootswatch themes.
 #' @family Bootstrap theme utility functions
 #' @export

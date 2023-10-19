@@ -45,6 +45,7 @@ Other Bootstrap theme functions:
 \code{\link{bs_global_theme}()},
 \code{\link{bs_remove}()},
 \code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()},
 \code{\link{bs_theme}()}
 }
 \concept{Bootstrap theme functions}

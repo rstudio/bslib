@@ -7,9 +7,9 @@
 bootswatch_themes(version = version_default(), full_path = FALSE)
 }
 \arguments{
-\item{version}{the major version of Bootswatch.}
+\item{version}{The major version of Bootswatch.}
 
-\item{full_path}{whether to return a path to the installed theme.}
+\item{full_path}{Whether to return a path to the installed theme.}
 }
 \value{
 Returns a character vector of Bootswatch themes.

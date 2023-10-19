@@ -7,7 +7,7 @@
 theme_version(theme)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 }
 \value{
 Returns the major version of Bootstrap used in the \code{theme}.

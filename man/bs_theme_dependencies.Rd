@@ -13,7 +13,7 @@ bs_theme_dependencies(
 )
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{sass_options}{a \code{\link[sass:sass_options]{sass::sass_options()}} object.}
 
@@ -79,6 +79,7 @@ Other Bootstrap theme functions:
 \code{\link{bs_dependency}()},
 \code{\link{bs_global_theme}()},
 \code{\link{bs_remove}()},
+\code{\link{bs_theme_preview}()},
 \code{\link{bs_theme}()}
 }
 \concept{Bootstrap theme functions}

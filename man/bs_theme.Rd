@@ -99,7 +99,7 @@ for possible values). When provided to \code{bs_theme_update()}, any previous
 Bootswatch theme is first removed before the new one is applied (use
 \code{bootswatch = "bootstrap"} to effectively remove the Bootswatch theme).}
 
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{x}{an object.}
 }
@@ -214,6 +214,7 @@ Other Bootstrap theme functions:
 \code{\link{bs_dependency}()},
 \code{\link{bs_global_theme}()},
 \code{\link{bs_remove}()},
-\code{\link{bs_theme_dependencies}()}
+\code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()}
 }
 \concept{Bootstrap theme functions}

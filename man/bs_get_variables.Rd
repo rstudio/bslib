@@ -10,7 +10,7 @@ bs_get_variables(theme, varnames)
 bs_get_contrast(theme, varnames)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{varnames}{A character string referencing a Sass variable in the current
 theme.}

@@ -101,7 +101,7 @@ Typically a shade of blue-green.}
 
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{.where}{Whether to place the variable definitions before other Sass
 \code{"defaults"}, after other Sass \code{"declarations"}, or after other Sass
@@ -156,6 +156,7 @@ Other Bootstrap theme functions:
 \code{\link{bs_dependency}()},
 \code{\link{bs_remove}()},
 \code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()},
 \code{\link{bs_theme}()}
 }
 \concept{Bootstrap theme functions}

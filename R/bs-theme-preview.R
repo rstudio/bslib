@@ -1,24 +1,32 @@
 #' @include utils.R
 NULL
 
-#' Preview the currently set theme
+#' Preview a Bootstrap theme
 #'
-#' Launches an example shiny app via `run_with_themer()` and
-#' `bs_theme_dependencies()`. Useful for getting a quick preview of the current
-#' theme setting as well as an interactive GUI for tweaking some of the main
-#' theme settings.
+#' Launches an example shiny app that can be used to get a quick preview of a
+#' [bs_theme()], as well as an interactive GUI for tweaking some of the
+#' main theme settings. Calling `bs_theme_preview()` with no arguments starts
+#' the theme preview app with the default theme, which is a great way to see
+#' the available theme presets or to start creating your own theme.
 #'
-#' The app that this launches is subject to change.
+#' The app that this launches is subject to change as new features are
+#' developed in \pkg{bslib} and \pkg{shiny}.
 #'
 #' @inheritParams bs_theme_update
 #' @param ... passed along to [shiny::runApp()].
 #' @param with_themer whether or not to run the app with [run_with_themer()].
+#'
 #' @return nothing, this function is called for its side-effects (launching an
 #'   application).
-#' @seealso [run_with_themer()]
-#' @examples
+#'
+#' @seealso Use [run_with_themer()] or [bs_themer()] to add the theming UI to
+#'   an existing shiny app.
+#'
+#' @examplesIf rlang::is_interactive()
 #' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
-#' if (interactive()) bs_theme_preview(theme)
+#' bs_theme_preview(theme)
+#'
+#' @family Bootstrap theme functions
 #' @export
 bs_theme_preview <- function(theme = bs_theme(), ..., with_themer = TRUE) {
   assert_bs_theme(theme)

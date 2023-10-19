@@ -7,7 +7,7 @@
 precompiled_css_path(theme = bs_theme())
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 }
 \value{
 The path to the precompiled CSS file, if it exists, or \code{NULL}, if
