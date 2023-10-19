@@ -51,12 +51,11 @@ using `nav_spacer()`.
 navset_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -71,12 +70,11 @@ but the tab toggles are _pills_ or button-shaped.
 navset_pill(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -90,12 +88,11 @@ navset_pill(
 navset_underline(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -115,12 +112,11 @@ using the `sidebar` argument of `navset_card_tab()`.
 navset_card_tab(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -138,12 +134,11 @@ navset_card_pill(
   placement = "above",
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -157,12 +152,11 @@ navset_card_pill(
 navset_card_underline(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -177,12 +171,11 @@ adjacent to, rather than on top of, the tab content panels.
 navset_pill_list(
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
-    align = "right",
-    nav_panel("Three", p("Third tab content")),
+    title = "Links",
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )
@@ -195,19 +188,19 @@ similar to `navset_underline()` but where each `nav_panel()` is treated as a ful
 and the navigation controls appear in a top-level navigation bar.
 Note also that the underline styling can be removed via the `underline` argument.
 
-```{r page_navbar}
+```{r page_navbar, fig.width=10}
 page_navbar(
   title = "My App",
   bg = "#0062cc",
   underline = TRUE,
-  nav_panel(title = "One", p("First page content.")),
-  nav_panel(title = "Two", p("Second page content.")),
+  nav_panel(title = "One", p("First tab content.")),
+  nav_panel(title = "Two", p("Second tab content.")),
+  nav_panel(title = "Three", p("Third tab content")),
   nav_spacer(),
-  nav_item(link_shiny),
   nav_menu(
-    title = "Other links",
+    title = "Links",
     align = "right",
-    nav_panel("Three", p("Third page content.")),
+    nav_item(link_shiny),
     nav_item(link_posit)
   )
 )

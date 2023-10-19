@@ -2,7 +2,7 @@
 % Please edit documentation in R/layout.R
 \name{layout_columns}
 \alias{layout_columns}
-\title{Responsive column-based grid layouts}
+\title{Responsive 12-column grid layouts}
 \usage{
 layout_columns(
   ...,
@@ -16,8 +16,8 @@ layout_columns(
 )
 }
 \arguments{
-\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}})
-Named arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
+\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}}). Named
+arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
 
 \item{col_widths}{One of the following:
 \itemize{
@@ -71,7 +71,7 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 Create responsive, column-based grid layouts, based on a 12-column grid.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 
 x <- card("A simple card")

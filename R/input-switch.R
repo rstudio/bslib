@@ -1,8 +1,11 @@
 #' Switch input control
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Create an on-off style switch control for specifying logical values.
 #'
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #' library(shiny)
 #' library(bslib)
 #'

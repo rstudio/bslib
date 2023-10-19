@@ -1,5 +1,8 @@
 #' Value box
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' An opinionated ([card()]-powered) box, designed for displaying a `value` and
 #' `title`. Optionally, a `showcase` can provide for context for what the
 #' `value` represents (for example, it could hold a [bsicons::bs_icon()], or
@@ -53,21 +56,19 @@
 #' @inheritParams card
 #' @param theme_color `r lifecycle::badge("deprecated")` Use `theme` instead.
 #'
-#' @examples
+#' @examplesIf rlang::is_interactive()
 #' library(htmltools)
 #'
-#' if (interactive()) {
-#'   value_box(
-#'     "KPI Title",
-#'     h1(HTML("$1 <i>Billion</i> Dollars")),
-#'     span(
-#'       bsicons::bs_icon("arrow-up"),
-#'       " 30% VS PREVIOUS 30 DAYS"
-#'     ),
-#'     showcase = bsicons::bs_icon("piggy-bank"),
-#'     theme = "success"
-#'   )
-#' }
+#' value_box(
+#'   "KPI Title",
+#'   h1(HTML("$1 <i>Billion</i> Dollars")),
+#'   span(
+#'     bsicons::bs_icon("arrow-up"),
+#'     " 30% VS PREVIOUS 30 DAYS"
+#'   ),
+#'   showcase = bsicons::bs_icon("piggy-bank"),
+#'   theme = "success"
+#' )
 #'
 #' @seealso [card()]
 #' @export

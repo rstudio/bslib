@@ -1,5 +1,8 @@
 #' Add a popover to a UI element
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Display additional information when clicking on a UI element (typically a
 #' button).
 #'
@@ -67,7 +70,8 @@
 #' @references <https://getbootstrap.com/docs/5.3/components/popovers/>
 #' @export
 #' @seealso [tooltip()]
-#' @examplesIf interactive()
+#'
+#' @examplesIf rlang::is_interactive()
 #'
 #' popover(
 #'   shiny::actionButton("btn", "A button"),

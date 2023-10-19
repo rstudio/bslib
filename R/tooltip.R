@@ -1,5 +1,8 @@
 #' Add a tooltip to a UI element
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Display additional information when focusing (or hovering over) a UI element.
 #'
 #' @param trigger A UI element (i.e., [htmltools tag][htmltools::tags]) to serve
@@ -56,7 +59,7 @@
 #' @references <https://getbootstrap.com/docs/5.3/components/tooltips/>
 #' @export
 #' @seealso [popover()]
-#' @examplesIf interactive()
+#' @examplesIf rlang::is_interactive()
 #'
 #' tooltip(
 #'   shiny::actionButton("btn", "A button"),

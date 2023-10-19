@@ -42,6 +42,8 @@ it's hidden behind a tab).}
 used).}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Display additional information when focusing (or hovering over) a UI element.
 }
 \section{Functions}{
@@ -108,7 +110,7 @@ For example:
 }
 
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 tooltip(
   shiny::actionButton("btn", "A button"),

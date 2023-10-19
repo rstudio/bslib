@@ -132,8 +132,10 @@ main content area.}
 used).}
 }
 \description{
-Create a collapsing sidebar layout by providing a \code{sidebar()}
-object to the \code{sidebar} argument of:
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Create a collapsing sidebar layout by providing a \code{sidebar()} object to the
+\code{sidebar} argument of:
 \itemize{
 \item \code{\link[=page_sidebar]{page_sidebar()}}
 \itemize{
@@ -167,3 +169,4 @@ session.
 \item \code{sidebar_toggle()}: An alias for \code{\link[=toggle_sidebar]{toggle_sidebar()}}.
 
 }}
+\keyword{internal}

@@ -111,6 +111,8 @@ Accepted values in the second category are \code{"auto"}, \code{"min-content"},
 }}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displaying a \code{value} and
 \code{title}. Optionally, a \code{showcase} can provide for context for what the
 \code{value} represents (for example, it could hold a \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, or
@@ -353,21 +355,20 @@ In this example, we've created a sparkline plot using base R graphics, which isn
 }
 
 \examples{
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(htmltools)
 
-if (interactive()) {
-  value_box(
-    "KPI Title",
-    h1(HTML("$1 <i>Billion</i> Dollars")),
-    span(
-      bsicons::bs_icon("arrow-up"),
-      " 30\% VS PREVIOUS 30 DAYS"
-    ),
-    showcase = bsicons::bs_icon("piggy-bank"),
-    theme = "success"
-  )
-}
-
+value_box(
+  "KPI Title",
+  h1(HTML("$1 <i>Billion</i> Dollars")),
+  span(
+    bsicons::bs_icon("arrow-up"),
+    " 30\% VS PREVIOUS 30 DAYS"
+  ),
+  showcase = bsicons::bs_icon("piggy-bank"),
+  theme = "success"
+)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=card]{card()}}

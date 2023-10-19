@@ -2,11 +2,11 @@
 % Please edit documentation in R/layout.R
 \name{layout_column_wrap}
 \alias{layout_column_wrap}
-\title{A grid-like, column-first, layout}
+\title{Column-first uniform grid layouts}
 \usage{
 layout_column_wrap(
-  width,
   ...,
+  width = "200px",
   fixed_width = FALSE,
   heights_equal = c("all", "row"),
   fill = TRUE,
@@ -18,6 +18,9 @@ layout_column_wrap(
 )
 }
 \arguments{
+\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}}). Named
+arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
+
 \item{width}{The desired width of each card, which can be any of the
 following:
 \itemize{
@@ -38,12 +41,14 @@ manually, either via a \code{style} attribute or a CSS stylesheet.
 }
 }}
 
-\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}})
-Named arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
-
-\item{fixed_width}{Whether or not to interpret the \code{width} as a minimum
-(\code{fixed_width=FALSE}) or fixed (\code{fixed_width=TRUE}) width when it is a CSS
-length unit.}
+\item{fixed_width}{When \code{width} is greater than 1 or is a CSS length unit,
+e.g. \code{"200px"}, \code{fixed_width} indicates whether that \code{width} value
+represents the absolute size of each column (\code{fixed_width=TRUE}) or the
+minimum size of a column (\code{fixed_width=FALSE}). When \code{fixed_width=FALSE},
+new columns are added to a row when \code{width} space is available and columns
+will never exceed the container or viewport size. When \code{fixed_width=TRUE},
+all columns will be exactly \code{width} wide, which may result in columns
+overflowing the parent container.}
 
 \item{heights_equal}{If \code{"all"} (the default), every card in every row of the
 grid will have the same height. If \code{"row"}, then every card in \emph{each} row
@@ -67,16 +72,24 @@ devices (or narrow windows).}
 \item{class}{Additional CSS classes for the returned UI element.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 rows) in the grid dependent on the column \code{width} as well as the size of the
-display. For more explanation and illustrative examples, see \href{https://rstudio.github.io/bslib/articles/cards.html#multiple-cards}{here}
+display. For more explanation and illustrative examples, see
+\href{https://rstudio.github.io/bslib/articles/cards.html#multiple-cards}{here}.
 }
 \examples{
-
 x <- card("A simple card")
 # Always has 2 columns (on non-mobile)
-layout_column_wrap(1/2, x, x, x)
-# Has three columns when viewport is wider than 750px
-layout_column_wrap("250px", x, x, x)
+layout_column_wrap(width = 1/2, x, x, x)
+
+# Automatically lays out three cards into columns
+# such that each column is at least 200px wide:
+layout_column_wrap(x, x, x)
+
+# To use larger column widths by default, set `width`.
+# This example has 3 columns when the screen is at least 900px wide:
+layout_column_wrap(width = "300px", x, x, x)
 
 }
