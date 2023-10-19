@@ -213,8 +213,11 @@ reference:
     - bs_add_variables
     - font_face
 - subtitle: Interactive theming
-  desc: |
-    Interactively customize themes.
+  desc: >
+    Preview and interactively modify Bootstrap themes. Use `bs_theme_preview()`
+    for a preview of your theme in a Shiny app with many example components. Use
+    `run_with_themer()` to run an existing Shiny app with the theme editor or
+    `bs_themer()` to add the theme editor UI to your app or R Markdown document.
   contents:
     - bs_theme_preview
     - run_with_themer
