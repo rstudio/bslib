@@ -84,7 +84,7 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \references{
-bslib's accordion component is derived from the \href{https://getbootstrap.com/docs/5.2/components/accordion/}{Bootstrap Accordion component}.
+bslib's accordion component is derived from the \href{https://getbootstrap.com/docs/5.3/components/accordion/}{Bootstrap Accordion component}.
 Accordions are also featured on the bslib website:
 \itemize{
 \item \href{https://rstudio.github.io/bslib/articles/dashboards/index.html#accordions}{Get Started: Dashboards}

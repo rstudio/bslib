@@ -28,7 +28,7 @@
 #'
 #' @references bslib's accordion component is derived from the [Bootstrap
 #'   Accordion
-#'   component](https://getbootstrap.com/docs/5.2/components/accordion/).
+#'   component](https://getbootstrap.com/docs/5.3/components/accordion/).
 #'   Accordions are also featured on the bslib website:
 #'
 #'   * [Get Started: Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html#accordions)
