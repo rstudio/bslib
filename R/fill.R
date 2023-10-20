@@ -8,7 +8,12 @@
 #' properties on arbitrary [htmltools::tag()], which these functions are
 #' designed to do.
 #'
-#' @references <https://rstudio.github.io/bslib/articles/filling.html>
+#' @references The [Filling Layouts](https://rstudio.github.io/bslib/articles/filling.html)
+#'   article on the bslib website introduces the concept of fillable containers
+#'   and fill items.
+#'
+#' @seealso These functions provide a convenient interface to the underlying
+#'   [htmltools::bindFillRole()] function.
 #'
 #' @details
 #' Although `as_fill()`, `as_fillable()`, and `as_fill_carrier()` can work with
@@ -42,8 +47,8 @@
 #'     with length matching the number of top-level tags that possess the relevant
 #'     fill properties.
 #'
-#' @param x a [htmltools::tag()].
-#' @param ... currently ignored.
+#' @param x An [htmltools::tag()].
+#' @param ... Currently ignored.
 #' @param min_height,max_height Any valid [CSS unit][htmltools::validateCssUnit]
 #'   (e.g., `150`).
 #' @param gap Any valid [CSS unit][htmltools::validateCssUnit].
@@ -52,6 +57,7 @@
 #' @param css_selector A character string containing a CSS selector for
 #'   targeting particular (inner) tag(s) of interest. For more details on what
 #'   selector(s) are supported, see [tagAppendAttributes()].
+#'
 #' @export
 as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL, class = NULL, style = NULL, css_selector = NULL) {
 

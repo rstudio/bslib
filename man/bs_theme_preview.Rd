@@ -2,12 +2,12 @@
 % Please edit documentation in R/bs-theme-preview.R
 \name{bs_theme_preview}
 \alias{bs_theme_preview}
-\title{Preview the currently set theme}
+\title{Preview a Bootstrap theme}
 \usage{
 bs_theme_preview(theme = bs_theme(), ..., with_themer = TRUE)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{...}{passed along to \code{\link[shiny:runApp]{shiny::runApp()}}.}
 
@@ -18,18 +18,33 @@ nothing, this function is called for its side-effects (launching an
 application).
 }
 \description{
-Launches an example shiny app via \code{run_with_themer()} and
-\code{bs_theme_dependencies()}. Useful for getting a quick preview of the current
-theme setting as well as an interactive GUI for tweaking some of the main
-theme settings.
+Launches an example shiny app that can be used to get a quick preview of a
+\code{\link[=bs_theme]{bs_theme()}}, as well as an interactive GUI for tweaking some of the
+main theme settings. Calling \code{bs_theme_preview()} with no arguments starts
+the theme preview app with the default theme, which is a great way to see
+the available theme presets or to start creating your own theme.
 }
 \details{
-The app that this launches is subject to change.
+The app that this launches is subject to change as new features are
+developed in \pkg{bslib} and \pkg{shiny}.
 }
 \examples{
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
-if (interactive()) bs_theme_preview(theme)
+bs_theme_preview(theme)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=run_with_themer]{run_with_themer()}}
+Use \code{\link[=run_with_themer]{run_with_themer()}} or \code{\link[=bs_themer]{bs_themer()}} to add the theming UI to
+an existing shiny app.
+
+Other Bootstrap theme functions: 
+\code{\link{bs_add_variables}()},
+\code{\link{bs_current_theme}()},
+\code{\link{bs_dependency}()},
+\code{\link{bs_global_theme}()},
+\code{\link{bs_remove}()},
+\code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme}()}
 }
+\concept{Bootstrap theme functions}

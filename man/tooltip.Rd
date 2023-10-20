@@ -130,8 +130,18 @@ card(
 \dontshow{\}) # examplesIf}
 }
 \references{
-\url{https://getbootstrap.com/docs/5.3/components/tooltips/}
+Tooltips are based on \href{https://getbootstrap.com/docs/5.3/components/tooltips/}{Bootstrap's Tooltip component}. See the
+bslib website for an \href{https://rstudio.github.io/bslib/articles/tooltips-popovers/index.html}{interactive introduction to tooltips and popovers}.
 }
 \seealso{
-\code{\link[=popover]{popover()}}
+\code{\link[=popover]{popover()}} provides a an alternative and more persistent container
+for additional elements, typically revealed by clicking on a target
+element.
+
+Other Components: 
+\code{\link{accordion}()},
+\code{\link{card}()},
+\code{\link{popover}()},
+\code{\link{value_box}()}
 }
+\concept{Components}

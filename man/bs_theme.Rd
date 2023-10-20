@@ -99,12 +99,12 @@ for possible values). When provided to \code{bs_theme_update()}, any previous
 Bootswatch theme is first removed before the new one is applied (use
 \code{bootswatch = "bootstrap"} to effectively remove the Bootswatch theme).}
 
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{x}{an object.}
 }
 \value{
-a \code{\link[sass:sass_layer]{sass::sass_bundle()}} (list-like) object.
+Returns a \code{\link[sass:sass_layer]{sass::sass_bundle()}} (list-like) object.
 }
 \description{
 Creates a Bootstrap theme object, where you can:
@@ -116,7 +116,8 @@ Creates a Bootstrap theme object, where you can:
 \item Customize other, lower-level, Bootstrap Sass variable defaults via \code{...}.
 }
 
-To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, \href{https://rstudio.github.io/bslib/articles/theming.html}{see here}.
+To learn more about how to implement custom themes, as well as how to use
+them inside Shiny and R Markdown, \href{https://rstudio.github.io/bslib/articles/theming.html}{see here}.
 }
 \section{Colors}{
 
@@ -137,9 +138,9 @@ CSS properties, but don't necessarily import the relevant font files. To
 both set CSS properties \emph{and} import font files, consider using the various
 \code{\link[=font_face]{font_face()}} helpers.
 
-Each \verb{*_font} argument may be collection of character vectors,
-\code{\link[=font_google]{font_google()}}s, \code{\link[=font_link]{font_link()}}s and/or \code{\link[=font_face]{font_face()}}s. Note that a
-character vector can have:
+Each \verb{*_font} argument may be a single font or a \code{font_collection()}.
+A font can be created with \code{\link[=font_google]{font_google()}}, \code{\link[=font_link]{font_link()}}, or \code{\link[=font_face]{font_face()}},
+or it can be a character vector of font names in the following format:
 \itemize{
 \item A single unquoted name (e.g., \code{"Source Sans Pro"}).
 \item A single quoted name (e.g., \code{"'Source Sans Pro'"}).
@@ -147,24 +148,28 @@ character vector can have:
 (e.g. \code{c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")})
 }
 
-Since \code{font_google(..., local = TRUE)} guarantees that the client has access to
-the font family, meaning it's relatively safe to specify just one font
-family, for instance:
+\code{font_google()} sets \code{local = TRUE} by default, which ensures that the font
+files are downloaded from \href{https://fonts.google.com/}{Google Fonts} when
+your document or app is rendered. This guarantees that the client has access
+to the font family, making it relatively safe to specify just one font
+family:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{bs_theme(base_font = font_google("Pacifico", local = TRUE))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{bs_theme(base_font = font_google("Pacifico", local = TRUE))
 }\if{html}{\out{</div>}}
 
-However, specifying multiple "fallback" font families is recommended,
-especially when relying on remote and/or system fonts being available, for
-instance. Fallback fonts are useful not only for handling missing fonts, but
-also for handling a Flash of Invisible Text (FOIT) which can be quite
-noticeable with remote web fonts on a slow internet connection.
+That said, we recommend you specify multiple "fallback" font families,
+especially when relying on remote and/or system fonts being available.
+Fallback fonts are useful not only for handling missing fonts, but also
+ensure that your users don't experience a Flash of Invisible Text (FOIT)
+which can be quite noticeable with remote web fonts on a slow internet
+connection.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
 }\if{html}{\out{</div>}}
 }
 
 \examples{
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 theme <- bs_theme(
   # Controls the default grayscale palette
@@ -177,21 +182,39 @@ theme <- bs_theme(
   # Can also add lower-level customization
   "input-border-color" = "#EA80FC"
 )
-if (interactive()) {
-  bs_theme_preview(theme)
-}
+
+bs_theme_preview(theme)
 
 # Lower-level bs_add_*() functions allow you to work more
 # directly with the underlying Sass code
 theme <- bs_add_variables(theme, "my-class-color" = "red")
 theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
-
+\dontshow{\}) # examplesIf}
 }
 \references{
-\url{https://rstudio.github.io/bslib/articles/theming.html}
-
-\url{https://rstudio.github.io/sass/}
+\itemize{
+\item \href{https://rstudio.github.io/bslib/articles/theming/index.html}{Get Started: Theming}
+introduces theming with bslib in Shiny apps and R Markdown documents.
+\item \href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html}{Theming: Bootstrap 5 variables}
+provides a searchable reference of all theming variables available in
+Bootstrap 5.
+\item \href{https://rstudio.github.io/bslib/articles/custom-components/index.html}{Theming: Custom components}
+gives a tutorial on creating a dynamically themable custom component.
+\item bslib's theming capabilities are powered by
+\href{https://rstudio.github.io/sass/}{the {sass} package}.
+\item \href{https://rstudio.github.io/bslib/articles/utility-classes/index.html}{Bootstrap's utility classes}
+can be helpful when you want to change the appearance of an element
+without writing CSS or customizing your \code{bs_theme()}.
+}
 }
 \seealso{
-\code{\link[=bs_add_variables]{bs_add_variables()}}, \code{\link[=bs_theme_preview]{bs_theme_preview()}}
+Other Bootstrap theme functions: 
+\code{\link{bs_add_variables}()},
+\code{\link{bs_current_theme}()},
+\code{\link{bs_dependency}()},
+\code{\link{bs_global_theme}()},
+\code{\link{bs_remove}()},
+\code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()}
 }
+\concept{Bootstrap theme functions}

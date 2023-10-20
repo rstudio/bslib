@@ -1,7 +1,8 @@
 #' Available Bootstrap versions
 #'
-#' @return A list of the Bootstrap versions available.
+#' @return Returns a list of the Bootstrap versions available.
 #'
+#' @family Bootstrap theme utility functions
 #' @export
 versions <- function() {
   rlang::set_names(

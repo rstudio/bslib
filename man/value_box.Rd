@@ -116,13 +116,14 @@ Accepted values in the second category are \code{"auto"}, \code{"min-content"},
 An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displaying a \code{value} and
 \code{title}. Optionally, a \code{showcase} can provide for context for what the
 \code{value} represents (for example, it could hold a \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, or
-even a \code{\link[shiny:plotOutput]{shiny::plotOutput()}}).
+even a \code{\link[shiny:plotOutput]{shiny::plotOutput()}}). Find examples and template code you can use to
+create engaging \href{https://rstudio.github.io/bslib/articles/value-boxes/index.html}{value boxes on the bslib website}.
 }
-\section{Build a Box App}{
+\section{Build-a-Box App}{
 
 
 Explore all of the \code{value_box()} options and layouts interactively with the
-\href{https://bslib.shinyapps.io/build-a-box/}{Build a Box app}, available
+\href{https://bslib.shinyapps.io/build-a-box/}{Build-a-Box app}, available
 online thanks to \href{https://www.shinyapps.io/}{shinyapps.io}. Or, you can
 run the app locally with:
 
@@ -136,8 +137,12 @@ run the app locally with:
 The appearance of a \code{value_box()}
 can be controlled via the \code{theme} argument
 in one of two ways:
-(1) a character value describing the theme, e.g. \code{theme = "primary"}
-or (2) \code{theme = value_box_theme()} to create a custom theme.
+\enumerate{
+\item a character value describing the theme,
+such as \code{theme = "primary"} or \code{theme = "blue"}; or
+\item \code{theme = value_box_theme()} to create a custom theme.
+}
+
 We recommend using named themes for most value boxes (the first approach),
 because these themes will automatically match your Bootstrap theme.
 \subsection{Named themes}{
@@ -370,6 +375,24 @@ value_box(
 )
 \dontshow{\}) # examplesIf}
 }
-\seealso{
-\code{\link[=card]{card()}}
+\references{
+Value boxes are featured on the bslib website in a few articles:
+\itemize{
+\item \href{https://rstudio.github.io/bslib/articles/value-boxes/index.html}{Value boxes}
+\item \href{https://bslib.shinyapps.io/build-a-box}{Build-a-Box App}
+\item \href{https://rstudio.github.io/bslib/articles/dashboards/index.html#value-boxes}{Get Started: Dashboards}
 }
+}
+\seealso{
+Value boxes are a specialized form of a \code{\link[=card]{card()}} component.
+
+\code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} help position multiple
+value boxes into columns and rows.
+
+Other Components: 
+\code{\link{accordion}()},
+\code{\link{card}()},
+\code{\link{popover}()},
+\code{\link{tooltip}()}
+}
+\concept{Components}

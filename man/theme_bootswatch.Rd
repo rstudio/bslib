@@ -7,11 +7,20 @@
 theme_bootswatch(theme)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 }
 \value{
-the Bootswatch theme named used (if any) in the \code{theme}.
+Returns the Bootswatch theme named used (if any) in the \code{theme}.
 }
 \description{
 Obtain a theme's Bootswatch theme name
 }
+\seealso{
+Other Bootstrap theme utility functions: 
+\code{\link{bootswatch_themes}()},
+\code{\link{bs_get_variables}()},
+\code{\link{builtin_themes}()},
+\code{\link{theme_version}()},
+\code{\link{versions}()}
+}
+\concept{Bootstrap theme utility functions}

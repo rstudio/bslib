@@ -76,11 +76,13 @@ devices (or narrow windows).}
 
 Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 rows) in the grid dependent on the column \code{width} as well as the size of the
-display. For more explanation and illustrative examples, see
-\href{https://rstudio.github.io/bslib/articles/cards.html#multiple-cards}{here}.
+display. For more explanation and illustrative examples, see the \emph{References}
+section below.
 }
 \examples{
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 x <- card("A simple card")
+
 # Always has 2 columns (on non-mobile)
 layout_column_wrap(width = 1/2, x, x, x)
 
@@ -91,5 +93,17 @@ layout_column_wrap(x, x, x)
 # To use larger column widths by default, set `width`.
 # This example has 3 columns when the screen is at least 900px wide:
 layout_column_wrap(width = "300px", x, x, x)
-
+\dontshow{\}) # examplesIf}
 }
+\references{
+The bslib website features \code{layout_column_wrap()} in two places:
+\itemize{
+\item \href{https://rstudio.github.io/bslib/articles/column-layout/index.html}{Column-based layouts}
+\item \href{https://rstudio.github.io/bslib/articles/cards/index.html#multiple-cards}{Cards: Multiple cards}
+}
+}
+\seealso{
+Other Column layouts: 
+\code{\link{layout_columns}()}
+}
+\concept{Column layouts}

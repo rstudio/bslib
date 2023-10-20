@@ -10,12 +10,12 @@
 #' @section Sass caching and precompilation:
 #'
 #' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode =
-#' TRUE)` or calling `shiny::devmode(TRUE)`), both \pkg{sass} caching and \pkg{bslib}
-#' precompilation are disabled by default; that is, a call to
+#' TRUE)` or calling `shiny::devmode(TRUE)`), both \pkg{sass} caching and
+#' \pkg{bslib} precompilation are disabled by default; that is, a call to
 #' `bs_theme_dependencies(theme)` expands to `bs_theme_dependencies(theme, cache
-#' = F, precompiled = F)`). This is useful for local development as
-#' enabling caching/precompilation may produce incorrect results if local
-#' changes are made to bslib's source files.
+#' = F, precompiled = F)`). This is useful for local development as enabling
+#' caching/precompilation may produce incorrect results if local changes are
+#' made to bslib's source files.
 #'
 #' @inheritParams bs_theme_update
 #' @param sass_options a [sass::sass_options()] object.
@@ -24,25 +24,24 @@
 #'   precompiled CSS file for the [theme_version()].  If `precompiled = TRUE`
 #'   and a precompiled CSS file exists for the theme object, it will be fetched
 #'   immediately and not compiled. At the moment, we only provide precompiled
-#'   CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+#'   CSS for "stock" builds of Bootstrap (i.e., no theming additions, Bootswatch
 #'   themes, or non-default `sass_options`).
 #' @inheritParams sass::sass
 #'
-#' @return a list of HTML dependencies containing Bootstrap CSS, Bootstrap
-#'   JavaScript, and `jquery`. This list may contain additional HTML
+#' @return Returns a list of HTML dependencies containing Bootstrap CSS,
+#'   Bootstrap JavaScript, and `jquery`. This list may contain additional HTML
 #'   dependencies if bundled with the `theme`.
 #'
 #' @export
-#' @seealso [bs_theme()], [bs_dependency()]
-#' @examples
+#' @family Bootstrap theme functions
+#'
+#' @examplesIf rlang::is_interactive()
 #'
 #' # Function to preview the styling a (primary) Bootstrap button
 #' library(htmltools)
 #' button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 #' preview_button <- function(theme) {
-#'   if (interactive()) {
-#'     browsable(tags$body(bs_theme_dependencies(theme), button))
-#'   }
+#'   browsable(tags$body(bs_theme_dependencies(theme), button))
 #' }
 #'
 #' # Latest Bootstrap
@@ -182,12 +181,15 @@ bs_theme_dependencies <- function(
 #' @param .sass_args A list of additional arguments to pass to
 #'   [sass::sass_partial()].
 #' @inheritParams htmltools::htmlDependency
-#' @references
-#' <https://rstudio.github.io/bslib/articles/custom-components.html>
 #'
+#' @references
+#'   * [Theming: Custom components](https://rstudio.github.io/bslib/articles/custom-components/index.html)
+#'     gives a tutorial on creating a dynamically themable custom component.
 #'
 #' @return `bs_dependency()` returns an [htmltools::htmlDependency()] and
 #'   `bs_dependency_defer()` returns an [htmltools::tagFunction()]
+#'
+#' @family Bootstrap theme functions
 #' @export
 bs_dependency <- function(input = list(), theme, name, version,
   cache_key_extra = NULL, .dep_args = list(), .sass_args = list())
@@ -242,6 +244,7 @@ bs_dependency <- function(input = list(), theme, name, version,
   do.call(htmlDependency, c(dep_args, .dep_args))
 }
 
+#' @rdname bs_dependency
 #' @param func a _non-anonymous_ function, with a _single_ argument.
 #'   This function should accept a [bs_theme()] object and return a single
 #'   [htmlDependency()], a list of them, or `NULL`.
@@ -251,12 +254,10 @@ bs_dependency <- function(input = list(), theme, name, version,
 #'   that you may want to avoid memoisation if `func` relies on side-effects
 #'   (e.g., files on-disk) that need to change for each themable widget
 #'   instance.
+#'
 #' @export
 #'
-#' @examples
-#'
-#' \dontrun{
-#'
+#' @examplesIf rlang::is_interactive()
 #' myWidgetVersion <- "1.2.3"
 #'
 #' myWidgetDependency <- function() {
@@ -306,9 +307,6 @@ bs_dependency <- function(input = list(), theme, name, version,
 #'     myWidgetDependency()
 #'   )
 #' }
-#' }
-#'
-#' @rdname bs_dependency
 bs_dependency_defer <- function(func, memoise = TRUE) {
   # func() most likely calls stuff like sass_file() and bs_dependency() ->
   # sass_partial() -> sass() (e.g., see example section above) Even though

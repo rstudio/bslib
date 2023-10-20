@@ -383,5 +383,19 @@ Note also that the underline styling can be removed via the \code{underline} arg
 }
 
 \seealso{
-\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=nav_select]{nav_select()}}.
+\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=nav_panel_hidden]{nav_panel_hidden()}} create panels of content.
+
+\code{\link[=nav_menu]{nav_menu()}}, \code{\link[=nav_item]{nav_item()}}, \code{\link[=nav_spacer]{nav_spacer()}} create menus, items, or
+space in the navset control area.
+
+\code{\link[=nav_insert]{nav_insert()}}, \code{\link[=nav_remove]{nav_remove()}} programmatically add or remove nav
+panels.
+
+\code{\link[=nav_select]{nav_select()}}, \code{\link[=nav_show]{nav_show()}}, \code{\link[=nav_hide]{nav_hide()}} change the state of a
+\code{\link[=nav_panel]{nav_panel()}} in a navset.
+
+Other Panel container functions: 
+\code{\link{nav-items}},
+\code{\link{nav_select}()}
 }
+\concept{Panel container functions}

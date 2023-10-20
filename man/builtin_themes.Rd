@@ -12,8 +12,18 @@ builtin_themes(version = version_default(), full_path = FALSE)
 \item{full_path}{whether to return a path to the installed theme.}
 }
 \value{
-a character vector of built-in themes provided by \pkg{bslib}.
+Returns a character vector of built-in themes provided by
+\pkg{bslib}.
 }
 \description{
 Obtain a list of all available built-in \pkg{bslib} themes.
 }
+\seealso{
+Other Bootstrap theme utility functions: 
+\code{\link{bootswatch_themes}()},
+\code{\link{bs_get_variables}()},
+\code{\link{theme_bootswatch}()},
+\code{\link{theme_version}()},
+\code{\link{versions}()}
+}
+\concept{Bootstrap theme utility functions}

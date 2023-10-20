@@ -56,9 +56,19 @@
 #'   ```
 #'
 #' @describeIn tooltip Add a tooltip to a UI element
-#' @references <https://getbootstrap.com/docs/5.3/components/tooltips/>
+#'
 #' @export
-#' @seealso [popover()]
+#' @family Components
+#'
+#' @references Tooltips are based on [Bootstrap's Tooltip
+#'   component](https://getbootstrap.com/docs/5.3/components/tooltips/). See the
+#'   bslib website for an [interactive introduction to tooltips and
+#'   popovers](https://rstudio.github.io/bslib/articles/tooltips-popovers/index.html).
+#'
+#' @seealso [popover()] provides a an alternative and more persistent container
+#'   for additional elements, typically revealed by clicking on a target
+#'   element.
+#'
 #' @examplesIf rlang::is_interactive()
 #'
 #' tooltip(

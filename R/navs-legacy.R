@@ -15,7 +15,15 @@
 #' @param header UI element(s) ([tags]) to display _above_ the nav content.
 #' @param footer UI element(s) ([tags]) to display _below_ the nav content.
 #'
-#' @seealso [nav_panel()], [nav_select()].
+#' @seealso [nav_panel()], [nav_panel_hidden()] create panels of content.
+#' @seealso [nav_menu()], [nav_item()], [nav_spacer()] create menus, items, or
+#'   space in the navset control area.
+#' @seealso [nav_insert()], [nav_remove()] programmatically add or remove nav
+#'   panels.
+#' @seealso [nav_select()], [nav_show()], [nav_hide()] change the state of a
+#'   [nav_panel()] in a navset.
+#'
+#' @family Panel container functions
 #' @rdname navset
 #' @name navset
 #' @export

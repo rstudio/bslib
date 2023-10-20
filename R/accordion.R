@@ -3,6 +3,12 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
+#' An accordion can be used to organize UI elements and content in a limited
+#' space. It comprises multiple, vertically stacked panels that expand or
+#' collapse when clicked, providing a compact layout that works well for
+#' grouping input elements in a [sidebar()] or for organizing detailed
+#' context-specific information.
+#'
 #' @param ... Named arguments become attributes on the `<div class="accordion">`
 #'   element. Unnamed arguments should be `accordion_panel()`s.
 #' @param id If provided, you can use `input$id` in your server logic to
@@ -17,12 +23,25 @@
 #' @param class Additional CSS classes to include on the accordion div.
 #' @param width,height Any valid CSS unit; for example, height="100%".
 #'
-#' @references <https://getbootstrap.com/docs/5.2/components/accordion/>
-#'
 #' @export
-#' @seealso [accordion_panel_set()]
-#' @examplesIf rlang::is_interactive()
+#' @family Components
 #'
+#' @references bslib's accordion component is derived from the [Bootstrap
+#'   Accordion
+#'   component](https://getbootstrap.com/docs/5.3/components/accordion/).
+#'   Accordions are also featured on the bslib website:
+#'
+#'   * [Get Started: Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html#accordions)
+#'   * [Sidebars: Accordions](https://rstudio.github.io/bslib/articles/dashboards/index.html#accordions)
+#'
+#' @seealso [accordion_panel_set()], [accordion_panel_open()] and
+#'   [accordion_panel_close()] programmatically interact with the state of an
+#'   accordion panel.
+#' @seealso [accordion_panel_insert()], [accordion_panel_remove()] and
+#'   [accordion_panel_update()] add or remove accordion panels from an
+#'   accordion.
+#'
+#' @examplesIf rlang::is_interactive()
 #' items <- lapply(LETTERS, function(x) {
 #'   accordion_panel(paste("Section", x), paste("Some narrative for section", x))
 #' })
@@ -167,9 +186,9 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' Dynamically (i.e., programmatically) update/modify [`accordion()`]s in a
-#' Shiny app. These functions require an `id` to be provided to the
-#' `accordion()` and must also be called within an active Shiny session.
+#' Dynamically update/modify [`accordion()`]s in a Shiny app. To be updated
+#' programmatically, the [accordion()] must have an `id`. These functions
+#' require an active Shiny session and only work with a running Shiny app.
 #'
 #' @param id an character string that matches an existing [accordion()]'s `id`.
 #' @param values either a character string (used to identify particular
@@ -177,8 +196,12 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
 #' @param session a shiny session object (the default should almost always be
 #'   used).
 #'
+#' @seealso [accordion()] and [accordion_panel()] create the accordion
+#'   component.
+#'
 #' @describeIn accordion_panel_set same as `accordion_panel_open()`, except it
 #'   also closes any currently open panels.
+#'
 #' @export
 accordion_panel_set <- function(id, values, session = get_current_session()) {
   send_panel_message(

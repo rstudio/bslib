@@ -5,8 +5,8 @@
 #'
 #' Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 #' rows) in the grid dependent on the column `width` as well as the size of the
-#' display. For more explanation and illustrative examples, see
-#' [here](https://rstudio.github.io/bslib/articles/cards.html#multiple-cards).
+#' display. For more explanation and illustrative examples, see the _References_
+#' section below.
 #'
 #' @param ... Unnamed arguments should be UI elements (e.g., [card()]). Named
 #'   arguments become attributes on the containing [htmltools::tag] element.
@@ -40,8 +40,16 @@
 #' @inheritParams card
 #' @inheritParams card_body
 #'
-#' @examples
+#' @export
+#' @family Column layouts
+#'
+#' @references The bslib website features `layout_column_wrap()` in two places:
+#'   * [Column-based layouts](https://rstudio.github.io/bslib/articles/column-layout/index.html)
+#'   * [Cards: Multiple cards](https://rstudio.github.io/bslib/articles/cards/index.html#multiple-cards)
+#'
+#' @examplesIf rlang::is_interactive()
 #' x <- card("A simple card")
+#'
 #' # Always has 2 columns (on non-mobile)
 #' layout_column_wrap(width = 1/2, x, x, x)
 #'
@@ -171,10 +179,10 @@ is_probably_a_css_unit <- function(x) {
 #'     above.
 #' @param row_heights One of the following:
 #'   * A numeric vector, where each value represents the
-#'     [fractional unit](https://css-tricks.com/introduction-fr-css-unit/) (`fr`)
-#'     height of the relevant row. If there are more rows than values provided,
-#'     the pattern will repeat. For example, `row_heights = c(1, 2)` allows even
-#'     rows to take up twice as much space as odd rows.
+#'     [fractional unit](https://css-tricks.com/introduction-fr-css-unit/)
+#'     (`fr`) height of the relevant row. If there are more rows than values
+#'     provided, the pattern will repeat. For example, `row_heights = c(1, 2)`
+#'     allows even rows to take up twice as much space as odd rows.
 #'   * A list of numeric and [CSS length units][htmltools::validateCssUnit()],
 #'     where each value represents the height of the relevant row. If more rows
 #'     are needed than values provided, the pattern will repeat. For example,
@@ -186,10 +194,15 @@ is_probably_a_css_unit <- function(x) {
 #'   * A [breakpoints()] object, where each breakpoint may be either of the above.
 #'
 #' @export
-#' @seealso [breakpoints()] for more information on breakpoints.
+#' @family Column layouts
+#'
+#' @references [Column-based layouts](https://rstudio.github.io/bslib/articles/column-layout/index.html)
+#'   on the bslib website.
+#'
+#' @seealso [breakpoints()] for more information on specifying column widths at
+#'   responsive breakpoints.
+#'
 #' @examplesIf rlang::is_interactive()
-#'
-#'
 #' x <- card("A simple card")
 #'
 #' page_fillable(

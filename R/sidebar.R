@@ -1,25 +1,33 @@
 #' Sidebar layouts
 #'
-#' @description
-#' `r lifecycle::badge("experimental")`
+#' @description `r lifecycle::badge("experimental")`
 #'
-#' Create a collapsing sidebar layout by providing a `sidebar()` object to the
-#' `sidebar` argument of:
+#' Sidebar layouts place UI elements, like input controls or additional context,
+#' next to the main content area which often holds output elements like plots or
+#' tables.
 #'
-#' * [page_sidebar()]
-#'     * Creates a "page-level" sidebar.
-#' * [page_navbar()]
-#'     * Creates a multi-page app with a "page-level" sidebar.
-#'   * Creates a multi page/tab UI with a singular `sidebar()` (which is
-#'     shown on every page/tab).
-#' * `layout_sidebar()`
-#'   * Creates a "floating" sidebar layout component which can be dropped
-#'     inside any [page()] and/or [card()] context.
-#' * [navset_card_tab()] and [navset_card_pill()]
-#'   * Creates a multi-tab card with a sidebar inside of it.
+#' There are several page, navigation, and layout functions that allow you to
+#' create a sidebar layout. In each case, you can create a collapsing sidebar
+#' layout by providing a `sidebar()` object to the `sidebar` argument the
+#' following functions.
 #'
-#' See [this article](https://rstudio.github.io/bslib/articles/sidebars.html)
-#'   to learn more.
+#' * [page_sidebar()] creates a "page-level" sidebar.
+#' * [page_navbar()] creates a multi-panel app with an (optional, page-level)
+#'   sidebar that is shown on every panel.
+#' * `layout_sidebar()` creates a "floating" sidebar layout component which can
+#'   be used inside any [page()] and/or [card()] context.
+#' * [navset_card_tab()] and [navset_card_pill()] create multi-tab cards with a
+#'   shared sidebar that is accessible from every panel.
+#'
+#' See [the Sidebars article](https://rstudio.github.io/bslib/articles/sidebars.html)
+#' on the bslib website to learn more.
+#'
+#' @references Sidebar layouts are featured in a number of pages on the bslib
+#'   website:
+#'
+#'   * [Sidebars](https://rstudio.github.io/bslib/articles/sidebars.html)
+#'   * [Cards: Sidebars](https://rstudio.github.io/bslib/articles/cards/index.html#sidebars)
+#'   * [Getting Started: Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
 #'
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags] and named arguments become HTML attributes on
@@ -292,8 +300,8 @@ toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-#' @describeIn sidebar An alias for [toggle_sidebar()].
-#' @keywords internal
+#' @rdname sidebar
+#' @usage NULL
 #' @export
 sidebar_toggle <- toggle_sidebar
 

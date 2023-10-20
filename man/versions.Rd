@@ -10,8 +10,17 @@ versions()
 version_default()
 }
 \value{
-A list of the Bootstrap versions available.
+Returns a list of the Bootstrap versions available.
 }
 \description{
 Available Bootstrap versions
 }
+\seealso{
+Other Bootstrap theme utility functions: 
+\code{\link{bootswatch_themes}()},
+\code{\link{bs_get_variables}()},
+\code{\link{builtin_themes}()},
+\code{\link{theme_bootswatch}()},
+\code{\link{theme_version}()}
+}
+\concept{Bootstrap theme utility functions}

@@ -10,7 +10,7 @@ bs_remove(theme, ids = character(0))
 bs_retrieve(theme, ids = character(0), include_unnamed = TRUE)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{ids}{a character vector of ids}
 
@@ -18,18 +18,38 @@ bs_retrieve(theme, ids = character(0), include_unnamed = TRUE)
 (e.g., Bootstrap Sass variables, functions, and mixins).}
 }
 \value{
-a modified \code{\link[=bs_theme]{bs_theme()}} object.
+Returns a modified \code{\link[=bs_theme]{bs_theme()}} object.
 }
 \description{
-Remove or retrieve Sass code from a theme
+A Bootstrap theme created with \code{\link[=bs_theme]{bs_theme()}} is comprised of
+\href{https://rstudio.github.io/sass/articles/sass.html#layering}{many Sass layers}.
+\code{bs_remove()} and \code{bs_retrieve()} allow you to remove or retrieve an
+individual layer, either to reduce the size of the compiled CSS or to extract
+styles from a theme.
 }
 \examples{
+bs4 <- bs_theme(version = 4)
+
+# Retrieve sass bundle for print styles
+bs_retrieve(bs4, "_print", include_unnamed = FALSE)
 
 # Remove CSS rules for print and carousels
-bs4 <- bs_theme(version = 4)
-bs_remove(bs4, c("_print", "_carousel"))
+bs4_no_print <- bs_remove(bs4, c("_print", "_carousel"))
+suppressWarnings(
+  bs_retrieve(bs4_no_print, "_print", include_unnamed = FALSE)
+)
 
 # Remove BS3 compatibility layer
-bs_remove(bs4, "bs3compat")
-
+bs4_no_compat <- bs_remove(bs4, "bs3compat")
 }
+\seealso{
+Other Bootstrap theme functions: 
+\code{\link{bs_add_variables}()},
+\code{\link{bs_current_theme}()},
+\code{\link{bs_dependency}()},
+\code{\link{bs_global_theme}()},
+\code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()},
+\code{\link{bs_theme}()}
+}
+\concept{Bootstrap theme functions}

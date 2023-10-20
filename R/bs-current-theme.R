@@ -26,7 +26,9 @@
 #'
 #' @param session The current Shiny session (if any).
 #'
-#' @return a [bs_theme()] object.
+#' @return Returns a [bs_theme()] object.
+#'
+#' @family Bootstrap theme functions
 #' @export
 bs_current_theme <- function(session = get_current_session(FALSE)) {
   # If we're able to make a reactive read of the theme, then do it

@@ -24,7 +24,15 @@
 #'
 #' @return A nav item that may be passed to a nav container (e.g. [navset_tab()]).
 #'
-#' @seealso [navset_tab()], [nav_select()].
+#' @seealso [navset] create the navigation container holding the nav panels.
+#' @seealso [nav_menu()], [nav_item()], [nav_spacer()] create menus, items, or
+#'   space in the navset control area.
+#' @seealso [nav_insert()], [nav_remove()] programmatically add or remove nav
+#'   panels.
+#' @seealso [nav_select()], [nav_show()], [nav_hide()] change the state of a
+#'   [nav_panel()] in a navset.
+#'
+#' @family Panel container functions
 #' @name nav-items
 NULL
 

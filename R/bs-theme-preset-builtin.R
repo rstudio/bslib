@@ -2,8 +2,12 @@
 #'
 #' @param version the major version of Bootstrap.
 #' @param full_path whether to return a path to the installed theme.
+#'
+#' @return Returns a character vector of built-in themes provided by
+#'   \pkg{bslib}.
+#'
+#' @family Bootstrap theme utility functions
 #' @export
-#' @return a character vector of built-in themes provided by \pkg{bslib}.
 builtin_themes <- function(version = version_default(), full_path = FALSE) {
   path_builtins <- path_builtin_theme(version = version)
   if (is.null(path_builtins)) return(NULL)

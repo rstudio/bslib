@@ -65,9 +65,9 @@ element. Unnamed arguments should be \code{accordion_panel()}s.}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Dynamically (i.e., programmatically) update/modify \code{\link[=accordion]{accordion()}}s in a
-Shiny app. These functions require an \code{id} to be provided to the
-\code{accordion()} and must also be called within an active Shiny session.
+Dynamically update/modify \code{\link[=accordion]{accordion()}}s in a Shiny app. To be updated
+programmatically, the \code{\link[=accordion]{accordion()}} must have an \code{id}. These functions
+require an active Shiny session and only work with a running Shiny app.
 }
 \section{Functions}{
 \itemize{
@@ -85,3 +85,7 @@ also closes any currently open panels.
 \item \code{accordion_panel_update()}: update a \code{\link[=accordion_panel]{accordion_panel()}}.
 
 }}
+\seealso{
+\code{\link[=accordion]{accordion()}} and \code{\link[=accordion_panel]{accordion_panel()}} create the accordion
+component.
+}

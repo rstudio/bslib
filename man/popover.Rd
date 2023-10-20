@@ -161,8 +161,17 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \references{
-\url{https://getbootstrap.com/docs/5.3/components/popovers/}
+Popovers are based on \href{https://getbootstrap.com/docs/5.3/components/popovers/}{Bootstrap's Popover component}. See the
+bslib website for an \href{https://rstudio.github.io/bslib/articles/tooltips-popovers/index.html}{interactive introduction to tooltips and popovers}.
 }
 \seealso{
-\code{\link[=tooltip]{tooltip()}}
+\code{\link[=tooltip]{tooltip()}} provides an alternative way to display informational
+text on demand, typically when focusing or hovering over a trigger element.
+
+Other Components: 
+\code{\link{accordion}()},
+\code{\link{card}()},
+\code{\link{tooltip}()},
+\code{\link{value_box}()}
 }
+\concept{Components}

@@ -10,24 +10,23 @@ bs_get_variables(theme, varnames)
 bs_get_contrast(theme, varnames)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
-\item{varnames}{a character string referencing a Sass variable
-in the current theme.}
+\item{varnames}{A character string referencing a Sass variable in the current
+theme.}
 }
 \value{
-a character string containing a CSS/Sass value.
-If the variable(s) are not defined, their value is \code{NA}.
+Returns a character string containing a CSS/Sass value. If the
+variable(s) are not defined, their value is \code{NA}.
 }
 \description{
-Useful for retriving a variable from the current theme and using
+Useful for retrieving a variable from the current theme and using
 the value to inform another R function.
 }
 \examples{
 vars <- c("body-bg", "body-color", "primary", "border-radius")
 bs_get_variables(bs_theme(), varnames = vars)
 bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
-
 
 bs_get_contrast(bs_theme(), c("primary", "dark", "light"))
 
@@ -40,3 +39,17 @@ div(
 )
 
 }
+\references{
+\href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html}{Theming: Bootstrap 5 variables}
+provides a searchable reference of all theming variables available in
+Bootstrap 5.
+}
+\seealso{
+Other Bootstrap theme utility functions: 
+\code{\link{bootswatch_themes}()},
+\code{\link{builtin_themes}()},
+\code{\link{theme_bootswatch}()},
+\code{\link{theme_version}()},
+\code{\link{versions}()}
+}
+\concept{Bootstrap theme utility functions}

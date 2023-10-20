@@ -7,11 +7,20 @@
 theme_version(theme)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 }
 \value{
-the major version of Bootstrap used in the \code{theme}.
+Returns the major version of Bootstrap used in the \code{theme}.
 }
 \description{
 Obtain a theme's Bootstrap version
 }
+\seealso{
+Other Bootstrap theme utility functions: 
+\code{\link{bootswatch_themes}()},
+\code{\link{bs_get_variables}()},
+\code{\link{builtin_themes}()},
+\code{\link{theme_bootswatch}()},
+\code{\link{versions}()}
+}
+\concept{Bootstrap theme utility functions}

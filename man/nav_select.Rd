@@ -31,7 +31,8 @@ nav_hide(id, target, session = get_current_session())
 \item{selected}{a character string used to identify a particular
 \code{\link[=nav_panel]{nav_panel()}} item.}
 
-\item{session}{a shiny session object (the default should almost always be used).}
+\item{session}{a shiny session object (the default should almost always be
+used).}
 
 \item{nav}{a \code{\link[=nav_panel]{nav_panel()}} item.}
 
@@ -48,7 +49,7 @@ specified and must be called within an active Shiny session.
 }
 \examples{
 
-can_browse <- function() interactive() && require("shiny")
+can_browse <- function() rlang::is_interactive() && require("shiny")
 
 # Selecting a tab
 if (can_browse()) {
@@ -95,5 +96,16 @@ if (can_browse()) {
 
 }
 \seealso{
-\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=navset_tab]{navset_tab()}}.
+\link[=navset]{Navset functions} create the navigation container holding
+the nav panels.
+
+\code{\link[=nav_panel]{nav_panel()}}, \code{\link[=nav_panel_hidden]{nav_panel_hidden()}} create panels of content.
+
+\code{\link[=nav_menu]{nav_menu()}}, \code{\link[=nav_item]{nav_item()}}, \code{\link[=nav_spacer]{nav_spacer()}} create menus, items, or
+space in the navset control area.
+
+Other Panel container functions: 
+\code{\link{nav-items}},
+\code{\link{navset}}
 }
+\concept{Panel container functions}
