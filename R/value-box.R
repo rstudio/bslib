@@ -130,7 +130,7 @@ value_box <- function(
   # ---- Theme ----
   if (lifecycle::is_present(theme_color)) {
     lifecycle::deprecate_soft(
-      "0.5.2",
+      "0.6.0",
       "value_box(theme_color =)",
       "value_box(theme =)",
       details = if (!missing(theme)) {
