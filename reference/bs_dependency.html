@@ -204,14 +204,25 @@ instance.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p><a href="https://rstudio.github.io/bslib/articles/custom-components.html">https://rstudio.github.io/bslib/articles/custom-components.html</a></p>
+    
+<ul><li><p><a href="https://rstudio.github.io/bslib/articles/custom-components/index.html">Theming: Custom components</a>
+gives a tutorial on creating a dynamically themable custom component.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other Bootstrap theme functions: 
+<code><a href="bs_bundle.html">bs_add_variables</a>()</code>,
+<code><a href="bs_current_theme.html">bs_current_theme</a>()</code>,
+<code><a href="bs_global_theme.html">bs_global_theme</a>()</code>,
+<code><a href="bs_remove.html">bs_remove</a>()</code>,
+<code><a href="bs_theme_dependencies.html">bs_theme_dependencies</a>()</code>,
+<code><a href="bs_theme_preview.html">bs_theme_preview</a>()</code>,
+<code><a href="bs_theme.html">bs_theme</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># rlang::is_interactive()</span></span></span>
 <span class="r-in"><span><span class="va">myWidgetVersion</span> <span class="op">&lt;-</span> <span class="st">"1.2.3"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">myWidgetDependency</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -262,7 +273,6 @@ instance.</p></dd>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

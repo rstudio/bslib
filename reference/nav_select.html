@@ -131,7 +131,8 @@ specified and must be called within an active Shiny session.</p>
 
 
 <dt>session</dt>
-<dd><p>a shiny session object (the default should almost always be used).</p></dd>
+<dd><p>a shiny session object (the default should almost always be
+used).</p></dd>
 
 
 <dt>nav</dt>
@@ -152,13 +153,20 @@ specified and must be called within an active Shiny session.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="nav-items.html">nav_panel()</a></code>, <code><a href="navset.html">navset_tab()</a></code>.</p></div>
+    <div class="dont-index"><p><a href="navset.html">Navset functions</a> create the navigation container holding
+the nav panels.</p>
+<p><code><a href="nav-items.html">nav_panel()</a></code>, <code><a href="nav-items.html">nav_panel_hidden()</a></code> create panels of content.</p>
+<p><code><a href="nav-items.html">nav_menu()</a></code>, <code><a href="nav-items.html">nav_item()</a></code>, <code><a href="nav-items.html">nav_spacer()</a></code> create menus, items, or
+space in the navset control area.</p>
+<p>Other Panel container functions: 
+<code><a href="nav-items.html">nav-items</a></code>,
+<code><a href="navset.html">navset</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">can_browse</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://shiny.posit.co/" class="external-link">"shiny"</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">can_browse</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://shiny.posit.co/" class="external-link">"shiny"</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Selecting a tab</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">can_browse</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>

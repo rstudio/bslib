@@ -132,10 +132,10 @@ above.</p></li>
 
 <dt>row_heights</dt>
 <dd><p>One of the following:</p><ul><li><p>A numeric vector, where each value represents the
-<a href="https://css-tricks.com/introduction-fr-css-unit/" class="external-link">fractional unit</a> (<code>fr</code>)
-height of the relevant row. If there are more rows than values provided,
-the pattern will repeat. For example, <code>row_heights = c(1, 2)</code> allows even
-rows to take up twice as much space as odd rows.</p></li>
+<a href="https://css-tricks.com/introduction-fr-css-unit/" class="external-link">fractional unit</a>
+(<code>fr</code>) height of the relevant row. If there are more rows than values
+provided, the pattern will repeat. For example, <code>row_heights = c(1, 2)</code>
+allows even rows to take up twice as much space as odd rows.</p></li>
 <li><p>A list of numeric and <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length units</a>,
 where each value represents the height of the relevant row. If more rows
 are needed than values provided, the pattern will repeat. For example,
@@ -173,15 +173,21 @@ fillable container with an opinionated height (e.g., <code><a href="page_fillabl
 
 </dl></div>
     <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p><a href="https://rstudio.github.io/bslib/articles/column-layout/index.html">Column-based layouts</a>
+on the bslib website.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="breakpoints.html">breakpoints()</a></code> for more information on breakpoints.</p></div>
+    <div class="dont-index"><p><code><a href="breakpoints.html">breakpoints()</a></code> for more information on specifying column widths at
+responsive breakpoints.</p>
+<p>Other Column layouts: 
+<code><a href="layout_column_wrap.html">layout_column_wrap</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># rlang::is_interactive()</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="card.html">card</a></span><span class="op">(</span><span class="st">"A simple card"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="page_fillable.html">page_fillable</a></span><span class="op">(</span></span></span>

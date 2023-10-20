@@ -122,7 +122,7 @@ component, see <code><a href="bs_dependency.html">bs_dependency()</a></code>.</p
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>theme</dt>
-<dd><p>a <code><a href="bs_theme.html">bs_theme()</a></code> object.</p></dd>
+<dd><p>A <code><a href="bs_theme.html">bs_theme()</a></code> object.</p></dd>
 
 
 <dt>sass_options</dt>
@@ -143,7 +143,7 @@ object created by <code><a href="https://rstudio.github.io/sass/reference/sass_f
 precompiled CSS file for the <code><a href="theme_version.html">theme_version()</a></code>.  If <code>precompiled = TRUE</code>
 and a precompiled CSS file exists for the theme object, it will be fetched
 immediately and not compiled. At the moment, we only provide precompiled
-CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+CSS for "stock" builds of Bootstrap (i.e., no theming additions, Bootswatch
 themes, or non-default <code>sass_options</code>).</p></dd>
 
 </dl></div>
@@ -151,8 +151,8 @@ themes, or non-default <code>sass_options</code>).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a list of HTML dependencies containing Bootstrap CSS, Bootstrap
-JavaScript, and <code>jquery</code>. This list may contain additional HTML
+<p>Returns a list of HTML dependencies containing Bootstrap CSS,
+Bootstrap JavaScript, and <code>jquery</code>. This list may contain additional HTML
 dependencies if bundled with the <code>theme</code>.</p>
     </div>
     <div class="section level2">
@@ -160,27 +160,33 @@ dependencies if bundled with the <code>theme</code>.</p>
     
 
 
-<p>If Shiny Developer Mode is enabled (by setting <code>options(shiny.devmode = TRUE)</code> or calling <code>shiny::devmode(TRUE)</code>), both <span class="pkg">sass</span> caching and <span class="pkg">bslib</span>
-precompilation are disabled by default; that is, a call to
-<code>bs_theme_dependencies(theme)</code> expands to <code>bs_theme_dependencies(theme, cache = F, precompiled = F)</code>). This is useful for local development as
-enabling caching/precompilation may produce incorrect results if local
-changes are made to bslib's source files.</p>
+<p>If Shiny Developer Mode is enabled (by setting <code>options(shiny.devmode = TRUE)</code> or calling <code>shiny::devmode(TRUE)</code>), both <span class="pkg">sass</span> caching and
+<span class="pkg">bslib</span> precompilation are disabled by default; that is, a call to
+<code>bs_theme_dependencies(theme)</code> expands to <code>bs_theme_dependencies(theme, cache = F, precompiled = F)</code>). This is useful for local development as enabling
+caching/precompilation may produce incorrect results if local changes are
+made to bslib's source files.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="bs_theme.html">bs_theme()</a></code>, <code><a href="bs_dependency.html">bs_dependency()</a></code></p></div>
+    <div class="dont-index"><p>Other Bootstrap theme functions: 
+<code><a href="bs_bundle.html">bs_add_variables</a>()</code>,
+<code><a href="bs_current_theme.html">bs_current_theme</a>()</code>,
+<code><a href="bs_dependency.html">bs_dependency</a>()</code>,
+<code><a href="bs_global_theme.html">bs_global_theme</a>()</code>,
+<code><a href="bs_remove.html">bs_remove</a>()</code>,
+<code><a href="bs_theme_preview.html">bs_theme_preview</a>()</code>,
+<code><a href="bs_theme.html">bs_theme</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># rlang::is_interactive()</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Function to preview the styling a (primary) Bootstrap button</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">button</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span>class <span class="op">=</span> <span class="st">"btn btn-primary"</span>, href <span class="op">=</span> <span class="st">"#"</span>, role <span class="op">=</span> <span class="st">"button"</span>, <span class="st">"Hello"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">preview_button</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/browsable.html" class="external-link">browsable</a></span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">body</span><span class="op">(</span><span class="fu">bs_theme_dependencies</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span>, <span class="va">button</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/browsable.html" class="external-link">browsable</a></span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">body</span><span class="op">(</span><span class="fu">bs_theme_dependencies</span><span class="op">(</span><span class="va">theme</span><span class="op">)</span>, <span class="va">button</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Latest Bootstrap</span></span></span>
@@ -191,7 +197,7 @@ changes are made to bslib's source files.</p>
 <span class="r-in"><span><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">4</span>, bootswatch <span class="op">=</span> <span class="st">"minty"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Bootswatch 4 sketchy theme</span></span></span>
 <span class="r-in"><span><span class="fu">preview_button</span><span class="op">(</span><span class="fu"><a href="bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">4</span>, bootswatch <span class="op">=</span> <span class="st">"sketchy"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
