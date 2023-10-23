@@ -103,7 +103,7 @@ For example:
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{tooltip(
-  fontawesome::fa("info-circle", title = "About tooltips"),
+  fontawesome::fa("info-circle", a11y = "sem", title = "About tooltips"),
   "Text shown in the tooltip."
 )
 }\if{html}{\out{</div>}}
