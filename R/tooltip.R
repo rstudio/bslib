@@ -50,7 +50,7 @@
 #'
 #'   ```r
 #'   tooltip(
-#'     fontawesome::fa("info-circle", title = "About tooltips"),
+#'     fontawesome::fa("info-circle", a11y = "sem", title = "About tooltips"),
 #'     "Text shown in the tooltip."
 #'   )
 #'   ```
