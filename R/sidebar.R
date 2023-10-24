@@ -56,6 +56,11 @@
 #'   wrapped in a `<header>` element with class `sidebar-title`. You can also
 #'   provide a custom [htmltools::tag()] for the title element, in which case
 #'   you'll likely want to give this element `class = "sidebar-title"`.
+#' @param collapse_icon A [htmltools::tag()] child to use for the collapse icon.
+#'   Consider using a \pkg{bsicons} icon like `bsicons::bs_icon("sliders")`.
+#'   To ensure an accessible experience with other icons, set the `aria-hidden`
+#'   attribute on the icon element to `"true"` (the icon is purely decorative
+#'   -- its parent element provides the toggle functionality).
 #' @param bg,fg A background or foreground color. If only one of either is
 #'   provided, an accessible contrasting color is provided for the opposite
 #'   color, e.g. setting `bg` chooses an appropriate `fg` color.
@@ -86,6 +91,7 @@ sidebar <- function(
   open = c("desktop", "open", "closed", "always"),
   id = NULL,
   title = NULL,
+  collapse_icon = NULL,
   bg = NULL,
   fg = NULL,
   class = NULL,
@@ -139,9 +145,10 @@ sidebar <- function(
         class = "collapse-toggle",
         type = "button",
         title = "Toggle sidebar",
+        "aria-label" = "Toggle sidebar",
         "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
         "aria-controls" = id,
-        collapse_icon()
+        collapse_icon %||% sidebar_collapse_icon()
       )
     }
 
@@ -305,12 +312,12 @@ toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
 #' @export
 sidebar_toggle <- toggle_sidebar
 
-collapse_icon <- function() {
+sidebar_collapse_icon <- function() {
   if (!is_installed("bsicons")) {
-    icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-chevron-left collapse-icon\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z\"></path></svg>"
+    icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-chevron-left\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z\"></path></svg>"
     return(HTML(icon))
   }
-  bsicons::bs_icon("chevron-left", class = "collapse-icon", size = NULL)
+  bsicons::bs_icon("chevron-left")
 }
 
 sidebar_init_js <- function() {

@@ -228,13 +228,17 @@ class Sidebar {
       this.toggle("toggle");
     });
 
-    // Remove the transitioning class when the transition ends. We watch the
-    // collapse toggle icon because it's guaranteed to transition, whereas the
-    // sidebar doesn't animate on mobile (or in browsers where animating
-    // grid-template-columns is not supported).
-    toggle
-      .querySelector(".collapse-icon")
-      ?.addEventListener("transitionend", () => this._finalizeState());
+    // When the toggle's done transitioning, finalize the sidebar state
+    // (e.g., remove the transitioning class, etc).
+    toggle.addEventListener("transitionend", (e) => {
+      if (e.target !== toggle) return;
+      // We don't want to finalize state for _every_ transition, so only
+      // finalize when the toggle's horizontal positioning changes (which should
+      // usually be right, unless `sidebar(position="right")`)
+      if (e.propertyName === "right" || e.propertyName === "left") {
+        this._finalizeState();
+      }
+    });
   }
 
   /**
