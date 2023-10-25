@@ -1,22 +1,33 @@
 #' Sidebar layouts
 #'
-#' @description Create a collapsing sidebar layout by providing a `sidebar()`
-#'   object to the `sidebar` argument of:
+#' @description `r lifecycle::badge("experimental")`
 #'
-#' * [page_sidebar()]
-#'     * Creates a "page-level" sidebar.
-#' * [page_navbar()]
-#'     * Creates a multi-page app with a "page-level" sidebar.
-#'   * Creates a multi page/tab UI with a singular `sidebar()` (which is
-#'     shown on every page/tab).
-#' * `layout_sidebar()`
-#'   * Creates a "floating" sidebar layout component which can be dropped
-#'     inside any [page()] and/or [card()] context.
-#' * [navset_card_tab()] and [navset_card_pill()]
-#'   * Creates a multi-tab card with a sidebar inside of it.
+#' Sidebar layouts place UI elements, like input controls or additional context,
+#' next to the main content area which often holds output elements like plots or
+#' tables.
 #'
-#' See [this article](https://rstudio.github.io/bslib/articles/sidebars.html)
-#'   to learn more.
+#' There are several page, navigation, and layout functions that allow you to
+#' create a sidebar layout. In each case, you can create a collapsing sidebar
+#' layout by providing a `sidebar()` object to the `sidebar` argument the
+#' following functions.
+#'
+#' * [page_sidebar()] creates a "page-level" sidebar.
+#' * [page_navbar()] creates a multi-panel app with an (optional, page-level)
+#'   sidebar that is shown on every panel.
+#' * `layout_sidebar()` creates a "floating" sidebar layout component which can
+#'   be used inside any [page()] and/or [card()] context.
+#' * [navset_card_tab()] and [navset_card_pill()] create multi-tab cards with a
+#'   shared sidebar that is accessible from every panel.
+#'
+#' See [the Sidebars article](https://rstudio.github.io/bslib/articles/sidebars.html)
+#' on the bslib website to learn more.
+#'
+#' @references Sidebar layouts are featured in a number of pages on the bslib
+#'   website:
+#'
+#'   * [Sidebars](https://rstudio.github.io/bslib/articles/sidebars.html)
+#'   * [Cards: Sidebars](https://rstudio.github.io/bslib/articles/cards/index.html#sidebars)
+#'   * [Getting Started: Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
 #'
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags] and named arguments become HTML attributes on
@@ -42,7 +53,7 @@
 #' @param id A character string. Required if wanting to re-actively read (or
 #'   update) the `collapsible` state in a Shiny app.
 #' @param title A character title to be used as the sidebar title, which will be
-#'   wrapped in a `<div>` element with class `sidebar-title`. You can also
+#'   wrapped in a `<header>` element with class `sidebar-title`. You can also
 #'   provide a custom [htmltools::tag()] for the title element, in which case
 #'   you'll likely want to give this element `class = "sidebar-title"`.
 #' @param bg,fg A background or foreground color. If only one of either is
@@ -50,10 +61,11 @@
 #'   color, e.g. setting `bg` chooses an appropriate `fg` color.
 #' @param class CSS classes for the sidebar container element, in addition to
 #'   the fixed `.sidebar` class.
-#' @param max_height_mobile The maximum height of the horizontal sidebar when
-#'   viewed on mobile devices. The default is `250px` unless the sidebar is
-#'   included in a [layout_sidebar()] with a specified height, in which case
-#'   the default is to take up no more than 50% of the layout container.
+#' @param max_height_mobile A [CSS length unit][htmltools::validateCssUnit()]
+#'   defining the maximum height of the horizontal sidebar when viewed on mobile
+#'   devices. Only applies to always-open sidebars that use `open = "always"`,
+#'   where by default the sidebar container is placed below the main content
+#'   container on mobile devices.
 #' @param gap A [CSS length unit][htmltools::validateCssUnit()] defining the
 #'   vertical `gap` (i.e., spacing) between adjacent elements provided to `...`.
 #' @param padding Padding within the sidebar itself. This can be a numeric
@@ -91,6 +103,11 @@ sidebar <- function(
 
   open <- rlang::arg_match(open)
 
+  if (!is.null(max_height_mobile) && open != "always") {
+    rlang::warn('The `max_height_mobile` argument only applies to when `open = "always"`.')
+    max_height_mobile <- NULL
+  }
+
   if (!is.null(id)) {
     if (length(id) != 1 || is.na(id) || !nzchar(id)) {
       rlang::abort("`id` must be a non-empty, length-1 character string or `NULL`.")
@@ -113,7 +130,7 @@ sidebar <- function(
   }
 
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
-    title <- div(title, class = "sidebar-title")
+    title <- tags$header(title, class = "sidebar-title")
   }
 
   collapse_tag <-
@@ -129,9 +146,8 @@ sidebar <- function(
     }
 
   res <- list2(
-    tag = tags$div(
+    tag = tags$aside(
       id = id,
-      role = "complementary",
       class = c("sidebar", class),
       hidden = if (open == "closed") NA,
       tags$div(
@@ -206,12 +222,9 @@ layout_sidebar <- function(
   }
 
   main <- div(
-    role = "main",
     class = "main",
     class = if (fillable) "bslib-gap-spacing",
     style = css(
-      background_color = bg,
-      color = fg,
       padding = validateCssPadding(padding),
       gap = validateCssUnit(gap)
     ),
@@ -227,27 +240,27 @@ layout_sidebar <- function(
   max_height_mobile <- sidebar$max_height_mobile %||%
     if (is.null(height)) "250px" else "50%"
 
-  sidebar_init <- if (!identical(sidebar$open, "always")) TRUE
-
   res <- div(
     class = "bslib-sidebar-layout bslib-mb-spacing",
     class = if (right) "sidebar-right",
     class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
-    `data-bslib-sidebar-init` = sidebar_init,
+    `data-bslib-sidebar-init` = TRUE,
     `data-bslib-sidebar-open` = sidebar$open,
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
       "--bslib-sidebar-width" = sidebar$width,
-      "--bslib-sidebar-bg" = if (!is.null(sidebar$color$bg)) sidebar$color$bg,
-      "--bslib-sidebar-fg" = if (!is.null(sidebar$color$fg)) sidebar$color$fg,
+      "--bslib-sidebar-bg" = sidebar$color$bg,
+      "--bslib-sidebar-fg" = sidebar$color$fg,
+      "--bslib-sidebar-main-fg" = fg,
+      "--bslib-sidebar-main-bg" = bg,
       "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
       "--bslib-sidebar-max-height-mobile" = max_height_mobile
     ),
     !!!contents,
-    sidebar_dependency(),
-    sidebar_init_js()
+    sidebar_init_js(),
+    component_dependencies()
   )
 
   res <- bindFillRole(res, item = fill)
@@ -287,16 +300,17 @@ toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
   session$onFlush(callback, once = TRUE)
 }
 
-#' @describeIn sidebar An alias for [toggle_sidebar()].
+#' @rdname sidebar
+#' @usage NULL
 #' @export
 sidebar_toggle <- toggle_sidebar
 
 collapse_icon <- function() {
   if (!is_installed("bsicons")) {
-    icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-chevron-down collapse-icon\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z\"></path></svg>"
+    icon <- "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" class=\"bi bi-chevron-left collapse-icon\" style=\"fill:currentColor;\" aria-hidden=\"true\" role=\"img\" ><path fill-rule=\"evenodd\" d=\"M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z\"></path></svg>"
     return(HTML(icon))
   }
-  bsicons::bs_icon("chevron-down", class = "collapse-icon", size = NULL)
+  bsicons::bs_icon("chevron-left", class = "collapse-icon", size = NULL)
 }
 
 sidebar_init_js <- function() {
@@ -308,16 +322,3 @@ sidebar_init_js <- function() {
     HTML("bslib.Sidebar.initCollapsibleAll()")
   )
 }
-
-
-sidebar_dependency <- function() {
-  list(
-    component_dependency_js("sidebar"),
-    bs_dependency_defer(sidebar_dependency_sass)
-  )
-}
-
-sidebar_dependency_sass <- function(theme) {
-  component_dependency_sass(theme, "sidebar")
-}
-

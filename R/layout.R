@@ -1,11 +1,15 @@
-#' A grid-like, column-first, layout
+#' Column-first uniform grid layouts
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
 #'
 #' Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 #' rows) in the grid dependent on the column `width` as well as the size of the
-#' display. For more explanation and illustrative examples, see [here](https://rstudio.github.io/bslib/articles/cards.html#multiple-cards)
+#' display. For more explanation and illustrative examples, see the _References_
+#' section below.
 #'
-#' @param ... Unnamed arguments should be UI elements (e.g., [card()])
-#'   Named arguments become attributes on the containing [htmltools::tag] element.
+#' @param ... Unnamed arguments should be UI elements (e.g., [card()]). Named
+#'   arguments become attributes on the containing [htmltools::tag] element.
 #' @param width The desired width of each card, which can be any of the
 #'  following:
 #'   * A (unit-less) number between 0 and 1.
@@ -17,9 +21,14 @@
 #'   * `NULL`
 #'     * Allows power users to set the `grid-template-columns` CSS property
 #'       manually, either via a `style` attribute or a CSS stylesheet.
-#' @param fixed_width Whether or not to interpret the `width` as a minimum
-#'   (`fixed_width=FALSE`) or fixed (`fixed_width=TRUE`) width when it is a CSS
-#'   length unit.
+#' @param fixed_width When `width` is greater than 1 or is a CSS length unit,
+#'   e.g. `"200px"`, `fixed_width` indicates whether that `width` value
+#'   represents the absolute size of each column (`fixed_width=TRUE`) or the
+#'   minimum size of a column (`fixed_width=FALSE`). When `fixed_width=FALSE`,
+#'   new columns are added to a row when `width` space is available and columns
+#'   will never exceed the container or viewport size. When `fixed_width=TRUE`,
+#'   all columns will be exactly `width` wide, which may result in columns
+#'   overflowing the parent container.
 #' @param heights_equal If `"all"` (the default), every card in every row of the
 #'   grid will have the same height. If `"row"`, then every card in _each_ row
 #'   of the grid will have the same height, but heights may vary between rows.
@@ -32,17 +41,30 @@
 #' @inheritParams card_body
 #'
 #' @export
-#' @examples
+#' @family Column layouts
 #'
+#' @references The bslib website features `layout_column_wrap()` in two places:
+#'   * [Column-based layouts](https://rstudio.github.io/bslib/articles/column-layout/index.html)
+#'   * [Cards: Multiple cards](https://rstudio.github.io/bslib/articles/cards/index.html#multiple-cards)
+#'
+#' @examplesIf rlang::is_interactive()
 #' x <- card("A simple card")
-#' # Always has 2 columns (on non-mobile)
-#' layout_column_wrap(1/2, x, x, x)
-#' # Has three columns when viewport is wider than 750px
-#' layout_column_wrap("250px", x, x, x)
 #'
+#' # Always has 2 columns (on non-mobile)
+#' layout_column_wrap(width = 1/2, x, x, x)
+#'
+#' # Automatically lays out three cards into columns
+#' # such that each column is at least 200px wide:
+#' layout_column_wrap(x, x, x)
+#'
+#' # To use larger column widths by default, set `width`.
+#' # This example has 3 columns when the screen is at least 900px wide:
+#' layout_column_wrap(width = "300px", x, x, x)
+#'
+#' @export
 layout_column_wrap <- function(
-  width,
   ...,
+  width = "200px",
   fixed_width = FALSE,
   heights_equal = c("all", "row"),
   fill = TRUE,
@@ -59,6 +81,23 @@ layout_column_wrap <- function(
   attribs <- args$attribs
   children <- args$children
 
+  if (missing(width)) {
+    first_is_width <-
+      is.null(children[[1]]) ||
+      is_probably_a_css_unit(children[[1]])
+
+    if (first_is_width) {
+      # Assume an unnamed first argument that matches our expectations for
+      # `width` is actually the width argument, with a warning
+      lifecycle::deprecate_warn(
+        "0.6.0",
+        "layout_column_wrap(width = 'must be named')"
+      )
+      width <- children[[1]]
+      children <- children[-1]
+    }
+  }
+
   if (length(width) > 1) {
     stop("`width` of length greater than 1 is not currently supported.")
   }
@@ -74,7 +113,10 @@ layout_column_wrap <- function(
       if (fixed_width) {
         paste0("repeat(auto-fit, ", validateCssUnit(width), ")")
       } else {
-        paste0("repeat(auto-fit, minmax(", validateCssUnit(width), ", 1fr))")
+        sprintf(
+          "repeat(auto-fit, minmax(min(%s, 100%%), 1fr))",
+          validateCssUnit(width)
+        )
       }
     }
   }
@@ -96,7 +138,7 @@ layout_column_wrap <- function(
     ),
     !!!attribs,
     children,
-    component_dependency_css("grid")
+    component_dependencies()
   )
 
   tag <- bindFillRole(tag, item = fill)
@@ -107,7 +149,17 @@ layout_column_wrap <- function(
   )
 }
 
-#' Responsive column-based grid layouts
+is_probably_a_css_unit <- function(x) {
+  if (length(x) != 1) return(FALSE)
+  if (is.numeric(x)) return(TRUE)
+  if (!is.character(x)) return(FALSE)
+  tryCatch(
+    { validateCssUnit(x); TRUE },
+    error = function(e) FALSE
+  )
+}
+
+#' Responsive 12-column grid layouts
 #'
 #' Create responsive, column-based grid layouts, based on a 12-column grid.
 #'
@@ -127,10 +179,10 @@ layout_column_wrap <- function(
 #'     above.
 #' @param row_heights One of the following:
 #'   * A numeric vector, where each value represents the
-#'     [fractional unit](https://css-tricks.com/introduction-fr-css-unit/) (`fr`)
-#'     height of the relevant row. If there are more rows than values provided,
-#'     the pattern will repeat. For example, `row_heights = c(1, 2)` allows even
-#'     rows to take up twice as much space as odd rows.
+#'     [fractional unit](https://css-tricks.com/introduction-fr-css-unit/)
+#'     (`fr`) height of the relevant row. If there are more rows than values
+#'     provided, the pattern will repeat. For example, `row_heights = c(1, 2)`
+#'     allows even rows to take up twice as much space as odd rows.
 #'   * A list of numeric and [CSS length units][htmltools::validateCssUnit()],
 #'     where each value represents the height of the relevant row. If more rows
 #'     are needed than values provided, the pattern will repeat. For example,
@@ -142,10 +194,15 @@ layout_column_wrap <- function(
 #'   * A [breakpoints()] object, where each breakpoint may be either of the above.
 #'
 #' @export
-#' @seealso [breakpoints()] for more information on breakpoints.
-#' @examplesIf interactive()
+#' @family Column layouts
 #'
+#' @references [Column-based layouts](https://rstudio.github.io/bslib/articles/column-layout/index.html)
+#'   on the bslib website.
 #'
+#' @seealso [breakpoints()] for more information on specifying column widths at
+#'   responsive breakpoints.
+#'
+#' @examplesIf rlang::is_interactive()
 #' x <- card("A simple card")
 #'
 #' page_fillable(
@@ -222,7 +279,7 @@ layout_columns <- function(
     !!!row_heights_css_vars(row_heights),
     !!!attribs,
     !!!children,
-    component_dependency_css("grid")
+    component_dependencies()
   )
 
   tag <- bindFillRole(tag, item = fill)

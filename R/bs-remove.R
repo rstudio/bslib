@@ -1,20 +1,33 @@
 #' Remove or retrieve Sass code from a theme
 #'
+#' A Bootstrap theme created with [bs_theme()] is comprised of
+#' [many Sass layers](https://rstudio.github.io/sass/articles/sass.html#layering).
+#' `bs_remove()` and `bs_retrieve()` allow you to remove or retrieve an
+#' individual layer, either to reduce the size of the compiled CSS or to extract
+#' styles from a theme.
+#'
 #' @inheritParams bs_theme_update
 #' @param ids a character vector of ids
 #'
-#' @return a modified [bs_theme()] object.
+#' @return Returns a modified [bs_theme()] object.
 #'
 #' @export
+#' @family Bootstrap theme functions
+#'
 #' @examples
+#' bs4 <- bs_theme(version = 4)
+#'
+#' # Retrieve sass bundle for print styles
+#' bs_retrieve(bs4, "_print", include_unnamed = FALSE)
 #'
 #' # Remove CSS rules for print and carousels
-#' bs4 <- bs_theme(version = 4)
-#' bs_remove(bs4, c("_print", "_carousel"))
+#' bs4_no_print <- bs_remove(bs4, c("_print", "_carousel"))
+#' suppressWarnings(
+#'   bs_retrieve(bs4_no_print, "_print", include_unnamed = FALSE)
+#' )
 #'
 #' # Remove BS3 compatibility layer
-#' bs_remove(bs4, "bs3compat")
-#'
+#' bs4_no_compat <- bs_remove(bs4, "bs3compat")
 bs_remove <- function(theme, ids = character(0)) {
   ids <- retain_valid_ids(theme, ids)
   sass_bundle_remove(theme, ids)

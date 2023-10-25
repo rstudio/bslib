@@ -330,7 +330,10 @@ shinyApp(
         style = style,
         {
           for (i in 1:15) {
-            incProgress(1/15)
+            incProgress(
+              amount = 1/15,
+              detail = paste("Step", i, "of", 15)
+            )
             Sys.sleep(0.25)
           }
         })

@@ -54,7 +54,7 @@ test_that("Theme adding works as intended", {
     "body-color" = "color-contrast($primary)"
   )
   css <- sass_partial(".foo{color:$primary;}", bs_global_get())
-  expect_css(".foo{color:#6c757d;}", css)
+  expect_css(".foo{color:#404040;}", css)
 })
 
 

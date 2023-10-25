@@ -24,11 +24,13 @@ bs_add_mixins(theme, mixins)
 bs_bundle(theme, ...)
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{...}{\itemize{
-\item \code{bs_add_variables()}: Should be named Sass variables or values that can be passed in directly to the \code{defaults} argument of a \code{\link[sass:sass_layer]{sass::sass_layer()}}.
-\item \code{bs_bundle()}: Should be arguments that can be handled by \code{\link[sass:sass_layer]{sass::sass_bundle()}} to be appended to the \code{theme}
+\item \code{bs_add_variables()}: Should be named Sass variables or values that can be
+passed in directly to the \code{defaults} argument of a \code{\link[sass:sass_layer]{sass::sass_layer()}}.
+\item \code{bs_bundle()}: Should be arguments that can be handled by
+\code{\link[sass:sass_layer]{sass::sass_bundle()}} to be appended to the \code{theme}
 }}
 
 \item{.where}{Whether to place the variable definitions before other Sass
@@ -48,35 +50,43 @@ functions definitions.}
 mixin definitions.}
 }
 \value{
-a modified \code{\link[=bs_theme]{bs_theme()}} object.
+Returns a modified \code{\link[=bs_theme]{bs_theme()}} object.
 }
 \description{
-Compared to higher-level theme customization available in \code{\link[=bs_theme]{bs_theme()}}, these functions
-are a more direct interface to Bootstrap Sass, and therefore, do nothing to
-ensure theme customizations are portable between major Bootstrap versions.
+These functions provide direct access to the layers of a bslib theme created
+with \code{\link[=bs_theme]{bs_theme()}}. Learn more about \href{https://rstudio.github.io/sass/articles/sass.html#layering}{composable Sass layers} on the
+\pkg{sass} website.
+}
+\details{
+Compared to higher-level theme customization available in \code{\link[=bs_theme]{bs_theme()}}, these
+functions are a more direct interface to Bootstrap Sass, and therefore, do
+nothing to ensure theme customizations are portable between major Bootstrap
+versions.
 }
 \section{Functions}{
 \itemize{
-\item \code{bs_add_variables()}: Add Bootstrap Sass \href{https://getbootstrap.com/docs/4.4/getting-started/theming/#variable-defaults}{variable defaults}
+\item \code{bs_add_variables()}: Add Bootstrap Sass
+\href{http://rstudio.github.io/bslib/articles/bs5-variables/index.html}{variable defaults}.
 
-\item \code{bs_add_rules()}: Add additional \href{https://sass-lang.com/documentation/style-rules}{Sass rules}
+\item \code{bs_add_rules()}: Add additional
+\href{https://sass-lang.com/documentation/style-rules}{Sass rules}.
 
-\item \code{bs_add_functions()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#functions}{Sass functions}
+\item \code{bs_add_functions()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#functions}{Sass functions}.
 
-\item \code{bs_add_mixins()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#mixins}{Sass mixins}
+\item \code{bs_add_mixins()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#mixins}{Sass mixins}.
 
-\item \code{bs_bundle()}: Add additional \code{\link[sass:sass_layer]{sass::sass_bundle()}} objects to an existing \code{theme}.
+\item \code{bs_bundle()}: Add additional \code{\link[sass:sass_layer]{sass::sass_bundle()}} objects to an
+existing \code{theme}.
 
 }}
 \examples{
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # Function to preview the styling a (primary) Bootstrap button
 library(htmltools)
 button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 preview_button <- function(theme) {
-  if (interactive()) {
-    browsable(tags$body(bs_theme_dependencies(theme), button))
-  }
+  browsable(tags$body(bs_theme_dependencies(theme), button))
 }
 
 # Here we start with a theme based on a Bootswatch theme,
@@ -101,6 +111,7 @@ preview_button(theme)
 # 'person card'
 person_rules <- system.file("custom", "person.scss", package = "bslib")
 theme <- bs_add_rules(bs_theme(), sass::sass_file(person_rules))
+
 # Include custom CSS that leverages bootstrap Sass variables
 person <- function(name, title, company) {
   tags$div(
@@ -110,17 +121,34 @@ person <- function(name, title, company) {
     div(class = "company", company)
   )
 }
-if (interactive()) {
-  browsable(shiny::fluidPage(
-    theme = theme,
-    person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
-    person("John D. Rockefeller", "Chairman", "Standard Oil")
-  ))
-}
 
+page_fluid(
+  theme = theme,
+  person("Andrew Carnegie", "Owner", "Carnegie Steel Company"),
+  person("John D. Rockefeller", "Chairman", "Standard Oil")
+)
+\dontshow{\}) # examplesIf}
 }
 \references{
-\url{https://getbootstrap.com/docs/4.4/getting-started/theming/}
-
-\url{https://rstudio.github.io/sass/articles/sass.html#layering}
+\itemize{
+\item bslib's theming capabilities are powered by
+\href{https://rstudio.github.io/sass/}{the {sass} package}.
+\item Learn more about
+\href{https://rstudio.github.io/sass/articles/sass.html#layering}{composable Sass layers}
+on the \pkg{sass} website.
 }
+}
+\seealso{
+\code{\link[=bs_theme]{bs_theme()}} creates a Bootstrap theme object, and is the best place
+to start learning about bslib's theming capabilities.
+
+Other Bootstrap theme functions: 
+\code{\link{bs_current_theme}()},
+\code{\link{bs_dependency}()},
+\code{\link{bs_global_theme}()},
+\code{\link{bs_remove}()},
+\code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()},
+\code{\link{bs_theme}()}
+}
+\concept{Bootstrap theme functions}

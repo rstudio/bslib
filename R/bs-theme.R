@@ -10,7 +10,9 @@
 #'   `bg`, `fg`, `primary`, etc).
 #' * Customize other, lower-level, Bootstrap Sass variable defaults via `...`.
 #'
-#' To learn more about how to implement custom themes, as well as how to use them inside Shiny and R Markdown, [see here](https://rstudio.github.io/bslib/articles/theming.html).
+#' To learn more about how to implement custom themes, as well as how to use
+#' them inside Shiny and R Markdown, [see
+#' here](https://rstudio.github.io/bslib/articles/theming.html).
 #'
 #' @section Colors:
 #'
@@ -28,31 +30,50 @@
 #'  both set CSS properties _and_ import font files, consider using the various
 #'  [font_face()] helpers.
 #'
-#'  Each `*_font` argument may be collection of character vectors,
-#'  [font_google()]s, [font_link()]s and/or [font_face()]s. Note that a
-#'  character vector can have:
+#'  Each `*_font` argument may be a single font or a `font_collection()`.
+#'  A font can be created with [font_google()], [font_link()], or [font_face()],
+#'  or it can be a character vector of font names in the following format:
 #'    * A single unquoted name (e.g., `"Source Sans Pro"`).
 #'    * A single quoted name (e.g., `"'Source Sans Pro'"`).
 #'    * A comma-separated list of names w/ individual names quoted as necessary.
 #'      (e.g. `c("Open Sans", "'Source Sans Pro'", "'Helvetica Neue', Helvetica, sans-serif")`)
 #'
-#'  Since `font_google(..., local = TRUE)` guarantees that the client has access to
-#'  the font family, meaning it's relatively safe to specify just one font
-#'  family, for instance:
+#'  `font_google()` sets `local = TRUE` by default, which ensures that the font
+#'  files are downloaded from [Google Fonts](https://fonts.google.com/) when
+#'  your document or app is rendered. This guarantees that the client has access
+#'  to the font family, making it relatively safe to specify just one font
+#'  family:
 #'
-#'  ```
+#'  ```r
 #'  bs_theme(base_font = font_google("Pacifico", local = TRUE))
 #'  ```
 #'
-#'  However, specifying multiple "fallback" font families is recommended,
-#'  especially when relying on remote and/or system fonts being available, for
-#'  instance. Fallback fonts are useful not only for handling missing fonts, but
-#'  also for handling a Flash of Invisible Text (FOIT) which can be quite
-#'  noticeable with remote web fonts on a slow internet connection.
+#'  That said, we recommend you specify multiple "fallback" font families,
+#'  especially when relying on remote and/or system fonts being available.
+#'  Fallback fonts are useful not only for handling missing fonts, but also
+#'  ensure that your users don't experience a Flash of Invisible Text (FOIT)
+#'  which can be quite noticeable with remote web fonts on a slow internet
+#'  connection.
 #'
-#'  ```
+#'  ```r
 #'  bs_theme(base_font = font_collection(font_google("Pacifico", local = FALSE), "Roboto", "sans-serif"))
 #'  ````
+#'
+#' @references
+#'   * [Get Started: Theming](https://rstudio.github.io/bslib/articles/theming/index.html)
+#'     introduces theming with bslib in Shiny apps and R Markdown documents.
+#'   * [Theming: Bootstrap 5 variables](https://rstudio.github.io/bslib/articles/bs5-variables/index.html)
+#'     provides a searchable reference of all theming variables available in
+#'     Bootstrap 5.
+#'   * [Theming: Custom components](https://rstudio.github.io/bslib/articles/custom-components/index.html)
+#'     gives a tutorial on creating a dynamically themable custom component.
+#'   * bslib's theming capabilities are powered by
+#'     [the {sass} package](https://rstudio.github.io/sass/).
+#'   * [Bootstrap's utility classes](https://rstudio.github.io/bslib/articles/utility-classes/index.html)
+#'     can be helpful when you want to change the appearance of an element
+#'     without writing CSS or customizing your `bs_theme()`.
+#'
+#' @family Bootstrap theme functions
 #'
 #' @param version The major version of Bootstrap to use (see [versions()]
 #'   for possible values). Defaults to the currently recommended version
@@ -60,11 +81,11 @@
 #' @param preset The name of a theme preset, either a built-in theme provided by
 #'   bslib or a Bootswatch theme (see [builtin_themes()] and
 #'   [bootswatch_themes()] for possible values). This argument takes precedence
-#'   over the `bootswatch` argument and only one `theme` or `bootswatch` can be
-#'   provided. When provided to `bs_theme_update()`, any previous preset theme
-#'   is first removed before the new theme preset is applied. You can use
-#'   `theme = "bootstrap"` to remove any preset theme and to revert to a base
-#'   Bootstrap theme.
+#'   over the `bootswatch` argument and only one `preset` or `bootswatch` can be
+#'   provided. When no `bootswatch` theme is specified, and `version` is 5 or
+#'   higher, `preset` defaults to `"shiny"`. To remove the `"shiny"` preset,
+#'   provide a value of `"bootstrap"` (this value will also work in
+#'   `bs_theme_update()` to remove a `preset` or `bootswatch` theme).
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
@@ -91,12 +112,9 @@
 #'   example, a value of `1.5` scales font sizes to 150% and a value of `0.8`
 #'   scales to 80%. Must be a positive number.
 #'
-#' @return a [sass::sass_bundle()] (list-like) object.
+#' @return Returns a [sass::sass_bundle()] (list-like) object.
 #'
-#' @references \url{https://rstudio.github.io/bslib/articles/theming.html}
-#' @references \url{https://rstudio.github.io/sass/}
-#' @seealso [bs_add_variables()], [bs_theme_preview()]
-#' @examples
+#' @examplesIf rlang::is_interactive()
 #'
 #' theme <- bs_theme(
 #'   # Controls the default grayscale palette
@@ -109,9 +127,8 @@
 #'   # Can also add lower-level customization
 #'   "input-border-color" = "#EA80FC"
 #' )
-#' if (interactive()) {
-#'   bs_theme_preview(theme)
-#' }
+#'
+#' bs_theme_preview(theme)
 #'
 #' # Lower-level bs_add_*() functions allow you to work more
 #' # directly with the underlying Sass code
@@ -119,11 +136,27 @@
 #' theme <- bs_add_rules(theme, ".my-class { color: $my-class-color }")
 #'
 #' @export
-bs_theme <- function(version = version_default(), preset = NULL, ...,
-                     bg = NULL, fg = NULL, primary = NULL, secondary = NULL,
-                     success = NULL, info = NULL, warning = NULL, danger = NULL,
-                     base_font = NULL, code_font = NULL, heading_font = NULL,
-                     font_scale = NULL, bootswatch = NULL) {
+bs_theme <- function(
+  version = version_default(),
+  preset = NULL,
+  ...,
+  bg = NULL,
+  fg = NULL,
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL,
+  base_font = NULL,
+  code_font = NULL,
+  heading_font = NULL,
+  font_scale = NULL,
+  bootswatch = NULL
+) {
+  if (is.null(preset) && is.null(bootswatch) && version >= 5) {
+    preset <- "shiny"
+  }
 
   preset <- resolve_bs_preset(preset, bootswatch, version = version)
 
@@ -154,13 +187,26 @@ bs_theme <- function(version = version_default(), preset = NULL, ...,
 }
 
 #' @rdname bs_theme
-#' @param theme a [bs_theme()] object.
+#' @param theme A [bs_theme()] object.
 #' @export
-bs_theme_update <- function(theme, ..., preset = NULL, bg = NULL, fg = NULL,
-                            primary = NULL, secondary = NULL, success = NULL,
-                            info = NULL, warning = NULL, danger = NULL,
-                            base_font = NULL, code_font = NULL, heading_font = NULL,
-                            font_scale = NULL, bootswatch = NULL) {
+bs_theme_update <- function(
+  theme,
+  ...,
+  preset = NULL,
+  bg = NULL,
+  fg = NULL,
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL,
+  base_font = NULL,
+  code_font = NULL,
+  heading_font = NULL,
+  font_scale = NULL,
+  bootswatch = NULL
+) {
   assert_bs_theme(theme)
 
   preset <- resolve_bs_preset(preset, bootswatch, version = theme_version(theme))
@@ -277,7 +323,7 @@ bootstrap_bundle <- function(version) {
       # Don't name this "core" bundle so it can't easily be removed
       sass_layer(
         functions = bs5_sass_files("functions"),
-        defaults = bs5_sass_files("variables"),
+        defaults = list(bs5_sass_files("variables"), bs5_sass_files("variables-dark")),
         mixins = list(bs5_sass_files("maps"), bs5_sass_files("mixins")),
         rules = list(bs5_sass_files("mixins/banner"), "@include bsBanner('')")
       ),
@@ -352,15 +398,7 @@ bootstrap_bundle <- function(version) {
 
   sass_bundle(
     main_bundle,
-    # color-contrast() was introduced in Bootstrap 5.
-    # We include our own version for a few reasons:
-    # 1. Easily turn off warnings options(bslib.color_contrast_warnings=F)
-    # 2. Allow Bootstrap 3 & 4 to use color-contrast() in variable definitions
-    # 3. Allow Bootstrap 3 & 4 to use bs_get_contrast()
-    sass_layer(
-      functions = sass_file(path_inst("sass-utils/color-contrast.scss")),
-      rules = sass_file(path_inst("bslib-scss", "bslib.scss"))
-    )
+    bslib_bundle()
   )
 }
 
@@ -380,6 +418,16 @@ bootstrap_javascript <- function(version) {
   )
 }
 
+# -----------------------------------------------------------------
+# bslib specific Sass that gets bundled with Bootstrap
+# -----------------------------------------------------------------
+
+bslib_bundle <- function() {
+  sass_layer(
+    functions = sass_file(path_inst("bslib-scss", "functions.scss")),
+    rules = sass_file(path_inst("bslib-scss", "bslib.scss"))
+  )
+}
 
 # -----------------------------------------------------------------
 # BS3 compatibility bundle

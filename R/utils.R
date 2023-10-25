@@ -2,6 +2,7 @@
 #  is_installed get_package_version system_file
 #  register_upgrade_message
 #  %||% is_string
+#  read_utf8
 
 switch_version <- function(version, five = default, four = default, three = default, default = NULL) {
   if (is_bs_theme(version)) {
@@ -35,7 +36,6 @@ path_inst <- function(...) {
 }
 
 path_lib <- function(...) path_inst("lib", ...)
-path_components <- function(...) path_inst("components", ...)
 
 is_shiny_app <- function() {
   # Make sure to not load shiny as a side-effect of calling this function.

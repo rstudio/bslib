@@ -1,24 +1,32 @@
 #' @include utils.R
 NULL
 
-#' Preview the currently set theme
+#' Preview a Bootstrap theme
 #'
-#' Launches an example shiny app via `run_with_themer()` and
-#' `bs_theme_dependencies()`. Useful for getting a quick preview of the current
-#' theme setting as well as an interactive GUI for tweaking some of the main
-#' theme settings.
+#' Launches an example shiny app that can be used to get a quick preview of a
+#' [bs_theme()], as well as an interactive GUI for tweaking some of the
+#' main theme settings. Calling `bs_theme_preview()` with no arguments starts
+#' the theme preview app with the default theme, which is a great way to see
+#' the available theme presets or to start creating your own theme.
 #'
-#' The app that this launches is subject to change.
+#' The app that this launches is subject to change as new features are
+#' developed in \pkg{bslib} and \pkg{shiny}.
 #'
 #' @inheritParams bs_theme_update
 #' @param ... passed along to [shiny::runApp()].
 #' @param with_themer whether or not to run the app with [run_with_themer()].
+#'
 #' @return nothing, this function is called for its side-effects (launching an
 #'   application).
-#' @seealso [run_with_themer()]
-#' @examples
+#'
+#' @seealso Use [run_with_themer()] or [bs_themer()] to add the theming UI to
+#'   an existing shiny app.
+#'
+#' @examplesIf rlang::is_interactive()
 #' theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
-#' if (interactive()) bs_theme_preview(theme)
+#' bs_theme_preview(theme)
+#'
+#' @family Bootstrap theme functions
 #' @export
 bs_theme_preview <- function(theme = bs_theme(), ..., with_themer = TRUE) {
   assert_bs_theme(theme)
@@ -60,11 +68,22 @@ opts_metadata <- function(theme) {
 }
 
 bs_themer_ui <- function(opts, vals, theme) {
+  theme_v <- theme_version(theme)
 
   make_control <- function(id, opts) {
+    if (!is.null(opts$version)) {
+      if (!is.null(opts$version$min) && theme_v < opts$version$min) {
+        return(NULL)
+      }
+      if (!is.null(opts$version$max) && theme_v > opts$version$max) {
+        return(NULL)
+      }
+    }
+
     value <- vals[[id]]
     lbl <- HTML(opts$label)
     desc <- HTML(opts$desc)
+
     text_input <- function(input_class = NULL, type = "text", ...) {
       div(
         class = "form-row form-group",
@@ -77,6 +96,25 @@ bs_themer_ui <- function(opts, vals, theme) {
         if (!is.null(desc)) div(class = "form-text small", desc)
       )
     }
+
+    switch_input <- function(input_class = NULL, ...) {
+      # https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
+      div(
+        class = "form-row form-group form-check form-switch",
+        tags$label(
+          class = "form-check-label",
+          tags$input(
+            class = "form-check-input",
+            class = input_class,
+            type = "checkbox",
+            role = "switch",
+            id = paste0("bsthemer-", id)
+          ),
+          lbl
+        )
+      )
+    }
+
     switch(
       opts$type,
       color = text_input(input_class = "bs-theme-value-color text-monospace"),
@@ -95,6 +133,7 @@ bs_themer_ui <- function(opts, vals, theme) {
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
       ),
+      switch = switch_input(),
       select = div(
         class = "form-row form-group",
         tags$label(class = "control-label", lbl),
@@ -341,7 +380,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # Insert the theming control panel with values informed by the theme settings
   themer_opts <- opts_metadata(theme)
   themer_vars <- unlist(unname(lapply(themer_opts, names)))
-  sass_vars <- setdiff(themer_vars, "preset")
+  sass_vars <- setdiff(themer_vars, c("preset", "dark-mode"))
   themer_vals <- as.list(get_themer_vals(theme, sass_vars))
   themer_vals$preset <- preset_initial
   shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals, theme))
@@ -565,21 +604,27 @@ gfont_key <- function() {
 
 #' Retrieve Sass variable values from the current theme
 #'
-#' Useful for retriving a variable from the current theme and using
+#' Useful for retrieving a variable from the current theme and using
 #' the value to inform another R function.
 #'
 #' @inheritParams bs_theme_update
-#' @param varnames a character string referencing a Sass variable
-#' in the current theme.
-#' @return a character string containing a CSS/Sass value.
-#' If the variable(s) are not defined, their value is `NA`.
+#' @param varnames A character string referencing a Sass variable in the current
+#'   theme.
+#'
+#' @return Returns a character string containing a CSS/Sass value. If the
+#'   variable(s) are not defined, their value is `NA`.
+#'
+#' @references [Theming: Bootstrap 5 variables](https://rstudio.github.io/bslib/articles/bs5-variables/index.html)
+#'   provides a searchable reference of all theming variables available in
+#'   Bootstrap 5.
 #'
 #' @export
+#' @family Bootstrap theme utility functions
+#'
 #' @examples
 #' vars <- c("body-bg", "body-color", "primary", "border-radius")
 #' bs_get_variables(bs_theme(), varnames = vars)
 #' bs_get_variables(bs_theme(bootswatch = "darkly"), varnames = vars)
-#'
 bs_get_variables <- function(theme, varnames) {
   if (length(varnames) == 0) {
     return(stats::setNames(character(0), character(0)))

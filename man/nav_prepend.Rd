@@ -30,7 +30,8 @@ nav_append(
 
 \item{select}{Should \code{nav} be selected upon being inserted?}
 
-\item{session}{a shiny session object (the default should almost always be used).}
+\item{session}{a shiny session object (the default should almost always be
+used).}
 }
 \description{
 Exported for use by \code{\link[shiny:insertTab]{shiny::prependTab()}}/\code{\link[shiny:insertTab]{shiny::appendTab()}}. These

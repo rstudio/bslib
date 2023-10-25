@@ -1,8 +1,12 @@
 #' A Bootstrap card component
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' A general purpose container for grouping related UI elements together with a
-#' border and optional padding. To learn more about [card()]s, see [this
-#' article](https://rstudio.github.io/bslib/articles/cards.html).
+#' border and optional padding. To learn more about [card()]s, see [the Cards
+#' article](https://rstudio.github.io/bslib/articles/cards/index.html) or the
+#' other articles listed in the _References_ section below.
 #'
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags] (which includes card items such as [card_body()].
@@ -28,29 +32,43 @@
 #' @return A [htmltools::div()] tag.
 #'
 #' @export
-#' @seealso [card_body()] for putting stuff inside the card.
-#' @seealso [navset_card_tab()] for cards with multiple tabs.
-#' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
-#'   columns inside a card).
-#' @examples
+#' @family Components
 #'
+#' @seealso [Card item functions][card_body()] create the various parts of a
+#'   card.
+#' @seealso [navset_card_tab()], [navset_card_pill()] and
+#'   [navset_card_underline()] create cards with tabbed navigation.
+#' @seealso [layout_columns()] and [layout_column_wrap()] help position multiple
+#'   cards into columns and rows and can also be used inside a card.
+#' @seealso [layout_sidebar()] adds a sidebar to a card when nested in [card()]
+#'   or [card_body()].
+#' @seealso [value_box()] uses [card()] to highlight a showcase a key piece of
+#'   information.
+#'
+#' @references Several articles on the bslib website feature the card component:
+#'
+#'   * [Cards](https://rstudio.github.io/bslib/articles/cards/index.html)
+#'   * [Get Started: Dashboards](https://rstudio.github.io/bslib/articles/dashboards/index.html)
+#'   * [Get Started: Any Project](https://rstudio.github.io/bslib/articles/any-project/index.html)
+#'   * [Column-based layouts](https://rstudio.github.io/bslib/articles/column-layout/index.html)
+#'   * [Filling layouts: Full-screen cards](https://rstudio.github.io/bslib/articles/filling/index.html#full-screen-cards)
+#'
+#' @examplesIf rlang::is_interactive()
 #' library(htmltools)
 #'
-#' if (interactive()) {
-#'   card(
-#'     full_screen = TRUE,
-#'     card_header(
-#'       "This is the header"
-#'     ),
-#'     card_body(
-#'       p("This is the body."),
-#'       p("This is still the body.")
-#'     ),
-#'     card_footer(
-#'       "This is the footer"
-#'     )
+#' card(
+#'   full_screen = TRUE,
+#'   card_header(
+#'     "This is the header"
+#'   ),
+#'   card_body(
+#'     p("This is the body."),
+#'     p("This is still the body.")
+#'   ),
+#'   card_footer(
+#'     "This is the footer"
 #'   )
-#' }
+#' )
 #'
 card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min_height = NULL, fill = TRUE, class = NULL, wrapper = card_body) {
 
@@ -72,8 +90,8 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(),
-    card_dependency(),
-    card_init_js()
+    card_init_js(),
+    component_dependencies()
   )
 
   tag <- bindFillRole(tag, container = TRUE, item = fill)
@@ -117,8 +135,10 @@ as_card_items <- function(children, wrapper) {
 #' Card items
 #'
 #' Components designed to be provided as direct children of a [card()]. For a
-#' general overview of the [card()] API, see [this
-#' article](https://rstudio.github.io/bslib/articles/cards.html).
+#' general overview of the [card()] API, see [the Cards
+#' article](https://rstudio.github.io/bslib/articles/cards/index.html) or the
+#' other articles listed in the _References_ section of the [card()]
+#' documentation.
 #'
 #' @param ... Unnamed arguments can be any valid child of an [htmltools
 #'   tag][htmltools::tags]. Named arguments become HTML attributes on returned
@@ -137,10 +157,14 @@ as_card_items <- function(children, wrapper) {
 #' @return An [htmltools::div()] tag.
 #'
 #' @export
-#' @seealso [card()] for creating a card component.
-#' @seealso [navset_card_tab()] for cards with multiple tabs.
-#' @seealso [layout_column_wrap()] for laying out multiple cards (or multiple
-#'   columns inside a card).
+#'
+#' @seealso [card()] creates a card component.
+#' @seealso [navset_card_tab()], [navset_card_pill()] and
+#'   [navset_card_underline()] create cards with tabbed navigation.
+#' @seealso [layout_columns()] and [layout_column_wrap()] help position multiple
+#'   cards into columns and rows and can also be used inside a card.
+#' @seealso [layout_sidebar()] adds a sidebar to a card when nested in [card()]
+#'   or [card_body()].
 #'
 #' @describeIn card_body A general container for the "main content" of a [card()].
 card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL, max_height_full_screen = max_height, height = NULL, padding = NULL, gap = NULL, fill = TRUE, class = NULL) {
@@ -274,22 +298,11 @@ full_screen_toggle <- function() {
   tooltip(
     tags$span(
       class = "bslib-full-screen-enter",
-      class = "badge rounded-pill bg-dark",
+      class = "badge rounded-pill",
       full_screen_toggle_icon()
     ),
     "Expand"
   )
-}
-
-card_dependency <- function() {
-  list(
-    component_dependency_js("card"),
-    bs_dependency_defer(card_dependency_sass)
-  )
-}
-
-card_dependency_sass <- function(theme) {
-  component_dependency_sass(theme, "card")
 }
 
 card_init_js <- function() {
@@ -300,12 +313,10 @@ card_init_js <- function() {
 }
 
 full_screen_toggle_icon <- function() {
-  if (is_installed("bsicons")) {
-    return(bsicons::bs_icon("arrows-fullscreen"))
-  }
-  HTML('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-arrows-fullscreen " style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path></svg>')
+  # https://www.visiwig.com/icons/
+  # https://www.visiwig.com/icons-license/
+  HTML('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"/></svg>')
 }
-
 
 # jcheng 2022-06-06: Removing for now; list items have more features than I'm
 # ready to design an API for right now

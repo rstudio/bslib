@@ -185,7 +185,7 @@ test_that("validate_and_normalize_colors", {
 test_that("bs_get_variables is fg/bg aware", {
   expect_equal(
     bs_get_variables(bs_theme(), c("bg", "fg")),
-    c(bg = "#fff", fg = "#000")
+    c(bg = "#ffffff", fg = "#000")
   )
   expect_equal(
     bs_get_variables(bs_theme(version = 3), c("bg", "fg")),
@@ -225,17 +225,17 @@ test_that("bs_get_contrast() works as expected", {
   for (version in versions()) {
     base <- bs_theme(version)
     expect_equal(
-      bs_get_contrast(base, "input-bg"), c("input-bg" = "#000000")
+      bs_get_contrast(base, "body-bg"), c("body-bg" = "#000000")
     )
     primary <- if ("3" %in% version) "brand-primary" else "primary"
     expect_equal(
-      bs_get_contrast(base, c("input-bg", primary)),
-      setNames(c("#000000", "#FFFFFF"), c("input-bg", primary))
+      bs_get_contrast(base, c("body-bg", primary)),
+      setNames(c("#000000", "#FFFFFF"), c("body-bg", primary))
     )
     inverted <- bs_theme_update(base, bg = "black", fg = "white")
     expect_equal(
-      bs_get_contrast(inverted, "input-bg"),
-      c("input-bg" = "#FFFFFF")
+      bs_get_contrast(inverted, "body-bg"),
+      c("body-bg" = "#FFFFFF")
     )
     yb <- bs_theme(4, bg = "yellow", fg = "#0000FF")
     expect_equal(

@@ -1,0 +1,19 @@
+```{r include = FALSE}
+el <- function() knitr::opts_current$get("el")
+```
+
+Because the user needs to interact with the `trigger` element to see the `r el()`, it's best practice to use an element that is typically accessible via keyboard interactions, like a button or a link.
+If you use a non-interactive element, like a `<span>` or text, bslib will automatically add the `tabindex="0"` attribute to the trigger element to make sure that users can reach the element with the keyboard.
+This means that in most cases you can use any element you want as the trigger.
+
+One place where it's important to consider the accessibility of the trigger is when using an icon without any accompanying text.
+In these cases, many R packages that provide icons will create an icon element with the assumption that the icon is decorative, which will make it inaccessible to users of assistive technologies.
+
+When using an icon as the primary trigger, ensure that the icon does not have `aria-hidden="true"` or `role="presentation"` attributes.
+Icon packages typically provide a way to specify a title for the icon, as well as a way to specify that the icon is not decorative.
+The title should be a short description of the purpose of the trigger, rather than a description of the icon itself.
+
+* If you're using [bsicons::bs_icon()], provide a `title`.
+* If you're using [fontawesome::fa()], set `a11y = "sem"` and provide a `title`.
+
+For example:

@@ -2,7 +2,7 @@
 % Please edit documentation in R/layout.R
 \name{layout_columns}
 \alias{layout_columns}
-\title{Responsive column-based grid layouts}
+\title{Responsive 12-column grid layouts}
 \usage{
 layout_columns(
   ...,
@@ -16,8 +16,8 @@ layout_columns(
 )
 }
 \arguments{
-\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}})
-Named arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
+\item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}}). Named
+arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
 
 \item{col_widths}{One of the following:
 \itemize{
@@ -38,10 +38,10 @@ above.
 \item{row_heights}{One of the following:
 \itemize{
 \item A numeric vector, where each value represents the
-\href{https://css-tricks.com/introduction-fr-css-unit/}{fractional unit} (\code{fr})
-height of the relevant row. If there are more rows than values provided,
-the pattern will repeat. For example, \code{row_heights = c(1, 2)} allows even
-rows to take up twice as much space as odd rows.
+\href{https://css-tricks.com/introduction-fr-css-unit/}{fractional unit}
+(\code{fr}) height of the relevant row. If there are more rows than values
+provided, the pattern will repeat. For example, \code{row_heights = c(1, 2)}
+allows even rows to take up twice as much space as odd rows.
 \item A list of numeric and \link[htmltools:validateCssUnit]{CSS length units},
 where each value represents the height of the relevant row. If more rows
 are needed than values provided, the pattern will repeat. For example,
@@ -71,9 +71,7 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 Create responsive, column-based grid layouts, based on a 12-column grid.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-
-
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 x <- card("A simple card")
 
 page_fillable(
@@ -108,6 +106,15 @@ page_fillable(
 )
 \dontshow{\}) # examplesIf}
 }
-\seealso{
-\code{\link[=breakpoints]{breakpoints()}} for more information on breakpoints.
+\references{
+\href{https://rstudio.github.io/bslib/articles/column-layout/index.html}{Column-based layouts}
+on the bslib website.
 }
+\seealso{
+\code{\link[=breakpoints]{breakpoints()}} for more information on specifying column widths at
+responsive breakpoints.
+
+Other Column layouts: 
+\code{\link{layout_column_wrap}()}
+}
+\concept{Column layouts}

@@ -22,7 +22,8 @@ toggle_switch(id, value = NULL, session = get_current_session())
 \item{width}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{width="200px"}).}
 
-\item{session}{a shiny session object (the default should almost always be used).}
+\item{session}{a shiny session object (the default should almost always be
+used).}
 }
 \value{
 Returns a UI element for a switch input control. The server value
@@ -30,10 +31,12 @@ received for the input corresponding to \code{id} will be a logical
 (\code{TRUE}/\code{FALSE}) value.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Create an on-off style switch control for specifying logical values.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(shiny)
 library(bslib)
 
@@ -61,5 +64,9 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+Other input controls: 
+\code{\link{input_dark_mode}()}
 }
 \concept{input controls}

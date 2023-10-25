@@ -68,9 +68,7 @@ is first rendered, and may be invoked again with a new \code{theme} whenever
 \link[shiny:session]{shiny::session}'s \code{setCurrentTheme()} is called.
 }
 \examples{
-
-\dontrun{
-
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 myWidgetVersion <- "1.2.3"
 
 myWidgetDependency <- function() {
@@ -120,9 +118,22 @@ myWidget <- function(id) {
     myWidgetDependency()
   )
 }
-}
-
+\dontshow{\}) # examplesIf}
 }
 \references{
-\url{https://rstudio.github.io/bslib/articles/custom-components.html}
+\itemize{
+\item \href{https://rstudio.github.io/bslib/articles/custom-components/index.html}{Theming: Custom components}
+gives a tutorial on creating a dynamically themable custom component.
 }
+}
+\seealso{
+Other Bootstrap theme functions: 
+\code{\link{bs_add_variables}()},
+\code{\link{bs_current_theme}()},
+\code{\link{bs_global_theme}()},
+\code{\link{bs_remove}()},
+\code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()},
+\code{\link{bs_theme}()}
+}
+\concept{Bootstrap theme functions}

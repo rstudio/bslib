@@ -1,5 +1,61 @@
 # bslib (development version)
 
+## Breaking changes
+
+* `bs_theme()` now defaults to `preset="shiny"`. This provides an additional set of theming defaults and rules that make it easier to create Shiny apps (in particular, dashboards) that look good out of the box. To revert to the previous behavior, set `bs_theme(preset="bootstrap")`. (#711)
+* `value_box()` no longer defaults to `theme_color = "primary"`. To restore the previous behavior, please use `theme = "primary"`. In addition to the default style change, the `theme_color` is now deprecated in favor of `theme`. (#758)
+* `page_navbar()` now defaults to `underline = TRUE`, meaning that navigation links in the navbar now have underline styling by default (set `underline = FALSE` to revert to previous behavior). (#784)
+* `page()` now returns a `<body>` tag instead of `tagList()`. This change allows `page()` to treat named arguments as HTML attributes. (#809)
+* The JS/CSS assets behind `{bslib}` components (e.g., `card()`, `value_box()`, etc) are all now bundled into one `htmlDependency()` and included with the return value of `bs_theme_dependencies()` (previously they were attached at the component-level). (#810)
+* `layout_column_wrap()` no longer requires `width` and `width` is no longer the first argument, meaning that `width` must be named if used. The new default is `width = "200px"`, which combines with `fixed_width = FALSE` and produces an automatically responsive layout where each column is at least 200px wide. This means that, in most cases, `layout_column_wrap()` can layout an unknown number of items without you having to set `width`. (#853)
+
+## New features
+
+* Upgraded the default version of Bootstrap from v5.2.2 to v5.3.1. The most notable thing that comes with the update is the ability to toggle between light/dark [color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/) purely client-side (i.e., no calls to Sass required). (#749, #764)
+
+* Added new `navset_underline()` & `navset_card_underline()` functions as well as a `underline` argument to `page_navbar()` to leverage the new [nav-underline](https://getbootstrap.com/docs/5.3/components/navs-tabs/#underline) styling on navigation links. (#784)
+
+* `value_box()` now supports many new themes and styles, or fully customizable themes using the new `value_box_theme()` function. To reflect the new capabilities, we've replaced `theme_color` with a new `theme` argument. The previous argument will continue work as expected, but with a deprecation warning. (#758)
+
+  In addition to the Bootstrap theme names (`primary` ,`secondary`, etc.), you can now use the main Boostrap colors (`purple`, `blue`, `red`, etc.). You can also choose to apply the color to the background or foreground by prepending a `bg-` or `text-` prefix to the theme or color name. Finally, we've also added new gradient themes allowing you to pair any two color names as `bg-gradient-{from}-{to}` (e.g., `bg-gradient-purple-blue`).
+
+  These named color themes aren't limited to value boxes: because they're powered by small utility classes, you can use them anywhere within your bslib-powered UI.
+
+* Added `showcase_bottom()`, a new `value_box()` layout that places the showcase below the value box title and value, perfect for a full-bleed plot. (#758)
+
+* `showcase_left_center()` and `showcase_top_right()` no longer take two values for the `width` argument. Instead, they now take a single value (e.g., `width = "30%"`) representing the width of the showcase are in the value box. Furthermore, they've both gained `width_full_screen` arguments that determine the width of the showcase area when the value box is expanded to fill the screen. (#758)
+
+* The `showcase_layout` argument of `value_box()` now accepts one of three character values: `"left center"`, `"top right"`, `"bottom"`. (#758)
+
+* A new [Build a Box app](https://bslib.shinyapps.io/build-a-box/) is now available online or via bslib. See `?value_box()` for details. The app helps preview a set of value boxes while you configure and customize their appearance and provides you with code to copy and paste into your app. (#790)
+
+* Added `input_dark_mode()`, a new input control that provides a toggle button that can be used to switch between the dark and light modes when using Bootstrap 5.3. By default, dark mode is applied automatically if the user's operating system is also in dark mode. App authors can toggle dark mode programmatically from the server using `toggle_dark_mode()`, and if you provide `input_dark_mode()` with an `id`, you can read the current color mode via the corresponding input value. (#787)
+
+## Improvements
+
+* The `bs_themer()` app now supports previewing the dark mode variant of Bootstrap 5 themes. (#767)
+
+* Improved the style and appearance of the button to enter full screen in `card()`s and `value_box()`es to better adapt to Bootstrap's dark mode. (#780)
+
+* `htmltools::save_html()` now works as expected when applied directly to components (e.g., `card()`, etc) and pages with a non-default theme. (#823, #815)
+
+* `layout_sidebar()` received a new design. The button to collapse and expand the sidebar now appears at the top (instead of the bottom) of the sidebar. On mobile devices, the sidebar now fills the `layout_sidebar()` area as an overlay, rather than expanding from above the main content area. **Note** the `max_mobile_height` argument of `sidebar()` determines the maximum height of the sidebar area on mobile, but it now only applies when `open = "always"`. (#798)
+
+* `layout_sidebar()` now uses an `<aside>` element for the sidebar's container and a `<header>` element for the sidebar title. The classes of each element remain the same, but the semantic meaning of the elements is now better reflected in the HTML markup. (#580)
+
+* In `layout_column_wrap()`, when `width` is a CSS unit -- e.g. `width = "400px"` or `width = "25%"` -- and `fixed_width = FALSE`, `layout_column_wrap()` will ensure that the columns are at least `width` wide, unless the parent container is narrower than `width`. (#851)
+
+## Bug fixes
+
+* `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)
+
+* Filter controls in the popovers of `DT::datatable()` tables now better match the current Bootstrap theme and are responsive to the dark mode setting in Bootstrap 5.3. (#267, #775).
+
+* A double border no longer appears when an accordion is used inside a `sidebar(open="always")` context. (#795)
+
+* `layout_sidebar()` no longer gives the sidebar main content area the `role="main"` attribute. (#580)
+
+
 # bslib 0.5.1
 
 ## New features

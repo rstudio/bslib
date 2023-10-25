@@ -1,5 +1,8 @@
 #' Define breakpoint values
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' A generic constructor for responsive breakpoints.
 #'
 #' @param sm Values to apply at the `sm` breakpoint.
@@ -7,10 +10,15 @@
 #' @param lg Values to apply at the `lg` breakpoint.
 #' @param ... Other breakpoints (e.g., `xl`).
 #'
-#' @references <https://getbootstrap.com/docs/5.3/layout/breakpoints/>
+#' @seealso `breakpoints()` is used by [layout_columns()].
+#' @references Bootstrap's
+#'   [Breakpoints article](https://getbootstrap.com/docs/5.3/layout/breakpoints/)
+#'   provides more detail on breakpoints and how they are used and customized.
+#'
+#' @examples
+#' breakpoints(sm = c(4, 4, 4), md = c(3, 3, 6), lg = c(-2, 8, -2))
 #'
 #' @export
-#' @seealso [layout_columns()]
 breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
   breaks <- dropNulls(
     rlang::list2(..., sm = sm, md = md, lg = lg)

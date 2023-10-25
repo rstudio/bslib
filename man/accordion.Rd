@@ -44,11 +44,16 @@ when \code{multiple=TRUE}.}
 \item{icon}{A \link[htmltools:builder]{htmltools::tag} child (e.g., \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}) which is positioned just before the \code{title}.}
 }
 \description{
-Create a vertically collapsing accordion
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+An accordion can be used to organize UI elements and content in a limited
+space. It comprises multiple, vertically stacked panels that expand or
+collapse when clicked, providing a compact layout that works well for
+grouping input elements in a \code{\link[=sidebar]{sidebar()}} or for organizing detailed
+context-specific information.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 items <- lapply(LETTERS, function(x) {
   accordion_panel(paste("Section", x), paste("Some narrative for section", x))
 })
@@ -79,8 +84,26 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \references{
-\url{https://getbootstrap.com/docs/5.2/components/accordion/}
+bslib's accordion component is derived from the \href{https://getbootstrap.com/docs/5.3/components/accordion/}{Bootstrap Accordion component}.
+Accordions are also featured on the bslib website:
+\itemize{
+\item \href{https://rstudio.github.io/bslib/articles/dashboards/index.html#accordions}{Get Started: Dashboards}
+\item \href{https://rstudio.github.io/bslib/articles/dashboards/index.html#accordions}{Sidebars: Accordions}
+}
 }
 \seealso{
-\code{\link[=accordion_panel_set]{accordion_panel_set()}}
+\code{\link[=accordion_panel_set]{accordion_panel_set()}}, \code{\link[=accordion_panel_open]{accordion_panel_open()}} and
+\code{\link[=accordion_panel_close]{accordion_panel_close()}} programmatically interact with the state of an
+accordion panel.
+
+\code{\link[=accordion_panel_insert]{accordion_panel_insert()}}, \code{\link[=accordion_panel_remove]{accordion_panel_remove()}} and
+\code{\link[=accordion_panel_update]{accordion_panel_update()}} add or remove accordion panels from an
+accordion.
+
+Other Components: 
+\code{\link{card}()},
+\code{\link{popover}()},
+\code{\link{tooltip}()},
+\code{\link{value_box}()}
 }
+\concept{Components}

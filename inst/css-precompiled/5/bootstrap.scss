@@ -1,17 +1,23 @@
 @import "inst/lib/bs5/scss/_functions.scss";
-@import "inst/sass-utils/color-contrast.scss";
+@import "inst/bslib-scss/functions.scss";
 
 
 
+$bslib-preset-type: builtin;
+$bslib-preset-name: shiny;
+$web-font-path: "font.css" !default;
+@import "inst/builtin/bs5/shiny/_variables.scss";
 $enable-cssgrid: true !default;
 @import "inst/bs3compat/_defaults.scss";
 @import "inst/lib/bs5/scss/_variables.scss";
+@import "inst/lib/bs5/scss/_variables-dark.scss";
 $bootstrap-version: 5;
 $bslib-preset-name: null !default;
 $bslib-preset-type: null !default;
 @import "inst/lib/bs5/scss/_maps.scss";
 @import "inst/lib/bs5/scss/_mixins.scss";
 @import "inst/bs3compat/_declarations.scss";
+@import "inst/builtin/bs5/shiny/_mixins.scss";
 :root {
 --bslib-bootstrap-version: #{$bootstrap-version};
 --bslib-preset-name: #{$bslib-preset-name};
@@ -58,3 +64,4 @@ $bslib-preset-type: null !default;
 .table th[align=center] { text-align: center; }
 @import "inst/bs3compat/_rules.scss";
 @import "inst/bslib-scss/bslib.scss";
+@import "inst/builtin/bs5/shiny/_rules.scss";

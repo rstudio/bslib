@@ -13,7 +13,7 @@ bs_theme_dependencies(
 )
 }
 \arguments{
-\item{theme}{a \code{\link[=bs_theme]{bs_theme()}} object.}
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{sass_options}{a \code{\link[sass:sass_options]{sass::sass_options()}} object.}
 
@@ -26,12 +26,12 @@ object created by \code{\link[sass:sass_file_cache]{sass_file_cache()}}, or \cod
 precompiled CSS file for the \code{\link[=theme_version]{theme_version()}}.  If \code{precompiled = TRUE}
 and a precompiled CSS file exists for the theme object, it will be fetched
 immediately and not compiled. At the moment, we only provide precompiled
-CSS for "stock" builds of Bootstrap (i.e., no theming additions, bootswatch
+CSS for "stock" builds of Bootstrap (i.e., no theming additions, Bootswatch
 themes, or non-default \code{sass_options}).}
 }
 \value{
-a list of HTML dependencies containing Bootstrap CSS, Bootstrap
-JavaScript, and \code{jquery}. This list may contain additional HTML
+Returns a list of HTML dependencies containing Bootstrap CSS,
+Bootstrap JavaScript, and \code{jquery}. This list may contain additional HTML
 dependencies if bundled with the \code{theme}.
 }
 \description{
@@ -45,22 +45,21 @@ component, see \code{\link[=bs_dependency]{bs_dependency()}}.
 \section{Sass caching and precompilation}{
 
 
-If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)} or calling \code{shiny::devmode(TRUE)}), both \pkg{sass} caching and \pkg{bslib}
-precompilation are disabled by default; that is, a call to
-\code{bs_theme_dependencies(theme)} expands to \code{bs_theme_dependencies(theme, cache = F, precompiled = F)}). This is useful for local development as
-enabling caching/precompilation may produce incorrect results if local
-changes are made to bslib's source files.
+If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)} or calling \code{shiny::devmode(TRUE)}), both \pkg{sass} caching and
+\pkg{bslib} precompilation are disabled by default; that is, a call to
+\code{bs_theme_dependencies(theme)} expands to \code{bs_theme_dependencies(theme, cache = F, precompiled = F)}). This is useful for local development as enabling
+caching/precompilation may produce incorrect results if local changes are
+made to bslib's source files.
 }
 
 \examples{
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # Function to preview the styling a (primary) Bootstrap button
 library(htmltools)
 button <- tags$a(class = "btn btn-primary", href = "#", role = "button", "Hello")
 preview_button <- function(theme) {
-  if (interactive()) {
-    browsable(tags$body(bs_theme_dependencies(theme), button))
-  }
+  browsable(tags$body(bs_theme_dependencies(theme), button))
 }
 
 # Latest Bootstrap
@@ -71,8 +70,16 @@ preview_button(bs_theme(3))
 preview_button(bs_theme(4, bootswatch = "minty"))
 # Bootswatch 4 sketchy theme
 preview_button(bs_theme(4, bootswatch = "sketchy"))
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=bs_theme]{bs_theme()}}, \code{\link[=bs_dependency]{bs_dependency()}}
+Other Bootstrap theme functions: 
+\code{\link{bs_add_variables}()},
+\code{\link{bs_current_theme}()},
+\code{\link{bs_dependency}()},
+\code{\link{bs_global_theme}()},
+\code{\link{bs_remove}()},
+\code{\link{bs_theme_preview}()},
+\code{\link{bs_theme}()}
 }
+\concept{Bootstrap theme functions}

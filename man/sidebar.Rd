@@ -38,8 +38,6 @@ layout_sidebar(
 )
 
 toggle_sidebar(id, open = NULL, session = get_current_session())
-
-sidebar_toggle(id, open = NULL, session = get_current_session())
 }
 \arguments{
 \item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} and named arguments become HTML attributes on
@@ -71,7 +69,7 @@ options.}
 update) the \code{collapsible} state in a Shiny app.}
 
 \item{title}{A character title to be used as the sidebar title, which will be
-wrapped in a \verb{<div>} element with class \code{sidebar-title}. You can also
+wrapped in a \verb{<header>} element with class \code{sidebar-title}. You can also
 provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
 you'll likely want to give this element \code{class = "sidebar-title"}.}
 
@@ -82,10 +80,11 @@ color, e.g. setting \code{bg} chooses an appropriate \code{fg} color.}
 \item{class}{CSS classes for the sidebar container element, in addition to
 the fixed \code{.sidebar} class.}
 
-\item{max_height_mobile}{The maximum height of the horizontal sidebar when
-viewed on mobile devices. The default is \verb{250px} unless the sidebar is
-included in a \code{\link[=layout_sidebar]{layout_sidebar()}} with a specified height, in which case
-the default is to take up no more than 50\% of the layout container.}
+\item{max_height_mobile}{A \link[htmltools:validateCssUnit]{CSS length unit}
+defining the maximum height of the horizontal sidebar when viewed on mobile
+devices. Only applies to always-open sidebars that use \code{open = "always"},
+where by default the sidebar container is placed below the main content
+container on mobile devices.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
 vertical \code{gap} (i.e., spacing) between adjacent elements provided to \code{...}.}
@@ -124,38 +123,41 @@ main content area.}
 used).}
 }
 \description{
-Create a collapsing sidebar layout by providing a \code{sidebar()}
-object to the \code{sidebar} argument of:
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Sidebar layouts place UI elements, like input controls or additional context,
+next to the main content area which often holds output elements like plots or
+tables.
+
+There are several page, navigation, and layout functions that allow you to
+create a sidebar layout. In each case, you can create a collapsing sidebar
+layout by providing a \code{sidebar()} object to the \code{sidebar} argument the
+following functions.
 \itemize{
-\item \code{\link[=page_sidebar]{page_sidebar()}}
-\itemize{
-\item Creates a "page-level" sidebar.
-}
-\item \code{\link[=page_navbar]{page_navbar()}}
-\itemize{
-\item Creates a multi-page app with a "page-level" sidebar.
-\item Creates a multi page/tab UI with a singular \code{sidebar()} (which is
-shown on every page/tab).
-}
-\item \code{layout_sidebar()}
-\itemize{
-\item Creates a "floating" sidebar layout component which can be dropped
-inside any \code{\link[=page]{page()}} and/or \code{\link[=card]{card()}} context.
-}
-\item \code{\link[=navset_card_tab]{navset_card_tab()}} and \code{\link[=navset_card_pill]{navset_card_pill()}}
-\itemize{
-\item Creates a multi-tab card with a sidebar inside of it.
-}
+\item \code{\link[=page_sidebar]{page_sidebar()}} creates a "page-level" sidebar.
+\item \code{\link[=page_navbar]{page_navbar()}} creates a multi-panel app with an (optional, page-level)
+sidebar that is shown on every panel.
+\item \code{layout_sidebar()} creates a "floating" sidebar layout component which can
+be used inside any \code{\link[=page]{page()}} and/or \code{\link[=card]{card()}} context.
+\item \code{\link[=navset_card_tab]{navset_card_tab()}} and \code{\link[=navset_card_pill]{navset_card_pill()}} create multi-tab cards with a
+shared sidebar that is accessible from every panel.
 }
 
-See \href{https://rstudio.github.io/bslib/articles/sidebars.html}{this article}
-to learn more.
+See \href{https://rstudio.github.io/bslib/articles/sidebars.html}{the Sidebars article}
+on the bslib website to learn more.
 }
 \section{Functions}{
 \itemize{
 \item \code{toggle_sidebar()}: Toggle a \code{sidebar()} state during an active Shiny user
 session.
 
-\item \code{sidebar_toggle()}: An alias for \code{\link[=toggle_sidebar]{toggle_sidebar()}}.
-
 }}
+\references{
+Sidebar layouts are featured in a number of pages on the bslib
+website:
+\itemize{
+\item \href{https://rstudio.github.io/bslib/articles/sidebars.html}{Sidebars}
+\item \href{https://rstudio.github.io/bslib/articles/cards/index.html#sidebars}{Cards: Sidebars}
+\item \href{https://rstudio.github.io/bslib/articles/dashboards/index.html}{Getting Started: Dashboards}
+}
+}

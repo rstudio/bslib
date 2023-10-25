@@ -2,7 +2,10 @@
 #'
 #' Render a collection of [nav_panel()] items into a container.
 #'
-#' @includeRmd man/fragments/ex-navset_tab.Rmd
+#' @section Examples:
+#'
+#' ```{r child="man/fragments/ex-navset_tab.Rmd"}
+#' ```
 #'
 #' @param ... a collection of [nav_panel()] items.
 #' @param id a character string used for dynamically updating the container (see
@@ -12,7 +15,15 @@
 #' @param header UI element(s) ([tags]) to display _above_ the nav content.
 #' @param footer UI element(s) ([tags]) to display _below_ the nav content.
 #'
-#' @seealso [nav_panel()], [nav_select()].
+#' @seealso [nav_panel()], [nav_panel_hidden()] create panels of content.
+#' @seealso [nav_menu()], [nav_item()], [nav_spacer()] create menus, items, or
+#'   space in the navset control area.
+#' @seealso [nav_insert()], [nav_remove()] programmatically add or remove nav
+#'   panels.
+#' @seealso [nav_select()], [nav_show()], [nav_hide()] change the state of a
+#'   [nav_panel()] in a navset.
+#'
+#' @family Panel container functions
 #' @rdname navset
 #' @name navset
 #' @export
@@ -34,6 +45,22 @@ navset_pill <- function(..., id = NULL, selected = NULL,
     header = header, footer = footer
   )
   as_fragment(pills)
+}
+
+#' @export
+#' @rdname navset
+navset_underline <- function(
+  ...,
+  id = NULL,
+  selected = NULL,
+  header = NULL,
+  footer = NULL
+) {
+  res <- tabsetPanel_(
+    ..., type = "underline", id = id, selected = selected,
+    header = header, footer = footer
+  )
+  as_fragment(res)
 }
 
 #' @export
@@ -109,11 +136,15 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
                       position = c("static-top", "fixed-top", "fixed-bottom"),
                       header = NULL, footer = NULL,
                       bg = NULL, inverse = "auto",
+                      underline = TRUE,
                       collapsible = TRUE, fluid = TRUE,
                       theme = NULL) {
 
   if (identical(inverse, "auto")) {
     inverse <- TRUE
+    if (identical(theme_preset_info(theme)$name, "shiny")) {
+      inverse <- FALSE
+    }
     if (!is.null(bg)) {
       bg <- htmltools::parseCssColors(bg)
       bg_contrast <- bs_get_contrast(bs_theme("navbar-bg" = bg), "navbar-bg")
@@ -127,7 +158,7 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
     gap = gap, padding = padding,
     position = match.arg(position),
     header = header, footer = footer, collapsible = collapsible,
-    inverse = inverse, fluid = fluid,
+    inverse = inverse, underline = underline, fluid = fluid,
     theme = theme
   )
 
@@ -158,6 +189,7 @@ navbarPage_ <- function(title,
                        header = NULL,
                        footer = NULL,
                        inverse = FALSE,
+                       underline = TRUE,
                        collapsible = FALSE,
                        fluid = TRUE,
                        theme = NULL) {
@@ -177,7 +209,10 @@ navbarPage_ <- function(title,
     selected <- shiny::restoreInput(id = id, default = selected)
 
   # build the tabset
-  tabset <- buildTabset(..., ulClass = "nav navbar-nav", id = id, selected = selected)
+  ulClass <- "nav navbar-nav"
+  if (underline)
+    ulClass <- paste(ulClass, "nav-underline")
+  tabset <- buildTabset(..., ulClass = ulClass, id = id, selected = selected)
 
   containerClass <- paste0("container", if (fluid) "-fluid")
 
@@ -281,8 +316,7 @@ navbarPage_ <- function(title,
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
   tagList(
     tags$nav(class = navbarClass, role = "navigation", containerDiv),
-    contentDiv,
-    component_dependency_css("page_navbar")
+    contentDiv
   )
 }
 
@@ -343,7 +377,7 @@ tabPanelBody_ <- function(value, ..., icon = NULL) {
 tabsetPanel_ <- function(...,
                         id = NULL,
                         selected = NULL,
-                        type = c("tabs", "pills", "hidden"),
+                        type = c("tabs", "pills", "hidden", "underline"),
                         header = NULL,
                         footer = NULL) {
 

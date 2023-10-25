@@ -69,5 +69,19 @@ forms, links to external content, etc.)
 
 }}
 \seealso{
-\code{\link[=navset_tab]{navset_tab()}}, \code{\link[=nav_select]{nav_select()}}.
+\link{navset} create the navigation container holding the nav panels.
+
+\code{\link[=nav_menu]{nav_menu()}}, \code{\link[=nav_item]{nav_item()}}, \code{\link[=nav_spacer]{nav_spacer()}} create menus, items, or
+space in the navset control area.
+
+\code{\link[=nav_insert]{nav_insert()}}, \code{\link[=nav_remove]{nav_remove()}} programmatically add or remove nav
+panels.
+
+\code{\link[=nav_select]{nav_select()}}, \code{\link[=nav_show]{nav_show()}}, \code{\link[=nav_hide]{nav_hide()}} change the state of a
+\code{\link[=nav_panel]{nav_panel()}} in a navset.
+
+Other Panel container functions: 
+\code{\link{nav_select}()},
+\code{\link{navset}}
 }
+\concept{Panel container functions}

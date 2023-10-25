@@ -3,7 +3,7 @@ library(bslib)
 library(dplyr)
 library(lubridate)
 library(plotly)
-library(nycflights13)
+library(chiflights22)
 library(histoslider)
 library(rlang)
 
@@ -19,6 +19,7 @@ flights <- flights %>%
   ) %>%
   left_join(airlines, by = "carrier") %>%
   rename(carrier_name = name) %>%
+  select(-time_hour) %>%
   left_join(weather) %>%
   mutate(
     # The overwhelming majority of precipation is 0 so transform
@@ -27,80 +28,92 @@ flights <- flights %>%
     date = lubridate::ymd(paste(year, month, day, sep = "-"))
   )
 
-PRIMARY <- "#0675DD"
+SLIDER_HEIGHT <- 150
+CHOICES <- list(
+  origin = c(
+    "Choose origin(s)" = "",
+    "O'Hare" = "ORD",
+    "Midway" = "MDW",
+    "Rockford" = "RFD"
+  ),
+  dest_name = c(
+    "Choose destination(s)" = "",
+    sort(unique(flights$dest_name))
+  ),
+  carrier_name = c(
+    "Choose carrier(s)" = "",
+    unique(flights$carrier_name)
+  )
+)
+
 
 sidebar_acc <- accordion(
   open = c("Origin", "Destination"),
   accordion_panel(
-    "Origin", icon = icon("plane-departure"),
-    uiOutput("origin_reset"),
-    checkboxGroupInput(
-      "origin", NULL,
-      choices = sort(unique(flights$origin)),
-      inline = TRUE
-    )
-  ),
-  accordion_panel(
-    "Destination", icon = icon("plane-arrival"),
-    selectInput(
-      "dest_name", NULL,
-      sort(unique(flights$dest_name)),
+    "Flight Path",
+    # See https://github.com/rstudio/fontawesome/issues/114
+    icon = fontawesome::fa("plane-departure"),
+    uiOutput("flight_path_reset"),
+    selectizeInput(
+      "origin", "Origin",
+      choices = CHOICES$origin,
       multiple = TRUE,
-      width = "100%"
-    )
-  ),
-  accordion_panel(
-    "Carrier", icon = icon("user-tie"),
-    selectInput(
-      "carrier_name", NULL,
-      unique(flights$carrier_name),
+      options = list(plugins = "remove_button", closeAfterSelect = TRUE)
+    ),
+    selectizeInput(
+      "dest_name", "Destination",
+      choices = CHOICES$dest_name,
       multiple = TRUE,
-      width = "100%"
+      options = list(plugins = "remove_button", closeAfterSelect = TRUE)
+    ),
+    selectizeInput(
+      "carrier_name", "Carrier",
+      choices = CHOICES$carrier_name,
+      multiple = TRUE,
+      options = list(plugins = "remove_button", closeAfterSelect = TRUE)
     )
   ),
   accordion_panel(
-    "Flight time", icon = icon("clock"),
+    "Flight time",
+    icon = fontawesome::fa("clock"),
     input_histoslider(
       "sched_dep_time", "Departure time",
-      flights$sched_dep_time, height = 125,
-      options = list(
-        handleLabelFormat = "0d",
-        selectedColor = PRIMARY
-      )
+      flights$sched_dep_time,
+      height = SLIDER_HEIGHT,
+      options = list(handleLabelFormat = "0d")
     ),
     input_histoslider(
       "sched_arr_time", "Arrival time",
-      flights$sched_arr_time, height = 125,
-      options = list(
-        handleLabelFormat = "0d",
-        selectedColor = PRIMARY
-      )
+      flights$sched_arr_time,
+      height = SLIDER_HEIGHT,
+      options = list(handleLabelFormat = "0d")
     ),
     input_histoslider(
       "date", "Date",
-      flights$date, height = 125, breaks = "months",
-      options = list(
-        handleLabelFormat = "%b %e",
-        selectedColor = PRIMARY
-      )
+      flights$date,
+      height = SLIDER_HEIGHT,
+      breaks = "months",
+      options = list(handleLabelFormat = "%b %e")
     )
   ),
   accordion_panel(
-    "Weather", icon = icon("cloud-rain"),
-    input_histoslider(
-      "precip", "Precipitation",
-      flights$precip, height = 125,
-      options = list(selectedColor = PRIMARY)
-    ),
+    "Weather",
+    icon = fontawesome::fa("cloud-rain"),
+    # TODO: problematic (many NAs)
+    #input_histoslider(
+    #  "precip", "Precipitation",
+    #  flights$precip,
+    #  height = SLIDER_HEIGHT
+    #),
     input_histoslider(
       "wind_speed", "Wind speed",
-      flights$wind_speed, height = 125,
-      options = list(selectedColor = PRIMARY)
+      flights$wind_speed,
+      height = SLIDER_HEIGHT
     ),
     input_histoslider(
       "wind_gust", "Wind gust",
-      flights$wind_gust, height = 125,
-      options = list(selectedColor = PRIMARY)
+      flights$wind_gust,
+      height = SLIDER_HEIGHT
     )
   )
 )
@@ -108,27 +121,62 @@ sidebar_acc <- accordion(
 
 flights_card <- card(
   full_screen = TRUE,
-  card_header("Flight paths"),
-  plotlyOutput("flight_paths"),
-  card_footer("Marker areas are proportional to mean arrival delay")
+  card_header(
+    "Flight paths",
+    tooltip(
+      bsicons::bs_icon("info-circle", title = "About marker areas"),
+      "Marker areas are proportional to mean arrival delay"
+    ),
+    class = "d-flex justify-content-between align-items-center"
+  ),
+  plotlyOutput("flight_paths")
 )
 
-delay_corr_card <- card(
+avg_delay_by_category <- card(
   full_screen = TRUE,
   card_header(
-    "Arrival vs departure delay",
-    checkboxInput("scatter_summarize", "Summarize", TRUE, width = "fit-content"),
-    class = "d-flex justify-content-between"
+    "Average delay by category",
+    popover(
+      bsicons::bs_icon("gear", title = "Settings"),
+      selectInput(
+        "avg_delay_category", "Category",
+        c("Carrier", "Month", "Weekday")
+      ),
+      radioButtons(
+        "avg_delay_type", "Delay type",
+        c("Arrival", "Departure"),
+        inline = TRUE
+      )
+    ),
+    class = "d-flex justify-content-between align-items-center"
   ),
   plotlyOutput("scatter_delay")
 )
 
-delay_card <- navset_card_pill(
-  title = "Arrival delay",
+delay_dist <- navset_card_underline(
+  title = "Distribution of delay times",
   full_screen = TRUE,
+  id = "delay_dist_nav",
+  sidebar = sidebar(
+    position = "right",
+    open = FALSE,
+    radioButtons(
+      "delay_dist_type", "Delay type",
+      c("Arrival" = "arr_delay", "Departure" = "dep_delay"),
+      inline = TRUE
+    ),
+    conditionalPanel(
+      "input.delay_dist_nav === 'Overall'",
+      selectizeInput(
+        "delay_dist_category", "Split by",
+        c("Choose a category" = "", "Carrier", "Month", "Weekday"),
+        options = list(plugins = "remove_button")
+      )
+    )
+  ),
   nav_panel(
     "Overall",
-    plotlyOutput("arr_delay")
+    plotlyOutput("delay_dist")
   ),
   nav_panel(
     "Over time",
@@ -136,36 +184,41 @@ delay_card <- navset_card_pill(
   )
 )
 
+PRIMARY <- "#0675DD"
 
 ui <- page_navbar(
   theme = bs_theme(
-    base_font = font_google(
-      "Open Sans", wght = c(300, 400, 500, 600, 700, 800),
-      ital = c(0, 1)
-    ),
-    "primary" = PRIMARY,
-    "navbar-bg" = PRIMARY
+    preset = "shiny",
+    "primary" = PRIMARY
   ),
+  lang = "en",
   title = tags$span(
-    tags$img(src = "logo.png", width = "46px", height = "auto", class = "me-3"),
-    "NYC Flights"
-  ),
-  fillable = TRUE,
-  sidebar = sidebar(sidebar_acc),
-  nav_panel(
-    "Delays",
-    uiOutput("value_boxes"),
-    layout_column_wrap(
-      width = "200px", class = "my-3",
-      flights_card, delay_corr_card
+    tags$img(
+      src = "logo.png",
+      width = "46px",
+      height = "auto",
+      class = "me-3",
+      alt = "Shiny hex logo"
     ),
-    delay_card
+    "Chicago Flights"
+  ),
+  sidebar = sidebar(width = 275, sidebar_acc),
+  nav_spacer(),
+  nav_panel(
+    "Delay overview",
+    uiOutput("value_boxes"),
+    layout_columns(
+      flights_card, avg_delay_by_category
+    ),
+    delay_dist
   ),
   nav_panel(
-    "Durations",
-    "Coming soon"
+    "Data export",
+    card(
+      card_header("Flight data"),
+      DT::dataTableOutput("export")
+    )
   ),
-  nav_spacer(),
   nav_item(
     tags$a(
       tags$span(
@@ -174,6 +227,9 @@ ui <- page_navbar(
       href = "https://github.com/rstudio/bslib/tree/main/inst/examples/flights",
       target = "_blank"
     )
+  ),
+  nav_item(
+    input_dark_mode(id = "dark_mode", mode = "light")
   )
 )
 
@@ -188,7 +244,7 @@ server <- function(input, output, session) {
 
   # Mapping from input id name to updating input function
   input_discrete_vars <- list(
-    origin = function(...) updateCheckboxGroupInput(..., inline = TRUE),
+    origin = updateSelectInput,
     dest_name = updateSelectInput,
     carrier_name = updateSelectInput
   )
@@ -213,7 +269,7 @@ server <- function(input, output, session) {
   filter_col <- function(d, var) {
     vals <- d[[var]]
     input_val <- input[[var]]
-    if (is.null(input_val)) {
+    if (is.null(input_val) || identical(input_val, "")) {
       return(TRUE)
     }
 
@@ -233,57 +289,76 @@ server <- function(input, output, session) {
     dplyr::between(vals, input_val[1], input_val[2])
   }
 
-  # When a particular input filter changes, we need to update every other filter
-  # with data
+  # Set up a listener for each input that effectively says update
+  # every other input when my value changes
   lapply(names(input_vars), function(var) {
+    # We don't want updates to other variables to then
+    # cause an update to this variable
+    do_update <- reactiveVal(TRUE)
 
-    index <- reactive({
-      filter_index(flights[, setdiff(names(input_vars), var)])
-    })
+    observeEvent(input[[var]], ignoreInit = TRUE, ignoreNULL = FALSE, {
 
-    observeEvent(index(), ignoreInit = TRUE, ignoreNULL = FALSE, {
+      if (!do_update()) return()
+      do_update(FALSE)
+      on.exit(do_update(TRUE), add = TRUE)
 
-      d <- flights[index(), ]
+      d <- flights[filter_index(flights), ]
       if (nrow(d) == 0) return()
-      input_val <- input[[var]]
-      update_input_func <- input_vars[[var]]
 
-      if (var %in% names(input_discrete_vars)) {
-        choices <- sort(unique(d[[var]]))
-        update_input_func(
-          inputId = var, choices = choices, selected = input_val %||% character(0)
-        )
-      } else {
-        update_input_func(
-          id = var,
-          values = d[[var]],
-          start = input_val[1],
-          end = input_val[2]
-        )
-      }
+      other_vars <- setdiff(names(input_vars), var)
+      lapply(other_vars, function(v) {
 
+        input_val <- input[[v]]
+        update_input_func <- input_vars[[v]]
+
+        if (v %in% names(input_discrete_vars)) {
+          choices <- CHOICES[[v]] %||% sort(unique(d[[v]]))
+          selected <- input_val %||% CHOICES[[v]][CHOICES[[v]] == ""]
+
+          update_input_func(
+            inputId = v, choices = choices,
+            selected = selected
+          )
+        } else {
+          update_input_func(
+            id = v,
+            values = d[[v]],
+            start = input_val[1],
+            end = input_val[2]
+          )
+        }
+      })
     })
   })
 
-  output$origin_reset <- renderUI({
+
+  output$flight_path_reset <- renderUI({
+    req(c(input$origin, input$dest_name, input$carrier_name))
+
     actionLink(
-      "origin_reset", "Reset",
+      "flight_path_reset", "Reset",
       style = htmltools::css(
+        position = "absolute",
+        right = "1rem",
         text_decoration = "none",
         font_weight = 700,
-        font_size = ".875rem",
-        float = "right",
-        visibility = if (length(input$origin) > 0) "visible" else "hidden",
-        margin_top = "-7px"
+        font_size = ".875rem"
       )
     )
   })
 
-  observeEvent(input$origin_reset, {
-    updateCheckboxGroupInput(
+  observeEvent(input$flight_path_reset, {
+    updateSelectInput(
       inputId = "origin",
-      choices = sort(unique(flights$origin)),
-      selected = character(0)
+      choices = CHOICES$origin
+    )
+    updateSelectInput(
+      inputId = "dest_name",
+      choices = CHOICES$dest_name
+    )
+    updateSelectInput(
+      inputId = "carrier_name",
+      choices = CHOICES$carrier_name
     )
   })
 
@@ -292,56 +367,71 @@ server <- function(input, output, session) {
     flights[filter_index(flights), ]
   })
 
-  output$value_boxes <- renderUI({
+  summary_vals <- reactive({
     d <- flight_dat()
+
+    list(
+      n = scales::comma(nrow(d)),
+      n_dest = length(unique(d$dest_name)),
+      n_carriers = length(unique(d$carrier_name)),
+      dep_delay = round(mean(d$dep_delay, na.rm = T), 0),
+      dep_delay_perc = round(100 * sum(d$dep_delay > 0, na.rm = T) / nrow(d), 1),
+      arr_delay = round(mean(d$arr_delay, na.rm = T), 0),
+      arr_delay_perc = round(100 * sum(d$arr_delay > 0, na.rm = TRUE) / nrow(d), 1)
+    )
+  })
+
+  output$value_boxes <- renderUI({
+    vals <- summary_vals()
     n_flights <- value_box(
       "A TOTAL OF",
-      paste(nrow(d), "flights"),
-      paste(
-        "Across", length(unique(d$dest_name)),
-        "destinations"
-      ),
+      paste(vals$n, "flights"),
+      paste("Across", vals$n_dest, "destinations"),
       tags$p(paste(
-        "On", length(unique(d$carrier_name)), "different carriers"
+        "On", vals$n_carriers, "different carriers"
       )),
       showcase = bsicons::bs_icon("airplane")
     )
 
+    late <- if (vals$dep_delay > 0) "late" else "early"
     delay_dep <- value_box(
       "AVERAGE DEPARTURE",
-      paste(
-        round(mean(d$dep_delay, na.rm = T), 0),
-        "mins late"
-      ),
-      paste0(
-        round(100 * sum(d$dep_delay > 0, na.rm = T) / nrow(d), 1),
-        "% of flights depart late"
-      ),
+      paste(vals$dep_delay, "mins", late),
+      paste0(vals$dep_delay_perc, "% of flights depart ", late),
       showcase = bsicons::bs_icon("hourglass-split")
     )
 
+    late <- if (vals$arr_delay > 0) "late" else "early"
     delay_arr <- value_box(
       "AVERAGE ARRIVAL",
-      paste(
-        round(mean(d$arr_delay, na.rm = T), 0),
-        "mins late"
-      ),
-      paste0(
-        round(100 * sum(d$arr_delay > 0, na.rm = TRUE) / nrow(d), 1),
-        "% of flights arrive late"
-      ),
+      paste(vals$arr_delay, "mins", late),
+      paste0(vals$arr_delay_perc, "% of flights arrive ", late),
       showcase = bsicons::bs_icon("hourglass-bottom")
     )
 
-    layout_column_wrap(width = 1/3, n_flights, delay_dep, delay_arr)
+    layout_columns(class = "mb-0", n_flights, delay_dep, delay_arr)
   }) %>%
     bindCache(flight_dat())
+
+  plotly_base <- function(..., geo = FALSE, color = I(PRIMARY)) {
+    plot_func <- if (geo) plot_geo else plot_ly
+    plot_func(..., color = color) %>%
+      plotly::config(displayModeBar = FALSE) %>%
+      plotly::layout(
+        font = list(
+          family = "Open Sans",
+          color = if (input$dark_mode == "dark") "white" else "#1D1F21"
+        ),
+        plot_bgcolor = "transparent",
+        paper_bgcolor = "transparent"
+      )
+  }
 
   output$flight_paths <- renderPlotly({
     flight_dat() %>%
       group_by(start_lon, start_lat, end_lon, end_lat, origin, dest) %>%
       summarise(mean_delay = mean(arr_delay, na.rm = TRUE)) %>%
-      plot_geo(color = I("#0D6EFD"), showlegend = FALSE) %>%
+      plotly_base(geo = TRUE, showlegend = FALSE) %>%
       add_segments(
         x = ~start_lon, xend = ~end_lon,
         y = ~start_lat, yend = ~end_lat,
@@ -355,9 +445,9 @@ server <- function(input, output, session) {
           "Average delay: ", round(mean_delay, 1)
         )
       ) %>%
-      config(displayModeBar = FALSE) %>%
       layout(
         geo = list(
+          bgcolor = "transparent",
           projection = list(
             type = 'orthographic',
             rotation = list(lon = -100, lat = 40, roll = 0)
@@ -368,124 +458,129 @@ server <- function(input, output, session) {
         )
       )
   }) %>%
-    bindCache(flight_dat())
+    bindCache(flight_dat(), input$dark_mode)
 
   output$scatter_delay <- renderPlotly({
     d <- flight_dat()
     req(nrow(d) > 0)
 
-    if (isTRUE(input$scatter_summarize)) {
-      x <- d$dep_delay
-      y <- d$arr_delay
-      p <- plot_ly() %>%
-        add_histogram2dcontour(
-          x = x, y = y, hovertemplate = "Number of flights: %{z}<extra></extra>"
-        ) %>%
-        layout(
-          xaxis = list(
-            title = "Departure delay",
-            range = c(-30, 100)
-          ),
-          yaxis = list(
-            title = "Arrival delay",
-            range = c(-50, 100)
-          )
-        ) %>%
-        colorbar(title = "Number of flights", y = 0.5, yanchor = "middle")
-
-      return(p)
-    }
-
-    m <- loess(arr_delay~dep_delay, data = d)
-    rng <- range(d$dep_delay, na.rm = TRUE)
-    grid <- data.frame(
-      dep_delay = seq(rng[1], rng[2], length = 100)
+    d <- switch(
+      input$avg_delay_category,
+      Weekday = group_by(d, y = lubridate::wday(date, label = TRUE)),
+      Month = group_by(d, y = lubridate::month(date, label = TRUE)),
+      Carrier = group_by(d, y = carrier_name),
+      stop("Category of ", input$avg_delay_category, "not implemented")
     )
-    grid <- modelr::add_predictions(grid, m)
 
-    plot_ly() %>%
-      add_markers(
-        data = d,
-        x = ~dep_delay,
-        y = ~arr_delay,
-        stroke = I(PRIMARY),
-        color = I("transparent"),
-        span = I(1),
-        text = ~paste0(
-          origin, " -> ",
-          substr(dest_name, nchar(dest_name) - 3, nchar(dest_name) - 1), "\n",
-          carrier_name, "\n",
-          "Arrival: ", arr_delay, "\n",
-          "Departure: ", dep_delay, "\n"
-        ),
-        hoverinfo = "text",
-        name = "Flights"
-      ) %>%
-      add_lines(
-        data = grid,
-        x = ~dep_delay,
-        y = ~pred,
-        text = ~paste0("Given a departure delay of ", round(dep_delay), "\n expect an arrival delay of ", round(pred)),
-        hoverinfo = "text",
-        name = "Predicted"
-      ) %>%
+    d <- switch(
+      input$avg_delay_type,
+      Arrival = summarise(d, avg = mean(arr_delay, na.rm = TRUE)),
+      Departure = summarise(d, avg = mean(dep_delay, na.rm = TRUE)),
+    )
+
+    d %>%
+      arrange(avg) %>%
+      mutate(y = factor(y, levels = y)) %>%
+      plotly_base(x = ~avg, y = ~y) %>%
+      add_bars(hoverinfo = "x") %>%
       layout(
-        legend = list(
-          orientation = "h",
-          x = 0.1, xanchor = "left",
-          y = 0.95, yanchor = "top",
-          bgcolor = "transparent"
-        ),
-        xaxis = list(title = "Departure delay"),
-        yaxis = list(title = "Arrival delay")
-      ) %>%
-      toWebGL()
+        yaxis = list(title = ""),
+        xaxis = list(
+          title = paste("Average", tolower(input$avg_delay_type), "delay"),
+          hoverformat = ".1f",
+          gridcolor = if (input$dark_mode == "dark") "#303030"
+        )
+      )
   }) %>%
-    bindCache(flight_dat(), input$scatter_summarize)
+    bindCache(flight_dat(), input$dark_mode, input$avg_delay_category, input$avg_delay_type)
 
 
-  output$arr_delay <- renderPlotly({
-    x <- flight_dat()$arr_delay
+  output$delay_dist <- renderPlotly({
+    d <- flight_dat()
+    x <- d[[input$delay_dist_type]]
     req(length(x) > 0)
 
     x_mean <- mean(x, na.rm = TRUE)
     end <- quantile(x, probs = 0.99, na.rm = TRUE)
-    plot_ly(x = x, hovertemplate = "%{y} flights were %{x} min late <extra></extra>", color = I(PRIMARY)) %>%
-      config(displayModeBar = FALSE) %>%
+
+    color <- switch(
+      input$delay_dist_category,
+      Carrier = d$carrier_name,
+      Month = lubridate::month(d$date, label = TRUE),
+      Weekday = lubridate::wday(d$date, label = TRUE),
+      I(PRIMARY)
+    )
+
+    plotly_base(
+      x = x, color = color,
+      hovertemplate = "%{y} flights were<br>%{x} min late <extra></extra>"
+    ) %>%
       rangeslider(start = min(x, na.rm = TRUE), end = as.numeric(end)) %>%
-      # TODO: add annotations for each line?
+      add_annotations(
+        text = paste(
+          "Average",
+          switch(
+            input$delay_dist_type,
+            arr_delay = "arrival",
+            dep_delay = "departure"
+          ),
+          "<br> delay of",
+          round(x_mean, 1), "min"
+        ),
+        x = x_mean, y = 0.5, yref = "paper",
+        ax = 80, ay = -50,
+        font = list(size = 14)
+      ) %>%
       layout(
+        barmode = "stack",
+        yaxis = list(gridcolor = if (input$dark_mode == "dark") "#303030"),
         shapes = list(
           type = "line",
           x0 = x_mean, x1 = x_mean,
           y0 = 0, y1 = 1,
           yref = "paper",
-          line = list(color = "orange", dash = "solid")
+          line = list(color = "lightgray", dash = "dash")
         )
       )
   }) %>%
-    bindCache(flight_dat())
+    bindCache(flight_dat(), input$dark_mode, input$delay_dist_type, input$delay_dist_category)
 
   output$arr_delay_series <- renderPlotly({
     d <- flight_dat()
     req(nrow(d) > 0)
 
-    d %>%
-      group_by(date) %>%
-      summarise(arr_delay_mean = mean(arr_delay, na.rm = TRUE)) %>%
-      plot_ly(
-        x = ~date, y = ~arr_delay_mean,
-        hovertemplate = "%{y:.1f}<extra></extra>",
-        color = I(PRIMARY)
-      ) %>%
+    d <- group_by(d, date)
+
+    d <- switch(
+      input$delay_dist_type,
+      arr_delay = summarise(d, y = mean(arr_delay, na.rm = TRUE)),
+      dep_delay = summarise(d, y = mean(dep_delay, na.rm = TRUE))
+    )
+
+    color <- switch(
+      input$delay_dist_category,
+      Carrier = d$carrier_name,
+      Month = lubridate::month(d$date, label = TRUE),
+      Weekday = lubridate::wday(d$date, label = TRUE),
+      I(PRIMARY)
+    )
+
+    plotly_base(
+      x = d$date, y = d$y, color = color,
+      hovertemplate = "%{y:.1f}<extra></extra>",
+    ) %>%
       add_lines() %>%
       layout(
         hovermode = "x",
         xaxis = list(title = "", tickformat = "%b %e"),
-        yaxis = list(title = "Average delay")
+        yaxis = list(title = "Average delay", showgrid = FALSE)
       )
   }) %>%
-    bindCache(flight_dat())
+    bindCache(flight_dat(), input$dark_mode, input$delay_dist_type, input$delay_dist_category)
+
+  output$export <- DT::renderDataTable({
+    DT::datatable(flight_dat(), fillContainer = TRUE)
+  })
 
 }
 

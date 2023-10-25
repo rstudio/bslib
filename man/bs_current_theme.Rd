@@ -10,7 +10,7 @@ bs_current_theme(session = get_current_session(FALSE))
 \item{session}{The current Shiny session (if any).}
 }
 \value{
-a \code{\link[=bs_theme]{bs_theme()}} object.
+Returns a \code{\link[=bs_theme]{bs_theme()}} object.
 }
 \description{
 Intended for advanced use by developers to obtain the currently active theme
@@ -38,3 +38,14 @@ is called, which is relevant for \code{\link[rmarkdown:html_document]{rmarkdown:
 possibly other static rendering contexts.
 }
 }
+\seealso{
+Other Bootstrap theme functions: 
+\code{\link{bs_add_variables}()},
+\code{\link{bs_dependency}()},
+\code{\link{bs_global_theme}()},
+\code{\link{bs_remove}()},
+\code{\link{bs_theme_dependencies}()},
+\code{\link{bs_theme_preview}()},
+\code{\link{bs_theme}()}
+}
+\concept{Bootstrap theme functions}

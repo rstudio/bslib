@@ -45,35 +45,61 @@ together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body
 A \code{\link[htmltools:builder]{htmltools::div()}} tag.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 A general purpose container for grouping related UI elements together with a
-border and optional padding. To learn more about \code{\link[=card]{card()}}s, see \href{https://rstudio.github.io/bslib/articles/cards.html}{this article}.
+border and optional padding. To learn more about \code{\link[=card]{card()}}s, see \href{https://rstudio.github.io/bslib/articles/cards/index.html}{the Cards article} or the
+other articles listed in the \emph{References} section below.
 }
 \examples{
-
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(htmltools)
 
-if (interactive()) {
-  card(
-    full_screen = TRUE,
-    card_header(
-      "This is the header"
-    ),
-    card_body(
-      p("This is the body."),
-      p("This is still the body.")
-    ),
-    card_footer(
-      "This is the footer"
-    )
+card(
+  full_screen = TRUE,
+  card_header(
+    "This is the header"
+  ),
+  card_body(
+    p("This is the body."),
+    p("This is still the body.")
+  ),
+  card_footer(
+    "This is the footer"
   )
+)
+\dontshow{\}) # examplesIf}
 }
-
+\references{
+Several articles on the bslib website feature the card component:
+\itemize{
+\item \href{https://rstudio.github.io/bslib/articles/cards/index.html}{Cards}
+\item \href{https://rstudio.github.io/bslib/articles/dashboards/index.html}{Get Started: Dashboards}
+\item \href{https://rstudio.github.io/bslib/articles/any-project/index.html}{Get Started: Any Project}
+\item \href{https://rstudio.github.io/bslib/articles/column-layout/index.html}{Column-based layouts}
+\item \href{https://rstudio.github.io/bslib/articles/filling/index.html#full-screen-cards}{Filling layouts: Full-screen cards}
+}
 }
 \seealso{
-\code{\link[=card_body]{card_body()}} for putting stuff inside the card.
+\link[=card_body]{Card item functions} create the various parts of a
+card.
 
-\code{\link[=navset_card_tab]{navset_card_tab()}} for cards with multiple tabs.
+\code{\link[=navset_card_tab]{navset_card_tab()}}, \code{\link[=navset_card_pill]{navset_card_pill()}} and
+\code{\link[=navset_card_underline]{navset_card_underline()}} create cards with tabbed navigation.
 
-\code{\link[=layout_column_wrap]{layout_column_wrap()}} for laying out multiple cards (or multiple
-columns inside a card).
+\code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} help position multiple
+cards into columns and rows and can also be used inside a card.
+
+\code{\link[=layout_sidebar]{layout_sidebar()}} adds a sidebar to a card when nested in \code{\link[=card]{card()}}
+or \code{\link[=card_body]{card_body()}}.
+
+\code{\link[=value_box]{value_box()}} uses \code{\link[=card]{card()}} to highlight a showcase a key piece of
+information.
+
+Other Components: 
+\code{\link{accordion}()},
+\code{\link{popover}()},
+\code{\link{tooltip}()},
+\code{\link{value_box}()}
 }
+\concept{Components}

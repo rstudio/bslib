@@ -159,7 +159,7 @@ describe("theme_preset_info()", {
 
   it("returns vanilla bootstrap theme information", {
     expect_equal(
-      theme_preset_info(bs_theme(version = 5)),
+      theme_preset_info(bs_theme(preset = "bootstrap", version = 5)),
       new_bs_preset("bootstrap", version = "5")
     )
 

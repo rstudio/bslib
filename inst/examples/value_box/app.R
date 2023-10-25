@@ -29,7 +29,7 @@ ui <- page_fluid(
       showcase = plotlyOutput("psavert"),
       showcase_layout = showcase_top_right(),
       full_screen = TRUE,
-      theme_color = "success"
+      theme = "success"
     ),
     value_box(
       title = "Personal Consumption",
@@ -38,7 +38,7 @@ ui <- page_fluid(
       p("Averaging $1.7B"),
       showcase = bsicons::bs_icon("piggy-bank", size = "100%"),
       full_screen = TRUE,
-      theme_color = "danger"
+      theme = "danger"
     )
   )
 )

@@ -4,50 +4,16 @@
 \alias{page}
 \alias{page_fluid}
 \alias{page_fixed}
-\alias{page_fillable}
-\alias{page_navbar}
-\title{Create a Bootstrap page}
+\title{Modern Bootstrap page layouts}
 \usage{
 page(..., title = NULL, theme = bs_theme(), lang = NULL)
 
 page_fluid(..., title = NULL, theme = bs_theme(), lang = NULL)
 
 page_fixed(..., title = NULL, theme = bs_theme(), lang = NULL)
-
-page_fillable(
-  ...,
-  padding = NULL,
-  gap = NULL,
-  fillable_mobile = FALSE,
-  title = NULL,
-  theme = bs_theme(),
-  lang = NULL
-)
-
-page_navbar(
-  ...,
-  title = NULL,
-  id = NULL,
-  selected = NULL,
-  sidebar = NULL,
-  fillable = TRUE,
-  fillable_mobile = FALSE,
-  gap = NULL,
-  padding = NULL,
-  position = c("static-top", "fixed-top", "fixed-bottom"),
-  header = NULL,
-  footer = NULL,
-  bg = NULL,
-  inverse = "auto",
-  collapsible = TRUE,
-  fluid = TRUE,
-  theme = bs_theme(),
-  window_title = NA,
-  lang = NULL
-)
 }
 \arguments{
-\item{...}{The contents of the document body.}
+\item{...}{UI elements for the page. Named arguments become HTML attributes.}
 
 \item{title}{The browser window title (defaults to the host URL of the page)}
 
@@ -56,74 +22,26 @@ page_navbar(
 \item{lang}{ISO 639-1 language code for the HTML page, such as "en" or "ko".
 This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="en">}.
 The default (NULL) results in an empty string.}
-
-\item{padding}{Padding to use for the body. This can be a numeric vector
-(which will be interpreted as pixels) or a character vector with valid CSS
-lengths. The length can be between one and four. If one, then that value
-will be used for all four sides. If two, then the first value will be used
-for the top and bottom, while the second value will be used for left and
-right. If three, then the first will be used for top, the second will be
-left and right, and the third will be bottom. If four, then the values will
-be interpreted as top, right, bottom, and left respectively.}
-
-\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
-
-\item{fillable_mobile}{Whether or not \code{fillable} pages should fill the viewport's
-height on mobile devices (i.e., narrow windows).}
-
-\item{id}{a character string used for dynamically updating the container (see
-\code{\link[=nav_select]{nav_select()}}).}
-
-\item{selected}{a character string matching the \code{value} of a particular
-\code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
-
-\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} component to display on every \code{\link[=nav_panel]{nav_panel()}}
-page.}
-
-\item{fillable}{Whether or not to allow \code{fill} items to grow/shrink to fit
-the browser window. If \code{TRUE}, all \code{\link[=nav_panel]{nav_panel()}} pages are \code{fillable}. A
-character vector, matching the \code{value} of \code{\link[=nav_panel]{nav_panel()}}s to be filled, may
-also be provided. Note that, if a \code{sidebar} is provided, \code{fillable} makes
-the main content portion fillable.}
-
-\item{position}{Determines whether the navbar should be displayed at the top
-of the page with normal scrolling behavior (\code{"static-top"}), pinned at
-the top (\code{"fixed-top"}), or pinned at the bottom
-(\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
-\code{"fixed-bottom"} will cause the navbar to overlay your body content,
-unless you add padding, e.g.: \code{tags$style(type="text/css", "body
-  {padding-top: 70px;}")}}
-
-\item{header}{UI element(s) (\link{tags}) to display \emph{above} the nav content.}
-
-\item{footer}{UI element(s) (\link{tags}) to display \emph{below} the nav content.}
-
-\item{bg}{a CSS color to use for the navbar's background color.}
-
-\item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
-text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
-
-\item{collapsible}{\code{TRUE} to automatically collapse the navigation
-elements into a menu when the width of the browser is less than 940 pixels
-(useful for viewing on smaller touchscreen device)}
-
-\item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
-layout.}
-
-\item{window_title}{the browser window title. The default value, \code{NA}, means
-to use any character strings that appear in \code{title} (if none are found, the
-host URL of the page is displayed by default).}
 }
 \description{
-These functions are small wrappers around shiny's page constructors (i.e., \code{\link[shiny:fluidPage]{shiny::fluidPage()}}, \code{\link[shiny:navbarPage]{shiny::navbarPage()}}, etc) that differ in two ways:
+These functions are small wrappers around shiny's page constructors (i.e.,
+\code{\link[shiny:fluidPage]{shiny::fluidPage()}}, \code{\link[shiny:navbarPage]{shiny::navbarPage()}}, etc) that differ in two ways:
 \itemize{
 \item The \code{theme} parameter defaults bslib's recommended version of Bootstrap (for new projects).
 \item The return value is rendered as an static HTML page when printed interactively at the console.
 }
 }
-\seealso{
-\code{\link[=page_sidebar]{page_sidebar()}}
+\section{Functions}{
+\itemize{
+\item \code{page_fluid()}: A \pkg{bslib} wrapper for \code{\link[shiny:fluidPage]{shiny::fluidPage()}}, a fluid
+Bootstrap-based page layout that extends to the full viewport width.
 
-\code{\link[shiny:navbarPage]{shiny::navbarPage()}}
+\item \code{page_fixed()}: A \pkg{bslib} wrapper for \code{\link[shiny:fixedPage]{shiny::fixedPage()}}, a fixed
+Bootstrap-based page layout where the page content container is centered
+horizontally and its width is constrained.
+
+}}
+\seealso{
+Dashboard-style pages: \code{\link[=page_sidebar]{page_sidebar()}}, \code{\link[=page_navbar]{page_navbar()}},
+\code{\link[=page_fillable]{page_fillable()}}.
 }
