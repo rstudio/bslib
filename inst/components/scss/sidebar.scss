@@ -6,7 +6,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
 
 
 .bslib-sidebar-layout {
-  --bslib-sidebar-transition-duration: 500ms;
+  --_transition-duration: max(var(--bslib-sidebar-transition-duration, 500ms), 5ms);
   --bslib-sidebar-transition-easing-x: cubic-bezier(0.8, 0.78, 0.22, 1.07);
   --bslib-sidebar-border: #{$bslib-sidebar-border};
   --bslib-sidebar-border-radius: var(--bs-border-radius);
@@ -27,12 +27,12 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
   --bslib-sidebar-toggle-transition-easing: cubic-bezier(1, 0, 0, 1);
   --bslib-collapse-toggle-right-transform: 180deg;
   --bslib-sidebar-column-main: minmax(0, 1fr);
-  
+
   display: grid !important;
   grid-template-columns: $bslib-sidebar-column-sidebar var(--bslib-sidebar-column-main);
   position: relative;
 
-  @include transition(grid-template-columns ease-in-out var(--bslib-sidebar-transition-duration));
+  @include transition(grid-template-columns ease-in-out var(--_transition-duration));
 
   border: var(--bslib-sidebar-border);
   border-radius: var(--bslib-sidebar-border-radius);
@@ -55,7 +55,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     padding: var(--bslib-sidebar-padding);
-    transition: padding var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
+    transition: padding var(--bslib-sidebar-transition-easing-x) var(--_transition-duration);
     color: var(--bslib-sidebar-main-fg);
     background-color: var(--bslib-sidebar-main-bg);
   }
@@ -149,10 +149,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
     color: var(--bslib-sidebar-fg);
     background-color: unset; // don't take `button` background color
     transition:
-      color var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
-      top var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
-      right var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration),
-      left var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
+      color var(--bslib-sidebar-transition-easing-x) var(--_transition-duration),
+      top var(--bslib-sidebar-transition-easing-x) var(--_transition-duration),
+      right var(--bslib-sidebar-transition-easing-x) var(--_transition-duration),
+      left var(--bslib-sidebar-transition-easing-x) var(--_transition-duration);
 
     &:hover {
       background-color: var(--bslib-sidebar-toggle-bg);
@@ -165,7 +165,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       transform: rotateY(var(--bslib-collapse-toggle-transform));
       // N.B. since mobile view won't trigger a transition of grid-template-columns,
       // we transition this toggle to ensure _some_ transition event always happens.
-      transition: transform var(--bslib-sidebar-toggle-transition-easing) var(--bslib-sidebar-transition-duration);
+      transition: transform var(--bslib-sidebar-toggle-transition-easing) var(--_transition-duration);
     }
 
     &:hover > .collapse-icon {
@@ -318,7 +318,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--bslib-sidebar-icon-size)), 
       // Make main contents transparent while sidebar is expanded
       > .main {
         opacity: 0;
-        transition: opacity var(--bslib-sidebar-transition-easing-x) var(--bslib-sidebar-transition-duration);
+        transition: opacity var(--bslib-sidebar-transition-easing-x) var(--_transition-duration);
         padding-top: var(--bslib-sidebar-padding-icon);
         padding-left: var(--bslib-sidebar-padding);
         padding-right: var(--bslib-sidebar-padding);
