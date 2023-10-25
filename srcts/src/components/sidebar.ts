@@ -287,15 +287,11 @@ class Sidebar {
 
     const count = { left: 0, right: 0 };
     layouts.forEach(function (x: HTMLElement, i: number): void {
-      x.style.setProperty("--bslib-sidebar-counter", i.toString());
       const isRight = x.classList.contains("sidebar-right");
       const thisCount = isRight ? count.right++ : count.left++;
+      x.style.setProperty("--_js-counter-overlap", thisCount.toString());
       x.style.setProperty(
-        "--bslib-sidebar-overlap-counter",
-        thisCount.toString()
-      );
-      x.style.setProperty(
-        "--bslib-sidebar-mobile-counter",
+        "--_js-counter-mobile",
         Math.max(count.right, count.left).toString()
       );
     });
