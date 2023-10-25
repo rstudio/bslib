@@ -294,6 +294,10 @@ class Sidebar {
         "--bslib-sidebar-overlap-counter",
         thisCount.toString()
       );
+      x.style.setProperty(
+        "--bslib-sidebar-mobile-counter",
+        Math.max(count.right, count.left).toString()
+      );
     });
   }
 

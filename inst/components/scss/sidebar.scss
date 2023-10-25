@@ -320,7 +320,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
       > .main {
         opacity: 0;
         transition: opacity var(--_transition-easing-x) var(--_transition-duration);
-        padding-top: var(--_padding-icon);
+        padding-top: calc(
+          calc(var(--_icon-button-size) + 0.5em) *
+          var(--bslib-sidebar-mobile-counter, 1)
+        );
         padding-left: var(--_padding);
         padding-right: var(--_padding);
       }
