@@ -40,13 +40,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   border: var(--_border);
   border-radius: var(--_border-radius);
 
-  // Ensure that the layout is tall enough to accommodate all toggle buttons
-  &[data-bslib-sidebar-open="open"],
-  &[data-bslib-sidebar-open="desktop"],
-  &[data-bslib-sidebar-open="closed"] {
-    &, &.html-fill-item {
-      min-height: var(--_toggle-collective-height);
-    }
+  // Ensure that the layout is tall enough to accommodate all toggle buttons.
+  // We also have to beat `min-height: 0` on fill items in fillable containers.
+  &, .html-fill-container > &.html-fill-item {
+    min-height: var(--_toggle-collective-height);
   }
 
   &[data-bslib-sidebar-border="false"] {
