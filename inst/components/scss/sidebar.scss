@@ -81,6 +81,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
     background-color: var(--_sidebar-bg);
     backdrop-filter: blur(5px);
 
+    code {
+      color: var(--_sidebar-fg);
+    }
+
     > .sidebar-content {
       display: flex;
       flex-direction: column;
