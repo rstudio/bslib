@@ -289,9 +289,9 @@ class Sidebar {
     layouts.forEach(function (x: HTMLElement, i: number): void {
       const isRight = x.classList.contains("sidebar-right");
       const thisCount = isRight ? count.right++ : count.left++;
-      x.style.setProperty("--_js-counter-overlap", thisCount.toString());
+      x.style.setProperty("--_js-toggle-count-this-side", thisCount.toString());
       x.style.setProperty(
-        "--_js-counter-mobile",
+        "--_js-toggle-count-max-side",
         Math.max(count.right, count.left).toString()
       );
     });

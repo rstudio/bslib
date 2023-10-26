@@ -29,7 +29,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   --_toggle-right-transform: var(--bslib-collapse-toggle-right-transform, 180deg);
   --_column-main: minmax(0, 1fr);
   // Calculate the height of all toggle buttons in nested sidebar layouts
-  --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-counter-mobile, 1));
+  --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-toggle-count-max-side, 1));
 
   display: grid !important;
   grid-template-columns: $bslib-sidebar-column-sidebar var(--_column-main);
@@ -252,7 +252,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
       color: var(--_main-fg);
       // The CSS variable (set via JS) is here to help avoid overlapping toggles
       top: calc(
-          var(--_js-counter-overlap, 0) *
+          var(--_js-toggle-count-this-side, 0) *
           calc(var(--_icon-size) +
           var(--_padding)
         ) + var(--_icon-size, 1rem) / 2);
