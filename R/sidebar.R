@@ -210,7 +210,7 @@ layout_sidebar <- function(
     abort("`border` must be `NULL`, `TRUE`, or `FALSE`")
   }
   if (!(is.null(border_radius) || isTRUE(border_radius) || isFALSE(border_radius))) {
-    abort("`border`_radius must be `NULL`, `TRUE`, or `FALSE`")
+    abort("`border_radius` must be `NULL`, `TRUE`, or `FALSE`")
   }
 
   # main content area colors, if not provided ----
@@ -249,14 +249,14 @@ layout_sidebar <- function(
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
-      "--bslib-sidebar-width" = sidebar$width,
-      "--bslib-sidebar-bg" = sidebar$color$bg,
-      "--bslib-sidebar-fg" = sidebar$color$fg,
-      "--bslib-sidebar-main-fg" = fg,
-      "--bslib-sidebar-main-bg" = bg,
+      "--_sidebar-width" = sidebar$width,
+      "--_sidebar-bg" = sidebar$color$bg,
+      "--_sidebar-fg" = sidebar$color$fg,
+      "--_main-fg" = fg,
+      "--_main-bg" = bg,
       "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
-      "--bslib-sidebar-max-height-mobile" = max_height_mobile
+      "--_max-height-mobile" = max_height_mobile
     ),
     !!!contents,
     sidebar_init_js(),
