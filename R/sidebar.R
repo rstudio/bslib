@@ -256,7 +256,7 @@ layout_sidebar <- function(
       "--_main-bg" = bg,
       "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
-      "--bslib-sidebar-max-height-mobile" = max_height_mobile
+      "--_max-height-mobile" = max_height_mobile
     ),
     !!!contents,
     sidebar_init_js(),
