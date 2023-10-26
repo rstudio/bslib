@@ -28,6 +28,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   --_toggle-transition-easing: var(--bslib-sidebar-toggle-transition-easing, cubic-bezier(1, 0, 0, 1));
   --_toggle-right-transform: var(--bslib-collapse-toggle-right-transform, 180deg);
   --_column-main: minmax(0, 1fr);
+  // Calculate the height of all toggle buttons in nested sidebar layouts
+  --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-toggle-count-max-side, 1));
 
   display: grid !important;
   grid-template-columns: $bslib-sidebar-column-sidebar var(--_column-main);
@@ -37,6 +39,12 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
 
   border: var(--_border);
   border-radius: var(--_border-radius);
+
+  // Ensure that the layout is tall enough to accommodate all toggle buttons.
+  // We also have to beat `min-height: 0` on fill items in fillable containers.
+  &, .html-fill-container > &.html-fill-item {
+    min-height: var(--_toggle-collective-height);
+  }
 
   &[data-bslib-sidebar-border="false"] {
     border: none;
@@ -244,7 +252,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
       color: var(--_main-fg);
       // The CSS variable (set via JS) is here to help avoid overlapping toggles
       top: calc(
-          var(--bslib-sidebar-overlap-counter, 0) *
+          var(--_js-toggle-count-this-side, 0) *
           calc(var(--_icon-size) +
           var(--_padding)
         ) + var(--_icon-size, 1rem) / 2);
@@ -320,7 +328,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
       > .main {
         opacity: 0;
         transition: opacity var(--_transition-easing-x) var(--_transition-duration);
-        padding-top: var(--_padding-icon);
+        padding-top: var(--_toggle-collective-height);
         padding-left: var(--_padding);
         padding-right: var(--_padding);
       }
