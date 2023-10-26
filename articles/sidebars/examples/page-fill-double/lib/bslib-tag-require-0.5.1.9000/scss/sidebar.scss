@@ -27,6 +27,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   --_toggle-transform: var(--bslib-collapse-toggle-transform, 0deg);
   --_toggle-transition-easing: var(--bslib-sidebar-toggle-transition-easing, cubic-bezier(1, 0, 0, 1));
   --_toggle-right-transform: var(--bslib-collapse-toggle-right-transform, 180deg);
+  --_max-height-mobile: var(--bslib-sidebar-max-height-mobile);
   --_column-main: minmax(0, 1fr);
   // Calculate the height of all toggle buttons in nested sidebar layouts
   --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-toggle-count-max-side, 1));
@@ -296,7 +297,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
     &[data-bslib-sidebar-open="always"] {
       display: block !important;
       > .sidebar {
-        max-height: var(--bslib-sidebar-max-height-mobile);
+        max-height: var(--_max-height-mobile);
         overflow-y: auto;
         border-top: var(--_vert-border);
       }
