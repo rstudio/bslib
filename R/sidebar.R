@@ -210,7 +210,7 @@ layout_sidebar <- function(
     abort("`border` must be `NULL`, `TRUE`, or `FALSE`")
   }
   if (!(is.null(border_radius) || isTRUE(border_radius) || isFALSE(border_radius))) {
-    abort("`border`_radius must be `NULL`, `TRUE`, or `FALSE`")
+    abort("`border_radius` must be `NULL`, `TRUE`, or `FALSE`")
   }
 
   # main content area colors, if not provided ----
