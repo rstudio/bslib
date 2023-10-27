@@ -198,3 +198,13 @@ $btn-close-hover-opacity:    1 !default;
 // Code
 
 $pre-color:                         inherit !default;
+
+// Dark color mode
+
+$body-emphasis-color:               $body-color !default;
+$body-emphasis-color-dark:          $body-color !default;
+
+// Tooltips
+
+$tooltip-bg:                        $body-color !default;
+$tooltip-color:                     $body-bg !default;
