@@ -1761,8 +1761,8 @@ $code-font-size:                    $small-font-size !default;
 // Amount intentionally matches mixture amount of shiny::inputPanel()
 // https://github.com/rstudio/shiny/blob/4eeb4a1/inst/www/shared/shiny_scss/bootstrap.scss#L25
 $code-bg:                           RGBA(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.04) !default;
-$code-color:                        black !default;
-$code-color-dark:                   white !default;
+$code-color:                        RGB(var(--#{$prefix}emphasis-color-rgb, 0,0,0)) !default;
+$code-color-dark:                   RGB(var(--#{$prefix}emphasis-color-rgb, 0,0,0)) !default;
 
 $kbd-padding-y:                     .1875rem !default;
 $kbd-padding-x:                     .375rem !default;
@@ -1772,4 +1772,4 @@ $kbd-bg:                            var(--#{$prefix}body-color) !default;
 $nested-kbd-font-weight:            null !default; // Deprecated in v5.2.0, removing in v6
 
 $pre-bg:                            $code-bg  !default;
-$pre-color:                         RGB(var(--#{$prefix}emphasis-color-rgb, 0,0,0)) !default;
+$pre-color:                         $code-color !default;
