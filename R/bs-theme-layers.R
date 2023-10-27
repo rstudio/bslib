@@ -87,7 +87,7 @@
 #' )
 #'
 #' @describeIn bs_bundle Add Bootstrap Sass
-#'   [variable defaults](http://rstudio.github.io/bslib/articles/bs5-variables/index.html).
+#'   [variable defaults](https://rstudio.github.io/bslib/articles/bs5-variables/index.html).
 #' @export
 bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = identical(.where, "defaults")) {
   assert_bs_theme(theme)
