@@ -1,0 +1,182 @@
+diff --git a/inst/lib/bsw5/dist/cyborg/_bootswatch.scss b/inst/lib/bsw5/dist/cyborg/_bootswatch.scss
+index f73f1ffd..f9aa30d6 100644
+--- a/inst/lib/bsw5/dist/cyborg/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/cyborg/_bootswatch.scss
+@@ -125,11 +125,6 @@ legend {
+   }
+ }
+ 
+-.tooltip {
+-  --bs-tooltip-bg: var(--bs-tertiary-bg);
+-  --bs-tooltip-color: var(--bs-emphasis-color);
+-}
+-
+ // Containers
+ 
+ .list-group-item-action {
+diff --git a/inst/lib/bsw5/dist/cyborg/_variables.scss b/inst/lib/bsw5/dist/cyborg/_variables.scss
+index cc7af81f..11230819 100755
+--- a/inst/lib/bsw5/dist/cyborg/_variables.scss
++++ b/inst/lib/bsw5/dist/cyborg/_variables.scss
+@@ -190,3 +190,13 @@ $btn-close-hover-opacity:    1 !default;
+ // Code
+ 
+ $pre-color:                         inherit !default;
++
++// Dark color mode
++
++$body-emphasis-color:               $body-color !default;
++$body-emphasis-color-dark:          $body-color !default;
++
++// Tooltips
++
++$tooltip-bg:                        $body-color !default;
++$tooltip-color:                     $body-bg !default;
+\ No newline at end of file
+diff --git a/inst/lib/bsw5/dist/darkly/_bootswatch.scss b/inst/lib/bsw5/dist/darkly/_bootswatch.scss
+index e7f15d3f..e33682fc 100644
+--- a/inst/lib/bsw5/dist/darkly/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/darkly/_bootswatch.scss
+@@ -80,8 +80,3 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
+     }
+   }
+ }
+-
+-.tooltip {
+-  --bs-tooltip-bg: var(--bs-tertiary-bg);
+-  --bs-tooltip-color: var(--bs-emphasis-color);
+-}
+diff --git a/inst/lib/bsw5/dist/darkly/_variables.scss b/inst/lib/bsw5/dist/darkly/_variables.scss
+index dc997b4a..1e7f05f6 100755
+--- a/inst/lib/bsw5/dist/darkly/_variables.scss
++++ b/inst/lib/bsw5/dist/darkly/_variables.scss
+@@ -182,3 +182,13 @@ $btn-close-hover-opacity:    1 !default;
+ // Code
+ 
+ $pre-color:                         inherit !default;
++
++// Dark color mode
++
++$body-emphasis-color:                  $body-color !default;
++$body-emphasis-color-dark:             $body-color !default;
++
++// Tooltips
++
++$tooltip-bg:                           $body-color !default;
++$tooltip-color:                        $body-bg !default;
+\ No newline at end of file
+diff --git a/inst/lib/bsw5/dist/slate/_bootswatch.scss b/inst/lib/bsw5/dist/slate/_bootswatch.scss
+index 0c44ebc7..7c7e4222 100644
+--- a/inst/lib/bsw5/dist/slate/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/slate/_bootswatch.scss
+@@ -310,11 +310,6 @@ legend {
+   }
+ }
+ 
+-.tooltip {
+-  --bs-tooltip-bg: var(--bs-tertiary-bg);
+-  --bs-tooltip-color: var(--bs-emphasis-color);
+-}
+-
+ // Containers
+ 
+ .list-group {
+diff --git a/inst/lib/bsw5/dist/slate/_variables.scss b/inst/lib/bsw5/dist/slate/_variables.scss
+index 266a803c..11259a3b 100755
+--- a/inst/lib/bsw5/dist/slate/_variables.scss
++++ b/inst/lib/bsw5/dist/slate/_variables.scss
+@@ -195,3 +195,13 @@ $breadcrumb-border-radius:          .25rem !default;
+ // Code
+ 
+ $pre-color:                         inherit !default;
++
++// Dark color mode
++
++$body-emphasis-color:               $body-color !default;
++$body-emphasis-color-dark:          $body-color !default;
++
++// Tooltips
++
++$tooltip-bg:                        $body-color !default;
++$tooltip-color:                     $body-bg !default;
+\ No newline at end of file
+diff --git a/inst/lib/bsw5/dist/solar/_bootswatch.scss b/inst/lib/bsw5/dist/solar/_bootswatch.scss
+index 050b09d6..34d4f2c6 100644
+--- a/inst/lib/bsw5/dist/solar/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/solar/_bootswatch.scss
+@@ -59,8 +59,3 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@4
+     color: $dark;
+   }
+ }
+-
+-.tooltip {
+-  --bs-tooltip-bg: var(--bs-tertiary-bg);
+-  --bs-tooltip-color: var(--bs-emphasis-color);
+-}
+diff --git a/inst/lib/bsw5/dist/solar/_variables.scss b/inst/lib/bsw5/dist/solar/_variables.scss
+index 0ba319e6..1b9cb74c 100755
+--- a/inst/lib/bsw5/dist/solar/_variables.scss
++++ b/inst/lib/bsw5/dist/solar/_variables.scss
+@@ -188,3 +188,13 @@ $btn-close-color:                       $white !default;
+ // Code
+ 
+ $pre-color:                         inherit !default;
++
++// Dark color mode
++
++$body-emphasis-color:               $body-color !default;
++$body-emphasis-color-dark:          $body-color !default;
++
++// Tooltips
++
++$tooltip-bg:                        $body-color !default;
++$tooltip-color:                     $body-bg !default;
+\ No newline at end of file
+diff --git a/inst/lib/bsw5/dist/superhero/_bootswatch.scss b/inst/lib/bsw5/dist/superhero/_bootswatch.scss
+index 05268312..79c81b62 100644
+--- a/inst/lib/bsw5/dist/superhero/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/superhero/_bootswatch.scss
+@@ -127,11 +127,6 @@ label,
+   }
+ }
+ 
+-.tooltip {
+-  --bs-tooltip-bg: var(--bs-tertiary-bg);
+-  --bs-tooltip-color: var(--bs-emphasis-color);
+-}
+-
+ // Popovers
+ 
+ .popover-header {
+diff --git a/inst/lib/bsw5/dist/superhero/_variables.scss b/inst/lib/bsw5/dist/superhero/_variables.scss
+index b6cd5b90..3c734a86 100755
+--- a/inst/lib/bsw5/dist/superhero/_variables.scss
++++ b/inst/lib/bsw5/dist/superhero/_variables.scss
+@@ -198,3 +198,13 @@ $btn-close-hover-opacity:    1 !default;
+ // Code
+ 
+ $pre-color:                         inherit !default;
++
++// Dark color mode
++
++$body-emphasis-color:               $body-color !default;
++$body-emphasis-color-dark:          $body-color !default;
++
++// Tooltips
++
++$tooltip-bg:                        $body-color !default;
++$tooltip-color:                     $body-bg !default;
+\ No newline at end of file
+diff --git a/inst/lib/bsw5/dist/vapor/_variables.scss b/inst/lib/bsw5/dist/vapor/_variables.scss
+index 8170fa72..8a458f68 100755
+--- a/inst/lib/bsw5/dist/vapor/_variables.scss
++++ b/inst/lib/bsw5/dist/vapor/_variables.scss
+@@ -170,3 +170,7 @@ $list-group-action-active-bg:       $list-group-hover-bg !default;
+ 
+ $breadcrumb-divider-color:          $text-muted !default;
+ $breadcrumb-active-color:           $component-active-bg !default;
++
++
++$body-emphasis-color:                  #54FBE2 !default;
++$body-emphasis-color-dark:             #54FBE2 !default;
+\ No newline at end of file
