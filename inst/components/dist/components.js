@@ -1,6 +1,27 @@
 /*! bslib 0.5.1.9000 | (c) 2012-2023 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
+
   // srcts/src/components/_utils.ts
   var InputBinding = window.Shiny ? Shiny.InputBinding : class {
   };
@@ -56,22 +77,24 @@
       $(el).off(".accordionInputBinding");
     }
     receiveMessage(el, data) {
-      const method = data.method;
-      if (method === "set") {
-        this._setItems(el, data);
-      } else if (method === "open") {
-        this._openItems(el, data);
-      } else if (method === "close") {
-        this._closeItems(el, data);
-      } else if (method === "remove") {
-        this._removeItem(el, data);
-      } else if (method === "insert") {
-        this._insertItem(el, data);
-      } else if (method === "update") {
-        this._updateItem(el, data);
-      } else {
-        throw new Error(`Method not yet implemented: ${method}`);
-      }
+      return __async(this, null, function* () {
+        const method = data.method;
+        if (method === "set") {
+          this._setItems(el, data);
+        } else if (method === "open") {
+          this._openItems(el, data);
+        } else if (method === "close") {
+          this._closeItems(el, data);
+        } else if (method === "remove") {
+          this._removeItem(el, data);
+        } else if (method === "insert") {
+          yield this._insertItem(el, data);
+        } else if (method === "update") {
+          yield this._updateItem(el, data);
+        } else {
+          throw new Error(`Method not yet implemented: ${method}`);
+        }
+      });
     }
     _setItems(el, data) {
       const items = this._getItemInfo(el);
@@ -97,24 +120,26 @@
       });
     }
     _insertItem(el, data) {
-      let targetItem = this._findItem(el, data.target);
-      if (!targetItem) {
-        targetItem = data.position === "before" ? el.firstElementChild : el.lastElementChild;
-      }
-      const panel = data.panel;
-      if (targetItem) {
-        Shiny.renderContent(
-          targetItem,
-          panel,
-          data.position === "before" ? "beforeBegin" : "afterEnd"
-        );
-      } else {
-        Shiny.renderContent(el, panel);
-      }
-      if (this._isAutoClosing(el)) {
-        const val = $(panel.html).attr("data-value");
-        $(el).find(`[data-value="${val}"] .accordion-collapse`).attr("data-bs-parent", "#" + el.id);
-      }
+      return __async(this, null, function* () {
+        let targetItem = this._findItem(el, data.target);
+        if (!targetItem) {
+          targetItem = data.position === "before" ? el.firstElementChild : el.lastElementChild;
+        }
+        const panel = data.panel;
+        if (targetItem) {
+          yield Shiny.renderContent(
+            targetItem,
+            panel,
+            data.position === "before" ? "beforeBegin" : "afterEnd"
+          );
+        } else {
+          yield Shiny.renderContent(el, panel);
+        }
+        if (this._isAutoClosing(el)) {
+          const val = $(panel.html).attr("data-value");
+          $(el).find(`[data-value="${val}"] .accordion-collapse`).attr("data-bs-parent", "#" + el.id);
+        }
+      });
     }
     _removeItem(el, data) {
       const targetItems = this._getItemInfo(el).filter(
@@ -128,30 +153,32 @@
       });
     }
     _updateItem(el, data) {
-      const target = this._findItem(el, data.target);
-      if (!target) {
-        throw new Error(
-          `Unable to find an accordion_panel() with a value of ${data.target}`
-        );
-      }
-      if (hasDefinedProperty(data, "value")) {
-        target.dataset.value = data.value;
-      }
-      if (hasDefinedProperty(data, "body")) {
-        const body = target.querySelector(".accordion-body");
-        Shiny.renderContent(body, data.body);
-      }
-      const header = target.querySelector(".accordion-header");
-      if (hasDefinedProperty(data, "title")) {
-        const title = header.querySelector(".accordion-title");
-        Shiny.renderContent(title, data.title);
-      }
-      if (hasDefinedProperty(data, "icon")) {
-        const icon = header.querySelector(
-          ".accordion-button > .accordion-icon"
-        );
-        Shiny.renderContent(icon, data.icon);
-      }
+      return __async(this, null, function* () {
+        const target = this._findItem(el, data.target);
+        if (!target) {
+          throw new Error(
+            `Unable to find an accordion_panel() with a value of ${data.target}`
+          );
+        }
+        if (hasDefinedProperty(data, "value")) {
+          target.dataset.value = data.value;
+        }
+        if (hasDefinedProperty(data, "body")) {
+          const body = target.querySelector(".accordion-body");
+          yield Shiny.renderContent(body, data.body);
+        }
+        const header = target.querySelector(".accordion-header");
+        if (hasDefinedProperty(data, "title")) {
+          const title = header.querySelector(".accordion-title");
+          yield Shiny.renderContent(title, data.title);
+        }
+        if (hasDefinedProperty(data, "icon")) {
+          const icon = header.querySelector(
+            ".accordion-button > .accordion-icon"
+          );
+          yield Shiny.renderContent(icon, data.icon);
+        }
+      });
     }
     _getItemInfo(el) {
       const items = Array.from(
