@@ -302,7 +302,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
 
     &:not([data-bslib-sidebar-open="always"]) {
       // Sidebar layer has to be lifted up to cover other (nested) sidebars
-      &:not(.sidebar-collapsed) {
+      &:not(.sidebar-collapsed), &.transitioning {
         > .sidebar { z-index: 1; }
         > .collapse-toggle { z-index: 1; }
       }
