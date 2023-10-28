@@ -25,6 +25,8 @@ inst/lib/bsw3/.npmignore
 ^tsconfig\.json$
 ^yarn\.lock$
 ^\.eslintrc\.yml$
+^\.yarn$
+^\.yarnrc\.yml$
 
 ^\.github$
 ^\.gitattributes$

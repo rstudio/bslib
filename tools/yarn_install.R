@@ -18,7 +18,7 @@ system("yarn install")
 system("yarn build")
 
 # only install the direct deps
-with_dir("inst", system("yarn install --production"))
+with_dir("inst", system("yarn workspaces focus -A --production"))
 
 unlink("inst/lib", recursive = TRUE)
 file.rename("inst/node_modules/", "inst/lib/")
