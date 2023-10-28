@@ -7,7 +7,7 @@
   "devDependencies": {
     "@types/bootstrap": "5.2.2",
     "@types/node": "^18.11.18",
-    "@types/rstudio-shiny": "https://github.com/rstudio/shiny#v1.7.4",
+    "@types/rstudio-shiny": "https://github.com/rstudio/shiny#async-receivemessage",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
     "esbuild": "^0.16.14",
