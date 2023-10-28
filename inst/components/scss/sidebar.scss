@@ -307,6 +307,17 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
         > .collapse-toggle { z-index: 1; }
       }
 
+      // Keep toggle on sidebar side when expanded on mobile
+      &:not(.sidebar-right) > .collapse-toggle {
+        left: var(--_icon-size);
+        right: unset;
+      }
+
+      &.sidebar-right > .collapse-toggle {
+        right: var(--_icon-size);
+        left: unset;
+      }
+
       // Either sidebar or main area take up entire layout depending on state
       $full-closed: 100% 0;
       $closed-full: 0 100%;
