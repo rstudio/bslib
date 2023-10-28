@@ -222,6 +222,11 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
     }
   }
 
+  // hide sidebar content while we transition the parent .sidebar
+  &.transitioning > .sidebar > .sidebar-content {
+    display: none;
+  }
+
   &.sidebar-collapsed {
     --_toggle-transform: 180deg;
     --_toggle-right-transform: 0deg;
@@ -264,14 +269,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
       left: calc(-2.5 * var(--_icon-size) - var(--bs-card-border-width, 1px));
       right: unset;
     }
-  }
-}
-
-@include media-breakpoint-up(sm) {
-  // hide sidebar content while we transition the parent .sidebar on desktop
-  // (on mobile the reveal happens immediately)
-  .bslib-sidebar-layout.transitioning > .sidebar > .sidebar-content {
-    display: none;
   }
 }
 
