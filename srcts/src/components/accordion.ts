@@ -1,5 +1,10 @@
 import type { HtmlDep } from "./_utils";
-import { InputBinding, registerBinding, hasDefinedProperty } from "./_utils";
+import {
+  InputBinding,
+  registerBinding,
+  hasDefinedProperty,
+  shinyRenderContent,
+} from "./_utils";
 
 type AccordionItem = {
   item: HTMLElement;
@@ -141,13 +146,13 @@ class AccordionInputBinding extends InputBinding {
 
     // If there is still no targetItem, then there are no items in the accordion
     if (targetItem) {
-      await Shiny.renderContent(
+      await shinyRenderContent(
         targetItem,
         panel,
         data.position === "before" ? "beforeBegin" : "afterEnd"
       );
     } else {
-      await Shiny.renderContent(el, panel);
+      await shinyRenderContent(el, panel);
     }
 
     // Need to add a reference to the parent id that makes autoclose to work
@@ -187,21 +192,21 @@ class AccordionInputBinding extends InputBinding {
 
     if (hasDefinedProperty(data, "body")) {
       const body = target.querySelector(".accordion-body") as HTMLElement; // always exists
-      await Shiny.renderContent(body, data.body);
+      await shinyRenderContent(body, data.body);
     }
 
     const header = target.querySelector(".accordion-header") as HTMLElement; // always exists
 
     if (hasDefinedProperty(data, "title")) {
       const title = header.querySelector(".accordion-title") as HTMLElement; // always exists
-      await Shiny.renderContent(title, data.title);
+      await shinyRenderContent(title, data.title);
     }
 
     if (hasDefinedProperty(data, "icon")) {
       const icon = header.querySelector(
         ".accordion-button > .accordion-icon"
       ) as HTMLElement; // always exists
-      await Shiny.renderContent(icon, data.icon);
+      await shinyRenderContent(icon, data.icon);
     }
   }
 

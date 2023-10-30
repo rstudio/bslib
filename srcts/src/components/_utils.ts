@@ -72,11 +72,25 @@ function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
   return Array.from(focusable) as HTMLElement[];
 }
 
+async function shinyRenderContent(
+  ...args: Parameters<(typeof Shiny)["renderContentAsync"]>
+): Promise<void> {
+  if (!window.Shiny) {
+    throw new Error("This function must be called in a Shiny app.");
+  }
+  if (Shiny.renderContentAsync) {
+    return await Shiny.renderContentAsync.apply(null, args);
+  } else {
+    return await Shiny.renderContent.apply(null, args);
+  }
+}
+
 export {
   InputBinding,
   registerBinding,
   hasDefinedProperty,
   doWindowResizeOnElementResize,
   getAllFocusableChildren,
+  shinyRenderContent,
 };
 export type { HtmlDep };
