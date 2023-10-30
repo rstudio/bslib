@@ -54,8 +54,7 @@ Suggests:
     thematic,
     withr
 Remotes:
-    rstudio/htmltools,
-    rstudio/shiny
+    rstudio/htmltools
 Config/Needs/deploy: 
     BH,
     chiflights22,
