@@ -222,6 +222,11 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
     }
   }
 
+  // hide sidebar content while we transition the parent .sidebar
+  &.transitioning > .sidebar > .sidebar-content {
+    display: none;
+  }
+
   &.sidebar-collapsed {
     --_toggle-transform: 180deg;
     --_toggle-right-transform: 0deg;
@@ -267,14 +272,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   }
 }
 
-@include media-breakpoint-up(sm) {
-  // hide sidebar content while we transition the parent .sidebar on desktop
-  // (on mobile the reveal happens immediately)
-  .bslib-sidebar-layout.transitioning > .sidebar > .sidebar-content {
-    display: none;
-  }
-}
-
 @include media-breakpoint-down(sm) {
   .bslib-sidebar-layout {
     // Tell sidebar init js we're on mobile for `sidebar(open = "desktop")`
@@ -305,9 +302,20 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
 
     &:not([data-bslib-sidebar-open="always"]) {
       // Sidebar layer has to be lifted up to cover other (nested) sidebars
-      &:not(.sidebar-collapsed) {
+      &:not(.sidebar-collapsed), &.transitioning {
         > .sidebar { z-index: 1; }
         > .collapse-toggle { z-index: 1; }
+      }
+
+      // Keep toggle on sidebar side when expanded on mobile
+      &:not(.sidebar-right) > .collapse-toggle {
+        left: var(--_icon-size);
+        right: unset;
+      }
+
+      &.sidebar-right > .collapse-toggle {
+        right: var(--_icon-size);
+        left: unset;
       }
 
       // Either sidebar or main area take up entire layout depending on state
