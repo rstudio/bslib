@@ -14,6 +14,8 @@ parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
+  project:
+    - './tsconfig.json'
 plugins:
   - '@typescript-eslint'
   - prettier
@@ -68,6 +70,10 @@ rules:
 
   "@typescript-eslint/consistent-type-imports":
     - error
+
+  "@typescript-eslint/no-floating-promises":
+    - error
+
   "@typescript-eslint/naming-convention":
     - error
 

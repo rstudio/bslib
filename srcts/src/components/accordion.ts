@@ -1,5 +1,10 @@
 import type { HtmlDep } from "./_utils";
-import { InputBinding, registerBinding, hasDefinedProperty } from "./_utils";
+import {
+  InputBinding,
+  registerBinding,
+  hasDefinedProperty,
+  shinyRenderContent,
+} from "./_utils";
 
 type AccordionItem = {
   item: HTMLElement;
@@ -83,7 +88,7 @@ class AccordionInputBinding extends InputBinding {
     $(el).off(".accordionInputBinding");
   }
 
-  receiveMessage(el: HTMLElement, data: MessageData) {
+  async receiveMessage(el: HTMLElement, data: MessageData) {
     const method = data.method;
     if (method === "set") {
       this._setItems(el, data);
@@ -94,9 +99,9 @@ class AccordionInputBinding extends InputBinding {
     } else if (method === "remove") {
       this._removeItem(el, data);
     } else if (method === "insert") {
-      this._insertItem(el, data);
+      await this._insertItem(el, data);
     } else if (method === "update") {
-      this._updateItem(el, data);
+      await this._updateItem(el, data);
     } else {
       throw new Error(`Method not yet implemented: ${method}`);
     }
@@ -126,7 +131,7 @@ class AccordionInputBinding extends InputBinding {
     });
   }
 
-  protected _insertItem(el: HTMLElement, data: InsertMessage) {
+  protected async _insertItem(el: HTMLElement, data: InsertMessage) {
     let targetItem = this._findItem(el, data.target);
 
     // If no target was specified, or the target was not found, then default
@@ -141,13 +146,13 @@ class AccordionInputBinding extends InputBinding {
 
     // If there is still no targetItem, then there are no items in the accordion
     if (targetItem) {
-      Shiny.renderContent(
+      await shinyRenderContent(
         targetItem,
         panel,
         data.position === "before" ? "beforeBegin" : "afterEnd"
       );
     } else {
-      Shiny.renderContent(el, panel);
+      await shinyRenderContent(el, panel);
     }
 
     // Need to add a reference to the parent id that makes autoclose to work
@@ -172,7 +177,7 @@ class AccordionInputBinding extends InputBinding {
     });
   }
 
-  protected _updateItem(el: HTMLElement, data: UpdateMessage) {
+  protected async _updateItem(el: HTMLElement, data: UpdateMessage) {
     const target = this._findItem(el, data.target);
 
     if (!target) {
@@ -187,21 +192,21 @@ class AccordionInputBinding extends InputBinding {
 
     if (hasDefinedProperty(data, "body")) {
       const body = target.querySelector(".accordion-body") as HTMLElement; // always exists
-      Shiny.renderContent(body, data.body);
+      await shinyRenderContent(body, data.body);
     }
 
     const header = target.querySelector(".accordion-header") as HTMLElement; // always exists
 
     if (hasDefinedProperty(data, "title")) {
       const title = header.querySelector(".accordion-title") as HTMLElement; // always exists
-      Shiny.renderContent(title, data.title);
+      await shinyRenderContent(title, data.title);
     }
 
     if (hasDefinedProperty(data, "icon")) {
       const icon = header.querySelector(
         ".accordion-button > .accordion-icon"
       ) as HTMLElement; // always exists
-      Shiny.renderContent(icon, data.icon);
+      await shinyRenderContent(icon, data.icon);
     }
   }
 

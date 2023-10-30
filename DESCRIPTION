@@ -49,13 +49,14 @@ Suggests:
     magrittr,
     rappdirs,
     rmarkdown (>= 2.7),
-    shiny (>= 1.6.0),
+    shiny (>= 1.7.5.9001),
     testthat,
     thematic,
     withr
 Remotes:
-    rstudio/htmltools
-Config/Needs/deploy: 
+    rstudio/htmltools,
+    rstudio/shiny
+Config/Needs/deploy:
     BH,
     chiflights22,
     colourpicker,
