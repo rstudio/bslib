@@ -13,7 +13,7 @@ import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers"
 
 const bslibMessageHandlers = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "bslib.toggle-input-binary": (msg: any) => {
+  "bslib.toggle-input-binary": async (msg: any) => {
     // This handler was written for `toggle_switch()`, but could be used for any
     // binary Shiny input, e.g. checkbox.
     const el = document.getElementById(msg.id) as HTMLElement;
@@ -31,7 +31,8 @@ const bslibMessageHandlers = {
     if (typeof value === "undefined") {
       value = !binding.getValue(el);
     }
-    binding.receiveMessage(el, { value });
+
+    await binding.receiveMessage(el, { value });
   },
 };
 
