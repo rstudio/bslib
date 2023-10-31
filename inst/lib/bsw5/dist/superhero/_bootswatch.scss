@@ -142,3 +142,9 @@ label,
     background-color: $table-hover-bg;
   }
 }
+
+// Fix selectize.js contrasting issues
+.selectize-input {
+  --#{$prefix}emphasis-color: black;
+  --#{$prefix}emphasis-color-rgb: 0,0,0;
+}
