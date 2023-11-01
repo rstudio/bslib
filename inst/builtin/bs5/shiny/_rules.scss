@@ -101,7 +101,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       line-height: 1.375rem;
     }
     .bslib-sidebar-layout > .sidebar {
-      border-top: var(--bslib-sidebar-border); 
+      border-top: var(--bslib-sidebar-border);
     }
   }
 
@@ -125,7 +125,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   .bslib-page-sidebar {
     --bslib-page-sidebar-title-bg: transparent;
     --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
-    
+
     > .bslib-sidebar-layout > .main {
       background-color: var(--bslib-shiny-preset-main-bg);
       @include bslib-box-shadows;
@@ -139,13 +139,13 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
     }
 
-    > div {
+    > .navbar + div {
       // Since we're using a transparent navbar, we need to (generally) add a border-top
       border-top: $card-border-width solid $card-border-color;
 
       // Case 1: page_navbar(sidebar = ...)
       // Case 2: page_navbar(nav_panel(layout_sidebar()))
-      > .bslib-sidebar-layout, 
+      > .bslib-sidebar-layout,
       > .tab-content > .tab-pane.active.html-fill-container > .bslib-sidebar-layout.html-fill-item {
         border-top: none !important; // Make sure we don't end up w/ a double border
         > .main {
@@ -174,7 +174,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// When the navbar is collapsed (or collapsing) on mobile, remove the 
+// When the navbar is collapsed (or collapsing) on mobile, remove the
 // .nav-underline border
 .navbar-collapse.show, .navbar-collapse.collapsing {
   .nav-underline {
