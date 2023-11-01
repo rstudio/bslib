@@ -357,7 +357,14 @@ shinyApp(
     lapply(c("default", "message", "warning", "error"), function(x) {
       X <- tools::toTitleCase(x)
       observeEvent(input[[paste0("show", X)]], {
-        showNotification(paste(X, "notification styling"), type = x)
+        q <- parseQueryString(session$clientData$url_search)
+        if ("notification-duration" %in% names(q)) {
+          duration <- as.numeric(q[["notification-duration"]])
+          if (duration <= 0) duration <- NULL
+        } else {
+          duration <- 5
+        }
+        showNotification(paste(X, "notification styling"), type = x, duration = duration)
       })
     })
 
