@@ -105,8 +105,7 @@ shinyApp(
           verbatimTextOutput("inputPanelOutput"),
           br(),
           tags$p("Here are some", tags$code("actionButton()"), "s demonstrating different theme (i.e., accent) colors"),
-          tags$div(
-            class = "d-flex justify-content-center",
+          layout_columns(
             actionButton("primary", "Primary", icon("product-hunt"), class = "btn-primary m-2"),
             actionButton("secondary", "Secondary (default)", class = "m-2"),
             actionButton("success", "Success", icon("check"), class = "btn-success m-2"),
