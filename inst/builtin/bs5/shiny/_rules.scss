@@ -139,7 +139,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
     }
 
-    > div {
+    > .navbar + div {
       // Since we're using a transparent navbar, we need to (generally) add a border-top
       border-top: $card-border-width solid $card-border-color;
 
