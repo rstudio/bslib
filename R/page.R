@@ -26,7 +26,8 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       title = title,
       theme = theme,
       lang = lang,
-      component_dependencies()
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
     ),
     theme = theme
   )
@@ -43,7 +44,8 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       title = title,
       theme = theme,
       lang = lang,
-      component_dependencies()
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
     ),
     theme = theme
   )
@@ -61,7 +63,8 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       title = title,
       theme = theme,
       lang = lang,
-      component_dependencies()
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
     ),
     theme = theme
   )

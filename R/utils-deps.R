@@ -52,12 +52,21 @@ component_dependency_sass_ <- function(theme) {
     dir(scss_dir, pattern = "\\.scss$", full.names = TRUE)
   )
 
+  # Although rare, it's possible for bs_dependency_defer() to pass 
+  # along a NULL theme (e.g., renderTags(accordion())), so fallback 
+  # to the default theme if need be
+  theme <- theme %||% bs_theme()
+
+  if (theme_version(theme) < 5) {
+    abort(c(
+      "bslib components require Bootstrap 5 or higher.",
+      "i" = "Do you need to specify a different `version` in `bs_theme()`?"
+    ))
+  }
+
   bs_dependency(
     input = lapply(scss_files, sass_file),
-    # At least currently, when statically rendering a component,
-    # bs_dependency_defer() passes along a NULL theme. We should
-    # eventually fix that, but for now, fall back to the default theme
-    theme = theme %||% bs_theme(),
+    theme = theme,
     name = "bslib-component-css",
     version = get_package_version("bslib"),
     cache_key_extra = get_package_version("bslib"),
