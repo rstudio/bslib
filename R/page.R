@@ -181,6 +181,7 @@ page_fillable <- function(
       "--bslib-page-fill-mobile-height" = if (fillable_mobile) "100%" else "auto"
     ),
     ...,
+    tags$head(tags$style("html { height: 100%; }")),
     as_fillable_container()
   )
 }
