@@ -125,10 +125,11 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   .bslib-page-sidebar {
     --bslib-page-sidebar-title-bg: transparent;
     --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
-
-    > .bslib-sidebar-layout > .main {
-      background-color: var(--bslib-shiny-preset-main-bg);
-      @include bslib-box-shadows;
+    > .bslib-sidebar-layout {
+      --bslib-sidebar-main-bg: var(--bslib-shiny-preset-main-bg);
+      > .main {
+        @include bslib-box-shadows;
+      }
     }
   }
 
@@ -148,8 +149,8 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       > .bslib-sidebar-layout,
       > .tab-content > .tab-pane.active.html-fill-container > .bslib-sidebar-layout.html-fill-item {
         border-top: none !important; // Make sure we don't end up w/ a double border
+        --bslib-sidebar-main-bg: var(--bslib-shiny-preset-main-bg);
         > .main {
-          background-color: var(--bslib-shiny-preset-main-bg);
           @include bslib-box-shadows;
         }
       }
