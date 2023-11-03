@@ -308,10 +308,6 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 }
 
 @include color-mode(dark) {
-  .card {
-    --card-border-color: rgba(255, 255, 255, 0.1);
-  }
-
   .shiny-notification.shiny-notification {
     box-shadow: $box-shadow-dark;
   }
