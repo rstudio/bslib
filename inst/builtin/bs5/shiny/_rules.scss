@@ -76,10 +76,8 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
   .bslib-card, .bslib-sidebar-layout {
     box-shadow: $box-shadow;
-    --#{$prefix}card-border-width: 0;
     .bslib-card, .bslib-sidebar-layout {
       box-shadow: none;
-      --#{$prefix}card-border-width: #{$card-border-width};
     }
     // We're deliberately avoiding `@include color-mode(dark)` here since
     // that'd require a fair amount of duplication to properly implement
@@ -93,7 +91,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   .bslib-card {
     .card-header, .card-footer {
       background-color: transparent;
-      --bs-card-border-width: 0;
     }
     .card-header {
       font-weight: $font-weight-semibold;
@@ -303,6 +300,10 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 }
 
 @include color-mode(dark) {
+  .card {
+    --card-border-color: rgba(255, 255, 255, 0.1);
+  }
+
   .shiny-notification.shiny-notification {
     box-shadow: $box-shadow-dark;
   }
