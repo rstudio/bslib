@@ -10,7 +10,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   --_transition-easing-x: var(--bslib-sidebar-transition-easing-x, cubic-bezier(0.8, 0.78, 0.22, 1.07));
   --_border: var(--bslib-sidebar-border, #{$bslib-sidebar-border});
   --_border-radius: var(--bslib-sidebar-border-radius, var(--bs-border-radius));
-  --_vert-border: var(--bslib-sidebar-vert-border, #{$bslib-sidebar-border});
+  --_vert-border: var(--bslib-sidebar-vert-border, var(--_border));
   --_sidebar-width: var(--bslib-sidebar-width, 250px);
   --_sidebar-bg: var(--bslib-sidebar-bg, #{$bslib-sidebar-bg});
   --_sidebar-fg: var(--bslib-sidebar-fg, #{$bslib-sidebar-fg});
