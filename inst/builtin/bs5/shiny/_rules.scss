@@ -93,7 +93,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   .bslib-card {
     .card-header, .card-footer {
       background-color: transparent;
-      border: 0;
+      --bs-card-border-width: 0;
     }
     .card-header {
       font-weight: $font-weight-semibold;
