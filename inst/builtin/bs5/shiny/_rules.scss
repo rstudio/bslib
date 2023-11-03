@@ -112,23 +112,26 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 @if $bslib-enable-shadows {
 
   :root {
-    --bslib-shiny-preset-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
+    --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
+    --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
+    --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
   }
 
   .bslib-page-sidebar, .bslib-page-navbar {
     .bslib-sidebar-layout {
-      --bslib-sidebar-bg: var(--#{$prefix}body-bg);
-      --bslib-sidebar-main-bg: var(--#{$prefix}body-bg);
+      --bslib-sidebar-bg: var(--bslib-dashboard-sidebar-bg);
+      --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
     }
   }
 
   .bslib-page-sidebar {
     --bslib-page-sidebar-title-bg: transparent;
     --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
-
-    > .bslib-sidebar-layout > .main {
-      background-color: var(--bslib-shiny-preset-main-bg);
-      @include bslib-box-shadows;
+    > .bslib-sidebar-layout {
+      --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
+      > .main {
+        @include bslib-box-shadows;
+      }
     }
   }
 
@@ -148,8 +151,8 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       > .bslib-sidebar-layout,
       > .tab-content > .tab-pane.active.html-fill-container > .bslib-sidebar-layout.html-fill-item {
         border-top: none !important; // Make sure we don't end up w/ a double border
+        --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
         > .main {
-          background-color: var(--bslib-shiny-preset-main-bg);
           @include bslib-box-shadows;
         }
       }
