@@ -82,10 +82,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     }
 
     // Remove outer border, but keep inner borders and borders on nested components
-    --#{$prefix}card-border-width: 0;
-    .card-body, .card-header, .card-footer, .bslib-card, .bslib-sidebar-layout {
-      --#{$prefix}card-border-width: #{$card-border-width};
-    }
+    border-width: 0;
 
     // We're deliberately avoiding `@include color-mode(dark)` here since
     // that'd require a fair amount of duplication to properly implement
