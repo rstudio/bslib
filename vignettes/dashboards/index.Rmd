@@ -306,7 +306,7 @@ A `value_box()` is a special kind of card designed for highlighting a value alon
 
 ```{r value-boxes, out.height = 900, out.width = 1400}
 means <- colMeans(
-  penguins[c("bill_length_mm", "bill_length_mm", "body_mass_g")],
+  penguins[c("bill_length_mm", "bill_depth_mm", "body_mass_g")],
   na.rm = TRUE
 )
 
