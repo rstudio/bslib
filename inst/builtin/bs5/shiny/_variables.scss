@@ -108,7 +108,12 @@ $box-shadow-dark:
   0px 3px 7px rgba(0, 0, 0,.1),
   0px 12px 30px rgba(0, 0, 0,.08) !default;
 
+// Cards
 $card-border-radius: 8px !default;
+
+// Borders
+$border-color-translucent: RGBA(40, 70, 94, 0.1) !default;
+$border-color-translucent-dark: RGBA(255, 255, 255, 0.1) !default;
 
 // bslib variables
 $bslib-enable-shadows: true !default;

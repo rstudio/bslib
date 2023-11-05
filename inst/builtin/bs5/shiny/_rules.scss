@@ -75,12 +75,15 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 
   // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
   .bslib-card, .bslib-sidebar-layout {
+    // Shadows on top-level cards/sidebars, not in nested components
     box-shadow: $box-shadow;
-    --#{$prefix}card-border-width: 0;
     .bslib-card, .bslib-sidebar-layout {
       box-shadow: none;
-      --#{$prefix}card-border-width: #{$card-border-width};
     }
+
+    // Remove outer border, but keep inner borders and borders on nested components
+    border-width: 0;
+
     // We're deliberately avoiding `@include color-mode(dark)` here since
     // that'd require a fair amount of duplication to properly implement
     // https://github.com/rstudio/bslib/pull/829/files#r1361262514
@@ -93,7 +96,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   .bslib-card {
     .card-header, .card-footer {
       background-color: transparent;
-      --bs-card-border-width: 0;
     }
     .card-header {
       font-weight: $font-weight-semibold;
