@@ -111,13 +111,14 @@ $box-shadow-dark:
 // Cards
 $card-border-radius: 8px !default;
 
-// Borders
-$border-color-translucent: RGBA(40, 70, 94, 0.1) !default;
-$border-color-translucent-dark: RGBA(255, 255, 255, 0.1) !default;
-
 // bslib variables
-$bslib-enable-shadows: true !default;
+$bslib-enable-dashboard: true !default;
+$bslib-enable-shadows: $bslib-enable-dashboard !default
 $bslib-value-box-enable-shadow: $bslib-enable-shadows !default;
+
+// bslib Dashboard Styles
+$bslib-dashboard-border-color-translucent: RGBA(40, 70, 94, 0.1) !default;
+$bslib-dashboard-border-color-translucent-dark: RGBA(255, 255, 255, 0.1) !default;
 
 // Modals
 $modal-dialog-margin-y-sm-up: 10% !default;

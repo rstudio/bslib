@@ -111,12 +111,23 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 
 // TODO: move this logic into a "core" bundle that comes with any theme
 // (but you only get the shadows by default in the preset theme)
-@if $bslib-enable-shadows {
+@if $bslib-enable-dashboard {
 
   :root {
     --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
     --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
+    --bslib-dashboard-border-color-translucent: #{$bslib-dashboard-border-color-translucent};
+    --bslib-dashboard-border-color-translucent-dark: #{$bslib-dashboard-border-color-translucent-dark};
+  }
+
+  .bslib-page-sidebar, .bslib-page-navbar {
+    --#{$prefix}border-color-translucent: var(--bslib-dashboard-border-color-translucent, #{$border-color-translucent});
+  }
+  @include color-mode(dark) {
+    .bslib-page-sidebar, .bslib-page-navbar {
+      --#{$prefix}border-color-translucent: var(--bslib-dashboard-border-color-translucent-dark, #{$border-color-translucent-dark});
+    }
   }
 
   .bslib-page-sidebar, .bslib-page-navbar {
