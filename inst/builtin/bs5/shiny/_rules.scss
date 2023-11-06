@@ -90,6 +90,9 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       // https://github.com/rstudio/bslib/pull/829/files#r1361262514
       [data-#{$prefix}theme="dark"] & {
         box-shadow: $box-shadow-dark;
+        .bslib-card, .bslib-sidebar-layout {
+          box-shadow: none;
+        }
       }
     }
   }
