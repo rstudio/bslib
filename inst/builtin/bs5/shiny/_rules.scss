@@ -71,7 +71,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 }
 
 
-@mixin bslib-box-shadows {
+@mixin bslib-dashboard-cards {
 
   @if ($bslib-enable-shadows) {
     // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
@@ -141,7 +141,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 
   .bslib-page-dashboard {
     &, & > .bslib-grid > .bslib-grid-item {
-      @include bslib-box-shadows;
+      @include bslib-dashboard-cards;
     }
   }
 
@@ -151,7 +151,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     > .bslib-sidebar-layout {
       --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
       > .main {
-        @include bslib-box-shadows;
+        @include bslib-dashboard-cards;
       }
     }
   }
@@ -173,7 +173,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
         border-top: none !important; // Make sure we don't end up w/ a double border
         --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
         > .main {
-          @include bslib-box-shadows;
+          @include bslib-dashboard-cards;
         }
       }
     }
