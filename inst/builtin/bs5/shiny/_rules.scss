@@ -121,23 +121,29 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     --bslib-dashboard-border-color-translucent-dark: #{$bslib-dashboard-border-color-translucent-dark};
   }
 
-  .bslib-page-sidebar, .bslib-page-navbar {
+  .bslib-page-sidebar, .bslib-page-navbar, .bslib-page-dashboard {
     --#{$prefix}border-color-translucent: var(--bslib-dashboard-border-color-translucent, #{$border-color-translucent});
   }
   @include color-mode(dark) {
-    .bslib-page-sidebar, .bslib-page-navbar {
+    .bslib-page-sidebar, .bslib-page-navbar, .bslib-page-dashboard {
       --#{$prefix}border-color-translucent: var(--bslib-dashboard-border-color-translucent-dark, #{$border-color-translucent-dark});
     }
   }
 
-  .bslib-page-sidebar, .bslib-page-navbar {
+  .bslib-page-sidebar, .bslib-page-navbar, .bslib-page-dashboard {
     .bslib-sidebar-layout {
       --bslib-sidebar-bg: var(--bslib-dashboard-sidebar-bg);
       --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
     }
   }
 
-  .bslib-page-sidebar {
+  .bslib-page-dashboard {
+    &, & > .bslib-grid > .bslib-grid-item {
+      @include bslib-box-shadows;
+    }
+  }
+
+  .bslib-page-sidebar, .bslib-page-dashboard {
     --bslib-page-sidebar-title-bg: transparent;
     --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
     > .bslib-sidebar-layout {
@@ -148,8 +154,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     }
   }
 
-  .bslib-page-navbar {
-
+  .bslib-page-navbar, .bslib-page-dashboard {
     > .navbar {
       --bslib-navbar-default-bg: transparent;
       --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
