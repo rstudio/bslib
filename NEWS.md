@@ -45,6 +45,8 @@
 
 * In `layout_column_wrap()`, when `width` is a CSS unit -- e.g. `width = "400px"` or `width = "25%"` -- and `fixed_width = FALSE`, `layout_column_wrap()` will ensure that the columns are at least `width` wide, unless the parent container is narrower than `width`. (#851)
 
+* `bs_global_theme()` gains a `preset` argument to match the function signature of `bs_theme()`. (#896)
+
 ## Bug fixes
 
 * `toggle_switch()` now works correctly when called from within a Shiny module. `update_switch()` worked as expected, but `toggle_switch()` didn't apply the module's namespace to the `id` of the switch to be updated. (#769)

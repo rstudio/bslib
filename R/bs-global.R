@@ -34,7 +34,7 @@
 #' @export
 bs_global_theme <- function(
   version = version_default(),
-  bootswatch = NULL,
+  preset = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -46,11 +46,13 @@ bs_global_theme <- function(
   base_font = NULL,
   code_font = NULL,
   heading_font = NULL,
-  ...
+  ...,
+  bootswatch = NULL
 ) {
   bs_global_set(bs_theme(
     version,
-    bootswatch,
+    preset = preset,
+    bootswatch = bootswatch,
     bg = bg,
     fg = fg,
     primary = primary,
