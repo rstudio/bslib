@@ -101,10 +101,10 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   .bslib-card {
     .card-header, .card-footer {
       background-color: transparent;
+      font-size: 0.9rem;
     }
     .card-header {
       font-weight: $font-weight-semibold;
-      font-size: 0.9rem;
       line-height: 1.375rem;
     }
     .bslib-sidebar-layout > .sidebar {
