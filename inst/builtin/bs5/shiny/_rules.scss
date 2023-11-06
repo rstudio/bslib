@@ -136,30 +136,34 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 
   .bslib-page-sidebar, .bslib-page-navbar, .bslib-page-dashboard {
-    .bslib-sidebar-layout {
-      --bslib-sidebar-bg: var(--bslib-dashboard-sidebar-bg);
-      --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
-    }
+    --bslib-sidebar-bg: var(--bslib-dashboard-sidebar-bg);
+    --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
   }
 
   .bslib-page-dashboard {
-    &, & > .bslib-grid > .bslib-grid-item {
-      @include bslib-dashboard-cards;
-    }
+    @include bslib-dashboard-cards;
   }
 
-  .bslib-page-sidebar, .bslib-page-dashboard {
+  .bslib-page-sidebar {
     --bslib-page-sidebar-title-bg: transparent;
     --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
+
+    .bslib-page-title {
+      border-color: var(--#{$prefix}border-color-translucent);
+    }
+
     > .bslib-sidebar-layout {
-      --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
       > .main {
         @include bslib-dashboard-cards;
+      }
+      --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
+      .bslib-sidebar-layout {
+        --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
       }
     }
   }
 
-  .bslib-page-navbar, .bslib-page-dashboard {
+  .bslib-page-navbar {
     > .navbar {
       --bslib-navbar-default-bg: transparent;
       --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
@@ -174,9 +178,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       > .bslib-sidebar-layout,
       > .tab-content > .tab-pane.active.html-fill-container > .bslib-sidebar-layout.html-fill-item {
         border-top: none !important; // Make sure we don't end up w/ a double border
-        --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
         > .main {
           @include bslib-dashboard-cards;
+        }
+        --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
+        .bslib-sidebar-layout {
+          --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
         }
       }
     }
