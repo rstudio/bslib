@@ -97,16 +97,19 @@ $table-hover-bg: rgba($primary, 0.1) !default;
 $table-striped-order: even !default;
 
 // Box Shadows
-$box-shadow:
-  0px 1px 2px rgba(29, 31, 33,.1),
-  0px 3px 7px rgba(29, 31, 33,.1),
-  0px 12px 30px rgba(29, 31, 33,.08) !default;
+// => These are shiny-preset-specific, hoping Bootstrap adds something like this
+$bslib-box-shadow-color-rgb: 29, 31, 33 !default;
+$bslib-box-shadow-color-rgb-dark: 0, 0, 0 !default;
 
-// A shiny-preset-specific variable, hoping Bootstrap adds something like this
-$box-shadow-dark:
-  0px 1px 2px rgba(0, 0, 0,.1),
-  0px 3px 7px rgba(0, 0, 0,.1),
-  0px 12px 30px rgba(0, 0, 0,.08) !default;
+$box-shadow:
+  0px 1px 2px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+  0px 3px 7px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+  0px 12px 30px RGBA(var(--bslib-box-shadow-color-rgb), .08) !default;
+
+$box-shadow-sm:
+  0px 1px 2px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+  0px 2px 3px RGBA(var(--bslib-box-shadow-color-rgb), 0.1),
+  0px 3px 8px RGBA(var(--bslib-box-shadow-color-rgb), 0.1);
 
 // Cards
 $card-border-radius: 8px !default;

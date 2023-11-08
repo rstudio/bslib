@@ -7,6 +7,15 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   @import url($web-font-path);
 }
 
+// Variables
+:root {
+  --bslib-box-shadow-color-rgb: #{$bslib-box-shadow-color-rgb};
+}
+
+@include color-mode(dark) {
+  --bslib-box-shadow-color-rgb: #{$bslib-box-shadow-color-rgb-dark};
+}
+
 // For radioButtons()/checkboxGroupInput(), move text slightly to the right
 $bslib-checkbox-radio-margin-right: 0.35em !default;
 .checkbox,
@@ -89,7 +98,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       // that'd require a fair amount of duplication to properly implement
       // https://github.com/rstudio/bslib/pull/829/files#r1361262514
       [data-#{$prefix}theme="dark"] & {
-        box-shadow: $box-shadow-dark;
         .bslib-card, .bslib-sidebar-layout {
           box-shadow: none;
         }
@@ -332,11 +340,5 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 
   .shiny-notification-content-text :last-child {
     margin-bottom: 0;
-  }
-}
-
-@include color-mode(dark) {
-  .shiny-notification.shiny-notification {
-    box-shadow: $box-shadow-dark;
   }
 }
