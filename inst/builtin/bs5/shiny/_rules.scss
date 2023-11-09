@@ -132,9 +132,9 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   .bslib-page-dashboard, .bslib-page-sidebar, .bslib-page-navbar {
     --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
 
-    main, .main, &.main {
+    main, &main, .main, &.main {
       background-color: var(--bslib-dashboard-main-bg);
-      main, .main, .bslib-sidebar-layout {
+      .main, .bslib-sidebar-layout {
         --bslib-dashboard-main-bg: ; // unset background color rule
       }
     }
