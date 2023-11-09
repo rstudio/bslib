@@ -94,7 +94,10 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   @if ($bslib-enable-shadows) {
     // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
     .bslib-card {
-      // Shadows on top-level cards/sidebars, not in nested components
+      // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
+      box-shadow: var(--#{$prefix}card-box-shadow);
+
+      // Shadows on top-level cards, not in nested components
       --bs-card-box-shadow: #{$box-shadow};
       .bslib-card {
         --bs-card-box-shadow: none;
@@ -112,8 +115,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 
   .bslib-card {
-    box-shadow: var(--bs-card-box-shadow, #{$box-shadow});
-
     .card-header, .card-footer {
       background-color: transparent;
       font-size: 0.9rem;
