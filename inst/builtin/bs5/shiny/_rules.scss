@@ -144,6 +144,13 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     }
   }
 
+  body.bslib-page-dashboard {
+    background-color: var(--bslib-dashboard-main-bg);
+    .bslib-sidebar-layout {
+      --bslib-dashboard-main-bg: ; // unset background color rule
+    }
+  }
+
   .bslib-page-navbar, .bslib-page-dashboard {
     > .navbar {
       --bslib-navbar-default-bg: transparent;
