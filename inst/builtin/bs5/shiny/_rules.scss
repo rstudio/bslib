@@ -79,34 +79,41 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
+// TODO: move this logic into a "core" bundle that comes with any theme
+// (but you only get the shadows by default in the preset theme)
+@if $bslib-enable-dashboard {
 
-@mixin bslib-dashboard-cards {
+  :root {
+    --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
+    --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
+    --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
+    --bslib-sidebar-bg: var(--#{$prefix}body-bg);
+    --bslib-sidebar-fg: var(--#{$prefix}color);
+  }
 
   @if ($bslib-enable-shadows) {
     // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
-    .bslib-card, .bslib-sidebar-layout {
+    .bslib-card {
       // Shadows on top-level cards/sidebars, not in nested components
-      box-shadow: $box-shadow;
-      .bslib-card, .bslib-sidebar-layout {
-        box-shadow: none;
+      --bs-card-box-shadow: #{$box-shadow};
+      .bslib-card {
+        --bs-card-box-shadow: none;
       }
-
-      // Remove outer border, but keep inner borders and borders on nested components
-      border-width: 0;
 
       // We're deliberately avoiding `@include color-mode(dark)` here since
       // that'd require a fair amount of duplication to properly implement
       // https://github.com/rstudio/bslib/pull/829/files#r1361262514
       [data-#{$prefix}theme="dark"] & {
-        .bslib-card, .bslib-sidebar-layout {
-          box-shadow: none;
+        .bslib-card {
+          --bs-card-box-shadow: none;
         }
       }
     }
   }
 
-  // Additional card styling (w/ box shadows in mind)
   .bslib-card {
+    box-shadow: var(--bs-card-box-shadow, #{$box-shadow});
+
     .card-header, .card-footer {
       background-color: transparent;
       font-size: 0.9rem;
@@ -120,58 +127,23 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     }
   }
 
-}
-
-// TODO: move this logic into a "core" bundle that comes with any theme
-// (but you only get the shadows by default in the preset theme)
-@if $bslib-enable-dashboard {
-
-  :root {
+  // Set the background color of the main content area
+  .bslib-page-dashboard, .bslib-page-sidebar, .bslib-page-navbar {
     --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
-    --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
-    --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
-    --bslib-dashboard-border-color-translucent: #{$bslib-dashboard-border-color-translucent};
-    --bslib-dashboard-border-color-translucent-dark: #{$bslib-dashboard-border-color-translucent-dark};
-  }
 
-  .bslib-page-sidebar, .bslib-page-navbar, .bslib-page-dashboard {
-    --#{$prefix}border-color-translucent: var(--bslib-dashboard-border-color-translucent, #{$border-color-translucent});
-  }
-  @include color-mode(dark) {
-    .bslib-page-sidebar, .bslib-page-navbar, .bslib-page-dashboard {
-      --#{$prefix}border-color-translucent: var(--bslib-dashboard-border-color-translucent-dark, #{$border-color-translucent-dark});
-    }
-  }
-
-  .bslib-page-sidebar, .bslib-page-navbar, .bslib-page-dashboard {
-    --bslib-sidebar-bg: var(--bslib-dashboard-sidebar-bg);
-    --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
-  }
-
-  .bslib-page-dashboard {
-    @include bslib-dashboard-cards;
-  }
-
-  .bslib-page-sidebar {
-    --bslib-page-sidebar-title-bg: transparent;
-    --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
-
-    .bslib-page-title {
-      border-color: var(--#{$prefix}border-color-translucent);
-    }
-
-    > .bslib-sidebar-layout {
-      > .main {
-        @include bslib-dashboard-cards;
+    main, .main, &.main {
+      background-color: var(--bslib-dashboard-main-bg);
+      main, .main, .bslib-sidebar-layout {
+        --bslib-dashboard-main-bg: ; // unset background color rule
       }
+    }
+
+    .bslib-sidebar-layout {
       --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
-      .bslib-sidebar-layout {
-        --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
-      }
     }
   }
 
-  .bslib-page-navbar {
+  .bslib-page-navbar, .bslib-page-dashboard {
     > .navbar {
       --bslib-navbar-default-bg: transparent;
       --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
@@ -186,14 +158,16 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       > .bslib-sidebar-layout,
       > .tab-content > .tab-pane.active.html-fill-container > .bslib-sidebar-layout.html-fill-item {
         border-top: none !important; // Make sure we don't end up w/ a double border
-        > .main {
-          @include bslib-dashboard-cards;
-        }
-        --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
-        .bslib-sidebar-layout {
-          --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
-        }
       }
+    }
+  }
+
+  .bslib-page-sidebar {
+    --bslib-page-sidebar-title-bg: transparent;
+    --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
+
+    .bslib-page-title {
+      border-color: var(--#{$prefix}border-color-translucent);
     }
   }
 }

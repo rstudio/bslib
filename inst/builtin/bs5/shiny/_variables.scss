@@ -120,8 +120,8 @@ $bslib-enable-shadows: $bslib-enable-dashboard !default
 $bslib-value-box-enable-shadow: $bslib-enable-shadows !default;
 
 // bslib Dashboard Styles
-$bslib-dashboard-border-color-translucent: RGBA(40, 70, 94, 0.1) !default;
-$bslib-dashboard-border-color-translucent-dark: RGBA(255, 255, 255, 0.1) !default;
+$border-color-translucent: if($bslib-enable-dashboard, rgba(40, 70, 94, 0.1), null) !default;
+$border-color-translucent-dark: if($bslib-enable-dashboard, rgba(255, 255, 255, 0.1), null) !default;
 
 // Modals
 $modal-dialog-margin-y-sm-up: 10% !default;
