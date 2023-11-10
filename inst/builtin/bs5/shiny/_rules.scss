@@ -132,32 +132,25 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     }
   }
 
-  // Set the background color of the main content area
+  // Set the background color of the page or main content area
   .bslib-page-dashboard, .bslib-page-sidebar, .bslib-page-navbar {
     --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
-
-    main, &main, .main, &.main {
-      background-color: var(--bslib-dashboard-main-bg);
-      .main, .bslib-sidebar-layout {
-        --bslib-dashboard-main-bg: ; // unset background color rule
-      }
-    }
-
-    .bslib-sidebar-layout {
-      --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
-    }
-  }
-
-  body.bslib-page-dashboard {
     background-color: var(--bslib-dashboard-main-bg);
-    .bslib-sidebar-layout {
-      --bslib-dashboard-main-bg: ; // unset background color rule
+
+    // But make sure that the first layout sidebar is transparent
+    // (unless the user has explicitly set a background color)
+    .bslib-sidebar-layout:not([style*="--_main-bg"]) .main {
+      background-color: transparent;
+    }
+    // and make sure that any nested sidebars have normal, expected behavior
+    .bslib-sidebar-layout .bslib-sidebar-layout .main {
+      background-color: var(--_main-bg);
     }
   }
 
   .bslib-page-navbar, .bslib-page-dashboard {
     > .navbar {
-      --bslib-navbar-default-bg: transparent;
+      --bslib-navbar-default-bg: var(--#{$prefix}body-bg);
       --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
     }
 
@@ -175,7 +168,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 
   .bslib-page-sidebar {
-    --bslib-page-sidebar-title-bg: transparent;
+    --bslib-page-sidebar-title-bg: var(--#{$prefix}body-bg);
     --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
 
     .bslib-page-title {
