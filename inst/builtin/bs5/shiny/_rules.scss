@@ -79,6 +79,33 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
+
+@if ($bslib-enable-shadows) {
+  // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
+  .bslib-card {
+    // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
+    box-shadow: var(--bslib-card-box-shadow, #{$box-shadow});
+
+    // Shadows on top-level cards, not in nested components
+    .bslib-card {
+      --bslib-card-box-shadow: ; // unset our shadow
+    }
+  }
+
+  .bslib-card-box-shadow-sm {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-sm, #{$box-shadow-sm});
+  }
+  .bslib-card-box-shadow-md {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-md, #{$box-shadow});
+  }
+  .bslib-card-box-shadow-lg {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-lg, #{$box-shadow-lg});
+  }
+  .bslib-card-box-shadow-none {
+    --bslib-card-box-shadow: none;
+  }
+}
+
 // TODO: move this logic into a "core" bundle that comes with any theme
 // (but you only get the shadows by default in the preset theme)
 @if $bslib-dashboard-design {
@@ -89,29 +116,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
     --bslib-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-sidebar-fg: var(--#{$prefix}color);
-  }
-
-  @if ($bslib-enable-shadows) {
-    // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
-    .bslib-card {
-      // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
-      box-shadow: var(--#{$prefix}card-box-shadow);
-
-      // Shadows on top-level cards, not in nested components
-      --bs-card-box-shadow: #{$box-shadow};
-      .bslib-card {
-        --bs-card-box-shadow: none;
-      }
-
-      // We're deliberately avoiding `@include color-mode(dark)` here since
-      // that'd require a fair amount of duplication to properly implement
-      // https://github.com/rstudio/bslib/pull/829/files#r1361262514
-      [data-#{$prefix}theme="dark"] & {
-        .bslib-card {
-          --bs-card-box-shadow: none;
-        }
-      }
-    }
   }
 
   .bslib-card {

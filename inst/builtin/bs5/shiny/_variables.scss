@@ -101,15 +101,20 @@ $table-striped-order: even !default;
 $bslib-box-shadow-color-rgb: 29, 31, 33 !default;
 $bslib-box-shadow-color-rgb-dark: 0, 0, 0 !default;
 
+$box-shadow-sm:
+  0px 1px 2px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+  0px 2px 3px RGBA(var(--bslib-box-shadow-color-rgb), 0.1),
+  0px 3px 8px RGBA(var(--bslib-box-shadow-color-rgb), 0.1) !default;
+
 $box-shadow:
   0px 1px 2px RGBA(var(--bslib-box-shadow-color-rgb), .1),
   0px 3px 7px RGBA(var(--bslib-box-shadow-color-rgb), .1),
   0px 12px 30px RGBA(var(--bslib-box-shadow-color-rgb), .08) !default;
 
-$box-shadow-sm:
-  0px 1px 2px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+$box-shadow-lg:
+  0px 16px 48px RGBA(var(--bslib-box-shadow-color-rgb), .1),
   0px 2px 3px RGBA(var(--bslib-box-shadow-color-rgb), 0.1),
-  0px 3px 8px RGBA(var(--bslib-box-shadow-color-rgb), 0.1);
+  0px 16px 46px RGBA(var(--bslib-box-shadow-color-rgb), 0.1) !default;
 
 // Cards
 $card-border-radius: 8px !default;
