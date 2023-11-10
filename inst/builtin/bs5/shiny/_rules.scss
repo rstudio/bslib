@@ -7,6 +7,15 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   @import url($web-font-path);
 }
 
+// Variables
+:root {
+  --bslib-box-shadow-color-rgb: #{$bslib-box-shadow-color-rgb};
+}
+
+@include color-mode(dark) {
+  --bslib-box-shadow-color-rgb: #{$bslib-box-shadow-color-rgb-dark};
+}
+
 // For radioButtons()/checkboxGroupInput(), move text slightly to the right
 $bslib-checkbox-radio-margin-right: 0.35em !default;
 .checkbox,
@@ -71,76 +80,74 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 }
 
 
-@mixin bslib-box-shadows {
-
+@if ($bslib-enable-shadows) {
   // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
-  .bslib-card, .bslib-sidebar-layout {
-    // Shadows on top-level cards/sidebars, not in nested components
-    box-shadow: $box-shadow;
-    .bslib-card, .bslib-sidebar-layout {
-      box-shadow: none;
-    }
-
-    // Remove outer border, but keep inner borders and borders on nested components
-    border-width: 0;
-
-    // We're deliberately avoiding `@include color-mode(dark)` here since
-    // that'd require a fair amount of duplication to properly implement
-    // https://github.com/rstudio/bslib/pull/829/files#r1361262514
-    [data-#{$prefix}theme="dark"] & {
-      box-shadow: $box-shadow-dark;
-    }
-  }
-
-  // Additional card styling (w/ box shadows in mind)
   .bslib-card {
-    .card-header, .card-footer {
-      background-color: transparent;
-    }
-    .card-header {
-      font-weight: $font-weight-semibold;
-      font-size: 0.9rem;
-      line-height: 1.375rem;
-    }
-    .bslib-sidebar-layout > .sidebar {
-      border-top: var(--bslib-sidebar-border);
+    // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
+    box-shadow: var(--bslib-card-box-shadow, #{$box-shadow});
+
+    // Shadows on top-level cards, not in nested components
+    .bslib-card {
+      --bslib-card-box-shadow: ; // unset our shadow
     }
   }
 
+  .bslib-card-box-shadow-sm {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-sm, #{$box-shadow-sm});
+  }
+  .bslib-card-box-shadow-md {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-md, #{$box-shadow});
+  }
+  .bslib-card-box-shadow-lg {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-lg, #{$box-shadow-lg});
+  }
+  .bslib-card-box-shadow-none {
+    --bslib-card-box-shadow: none;
+  }
 }
 
 // TODO: move this logic into a "core" bundle that comes with any theme
 // (but you only get the shadows by default in the preset theme)
-@if $bslib-enable-shadows {
+@if $bslib-dashboard-design {
 
   :root {
-    --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
     --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
+    --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
+    --bslib-sidebar-bg: var(--#{$prefix}body-bg);
+    --bslib-sidebar-fg: var(--#{$prefix}color);
   }
 
-  .bslib-page-sidebar, .bslib-page-navbar {
-    .bslib-sidebar-layout {
-      --bslib-sidebar-bg: var(--bslib-dashboard-sidebar-bg);
-      --bslib-sidebar-main-bg: var(--bslib-dashboard-sidebar-main-bg);
+  .bslib-card {
+    .card-header, .card-footer {
+      background-color: transparent;
+      font-size: 0.9rem;
+    }
+    .card-header {
+      font-weight: $font-weight-semibold;
+      line-height: 1.375rem;
     }
   }
 
-  .bslib-page-sidebar {
-    --bslib-page-sidebar-title-bg: transparent;
-    --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
-    > .bslib-sidebar-layout {
-      --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
-      > .main {
-        @include bslib-box-shadows;
-      }
+  // Set the background color of the page or main content area
+  .bslib-page-dashboard, .bslib-page-sidebar, .bslib-page-navbar {
+    --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
+    background-color: var(--bslib-dashboard-main-bg);
+
+    // But make sure that the first layout sidebar is transparent
+    // (unless the user has explicitly set a background color)
+    .bslib-sidebar-layout:not([style*="--_main-bg"]) .main {
+      background-color: transparent;
+    }
+    // and make sure that any nested sidebars have normal, expected behavior
+    .bslib-sidebar-layout .bslib-sidebar-layout .main {
+      background-color: var(--_main-bg);
     }
   }
 
-  .bslib-page-navbar {
-
+  .bslib-page-navbar, .bslib-page-dashboard {
     > .navbar {
-      --bslib-navbar-default-bg: transparent;
+      --bslib-navbar-default-bg: var(--#{$prefix}body-bg);
       --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
     }
 
@@ -153,11 +160,16 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
       > .bslib-sidebar-layout,
       > .tab-content > .tab-pane.active.html-fill-container > .bslib-sidebar-layout.html-fill-item {
         border-top: none !important; // Make sure we don't end up w/ a double border
-        --bslib-sidebar-main-bg: var(--bslib-dashboard-main-bg);
-        > .main {
-          @include bslib-box-shadows;
-        }
       }
+    }
+  }
+
+  .bslib-page-sidebar {
+    --bslib-page-sidebar-title-bg: var(--#{$prefix}body-bg);
+    --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
+
+    .bslib-page-title {
+      border-color: var(--#{$prefix}border-color-translucent);
     }
   }
 }
@@ -304,11 +316,5 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 
   .shiny-notification-content-text :last-child {
     margin-bottom: 0;
-  }
-}
-
-@include color-mode(dark) {
-  .shiny-notification.shiny-notification {
-    box-shadow: $box-shadow-dark;
   }
 }
