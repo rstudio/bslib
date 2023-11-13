@@ -120,7 +120,6 @@ $box-shadow-lg:
 $card-border-radius: 8px !default;
 
 // bslib Dashboard Styles
-$bslib-dashboard-design: true !default;
 // "Dashboard" styles give you:
 // * softer borders
 // * white cards
@@ -129,6 +128,7 @@ $bslib-dashboard-design: true !default;
 // * light gray background in the main container(s)
 // * white navbar and title panel
 
+$bslib-dashboard-design: true !default;
 $bslib-enable-shadows: $bslib-dashboard-design !default
 
 $border-color-translucent: if($bslib-dashboard-design, rgba(40, 70, 94, 0.1), null) !default;
