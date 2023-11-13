@@ -19,9 +19,6 @@ $bslib-value-box-horizontal-break-point: 300px;
     border-color: var(--bslib-value-box-border-color, var(--bslib-value-box-border-color-default));
   }
 
-  container-name: bslib-value-box;
-  container-type: inline-size;
-
   .value-box-grid {
     display: grid;
     grid-template-areas: "left right";
@@ -47,6 +44,9 @@ $bslib-value-box-horizontal-break-point: 300px;
   // But we don't need this for mobile, where we have one box per row. This media query
   // is the inverse of `@include media-breakpoint-down(sm)` but that mixin doesn't work
   // inside nested queries.
+  container-name: bslib-value-box;
+  container-type: inline-size;
+
   @media screen and (min-width: breakpoint-max(sm, $grid-breakpoints)) {
     @container bslib-value-box (max-width: #{$bslib-value-box-horizontal-break-point}) {
       &:not(.showcase-bottom) .value-box-grid {
