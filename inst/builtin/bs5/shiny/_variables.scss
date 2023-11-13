@@ -130,7 +130,6 @@ $bslib-dashboard-design: true !default;
 // * white navbar and title panel
 
 $bslib-enable-shadows: $bslib-dashboard-design !default
-$bslib-value-box-enable-shadow: $bslib-enable-shadows !default;
 
 $border-color-translucent: if($bslib-dashboard-design, rgba(40, 70, 94, 0.1), null) !default;
 $border-color-translucent-dark: if($bslib-dashboard-design, rgba(255, 255, 255, 0.1), null) !default;
