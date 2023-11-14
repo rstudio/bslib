@@ -91,10 +91,6 @@ main_grid <- layout_column_wrap(
 grid_height <- "calc(100vh - 5px)"
 
 ui <- page_fluid(
-  theme = bs_theme(
-    "card-cap-bg" = "#212529",
-    "card-cap-color" = "white"
-  ),
   layout_column_wrap(
     width = NULL, heights_equal = "row",
     height = grid_height,
