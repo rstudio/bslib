@@ -819,13 +819,16 @@
          */
         _initDesktop() {
           var _a;
-          const { container } = this.layout;
+          const { container, sidebar } = this.layout;
           if (((_a = container.dataset.bslibSidebarOpen) == null ? void 0 : _a.trim()) !== "desktop") {
             return;
           }
           const initCollapsed = window.getComputedStyle(container).getPropertyValue("--bslib-sidebar-js-init-collapsed");
           if (initCollapsed.trim() === "true") {
-            this.toggle("close");
+            container.classList.add(_Sidebar.classes.COLLAPSE);
+            this._finalizeState();
+          } else {
+            sidebar.hidden = false;
           }
         }
         /**
