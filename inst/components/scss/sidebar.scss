@@ -6,7 +6,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
 
 
 .bslib-sidebar-layout {
-  --_transition-duration: ;
+  --_transition-duration: ; // Set below for .transitioning only
   --_transition-easing-x: var(--bslib-sidebar-transition-easing-x, cubic-bezier(0.8, 0.78, 0.22, 1.07));
   --_border: var(--bslib-sidebar-border, #{$bslib-sidebar-border});
   --_border-radius: var(--bslib-sidebar-border-radius, var(--bs-border-radius));
@@ -35,13 +35,14 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   // Calculate the height of all toggle buttons in nested sidebar layouts
   --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-toggle-count-max-side, 1));
 
+  &.transitioning {
+    --_transition-duration: max(var(--bslib-sidebar-transition-duration, 300ms), 5ms);
+  }
+
   display: grid !important;
   grid-template-columns: $bslib-sidebar-column-sidebar var(--_column-main);
   position: relative;
 
-  &.transitioning {
-    --_transition-duration: max(var(--bslib-sidebar-transition-duration, 500ms), 5ms);
-  }
   @include transition(grid-template-columns ease-in-out var(--_transition-duration));
 
   border: var(--_border);
