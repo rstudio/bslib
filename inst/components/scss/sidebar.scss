@@ -27,7 +27,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   --_toggle-transform: var(--bslib-collapse-toggle-transform, 0deg);
   --_toggle-transition-easing: var(--bslib-sidebar-toggle-transition-easing, cubic-bezier(1, 0, 0, 1));
   --_toggle-right-transform: var(--bslib-collapse-toggle-right-transform, 180deg);
-  --_max-height-mobile: var(--bslib-sidebar-max-height-mobile);
+  --_mobile-max-height: var(--bslib-sidebar-mobile-max-height, var(--bslib-sidebar-max-height-mobile));
+  --_sidebar-mobile-opacity: var(--bslib-sidebar-mobile-opacity);
+  --_sidebar-mobile-max-width: var(--bslib-sidebar-mobile-max-width);
+  --_sidebar-mobile-box-shadow: var(--bslib-sidebar-mobile-box-shadow);
   --_column-main: minmax(0, 1fr);
   // Calculate the height of all toggle buttons in nested sidebar layouts
   --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-toggle-count-max-side, 1));
@@ -297,7 +300,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
     &[data-bslib-sidebar-open="always"] {
       display: block !important;
       > .sidebar {
-        max-height: var(--_max-height-mobile);
+        max-height: var(--_mobile-max-height);
         overflow-y: auto;
         border-top: var(--_vert-border);
       }
@@ -321,6 +324,19 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
         left: unset;
       }
 
+      .sidebar {
+        opacity: var(--_sidebar-mobile-opacity);
+        max-width: var(--_sidebar-mobile-max-width);
+        box-shadow: var(--_sidebar-mobile-box-shadow);
+      }
+
+      &:not(.sidebar-right) > .sidebar {
+        margin-right: auto;
+      }
+      &.sidebar-right > .sidebar {
+        margin-left: auto;
+      }
+
       // Either sidebar or main area take up entire layout depending on state
       $full-closed: 100% 0;
       $closed-full: 0 100%;
@@ -338,7 +354,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
 
       // Make main contents transparent while sidebar is expanded
       > .main {
-        opacity: 0;
+        // opacity: 0;
         transition: opacity var(--_transition-easing-x) var(--_transition-duration);
         padding-top: var(--_toggle-collective-height);
         padding-left: var(--_padding);
