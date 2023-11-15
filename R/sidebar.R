@@ -149,7 +149,7 @@ sidebar <- function(
     tag = tags$aside(
       id = id,
       class = c("sidebar", class),
-      hidden = if (open == "closed") NA,
+      hidden = if (open %in% c("closed", "desktop")) NA,
       tags$div(
         class = "sidebar-content bslib-gap-spacing",
         title,

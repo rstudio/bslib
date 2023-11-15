@@ -302,7 +302,7 @@ class Sidebar {
    * @private
    */
   private _initDesktop(): void {
-    const { container } = this.layout;
+    const { container, sidebar } = this.layout;
     // If sidebar is marked open='desktop'...
     if (container.dataset.bslibSidebarOpen?.trim() !== "desktop") {
       return;
@@ -314,7 +314,10 @@ class Sidebar {
       .getPropertyValue("--bslib-sidebar-js-init-collapsed");
 
     if (initCollapsed.trim() === "true") {
-      this.toggle("close");
+      container.classList.add(Sidebar.classes.COLLAPSE);
+      this._finalizeState();
+    } else {
+      sidebar.hidden = false;
     }
   }
 

@@ -6,7 +6,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
 
 
 .bslib-sidebar-layout {
-  --_transition-duration: max(var(--bslib-sidebar-transition-duration, 500ms), 5ms);
+  --_transition-duration: ;
   --_transition-easing-x: var(--bslib-sidebar-transition-easing-x, cubic-bezier(0.8, 0.78, 0.22, 1.07));
   --_border: var(--bslib-sidebar-border, #{$bslib-sidebar-border});
   --_border-radius: var(--bslib-sidebar-border-radius, var(--bs-border-radius));
@@ -36,6 +36,9 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   grid-template-columns: $bslib-sidebar-column-sidebar var(--_column-main);
   position: relative;
 
+  &.transitioning {
+    --_transition-duration: max(var(--bslib-sidebar-transition-duration, 500ms), 5ms);
+  }
   @include transition(grid-template-columns ease-in-out var(--_transition-duration));
 
   border: var(--_border);
