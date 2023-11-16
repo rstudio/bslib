@@ -6,7 +6,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
 
 
 .bslib-sidebar-layout {
-  --_transition-duration: ; // Set below for .transitioning only
+  --_transition-duration: 0; // Transitions are enabled by .transitioning class
   --_transition-easing-x: var(--bslib-sidebar-transition-easing-x, cubic-bezier(0.8, 0.78, 0.22, 1.07));
   --_border: var(--bslib-sidebar-border, #{$bslib-sidebar-border});
   --_border-radius: var(--bslib-sidebar-border-radius, var(--bs-border-radius));
@@ -326,11 +326,12 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
       }
 
       .sidebar {
-        opacity: var(--_sidebar-mobile-opacity);
-        max-width: var(--_sidebar-mobile-max-width);
+        opacity: var(--_sidebar-mobile-opacity, 1);
+        max-width: var(--_sidebar-mobile-max-width, 100%);
         box-shadow: var(--_sidebar-mobile-box-shadow);
       }
 
+      // When `max-width` is less than 100%, push it to the appropriate side
       &:not(.sidebar-right) > .sidebar {
         margin-right: auto;
       }
@@ -353,16 +354,11 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
         }
       }
 
-      // Make main contents transparent while sidebar is expanded
+      // Set padding on main area to account for toggle button
       > .main {
-        // opacity: 0;
-        transition: opacity var(--_transition-easing-x) var(--_transition-duration);
         padding-top: var(--_toggle-collective-height);
         padding-left: var(--_padding);
         padding-right: var(--_padding);
-      }
-      &.sidebar-collapsed > .main {
-        opacity: 1;
       }
     }
   }
