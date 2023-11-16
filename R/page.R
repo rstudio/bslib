@@ -277,7 +277,6 @@ page_sidebar <- function(
       fillable = fillable,
       border = FALSE,
       border_radius = FALSE,
-      # tags$main(..., as_fill_carrier()),
       ...
     )
   )
