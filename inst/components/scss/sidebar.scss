@@ -67,7 +67,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     padding: var(--_padding);
-    transition: padding var(-- _transition-easing-x) var(--_transition-duration);
+    transition: padding var(--_transition-easing-x) var(--_transition-duration);
     color: var(--_main-fg);
     background-color: var(--_main-bg);
   }
