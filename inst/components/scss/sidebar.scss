@@ -27,6 +27,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
   --_toggle-transform: var(--bslib-collapse-toggle-transform, 0deg);
   --_toggle-transition-easing: var(--bslib-sidebar-toggle-transition-easing, cubic-bezier(1, 0, 0, 1));
   --_toggle-right-transform: var(--bslib-collapse-toggle-right-transform, 180deg);
+  --_toggle-position-y: calc(var(--_js-toggle-count-this-side, 0) * calc(var(--_icon-size) + var(--_padding)) + var(--_icon-size, 1rem) / 2);
+  --_toggle-position-x: calc(-2.5 * var(--_icon-size) - var(--bs-card-border-width, 1px));
   --_max-height-mobile: var(--bslib-sidebar-max-height-mobile);
   --_column-main: minmax(0, 1fr);
   // Calculate the height of all toggle buttons in nested sidebar layouts
@@ -255,16 +257,12 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
     > .collapse-toggle {
       color: var(--_main-fg);
       // The CSS variable (set via JS) is here to help avoid overlapping toggles
-      top: calc(
-          var(--_js-toggle-count-this-side, 0) *
-          calc(var(--_icon-size) +
-          var(--_padding)
-        ) + var(--_icon-size, 1rem) / 2);
-      right: calc(-2.5 * var(--_icon-size) - var(--bs-card-border-width, 1px));
+      top: var(--_toggle-position-y);
+      right: var(--_toggle-position-x);
     }
 
     &.sidebar-right > .collapse-toggle {
-      left: calc(-2.5 * var(--_icon-size) - var(--bs-card-border-width, 1px));
+      left: var(--_toggle-position-x);
       right: unset;
     }
   }
