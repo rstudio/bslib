@@ -302,7 +302,7 @@ class Sidebar {
    * @private
    */
   private _initDesktop(): void {
-    const { container, sidebar } = this.layout;
+    const { container } = this.layout;
     // If sidebar is marked open='desktop'...
     if (container.dataset.bslibSidebarOpen?.trim() !== "desktop") {
       return;
@@ -313,12 +313,8 @@ class Sidebar {
       .getComputedStyle(container)
       .getPropertyValue("--bslib-sidebar-js-init-collapsed");
 
-    if (initCollapsed.trim() === "true") {
-      container.classList.add(Sidebar.classes.COLLAPSE);
-      this._finalizeState();
-    } else {
-      sidebar.hidden = false;
-    }
+    const initState = initCollapsed.trim() === "true" ? "close" : "open";
+    this.toggle(initState, true);
   }
 
   /**
@@ -327,8 +323,14 @@ class Sidebar {
    * @param {SidebarToggleMethod | undefined} method Whether to `"open"`,
    * `"close"` or `"toggle"` the sidebar. If `.toggle()` is called without an
    * argument, it will toggle the sidebar's state.
+   * @param {boolean} [immediate=false] If `true`, the sidebar state will be
+   * set immediately, without a transition. This is primarily used when the
+   * sidebar is initialized.
    */
-  public toggle(method: SidebarToggleMethod | undefined): void {
+  public toggle(
+    method: SidebarToggleMethod | undefined,
+    immediate = false
+  ): void {
     if (typeof method === "undefined") {
       method = "toggle";
     }
@@ -346,6 +348,7 @@ class Sidebar {
 
     if ((isClosed && method === "close") || (!isClosed && method === "open")) {
       // nothing to do, sidebar is already in the desired state
+      if (immediate) this._finalizeState();
       return;
     }
 
@@ -355,10 +358,16 @@ class Sidebar {
       sidebar.hidden = false;
     }
 
-    // Add a transitioning class just before adding COLLAPSE_CLASS since we want
-    // some of the transitioning styles to apply before the collapse state
-    container.classList.add(Sidebar.classes.TRANSITIONING);
+    // If not immediate, add the .transitioning class to the sidebar for smooth
+    // transitions. This class is removed when the transition ends.
+    container.classList.toggle(Sidebar.classes.TRANSITIONING, !immediate);
     container.classList.toggle(Sidebar.classes.COLLAPSE);
+
+    if (immediate) {
+      // When transitioning, state is finalized on transitionend, otherwise we
+      // need to manually and immediately finalize the state.
+      this._finalizeState();
+    }
   }
 
   /**
