@@ -10,7 +10,34 @@
 }
 
 @include media-breakpoint-down(sm) {
-  .bslib-page-fill {
-    height: var(--bslib-page-fill-mobile-height, auto);
+  .bslib-mobile-flow {
+    &:not(.bslib-page-sidebar) {
+      > .html-fill-item {
+        flex: 0 0 auto;
+      }
+    }
+
+    &.bslib-page-sidebar > .bslib-sidebar-layout {
+      > .main > .html-fill-item {
+        flex: 0 0 auto;
+      }
+
+      &:not(.sidebar-right) {
+        > .main {
+          padding-left: var(--_padding-icon);
+        }
+        > .collapse-toggle {
+          left: calc(var(--_icon-size) / 2);
+        }
+      }
+      &.sidebar-right {
+        > .main {
+         padding-right: var(--_padding-icon);
+        }
+        > .collapse-toggle {
+          right: calc(var(--_icon-size) / 2);
+        }
+      }
+    }
   }
 }

@@ -72,8 +72,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_icon-size)), var(--_sideba
 
   > .sidebar {
     grid-column: 1 / 2;
-    width: 100%;
-    height: 100%;
     border-right: var(--_vert-border);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
