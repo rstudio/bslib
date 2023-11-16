@@ -819,17 +819,13 @@
          */
         _initDesktop() {
           var _a;
-          const { container, sidebar } = this.layout;
+          const { container } = this.layout;
           if (((_a = container.dataset.bslibSidebarOpen) == null ? void 0 : _a.trim()) !== "desktop") {
             return;
           }
           const initCollapsed = window.getComputedStyle(container).getPropertyValue("--bslib-sidebar-js-init-collapsed");
-          if (initCollapsed.trim() === "true") {
-            container.classList.add(_Sidebar.classes.COLLAPSE);
-            this._finalizeState();
-          } else {
-            sidebar.hidden = false;
-          }
+          const initState = initCollapsed.trim() === "true" ? "close" : "open";
+          this.toggle(initState, true);
         }
         /**
          * Toggle the sidebar's open/closed state.
@@ -837,8 +833,11 @@
          * @param {SidebarToggleMethod | undefined} method Whether to `"open"`,
          * `"close"` or `"toggle"` the sidebar. If `.toggle()` is called without an
          * argument, it will toggle the sidebar's state.
+         * @param {boolean} [immediate=false] If `true`, the sidebar state will be
+         * set immediately, without a transition. This is primarily used when the
+         * sidebar is initialized.
          */
-        toggle(method) {
+        toggle(method, immediate = false) {
           if (typeof method === "undefined") {
             method = "toggle";
           }
@@ -851,13 +850,18 @@
             method = isClosed ? "open" : "close";
           }
           if (isClosed && method === "close" || !isClosed && method === "open") {
+            if (immediate)
+              this._finalizeState();
             return;
           }
           if (method === "open") {
             sidebar.hidden = false;
           }
-          container.classList.add(_Sidebar.classes.TRANSITIONING);
+          container.classList.toggle(_Sidebar.classes.TRANSITIONING, !immediate);
           container.classList.toggle(_Sidebar.classes.COLLAPSE);
+          if (immediate) {
+            this._finalizeState();
+          }
         }
         /**
          * When the sidebar open/close transition ends, finalize the sidebar's state.
