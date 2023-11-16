@@ -52,21 +52,3 @@
     }
   }
 }
-
-@include media-breakpoint-down(sm) {
-  .bslib-flow-sm > .html-fill-item {
-    flex: 0 0 auto;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .bslib-flow-md > .html-fill-item {
-    flex: 0 0 auto;
-  }
-}
-
-@include media-breakpoint-down(lg) {
-  .bslib-flow-lg > .html-fill-item {
-    flex: 0 0 auto;
-  }
-}
