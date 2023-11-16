@@ -394,6 +394,7 @@ page_navbar <- function(
     theme = theme,
     lang = lang,
     class = "bslib-page-navbar",
+    class = if (!is.null(sidebar)) "has-page-sidebar",
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
