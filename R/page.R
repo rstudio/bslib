@@ -178,7 +178,7 @@ page_fillable <- function(
     theme = theme,
     lang = lang,
     class = "bslib-page-fill bslib-gap-spacing",
-    class = if (!fillable_mobile) "bslib-mobile-flow",
+    class = if (!fillable_mobile) "bslib-flow-mobile",
     style = css(
       padding = validateCssPadding(padding),
       gap = validateCssUnit(gap)
