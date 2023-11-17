@@ -123,9 +123,6 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     --bslib-dashboard-main-bg: rgb(20, 20, 24);
   }
 
-  // Bootstrap sets the body bg color, but dashboard style may make the body bg
-  // transparent, so we need to set the html bg color as well
-
   .bslib-card {
     .card-header, .card-footer {
       background-color: transparent;
