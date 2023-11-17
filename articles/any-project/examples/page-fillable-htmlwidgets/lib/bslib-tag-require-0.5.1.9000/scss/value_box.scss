@@ -12,9 +12,9 @@ $bslib-value-box-horizontal-break-point: 300px;
 
 .bslib-value-box {
   &.default {
-    --bslib-value-box-bg-default: var(--bs-card-bg, #{$body-bg});
-    --bslib-value-box-border-color-default: var(--bs-card-border-color, #{$card-border-color});
-    color: var(--bslib-value-box-color);
+    --bslib-value-box-bg-default: var(--#{$prefix}card-bg, #{$body-bg});
+    --bslib-value-box-border-color-default: var(--#{$prefix}card-border-color, #{$card-border-color});
+    color: var(--bslib-value-box-color, var(--#{$prefix}body-color));
     background-color: var(--bslib-value-box-bg, var(--bslib-value-box-bg-default));
     border-color: var(--bslib-value-box-border-color, var(--bslib-value-box-border-color-default));
   }

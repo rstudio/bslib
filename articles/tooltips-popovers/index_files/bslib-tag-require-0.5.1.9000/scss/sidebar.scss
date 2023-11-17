@@ -1,9 +1,11 @@
+// User-facing variables, use for theming
 $bslib-sidebar-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05) !default;
 $bslib-sidebar-fg: var(--bs-emphasis-color, black) !default;
 $bslib-sidebar-toggle-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.1) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
-$bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sidebar-width));
 
+// Internal variables, don't use for theming!
+$bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sidebar-width));
 
 .bslib-sidebar-layout {
   --_transition-duration: 0; // Transitions are enabled by .transitioning class
@@ -15,7 +17,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   --_sidebar-bg: var(--bslib-sidebar-bg, #{$bslib-sidebar-bg});
   --_sidebar-fg: var(--bslib-sidebar-fg, #{$bslib-sidebar-fg});
   --_main-fg: var(--bslib-sidebar-main-fg, var(--bs-card-color, var(--bs-body-color)));
-  --_main-bg: var(--bslib-sidebar-main-bg, var(--bs-card-bg, var(--bs-body-bg)));
+  --_main-bg: var(--bslib-sidebar-main-bg, transparent);
   --_toggle-bg: var(--bslib-sidebar-toggle-bg, #{$bslib-sidebar-toggle-bg});
   --_padding: var(--bslib-sidebar-padding, calc(var(--bslib-spacer) * 1.5));
   --_icon-size: var(--bslib-sidebar-icon-size, var(--bslib-spacer, 1rem));
