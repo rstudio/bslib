@@ -149,7 +149,7 @@ sidebar <- function(
     tag = tags$aside(
       id = id,
       class = c("sidebar", class),
-      hidden = if (open == "closed") NA,
+      hidden = if (open %in% c("closed", "desktop")) NA,
       tags$div(
         class = "sidebar-content bslib-gap-spacing",
         title,
@@ -256,7 +256,7 @@ layout_sidebar <- function(
       "--_main-bg" = bg,
       "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
-      "--_max-height-mobile" = max_height_mobile
+      "--_mobile-max-height" = max_height_mobile
     ),
     !!!contents,
     sidebar_init_js(),

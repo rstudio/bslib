@@ -6,7 +6,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
 
 
 .bslib-sidebar-layout {
-  --_transition-duration: max(var(--bslib-sidebar-transition-duration, 500ms), 5ms);
+  --_transition-duration: 0; // Transitions are enabled by .transitioning class
   --_transition-easing-x: var(--bslib-sidebar-transition-easing-x, cubic-bezier(0.8, 0.78, 0.22, 1.07));
   --_border: var(--bslib-sidebar-border, #{$bslib-sidebar-border});
   --_border-radius: var(--bslib-sidebar-border-radius, var(--bs-border-radius));
@@ -29,10 +29,17 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   --_toggle-right-transform: var(--bslib-collapse-toggle-right-transform, 180deg);
   --_toggle-position-y: calc(var(--_js-toggle-count-this-side, 0) * calc(var(--_icon-size) + var(--_padding)) + var(--_icon-size, 1rem) / 2);
   --_toggle-position-x: calc(-2.5 * var(--_icon-size) - var(--bs-card-border-width, 1px));
-  --_max-height-mobile: var(--bslib-sidebar-max-height-mobile);
+  --_mobile-max-height: var(--bslib-sidebar-mobile-max-height, var(--bslib-sidebar-max-height-mobile));
+  --_sidebar-mobile-opacity: var(--bslib-sidebar-mobile-opacity);
+  --_sidebar-mobile-max-width: var(--bslib-sidebar-mobile-max-width);
+  --_sidebar-mobile-box-shadow: var(--bslib-sidebar-mobile-box-shadow);
   --_column-main: minmax(0, 1fr);
   // Calculate the height of all toggle buttons in nested sidebar layouts
   --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-toggle-count-max-side, 1));
+
+  &.transitioning {
+    --_transition-duration: max(var(--bslib-sidebar-transition-duration, 300ms), 5ms);
+  }
 
   display: grid !important;
   grid-template-columns: $bslib-sidebar-column-sidebar var(--_column-main);
@@ -290,7 +297,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     &[data-bslib-sidebar-open="always"] {
       display: block !important;
       > .sidebar {
-        max-height: var(--_max-height-mobile);
+        max-height: var(--_mobile-max-height);
         overflow-y: auto;
         border-top: var(--_vert-border);
       }
@@ -314,6 +321,20 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
         left: unset;
       }
 
+      > .sidebar {
+        opacity: var(--_sidebar-mobile-opacity, 1);
+        max-width: var(--_sidebar-mobile-max-width, 100%);
+        box-shadow: var(--_sidebar-mobile-box-shadow);
+      }
+
+      // When `max-width` is less than 100%, push it to the appropriate side
+      &:not(.sidebar-right) > .sidebar {
+        margin-right: auto;
+      }
+      &.sidebar-right > .sidebar {
+        margin-left: auto;
+      }
+
       // Either sidebar or main area take up entire layout depending on state
       $full-closed: 100% 0;
       $closed-full: 0 100%;
@@ -329,16 +350,11 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
         }
       }
 
-      // Make main contents transparent while sidebar is expanded
+      // Set padding on main area to account for toggle button
       > .main {
-        opacity: 0;
-        transition: opacity var(--_transition-easing-x) var(--_transition-duration);
         padding-top: var(--_toggle-collective-height);
         padding-left: var(--_padding);
         padding-right: var(--_padding);
-      }
-      &.sidebar-collapsed > .main {
-        opacity: 1;
       }
     }
   }
