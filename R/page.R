@@ -178,10 +178,10 @@ page_fillable <- function(
     theme = theme,
     lang = lang,
     class = "bslib-page-fill bslib-gap-spacing",
+    class = if (!fillable_mobile) "bslib-flow-mobile",
     style = css(
       padding = validateCssPadding(padding),
-      gap = validateCssUnit(gap),
-      "--bslib-page-fill-mobile-height" = if (fillable_mobile) "100%" else "auto"
+      gap = validateCssUnit(gap)
     ),
     ...,
     tags$head(tags$style("html { height: 100%; }")),
@@ -393,6 +393,7 @@ page_navbar <- function(
     theme = theme,
     lang = lang,
     class = "bslib-page-navbar",
+    class = if (!is.null(sidebar)) "has-page-sidebar",
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
