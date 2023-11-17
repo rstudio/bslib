@@ -1,8 +1,15 @@
+// User-facing variables, use for theming
 $bslib-sidebar-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05) !default;
 $bslib-sidebar-fg: var(--bs-emphasis-color, black) !default;
 $bslib-sidebar-toggle-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.1) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
+
+// Internal variables, don't use for theming!
 $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sidebar-width));
+$bslib-sidebar-bg-var: var(--bslib-sidebar-bg, #{$bslib-sidebar-bg});
+$bslib-sidebar-fg-var: var(--bslib-sidebar-fg, #{$bslib-sidebar-fg});
+$bslib-sidebar-main-fg-var: var(--bslib-sidebar-main-fg, var(--bs-card-color, var(--bs-body-color)));
+$bslib-sidebar-main-bg-var: var(--bslib-sidebar-main-bg, transparent);
 
 
 .bslib-sidebar-layout {
@@ -12,10 +19,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   --_border-radius: var(--bslib-sidebar-border-radius, var(--bs-border-radius));
   --_vert-border: var(--bslib-sidebar-vert-border, var(--_border));
   --_sidebar-width: var(--bslib-sidebar-width, 250px);
-  --_sidebar-bg: var(--bslib-sidebar-bg, #{$bslib-sidebar-bg});
-  --_sidebar-fg: var(--bslib-sidebar-fg, #{$bslib-sidebar-fg});
-  --_main-fg: var(--bslib-sidebar-main-fg, var(--bs-card-color, var(--bs-body-color)));
-  --_main-bg: var(--bslib-sidebar-main-bg, var(--bs-card-bg, var(--bs-body-bg)));
+  --_sidebar-fg: #{$bslib-sidebar-fg-var};
+  --_sidebar-bg: #{$bslib-sidebar-bg-var};
+  --_main-fg: #{$bslib-sidebar-main-fg-var};
+  --_main-bg: #{$bslib-sidebar-main-bg-var};
   --_toggle-bg: var(--bslib-sidebar-toggle-bg, #{$bslib-sidebar-toggle-bg});
   --_padding: var(--bslib-sidebar-padding, calc(var(--bslib-spacer) * 1.5));
   --_icon-size: var(--bslib-sidebar-icon-size, var(--bslib-spacer, 1rem));

@@ -113,6 +113,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   :root {
     --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
+    --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
     --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
     --bslib-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-sidebar-fg: var(--#{$prefix}color);
@@ -137,18 +138,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 
   // Set the background color of the page or main content area
   .bslib-page-dashboard {
-    --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
     background-color: var(--bslib-dashboard-main-bg);
-
-    // But make sure that the first layout sidebar is transparent
-    // (unless the user has explicitly set a background color)
-    .bslib-sidebar-layout:not([style*="--_main-bg"]) .main {
-      background-color: transparent;
-    }
-    // and make sure that any nested sidebars have normal, expected behavior
-    .bslib-sidebar-layout .bslib-sidebar-layout .main {
-      background-color: var(--_main-bg);
-    }
   }
 
   .bslib-page-navbar, .bslib-page-dashboard {
