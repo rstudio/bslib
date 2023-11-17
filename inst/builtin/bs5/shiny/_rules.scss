@@ -113,17 +113,18 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   :root {
     --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
-    --bslib-dashboard-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
+    --bslib-dashboard-main-bg: rgb(247, 247, 247);
     --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
     --bslib-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-sidebar-fg: var(--#{$prefix}color);
   }
 
+  @include color-mode(dark) {
+    --bslib-dashboard-main-bg: rgb(20, 20, 24);
+  }
+
   // Bootstrap sets the body bg color, but dashboard style may make the body bg
   // transparent, so we need to set the html bg color as well
-  html {
-    background-color: var(--bs-body-bg);
-  }
 
   .bslib-card {
     .card-header, .card-footer {
