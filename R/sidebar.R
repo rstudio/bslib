@@ -104,7 +104,9 @@ sidebar <- function(
   open <- rlang::arg_match(open)
 
   if (!is.null(max_height_mobile) && open != "always") {
-    rlang::warn('The `max_height_mobile` argument only applies to when `open = "always"`.')
+    rlang::warn(
+      'The `max_height_mobile` argument only applies to the sidebar when `open = "always"`.'
+    )
     max_height_mobile <- NULL
   }
 
