@@ -67,8 +67,10 @@ progressBar <- div(
 IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
 if (isTRUE(IS_LEGACY || theme_version(theme) %in% c("3", "4"))) {
   dashboardTab <- NULL
+  layout_buttons <- tags$div
 } else {
   dashboardTab <- nav_panel("Dashboard", tipsUI("tips"))
+  layout_buttons <- layout_columns
   theme_set(theme_minimal())
 }
 
@@ -105,7 +107,7 @@ shinyApp(
           verbatimTextOutput("inputPanelOutput"),
           br(),
           tags$p("Here are some", tags$code("actionButton()"), "s demonstrating different theme (i.e., accent) colors"),
-          layout_columns(
+          layout_buttons( # Regular <div> if IS_LEGACY, otherwise layout_columns
             actionButton("primary", "Primary", icon("product-hunt"), class = "btn-primary m-2"),
             actionButton("secondary", "Secondary (default)", class = "m-2"),
             actionButton("success", "Success", icon("check"), class = "btn-success m-2"),
