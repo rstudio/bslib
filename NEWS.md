@@ -3,37 +3,44 @@
 ## Breaking changes
 
 * `bs_theme()` now defaults to `preset="shiny"`. This provides an additional set of theming defaults and rules that make it easier to create Shiny apps (in particular, dashboards) that look good out of the box. To revert to the previous behavior, set `bs_theme(preset="bootstrap")`. (#711)
+
 * `value_box()` no longer defaults to `theme_color = "primary"`. To restore the previous behavior, please use `theme = "primary"`. In addition to the default style change, the `theme_color` is now deprecated in favor of `theme`. (#758)
+
 * `page_navbar()` now defaults to `underline = TRUE`, meaning that navigation links in the navbar now have underline styling by default (set `underline = FALSE` to revert to previous behavior). (#784)
-* `page()` now returns a `<body>` tag instead of `tagList()`. This change allows `page()` to treat named arguments as HTML attributes. (#809)
+
+* `page()` now returns a `<body>` tag instead of `tagList()`. This change allows `page()` to treat named arguments as HTML attributes for the `<body>` tag, making it possible to add page-level classes or other attributes. (#809)
+
 * The JS/CSS assets behind `{bslib}` components (e.g., `card()`, `value_box()`, etc) are all now bundled into one `htmlDependency()` and included with the return value of `bs_theme_dependencies()` (previously they were attached at the component-level). (#810)
-* `layout_column_wrap()` no longer requires `width` and `width` is no longer the first argument, meaning that `width` must be named if used. The new default is `width = "200px"`, which combines with `fixed_width = FALSE` and produces an automatically responsive layout where each column is at least 200px wide. This means that, in most cases, `layout_column_wrap()` can layout an unknown number of items without you having to set `width`. (#853)
+
+* `layout_column_wrap()` no longer requires `width` and `width` is no longer the first argument, meaning that `width` must be named if used. The new default is `width = "200px"`, which combines with `fixed_width = FALSE` to produce a responsive layout where each column is at least 200px wide. This means that, in most cases, `layout_column_wrap()` can automatically layout an unknown number of items without you having to set `width`. (#853)
 
 ## New features
 
-* Upgraded the default version of Bootstrap from v5.2.2 to v5.3.1. The most notable thing that comes with the update is the ability to toggle between light/dark [color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/) purely client-side (i.e., no calls to Sass required). (#749, #764)
-
-* Added new `navset_underline()` & `navset_card_underline()` functions as well as a `underline` argument to `page_navbar()` to leverage the new [nav-underline](https://getbootstrap.com/docs/5.3/components/navs-tabs/#underline) styling on navigation links. (#784)
-
-* `value_box()` now supports many new themes and styles, or fully customizable themes using the new `value_box_theme()` function. To reflect the new capabilities, we've replaced `theme_color` with a new `theme` argument. The previous argument will continue work as expected, but with a deprecation warning. (#758)
-
-  In addition to the Bootstrap theme names (`primary` ,`secondary`, etc.), you can now use the main Boostrap colors (`purple`, `blue`, `red`, etc.). You can also choose to apply the color to the background or foreground by prepending a `bg-` or `text-` prefix to the theme or color name. Finally, we've also added new gradient themes allowing you to pair any two color names as `bg-gradient-{from}-{to}` (e.g., `bg-gradient-purple-blue`).
-
-  These named color themes aren't limited to value boxes: because they're powered by small utility classes, you can use them anywhere within your bslib-powered UI.
-
-* Added `showcase_bottom()`, a new `value_box()` layout that places the showcase below the value box title and value, perfect for a full-bleed plot. (#758)
-
-* `showcase_left_center()` and `showcase_top_right()` no longer take two values for the `width` argument. Instead, they now take a single value (e.g., `width = "30%"`) representing the width of the showcase are in the value box. Furthermore, they've both gained `width_full_screen` arguments that determine the width of the showcase area when the value box is expanded to fill the screen. (#758)
-
-* The `showcase_layout` argument of `value_box()` now accepts one of three character values: `"left center"`, `"top right"`, `"bottom"`. (#758)
-
-* A new [Build a Box app](https://bslib.shinyapps.io/build-a-box/) is now available online or via bslib. See `?value_box()` for details. The app helps preview a set of value boxes while you configure and customize their appearance and provides you with code to copy and paste into your app. (#790)
+* The default version of Bootstrap is now v5.3.1, upgraded from v5.2.2. The most notable thing that comes with the update is the ability to toggle between light/dark [color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/) purely client-side (i.e., no calls to Sass required). (#749, #764)
 
 * Added `input_dark_mode()`, a new input control that provides a toggle button that can be used to switch between the dark and light modes when using Bootstrap 5.3. By default, dark mode is applied automatically if the user's operating system is also in dark mode. App authors can toggle dark mode programmatically from the server using `toggle_dark_mode()`, and if you provide `input_dark_mode()` with an `id`, you can read the current color mode via the corresponding input value. (#787)
 
 * Shiny's Bootstrap theme preset is now used by default in `bs_theme()` and all related `page_*()` functions in bslib. This theme brings a fresh new design to all Shiny apps and dashboards created with bslib. This dashboard design anticipates heavy use of cards for organizing content, and works best with a gray background for contrast with minimalistic white cards. This treatment can be enabled in `page_sidebar()`, `page_fillable()` and other `page_*()` functions by adding the `bslib-page-dashboard` class to the page container or body tag.
 
    The preset can also be customized using the `$bslib-dashboard-design` and `$bslib-enable-shadows` Sass variables. Set these to `false` to disable the dashboard treatment and card shadows, respectively. These variables can be set via `bs_theme()`, e.g. `bs_theme("bslib-dashboard-design" = "false")`. (#897, #906)
+
+* `value_box()` has been updated with a number of new features and improvements:
+
+  * `value_box()` now supports many new themes and styles, or fully customizable themes using the new `value_box_theme()` function. To reflect the new capabilities, we've replaced `theme_color` with a new `theme` argument. The previous argument will continue work as expected, but with a deprecation warning. (#758)
+
+    In addition to the Bootstrap theme names (`primary` ,`secondary`, etc.), you can now use the main Boostrap colors (`purple`, `blue`, `red`, etc.). You can also choose to apply the color to the background or foreground by prepending a `bg-` or `text-` prefix to the theme or color name. Finally, we've also added new gradient themes allowing you to pair any two color names as `bg-gradient-{from}-{to}` (e.g., `bg-gradient-purple-blue`).
+
+    These named color themes aren't limited to value boxes: because they're powered by small utility classes, you can use them anywhere within your bslib-powered UI.
+
+  * Added `showcase_bottom()`, a new `value_box()` layout that places the showcase below the value box title and value, perfect for a full-bleed plot. (#758)
+
+  * `showcase_left_center()` and `showcase_top_right()` no longer take two values for the `width` argument. Instead, they now take a single value (e.g., `width = "30%"`) representing the width of the showcase are in the value box. Furthermore, they've both gained `width_full_screen` arguments that determine the width of the showcase area when the value box is expanded to fill the screen. (#758)
+
+  * The `showcase_layout` argument of `value_box()` now accepts one of three character values: `"left center"`, `"top right"`, `"bottom"`. (#758)
+
+  * A new [Build a Box app](https://bslib.shinyapps.io/build-a-box/) is now available online or via bslib. See `?value_box()` for details. The app helps preview a set of value boxes while you configure and customize their appearance and provides you with code to copy and paste into your app. (#790)
+
+* Added new `navset_underline()` & `navset_card_underline()` functions as well as a `underline` argument to `page_navbar()` to leverage the new [nav-underline](https://getbootstrap.com/docs/5.3/components/navs-tabs/#underline) styling on navigation links. (#784)
 
 ## Improvements
 
