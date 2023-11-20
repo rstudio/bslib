@@ -65,14 +65,15 @@ progressBar <- div(
 
 # This is here for shinycoreci to take advantage of (so we don't need to update a bunch of screenshots)
 IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
-if (isTRUE(IS_LEGACY || theme_version(theme) %in% c("3", "4"))) {
+is_legacy_version <- theme_version(theme) %in% c("3", "4")
+if (isTRUE(IS_LEGACY || is_legacy_version)) {
   dashboardTab <- NULL
-  layout_buttons <- tags$div
 } else {
   dashboardTab <- nav_panel("Dashboard", tipsUI("tips"))
-  layout_buttons <- layout_columns
   theme_set(theme_minimal())
 }
+
+layout_buttons <- if (is_legacy_version) tags$div else layout_columns
 
 bs_table <- function(x, class = NULL, ...) {
   class <- paste(c("table", class), collapse = " ")
