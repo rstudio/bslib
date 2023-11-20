@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,9 +89,9 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.6.0" id="bslib-060">bslib 0.6.0<a class="anchor" aria-label="anchor" href="#bslib-060"></a></h2>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<h3 id="breaking-changes-0-6-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-6-0"></a></h3>
 <ul><li>
 <code><a href="../reference/bs_theme.html">bs_theme()</a></code> now defaults to <code>preset="shiny"</code>. This provides an additional set of theming defaults and rules that make it easier to create Shiny apps (in particular, dashboards) that look good out of the box. To revert to the previous behavior, set <code>bs_theme(preset="bootstrap")</code>. (<a href="https://github.com/rstudio/bslib/issues/711" class="external-link">#711</a>)</li>
 <li>
@@ -105,7 +105,7 @@
 <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> no longer requires <code>width</code> and <code>width</code> is no longer the first argument, meaning that <code>width</code> must be named if used. The new default is <code>width = "200px"</code>, which combines with <code>fixed_width = FALSE</code> and produces an automatically responsive layout where each column is at least 200px wide. This means that, in most cases, <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> can layout an unknown number of items without you having to set <code>width</code>. (<a href="https://github.com/rstudio/bslib/issues/853" class="external-link">#853</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-0-6-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-6-0"></a></h3>
 <ul><li><p>Upgraded the default version of Bootstrap from v5.2.2 to v5.3.1. The most notable thing that comes with the update is the ability to toggle between light/dark <a href="https://getbootstrap.com/docs/5.3/customize/color-modes/" class="external-link">color modes</a> purely client-side (i.e., no calls to Sass required). (<a href="https://github.com/rstudio/bslib/issues/749" class="external-link">#749</a>, <a href="https://github.com/rstudio/bslib/issues/764" class="external-link">#764</a>)</p></li>
 <li><p>Added new <code><a href="../reference/navset.html">navset_underline()</a></code> &amp; <code><a href="../reference/navset.html">navset_card_underline()</a></code> functions as well as a <code>underline</code> argument to <code><a href="../reference/page_navbar.html">page_navbar()</a></code> to leverage the new <a href="https://getbootstrap.com/docs/5.3/components/navs-tabs/#underline" class="external-link">nav-underline</a> styling on navigation links. (<a href="https://github.com/rstudio/bslib/issues/784" class="external-link">#784</a>)</p></li>
 <li>
@@ -124,7 +124,7 @@
 </li>
 </ul></div>
 <div class="section level3">
-<h3 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h3>
+<h3 id="improvements-0-6-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-6-0"></a></h3>
 <ul><li><p>The <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> app now supports previewing the dark mode variant of Bootstrap 5 themes. (<a href="https://github.com/rstudio/bslib/issues/767" class="external-link">#767</a>)</p></li>
 <li><p>Improved the style and appearance of the button to enter full screen in <code><a href="../reference/card.html">card()</a></code>s and <code><a href="../reference/value_box.html">value_box()</a></code>es to better adapt to Bootstrap’s dark mode. (<a href="https://github.com/rstudio/bslib/issues/780" class="external-link">#780</a>)</p></li>
 <li><p><code><a href="https://rstudio.github.io/htmltools/reference/save_html.html" class="external-link">htmltools::save_html()</a></code> now works as expected when applied directly to components (e.g., <code><a href="../reference/card.html">card()</a></code>, etc) and pages with a non-default theme. (<a href="https://github.com/rstudio/bslib/issues/823" class="external-link">#823</a>, <a href="https://github.com/rstudio/bslib/issues/815" class="external-link">#815</a>)</p></li>
@@ -134,7 +134,7 @@
 <li><p><code><a href="../reference/bs_global_theme.html">bs_global_theme()</a></code> gains a <code>preset</code> argument to match the function signature of <code><a href="../reference/bs_theme.html">bs_theme()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/896" class="external-link">#896</a>)</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-0-6-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-6-0"></a></h3>
 <ul><li><p><code><a href="../reference/input_switch.html">toggle_switch()</a></code> now works correctly when called from within a Shiny module. <code><a href="../reference/input_switch.html">update_switch()</a></code> worked as expected, but <code><a href="../reference/input_switch.html">toggle_switch()</a></code> didn’t apply the module’s namespace to the <code>id</code> of the switch to be updated. (<a href="https://github.com/rstudio/bslib/issues/769" class="external-link">#769</a>)</p></li>
 <li><p>Filter controls in the popovers of <code><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">DT::datatable()</a></code> tables now better match the current Bootstrap theme and are responsive to the dark mode setting in Bootstrap 5.3. (<a href="https://github.com/rstudio/bslib/issues/267" class="external-link">#267</a>, <a href="https://github.com/rstudio/bslib/issues/775" class="external-link">#775</a>).</p></li>
 <li><p>A double border no longer appears when an accordion is used inside a <code>sidebar(open="always")</code> context. (<a href="https://github.com/rstudio/bslib/issues/795" class="external-link">#795</a>)</p></li>
