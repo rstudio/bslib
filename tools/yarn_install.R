@@ -405,6 +405,8 @@ unlink("inst/node_modules", recursive = TRUE)
 # Generate distributed (i.e., pre-compiled) CSS & JS assets
 # ----------------------------------------------------------------------
 
+pkgload::load_all(find_package_root_file())
+
 precompiled_dir <- find_package_root_file("inst/css-precompiled")
 unlink(precompiled_dir, recursive = TRUE)
 dir.create(precompiled_dir, recursive = TRUE)
@@ -510,6 +512,8 @@ invisible(lapply(versions(), function(version) {
     d$src$file <- gsub(file.path(getwd(), "inst/"), "", d$src$file)
     if (d$name == "bootstrap") {
       d$sass_layers <- simplified_theme_layers(theme)
+      # "Fake" this dir since it's a tempdir()
+      d$src$file <- file.path("inst/css-precompiled", version)
     }
     if (d$name == "bslib-component-css") {
       # Essentially what sass_partial() does
@@ -519,6 +523,8 @@ invisible(lapply(versions(), function(version) {
         bslib_components = component_sass_bundle(),
         bootstrap_headers = headers
       ))
+      # "Fake" this dir since it's a tempdir()
+      d$src$file <- "inst/components/dist"
     }
     d
   })

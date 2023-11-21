@@ -3,7 +3,7 @@
     "name": "jquery",
     "version": "3.6.0",
     "src": {
-      "file": "/home/runner/work/_temp/Library/jquerylib/lib/3.6.0"
+      "file": "/Users/cpsievert/R/4.3/jquerylib/lib/3.6.0"
     },
     "script": "jquery-3.6.0.min.js",
     "all_files": true
@@ -12,7 +12,7 @@
     "name": "bootstrap",
     "version": "5.3.1",
     "src": {
-      "file": "/tmp/Rtmp6WUKr6/bslib-33f720e22f61"
+      "file": "inst/css-precompiled/5"
     },
     "meta": {
       "viewport": "width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -76,9 +76,9 @@
     "name": "bslib-component-css",
     "version": "0.5.1.9000",
     "src": {
-      "file": "components/dist"
+      "file": "inst/components/dist"
     },
-    "stylesheet": "components.css",
+    "stylesheet": "bslib-component-css.min.css",
     "all_files": true,
     "sass_layer": {
       "bslib_components": {
