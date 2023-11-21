@@ -368,7 +368,7 @@ bootstrap_bundle <- function(version) {
 
   full_bundle <- sass_bundle(
     main_bundle,
-    bslib = bslib_bundle(version)
+    bslib_bundle(version)
   )
 
   new_bs_theme(full_bundle, version)
@@ -397,13 +397,19 @@ bootstrap_javascript <- function(version) {
 # N.B. If you find yourself changing this function, be careful about what
 # the implications might be for Quarto!
 bslib_bundle <- function(version) {
-  sass_layer(
-    functions = sass_file(path_inst("bslib-scss", "functions.scss")),
-    defaults = list(
-      "bootstrap-version" = version,
-      sass_file(path_inst("bslib-scss", "defaults.scss"))
+  sass_bundle(
+    # Required functions (that we assume are defined prior to Bootstrap)
+    sass_layer(
+      functions = sass_file(path_inst("bslib-scss", "functions.scss"))
     ),
-    rules = sass_file(path_inst("bslib-scss", "rules.scss"))
+    # Optional layer of new defaults and rules
+    bslib = sass_layer(
+      defaults = list(
+        "bootstrap-version" = version,
+        sass_file(path_inst("bslib-scss", "defaults.scss"))
+      ),
+      rules = sass_file(path_inst("bslib-scss", "rules.scss"))
+    )
   )
 }
 

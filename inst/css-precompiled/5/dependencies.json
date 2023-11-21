@@ -3,7 +3,7 @@
     "name": "jquery",
     "version": "3.6.0",
     "src": {
-      "file": "/home/runner/work/_temp/Library/jquerylib/lib/3.6.0"
+      "file": "lib/3.6.0"
     },
     "script": "jquery-3.6.0.min.js",
     "all_files": true
@@ -22,13 +22,12 @@
     "all_files": true,
     "sass_layers": {
       "bootstrap": {
-        "functions": "@import \"lib/bs5/scss/_functions.scss\";",
+        "functions": ["@import \"lib/bs5/scss/_functions.scss\";", "@import \"bslib-scss/functions.scss\";"],
         "defaults": ["", "", "", "@import \"lib/bs5/scss/_variables.scss\";", "@import \"lib/bs5/scss/_variables-dark.scss\";"],
         "mixins": ["@import \"lib/bs5/scss/_maps.scss\";", "@import \"lib/bs5/scss/_mixins.scss\";"],
         "rules": ["@import \"lib/bs5/scss/mixins/_banner.scss\";", "@include bsBanner('')", "@import \"lib/bs5/scss/_utilities.scss\";", "@import \"lib/bs5/scss/_root.scss\";", "@import \"lib/bs5/scss/_reboot.scss\";", "@import \"lib/bs5/scss/_type.scss\";", "@import \"lib/bs5/scss/_images.scss\";", "@import \"lib/bs5/scss/_containers.scss\";", "@import \"lib/bs5/scss/_grid.scss\";", "@import \"lib/bs5/scss/_tables.scss\";", "@import \"lib/bs5/scss/_forms.scss\";", "@import \"lib/bs5/scss/_buttons.scss\";", "@import \"lib/bs5/scss/_transitions.scss\";", "@import \"lib/bs5/scss/_dropdown.scss\";", "@import \"lib/bs5/scss/_button-group.scss\";", "@import \"lib/bs5/scss/_nav.scss\";", "@import \"lib/bs5/scss/_navbar.scss\";", "@import \"lib/bs5/scss/_card.scss\";", "@import \"lib/bs5/scss/_accordion.scss\";", "@import \"lib/bs5/scss/_breadcrumb.scss\";", "@import \"lib/bs5/scss/_pagination.scss\";", "@import \"lib/bs5/scss/_badge.scss\";", "@import \"lib/bs5/scss/_alert.scss\";", "@import \"lib/bs5/scss/_progress.scss\";", "@import \"lib/bs5/scss/_list-group.scss\";", "@import \"lib/bs5/scss/_close.scss\";", "@import \"lib/bs5/scss/_toasts.scss\";", "@import \"lib/bs5/scss/_modal.scss\";", "@import \"lib/bs5/scss/_tooltip.scss\";", "@import \"lib/bs5/scss/_popover.scss\";", "@import \"lib/bs5/scss/_carousel.scss\";", "@import \"lib/bs5/scss/_spinners.scss\";", "@import \"lib/bs5/scss/_offcanvas.scss\";", "@import \"lib/bs5/scss/_placeholders.scss\";", "@import \"lib/bs5/scss/_helpers.scss\";", "@import \"lib/bs5/scss/utilities/_api.scss\";"]
       },
       "bslib": {
-        "functions": "@import \"bslib-scss/functions.scss\";",
         "defaults": ["$bootstrap-version: 5;", "@import \"bslib-scss/defaults.scss\";"],
         "rules": "@import \"bslib-scss/rules.scss\";"
       },

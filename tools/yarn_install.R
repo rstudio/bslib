@@ -510,6 +510,13 @@ invisible(lapply(versions(), function(version) {
   deps <- lapply(deps, function(d) {
     d <- dropNulls(d)
     d$src$file <- gsub(file.path(getwd(), "inst/"), "", d$src$file)
+    if (d$name == "jquery") {
+      d$src$file <- sub(
+        paste0(system.file(package = "jquerylib"), "/"),
+        "",
+        d$src$file
+      )
+    }
     if (d$name == "bootstrap") {
       d$sass_layers <- simplified_theme_layers(theme)
       # "Fake" this dir since it's a tempdir()
@@ -525,6 +532,7 @@ invisible(lapply(versions(), function(version) {
       ))
       # "Fake" this dir since it's a tempdir()
       d$src$file <- "inst/components/dist"
+      d$stylesheet <- "components.css"
     }
     d
   })
