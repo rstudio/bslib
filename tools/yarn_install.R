@@ -402,49 +402,143 @@ unlink("inst/yarn.lock")
 unlink("inst/node_modules", recursive = TRUE)
 
 # ----------------------------------------------------------------------
-# Precompile Bootstrap CSS
+# Generate distributed (i.e., pre-compiled) CSS & JS assets
 # ----------------------------------------------------------------------
 
-# This generates precompiled builds of Bootstrap's css. It would be nice to do
-# it at binary package build time, but I couldn't get that to work, using either
-# src/install.libs.R (because the bslib functions used in this script
-# aren't available yet), or by putting this code directly in the R/ directory
-# (because the R/ files are evaluated only after the inst directory is copied
-# over).
-library(bslib)
+pkgload::load_all(find_package_root_file())
 
 precompiled_dir <- find_package_root_file("inst/css-precompiled")
 unlink(precompiled_dir, recursive = TRUE)
 dir.create(precompiled_dir, recursive = TRUE)
 
 invisible(lapply(versions(), function(version) {
-  res <- bs_theme_dependencies(
-    bs_theme(version), precompiled = FALSE,
+
+  # -------------------------------------------------------------------------
+  # Get all the HTML dependencies (compiles Sass -> CSS)
+  # -------------------------------------------------------------------------
+  theme <- bs_theme(version)
+  deps <- bs_theme_dependencies(
+    theme, precompiled = FALSE,
     sass_options = sass_options(output_style = "compressed"),
     cache = NULL
   )
-  # Extract the Bootstrap dependency object (as opposed to, say, jQuery)
-  bs_dep <- Filter(res, f = function(x) { identical(x$name, "bootstrap") })[[1]]
 
-  tmp_css <- file.path(bs_dep$src$file, bs_dep$stylesheet)
-  dest_dir <- file.path(precompiled_dir, version)
-  if (!dir.exists(dest_dir)) {
-    dir.create(dest_dir)
+  # -------------------------------------------------------------------------
+  # Save Bootstrap CSS to disk
+  # -------------------------------------------------------------------------
+  save_bootstrap_css <- function(deps) {
+    bs_idx <- which(vapply(deps, function(x) { identical(x$name, "bootstrap") }, logical(1)))
+    bs_dep <- deps[[bs_idx]]
+    tmp_css <- file.path(bs_dep$src$file, bs_dep$stylesheet)
+    dest_dir <- file.path(precompiled_dir, version)
+    if (!dir.exists(dest_dir)) {
+      dir.create(dest_dir)
+    }
+    file.copy(tmp_css, dest_dir, overwrite = TRUE)
   }
-  file.copy(tmp_css, dest_dir)
+  save_bootstrap_css(deps)
 
-  # Also save the BS5+ Sass code used to generate the pre-compiled CSS.
-  # This is primarily here to help Quarto more easily replicate bs_theme()'s Sass.
-  if (version >= 5) {
-    theme_sass <- gsub(
-      paste0("@import \"", getwd(), "/"),
-      "@import \"",
-      as_sass(bs_theme(version))
+
+  # -------------------------------------------------------------------------
+  # What follows below is only supported for Bootstrap 5+
+  # -------------------------------------------------------------------------
+  if (version < 5) return()
+
+  # -------------------------------------------------------------------------
+  # Compile and save bslib component CSS to disk
+  # TODO: save a CSS file for every version >= 5?
+  # -------------------------------------------------------------------------
+  save_component_css <- function(theme) {
+    dep <- component_dependency_sass_(theme)
+    css <- file.path(dep$src, dep$stylesheet)
+    target_dir <- path_inst("components", "dist")
+    target_css <- file.path(target_dir, "components.css")
+    file.copy(css, target_css, overwrite = TRUE)
+  }
+  save_component_css(theme)
+
+  # -------------------------------------------------------------------------
+  # Quarto has a build-time dependency on bslib which pulls in it's modified
+  # Bootstrap source as well as (potentially) other Sass layers we add such as
+  # bslib, bs3compat, builtin (preset)...
+  #
+  # This function gets us a (simplified) data structure representing the Sass
+  # layers involved (so Quarto can ingest it)
+  # ------------------------------------------------------------------------
+  simplified_theme_layers <- function(theme) {
+    nms <- names(theme$layers)
+    # Assumes layers that are unnamed or start with '_' are Bootstrap...
+    bs_idx <- grepl("^_", nms) | nms == ""
+    bs_layers <- theme$layers[bs_idx]
+    other_layers <- theme$layers[!bs_idx]
+
+    bs_bundle <- sass_bundle(
+      bootstrap = as_sass_layer(sass_bundle(!!!bs_layers))
     )
-    writeLines(theme_sass, file.path(dest_dir, "bootstrap.scss"))
-    # Sanity check that we we can compile by moving file to home dir
-    file.copy(file.path(dest_dir, "bootstrap.scss"), "bootstrap.scss")
-    on.exit(unlink("bootstrap.scss"), add = TRUE)
-    testthat::expect_error(sass(sass_file("bootstrap.scss")), NA)
+
+    bundle <- sass_bundle(bs_bundle, !!!other_layers)
+
+    as_serializable_bundle(bundle)
   }
+
+  as_serializable_bundle <- function(bundle) {
+    lapply(bundle$layers, function(layer) {
+      # These html_deps will surface through deps, so drop them
+      layer$html_deps <- NULL
+      layer <- layer[lengths(layer) > 0]
+      lapply(layer, function(x) {
+        x <- gsub(
+          file.path(getwd(), "inst/"),
+          "",
+          as_sass(x)
+        )
+        strsplit(x, "\n")[[1]]
+      })
+    })
+  }
+
+  # -------------------------------------------------------------------------
+  # Save a JSON representation of the 'global' and 'component' HTML deps
+  #
+  # As well, this JSON representation includes any Sass layers used to
+  # create 'pre-compiled' stylesheets
+  # -------------------------------------------------------------------------
+
+  component_deps <- htmltools::resolveDependencies(component_dependencies())
+  deps <- c(deps, component_deps)
+
+  deps <- lapply(deps, function(d) {
+    d <- dropNulls(d)
+    d$src$file <- gsub(file.path(getwd(), "inst/"), "", d$src$file)
+    if (d$name == "jquery") {
+      d$src$file <- sub(
+        paste0(system.file(package = "jquerylib"), "/"),
+        "",
+        d$src$file
+      )
+    }
+    if (d$name == "bootstrap") {
+      d$sass_layers <- simplified_theme_layers(theme)
+      # "Fake" this dir since it's a tempdir()
+      d$src$file <- file.path("inst/css-precompiled", version)
+    }
+    if (d$name == "bslib-component-css") {
+      # Essentially what sass_partial() does
+      headers <- as_sass_layer(theme)
+      headers$rules <- NULL
+      d$sass_layer <- as_serializable_bundle(sass_bundle(
+        bslib_components = component_sass_bundle(),
+        bootstrap_headers = headers
+      ))
+      # "Fake" this dir since it's a tempdir()
+      d$src$file <- "inst/components/dist"
+      d$stylesheet <- "components.css"
+    }
+    d
+  })
+
+  cat(
+    jsonlite::toJSON(deps, force = TRUE, pretty = TRUE, auto_unbox = TRUE),
+    file = file.path(precompiled_dir, version, "dependencies.json")
+  )
 }))

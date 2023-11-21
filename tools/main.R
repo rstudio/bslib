@@ -8,8 +8,7 @@ lapply(c(
   "yarn_install.R",
   "download_preset_fonts.R",
   "update_gfont_info.R",
-  "expand_variables_article_template.R",
-  "compile_component_sass.R"
+  "expand_variables_article_template.R"
 ), function(file) {
   message("Updating: ", file)
   source(file.path("tools", file), local = TRUE)

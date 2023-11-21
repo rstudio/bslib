@@ -46,14 +46,8 @@ component_dependency_sass <- function(theme) {
 }
 
 component_dependency_sass_ <- function(theme) {
-  scss_dir <- path_inst("components", "scss")
-  scss_files <- c(
-    file.path(scss_dir, "mixins", "_mixins.scss"),
-    dir(scss_dir, pattern = "\\.scss$", full.names = TRUE)
-  )
-
-  # Although rare, it's possible for bs_dependency_defer() to pass 
-  # along a NULL theme (e.g., renderTags(accordion())), so fallback 
+  # Although rare, it's possible for bs_dependency_defer() to pass
+  # along a NULL theme (e.g., renderTags(accordion())), so fallback
   # to the default theme if need be
   theme <- theme %||% bs_theme()
 
@@ -65,7 +59,7 @@ component_dependency_sass_ <- function(theme) {
   }
 
   bs_dependency(
-    input = lapply(scss_files, sass_file),
+    input = component_sass_bundle(),
     theme = theme,
     name = "bslib-component-css",
     version = get_package_version("bslib"),
@@ -74,6 +68,19 @@ component_dependency_sass_ <- function(theme) {
   )
 }
 
+
+component_sass_bundle <- function() {
+  scss_dir <- path_inst("components", "scss")
+  sass_layer(
+    mixins = sass_file(
+      file.path(scss_dir, "mixins", "_mixins.scss")
+    ),
+    rules = lapply(
+      dir(scss_dir, pattern = "\\.scss$", full.names = TRUE),
+      sass_file
+    )
+  )
+}
 
 web_component <- function(tagName, ...) {
   deps <- component_dependencies()

@@ -161,8 +161,8 @@ bs_theme <- function(
   preset <- resolve_bs_preset(preset, bootswatch, version = version)
 
   bundle <- bs_bundle(
-    bs_theme_init(version),
     bootstrap_bundle(version),
+    if (version > 3) bs3compat_bundle(),
     bs_preset_bundle(preset)
   )
 
@@ -276,25 +276,12 @@ is_bs_theme <- function(x) {
   inherits(x, "bs_theme")
 }
 
-# Start an empty bundle with special classes that
-# theme_version() & theme_bootswatch() search for
-bs_theme_init <- function(version) {
-  init_layer <- sass_layer(
-      defaults = list(
-        "bootstrap-version" = version,
-        "bslib-preset-name" = "null !default",
-        "bslib-preset-type" = "null !default"
-      ),
-      rules = c(
-        ":root {",
-        "--bslib-bootstrap-version: #{$bootstrap-version};",
-        "--bslib-preset-name: #{$bslib-preset-name};",
-        "--bslib-preset-type: #{$bslib-preset-type};",
-        "}"
-      )
-    )
+new_bs_theme <- function(x, version) {
+  if (!is_sass_bundle(x)) {
+    stop("`theme` must be a `sass_bundle()` object")
+  }
 
-  add_class(init_layer, c(paste0("bs_version_", version), "bs_theme"))
+  add_class(x, c(paste0("bs_version_", version), "bs_theme"))
 }
 
 assert_bs_theme <- function(theme) {
@@ -309,13 +296,6 @@ assert_bs_theme <- function(theme) {
 # -----------------------------------------------------------------
 
 bootstrap_bundle <- function(version) {
-  pandoc_tables <- list(
-    # Pandoc uses align attribute to align content but BS4 styles take precedence...
-    # we may want to consider adopting this more generally in "strict" BS4 mode as well
-    ".table th[align=left] { text-align: left; }",
-    ".table th[align=right] { text-align: right; }",
-    ".table th[align=center] { text-align: center; }"
-  )
 
   main_bundle <- switch_version(
     version,
@@ -339,13 +319,6 @@ bootstrap_bundle <- function(version) {
           "toasts", "modal", "tooltip", "popover", "carousel", "spinners",
           "offcanvas", "placeholders", "helpers", "utilities/api"
         ))
-      ),
-      # Additions to BS5 that are always included (i.e., not a part of compatibility)
-      sass_layer(rules = pandoc_tables),
-      bs3compat = bs3compat_bundle(),
-      # Enable CSS Grid powered Bootstrap grid
-      sass_layer(
-        defaults = list("enable-cssgrid" = "true !default")
       )
     ),
     four = sass_bundle(
@@ -365,10 +338,7 @@ bootstrap_bundle <- function(version) {
           "progress", "media", "list-group", "close", "toasts", "modal",
           "tooltip", "popover", "carousel", "spinners", "utilities", "print"
         ))
-      ),
-      # Additions to BS4 that are always included (i.e., not a part of compatibility)
-      sass_layer(rules = pandoc_tables),
-      bs3compat = bs3compat_bundle()
+      )
     ),
     three = sass_bundle(
       sass_layer(
@@ -396,10 +366,12 @@ bootstrap_bundle <- function(version) {
     )
   )
 
-  sass_bundle(
+  full_bundle <- sass_bundle(
     main_bundle,
-    bslib_bundle()
+    bslib_bundle(version)
   )
+
+  new_bs_theme(full_bundle, version)
 }
 
 bootstrap_javascript_map <- function(version) {
@@ -422,10 +394,22 @@ bootstrap_javascript <- function(version) {
 # bslib specific Sass that gets bundled with Bootstrap
 # -----------------------------------------------------------------
 
-bslib_bundle <- function() {
-  sass_layer(
-    functions = sass_file(path_inst("bslib-scss", "functions.scss")),
-    rules = sass_file(path_inst("bslib-scss", "bslib.scss"))
+# N.B. If you find yourself changing this function, be careful about what
+# the implications might be for Quarto!
+bslib_bundle <- function(version) {
+  sass_bundle(
+    # Required functions (that we assume are defined prior to Bootstrap)
+    sass_layer(
+      functions = sass_file(path_inst("bslib-scss", "functions.scss"))
+    ),
+    # Optional layer of new defaults and rules
+    bslib = sass_layer(
+      defaults = list(
+        "bootstrap-version" = version,
+        sass_file(path_inst("bslib-scss", "defaults.scss"))
+      ),
+      rules = sass_file(path_inst("bslib-scss", "rules.scss"))
+    )
   )
 }
 
@@ -434,21 +418,24 @@ bslib_bundle <- function() {
 # -----------------------------------------------------------------
 
 bs3compat_bundle <- function() {
-  sass_layer(
-    defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bslib")),
-    mixins = sass_file(system_file("bs3compat", "_declarations.scss", package = "bslib")),
-    rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
-    # Gyliphicon font files
-    file_attachments = c(
-      fonts = path_lib("bs3", "assets", "fonts")
-    ),
-    html_deps = htmltools::htmlDependency(
-      "bs3compat", packageVersion("bslib"),
-      package = "bslib",
-      src = "bs3compat/js",
-      script = c("transition.js", "tabs.js", "bs3compat.js")
+  sass_bundle(
+    bs3compat = sass_layer(
+      defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bslib")),
+      mixins = sass_file(system_file("bs3compat", "_declarations.scss", package = "bslib")),
+      rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
+      # Gyliphicon font files
+      file_attachments = c(
+        fonts = path_lib("bs3", "assets", "fonts")
+      ),
+      html_deps = htmltools::htmlDependency(
+        "bs3compat", packageVersion("bslib"),
+        package = "bslib",
+        src = "bs3compat/js",
+        script = c("transition.js", "tabs.js", "bs3compat.js")
+      )
     )
   )
+
 }
 
 # -----------------------------------------------------------------

@@ -1,0 +1,158 @@
+$spacer: 1rem !default;
+
+:root {
+  // "Global" theming information
+  --bslib-bootstrap-version: #{$bootstrap-version};
+  --bslib-preset-name: #{$bslib-preset-name};
+  --bslib-preset-type: #{$bslib-preset-type};
+  // Controls default spacing in layout containers (e.g, layout_columns())
+  --bslib-spacer: #{$spacer};
+  --bslib-mb-spacer: var(--bslib-spacer, 1rem);
+}
+
+// ****************************************************************************
+// Spacing utilities for bslib components
+//
+// Some things like card(), p(), inputs, etc. want some margin-bottom by default
+// so you can plop them anywhere and you get spacing between rows. However, now
+// that we have layout utilities like page_fillable(), layout_columns(),
+// layout_sidebar(), etc. where we can control the gap between rows/columns, we
+// need a way to reset those margin-bottom to 0 in those special contexts
+//
+// We do this by adding .bslib-mb-spacing to components like card()
+// ****************************************************************************
+
+.bslib-mb-spacing {
+  margin-bottom: var(--bslib-mb-spacer);
+}
+
+// ...And this class for layout containers (e.g, layout_columns())
+.bslib-gap-spacing {
+  gap: var(--bslib-mb-spacer);
+  > .bslib-mb-spacing, > .form-group, > p, > pre {
+    margin-bottom: 0;
+  }
+}
+
+// We generally don't want mb spacing for _activated_ fill items
+.html-fill-container > .html-fill-item.bslib-mb-spacing {
+  margin-bottom: 0;
+}
+
+
+// ****************************************************************************
+// Workaround for pkgdown's CSS to make tab-pane all a consistent height
+// which negatively impacts filling content in tabs
+// https://github.com/r-lib/pkgdown/blob/956f07/inst/BS5/assets/pkgdown.scss#L342-L355
+// ****************************************************************************
+
+.tab-content {
+  >.tab-pane.html-fill-container {
+    display: none;
+  }
+
+  // Take precedence over Bootstrap's `display:block` rule
+  >.active.html-fill-container {
+    display: flex;
+  }
+
+  // Another workaround for pkgdown adding extra padding we didn't ask for
+  // https://github.com/r-lib/pkgdown/blob/956f07/inst/BS5/assets/pkgdown.scss#L335-L337
+  &.html-fill-container {
+    padding: 0;
+  }
+}
+
+
+// ****************************************************************************
+// Override Bootstrap's table reboot rules which negatively impacts pandoc
+// tables (which use the align attribute to align content)
+// ****************************************************************************
+
+.table {
+  th[align=left] { text-align: left; }
+  th[align=right] { text-align: right; }
+  th[align=center] { text-align: center; }
+}
+
+// ****************************************************************************
+// Add more .bg-*, .text-*, as well as .bg-gradient-*-* utility classes.
+//
+// These are primarily here for `value_box(theme = "bg-purple")`, but might be
+// more generally useful.
+// ****************************************************************************
+
+$bslib-enable-color-utilities: $bootstrap-version >= 5 !default;
+
+@if ($bslib-enable-color-utilities) {
+  $bslib-gradient-colors: () !default;
+
+  $bslib-gradient-colors-defaults: ();
+  $bslib-color-names: ("blue", "indigo", "purple", "pink", "red", "orange", "yellow", "green", "teal", "cyan");
+
+  @each $name in $bslib-color-names {
+    @if (map-has-key($colors, $name)) {
+      $bslib-gradient-colors-defaults: map-merge(
+        $bslib-gradient-colors-defaults,
+        ($name: map-get($colors, $name))
+      );
+    }
+  }
+
+  $bslib-gradient-colors: map-merge(
+    $bslib-gradient-colors-defaults,
+    $bslib-gradient-colors
+  );
+
+  // Named color background and foreground utility classes ---------------------
+  @each $name, $color in $bslib-gradient-colors {
+    .bg-#{$name} {
+      --bslib-color-bg: #{$color};
+      --bslib-color-fg: #{color-contrast($color)};
+      background-color: var(--bslib-color-bg);
+      color: var(--bslib-color-fg);
+    }
+
+    .text-#{$name} {
+      --bslib-color-fg: #{$color};
+      color: var(--bslib-color-fg);
+    }
+  }
+
+  // Fill in the `--color-*` variables
+  @each $name, $color in $theme-colors {
+    .text-#{$name} {
+      --bslib-color-fg: #{$color};
+    }
+    .bg-#{$name} {
+      --bslib-color-bg: #{$color};
+      --bslib-color-fg: #{color-contrast($color)};
+    }
+  }
+
+  // Gradient backgrounds ------------------------------------------------------
+  //
+  // Creates gradient background for every named color pair. Users can add
+  // additional colors into the mix by setting $bslib-gradient-colors to a map of
+  // color names to colors. Creates class names like: .bg-gradient-{from}-{to}.
+  @each $name1, $color1 in $bslib-gradient-colors {
+    @each $name2, $color2 in $bslib-gradient-colors {
+      @if $name1 != $name2 {
+        .bg-gradient-#{$name1}-#{$name2} {
+          $color-mid: mix($color1, $color2, 60%);
+          $color-fg: color-contrast($color-mid);
+
+          --bslib-color-fg: #{$color-fg};
+          --bslib-color-bg: #{$color-mid};
+
+          background: linear-gradient(
+            var(--bg-gradient-deg, 140deg),
+            $color1 var(--bg-gradient-start, 36%),
+            $color2 var(--bg-gradient-end, 180%)
+          ) $color-mid;
+          color: $color-fg;
+        }
+      }
+    }
+  }
+}
