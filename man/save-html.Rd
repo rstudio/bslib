@@ -10,9 +10,9 @@
 \method{save_html}{bslib_page}(html, file, ...)
 }
 \arguments{
-\item{...}{passed along to an underlying \code{\link[=save_html]{save_html()}} method.}
+\item{html}{a bslib page/fragment.}
 
-\item{x}{a bslib page/fragment.}
+\item{...}{passed along to an underlying \code{\link[=save_html]{save_html()}} method.}
 }
 \description{
 Save a bslib page/fragment as HTML

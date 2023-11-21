@@ -66,7 +66,7 @@ versions.
 \section{Functions}{
 \itemize{
 \item \code{bs_add_variables()}: Add Bootstrap Sass
-\href{http://rstudio.github.io/bslib/articles/bs5-variables/index.html}{variable defaults}.
+\href{https://rstudio.github.io/bslib/articles/bs5-variables/index.html}{variable defaults}.
 
 \item \code{bs_add_rules()}: Add additional
 \href{https://sass-lang.com/documentation/style-rules}{Sass rules}.
