@@ -47,7 +47,7 @@
   },
   {
     "name": "bs3compat",
-    "version": "0.5.1.9000",
+    "version": "0.6.0",
     "src": {
       "file": "bs3compat/js"
     },
@@ -56,7 +56,7 @@
   },
   {
     "name": "bslib-component-js",
-    "version": "0.5.1.9000",
+    "version": "0.6.0",
     "src": {
       "file": "components/dist"
     },
@@ -73,7 +73,7 @@
   },
   {
     "name": "bslib-component-css",
-    "version": "0.5.1.9000",
+    "version": "0.6.0",
     "src": {
       "file": "inst/components/dist"
     },
