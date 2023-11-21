@@ -1,0 +1,96 @@
+[
+  {
+    "name": "jquery",
+    "version": "3.6.0",
+    "src": {
+      "file": "/Users/cpsievert/R/4.3/jquerylib/lib/3.6.0"
+    },
+    "script": "jquery-3.6.0.min.js",
+    "all_files": true
+  },
+  {
+    "name": "bootstrap",
+    "version": "5.3.1",
+    "src": {
+      "file": "/var/folders/t8/jxw4bftj35g15fcb6m4mfbc80000gn/T//RtmpCAptIJ/bslib-1102751e422cb"
+    },
+    "meta": {
+      "viewport": "width=device-width, initial-scale=1, shrink-to-fit=no"
+    },
+    "script": "bootstrap.bundle.min.js",
+    "stylesheet": "bootstrap.min.css",
+    "all_files": true,
+    "sass_layers": {
+      "bootstrap": {
+        "functions": "@import \"lib/bs5/scss/_functions.scss\";",
+        "defaults": ["", "", "", "@import \"lib/bs5/scss/_variables.scss\";", "@import \"lib/bs5/scss/_variables-dark.scss\";"],
+        "mixins": ["@import \"lib/bs5/scss/_maps.scss\";", "@import \"lib/bs5/scss/_mixins.scss\";"],
+        "rules": ["@import \"lib/bs5/scss/mixins/_banner.scss\";", "@include bsBanner('')", "@import \"lib/bs5/scss/_utilities.scss\";", "@import \"lib/bs5/scss/_root.scss\";", "@import \"lib/bs5/scss/_reboot.scss\";", "@import \"lib/bs5/scss/_type.scss\";", "@import \"lib/bs5/scss/_images.scss\";", "@import \"lib/bs5/scss/_containers.scss\";", "@import \"lib/bs5/scss/_grid.scss\";", "@import \"lib/bs5/scss/_tables.scss\";", "@import \"lib/bs5/scss/_forms.scss\";", "@import \"lib/bs5/scss/_buttons.scss\";", "@import \"lib/bs5/scss/_transitions.scss\";", "@import \"lib/bs5/scss/_dropdown.scss\";", "@import \"lib/bs5/scss/_button-group.scss\";", "@import \"lib/bs5/scss/_nav.scss\";", "@import \"lib/bs5/scss/_navbar.scss\";", "@import \"lib/bs5/scss/_card.scss\";", "@import \"lib/bs5/scss/_accordion.scss\";", "@import \"lib/bs5/scss/_breadcrumb.scss\";", "@import \"lib/bs5/scss/_pagination.scss\";", "@import \"lib/bs5/scss/_badge.scss\";", "@import \"lib/bs5/scss/_alert.scss\";", "@import \"lib/bs5/scss/_progress.scss\";", "@import \"lib/bs5/scss/_list-group.scss\";", "@import \"lib/bs5/scss/_close.scss\";", "@import \"lib/bs5/scss/_toasts.scss\";", "@import \"lib/bs5/scss/_modal.scss\";", "@import \"lib/bs5/scss/_tooltip.scss\";", "@import \"lib/bs5/scss/_popover.scss\";", "@import \"lib/bs5/scss/_carousel.scss\";", "@import \"lib/bs5/scss/_spinners.scss\";", "@import \"lib/bs5/scss/_offcanvas.scss\";", "@import \"lib/bs5/scss/_placeholders.scss\";", "@import \"lib/bs5/scss/_helpers.scss\";", "@import \"lib/bs5/scss/utilities/_api.scss\";"]
+      },
+      "bslib": {
+        "functions": "@import \"bslib-scss/functions.scss\";",
+        "defaults": ["$bootstrap-version: 5;", "@import \"bslib-scss/defaults.scss\";"],
+        "rules": "@import \"bslib-scss/rules.scss\";"
+      },
+      "bs3compat": {
+        "defaults": "@import \"bs3compat/_defaults.scss\";",
+        "mixins": "@import \"bs3compat/_declarations.scss\";",
+        "rules": "@import \"bs3compat/_rules.scss\";",
+        "file_attachments": "lib/bs3/assets/fonts"
+      },
+      "builtin": {
+        "defaults": ["$bslib-preset-type: builtin;", "$bslib-preset-name: shiny;", "$web-font-path: \"font.css\" !default;", "@import \"builtin/bs5/shiny/_variables.scss\";"],
+        "mixins": "@import \"builtin/bs5/shiny/_mixins.scss\";",
+        "rules": "@import \"builtin/bs5/shiny/_rules.scss\";",
+        "file_attachments": ["builtin/bs5/shiny/font.css", "fonts"]
+      }
+    }
+  },
+  {
+    "name": "bs3compat",
+    "version": "0.5.1.9000",
+    "src": {
+      "file": "bs3compat/js"
+    },
+    "script": ["transition.js", "tabs.js", "bs3compat.js"],
+    "all_files": true
+  },
+  {
+    "name": "bslib-component-js",
+    "version": "0.5.1.9000",
+    "src": {
+      "file": "components/dist"
+    },
+    "script": [
+      {
+        "src": "components.min.js"
+      },
+      {
+        "src": "web-components.min.js",
+        "type": "module"
+      }
+    ],
+    "all_files": true
+  },
+  {
+    "name": "bslib-component-css",
+    "version": "0.5.1.9000",
+    "src": {
+      "file": "/var/folders/t8/jxw4bftj35g15fcb6m4mfbc80000gn/T//RtmpCAptIJ/bslib-component-css11027181e5294"
+    },
+    "stylesheet": "bslib-component-css.min.css",
+    "all_files": true,
+    "sass_layer": {
+      "bslib_components": {
+        "mixins": "@import \"components/scss/mixins/_mixins.scss\";",
+        "rules": ["@import \"components/scss/accordion.scss\";", "@import \"components/scss/card.scss\";", "@import \"components/scss/grid.scss\";", "@import \"components/scss/nav_spacer.scss\";", "@import \"components/scss/page_fillable.scss\";", "@import \"components/scss/page_navbar.scss\";", "@import \"components/scss/page_sidebar.scss\";", "@import \"components/scss/sidebar.scss\";", "@import \"components/scss/value_box.scss\";"]
+      },
+      "bootstrap_headers": {
+        "functions": ["@import \"lib/bs5/scss/_functions.scss\";", "@import \"bslib-scss/functions.scss\";"],
+        "defaults": ["", "", "", "$bslib-preset-type: builtin;", "$bslib-preset-name: shiny;", "$web-font-path: \"font.css\" !default;", "@import \"builtin/bs5/shiny/_variables.scss\";", "@import \"bs3compat/_defaults.scss\";", "$bootstrap-version: 5;", "@import \"bslib-scss/defaults.scss\";", "@import \"lib/bs5/scss/_variables.scss\";", "@import \"lib/bs5/scss/_variables-dark.scss\";"],
+        "mixins": ["@import \"lib/bs5/scss/_maps.scss\";", "@import \"lib/bs5/scss/_mixins.scss\";", "@import \"bs3compat/_declarations.scss\";", "@import \"builtin/bs5/shiny/_mixins.scss\";"],
+        "file_attachments": ["lib/bs3/assets/fonts", "builtin/bs5/shiny/font.css", "fonts"]
+      }
+    }
+  }
+]
