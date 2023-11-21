@@ -3,7 +3,7 @@
     "name": "jquery",
     "version": "3.6.0",
     "src": {
-      "file": "/Users/cpsievert/R/4.3/jquerylib/lib/3.6.0"
+      "file": "/home/runner/work/_temp/Library/jquerylib/lib/3.6.0"
     },
     "script": "jquery-3.6.0.min.js",
     "all_files": true
@@ -78,7 +78,7 @@
     "src": {
       "file": "inst/components/dist"
     },
-    "stylesheet": "bslib-component-css.min.css",
+    "stylesheet": "components.css",
     "all_files": true,
     "sass_layer": {
       "bslib_components": {
