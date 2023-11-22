@@ -1,5 +1,7 @@
 # bslib (development version)
 
+* Fixed the CSS for the `bslib-page-dashboard` class in the Shiny preset to correctly support `page_sidebar(class = "bslib-page-dashboard")` and `page_navbar(nav_panel(class = "bslib-page-dashboard"))`. (#917)
+
 # bslib 0.6.0
 
 ## Breaking changes
