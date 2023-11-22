@@ -14,7 +14,7 @@ if (is_installed("thematic")) {
 # Source in ggplot2 examples
 source("global.R")
 
-theme <- bs_global_get()
+theme <- bs_global_get() %||% bs_theme()
 if ("3" %in% theme_version(theme)) {
   warning("This example app requires Bootstrap 4 or higher", call. = FALSE)
 }
@@ -65,7 +65,7 @@ progressBar <- div(
 
 # This is here for shinycoreci to take advantage of (so we don't need to update a bunch of screenshots)
 IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
-is_legacy_version <- (theme_version(theme) %||% version_default()) %in% c("3", "4")
+is_legacy_version <- theme_version(theme) %in% c("3", "4")
 if (isTRUE(IS_LEGACY || is_legacy_version)) {
   dashboardTab <- NULL
 } else {
