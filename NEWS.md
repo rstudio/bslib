@@ -1,5 +1,7 @@
 # bslib (development version)
 
+* Fixed a minor bug to allow the themer demo to be run directly, outside of `bs_theme_preview()`. (#918)
+
 # bslib 0.6.0
 
 ## Breaking changes
