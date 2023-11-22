@@ -65,7 +65,7 @@ progressBar <- div(
 
 # This is here for shinycoreci to take advantage of (so we don't need to update a bunch of screenshots)
 IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
-is_legacy_version <- theme_version(theme) %in% c("3", "4")
+is_legacy_version <- (theme_version(theme) %||% version_default()) %in% c("3", "4")
 if (isTRUE(IS_LEGACY || is_legacy_version)) {
   dashboardTab <- NULL
 } else {
