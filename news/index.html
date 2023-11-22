@@ -90,9 +90,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
-</div>
+<ul><li>Fixed the CSS for the <code>bslib-page-dashboard</code> class in the Shiny preset to correctly support <code>page_sidebar(class = "bslib-page-dashboard")</code> and <code>page_navbar(nav_panel(class = "bslib-page-dashboard"))</code>. (<a href="https://github.com/rstudio/bslib/issues/917" class="external-link">#917</a>)</li>
+</ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.6.0" id="bslib-060">bslib 0.6.0<a class="anchor" aria-label="anchor" href="#bslib-060"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.6.0" id="bslib-060">bslib 0.6.0<a class="anchor" aria-label="anchor" href="#bslib-060"></a></h2><p class="text-muted">CRAN release: 2023-11-21</p>
 <div class="section level3">
 <h3 id="breaking-changes-0-6-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-6-0"></a></h3>
 <ul><li><p><code><a href="../reference/bs_theme.html">bs_theme()</a></code> now defaults to <code>preset="shiny"</code>. This provides an additional set of theming defaults and rules that make it easier to create Shiny apps (in particular, dashboards) that look good out of the box. To revert to the previous behavior, set <code>bs_theme(preset="bootstrap")</code>. (<a href="https://github.com/rstudio/bslib/issues/711" class="external-link">#711</a>)</p></li>
