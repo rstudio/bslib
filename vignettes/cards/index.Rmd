@@ -81,7 +81,7 @@ card(
 If you find yourself using `card_body()` without changing any of its defaults, consider dropping it altogether since any direct children of `card()` that aren't "known" `card()` items, are wrapped together into an implicit `card_body()` call.[^1] For example, the code to the right generates HTML that is identical to the previous example:
 :::
 
-[^1]: If you want to customize this behavior, you can provide a function function to `wrapper` argument (or set it to `NULL` to avoid wrapping the non card items in a container).
+[^1]: If you want to customize this behavior, you can provide a function to `wrapper` argument (or set it to `NULL` to avoid wrapping the non card items in a container).
 
 ::: col-md-6
 ```{r}
