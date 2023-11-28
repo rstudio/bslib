@@ -90,6 +90,8 @@ navbar:
 
 news:
   releases:
+  - text: "v0.6.1"
+    href: https://shiny.posit.co/blog/posts/shiny-r-1.8.0/
   - text: "v0.5.1"
     href: https://shiny.posit.co/blog/posts/bslib-tooltips/
   - text: "v0.5.0"
