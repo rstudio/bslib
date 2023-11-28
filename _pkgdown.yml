@@ -1,9 +1,11 @@
 destination: docs
+url: https://rstudio.github.io/bslib/
+
+development:
+  mode: auto
 
 toc:
   depth: 3
-
-url: https://rstudio.github.io/bslib/
 
 template:
   bootstrap: 5
