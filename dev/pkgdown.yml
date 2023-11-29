@@ -1,14 +1,23 @@
-pandoc: 2.7.3
-pkgdown: 1.9000.9000.9000
-pkgdown_sha: d1a64f28518dc83905c6dc36ce68eeaaa80d3505
+pandoc: 3.1.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
 articles:
-  bs4-variables: bs4-variables.html
-  bs5-variables: bs5-variables.html
-  bslib: bslib.html
-  custom-components: custom-components.html
-  utility-classes: utility-classes.html
-  why-sass: why-sass.html
-last_built: 2021-10-27T19:13Z
+  index: any-project/index.html
+  index: bs4-variables/index.html
+  index: bs5-variables/index.html
+  index: cards/index.html
+  index: column-layout/index.html
+  index: custom-components/index.html
+  index: dashboards/index.html
+  index: examples/index.html
+  index: filling/index.html
+  index: sidebars/index.html
+  index: theming/index.html
+  index: tooltips-popovers/index.html
+  index: utility-classes/index.html
+  index: value-boxes/index.html
+  index: why-sass/index.html
+last_built: 2023-11-29T00:52Z
 urls:
   reference: https://rstudio.github.io/bslib/reference
   article: https://rstudio.github.io/bslib/articles
