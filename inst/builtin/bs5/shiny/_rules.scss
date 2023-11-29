@@ -115,6 +115,8 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
     --bslib-dashboard-main-bg: rgb(247, 247, 247);
     --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
+    --bslib-dashboard-card-cap-bg: var(--#{$prefix}body-bg);
+    --bslib-dashboard-card-header-font-weight: #{$font-weight-semibold};
     --bslib-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-sidebar-fg: var(--#{$prefix}color);
   }
@@ -124,12 +126,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 
   .bslib-card {
+    --#{$prefix}card-cap-bg: var(--bslib-dashboard-card-cap-bg);
     .card-header, .card-footer {
-      background-color: transparent;
       font-size: 0.9rem;
     }
     .card-header {
-      font-weight: $font-weight-semibold;
+      font-weight: var(--bslib-dashboard-card-header-font-weight);
       line-height: 1.375rem;
     }
   }
