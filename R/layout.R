@@ -504,7 +504,7 @@ col_width_grid_classes <- function(breaks, n_kids, n_cols = 12) {
 }
 
 
-col_width_best_fit <- function(n, prefer_wider = FALSE, n_cols = NA) {
+col_width_best_fit <- function(n_items, prefer_wider = FALSE, n_cols = NA) {
   # If we're here, the user asked us to make the best choice possible about the
   # number of columns, either by giving `col_widths = NA` or by using `NA` at
   # a specific break point. The general idea is play with both the column
@@ -516,36 +516,43 @@ col_width_best_fit <- function(n, prefer_wider = FALSE, n_cols = NA) {
 
   # If n_cols is NA and n <= 7, best fit can adjust the n_cols for a better fit
   if (is.na(fit$n_cols)) {
-    fit$n_cols <- if (n > 7) {
+    fit$n_cols <- if (n_items > 7) {
       12
-    } else if (n > 3) {
-      n * 2
+    } else if (n_items > 3) {
+      n_items * 2
     } else {
-      n
+      n_items
     }
 
-    if (n < 4) {
+    if (n_items < 4) {
       fit$col_widths <- 1
       return(fit)
     }
 
-    if (n <= 7) {
-      # sizes 4-7 are special cased to use (2 * kids) columns
-      fit$col_widths <- if (prefer_wider) n else 2
+    if (n_items <= 7) {
+      # sizes 4-7 are special cased to use (2 * items) columns
+      fit$col_widths <- if (prefer_wider) n_items else 2
       return(fit)
     }
-  } else if (n <= 3) {
-    # We're in fixed 12-column mode, manually pick for small numbers
-    fit$col_widths <- c(12, 6, 4)[n]
-    return(fit)
-  } else if (n == 5) {
-    fit$col_widths <- if (prefer_wider) 4 else 3
-    return(fit)
+  }
+
+  # We're in fixed 12-column mode, manually pick for small numbers where the
+  # algorithm would otherwise pick a suboptimal column widths.
+  if (fit$n_cols == 12) {
+    if (n_items <= 3) {
+      fit$col_widths <- c(12, 6, 4)[n_items]
+      return(fit)
+    }
+
+    if (n_items == 5) {
+      fit$col_widths <- if (prefer_wider) 4 else 3
+      return(fit)
+    }
   }
 
   fctrs <- if (prefer_wider) c(3, 4, 6) else c(2, 3, 4)
 
-  col_units <- n * fctrs
+  col_units <- n_items * fctrs
   rows <- ceiling(col_units / 12)
   total_units <- rows * 12
   empty_units <- total_units - col_units
