@@ -550,17 +550,12 @@ col_width_best_fit <- function(n_items, prefer_wider = FALSE, n_cols = NA) {
     }
   }
 
-  fctrs <- if (prefer_wider) c(3, 4, 6) else c(2, 3, 4)
+  fctrs <- if (prefer_wider) c(6, 4, 3) else c(2, 3, 4)
 
   col_units <- n_items * fctrs
   rows <- ceiling(col_units / 12)
   total_units <- rows * 12
   empty_units <- total_units - col_units
-
-  if (prefer_wider) {
-    fctrs <- rev(fctrs)
-    empty_units <- rev(empty_units)
-  }
 
   fit$col_widths <- fctrs[which.min(empty_units)]
 
