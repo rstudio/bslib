@@ -178,13 +178,24 @@ test_that("bs_css_grid_width_classes()", {
   # column-item would cause a row break, leaving an empty row (which we avoid)
   expect_equal(
     col_width_grid_classes(breakpoints(lg = c(8, -8, 9)), n_kids = 4),
-    c("g-col-lg-8", "g-col-lg-9", "g-col-lg-8", "g-col-lg-9")
+    c("g-col-lg-8", "g-col-lg-9", "g-start-lg-1 g-col-lg-8", "g-col-lg-9")
   )
 
   # Same as above, except that 8 columns *will* fit on next row with an offset
   expect_equal(
     col_width_grid_classes(breakpoints(lg = c(8, -8, 8)), n_kids = 4),
     c("g-col-lg-8", "g-start-lg-5 g-col-lg-8", "g-col-lg-8", "g-start-lg-5 g-col-lg-8")
+  )
+
+  # When an item would overflow the row start a new row via start class
+  expect_equal(
+    col_width_grid_classes(breakpoints(md = c(-3, 8, 2)), n_kids = 3),
+    c("g-start-md-4 g-col-md-8", "g-start-md-1 g-col-md-2", "g-start-md-1 g-col-md-8")
+  )
+
+  expect_equal(
+    col_width_grid_classes(breakpoints(md = c(8, -3, 2)), n_kids = 3),
+    c("g-col-md-8", "g-start-md-1 g-col-md-2", "g-col-md-8")
   )
 
   # recycles the pattern to match number of kids

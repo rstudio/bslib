@@ -484,6 +484,12 @@ col_width_grid_classes <- function(breaks, n_kids, n_cols = 12) {
         add_start_class <- row_remaining >= widths[idx] || cursor > 0
       }
 
+      if (cursor > 0 && cursor + widths[idx] > n_cols) {
+        # adding the current item would overflow the row, so we need a start class
+        add_start_class <- TRUE
+        cursor <- 0L
+      }
+
       if (add_start_class) {
         add_class(idx, sprintf("g-start-%s-%s", break_name, cursor + 1L))
         add_start_class <- FALSE
