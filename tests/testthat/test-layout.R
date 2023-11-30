@@ -290,6 +290,44 @@ test_that("impute_col_spec() auto layout with col_widths = NA", {
   expect_equal(kids_8$col_widths$lg, list(width = 3, before = 0, after = 0))
 })
 
+test_that("impute_col_spec() with user values but NA at one breakpoint", {
+  expect_equal(
+    impute_col_spec(breakpoints(sm = NA, md = 4, lg = NA), 4)$col_widths,
+    breakpoints(
+      sm = 6, # 2 items per row
+      md = 4, # forces 12-column grid basis
+      lg = 3  # 4 items per row
+    )
+  )
+
+  expect_equal(
+    impute_col_spec(breakpoints(sm = 3, md = NA, lg = NA), 3)$col_widths,
+    breakpoints(
+      sm = 3, # forced by user, forces 12-column grid basis
+      md = 4, # 3 items per row
+      lg = 4  # 3 items per row
+    )
+  )
+
+  expect_equal(
+    impute_col_spec(breakpoints(sm = 3, md = NA, lg = NA), 5)$col_widths,
+    breakpoints(
+      sm = 3, # forced by user, forces 12-column grid basis
+      md = 4, # 3 items per row when prefer wider
+      lg = 3  # 4 items per row otherwise
+    )
+  )
+
+  expect_equal(
+    impute_col_spec(breakpoints(sm = 3, md = NA, lg = NA), 16)$col_widths,
+    breakpoints(
+      sm = 3, # forced by user, forces 12-column grid basis
+      md = 6, # 2 items per row when prefer wider
+      lg = 3  # 4 items per row otherwise
+    )
+  )
+})
+
 test_that("impute_col_spec() missing smaller breakpoints inherit from lg+", {
   expect_equal(
     impute_col_spec(breakpoints(lg = c(4, -4, 4)), 2)$col_widths,
