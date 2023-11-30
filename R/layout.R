@@ -544,8 +544,16 @@ col_width_best_fit <- function(n_items, prefer_wider = FALSE, n_cols = NA) {
       return(fit)
     }
 
-    if (n_items == 5) {
+    # n == 4 gives 6 for wide (2x2) and 3 for narrow columns (1x4)
+
+    if (n_items == 5 || n_items == 7) {
       fit$col_widths <- if (prefer_wider) 4 else 3
+      return(fit)
+    }
+
+    if (n_items == 6) {
+      # (2x3) for wide and (1x6) for narrow items
+      fit$col_widths <- if (prefer_wider) 4 else 2
       return(fit)
     }
   }
