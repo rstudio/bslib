@@ -508,7 +508,7 @@ col_width_best_fit <- function(n_items, prefer_wider = FALSE, n_cols = NA) {
   # If we're here, the user asked us to make the best choice possible about the
   # number of columns, either by giving `col_widths = NA` or by using `NA` at
   # a specific break point. The general idea is play with both the column
-  # widths and the `--bs-columns` variable (number of columns in the grid) to
+  # widths (col_widths) and number of columns in the grid (n_cols) to
   # get decent results for a low number of items (1-7). At 7+ we use the
   # 12-column grid and pick the factor that results in the fewest empty columns.
 
