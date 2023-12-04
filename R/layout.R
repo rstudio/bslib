@@ -319,7 +319,7 @@ impute_col_spec <- function(x, n_kids) {
 
   for (break_name in names(x)[has_auto_spec]) {
     best_fit <- col_width_best_fit(
-      n = n_kids,
+      n_kids,
       prefer_wider = break_name %in% c("sm", "md"),
       n_cols = n_col_basis
     )
@@ -368,7 +368,6 @@ row_heights_css_vars <- function(x) {
     class = classes
   )
 }
-
 
 
 col_width_grid_classes <- function(breaks, n_kids, n_cols = 12) {
