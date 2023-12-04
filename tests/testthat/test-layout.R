@@ -178,13 +178,24 @@ test_that("bs_css_grid_width_classes()", {
   # column-item would cause a row break, leaving an empty row (which we avoid)
   expect_equal(
     col_width_grid_classes(breakpoints(lg = c(8, -8, 9)), n_kids = 4),
-    c("g-col-lg-8", "g-col-lg-9", "g-col-lg-8", "g-col-lg-9")
+    c("g-col-lg-8", "g-col-lg-9", "g-start-lg-1 g-col-lg-8", "g-col-lg-9")
   )
 
   # Same as above, except that 8 columns *will* fit on next row with an offset
   expect_equal(
     col_width_grid_classes(breakpoints(lg = c(8, -8, 8)), n_kids = 4),
     c("g-col-lg-8", "g-start-lg-5 g-col-lg-8", "g-col-lg-8", "g-start-lg-5 g-col-lg-8")
+  )
+
+  # When an item would overflow the row start a new row via start class
+  expect_equal(
+    col_width_grid_classes(breakpoints(md = c(-3, 8, 2)), n_kids = 3),
+    c("g-start-md-4 g-col-md-8", "g-start-md-1 g-col-md-2", "g-start-md-1 g-col-md-8")
+  )
+
+  expect_equal(
+    col_width_grid_classes(breakpoints(md = c(8, -3, 2)), n_kids = 3),
+    c("g-col-md-8", "g-start-md-1 g-col-md-2", "g-col-md-8")
   )
 
   # recycles the pattern to match number of kids
@@ -288,6 +299,44 @@ test_that("impute_col_spec() auto layout with col_widths = NA", {
   expect_equal(kids_8$n_cols, 12)
   expect_equal(kids_8$col_widths$sm, list(width = 6, before = 0, after = 0))
   expect_equal(kids_8$col_widths$lg, list(width = 3, before = 0, after = 0))
+})
+
+test_that("impute_col_spec() with user values but NA at one breakpoint", {
+  expect_equal(
+    impute_col_spec(breakpoints(sm = NA, md = 4, lg = NA), 4)$col_widths,
+    breakpoints(
+      sm = 6, # 2 items per row
+      md = 4, # forces 12-column grid basis
+      lg = 3  # 4 items per row
+    )
+  )
+
+  expect_equal(
+    impute_col_spec(breakpoints(sm = 3, md = NA, lg = NA), 3)$col_widths,
+    breakpoints(
+      sm = 3, # forced by user, forces 12-column grid basis
+      md = 4, # 3 items per row
+      lg = 4  # 3 items per row
+    )
+  )
+
+  expect_equal(
+    impute_col_spec(breakpoints(sm = 3, md = NA, lg = NA), 5)$col_widths,
+    breakpoints(
+      sm = 3, # forced by user, forces 12-column grid basis
+      md = 4, # 3 items per row when prefer wider
+      lg = 3  # 4 items per row otherwise
+    )
+  )
+
+  expect_equal(
+    impute_col_spec(breakpoints(sm = 3, md = NA, lg = NA), 16)$col_widths,
+    breakpoints(
+      sm = 3, # forced by user, forces 12-column grid basis
+      md = 6, # 2 items per row when prefer wider
+      lg = 3  # 4 items per row otherwise
+    )
+  )
 })
 
 test_that("impute_col_spec() missing smaller breakpoints inherit from lg+", {

@@ -312,11 +312,26 @@ impute_col_spec <- function(x, n_kids) {
     return(list(n_cols = 12, col_widths = x))
   }
 
-  n_cols <- if (n_kids > 7) 12 else if (n_kids > 3) n_kids * 2 else n_kids
+  # If the user gave us column widths, we have to use 12 columns at all
+  # breakpoints. If they didn't, we let the best fit algorithm pick.
+  # `n_col_basis` is stable for all breakpoints, `n_cols` is the final number.
+  n_cols <- n_col_basis <- if (any(!has_auto_spec)) 12 else NA
 
   for (break_name in names(x)[has_auto_spec]) {
-    prefer_wider <- break_name %in% c("sm", "md")
-    x[[break_name]] <- col_width_best_fit(n_kids, prefer_wider)
+    best_fit <- col_width_best_fit(
+      n_kids,
+      prefer_wider = break_name %in% c("sm", "md"),
+      n_cols = n_col_basis
+    )
+
+    x[[break_name]] <- best_fit$col_widths
+
+    if (is.na(n_cols)) {
+      # The best fit algorithm picks the same `n_cols` given `n_items`,
+      # so we use the first one as the final `n_cols` for all breakpoints. In
+      # the future `n_cols` could be breakpoint-specific as well.
+      n_cols <- best_fit$n_cols
+    }
   }
 
   list(n_cols = n_cols, col_widths = x)
@@ -353,7 +368,6 @@ row_heights_css_vars <- function(x) {
     class = classes
   )
 }
-
 
 
 col_width_grid_classes <- function(breaks, n_kids, n_cols = 12) {
@@ -469,6 +483,12 @@ col_width_grid_classes <- function(breaks, n_kids, n_cols = 12) {
         add_start_class <- row_remaining >= widths[idx] || cursor > 0
       }
 
+      if (cursor > 0 && cursor + widths[idx] > n_cols) {
+        # adding the current item would overflow the row, so we need a start class
+        add_start_class <- TRUE
+        cursor <- 0L
+      }
+
       if (add_start_class) {
         add_class(idx, sprintf("g-start-%s-%s", break_name, cursor + 1L))
         add_start_class <- FALSE
@@ -483,26 +503,70 @@ col_width_grid_classes <- function(breaks, n_kids, n_cols = 12) {
 }
 
 
-col_width_best_fit <- function(kids, prefer_wider = FALSE) {
-  if (kids < 4) return(1)
-  if (kids <= 7) {
-    # sizes 4-7 are special cased to use (2 * kids) columns
-    return(if (prefer_wider) kids else 2)
+col_width_best_fit <- function(n_items, prefer_wider = FALSE, n_cols = NA) {
+  # If we're here, the user asked us to make the best choice possible about the
+  # number of columns, either by giving `col_widths = NA` or by using `NA` at
+  # a specific break point. The general idea is play with both the column
+  # widths (col_widths) and number of columns in the grid (n_cols) to
+  # get decent results for a low number of items (1-7). At 7+ we use the
+  # 12-column grid and pick the factor that results in the fewest empty columns.
+
+  fit <- list(n_cols = n_cols)
+
+  # If n_cols is NA and n <= 7, best fit can adjust the n_cols for a better fit
+  if (is.na(fit$n_cols)) {
+    fit$n_cols <- if (n_items > 7) {
+      12
+    } else if (n_items > 3) {
+      n_items * 2
+    } else {
+      n_items
+    }
+
+    if (n_items < 4) {
+      fit$col_widths <- 1
+      return(fit)
+    }
+
+    if (n_items <= 7) {
+      # sizes 4-7 are special cased to use (2 * items) columns
+      fit$col_widths <- if (prefer_wider) n_items else 2
+      return(fit)
+    }
   }
 
-  fctrs <- c(if (!prefer_wider) 2, 3, 4, if (prefer_wider) 6)
+  # We're in fixed 12-column mode, manually pick for small numbers where the
+  # algorithm would otherwise pick a suboptimal column widths.
+  if (fit$n_cols == 12) {
+    if (n_items <= 3) {
+      fit$col_widths <- c(12, 6, 4)[n_items]
+      return(fit)
+    }
 
-  col_units <- kids * fctrs
+    # n == 4 gives 6 for wide (2x2) and 3 for narrow columns (1x4)
+
+    if (n_items == 5 || n_items == 7) {
+      fit$col_widths <- if (prefer_wider) 4 else 3
+      return(fit)
+    }
+
+    if (n_items == 6) {
+      # (2x3) for wide and (1x6) for narrow items
+      fit$col_widths <- if (prefer_wider) 4 else 2
+      return(fit)
+    }
+  }
+
+  fctrs <- if (prefer_wider) c(6, 4, 3) else c(2, 3, 4)
+
+  col_units <- n_items * fctrs
   rows <- ceiling(col_units / 12)
   total_units <- rows * 12
   empty_units <- total_units - col_units
 
-  if (prefer_wider) {
-    fctrs <- rev(fctrs)
-    empty_units <- rev(empty_units)
-  }
+  fit$col_widths <- fctrs[which.min(empty_units)]
 
-  fctrs[which.min(empty_units)]
+  fit
 }
 
 
