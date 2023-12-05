@@ -260,20 +260,17 @@ layout_columns <- function(
     fillable = fillable
   )
 
-  tag <- tag(
+  tag <- web_component(
     "bslib-layout-columns",
-    rlang::list2(
-      class = "bslib-grid grid bslib-mb-spacing",
-      "col-widths" = json_col_spec(col_widths),
-      style = css(
-        height = validateCssUnit(height),
-        gap = validateCssUnit(gap),
-      ),
-      !!!row_heights_css_vars(row_heights),
-      !!!attribs,
-      !!!children,
-      component_dependencies()
-    )
+    class = "bslib-grid grid bslib-mb-spacing",
+    "col-widths" = json_col_spec(col_widths),
+    style = css(
+      height = validateCssUnit(height),
+      gap = validateCssUnit(gap),
+    ),
+    !!!row_heights_css_vars(row_heights),
+    !!!attribs,
+    !!!children
   )
 
   tag <- bindFillRole(tag, item = fill)
