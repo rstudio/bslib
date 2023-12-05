@@ -226,6 +226,13 @@ type BestFitColumnWidths = {
  * items per row, by default at the "sm" and "md" breakpoints), otherwise we
  * prefer narrower columns (more items per row on larger screens).
  *
+ * If all breakpoints are auto-fit, `units` will be `null`, allowing this
+ * function to choose the number of column units per row. This lets us get
+ * better results for small and irregular `nItems` that aren't possible with the
+ * 12-column grid. E.g. for 7 items we can use 14 units per row, with 7 column
+ * units per item on small screens and 2 column units per item on large screens.
+ * This choice is currently invariant to `nItems`.
+ *
  * @param nItems The number of children in the layout.
  * @param preferWider Whether to prefer wider columns (for smaller breakpoints).
  * @param units The number of column units in a row.
@@ -239,6 +246,7 @@ function bestFitColumnWidths(
   const fit = { units: units, widths: [0] } as BestFitColumnWidths;
 
   if (isNA(fit.units)) {
+    // We're auto-fitting at all breakpoints, we can decide column units/row
     fit.units = nItems > 7 ? 12 : nItems > 3 ? nItems * 2 : nItems;
 
     if (nItems < 4) {
@@ -252,11 +260,15 @@ function bestFitColumnWidths(
     }
   }
 
+  // In fixed 12-column mode, we manually pick columns widths for small nItems
+  // that look better than the default auto-fit widths.
   if (fit.units === 12) {
     if (nItems <= 3) {
       fit.widths = [[12, 6, 4][nItems - 1]];
       return fit;
     }
+
+    // nItems === 4, default auto-fit is fine (6 units wide, 3 units narrow)
 
     if (nItems === 5 || nItems === 7) {
       fit.widths = [preferWider ? 4 : 3];
@@ -371,6 +383,51 @@ function newBreakpointColumnSpec(
 /**
  * Given a BreakpointColumnSpec, write the appropriate grid classes to the
  * collection of elements.
+ * This next function implements a content-layout algorithm, motivated by
+ * supporting empty columns.
+ *
+ * In particular, we need to know two things about
+ * the content item:
+ *
+ * 1. How wide is the content item?
+ * 2. What is its starting column position?
+ *
+ * The following example illustrates a few layout cases (. = empty column):
+ *
+ * ```
+ * Breakpoints: { md = [-1, 4, 5, -4, 3, 9, -3, 2] }
+ *
+ * | . | 4 | 4 | 4 | 4 | 5 | 5 | 5 | 5 | 5 | . |
+ * | . | . | . | 3 | 3 | 3 |   |   |   |   |   |
+ * | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | . | . | . |
+ * | 2 | 2 | . | 4 | 4 | 4 | 4 |   |   |   |   | ...
+ * ```
+ *
+ * Because we recycle column widths to match the number of kids, we can't
+ * guarantee that the pattern repeats by row. To quickly summarize:
+ *
+ * * Each content item has a width (`widths[idx]`) and empty space before
+ *   the item: `before[idx]` + `after[idx - 1]` (the space before this item
+ *   plus the space _after_ the previous item).
+ * * We maintain a cursor that knows the 0-indexed column position. At each
+ *   step we:
+ *   * Move the cursor forward by the empty space before the item
+ *   * Decide if we require a starting class (`g-start-{break}-{cursor + 1}`)
+ *   * Add starting class and content width class (`g-start-{break}-{width}`)
+ *     for the item
+ *   * Move the cursor forward by the width of the item.
+ *
+ * We take into account a few edge cases:
+ *
+ * * We *don't need* a starting class if the item would naturally reflow to the
+ *   next row.
+ * * We *do need* a starting class if the item would fit into the empty space
+ *   of the current row, but there isn't enough room for the item _after_
+ *   accounting for blocked empty space.
+ * * If adding empty space causes a new row, but adding the content item
+ *   would cause _another row break_, we skip the empty row.
+ *
+ * @see https://getbootstrap.com/docs/5.3/layout/breakpoints/
  *
  * @param breaks The BreakpointColumnSpec.
  * @param elements The children of the custom element.
@@ -404,11 +461,15 @@ function writeGridClasses(
       cursor = Math.abs(cursor);
       let newCursor = cursor + incr;
       if (newCursor == unitsRow) {
+        // we've reached the final column, allow for a natural break
         newCursor = 0;
       }
       if (newCursor > unitsRow) {
+        // this row is full, empty columns are allowed to break to the next row
+        // which we signal with cursor < 0
         newCursor = isEmpty ? -1 * (newCursor % unitsRow) : incr;
       }
+      // console.log(`cursor: ${cursor} -> ${newCursor} (+${incr}${isEmpty ? " (empty)" : ""})`);
       cursor = newCursor;
     };
 
@@ -423,6 +484,11 @@ function writeGridClasses(
         updateCursor(unitsMoveAhead, true);
         if (cursor < 0) {
           cursor = Math.abs(cursor);
+          // adding empty cols caused a row wrap, so we need a start class if
+          // 1. we're not at the beginning of the row
+          // 2. But: if the current item is wider than the remaining space after
+          //    accounting for empty columns, reset cursor to start of the row
+          //    rather than causing an empty row.
           if (widths[idx] > unitsRow - cursor) {
             cursor = 0;
           }
@@ -432,6 +498,7 @@ function writeGridClasses(
       }
 
       if (cursor > 0 && cursor + widths[idx] > unitsRow) {
+        // adding the current item would overflow the row, needs start class
         addStartClass = true;
         cursor = 0;
       }
