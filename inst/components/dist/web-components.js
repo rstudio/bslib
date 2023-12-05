@@ -1798,16 +1798,14 @@
      * @returns The resolved column width specification.
      */
     _resolveColWidthsSpec() {
-      const allResolved = Array.from(this.colWidths.values()).every(
-        (val) => !isNA(val)
-      );
-      if (allResolved) {
+      const colValuesNA = Array.from(this.colWidths.values()).map(isNA);
+      const all = (x2) => x2.every((val) => val === true);
+      const any = (x2) => x2.some((val) => val === true);
+      if (!any(colValuesNA)) {
         return newBreakpointColumnSpec(this.colWidths);
       }
       const resolved = /* @__PURE__ */ new Map();
-      const allAutoFit = Array.from(this.colWidths.values()).every(
-        (val) => isNA(val)
-      );
+      const allAutoFit = all(colValuesNA);
       const units = allAutoFit ? null : 12;
       const nChildren = this.children.length;
       for (const [breakName, colWidth] of this.colWidths) {

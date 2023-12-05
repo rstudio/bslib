@@ -158,20 +158,18 @@ export class BslibLayoutColumns extends HTMLElement {
    * @returns The resolved column width specification.
    */
   private _resolveColWidthsSpec(): BreakpointColumnSpec {
-    const allResolved = Array.from(this.colWidths.values()).every(
-      (val) => !isNA(val)
-    );
+    const colValuesNA = Array.from(this.colWidths.values()).map(isNA);
 
-    if (allResolved) {
+    const all = (x: boolean[]) => x.every((val: boolean) => val === true);
+    const any = (x: boolean[]) => x.some((val: boolean) => val === true);
+
+    if (!any(colValuesNA)) {
       return newBreakpointColumnSpec(this.colWidths as BreakpointMapResolved);
     }
 
     const resolved = new Map() as BreakpointMapResolved;
 
-    const allAutoFit = Array.from(this.colWidths.values()).every((val) =>
-      isNA(val)
-    );
-
+    const allAutoFit = all(colValuesNA);
     const units = allAutoFit ? null : 12;
     const nChildren = this.children.length;
 
