@@ -1764,7 +1764,7 @@
       this.removeAttribute("col-widths");
       setTimeout(() => {
         this._applyColWidthsSpec();
-        this.style.removeProperty("display");
+        this.removeAttribute("hidden-until-init");
       });
     }
     /**

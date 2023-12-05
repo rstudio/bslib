@@ -25,6 +25,10 @@
   }
 }
 
+bslib-layout-columns[hidden-until-init] {
+  display: none;
+}
+
 @include media-breakpoint-down(md) {
   // collapse all columns to a single column below medium (by default only)
   .bslib-grid > * {

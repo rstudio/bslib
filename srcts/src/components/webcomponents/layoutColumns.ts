@@ -114,7 +114,7 @@ export class BslibLayoutColumns extends HTMLElement {
     // need to wait for the next tick to apply the column widths.
     setTimeout(() => {
       this._applyColWidthsSpec();
-      this.style.removeProperty("display");
+      this.removeAttribute("hidden-until-init");
     });
   }
 
