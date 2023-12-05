@@ -1730,6 +1730,7 @@
       /**
        * The number of column units in a row.
        */
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       this._colUnits = 12;
     }
     /**
@@ -1745,6 +1746,17 @@
     set colUnits(val) {
       this.style.setProperty("--bs-columns", `${val}`);
       this._colUnits = val;
+    }
+    /**
+     * Fallback item span for breakpoints not provided by the user. For example,
+     * if the user gives column widths for the "lg" breakpoint, the fallback item
+     * span covers column widths below "lg", i.e. "sm" and "md". This value only
+     * needs to be set when auto-fit is used for larger screen sizes and no lower
+     * breakpoints are set. It also only comes into play when auto-fit adjusts the
+     * default number of columns.
+     */
+    setFallbackItemSpan(val) {
+      this.style.setProperty("--_fallback-item-span", `${val}`);
     }
     connectedCallback() {
       this.classList.add("grid");
@@ -1779,14 +1791,6 @@
       Object.keys(x2).forEach((breakName) => {
         colWidths.set(breakName, isNA(x2[breakName]) ? null : x2[breakName]);
       });
-      const hasLg = ["lg", "xl", "xxl"].some((size) => colWidths.has(size));
-      const hasSm = ["sm", "md"].some((size) => colWidths.has(size));
-      if (hasLg && !hasSm) {
-        const smallest = ["lg", "xl", "xxl"].filter(
-          (size) => colWidths.has(size)
-        );
-        colWidths.set("md", colWidths.get(smallest[0]));
-      }
       return colWidths;
     }
     /**
@@ -1814,6 +1818,9 @@
           const bestFit = bestFitColumnWidths(nChildren, preferWider, units);
           if (allAutoFit) {
             this.colUnits = bestFit.units;
+            if (bestFit.units !== 12) {
+              this.setFallbackItemSpan(bestFit.units > nChildren ? nChildren : 1);
+            }
           }
           resolved.set(breakName, bestFit.widths);
         } else {
