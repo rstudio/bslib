@@ -325,7 +325,6 @@ validate_col_spec <- function(col_widths, n_kids) {
 
 json_col_spec <- function(col_widths) {
   if (is.null(col_widths)) return(NULL)
-  if (rlang::is_na(col_widths)) return(NULL)
 
   jsonlite::toJSON(
     unclass(col_widths),
