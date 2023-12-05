@@ -201,12 +201,11 @@ export class BslibLayoutColumns extends HTMLElement {
       this.colWidthsSpec = this._resolveColWidthsSpec();
     }
 
-    const children = this.children;
-
     if (!this.colWidthsSpec) {
       throw new Error("Column widths must be specified.");
     }
 
+    const children = this.children;
     writeGridClasses(this.colWidthsSpec, children, this.colUnits);
   }
 }
