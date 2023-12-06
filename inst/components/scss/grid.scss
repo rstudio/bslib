@@ -43,7 +43,7 @@ bslib-layout-columns[hidden-until-init] {
     height: var(--bslib-grid-height-mobile);
     &.grid {
       height: unset !important;
-      grid-auto-rows: var(--bslib-grid--row-heights--xs, auto);
+      grid-auto-rows: var(--bslib-grid--row-heights--xs, var(--bslib-grid--row-heights, auto));
     }
   }
 }

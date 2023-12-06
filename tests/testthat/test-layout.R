@@ -131,6 +131,26 @@ test_that("row_heights_css_vars() decides fr/px for numeric, passes character", 
   )
 })
 
+test_that("row_heights_css_vars() sets row heights at all sizes if no breakpoint is provided", {
+  expect_equal(
+    row_heights_css_vars(c(1, 2)),
+    list(
+      style = "--bslib-grid--row-heights:1fr 2fr;",
+      class = character(0)
+    )
+  )
+})
+
+test_that("row_heights_css_vars() doesn't include the class for xs size", {
+  expect_equal(
+    row_heights_css_vars(breakpoints(xs = c(1, 2))),
+    list(
+      style = "--bslib-grid--row-heights--xs:1fr 2fr;",
+      class = character(0)
+    )
+  )
+})
+
 test_that("layout_column_wrap() handles deprecated width as first arg", {
   # first arg is fractional
   lifecycle::expect_deprecated(

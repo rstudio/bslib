@@ -334,8 +334,16 @@ json_col_spec <- function(col_widths) {
 row_heights_css_vars <- function(x) {
   if (is.null(x)) return(list())
 
+  maybe_fr_unit <- function(x) {
+    if (is.list(x)) return(unlist(lapply(x, maybe_fr_unit)))
+    if (is.numeric(x)) paste0(x, "fr") else x
+  }
+
   if (!is_breakpoints(x)) {
-    x <- breakpoints(sm = x)
+    return(list(
+      style = css("--bslib-grid--row-heights" = maybe_fr_unit(x)),
+      class = character(0)
+    ))
   }
 
   # creates classes that pair with CSS variables when set
@@ -348,12 +356,7 @@ row_heights_css_vars <- function(x) {
   classes <- setdiff(classes, "bslib-grid--row-heights--xs")
 
   # Treat numeric values as fractional units
-  css_vars <- rapply(
-    css_vars, how = "replace",
-    function(x) {
-      if (is.numeric(x)) paste0(x, "fr") else x
-    }
-  )
+  css_vars <- rapply(css_vars, how = "replace", maybe_fr_unit)
 
   list(
     style = css(!!!css_vars),
