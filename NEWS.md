@@ -4,6 +4,8 @@
 
 * `layout_columns()` was rewritten in Typescript as a custom element to improve the portability of the component. (#931)
 
+* When `layout_columns()` is given a `row_heights` value that is not a `breakpoints()` object, that value is used for the row heights at all breakpoints. Previously, it was used for the row heights from `"sm"` up. (#931)
+
 # bslib 0.6.1
 
 ## Bug fixes
