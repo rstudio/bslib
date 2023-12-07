@@ -5,6 +5,10 @@
 #'
 #' A generic constructor for responsive breakpoints.
 #'
+#' @param xs The default value to apply to the `xs` breakpoint. Note that this
+#'   breakpoint is generally equivalent to "all sizes" and is typically treated
+#'   as the base case or a value to apply by default across all breakpoints
+#'   unless overridden by a larger breakpoint.
 #' @param sm Values to apply at the `sm` breakpoint.
 #' @param md Values to apply at the `md` breakpoint.
 #' @param lg Values to apply at the `lg` breakpoint.
@@ -19,9 +23,9 @@
 #' breakpoints(sm = c(4, 4, 4), md = c(3, 3, 6), lg = c(-2, 8, -2))
 #'
 #' @export
-breakpoints <- function(..., sm = NULL, md = NULL, lg = NULL) {
+breakpoints <- function(..., xs = NULL, sm = NULL, md = NULL, lg = NULL) {
   breaks <- dropNulls(
-    rlang::list2(..., sm = sm, md = md, lg = lg)
+    rlang::list2(..., xs = xs, sm = sm, md = md, lg = lg)
   )
 
   if (any_unnamed(breaks)) {
