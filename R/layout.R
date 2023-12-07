@@ -268,6 +268,12 @@ layout_columns <- function(
       height = validateCssUnit(height),
       gap = validateCssUnit(gap),
     ),
+    # We don't enable the next option by default, but users could add this
+    # attribute to hide the internal elements until after the custom element
+    # adds classes to all of the elements. We don't think this is needed but
+    # it's here if we find there are cases where rendering the children and
+    # adding classes takes longer than we've anticipated in our testing.
+    # "hidden-until-init" = NA,
     !!!row_heights_css_vars(row_heights),
     !!!attribs,
     !!!children

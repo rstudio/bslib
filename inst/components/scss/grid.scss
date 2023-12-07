@@ -25,7 +25,10 @@
   }
 }
 
-bslib-layout-columns[hidden-until-init] {
+// Users can add the `hidden-until-init` attribute to hide child elements until
+// just after bslib-layout-columns assigns them the column classes. The
+// attribute is automatically removed by <bslib-layout-columns>.
+bslib-layout-columns[hidden-until-init] > * {
   display: none;
 }
 
