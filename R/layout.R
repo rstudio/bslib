@@ -252,7 +252,7 @@ layout_columns <- function(
   n_kids <- length(children)
 
   # Check for spec problems so we can stop early
-  col_widths <- validate_col_spec(col_widths, n_kids)
+  col_spec <- as_col_spec(col_widths, n_kids)
 
   # Wrap each child in a container (so fill/flex items can fill the available area)
   children <- Map(
@@ -263,7 +263,7 @@ layout_columns <- function(
   tag <- web_component(
     "bslib-layout-columns",
     class = "bslib-grid grid bslib-mb-spacing",
-    "col-widths" = json_col_spec(col_widths),
+    "col-widths" = json_col_spec(col_spec),
     style = css(
       height = validateCssUnit(height),
       gap = validateCssUnit(gap),
@@ -287,7 +287,7 @@ layout_columns <- function(
   )
 }
 
-validate_col_spec <- function(col_widths, n_kids) {
+as_col_spec <- function(col_widths, n_kids) {
   if (is.null(col_widths)) return(NULL)
 
   if (!is_breakpoints(col_widths)) {
