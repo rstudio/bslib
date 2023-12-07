@@ -345,6 +345,7 @@ row_heights_css_vars <- function(x) {
   if (is.null(x)) return(list())
 
   if (!is_breakpoints(x)) {
+    # Setting the `xs` breakpoint is equivalent to setting all breaks
     x <- breakpoints(xs = x)
   }
 
