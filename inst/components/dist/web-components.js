@@ -1982,9 +1982,15 @@
           cursor = 0;
         }
         if (addStartClass) {
-          addClassToEl(idx, `g-start-${breakName}-${cursor + 1}`);
+          addClassToEl(
+            idx,
+            breakName === "xs" ? `g-start-${cursor + 1}` : `g-start-${breakName}-${cursor + 1}`
+          );
         }
-        addClassToEl(idx, `g-col-${breakName}-${unitsThisItem}`);
+        addClassToEl(
+          idx,
+          breakName === "xs" ? `g-col-${unitsThisItem}` : `g-col-${breakName}-${unitsThisItem}`
+        );
         updateCursor(unitsThisItem, false);
       }
     }

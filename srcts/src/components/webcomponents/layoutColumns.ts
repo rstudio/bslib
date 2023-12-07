@@ -1,13 +1,14 @@
 /**
  * Represents a breakpoint name for responsive layouts. Bootstrap's default
- * breakpoints are "sm", "md", "lg", "xl", "xxl", but the user can specify any
- * other breakpoint name as a string by updating Bootstrap's `$grid-breakpoints`
- * Sass map.
+ * breakpoints are "xs", "sm", "md", "lg", "xl", "xxl", but the user can specify
+ * any other breakpoint name as a string by updating Bootstrap's
+ * `$grid-breakpoints` Sass map. Note that "xs" is equivalent to "any
+ * breakpoint" since it's effectively `min-width: 0`.
  *
  * @see https://getbootstrap.com/docs/5.3/layout/breakpoints/#available-breakpoints
  */
 // eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members
-type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl" | string;
+type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | string;
 
 /**
  * A BreakpointMap is a list of user-specified column widths at each breakpoint.
@@ -509,10 +510,20 @@ function writeGridClasses(
       }
 
       if (addStartClass) {
-        addClassToEl(idx, `g-start-${breakName}-${cursor + 1}`);
+        addClassToEl(
+          idx,
+          breakName === "xs"
+            ? `g-start-${cursor + 1}`
+            : `g-start-${breakName}-${cursor + 1}`
+        );
       }
 
-      addClassToEl(idx, `g-col-${breakName}-${unitsThisItem}`);
+      addClassToEl(
+        idx,
+        breakName === "xs"
+          ? `g-col-${unitsThisItem}`
+          : `g-col-${breakName}-${unitsThisItem}`
+      );
       updateCursor(unitsThisItem, false);
     }
   }
