@@ -141,6 +141,16 @@ test_that("row_heights_css_vars() sets row heights at all sizes if no breakpoint
   )
 })
 
+test_that("row_heights_css_vars() rounds fractional numeric values (fr must be integer)", {
+  expect_equal(
+    row_heights_css_vars(c(1.5, 2.5)), #<< R rounds 1.5 up and 2.5 down
+    list(
+      style = "--bslib-grid--row-heights:2fr 2fr;",
+      class = character(0)
+    )
+  )
+})
+
 test_that("row_heights_css_vars() doesn't include the class for xs size", {
   expect_equal(
     row_heights_css_vars(breakpoints(xs = c(1, 2))),

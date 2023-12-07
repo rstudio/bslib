@@ -337,12 +337,12 @@ json_col_spec <- function(col_widths) {
   )
 }
 
+maybe_fr_unit <- function(x) {
+  if (is.numeric(x)) sprintf("%0.0ffr", x) else x
+}
+
 row_heights_css_vars <- function(x) {
   if (is.null(x)) return(list())
-
-  maybe_fr_unit <- function(x) {
-    if (is.numeric(x)) paste0(x, "fr") else x
-  }
 
   if (!is_breakpoints(x)) {
     x <- breakpoints(xs = x)
