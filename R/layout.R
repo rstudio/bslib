@@ -335,21 +335,21 @@ row_heights_css_vars <- function(x) {
   if (is.null(x)) return(list())
 
   maybe_fr_unit <- function(x) {
-    if (is.list(x)) return(unlist(lapply(x, maybe_fr_unit)))
     if (is.numeric(x)) paste0(x, "fr") else x
   }
 
   if (!is_breakpoints(x)) {
-    return(list(
-      style = css("--bslib-grid--row-heights" = maybe_fr_unit(x)),
-      class = character(0)
-    ))
+    x <- breakpoints(xs = x)
   }
 
   # creates classes that pair with CSS variables when set
   classes <- paste0("bslib-grid--row-heights--", names(x))
 
   css_vars <- setNames(x, paste0("--", classes))
+  if ("xs" %in% names(x)) {
+    # xs doesn't get a specific breakpoint, we just set the parent CSS variable
+    names(css_vars)[which(names(x) == "xs")] <- "--bslib-grid--row-heights"
+  }
 
   # mobile row height is derived from xs or defaults to auto in the CSS,
   # so we don't need the class to activate it
