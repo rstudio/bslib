@@ -421,7 +421,7 @@ infer_window_title <- function(title = NULL, window_title = NA) {
     }
   }
 
-  window_title
+  if (isTRUE(is.na(window_title))) NULL else window_title
 }
 
 

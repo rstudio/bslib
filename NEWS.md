@@ -8,6 +8,8 @@
 
 * When `layout_columns()` is given a `col_widths` value with `breakpoints()` at `lg` or wider, it now uses a better default column width for the smaller breakpoints not listed in the `col_widths` value. That said, you can always include `sm` or `md` in your `breakpoints()` definition to have complete control over column widths at those sizes. (#931)
 
+* Fixed an issue where the page might be given a window title of `NA` if the primary `title` argument of a page function, such as `page_sidebar()`, is `NULL` or a suitable window title could not be inferred. (#933)
+
 # bslib 0.6.1
 
 ## Bug fixes
