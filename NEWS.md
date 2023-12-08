@@ -6,11 +6,7 @@
 
 * When `layout_columns()` is given a `row_heights` value that is not a `breakpoints()` object, that value is used for the row heights at all breakpoints. Previously, it was used for the row heights from `"sm"` up. (#931)
 
-* When `layout_columns()` is given a `col_widths` value with `breakpoints()` at
-  `lg` or wider, it now uses a better default column width for the smaller
-  breakpoints not listed in the `col_widths` value. That said, you can always
-  include `sm` or `md` in your `breakpoints()` definition to have complete
-  control over column widths at those sizes. (#931)
+* When `layout_columns()` is given a `col_widths` value with `breakpoints()` at `lg` or wider, it now uses a better default column width for the smaller breakpoints not listed in the `col_widths` value. That said, you can always include `sm` or `md` in your `breakpoints()` definition to have complete control over column widths at those sizes. (#931)
 
 # bslib 0.6.1
 
