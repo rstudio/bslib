@@ -4,10 +4,15 @@
 \alias{breakpoints}
 \title{Define breakpoint values}
 \usage{
-breakpoints(..., sm = NULL, md = NULL, lg = NULL)
+breakpoints(..., xs = NULL, sm = NULL, md = NULL, lg = NULL)
 }
 \arguments{
 \item{...}{Other breakpoints (e.g., \code{xl}).}
+
+\item{xs}{The default value to apply to the \code{xs} breakpoint. Note that this
+breakpoint is generally equivalent to "all sizes" and is typically treated
+as the base case or a value to apply by default across all breakpoints
+unless overridden by a larger breakpoint.}
 
 \item{sm}{Values to apply at the \code{sm} breakpoint.}
 
