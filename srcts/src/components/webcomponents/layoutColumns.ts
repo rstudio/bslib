@@ -109,7 +109,7 @@ export class BslibLayoutColumns extends HTMLElement {
    * default number of columns.
    */
   setFallbackItemSpan(val: number): void {
-    this.style.setProperty("--_fallback-item-span", `${val}`);
+    this.style.setProperty("--_item-column-span", `${val}`);
   }
 
   connectedCallback(): void {

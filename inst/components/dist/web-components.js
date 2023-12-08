@@ -1756,7 +1756,7 @@
      * default number of columns.
      */
     setFallbackItemSpan(val) {
-      this.style.setProperty("--_fallback-item-span", `${val}`);
+      this.style.setProperty("--_item-column-span", `${val}`);
     }
     connectedCallback() {
       this.classList.add("grid");

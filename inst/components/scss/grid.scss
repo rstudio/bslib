@@ -1,8 +1,10 @@
 .bslib-grid {
-  --_fallback-item-span: unset;
+  // layout_column_wrap() uses a default column span of 1
+  // layout_columns() uses a default column span of 6 (set below or in JS)
+  --_item-column-span: 1;
 
   > * {
-    grid-column: auto/span var(--_fallback-item-span, 6);
+    grid-column: auto/span var(--_item-column-span, 1);
   }
 
   display: grid !important;
@@ -23,6 +25,10 @@
   & > * > .shiny-input-container {
     width: 100%;
   }
+}
+
+bslib-layout-columns.bslib-grid {
+  --_item-column-span: 6;
 }
 
 // Users can add the `hidden-until-init` attribute to hide child elements until
