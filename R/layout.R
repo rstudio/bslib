@@ -313,7 +313,7 @@ as_col_spec <- function(col_widths, n_kids) {
       abort("Column values must include at least one positive integer width.")
     }
 
-    if (length(bk) > n_kids) {
+    if (length(bk[bk > 0]) > n_kids) {
       rlang::warn(
         sprintf(
           "More column widths than children at breakpoint '%s', extra widths will be ignored.",

@@ -135,6 +135,12 @@ test_that("layout_columns() throws if no columns are positive", {
   )
 })
 
+test_that("as_column_spec() excludes offsets from oversized col_widths warning", {
+  expect_silent(
+    as_col_spec(col_widths = c(4, -4, 4), 2)
+  )
+})
+
 test_that("row_heights_css_vars() decides fr/px for numeric, passes character", {
   expect_equal(
     row_heights_css_vars(breakpoints(md = c(2, 1)))$style,

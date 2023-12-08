@@ -66,9 +66,6 @@
 
     Code
       layout_columns(col_widths = breakpoints(sm = NA, lg = c(4, -4, 4)), !!!children)
-    Condition
-      Warning:
-      More column widths than children at breakpoint 'lg', extra widths will be ignored.
     Output
       <div class="container-fluid">
         <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-lg="4,-4,4" col-widths-sm data-require-bs-caller="layout_columns()" data-require-bs-version="5">
