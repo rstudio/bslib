@@ -1723,17 +1723,314 @@
     }
   }
 
-  // srcts/src/components/webcomponents/index.ts
-  [BslibTooltip, BslibPopover, BslibInputDarkMode].forEach((cls) => {
-    customElements.define(cls.tagName, cls);
-    if (window.Shiny) {
-      if (cls.isShinyInput)
-        makeInputBinding(cls.tagName);
-      if ("shinyCustomMessageHandlers" in cls) {
-        shinyAddCustomMessageHandlers(cls["shinyCustomMessageHandlers"]);
+  // srcts/src/components/webcomponents/layoutColumns.ts
+  var _BslibLayoutColumns = class extends HTMLElement {
+    constructor() {
+      super(...arguments);
+      /**
+       * The number of column units in a row.
+       */
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      this._colUnits = 12;
+    }
+    /**
+     * Create a new default BreakpointMap. If no column widths are specified, we
+     * auto-fit at the "sm" and "lg" breakpoints.
+     */
+    static defaultColWidths() {
+      return new Map(Object.entries({ sm: null, lg: null }));
+    }
+    get colUnits() {
+      return this._colUnits;
+    }
+    set colUnits(val) {
+      this.style.setProperty("--bs-columns", `${val}`);
+      this._colUnits = val;
+    }
+    /**
+     * Fallback item span for breakpoints not provided by the user. For example,
+     * if the user gives column widths for the "lg" breakpoint, the fallback item
+     * span covers column widths below "lg", i.e. "sm" and "md". This value only
+     * needs to be set when auto-fit is used for larger screen sizes and no lower
+     * breakpoints are set. It also only comes into play when auto-fit adjusts the
+     * default number of columns.
+     */
+    setFallbackItemSpan(val) {
+      this.style.setProperty("--_item-column-span", `${val}`);
+    }
+    connectedCallback() {
+      this.classList.add("grid");
+      this.colWidths = this._readColWidths();
+      setTimeout(() => {
+        this._applyColWidthsSpec();
+        this.removeAttribute("hidden-until-init");
+      });
+    }
+    /**
+     * Reads and parses the column widths from the "col-widths-{break}" attributes.
+     * @returns A map of breakpoint to column width.
+     */
+    _readColWidths() {
+      const attrs = readPrefixedAttributes(this, "col-widths-");
+      if (!attrs.size) {
+        return _BslibLayoutColumns.defaultColWidths();
+      }
+      const colWidths = /* @__PURE__ */ new Map();
+      const breaks = ["sm", "md", "lg", "xl", "xxl"];
+      const asColWidth = (val) => {
+        return ["null", "true", ""].includes(val) ? null : Array.from(val.split(",").map(Number));
+      };
+      breaks.forEach((breakName) => {
+        const attrBreak = `col-widths-${breakName}`;
+        const valueRaw = attrs.get(attrBreak);
+        if (typeof valueRaw !== "undefined") {
+          colWidths.set(breakName, asColWidth(valueRaw));
+          attrs.delete(attrBreak);
+        }
+      });
+      attrs.forEach((valueRaw, attrName) => {
+        colWidths.set(attrName.replace("col-widths-", ""), asColWidth(valueRaw));
+      });
+      return colWidths;
+    }
+    /**
+     * Given user-specified column widths, resolve the auto-fit breakpoints and
+     * then finalize the column width spec. If any auto-fit breakpoints are
+     * requested, this function needs to know the number of children in the
+     * layout, so it can determine the best-fit column widths.
+     *
+     * @returns The resolved column width specification.
+     */
+    _resolveColWidthsSpec() {
+      const colValuesNA = Array.from(this.colWidths.values()).map(isNA);
+      const all = (x2) => x2.every((val) => val === true);
+      const any = (x2) => x2.some((val) => val === true);
+      if (!any(colValuesNA)) {
+        return newBreakpointColumnSpec(this.colWidths);
+      }
+      const resolved = /* @__PURE__ */ new Map();
+      const allAutoFit = all(colValuesNA);
+      const units = allAutoFit ? null : 12;
+      const nChildren = this.children.length;
+      for (const [breakName, colWidth] of this.colWidths) {
+        if (colWidth === null) {
+          const preferWider = ["sm", "md"].includes(breakName);
+          const bestFit = bestFitColumnWidths(nChildren, preferWider, units);
+          if (allAutoFit) {
+            this.colUnits = bestFit.units;
+            if (bestFit.units !== 12) {
+              this.setFallbackItemSpan(bestFit.units > nChildren ? nChildren : 1);
+            }
+          }
+          resolved.set(breakName, bestFit.widths);
+        } else {
+          resolved.set(breakName, colWidth);
+        }
+      }
+      return newBreakpointColumnSpec(resolved);
+    }
+    /**
+     * Applies the column width specification to the children of the custom element.
+     */
+    _applyColWidthsSpec() {
+      if (!this.colWidthsSpec) {
+        this.colWidthsSpec = this._resolveColWidthsSpec();
+      }
+      if (!this.colWidthsSpec) {
+        throw new Error("Column widths must be specified.");
+      }
+      const children = this.children;
+      writeGridClasses(this.colWidthsSpec, children, this.colUnits);
+    }
+  };
+  var BslibLayoutColumns = _BslibLayoutColumns;
+  BslibLayoutColumns.tagName = "bslib-layout-columns";
+  BslibLayoutColumns.isShinyInput = false;
+  function bestFitColumnWidths(nItems, preferWider = false, units = null) {
+    const fit = { units, widths: [0] };
+    if (isNA(fit.units)) {
+      fit.units = nItems > 7 ? 12 : nItems > 3 ? nItems * 2 : nItems;
+      if (nItems < 4) {
+        fit.widths = [1];
+        return fit;
+      }
+      if (nItems <= 7) {
+        fit.widths = [preferWider ? nItems : 2];
+        return fit;
       }
     }
-  });
+    if (fit.units === 12) {
+      if (nItems <= 3) {
+        fit.widths = [[12, 6, 4][nItems - 1]];
+        return fit;
+      }
+      if (nItems === 5 || nItems === 7) {
+        fit.widths = [preferWider ? 4 : 3];
+        return fit;
+      }
+      if (nItems === 6) {
+        fit.widths = [preferWider ? 4 : 2];
+        return fit;
+      }
+    }
+    const fctrs = preferWider ? [6, 4, 3] : [2, 3, 4];
+    const unitsItems = fctrs.map((x2) => x2 * nItems);
+    const rows = unitsItems.map((val) => Math.ceil(val / 12));
+    const unitsTotal = rows.map((val) => val * 12);
+    const unitsEmpty = unitsTotal.map((val, idx) => val - unitsItems[idx]);
+    fit.widths = [fctrs[unitsEmpty.indexOf(Math.min(...unitsEmpty))]];
+    return fit;
+  }
+  function newBreakpointColumnSpec(breaks) {
+    if (!(breaks instanceof Map)) {
+      throw new Error("Column widths must be specified as a Map or an object.");
+    }
+    const spec = /* @__PURE__ */ new Map();
+    for (const [breakName, bk] of breaks) {
+      if (bk.some((val) => val === 0)) {
+        throw new Error(
+          "Column values must be greater than 0 to indicate width, or negative to indicate a column offset."
+        );
+      }
+      if (bk.length > 1 && bk.some((val) => isNaN(val))) {
+        throw new Error(
+          "Cannot mix widths and missing values. All column widths must be specified, or choose auto widths using a single `null` value."
+        );
+      }
+      if (bk.every((val) => isNA(val)) || bk.every((val) => val > 0)) {
+        spec.set(breakName, {
+          width: bk,
+          before: Array(bk.length).fill(0),
+          after: Array(bk.length).fill(0)
+        });
+        continue;
+      }
+      if (!bk.some((val) => val > 0)) {
+        throw new Error(
+          "Column values must include at least one positive integer width."
+        );
+      }
+      const idxActual = bk.map((val, idx) => val > 0 ? idx : -1).filter((idx) => idx !== -1);
+      const idxLastActual = Math.max(...idxActual);
+      const lenActual = idxActual.length;
+      const actual = idxActual.map((idx) => bk[idx]);
+      const before = Array(lenActual).fill(0);
+      const after = Array(lenActual).fill(0);
+      let i4 = 0;
+      let idxBefore = 0;
+      while (i4 < bk.length) {
+        if (bk[i4] > 0) {
+          idxBefore++;
+        } else if (i4 > idxLastActual) {
+          after[after.length - 1] += Math.abs(bk[i4]);
+        } else {
+          before[idxBefore] += Math.abs(bk[i4]);
+        }
+        i4++;
+      }
+      spec.set(breakName, {
+        width: actual,
+        before,
+        after
+      });
+    }
+    return spec;
+  }
+  function writeGridClasses(breaks, elements, unitsRow = 12) {
+    const nKids = elements.length;
+    function addClassToEl(idx, newClass) {
+      elements[idx].classList.add(newClass);
+    }
+    for (const [breakName, bk] of breaks) {
+      if (bk.width.length > nKids) {
+        const msg = `Truncating number of widths at '${breakName}' breakpoint to match number of elements.`;
+        console.warn(msg, { widths: bk.width.length, elements: nKids });
+      }
+      const widths = recycleToLength(bk.width, nKids);
+      const before = recycleToLength(bk.before, nKids);
+      const after = recycleToLength(bk.after, nKids);
+      let cursor = 0;
+      const updateCursor = (incr, isEmpty = false) => {
+        cursor = Math.abs(cursor);
+        let newCursor = cursor + incr;
+        if (newCursor == unitsRow) {
+          newCursor = 0;
+        }
+        if (newCursor > unitsRow) {
+          newCursor = isEmpty ? -1 * (newCursor % unitsRow) : incr;
+        }
+        cursor = newCursor;
+      };
+      for (let idx = 0; idx < nKids; idx++) {
+        let addStartClass = false;
+        const unitsMoveAhead = before[idx] + (idx > 0 ? after[idx - 1] : 0);
+        const unitsThisItem = Math.min(widths[idx], unitsRow);
+        let unitsRowRemaining = unitsRow - cursor;
+        if (unitsMoveAhead > 0) {
+          updateCursor(unitsMoveAhead, true);
+          if (cursor < 0) {
+            cursor = Math.abs(cursor);
+            if (widths[idx] > unitsRow - cursor) {
+              cursor = 0;
+            }
+            unitsRowRemaining = 0;
+          }
+          addStartClass = unitsRowRemaining >= widths[idx] || cursor > 0;
+        }
+        if (cursor > 0 && cursor + widths[idx] > unitsRow) {
+          addStartClass = true;
+          cursor = 0;
+        }
+        if (addStartClass) {
+          addClassToEl(
+            idx,
+            breakName === "xs" ? `g-start-${cursor + 1}` : `g-start-${breakName}-${cursor + 1}`
+          );
+        }
+        addClassToEl(
+          idx,
+          breakName === "xs" ? `g-col-${unitsThisItem}` : `g-col-${breakName}-${unitsThisItem}`
+        );
+        updateCursor(unitsThisItem, false);
+      }
+    }
+  }
+  function readPrefixedAttributes(el, prefix) {
+    const out = /* @__PURE__ */ new Map();
+    const attrNames = el.getAttributeNames().filter((name) => name.startsWith(prefix));
+    for (const attrName of attrNames) {
+      out.set(attrName, el.getAttribute(attrName));
+    }
+    return out;
+  }
+  function recycleToLength(arr, len) {
+    const newArr = Array(len).fill(0);
+    for (let i4 = 0; i4 < len; i4++) {
+      newArr[i4] = arr[i4 % arr.length];
+    }
+    return newArr;
+  }
+  function isNA(x2) {
+    if (x2 === null)
+      return true;
+    if (Array.isArray(x2) && x2.length === 1 && x2[0] === null)
+      return true;
+    return false;
+  }
+
+  // srcts/src/components/webcomponents/index.ts
+  [BslibTooltip, BslibPopover, BslibInputDarkMode, BslibLayoutColumns].forEach(
+    (cls) => {
+      customElements.define(cls.tagName, cls);
+      if (window.Shiny) {
+        if (cls.isShinyInput)
+          makeInputBinding(cls.tagName);
+        if ("shinyCustomMessageHandlers" in cls) {
+          shinyAddCustomMessageHandlers(cls["shinyCustomMessageHandlers"]);
+        }
+      }
+    }
+  );
 })();
 /*! Bundled license information:
 
