@@ -2,6 +2,12 @@
 
 * `layout_columns()` now always uses a 12-unit grid when the user provides an integer value to `col_widths` for any breakpoint. For example, `breakpoints(md = 3, lg = NA)` will pick a best-fitting layout for large screen sizes using the 12-column grid. Previously, the best fit algorithm might adjust the number of columns as a shortcut to an easy solution. That shortcut is only taken when an auto-fit layout is requested for every breakpoint, e.g. `col_widths = breakpoints(md = NA, lg = NA)` or `col_widths = NA`. (#928)
 
+* `layout_columns()` was rewritten in Typescript as a custom element to improve the portability of the component. (#931)
+
+* When `layout_columns()` is given a `row_heights` value that is not a `breakpoints()` object, that value is used for the row heights at all breakpoints. Previously, it was used for the row heights from `"sm"` up. (#931)
+
+* When `layout_columns()` is given a `col_widths` value with `breakpoints()` at `lg` or wider, it now uses a better default column width for the smaller breakpoints not listed in the `col_widths` value. That said, you can always include `sm` or `md` in your `breakpoints()` definition to have complete control over column widths at those sizes. (#931)
+
 * Fixed an issue where the page might be given a window title of `NA` if the primary `title` argument of a page function, such as `page_sidebar()`, is `NULL` or a suitable window title could not be inferred. (#933)
 
 # bslib 0.6.1
