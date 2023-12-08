@@ -356,7 +356,7 @@ row_heights_css_vars <- function(x) {
 
   css_vars <- setNames(x, paste0("--", classes))
 
-  if (idx_sm) {
+  if (!is.na(idx_sm)) {
     # xs doesn't need a specific breakpoint var, we just set the base CSS var
     names(css_vars)[idx_sm] <- "--bslib-grid--row-heights"
     # and as result we don't need a class to activate it.
