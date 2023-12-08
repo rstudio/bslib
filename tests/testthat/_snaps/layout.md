@@ -1,3 +1,86 @@
+# layout_columns() with col_widths
+
+    Code
+      layout_columns(col_widths = 6, !!!children)
+    Output
+      <div class="container-fluid">
+        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-md="6" data-require-bs-caller="layout_columns()" data-require-bs-version="5">
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+        </bslib-layout-columns>
+      </div>
+
+---
+
+    Code
+      layout_columns(col_widths = c(4, 8), !!!children)
+    Output
+      <div class="container-fluid">
+        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-md="4,8" data-require-bs-caller="layout_columns()" data-require-bs-version="5">
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+        </bslib-layout-columns>
+      </div>
+
+---
+
+    Code
+      layout_columns(col_widths = breakpoints(sm = 6, md = 4, lg = 3), !!!children)
+    Output
+      <div class="container-fluid">
+        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-lg="3" col-widths-md="4" col-widths-sm="6" data-require-bs-caller="layout_columns()" data-require-bs-version="5">
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+        </bslib-layout-columns>
+      </div>
+
+---
+
+    Code
+      layout_columns(col_widths = breakpoints(sm = NA, lg = c(4, 8)), !!!children)
+    Output
+      <div class="container-fluid">
+        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-lg="4,8" col-widths-sm data-require-bs-caller="layout_columns()" data-require-bs-version="5">
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+        </bslib-layout-columns>
+      </div>
+
+---
+
+    Code
+      layout_columns(col_widths = breakpoints(sm = NA, lg = c(4, -4, 4)), !!!children)
+    Condition
+      Warning:
+      More column widths than children at breakpoint 'lg', extra widths will be ignored.
+    Output
+      <div class="container-fluid">
+        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-lg="4,-4,4" col-widths-sm data-require-bs-caller="layout_columns()" data-require-bs-version="5">
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+          <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+            <div class="layout-column-child-element"></div>
+          </div>
+        </bslib-layout-columns>
+      </div>
+
 # grid_item_container()
 
     Code

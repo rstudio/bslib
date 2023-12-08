@@ -1,3 +1,29 @@
+test_that("layout_columns() with col_widths", {
+  children <- lapply(1:2, function(...) {
+    div(class = "layout-column-child-element")
+  })
+
+  expect_snapshot(
+    layout_columns(col_widths = 6, !!!children)
+  )
+
+  expect_snapshot(
+    layout_columns(col_widths = c(4, 8), !!!children)
+  )
+
+  expect_snapshot(
+    layout_columns(col_widths = breakpoints(sm = 6, md = 4, lg = 3), !!!children)
+  )
+
+  expect_snapshot(
+    layout_columns(col_widths = breakpoints(sm = NA, lg = c(4, 8)), !!!children)
+  )
+
+  expect_snapshot(
+    layout_columns(col_widths = breakpoints(sm = NA, lg = c(4, -4, 4)), !!!children)
+  )
+})
+
 test_that("grid_item_container()", {
   expect_snapshot(
     grid_item_container(

@@ -263,7 +263,6 @@ layout_columns <- function(
   tag <- web_component(
     "bslib-layout-columns",
     class = "bslib-grid grid bslib-mb-spacing",
-    "col-widths" = json_col_spec(col_spec),
     style = css(
       height = validateCssUnit(height),
       gap = validateCssUnit(gap),
@@ -274,6 +273,7 @@ layout_columns <- function(
     # it's here if we find there are cases where rendering the children and
     # adding classes takes longer than we've anticipated in our testing.
     # "hidden-until-init" = NA,
+    !!!col_widths_attrs(col_spec),
     !!!row_heights_css_vars(row_heights),
     !!!attribs,
     !!!children
@@ -326,15 +326,13 @@ as_col_spec <- function(col_widths, n_kids) {
   col_widths
 }
 
-json_col_spec <- function(col_widths) {
-  if (is.null(col_widths)) return(NULL)
+col_widths_attrs <- function(col_spec) {
+  if (is.null(col_spec)) return(NULL)
 
-  jsonlite::toJSON(
-    unclass(col_widths),
-    null = "null",
-    na = "null",
-    auto_unbox = FALSE
-  )
+  names(col_spec) <- paste0("col-widths-", names(col_spec))
+  lapply(col_spec, function(x) {
+    if (rlang::is_na(x)) NA else paste(x, collapse = ",")
+  })
 }
 
 maybe_fr_unit <- function(x) {

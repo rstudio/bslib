@@ -49,6 +49,17 @@ type BreakpointColumnSpec = Map<Breakpoint, BreakpointColumn>;
  * responsive grid classes, given input from the user about the desired column
  * widths. Column widths can be specified at individual breakpoints, or
  * determined automatically at runtime.
+ *
+ * @example
+ * ```html
+ * <bslib-layout-columns col-widths-sm="6" col-widths-md col-widths-lg="4,8">
+ *   <!-- children -->
+ * </bslib-layout-columns>
+ * ```
+ *
+ * This example uses column widths of 6 units on `sm` screens and 4 and 8 units
+ * on `lg` screens. `col-widths-md` is equivalent to `col-widths-md="null"` or
+ * `col-widths-md="true"`, which means auto-fit items at the `md` breakpoint.
  */
 export class BslibLayoutColumns extends HTMLElement {
   static tagName = "bslib-layout-columns";
@@ -107,9 +118,7 @@ export class BslibLayoutColumns extends HTMLElement {
 
     // Read and parse the column widths (the user's unresolved input)
     this.colWidths = this._readColWidths();
-    // We don't observe or reflect the attribute, and it could be an arbitrarily
-    // big JSON string, so remove it
-    this.removeAttribute("col-widths");
+    // TODO: allow updated attributes to flow through to new column widths spec
 
     // Connected callback is called before children are added to the DOM, so we
     // need to wait for the next tick to apply the column widths.
@@ -120,33 +129,38 @@ export class BslibLayoutColumns extends HTMLElement {
   }
 
   /**
-   * Reads and parses the column widths from the "col-widths" attribute.
+   * Reads and parses the column widths from the "col-widths-{break}" attributes.
    * @returns A map of breakpoint to column width.
    */
   private _readColWidths(): BreakpointMap {
-    const attr = this.getAttribute("col-widths");
-    if (!attr) {
-      return BslibLayoutColumns.defaultColWidths();
-    }
+    const attrs = readPrefixedAttributes(this, "col-widths-");
 
-    let x = JSON.parse(attr);
-    if (Array.isArray(x)) {
-      x = { md: x };
+    if (!attrs.size) {
+      return BslibLayoutColumns.defaultColWidths();
     }
 
     const colWidths = new Map();
     const breaks = ["sm", "md", "lg", "xl", "xxl"];
 
+    const asColWidth = (val: string): number[] | null => {
+      return ["null", "true", ""].includes(val as string)
+        ? null
+        : Array.from(val.split(",").map(Number));
+    };
+
     // Assign known bootstrap breakpoints in order
     breaks.forEach((breakName) => {
-      if (x[breakName]) {
-        colWidths.set(breakName, isNA(x[breakName]) ? null : x[breakName]);
-        delete x[breakName];
+      const attrBreak = `col-widths-${breakName}`;
+      const valueRaw = attrs.get(attrBreak);
+
+      if (typeof valueRaw !== "undefined") {
+        colWidths.set(breakName, asColWidth(valueRaw));
+        attrs.delete(attrBreak);
       }
     });
     // Plus any remaining breakpoints
-    Object.keys(x).forEach((breakName) => {
-      colWidths.set(breakName, isNA(x[breakName]) ? null : x[breakName]);
+    attrs.forEach((valueRaw, attrName) => {
+      colWidths.set(attrName.replace("col-widths-", ""), asColWidth(valueRaw));
     });
 
     return colWidths;
@@ -527,6 +541,29 @@ function writeGridClasses(
       updateCursor(unitsThisItem, false);
     }
   }
+}
+
+/**
+ * Read all attributes from an element that start with a given prefix.
+ *
+ * @param el The element to read attributes from.
+ * @param prefix The prefix to match.
+ * @returns A map of attribute name to attribute value.
+ */
+function readPrefixedAttributes(
+  el: HTMLElement,
+  prefix: string
+): Map<string, string> {
+  const out = new Map();
+  const attrNames = el
+    .getAttributeNames()
+    .filter((name) => name.startsWith(prefix));
+
+  for (const attrName of attrNames) {
+    out.set(attrName, el.getAttribute(attrName));
+  }
+
+  return out;
 }
 
 /**

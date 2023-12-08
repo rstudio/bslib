@@ -1761,35 +1761,35 @@
     connectedCallback() {
       this.classList.add("grid");
       this.colWidths = this._readColWidths();
-      this.removeAttribute("col-widths");
       setTimeout(() => {
         this._applyColWidthsSpec();
         this.removeAttribute("hidden-until-init");
       });
     }
     /**
-     * Reads and parses the column widths from the "col-widths" attribute.
+     * Reads and parses the column widths from the "col-widths-{break}" attributes.
      * @returns A map of breakpoint to column width.
      */
     _readColWidths() {
-      const attr = this.getAttribute("col-widths");
-      if (!attr) {
+      const attrs = readPrefixedAttributes(this, "col-widths-");
+      if (!attrs.size) {
         return _BslibLayoutColumns.defaultColWidths();
-      }
-      let x2 = JSON.parse(attr);
-      if (Array.isArray(x2)) {
-        x2 = { md: x2 };
       }
       const colWidths = /* @__PURE__ */ new Map();
       const breaks = ["sm", "md", "lg", "xl", "xxl"];
+      const asColWidth = (val) => {
+        return ["null", "true", ""].includes(val) ? null : Array.from(val.split(",").map(Number));
+      };
       breaks.forEach((breakName) => {
-        if (x2[breakName]) {
-          colWidths.set(breakName, isNA(x2[breakName]) ? null : x2[breakName]);
-          delete x2[breakName];
+        const attrBreak = `col-widths-${breakName}`;
+        const valueRaw = attrs.get(attrBreak);
+        if (typeof valueRaw !== "undefined") {
+          colWidths.set(breakName, asColWidth(valueRaw));
+          attrs.delete(attrBreak);
         }
       });
-      Object.keys(x2).forEach((breakName) => {
-        colWidths.set(breakName, isNA(x2[breakName]) ? null : x2[breakName]);
+      attrs.forEach((valueRaw, attrName) => {
+        colWidths.set(attrName.replace("col-widths-", ""), asColWidth(valueRaw));
       });
       return colWidths;
     }
@@ -1994,6 +1994,14 @@
         updateCursor(unitsThisItem, false);
       }
     }
+  }
+  function readPrefixedAttributes(el, prefix) {
+    const out = /* @__PURE__ */ new Map();
+    const attrNames = el.getAttributeNames().filter((name) => name.startsWith(prefix));
+    for (const attrName of attrNames) {
+      out.set(attrName, el.getAttribute(attrName));
+    }
+    return out;
   }
   function recycleToLength(arr, len) {
     const newArr = Array(len).fill(0);
