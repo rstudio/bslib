@@ -24,6 +24,23 @@ test_that("layout_columns() with col_widths", {
   )
 })
 
+test_that("layout_columns() without `col_widths`", {
+  expect_no_match(
+    format(layout_columns(div())),
+    "col-widths-"
+  )
+
+  expect_no_match(
+    format(layout_columns(div(), col_widths = NULL)),
+    "col-widths-"
+  )
+
+  expect_no_match(
+    format(layout_columns(div(), col_widths = list(NA))),
+    "col-widths-"
+  )
+})
+
 test_that("grid_item_container()", {
   expect_snapshot(
     grid_item_container(
