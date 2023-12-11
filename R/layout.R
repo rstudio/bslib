@@ -288,7 +288,7 @@ layout_columns <- function(
 }
 
 as_col_spec <- function(col_widths, n_kids) {
-  if (is.null(col_widths)) return(NULL)
+  if (is.null(col_widths) || rlang::is_na(col_widths)) return(NULL)
 
   if (!is_breakpoints(col_widths)) {
     col_widths <- breakpoints(md = col_widths)
@@ -327,7 +327,7 @@ as_col_spec <- function(col_widths, n_kids) {
 }
 
 col_widths_attrs <- function(col_spec) {
-  if (is.null(col_spec)) return(NULL)
+  if (is.null(col_spec) || rlang::is_na(col_spec)) return(NULL)
 
   names(col_spec) <- paste0("col-widths-", names(col_spec))
   lapply(col_spec, function(x) {
