@@ -33,16 +33,9 @@ input_task_button <- function(id, label, icon = NULL,
   busy_label = "Processing...", busy_icon = icon_spinner(), type = "primary",
   ...) {
 
-  if (missing(type)) {
-    type <- "primary"
-  }
-  btn_class <- if (!is.null(type)) {
-    paste0("btn btn-", type)
-  }
-
   tags$button(
     id = id,
-    class = btn_class,
+    class = if (!is.null(type)) paste0("btn btn-", type),
     class = "bslib-task-button",
     type = "button",
 
