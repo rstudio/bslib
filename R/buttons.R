@@ -1,27 +1,3 @@
-button_spec <- function(label, icon, disabled = c(FALSE, TRUE)) {
-  structure(
-    list(label = label, icon = icon, disabled = disabled),
-    class = c("button_spec", "list")
-  )
-}
-
-apply_button_spec <- function(status, value, defaults, ...) {
-  if (is.character(value) || is.null(value)) {
-    value <- list(label = value)
-  }
-  resolved <- defaults
-  resolved[names(value)] <- value
-
-  tagList(
-    tags$span(slot=paste0(status, "-icon"),
-      resolved[["icon"]]
-    ),
-    tags$span(slot=paste0(status, "-label"),
-      resolved[["label"]]
-    )
-  )
-}
-
 #' Button for launching longer-running operations
 #'
 #' `input_task_button` is a button whose value is initially zero, and increments
