@@ -55,7 +55,7 @@
     Output
       <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;">
         <h1 class="bslib-page-title">Title</h1>
-        <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-collapsible-desktop="true" data-collapsible-mobile="true" data-open-desktop="open" data-open-mobile="closed" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--_sidebar-width:250px;">
+        <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-collapsible-desktop="true" data-collapsible-mobile="false" data-open-desktop="open" data-open-mobile="always" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--_sidebar-width:250px;">
           <div class="main bslib-gap-spacing html-fill-container">main</div>
           <aside id="bslib-sidebar-4785" class="sidebar" hidden>
             <div class="sidebar-content bslib-gap-spacing">side</div>
