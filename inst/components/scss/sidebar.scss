@@ -291,6 +291,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
 
 @include media-breakpoint-up(sm) {
   .bslib-sidebar-layout[data-collapsible-desktop="false"] {
+    --_padding-icon: var(--_padding);
+
     > .collapse-toggle {
       display: none;
     }
