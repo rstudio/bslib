@@ -124,6 +124,7 @@ Collate:
     'bs-theme-update.R'
     'bs-theme.R'
     'bslib-package.R'
+    'buttons.R'
     'card.R'
     'deprecated.R'
     'files.R'
