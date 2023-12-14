@@ -663,6 +663,12 @@
          * @param {HTMLElement} container
          */
         constructor(container) {
+          /**
+           * The current window size, either `"desktop"` or `"mobile"`.
+           * @private
+           * @type {SidebarWindowSize | ""}
+           */
+          this.windowSize = "";
           var _a;
           _Sidebar.instanceMap.set(container, this);
           this.layout = {
@@ -680,11 +686,9 @@
             (_a = sideAccordion == null ? void 0 : sideAccordion.parentElement) == null ? void 0 : _a.classList.add("has-accordion");
             sideAccordion.classList.add("accordion-flush");
           }
-          if (this.layout.toggle) {
-            this._initEventListeners();
-            this._initSidebarCounters();
-            this._initDesktop();
-          }
+          this._initEventListeners();
+          this._initSidebarCounters();
+          this._initSidebarState();
           _Sidebar.shinyResizeObserver.observe(this.layout.main);
           container.removeAttribute("data-bslib-sidebar-init");
           const initScript = container.querySelector(
@@ -760,13 +764,19 @@
          * @private
          */
         _initEventListeners() {
-          var _a;
-          const { toggle } = this.layout;
+          var _a, _b, _c;
+          const { container, toggle } = this.layout;
           toggle.addEventListener("click", (ev) => {
             ev.preventDefault();
             this.toggle("toggle");
           });
           (_a = toggle.querySelector(".collapse-icon")) == null ? void 0 : _a.addEventListener("transitionend", () => this._finalizeState());
+          const isCollapsibleDesktop = ((_b = container.dataset.collapsibleDesktop) == null ? void 0 : _b.trim()) === "true";
+          const isCollapsibleMobile = ((_c = container.dataset.collapsibleMobile) == null ? void 0 : _c.trim()) === "true";
+          if (isCollapsibleDesktop && isCollapsibleMobile) {
+            return;
+          }
+          window.addEventListener("resize", () => this._handleWindowResizeEvent());
         }
         /**
          * Initialize nested sidebar counters.
@@ -814,18 +824,47 @@
           });
         }
         /**
+         * Retrieves the current window size by reading a CSS variable whose value is
+         * toggled via media queries.
+         * @returns The window size as `"desktop"` or `"mobile"`, or `""` if not
+         * available.
+         */
+        _getWindowSize() {
+          const { container } = this.layout;
+          return window.getComputedStyle(container).getPropertyValue("--bslib-sidebar-js-window-size").trim();
+        }
+        /**
          * Initialize the sidebar's initial state when `open = "desktop"`.
          * @private
          */
-        _initDesktop() {
-          var _a;
+        _initSidebarState() {
+          var _a, _b;
           const { container } = this.layout;
-          if (((_a = container.dataset.bslibSidebarOpen) == null ? void 0 : _a.trim()) !== "desktop") {
+          const initDesktop = (_a = container.dataset.openDesktop) == null ? void 0 : _a.trim();
+          const initMobile = (_b = container.dataset.openMobile) == null ? void 0 : _b.trim();
+          if (initDesktop === initMobile) {
             return;
           }
-          const initCollapsed = window.getComputedStyle(container).getPropertyValue("--bslib-sidebar-js-init-collapsed");
-          const initState = initCollapsed.trim() === "true" ? "close" : "open";
+          this.windowSize = this._getWindowSize();
+          const initAttr = this.windowSize === "desktop" ? initDesktop : initMobile;
+          if (!initAttr) {
+            this.toggle("open", true);
+            return;
+          }
+          const initState = initAttr === "always" ? "open" : initAttr;
           this.toggle(initState, true);
+        }
+        /**
+         * Updates the sidebar state when the window is resized across the mobile-
+         * desktop boundary.
+         */
+        _handleWindowResizeEvent() {
+          const newSize = this._getWindowSize();
+          if (!newSize || newSize == this.windowSize) {
+            return;
+          }
+          this.windowSize = newSize;
+          this._initSidebarState();
         }
         /**
          * Toggle the sidebar's open/closed state.
