@@ -20,6 +20,11 @@ type SidebarMessageData = {
 };
 
 /**
+ * Represents the size of the sidebar window either: "desktop" or "mobile".
+ */
+type SidebarWindowSize = "desktop" | "mobile";
+
+/**
  * The DOM elements that make up the sidebar. `main`, `sidebar`, and `toggle`
  * are all direct children of `container` (in that order).
  * @interface SidebarComponents
@@ -65,6 +70,13 @@ class Sidebar {
   private layout: SidebarComponents;
 
   /**
+   * The current window size, either `"desktop"` or `"mobile"`.
+   * @private
+   * @type {SidebarWindowSize | ""}
+   */
+  private windowSize: SidebarWindowSize | "" = "";
+
+  /**
    * A Shiny-specific resize observer that ensures Shiny outputs in the main
    * content areas of the sidebar resize appropriately.
    * @private
@@ -98,11 +110,9 @@ class Sidebar {
       sideAccordion.classList.add("accordion-flush");
     }
 
-    if (this.layout.toggle) {
-      this._initEventListeners();
-      this._initSidebarCounters();
-      this._initDesktop();
-    }
+    this._initEventListeners();
+    this._initSidebarCounters();
+    this._initSidebarState();
 
     // Start watching the main content area for size changes to ensure Shiny
     // outputs resize appropriately during sidebar transitions.
@@ -221,7 +231,7 @@ class Sidebar {
    * @private
    */
   private _initEventListeners(): void {
-    const { toggle } = this.layout;
+    const { container, toggle } = this.layout;
 
     toggle.addEventListener("click", (ev) => {
       ev.preventDefault();
@@ -235,6 +245,19 @@ class Sidebar {
     toggle
       .querySelector(".collapse-icon")
       ?.addEventListener("transitionend", () => this._finalizeState());
+
+    const isCollapsibleDesktop =
+      container.dataset.collapsibleDesktop?.trim() === "true";
+    const isCollapsibleMobile =
+      container.dataset.collapsibleMobile?.trim() === "true";
+
+    if (isCollapsibleDesktop && isCollapsibleMobile) {
+      return;
+    }
+
+    // The sidebar is *sometimes* collapsible, so we need to handle window
+    // resize events to ensure visibility and expected behavior.
+    window.addEventListener("resize", () => this._handleWindowResizeEvent());
   }
 
   /**
@@ -298,23 +321,60 @@ class Sidebar {
   }
 
   /**
+   * Retrieves the current window size by reading a CSS variable whose value is
+   * toggled via media queries.
+   * @returns The window size as `"desktop"` or `"mobile"`, or `""` if not
+   * available.
+   */
+  private _getWindowSize(): SidebarWindowSize | "" {
+    const { container } = this.layout;
+
+    return window
+      .getComputedStyle(container)
+      .getPropertyValue("--bslib-sidebar-js-window-size")
+      .trim() as SidebarWindowSize | "";
+  }
+
+  /**
    * Initialize the sidebar's initial state when `open = "desktop"`.
    * @private
    */
-  private _initDesktop(): void {
+  private _initSidebarState(): void {
     const { container } = this.layout;
-    // If sidebar is marked open='desktop'...
-    if (container.dataset.bslibSidebarOpen?.trim() !== "desktop") {
+
+    const initDesktop = container.dataset.openDesktop?.trim();
+    const initMobile = container.dataset.openMobile?.trim();
+
+    // If initial states are identical, the markup is correct
+    if (initDesktop === initMobile) {
       return;
     }
 
-    // then close sidebar on mobile
-    const initCollapsed = window
-      .getComputedStyle(container)
-      .getPropertyValue("--bslib-sidebar-js-init-collapsed");
+    // Check the CSS variable to find out which mode we're in right now
+    this.windowSize = this._getWindowSize();
 
-    const initState = initCollapsed.trim() === "true" ? "close" : "open";
-    this.toggle(initState, true);
+    const initAttr = this.windowSize === "desktop" ? initDesktop : initMobile;
+    if (!initAttr) {
+      this.toggle("open", true);
+      return;
+    }
+
+    const initState = initAttr === "always" ? "open" : initAttr;
+    this.toggle(initState as SidebarToggleMethod, true);
+  }
+
+  /**
+   * Updates the sidebar state when the window is resized across the mobile-
+   * desktop boundary.
+   */
+  private _handleWindowResizeEvent(): void {
+    const newSize = this._getWindowSize();
+    if (!newSize || newSize == this.windowSize) {
+      return;
+    }
+
+    this.windowSize = newSize;
+    this._initSidebarState();
   }
 
   /**
