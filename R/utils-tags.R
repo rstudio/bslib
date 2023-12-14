@@ -1,3 +1,14 @@
+render_as_tags <- function(x, ...) {
+  UseMethod("render_as_tags", x)
+}
+
+#' @export
+render_as_tags.default <- function(x, ...) {
+  rlang::abort(paste(
+    "Don't know how to render_as_tags() for object of class ", class(x)[1]
+  ))
+}
+
 tag_require <- function(tag, version = version_default(), caller = "") {
   tagAddRenderHook(
     tag, replace = FALSE,

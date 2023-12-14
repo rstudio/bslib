@@ -22,71 +22,76 @@ test_that("sidebar(open = 'always') doesn't include the collapse toggle", {
 })
 
 test_that("sidebar() - assigns input binding class if `id` is provided", {
-  my_sidebar <- sidebar(id = "my-id")
+  my_sidebar <- render_as_tags(sidebar(id = "my-id", open = sidebar_open_on()))
 
   expect_match(
-    htmltools::tagGetAttribute(my_sidebar$tag, "class"),
+    htmltools::tagGetAttribute(my_sidebar$sidebar, "class"),
     "bslib-sidebar-input"
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(my_sidebar$tag, "id"),
+    htmltools::tagGetAttribute(my_sidebar$sidebar, "id"),
     "my-id"
   )
 })
 
 test_that("sidebar() - assigns a random `id` if collapsible and `id` not provided", {
-  sidebar_open <- sidebar(open = "open")
+  sidebar_open <- render_as_tags(sidebar(open = "open"))
+
   expect_match(
-    htmltools::tagGetAttribute(sidebar_open$tag, "id"),
+    htmltools::tagGetAttribute(sidebar_open$sidebar, "id"),
     "bslib-sidebar-\\d+"
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(sidebar_open$collapse_tag, "aria-controls"),
-    htmltools::tagGetAttribute(sidebar_open$tag, "id")
+    htmltools::tagGetAttribute(sidebar_open$collapse, "aria-controls"),
+    htmltools::tagGetAttribute(sidebar_open$sidebar, "id")
   )
 
-  sidebar_closed <- sidebar(open = "closed")
+  sidebar_closed <- render_as_tags(sidebar(open = "closed"))
   expect_match(
-    htmltools::tagGetAttribute(sidebar_closed$tag, "id"),
+    htmltools::tagGetAttribute(sidebar_closed$sidebar, "id"),
     "bslib-sidebar-\\d+"
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(sidebar_closed$collapse_tag, "aria-controls"),
-    htmltools::tagGetAttribute(sidebar_closed$tag, "id")
+    htmltools::tagGetAttribute(sidebar_closed$collapse, "aria-controls"),
+    htmltools::tagGetAttribute(sidebar_closed$sidebar, "id")
   )
 
-  sidebar_desktop <- sidebar(open = "desktop")
+  sidebar_desktop <- render_as_tags(sidebar(open = "desktop"))
   expect_match(
-    htmltools::tagGetAttribute(sidebar_desktop$tag, "id"),
+    htmltools::tagGetAttribute(sidebar_desktop$sidebar, "id"),
     "bslib-sidebar-\\d+"
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(sidebar_desktop$collapse_tag, "aria-controls"),
-    htmltools::tagGetAttribute(sidebar_desktop$tag, "id")
+    htmltools::tagGetAttribute(sidebar_desktop$collapse, "aria-controls"),
+    htmltools::tagGetAttribute(sidebar_desktop$sidebar, "id")
   )
 
   expect_null(
-    htmltools::tagGetAttribute(sidebar(open = "always")$tag, "id")
+    htmltools::tagGetAttribute(sidebar(open = "always")$sidebar, "id")
   )
 })
 
 test_that("sidebar() - sets `aria-expanded` correctly on collapse toggle", {
+  get_sidebar_collapse_tag <- function(...) {
+    render_as_tags(sidebar(...))$collapse
+  }
+
   expect_equal(
-    htmltools::tagGetAttribute(sidebar(open = "open")$collapse_tag, "aria-expanded"),
+    htmltools::tagGetAttribute(get_sidebar_collapse_tag(open = "open"), "aria-expanded"),
     "true"
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(sidebar(open = "closed")$collapse_tag, "aria-expanded"),
+    htmltools::tagGetAttribute(get_sidebar_collapse_tag(open = "closed"), "aria-expanded"),
     "false"
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(sidebar(open = "desktop")$collapse_tag, "aria-expanded"),
+    htmltools::tagGetAttribute(get_sidebar_collapse_tag(open = "desktop"), "aria-expanded"),
     "true"
   )
 })
@@ -115,11 +120,11 @@ test_that("sidebar() - throws an error for invalid `open` values", {
 
 test_that("sidebar() - warns if `max_height_mobile` used with `open != 'always'", {
   expect_warning(
-    sidebar(open = "open", max_height_mobile = "100px")
+    render_as_tags(sidebar(open = "open", max_height_mobile = "100px"))
   )
 
   expect_silent(
-    sidebar(open = "always", max_height_mobile = "100px")
+    render_as_tags(sidebar(open = "always", max_height_mobile = "100px"))
   )
 })
 
