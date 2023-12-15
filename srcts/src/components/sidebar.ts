@@ -110,7 +110,15 @@ class Sidebar {
       sideAccordion.classList.add("accordion-flush");
     }
 
-    this._initEventListeners();
+    const isCollapsibleDesktop =
+      container.dataset.collapsibleDesktop?.trim() === "true";
+    const isCollapsibleMobile =
+      container.dataset.collapsibleMobile?.trim() === "true";
+
+    if (isCollapsibleDesktop || isCollapsibleMobile) {
+      this._initEventListeners();
+    }
+
     this._initSidebarCounters();
     this._initSidebarState();
 

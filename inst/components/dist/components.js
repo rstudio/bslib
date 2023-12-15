@@ -669,7 +669,7 @@
            * @type {SidebarWindowSize | ""}
            */
           this.windowSize = "";
-          var _a;
+          var _a, _b, _c;
           _Sidebar.instanceMap.set(container, this);
           this.layout = {
             container,
@@ -686,7 +686,11 @@
             (_a = sideAccordion == null ? void 0 : sideAccordion.parentElement) == null ? void 0 : _a.classList.add("has-accordion");
             sideAccordion.classList.add("accordion-flush");
           }
-          this._initEventListeners();
+          const isCollapsibleDesktop = ((_b = container.dataset.collapsibleDesktop) == null ? void 0 : _b.trim()) === "true";
+          const isCollapsibleMobile = ((_c = container.dataset.collapsibleMobile) == null ? void 0 : _c.trim()) === "true";
+          if (isCollapsibleDesktop || isCollapsibleMobile) {
+            this._initEventListeners();
+          }
           this._initSidebarCounters();
           this._initSidebarState();
           _Sidebar.shinyResizeObserver.observe(this.layout.main);
