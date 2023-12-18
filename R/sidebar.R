@@ -45,8 +45,11 @@
 #'   * `"closed"` or `FALSE`: The sidebar starts closed.
 #'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
 #'
-#'   Alternatively, you can use `sidebar_open_on()` to set the initial sidebar
-#'   state independently for `desktop` and `mobile` screen sizes.
+#'   Alternatively, you can use a list with `desktop` or `mobile` items to set
+#'   the initial sidebar state independently for `desktop` and `mobile` screen
+#'   sizes. In this case, `desktop` or `mobile` can use any of the above options
+#'   except `"desktop"`, which is equivalent to
+#'   `list(desktop = "open", mobile = "always")`.
 #'
 #'   In `sidebar_toggle()`, `open` indicates the desired state of the sidebar,
 #'   where the default of `open = NULL` will cause the sidebar to be toggled
@@ -104,29 +107,7 @@ sidebar <- function(
   max_height_mobile  <- validateCssUnit(max_height_mobile)
 
   if (!is.null(open)) {
-    if (!inherits(open, "bslib_sidebar_open_options")) {
-      open <- rlang::try_fetch(
-        sidebar_open_as_string(open, extra = "desktop"),
-        error = function(err) {
-          msg <- sprintf(
-            "`open` must be a character string, a boolean, or the result of `sidebar_open_on()`, not %s.",
-            rlang::expr_text(open)
-          )
-
-          rlang::abort(
-            c(msg, "i" = 'Character options include "open", "closed", "always" or "desktop".'),
-            call = err$call
-          )
-        }
-      )
-
-      open <-
-        if (identical(open, "desktop")) {
-          sidebar_open_on("open", "closed")
-        } else {
-          sidebar_open_on(open, open)
-        }
-    }
+    open <- as_sidebar_open_on(open)
   }
 
   if (!is.null(id)) {
@@ -242,11 +223,47 @@ as.tags.bslib_sidebar <- function(x, ...) {
   htmltools::tagList(sidebar_tag, collapse_tag)
 }
 
-#' @rdname sidebar
+as_sidebar_open_on <- function(open) {
+  if (is.null(open)) return(NULL)
+  if (rlang::is_na(open)) open <- "always"
+  if (isTRUE(open)) open <- "open"
+  if (isFALSE(open)) open <- "closed"
+
+  if (rlang::is_character(open)) {
+    open <- sidebar_open_as_string(open, extra = "desktop", rlang::caller_env())
+    if (identical(open, "desktop")) {
+      return(sidebar_open_on("open", "always"))
+    }
+    return(sidebar_open_on(open, open))
+  }
+
+  if (rlang::is_list(open)) {
+    unknown <- setdiff(names(open), c("desktop", "mobile"))
+    if (length(unknown)) {
+      rlang::warn(
+        paste(
+          "Ignoring unknown items in `open` options list:",
+          paste0('"', unknown, '"', collapse = ", ")
+        ),
+      )
+    }
+    return(sidebar_open_on(open[["desktop"]], open[["mobile"]]))
+  }
+
+  msg <- sprintf(
+    "`open` must be a character string, a boolean, or the result of `sidebar_open_on()`, not %s.",
+    rlang::expr_text(open)
+  )
+
+  rlang::abort(
+    c(msg, "i" = 'Character options include "open", "closed", "always" or "desktop".'),
+    call = rlang::caller_call()
+  )
+}
+
 #' @param desktop,mobile The initial state of the sidebar on desktop or mobile
 #'   screen sizes. Can be one of `"open"` (or `TRUE`), `"closed"` (or `FALSE`),
 #'   or `"always"` (or `NA`).
-#' @export
 sidebar_open_on <- function(
   desktop = c("open", "closed", "always"),
   mobile = c("closed", "open", "always")
