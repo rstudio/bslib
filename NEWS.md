@@ -10,6 +10,8 @@
 
 * Fixed an issue where the page might be given a window title of `NA` if the primary `title` argument of a page function, such as `page_sidebar()`, is `NULL` or a suitable window title could not be inferred. (#933)
 
+* `as_fillable_container()`, `as_fill_item()` and `as_fill_carrier()` now always include the htmltools fill CSS dependency. (#946)
+
 # bslib 0.6.1
 
 ## Bug fixes
