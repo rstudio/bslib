@@ -166,12 +166,22 @@ sidebar <- function(
     children = dots$children
   )
 
-  class(res) <- c("sidebar", class(res))
+  class(res) <- c("bslib_sidebar", "sidebar", class(res))
   res
 }
 
+#' Render a sidebar as HTML tags
+#'
+#' Renders the sidebar element and collapse toggle elements for a [sidebar()] in
+#' a [layout_sidebar()] context.
+#'
+#' @param x A [sidebar()] object.
+#' @param ... Additional arguments passed to [htmltools::as.tags()].
+#'
+#' @importFrom htmltools as.tags
+#' @keywords internal
 #' @export
-render_as_tags.sidebar <- function(x, ...) {
+as.tags.bslib_sidebar <- function(x, ...) {
   if (!inherits(x$open, "bslib_sidebar_open_options")) {
     # Users shouldn't arrive here, just internal code. If we're here, it's an
     # internal error we need to fix: the render method shouldn't make changes
@@ -229,7 +239,7 @@ render_as_tags.sidebar <- function(x, ...) {
     )
   )
 
-  list(collapse = collapse_tag, sidebar = sidebar_tag)
+  htmltools::tagList(sidebar_tag, collapse_tag)
 }
 
 #' @rdname sidebar
@@ -330,9 +340,9 @@ layout_sidebar <- function(
   )
 
   main <- bindFillRole(main, container = fillable)
-  sb_tags <- render_as_tags(sidebar)
+  sb_tags <- as.tags(sidebar)
 
-  contents <- list(main, sb_tags$sidebar, sb_tags$collapse)
+  contents <- list(main, sb_tags)
 
   right <- identical(sidebar$position, "right")
 
