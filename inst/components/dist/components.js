@@ -710,11 +710,10 @@
          * The sidebar state works as follows, starting from the open state. When the
          * sidebar is closed:
          * 1. We add both the `COLLAPSE` and `TRANSITIONING` classes to the sidebar.
-         * 2. The sidebar collapse begins to animate. On desktop devices, and where it
-         *    is supported, we transition the `grid-template-columns` property of the
-         *    sidebar layout. On mobile, the sidebar is hidden immediately. In both
-         *    cases, the collapse icon rotates and we use this rotation to determine
-         *    when the transition is complete.
+         * 2. The sidebar collapse begins to animate. In general,  where it is
+         *    supported, we transition the `grid-template-columns` property of the
+         *    sidebar layout. We also rotate the collapse icon and we use this
+         *    rotation to determine when the transition is complete.
          * 3. If another sidebar state toggle is requested while closing the sidebar,
          *    we remove the `COLLAPSE` class and the animation immediately starts to
          *    reverse.
