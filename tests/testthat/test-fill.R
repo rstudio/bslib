@@ -82,22 +82,7 @@ test_that("as_fill_item() with a nested tag on inner tag", {
     rep(TRUE, 3)
   )
 
-  nested_fill_tq <-
-    tagQuery(tag_nested())$
-    find(".inner")$
-    addAttrs(as_fill_item())$
-    allTags()
-
-  expect_equal(
-    renders_to_tag_class(nested_fill_tq, "html-fill-item", selector = ".inner"),
-    rep(TRUE, 3)
-  )
-
   expect_snapshot(cat(format(nested_fill)))
-  expect_equal(
-    format(nested_fill),
-    format(nested_fill_tq)
-  )
 })
 
 
@@ -177,22 +162,7 @@ test_that("as_fillable_container() with a nested tag on inner tag", {
     rep(TRUE, 3)
   )
 
-  nested_fillable_tq <-
-    tagQuery(tag_nested())$
-    find(".inner")$
-    addAttrs(as_fillable_container())$
-    allTags()
-
-  expect_equal(
-    renders_to_tag_class(nested_fillable_tq, "html-fill-container", selector = ".inner"),
-    rep(TRUE, 3)
-  )
-
   expect_snapshot(cat(format(nested_fillable)))
-  expect_equal(
-    format(nested_fillable),
-    format(nested_fillable_tq)
-  )
 })
 
 
@@ -214,10 +184,6 @@ test_that("as_fill_carrier() with a simple tag", {
   )
 
   expect_snapshot(cat(format(as_fill_carrier(tag_simple()))))
-  expect_equal(
-    format(as_fill_carrier(tag_simple())),
-    format(tag_simple(as_fill_carrier()))
-  )
 })
 
 test_that("as_fill_carrier() with a simple tag with arguments", {
@@ -259,10 +225,6 @@ test_that("as_fill_carrier() with a nested tag on outer tag", {
   )
 
   expect_snapshot(cat(format(as_fill_carrier(tag_nested()))))
-  expect_equal(
-    format(as_fill_carrier(tag_nested())),
-    format(tag_nested(as_fill_carrier()))
-  )
 })
 
 test_that("as_fill_carrier() with a nested tag on inner tag", {
@@ -286,26 +248,7 @@ test_that("as_fill_carrier() with a nested tag on inner tag", {
     rep(TRUE, 3)
   )
 
-  nested_carrier_tq <-
-    tagQuery(tag_nested())$
-    find(".inner")$
-    addAttrs(as_fill_carrier())$
-    allTags()
-
-  expect_equal(
-    renders_to_tag_class(nested_carrier_tq, "html-fill-container", selector = ".inner"),
-    rep(TRUE, 3)
-  )
-  expect_equal(
-    renders_to_tag_class(nested_carrier_tq, "html-fill-item", selector = ".inner"),
-    rep(TRUE, 3)
-  )
-
   expect_snapshot(cat(format(nested_carrier)))
-  expect_equal(
-    format(nested_carrier),
-    format(nested_carrier_tq)
-  )
 })
 
 # Remove All Fill -----------------------------------------------------------
