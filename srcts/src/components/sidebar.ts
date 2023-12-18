@@ -103,17 +103,12 @@ class Sidebar {
       sideAccordion.classList.add("accordion-flush");
     }
 
-    const isCollapsibleDesktop =
-      container.dataset.collapsibleDesktop?.trim() === "true";
-    const isCollapsibleMobile =
-      container.dataset.collapsibleMobile?.trim() === "true";
-
-    if (isCollapsibleDesktop || isCollapsibleMobile) {
-      this._initEventListeners();
-    }
-
     this._initSidebarCounters();
     this._initSidebarState();
+
+    if (this._isCollapsible("desktop") || this._isCollapsible("mobile")) {
+      this._initEventListeners();
+    }
 
     // Start watching the main content area for size changes to ensure Shiny
     // outputs resize appropriately during sidebar transitions.
@@ -195,6 +190,60 @@ class Sidebar {
   }
 
   /**
+   * Determine whether the sidebar is collapsible at a given screen size.
+   * @private
+   * @param {SidebarWindowSize} [size="desktop"]
+   * @returns {boolean}
+   */
+  private _isCollapsible(size: SidebarWindowSize = "desktop"): boolean {
+    const { container } = this.layout;
+
+    const attr =
+      size === "desktop" ? "collapsibleDesktop" : "collapsibleMobile";
+
+    const isCollapsible = container.dataset[attr];
+
+    if (isCollapsible === undefined) {
+      return true;
+    }
+
+    return isCollapsible.trim().toLowerCase() !== "false";
+  }
+
+
+  /**
+   * Determine the initial toggle state of the sidebar at a given screen size.
+   * It always returns whether we should `"open"` or `"close"` the sidebar.
+   *
+   * @private
+   * @param {SidebarWindowSize} [size="desktop"]
+   * @returns {("close" | "open")}
+   */
+  private _initialToggleState(
+    size: SidebarWindowSize = "desktop"
+  ): "close" | "open" {
+    const { container } = this.layout;
+
+    const attr = size === "desktop" ? "openDesktop" : "openMobile";
+
+    const initState = container.dataset[attr]?.trim()?.toLowerCase();
+
+    if (initState === undefined) {
+      return "open";
+    }
+
+    if (["open", "always"].includes(initState)) {
+      return "open";
+    }
+
+    if (["close", "closed"].includes(initState)) {
+      return "close";
+    }
+
+    return "open";
+  }
+
+  /**
    * Initialize all collapsible sidebars on the page.
    * @public
    * @static
@@ -231,7 +280,7 @@ class Sidebar {
    * @private
    */
   private _initEventListeners(): void {
-    const { container, toggle } = this.layout;
+    const { toggle } = this.layout;
 
     toggle.addEventListener("click", (ev) => {
       ev.preventDefault();
@@ -245,12 +294,7 @@ class Sidebar {
       .querySelector(".collapse-icon")
       ?.addEventListener("transitionend", () => this._finalizeState());
 
-    const isCollapsibleDesktop =
-      container.dataset.collapsibleDesktop?.trim() === "true";
-    const isCollapsibleMobile =
-      container.dataset.collapsibleMobile?.trim() === "true";
-
-    if (isCollapsibleDesktop && isCollapsibleMobile) {
+    if (this._isCollapsible("desktop") && this._isCollapsible("mobile")) {
       return;
     }
 
@@ -339,27 +383,11 @@ class Sidebar {
    * @private
    */
   private _initSidebarState(): void {
-    const { container } = this.layout;
-
-    const initDesktop = container.dataset.openDesktop?.trim();
-    const initMobile = container.dataset.openMobile?.trim();
-
-    // If initial states are identical, the markup is correct
-    if (initDesktop === initMobile) {
-      return;
-    }
-
     // Check the CSS variable to find out which mode we're in right now
     this.windowSize = this._getWindowSize();
 
-    const initAttr = this.windowSize === "desktop" ? initDesktop : initMobile;
-    if (!initAttr) {
-      this.toggle("open", true);
-      return;
-    }
-
-    const initState = initAttr === "always" ? "open" : initAttr;
-    this.toggle(initState as SidebarToggleMethod, true);
+    const initState = this._initialToggleState(this.windowSize || "desktop");
+    this.toggle(initState, true);
   }
 
   /**

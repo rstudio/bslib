@@ -244,11 +244,6 @@ sidebar_open_on <- function(
   desktop <- sidebar_open_as_string(desktop) %||% "open"
   mobile <- sidebar_open_as_string(mobile) %||% "closed"
 
-  # This makes our lives much easier in JavaScript and makes more sense as a
-  # data attribute on the sidebar layout container.
-  if (identical(desktop, "closed")) desktop <- "close"
-  if (identical(mobile, "closed")) mobile <- "close"
-
   structure(
     list(desktop = desktop, mobile = mobile),
     class = "bslib_sidebar_open_options"
