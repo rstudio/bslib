@@ -210,7 +210,6 @@ class Sidebar {
     return isCollapsible.trim().toLowerCase() !== "false";
   }
 
-
   /**
    * Determine the initial toggle state of the sidebar at a given screen size.
    * It always returns whether we should `"open"` or `"close"` the sidebar.

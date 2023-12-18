@@ -669,7 +669,7 @@
            * @type {SidebarWindowSize | ""}
            */
           this.windowSize = "";
-          var _a, _b, _c;
+          var _a;
           _Sidebar.instanceMap.set(container, this);
           this.layout = {
             container,
@@ -686,13 +686,11 @@
             (_a = sideAccordion == null ? void 0 : sideAccordion.parentElement) == null ? void 0 : _a.classList.add("has-accordion");
             sideAccordion.classList.add("accordion-flush");
           }
-          const isCollapsibleDesktop = ((_b = container.dataset.collapsibleDesktop) == null ? void 0 : _b.trim()) === "true";
-          const isCollapsibleMobile = ((_c = container.dataset.collapsibleMobile) == null ? void 0 : _c.trim()) === "true";
-          if (isCollapsibleDesktop || isCollapsibleMobile) {
-            this._initEventListeners();
-          }
           this._initSidebarCounters();
           this._initSidebarState();
+          if (this._isCollapsible("desktop") || this._isCollapsible("mobile")) {
+            this._initEventListeners();
+          }
           _Sidebar.shinyResizeObserver.observe(this.layout.main);
           container.removeAttribute("data-bslib-sidebar-init");
           const initScript = container.querySelector(
@@ -735,6 +733,45 @@
           return _Sidebar.instanceMap.get(el);
         }
         /**
+         * Determine whether the sidebar is collapsible at a given screen size.
+         * @private
+         * @param {SidebarWindowSize} [size="desktop"]
+         * @returns {boolean}
+         */
+        _isCollapsible(size = "desktop") {
+          const { container } = this.layout;
+          const attr = size === "desktop" ? "collapsibleDesktop" : "collapsibleMobile";
+          const isCollapsible = container.dataset[attr];
+          if (isCollapsible === void 0) {
+            return true;
+          }
+          return isCollapsible.trim().toLowerCase() !== "false";
+        }
+        /**
+         * Determine the initial toggle state of the sidebar at a given screen size.
+         * It always returns whether we should `"open"` or `"close"` the sidebar.
+         *
+         * @private
+         * @param {SidebarWindowSize} [size="desktop"]
+         * @returns {("close" | "open")}
+         */
+        _initialToggleState(size = "desktop") {
+          var _a, _b;
+          const { container } = this.layout;
+          const attr = size === "desktop" ? "openDesktop" : "openMobile";
+          const initState = (_b = (_a = container.dataset[attr]) == null ? void 0 : _a.trim()) == null ? void 0 : _b.toLowerCase();
+          if (initState === void 0) {
+            return "open";
+          }
+          if (["open", "always"].includes(initState)) {
+            return "open";
+          }
+          if (["close", "closed"].includes(initState)) {
+            return "close";
+          }
+          return "open";
+        }
+        /**
          * Initialize all collapsible sidebars on the page.
          * @public
          * @static
@@ -767,16 +804,14 @@
          * @private
          */
         _initEventListeners() {
-          var _a, _b, _c;
-          const { container, toggle } = this.layout;
+          var _a;
+          const { toggle } = this.layout;
           toggle.addEventListener("click", (ev) => {
             ev.preventDefault();
             this.toggle("toggle");
           });
           (_a = toggle.querySelector(".collapse-icon")) == null ? void 0 : _a.addEventListener("transitionend", () => this._finalizeState());
-          const isCollapsibleDesktop = ((_b = container.dataset.collapsibleDesktop) == null ? void 0 : _b.trim()) === "true";
-          const isCollapsibleMobile = ((_c = container.dataset.collapsibleMobile) == null ? void 0 : _c.trim()) === "true";
-          if (isCollapsibleDesktop && isCollapsibleMobile) {
+          if (this._isCollapsible("desktop") && this._isCollapsible("mobile")) {
             return;
           }
           window.addEventListener("resize", () => this._handleWindowResizeEvent());
@@ -841,20 +876,8 @@
          * @private
          */
         _initSidebarState() {
-          var _a, _b;
-          const { container } = this.layout;
-          const initDesktop = (_a = container.dataset.openDesktop) == null ? void 0 : _a.trim();
-          const initMobile = (_b = container.dataset.openMobile) == null ? void 0 : _b.trim();
-          if (initDesktop === initMobile) {
-            return;
-          }
           this.windowSize = this._getWindowSize();
-          const initAttr = this.windowSize === "desktop" ? initDesktop : initMobile;
-          if (!initAttr) {
-            this.toggle("open", true);
-            return;
-          }
-          const initState = initAttr === "always" ? "open" : initAttr;
+          const initState = this._initialToggleState(this.windowSize || "desktop");
           this.toggle(initState, true);
         }
         /**
