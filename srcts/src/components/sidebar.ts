@@ -70,13 +70,6 @@ class Sidebar {
   private layout: SidebarComponents;
 
   /**
-   * The current window size, either `"desktop"` or `"mobile"`.
-   * @private
-   * @type {SidebarWindowSize | ""}
-   */
-  private windowSize: SidebarWindowSize | "" = "";
-
-  /**
    * A Shiny-specific resize observer that ensures Shiny outputs in the main
    * content areas of the sidebar resize appropriately.
    * @private
@@ -368,6 +361,13 @@ class Sidebar {
     const initState = initAttr === "always" ? "open" : initAttr;
     this.toggle(initState as SidebarToggleMethod, true);
   }
+
+  /**
+   * The current window size, either `"desktop"` or `"mobile"`.
+   * @private
+   * @type {SidebarWindowSize | ""}
+   */
+  private windowSize: SidebarWindowSize | "" = "";
 
   /**
    * Updates the sidebar state when the window is resized across the mobile-
