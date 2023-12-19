@@ -163,12 +163,8 @@ sidebar <- function(
 #' @keywords internal
 #' @export
 as.tags.bslib_sidebar <- function(x, ...) {
-  if (!inherits(x$open, "bslib_sidebar_open_options")) {
-    # Users shouldn't arrive here, just internal code. If we're here, it's an
-    # internal error we need to fix: the render method shouldn't make changes
-    # that won't be available to caller, i.e. we should have already decided
-    # the initial sidebar `open` state.
-    rlang::abort("`sidebar$open` must be the result of `sidebar_open_on()`.")
+  if (is.null(open)) {
+    open <- sidebar_open_on()
   }
 
   is_always_open <- all(vapply(x$open, identical, logical(1), "always"))
@@ -225,17 +221,6 @@ as.tags.bslib_sidebar <- function(x, ...) {
 
 as_sidebar_open_on <- function(open) {
   if (is.null(open)) return(NULL)
-  if (rlang::is_na(open)) open <- "always"
-  if (isTRUE(open)) open <- "open"
-  if (isFALSE(open)) open <- "closed"
-
-  if (rlang::is_character(open)) {
-    open <- sidebar_open_as_string(open, extra = "desktop", rlang::caller_env())
-    if (identical(open, "desktop")) {
-      return(sidebar_open_on("open", "always"))
-    }
-    return(sidebar_open_on(open, open))
-  }
 
   if (rlang::is_list(open)) {
     unknown <- setdiff(names(open), c("desktop", "mobile"))
@@ -250,8 +235,17 @@ as_sidebar_open_on <- function(open) {
     return(sidebar_open_on(open[["desktop"]], open[["mobile"]]))
   }
 
+  if (length(open) == 1) {
+    open <- sidebar_open_as_string(open, extra = "desktop", rlang::caller_env())
+    if (identical(open, "desktop")) {
+      return(sidebar_open_on("open", "always"))
+    }
+    return(sidebar_open_on(open, open))
+  }
+
+
   msg <- sprintf(
-    "`open` must be a character string, a boolean, or the result of `sidebar_open_on()`, not %s.",
+    "`open` must be a character string, a boolean, or a list with `desktop` and `mobile` items, not `%s`.",
     rlang::expr_text(open)
   )
 
@@ -268,8 +262,8 @@ sidebar_open_on <- function(
   desktop = c("open", "closed", "always"),
   mobile = c("closed", "open", "always")
 ) {
-  desktop <- sidebar_open_as_string(desktop) %||% "open"
-  mobile <- sidebar_open_as_string(mobile) %||% "closed"
+  desktop <- sidebar_open_as_string(desktop %||% "open")
+  mobile <- sidebar_open_as_string(mobile %||% "closed")
 
   structure(
     list(desktop = desktop, mobile = mobile),
@@ -357,9 +351,7 @@ layout_sidebar <- function(
   )
 
   main <- bindFillRole(main, container = fillable)
-  sb_tags <- as.tags(sidebar)
-
-  contents <- list(main, sb_tags)
+  contents <- list(main, as.tags(sidebar))
 
   right <- identical(sidebar$position, "right")
 
@@ -404,7 +396,7 @@ layout_sidebar <- function(
 #'   used).
 #' @export
 toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
-  method <- sidebar_open_as_string(open) %||% "toggle"
+  method <- sidebar_open_as_string(open %||% "toggle")
 
   if (identical(method, "always")) {
     abort('`open = "always"` is not supported by `sidebar_toggle()`.')
