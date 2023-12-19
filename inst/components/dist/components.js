@@ -748,30 +748,6 @@
           return isCollapsible.trim().toLowerCase() !== "false";
         }
         /**
-         * Determine the initial toggle state of the sidebar at a given screen size.
-         * It always returns whether we should `"open"` or `"close"` the sidebar.
-         *
-         * @private
-         * @param {SidebarWindowSize} [size="desktop"]
-         * @returns {("close" | "open")}
-         */
-        _initialToggleState(size = "desktop") {
-          var _a, _b;
-          const { container } = this.layout;
-          const attr = size === "desktop" ? "openDesktop" : "openMobile";
-          const initState = (_b = (_a = container.dataset[attr]) == null ? void 0 : _a.trim()) == null ? void 0 : _b.toLowerCase();
-          if (initState === void 0) {
-            return "open";
-          }
-          if (["open", "always"].includes(initState)) {
-            return "open";
-          }
-          if (["close", "closed"].includes(initState)) {
-            return "close";
-          }
-          return "open";
-        }
-        /**
          * Initialize all collapsible sidebars on the page.
          * @public
          * @static
@@ -872,12 +848,35 @@
           return window.getComputedStyle(container).getPropertyValue("--bslib-sidebar-js-window-size").trim();
         }
         /**
+         * Determine the initial toggle state of the sidebar at a current screen size.
+         * It always returns whether we should `"open"` or `"close"` the sidebar.
+         *
+         * @private
+         * @returns {("close" | "open")}
+         */
+        _initialToggleState() {
+          var _a, _b;
+          const { container } = this.layout;
+          const attr = this.windowSize === "desktop" ? "openDesktop" : "openMobile";
+          const initState = (_b = (_a = container.dataset[attr]) == null ? void 0 : _a.trim()) == null ? void 0 : _b.toLowerCase();
+          if (initState === void 0) {
+            return "open";
+          }
+          if (["open", "always"].includes(initState)) {
+            return "open";
+          }
+          if (["close", "closed"].includes(initState)) {
+            return "close";
+          }
+          return "open";
+        }
+        /**
          * Initialize the sidebar's initial state when `open = "desktop"`.
          * @private
          */
         _initSidebarState() {
           this.windowSize = this._getWindowSize();
-          const initState = this._initialToggleState(this.windowSize || "desktop");
+          const initState = this._initialToggleState();
           this.toggle(initState, true);
         }
         /**
@@ -889,7 +888,6 @@
           if (!newSize || newSize == this.windowSize) {
             return;
           }
-          this.windowSize = newSize;
           this._initSidebarState();
         }
         /**
