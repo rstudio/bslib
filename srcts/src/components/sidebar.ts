@@ -211,38 +211,6 @@ class Sidebar {
   }
 
   /**
-   * Determine the initial toggle state of the sidebar at a given screen size.
-   * It always returns whether we should `"open"` or `"close"` the sidebar.
-   *
-   * @private
-   * @param {SidebarWindowSize} [size="desktop"]
-   * @returns {("close" | "open")}
-   */
-  private _initialToggleState(
-    size: SidebarWindowSize = "desktop"
-  ): "close" | "open" {
-    const { container } = this.layout;
-
-    const attr = size === "desktop" ? "openDesktop" : "openMobile";
-
-    const initState = container.dataset[attr]?.trim()?.toLowerCase();
-
-    if (initState === undefined) {
-      return "open";
-    }
-
-    if (["open", "always"].includes(initState)) {
-      return "open";
-    }
-
-    if (["close", "closed"].includes(initState)) {
-      return "close";
-    }
-
-    return "open";
-  }
-
-  /**
    * Initialize all collapsible sidebars on the page.
    * @public
    * @static
@@ -378,6 +346,35 @@ class Sidebar {
   }
 
   /**
+   * Determine the initial toggle state of the sidebar at a current screen size.
+   * It always returns whether we should `"open"` or `"close"` the sidebar.
+   *
+   * @private
+   * @returns {("close" | "open")}
+   */
+  private _initialToggleState(): "close" | "open" {
+    const { container } = this.layout;
+
+    const attr = this.windowSize === "desktop" ? "openDesktop" : "openMobile";
+
+    const initState = container.dataset[attr]?.trim()?.toLowerCase();
+
+    if (initState === undefined) {
+      return "open";
+    }
+
+    if (["open", "always"].includes(initState)) {
+      return "open";
+    }
+
+    if (["close", "closed"].includes(initState)) {
+      return "close";
+    }
+
+    return "open";
+  }
+
+  /**
    * Initialize the sidebar's initial state when `open = "desktop"`.
    * @private
    */
@@ -385,7 +382,7 @@ class Sidebar {
     // Check the CSS variable to find out which mode we're in right now
     this.windowSize = this._getWindowSize();
 
-    const initState = this._initialToggleState(this.windowSize || "desktop");
+    const initState = this._initialToggleState();
     this.toggle(initState, true);
   }
 
@@ -406,7 +403,7 @@ class Sidebar {
       return;
     }
 
-    this.windowSize = newSize;
+    // Re-initializing for the new size also updates the tracked window size
     this._initSidebarState();
   }
 
