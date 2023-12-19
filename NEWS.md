@@ -12,6 +12,10 @@
 
 * When `layout_columns()` is given a `col_widths` value with `breakpoints()` at `lg` or wider, it now uses a better default column width for the smaller breakpoints not listed in the `col_widths` value. That said, you can always include `sm` or `md` in your `breakpoints()` definition to have complete control over column widths at those sizes. (#931)
 
+* `sidebar()` now supports separate choices for the `open` argument on mobile or desktop screens. You can pass a list with `mobile` and `desktop` values to `open` to control the sidebar's initial state on each screen size, choosing from `"open"`, `"closed"`, or `"always"` (for an always-open sidebar that cannot be collapsed). (#943)
+
+* `page_sidebar()` and `page_navbar()` now default to sidebars that are collapsible and initially open on desktop screens and always open on mobile screens. You can customize this behavior by choosing a different value for `open` in the `sidebar()` call passed to the page's `sidebar` argument. (#943)
+
 ## Bug fixes
 
 * `layout_columns()` now always uses a 12-unit grid when the user provides an integer value to `col_widths` for any breakpoint. For example, `breakpoints(md = 3, lg = NA)` will pick a best-fitting layout for large screen sizes using the 12-column grid. Previously, the best fit algorithm might adjust the number of columns as a shortcut to an easy solution. That shortcut is only taken when an auto-fit layout is requested for every breakpoint, e.g. `col_widths = breakpoints(md = NA, lg = NA)` or `col_widths = NA`. (#928)
