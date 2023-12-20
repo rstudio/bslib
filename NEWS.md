@@ -4,6 +4,8 @@
 
 * `as_fillable_container()`, `as_fill_item()` and `as_fill_carrier()` now always include the htmltools fill CSS dependency. This means that they are no longer usable with the `$addAttr()` `htmltools::tagQuery` method; authors should instead pass elements to the `as_fillable_container()` and `as_fill_*()` functions and use the `css_selector` argument to apply fill options to specific elements.  (#946)
 
+* A `sidebar()` passed to `page_sidebar()`/`page_navbar()` is now always open (and not collapsible) by default on mobile screens. To revert to the old behavior, set `open = "desktop"` in the `sidebar`. (#943)
+
 ## Improvements
 
 * `layout_columns()` was rewritten in Typescript as a custom element to improve the portability of the component. (#931)
@@ -13,8 +15,6 @@
 * When `layout_columns()` is given a `col_widths` value with `breakpoints()` at `lg` or wider, it now uses a better default column width for the smaller breakpoints not listed in the `col_widths` value. That said, you can always include `sm` or `md` in your `breakpoints()` definition to have complete control over column widths at those sizes. (#931)
 
 * `sidebar()` now supports separate choices for the `open` argument on mobile or desktop screens. You can pass a list with `mobile` and `desktop` values to `open` to control the sidebar's initial state on each screen size, choosing from `"open"`, `"closed"`, or `"always"` (for an always-open sidebar that cannot be collapsed). (#943)
-
-* A `sidebar()` passed to `page_sidebar()`/`page_navbar()` is no longer collapsed by default on mobile screens. To revert to the old behavior, set `open = "desktop"` in the `sidebar`. (#943)
 
 ## Bug fixes
 
