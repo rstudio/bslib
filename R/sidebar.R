@@ -45,6 +45,12 @@
 #'   * `"closed"` or `FALSE`: The sidebar starts closed.
 #'   * `"always"` or `NA`: The sidebar is always open and cannot be closed.
 #'
+#'   Alternatively, you can use a list with `desktop` or `mobile` items to set
+#'   the initial sidebar state independently for `desktop` and `mobile` screen
+#'   sizes. In this case, `desktop` or `mobile` can use any of the above options
+#'   except `"desktop"`, which is equivalent to
+#'   `list(desktop = "open", mobile = "closed")`.
+#'
 #'   In `sidebar_toggle()`, `open` indicates the desired state of the sidebar,
 #'   where the default of `open = NULL` will cause the sidebar to be toggled
 #'   open if closed or vice versa. Note that `sidebar_toggle()` can only open or
@@ -83,7 +89,7 @@ sidebar <- function(
   ...,
   width = 250,
   position = c("left", "right"),
-  open = c("desktop", "open", "closed", "always"),
+  open = NULL,
   id = NULL,
   title = NULL,
   bg = NULL,
@@ -93,21 +99,15 @@ sidebar <- function(
   gap = NULL,
   padding = NULL
 ) {
-  if (isTRUE(open)) {
-    open <- "open"
-  } else if (identical(open, FALSE)) {
-    open <- "closed"
-  } else if (isTRUE(is.na(open))) {
-    open <- "always"
-  }
 
-  open <- rlang::arg_match(open)
+  position <- rlang::arg_match(position)
+  gap <- validateCssUnit(gap)
+  padding <- validateCssPadding(padding)
+  width  <- validateCssUnit(width)
+  max_height_mobile  <- validateCssUnit(max_height_mobile)
 
-  if (!is.null(max_height_mobile) && open != "always") {
-    rlang::warn(
-      'The `max_height_mobile` argument only applies to the sidebar when `open = "always"`.'
-    )
-    max_height_mobile <- NULL
+  if (!is.null(open)) {
+    open <- as_sidebar_open_on(open)
   }
 
   if (!is.null(id)) {
@@ -115,13 +115,8 @@ sidebar <- function(
       rlang::abort("`id` must be a non-empty, length-1 character string or `NULL`.")
     }
 
-    # create input binding when id is provided by adding input class
+    # when user provides id, make the sidebar a shiny input to report its state
     class <- c("bslib-sidebar-input", class)
-  }
-
-  if (is.null(id) && open != "always") {
-    # always provide id when collapsible for accessibility reasons
-    id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
   }
 
   if (is.null(fg) && !is.null(bg)) {
@@ -135,43 +130,161 @@ sidebar <- function(
     title <- tags$header(title, class = "sidebar-title")
   }
 
-  collapse_tag <-
-    if (open != "always") {
-      tags$button(
-        class = "collapse-toggle",
-        type = "button",
-        title = "Toggle sidebar",
-        "aria-expanded" = if (open %in% c("open", "desktop")) "true" else "false",
-        "aria-controls" = id,
-        collapse_icon()
-      )
-    }
+  dots <- separate_arguments(...)
 
   res <- list2(
-    tag = tags$aside(
-      id = id,
-      class = c("sidebar", class),
-      hidden = if (open %in% c("closed", "desktop")) NA,
-      tags$div(
-        class = "sidebar-content bslib-gap-spacing",
-        title,
-        style = css(
-          gap = validateCssUnit(gap),
-          padding = validateCssPadding(padding)
-        ),
-        ...
-      )
-    ),
-    collapse_tag = collapse_tag,
-    position = match.arg(position),
+    id = id,
+    title = title,
+    class = class,
+    gap = gap,
+    padding = padding,
     open = open,
-    width = validateCssUnit(width),
-    max_height_mobile = validateCssUnit(max_height_mobile),
-    color = list(bg = bg, fg = fg)
+    position = position,
+    width = width,
+    max_height_mobile = max_height_mobile,
+    color = list(bg = bg, fg = fg),
+    attributes = dots$attributes,
+    children = dots$children
   )
 
-  class(res) <- c("sidebar", class(res))
+  class(res) <- c("bslib_sidebar", "sidebar", class(res))
   res
+}
+
+#' Render a sidebar as HTML tags
+#'
+#' Renders the sidebar element and collapse toggle elements for a [sidebar()] in
+#' a [layout_sidebar()] context.
+#'
+#' @param x A [sidebar()] object.
+#' @param ... Additional arguments passed to [htmltools::as.tags()].
+#'
+#' @importFrom htmltools as.tags
+#' @keywords internal
+#' @export
+as.tags.bslib_sidebar <- function(x, ...) {
+  if (is.null(open)) {
+    open <- sidebar_open_on()
+  }
+
+  is_always_open <- all(vapply(x$open, identical, logical(1), "always"))
+
+  if (!is_always_open && is.null(x$id)) {
+    # always provide an id for accessibility reasons when collapsible
+    x$id <- paste0("bslib-sidebar-", p_randomInt(1000, 10000))
+  }
+
+  if (!is.null(x$max_height_mobile) && x$open$mobile != "always") {
+    rlang::warn(
+      'The `max_height_mobile` argument only applies to the sidebar when `open = "always"` on mobile.'
+    )
+    x$max_height_mobile <- NULL
+  }
+
+  is_starts_closed <- all(vapply(x$open, identical, logical(1), "closed"))
+  is_starts_open <- all(vapply(x$open, identical, logical(1), "open"))
+
+  hidden_initially <-
+    if (is_always_open) FALSE
+    else if (is_starts_open) FALSE
+    else TRUE
+
+  collapse_tag <-
+    tags$button(
+      class = "collapse-toggle",
+      type = "button",
+      title = "Toggle sidebar",
+      "aria-expanded" = tolower(is_starts_open || identical(x$open$desktop, "open")),
+      "aria-controls" = x$id,
+      collapse_icon()
+    )
+
+
+  sidebar_tag <- tags$aside(
+    id = x$id,
+    class = c("sidebar", x$class),
+    hidden = if (hidden_initially) NA,
+    tags$div(
+      class = "sidebar-content bslib-gap-spacing",
+      x$title,
+      style = css(
+        gap = x$gap,
+        padding = x$padding
+      ),
+      !!!x$attributes,
+      !!!x$children
+    )
+  )
+
+  htmltools::tagList(sidebar_tag, collapse_tag)
+}
+
+as_sidebar_open_on <- function(open) {
+  if (is.null(open)) return(NULL)
+
+  if (rlang::is_list(open)) {
+    unknown <- setdiff(names(open), c("desktop", "mobile"))
+    if (length(unknown)) {
+      rlang::warn(
+        paste(
+          "Ignoring unknown items in `open` options list:",
+          paste0('"', unknown, '"', collapse = ", ")
+        ),
+      )
+    }
+    return(sidebar_open_on(open[["desktop"]], open[["mobile"]]))
+  }
+
+  if (length(open) == 1) {
+    open <- sidebar_open_as_string(open, extra = "desktop", rlang::caller_env())
+    if (identical(open, "desktop")) {
+      return(sidebar_open_on("open", "always"))
+    }
+    return(sidebar_open_on(open, open))
+  }
+
+
+  msg <- sprintf(
+    "`open` must be a character string, a boolean, or a list with `desktop` and `mobile` items, not `%s`.",
+    rlang::expr_text(open)
+  )
+
+  rlang::abort(
+    c(msg, "i" = 'Character options include "open", "closed", "always" or "desktop".'),
+    call = rlang::caller_call()
+  )
+}
+
+#' @param desktop,mobile The initial state of the sidebar on desktop or mobile
+#'   screen sizes. Can be one of `"open"` (or `TRUE`), `"closed"` (or `FALSE`),
+#'   or `"always"` (or `NA`).
+sidebar_open_on <- function(
+  desktop = c("open", "closed", "always"),
+  mobile = c("closed", "open", "always")
+) {
+  desktop <- sidebar_open_as_string(desktop %||% "open")
+  mobile <- sidebar_open_as_string(mobile %||% "closed")
+
+  structure(
+    list(desktop = desktop, mobile = mobile),
+    class = "bslib_sidebar_open_options"
+  )
+}
+
+sidebar_open_as_string <- function(open, extra = NULL, error_call = rlang::caller_env()) {
+  error_arg <- deparse(substitute(open))
+
+  if (is.null(open)) return(NULL)
+  if (identical(open, NA)) return ("always")
+  if (isTRUE(open)) return("open")
+  if (isFALSE(open)) return("closed")
+
+  rlang::arg_match(
+    open,
+    values = c("open", "closed", "always", extra),
+    error_arg = error_arg,
+    error_call = error_call
+  )
 }
 
 #' @rdname sidebar
@@ -208,6 +321,10 @@ layout_sidebar <- function(
     sidebar <- sidebar(sidebar)
   }
 
+  if (is.null(sidebar$open)) {
+    sidebar$open <- sidebar_open_on()
+  }
+
   if (!(is.null(border) || isTRUE(border) || isFALSE(border))) {
     abort("`border` must be `NULL`, `TRUE`, or `FALSE`")
   }
@@ -234,20 +351,19 @@ layout_sidebar <- function(
   )
 
   main <- bindFillRole(main, container = fillable)
-
-  contents <- list(main, sidebar$tag, sidebar$collapse_tag)
+  contents <- list(main, as.tags(sidebar))
 
   right <- identical(sidebar$position, "right")
-
-  max_height_mobile <- sidebar$max_height_mobile %||%
-    if (is.null(height)) "250px" else "50%"
 
   res <- div(
     class = "bslib-sidebar-layout bslib-mb-spacing",
     class = if (right) "sidebar-right",
-    class = if (identical(sidebar$open, "closed")) "sidebar-collapsed",
+    class = if (identical(sidebar$open$desktop, "closed")) "sidebar-collapsed",
     `data-bslib-sidebar-init` = TRUE,
-    `data-bslib-sidebar-open` = sidebar$open,
+    `data-open-desktop` = sidebar$open$desktop,
+    `data-open-mobile` = sidebar$open$mobile,
+    `data-collapsible-mobile` = tolower(!identical(sidebar$open$mobile, "always")),
+    `data-collapsible-desktop` = tolower(!identical(sidebar$open$desktop, "always")),
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
     style = css(
@@ -258,7 +374,7 @@ layout_sidebar <- function(
       "--_main-bg" = bg,
       "--bs-card-border-color" = border_color,
       height = validateCssUnit(height),
-      "--_mobile-max-height" = max_height_mobile
+      "--_mobile-max-height" = sidebar$max_height_mobile
     ),
     !!!contents,
     sidebar_init_js(),
@@ -280,20 +396,11 @@ layout_sidebar <- function(
 #'   used).
 #' @export
 toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
-  method <-
-    if (is.null(open) || identical(open, "toggle")) {
-      "toggle"
-    } else if (isTRUE(open) || identical(open, "open")) {
-      "open"
-    } else if (isFALSE(open) || identical(open, "closed")) {
-      "close"
-    } else if (isTRUE(is.na(open)) || identical(open, "always")) {
-      abort('`open = "always"` is not supported by `sidebar_toggle()`.')
-    } else if (identical(open, "desktop")) {
-      abort('`open = "desktop"` is not supported by `sidebar_toggle()`.')
-    } else {
-      abort('`open` must be `NULL`, `TRUE` (or "open"), or `FALSE` (or "closed").')
-    }
+  method <- sidebar_open_as_string(open %||% "toggle")
+
+  if (identical(method, "always")) {
+    abort('`open = "always"` is not supported by `sidebar_toggle()`.')
+  }
 
   force(id)
   callback <- function() {
