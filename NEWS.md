@@ -14,7 +14,7 @@
 
 * `sidebar()` now supports separate choices for the `open` argument on mobile or desktop screens. You can pass a list with `mobile` and `desktop` values to `open` to control the sidebar's initial state on each screen size, choosing from `"open"`, `"closed"`, or `"always"` (for an always-open sidebar that cannot be collapsed). (#943)
 
-* `page_sidebar()` and `page_navbar()` now default to sidebars that are collapsible and initially open on desktop screens and always open on mobile screens. You can customize this behavior by choosing a different value for `open` in the `sidebar()` call passed to the page's `sidebar` argument. (#943)
+* A `sidebar()` passed to `page_sidebar()`/`page_navbar()` is no longer collapsed by default on mobile screens. To revert to the old behavior, set `open = "desktop"` in the `sidebar`. (#943)
 
 ## Bug fixes
 

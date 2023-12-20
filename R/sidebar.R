@@ -49,7 +49,7 @@
 #'   the initial sidebar state independently for `desktop` and `mobile` screen
 #'   sizes. In this case, `desktop` or `mobile` can use any of the above options
 #'   except `"desktop"`, which is equivalent to
-#'   `list(desktop = "open", mobile = "always")`.
+#'   `list(desktop = "open", mobile = "closed")`.
 #'
 #'   In `sidebar_toggle()`, `open` indicates the desired state of the sidebar,
 #'   where the default of `open = NULL` will cause the sidebar to be toggled
