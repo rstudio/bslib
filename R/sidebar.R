@@ -396,7 +396,7 @@ layout_sidebar <- function(
 #'   used).
 #' @export
 toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
-  method <- sidebar_open_as_string(open %||% "toggle")
+  method <- sidebar_open_as_string(open %||% "toggle", "toggle")
 
   if (identical(method, "always")) {
     abort('`open = "always"` is not supported by `sidebar_toggle()`.')
