@@ -238,7 +238,7 @@ as_sidebar_open_on <- function(open) {
   if (length(open) == 1) {
     open <- sidebar_open_as_string(open, extra = "desktop", rlang::caller_env())
     if (identical(open, "desktop")) {
-      return(sidebar_open_on("open", "always"))
+      return(sidebar_open_on("open", "closed"))
     }
     return(sidebar_open_on(open, open))
   }
@@ -396,7 +396,7 @@ layout_sidebar <- function(
 #'   used).
 #' @export
 toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
-  method <- sidebar_open_as_string(open %||% "toggle")
+  method <- sidebar_open_as_string(open %||% "toggle", "toggle")
 
   if (identical(method, "always")) {
     abort('`open = "always"` is not supported by `sidebar_toggle()`.')
