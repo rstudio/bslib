@@ -63,7 +63,7 @@ Alternatively, you can use a list with \code{desktop} or \code{mobile} items to 
 the initial sidebar state independently for \code{desktop} and \code{mobile} screen
 sizes. In this case, \code{desktop} or \code{mobile} can use any of the above options
 except \code{"desktop"}, which is equivalent to
-\code{list(desktop = "open", mobile = "always")}.
+\code{list(desktop = "open", mobile = "closed")}.
 
 In \code{sidebar_toggle()}, \code{open} indicates the desired state of the sidebar,
 where the default of \code{open = NULL} will cause the sidebar to be toggled
