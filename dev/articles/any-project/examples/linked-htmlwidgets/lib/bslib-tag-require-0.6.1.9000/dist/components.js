@@ -663,6 +663,12 @@
          * @param {HTMLElement} container
          */
         constructor(container) {
+          /**
+           * The current window size, either `"desktop"` or `"mobile"`.
+           * @private
+           * @type {SidebarWindowSize | ""}
+           */
+          this.windowSize = "";
           var _a;
           _Sidebar.instanceMap.set(container, this);
           this.layout = {
@@ -680,10 +686,10 @@
             (_a = sideAccordion == null ? void 0 : sideAccordion.parentElement) == null ? void 0 : _a.classList.add("has-accordion");
             sideAccordion.classList.add("accordion-flush");
           }
-          if (this.layout.toggle) {
+          this._initSidebarCounters();
+          this._initSidebarState();
+          if (this._isCollapsible("desktop") || this._isCollapsible("mobile")) {
             this._initEventListeners();
-            this._initSidebarCounters();
-            this._initDesktop();
           }
           _Sidebar.shinyResizeObserver.observe(this.layout.main);
           container.removeAttribute("data-bslib-sidebar-init");
@@ -702,11 +708,10 @@
          * The sidebar state works as follows, starting from the open state. When the
          * sidebar is closed:
          * 1. We add both the `COLLAPSE` and `TRANSITIONING` classes to the sidebar.
-         * 2. The sidebar collapse begins to animate. On desktop devices, and where it
-         *    is supported, we transition the `grid-template-columns` property of the
-         *    sidebar layout. On mobile, the sidebar is hidden immediately. In both
-         *    cases, the collapse icon rotates and we use this rotation to determine
-         *    when the transition is complete.
+         * 2. The sidebar collapse begins to animate. In general,  where it is
+         *    supported, we transition the `grid-template-columns` property of the
+         *    sidebar layout. We also rotate the collapse icon and we use this
+         *    rotation to determine when the transition is complete.
          * 3. If another sidebar state toggle is requested while closing the sidebar,
          *    we remove the `COLLAPSE` class and the animation immediately starts to
          *    reverse.
@@ -726,6 +731,21 @@
          */
         static getInstance(el) {
           return _Sidebar.instanceMap.get(el);
+        }
+        /**
+         * Determine whether the sidebar is collapsible at a given screen size.
+         * @private
+         * @param {SidebarWindowSize} [size="desktop"]
+         * @returns {boolean}
+         */
+        _isCollapsible(size = "desktop") {
+          const { container } = this.layout;
+          const attr = size === "desktop" ? "collapsibleDesktop" : "collapsibleMobile";
+          const isCollapsible = container.dataset[attr];
+          if (isCollapsible === void 0) {
+            return true;
+          }
+          return isCollapsible.trim().toLowerCase() !== "false";
         }
         /**
          * Initialize all collapsible sidebars on the page.
@@ -767,6 +787,10 @@
             this.toggle("toggle");
           });
           (_a = toggle.querySelector(".collapse-icon")) == null ? void 0 : _a.addEventListener("transitionend", () => this._finalizeState());
+          if (this._isCollapsible("desktop") && this._isCollapsible("mobile")) {
+            return;
+          }
+          window.addEventListener("resize", () => this._handleWindowResizeEvent());
         }
         /**
          * Initialize nested sidebar counters.
@@ -814,18 +838,57 @@
           });
         }
         /**
+         * Retrieves the current window size by reading a CSS variable whose value is
+         * toggled via media queries.
+         * @returns The window size as `"desktop"` or `"mobile"`, or `""` if not
+         * available.
+         */
+        _getWindowSize() {
+          const { container } = this.layout;
+          return window.getComputedStyle(container).getPropertyValue("--bslib-sidebar-js-window-size").trim();
+        }
+        /**
+         * Determine the initial toggle state of the sidebar at a current screen size.
+         * It always returns whether we should `"open"` or `"close"` the sidebar.
+         *
+         * @private
+         * @returns {("close" | "open")}
+         */
+        _initialToggleState() {
+          var _a, _b;
+          const { container } = this.layout;
+          const attr = this.windowSize === "desktop" ? "openDesktop" : "openMobile";
+          const initState = (_b = (_a = container.dataset[attr]) == null ? void 0 : _a.trim()) == null ? void 0 : _b.toLowerCase();
+          if (initState === void 0) {
+            return "open";
+          }
+          if (["open", "always"].includes(initState)) {
+            return "open";
+          }
+          if (["close", "closed"].includes(initState)) {
+            return "close";
+          }
+          return "open";
+        }
+        /**
          * Initialize the sidebar's initial state when `open = "desktop"`.
          * @private
          */
-        _initDesktop() {
-          var _a;
-          const { container } = this.layout;
-          if (((_a = container.dataset.bslibSidebarOpen) == null ? void 0 : _a.trim()) !== "desktop") {
+        _initSidebarState() {
+          this.windowSize = this._getWindowSize();
+          const initState = this._initialToggleState();
+          this.toggle(initState, true);
+        }
+        /**
+         * Updates the sidebar state when the window is resized across the mobile-
+         * desktop boundary.
+         */
+        _handleWindowResizeEvent() {
+          const newSize = this._getWindowSize();
+          if (!newSize || newSize == this.windowSize) {
             return;
           }
-          const initCollapsed = window.getComputedStyle(container).getPropertyValue("--bslib-sidebar-js-init-collapsed");
-          const initState = initCollapsed.trim() === "true" ? "close" : "open";
-          this.toggle(initState, true);
+          this._initSidebarState();
         }
         /**
          * Toggle the sidebar's open/closed state.
