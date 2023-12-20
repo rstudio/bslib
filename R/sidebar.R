@@ -238,7 +238,7 @@ as_sidebar_open_on <- function(open) {
   if (length(open) == 1) {
     open <- sidebar_open_as_string(open, extra = "desktop", rlang::caller_env())
     if (identical(open, "desktop")) {
-      return(sidebar_open_on("open", "always"))
+      return(sidebar_open_on("open", "closed"))
     }
     return(sidebar_open_on(open, open))
   }
