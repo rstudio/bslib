@@ -1,10 +1,21 @@
 #' Button for launching longer-running operations
 #'
+#' @description
 #' `input_task_button` is a button whose value is initially zero, and increments
 #' by one each time it is pressed. It is similar to [shiny::actionButton()],
 #' except that upon click, it puts itself into a busy state that prevents the
-#' user from clicking it again. `update_task_button(id, busy = FALSE)` must be
-#' called from the server function to re-enable the button.
+#' user from clicking it again.
+#'
+#' In order to re-enable the button, `update_task_button(id, busy = FALSE)` must
+#' be called from the server function.
+#'
+#' Note that, as a general rule, Shiny's `update` family of functions do not
+#' take effect at the instant that they are called, but are held until the end
+#' of the current flush cycle. So if you have many different reactive
+#' calculations and outputs, you don't have to be too careful about when you
+#' call `update_task_button(id, busy = FALSE)`, as the button on the client will
+#' not actually re-enable until the same moment that all of the updated outputs
+#' simultaneously sent to the client.
 #'
 #' @param id The `input` slot that will be used to access the value.
 #' @param label The label of the button while it is in ready (clickable) state;
@@ -41,8 +52,9 @@ input_task_button <- function(id, label, icon = NULL,
 
     component_dependencies(),
 
-    htmltools::tag("bslib-task-button-contents",
+    htmltools::tag("bslib-switch-inline",
       list(
+        case = "ready",
         span(slot = "ready",
           icon, label
         ),

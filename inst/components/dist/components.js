@@ -8,6 +8,23 @@
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
+  var __accessCheck = (obj, member, msg) => {
+    if (!member.has(obj))
+      throw TypeError("Cannot " + msg);
+  };
+  var __privateGet = (obj, member, getter) => {
+    __accessCheck(obj, member, "read from private field");
+    return getter ? getter.call(obj) : member.get(obj);
+  };
+  var __privateAdd = (obj, member, value) => {
+    if (member.has(obj))
+      throw TypeError("Cannot add the same private member more than once");
+    member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  };
+  var __privateMethod = (obj, member, method) => {
+    __accessCheck(obj, member, "access private method");
+    return method;
+  };
   var __async = (__this, __arguments, generator) => {
     return new Promise((resolve, reject) => {
       var fulfilled = (value) => {
@@ -958,6 +975,73 @@
     }
   });
 
+  // srcts/src/components/taskButton.ts
+  var _clickCount, _clickListeners, _setBusy, setBusy_fn, BslibTaskButtonInputBinding;
+  var init_taskButton = __esm({
+    "srcts/src/components/taskButton.ts"() {
+      "use strict";
+      init_utils();
+      BslibTaskButtonInputBinding = class extends InputBinding {
+        constructor() {
+          super(...arguments);
+          /**
+           * Reach into the child <bslib-switch-inline> and set case="busy" or "ready".
+           */
+          __privateAdd(this, _setBusy);
+          __privateAdd(this, _clickCount, /* @__PURE__ */ new WeakMap());
+          __privateAdd(this, _clickListeners, /* @__PURE__ */ new WeakMap());
+        }
+        find(scope) {
+          return $(scope).find(".bslib-task-button");
+        }
+        getValue(el) {
+          var _a;
+          return (_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0;
+        }
+        getType() {
+          return "shiny.action";
+        }
+        subscribe(el, callback) {
+          if (__privateGet(this, _clickListeners).has(el)) {
+            this.unsubscribe(el);
+          }
+          const eventListener = () => {
+            var _a;
+            __privateGet(this, _clickCount).set(el, ((_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0) + 1);
+            callback(true);
+            __privateMethod(this, _setBusy, setBusy_fn).call(this, el, true);
+          };
+          __privateGet(this, _clickListeners).set(el, eventListener);
+          el.addEventListener("click", eventListener);
+        }
+        unsubscribe(el) {
+          const listener = __privateGet(this, _clickListeners).get(el);
+          if (listener) {
+            el.removeEventListener("click", listener);
+          }
+        }
+        receiveMessage(_0, _1) {
+          return __async(this, arguments, function* (el, { busy }) {
+            __privateMethod(this, _setBusy, setBusy_fn).call(this, el, busy);
+          });
+        }
+      };
+      _clickCount = new WeakMap();
+      _clickListeners = new WeakMap();
+      _setBusy = new WeakSet();
+      setBusy_fn = function(el, busy) {
+        el.disabled = busy;
+        const tbc = el.querySelector(
+          "bslib-switch-inline"
+        );
+        if (tbc) {
+          tbc.case = busy ? "busy" : "ready";
+        }
+      };
+      registerBinding(BslibTaskButtonInputBinding, "task-button");
+    }
+  });
+
   // srcts/src/components/_shinyAddCustomMessageHandlers.ts
   function shinyAddCustomMessageHandlers(handlers) {
     if (!window.Shiny) {
@@ -979,6 +1063,7 @@
       init_accordion();
       init_card();
       init_sidebar();
+      init_taskButton();
       init_utils();
       init_shinyAddCustomMessageHandlers();
       var bslibMessageHandlers = {

@@ -1,32 +1,17 @@
-import { LitElement, html, css } from "lit";
-import { property } from "lit/decorators.js";
-import { InputBinding, registerBinding } from "../_utils";
-
-export class BslibTaskButtonContents extends LitElement {
-  static tagName = "bslib-task-button-contents";
-  static isShinyInput = false;
-
-  static styles = css`
-    :host {
-      display: inline;
-    }
-  `;
-
-  @property({ type: String }) busy = false;
-
-  render(): ReturnType<LitElement["render"]> {
-    if (this.busy) {
-      return html`<slot name="busy"></slot>`;
-    } else {
-      return html`<slot name="ready"></slot>`;
-    }
-  }
-}
+import { InputBinding, registerBinding } from "./_utils";
+import type { BslibSwitchInline } from "./webcomponents/switch";
 
 type TaskButtonMessage = {
   busy: boolean;
 };
 
+/**
+ * This is a Shiny input binding for `bslib::task_button()`. It is not a web
+ * component, though one of its children is <bslib-switch-inline>. The reason it
+ * is not a web component is because it is primarily a button, and I wanted to
+ * use the native <button> element to ensure that all of the behaviors of a
+ * native button are perfectly implemented.
+ */
 class BslibTaskButtonInputBinding extends InputBinding {
   #clickCount = new WeakMap<HTMLElement, number>();
   #clickListeners = new WeakMap<HTMLElement, EventListener>();
@@ -68,13 +53,16 @@ class BslibTaskButtonInputBinding extends InputBinding {
     this.#setBusy(el, busy);
   }
 
+  /**
+   * Reach into the child <bslib-switch-inline> and set case="busy" or "ready".
+   */
   #setBusy(el: HTMLElement, busy: boolean) {
     (el as HTMLButtonElement).disabled = busy;
     const tbc = el.querySelector(
-      "bslib-task-button-contents"
-    ) as BslibTaskButtonContents | null;
+      "bslib-switch-inline"
+    ) as BslibSwitchInline | null;
     if (tbc) {
-      tbc.busy = busy;
+      tbc.case = busy ? "busy" : "ready";
     }
   }
 }
