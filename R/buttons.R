@@ -1,13 +1,25 @@
 #' Button for launching longer-running operations
 #'
 #' @description
-#' `input_task_button` is a button whose value is initially zero, and increments
-#' by one each time it is pressed. It is similar to [shiny::actionButton()],
-#' except that upon click, it puts itself into a busy state that prevents the
-#' user from clicking it again.
+#' `input_task_button` is a button that can be used in conjuction with
+#' [shiny::bindEvent()] (or the older [shiny::eventReactive()] and
+#' [shiny::observeEvent()] functions) to trigger actions or recomputation.
 #'
-#' In order to re-enable the button, `update_task_button(id, busy = FALSE)` must
-#' be called from the server function.
+#' It is similar to [shiny::actionButton()], except it prevents the user from
+#' clicking when its operation is already in progress.
+#'
+#' Upon click, it automatically displays a customizable progress message and
+#' disables itself; and after the server has dealt with whatever reactivity is
+#' triggered from the click, the button automatically reverts to its original
+#' appearance and re-enables itself.
+#'
+#' @section Manual button reset:
+#' In some advanced use cases, it may be necessary to keep a task button in its
+#' busy state even after the normal reactive processing has completed. The
+#' `set_task_button_manual_reset` function can be called from the server to opt
+#' out of the automatic reset behavior for a specific task button. After doing
+#' so, the button can only be re-enabled by calling `update_task_button(id, busy
+#' = FALSE)`.
 #'
 #' Note that, as a general rule, Shiny's `update` family of functions do not
 #' take effect at the instant that they are called, but are held until the end
@@ -38,6 +50,32 @@
 #' This implies two things:
 #'   * Event handlers (e.g., [shiny::observeEvent()], [shiny::eventReactive()]) won't execute on initial load.
 #'   * Input validation (e.g., [shiny::req()], [shiny::need()]) will fail on initial load.
+#'
+#' @examples
+#' if (interactive()) {
+#'   library(shiny)
+#'   library(bslib)
+#'
+#'   ui <- page_sidebar(
+#'     sidebar = sidebar(open = "always",
+#'       input_task_button("resample", "Resample"),
+#'     ),
+#'     verbatimTextOutput("summary")
+#'   )
+#'
+#'   server <- function(input, output, session) {
+#'     sample <- eventReactive(input$resample, ignoreNULL=FALSE, {
+#'       Sys.sleep(2)  # Make this artificially slow
+#'       rnorm(100)
+#'     })
+#'
+#'     output$summary <- renderPrint({
+#'       summary(sample())
+#'     })
+#'   }
+#'
+#'   shinyApp(ui, server)
+#' }
 #'
 #' @export
 input_task_button <- function(id, label, icon = NULL,
@@ -84,4 +122,51 @@ update_task_button <- function(id, busy = NULL, session = get_current_session())
   force(busy)
 
   session$sendInputMessage(id, dropNulls(list(busy = busy)))
+}
+
+
+task_button_manual_reset_map <- function(session) {
+  key <- "manual_task_button_reset"
+  map <- session$userData[[key]]
+  if (is.null(map)) {
+    map <- fastmap::fastmap()
+    session$userData[[key]] <- map
+  }
+  map
+}
+
+#' @rdname input_task_button
+#' @param manual If `TRUE`, prevent automatic resetting of the task button when
+#'   reactive flush is complete.
+#' @export
+set_task_button_manual_reset <- function(session, id, manual = TRUE) {
+  ns_id <- session$ns(id)
+  map <- task_button_manual_reset_map(session)
+  if (isTRUE(manual)) {
+    map$set(ns_id, TRUE)
+  } else {
+    map$remove(ns_id)
+  }
+}
+
+is_task_button_manual_reset <- function(session, id) {
+  ns_id <- session$ns(id)
+  map <- task_button_manual_reset_map(session)
+  map$get(ns_id, FALSE)
+}
+
+
+input_task_button_input_handler <- function(val, shinysession, name) {
+  shinysession$onFlush(once = TRUE, function() {
+    # This is input_task_button's auto-reset feature: unless the user has
+    # opted out using set_task_button_manual_reset(), we should reset after
+    # a flush cycle where a bslib.taskbutton value is seen.
+    if (!is_task_button_manual_reset(shinysession, name)) {
+      update_task_button(name, busy = FALSE, session = shinysession)
+    }
+  })
+
+  # mark up the action button value with a special class so we can recognize it later
+  class(val) <- c("shinyActionButtonValue", class(val))
+  val
 }

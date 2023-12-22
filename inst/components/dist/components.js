@@ -999,7 +999,7 @@
           return (_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0;
         }
         getType() {
-          return "shiny.action";
+          return "bslib.taskbutton";
         }
         subscribe(el, callback) {
           if (__privateGet(this, _clickListeners).has(el)) {
