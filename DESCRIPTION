@@ -31,6 +31,7 @@ Depends:
 Imports:
     base64enc,
     cachem,
+    fastmap (>= 1.1.1),
     grDevices,
     htmltools (>= 0.5.7),
     jquerylib (>= 0.1.3),

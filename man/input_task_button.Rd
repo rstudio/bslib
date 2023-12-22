@@ -4,6 +4,7 @@
 \alias{input_task_button}
 \alias{icon_spinner}
 \alias{update_task_button}
+\alias{set_task_button_manual_reset}
 \title{Button for launching longer-running operations}
 \usage{
 input_task_button(
@@ -19,6 +20,8 @@ input_task_button(
 icon_spinner()
 
 update_task_button(id, busy = NULL, session = get_current_session())
+
+set_task_button_manual_reset(session, id, manual = TRUE)
 }
 \arguments{
 \item{id}{The \code{input} slot that will be used to access the value.}
@@ -46,15 +49,30 @@ element.}
 put the button into ready/enabled state.}
 
 \item{session}{The \code{session} object; using the default is recommended.}
+
+\item{manual}{If \code{TRUE}, prevent automatic resetting of the task button when
+reactive flush is complete.}
 }
 \description{
-\code{input_task_button} is a button whose value is initially zero, and increments
-by one each time it is pressed. It is similar to \code{\link[shiny:actionButton]{shiny::actionButton()}},
-except that upon click, it puts itself into a busy state that prevents the
-user from clicking it again.
+\code{input_task_button} is a button that can be used in conjuction with
+\code{\link[shiny:bindEvent]{shiny::bindEvent()}} (or the older \code{\link[shiny:observeEvent]{shiny::eventReactive()}} and
+\code{\link[shiny:observeEvent]{shiny::observeEvent()}} functions) to trigger actions or recomputation.
 
-In order to re-enable the button, \code{update_task_button(id, busy = FALSE)} must
-be called from the server function.
+It is similar to \code{\link[shiny:actionButton]{shiny::actionButton()}}, except it prevents the user from
+clicking when its operation is already in progress.
+
+Upon click, it automatically displays a customizable progress message and
+disables itself; and after the server has dealt with whatever reactivity is
+triggered from the click, the button automatically reverts to its original
+appearance and re-enables itself.
+}
+\section{Manual button reset}{
+
+In some advanced use cases, it may be necessary to keep a task button in its
+busy state even after the normal reactive processing has completed. The
+\code{set_task_button_manual_reset} function can be called from the server to opt
+out of the automatic reset behavior for a specific task button. After doing
+so, the button can only be re-enabled by calling \code{update_task_button(id, busy = FALSE)}.
 
 Note that, as a general rule, Shiny's \code{update} family of functions do not
 take effect at the instant that they are called, but are held until the end
@@ -64,6 +82,7 @@ call \code{update_task_button(id, busy = FALSE)}, as the button on the client wi
 not actually re-enable until the same moment that all of the updated outputs
 simultaneously sent to the client.
 }
+
 \section{Server value}{
 
 An integer of class \code{"shinyActionButtonValue"}. This class differs from
@@ -75,3 +94,30 @@ This implies two things:
 }
 }
 
+\examples{
+if (interactive()) {
+  library(shiny)
+  library(bslib)
+
+  ui <- page_sidebar(
+    sidebar = sidebar(open = "always",
+      input_task_button("resample", "Resample"),
+    ),
+    verbatimTextOutput("summary")
+  )
+
+  server <- function(input, output, session) {
+    sample <- eventReactive(input$resample, ignoreNULL=FALSE, {
+      Sys.sleep(2)  # Make this artificially slow
+      rnorm(100)
+    })
+
+    output$summary <- renderPrint({
+      summary(sample())
+    })
+  }
+
+  shinyApp(ui, server)
+}
+
+}
