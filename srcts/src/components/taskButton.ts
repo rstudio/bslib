@@ -25,7 +25,7 @@ class BslibTaskButtonInputBinding extends InputBinding {
   }
 
   getType(/*el: HTMLElement*/): string {
-    return "shiny.action";
+    return "bslib.taskbutton";
   }
 
   subscribe(el: HTMLElement, callback: (x: boolean) => void) {
