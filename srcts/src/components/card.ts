@@ -139,6 +139,8 @@ class Card {
       this.card.setAttribute("tabindex", "-1");
       this.card.focus();
     }
+
+    this._emitFullScreenEvent(true);
   }
 
   /**
@@ -159,6 +161,21 @@ class Card {
     this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "false");
     this.card.removeAttribute("tabindex");
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
+
+    this._emitFullScreenEvent(false);
+  }
+
+  /**
+   * Emits a custom event to communicate the card's full screen state change.
+   * @private
+   * @param {boolean} fullScreen
+   */
+  private _emitFullScreenEvent(fullScreen: boolean): void {
+    const event = new CustomEvent("bslib.card", {
+      bubbles: true,
+      detail: { fullScreen },
+    });
+    this.card.dispatchEvent(event);
   }
 
   /**
