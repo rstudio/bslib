@@ -343,8 +343,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     &[data-collapsible-mobile="true"] {
       // Sidebar layer has to be lifted up to cover other (nested) sidebars
       &:not(.sidebar-collapsed), &.transitioning {
-        > .sidebar { z-index: 1; }
-        > .collapse-toggle { z-index: 1; }
+        > .sidebar { z-index: $zindex-offcanvas; }
+        > .collapse-toggle { z-index: $zindex-offcanvas; }
       }
 
       // Keep toggle on sidebar side when expanded on mobile
