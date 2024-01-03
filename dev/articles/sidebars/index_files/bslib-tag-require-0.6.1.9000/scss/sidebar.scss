@@ -146,6 +146,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   > .collapse-toggle {
     grid-row: 1 / 2;
     grid-column: 1 / 2;
+    z-index: $zindex-dropdown;
     display: inline-flex;
     align-items: center;
     position: absolute;
@@ -342,8 +343,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     &[data-collapsible-mobile="true"] {
       // Sidebar layer has to be lifted up to cover other (nested) sidebars
       &:not(.sidebar-collapsed), &.transitioning {
-        > .sidebar { z-index: 1; }
-        > .collapse-toggle { z-index: 1; }
+        > .sidebar { z-index: $zindex-offcanvas; }
+        > .collapse-toggle { z-index: $zindex-offcanvas; }
       }
 
       // Keep toggle on sidebar side when expanded on mobile
@@ -361,6 +362,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
         opacity: var(--_sidebar-mobile-opacity, 1);
         max-width: var(--_sidebar-mobile-max-width, 100%);
         box-shadow: var(--_sidebar-mobile-box-shadow);
+        margin: 0;
       }
 
       // When `max-width` is less than 100%, push it to the appropriate side
