@@ -306,6 +306,7 @@ full_screen_toggle <- function(id_controls) {
       class = "badge rounded-pill",
       "aria-expanded" = "false",
       "aria-controls" = id_controls,
+      "aria-label" = "Expand card",
       full_screen_toggle_icon()
     ),
     "Expand"
