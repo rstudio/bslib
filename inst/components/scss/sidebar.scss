@@ -362,6 +362,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
         opacity: var(--_sidebar-mobile-opacity, 1);
         max-width: var(--_sidebar-mobile-max-width, 100%);
         box-shadow: var(--_sidebar-mobile-box-shadow);
+        margin: 0;
       }
 
       // When `max-width` is less than 100%, push it to the appropriate side
