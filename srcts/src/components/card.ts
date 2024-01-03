@@ -114,6 +114,11 @@ class Card {
   enterFullScreen(event?: Event): void {
     if (event) event.preventDefault();
 
+    // Update close anchor to control current expanded card
+    if (this.card.id) {
+      this.overlay.anchor.setAttribute("aria-controls", this.card.id);
+    }
+
     document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
 
     // trap focus in the fullscreen container, listening for Tab key on the
@@ -287,12 +292,13 @@ class Card {
   /**
    * Creates the anchor element used to exit the full screen mode.
    * @private
-   * @returns {HTMLAnchorElement}
+   * @returns {CardFullScreenOverlay["anchor"]}
    */
-  private _createOverlayCloseAnchor(): HTMLAnchorElement {
+  private _createOverlayCloseAnchor(): CardFullScreenOverlay["anchor"] {
     const anchor = document.createElement("a");
     anchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
     anchor.tabIndex = 0;
+    anchor.setAttribute("aria-expanded", "true");
     anchor.onclick = () => this.exitFullScreen();
     anchor.onkeydown = (ev) => {
       if (ev.key === "Enter" || ev.key === " ") {
