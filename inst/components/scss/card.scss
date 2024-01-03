@@ -109,8 +109,8 @@
 }
 
 // Hide all enter-full-screen buttons when *any* card is full-screenified
-.bslib-has-full-screen .card:hover > * > .bslib-full-screen-enter {
-  display: none;
+.bslib-has-full-screen .card > * > .bslib-full-screen-enter {
+  display: none !important;
 }
 
 // Only allow full_screen on desktop screens
