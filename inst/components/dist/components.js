@@ -1,4 +1,4 @@
-/*! bslib 0.6.1.9000 | (c) 2012-2023 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.6.1.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -402,6 +402,9 @@
           var _a;
           if (event)
             event.preventDefault();
+          if (this.card.id) {
+            this.overlay.anchor.setAttribute("aria-controls", this.card.id);
+          }
           document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
           document.addEventListener("keydown", this._trapFocusExit, true);
           this.card.setAttribute(_Card.attr.ATTR_FULL_SCREEN, "true");
@@ -537,12 +540,15 @@
         /**
          * Creates the anchor element used to exit the full screen mode.
          * @private
-         * @returns {HTMLAnchorElement}
+         * @returns {CardFullScreenOverlay["anchor"]}
          */
         _createOverlayCloseAnchor() {
           const anchor = document.createElement("a");
           anchor.classList.add(_Card.attr.CLASS_FULL_SCREEN_EXIT);
           anchor.tabIndex = 0;
+          anchor.setAttribute("aria-expanded", "true");
+          anchor.setAttribute("aria-label", "Close card");
+          anchor.setAttribute("role", "button");
           anchor.onclick = () => this.exitFullScreen();
           anchor.onkeydown = (ev) => {
             if (ev.key === "Enter" || ev.key === " ") {
