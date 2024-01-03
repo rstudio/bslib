@@ -109,7 +109,7 @@
 }
 
 // Hide all enter-full-screen buttons when *any* card is full-screenified
-.bslib-has-full-screen .card > * > .bslib-full-screen-enter {
+.bslib-has-full-screen .bslib-full-screen-enter {
   display: none !important;
 }
 
