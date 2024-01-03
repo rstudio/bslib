@@ -416,6 +416,7 @@
             this.card.setAttribute("tabindex", "-1");
             this.card.focus();
           }
+          this._emitFullScreenEvent(true);
         }
         /**
          * Exit full screen mode. This removes the full screen overlay element,
@@ -433,6 +434,19 @@
           this.card.setAttribute(_Card.attr.ATTR_FULL_SCREEN, "false");
           this.card.removeAttribute("tabindex");
           document.body.classList.remove(_Card.attr.CLASS_HAS_FULL_SCREEN);
+          this._emitFullScreenEvent(false);
+        }
+        /**
+         * Emits a custom event to communicate the card's full screen state change.
+         * @private
+         * @param {boolean} fullScreen
+         */
+        _emitFullScreenEvent(fullScreen) {
+          const event = new CustomEvent("bslib.card", {
+            bubbles: true,
+            detail: { fullScreen }
+          });
+          this.card.dispatchEvent(event);
         }
         /**
          * Adds general card-specific event listeners.
@@ -549,7 +563,10 @@
           anchor.setAttribute("aria-expanded", "true");
           anchor.setAttribute("aria-label", "Close card");
           anchor.setAttribute("role", "button");
-          anchor.onclick = () => this.exitFullScreen();
+          anchor.onclick = (ev) => {
+            this.exitFullScreen();
+            ev.stopPropagation();
+          };
           anchor.onkeydown = (ev) => {
             if (ev.key === "Enter" || ev.key === " ") {
               this.exitFullScreen();
