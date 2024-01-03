@@ -146,6 +146,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   > .collapse-toggle {
     grid-row: 1 / 2;
     grid-column: 1 / 2;
+    z-index: $zindex-dropdown;
     display: inline-flex;
     align-items: center;
     position: absolute;
