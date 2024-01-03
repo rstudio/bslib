@@ -299,6 +299,7 @@ class Card {
     anchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
     anchor.tabIndex = 0;
     anchor.setAttribute("aria-expanded", "true");
+    anchor.setAttribute("role", "button");
     anchor.onclick = () => this.exitFullScreen();
     anchor.onkeydown = (ev) => {
       if (ev.key === "Enter" || ev.key === " ") {
