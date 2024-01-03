@@ -318,7 +318,10 @@ class Card {
     anchor.setAttribute("aria-expanded", "true");
     anchor.setAttribute("aria-label", "Close card");
     anchor.setAttribute("role", "button");
-    anchor.onclick = () => this.exitFullScreen();
+    anchor.onclick = (ev) => {
+      this.exitFullScreen();
+      ev.stopPropagation();
+    };
     anchor.onkeydown = (ev) => {
       if (ev.key === "Enter" || ev.key === " ") {
         this.exitFullScreen();
