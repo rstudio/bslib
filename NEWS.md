@@ -16,6 +16,8 @@
 
 * `sidebar()` now supports separate choices for the `open` argument on mobile or desktop screens. You can pass a list with `mobile` and `desktop` values to `open` to control the sidebar's initial state on each screen size, choosing from `"open"`, `"closed"`, or `"always"` (for an always-open sidebar that cannot be collapsed). (#943)
 
+* We've improved the accessibility of full screen cards created with `card(full_screen = TRUE, ...)`. The _Expand card_ button is now accessible via keyboard navigation and appropriate ARIA attributes connect the card with the expand and close buttons. (#959)
+
 ## Bug fixes
 
 * `layout_columns()` now always uses a 12-unit grid when the user provides an integer value to `col_widths` for any breakpoint. For example, `breakpoints(md = 3, lg = NA)` will pick a best-fitting layout for large screen sizes using the 12-column grid. Previously, the best fit algorithm might adjust the number of columns as a shortcut to an easy solution. That shortcut is only taken when an auto-fit layout is requested for every breakpoint, e.g. `col_widths = breakpoints(md = NA, lg = NA)` or `col_widths = NA`. (#928)
