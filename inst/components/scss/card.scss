@@ -155,7 +155,7 @@
 // Adjust full screen styles on mobile
 @include media-breakpoint-down(sm) {
   .bslib-card[data-full-screen="true"] {
-    inset: 2.5rem 1rem 1rem;
+    inset: 2.5rem 0.5rem 0.5rem;
   }
 
   .bslib-full-screen-exit {
