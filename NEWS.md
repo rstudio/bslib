@@ -20,6 +20,8 @@
 
 * We've improved the accessibility of full screen cards created with `card(full_screen = TRUE, ...)`. The _Expand card_ button is now accessible via keyboard navigation and appropriate ARIA attributes connect the card with the expand and close buttons. For JavaScript-oriented users, the expansion/collapse is now accompanied by a custom `bslib.card` event with the full screen state reported in the `event.detail.fullScreen` property. (#959)
 
+* Full-screen cards are now supported on mobile devices: the _Expand card_ button is revealed when a user taps on the card (thanks @Damonsoul, #961).
+
 ## Bug fixes
 
 * `layout_columns()` now always uses a 12-unit grid when the user provides an integer value to `col_widths` for any breakpoint. For example, `breakpoints(md = 3, lg = NA)` will pick a best-fitting layout for large screen sizes using the 12-column grid. Previously, the best fit algorithm might adjust the number of columns as a shortcut to an easy solution. That shortcut is only taken when an auto-fit layout is requested for every breakpoint, e.g. `col_widths = breakpoints(md = NA, lg = NA)` or `col_widths = NA`. (#928)
