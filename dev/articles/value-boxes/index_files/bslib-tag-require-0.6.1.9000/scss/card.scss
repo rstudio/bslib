@@ -70,7 +70,7 @@
 * Full screen card logic
 *************************************************/
 
-[data-full-screen="true"] {
+.bslib-card[data-full-screen="true"] {
   position: fixed;
   inset: 3.5rem 1rem 1rem;
   height: auto !important;
@@ -113,11 +113,6 @@
   display: none !important;
 }
 
-// Only allow full_screen on desktop screens
-@include media-breakpoint-down(sm) {
-  .bslib-full-screen-enter { display: none !important; }
-}
-
 .bslib-full-screen-exit {
   position: relative;
   top: 1.35rem;
@@ -154,5 +149,17 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+// Adjust full screen styles on mobile
+@include media-breakpoint-down(sm) {
+  .bslib-card[data-full-screen="true"] {
+    inset: 2.5rem 0.5rem 0.5rem;
+  }
+
+  .bslib-full-screen-exit {
+    top: 0.75rem;
+    margin-right: 1.25rem;
   }
 }
