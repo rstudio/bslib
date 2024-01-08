@@ -1,4 +1,4 @@
-$bslib-value-box-horizontal-break-point: 300px;
+$bslib-value-box-horizontal-break-point: 300px !default;
 
 // CSS variables that start with --- (3 dashes instead of 2) are private vars
 // that are set by user arguments in the R calls. The CSS properties below only
