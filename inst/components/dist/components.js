@@ -1059,7 +1059,10 @@
         }
         getValue(el) {
           var _a;
-          return (_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0;
+          return {
+            value: (_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0,
+            manualReset: el.hasAttribute("data-manual-reset")
+          };
         }
         getType() {
           return "bslib.taskbutton";
