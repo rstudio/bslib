@@ -4,7 +4,6 @@
 \alias{input_task_button}
 \alias{icon_spinner}
 \alias{update_task_button}
-\alias{set_task_button_manual_reset}
 \title{Button for launching longer-running operations}
 \usage{
 input_task_button(
@@ -13,15 +12,18 @@ input_task_button(
   icon = NULL,
   busy_label = "Processing...",
   busy_icon = icon_spinner(),
+  ...,
   type = "primary",
-  ...
+  auto_reset = TRUE
 )
 
 icon_spinner()
 
-update_task_button(id, busy = NULL, session = get_current_session())
-
-set_task_button_manual_reset(session, id, manual = TRUE)
+update_task_button(
+  id,
+  state = c(NULL, "ready", "busy"),
+  session = get_current_session()
+)
 }
 \arguments{
 \item{id}{The \code{input} slot that will be used to access the value.}
@@ -37,21 +39,21 @@ in ready state. See \code{\link[fontawesome:fa_i]{fontawesome::fa_i()}}.}
 \item{busy_icon}{The icon to display while the button is busy. By default, a
 spinning "chasing arrows" icon is used.}
 
+\item{...}{Named arguments become attributes to include on the \verb{<button>}
+element.}
+
 \item{type}{One of the Bootstrap theme colors (\code{"primary"}, \code{"default"},
 \code{"secondary"}, \code{"success"}, \code{"danger"}, \code{"warning"}, \code{"info"}, \code{"light"},
 \code{"dark"}), or \code{NULL} to leave off the Bootstrap-specific button CSS classes
 altogether.}
 
-\item{...}{Named arguments become attributes to include on the \verb{<button>}
-element.}
+\item{auto_reset}{If \code{TRUE} (the default), automatically put the button back
+in "ready" state after its click is handled by the server.}
 
-\item{busy}{If \code{TRUE}, put the button into busy/disabled state. If \code{FALSE},
-put the button into ready/enabled state.}
+\item{state}{If \code{"busy"}, put the button into busy/disabled state. If
+\code{"ready"}, put the button into ready/enabled state.}
 
 \item{session}{The \code{session} object; using the default is recommended.}
-
-\item{manual}{If \code{TRUE}, prevent automatic resetting of the task button when
-reactive flush is complete.}
 }
 \description{
 \code{input_task_button} is a button that can be used in conjuction with
@@ -69,10 +71,15 @@ appearance and re-enables itself.
 \section{Manual button reset}{
 
 In some advanced use cases, it may be necessary to keep a task button in its
-busy state even after the normal reactive processing has completed. The
-\code{set_task_button_manual_reset} function can be called from the server to opt
-out of the automatic reset behavior for a specific task button. After doing
-so, the button can only be re-enabled by calling \code{update_task_button(id, busy = FALSE)}.
+busy state even after the normal reactive processing has completed. Calling
+\code{update_task_button(id, busy = TRUE)} from the server will opt out of any
+currently pending reset for a specific task button. After doing so, the
+button can be re-enabled by calling \code{update_task_button(id, busy = FALSE)}
+after each click's work is complete.
+
+You can also pass an explicit \code{auto_reset = FALSE} to \code{input_task_button()},
+which means that button will \emph{never} be automatically re-enabled and will
+require \code{update_task_button(id, busy = FALSE)} to be called each time.
 
 Note that, as a general rule, Shiny's \code{update} family of functions do not
 take effect at the instant that they are called, but are held until the end
