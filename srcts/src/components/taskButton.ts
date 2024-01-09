@@ -21,7 +21,10 @@ class BslibTaskButtonInputBinding extends InputBinding {
   }
 
   getValue(el: HTMLElement) {
-    return this.#clickCount.get(el) ?? 0;
+    return {
+      value: this.#clickCount.get(el) ?? 0,
+      autoReset: el.hasAttribute("data-auto-reset"),
+    };
   }
 
   getType(/*el: HTMLElement*/): string {

@@ -15,11 +15,15 @@
 #'
 #' @section Manual button reset:
 #' In some advanced use cases, it may be necessary to keep a task button in its
-#' busy state even after the normal reactive processing has completed. The
-#' `set_task_button_manual_reset` function can be called from the server to opt
-#' out of the automatic reset behavior for a specific task button. After doing
-#' so, the button can only be re-enabled by calling `update_task_button(id, busy
-#' = FALSE)`.
+#' busy state even after the normal reactive processing has completed. Calling
+#' `update_task_button(id, busy = TRUE)` from the server will opt out of any
+#' currently pending reset for a specific task button. After doing so, the
+#' button can be re-enabled by calling `update_task_button(id, busy = FALSE)`
+#' after each click's work is complete.
+#'
+#' You can also pass an explicit `auto_reset = FALSE` to `input_task_button()`,
+#' which means that button will _never_ be automatically re-enabled and will
+#' require `update_task_button(id, busy = FALSE)` to be called each time.
 #'
 #' Note that, as a general rule, Shiny's `update` family of functions do not
 #' take effect at the instant that they are called, but are held until the end
@@ -43,6 +47,8 @@
 #'   altogether.
 #' @param ... Named arguments become attributes to include on the `<button>`
 #'   element.
+#' @param auto_reset If `TRUE` (the default), automatically put the button back
+#'   in "ready" state after its click is handled by the server.
 #'
 #' @section Server value:
 #' An integer of class `"shinyActionButtonValue"`. This class differs from
@@ -79,14 +85,15 @@
 #'
 #' @export
 input_task_button <- function(id, label, icon = NULL,
-  busy_label = "Processing...", busy_icon = icon_spinner(), type = "primary",
-  ...) {
+  busy_label = "Processing...", busy_icon = icon_spinner(), ...,
+  type = "primary", auto_reset = TRUE) {
 
   tags$button(
     id = id,
     class = if (!is.null(type)) paste0("btn btn-", type),
     class = "bslib-task-button",
     type = "button",
+    "data-auto-reset" = if (isTRUE(auto_reset)) NA else NULL,
 
     component_dependencies(),
 
@@ -112,14 +119,28 @@ icon_spinner <- function() {
   fontawesome::fa_i("refresh", class = "fa-spin", "aria-hidden" = "true")
 }
 
-#' @param busy If `TRUE`, put the button into busy/disabled state. If `FALSE`,
-#'   put the button into ready/enabled state.
+#' @param state If `"busy"`, put the button into busy/disabled state. If
+#'   `"ready"`, put the button into ready/enabled state.
 #' @param session The `session` object; using the default is recommended.
 #' @rdname input_task_button
 #' @export
-update_task_button <- function(id, busy = NULL, session = get_current_session()) {
+update_task_button <- function(id, state = c(NULL, "ready", "busy"), session = get_current_session()) {
   force(id)
-  force(busy)
+
+  busy <- NULL
+
+  if (missing(state)) {
+  } else if (is.null(state)) {
+    # Do nothing
+  } else if (identical(state, "ready")) {
+    set_task_button_manual_reset(session, id, manual = FALSE)
+    busy <- FALSE
+  } else if (identical(state, "busy")) {
+    set_task_button_manual_reset(session, id, manual = TRUE)
+    busy <- TRUE
+  } else {
+    abort("Unexpected value for update_task_button's `state` argument; expected either \"ready\" or \"busy\"")
+  }
 
   session$sendInputMessage(id, dropNulls(list(busy = busy)))
 }
@@ -135,10 +156,8 @@ task_button_manual_reset_map <- function(session) {
   map
 }
 
-#' @rdname input_task_button
-#' @param manual If `TRUE`, prevent automatic resetting of the task button when
-#'   reactive flush is complete.
-#' @export
+# Prevent automatic resetting of the task button when this reactive flush is
+# complete
 set_task_button_manual_reset <- function(session, id, manual = TRUE) {
   ns_id <- session$ns(id)
   map <- task_button_manual_reset_map(session)
@@ -157,16 +176,21 @@ is_task_button_manual_reset <- function(session, id) {
 
 
 input_task_button_input_handler <- function(val, shinysession, name) {
-  shinysession$onFlush(once = TRUE, function() {
-    # This is input_task_button's auto-reset feature: unless the user has
-    # opted out using set_task_button_manual_reset(), we should reset after
-    # a flush cycle where a bslib.taskbutton value is seen.
-    if (!is_task_button_manual_reset(shinysession, name)) {
-      update_task_button(name, busy = FALSE, session = shinysession)
-    }
-  })
+  value <- val[["value"]]
+  auto_reset <- isTRUE(val[["auto_reset"]])
+
+  if (!auto_reset) {
+    shinysession$onFlush(once = TRUE, function() {
+      # This is input_task_button's auto-reset feature: unless the button has
+      # opted out using set_task_button_manual_reset(), we should reset after
+      # a flush cycle where a bslib.taskbutton value is seen.
+      if (!is_task_button_manual_reset(shinysession, name)) {
+        update_task_button(name, state = "ready", session = shinysession)
+      }
+    })
+  }
 
   # mark up the action button value with a special class so we can recognize it later
-  class(val) <- c("shinyActionButtonValue", class(val))
-  val
+  class(value) <- c("shinyActionButtonValue", class(value))
+  value
 }

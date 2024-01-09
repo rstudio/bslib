@@ -1,4 +1,4 @@
-/*! bslib 0.6.1.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.6.1.9001 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -996,7 +996,10 @@
         }
         getValue(el) {
           var _a;
-          return (_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0;
+          return {
+            value: (_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0,
+            autoReset: el.hasAttribute("data-auto-reset")
+          };
         }
         getType() {
           return "bslib.taskbutton";
