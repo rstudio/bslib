@@ -27,7 +27,7 @@
 #'
 #' Note that, as a general rule, Shiny's `update` family of functions do not
 #' take effect at the instant that they are called, but are held until the end
-#' of the current flush cycle. So if you have many different reactive
+#' of the current reactive cycle. So if you have many different reactive
 #' calculations and outputs, you don't have to be too careful about when you
 #' call `update_task_button(id, busy = FALSE)`, as the button on the client will
 #' not actually re-enable until the same moment that all of the updated outputs
@@ -63,7 +63,8 @@
 #'   library(bslib)
 #'
 #'   ui <- page_sidebar(
-#'     sidebar = sidebar(open = "always",
+#'     sidebar = sidebar(
+#'       open = "always",
 #'       input_task_button("resample", "Resample"),
 #'     ),
 #'     verbatimTextOutput("summary")
@@ -124,25 +125,22 @@ icon_spinner <- function() {
 #' @param session The `session` object; using the default is recommended.
 #' @rdname input_task_button
 #' @export
-update_task_button <- function(id, state = c(NULL, "ready", "busy"), session = get_current_session()) {
+update_task_button <- function(id, state, ..., session = get_current_session()) {
   force(id)
 
   busy <- NULL
 
-  if (missing(state)) {
-  } else if (is.null(state)) {
+  if (missing(state) || is.null(state)) {
     # Do nothing
-  } else if (identical(state, "ready")) {
-    set_task_button_manual_reset(session, id, manual = FALSE)
-    busy <- FALSE
-  } else if (identical(state, "busy")) {
-    set_task_button_manual_reset(session, id, manual = TRUE)
-    busy <- TRUE
-  } else {
-    abort("Unexpected value for update_task_button's `state` argument; expected either \"ready\" or \"busy\"")
+    return()
   }
-
-  session$sendInputMessage(id, dropNulls(list(busy = busy)))
+  
+  if (!rlang::is_string(state)) {
+    abort("`state` must be a single character value.")
+  }
+  
+  set_task_button_manual_reset(session, id, manual = !identical(state, "ready"))
+  session$sendInputMessage(id, list(state = state))
 }
 
 

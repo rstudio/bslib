@@ -2,7 +2,7 @@ import { InputBinding, registerBinding } from "./_utils";
 import type { BslibSwitchInline } from "./webcomponents/switch";
 
 type TaskButtonMessage = {
-  busy: boolean;
+  state: string;
 };
 
 /**
@@ -39,7 +39,7 @@ class BslibTaskButtonInputBinding extends InputBinding {
     const eventListener = (/*event: Event*/) => {
       this.#clickCount.set(el, (this.#clickCount.get(el) ?? 0) + 1);
       callback(true);
-      this.#setBusy(el, true);
+      this.#setState(el, "busy");
     };
     this.#clickListeners.set(el, eventListener);
     el.addEventListener("click", eventListener);
@@ -52,20 +52,20 @@ class BslibTaskButtonInputBinding extends InputBinding {
     }
   }
 
-  async receiveMessage(el: HTMLElement, { busy }: TaskButtonMessage) {
-    this.#setBusy(el, busy);
+  async receiveMessage(el: HTMLElement, { state }: TaskButtonMessage) {
+    this.#setState(el, state);
   }
 
   /**
-   * Reach into the child <bslib-switch-inline> and set case="busy" or "ready".
+   * Reach into the child <bslib-switch-inline> and to switch to the state case.
    */
-  #setBusy(el: HTMLElement, busy: boolean) {
-    (el as HTMLButtonElement).disabled = busy;
+  #setState(el: HTMLElement, state: string) {
+    (el as HTMLButtonElement).disabled = state === "busy";
     const tbc = el.querySelector(
       "bslib-switch-inline"
     ) as BslibSwitchInline | null;
     if (tbc) {
-      tbc.case = busy ? "busy" : "ready";
+      tbc.case = state;
     }
   }
 }
