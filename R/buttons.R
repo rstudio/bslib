@@ -209,6 +209,10 @@ input_task_button_input_handler <- function(val, shinysession, name) {
 #' [shiny::observeEvent()]) to cause the button press to trigger an invocation,
 #' as in the example below.
 #'
+#' `bind_task_button` cannot be used to bind one task button to multiple
+#' `ExtendedTask` objects; if you attempt to do so, any bound `ExtendedTask`
+#' that completes will cause the button to return to "ready" state.
+#'
 #' @param target The target object (i.e. `ExtendedTask`).
 #' @param task_button_id A string matching the `id` argument passed to the
 #'   corresponding [input_task_button()] call.
