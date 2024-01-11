@@ -27,6 +27,6 @@ setup_input_handlers <- function() {
     return(FALSE)
   }
 
-  shiny::registerInputHandler("bslib.taskbutton", input_task_button_input_handler)
+  shiny::registerInputHandler("bslib.taskbutton", input_task_button_input_handler, force = TRUE)
   TRUE
 }
