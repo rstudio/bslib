@@ -61,32 +61,30 @@
 #'   * Event handlers (e.g., [shiny::observeEvent()], [shiny::eventReactive()]) won't execute on initial load.
 #'   * Input validation (e.g., [shiny::req()], [shiny::need()]) will fail on initial load.
 #'
-#' @examples
-#' if (interactive()) {
-#'   library(shiny)
-#'   library(bslib)
+#' @examplesIf interactive()
+#' library(shiny)
+#' library(bslib)
 #'
-#'   ui <- page_sidebar(
-#'     sidebar = sidebar(
-#'       open = "always",
-#'       input_task_button("resample", "Resample"),
-#'     ),
-#'     verbatimTextOutput("summary")
-#'   )
+#' ui <- page_sidebar(
+#'   sidebar = sidebar(
+#'     open = "always",
+#'     input_task_button("resample", "Resample"),
+#'   ),
+#'   verbatimTextOutput("summary")
+#' )
 #'
-#'   server <- function(input, output, session) {
-#'     sample <- eventReactive(input$resample, ignoreNULL=FALSE, {
-#'       Sys.sleep(2)  # Make this artificially slow
-#'       rnorm(100)
-#'     })
+#' server <- function(input, output, session) {
+#'   sample <- eventReactive(input$resample, ignoreNULL=FALSE, {
+#'     Sys.sleep(2)  # Make this artificially slow
+#'     rnorm(100)
+#'   })
 #'
-#'     output$summary <- renderPrint({
-#'       summary(sample())
-#'     })
-#'   }
-#'
-#'   shinyApp(ui, server)
+#'   output$summary <- renderPrint({
+#'     summary(sample())
+#'   })
 #' }
+#'
+#' shinyApp(ui, server)
 #'
 #' @export
 input_task_button <- function(id, label, ..., icon = NULL,
