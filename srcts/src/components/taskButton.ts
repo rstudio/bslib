@@ -6,11 +6,11 @@ type TaskButtonMessage = {
 };
 
 /**
- * This is a Shiny input binding for `bslib::task_button()`. It is not a web
- * component, though one of its children is <bslib-switch-inline>. The reason it
- * is not a web component is because it is primarily a button, and I wanted to
- * use the native <button> element to ensure that all of the behaviors of a
- * native button are perfectly implemented.
+ * This is a Shiny input binding for `bslib::input_task_button()`. It is not a
+ * web component, though one of its children is <bslib-switch-inline>. The
+ * reason it is not a web component is because it is primarily a button, and I
+ * wanted to use the native <button> element to ensure that all of the behaviors
+ * of a native button are perfectly implemented.
  */
 class BslibTaskButtonInputBinding extends InputBinding {
   #clickCount = new WeakMap<HTMLElement, number>();
