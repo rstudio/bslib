@@ -89,9 +89,13 @@
 #' }
 #'
 #' @export
-input_task_button <- function(id, label, icon = NULL,
-  label_busy = "Processing...", icon_busy = rlang::missing_arg(), ...,
+input_task_button <- function(id, label, ..., icon = NULL,
+  label_busy = "Processing...", icon_busy = rlang::missing_arg(),
   type = "primary", auto_reset = TRUE) {
+
+  dots <- separate_arguments(...)
+  attribs <- dots$attribs
+  children <- dots$children
 
   icon_busy <- rlang::maybe_missing(
     icon_busy,
@@ -104,22 +108,22 @@ input_task_button <- function(id, label, icon = NULL,
     class = "bslib-task-button",
     type = "button",
     "data-auto-reset" = if (isTRUE(auto_reset)) NA else NULL,
+    !!!attribs,
 
     component_dependencies(),
 
     htmltools::tag("bslib-switch-inline",
-      list(
+      rlang::list2(
         case = "ready",
         span(slot = "ready",
           icon, label
         ),
         span(slot = "busy",
           icon_busy, label_busy
-        )
+        ),
+        !!!children
       )
-    ),
-
-    ...
+    )
   )
 }
 

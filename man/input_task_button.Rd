@@ -8,10 +8,10 @@
 input_task_button(
   id,
   label,
+  ...,
   icon = NULL,
   label_busy = "Processing...",
   icon_busy = rlang::missing_arg(),
-  ...,
   type = "primary",
   auto_reset = TRUE
 )
@@ -24,6 +24,9 @@ update_task_button(id, ..., state = NULL, session = get_current_session())
 \item{label}{The label of the button while it is in ready (clickable) state;
 usually a string.}
 
+\item{...}{Named arguments become attributes to include on the \verb{<button>}
+element.}
+
 \item{icon}{An optional icon to display next to the label while the button is
 in ready state. See \code{\link[fontawesome:fa_i]{fontawesome::fa_i()}}.}
 
@@ -35,9 +38,6 @@ is used, which displays a spinning "chasing arrows" icon. You can create
 spinning icons out of other Font Awesome icons by using the same
 expression, but replacing \code{"refresh"} with a different icon name. See
 \code{\link[fontawesome:fa_i]{fontawesome::fa_i()}}.}
-
-\item{...}{Named arguments become attributes to include on the \verb{<button>}
-element.}
 
 \item{type}{One of the Bootstrap theme colors (\code{"primary"}, \code{"default"},
 \code{"secondary"}, \code{"success"}, \code{"danger"}, \code{"warning"}, \code{"info"}, \code{"light"},
