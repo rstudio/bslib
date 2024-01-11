@@ -180,9 +180,8 @@ is_task_button_manual_reset <- function(session, id) {
 
 input_task_button_input_handler <- function(val, shinysession, name) {
   value <- val[["value"]]
-  auto_reset <- isTRUE(val[["auto_reset"]])
 
-  if (!auto_reset) {
+  if (isTRUE(val[["autoReset"]])) {
     shinysession$onFlush(once = TRUE, function() {
       # This is input_task_button's auto-reset feature: unless the button has
       # opted out using set_task_button_manual_reset(), we should reset after
