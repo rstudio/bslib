@@ -16,14 +16,14 @@
 #' @section Manual button reset:
 #' In some advanced use cases, it may be necessary to keep a task button in its
 #' busy state even after the normal reactive processing has completed. Calling
-#' `update_task_button(id, busy = TRUE)` from the server will opt out of any
+#' `update_task_button(id, state = "busy")` from the server will opt out of any
 #' currently pending reset for a specific task button. After doing so, the
-#' button can be re-enabled by calling `update_task_button(id, busy = FALSE)`
+#' button can be re-enabled by calling `update_task_button(id, state = "ready")`
 #' after each click's work is complete.
 #'
 #' You can also pass an explicit `auto_reset = FALSE` to `input_task_button()`,
 #' which means that button will _never_ be automatically re-enabled and will
-#' require `update_task_button(id, busy = FALSE)` to be called each time.
+#' require `update_task_button(id, state = "ready")` to be called each time.
 #'
 #' Note that, as a general rule, Shiny's `update` family of functions do not
 #' take effect at the instant that they are called, but are held until the end
@@ -38,9 +38,13 @@
 #'   usually a string.
 #' @param icon An optional icon to display next to the label while the button is
 #'   in ready state. See [fontawesome::fa_i()].
-#' @param busy_label The label of the button while it is busy.
-#' @param busy_icon The icon to display while the button is busy. By default, a
-#'   spinning "chasing arrows" icon is used.
+#' @param label_busy The label of the button while it is busy.
+#' @param icon_busy The icon to display while the button is busy. By default,
+#'   `fontawesome::fa_i("refresh", class = "fa-spin", "aria-hidden" = "true")`
+#'   is used, which displays a spinning "chasing arrows" icon. You can create
+#'   spinning icons out of other Font Awesome icons by using the same
+#'   expression, but replacing `"refresh"` with a different icon name. See
+#'   [fontawesome::fa_i()].
 #' @param type One of the Bootstrap theme colors (`"primary"`, `"default"`,
 #'   `"secondary"`, `"success"`, `"danger"`, `"warning"`, `"info"`, `"light"`,
 #'   `"dark"`), or `NULL` to leave off the Bootstrap-specific button CSS classes
@@ -86,8 +90,13 @@
 #'
 #' @export
 input_task_button <- function(id, label, icon = NULL,
-  busy_label = "Processing...", busy_icon = icon_spinner(), ...,
+  label_busy = "Processing...", icon_busy = rlang::missing_arg(), ...,
   type = "primary", auto_reset = TRUE) {
+
+  icon_busy <- rlang::maybe_missing(
+    icon_busy,
+    fontawesome::fa_i("refresh", class = "fa-spin", "aria-hidden" = "true")
+  )
 
   tags$button(
     id = id,
@@ -105,7 +114,7 @@ input_task_button <- function(id, label, icon = NULL,
           icon, label
         ),
         span(slot = "busy",
-          busy_icon, busy_label
+          icon_busy, label_busy
         )
       )
     ),
@@ -114,33 +123,25 @@ input_task_button <- function(id, label, icon = NULL,
   )
 }
 
-#' @rdname input_task_button
-#' @export
-icon_spinner <- function() {
-  fontawesome::fa_i("refresh", class = "fa-spin", "aria-hidden" = "true")
-}
-
 #' @param state If `"busy"`, put the button into busy/disabled state. If
 #'   `"ready"`, put the button into ready/enabled state.
 #' @param session The `session` object; using the default is recommended.
 #' @rdname input_task_button
 #' @export
-update_task_button <- function(id, state, ..., session = get_current_session()) {
+update_task_button <- function(id, ..., state = NULL, session = get_current_session()) {
   force(id)
+  force(state)
 
-  busy <- NULL
+  rlang::check_dots_empty()
 
-  if (missing(state) || is.null(state)) {
-    # Do nothing
-    return()
+  if (!is.null(state)) {
+    if (!rlang::is_string(state)) {
+      abort("`state` must be a single character value.")
+    }
+    set_task_button_manual_reset(session, id, manual = !identical(state, "ready"))
   }
-  
-  if (!rlang::is_string(state)) {
-    abort("`state` must be a single character value.")
-  }
-  
-  set_task_button_manual_reset(session, id, manual = !identical(state, "ready"))
-  session$sendInputMessage(id, list(state = state))
+
+  session$sendInputMessage(id, dropNulls(list(state = state)))
 }
 
 
