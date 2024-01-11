@@ -62,7 +62,12 @@ server <- function(input, output) {
       Sys.sleep(2)
       runif(1)
     }, seed = TRUE)
-  }) |> bind_task_button("recalc") # Make button state reflect task
+  })
+
+  # Make button state reflect task.
+  # If using R >=4.1, you can do this instead:
+  # rand_task <- ExtendedTask$new(...) |> bind_task_button("recalc")
+  bind_task_button(rand_task, "recalc")
 
   observeEvent(input$recalc, {
     rand_task$invoke()
