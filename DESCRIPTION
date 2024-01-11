@@ -28,6 +28,8 @@ URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
 Depends:
     R (>= 2.10)
+Remotes:
+    rstudio/shiny
 Imports:
     base64enc,
     cachem,
