@@ -1,4 +1,4 @@
-/*! bslib 0.6.1.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.6.1.9001 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -1039,7 +1039,7 @@
   });
 
   // srcts/src/components/taskButton.ts
-  var _clickCount, _clickListeners, _setBusy, setBusy_fn, BslibTaskButtonInputBinding;
+  var _clickCount, _clickListeners, _setState, setState_fn, BslibTaskButtonInputBinding;
   var init_taskButton = __esm({
     "srcts/src/components/taskButton.ts"() {
       "use strict";
@@ -1048,9 +1048,9 @@
         constructor() {
           super(...arguments);
           /**
-           * Reach into the child <bslib-switch-inline> and set case="busy" or "ready".
+           * Reach into the child <bslib-switch-inline> and to switch to the state case.
            */
-          __privateAdd(this, _setBusy);
+          __privateAdd(this, _setState);
           __privateAdd(this, _clickCount, /* @__PURE__ */ new WeakMap());
           __privateAdd(this, _clickListeners, /* @__PURE__ */ new WeakMap());
         }
@@ -1061,7 +1061,7 @@
           var _a;
           return {
             value: (_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0,
-            manualReset: el.hasAttribute("data-manual-reset")
+            autoReset: el.hasAttribute("data-auto-reset")
           };
         }
         getType() {
@@ -1075,7 +1075,7 @@
             var _a;
             __privateGet(this, _clickCount).set(el, ((_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0) + 1);
             callback(true);
-            __privateMethod(this, _setBusy, setBusy_fn).call(this, el, true);
+            __privateMethod(this, _setState, setState_fn).call(this, el, "busy");
           };
           __privateGet(this, _clickListeners).set(el, eventListener);
           el.addEventListener("click", eventListener);
@@ -1087,21 +1087,21 @@
           }
         }
         receiveMessage(_0, _1) {
-          return __async(this, arguments, function* (el, { busy }) {
-            __privateMethod(this, _setBusy, setBusy_fn).call(this, el, busy);
+          return __async(this, arguments, function* (el, { state }) {
+            __privateMethod(this, _setState, setState_fn).call(this, el, state);
           });
         }
       };
       _clickCount = new WeakMap();
       _clickListeners = new WeakMap();
-      _setBusy = new WeakSet();
-      setBusy_fn = function(el, busy) {
-        el.disabled = busy;
+      _setState = new WeakSet();
+      setState_fn = function(el, state) {
+        el.disabled = state === "busy";
         const tbc = el.querySelector(
           "bslib-switch-inline"
         );
         if (tbc) {
-          tbc.case = busy ? "busy" : "ready";
+          tbc.case = state;
         }
       };
       registerBinding(BslibTaskButtonInputBinding, "task-button");
