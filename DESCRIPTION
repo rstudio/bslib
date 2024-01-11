@@ -45,6 +45,7 @@ Suggests:
     bsicons,
     curl,
     fontawesome,
+    future,
     ggplot2,
     knitr,
     magrittr,
