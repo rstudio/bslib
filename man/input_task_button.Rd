@@ -82,9 +82,9 @@ Note that, as a general rule, Shiny's \code{update} family of functions do not
 take effect at the instant that they are called, but are held until the end
 of the current reactive cycle. So if you have many different reactive
 calculations and outputs, you don't have to be too careful about when you
-call \code{update_task_button(id, busy = FALSE)}, as the button on the client will
-not actually re-enable until the same moment that all of the updated outputs
-simultaneously sent to the client.
+call \code{update_task_button(id, state = "ready")}, as the button on the client
+will not actually re-enable until the same moment that all of the updated
+outputs simultaneously sent to the client.
 }
 
 \section{Server value}{
