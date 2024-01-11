@@ -35,6 +35,10 @@ Note that \code{bind_task_button} does \emph{not} automatically cause button pre
 invoke the extended task; you still need to use \code{\link[shiny:bindEvent]{shiny::bindEvent()}} (or
 \code{\link[shiny:observeEvent]{shiny::observeEvent()}}) to cause the button press to trigger an invocation,
 as in the example below.
+
+\code{bind_task_button} cannot be used to bind one task button to multiple
+\code{ExtendedTask} objects; if you attempt to do so, any bound \code{ExtendedTask}
+that completes will cause the button to return to "ready" state.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
