@@ -193,3 +193,62 @@ input_task_button_input_handler <- function(val, shinysession, name) {
   class(value) <- c("shinyActionButtonValue", class(value))
   value
 }
+
+#' Bind `input_task_button` to `ExtendedTask`
+#'
+#' @description
+#' Sets up a [shiny::ExtendedTask] to relay its state to an existing
+#' [input_task_button()], so the task button stays in its "busy" state for as
+#' long as the extended task is running.
+#'
+#' Note that `bind_task_button` does _not_ automatically cause button presses to
+#' invoke the extended task; you still need to use [shiny::bindEvent()] (or
+#' [shiny::observeEvent()]) to cause the button press to trigger an invocation,
+#' as in the example below.
+#'
+#' @param target The target object (i.e. `ExtendedTask`).
+#' @param task_button_id A string matching the `id` argument passed to the
+#'   corresponding [input_task_button()] call.
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
+#'
+#' @returns The `target` object that was passed in.
+#'
+#' @export
+bind_task_button <- function(target, task_button_id, ...) {
+  UseMethod("bind_task_button")
+}
+
+#' @rdname bind_task_button
+#' @export
+bind_task_button.default <- function(target, task_button_id, ...) {
+  abort(
+    "Don't know how to bind a task button to an object of class '",
+    class(target)[[0]],
+    "'"
+  )
+}
+
+#' @rdname bind_task_button
+#' @export
+bind_task_button.ExtendedTask <- function(target, task_button_id,
+  session = get_current_session()) {
+
+  force(target)
+  force(task_button_id)
+  force(session)
+
+  was_running <- FALSE
+  observe({
+    running <- target$status() == "running"
+    if (running != was_running) {
+      was_running <<- running
+      if (running) {
+        update_task_button(task_button_id, state = "busy", session = session)
+      } else {
+        update_task_button(task_button_id, state = "ready", session = session)
+      }
+    }
+  }, priority = 1000)
+  return(target)
+}
