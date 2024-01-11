@@ -125,3 +125,6 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+\code{\link[=bind_task_button]{bind_task_button()}}
+}
