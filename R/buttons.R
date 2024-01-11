@@ -61,6 +61,8 @@
 #'   * Event handlers (e.g., [shiny::observeEvent()], [shiny::eventReactive()]) won't execute on initial load.
 #'   * Input validation (e.g., [shiny::req()], [shiny::need()]) will fail on initial load.
 #'
+#' @seealso [bind_task_button()]
+#'
 #' @examplesIf interactive()
 #' library(shiny)
 #' library(bslib)

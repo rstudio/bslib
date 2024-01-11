@@ -202,6 +202,7 @@ reference:
     - input_switch
     - input_dark_mode
     - input_task_button
+    - bind_task_button
 
 - title: Theming
   desc: >
