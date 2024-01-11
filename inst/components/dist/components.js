@@ -419,6 +419,9 @@
           var _a;
           if (event)
             event.preventDefault();
+          if (this.card.id) {
+            this.overlay.anchor.setAttribute("aria-controls", this.card.id);
+          }
           document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
           document.addEventListener("keydown", this._trapFocusExit, true);
           this.card.setAttribute(_Card.attr.ATTR_FULL_SCREEN, "true");
@@ -430,6 +433,7 @@
             this.card.setAttribute("tabindex", "-1");
             this.card.focus();
           }
+          this._emitFullScreenEvent(true);
         }
         /**
          * Exit full screen mode. This removes the full screen overlay element,
@@ -447,6 +451,19 @@
           this.card.setAttribute(_Card.attr.ATTR_FULL_SCREEN, "false");
           this.card.removeAttribute("tabindex");
           document.body.classList.remove(_Card.attr.CLASS_HAS_FULL_SCREEN);
+          this._emitFullScreenEvent(false);
+        }
+        /**
+         * Emits a custom event to communicate the card's full screen state change.
+         * @private
+         * @param {boolean} fullScreen
+         */
+        _emitFullScreenEvent(fullScreen) {
+          const event = new CustomEvent("bslib.card", {
+            bubbles: true,
+            detail: { fullScreen }
+          });
+          this.card.dispatchEvent(event);
         }
         /**
          * Adds general card-specific event listeners.
@@ -554,13 +571,19 @@
         /**
          * Creates the anchor element used to exit the full screen mode.
          * @private
-         * @returns {HTMLAnchorElement}
+         * @returns {CardFullScreenOverlay["anchor"]}
          */
         _createOverlayCloseAnchor() {
           const anchor = document.createElement("a");
           anchor.classList.add(_Card.attr.CLASS_FULL_SCREEN_EXIT);
           anchor.tabIndex = 0;
-          anchor.onclick = () => this.exitFullScreen();
+          anchor.setAttribute("aria-expanded", "true");
+          anchor.setAttribute("aria-label", "Close card");
+          anchor.setAttribute("role", "button");
+          anchor.onclick = (ev) => {
+            this.exitFullScreen();
+            ev.stopPropagation();
+          };
           anchor.onkeydown = (ev) => {
             if (ev.key === "Enter" || ev.key === " ") {
               this.exitFullScreen();
