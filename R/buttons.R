@@ -211,8 +211,43 @@ input_task_button_input_handler <- function(val, shinysession, name) {
 #'   corresponding [input_task_button()] call.
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
+#' @param ... Further arguments passed to other methods.
 #'
 #' @returns The `target` object that was passed in.
+#'
+#' @examplesIf rlang::is_interactive()
+#'
+#' library(shiny)
+#' library(bslib)
+#' library(future)
+#' plan(multisession)
+#'
+#' ui <- page_sidebar(
+#'   sidebar = sidebar(
+#'     input_task_button("recalc", "Recalculate")
+#'   ),
+#'   textOutput("outval")
+#' )
+#'
+#' server <- function(input, output) {
+#'   rand_task <- ExtendedTask$new(function() {
+#'     future({
+#'       # Slow operation goes here
+#'       Sys.sleep(2)
+#'       runif(1)
+#'     }, seed = TRUE)
+#'   }) |> bind_task_button("recalc") # Make button state reflect task
+#'
+#'   observeEvent(input$recalc, {
+#'     rand_task$invoke()
+#'   })
+#'
+#'   output$outval <- renderText({
+#'     rand_task$result()
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
 #'
 #' @export
 bind_task_button <- function(target, task_button_id, ...) {
@@ -232,14 +267,14 @@ bind_task_button.default <- function(target, task_button_id, ...) {
 #' @rdname bind_task_button
 #' @export
 bind_task_button.ExtendedTask <- function(target, task_button_id,
-  session = get_current_session()) {
+  ..., session = get_current_session()) {
 
   force(target)
   force(task_button_id)
   force(session)
 
   was_running <- FALSE
-  observe({
+  shiny::observe({
     running <- target$status() == "running"
     if (running != was_running) {
       was_running <<- running

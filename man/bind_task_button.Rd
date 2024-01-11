@@ -10,13 +10,15 @@ bind_task_button(target, task_button_id, ...)
 
 \method{bind_task_button}{default}(target, task_button_id, ...)
 
-\method{bind_task_button}{ExtendedTask}(target, task_button_id, session = get_current_session())
+\method{bind_task_button}{ExtendedTask}(target, task_button_id, ..., session = get_current_session())
 }
 \arguments{
 \item{target}{The target object (i.e. \code{ExtendedTask}).}
 
 \item{task_button_id}{A string matching the \code{id} argument passed to the
 corresponding \code{\link[=input_task_button]{input_task_button()}} call.}
+
+\item{...}{Further arguments passed to other methods.}
 
 \item{session}{A Shiny session object (the default should almost always be
 used).}
@@ -33,4 +35,40 @@ Note that \code{bind_task_button} does \emph{not} automatically cause button pre
 invoke the extended task; you still need to use \code{\link[shiny:bindEvent]{shiny::bindEvent()}} (or
 \code{\link[shiny:observeEvent]{shiny::observeEvent()}}) to cause the button press to trigger an invocation,
 as in the example below.
+}
+\examples{
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
+library(shiny)
+library(bslib)
+library(future)
+plan(multisession)
+
+ui <- page_sidebar(
+  sidebar = sidebar(
+    input_task_button("recalc", "Recalculate")
+  ),
+  textOutput("outval")
+)
+
+server <- function(input, output) {
+  rand_task <- ExtendedTask$new(function() {
+    future({
+      # Slow operation goes here
+      Sys.sleep(2)
+      runif(1)
+    }, seed = TRUE)
+  }) |> bind_task_button("recalc") # Make button state reflect task
+
+  observeEvent(input$recalc, {
+    rand_task$invoke()
+  })
+
+  output$outval <- renderText({
+    rand_task$result()
+  })
+}
+
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
 }
