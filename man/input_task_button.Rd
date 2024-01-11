@@ -99,30 +99,29 @@ This implies two things:
 }
 
 \examples{
-if (interactive()) {
-  library(shiny)
-  library(bslib)
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(shiny)
+library(bslib)
 
-  ui <- page_sidebar(
-    sidebar = sidebar(
-      open = "always",
-      input_task_button("resample", "Resample"),
-    ),
-    verbatimTextOutput("summary")
-  )
+ui <- page_sidebar(
+  sidebar = sidebar(
+    open = "always",
+    input_task_button("resample", "Resample"),
+  ),
+  verbatimTextOutput("summary")
+)
 
-  server <- function(input, output, session) {
-    sample <- eventReactive(input$resample, ignoreNULL=FALSE, {
-      Sys.sleep(2)  # Make this artificially slow
-      rnorm(100)
-    })
+server <- function(input, output, session) {
+  sample <- eventReactive(input$resample, ignoreNULL=FALSE, {
+    Sys.sleep(2)  # Make this artificially slow
+    rnorm(100)
+  })
 
-    output$summary <- renderPrint({
-      summary(sample())
-    })
-  }
-
-  shinyApp(ui, server)
+  output$summary <- renderPrint({
+    summary(sample())
+  })
 }
 
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
 }
