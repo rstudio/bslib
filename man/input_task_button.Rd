@@ -2,7 +2,6 @@
 % Please edit documentation in R/buttons.R
 \name{input_task_button}
 \alias{input_task_button}
-\alias{icon_spinner}
 \alias{update_task_button}
 \title{Button for launching longer-running operations}
 \usage{
@@ -10,20 +9,14 @@ input_task_button(
   id,
   label,
   icon = NULL,
-  busy_label = "Processing...",
-  busy_icon = icon_spinner(),
+  label_busy = "Processing...",
+  icon_busy = rlang::missing_arg(),
   ...,
   type = "primary",
   auto_reset = TRUE
 )
 
-icon_spinner()
-
-update_task_button(
-  id,
-  state = c(NULL, "ready", "busy"),
-  session = get_current_session()
-)
+update_task_button(id, ..., state = NULL, session = get_current_session())
 }
 \arguments{
 \item{id}{The \code{input} slot that will be used to access the value.}
@@ -34,10 +27,14 @@ usually a string.}
 \item{icon}{An optional icon to display next to the label while the button is
 in ready state. See \code{\link[fontawesome:fa_i]{fontawesome::fa_i()}}.}
 
-\item{busy_label}{The label of the button while it is busy.}
+\item{label_busy}{The label of the button while it is busy.}
 
-\item{busy_icon}{The icon to display while the button is busy. By default, a
-spinning "chasing arrows" icon is used.}
+\item{icon_busy}{The icon to display while the button is busy. By default,
+\code{fontawesome::fa_i("refresh", class = "fa-spin", "aria-hidden" = "true")}
+is used, which displays a spinning "chasing arrows" icon. You can create
+spinning icons out of other Font Awesome icons by using the same
+expression, but replacing \code{"refresh"} with a different icon name. See
+\code{\link[fontawesome:fa_i]{fontawesome::fa_i()}}.}
 
 \item{...}{Named arguments become attributes to include on the \verb{<button>}
 element.}
@@ -72,18 +69,18 @@ appearance and re-enables itself.
 
 In some advanced use cases, it may be necessary to keep a task button in its
 busy state even after the normal reactive processing has completed. Calling
-\code{update_task_button(id, busy = TRUE)} from the server will opt out of any
+\code{update_task_button(id, state = "busy")} from the server will opt out of any
 currently pending reset for a specific task button. After doing so, the
-button can be re-enabled by calling \code{update_task_button(id, busy = FALSE)}
+button can be re-enabled by calling \code{update_task_button(id, state = "ready")}
 after each click's work is complete.
 
 You can also pass an explicit \code{auto_reset = FALSE} to \code{input_task_button()},
 which means that button will \emph{never} be automatically re-enabled and will
-require \code{update_task_button(id, busy = FALSE)} to be called each time.
+require \code{update_task_button(id, state = "ready")} to be called each time.
 
 Note that, as a general rule, Shiny's \code{update} family of functions do not
 take effect at the instant that they are called, but are held until the end
-of the current flush cycle. So if you have many different reactive
+of the current reactive cycle. So if you have many different reactive
 calculations and outputs, you don't have to be too careful about when you
 call \code{update_task_button(id, busy = FALSE)}, as the button on the client will
 not actually re-enable until the same moment that all of the updated outputs
@@ -107,7 +104,8 @@ if (interactive()) {
   library(bslib)
 
   ui <- page_sidebar(
-    sidebar = sidebar(open = "always",
+    sidebar = sidebar(
+      open = "always",
       input_task_button("resample", "Resample"),
     ),
     verbatimTextOutput("summary")
