@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.6.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.6.1.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,6 +95,10 @@
 <h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
 <ul><li><p><code><a href="../reference/as_fill_carrier.html">as_fillable_container()</a></code>, <code><a href="../reference/as_fill_carrier.html">as_fill_item()</a></code> and <code><a href="../reference/as_fill_carrier.html">as_fill_carrier()</a></code> now always include the htmltools fill CSS dependency. This means that they are no longer usable with the <code>$addAttr()</code> <code><a href="https://rstudio.github.io/htmltools/reference/tagQuery.html" class="external-link">htmltools::tagQuery</a></code> method; authors should instead pass elements to the <code><a href="../reference/as_fill_carrier.html">as_fillable_container()</a></code> and <code>as_fill_*()</code> functions and use the <code>css_selector</code> argument to apply fill options to specific elements. (<a href="https://github.com/rstudio/bslib/issues/946" class="external-link">#946</a>)</p></li>
 <li><p>A <code><a href="../reference/sidebar.html">sidebar()</a></code> passed to <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>/<code><a href="../reference/page_navbar.html">page_navbar()</a></code> is now always open (and not collapsible) by default on mobile screens. To revert to the old behavior, set <code>open = "desktop"</code> in the <code>sidebar</code>. (<a href="https://github.com/rstudio/bslib/issues/943" class="external-link">#943</a>)</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>Added <code><a href="../reference/input_task_button.html">input_task_button()</a></code>, a replacement for <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">shiny::actionButton()</a></code> that automatically prevents an operation from being submitted multiple times. It does this by, upon click, immediately transitioning to a “Processing…” visual state that does not let the button be clicked again. The button resets to its clickable state automatically after the reactive flush it causes is complete; or, for advanced scenarios, <code><a href="../reference/input_task_button.html">update_task_button()</a></code> can be used to manually control when the button resets.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h3>

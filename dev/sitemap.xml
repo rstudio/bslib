@@ -121,6 +121,9 @@
     <loc>https://rstudio.github.io/bslib/dev/reference/as_fill_carrier.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/bslib/dev/reference/bind_task_button.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/bslib/dev/reference/bootswatch_themes.html</loc>
   </url>
   <url>
@@ -182,6 +185,9 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/dev/reference/input_switch.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/bslib/dev/reference/input_task_button.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/dev/reference/layout_column_wrap.html</loc>
