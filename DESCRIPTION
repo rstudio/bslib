@@ -1,6 +1,6 @@
 Package: bslib
 Title: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'
-Version: 0.6.1.9000
+Version: 0.6.1.9001
 Authors@R: c(
     person("Carson", "Sievert", , "carson@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4958-2844")),
@@ -28,9 +28,12 @@ URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
 Depends:
     R (>= 2.10)
+Remotes:
+    rstudio/shiny
 Imports:
     base64enc,
     cachem,
+    fastmap (>= 1.1.1),
     grDevices,
     htmltools (>= 0.5.7),
     jquerylib (>= 0.1.3),
@@ -44,6 +47,7 @@ Suggests:
     bsicons,
     curl,
     fontawesome,
+    future,
     ggplot2,
     knitr,
     magrittr,
@@ -124,6 +128,7 @@ Collate:
     'bs-theme-update.R'
     'bs-theme.R'
     'bslib-package.R'
+    'buttons.R'
     'card.R'
     'deprecated.R'
     'files.R'

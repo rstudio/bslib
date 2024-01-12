@@ -1,4 +1,4 @@
-/*! bslib 0.6.1.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.6.1.9001 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __defProp = Object.defineProperty;
@@ -2018,19 +2018,57 @@
     return false;
   }
 
+  // srcts/src/components/webcomponents/switch.ts
+  var BslibSwitch = class extends s4 {
+    constructor() {
+      super(...arguments);
+      this.case = "";
+    }
+    render() {
+      if (!this.case) {
+        return x``;
+      }
+      return x`<slot name="${this.case}"></slot>`;
+    }
+  };
+  BslibSwitch.tagName = "bslib-switch";
+  BslibSwitch.isShinyInput = false;
+  BslibSwitch.styles = i2`
+    :host {
+      display: block;
+    }
+  `;
+  __decorateClass([
+    n({ type: String, reflect: true })
+  ], BslibSwitch.prototype, "case", 2);
+  var BslibSwitchInline = class extends BslibSwitch {
+  };
+  BslibSwitchInline.tagName = "bslib-switch-inline";
+  BslibSwitchInline.isShinyInput = false;
+  BslibSwitchInline.styles = i2`
+    :host {
+      display: inline;
+    }
+  `;
+
   // srcts/src/components/webcomponents/index.ts
-  [BslibTooltip, BslibPopover, BslibInputDarkMode, BslibLayoutColumns].forEach(
-    (cls) => {
-      customElements.define(cls.tagName, cls);
-      if (window.Shiny) {
-        if (cls.isShinyInput)
-          makeInputBinding(cls.tagName);
-        if ("shinyCustomMessageHandlers" in cls) {
-          shinyAddCustomMessageHandlers(cls["shinyCustomMessageHandlers"]);
-        }
+  [
+    BslibTooltip,
+    BslibPopover,
+    BslibInputDarkMode,
+    BslibLayoutColumns,
+    BslibSwitch,
+    BslibSwitchInline
+  ].forEach((cls) => {
+    customElements.define(cls.tagName, cls);
+    if (window.Shiny) {
+      if (cls.isShinyInput)
+        makeInputBinding(cls.tagName);
+      if ("shinyCustomMessageHandlers" in cls) {
+        shinyAddCustomMessageHandlers(cls["shinyCustomMessageHandlers"]);
       }
     }
-  );
+  });
 })();
 /*! Bundled license information:
 

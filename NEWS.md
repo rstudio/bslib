@@ -6,6 +6,10 @@
 
 * A `sidebar()` passed to `page_sidebar()`/`page_navbar()` is now always open (and not collapsible) by default on mobile screens. To revert to the old behavior, set `open = "desktop"` in the `sidebar`. (#943)
 
+## New features
+
+* Added `input_task_button()`, a replacement for `shiny::actionButton()` that automatically prevents an operation from being submitted multiple times. It does this by, upon click, immediately transitioning to a "Processing..." visual state that does not let the button be clicked again. The button resets to its clickable state automatically after the reactive flush it causes is complete; or, for advanced scenarios, `update_task_button()` can be used to manually control when the button resets.
+
 ## Improvements
 
 * `layout_columns()` was rewritten in Typescript as a custom element to improve the portability of the component. (#931)

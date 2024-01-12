@@ -1,4 +1,4 @@
-/*! bslib 0.6.1.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.6.1.9001 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -7,6 +7,23 @@
   };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __accessCheck = (obj, member, msg) => {
+    if (!member.has(obj))
+      throw TypeError("Cannot " + msg);
+  };
+  var __privateGet = (obj, member, getter) => {
+    __accessCheck(obj, member, "read from private field");
+    return getter ? getter.call(obj) : member.get(obj);
+  };
+  var __privateAdd = (obj, member, value) => {
+    if (member.has(obj))
+      throw TypeError("Cannot add the same private member more than once");
+    member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  };
+  var __privateMethod = (obj, member, method) => {
+    __accessCheck(obj, member, "access private method");
+    return method;
   };
   var __async = (__this, __arguments, generator) => {
     return new Promise((resolve, reject) => {
@@ -1044,6 +1061,76 @@
     }
   });
 
+  // srcts/src/components/taskButton.ts
+  var _clickCount, _clickListeners, _setState, setState_fn, BslibTaskButtonInputBinding;
+  var init_taskButton = __esm({
+    "srcts/src/components/taskButton.ts"() {
+      "use strict";
+      init_utils();
+      BslibTaskButtonInputBinding = class extends InputBinding {
+        constructor() {
+          super(...arguments);
+          /**
+           * Reach into the child <bslib-switch-inline> and to switch to the state case.
+           */
+          __privateAdd(this, _setState);
+          __privateAdd(this, _clickCount, /* @__PURE__ */ new WeakMap());
+          __privateAdd(this, _clickListeners, /* @__PURE__ */ new WeakMap());
+        }
+        find(scope) {
+          return $(scope).find(".bslib-task-button");
+        }
+        getValue(el) {
+          var _a;
+          return {
+            value: (_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0,
+            autoReset: el.hasAttribute("data-auto-reset")
+          };
+        }
+        getType() {
+          return "bslib.taskbutton";
+        }
+        subscribe(el, callback) {
+          if (__privateGet(this, _clickListeners).has(el)) {
+            this.unsubscribe(el);
+          }
+          const eventListener = () => {
+            var _a;
+            __privateGet(this, _clickCount).set(el, ((_a = __privateGet(this, _clickCount).get(el)) != null ? _a : 0) + 1);
+            callback(true);
+            __privateMethod(this, _setState, setState_fn).call(this, el, "busy");
+          };
+          __privateGet(this, _clickListeners).set(el, eventListener);
+          el.addEventListener("click", eventListener);
+        }
+        unsubscribe(el) {
+          const listener = __privateGet(this, _clickListeners).get(el);
+          if (listener) {
+            el.removeEventListener("click", listener);
+          }
+        }
+        receiveMessage(_0, _1) {
+          return __async(this, arguments, function* (el, { state }) {
+            __privateMethod(this, _setState, setState_fn).call(this, el, state);
+          });
+        }
+      };
+      _clickCount = new WeakMap();
+      _clickListeners = new WeakMap();
+      _setState = new WeakSet();
+      setState_fn = function(el, state) {
+        el.disabled = state === "busy";
+        const tbc = el.querySelector(
+          "bslib-switch-inline"
+        );
+        if (tbc) {
+          tbc.case = state;
+        }
+      };
+      registerBinding(BslibTaskButtonInputBinding, "task-button");
+    }
+  });
+
   // srcts/src/components/_shinyAddCustomMessageHandlers.ts
   function shinyAddCustomMessageHandlers(handlers) {
     if (!window.Shiny) {
@@ -1065,6 +1152,7 @@
       init_accordion();
       init_card();
       init_sidebar();
+      init_taskButton();
       init_utils();
       init_shinyAddCustomMessageHandlers();
       var bslibMessageHandlers = {
