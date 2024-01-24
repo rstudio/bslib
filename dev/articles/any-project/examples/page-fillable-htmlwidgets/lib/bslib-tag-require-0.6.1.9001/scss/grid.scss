@@ -40,7 +40,7 @@ bslib-layout-columns[hidden-until-init] > * {
 
 @include media-breakpoint-down(md) {
   // collapse all columns to a single column below medium (by default only)
-  .bslib-grid > * {
+  bslib-layout-columns:where(.bslib-grid) > * {
     grid-column: 1 / -1;
   }
 }
