@@ -2,6 +2,7 @@
 % Please edit documentation in R/sidebar.R
 \name{sidebar}
 \alias{sidebar}
+\alias{sidebar_open_on}
 \alias{layout_sidebar}
 \alias{toggle_sidebar}
 \alias{sidebar_toggle}
@@ -20,6 +21,11 @@ sidebar(
   max_height_mobile = NULL,
   gap = NULL,
   padding = NULL
+)
+
+sidebar_open_on(
+  desktop = c("open", "closed", "always"),
+  mobile = c("closed", "open", "always")
 )
 
 layout_sidebar(
@@ -104,6 +110,10 @@ for left and right. If three, then the first will be used for top, the
 second will be left and right, and the third will be bottom. If four, then
 the values will be interpreted as top, right, bottom, and left
 respectively.}
+
+\item{desktop, mobile}{The initial state of the sidebar on desktop or mobile
+screen sizes. Can be one of \code{"open"} (or \code{TRUE}), \code{"closed"} (or \code{FALSE}),
+or \code{"always"} (or \code{NA}).}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
