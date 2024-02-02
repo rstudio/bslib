@@ -162,6 +162,11 @@ on the bslib website to learn more.</p>
 <span>  padding <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">sidebar_open_on</span><span class="op">(</span></span>
+<span>  desktop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"closed"</span>, <span class="st">"always"</span><span class="op">)</span>,</span>
+<span>  mobile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"closed"</span>, <span class="st">"open"</span>, <span class="st">"always"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">layout_sidebar</span><span class="op">(</span></span>
 <span>  <span class="va">...</span>,</span>
 <span>  sidebar <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -262,6 +267,12 @@ for left and right. If three, then the first will be used for top, the
 second will be left and right, and the third will be bottom. If four, then
 the values will be interpreted as top, right, bottom, and left
 respectively.</p></dd>
+
+
+<dt>desktop, mobile</dt>
+<dd><p>The initial state of the sidebar on desktop or mobile
+screen sizes. Can be one of <code>"open"</code> (or <code>TRUE</code>), <code>"closed"</code> (or <code>FALSE</code>),
+or <code>"always"</code> (or <code>NA</code>).</p></dd>
 
 
 <dt>sidebar</dt>
