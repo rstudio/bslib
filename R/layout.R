@@ -61,6 +61,9 @@
 #' # This example has 3 columns when the screen is at least 900px wide:
 #' layout_column_wrap(width = "300px", x, x, x)
 #'
+#' # You can add a list of items, spliced with rlang's `!!!` operator
+#' layout_column_wrap(!!!list(x, x, x))
+#'
 #' @export
 layout_column_wrap <- function(
   ...,
@@ -207,6 +210,11 @@ is_probably_a_css_unit <- function(x) {
 #'
 #' page_fillable(
 #'   layout_columns(x, x, x, x)
+#' )
+#'
+#' # Or add a list of items, spliced with rlang's `!!!` operator
+#' page_fillable(
+#'  layout_columns(!!!list(x, x, x))
 #' )
 #'
 #' page_fillable(

@@ -93,6 +93,9 @@ layout_column_wrap(x, x, x)
 # To use larger column widths by default, set `width`.
 # This example has 3 columns when the screen is at least 900px wide:
 layout_column_wrap(width = "300px", x, x, x)
+
+# You can add a list of items, spliced with rlang's `!!!` operator
+layout_column_wrap(!!!list(x, x, x))
 \dontshow{\}) # examplesIf}
 }
 \references{
