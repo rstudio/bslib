@@ -215,6 +215,9 @@ devices (or narrow windows).</p></dd>
 <span class="r-in"><span><span class="co"># To use larger column widths by default, set `width`.</span></span></span>
 <span class="r-in"><span><span class="co"># This example has 3 columns when the screen is at least 900px wide:</span></span></span>
 <span class="r-in"><span><span class="fu">layout_column_wrap</span><span class="op">(</span>width <span class="op">=</span> <span class="st">"300px"</span>, <span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># You can add a list of items, spliced with rlang's `!!!` operator</span></span></span>
+<span class="r-in"><span><span class="fu">layout_column_wrap</span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

@@ -195,6 +195,11 @@ responsive breakpoints.</p>
 <span class="r-in"><span>  <span class="fu">layout_columns</span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or add a list of items, spliced with rlang's `!!!` operator</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="page_fillable.html">page_fillable</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span> <span class="fu">layout_columns</span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="page_fillable.html">page_fillable</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">layout_columns</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    col_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">6</span>, <span class="fl">12</span><span class="op">)</span>,</span></span>
