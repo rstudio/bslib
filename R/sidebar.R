@@ -258,6 +258,7 @@ as_sidebar_open_on <- function(open) {
 #' @param desktop,mobile The initial state of the sidebar on desktop or mobile
 #'   screen sizes. Can be one of `"open"` (or `TRUE`), `"closed"` (or `FALSE`),
 #'   or `"always"` (or `NA`).
+#' @noRd
 sidebar_open_on <- function(
   desktop = c("open", "closed", "always"),
   mobile = c("closed", "open", "always")
