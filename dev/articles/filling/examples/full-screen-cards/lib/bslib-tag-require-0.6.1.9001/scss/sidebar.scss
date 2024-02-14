@@ -302,32 +302,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
 }
 
 @include media-breakpoint-down(sm) {
-  .bslib-sidebar-layout[data-collapsible-mobile="false"] {
-    // Always open sidebars become "flow" layouts
-    display: block !important;
-    --_padding-icon: var(--_padding); // use normal padding all around
-    --_vert-border: var(--_border);   // and activate top border
-
-    > .sidebar[hidden] {
-      display: block !important;
-      > .sidebar-content {
-        display: flex !important;
-      }
-    }
-
-    > .sidebar {
-      max-height: var(--_mobile-max-height);
-      overflow-y: auto;
-      border-top: var(--_vert-border);
-    }
-
-    > .collapse-toggle {
-      display: none;
-    }
-  }
-}
-
-@include media-breakpoint-down(sm) {
   .bslib-sidebar-layout {
     &, &.sidebar-right {
       // Remove sidebar borders in mobile view (except always-open, added below)
@@ -394,6 +368,32 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
         padding-left: var(--_padding);
         padding-right: var(--_padding);
       }
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .bslib-sidebar-layout[data-collapsible-mobile="false"] {
+    // Always open sidebars become "flow" layouts
+    display: block !important;
+    --_padding-icon: var(--_padding); // use normal padding all around
+    --_vert-border: var(--_border);   // and activate top border
+
+    > .sidebar[hidden] {
+      display: block !important;
+      > .sidebar-content {
+        display: flex !important;
+      }
+    }
+
+    & > .sidebar {
+      max-height: var(--_mobile-max-height);
+      overflow-y: auto;
+      border-top: var(--_vert-border);
+    }
+
+    > .collapse-toggle {
+      display: none;
     }
   }
 }
