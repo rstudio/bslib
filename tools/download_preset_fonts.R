@@ -38,6 +38,14 @@ download_and_copy_fonts <-  function(theme, rule_file = "_bootswatch.scss") {
   urls <- sass:::extract_group(css, "url\\(([^)]+)")
   basenames <- basename(urls)
   Map(function(url, nm) {
+    if (!grepl("[.]woff$", nm)) {
+      # Google Fonts recently started using query parameters
+      # fonts.gstatic.com/l/font?kit={id}&skey={...}...
+      stopifnot(grepl("?kit=", url, fixed = TRUE))
+      nm <- strsplit(url, "?", fixed = TRUE)[[1]][2]
+      nm <- paste0(shiny::parseQueryString(nm)$kit, ".woff")
+    }
+
     target <- file.path(fonts_home, nm)
     # The basename can sometimes be very long, and R CMD check
     # will complain if the target file is over 100 characters long,
