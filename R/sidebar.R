@@ -255,7 +255,6 @@ as_sidebar_open_on <- function(open) {
   )
 }
 
-#' @rdname sidebar
 #' @param desktop,mobile The initial state of the sidebar on desktop or mobile
 #'   screen sizes. Can be one of `"open"` (or `TRUE`), `"closed"` (or `FALSE`),
 #'   or `"always"` (or `NA`).
