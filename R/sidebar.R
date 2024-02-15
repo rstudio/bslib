@@ -143,7 +143,7 @@ sidebar <- function(
     width = width,
     max_height_mobile = max_height_mobile,
     color = list(bg = bg, fg = fg),
-    attributes = dots$attributes,
+    attributes = dots$attribs,
     children = dots$children
   )
 
