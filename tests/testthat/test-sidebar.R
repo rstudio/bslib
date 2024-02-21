@@ -15,12 +15,6 @@ test_that("sidebar(open =) ensures backwards compatibility of defaults", {
   )
 })
 
-test_that("sidebar(open = 'always') doesn't include the collapse toggle", {
-  expect_null(
-    sidebar(open = "always")$collapse_tag
-  )
-})
-
 test_that("sidebar() - assigns input binding class if `id` is provided", {
   my_sidebar <- as.tags(sidebar(id = "my-id", open = sidebar_open_on()))
 
