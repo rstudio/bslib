@@ -258,9 +258,11 @@ accordion_panel_remove <- function(id, target, session = get_current_session()) 
 
 
 #' @describeIn accordion_panel_set update a [accordion_panel()].
+#' @param ... Elements that become the new content of the panel.
 #' @inheritParams accordion_panel
 #' @export
 accordion_panel_update <- function(id, target, ..., title = NULL, value = NULL, icon = NULL, session = get_current_session()) {
+  rlang::check_dots_unnamed()
   body <- rlang::list2(...)
 
   send_panel_message(
