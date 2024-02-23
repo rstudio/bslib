@@ -113,7 +113,7 @@ navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
                      bg = NULL, inverse = "auto",
                      collapsible = TRUE, fluid = TRUE) {
   padding <- validateCssPadding(padding)
-  gap <- validateCssGap(gap)
+  gap <- validateCssUnit(gap)
 
   navs_bar_(
     ..., title = title, id = id, selected = selected,
