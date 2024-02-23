@@ -112,6 +112,9 @@ navset_bar <- function(..., title = NULL, id = NULL, selected = NULL,
                      header = NULL, footer = NULL,
                      bg = NULL, inverse = "auto",
                      collapsible = TRUE, fluid = TRUE) {
+  padding <- validateCssPadding(padding)
+  gap <- validateCssGap(gap)
+
   navs_bar_(
     ..., title = title, id = id, selected = selected,
     sidebar = sidebar, fillable = fillable,
