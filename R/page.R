@@ -190,6 +190,7 @@ page_fillable <- function(
 }
 
 validateCssPadding <- function(padding = NULL) {
+  if (is.null(padding)) return(NULL)
   paste(
     vapply(padding, validateCssUnit, character(1)),
     collapse = " "
