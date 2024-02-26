@@ -23,6 +23,12 @@ $spacer: 1rem !default;
   > .bslib-mb-spacing, > .form-group, > p, > pre {
     margin-bottom: 0;
   }
+  // Make sure to get similar behavior in a uiOutput()/renderUI() context 
+  > .shiny-html-output {
+    > .bslib-mb-spacing, > .form-group, > p, > pre {
+      margin-bottom: 0;
+    }
+  }
 }
 
 // We generally don't want mb spacing for _activated_ fill items
