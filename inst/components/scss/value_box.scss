@@ -59,11 +59,11 @@ $bslib-value-box-horizontal-break-point: 300px !default;
 
         .value-box-showcase {
           grid-area: top !important;
+          align-items: end;
         }
 
         .value-box-area {
           grid-area: bottom !important;
-          justify-content: end;
         }
       }
     }
