@@ -34,6 +34,8 @@
 
 * `uiOutput()` no longer yields unwanted double padding when it's parent container uses `gap` for spacing multiple elements (e.g., `layout_columns()`, `page_fillable()`, etc). (#992)
 
+* `page_navbar()` and `navset_bar()` now validate and transform `padding` and `gap` arguments into appropriate CSS values. (#991)
+
 # bslib 0.6.1
 
 ## Bug fixes

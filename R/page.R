@@ -190,6 +190,7 @@ page_fillable <- function(
 }
 
 validateCssPadding <- function(padding = NULL) {
+  if (is.null(padding)) return(NULL)
   paste(
     vapply(padding, validateCssUnit, character(1)),
     collapse = " "
@@ -385,6 +386,9 @@ page_navbar <- function(
 ) {
 
   sidebar <- maybe_page_sidebar(sidebar)
+
+  padding <- validateCssPadding(padding)
+  gap <- validateCssUnit(gap)
 
   # Default to fillable = F when this is called from shiny::navbarPage()
   # TODO: update shiny::navbarPage() to set fillable = FALSE and get rid of this hack
