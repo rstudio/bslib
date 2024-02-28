@@ -33,19 +33,22 @@
 
         &:not(.sidebar-right) {
           > .main {
-            padding-left: var(--_padding-icon);
-            padding-top: var(--_padding);
+            padding-left: var(--_padding);
+            padding-top: var(--_padding-icon);
           }
           > .collapse-toggle {
-            left: calc(var(--_icon-size) / 2);
+            // Keep the icon on the left when sidebar is expanded
+            left: var(--_icon-size);
           }
         }
         &.sidebar-right {
           > .main {
-            padding-right: var(--_padding-icon);
+            padding-right: var(--_padding);
+            padding-top: var(--_padding-icon);
           }
           > .collapse-toggle {
-            right: calc(var(--_icon-size) / 2);
+            // Keep the icon on the right when sidebar is expanded
+            right: var(--_icon-size);
           }
         }
       }
