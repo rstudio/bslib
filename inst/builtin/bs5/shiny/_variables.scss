@@ -103,9 +103,8 @@ $bslib-box-shadow-color-rgb: 29, 31, 33 !default;
 $bslib-box-shadow-color-rgb-dark: 0, 0, 0 !default;
 
 $box-shadow-sm:
-  0px 1px 2px RGBA(var(--bslib-box-shadow-color-rgb), .1),
-  0px 2px 3px RGBA(var(--bslib-box-shadow-color-rgb), 0.1),
-  0px 3px 8px RGBA(var(--bslib-box-shadow-color-rgb), 0.1) !default;
+  0px 0px 2px 0px RGBA(var(--bslib-box-shadow-color-rgb), 0.14),
+  0px 2px 4px 0px RGBA(var(--bslib-box-shadow-color-rgb), 0.16) !default;
 
 $box-shadow:
   0px 1px 2px RGBA(var(--bslib-box-shadow-color-rgb), .1),
