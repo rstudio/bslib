@@ -261,8 +261,16 @@ page_sidebar <- function(
   lang = NULL
 ) {
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
-    title <- h1(title, class = "bslib-page-title")
+    title <- h1(title, class = "navbar-brand")
   }
+
+  navbar_title <- div(
+    class = "bslib-page-title navbar navbar-static-top",
+    div(
+      class = "container-fluid",
+      title
+    )
+  )
 
   sidebar <- maybe_page_sidebar(sidebar)
 
@@ -274,7 +282,7 @@ page_sidebar <- function(
     lang = lang,
     fillable_mobile = fillable_mobile,
     class = "bslib-page-sidebar",
-    title,
+    navbar_title,
     layout_sidebar(
       sidebar = sidebar,
       fillable = fillable,

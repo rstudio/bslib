@@ -8,12 +8,11 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
 }
 
 .bslib-page-title {
+  border-bottom: $border-width solid $border-color;
   background-color: var(--bslib-page-sidebar-title-bg);
   color: var(--bslib-page-sidebar-title-color);
-  font-size: $h4-font-size;
-  font-weight: 300;
-  padding: var(--bslib-spacer, 1rem);
-  padding-left: $bslib-sidebar-padding;
-  margin-bottom: 0;
-  border-bottom: $border-width solid $border-color;
+
+  h1 {
+    margin-bottom: 0;
+  }
 }
