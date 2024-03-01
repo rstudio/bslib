@@ -81,6 +81,10 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 
 
 @if ($bslib-enable-shadows) {
+  // These shadows are disabled because we use `enable-shadows: false` in the
+  // theme to avoid enabling *all* shadows. This is why we can't use the
+  // built-in `@include box-shadow()` mixin.
+
   // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
   .bslib-card {
     // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
@@ -103,6 +107,10 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
   .bslib-card-box-shadow-none {
     --bslib-card-box-shadow: none;
+  }
+
+  .popover {
+    box-shadow: var(--#{$prefix}box-shadow-sm);
   }
 }
 
