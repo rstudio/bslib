@@ -264,13 +264,13 @@ page_sidebar <- function(
     title <- h1(title, class = "bslib-page-title navbar-brand")
   }
 
-  navbar_title <- div(
-    class = "navbar navbar-static-top",
-    div(
-      class = "container-fluid",
-      title
-    )
-  )
+  navbar_title <-
+    if (!is.null(title)) {
+      div(
+        class = "navbar navbar-static-top",
+        div(title, class = "container-fluid")
+      )
+    }
 
   sidebar <- maybe_page_sidebar(sidebar)
 
@@ -282,7 +282,7 @@ page_sidebar <- function(
     lang = lang,
     fillable_mobile = fillable_mobile,
     class = "bslib-page-sidebar",
-    if (!is.null(title)) navbar_title,
+    navbar_title,
     layout_sidebar(
       sidebar = sidebar,
       fillable = fillable,
