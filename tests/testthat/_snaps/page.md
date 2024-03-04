@@ -37,9 +37,9 @@
         html
     Output
       <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;">
-        <div class="bslib-page-title navbar navbar-static-top">
+        <div class="navbar navbar-static-top">
           <div class="container-fluid">
-            <h1 class="navbar-brand">Title</h1>
+            <h1 class="bslib-page-title navbar-brand">Title</h1>
           </div>
         </div>
         <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-collapsible-desktop="false" data-collapsible-mobile="false" data-open-desktop="always" data-open-mobile="always" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--_sidebar-width:250px;">
@@ -58,9 +58,9 @@
       renderTags(page_sidebar("main", title = "Title", sidebar = "side"))$html
     Output
       <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;">
-        <div class="bslib-page-title navbar navbar-static-top">
+        <div class="navbar navbar-static-top">
           <div class="container-fluid">
-            <h1 class="navbar-brand">Title</h1>
+            <h1 class="bslib-page-title navbar-brand">Title</h1>
           </div>
         </div>
         <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-collapsible-desktop="true" data-collapsible-mobile="false" data-open-desktop="open" data-open-mobile="always" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--_sidebar-width:250px;">
