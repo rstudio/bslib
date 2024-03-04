@@ -113,9 +113,8 @@ $box-shadow:
   0px 12px 30px RGBA(var(--bslib-box-shadow-color-rgb), .08) !default;
 
 $box-shadow-lg:
-  0px 16px 48px RGBA(var(--bslib-box-shadow-color-rgb), .1),
-  0px 2px 3px RGBA(var(--bslib-box-shadow-color-rgb), 0.1),
-  0px 16px 46px RGBA(var(--bslib-box-shadow-color-rgb), 0.1) !default;
+  0px 4px 10px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+  0px 12px 30px RGBA(var(--bslib-box-shadow-color-rgb), 0.17) !default;
 
 // Cards
 $card-border-radius: 8px !default;
