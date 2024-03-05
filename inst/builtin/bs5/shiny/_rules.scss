@@ -89,10 +89,19 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   .bslib-card {
     // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
     box-shadow: var(--bslib-card-box-shadow, #{$box-shadow-sm});
+    border-color: var(--bslib-card-border-color, transparent);
+    &.bslib-value-box.default {
+      --bslib-value-box-border-color-default: var(--bslib-card-border-color, transparent);
+    }
 
-    // Shadows on top-level cards, not in nested components
+    // Restore borders without shadows for nested cards/value boxes
     .bslib-card {
       --bslib-card-box-shadow: ; // unset our shadow
+      --bslib-card-border-color: var(--#{$prefix}card-border-color);
+
+      &.bslib-value-box.default {
+        --bslib-value-box-border-color-default: var(--#{$prefix}card-border-color, #{$card-border-color});
+      }
     }
   }
 
@@ -107,6 +116,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
   .bslib-card-box-shadow-none {
     --bslib-card-box-shadow: none;
+    --bslib-card-border-color: var(--#{$prefix}card-border-color);
   }
 
   .popover {
