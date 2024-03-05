@@ -117,7 +117,7 @@ $box-shadow-lg:
   0px 12px 30px RGBA(var(--bslib-box-shadow-color-rgb), 0.17) !default;
 
 // Popover
-$popover-box-shadow: $box-shadow-sm !default;
+$popover-box-shadow: $box-shadow !default;
 
 // Cards
 $card-border-radius: 8px !default;
