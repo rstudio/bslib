@@ -110,7 +110,8 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 
   .popover {
-    box-shadow: var(--#{$prefix}box-shadow-sm);
+    --#{$prefix}popover-shadow: #{$popover-box-shadow};
+    box-shadow: var(--#{$prefix}popover-shadow);
   }
 }
 
