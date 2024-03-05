@@ -294,7 +294,7 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 .shiny-notification.shiny-notification {
   position: relative;
   opacity: 0.96;
-  padding: calc(var(--bslib-spacer, 1rem) * 2);
+  padding: 2rem;
   margin: var(--bslib-spacer, 1rem);
   border: $border-width solid var(--#{$prefix}border-color-translucent);
   border-radius: $card-border-radius;
