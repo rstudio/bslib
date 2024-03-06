@@ -2,9 +2,11 @@
 
 ## Breaking changes
 
-* `as_fillable_container()`, `as_fill_item()` and `as_fill_carrier()` now always include the htmltools fill CSS dependency. This means that they are no longer usable with the `$addAttr()` `htmltools::tagQuery` method; authors should instead pass elements to the `as_fillable_container()` and `as_fill_*()` functions and use the `css_selector` argument to apply fill options to specific elements.  (#946)
+* `as_fillable_container()`, `as_fill_item()` and `as_fill_carrier()` now always include the htmltools fill CSS dependency. This means that they are no longer usable with the `$addAttr()` `htmltools::tagQuery` method; authors should instead pass elements to the `as_fillable_container()` and `as_fill_*()` functions and use the `css_selector` argument to apply fill options to specific elements. (#946)
 
 * A `sidebar()` passed to `page_sidebar()`/`page_navbar()` is now always open (and not collapsible) by default on mobile screens. To revert to the old behavior, set `open = "desktop"` in the `sidebar`. (#943)
+
+* `page_sidebar()` now places the `title` element in a `.navbar` container that matches the structure of `page_navbar()`. This ensures that the title elements of `page_sidebar()` and `page_navbar()` have consistent appearance. (#998)
 
 ## New features
 
@@ -25,6 +27,10 @@
 * We've improved the accessibility of full screen cards created with `card(full_screen = TRUE, ...)`. The _Expand card_ button is now accessible via keyboard navigation and appropriate ARIA attributes connect the card with the expand and close buttons. For JavaScript-oriented users, the expansion/collapse is now accompanied by a custom `bslib.card` event with the full screen state reported in the `event.detail.fullScreen` property. (#959)
 
 * Full-screen cards are now supported on mobile devices: the _Expand card_ button is revealed when a user taps on the card (thanks @Damonsoul, #961).
+
+* We adjusted the shadows used for cards and popovers in the Shiny preset. Cards now use a slightly smaller shadow and the same shadow style is also now used by popovers. (#998)
+
+* We increased the spacing between elements just slightly in the Shiny preset. This change is most noticeable in the `layout_columns()` or `layout_column_wrap()` component. In these and other components, you can use `gap` and `padding` arguments to choose your own values, or you can set the `$bslib-spacer` (Sass) or `--bslib-spacer` (CSS) variable. (#998)
 
 ## Bug fixes
 

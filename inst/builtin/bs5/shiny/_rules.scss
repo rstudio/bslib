@@ -81,14 +81,27 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 
 
 @if ($bslib-enable-shadows) {
+  // These shadows are disabled because we use `enable-shadows: false` in the
+  // theme to avoid enabling *all* shadows. This is why we can't use the
+  // built-in `@include box-shadow()` mixin.
+
   // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
   .bslib-card {
     // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
-    box-shadow: var(--bslib-card-box-shadow, #{$box-shadow});
+    box-shadow: var(--bslib-card-box-shadow, #{$box-shadow-sm});
+    border-color: var(--bslib-card-border-color, transparent);
+    &.bslib-value-box.default {
+      --bslib-value-box-border-color-default: var(--bslib-card-border-color, transparent);
+    }
 
-    // Shadows on top-level cards, not in nested components
+    // Restore borders without shadows for nested cards/value boxes
     .bslib-card {
       --bslib-card-box-shadow: ; // unset our shadow
+      --bslib-card-border-color: var(--#{$prefix}card-border-color);
+
+      &.bslib-value-box.default {
+        --bslib-value-box-border-color-default: var(--#{$prefix}card-border-color, #{$card-border-color});
+      }
     }
   }
 
@@ -103,6 +116,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
   .bslib-card-box-shadow-none {
     --bslib-card-box-shadow: none;
+    --bslib-card-border-color: var(--#{$prefix}card-border-color);
+  }
+
+  .popover {
+    --#{$prefix}popover-shadow: #{$popover-box-shadow};
+    box-shadow: var(--#{$prefix}popover-shadow);
   }
 }
 
@@ -285,7 +304,7 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 .shiny-notification.shiny-notification {
   position: relative;
   opacity: 0.96;
-  padding: calc(var(--bslib-spacer, 1rem) * 2);
+  padding: 2rem;
   margin: var(--bslib-spacer, 1rem);
   border: $border-width solid var(--#{$prefix}border-color-translucent);
   border-radius: $card-border-radius;
