@@ -13,7 +13,7 @@ render_skeleton <- function(x) {
 
   tryCatch(
     {
-      rmarkdown::render(tmp_rmd, quiet = TRUE)
+      rmarkdown::render(tmp_rmd, quiet = FALSE)
       expect_true(TRUE)
     },
     error = function(err) {
