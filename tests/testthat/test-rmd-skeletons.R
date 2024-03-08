@@ -11,7 +11,16 @@ render_skeleton <- function(x) {
   txt <- sub("^bslib::bs_themer()", "#bslib::bs_themer()", readLines(src))
   writeLines(txt, tmp_rmd)
 
-  rmarkdown::render(tmp_rmd, quiet = TRUE)
+  tryCatch(
+    {
+      rmarkdown::render(tmp_rmd, quiet = TRUE)
+      expect_true(TRUE)
+    },
+    error = function(err) {
+      rlang::cnd_signal(err)
+      expect_true(FALSE, "Rendering threw an error")
+    }
+  )
 }
 
 test_that("Rmd skeletons can be render cleanly", {
@@ -19,10 +28,10 @@ test_that("Rmd skeletons can be render cleanly", {
     rmarkdown::pandoc_available("1.12.3"),
     "Pandoc 1.12.3 or higher is required"
   )
-  expect_no_error(render_skeleton("legacy"))
-  expect_no_error(render_skeleton("new"))
+  render_skeleton("legacy")
+  render_skeleton("new")
   withr::with_namespace(
     "shiny",
-    expect_no_error(render_skeleton("real-time"))
+    render_skeleton("real-time")
   )
 })
