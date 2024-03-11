@@ -58,7 +58,7 @@ download_and_copy_fonts <-  function(theme, rule_file = "_bootswatch.scss") {
     # The basename can sometimes be very long, and R CMD check
     # will complain if the target file is over 100 characters long,
     # so shorten it if necessary
-    if (nchar(target) > 100) {
+    if (nchar(file.path("bslib", target)) > 100) {
       nm <- paste0(
         rlang::hash(tools::file_path_sans_ext(nm)),
         ".", tools::file_ext(nm)
