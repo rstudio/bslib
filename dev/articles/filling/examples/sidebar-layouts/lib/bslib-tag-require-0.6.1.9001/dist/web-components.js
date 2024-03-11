@@ -738,6 +738,9 @@
         console.warn(`Could not find ${selector} in ${type} content`);
         continue;
       }
+      if (target === html) {
+        continue;
+      }
       if (target instanceof HTMLElement) {
         target.replaceChildren(html);
       } else {
@@ -1253,6 +1256,7 @@
       const el = this.bsPopoverEl;
       if (!el)
         return;
+      this.contentContainer.innerHTML = "";
       const body = el.querySelector(".popover-body");
       if (body)
         this.contentContainer.append(body == null ? void 0 : body.firstChild);
