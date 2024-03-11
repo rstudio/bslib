@@ -13,7 +13,7 @@
 \usage{
 bs_global_theme(
   version = version_default(),
-  bootswatch = NULL,
+  preset = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -25,7 +25,8 @@ bs_global_theme(
   base_font = NULL,
   code_font = NULL,
   heading_font = NULL,
-  ...
+  ...,
+  bootswatch = NULL
 )
 
 bs_global_set(theme = bs_theme())
@@ -66,10 +67,14 @@ bs_global_theme_update(
 for possible values). Defaults to the currently recommended version
 for new projects (currently Bootstrap 5).}
 
-\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
-for possible values). When provided to \code{bs_theme_update()}, any previous
-Bootswatch theme is first removed before the new one is applied (use
-\code{bootswatch = "bootstrap"} to effectively remove the Bootswatch theme).}
+\item{preset}{The name of a theme preset, either a built-in theme provided by
+bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}} and
+\code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values). This argument takes precedence
+over the \code{bootswatch} argument and only one \code{preset} or \code{bootswatch} can be
+provided. When no \code{bootswatch} theme is specified, and \code{version} is 5 or
+higher, \code{preset} defaults to \code{"shiny"}. To remove the \code{"shiny"} preset,
+provide a value of \code{"bootstrap"} (this value will also work in
+\code{bs_theme_update()} to remove a \code{preset} or \code{bootswatch} theme).}
 
 \item{bg}{A color string for the background.}
 
@@ -101,6 +106,11 @@ Typically a shade of blue-green.}
 
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
+\item{bootswatch}{The name of a bootswatch theme (see \code{\link[=bootswatch_themes]{bootswatch_themes()}}
+for possible values). When provided to \code{bs_theme_update()}, any previous
+Bootswatch theme is first removed before the new one is applied (use
+\code{bootswatch = "bootstrap"} to effectively remove the Bootswatch theme).}
+
 \item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
 
 \item{.where}{Whether to place the variable definitions before other Sass
@@ -109,15 +119,6 @@ Typically a shade of blue-green.}
 
 \item{.default_flag}{Whether or not to add a \code{!default} flag (if missing) to
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
-
-\item{preset}{The name of a theme preset, either a built-in theme provided by
-bslib or a Bootswatch theme (see \code{\link[=builtin_themes]{builtin_themes()}} and
-\code{\link[=bootswatch_themes]{bootswatch_themes()}} for possible values). This argument takes precedence
-over the \code{bootswatch} argument and only one \code{preset} or \code{bootswatch} can be
-provided. When no \code{bootswatch} theme is specified, and \code{version} is 5 or
-higher, \code{preset} defaults to \code{"shiny"}. To remove the \code{"shiny"} preset,
-provide a value of \code{"bootstrap"} (this value will also work in
-\code{bs_theme_update()} to remove a \code{preset} or \code{bootswatch} theme).}
 }
 \value{
 Functions that modify the global theme (e.g., \code{bs_global_set()})
@@ -155,8 +156,8 @@ Other Bootstrap theme functions:
 \code{\link{bs_current_theme}()},
 \code{\link{bs_dependency}()},
 \code{\link{bs_remove}()},
+\code{\link{bs_theme}()},
 \code{\link{bs_theme_dependencies}()},
-\code{\link{bs_theme_preview}()},
-\code{\link{bs_theme}()}
+\code{\link{bs_theme_preview}()}
 }
 \concept{Bootstrap theme functions}

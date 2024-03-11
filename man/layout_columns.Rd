@@ -78,6 +78,11 @@ page_fillable(
   layout_columns(x, x, x, x)
 )
 
+# Or add a list of items, spliced with rlang's `!!!` operator
+page_fillable(
+ layout_columns(!!!list(x, x, x))
+)
+
 page_fillable(
   layout_columns(
     col_widths = c(6, 6, 12),

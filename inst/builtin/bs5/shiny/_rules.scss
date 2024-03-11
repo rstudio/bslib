@@ -7,6 +7,15 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   @import url($web-font-path);
 }
 
+// Variables
+:root {
+  --bslib-box-shadow-color-rgb: #{$bslib-box-shadow-color-rgb};
+}
+
+@include color-mode(dark) {
+  --bslib-box-shadow-color-rgb: #{$bslib-box-shadow-color-rgb-dark};
+}
+
 // For radioButtons()/checkboxGroupInput(), move text slightly to the right
 $bslib-checkbox-radio-margin-right: 0.35em !default;
 .checkbox,
@@ -71,88 +80,113 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 }
 
 
-@mixin bslib-box-shadows {
+@if ($bslib-enable-shadows) {
+  // These shadows are disabled because we use `enable-shadows: false` in the
+  // theme to avoid enabling *all* shadows. This is why we can't use the
+  // built-in `@include box-shadow()` mixin.
 
   // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
-  .bslib-card, .bslib-sidebar-layout {
-    box-shadow: $box-shadow;
-    --#{$prefix}card-border-width: 0;
-    .bslib-card, .bslib-sidebar-layout {
-      box-shadow: none;
-      --#{$prefix}card-border-width: #{$card-border-width};
-    }
-    // We're deliberately avoiding `@include color-mode(dark)` here since
-    // that'd require a fair amount of duplication to properly implement
-    // https://github.com/rstudio/bslib/pull/829/files#r1361262514
-    [data-#{$prefix}theme="dark"] & {
-      box-shadow: $box-shadow-dark;
-    }
-  }
-
-  // Additional card styling (w/ box shadows in mind)
   .bslib-card {
-    .card-header, .card-footer {
-      background-color: transparent;
-      border: 0;
+    // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
+    box-shadow: var(--bslib-card-box-shadow, #{$box-shadow-sm});
+    border-color: var(--bslib-card-border-color, transparent);
+    &.bslib-value-box.default {
+      --bslib-value-box-border-color-default: var(--bslib-card-border-color, transparent);
     }
-    .card-header {
-      font-weight: $font-weight-semibold;
-      font-size: 0.9rem;
-      line-height: 1.375rem;
-    }
-    .bslib-sidebar-layout > .sidebar {
-      border-top: var(--bslib-sidebar-border); 
+
+    // Restore borders without shadows for nested cards/value boxes
+    .bslib-card {
+      --bslib-card-box-shadow: ; // unset our shadow
+      --bslib-card-border-color: var(--#{$prefix}card-border-color);
+
+      &.bslib-value-box.default {
+        --bslib-value-box-border-color-default: var(--#{$prefix}card-border-color, #{$card-border-color});
+      }
     }
   }
 
+  .bslib-card-box-shadow-sm {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-sm, #{$box-shadow-sm});
+  }
+  .bslib-card-box-shadow-md {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-md, #{$box-shadow});
+  }
+  .bslib-card-box-shadow-lg {
+    --bslib-card-box-shadow: var(--bslib-card-box-shadow-lg, #{$box-shadow-lg});
+  }
+  .bslib-card-box-shadow-none {
+    --bslib-card-box-shadow: none;
+    --bslib-card-border-color: var(--#{$prefix}card-border-color);
+  }
+
+  .popover {
+    --#{$prefix}popover-shadow: #{$popover-box-shadow};
+    box-shadow: var(--#{$prefix}popover-shadow);
+  }
 }
 
 // TODO: move this logic into a "core" bundle that comes with any theme
 // (but you only get the shadows by default in the preset theme)
-@if $bslib-enable-shadows {
+@if $bslib-dashboard-design {
 
   :root {
-    --bslib-shiny-preset-main-bg: rgba(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.03);
+    --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
+    --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
+    --bslib-dashboard-main-bg: rgb(247, 247, 247);
+    --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
+    --bslib-sidebar-bg: var(--#{$prefix}body-bg);
+    --bslib-sidebar-fg: var(--#{$prefix}color);
   }
 
-  .bslib-page-sidebar, .bslib-page-navbar {
-    .bslib-sidebar-layout {
-      --bslib-sidebar-bg: var(--#{$prefix}body-bg);
-      --bslib-sidebar-main-bg: var(--#{$prefix}body-bg);
+  @include color-mode(dark) {
+    --bslib-dashboard-main-bg: rgb(20, 20, 24);
+  }
+
+  .bslib-card {
+    .card-header, .card-footer {
+      background-color: transparent;
+      font-size: 0.9rem;
+    }
+    .card-header {
+      font-weight: $font-weight-semibold;
+      line-height: 1.375rem;
     }
   }
 
-  .bslib-page-sidebar {
-    --bslib-page-sidebar-title-bg: transparent;
-    --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
-    
-    > .bslib-sidebar-layout > .main {
-      background-color: var(--bslib-shiny-preset-main-bg);
-      @include bslib-box-shadows;
-    }
+  // Set the background color of page dashboard class...
+  .bslib-page-dashboard,
+  // or of global main content area in a page_navbar() with a global sidebar
+  .main:has(.tab-content > .bslib-page-dashboard.active) {
+    background-color: var(--bslib-dashboard-main-bg);
+    // or of main area of a page_sidebar()
+    --_main-bg: var(--bslib-dashboard-main-bg);
   }
 
-  .bslib-page-navbar {
-
+  .bslib-page-navbar, .bslib-page-dashboard {
     > .navbar {
-      --bslib-navbar-default-bg: transparent;
+      --bslib-navbar-default-bg: var(--#{$prefix}body-bg);
       --bslib-navbar-inverse-bg: var(--#{$prefix}body-color);
     }
 
-    > div {
+    > .navbar + div {
       // Since we're using a transparent navbar, we need to (generally) add a border-top
       border-top: $card-border-width solid $card-border-color;
 
       // Case 1: page_navbar(sidebar = ...)
       // Case 2: page_navbar(nav_panel(layout_sidebar()))
-      > .bslib-sidebar-layout, 
+      > .bslib-sidebar-layout,
       > .tab-content > .tab-pane.active.html-fill-container > .bslib-sidebar-layout.html-fill-item {
         border-top: none !important; // Make sure we don't end up w/ a double border
-        > .main {
-          background-color: var(--bslib-shiny-preset-main-bg);
-          @include bslib-box-shadows;
-        }
       }
+    }
+  }
+
+  .bslib-page-sidebar {
+    --bslib-page-sidebar-title-bg: var(--#{$prefix}body-bg);
+    --bslib-page-sidebar-title-color: var(--#{$prefix}body-color);
+
+    .bslib-page-title {
+      border-color: var(--#{$prefix}border-color-translucent);
     }
   }
 }
@@ -174,7 +208,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 }
 
-// When the navbar is collapsed (or collapsing) on mobile, remove the 
+// When the navbar is collapsed (or collapsing) on mobile, remove the
 // .nav-underline border
 .navbar-collapse.show, .navbar-collapse.collapsing {
   .nav-underline {
@@ -270,9 +304,9 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 .shiny-notification.shiny-notification {
   position: relative;
   opacity: 0.96;
-  padding: calc(var(--bslib-spacer, 1rem) * 2);
+  padding: 2rem;
   margin: var(--bslib-spacer, 1rem);
-  border: $border-width solid rgba(var(--#{prefix}emphasis-color-rgb), 0.8);
+  border: $border-width solid var(--#{$prefix}border-color-translucent);
   border-radius: $card-border-radius;
   box-shadow: $box-shadow;
 
@@ -299,11 +333,5 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 
   .shiny-notification-content-text :last-child {
     margin-bottom: 0;
-  }
-}
-
-@include color-mode(dark) {
-  .shiny-notification.shiny-notification {
-    box-shadow: $box-shadow-dark;
   }
 }

@@ -60,7 +60,8 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@4
   }
 }
 
-.tooltip {
-  --bs-tooltip-bg: var(--bs-tertiary-bg);
-  --bs-tooltip-color: var(--bs-emphasis-color);
+// Fix selectize.js contrasting issues
+.selectize-input {
+  --#{$prefix}emphasis-color: #073642;
+  --#{$prefix}emphasis-color-rgb: 7,54,66;
 }

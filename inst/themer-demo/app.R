@@ -14,7 +14,7 @@ if (is_installed("thematic")) {
 # Source in ggplot2 examples
 source("global.R")
 
-theme <- bs_global_get()
+theme <- bs_global_get() %||% bs_theme()
 if ("3" %in% theme_version(theme)) {
   warning("This example app requires Bootstrap 4 or higher", call. = FALSE)
 }
@@ -65,12 +65,15 @@ progressBar <- div(
 
 # This is here for shinycoreci to take advantage of (so we don't need to update a bunch of screenshots)
 IS_LEGACY <- as.logical(Sys.getenv("BSLIB_LEGACY_THEMER_APP", FALSE))
-if (isTRUE(IS_LEGACY || theme_version(theme) %in% c("3", "4"))) {
+is_legacy_version <- theme_version(theme) %in% c("3", "4")
+if (isTRUE(IS_LEGACY || is_legacy_version)) {
   dashboardTab <- NULL
 } else {
   dashboardTab <- nav_panel("Dashboard", tipsUI("tips"))
   theme_set(theme_minimal())
 }
+
+layout_buttons <- if (is_legacy_version) tags$div else layout_columns
 
 bs_table <- function(x, class = NULL, ...) {
   class <- paste(c("table", class), collapse = " ")
@@ -105,8 +108,7 @@ shinyApp(
           verbatimTextOutput("inputPanelOutput"),
           br(),
           tags$p("Here are some", tags$code("actionButton()"), "s demonstrating different theme (i.e., accent) colors"),
-          tags$div(
-            class = "d-flex justify-content-center",
+          layout_buttons( # Regular <div> if IS_LEGACY, otherwise layout_columns
             actionButton("primary", "Primary", icon("product-hunt"), class = "btn-primary m-2"),
             actionButton("secondary", "Secondary (default)", class = "m-2"),
             actionButton("success", "Success", icon("check"), class = "btn-success m-2"),
@@ -357,7 +359,14 @@ shinyApp(
     lapply(c("default", "message", "warning", "error"), function(x) {
       X <- tools::toTitleCase(x)
       observeEvent(input[[paste0("show", X)]], {
-        showNotification(paste(X, "notification styling"), type = x)
+        q <- parseQueryString(session$clientData$url_search)
+        if ("notification-duration" %in% names(q)) {
+          duration <- as.numeric(q[["notification-duration"]])
+          if (duration <= 0) duration <- NULL
+        } else {
+          duration <- 5
+        }
+        showNotification(paste(X, "notification styling"), type = x, duration = duration)
       })
     })
 

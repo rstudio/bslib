@@ -320,7 +320,7 @@ fillable_container(
 
 ::: {.row .mt-3}
 ::: col-md-6
-You might wonder, why then would we want or need `fillable = FALSE` or `fill = FALSE` on a `card_body()`? One big reason is that [fillable containers]{.b-pink} are powered by [CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), which changes the way it's children are rendered. And, although those changes are nice for "stretchy" children, there are [downsides for rendering inline elements](../cards#flexbox). So, that's why, it's recommended that you use multiple card bodies](../cards#multiple-card_body) when combining [fill]{.b-blue} with [non-fill]{.b-orange}
+You might wonder, why then would we want or need `fillable = FALSE` or `fill = FALSE` on a `card_body()`? One big reason is that [fillable containers]{.b-pink} are powered by [CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), which changes the way it's children are rendered. And, although those changes are nice for "stretchy" children, there are [downsides for rendering inline elements](../cards#flexbox). So, that's why, it's recommended that you use [multiple card bodies](../cards#multiple-card_body) when combining [fill]{.b-blue} with [non-fill]{.b-orange}
 :::
 
 ::: col-md-6

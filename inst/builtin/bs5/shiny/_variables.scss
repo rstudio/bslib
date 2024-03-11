@@ -67,7 +67,9 @@ $body-font-weight: 400 !default;
 $headings-font-weight: 400 !default;
 
 // Spacing
+$bslib-spacer: 1.5rem !default;
 $hr-margin-y: 2rem !default;
+$navbar-padding-x: 0.66rem !default;
 
 // Inputs
 $input-btn-font-size: 15px !default;
@@ -97,22 +99,43 @@ $table-hover-bg: rgba($primary, 0.1) !default;
 $table-striped-order: even !default;
 
 // Box Shadows
+// => These are shiny-preset-specific, hoping Bootstrap adds something like this
+$bslib-box-shadow-color-rgb: 29, 31, 33 !default;
+$bslib-box-shadow-color-rgb-dark: 0, 0, 0 !default;
+
+$box-shadow-sm:
+  0px 0px 2px 0px RGBA(var(--bslib-box-shadow-color-rgb), 0.14),
+  0px 2px 4px 0px RGBA(var(--bslib-box-shadow-color-rgb), 0.16) !default;
+
 $box-shadow:
-  0px 1px 2px rgba(29, 31, 33,.1),
-  0px 3px 7px rgba(29, 31, 33,.1),
-  0px 12px 30px rgba(29, 31, 33,.08) !default;
+  0px 1px 2px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+  0px 3px 7px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+  0px 12px 30px RGBA(var(--bslib-box-shadow-color-rgb), .08) !default;
 
-// A shiny-preset-specific variable, hoping Bootstrap adds something like this
-$box-shadow-dark:
-  0px 1px 2px rgba(0, 0, 0,.1),
-  0px 3px 7px rgba(0, 0, 0,.1),
-  0px 12px 30px rgba(0, 0, 0,.08) !default;
+$box-shadow-lg:
+  0px 4px 10px RGBA(var(--bslib-box-shadow-color-rgb), .1),
+  0px 12px 30px RGBA(var(--bslib-box-shadow-color-rgb), 0.17) !default;
 
+// Popover
+$popover-box-shadow: $box-shadow !default;
+
+// Cards
 $card-border-radius: 8px !default;
 
-// bslib variables
-$bslib-enable-shadows: true !default;
-$bslib-value-box-enable-shadow: $bslib-enable-shadows !default;
+// bslib Dashboard Styles
+// "Dashboard" styles give you:
+// * softer borders
+// * white cards
+// * box shadow on cards
+// * white sidebars
+// * light gray background in the main container(s)
+// * white navbar and title panel
+
+$bslib-dashboard-design: true !default;
+$bslib-enable-shadows: $bslib-dashboard-design !default
+
+$border-color-translucent: if($bslib-dashboard-design, rgba(40, 70, 94, 0.1), null) !default;
+$border-color-translucent-dark: if($bslib-dashboard-design, rgba(255, 255, 255, 0.1), null) !default;
 
 // Modals
 $modal-dialog-margin-y-sm-up: 10% !default;

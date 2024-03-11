@@ -73,7 +73,10 @@ as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = 
 
   if (rlang::is_missing(x)) {
     warn_css_selector_null(css_selector)
-    attrs <- c(attrs, list(class = "html-fill-item html-fill-container"))
+    attrs <- c(
+      attrs,
+      list(class = "html-fill-item html-fill-container", fill_dependency())
+    )
     return(rlang::splice(attrs))
   }
 
@@ -98,7 +101,7 @@ as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, 
 
   if (rlang::is_missing(x)) {
     warn_css_selector_null(css_selector)
-    attrs <- c(attrs, list(class = "html-fill-container"))
+    attrs <- c(attrs, list(class = "html-fill-container", fill_dependency()))
     return(rlang::splice(attrs))
   }
 
@@ -122,7 +125,7 @@ as_fill_item <- function(x, ..., min_height = NULL, max_height = NULL, class = N
 
   if (rlang::is_missing(x)) {
     warn_css_selector_null(css_selector)
-    attrs <- c(attrs, list(class = "html-fill-item"))
+    attrs <- c(attrs, list(class = "html-fill-item", fill_dependency()))
     return(rlang::splice(attrs))
   }
 
@@ -130,6 +133,18 @@ as_fill_item <- function(x, ..., min_height = NULL, max_height = NULL, class = N
 
   tagAppendAttributes(x, .cssSelector = css_selector, !!!attrs)
 }
+
+fill_dependency <- local({
+  fill_dep <- NULL
+
+  function() {
+    if (!is.null(fill_dep)) return(fill_dep)
+    fill_dep <<- htmltools::findDependencies(
+      htmltools::bindFillRole(htmltools::tags$div(), container = TRUE)
+    )[[1]]
+    fill_dep
+  }
+})
 
 fillable_attributes <- function(
   min_height = NULL,

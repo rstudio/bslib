@@ -1,0 +1,56 @@
+diff --git a/inst/lib/bsw5/dist/cyborg/_bootswatch.scss b/inst/lib/bsw5/dist/cyborg/_bootswatch.scss
+index f9aa30d6..95f51c3b 100644
+--- a/inst/lib/bsw5/dist/cyborg/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/cyborg/_bootswatch.scss
+@@ -139,3 +139,9 @@ legend {
+     border-bottom: none;
+   }
+ }
++
++// Fix selectize.js contrasting issues
++.selectize-input {
++  --#{$prefix}emphasis-color: black;
++  --#{$prefix}emphasis-color-rgb: 0,0,0;
++}
+diff --git a/inst/lib/bsw5/dist/darkly/_bootswatch.scss b/inst/lib/bsw5/dist/darkly/_bootswatch.scss
+index e33682fc..36d4732c 100644
+--- a/inst/lib/bsw5/dist/darkly/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/darkly/_bootswatch.scss
+@@ -80,3 +80,9 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
+     }
+   }
+ }
++
++// Fix selectize.js contrasting issues
++.selectize-input {
++  --#{$prefix}emphasis-color: black;
++  --#{$prefix}emphasis-color-rgb: 0,0,0;
++}
+diff --git a/inst/lib/bsw5/dist/solar/_bootswatch.scss b/inst/lib/bsw5/dist/solar/_bootswatch.scss
+index 34d4f2c6..3379a532 100644
+--- a/inst/lib/bsw5/dist/solar/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/solar/_bootswatch.scss
+@@ -59,3 +59,9 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@4
+     color: $dark;
+   }
+ }
++
++// Fix selectize.js contrasting issues
++.selectize-input {
++  --#{$prefix}emphasis-color: #073642;
++  --#{$prefix}emphasis-color-rgb: 7,54,66;
++}
+diff --git a/inst/lib/bsw5/dist/superhero/_bootswatch.scss b/inst/lib/bsw5/dist/superhero/_bootswatch.scss
+index 79c81b62..2ed90d2c 100644
+--- a/inst/lib/bsw5/dist/superhero/_bootswatch.scss
++++ b/inst/lib/bsw5/dist/superhero/_bootswatch.scss
+@@ -142,3 +142,9 @@ label,
+     background-color: $table-hover-bg;
+   }
+ }
++
++// Fix selectize.js contrasting issues
++.selectize-input {
++  --#{$prefix}emphasis-color: black;
++  --#{$prefix}emphasis-color-rgb: 0,0,0;
++}

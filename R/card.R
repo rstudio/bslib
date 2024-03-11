@@ -78,6 +78,11 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
   attribs <- args[nzchar(argnames)]
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
 
+  if (full_screen && is.null(attribs$id)) {
+    # a11y: full screen cards need an ID for aria-controls on the toggle button
+    attribs$id <- paste0("bslib-card-", p_randomInt(1000, 10000))
+  }
+
   tag <- div(
     class = "card bslib-card bslib-mb-spacing",
     style = css(
@@ -89,7 +94,7 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
     "data-full-screen" = if (full_screen) "false",
     !!!attribs,
     !!!children,
-    if (full_screen) full_screen_toggle(),
+    if (full_screen) full_screen_toggle(attribs$id),
     card_init_js(),
     component_dependencies()
   )
@@ -294,11 +299,14 @@ is.card_item <- function(x) {
 }
 
 
-full_screen_toggle <- function() {
+full_screen_toggle <- function(id_controls) {
   tooltip(
-    tags$span(
+    tags$button(
       class = "bslib-full-screen-enter",
       class = "badge rounded-pill",
+      "aria-expanded" = "false",
+      "aria-controls" = id_controls,
+      "aria-label" = "Expand card",
       full_screen_toggle_icon()
     ),
     "Expand"

@@ -1,6 +1,5 @@
-html {
-  height: 100%;
-}
+// `page_fillable()` sets html height in a <style> tag in <head>
+// html { height: 100%; }
 
 .bslib-page-fill {
   width: 100%;
@@ -11,7 +10,45 @@ html {
 }
 
 @include media-breakpoint-down(sm) {
-  .bslib-page-fill {
-    height: var(--bslib-page-fill-mobile-height, auto);
+  .bslib-flow-mobile {
+    > .html-fill-item {
+      flex: 0 0 auto;
+    }
+
+    &.bslib-page-sidebar,
+    &.bslib-page-navbar.has-page-sidebar {
+      // Keep filling behavior of outer container
+      > .html-fill-item {
+        flex: 1 1 auto;
+      }
+    }
+
+    &.bslib-page-sidebar,
+    &.bslib-page-navbar.has-page-sidebar > .html-fill-container {
+      > .bslib-sidebar-layout {
+        // Switch to flow layout in main area of the sidebar container
+        > .main > .html-fill-item {
+          flex: 0 0 auto;
+        }
+
+        &:not(.sidebar-right) {
+          > .main {
+            padding-left: var(--_padding-icon);
+            padding-top: var(--_padding);
+          }
+          > .collapse-toggle {
+            left: calc(var(--_icon-size) / 2);
+          }
+        }
+        &.sidebar-right {
+          > .main {
+            padding-right: var(--_padding-icon);
+          }
+          > .collapse-toggle {
+            right: calc(var(--_icon-size) / 2);
+          }
+        }
+      }
+    }
   }
 }

@@ -25,7 +25,9 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       tags$body(...),
       title = title,
       theme = theme,
-      lang = lang
+      lang = lang,
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
     ),
     theme = theme
   )
@@ -37,7 +39,14 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fluidPage(..., title = title, theme = theme, lang = lang),
+    shiny::fluidPage(
+      ...,
+      title = title,
+      theme = theme,
+      lang = lang,
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
+    ),
     theme = theme
   )
 }
@@ -49,7 +58,14 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' @export
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
-    shiny::fixedPage(..., title = title, theme = theme, lang = lang),
+    shiny::fixedPage(
+      ...,
+      title = title,
+      theme = theme,
+      lang = lang,
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
+    ),
     theme = theme
   )
 }
@@ -162,17 +178,19 @@ page_fillable <- function(
     theme = theme,
     lang = lang,
     class = "bslib-page-fill bslib-gap-spacing",
+    class = if (!fillable_mobile) "bslib-flow-mobile",
     style = css(
       padding = validateCssPadding(padding),
-      gap = validateCssUnit(gap),
-      "--bslib-page-fill-mobile-height" = if (fillable_mobile) "100%" else "auto"
+      gap = validateCssUnit(gap)
     ),
     ...,
+    tags$head(tags$style("html { height: 100%; }")),
     as_fillable_container()
   )
 }
 
 validateCssPadding <- function(padding = NULL) {
+  if (is.null(padding)) return(NULL)
   paste(
     vapply(padding, validateCssUnit, character(1)),
     collapse = " "
@@ -243,8 +261,18 @@ page_sidebar <- function(
   lang = NULL
 ) {
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
-    title <- h1(title, class = "bslib-page-title")
+    title <- h1(title, class = "bslib-page-title navbar-brand")
   }
+
+  navbar_title <-
+    if (!is.null(title)) {
+      div(
+        class = "navbar navbar-static-top",
+        div(title, class = "container-fluid")
+      )
+    }
+
+  sidebar <- maybe_page_sidebar(sidebar)
 
   page_fillable(
     padding = 0,
@@ -254,7 +282,7 @@ page_sidebar <- function(
     lang = lang,
     fillable_mobile = fillable_mobile,
     class = "bslib-page-sidebar",
-    title,
+    navbar_title,
     layout_sidebar(
       sidebar = sidebar,
       fillable = fillable,
@@ -263,6 +291,18 @@ page_sidebar <- function(
       ...
     )
   )
+}
+
+maybe_page_sidebar <- function(x) {
+  if (is.null(x)) return(NULL)
+  if (!inherits(x, "sidebar")) {
+    x <- sidebar(x)
+  }
+
+  # If `open` is not provided, choose a page-level default
+  x$open <- x$open %||% sidebar_open_on(desktop = "open", mobile = "always")
+
+  x
 }
 
 
@@ -353,6 +393,10 @@ page_navbar <- function(
   lang = NULL
 ) {
 
+  sidebar <- maybe_page_sidebar(sidebar)
+
+  padding <- validateCssPadding(padding)
+  gap <- validateCssUnit(gap)
 
   # Default to fillable = F when this is called from shiny::navbarPage()
   # TODO: update shiny::navbarPage() to set fillable = FALSE and get rid of this hack
@@ -376,6 +420,7 @@ page_navbar <- function(
     theme = theme,
     lang = lang,
     class = "bslib-page-navbar",
+    class = if (!is.null(sidebar)) "has-page-sidebar",
     navs_bar_(
       ..., title = title, id = id, selected = selected,
       sidebar = sidebar, fillable = fillable,
@@ -403,7 +448,7 @@ infer_window_title <- function(title = NULL, window_title = NA) {
     }
   }
 
-  window_title
+  if (isTRUE(is.na(window_title))) NULL else window_title
 }
 
 
