@@ -291,6 +291,8 @@ export class BslibPopover extends BslibElement {
   private _restoreContent(): void {
     const el = this.bsPopoverEl;
     if (!el) return;
+
+    this.contentContainer.innerHTML = "";
     const body = el.querySelector(".popover-body");
     if (body) this.contentContainer.append(body?.firstChild as HTMLElement);
     const header = el.querySelector(".popover-header");
