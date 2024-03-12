@@ -1,5 +1,6 @@
-import { getAllFocusableChildren } from "./_utils";
-import { ShinyResizeObserver } from "./_shinyResizeObserver";
+import { BslibElement } from "./_bslibElement";
+import { getAllFocusableChildren } from "../_utils";
+import { ShinyResizeObserver } from "../_shinyResizeObserver";
 
 /**
  * The overlay element that is placed behind the card when expanded full screen.
@@ -20,19 +21,29 @@ interface CardFullScreenOverlay {
   anchor: HTMLAnchorElement;
 }
 
-/**
- * The bslib card component class.
- *
- * @class Card
- * @typedef {Card}
- */
-class Card {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const ATTR_FULL_SCREEN = "data-full-screen";
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const CLASS_HAS_FULL_SCREEN = "bslib-has-full-screen";
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const CLASS_FULL_SCREEN_ENTER = "bslib-full-screen-enter";
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const CLASS_FULL_SCREEN_EXIT = "bslib-full-screen-exit";
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const ID_FULL_SCREEN_OVERLAY = "bslib-full-screen-overlay";
+
+export class BslibCard extends BslibElement {
+  static tagName = "bslib-card";
+
   /**
    * The card container element.
    * @private
    * @type {HTMLElement}
    */
-  private card: HTMLElement;
+  private get card(): HTMLElement {
+    return this.querySelector("> .card.bslib-card") as HTMLElement;
+  }
+
   /**
    * The card's full screen overlay element. We create this element once and add
    * and remove it from the DOM as needed (this simplifies focus management
@@ -40,30 +51,7 @@ class Card {
    * @private
    * @type {CardFullScreenOverlay}
    */
-  private overlay: CardFullScreenOverlay;
-
-  /**
-   * Key bslib-specific classes and attributes used by the card component.
-   * @private
-   * @static
-   * @type {{ ATTR_INIT: string; CLASS_CARD: string; CLASS_FULL_SCREEN: string; CLASS_HAS_FULL_SCREEN: string; CLASS_FULL_SCREEN_ENTER: string; CLASS_FULL_SCREEN_EXIT: string; ID_FULL_SCREEN_OVERLAY: string; }}
-   */
-  private static attr = {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    ATTR_INIT: "data-bslib-card-init",
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    CLASS_CARD: "bslib-card",
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    ATTR_FULL_SCREEN: "data-full-screen",
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    CLASS_HAS_FULL_SCREEN: "bslib-has-full-screen",
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    CLASS_FULL_SCREEN_ENTER: "bslib-full-screen-enter",
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    CLASS_FULL_SCREEN_EXIT: "bslib-full-screen-exit",
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    ID_FULL_SCREEN_OVERLAY: "bslib-full-screen-overlay",
-  };
+  private overlay!: CardFullScreenOverlay;
 
   /**
    * A Shiny-specific resize observer that ensures Shiny outputs in within the
@@ -74,32 +62,28 @@ class Card {
    */
   private static shinyResizeObserver = new ShinyResizeObserver();
 
-  /**
-   * Creates an instance of a bslib Card component.
-   *
-   * @constructor
-   * @param {HTMLElement} card
-   */
-  constructor(card: HTMLElement) {
-    // remove initialization attribute and script
-    card.removeAttribute(Card.attr.ATTR_INIT);
-    card
-      .querySelector<HTMLScriptElement>(`script[${Card.attr.ATTR_INIT}]`)
-      ?.remove();
-
-    this.card = card;
-    Card.instanceMap.set(card, this);
-
-    // Let Shiny know to trigger resize when the card size changes
-    // TODO: shiny could/should do this itself (rstudio/shiny#3682)
-    Card.shinyResizeObserver.observe(this.card);
-
-    this._addEventListeners();
-    this.overlay = this._createOverlay();
+  constructor() {
+    super();
 
     // bind event handler methods to this card instance
     this._exitFullScreenOnEscape = this._exitFullScreenOnEscape.bind(this);
     this._trapFocusExit = this._trapFocusExit.bind(this);
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    this._addEventListeners();
+    this.overlay = this._createOverlay();
+
+    // Let Shiny know to trigger resize when the card size changes
+    BslibCard.shinyResizeObserver.observe(this.card);
+  }
+
+  disconnectedCallback(): void {
+    BslibCard.shinyResizeObserver.unobserve(this.card);
+
+    super.disconnectedCallback();
   }
 
   /**
@@ -125,16 +109,14 @@ class Card {
     // capture phase so we have the best chance of preventing other handlers
     document.addEventListener("keydown", this._trapFocusExit, true);
 
-    this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "true");
-    document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
+    this.card.setAttribute(ATTR_FULL_SCREEN, "true");
+    document.body.classList.add(CLASS_HAS_FULL_SCREEN);
     this.card.insertAdjacentElement("beforebegin", this.overlay.container);
 
     // Set initial focus on the card, if not already
     if (
       !this.card.contains(document.activeElement) ||
-      document.activeElement?.classList.contains(
-        Card.attr.CLASS_FULL_SCREEN_ENTER
-      )
+      document.activeElement?.classList.contains(CLASS_FULL_SCREEN_ENTER)
     ) {
       this.card.setAttribute("tabindex", "-1");
       this.card.focus();
@@ -158,10 +140,9 @@ class Card {
 
     // Remove overlay and remove full screen classes from card
     this.overlay.container.remove();
-    this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "false");
+    this.card.setAttribute(ATTR_FULL_SCREEN, "false");
     this.card.removeAttribute("tabindex");
-    document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
-
+    document.body.classList.remove(CLASS_HAS_FULL_SCREEN);
     this._emitFullScreenEvent(false);
   }
 
@@ -184,7 +165,7 @@ class Card {
    */
   private _addEventListeners(): void {
     const btnFullScreen = this.card.querySelector(
-      `:scope > * > .${Card.attr.CLASS_FULL_SCREEN_ENTER}`
+      `:scope > * > .${CLASS_FULL_SCREEN_ENTER}`
     );
     if (!btnFullScreen) return;
     btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
@@ -251,7 +232,7 @@ class Card {
     // Check focusables every time because the card contents may have changed
     // but exclude the full screen enter button from this list of elements
     const focusableElements = getAllFocusableChildren(this.card).filter(
-      (el) => !el.classList.contains(Card.attr.CLASS_FULL_SCREEN_ENTER)
+      (el) => !el.classList.contains(CLASS_FULL_SCREEN_ENTER)
     );
     const hasFocusableElements = focusableElements.length > 0;
 
@@ -297,7 +278,7 @@ class Card {
    */
   private _createOverlay(): CardFullScreenOverlay {
     const container = document.createElement("div");
-    container.id = Card.attr.ID_FULL_SCREEN_OVERLAY;
+    container.id = ID_FULL_SCREEN_OVERLAY;
     container.onclick = this.exitFullScreen.bind(this);
 
     const anchor = this._createOverlayCloseAnchor();
@@ -313,7 +294,7 @@ class Card {
    */
   private _createOverlayCloseAnchor(): CardFullScreenOverlay["anchor"] {
     const anchor = document.createElement("a");
-    anchor.classList.add(Card.attr.CLASS_FULL_SCREEN_EXIT);
+    anchor.classList.add(CLASS_FULL_SCREEN_EXIT);
     anchor.tabIndex = 0;
     anchor.setAttribute("aria-expanded", "true");
     anchor.setAttribute("aria-label", "Close card");
@@ -347,71 +328,4 @@ class Card {
       "5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z'/></svg>"
     );
   }
-
-  /**
-   * The registry of card instances and their associated DOM elements.
-   * @private
-   * @static
-   * @type {WeakMap<HTMLElement, Card>}
-   */
-  private static instanceMap: WeakMap<HTMLElement, Card> = new WeakMap();
-
-  /**
-   * Returns the card instance associated with the given element, if any.
-   * @public
-   * @static
-   * @param {HTMLElement} el
-   * @returns {(Card | undefined)}
-   */
-  public static getInstance(el: HTMLElement): Card | undefined {
-    return Card.instanceMap.get(el);
-  }
-
-  /**
-   * If cards are initialized before the DOM is ready, we re-schedule the
-   * initialization to occur on DOMContentLoaded.
-   * @private
-   * @static
-   * @type {boolean}
-   */
-  private static onReadyScheduled = false;
-
-  /**
-   * Initializes all cards that require initialization on the page, or schedules
-   * initialization if the DOM is not yet ready.
-   * @public
-   * @static
-   * @param {boolean} [flushResizeObserver=true]
-   */
-  public static initializeAllCards(flushResizeObserver = true): void {
-    if (document.readyState === "loading") {
-      if (!Card.onReadyScheduled) {
-        Card.onReadyScheduled = true;
-        document.addEventListener("DOMContentLoaded", () => {
-          Card.initializeAllCards(false);
-        });
-      }
-      return;
-    }
-
-    if (flushResizeObserver) {
-      // Trigger a recheck of observed cards to unobserve non-existent cards
-      Card.shinyResizeObserver.flush();
-    }
-
-    const initSelector = `.${Card.attr.CLASS_CARD}[${Card.attr.ATTR_INIT}]`;
-    if (!document.querySelector(initSelector)) {
-      // no cards to initialize
-      return;
-    }
-
-    const cards = document.querySelectorAll(initSelector);
-    cards.forEach((card) => new Card(card as HTMLElement));
-  }
 }
-
-// attach Sidebar class to window for global usage
-(window as any).bslib = (window as any).bslib || {};
-(window as any).bslib.Card = Card;
-
-export { Card };

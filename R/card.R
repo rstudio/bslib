@@ -90,14 +90,14 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
       max_height = validateCssUnit(max_height),
       min_height = validateCssUnit(min_height)
     ),
-    "data-bslib-card-init" = NA,
-    "data-full-screen" = if (full_screen) "false",
+    "data-full-screen" = if (full_screen) "false", 
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(attribs$id),
-    card_init_js(),
     component_dependencies()
   )
+
+  tag <- web_component("bslib-card", tag)
 
   tag <- bindFillRole(tag, container = TRUE, item = fill)
   tag <- tagAppendAttributes(tag, class = class)
@@ -310,13 +310,6 @@ full_screen_toggle <- function(id_controls) {
       full_screen_toggle_icon()
     ),
     "Expand"
-  )
-}
-
-card_init_js <- function() {
-  tags$script(
-    `data-bslib-card-init` = NA,
-    HTML("bslib.Card.initializeAllCards();")
   )
 }
 

@@ -1,3 +1,4 @@
+import { BslibCard } from "./card";
 import { BslibTooltip } from "./tooltip";
 import { BslibPopover } from "./popover";
 import { BslibInputDarkMode } from "./inputDarkMode";
@@ -7,6 +8,7 @@ import { BslibLayoutColumns } from "./layoutColumns";
 import { BslibSwitch, BslibSwitchInline } from "./switch";
 
 [
+  BslibCard,
   BslibTooltip,
   BslibPopover,
   BslibInputDarkMode,

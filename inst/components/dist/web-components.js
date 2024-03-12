@@ -51,31 +51,12 @@
     });
   };
 
-  // node_modules/@lit/reactive-element/decorators/property.js
-  var i = (i4, e6) => "method" === e6.kind && e6.descriptor && !("value" in e6.descriptor) ? __spreadProps(__spreadValues({}, e6), { finisher(n7) {
-    n7.createProperty(e6.key, i4);
-  } }) : { kind: "field", key: Symbol(), placement: "own", descriptor: {}, originalKey: e6.key, initializer() {
-    "function" == typeof e6.initializer && (this[e6.key] = e6.initializer.call(this));
-  }, finisher(n7) {
-    n7.createProperty(e6.key, i4);
-  } };
-  var e = (i4, e6, n7) => {
-    e6.constructor.createProperty(n7, i4);
-  };
-  function n(n7) {
-    return (t3, o6) => void 0 !== o6 ? e(n7, t3, o6) : i(n7, t3);
-  }
-
-  // node_modules/@lit/reactive-element/decorators/query-assigned-elements.js
-  var n2;
-  var e2 = null != (null === (n2 = window.HTMLSlotElement) || void 0 === n2 ? void 0 : n2.prototype.assignedElements) ? (o6, n7) => o6.assignedElements(n7) : (o6, n7) => o6.assignedNodes(n7).filter((o7) => o7.nodeType === Node.ELEMENT_NODE);
-
   // node_modules/@lit/reactive-element/css-tag.js
   var t = window;
-  var e3 = t.ShadowRoot && (void 0 === t.ShadyCSS || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype;
+  var e = t.ShadowRoot && (void 0 === t.ShadyCSS || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype;
   var s = Symbol();
-  var n3 = /* @__PURE__ */ new WeakMap();
-  var o2 = class {
+  var n = /* @__PURE__ */ new WeakMap();
+  var o = class {
     constructor(t3, e6, n7) {
       if (this._$cssResult$ = true, n7 !== s)
         throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -84,9 +65,9 @@
     get styleSheet() {
       let t3 = this.o;
       const s5 = this.t;
-      if (e3 && void 0 === t3) {
+      if (e && void 0 === t3) {
         const e6 = void 0 !== s5 && 1 === s5.length;
-        e6 && (t3 = n3.get(s5)), void 0 === t3 && ((this.o = t3 = new CSSStyleSheet()).replaceSync(this.cssText), e6 && n3.set(s5, t3));
+        e6 && (t3 = n.get(s5)), void 0 === t3 && ((this.o = t3 = new CSSStyleSheet()).replaceSync(this.cssText), e6 && n.set(s5, t3));
       }
       return t3;
     }
@@ -94,8 +75,8 @@
       return this.cssText;
     }
   };
-  var r = (t3) => new o2("string" == typeof t3 ? t3 : t3 + "", void 0, s);
-  var i2 = (t3, ...e6) => {
+  var r = (t3) => new o("string" == typeof t3 ? t3 : t3 + "", void 0, s);
+  var i = (t3, ...e6) => {
     const n7 = 1 === t3.length ? t3[0] : e6.reduce((e7, s5, n8) => e7 + ((t4) => {
       if (true === t4._$cssResult$)
         return t4.cssText;
@@ -103,15 +84,15 @@
         return t4;
       throw Error("Value passed to 'css' function must be a 'css' function result: " + t4 + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
     })(s5) + t3[n8 + 1], t3[0]);
-    return new o2(n7, t3, s);
+    return new o(n7, t3, s);
   };
   var S = (s5, n7) => {
-    e3 ? s5.adoptedStyleSheets = n7.map((t3) => t3 instanceof CSSStyleSheet ? t3 : t3.styleSheet) : n7.forEach((e6) => {
+    e ? s5.adoptedStyleSheets = n7.map((t3) => t3 instanceof CSSStyleSheet ? t3 : t3.styleSheet) : n7.forEach((e6) => {
       const n8 = document.createElement("style"), o6 = t.litNonce;
       void 0 !== o6 && n8.setAttribute("nonce", o6), n8.textContent = e6.cssText, s5.appendChild(n8);
     });
   };
-  var c = e3 ? (t3) => t3 : (t3) => t3 instanceof CSSStyleSheet ? ((t4) => {
+  var c = e ? (t3) => t3 : (t3) => t3 instanceof CSSStyleSheet ? ((t4) => {
     let e6 = "";
     for (const s5 of t4.cssRules)
       e6 += s5.cssText;
@@ -120,11 +101,11 @@
 
   // node_modules/@lit/reactive-element/reactive-element.js
   var s2;
-  var e4 = window;
-  var r2 = e4.trustedTypes;
+  var e2 = window;
+  var r2 = e2.trustedTypes;
   var h = r2 ? r2.emptyScript : "";
-  var o3 = e4.reactiveElementPolyfillSupport;
-  var n4 = { toAttribute(t3, i4) {
+  var o2 = e2.reactiveElementPolyfillSupport;
+  var n2 = { toAttribute(t3, i4) {
     switch (i4) {
       case Boolean:
         t3 = t3 ? h : null;
@@ -154,7 +135,7 @@
     return s5;
   } };
   var a = (t3, i4) => i4 !== t3 && (i4 == i4 || t3 == t3);
-  var l2 = { attribute: true, type: String, converter: n4, reflect: false, hasChanged: a };
+  var l = { attribute: true, type: String, converter: n2, reflect: false, hasChanged: a };
   var d = "finalized";
   var u = class extends HTMLElement {
     constructor() {
@@ -172,7 +153,7 @@
         void 0 !== e6 && (this._$Ev.set(e6, s5), t3.push(e6));
       }), t3;
     }
-    static createProperty(t3, i4 = l2) {
+    static createProperty(t3, i4 = l) {
       if (i4.state && (i4.attribute = false), this.finalize(), this.elementProperties.set(t3, i4), !i4.noAccessor && !this.prototype.hasOwnProperty(t3)) {
         const s5 = "symbol" == typeof t3 ? Symbol() : "__" + t3, e6 = this.getPropertyDescriptor(t3, s5, i4);
         void 0 !== e6 && Object.defineProperty(this.prototype, t3, e6);
@@ -187,7 +168,7 @@
       }, configurable: true, enumerable: true };
     }
     static getPropertyOptions(t3) {
-      return this.elementProperties.get(t3) || l2;
+      return this.elementProperties.get(t3) || l;
     }
     static finalize() {
       if (this.hasOwnProperty(d))
@@ -256,11 +237,11 @@
     attributeChangedCallback(t3, i4, s5) {
       this._$AK(t3, s5);
     }
-    _$EO(t3, i4, s5 = l2) {
+    _$EO(t3, i4, s5 = l) {
       var e6;
       const r4 = this.constructor._$Ep(t3, s5);
       if (void 0 !== r4 && true === s5.reflect) {
-        const h3 = (void 0 !== (null === (e6 = s5.converter) || void 0 === e6 ? void 0 : e6.toAttribute) ? s5.converter : n4).toAttribute(i4, s5.type);
+        const h3 = (void 0 !== (null === (e6 = s5.converter) || void 0 === e6 ? void 0 : e6.toAttribute) ? s5.converter : n2).toAttribute(i4, s5.type);
         this._$El = t3, null == h3 ? this.removeAttribute(r4) : this.setAttribute(r4, h3), this._$El = null;
       }
     }
@@ -268,7 +249,7 @@
       var s5;
       const e6 = this.constructor, r4 = e6._$Ev.get(t3);
       if (void 0 !== r4 && this._$El !== r4) {
-        const t4 = e6.getPropertyOptions(r4), h3 = "function" == typeof t4.converter ? { fromAttribute: t4.converter } : void 0 !== (null === (s5 = t4.converter) || void 0 === s5 ? void 0 : s5.fromAttribute) ? t4.converter : n4;
+        const t4 = e6.getPropertyOptions(r4), h3 = "function" == typeof t4.converter ? { fromAttribute: t4.converter } : void 0 !== (null === (s5 = t4.converter) || void 0 === s5 ? void 0 : s5.fromAttribute) ? t4.converter : n2;
         this._$El = r4, this[r4] = h3.fromAttribute(i4, t4.type), this._$El = null;
       }
     }
@@ -337,17 +318,17 @@
     firstUpdated(t3) {
     }
   };
-  u[d] = true, u.elementProperties = /* @__PURE__ */ new Map(), u.elementStyles = [], u.shadowRootOptions = { mode: "open" }, null == o3 || o3({ ReactiveElement: u }), (null !== (s2 = e4.reactiveElementVersions) && void 0 !== s2 ? s2 : e4.reactiveElementVersions = []).push("1.6.2");
+  u[d] = true, u.elementProperties = /* @__PURE__ */ new Map(), u.elementStyles = [], u.shadowRootOptions = { mode: "open" }, null == o2 || o2({ ReactiveElement: u }), (null !== (s2 = e2.reactiveElementVersions) && void 0 !== s2 ? s2 : e2.reactiveElementVersions = []).push("1.6.2");
 
   // node_modules/lit-html/lit-html.js
   var t2;
-  var i3 = window;
-  var s3 = i3.trustedTypes;
-  var e5 = s3 ? s3.createPolicy("lit-html", { createHTML: (t3) => t3 }) : void 0;
-  var o4 = "$lit$";
-  var n5 = `lit$${(Math.random() + "").slice(9)}$`;
-  var l3 = "?" + n5;
-  var h2 = `<${l3}>`;
+  var i2 = window;
+  var s3 = i2.trustedTypes;
+  var e3 = s3 ? s3.createPolicy("lit-html", { createHTML: (t3) => t3 }) : void 0;
+  var o3 = "$lit$";
+  var n3 = `lit$${(Math.random() + "").slice(9)}$`;
+  var l2 = "?" + n3;
+  var h2 = `<${l2}>`;
   var r3 = document;
   var u2 = () => r3.createComment("");
   var d2 = (t3) => null === t3 || "object" != typeof t3 && "function" != typeof t3;
@@ -372,7 +353,7 @@
   function P(t3, i4) {
     if (!Array.isArray(t3) || !t3.hasOwnProperty("raw"))
       throw Error("invalid template strings array");
-    return void 0 !== e5 ? e5.createHTML(i4) : i4;
+    return void 0 !== e3 ? e3.createHTML(i4) : i4;
   }
   var V = (t3, i4) => {
     const s5 = t3.length - 1, e6 = [];
@@ -383,7 +364,7 @@
       for (; a3 < s6.length && (u3.lastIndex = a3, c3 = u3.exec(s6), null !== c3); )
         a3 = u3.lastIndex, u3 === f ? "!--" === c3[1] ? u3 = _ : void 0 !== c3[1] ? u3 = m : void 0 !== c3[2] ? (y.test(c3[2]) && (l5 = RegExp("</" + c3[2], "g")), u3 = p) : void 0 !== c3[3] && (u3 = p) : u3 === p ? ">" === c3[0] ? (u3 = null != l5 ? l5 : f, v2 = -1) : void 0 === c3[1] ? v2 = -2 : (v2 = u3.lastIndex - c3[2].length, d3 = c3[1], u3 = void 0 === c3[3] ? p : '"' === c3[3] ? $2 : g) : u3 === $2 || u3 === g ? u3 = p : u3 === _ || u3 === m ? u3 = f : (u3 = p, l5 = void 0);
       const w2 = u3 === p && t3[i5 + 1].startsWith("/>") ? " " : "";
-      r4 += u3 === f ? s6 + h2 : v2 >= 0 ? (e6.push(d3), s6.slice(0, v2) + o4 + s6.slice(v2) + n5 + w2) : s6 + n5 + (-2 === v2 ? (e6.push(void 0), i5) : w2);
+      r4 += u3 === f ? s6 + h2 : v2 >= 0 ? (e6.push(d3), s6.slice(0, v2) + o3 + s6.slice(v2) + n3 + w2) : s6 + n3 + (-2 === v2 ? (e6.push(void 0), i5) : w2);
     }
     return [P(t3, r4 + (t3[s5] || "<?>") + (2 === i4 ? "</svg>" : "")), e6];
   };
@@ -402,10 +383,10 @@
           if (h3.hasAttributes()) {
             const t4 = [];
             for (const i5 of h3.getAttributeNames())
-              if (i5.endsWith(o4) || i5.startsWith(n5)) {
+              if (i5.endsWith(o3) || i5.startsWith(n3)) {
                 const s5 = f2[d3++];
                 if (t4.push(i5), void 0 !== s5) {
-                  const t5 = h3.getAttribute(s5.toLowerCase() + o4).split(n5), i6 = /([.?@])?(.*)/.exec(s5);
+                  const t5 = h3.getAttribute(s5.toLowerCase() + o3).split(n3), i6 = /([.?@])?(.*)/.exec(s5);
                   v2.push({ type: 1, index: r4, name: i6[2], strings: t5, ctor: "." === i6[1] ? H : "?" === i6[1] ? L : "@" === i6[1] ? z : k });
                 } else
                   v2.push({ type: 6, index: r4 });
@@ -414,7 +395,7 @@
               h3.removeAttribute(i5);
           }
           if (y.test(h3.tagName)) {
-            const t4 = h3.textContent.split(n5), i5 = t4.length - 1;
+            const t4 = h3.textContent.split(n3), i5 = t4.length - 1;
             if (i5 > 0) {
               h3.textContent = s3 ? s3.emptyScript : "";
               for (let s5 = 0; s5 < i5; s5++)
@@ -423,12 +404,12 @@
             }
           }
         } else if (8 === h3.nodeType)
-          if (h3.data === l3)
+          if (h3.data === l2)
             v2.push({ type: 2, index: r4 });
           else {
             let t4 = -1;
-            for (; -1 !== (t4 = h3.data.indexOf(n5, t4 + 1)); )
-              v2.push({ type: 7, index: r4 }), t4 += n5.length - 1;
+            for (; -1 !== (t4 = h3.data.indexOf(n3, t4 + 1)); )
+              v2.push({ type: 7, index: r4 }), t4 += n3.length - 1;
           }
         r4++;
       }
@@ -613,8 +594,8 @@
       S2(this, t3);
     }
   };
-  var B = i3.litHtmlPolyfillSupport;
-  null == B || B(N, R), (null !== (t2 = i3.litHtmlVersions) && void 0 !== t2 ? t2 : i3.litHtmlVersions = []).push("2.7.5");
+  var B = i2.litHtmlPolyfillSupport;
+  null == B || B(N, R), (null !== (t2 = i2.litHtmlVersions) && void 0 !== t2 ? t2 : i2.litHtmlVersions = []).push("2.7.5");
   var D = (t3, i4, s5) => {
     var e6, o6;
     const n7 = null !== (e6 = null == s5 ? void 0 : s5.renderBefore) && void 0 !== e6 ? e6 : i4;
@@ -627,8 +608,8 @@
   };
 
   // node_modules/lit-element/lit-element.js
-  var l4;
-  var o5;
+  var l3;
+  var o4;
   var s4 = class extends u {
     constructor() {
       super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
@@ -654,10 +635,10 @@
       return T;
     }
   };
-  s4.finalized = true, s4._$litElement$ = true, null === (l4 = globalThis.litElementHydrateSupport) || void 0 === l4 || l4.call(globalThis, { LitElement: s4 });
-  var n6 = globalThis.litElementPolyfillSupport;
-  null == n6 || n6({ LitElement: s4 });
-  (null !== (o5 = globalThis.litElementVersions) && void 0 !== o5 ? o5 : globalThis.litElementVersions = []).push("3.3.2");
+  s4.finalized = true, s4._$litElement$ = true, null === (l3 = globalThis.litElementHydrateSupport) || void 0 === l3 || l3.call(globalThis, { LitElement: s4 });
+  var n4 = globalThis.litElementPolyfillSupport;
+  null == n4 || n4({ LitElement: s4 });
+  (null !== (o4 = globalThis.litElementVersions) && void 0 !== o4 ? o4 : globalThis.litElementVersions = []).push("3.3.2");
 
   // srcts/src/components/webcomponents/_bslibElement.ts
   var BslibElement = class extends s4 {
@@ -691,78 +672,34 @@
     }
   };
   BslibElement.isShinyInput = false;
-  BslibElement.styles = i2`
+  BslibElement.styles = i`
     :host {
       display: contents;
     }
   `;
 
-  // srcts/src/components/_utilsTooltip.ts
-  function getOrCreateTriggerEl(el) {
-    const tip = el.querySelector(":scope > [data-bs-toggle='tooltip']");
-    if (tip)
-      return tip;
-    const pop = el.querySelector(":scope > [data-bs-toggle='popover']");
-    if (pop)
-      return pop;
-    if (el.children.length > 1) {
-      const ref = el.children[el.children.length - 1];
-      return ref;
-    }
-    if (el.childNodes.length > 1) {
-      const ref = document.createElement("span");
-      ref.append(el.childNodes[el.childNodes.length - 1]);
-      el.appendChild(ref);
-      return ref;
-    }
-    return el;
-  }
-  function setContentCarefully(x2) {
-    var _a;
-    const { instance, trigger, content, type } = x2;
-    const { tip } = instance;
-    const tipIsVisible = tip && tip.offsetParent !== null;
-    if (!tipIsVisible) {
-      instance.setContent(content);
-      return;
-    }
-    for (const [selector, html] of Object.entries(content)) {
-      let target = tip.querySelector(selector);
-      if (!target && selector === ".popover-header") {
-        const header = document.createElement("div");
-        header.classList.add("popover-header");
-        (_a = tip.querySelector(".popover-body")) == null ? void 0 : _a.before(header);
-        target = header;
-      }
-      if (!target) {
-        console.warn(`Could not find ${selector} in ${type} content`);
-        continue;
-      }
-      if (target === html) {
-        continue;
-      }
-      if (target instanceof HTMLElement) {
-        target.replaceChildren(html);
-      } else {
-        target.innerHTML = html;
-      }
-    }
-    instance.update();
-    trigger.addEventListener(
-      `hidden.bs.${type}`,
-      () => instance.setContent(content),
-      { once: true }
-    );
-  }
-  function createWrapperElement(html, display) {
-    const wrapper = document.createElement("div");
-    wrapper.style.display = display;
-    if (html instanceof DocumentFragment) {
-      wrapper.append(html);
-    } else {
-      wrapper.innerHTML = html;
-    }
-    return wrapper;
+  // srcts/src/components/_utils.ts
+  var InputBinding = window.Shiny ? Shiny.InputBinding : class {
+  };
+  function getAllFocusableChildren(el) {
+    const base = [
+      "a[href]",
+      "area[href]",
+      "button",
+      "details summary",
+      "input",
+      "iframe",
+      "select",
+      "textarea",
+      '[contentEditable=""]',
+      '[contentEditable="true"]',
+      '[contentEditable="TRUE"]',
+      "[tabindex]"
+    ];
+    const modifiers = [':not([tabindex="-1"])', ":not([disabled])"];
+    const selectors = base.map((b2) => b2 + modifiers.join(""));
+    const focusable = el.querySelectorAll(selectors.join(", "));
+    return Array.from(focusable);
   }
 
   // srcts/src/components/_shinyResizeObserver.ts
@@ -869,6 +806,327 @@
       });
     }
   };
+
+  // srcts/src/components/webcomponents/card.ts
+  var ATTR_FULL_SCREEN = "data-full-screen";
+  var CLASS_HAS_FULL_SCREEN = "bslib-has-full-screen";
+  var CLASS_FULL_SCREEN_ENTER = "bslib-full-screen-enter";
+  var CLASS_FULL_SCREEN_EXIT = "bslib-full-screen-exit";
+  var ID_FULL_SCREEN_OVERLAY = "bslib-full-screen-overlay";
+  var _BslibCard = class extends BslibElement {
+    constructor() {
+      super();
+      this._exitFullScreenOnEscape = this._exitFullScreenOnEscape.bind(this);
+      this._trapFocusExit = this._trapFocusExit.bind(this);
+    }
+    /**
+     * The card container element.
+     * @private
+     * @type {HTMLElement}
+     */
+    get card() {
+      return this.querySelector("> .card.bslib-card");
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      this._addEventListeners();
+      this.overlay = this._createOverlay();
+      _BslibCard.shinyResizeObserver.observe(this.card);
+    }
+    disconnectedCallback() {
+      _BslibCard.shinyResizeObserver.unobserve(this.card);
+      super.disconnectedCallback();
+    }
+    /**
+     * Enter the card's full screen mode, either programmatically or via an event
+     * handler. Full screen mode is activated by adding a class to the card that
+     * positions it absolutely and expands it to fill the viewport. In addition,
+     * we add a full screen overlay element behind the card and we trap focus in
+     * the expanded card while in full screen mode.
+     *
+     * @param {?Event} [event]
+     */
+    enterFullScreen(event) {
+      var _a;
+      if (event)
+        event.preventDefault();
+      if (this.card.id) {
+        this.overlay.anchor.setAttribute("aria-controls", this.card.id);
+      }
+      document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
+      document.addEventListener("keydown", this._trapFocusExit, true);
+      this.card.setAttribute(ATTR_FULL_SCREEN, "true");
+      document.body.classList.add(CLASS_HAS_FULL_SCREEN);
+      this.card.insertAdjacentElement("beforebegin", this.overlay.container);
+      if (!this.card.contains(document.activeElement) || ((_a = document.activeElement) == null ? void 0 : _a.classList.contains(CLASS_FULL_SCREEN_ENTER))) {
+        this.card.setAttribute("tabindex", "-1");
+        this.card.focus();
+      }
+      this._emitFullScreenEvent(true);
+    }
+    /**
+     * Exit full screen mode. This removes the full screen overlay element,
+     * removes the full screen class from the card, and removes the keyboard event
+     * listeners that were added when entering full screen mode.
+     */
+    exitFullScreen() {
+      document.removeEventListener(
+        "keydown",
+        this._exitFullScreenOnEscape,
+        false
+      );
+      document.removeEventListener("keydown", this._trapFocusExit, true);
+      this.overlay.container.remove();
+      this.card.setAttribute(ATTR_FULL_SCREEN, "false");
+      this.card.removeAttribute("tabindex");
+      document.body.classList.remove(CLASS_HAS_FULL_SCREEN);
+      this._emitFullScreenEvent(false);
+    }
+    /**
+     * Emits a custom event to communicate the card's full screen state change.
+     * @private
+     * @param {boolean} fullScreen
+     */
+    _emitFullScreenEvent(fullScreen) {
+      const event = new CustomEvent("bslib.card", {
+        bubbles: true,
+        detail: { fullScreen }
+      });
+      this.card.dispatchEvent(event);
+    }
+    /**
+     * Adds general card-specific event listeners.
+     * @private
+     */
+    _addEventListeners() {
+      const btnFullScreen = this.card.querySelector(
+        `:scope > * > .${CLASS_FULL_SCREEN_ENTER}`
+      );
+      if (!btnFullScreen)
+        return;
+      btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
+    }
+    /**
+     * An event handler to exit full screen mode when the Escape key is pressed.
+     * @private
+     * @param {KeyboardEvent} event
+     */
+    _exitFullScreenOnEscape(event) {
+      if (!(event.target instanceof HTMLElement))
+        return;
+      const selOpenSelectInput = ["select[open]", "input[aria-expanded='true']"];
+      if (event.target.matches(selOpenSelectInput.join(", ")))
+        return;
+      if (event.key === "Escape") {
+        this.exitFullScreen();
+      }
+    }
+    /**
+     * An event handler to trap focus within the card when in full screen mode.
+     *
+     * @description
+     * This keyboard event handler ensures that tab focus stays within the card
+     * when in full screen mode. When the card is first expanded,
+     * we move focus to the card element itself. If focus somehow leaves the card,
+     * we returns focus to the card container.
+     *
+     * Within the card, we handle only tabbing from the close anchor or the last
+     * focusable element and only when tab focus would have otherwise left the
+     * card. In those cases, we cycle focus to the last focusable element or back
+     * to the anchor. If the card doesn't have any focusable elements, we move
+     * focus to the close anchor.
+     *
+     * @note
+     * Because the card contents may change, we check for focusable elements
+     * every time the handler is called.
+     *
+     * @private
+     * @param {KeyboardEvent} event
+     */
+    _trapFocusExit(event) {
+      if (!(event instanceof KeyboardEvent))
+        return;
+      if (event.key !== "Tab")
+        return;
+      const isFocusedContainer = event.target === this.card;
+      const isFocusedAnchor = event.target === this.overlay.anchor;
+      const isFocusedWithin = this.card.contains(event.target);
+      const stopEvent = () => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      };
+      if (!(isFocusedWithin || isFocusedContainer || isFocusedAnchor)) {
+        stopEvent();
+        this.card.focus();
+        return;
+      }
+      const focusableElements = getAllFocusableChildren(this.card).filter(
+        (el) => !el.classList.contains(CLASS_FULL_SCREEN_ENTER)
+      );
+      const hasFocusableElements = focusableElements.length > 0;
+      if (!hasFocusableElements) {
+        stopEvent();
+        this.overlay.anchor.focus();
+        return;
+      }
+      if (isFocusedContainer)
+        return;
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+      const isFocusedLast = event.target === lastFocusable;
+      if (isFocusedAnchor && event.shiftKey) {
+        stopEvent();
+        lastFocusable.focus();
+        return;
+      }
+      if (isFocusedLast && !event.shiftKey) {
+        stopEvent();
+        this.overlay.anchor.focus();
+        return;
+      }
+    }
+    /**
+     * Creates the full screen overlay.
+     * @private
+     * @returns {CardFullScreenOverlay}
+     */
+    _createOverlay() {
+      const container = document.createElement("div");
+      container.id = ID_FULL_SCREEN_OVERLAY;
+      container.onclick = this.exitFullScreen.bind(this);
+      const anchor = this._createOverlayCloseAnchor();
+      container.appendChild(anchor);
+      return { container, anchor };
+    }
+    /**
+     * Creates the anchor element used to exit the full screen mode.
+     * @private
+     * @returns {CardFullScreenOverlay["anchor"]}
+     */
+    _createOverlayCloseAnchor() {
+      const anchor = document.createElement("a");
+      anchor.classList.add(CLASS_FULL_SCREEN_EXIT);
+      anchor.tabIndex = 0;
+      anchor.setAttribute("aria-expanded", "true");
+      anchor.setAttribute("aria-label", "Close card");
+      anchor.setAttribute("role", "button");
+      anchor.onclick = (ev) => {
+        this.exitFullScreen();
+        ev.stopPropagation();
+      };
+      anchor.onkeydown = (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") {
+          this.exitFullScreen();
+        }
+      };
+      anchor.innerHTML = this._overlayCloseHtml();
+      return anchor;
+    }
+    /**
+     * Returns the HTML for the close icon.
+     * @private
+     * @returns {string}
+     */
+    _overlayCloseHtml() {
+      return "Close <svg width='20' height='20' fill='currentColor' class='bi bi-x-lg' viewBox='0 0 16 16'><path d='M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z'/></svg>";
+    }
+  };
+  var BslibCard = _BslibCard;
+  BslibCard.tagName = "bslib-card";
+  /**
+   * A Shiny-specific resize observer that ensures Shiny outputs in within the
+   * card resize appropriately.
+   * @private
+   * @type {ShinyResizeObserver}
+   * @static
+   */
+  BslibCard.shinyResizeObserver = new ShinyResizeObserver();
+
+  // node_modules/@lit/reactive-element/decorators/property.js
+  var i3 = (i4, e6) => "method" === e6.kind && e6.descriptor && !("value" in e6.descriptor) ? __spreadProps(__spreadValues({}, e6), { finisher(n7) {
+    n7.createProperty(e6.key, i4);
+  } }) : { kind: "field", key: Symbol(), placement: "own", descriptor: {}, originalKey: e6.key, initializer() {
+    "function" == typeof e6.initializer && (this[e6.key] = e6.initializer.call(this));
+  }, finisher(n7) {
+    n7.createProperty(e6.key, i4);
+  } };
+  var e4 = (i4, e6, n7) => {
+    e6.constructor.createProperty(n7, i4);
+  };
+  function n5(n7) {
+    return (t3, o6) => void 0 !== o6 ? e4(n7, t3, o6) : i3(n7, t3);
+  }
+
+  // node_modules/@lit/reactive-element/decorators/query-assigned-elements.js
+  var n6;
+  var e5 = null != (null === (n6 = window.HTMLSlotElement) || void 0 === n6 ? void 0 : n6.prototype.assignedElements) ? (o6, n7) => o6.assignedElements(n7) : (o6, n7) => o6.assignedNodes(n7).filter((o7) => o7.nodeType === Node.ELEMENT_NODE);
+
+  // srcts/src/components/_utilsTooltip.ts
+  function getOrCreateTriggerEl(el) {
+    const tip = el.querySelector(":scope > [data-bs-toggle='tooltip']");
+    if (tip)
+      return tip;
+    const pop = el.querySelector(":scope > [data-bs-toggle='popover']");
+    if (pop)
+      return pop;
+    if (el.children.length > 1) {
+      const ref = el.children[el.children.length - 1];
+      return ref;
+    }
+    if (el.childNodes.length > 1) {
+      const ref = document.createElement("span");
+      ref.append(el.childNodes[el.childNodes.length - 1]);
+      el.appendChild(ref);
+      return ref;
+    }
+    return el;
+  }
+  function setContentCarefully(x2) {
+    var _a;
+    const { instance, trigger, content, type } = x2;
+    const { tip } = instance;
+    const tipIsVisible = tip && tip.offsetParent !== null;
+    if (!tipIsVisible) {
+      instance.setContent(content);
+      return;
+    }
+    for (const [selector, html] of Object.entries(content)) {
+      let target = tip.querySelector(selector);
+      if (!target && selector === ".popover-header") {
+        const header = document.createElement("div");
+        header.classList.add("popover-header");
+        (_a = tip.querySelector(".popover-body")) == null ? void 0 : _a.before(header);
+        target = header;
+      }
+      if (!target) {
+        console.warn(`Could not find ${selector} in ${type} content`);
+        continue;
+      }
+      if (target === html) {
+        continue;
+      }
+      if (target instanceof HTMLElement) {
+        target.replaceChildren(html);
+      } else {
+        target.innerHTML = html;
+      }
+    }
+    instance.update();
+    trigger.addEventListener(
+      `hidden.bs.${type}`,
+      () => instance.setContent(content),
+      { once: true }
+    );
+  }
+  function createWrapperElement(html, display) {
+    const wrapper = document.createElement("div");
+    wrapper.style.display = display;
+    if (html instanceof DocumentFragment) {
+      wrapper.append(html);
+    } else {
+      wrapper.innerHTML = html;
+    }
+    return wrapper;
+  }
 
   // srcts/src/components/webcomponents/tooltip.ts
   var bsTooltip = window.bootstrap ? window.bootstrap.Tooltip : class {
@@ -1047,10 +1305,10 @@
   // Shiny-specific stuff
   BslibTooltip.isShinyInput = true;
   __decorateClass([
-    n({ type: String })
+    n5({ type: String })
   ], BslibTooltip.prototype, "placement", 2);
   __decorateClass([
-    n({ type: String })
+    n5({ type: String })
   ], BslibTooltip.prototype, "bsOptions", 2);
 
   // srcts/src/components/webcomponents/popover.ts
@@ -1377,10 +1635,10 @@
   ///////////////////////////////////////////////////////////////
   BslibPopover.isShinyInput = true;
   __decorateClass([
-    n({ type: String })
+    n5({ type: String })
   ], BslibPopover.prototype, "placement", 2);
   __decorateClass([
-    n({ type: String })
+    n5({ type: String })
   ], BslibPopover.prototype, "bsOptions", 2);
   function hasHeader(header) {
     return !!header && header.childNodes.length > 0;
@@ -1508,7 +1766,7 @@
   };
   BslibInputDarkMode.styles = [
     // CSS Variables
-    i2`
+    i`
       :host {
         /* open-props.style via shinycomponent */
         --text-1: var(--text-1-light, var(--gray-8, #343a40));
@@ -1532,7 +1790,7 @@
         --vertical-correction: calc((var(--size) - 1em) / 2);
       }
     `,
-    i2`
+    i`
       .sun-and-moon > :is(.moon, .sun, .sun-beams) {
         transform-origin: center center;
       }
@@ -1580,7 +1838,7 @@
       }
     `,
     // Transitions
-    i2`
+    i`
       .sun-and-moon > .sun {
         transition: transform var(--speed-fast) var(--ease-in-out-2)
             var(--speed-fast),
@@ -1624,7 +1882,7 @@
         transition-delay: 0s;
       }
     `,
-    i2`
+    i`
       :host {
         display: inline-block;
 
@@ -1677,7 +1935,7 @@
     `
   ];
   __decorateClass([
-    n({ type: String, reflect: true })
+    n5({ type: String, reflect: true })
   ], BslibInputDarkMode.prototype, "mode", 2);
 
   // srcts/src/components/webcomponents/_makeInputBinding.ts
@@ -2037,19 +2295,19 @@
   };
   BslibSwitch.tagName = "bslib-switch";
   BslibSwitch.isShinyInput = false;
-  BslibSwitch.styles = i2`
+  BslibSwitch.styles = i`
     :host {
       display: block;
     }
   `;
   __decorateClass([
-    n({ type: String, reflect: true })
+    n5({ type: String, reflect: true })
   ], BslibSwitch.prototype, "case", 2);
   var BslibSwitchInline = class extends BslibSwitch {
   };
   BslibSwitchInline.tagName = "bslib-switch-inline";
   BslibSwitchInline.isShinyInput = false;
-  BslibSwitchInline.styles = i2`
+  BslibSwitchInline.styles = i`
     :host {
       display: inline;
     }
@@ -2057,6 +2315,7 @@
 
   // srcts/src/components/webcomponents/index.ts
   [
+    BslibCard,
     BslibTooltip,
     BslibPopover,
     BslibInputDarkMode,
@@ -2075,6 +2334,41 @@
   });
 })();
 /*! Bundled license information:
+
+@lit/reactive-element/css-tag.js:
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   * SPDX-License-Identifier: BSD-3-Clause
+   *)
+
+@lit/reactive-element/reactive-element.js:
+  (**
+   * @license
+   * Copyright 2017 Google LLC
+   * SPDX-License-Identifier: BSD-3-Clause
+   *)
+
+lit-html/lit-html.js:
+  (**
+   * @license
+   * Copyright 2017 Google LLC
+   * SPDX-License-Identifier: BSD-3-Clause
+   *)
+
+lit-element/lit-element.js:
+  (**
+   * @license
+   * Copyright 2017 Google LLC
+   * SPDX-License-Identifier: BSD-3-Clause
+   *)
+
+lit-html/is-server.js:
+  (**
+   * @license
+   * Copyright 2022 Google LLC
+   * SPDX-License-Identifier: BSD-3-Clause
+   *)
 
 @lit/reactive-element/decorators/custom-element.js:
   (**
@@ -2143,41 +2437,6 @@
   (**
    * @license
    * Copyright 2017 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-@lit/reactive-element/css-tag.js:
-  (**
-   * @license
-   * Copyright 2019 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-@lit/reactive-element/reactive-element.js:
-  (**
-   * @license
-   * Copyright 2017 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-lit-html/lit-html.js:
-  (**
-   * @license
-   * Copyright 2017 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-lit-element/lit-element.js:
-  (**
-   * @license
-   * Copyright 2017 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-lit-html/is-server.js:
-  (**
-   * @license
-   * Copyright 2022 Google LLC
    * SPDX-License-Identifier: BSD-3-Clause
    *)
 */
