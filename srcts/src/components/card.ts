@@ -171,7 +171,15 @@ class Card {
 
   private _setShinyInput(): void {
     if (!this.card.classList.contains(Card.attr.CLASS_SHINY_INPUT)) return;
-    if (!Shiny || !Shiny.setInputValue) return;
+    if (!Shiny) return;
+    if (!Shiny.setInputValue) {
+      if (Shiny.shinyapp) {
+        Shiny.shinyapp.taskQueue.enqueue(() => this._setShinyInput());
+      } else {
+        setTimeout(() => this._setShinyInput(), 0);
+      }
+      return;
+    }
     Shiny.setInputValue(this.card.id, {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       full_screen:
