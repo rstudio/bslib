@@ -408,7 +408,8 @@
                   continue;
                 if (node.matches(selector)) {
                   found.push(node);
-                } else {
+                }
+                if (node.querySelector(selector)) {
                   node.querySelectorAll(selector).forEach((el) => found.push(el));
                 }
               }
@@ -504,9 +505,7 @@
           this.card = card;
           _Card.instanceMap.set(card, this);
           _Card.shinyResizeObserver.observe(this.card);
-          if (this.card.parentElement) {
-            _Card.cardRemovedObserver.observe(this.card.parentElement);
-          }
+          _Card.cardRemovedObserver.observe(document.body);
           this._addEventListeners();
           this.overlay = this._createOverlay();
           this._exitFullScreenOnEscape = this._exitFullScreenOnEscape.bind(this);
@@ -786,7 +785,6 @@
       Card.cardRemovedObserver = new ShinyRemovedObserver(
         `.${_Card.attr.CLASS_CARD}`,
         (el) => {
-          console.log(`Card removed: ${el.id}`);
           const card = _Card.getInstance(el);
           if (!card)
             return;
