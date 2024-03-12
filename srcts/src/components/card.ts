@@ -1,4 +1,4 @@
-import { getAllFocusableChildren } from "./_utils";
+import { getAllFocusableChildren, Shiny } from "./_utils";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
 /**
@@ -46,7 +46,6 @@ class Card {
    * Key bslib-specific classes and attributes used by the card component.
    * @private
    * @static
-   * @type {{ ATTR_INIT: string; CLASS_CARD: string; CLASS_FULL_SCREEN: string; CLASS_HAS_FULL_SCREEN: string; CLASS_FULL_SCREEN_ENTER: string; CLASS_FULL_SCREEN_EXIT: string; ID_FULL_SCREEN_OVERLAY: string; }}
    */
   private static attr = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -63,6 +62,8 @@ class Card {
     CLASS_FULL_SCREEN_EXIT: "bslib-full-screen-exit",
     // eslint-disable-next-line @typescript-eslint/naming-convention
     ID_FULL_SCREEN_OVERLAY: "bslib-full-screen-overlay",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    CLASS_SHINY_INPUT: "bslib-card-input",
   };
 
   /**
@@ -96,6 +97,7 @@ class Card {
 
     this._addEventListeners();
     this.overlay = this._createOverlay();
+    this._setShinyInput();
 
     // bind event handler methods to this card instance
     this._exitFullScreenOnEscape = this._exitFullScreenOnEscape.bind(this);
@@ -141,6 +143,7 @@ class Card {
     }
 
     this._emitFullScreenEvent(true);
+    this._setShinyInput();
   }
 
   /**
@@ -163,6 +166,17 @@ class Card {
     document.body.classList.remove(Card.attr.CLASS_HAS_FULL_SCREEN);
 
     this._emitFullScreenEvent(false);
+    this._setShinyInput();
+  }
+
+  private _setShinyInput(): void {
+    if (!this.card.classList.contains(Card.attr.CLASS_SHINY_INPUT)) return;
+    if (!Shiny || !Shiny.setInputValue) return;
+    Shiny.setInputValue(this.card.id, {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      full_screen:
+        this.card.getAttribute(Card.attr.ATTR_FULL_SCREEN) === "true",
+    });
   }
 
   /**
