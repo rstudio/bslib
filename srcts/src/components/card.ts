@@ -86,7 +86,6 @@ class Card {
   private static cardRemovedObserver = new ShinyRemovedObserver(
     `.${Card.attr.CLASS_CARD}`,
     (el) => {
-      console.log(`Card removed: ${el.id}`);
       const card = Card.getInstance(el);
       if (!card) return;
       if (card.card.getAttribute(Card.attr.ATTR_FULL_SCREEN) === "true") {
@@ -114,11 +113,7 @@ class Card {
     // Let Shiny know to trigger resize when the card size changes
     // TODO: shiny could/should do this itself (rstudio/shiny#3682)
     Card.shinyResizeObserver.observe(this.card);
-
-    if (this.card.parentElement) {
-      // Watch the card's parent container for removal
-      Card.cardRemovedObserver.observe(this.card.parentElement);
-    }
+    Card.cardRemovedObserver.observe(document.body);
 
     this._addEventListeners();
     this.overlay = this._createOverlay();
