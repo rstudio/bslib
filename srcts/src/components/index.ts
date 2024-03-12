@@ -2,7 +2,6 @@
 // First, bring in non-webcomponent (legacy) components (they attach to the window)
 // ----------------------------------------------------------------------------
 import "./accordion";
-import "./card";
 import "./sidebar";
 import "./taskButton";
 
