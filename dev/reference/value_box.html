@@ -193,10 +193,10 @@ can pass foreground and background colors directly. See the <strong>Themes</stro
 section for more details.</p></dd>
 
 
-<dt>max_height, max_height_full_screen</dt>
-<dd><p>A proportion (i.e., a number between
-0 and 1) or any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> defining the
-showcase max_height.</p></dd>
+<dt>max_height</dt>
+<dd><p>The maximum height of the value box or the showcase area.
+Can be any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
+<code>max_height="200px"</code>).</p></dd>
 
 
 <dt>fill</dt>
@@ -237,6 +237,12 @@ Accepted values in the second category are <code>"auto"</code>, <code>"min-conte
 <code>"max-content"</code>, a fractional unit (e.g. <code>2fr</code>), or a <code>minmax()</code> function
 (e.g., <code>minmax(100px, 1fr)</code>).</p></li>
 </ul></dd>
+
+
+<dt>max_height_full_screen</dt>
+<dd><p>A proportion (i.e., a number between
+0 and 1) or any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> defining the
+showcase <code>max_height</code> in a full screen card.</p></dd>
 
 </dl></div>
     <div class="section level2">
