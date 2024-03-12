@@ -27,7 +27,8 @@ export class ShinyRemovedObserver {
           if (!(node instanceof HTMLElement)) continue;
           if (node.matches(selector)) {
             found.push(node);
-          } else {
+          }
+          if (node.querySelector(selector)) {
             node
               .querySelectorAll<HTMLElement>(selector)
               .forEach((el) => found.push(el));
