@@ -380,6 +380,108 @@
     }
   });
 
+  // srcts/src/components/_shinyRemovedObserver.ts
+  var ShinyRemovedObserver;
+  var init_shinyRemovedObserver = __esm({
+    "srcts/src/components/_shinyRemovedObserver.ts"() {
+      "use strict";
+      ShinyRemovedObserver = class {
+        /**
+         * Creates a new instance of the `ShinyRemovedObserver` class to watch for the
+         * removal of specific elements from part of the DOM.
+         *
+         * @param selector A CSS selector to identify elements to watch for removal.
+         * @param callback The function to be called on a matching element when it
+         * is removed.
+         */
+        constructor(selector, callback) {
+          this.watching = /* @__PURE__ */ new Set();
+          this.observer = new MutationObserver((mutations) => {
+            const found = [];
+            for (const { type, removedNodes } of mutations) {
+              if (type !== "childList")
+                continue;
+              if (removedNodes.length === 0)
+                continue;
+              for (const node of removedNodes) {
+                if (!(node instanceof HTMLElement))
+                  continue;
+                if (node.matches(selector)) {
+                  found.push(node);
+                } else {
+                  node.querySelectorAll(selector).forEach((el) => found.push(el));
+                }
+              }
+            }
+            if (found.length === 0)
+              return;
+            found.forEach(callback);
+          });
+        }
+        /**
+         * Starts observing the specified element for removal of its children. If the
+         * element is already being observed, no change is made to the mutation
+         * observer.
+         * @param el The element to observe.
+         */
+        observe(el) {
+          const changed = this._flush();
+          if (this.watching.has(el)) {
+            if (!changed)
+              return;
+          } else {
+            this.watching.add(el);
+          }
+          if (changed) {
+            this._restartObserver();
+          } else {
+            this.observer.observe(el, { childList: true, subtree: true });
+          }
+        }
+        /**
+         * Stops observing the specified element for removal.
+         * @param el The element to unobserve.
+         */
+        unobserve(el) {
+          if (!this.watching.has(el))
+            return;
+          this.watching.delete(el);
+          this._flush();
+          this._restartObserver();
+        }
+        /**
+         * Restarts the mutation observer, observing all elements in the `watching`
+         * and implicitly unobserving any elements that are no longer in the
+         * watchlist.
+         * @private
+         */
+        _restartObserver() {
+          this.observer.disconnect();
+          for (const el of this.watching) {
+            this.observer.observe(el, { childList: true, subtree: true });
+          }
+        }
+        /**
+         * Flushes the set of watched elements, removing any elements that are no
+         * longer in the DOM, but it does not modify the mutation observer.
+         * @private
+         * @returns A boolean indicating whether the watched elements have changed.
+         */
+        _flush() {
+          let watchedChanged = false;
+          const watched = Array.from(this.watching);
+          for (const el of watched) {
+            if (document.body.contains(el))
+              continue;
+            this.watching.delete(el);
+            watchedChanged = true;
+          }
+          return watchedChanged;
+        }
+      };
+    }
+  });
+
   // srcts/src/components/card.ts
   var _Card, Card;
   var init_card = __esm({
@@ -387,6 +489,7 @@
       "use strict";
       init_utils();
       init_shinyResizeObserver();
+      init_shinyRemovedObserver();
       _Card = class {
         /**
          * Creates an instance of a bslib Card component.
@@ -401,6 +504,9 @@
           this.card = card;
           _Card.instanceMap.set(card, this);
           _Card.shinyResizeObserver.observe(this.card);
+          if (this.card.parentElement) {
+            _Card.cardRemovedObserver.observe(this.card.parentElement);
+          }
           this._addEventListeners();
           this.overlay = this._createOverlay();
           this._exitFullScreenOnEscape = this._exitFullScreenOnEscape.bind(this);
@@ -669,6 +775,26 @@
        * @static
        */
       Card.shinyResizeObserver = new ShinyResizeObserver();
+      /**
+       * Watch card parent containers for removal and exit full screen mode if a
+       * full screen card is removed from the DOM.
+       *
+       * @private
+       * @type {ShinyRemovedObserver}
+       * @static
+       */
+      Card.cardRemovedObserver = new ShinyRemovedObserver(
+        `.${_Card.attr.CLASS_CARD}`,
+        (el) => {
+          console.log(`Card removed: ${el.id}`);
+          const card = _Card.getInstance(el);
+          if (!card)
+            return;
+          if (card.card.getAttribute(_Card.attr.ATTR_FULL_SCREEN) === "true") {
+            card.exitFullScreen();
+          }
+        }
+      );
       /**
        * The registry of card instances and their associated DOM elements.
        * @private
