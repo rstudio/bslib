@@ -42,9 +42,9 @@ arguments in \code{...} which are not already card item(s) (like
 together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body("c"), "d")}, \code{wrapper} would be called twice, once with \code{"a"} and
 \code{"b"} and once with \code{"d"}).}
 
-\item{id}{Provide a unique identifier for the card to report its state to
-Shiny. For example, using \code{id = "my_card"}, you can observe the card's full
-screen state with \code{input$my_card$full_screen}.}
+\item{id}{Provide a unique identifier for the \code{card()} or \code{value_box()} to
+report its state to Shiny. For example, using \code{id = "my_card"}, you can
+observe the card's full screen state with \code{input$my_card$full_screen}.}
 }
 \value{
 A \code{\link[htmltools:builder]{htmltools::div()}} tag.

@@ -99,6 +99,7 @@ value_box <- function(
   max_height = NULL,
   fill = TRUE,
   class = NULL,
+  id = NULL,
   theme_color = deprecated()
 ) {
   dots <- separate_arguments(...)
@@ -158,6 +159,7 @@ value_box <- function(
       class,
       if (!is.null(showcase)) showcase_layout$class
     ),
+    id = id,
     full_screen = full_screen,
     height = height,
     max_height = max_height,
