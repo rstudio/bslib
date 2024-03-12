@@ -1,5 +1,6 @@
 import { getAllFocusableChildren } from "./_utils";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
+import { ShinyRemovedObserver } from "./_shinyRemovedObserver";
 
 /**
  * The overlay element that is placed behind the card when expanded full screen.
@@ -75,6 +76,26 @@ class Card {
   private static shinyResizeObserver = new ShinyResizeObserver();
 
   /**
+   * Watch card parent containers for removal and exit full screen mode if a
+   * full screen card is removed from the DOM.
+   *
+   * @private
+   * @type {ShinyRemovedObserver}
+   * @static
+   */
+  private static cardRemovedObserver = new ShinyRemovedObserver(
+    `.${Card.attr.CLASS_CARD}`,
+    (el) => {
+      console.log(`Card removed: ${el.id}`);
+      const card = Card.getInstance(el);
+      if (!card) return;
+      if (card.card.getAttribute(Card.attr.ATTR_FULL_SCREEN) === "true") {
+        card.exitFullScreen();
+      }
+    }
+  );
+
+  /**
    * Creates an instance of a bslib Card component.
    *
    * @constructor
@@ -93,6 +114,11 @@ class Card {
     // Let Shiny know to trigger resize when the card size changes
     // TODO: shiny could/should do this itself (rstudio/shiny#3682)
     Card.shinyResizeObserver.observe(this.card);
+
+    if (this.card.parentElement) {
+      // Watch the card's parent container for removal
+      Card.cardRemovedObserver.observe(this.card.parentElement);
+    }
 
     this._addEventListeners();
     this.overlay = this._createOverlay();
