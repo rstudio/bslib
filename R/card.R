@@ -70,8 +70,16 @@
 #'   )
 #' )
 #'
-card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min_height = NULL, fill = TRUE, class = NULL, wrapper = card_body) {
-
+card <- function(
+  ...,
+  full_screen = FALSE,
+  height = NULL,
+  max_height = NULL,
+  min_height = NULL,
+  fill = TRUE,
+  class = NULL,
+  wrapper = card_body
+) {
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
 
