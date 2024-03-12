@@ -90,17 +90,17 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
       max_height = validateCssUnit(max_height),
       min_height = validateCssUnit(min_height)
     ),
-    "data-full-screen" = if (full_screen) "false", 
+    "data-full-screen" = if (full_screen) "false",
     !!!attribs,
     !!!children,
     if (full_screen) full_screen_toggle(attribs$id),
     component_dependencies()
   )
 
-  tag <- web_component("bslib-card", tag)
-
   tag <- bindFillRole(tag, container = TRUE, item = fill)
   tag <- tagAppendAttributes(tag, class = class)
+
+  tag <- web_component("bslib-card", tag)
 
   as_fragment(
     tag_require(tag, version = 5, caller = "card()")
