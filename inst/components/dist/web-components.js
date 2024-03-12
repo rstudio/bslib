@@ -825,7 +825,7 @@
      * @type {HTMLElement}
      */
     get card() {
-      return this.querySelector("> .card.bslib-card");
+      return this.querySelector(":scope > .card.bslib-card");
     }
     connectedCallback() {
       super.connectedCallback();

@@ -41,7 +41,7 @@ export class BslibCard extends BslibElement {
    * @type {HTMLElement}
    */
   private get card(): HTMLElement {
-    return this.querySelector("> .card.bslib-card") as HTMLElement;
+    return this.querySelector(":scope > .card.bslib-card") as HTMLElement;
   }
 
   /**
