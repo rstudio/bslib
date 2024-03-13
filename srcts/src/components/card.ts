@@ -175,11 +175,7 @@ class Card {
     if (!Shiny.setInputValue) {
       // Shiny isn't ready yet, so we'll try to set the input value again later,
       // (but it might not be ready then either, so we'll keep trying).
-      if (Shiny.shinyapp) {
-        Shiny.shinyapp.taskQueue.enqueue(() => this._setShinyInput());
-      } else {
-        setTimeout(() => this._setShinyInput(), 0);
-      }
+      setTimeout(() => this._setShinyInput(), 0);
       return;
     }
     Shiny.setInputValue(this.card.id, {
