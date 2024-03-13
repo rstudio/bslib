@@ -463,11 +463,7 @@
           if (!Shiny2)
             return;
           if (!Shiny2.setInputValue) {
-            if (Shiny2.shinyapp) {
-              Shiny2.shinyapp.taskQueue.enqueue(() => this._setShinyInput());
-            } else {
-              setTimeout(() => this._setShinyInput(), 0);
-            }
+            setTimeout(() => this._setShinyInput(), 0);
             return;
           }
           Shiny2.setInputValue(this.card.id, {
