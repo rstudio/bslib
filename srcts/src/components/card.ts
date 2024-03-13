@@ -173,6 +173,8 @@ class Card {
     if (!this.card.classList.contains(Card.attr.CLASS_SHINY_INPUT)) return;
     if (!Shiny) return;
     if (!Shiny.setInputValue) {
+      // Shiny isn't ready yet, so we'll try to set the input value again later,
+      // (but it might not be ready then either, so we'll keep trying).
       if (Shiny.shinyapp) {
         Shiny.shinyapp.taskQueue.enqueue(() => this._setShinyInput());
       } else {
