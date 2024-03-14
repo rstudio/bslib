@@ -397,7 +397,7 @@
         constructor(selector, callback) {
           this.watching = /* @__PURE__ */ new Set();
           this.observer = new MutationObserver((mutations) => {
-            const found = [];
+            const found = /* @__PURE__ */ new Set();
             for (const { type, removedNodes } of mutations) {
               if (type !== "childList")
                 continue;
@@ -407,16 +407,18 @@
                 if (!(node instanceof HTMLElement))
                   continue;
                 if (node.matches(selector)) {
-                  found.push(node);
+                  found.add(node);
                 }
                 if (node.querySelector(selector)) {
-                  node.querySelectorAll(selector).forEach((el) => found.push(el));
+                  node.querySelectorAll(selector).forEach((el) => found.add(el));
                 }
               }
             }
-            if (found.length === 0)
+            if (found.size === 0)
               return;
-            found.forEach(callback);
+            for (const el of found) {
+              callback(el);
+            }
           });
         }
         /**
