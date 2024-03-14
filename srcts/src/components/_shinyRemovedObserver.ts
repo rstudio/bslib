@@ -18,7 +18,7 @@ export class ShinyRemovedObserver {
   constructor(selector: string, callback: Callback<HTMLElement>) {
     this.watching = new Set<HTMLElement>();
     this.observer = new MutationObserver((mutations) => {
-      const found = [];
+      const found = new Set<HTMLElement>();
       for (const { type, removedNodes } of mutations) {
         if (type !== "childList") continue;
         if (removedNodes.length === 0) continue;
@@ -26,17 +26,19 @@ export class ShinyRemovedObserver {
         for (const node of removedNodes) {
           if (!(node instanceof HTMLElement)) continue;
           if (node.matches(selector)) {
-            found.push(node);
+            found.add(node);
           }
           if (node.querySelector(selector)) {
             node
               .querySelectorAll<HTMLElement>(selector)
-              .forEach((el) => found.push(el));
+              .forEach((el) => found.add(el));
           }
         }
       }
-      if (found.length === 0) return;
-      found.forEach(callback);
+      if (found.size === 0) return;
+      for (const el of found) {
+        callback(el);
+      }
     });
   }
 
