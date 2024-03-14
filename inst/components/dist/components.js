@@ -417,7 +417,11 @@
             if (found.size === 0)
               return;
             for (const el of found) {
-              callback(el);
+              try {
+                callback(el);
+              } catch (e) {
+                console.error(e);
+              }
             }
           });
         }
