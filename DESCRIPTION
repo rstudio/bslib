@@ -29,7 +29,8 @@ BugReports: https://github.com/rstudio/bslib/issues
 Depends:
     R (>= 2.10)
 Remotes:
-    rstudio/shiny
+    rstudio/shiny,
+    rstudio/sass
 Imports:
     base64enc,
     cachem,
@@ -42,7 +43,7 @@ Imports:
     memoise (>= 2.0.1),
     mime,
     rlang,
-    sass (>= 0.4.0)
+    sass (> 0.4.8)
 Suggests:
     bsicons,
     curl,

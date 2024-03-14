@@ -48,8 +48,8 @@
 
   // srcts/src/components/_utils.ts
   function registerBinding(inputBindingClass, name) {
-    if (window.Shiny) {
-      Shiny.inputBindings.register(new inputBindingClass(), "bslib." + name);
+    if (Shiny2) {
+      Shiny2.inputBindings.register(new inputBindingClass(), "bslib." + name);
     }
   }
   function hasDefinedProperty(obj, prop) {
@@ -77,21 +77,22 @@
   }
   function shinyRenderContent(...args) {
     return __async(this, null, function* () {
-      if (!window.Shiny) {
+      if (!Shiny2) {
         throw new Error("This function must be called in a Shiny app.");
       }
-      if (Shiny.renderContentAsync) {
-        return yield Shiny.renderContentAsync.apply(null, args);
+      if (Shiny2.renderContentAsync) {
+        return yield Shiny2.renderContentAsync.apply(null, args);
       } else {
-        return yield Shiny.renderContent.apply(null, args);
+        return yield Shiny2.renderContent.apply(null, args);
       }
     });
   }
-  var InputBinding;
+  var Shiny2, InputBinding;
   var init_utils = __esm({
     "srcts/src/components/_utils.ts"() {
       "use strict";
-      InputBinding = window.Shiny ? Shiny.InputBinding : class {
+      Shiny2 = window.Shiny;
+      InputBinding = Shiny2 ? Shiny2.InputBinding : class {
       };
     }
   });
@@ -514,6 +515,7 @@
           _Card.cardRemovedObserver.observe(document.body);
           this._addEventListeners();
           this.overlay = this._createOverlay();
+          this._setShinyInput();
           this._exitFullScreenOnEscape = this._exitFullScreenOnEscape.bind(this);
           this._trapFocusExit = this._trapFocusExit.bind(this);
         }
@@ -545,6 +547,7 @@
             this.card.focus();
           }
           this._emitFullScreenEvent(true);
+          this._setShinyInput();
         }
         /**
          * Exit full screen mode. This removes the full screen overlay element,
@@ -563,6 +566,21 @@
           this.card.removeAttribute("tabindex");
           document.body.classList.remove(_Card.attr.CLASS_HAS_FULL_SCREEN);
           this._emitFullScreenEvent(false);
+          this._setShinyInput();
+        }
+        _setShinyInput() {
+          if (!this.card.classList.contains(_Card.attr.CLASS_SHINY_INPUT))
+            return;
+          if (!Shiny2)
+            return;
+          if (!Shiny2.setInputValue) {
+            setTimeout(() => this._setShinyInput(), 0);
+            return;
+          }
+          Shiny2.setInputValue(this.card.id, {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            full_screen: this.card.getAttribute(_Card.attr.ATTR_FULL_SCREEN) === "true"
+          });
         }
         /**
          * Emits a custom event to communicate the card's full screen state change.
@@ -754,7 +772,6 @@
        * Key bslib-specific classes and attributes used by the card component.
        * @private
        * @static
-       * @type {{ ATTR_INIT: string; CLASS_CARD: string; CLASS_FULL_SCREEN: string; CLASS_HAS_FULL_SCREEN: string; CLASS_FULL_SCREEN_ENTER: string; CLASS_FULL_SCREEN_EXIT: string; ID_FULL_SCREEN_OVERLAY: string; }}
        */
       Card.attr = {
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -770,7 +787,9 @@
         // eslint-disable-next-line @typescript-eslint/naming-convention
         CLASS_FULL_SCREEN_EXIT: "bslib-full-screen-exit",
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        ID_FULL_SCREEN_OVERLAY: "bslib-full-screen-overlay"
+        ID_FULL_SCREEN_OVERLAY: "bslib-full-screen-overlay",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        CLASS_SHINY_INPUT: "bslib-card-input"
       };
       /**
        * A Shiny-specific resize observer that ensures Shiny outputs in within the

@@ -55,6 +55,9 @@
 #'   `"text-light"`) to customize the background/foreground colors.
 #' @param fill Whether to allow the value box to grow/shrink to fit a fillable
 #'   container with an opinionated height (e.g., `page_fillable()`).
+#' @param max_height The maximum height of the value box or the showcase area.
+#'   Can be any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `max_height="200px"`).
 #' @inheritParams card
 #' @param theme_color `r lifecycle::badge("deprecated")` Use `theme` instead.
 #'
@@ -96,6 +99,7 @@ value_box <- function(
   max_height = NULL,
   fill = TRUE,
   class = NULL,
+  id = NULL,
   theme_color = deprecated()
 ) {
   dots <- separate_arguments(...)
@@ -155,6 +159,7 @@ value_box <- function(
       class,
       if (!is.null(showcase)) showcase_layout$class
     ),
+    id = id,
     full_screen = full_screen,
     height = height,
     max_height = max_height,
@@ -227,9 +232,9 @@ new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {
 #'     Accepted values in the second category are `"auto"`, `"min-content"`,
 #'     `"max-content"`, a fractional unit (e.g. `2fr`), or a `minmax()` function
 #'     (e.g., `minmax(100px, 1fr)`).
-#' @param max_height,max_height_full_screen A proportion (i.e., a number between
+#' @param max_height_full_screen A proportion (i.e., a number between
 #'   0 and 1) or any valid [CSS unit][htmltools::validateCssUnit] defining the
-#'   showcase max_height.
+#'   showcase `max_height` in a full screen card.
 #'
 #' @export
 #' @rdname value_box
