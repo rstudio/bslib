@@ -385,7 +385,7 @@ export class BslibPopover extends BslibElement {
       trigger: this.triggerElement,
       content: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        ".popover-header": hasHeader(newHeader) ? newHeader : "",
+        ".popover-header": header && header.html ? newHeader : "",
         // eslint-disable-next-line @typescript-eslint/naming-convention
         ".popover-body": newContent,
       },
