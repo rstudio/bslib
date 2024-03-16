@@ -363,6 +363,11 @@ row_heights_css_vars <- function(x) {
   # Treat numeric values as fractional units
   css_vars <- rapply(css_vars, how = "replace", maybe_fr_unit)
 
+  if (identical(names(css_vars), "--bslib-grid--row-heights--xs")) {
+    names(css_vars) <- "--bslib-grid--row-heights"
+    classes <- character()
+  }
+
   list(
     style = css(!!!css_vars),
     class = classes
