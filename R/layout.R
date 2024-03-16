@@ -299,7 +299,7 @@ as_col_spec <- function(col_widths, n_kids) {
   if (is.null(col_widths) || rlang::is_na(col_widths)) return(NULL)
 
   if (!is_breakpoints(col_widths)) {
-    col_widths <- breakpoints(md = col_widths)
+    col_widths <- breakpoints(sm = col_widths)
   }
 
   for (break_name in names(col_widths)) {
