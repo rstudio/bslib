@@ -4,7 +4,7 @@
       layout_columns(col_widths = 6, !!!children)
     Output
       <div class="container-fluid">
-        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-md="6" data-require-bs-caller="layout_columns()" data-require-bs-version="5">
+        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-sm="6" data-require-bs-caller="layout_columns()" data-require-bs-version="5">
           <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
             <div class="layout-column-child-element"></div>
           </div>
@@ -20,7 +20,7 @@
       layout_columns(col_widths = c(4, 8), !!!children)
     Output
       <div class="container-fluid">
-        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-md="4,8" data-require-bs-caller="layout_columns()" data-require-bs-version="5">
+        <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" col-widths-sm="4,8" data-require-bs-caller="layout_columns()" data-require-bs-version="5">
           <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
             <div class="layout-column-child-element"></div>
           </div>
