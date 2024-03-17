@@ -11,7 +11,7 @@
 
 @include media-breakpoint-down(sm) {
   .bslib-flow-mobile {
-    > .html-fill-item {
+    &.html-fill-container > .html-fill-item { // rstudio/htmltools#425
       flex: 0 0 auto;
     }
 
