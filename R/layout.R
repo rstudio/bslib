@@ -37,9 +37,10 @@
 #' @param fillable Whether or not each element is wrapped in a fillable container.
 #' @param height_mobile Any valid CSS unit to use for the height when on mobile
 #'   devices (or narrow windows).
-#' @param max_height,min_height The maximum or minimum height of the layout container.
+#' @param min_height,max_height The maximum or minimum height of the layout container.
 #'   Can be any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
-#'   `max_height="200px"`).  
+#'   `max_height="200px"`). Use these arguments in filling layouts to ensure that a
+#'   layout container doesn't shrink below `min_height` or grow beyond `max_height`.
 #' @inheritParams card
 #' @inheritParams card_body
 #'

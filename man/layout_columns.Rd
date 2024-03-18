@@ -69,9 +69,10 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
 
-\item{max_height, min_height}{The maximum or minimum height of the layout container.
+\item{min_height, max_height}{The maximum or minimum height of the layout container.
 Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{max_height="200px"}).}
+\code{max_height="200px"}). Use these arguments in filling layouts to ensure that a
+layout container doesn't shrink below \code{min_height} or grow beyond \code{max_height}.}
 }
 \description{
 Create responsive, column-based grid layouts, based on a 12-column grid.
