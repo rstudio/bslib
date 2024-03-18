@@ -18,6 +18,7 @@ value_box(
   theme = NULL,
   height = NULL,
   max_height = NULL,
+  min_height = NULL,
   fill = TRUE,
   class = NULL,
   id = NULL,
@@ -77,9 +78,10 @@ control, you can create your own theme with \code{value_box_theme()} where you
 can pass foreground and background colors directly. See the \strong{Themes}
 section for more details.}
 
-\item{max_height}{The maximum height of the value box or the showcase area.
-Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
-\code{max_height="200px"}).}
+\item{max_height}{The maximum height of the \code{value_box()} or the showcase
+area when used in a \verb{showcase_layout_*()} function. Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g., \code{max_height="200px"}).}
+
+\item{min_height}{The minimum height of the values box. Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g., \code{min_height="200px"}).}
 
 \item{fill}{Whether to allow the value box to grow/shrink to fit a fillable
 container with an opinionated height (e.g., \code{page_fillable()}).}
