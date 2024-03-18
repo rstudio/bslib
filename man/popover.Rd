@@ -30,7 +30,7 @@ object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.}
 \link[=htmlEscape]{automatically escaped} unless marked as \code{\link[=HTML]{HTML()}}.}
 
 \item{title}{A title (header) for the popover. To remove a header
-with \code{update_popover()}, provide a value of \code{character(0)}.}
+with \code{update_popover()}, provide a either an empty string or \code{character(0)}.}
 
 \item{id}{A character string. Required to re-actively respond to the
 visibility of the popover (via the \code{input[[id]]} value) and/or update the
