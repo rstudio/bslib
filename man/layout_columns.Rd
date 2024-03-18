@@ -12,7 +12,9 @@ layout_columns(
   fillable = TRUE,
   gap = NULL,
   class = NULL,
-  height = NULL
+  height = NULL,
+  min_height = NULL,
+  max_height = NULL
 )
 }
 \arguments{
@@ -66,6 +68,10 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
 (in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+
+\item{max_height, min_height}{The maximum or minimum height of the layout container.
+Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{max_height="200px"}).}
 }
 \description{
 Create responsive, column-based grid layouts, based on a 12-column grid.
