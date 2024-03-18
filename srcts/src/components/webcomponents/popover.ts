@@ -354,11 +354,11 @@ export class BslibPopover extends BslibElement {
     if (header) deps.push(...header.deps);
     Shiny.renderDependencies(deps);
 
-    // Since we may need to add a close button (with event handlers),
-    // parse the string into an HTMLElement. And, since .setContent() is less
-    // error-prone if we pass _both_ the header and content, we fallback to the
-    // existing header/content if the user didn't supply one.
-    const getOrCreateElement = (
+    // If content/header is provided by the user (i.e., truthy), create a new
+    // element from it (to register event listeners, etc.). If not, then find
+    // the current element (if we don't, Bootstrap will remove it when we make
+    // the update).
+    const createOrGetCurrentEl = (
       x: typeof content | typeof header,
       fallback: HTMLElement | undefined,
       selector: string
@@ -368,33 +368,33 @@ export class BslibPopover extends BslibElement {
       return this.bsPopover.tip?.querySelector(selector) as HTMLElement;
     };
 
-    const newHeader = getOrCreateElement(
+    const headerEl = createOrGetCurrentEl(
       header,
       this.header,
       ".popover-header"
     );
-    const newContent = getOrCreateElement(
+    const contentEl = createOrGetCurrentEl(
       content,
       this.content,
       ".popover-body"
     );
-    render(this._closeButton(newHeader), newContent);
+    render(this._closeButton(header), contentEl);
 
     setContentCarefully({
       instance: this.bsPopover,
       trigger: this.triggerElement,
       content: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        ".popover-header": header && header.html ? newHeader : "",
+        ".popover-header": header ? headerEl : "",
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        ".popover-body": newContent,
+        ".popover-body": contentEl,
       },
       type: "popover",
     });
   }
 
   private _closeButton(
-    header: HTMLElement | undefined
+    header: HTMLElement | UpdateMessage["header"] | undefined
   ): ReturnType<typeof html> | typeof nothing {
     if (!this.focusablePopover) {
       return nothing;
@@ -404,7 +404,7 @@ export class BslibPopover extends BslibElement {
       this._hide();
       if (this.focusablePopover) this.triggerElement.focus();
     };
-    const top = hasHeader(header) ? "0.6rem" : "0.25rem";
+    const top = header ? "0.6rem" : "0.25rem";
     return html`<button
       type="button"
       aria-label="Close"

@@ -1304,7 +1304,7 @@
       if (header)
         deps.push(...header.deps);
       Shiny.renderDependencies(deps);
-      const getOrCreateElement = (x2, fallback, selector) => {
+      const createOrGetCurrentEl = (x2, fallback, selector) => {
         var _a;
         if (x2)
           return createWrapperElement(x2.html, "contents");
@@ -1312,25 +1312,25 @@
           return fallback;
         return (_a = this.bsPopover.tip) == null ? void 0 : _a.querySelector(selector);
       };
-      const newHeader = getOrCreateElement(
+      const headerEl = createOrGetCurrentEl(
         header,
         this.header,
         ".popover-header"
       );
-      const newContent = getOrCreateElement(
+      const contentEl = createOrGetCurrentEl(
         content,
         this.content,
         ".popover-body"
       );
-      D(this._closeButton(newHeader), newContent);
+      D(this._closeButton(header), contentEl);
       setContentCarefully({
         instance: this.bsPopover,
         trigger: this.triggerElement,
         content: {
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          ".popover-header": header && header.html ? newHeader : "",
+          ".popover-header": header ? headerEl : "",
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          ".popover-body": newContent
+          ".popover-body": contentEl
         },
         type: "popover"
       });
@@ -1344,7 +1344,7 @@
         if (this.focusablePopover)
           this.triggerElement.focus();
       };
-      const top = hasHeader(header) ? "0.6rem" : "0.25rem";
+      const top = header ? "0.6rem" : "0.25rem";
       return x`<button
       type="button"
       aria-label="Close"
