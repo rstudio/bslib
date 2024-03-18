@@ -13,7 +13,8 @@
 #'   object in a [div()] or [span()].
 #' @param ... UI elements for the popover's body. Character strings are
 #'   [automatically escaped][htmlEscape()] unless marked as [HTML()].
-#' @param title A title (header) for the popover.
+#' @param title A title (header) for the popover. To remove a header
+#'   with `update_popover()`, provide a value of `character(0)`.
 #' @param id A character string. Required to re-actively respond to the
 #'   visibility of the popover (via the `input[[id]]` value) and/or update the
 #'   visibility/contents of the popover.
@@ -183,7 +184,7 @@ update_popover <- function(id, ..., title = NULL, session = get_current_session(
   msg <- dropNulls(list(
     method = "update",
     content = if (length(body) > 0) processDeps(body, session),
-    header = if (length(title) > 0) processDeps(title, session)
+    header = if (!is.null(title)) processDeps(title, session)
   ))
 
   force(id)
