@@ -34,7 +34,7 @@
 
 * We increased the spacing between elements just slightly in the Shiny preset. This change is most noticeable in the `layout_columns()` or `layout_column_wrap()` component. In these and other components, you can use `gap` and `padding` arguments to choose your own values, or you can set the `$bslib-spacer` (Sass) or `--bslib-spacer` (CSS) variable. (#998)
 
-* `value_box()`, `layout_columns()` and `layout_column_wrap()` now all have `min_height` and `max_height` arguments. These are useful in filling layouts, like `page_fillable()`, `page_sidebar(fillable = TRUE)` or `page_navbar(fillable = TRUE)`. For example, you can use `layout_columns(min_height = 300)` to ensure that a set of items (likely arranged in a row of columns) don't shrink to less than 300 pixels in height. (#1016)
+* `value_box()`, `layout_columns()` and `layout_column_wrap()` now all have `min_height` and `max_height` arguments. These are useful in filling layouts, like `page_fillable()`, `page_sidebar(fillable = TRUE)` or `page_navbar(fillable = TRUE)`. For example, you can use `layout_columns(min_height = 300, max_height = 500)` to ensure that a set of items (likely arranged in a row of columns) are always between 300 and 500 pixels tall. (#1016)
 
 ## Bug fixes
 
