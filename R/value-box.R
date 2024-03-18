@@ -55,9 +55,11 @@
 #'   `"text-light"`) to customize the background/foreground colors.
 #' @param fill Whether to allow the value box to grow/shrink to fit a fillable
 #'   container with an opinionated height (e.g., `page_fillable()`).
-#' @param max_height The maximum height of the value box or the showcase area.
-#'   Can be any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
-#'   `max_height="200px"`).
+#' @param max_height The maximum height of the `value_box()` or the showcase
+#'   area when used in a `showcase_layout_*()` function. Can be any valid [CSS
+#'   unit][htmltools::validateCssUnit] (e.g., `max_height="200px"`).
+#' @param min_height The minimum height of the values box. Can be any valid [CSS
+#'   unit][htmltools::validateCssUnit] (e.g., `min_height="200px"`).
 #' @inheritParams card
 #' @param theme_color `r lifecycle::badge("deprecated")` Use `theme` instead.
 #'
@@ -97,6 +99,7 @@ value_box <- function(
   theme = NULL,
   height = NULL,
   max_height = NULL,
+  min_height = NULL,
   fill = TRUE,
   class = NULL,
   id = NULL,
@@ -163,6 +166,7 @@ value_box <- function(
     full_screen = full_screen,
     height = height,
     max_height = max_height,
+    min_height = min_height,
     fill = fill,
     style = css(
       color = theme$fg,

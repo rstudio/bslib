@@ -37,6 +37,10 @@
 #' @param fillable Whether or not each element is wrapped in a fillable container.
 #' @param height_mobile Any valid CSS unit to use for the height when on mobile
 #'   devices (or narrow windows).
+#' @param min_height,max_height The maximum or minimum height of the layout container.
+#'   Can be any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `max_height="200px"`). Use these arguments in filling layouts to ensure that a
+#'   layout container doesn't shrink below `min_height` or grow beyond `max_height`.
 #' @inheritParams card
 #' @inheritParams card_body
 #'
@@ -74,6 +78,8 @@ layout_column_wrap <- function(
   fillable = TRUE,
   height = NULL,
   height_mobile = NULL,
+  min_height = NULL,
+  max_height = NULL,
   gap = NULL,
   class = NULL
 ) {
@@ -137,7 +143,9 @@ layout_column_wrap <- function(
       # doesn't get inherited in a scenario like layout_column_wrap(height=200, ..., layout_column_wrap(...))
       "--bslib-grid-height" = validateCssUnit(height %||% "auto"),
       "--bslib-grid-height-mobile" = validateCssUnit(height_mobile %||% "auto"),
-      gap = validateCssUnit(gap)
+      gap = validateCssUnit(gap),
+      min_height = validateCssUnit(min_height),
+      max_height = validateCssUnit(max_height)
     ),
     !!!attribs,
     children,
@@ -252,7 +260,9 @@ layout_columns <- function(
   fillable = TRUE,
   gap = NULL,
   class = NULL,
-  height = NULL
+  height = NULL,
+  min_height = NULL,
+  max_height = NULL
 ) {
   args <- separate_arguments(...)
   attribs <- args$attribs
@@ -274,6 +284,8 @@ layout_columns <- function(
     style = css(
       height = validateCssUnit(height),
       gap = validateCssUnit(gap),
+      min_height = validateCssUnit(min_height),
+      max_height = validateCssUnit(max_height)
     ),
     # We don't enable the next option by default, but users could add this
     # attribute to hide the internal elements until after the custom element
