@@ -30,13 +30,14 @@ Depends:
     R (>= 2.10)
 Remotes:
     rstudio/shiny,
-    rstudio/sass
+    rstudio/sass,
+    rstudio/htmltools
 Imports:
     base64enc,
     cachem,
     fastmap (>= 1.1.1),
     grDevices,
-    htmltools (>= 0.5.7),
+    htmltools (>= 0.5.7.9000),
     jquerylib (>= 0.1.3),
     jsonlite,
     lifecycle,
