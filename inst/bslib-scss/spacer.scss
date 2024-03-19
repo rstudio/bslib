@@ -1,8 +1,9 @@
 $spacer: 1rem !default;
+$bslib-spacer: $spacer !default;
 
 :root {
   // Controls default spacing in layout containers (e.g, layout_columns())
-  --bslib-spacer: #{$spacer};
+  --bslib-spacer: #{$bslib-spacer};
   --bslib-mb-spacer: var(--bslib-spacer, 1rem);
 }
 
@@ -22,6 +23,12 @@ $spacer: 1rem !default;
   gap: var(--bslib-mb-spacer);
   > .bslib-mb-spacing, > .form-group, > p, > pre {
     margin-bottom: 0;
+  }
+  // Make sure to get similar behavior in a uiOutput()/renderUI() context
+  > .shiny-html-output {
+    > .bslib-mb-spacing, > .form-group, > p, > pre {
+      margin-bottom: 0;
+    }
   }
 }
 

@@ -37,6 +37,10 @@
 #' @param fillable Whether or not each element is wrapped in a fillable container.
 #' @param height_mobile Any valid CSS unit to use for the height when on mobile
 #'   devices (or narrow windows).
+#' @param min_height,max_height The maximum or minimum height of the layout container.
+#'   Can be any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `max_height="200px"`). Use these arguments in filling layouts to ensure that a
+#'   layout container doesn't shrink below `min_height` or grow beyond `max_height`.
 #' @inheritParams card
 #' @inheritParams card_body
 #'
@@ -61,6 +65,9 @@
 #' # This example has 3 columns when the screen is at least 900px wide:
 #' layout_column_wrap(width = "300px", x, x, x)
 #'
+#' # You can add a list of items, spliced with rlang's `!!!` operator
+#' layout_column_wrap(!!!list(x, x, x))
+#'
 #' @export
 layout_column_wrap <- function(
   ...,
@@ -71,6 +78,8 @@ layout_column_wrap <- function(
   fillable = TRUE,
   height = NULL,
   height_mobile = NULL,
+  min_height = NULL,
+  max_height = NULL,
   gap = NULL,
   class = NULL
 ) {
@@ -134,7 +143,9 @@ layout_column_wrap <- function(
       # doesn't get inherited in a scenario like layout_column_wrap(height=200, ..., layout_column_wrap(...))
       "--bslib-grid-height" = validateCssUnit(height %||% "auto"),
       "--bslib-grid-height-mobile" = validateCssUnit(height_mobile %||% "auto"),
-      gap = validateCssUnit(gap)
+      gap = validateCssUnit(gap),
+      min_height = validateCssUnit(min_height),
+      max_height = validateCssUnit(max_height)
     ),
     !!!attribs,
     children,
@@ -209,6 +220,11 @@ is_probably_a_css_unit <- function(x) {
 #'   layout_columns(x, x, x, x)
 #' )
 #'
+#' # Or add a list of items, spliced with rlang's `!!!` operator
+#' page_fillable(
+#'  layout_columns(!!!list(x, x, x))
+#' )
+#'
 #' page_fillable(
 #'   layout_columns(
 #'     col_widths = c(6, 6, 12),
@@ -244,7 +260,9 @@ layout_columns <- function(
   fillable = TRUE,
   gap = NULL,
   class = NULL,
-  height = NULL
+  height = NULL,
+  min_height = NULL,
+  max_height = NULL
 ) {
   args <- separate_arguments(...)
   attribs <- args$attribs
@@ -266,6 +284,8 @@ layout_columns <- function(
     style = css(
       height = validateCssUnit(height),
       gap = validateCssUnit(gap),
+      min_height = validateCssUnit(min_height),
+      max_height = validateCssUnit(max_height)
     ),
     # We don't enable the next option by default, but users could add this
     # attribute to hide the internal elements until after the custom element
@@ -291,7 +311,7 @@ as_col_spec <- function(col_widths, n_kids) {
   if (is.null(col_widths) || rlang::is_na(col_widths)) return(NULL)
 
   if (!is_breakpoints(col_widths)) {
-    col_widths <- breakpoints(md = col_widths)
+    col_widths <- breakpoints(sm = col_widths)
   }
 
   for (break_name in names(col_widths)) {
@@ -347,22 +367,18 @@ row_heights_css_vars <- function(x) {
     x <- breakpoints(xs = x)
   }
 
-  idx_sm <- match("xs", names(x))
-
   # creates classes that pair with CSS variables when set
   classes <- paste0("bslib-grid--row-heights--", names(x))
 
   css_vars <- setNames(x, paste0("--", classes))
 
-  if (!is.na(idx_sm)) {
-    # xs doesn't need a specific breakpoint var, we just set the base CSS var
-    names(css_vars)[idx_sm] <- "--bslib-grid--row-heights"
-    # and as result we don't need a class to activate it.
-    classes <- classes[-idx_sm]
-  }
-
   # Treat numeric values as fractional units
   css_vars <- rapply(css_vars, how = "replace", maybe_fr_unit)
+
+  if (identical(names(css_vars), "--bslib-grid--row-heights--xs")) {
+    names(css_vars) <- "--bslib-grid--row-heights"
+    classes <- character()
+  }
 
   list(
     style = css(!!!css_vars),

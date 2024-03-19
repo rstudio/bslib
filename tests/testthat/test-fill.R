@@ -1,22 +1,3 @@
-# Fixtures ------------------------------------------------------------------
-tag_simple <- function(...) {
-  htmltools::div(class = "test", id = "test", ...)
-}
-
-tag_nested <- function(...) {
-  htmltools::withTags(
-    div(
-      div(class = "inner"),
-      div(
-        class = "nested",
-        div(class = "inner deep")
-      ),
-      div(class = "inner"),
-      ...
-    )
-  )
-}
-
 # Fill Item -----------------------------------------------------------------
 
 test_that("as_fill_item() with a simple tag", {
@@ -254,20 +235,18 @@ test_that("as_fill_carrier() with a nested tag on inner tag", {
 # Remove All Fill -----------------------------------------------------------
 
 test_that("remove_all_fill() removes fill from outer element", {
-  expect_equal(
-    remove_all_fill(as_fill_item(tag_simple())),
+  fill_removed <- remove_all_fill(as_fill_item(tag_simple()))
+  expect_null(htmlDependencies(fill_removed))
+  expect_equal_html(fill_removed, tag_simple())
+
+  expect_equal_html(
+    remove_all_fill(as_fillable_container(tag_simple())),
     tag_simple()
   )
 
-  # ignoring the 'htmltools-fill' dependency
-  expect_equal(
-    format(remove_all_fill(as_fillable_container(tag_simple()))),
-    format(tag_simple())
-  )
-
-  expect_equal(
-    format(remove_all_fill(as_fill_carrier(tag_simple()))),
-    format(tag_simple())
+  expect_equal_html(
+    remove_all_fill(as_fill_carrier(tag_simple())),
+    tag_simple()
   )
 })
 

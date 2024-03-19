@@ -53,8 +53,7 @@ removing: the \code{value} of the \code{\link[=accordion_panel]{accordion_panel(
 \code{target} is \code{NULL} (the default), \code{"after"} will append after the last
 panel and \code{"before"} will prepend before the first panel.}
 
-\item{...}{Named arguments become attributes on the \verb{<div class="accordion">}
-element. Unnamed arguments should be \code{accordion_panel()}s.}
+\item{...}{Elements that become the new content of the panel.}
 
 \item{title}{A title to appear in the \code{accordion_panel()}'s header.}
 

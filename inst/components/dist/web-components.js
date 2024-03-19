@@ -1,4 +1,4 @@
-/*! bslib 0.6.1.9000 | (c) 2012-2023 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.6.1.9001 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __defProp = Object.defineProperty;
@@ -738,6 +738,9 @@
         console.warn(`Could not find ${selector} in ${type} content`);
         continue;
       }
+      if (target === html) {
+        continue;
+      }
       if (target instanceof HTMLElement) {
         target.replaceChildren(html);
       } else {
@@ -1253,6 +1256,7 @@
       const el = this.bsPopoverEl;
       if (!el)
         return;
+      this.contentContainer.innerHTML = "";
       const body = el.querySelector(".popover-body");
       if (body)
         this.contentContainer.append(body == null ? void 0 : body.firstChild);
@@ -1293,6 +1297,7 @@
       }
     }
     _updatePopover(data) {
+      var _a, _b;
       const { content, header } = data;
       const deps = [];
       if (content)
@@ -1300,31 +1305,21 @@
       if (header)
         deps.push(...header.deps);
       Shiny.renderDependencies(deps);
-      const getOrCreateElement = (x2, fallback, selector) => {
-        var _a;
-        if (x2)
-          return createWrapperElement(x2.html, "contents");
-        if (fallback)
-          return fallback;
-        return (_a = this.bsPopover.tip) == null ? void 0 : _a.querySelector(selector);
-      };
-      const newHeader = getOrCreateElement(
-        header,
-        this.header,
-        ".popover-header"
-      );
-      const newContent = getOrCreateElement(
-        content,
-        this.content,
-        ".popover-body"
-      );
-      D(this._closeButton(newHeader), newContent);
+      const { tip } = this.bsPopover;
+      const currentHeader = this.visible ? (_a = tip == null ? void 0 : tip.querySelector(".popover-header")) == null ? void 0 : _a.children[0] : this.header;
+      const currentContent = this.visible ? (_b = tip == null ? void 0 : tip.querySelector(".popover-body")) == null ? void 0 : _b.children[0] : this.content;
+      const newHeader = header ? createWrapperElement(header.html, "contents") : currentHeader;
+      const newContent = content ? createWrapperElement(content.html, "contents") : currentContent;
+      if (content) {
+        D(this._closeButton(newHeader), newContent);
+      }
+      const actualHeader = hasHeader(newHeader) ? newHeader : "";
       setContentCarefully({
         instance: this.bsPopover,
         trigger: this.triggerElement,
         content: {
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          ".popover-header": hasHeader(newHeader) ? newHeader : "",
+          ".popover-header": actualHeader,
           // eslint-disable-next-line @typescript-eslint/naming-convention
           ".popover-body": newContent
         },
@@ -2018,19 +2013,57 @@
     return false;
   }
 
+  // srcts/src/components/webcomponents/switch.ts
+  var BslibSwitch = class extends s4 {
+    constructor() {
+      super(...arguments);
+      this.case = "";
+    }
+    render() {
+      if (!this.case) {
+        return x``;
+      }
+      return x`<slot name="${this.case}"></slot>`;
+    }
+  };
+  BslibSwitch.tagName = "bslib-switch";
+  BslibSwitch.isShinyInput = false;
+  BslibSwitch.styles = i2`
+    :host {
+      display: block;
+    }
+  `;
+  __decorateClass([
+    n({ type: String, reflect: true })
+  ], BslibSwitch.prototype, "case", 2);
+  var BslibSwitchInline = class extends BslibSwitch {
+  };
+  BslibSwitchInline.tagName = "bslib-switch-inline";
+  BslibSwitchInline.isShinyInput = false;
+  BslibSwitchInline.styles = i2`
+    :host {
+      display: inline;
+    }
+  `;
+
   // srcts/src/components/webcomponents/index.ts
-  [BslibTooltip, BslibPopover, BslibInputDarkMode, BslibLayoutColumns].forEach(
-    (cls) => {
-      customElements.define(cls.tagName, cls);
-      if (window.Shiny) {
-        if (cls.isShinyInput)
-          makeInputBinding(cls.tagName);
-        if ("shinyCustomMessageHandlers" in cls) {
-          shinyAddCustomMessageHandlers(cls["shinyCustomMessageHandlers"]);
-        }
+  [
+    BslibTooltip,
+    BslibPopover,
+    BslibInputDarkMode,
+    BslibLayoutColumns,
+    BslibSwitch,
+    BslibSwitchInline
+  ].forEach((cls) => {
+    customElements.define(cls.tagName, cls);
+    if (window.Shiny) {
+      if (cls.isShinyInput)
+        makeInputBinding(cls.tagName);
+      if ("shinyCustomMessageHandlers" in cls) {
+        shinyAddCustomMessageHandlers(cls["shinyCustomMessageHandlers"]);
       }
     }
-  );
+  });
 })();
 /*! Bundled license information:
 

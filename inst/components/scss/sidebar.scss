@@ -19,8 +19,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   --_main-fg: var(--bslib-sidebar-main-fg, var(--bs-card-color, var(--bs-body-color)));
   --_main-bg: var(--bslib-sidebar-main-bg, transparent);
   --_toggle-bg: var(--bslib-sidebar-toggle-bg, #{$bslib-sidebar-toggle-bg});
-  --_padding: var(--bslib-sidebar-padding, calc(var(--bslib-spacer) * 1.5));
-  --_icon-size: var(--bslib-sidebar-icon-size, var(--bslib-spacer, 1rem));
+  --_padding: var(--bslib-sidebar-padding, var(--bslib-spacer, 1.5rem));
+  --_icon-size: var(--bslib-sidebar-icon-size, 1rem);
   --_icon-button-size: var(--bslib-sidebar-icon-button-size, calc(var(--_icon-size, 1rem) * 2));
   --_padding-icon: calc(var(--_icon-button-size, 2rem) * 1.5);
   // We intentionally don't give a value here, but it could be set by someone else
@@ -143,16 +143,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     }
   }
 
-  &[data-bslib-sidebar-open="always"] {
-    > .sidebar > .sidebar-content {
-      // Always-open sidebars don't have a toggle & can use normal top padding
-      padding-top: var(--_padding);
-    }
-  }
-
   > .collapse-toggle {
     grid-row: 1 / 2;
     grid-column: 1 / 2;
+    z-index: $zindex-dropdown;
     display: inline-flex;
     align-items: center;
     position: absolute;
@@ -278,13 +272,37 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   }
 }
 
+.bslib-sidebar-layout {
+  // Sidebar init js uses this variable to know which device size we're on
+  --bslib-sidebar-js-window-size: desktop;
+}
+
 @include media-breakpoint-down(sm) {
   .bslib-sidebar-layout {
-    // Tell sidebar init js we're on mobile for `sidebar(open = "desktop")`
-    &[data-bslib-sidebar-open="desktop"] {
-      --bslib-sidebar-js-init-collapsed: true;
+    --bslib-sidebar-js-window-size: mobile;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .bslib-sidebar-layout[data-collapsible-desktop="false"] {
+    // Always-open sidebars don't have a toggle & can use normal padding
+    --_padding-icon: var(--_padding);
+
+    > .collapse-toggle {
+      display: none;
     }
 
+    > .sidebar[hidden] {
+      display: block !important;
+      > .sidebar-content {
+        display: flex !important;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .bslib-sidebar-layout {
     &, &.sidebar-right {
       // Remove sidebar borders in mobile view (except always-open, added below)
       > .sidebar { border: none }
@@ -296,21 +314,11 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
       }
     }
 
-    // Always open sidebars become "flow" layouts in mobile view
-    &[data-bslib-sidebar-open="always"] {
-      display: block !important;
-      > .sidebar {
-        max-height: var(--_mobile-max-height);
-        overflow-y: auto;
-        border-top: var(--_vert-border);
-      }
-    }
-
-    &:not([data-bslib-sidebar-open="always"]) {
+    &[data-collapsible-mobile="true"] {
       // Sidebar layer has to be lifted up to cover other (nested) sidebars
       &:not(.sidebar-collapsed), &.transitioning {
-        > .sidebar { z-index: 1; }
-        > .collapse-toggle { z-index: 1; }
+        > .sidebar { z-index: $zindex-offcanvas; }
+        > .collapse-toggle { z-index: $zindex-offcanvas; }
       }
 
       // Keep toggle on sidebar side when expanded on mobile
@@ -328,6 +336,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
         opacity: var(--_sidebar-mobile-opacity, 1);
         max-width: var(--_sidebar-mobile-max-width, 100%);
         box-shadow: var(--_sidebar-mobile-box-shadow);
+        margin: 0;
       }
 
       // When `max-width` is less than 100%, push it to the appropriate side
@@ -359,6 +368,32 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
         padding-left: var(--_padding);
         padding-right: var(--_padding);
       }
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .bslib-sidebar-layout[data-collapsible-mobile="false"] {
+    // Always open sidebars become "flow" layouts
+    display: block !important;
+    --_padding-icon: var(--_padding); // use normal padding all around
+    --_vert-border: var(--_border);   // and activate top border
+
+    > .sidebar[hidden] {
+      display: block !important;
+      > .sidebar-content {
+        display: flex !important;
+      }
+    }
+
+    & > .sidebar {
+      max-height: var(--_mobile-max-height);
+      overflow-y: auto;
+      border-top: var(--_vert-border);
+    }
+
+    > .collapse-toggle {
+      display: none;
     }
   }
 }

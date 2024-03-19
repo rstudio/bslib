@@ -11,7 +11,7 @@ sidebar(
   ...,
   width = 250,
   position = c("left", "right"),
-  open = c("desktop", "open", "closed", "always"),
+  open = NULL,
   id = NULL,
   title = NULL,
   bg = NULL,
@@ -58,6 +58,12 @@ This is default sidebar behavior.
 \item \code{"closed"} or \code{FALSE}: The sidebar starts closed.
 \item \code{"always"} or \code{NA}: The sidebar is always open and cannot be closed.
 }
+
+Alternatively, you can use a list with \code{desktop} or \code{mobile} items to set
+the initial sidebar state independently for \code{desktop} and \code{mobile} screen
+sizes. In this case, \code{desktop} or \code{mobile} can use any of the above options
+except \code{"desktop"}, which is equivalent to
+\code{list(desktop = "open", mobile = "closed")}.
 
 In \code{sidebar_toggle()}, \code{open} indicates the desired state of the sidebar,
 where the default of \code{open = NULL} will cause the sidebar to be toggled

@@ -291,6 +291,8 @@ export class BslibPopover extends BslibElement {
   private _restoreContent(): void {
     const el = this.bsPopoverEl;
     if (!el) return;
+
+    this.contentContainer.innerHTML = "";
     const body = el.querySelector(".popover-body");
     if (body) this.contentContainer.append(body?.firstChild as HTMLElement);
     const header = el.querySelector(".popover-header");
@@ -347,43 +349,54 @@ export class BslibPopover extends BslibElement {
   private _updatePopover(data: UpdateMessage): void {
     const { content, header } = data;
 
+    // First, render any HTMLDependency()s
     const deps = [];
     if (content) deps.push(...content.deps);
     if (header) deps.push(...header.deps);
     Shiny.renderDependencies(deps);
 
-    // Since we may need to add a close button (with event handlers),
-    // parse the string into an HTMLElement. And, since .setContent() is less
-    // error-prone if we pass _both_ the header and content, we fallback to the
-    // existing header/content if the user didn't supply one.
-    const getOrCreateElement = (
-      x: typeof content | typeof header,
-      fallback: HTMLElement | undefined,
-      selector: string
-    ): HTMLElement => {
-      if (x) return createWrapperElement(x.html, "contents");
-      if (fallback) return fallback;
-      return this.bsPopover.tip?.querySelector(selector) as HTMLElement;
-    };
+    const { tip } = this.bsPopover;
 
-    const newHeader = getOrCreateElement(
-      header,
-      this.header,
-      ".popover-header"
-    );
-    const newContent = getOrCreateElement(
-      content,
-      this.content,
-      ".popover-body"
-    );
-    render(this._closeButton(newHeader), newContent);
+    // If the user hasn't supplied new content/header, we still need to find and pass
+    // along the current content/header (so they don't get removed on update).
+    // Also, since the user content is always wrapped in a <div
+    // style="display:contents">, we can just take the first child of the
+    // relevant Bootstrap popover containers
+    const currentHeader = this.visible
+      ? (tip?.querySelector(".popover-header")?.children[0] as HTMLElement)
+      : (this.header as HTMLElement);
+
+    const currentContent = this.visible
+      ? (tip?.querySelector(".popover-body")?.children[0] as HTMLElement)
+      : (this.content as HTMLElement);
+
+    // If user does supply new content/header, then we wrap it in a
+    // <div style="display:contents"> so that the markup structure mirrors
+    // what bslib::popover() uses for markup
+    const newHeader = header
+      ? createWrapperElement(header.html, "contents")
+      : currentHeader;
+
+    const newContent = content
+      ? createWrapperElement(content.html, "contents")
+      : currentContent;
+
+    // If user has supplied new content, then add the close button
+    // (if not, it's already there since we added it in connectedCallback)
+    if (content) {
+      render(this._closeButton(newHeader), newContent);
+    }
+
+    // Only render a header if the newHeader has actual contents
+    // (i.e., if header.html is an empty string, then we don't render it)
+    const actualHeader = hasHeader(newHeader) ? newHeader : "";
 
     setContentCarefully({
       instance: this.bsPopover,
       trigger: this.triggerElement,
       content: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        ".popover-header": hasHeader(newHeader) ? newHeader : "",
+        ".popover-header": actualHeader,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         ".popover-body": newContent,
       },

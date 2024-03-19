@@ -28,6 +28,9 @@
 #'   together into one `wrapper` call (e.g. given `card("a", "b",
 #'   card_body("c"), "d")`, `wrapper` would be called twice, once with `"a"` and
 #'   `"b"` and once with `"d"`).
+#' @param id Provide a unique identifier for the `card()` or `value_box()` to
+#'   report its state to Shiny. For example, using `id = "my_card"`, you can
+#'   observe the card's full screen state with `input$my_card$full_screen`.
 #'
 #' @return A [htmltools::div()] tag.
 #'
@@ -70,16 +73,34 @@
 #'   )
 #' )
 #'
-card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min_height = NULL, fill = TRUE, class = NULL, wrapper = card_body) {
-
+card <- function(
+  ...,
+  full_screen = FALSE,
+  height = NULL,
+  max_height = NULL,
+  min_height = NULL,
+  fill = TRUE,
+  class = NULL,
+  wrapper = card_body,
+  id = NULL
+) {
   args <- rlang::list2(...)
   argnames <- rlang::names2(args)
 
   attribs <- args[nzchar(argnames)]
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
 
+  is_shiny_input <- !is.null(id)
+
+  if (full_screen && is.null(id)) {
+    # a11y: full screen cards need an ID for aria-controls on the toggle button
+    id <- paste0("bslib-card-", p_randomInt(1000, 10000))
+  }
+
   tag <- div(
+    id = id,
     class = "card bslib-card bslib-mb-spacing",
+    class = if (is_shiny_input) "bslib-card-input",
     style = css(
       height = validateCssUnit(height),
       max_height = validateCssUnit(max_height),
@@ -89,7 +110,7 @@ card <- function(..., full_screen = FALSE, height = NULL, max_height = NULL, min
     "data-full-screen" = if (full_screen) "false",
     !!!attribs,
     !!!children,
-    if (full_screen) full_screen_toggle(),
+    if (full_screen) full_screen_toggle(attribs$id),
     card_init_js(),
     component_dependencies()
   )
@@ -294,11 +315,14 @@ is.card_item <- function(x) {
 }
 
 
-full_screen_toggle <- function() {
+full_screen_toggle <- function(id_controls) {
   tooltip(
-    tags$span(
+    tags$button(
       class = "bslib-full-screen-enter",
       class = "badge rounded-pill",
+      "aria-expanded" = "false",
+      "aria-controls" = id_controls,
+      "aria-label" = "Expand card",
       full_screen_toggle_icon()
     ),
     "Expand"
