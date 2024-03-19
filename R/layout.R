@@ -311,7 +311,7 @@ as_col_spec <- function(col_widths, n_kids) {
   if (is.null(col_widths) || rlang::is_na(col_widths)) return(NULL)
 
   if (!is_breakpoints(col_widths)) {
-    col_widths <- breakpoints(md = col_widths)
+    col_widths <- breakpoints(sm = col_widths)
   }
 
   for (break_name in names(col_widths)) {
@@ -367,22 +367,18 @@ row_heights_css_vars <- function(x) {
     x <- breakpoints(xs = x)
   }
 
-  idx_sm <- match("xs", names(x))
-
   # creates classes that pair with CSS variables when set
   classes <- paste0("bslib-grid--row-heights--", names(x))
 
   css_vars <- setNames(x, paste0("--", classes))
 
-  if (!is.na(idx_sm)) {
-    # xs doesn't need a specific breakpoint var, we just set the base CSS var
-    names(css_vars)[idx_sm] <- "--bslib-grid--row-heights"
-    # and as result we don't need a class to activate it.
-    classes <- classes[-idx_sm]
-  }
-
   # Treat numeric values as fractional units
   css_vars <- rapply(css_vars, how = "replace", maybe_fr_unit)
+
+  if (identical(names(css_vars), "--bslib-grid--row-heights--xs")) {
+    names(css_vars) <- "--bslib-grid--row-heights"
+    classes <- character()
+  }
 
   list(
     style = css(!!!css_vars),

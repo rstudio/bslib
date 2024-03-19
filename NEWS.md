@@ -8,6 +8,8 @@
 
 * `page_sidebar()` now places the `title` element in a `.navbar` container that matches the structure of `page_navbar()`. This ensures that the title elements of `page_sidebar()` and `page_navbar()` have consistent appearance. (#998)
 
+* The `col_widths` argument of `layout_columns()` now sets the `sm` breakpoint by default, rather than the `md` breakpoint. For example, `col_widths = c(12, 6, 6)` is now equivalent to `breakpoints(sm = c(12, 6, 6))` rather than `breakpoints(md = c(12, 6, 6))`. (#1014)
+
 ## New features
 
 * Added `input_task_button()`, a replacement for `shiny::actionButton()` that automatically prevents an operation from being submitted multiple times. It does this by, upon click, immediately transitioning to a "Processing..." visual state that does not let the button be clicked again. The button resets to its clickable state automatically after the reactive flush it causes is complete; or, for advanced scenarios, `update_task_button()` can be used to manually control when the button resets.
@@ -49,6 +51,8 @@
 * `page_navbar()` and `navset_bar()` now validate and transform `padding` and `gap` arguments into appropriate CSS values. (#991)
 
 * Fixed an issue that could happen with a `card()` or `value_box()` that is rendered entirely via `renderUI()` when it is replaced by an updated card but the user had expanded the original card into full screen mode. Now the full screen state is reset for the new card or value box. If you want to update a card without potentially exiting the full-screen mode, update specific parts of the card using `uiOutput()` or `textOutput()`. (#1005)
+
+* Fixed an issue where the `xs` breakpoint in a `breakpoints()` object used for `row_heights` in `layout_columns()` would override all other breakpoints. (#1014)
 
 # bslib 0.6.1
 
