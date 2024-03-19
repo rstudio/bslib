@@ -1297,6 +1297,7 @@
       }
     }
     _updatePopover(data) {
+      var _a, _b;
       const { content, header } = data;
       const deps = [];
       if (content)
@@ -1304,31 +1305,21 @@
       if (header)
         deps.push(...header.deps);
       Shiny.renderDependencies(deps);
-      const getOrCreateElement = (x2, fallback, selector) => {
-        var _a;
-        if (x2)
-          return createWrapperElement(x2.html, "contents");
-        if (fallback)
-          return fallback;
-        return (_a = this.bsPopover.tip) == null ? void 0 : _a.querySelector(selector);
-      };
-      const newHeader = getOrCreateElement(
-        header,
-        this.header,
-        ".popover-header"
-      );
-      const newContent = getOrCreateElement(
-        content,
-        this.content,
-        ".popover-body"
-      );
-      D(this._closeButton(newHeader), newContent);
+      const { tip } = this.bsPopover;
+      const currentHeader = this.visible ? (_a = tip == null ? void 0 : tip.querySelector(".popover-header")) == null ? void 0 : _a.children[0] : this.header;
+      const currentContent = this.visible ? (_b = tip == null ? void 0 : tip.querySelector(".popover-body")) == null ? void 0 : _b.children[0] : this.content;
+      const newHeader = header ? createWrapperElement(header.html, "contents") : currentHeader;
+      const newContent = content ? createWrapperElement(content.html, "contents") : currentContent;
+      if (content) {
+        D(this._closeButton(newHeader), newContent);
+      }
+      const actualHeader = hasHeader(newHeader) ? newHeader : "";
       setContentCarefully({
         instance: this.bsPopover,
         trigger: this.triggerElement,
         content: {
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          ".popover-header": hasHeader(newHeader) ? newHeader : "",
+          ".popover-header": actualHeader,
           // eslint-disable-next-line @typescript-eslint/naming-convention
           ".popover-body": newContent
         },
