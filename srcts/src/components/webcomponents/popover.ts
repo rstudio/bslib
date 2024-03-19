@@ -359,8 +359,9 @@ export class BslibPopover extends BslibElement {
 
     // If the user hasn't supplied new content/header, we still need to find and pass
     // along the current content/header (so they don't get removed on update).
-    // These current elements should always be a <div style="display:contents">
-    // with the actual content inside.
+    // Also, since the user content is always wrapped in a <div
+    // style="display:contents">, we can just take the first child of the
+    // relevant Bootstrap popover containers
     const currentHeader = this.visible
       ? (tip?.querySelector(".popover-header")?.children[0] as HTMLElement)
       : (this.header as HTMLElement);
