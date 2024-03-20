@@ -44,7 +44,9 @@
 
 * Fixed an issue where the page might be given a window title of `NA` if the primary `title` argument of a page function, such as `page_sidebar()`, is `NULL` or a suitable window title could not be inferred. (#933)
 
-* Fixed a couple `update_popover()` bugs. (#747)
+* Fixed a handful of `update_popover()` bugs. (#747, #1017)
+
+* `tooltip()` and `popover()` now work as expected when inserted into a navbar/navset via `nav_insert()`. (#1020)
 
 * `uiOutput()` no longer yields unwanted double padding when it's parent container uses `gap` for spacing multiple elements (e.g., `layout_columns()`, `page_fillable()`, etc). (#992)
 
