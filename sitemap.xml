@@ -118,13 +118,7 @@
     <loc>https://rstudio.github.io/bslib/reference/accordion_panel_set.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/bslib/reference/as.tags.bslib_sidebar.html</loc>
-  </url>
-  <url>
     <loc>https://rstudio.github.io/bslib/reference/as_fill_carrier.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bind_task_button.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/bootswatch_themes.html</loc>
@@ -188,9 +182,6 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/input_switch.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/input_task_button.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/bslib/reference/layout_column_wrap.html</loc>

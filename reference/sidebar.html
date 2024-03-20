@@ -46,7 +46,7 @@ on the bslib website to learn more.'><!-- mathjax --><script src="https://cdnjs.
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,7 +151,7 @@ on the bslib website to learn more.</p>
 <span>  <span class="va">...</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">250</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"right"</span><span class="op">)</span>,</span>
-<span>  open <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  open <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"desktop"</span>, <span class="st">"open"</span>, <span class="st">"closed"</span>, <span class="st">"always"</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -204,12 +204,7 @@ This is default sidebar behavior.</p></li>
 <li><p><code>"open"</code> or <code>TRUE</code>: The sidebar starts open.</p></li>
 <li><p><code>"closed"</code> or <code>FALSE</code>: The sidebar starts closed.</p></li>
 <li><p><code>"always"</code> or <code>NA</code>: The sidebar is always open and cannot be closed.</p></li>
-</ul><p>Alternatively, you can use a list with <code>desktop</code> or <code>mobile</code> items to set
-the initial sidebar state independently for <code>desktop</code> and <code>mobile</code> screen
-sizes. In this case, <code>desktop</code> or <code>mobile</code> can use any of the above options
-except <code>"desktop"</code>, which is equivalent to
-<code>list(desktop = "open", mobile = "closed")</code>.</p>
-<p>In <code>sidebar_toggle()</code>, <code>open</code> indicates the desired state of the sidebar,
+</ul><p>In <code>sidebar_toggle()</code>, <code>open</code> indicates the desired state of the sidebar,
 where the default of <code>open = NULL</code> will cause the sidebar to be toggled
 open if closed or vice versa. Note that <code>sidebar_toggle()</code> can only open or
 close the sidebar, so it does not support the <code>"desktop"</code> and <code>"always"</code>

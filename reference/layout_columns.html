@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,9 +104,7 @@
 <span>  fillable <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  gap <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  min_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  max_height <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -174,13 +172,6 @@ fillable container with an opinionated height (e.g., <code><a href="page_fillabl
 <code>height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
 (in this case, consider setting a <code>height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
 
-
-<dt>min_height, max_height</dt>
-<dd><p>The maximum or minimum height of the layout container.
-Can be any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
-<code>max_height="200px"</code>). Use these arguments in filling layouts to ensure that a
-layout container doesn't shrink below <code>min_height</code> or grow beyond <code>max_height</code>.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -202,11 +193,6 @@ responsive breakpoints.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="page_fillable.html">page_fillable</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">layout_columns</span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Or add a list of items, spliced with rlang's `!!!` operator</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="page_fillable.html">page_fillable</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span> <span class="fu">layout_columns</span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="page_fillable.html">page_fillable</a></span><span class="op">(</span></span></span>
