@@ -30,7 +30,6 @@ Depends:
     R (>= 2.10)
 Remotes:
     rstudio/shiny,
-    rstudio/sass,
     rstudio/htmltools
 Imports:
     base64enc,
@@ -44,7 +43,7 @@ Imports:
     memoise (>= 2.0.1),
     mime,
     rlang,
-    sass (> 0.4.8)
+    sass (>= 0.4.9)
 Suggests:
     bsicons,
     curl,
