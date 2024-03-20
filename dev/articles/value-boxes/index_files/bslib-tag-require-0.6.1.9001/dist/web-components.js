@@ -918,8 +918,10 @@
     connectedCallback() {
       super.connectedCallback();
       const template = this.querySelector("template");
-      this.prepend(createWrapperElement(template.content, "none"));
-      template.remove();
+      if (template) {
+        this.prepend(createWrapperElement(template.content, "none"));
+        template.remove();
+      }
       const trigger = this.triggerElement;
       trigger.setAttribute("data-bs-toggle", "tooltip");
       trigger.setAttribute("tabindex", "0");
@@ -1131,8 +1133,10 @@
     connectedCallback() {
       super.connectedCallback();
       const template = this.querySelector("template");
-      this.prepend(createWrapperElement(template.content, "none"));
-      template.remove();
+      if (template) {
+        this.prepend(createWrapperElement(template.content, "none"));
+        template.remove();
+      }
       if (this.content) {
         D(this._closeButton(this.header), this.content);
       }
