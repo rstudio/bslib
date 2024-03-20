@@ -9,7 +9,7 @@
 <title>Column-based layout • bslib</title>
 <script src="../../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../../deps/Atkinson_Hyperlegible-0.4.7.9000/font.css" rel="stylesheet">
+<script src="../../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../../deps/Atkinson_Hyperlegible-0.4.9.9000/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../../pkgdown.js"></script><script src="../../extra.js"></script><meta property="og:title" content="Column-based layout">
@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,8 +109,8 @@
 
 
 <link href="index_files/htmltools-fill-0.5.7.9000/fill.css" rel="stylesheet">
-<script src="index_files/bslib-component-js-0.6.1/components.min.js"></script><script src="index_files/bslib-component-js-0.6.1/web-components.min.js" type="module"></script><link href="index_files/bslib-component-css-0.6.1/components.css" rel="stylesheet">
-<script src="index_files/bslib-tag-require-0.6.1/tag-require.js"></script><div class="row">
+<script src="index_files/bslib-component-js-0.7.0/components.min.js"></script><script src="index_files/bslib-component-js-0.7.0/web-components.min.js" type="module"></script><link href="index_files/bslib-component-css-0.7.0/components.css" rel="stylesheet">
+<script src="index_files/bslib-tag-require-0.7.0/tag-require.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Column-based layout</h1>
             
@@ -188,31 +188,31 @@ shrinks to maintain its 1/2 width.</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">anim_width</span><span class="op">(</span><span class="st">"100%"</span>, <span class="st">"67%"</span><span class="op">)</span></span></code></pre></div>
 <div class="bslib-grid bslib-mb-spacing html-fill-item animate-width" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(2, minmax(0, 1fr));grid-auto-rows:1fr;--bslib-grid-height:300px;--bslib-grid-height-mobile:auto; --width1:100%;--width2:67%;">
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem augue ridiculus auctor penatibus urna ut vehicula, nullam commodo sollicitudin urna aptent sociis tempus. Vitae venenatis phasellus proin eleifend cursus a euismod libero. Vestibulum neque, nibh nec commodo natoque integer metus ullamcorper massa nostra hac? Mi bibendum potenti hac vestibulum nostra cursus neque diam urna erat malesuada. Aptent sed turpis.</p>
-<p>Elit risus auctor velit imperdiet, vel eros netus montes hendrerit justo. Morbi facilisis integer aptent accumsan; nisl tortor rhoncus proin, nibh laoreet montes enim! Luctus mi diam cras hac senectus ligula proin at quisque eu luctus! Laoreet quam neque eu porttitor pretium? Tellus tempus torquent viverra gravida a cras convallis fusce auctor litora duis neque erat himenaeos.</p>
-<p>Dolor felis metus euismod curae porttitor himenaeos: dictumst, phasellus feugiat cubilia mi! Suspendisse sollicitudin malesuada leo quis commodo varius enim potenti. Facilisis imperdiet varius platea fermentum ullamcorper sem blandit, porttitor viverra ante. Vehicula egestas egestas odio tempor nec ornare montes mus. Parturient.</p>
+<p>Sit habitasse euismod vestibulum himenaeos; eget montes dui phasellus. Penatibus duis aenean senectus fermentum dapibus torquent arcu dis quisque. Ut placerat molestie mi auctor, leo vitae, arcu et felis ligula egestas. Velit viverra dui, tristique proin porta phasellus, nulla erat litora duis. Penatibus quisque interdum ullamcorper sollicitudin ad lacus eget cum varius porttitor cum, auctor cum.</p>
+<p>Consectetur consequat vitae, magna: per vivamus? Tortor magnis mattis, nisi id tristique morbi aptent felis commodo blandit eleifend. Nullam morbi odio rutrum aliquam auctor – odio nibh. Parturient posuere ac velit leo quam nisi, fusce feugiat. Hac cras tortor facilisis id dui ornare, suscipit nostra himenaeos, natoque placerat massa fames?</p>
+<p>Adipiscing egestas fringilla maecenas et; at ac phasellus duis porttitor himenaeos! Arcu dis fermentum donec nascetur, arcu primis torquent suscipit nisl at ultrices neque dapibus! Curae vel fusce sociis, et neque dis tincidunt pretium; felis nullam id? Congue habitant facilisis penatibus platea curae eu orci maecenas, commodo fringilla interdum. Nulla sociosqu.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
-<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5" id="bslib-card-5262">
 <div class="card-header">Filling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><span class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></span>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><button aria-expanded="false" aria-label="Expand card" class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></button>
 </bslib-tooltip><script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
@@ -237,31 +237,31 @@ but on wider screens, the cards equally distribute the free space.</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">anim_width</span><span class="op">(</span><span class="st">"100%"</span>, <span class="st">"67%"</span><span class="op">)</span></span></code></pre></div>
 <div class="bslib-grid bslib-mb-spacing html-fill-item animate-width" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(auto-fit, minmax(min(200px, 100%), 1fr));grid-auto-rows:1fr;--bslib-grid-height:300px;--bslib-grid-height-mobile:auto; --width1:100%;--width2:67%;">
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem augue ridiculus auctor penatibus urna ut vehicula, nullam commodo sollicitudin urna aptent sociis tempus. Vitae venenatis phasellus proin eleifend cursus a euismod libero. Vestibulum neque, nibh nec commodo natoque integer metus ullamcorper massa nostra hac? Mi bibendum potenti hac vestibulum nostra cursus neque diam urna erat malesuada. Aptent sed turpis.</p>
-<p>Elit risus auctor velit imperdiet, vel eros netus montes hendrerit justo. Morbi facilisis integer aptent accumsan; nisl tortor rhoncus proin, nibh laoreet montes enim! Luctus mi diam cras hac senectus ligula proin at quisque eu luctus! Laoreet quam neque eu porttitor pretium? Tellus tempus torquent viverra gravida a cras convallis fusce auctor litora duis neque erat himenaeos.</p>
-<p>Dolor felis metus euismod curae porttitor himenaeos: dictumst, phasellus feugiat cubilia mi! Suspendisse sollicitudin malesuada leo quis commodo varius enim potenti. Facilisis imperdiet varius platea fermentum ullamcorper sem blandit, porttitor viverra ante. Vehicula egestas egestas odio tempor nec ornare montes mus. Parturient.</p>
+<p>Sit habitasse euismod vestibulum himenaeos; eget montes dui phasellus. Penatibus duis aenean senectus fermentum dapibus torquent arcu dis quisque. Ut placerat molestie mi auctor, leo vitae, arcu et felis ligula egestas. Velit viverra dui, tristique proin porta phasellus, nulla erat litora duis. Penatibus quisque interdum ullamcorper sollicitudin ad lacus eget cum varius porttitor cum, auctor cum.</p>
+<p>Consectetur consequat vitae, magna: per vivamus? Tortor magnis mattis, nisi id tristique morbi aptent felis commodo blandit eleifend. Nullam morbi odio rutrum aliquam auctor – odio nibh. Parturient posuere ac velit leo quam nisi, fusce feugiat. Hac cras tortor facilisis id dui ornare, suscipit nostra himenaeos, natoque placerat massa fames?</p>
+<p>Adipiscing egestas fringilla maecenas et; at ac phasellus duis porttitor himenaeos! Arcu dis fermentum donec nascetur, arcu primis torquent suscipit nisl at ultrices neque dapibus! Curae vel fusce sociis, et neque dis tincidunt pretium; felis nullam id? Congue habitant facilisis penatibus platea curae eu orci maecenas, commodo fringilla interdum. Nulla sociosqu.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
-<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5" id="bslib-card-5262">
 <div class="card-header">Filling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><span class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></span>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><button aria-expanded="false" aria-label="Expand card" class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></button>
 </bslib-tooltip><script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
@@ -281,31 +281,31 @@ cards to grow to take up free space), set
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">anim_width</span><span class="op">(</span><span class="st">"100%"</span>, <span class="st">"67%"</span><span class="op">)</span></span></code></pre></div>
 <div class="bslib-grid bslib-mb-spacing html-fill-item animate-width" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(auto-fit, 200px);grid-auto-rows:1fr;--bslib-grid-height:300px;--bslib-grid-height-mobile:auto; --width1:100%;--width2:67%;">
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem augue ridiculus auctor penatibus urna ut vehicula, nullam commodo sollicitudin urna aptent sociis tempus. Vitae venenatis phasellus proin eleifend cursus a euismod libero. Vestibulum neque, nibh nec commodo natoque integer metus ullamcorper massa nostra hac? Mi bibendum potenti hac vestibulum nostra cursus neque diam urna erat malesuada. Aptent sed turpis.</p>
-<p>Elit risus auctor velit imperdiet, vel eros netus montes hendrerit justo. Morbi facilisis integer aptent accumsan; nisl tortor rhoncus proin, nibh laoreet montes enim! Luctus mi diam cras hac senectus ligula proin at quisque eu luctus! Laoreet quam neque eu porttitor pretium? Tellus tempus torquent viverra gravida a cras convallis fusce auctor litora duis neque erat himenaeos.</p>
-<p>Dolor felis metus euismod curae porttitor himenaeos: dictumst, phasellus feugiat cubilia mi! Suspendisse sollicitudin malesuada leo quis commodo varius enim potenti. Facilisis imperdiet varius platea fermentum ullamcorper sem blandit, porttitor viverra ante. Vehicula egestas egestas odio tempor nec ornare montes mus. Parturient.</p>
+<p>Sit habitasse euismod vestibulum himenaeos; eget montes dui phasellus. Penatibus duis aenean senectus fermentum dapibus torquent arcu dis quisque. Ut placerat molestie mi auctor, leo vitae, arcu et felis ligula egestas. Velit viverra dui, tristique proin porta phasellus, nulla erat litora duis. Penatibus quisque interdum ullamcorper sollicitudin ad lacus eget cum varius porttitor cum, auctor cum.</p>
+<p>Consectetur consequat vitae, magna: per vivamus? Tortor magnis mattis, nisi id tristique morbi aptent felis commodo blandit eleifend. Nullam morbi odio rutrum aliquam auctor – odio nibh. Parturient posuere ac velit leo quam nisi, fusce feugiat. Hac cras tortor facilisis id dui ornare, suscipit nostra himenaeos, natoque placerat massa fames?</p>
+<p>Adipiscing egestas fringilla maecenas et; at ac phasellus duis porttitor himenaeos! Arcu dis fermentum donec nascetur, arcu primis torquent suscipit nisl at ultrices neque dapibus! Curae vel fusce sociis, et neque dis tincidunt pretium; felis nullam id? Congue habitant facilisis penatibus platea curae eu orci maecenas, commodo fringilla interdum. Nulla sociosqu.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
-<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5" id="bslib-card-5262">
 <div class="card-header">Filling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><span class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></span>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><button aria-expanded="false" aria-label="Expand card" class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></button>
 </bslib-tooltip><script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
@@ -331,28 +331,28 @@ a new row, <em>all</em> rows are given equal height.</p>
 <span>  <span class="fu">anim_height</span><span class="op">(</span><span class="fl">300</span>, <span class="fl">450</span><span class="op">)</span></span></code></pre></div>
 <div style="height:450px;">
 <div class="bslib-grid bslib-mb-spacing html-fill-item animate-height" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(2, minmax(0, 1fr));--bslib-grid-height:auto;--bslib-grid-height-mobile:auto; --height1:300px;--height2:450px;">
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem augue ridiculus auctor penatibus urna ut vehicula, nullam commodo sollicitudin urna aptent sociis tempus. Vitae venenatis phasellus proin eleifend cursus a euismod libero. Vestibulum neque, nibh nec commodo natoque integer metus ullamcorper massa nostra hac? Mi bibendum potenti hac vestibulum nostra cursus neque diam urna erat malesuada. Aptent sed turpis.</p>
-<p>Elit risus auctor velit imperdiet, vel eros netus montes hendrerit justo. Morbi facilisis integer aptent accumsan; nisl tortor rhoncus proin, nibh laoreet montes enim! Luctus mi diam cras hac senectus ligula proin at quisque eu luctus! Laoreet quam neque eu porttitor pretium? Tellus tempus torquent viverra gravida a cras convallis fusce auctor litora duis neque erat himenaeos.</p>
-<p>Dolor felis metus euismod curae porttitor himenaeos: dictumst, phasellus feugiat cubilia mi! Suspendisse sollicitudin malesuada leo quis commodo varius enim potenti. Facilisis imperdiet varius platea fermentum ullamcorper sem blandit, porttitor viverra ante. Vehicula egestas egestas odio tempor nec ornare montes mus. Parturient.</p>
+<p>Sit habitasse euismod vestibulum himenaeos; eget montes dui phasellus. Penatibus duis aenean senectus fermentum dapibus torquent arcu dis quisque. Ut placerat molestie mi auctor, leo vitae, arcu et felis ligula egestas. Velit viverra dui, tristique proin porta phasellus, nulla erat litora duis. Penatibus quisque interdum ullamcorper sollicitudin ad lacus eget cum varius porttitor cum, auctor cum.</p>
+<p>Consectetur consequat vitae, magna: per vivamus? Tortor magnis mattis, nisi id tristique morbi aptent felis commodo blandit eleifend. Nullam morbi odio rutrum aliquam auctor – odio nibh. Parturient posuere ac velit leo quam nisi, fusce feugiat. Hac cras tortor facilisis id dui ornare, suscipit nostra himenaeos, natoque placerat massa fames?</p>
+<p>Adipiscing egestas fringilla maecenas et; at ac phasellus duis porttitor himenaeos! Arcu dis fermentum donec nascetur, arcu primis torquent suscipit nisl at ultrices neque dapibus! Curae vel fusce sociis, et neque dis tincidunt pretium; felis nullam id? Congue habitant facilisis penatibus platea curae eu orci maecenas, commodo fringilla interdum. Nulla sociosqu.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
-<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5" id="bslib-card-5262">
 <div class="card-header">Filling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><span class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></span>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><button aria-expanded="false" aria-label="Expand card" class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></button>
 </bslib-tooltip><script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
@@ -381,28 +381,28 @@ vertical space in a particular row. This can be prevented by setting
 <span>  <span class="fu">anim_height</span><span class="op">(</span><span class="fl">300</span>, <span class="fl">450</span><span class="op">)</span></span></code></pre></div>
 <div style="height:450px;">
 <div class="bslib-grid bslib-mb-spacing html-fill-item animate-height" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(auto-fit, minmax(min(200px, 100%), 1fr));grid-auto-rows:1fr;--bslib-grid-height:auto;--bslib-grid-height-mobile:auto; --height1:300px;--height2:450px;">
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem augue ridiculus auctor penatibus urna ut vehicula, nullam commodo sollicitudin urna aptent sociis tempus. Vitae venenatis phasellus proin eleifend cursus a euismod libero. Vestibulum neque, nibh nec commodo natoque integer metus ullamcorper massa nostra hac? Mi bibendum potenti hac vestibulum nostra cursus neque diam urna erat malesuada. Aptent sed turpis.</p>
-<p>Elit risus auctor velit imperdiet, vel eros netus montes hendrerit justo. Morbi facilisis integer aptent accumsan; nisl tortor rhoncus proin, nibh laoreet montes enim! Luctus mi diam cras hac senectus ligula proin at quisque eu luctus! Laoreet quam neque eu porttitor pretium? Tellus tempus torquent viverra gravida a cras convallis fusce auctor litora duis neque erat himenaeos.</p>
-<p>Dolor felis metus euismod curae porttitor himenaeos: dictumst, phasellus feugiat cubilia mi! Suspendisse sollicitudin malesuada leo quis commodo varius enim potenti. Facilisis imperdiet varius platea fermentum ullamcorper sem blandit, porttitor viverra ante. Vehicula egestas egestas odio tempor nec ornare montes mus. Parturient.</p>
+<p>Sit habitasse euismod vestibulum himenaeos; eget montes dui phasellus. Penatibus duis aenean senectus fermentum dapibus torquent arcu dis quisque. Ut placerat molestie mi auctor, leo vitae, arcu et felis ligula egestas. Velit viverra dui, tristique proin porta phasellus, nulla erat litora duis. Penatibus quisque interdum ullamcorper sollicitudin ad lacus eget cum varius porttitor cum, auctor cum.</p>
+<p>Consectetur consequat vitae, magna: per vivamus? Tortor magnis mattis, nisi id tristique morbi aptent felis commodo blandit eleifend. Nullam morbi odio rutrum aliquam auctor – odio nibh. Parturient posuere ac velit leo quam nisi, fusce feugiat. Hac cras tortor facilisis id dui ornare, suscipit nostra himenaeos, natoque placerat massa fames?</p>
+<p>Adipiscing egestas fringilla maecenas et; at ac phasellus duis porttitor himenaeos! Arcu dis fermentum donec nascetur, arcu primis torquent suscipit nisl at ultrices neque dapibus! Curae vel fusce sociis, et neque dis tincidunt pretium; felis nullam id? Congue habitant facilisis penatibus platea curae eu orci maecenas, commodo fringilla interdum. Nulla sociosqu.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
-<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5" id="bslib-card-5262">
 <div class="card-header">Filling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><span class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></span>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><button aria-expanded="false" aria-label="Expand card" class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></button>
 </bslib-tooltip><script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
@@ -430,31 +430,31 @@ space as the 2nd:</p>
 <span>  <span class="fu">anim_height</span><span class="op">(</span><span class="fl">300</span>, <span class="fl">450</span><span class="op">)</span></span></code></pre></div>
 <div style="height:450px;">
 <div class="bslib-grid bslib-mb-spacing animate-height" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-auto-rows:1fr;--bslib-grid-height:300px;--bslib-grid-height-mobile:auto; grid-template-columns:2fr 1fr 2fr; --height1:300px;--height2:450px;">
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem augue ridiculus auctor penatibus urna ut vehicula, nullam commodo sollicitudin urna aptent sociis tempus. Vitae venenatis phasellus proin eleifend cursus a euismod libero. Vestibulum neque, nibh nec commodo natoque integer metus ullamcorper massa nostra hac? Mi bibendum potenti hac vestibulum nostra cursus neque diam urna erat malesuada. Aptent sed turpis.</p>
-<p>Elit risus auctor velit imperdiet, vel eros netus montes hendrerit justo. Morbi facilisis integer aptent accumsan; nisl tortor rhoncus proin, nibh laoreet montes enim! Luctus mi diam cras hac senectus ligula proin at quisque eu luctus! Laoreet quam neque eu porttitor pretium? Tellus tempus torquent viverra gravida a cras convallis fusce auctor litora duis neque erat himenaeos.</p>
-<p>Dolor felis metus euismod curae porttitor himenaeos: dictumst, phasellus feugiat cubilia mi! Suspendisse sollicitudin malesuada leo quis commodo varius enim potenti. Facilisis imperdiet varius platea fermentum ullamcorper sem blandit, porttitor viverra ante. Vehicula egestas egestas odio tempor nec ornare montes mus. Parturient.</p>
+<p>Sit habitasse euismod vestibulum himenaeos; eget montes dui phasellus. Penatibus duis aenean senectus fermentum dapibus torquent arcu dis quisque. Ut placerat molestie mi auctor, leo vitae, arcu et felis ligula egestas. Velit viverra dui, tristique proin porta phasellus, nulla erat litora duis. Penatibus quisque interdum ullamcorper sollicitudin ad lacus eget cum varius porttitor cum, auctor cum.</p>
+<p>Consectetur consequat vitae, magna: per vivamus? Tortor magnis mattis, nisi id tristique morbi aptent felis commodo blandit eleifend. Nullam morbi odio rutrum aliquam auctor – odio nibh. Parturient posuere ac velit leo quam nisi, fusce feugiat. Hac cras tortor facilisis id dui ornare, suscipit nostra himenaeos, natoque placerat massa fames?</p>
+<p>Adipiscing egestas fringilla maecenas et; at ac phasellus duis porttitor himenaeos! Arcu dis fermentum donec nascetur, arcu primis torquent suscipit nisl at ultrices neque dapibus! Curae vel fusce sociis, et neque dis tincidunt pretium; felis nullam id? Congue habitant facilisis penatibus platea curae eu orci maecenas, commodo fringilla interdum. Nulla sociosqu.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
-<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5" id="bslib-card-5262">
 <div class="card-header">Filling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><span class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></span>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><button aria-expanded="false" aria-label="Expand card" class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></button>
 </bslib-tooltip><script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
@@ -479,33 +479,33 @@ space as the 2nd:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="bslib-grid bslib-mb-spacing html-fill-item" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(2, minmax(0, 1fr));grid-auto-rows:1fr;--bslib-grid-height:300px;--bslib-grid-height-mobile:auto;">
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Scrolling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
-<p>Lorem augue ridiculus auctor penatibus urna ut vehicula, nullam commodo sollicitudin urna aptent sociis tempus. Vitae venenatis phasellus proin eleifend cursus a euismod libero. Vestibulum neque, nibh nec commodo natoque integer metus ullamcorper massa nostra hac? Mi bibendum potenti hac vestibulum nostra cursus neque diam urna erat malesuada. Aptent sed turpis.</p>
-<p>Elit risus auctor velit imperdiet, vel eros netus montes hendrerit justo. Morbi facilisis integer aptent accumsan; nisl tortor rhoncus proin, nibh laoreet montes enim! Luctus mi diam cras hac senectus ligula proin at quisque eu luctus! Laoreet quam neque eu porttitor pretium? Tellus tempus torquent viverra gravida a cras convallis fusce auctor litora duis neque erat himenaeos.</p>
-<p>Dolor felis metus euismod curae porttitor himenaeos: dictumst, phasellus feugiat cubilia mi! Suspendisse sollicitudin malesuada leo quis commodo varius enim potenti. Facilisis imperdiet varius platea fermentum ullamcorper sem blandit, porttitor viverra ante. Vehicula egestas egestas odio tempor nec ornare montes mus. Parturient.</p>
+<p>Sit habitasse euismod vestibulum himenaeos; eget montes dui phasellus. Penatibus duis aenean senectus fermentum dapibus torquent arcu dis quisque. Ut placerat molestie mi auctor, leo vitae, arcu et felis ligula egestas. Velit viverra dui, tristique proin porta phasellus, nulla erat litora duis. Penatibus quisque interdum ullamcorper sollicitudin ad lacus eget cum varius porttitor cum, auctor cum.</p>
+<p>Consectetur consequat vitae, magna: per vivamus? Tortor magnis mattis, nisi id tristique morbi aptent felis commodo blandit eleifend. Nullam morbi odio rutrum aliquam auctor – odio nibh. Parturient posuere ac velit leo quam nisi, fusce feugiat. Hac cras tortor facilisis id dui ornare, suscipit nostra himenaeos, natoque placerat massa fames?</p>
+<p>Adipiscing egestas fringilla maecenas et; at ac phasellus duis porttitor himenaeos! Arcu dis fermentum donec nascetur, arcu primis torquent suscipit nisl at ultrices neque dapibus! Curae vel fusce sociis, et neque dis tincidunt pretium; felis nullam id? Congue habitant facilisis penatibus platea curae eu orci maecenas, commodo fringilla interdum. Nulla sociosqu.</p>
 </div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="bslib-grid bslib-mb-spacing html-fill-item" data-require-bs-caller="layout_column_wrap()" data-require-bs-version="5" style="grid-template-columns:repeat(1, minmax(0, 1fr));--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;">
-<div class="bslib-gap-spacing html-fill-container">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
 <div class="card-header">Nothing much here</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">This is it.</div>
 <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
-<div class="bslib-gap-spacing html-fill-container">
-<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5">
+<div class="bslib-grid-item bslib-gap-spacing html-fill-container">
+<div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-full-screen="false" data-require-bs-caller="card()" data-require-bs-version="5" id="bslib-card-5262">
 <div class="card-header">Filling content</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container p-0" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">
 <div class="shiny-plot-output html-fill-item" id="p" style="width:100%;height:400px;"></div>
 </div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><span class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></span>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Expand</template><button aria-expanded="false" aria-label="Expand card" class="bslib-full-screen-enter badge rounded-pill"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg></button>
 </bslib-tooltip><script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
 </div>
 </div>
