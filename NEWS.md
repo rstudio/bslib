@@ -1,3 +1,7 @@
+# bslib 0.6.2
+
+Increased the version requirement on the `{sass}` package to 0.4.9. As a result, `font_google(local=TRUE)` should no longer fail to download font files. 
+
 # bslib 0.6.1
 
 ## Bug fixes
