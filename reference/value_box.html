@@ -20,7 +20,7 @@ create engaging value boxes on the bslib website."><!-- mathjax --><script src="
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,8 +121,10 @@ create engaging <a href="https://rstudio.github.io/bslib/articles/value-boxes/in
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  min_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  theme_color <span class="op">=</span> <span class="fu"><a href="deprecated.html">deprecated</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -193,10 +195,13 @@ can pass foreground and background colors directly. See the <strong>Themes</stro
 section for more details.</p></dd>
 
 
-<dt>max_height, max_height_full_screen</dt>
-<dd><p>A proportion (i.e., a number between
-0 and 1) or any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> defining the
-showcase max_height.</p></dd>
+<dt>max_height</dt>
+<dd><p>The maximum height of the <code>value_box()</code> or the showcase
+area when used in a <code>showcase_layout_*()</code> function. Can be any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g., <code>max_height="200px"</code>).</p></dd>
+
+
+<dt>min_height</dt>
+<dd><p>The minimum height of the values box. Can be any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g., <code>min_height="200px"</code>).</p></dd>
 
 
 <dt>fill</dt>
@@ -208,6 +213,12 @@ container with an opinionated height (e.g., <code><a href="page_fillable.html">p
 <dd><p>Utility classes for customizing the appearance of the summary
 card. Use <code>bg-*</code> and <code>text-*</code> classes (e.g, <code>"bg-danger"</code> and
 <code>"text-light"</code>) to customize the background/foreground colors.</p></dd>
+
+
+<dt>id</dt>
+<dd><p>Provide a unique identifier for the <code><a href="card.html">card()</a></code> or <code>value_box()</code> to
+report its state to Shiny. For example, using <code>id = "my_card"</code>, you can
+observe the card's full screen state with <code>input$my_card$full_screen</code>.</p></dd>
 
 
 <dt>theme_color</dt>
@@ -237,6 +248,12 @@ Accepted values in the second category are <code>"auto"</code>, <code>"min-conte
 <code>"max-content"</code>, a fractional unit (e.g. <code>2fr</code>), or a <code>minmax()</code> function
 (e.g., <code>minmax(100px, 1fr)</code>).</p></li>
 </ul></dd>
+
+
+<dt>max_height_full_screen</dt>
+<dd><p>A proportion (i.e., a number between
+0 and 1) or any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> defining the
+showcase <code>max_height</code> in a full screen card.</p></dd>
 
 </dl></div>
     <div class="section level2">

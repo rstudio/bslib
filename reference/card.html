@@ -16,7 +16,7 @@ other articles listed in the References section below."><!-- mathjax --><script 
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +113,8 @@ other articles listed in the <em>References</em> section below.</p>
 <span>  min_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  wrapper <span class="op">=</span> <span class="va">card_body</span></span>
+<span>  wrapper <span class="op">=</span> <span class="va">card_body</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -156,6 +157,12 @@ arguments in <code>...</code> which are not already card item(s) (like
 <code><a href="card_body.html">card_header()</a></code>, <code><a href="card_body.html">card_body()</a></code>, etc.). Note that non-card items are grouped
 together into one <code>wrapper</code> call (e.g. given <code>card("a", "b", card_body("c"), "d")</code>, <code>wrapper</code> would be called twice, once with <code>"a"</code> and
 <code>"b"</code> and once with <code>"d"</code>).</p></dd>
+
+
+<dt>id</dt>
+<dd><p>Provide a unique identifier for the <code>card()</code> or <code><a href="value_box.html">value_box()</a></code> to
+report its state to Shiny. For example, using <code>id = "my_card"</code>, you can
+observe the card's full screen state with <code>input$my_card$full_screen</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -12,7 +12,7 @@ A generic constructor for responsive breakpoints."><!-- mathjax --><script src="
     
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,13 +99,20 @@ A generic constructor for responsive breakpoints."><!-- mathjax --><script src="
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">breakpoints</span><span class="op">(</span><span class="va">...</span>, sm <span class="op">=</span> <span class="cn">NULL</span>, md <span class="op">=</span> <span class="cn">NULL</span>, lg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">breakpoints</span><span class="op">(</span><span class="va">...</span>, xs <span class="op">=</span> <span class="cn">NULL</span>, sm <span class="op">=</span> <span class="cn">NULL</span>, md <span class="op">=</span> <span class="cn">NULL</span>, lg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>...</dt>
 <dd><p>Other breakpoints (e.g., <code>xl</code>).</p></dd>
+
+
+<dt>xs</dt>
+<dd><p>The default value to apply to the <code>xs</code> breakpoint. Note that this
+breakpoint is generally equivalent to "all sizes" and is typically treated
+as the base case or a value to apply by default across all breakpoints
+unless overridden by a larger breakpoint.</p></dd>
 
 
 <dt>sm</dt>
