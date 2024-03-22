@@ -29,6 +29,7 @@ BugReports: https://github.com/rstudio/bslib/issues
 Depends:
     R (>= 2.10)
 Remotes:
+    rstudio/shiny,
     rstudio/htmltools
 Imports:
     base64enc,
