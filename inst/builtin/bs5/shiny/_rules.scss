@@ -81,14 +81,27 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 
 
 @if ($bslib-enable-shadows) {
+  // These shadows are disabled because we use `enable-shadows: false` in the
+  // theme to avoid enabling *all* shadows. This is why we can't use the
+  // built-in `@include box-shadow()` mixin.
+
   // Add box-shadow & remove border from 'top-level' card()/layout_sidebar()
   .bslib-card {
     // BS doesn't include a box-shadow rule for .card when `enable-shadows: false`
-    box-shadow: var(--bslib-card-box-shadow, #{$box-shadow});
+    box-shadow: var(--bslib-card-box-shadow, #{$box-shadow-sm});
+    border-color: var(--bslib-card-border-color, transparent);
+    &.bslib-value-box.default {
+      --bslib-value-box-border-color-default: var(--bslib-card-border-color, transparent);
+    }
 
-    // Shadows on top-level cards, not in nested components
+    // Restore borders without shadows for nested cards/value boxes
     .bslib-card {
       --bslib-card-box-shadow: ; // unset our shadow
+      --bslib-card-border-color: var(--#{$prefix}card-border-color);
+
+      &.bslib-value-box.default {
+        --bslib-value-box-border-color-default: var(--#{$prefix}card-border-color, #{$card-border-color});
+      }
     }
   }
 
@@ -103,6 +116,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
   .bslib-card-box-shadow-none {
     --bslib-card-box-shadow: none;
+    --bslib-card-border-color: var(--#{$prefix}card-border-color);
+  }
+
+  .popover {
+    --#{$prefix}popover-shadow: #{$popover-box-shadow};
+    box-shadow: var(--#{$prefix}popover-shadow);
   }
 }
 
@@ -115,6 +134,8 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
     --bslib-dashboard-main-bg: rgb(247, 247, 247);
     --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
+    --bslib-dashboard-card-cap-bg: var(--#{$prefix}body-bg);
+    --bslib-dashboard-card-header-font-weight: #{$font-weight-semibold};
     --bslib-sidebar-bg: var(--#{$prefix}body-bg);
     --bslib-sidebar-fg: var(--#{$prefix}color);
   }
@@ -124,12 +145,12 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 
   .bslib-card {
+    --#{$prefix}card-cap-bg: var(--bslib-dashboard-card-cap-bg);
     .card-header, .card-footer {
-      background-color: transparent;
       font-size: 0.9rem;
     }
     .card-header {
-      font-weight: $font-weight-semibold;
+      font-weight: var(--bslib-dashboard-card-header-font-weight);
       line-height: 1.375rem;
     }
   }
@@ -285,7 +306,7 @@ $icon-classes: ("bi", "fa", "fas", "far", "fab", "material-icons") !default;
 .shiny-notification.shiny-notification {
   position: relative;
   opacity: 0.96;
-  padding: calc(var(--bslib-spacer, 1rem) * 2);
+  padding: 2rem;
   margin: var(--bslib-spacer, 1rem);
   border: $border-width solid var(--#{$prefix}border-color-translucent);
   border-radius: $card-border-radius;

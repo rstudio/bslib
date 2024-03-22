@@ -206,6 +206,7 @@ ui <- page_navbar(
   nav_spacer(),
   nav_panel(
     "Delay overview",
+    class = "bslib-page-dashboard",
     uiOutput("value_boxes"),
     layout_columns(
       flights_card, avg_delay_by_category

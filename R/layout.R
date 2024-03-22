@@ -37,6 +37,10 @@
 #' @param fillable Whether or not each element is wrapped in a fillable container.
 #' @param height_mobile Any valid CSS unit to use for the height when on mobile
 #'   devices (or narrow windows).
+#' @param min_height,max_height The maximum or minimum height of the layout container.
+#'   Can be any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `max_height="200px"`). Use these arguments in filling layouts to ensure that a
+#'   layout container doesn't shrink below `min_height` or grow beyond `max_height`.
 #' @inheritParams card
 #' @inheritParams card_body
 #'
@@ -61,6 +65,9 @@
 #' # This example has 3 columns when the screen is at least 900px wide:
 #' layout_column_wrap(width = "300px", x, x, x)
 #'
+#' # You can add a list of items, spliced with rlang's `!!!` operator
+#' layout_column_wrap(!!!list(x, x, x))
+#'
 #' @export
 layout_column_wrap <- function(
   ...,
@@ -71,6 +78,8 @@ layout_column_wrap <- function(
   fillable = TRUE,
   height = NULL,
   height_mobile = NULL,
+  min_height = NULL,
+  max_height = NULL,
   gap = NULL,
   class = NULL
 ) {
@@ -134,7 +143,9 @@ layout_column_wrap <- function(
       # doesn't get inherited in a scenario like layout_column_wrap(height=200, ..., layout_column_wrap(...))
       "--bslib-grid-height" = validateCssUnit(height %||% "auto"),
       "--bslib-grid-height-mobile" = validateCssUnit(height_mobile %||% "auto"),
-      gap = validateCssUnit(gap)
+      gap = validateCssUnit(gap),
+      min_height = validateCssUnit(min_height),
+      max_height = validateCssUnit(max_height)
     ),
     !!!attribs,
     children,
@@ -209,6 +220,11 @@ is_probably_a_css_unit <- function(x) {
 #'   layout_columns(x, x, x, x)
 #' )
 #'
+#' # Or add a list of items, spliced with rlang's `!!!` operator
+#' page_fillable(
+#'  layout_columns(!!!list(x, x, x))
+#' )
+#'
 #' page_fillable(
 #'   layout_columns(
 #'     col_widths = c(6, 6, 12),
@@ -244,42 +260,43 @@ layout_columns <- function(
   fillable = TRUE,
   gap = NULL,
   class = NULL,
-  height = NULL
+  height = NULL,
+  min_height = NULL,
+  max_height = NULL
 ) {
   args <- separate_arguments(...)
   attribs <- args$attribs
   children <- args$children
   n_kids <- length(children)
 
-  # Resolve missing value(s) for col_widths, etc.
-  spec <- impute_col_spec(col_widths, n_kids)
-
-  # Translate col_widths into Bootstrap's .g-col-* classes
-  width_classes <- col_width_grid_classes(
-    spec$col_widths, n_kids, spec$n_cols
-  )
-
-  # Add a class to each item that helps provide "fallback" rules
-  width_classes <- paste0(width_classes, " bslib-grid-item")
+  # Check for spec problems so we can stop early
+  col_spec <- as_col_spec(col_widths, n_kids)
 
   # Wrap each child in a container (so fill/flex items can fill the available area)
   children <- Map(
     f = grid_item_container, children,
-    class = width_classes,
     fillable = fillable
   )
 
-  tag <- div(
+  tag <- web_component(
+    "bslib-layout-columns",
     class = "bslib-grid grid bslib-mb-spacing",
     style = css(
       height = validateCssUnit(height),
       gap = validateCssUnit(gap),
-      "--bs-columns" = spec$n_cols
+      min_height = validateCssUnit(min_height),
+      max_height = validateCssUnit(max_height)
     ),
+    # We don't enable the next option by default, but users could add this
+    # attribute to hide the internal elements until after the custom element
+    # adds classes to all of the elements. We don't think this is needed but
+    # it's here if we find there are cases where rendering the children and
+    # adding classes takes longer than we've anticipated in our testing.
+    # "hidden-until-init" = NA,
+    !!!col_widths_attrs(col_spec),
     !!!row_heights_css_vars(row_heights),
     !!!attribs,
-    !!!children,
-    component_dependencies()
+    !!!children
   )
 
   tag <- bindFillRole(tag, item = fill)
@@ -290,45 +307,64 @@ layout_columns <- function(
   )
 }
 
+as_col_spec <- function(col_widths, n_kids) {
+  if (is.null(col_widths) || rlang::is_na(col_widths)) return(NULL)
 
-
-impute_col_spec <- function(x, n_kids) {
-  if (isTRUE(is.na(x))) {
-    x <- breakpoints(sm = NA, lg = NA)
+  if (!is_breakpoints(col_widths)) {
+    col_widths <- breakpoints(sm = col_widths)
   }
 
-  if (!is_breakpoints(x)) {
-    x <- breakpoints(md = x)
+  for (break_name in names(col_widths)) {
+    bk <- col_widths[[break_name]]
+
+    if (rlang::is_na(bk)) {
+      next
+    }
+
+    if (isTRUE(any(bk == 0))) {
+      abort("Column values must be greater than 0 to indicate width, or negative to indicate a column offset.")
+    }
+
+    if (length(bk) > 1 && anyNA(bk)) {
+      abort("Cannot mix widths and `NA` values. All column widths must be specified, or choose auto widths using a single `NA` value.")
+    }
+
+    if (!any(bk > 0)) {
+      abort("Column values must include at least one positive integer width.")
+    }
+
+    if (length(bk[bk > 0]) > n_kids) {
+      rlang::warn(
+        sprintf(
+          "More column widths than children at breakpoint '%s', extra widths will be ignored.",
+          break_name
+        )
+      )
+    }
   }
 
-  # if smallest defined breakpoint is large, fill in gap with 'md'
-  if (names(x)[1] %in% c("lg", "xl", "xxl")) {
-    x <- breakpoints(md = x[[1]], !!!x)
-  }
-
-  has_auto_spec <- vapply(x, function(y) isTRUE(is.na(y)), logical(1))
-
-  if (!any(has_auto_spec)) {
-    return(list(n_cols = 12, col_widths = x))
-  }
-
-  n_cols <- if (n_kids > 7) 12 else if (n_kids > 3) n_kids * 2 else n_kids
-
-  for (break_name in names(x)[has_auto_spec]) {
-    prefer_wider <- break_name %in% c("sm", "md")
-    x[[break_name]] <- col_width_best_fit(n_kids, prefer_wider)
-  }
-
-  list(n_cols = n_cols, col_widths = x)
+  col_widths
 }
 
+col_widths_attrs <- function(col_spec) {
+  if (is.null(col_spec) || rlang::is_na(col_spec)) return(NULL)
 
+  names(col_spec) <- paste0("col-widths-", names(col_spec))
+  lapply(col_spec, function(x) {
+    if (rlang::is_na(x)) NA else paste(x, collapse = ",")
+  })
+}
+
+maybe_fr_unit <- function(x) {
+  if (is.numeric(x)) sprintf("%0.0ffr", x) else x
+}
 
 row_heights_css_vars <- function(x) {
   if (is.null(x)) return(list())
 
   if (!is_breakpoints(x)) {
-    x <- breakpoints(sm = x)
+    # Setting the `xs` breakpoint is equivalent to setting all breaks
+    x <- breakpoints(xs = x)
   }
 
   # creates classes that pair with CSS variables when set
@@ -336,17 +372,13 @@ row_heights_css_vars <- function(x) {
 
   css_vars <- setNames(x, paste0("--", classes))
 
-  # mobile row height is derived from xs or defaults to auto in the CSS,
-  # so we don't need the class to activate it
-  classes <- setdiff(classes, "bslib-grid--row-heights--xs")
-
   # Treat numeric values as fractional units
-  css_vars <- rapply(
-    css_vars, how = "replace",
-    function(x) {
-      if (is.numeric(x)) paste0(x, "fr") else x
-    }
-  )
+  css_vars <- rapply(css_vars, how = "replace", maybe_fr_unit)
+
+  if (identical(names(css_vars), "--bslib-grid--row-heights--xs")) {
+    names(css_vars) <- "--bslib-grid--row-heights"
+    classes <- character()
+  }
 
   list(
     style = css(!!!css_vars),
@@ -354,163 +386,10 @@ row_heights_css_vars <- function(x) {
   )
 }
 
-
-
-col_width_grid_classes <- function(breaks, n_kids, n_cols = 12) {
-  if (!is_breakpoints(breaks)) {
-    abort("`breaks` must be a `breakpoints()` object")
-  }
-
-  classes <- vector("list", n_kids)
-  add_class <- function(idx, new) {
-    classes[[idx]] <<- c(classes[[idx]], new)
-  }
-
-  breaks <- as_column_breakpoints(breaks)
-
-  for (break_name in names(breaks)) {
-    bk <- breaks[[break_name]]
-
-    if (length(bk$width) > n_kids) {
-      msg <- sprintf(
-        "Truncating number of widths at '%s' breakpoint to match number of elements.",
-        break_name
-      )
-      rlang::warn(c(
-        msg,
-        "*" = paste("widths:", length(bk$width)),
-        "*" = paste("elements:", n_kids)
-      ))
-    }
-
-    widths <- rep_len(bk$width, n_kids)
-    before <- rep_len(bk$before, n_kids)
-    after <- rep_len(bk$after, n_kids)
-
-    # This next section implements a content-layout algorithm, motivated by
-    # supporting empty columns. In particular, we need to know two things about
-    # the content item:
-    #
-    # 1. How wide is the content item?
-    # 2. What is its starting column position?
-    #
-    # The following example illustrates a few layout cases (. = empty column):
-    # > breakpoint_columns(md = c(-1, 4, 5, -4, 3, 9, -3, 2))
-    #
-    # | . | 4 | 4 | 4 | 4 | 5 | 5 | 5 | 5 | 5 | . |
-    # | . | . | . | 3 | 3 | 3 |   |   |   |   |   |
-    # | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | . | . | . |
-    # | 2 | 2 | . | 4 | 4 | 4 | 4 |   |   |   |   | ...
-    #
-    # Because we recycle column widths to match the number of kids, we can't
-    # guarantee that the pattern repeats by row. To quickly summarize:
-    #
-    # * Each content item has a width (`widths[idx]`) and empty space before
-    #   the item: `before[idx]` + `after[idx - 1]` (the space before this item
-    #   plus the space _after_ the previous item).
-    # * We maintain a cursor that knows the 0-indexed column position. At each
-    #   step we:
-    #   * Move the cursor forward by the empty space before the item
-    #   * Decide if we require a starting class (`g-start-{break}-{cursor + 1}`)
-    #   * Add starting class and content width class (`g-start-{break}-{width}`)
-    #     for the item
-    #   * Move the cursor forward by the width of the item.
-    #
-    # We take into account a few edge cases:
-    #
-    # * We *don't need* a starting class if the item would naturally reflow to the
-    #   next row.
-    # * We *do need* a starting class if the item would fit into the empty space
-    #   of the current row, but there isn't enough room for the item _after_
-    #   accounting for blocked empty space.
-    # * If adding empty space causes a new row, but adding the content item
-    #   would cause _another row break_, we skip the empty row.
-
-    cursor <- 0L
-    update_cursor <- function(incr, is_empty = FALSE) {
-      cursor <<- abs(cursor)
-      new <- cursor + incr
-      if (new == n_cols) {
-        # we reached the final column, allow for a natural break
-        new <- 0L
-      }
-      if (new > n_cols) {
-        # this row is full, empty columns can break (with <0 cursor to signal)
-        # and content columns fit on the next row
-        new <- if (is_empty) -1 * new %% n_cols else incr
-      }
-      # message("cursor: ", cursor, " -> ", new, " (+", incr, if (is_empty) " empty", ")")
-      cursor <<- new
-    }
-
-    add_start_class <- FALSE
-    for (idx in seq_len(n_kids)) {
-      move_ahead <- before[idx] + if (idx > 1) after[idx - 1] else 0L
-      this_width <- min(widths[idx], n_cols)
-
-      # when we move ahead, we need a start class unless the current item
-      # wouldn't fit on the row anyway (ignoring empty cols)
-      row_remaining <- n_cols - cursor
-
-      if (move_ahead > 0) {
-        update_cursor(move_ahead, is_empty = TRUE)
-        if (cursor < 0) {
-          cursor <- abs(cursor)
-          # adding empty cols caused a row wrap, so we need a start class if
-          # 1. we're not at the beginning of the row
-          # 2. But: if the current item is wider than the remaining space after
-          #    accounting for empty columns, reset cursor to start of the row
-          #    rather than causing an empty row.
-          if (widths[idx] > (n_cols - cursor)) {
-            cursor <- 0L
-          }
-          row_remaining <- 0L
-        }
-        add_start_class <- row_remaining >= widths[idx] || cursor > 0
-      }
-
-      if (add_start_class) {
-        add_class(idx, sprintf("g-start-%s-%s", break_name, cursor + 1L))
-        add_start_class <- FALSE
-      }
-
-      add_class(idx, sprintf("g-col-%s-%s", break_name, this_width))
-      update_cursor(this_width, is_empty = FALSE)
-    }
-  }
-
-  vapply(classes, paste, character(1), collapse = " ")
-}
-
-
-col_width_best_fit <- function(kids, prefer_wider = FALSE) {
-  if (kids < 4) return(1)
-  if (kids <= 7) {
-    # sizes 4-7 are special cased to use (2 * kids) columns
-    return(if (prefer_wider) kids else 2)
-  }
-
-  fctrs <- c(if (!prefer_wider) 2, 3, 4, if (prefer_wider) 6)
-
-  col_units <- kids * fctrs
-  rows <- ceiling(col_units / 12)
-  total_units <- rows * 12
-  empty_units <- total_units - col_units
-
-  if (prefer_wider) {
-    fctrs <- rev(fctrs)
-    empty_units <- rev(empty_units)
-  }
-
-  fctrs[which.min(empty_units)]
-}
-
-
-
 grid_item_container <- function(el, ..., fillable = TRUE) {
   div(
     ...,
-    class = "bslib-gap-spacing",
+    class = "bslib-grid-item bslib-gap-spacing",
     if (fillable) as_fillable_container(),
     el
   )

@@ -13,6 +13,8 @@ layout_column_wrap(
   fillable = TRUE,
   height = NULL,
   height_mobile = NULL,
+  min_height = NULL,
+  max_height = NULL,
   gap = NULL,
   class = NULL
 )
@@ -66,6 +68,11 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 \item{height_mobile}{Any valid CSS unit to use for the height when on mobile
 devices (or narrow windows).}
 
+\item{min_height, max_height}{The maximum or minimum height of the layout container.
+Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{max_height="200px"}). Use these arguments in filling layouts to ensure that a
+layout container doesn't shrink below \code{min_height} or grow beyond \code{max_height}.}
+
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
 \code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
 
@@ -93,6 +100,9 @@ layout_column_wrap(x, x, x)
 # To use larger column widths by default, set `width`.
 # This example has 3 columns when the screen is at least 900px wide:
 layout_column_wrap(width = "300px", x, x, x)
+
+# You can add a list of items, spliced with rlang's `!!!` operator
+layout_column_wrap(!!!list(x, x, x))
 \dontshow{\}) # examplesIf}
 }
 \references{

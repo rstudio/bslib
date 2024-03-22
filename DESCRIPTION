@@ -28,11 +28,15 @@ URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
 Depends:
     R (>= 2.10)
+Remotes:
+    rstudio/shiny,
+    rstudio/htmltools
 Imports:
     base64enc,
     cachem,
+    fastmap (>= 1.1.1),
     grDevices,
-    htmltools (>= 0.5.7),
+    htmltools (>= 0.5.7.9000),
     jquerylib (>= 0.1.3),
     jsonlite,
     lifecycle,
@@ -44,6 +48,7 @@ Suggests:
     bsicons,
     curl,
     fontawesome,
+    future,
     ggplot2,
     knitr,
     magrittr,
@@ -107,7 +112,7 @@ Config/testthat/parallel: true
 Config/testthat/start-first: zzzz-bs-sass, fonts, zzz-precompile, theme-*, rmd-*
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Collate:
     'accordion.R'
     'breakpoints.R'
@@ -124,6 +129,7 @@ Collate:
     'bs-theme-update.R'
     'bs-theme.R'
     'bslib-package.R'
+    'buttons.R'
     'card.R'
     'deprecated.R'
     'files.R'
