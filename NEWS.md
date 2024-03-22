@@ -63,6 +63,10 @@ This large release includes many improvements and bug fixes for newer UI compone
 
 * Fixed an issue where the `xs` breakpoint in a `breakpoints()` object used for `row_heights` in `layout_columns()` would override all other breakpoints. (#1014)
 
+# bslib 0.6.2
+
+Increased the version requirement on the `{sass}` package to 0.4.9. As a result, `font_google(local=TRUE)` should no longer fail to download font files. 
+
 # bslib 0.6.1
 
 ## Bug fixes

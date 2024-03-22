@@ -69,9 +69,9 @@ started articles, each focusing on a particular interest:
 
 There are two main places to get help with `bslib`:
 
-- The [RStudio community](https://community.rstudio.com) is a friendly
-  place to ask any questions (be sure to add a `bslib` tag when creating
-  a topic).
+- The [RStudio community](https://forum.posit.co/) is a friendly place
+  to ask any questions (be sure to add a `bslib` tag when creating a
+  topic).
 
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/bslib) is
   a great source of answers to common `bslib` questions. It is also a
