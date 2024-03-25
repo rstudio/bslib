@@ -228,7 +228,8 @@
   });
 
   $(document).on("change", "#bsthemer-dark-mode", function(ev) {
-    document.body.dataset.bsTheme = ev.target.checked ? "dark" : "light";
+    const colorMode = ev.target.checked ? "dark" : "light";
+    document.documentElement.dataset.bsTheme = colorMode;
     $(window).resize();
   });
 
