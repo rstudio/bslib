@@ -10,46 +10,51 @@ This large release includes many improvements and bug fixes for newer UI compone
 
 ## Changes & improvements
 
+* For `sidebar()`:
 
+  * The page-level `sidebar` for `page_sidebar()`/`page_navbar()` is now always open (and not collapsible) by default on mobile screens. To revert to the old behavior, set `open = "desktop"` in the `sidebar`. (#943)
 
-* A `sidebar()` passed to `page_sidebar()`/`page_navbar()` is now always open (and not collapsible) by default on mobile screens. To revert to the old behavior, set `open = "desktop"` in the `sidebar`. (#943)
+  * `open` now accepts a list with `mobile` and `desktop` values to control the sidebar's initial state on each screen size, choosing from `"open"`, `"closed"`, or `"always"` (for an always-open sidebar that cannot be collapsed). (#943)
 
+  * The collapse toggle now has a high `z-index` value to ensure it always appears above elements in the main content area. The sidebar overlay also now receives the same high `z-index` on mobile layouts. (#958)
 
+* Improved `card(full_screen = TRUE, ...)` accessibility:
+
+  * Full-screen cards are now supported on mobile devices: the _Expand card_ button is revealed when a user taps on the card (thanks @Damonsoul, #961).
+
+  * The _Expand card_ button is now accessible via keyboard navigation and appropriate ARIA attributes connect the card with the expand and close buttons. 
+  
+  * For JavaScript-oriented users, the expansion/collapse is now accompanied by a custom `bslib.card` event with the full screen state reported in the `event.detail.fullScreen` property. (#959)
+
+* Improvements to the default theme (i.e., Shiny preset):
+
+  * In the default theme, cards now use a slightly smaller shadow and the same shadow style is also now used by popovers. (#998)
+
+  * Increased spacing between elements. This change is most noticeable in the `layout_columns()` or `layout_column_wrap()` component. In these and other components, you can use `gap` and `padding` arguments to choose your own values, or you can set the `$bslib-spacer` (Sass) or `--bslib-spacer` (CSS) variable. (#998)
+
+* For `layout_columns()`:
+
+  * `col_widths` now sets the `sm` breakpoint by default, rather than the `md` breakpoint. For example, `col_widths = c(12, 6, 6)` is now equivalent to `breakpoints(sm = c(12, 6, 6))` rather than `breakpoints(md = c(12, 6, 6))`. (#1014)
+
+  * When `col_widths` has a `breakpoints()` at `lg` or wider, it now uses a better default column width for the smaller breakpoints not listed in the `col_widths` value. That said, you can always include `sm` or `md` in your `breakpoints()` definition to have complete control over column widths at those sizes. (#931)
+
+  * When `row_heights` is a non-`breakpoints()` object, that value is used for the row heights at all breakpoints. Previously, it was used for the row heights from `"sm"` up. (#931)
+
+  * When an integer value for any breakpoint is provided to `col_widths`, a 12-unit grid is always used. For example, `breakpoints(md = 3, lg = NA)` will pick a best-fitting layout for large screen sizes using the 12-column grid. Previously, the best fit algorithm might adjust the number of columns as a shortcut to an easy solution. That shortcut is only taken when an auto-fit layout is requested for every breakpoint, e.g. `col_widths = breakpoints(md = NA, lg = NA)` or `col_widths = NA`. (#928)
+
+  * Underlying logic moved from R to Typescript to improve the portability of the component. (#931)
+
+* `value_box()`, `layout_columns()` and `layout_column_wrap()` now all have `min_height` and `max_height` arguments. These are useful in filling layouts, like `page_fillable()`, `page_sidebar(fillable = TRUE)` or `page_navbar(fillable = TRUE)`. For example, you can use `layout_columns(min_height = 300, max_height = 500)` to ensure that a set of items (likely arranged in a row of columns) are always between 300 and 500 pixels tall. (#1016)
 
 * `page_sidebar()` now places the `title` element in a `.navbar` container that matches the structure of `page_navbar()`. This ensures that the title elements of `page_sidebar()` and `page_navbar()` have consistent appearance. (#998)
 
 * `as_fillable_container()`, `as_fill_item()` and `as_fill_carrier()` now always include the htmltools fill CSS dependency. This means that they are no longer usable with the `$addAttr()` `htmltools::tagQuery` method; authors should instead pass elements to the `as_fillable_container()` and `as_fill_*()` functions and use the `css_selector` argument to apply fill options to specific elements. (#946)
 
-
-* For `layout_columns()`:
-  * `col_widths` now sets the `sm` breakpoint by default, rather than the `md` breakpoint. For example, `col_widths = c(12, 6, 6)` is now equivalent to `breakpoints(sm = c(12, 6, 6))` rather than `breakpoints(md = c(12, 6, 6))`. (#1014)
-  * When `col_widths` has a `breakpoints()` at `lg` or wider, it now uses a better default column width for the smaller breakpoints not listed in the `col_widths` value. That said, you can always include `sm` or `md` in your `breakpoints()` definition to have complete control over column widths at those sizes. (#931)
-  * When `row_heights` is a non-`breakpoints()` object, that value is used for the row heights at all breakpoints. Previously, it was used for the row heights from `"sm"` up. (#931)
-  * Underlying logic moved from R to Typescript to improve the portability of the component. (#931)
-  
-
-* For `sidebar()`:
-  * `open` now accepts a list with `mobile` and `desktop` values to control the sidebar's initial state on each screen size, choosing from `"open"`, `"closed"`, or `"always"` (for an always-open sidebar that cannot be collapsed). (#943)
-  * The collapse toggle now has a high `z-index` value to ensure it always appears above elements in the main content area. The sidebar overlay also now receives the same high `z-index` on mobile layouts. (#958)
-
-* Improved accessibility of `card(full_screen = TRUE, ...)`:
-
-  * The _Expand card_ button is now accessible via keyboard navigation and appropriate ARIA attributes connect the card with the expand and close buttons. For JavaScript-oriented users, the expansion/collapse is now accompanied by a custom `bslib.card` event with the full screen state reported in the `event.detail.fullScreen` property. (#959)
-
-  * Full-screen cards are now supported on mobile devices: the _Expand card_ button is revealed when a user taps on the card (thanks @Damonsoul, #961).
-
-* Improvements to the default theme (i.e., Shiny preset):
-
-  * In the default theme, cards now use a slightly smaller shadow and the same shadow style is also now used by popovers. (#998)
-  * Increased spacing between elements. This change is most noticeable in the `layout_columns()` or `layout_column_wrap()` component. In these and other components, you can use `gap` and `padding` arguments to choose your own values, or you can set the `$bslib-spacer` (Sass) or `--bslib-spacer` (CSS) variable. (#998)
-
-* `value_box()`, `layout_columns()` and `layout_column_wrap()` now all have `min_height` and `max_height` arguments. These are useful in filling layouts, like `page_fillable()`, `page_sidebar(fillable = TRUE)` or `page_navbar(fillable = TRUE)`. For example, you can use `layout_columns(min_height = 300, max_height = 500)` to ensure that a set of items (likely arranged in a row of columns) are always between 300 and 500 pixels tall. (#1016)
-
 ## Bug fixes
 
-* `layout_columns()` now always uses a 12-unit grid when the user provides an integer value to `col_widths` for any breakpoint. For example, `breakpoints(md = 3, lg = NA)` will pick a best-fitting layout for large screen sizes using the 12-column grid. Previously, the best fit algorithm might adjust the number of columns as a shortcut to an easy solution. That shortcut is only taken when an auto-fit layout is requested for every breakpoint, e.g. `col_widths = breakpoints(md = NA, lg = NA)` or `col_widths = NA`. (#928)
-
 * Fixed an issue where the page might be given a window title of `NA` if the primary `title` argument of a page function, such as `page_sidebar()`, is `NULL` or a suitable window title could not be inferred. (#933)
+
+* `card()`s (and `value_box()`s) now correctly exit full screen mode when they are removed from the UI.  If you want to update a card without potentially exiting the full-screen mode, update specific parts of the card using `uiOutput()` or `textOutput()`. (#1005)
 
 * Fixed a handful of `update_popover()` bugs. (#747, #1017)
 
@@ -58,8 +63,6 @@ This large release includes many improvements and bug fixes for newer UI compone
 * `uiOutput()` no longer yields unwanted double padding when it's parent container uses `gap` for spacing multiple elements (e.g., `layout_columns()`, `page_fillable()`, etc). (#992)
 
 * `page_navbar()` and `navset_bar()` now validate and transform `padding` and `gap` arguments into appropriate CSS values. (#991)
-
-* `card()`s (and `value_box()`s) now correctly exit full screen mode when they are removed from the UI.  If you want to update a card without potentially exiting the full-screen mode, update specific parts of the card using `uiOutput()` or `textOutput()`. (#1005)
 
 * Fixed an issue where the `xs` breakpoint in a `breakpoints()` object used for `row_heights` in `layout_columns()` would override all other breakpoints. (#1014)
 
