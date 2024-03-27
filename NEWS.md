@@ -56,6 +56,8 @@
 
 * Fixed an issue where the `xs` breakpoint in a `breakpoints()` object used for `row_heights` in `layout_columns()` would override all other breakpoints. (#1014)
 
+* `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (#1024) 
+
 # bslib 0.6.2
 
 Increased the version requirement on the `{sass}` package to 0.4.9. As a result, `font_google(local=TRUE)` should no longer fail to download font files. 
