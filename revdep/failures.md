@@ -1,210 +1,60 @@
-# ISAnalytics
+# multilevelcoda
 
 <details>
 
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/ISAnalytics
-* Number of recursive dependencies: 173
+* Version: 1.2.3
+* GitHub: https://github.com/florale/multilevelcoda
+* Source code: https://github.com/cran/multilevelcoda
+* Date/Publication: 2024-03-10 23:00:03 UTC
+* Number of recursive dependencies: 160
 
-Run `revdepcheck::cloud_details(, "ISAnalytics")` for more info
+Run `revdepcheck::cloud_details(, "multilevelcoda")` for more info
 
 </details>
 
-## Error before installation
+## In both
+
+*   checking whether package ‘multilevelcoda’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/multilevelcoda/new/multilevelcoda.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
 
 ### Devel
 
 ```
-
-
-
-
+* installing *source* package ‘multilevelcoda’ ...
+** package ‘multilevelcoda’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘launch_shinystan’ is not exported by 'namespace:brms'
+Execution halted
+ERROR: lazy loading failed for package ‘multilevelcoda’
+* removing ‘/tmp/workdir/multilevelcoda/new/multilevelcoda.Rcheck/multilevelcoda’
 
 
 ```
 ### CRAN
 
 ```
-
-
-
-
-
-
-```
-# peakPantheR
-
-<details>
-
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/peakPantheR
-* Number of recursive dependencies: 199
-
-Run `revdepcheck::cloud_details(, "peakPantheR")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-
-
-
-
-
-
-```
-# RiboCrypt
-
-<details>
-
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/RiboCrypt
-* Number of recursive dependencies: 173
-
-Run `revdepcheck::cloud_details(, "RiboCrypt")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-
-
-
-
-
-
-```
-# rprimer
-
-<details>
-
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/rprimer
-* Number of recursive dependencies: 120
-
-Run `revdepcheck::cloud_details(, "rprimer")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-
-
-
-
-
-
-```
-# scRNAseqApp
-
-<details>
-
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/scRNAseqApp
-* Number of recursive dependencies: 236
-
-Run `revdepcheck::cloud_details(, "scRNAseqApp")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-
-
-
-
-
-
-```
-# TEKRABber
-
-<details>
-
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/TEKRABber
-* Number of recursive dependencies: 175
-
-Run `revdepcheck::cloud_details(, "TEKRABber")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-
-
-
-
+* installing *source* package ‘multilevelcoda’ ...
+** package ‘multilevelcoda’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘launch_shinystan’ is not exported by 'namespace:brms'
+Execution halted
+ERROR: lazy loading failed for package ‘multilevelcoda’
+* removing ‘/tmp/workdir/multilevelcoda/old/multilevelcoda.Rcheck/multilevelcoda’
 
 
 ```
