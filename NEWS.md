@@ -48,7 +48,7 @@
 
 * `tooltip()` and `popover()` now work as expected when inserted into a navbar/navset via `nav_insert()`. (#1020)
 
-* `uiOutput()` no longer yields unwanted double padding when it's parent container uses `gap` for spacing multiple elements (e.g., `layout_columns()`, `page_fillable()`, etc). (#992, #1031)
+* `uiOutput()` and `conditionalPanel()` no longer result in unwanted double padding when their parent container uses `gap` for spacing multiple elements (e.g., `layout_columns()`, `page_fillable()`, etc). (#992, #1031)
 
 * `page_navbar()` and `navset_bar()` now validate and transform `padding` and `gap` arguments into appropriate CSS values. (#991)
 
