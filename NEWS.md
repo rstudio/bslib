@@ -6,7 +6,7 @@ This large release includes many improvements and bug fixes for newer UI compone
 
 * Added `input_task_button()`, a replacement for `shiny::actionButton()` that automatically prevents an operation from being submitted multiple times. It does this by, upon click, immediately transitioning to a "Processing..." visual state that does not let the button be clicked again. The button resets to its clickable state automatically after the reactive flush it causes is complete; or, for advanced scenarios, `update_task_button()` can be used to manually control when the button resets.
 
-* Both `card()` and `value_box()` now take an `id` argument that, when provided, is used to report the full screen state of the card or value box to the server. For example, when using `card(id = "my_card", full_screen = TRUE)` you can determine if the card is currently in full screen mode by reading the boolean value of `input$my_card$full_screen`. (#1006)
+* Both `card()` and `value_box()` now take an `id` argument that, when provided, is used to report the full screen state of the card or value box to the server. For example, when using `card(id = "my_card", full_screen = TRUE)` you can determine if the card is currently in full screen mode by reading the boolean value of `input$my_card_full_screen`. (#1006, #1032)
 
 ## Changes & improvements
 
