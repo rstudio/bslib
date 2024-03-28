@@ -48,7 +48,7 @@
 
 * `tooltip()` and `popover()` now work as expected when inserted into a navbar/navset via `nav_insert()`. (#1020)
 
-* `uiOutput()` no longer yields unwanted double padding when it's parent container uses `gap` for spacing multiple elements (e.g., `layout_columns()`, `page_fillable()`, etc). (#992)
+* `uiOutput()` no longer yields unwanted double padding when it's parent container uses `gap` for spacing multiple elements (e.g., `layout_columns()`, `page_fillable()`, etc). (#992, #1031)
 
 * `page_navbar()` and `navset_bar()` now validate and transform `padding` and `gap` arguments into appropriate CSS values. (#991)
 
@@ -58,7 +58,7 @@
 
 # bslib 0.6.2
 
-Increased the version requirement on the `{sass}` package to 0.4.9. As a result, `font_google(local=TRUE)` should no longer fail to download font files. 
+Increased the version requirement on the `{sass}` package to 0.4.9. As a result, `font_google(local=TRUE)` should no longer fail to download font files.
 
 # bslib 0.6.1
 
