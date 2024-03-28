@@ -43,8 +43,9 @@ together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body
 \code{"b"} and once with \code{"d"}).}
 
 \item{id}{Provide a unique identifier for the \code{card()} or \code{value_box()} to
-report its state to Shiny. For example, using \code{id = "my_card"}, you can
-observe the card's full screen state with \code{input$my_card$full_screen}.}
+report its full screen state to Shiny. For example, using \code{id = "my_card"},
+you can observe the card's full screen state with
+\code{input$my_card_full_screen}.}
 }
 \value{
 A \code{\link[htmltools:builder]{htmltools::div()}} tag.
