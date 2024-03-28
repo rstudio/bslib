@@ -21,11 +21,10 @@ $bslib-spacer: $spacer !default;
 // ...And this class for layout containers (e.g, layout_columns())
 .bslib-gap-spacing {
   gap: var(--bslib-mb-spacer);
-  > .bslib-mb-spacing, > .form-group, > p, > pre {
-    margin-bottom: 0;
-  }
-  // Make sure to get similar behavior in a uiOutput()/renderUI() context
-  > .shiny-html-output {
+
+  &,
+  & > .shiny-html-output,
+  & > .shiny-panel-conditional {
     > .bslib-mb-spacing, > .form-group, > p, > pre {
       margin-bottom: 0;
     }
