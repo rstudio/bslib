@@ -577,10 +577,8 @@
             setTimeout(() => this._setShinyInput(), 0);
             return;
           }
-          Shiny2.setInputValue(this.card.id, {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            full_screen: this.card.getAttribute(_Card.attr.ATTR_FULL_SCREEN) === "true"
-          });
+          const fsAttr = this.card.getAttribute(_Card.attr.ATTR_FULL_SCREEN);
+          Shiny2.setInputValue(this.card.id + "_full_screen", fsAttr === "true");
         }
         /**
          * Emits a custom event to communicate the card's full screen state change.
