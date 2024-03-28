@@ -29,8 +29,9 @@
 #'   card_body("c"), "d")`, `wrapper` would be called twice, once with `"a"` and
 #'   `"b"` and once with `"d"`).
 #' @param id Provide a unique identifier for the `card()` or `value_box()` to
-#'   report its state to Shiny. For example, using `id = "my_card"`, you can
-#'   observe the card's full screen state with `input$my_card$full_screen`.
+#'   report its full screen state to Shiny. For example, using `id = "my_card"`,
+#'   you can observe the card's full screen state with
+#'   `input$my_card_full_screen`.
 #'
 #' @return A [htmltools::div()] tag.
 #'

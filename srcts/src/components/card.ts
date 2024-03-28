@@ -199,11 +199,8 @@ class Card {
       setTimeout(() => this._setShinyInput(), 0);
       return;
     }
-    Shiny.setInputValue(this.card.id, {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      full_screen:
-        this.card.getAttribute(Card.attr.ATTR_FULL_SCREEN) === "true",
-    });
+    const fsAttr = this.card.getAttribute(Card.attr.ATTR_FULL_SCREEN);
+    Shiny.setInputValue(this.card.id + "_full_screen", fsAttr === "true");
   }
 
   /**
