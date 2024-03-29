@@ -1,13 +1,8 @@
 # Revdeps
 
-## Failed to check (6)
+## Failed to check (1)
 
-|package     |version |error |warning |note |
-|:-----------|:-------|:-----|:-------|:----|
-|ISAnalytics |?       |      |        |     |
-|peakPantheR |?       |      |        |     |
-|RiboCrypt   |?       |      |        |     |
-|rprimer     |?       |      |        |     |
-|scRNAseqApp |?       |      |        |     |
-|TEKRABber   |?       |      |        |     |
+|package        |version |error |warning |note |
+|:--------------|:-------|:-----|:-------|:----|
+|multilevelcoda |1.2.3   |1     |        |     |
 
