@@ -1,4 +1,4 @@
-/*! bslib 0.7.0 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.7.0.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __defProp = Object.defineProperty;
