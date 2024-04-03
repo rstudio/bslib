@@ -147,30 +147,30 @@ rules listen to Bootstrap Sass variables like <code>$gray-600</code>,
 <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code> styles works great with different
 <code><a href="../../reference/bs_theme.html">bs_theme()</a></code> input:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">.person</span> {</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">inline-block</span><span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="kw">padding</span>: $spacer<span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="kw">border</span>: $border-width <span class="dv">solid</span> $border-color<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="kw">display</span><span class="ch">:</span> <span class="dv">inline-block</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="kw">padding</span><span class="ch">:</span> $<span class="dv">spacer</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="kw">border</span><span class="ch">:</span> $<span class="dv">border-width solid</span> $<span class="dv">border-color</span><span class="op">;</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="im">@include</span> border-radius<span class="op">;</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="im">@include</span> box-shadow<span class="op">;</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="kw">outline</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="kw">width</span>: <span class="dv">300</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="kw">outline</span><span class="ch">:</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="kw">width</span><span class="ch">:</span> <span class="dv">300</span><span class="dt">px</span><span class="op">;</span></span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="fu">.title</span> {</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="kw">font-weight</span>: <span class="dv">bold</span><span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="kw">font-weight</span><span class="ch">:</span> <span class="dv">bold</span><span class="op">;</span></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  }</span>
 <span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="fu">.title</span><span class="op">,</span> <span class="fu">.company</span> {</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>    <span class="kw">color</span>: $gray-600<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>    <span class="kw">color</span><span class="ch">:</span> $<span class="dv">gray-600</span><span class="op">;</span></span>
 <span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  }</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  <span class="kw">margin</span>: $grid-gutter-width<span class="op">;</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  <span class="kw">margin-right</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  <span class="kw">margin</span><span class="ch">:</span> $<span class="dv">grid-gutter-width</span><span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  <span class="kw">margin-right</span><span class="ch">:</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>  <span class="er">// On mobile, span entire width</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>  <span class="im">@include</span> media-breakpoint-down<span class="fu">(</span>sm<span class="fu">)</span> {</span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>    <span class="kw">display</span>: <span class="dv">block</span><span class="op">;</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>    <span class="kw">width</span>: <span class="bu">auto</span><span class="op">;</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>    <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>  <span class="im">@include</span> media-breakpoint-down<span class="fu">(</span><span class="dv">sm</span><span class="fu">)</span> {</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>    display<span class="in">:</span> block;</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>    width<span class="in">:</span> auto;</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>    margin-right<span class="in">:</span> $grid-gutter-width;</span>
 <span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>  }</span>
 <span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>}</span>
 <span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="fu">.person</span><span class="in">:last-of-type</span> {</span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>  <span class="kw">margin-right</span>: $grid-gutter-width<span class="op">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>  <span class="kw">margin-right</span><span class="ch">:</span> $<span class="dv">grid-gutter-width</span><span class="op">;</span></span>
 <span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>}</span></code></pre></div>
 <p>If we were to save these Sass rules to a file named
 <code>person.scss</code>, then we can then <code><a href="../../reference/bs_bundle.html">bs_add_rules()</a></code>
