@@ -223,11 +223,10 @@ sparkline <- plot_ly(economics) %>%
   config(displayModeBar = F) %>%
   htmlwidgets::onRender(
     "function(el) {
-      var ro = new ResizeObserver(function() {
-         var visible = el.offsetHeight > 200;
-         Plotly.relayout(el, {'xaxis.visible': visible});
-      });
-      ro.observe(el);
+      el.closest('.bslib-value-box')
+        .addEventListener('bslib.card', function(ev) {
+          Plotly.relayout(el, {'xaxis.visible': ev.detail.fullScreen});
+        })
     }"
   )
 
