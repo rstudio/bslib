@@ -86,11 +86,11 @@ $form-check-input-width: 1.2em !default;
 $form-check-input-border-radius: 2px !default;
 $form-check-margin-bottom: 0.25rem !default;
 $form-text-color: $gray-600 !default;
-$form-check-input-border: var(--#{$prefix}border-width) solid $gray-500 !default;
 
 // Borders
 $input-border-color: $gray-500 !default;
 $border-radius: 3px !default;
+$form-check-input-border: var(--#{$prefix}border-width) solid $input-border-color !default;
 // Defaults to $gray700, of which we've set to a blueish-gray, which looks a bit weird...
 // We could go forward with the blue-ish gray, but if we do, we'll want to also make
 // $border-color-translucent-dark a bit more blueish
