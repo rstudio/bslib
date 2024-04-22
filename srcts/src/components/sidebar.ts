@@ -9,7 +9,7 @@ import { ShinyResizeObserver } from "./_shinyResizeObserver";
  * current state.
  * @typedef {SidebarToggleMethod}
  */
-type SidebarToggleMethod = "close" | "open" | "toggle";
+type SidebarToggleMethod = "close" | "closed" | "open" | "toggle";
 
 /**
  * Data received by the input binding's `receiveMessage` method.
@@ -423,6 +423,8 @@ class Sidebar {
   ): void {
     if (typeof method === "undefined") {
       method = "toggle";
+    } else if (method === "closed") {
+      method = "close";
     }
 
     const { container, sidebar } = this.layout;
