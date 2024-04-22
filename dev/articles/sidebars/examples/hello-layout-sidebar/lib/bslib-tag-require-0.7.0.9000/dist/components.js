@@ -1090,6 +1090,8 @@
         toggle(method, immediate = false) {
           if (typeof method === "undefined") {
             method = "toggle";
+          } else if (method === "closed") {
+            method = "close";
           }
           const { container, sidebar } = this.layout;
           const isClosed = this.isClosed;
