@@ -52,6 +52,16 @@
       Shiny2.inputBindings.register(new inputBindingClass(), "bslib." + name);
     }
   }
+  function registerBslibGlobal(name, value) {
+    window.bslib = window.bslib || {};
+    if (!window.bslib[name]) {
+      window.bslib[name] = value;
+    } else {
+      console.error(
+        `[bslib] Global window.bslib.${name} was already defined, using previous definition.`
+      );
+    }
+  }
   function hasDefinedProperty(obj, prop) {
     return Object.prototype.hasOwnProperty.call(obj, prop) && obj[prop] !== void 0;
   }
@@ -831,8 +841,7 @@
        * @type {boolean}
        */
       Card.onReadyScheduled = false;
-      window.bslib = window.bslib || {};
-      window.bslib.Card = Card;
+      registerBslibGlobal("Card", Card);
     }
   });
 
@@ -1205,8 +1214,7 @@
         }
       };
       registerBinding(SidebarInputBinding, "sidebar");
-      window.bslib = window.bslib || {};
-      window.bslib.Sidebar = Sidebar;
+      registerBslibGlobal("Sidebar", Sidebar);
     }
   });
 
