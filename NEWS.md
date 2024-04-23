@@ -1,8 +1,10 @@
 # bslib (development version)
 
-* Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")` . (#1038)
+* Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")`. (#1038)
 
 * `toggle_sidebar()` once again correctly closes a sidebar. (@fredericva, #1043)
+
+* bslib now avoids re-defining its components when used in a context where they are already available, e.g. in a Quarto dashboard. (#1044)
 
 # bslib 0.7.0
 
