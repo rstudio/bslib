@@ -14,7 +14,13 @@ import { BslibSwitch, BslibSwitchInline } from "./switch";
   BslibSwitch,
   BslibSwitchInline,
 ].forEach((cls) => {
-  customElements.define(cls.tagName, cls);
+  if (!customElements.get(cls.tagName)) {
+    customElements.define(cls.tagName, cls);
+  } else {
+    console.error(
+      `[bslib] Custom element ${cls.tagName} was already defined, using previous definition.`
+    );
+  }
   if (window.Shiny) {
     if (cls.isShinyInput) makeInputBinding(cls.tagName);
     if ("shinyCustomMessageHandlers" in cls) {

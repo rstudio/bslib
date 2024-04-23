@@ -1,4 +1,4 @@
-import { InputBinding, registerBinding } from "./_utils";
+import { InputBinding, registerBinding, registerBslibGlobal } from "./_utils";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
 /**
@@ -528,7 +528,5 @@ class SidebarInputBinding extends InputBinding {
 }
 
 registerBinding(SidebarInputBinding, "sidebar");
-
 // attach Sidebar class to window for global usage
-(window as any).bslib = (window as any).bslib || {};
-(window as any).bslib.Sidebar = Sidebar;
+registerBslibGlobal("Sidebar", Sidebar);

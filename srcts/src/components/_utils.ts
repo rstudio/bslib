@@ -22,6 +22,17 @@ function registerBinding(
   }
 }
 
+function registerBslibGlobal(name: string, value: object): void {
+  (window as any).bslib = (window as any).bslib || {};
+  if (!(window as any).bslib[name]) {
+    (window as any).bslib[name] = value;
+  } else {
+    console.error(
+      `[bslib] Global window.bslib.${name} was already defined, using previous definition.`
+    );
+  }
+}
+
 // Return true if the key exists on the object and the value is not undefined.
 //
 // This method is mainly used in input bindings' `receiveMessage` method.
@@ -91,6 +102,7 @@ async function shinyRenderContent(
 export {
   InputBinding,
   registerBinding,
+  registerBslibGlobal,
   hasDefinedProperty,
   doWindowResizeOnElementResize,
   getAllFocusableChildren,
