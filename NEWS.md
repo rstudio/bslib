@@ -4,7 +4,7 @@
 
 * `toggle_sidebar()` once again correctly closes a sidebar. (@fredericva, #1043)
 
-* bslib now avoids re-defining its components when used in a context where they are already available, e.g. in a Quarto dashboard. (#1044)
+* bslib now avoids re-defining its components when used in a context where they are already available, e.g. in a Quarto dashboard. (#1045)
 
 # bslib 0.7.0
 
