@@ -1,4 +1,4 @@
-import { getAllFocusableChildren, Shiny } from "./_utils";
+import { getAllFocusableChildren, registerBslibGlobal, Shiny } from "./_utils";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
 import { ShinyRemovedObserver } from "./_shinyRemovedObserver";
 
@@ -449,7 +449,6 @@ class Card {
 }
 
 // attach Sidebar class to window for global usage
-(window as any).bslib = (window as any).bslib || {};
-(window as any).bslib.Card = Card;
+registerBslibGlobal("Card", Card);
 
 export { Card };
