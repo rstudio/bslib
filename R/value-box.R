@@ -18,7 +18,11 @@
 #'   run the app locally with:
 #'
 #'   ```r
-#'   shiny::runApp(system.file("examples", "build-a-box", package = "bslib"))
+#'   # shiny >= 1.8.1
+#'   shiny::runExample("build-a-box", package = "bslib")
+#' 
+#'   # shiny < 1.8.1
+#'   shiny::runApp(system.file("examples-shiny", "build-a-box", package = "bslib"))
 #'   ```
 #'
 #' @section Themes:

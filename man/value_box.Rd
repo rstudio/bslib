@@ -139,7 +139,11 @@ Explore all of the \code{value_box()} options and layouts interactively with the
 online thanks to \href{https://www.shinyapps.io/}{shinyapps.io}. Or, you can
 run the app locally with:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::runApp(system.file("examples", "build-a-box", package = "bslib"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# shiny >= 1.8.1
+shiny::runExample("build-a-box", package = "bslib")
+
+# shiny < 1.8.1
+shiny::runApp(system.file("examples-shiny", "build-a-box", package = "bslib"))
 }\if{html}{\out{</div>}}
 }
 

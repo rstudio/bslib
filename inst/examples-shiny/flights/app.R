@@ -225,7 +225,7 @@ ui <- page_navbar(
       tags$span(
         bsicons::bs_icon("code-slash"), "Source code"
       ),
-      href = "https://github.com/rstudio/bslib/tree/main/inst/examples/flights",
+      href = "https://github.com/rstudio/bslib/tree/main/inst/examples-shiny/flights",
       target = "_blank"
     )
   ),
