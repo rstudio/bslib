@@ -3,8 +3,8 @@ library(bslib)
 library(dplyr)
 library(lubridate)
 library(plotly)
-library(chiflights22)
-library(histoslider)
+library(chiflights22) # https://github.com/cpsievert/chiflights22
+library(histoslider)  # https://github.com/cpsievert/histoslider
 library(rlang)
 
 # Data prep
