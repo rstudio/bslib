@@ -126,6 +126,10 @@
   --#{$prefix}form-invalid-color: #{$form-invalid-color};
   --#{$prefix}form-invalid-border-color: #{$form-invalid-border-color};
   // scss-docs-end root-form-validation-variables
+
+  // {bslib} additions
+  --#{$prefix}component-active-bg: #{$component-active-bg};
+  --#{$prefix}component-active-color: #{$component-active-color};
 }
 
 @if $enable-dark-mode {
