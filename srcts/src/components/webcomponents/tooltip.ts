@@ -87,8 +87,14 @@ export class BslibTooltip extends BslibElement {
     // pulled outside this element (the browser's parser does this to, for
     // example, block elements inside a <p> tag)
     const template = this.querySelector("template") as HTMLTemplateElement;
-    this.prepend(createWrapperElement(template.content, "none"));
-    template.remove();
+    // Change the <template> to a <div style="display:none"> so that the
+    // children become part of the DOM, but still aren't visible.
+    // Note, it's possible for connectedCallback() to be called multiple times
+    // so template might not exist (it may already be a div). (#1019)
+    if (template) {
+      this.prepend(createWrapperElement(template.content, "none"));
+      template.remove();
+    }
 
     const trigger = this.triggerElement;
     trigger.setAttribute("data-bs-toggle", "tooltip");

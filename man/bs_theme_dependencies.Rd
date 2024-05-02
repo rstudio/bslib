@@ -79,7 +79,7 @@ Other Bootstrap theme functions:
 \code{\link{bs_dependency}()},
 \code{\link{bs_global_theme}()},
 \code{\link{bs_remove}()},
-\code{\link{bs_theme_preview}()},
-\code{\link{bs_theme}()}
+\code{\link{bs_theme}()},
+\code{\link{bs_theme_preview}()}
 }
 \concept{Bootstrap theme functions}

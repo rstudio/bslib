@@ -3,8 +3,8 @@ library(bslib)
 library(dplyr)
 library(lubridate)
 library(plotly)
-library(chiflights22)
-library(histoslider)
+library(chiflights22) # https://github.com/cpsievert/chiflights22
+library(histoslider)  # https://github.com/cpsievert/histoslider
 library(rlang)
 
 # Data prep
@@ -206,6 +206,7 @@ ui <- page_navbar(
   nav_spacer(),
   nav_panel(
     "Delay overview",
+    class = "bslib-page-dashboard",
     uiOutput("value_boxes"),
     layout_columns(
       flights_card, avg_delay_by_category

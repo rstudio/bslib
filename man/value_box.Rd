@@ -18,8 +18,10 @@ value_box(
   theme = NULL,
   height = NULL,
   max_height = NULL,
+  min_height = NULL,
   fill = TRUE,
   class = NULL,
+  id = NULL,
   theme_color = deprecated()
 )
 
@@ -76,9 +78,10 @@ control, you can create your own theme with \code{value_box_theme()} where you
 can pass foreground and background colors directly. See the \strong{Themes}
 section for more details.}
 
-\item{max_height, max_height_full_screen}{A proportion (i.e., a number between
-0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
-showcase max_height.}
+\item{max_height}{The maximum height of the \code{value_box()} or the showcase
+area when used in a \verb{showcase_layout_*()} function. Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g., \code{max_height="200px"}).}
+
+\item{min_height}{The minimum height of the values box. Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g., \code{min_height="200px"}).}
 
 \item{fill}{Whether to allow the value box to grow/shrink to fit a fillable
 container with an opinionated height (e.g., \code{page_fillable()}).}
@@ -86,6 +89,11 @@ container with an opinionated height (e.g., \code{page_fillable()}).}
 \item{class}{Utility classes for customizing the appearance of the summary
 card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
+
+\item{id}{Provide a unique identifier for the \code{card()} or \code{value_box()} to
+report its full screen state to Shiny. For example, using \code{id = "my_card"},
+you can observe the card's full screen state with
+\code{input$my_card_full_screen}.}
 
 \item{theme_color}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{theme} instead.}
 
@@ -109,6 +117,10 @@ Accepted values in the second category are \code{"auto"}, \code{"min-content"},
 \code{"max-content"}, a fractional unit (e.g. \verb{2fr}), or a \code{minmax()} function
 (e.g., \verb{minmax(100px, 1fr)}).
 }}
+
+\item{max_height_full_screen}{A proportion (i.e., a number between
+0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
+showcase \code{max_height} in a full screen card.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}

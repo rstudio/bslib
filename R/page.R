@@ -190,6 +190,7 @@ page_fillable <- function(
 }
 
 validateCssPadding <- function(padding = NULL) {
+  if (is.null(padding)) return(NULL)
   paste(
     vapply(padding, validateCssUnit, character(1)),
     collapse = " "
@@ -260,8 +261,18 @@ page_sidebar <- function(
   lang = NULL
 ) {
   if (rlang::is_bare_character(title) || rlang::is_bare_numeric(title)) {
-    title <- h1(title, class = "bslib-page-title")
+    title <- h1(title, class = "bslib-page-title navbar-brand")
   }
+
+  navbar_title <-
+    if (!is.null(title)) {
+      div(
+        class = "navbar navbar-static-top",
+        div(title, class = "container-fluid")
+      )
+    }
+
+  sidebar <- maybe_page_sidebar(sidebar)
 
   page_fillable(
     padding = 0,
@@ -271,7 +282,7 @@ page_sidebar <- function(
     lang = lang,
     fillable_mobile = fillable_mobile,
     class = "bslib-page-sidebar",
-    title,
+    navbar_title,
     layout_sidebar(
       sidebar = sidebar,
       fillable = fillable,
@@ -280,6 +291,18 @@ page_sidebar <- function(
       ...
     )
   )
+}
+
+maybe_page_sidebar <- function(x) {
+  if (is.null(x)) return(NULL)
+  if (!inherits(x, "sidebar")) {
+    x <- sidebar(x)
+  }
+
+  # If `open` is not provided, choose a page-level default
+  x$open <- x$open %||% sidebar_open_on(desktop = "open", mobile = "always")
+
+  x
 }
 
 
@@ -370,6 +393,10 @@ page_navbar <- function(
   lang = NULL
 ) {
 
+  sidebar <- maybe_page_sidebar(sidebar)
+
+  padding <- validateCssPadding(padding)
+  gap <- validateCssUnit(gap)
 
   # Default to fillable = F when this is called from shiny::navbarPage()
   # TODO: update shiny::navbarPage() to set fillable = FALSE and get rid of this hack
@@ -421,7 +448,7 @@ infer_window_title <- function(title = NULL, window_title = NA) {
     }
   }
 
-  window_title
+  if (isTRUE(is.na(window_title))) NULL else window_title
 }
 
 

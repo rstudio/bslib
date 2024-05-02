@@ -60,7 +60,7 @@ export function setContentCarefully(x: {
   for (const [selector, html] of Object.entries(content)) {
     let target = tip.querySelector(selector);
     if (!target && selector === ".popover-header") {
-      // Make sure we can update the header even there currently isn't one
+      // Make sure we can update the header even if there currently isn't one
       const header = document.createElement("div");
       header.classList.add("popover-header");
       tip.querySelector(".popover-body")?.before(header);
@@ -68,6 +68,10 @@ export function setContentCarefully(x: {
     }
     if (!target) {
       console.warn(`Could not find ${selector} in ${type} content`);
+      continue;
+    }
+    // If the target is the content/header itself, then ignore it
+    if (target === html) {
       continue;
     }
     if (target instanceof HTMLElement) {

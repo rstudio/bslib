@@ -1,4 +1,5 @@
 $spacer: 1rem !default;
+$bslib-spacer: $spacer !default;
 
 :root {
   // "Global" theming information
@@ -6,7 +7,7 @@ $spacer: 1rem !default;
   --bslib-preset-name: #{$bslib-preset-name};
   --bslib-preset-type: #{$bslib-preset-type};
   // Controls default spacing in layout containers (e.g, layout_columns())
-  --bslib-spacer: #{$spacer};
+  --bslib-spacer: #{$bslib-spacer};
   --bslib-mb-spacer: var(--bslib-spacer, 1rem);
 }
 
@@ -29,8 +30,13 @@ $spacer: 1rem !default;
 // ...And this class for layout containers (e.g, layout_columns())
 .bslib-gap-spacing {
   gap: var(--bslib-mb-spacer);
-  > .bslib-mb-spacing, > .form-group, > p, > pre {
-    margin-bottom: 0;
+
+  &,
+  & > .shiny-html-output,
+  & > .shiny-panel-conditional {
+    > .bslib-mb-spacing, > .form-group, > p, > pre {
+      margin-bottom: 0;
+    }
   }
 }
 

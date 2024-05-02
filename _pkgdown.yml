@@ -1,9 +1,11 @@
 destination: docs
+url: https://rstudio.github.io/bslib/
+
+development:
+  mode: auto
 
 toc:
   depth: 3
-
-url: https://rstudio.github.io/bslib/
 
 template:
   bootstrap: 5
@@ -88,6 +90,8 @@ navbar:
 
 news:
   releases:
+  - text: "v0.6.1"
+    href: https://shiny.posit.co/blog/posts/shiny-r-1.8.0/
   - text: "v0.5.1"
     href: https://shiny.posit.co/blog/posts/bslib-tooltips/
   - text: "v0.5.0"
@@ -197,6 +201,8 @@ reference:
   contents:
     - input_switch
     - input_dark_mode
+    - input_task_button
+    - bind_task_button
 
 - title: Theming
   desc: >
