@@ -27,7 +27,8 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       theme = theme,
       lang = lang,
       # Components require Bootstrap 5+
-      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies(),
+      if (is_installed("shiny", "1.8.1.9001")) shiny::useBusyIndicators()
     ),
     theme = theme
   )
