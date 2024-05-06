@@ -35,25 +35,31 @@ component_dependency_css <- function() {
 }
 
 # Run-time (Sass) component styles
-component_dependency_sass <- function(theme) {
+component_dependency_sass <- function(theme, as_sass = FALSE) {
   precompiled <- isTRUE(get_precompiled_option())
   default_theme <- !is_bs_theme(theme) || identical(theme, bs_theme())
-  if (precompiled && default_theme) {
+  if (precompiled && default_theme && !isTRUE(as_sass)) {
     component_dependency_css()
   } else {
-    component_dependency_sass_(theme)
+    component_dependency_sass_(theme, as_sass)
   }
 }
 
-component_dependency_sass_ <- function(theme) {
+component_dependency_sass_ <- function(theme, as_sass = FALSE) {
   scss_dir <- path_inst("components", "scss")
   scss_files <- c(
     file.path(scss_dir, "mixins", "_mixins.scss"),
     dir(scss_dir, pattern = "\\.scss$", full.names = TRUE)
   )
 
-  # Although rare, it's possible for bs_dependency_defer() to pass 
-  # along a NULL theme (e.g., renderTags(accordion())), so fallback 
+  input_sass <- lapply(scss_files, sass_file)
+
+  if (isTRUE(as_sass)) {
+    return(input_sass)
+  }
+
+  # Although rare, it's possible for bs_dependency_defer() to pass
+  # along a NULL theme (e.g., renderTags(accordion())), so fallback
   # to the default theme if need be
   theme <- theme %||% bs_theme()
 
@@ -65,7 +71,7 @@ component_dependency_sass_ <- function(theme) {
   }
 
   bs_dependency(
-    input = lapply(scss_files, sass_file),
+    input = input_sass,
     theme = theme,
     name = "bslib-component-css",
     version = get_package_version("bslib"),
