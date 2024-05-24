@@ -368,6 +368,15 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
         padding-left: var(--_padding);
         padding-right: var(--_padding);
       }
+
+      // Soften main area when sidebar is expanded over content
+      > .main {
+        opacity: 0.33;
+        transition: opacity var(--_transition-easing-x) var(--_transition-duration);
+      }
+      &.sidebar-collapsed > .main {
+        opacity: 1;
+      }
     }
   }
 }
