@@ -1,6 +1,6 @@
 // User-facing variables, use for theming
 $bslib-sidebar-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05) !default;
-$bslib-sidebar-fg: var(--bs-emphasis-color, black) !default;
+$bslib-sidebar-fg: inherit !default;
 $bslib-sidebar-toggle-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.1) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
 
