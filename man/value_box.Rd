@@ -299,7 +299,9 @@ Like with the \verb{bg-} theme names, if only \code{bg} is provided, \code{value
 Note that \code{value_box_theme()} optionally takes a \code{theme} name, which can be helpful if you want to use a named theme and modify the default \code{bg} or \code{fg} colors of that theme.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box_theme(name = "orange", bg = "#FFFFFF")
-value_box_theme(name = "text-danger", fg = "#FFB6C1")
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box_theme(name = "text-danger", fg = "#FFB6C1")
 }\if{html}{\out{</div>}}
 
 Also note that \code{bg}/\code{fg} \emph{must} be CSS colors, not Bootstrap theme or color names.
