@@ -2,8 +2,10 @@ import type { HtmlDep } from "rstudio-shiny/srcts/types/src/shiny/render";
 
 import type { InputBinding as InputBindingType } from "rstudio-shiny/srcts/types/src/bindings/input";
 
+import type { ShinyClass } from "rstudio-shiny/srcts/types/src";
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const Shiny: typeof window.Shiny | undefined = window.Shiny;
+const Shiny: ShinyClass | undefined = window.Shiny;
 
 // Exclude undefined from T
 type NotUndefined<T> = T extends undefined ? never : T;
@@ -87,8 +89,8 @@ function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
 }
 
 async function shinyRenderContent(
-  ...args: Parameters<typeof window.Shiny.renderContentAsync>
-): ReturnType<typeof window.Shiny.renderContentAsync> {
+  ...args: Parameters<ShinyClass.renderContentAsync>
+): Promise<void> {
   if (!Shiny) {
     throw new Error("This function must be called in a Shiny app.");
   }
