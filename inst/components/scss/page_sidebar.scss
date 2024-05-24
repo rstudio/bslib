@@ -24,7 +24,9 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
 
 }
 
-.bslib-page-sidebar-main {
-  min-width: var(--bslib-page-sidebar-main-min-width, #{$bslib-page-sidebar-main-min-width});
-  min-height: var(--bslib-page-sidebar-main-min-height, #{$bslib-page-sidebar-main-min-height});
+@include media-breakpoint-up(sm) {
+  .bslib-page-sidebar-main {
+    min-width: var(--bslib-page-sidebar-main-min-width, #{$bslib-page-sidebar-main-min-width});
+    min-height: var(--bslib-page-sidebar-main-min-height, #{$bslib-page-sidebar-main-min-height});
+  }
 }
