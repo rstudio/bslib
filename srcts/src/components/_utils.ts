@@ -87,8 +87,8 @@ function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
 }
 
 async function shinyRenderContent(
-  ...args: Parameters<Shiny["renderContentAsync"]>
-): ReturnType<Shiny["renderContentAsync"]> {
+  ...args: Parameters<typeof window.Shiny.renderContentAsync>
+): ReturnType<typeof window.Shiny.renderContentAsync> {
   if (!Shiny) {
     throw new Error("This function must be called in a Shiny app.");
   }
