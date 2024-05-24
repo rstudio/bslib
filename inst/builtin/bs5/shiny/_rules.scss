@@ -143,6 +143,10 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   }
 
   .bslib-card {
+    // We don't want to get in the way of $card-cap-bg, which is used by the shiny preset
+    // when the dashboard design is disabled. This next line disables the default background
+    // color of the card header, giving us the white card headers we want, without also
+    // blocking inheritence via `.text-bg-{theme}` classes or others.
     --#{$prefix}card-cap-bg: ;
     .card-header, .card-footer {
       font-size: 0.9rem;
