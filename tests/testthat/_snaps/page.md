@@ -51,6 +51,8 @@
           <script data-bslib-sidebar-init>bslib.Sidebar.initCollapsibleAll()</script>
         </div>
       </body>
+      <script>document.documentElement.dataset.shinyBusySpinners = 'true';
+      document.documentElement.dataset.shinyBusyPulse = 'true';</script>
 
 ---
 
@@ -72,4 +74,6 @@
           <script data-bslib-sidebar-init>bslib.Sidebar.initCollapsibleAll()</script>
         </div>
       </body>
+      <script>document.documentElement.dataset.shinyBusySpinners = 'true';
+      document.documentElement.dataset.shinyBusyPulse = 'true';</script>
 
