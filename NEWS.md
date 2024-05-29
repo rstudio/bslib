@@ -16,7 +16,7 @@
 
 * Improved the appearance of cards with sidebars and headers in the Shiny preset, especially when custom card color themes are used, e.g. with `text-bg-primary` or other Bootstrap utility classes. (#1056)
 
-* The main content area of `page_sidebar()` and `page_navbar()` with a `sidebar` now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull request for details). (#1057)
+* The main content area of `page_sidebar()` and `page_navbar()` with a `sidebar` now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull requests for details). (#1057, #1059)
 
 # bslib 0.7.0
 

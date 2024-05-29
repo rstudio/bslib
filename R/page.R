@@ -292,15 +292,15 @@ page_sidebar <- function(
       border = FALSE,
       border_radius = FALSE,
       !!!dots$attribs,
-      page_sidebar_main(dots$children)
+      page_main_container(dots$children)
     )
   )
 }
 
-page_sidebar_main <- function(...) {
+page_main_container <- function(...) {
   as_fill_carrier(
-    div(
-      class = "bslib-page-sidebar-main bslib-gap-spacing",
+    tags$main(
+      class = "bslib-page-main bslib-gap-spacing",
       ...
     )
   )
