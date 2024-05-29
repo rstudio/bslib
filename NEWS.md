@@ -14,6 +14,8 @@
 
 * bslib now avoids re-defining its components when used in a context where they are already available, e.g. in a Quarto dashboard. (#1045)
 
+* Improved the appearance of cards with sidebars and headers in the Shiny preset, especially when custom card color themes are used, e.g. with `text-bg-primary` or other Bootstrap utility classes. (#1056)
+
 # bslib 0.7.0
 
 This large release includes many improvements and bug fixes for newer UI components like `layout_columns()`, `card()`, and `sidebar()`. In addition, the new `input_task_button()` offers a drop-in replacement for `shiny::actionButton()` (to prevent multiple submissions of the same operation) as well as pairing nicely with the new `shiny::ExtendedTask` for implementing truly non-blocking operations in Shiny.
