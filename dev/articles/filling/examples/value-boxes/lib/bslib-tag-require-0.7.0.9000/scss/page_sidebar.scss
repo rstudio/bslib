@@ -1,7 +1,7 @@
 $bslib-page-sidebar-title-bg: if($navbar-bg, $navbar-bg, $dark) !default;
 $bslib-page-sidebar-title-color: color-contrast($bslib-page-sidebar-title-bg) !default;
-$bslib-page-sidebar-main-min-width: map_get($grid-breakpoints, sm) !default;
-$bslib-page-sidebar-main-min-height: map_get($grid-breakpoints, sm) !default;
+$bslib-page-main-min-width: map_get($grid-breakpoints, sm) !default;
+$bslib-page-main-min-height: map_get($grid-breakpoints, sm) !default;
 $bslib-sidebar-padding: $spacer * 1.5 !default;
 
 :root {
@@ -25,8 +25,8 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
 }
 
 @include media-breakpoint-up(sm) {
-  .bslib-page-sidebar-main {
-    min-width: var(--bslib-page-sidebar-main-min-width, #{$bslib-page-sidebar-main-min-width});
-    min-height: var(--bslib-page-sidebar-main-min-height, #{$bslib-page-sidebar-main-min-height});
+  .bslib-page-main {
+    min-width: var(--bslib-page-main-min-width, #{$bslib-page-main-min-width});
+    min-height: var(--bslib-page-main-min-height, #{$bslib-page-main-min-height});
   }
 }
