@@ -275,6 +275,8 @@ page_sidebar <- function(
 
   sidebar <- maybe_page_sidebar(sidebar)
 
+  dots <- separate_arguments(...)
+
   page_fillable(
     padding = 0,
     gap = 0,
@@ -289,7 +291,8 @@ page_sidebar <- function(
       fillable = fillable,
       border = FALSE,
       border_radius = FALSE,
-      page_sidebar_main(...)
+      !!!dots$attribs,
+      page_sidebar_main(dots$children)
     )
   )
 }
@@ -297,7 +300,7 @@ page_sidebar <- function(
 page_sidebar_main <- function(...) {
   as_fill_carrier(
     div(
-      class = "bslib-page-sidebar-main bslib-gap-spacing", 
+      class = "bslib-page-sidebar-main bslib-gap-spacing",
       ...
     )
   )
