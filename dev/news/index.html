@@ -91,11 +91,21 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
-<ul><li><p>Adjusted the border color of checkbox and radio buttons to match the border color of the input group in <code>bs_theme(preset="shiny")</code>. (<a href="https://github.com/rstudio/bslib/issues/1038" class="external-link">#1038</a>)</p></li>
-<li><p><code><a href="../reference/sidebar.html">toggle_sidebar()</a></code> once again correctly closes a sidebar. (<a href="https://github.com/fredericva" class="external-link">@fredericva</a>, <a href="https://github.com/rstudio/bslib/issues/1043" class="external-link">#1043</a>)</p></li>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>Page functions (e.g., <code><a href="../reference/page.html">page_fixed()</a></code>, <code><a href="../reference/page.html">page_fluid()</a></code>, etc) now include <code><a href="https://rdrr.io/pkg/shiny/man/useBusyIndicators.html" class="external-link">shiny::useBusyIndicators()</a></code> automatically if available. If this behavior isn’t desirable (perhaps because a package like <a href="https://github.com/daattali/shinycssloaders" class="external-link">shinycssloaders</a> is being used to indicate busy state), then disable by putting <code>shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)</code> in the page. (<a href="https://github.com/rstudio/bslib/issues/1053" class="external-link">#1053</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h3>
+<ul><li>Adjusted the border color of checkbox and radio buttons to match the border color of the input group in <code>bs_theme(preset="shiny")</code>. (<a href="https://github.com/rstudio/bslib/issues/1038" class="external-link">#1038</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li><p><code><a href="../reference/sidebar.html">toggle_sidebar()</a></code> once again correctly closes a sidebar. (<a href="https://github.com/fredericva" class="external-link">@fredericva</a>, <a href="https://github.com/rstudio/bslib/issues/1043" class="external-link">#1043</a>)</p></li>
 <li><p>bslib now avoids re-defining its components when used in a context where they are already available, e.g. in a Quarto dashboard. (<a href="https://github.com/rstudio/bslib/issues/1045" class="external-link">#1045</a>)</p></li>
 <li><p>Improved the appearance of cards with sidebars and headers in the Shiny preset, especially when custom card color themes are used, e.g. with <code>text-bg-primary</code> or other Bootstrap utility classes. (<a href="https://github.com/rstudio/bslib/issues/1056" class="external-link">#1056</a>)</p></li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.0" id="bslib-070">bslib 0.7.0<a class="anchor" aria-label="anchor" href="#bslib-070"></a></h2><p class="text-muted">CRAN release: 2024-03-29</p>
 <p>This large release includes many improvements and bug fixes for newer UI components like <code><a href="../reference/layout_columns.html">layout_columns()</a></code>, <code><a href="../reference/card.html">card()</a></code>, and <code><a href="../reference/sidebar.html">sidebar()</a></code>. In addition, the new <code><a href="../reference/input_task_button.html">input_task_button()</a></code> offers a drop-in replacement for <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">shiny::actionButton()</a></code> (to prevent multiple submissions of the same operation) as well as pairing nicely with the new <code><a href="https://rdrr.io/pkg/shiny/man/ExtendedTask.html" class="external-link">shiny::ExtendedTask</a></code> for implementing truly non-blocking operations in Shiny.</p>
