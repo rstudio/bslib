@@ -326,7 +326,7 @@
 
 "@types/rstudio-shiny@https://github.com/rstudio/shiny#init-promise":
   version "1.8.1-alpha.9001"
-  resolved "https://github.com/rstudio/shiny#83d9cae6cc45a86489f2d2d068e65a443ba57d53"
+  resolved "https://github.com/rstudio/shiny#9c7937b3dfe85f4108d17d6a3220151ba467f924"
   dependencies:
     "@types/bootstrap" "3.4.0"
     "@types/bootstrap-datepicker" "0.0.14"
