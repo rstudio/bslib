@@ -37,7 +37,7 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 use_busy_indicators <- function() {
   # Use busy indicators were added in shiny 1.8.1.9001 (after 1.8.1.1)
   ubi <- asNamespace("shiny")[["useBusyIndicators"]]
-  if !is.null(ubi) ubi()
+  if (!is.null(ubi)) ubi()
 }
 
 #' @describeIn page A \pkg{bslib} wrapper for [shiny::fluidPage()], a fluid
