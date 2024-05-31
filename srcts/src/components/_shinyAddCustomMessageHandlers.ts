@@ -8,6 +8,6 @@ export function shinyAddCustomMessageHandlers(handlers: {
   }
 
   for (const [name, handler] of Object.entries(handlers)) {
-    Shiny.addCustomMessageHandler(name, handler);
+    window.Shiny.addCustomMessageHandler(name, handler);
   }
 }

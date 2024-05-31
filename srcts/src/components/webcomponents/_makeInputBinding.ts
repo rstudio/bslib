@@ -31,7 +31,7 @@ export function makeInputBinding<T>(
     return;
   }
 
-  class NewCustomBinding extends Shiny["InputBinding"] {
+  class NewCustomBinding extends window.Shiny["InputBinding"] {
     constructor() {
       super();
     }
@@ -70,5 +70,8 @@ export function makeInputBinding<T>(
     }
   }
 
-  Shiny.inputBindings.register(new NewCustomBinding(), `${tagName}-Binding`);
+  window.Shiny.inputBindings.register(
+    new NewCustomBinding(),
+    `${tagName}-Binding`
+  );
 }

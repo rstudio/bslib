@@ -169,7 +169,7 @@ class AccordionInputBinding extends InputBinding {
       (x) => data.target.indexOf(x.value) > -1
     );
 
-    const unbindAll = Shiny?.unbindAll;
+    const unbindAll = window.Shiny?.unbindAll;
 
     targetItems.forEach((x) => {
       if (unbindAll) unbindAll(x.item);

@@ -359,7 +359,7 @@ export class BslibPopover extends BslibElement {
     const deps = [];
     if (content) deps.push(...content.deps);
     if (header) deps.push(...header.deps);
-    Shiny.renderDependencies(deps);
+    window.Shiny.renderDependencies(deps);
 
     const { tip } = this.bsPopover;
 
