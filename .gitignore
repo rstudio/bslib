@@ -4,7 +4,7 @@
 docs/
 sandbox/
 inst/themer-demo/deploy/rsconnect
-inst/examples/*/rsconnect/
+inst/examples-shiny/*/rsconnect/
 
 node_modules/
 

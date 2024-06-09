@@ -2,11 +2,13 @@
 
 ## New features
 
-* Page functions (e.g., `page_fixed()`, `page_fluid()`, etc) now include `shiny::useBusyIndicators()` automatically if available. If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` in the page. (#1053) 
+* Page functions (e.g., `page_fixed()`, `page_fluid()`, etc) now include `shiny::useBusyIndicators()` automatically if available. If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` in the page. (#1053)
 
 ## Improvements
 
 * Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")`. (#1038)
+
+* Example apps provided with bslib have now moved from `examples` to `examples-shiny` to take advantage of the new `package` argument in `shiny::runExample()` with shiny >= 1.8.1. For example, try `shiny::runExample("build-a-box", package = "bslib")`. (#1049)
 
 ## Bug fixes
 
@@ -42,8 +44,8 @@ This large release includes many improvements and bug fixes for newer UI compone
 
   * Full-screen cards are now supported on mobile devices: the _Expand card_ button is revealed when a user taps on the card (thanks @Damonsoul, #961).
 
-  * The _Expand card_ button is now accessible via keyboard navigation and appropriate ARIA attributes connect the card with the expand and close buttons. 
-  
+  * The _Expand card_ button is now accessible via keyboard navigation and appropriate ARIA attributes connect the card with the expand and close buttons.
+
   * For JavaScript-oriented users, the expansion/collapse is now accompanied by a custom `bslib.card` event with the full screen state reported in the `event.detail.fullScreen` property. (#959)
 
 * Improvements to the default theme (i.e., Shiny preset):
