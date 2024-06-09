@@ -266,7 +266,11 @@ showcase <code>max_height</code> in a full screen card.</p></dd>
 <a href="https://bslib.shinyapps.io/build-a-box/" class="external-link">Build-a-Box app</a>, available
 online thanks to <a href="https://www.shinyapps.io/" class="external-link">shinyapps.io</a>. Or, you can
 run the app locally with:</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"build-a-box"</span>, package <span class="op">=</span> <span class="st">"bslib"</span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span><span class="co"># shiny &gt;= 1.8.1</span></span>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runExample.html" class="external-link">runExample</a></span><span class="op">(</span><span class="st">"build-a-box"</span>, package <span class="op">=</span> <span class="st">"bslib"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># shiny &lt; 1.8.1</span></span>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples-shiny"</span>, <span class="st">"build-a-box"</span>, package <span class="op">=</span> <span class="st">"bslib"</span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="themes">Themes<a class="anchor" aria-label="anchor" href="#themes"></a></h2>
