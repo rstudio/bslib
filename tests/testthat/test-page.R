@@ -55,7 +55,8 @@ test_that("page_sidebar()", {
         "main",
         title = "Title",
         # Removes the {bsicons} icon
-        sidebar = sidebar(open = "always")
+        sidebar = sidebar(open = "always"),
+        "data-attr" = "here"
       )
     )$html,
     cran = TRUE

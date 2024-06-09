@@ -1,10 +1,22 @@
 # bslib (development version)
 
+## New features
+
+* Page functions (e.g., `page_fixed()`, `page_fluid()`, etc) now include `shiny::useBusyIndicators()` automatically if available. If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` in the page. (#1053) 
+
+## Improvements
+
 * Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")`. (#1038)
+
+## Bug fixes
 
 * `toggle_sidebar()` once again correctly closes a sidebar. (@fredericva, #1043)
 
 * bslib now avoids re-defining its components when used in a context where they are already available, e.g. in a Quarto dashboard. (#1045)
+
+* Improved the appearance of cards with sidebars and headers in the Shiny preset, especially when custom card color themes are used, e.g. with `text-bg-primary` or other Bootstrap utility classes. (#1056)
+
+* The main content area of `page_sidebar()` and `page_navbar()` with a `sidebar` now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull requests for details). (#1057, #1059)
 
 # bslib 0.7.0
 
