@@ -92,7 +92,7 @@
     Code
       grid_item_container(div(class = "layout-column-child-element"), fillable = FALSE)
     Output
-      <div class="bslib-grid-item bslib-gap-spacing">
+      <div class="bslib-grid-item">
         <div class="layout-column-child-element"></div>
       </div>
 
