@@ -283,6 +283,15 @@ page_sidebar <- function(
 
   dots <- separate_arguments(...)
 
+  layout_sidebar_args <- rlang::list2(
+    sidebar = sidebar,
+    fillable = fillable,
+    border = FALSE,
+    border_radius = FALSE,
+    !!!dots$attribs,
+    page_main_container(dots$children)
+  )
+
   page_fillable(
     padding = 0,
     gap = 0,
@@ -292,14 +301,7 @@ page_sidebar <- function(
     fillable_mobile = fillable_mobile,
     class = "bslib-page-sidebar",
     navbar_title,
-    layout_sidebar(
-      sidebar = sidebar,
-      fillable = fillable,
-      border = FALSE,
-      border_radius = FALSE,
-      !!!dots$attribs,
-      page_main_container(dots$children)
-    )
+    rlang::exec(layout_sidebar, !!!layout_sidebar_args)
   )
 }
 
