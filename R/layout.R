@@ -389,7 +389,8 @@ row_heights_css_vars <- function(x) {
 grid_item_container <- function(el, ..., fillable = TRUE) {
   div(
     ...,
-    class = "bslib-grid-item bslib-gap-spacing",
+    class = "bslib-grid-item",
+    class = if (fillable) "bslib-gap-spacing",
     if (fillable) as_fillable_container(),
     el
   )

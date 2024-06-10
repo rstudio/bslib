@@ -197,7 +197,8 @@ card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL
   }
 
   tag <- div(
-    class = "card-body bslib-gap-spacing",
+    class = "card-body",
+    class = if (fillable) "bslib-gap-spacing",
     style = css(
       min_height = validateCssUnit(min_height),
       "--bslib-card-body-max-height" = validateCssUnit(max_height),
