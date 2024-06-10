@@ -209,10 +209,10 @@ validateCssPadding <- function(padding = NULL) {
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' Create a dashboard layout with a full-bleed header (`title`) and [sidebar()].
+#' Create a dashboard layout with a full-width header (`title`) and [sidebar()].
 #'
 #' @param ... UI elements to display in the 'main' content area (i.e., next to
-#'   the `sidebar`). These arguments are passed to `layout_sidebar()`, which has
+#'   the `sidebar`). These arguments are passed to [layout_sidebar()], which has
 #'   more details.
 #' @param title A string, number, or [htmltools::tag()] child to display as the
 #'   title (just above the `sidebar`).
