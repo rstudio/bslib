@@ -17,7 +17,7 @@ page_sidebar(
 }
 \arguments{
 \item{...}{UI elements to display in the 'main' content area (i.e., next to
-the \code{sidebar}). These arguments are passed to \code{layout_sidebar()}, which has
+the \code{sidebar}). These arguments are passed to \code{\link[=layout_sidebar]{layout_sidebar()}}, which has
 more details.}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
@@ -44,7 +44,7 @@ The default (NULL) results in an empty string.}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Create a dashboard layout with a full-bleed header (\code{title}) and \code{\link[=sidebar]{sidebar()}}.
+Create a dashboard layout with a full-width header (\code{title}) and \code{\link[=sidebar]{sidebar()}}.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
