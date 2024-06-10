@@ -20,6 +20,8 @@
 
 * The main content area of `page_sidebar()` and `page_navbar()` with a `sidebar` now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull requests for details). (#1057, #1059)
 
+* When `card_body(fillable = FALSE)`, bslib now preserves flow-layout margin bottom settings. (#1073)
+
 # bslib 0.7.0
 
 This large release includes many improvements and bug fixes for newer UI components like `layout_columns()`, `card()`, and `sidebar()`. In addition, the new `input_task_button()` offers a drop-in replacement for `shiny::actionButton()` (to prevent multiple submissions of the same operation) as well as pairing nicely with the new `shiny::ExtendedTask` for implementing truly non-blocking operations in Shiny.
