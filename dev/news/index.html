@@ -106,6 +106,7 @@
 <li><p>bslib now avoids re-defining its components when used in a context where they are already available, e.g. in a Quarto dashboard. (<a href="https://github.com/rstudio/bslib/issues/1045" class="external-link">#1045</a>)</p></li>
 <li><p>Improved the appearance of cards with sidebars and headers in the Shiny preset, especially when custom card color themes are used, e.g. with <code>text-bg-primary</code> or other Bootstrap utility classes. (<a href="https://github.com/rstudio/bslib/issues/1056" class="external-link">#1056</a>)</p></li>
 <li><p>The main content area of <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page_navbar.html">page_navbar()</a></code> with a <code>sidebar</code> now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull requests for details). (<a href="https://github.com/rstudio/bslib/issues/1057" class="external-link">#1057</a>, <a href="https://github.com/rstudio/bslib/issues/1059" class="external-link">#1059</a>)</p></li>
+<li><p>When <code>card_body(fillable = FALSE)</code>, bslib now preserves flow-layout margin bottom settings. (<a href="https://github.com/rstudio/bslib/issues/1073" class="external-link">#1073</a>)</p></li>
 </ul></div>
 </div>
     <div class="section level2">
