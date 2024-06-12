@@ -32,14 +32,15 @@ card_footer(..., class = NULL)
 card_image(
   file,
   ...,
+  src = NULL,
   href = NULL,
-  border_radius = c("top", "bottom", "all", "none"),
+  border_radius = c("auto", "top", "bottom", "all", "none"),
   mime_type = NULL,
   class = NULL,
   height = NULL,
-  fill = TRUE,
+  fill = FALSE,
   width = NULL,
-  container = card_body
+  container = NULL
 )
 
 as.card_item(x)
@@ -76,19 +77,33 @@ container.}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 
-\item{container}{a function to generate an HTML element to contain the image.}
+\item{container}{A function to generate an HTML element to contain the image.
+Setting this value to \code{card_body()} places the image inside the card body
+area, otherwise the image will extend to the edges of the card.}
 
-\item{file}{a file path pointing an image. The image will be base64 encoded
-and provided to the \code{src} attribute of the \verb{<img>}. Alternatively, you may
-set this value to \code{NULL} and provide the \code{src} yourself.}
+\item{file}{A file path pointing an image. Local images (i.e. not a URI
+starting with \verb{https://} or similar) will be base64 encoded and provided to
+the \code{src} attribute of the \verb{<img>}. Alternatively, you may directly set
+the image \code{src}, in which case \code{file} is ignored.}
 
-\item{href}{an optional URL to link to.}
+\item{href}{An optional URL to link to when a user clicks on the image.}
 
-\item{border_radius}{where to apply \code{border-radius} on the image.}
+\item{border_radius}{Which side of the image should have rounded corners,
+useful when \code{card_image()} is used as an image cap at the top or bottom of
+the card.
 
-\item{mime_type}{the mime type of the \code{file}.}
+The value of \code{border_radius} determines whether the \code{card-img-top}
+(\code{"top"}), \code{card-img-bottom} (\code{"bottom"}), or \code{card-img} (\code{"all"})
+\href{https://getbootstrap.com/docs/5.3/components/card/#images}{Bootstrap classes} are
+applied to the card. The default \code{"auto"} value will use the image's
+position within a \code{card()} to automatically choose the appropriate class.}
 
-\item{width}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g., \code{width="100\%"}).}
+\item{mime_type}{The mime type of the \code{file} when it is base64 encoded. This
+argument is available for advanced use cases where \code{\link[mime:guess_type]{mime::guess_type()}} is
+unable to automatically determine the file type.}
+
+\item{width}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{width="100\%"}).}
 
 \item{x}{an object to test (or coerce to) a card item.}
 }
@@ -111,7 +126,8 @@ documentation.
 
 \item \code{card_footer()}: A header (with border and background color) for the \code{card()}. Typically appears after a \code{card_body()}.
 
-\item \code{card_image()}: Include static (i.e., pre-generated) images.
+\item \code{card_image()}: Include static images in a card, for example as an
+image cap at the top or bottom of the card.
 
 \item \code{as.card_item()}: Mark an object as a card item. This will prevent the
 \code{\link[=card]{card()}} from putting the object inside a \code{wrapper} (i.e., a
