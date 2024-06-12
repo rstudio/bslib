@@ -96,6 +96,10 @@ readers.
 For more information, the Web Accessibility Initiative (WAI) has a
 \href{https://www.w3.org/WAI/tutorials/images/}{helpful tutorial on alt text}.}
 
+\item{src}{The \code{src} attribute of the \verb{<img>} tag. If provided, \code{file} is
+ignored entirely. Use \code{src} to provide a relative path to a file that will
+be served by the Shiny application and should not be base64 encoded.}
+
 \item{href}{An optional URL to link to when a user clicks on the image.}
 
 \item{border_radius}{Which side of the image should have rounded corners,

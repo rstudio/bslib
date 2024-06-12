@@ -264,6 +264,9 @@ card_footer <- function(..., class = NULL) {
 #'
 #'   For more information, the Web Accessibility Initiative (WAI) has a
 #'   [helpful tutorial on alt text](https://www.w3.org/WAI/tutorials/images/).
+#' @param src The `src` attribute of the `<img>` tag. If provided, `file` is
+#'   ignored entirely. Use `src` to provide a relative path to a file that will
+#'   be served by the Shiny application and should not be base64 encoded.
 #' @param href An optional URL to link to when a user clicks on the image.
 #' @param border_radius Which side of the image should have rounded corners,
 #'   useful when `card_image()` is used as an image cap at the top or bottom of
