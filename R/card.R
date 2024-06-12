@@ -256,6 +256,14 @@ card_footer <- function(..., class = NULL) {
 #'   starting with `https://` or similar) will be base64 encoded and provided to
 #'   the `src` attribute of the `<img>`. Alternatively, you may directly set
 #'   the image `src`, in which case `file` is ignored.
+#' @param alt Alternate text for the image, used by screen readers and assistive
+#'   devices. Provide alt text with a description of the image for any images
+#'   with important content. If alt text is not provided, the image will be
+#'   considered to be decorative and will not be read or announced by screen
+#'   readers.
+#'
+#'   For more information, the Web Accessibility Initiative (WAI) has a
+#'   [helpful tutorial on alt text](https://www.w3.org/WAI/tutorials/images/).
 #' @param href An optional URL to link to when a user clicks on the image.
 #' @param border_radius Which side of the image should have rounded corners,
 #'   useful when `card_image()` is used as an image cap at the top or bottom of
@@ -279,6 +287,7 @@ card_footer <- function(..., class = NULL) {
 #' @export
 card_image <- function(
   file,
+  alt = "",
   ...,
   src = NULL,
   href = NULL,
@@ -305,6 +314,7 @@ card_image <- function(
 
   image <- tags$img(
     src = src,
+    alt = alt,
     class = "img-fluid",
     class = switch(
       border_radius,

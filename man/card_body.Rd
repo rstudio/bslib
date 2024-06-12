@@ -31,6 +31,7 @@ card_footer(..., class = NULL)
 
 card_image(
   file,
+  alt = "",
   ...,
   src = NULL,
   href = NULL,
@@ -85,6 +86,15 @@ area, otherwise the image will extend to the edges of the card.}
 starting with \verb{https://} or similar) will be base64 encoded and provided to
 the \code{src} attribute of the \verb{<img>}. Alternatively, you may directly set
 the image \code{src}, in which case \code{file} is ignored.}
+
+\item{alt}{Alternate text for the image, used by screen readers and assistive
+devices. Provide alt text with a description of the image for any images
+with important content. If alt text is not provided, the image will be
+considered to be decorative and will not be read or announced by screen
+readers.
+
+For more information, the Web Accessibility Initiative (WAI) has a
+\href{https://www.w3.org/WAI/tutorials/images/}{helpful tutorial on alt text}.}
 
 \item{href}{An optional URL to link to when a user clicks on the image.}
 
