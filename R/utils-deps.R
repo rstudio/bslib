@@ -45,7 +45,7 @@ component_dependency_sass <- function(theme) {
   }
 }
 
-component_dependency_sass_layer <- function() {
+component_dependency_sass_files <- function() {
   scss_dir <- path_inst("components", "scss")
   scss_files <- c(
     file.path(scss_dir, "mixins", "_mixins.scss"),
@@ -69,7 +69,7 @@ component_dependency_sass_ <- function(theme) {
   }
 
   bs_dependency(
-    input = component_dependency_sass_layer(),
+    input = component_dependency_sass_files(),
     theme = theme,
     name = "bslib-component-css",
     version = get_package_version("bslib"),
