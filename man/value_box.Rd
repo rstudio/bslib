@@ -139,7 +139,11 @@ Explore all of the \code{value_box()} options and layouts interactively with the
 online thanks to \href{https://www.shinyapps.io/}{shinyapps.io}. Or, you can
 run the app locally with:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::runApp(system.file("examples", "build-a-box", package = "bslib"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# shiny >= 1.8.1
+shiny::runExample("build-a-box", package = "bslib")
+
+# shiny < 1.8.1
+shiny::runApp(system.file("examples-shiny", "build-a-box", package = "bslib"))
 }\if{html}{\out{</div>}}
 }
 
@@ -299,7 +303,9 @@ Like with the \verb{bg-} theme names, if only \code{bg} is provided, \code{value
 Note that \code{value_box_theme()} optionally takes a \code{theme} name, which can be helpful if you want to use a named theme and modify the default \code{bg} or \code{fg} colors of that theme.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box_theme(name = "orange", bg = "#FFFFFF")
-value_box_theme(name = "text-danger", fg = "#FFB6C1")
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{value_box_theme(name = "text-danger", fg = "#FFB6C1")
 }\if{html}{\out{</div>}}
 
 Also note that \code{bg}/\code{fg} \emph{must} be CSS colors, not Bootstrap theme or color names.

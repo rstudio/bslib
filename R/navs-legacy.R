@@ -306,7 +306,7 @@ navbarPage_ <- function(title,
         fillable = !isFALSE(fillable),
         border_radius = FALSE,
         border = !fluid,
-        contents
+        page_main_container(contents)
       )
     )
 
