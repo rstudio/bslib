@@ -66,6 +66,7 @@ Other Shiny input aliases:
 \code{\link{input_checkbox_group}()},
 \code{\link{input_date}()},
 \code{\link{input_date_range}()},
+\code{\link{input_file}()},
 \code{\link{input_numeric}()},
 \code{\link{input_password}()},
 \code{\link{input_radio_buttons}()},

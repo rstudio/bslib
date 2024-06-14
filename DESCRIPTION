@@ -154,6 +154,7 @@ Collate:
     'shiny-input_checkbox_group.R'
     'shiny-input_date.R'
     'shiny-input_date_range.R'
+    'shiny-input_file.R'
     'shiny-input_numeric.R'
     'shiny-input_password.R'
     'shiny-input_radio_buttons.R'
