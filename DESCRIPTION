@@ -150,6 +150,7 @@ Collate:
     'shiny-input_action_button.R'
     'shiny-input_action_link.R'
     'shiny-input_checkbox.R'
+    'shiny-input_checkbox_group.R'
     'shiny-input_date.R'
     'shiny-input_date_range.R'
     'shiny-input_select.R'

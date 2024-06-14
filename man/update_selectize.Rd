@@ -69,6 +69,7 @@ Other Shiny update aliases:
 \code{\link{update_action_button}()},
 \code{\link{update_action_link}()},
 \code{\link{update_checkbox}()},
+\code{\link{update_checkbox_group}()},
 \code{\link{update_date}()},
 \code{\link{update_date_range}()},
 \code{\link{update_select}()},
