@@ -29,7 +29,7 @@ A text input control that can be added to a UI definition.
 Create an input control for entry of unstructured text values
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::textInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::textInput()} with \code{input_text()}.
+ This function is an alias for \code{shiny::textInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::textInput()} with \code{input_text()}.
 }
 
 \section{Server value}{

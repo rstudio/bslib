@@ -58,7 +58,7 @@ The corresponding HTML output tag should be \code{div} or \code{img} and have
 the CSS class name \code{shiny-image-output}.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::renderImage()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::renderImage()} with \code{render_image()}.
+ This function is an alias for \code{shiny::renderImage()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::renderImage()} with \code{render_image()}.
 }
 
 \seealso{

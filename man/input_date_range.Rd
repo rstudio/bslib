@@ -90,7 +90,7 @@ the browser. It allows the following values:
 }
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::dateRangeInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::dateRangeInput()} with \code{input_date_range()}.
+ This function is an alias for \code{shiny::dateRangeInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::dateRangeInput()} with \code{input_date_range()}.
 }
 
 \section{Server value}{

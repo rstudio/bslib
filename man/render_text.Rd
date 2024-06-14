@@ -52,7 +52,7 @@ recommended if you need a monospace font and whitespace preserved) and should
 have the CSS class name \code{shiny-text-output}.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::renderText()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::renderText()} with \code{render_text()}.
+ This function is an alias for \code{shiny::renderText()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::renderText()} with \code{render_text()}.
 }
 
 \seealso{

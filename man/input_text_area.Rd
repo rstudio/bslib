@@ -57,7 +57,7 @@ A textarea input control that can be added to a UI definition.
 Create a textarea input control for entry of unstructured text values.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::textAreaInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::textAreaInput()} with \code{input_text_area()}.
+ This function is an alias for \code{shiny::textAreaInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::textAreaInput()} with \code{input_text_area()}.
 }
 
 \section{Server value}{

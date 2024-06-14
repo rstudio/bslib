@@ -80,7 +80,7 @@ The corresponding HTML output tag should be \code{div} or \code{img} and have
 the CSS class name \code{shiny-plot-output}.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::renderPlot()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::renderPlot()} with \code{render_plot()}.
+ This function is an alias for \code{shiny::renderPlot()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::renderPlot()} with \code{render_plot()}.
 }
 
 \section{Interactive plots}{

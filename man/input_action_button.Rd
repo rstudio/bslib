@@ -33,7 +33,7 @@ Creates an action button or link whose value is initially zero, and increments b
 each time it is pressed.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::actionButton()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::actionButton()} with \code{input_action_button()}.
+ This function is an alias for \code{shiny::actionButton()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::actionButton()} with \code{input_action_button()}.
 }
 
 \section{Server value}{

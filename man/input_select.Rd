@@ -73,7 +73,7 @@ on the Shiny Dev Center for details.
 }
 \section{Aliased from Shiny}{
 
-This function is an alias for \code{shiny::selectInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::selectInput()} with \code{input_select()}.
+This function is an alias for \code{shiny::selectInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::selectInput()} with \code{input_select()}.
 
 Note that, unlike in \code{\link[shiny:selectInput]{shiny::selectInput()}}, \code{input_select()} does not
 use selectize.js by default. Insttead, set \code{selectize = TRUE} or call

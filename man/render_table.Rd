@@ -89,7 +89,7 @@ See \code{\link[shiny:renderDataTable]{renderDataTable()}} for data frames that 
 page.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::renderTable()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::renderTable()} with \code{render_table()}.
+ This function is an alias for \code{shiny::renderTable()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::renderTable()} with \code{render_table()}.
 }
 
 \seealso{

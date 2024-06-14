@@ -21,7 +21,7 @@ Creates an action button or link whose value is initially zero, and increments b
 each time it is pressed.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::actionLink()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::actionLink()} with \code{input_action_link()}.
+ This function is an alias for \code{shiny::actionLink()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::actionLink()} with \code{input_action_link()}.
 }
 
 \section{Server value}{

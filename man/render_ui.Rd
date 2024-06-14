@@ -32,7 +32,7 @@ The corresponding HTML output tag should be \code{div} and have the CSS class
 name \code{shiny-html-output} (or use \code{\link[shiny:uiOutput]{uiOutput()}}).
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::renderUI()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::renderUI()} with \code{render_ui()}.
+ This function is an alias for \code{shiny::renderUI()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::renderUI()} with \code{render_ui()}.
 }
 
 \seealso{

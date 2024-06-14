@@ -75,7 +75,7 @@ For \code{\link[shiny]{radioButtons}()}, \code{\link[shiny]{checkboxGroupInput}(
 can be cleared by using \code{selected=character(0)}.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::updateSliderInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::updateSliderInput()} with \code{update_slider()}.
+ This function is an alias for \code{shiny::updateSliderInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::updateSliderInput()} with \code{update_slider()}.
 }
 
 \seealso{

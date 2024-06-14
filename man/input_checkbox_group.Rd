@@ -55,7 +55,7 @@ independently. The server will receive the input as a character vector of the
 selected values.
 }
 \section{Aliased from Shiny}{
- This function is an alias for \code{shiny::checkboxGroupInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::checkboxGroupInput()} with \code{input_checkbox_group()}.
+ This function is an alias for \code{shiny::checkboxGroupInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation on this page may still refer to the original function names. You can replace \code{shiny::checkboxGroupInput()} with \code{input_checkbox_group()}.
 }
 
 \section{Server value}{
