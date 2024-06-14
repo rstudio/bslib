@@ -36,6 +36,7 @@ This implies two things:
 \seealso{
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
-\code{\link{input_select}()}
+\code{\link{input_select}()},
+\code{\link{input_selectize}()}
 }
 \concept{Shiny input aliases}
