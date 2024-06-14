@@ -204,6 +204,21 @@ reference:
     - input_task_button
     - bind_task_button
 
+- title: Shiny Aliases
+  desc: >
+    These functions are generally aliases for their counterparts in Shiny, but
+    using modern naming conventions that are consistent with bslib and are
+    more in line with the conventions of the broader R community.
+
+    In the future, we may update these functions to take advantage of newer
+    Bootstrap features.
+- subtitle: Shiny Inputs
+  contents:
+    - has_concept("Shiny input aliases")
+- subtitle: Shiny Input Updating Functions
+  contents:
+  - has_concept("Shiny update aliases")
+
 - title: Theming
   desc: >
     bslib provides a flexible interface for customizing Bootstrap themes. You
