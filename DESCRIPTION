@@ -148,6 +148,7 @@ Collate:
     'print.R'
     'shiny-devmode.R'
     'shiny-input_action_button.R'
+    'shiny-input_action_link.R'
     'sidebar.R'
     'staticimports.R'
     'tooltip.R'
