@@ -71,9 +71,12 @@ Other Shiny update aliases:
 \code{\link{update_checkbox}()},
 \code{\link{update_date}()},
 \code{\link{update_date_range}()},
+\code{\link{update_numeric}()},
 \code{\link{update_radio_buttons}()},
 \code{\link{update_select}()},
 \code{\link{update_selectize}()},
-\code{\link{update_slider}()}
+\code{\link{update_slider}()},
+\code{\link{update_text}()},
+\code{\link{update_text_area}()}
 }
 \concept{Shiny update aliases}
