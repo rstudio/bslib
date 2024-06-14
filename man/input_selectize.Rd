@@ -56,6 +56,7 @@ nothing is selected, this value will be \code{NULL}.
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},
+\code{\link{input_checkbox}()},
 \code{\link{input_date}()},
 \code{\link{input_date_range}()},
 \code{\link{input_select}()},

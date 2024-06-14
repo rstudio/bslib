@@ -45,6 +45,7 @@ can be cleared by using \code{selected=character(0)}.
 \seealso{
 Other Shiny update aliases: 
 \code{\link{update_action_button}()},
+\code{\link{update_checkbox}()},
 \code{\link{update_date}()},
 \code{\link{update_date_range}()},
 \code{\link{update_select}()},
