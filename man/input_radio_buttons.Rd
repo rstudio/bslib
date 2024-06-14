@@ -59,9 +59,10 @@ the radio buttons to have no options selected by using \code{selected = characte
 to return to that state once they've made a selection. Instead, consider
 having the first of your choices be \code{c("None selected" = "")}.
 }
-\note{
-This function is an alias for \code{shiny::radioButtons()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::radioButtons()} with \code{input_radio_buttons()}.
+\section{Aliased from Shiny}{
+ This function is an alias for \code{shiny::radioButtons()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::radioButtons()} with \code{input_radio_buttons()}.
 }
+
 \section{Server value}{
 
 

@@ -3,7 +3,7 @@
 #' @param id An input id.
 #' @param label An input label.
 #'
-#' @note `r docs_callout_shiny_alias("input_action_button", "actionButton")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_action_button", "actionButton")`
 #'
 #' @family Shiny input aliases
 #' @export
@@ -30,7 +30,7 @@ input_action_button <- function(
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
-#' @note `r docs_callout_shiny_alias("update_action_button", "updateActionButton")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_action_button", "updateActionButton")`
 #'
 #' @family Shiny update aliases
 #' @export

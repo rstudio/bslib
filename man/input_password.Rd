@@ -28,9 +28,10 @@ A text input control that can be added to a UI definition.
 \description{
 Create an password control for entry of passwords.
 }
-\note{
-This function is an alias for \code{shiny::passwordInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::passwordInput()} with \code{input_password()}.
+\section{Aliased from Shiny}{
+ This function is an alias for \code{shiny::passwordInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::passwordInput()} with \code{input_password()}.
 }
+
 \section{Server value}{
 
 

@@ -89,9 +89,10 @@ cannot be dragged.}
 Constructs a slider widget to select a number, date, or date-time from a
 range.
 }
-\note{
-This function is an alias for \code{shiny::sliderInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::sliderInput()} with \code{input_slider()}.
+\section{Aliased from Shiny}{
+ This function is an alias for \code{shiny::sliderInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::sliderInput()} with \code{input_slider()}.
 }
+
 \section{Server value}{
 
 

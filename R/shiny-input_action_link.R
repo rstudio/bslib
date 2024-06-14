@@ -2,7 +2,7 @@
 #'
 #' @inheritParams input_action_button
 #'
-#' @note `r docs_callout_shiny_alias("input_action_link", "actionLink")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_action_link", "actionLink")`
 #'
 #' @family Shiny input aliases
 #' @export
@@ -23,7 +23,7 @@ input_action_link <- function(
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
-#' @note `r docs_callout_shiny_alias("update_action_link", "updateActionLink")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_action_link", "updateActionLink")`
 #'
 #' @family Shiny update aliases
 #' @export

@@ -89,9 +89,10 @@ the browser. It allows the following values:
 \item \code{DD} Full weekday name
 }
 }
-\note{
-This function is an alias for \code{shiny::dateInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::dateInput()} with \code{input_date()}.
+\section{Aliased from Shiny}{
+ This function is an alias for \code{shiny::dateInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::dateInput()} with \code{input_date()}.
 }
+
 \section{Server value}{
 
 

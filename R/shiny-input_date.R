@@ -3,7 +3,7 @@
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
-#' @note `r docs_callout_shiny_alias("input_date", "dateInput")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_date", "dateInput")`
 #'
 #' @family Shiny input aliases
 #' @export
@@ -45,7 +45,7 @@ input_date <- function(
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
-#' @note `r docs_callout_shiny_alias("update_date", "updateDateInput")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_date", "updateDateInput")`
 #'
 #' @family Shiny update aliases
 #' @export

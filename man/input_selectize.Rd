@@ -44,9 +44,10 @@ massively improves performance and efficiency; see
 \href{https://shiny.rstudio.com/articles/selectize.html}{this selectize article}
 on the Shiny Dev Center for details.
 }
-\note{
-This function is an alias for \code{shiny::selectizeInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::selectizeInput()} with \code{input_selectize()}.
+\section{Aliased from Shiny}{
+ This function is an alias for \code{shiny::selectizeInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::selectizeInput()} with \code{input_selectize()}.
 }
+
 \section{Server value}{
 
  A vector of character strings, usually of length

@@ -3,7 +3,7 @@
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
-#' @note `r docs_callout_shiny_alias("input_text_area", "textAreaInput")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_text_area", "textAreaInput")`
 #'
 #' @family Shiny input aliases
 #' @export
@@ -37,7 +37,7 @@ input_text_area <- function(
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
-#' @note `r docs_callout_shiny_alias("update_text_area", "updateTextAreaInput")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_text_area", "updateTextAreaInput")`
 #'
 #' @family Shiny update aliases
 #' @export

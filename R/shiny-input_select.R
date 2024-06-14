@@ -3,7 +3,7 @@
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
-#' @note `r docs_callout_shiny_alias("input_select", "selectInput")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_select", "selectInput")`
 #'
 #' @family Shiny input aliases
 #' @export
@@ -34,7 +34,7 @@ input_select <- function(
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
-#' @note `r docs_callout_shiny_alias("update_select", "updateSelectInput")`
+#' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_select", "updateSelectInput")`
 #'
 #' @family Shiny update aliases
 #' @export

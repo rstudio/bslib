@@ -54,9 +54,10 @@ Create a group of checkboxes that can be used to toggle multiple choices
 independently. The server will receive the input as a character vector of the
 selected values.
 }
-\note{
-This function is an alias for \code{shiny::checkboxGroupInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::checkboxGroupInput()} with \code{input_checkbox_group()}.
+\section{Aliased from Shiny}{
+ This function is an alias for \code{shiny::checkboxGroupInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::checkboxGroupInput()} with \code{input_checkbox_group()}.
 }
+
 \section{Server value}{
 
 

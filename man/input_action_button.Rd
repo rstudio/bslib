@@ -32,9 +32,10 @@ see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}
 Creates an action button or link whose value is initially zero, and increments by one
 each time it is pressed.
 }
-\note{
-This function is an alias for \code{shiny::actionButton()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::actionButton()} with \code{input_action_button()}.
+\section{Aliased from Shiny}{
+ This function is an alias for \code{shiny::actionButton()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::actionButton()} with \code{input_action_button()}.
 }
+
 \section{Server value}{
 
 

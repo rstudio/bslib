@@ -24,9 +24,10 @@ A checkbox control that can be added to a UI definition.
 \description{
 Create a checkbox that can be used to specify logical values.
 }
-\note{
-This function is an alias for \code{shiny::checkboxInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::checkboxInput()} with \code{input_checkbox()}.
+\section{Aliased from Shiny}{
+ This function is an alias for \code{shiny::checkboxInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::checkboxInput()} with \code{input_checkbox()}.
 }
+
 \section{Server value}{
 
 
