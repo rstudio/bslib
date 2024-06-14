@@ -25,6 +25,7 @@ input_action_button <- function(
 #' @inherit shiny::updateActionButton params return title description details sections references
 #' @inheritParams input_action_button
 #'
+#' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
 #' @family Shiny update aliases

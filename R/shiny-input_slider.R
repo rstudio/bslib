@@ -45,6 +45,7 @@ input_slider <- function(
 }
 
 #' @inherit shiny::updateSliderInput params return title description details sections references
+#' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
 #' @family Shiny update aliases

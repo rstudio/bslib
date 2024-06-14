@@ -14,6 +14,8 @@ update_text_area(
 )
 }
 \arguments{
+\item{id}{An input id.}
+
 \item{...}{Ignored, included for future expansion.}
 
 \item{label}{The label to set for the input object.}
