@@ -153,6 +153,7 @@ Collate:
     'shiny-input_checkbox_group.R'
     'shiny-input_date.R'
     'shiny-input_date_range.R'
+    'shiny-input_radio_buttons.R'
     'shiny-input_select.R'
     'shiny-input_selectize.R'
     'shiny-input_slider.R'

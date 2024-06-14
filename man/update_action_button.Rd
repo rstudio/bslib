@@ -55,6 +55,7 @@ Other Shiny update aliases:
 \code{\link{update_checkbox_group}()},
 \code{\link{update_date}()},
 \code{\link{update_date_range}()},
+\code{\link{update_radio_buttons}()},
 \code{\link{update_select}()},
 \code{\link{update_selectize}()},
 \code{\link{update_slider}()}
