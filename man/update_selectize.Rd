@@ -71,6 +71,8 @@ can be cleared by using \code{selected=character(0)}.
 }
 
 \seealso{
+\code{\link[=input_selectize]{input_selectize()}} to create a selectize input.
+
 Other Shiny update aliases: 
 \code{\link{update_action_button}()},
 \code{\link{update_action_link}()},

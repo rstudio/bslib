@@ -64,6 +64,8 @@ can be cleared by using \code{selected=character(0)}.
 }
 
 \seealso{
+\code{\link[=input_date_range]{input_date_range()}} to create a date range input.
+
 Other Shiny update aliases: 
 \code{\link{update_action_button}()},
 \code{\link{update_action_link}()},

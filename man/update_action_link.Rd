@@ -49,6 +49,8 @@ can be cleared by using \code{selected=character(0)}.
 }
 
 \seealso{
+\code{\link[=input_action_link]{input_action_link()}} to create an action link.
+
 Other Shiny update aliases: 
 \code{\link{update_action_button}()},
 \code{\link{update_checkbox}()},

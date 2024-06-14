@@ -5,6 +5,8 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_text_area", "textAreaInput")`
 #'
+#' @seealso [update_text_area()] to programmatically update a text area input.
+#'
 #' @family Shiny input aliases
 #' @export
 input_text_area <- function(
@@ -38,6 +40,8 @@ input_text_area <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_text_area", "updateTextAreaInput")`
+#'
+#' @seealso [input_text_area()] to create a text area input.
 #'
 #' @family Shiny update aliases
 #' @export

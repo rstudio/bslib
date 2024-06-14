@@ -51,6 +51,8 @@ A numeric vector of length 1.
 }
 
 \seealso{
+\code{\link[=update_numeric]{update_numeric()}} to programmatically update a numeric input.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},

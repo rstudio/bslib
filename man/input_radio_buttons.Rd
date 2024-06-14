@@ -72,6 +72,9 @@ A character string containing the value of the selected button.
 }
 
 \seealso{
+\code{\link[=update_radio_buttons]{update_radio_buttons()}} to programmatically update a radio button
+input.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},

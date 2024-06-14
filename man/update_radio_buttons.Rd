@@ -72,6 +72,8 @@ can be cleared by using \code{selected=character(0)}.
 }
 
 \seealso{
+\code{\link[=input_radio_buttons]{input_radio_buttons()}} to create a radio button input.
+
 Other Shiny update aliases: 
 \code{\link{update_action_button}()},
 \code{\link{update_action_link}()},

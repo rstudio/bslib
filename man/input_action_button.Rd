@@ -50,6 +50,9 @@ This implies two things:
 }
 
 \seealso{
+\code{\link[=update_action_button]{update_action_button()}} to programmatically update an action
+button.
+
 Other Shiny input aliases: 
 \code{\link{input_action_link}()},
 \code{\link{input_checkbox}()},

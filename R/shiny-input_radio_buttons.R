@@ -5,6 +5,9 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_radio_buttons", "radioButtons")`
 #'
+#' @seealso [update_radio_buttons()] to programmatically update a radio button
+#'   input.
+#'
 #' @family Shiny input aliases
 #' @export
 input_radio_buttons <- function(
@@ -36,6 +39,8 @@ input_radio_buttons <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_radio_buttons", "updateRadioButtons")`
+#'
+#' @seealso [input_radio_buttons()] to create a radio button input.
 #'
 #' @family Shiny update aliases
 #' @export

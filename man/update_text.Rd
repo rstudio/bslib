@@ -54,6 +54,8 @@ can be cleared by using \code{selected=character(0)}.
 }
 
 \seealso{
+\code{\link[=input_text]{input_text()}} to create a text input.
+
 Other Shiny update aliases: 
 \code{\link{update_action_button}()},
 \code{\link{update_action_link}()},

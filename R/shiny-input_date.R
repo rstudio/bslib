@@ -5,6 +5,8 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_date", "dateInput")`
 #'
+#' @seealso [update_date()] to programmatically update a date input.
+#'
 #' @family Shiny input aliases
 #' @export
 input_date <- function(
@@ -46,6 +48,8 @@ input_date <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_date", "updateDateInput")`
+#'
+#' @seealso [input_date()] to create a date input.
 #'
 #' @family Shiny update aliases
 #' @export

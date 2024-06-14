@@ -41,6 +41,8 @@ unless \code{value} is provided.
 }
 
 \seealso{
+\code{\link[=update_text]{update_text()}} is used to programmatically update a password input.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},

@@ -5,6 +5,9 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_checkbox_group", "checkboxGroupInput")`
 #'
+#' @seealso [update_checkbox_group()] to programmatically update a checkbox
+#'   group.
+#'
 #' @family Shiny input aliases
 #' @export
 input_checkbox_group <- function(
@@ -36,6 +39,8 @@ input_checkbox_group <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_checkbox_group", "updateCheckboxGroupInput")`
+#'
+#' @seealso [input_checkbox_group()] to create a checkbox group.
 #'
 #' @family Shiny update aliases
 #' @export

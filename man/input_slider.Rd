@@ -102,6 +102,8 @@ in the case of slider range, a vector of two numbers/dates/date-times.
 }
 
 \seealso{
+\code{\link[=update_slider]{update_slider()}} to programmatically update a slider input.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},

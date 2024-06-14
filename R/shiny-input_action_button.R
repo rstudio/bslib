@@ -5,6 +5,9 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_action_button", "actionButton")`
 #'
+#' @seealso [update_action_button()] to programmatically update an action
+#'   button.
+#'
 #' @family Shiny input aliases
 #' @export
 input_action_button <- function(
@@ -31,6 +34,8 @@ input_action_button <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_action_button", "updateActionButton")`
+#'
+#' @seealso [input_action_button()] to create an action button.
 #'
 #' @family Shiny update aliases
 #' @export

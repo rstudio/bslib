@@ -4,6 +4,8 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_action_link", "actionLink")`
 #'
+#' @seealso [update_action_link()] to programmatically update an action link.
+#'
 #' @family Shiny input aliases
 #' @export
 input_action_link <- function(
@@ -24,6 +26,8 @@ input_action_link <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_action_link", "updateActionLink")`
+#'
+#' @seealso [input_action_link()] to create an action link.
 #'
 #' @family Shiny update aliases
 #' @export

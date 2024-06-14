@@ -5,6 +5,8 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_slider", "sliderInput")`
 #'
+#' @seealso [update_slider()] to programmatically update a slider input.
+#'
 #' @family Shiny input aliases
 #' @export
 input_slider <- function(
@@ -51,6 +53,8 @@ input_slider <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_slider", "updateSliderInput")`
+#'
+#' @seealso [input_slider()] to create a slider input.
 #'
 #' @family Shiny update aliases
 #' @export

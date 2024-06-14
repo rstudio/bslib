@@ -101,6 +101,8 @@ A \link{Date} vector of length 2.
 }
 
 \seealso{
+\code{\link[=update_date_range]{update_date_range()}} to programmatically update a date range input.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},

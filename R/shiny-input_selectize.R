@@ -5,6 +5,8 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_selectize", "selectizeInput")`
 #'
+#' @seealso [update_selectize()] to programmatically update a selectize input.
+#'
 #' @family Shiny input aliases
 #' @export
 input_selectize <- function(
@@ -26,6 +28,8 @@ input_selectize <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_selectize", "updateSelectizeInput")`
+#'
+#' @seealso [input_selectize()] to create a selectize input.
 #'
 #' @family Shiny update aliases
 #' @export

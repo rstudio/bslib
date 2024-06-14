@@ -5,6 +5,8 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_numeric", "numericInput")`
 #'
+#' @seealso [update_numeric()] to programmatically update a numeric input.
+#'
 #' @family Shiny input aliases
 #' @export
 input_numeric <- function(
@@ -34,6 +36,8 @@ input_numeric <- function(
 #' @param ... Ignored, included for future expansion.
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("update_numeric", "updateNumericInput")`
+#'
+#' @seealso [input_numeric()] to create a numeric input.
 #'
 #' @family Shiny update aliases
 #' @export

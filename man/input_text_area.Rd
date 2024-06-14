@@ -69,6 +69,8 @@ unless \code{value} is provided.
 }
 
 \seealso{
+\code{\link[=update_text_area]{update_text_area()}} to programmatically update a text area input.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},

@@ -53,6 +53,8 @@ can be cleared by using \code{selected=character(0)}.
 }
 
 \seealso{
+\code{\link[=input_action_button]{input_action_button()}} to create an action button.
+
 Other Shiny update aliases: 
 \code{\link{update_action_link}()},
 \code{\link{update_checkbox}()},

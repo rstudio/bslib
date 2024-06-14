@@ -5,6 +5,8 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_password", "passwordInput")`
 #'
+#' @seealso [update_text()] is used to programmatically update a password input.
+#'
 #' @family Shiny input aliases
 #' @export
 input_password <- function(

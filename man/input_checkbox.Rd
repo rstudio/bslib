@@ -36,6 +36,8 @@ Create a checkbox that can be used to specify logical values.
 }
 
 \seealso{
+\code{\link[=update_checkbox]{update_checkbox()}} to programmatically update a checkbox.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},

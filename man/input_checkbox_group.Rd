@@ -66,6 +66,9 @@ Character vector of values corresponding to the boxes that are checked.
 }
 
 \seealso{
+\code{\link[=update_checkbox_group]{update_checkbox_group()}} to programmatically update a checkbox
+group.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},

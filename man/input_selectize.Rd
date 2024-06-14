@@ -57,6 +57,8 @@ nothing is selected, this value will be \code{NULL}.
 }
 
 \seealso{
+\code{\link[=update_selectize]{update_selectize()}} to programmatically update a selectize input.
+
 Other Shiny input aliases: 
 \code{\link{input_action_button}()},
 \code{\link{input_action_link}()},
