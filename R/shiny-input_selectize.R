@@ -19,7 +19,7 @@ input_selectize <- function(
 }
 
 #' @inherit shiny::updateSelectizeInput params return title description details sections references
-#' @inheritParams update_action_button
+#' @param ... Ignored, included for future expansion.
 #'
 #' @family Shiny update aliases
 #' @export
