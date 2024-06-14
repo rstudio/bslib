@@ -30,6 +30,13 @@ get_current_theme <- function() {
   if (isNamespaceLoaded("shiny")) shiny::getCurrentTheme()
 }
 
+validate_session_object <- function(session, label) {
+  if (is.null(label)) {
+    label <- as.character(sys.call(sys.parent())[[1]])
+  }
+  asNamespace("shiny")[["validate_session_object"]](session, label)
+}
+
 
 # Shiny internal funcs needed for nav_panel() (i.e., tabPanel()) logic
 
