@@ -218,6 +218,12 @@ reference:
 - subtitle: Shiny Input Updating Functions
   contents:
   - has_concept("Shiny update aliases")
+- subtitle: Shiny Output Functions
+  contents:
+  - has_concept("Shiny output aliases")
+- subtitle: Shiny Render Functions
+  contents:
+  - has_concept("Shiny render aliases")
 
 - title: Theming
   desc: >
