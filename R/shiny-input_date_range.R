@@ -1,0 +1,65 @@
+#' @inherit shiny::dateRangeInput params return title description details sections references
+#'
+#' @inheritParams input_action_button
+#'
+#' @family Shiny input aliases
+#' @export
+input_date_range <- function(
+  id,
+  label,
+  start = NULL,
+  end = NULL,
+  ...,
+  min = NULL,
+  max = NULL,
+  format = "yyyy-mm-dd",
+  startview = "month",
+  weekstart = 0,
+  language = "en",
+  separator = " to ",
+  width = NULL,
+  autoclose = TRUE
+) {
+  shiny::dateRangeInput(
+    inputId = id,
+    label = label,
+    start = start,
+    end = end,
+    min = min,
+    max = max,
+    format = format,
+    startview = startview,
+    weekstart = weekstart,
+    language = language,
+    separator = separator,
+    width = width,
+    autoclose = autoclose
+  )
+}
+
+#' @inherit shiny::updateDateRangeInput params return title description details sections references
+#'
+#' @param ... Ignored, included for future expansion.
+#'
+#' @family Shiny update aliases
+#' @export
+update_date_range <- function(
+  id,
+  ...,
+  label = NULL,
+  start = NULL,
+  end = NULL,
+  min = NULL,
+  max = NULL,
+  session = get_current_session()
+) {
+  shiny::updateDateRangeInput(
+    session = session,
+    inputId = id,
+    label = label,
+    start = start,
+    end = end,
+    min = min,
+    max = max
+  )
+}
