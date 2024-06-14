@@ -99,20 +99,9 @@ operation.}
 }
 
 \seealso{
-Other Shiny input aliases: 
-\code{\link{input_action_button}()},
-\code{\link{input_action_link}()},
-\code{\link{input_checkbox}()},
-\code{\link{input_checkbox_group}()},
-\code{\link{input_date}()},
-\code{\link{input_date_range}()},
-\code{\link{input_numeric}()},
-\code{\link{input_password}()},
-\code{\link{input_radio_buttons}()},
-\code{\link{input_select}()},
-\code{\link{input_selectize}()},
-\code{\link{input_slider}()},
-\code{\link{input_text}()},
-\code{\link{input_text_area}()}
+Other Shiny upload/download aliases: 
+\code{\link{download_button}()},
+\code{\link{download_handler}()},
+\code{\link{download_link}()}
 }
-\concept{Shiny input aliases}
+\concept{Shiny upload/download aliases}

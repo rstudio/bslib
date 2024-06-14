@@ -270,6 +270,9 @@ reference:
 - subtitle: Shiny Render Functions
   contents:
   - has_concept("Shiny render aliases")
+- subtitle: Shiny Upload/Download Functions
+  contents:
+  - has_concept("Shiny upload/download aliases")
 
 - title: Utility Functions
 - subtitle: Fill items and fillable containers

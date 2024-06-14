@@ -148,6 +148,7 @@ Collate:
     'print.R'
     'shiny-aliases.R'
     'shiny-devmode.R'
+    'shiny-download_button.R'
     'shiny-input_action_button.R'
     'shiny-input_action_link.R'
     'shiny-input_checkbox.R'

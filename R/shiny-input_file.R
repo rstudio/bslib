@@ -5,7 +5,7 @@
 #'
 #' @section Aliased from Shiny: `r docs_callout_shiny_alias("input_file", "fileInput")`
 #'
-#' @family Shiny input aliases
+#' @family Shiny upload/download aliases
 #' @export
 input_file <- function(
   id,
