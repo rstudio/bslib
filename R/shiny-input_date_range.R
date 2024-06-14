@@ -1,6 +1,9 @@
 #' @inherit shiny::dateRangeInput params return title description details sections references
 #'
 #' @inheritParams input_action_button
+#' @param ... Ignored, included for future expansion.
+#'
+#' @note `r docs_callout_shiny_alias("input_date_range", "dateRangeInput")`
 #'
 #' @family Shiny input aliases
 #' @export
@@ -41,6 +44,8 @@ input_date_range <- function(
 #'
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
+#'
+#' @note `r docs_callout_shiny_alias("update_date_range", "updateDateRangeInput")`
 #'
 #' @family Shiny update aliases
 #' @export

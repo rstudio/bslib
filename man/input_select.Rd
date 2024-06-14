@@ -9,6 +9,7 @@ input_select(
   label,
   choices,
   selected = NULL,
+  ...,
   multiple = FALSE,
   selectize = FALSE,
   width = NULL,
@@ -30,6 +31,8 @@ the example section for a small demo of this feature.}
 
 \item{selected}{The initially selected value (or multiple values if \code{multiple = TRUE}). If not specified then defaults to the first value for
 single-select lists and no values for multiple select lists.}
+
+\item{...}{Ignored, included for future expansion.}
 
 \item{multiple}{Is selection of multiple items allowed?}
 
@@ -67,6 +70,9 @@ numbers of choices, Shiny offers a "server-side selectize" option that
 massively improves performance and efficiency; see
 \href{https://shiny.rstudio.com/articles/selectize.html}{this selectize article}
 on the Shiny Dev Center for details.
+}
+\note{
+This function is an alias for \code{shiny::selectInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::selectInput()} with \code{input_select()}.
 }
 \section{Server value}{
 

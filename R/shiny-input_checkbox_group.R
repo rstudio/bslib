@@ -3,6 +3,8 @@
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
+#' @note `r docs_callout_shiny_alias("input_checkbox_group", "checkboxGroupInput")`
+#'
 #' @family Shiny input aliases
 #' @export
 input_checkbox_group <- function(
@@ -32,6 +34,8 @@ input_checkbox_group <- function(
 #'
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
+#'
+#' @note `r docs_callout_shiny_alias("update_checkbox_group", "updateCheckboxGroupInput")`
 #'
 #' @family Shiny update aliases
 #' @export

@@ -3,6 +3,8 @@
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
+#' @note `r docs_callout_shiny_alias("input_checkbox", "checkboxInput")`
+#'
 #' @family Shiny input aliases
 #' @export
 input_checkbox <- function(
@@ -24,6 +26,8 @@ input_checkbox <- function(
 #'
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
+#'
+#' @note `r docs_callout_shiny_alias("update_checkbox", "updateCheckboxInput")`
 #'
 #' @family Shiny update aliases
 #' @export

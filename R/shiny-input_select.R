@@ -1,6 +1,9 @@
 #' @inherit shiny::selectInput params return title description details sections references
 #'
 #' @inheritParams input_action_button
+#' @param ... Ignored, included for future expansion.
+#'
+#' @note `r docs_callout_shiny_alias("input_select", "selectInput")`
 #'
 #' @family Shiny input aliases
 #' @export
@@ -9,6 +12,7 @@ input_select <- function(
   label,
   choices,
   selected = NULL,
+  ...,
   multiple = FALSE,
   selectize = FALSE, # Match Shiny for Python
   width = NULL,
@@ -29,6 +33,8 @@ input_select <- function(
 #' @inherit shiny::updateSelectInput params return title description details sections references
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
+#'
+#' @note `r docs_callout_shiny_alias("update_select", "updateSelectInput")`
 #'
 #' @family Shiny update aliases
 #' @export

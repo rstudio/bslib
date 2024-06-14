@@ -3,6 +3,8 @@
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
 #'
+#' @note `r docs_callout_shiny_alias("input_numeric", "numericInput")`
+#'
 #' @family Shiny input aliases
 #' @export
 input_numeric <- function(
@@ -30,6 +32,8 @@ input_numeric <- function(
 #'
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
+#'
+#' @note `r docs_callout_shiny_alias("update_numeric", "updateNumericInput")`
 #'
 #' @family Shiny update aliases
 #' @export

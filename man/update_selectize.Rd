@@ -66,6 +66,9 @@ For \code{\link[shiny]{radioButtons}()}, \code{\link[shiny]{checkboxGroupInput}(
 \code{choices=character(0)}. Similarly, for these inputs, the selected item
 can be cleared by using \code{selected=character(0)}.
 }
+\note{
+This function is an alias for \code{shiny::updateSelectizeInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::updateSelectizeInput()} with \code{update_selectize()}.
+}
 \seealso{
 Other Shiny update aliases: 
 \code{\link{update_action_button}()},

@@ -34,7 +34,7 @@ date in the client's time zone.}
 \code{yyyy-mm-dd} format. If NULL (the default), will use the current
 date in the client's time zone.}
 
-\item{...}{Named attributes to be applied to the button or link.}
+\item{...}{Ignored, included for future expansion.}
 
 \item{min}{The minimum allowed date. Either a Date object, or a string in
 \code{yyyy-mm-dd} format.}
@@ -88,6 +88,9 @@ the browser. It allows the following values:
 \item \code{D} Abbreviated weekday name
 \item \code{DD} Full weekday name
 }
+}
+\note{
+This function is an alias for \code{shiny::dateRangeInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::dateRangeInput()} with \code{input_date_range()}.
 }
 \section{Server value}{
 

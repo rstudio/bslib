@@ -39,6 +39,9 @@ A numeric input control that can be added to a UI definition.
 \description{
 Create an input control for entry of numeric values
 }
+\note{
+This function is an alias for \code{shiny::numericInput()} and is included to maintain more consistent naming conventions in Shiny apps that use \pkg{bslib}. The documentation may still refer to the original function names. You can replace \code{shiny::numericInput()} with \code{input_numeric()}.
+}
 \section{Server value}{
 
 

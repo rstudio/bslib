@@ -147,6 +147,7 @@ Collate:
     'precompiled.R'
     'print.R'
     'shiny-devmode.R'
+    'shiny-input.R'
     'shiny-input_action_button.R'
     'shiny-input_action_link.R'
     'shiny-input_checkbox.R'

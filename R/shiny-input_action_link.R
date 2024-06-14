@@ -2,6 +2,8 @@
 #'
 #' @inheritParams input_action_button
 #'
+#' @note `r docs_callout_shiny_alias("input_action_link", "actionLink")`
+#'
 #' @family Shiny input aliases
 #' @export
 input_action_link <- function(
@@ -20,6 +22,8 @@ input_action_link <- function(
 #' @inherit shiny::updateActionLink params return title description details sections references
 #' @inheritParams input_action_button
 #' @param ... Ignored, included for future expansion.
+#'
+#' @note `r docs_callout_shiny_alias("update_action_link", "updateActionLink")`
 #'
 #' @family Shiny update aliases
 #' @export
