@@ -68,6 +68,7 @@ can be cleared by using \code{selected=character(0)}.
 Other Shiny update aliases: 
 \code{\link{update_action_button}()},
 \code{\link{update_action_link}()},
+\code{\link{update_date}()},
 \code{\link{update_select}()},
 \code{\link{update_slider}()}
 }
