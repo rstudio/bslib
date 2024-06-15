@@ -27,10 +27,12 @@ render_text <- function(
   outputArgs = list(),
   sep = " "
 ) {
+  expr <- shiny_quote_if_unquoted(expr, quoted)
+
   shiny::renderText(
     expr = expr,
     env = env,
-    quoted = quoted,
+    quoted = TRUE,
     outputArgs = outputArgs,
     sep = sep
   )

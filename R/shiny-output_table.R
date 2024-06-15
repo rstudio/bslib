@@ -35,6 +35,8 @@ render_table <- function(
   quoted = FALSE,
   outputArgs = list()
 ) {
+  expr <- shiny_quote_if_unquoted(expr, quoted)
+
   shiny::renderTable(
     expr = expr,
     striped = striped,
@@ -49,7 +51,7 @@ render_table <- function(
     na = na,
     ...,
     env = env,
-    quoted = quoted,
+    quoted = TRUE,
     outputArgs = outputArgs
   )
 }

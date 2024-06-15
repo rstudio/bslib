@@ -47,10 +47,12 @@ render_image <- function(
   deleteFile,
   outputArgs = list()
 ) {
+  expr <- shiny_quote_if_unquoted(expr, quoted)
+
   shiny::renderImage(
     expr = expr,
     env = env,
-    quoted = quoted,
+    quoted = TRUE,
     deleteFile = deleteFile,
     outputArgs = outputArgs
   )

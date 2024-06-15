@@ -36,5 +36,12 @@ render_ui <- function(
   quoted = FALSE,
   outputArgs = list()
 ) {
-  shiny::renderUI(expr = expr, env = env, quoted = quoted, outputArgs = outputArgs)
+  expr <- shiny_quote_if_unquoted(expr, quoted)
+
+  shiny::renderUI(
+    expr = expr,
+    env = env,
+    quoted = TRUE,
+    outputArgs = outputArgs
+  )
 }

@@ -52,6 +52,8 @@ render_plot <- function(
   execOnResize = FALSE,
   outputArgs = list()
 ) {
+  expr <- shiny_quote_if_unquoted(expr, quoted)
+
   shiny::renderPlot(
     expr = expr,
     width = width,
@@ -60,7 +62,7 @@ render_plot <- function(
     ...,
     alt = alt,
     env = env,
-    quoted = quoted,
+    quoted = TRUE,
     execOnResize = execOnResize,
     outputArgs = outputArgs
   )

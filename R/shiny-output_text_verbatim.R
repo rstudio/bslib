@@ -28,10 +28,12 @@ render_text_verbatim <- function(
   width = getOption("width"),
   outputArgs = list()
 ) {
+  expr <- shiny_quote_if_unquoted(expr, quoted)
+
   shiny::renderPrint(
     expr = expr,
     env = env,
-    quoted = quoted,
+    quoted = TRUE,
     width = width,
     outputArgs = outputArgs
   )
