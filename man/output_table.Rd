@@ -6,6 +6,9 @@
 \usage{
 output_table(id)
 }
+\arguments{
+\item{id}{An output id.}
+}
 \description{
 The \code{tableOuptut()}/\code{renderTable()} pair creates a reactive table that is
 suitable for display small matrices and data frames. The columns are

@@ -7,6 +7,8 @@
 output_text(id, inline = FALSE, container = if (inline) span else div)
 }
 \arguments{
+\item{id}{An output id.}
+
 \item{inline}{use an inline (\code{span()}) or block container (\code{div()})
 for the output}
 

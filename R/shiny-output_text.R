@@ -1,5 +1,7 @@
 #' @inherit shiny::textOutput params return title description details sections references
 #'
+#' @param id An output id.
+#'
 #' @seealso [render_text()] to reactively update the `new_output()`.
 #'
 #' @family Shiny output aliases

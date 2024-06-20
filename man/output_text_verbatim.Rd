@@ -7,6 +7,8 @@
 output_text_verbatim(id, placeholder = FALSE)
 }
 \arguments{
+\item{id}{An output id.}
+
 \item{placeholder}{if the output is empty or \code{NULL}, should an empty
 rectangle be displayed to serve as a placeholder? (does not affect
 behavior when the output is nonempty)}

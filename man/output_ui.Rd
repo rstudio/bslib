@@ -13,6 +13,8 @@ output_ui(
 )
 }
 \arguments{
+\item{id}{An output id.}
+
 \item{...}{Other arguments to pass to the container tag function. This is
 useful for providing additional classes for the tag.}
 

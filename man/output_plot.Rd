@@ -18,6 +18,8 @@ output_plot(
 )
 }
 \arguments{
+\item{id}{An output id.}
+
 \item{width, height}{Image width/height. Must be a valid CSS unit (like
 \code{"100\%"}, \code{"400px"}, \code{"auto"}) or a number, which will be
 coerced to a string and have \code{"px"} appended. These two arguments are
