@@ -89,7 +89,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     border-bottom-right-radius: 0;
     color: var(--_sidebar-fg);
     background-color: var(--_sidebar-bg);
-    backdrop-filter: blur(5px);
 
     > .sidebar-content {
       display: flex;
@@ -333,6 +332,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
       }
 
       > .sidebar {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
         opacity: var(--_sidebar-mobile-opacity, 1);
         max-width: var(--_sidebar-mobile-max-width, 100%);
         box-shadow: var(--_sidebar-mobile-box-shadow);
@@ -371,7 +372,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
 
       // Soften main area when sidebar is expanded over content
       > .main {
-        opacity: 0.33;
+        opacity: 0.2;
         transition: opacity var(--_transition-easing-x) var(--_transition-duration);
       }
       &.sidebar-collapsed > .main {
