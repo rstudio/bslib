@@ -64,6 +64,7 @@ shinyApp(ui, function(input, output) {})
 ```
 
 ```{r, echo = FALSE, out.width="67%"}
+#| fig.alt: Two custom person components, one each for Andrew Carnegie and John D. Rockefeller.
 knitr::include_graphics("person.png")
 ```
 
