@@ -139,6 +139,7 @@ $bslib-enable-shadows: $bslib-dashboard-design !default;
 
 $border-color-translucent: if($bslib-dashboard-design, rgba(40, 70, 94, 0.1), null) !default;
 $border-color-translucent-dark: if($bslib-dashboard-design, rgba(255, 255, 255, 0.1), null) !default;
+$bslib-sidebar-bg-blend: if($bslib-dashboard-design, var(--#{$prefix}body-bg), null) !default;
 
 // Modals
 $modal-dialog-margin-y-sm-up: 10% !default;

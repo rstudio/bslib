@@ -1,11 +1,14 @@
 // User-facing variables, use for theming
-$bslib-sidebar-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05) !default;
+$bslib-sidebar-bg: null !default;
 $bslib-sidebar-fg: null !default;
 $bslib-sidebar-toggle-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.1) !default;
 $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid var(--bs-card-border-color, #{$card-border-color}) !default;
 
 // Internal variables, don't use for theming!
+$bslib-sidebar-bg-blend: var(--bs-emphasis-color) !default;
 $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sidebar-width));
+
+@debug "Sidebar bg blend: " $bslib-sidebar-bg-blend;
 
 .bslib-sidebar-layout {
   --_transition-duration: 0; // Transitions are enabled by .transitioning class
@@ -14,9 +17,9 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   --_border-radius: var(--bslib-sidebar-border-radius, var(--bs-border-radius));
   --_vert-border: var(--bslib-sidebar-vert-border, var(--_border));
   --_sidebar-width: var(--bslib-sidebar-width, 250px);
-  --_sidebar-bg: var(--bslib-sidebar-bg, #{$bslib-sidebar-bg});
-  --_sidebar-fg: var(--bslib-sidebar-fg, #{$bslib-sidebar-fg});
   --_main-fg: var(--bslib-sidebar-main-fg, var(--bs-card-color, var(--bs-body-color)));
+  --_main-bg: var(--bslib-sidebar-main-bg);
+  // --_sidebar-bg: see below
   --_main-bg: var(--bslib-sidebar-main-bg, transparent);
   --_toggle-bg: var(--bslib-sidebar-toggle-bg, #{$bslib-sidebar-toggle-bg});
   --_padding: var(--bslib-sidebar-padding, var(--bslib-spacer, 1.5rem));
@@ -38,6 +41,18 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   --_column-main: minmax(0, 1fr);
   // Calculate the height of all toggle buttons in nested sidebar layouts
   --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-toggle-count-max-side, 1));
+
+  @if $bslib-sidebar-bg != null {
+    --_sidebar-bg: var(--bslib-sidebar-bg, #{$bslib-sidebar-bg});
+  } @else {
+    --_sidebar-bg: var(--bslib-sidebar-bg, rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05));
+    @supports (background: color-mix(in oklab, black, white)) {
+      --_sidebar-bg: var(
+        --bslib-sidebar-bg,
+        color-mix(in oklab, #{$bslib-sidebar-bg-blend} 5%, var(--_main-bg, transparent))
+      );
+    }
+  }
 
   &.transitioning {
     --_transition-duration: max(var(--bslib-sidebar-transition-duration, 300ms), 5ms);
@@ -371,12 +386,24 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
       }
 
       // Soften main area when sidebar is expanded over content
-      > .main {
-        opacity: 0.2;
-        transition: opacity var(--_transition-easing-x) var(--_transition-duration);
+      @supports (background-color: color-mix(in srgb, black, white)) {
+        &[style*="--_main-bg"]:not([style*="--_sidebar-bg"]) {
+          // If --_main-bg is set, then --_sidebar-bg defaults to a solid color
+          // to which we want to add some transparency.
+          > .sidebar {
+            background-color: color-mix(in srgb, var(--_sidebar-bg) 85%, #80808000);
+          }
+        }
       }
-      &.sidebar-collapsed > .main {
-        opacity: 1;
+      &:not([style*="--_main-bg"]):not([style*="--_sidebar-bg"]) {
+        // Otherwise, neither main-bg nor sidebar-bg are set so fade main area
+        > .main {
+          opacity: 0.15;
+          transition: opacity var(--_transition-easing-x) var(--_transition-duration);
+        }
+        &.sidebar-collapsed > .main {
+          opacity: 1;
+        }
       }
     }
   }
