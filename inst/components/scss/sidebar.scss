@@ -55,7 +55,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   }
 
   &.transitioning {
-    --_transition-duration: max(var(--bslib-sidebar-transition-duration, 300ms), 5ms);
+    --_transition-duration: max(var(--bslib-sidebar-transition-duration, 200ms), 5ms);
   }
 
   display: grid !important;
