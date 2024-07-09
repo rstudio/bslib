@@ -29,7 +29,7 @@ navbar:
   type: light
   structure:
     left:  [get-started, examples, theming, components, layouts]
-    right: [reference, search, news, github, lightswitch]
+    right: [search, reference, news, github, lightswitch]
   components:
     home: ~
 
