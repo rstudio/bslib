@@ -8,8 +8,6 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
 $bslib-sidebar-bg-blend: var(--bs-emphasis-color) !default;
 $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sidebar-width));
 
-@debug "Sidebar bg blend: " $bslib-sidebar-bg-blend;
-
 .bslib-sidebar-layout {
   --_transition-duration: 0; // Transitions are enabled by .transitioning class
   --_transition-easing-x: var(--bslib-sidebar-transition-easing-x, cubic-bezier(0.8, 0.78, 0.22, 1.07));
