@@ -82,6 +82,7 @@ knitr::include_graphics("themer.gif")
 When running the theming widget locally, you'll see output like this in your R console (in R Markdown, you'll see YAML output instead of R code) to reproduce the theming changes:
 
 ```{r, echo = FALSE, out.width="80%"}
+#| fig.alt: Console output showing the R code to reproduce the theming changes.
 knitr::include_graphics("themer-code.png")
 ```
 
@@ -108,6 +109,7 @@ output:
 </div>
 
 ```{r, echo = FALSE}
+#| fig.alt: A screenshot of the minty Bootswatch theme.
 knitr::include_graphics("bootswatch.png")
 ```
 
@@ -153,6 +155,7 @@ output:
 :::
 
 ```{r, echo = FALSE}
+#| fig.alt: A screenshot showing a dark mode theme with custom fonts.
 knitr::include_graphics("custom-dark-mode.png")
 ```
 
@@ -199,6 +202,7 @@ output:
 </div>
 
 ```{r, echo = FALSE, out.width="67%"}
+#| fig.alt: A progress bar indicator colored orange.
 knitr::include_graphics("progress-orange.png")
 ```
 
@@ -275,6 +279,7 @@ bs_theme(
 ```
 
 ```{r, echo = FALSE}
+#| fig.alt: A screenshot showing a Shiny app with a video game style thanks to NES.css.
 knitr::include_graphics("nes.png")
 ```
 
@@ -342,6 +347,7 @@ shinyApp(ui, server)
 ```
 
 ```{r, echo = FALSE, out.width="50%"}
+#| fig.alt: An animation showing a dark mode switch in a Shiny app toggling on and off.
 knitr::include_graphics("dark-mode.gif")
 ```
 
