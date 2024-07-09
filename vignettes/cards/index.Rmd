@@ -375,6 +375,7 @@ card(
   full_screen = TRUE,
   card_image(
     file = "shiny-hex.svg",
+    alt = "Shiny's hex sticker",
     href = "https://github.com/rstudio/shiny"
   ),
   card_body(

@@ -139,6 +139,7 @@ output:
 
 ::: col-md-6
 ```{r, echo = FALSE}
+#| fig.alt: RStudio "New Template" dialog showing three theming-related templates from bslib.
 knitr::include_graphics("rstudio-templates.png")
 ```
 :::
