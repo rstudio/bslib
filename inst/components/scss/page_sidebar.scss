@@ -39,8 +39,20 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
 }
 
 @include media-breakpoint-up(sm) {
-  .bslib-page-main {
-    min-width: var(--bslib-page-main-min-width, #{$bslib-page-main-min-width});
-    min-height: var(--bslib-page-main-min-height, #{$bslib-page-main-min-height});
-  }
+  // Ensure the page-level main area has a minimum height and width to prevent
+  // overly squished content in small screens, like IDE preview panels.
+  .bslib-sidebar-layout {
+    .bslib-page-main {
+      min-height: var(--bslib-page-main-min-height, #{$bslib-page-main-min-height});
+    }
+
+    // But only apply the width constraint when the sidebar expanded (i.e.
+    // not collapsed or in transition) to prevent overlap with toggle button.
+    &:not(.sidebar-collapsed),
+    &.transitioning {
+      .bslib-page-main {
+        min-width: var(--bslib-page-main-min-width, #{$bslib-page-main-min-width});
+      }
+    }
+  } 
 }
