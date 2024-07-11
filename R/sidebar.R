@@ -266,8 +266,8 @@ as_sidebar_open_on <- function(open) {
 #'   or `"always"` (or `NA`). `mobile` also accepts `"always-above"`.
 #' @noRd
 sidebar_open_on <- function(
-  desktop = c("open", "closed", "always"),
-  mobile = c("closed", "open", "always")
+  desktop = "open",
+  mobile = "closed"
 ) {
   desktop <- desktop %||% "open"
   mobile <- mobile %||% "closed"
