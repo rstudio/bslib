@@ -417,7 +417,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
       // Move main bg to layout container so that the collapse toggle grid
       // region has the same background as the main area
       > .main {
-        --_main-bg: none;
+        background-color: none;
       }
       &, &.sidebar-collapsed {
         background-color: var(--_main-bg);
