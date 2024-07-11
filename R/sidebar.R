@@ -49,7 +49,9 @@
 #'   the initial sidebar state independently for `desktop` and `mobile` screen
 #'   sizes. In this case, `desktop` or `mobile` can use any of the above options
 #'   except `"desktop"`, which is equivalent to
-#'   `list(desktop = "open", mobile = "closed")`.
+#'   `list(desktop = "open", mobile = "closed")`. You can also choose to place
+#'   an always open sidebar above the main content on mobile devices by setting
+#'   `mobile = "always-above"`.
 #'
 #'   In `sidebar_toggle()`, `open` indicates the desired state of the sidebar,
 #'   where the default of `open = NULL` will cause the sidebar to be toggled
@@ -167,6 +169,10 @@ as.tags.bslib_sidebar <- function(x, ...) {
     open <- sidebar_open_on()
   }
 
+  if (x$open$mobile == "always-above") {
+    x$open$mobile <- "always"
+  }
+
   is_always_open <- all(vapply(x$open, identical, logical(1), "always"))
 
   if (!is_always_open && is.null(x$id)) {
@@ -216,8 +222,8 @@ as.tags.bslib_sidebar <- function(x, ...) {
     )
   )
 
-  htmltools::tagList(sidebar_tag, collapse_tag)
-}
+    htmltools::tagList(sidebar_tag, collapse_tag)
+  }
 
 as_sidebar_open_on <- function(open) {
   if (is.null(open)) return(NULL)
@@ -257,14 +263,17 @@ as_sidebar_open_on <- function(open) {
 
 #' @param desktop,mobile The initial state of the sidebar on desktop or mobile
 #'   screen sizes. Can be one of `"open"` (or `TRUE`), `"closed"` (or `FALSE`),
-#'   or `"always"` (or `NA`).
+#'   or `"always"` (or `NA`). `mobile` also accepts `"always-above"`.
 #' @noRd
 sidebar_open_on <- function(
   desktop = c("open", "closed", "always"),
   mobile = c("closed", "open", "always")
 ) {
-  desktop <- sidebar_open_as_string(desktop %||% "open")
-  mobile <- sidebar_open_as_string(mobile %||% "closed")
+  desktop <- desktop %||% "open"
+  mobile <- mobile %||% "closed"
+
+  desktop <- sidebar_open_as_string(desktop)
+  mobile <- sidebar_open_as_string(mobile, extra = "always-above")
 
   structure(
     list(desktop = desktop, mobile = mobile),
@@ -352,7 +361,11 @@ layout_sidebar <- function(
   )
 
   main <- bindFillRole(main, container = fillable)
-  contents <- list(main, as.tags(sidebar))
+  contents <- if (sidebar$open$mobile == "always-above") {
+    list(as.tags(sidebar), main)
+  } else {
+    list(main, as.tags(sidebar))
+  }
 
   right <- identical(sidebar$position, "right")
 
@@ -363,7 +376,7 @@ layout_sidebar <- function(
     `data-bslib-sidebar-init` = TRUE,
     `data-open-desktop` = sidebar$open$desktop,
     `data-open-mobile` = sidebar$open$mobile,
-    `data-collapsible-mobile` = tolower(!identical(sidebar$open$mobile, "always")),
+    `data-collapsible-mobile` = tolower(!sidebar$open$mobile %in% c("always", "always-above")),
     `data-collapsible-desktop` = tolower(!identical(sidebar$open$desktop, "always")),
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
     `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
