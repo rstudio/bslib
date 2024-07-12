@@ -33,6 +33,9 @@ These functions are small wrappers around shiny's page constructors (i.e.,
 }
 \section{Functions}{
 \itemize{
+\item \code{page()}: A \pkg{bslib} wrapper for \code{\link[shiny:bootstrapPage]{shiny::bootstrapPage()}}, a basic
+Boostrap page where the content is added directly to the page body.
+
 \item \code{page_fluid()}: A \pkg{bslib} wrapper for \code{\link[shiny:fluidPage]{shiny::fluidPage()}}, a fluid
 Bootstrap-based page layout that extends to the full viewport width.
 
