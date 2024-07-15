@@ -18,7 +18,7 @@
     * `file` is designed to accept a path to a local (server-side) file, but now recognizes remote files that start with a protocol prefix, e.g. `https://`, or two slashes, e.g. `//`. Local files are base64-encoded and embedded in the HTML output, while remote files are linked directly. To use a relative path for a file that will be served by the Shiny app, use `src` instead of file, e.g. `card_image(src = "cat.jpg")` where `cat.jpg` is stored in `www/`.
     * `container` is now `NULL` by default to avoid wrapping the card image in an additional card body container and `fill` is now `FALSE` by default to avoid stretching the image. These changes makes it easier to construct [cards with image caps](https://getbootstrap.com/docs/5.3/components/card/#images).
 
-* The `open` argument of `layout_sidebar()` now includes the option to place a sidebar that's always open on mobile screens _above the main content_ with `open = list(mobile = "always-above")`. (#1088)
+* The `open` argument of `sidebar()` now includes the option to place a sidebar that's always open on mobile screens _above the main content_ with `open = list(mobile = "always-above")`. (#1088)
 
 * We've adjusted the sidebar design when collapsible on mobile screens to reduce the space used by the sidebar toggle button and to ensure that main and sidebar content do not scroll underneath the toggle button when the sidebar is collapsed. (#1084)
 
