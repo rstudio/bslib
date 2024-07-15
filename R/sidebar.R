@@ -101,12 +101,11 @@ sidebar <- function(
   gap = NULL,
   padding = NULL
 ) {
-
   position <- rlang::arg_match(position)
   gap <- validateCssUnit(gap)
   padding <- validateCssPadding(padding)
-  width  <- validateCssUnit(width)
-  max_height_mobile  <- validateCssUnit(max_height_mobile)
+  width <- validateCssUnit(width)
+  max_height_mobile <- validateCssUnit(max_height_mobile)
 
   if (!is.null(open)) {
     open <- as_sidebar_open_on(open)
@@ -326,7 +325,6 @@ layout_sidebar <- function(
   gap = NULL,
   height = NULL
 ) {
-
   if (!inherits(sidebar, "sidebar")) {
     sidebar <- sidebar(sidebar)
   }
