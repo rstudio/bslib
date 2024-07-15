@@ -83,6 +83,18 @@
 <ul><li><p>Adjusted the border color of checkbox and radio buttons to match the border color of the input group in <code>bs_theme(preset="shiny")</code>. (<a href="https://github.com/rstudio/bslib/issues/1038" class="external-link">#1038</a>)</p></li>
 <li><p>Example apps provided with bslib have now moved from <code>examples</code> to <code>examples-shiny</code> to take advantage of the new <code>package</code> argument in <code><a href="https://rdrr.io/pkg/shiny/man/runExample.html" class="external-link">shiny::runExample()</a></code> with shiny &gt;= 1.8.1. For example, try <code>shiny::runExample("build-a-box", package = "bslib")</code>. (<a href="https://github.com/rstudio/bslib/issues/1049" class="external-link">#1049</a>)</p></li>
 <li><p>bslib now re-exports <code><a href="https://rstudio.github.io/htmltools/reference/css.html" class="external-link">htmltools::css()</a></code> to make it easier to specify style declarations. (<a href="https://github.com/rstudio/bslib/issues/1086" class="external-link">#1086</a>)</p></li>
+<li>
+<p><code><a href="../reference/card_body.html">card_image()</a></code> was improved in a few ways (<a href="https://github.com/rstudio/bslib/issues/1076" class="external-link">#1076</a>):</p>
+<ul><li>
+<code>alt</code> is now included in the function inputs and is set to <code>""</code> by default. This default value marks images as decorative; please describe the image in the <code>alt</code> attribute if it is not decorative.</li>
+<li>
+<code>border_radius</code> now defaults to <code>"auto"</code> by default, in which case the image’s position in the card will automatically determine whether it should receive the <code>.card-img-top</code> (first child), <code>.card-img-bottom</code> (last child) or <code>.card-img</code> (only child).</li>
+<li>
+<code>file</code> is designed to accept a path to a local (server-side) file, but now recognizes remote files that start with a protocol prefix, e.g. <code>https://</code>, or two slashes, e.g. <code>//</code>. Local files are base64-encoded and embedded in the HTML output, while remote files are linked directly. To use a relative path for a file that will be served by the Shiny app, use <code>src</code> instead of file, e.g. <code>card_image(src = "cat.jpg")</code> where <code>cat.jpg</code> is stored in <code>www/</code>.</li>
+<li>
+<code>container</code> is now <code>NULL</code> by default to avoid wrapping the card image in an additional card body container and <code>fill</code> is now <code>FALSE</code> by default to avoid stretching the image. These changes makes it easier to construct <a href="https://getbootstrap.com/docs/5.3/components/card/#images" class="external-link">cards with image caps</a>.</li>
+</ul></li>
+<li><p>The <code>open</code> argument of <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> now includes the option to place a sidebar that’s always open on mobile screens <em>above the main content</em> with <code>open = list(mobile = "always-above")</code>. (<a href="https://github.com/rstudio/bslib/issues/1088" class="external-link">#1088</a>)</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
@@ -91,6 +103,7 @@
 <li><p>Improved the appearance of cards with sidebars and headers in the Shiny preset, especially when custom card color themes are used, e.g. with <code>text-bg-primary</code> or other Bootstrap utility classes. (<a href="https://github.com/rstudio/bslib/issues/1056" class="external-link">#1056</a>)</p></li>
 <li><p>The main content area of <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page_navbar.html">page_navbar()</a></code> with a <code>sidebar</code> now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull requests for details). (<a href="https://github.com/rstudio/bslib/issues/1057" class="external-link">#1057</a>, <a href="https://github.com/rstudio/bslib/issues/1059" class="external-link">#1059</a>)</p></li>
 <li><p>When <code>card_body(fillable = FALSE)</code>, bslib now preserves flow-layout margin bottom settings. (<a href="https://github.com/rstudio/bslib/issues/1073" class="external-link">#1073</a>)</p></li>
+<li><p>Fixed a bug in <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> that caused a spurious and confusing error message. (<a href="https://github.com/rstudio/bslib/issues/1081" class="external-link">#1081</a>)</p></li>
 </ul></div>
 </div>
     <div class="section level2">
