@@ -10,6 +10,8 @@
 
 * Example apps provided with bslib have now moved from `examples` to `examples-shiny` to take advantage of the new `package` argument in `shiny::runExample()` with shiny >= 1.8.1. For example, try `shiny::runExample("build-a-box", package = "bslib")`. (#1049)
 
+* bslib now re-exports `htmltools::css()` to make it easier to specify style declarations. (#1086)
+
 ## Bug fixes
 
 * `toggle_sidebar()` once again correctly closes a sidebar. (@fredericva, #1043)

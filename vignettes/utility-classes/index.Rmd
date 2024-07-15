@@ -30,6 +30,7 @@ tabsetPanel(
 ```
 
 ```{r, echo = FALSE, out.width="67%"}
+#| fig.alt: A tabset panel without padding or borders, showing plain text placed directly against the tab's bottom border.
 knitr::include_graphics("tab-before.png")
 ```
 
@@ -46,6 +47,7 @@ tabsetPanel(
 ```
 
 ```{r, echo = FALSE, out.width="67%"}
+#| fig.alt: A tabset panel with padding and borders, showing a border around the tab content and padding between the tab content and the tab's border.
 knitr::include_graphics("tab-after.png")
 ```
 
@@ -63,16 +65,19 @@ tabsetPanel(
 ```
 
 ```{r, echo = FALSE, out.width="67%"}
+#| fig.alt: Tabs using a pills style where the tab controls look like buttons.
 knitr::include_graphics("pills.png")
 ```
 
 It's also worth noting that you can also add these classes to [rmarkdown tabsets](https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html), like so:
 
 ```{r, echo = FALSE, out.width="50%"}
+#| fig.alt: Source code for an rmarkdown tabset, see the previous link for the code.
 knitr::include_graphics("rmarkdown-tabs-source.png")
 ```
 
 ```{r, echo = FALSE}
+#| fig.alt: Screenshot of a rendered rmarkdown tabset.
 knitr::include_graphics("rmarkdown-tabs.png")
 ```
 
@@ -91,6 +96,7 @@ fluidPage(
 ```
 
 ```{r, echo = FALSE, out.width="67%"}
+#| fig.alt: Tabs using a pills style where the tab controls look like buttons and are horizontally centered.
 knitr::include_graphics("pills.png")
 ```
 
@@ -122,6 +128,7 @@ shinyApp(
 ```
 
 ```{r, echo = FALSE, out.width="67%"}
+#| fig.alt: A card component with an orage header and a table of the mtcars dataset in the card body.
 knitr::include_graphics("DT-card.png")
 ```
 
@@ -134,5 +141,6 @@ bs_theme("theme-colors" = "('flair': orange)")
 ```
 
 ```{r, echo = FALSE, out.width="67%"}
+#| fig.alt: A card component with an orange header and a table of the mtcars dataset in the card body.
 knitr::include_graphics("DT-card-custom.png")
 ```
