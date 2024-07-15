@@ -15,6 +15,9 @@
 #'
 #' @seealso Dashboard-style pages: [page_sidebar()], [page_navbar()],
 #'   [page_fillable()].
+#' 
+#' @describeIn page A \pkg{bslib} wrapper for [shiny::bootstrapPage()], a basic
+#'   Boostrap page where the content is added directly to the page body.
 #'
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
