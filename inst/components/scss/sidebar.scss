@@ -363,8 +363,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
       }
 
       > .sidebar {
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
         opacity: var(--_sidebar-mobile-opacity, 1);
         max-width: var(--_sidebar-mobile-max-width, 100%);
         box-shadow: var(--_sidebar-mobile-box-shadow);
