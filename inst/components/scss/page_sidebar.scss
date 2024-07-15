@@ -27,12 +27,13 @@ $bslib-sidebar-padding: $spacer * 1.5 !default;
   // Remove symmetrical icon gutter from page-sidebar, i.e. show the gutter on
   // the sidebar side only to make room for content.
   .bslib-page-sidebar,
-  .bslib-page-navbar > div {
-    > .bslib-sidebar-layout.sidebar-collapsed {
-      &:not(.sidebar-right) > .main {
-      padding-right: var(--_padding);
+  .bslib-page-navbar>div {
+    >.bslib-sidebar-layout.sidebar-collapsed {
+      &:not(.sidebar-right)>.main {
+        padding-right: var(--_padding);
       }
-      &.sidebar-right > .main {
+
+      &.sidebar-right>.main {
         padding-left: var(--_padding);
       }
     }
