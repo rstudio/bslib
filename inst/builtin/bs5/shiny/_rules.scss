@@ -157,14 +157,17 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     }
   }
 
-  // Set the background color of page dashboard class...
-  .bslib-page-dashboard,
-  // or of global main content area in a page_navbar() with a global sidebar
-  .main:has(.tab-content > .bslib-page-dashboard.active) {
-    background-color: var(--bslib-dashboard-main-bg);
-    // or of main area of a page_sidebar()
-    --_main-bg: var(--bslib-dashboard-main-bg);
-  }
+    // Set the background color of page dashboard class...
+    .bslib-sidebar-layout {
+      &:has(> .bslib-page-dashboard),
+      // or of global main content area in a page_navbar() with a global sidebar
+      &:has(.tab-content > .bslib-page-dashboard.active) {
+        background-color: var(--bslib-dashboard-main-bg);
+        // or of main area of a page_sidebar()
+        --_main-bg: var(--bslib-dashboard-main-bg);
+        ;
+      }
+    }
 
   .bslib-page-navbar, .bslib-page-dashboard {
     > .navbar {
