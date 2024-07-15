@@ -94,7 +94,6 @@
 <li>
 <code>container</code> is now <code>NULL</code> by default to avoid wrapping the card image in an additional card body container and <code>fill</code> is now <code>FALSE</code> by default to avoid stretching the image. These changes makes it easier to construct <a href="https://getbootstrap.com/docs/5.3/components/card/#images" class="external-link">cards with image caps</a>.</li>
 </ul></li>
-<li><p>The <code>open</code> argument of <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> now includes the option to place a sidebar that’s always open on mobile screens <em>above the main content</em> with <code>open = list(mobile = "always-above")</code>. (<a href="https://github.com/rstudio/bslib/issues/1088" class="external-link">#1088</a>)</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
@@ -103,7 +102,6 @@
 <li><p>Improved the appearance of cards with sidebars and headers in the Shiny preset, especially when custom card color themes are used, e.g. with <code>text-bg-primary</code> or other Bootstrap utility classes. (<a href="https://github.com/rstudio/bslib/issues/1056" class="external-link">#1056</a>)</p></li>
 <li><p>The main content area of <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page_navbar.html">page_navbar()</a></code> with a <code>sidebar</code> now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull requests for details). (<a href="https://github.com/rstudio/bslib/issues/1057" class="external-link">#1057</a>, <a href="https://github.com/rstudio/bslib/issues/1059" class="external-link">#1059</a>)</p></li>
 <li><p>When <code>card_body(fillable = FALSE)</code>, bslib now preserves flow-layout margin bottom settings. (<a href="https://github.com/rstudio/bslib/issues/1073" class="external-link">#1073</a>)</p></li>
-<li><p>Fixed a bug in <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> that caused a spurious and confusing error message. (<a href="https://github.com/rstudio/bslib/issues/1081" class="external-link">#1081</a>)</p></li>
 </ul></div>
 </div>
     <div class="section level2">
