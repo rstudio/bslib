@@ -52,7 +52,7 @@
     Condition
       Error in `card_image()`:
       ! `file` does not exist: cat.jpg
-      i If the file is a remote file or will be served by the Shiny app, use a URL or set `src = "cat.jpg"`.
+      i If `file` is a remote file or will be served by the Shiny app, use a URL or set `src = "cat.jpg"`.
 
 ---
 

@@ -39,3 +39,20 @@ test_that("card_image()", {
     )
   )
 })
+
+test_that("card_image() input validation", {
+  expect_snapshot(
+    error = TRUE,
+    card_image("cat.jpg")
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    card_image("foo", "bar")
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    card_image("foo", border_radius = "guess")
+  )
+})

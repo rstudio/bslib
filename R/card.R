@@ -302,12 +302,28 @@ card_image <- function(
   width = NULL,
   container = NULL
 ) {
+  if (any(!nzchar(rlang::names2(list(...))))) {
+    rlang::abort(c(
+      "Unnamed arguments were included in `...`.",
+      i = "All additional arguments to `card_image()` in `...` should be named attributes for the `<img>` tag."
+    ))
+  }
+
   border_radius <- rlang::arg_match(border_radius)
 
   if (is.null(src)) {
     if (grepl("^([[:alnum:]]+:)?//|data:", file)) {
       src <- file
     } else {
+      if (!file.exists(file)) {
+        rlang::abort(c(
+          sprintf("`file` does not exist: %s", file),
+          i = sprintf(
+            "If `file` is a remote file or will be served by the Shiny app, use a URL or set `src = \"%s\"`.",
+            file
+          )
+        ))
+      }
       src <- base64enc::dataURI(
         file = file,
         mime = mime_type %||% mime::guess_type(file)
