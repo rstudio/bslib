@@ -290,8 +290,8 @@ card_footer <- function(..., class = NULL) {
 #' @export
 card_image <- function(
   file,
-  alt = "",
   ...,
+  alt = "",
   src = NULL,
   href = NULL,
   border_radius = c("auto", "top", "bottom", "all", "none"),

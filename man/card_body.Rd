@@ -31,8 +31,8 @@ card_footer(..., class = NULL)
 
 card_image(
   file,
-  alt = "",
   ...,
+  alt = "",
   src = NULL,
   href = NULL,
   border_radius = c("auto", "top", "bottom", "all", "none"),
