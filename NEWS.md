@@ -18,6 +18,7 @@
     * `file` is designed to accept a path to a local (server-side) file, but now recognizes remote files that start with a protocol prefix, e.g. `https://`, or two slashes, e.g. `//`. Local files are base64-encoded and embedded in the HTML output, while remote files are linked directly. To use a relative path for a file that will be served by the Shiny app, use `src` instead of file, e.g. `card_image(src = "cat.jpg")` where `cat.jpg` is stored in `www/`.
     * `container` is now `NULL` by default to avoid wrapping the card image in an additional card body container and `fill` is now `FALSE` by default to avoid stretching the image. These changes makes it easier to construct [cards with image caps](https://getbootstrap.com/docs/5.3/components/card/#images).
 
+* The `open` argument of `layout_sidebar()` now includes the option to place a sidebar that's always open on mobile screens _above the main content_ with `open = list(mobile = "always-above")`. (#1088)
 
 ## Bug fixes
 
@@ -30,6 +31,8 @@
 * The main content area of `page_sidebar()` and `page_navbar()` with a `sidebar` now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull requests for details). (#1057, #1059)
 
 * When `card_body(fillable = FALSE)`, bslib now preserves flow-layout margin bottom settings. (#1073)
+
+* Fixed a bug in `layout_sidebar()` that caused a spurious and confusing error message. (#1081)
 
 # bslib 0.7.0
 
