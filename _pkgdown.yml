@@ -29,7 +29,7 @@ navbar:
   type: light
   structure:
     left:  [get-started, examples, theming, components, layouts]
-    right: [reference, news, github, lightswitch]
+    right: [search, reference, news, github, lightswitch]
   components:
     home: ~
 
@@ -74,16 +74,6 @@ navbar:
           href: reference/navset.html#details
         - text: Filling layout
           href: articles/filling/index.html
-
-
-    reference:
-      text: Reference
-      href: reference/index.html
-
-    github:
-      icon: bi-github
-      aria-label: GitHub
-      href: https://github.com/rstudio/bslib
 
 news:
   releases:

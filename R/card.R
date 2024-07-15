@@ -90,6 +90,7 @@ card <- function(
 
   attribs <- args[nzchar(argnames)]
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
+  children <- card_image_add_classes(children)
 
   is_shiny_input <- !is.null(id)
 
@@ -248,32 +249,94 @@ card_footer <- function(..., class = NULL) {
   )
 }
 
-#' @describeIn card_body Include static (i.e., pre-generated) images.
-#' @param file a file path pointing an image. The image will be base64 encoded
-#' and provided to the `src` attribute of the `<img>`. Alternatively, you may
-#' set this value to `NULL` and provide the `src` yourself.
-#' @param href an optional URL to link to.
-#' @param border_radius where to apply `border-radius` on the image.
-#' @param mime_type the mime type of the `file`.
-#' @param container a function to generate an HTML element to contain the image.
-#' @param width Any valid [CSS unit][htmltools::validateCssUnit] (e.g., `width="100%"`).
+#' @describeIn card_body Include static images in a card, for example as an
+#'   image cap at the top or bottom of the card.
+#'
+#' @param file A file path pointing an image. Local images (i.e. not a URI
+#'   starting with `https://` or similar) will be base64 encoded and provided to
+#'   the `src` attribute of the `<img>`. Alternatively, you may directly set
+#'   the image `src`, in which case `file` is ignored.
+#' @param alt Alternate text for the image, used by screen readers and assistive
+#'   devices. Provide alt text with a description of the image for any images
+#'   with important content. If alt text is not provided, the image will be
+#'   considered to be decorative and will not be read or announced by screen
+#'   readers.
+#'
+#'   For more information, the Web Accessibility Initiative (WAI) has a
+#'   [helpful tutorial on alt text](https://www.w3.org/WAI/tutorials/images/).
+#' @param src The `src` attribute of the `<img>` tag. If provided, `file` is
+#'   ignored entirely. Use `src` to provide a relative path to a file that will
+#'   be served by the Shiny application and should not be base64 encoded.
+#' @param href An optional URL to link to when a user clicks on the image.
+#' @param border_radius Which side of the image should have rounded corners,
+#'   useful when `card_image()` is used as an image cap at the top or bottom of
+#'   the card.
+#'
+#'   The value of `border_radius` determines whether the `card-img-top`
+#'   (`"top"`), `card-img-bottom` (`"bottom"`), or `card-img` (`"all"`)
+#'   [Bootstrap
+#'   classes](https://getbootstrap.com/docs/5.3/components/card/#images) are
+#'   applied to the card. The default `"auto"` value will use the image's
+#'   position within a `card()` to automatically choose the appropriate class.
+#' @param mime_type The mime type of the `file` when it is base64 encoded. This
+#'   argument is available for advanced use cases where [mime::guess_type()] is
+#'   unable to automatically determine the file type.
+#' @param container A function to generate an HTML element to contain the image.
+#'   Setting this value to `card_body()` places the image inside the card body
+#'   area, otherwise the image will extend to the edges of the card.
+#' @param width Any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
+#'   `width="100%"`).
+#'
 #' @export
 card_image <- function(
-  file, ..., href = NULL, border_radius = c("top", "bottom", "all", "none"),
-  mime_type = NULL, class = NULL, height = NULL, fill = TRUE, width = NULL, container = card_body) {
+  file,
+  ...,
+  alt = "",
+  src = NULL,
+  href = NULL,
+  border_radius = c("auto", "top", "bottom", "all", "none"),
+  mime_type = NULL,
+  class = NULL,
+  height = NULL,
+  fill = FALSE,
+  width = NULL,
+  container = NULL
+) {
+  if (any(!nzchar(rlang::names2(list(...))))) {
+    rlang::abort(c(
+      "Unnamed arguments were included in `...`.",
+      i = "All additional arguments to `card_image()` in `...` should be named attributes for the `<img>` tag."
+    ))
+  }
 
-  src <- NULL
-  if (length(file) > 0) {
-    src <- base64enc::dataURI(
-      file = file, mime = mime_type %||% mime::guess_type(file)
-    )
+  border_radius <- rlang::arg_match(border_radius)
+
+  if (is.null(src)) {
+    if (grepl("^([[:alnum:]]+:)?//|data:", file)) {
+      src <- file
+    } else {
+      if (!file.exists(file)) {
+        rlang::abort(c(
+          sprintf("`file` does not exist: %s", file),
+          i = sprintf(
+            "If `file` is a remote file or will be served by the Shiny app, use a URL or set `src = \"%s\"`.",
+            file
+          )
+        ))
+      }
+      src <- base64enc::dataURI(
+        file = file,
+        mime = mime_type %||% mime::guess_type(file)
+      )
+    }
   }
 
   image <- tags$img(
     src = src,
+    alt = alt,
     class = "img-fluid",
     class = switch(
-      match.arg(border_radius),
+      border_radius,
       all = "card-img",
       top = "card-img-top",
       bottom = "card-img-bottom",
@@ -295,9 +358,39 @@ card_image <- function(
 
   if (is.function(container)) {
     image <- container(image)
+  } else {
+    image <- as.card_item(image)
   }
 
+  class(image) <- c(
+    if (border_radius == "auto") "card_image_auto",
+    "card_image",
+    class(image)
+  )
+
   image
+}
+
+card_image_add_classes <- function(children) {
+  for (idx_child in seq_along(children)) {
+    if (inherits(children[[idx_child]], "card_image_auto")) {
+      card_img_class <-
+        if (length(children) == 1) {
+          "card-img"
+        } else if (idx_child == 1) {
+          "card-img-top"
+        } else if (idx_child == length(children)) {
+          "card-img-bottom"
+        }
+
+      children[[idx_child]] <- tagAppendAttributes(
+        children[[idx_child]],
+        class = card_img_class
+      )
+    }
+  }
+
+  children
 }
 
 #' @describeIn card_body Mark an object as a card item. This will prevent the
