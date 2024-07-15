@@ -222,8 +222,8 @@ as.tags.bslib_sidebar <- function(x, ...) {
     )
   )
 
-    htmltools::tagList(sidebar_tag, collapse_tag)
-  }
+  htmltools::tagList(sidebar_tag, collapse_tag)
+}
 
 as_sidebar_open_on <- function(open) {
   if (is.null(open)) return(NULL)
