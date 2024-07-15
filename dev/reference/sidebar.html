@@ -193,7 +193,9 @@ This is default sidebar behavior.</p></li>
 the initial sidebar state independently for <code>desktop</code> and <code>mobile</code> screen
 sizes. In this case, <code>desktop</code> or <code>mobile</code> can use any of the above options
 except <code>"desktop"</code>, which is equivalent to
-<code>list(desktop = "open", mobile = "closed")</code>.</p>
+<code>list(desktop = "open", mobile = "closed")</code>. You can also choose to place
+an always open sidebar above the main content on mobile devices by setting
+<code>mobile = "always-above"</code>.</p>
 <p>In <code>sidebar_toggle()</code>, <code>open</code> indicates the desired state of the sidebar,
 where the default of <code>open = NULL</code> will cause the sidebar to be toggled
 open if closed or vice versa. Note that <code>sidebar_toggle()</code> can only open or
