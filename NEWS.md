@@ -2,7 +2,7 @@
 
 ## New features
 
-* Busy indicators (i.e., `shiny::useBusyIndicators()`), if available (i.e., shiny >v1.8.1.1), is now enabled automatically for "new" projects (i.e., Bootstrap 5). If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` in the page. (#1053)
+* Shiny's busy indicators (see `shiny::useBusyIndicators()` in shiny > v1.8.1.1) are now enabled automatically for all of bslib's `page_*()` functions or when bslib is used to provide Bootstrap 5 for a Shiny app. If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` in the page. (#1053)
 
 ## Improvements
 
