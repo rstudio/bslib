@@ -2,7 +2,7 @@
 
 ## New features
 
-* Page functions (e.g., `page_fixed()`, `page_fluid()`, etc) now include `shiny::useBusyIndicators()` automatically if available. If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` in the page. (#1053)
+* Busy indicators (i.e., `shiny::useBusyIndicators()`), if available (i.e., shiny >v1.8.1.1), is now enabled automatically for "new" projects (i.e., Bootstrap 5). If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` in the page. (#1053)
 
 ## Improvements
 

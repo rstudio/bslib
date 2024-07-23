@@ -143,7 +143,12 @@ bs_theme_dependencies <- function(
         stylesheet = basename(out_file),
         script = basename(js_files),
         all_files = TRUE, # include font and map files
-        meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
+        meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no"),
+        # Enable busy indicators by default.
+        # This doesn't have much of anything to Bootstrap,
+        # but it's a convenient place to hang this feature's
+        # initialization code (so it works in Rmd etc).
+        head = if (isTRUE(version >= 5)) as.character(use_busy_indicators())
       )
     ),
     htmlDependencies(out_file)
