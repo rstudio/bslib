@@ -75,10 +75,6 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>Page functions (e.g., <code><a href="../reference/page.html">page_fixed()</a></code>, <code><a href="../reference/page.html">page_fluid()</a></code>, etc) now include <code><a href="https://rdrr.io/pkg/shiny/man/useBusyIndicators.html" class="external-link">shiny::useBusyIndicators()</a></code> automatically if available. If this behavior isn’t desirable (perhaps because a package like <a href="https://github.com/daattali/shinycssloaders" class="external-link">shinycssloaders</a> is being used to indicate busy state), then disable by putting <code>shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)</code> in the page. (<a href="https://github.com/rstudio/bslib/issues/1053" class="external-link">#1053</a>)</li>
-</ul></div>
-<div class="section level3">
 <h3 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h3>
 <ul><li><p>Adjusted the border color of checkbox and radio buttons to match the border color of the input group in <code>bs_theme(preset="shiny")</code>. (<a href="https://github.com/rstudio/bslib/issues/1038" class="external-link">#1038</a>)</p></li>
 <li><p>Example apps provided with bslib have now moved from <code>examples</code> to <code>examples-shiny</code> to take advantage of the new <code>package</code> argument in <code><a href="https://rdrr.io/pkg/shiny/man/runExample.html" class="external-link">shiny::runExample()</a></code> with shiny &gt;= 1.8.1. For example, try <code>shiny::runExample("build-a-box", package = "bslib")</code>. (<a href="https://github.com/rstudio/bslib/issues/1049" class="external-link">#1049</a>)</p></li>
