@@ -1,9 +1,5 @@
 # bslib (development version)
 
-## New features
-
-* Page functions (e.g., `page_fixed()`, `page_fluid()`, etc) now include `shiny::useBusyIndicators()` automatically if available. If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` in the page. (#1053)
-
 ## Improvements
 
 * Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")`. (#1038)

@@ -15,7 +15,7 @@
 #'
 #' @seealso Dashboard-style pages: [page_sidebar()], [page_navbar()],
 #'   [page_fillable()].
-#' 
+#'
 #' @describeIn page A \pkg{bslib} wrapper for [shiny::bootstrapPage()], a basic
 #'   Boostrap page where the content is added directly to the page body.
 #'
@@ -30,17 +30,10 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
       theme = theme,
       lang = lang,
       # Components require Bootstrap 5+
-      if (isTRUE(theme_version(theme) >= 5)) component_dependencies(),
-      use_busy_indicators()
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
     ),
     theme = theme
   )
-}
-
-use_busy_indicators <- function() {
-  # Use busy indicators were added in shiny 1.8.1.9001 (after 1.8.1.1)
-  ubi <- asNamespace("shiny")[["useBusyIndicators"]]
-  if (!is.null(ubi)) ubi()
 }
 
 #' @describeIn page A \pkg{bslib} wrapper for [shiny::fluidPage()], a fluid
