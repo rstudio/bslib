@@ -11,7 +11,7 @@
 ## New features
 
 * `card_image()` gains several new features (#1076):
-    * `alt` is now included in the function inputs and is set to `""` by default. This default value marks images as decorative; please describe the image in the `alt` attribute if it is not decorative.
+    * `alt` is now a formal argument and is set to `""` by default. This default value marks images as decorative; please describe the image in the `alt` attribute if it is not decorative.
     * `border_radius` now defaults to `"auto"` by default, in which case the image's position in the card will automatically determine whether it should receive the `.card-img-top` (first child), `.card-img-bottom` (last child) or `.card-img` (only child).
     * `file` is designed to accept a path to a local (server-side) file, but now recognizes remote files that start with a protocol prefix, e.g. `https://`, or two slashes, e.g. `//`. Local files are base64-encoded and embedded in the HTML output, while remote files are linked directly. To use a relative path for a file that will be served by the Shiny app, use `src` instead of file, e.g. `card_image(src = "cat.jpg")` where `cat.jpg` is stored in `www/`.
 
