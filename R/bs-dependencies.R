@@ -146,27 +146,8 @@ bs_theme_dependencies <- function(
         meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
       )
     ),
-    busy_indicator_deps(),
     htmlDependencies(out_file)
   ))
-}
-
-# Busy indicators are orthogonal to Bootstrap, but since they have the potential
-# to introduce breaking changes, they aren't enabled by default in R/Shiny.
-# However, since bslib is the place for "modern UI" practices, we enable them by
-# default in bslib. Note also that the way in which busy indicators are enabled
-# is here is fairly consistent with how they're enabled in PyShiny...
-# https://github.com/posit-dev/py-shiny/blob/dc0b294/shiny/ui/_html_deps_py_shiny.py#L73-L81
-busy_indicator_deps <- function() {
-  if (is_installed("shiny", "1.8.1.9001")) {
-    list(htmlDependency(
-      name = "bslib-enable-busy-indicators",
-      version = get_package_version("bslib"),
-      src = "",
-      package = "bslib",
-      head = as.character(shiny::useBusyIndicators())
-    ))
-  }
 }
 
 

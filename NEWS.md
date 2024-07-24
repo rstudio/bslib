@@ -1,9 +1,5 @@
 # bslib (development version)
 
-## New features
-
-* Shiny's busy indicators (see `shiny::useBusyIndicators()` in shiny > v1.8.1.1) are now enabled automatically when bslib for the UI. If this behavior isn't desirable (perhaps because a package like `{shinycssloaders}` is being used to indicate busy state), then disable by putting `shiny::useBusyIndicators(spinners=FALSE, pulse=FALSE)` inside the UI definition. (#1053)
-
 ## Improvements
 
 * Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")`. (#1038)
