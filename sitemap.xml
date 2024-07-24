@@ -1,255 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rstudio.github.io/bslib/404.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/PULL_REQUEST_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/any-project/examples/linked-htmlwidgets/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/any-project/examples/page-fillable-htmlwidgets/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/any-project/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/bs4-variables/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/bs5-variables/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/cards/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/column-layout/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/custom-components/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/dashboards/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/examples/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/filling/examples/full-screen-cards/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/filling/examples/multiple-columns/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/filling/examples/page-fillable/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/filling/examples/sidebar-layouts/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/filling/examples/value-boxes/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/filling/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/hello-layout-sidebar/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/multi-page/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/page-fill-double/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/restricting-growth/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/shiny-dynamic-sidebar/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/sidebars/examples/shiny-sidebar-state/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/sidebars/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/theming/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/tooltips-popovers/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/utility-classes/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/value-boxes/examples/fill-false/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/value-boxes/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/articles/why-sass/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/accordion.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/accordion_panel_set.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/as.tags.bslib_sidebar.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/as_fill_carrier.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bind_task_button.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bootswatch_themes.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/breakpoints.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_bundle.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_current_theme.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_dependency.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_get_variables.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_global_theme.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_remove.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_theme.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_theme_dependencies.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bs_theme_preview.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/bslib-package.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/builtin_themes.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/card.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/card_body.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/deprecated.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/font_face.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/html-browse.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/input_dark_mode.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/input_switch.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/input_task_button.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/layout_column_wrap.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/layout_columns.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/nav-items.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/nav_prepend.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/nav_select.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/navset.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/page.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/page_fillable.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/page_navbar.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/page_sidebar.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/popover.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/precompiled_css_path.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/run_with_themer.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/save-html.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/sidebar.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/theme_bootswatch.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/theme_version.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/tooltip.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/value_box.html</loc>
-  </url>
-  <url>
-    <loc>https://rstudio.github.io/bslib/reference/versions.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rstudio.github.io/bslib/404.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/LICENSE-text.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/PULL_REQUEST_TEMPLATE.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/any-project/examples/linked-htmlwidgets/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/any-project/examples/page-fillable-htmlwidgets/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/any-project/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/bs4-variables/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/bs5-variables/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/cards/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/column-layout/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/custom-components/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/dashboards/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/examples/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/filling/examples/full-screen-cards/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/filling/examples/multiple-columns/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/filling/examples/page-fillable/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/filling/examples/sidebar-layouts/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/filling/examples/value-boxes/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/filling/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/sidebars/examples/hello-layout-sidebar/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/sidebars/examples/multi-page/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/sidebars/examples/page-fill-double/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/sidebars/examples/restricting-growth/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/sidebars/examples/shiny-dynamic-sidebar/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/sidebars/examples/shiny-sidebar-state/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/sidebars/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/theming/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/tooltips-popovers/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/utility-classes/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/value-boxes/examples/fill-false/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/value-boxes/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/articles/why-sass/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/authors.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/news/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/accordion.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/accordion_panel_set.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/as.tags.bslib_sidebar.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/as_fill_carrier.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bind_task_button.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bootswatch_themes.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/breakpoints.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_bundle.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_current_theme.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_dependency.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_get_variables.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_global_theme.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_remove.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_theme.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_theme_dependencies.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bs_theme_preview.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/bslib-package.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/builtin_themes.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/card.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/card_body.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/deprecated.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/font_face.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/html-browse.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/index.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/input_dark_mode.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/input_switch.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/input_task_button.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/layout_column_wrap.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/layout_columns.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/nav-items.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/nav_prepend.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/nav_select.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/navset.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/page.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/page_fillable.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/page_navbar.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/page_sidebar.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/popover.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/precompiled_css_path.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/reexports.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/run_with_themer.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/save-html.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/sidebar.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/theme_bootswatch.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/theme_version.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/tooltip.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/value_box.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/versions.html</loc></url>
 </urlset>
+
