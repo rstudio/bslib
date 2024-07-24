@@ -1,24 +1,31 @@
 # bslib (development version)
 
-## Improvements
+## Breaking changes
 
-* Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")`. (#1038)
+* To help reduce the potential for squashed content, the main content area of `page_sidebar()` and `page_navbar()` with a `sidebar` now have a (customizable) minimum height and width on a "medium-sized" window. To revert to previous behavior, set `theme = bs_theme("bslib-page-main-min-height" = "unset", "bslib-page-main-min-width" = "unset")`. (#1057, #1059, #1084)
 
-* Example apps provided with bslib have now moved from `examples` to `examples-shiny` to take advantage of the new `package` argument in `shiny::runExample()` with shiny >= 1.8.1. For example, try `shiny::runExample("build-a-box", package = "bslib")`. (#1049)
+* `card_image()` had a couple breaking changes (#1076):
+  * `fill` now defaults to `FALSE` to avoid stretching/shrinking the image vertically (and thus, changing it's aspect ratio). To restore the previous behavior, set `fill = TRUE`.
+  * `container` now defaults to `NULL` instead of `card_body`. As a result, `card_image()` no longer has padding around it, making it easier to create "full-bleed" card images ([for example](https://getbootstrap.com/docs/5.3/components/card/#images)). To restore the previous behavior, wrap `card_image()` in a `card_body()`.
 
-* bslib now re-exports `htmltools::css()` to make it easier to specify style declarations. (#1086)
+## New features
 
-* `card_image()` was improved in a few ways (#1076):
-    * `alt` is now included in the function inputs and is set to `""` by default. This default value marks images as decorative; please describe the image in the `alt` attribute if it is not decorative.
+* `card_image()` gains several new features (#1076):
+    * `alt` is now a formal argument and is set to `""` by default. This default value marks images as decorative; please describe the image in the `alt` attribute if it is not decorative.
     * `border_radius` now defaults to `"auto"` by default, in which case the image's position in the card will automatically determine whether it should receive the `.card-img-top` (first child), `.card-img-bottom` (last child) or `.card-img` (only child).
     * `file` is designed to accept a path to a local (server-side) file, but now recognizes remote files that start with a protocol prefix, e.g. `https://`, or two slashes, e.g. `//`. Local files are base64-encoded and embedded in the HTML output, while remote files are linked directly. To use a relative path for a file that will be served by the Shiny app, use `src` instead of file, e.g. `card_image(src = "cat.jpg")` where `cat.jpg` is stored in `www/`.
-    * `container` is now `NULL` by default to avoid wrapping the card image in an additional card body container and `fill` is now `FALSE` by default to avoid stretching the image. These changes makes it easier to construct [cards with image caps](https://getbootstrap.com/docs/5.3/components/card/#images).
 
 * The `open` argument of `sidebar()` now includes the option to place a sidebar that's always open on mobile screens _above the main content_ with `open = list(mobile = "always-above")`. (#1088)
 
-* We've adjusted the sidebar design when collapsible on mobile screens to reduce the space used by the sidebar toggle button and to ensure that main and sidebar content do not scroll underneath the toggle button when the sidebar is collapsed. (#1084)
+## Improvements
+    
+* Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")`. (#1038)
 
-* The main content area of `page_sidebar()` and `page_navbar()` with a `sidebar` now have a minimum height and width to avoid squashed content in fillable layouts. The minimum height and width are controllable via Sass and CSS variables (see the pull requests for details). (#1057, #1059, #1084)
+* On mobile, the main and sidebar content areas of a `layout_sidebar()` no longer overlap with the sidebar toggle button. (#1084)
+
+* bslib now re-exports `htmltools::css()` to make it easier to specify style declarations. (#1086)
+
+* Example apps provided with bslib have now moved from `examples` to `examples-shiny` to take advantage of the new `package` argument in `shiny::runExample()` with shiny >= 1.8.1. For example, try `shiny::runExample("build-a-box", package = "bslib")`. (#1049)
 
 ## Bug fixes
 
