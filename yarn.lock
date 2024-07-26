@@ -324,9 +324,9 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
-"@types/rstudio-shiny@https://github.com/rstudio/shiny#init-promise":
+"@types/rstudio-shiny@https://github.com/rstudio/shiny#main":
   version "1.8.1-alpha.9001"
-  resolved "https://github.com/rstudio/shiny#9c7937b3dfe85f4108d17d6a3220151ba467f924"
+  resolved "https://github.com/rstudio/shiny#15b5fa6c01197a1c9fca33ff103eeb7250ffa870"
   dependencies:
     "@types/bootstrap" "3.4.0"
     "@types/bootstrap-datepicker" "0.0.14"
