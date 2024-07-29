@@ -36,7 +36,7 @@
       renderTags(page_sidebar("main", title = "Title", sidebar = sidebar(open = "always"),
       `data-attr` = "here"))$html
     Output
-      <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;">
+      <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile html-fill-container bslib-page-sidebar" style="padding:0px;gap:0px;">
         <div class="navbar navbar-static-top">
           <div class="container-fluid">
             <h1 class="bslib-page-title navbar-brand">Title</h1>
@@ -59,7 +59,7 @@
     Code
       renderTags(page_sidebar("main", title = "Title", sidebar = "side"))$html
     Output
-      <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;">
+      <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile html-fill-container bslib-page-sidebar" style="padding:0px;gap:0px;">
         <div class="navbar navbar-static-top">
           <div class="container-fluid">
             <h1 class="bslib-page-title navbar-brand">Title</h1>
