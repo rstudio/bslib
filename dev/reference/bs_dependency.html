@@ -3,7 +3,7 @@
 variables, functions, and/or mixins (i.e., stuff inside of theme).
 bs_dependencies() makes it a bit easier to create themeable components by
 compiling sass::sass() (input) together with Bootstrap Sass inside of a
-theme, and packaging up the result into an htmlDependency().
+theme, and packaging up the result into an htmltools::htmlDependency().
 Themable components can also be  dynamically themed inside of Shiny (i.e.,
 they may be themed in 'real-time' via bs_themer(), and more generally,
 update their styles in response to shiny::session's setCurrentTheme()
@@ -15,7 +15,7 @@ shiny::session's setCurrentTheme() is called."><meta property="og:description" c
 variables, functions, and/or mixins (i.e., stuff inside of theme).
 bs_dependencies() makes it a bit easier to create themeable components by
 compiling sass::sass() (input) together with Bootstrap Sass inside of a
-theme, and packaging up the result into an htmlDependency().
+theme, and packaging up the result into an htmltools::htmlDependency().
 Themable components can also be  dynamically themed inside of Shiny (i.e.,
 they may be themed in 'real-time' via bs_themer(), and more generally,
 update their styles in response to shiny::session's setCurrentTheme()
@@ -31,7 +31,7 @@ shiny::session's setCurrentTheme() is called."><meta name="robots" content="noin
 
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.7.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.8.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,7 @@ shiny::session's setCurrentTheme() is called."><meta name="robots" content="noin
 variables, functions, and/or mixins (i.e., stuff inside of <code>theme</code>).
 <code>bs_dependencies()</code> makes it a bit easier to create themeable components by
 compiling <code><a href="https://rstudio.github.io/sass/reference/sass.html" class="external-link">sass::sass()</a></code> (<code>input</code>) together with Bootstrap Sass inside of a
-<code>theme</code>, and packaging up the result into an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmlDependency()</a></code>.</p>
+<code>theme</code>, and packaging up the result into an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code>.</p>
 <p>Themable components can also be  <em>dynamically</em> themed inside of Shiny (i.e.,
 they may be themed in 'real-time' via <code><a href="run_with_themer.html">bs_themer()</a></code>, and more generally,
 update their styles in response to <a href="https://rdrr.io/pkg/shiny/man/session.html" class="external-link">shiny::session</a>'s <code>setCurrentTheme()</code>
@@ -167,7 +167,7 @@ useful to add the version of your package.</p></dd>
 <dt id="arg-func">func<a class="anchor" aria-label="anchor" href="#arg-func"></a></dt>
 <dd><p>a <em>non-anonymous</em> function, with a <em>single</em> argument.
 This function should accept a <code><a href="bs_theme.html">bs_theme()</a></code> object and return a single
-<code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmlDependency()</a></code>, a list of them, or <code>NULL</code>.</p></dd>
+<code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code>, a list of them, or <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-memoise">memoise<a class="anchor" aria-label="anchor" href="#arg-memoise"></a></dt>

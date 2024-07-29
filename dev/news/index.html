@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.7.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.8.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,8 +74,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.8.0" id="bslib-080">bslib 0.8.0<a class="anchor" aria-label="anchor" href="#bslib-080"></a></h2><p class="text-muted">CRAN release: 2024-07-29</p>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<h3 id="breaking-changes-0-8-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-8-0"></a></h3>
 <ul><li><p>To help reduce the potential for squashed content, the main content area of <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page_navbar.html">page_navbar()</a></code> with a <code>sidebar</code> now have a (customizable) minimum height and width on a “medium-sized” window. To revert to previous behavior, set <code>theme = bs_theme("bslib-page-main-min-height" = "unset", "bslib-page-main-min-width" = "unset")</code>. (<a href="https://github.com/rstudio/bslib/issues/1057" class="external-link">#1057</a>, <a href="https://github.com/rstudio/bslib/issues/1059" class="external-link">#1059</a>, <a href="https://github.com/rstudio/bslib/issues/1084" class="external-link">#1084</a>)</p></li>
 <li>
 <p><code><a href="../reference/card_body.html">card_image()</a></code> had a couple breaking changes (<a href="https://github.com/rstudio/bslib/issues/1076" class="external-link">#1076</a>):</p>
@@ -86,7 +89,7 @@
 </ul></li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-0-8-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-8-0"></a></h3>
 <ul><li>
 <code><a href="../reference/card_body.html">card_image()</a></code> gains several new features (<a href="https://github.com/rstudio/bslib/issues/1076" class="external-link">#1076</a>):
 <ul><li>
@@ -99,14 +102,14 @@
 <li>The <code>open</code> argument of <code><a href="../reference/sidebar.html">sidebar()</a></code> now includes the option to place a sidebar that’s always open on mobile screens <em>above the main content</em> with <code>open = list(mobile = "always-above")</code>. (<a href="https://github.com/rstudio/bslib/issues/1088" class="external-link">#1088</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h3>
+<h3 id="improvements-0-8-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-8-0"></a></h3>
 <ul><li><p>Adjusted the border color of checkbox and radio buttons to match the border color of the input group in <code>bs_theme(preset="shiny")</code>. (<a href="https://github.com/rstudio/bslib/issues/1038" class="external-link">#1038</a>)</p></li>
 <li><p>On mobile, the main and sidebar content areas of a <code><a href="../reference/sidebar.html">layout_sidebar()</a></code> no longer overlap with the sidebar toggle button. (<a href="https://github.com/rstudio/bslib/issues/1084" class="external-link">#1084</a>)</p></li>
 <li><p>bslib now re-exports <code><a href="https://rstudio.github.io/htmltools/reference/css.html" class="external-link">htmltools::css()</a></code> to make it easier to specify style declarations. (<a href="https://github.com/rstudio/bslib/issues/1086" class="external-link">#1086</a>)</p></li>
 <li><p>Example apps provided with bslib have now moved from <code>examples</code> to <code>examples-shiny</code> to take advantage of the new <code>package</code> argument in <code><a href="https://rdrr.io/pkg/shiny/man/runExample.html" class="external-link">shiny::runExample()</a></code> with shiny &gt;= 1.8.1. For example, try <code>shiny::runExample("build-a-box", package = "bslib")</code>. (<a href="https://github.com/rstudio/bslib/issues/1049" class="external-link">#1049</a>)</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-0-8-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-8-0"></a></h3>
 <ul><li><p><code><a href="../reference/sidebar.html">toggle_sidebar()</a></code> once again correctly closes a sidebar. (<a href="https://github.com/fredericva" class="external-link">@fredericva</a>, <a href="https://github.com/rstudio/bslib/issues/1043" class="external-link">#1043</a>)</p></li>
 <li><p>bslib now avoids re-defining its components when used in a context where they are already available, e.g. in a Quarto dashboard. (<a href="https://github.com/rstudio/bslib/issues/1045" class="external-link">#1045</a>)</p></li>
 <li><p>Improved the appearance of cards with sidebars and headers in the Shiny preset, especially when custom card color themes are used, e.g. with <code>text-bg-primary</code> or other Bootstrap utility classes. (<a href="https://github.com/rstudio/bslib/issues/1056" class="external-link">#1056</a>)</p></li>
