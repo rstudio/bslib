@@ -102,3 +102,25 @@ test_that("save_html() works on components and pages with a custom theme", {
     expect_snapshot_file("modern-page.html")
   })
 })
+
+
+test_that("page_*() functions can handle trailing commas", {
+  expect_no_error(
+    page("foo",)
+  )
+  expect_no_error(
+    page_fluid("foo",)
+  )
+  expect_no_error(
+    page_fixed("foo",)
+  )
+  expect_no_error(
+    page_fillable("foo",)
+  )
+  expect_no_error(
+    page_sidebar("foo",)
+  )
+  expect_no_error(
+    page_navbar(nav_panel("foo", "bar"),)
+  )
+})

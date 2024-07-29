@@ -43,12 +43,12 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
     shiny::fluidPage(
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies(),
       ...,
       title = title,
       theme = theme,
-      lang = lang,
-      # Components require Bootstrap 5+
-      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
+      lang = lang
     ),
     theme = theme
   )
@@ -62,12 +62,12 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
     shiny::fixedPage(
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies(),
       ...,
       title = title,
       theme = theme,
-      lang = lang,
-      # Components require Bootstrap 5+
-      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
+      lang = lang
     ),
     theme = theme
   )
@@ -186,9 +186,9 @@ page_fillable <- function(
       padding = validateCssPadding(padding),
       gap = validateCssUnit(gap)
     ),
-    ...,
+    as_fillable_container(),
     tags$head(tags$style("html { height: 100%; }")),
-    as_fillable_container()
+    ...
   )
 }
 
