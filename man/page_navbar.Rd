@@ -71,9 +71,11 @@ the top (\code{"fixed-top"}), or pinned at the bottom
 unless you add padding, e.g.: \code{tags$style(type="text/css", "body
   {padding-top: 70px;}")}}
 
-\item{header}{UI element(s) (\link{tags}) to display \emph{above} the nav content.}
+\item{header}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{above} the nav
+content.}
 
-\item{footer}{UI element(s) (\link{tags}) to display \emph{below} the nav content.}
+\item{footer}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{below} the nav
+content.}
 
 \item{bg}{a CSS color to use for the navbar's background color.}
 

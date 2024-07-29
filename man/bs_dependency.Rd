@@ -38,7 +38,7 @@ useful to add the version of your package.}
 
 \item{func}{a \emph{non-anonymous} function, with a \emph{single} argument.
 This function should accept a \code{\link[=bs_theme]{bs_theme()}} object and return a single
-\code{\link[=htmlDependency]{htmlDependency()}}, a list of them, or \code{NULL}.}
+\code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}, a list of them, or \code{NULL}.}
 
 \item{memoise}{whether or not to memoise (i.e., cache) \code{func} results for a
 short period of time. The default, \code{TRUE}, can have large performance

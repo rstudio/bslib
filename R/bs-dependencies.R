@@ -246,7 +246,7 @@ bs_dependency <- function(input = list(), theme, name, version,
 #' @rdname bs_dependency
 #' @param func a _non-anonymous_ function, with a _single_ argument.
 #'   This function should accept a [bs_theme()] object and return a single
-#'   [htmlDependency()], a list of them, or `NULL`.
+#'   [htmltools::htmlDependency()], a list of them, or `NULL`.
 #' @param memoise whether or not to memoise (i.e., cache) `func` results for a
 #'   short period of time. The default, `TRUE`, can have large performance
 #'   benefits when many instances of the same themable widget are rendered. Note
