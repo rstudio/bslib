@@ -12,7 +12,7 @@
 \arguments{
 \item{html}{a bslib page/fragment.}
 
-\item{...}{passed along to an underlying \code{\link[=save_html]{save_html()}} method.}
+\item{...}{passed along to an underlying \code{\link[htmltools:save_html]{htmltools::save_html()}} method.}
 }
 \description{
 Save a bslib page/fragment as HTML

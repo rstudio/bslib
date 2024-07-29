@@ -159,7 +159,7 @@ bs_theme_dependencies <- function(
 #' variables, functions, and/or mixins (i.e., stuff inside of `theme`).
 #' `bs_dependencies()` makes it a bit easier to create themeable components by
 #' compiling [sass::sass()] (`input`) together with Bootstrap Sass inside of a
-#' `theme`, and packaging up the result into an [htmlDependency()].
+#' `theme`, and packaging up the result into an [htmltools::htmlDependency()].
 #'
 #' Themable components can also be  _dynamically_ themed inside of Shiny (i.e.,
 #' they may be themed in 'real-time' via [bs_themer()], and more generally,

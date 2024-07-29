@@ -56,7 +56,7 @@ Themeable HTML components use Sass to generate CSS rules from Bootstrap Sass
 variables, functions, and/or mixins (i.e., stuff inside of \code{theme}).
 \code{bs_dependencies()} makes it a bit easier to create themeable components by
 compiling \code{\link[sass:sass]{sass::sass()}} (\code{input}) together with Bootstrap Sass inside of a
-\code{theme}, and packaging up the result into an \code{\link[=htmlDependency]{htmlDependency()}}.
+\code{theme}, and packaging up the result into an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}.
 
 Themable components can also be  \emph{dynamically} themed inside of Shiny (i.e.,
 they may be themed in 'real-time' via \code{\link[=bs_themer]{bs_themer()}}, and more generally,

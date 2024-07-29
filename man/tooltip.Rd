@@ -23,9 +23,9 @@ update_tooltip(id, ..., session = get_current_session())
 as the tooltip trigger. If \code{trigger} renders as multiple HTML
 elements (e.g., it's a \code{tagList()}), the last HTML element is used for the
 trigger. If the \code{trigger} should contain all of those elements, wrap the
-object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.}
+object in a \code{\link[htmltools:builder]{htmltools::div()}} or \code{\link[htmltools:builder]{htmltools::span()}}.}
 
-\item{...}{UI elements for the tooltip. Character strings are \link[=htmlEscape]{automatically escaped} unless marked as \code{\link[=HTML]{HTML()}}.}
+\item{...}{UI elements for the tooltip. Character strings are \link[htmltools:htmlEscape]{automatically escaped} unless marked as \code{\link[htmltools:HTML]{htmltools::HTML()}}.}
 
 \item{id}{a character string that matches an existing tooltip id.}
 
