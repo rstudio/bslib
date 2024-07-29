@@ -66,7 +66,7 @@ is_fill_item(x)
 
 \item{css_selector}{A character string containing a CSS selector for
 targeting particular (inner) tag(s) of interest. For more details on what
-selector(s) are supported, see \code{\link[=tagAppendAttributes]{tagAppendAttributes()}}.}
+selector(s) are supported, see \code{\link[htmltools:tagAppendAttributes]{htmltools::tagAppendAttributes()}}.}
 }
 \value{
 \itemize{
@@ -89,8 +89,8 @@ designed to do.
 }
 \details{
 Although \code{as_fill()}, \code{as_fillable()}, and \code{as_fill_carrier()} can work with
-non-tag objects that have a \link{as.tags} method (e.g., htmlwidgets), they return
-the "tagified" version of that object.
+non-tag objects that have a \link[htmltools:as.tags]{htmltools::as.tags} method (e.g., htmlwidgets),
+they return the "tagified" version of that object.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

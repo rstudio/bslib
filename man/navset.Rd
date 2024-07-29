@@ -99,9 +99,11 @@ navset_card_underline(
 \item{selected}{a character string matching the \code{value} of a particular
 \code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
 
-\item{header}{UI element(s) (\link{tags}) to display \emph{above} the nav content.}
+\item{header}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{above} the nav
+content.}
 
-\item{footer}{UI element(s) (\link{tags}) to display \emph{below} the nav content.}
+\item{footer}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{below} the nav
+content.}
 
 \item{well}{\code{TRUE} to place a well (gray rounded rectangle) around the
 navigation list.}

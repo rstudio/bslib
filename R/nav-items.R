@@ -4,13 +4,13 @@
 #' [navset_bar()], etc).
 #'
 #' @param title A title to display. Can be a character string or UI elements
-#'   (i.e., [tags]).
+#'   (i.e., [htmltools::tags]).
 #' @param ... Depends on the function:
-#'   * For `nav_panel()` and `nav_panel_hidden()`: UI elements (i.e., [tags]) to
-#'     display when the item is active.
+#'   * For `nav_panel()` and `nav_panel_hidden()`: UI elements (i.e.,
+#'     [htmltools::tags]) to display when the item is active.
 #'   * For `nav_menu()`: a collection of nav items (e.g., `nav_panel()`,
 #'     `nav_item()`).
-#'   * For `nav_item()`: UI elements (i.e., [tags]) to place directly in
+#'   * For `nav_item()`: UI elements (i.e., [htmltools::tags]) to place directly in
 #'     the navigation panel (e.g., search forms, links to external content, etc).
 #' @param value A character string to assign to the nav item. This value may be
 #'   supplied to the relevant container's `selected` argument in order to show

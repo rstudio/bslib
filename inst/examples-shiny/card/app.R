@@ -72,6 +72,7 @@ main_grid <- layout_column_wrap(
       card_body(card_image(
         file = "www/shiny-hex.svg",
         height = 200,
+        fill = TRUE,
         href = "https://github.com/rstudio/shiny"
       ))
     ),
