@@ -1,5 +1,7 @@
 # bslib (development version)
 
+* `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (@tanho63, #1024) 
+
 # bslib 0.8.0
 
 ## Breaking changes
@@ -108,8 +110,6 @@ This large release includes many improvements and bug fixes for newer UI compone
 * `page_navbar()` and `navset_bar()` now validate and transform `padding` and `gap` arguments into appropriate CSS values. (#991)
 
 * Fixed an issue where the `xs` breakpoint in a `breakpoints()` object used for `row_heights` in `layout_columns()` would override all other breakpoints. (#1014)
-
-* `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (#1024) 
 
 # bslib 0.6.2
 
