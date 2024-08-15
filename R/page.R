@@ -16,6 +16,9 @@
 #' @seealso Dashboard-style pages: [page_sidebar()], [page_navbar()],
 #'   [page_fillable()].
 #'
+#' @describeIn page A \pkg{bslib} wrapper for [shiny::bootstrapPage()], a basic
+#'   Boostrap page where the content is added directly to the page body.
+#'
 #' @export
 page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   # Wrap ... in <body> since bootstrapPage() passes ... to tagList(),
@@ -40,12 +43,12 @@ page <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
     shiny::fluidPage(
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies(),
       ...,
       title = title,
       theme = theme,
-      lang = lang,
-      # Components require Bootstrap 5+
-      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
+      lang = lang
     ),
     theme = theme
   )
@@ -59,12 +62,12 @@ page_fluid <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
   as_page(
     shiny::fixedPage(
+      # Components require Bootstrap 5+
+      if (isTRUE(theme_version(theme) >= 5)) component_dependencies(),
       ...,
       title = title,
       theme = theme,
-      lang = lang,
-      # Components require Bootstrap 5+
-      if (isTRUE(theme_version(theme) >= 5)) component_dependencies()
+      lang = lang
     ),
     theme = theme
   )
@@ -183,9 +186,9 @@ page_fillable <- function(
       padding = validateCssPadding(padding),
       gap = validateCssUnit(gap)
     ),
-    ...,
+    as_fillable_container(),
     tags$head(tags$style("html { height: 100%; }")),
-    as_fillable_container()
+    ...
   )
 }
 
@@ -202,10 +205,10 @@ validateCssPadding <- function(padding = NULL) {
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' Create a dashboard layout with a full-bleed header (`title`) and [sidebar()].
+#' Create a dashboard layout with a full-width header (`title`) and [sidebar()].
 #'
 #' @param ... UI elements to display in the 'main' content area (i.e., next to
-#'   the `sidebar`). These arguments are passed to `layout_sidebar()`, which has
+#'   the `sidebar`). These arguments are passed to [layout_sidebar()], which has
 #'   more details.
 #' @param title A string, number, or [htmltools::tag()] child to display as the
 #'   title (just above the `sidebar`).
@@ -274,6 +277,17 @@ page_sidebar <- function(
 
   sidebar <- maybe_page_sidebar(sidebar)
 
+  dots <- separate_arguments(...)
+
+  layout_sidebar_args <- rlang::list2(
+    sidebar = sidebar,
+    fillable = fillable,
+    border = FALSE,
+    border_radius = FALSE,
+    !!!dots$attribs,
+    page_main_container(dots$children)
+  )
+
   page_fillable(
     padding = 0,
     gap = 0,
@@ -283,11 +297,14 @@ page_sidebar <- function(
     fillable_mobile = fillable_mobile,
     class = "bslib-page-sidebar",
     navbar_title,
-    layout_sidebar(
-      sidebar = sidebar,
-      fillable = fillable,
-      border = FALSE,
-      border_radius = FALSE,
+    rlang::exec(layout_sidebar, !!!layout_sidebar_args)
+  )
+}
+
+page_main_container <- function(...) {
+  as_fill_carrier(
+    tags$main(
+      class = "bslib-page-main bslib-gap-spacing",
       ...
     )
   )

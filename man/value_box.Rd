@@ -91,8 +91,9 @@ card. Use \verb{bg-*} and \verb{text-*} classes (e.g, \code{"bg-danger"} and
 \code{"text-light"}) to customize the background/foreground colors.}
 
 \item{id}{Provide a unique identifier for the \code{card()} or \code{value_box()} to
-report its state to Shiny. For example, using \code{id = "my_card"}, you can
-observe the card's full screen state with \code{input$my_card$full_screen}.}
+report its full screen state to Shiny. For example, using \code{id = "my_card"},
+you can observe the card's full screen state with
+\code{input$my_card_full_screen}.}
 
 \item{theme_color}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{theme} instead.}
 
@@ -138,7 +139,11 @@ Explore all of the \code{value_box()} options and layouts interactively with the
 online thanks to \href{https://www.shinyapps.io/}{shinyapps.io}. Or, you can
 run the app locally with:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::runApp(system.file("examples", "build-a-box", package = "bslib"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# shiny >= 1.8.1
+shiny::runExample("build-a-box", package = "bslib")
+
+# shiny < 1.8.1
+shiny::runApp(system.file("examples-shiny", "build-a-box", package = "bslib"))
 }\if{html}{\out{</div>}}
 }
 

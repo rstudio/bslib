@@ -1,4 +1,4 @@
-import { InputBinding, registerBinding } from "./_utils";
+import { InputBinding, registerBinding, registerBslibGlobal } from "./_utils";
 import { ShinyResizeObserver } from "./_shinyResizeObserver";
 
 /**
@@ -9,7 +9,7 @@ import { ShinyResizeObserver } from "./_shinyResizeObserver";
  * current state.
  * @typedef {SidebarToggleMethod}
  */
-type SidebarToggleMethod = "close" | "open" | "toggle";
+type SidebarToggleMethod = "close" | "closed" | "open" | "toggle";
 
 /**
  * Data received by the input binding's `receiveMessage` method.
@@ -423,6 +423,8 @@ class Sidebar {
   ): void {
     if (typeof method === "undefined") {
       method = "toggle";
+    } else if (method === "closed") {
+      method = "close";
     }
 
     const { container, sidebar } = this.layout;
@@ -526,7 +528,5 @@ class SidebarInputBinding extends InputBinding {
 }
 
 registerBinding(SidebarInputBinding, "sidebar");
-
 // attach Sidebar class to window for global usage
-(window as any).bslib = (window as any).bslib || {};
-(window as any).bslib.Sidebar = Sidebar;
+registerBslibGlobal("Sidebar", Sidebar);

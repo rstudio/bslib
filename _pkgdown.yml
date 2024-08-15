@@ -22,20 +22,16 @@ template:
     docsearch:
       api_key: 53fd87c79a13e431b4298611470d023a
       index_name: bslib
-  includes:
-    in_header: >
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css">
+  light-switch: true
 
 navbar:
   bg: info
   type: light
   structure:
     left:  [get-started, examples, theming, components, layouts]
-    right: [reference, news, github, dark-mode]
+    right: [search, reference, news, github, lightswitch]
   components:
     home: ~
-    dark-mode:
-      href: "#dark-mode"
 
     get-started:
       text: Get Started
@@ -78,15 +74,6 @@ navbar:
           href: reference/navset.html#details
         - text: Filling layout
           href: articles/filling/index.html
-
-
-    reference:
-      text: Reference
-      href: reference/index.html
-
-    github:
-      icon: bi-github
-      href: https://github.com/rstudio/bslib
 
 news:
   releases:

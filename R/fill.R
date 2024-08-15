@@ -17,8 +17,8 @@
 #'
 #' @details
 #' Although `as_fill()`, `as_fillable()`, and `as_fill_carrier()` can work with
-#' non-tag objects that have a [as.tags] method (e.g., htmlwidgets), they return
-#' the "tagified" version of that object.
+#' non-tag objects that have a [htmltools::as.tags] method (e.g., htmlwidgets),
+#' they return the "tagified" version of that object.
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(shiny)
@@ -56,7 +56,7 @@
 #' @param style A character vector of CSS properties to add to the tag.
 #' @param css_selector A character string containing a CSS selector for
 #'   targeting particular (inner) tag(s) of interest. For more details on what
-#'   selector(s) are supported, see [tagAppendAttributes()].
+#'   selector(s) are supported, see [htmltools::tagAppendAttributes()].
 #'
 #' @export
 as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL, class = NULL, style = NULL, css_selector = NULL) {

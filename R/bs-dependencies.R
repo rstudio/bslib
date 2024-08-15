@@ -159,7 +159,7 @@ bs_theme_dependencies <- function(
 #' variables, functions, and/or mixins (i.e., stuff inside of `theme`).
 #' `bs_dependencies()` makes it a bit easier to create themeable components by
 #' compiling [sass::sass()] (`input`) together with Bootstrap Sass inside of a
-#' `theme`, and packaging up the result into an [htmlDependency()].
+#' `theme`, and packaging up the result into an [htmltools::htmlDependency()].
 #'
 #' Themable components can also be  _dynamically_ themed inside of Shiny (i.e.,
 #' they may be themed in 'real-time' via [bs_themer()], and more generally,
@@ -246,7 +246,7 @@ bs_dependency <- function(input = list(), theme, name, version,
 #' @rdname bs_dependency
 #' @param func a _non-anonymous_ function, with a _single_ argument.
 #'   This function should accept a [bs_theme()] object and return a single
-#'   [htmlDependency()], a list of them, or `NULL`.
+#'   [htmltools::htmlDependency()], a list of them, or `NULL`.
 #' @param memoise whether or not to memoise (i.e., cache) `func` results for a
 #'   short period of time. The default, `TRUE`, can have large performance
 #'   benefits when many instances of the same themable widget are rendered. Note

@@ -33,17 +33,19 @@
 ---
 
     Code
-      renderTags(page_sidebar("main", title = "Title", sidebar = sidebar(open = "always")))$
-        html
+      renderTags(page_sidebar("main", title = "Title", sidebar = sidebar(open = "always"),
+      `data-attr` = "here"))$html
     Output
-      <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;">
+      <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile html-fill-container bslib-page-sidebar" style="padding:0px;gap:0px;">
         <div class="navbar navbar-static-top">
           <div class="container-fluid">
             <h1 class="bslib-page-title navbar-brand">Title</h1>
           </div>
         </div>
         <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-collapsible-desktop="false" data-collapsible-mobile="false" data-open-desktop="always" data-open-mobile="always" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--_sidebar-width:250px;">
-          <div class="main bslib-gap-spacing html-fill-container">main</div>
+          <div class="main bslib-gap-spacing html-fill-container" data-attr="here">
+            <main class="bslib-page-main bslib-gap-spacing html-fill-item html-fill-container">main</main>
+          </div>
           <aside class="sidebar">
             <div class="sidebar-content bslib-gap-spacing"></div>
           </aside>
@@ -57,14 +59,16 @@
     Code
       renderTags(page_sidebar("main", title = "Title", sidebar = "side"))$html
     Output
-      <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile bslib-page-sidebar html-fill-container" style="padding:0px;gap:0px;">
+      <body class="bslib-page-fill bslib-gap-spacing bslib-flow-mobile html-fill-container bslib-page-sidebar" style="padding:0px;gap:0px;">
         <div class="navbar navbar-static-top">
           <div class="container-fluid">
             <h1 class="bslib-page-title navbar-brand">Title</h1>
           </div>
         </div>
         <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-collapsible-desktop="true" data-collapsible-mobile="false" data-open-desktop="open" data-open-mobile="always" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--_sidebar-width:250px;">
-          <div class="main bslib-gap-spacing html-fill-container">main</div>
+          <div class="main bslib-gap-spacing html-fill-container">
+            <main class="bslib-page-main bslib-gap-spacing html-fill-item html-fill-container">main</main>
+          </div>
           <aside id="bslib-sidebar-4785" class="sidebar" hidden>
             <div class="sidebar-content bslib-gap-spacing">side</div>
           </aside>

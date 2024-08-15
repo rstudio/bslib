@@ -55,6 +55,8 @@ $gradient: linear-gradient(
 $body-color: $gray-900 !default;
 $body-bg: $white !default;
 
+$prefix: bs- !default;
+
 // Fonts
 $font-family-base: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $font-family-monospace: "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace	!default;
@@ -88,6 +90,7 @@ $form-text-color: $gray-600 !default;
 // Borders
 $input-border-color: $gray-500 !default;
 $border-radius: 3px !default;
+$form-check-input-border: var(--#{$prefix}border-width) solid $input-border-color !default;
 // Defaults to $gray700, of which we've set to a blueish-gray, which looks a bit weird...
 // We could go forward with the blue-ish gray, but if we do, we'll want to also make
 // $border-color-translucent-dark a bit more blueish
@@ -132,7 +135,7 @@ $card-border-radius: 8px !default;
 // * white navbar and title panel
 
 $bslib-dashboard-design: true !default;
-$bslib-enable-shadows: $bslib-dashboard-design !default
+$bslib-enable-shadows: $bslib-dashboard-design !default;
 
 $border-color-translucent: if($bslib-dashboard-design, rgba(40, 70, 94, 0.1), null) !default;
 $border-color-translucent-dark: if($bslib-dashboard-design, rgba(255, 255, 255, 0.1), null) !default;

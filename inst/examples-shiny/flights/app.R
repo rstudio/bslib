@@ -3,8 +3,8 @@ library(bslib)
 library(dplyr)
 library(lubridate)
 library(plotly)
-library(chiflights22)
-library(histoslider)
+library(chiflights22) # https://github.com/cpsievert/chiflights22
+library(histoslider)  # https://github.com/cpsievert/histoslider
 library(rlang)
 
 # Data prep
@@ -225,7 +225,7 @@ ui <- page_navbar(
       tags$span(
         bsicons::bs_icon("code-slash"), "Source code"
       ),
-      href = "https://github.com/rstudio/bslib/tree/main/inst/examples/flights",
+      href = "https://github.com/rstudio/bslib/tree/main/inst/examples-shiny/flights",
       target = "_blank"
     )
   ),

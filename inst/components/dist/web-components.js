@@ -1,4 +1,4 @@
-/*! bslib 0.6.2.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.8.0 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __defProp = Object.defineProperty;
@@ -1018,7 +1018,7 @@
     _updateTitle(title) {
       if (!title)
         return;
-      Shiny.renderDependencies(title.deps);
+      window.Shiny.renderDependencies(title.deps);
       setContentCarefully({
         instance: this.bsTooltip,
         trigger: this.triggerElement,
@@ -1308,7 +1308,7 @@
         deps.push(...content.deps);
       if (header)
         deps.push(...header.deps);
-      Shiny.renderDependencies(deps);
+      window.Shiny.renderDependencies(deps);
       const { tip } = this.bsPopover;
       const currentHeader = this.visible ? (_a = tip == null ? void 0 : tip.querySelector(".popover-header")) == null ? void 0 : _a.children[0] : this.header;
       const currentContent = this.visible ? (_b = tip == null ? void 0 : tip.querySelector(".popover-body")) == null ? void 0 : _b.children[0] : this.content;
@@ -1680,7 +1680,7 @@
     if (!window.Shiny) {
       return;
     }
-    class NewCustomBinding extends Shiny["InputBinding"] {
+    class NewCustomBinding extends window.Shiny["InputBinding"] {
       constructor() {
         super();
       }
@@ -1709,7 +1709,10 @@
         el.receiveMessage(el, data);
       }
     }
-    Shiny.inputBindings.register(new NewCustomBinding(), `${tagName}-Binding`);
+    window.Shiny.inputBindings.register(
+      new NewCustomBinding(),
+      `${tagName}-Binding`
+    );
   }
 
   // srcts/src/components/_shinyAddCustomMessageHandlers.ts
@@ -1718,7 +1721,7 @@
       return;
     }
     for (const [name, handler] of Object.entries(handlers)) {
-      Shiny.addCustomMessageHandler(name, handler);
+      window.Shiny.addCustomMessageHandler(name, handler);
     }
   }
 
@@ -2059,7 +2062,13 @@
     BslibSwitch,
     BslibSwitchInline
   ].forEach((cls) => {
-    customElements.define(cls.tagName, cls);
+    if (!customElements.get(cls.tagName)) {
+      customElements.define(cls.tagName, cls);
+    } else {
+      console.error(
+        `[bslib] Custom element ${cls.tagName} was already defined, using previous definition.`
+      );
+    }
     if (window.Shiny) {
       if (cls.isShinyInput)
         makeInputBinding(cls.tagName);

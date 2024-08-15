@@ -225,7 +225,7 @@ export class BslibTooltip extends BslibElement {
   private _updateTitle(title: UpdateMessage["title"]): void {
     if (!title) return;
 
-    Shiny.renderDependencies(title.deps);
+    window.Shiny.renderDependencies(title.deps);
     setContentCarefully({
       instance: this.bsTooltip,
       trigger: this.triggerElement,

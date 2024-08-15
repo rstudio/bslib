@@ -24,10 +24,11 @@ update_popover(id, ..., title = NULL, session = get_current_session())
 \code{\link[shiny:actionButton]{shiny::actionButton()}} or similar). If \code{trigger} renders as multiple HTML
 elements (e.g., it's a \code{tagList()}), the last HTML element is used for the
 trigger. If the \code{trigger} should contain all of those elements, wrap the
-object in a \code{\link[=div]{div()}} or \code{\link[=span]{span()}}.}
+object in a \code{\link[htmltools:builder]{htmltools::div()}} or \code{\link[htmltools:builder]{htmltools::span()}}.}
 
 \item{...}{UI elements for the popover's body. Character strings are
-\link[=htmlEscape]{automatically escaped} unless marked as \code{\link[=HTML]{HTML()}}.}
+\link[htmltools:htmlEscape]{automatically escaped} unless marked as
+\code{\link[htmltools:HTML]{htmltools::HTML()}}.}
 
 \item{title}{A title (header) for the popover. To remove a header
 with \code{update_popover()}, provide a either an empty string or \code{character(0)}.}

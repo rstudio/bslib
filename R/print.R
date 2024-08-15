@@ -26,7 +26,7 @@ print.bslib_fragment <- function(x, ...) {
 #' Save a bslib page/fragment as HTML
 #'
 #' @param html a bslib page/fragment.
-#' @param ... passed along to an underlying [save_html()] method.
+#' @param ... passed along to an underlying [htmltools::save_html()] method.
 #' @export
 #' @keywords internal
 #' @rdname save-html

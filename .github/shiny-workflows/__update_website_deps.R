@@ -16,7 +16,7 @@ set_desc_with_packages <- function(field, known_pkgs) {
 
 
 demo_pkgs <-renv::dependencies(
-  c("inst/themer-demo", list.dirs("inst/examples")), 
+  c("inst/themer-demo", list.dirs("inst/examples-shiny")), 
   progress = FALSE
 )$Package
 # BH/cpp11 is not picked up for some reason

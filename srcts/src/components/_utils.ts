@@ -2,8 +2,10 @@ import type { HtmlDep } from "rstudio-shiny/srcts/types/src/shiny/render";
 
 import type { InputBinding as InputBindingType } from "rstudio-shiny/srcts/types/src/bindings/input";
 
+import type { ShinyClass } from "rstudio-shiny/srcts/types/src";
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const Shiny: typeof window.Shiny | undefined = window.Shiny;
+const Shiny: ShinyClass | undefined = window.Shiny;
 
 // Exclude undefined from T
 type NotUndefined<T> = T extends undefined ? never : T;
@@ -19,6 +21,17 @@ function registerBinding(
 ): void {
   if (Shiny) {
     Shiny.inputBindings.register(new inputBindingClass(), "bslib." + name);
+  }
+}
+
+function registerBslibGlobal(name: string, value: object): void {
+  (window as any).bslib = (window as any).bslib || {};
+  if (!(window as any).bslib[name]) {
+    (window as any).bslib[name] = value;
+  } else {
+    console.error(
+      `[bslib] Global window.bslib.${name} was already defined, using previous definition.`
+    );
   }
 }
 
@@ -76,8 +89,8 @@ function getAllFocusableChildren(el: HTMLElement): HTMLElement[] {
 }
 
 async function shinyRenderContent(
-  ...args: Parameters<Shiny["renderContentAsync"]>
-): ReturnType<Shiny["renderContentAsync"]> {
+  ...args: Parameters<ShinyClass["renderContentAsync"]>
+): Promise<void> {
   if (!Shiny) {
     throw new Error("This function must be called in a Shiny app.");
   }
@@ -91,6 +104,7 @@ async function shinyRenderContent(
 export {
   InputBinding,
   registerBinding,
+  registerBslibGlobal,
   hasDefinedProperty,
   doWindowResizeOnElementResize,
   getAllFocusableChildren,

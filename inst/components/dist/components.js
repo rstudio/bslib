@@ -1,4 +1,4 @@
-/*! bslib 0.6.2.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.8.0 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -48,8 +48,18 @@
 
   // srcts/src/components/_utils.ts
   function registerBinding(inputBindingClass, name) {
-    if (Shiny2) {
-      Shiny2.inputBindings.register(new inputBindingClass(), "bslib." + name);
+    if (Shiny) {
+      Shiny.inputBindings.register(new inputBindingClass(), "bslib." + name);
+    }
+  }
+  function registerBslibGlobal(name, value) {
+    window.bslib = window.bslib || {};
+    if (!window.bslib[name]) {
+      window.bslib[name] = value;
+    } else {
+      console.error(
+        `[bslib] Global window.bslib.${name} was already defined, using previous definition.`
+      );
     }
   }
   function hasDefinedProperty(obj, prop) {
@@ -77,22 +87,22 @@
   }
   function shinyRenderContent(...args) {
     return __async(this, null, function* () {
-      if (!Shiny2) {
+      if (!Shiny) {
         throw new Error("This function must be called in a Shiny app.");
       }
-      if (Shiny2.renderContentAsync) {
-        return yield Shiny2.renderContentAsync.apply(null, args);
+      if (Shiny.renderContentAsync) {
+        return yield Shiny.renderContentAsync.apply(null, args);
       } else {
-        return yield Shiny2.renderContent.apply(null, args);
+        return yield Shiny.renderContent.apply(null, args);
       }
     });
   }
-  var Shiny2, InputBinding;
+  var Shiny, InputBinding;
   var init_utils = __esm({
     "srcts/src/components/_utils.ts"() {
       "use strict";
-      Shiny2 = window.Shiny;
-      InputBinding = Shiny2 ? Shiny2.InputBinding : class {
+      Shiny = window.Shiny;
+      InputBinding = Shiny ? Shiny.InputBinding : class {
       };
     }
   });
@@ -190,10 +200,11 @@
           });
         }
         _removeItem(el, data) {
+          var _a;
           const targetItems = this._getItemInfo(el).filter(
             (x) => data.target.indexOf(x.value) > -1
           );
-          const unbindAll = Shiny == null ? void 0 : Shiny.unbindAll;
+          const unbindAll = (_a = window.Shiny) == null ? void 0 : _a.unbindAll;
           targetItems.forEach((x) => {
             if (unbindAll)
               unbindAll(x.item);
@@ -571,16 +582,14 @@
         _setShinyInput() {
           if (!this.card.classList.contains(_Card.attr.CLASS_SHINY_INPUT))
             return;
-          if (!Shiny2)
+          if (!Shiny)
             return;
-          if (!Shiny2.setInputValue) {
+          if (!Shiny.setInputValue) {
             setTimeout(() => this._setShinyInput(), 0);
             return;
           }
-          Shiny2.setInputValue(this.card.id, {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            full_screen: this.card.getAttribute(_Card.attr.ATTR_FULL_SCREEN) === "true"
-          });
+          const fsAttr = this.card.getAttribute(_Card.attr.ATTR_FULL_SCREEN);
+          Shiny.setInputValue(this.card.id + "_full_screen", fsAttr === "true");
         }
         /**
          * Emits a custom event to communicate the card's full screen state change.
@@ -833,8 +842,7 @@
        * @type {boolean}
        */
       Card.onReadyScheduled = false;
-      window.bslib = window.bslib || {};
-      window.bslib.Card = Card;
+      registerBslibGlobal("Card", Card);
     }
   });
 
@@ -1092,6 +1100,8 @@
         toggle(method, immediate = false) {
           if (typeof method === "undefined") {
             method = "toggle";
+          } else if (method === "closed") {
+            method = "close";
           }
           const { container, sidebar } = this.layout;
           const isClosed = this.isClosed;
@@ -1205,8 +1215,7 @@
         }
       };
       registerBinding(SidebarInputBinding, "sidebar");
-      window.bslib = window.bslib || {};
-      window.bslib.Sidebar = Sidebar;
+      registerBslibGlobal("Sidebar", Sidebar);
     }
   });
 
@@ -1286,7 +1295,7 @@
       return;
     }
     for (const [name, handler] of Object.entries(handlers)) {
-      Shiny.addCustomMessageHandler(name, handler);
+      window.Shiny.addCustomMessageHandler(name, handler);
     }
   }
   var init_shinyAddCustomMessageHandlers = __esm({

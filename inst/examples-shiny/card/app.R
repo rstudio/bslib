@@ -69,11 +69,12 @@ main_grid <- layout_column_wrap(
       id = "card-image",
       full_screen = TRUE,
       card_header("card_image()"),
-      card_image(
+      card_body(card_image(
         file = "www/shiny-hex.svg",
         height = 200,
+        fill = TRUE,
         href = "https://github.com/rstudio/shiny"
-      )
+      ))
     ),
     card(
       id = "card-gt",
