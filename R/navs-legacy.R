@@ -13,9 +13,13 @@
 #' @param selected a character string matching the `value` of a particular
 #'   [nav_panel()] item to selected by default.
 #' @param header UI element(s) ([htmltools::tags]) to display _above_ the nav
-#'   content.
+#'   content. For `card`-based navsets, these elements are implicitly wrapped in
+#'   a `card_body()`. To control things like `padding`, `fill`, etc., wrap the
+#'   elements in an explicit [card_body()].
 #' @param footer UI element(s) ([htmltools::tags]) to display _below_ the nav
-#'   content.
+#'   content. For `card`-based navsets, these elements are implicitly wrapped in
+#'   a `card_body()`. To control things like `padding`, `fill`, etc., wrap the
+#'   elements in an explicit [card_body()].
 #'
 #' @seealso [nav_panel()], [nav_panel_hidden()] create panels of content.
 #' @seealso [nav_menu()], [nav_item()], [nav_spacer()] create menus, items, or

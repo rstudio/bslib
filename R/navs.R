@@ -52,10 +52,7 @@ navset_card_pill <- function(
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
-  pills <- navset_pill(
-    !!!items, id = id, selected = selected,
-    header = header, footer = footer
-  )
+  pills <- navset_pill(!!!items, id = id, selected = selected)
 
   above <- match.arg(placement) == "above"
 
@@ -75,7 +72,9 @@ navset_card_pill <- function(
     height = height,
     full_screen = full_screen,
     if (above) card_header(!!!nav_args),
+    header,
     navs_card_body(content, sidebar),
+    footer,
     if (!above) card_footer(!!!nav_args)
   )
 }
@@ -129,9 +128,7 @@ navset_card <- function(
 
   items <- collect_nav_items(..., wrapper = wrapper)
 
-  tabs <- navset_func(
-    !!!items, id = id, selected = selected, header = header, footer = footer
-  )
+  tabs <- navset_func(!!!items, id = id, selected = selected)
 
   tabQ <- tagQuery(tabs)
 
@@ -147,7 +144,9 @@ navset_card <- function(
     } else {
       card_header(nav)
     },
-    navs_card_body(content, sidebar)
+    header,
+    navs_card_body(content, sidebar),
+    footer
   )
 }
 

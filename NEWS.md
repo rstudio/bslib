@@ -1,5 +1,7 @@
 # bslib (development version)
 
+* `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (@tanho63, #1024) 
+
 # bslib 0.8.0
 
 ## Breaking changes
