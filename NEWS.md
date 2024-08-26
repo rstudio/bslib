@@ -1,7 +1,6 @@
 # bslib (development version)
 
 * `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (@tanho63, #1024) 
-* added terminating semicolons to declarations in `value_box.scss` and `sidebar.scss` to prevent issues with parsers that require them. (@cscheid, #1104)
 
 # bslib 0.8.0
 
