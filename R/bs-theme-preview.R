@@ -411,7 +411,7 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     # Validate that `vals` is a simple list, containing atomic elements,
     # that are all named
     if (!identical(class(vals), "list") ||
-        !all(vapply(vals, is.atomic, logical(1))) ||
+        !all(vapply(vals, function(x) {is.atomic(x) || is.null(x)}, logical(1))) ||
         is.null(names(vals)) ||
         !isTRUE(all(nzchar(names(vals), keepNA = TRUE)))) {
       warning(call. = FALSE,
