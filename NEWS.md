@@ -2,7 +2,7 @@
 
 * `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (@tanho63, #1024) 
 
-* `bs_themer()` fixed to prevent NULL values from crashing themer, fix #1111. (@meztez, #1112).
+* Fixed a bug in `bs_themer()` that caused it to stop applying changes if a Sass variable was `NULL`. (@meztez, #1112)
 
 # bslib 0.8.0
 
