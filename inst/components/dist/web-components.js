@@ -1396,8 +1396,10 @@
       this.attribute = this.getAttribute("attribute") || this.attribute;
       if (typeof this.mode === "undefined") {
         const fromDom = document.documentElement.getAttribute(this.attribute);
-        if (fromDom && ["light", "dark"].includes(fromDom)) {
-          this.mode = fromDom;
+        if (fromDom === "dark") {
+          this.mode = "dark";
+        } else if (fromDom === "light") {
+          this.mode == "light";
         } else {
           this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
