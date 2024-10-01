@@ -177,12 +177,16 @@
 
 <dt id="arg-header">header<a class="anchor" aria-label="anchor" href="#arg-header"></a></dt>
 <dd><p>UI element(s) (<a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::tags</a>) to display <em>above</em> the nav
-content.</p></dd>
+content. For <code>card</code>-based navsets, these elements are implicitly wrapped in
+a <code><a href="card_body.html">card_body()</a></code>. To control things like <code>padding</code>, <code>fill</code>, etc., wrap the
+elements in an explicit <code><a href="card_body.html">card_body()</a></code>.</p></dd>
 
 
 <dt id="arg-footer">footer<a class="anchor" aria-label="anchor" href="#arg-footer"></a></dt>
 <dd><p>UI element(s) (<a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::tags</a>) to display <em>below</em> the nav
-content.</p></dd>
+content. For <code>card</code>-based navsets, these elements are implicitly wrapped in
+a <code><a href="card_body.html">card_body()</a></code>. To control things like <code>padding</code>, <code>fill</code>, etc., wrap the
+elements in an explicit <code><a href="card_body.html">card_body()</a></code>.</p></dd>
 
 
 <dt id="arg-well">well<a class="anchor" aria-label="anchor" href="#arg-well"></a></dt>
@@ -506,7 +510,7 @@ panels.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

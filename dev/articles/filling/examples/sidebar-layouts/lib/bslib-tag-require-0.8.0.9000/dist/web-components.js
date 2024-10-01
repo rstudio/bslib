@@ -1,4 +1,4 @@
-/*! bslib 0.8.0 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.8.0.9000 | (c) 2012-2024 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __defProp = Object.defineProperty;
@@ -1395,7 +1395,14 @@
       super.connectedCallback();
       this.attribute = this.getAttribute("attribute") || this.attribute;
       if (typeof this.mode === "undefined") {
-        this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        const fromDom = document.documentElement.getAttribute(this.attribute);
+        if (fromDom === "dark") {
+          this.mode = "dark";
+        } else if (fromDom === "light") {
+          this.mode == "light";
+        } else {
+          this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
       }
       this.reflectPreference();
       window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches: isDark }) => {

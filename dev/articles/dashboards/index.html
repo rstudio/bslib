@@ -155,7 +155,7 @@ project</a>.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/hello-page-sidebar.png" width="900" height="200" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fhello-page-sidebar.png" width="900" height="200" style="display: block; margin: auto;"></p>
 <p>Both the <code>sidebar</code> and main content areas can hold any
 arbitrary collection of UI elements, but it’s good practice to keep
 inputs in the <code>sidebar</code> and outputs in the main content area.
@@ -194,7 +194,7 @@ dataset.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/hello-palmerpenguins.png" width="900" height="400" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fhello-palmerpenguins.png" width="900" height="400" style="display: block; margin: auto;"></p>
 <p>Throughout the rest of this article, we’ll cover how to layout
 multiple outputs, add multiple pages, and more. For that, it’ll be
 useful to have some reusable outputs and inputs. So, let’s create a list
@@ -253,7 +253,7 @@ layout.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/sidebar-with-cards.png" width="900" height="700" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fsidebar-with-cards.png" width="900" height="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="layouts">Layouts<a class="anchor" aria-label="anchor" href="#layouts"></a>
@@ -273,7 +273,7 @@ UI elements in a row.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/multi-column-no-col-widths.png" width="1200" height="800" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fmulti-column-no-col-widths.png" width="1200" height="800" style="display: block; margin: auto;"></p>
 <p>A vector of column widths may also be supplied to allocate a given
 number of columns (out of 12) to each element. And, if elements go
 beyond the 12 column mark, they get wrapped onto a new row. By default,
@@ -294,7 +294,7 @@ fractional units, but fixed length units are also supported).</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/multi-column-col-width-row-height.png" width="1200" height="800" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fmulti-column-col-width-row-height.png" width="1200" height="800" style="display: block; margin: auto;"></p>
 <p>Negative <code>col_widths</code> may also be provided to easily
 create negative/empty space:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -310,7 +310,7 @@ create negative/empty space:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/multi-column-negative-col-width.png" width="1600" height="800" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fmulti-column-negative-col-width.png" width="1600" height="800" style="display: block; margin: auto;"></p>
 <p>Although we don’t show it here, <code><a href="../../reference/layout_columns.html">layout_columns()</a></code> also
 supports different <code>col_widths</code> and <code>row_heights</code>
 at different <code><a href="../../reference/breakpoints.html">breakpoints()</a></code>. This is useful for creating
@@ -338,7 +338,7 @@ navbar (e.g., an external hyperlink).</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/multi-page.png" width="900" height="400" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fmulti-page.png" width="900" height="400" style="display: block; margin: auto;"></p>
 <p>Be wary that <code><a href="../../reference/page_navbar.html">page_navbar()</a></code>’s <code>sidebar</code>
 argument puts the same sidebar on every page, which may or may not be
 desirable. In the <a href="../sidebars">sidebar article</a>, you’ll
@@ -368,7 +368,7 @@ any <code>navset_*()</code> component, including
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/multi-panel.png" width="900" height="400" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fmulti-panel.png" width="900" height="400" style="display: block; margin: auto;"></p>
 <div class="callout callout-note">
 <h3 data-toc-skip>
 Multi-panel layouts
@@ -400,7 +400,7 @@ point.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/filling-layout.png" width="900" height="600" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Ffilling-layout.png" width="900" height="600" style="display: block; margin: auto;"></p>
 <p>Filling layout may not be desirable when there are a lot of outputs
 to display on a single page. In this case, consider setting
 <code>fillable = FALSE</code> to prevent growing/shrinking altogether.
@@ -417,7 +417,7 @@ the height of the window.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/scrolling-layout.png" width="1000" height="700" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fscrolling-layout.png" width="1000" height="700" style="display: block; margin: auto;"></p>
 <div class="callout callout-note">
 <h3 data-toc-skip>
 A note on <code>page_navbar()</code>
@@ -453,7 +453,7 @@ argument.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/mobile-layout.png" width="400" height="600" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fmobile-layout.png" width="400" height="600" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -501,7 +501,7 @@ but here’s a <a href="https://allisonhorst.github.io/palmerpenguins/" class="e
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/value-boxes.png" width="1400" height="900" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fvalue-boxes.png" width="1400" height="900" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="accordions">Accordions<a class="anchor" aria-label="anchor" href="#accordions"></a>
@@ -548,7 +548,7 @@ page</a>.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/accordions.png" width="900" height="700" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Faccordions.png" width="900" height="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="cards-with-sidebars">Cards with sidebars<a class="anchor" aria-label="anchor" href="#cards-with-sidebars"></a>
@@ -586,7 +586,7 @@ complex apps. <code><a href="../../reference/sidebar.html">layout_sidebar()</a><
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/cards-with-sidebars.png" width="1200" height="800" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Fcards-with-sidebars.png" width="1200" height="800" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -636,7 +636,7 @@ that “complete” <a href="https://ggplot2.tidyverse.org" class="external-link
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples/theming.png" width="900" height="700" style="display: block; margin: auto;"></p>
+<p><img src="examples%2Ftheming.png" width="900" height="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="in-production">In production<a class="anchor" aria-label="anchor" href="#in-production"></a>
@@ -670,7 +670,7 @@ function).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
