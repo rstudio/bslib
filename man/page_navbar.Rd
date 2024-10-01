@@ -72,10 +72,14 @@ unless you add padding, e.g.: \code{tags$style(type="text/css", "body
   {padding-top: 70px;}")}}
 
 \item{header}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{above} the nav
-content.}
+content. For \code{card}-based navsets, these elements are implicitly wrapped in
+a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
+elements in an explicit \code{\link[=card_body]{card_body()}}.}
 
 \item{footer}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{below} the nav
-content.}
+content. For \code{card}-based navsets, these elements are implicitly wrapped in
+a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
+elements in an explicit \code{\link[=card_body]{card_body()}}.}
 
 \item{bg}{a CSS color to use for the navbar's background color.}
 

@@ -223,9 +223,18 @@ export class BslibInputDarkMode extends LitElement {
     this.attribute = this.getAttribute("attribute") || this.attribute;
 
     if (typeof this.mode === "undefined") {
-      this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
+      // If the switch doesn't have a preference about color mode, first consult
+      // the data attribute on `<html>` followed by OS/browser preferences
+      const fromDom = document.documentElement.getAttribute(this.attribute);
+      if (fromDom === "dark") {
+        this.mode = "dark";
+      } else if (fromDom === "light") {
+        this.mode == "light";
+      } else {
+        this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      }
     }
 
     this.reflectPreference();

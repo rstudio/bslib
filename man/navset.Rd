@@ -100,10 +100,14 @@ navset_card_underline(
 \code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
 
 \item{header}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{above} the nav
-content.}
+content. For \code{card}-based navsets, these elements are implicitly wrapped in
+a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
+elements in an explicit \code{\link[=card_body]{card_body()}}.}
 
 \item{footer}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{below} the nav
-content.}
+content. For \code{card}-based navsets, these elements are implicitly wrapped in
+a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
+elements in an explicit \code{\link[=card_body]{card_body()}}.}
 
 \item{well}{\code{TRUE} to place a well (gray rounded rectangle) around the
 navigation list.}
