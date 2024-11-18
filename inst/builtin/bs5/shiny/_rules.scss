@@ -130,12 +130,9 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
 @if $bslib-dashboard-design {
 
   :root {
-    --bslib-dashboard-sidebar-bg: var(--#{$prefix}body-bg);
-    --bslib-dashboard-sidebar-main-bg: var(--#{$prefix}body-bg);
     --bslib-dashboard-main-bg: rgb(247, 247, 247);
     --#{$prefix}card-border-color: var(--bslib-dashboard-border-color-translucent, var(--#{$prefix}border-color-translucent));
     --bslib-dashboard-card-header-font-weight: #{$font-weight-semibold};
-    --bslib-sidebar-bg: RGBA(var(--#{$prefix}body-bg-rgb), 0.05);
   }
 
   @include color-mode(dark) {
