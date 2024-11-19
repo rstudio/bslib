@@ -7,7 +7,7 @@ $bslib-sidebar-fg: null !default;
   $bslib-sidebar-bg: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.05);
 } @else if $bslib-sidebar-fg == null {
   // sidebar bg set, fg unset
-  $bslib-sidebar-fg: contrast-color($bslib-sidebar-bg);
+  $bslib-sidebar-fg: color-contrast($bslib-sidebar-bg);
 }
 @if $bslib-sidebar-fg == null {
   // sidebar bg and fg were unset
