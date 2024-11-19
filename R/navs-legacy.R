@@ -368,12 +368,12 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
     theme = theme
   )
 
-  if (!is.null(bg)) {
-    # navbarPage_() returns a tagList() of the nav and content
-    navbar[[1]] <- tagAppendAttributes(
-      navbar[[1]], style = css(background_color = paste(bg, "!important"))
-    )
-  }
+  # navbarPage_() returns a tagList() of the nav and content
+  navbar[[1]] <- tagAppendAttributes(
+    navbar[[1]], 
+    style = if (!is.null(bg)) css(background_color = paste(bg, "!important")),
+    "data-bs-theme" = if (inverse) "dark"
+  )
 
   as_fragment(navbar, page = page)
 }
