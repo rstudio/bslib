@@ -1,20 +1,24 @@
 diff --git a/inst/lib/bs5/scss/_navbar.scss b/inst/lib/bs5/scss/_navbar.scss
-index 988bbe09..745fd5bd 100644
+index 745fd5bd..fea86165 100644
 --- a/inst/lib/bs5/scss/_navbar.scss
 +++ b/inst/lib/bs5/scss/_navbar.scss
-@@ -307,12 +307,9 @@
-   --#{$prefix}navbar-toggler-border-color: #{$navbar-dark-toggler-border-color};
+@@ -308,8 +308,18 @@
    --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
    // scss-docs-end navbar-dark-css-vars
--}
  
--@if $enable-dark-mode {
--  @include color-mode(dark) {
--    .navbar-toggler-icon {
--      --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
--    }
-+  // patched: toggler icon should follow navbar color mode, not global mode
-+  .navbar-toggler-icon {
-+    --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
+-  // patched: toggler icon should follow navbar color mode, not global mode
++
++  // patched: toggler icon should follow closest navbar color mode over global mode
+   .navbar-toggler-icon {
+     --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
    }
  }
++
++@if $enable-dark-mode {
++  @include color-mode(dark) {
++    // patched: toggler follows global theme unless in a light region
++    .navbar:not([data-bs-theme="light"]) .navbar-toggler-icon {
++      --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
++    }
++  }
++}
