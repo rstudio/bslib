@@ -149,6 +149,13 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
                       collapsible = TRUE, fluid = TRUE,
                       theme = NULL) {
 
+  navbar_color_mode <- switch(
+    inverse,
+    "TRUE" = "dark",
+    "FALSE" = "light",
+    inverse
+  )
+
   if (identical(inverse, "auto")) {
     inverse <- TRUE
     if (identical(theme_preset_info(theme)$name, "shiny")) {
@@ -175,7 +182,7 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
   navbar[[1]] <- tagAppendAttributes(
     navbar[[1]], 
     style = if (!is.null(bg)) css(background_color = paste(bg, "!important")),
-    "data-bs-theme" = if (inverse) "dark"
+    "data-bs-theme" = navbar_color_mode
   )
 
   as_fragment(navbar, page = page)
@@ -211,7 +218,7 @@ navbarPage_ <- function(title,
   position <- match.arg(position)
   if (!is.null(position))
     navbarClass <- paste0(navbarClass, " navbar-", position)
-  if (inverse)
+  if (isTRUE(inverse))
     navbarClass <- paste(navbarClass, "navbar-inverse")
 
   if (!is.null(id))
