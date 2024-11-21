@@ -150,7 +150,7 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
                       theme = NULL) {
 
   navbar_color_mode <- switch(
-    inverse,
+    as.character(inverse),
     "TRUE" = "dark",
     "FALSE" = "light",
     inverse
