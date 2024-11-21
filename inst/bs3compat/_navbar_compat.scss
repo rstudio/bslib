@@ -101,15 +101,6 @@ ul.nav.navbar-nav {
   }
 }
 
-$enable-dark-mode: false !default;
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    .navbar.navbar-default {
-      background-color: var(--bslib-navbar-default-bg, var(--#{$prefix}dark)) !important;
-    }
-  }
-}
-
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.
 // https://github.com/rstudio/rmarkdown-website/blob/453e1802b32b5baf1c8a67f80947adcc53e49b7f/_navbar.html
 .navbar-toggle {
