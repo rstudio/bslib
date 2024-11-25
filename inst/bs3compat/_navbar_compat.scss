@@ -72,6 +72,13 @@ ul.nav.navbar-nav {
   }
 }
 
+@mixin navbar-background-dark($important: false) {
+  background-color: var(--bslib-navbar-inverse-bg, var(--#{$prefix}dark)) if($important, !important, null);
+}
+
+@mixin navbar-background-light($important: false) {
+  background-color: var(--bslib-navbar-default-bg, var(--#{$prefix}light)) if($important, !important, null);
+}
 
 .navbar {
 
@@ -83,22 +90,35 @@ ul.nav.navbar-nav {
     --bslib-navbar-inverse-bg: #{$navbar-dark-bg};
   }
 
-  // BS3 .navbar-default -> BS4 .navbar-light
-  &.navbar-default {
-    // Sets a variety of fg colors which are configurable via $navbar-light-* options
-    @extend .navbar-light;
-    background-color: var(--bslib-navbar-default-bg, var(--#{$prefix}light)) !important;
+  @if $bootstrap-version < 5 {
+    // BS3 .navbar-default -> BS4 .navbar-light
+    &.navbar-default {
+      // Sets a variety of fg colors which are configurable via $navbar-light-* options
+      @extend .navbar-light;
+      @include navbar-background-dark($important: true);
+    }
+  
+    // BS3 .navbar-inverse -> BS4 .navbar-dark
+    &.navbar-inverse {
+      // Sets a variety of fg colors which are configurable via $navbar-dark-* options
+      @extend .navbar-dark;
+      @include navbar-background-dark($important: true);
+    }
   }
+}
 
-  // BS3 .navbar-inverse -> BS4 .navbar-dark
-  &.navbar-inverse {
-    // Sets a variety of fg colors which are configurable via $navbar-dark-* options
-    @extend .navbar-dark;
-    background-color: var(--bslib-navbar-inverse-bg, var(--#{$prefix}dark)) !important;
-    // For BS5+ lean on emphasis-color
-    --bs-emphasis-color: white;
-    --bs-emphasis-color-rgb: 255, 255, 255;
+@if $bootstrap-version >= 5 {
+  .navbar {
+    background-color: $navbar-bg;
   }
+  
+  [data-bs-theme="dark"] .navbar { @include navbar-background-dark(); }
+  [data-bs-theme="light"] .navbar { @include navbar-background-light(); }
+  
+  // These are defined *after* the above rules because we want the local version
+  // to win without having to resort to specificity tricks.
+  .navbar[data-bs-theme="dark"] { @include navbar-background-dark(); }
+  .navbar[data-bs-theme="light"] { @include navbar-background-light(); }
 }
 
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.
