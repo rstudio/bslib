@@ -155,7 +155,7 @@ get_color_contrast <- function(bg_color) {
       options = sass::sass_options(source_map_embed = FALSE)
     )
     # example: css <- "._ {\n  --RET: #fff;\n}"
-    # we'll split to get value:     ^       ^
+    # we'll split to get value:     ^     ^
     ret <- strsplit(css, "--RET:")[[1]][2]
     trimws(strsplit(ret, ";")[[1]][1])
   }, error = function(err) {
