@@ -131,7 +131,7 @@ rename2 <- function(x, ...) {
 
 # Get an accessible color contrast for a specified bg_color
 # (and return NULL+warn on failure)
-get_color_contrast <- function(bg_color) {
+get_color_contrast_old <- function(bg_color) {
   # Use a specific name that won't clash with other variables
   nm <- "__bslib-custom-bg-color__"
   theme <- bs_add_variables(bs_theme(), !!nm := bg_color)
@@ -142,4 +142,39 @@ get_color_contrast <- function(bg_color) {
       NULL
     }
   )
+}
+
+get_color_contrast <- function(bg_color) {
+  utils_layer <- sass::sass_layer(
+    functions = sass::sass_file(
+      path_inst("sass-utils", "color-contrast.scss")
+    ),
+    defaults = c(
+      "$black: #000000;",
+      "$white: #FFFFFF;"
+    ),
+    rules = sprintf(
+      "._ {--RET: #{color-contrast(%s)}}",
+      bg_color
+    )
+  )
+  
+  tryCatch({
+    css <- sass::sass(
+      utils_layer,
+      cache_key_extra = get_package_version("bslib"),
+      # Don't listen to global Sass options so we can be sure
+      # that stuff like source maps won't be included
+      options = sass::sass_options(source_map_embed = FALSE)
+    )
+    # example: css <- "._ {\n  --RET: #fff;\n}"
+    ret <- strsplit(css, "--RET:")[[1]][2]
+    trimws(strsplit(ret, ";")[[1]][1])
+  }, error = function(err) {
+    warning(
+      "Failed to compute a contrasting color for '", bg_color, "'", 
+      call. = FALSE
+    )
+    NULL
+  })
 }
