@@ -1,0 +1,44 @@
+diff --git a/inst/lib/bs5/scss/_navbar.scss b/inst/lib/bs5/scss/_navbar.scss
+index 988bbe09..ba75744e 100644
+--- a/inst/lib/bs5/scss/_navbar.scss
++++ b/inst/lib/bs5/scss/_navbar.scss
+@@ -296,6 +296,7 @@
+ }
+ 
+ .navbar-dark,
++[data-bs-theme="dark"] .navbar,
+ .navbar[data-bs-theme="dark"] {
+   // scss-docs-start navbar-dark-css-vars
+   --#{$prefix}navbar-color: #{$navbar-dark-color};
+@@ -307,12 +308,30 @@
+   --#{$prefix}navbar-toggler-border-color: #{$navbar-dark-toggler-border-color};
+   --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
+   // scss-docs-end navbar-dark-css-vars
++
++  // patched: toggler icon should follow closest navbar color mode over global mode
++  .navbar-toggler-icon {
++    --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
++  }
+ }
+ 
+ @if $enable-dark-mode {
+   @include color-mode(dark) {
+-    .navbar-toggler-icon {
++    // patched: toggler follows global theme unless in a light region
++    .navbar:not([data-bs-theme="light"]) .navbar-toggler-icon {
+       --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
+     }
+   }
+ }
++
++.navbar[data-bs-theme="light"] {
++  // patched: Make sure local light navbar overrides page global
++  --#{$prefix}navbar-color: #{$navbar-light-color};
++  --#{$prefix}navbar-hover-color: #{$navbar-light-hover-color};
++  --#{$prefix}navbar-disabled-color: #{$navbar-light-disabled-color};
++  --#{$prefix}navbar-active-color: #{$navbar-light-active-color};
++  --#{$prefix}navbar-brand-color: #{$navbar-light-brand-color};
++  --#{$prefix}navbar-brand-hover-color: #{$navbar-light-brand-hover-color};
++  --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-light-toggler-icon-bg)};
++  --#{$prefix}navbar-toggler-border-color: #{$navbar-light-toggler-border-color};
++}
