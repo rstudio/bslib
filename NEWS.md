@@ -4,6 +4,8 @@
 
 * Fixed a bug in `bs_themer()` (and `bs_theme_preview()`) that caused it to stop applying changes if a Sass variable was `NULL`. (@meztez, #1112)
 
+* Optimized for better performance the internal functions that compile Sass to call the `color-contrast()` algorithm. (#1140)
+
 # bslib 0.8.0
 
 ## Breaking changes
