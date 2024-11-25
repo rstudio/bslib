@@ -95,7 +95,7 @@ ul.nav.navbar-nav {
     &.navbar-default {
       // Sets a variety of fg colors which are configurable via $navbar-light-* options
       @extend .navbar-light;
-      @include navbar-background-dark($important: true);
+      @include navbar-background-light($important: true);
     }
   
     // BS3 .navbar-inverse -> BS4 .navbar-dark
