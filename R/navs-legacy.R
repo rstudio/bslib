@@ -248,7 +248,7 @@ navbar_options_resolve_deprecated <- function(
     if (!.warn_deprecated) return()
     lifecycle::deprecate_warn(
       "0.9.0",
-      fn_arg("position"),
+      fn_arg(arg),
       details = paste(
         "Navbar options have been consolidated into a single `options` argument.",
         sprintf(

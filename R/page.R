@@ -427,6 +427,7 @@ page_navbar <- function(
     inverse = inverse,
     collapsible = collapsible,
     underline = underline,
+    .fn_caller = "page_navbar",
     .warn_deprecated = !was_called_by_shiny
   )
 
