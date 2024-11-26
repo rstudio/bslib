@@ -161,6 +161,7 @@ navset_bar <- function(
     bg = .navbar_options$bg,
     inverse = .navbar_options$inverse,
     collapsible = .navbar_options$collapsible,
+    underline = .navbar_options$underline %||% FALSE,
     # theme is only used to determine whether legacy style markup should be used
     # (and, at least at the moment, we don't need legacy markup for this exported function)
     theme = bs_theme()
@@ -179,7 +180,8 @@ navbar_options <- function(
   position = NULL,
   bg = NULL,
   inverse = NULL,
-  collapsible = NULL
+  collapsible = NULL,
+  underline = NULL
 ) {
   if (!is.null(position)) {
     # TODO: add sticky-top as well?
@@ -190,7 +192,8 @@ navbar_options <- function(
     position = position,
     bg = bg,
     inverse = inverse,
-    collapsible = collapsible
+    collapsible = collapsible,
+    underline = underline
   )
 
   structure(
@@ -204,7 +207,8 @@ navbar_options_defaults <- navbar_options(
   position = "static-top",
   bg = NULL,
   inverse = "auto",
-  collapsible = TRUE
+  collapsible = TRUE,
+  underline = NULL
 )
 
 navbar_options_resolve_deprecated <- function(
@@ -213,6 +217,7 @@ navbar_options_resolve_deprecated <- function(
   bg = deprecated(),
   inverse = deprecated(),
   collapsible = deprecated(),
+  underline = deprecated(),
   .fn_caller = "navset_bar"
 ) {
   fn_arg <- function(arg) sprintf("%s(%s=)", .fn_caller, arg)
@@ -247,6 +252,10 @@ navbar_options_resolve_deprecated <- function(
   if (lifecycle::is_present(collapsible)) {
     warn_deprecated("collapsible")
     old_opts$collapsible <- collapsible
+  }
+  if (lifecycle::is_present(underline)) {
+    warn_deprecated("underline")
+    old_opts$underline <- underline
   }
 
   # Take direct option only if not present in the user-provided options
