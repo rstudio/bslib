@@ -8,7 +8,6 @@
 \alias{navset_pill_list}
 \alias{navset_hidden}
 \alias{navset_bar}
-\alias{navbar_options}
 \alias{navset_card_tab}
 \alias{navset_card_pill}
 \alias{navset_card_underline}
@@ -50,14 +49,6 @@ navset_bar(
   bg = deprecated(),
   inverse = deprecated(),
   collapsible = deprecated()
-)
-
-navbar_options(
-  position = NULL,
-  bg = NULL,
-  inverse = NULL,
-  collapsible = NULL,
-  underline = NULL
 )
 
 navset_card_tab(
@@ -156,15 +147,16 @@ be interpreted as top, right, bottom, and left respectively.}
 navbar. Use \code{\link[=navbar_options]{navbar_options()}} to create the list of options.}
 
 \item{position}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
-\code{options = navbar_options(position=)} instead.}
+\code{\link[=navbar_options]{navbar_options = navbar_options(position=)}} instead.}
 
-\item{bg}{a CSS color to use for the navbar's background color.}
+\item{bg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(bg=)}} instead.}
 
-\item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
-text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
+\item{inverse}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(inverse=)}} instead.}
 
 \item{collapsible}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
-\code{options = navbar_options(collapsible=)} instead.}
+\code{\link[=navbar_options]{navbar_options = navbar_options(collapsible=)}} instead.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
@@ -184,12 +176,6 @@ together into one \code{wrapper} call (e.g. given \code{card("a", "b", card_body
 \description{
 Render a collection of \code{\link[=nav_panel]{nav_panel()}} items into a container.
 }
-\section{Functions}{
-\itemize{
-\item \code{navbar_options()}: Set navbar-specific options in \code{\link[=navset_bar]{navset_bar()}} and
-\code{\link[=page_navbar]{page_navbar()}}.
-
-}}
 \section{Examples}{
 
 \subsection{A basic example}{

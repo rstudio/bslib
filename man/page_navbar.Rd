@@ -78,18 +78,19 @@ elements in an explicit \code{\link[=card_body]{card_body()}}.}
 navbar. Use \code{\link[=navbar_options]{navbar_options()}} to create the list of options.}
 
 \item{position}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
-\code{options = navbar_options(position=)} instead.}
+\code{\link[=navbar_options]{navbar_options = navbar_options(position=)}} instead.}
 
-\item{bg}{a CSS color to use for the navbar's background color.}
+\item{bg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(bg=)}} instead.}
 
-\item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
-text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
+\item{inverse}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(inverse=)}} instead.}
 
-\item{underline}{Whether or not to add underline styling to page links when
-active or focused.}
+\item{underline}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(underline=)}} instead.}
 
 \item{collapsible}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
-\code{options = navbar_options(collapsible=)} instead.}
+\code{\link[=navbar_options]{navbar_options = navbar_options(collapsible=)}} instead.}
 
 \item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
 layout.}

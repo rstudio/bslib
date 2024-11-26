@@ -108,13 +108,13 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 #' @param navbar_options Options to control the appearance and behavior of the
 #'   navbar. Use [navbar_options()] to create the list of options.
 #' @param position `r lifecycle::badge("deprecated")` Please use 
-#'   `options = navbar_options(position=)` instead.
+#'   [`navbar_options = navbar_options(position=)`][navbar_options] instead.
 #' @param collapsible `r lifecycle::badge("deprecated")` Please use 
-#'   `options = navbar_options(collapsible=)` instead.
+#'   [`navbar_options = navbar_options(collapsible=)`][navbar_options] instead.
 #' @param bg `r lifecycle::badge("deprecated")` Please use 
-#'   `options = navbar_options(bg=)` instead.
+#'   [`navbar_options = navbar_options(bg=)`][navbar_options] instead.
 #' @param inverse `r lifecycle::badge("deprecated")` Please use 
-#'   `options = navbar_options(inverse=)` instead.
+#'   [`navbar_options = navbar_options(inverse=)`][navbar_options] instead.
 #' 
 #' @export
 #' @rdname navset
@@ -170,13 +170,32 @@ navset_bar <- function(
   )
 }
 
+#' Create a set of navbar options
+#' 
+#' A `navbar_options()` object captures options specific to the appearance and
+#' behavior of the navbar, independent from the content displayed on the page.
+#' This helper should be used to create the list of options expected by
+#' `navbar_options` in [page_navbar()] and [navset_bar()].
+#' 
+#' ## Changelog
+#' 
+#' This function was introduced in \pkg{bslib} v0.9.0, replacing the `position`,
+#' `bg`, `inverse`, `collapsible` and `underline` arguments of [page_navbar()]
+#' and [navset_bar()]. Those arguments are deprecated with a warning and will be
+#' removed in a future version of \pkg{bslib}.
+#' 
+#' @examples
+#' navbar_options(position = "static-top", bg = "#2e9f7d", underline = FALSE)
+#' 
 #' @inheritParams shiny::navbarPage
 #' @param bg a CSS color to use for the navbar's background color.
 #' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
+#' @param underline Whether or not to add underline styling to page links when
+#'   active or focused.
 #' 
-#' @describeIn navset Set navbar-specific options in [navset_bar()] and
-#'   [page_navbar()].
+#' @returns Returns a list of navbar options.
+#' 
 #' @export
 navbar_options <- function(
   position = NULL,

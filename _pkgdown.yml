@@ -134,6 +134,7 @@ reference:
     - navset
     - nav-items
     - nav_select
+    - navbar_options
 - subtitle: Sidebar layout
   desc: >
     Place input controls or additional context in a sidebar next to the main

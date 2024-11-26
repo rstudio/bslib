@@ -333,8 +333,8 @@ maybe_page_sidebar <- function(x) {
 #'
 #' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
-#' @param underline Whether or not to add underline styling to page links when
-#'   active or focused.
+#' @param underline `r lifecycle::badge("deprecated")` Please use 
+#'   [`navbar_options = navbar_options(underline=)`][navbar_options] instead.
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
