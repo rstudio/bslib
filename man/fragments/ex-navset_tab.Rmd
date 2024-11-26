@@ -186,13 +186,15 @@ navset_pill_list(
 Finally, `page_navbar()` provides full-page navigation container
 similar to `navset_underline()` but where each `nav_panel()` is treated as a full page of content
 and the navigation controls appear in a top-level navigation bar.
-Note also that the underline styling can be removed via the `underline` argument.
+Note also that the navbar background and underline styling can be controlled via `navbar_options`.
 
 ```{r page_navbar, fig.width=10}
 page_navbar(
   title = "My App",
-  bg = "#0062cc",
-  underline = TRUE,
+  navbar_options = navbar_options(
+    bg = "#0062cc",
+    underline = TRUE
+  ),
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
   nav_panel(title = "Three", p("Third tab content")),
