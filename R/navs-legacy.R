@@ -239,11 +239,13 @@ navbar_options_resolve_deprecated <- function(
   inverse = deprecated(),
   collapsible = deprecated(),
   underline = deprecated(),
-  .fn_caller = "navset_bar"
+  .fn_caller = "navset_bar",
+  .warn_deprecated = TRUE
 ) {
   fn_arg <- function(arg) sprintf("%s(%s=)", .fn_caller, arg)
 
   warn_deprecated <- function(arg) {
+    if (!.warn_deprecated) return()
     lifecycle::deprecate_warn(
       "0.9.0",
       fn_arg("position"),

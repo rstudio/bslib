@@ -108,3 +108,21 @@ test_that("navbar_options_resolve_deprecated() prefers user options over depreca
     )
   )
 })
+
+test_that("shiny:navbarPage() is unaffected", {
+  rlang::local_options(lifecycle_verbosity = "warning")
+
+  expect_silent(
+    shiny::navbarPage(title = "test")
+  )
+
+  expect_silent(
+    shiny::navbarPage(
+      title = "test",
+      bg = "red",
+      collapsible = TRUE,
+      inverse = TRUE,
+      position = "fixed-top"
+    )
+  )
+})

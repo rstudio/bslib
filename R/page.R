@@ -416,22 +416,24 @@ page_navbar <- function(
   padding <- validateCssPadding(padding)
   gap <- validateCssUnit(gap)
 
+  # Change behavior when called by Shiny
+  # TODO: Coordinate with next bslib version bump in Shiny to use the new interface
+  was_called_by_shiny <- isNamespaceLoaded("shiny") && identical(rlang::caller_fn(), shiny::navbarPage)
+
   .navbar_options <- navbar_options_resolve_deprecated(
     options_user = navbar_options,
     position = position,
     bg = bg,
     inverse = inverse,
     collapsible = collapsible,
-    underline = underline
+    underline = underline,
+    .warn_deprecated = !was_called_by_shiny
   )
 
   # Default to fillable = F when this is called from shiny::navbarPage()
   # TODO: update shiny::navbarPage() to set fillable = FALSE and get rid of this hack
-  if (missing(fillable)) {
-    isNavbarPage <- isNamespaceLoaded("shiny") && identical(rlang::caller_fn(), shiny::navbarPage)
-    if (isNavbarPage) {
-      fillable <- FALSE
-    }
+  if (missing(fillable) && was_called_by_shiny) {
+    fillable <- FALSE
   }
 
   # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
