@@ -17,15 +17,15 @@ page_navbar(
   header = NULL,
   footer = NULL,
   navbar_options = NULL,
+  fluid = TRUE,
+  theme = bs_theme(),
+  window_title = NA,
+  lang = NULL,
   position = deprecated(),
   bg = deprecated(),
   inverse = deprecated(),
   underline = deprecated(),
-  collapsible = deprecated(),
-  fluid = TRUE,
-  theme = bs_theme(),
-  window_title = NA,
-  lang = NULL
+  collapsible = deprecated()
 )
 }
 \arguments{
@@ -77,6 +77,19 @@ elements in an explicit \code{\link[=card_body]{card_body()}}.}
 \item{navbar_options}{Options to control the appearance and behavior of the
 navbar. Use \code{\link[=navbar_options]{navbar_options()}} to create the list of options.}
 
+\item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
+layout.}
+
+\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
+
+\item{window_title}{the browser window title. The default value, \code{NA}, means
+to use any character strings that appear in \code{title} (if none are found, the
+host URL of the page is displayed by default).}
+
+\item{lang}{ISO 639-1 language code for the HTML page, such as "en" or "ko".
+This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="en">}.
+The default (NULL) results in an empty string.}
+
 \item{position}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
 \code{\link[=navbar_options]{navbar_options = navbar_options(position=)}} instead.}
 
@@ -91,19 +104,6 @@ navbar. Use \code{\link[=navbar_options]{navbar_options()}} to create the list o
 
 \item{collapsible}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
 \code{\link[=navbar_options]{navbar_options = navbar_options(collapsible=)}} instead.}
-
-\item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
-layout.}
-
-\item{theme}{A \code{\link[=bs_theme]{bs_theme()}} object.}
-
-\item{window_title}{the browser window title. The default value, \code{NA}, means
-to use any character strings that appear in \code{title} (if none are found, the
-host URL of the page is displayed by default).}
-
-\item{lang}{ISO 639-1 language code for the HTML page, such as "en" or "ko".
-This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="en">}.
-The default (NULL) results in an empty string.}
 }
 \description{
 Create a page that contains a top level navigation bar that can be used to

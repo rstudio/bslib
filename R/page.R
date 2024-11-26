@@ -400,15 +400,15 @@ page_navbar <- function(
   header = NULL,
   footer = NULL,
   navbar_options = NULL,
+  fluid = TRUE,
+  theme = bs_theme(),
+  window_title = NA,
+  lang = NULL,
   position = deprecated(),
   bg = deprecated(),
   inverse = deprecated(),
   underline = deprecated(),
-  collapsible = deprecated(),
-  fluid = TRUE,
-  theme = bs_theme(),
-  window_title = NA,
-  lang = NULL
+  collapsible = deprecated()
 ) {
 
   sidebar <- maybe_page_sidebar(sidebar)
