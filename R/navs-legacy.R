@@ -105,9 +105,15 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 #'   character vector, matching the `value` of [nav_panel()]s to be filled, may
 #'   also be provided. Note that, if a `sidebar` is provided, `fillable` makes
 #'   the main content portion fillable.
-#' @param bg a CSS color to use for the navbar's background color.
-#' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
-#'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
+#' @param position `r lifecycle::badge("deprecated")` Please use 
+#'   `options = navbar_options(position=)` instead.
+#' @param collapsible `r lifecycle::badge("deprecated")` Please use 
+#'   `options = navbar_options(collapsible=)` instead.
+#' @param bg `r lifecycle::badge("deprecated")` Please use 
+#'   `options = navbar_options(bg=)` instead.
+#' @param inverse `r lifecycle::badge("deprecated")` Please use 
+#'   `options = navbar_options(inverse=)` instead.
+#' 
 #' @export
 #' @rdname navset
 navset_bar <- function(
@@ -119,17 +125,25 @@ navset_bar <- function(
   fillable = TRUE,
   gap = NULL,
   padding = NULL,
-  # TODO: add sticky-top as well?
-  position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
-  bg = NULL,
-  inverse = "auto",
-  collapsible = TRUE,
-  fluid = TRUE
+  fluid = TRUE,
+  navbar_options = NULL,
+  position = deprecated(),
+  bg = deprecated(),
+  inverse = deprecated(),
+  collapsible = deprecated()
 ) {
   padding <- validateCssPadding(padding)
   gap <- validateCssUnit(gap)
+
+  .navbar_options <- navbar_options_resolve_deprecated(
+    options_user = navbar_options,
+    position = position,
+    bg = bg,
+    inverse = inverse,
+    collapsible = collapsible
+  )
 
   navs_bar_(
     ...,
@@ -140,17 +154,151 @@ navset_bar <- function(
     fillable = fillable,
     gap = gap,
     padding = padding,
-    position = position,
     header = header,
     footer = footer,
-    bg = bg,
-    inverse = inverse,
-    collapsible = collapsible,
     fluid = fluid,
+    position = .navbar_options$position,
+    bg = .navbar_options$bg,
+    inverse = .navbar_options$inverse,
+    collapsible = .navbar_options$collapsible,
     # theme is only used to determine whether legacy style markup should be used
     # (and, at least at the moment, we don't need legacy markup for this exported function)
     theme = bs_theme()
   )
+}
+
+#' @inheritParams shiny::navbarPage
+#' @param bg a CSS color to use for the navbar's background color.
+#' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
+#'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
+#' 
+#' @describeIn navset Set navbar-specific options in [navset_bar()] and
+#'   [page_navbar()].
+#' @export
+navbar_options <- function(
+  position = NULL,
+  bg = NULL,
+  inverse = NULL,
+  collapsible = NULL
+) {
+  if (!is.null(position)) {
+    # TODO: add sticky-top as well?
+    position <- rlang::arg_match(position, c("static-top", "fixed-top", "fixed-bottom"))
+  }
+
+  opts <- list(
+    position = position,
+    bg = bg,
+    inverse = inverse,
+    collapsible = collapsible
+  )
+
+  structure(
+    dropNulls(opts),
+    class = c("bslib_navbar_options", "list")
+  )
+}
+
+# TODO: Move defaults into `navbar_options()` when finally deprecating top-level args
+navbar_options_defaults <- navbar_options(
+  position = "static-top",
+  bg = NULL,
+  inverse = "auto",
+  collapsible = TRUE
+)
+
+navbar_options_resolve_deprecated <- function(
+  options_user = NULL,
+  position = deprecated(),
+  bg = deprecated(),
+  inverse = deprecated(),
+  collapsible = deprecated(),
+  .fn_caller = "navset_bar"
+) {
+  fn_arg <- function(arg) sprintf("%s(%s=)", .fn_caller, arg)
+
+  warn_deprecated <- function(arg) {
+    lifecycle::deprecate_warn(
+      "0.9.0",
+      fn_arg("position"),
+      details = paste(
+        "Navbar options have been consolidated into a single `options` argument.",
+        sprintf(
+          "Use the `%s` argument of `navbar_options()` instead.",
+          arg
+        )
+      )
+    )
+  }
+  
+  old_opts <- list()
+  if (lifecycle::is_present(position)) {
+    warn_deprecated("position")
+    old_opts$position <- position
+  }
+  if (lifecycle::is_present(bg)) {
+    warn_deprecated("bg")
+    old_opts$bg <- bg
+  }
+  if (lifecycle::is_present(inverse)) {
+    warn_deprecated("inverse")
+    old_opts$inverse <- inverse
+  }
+  if (lifecycle::is_present(collapsible)) {
+    warn_deprecated("collapsible")
+    old_opts$collapsible <- collapsible
+  }
+
+  # Take direct option only if not present in the user-provided options
+  options_user <- options_user %||% list()
+  ignored <- c()
+  for (opt in names(old_opts)) {
+    if (opt %in% names(options_user)) {
+      ignored <- c(ignored, opt)
+      
+    } else {
+      options_user[[opt]] <- old_opts[[opt]]
+    }
+  }
+
+  if (length(ignored) > 0) {
+    rlang::warn(
+      c(
+        sprintf(
+          "`%s` %s provided twice: once directly and once in `navbar_options`.",
+          paste(ignored, collapse = "`, `"),
+          if (length(ignored) == 1) "was" else "were"
+        ),
+        "The deprecated direct option(s) will be ignored and the values from `navbar_options` will be used."
+      ),
+      call = rlang::caller_call()
+    )
+  }
+
+  final <- rlang::dots_list(
+    !!!navbar_options_defaults,
+    !!!options_user,
+    .homonyms = "last"
+  )
+
+  rlang::exec(navbar_options, !!!final)
+}
+
+#' @export
+print.bslib_navbar_options <- function(x, ...) {
+  cat("<bslib_navbar_options>\n")
+  
+  if (length(x) == 0) {
+    return(invisible(x))
+  }
+
+  fields <- names(dropNulls(x))
+  opt_w <- max(nchar(fields))
+  for (opt in fields) {
+    cat(sprintf("%*s", opt_w, opt), ": ", x[[opt]], "\n", sep = "")
+  }
+
+  invisible(x)
 }
 
 # This internal version of navs_bar() exists so both it and page_navbar()
@@ -250,7 +398,7 @@ navbarPage_ <- function(
   if (!is.null(position)) {
     navbarClass <- paste0(navbarClass, " navbar-", position)
   }
-  
+
   if (inverse) {
     navbarClass <- paste(navbarClass, "navbar-inverse")
   }
