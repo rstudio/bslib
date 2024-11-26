@@ -286,8 +286,10 @@ navbar_options_resolve_deprecated <- function(
   ignored <- c()
   for (opt in names(old_opts)) {
     if (opt %in% names(options_user)) {
+      if (identical(old_opts[[opt]], options_user[[opt]])) {
+        next
+      }
       ignored <- c(ignored, opt)
-      
     } else {
       options_user[[opt]] <- old_opts[[opt]]
     }
