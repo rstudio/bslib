@@ -339,25 +339,16 @@ print.bslib_navbar_options <- function(x, ...) {
 # (and thus shiny::navbarPage()) can use it. And in the page_navbar() case,
 # we can use addition theme information as an indication of whether we need
 # to handle backwards compatibility
-navs_bar_ <- function(
-  ...,
-  title = NULL,
-  id = NULL,
-  selected = NULL,
-  sidebar = NULL,
-  fillable = TRUE,
-  gap = NULL,
-  padding = NULL,
-  position = c("static-top", "fixed-top", "fixed-bottom"),
-  header = NULL,
-  footer = NULL,
-  bg = NULL,
-  inverse = "auto",
-  underline = TRUE,
-  collapsible = TRUE,
-  fluid = TRUE,
-  theme = NULL
-) {
+navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
+                      sidebar = NULL, fillable = TRUE,
+                      gap = NULL, padding = NULL,
+                      position = c("static-top", "fixed-top", "fixed-bottom"),
+                      header = NULL, footer = NULL,
+                      bg = NULL, inverse = "auto",
+                      underline = TRUE,
+                      collapsible = TRUE, fluid = TRUE,
+                      theme = NULL) {
+
   if (identical(inverse, "auto")) {
     inverse <- TRUE
     if (identical(theme_preset_info(theme)$name, "shiny")) {
@@ -366,34 +357,24 @@ navs_bar_ <- function(
     if (!is.null(bg)) {
       bg <- htmltools::parseCssColors(bg)
       bg_contrast <- bs_get_contrast(bs_theme("navbar-bg" = bg), "navbar-bg")
-      inverse <- col2rgb(bg_contrast)[1, ] > 127.5
+      inverse <- col2rgb(bg_contrast)[1,] > 127.5
     }
   }
 
   navbar <- navbarPage_(
-    title = title,
-    ...,
-    id = id,
-    selected = selected,
-    sidebar = sidebar,
-    fillable = fillable,
-    gap = gap,
-    padding = padding,
+    title = title, ..., id = id, selected = selected,
+    sidebar = sidebar, fillable = fillable,
+    gap = gap, padding = padding,
     position = match.arg(position),
-    header = header,
-    footer = footer,
-    collapsible = collapsible,
-    inverse = inverse,
-    underline = underline,
-    fluid = fluid,
+    header = header, footer = footer, collapsible = collapsible,
+    inverse = inverse, underline = underline, fluid = fluid,
     theme = theme
   )
 
   if (!is.null(bg)) {
     # navbarPage_() returns a tagList() of the nav and content
     navbar[[1]] <- tagAppendAttributes(
-      navbar[[1]],
-      style = css(background_color = paste(bg, "!important"))
+      navbar[[1]], style = css(background_color = paste(bg, "!important"))
     )
   }
 
@@ -405,47 +386,41 @@ navs_bar_ <- function(
 #  (with minor modifications)
 # -----------------------------------------------------------------------
 
-navbarPage_ <- function(
-  title,
-  ...,
-  id = NULL,
-  selected = NULL,
-  sidebar = NULL,
-  fillable = TRUE,
-  gap = NULL,
-  padding = NULL,
-  position = c("static-top", "fixed-top", "fixed-bottom"),
-  header = NULL,
-  footer = NULL,
-  inverse = FALSE,
-  underline = TRUE,
-  collapsible = FALSE,
-  fluid = TRUE,
-  theme = NULL
-) {
+navbarPage_ <- function(title,
+                       ...,
+                       id = NULL,
+                       selected = NULL,
+                       sidebar = NULL,
+                       fillable = TRUE,
+                       gap = NULL,
+                       padding = NULL,
+                       position = c("static-top", "fixed-top", "fixed-bottom"),
+                       header = NULL,
+                       footer = NULL,
+                       inverse = FALSE,
+                       underline = TRUE,
+                       collapsible = FALSE,
+                       fluid = TRUE,
+                       theme = NULL) {
+
   # alias title so we can avoid conflicts w/ title in withTags
   pageTitle <- title
 
   # navbar class based on options
   navbarClass <- "navbar navbar-default"
   position <- match.arg(position)
-  if (!is.null(position)) {
+  if (!is.null(position))
     navbarClass <- paste0(navbarClass, " navbar-", position)
-  }
-
-  if (inverse) {
+  if (inverse)
     navbarClass <- paste(navbarClass, "navbar-inverse")
-  }
 
-  if (!is.null(id)) {
+  if (!is.null(id))
     selected <- shiny::restoreInput(id = id, default = selected)
-  }
 
   # build the tabset
   ulClass <- "nav navbar-nav"
-  if (underline) {
+  if (underline)
     ulClass <- paste(ulClass, "nav-underline")
-  }
   tabset <- buildTabset(..., ulClass = ulClass, id = id, selected = selected)
 
   containerClass <- paste0("container", if (fluid) "-fluid")
@@ -465,7 +440,7 @@ navbarPage_ <- function(
           # data-bs-* is for BS5+
           `data-bs-toggle` = "collapse",
           `data-bs-target` = paste0("#", navId),
-          span(class = "sr-only visually-hidden", "Toggle navigation"),
+          span(class="sr-only visually-hidden", "Toggle navigation"),
           span(class = "icon-bar"),
           span(class = "icon-bar"),
           span(class = "icon-bar")
@@ -474,8 +449,7 @@ navbarPage_ <- function(
       ),
       div(
         class = "navbar-collapse collapse",
-        id = navId,
-        tabset$navList
+        id = navId, tabset$navList
       )
     )
   } else {
@@ -519,13 +493,16 @@ navbarPage_ <- function(
   contents <- dropNulls(list(header, tabset$content, footer))
 
   if (is.null(sidebar)) {
+
     contentDiv <- div(class = containerClass, !!!contents)
 
     # If fillable is truthy, the .container also needs to be fillable
     if (!isFALSE(fillable)) {
       contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
     }
+
   } else {
+
     contentDiv <- div(
       # In the fluid case, the sidebar layout should be flush (i.e.,
       # the .container-fluid class adds padding that we don't want)
@@ -542,6 +519,7 @@ navbarPage_ <- function(
     # Always have the sidebar layout fill its parent (in this case
     # fillable controls whether the _main_ content portion is fillable)
     contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
+
   }
 
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
