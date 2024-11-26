@@ -397,13 +397,14 @@ page_navbar <- function(
   fillable_mobile = FALSE,
   gap = NULL,
   padding = NULL,
-  position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
-  bg = NULL,
-  inverse = "auto",
-  underline = TRUE,
-  collapsible = TRUE,
+  navbar_options = NULL,
+  position = deprecated(),
+  bg = deprecated(),
+  inverse = deprecated(),
+  underline = deprecated(),
+  collapsible = deprecated(),
   fluid = TRUE,
   theme = bs_theme(),
   window_title = NA,
@@ -414,6 +415,15 @@ page_navbar <- function(
 
   padding <- validateCssPadding(padding)
   gap <- validateCssUnit(gap)
+
+  .navbar_options <- navbar_options_resolve_deprecated(
+    options_user = navbar_options,
+    position = position,
+    bg = bg,
+    inverse = inverse,
+    collapsible = collapsible,
+    underline = underline
+  )
 
   # Default to fillable = F when this is called from shiny::navbarPage()
   # TODO: update shiny::navbarPage() to set fillable = FALSE and get rid of this hack
@@ -439,13 +449,23 @@ page_navbar <- function(
     class = "bslib-page-navbar",
     class = if (!is.null(sidebar)) "has-page-sidebar",
     navs_bar_(
-      ..., title = title, id = id, selected = selected,
-      sidebar = sidebar, fillable = fillable,
-      gap = gap, padding = padding,
-      position = match.arg(position), header = header,
-      footer = footer, bg = bg, inverse = inverse,
-      underline = underline, collapsible = collapsible,
-      fluid = fluid, theme = theme
+      ...,
+      title = title,
+      id = id,
+      selected = selected,
+      sidebar = sidebar,
+      fillable = fillable,
+      gap = gap,
+      padding = padding,
+      header = header,
+      footer = footer,
+      position = .navbar_options$position,
+      bg = .navbar_options$bg,
+      inverse = .navbar_options$inverse,
+      underline = .navbar_options$underline %||% TRUE,
+      collapsible = .navbar_options$collapsible,
+      fluid = fluid,
+      theme = theme
     )
   )
 }

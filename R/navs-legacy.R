@@ -105,6 +105,8 @@ navset_hidden <- function(..., id = NULL, selected = NULL,
 #'   character vector, matching the `value` of [nav_panel()]s to be filled, may
 #'   also be provided. Note that, if a `sidebar` is provided, `fillable` makes
 #'   the main content portion fillable.
+#' @param navbar_options Options to control the appearance and behavior of the
+#'   navbar. Use [navbar_options()] to create the list of options.
 #' @param position `r lifecycle::badge("deprecated")` Please use 
 #'   `options = navbar_options(position=)` instead.
 #' @param collapsible `r lifecycle::badge("deprecated")` Please use 

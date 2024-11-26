@@ -52,7 +52,13 @@ navset_bar(
   collapsible = deprecated()
 )
 
-navbar_options(position = NULL, bg = NULL, inverse = NULL, collapsible = NULL)
+navbar_options(
+  position = NULL,
+  bg = NULL,
+  inverse = NULL,
+  collapsible = NULL,
+  underline = NULL
+)
 
 navset_card_tab(
   ...,
@@ -145,6 +151,9 @@ for the top and bottom, while the second value will be used for left and
 right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
+
+\item{navbar_options}{Options to control the appearance and behavior of the
+navbar. Use \code{\link[=navbar_options]{navbar_options()}} to create the list of options.}
 
 \item{position}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
 \code{options = navbar_options(position=)} instead.}
