@@ -8,6 +8,8 @@ test_that("navbar_options() validates position", {
 })
 
 test_that("navbar_options() print method", {
+  expect_snapshot(navbar_options())
+  expect_snapshot(navbar_options(inverse = TRUE, bg = "red"))
   expect_snapshot(
     navbar_options(position = "static-top", inverse = FALSE, collapsible = TRUE)
   )

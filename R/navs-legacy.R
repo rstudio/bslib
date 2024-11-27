@@ -198,15 +198,28 @@ navset_bar <- function(
 #' 
 #' @export
 navbar_options <- function(
-  position = NULL,
+  position = c("static-top", "fixed-top", "fixed-bottom"),
   bg = NULL,
-  inverse = NULL,
-  collapsible = NULL,
+  inverse = "auto",
+  collapsible = TRUE,
   underline = NULL
 ) {
+  arg_missing <- list(
+    position = missing(position),
+    bg = missing(bg),
+    inverse = missing(inverse),
+    collapsible = missing(collapsible),
+    underline = missing(underline)
+  )
+
+  maybe_default <- function(arg, value) {
+    if (isFALSE(arg_missing[[arg]])) return(value)
+    as_bslib_default(value)
+  }
+
   if (!is.null(position)) {
     # TODO: add sticky-top as well?
-    position <- rlang::arg_match(position, c("static-top", "fixed-top", "fixed-bottom"))
+    position <- rlang::arg_match(position)
   }
 
   opts <- list(
@@ -216,21 +229,24 @@ navbar_options <- function(
     collapsible = collapsible,
     underline = underline
   )
+  opts <- dropNulls(opts)
+  for (opt in names(opts)) {
+    opts[[opt]] <- maybe_default(opt, opts[[opt]])
+  }
 
-  structure(
-    dropNulls(opts),
-    class = c("bslib_navbar_options", "list")
-  )
+  structure(opts, class = c("bslib_navbar_options", "list"))
 }
 
-# TODO: Move defaults into `navbar_options()` when finally deprecating top-level args
-navbar_options_defaults <- navbar_options(
-  position = "static-top",
-  bg = NULL,
-  inverse = "auto",
-  collapsible = TRUE,
-  underline = NULL
-)
+as_bslib_default <- function(x) {
+  if (is.null(x)) return(x)
+  attr(x, "bslib_default") <- TRUE
+  attr(x, "waldo_opts") <- list(ignore_attr = TRUE)
+  x
+}
+
+is_bslib_default <- function(x) {
+  isTRUE(attr(x, "bslib_default"))
+}
 
 navbar_options_resolve_deprecated <- function(
   options_user = NULL,
@@ -281,11 +297,13 @@ navbar_options_resolve_deprecated <- function(
     old_opts$underline <- underline
   }
 
-  # Take direct option only if not present in the user-provided options
+  # Consolidate `navbar_options` (options_user) with direction options taking
+  # the direct option if the user option is a default value, warning if
+  # otherwise ignored.
   options_user <- options_user %||% list()
   ignored <- c()
   for (opt in names(old_opts)) {
-    if (opt %in% names(options_user)) {
+    if (opt %in% names(options_user) && !is_bslib_default(options_user[[opt]])) {
       if (identical(old_opts[[opt]], options_user[[opt]])) {
         next
       }
@@ -309,13 +327,9 @@ navbar_options_resolve_deprecated <- function(
     )
   }
 
-  final <- rlang::dots_list(
-    !!!navbar_options_defaults,
-    !!!options_user,
-    .homonyms = "last"
-  )
-
-  rlang::exec(navbar_options, !!!final)
+  ret <- rlang::exec(navbar_options, !!!options_user)
+  # strip bslib_default attributes now that we've resolved defaults
+  lapply(ret, c)
 }
 
 #' @export
@@ -329,7 +343,11 @@ print.bslib_navbar_options <- function(x, ...) {
   fields <- names(dropNulls(x))
   opt_w <- max(nchar(fields))
   for (opt in fields) {
-    cat(sprintf("%*s", opt_w, opt), ": ", x[[opt]], "\n", sep = "")
+    value <- x[[opt]]
+    if (is_bslib_default(value)) {
+      value <- sprintf("(%s)", value)
+    }
+    cat(sprintf("%*s", opt_w, opt), ": ", value, "\n", sep = "")
   }
 
   invisible(x)

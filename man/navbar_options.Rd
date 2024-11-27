@@ -5,10 +5,10 @@
 \title{Create a set of navbar options}
 \usage{
 navbar_options(
-  position = NULL,
+  position = c("static-top", "fixed-top", "fixed-bottom"),
   bg = NULL,
-  inverse = NULL,
-  collapsible = NULL,
+  inverse = "auto",
+  collapsible = TRUE,
   underline = NULL
 )
 }
