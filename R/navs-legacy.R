@@ -204,37 +204,17 @@ navbar_options <- function(
   collapsible = TRUE,
   underline = NULL
 ) {
-  arg_missing <- list(
-    position = missing(position),
-    bg = missing(bg),
-    inverse = missing(inverse),
-    collapsible = missing(collapsible),
-    underline = missing(underline)
-  )
-
-  maybe_default <- function(arg, value) {
-    if (isFALSE(arg_missing[[arg]])) return(value)
-    as_bslib_default(value)
-  }
-
-  if (!is.null(position)) {
-    # TODO: add sticky-top as well?
-    position <- rlang::arg_match(position)
-  }
+  position2 <- rlang::arg_match(position)
 
   opts <- list(
-    position = position,
-    bg = bg,
-    inverse = inverse,
-    collapsible = collapsible,
-    underline = underline
+    position = if (missing(position)) as_bslib_default(position[[1]]) else position2,
+    bg = if (missing(bg)) as_bslib_default(bg) else bg,
+    inverse = if (missing(inverse)) as_bslib_default(inverse) else inverse,
+    collapsible = if (missing(collapsible)) as_bslib_default(collapsible) else collapsible,
+    underline = if (missing(underline)) as_bslib_default(underline) else underline
   )
-  opts <- dropNulls(opts)
-  for (opt in names(opts)) {
-    opts[[opt]] <- maybe_default(opt, opts[[opt]])
-  }
-
-  structure(opts, class = c("bslib_navbar_options", "list"))
+  
+  structure(dropNulls(opts), class = c("bslib_navbar_options", "list"))
 }
 
 as_bslib_default <- function(x) {
