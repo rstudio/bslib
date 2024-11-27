@@ -251,7 +251,7 @@ navbar_options_resolve_deprecated <- function(
 
   if (.warn_deprecated && length(args_deprecated)) {
     lifecycle::deprecate_warn(
-      "0.9.0",
+      "0.9.0", # 2024-11
       I(sprintf(
         "The %s argument%s of `%s()` have been consolidated into a single `navbar_options` argument and ",
         paste(sprintf("`%s`", args_deprecated), collapse = ", "),
@@ -264,6 +264,7 @@ navbar_options_resolve_deprecated <- function(
   # Consolidate `navbar_options` (options_user) with direction options taking
   # the direct option if the user option is a default value, warning if
   # otherwise ignored.
+  # TODO-deprecated Remove this and warning when direct options are hard-deprecated
   options_user <- options_user %||% list()
   ignored <- c()
   for (opt in names(options_old)) {
