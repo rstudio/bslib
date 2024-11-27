@@ -333,8 +333,8 @@ maybe_page_sidebar <- function(x) {
 #'
 #' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
-#' @param underline Whether or not to add underline styling to page links when
-#'   active or focused.
+#' @param underline `r lifecycle::badge("deprecated")` Please use 
+#'   [`navbar_options = navbar_options(underline=)`][navbar_options] instead.
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
 #'   host URL of the page is displayed by default).
@@ -397,17 +397,18 @@ page_navbar <- function(
   fillable_mobile = FALSE,
   gap = NULL,
   padding = NULL,
-  position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
-  bg = NULL,
-  inverse = "auto",
-  underline = TRUE,
-  collapsible = TRUE,
+  navbar_options = NULL,
   fluid = TRUE,
   theme = bs_theme(),
   window_title = NA,
-  lang = NULL
+  lang = NULL,
+  position = deprecated(),
+  bg = deprecated(),
+  inverse = deprecated(),
+  underline = deprecated(),
+  collapsible = deprecated()
 ) {
 
   sidebar <- maybe_page_sidebar(sidebar)
@@ -415,13 +416,27 @@ page_navbar <- function(
   padding <- validateCssPadding(padding)
   gap <- validateCssUnit(gap)
 
+  # Change behavior when called by Shiny
+  # TODO: Coordinate with next bslib version bump in Shiny to use the new interface
+  was_called_by_shiny <- 
+    isNamespaceLoaded("shiny") && 
+    identical(rlang::caller_fn(), shiny::navbarPage)
+
+  .navbar_options <- navbar_options_resolve_deprecated(
+    options_user = navbar_options,
+    position = position,
+    bg = bg,
+    inverse = inverse,
+    collapsible = collapsible,
+    underline = underline,
+    .fn_caller = "page_navbar",
+    .warn_deprecated = !was_called_by_shiny
+  )
+
   # Default to fillable = F when this is called from shiny::navbarPage()
   # TODO: update shiny::navbarPage() to set fillable = FALSE and get rid of this hack
-  if (missing(fillable)) {
-    isNavbarPage <- isNamespaceLoaded("shiny") && identical(rlang::caller_fn(), shiny::navbarPage)
-    if (isNavbarPage) {
-      fillable <- FALSE
-    }
+  if (missing(fillable) && was_called_by_shiny) {
+    fillable <- FALSE
   }
 
   # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
@@ -439,13 +454,23 @@ page_navbar <- function(
     class = "bslib-page-navbar",
     class = if (!is.null(sidebar)) "has-page-sidebar",
     navs_bar_(
-      ..., title = title, id = id, selected = selected,
-      sidebar = sidebar, fillable = fillable,
-      gap = gap, padding = padding,
-      position = match.arg(position), header = header,
-      footer = footer, bg = bg, inverse = inverse,
-      underline = underline, collapsible = collapsible,
-      fluid = fluid, theme = theme
+      ...,
+      title = title,
+      id = id,
+      selected = selected,
+      sidebar = sidebar,
+      fillable = fillable,
+      gap = gap,
+      padding = padding,
+      header = header,
+      footer = footer,
+      position = .navbar_options$position,
+      bg = .navbar_options$bg,
+      inverse = .navbar_options$inverse,
+      underline = .navbar_options$underline,
+      collapsible = .navbar_options$collapsible,
+      fluid = fluid,
+      theme = theme
     )
   )
 }

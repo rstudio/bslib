@@ -14,17 +14,18 @@ page_navbar(
   fillable_mobile = FALSE,
   gap = NULL,
   padding = NULL,
-  position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
-  bg = NULL,
-  inverse = "auto",
-  underline = TRUE,
-  collapsible = TRUE,
+  navbar_options = NULL,
   fluid = TRUE,
   theme = bs_theme(),
   window_title = NA,
-  lang = NULL
+  lang = NULL,
+  position = deprecated(),
+  bg = deprecated(),
+  inverse = deprecated(),
+  underline = deprecated(),
+  collapsible = deprecated()
 )
 }
 \arguments{
@@ -63,14 +64,6 @@ right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
 
-\item{position}{Determines whether the navbar should be displayed at the top
-of the page with normal scrolling behavior (\code{"static-top"}), pinned at
-the top (\code{"fixed-top"}), or pinned at the bottom
-(\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
-\code{"fixed-bottom"} will cause the navbar to overlay your body content,
-unless you add padding, e.g.: \code{tags$style(type="text/css", "body
-  {padding-top: 70px;}")}}
-
 \item{header}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{above} the nav
 content. For \code{card}-based navsets, these elements are implicitly wrapped in
 a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
@@ -81,16 +74,8 @@ content. For \code{card}-based navsets, these elements are implicitly wrapped in
 a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
 elements in an explicit \code{\link[=card_body]{card_body()}}.}
 
-\item{bg}{a CSS color to use for the navbar's background color.}
-
-\item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
-text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
-
-\item{underline}{Whether or not to add underline styling to page links when
-active or focused.}
-
-\item{collapsible}{\code{TRUE} to automatically collapse the navigation
-elements into an expandable menu on mobile devices or narrow window widths.}
+\item{navbar_options}{Options to control the appearance and behavior of the
+navbar. Use \code{\link[=navbar_options]{navbar_options()}} to create the list of options.}
 
 \item{fluid}{\code{TRUE} to use fluid layout; \code{FALSE} to use fixed
 layout.}
@@ -104,6 +89,21 @@ host URL of the page is displayed by default).}
 \item{lang}{ISO 639-1 language code for the HTML page, such as "en" or "ko".
 This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="en">}.
 The default (NULL) results in an empty string.}
+
+\item{position}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(position=)}} instead.}
+
+\item{bg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(bg=)}} instead.}
+
+\item{inverse}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(inverse=)}} instead.}
+
+\item{underline}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(underline=)}} instead.}
+
+\item{collapsible}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(collapsible=)}} instead.}
 }
 \description{
 Create a page that contains a top level navigation bar that can be used to
