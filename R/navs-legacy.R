@@ -163,7 +163,7 @@ navset_bar <- function(
     bg = .navbar_options$bg,
     inverse = .navbar_options$inverse,
     collapsible = .navbar_options$collapsible,
-    underline = .navbar_options$underline %||% FALSE,
+    underline = .navbar_options$underline,
     # theme is only used to determine whether legacy style markup should be used
     # (and, at least at the moment, we don't need legacy markup for this exported function)
     theme = bs_theme()
@@ -191,8 +191,8 @@ navset_bar <- function(
 #' @param bg a CSS color to use for the navbar's background color.
 #' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
-#' @param underline Whether or not to add underline styling to page links when
-#'   active or focused.
+#' @param underline Whether or not to add underline styling to page or navbar
+#'   links when active or focused.
 #' 
 #' @returns Returns a list of navbar options.
 #' 
@@ -202,7 +202,7 @@ navbar_options <- function(
   bg = NULL,
   inverse = "auto",
   collapsible = TRUE,
-  underline = NULL
+  underline = TRUE
 ) {
   position2 <- rlang::arg_match(position)
 

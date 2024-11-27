@@ -384,6 +384,8 @@ Note also that the navbar background and underline styling can be controlled via
     nav_item(link_posit)
   )
 )
+#> shiny devmode - Turning off caching of Sass -> CSS compilation. To turn caching on, call `options(sass.cache = TRUE)`
+#> This message is displayed once every 8 hours.
 }\if{html}{\out{</div>}}
 
 \figure{page-navbar.png}{Screenshot of a page_navbar() example.}

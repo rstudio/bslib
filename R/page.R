@@ -465,7 +465,7 @@ page_navbar <- function(
       position = .navbar_options$position,
       bg = .navbar_options$bg,
       inverse = .navbar_options$inverse,
-      underline = .navbar_options$underline %||% TRUE,
+      underline = .navbar_options$underline,
       collapsible = .navbar_options$collapsible,
       fluid = fluid,
       theme = theme

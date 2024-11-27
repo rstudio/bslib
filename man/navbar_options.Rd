@@ -9,7 +9,7 @@ navbar_options(
   bg = NULL,
   inverse = "auto",
   collapsible = TRUE,
-  underline = NULL
+  underline = TRUE
 )
 }
 \arguments{
@@ -29,8 +29,8 @@ text color. If \code{"auto"} (the default), the best contrast to \code{bg} is ch
 \item{collapsible}{\code{TRUE} to automatically collapse the navigation
 elements into an expandable menu on mobile devices or narrow window widths.}
 
-\item{underline}{Whether or not to add underline styling to page links when
-active or focused.}
+\item{underline}{Whether or not to add underline styling to page or navbar
+links when active or focused.}
 }
 \value{
 Returns a list of navbar options.
