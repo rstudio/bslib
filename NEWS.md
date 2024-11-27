@@ -1,5 +1,13 @@
 # bslib (development version)
 
+## Breaking changes
+
+* The navbar-related style options of `page_navbar()` and `navset_bar()` have been consolidated into a single `navbar_options` argument that pairs with a new `navbar_options()` helper. Using the direct `position`, `bg`, `inverse`, `collapsible`, and `underline` arguments will continue to work with a deprecation message. (#1141)
+
+   Related to the above change, `navset_bar()` now defaults to using `underline = TRUE` so that both `page_navbar()` and `navset_bar()` use the same set of default `navbar_options()`.
+
+## Improvements and bug fixes
+
 * `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (@tanho63, #1024) 
 
 * Fixed a bug in `bs_themer()` (and `bs_theme_preview()`) that caused it to stop applying changes if a Sass variable was `NULL`. (@meztez, #1112)
