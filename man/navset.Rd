@@ -365,7 +365,9 @@ adjacent to, rather than on top of, the tab content panels.
 Finally, \code{page_navbar()} provides full-page navigation container
 similar to \code{navset_underline()} but where each \code{nav_panel()} is treated as a full page of content
 and the navigation controls appear in a top-level navigation bar.
-Note also that the navbar background and underline styling can be controlled via \code{navbar_options}.
+Note that the navbar background and underline styling can be controlled via \code{navbar_options}.
+
+\code{page_navbar()} is complimented by \code{navset_bar()} which produces a similar layout intended to be used within an app.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{page_navbar(
   title = "My App",
