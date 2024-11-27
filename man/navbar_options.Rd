@@ -5,6 +5,7 @@
 \title{Create a set of navbar options}
 \usage{
 navbar_options(
+  ...,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   bg = NULL,
   inverse = "auto",
@@ -13,6 +14,9 @@ navbar_options(
 )
 }
 \arguments{
+\item{...}{Additional arguments are ignored. \code{...} is included for future
+expansion on \code{navbar_options()}.}
+
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at
 the top (\code{"fixed-top"}), or pinned at the bottom

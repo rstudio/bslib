@@ -193,11 +193,14 @@ navset_bar <- function(
 #'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
 #' @param underline Whether or not to add underline styling to page or navbar
 #'   links when active or focused.
+#' @param ... Additional arguments are ignored. `...` is included for future
+#'   expansion on `navbar_options()`.
 #' 
 #' @returns Returns a list of navbar options.
 #' 
 #' @export
 navbar_options <- function(
+  ...,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   bg = NULL,
   inverse = "auto",
