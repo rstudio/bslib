@@ -418,7 +418,9 @@ page_navbar <- function(
 
   # Change behavior when called by Shiny
   # TODO: Coordinate with next bslib version bump in Shiny to use the new interface
-  was_called_by_shiny <- isNamespaceLoaded("shiny") && identical(rlang::caller_fn(), shiny::navbarPage)
+  was_called_by_shiny <- 
+    isNamespaceLoaded("shiny") && 
+    identical(rlang::caller_fn(), shiny::navbarPage)
 
   .navbar_options <- navbar_options_resolve_deprecated(
     options_user = navbar_options,
