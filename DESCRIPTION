@@ -27,7 +27,7 @@ License: MIT + file LICENSE
 URL: https://rstudio.github.io/bslib/, https://github.com/rstudio/bslib
 BugReports: https://github.com/rstudio/bslib/issues
 Depends:
-    R (>= 3.5)
+    R (>= 2.10)
 Imports:
     base64enc,
     cachem,
