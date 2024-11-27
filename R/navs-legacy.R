@@ -238,58 +238,43 @@ navbar_options_resolve_deprecated <- function(
   .fn_caller = "navset_bar",
   .warn_deprecated = TRUE
 ) {
-  fn_arg <- function(arg) sprintf("%s(%s=)", .fn_caller, arg)
+  options_old <- list(
+    position = if (lifecycle::is_present(position)) position,
+    bg = if (lifecycle::is_present(bg)) bg,
+    inverse = if (lifecycle::is_present(inverse)) inverse,
+    collapsible = if (lifecycle::is_present(collapsible)) collapsible,
+    underline = if (lifecycle::is_present(underline)) underline
+  )
+  options_old <- dropNulls(options_old)
 
-  warn_deprecated <- function(arg) {
-    if (!.warn_deprecated) return()
+  args_deprecated <- names(options_old)
+
+  if (.warn_deprecated && length(args_deprecated)) {
     lifecycle::deprecate_warn(
       "0.9.0",
-      fn_arg(arg),
-      details = paste(
-        "Navbar options have been consolidated into a single `options` argument.",
-        sprintf(
-          "Use the `%s` argument of `navbar_options()` instead.",
-          arg
-        )
-      )
+      I(sprintf(
+        "The %s argument%s of `%s()` have been consolidated into a single `navbar_options` argument and ",
+        paste(sprintf("`%s`", args_deprecated), collapse = ", "),
+        if (length(args_deprecated) > 1) "s" else "",
+        .fn_caller
+      ))
     )
   }
   
-  old_opts <- list()
-  if (lifecycle::is_present(position)) {
-    warn_deprecated("position")
-    old_opts$position <- position
-  }
-  if (lifecycle::is_present(bg)) {
-    warn_deprecated("bg")
-    old_opts$bg <- bg
-  }
-  if (lifecycle::is_present(inverse)) {
-    warn_deprecated("inverse")
-    old_opts$inverse <- inverse
-  }
-  if (lifecycle::is_present(collapsible)) {
-    warn_deprecated("collapsible")
-    old_opts$collapsible <- collapsible
-  }
-  if (lifecycle::is_present(underline)) {
-    warn_deprecated("underline")
-    old_opts$underline <- underline
-  }
-
   # Consolidate `navbar_options` (options_user) with direction options taking
   # the direct option if the user option is a default value, warning if
   # otherwise ignored.
   options_user <- options_user %||% list()
   ignored <- c()
-  for (opt in names(old_opts)) {
-    if (opt %in% names(options_user) && !is_bslib_default(options_user[[opt]])) {
-      if (identical(old_opts[[opt]], options_user[[opt]])) {
-        next
-      }
-      ignored <- c(ignored, opt)
-    } else {
-      options_user[[opt]] <- old_opts[[opt]]
+  for (opt in names(options_old)) {
+    can_use_direct <- 
+      !opt %in% names(options_user) ||
+      is_bslib_default(options_user[[opt]])
+
+    if (can_use_direct) {
+      options_user[[opt]] <- options_old[[opt]]
+    } else if (!identical(c(options_old[[opt]]), c(options_user[[opt]]))) {
+      ignored <- c(ignored, opt)      
     }
   }
 
