@@ -7,6 +7,7 @@
          position: (static-top)
           inverse: (auto)
       collapsible: (TRUE)
+        underline: (TRUE)
 
 ---
 
@@ -18,6 +19,7 @@
                bg: red
           inverse: TRUE
       collapsible: (TRUE)
+        underline: (TRUE)
 
 ---
 
@@ -28,4 +30,5 @@
          position: static-top
           inverse: FALSE
       collapsible: TRUE
+        underline: (TRUE)
 
