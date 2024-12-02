@@ -41,13 +41,14 @@ navset_bar(
   fillable = TRUE,
   gap = NULL,
   padding = NULL,
-  position = c("static-top", "fixed-top", "fixed-bottom"),
   header = NULL,
   footer = NULL,
-  bg = NULL,
-  inverse = "auto",
-  collapsible = TRUE,
-  fluid = TRUE
+  fluid = TRUE,
+  navbar_options = NULL,
+  position = deprecated(),
+  bg = deprecated(),
+  inverse = deprecated(),
+  collapsible = deprecated()
 )
 
 navset_card_tab(
@@ -142,21 +143,20 @@ right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
 
-\item{position}{Determines whether the navbar should be displayed at the top
-of the page with normal scrolling behavior (\code{"static-top"}), pinned at
-the top (\code{"fixed-top"}), or pinned at the bottom
-(\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
-\code{"fixed-bottom"} will cause the navbar to overlay your body content,
-unless you add padding, e.g.: \code{tags$style(type="text/css", "body
-  {padding-top: 70px;}")}}
+\item{navbar_options}{Options to control the appearance and behavior of the
+navbar. Use \code{\link[=navbar_options]{navbar_options()}} to create the list of options.}
 
-\item{bg}{a CSS color to use for the navbar's background color.}
+\item{position}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(position=)}} instead.}
 
-\item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
-text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
+\item{bg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(bg=)}} instead.}
 
-\item{collapsible}{\code{TRUE} to automatically collapse the navigation
-elements into an expandable menu on mobile devices or narrow window widths.}
+\item{inverse}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(inverse=)}} instead.}
+
+\item{collapsible}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=navbar_options]{navbar_options = navbar_options(collapsible=)}} instead.}
 
 \item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
@@ -365,12 +365,16 @@ adjacent to, rather than on top of, the tab content panels.
 Finally, \code{page_navbar()} provides full-page navigation container
 similar to \code{navset_underline()} but where each \code{nav_panel()} is treated as a full page of content
 and the navigation controls appear in a top-level navigation bar.
-Note also that the underline styling can be removed via the \code{underline} argument.
+Note that the navbar background and underline styling can be controlled via \code{navbar_options}.
+
+\code{page_navbar()} is complimented by \code{navset_bar()} which produces a similar layout intended to be used within an app.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{page_navbar(
   title = "My App",
-  bg = "#0062cc",
-  underline = TRUE,
+  navbar_options = navbar_options(
+    bg = "#0062cc",
+    underline = TRUE
+  ),
   nav_panel(title = "One", p("First tab content.")),
   nav_panel(title = "Two", p("Second tab content.")),
   nav_panel(title = "Three", p("Third tab content")),
