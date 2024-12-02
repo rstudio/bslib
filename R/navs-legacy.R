@@ -279,7 +279,7 @@ navbar_options_resolve_deprecated <- function(
 
     if (can_use_direct) {
       options_user[[opt]] <- options_old[[opt]]
-    } else if (!identical(c(options_old[[opt]]), c(options_user[[opt]]))) {
+    } else if (!identical(options_old[[opt]], options_user[[opt]])) {
       ignored <- c(ignored, opt)      
     }
   }
@@ -298,9 +298,7 @@ navbar_options_resolve_deprecated <- function(
     )
   }
 
-  ret <- rlang::exec(navbar_options, !!!options_user)
-  # strip bslib_default attributes now that we've resolved defaults
-  lapply(ret, c)
+  rlang::exec(navbar_options, !!!options_user)
 }
 
 #' @export
