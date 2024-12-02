@@ -266,10 +266,10 @@ navbar_options_resolve_deprecated <- function(
     )
   }
   
-  # Consolidate `navbar_options` (options_user) with direction options taking
-  # the direct option if the user option is a default value, warning if
-  # otherwise ignored.
-  # TODO-deprecated: Remove this and warning when direct options are hard-deprecated
+  # Consolidate `navbar_options` (options_user) with the deprecated direct
+  # options. We take the direct option if the user option is a default value,
+  # warning if otherwise ignored.
+  # TODO-deprecated: Remove this and warning when direct options are hard-deprecated  
   ignored <- c()
   is_default <- attr(options_user, "is_default") %||% list()
   for (opt in names(options_old)) {
