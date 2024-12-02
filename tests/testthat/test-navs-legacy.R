@@ -20,6 +20,10 @@ test_that("navbar_options() print method", {
   )
 })
 
+test_that("navbar_options() errors if ... swallows unused options", {
+  expect_error(navbar_options(foo = "bar"))
+})
+
 test_that("navbar_options_resolve_deprecated() consolidates correctly", {
   # TODO-deprecated: Remove when direction options are deprecated with an error
 

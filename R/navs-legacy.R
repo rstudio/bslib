@@ -216,6 +216,8 @@ navbar_options <- function(
     underline = missing(underline)
   )
 
+  rlang::check_dots_empty()
+
   opts <- list(
     position = rlang::arg_match(position),
     bg = bg,
