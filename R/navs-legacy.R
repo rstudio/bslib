@@ -225,7 +225,7 @@ navbar_options <- function(
   )
   
   structure(
-    dropNulls(opts),
+    opts,
     class = c("bslib_navbar_options", "list"),
     is_default = is_default,
     waldo_opts = list(ignore_attr = TRUE)
@@ -270,14 +270,17 @@ navbar_options_resolve_deprecated <- function(
   # options. We take the direct option if the user option is a default value,
   # warning if otherwise ignored.
   # TODO-deprecated: Remove this and warning when direct options are hard-deprecated  
-  ignored <- c()
   is_default <- attr(options_user, "is_default") %||% list()
+  keep_user_values <- vapply(
+    names(options_user),
+    function(x) !isTRUE(is_default[[x]]),
+    logical(1)
+  )
+  options_user <- options_user[keep_user_values]
+  
+  ignored <- c()
   for (opt in names(options_old)) {
-    can_use_direct <- 
-      !opt %in% names(options_user) ||
-      isTRUE(is_default[[opt]])
-
-    if (can_use_direct) {
+    if (!opt %in% names(options_user)) {
       options_user[[opt]] <- options_old[[opt]]
     } else if (!identical(options_old[[opt]], options_user[[opt]])) {
       ignored <- c(ignored, opt)      
@@ -309,12 +312,16 @@ print.bslib_navbar_options <- function(x, ...) {
     return(invisible(x))
   }
 
-  fields <- names(dropNulls(x))
+  fields <- names(x)
   opt_w <- max(nchar(fields))
   is_default <- attr(x, "is_default") %||% list()
   for (opt in fields) {
-    value <- x[[opt]]
+    value <- x[[opt]] %||% "NULL"
     if (isTRUE(is_default[[opt]])) {
+      if (identical(value, "NULL")) { 
+        # Skip printing default NULL values
+        next
+      }
       value <- sprintf("(%s)", value)
     }
     cat(sprintf("%*s", opt_w, opt), ": ", value, "\n", sep = "")

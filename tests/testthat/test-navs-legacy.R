@@ -20,6 +20,54 @@ test_that("navbar_options() print method", {
   )
 })
 
+test_that("navbar_options_resolve_deprecated() consolidates correctly", {
+  # TODO-deprecated: Remove when direction options are deprecated with an error
+
+  # deprecation messages are handled through other tests
+  rlang::local_options(lifecycle_verbosity = "quiet")
+
+  expect_equal(
+    navbar_options_resolve_deprecated(navbar_options(), bg = "red")$bg,
+    "red"
+  )
+
+  expect_equal(
+    navbar_options_resolve_deprecated(list(), bg = "red")$bg,
+    "red"
+  )
+
+  expect_warning(
+    expect_equal(
+      navbar_options_resolve_deprecated(navbar_options(bg = "blue"), bg = "red")$bg,
+      "blue"
+    )
+  )
+  
+  expect_warning(
+    expect_equal(
+      navbar_options_resolve_deprecated(list(bg = "blue"), bg = "red")$bg,
+      "blue"
+    )
+  )
+
+  expect_warning(
+    expect_null(
+      navbar_options_resolve_deprecated(navbar_options(bg = NULL), bg = "red")$bg
+    )
+  )
+  
+  expect_warning(
+    expect_null(
+      navbar_options_resolve_deprecated(list(bg = NULL), bg = "red")$bg
+    )
+  )
+
+  expect_equal(
+    attr(navbar_options(underline = FALSE), "is_default"),
+    attr(navbar_options_resolve_deprecated(underline = FALSE), "is_default")
+  )
+})
+
 test_that("navset_bar() warns if using deprecated args", {
   lifecycle::expect_deprecated(
     navset_bar(position = "fixed-top")
