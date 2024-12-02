@@ -207,32 +207,33 @@ navbar_options <- function(
   collapsible = TRUE,
   underline = TRUE
 ) {
-  position2 <- rlang::arg_match(position)
+  # Track user-provided arguments for print method and deprecation warnings
+  is_default <- list(
+    position = missing(position),
+    bg = missing(bg),
+    inverse = missing(inverse),
+    collapsible = missing(collapsible),
+    underline = missing(underline)
+  )
 
   opts <- list(
-    position = if (missing(position)) as_bslib_default(position[[1]]) else position2,
-    bg = if (missing(bg)) as_bslib_default(bg) else bg,
-    inverse = if (missing(inverse)) as_bslib_default(inverse) else inverse,
-    collapsible = if (missing(collapsible)) as_bslib_default(collapsible) else collapsible,
-    underline = if (missing(underline)) as_bslib_default(underline) else underline
+    position = rlang::arg_match(position),
+    bg = bg,
+    inverse = inverse,
+    collapsible = collapsible,
+    underline = underline
   )
   
-  structure(dropNulls(opts), class = c("bslib_navbar_options", "list"))
-}
-
-as_bslib_default <- function(x) {
-  if (is.null(x)) return(x)
-  attr(x, "bslib_default") <- TRUE
-  attr(x, "waldo_opts") <- list(ignore_attr = TRUE)
-  x
-}
-
-is_bslib_default <- function(x) {
-  isTRUE(attr(x, "bslib_default"))
+  structure(
+    dropNulls(opts),
+    class = c("bslib_navbar_options", "list"),
+    is_default = is_default,
+    waldo_opts = list(ignore_attr = TRUE)
+  )
 }
 
 navbar_options_resolve_deprecated <- function(
-  options_user = NULL,
+  options_user = list(),
   position = deprecated(),
   bg = deprecated(),
   inverse = deprecated(),
@@ -253,8 +254,9 @@ navbar_options_resolve_deprecated <- function(
   args_deprecated <- names(options_old)
 
   if (.warn_deprecated && length(args_deprecated)) {
+    # TODO-deprecated: (2024-12) Elevate deprecation to an error
     lifecycle::deprecate_warn(
-      "0.9.0", # 2024-11
+      "0.9.0",
       I(sprintf(
         "The %s argument%s of `%s()` have been consolidated into a single `navbar_options` argument and ",
         paste(sprintf("`%s`", args_deprecated), collapse = ", "),
@@ -267,13 +269,13 @@ navbar_options_resolve_deprecated <- function(
   # Consolidate `navbar_options` (options_user) with direction options taking
   # the direct option if the user option is a default value, warning if
   # otherwise ignored.
-  # TODO-deprecated Remove this and warning when direct options are hard-deprecated
-  options_user <- options_user %||% list()
+  # TODO-deprecated: Remove this and warning when direct options are hard-deprecated
   ignored <- c()
+  is_default <- attr(options_user, "is_default") %||% list()
   for (opt in names(options_old)) {
     can_use_direct <- 
       !opt %in% names(options_user) ||
-      is_bslib_default(options_user[[opt]])
+      isTRUE(is_default[[opt]])
 
     if (can_use_direct) {
       options_user[[opt]] <- options_old[[opt]]
@@ -311,9 +313,10 @@ print.bslib_navbar_options <- function(x, ...) {
 
   fields <- names(dropNulls(x))
   opt_w <- max(nchar(fields))
+  is_default <- attr(x, "is_default") %||% list()
   for (opt in fields) {
     value <- x[[opt]]
-    if (is_bslib_default(value)) {
+    if (isTRUE(is_default[[opt]])) {
       value <- sprintf("(%s)", value)
     }
     cat(sprintf("%*s", opt_w, opt), ": ", value, "\n", sep = "")
