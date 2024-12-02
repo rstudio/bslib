@@ -74,10 +74,20 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<ul><li>
+<p>The navbar-related style options of <code><a href="../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../reference/navset.html">navset_bar()</a></code> have been consolidated into a single <code>navbar_options</code> argument that pairs with a new <code><a href="../reference/navbar_options.html">navbar_options()</a></code> helper. Using the direct <code>position</code>, <code>bg</code>, <code>inverse</code>, <code>collapsible</code>, and <code>underline</code> arguments will continue to work with a deprecation message. (<a href="https://github.com/rstudio/bslib/issues/1141" class="external-link">#1141</a>)</p>
+<p>Related to the above change, <code><a href="../reference/navset.html">navset_bar()</a></code> now defaults to using <code>underline = TRUE</code> so that both <code><a href="../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../reference/navset.html">navset_bar()</a></code> use the same set of default <code><a href="../reference/navbar_options.html">navbar_options()</a></code>.</p>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-and-bug-fixes-development-version">Improvements and bug fixes<a class="anchor" aria-label="anchor" href="#improvements-and-bug-fixes-development-version"></a></h3>
 <ul><li><p><code>navset_card_pills()</code>, <code><a href="../reference/navset.html">navset_card_underline()</a></code>, <code>navset_card_tabs()</code> fixed to now respect header/footer arguments (<a href="https://github.com/tanho63" class="external-link">@tanho63</a>, <a href="https://github.com/rstudio/bslib/issues/1024" class="external-link">#1024</a>)</p></li>
 <li><p>Fixed a bug in <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> (and <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code>) that caused it to stop applying changes if a Sass variable was <code>NULL</code>. (<a href="https://github.com/meztez" class="external-link">@meztez</a>, <a href="https://github.com/rstudio/bslib/issues/1112" class="external-link">#1112</a>)</p></li>
 <li><p>Optimized for better performance the internal functions that compile Sass to call the <code>color-contrast()</code> algorithm. (<a href="https://github.com/rstudio/bslib/issues/1140" class="external-link">#1140</a>)</p></li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.0" id="bslib-080">bslib 0.8.0<a class="anchor" aria-label="anchor" href="#bslib-080"></a></h2><p class="text-muted">CRAN release: 2024-07-29</p>
 <div class="section level3">
