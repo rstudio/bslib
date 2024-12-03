@@ -44,7 +44,6 @@ navbar_options <- function(
     collapsible = missing(collapsible),
     underline = missing(underline)
   )
-
   
   opts <- list(
     position = rlang::arg_match(position),
@@ -55,6 +54,16 @@ navbar_options <- function(
   )
   
   attrs <- rlang::dots_list(...)
+  if ("inverse" %in% names(attrs)) {
+    # Catch muscle-memory for using `inverse`. We didn't release 
+    # `navbar_options()` with an `inverse`, but it's reasonable people might try
+    # to use it and it did exist briefly in dev versions.
+    lifecycle::deprecate_soft(
+      when = "0.9.0",
+      what = "navbar_options(inverse=)",
+      with = "navbar_options(type=)"
+    )
+  }
   if (length(attrs)) {
     opts[["attrs"]] <- attrs
   }
