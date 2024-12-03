@@ -24,6 +24,12 @@ test_that("navbar_options() adds ... to `attrs`", {
   expect_equal(navbar_options(foo = "bar")$attrs, list(foo = "bar"))
 })
 
+test_that("navbar_options() warns `inverse` is used instead of `type`", {
+  lifecycle::expect_deprecated(
+    navbar_options(inverse = TRUE)
+  )
+})
+
 test_that("navbar_options_resolve_deprecated() consolidates correctly", {
   # TODO-deprecated: Remove when direction options are deprecated with an error
 
