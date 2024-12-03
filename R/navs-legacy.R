@@ -161,7 +161,7 @@ navset_bar <- function(
     fluid = fluid,
     position = .navbar_options$position,
     bg = .navbar_options$bg,
-    inverse = .navbar_options$inverse,
+    inverse = .navbar_options$type,
     collapsible = .navbar_options$collapsible,
     underline = .navbar_options$underline,
     # theme is only used to determine whether legacy style markup should be used
@@ -189,12 +189,13 @@ navset_bar <- function(
 #' 
 #' @inheritParams shiny::navbarPage
 #' @param bg a CSS color to use for the navbar's background color.
-#' @param inverse Either `TRUE` for a light text color or `FALSE` for a dark
-#'   text color. If `"auto"` (the default), the best contrast to `bg` is chosen.
+#' @param type Either `"dark"` for a light text color (on a **dark** background)
+#'   or `"light"` for a dark text color (on a **light** background). If `"auto"`
+#'   (the default) and `bg` is provided, the best contrast to `bg` is chosen.
 #' @param underline Whether or not to add underline styling to page or navbar
 #'   links when active or focused.
-#' @param ... Additional arguments are ignored. `...` is included for future
-#'   expansion on `navbar_options()`.
+#' @param ... Additional attributes that will be passed directly to the navbar
+#'   container element.
 #' 
 #' @returns Returns a list of navbar options.
 #' 
@@ -203,7 +204,7 @@ navbar_options <- function(
   ...,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   bg = NULL,
-  inverse = "auto",
+  type = c("auto", "light", "dark"),
   collapsible = TRUE,
   underline = TRUE
 ) {
@@ -211,20 +212,24 @@ navbar_options <- function(
   is_default <- list(
     position = missing(position),
     bg = missing(bg),
-    inverse = missing(inverse),
+    type = missing(type),
     collapsible = missing(collapsible),
     underline = missing(underline)
   )
 
-  rlang::check_dots_empty()
-
+  
   opts <- list(
     position = rlang::arg_match(position),
     bg = bg,
-    inverse = inverse,
+    type = rlang::arg_match(type),
     collapsible = collapsible,
     underline = underline
   )
+  
+  attrs <- rlang::dots_list(...)
+  if (length(attrs)) {
+    opts[["attrs"]] <- attrs
+  }
   
   structure(
     opts,
@@ -260,12 +265,34 @@ navbar_options_resolve_deprecated <- function(
     lifecycle::deprecate_warn(
       "0.9.0",
       I(sprintf(
-        "The %s argument%s of `%s()` have been consolidated into a single `navbar_options` argument and ",
+        "The %s argument%s of `%s()` %s been consolidated into a single `navbar_options` argument and ",
         paste(sprintf("`%s`", args_deprecated), collapse = ", "),
         if (length(args_deprecated) > 1) "s" else "",
-        .fn_caller
-      ))
+        .fn_caller,
+        if (length(args_deprecated) > 1) "have" else "has"
+      )),
+      details = c(
+        "i" = "See `navbar_options()` for more details.",
+        "!" = if ("inverse" %in% args_deprecated) "Use `type` instead of `inverse` in `navbar_options()`."
+      )
     )
+  }
+
+  # Upgrade `inverse` to the new `type` argument of `navbar_options()`
+  if ("inverse" %in% names(options_old)) {
+    inverse <- options_old[["inverse"]]
+    options_old[["inverse"]] <- NULL
+    
+    options_old[["type"]] <- 
+      if (is.character(inverse)) {
+        inverse
+      } else if (isTRUE(as.logical(inverse))) {
+        options_old[["type"]] <- "dark"
+      } else if (isFALSE(as.logical(inverse))) {
+        options_old[["type"]] <- "light"
+      } else {
+        abort(paste("Invalid `inverse` value: ", inverse))
+      }
   }
   
   # Consolidate `navbar_options` (options_user) with the deprecated direct
@@ -303,7 +330,10 @@ navbar_options_resolve_deprecated <- function(
     )
   }
 
-  rlang::exec(navbar_options, !!!options_user)
+  attrs <- options_user$attrs %||% list()
+  options_user$attrs <- NULL
+
+  rlang::exec(navbar_options, !!!options_user, !!!attrs)
 }
 
 #' @export
@@ -319,6 +349,9 @@ print.bslib_navbar_options <- function(x, ...) {
   is_default <- attr(x, "is_default") %||% list()
   for (opt in fields) {
     value <- x[[opt]] %||% "NULL"
+    if (inherits(value, "list")) {
+      value <- paste(names(value), collapse = ", ")
+    }
     if (isTRUE(is_default[[opt]])) {
       if (identical(value, "NULL")) { 
         # Skip printing default NULL values
