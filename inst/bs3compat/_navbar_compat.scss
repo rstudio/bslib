@@ -117,13 +117,13 @@ ul.nav.navbar-nav {
     background-color: $navbar-bg;
   }
   
-  [data-bs-theme="dark"] .navbar { @include navbar-background-dark(); }
-  [data-bs-theme="light"] .navbar { @include navbar-background-light(); }
+  :where([data-bs-theme="dark"] .navbar) { @include navbar-background-dark(); }
+  :where([data-bs-theme="light"] .navbar, .navbar) { @include navbar-background-light(); }
   
   // These are defined *after* the above rules because we want the local version
   // to win without having to resort to specificity tricks.
-  .navbar[data-bs-theme="dark"] { @include navbar-background-dark(); }
-  .navbar[data-bs-theme="light"] { @include navbar-background-light(); }
+  :where(.navbar[data-bs-theme="dark"]) { @include navbar-background-dark(); }
+  :where(.navbar[data-bs-theme="light"]) { @include navbar-background-light(); }
 }
 
 // Implement bs3 navbar toggler; used in Rmd websites, i.e.
