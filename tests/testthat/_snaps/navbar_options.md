@@ -5,30 +5,30 @@
     Output
       <bslib_navbar_options>
          position: (static-top)
-          inverse: (auto)
+             type: (auto)
       collapsible: (TRUE)
         underline: (TRUE)
 
 ---
 
     Code
-      navbar_options(inverse = TRUE, bg = "red")
+      navbar_options(type = "dark", bg = "red")
     Output
       <bslib_navbar_options>
          position: (static-top)
                bg: red
-          inverse: TRUE
+             type: dark
       collapsible: (TRUE)
         underline: (TRUE)
 
 ---
 
     Code
-      navbar_options(position = "static-top", inverse = FALSE, collapsible = TRUE)
+      navbar_options(position = "static-top", type = "auto", collapsible = TRUE)
     Output
       <bslib_navbar_options>
          position: static-top
-          inverse: FALSE
+             type: auto
       collapsible: TRUE
         underline: (TRUE)
 
