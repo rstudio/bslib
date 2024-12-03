@@ -169,7 +169,7 @@ navset_bar <- function(
     theme = bs_theme()
   )
 
-  navbar_options_apply_attrs(navbar, .navbar_options)
+  navbar_options_apply_attribs(navbar, .navbar_options)
 }
 
 

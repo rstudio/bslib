@@ -20,8 +20,12 @@ test_that("navbar_options() print method", {
   )
 })
 
-test_that("navbar_options() adds ... to `attrs`", {
-  expect_equal(navbar_options(foo = "bar")$attrs, list(foo = "bar"))
+test_that("navbar_options() adds named args from ... to `attribs`", {
+  expect_equal(navbar_options(foo = "bar")$attribs, list(foo = "bar"))
+})
+
+test_that("navbar_options() throws for unnamed args in ...", {
+  expect_error(navbar_options("foo", "bar"))
 })
 
 test_that("navbar_options() warns `inverse` is used instead of `type`", {

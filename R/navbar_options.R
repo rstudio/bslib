@@ -53,8 +53,12 @@ navbar_options <- function(
     underline = underline
   )
   
-  attrs <- rlang::dots_list(...)
-  if ("inverse" %in% names(attrs)) {
+  dots <- separate_arguments(...)
+  if (length(dots$children) > 0) {
+    abort("All arguments in `...` must be named attributes to be applied to the navbar container.")
+  }
+
+  if ("inverse" %in% names(dots$attribs)) {
     # Catch muscle-memory for using `inverse`. We didn't release 
     # `navbar_options()` with an `inverse`, but it's reasonable people might try
     # to use it and it did exist briefly in dev versions.
@@ -64,8 +68,8 @@ navbar_options <- function(
       with = "navbar_options(type=)"
     )
   }
-  if (length(attrs)) {
-    opts[["attrs"]] <- attrs
+  if (length(dots$attribs)) {
+    opts[["attribs"]] <- dots$attribs
   }
   
   structure(
@@ -76,20 +80,20 @@ navbar_options <- function(
   )
 }
 
-navbar_options_apply_attrs <- function(navbar, navbar_options = NULL) {
-  if (is.null(navbar_options[["attrs"]])) {
+navbar_options_apply_attribs <- function(navbar, navbar_options = NULL) {
+  if (is.null(navbar_options[["attribs"]])) {
     return(navbar)
   }
 
-  attrs <- navbar_options[["attrs"]]
-  navbar[[1]] <- rlang::exec(tagAppendAttributes, navbar[[1]], !!!attrs)
+  attribs <- navbar_options[["attribs"]]
+  navbar[[1]] <- rlang::exec(tagAppendAttributes, navbar[[1]], !!!attribs)
 
-  if ("data-bs-theme" %in% names(attrs)) {
+  if ("data-bs-theme" %in% names(attribs)) {
     # If you're setting this attribute directly, you know more about what you're
     # doing than we do (we handle it for users via `type`). Also: the call to
     # tagAppendAttributes ensures that `navbar[[1]]` is a tag object and has the
     # attribs field.
-    navbar[[1]][["attribs"]][["data-bs-theme"]] <- attrs[["data-bs-theme"]]
+    navbar[[1]][["attribs"]][["data-bs-theme"]] <- attribs[["data-bs-theme"]]
   }
 
   navbar
@@ -184,10 +188,10 @@ navbar_options_resolve_deprecated <- function(
     )
   }
 
-  attrs <- options_user$attrs %||% list()
-  options_user$attrs <- NULL
+  attribs <- options_user$attrs %||% list()
+  options_user$attribs <- NULL
 
-  rlang::exec(navbar_options, !!!options_user, !!!attrs)
+  rlang::exec(navbar_options, !!!options_user, !!!attribs)
 }
 
 #' @export

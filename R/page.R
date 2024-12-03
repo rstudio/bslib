@@ -466,7 +466,7 @@ page_navbar <- function(
     fluid = fluid,
     theme = theme
   )
-  navbar <- navbar_options_apply_attrs(navbar, .navbar_options)
+  navbar <- navbar_options_apply_attribs(navbar, .navbar_options)
 
   page_func(
     title = infer_window_title(title, window_title),
