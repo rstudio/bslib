@@ -67,6 +67,25 @@ navbar_options <- function(
   )
 }
 
+navbar_options_apply_attrs <- function(navbar, navbar_options = NULL) {
+  if (is.null(navbar_options[["attrs"]])) {
+    return(navbar)
+  }
+
+  attrs <- navbar_options[["attrs"]]
+  navbar[[1]] <- rlang::exec(tagAppendAttributes, navbar[[1]], !!!attrs)
+
+  if ("data-bs-theme" %in% names(attrs)) {
+    # If you're setting this attribute directly, you know more about what you're
+    # doing than we do (we handle it for users via `type`). Also: the call to
+    # tagAppendAttributes ensures that `navbar[[1]]` is a tag object and has the
+    # attribs field.
+    navbar[[1]][["attribs"]][["data-bs-theme"]] <- attrs[["data-bs-theme"]]
+  }
+
+  navbar
+}
+
 navbar_options_resolve_deprecated <- function(
   options_user = list(),
   position = deprecated(),
