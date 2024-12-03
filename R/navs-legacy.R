@@ -185,24 +185,23 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
                       collapsible = TRUE, fluid = TRUE,
                       theme = NULL) {
 
+  if (identical(inverse, "auto")) {
+    if (is.null(theme) || theme_version(theme) < 5) {
+      inverse <- TRUE
+    }
+    if (!is.null(bg)) {
+      bg <- htmltools::parseCssColors(bg)
+      bg_contrast <- get_color_contrast(bg)
+      inverse <- bg_contrast == "#FFFFFF"
+    }
+  }
+
   navbar_color_mode <- switch(
     as.character(inverse),
     "TRUE" = "dark",
     "FALSE" = "light",
     inverse
   )
-
-  if (identical(inverse, "auto")) {
-    inverse <- TRUE
-    if (identical(theme_preset_info(theme)$name, "shiny")) {
-      inverse <- FALSE
-    }
-    if (!is.null(bg)) {
-      bg <- htmltools::parseCssColors(bg)
-      bg_contrast <- bs_get_contrast(bs_theme("navbar-bg" = bg), "navbar-bg")
-      inverse <- col2rgb(bg_contrast)[1,] > 127.5
-    }
-  }
 
   navbar <- navbarPage_(
     title = title, ..., id = id, selected = selected,
