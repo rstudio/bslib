@@ -137,6 +137,7 @@ Collate:
     'layout.R'
     'nav-items.R'
     'nav-update.R'
+    'navbar_options.R'
     'navs-legacy.R'
     'navs.R'
     'onLoad.R'
