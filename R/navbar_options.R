@@ -93,11 +93,9 @@ navbar_options_resolve_deprecated <- function(
     lifecycle::deprecate_warn(
       "0.9.0",
       I(sprintf(
-        "The %s argument%s of `%s()` %s been consolidated into a single `navbar_options` argument and ",
-        paste(sprintf("`%s`", args_deprecated), collapse = ", "),
-        if (length(args_deprecated) > 1) "s" else "",
+        "The arguments of `%s()` for navbar options (including %s) have been consolidated into a single `navbar_options` argument and ",
         .fn_caller,
-        if (length(args_deprecated) > 1) "have" else "has"
+        paste(sprintf("`%s`", args_deprecated), collapse = ", ")
       )),
       details = c(
         "i" = "See `navbar_options()` for more details.",
@@ -140,7 +138,7 @@ navbar_options_resolve_deprecated <- function(
     if (!opt %in% names(options_user)) {
       options_user[[opt]] <- options_old[[opt]]
     } else if (!identical(options_old[[opt]], options_user[[opt]])) {
-      ignored <- c(ignored, opt)      
+      ignored <- c(ignored, if (opt == "type") "inverse" else opt)      
     }
   }
 
