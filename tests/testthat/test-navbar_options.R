@@ -9,9 +9,9 @@ test_that("navbar_options() validates position", {
 
 test_that("navbar_options() print method", {
   expect_snapshot(navbar_options())
-  expect_snapshot(navbar_options(inverse = TRUE, bg = "red"))
+  expect_snapshot(navbar_options(type = "dark", bg = "red"))
   expect_snapshot(
-    navbar_options(position = "static-top", inverse = FALSE, collapsible = TRUE)
+    navbar_options(position = "static-top", type = "auto", collapsible = TRUE)
   )
 
   expect_output(
@@ -20,8 +20,14 @@ test_that("navbar_options() print method", {
   )
 })
 
-test_that("navbar_options() errors if ... swallows unused options", {
-  expect_error(navbar_options(foo = "bar"))
+test_that("navbar_options() adds ... to `attrs`", {
+  expect_equal(navbar_options(foo = "bar")$attrs, list(foo = "bar"))
+})
+
+test_that("navbar_options() warns `inverse` is used instead of `type`", {
+  lifecycle::expect_deprecated(
+    navbar_options(inverse = TRUE)
+  )
 })
 
 test_that("navbar_options_resolve_deprecated() consolidates correctly", {
@@ -72,6 +78,42 @@ test_that("navbar_options_resolve_deprecated() consolidates correctly", {
   )
 })
 
+test_that("navbar_options_resolve_deprecated() upgrades `inverse` to `type`", {
+  # TODO-deprecated: Remove when direction options are deprecated with an error
+
+  # deprecation messages are handled through other tests
+  rlang::local_options(lifecycle_verbosity = "quiet")
+
+  expect_equal(
+    navbar_options_resolve_deprecated(navbar_options(), inverse = TRUE)$type,
+    "dark"
+  )
+
+  expect_equal(
+    navbar_options_resolve_deprecated(navbar_options(), inverse = FALSE)$type,
+    "light"
+  )
+
+  expect_equal(
+    navbar_options_resolve_deprecated(navbar_options(), inverse = "auto")$type,
+    "auto"
+  )
+
+  expect_warning(
+    expect_equal(
+      navbar_options_resolve_deprecated(navbar_options(type = "light"), inverse = TRUE)$type,
+      "light"
+    )
+  )
+
+  expect_warning(
+    expect_equal(
+      navbar_options_resolve_deprecated(navbar_options(type = "dark"), inverse = FALSE)$type,
+      "dark"
+    )
+  )
+})
+
 test_that("navset_bar() warns if using deprecated args", {
   lifecycle::expect_deprecated(
     navset_bar(position = "fixed-top")
@@ -107,7 +149,7 @@ test_that("navset_bar() warns if `navbar_options()` collide with direct deprecat
   expect_warning(
     navset_bar(
       inverse = TRUE,
-      navbar_options = navbar_options(inverse = FALSE)
+      navbar_options = navbar_options(type = "light")
     )
   )
 
@@ -146,9 +188,9 @@ test_that("navbar_options_resolve_deprecated() prefers user options over depreca
     expect_equal(
       navbar_options_resolve_deprecated(
         inverse = TRUE,
-        options_user = navbar_options(inverse = FALSE)
-      )$inverse,
-      FALSE
+        options_user = navbar_options(type = "light")
+      )$type,
+      "light"
     )
   )
 

@@ -16,6 +16,7 @@ test_that("Can find precompiled themes", {
 
 test_that("Precompiled theme output is identical to compiled themes", {
   skip_on_cran()
+  # If this fails run: Rscript tools/main.R
 
   get_bootstrap_path <- function(x) {
     bs_dep <- Filter(x, f = function(y) { identical(y$name, "bootstrap") })[[1]]
