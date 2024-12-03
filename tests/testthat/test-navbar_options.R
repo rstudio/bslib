@@ -72,6 +72,42 @@ test_that("navbar_options_resolve_deprecated() consolidates correctly", {
   )
 })
 
+test_that("navbar_options_resolve_deprecated() upgrades `inverse` to `type`", {
+  # TODO-deprecated: Remove when direction options are deprecated with an error
+
+  # deprecation messages are handled through other tests
+  rlang::local_options(lifecycle_verbosity = "quiet")
+
+  expect_equal(
+    navbar_options_resolve_deprecated(navbar_options(), inverse = TRUE)$type,
+    "dark"
+  )
+
+  expect_equal(
+    navbar_options_resolve_deprecated(navbar_options(), inverse = FALSE)$type,
+    "light"
+  )
+
+  expect_equal(
+    navbar_options_resolve_deprecated(navbar_options(), inverse = "auto")$type,
+    "auto"
+  )
+
+  expect_warning(
+    expect_equal(
+      navbar_options_resolve_deprecated(navbar_options(type = "light"), inverse = TRUE)$type,
+      "light"
+    )
+  )
+
+  expect_warning(
+    expect_equal(
+      navbar_options_resolve_deprecated(navbar_options(type = "dark"), inverse = FALSE)$type,
+      "dark"
+    )
+  )
+})
+
 test_that("navset_bar() warns if using deprecated args", {
   lifecycle::expect_deprecated(
     navset_bar(position = "fixed-top")
