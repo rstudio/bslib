@@ -1,5 +1,5 @@
 diff --git a/inst/lib/bs5/scss/_navbar.scss b/inst/lib/bs5/scss/_navbar.scss
-index 988bbe09..74228f69 100644
+index 988bbe09..30567fa9 100644
 --- a/inst/lib/bs5/scss/_navbar.scss
 +++ b/inst/lib/bs5/scss/_navbar.scss
 @@ -3,7 +3,8 @@
@@ -30,7 +30,7 @@ index 988bbe09..74228f69 100644
  .navbar[data-bs-theme="dark"] {
    // scss-docs-start navbar-dark-css-vars
    --#{$prefix}navbar-color: #{$navbar-dark-color};
-@@ -307,12 +311,30 @@
+@@ -307,12 +311,33 @@
    --#{$prefix}navbar-toggler-border-color: #{$navbar-dark-toggler-border-color};
    --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-dark-toggler-icon-bg)};
    // scss-docs-end navbar-dark-css-vars
@@ -59,6 +59,9 @@ index 988bbe09..74228f69 100644
 +  --#{$prefix}navbar-active-color: #{$navbar-light-active-color};
 +  --#{$prefix}navbar-brand-color: #{$navbar-light-brand-color};
 +  --#{$prefix}navbar-brand-hover-color: #{$navbar-light-brand-hover-color};
-+  --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-light-toggler-icon-bg)};
 +  --#{$prefix}navbar-toggler-border-color: #{$navbar-light-toggler-border-color};
++  
++  .navbar-toggler-icon {
++    --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-light-toggler-icon-bg)};
++  }
 +}
