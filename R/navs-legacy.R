@@ -147,7 +147,7 @@ navset_bar <- function(
     collapsible = collapsible
   )
 
-  navs_bar_(
+  navbar <- navs_bar_(
     ...,
     title = title,
     id = id,
@@ -168,6 +168,8 @@ navset_bar <- function(
     # (and, at least at the moment, we don't need legacy markup for this exported function)
     theme = bs_theme()
   )
+
+  navbar_options_apply_attrs(navbar, .navbar_options)
 }
 
 
