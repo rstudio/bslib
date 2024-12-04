@@ -245,7 +245,7 @@ navbar_options <- function(
     )
   }
   if (length(dots$attribs)) {
-    opts[["attribs"]] <- dots$attribs
+    opts$attribs <- dots$attribs
   }
   
   structure(
@@ -364,7 +364,7 @@ navbar_options_resolve_deprecated <- function(
     )
   }
 
-  attribs <- options_user$attrs %||% list()
+  attribs <- options_user[["attribs"]] %||% list()
   options_user$attribs <- NULL
 
   rlang::exec(navbar_options, !!!options_user, !!!attribs)
