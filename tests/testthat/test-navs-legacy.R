@@ -226,3 +226,71 @@ test_that("shiny:navbarPage() is unaffected", {
     )
   )
 })
+
+show_navbar_markup <- function(navbar) {
+  nb <- navbar[[1]]
+  nb$children <- NULL
+  cat(format(nb))
+}
+
+test_that("navbar markup snapshots", {
+  expect_snapshot(
+    show_navbar_markup(navs_bar_(theme = bs_theme(version = 3)))
+  )
+
+  expect_snapshot(
+    show_navbar_markup(navs_bar_(theme = bs_theme(version = 4)))
+  )
+  
+  expect_snapshot(
+    show_navbar_markup(navs_bar_(theme = bs_theme(version = 5)))
+  )
+
+  expect_snapshot(
+    show_navbar_markup(
+      navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(type = "dark"))
+    )
+  )
+
+  expect_snapshot(
+    show_navbar_markup(
+      navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(type = "light"))
+    )
+  )
+
+  expect_snapshot(
+    show_navbar_markup(
+      navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(bg = "#000"))
+    )
+  )
+
+  expect_snapshot(
+    show_navbar_markup(
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(type = "dark"))
+    )
+  )
+
+  expect_snapshot(
+    show_navbar_markup(
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(type = "light"))
+    )
+  )
+
+  expect_snapshot(
+    show_navbar_markup(
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(bg = "#000"))
+    )
+  )
+  
+  expect_snapshot(
+    show_navbar_markup(
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(type = "light", `data-bs-theme` = "dark"))
+    )
+  )
+
+  expect_snapshot(
+    show_navbar_markup(
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(class = "bg-primary", type = "dark"))
+    )
+  )
+})
