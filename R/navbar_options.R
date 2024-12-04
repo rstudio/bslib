@@ -10,7 +10,9 @@
 #' This function was introduced in \pkg{bslib} v0.9.0, replacing the `position`,
 #' `bg`, `inverse`, `collapsible` and `underline` arguments of [page_navbar()]
 #' and [navset_bar()]. Those arguments are deprecated with a warning and will be
-#' removed in a future version of \pkg{bslib}.
+#' removed in a future version of \pkg{bslib}. Note that the deprecated
+#' `inverse` argument of [page_navbar()] and [navset_bar()] was replaced with
+#' the `type` argument of `navbar_options()`.
 #' 
 #' @examples
 #' navbar_options(position = "static-top", bg = "#2e9f7d", underline = FALSE)

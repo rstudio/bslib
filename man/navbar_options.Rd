@@ -52,7 +52,9 @@ This helper should be used to create the list of options expected by
 This function was introduced in \pkg{bslib} v0.9.0, replacing the \code{position},
 \code{bg}, \code{inverse}, \code{collapsible} and \code{underline} arguments of \code{\link[=page_navbar]{page_navbar()}}
 and \code{\link[=navset_bar]{navset_bar()}}. Those arguments are deprecated with a warning and will be
-removed in a future version of \pkg{bslib}.
+removed in a future version of \pkg{bslib}. Note that the deprecated
+\code{inverse} argument of \code{\link[=page_navbar]{page_navbar()}} and \code{\link[=navset_bar]{navset_bar()}} was replaced with
+the \code{type} argument of \code{navbar_options()}.
 }
 }
 \examples{
