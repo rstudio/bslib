@@ -404,16 +404,25 @@ print.bslib_navbar_options <- function(x, ...) {
 # (and thus shiny::navbarPage()) can use it. And in the page_navbar() case,
 # we can use addition theme information as an indication of whether we need
 # to handle backwards compatibility
-navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
-                      sidebar = NULL, fillable = TRUE,
-                      gap = NULL, padding = NULL,
-                      position = c("static-top", "fixed-top", "fixed-bottom"),
-                      header = NULL, footer = NULL,
-                      bg = NULL, inverse = "auto",
-                      underline = TRUE,
-                      collapsible = TRUE, fluid = TRUE,
-                      theme = NULL) {
-
+navs_bar_ <- function(
+  ...,
+  title = NULL,
+  id = NULL,
+  selected = NULL,
+  sidebar = NULL,
+  fillable = TRUE,
+  gap = NULL,
+  padding = NULL,
+  position = c("static-top", "fixed-top", "fixed-bottom"),
+  header = NULL,
+  footer = NULL,
+  bg = NULL,
+  inverse = "auto",
+  underline = TRUE,
+  collapsible = TRUE,
+  fluid = TRUE,
+  theme = NULL
+) {
   if (identical(inverse, "auto")) {
     if (is.null(theme) || theme_version(theme) < 5) {
       inverse <- TRUE
@@ -433,18 +442,27 @@ navs_bar_ <- function(..., title = NULL, id = NULL, selected = NULL,
   )
 
   navbar <- navbarPage_(
-    title = title, ..., id = id, selected = selected,
-    sidebar = sidebar, fillable = fillable,
-    gap = gap, padding = padding,
+    title = title,
+    ...,
+    id = id,
+    selected = selected,
+    sidebar = sidebar,
+    fillable = fillable,
+    gap = gap,
+    padding = padding,
     position = match.arg(position),
-    header = header, footer = footer, collapsible = collapsible,
-    inverse = inverse, underline = underline, fluid = fluid,
+    header = header,
+    footer = footer,
+    collapsible = collapsible,
+    inverse = inverse,
+    underline = underline,
+    fluid = fluid,
     theme = theme
   )
 
   # navbarPage_() returns a tagList() of the nav and content
   navbar[[1]] <- tagAppendAttributes(
-    navbar[[1]], 
+    navbar[[1]],
     style = if (!is.null(bg)) css(background_color = paste(bg, "!important")),
     "data-bs-theme" = navbar_color_mode
   )
