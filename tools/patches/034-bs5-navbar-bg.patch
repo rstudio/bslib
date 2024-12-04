@@ -1,5 +1,5 @@
 diff --git a/inst/lib/bs5/scss/_navbar.scss b/inst/lib/bs5/scss/_navbar.scss
-index 988bbe09..d4e32d1f 100644
+index 988bbe09..ec497278 100644
 --- a/inst/lib/bs5/scss/_navbar.scss
 +++ b/inst/lib/bs5/scss/_navbar.scss
 @@ -3,7 +3,8 @@
@@ -64,4 +64,3 @@ index 988bbe09..d4e32d1f 100644
 +    --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-light-toggler-icon-bg)};
 +  }
 +}
-\ No newline at end of file

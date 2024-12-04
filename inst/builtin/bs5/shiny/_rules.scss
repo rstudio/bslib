@@ -183,7 +183,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
     .navbar {
       border-bottom: none;
     }
-    
+
     > .navbar + div {
       // Since we're using a transparent navbar, we need to (generally) add a border-top
       border-top: $card-border-width solid $card-border-color;
