@@ -147,7 +147,7 @@ navset_bar <- function(
     collapsible = collapsible
   )
 
-  navbar <- navs_bar_(
+  navs_bar_(
     ...,
     title = title,
     id = id,
@@ -159,17 +159,11 @@ navset_bar <- function(
     header = header,
     footer = footer,
     fluid = fluid,
-    position = .navbar_options$position,
-    bg = .navbar_options$bg,
-    inverse = .navbar_options$type,
-    collapsible = .navbar_options$collapsible,
-    underline = .navbar_options$underline,
+    navbar_options = .navbar_options,
     # theme is only used to determine whether legacy style markup should be used
     # (and, at least at the moment, we don't need legacy markup for this exported function)
     theme = bs_theme()
   )
-
-  navbar_options_apply_attribs(navbar, .navbar_options)
 }
 
 #' Create a set of navbar options
@@ -254,25 +248,6 @@ navbar_options <- function(
     is_default = is_default,
     waldo_opts = list(ignore_attr = TRUE)
   )
-}
-
-navbar_options_apply_attribs <- function(navbar, navbar_options = NULL) {
-  if (is.null(navbar_options[["attribs"]])) {
-    return(navbar)
-  }
-
-  attribs <- navbar_options[["attribs"]]
-  navbar[[1]] <- rlang::exec(tagAppendAttributes, navbar[[1]], !!!attribs)
-
-  if ("data-bs-theme" %in% names(attribs)) {
-    # If you're setting this attribute directly, you know more about what you're
-    # doing than we do (we handle it for users via `type`). Also: the call to
-    # tagAppendAttributes ensures that `navbar[[1]]` is a tag object and has the
-    # attribs field.
-    navbar[[1]][["attribs"]][["data-bs-theme"]] <- attribs[["data-bs-theme"]]
-  }
-
-  navbar
 }
 
 navbar_options_resolve_deprecated <- function(
@@ -413,33 +388,27 @@ navs_bar_ <- function(
   fillable = TRUE,
   gap = NULL,
   padding = NULL,
-  position = c("static-top", "fixed-top", "fixed-bottom"),
+  navbar_options = NULL,
   header = NULL,
   footer = NULL,
-  bg = NULL,
-  inverse = "auto",
-  underline = TRUE,
-  collapsible = TRUE,
   fluid = TRUE,
   theme = NULL
 ) {
-  if (identical(inverse, "auto")) {
+  navbar_options <- navbar_options %||% navbar_options()
+  
+  type <- navbar_options[["type"]]
+  bg <- navbar_options[["bg"]]
+
+  if (identical(type, "auto")) {
     if (is.null(theme) || theme_version(theme) < 5) {
-      inverse <- TRUE
-    }
+      type <- "dark"
+    }    
     if (!is.null(bg)) {
       bg <- htmltools::parseCssColors(bg)
       bg_contrast <- get_color_contrast(bg)
-      inverse <- bg_contrast == "#FFFFFF"
+      type <- if (bg_contrast == "#FFFFFF") "dark" else "light"
     }
   }
-
-  navbar_color_mode <- switch(
-    as.character(inverse),
-    "TRUE" = "dark",
-    "FALSE" = "light",
-    inverse
-  )
 
   navbar <- navbarPage_(
     title = title,
@@ -450,21 +419,27 @@ navs_bar_ <- function(
     fillable = fillable,
     gap = gap,
     padding = padding,
-    position = match.arg(position),
+    position = navbar_options[["position"]],
     header = header,
     footer = footer,
-    collapsible = collapsible,
-    inverse = inverse,
-    underline = underline,
+    collapsible = navbar_options[["collapsible"]],
+    inverse = identical(type, "dark"),
+    underline = navbar_options[["underline"]],
     fluid = fluid,
     theme = theme
   )
+
+  attribs <- navbar_options[["attribs"]] %||% list()
+
+  # Use user-provided `data-bs-theme` or our internally selected `type`. If the
+  # user includes both, the attribute wins for being most technically-correct.
+  attribs[["data-bs-theme"]] <- attribs[["data-bs-theme"]] %||% type
 
   # navbarPage_() returns a tagList() of the nav and content
   navbar[[1]] <- tagAppendAttributes(
     navbar[[1]],
     style = if (!is.null(bg)) css(background_color = paste(bg, "!important")),
-    "data-bs-theme" = navbar_color_mode
+    !!!attribs
   )
 
   as_fragment(navbar, page = page)

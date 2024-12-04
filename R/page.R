@@ -458,15 +458,10 @@ page_navbar <- function(
     padding = padding,
     header = header,
     footer = footer,
-    position = .navbar_options$position,
-    bg = .navbar_options$bg,
-    inverse = .navbar_options$type,
-    underline = .navbar_options$underline,
-    collapsible = .navbar_options$collapsible,
+    navbar_options = .navbar_options,
     fluid = fluid,
     theme = theme
   )
-  navbar <- navbar_options_apply_attribs(navbar, .navbar_options)
 
   page_func(
     title = infer_window_title(title, window_title),
