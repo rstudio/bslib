@@ -78,6 +78,7 @@ bs_preset_bundle <- function(preset) {
     preset$type,
     bootswatch = bootswatch_bundle(preset$name, version = preset$version),
     builtin = builtin_bundle(preset$name, version = preset$version),
+    brand = bs_preset_brand_bundle(path = preset$name, version = preset$version),
     stop("Unknown preset type: ", preset$type)
   )
 }

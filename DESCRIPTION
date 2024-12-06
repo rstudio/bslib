@@ -54,7 +54,8 @@ Suggests:
     shiny (> 1.8.1),
     testthat,
     thematic,
-    withr
+    withr,
+    yaml
 Config/Needs/deploy:
     BH,
     chiflights22,
@@ -119,6 +120,7 @@ Collate:
     'bs-remove.R'
     'bs-theme-layers.R'
     'bs-theme-preset-bootswatch.R'
+    'bs-theme-preset-brand.R'
     'bs-theme-preset-builtin.R'
     'bs-theme-preset.R'
     'utils.R'
