@@ -12,8 +12,9 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
   }
 
   brand_color_palette <- brand_sass_color_palette(brand_preset$brand)
-  brand_color <- brand_sass_color(brand_preset$brand)
+  brand_color_defaults <- brand_sass_color(brand_preset$brand)
   brand_defaults <- brand_sass_defaults_bootstrap(brand_preset$brand)
+  brand_typography_defaults <- brand_sass_typography(brand_preset$brand)
 
   sass_bundle(
     "base" = bs_preset_bundle(brand_preset$preset),
@@ -32,7 +33,9 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
         "//* ---- brand.defaults ---- *//",
         !!!brand_defaults$defaults,
         "//* ---- brand.color ---- *//",
-        !!!brand_color,
+        !!!brand_color_defaults,
+        "//* ---- brand.typography ---- *//",
+        !!!brand_typography_defaults,
       ),
       rules = list(
         brand_color_palette$rules
@@ -140,6 +143,100 @@ brand_sass_color <- function(brand) {
   }
 
   defaults
+}
+
+brand_sass_typography <- function(brand) {
+  # Creates a dictionary of Sass variables for typography settings defined in
+  # the `brand` object. These are used to set brand Sass variables in the format
+  # `$brand_typography_{field}_{prop}`.
+  typography <- b_get(brand, "typography")
+
+  if (is.null(typography)) {
+    return(list())
+  }
+
+  defaults <- list()
+
+  for (field in names(typography)) {
+    if (field == "fonts") {
+      next
+    }
+
+    prop <- typography[[field]]
+    for (prop_key in names(prop)) {
+      prop_value <- prop[[prop_key]]
+      if (field == "base" && prop_key == "size") {
+        prop_value <- maybe_convert_font_size_to_rem(prop_value)
+      } else if (prop_key %in% c("color", "background-color")) {
+        prop_value <- b_get_color(brand, prop_value)
+      }
+      field <- gsub("-", "_", field)
+      prop_key <- gsub("-", "_", prop_key)
+      typo_sass_var <- paste("brand_typography", field, prop_key, sep = "_")
+      defaults[[typo_sass_var]] <- paste(prop_value, "!default")
+    }
+  }
+
+  defaults
+}
+
+#' Convert a font size to rem
+#' 
+#' Some frameworks, like Bootstrap expect base font size to be in `rem`. This
+#' function converts `em`, `%`, `px`, `pt` to `rem`:
+#' 
+#' 1. `em` is directly replace with `rem`.
+#' 2. `1%` is `0.01rem`, e.g. `90%` becomes `0.9rem`.
+#' 3. `16px` is `1rem`, e.g. `18px` becomes `1.125rem`.
+#' 4. `12pt` is `1rem`.
+#' 5. `0.1666in` is `1rem`.
+#' 6. `4.234cm` is `1rem`.
+#' 7. `42.3mm` is `1rem`.
+#' 
+#' @noRd
+maybe_convert_font_size_to_rem <- function(x) {
+  x_og <- as.character(x)
+  split_result <- split_css_value_and_unit(x)
+  value <- split_result$value
+  unit <- split_result$unit
+  
+  if (unit == "rem") {
+    return(x)
+  }
+  if (unit == "em") {
+    return(paste0(value, "rem"))
+  }
+  
+  scale <- list(
+    "%" = 100,
+    "px" = 16,
+    "pt" = 12,
+    "in" = 96 / 16,  # 96 px/inch
+    "cm" = 96 / 16 * 2.54,  # inch -> cm
+    "mm" = 16 / 96 * 25.4  # cm -> mm
+  )
+  
+  if (unit %in% names(scale)) {
+    return(paste0(as.numeric(value) / scale[[unit]], "rem"))
+  }
+
+  if (unit == "") {
+    unit <- "unknown"
+  }
+  
+  stop(paste0("Could not convert font size '", x_og, "' from ", unit, " units to a relative unit."))
+}
+
+split_css_value_and_unit <- function(x) {
+  pattern <- "^(-?[0-9]*\\.?[0-9]+)\\s*([a-z%]*)$"
+  match <- regexec(pattern, x)
+  result <- regmatches(x, match)[[1]]
+  
+  if (length(result) != 3) {
+    stop(paste0("Invalid CSS value format: ", x))
+  }
+  
+  return(list(value = result[2], unit = result[3]))
 }
 
 brand_validate_bootstrap_defaults <- function(
