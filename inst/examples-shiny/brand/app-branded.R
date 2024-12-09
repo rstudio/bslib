@@ -1,9 +1,19 @@
 library(shiny)
-# library(bslib)
-pkgload::load_all()
+library(bslib)
 library(ggplot2)
 
 options(bslib.color_contrast_warnings = FALSE)
+
+if (!file.exists("Monda.ttf")) {
+	download.file(
+		"https://github.com/google/fonts/raw/48db77e32954f6f5e65a7122ecbe8a2093c4f5d7/ofl/monda/Monda%5Bwght%5D.ttf",
+		"Monda.ttf"
+	)
+	download.file(
+		"https://github.com/google/fonts/raw/48db77e32954f6f5e65a7122ecbe8a2093c4f5d7/ofl/monda/OFL.txt",
+		"Monda-OFL.txt"
+	)
+}
 
 theme_brand <- bs_theme(preset = "brand")
 brand <- attr(theme_brand, "brand")
