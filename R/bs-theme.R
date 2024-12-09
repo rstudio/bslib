@@ -181,7 +181,7 @@ bs_theme <- function(
     bundle <- add_class(bundle, THEME_PRESET_CLASS)
   }
 
-  bs_theme_update(
+  bundle <- bs_theme_update(
     bundle, ...,
     bg = bg, fg = fg,
     primary = primary,
@@ -195,6 +195,13 @@ bs_theme <- function(
     heading_font = heading_font,
     font_scale = font_scale
   )
+
+  if (identical(preset$type, "brand")) {
+    bundle <- add_class(bundle, "bs_theme_brand")
+    attr(bundle, "brand") <- preset$brand
+  }
+
+  bundle
 }
 
 #' @rdname bs_theme
