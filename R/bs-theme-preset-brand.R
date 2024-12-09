@@ -145,7 +145,7 @@ brand_sass_color <- function(brand) {
     defaults[[thm_name]] = sprintf("$%s !default", brand_color_var)
   }
 
-  defaults
+  list(defaults = defaults)
 }
 
 brand_sass_typography <- function(brand) {
