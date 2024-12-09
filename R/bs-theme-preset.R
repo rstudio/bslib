@@ -20,7 +20,7 @@ resolve_bs_preset <- function(
       abort("`preset$brand` must be a path to a brand.yml file.")
     }
     return(
-      new_bs_preset(preset$brand, version = version, type = "brand")
+      brand_resolve_preset(preset$brand, version = version)
     )
   }
 
@@ -36,7 +36,7 @@ resolve_bs_preset <- function(
   } else if (preset_name == "brand") {
     # "brand" means we go find `_brand.yml` to create the preset bundle
     return(
-      new_bs_preset(name = NULL, version = version, type = "brand")
+      brand_resolve_preset(version = version)
     )
   }
 
@@ -57,11 +57,12 @@ resolve_bs_preset <- function(
   abort_preset_unknown_name(preset_name, version)
 }
 
-new_bs_preset <- function(name, version, type = NULL) {
+new_bs_preset <- function(name, version, type = NULL, ...) {
   preset <- list(
     version = version, # bootstrap version
     name = name,       # preset name
-    type = type        # preset type (e.g. "builtin", "bootswatch")
+    type = type,       # preset type (e.g. "builtin", "bootswatch")
+    ...
   )
 
   structure(dropNulls(preset), class = "bs_preset")
@@ -78,7 +79,7 @@ bs_preset_bundle <- function(preset) {
     preset$type,
     bootswatch = bootswatch_bundle(preset$name, version = preset$version),
     builtin = builtin_bundle(preset$name, version = preset$version),
-    brand = bs_preset_brand_bundle(path = preset$name, version = preset$version),
+    brand = bs_preset_brand_bundle(preset),
     stop("Unknown preset type: ", preset$type)
   )
 }

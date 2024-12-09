@@ -1,4 +1,4 @@
-bs_preset_brand_bundle <- function(path = NULL, version = NULL) {
+bs_preset_brand_bundle <- function(brand_preset = NULL) {
   # The plan of attach
   # 1. Read brand.yml from path
   # 2. Pull out direct brand-related vars
@@ -7,7 +7,40 @@ bs_preset_brand_bundle <- function(path = NULL, version = NULL) {
   # 5. Apply base theme, brand sass file, and pulled out brand vars/rules
   # 6. Create the final Sass bundle
 
-  sass_bundle()
+  if (is.null(brand_preset)) {
+    brand_preset <- brand_resolve_preset()
+  }
+
+  sass_bundle(
+    "base" = bs_preset_bundle(brand_preset$preset)
+  )
+}
+
+brand_resolve_preset <- function(path = NULL, version = NULL) {
+  brand <- read_brand_yml(path)
+
+  base_version <- 
+    version %||% 
+    b_get(brand, "defaults", "shiny", "theme", "version") %||% 
+    version_default()
+  
+  base_theme_preset <- 
+    b_get(brand, "defaults", "shiny", "theme", "preset") %||% 
+    switch_version(base_version, five = "shiny", default = "bootstrap")
+
+  if (!rlang::is_string(base_theme_preset) || base_theme_preset == "brand") {
+    abort("brand.defaults.shiny.theme.preset must be a string and cannot be 'brand'.")
+  }
+  
+  base_preset <- resolve_bs_preset(base_theme_preset, version = base_version)
+
+  new_bs_preset(
+    type = "brand",
+    name = b_get(brand, "meta", "name", "short"),
+    version = base_preset$version,
+    brand = brand,
+    preset = base_preset
+  )
 }
 
 # Read Brand -------------------------------------------------------------------
@@ -90,6 +123,14 @@ b_has <- function(brand, ...) {
   }
 
   TRUE
+}
+
+b_get <- function(brand, ...) {
+  if (!b_has(brand, ...)) {
+    return(NULL)
+  }
+
+  brand[[c(...)]]
 }
 
 b_has_string <- function(brand, ...) {
