@@ -12,6 +12,7 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
   }
 
   brand_color_palette <- brand_sass_color_palette(brand_preset$brand)
+  brand_color <- brand_sass_color(brand_preset$brand)
   brand_defaults <- brand_sass_defaults_bootstrap(brand_preset$brand)
 
   sass_bundle(
@@ -29,7 +30,9 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
         "//* ---- brand.color.palette ---- *//",
         !!!brand_color_palette$defaults,
         "//* ---- brand.defaults ---- *//",
-        !!!brand_defaults$defaults
+        !!!brand_defaults$defaults,
+        "//* ---- brand.color ---- *//",
+        !!!brand_color,
       ),
       rules = list(
         brand_color_palette$rules
@@ -73,6 +76,7 @@ brand_sass_color_palette <- function(brand) {
     return(list(defaults = list(), rules = list()))
   }
 
+  # Resolve internal references in colors
   palette <- lapply(rlang::set_names(names(palette)), b_get_color, brand = brand)
 
   defaults <- palette
@@ -107,6 +111,36 @@ bootstrap_colors <- c(
   "teal",
   "cyan"
 )
+
+brand_sass_color <- function(brand) {
+  # Create brand Sass variables and set related Bootstrap Sass vars
+  # brand.color.primary = "#007bff"
+  # ==> $brand_color_primary: #007bff !default;
+  # ==> $primary: $brand_color_primary !default;
+
+  colors <- b_get(brand, "color") %||% list()
+  colors$palette <- NULL
+
+  if (length(colors) == 0) {
+    return(list())
+  }
+
+  # Resolve internal references in colors
+  colors <- lapply(rlang::set_names(names(colors)), b_get_color, brand = brand)
+
+  defaults <- list()
+  for (thm_name in names(colors)) {
+    brand_color_var <- sprintf("brand_color_%s", thm_name)
+    defaults[[brand_color_var]] = paste(colors[[thm_name]], "!default")
+    # Currently, brand.color fields are directly named after Bootstrap vars. If
+    # that changes, we'd need to use a map here. These values can't be set to
+    # `null !default` because they're used by maps in the Bootstrap mixins layer
+    # and cause errors if a color is `null` rather than non-existent.
+    defaults[[thm_name]] = sprintf("$%s !default", brand_color_var)
+  }
+
+  defaults
+}
 
 brand_validate_bootstrap_defaults <- function(
   defaults,
