@@ -6,10 +6,11 @@ if (requireNamespace("thematic")) {
   thematic::thematic_shiny()
 }
 
-colors_scss <- readLines("_colors.scss")
-
 ui <- page_navbar(
-	theme = bs_theme(preset = "brand") |> bs_add_rules(colors_scss),
+	theme = bs_add_rules(
+		bs_theme(preset = "brand"),
+		readLines("_colors.scss")
+	),
 
 	nav_panel(
 		"Input Output Demo",
@@ -188,9 +189,10 @@ server <- function(input, output, session) {
 		colors <- c("gray", bootstrap_colors)
 
 		tagList(
-			div(
-				class = "row font-monospace",
-				lapply(
+			layout_columns(
+				col_widths = 3,
+				class = "font-monospace",
+				!!!lapply(
 					c(
 						"primary",
 						"secondary",
@@ -203,32 +205,28 @@ server <- function(input, output, session) {
 					),
 					function(color) {
 						div(
-							class = "col-md-3 mb-3",
-							div(
-								color,
-								class = paste0("p-3 mb-2 position-relative text-bg-", color)
-							)
+							color,
+							class = paste0("p-3 mb-2 position-relative text-bg-", color)
 						)
 					}
 				)
 			),
-			div(
-				class = "row font-monospace",
-				lapply(
+			layout_columns(
+				col_widths = 3,
+				class = "font-monospace",
+				!!!lapply(
 					c("black", "white", "foreground", "background"),
 					function(color) {
 						div(
-							class = "col-md-3 mb-3",
-							div(
-								color,
-								class = paste0("p-3 mb-2 position-relative bd-", color)
-							)
+							color,
+							class = paste0("p-3 mb-2 position-relative bd-", color)
 						)
 					}
 				)
 			),
 			layout_column_wrap(
-				lapply(colors, function(color) {
+				width = 200,
+				!!!lapply(colors, function(color) {
 					if (!color %in% c("white", "black")) {
 						div(
 							class = "mb-3",

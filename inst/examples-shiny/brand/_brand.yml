@@ -58,7 +58,7 @@ typography:
       source: google
       weight: [700]
       style: [normal, italic]
-      display: swap
+      display: block
     - family: Monda
       source: file
       files:
