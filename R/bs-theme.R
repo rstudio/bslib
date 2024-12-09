@@ -154,11 +154,22 @@ bs_theme <- function(
   font_scale = NULL,
   bootswatch = NULL
 ) {
+  is_default_version <- missing(version)
+
   if (is.null(preset) && is.null(bootswatch) && version >= 5) {
     preset <- "shiny"
   }
 
-  preset <- resolve_bs_preset(preset, bootswatch, version = version)
+  preset <- resolve_bs_preset(
+    preset,
+    bootswatch,
+    version = if (!is_default_version) version
+  )
+  
+  use_brand_version <- is_default_version && identical(preset$type, "brand")
+  if (is.null(version) || use_brand_version) {
+    version <- preset$version
+  }
 
   bundle <- bs_bundle(
     bs_theme_init(version),
@@ -170,7 +181,7 @@ bs_theme <- function(
     bundle <- add_class(bundle, THEME_PRESET_CLASS)
   }
 
-  bs_theme_update(
+  bundle <- bs_theme_update(
     bundle, ...,
     bg = bg, fg = fg,
     primary = primary,
@@ -184,6 +195,13 @@ bs_theme <- function(
     heading_font = heading_font,
     font_scale = font_scale
   )
+
+  if (identical(preset$type, "brand")) {
+    bundle <- add_class(bundle, "bs_theme_brand")
+    attr(bundle, "brand") <- preset$brand
+  }
+
+  bundle
 }
 
 #' @rdname bs_theme
