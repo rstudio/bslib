@@ -63,7 +63,9 @@ typography:
       source: file
       files:
         - path: Monda.ttf
-          weight: 400..700
+          weight: 400.700
+        # - path: https://raw.githubusercontent.com/google/fonts/48db77e32954f6f5e65a7122ecbe8a2093c4f5d7/ofl/monda/Monda%5Bwght%5D.ttf
+        #   weight: 400..700
     - family: Share Tech Mono
       source: bunny
       weight: 400

@@ -303,11 +303,16 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
       abort(sprintf("All font `files` for font family '%s' must have a `path`."))
     }
 
-    font_path <- file.path(brand_root, file$path)
-    font_data_uri <- base64enc::dataURI(
-      file = font_path,
-      mime = mime::guess_type(font_path)
-    )
+    font_data_uri <- 
+      if (grepl("^https?://", file$path)) {
+        font_path <- file$path
+      } else {
+        font_path <- file.path(brand_root, file$path)
+        base64enc::dataURI(
+        file = font_path,
+        mime = mime::guess_type(font_path)
+      )
+    }
     font_type <- switch(
       sub(".+[.]([a-z0-9]+)$", "\\1", tolower(font_path)),
       # otc = "collection",
@@ -332,7 +337,7 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
       style = file$style,
       display = "auto"
     )
-  })
+      })
 
   sass::font_collection(!!!font_collection_files)
 }
