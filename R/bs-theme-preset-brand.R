@@ -12,6 +12,7 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
   }
 
   brand_color_palette <- brand_sass_color_palette(brand_preset$brand)
+  brand_defaults <- brand_sass_defaults_bootstrap(brand_preset$brand)
 
   sass_bundle(
     "base" = bs_preset_bundle(brand_preset$preset),
@@ -22,9 +23,13 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
       ),
       default = list()
     ),
+    "brand_defaults" = brand_defaults$layer,
     "brand" = sass_layer(
       defaults = list2(
-        !!!brand_color_palette$defaults
+        "//* ---- brand.color.palette ---- *//",
+        !!!brand_color_palette$defaults,
+        "//* ---- brand.defaults ---- *//",
+        !!!brand_defaults$defaults
       ),
       rules = list(
         brand_color_palette$rules
@@ -102,6 +107,86 @@ bootstrap_colors <- c(
   "teal",
   "cyan"
 )
+
+brand_validate_bootstrap_defaults <- function(
+  defaults,
+  source = "brand.defaults.bootstrap.defaults"
+) {
+  if (is.null(defaults)) {
+    return(list())
+  }
+  
+  if (!is.list(defaults)) {
+    stop("Invalid brand defaults in `", source, "`, must be a list.")
+  }
+
+  if (length(defaults) == 0) {
+    return(list())
+  }
+  
+  if (!all(nzchar(names2(defaults)))) {
+    stop("Invalid brand defaults in `", source, "`, all values must be named.")
+  }
+
+  is_scalar <- function(v) {
+    if (is.null(v)) return(TRUE)
+    rlang::is_scalar_character(v) || 
+      rlang::is_scalar_logical(v) ||
+      rlang::is_scalar_double(v) ||
+      rlang::is_scalar_integerish(v)
+  }
+
+  good <- vapply(defaults, is_scalar, logical(1))
+  
+  if (!all(good)) {
+    stop(
+      "Invalid brand defaults in `", source, "` all values must be scalar: ",
+      defaults[!good][1]
+    )
+  }
+  
+  return(defaults)
+}
+
+brand_sass_defaults_bootstrap <- function(brand) {
+  bootstrap <- b_get(brand, "defaults", "bootstrap")
+  shiny <- b_get(brand, "defaults", "shiny", "theme")
+
+  if (is.null(bootstrap) && is.null(shiny)) return(
+    list(
+      defaults = list(),
+      layer = list()
+    )
+  )
+  
+  shiny <- shiny %||% list()
+  shiny_defaults <- brand_validate_bootstrap_defaults(
+    shiny$defaults,
+    "brand.defaults.shiny.theme"
+  )
+
+  bootstrap <- bootstrap %||% list()
+  bootstrap_defaults <- brand_validate_bootstrap_defaults(bootstrap$defaults)
+
+  defaults <- list2(!!!bootstrap_defaults, !!!shiny_defaults)
+  defaults <- lapply(defaults, function(x) {
+    if (is.null(x)) {
+      x <- "null"
+    } else if (is.logical(x)) {
+      x <- tolower(as.character(x))
+    }
+    paste(x, "!default")
+  })
+  
+  list(
+    defaults = defaults,
+    layer = sass_layer(
+      functions = c(bootstrap$functions, shiny$functions),
+      mixins = c(bootstrap$mixins, shiny$mixins),
+      rules = c(bootstrap$rules, shiny$rules)
+    )
+  )
+}
 
 # Read Brand -------------------------------------------------------------------
 
