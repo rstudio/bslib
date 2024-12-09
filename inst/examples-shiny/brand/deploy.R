@@ -1,5 +1,5 @@
 withr::local_temp_libpaths()
-install.packages("shiny")
+install.packages(c("shiny", "ggplot2", "yaml"))
 
 rsconnect::deployApp(
   rprojroot::find_package_root_file("inst/examples-shiny/brand"),

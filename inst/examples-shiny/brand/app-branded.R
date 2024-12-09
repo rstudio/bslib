@@ -1,16 +1,21 @@
 library(shiny)
 # library(bslib)
 pkgload::load_all()
+library(ggplot2)
 
-if (requireNamespace("thematic")) {
-  thematic::thematic_shiny()
+options(bslib.color_contrast_warnings = FALSE)
+
+theme_brand <- bs_theme(preset = "brand")
+brand <- attr(theme_brand, "brand")
+
+theme_set(theme_minimal())
+
+if (requireNamespace("thematic", quietly = TRUE)) {
+  thematic::thematic_shiny(font = brand$typography$base$family)
 }
 
 ui <- page_navbar(
-	theme = bs_add_rules(
-		bs_theme(preset = "brand"),
-		readLines("_colors.scss")
-	),
+	theme = bs_add_rules(theme_brand, readLines("_colors.scss")),
 
 	nav_panel(
 		"Input Output Demo",
@@ -27,6 +32,7 @@ ui <- page_navbar(
 				),
 				actionButton("action1", "Action Button")
 			),
+			shiny::useBusyIndicators(),
 			layout_column_wrap(
 				value_box(
 					title = "Metric 1",
@@ -153,20 +159,19 @@ ui <- page_navbar(
 	fillable = TRUE
 )
 
+
 server <- function(input, output, session) {
 	output$out_plot <- renderPlot({
-		x <- seq(0, input$numeric1, length.out = 100)
-		y <- sin(x) * input$slider1
+		x <- seq(0, debounce(reactive(input$numeric1), 500)(), length.out = 100)
+		y <- sin(x) * debounce(reactive(input$slider1), 500)()
+		
+		Sys.sleep(3)
 
-		plot(
-			x,
-			y,
-			type = "l",
-      # col = shiny::getCurrentOutputInfo()$accent,
-			main = "Sine Wave Output",
-			xlab = "",
-			ylab = ""
-		)
+		df <- data.frame(x = x, y = y)
+
+		ggplot(df, aes(x = x, y = y)) +
+			geom_col(width = 1, position = "identity") +
+			labs(title = "Sine Wave Output", x = "", y = "")
 	})
 
 	output$out_text <- renderText({
