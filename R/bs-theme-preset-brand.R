@@ -12,9 +12,9 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
   }
 
   brand_color_palette <- brand_sass_color_palette(brand_preset$brand)
-  brand_color_defaults <- brand_sass_color(brand_preset$brand)
+  brand_color <- brand_sass_color(brand_preset$brand)
   brand_defaults <- brand_sass_defaults_bootstrap(brand_preset$brand)
-  brand_typography_defaults <- brand_sass_typography(brand_preset$brand)
+  brand_typography <- brand_sass_typography(brand_preset$brand)
 
   sass_bundle(
     "base" = bs_preset_bundle(brand_preset$preset),
@@ -33,9 +33,9 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
         "//* ---- brand.defaults ---- *//",
         !!!brand_defaults$defaults,
         "//* ---- brand.color ---- *//",
-        !!!brand_color_defaults,
+        !!!brand_color$defaults,
         "//* ---- brand.typography ---- *//",
-        !!!brand_typography_defaults,
+        !!!brand_typography$defaults,
       ),
       rules = list(
         brand_color_palette$rules
@@ -152,7 +152,7 @@ brand_sass_typography <- function(brand) {
   typography <- b_get(brand, "typography")
 
   if (is.null(typography)) {
-    return(list())
+    return(list(defaults = list()))
   }
 
   defaults <- list()
@@ -177,7 +177,8 @@ brand_sass_typography <- function(brand) {
     }
   }
 
-  defaults
+  list(defaults = defaults)
+}
 }
 
 #' Convert a font size to rem
