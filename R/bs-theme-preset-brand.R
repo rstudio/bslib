@@ -11,8 +11,25 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
     brand_preset <- brand_resolve_preset()
   }
 
+  brand_color_palette <- brand_sass_color_palette(brand_preset$brand)
+
   sass_bundle(
-    "base" = bs_preset_bundle(brand_preset$preset)
+    "base" = bs_preset_bundle(brand_preset$preset),
+    "brand_base" = switch_version(
+      brand_preset$version,
+      five = sass_layer_file(
+        system_file("brand", "bs5", "_brand-yml.scss", package = "bslib")
+      ),
+      default = list()
+    ),
+    "brand" = sass_layer(
+      defaults = list2(
+        !!!brand_color_palette$defaults
+      ),
+      rules = list(
+        brand_color_palette$rules
+      )
+    )
   )
 }
 
@@ -42,6 +59,49 @@ brand_resolve_preset <- function(path = NULL, version = NULL) {
     preset = base_preset
   )
 }
+
+# Brand Sass -------------------------------------------------------------------
+brand_sass_color_palette <- function(brand) {
+  palette <- b_get(brand, "color", "palette")
+
+  if (is.null(palette)) {
+    return(list(defaults = list(), rules = list()))
+  }
+
+  palette <- lapply(rlang::set_names(names(palette)), b_get_color, brand = brand)
+
+  defaults <- palette
+  defaults <- lapply(defaults, paste, "!default")
+  names(defaults) <- sprintf("brand-%s", names(defaults))
+
+  for (color in intersect(names(palette), bootstrap_colors)) {
+    defaults[color] <- sprintf("$brand-%s !default", color)
+  }
+
+  css_vars <- palette
+  names(css_vars) <- sprintf("--brand-%s", names(css_vars))
+  rules <- sprintf(":root { %s }", css(!!!css_vars))
+
+  list(
+    defaults = defaults,
+    rules = rules
+  )
+}
+
+bootstrap_colors <- c(
+  "white",
+  "black",
+  "blue",
+  "indigo",
+  "purple",
+  "pink",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "teal",
+  "cyan"
+)
 
 # Read Brand -------------------------------------------------------------------
 
