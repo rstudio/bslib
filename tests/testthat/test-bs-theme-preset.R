@@ -122,22 +122,48 @@ describe("resolve_bs_preset()", {
   })
 
   it("handles brand presets too", {
+    withr::local_dir(withr::local_tempdir())
+    writeLines(
+      c(
+        "meta:",
+        "  name: Test brand.yml"
+      ),
+      "_brand.yml"
+    )
+
     brand_default <- resolve_bs_preset(preset = "brand")
     expect_s3_class(brand_default, "bs_preset")
-    expect_null(brand_default$name)
-    expect_null(brand_default$version)
+    expect_equal(brand_default$name, "Test brand.yml")
+    expect_equal(brand_default$version, "5")
+    expect_equal(brand_default$version, brand_default$preset$version)
     expect_equal(brand_default$type, "brand")
 
     brand_v4 <- resolve_bs_preset(preset = "brand", version = 4)
     expect_s3_class(brand_v4, "bs_preset")
-    expect_null(brand_v4$name)
+    expect_equal(brand_v4$name, "Test brand.yml")
     expect_equal(brand_v4$version, "4")
+    expect_equal(brand_v4$version, brand_v4$preset$version)
+    expect_equal(brand_v4$preset$name, "bootstrap")
     expect_equal(brand_v4$type, "brand")
+
+    writeLines(
+      c(
+        "meta:",
+        "  name: Custom brand.yml",
+        "defaults:",
+        "  shiny:",
+        "    theme:",
+        "      version: 4"
+      ),
+      "brand-custom.yml"
+    )
 
     brand_path <- resolve_bs_preset(preset = list(brand = "brand-custom.yml"))
     expect_s3_class(brand_path, "bs_preset")
-    expect_equal(brand_path$name, "brand-custom.yml")
-    expect_null(brand_path$version)
+    expect_equal(brand_path$name, "Custom brand.yml")
+    expect_equal(brand_path$version, "4")
+    expect_equal(brand_path$version, brand_path$preset$version)
+    expect_equal(brand_path$preset$name, "bootstrap")
     expect_equal(brand_path$type, "brand")
 
     expect_error(
