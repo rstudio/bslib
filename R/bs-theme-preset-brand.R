@@ -265,7 +265,8 @@ brand_font_bunny <- function(family, weight = NULL, style = NULL, display = NULL
   
   values <- character(0)
   if (length(weight_list) > 0 && length(ital) > 0) {
-    values <- outer(weight_list, ital, paste0) |> as.vector()
+    # 400,700,400i,700i
+    values <- as.vector(outer(weight_list, ital, paste0))
   } else if (length(weight_list) > 0) {
     values <- weight_list
   } else if (length(ital) > 0) {
