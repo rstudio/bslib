@@ -1,12 +1,4 @@
 bs_preset_brand_bundle <- function(brand_preset = NULL) {
-  # The plan of attach
-  # 1. Read brand.yml from path
-  # 2. Pull out direct brand-related vars
-  # 3. Pull out `brand.defaults` that affect the bootstrap theme
-  # 4. Create the base theme bundle or default to using `shiny`
-  # 5. Apply base theme, brand sass file, and pulled out brand vars/rules
-  # 6. Create the final Sass bundle
-
   if (is.null(brand_preset)) {
     brand_preset <- brand_resolve_preset()
   }
@@ -47,12 +39,34 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
   )
 }
 
-brand_resolve_preset <- function(path = NULL, version = NULL) {
-  brand <- read_brand_yml(path)
+brand_resolve_preset <- function(brand, ..., version = NULL) {
+  UseMethod("brand_resolve_preset")
+}
 
+#' @export
+brand_resolve_preset.list <- function(brand, ..., version = NULL) {
+  brand <- as_brand_yml(brand)
+  brand_resolve_preset(brand, ..., version = version)
+}
+
+#' @export
+`brand_resolve_preset.NULL` <- function(brand, ..., version = NULL) {
+  brand <- read_brand_yml(brand)
+  brand_resolve_preset(brand, ..., version = version)
+}
+
+#' @export
+brand_resolve_preset.character <- function(brand, ..., version = NULL) {
+  brand <- read_brand_yml(brand)
+  brand_resolve_preset(brand, ..., version = version)
+}
+
+#' @export
+brand_resolve_preset.brand_yml <- function(brand = NULL, ..., version = NULL) {
   base_version <- 
     version %||% 
-    b_get(brand, "defaults", "shiny", "theme", "version") %||% 
+    b_get(brand, "defaults", "shiny", "theme", "version") %||%
+    b_get(brand, "defaults", "bootstrap", "version") %||%
     version_default()
   
   base_theme_preset <- 

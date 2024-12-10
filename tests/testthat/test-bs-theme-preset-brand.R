@@ -16,6 +16,117 @@ describe("as_brand_yml()", {
   })
 })
 
+describe("brand_resolve_preset()", {
+  withr::local_dir(withr::local_tempdir())
+
+  writeLines(
+    c("meta:", "  name: test-brand-yml"),
+    "_brand.yml"
+  )
+
+  direct_is_valid <- FALSE
+
+  it("finds _brand.yml or reads from brand path", {
+    brand_found <- brand_resolve_preset(NULL)
+    brand_direct <- brand_resolve_preset("_brand.yml")
+
+    expect_equal(brand_found, brand_direct)
+    expect_s3_class(brand_found, "bs_preset")
+    expect_equal(brand_found$type, "brand")
+    expect_equal(brand_found$name, "test-brand-yml")
+    expect_equal(brand_found$version, version_default())
+    expect_s3_class(brand_found$brand, "brand_yml")
+    expect_equal(brand_found$brand$path, file.path(getwd(), "_brand.yml"))
+    expect_s3_class(brand_found$preset, "bs_preset")
+    direct_is_valid <<- TRUE
+  })
+
+  it("takes a list or a brand_yml object", {
+    expect_true(direct_is_valid)
+
+    brand_list <- brand_resolve_preset(list(meta = list(name = "test-brand-yml")))
+    brand_direct <- brand_resolve_preset("_brand.yml")
+    brand_direct$brand$path <- NULL # brand is equal other than via path
+    brand_obj <- brand_resolve_preset(brand_direct$brand)
+
+    # brand_direct validated above
+    expect_equal(brand_list, brand_direct)
+    expect_equal(brand_obj, brand_direct)
+  })
+
+  it("uses brand.defaults.shiny.theme.preset", {
+    brand <- as_brand_yml(
+      list(
+        meta = list(name = "test-brand-yml"),
+        defaults = list(
+          shiny = list(theme = list(preset = "flatly", version = "4"))
+        )
+      )
+    )
+    
+    expected_base_preset <- resolve_bs_preset("flatly", version = "4")
+    brand_preset <- brand_resolve_preset(brand)
+    expect_equal(brand_preset$preset, expected_base_preset)
+    expect_equal(brand_preset$version, "4")
+    expect_equal(brand_preset$preset$name, "flatly")
+    expect_equal(brand_preset$preset$version, "4")
+  })
+
+  it("throws if `brand.defaults.shiny.theme.preset: brand`", {
+    brand <- as_brand_yml(
+      list(
+        meta = list(name = "test-brand-yml"),
+        defaults = list(
+          shiny = list(theme = list(preset = "brand", version = "4"))
+        )
+      )
+    )
+    
+    
+    expect_error(
+      brand_resolve_preset(brand),
+      "cannot be 'brand'"
+    )
+  })
+
+  it("uses brand.defaults.shiny.theme.version before brand.defaults.bootstrap.version", {
+    brand <- as_brand_yml(
+      list(
+        meta = list(name = "test-brand-yml"),
+        defaults = list(
+          bootstrap = list(version = 3),
+          shiny = list(theme = list(preset = "flatly", version = "4"))
+        )
+      )
+    )
+    
+    expected_base_preset <- resolve_bs_preset("flatly", version = "4")
+    brand_preset <- brand_resolve_preset(brand)
+    expect_equal(brand_preset$preset, expected_base_preset)
+    expect_equal(brand_preset$version, "4")
+    expect_equal(brand_preset$preset$name, "flatly")
+    expect_equal(brand_preset$preset$version, "4") 
+  })
+
+  it("uses brand.defaults.bootstrap.version", {
+    brand <- as_brand_yml(
+      list(
+        meta = list(name = "test-brand-yml"),
+        defaults = list(
+          bootstrap = list(version = 4)
+        )
+      )
+    )
+    
+    expected_base_preset <- resolve_bs_preset("bootstrap", version = "4")
+    brand_preset <- brand_resolve_preset(brand)
+    expect_equal(brand_preset$preset, expected_base_preset)
+    expect_equal(brand_preset$version, "4")
+    expect_equal(brand_preset$preset$name, "bootstrap")
+    expect_equal(brand_preset$preset$version, "4") 
+  })
+})
+
 describe("b_get_color()", {
   it("detects cyclic references in brand.color.palette", {
     brand <- list(

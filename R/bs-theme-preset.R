@@ -36,7 +36,7 @@ resolve_bs_preset <- function(
   } else if (preset_name == "brand") {
     # "brand" means we go find `_brand.yml` to create the preset bundle
     return(
-      brand_resolve_preset(version = version)
+      brand_resolve_preset(brand = NULL, version = version)
     )
   }
 
