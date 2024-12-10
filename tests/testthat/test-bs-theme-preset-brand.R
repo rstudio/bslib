@@ -28,7 +28,9 @@ describe("brand_resolve_preset()", {
 
   it("finds _brand.yml or reads from brand path", {
     brand_found <- brand_resolve_preset(NULL)
+    brand_found$brand$path <- normalizePath(brand_found$brand$path)
     brand_direct <- brand_resolve_preset("_brand.yml")
+    brand_direct$brand$path <- normalizePath(brand_direct$brand$path)
 
     expect_equal(brand_found, brand_direct)
     expect_s3_class(brand_found, "bs_preset")
