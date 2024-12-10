@@ -650,8 +650,6 @@ b_get_color <- function(brand, key) {
   return(value)
 }
 
-is_asis <- function(x) inherits(x, "AsIs")
-
 # Brand utilities --------------------------------------------------------------
 
 b_has <- function(brand, ...) {
