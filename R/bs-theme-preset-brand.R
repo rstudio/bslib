@@ -551,7 +551,7 @@ print.brand_yml <- function(x, ..., max_depth = 2) {
   if (is_installed("lobstr")) {
     lobstr::tree(x, max_depth = max_depth, ...)
   } else {
-    str(x, max.level = max_depth, ...)
+    print(x, ...)
   }
   invisible(x)
 }
