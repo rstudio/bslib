@@ -108,6 +108,11 @@ describe("b_get_color()", {
       "recursion limit"
     )
   })
+
+  it("returns `key` if `brand.color` isn't present", {
+    brand <- list(meta = list(name = "no color"))
+    expect_equal(b_get_color(brand, "red"), "red")
+  })
 })
 
 describe("maybe_convert_font_size_to_rem()", {
