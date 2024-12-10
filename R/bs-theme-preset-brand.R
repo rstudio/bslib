@@ -391,10 +391,7 @@ maybe_convert_font_size_to_rem <- function(x) {
   value <- split_result$value
   unit <- split_result$unit
   
-  if (unit == "rem") {
-    return(x)
-  }
-  if (unit == "em") {
+  if (unit %in% c("rem", "em")) {
     return(paste0(value, "rem"))
   }
   
@@ -402,8 +399,8 @@ maybe_convert_font_size_to_rem <- function(x) {
     "%" = 100,
     "px" = 16,
     "pt" = 12,
-    "in" = 96 / 16,  # 96 px/inch
-    "cm" = 96 / 16 * 2.54,  # inch -> cm
+    "in" = 16 / 96,  # 96 px/inch
+    "cm" = 16 / 96 * 2.54,  # inch -> cm
     "mm" = 16 / 96 * 25.4  # cm -> mm
   )
   
@@ -527,7 +524,7 @@ read_brand_yml <- function(path = NULL) {
 as_brand_yml <- function(brand = list()) {
   stopifnot(is.list(brand))
 
-  # Normalize brand internals !! DOES NOT VALIDATE !!
+  # Normalize brand internals !! MINIMAL VALIDATION !!
   brand <- brand_normalize_meta(brand)
   brand <- brand_normalize_color(brand)
   
