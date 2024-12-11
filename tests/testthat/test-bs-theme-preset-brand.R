@@ -28,7 +28,7 @@ describe("brand_resolve_preset()", {
 
   it("finds _brand.yml or reads from brand path", {
     path_with_parent_dir <- function(x) {
-      file.path(dirname(x), basename(x))
+      file.path(basename(dirname(x)), basename(x))
     }
     brand_found <- brand_resolve_preset(NULL)
     brand_found$brand$path <- path_with_parent_dir(brand_found$brand$path)
