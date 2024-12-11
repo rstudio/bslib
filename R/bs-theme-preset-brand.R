@@ -64,19 +64,20 @@ brand_resolve_preset.character <- function(brand, ..., version = NULL) {
 #' @export
 brand_resolve_preset.brand_yml <- function(brand = NULL, ..., version = NULL) {
   base_version <- 
-    version %||% 
+    version %||%
     b_get(brand, "defaults", "shiny", "theme", "version") %||%
     b_get(brand, "defaults", "bootstrap", "version") %||%
     version_default()
-  
-  base_theme_preset <- 
-    b_get(brand, "defaults", "shiny", "theme", "preset") %||% 
+
+  base_theme_preset <- b_get(brand, "defaults", "shiny", "theme", "preset") %||%
     switch_version(base_version, five = "shiny", default = "bootstrap")
 
   if (!rlang::is_string(base_theme_preset) || base_theme_preset == "brand") {
-    abort("brand.defaults.shiny.theme.preset must be a string and cannot be 'brand'.")
+    abort(
+      "brand.defaults.shiny.theme.preset must be a string and cannot be 'brand'."
+    )
   }
-  
+
   base_preset <- resolve_bs_preset(base_theme_preset, version = base_version)
 
   new_bs_preset(
@@ -97,7 +98,11 @@ brand_sass_color_palette <- function(brand) {
   }
 
   # Resolve internal references in colors
-  palette <- lapply(rlang::set_names(names(palette)), b_get_color, brand = brand)
+  palette <- lapply(
+    rlang::set_names(names(palette)),
+    b_get_color,
+    brand = brand
+  )
 
   defaults <- palette
   defaults <- lapply(defaults, paste, "!default")
@@ -209,36 +214,34 @@ brand_sass_fonts <- function(brand) {
 
   for (font in fonts) {
     var_name <- sprintf(
-      "brand-font-%s", 
+      "brand-font-%s",
       gsub("[^a-z0-9-]+", "-", tolower(font$family))
     )
 
-    font_obj <- 
-      switch(
-        font$source,
-        google = 
-          sass::font_google(
-            family = font$family,
-            wght = brand_remap_font_weight(font$weight) %||% seq(100, 900, by = 100),
-            ital = c("normal" = 0, "italic" = 1)[font$style],
-            display = font$display %||% "auto"
-          ),
-        bunny = 
-          brand_font_bunny(
-            family = font$family,
-            weight = font$weight,
-            style = font$style,
-            display = font$display
-          ),
-        file = brand_font_file(
-          family = font$family,
-          files = font$files,
-          brand_root = dirname(brand$path)
-        ),
-        system = NULL,
-        abort(sprintf("Unknown font source '%s'.", font$source))
-      )
-    
+    font_obj <- switch(
+      font$source,
+      google = sass::font_google(
+        family = font$family,
+        wght = brand_remap_font_weight(font$weight) %||%
+          seq(100, 900, by = 100),
+        ital = c("normal" = 0, "italic" = 1)[font$style],
+        display = font$display %||% "auto"
+      ),
+      bunny = brand_font_bunny(
+        family = font$family,
+        weight = font$weight,
+        style = font$style,
+        display = font$display
+      ),
+      file = brand_font_file(
+        family = font$family,
+        files = font$files,
+        brand_root = dirname(brand$path)
+      ),
+      system = NULL,
+      abort(sprintf("Unknown font source '%s'.", font$source))
+    )
+
     if (!is.null(font_obj)) {
       defaults[[var_name]] <- font_obj
       rules <- c(
@@ -251,16 +254,21 @@ brand_sass_fonts <- function(brand) {
   list(defaults = defaults, rules = rules)
 }
 
-brand_font_bunny <- function(family, weight = NULL, style = NULL, display = NULL) {
+brand_font_bunny <- function(
+  family,
+  weight = NULL,
+  style = NULL,
+  display = NULL
+) {
   weight <- brand_remap_font_weight(weight) %||% seq(100, 900, 100)
-  
+
   style <- style %||% c("normal", "italic")
   style <- rlang::arg_match(
     style,
     values = c("normal", "italic"),
     multiple = TRUE
   )
-  
+
   display <- display %||% "auto"
   display <- rlang::arg_match(
     display,
@@ -276,7 +284,7 @@ brand_font_bunny <- function(family, weight = NULL, style = NULL, display = NULL
   weight_list <- as.character(weight)
   style_map <- c(normal = "", italic = "i")
   ital <- sort(style_map[style])
-  
+
   values <- character(0)
   if (length(weight_list) > 0 && length(ital) > 0) {
     # 400,700,400i,700i
@@ -286,44 +294,52 @@ brand_font_bunny <- function(family, weight = NULL, style = NULL, display = NULL
   } else if (length(ital) > 0) {
     values <- ifelse(ital == "", "regular", "italic")
   }
-  
+
   family_values <- ""
   if (length(values) > 0) {
     family_values <- paste0(":", paste(values, collapse = ","))
   }
-  
+
   params <- list(
     family = paste0(family, family_values),
     display = display
   )
-  
+
   url_base <- "https://fonts.bunny.net/css"
-  url_query <- paste0(names(params), "=", utils::URLencode(unlist(params)), collapse = "&")
-  
+  url_query <- paste0(
+    names(params),
+    "=",
+    utils::URLencode(unlist(params)),
+    collapse = "&"
+  )
+
   url <- paste0(url_base, "?", url_query)
-  
+
   font_link(family, url)
 }
 
 brand_font_file <- function(family, files, brand_root = getwd()) {
   if (!(is.list(files) && length(files) > 0)) {
-    abort(c(
-      sprintf("Font family '%s' must have one or more associated files."),
-      "i" = "Use `source: system` for fonts that are provided by the user's system."
-    ))
+    abort(
+      c(
+        sprintf("Font family '%s' must have one or more associated files."),
+        "i" = "Use `source: system` for fonts that are provided by the user's system."
+      )
+    )
   }
 
   font_collection_files <- lapply(files, function(file) {
     if (is.null(file$path)) {
-      abort(sprintf("All font `files` for font family '%s' must have a `path`."))
+      abort(
+        sprintf("All font `files` for font family '%s' must have a `path`.")
+      )
     }
 
-    font_data_uri <- 
-      if (grepl("^https?://", file$path)) {
-        font_path <- file$path
-      } else {
-        font_path <- file.path(brand_root, file$path)
-        base64enc::dataURI(
+    font_data_uri <- if (grepl("^https?://", file$path)) {
+      font_path <- file$path
+    } else {
+      font_path <- file.path(brand_root, file$path)
+      base64enc::dataURI(
         file = font_path,
         mime = mime::guess_type(font_path)
       )
@@ -339,10 +355,12 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
       # svgz = "svg",
       woff = "woff",
       woff2 = "woff2",
-      abort(c(
-        sprintf("Invalid font type: %s", font_path),
-        "i" = "Font must be `.ttf`, `.otf`, `.woff` or `.woff2`."
-      ))
+      abort(
+        c(
+          sprintf("Invalid font type: %s", font_path),
+          "i" = "Font must be `.ttf`, `.otf`, `.woff` or `.woff2`."
+        )
+      )
     )
 
     sass::font_face(
@@ -352,14 +370,14 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
       style = file$style,
       display = "auto"
     )
-      })
+  })
 
   sass::font_collection(!!!font_collection_files)
 }
 
 brand_remap_font_weight <- function(x) {
   if (is.null(x)) return()
-  
+
   for (i in seq_along(x)) {
     if (x[[i]] %in% names(brand_font_weight_map)) {
       x[[i]] <- brand_font_weight_map[x[[i]]]
@@ -386,10 +404,10 @@ brand_font_weight_map <- c(
 )
 
 #' Convert a font size to rem
-#' 
+#'
 #' Some frameworks, like Bootstrap expect base font size to be in `rem`. This
 #' function converts `em`, `%`, `px`, `pt` to `rem`:
-#' 
+#'
 #' 1. `em` is directly replace with `rem`.
 #' 2. `1%` is `0.01rem`, e.g. `90%` becomes `0.9rem`.
 #' 3. `16px` is `1rem`, e.g. `18px` becomes `1.125rem`.
@@ -397,27 +415,27 @@ brand_font_weight_map <- c(
 #' 5. `0.1666in` is `1rem`.
 #' 6. `4.234cm` is `1rem`.
 #' 7. `42.3mm` is `1rem`.
-#' 
+#'
 #' @noRd
 maybe_convert_font_size_to_rem <- function(x) {
   x_og <- as.character(x)
   split_result <- split_css_value_and_unit(x)
   value <- split_result$value
   unit <- split_result$unit
-  
+
   if (unit %in% c("rem", "em")) {
     return(paste0(value, "rem"))
   }
-  
+
   scale <- list(
     "%" = 100,
     "px" = 16,
     "pt" = 12,
-    "in" = 16 / 96,  # 96 px/inch
-    "cm" = 16 / 96 * 2.54,  # inch -> cm
-    "mm" = 16 / 96 * 25.4  # cm -> mm
+    "in" = 16 / 96, # 96 px/inch
+    "cm" = 16 / 96 * 2.54, # inch -> cm
+    "mm" = 16 / 96 * 25.4 # cm -> mm
   )
-  
+
   if (unit %in% names(scale)) {
     return(paste0(as.numeric(value) / scale[[unit]], "rem"))
   }
@@ -425,19 +443,27 @@ maybe_convert_font_size_to_rem <- function(x) {
   if (unit == "") {
     unit <- "unknown"
   }
-  
-  stop(paste0("Could not convert font size '", x_og, "' from ", unit, " units to a relative unit."))
+
+  stop(
+    paste0(
+      "Could not convert font size '",
+      x_og,
+      "' from ",
+      unit,
+      " units to a relative unit."
+    )
+  )
 }
 
 split_css_value_and_unit <- function(x) {
   pattern <- "^(-?[0-9]*\\.?[0-9]+)\\s*([a-z%]*)$"
   match <- regexec(pattern, x)
   result <- regmatches(x, match)[[1]]
-  
+
   if (length(result) != 3) {
     stop(paste0("Invalid CSS value format: ", x))
   }
-  
+
   return(list(value = result[2], unit = result[3]))
 }
 
@@ -448,7 +474,7 @@ brand_validate_bootstrap_defaults <- function(
   if (is.null(defaults)) {
     return(list())
   }
-  
+
   if (!is.list(defaults)) {
     stop("Invalid brand defaults in `", source, "`, must be a list.")
   }
@@ -456,28 +482,30 @@ brand_validate_bootstrap_defaults <- function(
   if (length(defaults) == 0) {
     return(list())
   }
-  
+
   if (!all(nzchar(names2(defaults)))) {
     stop("Invalid brand defaults in `", source, "`, all values must be named.")
   }
 
   is_scalar <- function(v) {
     if (is.null(v)) return(TRUE)
-    rlang::is_scalar_character(v) || 
+    rlang::is_scalar_character(v) ||
       rlang::is_scalar_logical(v) ||
       rlang::is_scalar_double(v) ||
       rlang::is_scalar_integerish(v)
   }
 
   good <- vapply(defaults, is_scalar, logical(1))
-  
+
   if (!all(good)) {
     stop(
-      "Invalid brand defaults in `", source, "` all values must be scalar: ",
+      "Invalid brand defaults in `",
+      source,
+      "` all values must be scalar: ",
       defaults[!good][1]
     )
   }
-  
+
   return(defaults)
 }
 
@@ -485,13 +513,14 @@ brand_sass_defaults_bootstrap <- function(brand) {
   bootstrap <- b_get(brand, "defaults", "bootstrap")
   shiny <- b_get(brand, "defaults", "shiny", "theme")
 
-  if (is.null(bootstrap) && is.null(shiny)) return(
-    list(
-      defaults = list(),
-      layer = list()
+  if (is.null(bootstrap) && is.null(shiny))
+    return(
+      list(
+        defaults = list(),
+        layer = list()
+      )
     )
-  )
-  
+
   shiny <- shiny %||% list()
   shiny_defaults <- brand_validate_bootstrap_defaults(
     shiny$defaults,
@@ -510,7 +539,7 @@ brand_sass_defaults_bootstrap <- function(brand) {
     }
     paste(x, "!default")
   })
-  
+
   list(
     defaults = defaults,
     layer = sass_layer(
@@ -528,7 +557,7 @@ read_brand_yml <- function(path = NULL) {
 
   rlang::check_installed("yaml")
   brand <- yaml::read_yaml(path)
-  
+
   brand <- as_brand_yml(brand)
   brand$path <- path
 
@@ -541,7 +570,7 @@ as_brand_yml <- function(brand = list()) {
   # Normalize brand internals !! MINIMAL VALIDATION !!
   brand <- brand_normalize_meta(brand)
   brand <- brand_normalize_color(brand)
-  
+
   class(brand) <- "brand_yml"
   brand
 }
@@ -622,10 +651,15 @@ b_get_color <- function(brand, key) {
 
   assert_no_cycles <- function(key) {
     if (key %in% visited) {
-      abort(c(
-        sprintf("Cyclic references detected in `brand.color` for color '%s'.", key_og),
-        "i" = cycle(key)
-      ))
+      abort(
+        c(
+          sprintf(
+            "Cyclic references detected in `brand.color` for color '%s'.",
+            key_og
+          ),
+          "i" = cycle(key)
+        )
+      )
     }
     visited <<- c(visited, key)
   }
@@ -636,20 +670,22 @@ b_get_color <- function(brand, key) {
   while (value != key) {
     i <- i + 1
     if (i > 100) {
-      abort(c(
+      abort(
+        c(
           sprintf(
-          "Max recursion limit reached while trying to resolve color '%s' using `brand.color`.",
-          key_og
-        ),
-        i = cycle(key)
-      ))
+            "Max recursion limit reached while trying to resolve color '%s' using `brand.color`.",
+            key_og
+          ),
+          i = cycle(key)
+        )
+      )
     }
 
     in_theme <- key %in% names(theme_colors)
     in_theme_unseen <- in_theme && !key %in% visited
     in_pal <- key %in% names(palette)
 
-    if (in_pal && !in_theme_unseen) { 
+    if (in_pal && !in_theme_unseen) {
       # Prioritize palette if theme was already visited
       assert_no_cycles(p_key(key))
       key <- palette[[key]]
@@ -660,7 +696,7 @@ b_get_color <- function(brand, key) {
       value <- key
     }
   }
-  
+
   return(value)
 }
 
@@ -668,7 +704,7 @@ b_get_color <- function(brand, key) {
 
 b_has <- function(brand, ...) {
   x <- brand
-  
+
   for (f in c(...)) {
     if (is.null(x[[f]])) return(FALSE)
     x <- x[[f]]
@@ -759,6 +795,6 @@ path_is_dir <- function(path) {
 }
 
 path_ext <- function(path) {
-    pos <- regexpr("\\.([[:alnum:]]+)$", path)
-    ifelse(pos > -1L, substring(path, pos + 1L), "")
+  pos <- regexpr("\\.([[:alnum:]]+)$", path)
+  ifelse(pos > -1L, substring(path, pos + 1L), "")
 }
