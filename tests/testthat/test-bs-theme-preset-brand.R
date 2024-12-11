@@ -27,10 +27,13 @@ describe("brand_resolve_preset()", {
   direct_is_valid <- FALSE
 
   it("finds _brand.yml or reads from brand path", {
+    path_with_parent_dir <- function(x) {
+      file.path(dirname(x), basename(x))
+    }
     brand_found <- brand_resolve_preset(NULL)
-    brand_found$brand$path <- normalizePath(brand_found$brand$path)
+    brand_found$brand$path <- path_with_parent_dir(brand_found$brand$path)
     brand_direct <- brand_resolve_preset("_brand.yml")
-    brand_direct$brand$path <- normalizePath(brand_direct$brand$path)
+    brand_direct$brand$path <- path_with_parent_dir(brand_direct$brand$path)
 
     expect_equal(brand_found, brand_direct)
     expect_s3_class(brand_found, "bs_preset")
@@ -38,7 +41,10 @@ describe("brand_resolve_preset()", {
     expect_equal(brand_found$name, "test-brand-yml")
     expect_equal(brand_found$version, version_default())
     expect_s3_class(brand_found$brand, "brand_yml")
-    expect_equal(brand_found$brand$path, file.path(getwd(), "_brand.yml"))
+    expect_equal(
+      brand_found$brand$path,
+      path_with_parent_dir(file.path(getwd(), "_brand.yml"))
+    )
     expect_s3_class(brand_found$preset, "bs_preset")
     direct_is_valid <<- TRUE
   })
