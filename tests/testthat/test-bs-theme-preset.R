@@ -121,7 +121,7 @@ describe("resolve_bs_preset()", {
     expect_equal(shiny$version, "5")
   })
 
-  it("handles brand presets too", {
+  it("returns a brand.yml presets for preset='brand'", {
     withr::local_dir(withr::local_tempdir())
     writeLines(
       c(
@@ -137,6 +137,14 @@ describe("resolve_bs_preset()", {
     expect_equal(brand_default$version, "5")
     expect_equal(brand_default$version, brand_default$preset$version)
     expect_equal(brand_default$type, "brand")
+
+    brand_list <- resolve_bs_preset(
+      preset = list(brand = list(meta = list(name = "Test brand.yml")))
+    )
+    # Resolving a brand preset from a list is the same as from a path, except
+    # for the stored path
+    brand_default$brand$path <- NULL
+    expect_equal(brand_list, brand_default)
 
     brand_v4 <- resolve_bs_preset(preset = "brand", version = 4)
     expect_s3_class(brand_v4, "bs_preset")

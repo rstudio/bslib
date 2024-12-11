@@ -16,8 +16,8 @@ resolve_bs_preset <- function(
     if (!"brand" %in% names(preset)) {
       abort("If `preset` is a list, it may only contain a single `brand` key.")
     }
-    if (!is.character(preset$brand)) {
-      abort("`preset$brand` must be a path to a brand.yml file.")
+    if (!is.character(preset$brand) && !is.list(preset$brand)) {
+      abort("`preset$brand` must be a path to a brand.yml file or a brand definition as a list.")
     }
     return(
       brand_resolve_preset(preset$brand, version = version)
