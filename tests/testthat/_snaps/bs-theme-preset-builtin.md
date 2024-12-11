@@ -5,7 +5,7 @@
     Condition
       Error in `validate_builtin_preset_name()`:
       ! 'not-a-preset' is not a valid built-in theme preset provided by {bslib}.
-      i Available Bootstrap 5 themes are: 'shiny'
+      i Available Bootstrap 5 themes are: 'shiny', 'brand'
 
 ---
 
