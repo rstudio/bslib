@@ -55,6 +55,8 @@ Suggests:
     shiny (> 1.8.1),
     testthat,
     thematic,
+    tools,
+    utils,
     withr,
     yaml
 Config/Needs/deploy:
