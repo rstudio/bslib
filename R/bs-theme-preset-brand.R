@@ -156,12 +156,7 @@ brand_sass_color <- function(brand) {
   defaults <- list()
   for (thm_name in names(colors)) {
     brand_color_var <- sprintf("brand_color_%s", thm_name)
-    defaults[[brand_color_var]] = paste(colors[[thm_name]], "!default")
-    # Currently, brand.color fields are directly named after Bootstrap vars. If
-    # that changes, we'd need to use a map here. These values can't be set to
-    # `null !default` because they're used by maps in the Bootstrap mixins layer
-    # and cause errors if a color is `null` rather than non-existent.
-    defaults[[thm_name]] = sprintf("$%s !default", brand_color_var)
+    defaults[[brand_color_var]] <- paste(colors[[thm_name]], "!default")
   }
 
   list(defaults = defaults)
@@ -326,7 +321,7 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
   if (!is_installed("tools")) {
     abort("The {tools} package is required.")
   }
-  
+
   if (!(is.list(files) && length(files) > 0)) {
     abort(
       c(
