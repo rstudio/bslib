@@ -154,7 +154,7 @@ bs_theme <- function(
   version = version_default(),
   preset = NULL,
   ...,
-  brand = TRUE,
+  brand = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -187,12 +187,13 @@ bs_theme <- function(
       resolve_bs_preset(preset, bootswatch, version = version)
     }
 
+  version <- preset$version %||% version %||% version_default()
 
   bundle <- bs_bundle(
-    bs_theme_init(preset$version),
-    bootstrap_bundle(preset$version),
+    bs_theme_init(version),
+    bootstrap_bundle(version),
     bs_preset_bundle(preset),
-    bs_brand_bundle(brand, version = preset$version)
+    bs_brand_bundle(brand, version = version)
   )
 
   if (!is.null(preset$type)) {

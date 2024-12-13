@@ -30,32 +30,27 @@ describe("brand_resolve_preset()", {
     path_with_parent_dir <- function(x) {
       file.path(basename(dirname(x)), basename(x))
     }
-    brand_found <- brand_resolve_preset(NULL)
-    brand_found$brand$path <- path_with_parent_dir(brand_found$brand$path)
-    brand_direct <- brand_resolve_preset("_brand.yml")
-    brand_direct$brand$path <- path_with_parent_dir(brand_direct$brand$path)
+    brand_found <- brand_resolve(TRUE)
+    brand_found$path <- path_with_parent_dir(brand_found$path)
+    brand_direct <- brand_resolve("_brand.yml")
+    brand_direct$path <- path_with_parent_dir(brand_direct$path)
 
     expect_equal(brand_found, brand_direct)
-    expect_s3_class(brand_found, "bs_preset")
-    expect_equal(brand_found$type, "brand")
-    expect_equal(brand_found$name, "test-brand-yml")
-    expect_equal(brand_found$version, version_default())
-    expect_s3_class(brand_found$brand, "brand_yml")
+    expect_s3_class(brand_found, "brand_yml")
     expect_equal(
-      brand_found$brand$path,
+      brand_found$path,
       path_with_parent_dir(file.path(getwd(), "_brand.yml"))
     )
-    expect_s3_class(brand_found$preset, "bs_preset")
     direct_is_valid <<- TRUE
   })
 
   it("takes a list or a brand_yml object", {
     expect_true(direct_is_valid)
 
-    brand_list <- brand_resolve_preset(list(meta = list(name = "test-brand-yml")))
-    brand_direct <- brand_resolve_preset("_brand.yml")
-    brand_direct$brand$path <- NULL # brand is equal other than via path
-    brand_obj <- brand_resolve_preset(brand_direct$brand)
+    brand_list <- brand_resolve(list(meta = list(name = "test-brand-yml")))
+    brand_direct <- brand_resolve("_brand.yml")
+    brand_direct$path <- NULL # brand is equal other than via path
+    brand_obj <- brand_resolve(brand_direct)
 
     # brand_direct validated above
     expect_equal(brand_list, brand_direct)
@@ -73,11 +68,12 @@ describe("brand_resolve_preset()", {
     )
     
     expected_base_preset <- resolve_bs_preset("flatly", version = "4")
-    brand_preset <- brand_resolve_preset(brand)
-    expect_equal(brand_preset$preset, expected_base_preset)
-    expect_equal(brand_preset$version, "4")
-    expect_equal(brand_preset$preset$name, "flatly")
-    expect_equal(brand_preset$preset$version, "4")
+    brand_preset <- brand_resolve(brand)
+    preset <- brand_resolve_preset(brand)
+    expect_equal(preset, expected_base_preset)
+    expect_equal(preset$version, "4")
+    expect_equal(preset$name, "flatly")
+    expect_equal(preset$version, "4")
   })
 
   it("throws if `brand.defaults.shiny.theme.preset: brand`", {
@@ -93,7 +89,7 @@ describe("brand_resolve_preset()", {
     
     expect_error(
       brand_resolve_preset(brand),
-      "cannot be 'brand'"
+      "is not a known preset"
     )
   })
 
@@ -109,11 +105,12 @@ describe("brand_resolve_preset()", {
     )
     
     expected_base_preset <- resolve_bs_preset("flatly", version = "4")
-    brand_preset <- brand_resolve_preset(brand)
-    expect_equal(brand_preset$preset, expected_base_preset)
-    expect_equal(brand_preset$version, "4")
-    expect_equal(brand_preset$preset$name, "flatly")
-    expect_equal(brand_preset$preset$version, "4") 
+    brand <- brand_resolve(brand)
+    preset <- brand_resolve_preset(brand)
+    expect_equal(preset, expected_base_preset)
+    expect_equal(preset$version, "4")
+    expect_equal(preset$name, "flatly")
+    expect_equal(preset$version, "4") 
   })
 
   it("uses brand.defaults.bootstrap.version", {
@@ -127,11 +124,12 @@ describe("brand_resolve_preset()", {
     )
     
     expected_base_preset <- resolve_bs_preset("bootstrap", version = "4")
-    brand_preset <- brand_resolve_preset(brand)
-    expect_equal(brand_preset$preset, expected_base_preset)
-    expect_equal(brand_preset$version, "4")
-    expect_equal(brand_preset$preset$name, "bootstrap")
-    expect_equal(brand_preset$preset$version, "4") 
+    brand <- brand_resolve(brand)
+    preset <- brand_resolve_preset(brand)
+    expect_equal(preset, expected_base_preset)
+    expect_equal(preset$version, "4")
+    expect_equal(preset$name, "bootstrap")
+    expect_equal(preset$version, "4") 
   })
 })
 

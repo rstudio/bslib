@@ -113,7 +113,7 @@ brand_resolve_preset <- function(brand, preset = NULL, version = NULL) {
   preset_resolved <- 
     preset %||%
     b_get(brand, "defaults", "shiny", "theme", "preset") %||%
-    switch_version(base_version, five = "shiny", default = "bootstrap")
+    switch_version(version_resolved, five = "shiny", default = "bootstrap")
 
   resolve_bs_preset(preset_resolved, version = version_resolved)
 }
