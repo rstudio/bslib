@@ -11,19 +11,7 @@ resolve_bs_preset <- function(
   if (!is.null(version)) {
     version <- switch_version(version, five = "5", four = "4", three = "3")
   }
-  
-  if (is.list(preset)) {
-    if (!"brand" %in% names(preset)) {
-      abort("If `preset` is a list, it may only contain a single `brand` key.")
-    }
-    if (!is.character(preset$brand) && !is.list(preset$brand)) {
-      abort("`preset$brand` must be a path to a brand.yml file or a brand definition as a list.")
-    }
-    return(
-      brand_resolve_preset(preset$brand, version = version)
-    )
-  }
-
+    
   assert_preset_scalar_string(preset)
   assert_preset_scalar_string(bootswatch)
   assert_preset_only_one_name_arg(preset, bootswatch)
@@ -33,11 +21,6 @@ resolve_bs_preset <- function(
   if (preset_name %in% c("default", "bootstrap")) {
     # "bootstrap" means no preset bundle, just bare default Bootstrap
     return(new_bs_preset("bootstrap", version %||% version_default()))
-  } else if (preset_name == "brand") {
-    # "brand" means we go find `_brand.yml` to create the preset bundle
-    return(
-      brand_resolve_preset(brand = NULL, version = version)
-    )
   }
 
   version <- version %||% version_default()

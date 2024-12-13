@@ -1,6 +1,6 @@
 library(shiny)
-# pkgload::load_all()
-library(bslib)
+pkgload::load_all()
+# library(bslib)
 library(ggplot2)
 
 options(bslib.color_contrast_warnings = FALSE)
@@ -16,13 +16,18 @@ if (!file.exists("Monda.ttf")) {
 	)
 }
 
-theme_brand <- bs_theme(preset = "brand")
+theme_brand <- bs_theme(brand = TRUE)
+
 brand <- attr(theme_brand, "brand")
 
 theme_set(theme_minimal())
 
 if (requireNamespace("thematic", quietly = TRUE)) {
-  thematic::thematic_shiny(font = brand$typography$base$family)
+	if (!is.null(brand)) {
+		thematic::thematic_shiny(font = bslib:::b_get(brand, "typography", "base", "family"))
+	} else {
+		thematic::thematic_shiny()
+	}
 }
 
 ui <- page_navbar(

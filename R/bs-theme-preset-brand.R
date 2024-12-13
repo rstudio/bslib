@@ -1,18 +1,47 @@
-bs_preset_brand_bundle <- function(brand_preset = NULL) {
-  if (is.null(brand_preset)) {
-    brand_preset <- brand_resolve_preset()
+# "brand" and "preset" interact in a few ways that need to be reconciled.
+# Ultimately, we want three layers:
+#
+# 1. The base Bootstrap styles, by version. E.g. Bootstrap 5
+# 2. The `preset` styles, which are one layer above and adjust the base
+#    Bootstrap with the preset defaults E.g. "shiny" (bslib) or "flatly" (Bootswatch)
+# 3. The `brand` styles, which can be seen as the final layer of default styles.
+#    These styles set Bootstrap variables to adjust the `preset` theme in the
+#    direction of the brand's color palette and typography.
+#
+# The `preset` and `version` can be specified in two ways with `brand`:
+#
+# 1. Directly via `bs_theme()`:
+#    `bs_theme(preset = "shiny", version = 5, brand = TRUE)`.
+#
+# 2. As part of the `brand` definition:
+#    `bs_theme(brand = list(defaults = list(shiny = list(theme = list(preset = "flatly")))))`
+#
+# So the order of operations is:
+#
+# 1. Read `brand`, if necessary.
+# 2. If `bs_theme()` provides guidance for `version` and `theme`, use those preferences.
+# 3. If not, inspect `brand` for guidance.
+# 4. Finally, use our own defaults.
+#
+# Importantly we need to separately read `brand` and then resolve the preset and
+# then resolve the brand bundle.
+
+bs_brand_bundle <- function(brand, version = version_default()) {
+  brand <- brand_resolve(brand)
+  
+  if (is.null(brand)) {
+    return()
   }
 
-  brand_fonts <- brand_sass_fonts(brand_preset$brand)
-  brand_color_palette <- brand_sass_color_palette(brand_preset$brand)
-  brand_color <- brand_sass_color(brand_preset$brand)
-  brand_defaults <- brand_sass_defaults_bootstrap(brand_preset$brand)
-  brand_typography <- brand_sass_typography(brand_preset$brand)
+  brand_fonts <- brand_sass_fonts(brand)
+  brand_color_palette <- brand_sass_color_palette(brand)
+  brand_color <- brand_sass_color(brand)
+  brand_defaults <- brand_sass_defaults_bootstrap(brand)
+  brand_typography <- brand_sass_typography(brand)
 
   sass_bundle(
-    "base" = bs_preset_bundle(brand_preset$preset),
     "brand_base" = switch_version(
-      brand_preset$version,
+      version,
       five = sass_layer_file(
         system_file("brand", "bs5", "_brand-yml.scss", package = "bslib")
       ),
@@ -39,54 +68,54 @@ bs_preset_brand_bundle <- function(brand_preset = NULL) {
   )
 }
 
-brand_resolve_preset <- function(brand, ..., version = NULL) {
-  UseMethod("brand_resolve_preset")
+brand_resolve <- function(brand, ...) {
+  UseMethod("brand_resolve")
 }
 
 #' @export
-brand_resolve_preset.list <- function(brand, ..., version = NULL) {
+brand_resolve.list <- function(brand, ...) {
   brand <- as_brand_yml(brand)
-  brand_resolve_preset(brand, ..., version = version)
+  brand_resolve(brand, ...)
 }
 
 #' @export
-`brand_resolve_preset.NULL` <- function(brand, ..., version = NULL) {
+`brand_resolve.NULL` <- function(brand, ...) {
+  NULL
+}
+
+#' @export
+brand_resolve.logical <- function(brand, ...) {
+  if (identical(brand, FALSE)) {
+    return()
+  }
+  brand <- read_brand_yml(NULL)
+  brand_resolve(brand, ...) # future compat if we add anything to the ...
+}
+
+#' @export
+brand_resolve.character <- function(brand, ...) {
   brand <- read_brand_yml(brand)
-  brand_resolve_preset(brand, ..., version = version)
+  brand_resolve(brand, ...)
 }
 
 #' @export
-brand_resolve_preset.character <- function(brand, ..., version = NULL) {
-  brand <- read_brand_yml(brand)
-  brand_resolve_preset(brand, ..., version = version)
+brand_resolve.brand_yml <- function(brand, ...) {
+  brand
 }
 
-#' @export
-brand_resolve_preset.brand_yml <- function(brand = NULL, ..., version = NULL) {
-  base_version <- 
+brand_resolve_preset <- function(brand, preset = NULL, version = NULL) {
+  version_resolved <- 
     version %||%
     b_get(brand, "defaults", "shiny", "theme", "version") %||%
     b_get(brand, "defaults", "bootstrap", "version") %||%
     version_default()
 
-  base_theme_preset <- b_get(brand, "defaults", "shiny", "theme", "preset") %||%
+  preset_resolved <- 
+    preset %||%
+    b_get(brand, "defaults", "shiny", "theme", "preset") %||%
     switch_version(base_version, five = "shiny", default = "bootstrap")
 
-  if (!rlang::is_string(base_theme_preset) || base_theme_preset == "brand") {
-    abort(
-      "brand.defaults.shiny.theme.preset must be a string and cannot be 'brand'."
-    )
-  }
-
-  base_preset <- resolve_bs_preset(base_theme_preset, version = base_version)
-
-  new_bs_preset(
-    type = "brand",
-    name = b_get(brand, "meta", "name", "short"),
-    version = base_preset$version,
-    brand = brand,
-    preset = base_preset
-  )
+  resolve_bs_preset(preset_resolved, version = version_resolved)
 }
 
 # Brand Sass -------------------------------------------------------------------
