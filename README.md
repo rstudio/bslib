@@ -1,4 +1,6 @@
 
+# bslib <a href='https://rstudio.github.io/bslib/'><img src='man/figures/logo.png' align="right" height="138" /></a>
+
 <!-- badges: start -->
 
 [![CRAN
