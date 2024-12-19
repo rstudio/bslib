@@ -86,6 +86,20 @@
 #'   higher, `preset` defaults to `"shiny"`. To remove the `"shiny"` preset,
 #'   provide a value of `"bootstrap"` (this value will also work in
 #'   `bs_theme_update()` to remove a `preset` or `bootswatch` theme).
+#' @param brand Specifies how to apply branding to your theme using
+#'   [brand.yml](https://posit-dev.github.io/brand-yml), a simple YAML file that
+#'   defines key brand elements like colors, fonts, and logos. Valid options:
+#' 
+#'   - `TRUE` (default): Automatically looks for a `_brand.yml` file in the
+#'     current or app directory.
+#'   - `FALSE`: Disables any brand.yml usage.
+#'   - A file path that directly points to a specific brand.yml file you want to
+#'     use.
+#'   - Use a list to directly provide brand settings directly in R, following
+#'     the brand.yml structure.
+#'   
+#'   Learn more about creating and using brand.yml files at the
+#'   [brand.yml homepage](https://posit-dev.github.io/brand-yml).
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
@@ -140,6 +154,7 @@ bs_theme <- function(
   version = version_default(),
   preset = NULL,
   ...,
+  brand = NULL,
   bg = NULL,
   fg = NULL,
   primary = NULL,
@@ -154,23 +169,38 @@ bs_theme <- function(
   font_scale = NULL,
   bootswatch = NULL
 ) {
-  if (is.null(preset) && is.null(bootswatch) && version >= 5) {
-    preset <- "shiny"
-  }
+  is_version_from_user <- !missing(version)
 
-  preset <- resolve_bs_preset(preset, bootswatch, version = version)
+  brand <- brand_resolve(brand)
+
+  preset <- 
+    if (!is.null(brand)) {
+      brand_resolve_preset(
+        brand = brand,
+        preset = preset,
+        version = if (is_version_from_user) version
+      )
+    } else {
+      if (is.null(preset) && is.null(bootswatch) && version >= 5) {
+        preset <- "shiny"
+      }  
+      resolve_bs_preset(preset, bootswatch, version = version)
+    }
+
+  version <- preset$version %||% version %||% version_default()
 
   bundle <- bs_bundle(
     bs_theme_init(version),
     bootstrap_bundle(version),
-    bs_preset_bundle(preset)
+    bs_preset_bundle(preset),
+    bs_brand_bundle(brand, version = version)
   )
 
   if (!is.null(preset$type)) {
     bundle <- add_class(bundle, THEME_PRESET_CLASS)
   }
 
-  bs_theme_update(
+  bundle <- bs_theme_update(
     bundle, ...,
     bg = bg, fg = fg,
     primary = primary,
@@ -184,6 +214,13 @@ bs_theme <- function(
     heading_font = heading_font,
     font_scale = font_scale
   )
+
+  if (!is.null(brand)) {
+    bundle <- add_class(bundle, "bs_theme_brand")
+    attr(bundle, "brand") <- brand
+  }
+
+  bundle
 }
 
 #' @rdname bs_theme
