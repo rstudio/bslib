@@ -615,16 +615,6 @@ as_brand_yml <- function(brand = list()) {
   brand
 }
 
-#' @export
-print.brand_yml <- function(x, ..., max_depth = 2) {
-  if (is_installed("lobstr")) {
-    lobstr::tree(x, max_depth = max_depth, ...)
-  } else {
-    print(x, ...)
-  }
-  invisible(x)
-}
-
 brand_normalize_meta <- function(brand) {
   if (!b_has(brand, "meta")) {
     return(brand)

@@ -48,7 +48,6 @@ Suggests:
     future,
     ggplot2,
     knitr,
-    lobstr,
     magrittr,
     rappdirs,
     rmarkdown (>= 2.7),
