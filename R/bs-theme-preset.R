@@ -4,22 +4,27 @@ THEME_PRESET_CLASS <- "bs_theme_with_preset"
 resolve_bs_preset <- function(
   preset = NULL,
   bootswatch = NULL,
-  version = version_default()
+  version = NULL
 ) {
   if (is.null(preset) && is.null(bootswatch)) return(NULL)
-
+  
+  if (!is.null(version)) {
+    version <- switch_version(version, five = "5", four = "4", three = "3")
+  }
+    
   assert_preset_scalar_string(preset)
   assert_preset_scalar_string(bootswatch)
   assert_preset_only_one_name_arg(preset, bootswatch)
 
-  version <- switch_version(version, five = "5", four = "4", three = "3")
   preset_name <- preset %||% bootswatch
 
   if (preset_name %in% c("default", "bootstrap")) {
     # "bootstrap" means no preset bundle, just bare default Bootstrap
-    return(new_bs_preset("bootstrap", version))
+    return(new_bs_preset("bootstrap", version %||% version_default()))
   }
 
+  version <- version %||% version_default()
+  
   builtin_themes <- builtin_themes(version)
 
   if (length(builtin_themes) > 0 && preset_name %in% builtin_themes) {
@@ -35,11 +40,12 @@ resolve_bs_preset <- function(
   abort_preset_unknown_name(preset_name, version)
 }
 
-new_bs_preset <- function(name, version, type = NULL) {
+new_bs_preset <- function(name, version, type = NULL, ...) {
   preset <- list(
     version = version, # bootstrap version
     name = name,       # preset name
-    type = type        # preset type (e.g. "builtin", "bootswatch")
+    type = type,       # preset type (e.g. "builtin", "bootswatch")
+    ...
   )
 
   structure(dropNulls(preset), class = "bs_preset")
