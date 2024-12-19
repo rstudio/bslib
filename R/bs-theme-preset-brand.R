@@ -94,7 +94,7 @@ brand_resolve.list <- function(brand, ...) {
 #' @export
 brand_resolve.logical <- function(brand, ...) {
   if (identical(brand, FALSE)) {
-    return()
+    return(NULL)
   }
   brand <- read_brand_yml(NULL)
   brand_resolve(brand, ...) # future compat if we add anything to the ...

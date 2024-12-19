@@ -31,8 +31,12 @@ describe("brand_resolve()", {
     c("meta:", "  name: test-brand-yml"),
     "_brand.yml"
   )
-
+  
   direct_is_valid <- FALSE
+  
+  it("returns NULL if `brand = FALSE`", {
+    expect_null(brand_resolve(FALSE))
+  })
 
   it("finds _brand.yml or reads from brand path", {
     path_with_parent_dir <- function(x) {
