@@ -80,7 +80,15 @@ brand_resolve.list <- function(brand, ...) {
 
 #' @export
 `brand_resolve.NULL` <- function(brand, ...) {
-  NULL
+  brand <- tryCatch(
+    read_brand_yml(NULL),
+    error = function(err) {
+      # Couldn't find _brand.yml but we're not going to error
+      NULL
+    }
+  )
+  if (is.null(brand)) return(NULL)
+  brand_resolve(brand, ...) # future compat if we add anything to the ...
 }
 
 #' @export

@@ -16,8 +16,16 @@ describe("as_brand_yml()", {
   })
 })
 
-describe("brand_resolve_preset()", {
+describe("brand_resolve()", {
   withr::local_dir(withr::local_tempdir())
+
+  it("doesn't error if `brand = NULL` and no _brand.yml is found", {
+    expect_null(brand_resolve(NULL))
+  })
+
+  it("throws if `brand = TRUE` and no `_brand.yml` is found", {
+    expect_error(brand_resolve(TRUE))
+  })
 
   writeLines(
     c("meta:", "  name: test-brand-yml"),
@@ -30,6 +38,10 @@ describe("brand_resolve_preset()", {
     path_with_parent_dir <- function(x) {
       file.path(basename(dirname(x)), basename(x))
     }
+
+    # brand=TRUE and brand=NULL are the same in presence of _brand.yml file
+    expect_equal(brand_resolve(TRUE), brand_resolve(NULL))
+
     brand_found <- brand_resolve(TRUE)
     brand_found$path <- path_with_parent_dir(brand_found$path)
     brand_direct <- brand_resolve("_brand.yml")
