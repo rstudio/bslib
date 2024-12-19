@@ -149,6 +149,53 @@ describe("brand_resolve()", {
   })
 })
 
+describe("brand_resolve_preset()", {
+  withr::local_dir(withr::local_tempdir())
+
+  write_brand_yml_preset <- function(preset = NULL, version = NULL) {
+    b <- list(
+      defaults = list(
+        shiny = list(
+          theme = list(
+            preset = preset,
+            version = version
+          )
+        )
+      )
+    )
+    b <- dropNulls(b)
+    yaml::write_yaml(b, "_brand.yml")
+  }
+
+  write_brand_yml_preset(preset = "flatly")
+
+  it("uses `preset` and `version` from `_brand.yml`", {
+    preset <- brand_resolve_preset(brand_resolve(NULL))
+    expect_equal(preset$name, "flatly")
+    expect_equal(preset$version, version_default())    
+  })
+
+  it("uses `preset` and `version` from `bs_theme()`", {
+    preset <- brand_resolve_preset(NULL, preset = "cosmo", 5)
+    expect_equal(preset$name, "cosmo")
+    expect_equal(preset$version, version_default())    
+  })
+
+  it("uses `shiny` by default for BS 5", {
+    write_brand_yml_preset(version = "5")
+    preset <- brand_resolve_preset(brand_resolve(NULL))
+    expect_equal(preset$name, "shiny")
+    expect_equal(preset$version, "5")    
+  })
+  
+  it("uses `bootstrap` by default for BS 4", {
+    write_brand_yml_preset(version = "4")
+    preset <- brand_resolve_preset(brand_resolve(NULL))
+    expect_equal(preset$name, "bootstrap")
+    expect_equal(preset$version, "4")
+  })
+})
+
 describe("b_get_color()", {
   it("detects cyclic references in brand.color.palette", {
     brand <- list(
