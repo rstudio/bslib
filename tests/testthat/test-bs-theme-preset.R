@@ -120,64 +120,6 @@ describe("resolve_bs_preset()", {
     expect_equal(shiny$name, "shiny")
     expect_equal(shiny$version, "5")
   })
-
-  ## TODO: Rewrite these tests!
-  # it("returns a brand.yml presets for brand=TRUE", {
-  #   withr::local_dir(withr::local_tempdir())
-  #   writeLines(
-  #     c(
-  #       "meta:",
-  #       "  name: Test brand.yml"
-  #     ),
-  #     "_brand.yml"
-  #   )
-
-  #   brand_default <- resolve_bs_preset(TRUE)
-  #   preset <- brand_resolve_preset(brand_default)
-  #   expect_s3_class(brand_default, "brand_yml")
-  #   expect_equal(preset$name, "shiny")
-  #   expect_equal(preset$version, "5")
-
-  #   brand_list <- resolve_bs_preset(
-  #     preset = list(brand = list(meta = list(name = "Test brand.yml")))
-  #   )
-  #   # Resolving a brand preset from a list is the same as from a path, except
-  #   # for the stored path
-  #   brand_default$brand$path <- NULL
-  #   expect_equal(brand_list, brand_default)
-
-  #   brand_v4 <- resolve_brand_preset(brand_list, preset = "bootstrap", version = 4)
-  #   expect_s3_class(brand_v4, "bs_preset")
-  #   expect_equal(brand_v4$name, "bootstrap")
-  #   expect_equal(brand_v4$version, "4")
-    
-  #   writeLines(
-  #     c(
-  #       "meta:",
-  #       "  name: Custom brand.yml",
-  #       "defaults:",
-  #       "  shiny:",
-  #       "    theme:",
-  #       "      version: 4"
-  #     ),
-  #     "brand-custom.yml"
-  #   )
-
-  #   brand_path <- resolve_bs_preset(preset = list(brand = "brand-custom.yml"))
-  #   expect_s3_class(brand_path, "bs_preset")
-  #   expect_equal(brand_path$name, "Custom brand.yml")
-  #   expect_equal(brand_path$version, "4")
-  #   expect_equal(brand_path$version, brand_path$preset$version)
-  #   expect_equal(brand_path$preset$name, "bootstrap")
-  #   expect_equal(brand_path$type, "brand")
-
-  #   expect_error(
-  #     resolve_bs_preset(preset = list("foo"))
-  #   )
-  #   expect_error(
-  #     resolve_bs_preset(preset = list(brand_yml = "foo"))
-  #   )
-  # })
 })
 
 test_that("bs_preset_bundle() returns `NULL` for default or empty preset", {
