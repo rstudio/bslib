@@ -1,4 +1,5 @@
 # testthat::test_that()
+
 describe("as_brand_yml()", {
   it("normalizes colors", {
     brand <- list(
