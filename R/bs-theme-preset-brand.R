@@ -830,6 +830,7 @@ path_is_file <- function(path) {
 }
 
 path_ext <- function(path) {
+  # Same as tools::file_ext()  
   pos <- regexpr("\\.([[:alnum:]]+)$", path)
   ifelse(pos > -1L, substring(path, pos + 1L), "")
 }
