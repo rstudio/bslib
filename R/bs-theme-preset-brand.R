@@ -369,7 +369,7 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
   if (!(is.list(files) && length(files) > 0)) {
     abort(
       c(
-        sprintf("Font family '%s' must have one or more associated files."),
+        sprintf("Font family '%s' must have one or more associated files.", family),
         "i" = "Use `source: system` for fonts that are provided by the user's system."
       )
     )
@@ -378,7 +378,7 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
   font_collection_files <- lapply(files, function(file) {
     if (is.null(file$path)) {
       abort(
-        sprintf("All font `files` for font family '%s' must have a `path`.")
+        sprintf("All font `files` for font family '%s' must have a `path`.", family)
       )
     }
 
