@@ -501,6 +501,7 @@ maybe_convert_font_size_to_rem <- function(x) {
 }
 
 split_css_value_and_unit <- function(x) {
+  x <- trimws(x)
   pattern <- "^(-?[0-9]*\\.?[0-9]+)\\s*([a-z%]*)$"
   match <- regexec(pattern, x)
   result <- regmatches(x, match)[[1]]
