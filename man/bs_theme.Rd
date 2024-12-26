@@ -77,7 +77,9 @@ the brand.yml structure.
 }
 
 Learn more about creating and using brand.yml files at the
-\href{https://posit-dev.github.io/brand-yml}{brand.yml homepage}.}
+\href{https://posit-dev.github.io/brand-yml}{brand.yml homepage} or run
+\code{shiny::runExample("brand", package = "bslib")} to try brand.yml in a demo
+app.}
 
 \item{bg}{A color string for the background.}
 
