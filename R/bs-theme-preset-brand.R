@@ -826,11 +826,7 @@ find_project_file <- function(filename, dir, subdir = character()) {
 
 path_is_file <- function(path) {
   # The file exists and is a file
-  file.access(path, 0L) == 0L && !path_is_dir(path)
-}
-
-path_is_dir <- function(path) {
-  file.info(path, extra_cols = FALSE)[["isdir"]]
+  file.exists(path) && !dir.exists(path)  
 }
 
 path_ext <- function(path) {
