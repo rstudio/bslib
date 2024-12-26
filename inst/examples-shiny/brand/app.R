@@ -31,7 +31,7 @@ if (requireNamespace("thematic", quietly = TRUE)) {
 }
 
 ui <- page_navbar(
-	theme = bs_add_rules(theme_brand, readLines("_colors.scss")),
+	theme = bs_add_rules(theme_brand, sass::sass_file("_colors.scss")),
 
 	nav_panel(
 		"Input Output Demo",
