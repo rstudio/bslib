@@ -777,7 +777,9 @@ find_project_brand_yml <- function(path = NULL) {
   ext <- path_ext(path)
   if (ext %in% c("yml", "yaml")) {
     return(path)
-  } else if (nzchar(ext)) {
+  } 
+  
+  if (nzchar(ext)) {
     path <- dirname(path)
   }
 
