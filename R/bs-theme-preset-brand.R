@@ -299,9 +299,7 @@ brand_font_bunny <- function(
   style = NULL,
   display = NULL
 ) {
-  if (!is_installed("utils")) {
-    abort("The {utils} package is required.")
-  }
+  rlang::check_installed("utils")
 
   weight <- brand_remap_font_weight(weight) %||% seq(100, 900, 100)
 
@@ -362,10 +360,6 @@ brand_font_bunny <- function(
 }
 
 brand_font_file <- function(family, files, brand_root = getwd()) {
-  if (!is_installed("tools")) {
-    abort("The {tools} package is required.")
-  }
-
   if (!(is.list(files) && length(files) > 0)) {
     abort(
       c(
@@ -392,7 +386,7 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
       )
     }
     font_type <- switch(
-      tools::file_ext(tolower(font_path)),
+      path_ext(tolower(font_path)),
       # otc = "collection",
       # ttc = "collection",
       # eot = "embedded-opentype",
