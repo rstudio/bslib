@@ -759,7 +759,7 @@ b_get <- function(brand, ...) {
 }
 
 b_has_string <- function(brand, ...) {
-  if (!b_has(brand, ...)) return(FALSE)
+  if (!b_has(brand, ...)) return(FALSE)  
   rlang::is_string(brand[[c(...)]])
 }
 
