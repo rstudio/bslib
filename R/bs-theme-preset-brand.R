@@ -491,13 +491,11 @@ maybe_convert_font_size_to_rem <- function(x) {
     unit <- "unknown"
   }
 
-  stop(
-    paste0(
-      "Could not convert font size '",
+  abort(
+    sprintf(
+      "Could not convert font size '%s' from %s units to a relative unit.",
       x_og,
-      "' from ",
-      unit,
-      " units to a relative unit."
+      unit
     )
   )
 }
@@ -508,7 +506,7 @@ split_css_value_and_unit <- function(x) {
   result <- regmatches(x, match)[[1]]
 
   if (length(result) != 3) {
-    stop(paste0("Invalid CSS value format: ", x))
+    abort(paste0("Invalid CSS value format: ", x))
   }
 
   return(list(value = result[2], unit = result[3]))
@@ -523,7 +521,7 @@ brand_validate_bootstrap_defaults <- function(
   }
 
   if (!is.list(defaults)) {
-    stop("Invalid brand defaults in `", source, "`, must be a list.")
+    abort("Invalid brand defaults in `", source, "`, must be a list.")
   }
 
   if (length(defaults) == 0) {
@@ -531,7 +529,7 @@ brand_validate_bootstrap_defaults <- function(
   }
 
   if (!all(nzchar(names2(defaults)))) {
-    stop("Invalid brand defaults in `", source, "`, all values must be named.")
+    abort("Invalid brand defaults in `", source, "`, all values must be named.")
   }
 
   is_scalar <- function(v) {
@@ -545,11 +543,12 @@ brand_validate_bootstrap_defaults <- function(
   good <- vapply(defaults, is_scalar, logical(1))
 
   if (!all(good)) {
-    stop(
-      "Invalid brand defaults in `",
-      source,
-      "` all values must be scalar: ",
-      defaults[!good][1]
+    abort(
+      sprintf(
+        "Invalid brand defaults in `%s`, all values must be scalar: %s",
+        source,
+        defaults[!good][1]
+      )
     )
   }
 
