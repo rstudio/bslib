@@ -39,6 +39,13 @@ bs_brand_bundle <- function(brand, version = version_default()) {
   brand_defaults <- brand_sass_defaults_bootstrap(brand)
   brand_typography <- brand_sass_typography(brand)
 
+  if (version <= 4) {
+    rlang::warn(sprintf(
+      "Branded theming works best with Bootstrap v5, some features may not work as expected for Bootstrap v%s.",
+      version
+    ))
+  }
+
   sass_bundle(
     "brand_base" = switch_version(
       version,

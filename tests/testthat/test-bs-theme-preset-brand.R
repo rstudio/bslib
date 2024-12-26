@@ -341,3 +341,19 @@ describe("maybe_convert_font_size_to_rem()", {
     )
   })
 })
+
+describe("bs_brand_bundle()", {
+  it("warns with Bootstrap <= 4", {
+    expect_warning(
+      bs_brand_bundle(list(), "3")
+    )
+
+    expect_warning(
+      bs_brand_bundle(list(), "4")
+    )
+
+    expect_silent(
+      bs_brand_bundle(list(), "5")
+    )
+  })
+})
