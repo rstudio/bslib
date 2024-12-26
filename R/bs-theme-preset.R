@@ -4,27 +4,22 @@ THEME_PRESET_CLASS <- "bs_theme_with_preset"
 resolve_bs_preset <- function(
   preset = NULL,
   bootswatch = NULL,
-  version = NULL
+  version = version_default()
 ) {
   if (is.null(preset) && is.null(bootswatch)) return(NULL)
-  
-  if (!is.null(version)) {
-    version <- switch_version(version, five = "5", four = "4", three = "3")
-  }
-    
+
   assert_preset_scalar_string(preset)
   assert_preset_scalar_string(bootswatch)
   assert_preset_only_one_name_arg(preset, bootswatch)
 
+  version <- switch_version(version, five = "5", four = "4", three = "3")
   preset_name <- preset %||% bootswatch
 
   if (preset_name %in% c("default", "bootstrap")) {
     # "bootstrap" means no preset bundle, just bare default Bootstrap
-    return(new_bs_preset("bootstrap", version %||% version_default()))
+    return(new_bs_preset("bootstrap", version))
   }
 
-  version <- version %||% version_default()
-  
   builtin_themes <- builtin_themes(version)
 
   if (length(builtin_themes) > 0 && preset_name %in% builtin_themes) {
