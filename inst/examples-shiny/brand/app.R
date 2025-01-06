@@ -24,7 +24,9 @@ theme_set(theme_minimal())
 
 if (requireNamespace("thematic", quietly = TRUE)) {
 	if (!is.null(brand)) {
-		thematic::thematic_shiny(font = bslib:::b_get(brand, "typography", "base", "family"))
+		thematic::thematic_shiny(
+			font = bslib:::b_get(brand, "typography", "base", "family")
+		)
 	} else {
 		thematic::thematic_shiny()
 	}
@@ -32,9 +34,33 @@ if (requireNamespace("thematic", quietly = TRUE)) {
 
 ui <- page_navbar(
 	theme = bs_add_rules(theme_brand, sass::sass_file("_colors.scss")),
+	title = "brand.yml Demo",
+	fillable = TRUE,
+
+	sidebar = sidebar(
+		title = "Edit brand.yml",
+		position = "right",
+		open = "closed",
+		width = "40%",
+
+		htmltools::tagAppendAttributes(
+			textAreaInput(
+				"txt_brand_yml",
+				label = NULL,
+				value = paste(readLines("_brand.yml", warn = FALSE), collapse = "\n"),
+				width = "100%",
+				height = "80%",
+				rows = 20
+			),
+			class = "font-monospace",
+			.cssSelector = "textarea"
+		),
+		actionButton("save", span("Save", code("_brand.yml"), "file"))
+	),
 
 	nav_panel(
 		"Input Output Demo",
+		value = "dashboard",
 		layout_sidebar(
 			sidebar = sidebar(
 				sliderInput("slider1", "Numeric Slider Input", 0, 11, 11),
@@ -77,7 +103,8 @@ ui <- page_navbar(
 				card_header("Text Output"),
 				verbatimTextOutput("out_text")
 			)
-		)
+		),
+		tags$script("$(document).ready(function())")
 	),
 
 	nav_panel(
@@ -169,18 +196,103 @@ ui <- page_navbar(
 	nav_spacer(),
 	nav_item(
 		input_dark_mode(id = "color_mode")
-	),
-
-	title = "brand.yml Demo",
-	fillable = TRUE
+	)
 )
 
+errors <- list()
+
+error_notification <- function(context) {
+	function(err) {
+		msg <- conditionMessage(err)
+		time <- as.character(Sys.time())
+		err_id <- rlang::hash(list(time, msg))
+		errors[[err_id]] <<- list(message = msg, context = context)
+
+		showNotification(
+			markdown(context),
+			action = tags$button(
+				class = "btn btn-outline-danger pull-right",
+				onclick = sprintf(
+					"event.preventDefault(); Shiny.setInputValue('show_error', '%s')",
+					err_id
+				),
+				"Show details"
+			),
+			duration = 10,
+			type = "error",
+			id = err_id
+		)
+	}
+}
 
 server <- function(input, output, session) {
+	brand_yml_text <- debounce(reactive(input$txt_brand_yml), 500)
+	brand_yml <- reactiveVal()
+
+	observeEvent(input$show_error, {
+		req(input$show_error)
+		if (!input$show_error %in% names(errors)) {
+			message("Could not find error with id ", input$show_error)
+			return()
+		}
+
+		removeNotification(input$show_error)
+		err <- errors[[input$show_error]]
+
+		showModal(
+			modalDialog(
+				markdown(err$context),
+				pre(err$message)
+			)
+		)
+	})
+
+	observeEvent(brand_yml_text(), {
+		req(brand_yml_text())
+
+		tryCatch(
+			{
+				b <- yaml::yaml.load(brand_yml_text())
+				b$path <- normalizePath("_brand.yml")
+				brand_yml(b)
+			},
+			error = error_notification("Could not parse `_brand.yml` file. Check for syntax errors.")
+		)
+	})
+
+	observeEvent(brand_yml(), {
+		req(brand_yml())
+
+		tryCatch(
+			{
+				theme <- bs_theme(brand = brand_yml())
+				theme <- bs_add_rules(theme, sass::sass_file("_colors.scss"))
+				session$setCurrentTheme(theme)
+			},
+			error = error_notification(
+				"Could not compile branded theme. Please check your `_brand.yml` file."
+			)
+		)
+	})
+
+	observeEvent(input$save, {
+		req(brand_yml())
+
+		b <- brand_yml()
+		b$path <- NULL
+		tryCatch(
+			{
+				writeLines(input$txt_brand_yml, "_brand.yml")
+				showNotification(markdown("Saved `_brand.yml`!"), type = "message")
+			},
+			error = error_notification("Could not save `_brand.yml`.")
+		)
+	})
+
 	output$out_plot <- renderPlot({
 		x <- seq(0, debounce(reactive(input$numeric1), 500)(), length.out = 100)
 		y <- sin(x) * debounce(reactive(input$slider1), 500)()
-		
+
 		Sys.sleep(3)
 
 		df <- data.frame(x = x, y = y)
