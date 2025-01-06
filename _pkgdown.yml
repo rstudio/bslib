@@ -48,9 +48,11 @@ navbar:
     theming:
       text: Theming
       menu:
+        - text: Unified theming with brand.yml
+          href: articles/brand-yml/index.html
         - text: Theming variables
           href: articles/bs5-variables/index.html
-        - text: Utility Classes
+        - text: Utility classes
           href: articles/utility-classes/index.html
         - text: Custom components
           href: articles/custom-components/index.html
