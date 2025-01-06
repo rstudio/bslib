@@ -11,8 +11,7 @@ description: Unified theming via brand.yml for Shiny and Quarto.
 
 
 ::: lead
-Shiny for R now supports [brand.yml], a simple, unified theming experience through a single YAML file.
-Use [brand.yml] in your Shiny apps, Quarto projects, and more.
+Shiny for R now supports [brand.yml], a single YAML file that unifies visual theming across your projects. Define colors, fonts, and logos once in a YAML file, then use them consistently across Shiny apps, Quarto projects, and more.
 :::
 
 ## What is brand.yml?
@@ -21,7 +20,8 @@ Use [brand.yml] in your Shiny apps, Quarto projects, and more.
 [![](brand-yml-tall.svg){alt="brand.yml logo" style="width: min(max(100%, 200px), 100%); max-height: 200px"}][brand.yml]{target="_blank"}
 :::
 
-[brand.yml] simplifies brand management by consolidating your visual identity—colors, typography, and styling—into a single, easy-to-maintain YAML file.
+[brand.yml] is a specification for managing visual branding through a single YAML file.
+It simplifies brand management and theming by consolidating your visual identity---colors, typography, and styling---into one easy-to-maintain location.
 
 At its most basic, a `_brand.yml` file includes metadata (`meta`) about the company or brand,
 its logos (`logo`),
@@ -36,7 +36,7 @@ meta:
   name: brand.yml
   link: https://posit-dev.github.io/brand-yml
 
-logo: 
+logo:
   small: brand-yml-icon.svg
   medium: brand-yml-tall.svg
   large: brand-yml-wide.svg
@@ -57,8 +57,35 @@ typography:
 
 This same file can be used to theme your Shiny apps as well as [Quarto] projects.
 And brand.yml isn't just for corporate branding---you can also use brand.yml to create custom themes for your personal or team-specific projects.
-Create a _brand.yml file to match a specific journal or conference style.
+Create a `_brand.yml` file to match a specific journal or conference style.
 
+When used with bslib, simply place the `_brand.yml` file in your project directory, and bslib will automatically apply the branding to your Shiny app.
+
+## Try brand.yml
+
+bslib includes an example app that you can use to try out brand.yml features or that can be helpful as you develop your own `_brand.yml` file.
+To run the app use `shiny::runExample()`.
+
+```r
+shiny::runExample("brand", package = "bslib")
+```
+
+To use the app as a template, create a new directory for your own app and then copy the bslib example app to that directory
+
+```{r eval=FALSE}
+new_app_dir <- "my-brand" # path to your app
+template <- fs::path_package("bslib", "examples-shiny/brand")
+
+# Copy the template files into your new app directory
+fs::dir_copy(template, new_app_dir)
+```
+
+Once created, open `app.R` and `_brand.yml` for editing.
+
+```{r eval=FALSE}
+file.edit(fs::path(new_app_dir, "app.R"))
+file.edit(fs::path(new_app_dir, "_brand.yml"))
+```
 
 ## Basic usage
 
@@ -67,14 +94,17 @@ Create a _brand.yml file to match a specific journal or conference style.
 To use a [brand.yml] file like the example above, save the file as `_brand.yml` and include it in the directory containing your Shiny app.
 
 ```r
-# Automatically find `_brand.yml` in app dir or its parents
-ui <- page_fluid
-  theme = bs_theme()
+# Automatically find `_brand.yml` in app directory or its parent directories
+ui <- page_fluid(
+  theme = bs_theme()  # No additional configuration needed
 )
 ```
 
-If the app [uses `theme = bs_theme()`](../any-project/), any of the [`bslib::page_*()` functions](../dashboards/), or [bslib theming under-the-hood](../theming/),
-bslib will automatically find and apply the branded theming from a `_brand.yml` file in the current or parent project directories.
+When your app uses [uses `theme = bs_theme()`](../any-project/), any of the [`bslib::page_*()` functions](../dashboards/), or [bslib theming under-the-hood](../theming/), bslib will automatically
+
+1. search for a `_brand.yml` file in the current directory or in a `_brand/` or `brand/` directory,
+1. if not found, check parent directories for the `_brand.yml` file (possibly also in `_brand/` or `brand/`), and
+2. apply the branded theming if a `_brand.yml` file is found.
 
 ### Explicit configuration
 
@@ -216,28 +246,11 @@ output:
 ```
 :::
 
-## Try brand.yml
-
-bslib includes an example app that you can use to try out brand.yml features or that can be helpful as you develop your own `_brand.yml` file.
-To run the app use `shiny::runExample()`.
-
-```r
-shiny::runExample("brand", package = "bslib")
-```
-
-To use the app as a template, create a new directory for your own app and then copy the bslib example app to that directory
-
-```{r eval=FALSE}
-new_app_dir <- "my-brand" # path to your app
-template <- fs::path_package("bslib", "examples-shiny/brand")
-
-fs::dir_copy(template, new_app_dir)
-```
-
 ## Learn more
 
 This article has barely scratched the surface of all of the information and customizations that brand.yml includes.
 We encourage you to learn more about brand.yml and its features at the [official brand.yml website](https://posit-dev.github.io/brand-yml).
+We also invite you to leave feedback and ask questions in the [brand.yml discussion board](https://github.com/posit-dev/brand-yml/discussions).
 
 Visit these pages to learn more about using brand.yml with other projects:
 
@@ -247,4 +260,3 @@ Visit these pages to learn more about using brand.yml with other projects:
 As a brand new project, most large language models (LLMs) don't know anything about brand.yml (yet), but they can still be useful with the right prompt.
 We've created a small but complete description of brand.yml that you can use to help teach an LLM about brand.yml.
 Read more in the [Creating a brand.yml with an LLM](https://posit-dev.github.io/brand-yml/articles/llm-brand-yml-prompt/) article on the [brand.yml] website.
- 
