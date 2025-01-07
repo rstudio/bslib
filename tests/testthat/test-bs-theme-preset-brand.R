@@ -294,6 +294,24 @@ describe("brand_color_pluck()", {
     brand <- list(meta = list(name = "no color"))
     expect_equal(brand_color_pluck(brand, "red"), "red")
   })
+
+  it("returns `NULL` if the color is preset but `NULL`", {
+    brand <- list(color = list(secondary = NULL, palette = list(black = NULL)))
+    expect_null(brand_color_pluck(brand, "secondary"))
+    expect_null(brand_color_pluck(brand, "black"))
+  })
+
+  it("errors if the color value is not a string", {
+    brand <- list(
+      color = list(
+        secondary = 123456,
+        palette = list(black = 123456)
+      )
+    )
+
+    expect_error(brand_color_pluck(brand, "secondary"), "brand.color.secondary")
+    expect_error(brand_color_pluck(brand, "black"), "brand.color.palette.black")
+  })
 })
 
 describe("maybe_convert_font_size_to_rem()", {
