@@ -269,6 +269,11 @@ error_notification <- function(context) {
 		msg <- conditionMessage(err)
 		time <- as.character(Sys.time())
 		err_id <- rlang::hash(list(time, msg))
+
+		if (requireNamespace("cli", quietly = TRUE)) {
+			msg <- cli::ansi_strip(msg)
+		}
+
 		assign(err_id, list(message = msg, context = context), envir = errors)
 
 		showNotification(
