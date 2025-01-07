@@ -23,8 +23,9 @@
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-theming" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Theming</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-theming"><li><a class="dropdown-item" href="../articles/bs5-variables/index.html">Theming variables</a></li>
-    <li><a class="dropdown-item" href="../articles/utility-classes/index.html">Utility Classes</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-theming"><li><a class="dropdown-item" href="../articles/brand-yml/index.html">Unified theming with brand.yml</a></li>
+    <li><a class="dropdown-item" href="../articles/bs5-variables/index.html">Theming variables</a></li>
+    <li><a class="dropdown-item" href="../articles/utility-classes/index.html">Utility classes</a></li>
     <li><a class="dropdown-item" href="../articles/custom-components/index.html">Custom components</a></li>
   </ul></li>
 <li class="nav-item dropdown">
@@ -80,6 +81,10 @@
 <p>The navbar-related style options of <code><a href="../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../reference/navset.html">navset_bar()</a></code> have been consolidated into a single <code>navbar_options</code> argument that pairs with a new <code><a href="../reference/navbar_options.html">navbar_options()</a></code> helper. Using the direct <code>position</code>, <code>bg</code>, <code>inverse</code>, <code>collapsible</code>, and <code>underline</code> arguments will continue to work with a deprecation message. (<a href="https://github.com/rstudio/bslib/issues/1141" class="external-link">#1141</a>)</p>
 <p>Related to the above change, <code><a href="../reference/navset.html">navset_bar()</a></code> now defaults to using <code>underline = TRUE</code> so that both <code><a href="../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../reference/navset.html">navset_bar()</a></code> use the same set of default <code><a href="../reference/navbar_options.html">navbar_options()</a></code>.</p>
 </li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>bslib now supports unified theming with <a href="https://posit-dev.github.io/brand-yml" class="external-link">brand.yml</a>. brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new <a href="https://rstudio.github.io/bslib/dev/articles/brand-yml/">Unified theming with brand.yml</a> article. (<a href="https://github.com/rstudio/bslib/issues/1148" class="external-link">#1148</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="improvements-and-bug-fixes-development-version">Improvements and bug fixes<a class="anchor" aria-label="anchor" href="#improvements-and-bug-fixes-development-version"></a></h3>

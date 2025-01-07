@@ -41,8 +41,9 @@ them inside Shiny and R Markdown, see here."><meta name="robots" content="noinde
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-theming" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Theming</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-theming"><li><a class="dropdown-item" href="../articles/bs5-variables/index.html">Theming variables</a></li>
-    <li><a class="dropdown-item" href="../articles/utility-classes/index.html">Utility Classes</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-theming"><li><a class="dropdown-item" href="../articles/brand-yml/index.html">Unified theming with brand.yml</a></li>
+    <li><a class="dropdown-item" href="../articles/bs5-variables/index.html">Theming variables</a></li>
+    <li><a class="dropdown-item" href="../articles/utility-classes/index.html">Utility classes</a></li>
     <li><a class="dropdown-item" href="../articles/custom-components/index.html">Custom components</a></li>
   </ul></li>
 <li class="nav-item dropdown">
@@ -107,6 +108,7 @@ them inside Shiny and R Markdown, <a href="https://rstudio.github.io/bslib/artic
 <span>  version <span class="op">=</span> <span class="fu"><a href="versions.html">version_default</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  preset <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span>,</span>
+<span>  brand <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  primary <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -167,6 +169,29 @@ provide a value of <code>"bootstrap"</code> (this value will also work in
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>arguments passed along to <code><a href="bs_bundle.html">bs_add_variables()</a></code>.</p></dd>
+
+
+<dt id="arg-brand">brand<a class="anchor" aria-label="anchor" href="#arg-brand"></a></dt>
+<dd><p>Specifies how to apply branding to your theme using
+<a href="https://posit-dev.github.io/brand-yml" class="external-link">brand.yml</a>, a simple YAML file that
+defines key brand elements like colors, fonts, and logos. Valid options:</p><ul><li><p><code>NULL</code> (default): Automatically looks for a <code>_brand.yml</code> file in the
+current directory or in <code>_brand/</code> or <code>brand/</code> in the current directory.
+If not found, it searches parent project directories for a <code>_brand.yml</code>
+file (also possibly in <code>_brand/</code> or <code>brand/</code>). If a <code>_brand.yml</code> file is
+found, it is applied to the Bootstrap theme.</p></li>
+<li><p><code>TRUE</code> (default): Automatically looks for a <code>_brand.yml</code> file in the
+current or app directory as described above. If a <code>_brand.yml</code> file
+<em>is not found</em>, <code>bs_theme()</code> will throw an error.</p></li>
+<li><p><code>FALSE</code>: Disables any brand.yml usage, even if a <code>_brand.yml</code> file is
+present.</p></li>
+<li><p>A file path that directly points to a specific brand.yml file (with any
+file name) that you want to use.</p></li>
+<li><p>Use a list to directly provide brand settings directly in R, following
+the brand.yml structure.</p></li>
+</ul><p>Learn more about creating and using brand.yml files at the
+<a href="https://posit-dev.github.io/brand-yml" class="external-link">brand.yml homepage</a> or run
+<code>shiny::runExample("brand.yml", package = "bslib")</code> to try brand.yml in a
+demo app.</p></dd>
 
 
 <dt id="arg-bg">bg<a class="anchor" aria-label="anchor" href="#arg-bg"></a></dt>
