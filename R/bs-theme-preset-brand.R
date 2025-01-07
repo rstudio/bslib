@@ -709,9 +709,9 @@ brand_color_pluck <- function(brand, key) {
     visited <<- c(visited, key)
   }
 
-  assert_string_or_null <- function(key, value) {
+  check_string_or_null <- function(key, value) {
     if (is.null(value)) return()
-    if (rlang::is_string(value)) return()
+    if (rlang::is_string(value)) return(value)
     
     abort(sprintf("`brand.color.%s` must be a string or `NULL`.", key))
   }
@@ -742,14 +742,10 @@ brand_color_pluck <- function(brand, key) {
     if (in_pal && !in_theme_unseen) {
       # Prioritize palette if theme was already visited
       assert_no_cycles(p_key(key))
-      new_key <- palette[[key]]
-      assert_string_or_null(p_key(key), new_key)
-      key <- new_key
+      key <- check_string_or_null(p_key(key), palette[[key]])
     } else if (in_theme) {
       assert_no_cycles(key)
-      new_key <- theme_colors[[key]]
-      assert_string_or_null(key, new_key)
-      key <- new_key
+      key <- check_string_or_null(key, theme_colors[[key]])
     } else {
       value <- key
     }
