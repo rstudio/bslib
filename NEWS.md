@@ -6,6 +6,10 @@
 
    Related to the above change, `navset_bar()` now defaults to using `underline = TRUE` so that both `page_navbar()` and `navset_bar()` use the same set of default `navbar_options()`.
 
+## New features
+
+* bslib now supports unified theming with [brand.yml](https://posit-dev.github.io/brand-yml). brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new [Unified theming with brand.yml](https://rstudio.github.io/bslib/dev/articles/brand-yml/) article. (#1148)
+
 ## Improvements and bug fixes
 
 * `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (@tanho63, #1024) 

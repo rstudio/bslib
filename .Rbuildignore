@@ -30,3 +30,5 @@ inst/lib/bsw3/.npmignore
 ^\.gitattributes$
 ^CODE_OF_CONDUCT\.md$
 ^cran-comments\.md$
+^inst/examples-shiny/brand.yml/Monda\.ttf$
+^inst/examples-shiny/brand.yml/Monda-OFL\.txt$
