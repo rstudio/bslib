@@ -112,7 +112,9 @@ initBrandEditor()'
 			)
 		),
 
-		actionButton("save", span("Save", code("_brand.yml"), "file"))
+		if (getwd() != system.file("examples-shiny/brand.yml", package = "bslib")) {
+			actionButton("save", span("Save", code("_brand.yml"), "file"))
+		}
 	),
 
 	nav_panel(
