@@ -239,9 +239,18 @@ initBrandEditor()'
 	),
 
 	nav_spacer(),
+	nav_item(input_dark_mode(id = "color_mode")),
 	nav_item(
-		input_dark_mode(id = "color_mode")
-	)
+		actionLink(
+			"show_editor",
+			bsicons::bs_icon(
+				"pencil-fill",
+				size = "1rem",
+				title = "Show/hide editor"
+			),
+			class = "nav-link"
+		)
+	),
 )
 
 errors <- rlang::new_environment()
@@ -273,6 +282,8 @@ error_notification <- function(context) {
 server <- function(input, output, session) {
 	brand_yml_text <- debounce(reactive(input$txt_brand_yml), 500)
 	brand_yml <- reactiveVal()
+
+	observeEvent(input$show_editor, sidebar_toggle("sidebar_editor"))
 
 	observeEvent(input$show_error, {
 		req(input$show_error)
