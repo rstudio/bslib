@@ -12,21 +12,10 @@ meta:
 
 # logo:
 #   images:
-#     icon-light: logos/retroarc-icon-light.png
-#     icon-dark: logos/retroarc-icon-dark.png
-#     wide-light: logos/retroarc-wide-light.png
-#     wide-dark: logos/retroarc-wide-dark.png
-#     tall-light: logos/retroarc-tall-light.png
-#     tall-dark: logos/retroarc-tall-dark.png
+#     # dictionary of named images
 #   small:
-#     light: logos/retroarc-icon-light.png
-#     dark: logos/retroarc-icon-dark.png
 #   medium:
-#     light: logos/retroarc-wide-light.png
-#     dark: logos/retroarc-wide-dark.png
 #   large:
-#     light: logos/retroarc-tall-light.png
-#     dark: logos/retroarc-tall-dark.png
 
 color:
   palette:
