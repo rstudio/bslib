@@ -35,7 +35,7 @@ theme_set(theme_minimal())
 if (requireNamespace("thematic", quietly = TRUE)) {
 	if (!is.null(brand)) {
 		thematic::thematic_shiny(
-			font = bslib:::b_get(brand, "typography", "base", "family")
+			font = bslib:::brand_pluck(brand, "typography", "base", "family")
 		)
 	} else {
 		thematic::thematic_shiny()

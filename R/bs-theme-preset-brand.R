@@ -121,13 +121,13 @@ brand_resolve.brand_yml <- function(brand, ...) {
 brand_resolve_preset <- function(brand, preset = NULL, version = NULL) {
   version_resolved <- 
     version %||%
-    b_get(brand, "defaults", "shiny", "theme", "version") %||%
-    b_get(brand, "defaults", "bootstrap", "version") %||%
+    brand_pluck(brand, "defaults", "shiny", "theme", "version") %||%
+    brand_pluck(brand, "defaults", "bootstrap", "version") %||%
     version_default()
 
   preset_resolved <- 
     preset %||%
-    b_get(brand, "defaults", "shiny", "theme", "preset") %||%
+    brand_pluck(brand, "defaults", "shiny", "theme", "preset") %||%
     switch_version(version_resolved, five = "shiny", default = "bootstrap")
 
   resolve_bs_preset(preset_resolved, version = version_resolved)
@@ -135,7 +135,7 @@ brand_resolve_preset <- function(brand, preset = NULL, version = NULL) {
 
 # Brand Sass -------------------------------------------------------------------
 brand_sass_color_palette <- function(brand) {
-  palette <- b_get(brand, "color", "palette")
+  palette <- brand_pluck(brand, "color", "palette")
 
   if (is.null(palette)) {
     return(list(defaults = list(), rules = list()))
@@ -144,7 +144,7 @@ brand_sass_color_palette <- function(brand) {
   # Resolve internal references in colors
   palette <- lapply(
     rlang::set_names(names(palette)),
-    b_get_color,
+    brand_color_pluck,
     brand = brand
   )
 
@@ -187,7 +187,7 @@ brand_sass_color <- function(brand) {
   # ==> $brand_color_primary: #007bff !default;
   # ==> $primary: $brand_color_primary !default;
 
-  colors <- b_get(brand, "color") %||% list()
+  colors <- brand_pluck(brand, "color") %||% list()
   colors$palette <- NULL
 
   if (length(colors) == 0) {
@@ -195,7 +195,7 @@ brand_sass_color <- function(brand) {
   }
 
   # Resolve internal references in colors
-  colors <- lapply(rlang::set_names(names(colors)), b_get_color, brand = brand)
+  colors <- lapply(rlang::set_names(names(colors)), brand_color_pluck, brand = brand)
 
   defaults <- list()
   for (thm_name in names(colors)) {
@@ -210,7 +210,7 @@ brand_sass_typography <- function(brand) {
   # Creates a dictionary of Sass variables for typography settings defined in
   # the `brand` object. These are used to set brand Sass variables in the format
   # `$brand_typography_{field}_{prop}`.
-  typography <- b_get(brand, "typography")
+  typography <- brand_pluck(brand, "typography")
 
   if (is.null(typography)) {
     return(list(defaults = list()))
@@ -229,7 +229,7 @@ brand_sass_typography <- function(brand) {
       if (field == "base" && prop_key == "size") {
         prop_value <- maybe_convert_font_size_to_rem(prop_value)
       } else if (prop_key %in% c("color", "background-color")) {
-        prop_value <- b_get_color(brand, prop_value)
+        prop_value <- brand_color_pluck(brand, prop_value)
       }
       field <- gsub("-", "_", field)
       prop_key <- gsub("-", "_", prop_key)
@@ -242,7 +242,7 @@ brand_sass_typography <- function(brand) {
 }
 
 brand_sass_fonts <- function(brand) {
-  fonts <- b_get(brand, "typography", "fonts")
+  fonts <- brand_pluck(brand, "typography", "fonts")
 
   if (is.null(fonts)) {
     return(list(defaults = list(), rules = list()))
@@ -551,8 +551,8 @@ brand_validate_bootstrap_defaults <- function(
 }
 
 brand_sass_defaults_bootstrap <- function(brand) {
-  bootstrap <- b_get(brand, "defaults", "bootstrap")
-  shiny <- b_get(brand, "defaults", "shiny", "theme")
+  bootstrap <- brand_pluck(brand, "defaults", "bootstrap")
+  shiny <- brand_pluck(brand, "defaults", "shiny", "theme")
 
   if (is.null(bootstrap) && is.null(shiny))
     return(
@@ -609,24 +609,24 @@ as_brand_yml <- function(brand = list()) {
   stopifnot(is.list(brand))
 
   # Normalize brand internals !! MINIMAL VALIDATION !!
-  brand <- brand_normalize_meta(brand)
-  brand <- brand_normalize_color(brand)
+  brand <- brand_meta_normalize(brand)
+  brand <- brand_color_normalize(brand)
 
   class(brand) <- "brand_yml"
   brand
 }
 
-brand_normalize_meta <- function(brand) {
-  if (!b_has(brand, "meta")) {
+brand_meta_normalize <- function(brand) {
+  if (!brand_has(brand, "meta")) {
     return(brand)
   }
 
-  if (b_has_string(brand, "meta", "name")) {
+  if (brand_has_string(brand, "meta", "name")) {
     name <- brand[["meta"]][["name"]]
     brand[["meta"]][["name"]] <- list(short = name, full = name)
   }
 
-  if (b_has_string(brand, "meta", "link")) {
+  if (brand_has_string(brand, "meta", "link")) {
     brand[["meta"]][["link"]] <- list(
       home = brand[["meta"]][["link"]]
     )
@@ -635,23 +635,23 @@ brand_normalize_meta <- function(brand) {
   brand
 }
 
-brand_normalize_color <- function(brand) {
-  if (!b_has(brand, "color")) {
+brand_color_normalize <- function(brand) {
+  if (!brand_has(brand, "color")) {
     return(brand)
   }
 
   # Pull out colors and resolve each color from original brand
-  theme <- b_get(brand, "color")
+  theme <- brand_pluck(brand, "color")
 
-  for (field in names(b_get(brand, "color"))) {
+  for (field in names(brand_pluck(brand, "color"))) {
     if (field == "palette") {
       theme[[field]] <- lapply(
         rlang::set_names(names(theme[[field]])),
-        b_get_color,
+        brand_color_pluck,
         brand = brand
       )
     } else {
-      theme[[field]] <- b_get_color(brand, field)
+      theme[[field]] <- brand_color_pluck(brand, field)
     }
   }
 
@@ -660,8 +660,8 @@ brand_normalize_color <- function(brand) {
   brand
 }
 
-b_get_color <- function(brand, key) {
-  if (!b_has(brand, "color")) {
+brand_color_pluck <- function(brand, key) {
+  if (!brand_has(brand, "color")) {
     return(key)
   }
 
@@ -733,7 +733,7 @@ b_get_color <- function(brand, key) {
 
 # Brand utilities --------------------------------------------------------------
 
-b_has <- function(brand, ...) {
+brand_has <- function(brand, ...) {
   x <- brand
 
   for (f in c(...)) {
@@ -744,21 +744,21 @@ b_has <- function(brand, ...) {
   TRUE
 }
 
-b_get <- function(brand, ...) {
-  if (!b_has(brand, ...)) {
+brand_pluck <- function(brand, ...) {
+  if (!brand_has(brand, ...)) {
     return(NULL)
   }
 
   brand[[c(...)]]
 }
 
-b_has_string <- function(brand, ...) {
-  if (!b_has(brand, ...)) return(FALSE)  
+brand_has_string <- function(brand, ...) {
+  if (!brand_has(brand, ...)) return(FALSE)  
   rlang::is_string(brand[[c(...)]])
 }
 
-b_has_list <- function(brand, ...) {
-  if (!b_has(brand, ...)) return(FALSE)
+brand_has_list <- function(brand, ...) {
+  if (!brand_has(brand, ...)) return(FALSE)
   rlang::is_list(brand[[c(...)]])
 }
 

@@ -197,7 +197,7 @@ describe("brand_resolve_preset()", {
   })
 })
 
-describe("b_get_color()", {
+describe("brand_color_pluck()", {
   it("detects cyclic references in brand.color.palette", {
     brand <- list(
       color = list(
@@ -206,12 +206,12 @@ describe("b_get_color()", {
     )
 
     expect_error(
-      b_get_color(brand, "red"),
+      brand_color_pluck(brand, "red"),
       "palette.red -> palette.blue -> palette.red"
     )
 
     expect_error(
-      b_get_color(brand, "blue"),
+      brand_color_pluck(brand, "blue"),
       "palette.blue -> palette.red -> palette.blue"
     )
   })
@@ -225,12 +225,12 @@ describe("b_get_color()", {
     )
 
     expect_error(
-      b_get_color(brand, "primary"),
+      brand_color_pluck(brand, "primary"),
       "primary -> secondary -> primary"
     )
 
     expect_error(
-      b_get_color(brand, "secondary"),
+      brand_color_pluck(brand, "secondary"),
       "secondary -> primary -> secondary"
     )
   })
@@ -248,7 +248,7 @@ describe("b_get_color()", {
     )
 
     expect_error(
-      b_get_color(brand1, "primary"),
+      brand_color_pluck(brand1, "primary"),
       "primary -> palette.primary -> secondary -> palette.primary"
     )
 
@@ -260,12 +260,12 @@ describe("b_get_color()", {
     )
 
     expect_error(
-      b_get_color(brand2, "red"),
+      brand_color_pluck(brand2, "red"),
       "palette.red -> primary -> palette.red"
     )
 
     expect_error(
-      b_get_color(brand2, "primary"),
+      brand_color_pluck(brand2, "primary"),
       "primary -> palette.red -> primary"
     )
   })
@@ -285,14 +285,14 @@ describe("b_get_color()", {
     )
 
     expect_error(
-      b_get_color(brand, color_ref(0)),
+      brand_color_pluck(brand, color_ref(0)),
       "recursion limit"
     )
   })
 
   it("returns `key` if `brand.color` isn't present", {
     brand <- list(meta = list(name = "no color"))
-    expect_equal(b_get_color(brand, "red"), "red")
+    expect_equal(brand_color_pluck(brand, "red"), "red")
   })
 })
 
