@@ -244,14 +244,14 @@ initBrandEditor()'
 	)
 )
 
-errors <- list()
+errors <- rlang::new_environment()
 
 error_notification <- function(context) {
 	function(err) {
 		msg <- conditionMessage(err)
 		time <- as.character(Sys.time())
 		err_id <- rlang::hash(list(time, msg))
-		errors[[err_id]] <<- list(message = msg, context = context)
+		assign(err_id, list(message = msg, context = context), envir = errors)
 
 		showNotification(
 			markdown(context),
@@ -276,16 +276,20 @@ server <- function(input, output, session) {
 
 	observeEvent(input$show_error, {
 		req(input$show_error)
-		if (!input$show_error %in% names(errors)) {
+		err <- get0(input$show_error, errors)
+
+		if (is.null(err)) {
 			message("Could not find error with id ", input$show_error)
 			return()
 		}
 
 		removeNotification(input$show_error)
-		err <- errors[[input$show_error]]
+		rm(list = input$show_error, envir = errors)
 
 		showModal(
 			modalDialog(
+				size = "l",
+				easyClose = TRUE,
 				markdown(err$context),
 				pre(err$message)
 			)
@@ -301,7 +305,9 @@ server <- function(input, output, session) {
 				b$path <- normalizePath("_brand.yml")
 				brand_yml(b)
 			},
-			error = error_notification("Could not parse `_brand.yml` file. Check for syntax errors.")
+			error = error_notification(
+				"Could not parse `_brand.yml` file. Check for syntax errors."
+			)
 		)
 	})
 
@@ -328,7 +334,7 @@ server <- function(input, output, session) {
 		tryCatch(
 			{
 				writeLines(input$txt_brand_yml, "_brand.yml")
-				showNotification(markdown("Saved `_brand.yml`!"), type = "message")
+				showNotification(markdown("Saved `_brand.yml`!"))
 			},
 			error = error_notification("Could not save `_brand.yml`.")
 		)
