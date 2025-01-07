@@ -1,3 +1,5 @@
+pkgload::load_all()
+
 rlang::check_installed("shiny", version = "1.8.1")
 rlang::check_installed("bslib", version = "0.8.0.9000")
 rlang::check_installed("future")
@@ -34,6 +36,7 @@ theme_set(theme_minimal())
 
 if (requireNamespace("thematic", quietly = TRUE)) {
 	if (!is.null(brand)) {
+		# TODO: Update plot fonts dynamically
 		thematic::thematic_shiny(
 			font = bslib:::brand_pluck(brand, "typography", "base", "family")
 		)
