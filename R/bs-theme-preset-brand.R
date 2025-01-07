@@ -42,7 +42,7 @@ bs_brand_bundle <- function(brand, version = version_default()) {
   if (version <= 4) {
     rlang::warn(
       sprintf(
-        "Branded theming works best with Bootstrap v5, some features may not work as expected for Bootstrap v%s.",
+        "Branded theming works best with Bootstrap v5. Some features may not work as expected for Bootstrap v%s.",
         version
       )
     )
