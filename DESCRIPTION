@@ -61,7 +61,6 @@ Suggests:
 Config/Needs/deploy:
     BH,
     chiflights22,
-    cli,
     colourpicker,
     commonmark,
     cpp11,

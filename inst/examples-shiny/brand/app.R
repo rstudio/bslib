@@ -274,9 +274,12 @@ error_notification <- function(context) {
 		time <- as.character(Sys.time())
 		err_id <- rlang::hash(list(time, msg))
 
-		if (requireNamespace("cli", quietly = TRUE)) {
-			msg <- cli::ansi_strip(msg)
-		}
+		# Strip ANSI color sequences from error messages
+		msg <- gsub(
+			pattern = "\u001b\\[.*?m",
+			replacement = "",
+			msg
+		)
 
 		assign(err_id, list(message = msg, context = context), envir = errors)
 
