@@ -1,9 +1,10 @@
 rlang::check_installed("shiny", version = "1.8.1")
+rlang::check_installed("bslib", version = "0.8.0.9000")
 rlang::check_installed("future")
+rlang::check_installed("ggplot2")
 
 library(shiny)
-pkgload::load_all()
-# library(bslib)
+library(bslib)
 library(ggplot2)
 
 library(future)
