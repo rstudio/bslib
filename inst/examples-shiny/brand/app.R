@@ -294,7 +294,7 @@ error_notification <- function(context) {
 }
 
 server <- function(input, output, session) {
-	brand_yml_text <- debounce(reactive(input$txt_brand_yml), 500)
+	brand_yml_text <- debounce(reactive(input$txt_brand_yml), 1000)
 	brand_yml <- reactiveVal()
 
 	observeEvent(input$show_editor, sidebar_toggle("sidebar_editor"))
