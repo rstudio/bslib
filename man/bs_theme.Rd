@@ -67,11 +67,18 @@ provide a value of \code{"bootstrap"} (this value will also work in
 \href{https://posit-dev.github.io/brand-yml}{brand.yml}, a simple YAML file that
 defines key brand elements like colors, fonts, and logos. Valid options:
 \itemize{
+\item \code{NULL} (default): Automatically looks for a \verb{_brand.yml} file in the
+current directory or in \verb{_brand/} or \verb{brand/} in the current directory.
+If not found, it searches parent project directories for a \verb{_brand.yml}
+file (also possibly in \verb{_brand/} or \verb{brand/}). If a \verb{_brand.yml} file is
+found, it is applied to the Bootstrap theme.
 \item \code{TRUE} (default): Automatically looks for a \verb{_brand.yml} file in the
-current or app directory.
-\item \code{FALSE}: Disables any brand.yml usage.
-\item A file path that directly points to a specific brand.yml file you want to
-use.
+current or app directory as described above. If a \verb{_brand.yml} file
+\emph{is not found}, \code{bs_theme()} will throw an error.
+\item \code{FALSE}: Disables any brand.yml usage, even if a \verb{_brand.yml} file is
+present.
+\item A file path that directly points to a specific brand.yml file (with any
+file name) that you want to use.
 \item Use a list to directly provide brand settings directly in R, following
 the brand.yml structure.
 }

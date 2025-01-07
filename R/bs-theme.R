@@ -90,11 +90,18 @@
 #'   [brand.yml](https://posit-dev.github.io/brand-yml), a simple YAML file that
 #'   defines key brand elements like colors, fonts, and logos. Valid options:
 #' 
+#'   - `NULL` (default): Automatically looks for a `_brand.yml` file in the
+#'     current directory or in `_brand/` or `brand/` in the current directory.
+#'     If not found, it searches parent project directories for a `_brand.yml`
+#'     file (also possibly in `_brand/` or `brand/`). If a `_brand.yml` file is
+#'     found, it is applied to the Bootstrap theme.
 #'   - `TRUE` (default): Automatically looks for a `_brand.yml` file in the
-#'     current or app directory.
-#'   - `FALSE`: Disables any brand.yml usage.
-#'   - A file path that directly points to a specific brand.yml file you want to
-#'     use.
+#'     current or app directory as described above. If a `_brand.yml` file
+#'     *is not found*, `bs_theme()` will throw an error.
+#'   - `FALSE`: Disables any brand.yml usage, even if a `_brand.yml` file is
+#'     present.
+#'   - A file path that directly points to a specific brand.yml file (with any
+#'     file name) that you want to use.
 #'   - Use a list to directly provide brand settings directly in R, following
 #'     the brand.yml structure.
 #'   
