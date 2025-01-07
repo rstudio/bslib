@@ -285,7 +285,7 @@ brand_sass_fonts <- function(brand) {
       defaults[[var_name]] <- font_obj
       rules <- c(
         rules,
-        sprintf(".brand-font-%s { font-family: $%s; }", var_name, var_name)
+        sprintf(".%s { font-family: $%s; }", var_name, var_name)
       )
     }
   }
