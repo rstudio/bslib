@@ -3,12 +3,10 @@ meta:
     full: "Retro Arcade Brand"
     short: "RetroArc"
   link:
-    home: https://retroarc.example.com
-    mastodon: https://mastodon.social/@retroarc
-    github: https://github.com/retroarc
-    linkedin: https://linkedin.com/company/retroarc
-    twitter: https://twitter.com/retroarc
-    facebook: https://facebook.com/retroarc
+    home: https://retro-arcade.posit.co
+    bluesky: https://bsky.app/profile/posit.co
+    mastodon: https://fosstodon.org/@posit.co
+    github: https://github.com/posit-dev
 
 # logo:
 #   images:
