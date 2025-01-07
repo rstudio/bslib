@@ -67,7 +67,7 @@ bslib includes an example app that you can use to try out brand.yml features or 
 To run the app use `shiny::runExample()`.
 
 ```r
-shiny::runExample("brand", package = "bslib")
+shiny::runExample("brand.yml", package = "bslib")
 ```
 
 To use the app as a template, create a new directory for your own app and then copy the bslib example app to that directory

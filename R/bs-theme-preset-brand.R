@@ -782,7 +782,7 @@ find_project_brand_yml <- function(path = NULL) {
   path <- path %||% getwd()
   path <- normalizePath(path, mustWork = FALSE)
 
-  ext <- path_ext(path)
+  ext <- if (dir.exists(path)) "" else path_ext(path)
   if (ext %in% c("yml", "yaml")) {
     return(path)
   }

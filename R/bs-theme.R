@@ -107,8 +107,8 @@
 #'   
 #'   Learn more about creating and using brand.yml files at the
 #'   [brand.yml homepage](https://posit-dev.github.io/brand-yml) or run
-#'   `shiny::runExample("brand", package = "bslib")` to try brand.yml in a demo
-#'   app.
+#'   `shiny::runExample("brand.yml", package = "bslib")` to try brand.yml in a
+#'   demo app.
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]
 #'   for possible values). When provided to `bs_theme_update()`, any previous
 #'   Bootswatch theme is first removed before the new one is applied (use
