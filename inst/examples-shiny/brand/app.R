@@ -38,6 +38,7 @@ ui <- page_navbar(
 	fillable = TRUE,
 
 	sidebar = sidebar(
+		id = "sidebar_editor",
 		title = "Edit brand.yml",
 		position = "right",
 		open = "closed",
@@ -55,6 +56,51 @@ ui <- page_navbar(
 			class = "font-monospace",
 			.cssSelector = "textarea"
 		),
+
+		div(
+			id = "editor_brand_yml",
+			style = "overflow: auto;"
+		),
+
+		tags$script(
+			type = "module",
+			HTML(
+				'
+import { basicEditor } from "https://esm.sh/prism-code-editor@3.4.0/setups"
+import "https://esm.sh/prism-code-editor@3.4.0/prism/languages/yaml"
+
+const shinyInput = document.getElementById("txt_brand_yml")
+
+function initBrandEditor() {
+	if (typeof Shiny.setInputValue !== "function") {
+		setTimeout(initBrandEditor, 100)
+		return
+	}
+	window.brandEditor = basicEditor(
+		"#editor_brand_yml",
+		{ 
+			language: "yml",
+			theme: "github-dark",
+			value: shinyInput.value,
+			onUpdate: (value) => { Shiny.setInputValue("txt_brand_yml", value) },
+		},
+		() => shinyInput.parentElement.remove()
+	)
+}
+
+initBrandEditor()'
+			)
+		),
+
+		tags$style(
+			HTML(
+				'
+		  .bslib-sidebar-layout .sidebar-title { margin-bottom: 0 }
+			#sidebar_editor .sidebar-content { height: max(600px, 100%) }
+		'
+			)
+		),
+
 		actionButton("save", span("Save", code("_brand.yml"), "file"))
 	),
 
@@ -103,8 +149,7 @@ ui <- page_navbar(
 				card_header("Text Output"),
 				verbatimTextOutput("out_text")
 			)
-		),
-		tags$script("$(document).ready(function())")
+		)
 	),
 
 	nav_panel(
