@@ -1,5 +1,3 @@
-pkgload::load_all()
-
 rlang::check_installed("shiny", version = "1.8.1")
 rlang::check_installed("bslib", version = "0.8.0.9000")
 rlang::check_installed("future")

@@ -78,7 +78,6 @@ Config/Needs/deploy:
     leaflet,
     lubridate,
     modelr,
-    pkgload,
     plotly,
     reactable,
     reshape2,
