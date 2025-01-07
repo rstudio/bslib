@@ -50,27 +50,33 @@ ui <- page_navbar(
 
 	sidebar = sidebar(
 		id = "sidebar_editor",
-		title = "Edit brand.yml",
 		position = "right",
 		open = "closed",
 		width = "40%",
-
-		htmltools::tagAppendAttributes(
-			textAreaInput(
-				"txt_brand_yml",
-				label = NULL,
-				value = paste(readLines("_brand.yml", warn = FALSE), collapse = "\n"),
-				width = "100%",
-				height = "80%",
-				rows = 20
+		bg = "#0D1117",
+		
+		card(
+			card_header("Edit", code("brand.yml"), class = "text-bg-secondary"),
+			htmltools::tagAppendAttributes(
+				textAreaInput(
+					"txt_brand_yml",
+					label = NULL,
+					value = paste(readLines("_brand.yml", warn = FALSE), collapse = "\n"),
+					width = "100%",
+					height = "80%",
+					rows = 20
+				),
+				class = "font-monospace",
+				.cssSelector = "textarea"
 			),
-			class = "font-monospace",
-			.cssSelector = "textarea"
-		),
-
-		div(
-			id = "editor_brand_yml",
-			style = "overflow: auto;"
+			card_body(
+				padding = 0,
+				div(
+					id = "editor_brand_yml",
+					style = "overflow: auto;",
+					as_fill_item()
+				)
+			)
 		),
 
 		tags$script(
@@ -95,7 +101,7 @@ function initBrandEditor() {
 			value: shinyInput.value,
 			onUpdate: (value) => { Shiny.setInputValue("txt_brand_yml", value) },
 		},
-		() => shinyInput.parentElement.remove()
+		() => shinyInput.parentElement.parentElement.remove()
 	)
 }
 
@@ -112,9 +118,13 @@ initBrandEditor()'
 			)
 		),
 
-		if (getwd() != system.file("examples-shiny/brand.yml", package = "bslib")) {
-			actionButton("save", span("Save", code("_brand.yml"), "file"))
-		}
+		# if (getwd() != system.file("examples-shiny/brand.yml", package = "bslib")) {
+		actionButton(
+			"save",
+			label = span("Save", code("_brand.yml"), "file"),
+			class = "btn-outline-light"
+		)
+		# }
 	),
 
 	nav_panel(
@@ -270,17 +280,19 @@ errors <- rlang::new_environment()
 
 error_notification <- function(context) {
 	function(err) {
-		msg <- conditionMessage(err)
 		time <- as.character(Sys.time())
-		err_id <- rlang::hash(list(time, msg))
 
+		msg <- conditionMessage(err)
 		# Strip ANSI color sequences from error messages
 		msg <- gsub(
 			pattern = "\u001b\\[.*?m",
 			replacement = "",
 			msg
 		)
-
+		# Wrap at 40 characters
+		msg <- paste(strwrap(msg, width = 60), collapse = "\n")
+		
+		err_id <- rlang::hash(list(time, msg))
 		assign(err_id, list(message = msg, context = context), envir = errors)
 
 		showNotification(
