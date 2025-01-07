@@ -363,12 +363,12 @@ server <- function(input, output, session) {
 	PlotTask <- ExtendedTask$new(function(x_max, y_factor) {
 		x <- seq(0, x_max, length.out = 100)
 		y <- sin(x) * y_factor
-	
+
 		future({
 			Sys.sleep(3)
-		
+
 			df <- data.frame(x = x, y = y)
-		
+
 			ggplot(df, aes(x = x, y = y)) +
 				geom_col(width = 1, position = "identity") +
 				labs(title = "Sine Wave Output", x = "", y = "")
@@ -382,8 +382,8 @@ server <- function(input, output, session) {
 		PlotTask$invoke(x_max = x_max, y_factor = y_factor)
 	})
 
-	output$out_plot <- renderPlot({ 
-		PlotTask$result() 
+	output$out_plot <- renderPlot({
+		PlotTask$result()
 	})
 
 	output$out_text <- renderText({
