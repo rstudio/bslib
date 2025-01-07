@@ -28,7 +28,7 @@
 
 bs_brand_bundle <- function(brand, version = version_default()) {
   brand <- brand_resolve(brand)
-  
+
   if (is.null(brand)) {
     return()
   }
@@ -40,10 +40,12 @@ bs_brand_bundle <- function(brand, version = version_default()) {
   brand_typography <- brand_sass_typography(brand)
 
   if (version <= 4) {
-    rlang::warn(sprintf(
-      "Branded theming works best with Bootstrap v5, some features may not work as expected for Bootstrap v%s.",
-      version
-    ))
+    rlang::warn(
+      sprintf(
+        "Branded theming works best with Bootstrap v5, some features may not work as expected for Bootstrap v%s.",
+        version
+      )
+    )
   }
 
   sass_bundle(
@@ -195,7 +197,11 @@ brand_sass_color <- function(brand) {
   }
 
   # Resolve internal references in colors
-  colors <- lapply(rlang::set_names(names(colors)), brand_color_pluck, brand = brand)
+  colors <- lapply(
+    rlang::set_names(names(colors)),
+    brand_color_pluck,
+    brand = brand
+  )
 
   defaults <- list()
   for (thm_name in names(colors)) {
@@ -263,7 +269,9 @@ brand_sass_fonts <- function(brand) {
         family = font$family,
         wght = brand_remap_font_weight(font$weight) %||%
           seq(100, 900, by = 100),
-        ital = c("normal" = 0, "italic" = 1)[font$style %||% c("normal", "italic")],
+        ital = c("normal" = 0, "italic" = 1)[
+          font$style %||% c("normal", "italic")
+        ],
         display = font$display %||% "auto"
       ),
       bunny = brand_font_bunny(
@@ -363,7 +371,10 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
   if (!(is.list(files) && length(files) > 0)) {
     abort(
       c(
-        sprintf("Font family '%s' must have one or more associated files.", family),
+        sprintf(
+          "Font family '%s' must have one or more associated files.",
+          family
+        ),
         "i" = "Use `source: system` for fonts that are provided by the user's system."
       )
     )
@@ -372,7 +383,10 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
   font_collection_files <- lapply(files, function(file) {
     if (is.null(file$path)) {
       abort(
-        sprintf("All font `files` for font family '%s' must have a `path`.", family)
+        sprintf(
+          "All font `files` for font family '%s' must have a `path`.",
+          family
+        )
       )
     }
 
@@ -753,7 +767,7 @@ brand_pluck <- function(brand, ...) {
 }
 
 brand_has_string <- function(brand, ...) {
-  if (!brand_has(brand, ...)) return(FALSE)  
+  if (!brand_has(brand, ...)) return(FALSE)
   rlang::is_string(brand[[c(...)]])
 }
 
@@ -771,8 +785,8 @@ find_project_brand_yml <- function(path = NULL) {
   ext <- path_ext(path)
   if (ext %in% c("yml", "yaml")) {
     return(path)
-  } 
-  
+  }
+
   if (nzchar(ext)) {
     path <- dirname(path)
   }
@@ -820,11 +834,11 @@ find_project_file <- function(filename, dir, subdir = character()) {
 
 path_is_file <- function(path) {
   # The file exists and is a file
-  file.exists(path) && !dir.exists(path)  
+  file.exists(path) && !dir.exists(path)
 }
 
 path_ext <- function(path) {
-  # Same as tools::file_ext()  
+  # Same as tools::file_ext()
   pos <- regexpr("\\.([[:alnum:]]+)$", path)
   ifelse(pos > -1L, substring(path, pos + 1L), "")
 }
