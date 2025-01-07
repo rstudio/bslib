@@ -263,7 +263,7 @@ brand_sass_fonts <- function(brand) {
         family = font$family,
         wght = brand_remap_font_weight(font$weight) %||%
           seq(100, 900, by = 100),
-        ital = c("normal" = 0, "italic" = 1)[font$style],
+        ital = c("normal" = 0, "italic" = 1)[font$style %||% c("normal", "italic")],
         display = font$display %||% "auto"
       ),
       bunny = brand_font_bunny(
