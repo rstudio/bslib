@@ -6,6 +6,8 @@
 \alias{bslib-package}
 \title{bslib: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Simplifies custom 'CSS' styling of both 'shiny' and 'rmarkdown' via 'Bootstrap' 'Sass'. Supports 'Bootstrap' 3, 4 and 5 as well as their various 'Bootswatch' themes. An interactive widget is also provided for previewing themes in real time.
 }
 \seealso{
