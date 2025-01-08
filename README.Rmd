@@ -2,6 +2,9 @@
 output: github_document
 ---
 
+# bslib <a href='https://rstudio.github.io/bslib/'><img src='man/figures/logo.png' align="right" height="138" /></a>
+
+
 <!-- badges: start -->
 
 [![CRAN status](https://www.r-pkg.org/badges/version/bslib)](https://cran.r-project.org/package=bslib)
