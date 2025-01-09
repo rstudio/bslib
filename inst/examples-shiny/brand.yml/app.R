@@ -54,7 +54,8 @@ ui <- page_navbar(
 		position = "right",
 		open = "closed",
 		width = "40%",
-		bg = "#0D1117",
+		bg = "var(--bs-dark)",
+		fg = "var(--bs-light)",
 		
 		card(
 			card_header(
