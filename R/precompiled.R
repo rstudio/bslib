@@ -1,34 +1,21 @@
 
-# This figures out which precompiled CSS files are available.
-# This is memoized - it runs once per R session.
-precompiled_css <- local({
-  themes <- NULL
+# List which precompiled CSS files are available.
+.precompiled_css_versions <- dir(system.file("css-precompiled", package = "bslib"))
+.precompiled_css_themes <- new.env(parent = emptyenv())
 
-  function() {
-    if (is.null(themes)) {
-      versions <- dir(system.file("css-precompiled", package = "bslib"))
-      themes <<- lapply(versions, function(version) {
-        list(
-          version = version,
-          theme = bs_theme(version)
-        )
-      })
-    }
-    themes
-  }
-})
-
-
-precompiled_css_version <- function(theme) {
-  for (precompiled in precompiled_css()) {
-    if (identical(theme, precompiled$theme)) {
-      return(theme_version(theme))
-    }
+# We'll need a copy of the `bs_theme()` object representing each precompiled
+# theme so we can compare with the user theme to only use the precompiled theme
+# if the two are identical. Base themes are hashed and cached.
+precompiled_bs_theme_hash <- function(version) {
+  theme_hash <- get0(version, .precompiled_css_themes)
+  
+  if (is.null(theme_hash)) {
+    theme_hash <- rlang::hash(bs_theme(version = version, brand = FALSE))
+    assign(version, theme_hash, envir = .precompiled_css_themes)
   }
 
-  return(NULL)
+  return(theme_hash)
 }
-
 
 #' Get the path to a precompiled CSS file
 #'
@@ -42,10 +29,26 @@ precompiled_css_version <- function(theme) {
 #' @keywords internal
 #' @export
 precompiled_css_path <- function(theme = bs_theme()) {
-  version <- precompiled_css_version(theme)
+  version <- theme_version(theme)
+  theme_hash <- rlang::hash(theme)
+  built_version <- NULL
+
   if (is.null(version)) {
+    for (v in .precompiled_css_versions) {
+      if (identical(theme_hash, precompiled_bs_theme_hash(v))) {
+        built_version <- v
+        break
+      }
+    }
+  } else if (version %in% .precompiled_css_versions) {
+      if (identical(theme_hash, precompiled_bs_theme_hash(version))) {
+        built_version <- version
+      }
+  }
+
+  if (is.null(built_version)) {
     return(NULL)
   }
 
-  system_file(package = "bslib", "css-precompiled", version, "bootstrap.min.css")
+  system_file(package = "bslib", "css-precompiled", built_version, "bootstrap.min.css")
 }
