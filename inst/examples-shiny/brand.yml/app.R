@@ -57,7 +57,26 @@ ui <- page_navbar(
 		bg = "#0D1117",
 		
 		card(
-			card_header("Edit", code("brand.yml"), class = "text-bg-secondary"),
+			card_header(
+				class = "text-bg-secondary hstack",
+				div("Edit", code("brand.yml")),
+				div(
+					class = "ms-auto",
+					tooltip(
+						tags$a(
+							class = "btn btn-link p-0",
+							href = "https://posit-dev.github.io/brand-yml/brand/",
+							target = "_blank",
+							bsicons::bs_icon(
+								"question-square-fill",
+								title = "About brand.yml",
+								size = "1.25rem"
+							)
+						),
+						"About brand.yml"
+					)
+				)
+			),
 			htmltools::tagAppendAttributes(
 				textAreaInput(
 					"txt_brand_yml",
