@@ -10,7 +10,7 @@ precompiled_css <- local({
       themes <<- lapply(versions, function(version) {
         list(
           version = version,
-          theme = bs_theme(version)
+          theme = bs_theme(version, brand = FALSE)
         )
       })
     }
