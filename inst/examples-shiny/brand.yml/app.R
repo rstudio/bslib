@@ -138,7 +138,13 @@ initBrandEditor()'
 			)
 		),
 
-		if (getwd() != system.file("examples-shiny/brand.yml", package = "bslib")) {
+		if (Sys.getenv("R_CONFIG_ACTIVE") %in% c("shinylive", "shinyapps", "rsconnect", "rstudio_cloud")) {
+			shiny::downloadButton(
+				"download",
+				label = span("Download", code("_brand.yml"), "file"),
+				class = "btn-outline-light"
+			)
+		} else if (getwd() != system.file("examples-shiny/brand.yml", package = "bslib")) {
 			actionButton(
 				"save",
 				label = span("Save", code("_brand.yml"), "file"),
@@ -392,10 +398,10 @@ server <- function(input, output, session) {
 	})
 
 	observeEvent(input$save, {
-		req(brand_yml())
+		validate(
+			need(input$txt_brand_yml, "_brand.yml file contents cannot be empty.")
+		)
 
-		b <- brand_yml()
-		b$path <- NULL
 		tryCatch(
 			{
 				writeLines(input$txt_brand_yml, "_brand.yml")
@@ -404,6 +410,16 @@ server <- function(input, output, session) {
 			error = error_notification("Could not save `_brand.yml`.")
 		)
 	})
+
+	output$download <- downloadHandler(
+		filename = "_brand.yml",
+		content = function(file) {
+			validate(
+				need(input$txt_brand_yml, "_brand.yml file contents cannot be empty.")
+			)
+			writeLines(input$txt_brand_yml, file)
+		}
+	)
 
 	PlotTask <- ExtendedTask$new(function(x_max, y_factor) {
 		x <- seq(0, x_max, length.out = 100)
