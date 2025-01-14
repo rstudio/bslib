@@ -39,29 +39,29 @@ precompiled_bs_theme_hash <- function(version) {
 precompiled_css_path <- function(theme = bs_theme()) {
   version <- theme_version(theme)
   theme_hash <- rlang::hash(theme)
-  built_version <- NULL
+  version_precompiled <- NULL
 
   if (is.null(version)) {
     for (v in .precompiled_css_versions()) {
       if (identical(theme_hash, precompiled_bs_theme_hash(v))) {
-        built_version <- v
+        version_precompiled <- v
         break
       }
     }
   } else if (version %in% .precompiled_css_versions()) {
     if (identical(theme_hash, precompiled_bs_theme_hash(version))) {
-      built_version <- version
+      version_precompiled <- version
     }
   }
 
-  if (is.null(built_version)) {
+  if (is.null(version_precompiled)) {
     return(NULL)
   }
 
   system_file(
     package = "bslib",
     "css-precompiled",
-    built_version,
+    version_precompiled,
     "bootstrap.min.css"
   )
 }
