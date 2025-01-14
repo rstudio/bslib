@@ -8,11 +8,12 @@
     versions
   }
 })
+
 .precompiled_css_themes <- new.env(parent = emptyenv())
 
-# We'll need a copy of the `bs_theme()` object representing each precompiled
-# theme so we can compare with the user theme to only use the precompiled theme
-# if the two are identical. Base themes are hashed and cached.
+# Precompiled themes are created for base `bs_theme()`, changing only the
+# Bootstrap version number. To decide if we can use the precompiled theme, we
+# hash `bs_theme(version)`, which we'll compare with a hash of the user's theme.
 precompiled_bs_theme_hash <- function(version) {
   theme_hash <- get0(version, .precompiled_css_themes)
 
