@@ -18,6 +18,8 @@
 
 * Optimized for better performance the internal functions that compile Sass to call the `color-contrast()` algorithm. (#1140)
 
+* `input_switch()` and `input_dark_mode()` can be included in Shiny's [bookmarking feature](https://shiny.posit.co/r/articles/share/bookmarking-state/). (#1166)
+
 # bslib 0.8.0
 
 ## Breaking changes

@@ -46,7 +46,14 @@
 #' @family input controls
 #' @export
 input_switch <- function(id, label, value = FALSE, width = NULL) {
-  tag <- input_checkbox(id, label, class = "bslib-input-switch form-switch", value = value, width = width)
+  value <- shiny::restoreInput(id, default = value)
+  tag <- input_checkbox(
+    id,
+    label,
+    class = "bslib-input-switch form-switch",
+    value = value,
+    width = width
+  )
   tag <- tag_require(tag, version = 5, caller = "input_switch()")
   as_fragment(tag)
 }
