@@ -15,7 +15,7 @@
 # Bootstrap version number. To decide if we can use the precompiled theme, we
 # hash `bs_theme(version)`, which we'll compare with a hash of the user's theme.
 precompiled_bs_theme_hash <- function(version) {
-  theme_hash <- get0(version, .precompiled_css_themes)
+  theme_hash <- get0(as.character(version), .precompiled_css_themes)
 
   if (is.null(theme_hash)) {
     theme_hash <- rlang::hash(bs_theme(version = version, brand = FALSE))
