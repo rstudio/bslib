@@ -419,7 +419,8 @@ dir.create(precompiled_dir, recursive = TRUE)
 
 invisible(lapply(versions(), function(version) {
   res <- bs_theme_dependencies(
-    bs_theme(version), precompiled = FALSE,
+    bs_theme(version, brand = FALSE),
+    precompiled = FALSE,
     sass_options = sass_options(output_style = "compressed"),
     cache = NULL
   )

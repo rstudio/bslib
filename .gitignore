@@ -22,3 +22,5 @@ vignettes/*/index.html
 # rendered examples that appear in iframes
 vignettes/**/examples
 !vignettes/examples
+inst/examples-shiny/brand.yml/Monda-OFL.txt
+inst/examples-shiny/brand.yml/Monda.ttf

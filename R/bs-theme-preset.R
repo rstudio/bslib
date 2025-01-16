@@ -35,11 +35,12 @@ resolve_bs_preset <- function(
   abort_preset_unknown_name(preset_name, version)
 }
 
-new_bs_preset <- function(name, version, type = NULL) {
+new_bs_preset <- function(name, version, type = NULL, ...) {
   preset <- list(
     version = version, # bootstrap version
     name = name,       # preset name
-    type = type        # preset type (e.g. "builtin", "bootswatch")
+    type = type,       # preset type (e.g. "builtin", "bootswatch")
+    ...
   )
 
   structure(dropNulls(preset), class = "bs_preset")

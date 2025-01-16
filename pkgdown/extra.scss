@@ -75,19 +75,25 @@ main h2 {
   margin-bottom: 0;
 }
 
-.callout > h3 {
-  position: relative;
-  margin: -1rem;
-  margin-bottom: 10px;
-  padding: 1rem;
-  font-size: 1.5rem;
-  border-top-left-radius: inherit;
-  border-top-right-radius: inherit;
+h3, h4, h5 {
+  .callout > & {
+    position: relative;
+    margin: -1rem;
+    margin-bottom: 10px;
+    padding-block: 0.5em;
+    padding-inline: 1em;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+  }
+  
+  .callout > & > .anchor {
+    display: none;
+  }
 }
 
-.callout > h3 > .anchor {
-  display: none;
-}
+.callout > h3 { font-size: 1.5rem; }
+.callout > h4 { font-size: 1.25rem; }
+.callout > h5 { font-size: 1.125rem; }
 
 .callout.callout-warning {
   --callout--border-color: #ffd700;
@@ -102,14 +108,15 @@ main h2 {
 
   border-color: var(--callout--border-color);
 
-  > h3 {
+  > h3,
+  > h4, 
+  > h5 {
     color: var(--callout--header-color);
     background-color: var(--callout--header-bg);
 
     &:before {
       content: "!";
       font-weight: bold;
-      font-size: 1.25rem;
       font-family: serif;
       margin-right: 0.5rem;
       border-radius: 50%;
@@ -121,6 +128,10 @@ main h2 {
       justify-content: center;
     }
   }
+
+  > h3:before { font-size: 1.25rem; }
+  > h4:before { font-size: 1.2rem; }
+  > h5:before { font-size: 1.125rem; }
 }
 
 

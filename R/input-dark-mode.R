@@ -33,6 +33,10 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
     mode <- rlang::arg_match(mode, c("light", "dark"))
   }
 
+  if (!is.null(id)) {
+    mode <- shiny::restoreInput(id, default = mode)
+  }
+
   if (any(!nzchar(rlang::names2(rlang::list2(...))))) {
     abort("All arguments in `...` must be named.")
   }
@@ -63,7 +67,11 @@ input_dark_mode <- function(..., id = NULL, mode = NULL) {
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #' @export
-toggle_dark_mode <- function(mode = NULL, ..., session = get_current_session()) {
+toggle_dark_mode <- function(
+  mode = NULL,
+  ...,
+  session = get_current_session()
+) {
   rlang::check_dots_empty(
     error = function(err) rlang::warn(rlang::cnd_message(err))
   )
