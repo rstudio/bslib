@@ -9,9 +9,9 @@ test_that("navbar_options() validates position", {
 
 test_that("navbar_options() print method", {
   expect_snapshot(navbar_options())
-  expect_snapshot(navbar_options(type = "dark", bg = "red"))
+  expect_snapshot(navbar_options(theme = "dark", bg = "red"))
   expect_snapshot(
-    navbar_options(position = "static-top", type = "auto", collapsible = TRUE)
+    navbar_options(position = "static-top", theme = "auto", collapsible = TRUE)
   )
 
   expect_output(
@@ -56,7 +56,7 @@ test_that("navbar_options_resolve_deprecated() consolidates correctly", {
       "blue"
     )
   )
-  
+
   expect_warning(
     expect_equal(
       navbar_options_resolve_deprecated(list(bg = "blue"), bg = "red")$bg,
@@ -69,7 +69,7 @@ test_that("navbar_options_resolve_deprecated() consolidates correctly", {
       navbar_options_resolve_deprecated(navbar_options(bg = NULL), bg = "red")$bg
     )
   )
-  
+
   expect_warning(
     expect_null(
       navbar_options_resolve_deprecated(list(bg = NULL), bg = "red")$bg
@@ -89,30 +89,30 @@ test_that("navbar_options_resolve_deprecated() upgrades `inverse` to `type`", {
   rlang::local_options(lifecycle_verbosity = "quiet")
 
   expect_equal(
-    navbar_options_resolve_deprecated(navbar_options(), inverse = TRUE)$type,
+    navbar_options_resolve_deprecated(navbar_options(), inverse = TRUE)$theme,
     "dark"
   )
 
   expect_equal(
-    navbar_options_resolve_deprecated(navbar_options(), inverse = FALSE)$type,
+    navbar_options_resolve_deprecated(navbar_options(), inverse = FALSE)$theme,
     "light"
   )
 
   expect_equal(
-    navbar_options_resolve_deprecated(navbar_options(), inverse = "auto")$type,
+    navbar_options_resolve_deprecated(navbar_options(), inverse = "auto")$theme,
     "auto"
   )
 
   expect_warning(
     expect_equal(
-      navbar_options_resolve_deprecated(navbar_options(type = "light"), inverse = TRUE)$type,
+      navbar_options_resolve_deprecated(navbar_options(theme = "light"), inverse = TRUE)$theme,
       "light"
     )
   )
 
   expect_warning(
     expect_equal(
-      navbar_options_resolve_deprecated(navbar_options(type = "dark"), inverse = FALSE)$type,
+      navbar_options_resolve_deprecated(navbar_options(theme = "dark"), inverse = FALSE)$theme,
       "dark"
     )
   )
@@ -153,7 +153,7 @@ test_that("navset_bar() warns if `navbar_options()` collide with direct deprecat
   expect_warning(
     navset_bar(
       inverse = TRUE,
-      navbar_options = navbar_options(type = "light")
+      navbar_options = navbar_options(theme = "light")
     )
   )
 
@@ -192,8 +192,8 @@ test_that("navbar_options_resolve_deprecated() prefers user options over depreca
     expect_equal(
       navbar_options_resolve_deprecated(
         inverse = TRUE,
-        options_user = navbar_options(type = "light")
-      )$type,
+        options_user = navbar_options(theme = "light")
+      )$theme,
       "light"
     )
   )
@@ -241,20 +241,20 @@ test_that("navbar markup snapshots", {
   expect_snapshot(
     show_navbar_markup(navs_bar_(theme = bs_theme(version = 4)))
   )
-  
+
   expect_snapshot(
     show_navbar_markup(navs_bar_(theme = bs_theme(version = 5)))
   )
 
   expect_snapshot(
     show_navbar_markup(
-      navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(type = "dark"))
+      navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(theme = "dark"))
     )
   )
 
   expect_snapshot(
     show_navbar_markup(
-      navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(type = "light"))
+      navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(theme = "light"))
     )
   )
 
@@ -266,13 +266,13 @@ test_that("navbar markup snapshots", {
 
   expect_snapshot(
     show_navbar_markup(
-      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(type = "dark"))
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(theme = "dark"))
     )
   )
 
   expect_snapshot(
     show_navbar_markup(
-      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(type = "light"))
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(theme = "light"))
     )
   )
 
@@ -281,16 +281,16 @@ test_that("navbar markup snapshots", {
       navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(bg = "#000"))
     )
   )
-  
+
   expect_snapshot(
     show_navbar_markup(
-      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(type = "light", `data-bs-theme` = "dark"))
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(theme = "light", `data-bs-theme` = "dark"))
     )
   )
 
   expect_snapshot(
     show_navbar_markup(
-      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(class = "bg-primary", type = "dark"))
+      navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(class = "bg-primary", theme = "dark"))
     )
   )
 })

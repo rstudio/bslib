@@ -8,7 +8,7 @@ navbar_options(
   ...,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   bg = NULL,
-  type = c("auto", "light", "dark"),
+  theme = c("auto", "light", "dark"),
   collapsible = TRUE,
   underline = TRUE
 )
@@ -27,9 +27,10 @@ unless you add padding, e.g.: \code{tags$style(type="text/css", "body
 
 \item{bg}{a CSS color to use for the navbar's background color.}
 
-\item{type}{Either \code{"dark"} for a light text color (on a \strong{dark} background)
-or \code{"light"} for a dark text color (on a \strong{light} background). If \code{"auto"}
-(the default) and \code{bg} is provided, the best contrast to \code{bg} is chosen.}
+\item{theme}{Either \code{"dark"} for a light text color (on a \strong{dark}
+background) or \code{"light"} for a dark text color (on a \strong{light} background).
+If \code{"auto"} (the default) and \code{bg} is provided, the best contrast to \code{bg}
+is chosen.}
 
 \item{collapsible}{\code{TRUE} to automatically collapse the navigation
 elements into an expandable menu on mobile devices or narrow window widths.}

@@ -5,30 +5,30 @@
     Output
       <bslib_navbar_options>
          position: (static-top)
-             type: (auto)
+            theme: (auto)
       collapsible: (TRUE)
         underline: (TRUE)
 
 ---
 
     Code
-      navbar_options(type = "dark", bg = "red")
+      navbar_options(theme = "dark", bg = "red")
     Output
       <bslib_navbar_options>
          position: (static-top)
                bg: red
-             type: dark
+            theme: dark
       collapsible: (TRUE)
         underline: (TRUE)
 
 ---
 
     Code
-      navbar_options(position = "static-top", type = "auto", collapsible = TRUE)
+      navbar_options(position = "static-top", theme = "auto", collapsible = TRUE)
     Output
       <bslib_navbar_options>
          position: static-top
-             type: auto
+            theme: auto
       collapsible: TRUE
         underline: (TRUE)
 
@@ -57,7 +57,7 @@
 
     Code
       show_navbar_markup(navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(
-        type = "dark")))
+        theme = "dark")))
     Output
       <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation" data-bs-theme="dark"></nav>
 
@@ -65,7 +65,7 @@
 
     Code
       show_navbar_markup(navs_bar_(theme = bs_theme(version = 4), navbar_options = navbar_options(
-        type = "light")))
+        theme = "light")))
     Output
       <nav class="navbar navbar-default navbar-static-top" role="navigation" data-bs-theme="light"></nav>
 
@@ -81,7 +81,7 @@
 
     Code
       show_navbar_markup(navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(
-        type = "dark")))
+        theme = "dark")))
     Output
       <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation" data-bs-theme="dark"></nav>
 
@@ -89,7 +89,7 @@
 
     Code
       show_navbar_markup(navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(
-        type = "light")))
+        theme = "light")))
     Output
       <nav class="navbar navbar-default navbar-static-top" role="navigation" data-bs-theme="light"></nav>
 
@@ -105,7 +105,7 @@
 
     Code
       show_navbar_markup(navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(
-        type = "light", `data-bs-theme` = "dark")))
+        theme = "light", `data-bs-theme` = "dark")))
     Output
       <nav class="navbar navbar-default navbar-static-top" role="navigation" data-bs-theme="dark"></nav>
 
@@ -113,7 +113,7 @@
 
     Code
       show_navbar_markup(navs_bar_(theme = bs_theme(version = 5), navbar_options = navbar_options(
-        class = "bg-primary", type = "dark")))
+        class = "bg-primary", theme = "dark")))
     Output
       <nav class="navbar navbar-default navbar-static-top navbar-inverse bg-primary" data-bs-theme="dark" role="navigation"></nav>
 

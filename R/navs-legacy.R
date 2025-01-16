@@ -187,9 +187,10 @@ navset_bar <- function(
 #' 
 #' @inheritParams shiny::navbarPage
 #' @param bg a CSS color to use for the navbar's background color.
-#' @param type Either `"dark"` for a light text color (on a **dark** background)
-#'   or `"light"` for a dark text color (on a **light** background). If `"auto"`
-#'   (the default) and `bg` is provided, the best contrast to `bg` is chosen.
+#' @param theme Either `"dark"` for a light text color (on a **dark**
+#'   background) or `"light"` for a dark text color (on a **light** background).
+#'   If `"auto"` (the default) and `bg` is provided, the best contrast to `bg`
+#'   is chosen.
 #' @param underline Whether or not to add underline styling to page or navbar
 #'   links when active or focused.
 #' @param ... Additional attributes that will be passed directly to the navbar
@@ -202,7 +203,7 @@ navbar_options <- function(
   ...,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   bg = NULL,
-  type = c("auto", "light", "dark"),
+  theme = c("auto", "light", "dark"),
   collapsible = TRUE,
   underline = TRUE
 ) {
@@ -210,7 +211,7 @@ navbar_options <- function(
   is_default <- list(
     position = missing(position),
     bg = missing(bg),
-    type = missing(type),
+    theme = missing(theme),
     collapsible = missing(collapsible),
     underline = missing(underline)
   )
@@ -218,7 +219,7 @@ navbar_options <- function(
   opts <- list(
     position = rlang::arg_match(position),
     bg = bg,
-    type = rlang::arg_match(type),
+    theme = rlang::arg_match(theme),
     collapsible = collapsible,
     underline = underline
   )
@@ -235,7 +236,7 @@ navbar_options <- function(
     lifecycle::deprecate_soft(
       when = "0.9.0",
       what = "navbar_options(inverse=)",
-      with = "navbar_options(type=)"
+      with = "navbar_options(theme=)"
     )
   }
   if (length(dots$attribs)) {
@@ -282,23 +283,24 @@ navbar_options_resolve_deprecated <- function(
       )),
       details = c(
         "i" = "See `navbar_options()` for more details.",
-        "!" = if ("inverse" %in% args_deprecated) "Use `type` instead of `inverse` in `navbar_options()`."
+        "!" = if ("inverse" %in% args_deprecated)
+          "Use `theme` instead of `inverse` in `navbar_options()`."
       )
     )
   }
 
-  # Upgrade `inverse` to the new `type` argument of `navbar_options()`
+  # Upgrade `inverse` to the new `theme` argument of `navbar_options()`
   if ("inverse" %in% names(options_old)) {
     inverse <- options_old[["inverse"]]
     options_old[["inverse"]] <- NULL
-    
-    options_old[["type"]] <- 
+
+    options_old[["theme"]] <-
       if (is.character(inverse)) {
         inverse
       } else if (isTRUE(as.logical(inverse))) {
-        options_old[["type"]] <- "dark"
+        options_old[["theme"]] <- "dark"
       } else if (isFALSE(as.logical(inverse))) {
-        options_old[["type"]] <- "light"
+        options_old[["theme"]] <- "light"
       } else {
         abort(paste("Invalid `inverse` value: ", inverse))
       }
@@ -321,7 +323,7 @@ navbar_options_resolve_deprecated <- function(
     if (!opt %in% names(options_user)) {
       options_user[[opt]] <- options_old[[opt]]
     } else if (!identical(options_old[[opt]], options_user[[opt]])) {
-      ignored <- c(ignored, if (opt == "type") "inverse" else opt)      
+      ignored <- c(ignored, if (opt == "theme") "inverse" else opt)
     }
   }
 
@@ -395,18 +397,18 @@ navs_bar_ <- function(
   theme = NULL
 ) {
   navbar_options <- navbar_options %||% navbar_options()
-  
-  type <- navbar_options[["type"]]
-  bg <- navbar_options[["bg"]]
 
-  if (identical(type, "auto")) {
+  navbar_theme <- navbar_options[["theme"]]
+  navbar_bg <- navbar_options[["bg"]]
+
+  if (identical(navbar_theme, "auto")) {
     if (is.null(theme) || theme_version(theme) < 5) {
-      type <- "dark"
-    }    
-    if (!is.null(bg)) {
-      bg <- htmltools::parseCssColors(bg)
-      bg_contrast <- get_color_contrast(bg)
-      type <- if (bg_contrast == "#FFFFFF") "dark" else "light"
+      navbar_theme <- "dark"
+    }
+    if (!is.null(navbar_bg)) {
+      navbar_bg <- htmltools::parseCssColors(navbar_bg)
+      bg_contrast <- get_color_contrast(navbar_bg)
+      navbar_theme <- if (bg_contrast == "#FFFFFF") "dark" else "light"
     }
   }
 
@@ -423,7 +425,7 @@ navs_bar_ <- function(
     header = header,
     footer = footer,
     collapsible = navbar_options[["collapsible"]],
-    inverse = identical(type, "dark"),
+    inverse = identical(navbar_theme, "dark"),
     underline = navbar_options[["underline"]],
     fluid = fluid,
     theme = theme
@@ -431,14 +433,15 @@ navs_bar_ <- function(
 
   attribs <- navbar_options[["attribs"]] %||% list()
 
-  # Use user-provided `data-bs-theme` or our internally selected `type`. If the
+  # Use user-provided `data-bs-theme` or our internally selected `theme`. If the
   # user includes both, the attribute wins for being most technically-correct.
-  attribs[["data-bs-theme"]] <- attribs[["data-bs-theme"]] %||% type
+  attribs[["data-bs-theme"]] <- attribs[["data-bs-theme"]] %||% navbar_theme
 
   # navbarPage_() returns a tagList() of the nav and content
   navbar[[1]] <- tagAppendAttributes(
     navbar[[1]],
-    style = if (!is.null(bg)) css(background_color = paste(bg, "!important")),
+    style = if (!is.null(navbar_bg))
+      css(background_color = paste(navbar_bg, "!important")),
     !!!attribs
   )
 
