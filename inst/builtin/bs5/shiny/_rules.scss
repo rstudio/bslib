@@ -215,7 +215,7 @@ $bslib-checkbox-radio-margin-right: 0.35em !default;
   --#{$prefix}link-hover-color: rgba(var(--bs-body-color-rgb), 0.8);
   --#{$prefix}nav-link-font-size: 0.875rem;
 
-  .nav-link {
+  .nav-link:not(:empty) {
     padding-left: 5px !important;
     padding-right: 5px !important;
 
