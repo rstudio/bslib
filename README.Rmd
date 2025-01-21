@@ -25,8 +25,6 @@ knitr::opts_chunk$set(
 library(bslib)
 ```
 
-# bslib
-
 The `bslib` R package provides a modern UI toolkit for [Shiny](https://shiny.posit.co/) and [R Markdown](https://rmarkdown.rstudio.com/) based on [Bootstrap](https://getbootstrap.com/). It facilitates:
 
 * Creation of delightful and customizable [Shiny dashboards](https://rstudio.github.io/bslib/articles/dashboards.html).
