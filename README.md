@@ -12,8 +12,6 @@ status](https://github.com/rstudio/bslib/actions/workflows/R-CMD-check.yaml/badg
 
 <!-- badges: end -->
 
-# bslib
-
 The `bslib` R package provides a modern UI toolkit for
 [Shiny](https://shiny.posit.co/) and [R
 Markdown](https://rmarkdown.rstudio.com/) based on
