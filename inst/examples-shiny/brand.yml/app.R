@@ -110,38 +110,40 @@ ui <- page_navbar(
       type = "module",
       HTML(
         '
-import { basicEditor } from "https://esm.sh/prism-code-editor@3.4.0/setups"
-import "https://esm.sh/prism-code-editor@3.4.0/prism/languages/yaml"
+import { basicEditor } from "https://esm.sh/prism-code-editor@3.4.0/setups";
+import "https://esm.sh/prism-code-editor@3.4.0/prism/languages/yaml";
 
-const shinyInput = document.getElementById("txt_brand_yml")
+const shinyInput = document.getElementById("txt_brand_yml");
 
 function initBrandEditor() {
-	if (typeof Shiny.setInputValue !== "function") {
-		setTimeout(initBrandEditor, 100)
-		return
-	}
-	window.brandEditor = basicEditor(
-		"#editor_brand_yml",
-		{ 
-			language: "yml",
-			theme: "github-dark",
-			value: shinyInput.value,
-			onUpdate: (value) => { Shiny.setInputValue("txt_brand_yml", value) },
-		},
-		() => shinyInput.parentElement.parentElement.remove()
-	)
+  if (typeof Shiny.setInputValue !== "function") {
+    setTimeout(initBrandEditor, 100);
+    return;
+  }
+  window.brandEditor = basicEditor(
+    "#editor_brand_yml",
+    {
+      language: "yml",
+      theme: "github-dark",
+      value: shinyInput.value,
+      onUpdate: (value) => {
+        Shiny.setInputValue("txt_brand_yml", value);
+      },
+    },
+    () => shinyInput.parentElement.parentElement.remove()
+  );
 }
 
-initBrandEditor()'
+initBrandEditor();
+'
       )
     ),
 
     tags$style(
       HTML(
         '
-		  .bslib-sidebar-layout .sidebar-title { margin-bottom: 0 }
-			#sidebar_editor .sidebar-content { height: max(600px, 100%) }
-		'
+.bslib-sidebar-layout .sidebar-title { margin-bottom: 0 }
+#sidebar_editor .sidebar-content { height: max(600px, 100%) }'
       )
     ),
 
