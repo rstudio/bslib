@@ -41,7 +41,10 @@ ui_global_controls <- function(id) {
           p(
             class = "text-muted",
             "See",
-            tags$a(href = "https://rstudio.github.io/bslib/articles/value-boxes/index.html#expandable-sparklines", "Expandable Sparklines"),
+            tags$a(
+              href = "https://rstudio.github.io/bslib/articles/value-boxes/index.html#expandable-sparklines",
+              "Expandable Sparklines"
+            ),
             "for example plot code."
           )
         ),
@@ -62,34 +65,41 @@ ui_global_controls <- function(id) {
 }
 
 server_global_controls <- function(input, output, sessions, one, two, three) {
-  observeEvent(c(input$random_theme, input$theme_style), {
-    new_values <- switch(
-      input$theme_style,
-      all = {
-        one$theme$shuffle()
-        two$theme$shuffle()
-        three$theme$shuffle()
-        NULL
-      },
-      default = {
-        one$theme$set("Default")
-        two$theme$set("Default")
-        three$theme$set("Default")
-        NULL
-      },
-      "semantic-bg" = sample(setdiff(theme_colors, c("light", "dark")), 3),
-      "semantic-fg" = paste0("text-", sample(setdiff(theme_colors, c("light", "dark")), 3)),
-      "colors-bg" = sample(named_colors, 3, replace = TRUE),
-      "colors-fg" = paste0("text-", sample(named_colors, 3, replace = TRUE)),
-      gradient = sample(gradient_classes, 3)
-    )
+  observeEvent(
+    c(input$random_theme, input$theme_style),
+    {
+      new_values <- switch(
+        input$theme_style,
+        all = {
+          one$theme$shuffle()
+          two$theme$shuffle()
+          three$theme$shuffle()
+          NULL
+        },
+        default = {
+          one$theme$set("Default")
+          two$theme$set("Default")
+          three$theme$set("Default")
+          NULL
+        },
+        "semantic-bg" = sample(setdiff(theme_colors, c("light", "dark")), 3),
+        "semantic-fg" = paste0(
+          "text-",
+          sample(setdiff(theme_colors, c("light", "dark")), 3)
+        ),
+        "colors-bg" = sample(named_colors, 3, replace = TRUE),
+        "colors-fg" = paste0("text-", sample(named_colors, 3, replace = TRUE)),
+        gradient = sample(gradient_classes, 3)
+      )
 
-    if (is.null(new_values)) return()
+      if (is.null(new_values)) return()
 
-    one$theme$set(new_values[[1]])
-    two$theme$set(new_values[[2]])
-    three$theme$set(new_values[[3]])
-  }, ignoreInit = TRUE)
+      one$theme$set(new_values[[1]])
+      two$theme$set(new_values[[2]])
+      three$theme$set(new_values[[3]])
+    },
+    ignoreInit = TRUE
+  )
 
   observeEvent(input$random_stat, {
     one$random_stat()
@@ -103,19 +113,27 @@ server_global_controls <- function(input, output, sessions, one, two, three) {
     three$showcase_icon$shuffle()
   })
 
-  observeEvent(input$showcase_item, {
-    item <- tolower(input$showcase_item)
-    one$set_showcase_item(item)
-    two$set_showcase_item(item)
-    three$set_showcase_item(item)
-  }, ignoreInit = TRUE)
+  observeEvent(
+    input$showcase_item,
+    {
+      item <- tolower(input$showcase_item)
+      one$set_showcase_item(item)
+      two$set_showcase_item(item)
+      three$set_showcase_item(item)
+    },
+    ignoreInit = TRUE
+  )
 
-  observeEvent(input$showcase_layout, {
-    layout <- tolower(input$showcase_layout)
-    one$set_showcase_layout(layout)
-    two$set_showcase_layout(layout)
-    three$set_showcase_layout(layout)
-  }, ignoreInit = TRUE)
+  observeEvent(
+    input$showcase_layout,
+    {
+      layout <- tolower(input$showcase_layout)
+      one$set_showcase_layout(layout)
+      two$set_showcase_layout(layout)
+      three$set_showcase_layout(layout)
+    },
+    ignoreInit = TRUE
+  )
 }
 
 module_global_controls <- function(id, one, two, three) {

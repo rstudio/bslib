@@ -6,10 +6,12 @@ library(htmltools)
 pkgs_extra <- c("plotly", "colourpicker")
 pkgs_yes <- vapply(pkgs_extra, rlang::is_installed, logical(1))
 if (any(!pkgs_yes)) {
-  rlang::abort(paste0(
-    "The `build-a-box` app requires additional packages: ",
-    paste(pkgs_extra[!pkgs_yes], collapse = ", ")
-  ))
+  rlang::abort(
+    paste0(
+      "The `build-a-box` app requires additional packages: ",
+      paste(pkgs_extra[!pkgs_yes], collapse = ", ")
+    )
+  )
 }
 
 library(plotly)
@@ -110,7 +112,8 @@ ui <- page_fixed(
           bsicons::bs_icon("question-square-fill"),
           class = "ms-1 d-inline-block text-orange",
           title = "Getting started",
-          shiny::markdown("
+          shiny::markdown(
+            "
             The Build-a-Box app includes three value boxes. You can customize
             all three at once from the **All** tab.
 
@@ -121,7 +124,8 @@ ui <- page_fixed(
             <a id=\"switch_to_two\" href=\"#\" class=\"action-button\">Two</a>, or
             <a id=\"switch_to_three\" href=\"#\" class=\"action-button\">Three</a>
             tabs to customize its settings individually.
-          ")
+          "
+          )
         )
       ),
       nav_panel(
@@ -171,7 +175,9 @@ ui <- page_fixed(
       ),
       div(
         class = "text-center text-sm-end",
-        HTML('Proudly supported by <a href="https://posit.co/"><img src="https://www.rstudio.com/assets/img/posit-logo-fullcolor-TM.svg" class="img-fluid" alt="Posit" width="65"></a>')
+        HTML(
+          'Proudly supported by <a href="https://posit.co/"><img src="https://www.rstudio.com/assets/img/posit-logo-fullcolor-TM.svg" class="img-fluid" alt="Posit" width="65"></a>'
+        )
       )
     )
   ),
@@ -224,9 +230,12 @@ server <- function(input, output, session) {
     layout_value_boxes <-
       paste0(
         "layout_columns(\n  ",
-        rlang::expr_text(one$code()), ",\n  ",
-        rlang::expr_text(two$code()), ",\n  ",
-        rlang::expr_text(three$code()), "\n",
+        rlang::expr_text(one$code()),
+        ",\n  ",
+        rlang::expr_text(two$code()),
+        ",\n  ",
+        rlang::expr_text(three$code()),
+        "\n",
         ")"
       )
 

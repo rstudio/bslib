@@ -83,7 +83,6 @@ layout_column_wrap <- function(
   gap = NULL,
   class = NULL
 ) {
-
   heights_equal <- match.arg(heights_equal)
 
   args <- separate_arguments(...)
@@ -93,7 +92,7 @@ layout_column_wrap <- function(
   if (missing(width)) {
     first_is_width <-
       is.null(children[[1]]) ||
-      is_probably_a_css_unit(children[[1]])
+        is_probably_a_css_unit(children[[1]])
 
     if (first_is_width) {
       # Assume an unnamed first argument that matches our expectations for
@@ -165,7 +164,10 @@ is_probably_a_css_unit <- function(x) {
   if (is.numeric(x)) return(TRUE)
   if (!is.character(x)) return(FALSE)
   tryCatch(
-    { validateCssUnit(x); TRUE },
+    {
+      validateCssUnit(x)
+      TRUE
+    },
     error = function(e) FALSE
   )
 }
@@ -274,7 +276,8 @@ layout_columns <- function(
 
   # Wrap each child in a container (so fill/flex items can fill the available area)
   children <- Map(
-    f = grid_item_container, children,
+    f = grid_item_container,
+    children,
     fillable = fillable
   )
 
@@ -322,11 +325,15 @@ as_col_spec <- function(col_widths, n_kids) {
     }
 
     if (isTRUE(any(bk == 0))) {
-      abort("Column values must be greater than 0 to indicate width, or negative to indicate a column offset.")
+      abort(
+        "Column values must be greater than 0 to indicate width, or negative to indicate a column offset."
+      )
     }
 
     if (length(bk) > 1 && anyNA(bk)) {
-      abort("Cannot mix widths and `NA` values. All column widths must be specified, or choose auto widths using a single `NA` value.")
+      abort(
+        "Cannot mix widths and `NA` values. All column widths must be specified, or choose auto widths using a single `NA` value."
+      )
     }
 
     if (!any(bk > 0)) {

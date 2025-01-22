@@ -59,8 +59,16 @@
 #'   selector(s) are supported, see [htmltools::tagAppendAttributes()].
 #'
 #' @export
-as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL, class = NULL, style = NULL, css_selector = NULL) {
-
+as_fill_carrier <- function(
+  x,
+  ...,
+  min_height = NULL,
+  max_height = NULL,
+  gap = NULL,
+  class = NULL,
+  style = NULL,
+  css_selector = NULL
+) {
   rlang::check_dots_empty()
 
   attrs <- fillable_attributes(
@@ -80,15 +88,27 @@ as_fill_carrier <- function(x, ..., min_height = NULL, max_height = NULL, gap = 
     return(rlang::splice(attrs))
   }
 
-  x <- bindFillRole(x, item = TRUE, container = TRUE, .cssSelector = css_selector)
+  x <- bindFillRole(
+    x,
+    item = TRUE,
+    container = TRUE,
+    .cssSelector = css_selector
+  )
   tagAppendAttributes(x, .cssSelector = css_selector, !!!attrs)
 }
 
-
 #' @rdname as_fill_carrier
 #' @export
-as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, gap = NULL, class = NULL, style = NULL, css_selector = NULL) {
-
+as_fillable_container <- function(
+  x,
+  ...,
+  min_height = NULL,
+  max_height = NULL,
+  gap = NULL,
+  class = NULL,
+  style = NULL,
+  css_selector = NULL
+) {
   rlang::check_dots_empty()
 
   attrs <- fillable_attributes(
@@ -112,8 +132,15 @@ as_fillable_container <- function(x, ..., min_height = NULL, max_height = NULL, 
 
 #' @rdname as_fill_carrier
 #' @export
-as_fill_item <- function(x, ..., min_height = NULL, max_height = NULL, class = NULL, style = NULL, css_selector = NULL) {
-
+as_fill_item <- function(
+  x,
+  ...,
+  min_height = NULL,
+  max_height = NULL,
+  class = NULL,
+  style = NULL,
+  css_selector = NULL
+) {
   rlang::check_dots_empty()
 
   attrs <- fillable_attributes(
@@ -178,11 +205,12 @@ warn_css_selector_null <- function(x) {
 remove_all_fill <- function(x) {
   # NOTE: this doesn't remove the `htmltools-fill` dependency from `x`
   bindFillRole(
-    x, item = FALSE, container = FALSE,
+    x,
+    item = FALSE,
+    container = FALSE,
     overwrite = TRUE
   )
 }
-
 
 #' @rdname as_fill_carrier
 #' @export
@@ -224,7 +252,6 @@ is_fill_item.htmlwidget <- function(x) {
 is_fill_item.default <- function(x) {
   renders_to_tag_class(x, "html-fill-item")
 }
-
 
 renders_to_tag_class <- function(x, class, selector = NULL) {
   x <- try(as.tags(x), silent = TRUE)

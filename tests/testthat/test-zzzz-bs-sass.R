@@ -11,12 +11,13 @@ test_that("Can access the sass behind all versions and Bootswatch themes", {
     themes <- bootswatch_themes(version)
     for (theme in themes) {
       # Can compile each bootswatch theme/version combination
-      bs <- bs_theme_dependencies(theme = as_bs_theme(paste0(theme, "@", version)))
+      bs <- bs_theme_dependencies(
+        theme = as_bs_theme(paste0(theme, "@", version))
+      )
       expect_true(length(bs) > 1)
     }
   }
 })
-
 
 # The internal bootstrap_bundle() splits up bootstrap.scss into defaults/declarations/rules,
 # and so, has to make assumptions about what's in that file. Thus, everytime this file

@@ -14,7 +14,8 @@ plot_hist <- function(var) {
 lorem_ipsum_dolor_sit_amet <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id nibh tortor id aliquet lectus proin nibh nisl. Adipiscing at in tellus integer feugiat. Arcu bibendum at varius vel pharetra vel turpis nunc eget. Cursus sit amet dictum sit amet justo. Sit amet consectetur adipiscing elit. Vestibulum mattis ullamcorper velit sed ullamcorper. Enim facilisis gravida neque convallis a. Elit duis tristique sollicitudin nibh sit amet. Magna eget est lorem ipsum. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Mauris in aliquam sem fringilla ut morbi. Id semper risus in hendrerit gravida rutrum quisque non tellus. At erat pellentesque adipiscing commodo elit at imperdiet dui. Fames ac turpis egestas maecenas pharetra convallis posuere morbi. Duis convallis convallis tellus id interdum velit laoreet id. Aliquet lectus proin nibh nisl. Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis. Bibendum enim facilisis gravida neque convallis a."
 
 main_grid <- layout_column_wrap(
-  width = 1/3, heights_equal = "row",
+  width = 1 / 3,
+  heights_equal = "row",
   card(
     id = "card-dt",
     full_screen = TRUE,
@@ -46,7 +47,7 @@ main_grid <- layout_column_wrap(
     full_screen = TRUE,
     card_header("plotly::plotlyOutput()"),
     layout_column_wrap(
-      width = 1/2,
+      width = 1 / 2,
       plotlyOutput("cut"),
       plotlyOutput("clarity")
     ),
@@ -58,7 +59,7 @@ main_grid <- layout_column_wrap(
     card_header("Static plotly"),
     plot_hist("price"),
     layout_column_wrap(
-      width = 1/2,
+      width = 1 / 2,
       plot_hist("cut"),
       plot_hist("clarity")
     )
@@ -69,12 +70,14 @@ main_grid <- layout_column_wrap(
       id = "card-image",
       full_screen = TRUE,
       card_header("card_image()"),
-      card_body(card_image(
-        file = "www/shiny-hex.svg",
-        height = 200,
-        fill = TRUE,
-        href = "https://github.com/rstudio/shiny"
-      ))
+      card_body(
+        card_image(
+          file = "www/shiny-hex.svg",
+          height = 200,
+          fill = TRUE,
+          href = "https://github.com/rstudio/shiny"
+        )
+      )
     ),
     card(
       id = "card-gt",
@@ -93,7 +96,8 @@ grid_height <- "calc(100vh - 5px)"
 
 ui <- page_fluid(
   layout_column_wrap(
-    width = NULL, heights_equal = "row",
+    width = NULL,
+    heights_equal = "row",
     height = grid_height,
     style = css(grid_template_columns = "200px 1fr"),
     id = "grid_page",
@@ -110,7 +114,6 @@ ui <- page_fluid(
 )
 
 server <- function(input, output, session) {
-
   theme_set(theme_minimal(base_size = 16))
 
   observeEvent(input$fixed_height, ignoreInit = TRUE, {
@@ -130,14 +133,16 @@ server <- function(input, output, session) {
     ggplot(mtcars) + geom_point(aes(wt, mpg))
   })
 
-  output$image <- renderImage({
-    list(src = "www/shiny-hex.svg", width = "100%", height = "100%")
-  }, deleteFile = FALSE)
+  output$image <- renderImage(
+    {
+      list(src = "www/shiny-hex.svg", width = "100%", height = "100%")
+    },
+    deleteFile = FALSE
+  )
 
   output$cut <- renderPlotly(plot_hist("cut"))
   output$clarity <- renderPlotly(plot_hist("clarity"))
   output$price <- renderPlotly(plot_hist("price"))
-
 
   output$leaflet <- renderUI({
     addTiles(leaflet())

@@ -1,10 +1,11 @@
-
 label_with_extras <- function(label, ...) {
   div(
     class = "d-inline-block w-100",
     span(label),
     span(class = "float-right", ...),
-    singleton(tags$style(HTML(".shiny-input-container .control-label { width: 100%; }")))
+    singleton(
+      tags$style(HTML(".shiny-input-container .control-label { width: 100%; }"))
+    )
   )
 }
 
@@ -84,7 +85,7 @@ server_selextra <- function(input, output, session, choices) {
     updateSelectizeInput(
       session,
       "selected",
-      selected =  choices_flat[[idx]],
+      selected = choices_flat[[idx]],
       choices = choices,
       server = TRUE
     )

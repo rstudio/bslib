@@ -33,10 +33,13 @@ breakpoints <- function(..., xs = NULL, sm = NULL, md = NULL, lg = NULL) {
   }
 
   # Ensure that breakpoints are in the increasing order
-  break_nms <- sort(factor(
-    names(breaks), ordered = TRUE,
-    levels = unique(c(bs_breakpoints(), names(breaks)))
-  ))
+  break_nms <- sort(
+    factor(
+      names(breaks),
+      ordered = TRUE,
+      levels = unique(c(bs_breakpoints(), names(breaks)))
+    )
+  )
 
   structure(
     breaks[as.character(break_nms)],
@@ -54,15 +57,17 @@ print.bslib_breakpoints <- function(x, ...) {
   for (bp in names(x)) {
     vals <- format(x[[bp]], width = width_vals, justify = "right")
     cat(
-      " ", format(bp, width = width_nms, justify = "right"), ": ",
-      paste0(vals, collapse = " "), "\n",
+      " ",
+      format(bp, width = width_nms, justify = "right"),
+      ": ",
+      paste0(vals, collapse = " "),
+      "\n",
       sep = ""
     )
   }
 
   invisible(x)
 }
-
 
 is_breakpoints <- function(x) {
   inherits(x, "bslib_breakpoints")

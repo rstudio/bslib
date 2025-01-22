@@ -38,8 +38,8 @@ resolve_bs_preset <- function(
 new_bs_preset <- function(name, version, type = NULL, ...) {
   preset <- list(
     version = version, # bootstrap version
-    name = name,       # preset name
-    type = type,       # preset type (e.g. "builtin", "bootswatch")
+    name = name, # preset name
+    type = type, # preset type (e.g. "builtin", "bootswatch")
     ...
   )
 
@@ -64,7 +64,10 @@ bs_preset_bundle <- function(preset) {
 theme_preset_info <- function(theme) {
   if (!is_bs_theme(theme)) return(NULL)
 
-  info <- bs_get_variables(theme, c("bslib-preset-type", "bslib-preset-name", "bootstrap-version"))
+  info <- bs_get_variables(
+    theme,
+    c("bslib-preset-type", "bslib-preset-name", "bootstrap-version")
+  )
 
   name <- info[["bslib-preset-name"]]
   type <- info[["bslib-preset-type"]]
@@ -84,14 +87,21 @@ assert_preset_scalar_string <- function(var, .frame = rlang::caller_env()) {
   }
 
   msg <- c(
-    sprintf("The preset theme `%s` must be a single character string.", var_name),
+    sprintf(
+      "The preset theme `%s` must be a single character string.",
+      var_name
+    ),
     "x" = sprintf('Bad: `%s = c("flatly", "darkly")`', var_name),
     "v" = sprintf('Good: `%s = "flatly"`', var_name)
   )
   rlang::abort(msg, .frame = .frame)
 }
 
-assert_preset_only_one_name_arg <- function(preset, bootswatch, .frame = rlang::caller_env()) {
+assert_preset_only_one_name_arg <- function(
+  preset,
+  bootswatch,
+  .frame = rlang::caller_env()
+) {
   both_provided <- !is.null(preset) && !is.null(bootswatch)
 
   if (!both_provided) {
@@ -108,9 +118,17 @@ assert_preset_only_one_name_arg <- function(preset, bootswatch, .frame = rlang::
   rlang::abort(msg, .frame = .frame)
 }
 
-abort_preset_unknown_name <- function(name, version, .frame = rlang::caller_env()) {
+abort_preset_unknown_name <- function(
+  name,
+  version,
+  .frame = rlang::caller_env()
+) {
   msg <- c(
-    sprintf("'%s' is not a known preset theme name for Bootstrap version %s.", name, version),
+    sprintf(
+      "'%s' is not a known preset theme name for Bootstrap version %s.",
+      name,
+      version
+    ),
     "i" = "You can list available preset themes:",
     "*" = sprintf("Built-in: `builtin_themes(%s)`", version),
     "*" = sprintf("Bootswatch: `bootswatch_themes(%s)`.", version)

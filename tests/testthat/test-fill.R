@@ -19,7 +19,11 @@ test_that("as_fill_item() with a simple tag", {
 test_that("as_fill_item() with a simple tag with arguments", {
   expect_false(is_fill_item(tag_simple()))
 
-  ts_fill <- as_fill_item(tag_simple(), min_height = "100px", max_height = "100%")
+  ts_fill <- as_fill_item(
+    tag_simple(),
+    min_height = "100px",
+    max_height = "100%"
+  )
   expect_true(is_fill_item(ts_fill))
 
   expect_match(tagGetAttribute(ts_fill, "class"), "html-fill-item")
@@ -65,7 +69,6 @@ test_that("as_fill_item() with a nested tag on inner tag", {
 
   expect_snapshot(cat(format(nested_fill)))
 })
-
 
 # Fillable Container --------------------------------------------------------
 
@@ -133,19 +136,29 @@ test_that("as_fillable_container() with a nested tag on outer tag", {
 test_that("as_fillable_container() with a nested tag on inner tag", {
   # three inner tags that aren't fillable containers
   expect_equal(
-    renders_to_tag_class(tag_nested(), "html-fill-container", selector = ".inner"),
+    renders_to_tag_class(
+      tag_nested(),
+      "html-fill-container",
+      selector = ".inner"
+    ),
     rep(FALSE, 3)
   )
 
-  nested_fillable <- as_fillable_container(tag_nested(), css_selector = ".inner")
+  nested_fillable <- as_fillable_container(
+    tag_nested(),
+    css_selector = ".inner"
+  )
   expect_equal(
-    renders_to_tag_class(nested_fillable, "html-fill-container", selector = ".inner"),
+    renders_to_tag_class(
+      nested_fillable,
+      "html-fill-container",
+      selector = ".inner"
+    ),
     rep(TRUE, 3)
   )
 
   expect_snapshot(cat(format(nested_fillable)))
 })
-
 
 # Fill Carrier --------------------------------------------------------------
 
@@ -211,7 +224,11 @@ test_that("as_fill_carrier() with a nested tag on outer tag", {
 test_that("as_fill_carrier() with a nested tag on inner tag", {
   # three inner tags that aren't fill carriers
   expect_equal(
-    renders_to_tag_class(tag_nested(), "html-fill-container", selector = ".inner"),
+    renders_to_tag_class(
+      tag_nested(),
+      "html-fill-container",
+      selector = ".inner"
+    ),
     rep(FALSE, 3)
   )
   expect_equal(
@@ -221,7 +238,11 @@ test_that("as_fill_carrier() with a nested tag on inner tag", {
 
   nested_carrier <- as_fill_carrier(tag_nested(), css_selector = ".inner")
   expect_equal(
-    renders_to_tag_class(nested_carrier, "html-fill-container", selector = ".inner"),
+    renders_to_tag_class(
+      nested_carrier,
+      "html-fill-container",
+      selector = ".inner"
+    ),
     rep(TRUE, 3)
   )
   expect_equal(

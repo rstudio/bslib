@@ -29,7 +29,8 @@ get_package_version <- function(pkg) {
 }
 
 is_installed <- function(pkg, version = NULL) {
-  installed <- isNamespaceLoaded(pkg) || nzchar(system_file_cached(package = pkg))
+  installed <- isNamespaceLoaded(pkg) ||
+    nzchar(system_file_cached(package = pkg))
 
   if (is.null(version)) {
     return(installed)
@@ -38,7 +39,9 @@ is_installed <- function(pkg, version = NULL) {
   if (!is.character(version) && !inherits(version, "numeric_version")) {
     # Avoid https://bugs.r-project.org/show_bug.cgi?id=18548
     alert <- if (identical(Sys.getenv("TESTTHAT"), "true")) stop else warning
-    alert("`version` must be a character string or a `package_version` or `numeric_version` object.")
+    alert(
+      "`version` must be a character string or a `package_version` or `numeric_version` object."
+    )
 
     version <- numeric_version(sprintf("%0.9g", version))
   }
@@ -67,12 +70,13 @@ read_utf8 <- function(file) {
 }
 
 register_upgrade_message <- function(pkg, version, error = FALSE) {
-
   msg <- sprintf(
     "This version of '%s' is designed to work with '%s' >= %s.
     Please upgrade via install.packages('%s').",
     environmentName(environment(register_upgrade_message)),
-    pkg, version, pkg
+    pkg,
+    version,
+    pkg
   )
 
   cond <- if (error) stop else packageStartupMessage
@@ -99,7 +103,7 @@ register_upgrade_message <- function(pkg, version, error = FALSE) {
 # Also, to keep the implementation simple, it doesn't support specification of
 # lib.loc or mustWork.
 system_file <- function(..., package = "base") {
-  if (!devtools_loaded(package))  {
+  if (!devtools_loaded(package)) {
     return(system_file_cached(..., package = package))
   }
 

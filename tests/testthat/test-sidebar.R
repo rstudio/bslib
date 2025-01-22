@@ -75,17 +75,26 @@ test_that("sidebar() - sets `aria-expanded` correctly on collapse toggle", {
   }
 
   expect_equal(
-    htmltools::tagGetAttribute(get_sidebar_collapse_tag(open = "open"), "aria-expanded"),
+    htmltools::tagGetAttribute(
+      get_sidebar_collapse_tag(open = "open"),
+      "aria-expanded"
+    ),
     "true"
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(get_sidebar_collapse_tag(open = "closed"), "aria-expanded"),
+    htmltools::tagGetAttribute(
+      get_sidebar_collapse_tag(open = "closed"),
+      "aria-expanded"
+    ),
     "false"
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(get_sidebar_collapse_tag(open = "desktop"), "aria-expanded"),
+    htmltools::tagGetAttribute(
+      get_sidebar_collapse_tag(open = "desktop"),
+      "aria-expanded"
+    ),
     "true"
   )
 })

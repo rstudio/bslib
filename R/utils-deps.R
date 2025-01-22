@@ -62,10 +62,12 @@ component_dependency_sass_ <- function(theme) {
   theme <- theme %||% bs_theme()
 
   if (theme_version(theme) < 5) {
-    abort(c(
-      "bslib components require Bootstrap 5 or higher.",
-      "i" = "Do you need to specify a different `version` in `bs_theme()`?"
-    ))
+    abort(
+      c(
+        "bslib components require Bootstrap 5 or higher.",
+        "i" = "Do you need to specify a different `version` in `bs_theme()`?"
+      )
+    )
   }
 
   bs_dependency(
@@ -77,7 +79,6 @@ component_dependency_sass_ <- function(theme) {
     .sass_args = list(options = sass_options(output_style = "compressed"))
   )
 }
-
 
 web_component <- function(tagName, ...) {
   deps <- component_dependencies()

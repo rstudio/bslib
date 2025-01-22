@@ -3,7 +3,9 @@ render_skeleton <- function(x) {
   tmp_rmd <- file.path(tmp_dir, "tmp.Rmd")
 
   src <- system.file(
-    "rmarkdown/templates", x, "skeleton/skeleton.Rmd",
+    "rmarkdown/templates",
+    x,
+    "skeleton/skeleton.Rmd",
     package = "bslib"
   )
 

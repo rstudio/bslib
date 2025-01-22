@@ -113,7 +113,9 @@ sidebar <- function(
 
   if (!is.null(id)) {
     if (length(id) != 1 || is.na(id) || !nzchar(id)) {
-      rlang::abort("`id` must be a non-empty, length-1 character string or `NULL`.")
+      rlang::abort(
+        "`id` must be a non-empty, length-1 character string or `NULL`."
+      )
     }
 
     # when user provides id, make the sidebar a shiny input to report its state
@@ -190,20 +192,19 @@ as.tags.bslib_sidebar <- function(x, ...) {
   is_starts_open <- all(vapply(x$open, identical, logical(1), "open"))
 
   hidden_initially <-
-    if (is_always_open) FALSE
-    else if (is_starts_open) FALSE
-    else TRUE
+    if (is_always_open) FALSE else if (is_starts_open) FALSE else TRUE
 
   collapse_tag <-
     tags$button(
       class = "collapse-toggle",
       type = "button",
       title = "Toggle sidebar",
-      "aria-expanded" = tolower(is_starts_open || identical(x$open$desktop, "open")),
+      "aria-expanded" = tolower(
+        is_starts_open || identical(x$open$desktop, "open")
+      ),
       "aria-controls" = x$id,
       collapse_icon()
     )
-
 
   sidebar_tag <- tags$aside(
     id = x$id,
@@ -248,14 +249,16 @@ as_sidebar_open_on <- function(open) {
     return(sidebar_open_on(open, open))
   }
 
-
   msg <- sprintf(
     "`open` must be a character string, a boolean, or a list with `desktop` and `mobile` items, not `%s`.",
     rlang::expr_text(open)
   )
 
   rlang::abort(
-    c(msg, "i" = 'Character options include "open", "closed", "always" or "desktop".'),
+    c(
+      msg,
+      "i" = 'Character options include "open", "closed", "always" or "desktop".'
+    ),
     call = rlang::caller_call()
   )
 }
@@ -280,11 +283,15 @@ sidebar_open_on <- function(
   )
 }
 
-sidebar_open_as_string <- function(open, extra = NULL, error_call = rlang::caller_env()) {
+sidebar_open_as_string <- function(
+  open,
+  extra = NULL,
+  error_call = rlang::caller_env()
+) {
   error_arg <- deparse(substitute(open))
 
   if (is.null(open)) return(NULL)
-  if (identical(open, NA)) return ("always")
+  if (identical(open, NA)) return("always")
   if (isTRUE(open)) return("open")
   if (isFALSE(open)) return("closed")
 
@@ -336,7 +343,9 @@ layout_sidebar <- function(
   if (!(is.null(border) || isTRUE(border) || isFALSE(border))) {
     abort("`border` must be `NULL`, `TRUE`, or `FALSE`")
   }
-  if (!(is.null(border_radius) || isTRUE(border_radius) || isFALSE(border_radius))) {
+  if (
+    !(is.null(border_radius) || isTRUE(border_radius) || isFALSE(border_radius))
+  ) {
     abort("`border_radius` must be `NULL`, `TRUE`, or `FALSE`")
   }
 
@@ -374,10 +383,15 @@ layout_sidebar <- function(
     `data-bslib-sidebar-init` = TRUE,
     `data-open-desktop` = sidebar$open$desktop,
     `data-open-mobile` = sidebar$open$mobile,
-    `data-collapsible-mobile` = tolower(!sidebar$open$mobile %in% c("always", "always-above")),
-    `data-collapsible-desktop` = tolower(!identical(sidebar$open$desktop, "always")),
+    `data-collapsible-mobile` = tolower(
+      !sidebar$open$mobile %in% c("always", "always-above")
+    ),
+    `data-collapsible-desktop` = tolower(
+      !identical(sidebar$open$desktop, "always")
+    ),
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
-    `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) tolower(border_radius),
+    `data-bslib-sidebar-border-radius` = if (!is.null(border_radius))
+      tolower(border_radius),
     style = css(
       "--_sidebar-width" = sidebar$width,
       "--_sidebar-bg" = sidebar$color$bg,

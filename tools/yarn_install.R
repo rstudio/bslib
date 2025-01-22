@@ -4,7 +4,6 @@ library(rprojroot)
 library(brio)
 library(withr)
 
-
 if (!identical(getwd(), find_package_root_file())) {
   stop("This script must be run from the top directory of the bslib package")
 }
@@ -36,20 +35,34 @@ unlink("inst/lib/bootstrap", recursive = TRUE)
 # https://getbootstrap.com/docs/4.4/getting-started/introduction/#js
 unlink("inst/lib/popper.js", recursive = TRUE)
 
-
 # ----------------------------------------------------------------------
 # Add known vendor prefixes to all scss files since we don't want
 # to rely on a node run-time to prefix after compilation
 # https://github.com/twbs/bootstrap/blob/d438f3/package.json#L30
 # ----------------------------------------------------------------------
-scss_files <- dir("inst", pattern = "\\.scss$", recursive = TRUE, full.names = TRUE)
+scss_files <- dir(
+  "inst",
+  pattern = "\\.scss$",
+  recursive = TRUE,
+  full.names = TRUE
+)
 # These libs should already have prefixes in their source
 # TODO: add test(s) that we aren't missing vendor prefixes
-scss_files <- scss_files[!grepl("^inst/(lib/bs3|bs3compat|themer|components|bslib-scss|builtin|examples)", scss_files)]
+scss_files <- scss_files[
+  !grepl(
+    "^inst/(lib/bs3|bs3compat|themer|components|bslib-scss|builtin|examples)",
+    scss_files
+  )
+]
 
 scss_src <- lapply(scss_files, readLines)
 
-add_property_prefixes <- function(src, property, ok_values = NULL, vendors = c("-webkit-", "-moz-", "-ms-", "-o-")) {
+add_property_prefixes <- function(
+  src,
+  property,
+  ok_values = NULL,
+  vendors = c("-webkit-", "-moz-", "-ms-", "-o-")
+) {
   pattern <- paste0("^\\s*", property, ":\\s*(.+);")
   idx <- grep(pattern, src)
   for (i in idx) {
@@ -72,8 +85,11 @@ add_property_prefixes <- function(src, property, ok_values = NULL, vendors = c("
 
 # Unconditionally prefix the following CSS properties for all vendors
 needs_prefix <- c(
-  "appearance", "user-select", "backdrop-filter",
-  "backface-visibility", "touch-action",
+  "appearance",
+  "user-select",
+  "backdrop-filter",
+  "backface-visibility",
+  "touch-action",
   "animation-duration"
 )
 for (prop in needs_prefix) {
@@ -82,20 +98,44 @@ for (prop in needs_prefix) {
 
 # Only add webkit prefix for BS5+ since other vendors aren't really relevant anymore
 for (prop in c('mask-image', 'mask-size', 'mask-position')) {
-  scss_src <- lapply(scss_src, add_property_prefixes, prop, vendors = "-webkit-")
+  scss_src <- lapply(
+    scss_src,
+    add_property_prefixes,
+    prop,
+    vendors = "-webkit-"
+  )
 }
 
 # Print specific vendor prefixes
-scss_src <- lapply(scss_src, add_property_prefixes, "color-adjust", vendors = "-webkit-print-")
+scss_src <- lapply(
+  scss_src,
+  add_property_prefixes,
+  "color-adjust",
+  vendors = "-webkit-print-"
+)
 
 # phantomjs 2.1.1 needs webkit vendor prefix on flex properties to work correctly
 flex_props <- c(
-  "flex-direction", "flex-wrap", "flex-flow",  "justify-content",
-  "align-items", "align-content", "order", "flex-grow", "flex-shrink",
-  "flex-basis", "flex", "align-self"
+  "flex-direction",
+  "flex-wrap",
+  "flex-flow",
+  "justify-content",
+  "align-items",
+  "align-content",
+  "order",
+  "flex-grow",
+  "flex-shrink",
+  "flex-basis",
+  "flex",
+  "align-self"
 )
 for (prop in flex_props) {
-  scss_src <- lapply(scss_src, add_property_prefixes, prop, vendors = "-webkit-")
+  scss_src <- lapply(
+    scss_src,
+    add_property_prefixes,
+    prop,
+    vendors = "-webkit-"
+  )
 }
 
 # Conditionally prefix text-decoration if its not CSS2 compliant
@@ -103,18 +143,33 @@ for (prop in flex_props) {
 # https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
 # https://caniuse.com/#search=text-decoration
 scss_src <- lapply(
-  scss_src, add_property_prefixes, "text-decoration",
-  ok_values = c("none", "underline", "overline", "line-through", "blink", "inherit")
+  scss_src,
+  add_property_prefixes,
+  "text-decoration",
+  ok_values = c(
+    "none",
+    "underline",
+    "overline",
+    "line-through",
+    "blink",
+    "inherit"
+  )
 )
 
-
-add_value_prefixes <- function(src, value, vendors = c("-webkit-", "-moz-", "-ms-", "-o-")) {
+add_value_prefixes <- function(
+  src,
+  value,
+  vendors = c("-webkit-", "-moz-", "-ms-", "-o-")
+) {
   pattern <- paste0("^\\s*[^/]+:\\s*", value, "\\s*(!important)?\\s*;")
   idx <- grep(pattern, src)
   for (i in idx) {
     prop_val <- strsplit(src[[i]], ":\\s*")[[1]]
     src[[i]] <- paste0(
-      prop_val[1], ": ", c("", vendors), prop_val[2],
+      prop_val[1],
+      ": ",
+      c("", vendors),
+      prop_val[2],
       collapse = "\n"
     )
   }
@@ -158,7 +213,9 @@ auto_prefixes <- setdiff(dist_prefixes, src_prefixes)
 
 whitelist <- c(
   # https://caniuse.com/#feat=flexbox
-  "flex", "inline-flex", "inline-flexbox",
+  "flex",
+  "inline-flex",
+  "inline-flexbox",
   # https://caniuse.com/#feat=mdn-api_csskeyframesrule
   "keyframes",
   # https://caniuse.com/#feat=mdn-css_properties_transition
@@ -172,7 +229,8 @@ whitelist <- c(
   # https://caniuse.com/#feat=mdn-css_properties_column-gap_multicol_context
   "column-gap",
   # https://caniuse.com/#feat=css-placeholder
-  "placeholder", "input-placeholder",
+  "placeholder",
+  "input-placeholder",
   # https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink
   "text-decoration-skip-ink",
   # webkit prefix doesn't seem necessary? And Bootstrap docs warn about IE...
@@ -198,99 +256,103 @@ if (length(unknown_prefixes)) {
     "Unknown vendor prefixes introduced by Bootstrap's autoprefixer. ",
     "Use either add_property_prefixes() to add prefixes or whitelist them ",
     "(if they're not needed for modern browsers): ",
-    "'", paste(collapse = "', '", unknown_prefixes), "'.",
+    "'",
+    paste(collapse = "', '", unknown_prefixes),
+    "'.",
     call. = FALSE
   )
 }
-
 
 # ----------------------------------------------------------------------
 # Now, get rid of files that we don't need to bundle with the package
 # ----------------------------------------------------------------------
 
-with_dir(
-  "inst/lib", {
-    # Downsize Bootstrap
-    for (bs in c("bs5", "bs4")) {
-      unlink(file.path(bs, "dist/css"), recursive = TRUE)
-      unlink(file.path(bs, "js"), recursive = TRUE)
-      js_dist <- file.path(bs, "dist/js")
-      non_bundle <- setdiff(
-        dir(js_dist), c("bootstrap.bundle.min.js", "bootstrap.bundle.min.js.map")
-      )
-      file.remove(file.path(js_dist, non_bundle))
-    }
+with_dir("inst/lib", {
+  # Downsize Bootstrap
+  for (bs in c("bs5", "bs4")) {
+    unlink(file.path(bs, "dist/css"), recursive = TRUE)
+    unlink(file.path(bs, "js"), recursive = TRUE)
+    js_dist <- file.path(bs, "dist/js")
+    non_bundle <- setdiff(
+      dir(js_dist),
+      c("bootstrap.bundle.min.js", "bootstrap.bundle.min.js.map")
+    )
+    file.remove(file.path(js_dist, non_bundle))
+  }
 
-    # Only keep Bootswatch's Sass source files
-    for (bsw in c("bsw5", "bsw4")) {
-      file.remove(Sys.glob(file.path(bsw, "dist/*/*.css")))
-      file.remove(Sys.glob(file.path(bsw, "dist/*/*.map")))
-      unlink("bsw5/docs", recursive = TRUE)
-      # Remove hidden files
-      unlink(
-        dir(bsw, pattern = "^\\.[a-z]+", all.files = TRUE, full.names = TRUE), recursive = TRUE
-      )
-    }
-    file.remove(c(
+  # Only keep Bootswatch's Sass source files
+  for (bsw in c("bsw5", "bsw4")) {
+    file.remove(Sys.glob(file.path(bsw, "dist/*/*.css")))
+    file.remove(Sys.glob(file.path(bsw, "dist/*/*.map")))
+    unlink("bsw5/docs", recursive = TRUE)
+    # Remove hidden files
+    unlink(
+      dir(bsw, pattern = "^\\.[a-z]+", all.files = TRUE, full.names = TRUE),
+      recursive = TRUE
+    )
+  }
+  file.remove(
+    c(
       Sys.glob("bsw3/*/bootstrap.css"),
       Sys.glob("bsw3/*/bootstrap.min.css"),
       Sys.glob("bsw3/*/thumbnail.png"),
       Sys.glob("bsw3/*/*.less")
-    ))
-    unlink("bsw3/docs", recursive = TRUE)
-    unlink("bsw3/.github", recursive = TRUE)
-    unlink("bsw3/fonts", recursive = TRUE) # have fonts via tools/download_fonts.R
-
-    # Downsize bootstrap-accessibility
-    with_dir("bs-a11y-p", {
-      discard <- setdiff(dir(), c("src", "plugins", "LICENSE.md", "package.json"))
-      unlink(discard, recursive = TRUE)
-    })
-
-    # Downsize bootstrap-colorpicker
-    with_dir(
-      "bs-colorpicker", {
-        file.rename("dist/css", "css")
-        file.rename("dist/js", "js")
-        # For the sake of simplicity, a patch is applied to just the
-        # non-minified version (and the minified version isn't used)
-        unlink(Sys.glob("js/*.min.js"))
-        unlink("node_modules", recursive = TRUE)
-        unlink("dist", recursive = TRUE)
-        unlink("src", recursive = TRUE)
-        unlink("logo.png")
-      }
     )
+  )
+  unlink("bsw3/docs", recursive = TRUE)
+  unlink("bsw3/.github", recursive = TRUE)
+  unlink("bsw3/fonts", recursive = TRUE) # have fonts via tools/download_fonts.R
 
-    # GitHub reports security issues of devDependencies, but that's irrelevant to us
-    remove_dev_dependencies <- function(pkg_file) {
-      if (!file.exists(pkg_file)) return()
-      json <- jsonlite::fromJSON(pkg_file)
-      json <- json[setdiff(names(json), "devDependencies")]
-      jsonlite::write_json(json, pkg_file, pretty = TRUE, auto_unbox = TRUE)
-    }
-    invisible(lapply(Sys.glob("*/package.json"), remove_dev_dependencies))
+  # Downsize bootstrap-accessibility
+  with_dir("bs-a11y-p", {
+    discard <- setdiff(dir(), c("src", "plugins", "LICENSE.md", "package.json"))
+    unlink(discard, recursive = TRUE)
+  })
 
-    # Get BS4/BS3 versions (for bslib::bs_dependencies() version-ing)
-    version_bs5 <- sub("-beta[0-9]+", "", jsonlite::fromJSON("bs5/package.json")$version)
-    version_bs4 <- jsonlite::fromJSON("bs4/package.json")$version
-    version_bs3 <- jsonlite::fromJSON("bs3/package.json")$version
-    version_accessibility <- jsonlite::fromJSON("bs-a11y-p/package.json")$version
+  # Downsize bootstrap-colorpicker
+  with_dir("bs-colorpicker", {
+    file.rename("dist/css", "css")
+    file.rename("dist/js", "js")
+    # For the sake of simplicity, a patch is applied to just the
+    # non-minified version (and the minified version isn't used)
+    unlink(Sys.glob("js/*.min.js"))
+    unlink("node_modules", recursive = TRUE)
+    unlink("dist", recursive = TRUE)
+    unlink("src", recursive = TRUE)
+    unlink("logo.png")
+  })
+
+  # GitHub reports security issues of devDependencies, but that's irrelevant to us
+  remove_dev_dependencies <- function(pkg_file) {
+    if (!file.exists(pkg_file)) return()
+    json <- jsonlite::fromJSON(pkg_file)
+    json <- json[setdiff(names(json), "devDependencies")]
+    jsonlite::write_json(json, pkg_file, pretty = TRUE, auto_unbox = TRUE)
   }
-)
+  invisible(lapply(Sys.glob("*/package.json"), remove_dev_dependencies))
+
+  # Get BS4/BS3 versions (for bslib::bs_dependencies() version-ing)
+  version_bs5 <- sub(
+    "-beta[0-9]+",
+    "",
+    jsonlite::fromJSON("bs5/package.json")$version
+  )
+  version_bs4 <- jsonlite::fromJSON("bs4/package.json")$version
+  version_bs3 <- jsonlite::fromJSON("bs3/package.json")$version
+  version_accessibility <- jsonlite::fromJSON("bs-a11y-p/package.json")$version
+})
 
 writeLines(
   c(
     '# DO NOT EDIT',
     '# This file is auto-generated by tools/yarn_install.R',
-    paste0('version_bs5 <- ', deparse( version_bs5)),
+    paste0('version_bs5 <- ', deparse(version_bs5)),
     paste0('version_bs4 <- ', deparse(version_bs4)),
-    paste0('version_bs3 <- ',  deparse(version_bs3)),
-    paste0('version_accessibility <- ',  deparse(version_accessibility))
+    paste0('version_bs3 <- ', deparse(version_bs3)),
+    paste0('version_accessibility <- ', deparse(version_accessibility))
   ),
   "R/versions.R"
 )
-
 
 # ----------------------------------------------------------------------
 # Apply any patches to source
@@ -321,34 +383,36 @@ if (length(rej_post) > length(rej_pre)) {
 # re-implemented it using a proper color system
 # TODO: do the same for BS5?
 writeLines(
-  sass::as_sass(list(
-    "white" = "#092B36 !default",
-    "gray-100" = "#173741 !default",
-    "gray-200" = "#25434B !default",
-    "gray-300" = "#324E56 !default",
-    "gray-400" = "#405A61 !default",
-    "gray-500" = "#4E666B !default",
-    "gray-600" = "#5C7276 !default",
-    "gray-700" = "#6A7E81 !default",
-    "gray-800" = "#77898C !default",
-    "gray-900" = "#859596 !default",
-    "black" = "#93A1A1 !default",
-    "blue" = "#b58900 !default",
-    "indigo" = "#6610f2 !default",
-    "purple" = "#6f42c1 !default",
-    "pink" = "#e83e8c !default",
-    "red" = "#d33682 !default",
-    "orange" = "#fd7e14 !default",
-    "yellow" = "#cb4b16 !default",
-    "green" = "#2aa198 !default",
-    "teal" = "#20c997 !default",
-    "cyan" = "#268bd2 !default",
-    "enable-gradients" = "true !default",
-    "secondary" = "$gray-800 !default",
-    # Darker green and lighter green than `$black` and `$white`
-    "color-contrast-dark" = "#031014 !default",
-    "color-contrast-light" = "#BBD0D0 !default"
-  )),
+  sass::as_sass(
+    list(
+      "white" = "#092B36 !default",
+      "gray-100" = "#173741 !default",
+      "gray-200" = "#25434B !default",
+      "gray-300" = "#324E56 !default",
+      "gray-400" = "#405A61 !default",
+      "gray-500" = "#4E666B !default",
+      "gray-600" = "#5C7276 !default",
+      "gray-700" = "#6A7E81 !default",
+      "gray-800" = "#77898C !default",
+      "gray-900" = "#859596 !default",
+      "black" = "#93A1A1 !default",
+      "blue" = "#b58900 !default",
+      "indigo" = "#6610f2 !default",
+      "purple" = "#6f42c1 !default",
+      "pink" = "#e83e8c !default",
+      "red" = "#d33682 !default",
+      "orange" = "#fd7e14 !default",
+      "yellow" = "#cb4b16 !default",
+      "green" = "#2aa198 !default",
+      "teal" = "#20c997 !default",
+      "cyan" = "#268bd2 !default",
+      "enable-gradients" = "true !default",
+      "secondary" = "$gray-800 !default",
+      # Darker green and lighter green than `$black` and `$white`
+      "color-contrast-dark" = "#031014 !default",
+      "color-contrast-light" = "#BBD0D0 !default"
+    )
+  ),
   "inst/lib/bsw4/dist/solar/_variables.scss"
 )
 writeLines(
@@ -368,14 +432,22 @@ with_dir("inst", {
     # install all deps
     system("yarn install")
     # remove node modules
-    on.exit({
-      unlink("node_modules", recursive = TRUE)
-    }, add = TRUE)
+    on.exit(
+      {
+        unlink("node_modules", recursive = TRUE)
+      },
+      add = TRUE
+    )
 
     bslib_plugin_paths <- file.path(
-      "lib", "bs-a11y-p", "plugins", "js", c(
+      "lib",
+      "bs-a11y-p",
+      "plugins",
+      "js",
+      c(
         "bootstrap-accessibility.js"
-      ))
+      )
+    )
 
     for (unminified_file in c(
       bslib_plugin_paths
@@ -383,18 +455,19 @@ with_dir("inst", {
       message("Minifying ", basename(unminified_file))
       cmd <- paste0(
         "yarn parcel",
-        " build ", unminified_file,
+        " build ",
+        unminified_file,
         " --no-source-maps",
         " --no-cache",
-        " --out-dir ", dirname(unminified_file),
-        " --out-file ", sub(".js", ".min.js", fixed = TRUE, basename(unminified_file))
+        " --out-dir ",
+        dirname(unminified_file),
+        " --out-file ",
+        sub(".js", ".min.js", fixed = TRUE, basename(unminified_file))
       )
 
       system(cmd)
     }
-
   })
-
 })
 
 # Clean up
@@ -417,35 +490,39 @@ precompiled_dir <- find_package_root_file("inst/css-precompiled")
 unlink(precompiled_dir, recursive = TRUE)
 dir.create(precompiled_dir, recursive = TRUE)
 
-invisible(lapply(versions(), function(version) {
-  res <- bs_theme_dependencies(
-    bs_theme(version, brand = FALSE),
-    precompiled = FALSE,
-    sass_options = sass_options(output_style = "compressed"),
-    cache = NULL
-  )
-  # Extract the Bootstrap dependency object (as opposed to, say, jQuery)
-  bs_dep <- Filter(res, f = function(x) { identical(x$name, "bootstrap") })[[1]]
-
-  tmp_css <- file.path(bs_dep$src$file, bs_dep$stylesheet)
-  dest_dir <- file.path(precompiled_dir, version)
-  if (!dir.exists(dest_dir)) {
-    dir.create(dest_dir)
-  }
-  file.copy(tmp_css, dest_dir)
-
-  # Also save the BS5+ Sass code used to generate the pre-compiled CSS.
-  # This is primarily here to help Quarto more easily replicate bs_theme()'s Sass.
-  if (version >= 5) {
-    theme_sass <- gsub(
-      paste0("@import \"", getwd(), "/"),
-      "@import \"",
-      as_sass(bs_theme(version))
+invisible(
+  lapply(versions(), function(version) {
+    res <- bs_theme_dependencies(
+      bs_theme(version, brand = FALSE),
+      precompiled = FALSE,
+      sass_options = sass_options(output_style = "compressed"),
+      cache = NULL
     )
-    writeLines(theme_sass, file.path(dest_dir, "bootstrap.scss"))
-    # Sanity check that we we can compile by moving file to home dir
-    file.copy(file.path(dest_dir, "bootstrap.scss"), "bootstrap.scss")
-    on.exit(unlink("bootstrap.scss"), add = TRUE)
-    testthat::expect_error(sass(sass_file("bootstrap.scss")), NA)
-  }
-}))
+    # Extract the Bootstrap dependency object (as opposed to, say, jQuery)
+    bs_dep <- Filter(res, f = function(x) {
+      identical(x$name, "bootstrap")
+    })[[1]]
+
+    tmp_css <- file.path(bs_dep$src$file, bs_dep$stylesheet)
+    dest_dir <- file.path(precompiled_dir, version)
+    if (!dir.exists(dest_dir)) {
+      dir.create(dest_dir)
+    }
+    file.copy(tmp_css, dest_dir)
+
+    # Also save the BS5+ Sass code used to generate the pre-compiled CSS.
+    # This is primarily here to help Quarto more easily replicate bs_theme()'s Sass.
+    if (version >= 5) {
+      theme_sass <- gsub(
+        paste0("@import \"", getwd(), "/"),
+        "@import \"",
+        as_sass(bs_theme(version))
+      )
+      writeLines(theme_sass, file.path(dest_dir, "bootstrap.scss"))
+      # Sanity check that we we can compile by moving file to home dir
+      file.copy(file.path(dest_dir, "bootstrap.scss"), "bootstrap.scss")
+      on.exit(unlink("bootstrap.scss"), add = TRUE)
+      testthat::expect_error(sass(sass_file("bootstrap.scss")), NA)
+    }
+  })
+)

@@ -121,16 +121,16 @@ brand_resolve.brand_yml <- function(brand, ...) {
 }
 
 brand_resolve_preset <- function(brand, preset = NULL, version = NULL) {
-  version_resolved <- 
+  version_resolved <-
     version %||%
-    brand_pluck(brand, "defaults", "shiny", "theme", "version") %||%
-    brand_pluck(brand, "defaults", "bootstrap", "version") %||%
-    version_default()
+      brand_pluck(brand, "defaults", "shiny", "theme", "version") %||%
+      brand_pluck(brand, "defaults", "bootstrap", "version") %||%
+      version_default()
 
-  preset_resolved <- 
+  preset_resolved <-
     preset %||%
-    brand_pluck(brand, "defaults", "shiny", "theme", "preset") %||%
-    switch_version(version_resolved, five = "shiny", default = "bootstrap")
+      brand_pluck(brand, "defaults", "shiny", "theme", "preset") %||%
+      switch_version(version_resolved, five = "shiny", default = "bootstrap")
 
   resolve_bs_preset(preset_resolved, version = version_resolved)
 }
@@ -737,7 +737,7 @@ brand_color_pluck <- function(brand, key) {
   check_string_or_null <- function(key, value) {
     if (is.null(value)) return()
     if (rlang::is_string(value)) return(value)
-    
+
     abort(sprintf("`brand.color.%s` must be a string or `NULL`.", key))
   }
 

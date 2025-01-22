@@ -89,7 +89,12 @@
 #' @describeIn bs_bundle Add Bootstrap Sass
 #'   [variable defaults](https://rstudio.github.io/bslib/articles/bs5-variables/index.html).
 #' @export
-bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = identical(.where, "defaults")) {
+bs_add_variables <- function(
+  theme,
+  ...,
+  .where = "defaults",
+  .default_flag = identical(.where, "defaults")
+) {
   assert_bs_theme(theme)
 
   vars <- rlang::list2(...)
@@ -103,7 +108,8 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
   }
 
   bs_bundle(
-    theme, do.call(sass_layer, rlang::list2(!!.where := vars))
+    theme,
+    do.call(sass_layer, rlang::list2(!!.where := vars))
   )
 }
 
@@ -112,14 +118,17 @@ bs_add_variables <- function(theme, ..., .where = "defaults", .default_flag = id
 # and if missing, adds it.
 ensure_default_flag <- function(x) {
   Map(
-    x, rlang::names2(x),
+    x,
+    rlang::names2(x),
     f = function(val, nm) {
       # sass::font_collection() has its own default_flag, so warn if they conflict
       if (sass::is_font_collection(val)) {
         if (identical(val$default_flag, FALSE)) {
           message(
             "Ignoring `bs_add_variables()`'s `.default_flag = TRUE` for ",
-            "the ", nm, " variable (since it has it's own `default_flag`)."
+            "the ",
+            nm,
+            " variable (since it has it's own `default_flag`)."
           )
         }
         return(val)

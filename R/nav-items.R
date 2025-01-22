@@ -52,7 +52,13 @@ nav_panel_hidden <- function(value, ..., icon = NULL) {
 #' @describeIn nav-items Create a menu of nav items.
 #' @param align horizontal alignment of the dropdown menu relative to dropdown toggle.
 #' @export
-nav_menu <- function(title, ..., value = title, icon = NULL, align = c("left", "right")) {
+nav_menu <- function(
+  title,
+  ...,
+  value = title,
+  icon = NULL,
+  align = c("left", "right")
+) {
   align <- match.arg(align)
   navbarMenu_(title, ..., menuName = value, icon = icon, align = align)
 }

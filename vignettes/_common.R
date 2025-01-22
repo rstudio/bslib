@@ -52,7 +52,14 @@ render_as_iframe <- function(x, options, ...) {
     dir.create(lbl_dir, recursive = TRUE)
   }
   file <- file.path(lbl_dir, "index.html")
-  x <- tagList(x, tags$head(tags$style(".html-widget { height: 250px !important; } .modebar-container { display: none; }")))
+  x <- tagList(
+    x,
+    tags$head(
+      tags$style(
+        ".html-widget { height: 250px !important; } .modebar-container { display: none; }"
+      )
+    )
+  )
   tryCatch(
     save_html(x, file),
     error = function(e) {
@@ -74,9 +81,17 @@ render_as_image <- function(x, options, ...) {
     delay <- 1
   }
 
-  tryCatch({
-      func <- if (inherits(x, "shiny.appobj")) webshot2::appshot else webshot2::webshot
-      func(x, file, vwidth = options$out.width, vheight = options$out.height, delay = delay)
+  tryCatch(
+    {
+      func <- if (inherits(x, "shiny.appobj")) webshot2::appshot else
+        webshot2::webshot
+      func(
+        x,
+        file,
+        vwidth = options$out.width,
+        vheight = options$out.height,
+        delay = delay
+      )
     },
     error = function(e) {
       stop("Don't know how to render ", class(x)[[1]], " as an image")
@@ -85,9 +100,11 @@ render_as_image <- function(x, options, ...) {
   knitr::include_graphics(file, dpi = 300)
 }
 
-
 include_vimeo <- function(id, width = "100%", height = "400") {
-  url <- sprintf("https://player.vimeo.com/video/%s?title=0&byline=0&portrait=0", id)
+  url <- sprintf(
+    "https://player.vimeo.com/video/%s?title=0&byline=0&portrait=0",
+    id
+  )
   tags$iframe(
     src = url,
     width = width,

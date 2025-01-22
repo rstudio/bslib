@@ -16,7 +16,8 @@ bs_base_colors <- function(theme, bg = NULL, fg = NULL) {
   }
 
   switch_add_variables(
-    theme, args,
+    theme,
+    args,
     default = if (use_body) identity else bs4_base_colors,
     three = if (use_body) identity else bs3_base_colors
   )
@@ -34,7 +35,8 @@ get_base_color_map <- function(theme, decode = TRUE) {
   vars <- switch_version(
     theme,
     three = list("body-bg", if (use_body) "text-color" else "gray-base"),
-    default = if (use_body) list("body-bg", "body-color") else list("white", "black")
+    default = if (use_body) list("body-bg", "body-color") else
+      list("white", "black")
   )
   if (decode) {
     setNames(vars, c("bg", "fg"))
@@ -55,18 +57,20 @@ bs4_base_colors <- function(args) {
   white <- args$bg
   black <- args$fg
 
-  grays <- grDevices::colorRamp(c(white, black), alpha = TRUE)(0:10/10)
+  grays <- grDevices::colorRamp(c(white, black), alpha = TRUE)(0:10 / 10)
 
-  if (any(grays[,4] != 255)) {
-    warning(call. = FALSE,
+  if (any(grays[, 4] != 255)) {
+    warning(
+      call. = FALSE,
       "bs_base_colors does not respect alpha in `white` and `black` arguments"
     )
   }
 
-  grays <- sprintf("#%02X%02X%02X",
-    round(grays[,1]),
-    round(grays[,2]),
-    round(grays[,3])
+  grays <- sprintf(
+    "#%02X%02X%02X",
+    round(grays[, 1]),
+    round(grays[, 2]),
+    round(grays[, 3])
   )
 
   names(grays) <- c(
@@ -85,7 +89,7 @@ bs3_base_colors <- function(args) {
   ramp <- grDevices::colorRamp(c(black, white))
   gray <- function(level = 255) {
     val <- round(ramp(level / 255))
-    sprintf("#%02X%02X%02X", val[1,1], val[1,2], val[1,3])
+    sprintf("#%02X%02X%02X", val[1, 1], val[1, 2], val[1, 3])
   }
 
   result_colors <- list(
@@ -111,47 +115,93 @@ bs3_base_colors <- function(args) {
 
   # There's code in tools/bs3_theme_base_colors.R for generating this list.
   color_mapping <- list(
-    `dropdown-caret-color` = "$gray-base", `tooltip-bg` = "$gray-base",
-    `modal-backdrop-bg` = "$gray-base", `close-color` = "$gray-base",
-    `navbar-inverse-bg` = "$gray-darker", `btn-default-color` = "$gray-dark",
-    `navbar-default-link-hover-color` = "$gray-dark", `navbar-inverse-toggle-hover-bg` = "$gray-dark",
-    `navbar-inverse-toggle-border-color` = "$gray-dark", `list-group-link-heading-color` = "$gray-dark",
-    `kbd-bg` = "$gray-dark", `navbar-inverse-link-disabled-color` = "$gray-44",
-    `navbar-default-link-active-color` = "$gray", `list-group-link-color` = "$gray",
-    `navbar-default-color` = "$gray-light", `navbar-default-link-color` = "$gray-light",
-    `navbar-default-toggle-icon-bar-bg` = "$gray-88", `input-color-placeholder` = "$gray-99",
-    `modal-content-fallback-border-color` = "$gray-99", `btn-default-border` = "$gray-cc",
-    `input-border` = "$gray-cc", `dropdown-fallback-border` = "$gray-cc",
-    `navbar-default-link-disabled-color` = "$gray-cc", `popover-fallback-border-color` = "$gray-cc",
-    `breadcrumb-color` = "$gray-cc", `pre-border-color` = "$gray-cc",
-    `table-border-color` = "$gray-dd", `navbar-default-toggle-hover-bg` = "$gray-dd",
-    `navbar-default-toggle-border-color` = "$gray-dd", `nav-tabs-border-color` = "$gray-dd",
-    `nav-tabs-active-link-hover-border-color` = "$gray-dd", `nav-tabs-justified-link-border-color` = "$gray-dd",
-    `pagination-border` = "$gray-dd", `pagination-hover-border` = "$gray-dd",
-    `pagination-disabled-border` = "$gray-dd", `list-group-border` = "$gray-dd",
-    `panel-inner-border` = "$gray-dd", `panel-default-border` = "$gray-dd",
-    `thumbnail-border` = "$gray-dd", `legend-border-color` = "$gray-e5",
-    `dropdown-divider-bg` = "$gray-e5", `modal-header-border-color` = "$gray-e5",
-    `table-bg-hover` = "$gray-f5", `dropdown-link-hover-bg` = "$gray-f5",
-    `progress-bg` = "$gray-f5", `list-group-hover-bg` = "$gray-f5",
-    `panel-footer-bg` = "$gray-f5", `panel-default-heading-bg` = "$gray-f5",
-    `well-bg` = "$gray-f5", `breadcrumb-bg` = "$gray-f5", `code-bg` = "$gray-f5",
-    `pre-bg` = "$gray-f5", `navbar-default-bg` = "$gray-f8",
-    `table-bg-accent` = "$gray-f9", `body-bg` = "$white", `btn-default-bg` = "$white",
-    `btn-primary-color` = "$white", `btn-success-color` = "$white",
-    `btn-info-color` = "$white", `btn-warning-color` = "$white",
-    `btn-danger-color` = "$white", `input-bg` = "$white", `dropdown-bg` = "$white",
-    `navbar-inverse-link-hover-color` = "$white", `navbar-inverse-brand-hover-color` = "$white",
-    `navbar-inverse-toggle-icon-bar-bg` = "$white", `pagination-bg` = "$white",
-    `pagination-active-color` = "$white", `pagination-disabled-bg` = "$white",
-    `tooltip-color` = "$white", `popover-bg` = "$white", `label-color` = "$white",
-    `label-link-hover-color` = "$white", `modal-content-bg` = "$white",
-    `progress-bar-color` = "$white", `list-group-bg` = "$white",
-    `panel-bg` = "$white", `panel-primary-text` = "$white", `badge-color` = "$white",
-    `badge-link-hover-color` = "$white", `badge-active-bg` = "$white",
-    `carousel-control-color` = "$white", `carousel-indicator-active-bg` = "$white",
-    `carousel-indicator-border-color` = "$white", `carousel-caption-color` = "$white",
-    `close-text-shadow` = "$white", `kbd-color` = "$white"
+    `dropdown-caret-color` = "$gray-base",
+    `tooltip-bg` = "$gray-base",
+    `modal-backdrop-bg` = "$gray-base",
+    `close-color` = "$gray-base",
+    `navbar-inverse-bg` = "$gray-darker",
+    `btn-default-color` = "$gray-dark",
+    `navbar-default-link-hover-color` = "$gray-dark",
+    `navbar-inverse-toggle-hover-bg` = "$gray-dark",
+    `navbar-inverse-toggle-border-color` = "$gray-dark",
+    `list-group-link-heading-color` = "$gray-dark",
+    `kbd-bg` = "$gray-dark",
+    `navbar-inverse-link-disabled-color` = "$gray-44",
+    `navbar-default-link-active-color` = "$gray",
+    `list-group-link-color` = "$gray",
+    `navbar-default-color` = "$gray-light",
+    `navbar-default-link-color` = "$gray-light",
+    `navbar-default-toggle-icon-bar-bg` = "$gray-88",
+    `input-color-placeholder` = "$gray-99",
+    `modal-content-fallback-border-color` = "$gray-99",
+    `btn-default-border` = "$gray-cc",
+    `input-border` = "$gray-cc",
+    `dropdown-fallback-border` = "$gray-cc",
+    `navbar-default-link-disabled-color` = "$gray-cc",
+    `popover-fallback-border-color` = "$gray-cc",
+    `breadcrumb-color` = "$gray-cc",
+    `pre-border-color` = "$gray-cc",
+    `table-border-color` = "$gray-dd",
+    `navbar-default-toggle-hover-bg` = "$gray-dd",
+    `navbar-default-toggle-border-color` = "$gray-dd",
+    `nav-tabs-border-color` = "$gray-dd",
+    `nav-tabs-active-link-hover-border-color` = "$gray-dd",
+    `nav-tabs-justified-link-border-color` = "$gray-dd",
+    `pagination-border` = "$gray-dd",
+    `pagination-hover-border` = "$gray-dd",
+    `pagination-disabled-border` = "$gray-dd",
+    `list-group-border` = "$gray-dd",
+    `panel-inner-border` = "$gray-dd",
+    `panel-default-border` = "$gray-dd",
+    `thumbnail-border` = "$gray-dd",
+    `legend-border-color` = "$gray-e5",
+    `dropdown-divider-bg` = "$gray-e5",
+    `modal-header-border-color` = "$gray-e5",
+    `table-bg-hover` = "$gray-f5",
+    `dropdown-link-hover-bg` = "$gray-f5",
+    `progress-bg` = "$gray-f5",
+    `list-group-hover-bg` = "$gray-f5",
+    `panel-footer-bg` = "$gray-f5",
+    `panel-default-heading-bg` = "$gray-f5",
+    `well-bg` = "$gray-f5",
+    `breadcrumb-bg` = "$gray-f5",
+    `code-bg` = "$gray-f5",
+    `pre-bg` = "$gray-f5",
+    `navbar-default-bg` = "$gray-f8",
+    `table-bg-accent` = "$gray-f9",
+    `body-bg` = "$white",
+    `btn-default-bg` = "$white",
+    `btn-primary-color` = "$white",
+    `btn-success-color` = "$white",
+    `btn-info-color` = "$white",
+    `btn-warning-color` = "$white",
+    `btn-danger-color` = "$white",
+    `input-bg` = "$white",
+    `dropdown-bg` = "$white",
+    `navbar-inverse-link-hover-color` = "$white",
+    `navbar-inverse-brand-hover-color` = "$white",
+    `navbar-inverse-toggle-icon-bar-bg` = "$white",
+    `pagination-bg` = "$white",
+    `pagination-active-color` = "$white",
+    `pagination-disabled-bg` = "$white",
+    `tooltip-color` = "$white",
+    `popover-bg` = "$white",
+    `label-color` = "$white",
+    `label-link-hover-color` = "$white",
+    `modal-content-bg` = "$white",
+    `progress-bar-color` = "$white",
+    `list-group-bg` = "$white",
+    `panel-bg` = "$white",
+    `panel-primary-text` = "$white",
+    `badge-color` = "$white",
+    `badge-link-hover-color` = "$white",
+    `badge-active-bg` = "$white",
+    `carousel-control-color` = "$white",
+    `carousel-indicator-active-bg` = "$white",
+    `carousel-indicator-border-color` = "$white",
+    `carousel-caption-color` = "$white",
+    `close-text-shadow` = "$white",
+    `kbd-color` = "$white"
   )
 
   results <- c(result_colors, color_mapping)
@@ -163,22 +213,35 @@ bs3_base_colors <- function(args) {
 # Accent colors
 # ----------------------------------------------------------------------------------------
 
-bs_accent_colors <- function(theme, primary = NULL, secondary = NULL,
-                             success = NULL, info = NULL, warning = NULL, danger = NULL) {
+bs_accent_colors <- function(
+  theme,
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL
+) {
   assert_bs_theme(theme)
 
   args <- validate_and_normalize_colors(
     list(
-      primary = primary, secondary = secondary, success = success,
-      info = info, warning = warning, danger = danger
+      primary = primary,
+      secondary = secondary,
+      success = success,
+      info = info,
+      warning = warning,
+      danger = danger
     )
   )
 
   switch_add_variables(
-    theme, args, three = bs3_accent_colors, default = identity
+    theme,
+    args,
+    three = bs3_accent_colors,
+    default = identity
   )
 }
-
 
 bs3_accent_colors <- function(args) {
   # Warns and filters out unsupported arguments
@@ -200,11 +263,13 @@ bs3_accent_colors <- function(args) {
 
 bs_fonts <- function(theme, base = NULL, code = NULL, heading = NULL) {
   assert_bs_theme(theme)
-  args <- dropNulls(list(
-    base = base,
-    code = code,
-    heading = heading
-  ))
+  args <- dropNulls(
+    list(
+      base = base,
+      code = code,
+      heading = heading
+    )
+  )
   args <- lapply(args, as_font_collection)
   switch_add_variables(theme, args, three = bs3_fonts, default = bs4_fonts)
 }
@@ -215,7 +280,6 @@ as_font_collection <- function(x) {
   }
   do.call(sass::font_collection, as.list(x))
 }
-
 
 bs4_fonts <- function(args) {
   name_map <- c(
@@ -256,22 +320,24 @@ validate_and_normalize_colors <- function(args) {
   vec_len <- vapply(args, length, integer(1))
   bad <- !is_char | vec_len != 1
   if (any(bad)) {
-    stop(call. = FALSE,
+    stop(
+      call. = FALSE,
       "Invalid HTML color strings for argument(s) ",
       format_varnames(names(args)[bad]),
-      "; single-element character vectors are required")
+      "; single-element character vectors are required"
+    )
   }
   args <- lapply(args, htmltools::parseCssColors, mustWork = FALSE)
   bad <- vapply(args, rlang::is_na, logical(1))
   if (any(bad)) {
     stop(
       "Invalid HTML color strings for argument(s) ",
-      format_varnames(names(args)[bad]), call. = FALSE
+      format_varnames(names(args)[bad]),
+      call. = FALSE
     )
   }
   args
 }
-
 
 #' Remove unsupported arguments, with a nicely formatted warning
 #'
@@ -282,14 +348,22 @@ validate_and_normalize_colors <- function(args) {
 #' @param args List of args
 #' @return List with unsupported vars removed, possibly warning in the process
 #' @noRd
-retain_known_vars <- function(caller_name, arg_name = "", supported_vars, args) {
+retain_known_vars <- function(
+  caller_name,
+  arg_name = "",
+  supported_vars,
+  args
+) {
   argnames <- names(args)
   unknown_idx <- !argnames %in% supported_vars
 
   if (any(unknown_idx)) {
-    warning(call. = FALSE,
-      caller_name, " doesn't support the following ",
-      arg_name, if (nzchar(arg_name)) " ",
+    warning(
+      call. = FALSE,
+      caller_name,
+      " doesn't support the following ",
+      arg_name,
+      if (nzchar(arg_name)) " ",
       "argument(s), they will be ignored: ",
       format_varnames(argnames[unknown_idx])
     )

@@ -3,7 +3,6 @@ library(reshape2)
 
 data(tips, package = "reshape2")
 
-
 tipsUI <- function(id) {
   ns <- NS(id)
 
@@ -26,11 +25,17 @@ tipsUI <- function(id) {
         value = range(tips$total_bill),
         pre = "$"
       ),
-      checkboxGroupInput(ns("time"), "Food service", c("Lunch", "Dinner"), c("Lunch", "Dinner"), inline = TRUE),
+      checkboxGroupInput(
+        ns("time"),
+        "Food service",
+        c("Lunch", "Dinner"),
+        c("Lunch", "Dinner"),
+        inline = TRUE
+      ),
       actionButton(ns("reset"), "Reset filter"),
     ),
     layout_column_wrap(
-      width = 1/3,
+      width = 1 / 3,
       fill = FALSE,
       value_box(
         "Total tippers",
@@ -49,7 +54,7 @@ tipsUI <- function(id) {
       )
     ),
     layout_column_wrap(
-      width = 1/2,
+      width = 1 / 2,
       class = "mt-3",
       card(
         full_screen = TRUE,
@@ -58,7 +63,9 @@ tipsUI <- function(id) {
           popover(
             bsicons::bs_icon("gear"),
             radioButtons(
-              ns("scatter_color"), NULL, inline = TRUE,
+              ns("scatter_color"),
+              NULL,
+              inline = TRUE,
               c("none", "sex", "smoker", "day", "time")
             ),
             title = "Add a color variable",
@@ -83,12 +90,18 @@ tipsUI <- function(id) {
         popover(
           bsicons::bs_icon("gear"),
           radioButtons(
-            ns("tip_perc_y"), "Split by:", inline = TRUE,
-            c("sex", "smoker", "day", "time"), "day"
+            ns("tip_perc_y"),
+            "Split by:",
+            inline = TRUE,
+            c("sex", "smoker", "day", "time"),
+            "day"
           ),
           radioButtons(
-            ns("tip_perc_facet"), "Facet by:", inline = TRUE,
-            c("none", "sex", "smoker", "day", "time"), "none"
+            ns("tip_perc_facet"),
+            "Facet by:",
+            inline = TRUE,
+            c("none", "sex", "smoker", "day", "time"),
+            "none"
           ),
           title = "Add a color variable"
         ),
@@ -99,14 +112,14 @@ tipsUI <- function(id) {
   )
 }
 
-
-
 tipsServer <- function(id) {
   moduleServer(id, function(input, output, session) {
-
     tips_data <- reactive({
       d <- tips
-      d <- d[d$total_bill >= input$total_bill[1] & d$total_bill <= input$total_bill[2], ]
+      d <- d[
+        d$total_bill >= input$total_bill[1] &
+          d$total_bill <= input$total_bill[2],
+      ]
       d <- d[d$time %in% input$time, ]
       d
     })
@@ -118,11 +131,13 @@ tipsServer <- function(id) {
     })
 
     output$scatterplot <- renderPlot({
-      validate(need(
-        nrow(tips_data()) > 0,
-        "No tips match the current filter. Try adjusting your filter settings."
-      ))
-      color <-  if (input$scatter_color != "none") sym(input$scatter_color)
+      validate(
+        need(
+          nrow(tips_data()) > 0,
+          "No tips match the current filter. Try adjusting your filter settings."
+        )
+      )
+      color <- if (input$scatter_color != "none") sym(input$scatter_color)
       ggplot(tips_data(), aes(x = total_bill, y = tip, color = !!color)) +
         geom_point() +
         geom_smooth() +
@@ -130,15 +145,22 @@ tipsServer <- function(id) {
     })
 
     output$tip_perc <- renderPlot({
-      validate(need(
-        requireNamespace("ggridges", quietly = TRUE),
-        "Please install the ggridges package to see this plot."
-      ))
-      validate(need(
-        requireNamespace("ggridges", quietly = TRUE),
-        "Please install the ggridges package to see this plot."
-      ))
-      p <- ggplot(tips_data(), aes(x = tip / total_bill, y = !!sym(input$tip_perc_y))) +
+      validate(
+        need(
+          requireNamespace("ggridges", quietly = TRUE),
+          "Please install the ggridges package to see this plot."
+        )
+      )
+      validate(
+        need(
+          requireNamespace("ggridges", quietly = TRUE),
+          "Please install the ggridges package to see this plot."
+        )
+      )
+      p <- ggplot(
+        tips_data(),
+        aes(x = tip / total_bill, y = !!sym(input$tip_perc_y))
+      ) +
         ggridges::geom_density_ridges(scale = 0.9) +
         coord_cartesian(clip = "off") +
         labs(x = NULL, y = NULL)

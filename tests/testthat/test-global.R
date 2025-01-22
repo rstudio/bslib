@@ -31,7 +31,6 @@ test_that("global theme api works", {
   expect_css("body{background:#2780e3;}", primary)
 })
 
-
 test_that("Theme adding works as intended", {
   bs_global_theme()
   on.exit(bs_global_clear(), add = TRUE)
@@ -57,14 +56,13 @@ test_that("Theme adding works as intended", {
   expect_css(".foo{color:#404040;}", css)
 })
 
-
 test_that("rename works as intended", {
   expect_identical(
-    rename2(list(a=1, b=3, c=4, a=2), b="z", f="w", a="y"),
+    rename2(list(a = 1, b = 3, c = 4, a = 2), b = "z", f = "w", a = "y"),
     list(y = 1, z = 3, c = 4, y = 2)
   )
   expect_identical(
-    rename2(c("a", "b", "c", "a"), b="z", f="w", a="y"),
+    rename2(c("a", "b", "c", "a"), b = "z", f = "w", a = "y"),
     c("y", "z", "c", "y")
   )
 })

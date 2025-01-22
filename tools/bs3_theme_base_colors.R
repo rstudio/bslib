@@ -4,20 +4,25 @@
 # dynamically calculated replacements.
 
 # Load bootstrap-sass (bs3) _variables.scss
-lines <- readLines(system.file(package = "bslib",
-  "lib/bs3/assets/stylesheets/bootstrap/_variables.scss"))
+lines <- readLines(
+  system.file(
+    package = "bslib",
+    "lib/bs3/assets/stylesheets/bootstrap/_variables.scss"
+  )
+)
 # Retain lines that seem like they contain a hex color.
 # (Note that colors specified by keyword would break this logic, but, AFAICT,
 # there aren't any such colors in _variables.scss.)
 lines <- lines[grepl("#[0-9a-f-A-F]", lines, perl = TRUE)]
 
 # Parse each line into variable name and hex color
-df <- data.frame(stringsAsFactors = FALSE,
+df <- data.frame(
+  stringsAsFactors = FALSE,
   name = sub("^\\$(.+?):.*", "\\1", lines, perl = TRUE),
   color = sub(".*(#[0-9A-Za-z]+).*", "\\1", lines, perl = TRUE)
 )
 # Sort by color value
-df <- df[order(df$color),]
+df <- df[order(df$color), ]
 
 # All of the color values that we want to replace, are assigned a variable name.
 # Any variables in _variables.scss that point to one of these color values, will
@@ -56,7 +61,7 @@ named_colors <- c(
 
 # Color variables in _variables.scss that we don't have names for.
 # Consider this a potential TODO list of colors we could dynamically set.
-df[!df$color %in% named_colors,]
+df[!df$color %in% named_colors, ]
 
 # Generate the code for color_mapping in bs3_theme_base_colors
 library(dplyr)
@@ -66,6 +71,8 @@ df %>%
   filter(name != varname) %>%
   mutate(varname = paste0("$", varname)) %>%
   select(name, varname) %>%
-  { setNames(.$varname, .$name) } %>%
+  {
+    setNames(.$varname, .$name)
+  } %>%
   as.list() %>%
   dput()

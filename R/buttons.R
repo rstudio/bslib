@@ -89,10 +89,16 @@
 #' shinyApp(ui, server)
 #'
 #' @export
-input_task_button <- function(id, label, ..., icon = NULL,
-  label_busy = "Processing...", icon_busy = rlang::missing_arg(),
-  type = "primary", auto_reset = TRUE) {
-
+input_task_button <- function(
+  id,
+  label,
+  ...,
+  icon = NULL,
+  label_busy = "Processing...",
+  icon_busy = rlang::missing_arg(),
+  type = "primary",
+  auto_reset = TRUE
+) {
   dots <- separate_arguments(...)
   attribs <- dots$attribs
   children <- dots$children
@@ -112,15 +118,12 @@ input_task_button <- function(id, label, ..., icon = NULL,
 
     component_dependencies(),
 
-    htmltools::tag("bslib-switch-inline",
+    htmltools::tag(
+      "bslib-switch-inline",
       rlang::list2(
         case = "ready",
-        span(slot = "ready",
-          icon, label
-        ),
-        span(slot = "busy",
-          icon_busy, label_busy
-        ),
+        span(slot = "ready", icon, label),
+        span(slot = "busy", icon_busy, label_busy),
         !!!children
       )
     )
@@ -132,7 +135,12 @@ input_task_button <- function(id, label, ..., icon = NULL,
 #' @param session The `session` object; using the default is recommended.
 #' @rdname input_task_button
 #' @export
-update_task_button <- function(id, ..., state = NULL, session = get_current_session()) {
+update_task_button <- function(
+  id,
+  ...,
+  state = NULL,
+  session = get_current_session()
+) {
   force(id)
   force(state)
 
@@ -142,12 +150,15 @@ update_task_button <- function(id, ..., state = NULL, session = get_current_sess
     if (!rlang::is_string(state)) {
       abort("`state` must be a single character value.")
     }
-    set_task_button_manual_reset(session, id, manual = !identical(state, "ready"))
+    set_task_button_manual_reset(
+      session,
+      id,
+      manual = !identical(state, "ready")
+    )
   }
 
   session$sendInputMessage(id, dropNulls(list(state = state)))
 }
-
 
 task_button_manual_reset_map <- function(session) {
   key <- "manual_task_button_reset"
@@ -176,7 +187,6 @@ is_task_button_manual_reset <- function(session, id) {
   map <- task_button_manual_reset_map(session)
   map$get(ns_id, FALSE)
 }
-
 
 input_task_button_input_handler <- function(val, shinysession, name) {
   value <- val[["value"]]
@@ -278,24 +288,30 @@ bind_task_button.default <- function(target, task_button_id, ...) {
 
 #' @rdname bind_task_button
 #' @export
-bind_task_button.ExtendedTask <- function(target, task_button_id,
-  ..., session = get_current_session()) {
-
+bind_task_button.ExtendedTask <- function(
+  target,
+  task_button_id,
+  ...,
+  session = get_current_session()
+) {
   force(target)
   force(task_button_id)
   force(session)
 
   was_running <- FALSE
-  shiny::observe({
-    running <- target$status() == "running"
-    if (running != was_running) {
-      was_running <<- running
-      if (running) {
-        update_task_button(task_button_id, state = "busy", session = session)
-      } else {
-        update_task_button(task_button_id, state = "ready", session = session)
+  shiny::observe(
+    {
+      running <- target$status() == "running"
+      if (running != was_running) {
+        was_running <<- running
+        if (running) {
+          update_task_button(task_button_id, state = "busy", session = session)
+        } else {
+          update_task_button(task_button_id, state = "ready", session = session)
+        }
       }
-    }
-  }, priority = 1000)
+    },
+    priority = 1000
+  )
   return(target)
 }
