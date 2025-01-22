@@ -6,6 +6,8 @@
 
    Related to the above change, `navset_bar()` now defaults to using `underline = TRUE` so that both `page_navbar()` and `navset_bar()` use the same set of default `navbar_options()`.
 
+   In `navbar_options()`, `inverse` is replaced by `theme`, which takes values `"light"` (dark text on a **light** background), `"dark"` (light text on a **dark** background), or `"auto"` (follow page settings). (#1146)
+
 ## New features
 
 * bslib now supports unified theming with [brand.yml](https://posit-dev.github.io/brand-yml). brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new [Unified theming with brand.yml](https://rstudio.github.io/bslib/dev/articles/brand-yml/) article. (#1148)
@@ -21,6 +23,8 @@
 * `input_switch()` and `input_dark_mode()` can be included in Shiny's [bookmarking feature](https://shiny.posit.co/r/articles/share/bookmarking-state/). (#1166)
 
 * Fixed an issue with the Shiny preset (`bs_theme(5, "shiny")`) that caused a floating underling to appear when a `nav_panel_hidden()` was used and active. (#1170)
+
+* bslib now uses navbar markup with Bootstrap 5 that's closer to the expected markup for Bootstrap. We still include the `navbar-default` or `navbar-inverse` classes on the `<nav>` element, for backwards compatibility, but in apps that use Bootstrap 5 these classes have no styles. (#1146)
 
 # bslib 0.8.0
 
