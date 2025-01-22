@@ -79,6 +79,7 @@
 <ul><li>
 <p>The navbar-related style options of <code><a href="../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../reference/navset.html">navset_bar()</a></code> have been consolidated into a single <code>navbar_options</code> argument that pairs with a new <code><a href="../reference/navbar_options.html">navbar_options()</a></code> helper. Using the direct <code>position</code>, <code>bg</code>, <code>inverse</code>, <code>collapsible</code>, and <code>underline</code> arguments will continue to work with a deprecation message. (<a href="https://github.com/rstudio/bslib/issues/1141" class="external-link">#1141</a>)</p>
 <p>Related to the above change, <code><a href="../reference/navset.html">navset_bar()</a></code> now defaults to using <code>underline = TRUE</code> so that both <code><a href="../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../reference/navset.html">navset_bar()</a></code> use the same set of default <code><a href="../reference/navbar_options.html">navbar_options()</a></code>.</p>
+<p>In <code><a href="../reference/navbar_options.html">navbar_options()</a></code>, <code>inverse</code> is replaced by <code>theme</code>, which takes values <code>"light"</code> (dark text on a <strong>light</strong> background), <code>"dark"</code> (light text on a <strong>dark</strong> background), or <code>"auto"</code> (follow page settings). (<a href="https://github.com/rstudio/bslib/issues/1146" class="external-link">#1146</a>)</p>
 </li>
 </ul></div>
 <div class="section level3">
@@ -92,6 +93,7 @@
 <li><p>Optimized for better performance the internal functions that compile Sass to call the <code>color-contrast()</code> algorithm. (<a href="https://github.com/rstudio/bslib/issues/1140" class="external-link">#1140</a>)</p></li>
 <li><p><code><a href="../reference/input_switch.html">input_switch()</a></code> and <code><a href="../reference/input_dark_mode.html">input_dark_mode()</a></code> can be included in Shiny’s <a href="https://shiny.posit.co/r/articles/share/bookmarking-state/" class="external-link">bookmarking feature</a>. (<a href="https://github.com/rstudio/bslib/issues/1166" class="external-link">#1166</a>)</p></li>
 <li><p>Fixed an issue with the Shiny preset (<code>bs_theme(5, "shiny")</code>) that caused a floating underling to appear when a <code><a href="../reference/nav-items.html">nav_panel_hidden()</a></code> was used and active. (<a href="https://github.com/rstudio/bslib/issues/1170" class="external-link">#1170</a>)</p></li>
+<li><p>bslib now uses navbar markup with Bootstrap 5 that’s closer to the expected markup for Bootstrap. We still include the <code>navbar-default</code> or <code>navbar-inverse</code> classes on the <code>&lt;nav&gt;</code> element, for backwards compatibility, but in apps that use Bootstrap 5 these classes have no styles. (<a href="https://github.com/rstudio/bslib/issues/1146" class="external-link">#1146</a>)</p></li>
 </ul></div>
 </div>
     <div class="section level2">

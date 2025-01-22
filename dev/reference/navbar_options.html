@@ -92,7 +92,7 @@ This helper should be used to create the list of options expected by
 <span>  <span class="va">...</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"static-top"</span>, <span class="st">"fixed-top"</span>, <span class="st">"fixed-bottom"</span><span class="op">)</span>,</span>
 <span>  bg <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  inverse <span class="op">=</span> <span class="st">"auto"</span>,</span>
+<span>  theme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"light"</span>, <span class="st">"dark"</span><span class="op">)</span>,</span>
 <span>  collapsible <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  underline <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -103,8 +103,8 @@ This helper should be used to create the list of options expected by
 
 
 <dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments are ignored. <code>...</code> is included for future
-expansion on <code>navbar_options()</code>.</p></dd>
+<dd><p>Additional attributes that will be passed directly to the navbar
+container element.</p></dd>
 
 
 <dt id="arg-position">position<a class="anchor" aria-label="anchor" href="#arg-position"></a></dt>
@@ -121,9 +121,11 @@ unless you add padding, e.g.: <code>tags$style(type="text/css", "body
 <dd><p>a CSS color to use for the navbar's background color.</p></dd>
 
 
-<dt id="arg-inverse">inverse<a class="anchor" aria-label="anchor" href="#arg-inverse"></a></dt>
-<dd><p>Either <code>TRUE</code> for a light text color or <code>FALSE</code> for a dark
-text color. If <code>"auto"</code> (the default), the best contrast to <code>bg</code> is chosen.</p></dd>
+<dt id="arg-theme">theme<a class="anchor" aria-label="anchor" href="#arg-theme"></a></dt>
+<dd><p>Either <code>"dark"</code> for a light text color (on a <strong>dark</strong>
+background) or <code>"light"</code> for a dark text color (on a <strong>light</strong> background).
+If <code>"auto"</code> (the default) and <code>bg</code> is provided, the best contrast to <code>bg</code>
+is chosen.</p></dd>
 
 
 <dt id="arg-collapsible">collapsible<a class="anchor" aria-label="anchor" href="#arg-collapsible"></a></dt>
@@ -150,7 +152,9 @@ links when active or focused.</p></dd>
 <p>This function was introduced in <span class="pkg">bslib</span> v0.9.0, replacing the <code>position</code>,
 <code>bg</code>, <code>inverse</code>, <code>collapsible</code> and <code>underline</code> arguments of <code><a href="page_navbar.html">page_navbar()</a></code>
 and <code><a href="navset.html">navset_bar()</a></code>. Those arguments are deprecated with a warning and will be
-removed in a future version of <span class="pkg">bslib</span>.</p>
+removed in a future version of <span class="pkg">bslib</span>. Note that the deprecated
+<code>inverse</code> argument of <code><a href="page_navbar.html">page_navbar()</a></code> and <code><a href="navset.html">navset_bar()</a></code> was replaced with
+the <code>theme</code> argument of <code>navbar_options()</code>.</p>
 </div>
 
     </div>
@@ -161,7 +165,7 @@ removed in a future version of <span class="pkg">bslib</span>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bslib_navbar_options&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    position: static-top</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          bg: #2e9f7d</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     inverse: (auto)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       theme: (auto)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> collapsible: (TRUE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   underline: FALSE</span>
 <span class="r-in"><span></span></span>
