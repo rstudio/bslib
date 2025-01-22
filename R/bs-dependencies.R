@@ -60,7 +60,6 @@ bs_theme_dependencies <- function(
   jquery = jquerylib::jquery_core(3),
   precompiled = get_precompiled_option("bslib.precompiled", default = TRUE)
 ) {
-
   theme <- as_bs_theme(theme)
   version <- theme_version(theme)
 
@@ -75,9 +74,10 @@ bs_theme_dependencies <- function(
   out_file <- NULL
   # Look for a precompiled css file if user asks for it AND the default options
   # are used.
-  if (precompiled &&
-      identical(sass_options, sass_options(output_style = "compressed")))
-  {
+  if (
+    precompiled &&
+      identical(sass_options, sass_options(output_style = "compressed"))
+  ) {
     precompiled_css <- precompiled_css_path(theme)
     if (!is.null(precompiled_css)) {
       out_dir <- file.path(tempdir(), paste0("bslib-precompiled-", version))
@@ -99,7 +99,6 @@ bs_theme_dependencies <- function(
 
   # If precompiled css not found, compile normally.
   if (is.null(out_file)) {
-
     contrast_warn <- get_shiny_devmode_option(
       "bslib.color_contrast_warnings",
       default = FALSE,
@@ -128,28 +127,37 @@ bs_theme_dependencies <- function(
 
   js_files <- bootstrap_javascript(version)
   js_map_files <- bootstrap_javascript_map(version)
-  success_js_files <- file.copy(c(js_files, js_map_files), out_file_dir, overwrite = TRUE)
+  success_js_files <- file.copy(
+    c(js_files, js_map_files),
+    out_file_dir,
+    overwrite = TRUE
+  )
   if (any(!success_js_files)) {
-    warning("Failed to copy over bootstrap's javascript files into the htmlDependency() directory.")
+    warning(
+      "Failed to copy over bootstrap's javascript files into the htmlDependency() directory."
+    )
   }
 
-  htmltools::resolveDependencies(c(
-    if (inherits(jquery, "html_dependency")) list(jquery) else jquery,
-    list(
-      htmlDependency(
-        name = "bootstrap",
-        version = get_exact_version(version),
-        src = out_file_dir,
-        stylesheet = basename(out_file),
-        script = basename(js_files),
-        all_files = TRUE, # include font and map files
-        meta = list(viewport = "width=device-width, initial-scale=1, shrink-to-fit=no")
-      )
-    ),
-    htmlDependencies(out_file)
-  ))
+  htmltools::resolveDependencies(
+    c(
+      if (inherits(jquery, "html_dependency")) list(jquery) else jquery,
+      list(
+        htmlDependency(
+          name = "bootstrap",
+          version = get_exact_version(version),
+          src = out_file_dir,
+          stylesheet = basename(out_file),
+          script = basename(js_files),
+          all_files = TRUE, # include font and map files
+          meta = list(
+            viewport = "width=device-width, initial-scale=1, shrink-to-fit=no"
+          )
+        )
+      ),
+      htmlDependencies(out_file)
+    )
+  )
 }
-
 
 #' Themeable HTML components
 #'
@@ -190,9 +198,15 @@ bs_theme_dependencies <- function(
 #'
 #' @family Bootstrap theme functions
 #' @export
-bs_dependency <- function(input = list(), theme, name, version,
-  cache_key_extra = NULL, .dep_args = list(), .sass_args = list())
-{
+bs_dependency <- function(
+  input = list(),
+  theme,
+  name,
+  version,
+  cache_key_extra = NULL,
+  .dep_args = list(),
+  .sass_args = list()
+) {
   sass_args <- c(
     list(
       rules = input,
@@ -221,19 +235,25 @@ bs_dependency <- function(input = list(), theme, name, version,
   }
 
   if ("package" %in% names(.dep_args)) {
-    warning("`package` won't have any effect since `src` must be an absolute path")
+    warning(
+      "`package` won't have any effect since `src` must be an absolute path"
+    )
   }
 
   script <- .dep_args[["script"]]
   if (length(script)) {
     if (basename(outfile) %in% basename(script)) {
-      stop("`script` file basename(s) must all be something other than ", basename(outfile))
+      stop(
+        "`script` file basename(s) must all be something other than ",
+        basename(outfile)
+      )
     }
     success <- file.copy(script, dirname(outfile), overwrite = TRUE)
     if (!all(success)) {
       stop(
         "Failed to copy the following script(s): ",
-        paste(script[!success], collapse = ", "), ".\n\n",
+        paste(script[!success], collapse = ", "),
+        ".\n\n",
         "Make sure script are absolute path(s)."
       )
     }
@@ -349,7 +369,9 @@ as_bs_theme <- function(theme) {
 
   # This is a historical artifact that should happen
   if (is_sass_bundle(theme) || inherits(theme, "sass_layer")) {
-    stop("`theme` cannot be a `sass_bundle()` or `sass_layer()` (use `bs_bundle()` to add a bundle)")
+    stop(
+      "`theme` cannot be a `sass_bundle()` or `sass_layer()` (use `bs_bundle()` to add a bundle)"
+    )
   }
 
   # NULL means default Bootstrap

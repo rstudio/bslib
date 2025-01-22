@@ -20,7 +20,7 @@
 #'   ```r
 #'   # shiny >= 1.8.1
 #'   shiny::runExample("build-a-box", package = "bslib")
-#' 
+#'
 #'   # shiny < 1.8.1
 #'   shiny::runApp(system.file("examples-shiny", "build-a-box", package = "bslib"))
 #'   ```
@@ -208,7 +208,9 @@ value_box_theme <- function(name = NULL, bg = NULL, fg = NULL) {
   }
 
   if (!rlang::is_string(name)) {
-    rlang::abort('`theme` must be a single value, e.g. "primary", "danger", "purple", etc.')
+    rlang::abort(
+      '`theme` must be a single value, e.g. "primary", "danger", "purple", etc.'
+    )
   }
 
   if (!grepl("^(text|bg)-", name)) {
@@ -374,7 +376,7 @@ render_showcase_layout <- function(showcase_layout, showcase, contents) {
     class = "value-box-grid",
     style = grid_props,
     showcase, # .value-box-showcase
-    contents  # .value-box-area (prepared in value_box())
+    contents # .value-box-area (prepared in value_box())
   )
 
   card_body(
@@ -383,7 +385,6 @@ render_showcase_layout <- function(showcase_layout, showcase, contents) {
     as_fill_item(value_box_grid)
   )
 }
-
 
 # It seems to be to use % over fr here since there is no gap on the grid
 validate_grid_unit <- function(x) {
@@ -448,8 +449,16 @@ print.bslib_showcase_layout <- function(x, ...) {
   }
 
   for (field in fields) {
-    t_field <- format(paste0(field, ": "), width = nchar_fields + 2, align = "left")
-    t_value <- format(x[[field]] %||% unset, width = nchar_value, align = "right")
+    t_field <- format(
+      paste0(field, ": "),
+      width = nchar_fields + 2,
+      align = "left"
+    )
+    t_value <- format(
+      x[[field]] %||% unset,
+      width = nchar_value,
+      align = "right"
+    )
     t_value_fs <- x[[paste0(field, "_full_screen")]] %||% unset
 
     cat(t_field, t_value, " [fs: ", t_value_fs, "]\n", sep = "")

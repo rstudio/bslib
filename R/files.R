@@ -29,7 +29,8 @@ bs_sass_file <- function(file, version) {
     four = path_lib("bs4", "scss", file),
     three = path_lib("bs3", "assets", "stylesheets", "bootstrap", file)
   )
-  if (f == "") stop("The bootstrap stylesheet '", file, "' doesn't exist.", call. = FALSE)
+  if (f == "")
+    stop("The bootstrap stylesheet '", file, "' doesn't exist.", call. = FALSE)
   sass_file(f)
 }
 
@@ -39,9 +40,15 @@ bootswatch_sass_file <- function(theme, file, version = version_default()) {
   file <- paste0("_", file, ".scss")
   f <- file.path(bootswatch_dist(version), theme, file)
   if (file.exists(f)) return(sass_file(f))
-  stop("Bootswatch file '", file, "' doesn't exist for theme '", theme, "'.", call. = FALSE)
+  stop(
+    "Bootswatch file '",
+    file,
+    "' doesn't exist for theme '",
+    theme,
+    "'.",
+    call. = FALSE
+  )
 }
-
 
 # Given a vector of sass_file()s, create a list of sass_bundles(),
 # so each rule may be removed layer (by it's files basename)
@@ -50,7 +57,8 @@ rule_bundles <- function(files) {
   paths <- vapply(files, get_sass_file_path, character(1))
   nms <- tools::file_path_sans_ext(basename(paths))
   Map(
-    nms, files,
+    nms,
+    files,
     f = function(nm, f) {
       sass_bundle(!!nm := sass_layer(rules = f))
     }

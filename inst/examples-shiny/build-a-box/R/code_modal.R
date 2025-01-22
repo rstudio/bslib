@@ -11,14 +11,18 @@ code_modal <- function(code) {
 
   showModal(
     modalDialog(
-      HTML(sprintf(
-        '<pre><code id="value-box-code">%s</code></pre>',
-        code
-      )),
+      HTML(
+        sprintf(
+          '<pre><code id="value-box-code">%s</code></pre>',
+          code
+        )
+      ),
       p(
         id = "copy-clipboard-not-supported",
         class = "text-muted d-none",
-        HTML("Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy the value box example code.")
+        HTML(
+          "Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy the value box example code."
+        )
       ),
       tags$button(
         id = "copy-code-to-clipboard",

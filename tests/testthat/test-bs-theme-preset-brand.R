@@ -50,9 +50,9 @@ describe("brand_resolve()", {
     c("meta:", "  name: test-brand-yml"),
     "_brand.yml"
   )
-  
+
   direct_is_valid <- FALSE
-  
+
   it("returns NULL if `brand = FALSE`", {
     expect_null(brand_resolve(FALSE))
   })
@@ -101,7 +101,7 @@ describe("brand_resolve()", {
         )
       )
     )
-    
+
     expected_base_preset <- resolve_bs_preset("flatly", version = "4")
     brand_preset <- brand_resolve(brand)
     preset <- brand_resolve_preset(brand)
@@ -120,8 +120,7 @@ describe("brand_resolve()", {
         )
       )
     )
-    
-    
+
     expect_error(
       brand_resolve_preset(brand),
       "is not a known preset"
@@ -138,14 +137,14 @@ describe("brand_resolve()", {
         )
       )
     )
-    
+
     expected_base_preset <- resolve_bs_preset("flatly", version = "4")
     brand <- brand_resolve(brand)
     preset <- brand_resolve_preset(brand)
     expect_equal(preset, expected_base_preset)
     expect_equal(preset$version, "4")
     expect_equal(preset$name, "flatly")
-    expect_equal(preset$version, "4") 
+    expect_equal(preset$version, "4")
   })
 
   it("uses brand.defaults.bootstrap.version", {
@@ -157,14 +156,14 @@ describe("brand_resolve()", {
         )
       )
     )
-    
+
     expected_base_preset <- resolve_bs_preset("bootstrap", version = "4")
     brand <- brand_resolve(brand)
     preset <- brand_resolve_preset(brand)
     expect_equal(preset, expected_base_preset)
     expect_equal(preset$version, "4")
     expect_equal(preset$name, "bootstrap")
-    expect_equal(preset$version, "4") 
+    expect_equal(preset$version, "4")
   })
 })
 
@@ -191,22 +190,22 @@ describe("brand_resolve_preset()", {
   it("uses `preset` and `version` from `_brand.yml`", {
     preset <- brand_resolve_preset(brand_resolve(NULL))
     expect_equal(preset$name, "flatly")
-    expect_equal(preset$version, version_default())    
+    expect_equal(preset$version, version_default())
   })
 
   it("uses `preset` and `version` from `bs_theme()`", {
     preset <- brand_resolve_preset(NULL, preset = "cosmo", 5)
     expect_equal(preset$name, "cosmo")
-    expect_equal(preset$version, version_default())    
+    expect_equal(preset$version, version_default())
   })
 
   it("uses `shiny` by default for BS 5", {
     write_brand_yml_preset(version = "5")
     preset <- brand_resolve_preset(brand_resolve(NULL))
     expect_equal(preset$name, "shiny")
-    expect_equal(preset$version, "5")    
+    expect_equal(preset$version, "5")
   })
-  
+
   it("uses `bootstrap` by default for BS 4", {
     write_brand_yml_preset(version = "4")
     preset <- brand_resolve_preset(brand_resolve(NULL))
@@ -296,7 +295,7 @@ describe("brand_color_pluck()", {
     brand <- list(
       color = list(
         palette = lapply(
-          rlang::set_names(seq_max, color_ref(seq_max-1)),
+          rlang::set_names(seq_max, color_ref(seq_max - 1)),
           color_ref
         )
       )

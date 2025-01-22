@@ -21,7 +21,6 @@ NULL
 #' @importFrom htmltools css
 htmltools::css
 
-
 # For usethis::use_release_issue()
 release_bullets <- function() {
   c(

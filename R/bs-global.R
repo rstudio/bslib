@@ -49,25 +49,26 @@ bs_global_theme <- function(
   ...,
   bootswatch = NULL
 ) {
-  bs_global_set(bs_theme(
-    version,
-    preset = preset,
-    bootswatch = bootswatch,
-    bg = bg,
-    fg = fg,
-    primary = primary,
-    secondary = secondary,
-    success = success,
-    info = info,
-    warning = warning,
-    danger = danger,
-    base_font = base_font,
-    code_font = code_font,
-    heading_font = heading_font,
-    ...
-  ))
+  bs_global_set(
+    bs_theme(
+      version,
+      preset = preset,
+      bootswatch = bootswatch,
+      bg = bg,
+      fg = fg,
+      primary = primary,
+      secondary = secondary,
+      success = success,
+      info = info,
+      warning = warning,
+      danger = danger,
+      base_font = base_font,
+      code_font = code_font,
+      heading_font = heading_font,
+      ...
+    )
+  )
 }
-
 
 #' @rdname bs_global_theme
 #' @inheritParams bs_theme_update
@@ -105,10 +106,18 @@ bs_global_clear <- function() {
 #' @rdname bs_global_theme
 #' @inheritParams bs_add_variables
 #' @export
-bs_global_add_variables <- function(..., .where = "defaults",
-                                    .default_flag = identical(.where, "defaults")) {
+bs_global_add_variables <- function(
+  ...,
+  .where = "defaults",
+  .default_flag = identical(.where, "defaults")
+) {
   theme <- assert_global_theme("bs_global_add_variables()")
-  theme <- bs_add_variables(theme, ..., .where = .where, .default_flag = .default_flag)
+  theme <- bs_add_variables(
+    theme,
+    ...,
+    .where = .where,
+    .default_flag = .default_flag
+  )
   bs_global_set(theme)
 }
 
@@ -128,13 +137,14 @@ bs_global_bundle <- function(...) {
   bs_global_set(theme)
 }
 
-
-
-
 assert_global_theme <- function(calling_func) {
   theme <- bs_global_get()
   if (is.null(theme)) {
-    stop("`", calling_func, "` requires that a global theme is first set (do you want to call `bs_global_theme()`?)")
+    stop(
+      "`",
+      calling_func,
+      "` requires that a global theme is first set (do you want to call `bs_global_theme()`?)"
+    )
   }
   theme
 }

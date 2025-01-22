@@ -125,7 +125,6 @@ card <- function(
   )
 }
 
-
 as_card_items <- function(children, wrapper) {
   # We don't want NULLs creating empty card bodys
   children <- children[vapply(children, function(x) length(x) > 0, logical(1))]
@@ -141,7 +140,9 @@ as_card_items <- function(children, wrapper) {
   needs_wrap_rle <- rle(needs_wrap)
   start_indices <- c(1, head(cumsum(needs_wrap_rle$lengths) + 1, -1))
   children <- mapply(
-    start_indices, needs_wrap_rle$lengths, needs_wrap_rle$values,
+    start_indices,
+    needs_wrap_rle$lengths,
+    needs_wrap_rle$values,
     FUN = function(start, length, wrap) {
       these_children <- children[start:(start + length - 1)]
       if (wrap) {
@@ -190,8 +191,18 @@ as_card_items <- function(children, wrapper) {
 #'   or [card_body()].
 #'
 #' @describeIn card_body A general container for the "main content" of a [card()].
-card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL, max_height_full_screen = max_height, height = NULL, padding = NULL, gap = NULL, fill = TRUE, class = NULL) {
-
+card_body <- function(
+  ...,
+  fillable = TRUE,
+  min_height = NULL,
+  max_height = NULL,
+  max_height_full_screen = max_height,
+  height = NULL,
+  padding = NULL,
+  gap = NULL,
+  fill = TRUE,
+  class = NULL
+) {
   if (fillable) {
     register_runtime_package_check("`card_body()`", "shiny", "1.7.4")
     register_runtime_package_check("`card_body()`", "htmlwidgets", "1.6.0")
@@ -203,7 +214,9 @@ card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL
     style = css(
       min_height = validateCssUnit(min_height),
       "--bslib-card-body-max-height" = validateCssUnit(max_height),
-      "--bslib-card-body-max-height-full-screen" = validateCssUnit(max_height_full_screen),
+      "--bslib-card-body-max-height-full-screen" = validateCssUnit(
+        max_height_full_screen
+      ),
       margin_top = "auto",
       margin_bottom = "auto",
       # .card-body already adds `flex: 1 1 auto` so make sure to override it
@@ -223,14 +236,12 @@ card_body <- function(..., fillable = TRUE, min_height = NULL, max_height = NULL
   as.card_item(tag)
 }
 
-
 #' @describeIn card_body Similar to `card_header()` but without the border and background color.
 #' @param container a function to generate an HTML element.
 #' @export
 card_title <- function(..., container = htmltools::h5) {
   container(...)
 }
-
 
 #' @describeIn card_body A header (with border and background color) for the `card()`. Typically appears before a `card_body()`.
 #' @param container a function that generates an [htmltools tag][htmltools::tags].
@@ -303,10 +314,12 @@ card_image <- function(
   container = NULL
 ) {
   if (any(!nzchar(rlang::names2(list(...))))) {
-    rlang::abort(c(
-      "Unnamed arguments were included in `...`.",
-      i = "All additional arguments to `card_image()` in `...` should be named attributes for the `<img>` tag."
-    ))
+    rlang::abort(
+      c(
+        "Unnamed arguments were included in `...`.",
+        i = "All additional arguments to `card_image()` in `...` should be named attributes for the `<img>` tag."
+      )
+    )
   }
 
   border_radius <- rlang::arg_match(border_radius)
@@ -316,13 +329,15 @@ card_image <- function(
       src <- file
     } else {
       if (!file.exists(file)) {
-        rlang::abort(c(
-          sprintf("`file` does not exist: %s", file),
-          i = sprintf(
-            "If `file` is a remote file or will be served by the Shiny app, use a URL or set `src = \"%s\"`.",
-            file
+        rlang::abort(
+          c(
+            sprintf("`file` does not exist: %s", file),
+            i = sprintf(
+              "If `file` is a remote file or will be served by the Shiny app, use a URL or set `src = \"%s\"`.",
+              file
+            )
           )
-        ))
+        )
       }
       src <- base64enc::dataURI(
         file = file,
@@ -353,7 +368,11 @@ card_image <- function(
   image <- tagAppendAttributes(image, class = class)
 
   if (!is.null(href)) {
-    image <- bindFillRole(tags$a(href = href, image), container = TRUE, item = TRUE)
+    image <- bindFillRole(
+      tags$a(href = href, image),
+      container = TRUE,
+      item = TRUE
+    )
   }
 
   if (is.function(container)) {
@@ -409,7 +428,6 @@ is.card_item <- function(x) {
   inherits(x, "card_item")
 }
 
-
 full_screen_toggle <- function(id_controls) {
   tooltip(
     tags$button(
@@ -434,7 +452,9 @@ card_init_js <- function() {
 full_screen_toggle_icon <- function() {
   # https://www.visiwig.com/icons/
   # https://www.visiwig.com/icons-license/
-  HTML('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"/></svg>')
+  HTML(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height:1em;width:1em;fill:currentColor;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"/></svg>'
+  )
 }
 
 # jcheng 2022-06-06: Removing for now; list items have more features than I'm

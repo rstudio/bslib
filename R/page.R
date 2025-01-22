@@ -322,7 +322,6 @@ maybe_page_sidebar <- function(x) {
   x
 }
 
-
 #' Multi-page app with a top navigation bar
 #'
 #' @description
@@ -333,7 +332,7 @@ maybe_page_sidebar <- function(x) {
 #'
 #' @param fillable_mobile Whether or not `fillable` pages should fill the viewport's
 #'   height on mobile devices (i.e., narrow windows).
-#' @param underline `r lifecycle::badge("deprecated")` Please use 
+#' @param underline `r lifecycle::badge("deprecated")` Please use
 #'   [`navbar_options = navbar_options(underline=)`][navbar_options] instead.
 #' @param window_title the browser window title. The default value, `NA`, means
 #'   to use any character strings that appear in `title` (if none are found, the
@@ -410,7 +409,6 @@ page_navbar <- function(
   underline = deprecated(),
   collapsible = deprecated()
 ) {
-
   sidebar <- maybe_page_sidebar(sidebar)
 
   padding <- validateCssPadding(padding)
@@ -418,9 +416,9 @@ page_navbar <- function(
 
   # Change behavior when called by Shiny
   # TODO: Coordinate with next bslib version bump in Shiny to use the new interface
-  was_called_by_shiny <- 
-    isNamespaceLoaded("shiny") && 
-    identical(rlang::caller_fn(), shiny::navbarPage)
+  was_called_by_shiny <-
+    isNamespaceLoaded("shiny") &&
+      identical(rlang::caller_fn(), shiny::navbarPage)
 
   .navbar_options <- navbar_options_resolve_deprecated(
     options_user = navbar_options,
@@ -444,7 +442,13 @@ page_navbar <- function(
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
-    function(...) page_fillable(..., fillable_mobile = fillable_mobile, padding = 0, gap = 0)
+    function(...)
+      page_fillable(
+        ...,
+        fillable_mobile = fillable_mobile,
+        padding = 0,
+        gap = 0
+      )
   }
 
   navbar <- navs_bar_(
@@ -482,7 +486,9 @@ infer_window_title <- function(title = NULL, window_title = NA) {
   if (!is.null(title)) {
     window_title <- unlist(find_characters(title))
     if (is.null(window_title)) {
-      warning("Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`.")
+      warning(
+        "Unable to infer a `window_title` default from `title`. Consider providing a character string to `window_title`."
+      )
     } else {
       window_title <- paste(window_title, collapse = " ")
     }
@@ -490,7 +496,6 @@ infer_window_title <- function(title = NULL, window_title = NA) {
 
   if (isTRUE(is.na(window_title))) NULL else window_title
 }
-
 
 # CPS (2023-02-09): Joe is currently working on a potentially
 # more compelling contain_width() interface, so we'll punt on this for now

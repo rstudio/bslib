@@ -44,22 +44,27 @@ ui <- page_fluid(
 )
 
 server <- function(input, output) {
-
   output$unemploy <- renderPlotly({
     plotly_time_series(
-      economics, x = ~date, y = ~100 * unemploy / pop
+      economics,
+      x = ~date,
+      y = ~100 * unemploy / pop
     )
   })
 
   output$psavert <- renderPlotly({
     plotly_time_series(
-      economics, x = ~date, y = ~psavert
+      economics,
+      x = ~date,
+      y = ~psavert
     )
   })
 
   output$pce <- renderPlotly({
     plotly_time_series(
-      economics, x = ~date, y = ~ 100 * pce / pop
+      economics,
+      x = ~date,
+      y = ~100 * pce / pop
     )
   })
 

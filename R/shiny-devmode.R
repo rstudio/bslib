@@ -1,5 +1,3 @@
-
-
 ###
 # These methods could be removed if shiny were able to be imported.
 # * `shiny::in_devmode()`
@@ -20,7 +18,6 @@ get_precompiled_option <- function(
   )
 }
 
-
 in_shiny_devmode <- function() {
   isTRUE(getOption("shiny.devmode", FALSE)) &&
     !identical(Sys.getenv("TESTTHAT"), "true")
@@ -33,7 +30,6 @@ get_shiny_devmode_option <- function(
   devmode_default = missing_arg(),
   devmode_message = missing_arg()
 ) {
-
   if (!in_shiny_devmode()) {
     # Dev Mode disabled, act like `getOption()`
     return(getOption(name, default = default))
@@ -44,8 +40,8 @@ get_shiny_devmode_option <- function(
     # Notify developer
     if (
       !is_missing(devmode_message) &&
-      !is.null(devmode_message) &&
-      getOption("shiny.devmode.verbose", TRUE)
+        !is.null(devmode_message) &&
+        getOption("shiny.devmode.verbose", TRUE)
     ) {
       devmode_message <- paste0("shiny devmode - ", devmode_message)
       rlang::inform(

@@ -66,12 +66,23 @@ bs_theme_accent_colors <- function(...) {
   bs_global_accent_colors(...)
 }
 
-bs_global_accent_colors <- function(primary = NULL, secondary = NULL, success = NULL,
-                                    info = NULL, warning = NULL, danger = NULL) {
+bs_global_accent_colors <- function(
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL
+) {
   theme <- assert_global_theme("bs_global_accent_colors()")
   theme <- bs_accent_colors(
-    theme, primary = primary, secondary = secondary, success = success,
-    info = info, warning = warning, danger = danger
+    theme,
+    primary = primary,
+    secondary = secondary,
+    success = success,
+    info = info,
+    warning = warning,
+    danger = danger
   )
   bs_global_set(theme)
 }
@@ -102,7 +113,6 @@ bs_theme_add <- function(...) {
   .Deprecated("bs_global_bundle")
   bs_global_bundle(sass::sass_layer(...))
 }
-
 
 #' @rdname deprecated
 #' @export
@@ -139,7 +149,6 @@ bs_add_declarations <- function(theme, declarations) {
   bs_bundle(theme, sass_layer(declarations = declarations))
 }
 
-
 #' @rdname deprecated
 #' @export
 card_body_fill <- function(...) {
@@ -170,7 +179,9 @@ deprecate_if_not_called_from_shiny <- function(old_name, new, version) {
     if (!identical(caller_fn_env, "namespace:shiny")) {
       msg <- sprintf(
         "`%s()` was deprecated in {bslib} version %s, use `%s()` instead.",
-        old_name, version, new_name
+        old_name,
+        version,
+        new_name
       )
       .Deprecated(msg = msg)
     }

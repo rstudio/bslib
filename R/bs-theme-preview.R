@@ -89,9 +89,12 @@ bs_themer_ui <- function(opts, vals, theme) {
         class = "form-row form-group",
         tags$label(lbl),
         tags$input(
-          type = type, value = value, "data-id" = id,
+          type = type,
+          value = value,
+          "data-id" = id,
           class = "form-control form-control-sm bs-theme-value",
-          class = input_class, ...
+          class = input_class,
+          ...
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
       )
@@ -120,16 +123,26 @@ bs_themer_ui <- function(opts, vals, theme) {
       color = text_input(input_class = "bs-theme-value-color text-monospace"),
       str = text_input(input_class = "bs-theme-value-str"),
       length = text_input(input_class = "bs-theme-value-length"),
-      number = text_input(input_class = "bs-theme-value-str", type = "number", step = opts$step),
+      number = text_input(
+        input_class = "bs-theme-value-str",
+        type = "number",
+        step = opts$step
+      ),
       bool = tagList(
         div(
           class = "form-check",
           tags$input(
-            type = "checkbox", checked = if (value) NA else NULL,
+            type = "checkbox",
+            checked = if (value) NA else NULL,
             class = "bs-theme-value bs-theme-value-bool form-check-input",
-            id = paste0(".bsthemer-", id), "data-id" = id
+            id = paste0(".bsthemer-", id),
+            "data-id" = id
           ),
-          tags$label("for" = paste0(".bsthemer-", id), class = "form-check-label", lbl)
+          tags$label(
+            "for" = paste0(".bsthemer-", id),
+            class = "form-check-label",
+            lbl
+          )
         ),
         if (!is.null(desc)) div(class = "form-text small", desc)
       ),
@@ -138,7 +151,8 @@ bs_themer_ui <- function(opts, vals, theme) {
         class = "form-row form-group",
         tags$label(class = "control-label", lbl),
         tags$select(
-          class = "form-control", "data-id" = id,
+          class = "form-control",
+          "data-id" = id,
           class = "bs-theme-value bs-theme-value-select",
           # This select is designed for the 'bootswatch' input and assumes that
           # the choices options are a list of lists, each list is an optgroup.
@@ -147,7 +161,8 @@ bs_themer_ui <- function(opts, vals, theme) {
             choice_group <- opts$choices[[idx]]
             opts <- lapply(choice_group, function(x) {
               tags$option(
-                value = x, selected = if (identical(x, value)) NA else NULL,
+                value = x,
+                selected = if (identical(x, value)) NA else NULL,
                 tools::toTitleCase(x)
               )
             })
@@ -166,14 +181,16 @@ bs_themer_ui <- function(opts, vals, theme) {
     opt_name <- names(opts)[[i]]
     elId <- paste0("bsthemerCollapse", i)
     btn <- tags$button(
-      class = if (version >= 5) "accordion-button" else "btn btn-link px-3 py-2 w-100 text-left border-0",
+      class = if (version >= 5) "accordion-button" else
+        "btn btn-link px-3 py-2 w-100 text-left border-0",
       class = if (i != 1) "collapsed",
       "data-toggle" = "collapse",
       "data-target" = paste0("#", elId),
       # data-bs-* is for BS5+
       "data-bs-toggle" = "collapse",
       "data-bs-target" = paste0("#", elId),
-      "aria-expanded" = "true", "aria-controls" = elId,
+      "aria-expanded" = "true",
+      "aria-controls" = elId,
       opt_name
     )
     controls <- lapply(seq_along(opts[[i]]), function(j) {
@@ -182,11 +199,13 @@ bs_themer_ui <- function(opts, vals, theme) {
     div(
       class = if (version >= 5) "accordion-item",
       div(
-        class = if (version >= 5) "accordion-header" else "card-header p-0 border-0",
+        class = if (version >= 5) "accordion-header" else
+          "card-header p-0 border-0",
         btn
       ),
       div(
-        id = elId, class = if (i == 1) "show" else "collapse",
+        id = elId,
+        class = if (i == 1) "show" else "collapse",
         "data-parent" = "#bsthemerAccordion",
         # data-bs-* is for BS5+
         "data-bs-parent" = "#bsthemerAccordion",
@@ -199,52 +218,68 @@ bs_themer_ui <- function(opts, vals, theme) {
     )
   })
 
-  withTags(tagList(
-    colorpicker_deps(),
-    htmlDependency(
-      "bs_themer", version = get_package_version("bslib"),
-      src = "themer", script = c("themer.js"),
-      package = "bslib", all_files = FALSE
-    ),
-
-    div(id = "bsthemerContainer",
-      class = "card shadow",
-      style = css(
-        # The bootstrap-colorpicker plugin sets a z-index of 1060 on
-        # it's inputs, so the container needs a smaller index, than that
-        # https://github.com/rstudio/bslib/blob/e4da71f3/inst/lib/bs-colorpicker/css/bootstrap-colorpicker.css#L38
-        #
-        # It's also important that this z-index is higher than 1030 so it's
-        # overlaid on-top of fixed/sticky navbars
-        # https://github.com/rstudio/bslib/blob/e4da71f3/inst/lib/bs/scss/_variables.scss#L697-L701
-        z_index = 1059, width = "18rem", max_height = "80vh",
-        position = "fixed", top = "1rem", right = "1rem", height = "auto"
-      ),
-
-      div(id = "bsthemerHeader",
-        class = "move-grabber", "data-target" = "#bsthemerContainer",
-        class = "card-header font-weight-bold bg-dark text-light px-3 py-2",
-        "Theme customizer",
-        tags$div(id = "bsthemerToggle", class = "float-right",
-          "data-toggle" = "collapse",
-          "data-target" = "#bsthemerAccordion",
-          # data-bs-* is for BS5+
-          "data-bs-toggle" = "collapse",
-          "data-bs-target" = "#bsthemerAccordion",
-          style = css(cursor = "pointer"),
-          tags$span(),
-          bs_dependency_defer(themer_css_dependency)
-        )
+  withTags(
+    tagList(
+      colorpicker_deps(),
+      htmlDependency(
+        "bs_themer",
+        version = get_package_version("bslib"),
+        src = "themer",
+        script = c("themer.js"),
+        package = "bslib",
+        all_files = FALSE
       ),
 
       div(
-        id = "bsthemerAccordion", class = "collapse show",
-        class = if (version >= 5) "accordion",
-        style = css(overflow_y = "auto"),
-        accordion
+        id = "bsthemerContainer",
+        class = "card shadow",
+        style = css(
+          # The bootstrap-colorpicker plugin sets a z-index of 1060 on
+          # it's inputs, so the container needs a smaller index, than that
+          # https://github.com/rstudio/bslib/blob/e4da71f3/inst/lib/bs-colorpicker/css/bootstrap-colorpicker.css#L38
+          #
+          # It's also important that this z-index is higher than 1030 so it's
+          # overlaid on-top of fixed/sticky navbars
+          # https://github.com/rstudio/bslib/blob/e4da71f3/inst/lib/bs/scss/_variables.scss#L697-L701
+          z_index = 1059,
+          width = "18rem",
+          max_height = "80vh",
+          position = "fixed",
+          top = "1rem",
+          right = "1rem",
+          height = "auto"
+        ),
+
+        div(
+          id = "bsthemerHeader",
+          class = "move-grabber",
+          "data-target" = "#bsthemerContainer",
+          class = "card-header font-weight-bold bg-dark text-light px-3 py-2",
+          "Theme customizer",
+          tags$div(
+            id = "bsthemerToggle",
+            class = "float-right",
+            "data-toggle" = "collapse",
+            "data-target" = "#bsthemerAccordion",
+            # data-bs-* is for BS5+
+            "data-bs-toggle" = "collapse",
+            "data-bs-target" = "#bsthemerAccordion",
+            style = css(cursor = "pointer"),
+            tags$span(),
+            bs_dependency_defer(themer_css_dependency)
+          )
+        ),
+
+        div(
+          id = "bsthemerAccordion",
+          class = "collapse show",
+          class = if (version >= 5) "accordion",
+          style = css(overflow_y = "auto"),
+          accordion
+        )
       )
     )
-  ))
+  )
 }
 
 themer_css_dependency <- function(theme) {
@@ -323,7 +358,12 @@ themer_css_dependency <- function(theme) {
 #' }
 #'
 #' @export
-run_with_themer <- function(appDir = getwd(), ..., gfonts = TRUE, gfonts_update = FALSE) {
+run_with_themer <- function(
+  appDir = getwd(),
+  ...,
+  gfonts = TRUE,
+  gfonts_update = FALSE
+) {
   shiny::runApp(
     as_themer_app(appDir, gfonts = gfonts, gfonts_update = gfonts_update),
     ...
@@ -352,21 +392,28 @@ as_themer_app <- function(appDir, gfonts = TRUE, gfonts_update = FALSE) {
 bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   session <- get_current_session()
   if (!identical("ok", session$ns("ok"))) {
-    stop(call. = FALSE, "`bslib::bs_themer()` must be called from within a ",
-         "top-level Shiny server function, not a Shiny module server function")
+    stop(
+      call. = FALSE,
+      "`bslib::bs_themer()` must be called from within a ",
+      "top-level Shiny server function, not a Shiny module server function"
+    )
   }
   if (!is_installed("shiny", "1.6.0")) {
     stop(call. = FALSE, "`bslib::bs_themer()` requires shiny v1.6.0 or higher")
   }
   theme <- get_current_theme()
   if (!is_bs_theme(theme)) {
-    stop(call. = FALSE, "`bslib::bs_themer()` requires `shiny::bootstrapLib()` to be present ",
-         "in the app's UI. Consider providing `bslib::bs_theme()` to the theme argument of the ",
-         "relevant page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI.")
+    stop(
+      call. = FALSE,
+      "`bslib::bs_themer()` requires `shiny::bootstrapLib()` to be present ",
+      "in the app's UI. Consider providing `bslib::bs_theme()` to the theme argument of the ",
+      "relevant page layout function (or, more generally, adding `bootstrapLib(bs_theme())` to the UI."
+    )
   }
   preset_initial <- theme_preset_info(theme)$name
   switch_version(
-    theme, three = stop("Interactive theming for Bootstrap 3 isn't supported")
+    theme,
+    three = stop("Interactive theming for Bootstrap 3 isn't supported")
   )
   if (isTRUE(session$userData[["bs_themer_init"]])) {
     # bs_themer() was called multiple times for the same session
@@ -383,7 +430,11 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   sass_vars <- setdiff(themer_vars, c("preset", "dark-mode"))
   themer_vals <- as.list(get_themer_vals(theme, sass_vars))
   themer_vals$preset <- preset_initial
-  shiny::insertUI("body", where = "beforeEnd", ui = bs_themer_ui(themer_opts, themer_vals, theme))
+  shiny::insertUI(
+    "body",
+    where = "beforeEnd",
+    ui = bs_themer_ui(themer_opts, themer_vals, theme)
+  )
 
   input <- session$input
 
@@ -397,8 +448,10 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   # consequence of a new bootswatch value
   shiny::observeEvent(input$bs_theme_preset, {
     theme <<- set_current_theme(
-      theme, list(preset = input$bs_theme_preset),
-      session, rmd = isRmd
+      theme,
+      list(preset = input$bs_theme_preset),
+      session,
+      rmd = isRmd
     )
     vals <- as.list(bs_get_variables(theme, sass_vars))
     session$sendCustomMessage("bs-themer-preset", list(values = vals))
@@ -410,11 +463,22 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
     # Validate that `vals` is a simple list, containing atomic elements,
     # that are all named
-    if (!identical(class(vals), "list") ||
-        !all(vapply(vals, function(x) {is.atomic(x) || is.null(x)}, logical(1))) ||
+    if (
+      !identical(class(vals), "list") ||
+        !all(
+          vapply(
+            vals,
+            function(x) {
+              is.atomic(x) || is.null(x)
+            },
+            logical(1)
+          )
+        ) ||
         is.null(names(vals)) ||
-        !isTRUE(all(nzchar(names(vals), keepNA = TRUE)))) {
-      warning(call. = FALSE,
+        !isTRUE(all(nzchar(names(vals), keepNA = TRUE)))
+    ) {
+      warning(
+        call. = FALSE,
         "bs_themer() encountered malformed input; ignoring"
       )
       return()
@@ -444,7 +508,8 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
     # Change variables names to their 'high-level' equivalents
     changed_vals <- rename2(
       changed_vals,
-      "font-family-base" = "base_font", "font-family-monospace" = "code_font",
+      "font-family-base" = "base_font",
+      "font-family-monospace" = "code_font",
       "headings-font-family" = "heading_font",
       "font-size-base" = "font_scale"
     )
@@ -455,7 +520,10 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
 
     if (isTRUE(gfonts)) {
       for (var in c("base_font", "code_font", "heading_font")) {
-        changed_vals[[var]] <- insert_font_google_call(changed_vals[[var]], gfont_info)
+        changed_vals[[var]] <- insert_font_google_call(
+          changed_vals[[var]],
+          gfont_info
+        )
       }
     }
 
@@ -463,18 +531,25 @@ bs_themer <- function(gfonts = TRUE, gfonts_update = FALSE) {
   })
 }
 
-
 get_themer_vals <- function(theme, vars) {
   vals <- bs_get_variables(theme, vars)
   if (!grepl("rem$", vals[["font-size-base"]])) {
-    stop("font-size-base must have a CSS unit length type of rem", call. = FALSE)
+    stop(
+      "font-size-base must have a CSS unit length type of rem",
+      call. = FALSE
+    )
   }
   vals[["font-size-base"]] <- sub("rem$", "", vals[["font-size-base"]])
   vals
 }
 
 set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
-  shiny::insertUI("body", ui = spinner_overlay(), immediate = TRUE, session = session)
+  shiny::insertUI(
+    "body",
+    ui = spinner_overlay(),
+    immediate = TRUE,
+    session = session
+  )
   on.exit(shiny::removeUI("body > #spinner_overlay"), add = TRUE)
 
   # Construct the code/yaml to display to the user
@@ -492,13 +567,19 @@ set_current_theme <- function(theme, changed_vals, session, rmd = FALSE) {
       paste0('"', gsub('"', '\\"', x, fixed = TRUE), '"')
     })
     message("\n####  Update your Rmd output format's theme:  ####")
-    cat(paste0(
-      "    theme:\n",
+    cat(
       paste0(
-        collapse = "\n", "      ", names(display_vals), ": ", display_vals
-      ),
-      "\n"
-    ))
+        "    theme:\n",
+        paste0(
+          collapse = "\n",
+          "      ",
+          names(display_vals),
+          ": ",
+          display_vals
+        ),
+        "\n"
+      )
+    )
   } else {
     message("\n####  Update your bs_theme() R code with:  #####")
     print(rlang::expr(bs_theme_update(theme, !!!changed_vals)))
@@ -549,7 +630,11 @@ spinner_overlay <- function() {
         role = "status",
         span(class = "sr-only visually-hidden", "Refreshing stylesheets...")
       ),
-      span(class = "lead mt-1", style = "color: rgba(0,0,0,0.8);", "Refreshing stylesheets...")
+      span(
+        class = "lead mt-1",
+        style = "color: rgba(0,0,0,0.8);",
+        "Refreshing stylesheets..."
+      )
     )
   )
 }
@@ -566,8 +651,10 @@ insert_font_google_call <- function(val, gfont_info) {
   if (!nzchar(val)) return(NULL)
   fams <- strsplit(as.character(val), ",")[[1]]
   fams <- vapply(
-    fams, function(x) gsub("^\\s*['\"]?", "", gsub("['\"]?\\s*$", "", x)),
-    character(1), USE.NAMES = FALSE
+    fams,
+    function(x) gsub("^\\s*['\"]?", "", gsub("['\"]?\\s*$", "", x)),
+    character(1),
+    USE.NAMES = FALSE
   )
   fams <- fams[nzchar(fams)]
   is_a_gfont <- tolower(fams) %in% tolower(gfont_info$family)
@@ -580,7 +667,6 @@ insert_font_google_call <- function(val, gfont_info) {
   }
   rlang::expr(font_collection(!!!unname(fams)))
 }
-
 
 get_gfont_info <- function(update = FALSE) {
   if (isTRUE(update)) {
@@ -599,7 +685,10 @@ gfont_api_url <- function() {
 # As mentioned in the developer API, this key is safe to be public facing
 # https://developers.google.com/fonts/docs/developer_api
 gfont_key <- function() {
-  Sys.getenv("GFONT_KEY", paste0("AIzaSyDP", "KvElVqQ-", "26f7tjxyg", "IGpIajf", "tS_zmas"))
+  Sys.getenv(
+    "GFONT_KEY",
+    paste0("AIzaSyDP", "KvElVqQ-", "26f7tjxyg", "IGpIajf", "tS_zmas")
+  )
 }
 
 #' Retrieve Sass variable values from the current theme
@@ -635,7 +724,8 @@ bs_get_variables <- function(theme, varnames) {
   base_color_idx <- varnames %in% c("fg", "bg")
   if (any(base_color_idx)) {
     varnames[base_color_idx] <- rename2(
-      varnames[base_color_idx], !!!get_base_color_map(theme)
+      varnames[base_color_idx],
+      !!!get_base_color_map(theme)
     )
   }
 
@@ -651,14 +741,22 @@ bs_get_variables <- function(theme, varnames) {
   # the user.
   na_sentinel <- "NA_SENTINEL_CONSTANT_4902F4E"
   sassvars <- paste0(
-    "$", varnames, ": ", na_sentinel, " !default;",
+    "$",
+    varnames,
+    ": ",
+    na_sentinel,
+    " !default;",
     collapse = "\n"
   )
 
   # Declare a block with a meaningless but identifiable selector (.__rstudio_bslib_get_variables)
   # and add properties for each variable that is desired.
   cssvars <- paste0(
-    "--", varnames, ": #{inspect($", varnames, ")};",
+    "--",
+    varnames,
+    ": #{inspect($",
+    varnames,
+    ")};",
     collapse = "\n"
   )
   cssvars <- sprintf(":root.__rstudio_bslib_get_variables {\n %s \n}", cssvars)
@@ -672,7 +770,10 @@ bs_get_variables <- function(theme, varnames) {
   # Search the output for the block of properties we just generated, using the
   # ".__rstudio_bslib_get_variables" selector. The capture group will include all of the
   # properties we care about in a single string (the propstr variable below).
-  matches <- regexec("(:root)?\\.__rstudio_bslib_get_variables(:root)?\\s*\\{\\s*\\n(.*?)\\n\\s*\\}", css)
+  matches <- regexec(
+    "(:root)?\\.__rstudio_bslib_get_variables(:root)?\\s*\\{\\s*\\n(.*?)\\n\\s*\\}",
+    css
+  )
   propstr <- regmatches(css, matches)[[1]][4]
   if (is.na(propstr)) {
     stop("bs_global_get_variables failed; expected selector was not found")
@@ -682,12 +783,17 @@ bs_get_variables <- function(theme, varnames) {
   proplines <- strsplit(propstr, "\n")[[1]]
 
   # Parse each line for the name and value.
-  matches2 <- regmatches(proplines, regexec("\\s*--([^:]+):\\s*(.*);$", proplines))
+  matches2 <- regmatches(
+    proplines,
+    regexec("\\s*--([^:]+):\\s*(.*);$", proplines)
+  )
   names <- vapply(matches2, function(x) x[2], character(1))
   values <- vapply(matches2, function(x) x[3], character(1))
 
   if (any(is.na(names))) {
-    stop("bs_global_get_variables failed; generated output was in an unexpected format")
+    stop(
+      "bs_global_get_variables failed; generated output was in an unexpected format"
+    )
   }
   if (!identical(varnames, names)) {
     stop("bs_global_get_variables failed; expected properties were not found")
@@ -696,10 +802,10 @@ bs_get_variables <- function(theme, varnames) {
   # Any variables that had to fall back to our defaults, we'll replace with NA
   values[values == na_sentinel] <- NA_character_
 
-
   if (any(base_color_idx)) {
     varnames[base_color_idx] <- rename2(
-      varnames[base_color_idx], !!!get_base_color_map(theme, decode = FALSE)
+      varnames[base_color_idx],
+      !!!get_base_color_map(theme, decode = FALSE)
     )
   }
 
@@ -707,24 +813,27 @@ bs_get_variables <- function(theme, varnames) {
   stats::setNames(values, varnames)
 }
 
-
 diff_css_values <- function(a, b) {
   stopifnot(all(!is.na(a)))
   stopifnot(identical(names(a), names(b)))
   stopifnot(is.list(a))
-  if(!is.character(b))browser()
+  if (!is.character(b)) browser()
 
-  a_char <- vapply(a, function(x) {
-    if (is.null(x) || isTRUE(is.na(x))) {
-      "null"
-    } else if (is.logical(x)) {
-      tolower(as.character(x))
-    } else if (is.character(x)) {
-      x
-    } else {
-      as.character(x)
-    }
-  }, character(1))
+  a_char <- vapply(
+    a,
+    function(x) {
+      if (is.null(x) || isTRUE(is.na(x))) {
+        "null"
+      } else if (is.logical(x)) {
+        tolower(as.character(x))
+      } else if (is.character(x)) {
+        x
+      } else {
+        as.character(x)
+      }
+    },
+    character(1)
+  )
 
   b <- ifelse(is.na(b), "null", b)
 
@@ -771,7 +880,8 @@ bs_get_contrast <- function(theme, varnames) {
   )
   css <- sass::sass_partial(
     paste0("bs_get_contrast {", prop_string, "}"),
-    theme, cache_key_extra = get_package_version("bslib"),
+    theme,
+    cache_key_extra = get_package_version("bslib"),
     # Don't listen to global Sass options so we can be sure
     # that stuff like source maps won't be included
     options = sass::sass_options(source_map_embed = FALSE)
@@ -781,7 +891,11 @@ bs_get_contrast <- function(theme, varnames) {
   css <- sub("\\}$", "", css)
   props <- strsplit(strsplit(css, ";")[[1]], ":")
   setNames(
-    vapply(props, function(x) htmltools::parseCssColors(sub(";$", "", x[2])), character(1)),
+    vapply(
+      props,
+      function(x) htmltools::parseCssColors(sub(";$", "", x[2])),
+      character(1)
+    ),
     vapply(props, `[[`, character(1), 1)
   )
 }

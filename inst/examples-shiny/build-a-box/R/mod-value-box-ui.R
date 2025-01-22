@@ -54,8 +54,16 @@ ui_value_box_options <- function(id) {
       ),
       conditional_panel(
         "input.use_custom_colors",
-        colourpicker::colourInput(ns("foreground"), "Foreground", value = "#000000"),
-        colourpicker::colourInput(ns("background"), "Background", value = "#FFFFFF")
+        colourpicker::colourInput(
+          ns("foreground"),
+          "Foreground",
+          value = "#000000"
+        ),
+        colourpicker::colourInput(
+          ns("background"),
+          "Background",
+          value = "#FFFFFF"
+        )
       ),
       input_switch(ns("full_screen"), "Allow full screen", value = FALSE),
       input_switch(ns("fill"), "Fill vertical space", value = TRUE),
@@ -92,8 +100,17 @@ ui_value_box_options <- function(id) {
         ),
         conditional_panel(
           "input.showcase_item == 'plot'",
-          selectInput(ns("showcase_plot_type"), "Plot Type", c("line", "bar", "box")),
-          radioButtons(ns("showcase_plot_color"), "Plot Color", c("auto", "black", "white"), inline = TRUE)
+          selectInput(
+            ns("showcase_plot_type"),
+            "Plot Type",
+            c("line", "bar", "box")
+          ),
+          radioButtons(
+            ns("showcase_plot_color"),
+            "Plot Color",
+            c("auto", "black", "white"),
+            inline = TRUE
+          )
         ),
         conditional_panel(
           "input.showcase_item == 'icon'",
@@ -218,7 +235,11 @@ server_value_box <- function(input, output, session, ...) {
   })
 
   observeEvent(input$showcase_item, {
-    updateCheckboxInput(session, "full_screen", value = input$showcase_item == "plot")
+    updateCheckboxInput(
+      session,
+      "full_screen",
+      value = input$showcase_item == "plot"
+    )
   })
 
   observeEvent(input$random_stat, {
@@ -229,7 +250,11 @@ server_value_box <- function(input, output, session, ...) {
 
   observeEvent(input$shuffle_showcase_icon, {
     new <- sample(bsicons:::icon_info$name, 1)
-    updateSelectInput(session, "showcase_icon", selected = paste0("bsicons::", new))
+    updateSelectInput(
+      session,
+      "showcase_icon",
+      selected = paste0("bsicons::", new)
+    )
   })
 
   list(

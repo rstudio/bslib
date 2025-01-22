@@ -12,7 +12,10 @@ test_that("layout_columns() with col_widths", {
   )
 
   expect_snapshot(
-    layout_columns(col_widths = breakpoints(sm = 6, md = 4, lg = 3), !!!children)
+    layout_columns(
+      col_widths = breakpoints(sm = 6, md = 4, lg = 3),
+      !!!children
+    )
   )
 
   expect_snapshot(
@@ -20,7 +23,10 @@ test_that("layout_columns() with col_widths", {
   )
 
   expect_snapshot(
-    layout_columns(col_widths = breakpoints(sm = NA, lg = c(4, -4, 4)), !!!children)
+    layout_columns(
+      col_widths = breakpoints(sm = NA, lg = c(4, -4, 4)),
+      !!!children
+    )
   )
 })
 
@@ -147,7 +153,9 @@ test_that("layout_columns() throws if no columns are positive", {
   expect_error(
     layout_columns(
       col_widths = breakpoints(md = c(-1, -1, -1)),
-      div(), div(), div()
+      div(),
+      div(),
+      div()
     )
   )
 })
@@ -213,12 +221,12 @@ test_that("row_heights_css_vars() doesn't include the class for xs size", {
 test_that("layout_column_wrap() handles deprecated width as first arg", {
   # first arg is fractional
   lifecycle::expect_deprecated(
-    lc_implicit_width_frac <- layout_column_wrap(1/2, "one", "two")
+    lc_implicit_width_frac <- layout_column_wrap(1 / 2, "one", "two")
   )
 
   expect_equal(
     as.character(lc_implicit_width_frac),
-    as.character(layout_column_wrap(width = 1/2, "one", "two"))
+    as.character(layout_column_wrap(width = 1 / 2, "one", "two"))
   )
 
   # first arg is explicitly px character

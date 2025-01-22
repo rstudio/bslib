@@ -49,7 +49,6 @@ bs_retrieve <- function(theme, ids = character(0), include_unnamed = TRUE) {
   )
 }
 
-
 retain_valid_ids <- function(theme, ids) {
   assert_bs_theme(theme)
   stopifnot(is.character(ids))
@@ -66,7 +65,8 @@ retain_valid_ids <- function(theme, ids) {
   if (length(missing_ids)) {
     warning(
       "The following `ids` weren't found in `theme`: ",
-      paste(missing_ids, collapse = ", "), ".\n\n",
+      paste(missing_ids, collapse = ", "),
+      ".\n\n",
       "Possible `ids` include: ",
       paste(bundle_ids[nzchar(bundle_ids)], collapse = ", ")
     )

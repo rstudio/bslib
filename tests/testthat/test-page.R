@@ -34,7 +34,6 @@ test_that("page_navbar()", {
 })
 
 test_that("page_sidebar()", {
-
   with_private_seed()
 
   expect_snapshot(
@@ -77,7 +76,6 @@ test_that("page_sidebar()", {
     # Don't run on CRAN since the output depends on {bsicons}
     cran = FALSE
   )
-
 })
 
 test_that("save_html() works on components and pages with a custom theme", {
@@ -103,24 +101,23 @@ test_that("save_html() works on components and pages with a custom theme", {
   })
 })
 
-
 test_that("page_*() functions can handle trailing commas", {
   expect_no_error(
-    page("foo",)
+    page("foo", )
   )
   expect_no_error(
-    page_fluid("foo",)
+    page_fluid("foo", )
   )
   expect_no_error(
-    page_fixed("foo",)
+    page_fixed("foo", )
   )
   expect_no_error(
-    page_fillable("foo",)
+    page_fillable("foo", )
   )
   expect_no_error(
-    page_sidebar("foo",)
+    page_sidebar("foo", )
   )
   expect_no_error(
-    page_navbar(nav_panel("foo", "bar"),)
+    page_navbar(nav_panel("foo", "bar"), )
   )
 })

@@ -66,11 +66,9 @@
 #'   shinyApp(ui, server)
 #' }
 #'
-nav_select <- function(id, selected = NULL,
-                       session = get_current_session()) {
+nav_select <- function(id, selected = NULL, session = get_current_session()) {
   shiny::updateTabsetPanel(session, id, selected)
 }
-
 
 #' @param nav a [nav_panel()] item.
 #' @param target The `value` of an existing `nav_panel()` item, next to which tab will be added. If removing: the `value` of the `nav_panel()` item that you want to remove.
@@ -78,9 +76,14 @@ nav_select <- function(id, selected = NULL,
 #' @param select Should `nav` be selected upon being inserted?
 #' @rdname nav_select
 #' @export
-nav_insert <- function(id, nav, target = NULL, position = c("after", "before"),
-                       select = FALSE, session = get_current_session()) {
-
+nav_insert <- function(
+  id,
+  nav,
+  target = NULL,
+  position = c("after", "before"),
+  select = FALSE,
+  session = get_current_session()
+) {
   force(target)
   force(select)
   position <- match.arg(position)
@@ -93,8 +96,13 @@ nav_insert <- function(id, nav, target = NULL, position = c("after", "before"),
   # give a random 4-digit number to identify the tabsetPanel). Since we
   # can only know this in the client side, we'll just pass `id` and
   # `tsid` (TabSetID) as dummy values that will be fixed in the JS code.
-  item <- buildTabItem("id", "tsid", TRUE, divTag = nav,
-                       textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL)
+  item <- buildTabItem(
+    "id",
+    "tsid",
+    TRUE,
+    divTag = nav,
+    textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL
+  )
 
   callback <- function() {
     session$sendInsertTab(
@@ -104,7 +112,8 @@ nav_insert <- function(id, nav, target = NULL, position = c("after", "before"),
       menuName = NULL,
       target = target,
       position = position,
-      select = select)
+      select = select
+    )
   }
   session$onFlush(callback, once = TRUE)
 }
@@ -126,15 +135,18 @@ nav_remove <- function(id, target, session = get_current_session()) {
 
 #' @export
 #' @rdname nav_select
-nav_show <- function(id, target, select = FALSE,
-                     session = get_current_session()) {
+nav_show <- function(
+  id,
+  target,
+  select = FALSE,
+  session = get_current_session()
+) {
   shiny::showTab(id, target, select, session)
 }
 
 #' @export
 #' @rdname nav_select
-nav_hide <- function(id, target,
-                     session = get_current_session()) {
+nav_hide <- function(id, target, session = get_current_session()) {
   shiny::hideTab(id, target, session)
 }
 
@@ -150,14 +162,24 @@ nav_hide <- function(id, target,
 #' @param menu_title The title of a [nav_menu()].
 #' @keywords internal
 #' @export
-nav_prepend <- function(id, nav, menu_title, select = FALSE, session = get_current_session()) {
-
+nav_prepend <- function(
+  id,
+  nav,
+  menu_title,
+  select = FALSE,
+  session = get_current_session()
+) {
   force(select)
   force(menu_title)
   inputId <- session$ns(id)
 
-  item <- buildTabItem("id", "tsid", TRUE, divTag = nav,
-                       textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL)
+  item <- buildTabItem(
+    "id",
+    "tsid",
+    TRUE,
+    divTag = nav,
+    textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL
+  )
 
   callback <- function() {
     session$sendInsertTab(
@@ -167,7 +189,8 @@ nav_prepend <- function(id, nav, menu_title, select = FALSE, session = get_curre
       menuName = menu_title,
       target = NULL,
       position = "before",
-      select = select)
+      select = select
+    )
   }
   session$onFlush(callback, once = TRUE)
 }
@@ -175,14 +198,24 @@ nav_prepend <- function(id, nav, menu_title, select = FALSE, session = get_curre
 #' @rdname nav_prepend
 #' @keywords internal
 #' @export
-nav_append <- function(id, nav, menu_title, select = FALSE, session = get_current_session()) {
-
+nav_append <- function(
+  id,
+  nav,
+  menu_title,
+  select = FALSE,
+  session = get_current_session()
+) {
   force(select)
   force(menu_title)
   inputId <- session$ns(id)
 
-  item <- buildTabItem("id", "tsid", TRUE, divTag = nav,
-                       textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL)
+  item <- buildTabItem(
+    "id",
+    "tsid",
+    TRUE,
+    divTag = nav,
+    textFilter = if (is.character(nav)) navbarMenuTextFilter else NULL
+  )
 
   callback <- function() {
     session$sendInsertTab(
@@ -192,7 +225,8 @@ nav_append <- function(id, nav, menu_title, select = FALSE, session = get_curren
       menuName = menu_title,
       target = NULL,
       position = "after",
-      select = select)
+      select = select
+    )
   }
   session$onFlush(callback, once = TRUE)
 }

@@ -1,8 +1,21 @@
 test_that("bs_theme_update() can update defaults", {
-  vars <- c("black", "white", "primary", "danger", "font-family-base", "font-family-monospace")
+  vars <- c(
+    "black",
+    "white",
+    "primary",
+    "danger",
+    "font-family-base",
+    "font-family-monospace"
+  )
   pre_theme <- bs_theme("4")
   pre_vars <- bs_get_variables(pre_theme, vars)
-  post_theme <- bs_theme_update(pre_theme, bg = "black", fg = "white", primary = "#222222", base_font = "SomeFont")
+  post_theme <- bs_theme_update(
+    pre_theme,
+    bg = "black",
+    fg = "white",
+    primary = "#222222",
+    base_font = "SomeFont"
+  )
   post_vars <- bs_get_variables(post_theme, vars)
   # bg/fg has been inverted, primary and base font have been updated
   expect_true(post_vars[["black"]] == "#FFFFFF")
@@ -12,9 +25,10 @@ test_that("bs_theme_update() can update defaults", {
   # Danger hasn't been set
   expect_true(post_vars[["danger"]] == pre_vars[["danger"]])
   # Neither has monospace
-  expect_true(post_vars[["font-family-monospace"]] == pre_vars[["font-family-monospace"]])
+  expect_true(
+    post_vars[["font-family-monospace"]] == pre_vars[["font-family-monospace"]]
+  )
 })
-
 
 test_that("Sass bundles work as expected with a theme", {
   theme <- bs_add_variables(bs_theme("4"), primary = "#222222")
@@ -30,7 +44,8 @@ test_that("Sass bundles work as expected with a theme", {
   expect_true(bs_get_variables(theme, "primary") == "#222222")
   # Can drop-down to the lower-level bs_bundle()
   theme <- bs_bundle(
-    theme, sass::sass_layer(defaults = list(primary = "#333333 !default"))
+    theme,
+    sass::sass_layer(defaults = list(primary = "#333333 !default"))
   )
   expect_true(bs_get_variables(theme, "primary") == "#333333")
 })
@@ -54,7 +69,7 @@ test_that("bs_theme_update() can update the bootswatch theme", {
   default <- bs_theme_update(cosmo, bootswatch = "default")
   expect_identical(
     sass::sass(default),
-    sass::sass(bs_theme(preset="bootstrap"))
+    sass::sass(bs_theme(preset = "bootstrap"))
   )
   expect_null(theme_bootswatch(default))
 })

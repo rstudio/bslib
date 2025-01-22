@@ -29,7 +29,11 @@ builtin_bundle <- function(name = "shiny", version = version_default()) {
   sass_parts <- rlang::set_names(c("variables", "mixins", "rules"))
 
   sass_files <- lapply(sass_parts, function(part) {
-    path <- path_builtin_theme(name, paste0("_", part, ".scss"), version = version)
+    path <- path_builtin_theme(
+      name,
+      paste0("_", part, ".scss"),
+      version = version
+    )
     if (file.exists(path)) sass_file(path)
   })
 
@@ -62,7 +66,8 @@ validate_builtin_preset_name <- function(name, version = version_default()) {
       sprintf(
         "Available Bootstrap %s themes are: '%s'",
         version,
-        paste0(builtin_themes(version), collapse = "', '"))
+        paste0(builtin_themes(version), collapse = "', '")
+      )
     } else {
       "No built-in theme presets are available for this version of Bootstrap."
     }

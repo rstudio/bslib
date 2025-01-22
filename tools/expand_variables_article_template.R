@@ -1,6 +1,6 @@
 withr::with_dir(
-  rprojroot::find_package_root_file("vignettes"), {
-
+  rprojroot::find_package_root_file("vignettes"),
+  {
     src4 <- knitr::knit_expand(
       file = "_variables-template.Rmd",
       version = 4

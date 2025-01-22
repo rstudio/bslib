@@ -1,6 +1,8 @@
-
 generate_random_walk <- function(num_steps = 90) {
-  start_date <- as.POSIXct(as.integer(Sys.time()) * runif(1), origin = "1970-01-01")
+  start_date <- as.POSIXct(
+    as.integer(Sys.time()) * runif(1),
+    origin = "1970-01-01"
+  )
 
   increments <- rnorm(num_steps)
   cumulative_sum <- cumsum(increments)
@@ -32,12 +34,11 @@ as_plotly_sparkline <- function(plot, color = "white") {
         ro.observe(el);
       }"
     )
-  }
-
+}
 
 random_plotly_plot <- function(type = NULL, color = "white") {
   if (is.null(type)) {
-    type <-  sample(c("bar", "box", "line"), 1)
+    type <- sample(c("bar", "box", "line"), 1)
   }
 
   plot <- switch(
@@ -53,7 +54,7 @@ random_plotly_plot <- function(type = NULL, color = "white") {
 
 random_plotly_bar <- function(color, n = 50) {
   plot_ly(
-    x = ~ runif(n),
+    x = ~runif(n),
     type = "histogram",
     histnorm = "probability",
     nbinsx = 10,
@@ -69,13 +70,13 @@ random_plotly_box <- function(color, n = 50) {
 }
 
 random_plotly_line <- function(color, n) {
-    add_lines(
-      plot_ly(generate_random_walk(n)),
-      x = ~ date,
-      y = ~ value,
-      color = I(color),
-      fill = "tozeroy",
-      span = I(1),
-      alpha = 0.2
-    )
+  add_lines(
+    plot_ly(generate_random_walk(n)),
+    x = ~date,
+    y = ~value,
+    color = I(color),
+    fill = "tozeroy",
+    span = I(1),
+    alpha = 0.2
+  )
 }

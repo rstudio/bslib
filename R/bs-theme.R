@@ -89,7 +89,7 @@
 #' @param brand Specifies how to apply branding to your theme using
 #'   [brand.yml](https://posit-dev.github.io/brand-yml), a simple YAML file that
 #'   defines key brand elements like colors, fonts, and logos. Valid options:
-#' 
+#'
 #'   - `NULL` (default): Automatically looks for a `_brand.yml` file in the
 #'     current directory or in `_brand/` or `brand/` in the current directory.
 #'     If not found, it searches parent project directories for a `_brand.yml`
@@ -104,7 +104,7 @@
 #'     file name) that you want to use.
 #'   - Use a list to directly provide brand settings directly in R, following
 #'     the brand.yml structure.
-#'   
+#'
 #'   Learn more about creating and using brand.yml files at the
 #'   [brand.yml homepage](https://posit-dev.github.io/brand-yml) or run
 #'   `shiny::runExample("brand.yml", package = "bslib")` to try brand.yml in a
@@ -182,7 +182,7 @@ bs_theme <- function(
 
   brand <- brand_resolve(brand)
 
-  preset <- 
+  preset <-
     if (!is.null(brand)) {
       brand_resolve_preset(
         brand = brand,
@@ -192,7 +192,7 @@ bs_theme <- function(
     } else {
       if (is.null(preset) && is.null(bootswatch) && version >= 5) {
         preset <- "shiny"
-      }  
+      }
       resolve_bs_preset(preset, bootswatch, version = version)
     }
 
@@ -210,8 +210,10 @@ bs_theme <- function(
   }
 
   bundle <- bs_theme_update(
-    bundle, ...,
-    bg = bg, fg = fg,
+    bundle,
+    ...,
+    bg = bg,
+    fg = fg,
     primary = primary,
     secondary = secondary,
     success = success,
@@ -255,7 +257,11 @@ bs_theme_update <- function(
 ) {
   assert_bs_theme(theme)
 
-  preset <- resolve_bs_preset(preset, bootswatch, version = theme_version(theme))
+  preset <- resolve_bs_preset(
+    preset,
+    bootswatch,
+    version = theme_version(theme)
+  )
 
   if (!is.null(preset)) {
     theme_has_preset <- inherits(theme, THEME_PRESET_CLASS)
@@ -276,15 +282,28 @@ bs_theme_update <- function(
   # See R/bs-theme-update.R for the implementation of these
   theme <- bs_base_colors(theme, bg = bg, fg = fg)
   theme <- bs_accent_colors(
-    theme, primary = primary, secondary = secondary, success = success,
-    info = info, warning = warning, danger = danger
+    theme,
+    primary = primary,
+    secondary = secondary,
+    success = success,
+    info = info,
+    warning = warning,
+    danger = danger
   )
-  theme <- bs_fonts(theme, base = base_font, code = code_font, heading = heading_font)
+  theme <- bs_fonts(
+    theme,
+    base = base_font,
+    code = code_font,
+    heading = heading_font
+  )
   if (!is.null(font_scale)) {
     stopifnot(is.numeric(font_scale) && length(font_scale) == 1)
     theme <- bs_add_variables(
-      theme, "font-size-base" = paste(
-        font_scale, "*", bs_get_variables(theme, "font-size-base")
+      theme,
+      "font-size-base" = paste(
+        font_scale,
+        "*",
+        bs_get_variables(theme, "font-size-base")
       )
     )
   }
@@ -293,26 +312,42 @@ bs_theme_update <- function(
 
 #' @rdname bs_global_theme
 #' @export
-bs_global_theme_update <- function(..., preset = NULL, bg = NULL, fg = NULL,
-                                   primary = NULL,  secondary = NULL, success = NULL,
-                                   info = NULL, warning = NULL, danger = NULL,
-                                   base_font = NULL, code_font = NULL, heading_font = NULL, bootswatch = NULL) {
+bs_global_theme_update <- function(
+  ...,
+  preset = NULL,
+  bg = NULL,
+  fg = NULL,
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL,
+  base_font = NULL,
+  code_font = NULL,
+  heading_font = NULL,
+  bootswatch = NULL
+) {
   theme <- assert_global_theme("bs_theme_global_update()")
-  bs_global_set(bs_theme_update(
-    theme, ...,
-    preset = preset,
-    bootswatch = bootswatch,
-    bg = bg, fg = fg,
-    primary = primary,
-    secondary = secondary,
-    success = success,
-    info = info,
-    warning = warning,
-    danger = danger,
-    base_font = base_font,
-    code_font = code_font,
-    heading_font = heading_font
-  ))
+  bs_global_set(
+    bs_theme_update(
+      theme,
+      ...,
+      preset = preset,
+      bootswatch = bootswatch,
+      bg = bg,
+      fg = fg,
+      primary = primary,
+      secondary = secondary,
+      success = success,
+      info = info,
+      warning = warning,
+      danger = danger,
+      base_font = base_font,
+      code_font = code_font,
+      heading_font = heading_font
+    )
+  )
 }
 
 #' @rdname bs_theme
@@ -326,19 +361,19 @@ is_bs_theme <- function(x) {
 # theme_version() & theme_bootswatch() search for
 bs_theme_init <- function(version) {
   init_layer <- sass_layer(
-      defaults = list(
-        "bootstrap-version" = version,
-        "bslib-preset-name" = "null !default",
-        "bslib-preset-type" = "null !default"
-      ),
-      rules = c(
-        ":root {",
-        "--bslib-bootstrap-version: #{$bootstrap-version};",
-        "--bslib-preset-name: #{$bslib-preset-name};",
-        "--bslib-preset-type: #{$bslib-preset-type};",
-        "}"
-      )
+    defaults = list(
+      "bootstrap-version" = version,
+      "bslib-preset-name" = "null !default",
+      "bslib-preset-type" = "null !default"
+    ),
+    rules = c(
+      ":root {",
+      "--bslib-bootstrap-version: #{$bootstrap-version};",
+      "--bslib-preset-name: #{$bslib-preset-name};",
+      "--bslib-preset-type: #{$bslib-preset-type};",
+      "}"
     )
+  )
 
   add_class(init_layer, c(paste0("bs_version_", version), "bs_theme"))
 }
@@ -369,22 +404,54 @@ bootstrap_bundle <- function(version) {
       # Don't name this "core" bundle so it can't easily be removed
       sass_layer(
         functions = bs5_sass_files("functions"),
-        defaults = list(bs5_sass_files("variables"), bs5_sass_files("variables-dark")),
+        defaults = list(
+          bs5_sass_files("variables"),
+          bs5_sass_files("variables-dark")
+        ),
         mixins = list(bs5_sass_files("maps"), bs5_sass_files("mixins")),
         rules = list(bs5_sass_files("mixins/banner"), "@include bsBanner('')")
       ),
       # Returns a _named_ list of bundles (i.e., these should be easily removed)
       !!!rule_bundles(
         # Names here should match https://github.com/twbs/bs5/blob/master/scss/bootstrap.scss
-        bs5_sass_files(c(
-          "utilities",
-          "root", "reboot", "type", "images", "containers", "grid",
-          "tables", "forms", "buttons", "transitions", "dropdown",
-          "button-group", "nav", "navbar", "card", "accordion", "breadcrumb",
-          "pagination", "badge", "alert", "progress", "list-group", "close",
-          "toasts", "modal", "tooltip", "popover", "carousel", "spinners",
-          "offcanvas", "placeholders", "helpers", "utilities/api"
-        ))
+        bs5_sass_files(
+          c(
+            "utilities",
+            "root",
+            "reboot",
+            "type",
+            "images",
+            "containers",
+            "grid",
+            "tables",
+            "forms",
+            "buttons",
+            "transitions",
+            "dropdown",
+            "button-group",
+            "nav",
+            "navbar",
+            "card",
+            "accordion",
+            "breadcrumb",
+            "pagination",
+            "badge",
+            "alert",
+            "progress",
+            "list-group",
+            "close",
+            "toasts",
+            "modal",
+            "tooltip",
+            "popover",
+            "carousel",
+            "spinners",
+            "offcanvas",
+            "placeholders",
+            "helpers",
+            "utilities/api"
+          )
+        )
       ),
       # Additions to BS5 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
@@ -403,14 +470,44 @@ bootstrap_bundle <- function(version) {
       # Returns a _named_ list of bundles (i.e., these should be easily removed)
       !!!rule_bundles(
         # Names here should match https://github.com/twbs/bs4/blob/master/scss/bootstrap.scss
-        bs4_sass_files(c(
-          "root", "reboot", "type", "images", "code", "grid", "tables",
-          "forms", "buttons", "transitions", "dropdown", "button-group",
-          "input-group", "custom-forms", "nav", "navbar", "card",
-          "breadcrumb", "pagination", "badge", "jumbotron", "alert",
-          "progress", "media", "list-group", "close", "toasts", "modal",
-          "tooltip", "popover", "carousel", "spinners", "utilities", "print"
-        ))
+        bs4_sass_files(
+          c(
+            "root",
+            "reboot",
+            "type",
+            "images",
+            "code",
+            "grid",
+            "tables",
+            "forms",
+            "buttons",
+            "transitions",
+            "dropdown",
+            "button-group",
+            "input-group",
+            "custom-forms",
+            "nav",
+            "navbar",
+            "card",
+            "breadcrumb",
+            "pagination",
+            "badge",
+            "jumbotron",
+            "alert",
+            "progress",
+            "media",
+            "list-group",
+            "close",
+            "toasts",
+            "modal",
+            "tooltip",
+            "popover",
+            "carousel",
+            "spinners",
+            "utilities",
+            "print"
+          )
+        )
       ),
       # Additions to BS4 that are always included (i.e., not a part of compatibility)
       sass_layer(rules = pandoc_tables),
@@ -423,14 +520,47 @@ bootstrap_bundle <- function(version) {
       ),
       # Should match https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/_bootstrap.scss
       !!!rule_bundles(
-        bs3_sass_files(c(
-          "normalize", "print", "glyphicons", "scaffolding", "type", "code", "grid",
-          "tables", "forms", "buttons", "component-animations", "dropdowns", "button-groups",
-          "input-groups", "navs", "navbar", "breadcrumbs", "pagination", "pager", "labels",
-          "badges", "jumbotron", "thumbnails", "alerts", "progress-bars", "media",
-          "list-group", "panels", "responsive-embed", "wells", "close", "modals",
-          "tooltip", "popovers", "carousel", "utilities", "responsive-utilities"
-        ))
+        bs3_sass_files(
+          c(
+            "normalize",
+            "print",
+            "glyphicons",
+            "scaffolding",
+            "type",
+            "code",
+            "grid",
+            "tables",
+            "forms",
+            "buttons",
+            "component-animations",
+            "dropdowns",
+            "button-groups",
+            "input-groups",
+            "navs",
+            "navbar",
+            "breadcrumbs",
+            "pagination",
+            "pager",
+            "labels",
+            "badges",
+            "jumbotron",
+            "thumbnails",
+            "alerts",
+            "progress-bars",
+            "media",
+            "list-group",
+            "panels",
+            "responsive-embed",
+            "wells",
+            "close",
+            "modals",
+            "tooltip",
+            "popovers",
+            "carousel",
+            "utilities",
+            "responsive-utilities"
+          )
+        )
       ),
       accessibility = bs3_accessibility_bundle(),
       glyphicon_font_files = sass_layer(
@@ -481,15 +611,22 @@ bslib_bundle <- function() {
 
 bs3compat_bundle <- function() {
   sass_layer(
-    defaults = sass_file(system_file("bs3compat", "_defaults.scss", package = "bslib")),
-    mixins = sass_file(system_file("bs3compat", "_declarations.scss", package = "bslib")),
-    rules = sass_file(system_file("bs3compat", "_rules.scss", package = "bslib")),
+    defaults = sass_file(
+      system_file("bs3compat", "_defaults.scss", package = "bslib")
+    ),
+    mixins = sass_file(
+      system_file("bs3compat", "_declarations.scss", package = "bslib")
+    ),
+    rules = sass_file(
+      system_file("bs3compat", "_rules.scss", package = "bslib")
+    ),
     # Gyliphicon font files
     file_attachments = c(
       fonts = path_lib("bs3", "assets", "fonts")
     ),
     html_deps = htmltools::htmlDependency(
-      "bs3compat", packageVersion("bslib"),
+      "bs3compat",
+      packageVersion("bslib"),
       package = "bslib",
       src = "bs3compat/js",
       script = c("transition.js", "tabs.js", "bs3compat.js")
@@ -505,14 +642,19 @@ bs3_accessibility_bundle <- function() {
   sass_layer(
     rules = sass_file(
       system_file(
-        "lib", "bs-a11y-p",
-        "src", "sass", "bootstrap-accessibility.scss",
+        "lib",
+        "bs-a11y-p",
+        "src",
+        "sass",
+        "bootstrap-accessibility.scss",
         package = "bslib"
       )
     ),
     html_deps = htmltools::htmlDependency(
-      "bootstrap-accessibility", version_accessibility,
-      package = "bslib", src = "lib/bs-a11y-p",
+      "bootstrap-accessibility",
+      version_accessibility,
+      package = "bslib",
+      src = "lib/bs-a11y-p",
       script = "plugins/js/bootstrap-accessibility.min.js",
       all_files = FALSE
     )

@@ -1,12 +1,16 @@
 tag_require <- function(tag, version = version_default(), caller = "") {
   tagAddRenderHook(
-    tag, replace = FALSE,
+    tag,
+    replace = FALSE,
     func = function(x) {
       # If we know for sure the version isn't sufficient, it's safe to throw
       current_version <- theme_version(bs_current_theme())
       if (isTRUE(current_version < version)) {
         stop(
-          caller, " requires Bootstrap ", version, " or higher. ",
+          caller,
+          " requires Bootstrap ",
+          version,
+          " or higher. ",
           "To specify the version of Bootstrap, see https://rstudio.github.io/bslib/#basic-usage",
           call. = FALSE
         )
@@ -30,11 +34,16 @@ tag_require <- function(tag, version = version_default(), caller = "") {
   )
 }
 
-
-tag_require_client_side <- function(tag, version = version_default(), caller = "") {
+tag_require_client_side <- function(
+  tag,
+  version = version_default(),
+  caller = ""
+) {
   tagAppendChild(
     tagAppendAttributes(
-      tag, "data-require-bs-version" = version, "data-require-bs-caller" = caller
+      tag,
+      "data-require-bs-version" = version,
+      "data-require-bs-caller" = caller
     ),
     htmlDependency(
       name = "bslib-tag-require",

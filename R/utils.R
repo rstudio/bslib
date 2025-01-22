@@ -4,7 +4,13 @@
 #  %||% is_string
 #  read_utf8
 
-switch_version <- function(version, five = default, four = default, three = default, default = NULL) {
+switch_version <- function(
+  version,
+  five = default,
+  four = default,
+  three = default,
+  default = NULL
+) {
   if (is_bs_theme(version)) {
     version <- theme_version(version)
   }
@@ -14,13 +20,21 @@ switch_version <- function(version, five = default, four = default, three = defa
     version <- "4"
   }
   switch(
-    version, `5` = five, `4` = four, `3` = three,
+    version,
+    `5` = five,
+    `4` = four,
+    `3` = three,
     stop("Didn't recognize Bootstrap version: ", version, call. = FALSE)
   )
 }
 
 get_exact_version <- function(version) {
-  switch_version(version, five = version_bs5, four = version_bs4, three = version_bs3)
+  switch_version(
+    version,
+    five = version_bs5,
+    four = version_bs4,
+    three = version_bs3
+  )
 }
 
 path_inst <- function(...) {
@@ -30,7 +44,9 @@ path_inst <- function(...) {
 
   files_not_found <- file.path(...)[!files_found]
   stop(
-    "bslib file not found: '", files_not_found, "'",
+    "bslib file not found: '",
+    files_not_found,
+    "'",
     call. = FALSE
   )
 }
@@ -54,7 +70,9 @@ is_shiny_runtime <- function() {
 register_runtime_package_check <- function(feature, pkg, version) {
   msg <- sprintf(
     "%s is designed to work with %s %s or higher",
-    feature, pkg, version
+    feature,
+    pkg,
+    version
   )
 
   if (isNamespaceLoaded(pkg) && !is_installed(pkg, version)) {
@@ -75,7 +93,7 @@ add_class <- function(x, y) {
 }
 
 dropNulls <- function(x) {
-  x[!vapply(x, is.null, FUN.VALUE=logical(1))]
+  x[!vapply(x, is.null, FUN.VALUE = logical(1))]
 }
 
 names2 <- function(x) {
@@ -145,24 +163,29 @@ get_color_contrast <- function(bg_color) {
       bg_color
     )
   )
-  
-  tryCatch({
-    css <- sass::sass(
-      utils_layer,
-      cache_key_extra = get_package_version("bslib"),
-      # Don't listen to global Sass options so we can be sure
-      # that stuff like source maps won't be included
-      options = sass::sass_options(source_map_embed = FALSE)
-    )
-    # example: css <- "._ {\n  --RET: #fff;\n}"
-    # we'll split to get value:     ^     ^
-    ret <- strsplit(css, "--RET:")[[1]][2]
-    trimws(strsplit(ret, ";")[[1]][1])
-  }, error = function(err) {
-    warning(
-      "Failed to compute a contrasting color for '", bg_color, "'", 
-      call. = FALSE
-    )
-    NULL
-  })
+
+  tryCatch(
+    {
+      css <- sass::sass(
+        utils_layer,
+        cache_key_extra = get_package_version("bslib"),
+        # Don't listen to global Sass options so we can be sure
+        # that stuff like source maps won't be included
+        options = sass::sass_options(source_map_embed = FALSE)
+      )
+      # example: css <- "._ {\n  --RET: #fff;\n}"
+      # we'll split to get value:     ^     ^
+      ret <- strsplit(css, "--RET:")[[1]][2]
+      trimws(strsplit(ret, ";")[[1]][1])
+    },
+    error = function(err) {
+      warning(
+        "Failed to compute a contrasting color for '",
+        bg_color,
+        "'",
+        call. = FALSE
+      )
+      NULL
+    }
+  )
 }
