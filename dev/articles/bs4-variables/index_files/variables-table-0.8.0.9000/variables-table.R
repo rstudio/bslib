@@ -11,16 +11,46 @@ variables_html_deps <- function() {
   # Get just the portion of BS3 table CSS that we need (to avoid conflicts
   # with pkgdown and quillt)
   exclude <- c(
-    '_normalize','_print', '_scaffolding', '_type', '_code',
-    '_grid', '_forms', '_buttons', '_component-animations', '_dropdowns',
-    '_button-groups', '_input-groups', '_navs', '_navbar', '_breadcrumbs',
-    '_pagination', '_pager', '_labels', '_badges', '_jumbotron', '_thumbnails',
-    '_alerts', '_progress-bars', '_media', '_list-group', '_panels',
-    '_responsive-embed', '_wells', '_close', '_modals', '_tooltip', '_popovers',
-    '_carousel', '_utilities', '_responsive-utilities'
+    '_normalize',
+    '_print',
+    '_scaffolding',
+    '_type',
+    '_code',
+    '_grid',
+    '_forms',
+    '_buttons',
+    '_component-animations',
+    '_dropdowns',
+    '_button-groups',
+    '_input-groups',
+    '_navs',
+    '_navbar',
+    '_breadcrumbs',
+    '_pagination',
+    '_pager',
+    '_labels',
+    '_badges',
+    '_jumbotron',
+    '_thumbnails',
+    '_alerts',
+    '_progress-bars',
+    '_media',
+    '_list-group',
+    '_panels',
+    '_responsive-embed',
+    '_wells',
+    '_close',
+    '_modals',
+    '_tooltip',
+    '_popovers',
+    '_carousel',
+    '_utilities',
+    '_responsive-utilities'
   )
   bs_deps <- bs_theme_dependencies(bs_remove(bs_theme(version = 3), exclude))
-  bs_dep <- Filter(bs_deps, f = function(x) { identical(x$name, "bootstrap") })[[1]]
+  bs_dep <- Filter(bs_deps, f = function(x) {
+    identical(x$name, "bootstrap")
+  })[[1]]
   bs_dep$script <- NULL
 
   tagList(
@@ -31,15 +61,16 @@ variables_html_deps <- function() {
       src = find_package_root_file("vignettes/_variables-table"),
       stylesheet = "variables-table.css",
       script = "variables-table.js",
-      head = format(tagList(
-        tags$script(src="https://unpkg.com/@popperjs/core@2"),
-        tags$script(src="https://unpkg.com/tippy.js@6")
-      ))
+      head = format(
+        tagList(
+          tags$script(src = "https://unpkg.com/@popperjs/core@2"),
+          tags$script(src = "https://unpkg.com/tippy.js@6")
+        )
+      )
     ),
     bs_dep
   )
 }
-
 
 variables_dt <- function(version) {
   DT::datatable(
@@ -51,7 +82,8 @@ variables_dt <- function(version) {
     rownames = FALSE,
     selection = "none",
     extensions = c("Select", "RowGroup", "Scroller"),
-    callback = DT::JS("
+    callback = DT::JS(
+      "
       // Check for linked variable on first load
       go_to_current_hash(table);
 
@@ -62,14 +94,16 @@ variables_dt <- function(version) {
       // Allows us to link within the page
       window.onhashchange = function() {
         go_to_current_hash(table);
-      }"),
+      }"
+    ),
     options = list(
       deferRender = TRUE,
       scroller = TRUE,
       scrollY = 850,
       scrollX = TRUE,
       rowGroup = list(dataSrc = 0),
-      drawCallback = DT::JS("
+      drawCallback = DT::JS(
+        "
         function( settings ) {
           var table = this.DataTable();
 
@@ -87,7 +121,8 @@ variables_dt <- function(version) {
           this.find('span.dep-link').on('click', function(){
             find_and_select_variable(table, this.innerText.replace('$', ''), true);
           });
-        }")
+        }"
+      )
     )
   )
 }
@@ -117,14 +152,17 @@ variables_df <- function(version) {
 
   raw_text <- brio::readLines(sass_variables_loc)
 
-  collapse_multiline_comments <- function(lines_df){
-
+  collapse_multiline_comments <- function(lines_df) {
     repetitions <- rle(lines_df$is_comment & !lines_df$is_empty_comment)
     block_id <- rep(seq_along(repetitions$lengths), times = repetitions$lengths)
     is_comment_block <- rep(repetitions$values, times = repetitions$lengths)
     # A negative value means it's not a comment block. Using negatives so we
     # don't match ids of comment blocks
-    lines_df$comment_block <- ifelse(is_comment_block, block_id, -seq_len(nrow(lines_df)))
+    lines_df$comment_block <- ifelse(
+      is_comment_block,
+      block_id,
+      -seq_len(nrow(lines_df))
+    )
 
     group_by(lines_df, comment_block) %>%
       summarise(
@@ -135,7 +173,7 @@ variables_df <- function(version) {
       select(-comment_block)
   }
 
-  link_to_pos_in_script <- function(line_num){
+  link_to_pos_in_script <- function(line_num) {
     paste0(sass_variables_url, "#L", line_num)
   }
 
@@ -150,7 +188,8 @@ variables_df <- function(version) {
       below_is_empty_comment = lead(is_empty_comment),
       above_is_empty_line = lag(line) == "",
       below_is_empty_line = lead(line) == "",
-      is_section = (is_comment & below_is_empty_comment) | (is_comment & above_is_empty_line & below_is_empty_line),
+      is_section = (is_comment & below_is_empty_comment) |
+        (is_comment & above_is_empty_line & below_is_empty_line),
       variable = str_extract(line, "(?<=^\\$)(.+?)(?=:)"),
       section = ifelse(is_section, str_remove(line, "\\/\\/\\s*"), NA),
       section_link = ifelse(is_section, link_to_pos_in_script(line_number), NA),
@@ -160,7 +199,9 @@ variables_df <- function(version) {
         !is.na(trailing_comment) ~ trailing_comment,
         above_is_comment ~ lag(line),
         TRUE ~ ""
-      ) %>% str_remove_all("\\/\\/") %>% str_trim(),
+      ) %>%
+        str_remove_all("\\/\\/") %>%
+        str_trim(),
       comment = ifelse(str_detect(comment, "^\\s*stylelint-"), "", comment),
       comment = ifelse(str_detect(comment, "^\\s*scss-docs-"), "", comment),
       comment = ifelse(str_detect(comment, "^\\s*fusv-"), "", comment)
@@ -168,8 +209,11 @@ variables_df <- function(version) {
     tidyr::fill(section, section_link) %>%
     filter(!is.na(variable)) %>%
     mutate(
-      value = str_extract(line, "(?<=:)(.+)?(?=;)") %>% str_remove(fixed("!default")) %>% str_trim(),
-      value_is_function = str_detect(value, fixed("()")) | str_detect(value, "\\($"),
+      value = str_extract(line, "(?<=:)(.+)?(?=;)") %>%
+        str_remove(fixed("!default")) %>%
+        str_trim(),
+      value_is_function = str_detect(value, fixed("()")) |
+        str_detect(value, "\\($"),
       # map-get function is used to reference a map built earlier so make sure not
       # to link to it because there is no entry in the table to link to.
       value = str_replace_all(
@@ -177,12 +221,19 @@ variables_df <- function(version) {
         "(?<!map-get\\()(\\$[\\w|-]+)",
         "<span class='dep-link'>\\1</span>"
       ),
-      section = glue("Section: {section} <a href=\"{section_link}\"><i class=\"fas fa-external-link-alt\"></i></a>"),
-      declaration = glue("<a href=\"{link_to_pos_in_script(line_number)}\"><i class=\"fas fa-external-link-alt\"></i></a>"),
+      section = glue(
+        "Section: {section} <a href=\"{section_link}\"><i class=\"fas fa-external-link-alt\"></i></a>"
+      ),
+      declaration = glue(
+        "<a href=\"{link_to_pos_in_script(line_number)}\"><i class=\"fas fa-external-link-alt\"></i></a>"
+      ),
       css_value = bs_get_variables(bs_theme(), variable),
       value = ifelse(
-        grepl("url\\(", css_value), htmltools::htmlEscape(css_value),
-        glue("<span data-tippy-content='CSS-value: {css_value}'> {value} </span>")
+        grepl("url\\(", css_value),
+        htmltools::htmlEscape(css_value),
+        glue(
+          "<span data-tippy-content='CSS-value: {css_value}'> {value} </span>"
+        )
       )
     ) %>%
     filter(!value_is_function) %>%
@@ -200,4 +251,3 @@ variables_df <- function(version) {
       `Find in source` = declaration
     )
 }
-
