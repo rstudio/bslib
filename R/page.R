@@ -447,31 +447,29 @@ page_navbar <- function(
     function(...) page_fillable(..., fillable_mobile = fillable_mobile, padding = 0, gap = 0)
   }
 
+  navbar <- navs_bar_(
+    ...,
+    title = title,
+    id = id,
+    selected = selected,
+    sidebar = sidebar,
+    fillable = fillable,
+    gap = gap,
+    padding = padding,
+    header = header,
+    footer = footer,
+    navbar_options = .navbar_options,
+    fluid = fluid,
+    theme = theme
+  )
+
   page_func(
     title = infer_window_title(title, window_title),
     theme = theme,
     lang = lang,
     class = "bslib-page-navbar",
     class = if (!is.null(sidebar)) "has-page-sidebar",
-    navs_bar_(
-      ...,
-      title = title,
-      id = id,
-      selected = selected,
-      sidebar = sidebar,
-      fillable = fillable,
-      gap = gap,
-      padding = padding,
-      header = header,
-      footer = footer,
-      position = .navbar_options$position,
-      bg = .navbar_options$bg,
-      inverse = .navbar_options$inverse,
-      underline = .navbar_options$underline,
-      collapsible = .navbar_options$collapsible,
-      fluid = fluid,
-      theme = theme
-    )
+    navbar
   )
 }
 

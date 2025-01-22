@@ -96,9 +96,14 @@ bootswatch_bundle <- function(bootswatch, version) {
         # Use local fonts (this path is relative to the bootstrap HTML dependency dir)
         '$web-font-path: "font.css" !default;',
         bootswatch_sass_file(bootswatch, "variables", version),
-        # Unless we change navbarPage()'s markup, BS4+ will likely want BS3 compatibility
+        # BS4 navbars are matched with BS3 for compatibility
         switch_version(
-          version, three = "", default = bs3compat_navbar_defaults(bootswatch)
+          version, 
+          three = "",
+          four = bs3compat_navbar_defaults(bootswatch),
+          # BS5 uses more neutral defaults (navbar that flips in light/dark mode)
+          # or requires a bit more user input
+          default = list()
         )
       ),
       rules = list(

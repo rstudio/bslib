@@ -8,14 +8,14 @@ navbar_options(
   ...,
   position = c("static-top", "fixed-top", "fixed-bottom"),
   bg = NULL,
-  inverse = "auto",
+  theme = c("auto", "light", "dark"),
   collapsible = TRUE,
   underline = TRUE
 )
 }
 \arguments{
-\item{...}{Additional arguments are ignored. \code{...} is included for future
-expansion on \code{navbar_options()}.}
+\item{...}{Additional attributes that will be passed directly to the navbar
+container element.}
 
 \item{position}{Determines whether the navbar should be displayed at the top
 of the page with normal scrolling behavior (\code{"static-top"}), pinned at
@@ -27,8 +27,10 @@ unless you add padding, e.g.: \code{tags$style(type="text/css", "body
 
 \item{bg}{a CSS color to use for the navbar's background color.}
 
-\item{inverse}{Either \code{TRUE} for a light text color or \code{FALSE} for a dark
-text color. If \code{"auto"} (the default), the best contrast to \code{bg} is chosen.}
+\item{theme}{Either \code{"dark"} for a light text color (on a \strong{dark}
+background) or \code{"light"} for a dark text color (on a \strong{light} background).
+If \code{"auto"} (the default) and \code{bg} is provided, the best contrast to \code{bg}
+is chosen.}
 
 \item{collapsible}{\code{TRUE} to automatically collapse the navigation
 elements into an expandable menu on mobile devices or narrow window widths.}
@@ -51,7 +53,9 @@ This helper should be used to create the list of options expected by
 This function was introduced in \pkg{bslib} v0.9.0, replacing the \code{position},
 \code{bg}, \code{inverse}, \code{collapsible} and \code{underline} arguments of \code{\link[=page_navbar]{page_navbar()}}
 and \code{\link[=navset_bar]{navset_bar()}}. Those arguments are deprecated with a warning and will be
-removed in a future version of \pkg{bslib}.
+removed in a future version of \pkg{bslib}. Note that the deprecated
+\code{inverse} argument of \code{\link[=page_navbar]{page_navbar()}} and \code{\link[=navset_bar]{navset_bar()}} was replaced with
+the \code{theme} argument of \code{navbar_options()}.
 }
 }
 \examples{
