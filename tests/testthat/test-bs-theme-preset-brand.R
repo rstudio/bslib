@@ -15,6 +15,24 @@ describe("as_brand_yml()", {
     expect_equal(brand$color$palette$red, brand$color$primary)
     expect_equal(brand$color$secondary, "berry")
   })
+
+  it("normalizes font family choices", {
+    brand <- list(
+      typography = list(
+        base = "Times New Roman",
+        headings = "Helvetica",
+        monospace = "Courier New",
+        "monospace-inline" = "Fira Code"
+      )
+    )
+
+    brand <- as_brand_yml(brand)
+    expect_s3_class(brand, "brand_yml")
+    expect_equal(brand$typography$base$family, "Times New Roman")
+    expect_equal(brand$typography$headings$family, "Helvetica")
+    expect_equal(brand$typography[["monospace"]]$family, "Courier New")
+    expect_equal(brand$typography[["monospace-inline"]]$family, "Fira Code")
+  })
 })
 
 describe("brand_resolve()", {
