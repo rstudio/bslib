@@ -20,6 +20,8 @@
 
 * `input_switch()` and `input_dark_mode()` can be included in Shiny's [bookmarking feature](https://shiny.posit.co/r/articles/share/bookmarking-state/). (#1166)
 
+* Fixed an issue with the Shiny preset (`bs_theme(5, "shiny")`) that caused a floating underling to appear when a `nav_panel_hidden()` was used and active. (#1170)
+
 # bslib 0.8.0
 
 ## Breaking changes
