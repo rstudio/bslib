@@ -625,6 +625,7 @@ as_brand_yml <- function(brand = list()) {
   # Normalize brand internals !! MINIMAL VALIDATION !!
   brand <- brand_meta_normalize(brand)
   brand <- brand_color_normalize(brand)
+  brand <- brand_typography_normalize(brand)
 
   class(brand) <- "brand_yml"
   brand
@@ -671,6 +672,30 @@ brand_color_normalize <- function(brand) {
 
   # Then replace brand.color with resolved colors
   brand[["color"]] <- theme
+  brand
+}
+
+brand_typography_normalize <- function(brand) {
+  if (!brand_has(brand, "typography")) {
+    return(brand)
+  }
+
+  expand_family <- c(
+    "base",
+    "headings",
+    "monospace",
+    "monospace-inline",
+    "monospace-block"
+  )
+
+  for (field in expand_family) {
+    if (brand_has_string(brand, "typography", field)) {
+      brand[["typography"]][[field]] <- list(
+        family = brand[["typography"]][[field]]
+      )
+    }
+  }
+
   brand
 }
 
