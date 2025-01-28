@@ -16,7 +16,7 @@ typography:
   headings:
     color: "#206B72"
   link:
-    color: "#216b72"
+    color: "#216B73"
     decoration: underline dotted
 
 defaults:
