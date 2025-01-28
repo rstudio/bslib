@@ -1,0 +1,29 @@
+meta:
+  name: bslib
+  link:
+    home: https://rstudio.github.io/bslib
+    github: https://github.com/rstudio/bslib
+
+color:
+  info: "#e6f2fd"
+
+typography:
+  fonts:
+    - family: Atkinson Hyperlegible
+      source: google
+      weight: [300, 400, 700]
+  base: Atkinson Hyperlegible
+  headings:
+    color: "#206B72"
+  link:
+    color: "#216b72"
+    decoration: underline dotted
+
+defaults:
+  bootstrap:
+    defaults:
+      link-color-dark: "#cef4f9"
+      navbar-bg-light: "#E6F2FD"
+      pkgdown-navbar-bg: "#E6F2FD"
+      navbar-bg-dark: "#333F48"
+      pkgdown-navbar-bg-dark: "#333F48"
