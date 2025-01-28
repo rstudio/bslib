@@ -23,7 +23,8 @@ defaults:
   bootstrap:
     defaults:
       link-color-dark: "#cef4f9"
-      navbar-bg-light: "#E6F2FD"
+      navbar-light-bg: "#E6F2FD"
+      navbar-dark-bg: "#333F48"
+      # remove after r-lib/pkgdown#2847
       pkgdown-navbar-bg: "#E6F2FD"
-      navbar-bg-dark: "#333F48"
       pkgdown-navbar-bg-dark: "#333F48"
