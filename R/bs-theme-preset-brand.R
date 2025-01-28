@@ -611,7 +611,7 @@ read_brand_yml <- function(path = NULL) {
   path <- find_project_brand_yml(path)
 
   rlang::check_installed("yaml")
-  brand <- yaml::read_yaml(path)
+  brand <- yaml::read_yaml(path, readLines.warn = FALSE)
 
   brand <- as_brand_yml(brand)
   brand$path <- path
