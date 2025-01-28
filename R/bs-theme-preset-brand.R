@@ -264,7 +264,7 @@ brand_sass_fonts <- function(brand) {
     )
 
     font_obj <- switch(
-      font$source,
+      font$source %||% "google",
       google = sass::font_google(
         family = font$family,
         wght = brand_remap_font_weight(font$weight) %||%
