@@ -264,7 +264,7 @@ brand_sass_fonts <- function(brand) {
     )
 
     font_obj <- switch(
-      font$source,
+      font$source %||% "google",
       google = sass::font_google(
         family = font$family,
         wght = brand_remap_font_weight(font$weight) %||%
@@ -611,7 +611,7 @@ read_brand_yml <- function(path = NULL) {
   path <- find_project_brand_yml(path)
 
   rlang::check_installed("yaml")
-  brand <- yaml::read_yaml(path)
+  brand <- yaml::read_yaml(path, readLines.warn = FALSE)
 
   brand <- as_brand_yml(brand)
   brand$path <- path
