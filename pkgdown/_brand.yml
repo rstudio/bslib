@@ -1,0 +1,30 @@
+meta:
+  name: bslib
+  link:
+    home: https://rstudio.github.io/bslib
+    github: https://github.com/rstudio/bslib
+
+color:
+  info: "#e6f2fd"
+
+typography:
+  fonts:
+    - family: Atkinson Hyperlegible
+      source: google
+      weight: [300, 400, 700]
+  base: Atkinson Hyperlegible
+  headings:
+    color: "#206B72"
+  link:
+    color: "#216B73"
+    decoration: underline dotted
+
+defaults:
+  bootstrap:
+    defaults:
+      link-color-dark: "#cef4f9"
+      navbar-light-bg: "#E6F2FD"
+      navbar-dark-bg: "#333F48"
+      # remove after r-lib/pkgdown#2847 is on CRAN
+      pkgdown-navbar-bg: "#E6F2FD"
+      pkgdown-navbar-bg-dark: "#333F48"
