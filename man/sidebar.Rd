@@ -131,8 +131,6 @@ main content area.}
 used).}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 Sidebar layouts place UI elements, like input controls or additional context,
 next to the main content area which often holds output elements like plots or
 tables.

@@ -42,8 +42,6 @@ This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="
 The default (NULL) results in an empty string.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 Create a dashboard layout with a full-width header (\code{title}) and \code{\link[=sidebar]{sidebar()}}.
 }
 \examples{

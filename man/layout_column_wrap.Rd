@@ -79,8 +79,6 @@ layout container doesn't shrink below \code{min_height} or grow beyond \code{max
 \item{class}{Additional CSS classes for the returned UI element.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 Wraps a 1d sequence of UI elements into a 2d grid. The number of columns (and
 rows) in the grid dependent on the column \code{width} as well as the size of the
 display. For more explanation and illustrative examples, see the \emph{References}

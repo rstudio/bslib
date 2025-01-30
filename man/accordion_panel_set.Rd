@@ -62,8 +62,6 @@ panel and \code{"before"} will prepend before the first panel.}
 \item{icon}{A \link[htmltools:builder]{htmltools::tag} child (e.g., \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}) which is positioned just before the \code{title}.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 Dynamically update/modify \code{\link[=accordion]{accordion()}}s in a Shiny app. To be updated
 programmatically, the \code{\link[=accordion]{accordion()}} must have an \code{id}. These functions
 require an active Shiny session and only work with a running Shiny app.
