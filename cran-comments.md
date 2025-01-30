@@ -10,5 +10,5 @@ Issues with CRAN packages are summarised below.
 
 ### Failed to check
 
-* Certara.VPCResults (NA)
+* Certara.VPCResults (installation error)
 
