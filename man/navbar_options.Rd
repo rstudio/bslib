@@ -96,9 +96,12 @@ Sass variables. When provided, bslib will automatically choose to use
 light or dark text as the foreground color.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{ui <- page_navbar(
-  theme = bs_theme(5, "flatly"),
-  navbar_light_bg = "#18BC9C", # flatly's success color (teal)
-  navbar_dark_bg = "#2C3E50"   # flatly's primary color (navy)
+  theme = bs_theme(
+    5,
+    preset = "flatly",
+    navbar_light_bg = "#18BC9C", # flatly's success color (teal)
+    navbar_dark_bg = "#2C3E50"   # flatly's primary color (navy)
+  )
 )
 }\if{html}{\out{</div>}}
 
@@ -106,8 +109,11 @@ Finally, you can also use the \verb{$navbar-bg} Sass variable to set the navbar
 background color for both light and dark modes:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{ui <- page_navbar(
-  theme = bs_theme(5, "flatly"),
-  navbar_bg = "#E74C3C" # flatly's danger color (red)
+  theme = bs_theme(
+    5,
+    preset = "flatly",
+    navbar_bg = "#E74C3C" # flatly's danger color (red)
+  )
 )
 }\if{html}{\out{</div>}}
 }

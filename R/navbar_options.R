@@ -58,9 +58,12 @@
 #'
 #' ```r
 #' ui <- page_navbar(
-#'   theme = bs_theme(5, "flatly"),
-#'   navbar_light_bg = "#18BC9C", # flatly's success color (teal)
-#'   navbar_dark_bg = "#2C3E50"   # flatly's primary color (navy)
+#'   theme = bs_theme(
+#'     5,
+#'     preset = "flatly",
+#'     navbar_light_bg = "#18BC9C", # flatly's success color (teal)
+#'     navbar_dark_bg = "#2C3E50"   # flatly's primary color (navy)
+#'   )
 #' )
 #' ```
 #'
@@ -69,8 +72,11 @@
 #'
 #' ```r
 #' ui <- page_navbar(
-#'   theme = bs_theme(5, "flatly"),
-#'   navbar_bg = "#E74C3C" # flatly's danger color (red)
+#'   theme = bs_theme(
+#'     5,
+#'     preset = "flatly",
+#'     navbar_bg = "#E74C3C" # flatly's danger color (red)
+#'   )
 #' )
 #' ```
 #'
