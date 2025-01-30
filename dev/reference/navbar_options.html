@@ -146,7 +146,65 @@ links when active or focused.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <div class="section">
-<h3 id="changelog">Changelog<a class="anchor" aria-label="anchor" href="#changelog"></a></h3>
+<h3 id="navbar-style-with-bootstrap-and-bootswatch-themes">Navbar style with Bootstrap 5 and Bootswatch themes<a class="anchor" aria-label="anchor" href="#navbar-style-with-bootstrap-and-bootswatch-themes"></a></h3>
+
+
+<p>In <span class="pkg">bslib</span> v0.9.0, the default navbar colors for Bootswatch themes with
+Bootstrap 5 changed. Prior to v0.9.0, bslib pre-selected navbar background
+colors in light and dark mode; after v0.9.0 the default navbar colors are
+less opinionated by default and follow light or dark mode (see
+<code><a href="input_dark_mode.html">input_dark_mode()</a></code>).</p>
+<p>You can use <code>navbar_options()</code> to adjust the colors of the navbar when using
+a Bootswatch preset theme with Bootstrap 5. For example, the <a href="https://bootswatch.com/flatly/" class="external-link">Bootswatch documentation for the Flatly theme</a> shows
+4 navbar variations. Inspecting the source code for the first example reveals
+the following markup:</p>
+<p></p><div class="sourceCode html"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">nav</span><span class="ot"> class</span><span class="op">=</span><span class="st">"navbar navbar-expand-lg bg-primary"</span><span class="ot"> data-bs-theme</span><span class="op">=</span><span class="st">"dark"</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="co">&lt;!-- all of the navbar html --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">nav</span><span class="dt">&gt;</span></span></code></pre><p></p></div>
+<p>Note that this navbar uses the <code>bg-primary</code> class for a dark navy background.
+The navbar's white text is controlled by the <code>data-bs-theme="dark"</code>
+attribute, which is used by Bootstrap for light text on a <em>dark</em> background.
+In <span class="pkg">bslib</span>, you can achieve this look with:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_navbar.html">page_navbar</a></span><span class="op">(</span></span>
+<span>  theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"flatly"</span><span class="op">)</span>,</span>
+<span>  navbar_options <span class="op">=</span> <span class="fu"><a href="../reference/navbar_options.html">navbar_options</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"bg-primary"</span>, theme <span class="op">=</span> <span class="st">"dark"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p>This particular combination of <code>class = "bg-primary"</code> and <code>theme = "dark"</code>
+works well for most Bootswatch presets.</p>
+<p>Another variation from the Flatly documentation features a navar with dark
+text on a light background:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_navbar.html">page_navbar</a></span><span class="op">(</span></span>
+<span>  theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"flatly"</span><span class="op">)</span>,</span>
+<span>  navbar_options <span class="op">=</span> <span class="fu"><a href="../reference/navbar_options.html">navbar_options</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"bg-light"</span>, theme <span class="op">=</span> <span class="st">"light"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p>The above options set navbar foreground and background colors that are always
+the same in both light and dark modes. To customize the navbar colors used in
+light or dark mode, you can use the <code>$navbar-light-bg</code> and <code>$navbar-dark-bg</code>
+Sass variables. When provided, bslib will automatically choose to use
+light or dark text as the foreground color.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_navbar.html">page_navbar</a></span><span class="op">(</span></span>
+<span>  theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span></span>
+<span>    <span class="fl">5</span>,</span>
+<span>    preset <span class="op">=</span> <span class="st">"flatly"</span>,</span>
+<span>    navbar_light_bg <span class="op">=</span> <span class="st">"#18BC9C"</span>, <span class="co"># flatly's success color (teal)</span></span>
+<span>    navbar_dark_bg <span class="op">=</span> <span class="st">"#2C3E50"</span>   <span class="co"># flatly's primary color (navy)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p>Finally, you can also use the <code>$navbar-bg</code> Sass variable to set the navbar
+background color for both light and dark modes:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page_navbar.html">page_navbar</a></span><span class="op">(</span></span>
+<span>  theme <span class="op">=</span> <span class="fu"><a href="../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span></span>
+<span>    <span class="fl">5</span>,</span>
+<span>    preset <span class="op">=</span> <span class="st">"flatly"</span>,</span>
+<span>    navbar_bg <span class="op">=</span> <span class="st">"#E74C3C"</span> <span class="co"># flatly's danger color (red)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
+
+    </div>
+    <div class="section level2">
+    <h2 id="changelog">Changelog<a class="anchor" aria-label="anchor" href="#changelog"></a></h2>
+
 
 
 <p>This function was introduced in <span class="pkg">bslib</span> v0.9.0, replacing the <code>position</code>,
@@ -155,8 +213,6 @@ and <code><a href="navset.html">navset_bar()</a></code>. Those arguments are dep
 removed in a future version of <span class="pkg">bslib</span>. Note that the deprecated
 <code>inverse</code> argument of <code><a href="page_navbar.html">page_navbar()</a></code> and <code><a href="navset.html">navset_bar()</a></code> was replaced with
 the <code>theme</code> argument of <code>navbar_options()</code>.</p>
-</div>
-
     </div>
 
     <div class="section level2">
