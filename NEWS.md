@@ -6,7 +6,7 @@
 
    Related to the above change, `navset_bar()` now defaults to using `underline = TRUE` so that both `page_navbar()` and `navset_bar()` use the same set of default `navbar_options()`.
 
-   In `navbar_options()`, `inverse` is replaced by `theme`, which takes values `"light"` (dark text on a **light** background), `"dark"` (light text on a **dark** background), or `"auto"` (follow page settings). (#1146)
+   In `navbar_options()`, `inverse` is replaced by `theme`, which takes values `"light"` (dark text on a **light** background), `"dark"` (light text on a **dark** background), or `"auto"` (follow page settings, the default). This change affects that default navbar foreground and background colors for Bootswatch preset themes with Bootstrap 5. Detailed instructions for customizing the navbar appearance, especially for Bootswatch themes, can be found in `?navbar_options`. (#1146)
 
 ## New features
 
