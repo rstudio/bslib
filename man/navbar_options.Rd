@@ -48,7 +48,78 @@ This helper should be used to create the list of options expected by
 \code{navbar_options} in \code{\link[=page_navbar]{page_navbar()}} and \code{\link[=navset_bar]{navset_bar()}}.
 }
 \details{
-\subsection{Changelog}{
+\subsection{Navbar style with Bootstrap 5 and Bootswatch themes}{
+
+In \pkg{bslib} v0.9.0, the default navbar colors for Bootswatch themes with
+Bootstrap 5 changed. Prior to v0.9.0, bslib pre-selected navbar background
+colors in light and dark mode; after v0.9.0 the default navbar colors are
+less opinionated by default and follow light or dark mode (see
+\code{\link[=input_dark_mode]{input_dark_mode()}}).
+
+You can use \code{navbar_options()} to adjust the colors of the navbar when using
+a Bootswatch preset theme with Bootstrap 5. For example, the \href{https://bootswatch.com/flatly/}{Bootswatch documentation for the Flatly theme} shows
+4 navbar variations. Inspecting the source code for the first example reveals
+the following markup:
+
+\if{html}{\out{<div class="sourceCode html">}}\preformatted{<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <!-- all of the navbar html -->
+</nav>
+}\if{html}{\out{</div>}}
+
+Note that this navbar uses the \code{bg-primary} class for a dark navy background.
+The navbar's white text is controlled by the \code{data-bs-theme="dark"}
+attribute, which is used by Bootstrap for light text on a \emph{dark} background.
+In \pkg{bslib}, you can achieve this look with:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ui <- page_navbar(
+  theme = bs_theme(5, "flatly"),
+  navbar_options = navbar_options(class = "bg-primary", theme = "dark")
+)
+}\if{html}{\out{</div>}}
+
+This particular combination of \code{class = "bg-primary"} and \code{theme = "dark"}
+works well for most Bootswatch presets.
+
+Another variation from the Flatly documentation features a navar with dark
+text on a light background:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ui <- page_navbar(
+  theme = bs_theme(5, "flatly"),
+  navbar_options = navbar_options(class = "bg-light", theme = "light")
+)
+}\if{html}{\out{</div>}}
+
+The above options set navbar foreground and background colors that are always
+the same in both light and dark modes. To customize the navbar colors used in
+light or dark mode, you can use the \verb{$navbar-light-bg} and \verb{$navbar-dark-bg}
+Sass variables. When provided, bslib will automatically choose to use
+light or dark text as the foreground color.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ui <- page_navbar(
+  theme = bs_theme(
+    5,
+    preset = "flatly",
+    navbar_light_bg = "#18BC9C", # flatly's success color (teal)
+    navbar_dark_bg = "#2C3E50"   # flatly's primary color (navy)
+  )
+)
+}\if{html}{\out{</div>}}
+
+Finally, you can also use the \verb{$navbar-bg} Sass variable to set the navbar
+background color for both light and dark modes:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ui <- page_navbar(
+  theme = bs_theme(
+    5,
+    preset = "flatly",
+    navbar_bg = "#E74C3C" # flatly's danger color (red)
+  )
+)
+}\if{html}{\out{</div>}}
+}
+}
+\section{Changelog}{
+
 
 This function was introduced in \pkg{bslib} v0.9.0, replacing the \code{position},
 \code{bg}, \code{inverse}, \code{collapsible} and \code{underline} arguments of \code{\link[=page_navbar]{page_navbar()}}
@@ -57,7 +128,7 @@ removed in a future version of \pkg{bslib}. Note that the deprecated
 \code{inverse} argument of \code{\link[=page_navbar]{page_navbar()}} and \code{\link[=navset_bar]{navset_bar()}} was replaced with
 the \code{theme} argument of \code{navbar_options()}.
 }
-}
+
 \examples{
 navbar_options(position = "static-top", bg = "#2e9f7d", underline = FALSE)
 
