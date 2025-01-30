@@ -10,7 +10,7 @@
 
 ## New features
 
-* bslib now supports unified theming with [brand.yml](https://posit-dev.github.io/brand-yml). brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new [Unified theming with brand.yml](https://rstudio.github.io/bslib/dev/articles/brand-yml/) article. (#1148)
+* bslib now supports unified theming with [brand.yml](https://posit-dev.github.io/brand-yml/). brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new [Unified theming with brand.yml](https://rstudio.github.io/bslib/dev/articles/brand-yml/) article. (#1148)
 
 ## Improvements and bug fixes
 

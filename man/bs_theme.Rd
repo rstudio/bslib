@@ -64,7 +64,7 @@ provide a value of \code{"bootstrap"} (this value will also work in
 \item{...}{arguments passed along to \code{\link[=bs_add_variables]{bs_add_variables()}}.}
 
 \item{brand}{Specifies how to apply branding to your theme using
-\href{https://posit-dev.github.io/brand-yml}{brand.yml}, a simple YAML file that
+\href{https://posit-dev.github.io/brand-yml/}{brand.yml}, a simple YAML file that
 defines key brand elements like colors, fonts, and logos. Valid options:
 \itemize{
 \item \code{NULL} (default): Automatically looks for a \verb{_brand.yml} file in the
@@ -84,7 +84,7 @@ the brand.yml structure.
 }
 
 Learn more about creating and using brand.yml files at the
-\href{https://posit-dev.github.io/brand-yml}{brand.yml homepage} or run
+\href{https://posit-dev.github.io/brand-yml/}{brand.yml homepage} or run
 \code{shiny::runExample("brand.yml", package = "bslib")} to try brand.yml in a
 demo app.}
 
