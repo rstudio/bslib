@@ -6,11 +6,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Tooltips &amp; Popovers • bslib</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
 <script src="../../lightswitch.js"></script><script src="../../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../../deps/Atkinson_Hyperlegible-0.4.9/font.css" rel="stylesheet">
-<link href="../../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="../../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../../deps/headroom-0.11.0/headroom.min.js"></script><script src="../../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../../deps/search-1.0.0/fuse.min.js"></script><script src="../../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../../pkgdown.js"></script><meta property="og:title" content="Tooltips &amp; Popovers">
 </head>
 <body>
@@ -21,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,8 +47,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-theming" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Theming</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-theming">
-<li><a class="dropdown-item" href="../../articles/bs5-variables/index.html">Theming variables</a></li>
-    <li><a class="dropdown-item" href="../../articles/utility-classes/index.html">Utility Classes</a></li>
+<li><a class="dropdown-item" href="../../articles/brand-yml/index.html">Unified theming with brand.yml</a></li>
+    <li><a class="dropdown-item" href="../../articles/bs5-variables/index.html">Theming variables</a></li>
+    <li><a class="dropdown-item" href="../../articles/utility-classes/index.html">Utility classes</a></li>
     <li><a class="dropdown-item" href="../../articles/custom-components/index.html">Custom components</a></li>
   </ul>
 </li>
@@ -99,15 +106,14 @@
 
 
 
-<script src="index_files/bslib-component-js-0.8.0/components.min.js"></script><script src="index_files/bslib-component-js-0.8.0/web-components.min.js" type="module"></script><link href="index_files/bslib-component-css-0.8.0/components.css" rel="stylesheet">
-<script src="index_files/bslib-tag-require-0.8.0/tag-require.js"></script><link href="index_files/htmltools-fill-0.5.8.9000/fill.css" rel="stylesheet">
+<script src="index_files/bslib-component-js-0.9.0/components.min.js"></script><script src="index_files/bslib-component-js-0.9.0/web-components.min.js" type="module"></script><link href="index_files/bslib-component-css-0.9.0/components.css" rel="stylesheet">
+<script src="index_files/bslib-tag-require-0.9.0/tag-require.js"></script><link href="index_files/htmltools-fill-0.5.8.9000/fill.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Tooltips &amp; Popovers</h1>
+      <img src="../../logo.png" class="logo" alt=""><h1>Tooltips &amp; Popovers</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/main/vignettes/tooltips-popovers/index.Rmd" class="external-link"><code>vignettes/tooltips-popovers/index.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/rc-v0.9.0/vignettes/tooltips-popovers/index.Rmd" class="external-link"><code>vignettes/tooltips-popovers/index.Rmd</code></a></small>
       <div class="d-none name"><code>index.Rmd</code></div>
     </div>
 
@@ -644,7 +650,7 @@ thus should be avoided. Instead, consider using a <a href="#icons">icon</a> (nex
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

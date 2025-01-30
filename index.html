@@ -6,14 +6,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Custom Bootstrap Sass Themes for shiny and rmarkdown • bslib</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Atkinson_Hyperlegible-0.4.9/font.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Custom Bootstrap Sass Themes for shiny and rmarkdown">
 <meta name="description" content="Simplifies custom CSS styling of both shiny and rmarkdown via Bootstrap Sass. Supports Bootstrap 3, 4 and 5 as well as their various Bootswatch themes. An interactive widget is also provided for previewing themes in real time.">
 <meta property="og:description" content="Simplifies custom CSS styling of both shiny and rmarkdown via Bootstrap Sass. Supports Bootstrap 3, 4 and 5 as well as their various Bootswatch themes. An interactive widget is also provided for previewing themes in real time.">
+<meta property="og:image" content="https://rstudio.github.io/bslib/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -23,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +50,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-theming" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Theming</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-theming">
-<li><a class="dropdown-item" href="articles/bs5-variables/index.html">Theming variables</a></li>
-    <li><a class="dropdown-item" href="articles/utility-classes/index.html">Utility Classes</a></li>
+<li><a class="dropdown-item" href="articles/brand-yml/index.html">Unified theming with brand.yml</a></li>
+    <li><a class="dropdown-item" href="articles/bs5-variables/index.html">Theming variables</a></li>
+    <li><a class="dropdown-item" href="articles/utility-classes/index.html">Utility classes</a></li>
     <li><a class="dropdown-item" href="articles/custom-components/index.html">Custom components</a></li>
   </ul>
 </li>
@@ -99,11 +107,15 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="bslib-">bslib 
+<a class="anchor" aria-label="anchor" href="#bslib-"></a>
+</h1>
+</div>
+<!-- badges: start -->
+
 <!-- badges: end -->
-<div class="section level1">
-<div class="page-header"><h1 id="bslib">bslib<a class="anchor" aria-label="anchor" href="#bslib"></a>
-</h1></div>
 <p>The <code>bslib</code> R package provides a modern UI toolkit for <a href="https://shiny.posit.co/" class="external-link">Shiny</a> and <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> based on <a href="https://getbootstrap.com/" class="external-link">Bootstrap</a>. It facilitates:</p>
 <ul>
 <li>Creation of delightful and customizable <a href="https://rstudio.github.io/bslib/articles/dashboards.html">Shiny dashboards</a>.
@@ -161,7 +173,6 @@
 <p>Please note that the bslib project is released with a <a href="https://github.com/rstudio/bslib/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
-
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -216,7 +227,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
