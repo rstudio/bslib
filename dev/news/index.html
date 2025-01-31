@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.8.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.9.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
+    <li><a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/bslib-0.9.0/">v0.9.0</a></li>
     <li><a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/shiny-r-1.8.0/">v0.6.1</a></li>
     <li><a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/bslib-tooltips/">v0.5.1</a></li>
     <li><a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/bslib-dashboards/">v0.5.0</a></li>
@@ -74,8 +75,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.9.0" id="bslib-090">bslib 0.9.0<a class="anchor" aria-label="anchor" href="#bslib-090"></a></h2><p class="text-muted">CRAN release: 2025-01-30</p>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<h3 id="breaking-changes-0-9-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-9-0"></a></h3>
 <ul><li>
 <p>The navbar-related style options of <code><a href="../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../reference/navset.html">navset_bar()</a></code> have been consolidated into a single <code>navbar_options</code> argument that pairs with a new <code><a href="../reference/navbar_options.html">navbar_options()</a></code> helper. Using the direct <code>position</code>, <code>bg</code>, <code>inverse</code>, <code>collapsible</code>, and <code>underline</code> arguments will continue to work with a deprecation message. (<a href="https://github.com/rstudio/bslib/issues/1141" class="external-link">#1141</a>)</p>
 <p>Related to the above change, <code><a href="../reference/navset.html">navset_bar()</a></code> now defaults to using <code>underline = TRUE</code> so that both <code><a href="../reference/page_navbar.html">page_navbar()</a></code> and <code><a href="../reference/navset.html">navset_bar()</a></code> use the same set of default <code><a href="../reference/navbar_options.html">navbar_options()</a></code>.</p>
@@ -83,17 +87,18 @@
 </li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>bslib now supports unified theming with <a href="https://posit-dev.github.io/brand-yml" class="external-link">brand.yml</a>. brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new <a href="https://rstudio.github.io/bslib/dev/articles/brand-yml/">Unified theming with brand.yml</a> article. (<a href="https://github.com/rstudio/bslib/issues/1148" class="external-link">#1148</a>)</li>
+<h3 id="new-features-0-9-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-9-0"></a></h3>
+<ul><li>bslib now supports unified theming with <a href="https://posit-dev.github.io/brand-yml/" class="external-link">brand.yml</a>. brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new <a href="https://rstudio.github.io/bslib/dev/articles/brand-yml/">Unified theming with brand.yml</a> article. (<a href="https://github.com/rstudio/bslib/issues/1148" class="external-link">#1148</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="improvements-and-bug-fixes-development-version">Improvements and bug fixes<a class="anchor" aria-label="anchor" href="#improvements-and-bug-fixes-development-version"></a></h3>
+<h3 id="improvements-and-bug-fixes-0-9-0">Improvements and bug fixes<a class="anchor" aria-label="anchor" href="#improvements-and-bug-fixes-0-9-0"></a></h3>
 <ul><li><p><code>navset_card_pills()</code>, <code><a href="../reference/navset.html">navset_card_underline()</a></code>, <code>navset_card_tabs()</code> fixed to now respect header/footer arguments (<a href="https://github.com/tanho63" class="external-link">@tanho63</a>, <a href="https://github.com/rstudio/bslib/issues/1024" class="external-link">#1024</a>)</p></li>
 <li><p>Fixed a bug in <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> (and <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code>) that caused it to stop applying changes if a Sass variable was <code>NULL</code>. (<a href="https://github.com/meztez" class="external-link">@meztez</a>, <a href="https://github.com/rstudio/bslib/issues/1112" class="external-link">#1112</a>)</p></li>
 <li><p>Optimized for better performance the internal functions that compile Sass to call the <code>color-contrast()</code> algorithm. (<a href="https://github.com/rstudio/bslib/issues/1140" class="external-link">#1140</a>)</p></li>
 <li><p><code><a href="../reference/input_switch.html">input_switch()</a></code> and <code><a href="../reference/input_dark_mode.html">input_dark_mode()</a></code> can be included in Shiny’s <a href="https://shiny.posit.co/r/articles/share/bookmarking-state/" class="external-link">bookmarking feature</a>. (<a href="https://github.com/rstudio/bslib/issues/1166" class="external-link">#1166</a>)</p></li>
 <li><p>Fixed an issue with the Shiny preset (<code>bs_theme(5, "shiny")</code>) that caused a floating underling to appear when a <code><a href="../reference/nav-items.html">nav_panel_hidden()</a></code> was used and active. (<a href="https://github.com/rstudio/bslib/issues/1170" class="external-link">#1170</a>)</p></li>
 <li><p>bslib now uses navbar markup with Bootstrap 5 that’s closer to the expected markup for Bootstrap. We still include the <code>navbar-default</code> or <code>navbar-inverse</code> classes on the <code>&lt;nav&gt;</code> element, for backwards compatibility, but in apps that use Bootstrap 5 these classes have no styles. (<a href="https://github.com/rstudio/bslib/issues/1146" class="external-link">#1146</a>)</p></li>
+<li><p>The following functions are no longer marked “experimental”: <code><a href="../reference/accordion.html">accordion()</a></code>, <code><a href="../reference/breakpoints.html">breakpoints()</a></code>, <code><a href="../reference/card.html">card()</a></code>, <code><a href="../reference/input_dark_mode.html">input_dark_mode()</a></code>, <code><a href="../reference/input_switch.html">input_switch()</a></code>, <code><a href="../reference/layout_columns.html">layout_columns()</a></code>, <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code>, <code><a href="../reference/page_fillable.html">page_fillable()</a></code>, <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>, <code><a href="../reference/sidebar.html">layout_sidebar()</a></code>, <code><a href="../reference/sidebar.html">sidebar()</a></code>, <code><a href="../reference/popover.html">popover()</a></code>, <code><a href="../reference/tooltip.html">tooltip()</a></code> and <code><a href="../reference/value_box.html">value_box()</a></code>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

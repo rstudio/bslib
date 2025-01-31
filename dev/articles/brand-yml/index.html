@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../../index.html">bslib</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.8.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.9.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,6 +84,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-news">
 <li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
+    <li><a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/bslib-0.9.0/">v0.9.0</a></li>
     <li><a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/shiny-r-1.8.0/">v0.6.1</a></li>
     <li><a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/bslib-tooltips/">v0.5.1</a></li>
     <li><a class="external-link dropdown-item" href="https://shiny.posit.co/blog/posts/bslib-dashboards/">v0.5.0</a></li>
@@ -291,7 +292,7 @@ apply no branding.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="yaml-configuration">YAML configuration<a class="anchor" aria-label="anchor" href="#yaml-configuration"></a>
+<h3 id="brand-yml-in-r-markdown">brand.yml in R Markdown<a class="anchor" aria-label="anchor" href="#brand-yml-in-r-markdown"></a>
 </h3>
 <p>Many places across the R Markdown ecosystem <a href="../any-project/index.html#r-markdown">use bslib for theming</a>.
 Anywhere that <code>theme</code> is passed to bslib, you can use the
@@ -377,6 +378,24 @@ with <code>brand: false</code>.</p>
 </div>
 </div>
 </div>
+<p>The same approaches all apply for <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>, where <code>brand</code>
+is provided in <code>template.bslib</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># _pkgdown.yml</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">template</span><span class="kw">:</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="at">  </span><span class="fu">bslib</span><span class="kw">:</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="at">    </span><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="at">    </span><span class="fu">brand</span><span class="kw">:</span><span class="at"> _brand.yml</span></span></code></pre></div>
+<p>If you store both your <code>_pkgdown.yml</code> file and your
+<code>_brand.yml</code> file in a <code>pkgdown</code> subdirectory in
+your repository, bslib’s automatic <code>_brand.yml</code> file
+detection will start looking at your package root. In this case, you’ll
+need to provide <code>brand</code> with the relative path to your
+<code>_brand.yml</code> file:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># pkgdown/_pkgdown.yml</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">template</span><span class="kw">:</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="at">  </span><span class="fu">bslib</span><span class="kw">:</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="at">    </span><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="at">    </span><span class="fu">brand</span><span class="kw">:</span><span class="at"> pkgdown/_brand.yml</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
