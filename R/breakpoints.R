@@ -1,8 +1,6 @@
 #' Define breakpoint values
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' A generic constructor for responsive breakpoints.
 #'
 #' @param xs The default value to apply to the `xs` breakpoint. Note that this

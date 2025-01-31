@@ -87,7 +87,7 @@
 #'   provide a value of `"bootstrap"` (this value will also work in
 #'   `bs_theme_update()` to remove a `preset` or `bootswatch` theme).
 #' @param brand Specifies how to apply branding to your theme using
-#'   [brand.yml](https://posit-dev.github.io/brand-yml), a simple YAML file that
+#'   [brand.yml](https://posit-dev.github.io/brand-yml/), a simple YAML file that
 #'   defines key brand elements like colors, fonts, and logos. Valid options:
 #'
 #'   - `NULL` (default): Automatically looks for a `_brand.yml` file in the
@@ -106,7 +106,7 @@
 #'     the brand.yml structure.
 #'
 #'   Learn more about creating and using brand.yml files at the
-#'   [brand.yml homepage](https://posit-dev.github.io/brand-yml) or run
+#'   [brand.yml homepage](https://posit-dev.github.io/brand-yml/) or run
 #'   `shiny::runExample("brand.yml", package = "bslib")` to try brand.yml in a
 #'   demo app.
 #' @param bootswatch The name of a bootswatch theme (see [bootswatch_themes()]

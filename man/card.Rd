@@ -51,8 +51,6 @@ you can observe the card's full screen state with
 A \code{\link[htmltools:builder]{htmltools::div()}} tag.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 A general purpose container for grouping related UI elements together with a
 border and optional padding. To learn more about \code{\link[=card]{card()}}s, see \href{https://rstudio.github.io/bslib/articles/cards/index.html}{the Cards article} or the
 other articles listed in the \emph{References} section below.

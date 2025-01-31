@@ -1,4 +1,4 @@
-# bslib (development version)
+# bslib 0.9.0
 
 ## Breaking changes
 
@@ -10,7 +10,7 @@
 
 ## New features
 
-* bslib now supports unified theming with [brand.yml](https://posit-dev.github.io/brand-yml). brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new [Unified theming with brand.yml](https://rstudio.github.io/bslib/dev/articles/brand-yml/) article. (#1148)
+* bslib now supports unified theming with [brand.yml](https://posit-dev.github.io/brand-yml/). brand.yml lets you theme your Shiny apps, Quarto documents and more with a single, portable YAML file. Learn more in the new [Unified theming with brand.yml](https://rstudio.github.io/bslib/dev/articles/brand-yml/) article. (#1148)
 
 ## Improvements and bug fixes
 
@@ -25,6 +25,8 @@
 * Fixed an issue with the Shiny preset (`bs_theme(5, "shiny")`) that caused a floating underling to appear when a `nav_panel_hidden()` was used and active. (#1170)
 
 * bslib now uses navbar markup with Bootstrap 5 that's closer to the expected markup for Bootstrap. We still include the `navbar-default` or `navbar-inverse` classes on the `<nav>` element, for backwards compatibility, but in apps that use Bootstrap 5 these classes have no styles. (#1146)
+
+* The following functions are no longer marked "experimental": `accordion()`, `breakpoints()`, `card()`, `input_dark_mode()`, `input_switch()`, `layout_columns()`, `layout_column_wrap()`, `page_fillable()`, `page_sidebar()`, `layout_sidebar()`, `sidebar()`, `popover()`, `tooltip()` and `value_box()`.
 
 # bslib 0.8.0
 

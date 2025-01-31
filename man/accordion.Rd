@@ -44,8 +44,6 @@ when \code{multiple=TRUE}.}
 \item{icon}{A \link[htmltools:builder]{htmltools::tag} child (e.g., \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}) which is positioned just before the \code{title}.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 An accordion can be used to organize UI elements and content in a limited
 space. It comprises multiple, vertically stacked panels that expand or
 collapse when clicked, providing a compact layout that works well for

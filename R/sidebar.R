@@ -1,7 +1,6 @@
 #' Sidebar layouts
 #'
-#' @description `r lifecycle::badge("experimental")`
-#'
+#' @description
 #' Sidebar layouts place UI elements, like input controls or additional context,
 #' next to the main content area which often holds output elements like plots or
 #' tables.

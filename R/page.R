@@ -76,8 +76,6 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #' A screen-filling page layout
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' A Bootstrap-based page layout whose contents fill the full height and width
 #' of the browser window.
 #'
@@ -203,8 +201,6 @@ validateCssPadding <- function(padding = NULL) {
 #' A sidebar page (i.e., dashboard)
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' Create a dashboard layout with a full-width header (`title`) and [sidebar()].
 #'
 #' @param ... UI elements to display in the 'main' content area (i.e., next to

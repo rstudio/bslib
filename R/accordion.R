@@ -1,8 +1,6 @@
 #' Create a vertically collapsing accordion
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' An accordion can be used to organize UI elements and content in a limited
 #' space. It comprises multiple, vertically stacked panels that expand or
 #' collapse when clicked, providing a compact layout that works well for
@@ -197,8 +195,6 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
 #' Dynamically update accordions
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' Dynamically update/modify [`accordion()`]s in a Shiny app. To be updated
 #' programmatically, the [accordion()] must have an `id`. These functions
 #' require an active Shiny session and only work with a running Shiny app.

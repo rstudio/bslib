@@ -164,7 +164,7 @@ ui <- page_sidebar(
 
 :::
 
-### YAML configuration
+### brand.yml in R Markdown
 
 Many places across the R Markdown ecosystem [use bslib for theming](../any-project/index.html#r-markdown).
 Anywhere that `theme` is passed to bslib, you can use the same techniques mentioned above, even in YAML.
@@ -245,6 +245,27 @@ output:
       brand: false
 ```
 :::
+
+The same approaches all apply for [pkgdown](https://pkgdown.r-lib.org), where `brand` is provided in `template.bslib`:
+
+```yaml
+# _pkgdown.yml
+template:
+  bslib:
+    version: 5
+    brand: _brand.yml
+```
+
+If you store both your `_pkgdown.yml` file and your `_brand.yml` file in a `pkgdown` subdirectory in your repository, bslib's automatic `_brand.yml` file detection will start looking at your package root.
+In this case, you'll need to provide `brand` with the relative path to your `_brand.yml` file:
+
+```yaml
+# pkgdown/_pkgdown.yml
+template:
+  bslib:
+    version: 5
+    brand: pkgdown/_brand.yml
+```
 
 ## Learn more
 

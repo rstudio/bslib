@@ -1,8 +1,6 @@
 #' Add a tooltip to a UI element
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' Display additional information when focusing (or hovering over) a UI element.
 #'
 #' @param trigger A UI element (i.e., [htmltools tag][htmltools::tags]) to serve

@@ -41,8 +41,6 @@ This will be used as the lang in the \code{<html>} tag, as in \code{<html lang="
 The default (NULL) results in an empty string.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 A Bootstrap-based page layout whose contents fill the full height and width
 of the browser window.
 }

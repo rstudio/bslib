@@ -33,8 +33,6 @@ value received for the input corresponding to \code{id} will be a string value
 with the current color mode (\code{"light"} or \code{"dark"}).
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 Creates a button that toggles between dark and light modes, specifically for
 toggling between light and dark \href{https://getbootstrap.com/docs/5.3/customize/color-modes/}{Bootstrap color modes} -- a new
 feature added in \href{https://getbootstrap.com/docs/5.3/migration/#color-modes}{Bootstrap 5.3}.
