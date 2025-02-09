@@ -85,7 +85,7 @@ bs_theme_dependencies <- function(
         dir.create(out_dir)
       }
       out_file <- file.path(out_dir, basename(precompiled_css))
-      file.copy(precompiled_css, out_file)
+      file.copy(precompiled_css, out_file, copy.mode = FALSE)
 
       # Usually sass() would handle file_attachments and dependencies,
       # but we need to do this manually
@@ -130,7 +130,8 @@ bs_theme_dependencies <- function(
   success_js_files <- file.copy(
     c(js_files, js_map_files),
     out_file_dir,
-    overwrite = TRUE
+    overwrite = TRUE,
+    copy.mode = FALSE
   )
   if (any(!success_js_files)) {
     warning(
@@ -248,7 +249,7 @@ bs_dependency <- function(
         basename(outfile)
       )
     }
-    success <- file.copy(script, dirname(outfile), overwrite = TRUE)
+    success <- file.copy(script, dirname(outfile), overwrite = TRUE, copy.mode = FALSE)
     if (!all(success)) {
       stop(
         "Failed to copy the following script(s): ",
