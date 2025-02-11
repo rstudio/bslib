@@ -110,18 +110,26 @@ maybe_precompiled_css <- function(theme, sass_options, precompiled) {
   }
 
   version <- theme_version(theme)
-  out_dir <- file.path(tempdir(), paste0("bslib-precompiled-", version))
-
-  if (!dir.exists(out_dir)) {
-    dir.create(out_dir)
-  }
+  deps_hash <- rlang::hash(htmlDependencies(as_sass(theme)))
+  out_dir <- file.path(
+    tempdir(),
+    sprintf("bslib-precompiled-%s-%s", version, deps_hash)
+  )
 
   out_file <- file.path(out_dir, basename(precompiled_css))
+  out_file <- attachDependencies(out_file, htmlDependencies(as_sass(theme)))
+
+  if (dir.exists(out_dir)) {
+    # We've already copied all the files for this precompiled theme, there's no
+    # need to copy them again.
+    return(out_file)
+  }
+
+  dir.create(out_dir)
   file.copy(precompiled_css, out_file)
 
   # Usually sass() would handle file_attachments and dependencies,
   # but we need to do this manually
-  out_file <- attachDependencies(out_file, htmlDependencies(as_sass(theme)))
   write_file_attachments(
     as_sass_layer(theme)$file_attachments,
     out_dir
