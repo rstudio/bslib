@@ -71,72 +71,13 @@ bs_theme_dependencies <- function(
     cache <- sass_cache_get_dir(cache)
   }
 
-  out_file <- NULL
-  # Look for a precompiled css file if user asks for it AND the default options
-  # are used.
-  if (
-    precompiled &&
-      identical(sass_options, sass_options(output_style = "compressed"))
-  ) {
-    precompiled_css <- precompiled_css_path(theme)
-    if (!is.null(precompiled_css)) {
-      out_dir <- file.path(tempdir(), paste0("bslib-precompiled-", version))
-      if (!dir.exists(out_dir)) {
-        dir.create(out_dir)
-      }
-      out_file <- file.path(out_dir, basename(precompiled_css))
-      file.copy(precompiled_css, out_file)
+  out_file <- maybe_precompiled_css(theme, sass_options, precompiled)
 
-      # Usually sass() would handle file_attachments and dependencies,
-      # but we need to do this manually
-      out_file <- attachDependencies(out_file, htmlDependencies(as_sass(theme)))
-      write_file_attachments(
-        as_sass_layer(theme)$file_attachments,
-        out_dir
-      )
-    }
-  }
-
-  # If precompiled css not found, compile normally.
   if (is.null(out_file)) {
-    contrast_warn <- get_shiny_devmode_option(
-      "bslib.color_contrast_warnings",
-      default = FALSE,
-      devmode_default = TRUE,
-      devmode_message = paste(
-        "Enabling warnings about low color contrasts found inside `bslib::bs_theme()`.",
-        "To suppress these warnings, set `options(bslib.color_contrast_warnings = FALSE)`"
-      )
-    )
-    theme <- bs_add_variables(theme, "color-contrast-warnings" = contrast_warn)
-
-    out_file <- sass(
-      input = theme,
-      options = sass_options,
-      output = output_template(basename = "bootstrap", dirname = "bslib-"),
-      cache = cache,
-      write_attachments = TRUE,
-      cache_key_extra = list(
-        get_exact_version(version),
-        get_package_version("bslib")
-      )
-    )
+    out_file <- sass_compile_theme(theme, sass_options, cache)
   }
 
-  out_file_dir <- dirname(out_file)
-
-  js_files <- bootstrap_javascript(version)
-  js_map_files <- bootstrap_javascript_map(version)
-  success_js_files <- file.copy(
-    c(js_files, js_map_files),
-    out_file_dir,
-    overwrite = TRUE
-  )
-  if (any(!success_js_files)) {
-    warning(
-      "Failed to copy over bootstrap's javascript files into the htmlDependency() directory."
-    )
-  }
+  bootstrap_javascript_copy_assets(version, dirname(out_file))
 
   htmltools::resolveDependencies(
     c(
@@ -145,9 +86,9 @@ bs_theme_dependencies <- function(
         htmlDependency(
           name = "bootstrap",
           version = get_exact_version(version),
-          src = out_file_dir,
+          src = dirname(out_file),
           stylesheet = basename(out_file),
-          script = basename(js_files),
+          script = basename(bootstrap_javascript(version)),
           all_files = TRUE, # include font and map files
           meta = list(
             viewport = "width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -157,6 +98,77 @@ bs_theme_dependencies <- function(
       htmlDependencies(out_file)
     )
   )
+}
+
+maybe_precompiled_css <- function(theme, sass_options, precompiled) {
+  if (!precompiled) return()
+  if (!identical(sass_options, sass_options(output_style = "compressed"))) {
+    return()
+  }
+
+  precompiled_css <- precompiled_css_path(theme)
+  if (is.null(precompiled_css)) {
+    return()
+  }
+
+  version <- theme_version(theme)
+  out_dir <- file.path(tempdir(), paste0("bslib-precompiled-", version))
+
+  if (!dir.exists(out_dir)) {
+    dir.create(out_dir)
+  }
+
+  out_file <- file.path(out_dir, basename(precompiled_css))
+  file.copy(precompiled_css, out_file)
+
+  # Usually sass() would handle file_attachments and dependencies,
+  # but we need to do this manually
+  out_file <- attachDependencies(out_file, htmlDependencies(as_sass(theme)))
+  write_file_attachments(
+    as_sass_layer(theme)$file_attachments,
+    out_dir
+  )
+
+  out_file
+}
+
+sass_compile_theme <- function(theme, sass_options, sass_cache) {
+  version <- theme_version(theme)
+
+  contrast_warn <- get_shiny_devmode_option(
+    "bslib.color_contrast_warnings",
+    default = FALSE,
+    devmode_default = TRUE,
+    devmode_message = paste(
+      "Enabling warnings about low color contrasts found inside `bslib::bs_theme()`.",
+      "To suppress these warnings, set `options(bslib.color_contrast_warnings = FALSE)`"
+    )
+  )
+  theme <- bs_add_variables(theme, "color-contrast-warnings" = contrast_warn)
+
+  out_file <- sass(
+    input = theme,
+    options = sass_options,
+    output = output_template(basename = "bootstrap", dirname = "bslib-"),
+    cache = sass_cache,
+    write_attachments = TRUE,
+    cache_key_extra = list(
+      get_exact_version(version),
+      get_package_version("bslib")
+    )
+  )
+  return(out_file)
+}
+
+bootstrap_javascript_copy_assets <- function(version, to) {
+  js_files <- bootstrap_javascript(version)
+  js_map_files <- bootstrap_javascript_map(version)
+  success_js_files <- file.copy(c(js_files, js_map_files), to, overwrite = TRUE)
+  if (any(!success_js_files)) {
+    warning(
+      "Failed to copy over bootstrap's javascript files into the htmlDependency() directory."
+    )
+  }
 }
 
 #' Themeable HTML components
