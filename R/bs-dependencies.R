@@ -110,10 +110,10 @@ maybe_precompiled_css <- function(theme, sass_options, precompiled) {
   }
 
   version <- theme_version(theme)
-  deps_hash <- rlang::hash(htmlDependencies(as_sass(theme)))
+  bs_js_hash <- rlang::hash_file(bootstrap_javascript(version))
   out_dir <- file.path(
     tempdir(),
-    sprintf("bslib-precompiled-%s-%s", version, deps_hash)
+    sprintf("bslib-precompiled-%s-%s", version, bs_js_hash)
   )
 
   out_file <- file.path(out_dir, basename(precompiled_css))
