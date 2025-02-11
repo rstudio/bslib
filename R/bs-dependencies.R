@@ -77,8 +77,6 @@ bs_theme_dependencies <- function(
     out_file <- sass_compile_theme(theme, sass_options, cache)
   }
 
-  bootstrap_javascript_copy_assets(version, dirname(out_file))
-
   htmltools::resolveDependencies(
     c(
       if (inherits(jquery, "html_dependency")) list(jquery) else jquery,
@@ -129,6 +127,8 @@ maybe_precompiled_css <- function(theme, sass_options, precompiled) {
     out_dir
   )
 
+  bootstrap_javascript_copy_assets(version, dirname(out_file))
+
   out_file
 }
 
@@ -157,7 +157,10 @@ sass_compile_theme <- function(theme, sass_options, sass_cache) {
       get_package_version("bslib")
     )
   )
-  return(out_file)
+
+  bootstrap_javascript_copy_assets(version, dirname(out_file))
+
+  out_file
 }
 
 bootstrap_javascript_copy_assets <- function(version, to) {
