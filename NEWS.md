@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## Improvements and bug fixes
+
+* `bs_theme_dependencies()` now avoids unecessarily copying internal package files to R's temporary directory more than once when preparing precompiled theme dependencies (e.g. for a standard `bs_theme()` theme). (#1184)
+
 # bslib 0.9.0
 
 ## Breaking changes
