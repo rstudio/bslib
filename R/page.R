@@ -298,14 +298,11 @@ page_sidebar <- function(
 }
 
 page_main_container <- function(..., fillable = TRUE) {
-  htmltools::bindFillRole(
-    tags$main(
-      class = "bslib-page-main bslib-gap-spacing",
-      ...
-    ),
-    item = TRUE,
-    container = fillable
+  main <- tags$main(
+    class = "bslib-page-main bslib-gap-spacing",
+    ...
   )
+  if (fillable) as_fill_carrier(main) else main
 }
 
 maybe_page_sidebar <- function(x) {
