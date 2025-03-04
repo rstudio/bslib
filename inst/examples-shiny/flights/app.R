@@ -474,7 +474,7 @@ server <- function(input, output, session) {
         size = ~mean_delay,
         hoverinfo = "text",
         alpha = 0.1,
-        text = ~paste0(
+        text = ~ paste0(
           origin,
           " -> ",
           dest,

@@ -123,14 +123,14 @@ brand_resolve.brand_yml <- function(brand, ...) {
 brand_resolve_preset <- function(brand, preset = NULL, version = NULL) {
   version_resolved <-
     version %||%
-      brand_pluck(brand, "defaults", "shiny", "theme", "version") %||%
-      brand_pluck(brand, "defaults", "bootstrap", "version") %||%
-      version_default()
+    brand_pluck(brand, "defaults", "shiny", "theme", "version") %||%
+    brand_pluck(brand, "defaults", "bootstrap", "version") %||%
+    version_default()
 
   preset_resolved <-
     preset %||%
-      brand_pluck(brand, "defaults", "shiny", "theme", "preset") %||%
-      switch_version(version_resolved, five = "shiny", default = "bootstrap")
+    brand_pluck(brand, "defaults", "shiny", "theme", "preset") %||%
+    switch_version(version_resolved, five = "shiny", default = "bootstrap")
 
   resolve_bs_preset(preset_resolved, version = version_resolved)
 }

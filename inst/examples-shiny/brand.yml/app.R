@@ -46,7 +46,7 @@ if (requireNamespace("thematic", quietly = TRUE)) {
 
 is_app_hosted <-
   Sys.getenv("R_CONFIG_ACTIVE") %in%
-    c("shinylive", "shinyapps", "rsconnect", "rstudio_cloud")
+  c("shinylive", "shinyapps", "rsconnect", "rstudio_cloud")
 is_app_packaged <-
   getwd() != system.file("examples-shiny/brand.yml", package = "bslib")
 
