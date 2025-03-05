@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## Improvements and bug fixes
+
+* Fixed an issue where `.html-fill-container` was accidentally applied to the `<main>` areas of `page_sidebar()` and `page_navbar()` (with a `sidebar`) when `fillable = FALSE`. (#1188)
+
 # bslib 0.9.0
 
 ## Breaking changes
