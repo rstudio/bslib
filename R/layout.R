@@ -90,7 +90,7 @@ layout_column_wrap <- function(
   if (missing(width)) {
     first_is_width <-
       is.null(children[[1]]) ||
-        is_probably_a_css_unit(children[[1]])
+      is_probably_a_css_unit(children[[1]])
 
     if (first_is_width) {
       # Assume an unnamed first argument that matches our expectations for

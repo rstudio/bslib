@@ -54,7 +54,7 @@ random_plotly_plot <- function(type = NULL, color = "white") {
 
 random_plotly_bar <- function(color, n = 50) {
   plot_ly(
-    x = ~runif(n),
+    x = ~ runif(n),
     type = "histogram",
     histnorm = "probability",
     nbinsx = 10,
@@ -66,7 +66,7 @@ random_plotly_bar <- function(color, n = 50) {
 }
 
 random_plotly_box <- function(color, n = 50) {
-  plot_ly(x = ~rnorm(n), type = "box", color = I(color))
+  plot_ly(x = ~ rnorm(n), type = "box", color = I(color))
 }
 
 random_plotly_line <- function(color, n) {

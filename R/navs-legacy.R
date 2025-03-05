@@ -409,7 +409,7 @@ navbarPage_ <- function(
         fillable = !isFALSE(fillable),
         border_radius = FALSE,
         border = !fluid,
-        page_main_container(contents)
+        page_main_container(contents, fillable = !isFALSE(fillable))
       )
     )
 

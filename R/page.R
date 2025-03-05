@@ -281,7 +281,7 @@ page_sidebar <- function(
     border = FALSE,
     border_radius = FALSE,
     !!!dots$attribs,
-    page_main_container(dots$children)
+    page_main_container(dots$children, fillable = fillable)
   )
 
   page_fillable(
@@ -297,13 +297,12 @@ page_sidebar <- function(
   )
 }
 
-page_main_container <- function(...) {
-  as_fill_carrier(
-    tags$main(
-      class = "bslib-page-main bslib-gap-spacing",
-      ...
-    )
+page_main_container <- function(..., fillable = TRUE) {
+  main <- tags$main(
+    class = "bslib-page-main bslib-gap-spacing",
+    ...
   )
+  if (fillable) as_fill_carrier(main) else main
 }
 
 maybe_page_sidebar <- function(x) {
@@ -414,7 +413,7 @@ page_navbar <- function(
   # TODO: Coordinate with next bslib version bump in Shiny to use the new interface
   was_called_by_shiny <-
     isNamespaceLoaded("shiny") &&
-      identical(rlang::caller_fn(), shiny::navbarPage)
+    identical(rlang::caller_fn(), shiny::navbarPage)
 
   .navbar_options <- navbar_options_resolve_deprecated(
     options_user = navbar_options,

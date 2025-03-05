@@ -48,7 +48,7 @@ server <- function(input, output) {
     plotly_time_series(
       economics,
       x = ~date,
-      y = ~100 * unemploy / pop
+      y = ~ 100 * unemploy / pop
     )
   })
 
@@ -64,7 +64,7 @@ server <- function(input, output) {
     plotly_time_series(
       economics,
       x = ~date,
-      y = ~100 * pce / pop
+      y = ~ 100 * pce / pop
     )
   })
 
