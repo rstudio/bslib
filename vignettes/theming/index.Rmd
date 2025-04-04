@@ -31,7 +31,7 @@ This article provides a general overview of theming techniques available in `{bs
 
 ## Real-time theming {#real-time}
 
-To get started theming, consider overlaying a real-time theming widget on your Shiny app (or `runtime: shiny` R Markdown document). This is a great way to experiment with different [Bootswatch](#bootswatch) themes, [main colors](#main-colors), fonts, and more. To add the widget, call `bs_themer()` in a Shiny runtime content (i.e., within the `server` function) and also make sure the app/document [uses `{bslib}` for it's Bootstrap dependency](../any-project).
+To get started theming, consider overlaying a real-time theming widget on your Shiny app (or `runtime: shiny` R Markdown document). This is a great way to experiment with different [Bootswatch](#bootswatch) themes, [main colors](#main-colors), fonts, and more. To add the widget, call `bs_themer()` in a Shiny runtime content (i.e., within the `server` function) and also make sure the app/document [uses `{bslib}` for its Bootstrap dependency](../any-project).
 
 <div class="usage">
 ```r
@@ -177,7 +177,7 @@ When choosing fonts, keep in mind that it's generally good practice to put serif
 
 ## Theming variables
 
-`bs_theme()` also provides access to 100s of more specific [theming options](../bs5-variables) by considering anything passed through it's `...` argument to be a new [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults). This allows you to get more targetted with your theming; for example, let's set the [`$progress-bar-bg`](../bs5-variables#progress-bar-bg) Sass variable to `'orange'` (a CSS color).
+`bs_theme()` also provides access to 100s of more specific [theming options](../bs5-variables) by considering anything passed through its `...` argument to be a new [Bootstrap Sass variable defaults](https://getbootstrap.com/docs/5.0/customize/sass/#variable-defaults). This allows you to get more targetted with your theming; for example, let's set the [`$progress-bar-bg`](../bs5-variables#progress-bar-bg) Sass variable to `'orange'` (a CSS color).
 
 <div class="usage">
 ```r

@@ -51,7 +51,7 @@ bootswatch_sass_file <- function(theme, file, version = version_default()) {
 }
 
 # Given a vector of sass_file()s, create a list of sass_bundles(),
-# so each rule may be removed layer (by it's files basename)
+# so each rule may be removed layer (by its files basename)
 rule_bundles <- function(files) {
   files <- lapply(files, as_sass_file)
   paths <- vapply(files, get_sass_file_path, character(1))

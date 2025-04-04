@@ -198,7 +198,7 @@ is_probably_a_css_unit <- function(x) {
 #'     where each value represents the height of the relevant row. If more rows
 #'     are needed than values provided, the pattern will repeat. For example,
 #'     `row_heights = list("auto", 1)` allows the height of odd rows to be
-#'     driven my it's contents and even rows to be
+#'     driven by its contents and even rows to be
 #'     [`1fr`](https://css-tricks.com/introduction-fr-css-unit/).
 #'   * A character vector/string of [CSS length units][htmltools::validateCssUnit()].
 #'     In this case, the value is supplied directly to `grid-auto-rows`.

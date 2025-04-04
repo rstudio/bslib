@@ -105,7 +105,7 @@ page_fillable(
 Use the `theme` parameter of a compatible output format[^output-format] to get started in R Markdown.
 By supplying `bslib: true` to that parameter, you'll get the latest "stock" version of Bootstrap (akin to using `page_*()` in Shiny). Alternatively, you can supply `bs_theme()` parameters to the `theme` parameter to specify the Bootstrap version, add a Bootswatch theme, and customize theming colors ([Getting Started with Theming](../theming) covers this in more depth).
 
-[^output-format]: In theory, any format that passes it's `theme` parameter to `rmarkdown::html_document_base()` is compatible with `bslib`.
+[^output-format]: In theory, any format that passes its `theme` parameter to `rmarkdown::html_document_base()` is compatible with `bslib`.
 However, in practice, the format may not be compatible with modern versions of Bootstrap.
 
 
@@ -151,7 +151,7 @@ In addition to `rmarkdown::html_document`, there are at least a few other R Mark
 
 ## In production
 
-Before deploying any `{bslib}` project to production, it's wise to "hard-code" the version of Bootstrap used when it was developed. This reduces the chance of the project breaking if and when `{bslib}` updates it's Bootstrap dependency. To do so, call `version_default()` to get the current version of Bootstrap, then pass that value to relevant `theme` object.
+Before deploying any `{bslib}` project to production, it's wise to "hard-code" the version of Bootstrap used when it was developed. This reduces the chance of the project breaking if and when `{bslib}` updates its Bootstrap dependency. To do so, call `version_default()` to get the current version of Bootstrap, then pass that value to relevant `theme` object.
 
 
 ::: usage

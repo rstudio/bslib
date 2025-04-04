@@ -235,7 +235,7 @@ bs_themer_ui <- function(opts, vals, theme) {
         class = "card shadow",
         style = css(
           # The bootstrap-colorpicker plugin sets a z-index of 1060 on
-          # it's inputs, so the container needs a smaller index, than that
+          # its inputs, so the container needs a smaller index, than that
           # https://github.com/rstudio/bslib/blob/e4da71f3/inst/lib/bs-colorpicker/css/bootstrap-colorpicker.css#L38
           #
           # It's also important that this z-index is higher than 1030 so it's

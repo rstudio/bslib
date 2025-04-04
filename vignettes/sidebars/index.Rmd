@@ -386,7 +386,7 @@ Just like `page_navbar()`, `navset_card_tab()` also has a `sidebar` argument tha
 
 ### Restricting growth
 
-Just like with [cards](../cards#restricting-growth), when a [filling layout](#hello-sidebar) isn't enforcing the size of the `layout_sidebar()`, it will allow it's contents to decide how big it should be. Thus, if there a large amount of sidebar/main contents, consider specifying a `height` or `max_height` via `card()` (as well as `full_screen = TRUE` to reduce the need for scrolling).
+Just like with [cards](../cards#restricting-growth), when a [filling layout](#hello-sidebar) isn't enforcing the size of the `layout_sidebar()`, it will allow its contents to decide how big it should be. Thus, if there a large amount of sidebar/main contents, consider specifying a `height` or `max_height` via `card()` (as well as `full_screen = TRUE` to reduce the need for scrolling).
 
 ```{r restricting-growth, as_iframe = TRUE, resizable = TRUE}
 page_fixed(
@@ -410,7 +410,7 @@ Although sidebars work just fine outside Shiny, using them in Shiny provides a f
 
 ### Conditional contents
 
-Sometimes in a multiple page/tab setting, it's useful to have a sidebar on every page/tab, but changes it's contents based on which page/tab is active.[^4] Thanks to `conditionalPanel()`, this can be done fairly easily in a Shiny app with `page_navbar()` (or in `navset_card_tab()`/`navset_tab_pill()`). The trick is to provide an `id` to the `page_navbar()` and then reference that `id` in the `conditionalPanel()`:
+Sometimes in a multiple page/tab setting, it's useful to have a sidebar on every page/tab, but changes its contents based on which page/tab is active.[^4] Thanks to `conditionalPanel()`, this can be done fairly easily in a Shiny app with `page_navbar()` (or in `navset_card_tab()`/`navset_tab_pill()`). The trick is to provide an `id` to the `page_navbar()` and then reference that `id` in the `conditionalPanel()`:
 
 [^4]: If the controls depend on some other application state, you'll need to use `uiOutput()` to fill the contents of a `sidebar()`).
 
@@ -608,7 +608,7 @@ Both functions also include a `class` argument that works well with [Bootstrap u
 
 Be aware that in `layout_sidebar()`, `bg`, `class` and `style` attributes are applied to the main content area's container and _not_ the overall layout container.
 To add additional classes to the layout container, use `htmltools::tagAppendAttributes()`.
-Also note that `layout_sidebar()` derives some of it's default style from Bootstrap CSS variables (e.g., `--bs-card-border-color`), which enables theming at the component-level ([theming via `bs_theme()`](../bs5-variables) works on the page-level).
+Also note that `layout_sidebar()` derives some of its default style from Bootstrap CSS variables (e.g., `--bs-card-border-color`), which enables theming at the component-level ([theming via `bs_theme()`](../bs5-variables) works on the page-level).
 
 The following example combines all of these concepts to create sidebar with a dark background.
 Utility classes are used to make the sidebar text monospace and bold, and we used `tagAppendAttributes()` to tweak the border color of the sidebar layout to match the sidebar background.
