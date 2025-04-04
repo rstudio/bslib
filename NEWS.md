@@ -6,6 +6,8 @@
 
 * Fixed an issue where the `<main>` areas of `page_sidebar()` and `page_navbar()` (with a `sidebar`) were made to be a fillable containers even when `fillable = FALSE`. (#1188)
 
+* Fixed some typos in the documentation
+
 # bslib 0.9.0
 
 ## Breaking changes
