@@ -134,7 +134,7 @@ layouts</a>, or generally fill anywhere you want.</p>
 <strong>fillable container</strong> and/or <strong>fill item</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Technically speaking, a &lt;strong&gt;fillable
 container&lt;/strong&gt; is just a &lt;a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link"&gt;CSS
 flexbox&lt;/a&gt; container with &lt;code&gt;flex-direction: column&lt;/code&gt; (which
-makes it’s children flex items). And, when a &lt;strong&gt;fill item&lt;/strong&gt;
+makes its children flex items). And, when a &lt;strong&gt;fill item&lt;/strong&gt;
 appears as a direct child of a &lt;strong&gt;fillable container&lt;/strong&gt;, it
 is given a &lt;code&gt;flex&lt;/code&gt; property of &lt;code&gt;1&lt;/code&gt; (i.e., it’s
 allowed to grow/shrink).&lt;/p&gt;'><sup>1</sup></a>, it’s
@@ -165,7 +165,7 @@ element – see <code>is_fill()</code> for more).</p>
 <div class="row">
 <div class="col-md-6">
 <p>Just like any other HTML <strong>container</strong>, a <span class="b-pink">fillable container</span>’s default height depends on the
-height of it’s children. So, for example, if there’s a single <span class="b-blue">fill item</span> with a defined height of
+height of its children. So, for example, if there’s a single <span class="b-blue">fill item</span> with a defined height of
 <code>400px</code> (the default for most Shiny outputs), the <span class="b-pink">fillable container</span>’s height is also
 <code>400px</code> (plus any padding, border, etc).</p>
 </div>
@@ -323,7 +323,7 @@ defaults to <code>fillable = TRUE</code> (and
 <p>You might wonder, why then would we want or need
 <code>fillable = FALSE</code> or <code>fill = FALSE</code> on a
 <code><a href="../../reference/card_body.html">card_body()</a></code>? One big reason is that <span class="b-pink">fillable containers</span> are powered by <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" class="external-link">CSS
-flexbox</a>, which changes the way it’s children are rendered. And,
+flexbox</a>, which changes the way its children are rendered. And,
 although those changes are nice for “stretchy” children, there are <a href="../cards#flexbox">downsides for rendering inline elements</a>. So,
 that’s why, it’s recommended that you use <a href="../cards#multiple-card_body">multiple card bodies</a> when
 combining <span class="b-blue">fill</span> with <span class="b-orange">non-fill</span></p>
@@ -377,7 +377,7 @@ about it&lt;/a&gt;!&lt;/p&gt;'><sup>2</sup></a></p>
 <h3 id="filling-the-window">Filling the window<a class="anchor" aria-label="anchor" href="#filling-the-window"></a>
 </h3>
 <p>Perhaps the most important <span class="b-pink">fillable
-container</span> is <code><a href="../../reference/page_fillable.html">page_fillable()</a></code>, which sets it’s height
+container</span> is <code><a href="../../reference/page_fillable.html">page_fillable()</a></code>, which sets its height
 equal to the browser window. Thus, if <span class="b-blue">fill
 items</span> appear as direct children, they’ll fill the window.
 <code><a href="../../reference/page_fillable.html">page_fillable()</a></code> also defaults to
@@ -508,7 +508,7 @@ also retain the plot’s ability to grow/shrink (since they are <span class="b-p
 </iframe>
 <p>Note that, if we changed <code><a href="../../reference/page_fillable.html">page_fillable()</a></code> to
 <code><a href="../../reference/page.html">page_fluid()</a></code> (or <code><a href="../../reference/page.html">page_fixed()</a></code>), each plot
-would render to it’s default height (<code>400px</code>) since we no
+would render to its default height (<code>400px</code>) since we no
 longer have a <span class="b-pink">fillable</span> with a specified
 height. That said, even in that case, if we expand the card to
 full-screen, the plot still grows to fit the full screen card (since the
@@ -594,7 +594,7 @@ mark <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="extern
 </h3>
 <div class="row mt-3">
 <div class="col-md-6">
-<p><a href="https://github.com/rstudio/DT" class="external-link">DT</a>’s <code><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable()</a></code> has it’s own unique
+<p><a href="https://github.com/rstudio/DT" class="external-link">DT</a>’s <code><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable()</a></code> has its own unique
 interface for filling a container. Specifically, make sure to set
 <code>datatable(fillContainer = TRUE)</code> in order for the table to
 grow/shrink as you’d expect it to.</p>

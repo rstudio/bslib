@@ -222,10 +222,9 @@ htmlwidgets:</p>
 <div class="section level2">
 <h2 id="r-markdown">R Markdown<a class="anchor" aria-label="anchor" href="#r-markdown"></a>
 </h2>
-<p>Use the <code>theme</code> parameter of a compatible output format<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;In theory, any format that passes it’s
-&lt;code&gt;theme&lt;/code&gt; parameter to
-&lt;code&gt;&lt;a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document_base.html" class="external-link"&gt;rmarkdown::html_document_base()&lt;/a&gt;&lt;/code&gt; is compatible with
-&lt;code&gt;bslib&lt;/code&gt;. However, in practice, the format may not be
+<p>Use the <code>theme</code> parameter of a compatible output format<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;In theory, any format that passes its &lt;code&gt;theme&lt;/code&gt;
+parameter to &lt;code&gt;&lt;a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document_base.html" class="external-link"&gt;rmarkdown::html_document_base()&lt;/a&gt;&lt;/code&gt; is compatible
+with &lt;code&gt;bslib&lt;/code&gt;. However, in practice, the format may not be
 compatible with modern versions of Bootstrap.&lt;/p&gt;'><sup>1</sup></a> to get
 started in R Markdown. By supplying <code>bslib: true</code> to that
 parameter, you’ll get the latest “stock” version of Bootstrap (akin to
@@ -277,7 +276,7 @@ and <a href="https://pkgs.rstudio.com/bookdown/reference/bs4_book.html" class="e
 <p>Before deploying any <a href="https://rstudio.github.io/bslib/">bslib</a> project to production, it’s
 wise to “hard-code” the version of Bootstrap used when it was developed.
 This reduces the chance of the project breaking if and when
-<a href="https://rstudio.github.io/bslib/">bslib</a> updates it’s Bootstrap dependency. To do so, call
+<a href="https://rstudio.github.io/bslib/">bslib</a> updates its Bootstrap dependency. To do so, call
 <code><a href="../../reference/versions.html">version_default()</a></code> to get the current version of Bootstrap,
 then pass that value to relevant <code>theme</code> object.</p>
 <div class="usage">
