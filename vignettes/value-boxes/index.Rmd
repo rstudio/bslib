@@ -198,7 +198,7 @@ Under-the-hood, `value_box()` is implemented using `card()`, mainly to inherit i
 
 Note that, since this example is statically rendered (outside of Shiny), we make use of `htmlwidgets::onRender()` to add some JavaScript that effectively says: "Show the xaxis of the chart when it's taller than 200 pixels; otherwise, hide it".
 
-Those of you who aren't wanting to write JavaScript can achieve similar behavior (i.e., displaying a different chart depending on it's size) via `shiny::getCurrentOutputInfo()`, as mentioned in the [article on cards](../cards#shiny). In fact, here's the [source code](https://github.com/rstudio/bslib/tree/main/inst/examples-shiny/value_box) for a Shiny app does effectively the same thing without any JavaScript (note how it also leverages other `getCurrentOutputInfo()` values to avoid hard coding `"white"` into the colors of the sparklines).
+Those of you who aren't wanting to write JavaScript can achieve similar behavior (i.e., displaying a different chart depending on its size) via `shiny::getCurrentOutputInfo()`, as mentioned in the [article on cards](../cards#shiny). In fact, here's the [source code](https://github.com/rstudio/bslib/tree/main/inst/examples-shiny/value_box) for a Shiny app does effectively the same thing without any JavaScript (note how it also leverages other `getCurrentOutputInfo()` values to avoid hard coding `"white"` into the colors of the sparklines).
 :::
 
 ::: col-md-6

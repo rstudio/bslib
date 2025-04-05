@@ -459,7 +459,7 @@ shinyApp(ui, server)
 
 ## In production
 
-Before deploying a dashboard to production, it's wise to "hard-code" the version of Bootstrap used when it was developed. This reduces the chance of the dashboard breaking if and when `bslib` updates it's Bootstrap dependency. To do so, call `version_default()` to get the current version of Bootstrap, then pass that value to `bs_theme(version = ...)` (and pass that theme object to the `theme` argument of the relevant `page_*()` function).
+Before deploying a dashboard to production, it's wise to "hard-code" the version of Bootstrap used when it was developed. This reduces the chance of the dashboard breaking if and when `bslib` updates its Bootstrap dependency. To do so, call `version_default()` to get the current version of Bootstrap, then pass that value to `bs_theme(version = ...)` (and pass that theme object to the `theme` argument of the relevant `page_*()` function).
 
 ```r
 library(shiny)

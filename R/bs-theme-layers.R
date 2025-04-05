@@ -128,7 +128,7 @@ ensure_default_flag <- function(x) {
             "Ignoring `bs_add_variables()`'s `.default_flag = TRUE` for ",
             "the ",
             nm,
-            " variable (since it has it's own `default_flag`)."
+            " variable (since it has its own `default_flag`)."
           )
         }
         return(val)
