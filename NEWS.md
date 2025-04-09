@@ -6,7 +6,9 @@
 
 * Fixed an issue where the `<main>` areas of `page_sidebar()` and `page_navbar()` (with a `sidebar`) were made to be a fillable containers even when `fillable = FALSE`. (#1188)
 
-* Fixed some typos in the documentation
+* Fixed some typos in the documentation.
+
+* When `bs_theme(brand = FALSE)` we now correctly do not apply brand theming when a `_brand.yml` file is present in the project. (#1196)
 
 # bslib 0.9.0
 
@@ -24,7 +26,7 @@
 
 ## Improvements and bug fixes
 
-* `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (@tanho63, #1024) 
+* `navset_card_pills()`, `navset_card_underline()`, `navset_card_tabs()` fixed to now respect header/footer arguments (@tanho63, #1024)
 
 * Fixed a bug in `bs_themer()` (and `bs_theme_preview()`) that caused it to stop applying changes if a Sass variable was `NULL`. (@meztez, #1112)
 
@@ -58,7 +60,7 @@
 * The `open` argument of `sidebar()` now includes the option to place a sidebar that's always open on mobile screens _above the main content_ with `open = list(mobile = "always-above")`. (#1088)
 
 ## Improvements
-    
+
 * Adjusted the border color of checkbox and radio buttons to match the border color of the input group in `bs_theme(preset="shiny")`. (#1038)
 
 * On mobile, the main and sidebar content areas of a `layout_sidebar()` no longer overlap with the sidebar toggle button. (#1084)

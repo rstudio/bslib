@@ -27,7 +27,7 @@
 # then resolve the brand bundle.
 
 bs_brand_bundle <- function(brand, version = version_default()) {
-  brand <- brand_resolve(brand)
+  # `brand` is already resolved in `bs_theme()`
 
   if (is.null(brand)) {
     return()

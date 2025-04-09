@@ -391,4 +391,21 @@ describe("bs_brand_bundle()", {
       bs_brand_bundle(list(), "5")
     )
   })
+
+  it("doesn't re-resolve brand", {
+    bs_theme_base <- bs_theme()
+
+    withr::local_dir(withr::local_tempdir())
+
+    writeLines(
+      c("color:", "  primary: '#FF1122'"),
+      "_brand.yml"
+    )
+
+    expect_null(bs_brand_bundle(NULL))
+    expect_true(
+      bs_get_variables(bs_theme(brand = FALSE), "primary") != "#FF1122"
+    )
+    expect_equal(bs_theme(brand = FALSE), bs_theme_base)
+  })
 })
