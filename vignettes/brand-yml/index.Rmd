@@ -74,7 +74,7 @@ To use the app as a template, create a new directory for your own app and then c
 
 ```{r eval=FALSE}
 new_app_dir <- "my-brand" # path to your app
-template <- fs::path_package("bslib", "examples-shiny/brand")
+template <- fs::path_package("bslib", "examples-shiny/brand.yml")
 
 # Copy the template files into your new app directory
 fs::dir_copy(template, new_app_dir)
