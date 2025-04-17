@@ -785,7 +785,8 @@ brand_has <- function(brand, ...) {
   x <- brand
 
   for (f in c(...)) {
-    if (is.null(x[[f]])) return(FALSE)
+    val <- tryCatch(x[[f]], error = function(e) NULL)
+    if (is.null(val)) return(FALSE)
     x <- x[[f]]
   }
 
