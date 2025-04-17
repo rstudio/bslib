@@ -67,7 +67,11 @@ if (bslib:::brand_has(brand, "typography", "fonts")) {
 
 ui <- page_navbar(
   theme = bs_add_rules(theme_brand, sass::sass_file("_colors.scss")),
-  title = "brand.yml Demo",
+  title = tagList(
+    uiOutput("brand_icon", inline = TRUE),
+    uiOutput("brand_name", inline = TRUE)
+  ),
+  window_title = "brand.yml Demo",
   fillable = TRUE,
 
   sidebar = sidebar(
@@ -430,6 +434,35 @@ server <- function(input, output, session) {
         "Could not compile branded theme. Please check your `_brand.yml` file."
       )
     )
+  })
+
+  output$brand_name <- renderUI({
+    brand_name <-
+      bslib:::brand_pluck(brand_yml(), "meta", "name", "short") %||%
+      bslib:::brand_pluck(brand_yml(), "meta", "name")
+
+    if (rlang::is_string(brand_name)) brand_name else "brand.yml Demo"
+  })
+
+  output$brand_icon <- renderUI({
+    brand <- brand_yml()
+
+    logo <-
+      bslib:::brand_pluck(brand, "logo", "small") %||%
+      bslib:::brand_pluck(brand, "logo")
+
+    req(rlang::is_string(logo))
+
+    logo_path <- file.path(dirname(BRAND_PATH), logo)
+    if (file.exists(logo_path)) {
+      img(
+        src = base64enc::dataURI(
+          file = logo_path,
+          mime = mime::guess_type(logo_path)
+        ),
+        height = 30
+      )
+    }
   })
 
   observeEvent(input$save, {
