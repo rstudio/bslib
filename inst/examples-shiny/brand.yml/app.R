@@ -16,18 +16,18 @@ options(
   # shiny.autoreload.pattern = "_brand[.]yml|app[.]R|[.]s?css" ## TODO: Enable after fixing autoreload
 )
 
-theme_brand <- bs_theme(brand = TRUE)
+theme_brand <- bs_theme()
 
 brand <- attr(theme_brand, "brand")
+BRAND_PATH <- brand$path %||% "_brand.yml"
 
 theme_set(theme_minimal())
 
 if (requireNamespace("thematic", quietly = TRUE)) {
-  if (!is.null(brand)) {
+  base_font <- bslib:::brand_pluck(brand, "typography", "base", "family")
+  if (!is.null(base_font)) {
     # TODO: Update plot fonts dynamically
-    thematic::thematic_shiny(
-      font = bslib:::brand_pluck(brand, "typography", "base", "family")
-    )
+    thematic::thematic_shiny(font = base_font)
   } else {
     thematic::thematic_shiny()
   }
@@ -77,6 +77,7 @@ ui <- page_navbar(
     width = "40%",
     bg = "var(--bs-dark)",
     fg = "var(--bs-light)",
+    `data-bs-theme` = "dark",
 
     card(
       card_header(
@@ -103,7 +104,9 @@ ui <- page_navbar(
         textAreaInput(
           "txt_brand_yml",
           label = NULL,
-          value = paste(readLines("_brand.yml", warn = FALSE), collapse = "\n"),
+          value = if (!is.null(brand)) {
+            paste(readLines(brand$path, warn = FALSE), collapse = "\n")
+          },
           width = "100%",
           height = "80%",
           rows = 20
@@ -165,13 +168,21 @@ initBrandEditor();
     if (use_download_button) {
       shiny::downloadButton(
         "download",
-        label = span("Download", code("_brand.yml"), "file"),
+        label = span(
+          "Download",
+          code("_brand.yml", style = "color: currentColor"),
+          "file"
+        ),
         class = "btn-outline-light"
       )
     } else {
       actionButton(
         "save",
-        label = span("Save", code("_brand.yml"), "file"),
+        label = span(
+          "Save",
+          code("_brand.yml", style = "color: currentColor"),
+          "file"
+        ),
         class = "btn-outline-light"
       )
     }
@@ -397,7 +408,7 @@ server <- function(input, output, session) {
     tryCatch(
       {
         b <- yaml::yaml.load(brand_yml_text())
-        b$path <- normalizePath("_brand.yml")
+        b$path <- normalizePath(BRAND_PATH, mustWork = FALSE)
         brand_yml(b)
       },
       error = error_notification(
@@ -428,7 +439,7 @@ server <- function(input, output, session) {
 
     tryCatch(
       {
-        writeLines(input$txt_brand_yml, "_brand.yml")
+        writeLines(input$txt_brand_yml, BRAND_PATH)
         showNotification(markdown("Saved `_brand.yml`!"))
       },
       error = error_notification("Could not save `_brand.yml`.")
