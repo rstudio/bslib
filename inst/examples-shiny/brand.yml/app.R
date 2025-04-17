@@ -16,17 +16,6 @@ options(
   # shiny.autoreload.pattern = "_brand[.]yml|app[.]R|[.]s?css" ## TODO: Enable after fixing autoreload
 )
 
-if (!file.exists("Monda.ttf")) {
-  download.file(
-    "https://github.com/google/fonts/raw/48db77e32954f6f5e65a7122ecbe8a2093c4f5d7/ofl/monda/Monda%5Bwght%5D.ttf",
-    "Monda.ttf"
-  )
-  download.file(
-    "https://github.com/google/fonts/raw/48db77e32954f6f5e65a7122ecbe8a2093c4f5d7/ofl/monda/OFL.txt",
-    "Monda-OFL.txt"
-  )
-}
-
 theme_brand <- bs_theme(brand = TRUE)
 
 brand <- attr(theme_brand, "brand")
@@ -44,11 +33,37 @@ if (requireNamespace("thematic", quietly = TRUE)) {
   }
 }
 
+use_download_button <- FALSE
+
+# ---- For hosted demo, delete if local ----
 is_app_hosted <-
   Sys.getenv("R_CONFIG_ACTIVE") %in%
   c("shinylive", "shinyapps", "rsconnect", "rstudio_cloud")
 is_app_packaged <-
-  getwd() != system.file("examples-shiny/brand.yml", package = "bslib")
+  getwd() == system.file("examples-shiny/brand.yml", package = "bslib")
+use_download_button <- is_app_hosted || is_app_packaged
+
+if (bslib:::brand_has(brand, "typography", "fonts")) {
+  tryCatch(
+    {
+      if (brand$typography$fonts[[2]]$files[[1]]$path == "Monda.ttf") {
+        if (!file.exists("Monda.ttf")) {
+          download.file(
+            "https://github.com/google/fonts/raw/48db77e32954f6f5e65a7122ecbe8a2093c4f5d7/ofl/monda/Monda%5Bwght%5D.ttf",
+            "Monda.ttf"
+          )
+          download.file(
+            "https://github.com/google/fonts/raw/48db77e32954f6f5e65a7122ecbe8a2093c4f5d7/ofl/monda/OFL.txt",
+            "Monda-OFL.txt"
+          )
+        }
+      }
+    },
+    error = function(err) {
+    }
+  )
+}
+# ---- For hosted demo, delete if local ----
 
 ui <- page_navbar(
   theme = bs_add_rules(theme_brand, sass::sass_file("_colors.scss")),
@@ -147,7 +162,7 @@ initBrandEditor();
       )
     ),
 
-    if (is_app_hosted || is_app_packaged) {
+    if (use_download_button) {
       shiny::downloadButton(
         "download",
         label = span("Download", code("_brand.yml"), "file"),
