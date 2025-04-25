@@ -1,5 +1,5 @@
 #' Suspend input changes until a button is clicked
-#' 
+#'
 #' Suspend changes to a particular set of input controls until a submit button
 #' is clicked. This is particularly useful for allowing the user to review their
 #' input(s) before sending them to the server for a potentially expensive
@@ -7,7 +7,7 @@
 #' button's parent are deferred until the button is clicked. This can be changed
 #' by setting the `scope` argument to a CSS selector that matches the container
 #' of inputs you wish to suspend.
-#' 
+#'
 #' @param id The input ID.
 #' @param label A label to place on the button.
 #' @param ... Arguments passed along to [input_task_button()].
@@ -20,7 +20,6 @@
 #' @seealso [input_submit_textarea()], [input_task_button()]
 #' @export
 input_submit_button <- function(id, label, ..., scope = NULL) {
-
   if (!is_installed("shiny", "1.10.0.9001")) {
     rlang::abort("shiny v1.10.0.9001 or higher is required")
   }
@@ -31,7 +30,7 @@ input_submit_button <- function(id, label, ..., scope = NULL) {
   btn$attribs$type <- "submit"
 
   tagAppendAttributes(
-    btn, 
+    btn,
     class = "bslib-submit-button",
     `data-submit-scope` = scope
   )
@@ -57,11 +56,8 @@ input_submit_button <- function(id, label, ..., scope = NULL) {
 #  icon = NULL,
 #  session = get_current_session()
 #) {
-#  
+#
 #}
-
-
-
 
 #' Create a textarea input control with explicit submission
 #'
@@ -123,7 +119,6 @@ input_submit_textarea <- function(
   width = "min(600px, 100%)",
   submit_key = c("enter", "enter+modifier")
 ) {
-
   if (!is_installed("shiny", "1.10.0.9001")) {
     rlang::abort("shiny v1.10.0.9001 or higher is required")
   }
@@ -209,7 +204,6 @@ update_submit_textarea <- function(
   focus = FALSE,
   session = get_current_session()
 ) {
-
   rlang::check_dots_empty()
 
   if (is.null(value) && (submit || focus)) {
