@@ -21,6 +21,11 @@
       throw TypeError("Cannot add the same private member more than once");
     member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
   };
+  var __privateSet = (obj, member, value, setter) => {
+    __accessCheck(obj, member, "write to private field");
+    setter ? setter.call(obj, value) : member.set(obj, value);
+    return value;
+  };
   var __privateMethod = (obj, member, method) => {
     __accessCheck(obj, member, "access private method");
     return method;
@@ -61,6 +66,17 @@
         `[bslib] Global window.bslib.${name} was already defined, using previous definition.`
       );
     }
+  }
+  function showShinyClientMessage({
+    headline = "",
+    message,
+    status = "warning"
+  }) {
+    document.dispatchEvent(
+      new CustomEvent("shiny:client-message", {
+        detail: { headline, message, status }
+      })
+    );
   }
   function hasDefinedProperty(obj, prop) {
     return Object.prototype.hasOwnProperty.call(obj, prop) && obj[prop] !== void 0;
@@ -1285,7 +1301,202 @@
           tbc.case = state;
         }
       };
+    }
+  });
+
+  // srcts/src/components/submitButton.ts
+  var EVENT_NAMESPACE, _target, BslibSubmitButtonInputBinding;
+  var init_submitButton = __esm({
+    "srcts/src/components/submitButton.ts"() {
+      "use strict";
+      init_taskButton();
+      init_utils();
+      EVENT_NAMESPACE = "submitButtonInputBinding";
+      BslibSubmitButtonInputBinding = class extends BslibTaskButtonInputBinding {
+        constructor() {
+          super(...arguments);
+          __privateAdd(this, _target, null);
+        }
+        find(scope) {
+          return $(scope).find(".bslib-submit-button");
+        }
+        initialize(el) {
+          const scope = el.dataset.submitScope;
+          __privateSet(this, _target, scope ? document.querySelector(scope) : el.parentElement);
+          if (!__privateGet(this, _target)) {
+            showShinyClientMessage({
+              status: "error",
+              message: `input_submit_button() scope "${scope}" not found`
+            });
+            return;
+          }
+          const inputChangeEvents = /* @__PURE__ */ new Map();
+          $(__privateGet(this, _target)).on(
+            `shiny:inputchanged.${EVENT_NAMESPACE}`,
+            (event) => {
+              const e = event;
+              if (/^\./.test(e.name)) {
+                return;
+              }
+              if (e.name === el.id) {
+                return;
+              }
+              e.preventDefault();
+              inputChangeEvents.set(e, e.name);
+            }
+          );
+          $(el).on(`click.${EVENT_NAMESPACE}`, () => {
+            if (el.hasAttribute("disabled")) {
+              return;
+            }
+            if (!window.Shiny || !window.Shiny.setInputValue) {
+              return;
+            }
+            for (const [event, name] of inputChangeEvents) {
+              window.Shiny.setInputValue(name, event.value);
+            }
+            inputChangeEvents.clear();
+          });
+        }
+        unsubscribe(el) {
+          $(el).off(`click.${EVENT_NAMESPACE}`);
+          if (__privateGet(this, _target)) {
+            $(__privateGet(this, _target)).off(`shiny:inputchanged.${EVENT_NAMESPACE}`);
+          }
+        }
+      };
+      _target = new WeakMap();
       registerBinding(BslibTaskButtonInputBinding, "task-button");
+      registerBinding(BslibSubmitButtonInputBinding, "submit-button");
+    }
+  });
+
+  // srcts/src/components/submitTextArea.ts
+  function updateDisabledState(btn, isDisabled) {
+    btn.classList.toggle("disabled", isDisabled);
+    btn.setAttribute("aria-disabled", isDisabled.toString());
+    isDisabled ? btn.setAttribute("tabindex", "-1") : btn.removeAttribute("tabindex");
+  }
+  function updateLabel(labelTxt, labelNode) {
+    if (typeof labelTxt === "undefined")
+      return;
+    if (labelNode.length !== 1) {
+      throw new Error("labelNode must be of length 1");
+    }
+    const emptyLabel = Array.isArray(labelTxt) && labelTxt.length === 0;
+    if (emptyLabel) {
+      labelNode.addClass("shiny-label-null");
+    } else {
+      labelNode.text(labelTxt);
+      labelNode.removeClass("shiny-label-null");
+    }
+  }
+  var EVENT_NAMESPACE2, _submitButton, TextAreaSubmitInputBinding;
+  var init_submitTextArea = __esm({
+    "srcts/src/components/submitTextArea.ts"() {
+      "use strict";
+      init_utils();
+      EVENT_NAMESPACE2 = "textSubmitInputBinding";
+      TextAreaSubmitInputBinding = class extends InputBinding {
+        constructor() {
+          super(...arguments);
+          __privateAdd(this, _submitButton, null);
+        }
+        find(scope) {
+          return $(scope).find(".bslib-input-textsubmit > textarea");
+        }
+        initialize(el) {
+          const btn = el.nextElementSibling;
+          if (!(btn instanceof HTMLButtonElement)) {
+            throw new Error("No submit button found");
+          }
+          updateDisabledState(btn, !el.value);
+          __privateSet(this, _submitButton, btn);
+        }
+        // Read a 'proxy' value instead of the actual value since we
+        // intentionally don't want the value server-side until it's submitted.
+        getValue(el) {
+          return $(el).data("val");
+        }
+        setValue(el, value) {
+          el.value = value;
+        }
+        // TODO: this depends on a change to Shiny...
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        subscribe(el, callback) {
+          function doSendValue() {
+            $(el).data("val", el.value);
+            el.value = "";
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+            callback("event");
+          }
+          const btn = __privateGet(this, _submitButton);
+          if (btn.classList.contains("shiny-bound-input")) {
+            $(btn).on(`shiny:inputchanged.${EVENT_NAMESPACE2}`, doSendValue);
+          } else {
+            $(btn).on(`click.${EVENT_NAMESPACE2}`, doSendValue);
+          }
+          $(el).on(`input.${EVENT_NAMESPACE2}`, function() {
+            updateDisabledState(btn, !el.value);
+          });
+          $(el).on(
+            `keydown.${EVENT_NAMESPACE2}`,
+            // event: JQuery.KeyboardEventObject
+            function(event) {
+              if (event.key !== "Enter") {
+                return;
+              }
+              if (!el.value) {
+                event.preventDefault();
+                return;
+              }
+              const needsModifier = el.hasAttribute("data-needs-modifier");
+              const hasModifier = event.ctrlKey || event.metaKey;
+              if (needsModifier && hasModifier) {
+                event.preventDefault();
+                btn.click();
+                return;
+              }
+              if (!needsModifier && !event.shiftKey) {
+                event.preventDefault();
+                btn.click();
+              }
+            }
+          );
+        }
+        unsubscribe(el) {
+          $(el).off(`.${EVENT_NAMESPACE2}`);
+          const btn = el.nextElementSibling;
+          $(btn).off(`.${EVENT_NAMESPACE2}`);
+        }
+        receiveMessage(el, data) {
+          const oldValue = el.value;
+          if (data.value !== void 0) {
+            el.value = data.value;
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+          if (data.placeholder !== void 0) {
+            el.placeholder = data.placeholder;
+          }
+          if (data.label !== void 0) {
+            const labEl = $(el).closest(".shiny-input-container").find("label");
+            updateLabel(data.label, labEl);
+          }
+          if (data.submit) {
+            const btn = el.nextElementSibling;
+            if (btn instanceof HTMLButtonElement) {
+              btn.click();
+              el.value = oldValue;
+            }
+          }
+          if (data.focus) {
+            el.focus();
+          }
+        }
+      };
+      _submitButton = new WeakMap();
+      registerBinding(TextAreaSubmitInputBinding, "submit-text-area");
     }
   });
 
@@ -1311,6 +1522,8 @@
       init_card();
       init_sidebar();
       init_taskButton();
+      init_submitButton();
+      init_submitTextArea();
       init_utils();
       init_shinyAddCustomMessageHandlers();
       var bslibMessageHandlers = {
