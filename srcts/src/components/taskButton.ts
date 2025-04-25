@@ -1,4 +1,4 @@
-import { InputBinding, registerBinding } from "./_utils";
+import { InputBinding } from "./_utils";
 import type { BslibSwitchInline } from "./webcomponents/switch";
 
 type TaskButtonMessage = {
@@ -12,15 +12,15 @@ type TaskButtonMessage = {
  * wanted to use the native <button> element to ensure that all of the behaviors
  * of a native button are perfectly implemented.
  */
-class BslibTaskButtonInputBinding extends InputBinding {
+export class BslibTaskButtonInputBinding extends InputBinding {
   #clickCount = new WeakMap<HTMLElement, number>();
   #clickListeners = new WeakMap<HTMLElement, EventListener>();
 
-  find(scope: HTMLElement) {
+  find(scope: HTMLElement): JQuery<HTMLElement> {
     return $(scope).find(".bslib-task-button");
   }
 
-  getValue(el: HTMLElement) {
+  getValue(el: HTMLElement): { value: number; autoReset: boolean } {
     return {
       value: this.#clickCount.get(el) ?? 0,
       autoReset: el.hasAttribute("data-auto-reset"),
@@ -31,7 +31,7 @@ class BslibTaskButtonInputBinding extends InputBinding {
     return "bslib.taskbutton";
   }
 
-  subscribe(el: HTMLElement, callback: (x: boolean) => void) {
+  subscribe(el: HTMLElement, callback: (x: boolean) => void): void {
     if (this.#clickListeners.has(el)) {
       this.unsubscribe(el);
     }
@@ -45,14 +45,17 @@ class BslibTaskButtonInputBinding extends InputBinding {
     el.addEventListener("click", eventListener);
   }
 
-  unsubscribe(el: HTMLElement) {
+  unsubscribe(el: HTMLElement): void {
     const listener = this.#clickListeners.get(el);
     if (listener) {
       el.removeEventListener("click", listener);
     }
   }
 
-  async receiveMessage(el: HTMLElement, { state }: TaskButtonMessage) {
+  async receiveMessage(
+    el: HTMLElement,
+    { state }: TaskButtonMessage
+  ): Promise<void> {
     this.#setState(el, state);
   }
 
@@ -69,5 +72,3 @@ class BslibTaskButtonInputBinding extends InputBinding {
     }
   }
 }
-
-registerBinding(BslibTaskButtonInputBinding, "task-button");

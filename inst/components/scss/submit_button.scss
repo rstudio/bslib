@@ -1,0 +1,36 @@
+$prefix: bs- !default;
+
+.bslib-input-textsubmit {
+  display: flex;
+  flex-direction: column;
+  border: var(--#{$prefix}border-width, 1px) solid var(--#{$prefix}gray-500, #ced4da); // bs_theme(preset="shiny") sets input border color to $gray-500
+  border-radius: var(--#{$prefix}border-radius, 4px);
+  padding: 0.5rem;
+  background-color: var(--#{$prefix}body-bg, white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: var(--#{$prefix}primary, #007bff);
+    box-shadow: 0 0 0 var(--#{$prefix}focus-ring-width, 0.25rem) var(--#{$prefix}focus-ring-color, rgba(13, 110, 253, 0.25));
+  }
+
+  textarea {
+    border: none;
+    resize: none;
+    overflow: hidden;
+    min-height: 2rem;
+    background-color: transparent;
+    padding: 0;
+    color: var(--#{$prefix}body-color, #212529);
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  button {
+    align-self: end;
+    margin-top: 0.5rem;
+  }
+}

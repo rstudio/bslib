@@ -35,6 +35,24 @@ function registerBslibGlobal(name: string, value: object): void {
   }
 }
 
+type ShinyClientMessage = {
+  message: string;
+  headline?: string;
+  status?: "error" | "info" | "warning";
+};
+
+function showShinyClientMessage({
+  headline = "",
+  message,
+  status = "warning",
+}: ShinyClientMessage): void {
+  document.dispatchEvent(
+    new CustomEvent("shiny:client-message", {
+      detail: { headline: headline, message: message, status: status },
+    })
+  );
+}
+
 // Return true if the key exists on the object and the value is not undefined.
 //
 // This method is mainly used in input bindings' `receiveMessage` method.
@@ -109,6 +127,7 @@ export {
   doWindowResizeOnElementResize,
   getAllFocusableChildren,
   shinyRenderContent,
+  showShinyClientMessage,
   Shiny,
 };
-export type { HtmlDep };
+export type { HtmlDep, ShinyClientMessage };
