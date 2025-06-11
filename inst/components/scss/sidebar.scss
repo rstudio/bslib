@@ -363,15 +363,17 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   }
 
   // Right sidebar resize handle positioning
-  &.sidebar-right .bslib-sidebar-resize-handle {
+  &.sidebar-right > .sidebar > .bslib-sidebar-resize-handle {
     right: unset;
     left: 1px;
   }
 
   // Hide resize handle during transitions and when collapsed
-  &.transitioning .bslib-sidebar-resize-handle,
-  &.sidebar-collapsed .bslib-sidebar-resize-handle {
-    display: none;
+  &.transitioning,
+  &.sidebar-collapsed {
+      > .sidebar > .bslib-sidebar-resize-handle {
+      display: none;
+    }
   }
 
   // Visual feedback during resize
