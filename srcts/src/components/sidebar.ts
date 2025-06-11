@@ -128,7 +128,7 @@ class Sidebar {
     }
 
     // Initialize resize functionality
-    this._initResize();
+    this._initResizeHandle();
 
     // Start watching the main content area for size changes to ensure Shiny
     // outputs resize appropriately during sidebar transitions.
@@ -285,11 +285,13 @@ class Sidebar {
   }
 
   /**
-   * Initialize resize functionality.
+   * Initialize sidebar resize functionality.
    * @private
    */
-  private _initResize(): void {
-    this._createResizeHandle();
+  private _initResizeHandle(): void {
+    if (!this.layout.resizeHandle) {
+      this._createResizeHandle();
+    }
     this._updateResizeAvailability();
   }
 
@@ -352,6 +354,14 @@ class Sidebar {
 
     // Prevent text selection during resize
     handle.addEventListener("selectstart", (e) => e.preventDefault());
+
+    window.addEventListener("resize", () => {
+      if (!this.windowSize || this.windowSize == this._getWindowSize()) {
+        return;
+      }
+
+      this._updateResizeAvailability();
+    });
   }
 
   /**
