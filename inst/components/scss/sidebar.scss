@@ -369,9 +369,6 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     // Disable text selection during resize
     user-select: none;
 
-    // Add subtle background change during resize
-    background-color: rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.02);
-
     > .sidebar > .bslib-sidebar-resize-handle .resize-indicator {
       background-color: var(--_resize-indicator-color-active);
       width: 4px;
