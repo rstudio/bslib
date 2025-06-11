@@ -495,11 +495,8 @@ class Sidebar {
    * @returns {number}
    */
   private _getCurrentSidebarWidth(): number {
-    const computedStyle = window.getComputedStyle(this.layout.container);
-    const sidebarWidthVar = computedStyle
-      .getPropertyValue("--_sidebar-width")
-      .trim();
-    return parseInt(sidebarWidthVar) || 250;
+    const sidebarWidth = this.layout.sidebar.getBoundingClientRect().width;
+    return sidebarWidth || 250;
   }
 
   /**
