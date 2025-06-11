@@ -899,7 +899,7 @@
           if (this._isCollapsible("desktop") || this._isCollapsible("mobile")) {
             this._initEventListeners();
           }
-          this._initResize();
+          this._initResizeHandle();
           _Sidebar.shinyResizeObserver.observe(this.layout.main);
           container.removeAttribute("data-bslib-sidebar-init");
           const initScript = container.querySelector(
@@ -990,28 +990,24 @@
          * @returns {boolean}
          */
         _shouldEnableResize() {
-          var _a;
           const isDesktop = this._getWindowSize() === "desktop";
-          const isCollapsible = this._isCollapsible("desktop");
-          const notAlwaysOpen = !((_a = this.layout.container.dataset.openDesktop) == null ? void 0 : _a.includes("always"));
           const notTransitioning = !this.layout.container.classList.contains(
             _Sidebar.classes.TRANSITIONING
           );
           const notClosed = !this.isClosed;
           return (
             // Allow resizing only when the sidebar...
-            isDesktop && isCollapsible && notAlwaysOpen && notTransitioning && notClosed
+            isDesktop && notTransitioning && notClosed
           );
         }
         /**
-         * Initialize resize functionality.
+         * Initialize sidebar resize functionality.
          * @private
          */
-        _initResize() {
-          if (!this._isCollapsible("desktop")) {
-            return;
+        _initResizeHandle() {
+          if (!this.layout.resizeHandle) {
+            this._createResizeHandle();
           }
-          this._createResizeHandle();
           this._updateResizeAvailability();
         }
         /**
@@ -1058,6 +1054,12 @@
           document.addEventListener("touchend", this._onResizeEnd.bind(this));
           handle.addEventListener("keydown", this._onResizeKeyDown.bind(this));
           handle.addEventListener("selectstart", (e) => e.preventDefault());
+          window.addEventListener("resize", () => {
+            if (!this.windowSize || this.windowSize == this._getWindowSize()) {
+              return;
+            }
+            this._updateResizeAvailability();
+          });
         }
         /**
          * Handle resize start (mouse/touch down).
