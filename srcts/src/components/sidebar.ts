@@ -273,9 +273,6 @@ class Sidebar {
    */
   private _shouldEnableResize(): boolean {
     const isDesktop = this._getWindowSize() === "desktop";
-    const isCollapsible = this._isCollapsible("desktop");
-    const notAlwaysOpen =
-      !this.layout.container.dataset.openDesktop?.includes("always");
     const notTransitioning = !this.layout.container.classList.contains(
       Sidebar.classes.TRANSITIONING
     );
@@ -283,11 +280,7 @@ class Sidebar {
 
     return (
       // Allow resizing only when the sidebar...
-      isDesktop &&
-      isCollapsible &&
-      notAlwaysOpen &&
-      notTransitioning &&
-      notClosed
+      isDesktop && notTransitioning && notClosed
     );
   }
 
@@ -296,11 +289,6 @@ class Sidebar {
    * @private
    */
   private _initResize(): void {
-    if (!this._isCollapsible("desktop")) {
-      // Only collapsible sidebars can be resized
-      return;
-    }
-
     this._createResizeHandle();
     this._updateResizeAvailability();
   }
