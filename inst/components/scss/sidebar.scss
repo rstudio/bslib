@@ -21,6 +21,8 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
 $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sidebar-width));
 
 .bslib-sidebar-layout {
+  container-type: style;
+
   --_transition-duration: 0; // Transitions are enabled by .transitioning class
   --_transition-easing-x: var(--bslib-sidebar-transition-easing-x, cubic-bezier(0.8, 0.78, 0.22, 1.07));
   --_border: var(--bslib-sidebar-border, #{$bslib-sidebar-border});
@@ -29,7 +31,10 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   --_sidebar-width: var(--bslib-sidebar-width, 250px);
   --_sidebar-bg: var(--bslib-sidebar-bg, #{$bslib-sidebar-bg});
   --_sidebar-fg: var(--bslib-sidebar-fg, #{$bslib-sidebar-fg});
-  --_main-fg: var(--bslib-sidebar-main-fg, var(--bs-card-color, var(--bs-body-color)));
+  --_main-fg: var(--bslib-sidebar-main-fg, var(--bs-body-color));
+  @container style(--bs-card-color: not " ") {
+    --_main-fg: var(--bslib-sidebar-main-fg, var(--bs-card-color, var(--bs-body-color)));
+  }
   --_main-bg: var(--bslib-sidebar-main-bg, transparent);
   --_toggle-bg: var(--bslib-sidebar-toggle-bg, #{$bslib-sidebar-toggle-bg});
   --_padding: var(--bslib-sidebar-padding, var(--bslib-spacer, 1.5rem));
@@ -55,8 +60,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
 
   // Resize handle variables
   --_resize-handle-width: var(--bslib-sidebar-resize-handle-width, 6px);
-  --_resize-indicator-color: var(--bslib-sidebar-resize-indicator-color, rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.1));
-  --_resize-indicator-color-hover: var(--bslib-sidebar-resize-indicator-color-hover, rgba(var(--bs-emphasis-color-rgb, 0,0,0), 0.2));
+  --_resize-indicator-color: var(--_sidebar-fg, var(--bs-emphasis-color, black));
   --_resize-indicator-color-active: var(--bslib-sidebar-resize-indicator-color-active, var(--bs-primary, #0d6efd));
 
   &.transitioning {
@@ -324,13 +328,19 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
       height: 30px;
       transform: translate(-50%, -50%);
       background-color: var(--_resize-indicator-color);
+      opacity: 0.1;
       border-radius: 1px;
       transition: all 0.15s ease;
     }
 
+    &:hover, &:focus, &:active, &:focus {
+      .resize-indicator {
+        opacity: 1;
+      }
+    }
+
     &:hover .resize-indicator,
     &:focus .resize-indicator {
-      background-color: var(--_resize-indicator-color-hover);
       width: 3px;
       height: 40px;
     }
