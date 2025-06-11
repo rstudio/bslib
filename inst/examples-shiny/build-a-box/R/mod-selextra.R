@@ -79,8 +79,12 @@ server_selextra <- function(input, output, session, choices) {
     move(0)
     req(idx)
 
-    if (idx > length(choices_flat)) idx <- 1
-    if (idx <= 0) idx <- length(choices_flat)
+    if (idx > length(choices_flat)) {
+      idx <- 1
+    }
+    if (idx <= 0) {
+      idx <- length(choices_flat)
+    }
 
     updateSelectizeInput(
       session,

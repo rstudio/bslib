@@ -191,7 +191,9 @@ page_fillable <- function(
 }
 
 validateCssPadding <- function(padding = NULL) {
-  if (is.null(padding)) return(NULL)
+  if (is.null(padding)) {
+    return(NULL)
+  }
   paste(
     vapply(padding, validateCssUnit, character(1)),
     collapse = " "
@@ -306,7 +308,9 @@ page_main_container <- function(..., fillable = TRUE) {
 }
 
 maybe_page_sidebar <- function(x) {
-  if (is.null(x)) return(NULL)
+  if (is.null(x)) {
+    return(NULL)
+  }
   if (!inherits(x, "sidebar")) {
     x <- sidebar(x)
   }
@@ -437,13 +441,14 @@ page_navbar <- function(
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
-    function(...)
+    function(...) {
       page_fillable(
         ...,
         fillable_mobile = fillable_mobile,
         padding = 0,
         gap = 0
       )
+    }
   }
 
   navbar <- navs_bar_(

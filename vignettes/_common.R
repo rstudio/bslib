@@ -35,13 +35,17 @@ knitr::opts_hooks$set(
 
 examples_path <- function() {
   doc_name <- sub("[.]Rmd", "", knitr::current_input())
-  if (doc_name == "index") return("examples")
+  if (doc_name == "index") {
+    return("examples")
+  }
   file.path("examples", doc_name)
 }
 
 get_chunk_label <- function(reason) {
   label <- opts_current$get("label")
-  if (!(is.null(label) || grepl("^unnamed", label))) return(label)
+  if (!(is.null(label) || grepl("^unnamed", label))) {
+    return(label)
+  }
   stop("`", reason, "` requires a named chunk label", call. = FALSE)
 }
 
@@ -83,8 +87,11 @@ render_as_image <- function(x, options, ...) {
 
   tryCatch(
     {
-      func <- if (inherits(x, "shiny.appobj")) webshot2::appshot else
+      func <- if (inherits(x, "shiny.appobj")) {
+        webshot2::appshot
+      } else {
         webshot2::webshot
+      }
       func(
         x,
         file,

@@ -324,7 +324,9 @@ with_dir("inst/lib", {
 
   # GitHub reports security issues of devDependencies, but that's irrelevant to us
   remove_dev_dependencies <- function(pkg_file) {
-    if (!file.exists(pkg_file)) return()
+    if (!file.exists(pkg_file)) {
+      return()
+    }
     json <- jsonlite::fromJSON(pkg_file)
     json <- json[setdiff(names(json), "devDependencies")]
     jsonlite::write_json(json, pkg_file, pretty = TRUE, auto_unbox = TRUE)
