@@ -304,7 +304,8 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     top: 0;
     bottom: 0;
     width: var(--_resize-handle-width);
-    right: 1px;
+    left: calc(calc(-1 * var(--_resize-handle-width)) - 2px);
+    grid-column: 2;
     cursor: ew-resize;
     user-select: none;
     z-index: calc(#{$zindex-dropdown} + 1); // Above toggle button
@@ -363,15 +364,14 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   }
 
   // Right sidebar resize handle positioning
-  &.sidebar-right > .sidebar > .bslib-sidebar-resize-handle {
-    right: unset;
-    left: 1px;
+  &.sidebar-right > .bslib-sidebar-resize-handle {
+    left: 2px;
   }
 
   // Hide resize handle during transitions and when collapsed
   &.transitioning,
   &.sidebar-collapsed {
-      > .sidebar > .bslib-sidebar-resize-handle {
+    > .bslib-sidebar-resize-handle {
       display: none;
     }
   }
@@ -381,7 +381,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     // Disable text selection during resize
     user-select: none;
 
-    > .sidebar > .bslib-sidebar-resize-handle .resize-indicator {
+    > .bslib-sidebar-resize-handle .resize-indicator {
       background-color: var(--_resize-indicator-color-active);
       width: 4px;
       height: 50px;

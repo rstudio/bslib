@@ -319,8 +319,8 @@ class Sidebar {
       "Use arrow keys to resize the sidebar, Shift for larger steps, Home/End for min/max width.";
     handle.appendChild(instructions);
 
-    // Insert handle into the sidebar container
-    this.layout.sidebar.appendChild(handle);
+    // Insert handle into the layout container
+    this.layout.container.appendChild(handle);
     this.layout.resizeHandle = handle;
 
     this._attachResizeEventListeners();

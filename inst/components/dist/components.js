@@ -1030,7 +1030,7 @@
           instructions.className = "visually-hidden";
           instructions.textContent = "Use arrow keys to resize the sidebar, Shift for larger steps, Home/End for min/max width.";
           handle.appendChild(instructions);
-          this.layout.sidebar.appendChild(handle);
+          this.layout.container.appendChild(handle);
           this.layout.resizeHandle = handle;
           this._attachResizeEventListeners();
         }
