@@ -165,7 +165,9 @@ update_tooltip <- function(id, ..., session = get_current_session()) {
 }
 
 normalize_show_value <- function(show) {
-  if (is.null(show)) return("toggle")
+  if (is.null(show)) {
+    return("toggle")
+  }
 
   if (length(show) != 1 || !is.logical(show)) {
     abort("`show` must be `TRUE`, `FALSE`, or `NULL`.")

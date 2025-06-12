@@ -194,8 +194,9 @@ navbar_options_resolve_deprecated <- function(
       ),
       details = c(
         "i" = "See `navbar_options()` for more details.",
-        "!" = if ("inverse" %in% args_deprecated)
+        "!" = if ("inverse" %in% args_deprecated) {
           "Use `theme` instead of `inverse` in `navbar_options()`."
+        }
       )
     )
   }

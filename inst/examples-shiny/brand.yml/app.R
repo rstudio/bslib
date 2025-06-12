@@ -59,8 +59,7 @@ if (bslib:::brand_has(brand, "typography", "fonts")) {
         }
       }
     },
-    error = function(err) {
-    }
+    error = function(err) {}
   )
 }
 # ---- For hosted demo, delete if local ----

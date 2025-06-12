@@ -177,12 +177,16 @@ tipsServer <- function(id) {
     })
 
     output$average_bill <- renderUI({
-      if (nrow(tips_data()) == 0) return(HTML("&ndash;"))
+      if (nrow(tips_data()) == 0) {
+        return(HTML("&ndash;"))
+      }
       scales::dollar(mean(tips_data()$total_bill))
     })
 
     output$average_tip <- renderUI({
-      if (nrow(tips_data()) == 0) return(HTML("&ndash;"))
+      if (nrow(tips_data()) == 0) {
+        return(HTML("&ndash;"))
+      }
       d <- tips_data()
       scales::percent(mean(d$tip / d$total_bill))
     })

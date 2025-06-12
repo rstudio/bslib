@@ -99,7 +99,9 @@ bs_theme_dependencies <- function(
 }
 
 maybe_precompiled_css <- function(theme, sass_options, precompiled) {
-  if (!precompiled) return()
+  if (!precompiled) {
+    return()
+  }
   if (!identical(sass_options, sass_options(output_style = "compressed"))) {
     return()
   }
@@ -388,7 +390,9 @@ bs_dependency_defer <- function(func, memoise = TRUE) {
 }
 
 as_bs_theme <- function(theme) {
-  if (is_bs_theme(theme)) return(theme)
+  if (is_bs_theme(theme)) {
+    return(theme)
+  }
 
   # This is a historical artifact that should happen
   if (is_sass_bundle(theme) || inherits(theme, "sass_layer")) {
@@ -398,10 +402,14 @@ as_bs_theme <- function(theme) {
   }
 
   # NULL means default Bootstrap
-  if (is.null(theme)) return(bs_theme())
+  if (is.null(theme)) {
+    return(bs_theme())
+  }
 
   # For example, `bs_theme_dependencies(theme = 4)`
-  if (is.numeric(theme)) return(bs_theme(version = theme))
+  if (is.numeric(theme)) {
+    return(bs_theme(version = theme))
+  }
 
   # For example, `bs_theme_dependencies(theme = 'bootswatch@version')`
   if (is_string(theme)) {

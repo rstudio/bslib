@@ -56,7 +56,9 @@ tag_require_client_side <- function(
 }
 
 tag_add_outer_class <- function(x, class = NULL, ...) {
-  if (is.null(class)) return(x)
+  if (is.null(class)) {
+    return(x)
+  }
 
   if (inherits(x, "shiny.tag")) {
     return(tagAppendAttributes(x, class = class, ...))

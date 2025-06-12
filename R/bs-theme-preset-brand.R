@@ -96,7 +96,9 @@ brand_resolve.list <- function(brand, ...) {
       NULL
     }
   )
-  if (is.null(brand)) return(NULL)
+  if (is.null(brand)) {
+    return(NULL)
+  }
   brand_resolve(brand, ...) # future compat if we add anything to the ...
 }
 
@@ -431,7 +433,9 @@ brand_font_file <- function(family, files, brand_root = getwd()) {
 }
 
 brand_remap_font_weight <- function(x) {
-  if (is.null(x)) return()
+  if (is.null(x)) {
+    return()
+  }
 
   for (i in seq_along(x)) {
     if (x[[i]] %in% names(brand_font_weight_map)) {
@@ -542,7 +546,9 @@ brand_validate_bootstrap_defaults <- function(
   }
 
   is_scalar <- function(v) {
-    if (is.null(v)) return(TRUE)
+    if (is.null(v)) {
+      return(TRUE)
+    }
     rlang::is_scalar_character(v) ||
       rlang::is_scalar_logical(v) ||
       rlang::is_scalar_double(v) ||
@@ -568,13 +574,14 @@ brand_sass_defaults_bootstrap <- function(brand) {
   bootstrap <- brand_pluck(brand, "defaults", "bootstrap")
   shiny <- brand_pluck(brand, "defaults", "shiny", "theme")
 
-  if (is.null(bootstrap) && is.null(shiny))
+  if (is.null(bootstrap) && is.null(shiny)) {
     return(
       list(
         defaults = list(),
         layer = list()
       )
     )
+  }
 
   shiny <- shiny %||% list()
   shiny_defaults <- brand_validate_bootstrap_defaults(
@@ -735,8 +742,12 @@ brand_color_pluck <- function(brand, key) {
   }
 
   check_string_or_null <- function(key, value) {
-    if (is.null(value)) return()
-    if (rlang::is_string(value)) return(value)
+    if (is.null(value)) {
+      return()
+    }
+    if (rlang::is_string(value)) {
+      return(value)
+    }
 
     abort(sprintf("`brand.color.%s` must be a string or `NULL`.", key))
   }
@@ -745,7 +756,9 @@ brand_color_pluck <- function(brand, key) {
   value <- ""
   i <- 0
   while (!identical(value, key)) {
-    if (is.null(key) || is.null(value)) return()
+    if (is.null(key) || is.null(value)) {
+      return()
+    }
 
     i <- i + 1
     if (i > 100) {
@@ -786,7 +799,9 @@ brand_has <- function(brand, ...) {
 
   for (f in c(...)) {
     val <- tryCatch(x[[f]], error = function(e) NULL)
-    if (is.null(val)) return(FALSE)
+    if (is.null(val)) {
+      return(FALSE)
+    }
     x <- x[[f]]
   }
 
@@ -802,12 +817,16 @@ brand_pluck <- function(brand, ...) {
 }
 
 brand_has_string <- function(brand, ...) {
-  if (!brand_has(brand, ...)) return(FALSE)
+  if (!brand_has(brand, ...)) {
+    return(FALSE)
+  }
   rlang::is_string(brand[[c(...)]])
 }
 
 brand_has_list <- function(brand, ...) {
-  if (!brand_has(brand, ...)) return(FALSE)
+  if (!brand_has(brand, ...)) {
+    return(FALSE)
+  }
   rlang::is_list(brand[[c(...)]])
 }
 

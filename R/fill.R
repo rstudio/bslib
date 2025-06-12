@@ -165,7 +165,9 @@ fill_dependency <- local({
   fill_dep <- NULL
 
   function() {
-    if (!is.null(fill_dep)) return(fill_dep)
+    if (!is.null(fill_dep)) {
+      return(fill_dep)
+    }
     fill_dep <<- htmltools::findDependencies(
       htmltools::bindFillRole(htmltools::tags$div(), container = TRUE)
     )[[1]]
@@ -192,7 +194,9 @@ fillable_attributes <- function(
 }
 
 warn_css_selector_null <- function(x) {
-  if (is.null(x)) return()
+  if (is.null(x)) {
+    return()
+  }
 
   rlang::warn(
     "Ignoring non-NULL `css_selector` because an input tag `x` was not provided.",

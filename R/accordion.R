@@ -176,7 +176,9 @@ accordion_panel <- function(title, ..., value = title, icon = NULL) {
     div(class = "accordion-title", title)
   )
 
-  if (!rlang::is_string(value)) abort("`value` must be a character string")
+  if (!rlang::is_string(value)) {
+    abort("`value` must be a character string")
+  }
 
   div(
     class = "accordion-item",

@@ -191,7 +191,13 @@ as.tags.bslib_sidebar <- function(x, ...) {
   is_starts_open <- all(vapply(x$open, identical, logical(1), "open"))
 
   hidden_initially <-
-    if (is_always_open) FALSE else if (is_starts_open) FALSE else TRUE
+    if (is_always_open) {
+      FALSE
+    } else if (is_starts_open) {
+      FALSE
+    } else {
+      TRUE
+    }
 
   collapse_tag <-
     tags$button(
@@ -225,7 +231,9 @@ as.tags.bslib_sidebar <- function(x, ...) {
 }
 
 as_sidebar_open_on <- function(open) {
-  if (is.null(open)) return(NULL)
+  if (is.null(open)) {
+    return(NULL)
+  }
 
   if (rlang::is_list(open)) {
     unknown <- setdiff(names(open), c("desktop", "mobile"))
@@ -289,10 +297,18 @@ sidebar_open_as_string <- function(
 ) {
   error_arg <- deparse(substitute(open))
 
-  if (is.null(open)) return(NULL)
-  if (identical(open, NA)) return("always")
-  if (isTRUE(open)) return("open")
-  if (isFALSE(open)) return("closed")
+  if (is.null(open)) {
+    return(NULL)
+  }
+  if (identical(open, NA)) {
+    return("always")
+  }
+  if (isTRUE(open)) {
+    return("open")
+  }
+  if (isFALSE(open)) {
+    return("closed")
+  }
 
   rlang::arg_match(
     open,
@@ -389,8 +405,9 @@ layout_sidebar <- function(
       !identical(sidebar$open$desktop, "always")
     ),
     `data-bslib-sidebar-border` = if (!is.null(border)) tolower(border),
-    `data-bslib-sidebar-border-radius` = if (!is.null(border_radius))
-      tolower(border_radius),
+    `data-bslib-sidebar-border-radius` = if (!is.null(border_radius)) {
+      tolower(border_radius)
+    },
     style = css(
       "--_sidebar-width" = sidebar$width,
       "--_sidebar-bg" = sidebar$color$bg,
