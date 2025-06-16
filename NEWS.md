@@ -10,6 +10,7 @@
 
 * When `bs_theme(brand = FALSE)` we now correctly do not apply brand theming when a `_brand.yml` file is present in the project. (#1196)
 
+
 # bslib 0.9.0
 
 ## Breaking changes

@@ -16,7 +16,9 @@ bs_sass_files <- function(files, version) {
 
 # Search for one file at a time so we can throw informative errors
 bs_sass_file <- function(file, version) {
-  if (length(file) != 1) stop("file should be of length 1")
+  if (length(file) != 1) {
+    stop("file should be of length 1")
+  }
 
   file <- file.path(
     dirname(file),
@@ -29,17 +31,22 @@ bs_sass_file <- function(file, version) {
     four = path_lib("bs4", "scss", file),
     three = path_lib("bs3", "assets", "stylesheets", "bootstrap", file)
   )
-  if (f == "")
+  if (f == "") {
     stop("The bootstrap stylesheet '", file, "' doesn't exist.", call. = FALSE)
+  }
   sass_file(f)
 }
 
 bootswatch_sass_file <- function(theme, file, version = version_default()) {
-  if (length(file) > 1) stop("file should be of length 1")
+  if (length(file) > 1) {
+    stop("file should be of length 1")
+  }
   theme <- match.arg(theme, bootswatch_themes(version))
   file <- paste0("_", file, ".scss")
   f <- file.path(bootswatch_dist(version), theme, file)
-  if (file.exists(f)) return(sass_file(f))
+  if (file.exists(f)) {
+    return(sass_file(f))
+  }
   stop(
     "Bootswatch file '",
     file,
@@ -67,7 +74,9 @@ rule_bundles <- function(files) {
 
 get_sass_file_path <- function(x) {
   path <- attr(x, "sass_file_path")
-  if (length(path)) return(path)
+  if (length(path)) {
+    return(path)
+  }
 
   stop("Couldn't find file path")
 }

@@ -16,7 +16,9 @@ bootswatch_themes <- function(version = version_default(), full_path = FALSE) {
 #' @family Bootstrap theme utility functions
 #' @export
 theme_bootswatch <- function(theme) {
-  if (!is_bs_theme(theme)) return(NULL)
+  if (!is_bs_theme(theme)) {
+    return(NULL)
+  }
   info <- theme_preset_info(theme)
   if (identical("bootswatch", info$type)) info$name else NULL
 }
@@ -28,7 +30,9 @@ theme_bootswatch <- function(theme) {
 #' @family Bootstrap theme utility functions
 #' @export
 theme_version <- function(theme) {
-  if (!is_bs_theme(theme)) return(NULL)
+  if (!is_bs_theme(theme)) {
+    return(NULL)
+  }
 
   version <- grep("^bs_version_", class(theme), value = TRUE)
   if (length(version) == 1) {
@@ -115,8 +119,11 @@ bootswatch_bundle <- function(bootswatch, version) {
         # For some reason sketchy sets .dropdown-menu{overflow: hidden}
         # but this prevents .dropdown-submenu from working properly
         # https://github.com/rstudio/bootscss/blob/023d455/inst/node_modules/bootswatch/dist/sketchy/_bootswatch.scss#L204
-        if (identical(bootswatch, "sketchy"))
-          ".dropdown-menu{ overflow: inherit; }" else "",
+        if (identical(bootswatch, "sketchy")) {
+          ".dropdown-menu{ overflow: inherit; }"
+        } else {
+          ""
+        },
         # Several Bootswatch themes (e.g., zephyr, simplex, etc) add custom .btn-secondary
         # rules that should also apply to .btn-default
         ".btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-light):not([class*='btn-outline-']) {

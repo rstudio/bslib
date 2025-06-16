@@ -315,12 +315,16 @@ server <- function(input, output, session) {
     do_update <- reactiveVal(TRUE)
 
     observeEvent(input[[var]], ignoreInit = TRUE, ignoreNULL = FALSE, {
-      if (!do_update()) return()
+      if (!do_update()) {
+        return()
+      }
       do_update(FALSE)
       on.exit(do_update(TRUE), add = TRUE)
 
       d <- flights[filter_index(flights), ]
-      if (nrow(d) == 0) return()
+      if (nrow(d) == 0) {
+        return()
+      }
 
       other_vars <- setdiff(names(input_vars), var)
       lapply(other_vars, function(v) {

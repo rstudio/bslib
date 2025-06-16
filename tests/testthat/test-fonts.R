@@ -23,7 +23,9 @@ expect_new_dependencies <- function(input, n = 1) {
   heading <- bs_theme_dependencies(
     bs_theme_update(theme, heading_font = input)
   )
-  if (n_default + n != length(base)) browser()
+  if (n_default + n != length(base)) {
+    browser()
+  }
   expect_equal(n_default + n, length(base))
   expect_equal(n_default + n, length(code))
   expect_equal(n_default + n, length(heading))

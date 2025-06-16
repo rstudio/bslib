@@ -270,8 +270,9 @@ navs_bar_ <- function(
   # navbarPage_() returns a tagList() of the nav and content
   navbar[[1]] <- tagAppendAttributes(
     navbar[[1]],
-    style = if (!is.null(navbar_bg))
-      css(background_color = paste(navbar_bg, "!important")),
+    style = if (!is.null(navbar_bg)) {
+      css(background_color = paste(navbar_bg, "!important"))
+    },
     !!!attribs
   )
 
@@ -307,15 +308,22 @@ navbarPage_ <- function(
   # navbar class based on options
   navbarClass <- "navbar navbar-default"
   position <- match.arg(position)
-  if (!is.null(position))
+  if (!is.null(position)) {
     navbarClass <- paste0(navbarClass, " navbar-", position)
-  if (isTRUE(inverse)) navbarClass <- paste(navbarClass, "navbar-inverse")
+  }
+  if (isTRUE(inverse)) {
+    navbarClass <- paste(navbarClass, "navbar-inverse")
+  }
 
-  if (!is.null(id)) selected <- shiny::restoreInput(id = id, default = selected)
+  if (!is.null(id)) {
+    selected <- shiny::restoreInput(id = id, default = selected)
+  }
 
   # build the tabset
   ulClass <- "nav navbar-nav"
-  if (underline) ulClass <- paste(ulClass, "nav-underline")
+  if (underline) {
+    ulClass <- paste(ulClass, "nav-underline")
+  }
   tabset <- buildTabset(..., ulClass = ulClass, id = id, selected = selected)
 
   containerClass <- paste0("container", if (fluid) "-fluid")
@@ -434,8 +442,9 @@ navbarMenu_ <- function(title, ..., menuName = title, icon = NULL, align) {
       tabs = list2(...),
       # Here for legacy reasons
       # https://github.com/cran/miniUI/blob/74c87d3/R/layout.R#L369
-      iconClass = if (inherits(icon, "shiny.tag"))
-        tagGetAttribute(icon, "class"),
+      iconClass = if (inherits(icon, "shiny.tag")) {
+        tagGetAttribute(icon, "class")
+      },
       icon = icon,
       align = align
     ),
@@ -455,8 +464,9 @@ tabPanel_ <- function(title, ..., value = title, icon = NULL) {
     `data-value` = value,
     # Here for legacy reasons
     # https://github.com/cran/miniUI/blob/74c87d/R/layout.R#L395
-    `data-icon-class` = if (inherits(icon, "shiny.tag"))
-      tagGetAttribute(icon, "class"),
+    `data-icon-class` = if (inherits(icon, "shiny.tag")) {
+      tagGetAttribute(icon, "class")
+    },
     ...
   )
   attr(pane, "_shiny_icon") <- icon
@@ -464,7 +474,9 @@ tabPanel_ <- function(title, ..., value = title, icon = NULL) {
 }
 
 isTabPanel <- function(x) {
-  if (!inherits(x, "shiny.tag")) return(FALSE)
+  if (!inherits(x, "shiny.tag")) {
+    return(FALSE)
+  }
   class <- tagGetAttribute(x, "class") %||% ""
   "tab-pane" %in% strsplit(class, "\\s+")[[1]]
 }
@@ -489,7 +501,9 @@ tabsetPanel_ <- function(
   header = NULL,
   footer = NULL
 ) {
-  if (!is.null(id)) selected <- shiny::restoreInput(id = id, default = selected)
+  if (!is.null(id)) {
+    selected <- shiny::restoreInput(id = id, default = selected)
+  }
 
   type <- match.arg(type)
   tabset <- buildTabset(
@@ -522,7 +536,9 @@ navlistPanel_ <- function(
   fluid = TRUE,
   widths = c(4, 8)
 ) {
-  if (!is.null(id)) selected <- shiny::restoreInput(id = id, default = selected)
+  if (!is.null(id)) {
+    selected <- shiny::restoreInput(id = id, default = selected)
+  }
 
   tabset <- buildTabset(
     ...,
@@ -587,10 +603,14 @@ findAndMarkSelectedTab <- function(tabs, selected, foundSelected) {
 }
 
 prepTabIcon <- function(x = NULL) {
-  if (!inherits(x, "shiny.tag")) return(x)
+  if (!inherits(x, "shiny.tag")) {
+    return(x)
+  }
 
   is_fa <- grepl("fa-", tagGetAttribute(x, "class") %||% "", fixed = TRUE)
-  if (!is_fa) return(x)
+  if (!is_fa) {
+    return(x)
+  }
 
   # specify fixed-width for font-awesome
   tagAppendAttributes(x, class = "fa-fw")
@@ -598,8 +618,11 @@ prepTabIcon <- function(x = NULL) {
 
 # Text filter for navbarMenu's (plain text) separators
 navbarMenuTextFilter <- function(text) {
-  if (grepl("^\\-+$", text)) tags$li(class = "divider") else
+  if (grepl("^\\-+$", text)) {
+    tags$li(class = "divider")
+  } else {
     tags$li(class = "dropdown-header", text)
+  }
 }
 
 # This function is called internally by navbarPage, tabsetPanel
@@ -618,7 +641,9 @@ buildTabset <- function(
   foundSelected <- res$foundSelected
 
   # add input class if we have an id
-  if (!is.null(id)) ulClass <- paste(ulClass, "shiny-tab-input")
+  if (!is.null(id)) {
+    ulClass <- paste(ulClass, "shiny-tab-input")
+  }
 
   if (anyNamed(tabs)) {
     nms <- names(tabs)
