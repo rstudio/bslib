@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   any-project/index: any-project/index.html
@@ -18,7 +18,7 @@ articles:
   utility-classes/index: utility-classes/index.html
   value-boxes/index: value-boxes/index.html
   why-sass/index: why-sass/index.html
-last_built: 2025-04-17T17:23Z
+last_built: 2025-06-16T20:34Z
 urls:
   reference: https://rstudio.github.io/bslib/reference
   article: https://rstudio.github.io/bslib/articles
