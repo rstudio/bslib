@@ -166,7 +166,9 @@ bs_themer_ui <- function(opts, vals, theme) {
                 tools::toTitleCase(x)
               )
             })
-            if (!nzchar(group_name)) return(opts)
+            if (!nzchar(group_name)) {
+              return(opts)
+            }
             tags$optgroup(label = group_name, opts)
           })
         ),
@@ -181,8 +183,11 @@ bs_themer_ui <- function(opts, vals, theme) {
     opt_name <- names(opts)[[i]]
     elId <- paste0("bsthemerCollapse", i)
     btn <- tags$button(
-      class = if (version >= 5) "accordion-button" else
-        "btn btn-link px-3 py-2 w-100 text-left border-0",
+      class = if (version >= 5) {
+        "accordion-button"
+      } else {
+        "btn btn-link px-3 py-2 w-100 text-left border-0"
+      },
       class = if (i != 1) "collapsed",
       "data-toggle" = "collapse",
       "data-target" = paste0("#", elId),
@@ -199,8 +204,11 @@ bs_themer_ui <- function(opts, vals, theme) {
     div(
       class = if (version >= 5) "accordion-item",
       div(
-        class = if (version >= 5) "accordion-header" else
-          "card-header p-0 border-0",
+        class = if (version >= 5) {
+          "accordion-header"
+        } else {
+          "card-header p-0 border-0"
+        },
         btn
       ),
       div(
@@ -640,15 +648,23 @@ spinner_overlay <- function() {
 }
 
 eval_val <- function(x) {
-  if (is.call(x)) return(eval(x))
-  if (!is.list(x)) return(x)
+  if (is.call(x)) {
+    return(eval(x))
+  }
+  if (!is.list(x)) {
+    return(x)
+  }
   lapply(x, eval_val)
 }
 
 insert_font_google_call <- function(val, gfont_info) {
   # val should be a non-empty character string
-  if (!is_string(val)) return(NULL)
-  if (!nzchar(val)) return(NULL)
+  if (!is_string(val)) {
+    return(NULL)
+  }
+  if (!nzchar(val)) {
+    return(NULL)
+  }
   fams <- strsplit(as.character(val), ",")[[1]]
   fams <- vapply(
     fams,
@@ -817,7 +833,9 @@ diff_css_values <- function(a, b) {
   stopifnot(all(!is.na(a)))
   stopifnot(identical(names(a), names(b)))
   stopifnot(is.list(a))
-  if (!is.character(b)) browser()
+  if (!is.character(b)) {
+    browser()
+  }
 
   a_char <- vapply(
     a,

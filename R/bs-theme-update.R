@@ -4,9 +4,15 @@
 
 bs_base_colors <- function(theme, bg = NULL, fg = NULL) {
   assert_bs_theme(theme)
-  if (is.null(bg) && is.null(fg)) return(theme)
-  if (is.null(bg)) stop("Cannot specify bg without fg.")
-  if (is.null(fg)) stop("Cannot specify fg without bg.")
+  if (is.null(bg) && is.null(fg)) {
+    return(theme)
+  }
+  if (is.null(bg)) {
+    stop("Cannot specify bg without fg.")
+  }
+  if (is.null(fg)) {
+    stop("Cannot specify fg without bg.")
+  }
 
   args <- validate_and_normalize_colors(list(bg = bg, fg = fg))
   # In some cases, bg/fg really means $body-bg/$body-color, not $white/$black
@@ -35,8 +41,11 @@ get_base_color_map <- function(theme, decode = TRUE) {
   vars <- switch_version(
     theme,
     three = list("body-bg", if (use_body) "text-color" else "gray-base"),
-    default = if (use_body) list("body-bg", "body-color") else
+    default = if (use_body) {
+      list("body-bg", "body-color")
+    } else {
       list("white", "black")
+    }
   )
   if (decode) {
     setNames(vars, c("bg", "fg"))
@@ -314,7 +323,9 @@ bs3_fonts <- function(args) {
 #' @noRd
 validate_and_normalize_colors <- function(args) {
   args <- dropNulls(args)
-  if (length(args) == 0) return(args)
+  if (length(args) == 0) {
+    return(args)
+  }
 
   is_char <- vapply(args, is.character, logical(1))
   vec_len <- vapply(args, length, integer(1))

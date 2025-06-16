@@ -191,7 +191,9 @@ server <- function(input, output, session) {
     query <- shiny::getQueryString()
     query_has_themer <- "themer" %in% names(query)
 
-    if (!length(query) || !query_has_themer) return(ENABLE_THEMER)
+    if (!length(query) || !query_has_themer) {
+      return(ENABLE_THEMER)
+    }
 
     query$themer %in% c(1, "true", "") || ENABLE_THEMER
   })

@@ -40,7 +40,9 @@ get_exact_version <- function(version) {
 path_inst <- function(...) {
   files <- system_file(..., package = "bslib")
   files_found <- files != ""
-  if (all(files_found)) return(files)
+  if (all(files_found)) {
+    return(files)
+  }
 
   files_not_found <- file.path(...)[!files_found]
   stop(
@@ -63,7 +65,9 @@ is_hosted_app <- function() {
 }
 
 is_shiny_runtime <- function() {
-  if (!is_installed("knitr")) return(FALSE)
+  if (!is_installed("knitr")) {
+    return(FALSE)
+  }
   isTRUE(grepl("^shiny", knitr::opts_knit$get("rmarkdown.runtime")))
 }
 
@@ -101,7 +105,9 @@ names2 <- function(x) {
 }
 
 any_unnamed <- function(x) {
-  if (length(x) == 0) return(FALSE)
+  if (length(x) == 0) {
+    return(FALSE)
+  }
   nms <- names(x)
   is.null(nms) || !all(nzchar(nms))
 }
