@@ -21,6 +21,9 @@ $bslib-sidebar-border: var(--bs-card-border-width, #{$card-border-width}) solid 
 $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sidebar-width));
 
 .bslib-sidebar-layout {
+  // We use container queries to conditionally apply the `--bs-card-color`
+  // variable only when it has a non-space value, otherwise the empty
+  // `--bs-card-color` (from Bootstrap's Sass) unsets `--_main-fg`.
   container-type: style;
 
   --_transition-duration: 0; // Transitions are enabled by .transitioning class
