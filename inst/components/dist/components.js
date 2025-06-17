@@ -985,22 +985,6 @@
           containers.forEach((container) => new _Sidebar(container));
         }
         /**
-         * Check if the sidebar should be resizable in the current state.
-         * @private
-         * @returns {boolean}
-         */
-        _shouldEnableResize() {
-          const isDesktop = this._getWindowSize() === "desktop";
-          const notTransitioning = !this.layout.container.classList.contains(
-            _Sidebar.classes.TRANSITIONING
-          );
-          const notClosed = !this.isClosed;
-          return (
-            // Allow resizing only when the sidebar...
-            isDesktop && notTransitioning && notClosed
-          );
-        }
-        /**
          * Initialize sidebar resize functionality.
          * @private
          */
@@ -1060,6 +1044,22 @@
             }
             this._updateResizeAvailability();
           });
+        }
+        /**
+         * Check if the sidebar should be resizable in the current state.
+         * @private
+         * @returns {boolean}
+         */
+        _shouldEnableResize() {
+          const isDesktop = this._getWindowSize() === "desktop";
+          const notTransitioning = !this.layout.container.classList.contains(
+            _Sidebar.classes.TRANSITIONING
+          );
+          const notClosed = !this.isClosed;
+          return (
+            // Allow resizing only when the sidebar...
+            isDesktop && notTransitioning && notClosed
+          );
         }
         /**
          * Handle resize start (mouse/touch down).
@@ -1165,18 +1165,15 @@
          * @param {number} newWidth
          */
         _updateSidebarWidth(newWidth) {
-          const { container } = this.layout;
+          const { container, resizeHandle } = this.layout;
           container.style.setProperty("--_sidebar-width", `${newWidth}px`);
-          if (this.layout.resizeHandle) {
-            this.layout.resizeHandle.setAttribute(
-              "aria-valuenow",
-              newWidth.toString()
-            );
-            this.layout.resizeHandle.setAttribute(
+          if (resizeHandle) {
+            resizeHandle.setAttribute("aria-valuenow", newWidth.toString());
+            resizeHandle.setAttribute(
               "aria-valuemin",
               this.resizeState.minWidth.toString()
             );
-            this.layout.resizeHandle.setAttribute(
+            resizeHandle.setAttribute(
               "aria-valuemax",
               this.resizeState.maxWidth().toString()
             );
