@@ -503,22 +503,18 @@ class Sidebar {
    * @param {number} newWidth
    */
   private _updateSidebarWidth(newWidth: number): void {
-    const { container } = this.layout;
+    const { container, resizeHandle } = this.layout;
 
-    // Update the CSS custom property that controls sidebar column width
     container.style.setProperty("--_sidebar-width", `${newWidth}px`);
 
-    // Update resize handle accessibility
-    if (this.layout.resizeHandle) {
-      this.layout.resizeHandle.setAttribute(
-        "aria-valuenow",
-        newWidth.toString()
-      );
-      this.layout.resizeHandle.setAttribute(
+    // Update min, max and current width attributes on the resize handle
+    if (resizeHandle) {
+      resizeHandle.setAttribute("aria-valuenow", newWidth.toString());
+      resizeHandle.setAttribute(
         "aria-valuemin",
         this.resizeState.minWidth.toString()
       );
-      this.layout.resizeHandle.setAttribute(
+      resizeHandle.setAttribute(
         "aria-valuemax",
         this.resizeState.maxWidth().toString()
       );
