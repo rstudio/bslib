@@ -267,24 +267,6 @@ class Sidebar {
   }
 
   /**
-   * Check if the sidebar should be resizable in the current state.
-   * @private
-   * @returns {boolean}
-   */
-  private _shouldEnableResize(): boolean {
-    const isDesktop = this._getWindowSize() === "desktop";
-    const notTransitioning = !this.layout.container.classList.contains(
-      Sidebar.classes.TRANSITIONING
-    );
-    const notClosed = !this.isClosed;
-
-    return (
-      // Allow resizing only when the sidebar...
-      isDesktop && notTransitioning && notClosed
-    );
-  }
-
-  /**
    * Initialize sidebar resize functionality.
    * @private
    */
@@ -362,6 +344,24 @@ class Sidebar {
 
       this._updateResizeAvailability();
     });
+  }
+
+  /**
+   * Check if the sidebar should be resizable in the current state.
+   * @private
+   * @returns {boolean}
+   */
+  private _shouldEnableResize(): boolean {
+    const isDesktop = this._getWindowSize() === "desktop";
+    const notTransitioning = !this.layout.container.classList.contains(
+      Sidebar.classes.TRANSITIONING
+    );
+    const notClosed = !this.isClosed;
+
+    return (
+      // Allow resizing only when the sidebar...
+      isDesktop && notTransitioning && notClosed
+    );
   }
 
   /**
