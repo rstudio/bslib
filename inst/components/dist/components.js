@@ -1421,9 +1421,6 @@
         setValue(el, value) {
           el.value = value;
         }
-        // TODO: this depends on a change to Shiny...
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         subscribe(el, callback) {
           function doSendValue() {
             $(el).data("val", el.value);

@@ -1,4 +1,4 @@
-//import type { EventPriority } from "rstudio-shiny/srcts/types/src/inputPolicies/inputPolicy";
+import type { InputSubscribeCallback } from "rstudio-shiny/srcts/types/src/bindings/input/inputBinding";
 import { registerBinding, InputBinding } from "./_utils";
 
 type TextSubmitReceiveMessageData = {
@@ -39,10 +39,7 @@ class TextAreaSubmitInputBinding extends InputBinding {
     el.value = value;
   }
 
-  // TODO: this depends on a change to Shiny...
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  subscribe(el: HTMLTextAreaElement, callback: (x: "event") => void): void {
+  subscribe(el: HTMLTextAreaElement, callback: InputSubscribeCallback): void {
     // Before notifying Shiny of a change, update the proxy value,
     // clear the input, and trigger an input event (for disabled state).
     function doSendValue() {

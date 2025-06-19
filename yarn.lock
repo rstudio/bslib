@@ -302,10 +302,10 @@
   dependencies:
     "@types/sizzle" "*"
 
-"@types/jquery@3.5.14":
-  version "3.5.14"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.14.tgz#ac8e11ee591e94d4d58da602cb3a5a8320dee577"
-  integrity sha512-X1gtMRMbziVQkErhTQmSe2jFwwENA/Zr+PprCkF63vFq+Yt5PZ4AlKqgmeNlwgn7dhsXEK888eIW2520EpC+xg==
+"@types/jquery@3.5.32":
+  version "3.5.32"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.32.tgz#3eb0da20611b92c7c49ebed6163b52a4fdc57def"
+  integrity sha512-b9Xbf4CkMqS02YH8zACqN1xzdxc3cO735Qe5AbSUFmyOiaWAbcpqh9Wna+Uk0vgACvoQHpWDg2rGdHkYPLmCiQ==
   dependencies:
     "@types/sizzle" "*"
 
@@ -325,14 +325,14 @@
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
 "@types/rstudio-shiny@https://github.com/rstudio/shiny#main":
-  version "1.8.1-alpha.9001"
-  resolved "https://github.com/rstudio/shiny#15b5fa6c01197a1c9fca33ff103eeb7250ffa870"
+  version "1.10.0-alpha.9001"
+  resolved "https://github.com/rstudio/shiny#b25e6feabb04805c3e65ef41604db2b7726a0293"
   dependencies:
     "@types/bootstrap" "3.4.0"
     "@types/bootstrap-datepicker" "0.0.14"
     "@types/datatables.net" "^1.10.19"
     "@types/ion-rangeslider" "2.3.0"
-    "@types/jquery" "3.5.14"
+    "@types/jquery" "3.5.32"
     "@types/selectize" "0.12.34"
     lit "^3.0.0"
 
