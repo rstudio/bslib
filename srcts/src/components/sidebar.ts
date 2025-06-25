@@ -337,13 +337,13 @@ class Sidebar {
     // Prevent text selection during resize
     handle.addEventListener("selectstart", (e) => e.preventDefault());
 
-    window.addEventListener("resize", () => {
-      if (!this.windowSize || this.windowSize == this._getWindowSize()) {
-        return;
-      }
-
-      this._updateResizeAvailability();
-    });
+    window.addEventListener(
+      "resize",
+      whenChangedCallback(
+        () => this._getWindowSize(),
+        () => this._updateResizeAvailability()
+      )
+    );
   }
 
   /**
@@ -595,10 +595,13 @@ class Sidebar {
 
     // The sidebar is *sometimes* collapsible, so we need to handle window
     // resize events to ensure visibility and expected behavior.
-    window.addEventListener("resize", () => {
-      this._handleWindowResizeEvent();
-      this._updateResizeAvailability();
-    });
+    window.addEventListener(
+      "resize",
+      whenChangedCallback(
+        () => this._getWindowSize(),
+        () => this._initSidebarState()
+      )
+    );
   }
 
   /**
@@ -725,20 +728,6 @@ class Sidebar {
   private windowSize: SidebarWindowSize | "" = "";
 
   /**
-   * Updates the sidebar state when the window is resized across the mobile-
-   * desktop boundary.
-   */
-  private _handleWindowResizeEvent(): void {
-    const newSize = this._getWindowSize();
-    if (!newSize || newSize == this.windowSize) {
-      return;
-    }
-
-    // Re-initializing for the new size also updates the tracked window size
-    this._initSidebarState();
-  }
-
-  /**
    * Toggle the sidebar's open/closed state.
    * @public
    * @param {SidebarToggleMethod | undefined} method Whether to `"open"`,
@@ -817,6 +806,23 @@ class Sidebar {
     $(sidebar).trigger("toggleCollapse.sidebarInputBinding");
     $(sidebar).trigger(this.isClosed ? "hidden" : "shown");
   }
+}
+
+function whenChangedCallback(
+  watchFn: () => unknown,
+  callback: () => void
+): () => void {
+  let lastValue = watchFn();
+
+  return () => {
+    const currentValue = watchFn();
+
+    if (currentValue !== lastValue) {
+      callback();
+    }
+
+    lastValue = currentValue;
+  };
 }
 
 /**
