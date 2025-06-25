@@ -847,7 +847,7 @@
   });
 
   // srcts/src/components/sidebar.ts
-  function onWatchedUpdate(watchFn, callback) {
+  function whenChangedCallback(watchFn, callback) {
     let lastValue = watchFn();
     return () => {
       const currentValue = watchFn();
@@ -1050,7 +1050,7 @@
           handle.addEventListener("selectstart", (e) => e.preventDefault());
           window.addEventListener(
             "resize",
-            onWatchedUpdate(
+            whenChangedCallback(
               () => this._getWindowSize(),
               () => this._updateResizeAvailability()
             )
@@ -1251,7 +1251,7 @@
           }
           window.addEventListener(
             "resize",
-            onWatchedUpdate(
+            whenChangedCallback(
               () => this._getWindowSize(),
               () => this._initSidebarState()
             )
