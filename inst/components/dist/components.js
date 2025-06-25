@@ -847,6 +847,16 @@
   });
 
   // srcts/src/components/sidebar.ts
+  function onWatchedUpdate(watchFn, callback) {
+    let lastValue = watchFn();
+    return () => {
+      const currentValue = watchFn();
+      if (currentValue !== lastValue) {
+        callback();
+      }
+      lastValue = currentValue;
+    };
+  }
   var _Sidebar, Sidebar, SidebarInputBinding;
   var init_sidebar = __esm({
     "srcts/src/components/sidebar.ts"() {
@@ -1038,12 +1048,13 @@
           document.addEventListener("touchend", this._onResizeEnd.bind(this));
           handle.addEventListener("keydown", this._onResizeKeyDown.bind(this));
           handle.addEventListener("selectstart", (e) => e.preventDefault());
-          window.addEventListener("resize", () => {
-            if (!this.windowSize || this.windowSize == this._getWindowSize()) {
-              return;
-            }
-            this._updateResizeAvailability();
-          });
+          window.addEventListener(
+            "resize",
+            onWatchedUpdate(
+              () => this._getWindowSize(),
+              () => this._updateResizeAvailability()
+            )
+          );
         }
         /**
          * Check if the sidebar should be resizable in the current state.
@@ -1238,10 +1249,13 @@
           if (this._isCollapsible("desktop") && this._isCollapsible("mobile")) {
             return;
           }
-          window.addEventListener("resize", () => {
-            this._handleWindowResizeEvent();
-            this._updateResizeAvailability();
-          });
+          window.addEventListener(
+            "resize",
+            onWatchedUpdate(
+              () => this._getWindowSize(),
+              () => this._initSidebarState()
+            )
+          );
         }
         /**
          * Initialize nested sidebar counters.
@@ -1329,17 +1343,6 @@
           this.windowSize = this._getWindowSize();
           const initState = this._initialToggleState();
           this.toggle(initState, true);
-        }
-        /**
-         * Updates the sidebar state when the window is resized across the mobile-
-         * desktop boundary.
-         */
-        _handleWindowResizeEvent() {
-          const newSize = this._getWindowSize();
-          if (!newSize || newSize == this.windowSize) {
-            return;
-          }
-          this._initSidebarState();
         }
         /**
          * Toggle the sidebar's open/closed state.
