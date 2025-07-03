@@ -1006,7 +1006,10 @@
          */
         _initResizeHandle() {
           if (!this.layout.resizeHandle) {
-            this._createResizeHandle();
+            const handle = this._createResizeHandle();
+            this.layout.container.appendChild(handle);
+            this.layout.resizeHandle = handle;
+            this._attachResizeEventListeners(handle);
           }
           this._updateResizeAvailability();
         }
@@ -1030,18 +1033,13 @@
           instructions.className = "visually-hidden";
           instructions.textContent = "Use arrow keys to resize the sidebar, Shift for larger steps, Home/End for min/max width.";
           handle.appendChild(instructions);
-          this.layout.container.appendChild(handle);
-          this.layout.resizeHandle = handle;
-          this._attachResizeEventListeners();
+          return handle;
         }
         /**
          * Attach event listeners for resize functionality.
          * @private
          */
-        _attachResizeEventListeners() {
-          if (!this.layout.resizeHandle)
-            return;
-          const handle = this.layout.resizeHandle;
+        _attachResizeEventListeners(handle) {
           handle.addEventListener("mousedown", this._onResizeStart.bind(this));
           document.addEventListener("mousemove", this._onResizeMove.bind(this));
           document.addEventListener("mouseup", this._onResizeEnd.bind(this));

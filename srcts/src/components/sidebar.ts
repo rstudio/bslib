@@ -278,7 +278,12 @@ class Sidebar {
    */
   private _initResizeHandle(): void {
     if (!this.layout.resizeHandle) {
-      this._createResizeHandle();
+      const handle = this._createResizeHandle();
+      // Insert handle into the layout container
+      this.layout.container.appendChild(handle);
+      this.layout.resizeHandle = handle;
+
+      this._attachResizeEventListeners(handle);
     }
     this._updateResizeAvailability();
   }
@@ -287,7 +292,7 @@ class Sidebar {
    * Create the resize handle element.
    * @private
    */
-  private _createResizeHandle(): void {
+  private _createResizeHandle(): HTMLDivElement {
     const handle = document.createElement("div");
     handle.className = Sidebar.classes.RESIZE_HANDLE;
     handle.setAttribute("role", "separator");
@@ -307,22 +312,14 @@ class Sidebar {
       "Use arrow keys to resize the sidebar, Shift for larger steps, Home/End for min/max width.";
     handle.appendChild(instructions);
 
-    // Insert handle into the layout container
-    this.layout.container.appendChild(handle);
-    this.layout.resizeHandle = handle;
-
-    this._attachResizeEventListeners();
+    return handle;
   }
 
   /**
    * Attach event listeners for resize functionality.
    * @private
    */
-  private _attachResizeEventListeners(): void {
-    if (!this.layout.resizeHandle) return;
-
-    const handle = this.layout.resizeHandle;
-
+  private _attachResizeEventListeners(handle: HTMLDivElement): void {
     // Mouse events
     handle.addEventListener("mousedown", this._onResizeStart.bind(this));
     document.addEventListener("mousemove", this._onResizeMove.bind(this));
