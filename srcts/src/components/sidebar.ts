@@ -98,7 +98,7 @@ class Sidebar {
         this.resizeState.minWidth,
         Math.min(this.resizeState.maxWidth(), width)
       );
-    }
+    },
   };
 
   /**
