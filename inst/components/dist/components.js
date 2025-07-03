@@ -1087,8 +1087,10 @@
           this.resizeState.startWidth = this._getCurrentSidebarWidth();
           this.layout.container.style.setProperty("--_transition-duration", "0ms");
           this.layout.container.classList.add(_Sidebar.classes.RESIZING);
-          document.body.style.cursor = "ew-resize";
-          document.body.style.userSelect = "none";
+          document.documentElement.setAttribute(
+            `data-bslib-${_Sidebar.classes.RESIZING}`,
+            "true"
+          );
           this._dispatchResizeEvent("start", this.resizeState.startWidth);
         }
         /**
@@ -1121,8 +1123,9 @@
           this.resizeState.isResizing = false;
           this.layout.container.style.removeProperty("--_transition-duration");
           this.layout.container.classList.remove(_Sidebar.classes.RESIZING);
-          document.body.style.cursor = "";
-          document.body.style.userSelect = "";
+          document.documentElement.removeAttribute(
+            `data-bslib-${_Sidebar.classes.RESIZING}`
+          );
           _Sidebar.shinyResizeObserver.flush();
           this._dispatchResizeEvent("end", this._getCurrentSidebarWidth());
         }
