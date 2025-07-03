@@ -1087,7 +1087,7 @@
           this.resizeState.startWidth = this._getCurrentSidebarWidth();
           this.layout.container.style.setProperty("--_transition-duration", "0ms");
           this.layout.container.classList.add(_Sidebar.classes.RESIZING);
-          document.body.style.cursor = this._isRightSidebar() ? "ew-resize" : "ew-resize";
+          document.body.style.cursor = "ew-resize";
           document.body.style.userSelect = "none";
           this._dispatchResizeEvent("start", this.resizeState.startWidth);
         }
