@@ -386,9 +386,7 @@ class Sidebar {
     this.layout.container.classList.add(Sidebar.classes.RESIZING);
 
     // Change mouse cursor and prevent text selection
-    document.body.style.cursor = this._isRightSidebar()
-      ? "ew-resize"
-      : "ew-resize";
+    document.body.style.cursor = "ew-resize";
     document.body.style.userSelect = "none";
 
     this._dispatchResizeEvent("start", this.resizeState.startWidth);
