@@ -10,7 +10,7 @@
 
 * When `bs_theme(brand = FALSE)` we now correctly do not apply brand theming when a `_brand.yml` file is present in the project. (#1196)
 
-* Collapsible sidebars from `page_sidebar()` and `layout_sidebar()` are now also resizable, allowing users to resize the sidebar width as desired. (#1217)
+* Sidebars from `page_sidebar()` and `layout_sidebar()` are now resizable on desktop-sized screen widths, allowing users to resize the sidebar width as desired. (#1217)
 
 # bslib 0.9.0
 
