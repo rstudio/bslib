@@ -385,9 +385,10 @@ class Sidebar {
     this.layout.container.style.setProperty("--_transition-duration", "0ms");
     this.layout.container.classList.add(Sidebar.classes.RESIZING);
 
-    // Change mouse cursor and prevent text selection
-    document.body.style.cursor = "ew-resize";
-    document.body.style.userSelect = "none";
+    document.documentElement.setAttribute(
+      `data-bslib-${Sidebar.classes.RESIZING}`,
+      "true"
+    );
 
     this._dispatchResizeEvent("start", this.resizeState.startWidth);
   }
@@ -436,8 +437,9 @@ class Sidebar {
     this.layout.container.classList.remove(Sidebar.classes.RESIZING);
 
     // Reset cursor and text selection resizing changes
-    document.body.style.cursor = "";
-    document.body.style.userSelect = "";
+    document.documentElement.removeAttribute(
+      `data-bslib-${Sidebar.classes.RESIZING}`
+    );
 
     // Dispatch resize end event
     Sidebar.shinyResizeObserver.flush();
