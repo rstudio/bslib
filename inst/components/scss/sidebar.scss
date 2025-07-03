@@ -62,7 +62,7 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
   --_toggle-collective-height: calc(calc(var(--_icon-button-size) + 0.5em) * var(--_js-toggle-count-max-side, 1));
 
   // Resize handle variables
-  --_resize-handle-width: var(--bslib-sidebar-resize-handle-width, 6px);
+  --_resize-handle-width: var(--bslib-sidebar-resize-handle-width, 12px);
   --_resize-indicator-color: var(--_sidebar-fg, var(--bs-emphasis-color, black));
   --_resize-indicator-color-active: var(--bslib-sidebar-resize-indicator-color-active, var(--bs-primary, #0d6efd));
 
@@ -319,15 +319,16 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
       position: absolute;
       top: 0;
       bottom: 0;
-      left: -4px;
-      right: -4px;
       // Invisible expanded hit area
+      left: 0;
+      right: calc(-1 * var(--_resize-handle-width) - 2px);
+      z-index: calc(#{$zindex-dropdown} + 1); // Above toggle button
     }
 
     .resize-indicator {
       position: absolute;
       top: 50%;
-      left: 50%;
+      right: 2px;
       width: 2px;
       height: 30px;
       transform: translate(-50%, -50%);
