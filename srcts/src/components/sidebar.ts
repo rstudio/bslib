@@ -580,7 +580,6 @@ class Sidebar {
       .querySelector(".collapse-icon")
       ?.addEventListener("transitionend", () => {
         this._finalizeState();
-        this._updateResizeAvailability();
       });
 
     if (this._isCollapsible("desktop") && this._isCollapsible("mobile")) {

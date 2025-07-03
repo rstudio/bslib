@@ -1244,7 +1244,6 @@
           });
           (_a = toggle.querySelector(".collapse-icon")) == null ? void 0 : _a.addEventListener("transitionend", () => {
             this._finalizeState();
-            this._updateResizeAvailability();
           });
           if (this._isCollapsible("desktop") && this._isCollapsible("mobile")) {
             return;
