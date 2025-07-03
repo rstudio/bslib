@@ -847,6 +847,16 @@
   });
 
   // srcts/src/components/sidebar.ts
+  function whenChangedCallback(watchFn, callback) {
+    let lastValue = watchFn();
+    return () => {
+      const currentValue = watchFn();
+      if (currentValue !== lastValue) {
+        callback();
+      }
+      lastValue = currentValue;
+    };
+  }
   var _Sidebar, Sidebar, SidebarInputBinding;
   var init_sidebar = __esm({
     "srcts/src/components/sidebar.ts"() {
@@ -860,6 +870,23 @@
          * @param {HTMLElement} container
          */
         constructor(container) {
+          /**
+           * Resize state tracking
+           * @private
+           */
+          this.resizeState = {
+            isResizing: false,
+            startX: 0,
+            startWidth: 0,
+            minWidth: 150,
+            maxWidth: () => window.innerWidth - 50,
+            constrainedWidth: (width) => {
+              return Math.max(
+                this.resizeState.minWidth,
+                Math.min(this.resizeState.maxWidth(), width)
+              );
+            }
+          };
           /**
            * The current window size, either `"desktop"` or `"mobile"`.
            * @private
@@ -888,6 +915,7 @@
           if (this._isCollapsible("desktop") || this._isCollapsible("mobile")) {
             this._initEventListeners();
           }
+          this._initResizeHandle();
           _Sidebar.shinyResizeObserver.observe(this.layout.main);
           container.removeAttribute("data-bslib-sidebar-init");
           const initScript = container.querySelector(
@@ -973,6 +1001,237 @@
           containers.forEach((container) => new _Sidebar(container));
         }
         /**
+         * Initialize sidebar resize functionality.
+         * @private
+         */
+        _initResizeHandle() {
+          if (!this.layout.resizeHandle) {
+            const handle = this._createResizeHandle();
+            this.layout.container.appendChild(handle);
+            this.layout.resizeHandle = handle;
+            this._attachResizeEventListeners(handle);
+          }
+          this._updateResizeAvailability();
+        }
+        /**
+         * Create the resize handle element.
+         * @private
+         */
+        _createResizeHandle() {
+          const handle = document.createElement("div");
+          handle.className = _Sidebar.classes.RESIZE_HANDLE;
+          handle.setAttribute("role", "separator");
+          handle.setAttribute("aria-orientation", "vertical");
+          handle.setAttribute("aria-label", "Resize sidebar");
+          handle.setAttribute("tabindex", "0");
+          handle.setAttribute("aria-keyshortcuts", "ArrowLeft ArrowRight Home End");
+          handle.title = "Drag to resize sidebar";
+          const indicator = document.createElement("div");
+          indicator.className = "resize-indicator";
+          handle.appendChild(indicator);
+          const instructions = document.createElement("div");
+          instructions.className = "visually-hidden";
+          instructions.textContent = "Use arrow keys to resize the sidebar, Shift for larger steps, Home/End for min/max width.";
+          handle.appendChild(instructions);
+          return handle;
+        }
+        /**
+         * Attach event listeners for resize functionality.
+         * @private
+         */
+        _attachResizeEventListeners(handle) {
+          handle.addEventListener("mousedown", this._onResizeStart.bind(this));
+          document.addEventListener("mousemove", this._onResizeMove.bind(this));
+          document.addEventListener("mouseup", this._onResizeEnd.bind(this));
+          handle.addEventListener("touchstart", this._onResizeStart.bind(this), {
+            passive: false
+          });
+          document.addEventListener("touchmove", this._onResizeMove.bind(this), {
+            passive: false
+          });
+          document.addEventListener("touchend", this._onResizeEnd.bind(this));
+          handle.addEventListener("keydown", this._onResizeKeyDown.bind(this));
+          window.addEventListener(
+            "resize",
+            whenChangedCallback(
+              () => this._getWindowSize(),
+              () => this._updateResizeAvailability()
+            )
+          );
+        }
+        /**
+         * Check if the sidebar should be resizable in the current state.
+         * @private
+         * @returns {boolean}
+         */
+        _shouldEnableResize() {
+          const isDesktop = this._getWindowSize() === "desktop";
+          const notTransitioning = !this.layout.container.classList.contains(
+            _Sidebar.classes.TRANSITIONING
+          );
+          const notClosed = !this.isClosed;
+          return (
+            // Allow resizing only when the sidebar...
+            isDesktop && notTransitioning && notClosed
+          );
+        }
+        /**
+         * Handle resize start (mouse/touch down).
+         * @private
+         * @param {MouseEvent | TouchEvent} event
+         */
+        _onResizeStart(event) {
+          if (!this._shouldEnableResize())
+            return;
+          event.preventDefault();
+          const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
+          this.resizeState.isResizing = true;
+          this.resizeState.startX = clientX;
+          this.resizeState.startWidth = this._getCurrentSidebarWidth();
+          this.layout.container.style.setProperty("--_transition-duration", "0ms");
+          this.layout.container.classList.add(_Sidebar.classes.RESIZING);
+          document.documentElement.setAttribute(
+            `data-bslib-${_Sidebar.classes.RESIZING}`,
+            "true"
+          );
+          this._dispatchResizeEvent("start", this.resizeState.startWidth);
+        }
+        /**
+         * Handle resize move (mouse/touch move).
+         * @private
+         * @param {MouseEvent | TouchEvent} event
+         */
+        _onResizeMove(event) {
+          if (!this.resizeState.isResizing)
+            return;
+          event.preventDefault();
+          const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
+          const deltaX = clientX - this.resizeState.startX;
+          const isRight = this._isRightSidebar();
+          const newWidth = isRight ? this.resizeState.startWidth - deltaX : this.resizeState.startWidth + deltaX;
+          const constrainedWidth = this.resizeState.constrainedWidth(newWidth);
+          this._updateSidebarWidth(constrainedWidth);
+          this._dispatchResizeEvent("move", constrainedWidth);
+        }
+        /**
+         * Handle resize end (mouse/touch up).
+         * @private
+         */
+        _onResizeEnd() {
+          if (!this.resizeState.isResizing)
+            return;
+          this.resizeState.isResizing = false;
+          this.layout.container.style.removeProperty("--_transition-duration");
+          this.layout.container.classList.remove(_Sidebar.classes.RESIZING);
+          document.documentElement.removeAttribute(
+            `data-bslib-${_Sidebar.classes.RESIZING}`
+          );
+          _Sidebar.shinyResizeObserver.flush();
+          this._dispatchResizeEvent("end", this._getCurrentSidebarWidth());
+        }
+        /**
+         * Handle keyboard events for resize accessibility.
+         * @private
+         * @param {KeyboardEvent} event
+         */
+        _onResizeKeyDown(event) {
+          if (!this._shouldEnableResize())
+            return;
+          const step = event.shiftKey ? 50 : 10;
+          let newWidth = this._getCurrentSidebarWidth();
+          switch (event.key) {
+            case "ArrowLeft":
+              newWidth = this._isRightSidebar() ? newWidth + step : newWidth - step;
+              break;
+            case "ArrowRight":
+              newWidth = this._isRightSidebar() ? newWidth - step : newWidth + step;
+              break;
+            case "Home":
+              newWidth = this.resizeState.minWidth;
+              break;
+            case "End":
+              newWidth = this.resizeState.maxWidth();
+              break;
+            default:
+              return;
+          }
+          event.preventDefault();
+          newWidth = this.resizeState.constrainedWidth(newWidth);
+          this._updateSidebarWidth(newWidth);
+          _Sidebar.shinyResizeObserver.flush();
+          this._dispatchResizeEvent("keyboard", newWidth);
+        }
+        /**
+         * Get the current sidebar width in pixels.
+         * @private
+         * @returns {number}
+         */
+        _getCurrentSidebarWidth() {
+          const sidebarWidth = this.layout.sidebar.getBoundingClientRect().width;
+          return sidebarWidth || 250;
+        }
+        /**
+         * Update the sidebar width.
+         * @private
+         * @param {number} newWidth
+         */
+        _updateSidebarWidth(newWidth) {
+          const { container, resizeHandle } = this.layout;
+          container.style.setProperty("--_sidebar-width", `${newWidth}px`);
+          if (resizeHandle) {
+            resizeHandle.setAttribute("aria-valuenow", newWidth.toString());
+            resizeHandle.setAttribute(
+              "aria-valuemin",
+              this.resizeState.minWidth.toString()
+            );
+            resizeHandle.setAttribute(
+              "aria-valuemax",
+              this.resizeState.maxWidth().toString()
+            );
+          }
+        }
+        /**
+         * Check if this is a right-aligned sidebar.
+         * @private
+         * @returns {boolean}
+         */
+        _isRightSidebar() {
+          return this.layout.container.classList.contains("sidebar-right");
+        }
+        /**
+         * Update resize handle availability based on current state.
+         * @private
+         */
+        _updateResizeAvailability() {
+          if (!this.layout.resizeHandle)
+            return;
+          const shouldEnable = this._shouldEnableResize();
+          this.layout.resizeHandle.style.display = shouldEnable ? "" : "none";
+          this.layout.resizeHandle.setAttribute(
+            "aria-hidden",
+            shouldEnable ? "false" : "true"
+          );
+          if (shouldEnable) {
+            this.layout.resizeHandle.setAttribute("tabindex", "0");
+          } else {
+            this.layout.resizeHandle.removeAttribute("tabindex");
+          }
+        }
+        /**
+         * Dispatch a custom resize event.
+         * @private
+         * @param {string} phase The phase of the resize event lifecycle, e.g.
+         *   "start", "move", "end", or "keyboard".
+         * @param {number} width The new width of the sidebar in pixels.
+         */
+        _dispatchResizeEvent(phase, width) {
+          const event = new CustomEvent("bslib.sidebar.resize", {
+            bubbles: true,
+            detail: { phase, width, sidebar: this }
+          });
+          this.layout.sidebar.dispatchEvent(event);
+        }
+        /**
          * Initialize event listeners for the sidebar toggle button.
          * @private
          */
@@ -983,11 +1242,19 @@
             ev.preventDefault();
             this.toggle("toggle");
           });
-          (_a = toggle.querySelector(".collapse-icon")) == null ? void 0 : _a.addEventListener("transitionend", () => this._finalizeState());
+          (_a = toggle.querySelector(".collapse-icon")) == null ? void 0 : _a.addEventListener("transitionend", () => {
+            this._finalizeState();
+          });
           if (this._isCollapsible("desktop") && this._isCollapsible("mobile")) {
             return;
           }
-          window.addEventListener("resize", () => this._handleWindowResizeEvent());
+          window.addEventListener(
+            "resize",
+            whenChangedCallback(
+              () => this._getWindowSize(),
+              () => this._initSidebarState()
+            )
+          );
         }
         /**
          * Initialize nested sidebar counters.
@@ -1077,17 +1344,6 @@
           this.toggle(initState, true);
         }
         /**
-         * Updates the sidebar state when the window is resized across the mobile-
-         * desktop boundary.
-         */
-        _handleWindowResizeEvent() {
-          const newSize = this._getWindowSize();
-          if (!newSize || newSize == this.windowSize) {
-            return;
-          }
-          this._initSidebarState();
-        }
-        /**
          * Toggle the sidebar's open/closed state.
          * @public
          * @param {SidebarToggleMethod | undefined} method Whether to `"open"`,
@@ -1134,6 +1390,7 @@
           container.classList.remove(_Sidebar.classes.TRANSITIONING);
           sidebar.hidden = this.isClosed;
           toggle.setAttribute("aria-expanded", this.isClosed ? "false" : "true");
+          this._updateResizeAvailability();
           const event = new CustomEvent("bslib.sidebar", {
             bubbles: true,
             detail: { open: !this.isClosed }
@@ -1165,7 +1422,11 @@
         // eslint-disable-next-line @typescript-eslint/naming-convention
         COLLAPSE: "sidebar-collapsed",
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        TRANSITIONING: "transitioning"
+        TRANSITIONING: "transitioning",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        RESIZE_HANDLE: "bslib-sidebar-resize-handle",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        RESIZING: "sidebar-resizing"
       };
       /**
        * If sidebars are initialized before the DOM is ready, we re-schedule the
