@@ -1047,7 +1047,6 @@
           });
           document.addEventListener("touchend", this._onResizeEnd.bind(this));
           handle.addEventListener("keydown", this._onResizeKeyDown.bind(this));
-          handle.addEventListener("selectstart", (e) => e.preventDefault());
           window.addEventListener(
             "resize",
             whenChangedCallback(

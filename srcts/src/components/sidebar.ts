@@ -334,9 +334,6 @@ class Sidebar {
     // Keyboard events for accessibility
     handle.addEventListener("keydown", this._onResizeKeyDown.bind(this));
 
-    // Prevent text selection during resize
-    handle.addEventListener("selectstart", (e) => e.preventDefault());
-
     window.addEventListener(
       "resize",
       whenChangedCallback(
