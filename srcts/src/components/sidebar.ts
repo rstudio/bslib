@@ -93,6 +93,12 @@ class Sidebar {
     startWidth: 0,
     minWidth: 150,
     maxWidth: () => window.innerWidth - 50,
+    constrainedWidth: (width: number): number => {
+      return Math.max(
+        this.resizeState.minWidth,
+        Math.min(this.resizeState.maxWidth(), width)
+      );
+    }
   };
 
   /**
@@ -411,10 +417,7 @@ class Sidebar {
       : this.resizeState.startWidth + deltaX;
 
     // Constrain within bounds
-    const constrainedWidth = Math.max(
-      this.resizeState.minWidth,
-      Math.min(this.resizeState.maxWidth(), newWidth)
-    );
+    const constrainedWidth = this.resizeState.constrainedWidth(newWidth);
 
     this._updateSidebarWidth(constrainedWidth);
     this._dispatchResizeEvent("move", constrainedWidth);
@@ -474,10 +477,7 @@ class Sidebar {
     event.preventDefault();
 
     // Constrain within bounds
-    newWidth = Math.max(
-      this.resizeState.minWidth,
-      Math.min(this.resizeState.maxWidth(), newWidth)
-    );
+    newWidth = this.resizeState.constrainedWidth(newWidth);
 
     this._updateSidebarWidth(newWidth);
     Sidebar.shinyResizeObserver.flush();

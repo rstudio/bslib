@@ -879,7 +879,13 @@
             startX: 0,
             startWidth: 0,
             minWidth: 150,
-            maxWidth: () => window.innerWidth - 50
+            maxWidth: () => window.innerWidth - 50,
+            constrainedWidth: (width) => {
+              return Math.max(
+                this.resizeState.minWidth,
+                Math.min(this.resizeState.maxWidth(), width)
+              );
+            }
           };
           /**
            * The current window size, either `"desktop"` or `"mobile"`.
@@ -1105,10 +1111,7 @@
           const deltaX = clientX - this.resizeState.startX;
           const isRight = this._isRightSidebar();
           const newWidth = isRight ? this.resizeState.startWidth - deltaX : this.resizeState.startWidth + deltaX;
-          const constrainedWidth = Math.max(
-            this.resizeState.minWidth,
-            Math.min(this.resizeState.maxWidth(), newWidth)
-          );
+          const constrainedWidth = this.resizeState.constrainedWidth(newWidth);
           this._updateSidebarWidth(constrainedWidth);
           this._dispatchResizeEvent("move", constrainedWidth);
         }
@@ -1155,10 +1158,7 @@
               return;
           }
           event.preventDefault();
-          newWidth = Math.max(
-            this.resizeState.minWidth,
-            Math.min(this.resizeState.maxWidth(), newWidth)
-          );
+          newWidth = this.resizeState.constrainedWidth(newWidth);
           this._updateSidebarWidth(newWidth);
           _Sidebar.shinyResizeObserver.flush();
           this._dispatchResizeEvent("keyboard", newWidth);
