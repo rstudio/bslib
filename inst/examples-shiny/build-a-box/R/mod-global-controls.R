@@ -92,7 +92,9 @@ server_global_controls <- function(input, output, sessions, one, two, three) {
         gradient = sample(gradient_classes, 3)
       )
 
-      if (is.null(new_values)) return()
+      if (is.null(new_values)) {
+        return()
+      }
 
       one$theme$set(new_values[[1]])
       two$theme$set(new_values[[2]])

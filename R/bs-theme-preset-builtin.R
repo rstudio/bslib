@@ -10,7 +10,9 @@
 #' @export
 builtin_themes <- function(version = version_default(), full_path = FALSE) {
   path_builtins <- path_builtin_theme(version = version)
-  if (is.null(path_builtins)) return(NULL)
+  if (is.null(path_builtins)) {
+    return(NULL)
+  }
 
   list.dirs(path_builtins, full.names = full_path, recursive = FALSE)
 }

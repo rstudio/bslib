@@ -98,7 +98,9 @@ bs_add_variables <- function(
   assert_bs_theme(theme)
 
   vars <- rlang::list2(...)
-  if (any(names2(vars) == "")) stop("Variables must be named.", call. = FALSE)
+  if (any(names2(vars) == "")) {
+    stop("Variables must be named.", call. = FALSE)
+  }
 
   # Workaround to the problem of 'blue' winning in the scenario of:
   # bs_add_variables("body-bg" = "blue")

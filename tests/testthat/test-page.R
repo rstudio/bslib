@@ -79,9 +79,8 @@ test_that("page_sidebar()", {
 })
 
 test_that("save_html() works on components and pages with a custom theme", {
-  withr::local_options(list(htmltools.dir.version = FALSE))
-
   withr::with_tempdir({
+    withr::local_options(list(htmltools.dir.version = FALSE))
     save_html(
       card("A simple card"),
       "card.html"
@@ -90,6 +89,7 @@ test_that("save_html() works on components and pages with a custom theme", {
   })
 
   withr::with_tempdir({
+    withr::local_options(list(htmltools.dir.version = FALSE))
     save_html(
       page(
         theme = bs_remove(bs_theme(), "bs3compat"),

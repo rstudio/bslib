@@ -6,7 +6,9 @@ resolve_bs_preset <- function(
   bootswatch = NULL,
   version = version_default()
 ) {
-  if (is.null(preset) && is.null(bootswatch)) return(NULL)
+  if (is.null(preset) && is.null(bootswatch)) {
+    return(NULL)
+  }
 
   assert_preset_scalar_string(preset)
   assert_preset_scalar_string(bootswatch)
@@ -50,8 +52,12 @@ new_bs_preset <- function(name, version, type = NULL, ...) {
 # bundle for a theme preset. This calls out to the appropriate functions to
 # create a bundle for a built-in theme or for a Bootswatch theme.
 bs_preset_bundle <- function(preset) {
-  if (!inherits(preset, "bs_preset")) return(NULL)
-  if (is.null(preset$type)) return(NULL)
+  if (!inherits(preset, "bs_preset")) {
+    return(NULL)
+  }
+  if (is.null(preset$type)) {
+    return(NULL)
+  }
 
   switch(
     preset$type,
@@ -62,7 +68,9 @@ bs_preset_bundle <- function(preset) {
 }
 
 theme_preset_info <- function(theme) {
-  if (!is_bs_theme(theme)) return(NULL)
+  if (!is_bs_theme(theme)) {
+    return(NULL)
+  }
 
   info <- bs_get_variables(
     theme,

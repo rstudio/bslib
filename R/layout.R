@@ -158,9 +158,15 @@ layout_column_wrap <- function(
 }
 
 is_probably_a_css_unit <- function(x) {
-  if (length(x) != 1) return(FALSE)
-  if (is.numeric(x)) return(TRUE)
-  if (!is.character(x)) return(FALSE)
+  if (length(x) != 1) {
+    return(FALSE)
+  }
+  if (is.numeric(x)) {
+    return(TRUE)
+  }
+  if (!is.character(x)) {
+    return(FALSE)
+  }
   tryCatch(
     {
       validateCssUnit(x)
@@ -309,7 +315,9 @@ layout_columns <- function(
 }
 
 as_col_spec <- function(col_widths, n_kids) {
-  if (is.null(col_widths) || rlang::is_na(col_widths)) return(NULL)
+  if (is.null(col_widths) || rlang::is_na(col_widths)) {
+    return(NULL)
+  }
 
   if (!is_breakpoints(col_widths)) {
     col_widths <- breakpoints(sm = col_widths)
@@ -352,7 +360,9 @@ as_col_spec <- function(col_widths, n_kids) {
 }
 
 col_widths_attrs <- function(col_spec) {
-  if (is.null(col_spec) || rlang::is_na(col_spec)) return(NULL)
+  if (is.null(col_spec) || rlang::is_na(col_spec)) {
+    return(NULL)
+  }
 
   names(col_spec) <- paste0("col-widths-", names(col_spec))
   lapply(col_spec, function(x) {
@@ -365,7 +375,9 @@ maybe_fr_unit <- function(x) {
 }
 
 row_heights_css_vars <- function(x) {
-  if (is.null(x)) return(list())
+  if (is.null(x)) {
+    return(list())
+  }
 
   if (!is_breakpoints(x)) {
     # Setting the `xs` breakpoint is equivalent to setting all breaks

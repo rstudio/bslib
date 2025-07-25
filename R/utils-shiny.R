@@ -21,8 +21,12 @@ get_current_session <- function(
 }
 
 has_valid_reactive_context <- function(session) {
-  if (is.null(session)) return(FALSE)
-  if (!"getCurrentTheme" %in% names(session)) return(FALSE)
+  if (is.null(session)) {
+    return(FALSE)
+  }
+  if (!"getCurrentTheme" %in% names(session)) {
+    return(FALSE)
+  }
   hasReactiveContext <- getFromNamespace("hasCurrentContext", "shiny") %||%
     function() FALSE
   hasReactiveContext()
@@ -51,9 +55,13 @@ getCurrentThemeVersion <- function() {
 
 # Copy of shiny:::anyNamed()
 anyNamed <- function(x) {
-  if (length(x) == 0) return(FALSE)
+  if (length(x) == 0) {
+    return(FALSE)
+  }
   nms <- names(x)
-  if (is.null(nms)) return(FALSE)
+  if (is.null(nms)) {
+    return(FALSE)
+  }
   any(nzchar(nms))
 }
 
