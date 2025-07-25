@@ -64,3 +64,15 @@ anyNamed <- function(x) {
   }
   any(nzchar(nms))
 }
+
+
+# Copy of shiny:::shinyInputLabel()
+shiny_input_label <- function(id, label = NULL) {
+  tags$label(
+    label,
+    class = "control-label",
+    class = if (is.null(label)) "shiny-label-null",
+    id = paste0(id, "-label"),
+    `for` = id
+  )
+}
