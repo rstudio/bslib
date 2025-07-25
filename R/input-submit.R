@@ -20,9 +20,7 @@
 #' @seealso [input_submit_textarea()], [input_task_button()]
 #' @export
 input_submit_button <- function(id, label, ..., scope = NULL) {
-  if (!is_installed("shiny", "1.10.0.9001")) {
-    rlang::abort("shiny v1.10.0.9001 or higher is required")
-  }
+  rlang::check_installed("shiny", version = "1.11.0")
 
   btn <- input_task_button(id, label, ...)
 
@@ -119,10 +117,7 @@ input_submit_textarea <- function(
   width = "min(600px, 100%)",
   submit_key = c("enter", "enter+modifier")
 ) {
-  if (!is_installed("shiny", "1.10.0.9001")) {
-    rlang::abort("shiny v1.10.0.9001 or higher is required")
-  }
-
+  rlang::check_installed("shiny", version = "1.11.0")
   rlang::check_dots_empty()
 
   value <- shiny::restoreInput(id = id, default = value)
