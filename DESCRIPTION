@@ -61,56 +61,15 @@ Suggests:
     yaml
 Remotes:
     brand.yml=github::posit-dev/brand-yml/pkg-r
-Config/Needs/deploy: 
-    BH,
-    chiflights22,
-    colourpicker,
-    commonmark,
-    cpp11,
-    cpsievert/chiflights22,
-    cpsievert/histoslider,
-    dplyr,
-    DT,
-    ggplot2,
-    ggridges,
-    gt,
-    hexbin,
-    histoslider,
-    htmlwidgets,
-    lattice,
-    leaflet,
-    lubridate,
-    markdown,
-    modelr,
-    plotly,
-    reactable,
-    reshape2,
-    rprojroot,
-    rsconnect,
-    rstudio/shiny,
-    scales,
-    styler,
-    tibble
+Config/Needs/deploy: BH, chiflights22, colourpicker, commonmark, cpp11,
+    cpsievert/chiflights22, cpsievert/histoslider, dplyr, DT, ggplot2,
+    ggridges, gt, hexbin, histoslider, htmlwidgets, lattice, leaflet,
+    lubridate, markdown, modelr, plotly, reactable, reshape2, rprojroot,
+    rsconnect, rstudio/shiny, scales, styler, tibble
 Config/Needs/routine: chromote, desc, renv
-Config/Needs/website: 
-    brio,
-    crosstalk,
-    dplyr,
-    DT,
-    ggplot2,
-    glue,
-    htmlwidgets,
-    leaflet,
-    lorem,
-    palmerpenguins,
-    plotly,
-    purrr,
-    rprojroot,
-    rstudio/htmltools,
-    scales,
-    stringr,
-    tidyr,
-    webshot2
+Config/Needs/website: brio, crosstalk, dplyr, DT, ggplot2, glue,
+    htmlwidgets, leaflet, lorem, palmerpenguins, plotly, purrr, rprojroot,
+    rstudio/htmltools, scales, stringr, tidyr, webshot2
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: zzzz-bs-sass, fonts, zzz-precompile, theme-*,
