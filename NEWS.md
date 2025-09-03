@@ -12,6 +12,8 @@
 
 * Sidebars from `page_sidebar()` and `layout_sidebar()` are now resizable on desktop-sized screen widths, allowing users to resize the sidebar width as desired. (#1217)
 
+* `sidebar()` gains a `fillable` argument to support vertical fill behavior in sidebars. (#1226)
+
 # bslib 0.9.0
 
 ## Breaking changes

@@ -58,7 +58,7 @@ Suggests:
     utils,
     withr,
     yaml
-Config/Needs/deploy:
+Config/Needs/deploy: 
     BH,
     chiflights22,
     colourpicker,
@@ -89,7 +89,7 @@ Config/Needs/deploy:
     styler,
     tibble
 Config/Needs/routine: chromote, desc, renv
-Config/Needs/website:
+Config/Needs/website: 
     brio,
     crosstalk,
     dplyr,
@@ -110,7 +110,8 @@ Config/Needs/website:
     webshot2
 Config/testthat/edition: 3
 Config/testthat/parallel: true
-Config/testthat/start-first: zzzz-bs-sass, fonts, zzz-precompile, theme-*, rmd-*
+Config/testthat/start-first: zzzz-bs-sass, fonts, zzz-precompile, theme-*,
+    rmd-*
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
