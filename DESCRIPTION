@@ -61,7 +61,7 @@ Suggests:
     yaml
 Remotes:
     brand.yml=github::posit-dev/brand-yml/pkg-r
-Config/Needs/deploy: 
+Config/Needs/deploy:
     BH,
     chiflights22,
     colourpicker,
@@ -92,7 +92,7 @@ Config/Needs/deploy:
     styler,
     tibble
 Config/Needs/routine: chromote, desc, renv
-Config/Needs/website: 
+Config/Needs/website:
     brio,
     crosstalk,
     dplyr,

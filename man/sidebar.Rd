@@ -19,7 +19,8 @@ sidebar(
   class = NULL,
   max_height_mobile = NULL,
   gap = NULL,
-  padding = NULL
+  padding = NULL,
+  fillable = FALSE
 )
 
 layout_sidebar(
@@ -107,10 +108,10 @@ second will be left and right, and the third will be bottom. If four, then
 the values will be interpreted as top, right, bottom, and left
 respectively.}
 
-\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
-
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
+
+\item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
 \item{fill}{Whether or not to allow the layout container to grow/shrink to fit a
 fillable container with an opinionated height (e.g., \code{page_fillable()}).}

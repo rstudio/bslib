@@ -84,6 +84,9 @@
 #'   second will be left and right, and the third will be bottom. If four, then
 #'   the values will be interpreted as top, right, bottom, and left
 #'   respectively.
+#' @param fillable Whether or not the sidebar should be considered a fillable
+#'  container. When `TRUE`, the sidebar and its content can
+#'   use `fill` to consume available vertical space.
 #'
 #' @export
 sidebar <- function(
@@ -98,7 +101,8 @@ sidebar <- function(
   class = NULL,
   max_height_mobile = NULL,
   gap = NULL,
-  padding = NULL
+  padding = NULL,
+  fillable = FALSE
 ) {
   position <- rlang::arg_match(position)
   gap <- validateCssUnit(gap)
@@ -145,6 +149,7 @@ sidebar <- function(
     width = width,
     max_height_mobile = max_height_mobile,
     color = list(bg = bg, fg = fg),
+    fillable = fillable,
     attributes = dots$attribs,
     children = dots$children
   )
@@ -215,8 +220,10 @@ as.tags.bslib_sidebar <- function(x, ...) {
     id = x$id,
     class = c("sidebar", x$class),
     hidden = if (hidden_initially) NA,
+    if (isTRUE(x$fillable)) as_fillable_container(),
     tags$div(
       class = "sidebar-content bslib-gap-spacing",
+      if (isTRUE(x$fillable)) as_fill_carrier(),
       x$title,
       style = css(
         gap = x$gap,
