@@ -112,7 +112,7 @@ effect of a multi-page app, where your app's content is broken up into
 multiple "pages" that can be navigated to via the top navigation bar.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 library(shiny)
 library(bslib)
 

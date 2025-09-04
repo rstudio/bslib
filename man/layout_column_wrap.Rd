@@ -85,7 +85,7 @@ display. For more explanation and illustrative examples, see the \emph{Reference
 section below.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 x <- card("A simple card")
 
 # Always has 2 columns (on non-mobile)

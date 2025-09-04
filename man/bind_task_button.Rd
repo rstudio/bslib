@@ -41,7 +41,7 @@ as in the example below.
 that completes will cause the button to return to "ready" state.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 
 library(shiny)
 library(bslib)

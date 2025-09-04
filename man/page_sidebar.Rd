@@ -45,7 +45,7 @@ The default (NULL) results in an empty string.}
 Create a dashboard layout with a full-width header (\code{title}) and \code{\link[=sidebar]{sidebar()}}.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 
 library(shiny)
 library(ggplot2)

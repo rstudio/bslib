@@ -68,7 +68,7 @@ is first rendered, and may be invoked again with a new \code{theme} whenever
 \link[shiny:session]{shiny::session}'s \code{setCurrentTheme()} is called.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 myWidgetVersion <- "1.2.3"
 
 myWidgetDependency <- function() {
