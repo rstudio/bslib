@@ -85,8 +85,8 @@
 #'   the values will be interpreted as top, right, bottom, and left
 #'   respectively.
 #' @param fillable Whether or not the sidebar should be considered a fillable
-#'  container. When `TRUE`, the sidebar and its content can
-#'   use `fill` to consume available vertical space.
+#'   container. When `TRUE`, the sidebar and its content can use `fill` to
+#'   consume available vertical space.
 #'
 #' @export
 sidebar <- function(
