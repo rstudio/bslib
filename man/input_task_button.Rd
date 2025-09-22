@@ -24,8 +24,13 @@ update_task_button(id, ..., state = NULL, session = get_current_session())
 \item{label}{The label of the button while it is in ready (clickable) state;
 usually a string.}
 
-\item{...}{Named arguments become attributes to include on the \verb{<button>}
-element.}
+\item{...}{In \code{input_task_button()}, named arguments become attributes to
+include on the \verb{<button>} element, e.g. \code{class} or data attributes.
+Unnamed arguments can provide additional states for the button, see the
+"Custom states" section.
+
+In \code{update_task_button()}, \code{...} are ignored and must be empty. The task
+button only supports changing between pre-defined states.}
 
 \item{icon}{An optional icon to display next to the label while the button is
 in ready state. See \code{\link[fontawesome:fa_i]{fontawesome::fa_i()}}.}
@@ -87,14 +92,45 @@ will not actually re-enable until the same moment that all of the updated
 outputs simultaneously sent to the client.
 }
 
+\section{Custom states}{
+
+The task button is designed to automatically switch between two states: the
+"ready" state, where the button is clickable and displays the \code{label} and
+\code{icon}; and the "busy" state, where the button is disabled and displays
+\code{label_busy} and \code{icon_busy}.
+
+In advanced use cases, you can include additional states by adding an
+\code{\link[htmltools:builder]{htmltools::div()}} with a \code{slot} attribute naming the state and the icon and
+label as the first and second children, respectively.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{input_task_button(
+  label = "Ring home",
+  icon = fontawesome::fa_i("phone"),
+  div(slot = "ringing", fontawesome::fa_i("bell"), "Ringing..."),
+  div(
+    slot = "voice-mail",
+    fontawesome::fa_i("voicemail"),
+    "Leaving a message..."
+  )
+)
+}\if{html}{\out{</div>}}
+
+You can move between these states by calling \code{update_task_button()} and
+passing the slot name to the \code{state} argument, e.g. \code{state="ringing"}. See
+the section above on manual button resetting, which you will likely need to
+use in conjunction with custom states.
+}
+
 \section{Server value}{
 
 An integer of class \code{"shinyActionButtonValue"}. This class differs from
-ordinary integers in that a value of 0 is considered "falsy".
-This implies two things:
+ordinary integers in that a value of 0 is considered "falsy". This implies
+two things:
 \itemize{
-\item Event handlers (e.g., \code{\link[shiny:observeEvent]{shiny::observeEvent()}}, \code{\link[shiny:observeEvent]{shiny::eventReactive()}}) won't execute on initial load.
-\item Input validation (e.g., \code{\link[shiny:req]{shiny::req()}}, \code{\link[shiny:validate]{shiny::need()}}) will fail on initial load.
+\item Event handlers (e.g., \code{\link[shiny:observeEvent]{shiny::observeEvent()}}, \code{\link[shiny:observeEvent]{shiny::eventReactive()}})
+won't execute on initial load.
+\item Input validation (e.g., \code{\link[shiny:req]{shiny::req()}}, \code{\link[shiny:validate]{shiny::need()}}) will fail on
+initial load.
 }
 }
 
