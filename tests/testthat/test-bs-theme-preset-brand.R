@@ -10,7 +10,7 @@ describe("as_brand_yml()", {
       )
     )
 
-    brand <- as_brand_yml(brand)
+    brand <- brand.yml::as_brand_yml(brand)
     expect_s3_class(brand, "brand_yml")
     expect_equal(brand$color$palette$red, brand$color$primary)
     expect_equal(brand$color$secondary, "berry")
@@ -26,12 +26,12 @@ describe("as_brand_yml()", {
       )
     )
 
-    brand <- as_brand_yml(brand)
+    brand <- brand.yml::as_brand_yml(brand)
     expect_s3_class(brand, "brand_yml")
     expect_equal(brand$typography$base$family, "Times New Roman")
     expect_equal(brand$typography$headings$family, "Helvetica")
     expect_equal(brand$typography[["monospace"]]$family, "Courier New")
-    expect_equal(brand$typography[["monospace-inline"]]$family, "Fira Code")
+    expect_equal(brand$typography[["monospace_inline"]]$family, "Fira Code")
   })
 })
 
@@ -93,7 +93,7 @@ describe("brand_resolve()", {
   })
 
   it("uses brand.defaults.shiny.theme.preset", {
-    brand <- as_brand_yml(
+    brand <- brand.yml::as_brand_yml(
       list(
         meta = list(name = "test-brand-yml"),
         defaults = list(
@@ -112,7 +112,7 @@ describe("brand_resolve()", {
   })
 
   it("throws if `brand.defaults.shiny.theme.preset: brand`", {
-    brand <- as_brand_yml(
+    brand <- brand.yml::as_brand_yml(
       list(
         meta = list(name = "test-brand-yml"),
         defaults = list(
@@ -128,7 +128,7 @@ describe("brand_resolve()", {
   })
 
   it("uses brand.defaults.shiny.theme.version before brand.defaults.bootstrap.version", {
-    brand <- as_brand_yml(
+    brand <- brand.yml::as_brand_yml(
       list(
         meta = list(name = "test-brand-yml"),
         defaults = list(
@@ -148,7 +148,7 @@ describe("brand_resolve()", {
   })
 
   it("uses brand.defaults.bootstrap.version", {
-    brand <- as_brand_yml(
+    brand <- brand.yml::as_brand_yml(
       list(
         meta = list(name = "test-brand-yml"),
         defaults = list(
@@ -223,12 +223,12 @@ describe("brand_color_pluck()", {
     )
 
     expect_error(
-      brand_color_pluck(brand, "red"),
+      brand.yml::brand_color_pluck(brand, "red"),
       "palette.red -> palette.blue -> palette.red"
     )
 
     expect_error(
-      brand_color_pluck(brand, "blue"),
+      brand.yml::brand_color_pluck(brand, "blue"),
       "palette.blue -> palette.red -> palette.blue"
     )
   })
@@ -242,12 +242,12 @@ describe("brand_color_pluck()", {
     )
 
     expect_error(
-      brand_color_pluck(brand, "primary"),
+      brand.yml::brand_color_pluck(brand, "primary"),
       "primary -> secondary -> primary"
     )
 
     expect_error(
-      brand_color_pluck(brand, "secondary"),
+      brand.yml::brand_color_pluck(brand, "secondary"),
       "secondary -> primary -> secondary"
     )
   })
@@ -265,7 +265,7 @@ describe("brand_color_pluck()", {
     )
 
     expect_error(
-      brand_color_pluck(brand1, "primary"),
+      brand.yml::brand_color_pluck(brand1, "primary"),
       "primary -> palette.primary -> secondary -> palette.primary"
     )
 
@@ -277,12 +277,12 @@ describe("brand_color_pluck()", {
     )
 
     expect_error(
-      brand_color_pluck(brand2, "red"),
+      brand.yml::brand_color_pluck(brand2, "red"),
       "palette.red -> primary -> palette.red"
     )
 
     expect_error(
-      brand_color_pluck(brand2, "primary"),
+      brand.yml::brand_color_pluck(brand2, "primary"),
       "primary -> palette.red -> primary"
     )
   })
@@ -302,20 +302,20 @@ describe("brand_color_pluck()", {
     )
 
     expect_error(
-      brand_color_pluck(brand, color_ref(0)),
+      brand.yml::brand_color_pluck(brand, color_ref(0)),
       "recursion limit"
     )
   })
 
   it("returns `key` if `brand.color` isn't present", {
     brand <- list(meta = list(name = "no color"))
-    expect_equal(brand_color_pluck(brand, "red"), "red")
+    expect_equal(brand.yml::brand_color_pluck(brand, "red"), "red")
   })
 
   it("returns `NULL` if the color is preset but `NULL`", {
     brand <- list(color = list(secondary = NULL, palette = list(black = NULL)))
-    expect_null(brand_color_pluck(brand, "secondary"))
-    expect_null(brand_color_pluck(brand, "black"))
+    expect_null(brand.yml::brand_color_pluck(brand, "secondary"))
+    expect_null(brand.yml::brand_color_pluck(brand, "black"))
   })
 
   it("errors if the color value is not a string", {
@@ -326,53 +326,13 @@ describe("brand_color_pluck()", {
       )
     )
 
-    expect_error(brand_color_pluck(brand, "secondary"), "brand.color.secondary")
-    expect_error(brand_color_pluck(brand, "black"), "brand.color.palette.black")
-  })
-})
-
-describe("maybe_convert_font_size_to_rem()", {
-  it("returns `rem` directly", {
-    expect_equal(maybe_convert_font_size_to_rem("1rem"), "1rem")
-    expect_equal(maybe_convert_font_size_to_rem("1.123rem"), "1.123rem")
-    expect_equal(maybe_convert_font_size_to_rem("1.123 rem"), "1.123rem")
-  })
-
-  it("returns `em` as 1:1 with `rem`", {
-    expect_equal(maybe_convert_font_size_to_rem("1em"), "1rem")
-    expect_equal(maybe_convert_font_size_to_rem("1.123em"), "1.123rem")
-    expect_equal(maybe_convert_font_size_to_rem("1.123 em"), "1.123rem")
-  })
-
-  it("converts `%` as 100%:1rem", {
-    expect_equal(maybe_convert_font_size_to_rem("100%"), "1rem")
-    expect_equal(maybe_convert_font_size_to_rem("225%"), "2.25rem")
-    expect_equal(maybe_convert_font_size_to_rem("50 %"), "0.5rem")
-  })
-
-  it("converts `in`, `cm` and `mm` to `rem`", {
-    expect_equal(maybe_convert_font_size_to_rem("1in"), "6rem")
-    expect_equal(maybe_convert_font_size_to_rem("0.5in"), "3rem")
-
-    expect_equal(maybe_convert_font_size_to_rem("2.54cm"), "6rem")
-    expect_equal(maybe_convert_font_size_to_rem("1.27cm"), "3rem")
-
-    expect_equal(maybe_convert_font_size_to_rem("25.4mm"), "6rem")
-    expect_equal(maybe_convert_font_size_to_rem("12.7mm"), "3rem")
-  })
-
-  it("throws for unsupported units", {
     expect_error(
-      maybe_convert_font_size_to_rem("1 foo")
+      brand.yml::brand_color_pluck(brand, "secondary"),
+      "brand.color.secondary"
     )
     expect_error(
-      maybe_convert_font_size_to_rem("1 foo bar")
-    )
-    expect_error(
-      maybe_convert_font_size_to_rem("1vw")
-    )
-    expect_error(
-      maybe_convert_font_size_to_rem("123")
+      brand.yml::brand_color_pluck(brand, "black"),
+      "brand.color.palette.black"
     )
   })
 })
