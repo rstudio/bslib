@@ -48,6 +48,7 @@ Suggests:
     future,
     ggplot2,
     knitr,
+    lattice,
     magrittr,
     rappdirs,
     rmarkdown (>= 2.7),
