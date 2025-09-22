@@ -78,7 +78,7 @@ layout container doesn't shrink below \code{min_height} or grow beyond \code{max
 Create responsive, column-based grid layouts, based on a 12-column grid.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 x <- card("A simple card")
 
 page_fillable(

@@ -56,7 +56,7 @@ border and optional padding. To learn more about \code{\link[=card]{card()}}s, s
 other articles listed in the \emph{References} section below.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 library(htmltools)
 
 card(

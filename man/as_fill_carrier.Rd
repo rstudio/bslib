@@ -93,7 +93,7 @@ non-tag objects that have a \link[htmltools:as.tags]{htmltools::as.tags} method 
 they return the "tagified" version of that object.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 library(shiny)
 shinyApp(
   page_fillable(

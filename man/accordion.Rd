@@ -51,7 +51,7 @@ grouping input elements in a \code{\link[=sidebar]{sidebar()}} or for organizing
 context-specific information.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 items <- lapply(LETTERS, function(x) {
   accordion_panel(paste("Section", x), paste("Some narrative for section", x))
 })
