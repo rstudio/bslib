@@ -2,7 +2,7 @@
 
 ## New features
 
-* Added a new `input_submit_textarea()` function. This input is similar in nature to `shiny::textAreaInput()`, but includes a submit button to only submit the text changes to the server on click. This is especially useful when the input text change triggers a long-running operation and/or the user wants to type longer-form input and review it before submitting it.
+* Added a new `input_submit_textarea()` input element, which is similar to `shiny::textAreaInput()`, but includes a submit button to only submit the text changes to the server on click. This is especially useful when the input text change triggers a long-running operation and/or the user wants to type longer-form input and review it before submitting it.
 
 ## Improvements and bug fixes
 

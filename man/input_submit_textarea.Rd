@@ -7,11 +7,11 @@
 \usage{
 input_submit_textarea(
   id,
-  placeholder,
+  label = NULL,
+  placeholder = NULL,
   value = "",
   ...,
   button = NULL,
-  label = NULL,
   width = "min(600px, 100\%)",
   submit_key = c("enter", "enter+modifier")
 )
@@ -72,7 +72,7 @@ the input by pressing the Enter key or clicking the submit button.
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 
 ui <- page_fluid(
-  input_submit_textarea("text", "Enter some input..."),
+  input_submit_textarea("text", placeholder = "Enter some input..."),
   verbatimTextOutput("value")
 )
 server <- function(input, output) {
