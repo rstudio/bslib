@@ -37,6 +37,7 @@ class TextAreaSubmitInputBinding extends InputBinding {
     this.#submitButton = btn;
     updateDisabledState(btn, !el.value);
     updateHeight(el);
+    maybeUpdateSubmitButtonLabel(el, btn);
   }
 
   // Read a 'proxy' value instead of the actual value since we
@@ -182,6 +183,27 @@ function updateHeight(el: HTMLTextAreaElement) {
   }
   el.style.height = "auto";
   el.style.height = el.scrollHeight + "px";
+}
+
+// If the textarea has data-needs-modifier, update the default 
+// button label/title accordingly
+function maybeUpdateSubmitButtonLabel(
+  el: HTMLTextAreaElement,
+  btn: HTMLButtonElement
+) {
+  if (!el.hasAttribute("data-needs-modifier")) {
+    return;
+  }
+  if (!btn.hasAttribute("data-default-button")) {
+    return;
+  }
+
+  const isMac = navigator.userAgent.indexOf("Mac") !== -1;
+  const modifierKey = isMac ? "\u2318" : "Ctrl";
+  btn.textContent = `Submit ${modifierKey} \u23CE`;
+  const titleText = `Press ${modifierKey} + Enter to Submit`;
+  btn.title = titleText;
+  btn.setAttribute("aria-label", titleText);
 }
 
 registerBinding(TextAreaSubmitInputBinding, "submit-text-area");

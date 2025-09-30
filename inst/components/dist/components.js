@@ -1589,6 +1589,20 @@
     el.style.height = "auto";
     el.style.height = el.scrollHeight + "px";
   }
+  function maybeUpdateSubmitButtonLabel(el, btn) {
+    if (!el.hasAttribute("data-needs-modifier")) {
+      return;
+    }
+    if (!btn.hasAttribute("data-default-button")) {
+      return;
+    }
+    const isMac = navigator.userAgent.indexOf("Mac") !== -1;
+    const modifierKey = isMac ? "\u2318" : "Ctrl";
+    btn.textContent = `Submit ${modifierKey} \u23CE`;
+    const titleText = `Press ${modifierKey} + Enter to Submit`;
+    btn.title = titleText;
+    btn.setAttribute("aria-label", titleText);
+  }
   var EVENT_NAMESPACE, intersectObserver, _submitButton, TextAreaSubmitInputBinding;
   var init_submitTextArea = __esm({
     "srcts/src/components/submitTextArea.ts"() {
@@ -1618,6 +1632,7 @@
           __privateSet(this, _submitButton, btn);
           updateDisabledState(btn, !el.value);
           updateHeight(el);
+          maybeUpdateSubmitButtonLabel(el, btn);
         }
         // Read a 'proxy' value instead of the actual value since we
         // intentionally don't want the value server-side until it's submitted.

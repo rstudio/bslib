@@ -74,20 +74,15 @@ input_submit_textarea <- function(
   needs_modifier <- isTRUE(submit_key == "enter+modifier")
 
   if (is.null(button)) {
-    if (needs_modifier) {
-      btn_label <- "Submit \U2318 \U23CE"
-      btn_title <- "Press \U2318 + Enter to Submit"
-    } else {
-      btn_label <- "Submit \U23CE"
-      btn_title <- "Press Enter to Submit"
-    }
-
     button <- input_task_button(
       id = paste0(id, "_submit"),
       class = "btn-sm",
-      label = btn_label,
-      title = btn_title,
-      `aria-label` = btn_title
+      label = "Submit \U23CE",
+      title = "Press Enter to Submit",
+      `aria-label` = "Press Enter to Submit",
+      # The label/title above are updated in JS if a modifier key is needed
+      # (since it's platform dependent)
+      `data-default-button` = ""
     )
   }
 
