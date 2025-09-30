@@ -126,6 +126,7 @@ is_button_tag <- function(x) {
 #' @param placeholder The placeholder text for the user input.
 #' @param submit Whether to automatically submit the text for the user. Requires `value`.
 #' @param focus Whether to move focus to the input element. Requires `value`.
+#' @param session The `session` object; using the default is recommended.
 #'
 #' @rdname input_submit_textarea
 #' @export

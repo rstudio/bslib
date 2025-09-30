@@ -57,6 +57,8 @@ holding down Ctrl/Cmd.}
 \item{submit}{Whether to automatically submit the text for the user. Requires \code{value}.}
 
 \item{focus}{Whether to move focus to the input element. Requires \code{value}.}
+
+\item{session}{The \code{session} object; using the default is recommended.}
 }
 \value{
 A textarea input control that can be added to a UI definition.
