@@ -1583,7 +1583,7 @@
     isDisabled ? btn.setAttribute("tabindex", "-1") : btn.removeAttribute("tabindex");
   }
   function updateHeight(el) {
-    if (el.scrollHeight == 0) {
+    if (el.scrollHeight === 0) {
       return;
     }
     el.style.height = "auto";
