@@ -7,16 +7,20 @@
 #' where users may compose and review their text before submitting.
 #'
 #' @param id The input ID.
-#' @param placeholder A character string giving the user a hint as to what can
-#'   be entered into the control.
+#' @param label The label to display above the input control. If `NULL`, no
+#'   label is displayed.
+#' @param placeholder The placeholder text to display when the input is empty.
+#'   This can be used to provide a hint or example of the expected input.
 #' @param value The initial input text. Note that, unlike [textAreaInput()],
-#'   this won't set a server-side value until the value is submitted.
+#'   this won't set a server-side value until the value is explicitly submitted.
+#' @param ... Currently not used.
 #' @param button A [tags] element to use for the submit button. It's recommended
 #'   that this be a [input_task_button()] since it will automatically provide a
 #'   busy indicator (and disable) until the next flush occurs. Note also that if
 #'   the submit button launches a [ExtendedTask], this button can also be bound
 #'   to the task ([bind_task_button()]) and/or manually updated for more
 #'   accurate progress reporting ([update_task_button()]).
+#' @param width Any valid CSS unit (e.g., `width="100%"`).
 #' @param submit_key A character string indicating what keyboard event should
 #'   trigger the submit button. The default is `enter`, which will submit the
 #'   input when the user presses the Enter/Return key. The `enter+modifier`
@@ -25,7 +29,7 @@
 #'
 #' @return A textarea input control that can be added to a UI definition.
 #'
-#' @seealso [input_task_button()]
+#' @seealso [update_submit_textarea()], [input_task_button()]
 #'
 #' @examplesIf rlang::is_interactive()
 #'

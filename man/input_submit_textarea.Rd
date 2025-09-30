@@ -30,9 +30,14 @@ update_submit_textarea(
 \arguments{
 \item{id}{The input ID.}
 
+\item{label}{The label to display above the input control. If \code{NULL}, no
+label is displayed.}
+
 \item{placeholder}{The placeholder text for the user input.}
 
 \item{value}{The value to set the user input to.}
+
+\item{...}{Currently not used.}
 
 \item{button}{A \link[htmltools:builder]{htmltools::tags} element to use for the submit button. It's recommended
 that this be a \code{\link[=input_task_button]{input_task_button()}} since it will automatically provide a
@@ -40,6 +45,8 @@ busy indicator (and disable) until the next flush occurs. Note also that if
 the submit button launches a \link[shiny:ExtendedTask]{shiny::ExtendedTask}, this button can also be bound
 to the task (\code{\link[=bind_task_button]{bind_task_button()}}) and/or manually updated for more
 accurate progress reporting (\code{\link[=update_task_button]{update_task_button()}}).}
+
+\item{width}{Any valid CSS unit (e.g., \code{width="100\%"}).}
 
 \item{submit_key}{A character string indicating what keyboard event should
 trigger the submit button. The default is \code{enter}, which will submit the
@@ -86,5 +93,5 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=input_task_button]{input_task_button()}}
+\code{\link[=update_submit_textarea]{update_submit_textarea()}}, \code{\link[=input_task_button]{input_task_button()}}
 }
