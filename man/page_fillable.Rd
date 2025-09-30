@@ -45,7 +45,7 @@ A Bootstrap-based page layout whose contents fill the full height and width
 of the browser window.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 
 library(shiny)
 library(ggplot2)

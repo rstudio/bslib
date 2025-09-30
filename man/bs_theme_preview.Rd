@@ -29,7 +29,7 @@ The app that this launches is subject to change as new features are
 developed in \pkg{bslib} and \pkg{shiny}.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 theme <- bs_theme(bg = "#6c757d", fg = "white", primary = "orange")
 bs_theme_preview(theme)
 \dontshow{\}) # examplesIf}

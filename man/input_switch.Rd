@@ -34,7 +34,7 @@ received for the input corresponding to \code{id} will be a logical
 Create an on-off style switch control for specifying logical values.
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 library(shiny)
 library(bslib)
 
