@@ -177,7 +177,7 @@ function updateDisabledState(btn: HTMLButtonElement, isDisabled: boolean) {
 }
 
 function updateHeight(el: HTMLTextAreaElement) {
-  if (el.scrollHeight == 0) {
+  if (el.scrollHeight === 0) {
     return;
   }
   el.style.height = "auto";
