@@ -1582,12 +1582,26 @@
     btn.setAttribute("aria-disabled", isDisabled.toString());
     isDisabled ? btn.setAttribute("tabindex", "-1") : btn.removeAttribute("tabindex");
   }
-  var EVENT_NAMESPACE, _submitButton, TextAreaSubmitInputBinding;
+  function updateHeight(el) {
+    if (el.scrollHeight == 0) {
+      return;
+    }
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+  }
+  var EVENT_NAMESPACE, intersectObserver, _submitButton, TextAreaSubmitInputBinding;
   var init_submitTextArea = __esm({
     "srcts/src/components/submitTextArea.ts"() {
       "use strict";
       init_utils();
       EVENT_NAMESPACE = "textSubmitInputBinding";
+      intersectObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            updateHeight(entry.target);
+          }
+        });
+      });
       TextAreaSubmitInputBinding = class extends InputBinding {
         constructor() {
           super(...arguments);
@@ -1601,8 +1615,9 @@
           if (!(btn instanceof HTMLButtonElement)) {
             throw new Error("No submit button found");
           }
-          updateDisabledState(btn, !el.value);
           __privateSet(this, _submitButton, btn);
+          updateDisabledState(btn, !el.value);
+          updateHeight(el);
         }
         // Read a 'proxy' value instead of the actual value since we
         // intentionally don't want the value server-side until it's submitted.
@@ -1627,6 +1642,7 @@
           }
           $(el).on(`input.${EVENT_NAMESPACE}`, function() {
             updateDisabledState(btn, !el.value);
+            updateHeight(el);
           });
           $(el).on(
             `keydown.${EVENT_NAMESPACE}`,
@@ -1652,11 +1668,13 @@
               }
             }
           );
+          intersectObserver.observe(el);
         }
         unsubscribe(el) {
           $(el).off(`.${EVENT_NAMESPACE}`);
           const btn = el.nextElementSibling;
           $(btn).off(`.${EVENT_NAMESPACE}`);
+          intersectObserver.unobserve(el);
         }
         receiveMessage(el, data) {
           return __async(this, null, function* () {

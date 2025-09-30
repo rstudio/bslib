@@ -12,6 +12,15 @@ type TextSubmitReceiveMessageData = {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const EVENT_NAMESPACE = "textSubmitInputBinding";
 
+// When a textarea becomes visible, update the height
+const intersectObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      updateHeight(entry.target as HTMLTextAreaElement);
+    }
+  });
+});
+
 class TextAreaSubmitInputBinding extends InputBinding {
   #submitButton: HTMLButtonElement | null = null;
 
@@ -25,8 +34,9 @@ class TextAreaSubmitInputBinding extends InputBinding {
     if (!(btn instanceof HTMLButtonElement)) {
       throw new Error("No submit button found");
     }
-    updateDisabledState(btn, !el.value);
     this.#submitButton = btn;
+    updateDisabledState(btn, !el.value);
+    updateHeight(el);
   }
 
   // Read a 'proxy' value instead of the actual value since we
@@ -70,6 +80,7 @@ class TextAreaSubmitInputBinding extends InputBinding {
     // When new input is received, update the button's disabled state
     $(el).on(`input.${EVENT_NAMESPACE}`, function () {
       updateDisabledState(btn, !el.value);
+      updateHeight(el);
     });
 
     $(el).on(
@@ -105,12 +116,15 @@ class TextAreaSubmitInputBinding extends InputBinding {
         }
       }
     );
+
+    intersectObserver.observe(el);
   }
 
   unsubscribe(el: HTMLElement): void {
     $(el).off(`.${EVENT_NAMESPACE}`);
     const btn = el.nextElementSibling as HTMLElement;
     $(btn).off(`.${EVENT_NAMESPACE}`);
+    intersectObserver.unobserve(el);
   }
 
   async receiveMessage(
@@ -160,6 +174,14 @@ function updateDisabledState(btn: HTMLButtonElement, isDisabled: boolean) {
   isDisabled
     ? btn.setAttribute("tabindex", "-1")
     : btn.removeAttribute("tabindex");
+}
+
+function updateHeight(el: HTMLTextAreaElement) {
+  if (el.scrollHeight == 0) {
+    return;
+  }
+  el.style.height = "auto";
+  el.style.height = el.scrollHeight + "px";
 }
 
 registerBinding(TextAreaSubmitInputBinding, "submit-text-area");

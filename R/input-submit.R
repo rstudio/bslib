@@ -102,7 +102,7 @@ input_submit_textarea <- function(
       class = "bslib-input-textsubmit",
       tags$textarea(
         id = id,
-        class = "textarea-autoresize form-control",
+        class = "form-control",
         style = css(width = if (!is.null(width)) "100%"),
         placeholder = placeholder,
         `data-needs-modifier` = if (needs_modifier) "",
