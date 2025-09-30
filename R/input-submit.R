@@ -71,10 +71,10 @@ input_submit_textarea <- function(
 
   if (is.null(button)) {
     if (needs_modifier) {
-      btn_label <- "Submit ⌘ ⏎"
-      btn_title <- "Press ⌘ + Enter to Submit"
+      btn_label <- "Submit \U2318 \U23CE"
+      btn_title <- "Press \U2318 + Enter to Submit"
     } else {
-      btn_label <- "Submit ⏎"
+      btn_label <- "Submit \U23CE"
       btn_title <- "Press Enter to Submit"
     }
 
