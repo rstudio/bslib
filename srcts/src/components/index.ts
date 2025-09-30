@@ -5,7 +5,6 @@ import "./accordion";
 import "./card";
 import "./sidebar";
 import "./taskButton";
-import "./submitButton";
 import "./submitTextArea";
 
 // ----------------------------------------------------------------------------

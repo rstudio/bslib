@@ -1,62 +1,3 @@
-#' Suspend input changes until a button is clicked
-#'
-#' Suspend changes to a particular set of input controls until a submit button
-#' is clicked. This is particularly useful for allowing the user to review their
-#' input(s) before sending them to the server for a potentially expensive
-#' operation. Note that, by default, all inputs that are children of the
-#' button's parent are deferred until the button is clicked. This can be changed
-#' by setting the `scope` argument to a CSS selector that matches the container
-#' of inputs you wish to suspend.
-#'
-#' @param id The input ID.
-#' @param label A label to place on the button.
-#' @param ... Arguments passed along to [input_task_button()].
-#' @param scope The scope of the submit button. Can be one of the following:
-#' - `NULL`: Inputs that are children of the button's parent are
-#'    deferred until the button is clicked.
-#' - A CSS selector: Only inputs that are within the element matching the
-#'   selector are deferred until the button is clicked.
-#'
-#' @seealso [input_submit_textarea()], [input_task_button()]
-#' @export
-input_submit_button <- function(id, label, ..., scope = NULL) {
-  rlang::check_installed("shiny", version = "1.11.1")
-
-  btn <- input_task_button(id, label, ...)
-
-  # Change type from "button" to "submit"
-  btn$attribs$type <- "submit"
-
-  tagAppendAttributes(
-    btn,
-    class = "bslib-submit-button",
-    `data-submit-scope` = scope
-  )
-}
-
-
-# TODO: maybe update_task_button() should gain label/icon arguments
-# and then we can just call that here? Or just tell people to use
-# update_task_button() directly?
-
-## @param id The input ID.
-## @param ... Currently ignored.
-## @param label The label of the button.
-## @param icon An optional icon to display next to the label while the button
-##  is in ready state. See [fontawesome::fa_i()].
-## @param session The `session` object; using the default is recommended.
-## @rdname input_submit_button
-## @export
-#update_submit_button <- function(
-#  id,
-#  ...,
-#  label = NULL,
-#  icon = NULL,
-#  session = get_current_session()
-#) {
-#
-#}
-
 #' Create a textarea input control with explicit submission
 #'
 #' Creates a textarea input where users can enter multi-line text and submit
@@ -84,7 +25,7 @@ input_submit_button <- function(id, label, ..., scope = NULL) {
 #'
 #' @return A textarea input control that can be added to a UI definition.
 #'
-#' @seealso [input_submit_button()], [input_task_button()]
+#' @seealso [input_task_button()]
 #'
 #' @examplesIf rlang::is_interactive()
 #'

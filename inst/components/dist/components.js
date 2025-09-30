@@ -67,17 +67,6 @@
       );
     }
   }
-  function showShinyClientMessage({
-    headline = "",
-    message,
-    status = "warning"
-  }) {
-    document.dispatchEvent(
-      new CustomEvent("shiny:client-message", {
-        detail: { headline, message, status }
-      })
-    );
-  }
   function hasDefinedProperty(obj, prop) {
     return Object.prototype.hasOwnProperty.call(obj, prop) && obj[prop] !== void 0;
   }
@@ -1562,73 +1551,7 @@
           tbc.case = state;
         }
       };
-    }
-  });
-
-  // srcts/src/components/submitButton.ts
-  var EVENT_NAMESPACE, _target, BslibSubmitButtonInputBinding;
-  var init_submitButton = __esm({
-    "srcts/src/components/submitButton.ts"() {
-      "use strict";
-      init_taskButton();
-      init_utils();
-      EVENT_NAMESPACE = "submitButtonInputBinding";
-      BslibSubmitButtonInputBinding = class extends BslibTaskButtonInputBinding {
-        constructor() {
-          super(...arguments);
-          __privateAdd(this, _target, null);
-        }
-        find(scope) {
-          return $(scope).find(".bslib-submit-button");
-        }
-        initialize(el) {
-          const scope = el.dataset.submitScope;
-          __privateSet(this, _target, scope ? document.querySelector(scope) : el.parentElement);
-          if (!__privateGet(this, _target)) {
-            showShinyClientMessage({
-              status: "error",
-              message: `input_submit_button() scope "${scope}" not found`
-            });
-            return;
-          }
-          const inputChangeEvents = /* @__PURE__ */ new Map();
-          $(__privateGet(this, _target)).on(
-            `shiny:inputchanged.${EVENT_NAMESPACE}`,
-            (event) => {
-              const e = event;
-              if (/^\./.test(e.name)) {
-                return;
-              }
-              if (e.name === el.id) {
-                return;
-              }
-              e.preventDefault();
-              inputChangeEvents.set(e, e.name);
-            }
-          );
-          $(el).on(`click.${EVENT_NAMESPACE}`, () => {
-            if (el.hasAttribute("disabled")) {
-              return;
-            }
-            if (!window.Shiny || !window.Shiny.setInputValue) {
-              return;
-            }
-            for (const [event, name] of inputChangeEvents) {
-              window.Shiny.setInputValue(name, event.value);
-            }
-            inputChangeEvents.clear();
-          });
-        }
-        unsubscribe(el) {
-          $(el).off(`click.${EVENT_NAMESPACE}`);
-          if (__privateGet(this, _target)) {
-            $(__privateGet(this, _target)).off(`shiny:inputchanged.${EVENT_NAMESPACE}`);
-          }
-        }
-      };
-      _target = new WeakMap();
       registerBinding(BslibTaskButtonInputBinding, "task-button");
-      registerBinding(BslibSubmitButtonInputBinding, "submit-button");
     }
   });
 
@@ -1652,12 +1575,12 @@
       labelNode.removeClass("shiny-label-null");
     }
   }
-  var EVENT_NAMESPACE2, _submitButton, TextAreaSubmitInputBinding;
+  var EVENT_NAMESPACE, _submitButton, TextAreaSubmitInputBinding;
   var init_submitTextArea = __esm({
     "srcts/src/components/submitTextArea.ts"() {
       "use strict";
       init_utils();
-      EVENT_NAMESPACE2 = "textSubmitInputBinding";
+      EVENT_NAMESPACE = "textSubmitInputBinding";
       TextAreaSubmitInputBinding = class extends InputBinding {
         constructor() {
           super(...arguments);
@@ -1691,15 +1614,15 @@
           }
           const btn = __privateGet(this, _submitButton);
           if (btn.classList.contains("shiny-bound-input")) {
-            $(btn).on(`shiny:inputchanged.${EVENT_NAMESPACE2}`, doSendValue);
+            $(btn).on(`shiny:inputchanged.${EVENT_NAMESPACE}`, doSendValue);
           } else {
-            $(btn).on(`click.${EVENT_NAMESPACE2}`, doSendValue);
+            $(btn).on(`click.${EVENT_NAMESPACE}`, doSendValue);
           }
-          $(el).on(`input.${EVENT_NAMESPACE2}`, function() {
+          $(el).on(`input.${EVENT_NAMESPACE}`, function() {
             updateDisabledState(btn, !el.value);
           });
           $(el).on(
-            `keydown.${EVENT_NAMESPACE2}`,
+            `keydown.${EVENT_NAMESPACE}`,
             // event: JQuery.KeyboardEventObject
             function(event) {
               if (event.key !== "Enter") {
@@ -1724,9 +1647,9 @@
           );
         }
         unsubscribe(el) {
-          $(el).off(`.${EVENT_NAMESPACE2}`);
+          $(el).off(`.${EVENT_NAMESPACE}`);
           const btn = el.nextElementSibling;
-          $(btn).off(`.${EVENT_NAMESPACE2}`);
+          $(btn).off(`.${EVENT_NAMESPACE}`);
         }
         receiveMessage(el, data) {
           const oldValue = el.value;
@@ -1780,7 +1703,6 @@
       init_card();
       init_sidebar();
       init_taskButton();
-      init_submitButton();
       init_submitTextArea();
       init_utils();
       init_shinyAddCustomMessageHandlers();
