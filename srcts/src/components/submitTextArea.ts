@@ -185,7 +185,7 @@ function updateHeight(el: HTMLTextAreaElement) {
   el.style.height = el.scrollHeight + "px";
 }
 
-// If the textarea has data-needs-modifier, update the default 
+// If the textarea has data-needs-modifier, update the default
 // button label/title accordingly
 function maybeUpdateSubmitButtonLabel(
   el: HTMLTextAreaElement,
