@@ -152,7 +152,7 @@ update_submit_textarea <- function(
   message <- dropNulls(list(
     value = value,
     placeholder = placeholder,
-    label = label,
+    label = if (!is.null(label)) processDeps(label, session),
     submit = submit,
     focus = focus
   ))

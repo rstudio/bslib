@@ -102,6 +102,27 @@
       }
     });
   }
+  function updateLabel(labelContent, labelNode) {
+    return __async(this, null, function* () {
+      if (typeof labelContent === "undefined")
+        return;
+      if (labelNode.length !== 1) {
+        throw new Error("labelNode must be of length 1");
+      }
+      if (typeof labelContent === "string") {
+        labelContent = {
+          html: labelContent,
+          deps: []
+        };
+      }
+      if (labelContent.html === "") {
+        labelNode.addClass("shiny-label-null");
+      } else {
+        yield shinyRenderContent(labelNode, labelContent);
+        labelNode.removeClass("shiny-label-null");
+      }
+    });
+  }
   var Shiny, InputBinding;
   var init_utils = __esm({
     "srcts/src/components/_utils.ts"() {
@@ -1561,20 +1582,6 @@
     btn.setAttribute("aria-disabled", isDisabled.toString());
     isDisabled ? btn.setAttribute("tabindex", "-1") : btn.removeAttribute("tabindex");
   }
-  function updateLabel(labelTxt, labelNode) {
-    if (typeof labelTxt === "undefined")
-      return;
-    if (labelNode.length !== 1) {
-      throw new Error("labelNode must be of length 1");
-    }
-    const emptyLabel = Array.isArray(labelTxt) && labelTxt.length === 0;
-    if (emptyLabel) {
-      labelNode.addClass("shiny-label-null");
-    } else {
-      labelNode.text(labelTxt);
-      labelNode.removeClass("shiny-label-null");
-    }
-  }
   var EVENT_NAMESPACE, _submitButton, TextAreaSubmitInputBinding;
   var init_submitTextArea = __esm({
     "srcts/src/components/submitTextArea.ts"() {
@@ -1652,28 +1659,30 @@
           $(btn).off(`.${EVENT_NAMESPACE}`);
         }
         receiveMessage(el, data) {
-          const oldValue = el.value;
-          if (data.value !== void 0) {
-            el.value = data.value;
-            el.dispatchEvent(new Event("input", { bubbles: true }));
-          }
-          if (data.placeholder !== void 0) {
-            el.placeholder = data.placeholder;
-          }
-          if (data.label !== void 0) {
-            const labEl = $(el).closest(".shiny-input-container").find("label");
-            updateLabel(data.label, labEl);
-          }
-          if (data.submit) {
-            const btn = el.nextElementSibling;
-            if (btn instanceof HTMLButtonElement) {
-              btn.click();
-              el.value = oldValue;
+          return __async(this, null, function* () {
+            const oldValue = el.value;
+            if (data.value !== void 0) {
+              el.value = data.value;
+              el.dispatchEvent(new Event("input", { bubbles: true }));
             }
-          }
-          if (data.focus) {
-            el.focus();
-          }
+            if (data.placeholder !== void 0) {
+              el.placeholder = data.placeholder;
+            }
+            if (data.label !== void 0) {
+              const labEl = $(el).closest(".shiny-input-container").find("label");
+              yield updateLabel(data.label, labEl);
+            }
+            if (data.submit) {
+              const btn = el.nextElementSibling;
+              if (btn instanceof HTMLButtonElement) {
+                btn.click();
+                el.value = oldValue;
+              }
+            }
+            if (data.focus) {
+              el.focus();
+            }
+          });
         }
       };
       _submitButton = new WeakMap();

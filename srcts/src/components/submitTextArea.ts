@@ -1,5 +1,5 @@
 import type { InputSubscribeCallback } from "rstudio-shiny/srcts/types/src/bindings/input/inputBinding";
-import { registerBinding, InputBinding } from "./_utils";
+import { registerBinding, InputBinding, updateLabel } from "./_utils";
 
 type TextSubmitReceiveMessageData = {
   value?: string;
@@ -113,10 +113,10 @@ class TextAreaSubmitInputBinding extends InputBinding {
     $(btn).off(`.${EVENT_NAMESPACE}`);
   }
 
-  receiveMessage(
+  async receiveMessage(
     el: HTMLTextAreaElement,
     data: TextSubmitReceiveMessageData
-  ): void {
+  ): Promise<void> {
     const oldValue = el.value;
 
     if (data.value !== undefined) {
@@ -130,7 +130,7 @@ class TextAreaSubmitInputBinding extends InputBinding {
 
     if (data.label !== undefined) {
       const labEl = $(el).closest(".shiny-input-container").find("label");
-      updateLabel(data.label, labEl);
+      await updateLabel(data.label, labEl);
     }
 
     if (data.submit) {
@@ -162,29 +162,4 @@ function updateDisabledState(btn: HTMLButtonElement, isDisabled: boolean) {
     : btn.removeAttribute("tabindex");
 }
 
-// Copied from shiny utils
-function updateLabel(
-  labelTxt: string | undefined,
-  labelNode: JQuery<HTMLElement>
-): void {
-  // Only update if label was specified in the update method
-  if (typeof labelTxt === "undefined") return;
-  if (labelNode.length !== 1) {
-    throw new Error("labelNode must be of length 1");
-  }
-
-  // Should the label be empty?
-  const emptyLabel = Array.isArray(labelTxt) && labelTxt.length === 0;
-
-  if (emptyLabel) {
-    labelNode.addClass("shiny-label-null");
-  } else {
-    labelNode.text(labelTxt);
-    labelNode.removeClass("shiny-label-null");
-  }
-}
-
-// TODO: this depends on a change to Shiny...
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 registerBinding(TextAreaSubmitInputBinding, "submit-text-area");
