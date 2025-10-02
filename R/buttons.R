@@ -33,6 +33,43 @@
 #' will not actually re-enable until the same moment that all of the updated
 #' outputs simultaneously sent to the client.
 #'
+#' @section Custom states:
+#' The task button is designed to automatically switch between two states: the
+#' "ready" state, where the button is clickable and displays the `label` and
+#' `icon`; and the "busy" state, where the button is disabled and displays
+#' `label_busy` and `icon_busy`.
+#'
+#' In advanced use cases, you can include additional states by adding an
+#' [htmltools::div()] with a `slot` attribute naming the state and the icon and
+#' label as the first and second children, respectively.
+#'
+#' ```r
+#' input_task_button(
+#'   label = "Ring home",
+#'   icon = fontawesome::fa_i("phone"),
+#'   div(slot = "ringing", fontawesome::fa_i("bell"), "Ringing..."),
+#'   div(
+#'     slot = "voice-mail",
+#'     fontawesome::fa_i("voicemail"),
+#'     "Leaving a message..."
+#'   )
+#' )
+#' ```
+#'
+#' You can move between these states by calling `update_task_button()` and
+#' passing the slot name to the `state` argument, e.g. `state="ringing"`. See
+#' the section above on manual button resetting, which you will likely need to
+#' use in conjunction with custom states.
+#'
+#' @section Server value:
+#' An integer of class `"shinyActionButtonValue"`. This class differs from
+#' ordinary integers in that a value of 0 is considered "falsy". This implies
+#' two things:
+#'   * Event handlers (e.g., [shiny::observeEvent()], [shiny::eventReactive()])
+#'     won't execute on initial load.
+#'   * Input validation (e.g., [shiny::req()], [shiny::need()]) will fail on
+#'     initial load.
+#'
 #' @param id The `input` slot that will be used to access the value.
 #' @param label The label of the button while it is in ready (clickable) state;
 #'   usually a string.
@@ -49,17 +86,15 @@
 #'   `"secondary"`, `"success"`, `"danger"`, `"warning"`, `"info"`, `"light"`,
 #'   `"dark"`), or `NULL` to leave off the Bootstrap-specific button CSS classes
 #'   altogether.
-#' @param ... Named arguments become attributes to include on the `<button>`
-#'   element.
+#' @param ... In `input_task_button()`, named arguments become attributes to
+#'   include on the `<button>` element, e.g. `class` or data attributes.
+#'   Unnamed arguments can provide additional states for the button, see the
+#'   "Custom states" section.
+#'
+#'   In `update_task_button()`, `...` are ignored and must be empty. The task
+#'   button only supports changing between pre-defined states.
 #' @param auto_reset If `TRUE` (the default), automatically put the button back
 #'   in "ready" state after its click is handled by the server.
-#'
-#' @section Server value:
-#' An integer of class `"shinyActionButtonValue"`. This class differs from
-#' ordinary integers in that a value of 0 is considered "falsy".
-#' This implies two things:
-#'   * Event handlers (e.g., [shiny::observeEvent()], [shiny::eventReactive()]) won't execute on initial load.
-#'   * Input validation (e.g., [shiny::req()], [shiny::need()]) will fail on initial load.
 #'
 #' @seealso [bind_task_button()]
 #'
