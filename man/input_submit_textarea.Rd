@@ -72,9 +72,13 @@ where users may compose and review their text before submitting.
 }
 \section{Server value}{
 
-A character string of the text input. The default value is \code{""} even if
-\code{value} is provided. The value will only be set/updated when the user submits
-the input by pressing the Enter key or clicking the submit button.
+The server receives a character string containing the user's text input.
+
+\strong{Important:} The initial server value is always \code{""} (empty string),
+regardless of any \code{value} parameter provided to \code{input_submit_textarea()}.
+The server value updates only when the user explicitly submits the input by
+either pressing the Enter key (possibly with a modifier key) or clicking the
+submit button.
 }
 
 \examples{
