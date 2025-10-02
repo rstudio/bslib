@@ -157,8 +157,8 @@ input_task_button <- function(
       "bslib-switch-inline",
       rlang::list2(
         case = "ready",
-        div(slot = "ready", icon, label),
-        div(slot = "busy", icon_busy, label_busy),
+        span(slot = "ready", icon, label),
+        span(slot = "busy", icon_busy, label_busy),
         !!!children
       )
     )
