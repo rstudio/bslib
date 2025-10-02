@@ -185,6 +185,7 @@ reference:
   contents:
     - input_switch
     - input_dark_mode
+    - input_submit_textarea
     - input_task_button
     - bind_task_button
 

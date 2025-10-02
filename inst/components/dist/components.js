@@ -21,6 +21,11 @@
       throw TypeError("Cannot add the same private member more than once");
     member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
   };
+  var __privateSet = (obj, member, value, setter) => {
+    __accessCheck(obj, member, "write to private field");
+    setter ? setter.call(obj, value) : member.set(obj, value);
+    return value;
+  };
   var __privateMethod = (obj, member, method) => {
     __accessCheck(obj, member, "access private method");
     return method;
@@ -94,6 +99,27 @@
         return yield Shiny.renderContentAsync.apply(null, args);
       } else {
         return yield Shiny.renderContent.apply(null, args);
+      }
+    });
+  }
+  function updateLabel(labelContent, labelNode) {
+    return __async(this, null, function* () {
+      if (typeof labelContent === "undefined")
+        return;
+      if (labelNode.length !== 1) {
+        throw new Error("labelNode must be of length 1");
+      }
+      if (typeof labelContent === "string") {
+        labelContent = {
+          html: labelContent,
+          deps: []
+        };
+      }
+      if (labelContent.html === "") {
+        labelNode.addClass("shiny-label-null");
+      } else {
+        yield shinyRenderContent(labelNode, labelContent);
+        labelNode.removeClass("shiny-label-null");
       }
     });
   }
@@ -1550,6 +1576,163 @@
     }
   });
 
+  // srcts/src/components/submitTextArea.ts
+  function updateDisabledState(btn, isDisabled) {
+    btn.classList.toggle("disabled", isDisabled);
+    btn.setAttribute("aria-disabled", isDisabled.toString());
+    isDisabled ? btn.setAttribute("tabindex", "-1") : btn.removeAttribute("tabindex");
+  }
+  function updateHeight(el) {
+    if (el.scrollHeight === 0) {
+      return;
+    }
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+  }
+  function maybeUpdateSubmitButtonLabel(el, btn) {
+    if (!el.hasAttribute("data-needs-modifier")) {
+      return;
+    }
+    if (!btn.querySelector(".modifier-key")) {
+      return;
+    }
+    const isMac = navigator.userAgent.indexOf("Mac") !== -1;
+    btn.querySelectorAll(".modifier-key").forEach((span) => {
+      span.textContent = isMac ? "\u2318" : "Ctrl";
+    });
+    const modifierKey = isMac ? "Command" : "Ctrl";
+    btn.title = btn.title.replace("Press Enter", `Press ${modifierKey}+Enter`);
+    const ariaLabel = btn.getAttribute("aria-label");
+    if (ariaLabel) {
+      btn.setAttribute(
+        "aria-label",
+        ariaLabel.replace("Press Enter", `Press ${modifierKey}+Enter`)
+      );
+    }
+  }
+  var EVENT_NAMESPACE, intersectObserver, _submitButton, TextAreaSubmitInputBinding;
+  var init_submitTextArea = __esm({
+    "srcts/src/components/submitTextArea.ts"() {
+      "use strict";
+      init_utils();
+      EVENT_NAMESPACE = "textSubmitInputBinding";
+      intersectObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            updateHeight(entry.target);
+          }
+        });
+      });
+      TextAreaSubmitInputBinding = class extends InputBinding {
+        constructor() {
+          super(...arguments);
+          __privateAdd(this, _submitButton, null);
+        }
+        find(scope) {
+          return $(scope).find(".bslib-input-textsubmit > textarea");
+        }
+        initialize(el) {
+          var _a;
+          const btn = (_a = el.parentElement) == null ? void 0 : _a.querySelector(".bslib-input-textsubmit-btn");
+          if (!(btn instanceof HTMLButtonElement)) {
+            throw new Error(
+              "Expected input_submit_textarea()'s container to have a button with class of 'bslib-input-textsubmit-btn'"
+            );
+          }
+          __privateSet(this, _submitButton, btn);
+          updateDisabledState(btn, !el.value);
+          updateHeight(el);
+          maybeUpdateSubmitButtonLabel(el, btn);
+        }
+        // Read a 'proxy' value instead of the actual value since we
+        // intentionally don't want the value server-side until it's submitted.
+        getValue(el) {
+          return $(el).data("val");
+        }
+        setValue(el, value) {
+          el.value = value;
+        }
+        subscribe(el, callback) {
+          function doSendValue() {
+            $(el).data("val", el.value);
+            el.value = "";
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+            callback("event");
+          }
+          const btn = __privateGet(this, _submitButton);
+          if (btn.classList.contains("shiny-bound-input")) {
+            $(btn).on(`shiny:inputchanged.${EVENT_NAMESPACE}`, doSendValue);
+          } else {
+            $(btn).on(`click.${EVENT_NAMESPACE}`, doSendValue);
+          }
+          $(el).on(`input.${EVENT_NAMESPACE}`, function() {
+            updateDisabledState(btn, !el.value);
+            updateHeight(el);
+          });
+          $(el).on(
+            `keydown.${EVENT_NAMESPACE}`,
+            // event: JQuery.KeyboardEventObject
+            function(event) {
+              if (event.key !== "Enter") {
+                return;
+              }
+              if (!el.value) {
+                event.preventDefault();
+                return;
+              }
+              const needsModifier = el.hasAttribute("data-needs-modifier");
+              const hasModifier = event.ctrlKey || event.metaKey;
+              if (needsModifier && hasModifier) {
+                event.preventDefault();
+                btn.click();
+                return;
+              }
+              if (!needsModifier && !event.shiftKey) {
+                event.preventDefault();
+                btn.click();
+              }
+            }
+          );
+          intersectObserver.observe(el);
+        }
+        unsubscribe(el) {
+          $(el).off(`.${EVENT_NAMESPACE}`);
+          const btn = el.nextElementSibling;
+          $(btn).off(`.${EVENT_NAMESPACE}`);
+          intersectObserver.unobserve(el);
+        }
+        receiveMessage(el, data) {
+          return __async(this, null, function* () {
+            const oldValue = el.value;
+            if (data.value !== void 0) {
+              el.value = data.value;
+              el.dispatchEvent(new Event("input", { bubbles: true }));
+            }
+            if (data.placeholder !== void 0) {
+              el.placeholder = data.placeholder;
+            }
+            if (data.label !== void 0) {
+              const labEl = $(el).closest(".shiny-input-container").find("label");
+              yield updateLabel(data.label, labEl);
+            }
+            if (data.submit) {
+              const btn = el.nextElementSibling;
+              if (btn instanceof HTMLButtonElement) {
+                btn.click();
+                el.value = oldValue;
+              }
+            }
+            if (data.focus) {
+              el.focus();
+            }
+          });
+        }
+      };
+      _submitButton = new WeakMap();
+      registerBinding(TextAreaSubmitInputBinding, "submit-text-area");
+    }
+  });
+
   // srcts/src/components/_shinyAddCustomMessageHandlers.ts
   function shinyAddCustomMessageHandlers(handlers) {
     if (!window.Shiny) {
@@ -1572,6 +1755,7 @@
       init_card();
       init_sidebar();
       init_taskButton();
+      init_submitTextArea();
       init_utils();
       init_shinyAddCustomMessageHandlers();
       var bslibMessageHandlers = {
