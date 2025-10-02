@@ -29,10 +29,12 @@ class TextAreaSubmitInputBinding extends InputBinding {
   }
 
   initialize(el: HTMLTextAreaElement): void {
-    const btn = el.nextElementSibling;
+    const btn = el.parentElement?.querySelector(".bslib-input-textsubmit-btn");
     // This assumption is forced server-side
     if (!(btn instanceof HTMLButtonElement)) {
-      throw new Error("No submit button found");
+      throw new Error(
+        "Expected input_submit_textarea()'s container to have a button with class of 'bslib-input-textsubmit-btn'"
+      );
     }
     this.#submitButton = btn;
     updateDisabledState(btn, !el.value);
@@ -194,16 +196,27 @@ function maybeUpdateSubmitButtonLabel(
   if (!el.hasAttribute("data-needs-modifier")) {
     return;
   }
-  if (!btn.hasAttribute("data-default-button")) {
+  if (!btn.querySelector(".modifier-key")) {
     return;
   }
 
   const isMac = navigator.userAgent.indexOf("Mac") !== -1;
-  const modifierKey = isMac ? "\u2318" : "Ctrl";
-  btn.textContent = `Submit ${modifierKey} \u23CE`;
-  const titleText = `Press ${modifierKey} + Enter to Submit`;
-  btn.title = titleText;
-  btn.setAttribute("aria-label", titleText);
+
+  // Insert the appropriate modifier symbol into button label
+  btn.querySelectorAll(".modifier-key").forEach((span) => {
+    span.textContent = isMac ? "\u2318" : "Ctrl";
+  });
+
+  // Insert the appropriate modifier into the button title and aria-label
+  const modifierKey = isMac ? "Command" : "Ctrl";
+  btn.title = btn.title.replace("Press Enter", `Press ${modifierKey}+Enter`);
+  const ariaLabel = btn.getAttribute("aria-label");
+  if (ariaLabel) {
+    btn.setAttribute(
+      "aria-label",
+      ariaLabel.replace("Press Enter", `Press ${modifierKey}+Enter`)
+    );
+  }
 }
 
 registerBinding(TextAreaSubmitInputBinding, "submit-text-area");

@@ -81,18 +81,17 @@ input_submit_textarea <- function(
     button <- input_task_button(
       id = paste0(id, "_submit"),
       class = "btn-sm",
-      label = "Submit \U23CE",
+      label = HTML("Submit <span class='modifier-key'></span> \U23CE"),
       title = "Press Enter to Submit",
-      `aria-label` = "Press Enter to Submit",
-      # The label/title above are updated in JS if a modifier key is needed
-      # (since it's platform dependent)
-      `data-default-button` = ""
+      `aria-label` = "Press Enter to Submit"
     )
   }
 
   if (!is_button_tag(button)) {
     stop("`button` must be a `tags$button()`", call. = FALSE)
   }
+
+  button <- tagAppendAttributes(button, class = "bslib-input-textsubmit-btn")
 
   div(
     class = "bslib-input-textsubmit shiny-input-container bslib-mb-spacing",

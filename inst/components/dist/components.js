@@ -1593,15 +1593,22 @@
     if (!el.hasAttribute("data-needs-modifier")) {
       return;
     }
-    if (!btn.hasAttribute("data-default-button")) {
+    if (!btn.querySelector(".modifier-key")) {
       return;
     }
     const isMac = navigator.userAgent.indexOf("Mac") !== -1;
-    const modifierKey = isMac ? "\u2318" : "Ctrl";
-    btn.textContent = `Submit ${modifierKey} \u23CE`;
-    const titleText = `Press ${modifierKey} + Enter to Submit`;
-    btn.title = titleText;
-    btn.setAttribute("aria-label", titleText);
+    btn.querySelectorAll(".modifier-key").forEach((span) => {
+      span.textContent = isMac ? "\u2318" : "Ctrl";
+    });
+    const modifierKey = isMac ? "Command" : "Ctrl";
+    btn.title = btn.title.replace("Press Enter", `Press ${modifierKey}+Enter`);
+    const ariaLabel = btn.getAttribute("aria-label");
+    if (ariaLabel) {
+      btn.setAttribute(
+        "aria-label",
+        ariaLabel.replace("Press Enter", `Press ${modifierKey}+Enter`)
+      );
+    }
   }
   var EVENT_NAMESPACE, intersectObserver, _submitButton, TextAreaSubmitInputBinding;
   var init_submitTextArea = __esm({
@@ -1625,9 +1632,12 @@
           return $(scope).find(".bslib-input-textsubmit > textarea");
         }
         initialize(el) {
-          const btn = el.nextElementSibling;
+          var _a;
+          const btn = (_a = el.parentElement) == null ? void 0 : _a.querySelector(".bslib-input-textsubmit-btn");
           if (!(btn instanceof HTMLButtonElement)) {
-            throw new Error("No submit button found");
+            throw new Error(
+              "Expected input_submit_textarea()'s container to have a button with class of 'bslib-input-textsubmit-btn'"
+            );
           }
           __privateSet(this, _submitButton, btn);
           updateDisabledState(btn, !el.value);
