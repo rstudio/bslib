@@ -47,9 +47,13 @@
 #' shinyApp(ui, server)
 #'
 #' @section Server value:
-#' A character string of the text input. The default value is `""` even if
-#' `value` is provided. The value will only be set/updated when the user submits
-#' the input by pressing the Enter key or clicking the submit button.
+#' The server receives a character string containing the user's text input.
+#'
+#' **Important:** The initial server value is always `""` (empty string),
+#' regardless of any `value` parameter provided to `input_submit_textarea()`.
+#' The server value updates only when the user explicitly submits the input by
+#' either pressing the Enter key (possibly with a modifier key) or clicking the
+#' submit button.
 #'
 #' @export
 input_submit_textarea <- function(
