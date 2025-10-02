@@ -132,8 +132,12 @@ usually a string.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Named arguments become attributes to include on the <code>&lt;button&gt;</code>
-element.</p></dd>
+<dd><p>In <code>input_task_button()</code>, named arguments become attributes to
+include on the <code>&lt;button&gt;</code> element, e.g. <code>class</code> or data attributes.
+Unnamed arguments can provide additional states for the button, see the
+"Custom states" section.</p>
+<p>In <code>update_task_button()</code>, <code>...</code> are ignored and must be empty. The task
+button only supports changing between pre-defined states.</p></dd>
 
 
 <dt id="arg-icon">icon<a class="anchor" aria-label="anchor" href="#arg-icon"></a></dt>
@@ -197,13 +201,41 @@ will not actually re-enable until the same moment that all of the updated
 outputs simultaneously sent to the client.</p>
     </div>
     <div class="section level2">
+    <h2 id="custom-states">Custom states<a class="anchor" aria-label="anchor" href="#custom-states"></a></h2>
+
+
+<p>The task button is designed to automatically switch between two states: the
+"ready" state, where the button is clickable and displays the <code>label</code> and
+<code>icon</code>; and the "busy" state, where the button is disabled and displays
+<code>label_busy</code> and <code>icon_busy</code>.</p>
+<p>In advanced use cases, you can include additional states by adding an
+<code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">htmltools::div()</a></code> with a <code>slot</code> attribute naming the state and the icon and
+label as the first and second children, respectively.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/input_task_button.html">input_task_button</a></span><span class="op">(</span></span>
+<span>  label <span class="op">=</span> <span class="st">"Ring home"</span>,</span>
+<span>  icon <span class="op">=</span> <span class="fu">fontawesome</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/fontawesome/reference/fa_i.html" class="external-link">fa_i</a></span><span class="op">(</span><span class="st">"phone"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span>slot <span class="op">=</span> <span class="st">"ringing"</span>, <span class="fu">fontawesome</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/fontawesome/reference/fa_i.html" class="external-link">fa_i</a></span><span class="op">(</span><span class="st">"bell"</span><span class="op">)</span>, <span class="st">"Ringing..."</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<span>    slot <span class="op">=</span> <span class="st">"voice-mail"</span>,</span>
+<span>    <span class="fu">fontawesome</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/fontawesome/reference/fa_i.html" class="external-link">fa_i</a></span><span class="op">(</span><span class="st">"voicemail"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"Leaving a message..."</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre><p></p></div>
+<p>You can move between these states by calling <code>update_task_button()</code> and
+passing the slot name to the <code>state</code> argument, e.g. <code>state="ringing"</code>. See
+the section above on manual button resetting, which you will likely need to
+use in conjunction with custom states.</p>
+    </div>
+    <div class="section level2">
     <h2 id="server-value">Server value<a class="anchor" aria-label="anchor" href="#server-value"></a></h2>
 
 
 <p>An integer of class <code>"shinyActionButtonValue"</code>. This class differs from
-ordinary integers in that a value of 0 is considered "falsy".
-This implies two things:</p><ul><li><p>Event handlers (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">shiny::observeEvent()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">shiny::eventReactive()</a></code>) won't execute on initial load.</p></li>
-<li><p>Input validation (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/req.html" class="external-link">shiny::req()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/validate.html" class="external-link">shiny::need()</a></code>) will fail on initial load.</p></li>
+ordinary integers in that a value of 0 is considered "falsy". This implies
+two things:</p><ul><li><p>Event handlers (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">shiny::observeEvent()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">shiny::eventReactive()</a></code>)
+won't execute on initial load.</p></li>
+<li><p>Input validation (e.g., <code><a href="https://rdrr.io/pkg/shiny/man/req.html" class="external-link">shiny::req()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/validate.html" class="external-link">shiny::need()</a></code>) will fail on
+initial load.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
