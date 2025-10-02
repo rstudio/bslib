@@ -67,5 +67,5 @@ anyNamed <- function(x) {
 
 
 shiny_input_label <- function(id, label = NULL) {
-  getFromNamespace("shinyInputLabel", "shiny")(id, label) 
+  getFromNamespace("shinyInputLabel", "shiny")(id, label)
 }
