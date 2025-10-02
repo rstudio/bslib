@@ -4,7 +4,7 @@ $prefix: bs- !default;
   display: flex;
   flex-direction: column;
   border: var(--#{$prefix}border-width, 1px) solid var(--#{$prefix}gray-500, #ced4da); // bs_theme(preset="shiny") sets input border color to $gray-500
-  border-radius: var(--#{$prefix}border-radius-lg, 4px);
+  border-radius: var(--#{$prefix}border-radius-sm, 4px);
   padding: 0.5rem;
   background-color: var(--#{$prefix}body-bg, white);
   transition: border-color 0.2s, box-shadow 0.2s;
