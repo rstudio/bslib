@@ -21,11 +21,6 @@
       throw TypeError("Cannot add the same private member more than once");
     member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
   };
-  var __privateSet = (obj, member, value, setter) => {
-    __accessCheck(obj, member, "write to private field");
-    setter ? setter.call(obj, value) : member.set(obj, value);
-    return value;
-  };
   var __privateMethod = (obj, member, method) => {
     __accessCheck(obj, member, "access private method");
     return method;
@@ -1577,7 +1572,9 @@
   });
 
   // srcts/src/components/submitTextArea.ts
-  function updateDisabledState(btn, isDisabled) {
+  function updateDisabledState(el) {
+    const btn = findSubmitButton(el);
+    const isDisabled = !el.value;
     btn.classList.toggle("disabled", isDisabled);
     btn.setAttribute("aria-disabled", isDisabled.toString());
     isDisabled ? btn.setAttribute("tabindex", "-1") : btn.removeAttribute("tabindex");
@@ -1589,10 +1586,11 @@
     el.style.height = "auto";
     el.style.height = el.scrollHeight + "px";
   }
-  function maybeUpdateSubmitButtonLabel(el, btn) {
+  function maybeUpdateSubmitButtonLabel(el) {
     if (!el.hasAttribute("data-needs-modifier")) {
       return;
     }
+    const btn = findSubmitButton(el);
     if (!btn.querySelector(".modifier-key")) {
       return;
     }
@@ -1610,7 +1608,24 @@
       );
     }
   }
-  var EVENT_NAMESPACE, intersectObserver, _submitButton, TextAreaSubmitInputBinding;
+  function findSubmitButton(el) {
+    var _a;
+    const btn = (_a = el.parentElement) == null ? void 0 : _a.querySelector(".bslib-submit-textarea-btn");
+    if (btn instanceof HTMLButtonElement) {
+      return btn;
+    }
+    throw new Error(
+      "Expected input_submit_textarea()'s container to have a button with class of 'bslib-submit-textarea-btn'"
+    );
+  }
+  function insertNewLineAtCursor(el) {
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    el.value = el.value.substring(0, start) + "\n" + el.value.substring(end);
+    el.selectionStart = el.selectionEnd = start + 1;
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+  var EVENT_NAMESPACE, intersectObserver, TextAreaSubmitInputBinding;
   var init_submitTextArea = __esm({
     "srcts/src/components/submitTextArea.ts"() {
       "use strict";
@@ -1624,25 +1639,13 @@
         });
       });
       TextAreaSubmitInputBinding = class extends InputBinding {
-        constructor() {
-          super(...arguments);
-          __privateAdd(this, _submitButton, null);
-        }
         find(scope) {
           return $(scope).find(".bslib-submit-textarea textarea");
         }
         initialize(el) {
-          var _a;
-          const btn = (_a = el.parentElement) == null ? void 0 : _a.querySelector(".bslib-submit-textarea-btn");
-          if (!(btn instanceof HTMLButtonElement)) {
-            throw new Error(
-              "Expected input_submit_textarea()'s container to have a button with class of 'bslib-submit-textarea-btn'"
-            );
-          }
-          __privateSet(this, _submitButton, btn);
-          updateDisabledState(btn, !el.value);
+          updateDisabledState(el);
           updateHeight(el);
-          maybeUpdateSubmitButtonLabel(el, btn);
+          maybeUpdateSubmitButtonLabel(el);
         }
         // Read a 'proxy' value instead of the actual value since we
         // intentionally don't want the value server-side until it's submitted.
@@ -1659,14 +1662,14 @@
             el.dispatchEvent(new Event("input", { bubbles: true }));
             callback("event");
           }
-          const btn = __privateGet(this, _submitButton);
+          const btn = findSubmitButton(el);
           if (btn.classList.contains("shiny-bound-input")) {
             $(btn).on(`shiny:inputchanged.${EVENT_NAMESPACE}`, doSendValue);
           } else {
             $(btn).on(`click.${EVENT_NAMESPACE}`, doSendValue);
           }
           $(el).on(`input.${EVENT_NAMESPACE}`, function() {
-            updateDisabledState(btn, !el.value);
+            updateDisabledState(el);
             updateHeight(el);
           });
           $(el).on(
@@ -1680,16 +1683,25 @@
                 event.preventDefault();
                 return;
               }
+              if (event.shiftKey) {
+                return;
+              }
+              if (event.altKey) {
+                event.preventDefault();
+                insertNewLineAtCursor(el);
+                return;
+              }
               const needsModifier = el.hasAttribute("data-needs-modifier");
+              if (!needsModifier) {
+                event.preventDefault();
+                btn.click();
+                return;
+              }
               const hasModifier = event.ctrlKey || event.metaKey;
               if (needsModifier && hasModifier) {
                 event.preventDefault();
                 btn.click();
                 return;
-              }
-              if (!needsModifier && !event.shiftKey) {
-                event.preventDefault();
-                btn.click();
               }
             }
           );
@@ -1716,11 +1728,9 @@
               yield updateLabel(data.label, labEl);
             }
             if (data.submit) {
-              const btn = el.nextElementSibling;
-              if (btn instanceof HTMLButtonElement) {
-                btn.click();
-                el.value = oldValue;
-              }
+              const btn = findSubmitButton(el);
+              btn.click();
+              el.value = oldValue;
             }
             if (data.focus) {
               el.focus();
@@ -1728,7 +1738,6 @@
           });
         }
       };
-      _submitButton = new WeakMap();
       registerBinding(TextAreaSubmitInputBinding, "submit-text-area");
     }
   });

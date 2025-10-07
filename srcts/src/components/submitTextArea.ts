@@ -22,24 +22,14 @@ const intersectObserver = new IntersectionObserver((entries) => {
 });
 
 class TextAreaSubmitInputBinding extends InputBinding {
-  #submitButton: HTMLButtonElement | null = null;
-
   find(scope: HTMLElement): JQuery<HTMLElement> {
     return $(scope).find(".bslib-submit-textarea textarea");
   }
 
   initialize(el: HTMLTextAreaElement): void {
-    const btn = el.parentElement?.querySelector(".bslib-submit-textarea-btn");
-    // This assumption is forced server-side
-    if (!(btn instanceof HTMLButtonElement)) {
-      throw new Error(
-        "Expected input_submit_textarea()'s container to have a button with class of 'bslib-submit-textarea-btn'"
-      );
-    }
-    this.#submitButton = btn;
-    updateDisabledState(btn, !el.value);
+    updateDisabledState(el);
     updateHeight(el);
-    maybeUpdateSubmitButtonLabel(el, btn);
+    maybeUpdateSubmitButtonLabel(el);
   }
 
   // Read a 'proxy' value instead of the actual value since we
@@ -62,8 +52,7 @@ class TextAreaSubmitInputBinding extends InputBinding {
       callback("event");
     }
 
-    const btn = this.#submitButton as HTMLButtonElement;
-
+    const btn = findSubmitButton(el);
     if (btn.classList.contains("shiny-bound-input")) {
       // If the button is a task/action button, make sure this text input value
       // is sent along with the button input value _on the same update message
@@ -82,7 +71,7 @@ class TextAreaSubmitInputBinding extends InputBinding {
 
     // When new input is received, update the button's disabled state
     $(el).on(`input.${EVENT_NAMESPACE}`, function () {
-      updateDisabledState(btn, !el.value);
+      updateDisabledState(el);
       updateHeight(el);
     });
 
@@ -101,21 +90,34 @@ class TextAreaSubmitInputBinding extends InputBinding {
           return;
         }
 
-        const needsModifier = el.hasAttribute("data-needs-modifier");
-        const hasModifier = event.ctrlKey || event.metaKey;
+        // If shift is held, allow default (newline)
+        if (event.shiftKey) {
+          return;
+        }
 
-        // If a modifier is needed, and it is present, submit the input
-        if (needsModifier && hasModifier) {
+        // If alt is held, insert a newline
+        // (browser's don't seem to handle this consistently, so handle it manually)
+        if (event.altKey) {
+          event.preventDefault();
+          insertNewLineAtCursor(el);
+          return;
+        }
+
+        // Since we'll handle the newline cases above, if no modifier is needed,
+        // submit the input
+        const needsModifier = el.hasAttribute("data-needs-modifier");
+        if (!needsModifier) {
           event.preventDefault();
           btn.click();
           return;
         }
 
-        // If no modifier is needed, shift+enter inserts a new line,
-        // but enter alone submits the input
-        if (!needsModifier && !event.shiftKey) {
+        // If a modifier is needed, and it is present, submit the input
+        const hasModifier = event.ctrlKey || event.metaKey;
+        if (needsModifier && hasModifier) {
           event.preventDefault();
           btn.click();
+          return;
         }
       }
     );
@@ -151,11 +153,9 @@ class TextAreaSubmitInputBinding extends InputBinding {
     }
 
     if (data.submit) {
-      const btn = el.nextElementSibling;
-      if (btn instanceof HTMLButtonElement) {
-        btn.click();
-        el.value = oldValue;
-      }
+      const btn = findSubmitButton(el);
+      btn.click();
+      el.value = oldValue;
     }
 
     if (data.focus) {
@@ -164,7 +164,12 @@ class TextAreaSubmitInputBinding extends InputBinding {
   }
 }
 
-function updateDisabledState(btn: HTMLButtonElement, isDisabled: boolean) {
+// Update the submit button's disabled state based on whether
+// or not the textarea has content
+function updateDisabledState(el: HTMLTextAreaElement) {
+  const btn = findSubmitButton(el);
+  const isDisabled = !el.value;
+
   // This class brings in Bootstrap disabled styles, which should not only
   // visually grey out the button, but also prevent pointer events
   btn.classList.toggle("disabled", isDisabled);
@@ -179,6 +184,7 @@ function updateDisabledState(btn: HTMLButtonElement, isDisabled: boolean) {
     : btn.removeAttribute("tabindex");
 }
 
+// Update the height of the textarea to fit its content
 function updateHeight(el: HTMLTextAreaElement) {
   if (el.scrollHeight === 0) {
     return;
@@ -189,13 +195,11 @@ function updateHeight(el: HTMLTextAreaElement) {
 
 // If the textarea has data-needs-modifier, update the default
 // button label/title accordingly
-function maybeUpdateSubmitButtonLabel(
-  el: HTMLTextAreaElement,
-  btn: HTMLButtonElement
-) {
+function maybeUpdateSubmitButtonLabel(el: HTMLTextAreaElement) {
   if (!el.hasAttribute("data-needs-modifier")) {
     return;
   }
+  const btn = findSubmitButton(el);
   if (!btn.querySelector(".modifier-key")) {
     return;
   }
@@ -217,6 +221,26 @@ function maybeUpdateSubmitButtonLabel(
       ariaLabel.replace("Press Enter", `Press ${modifierKey}+Enter`)
     );
   }
+}
+
+// Find the submit button associated with this textarea
+function findSubmitButton(el: HTMLTextAreaElement): HTMLButtonElement {
+  const btn = el.parentElement?.querySelector(".bslib-submit-textarea-btn");
+  if (btn instanceof HTMLButtonElement) {
+    return btn;
+  }
+  throw new Error(
+    "Expected input_submit_textarea()'s container to have a button with class of 'bslib-submit-textarea-btn'"
+  );
+}
+
+// Insert a newline at the cursor position
+function insertNewLineAtCursor(el: HTMLTextAreaElement) {
+  const start = el.selectionStart;
+  const end = el.selectionEnd;
+  el.value = el.value.substring(0, start) + "\n" + el.value.substring(end);
+  el.selectionStart = el.selectionEnd = start + 1;
+  el.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
 registerBinding(TextAreaSubmitInputBinding, "submit-text-area");
