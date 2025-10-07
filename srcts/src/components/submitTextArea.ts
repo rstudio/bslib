@@ -25,15 +25,15 @@ class TextAreaSubmitInputBinding extends InputBinding {
   #submitButton: HTMLButtonElement | null = null;
 
   find(scope: HTMLElement): JQuery<HTMLElement> {
-    return $(scope).find(".bslib-input-textsubmit > textarea");
+    return $(scope).find(".bslib-submit-textarea textarea");
   }
 
   initialize(el: HTMLTextAreaElement): void {
-    const btn = el.parentElement?.querySelector(".bslib-input-textsubmit-btn");
+    const btn = el.parentElement?.querySelector(".bslib-submit-textarea-btn");
     // This assumption is forced server-side
     if (!(btn instanceof HTMLButtonElement)) {
       throw new Error(
-        "Expected input_submit_textarea()'s container to have a button with class of 'bslib-input-textsubmit-btn'"
+        "Expected input_submit_textarea()'s container to have a button with class of 'bslib-submit-textarea-btn'"
       );
     }
     this.#submitButton = btn;

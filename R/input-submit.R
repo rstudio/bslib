@@ -91,17 +91,17 @@ input_submit_textarea <- function(
     stop("`button` must be a `tags$button()`", call. = FALSE)
   }
 
-  button <- tagAppendAttributes(button, class = "bslib-input-textsubmit-btn")
+  button <- tagAppendAttributes(button, class = "bslib-submit-textarea-btn")
 
   div(
-    class = "shiny-input-container bslib-mb-spacing",
+    class = "bslib-submit-textarea shiny-input-container bslib-mb-spacing",
     style = css(
       # TODO: validateCssUnit() needs to handle more complex CSS
       width = if (is.numeric(width)) paste0(width, "px") else width,
     ),
     shiny_input_label(id, label),
     div(
-      class = "bslib-input-textsubmit",
+      class = "bslib-submit-textarea-container",
       tags$textarea(
         id = id,
         class = "form-control",
