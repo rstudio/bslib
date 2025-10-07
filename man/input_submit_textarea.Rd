@@ -13,7 +13,7 @@ input_submit_textarea(
   ...,
   button = NULL,
   width = "min(680px, 100\%)",
-  submit_key = c("enter", "enter+modifier")
+  submit_key = c("enter+modifier", "enter")
 )
 
 update_submit_textarea(

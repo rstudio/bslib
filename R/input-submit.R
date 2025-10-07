@@ -64,7 +64,7 @@ input_submit_textarea <- function(
   ...,
   button = NULL,
   width = "min(680px, 100%)",
-  submit_key = c("enter", "enter+modifier")
+  submit_key = c("enter+modifier", "enter")
 ) {
   rlang::check_installed("shiny", version = "1.11.1")
   rlang::check_dots_empty()
