@@ -1591,11 +1591,11 @@
       return;
     }
     const btn = findSubmitButton(el);
-    if (!btn.querySelector(".submit-key")) {
+    if (!btn.querySelector(".bslib-submit-key")) {
       return;
     }
     const isMac = navigator.userAgent.indexOf("Mac") !== -1;
-    btn.querySelectorAll(".submit-key").forEach((span) => {
+    btn.querySelectorAll(".bslib-submit-key").forEach((span) => {
       const modifierKey2 = isMac ? "\u2318" : "Ctrl";
       span.textContent = `${modifierKey2} \u23CE`;
     });

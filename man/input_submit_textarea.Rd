@@ -8,11 +8,12 @@
 input_submit_textarea(
   id,
   label = NULL,
+  ...,
   placeholder = NULL,
   value = "",
-  ...,
-  button = NULL,
   width = "min(680px, 100\%)",
+  rows = 1,
+  button = NULL,
   submit_key = c("enter+modifier", "enter")
 )
 
@@ -33,11 +34,20 @@ update_submit_textarea(
 \item{label}{The label to display above the input control. If \code{NULL}, no
 label is displayed.}
 
+\item{...}{Unnamed argument values: UI elements to include alongside the
+submit button (e.g., help text, links, etc.). Named argument values:
+additional attributes to apply to the underlying \verb{<textarea>} element
+(e.g., spellcheck, autocomplete, etc).}
+
 \item{placeholder}{The placeholder text for the user input.}
 
 \item{value}{The value to set the user input to.}
 
-\item{...}{Currently not used.}
+\item{width}{Any valid CSS unit (e.g., \code{width="100\%"}).}
+
+\item{rows}{The number of rows (i.e., height) of the textarea. This essentially
+sets the minimum height -- the textarea can grow taller as the user
+enters more text.}
 
 \item{button}{A \link[htmltools:builder]{htmltools::tags} element to use for the submit button. It's recommended
 that this be a \code{\link[=input_task_button]{input_task_button()}} since it will automatically provide a
@@ -45,8 +55,6 @@ busy indicator (and disable) until the next flush occurs. Note also that if
 the submit button launches a \link[shiny:ExtendedTask]{shiny::ExtendedTask}, this button can also be bound
 to the task (\code{\link[=bind_task_button]{bind_task_button()}}) and/or manually updated for more
 accurate progress reporting (\code{\link[=update_task_button]{update_task_button()}}).}
-
-\item{width}{Any valid CSS unit (e.g., \code{width="100\%"}).}
 
 \item{submit_key}{A character string indicating what keyboard event should
 trigger the submit button. The default is \code{enter+modifier}, which requires

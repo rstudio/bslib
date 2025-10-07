@@ -9,18 +9,24 @@
 #' @param id The input ID.
 #' @param label The label to display above the input control. If `NULL`, no
 #'   label is displayed.
+#' @param ... Unnamed argument values: UI elements to include alongside the
+#'   submit button (e.g., help text, links, etc.). Named argument values:
+#'   additional attributes to apply to the underlying `<textarea>` element
+#'   (e.g., spellcheck, autocomplete, etc).
 #' @param placeholder The placeholder text to display when the input is empty.
 #'   This can be used to provide a hint or example of the expected input.
 #' @param value The initial input text. Note that, unlike [textAreaInput()],
 #'   this won't set a server-side value until the value is explicitly submitted.
-#' @param ... Currently not used.
+#' @param width Any valid CSS unit (e.g., `width="100%"`).
+#' @param rows The number of rows (i.e., height) of the textarea. This essentially
+#'   sets the minimum height -- the textarea can grow taller as the user
+#'   enters more text.
 #' @param button A [tags] element to use for the submit button. It's recommended
 #'   that this be a [input_task_button()] since it will automatically provide a
 #'   busy indicator (and disable) until the next flush occurs. Note also that if
 #'   the submit button launches a [ExtendedTask], this button can also be bound
 #'   to the task ([bind_task_button()]) and/or manually updated for more
 #'   accurate progress reporting ([update_task_button()]).
-#' @param width Any valid CSS unit (e.g., `width="100%"`).
 #' @param submit_key A character string indicating what keyboard event should
 #'   trigger the submit button. The default is `enter+modifier`, which requires
 #'   the user to hold down Ctrl (or Cmd on Mac) before pressing Enter to
@@ -60,15 +66,15 @@
 input_submit_textarea <- function(
   id,
   label = NULL,
+  ...,
   placeholder = NULL,
   value = "",
-  ...,
-  button = NULL,
   width = "min(680px, 100%)",
+  rows = 1,
+  button = NULL,
   submit_key = c("enter+modifier", "enter")
 ) {
   rlang::check_installed("shiny", version = "1.11.1")
-  rlang::check_dots_empty()
 
   value <- shiny::restoreInput(id = id, default = value)
   if (length(value) != 1 || !is.character(value)) {
@@ -82,7 +88,7 @@ input_submit_textarea <- function(
     button <- input_task_button(
       id = paste0(id, "_submit"),
       class = "btn-sm",
-      label = HTML("Submit <span class='submit-key'>\U23CE</span>"),
+      label = HTML("Submit <span class='bslib-submit-key'>\U23CE</span>"),
       title = "Press Enter to Submit",
       `aria-label` = "Press Enter to Submit"
     )
@@ -93,6 +99,10 @@ input_submit_textarea <- function(
   }
 
   button <- tagAppendAttributes(button, class = "bslib-submit-textarea-btn")
+
+  args <- separate_arguments(...)
+  attribs <- args$attribs
+  children <- args$children
 
   div(
     class = "bslib-submit-textarea shiny-input-container bslib-mb-spacing",
@@ -109,10 +119,15 @@ input_submit_textarea <- function(
         style = css(width = if (!is.null(width)) "100%"),
         placeholder = placeholder,
         `data-needs-modifier` = if (needs_modifier) "",
-        rows = 1,
+        rows = rows,
+        !!!attribs,
         value
       ),
-      button
+      div(
+        class = "bslib-submit-btn-container",
+        div(!!!children),
+        button
+      )
     )
   )
 }

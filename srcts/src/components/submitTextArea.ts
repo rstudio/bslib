@@ -200,14 +200,14 @@ function maybeUpdateSubmitButtonLabel(el: HTMLTextAreaElement) {
     return;
   }
   const btn = findSubmitButton(el);
-  if (!btn.querySelector(".submit-key")) {
+  if (!btn.querySelector(".bslib-submit-key")) {
     return;
   }
 
   const isMac = navigator.userAgent.indexOf("Mac") !== -1;
 
   // Insert the appropriate modifier symbol into button label
-  btn.querySelectorAll(".submit-key").forEach((span) => {
+  btn.querySelectorAll(".bslib-submit-key").forEach((span) => {
     const modifierKey = isMac ? "\u2318" : "Ctrl";
     span.textContent = `${modifierKey} \u23CE`;
   });
