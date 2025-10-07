@@ -35,6 +35,16 @@ $prefix: bs- !default;
     button {
       align-self: end;
       margin-top: 0.5rem;
+      .submit-key {
+        border-radius: var(--#{$prefix}border-radius-sm, 4px);
+        padding: 0.25em 0.5em;
+        font-weight: 300;
+        font-size: 0.7em;
+        vertical-align: 0.15em;
+      }
+      &:not(.disabled) .submit-key {
+        background-color: rgba(var(--#{$prefix}body-color-rgb, 0,0,0), 0.2);
+      }
     }
   }
 }

@@ -82,7 +82,7 @@ input_submit_textarea <- function(
     button <- input_task_button(
       id = paste0(id, "_submit"),
       class = "btn-sm",
-      label = HTML("Submit <span class='modifier-key'></span> \U23CE"),
+      label = HTML("Submit <span class='submit-key'>\U23CE</span>"),
       title = "Press Enter to Submit",
       `aria-label` = "Press Enter to Submit"
     )

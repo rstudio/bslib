@@ -1591,12 +1591,13 @@
       return;
     }
     const btn = findSubmitButton(el);
-    if (!btn.querySelector(".modifier-key")) {
+    if (!btn.querySelector(".submit-key")) {
       return;
     }
     const isMac = navigator.userAgent.indexOf("Mac") !== -1;
-    btn.querySelectorAll(".modifier-key").forEach((span) => {
-      span.textContent = isMac ? "\u2318" : "Ctrl";
+    btn.querySelectorAll(".submit-key").forEach((span) => {
+      const modifierKey2 = isMac ? "\u2318" : "Ctrl";
+      span.textContent = `${modifierKey2} \u23CE`;
     });
     const modifierKey = isMac ? "Command" : "Ctrl";
     btn.title = btn.title.replace("Press Enter", `Press ${modifierKey}+Enter`);
