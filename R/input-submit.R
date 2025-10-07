@@ -22,10 +22,11 @@
 #'   accurate progress reporting ([update_task_button()]).
 #' @param width Any valid CSS unit (e.g., `width="100%"`).
 #' @param submit_key A character string indicating what keyboard event should
-#'   trigger the submit button. The default is `enter`, which will submit the
-#'   input when the user presses the Enter/Return key. The `enter+modifier`
-#'   option will submit the input when the user presses the Enter key while
-#'   holding down Ctrl/Cmd.
+#'   trigger the submit button. The default is `enter+modifier`, which requires
+#'   the user to hold down Ctrl (or Cmd on Mac) before pressing Enter to
+#'   submit. This helps prevent accidental submissions. To allow submission with
+#'   just the Enter key, use `enter`. In this case, the user can still insert
+#'   new lines using Shift+Enter or Alt+Enter.
 #'
 #' @return A textarea input control that can be added to a UI definition.
 #'
