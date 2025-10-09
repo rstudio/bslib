@@ -57,6 +57,7 @@
 #'
 #' # Provide an id to create a shiny input binding
 #' library(shiny)
+#' library(bslib)
 #'
 #' ui <- page_fluid(
 #'   accordion(!!!items, id = "acc")

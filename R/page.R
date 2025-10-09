@@ -113,6 +113,7 @@ page_fixed <- function(..., title = NULL, theme = bs_theme(), lang = NULL) {
 #'
 #' library(shiny)
 #' library(ggplot2)
+#' library(bslib)
 #'
 #' ui <- page_fillable(
 #'   h1("Example", code("mtcars"), "dashboard"),
@@ -230,6 +231,7 @@ validateCssPadding <- function(padding = NULL) {
 #'
 #' library(shiny)
 #' library(ggplot2)
+#' library(bslib)
 #'
 #' ui <- page_sidebar(
 #'   title = "Example dashboard",

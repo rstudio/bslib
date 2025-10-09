@@ -49,6 +49,7 @@ of the browser window.
 
 library(shiny)
 library(ggplot2)
+library(bslib)
 
 ui <- page_fillable(
   h1("Example", code("mtcars"), "dashboard"),
