@@ -95,6 +95,7 @@ they return the "tagified" version of that object.
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 library(shiny)
+library(bslib)
 shinyApp(
   page_fillable(
     # without `as_fill_carrier()`, the plot won't fill the page because
