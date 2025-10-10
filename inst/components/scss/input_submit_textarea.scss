@@ -46,6 +46,13 @@ $prefix: bs- !default;
   gap: 0.5rem;
 }
 
+// Container for user-defined 'toolbar' items
+.bslib-submit-btn-toolbar {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
 .bslib-submit-key {
   border-radius: var(--#{$prefix}border-radius-sm, 4px);
   padding: 0.25em 0.5em;

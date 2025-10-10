@@ -9,10 +9,8 @@
 #' @param id The input ID.
 #' @param label The label to display above the input control. If `NULL`, no
 #'   label is displayed.
-#' @param ... Unnamed argument values: UI elements to include alongside the
-#'   submit button (e.g., help text, links, etc.). Named argument values:
-#'   additional attributes to apply to the underlying `<textarea>` element
-#'   (e.g., spellcheck, autocomplete, etc).
+#' @param ... Additional attributes to apply to the underlying `<textarea>` 
+#'   element (e.g., spellcheck, autocomplete, etc).
 #' @param placeholder The placeholder text to display when the input is empty.
 #'   This can be used to provide a hint or example of the expected input.
 #' @param value The initial input text. Note that, unlike [textAreaInput()],
@@ -27,6 +25,8 @@
 #'   the submit button launches a [ExtendedTask], this button can also be bound
 #'   to the task ([bind_task_button()]) and/or manually updated for more
 #'   accurate progress reporting ([update_task_button()]).
+#' @param toolbar A list of optional UI elements (e.g., links, icons) to
+#'  display next to the submit button.
 #' @param submit_key A character string indicating what keyboard event should
 #'   trigger the submit button. The default is `enter+modifier`, which requires
 #'   the user to hold down Ctrl (or Cmd on Mac) before pressing Enter to
@@ -72,13 +72,20 @@ input_submit_textarea <- function(
   width = "min(680px, 100%)",
   rows = 1,
   button = NULL,
+  toolbar = NULL,
   submit_key = c("enter+modifier", "enter")
 ) {
   rlang::check_installed("shiny", version = "1.11.1")
+  if (any_unnamed(rlang::list2(...))) {
+    abort(c(
+      "All `...` arguments must be named",
+      "i" = "Did you mean to pass UI elements to `toolbar`?"
+    ))
+  }
 
   value <- shiny::restoreInput(id = id, default = value)
   if (length(value) != 1 || !is.character(value)) {
-    stop("`value` must be a character string", call. = FALSE)
+    abort("`value` must be a character string")
   }
 
   submit_key <- rlang::arg_match(submit_key)
@@ -102,7 +109,7 @@ input_submit_textarea <- function(
   }
 
   if (!is_button_tag(button)) {
-    stop("`button` must be a `tags$button()`", call. = FALSE)
+    abort("`button` must be a `tags$button()`")
   }
 
   button <- tagAppendAttributes(button, class = "bslib-submit-textarea-btn")
@@ -127,12 +134,12 @@ input_submit_textarea <- function(
         placeholder = placeholder,
         `data-needs-modifier` = if (needs_modifier) "",
         rows = rows,
-        !!!attribs,
+        ...,
         value
       ),
       div(
         class = "bslib-submit-btn-container",
-        div(!!!children),
+        div(toolbar, class = "bslib-submit-btn-toolbar"),
         button
       )
     )

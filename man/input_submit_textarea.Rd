@@ -14,6 +14,7 @@ input_submit_textarea(
   width = "min(680px, 100\%)",
   rows = 1,
   button = NULL,
+  toolbar = NULL,
   submit_key = c("enter+modifier", "enter")
 )
 
@@ -34,10 +35,8 @@ update_submit_textarea(
 \item{label}{The label to display above the input control. If \code{NULL}, no
 label is displayed.}
 
-\item{...}{Unnamed argument values: UI elements to include alongside the
-submit button (e.g., help text, links, etc.). Named argument values:
-additional attributes to apply to the underlying \verb{<textarea>} element
-(e.g., spellcheck, autocomplete, etc).}
+\item{...}{Additional attributes to apply to the underlying \verb{<textarea>}
+element (e.g., spellcheck, autocomplete, etc).}
 
 \item{placeholder}{The placeholder text for the user input.}
 
@@ -55,6 +54,9 @@ busy indicator (and disable) until the next flush occurs. Note also that if
 the submit button launches a \link[shiny:ExtendedTask]{shiny::ExtendedTask}, this button can also be bound
 to the task (\code{\link[=bind_task_button]{bind_task_button()}}) and/or manually updated for more
 accurate progress reporting (\code{\link[=update_task_button]{update_task_button()}}).}
+
+\item{toolbar}{A list of optional UI elements (e.g., links, icons) to
+display next to the submit button.}
 
 \item{submit_key}{A character string indicating what keyboard event should
 trigger the submit button. The default is \code{enter+modifier}, which requires
