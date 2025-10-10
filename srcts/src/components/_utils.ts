@@ -35,6 +35,24 @@ function registerBslibGlobal(name: string, value: object): void {
   }
 }
 
+type ShinyClientMessage = {
+  message: string;
+  headline?: string;
+  status?: "error" | "info" | "warning";
+};
+
+function showShinyClientMessage({
+  headline = "",
+  message,
+  status = "warning",
+}: ShinyClientMessage): void {
+  document.dispatchEvent(
+    new CustomEvent("shiny:client-message", {
+      detail: { headline: headline, message: message, status: status },
+    })
+  );
+}
+
 // Return true if the key exists on the object and the value is not undefined.
 //
 // This method is mainly used in input bindings' `receiveMessage` method.
@@ -101,6 +119,32 @@ async function shinyRenderContent(
   }
 }
 
+// Copied from shiny utils
+async function updateLabel(
+  labelContent: string | { html: string; deps: HtmlDep[] } | undefined,
+  labelNode: JQuery<HTMLElement>
+): Promise<void> {
+  // Only update if label was specified in the update method
+  if (typeof labelContent === "undefined") return;
+  if (labelNode.length !== 1) {
+    throw new Error("labelNode must be of length 1");
+  }
+
+  if (typeof labelContent === "string") {
+    labelContent = {
+      html: labelContent,
+      deps: [],
+    };
+  }
+
+  if (labelContent.html === "") {
+    labelNode.addClass("shiny-label-null");
+  } else {
+    await shinyRenderContent(labelNode, labelContent);
+    labelNode.removeClass("shiny-label-null");
+  }
+}
+
 export {
   InputBinding,
   registerBinding,
@@ -109,6 +153,8 @@ export {
   doWindowResizeOnElementResize,
   getAllFocusableChildren,
   shinyRenderContent,
+  showShinyClientMessage,
   Shiny,
+  updateLabel,
 };
-export type { HtmlDep };
+export type { HtmlDep, ShinyClientMessage };
