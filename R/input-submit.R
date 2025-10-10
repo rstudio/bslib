@@ -9,7 +9,7 @@
 #' @param id The input ID.
 #' @param label The label to display above the input control. If `NULL`, no
 #'   label is displayed.
-#' @param ... Additional attributes to apply to the underlying `<textarea>` 
+#' @param ... Additional attributes to apply to the underlying `<textarea>`
 #'   element (e.g., spellcheck, autocomplete, etc).
 #' @param placeholder The placeholder text to display when the input is empty.
 #'   This can be used to provide a hint or example of the expected input.
