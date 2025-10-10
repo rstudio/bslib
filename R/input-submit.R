@@ -114,10 +114,6 @@ input_submit_textarea <- function(
 
   button <- tagAppendAttributes(button, class = "bslib-submit-textarea-btn")
 
-  args <- separate_arguments(...)
-  attribs <- args$attribs
-  children <- args$children
-
   div(
     class = "bslib-input-submit-textarea shiny-input-container bslib-mb-spacing",
     style = css(
