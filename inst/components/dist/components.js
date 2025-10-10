@@ -1591,11 +1591,11 @@
       return;
     }
     const btn = findSubmitButton(el);
-    if (!btn.querySelector(".bslib-submit-key")) {
+    if (!btn.querySelector(`.${CSS_CLASSES.submitKey}`)) {
       return;
     }
     const isMac = navigator.userAgent.indexOf("Mac") !== -1;
-    btn.querySelectorAll(".bslib-submit-key").forEach((span) => {
+    btn.querySelectorAll(`.${CSS_CLASSES.submitKey}`).forEach((span) => {
       const modifierKey2 = isMac ? "\u2318" : "Ctrl";
       span.textContent = `${modifierKey2} \u23CE`;
     });
@@ -1611,7 +1611,7 @@
   }
   function findSubmitButton(el) {
     var _a;
-    const btn = (_a = el.parentElement) == null ? void 0 : _a.querySelector(".bslib-submit-textarea-btn");
+    const btn = (_a = el.parentElement) == null ? void 0 : _a.querySelector(`.${CSS_CLASSES.button}`);
     if (btn instanceof HTMLButtonElement) {
       return btn;
     }
@@ -1626,12 +1626,22 @@
     el.selectionStart = el.selectionEnd = start + 1;
     el.dispatchEvent(new Event("input", { bubbles: true }));
   }
-  var EVENT_NAMESPACE, intersectObserver, TextAreaSubmitInputBinding;
+  var EVENT_NAMESPACE, CSS_CLASSES, intersectObserver, TextAreaSubmitInputBinding;
   var init_submitTextArea = __esm({
     "srcts/src/components/submitTextArea.ts"() {
       "use strict";
       init_utils();
       EVENT_NAMESPACE = "textSubmitInputBinding";
+      CSS_CLASSES = {
+        // Top-level container for the entire input (label and everything)
+        input: "bslib-input-submit-textarea",
+        // Container for the textarea and submit button
+        container: "bslib-submit-textarea-container",
+        // Class assigned to the submit button
+        button: "bslib-submit-textarea-btn",
+        // Class assigned to the span within the button that shows the key combo
+        submitKey: "bslib-submit-key"
+      };
       intersectObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -1641,7 +1651,7 @@
       });
       TextAreaSubmitInputBinding = class extends InputBinding {
         find(scope) {
-          return $(scope).find(".bslib-input-submit-textarea textarea");
+          return $(scope).find(`.${CSS_CLASSES.input} textarea`);
         }
         initialize(el) {
           updateDisabledState(el);
@@ -1706,12 +1716,24 @@
               }
             }
           );
+          const container = el.closest(`.${CSS_CLASSES.container}`);
+          $(container).on(
+            `click.${EVENT_NAMESPACE}`,
+            // event: JQuery.KeyboardEventObject
+            (event) => {
+              if (event.target.classList.contains(CSS_CLASSES.container)) {
+                el.focus();
+              }
+            }
+          );
           intersectObserver.observe(el);
         }
         unsubscribe(el) {
           $(el).off(`.${EVENT_NAMESPACE}`);
           const btn = el.nextElementSibling;
           $(btn).off(`.${EVENT_NAMESPACE}`);
+          const container = el.closest(`.${CSS_CLASSES.container}`);
+          $(container).off(`.${EVENT_NAMESPACE}`);
           intersectObserver.unobserve(el);
         }
         receiveMessage(el, data) {
@@ -1725,7 +1747,7 @@
               el.placeholder = data.placeholder;
             }
             if (data.label !== void 0) {
-              const labEl = $(el).closest(".shiny-input-container").find("label");
+              const labEl = $(el).closest(`.${CSS_CLASSES.input}`).find("label");
               yield updateLabel(data.label, labEl);
             }
             if (data.submit) {

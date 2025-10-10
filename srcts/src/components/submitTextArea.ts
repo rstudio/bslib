@@ -12,6 +12,18 @@ type TextSubmitReceiveMessageData = {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const EVENT_NAMESPACE = "textSubmitInputBinding";
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const CSS_CLASSES = {
+  // Top-level container for the entire input (label and everything)
+  input: "bslib-input-submit-textarea",
+  // Container for the textarea and submit button
+  container: "bslib-submit-textarea-container",
+  // Class assigned to the submit button
+  button: "bslib-submit-textarea-btn",
+  // Class assigned to the span within the button that shows the key combo
+  submitKey: "bslib-submit-key",
+};
+
 // When a textarea becomes visible, update the height
 const intersectObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -23,7 +35,7 @@ const intersectObserver = new IntersectionObserver((entries) => {
 
 class TextAreaSubmitInputBinding extends InputBinding {
   find(scope: HTMLElement): JQuery<HTMLElement> {
-    return $(scope).find(".bslib-input-submit-textarea textarea");
+    return $(scope).find(`.${CSS_CLASSES.input} textarea`);
   }
 
   initialize(el: HTMLTextAreaElement): void {
@@ -122,6 +134,18 @@ class TextAreaSubmitInputBinding extends InputBinding {
       }
     );
 
+    // Focus the textarea when the container is clicked
+    const container = el.closest(`.${CSS_CLASSES.container}`) as HTMLElement;
+    $(container).on(
+      `click.${EVENT_NAMESPACE}`,
+      // event: JQuery.KeyboardEventObject
+      (event) => {
+        if (event.target.classList.contains(CSS_CLASSES.container)) {
+          el.focus();
+        }
+      }
+    );
+
     intersectObserver.observe(el);
   }
 
@@ -129,6 +153,9 @@ class TextAreaSubmitInputBinding extends InputBinding {
     $(el).off(`.${EVENT_NAMESPACE}`);
     const btn = el.nextElementSibling as HTMLElement;
     $(btn).off(`.${EVENT_NAMESPACE}`);
+    const container = el.closest(`.${CSS_CLASSES.container}`) as HTMLElement;
+    $(container).off(`.${EVENT_NAMESPACE}`);
+
     intersectObserver.unobserve(el);
   }
 
@@ -148,7 +175,7 @@ class TextAreaSubmitInputBinding extends InputBinding {
     }
 
     if (data.label !== undefined) {
-      const labEl = $(el).closest(".shiny-input-container").find("label");
+      const labEl = $(el).closest(`.${CSS_CLASSES.input}`).find("label");
       await updateLabel(data.label, labEl);
     }
 
@@ -200,14 +227,14 @@ function maybeUpdateSubmitButtonLabel(el: HTMLTextAreaElement) {
     return;
   }
   const btn = findSubmitButton(el);
-  if (!btn.querySelector(".bslib-submit-key")) {
+  if (!btn.querySelector(`.${CSS_CLASSES.submitKey}`)) {
     return;
   }
 
   const isMac = navigator.userAgent.indexOf("Mac") !== -1;
 
   // Insert the appropriate modifier symbol into button label
-  btn.querySelectorAll(".bslib-submit-key").forEach((span) => {
+  btn.querySelectorAll(`.${CSS_CLASSES.submitKey}`).forEach((span) => {
     const modifierKey = isMac ? "\u2318" : "Ctrl";
     span.textContent = `${modifierKey} \u23CE`;
   });
@@ -226,7 +253,7 @@ function maybeUpdateSubmitButtonLabel(el: HTMLTextAreaElement) {
 
 // Find the submit button associated with this textarea
 function findSubmitButton(el: HTMLTextAreaElement): HTMLButtonElement {
-  const btn = el.parentElement?.querySelector(".bslib-submit-textarea-btn");
+  const btn = el.parentElement?.querySelector(`.${CSS_CLASSES.button}`);
   if (btn instanceof HTMLButtonElement) {
     return btn;
   }
