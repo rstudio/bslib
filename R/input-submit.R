@@ -88,7 +88,14 @@ input_submit_textarea <- function(
     button <- input_task_button(
       id = paste0(id, "_submit"),
       class = "btn-sm",
-      label = HTML("Submit <span class='bslib-submit-key'>\U23CE</span>"),
+      label = span(class = "bslib-submit-key", "\U23CE"),
+      icon = "Submit",
+      label_busy = div(
+        class = "spinner-border spinner-border-sm ms-2",
+        role = "status",
+        span(class = "visually-hidden", "Processing...")
+      ),
+      icon_busy = "Submit",
       title = "Press Enter to Submit",
       `aria-label` = "Press Enter to Submit"
     )
