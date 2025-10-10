@@ -440,7 +440,8 @@ layout_sidebar <- function(
 }
 
 #' @describeIn sidebar Toggle a `sidebar()` state during an active Shiny user
-#'   session.
+#'   session. To use this function, the `sidebar()` you want to open or close
+#'   must have an `id` value.
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #' @export
@@ -457,11 +458,6 @@ toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
   }
   session$onFlush(callback, once = TRUE)
 }
-
-#' @rdname sidebar
-#' @usage NULL
-#' @export
-sidebar_toggle <- toggle_sidebar
 
 collapse_icon <- function() {
   if (!is_installed("bsicons")) {

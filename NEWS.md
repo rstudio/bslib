@@ -6,7 +6,7 @@
 
 ## Improvements and bug fixes
 
-* `bs_theme_dependencies()` now avoids unecessarily copying internal package files to R's temporary directory more than once when preparing precompiled theme dependencies (e.g. for a standard `bs_theme()` theme). (#1184)
+* `bs_theme_dependencies()` now avoids unnecessarily copying internal package files to R's temporary directory more than once when preparing precompiled theme dependencies (e.g. for a standard `bs_theme()` theme). (#1184)
 
 * Fixed an issue where the `<main>` areas of `page_sidebar()` and `page_navbar()` (with a `sidebar`) were made to be a fillable containers even when `fillable = FALSE`. (#1188)
 
@@ -17,6 +17,8 @@
 * Sidebars from `page_sidebar()` and `layout_sidebar()` are now resizable on desktop-sized screen widths, allowing users to resize the sidebar width as desired. (#1217)
 
 * `sidebar()` gains a `fillable` argument to support vertical fill behavior in sidebars. (#1226)
+
+* `sidebar_toggle()` is now officially deprecated in favor of `toggle_sidebar()`. (#1235)
 
 # bslib 0.9.0
 

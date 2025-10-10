@@ -338,6 +338,7 @@ themer_css_dependency <- function(theme) {
 #'
 #' @examples
 #' library(shiny)
+#' library(bslib)
 #'
 #' ui <- fluidPage(
 #'   theme = bs_theme(bg = "black", fg = "white"),

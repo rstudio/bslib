@@ -137,6 +137,7 @@ popover(
 )
 
 library(shiny)
+library(bslib)
 
 ui <- page_fixed(
   card(class = "mt-5",

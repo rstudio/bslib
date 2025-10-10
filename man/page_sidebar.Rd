@@ -49,6 +49,7 @@ Create a dashboard layout with a full-width header (\code{title}) and \code{\lin
 
 library(shiny)
 library(ggplot2)
+library(bslib)
 
 ui <- page_sidebar(
   title = "Example dashboard",

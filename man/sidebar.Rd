@@ -4,7 +4,6 @@
 \alias{sidebar}
 \alias{layout_sidebar}
 \alias{toggle_sidebar}
-\alias{sidebar_toggle}
 \title{Sidebar layouts}
 \usage{
 sidebar(
@@ -156,7 +155,8 @@ on the bslib website to learn more.
 \section{Functions}{
 \itemize{
 \item \code{toggle_sidebar()}: Toggle a \code{sidebar()} state during an active Shiny user
-session.
+session. To use this function, the \code{sidebar()} you want to open or close
+must have an \code{id} value.
 
 }}
 \references{
