@@ -23,7 +23,7 @@ const intersectObserver = new IntersectionObserver((entries) => {
 
 class TextAreaSubmitInputBinding extends InputBinding {
   find(scope: HTMLElement): JQuery<HTMLElement> {
-    return $(scope).find(".bslib-submit-textarea textarea");
+    return $(scope).find(".bslib-input-submit-textarea textarea");
   }
 
   initialize(el: HTMLTextAreaElement): void {

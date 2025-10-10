@@ -112,7 +112,7 @@ input_submit_textarea <- function(
   children <- args$children
 
   div(
-    class = "bslib-submit-textarea shiny-input-container bslib-mb-spacing",
+    class = "bslib-input-submit-textarea shiny-input-container bslib-mb-spacing",
     style = css(
       # TODO: validateCssUnit() needs to handle more complex CSS
       width = if (is.numeric(width)) paste0(width, "px") else width,

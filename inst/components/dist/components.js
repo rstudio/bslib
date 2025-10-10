@@ -1641,7 +1641,7 @@
       });
       TextAreaSubmitInputBinding = class extends InputBinding {
         find(scope) {
-          return $(scope).find(".bslib-submit-textarea textarea");
+          return $(scope).find(".bslib-input-submit-textarea textarea");
         }
         initialize(el) {
           updateDisabledState(el);
