@@ -109,7 +109,6 @@ server <- function(input, output) {
   })
 }
 shinyApp(ui, server)
-
 \dontshow{\}) # examplesIf}
 }
 \seealso{
