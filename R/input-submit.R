@@ -5,6 +5,15 @@
 #' ideal when you want to capture finalized input, rather than reacting to every
 #' keystroke, making it useful for chat boxes, comments, or other scenarios
 #' where users may compose and review their text before submitting.
+#' 
+#' @section Server value:
+#' The server receives a character string containing the user's text input.
+#'
+#' **Important:** The initial server value is always `""` (empty string),
+#' regardless of any `value` parameter provided to `input_submit_textarea()`.
+#' The server value updates only when the user explicitly submits the input by
+#' either pressing the Enter key (possibly with a modifier key) or clicking the
+#' submit button.
 #'
 #' @param id The input ID.
 #' @param label The label to display above the input control. If `NULL`, no
@@ -35,10 +44,11 @@
 #'   new lines using Shift+Enter or Alt+Enter.
 #'
 #' @return A textarea input control that can be added to a UI definition.
-#'
 #' @seealso [update_submit_textarea()], [input_task_button()]
 #'
 #' @examplesIf rlang::is_interactive()
+#' library(shiny)
+#' library(bslib)
 #'
 #' ui <- page_fluid(
 #'   input_submit_textarea("text", placeholder = "Enter some input..."),
@@ -52,15 +62,6 @@
 #'   })
 #' }
 #' shinyApp(ui, server)
-#'
-#' @section Server value:
-#' The server receives a character string containing the user's text input.
-#'
-#' **Important:** The initial server value is always `""` (empty string),
-#' regardless of any `value` parameter provided to `input_submit_textarea()`.
-#' The server value updates only when the user explicitly submits the input by
-#' either pressing the Enter key (possibly with a modifier key) or clicking the
-#' submit button.
 #'
 #' @export
 input_submit_textarea <- function(

@@ -94,6 +94,8 @@ submit button.
 
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+library(shiny)
+library(bslib)
 
 ui <- page_fluid(
   input_submit_textarea("text", placeholder = "Enter some input..."),
@@ -107,6 +109,7 @@ server <- function(input, output) {
   })
 }
 shinyApp(ui, server)
+
 \dontshow{\}) # examplesIf}
 }
 \seealso{
