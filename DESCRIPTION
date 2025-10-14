@@ -98,6 +98,7 @@ Collate:
     'files.R'
     'fill.R'
     'imports.R'
+    'input-button-group.R'
     'input-dark-mode.R'
     'input-switch.R'
     'layout.R'
