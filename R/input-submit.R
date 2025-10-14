@@ -77,7 +77,8 @@ input_submit_textarea <- function(
   submit_key = c("enter+modifier", "enter")
 ) {
   rlang::check_installed("shiny", version = "1.11.1")
-  if (any_unnamed(rlang::list2(...))) {
+  args <- rlang::list2(...)
+  if (any_unnamed(args)) {
     abort(c(
       "All `...` arguments must be named",
       "i" = "Did you mean to pass UI elements to `toolbar`?"
@@ -131,7 +132,7 @@ input_submit_textarea <- function(
         placeholder = placeholder,
         `data-needs-modifier` = if (needs_modifier) "",
         rows = rows,
-        ...,
+        !!!args,
         value
       ),
       tags$footer(
