@@ -5,7 +5,7 @@
 #' ideal when you want to capture finalized input, rather than reacting to every
 #' keystroke, making it useful for chat boxes, comments, or other scenarios
 #' where users may compose and review their text before submitting.
-#' 
+#'
 #' @section Server value:
 #' The server receives a character string containing the user's text input.
 #'

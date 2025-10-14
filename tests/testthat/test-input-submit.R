@@ -1,4 +1,3 @@
-
 test_that("input_submit_textarea() markup snapshots", {
   expect_snapshot(input_submit_textarea("test"))
 
