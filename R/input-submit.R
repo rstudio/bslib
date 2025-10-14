@@ -22,16 +22,16 @@
 #'   element (e.g., spellcheck, autocomplete, etc).
 #' @param placeholder The placeholder text to display when the input is empty.
 #'   This can be used to provide a hint or example of the expected input.
-#' @param value The initial input text. Note that, unlike [textAreaInput()],
+#' @param value The initial input text. Note that, unlike [shiny::textAreaInput()],
 #'   this won't set a server-side value until the value is explicitly submitted.
 #' @param width Any valid CSS unit (e.g., `width="100%"`).
 #' @param rows The number of rows (i.e., height) of the textarea. This essentially
 #'   sets the minimum height -- the textarea can grow taller as the user
 #'   enters more text.
-#' @param button A [tags] element to use for the submit button. It's recommended
+#' @param button A [htmltools::tags] element to use for the submit button. It's recommended
 #'   that this be a [input_task_button()] since it will automatically provide a
 #'   busy indicator (and disable) until the next flush occurs. Note also that if
-#'   the submit button launches a [ExtendedTask], this button can also be bound
+#'   the submit button launches a [shiny::ExtendedTask], this button can also be bound
 #'   to the task ([bind_task_button()]) and/or manually updated for more
 #'   accurate progress reporting ([update_task_button()]).
 #' @param toolbar A list of optional UI elements (e.g., links, icons) to

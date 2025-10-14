@@ -108,7 +108,7 @@ class TextAreaSubmitInputBinding extends InputBinding {
         }
 
         // If alt is held, insert a newline
-        // (browser's don't seem to handle this consistently, so handle it manually)
+        // (browsers don't seem to handle this consistently, so handle it manually)
         if (event.altKey) {
           event.preventDefault();
           insertNewLineAtCursor(el);
