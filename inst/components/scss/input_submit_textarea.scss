@@ -21,7 +21,7 @@ $prefix: bs- !default;
     box-shadow: 0 0 0 var(--#{$prefix}focus-ring-width, 0.25rem) var(--#{$prefix}focus-ring-color, rgba(13, 110, 253, 0.25));
   }
 
-  textarea {
+  > textarea {
     border: none;
     resize: none;
     min-height: 1rem;
@@ -35,22 +35,28 @@ $prefix: bs- !default;
       box-shadow: none;
     }
   }
+
+  // Container for submit button + user-defined 'toolbar' items
+  > footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  // Class appended to submit button
+  .bslib-submit-textarea-btn {
+    margin-left: auto;
+  }
 }
 
-// Container for submit button + user-defined 'toolbar' items
-.bslib-submit-btn-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-}
 
 // Container for user-defined 'toolbar' items
-.bslib-submit-btn-toolbar {
+.bslib-toolbar {
   display: flex;
-  gap: 0.25rem;
   align-items: center;
+  gap: 0.25rem;
 }
 
 .bslib-submit-key {

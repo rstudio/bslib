@@ -133,9 +133,8 @@ input_submit_textarea <- function(
         ...,
         value
       ),
-      div(
-        class = "bslib-submit-btn-container",
-        div(toolbar, class = "bslib-submit-btn-toolbar"),
+      tags$footer(
+        div(toolbar, class = "bslib-toolbar"),
         button
       )
     )
