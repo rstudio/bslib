@@ -97,6 +97,27 @@
       }
     });
   }
+  function updateLabel(labelContent, labelNode) {
+    return __async(this, null, function* () {
+      if (typeof labelContent === "undefined")
+        return;
+      if (labelNode.length !== 1) {
+        throw new Error("labelNode must be of length 1");
+      }
+      if (typeof labelContent === "string") {
+        labelContent = {
+          html: labelContent,
+          deps: []
+        };
+      }
+      if (labelContent.html === "") {
+        labelNode.addClass("shiny-label-null");
+      } else {
+        yield shinyRenderContent(labelNode, labelContent);
+        labelNode.removeClass("shiny-label-null");
+      }
+    });
+  }
   var Shiny, InputBinding;
   var init_utils = __esm({
     "srcts/src/components/_utils.ts"() {
@@ -1550,6 +1571,200 @@
     }
   });
 
+  // srcts/src/components/submitTextArea.ts
+  function updateDisabledState(el) {
+    const btn = findSubmitButton(el);
+    const isDisabled = !el.value;
+    btn.classList.toggle("disabled", isDisabled);
+    btn.setAttribute("aria-disabled", isDisabled.toString());
+    isDisabled ? btn.setAttribute("tabindex", "-1") : btn.removeAttribute("tabindex");
+  }
+  function updateHeight(el) {
+    if (el.scrollHeight === 0) {
+      return;
+    }
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+  }
+  function maybeUpdateSubmitButtonLabel(el) {
+    if (!el.hasAttribute("data-needs-modifier")) {
+      return;
+    }
+    const btn = findSubmitButton(el);
+    if (!btn.querySelector(`.${CSS_CLASSES.submitKey}`)) {
+      return;
+    }
+    const isMac = navigator.userAgent.indexOf("Mac") !== -1;
+    btn.querySelectorAll(`.${CSS_CLASSES.submitKey}`).forEach((span) => {
+      const modifierKey2 = isMac ? "\u2318" : "Ctrl";
+      span.textContent = `${modifierKey2} \u23CE`;
+    });
+    const modifierKey = isMac ? "Command" : "Ctrl";
+    btn.title = btn.title.replace("Press Enter", `Press ${modifierKey}+Enter`);
+    const ariaLabel = btn.getAttribute("aria-label");
+    if (ariaLabel) {
+      btn.setAttribute(
+        "aria-label",
+        ariaLabel.replace("Press Enter", `Press ${modifierKey}+Enter`)
+      );
+    }
+  }
+  function findSubmitButton(el) {
+    var _a;
+    const btn = (_a = el.parentElement) == null ? void 0 : _a.querySelector(`.${CSS_CLASSES.button}`);
+    if (btn instanceof HTMLButtonElement) {
+      return btn;
+    }
+    throw new Error(
+      "Expected input_submit_textarea()'s container to have a button with class of 'bslib-submit-textarea-btn'"
+    );
+  }
+  function insertNewLineAtCursor(el) {
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    el.value = el.value.substring(0, start) + "\n" + el.value.substring(end);
+    el.selectionStart = el.selectionEnd = start + 1;
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+  var EVENT_NAMESPACE, CSS_CLASSES, intersectObserver, TextAreaSubmitInputBinding;
+  var init_submitTextArea = __esm({
+    "srcts/src/components/submitTextArea.ts"() {
+      "use strict";
+      init_utils();
+      EVENT_NAMESPACE = "textSubmitInputBinding";
+      CSS_CLASSES = {
+        // Top-level container for the entire input (label and everything)
+        input: "bslib-input-submit-textarea",
+        // Container for the textarea and submit button
+        container: "bslib-submit-textarea-container",
+        // Class assigned to the submit button
+        button: "bslib-submit-textarea-btn",
+        // Class assigned to the span within the button that shows the key combo
+        submitKey: "bslib-submit-key"
+      };
+      intersectObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            updateHeight(entry.target);
+          }
+        });
+      });
+      TextAreaSubmitInputBinding = class extends InputBinding {
+        find(scope) {
+          return $(scope).find(`.${CSS_CLASSES.input} textarea`);
+        }
+        initialize(el) {
+          updateDisabledState(el);
+          updateHeight(el);
+          maybeUpdateSubmitButtonLabel(el);
+        }
+        // Read a 'proxy' value instead of the actual value since we
+        // intentionally don't want the value server-side until it's submitted.
+        getValue(el) {
+          return $(el).data("val");
+        }
+        setValue(el, value) {
+          el.value = value;
+        }
+        subscribe(el, callback) {
+          function doSendValue() {
+            $(el).data("val", el.value);
+            el.value = "";
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+            callback("event");
+          }
+          const btn = findSubmitButton(el);
+          if (btn.classList.contains("shiny-bound-input")) {
+            $(btn).on(`shiny:inputchanged.${EVENT_NAMESPACE}`, doSendValue);
+          } else {
+            $(btn).on(`click.${EVENT_NAMESPACE}`, doSendValue);
+          }
+          $(el).on(`input.${EVENT_NAMESPACE}`, function() {
+            updateDisabledState(el);
+            updateHeight(el);
+          });
+          $(el).on(
+            `keydown.${EVENT_NAMESPACE}`,
+            // event: JQuery.KeyboardEventObject
+            function(event) {
+              if (event.key !== "Enter") {
+                return;
+              }
+              if (!el.value) {
+                event.preventDefault();
+                return;
+              }
+              if (event.shiftKey) {
+                return;
+              }
+              if (event.altKey) {
+                event.preventDefault();
+                insertNewLineAtCursor(el);
+                return;
+              }
+              const needsModifier = el.hasAttribute("data-needs-modifier");
+              if (!needsModifier) {
+                event.preventDefault();
+                btn.click();
+                return;
+              }
+              const hasModifier = event.ctrlKey || event.metaKey;
+              if (needsModifier && hasModifier) {
+                event.preventDefault();
+                btn.click();
+                return;
+              }
+            }
+          );
+          const container = el.closest(`.${CSS_CLASSES.container}`);
+          $(container).on(
+            `click.${EVENT_NAMESPACE}`,
+            // event: JQuery.KeyboardEventObject
+            (event) => {
+              if (event.target.classList.contains(CSS_CLASSES.container)) {
+                el.focus();
+              }
+            }
+          );
+          intersectObserver.observe(el);
+        }
+        unsubscribe(el) {
+          $(el).off(`.${EVENT_NAMESPACE}`);
+          const btn = el.nextElementSibling;
+          $(btn).off(`.${EVENT_NAMESPACE}`);
+          const container = el.closest(`.${CSS_CLASSES.container}`);
+          $(container).off(`.${EVENT_NAMESPACE}`);
+          intersectObserver.unobserve(el);
+        }
+        receiveMessage(el, data) {
+          return __async(this, null, function* () {
+            const oldValue = el.value;
+            if (data.value !== void 0) {
+              el.value = data.value;
+              el.dispatchEvent(new Event("input", { bubbles: true }));
+            }
+            if (data.placeholder !== void 0) {
+              el.placeholder = data.placeholder;
+            }
+            if (data.label !== void 0) {
+              const labEl = $(el).closest(`.${CSS_CLASSES.input}`).find("label");
+              yield updateLabel(data.label, labEl);
+            }
+            if (data.submit) {
+              const btn = findSubmitButton(el);
+              btn.click();
+              el.value = oldValue;
+            }
+            if (data.focus) {
+              el.focus();
+            }
+          });
+        }
+      };
+      registerBinding(TextAreaSubmitInputBinding, "submit-text-area");
+    }
+  });
+
   // srcts/src/components/_shinyAddCustomMessageHandlers.ts
   function shinyAddCustomMessageHandlers(handlers) {
     if (!window.Shiny) {
@@ -1572,6 +1787,7 @@
       init_card();
       init_sidebar();
       init_taskButton();
+      init_submitTextArea();
       init_utils();
       init_shinyAddCustomMessageHandlers();
       var bslibMessageHandlers = {
