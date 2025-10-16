@@ -17,6 +17,7 @@
 \alias{bs_add_declarations}
 \alias{card_body_fill}
 \alias{page_fill}
+\alias{sidebar_toggle}
 \alias{nav}
 \alias{nav_content}
 \alias{navs_tab}
@@ -58,6 +59,8 @@ card_body_fill(...)
 
 page_fill(...)
 
+sidebar_toggle(id, open = NULL, session = get_current_session())
+
 nav(...)
 
 nav_content(...)
@@ -82,6 +85,12 @@ a \code{\link[=bs_theme]{bs_theme()}} object.
 \description{
 These functions have been deprecated but remain for backwards compatibility.
 }
+\section{v0.9.1}{
+
+The function \code{sidebar_toggle()} is now deprecated in v0.9.1. Please use
+\code{\link[=toggle_sidebar]{toggle_sidebar()}} instead.
+}
+
 \section{Navigation Containers}{
 
 

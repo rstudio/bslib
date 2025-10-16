@@ -5,6 +5,7 @@ import "./accordion";
 import "./card";
 import "./sidebar";
 import "./taskButton";
+import "./submitTextArea";
 
 // ----------------------------------------------------------------------------
 // Register custom message handlers for Shiny

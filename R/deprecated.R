@@ -2,6 +2,10 @@
 #'
 #' These functions have been deprecated but remain for backwards compatibility.
 #'
+#' @section v0.9.1:
+#'   The function `sidebar_toggle()` is now deprecated in v0.9.1. Please use
+#'   [toggle_sidebar()] instead.
+#'
 #' @section Navigation Containers:
 #'
 #'   Several functions for navigation containers were renamed in version 0.5.0:
@@ -161,6 +165,17 @@ card_body_fill <- function(...) {
 page_fill <- function(...) {
   .Deprecated("page_fillable", old = "page_fill")
   page_fillable(...)
+}
+
+#' @rdname deprecated
+#' @export
+sidebar_toggle <- function(id, open = NULL, session = get_current_session()) {
+  lifecycle::deprecate_warn(
+    "0.9.1",
+    "sidebar_toggle()",
+    "toggle_sidebar()"
+  )
+  toggle_sidebar(id = id, open = open, session = session)
 }
 
 #  Legacy Nav Containers --------------------------------------------------

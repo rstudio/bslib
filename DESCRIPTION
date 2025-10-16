@@ -49,10 +49,11 @@ Suggests:
     future,
     ggplot2,
     knitr,
+    lattice,
     magrittr,
     rappdirs,
     rmarkdown (>= 2.7),
-    shiny (> 1.8.1),
+    shiny (>= 1.11.1),
     testthat,
     thematic,
     tools,
@@ -70,12 +71,16 @@ Config/Needs/routine: chromote, desc, renv
 Config/Needs/website: brio, crosstalk, dplyr, DT, ggplot2, glue,
     htmlwidgets, leaflet, lorem, palmerpenguins, plotly, purrr, rprojroot,
     rstudio/htmltools, scales, stringr, tidyr, webshot2
+Config/Needs/website: brio, crosstalk, dplyr, DT, ggplot2, glue,
+    htmlwidgets, leaflet, lorem, palmerpenguins, plotly, purrr, rprojroot,
+    rstudio/htmltools, scales, stringr, tidyr, webshot2
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: zzzz-bs-sass, fonts, zzz-precompile, theme-*,
     rmd-*
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
 RoxygenNote: 7.3.3
 Collate:
     'accordion.R'
@@ -101,6 +106,7 @@ Collate:
     'fill.R'
     'imports.R'
     'input-dark-mode.R'
+    'input-submit.R'
     'input-switch.R'
     'layout.R'
     'nav-items.R'

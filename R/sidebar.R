@@ -85,8 +85,8 @@
 #'   the values will be interpreted as top, right, bottom, and left
 #'   respectively.
 #' @param fillable Whether or not the sidebar should be considered a fillable
-#'  container. When `TRUE`, the sidebar and its content can
-#'   use `fill` to consume available vertical space.
+#'   container. When `TRUE`, the sidebar and its content can use `fill` to
+#'   consume available vertical space.
 #'
 #' @export
 sidebar <- function(
@@ -440,7 +440,8 @@ layout_sidebar <- function(
 }
 
 #' @describeIn sidebar Toggle a `sidebar()` state during an active Shiny user
-#'   session.
+#'   session. To use this function, the `sidebar()` you want to open or close
+#'   must have an `id` value.
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #' @export
@@ -457,11 +458,6 @@ toggle_sidebar <- function(id, open = NULL, session = get_current_session()) {
   }
   session$onFlush(callback, once = TRUE)
 }
-
-#' @rdname sidebar
-#' @usage NULL
-#' @export
-sidebar_toggle <- toggle_sidebar
 
 collapse_icon <- function() {
   if (!is_installed("bsicons")) {

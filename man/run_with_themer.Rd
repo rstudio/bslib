@@ -56,6 +56,7 @@ rendered through a \code{context="server"} may update in real-time.
 
 \examples{
 library(shiny)
+library(bslib)
 
 ui <- fluidPage(
   theme = bs_theme(bg = "black", fg = "white"),
