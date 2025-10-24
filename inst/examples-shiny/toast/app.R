@@ -7,28 +7,138 @@ ui <- page_fluid(
 
   layout_column_wrap(
     width = 1 / 2,
+
+    # Toast Builder Card
     card(
-      card_header("Basic Toasts"),
+      card_header("Toast Builder"),
       card_body(
-        actionButton("show_basic", "Show Basic Toast", class = "mb-2 w-100"),
-        actionButton("show_success", "Show Success", class = "mb-2 w-100"),
-        actionButton("show_error", "Show Error", class = "mb-2 w-100"),
-        actionButton("show_warning", "Show Warning", class = "mb-2 w-100"),
-        actionButton("show_info", "Show Info", class = "mb-2 w-100")
+        # Body content
+        textAreaInput(
+          "body",
+          "Body Content",
+          value = "This is a toast notification!",
+          rows = 3,
+          width = "100%"
+        ),
+
+        # Header options
+        input_switch("use_header", "Include Header", value = FALSE),
+        conditionalPanel(
+          "input.use_header",
+          textInput("header_title", "Header Title", value = "Notification"),
+          input_switch("use_header_icon", "Include Icon", value = FALSE),
+          conditionalPanel(
+            "input.use_header_icon",
+            selectInput(
+              "header_icon",
+              "Icon",
+              choices = c(
+                "None" = "",
+                "Check" = "check",
+                "Info" = "info-circle",
+                "Warning" = "exclamation-triangle",
+                "Error" = "times-circle",
+                "Star" = "star",
+                "Heart" = "heart",
+                "Bell" = "bell",
+                "User" = "user",
+                "Cog" = "cog"
+              ),
+              selected = ""
+            )
+          ),
+          input_switch("use_header_status", "Include Status Indicator", value = FALSE),
+          conditionalPanel(
+            "input.use_header_status",
+            selectInput(
+              "header_status",
+              "Status",
+              choices = c(
+                "Primary" = "primary",
+                "Secondary" = "secondary",
+                "Success" = "success",
+                "Info" = "info",
+                "Warning" = "warning",
+                "Danger" = "danger",
+                "Light" = "light",
+                "Dark" = "dark"
+              ),
+              selected = "primary"
+            )
+          )
+        ),
+
+        # Type
+        selectInput(
+          "type",
+          "Type (Background Color)",
+          choices = c(
+            "None (default)" = "",
+            "Primary" = "primary",
+            "Secondary" = "secondary",
+            "Success" = "success",
+            "Info" = "info",
+            "Warning" = "warning",
+            "Danger" = "danger",
+            "Light" = "light",
+            "Dark" = "dark"
+          ),
+          selected = ""
+        ),
+
+        # Position
+        selectInput(
+          "position",
+          "Position",
+          choices = c(
+            "Top Left" = "top-left",
+            "Top Center" = "top-center",
+            "Top Right" = "top-right",
+            "Middle Left" = "middle-left",
+            "Middle Center" = "middle-center",
+            "Middle Right" = "middle-right",
+            "Bottom Left" = "bottom-left",
+            "Bottom Center" = "bottom-center",
+            "Bottom Right" = "bottom-right"
+          ),
+          selected = "top-right"
+        ),
+
+        # Auto-hide options
+        input_switch("autohide", "Auto-hide", value = TRUE),
+        conditionalPanel(
+          "input.autohide",
+          sliderInput(
+            "duration",
+            "Duration (milliseconds)",
+            min = 1000,
+            max = 15000,
+            value = 5000,
+            step = 500,
+            width = "100%"
+          )
+        ),
+
+        # Close button
+        input_switch("closable", "Show Close Button", value = TRUE),
+
+        # Custom ID
+        input_switch("use_custom_id", "Use Custom ID", value = FALSE),
+        conditionalPanel(
+          "input.use_custom_id",
+          textInput("custom_id", "Toast ID", value = "my-toast")
+        ),
+
+        # Action buttons
+        div(
+          class = "mt-3 d-grid gap-2",
+          actionButton("show_toast", "Show Toast", class = "btn-primary"),
+          actionButton("hide_toast", "Hide Last Toast", class = "btn-secondary")
+        )
       )
     ),
 
-    card(
-      card_header("Position Options"),
-      card_body(
-        actionButton("show_top_left", "Top Left", class = "mb-2 w-100"),
-        actionButton("show_top_center", "Top Center", class = "mb-2 w-100"),
-        actionButton("show_top_right", "Top Right", class = "mb-2 w-100"),
-        actionButton("show_bottom_left", "Bottom Left", class = "mb-2 w-100"),
-        actionButton("show_bottom_right", "Bottom Right", class = "mb-2 w-100")
-      )
-    ),
-
+    # Advanced Features and Examples
     card(
       card_header("Advanced Features"),
       card_body(
@@ -36,7 +146,7 @@ ui <- page_fluid(
         actionButton("hide_persistent", "Hide Persistent Toast", class = "mb-2 w-100"),
         actionButton("show_long_duration", "Long Duration (10s)", class = "mb-2 w-100"),
         actionButton("show_no_close", "No Close Button", class = "mb-2 w-100"),
-        actionButton("show_custom_header", "Custom Header with Status", class = "mb-2 w-100")
+        actionButton("show_custom_header", "Custom Header with Icon & Status", class = "mb-2 w-100")
       )
     ),
 
@@ -52,83 +162,62 @@ ui <- page_fluid(
 )
 
 server <- function(input, output, session) {
-  # Store persistent toast ID
+  # Store last toast ID
+  last_toast_id <- reactiveVal(NULL)
   persistent_toast_id <- reactiveVal(NULL)
 
-  # Basic toasts
-  observeEvent(input$show_basic, {
-    show_toast("This is a basic toast notification!")
+  # Show toast from builder
+  observeEvent(input$show_toast, {
+    # Build header if needed
+    header <- NULL
+    if (input$use_header) {
+      if (input$use_header_icon || input$use_header_status) {
+        # Use toast_header() for structured header
+        icon <- if (input$use_header_icon && nzchar(input$header_icon)) {
+          icon(input$header_icon)
+        } else {
+          NULL
+        }
+
+        status <- if (input$use_header_status) {
+          input$header_status
+        } else {
+          NULL
+        }
+
+        header <- toast_header(
+          title = input$header_title,
+          icon = icon,
+          status = status
+        )
+      } else {
+        # Simple text header
+        header <- input$header_title
+      }
+    }
+
+    # Build toast
+    toast_obj <- toast(
+      body = input$body,
+      header = header,
+      id = if (input$use_custom_id) input$custom_id else NULL,
+      type = if (nzchar(input$type)) input$type else NULL,
+      autohide = input$autohide,
+      duration = input$duration,
+      position = input$position,
+      closable = input$closable
+    )
+
+    # Show and store ID
+    id <- show_toast(toast_obj)
+    last_toast_id(id)
   })
 
-  observeEvent(input$show_success, {
-    show_toast(
-      toast(
-        body = "Operation completed successfully!",
-        header = "Success",
-        type = "success"
-      )
-    )
-  })
-
-  observeEvent(input$show_error, {
-    show_toast(
-      toast(
-        body = "An error occurred while processing your request.",
-        header = "Error",
-        type = "danger"
-      )
-    )
-  })
-
-  observeEvent(input$show_warning, {
-    show_toast(
-      toast(
-        body = "Please save your work before continuing.",
-        header = "Warning",
-        type = "warning"
-      )
-    )
-  })
-
-  observeEvent(input$show_info, {
-    show_toast(
-      toast(
-        body = "This is an informational message.",
-        header = "Info",
-        type = "info"
-      )
-    )
-  })
-
-  # Position options
-  observeEvent(input$show_top_left, {
-    show_toast(
-      toast("Toast at top-left", type = "primary", position = "top-left")
-    )
-  })
-
-  observeEvent(input$show_top_center, {
-    show_toast(
-      toast("Toast at top-center", type = "secondary", position = "top-center")
-    )
-  })
-
-  observeEvent(input$show_top_right, {
-    show_toast(
-      toast("Toast at top-right (default)", type = "success", position = "top-right")
-    )
-  })
-
-  observeEvent(input$show_bottom_left, {
-    show_toast(
-      toast("Toast at bottom-left", type = "info", position = "bottom-left")
-    )
-  })
-
-  observeEvent(input$show_bottom_right, {
-    show_toast(
-      toast("Toast at bottom-right", type = "warning", position = "bottom-right")
-    )
+  # Hide last toast
+  observeEvent(input$hide_toast, {
+    req(last_toast_id())
+    hide_toast(last_toast_id())
+    last_toast_id(NULL)
   })
 
   # Advanced features
@@ -178,6 +267,7 @@ server <- function(input, output, session) {
         body = "Your profile has been updated successfully.",
         header = toast_header(
           title = "Profile Updated",
+          icon = icon("check"),
           status = "success"
         ),
         type = "success"
@@ -223,16 +313,19 @@ server <- function(input, output, session) {
   observeEvent(input$show_all_positions, {
     positions <- c(
       "top-left", "top-center", "top-right",
+      "middle-left", "middle-center", "middle-right",
       "bottom-left", "bottom-center", "bottom-right"
     )
+
+    types <- c("primary", "success", "info", "warning", "danger", "secondary", "light", "dark", "primary")
 
     for (i in seq_along(positions)) {
       pos <- positions[i]
       show_toast(
         toast(
           body = paste("Toast at", pos),
-          type = c("primary", "success", "info", "warning", "danger", "secondary")[i],
-          duration = 3000,
+          type = types[i],
+          duration = 4000,
           position = pos
         )
       )
