@@ -72,17 +72,35 @@ toast <- function(
 ) {
   # Validate arguments
   if (!is.null(type)) {
-    type <- rlang::arg_match(type, c(
-      "primary", "secondary", "success", "info",
-      "warning", "danger", "light", "dark"
-    ))
+    type <- rlang::arg_match(
+      type,
+      c(
+        "primary",
+        "secondary",
+        "success",
+        "info",
+        "warning",
+        "danger",
+        "light",
+        "dark"
+      )
+    )
   }
 
-  position <- rlang::arg_match(position, c(
-    "top-left", "top-center", "top-right",
-    "middle-left", "middle-center", "middle-right",
-    "bottom-left", "bottom-center", "bottom-right"
-  ))
+  position <- rlang::arg_match(
+    position,
+    c(
+      "top-left",
+      "top-center",
+      "top-right",
+      "middle-left",
+      "middle-center",
+      "middle-right",
+      "bottom-left",
+      "bottom-center",
+      "bottom-right"
+    )
+  )
 
   # Enforce close button for non-autohiding toasts (accessibility)
   if (!autohide) {
@@ -320,10 +338,19 @@ hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
 toast_header <- function(title, icon = NULL, status = NULL, ...) {
   # Validate status if provided
   if (!is.null(status)) {
-    status <- rlang::arg_match(status, c(
-      "primary", "secondary", "success", "info",
-      "warning", "danger", "light", "dark"
-    ))
+    status <- rlang::arg_match(
+      status,
+      c(
+        "primary",
+        "secondary",
+        "success",
+        "info",
+        "warning",
+        "danger",
+        "light",
+        "dark"
+      )
+    )
   }
 
   # Build status indicator (colored dot)
@@ -341,14 +368,22 @@ toast_header <- function(title, icon = NULL, status = NULL, ...) {
     icon,
     htmltools::strong(
       class = "me-auto",
-      if (!is.null(icon)) list(icon, " ", title) else title
+      class = if (!is.null(icon) || !is.null(status)) "ms-2",
+      title
     )
   )
 }
 
 # Internal function to build toast HTML structure
-toast_component <- function(body, header = NULL, type = NULL,
-                           closable = TRUE, id = NULL, class = NULL, ...) {
+toast_component <- function(
+  body,
+  header = NULL,
+  type = NULL,
+  closable = TRUE,
+  id = NULL,
+  class = NULL,
+  ...
+) {
   # Determine accessibility attributes
   aria_role <- if (!is.null(type) && type == "danger") "alert" else "status"
   aria_live <- if (!is.null(type) && type == "danger") "assertive" else "polite"
@@ -397,7 +432,7 @@ toast_component <- function(body, header = NULL, type = NULL,
         htmltools::div(class = "flex-grow-1", body),
         htmltools::tags$button(
           type = "button",
-          class = "btn-close me-2 m-auto",
+          class = "btn-close",
           `data-bs-dismiss` = "toast",
           `aria-label` = "Close"
         )
