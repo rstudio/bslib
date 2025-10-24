@@ -1,7 +1,11 @@
 import type { HtmlDep } from "./_utils";
-import { Toast as BootstrapToast } from "bootstrap";
+import type { Toast as ToastType } from "bootstrap";
 import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
 import { shinyRenderDependencies } from "./_utils";
+
+const BootstrapToast = (
+  window.bootstrap ? window.bootstrap.Toast : class {}
+) as typeof ToastType;
 
 type ToastPosition =
   | "bottom-center"
@@ -92,6 +96,14 @@ const containerManager = new ToastContainerManager();
 // Show toast handler
 async function showToast(message: ShowToastMessage): Promise<void> {
   const { html, deps, options, position } = message;
+
+  // Check if Bootstrap is available
+  if (!window.bootstrap || !window.bootstrap.Toast) {
+    console.warn(
+      "Toast requires Bootstrap 5 to be available on window.bootstrap.Toast"
+    );
+    return;
+  }
 
   // Render dependencies
   await shinyRenderDependencies(deps);
