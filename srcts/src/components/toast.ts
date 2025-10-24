@@ -3,7 +3,7 @@ import type { Toast as ToastType } from "bootstrap";
 import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
 import { shinyRenderDependencies } from "./_utils";
 
-const BootstrapToast = (
+const bootstrapToast = (
   window.bootstrap ? window.bootstrap.Toast : class {}
 ) as typeof ToastType;
 
@@ -53,7 +53,7 @@ class ToastContainerManager {
 
   private _createContainer(position: ToastPosition): HTMLElement {
     const container = document.createElement("div");
-    container.className = "toast-container position-fixed p-3";
+    container.className = "toast-container position-fixed p-1 p-md-2";
     container.setAttribute("data-bslib-toast-container", position);
 
     // Apply position classes
@@ -125,7 +125,7 @@ async function showToast(message: ShowToastMessage): Promise<void> {
   container.appendChild(toastEl);
 
   // Initialize Bootstrap toast
-  const bsToast = new BootstrapToast(toastEl, options);
+  const bsToast = new bootstrapToast(toastEl, options);
 
   // Show the toast
   bsToast.show();
@@ -151,7 +151,7 @@ function hideToast(message: HideToastMessage): void {
     return;
   }
 
-  const bsToast = BootstrapToast.getInstance(toastEl);
+  const bsToast = bootstrapToast.getInstance(toastEl);
 
   if (bsToast) {
     bsToast.hide();
