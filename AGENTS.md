@@ -101,6 +101,37 @@ These styles are compiled as part of the theme compilation process and become th
 
 The final CSS should use CSS variables (e.g. `--bslib-*`) to support runtime theming, and these variables can fall back to using Bootstrap Sass variables that are filled in during compilation.
 
+### Server-Client Communication Patterns
+
+There are three main ways to communicate between the Shiny server and client-side components:
+
+**1. Input Bindings (for bidirectional component state)**
+
+Create a full Shiny input by extending `InputBinding` and implementing `getValue()`, `setValue()`, and `receiveMessage()`. This is the most robust pattern for components that maintain state and can be updated from the server.
+
+- **Example**: Sidebar (`srcts/src/components/sidebar.ts`, `R/sidebar.R`)
+- **Client side**: `SidebarInputBinding` extends `InputBinding`, implements `receiveMessage(el, data)` to handle server updates
+- **Server side**: `sidebar()` creates the input, server updates via `session$sendInputMessage(id, list(method = "open"))`
+- **Use when**: The component is a true input control with state that should be bookmarkable and updatable from both client and server
+
+**2. Simple Input Values (for reporting client state)**
+
+Use `Shiny.setInputValue()` to send values from client to server in a lightweight, non-bookmarkable way. Best for internal state reporting.
+
+- **Example**: Card full-screen state (`srcts/src/components/card.ts`, `R/card.R`)
+- **Client side**: `Shiny.setInputValue(this.card.id + "_full_screen", isFullScreen)`
+- **Server side**: Read value via `input$<card_id>_full_screen` (reactive)
+- **Use when**: Component needs to report state changes to server but doesn't need full input binding infrastructure or bookmarking
+
+**3. Custom Messages (for server-initiated updates)**
+
+Use `session$sendCustomMessage()` from the server and register a handler with `Shiny.addCustomMessageHandler()` on the client. Ideal for global updates or when you don't have a specific input `id`.
+
+- **Example**: Dark mode toggle (`R/input-dark-mode.R`, `srcts/src/components/webcomponents/inputDarkMode.ts`)
+- **Server side**: `session$sendCustomMessage("bslib.toggle-dark-mode", list(method = "toggle", value = "dark"))`
+- **Client side**: `Shiny.addCustomMessageHandler("bslib.toggle-dark-mode", function(data) { ... })`
+- **Use when**: Updates affect global state or the communication is primarily one-way (server → client)
+
 ### Key Design Aspects
 
 **Sass Layering System**:
