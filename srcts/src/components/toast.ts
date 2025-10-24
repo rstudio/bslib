@@ -4,15 +4,15 @@ import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers"
 import { shinyRenderDependencies } from "./_utils";
 
 type ToastPosition =
-  | "top-left"
-  | "top-center"
-  | "top-right"
-  | "middle-left"
-  | "middle-center"
-  | "middle-right"
-  | "bottom-left"
   | "bottom-center"
-  | "bottom-right";
+  | "bottom-left"
+  | "bottom-right"
+  | "middle-center"
+  | "middle-left"
+  | "middle-right"
+  | "top-center"
+  | "top-left"
+  | "top-right";
 
 interface ToastOptions {
   animation?: boolean;
@@ -40,20 +40,20 @@ class ToastContainerManager {
     let container = this.containers.get(position);
 
     if (!container || !document.body.contains(container)) {
-      container = this.createContainer(position);
+      container = this._createContainer(position);
       this.containers.set(position, container);
     }
 
     return container;
   }
 
-  private createContainer(position: ToastPosition): HTMLElement {
+  private _createContainer(position: ToastPosition): HTMLElement {
     const container = document.createElement("div");
     container.className = "toast-container position-fixed p-3";
     container.setAttribute("data-bslib-toast-container", position);
 
     // Apply position classes
-    const positionClasses = this.getPositionClasses(position);
+    const positionClasses = this._getPositionClasses(position);
     container.classList.add(...positionClasses);
 
     document.body.appendChild(container);
@@ -61,16 +61,25 @@ class ToastContainerManager {
     return container;
   }
 
-  private getPositionClasses(position: ToastPosition): string[] {
-    const classMap: Record<ToastPosition, string[]> = {
+  private _getPositionClasses(position: ToastPosition): string[] {
+    const classMap: { [key in ToastPosition]: string[] } = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "top-left": ["top-0", "start-0"],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "top-center": ["top-0", "start-50", "translate-middle-x"],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "top-right": ["top-0", "end-0"],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "middle-left": ["top-50", "start-0", "translate-middle-y"],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "middle-center": ["top-50", "start-50", "translate-middle"],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "middle-right": ["top-50", "end-0", "translate-middle-y"],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "bottom-left": ["bottom-0", "start-0"],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "bottom-center": ["bottom-0", "start-50", "translate-middle-x"],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "bottom-right": ["bottom-0", "end-0"],
     };
 
@@ -82,7 +91,7 @@ const containerManager = new ToastContainerManager();
 
 // Show toast handler
 async function showToast(message: ShowToastMessage): Promise<void> {
-  const { html, deps, options, position, id } = message;
+  const { html, deps, options, position } = message;
 
   // Render dependencies
   await shinyRenderDependencies(deps);
@@ -139,7 +148,9 @@ function hideToast(message: HideToastMessage): void {
 
 // Register message handlers
 shinyAddCustomMessageHandlers({
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "bslib.show-toast": showToast,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "bslib.hide-toast": hideToast,
 });
 
