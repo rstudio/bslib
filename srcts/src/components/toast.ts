@@ -1,0 +1,146 @@
+import type { HtmlDep } from "./_utils";
+import { Toast as BootstrapToast } from "bootstrap";
+import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
+import { shinyRenderDependencies } from "./_utils";
+
+type ToastPosition =
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "middle-left"
+  | "middle-center"
+  | "middle-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right";
+
+interface ToastOptions {
+  animation?: boolean;
+  autohide?: boolean;
+  delay?: number;
+}
+
+interface ShowToastMessage {
+  html: string;
+  deps: HtmlDep[];
+  options: ToastOptions;
+  position: ToastPosition;
+  id: string;
+}
+
+interface HideToastMessage {
+  id: string;
+}
+
+// Container management
+class ToastContainerManager {
+  private containers: Map<ToastPosition, HTMLElement> = new Map();
+
+  getOrCreateContainer(position: ToastPosition): HTMLElement {
+    let container = this.containers.get(position);
+
+    if (!container || !document.body.contains(container)) {
+      container = this.createContainer(position);
+      this.containers.set(position, container);
+    }
+
+    return container;
+  }
+
+  private createContainer(position: ToastPosition): HTMLElement {
+    const container = document.createElement("div");
+    container.className = "toast-container position-fixed p-3";
+    container.setAttribute("data-bslib-toast-container", position);
+
+    // Apply position classes
+    const positionClasses = this.getPositionClasses(position);
+    container.classList.add(...positionClasses);
+
+    document.body.appendChild(container);
+
+    return container;
+  }
+
+  private getPositionClasses(position: ToastPosition): string[] {
+    const classMap: Record<ToastPosition, string[]> = {
+      "top-left": ["top-0", "start-0"],
+      "top-center": ["top-0", "start-50", "translate-middle-x"],
+      "top-right": ["top-0", "end-0"],
+      "middle-left": ["top-50", "start-0", "translate-middle-y"],
+      "middle-center": ["top-50", "start-50", "translate-middle"],
+      "middle-right": ["top-50", "end-0", "translate-middle-y"],
+      "bottom-left": ["bottom-0", "start-0"],
+      "bottom-center": ["bottom-0", "start-50", "translate-middle-x"],
+      "bottom-right": ["bottom-0", "end-0"],
+    };
+
+    return classMap[position];
+  }
+}
+
+const containerManager = new ToastContainerManager();
+
+// Show toast handler
+async function showToast(message: ShowToastMessage): Promise<void> {
+  const { html, deps, options, position, id } = message;
+
+  // Render dependencies
+  await shinyRenderDependencies(deps);
+
+  // Get or create container for this position
+  const container = containerManager.getOrCreateContainer(position);
+
+  // Create temporary div to parse HTML
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  const toastEl = temp.firstElementChild as HTMLElement;
+
+  if (!toastEl) {
+    console.error("Failed to create toast element");
+    return;
+  }
+
+  // Append to container
+  container.appendChild(toastEl);
+
+  // Initialize Bootstrap toast
+  const bsToast = new BootstrapToast(toastEl, options);
+
+  // Show the toast
+  bsToast.show();
+
+  // Clean up after toast is hidden
+  toastEl.addEventListener("hidden.bs.toast", () => {
+    toastEl.remove();
+
+    // Remove empty containers
+    if (container.children.length === 0) {
+      container.remove();
+    }
+  });
+}
+
+// Hide toast handler
+function hideToast(message: HideToastMessage): void {
+  const { id } = message;
+  const toastEl = document.getElementById(id);
+
+  if (!toastEl) {
+    console.warn(`Toast with id "${id}" not found`);
+    return;
+  }
+
+  const bsToast = BootstrapToast.getInstance(toastEl);
+
+  if (bsToast) {
+    bsToast.hide();
+  }
+}
+
+// Register message handlers
+shinyAddCustomMessageHandlers({
+  "bslib.show-toast": showToast,
+  "bslib.hide-toast": hideToast,
+});
+
+export type { ToastPosition, ToastOptions, ShowToastMessage, HideToastMessage };
