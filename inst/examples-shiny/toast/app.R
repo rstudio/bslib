@@ -1,12 +1,23 @@
 library(shiny)
 library(bslib)
 
-ui <- page_fluid(
+ui <- page_fillable(
   theme = bs_theme(version = 5),
-  h2("Toast Notifications Demo"),
+  title = "Toast Notifications Demo",
+  padding = 0,
+  gap = 0,
+
+  h2("Toast Notifications Demo", class = "p-3 border-bottom mb-0"),
+  input_dark_mode(class = "position-absolute top-0 end-0 p-3"),
 
   layout_column_wrap(
     width = 1 / 2,
+    class = "bslib-page-dashboard",
+    style = css(
+      background = "var(--bslib-dashboard-main-bg)",
+      padding = "15px",
+      gap = "15px"
+    ),
 
     # Toast Builder Card
     card(
@@ -21,39 +32,14 @@ ui <- page_fluid(
           width = "100%"
         ),
 
-        # Header options
-        input_switch("use_header", "Include Header", value = FALSE),
-        conditionalPanel(
-          "input.use_header",
-          textInput("header_title", "Header Title", value = "Notification"),
-          input_switch("use_header_icon", "Include Icon", value = FALSE),
-          conditionalPanel(
-            "input.use_header_icon",
+        layout_columns(
+          div(
+            # Type
             selectInput(
-              "header_icon",
-              "Icon",
+              "type",
+              "Type (Background Color)",
               choices = c(
-                "None" = "",
-                "Check" = "check",
-                "Info" = "info-circle",
-                "Warning" = "exclamation-triangle",
-                "Error" = "times-circle",
-                "Star" = "star",
-                "Heart" = "heart",
-                "Bell" = "bell",
-                "User" = "user",
-                "Cog" = "cog"
-              ),
-              selected = ""
-            )
-          ),
-          input_switch("use_header_status", "Include Status Indicator", value = FALSE),
-          conditionalPanel(
-            "input.use_header_status",
-            selectInput(
-              "header_status",
-              "Status",
-              choices = c(
+                "None (default)" = "",
                 "Primary" = "primary",
                 "Secondary" = "secondary",
                 "Success" = "success",
@@ -63,70 +49,95 @@ ui <- page_fluid(
                 "Light" = "light",
                 "Dark" = "dark"
               ),
-              selected = "primary"
+              selected = ""
+            ),
+
+            # Position
+            selectInput(
+              "position",
+              "Position",
+              choices = c(
+                "Top Left" = "top-left",
+                "Top Center" = "top-center",
+                "Top Right" = "top-right",
+                "Middle Left" = "middle-left",
+                "Middle Center" = "middle-center",
+                "Middle Right" = "middle-right",
+                "Bottom Left" = "bottom-left",
+                "Bottom Center" = "bottom-center",
+                "Bottom Right" = "bottom-right"
+              ),
+              selected = "top-right"
+            ),
+
+            # Auto-hide options
+            sliderInput(
+              "duration",
+              "Duration (milliseconds)",
+              min = 0,
+              max = 25,
+              value = 5,
+              step = 1,
+              ticks = FALSE
+            ),
+
+            # Close button
+            input_switch("closable", "Show Close Button", value = TRUE),
+
+            textInput(
+              "custom_id",
+              "Toast ID",
+              placeholder = "Automatically generated"
             )
-          )
-        ),
-
-        # Type
-        selectInput(
-          "type",
-          "Type (Background Color)",
-          choices = c(
-            "None (default)" = "",
-            "Primary" = "primary",
-            "Secondary" = "secondary",
-            "Success" = "success",
-            "Info" = "info",
-            "Warning" = "warning",
-            "Danger" = "danger",
-            "Light" = "light",
-            "Dark" = "dark"
           ),
-          selected = ""
-        ),
-
-        # Position
-        selectInput(
-          "position",
-          "Position",
-          choices = c(
-            "Top Left" = "top-left",
-            "Top Center" = "top-center",
-            "Top Right" = "top-right",
-            "Middle Left" = "middle-left",
-            "Middle Center" = "middle-center",
-            "Middle Right" = "middle-right",
-            "Bottom Left" = "bottom-left",
-            "Bottom Center" = "bottom-center",
-            "Bottom Right" = "bottom-right"
-          ),
-          selected = "top-right"
-        ),
-
-        # Auto-hide options
-        input_switch("autohide", "Auto-hide", value = TRUE),
-        conditionalPanel(
-          "input.autohide",
-          sliderInput(
-            "duration",
-            "Duration (milliseconds)",
-            min = 1000,
-            max = 15000,
-            value = 5000,
-            step = 500,
-            width = "100%"
+          div(
+            # Header options
+            input_switch("use_header", "Include Header", value = FALSE),
+            conditionalPanel(
+              "input.use_header",
+              textInput("header_title", "Header Title", value = "Notification"),
+              selectInput(
+                "header_icon",
+                "Icon",
+                choices = c(
+                  "None" = "",
+                  "Check" = "check",
+                  "Info" = "info-circle",
+                  "Warning" = "exclamation-triangle",
+                  "Error" = "times-circle",
+                  "Star" = "star",
+                  "Heart" = "heart",
+                  "Bell" = "bell",
+                  "User" = "user",
+                  "Cog" = "cog"
+                ),
+                selected = ""
+              ),
+              input_switch(
+                "use_header_status",
+                "Include Status Indicator",
+                value = FALSE
+              ),
+              conditionalPanel(
+                "input.use_header_status",
+                selectInput(
+                  "header_status",
+                  "Status",
+                  choices = c(
+                    "Primary" = "primary",
+                    "Secondary" = "secondary",
+                    "Success" = "success",
+                    "Info" = "info",
+                    "Warning" = "warning",
+                    "Danger" = "danger",
+                    "Light" = "light",
+                    "Dark" = "dark"
+                  ),
+                  selected = "primary"
+                )
+              )
+            ),
           )
-        ),
-
-        # Close button
-        input_switch("closable", "Show Close Button", value = TRUE),
-
-        # Custom ID
-        input_switch("use_custom_id", "Use Custom ID", value = FALSE),
-        conditionalPanel(
-          "input.use_custom_id",
-          textInput("custom_id", "Toast ID", value = "my-toast")
         ),
 
         # Action buttons
@@ -138,24 +149,60 @@ ui <- page_fluid(
       )
     ),
 
-    # Advanced Features and Examples
-    card(
-      card_header("Advanced Features"),
-      card_body(
-        actionButton("show_persistent", "Show Persistent Toast", class = "mb-2 w-100"),
-        actionButton("hide_persistent", "Hide Persistent Toast", class = "mb-2 w-100"),
-        actionButton("show_long_duration", "Long Duration (10s)", class = "mb-2 w-100"),
-        actionButton("show_no_close", "No Close Button", class = "mb-2 w-100"),
-        actionButton("show_custom_header", "Custom Header with Icon & Status", class = "mb-2 w-100")
-      )
-    ),
+    layout_column_wrap(
+      width = 1,
 
-    card(
-      card_header("Interactive Toasts"),
-      card_body(
-        actionButton("show_action_buttons", "Toast with Action Buttons", class = "mb-2 w-100"),
-        actionButton("show_multiple", "Show Multiple Toasts", class = "mb-2 w-100"),
-        actionButton("show_all_positions", "Test All Positions", class = "mb-2 w-100")
+      # Advanced Features and Examples
+      card(
+        card_header("Advanced Features"),
+        card_body(
+          actionButton(
+            "show_persistent",
+            "Show Persistent Toast",
+            class = "mb-2 w-100"
+          ),
+          actionButton(
+            "hide_persistent",
+            "Hide Persistent Toast",
+            class = "mb-2 w-100"
+          ),
+          actionButton(
+            "show_long_duration",
+            "Long Duration (10s)",
+            class = "mb-2 w-100"
+          ),
+          actionButton(
+            "show_no_close",
+            "No Close Button",
+            class = "mb-2 w-100"
+          ),
+          actionButton(
+            "show_custom_header",
+            "Custom Header with Icon & Status",
+            class = "mb-2 w-100"
+          )
+        )
+      ),
+
+      card(
+        card_header("Interactive Toasts"),
+        card_body(
+          actionButton(
+            "show_action_buttons",
+            "Toast with Action Buttons",
+            class = "mb-2 w-100"
+          ),
+          actionButton(
+            "show_multiple",
+            "Show Multiple Toasts",
+            class = "mb-2 w-100"
+          ),
+          actionButton(
+            "show_all_positions",
+            "Test All Positions",
+            class = "mb-2 w-100"
+          )
+        )
       )
     )
   )
@@ -171,39 +218,21 @@ server <- function(input, output, session) {
     # Build header if needed
     header <- NULL
     if (input$use_header) {
-      if (input$use_header_icon || input$use_header_status) {
-        # Use toast_header() for structured header
-        icon <- if (input$use_header_icon && nzchar(input$header_icon)) {
-          icon(input$header_icon)
-        } else {
-          NULL
-        }
-
-        status <- if (input$use_header_status) {
-          input$header_status
-        } else {
-          NULL
-        }
-
-        header <- toast_header(
-          title = input$header_title,
-          icon = icon,
-          status = status
-        )
-      } else {
-        # Simple text header
-        header <- input$header_title
-      }
+      header <- toast_header(
+        title = input$header_title,
+        icon = if (nzchar(input$header_icon)) icon(input$header_icon),
+        status = if (input$use_header_status) input$header_status
+      )
     }
 
     # Build toast
     toast_obj <- toast(
       body = input$body,
       header = header,
-      id = if (input$use_custom_id) input$custom_id else NULL,
-      type = if (nzchar(input$type)) input$type else NULL,
-      autohide = input$autohide,
-      duration = input$duration,
+      id = if (nzchar(input$custom_id)) input$custom_id,
+      type = if (nzchar(input$type)) input$type,
+      autohide = input$duration > 0,
+      duration = input$duration * 1000,
       position = input$position,
       closable = input$closable
     )
@@ -284,7 +313,11 @@ server <- function(input, output, session) {
           div(
             class = "mt-2",
             actionButton("save_yes", "Save", class = "btn-sm btn-primary me-2"),
-            actionButton("save_no", "Don't Save", class = "btn-sm btn-secondary")
+            actionButton(
+              "save_no",
+              "Don't Save",
+              class = "btn-sm btn-secondary"
+            )
           )
         ),
         header = "Unsaved Changes",
@@ -312,12 +345,28 @@ server <- function(input, output, session) {
 
   observeEvent(input$show_all_positions, {
     positions <- c(
-      "top-left", "top-center", "top-right",
-      "middle-left", "middle-center", "middle-right",
-      "bottom-left", "bottom-center", "bottom-right"
+      "top-left",
+      "top-center",
+      "top-right",
+      "middle-left",
+      "middle-center",
+      "middle-right",
+      "bottom-left",
+      "bottom-center",
+      "bottom-right"
     )
 
-    types <- c("primary", "success", "info", "warning", "danger", "secondary", "light", "dark", "primary")
+    types <- c(
+      "primary",
+      "success",
+      "info",
+      "warning",
+      "danger",
+      "secondary",
+      "light",
+      "dark",
+      "primary"
+    )
 
     for (i in seq_along(positions)) {
       pos <- positions[i]
