@@ -32,3 +32,4 @@ inst/lib/bsw3/.npmignore
 ^cran-comments\.md$
 ^inst/examples-shiny/brand.yml/Monda\.ttf$
 ^inst/examples-shiny/brand.yml/Monda-OFL\.txt$
+^AGENTS\.md$
