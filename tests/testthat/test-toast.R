@@ -23,18 +23,32 @@ test_that("toast() validates type argument", {
   expect_error(toast("Test", type = "invalid"))
 })
 
-test_that("toast() enforces closable for non-autohiding toasts", {
-  t <- toast("Test", autohide = FALSE, closable = FALSE)
-  expect_true(t$closable)
+test_that("toast() autohide_s = 0 disables autohiding", {
+  t <- toast("Test", autohide_s = 0, closable = FALSE)
+  expect_false(t$autohide)
+  expect_true(t$closable)  # Always true when autohide disabled
 })
 
-test_that("toast() preserves closable = TRUE when autohide = FALSE", {
-  t <- toast("Test", autohide = FALSE, closable = TRUE)
-  expect_true(t$closable)
+test_that("toast() autohide_s = NA disables autohiding", {
+  t <- toast("Test", autohide_s = NA, closable = FALSE)
+  expect_false(t$autohide)
+  expect_true(t$closable)  # Always true when autohide disabled
 })
 
-test_that("toast() allows closable = FALSE when autohide = TRUE", {
-  t <- toast("Test", autohide = TRUE, closable = FALSE)
+test_that("toast() autohide_s = NULL disables autohiding", {
+  t <- toast("Test", autohide_s = NULL, closable = FALSE)
+  expect_false(t$autohide)
+  expect_true(t$closable)  # Always true when autohide disabled
+})
+
+test_that("toast() autohide_s > 0 enables autohiding", {
+  t <- toast("Test", autohide_s = 10)
+  expect_true(t$autohide)
+  expect_equal(t$duration, 10000)  # Converted to milliseconds
+})
+
+test_that("toast() allows closable = FALSE when autohiding", {
+  t <- toast("Test", autohide_s = 5, closable = FALSE)
   expect_false(t$closable)
 })
 
@@ -146,9 +160,10 @@ test_that("toast() stores additional attributes", {
   expect_true(grepl("extra-class", html))
 })
 
-test_that("toast() with custom duration", {
-  t <- toast("Test", duration = 10000)
+test_that("toast() with custom autohide_s converts to milliseconds", {
+  t <- toast("Test", autohide_s = 10)
   expect_equal(t$duration, 10000)
+  expect_true(t$autohide)
 })
 
 test_that("toast() with all type options", {

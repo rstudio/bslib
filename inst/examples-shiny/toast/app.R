@@ -72,8 +72,8 @@ ui <- page_fillable(
 
             # Auto-hide options
             sliderInput(
-              "duration",
-              "Duration (milliseconds)",
+              "autohide_s",
+              "Auto-hide (seconds, 0 = disabled)",
               min = 0,
               max = 25,
               value = 5,
@@ -213,8 +213,7 @@ server <- function(input, output, session) {
       header = header,
       id = if (nzchar(input$custom_id)) input$custom_id,
       type = if (nzchar(input$type)) input$type,
-      autohide = input$duration > 0,
-      duration = input$duration * 1000,
+      autohide_s = input$autohide_s,
       position = input$position,
       closable = input$closable
     )
@@ -238,7 +237,7 @@ server <- function(input, output, session) {
         body = "This toast won't disappear automatically. Use the 'Hide' button to dismiss it.",
         header = "Persistent Toast",
         type = "info",
-        autohide = FALSE
+        autohide_s = 0
       )
     )
     persistent_toast_id(id)
@@ -256,7 +255,7 @@ server <- function(input, output, session) {
         body = "This toast will stay visible for 10 seconds.",
         header = "Long Duration",
         type = "primary",
-        duration = 10000
+        autohide_s = 10
       )
     )
   })
@@ -267,7 +266,7 @@ server <- function(input, output, session) {
         body = "This toast has no close button but will auto-hide in 3 seconds.",
         type = "secondary",
         closable = FALSE,
-        duration = 3000
+        autohide_s = 3
       )
     )
   })
@@ -304,7 +303,7 @@ server <- function(input, output, session) {
         ),
         header = "Unsaved Changes",
         type = "warning",
-        autohide = FALSE
+        autohide_s = 0
       )
     )
   })
@@ -356,7 +355,7 @@ server <- function(input, output, session) {
         toast(
           body = paste("Toast at", pos),
           type = types[i],
-          duration = 4000,
+          autohide_s = 4,
           position = pos
         )
       )

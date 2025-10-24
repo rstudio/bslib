@@ -16,17 +16,16 @@
 #' @param type Optional semantic type. One of `NULL`, `"primary"`, `"secondary"`,
 #'   `"success"`, `"info"`, `"warning"`, `"danger"`, `"light"`, or `"dark"`.
 #'   Applies appropriate Bootstrap background utility classes (`text-bg-*`).
-#' @param autohide Logical. Whether to automatically hide the toast after
-#'   `duration` milliseconds. Default `TRUE`.
-#' @param duration Numeric. Time in milliseconds before auto-hiding. Default
-#'   `5000` (5 seconds). Ignored if `autohide = FALSE`.
+#' @param autohide_s Numeric. Number of seconds after which the toast should
+#'   automatically hide. Use `0`, `NA`, or `NULL` to disable auto-hiding (toast
+#'   will remain visible until manually dismissed). Default is `5` (5 seconds).
 #' @param position String. Where to position the toast container. One of
 #'   `"top-left"`, `"top-center"`, `"top-right"` (default), `"middle-left"`,
 #'   `"middle-center"`, `"middle-right"`, `"bottom-left"`, `"bottom-center"`,
 #'   or `"bottom-right"`.
 #' @param closable Logical. Whether to include a close button. Default `TRUE`.
-#'   When `autohide = FALSE`, a close button is always included regardless of
-#'   this setting (for accessibility).
+#'   When `autohide_s` is disabled (0, NA, or NULL), a close button is always
+#'   included regardless of this setting (for accessibility).
 #' @param class Additional CSS classes for the toast.
 #'
 #' @return A `bslib_toast` object that can be passed to [show_toast()].
@@ -64,8 +63,7 @@ toast <- function(
   ...,
   id = NULL,
   type = NULL,
-  autohide = TRUE,
-  duration = 5000,
+  autohide_s = 5,
   position = "top-right",
   closable = TRUE,
   class = NULL
@@ -101,6 +99,11 @@ toast <- function(
       "bottom-right"
     )
   )
+
+  # Determine autohide behavior
+  # autohide_s of 0, NA, or NULL disables auto-hiding
+  autohide <- !is.null(autohide_s) && !is.na(autohide_s) && autohide_s > 0
+  duration <- if (autohide) autohide_s * 1000 else 5000  # Convert to milliseconds
 
   # Enforce close button for non-autohiding toasts (accessibility)
   if (!autohide) {
