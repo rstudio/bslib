@@ -116,14 +116,12 @@ test_that("toast_header() creates structured header", {
   expect_true(grepl("My Title", html1))
   expect_true(grepl("me-auto", html1))
 
-  # Header with status
-  h2 <- toast_header("Success", status = "success")
+  # Header with status text
+  h2 <- toast_header("Success", status = "11 mins ago")
   html2 <- as.character(h2)
-  expect_true(grepl("badge", html2))
-  expect_true(grepl("bg-success", html2))
-
-  # Header validates status
-  expect_error(toast_header("Test", status = "invalid"))
+  expect_true(grepl("11 mins ago", html2))
+  expect_true(grepl("text-muted", html2))
+  expect_true(grepl("<small", html2))
 })
 
 test_that("toast_header() works with icons", {
@@ -192,13 +190,13 @@ test_that("toast with character header", {
 test_that("toast with toast_header() result", {
   t <- toast(
     "Body",
-    header = toast_header("Title", status = "success")
+    header = toast_header("Title", status = "just now")
   )
   tag <- as.tags(t)
   html <- as.character(tag)
 
   expect_true(grepl("toast-header", html))
   expect_true(grepl("Title", html))
-  expect_true(grepl("badge", html))
-  expect_true(grepl("bg-success", html))
+  expect_true(grepl("just now", html))
+  expect_true(grepl("text-muted", html))
 })

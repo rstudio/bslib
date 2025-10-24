@@ -113,28 +113,10 @@ ui <- page_fillable(
                 ),
                 selected = ""
               ),
-              input_switch(
-                "use_header_status",
-                "Include Status Indicator",
-                value = FALSE
-              ),
-              conditionalPanel(
-                "input.use_header_status",
-                selectInput(
-                  "header_status",
-                  "Status",
-                  choices = c(
-                    "Primary" = "primary",
-                    "Secondary" = "secondary",
-                    "Success" = "success",
-                    "Info" = "info",
-                    "Warning" = "warning",
-                    "Danger" = "danger",
-                    "Light" = "light",
-                    "Dark" = "dark"
-                  ),
-                  selected = "primary"
-                )
+              textInput(
+                "header_status",
+                "Custom Status Text",
+                placeholder = "'Just now', '2 mins ago'"
               )
             ),
           )
@@ -221,7 +203,7 @@ server <- function(input, output, session) {
       header <- toast_header(
         title = input$header_title,
         icon = if (nzchar(input$header_icon)) icon(input$header_icon),
-        status = if (input$use_header_status) input$header_status
+        status = if (nzchar(input$header_status)) input$header_status
       )
     }
 
@@ -297,7 +279,7 @@ server <- function(input, output, session) {
         header = toast_header(
           title = "Profile Updated",
           icon = icon("check"),
-          status = "success"
+          status = "just now"
         ),
         type = "success"
       )

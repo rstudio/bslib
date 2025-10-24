@@ -301,9 +301,8 @@ hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
 #' @param title Header text (required).
 #' @param icon Optional icon element (e.g., from `bsicons::bs_icon()` or
 #'   `fontawesome::fa()`).
-#' @param status Optional status indicator. One of `NULL`, `"primary"`,
-#'   `"secondary"`, `"success"`, `"info"`, `"warning"`, `"danger"`, `"light"`,
-#'   or `"dark"`. Adds a colored dot/badge before the title.
+#' @param status Optional status text (e.g., "11 mins ago", "just now") that
+#'   appears as small, muted text in the header.
 #' @param ... Additional HTML attributes passed to the header container.
 #'
 #' @return A tag object representing the toast header content.
@@ -326,7 +325,7 @@ hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
 #'         body = "Your settings have been saved.",
 #'         header = toast_header(
 #'           title = "Settings Updated",
-#'           status = "success"
+#'           status = "just now"
 #'         ),
 #'         type = "success"
 #'       )
@@ -336,41 +335,20 @@ hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
 #'
 #' shinyApp(ui, server)
 toast_header <- function(title, icon = NULL, status = NULL, ...) {
-  # Validate status if provided
-  if (!is.null(status)) {
-    status <- rlang::arg_match(
-      status,
-      c(
-        "primary",
-        "secondary",
-        "success",
-        "info",
-        "warning",
-        "danger",
-        "light",
-        "dark"
-      )
-    )
-  }
-
-  # Build status indicator (colored dot)
-  status_indicator <- if (!is.null(status)) {
-    htmltools::span(
-      class = paste0("badge rounded-circle bg-", status, " me-2"),
-      style = "width: 0.5rem; height: 0.5rem; padding: 0;",
-      `aria-hidden` = "true"
-    )
+  # Build status text (small muted text)
+  status_text <- if (!is.null(status)) {
+    htmltools::tags$small(class = "text-muted", status)
   }
 
   # Combine elements
   htmltools::tagList(
-    status_indicator,
-    icon,
+    if (!is.null(icon)) icon,
     htmltools::strong(
       class = "me-auto",
-      class = if (!is.null(icon) || !is.null(status)) "ms-2",
+      if (!is.null(icon)) htmltools::tags$span(class = "ms-2"),
       title
-    )
+    ),
+    status_text
   )
 }
 
