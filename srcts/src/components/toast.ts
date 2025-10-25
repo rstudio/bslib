@@ -124,7 +124,7 @@ function addProgressBar(toastEl: HTMLElement, duration: number): void {
 // Setup hover pause behavior
 function setupHoverPause(
   toastEl: HTMLElement,
-  bsToast: typeof BootstrapToast.prototype
+  bsToast: typeof bootstrapToast.prototype
 ): void {
   const progressBar = (toastEl as any)._bslibProgressBar as
     | HTMLElement
@@ -199,7 +199,7 @@ async function showToast(message: ShowToastMessage): Promise<void> {
   }
 
   // Initialize Bootstrap toast
-  const bsToast = new BootstrapToast(toastEl, options);
+  const bsToast = new bootstrapToast(toastEl, options);
 
   // Add hover pause behavior for autohiding toasts
   if (options.autohide) {
