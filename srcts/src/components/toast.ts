@@ -93,6 +93,75 @@ class ToastContainerManager {
 
 const containerManager = new ToastContainerManager();
 
+// Add animated progress bar to toast
+function addProgressBar(toastEl: HTMLElement, duration: number): void {
+  const progressBar = document.createElement("div");
+  progressBar.className = "bslib-toast-progress-bar";
+  progressBar.style.cssText = `
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(90deg,
+      rgba(var(--bs-primary-rgb, 13, 110, 253), 0.8),
+      rgba(var(--bs-primary-rgb, 13, 110, 253), 0.4)
+    );
+    transform-origin: left;
+    animation: bslib-toast-progress ${duration}ms linear;
+    animation-play-state: running;
+    border-radius: inherit;
+    pointer-events: none;
+  `;
+
+  // Insert as first child
+  toastEl.insertBefore(progressBar, toastEl.firstChild);
+
+  // Store progress bar reference for hover pause
+  (toastEl as any)._bslibProgressBar = progressBar;
+}
+
+// Setup hover pause behavior
+function setupHoverPause(
+  toastEl: HTMLElement,
+  bsToast: typeof BootstrapToast.prototype
+): void {
+  const progressBar = (toastEl as any)._bslibProgressBar as
+    | HTMLElement
+    | undefined;
+
+  toastEl.addEventListener("mouseenter", () => {
+    // Pause the auto-hide timer
+    (toastEl as any)._bslibMouseover = true;
+
+    // Pause progress bar animation
+    if (progressBar) {
+      progressBar.style.animationPlayState = "paused";
+    }
+  });
+
+  toastEl.addEventListener("mouseleave", () => {
+    // Resume the auto-hide timer
+    (toastEl as any)._bslibMouseover = false;
+
+    // Resume progress bar animation
+    if (progressBar) {
+      progressBar.style.animationPlayState = "running";
+    }
+  });
+
+  // Override Bootstrap's auto-hide behavior to respect hover state
+  const originalHide = bsToast.hide.bind(bsToast);
+  bsToast.hide = function () {
+    if ((toastEl as any)._bslibMouseover) {
+      // If mouse is over, wait a bit and try again
+      setTimeout(() => bsToast.hide(), 100);
+      return;
+    }
+    originalHide();
+  };
+}
+
 // Show toast handler
 async function showToast(message: ShowToastMessage): Promise<void> {
   const { html, deps, options, position } = message;
@@ -124,8 +193,18 @@ async function showToast(message: ShowToastMessage): Promise<void> {
   // Append to container
   container.appendChild(toastEl);
 
+  // Add progress bar for autohiding toasts
+  if (options.autohide) {
+    addProgressBar(toastEl, options.delay || 5000);
+  }
+
   // Initialize Bootstrap toast
-  const bsToast = new bootstrapToast(toastEl, options);
+  const bsToast = new BootstrapToast(toastEl, options);
+
+  // Add hover pause behavior for autohiding toasts
+  if (options.autohide) {
+    setupHoverPause(toastEl, bsToast);
+  }
 
   // Show the toast
   bsToast.show();

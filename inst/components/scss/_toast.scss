@@ -5,6 +5,10 @@
   // Use CSS variables for runtime theming
   --bslib-toast-shadow: var(--bs-box-shadow);
   box-shadow: var(--bslib-toast-shadow);
+
+  // Position relative for progress bar
+  position: relative;
+  overflow: hidden;
 }
 
 // Ensure close button is visible on colored backgrounds
@@ -16,4 +20,24 @@
 .toast.text-bg-danger .toast-body .btn-close,
 .toast.text-bg-dark .toast-body .btn-close {
   filter: var(--bs-btn-close-white-filter);
+}
+
+// Progress bar animation for autohiding toasts
+@keyframes bslib-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.bslib-toast-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
