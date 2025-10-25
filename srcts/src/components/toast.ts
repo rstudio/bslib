@@ -102,8 +102,13 @@ function addProgressBar(toastEl: HTMLElement, duration: number): void {
     animation-play-state: running;
   `;
 
-  // Insert as first child
-  toastEl.insertBefore(progressBar, toastEl.firstChild);
+  // Insert as first child of toast header, or of toast container
+  const toastHeader = toastEl.querySelector(".toast-header");
+  if (toastHeader) {
+    toastHeader.insertBefore(progressBar, toastHeader.firstChild);
+  } else {
+    toastEl.insertBefore(progressBar, toastEl.firstChild);
+  }
 
   // Store progress bar reference for hover pause
   (toastEl as any)._bslibProgressBar = progressBar;
