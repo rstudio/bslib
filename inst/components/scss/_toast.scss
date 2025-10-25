@@ -25,10 +25,10 @@
 // Progress bar animation for autohiding toasts
 @keyframes bslib-toast-progress {
   from {
-    transform: scaleX(1);
+    transform: scaleX(0);
   }
   to {
-    transform: scaleX(0);
+    transform: scaleX(1);
   }
 }
 
