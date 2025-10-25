@@ -98,20 +98,8 @@ function addProgressBar(toastEl: HTMLElement, duration: number): void {
   const progressBar = document.createElement("div");
   progressBar.className = "bslib-toast-progress-bar";
   progressBar.style.cssText = `
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(90deg,
-      rgba(var(--bs-primary-rgb, 13, 110, 253), 0.8),
-      rgba(var(--bs-primary-rgb, 13, 110, 253), 0.4)
-    );
-    transform-origin: left;
     animation: bslib-toast-progress ${duration}ms linear;
     animation-play-state: running;
-    border-radius: inherit;
-    pointer-events: none;
   `;
 
   // Insert as first child

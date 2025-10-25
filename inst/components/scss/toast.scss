@@ -36,8 +36,15 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 4px;
+  height: 2px;
   width: 100%;
   pointer-events: none;
   z-index: 1;
+  background: linear-gradient(90deg,
+    rgba(var(--bs-primary-rgb, 13, 110, 253), 0.8),
+    rgba(var(--bs-primary-rgb, 13, 110, 253), 0.4)
+  );
+  transform-origin: left;
+  border-radius: inherit;
+  pointer-events: none;
 }
