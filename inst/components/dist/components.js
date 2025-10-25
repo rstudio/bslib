@@ -1,7 +1,26 @@
 /*! bslib 0.9.0.9000 | (c) 2012-2025 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
@@ -94,6 +113,18 @@
         return yield Shiny.renderContentAsync.apply(null, args);
       } else {
         return yield Shiny.renderContent.apply(null, args);
+      }
+    });
+  }
+  function shinyRenderDependencies(deps) {
+    return __async(this, null, function* () {
+      if (!Shiny) {
+        throw new Error("This function must be called in a Shiny app.");
+      }
+      if (Shiny.renderDependenciesAsync) {
+        return yield Shiny.renderDependenciesAsync(deps);
+      } else {
+        return Shiny.renderDependencies(deps);
       }
     });
   }
@@ -1780,6 +1811,193 @@
     }
   });
 
+  // srcts/src/components/toast.ts
+  function addProgressBar(toastEl, duration) {
+    const progressBar = document.createElement("div");
+    progressBar.className = "bslib-toast-progress-bar";
+    progressBar.style.cssText = `
+    animation: bslib-toast-progress ${duration}ms linear forwards;
+    animation-play-state: running;
+  `;
+    const toastHeader = toastEl.querySelector(".toast-header");
+    if (toastHeader) {
+      toastHeader.insertBefore(progressBar, toastHeader.firstChild);
+    } else {
+      toastEl.insertBefore(progressBar, toastEl.firstChild);
+    }
+    toastEl._bslibProgressBar = progressBar;
+    toastEl._bslibStartTime = Date.now();
+    toastEl._bslibDuration = duration;
+    toastEl._bslibRemainingTime = duration;
+    toastEl._bslibElapsedBeforePause = 0;
+  }
+  function setupHoverPause(toastEl, bsToast) {
+    const progressBar = toastEl._bslibProgressBar;
+    let hideTimeoutId = null;
+    function startHideTimeout(delay) {
+      if (hideTimeoutId !== null) {
+        clearTimeout(hideTimeoutId);
+      }
+      hideTimeoutId = window.setTimeout(() => {
+        if (!toastEl._bslibMouseover) {
+          originalHide();
+        }
+      }, delay);
+    }
+    if (toastEl._bslibDuration && toastEl._bslibRemainingTime) {
+      startHideTimeout(toastEl._bslibRemainingTime);
+    }
+    toastEl.addEventListener("mouseenter", () => {
+      const pauseTime = Date.now();
+      const timeElapsedSinceStart = pauseTime - toastEl._bslibStartTime;
+      toastEl._bslibElapsedBeforePause = timeElapsedSinceStart;
+      toastEl._bslibRemainingTime = Math.max(
+        0,
+        toastEl._bslibDuration - timeElapsedSinceStart
+      );
+      toastEl._bslibMouseover = true;
+      if (hideTimeoutId !== null) {
+        clearTimeout(hideTimeoutId);
+      }
+      if (progressBar) {
+        progressBar.style.animationPlayState = "paused";
+      }
+    });
+    toastEl.addEventListener("mouseleave", () => {
+      toastEl._bslibMouseover = false;
+      toastEl._bslibStartTime = Date.now() - toastEl._bslibElapsedBeforePause;
+      if (toastEl._bslibRemainingTime > 0) {
+        startHideTimeout(toastEl._bslibRemainingTime);
+        if (progressBar) {
+          progressBar.style.animationPlayState = "running";
+        }
+      }
+    });
+    const originalHide = bsToast.hide.bind(bsToast);
+    bsToast.hide = function() {
+      if (toastEl._bslibMouseover) {
+        return;
+      }
+      if (hideTimeoutId !== null) {
+        clearTimeout(hideTimeoutId);
+        hideTimeoutId = null;
+      }
+      originalHide();
+    };
+  }
+  function showToast(message) {
+    return __async(this, null, function* () {
+      const { html, deps, options, position } = message;
+      if (!window.bootstrap || !window.bootstrap.Toast) {
+        console.warn(
+          "Toast requires Bootstrap 5 to be available on window.bootstrap.Toast"
+        );
+        return;
+      }
+      yield shinyRenderDependencies(deps);
+      const container = containerManager.getOrCreateContainer(position);
+      const temp = document.createElement("div");
+      temp.innerHTML = html;
+      const toastEl = temp.firstElementChild;
+      if (!toastEl) {
+        console.error("Failed to create toast element");
+        return;
+      }
+      container.appendChild(toastEl);
+      let bsToast;
+      if (options.autohide) {
+        const delay = options.delay || 5e3;
+        addProgressBar(toastEl, delay);
+        const modifiedOptions = __spreadProps(__spreadValues({}, options), { autohide: false });
+        bsToast = new bootstrapToast(toastEl, modifiedOptions);
+        setupHoverPause(toastEl, bsToast);
+      } else {
+        bsToast = new bootstrapToast(toastEl, options);
+      }
+      bsToast.show();
+      toastEl.addEventListener("hidden.bs.toast", () => {
+        toastEl.remove();
+        if (container.children.length === 0) {
+          container.remove();
+        }
+      });
+    });
+  }
+  function hideToast(message) {
+    const { id } = message;
+    const toastEl = document.getElementById(id);
+    if (!toastEl) {
+      console.warn(`Toast with id "${id}" not found`);
+      return;
+    }
+    const bsToast = bootstrapToast.getInstance(toastEl);
+    if (bsToast) {
+      bsToast.hide();
+    }
+  }
+  var bootstrapToast, ToastContainerManager, containerManager;
+  var init_toast = __esm({
+    "srcts/src/components/toast.ts"() {
+      "use strict";
+      init_shinyAddCustomMessageHandlers();
+      init_utils();
+      bootstrapToast = window.bootstrap ? window.bootstrap.Toast : class {
+      };
+      ToastContainerManager = class {
+        constructor() {
+          this.containers = /* @__PURE__ */ new Map();
+        }
+        getOrCreateContainer(position) {
+          let container = this.containers.get(position);
+          if (!container || !document.body.contains(container)) {
+            container = this._createContainer(position);
+            this.containers.set(position, container);
+          }
+          return container;
+        }
+        _createContainer(position) {
+          const container = document.createElement("div");
+          container.className = "toast-container position-fixed p-1 p-md-2";
+          container.setAttribute("data-bslib-toast-container", position);
+          const positionClasses = this._getPositionClasses(position);
+          container.classList.add(...positionClasses);
+          document.body.appendChild(container);
+          return container;
+        }
+        _getPositionClasses(position) {
+          const classMap = {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "top-left": ["top-0", "start-0"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "top-center": ["top-0", "start-50", "translate-middle-x"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "top-right": ["top-0", "end-0"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "middle-left": ["top-50", "start-0", "translate-middle-y"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "middle-center": ["top-50", "start-50", "translate-middle"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "middle-right": ["top-50", "end-0", "translate-middle-y"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "bottom-left": ["bottom-0", "start-0"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "bottom-center": ["bottom-0", "start-50", "translate-middle-x"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "bottom-right": ["bottom-0", "end-0"]
+          };
+          return classMap[position];
+        }
+      };
+      containerManager = new ToastContainerManager();
+      shinyAddCustomMessageHandlers({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "bslib.show-toast": showToast,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "bslib.hide-toast": hideToast
+      });
+    }
+  });
+
   // srcts/src/components/index.ts
   var require_components = __commonJS({
     "srcts/src/components/index.ts"(exports) {
@@ -1788,6 +2006,7 @@
       init_sidebar();
       init_taskButton();
       init_submitTextArea();
+      init_toast();
       init_utils();
       init_shinyAddCustomMessageHandlers();
       var bslibMessageHandlers = {
