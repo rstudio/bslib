@@ -98,7 +98,7 @@ function addProgressBar(toastEl: HTMLElement, duration: number): void {
   const progressBar = document.createElement("div");
   progressBar.className = "bslib-toast-progress-bar";
   progressBar.style.cssText = `
-    animation: bslib-toast-progress ${duration}ms linear;
+    animation: bslib-toast-progress ${duration}ms linear forwards;
     animation-play-state: running;
   `;
 
@@ -110,8 +110,12 @@ function addProgressBar(toastEl: HTMLElement, duration: number): void {
     toastEl.insertBefore(progressBar, toastEl.firstChild);
   }
 
-  // Store progress bar reference for hover pause
+  // Store progress bar reference and timing info for hover pause
   (toastEl as any)._bslibProgressBar = progressBar;
+  (toastEl as any)._bslibStartTime = Date.now();
+  (toastEl as any)._bslibDuration = duration;
+  (toastEl as any)._bslibRemainingTime = duration;
+  (toastEl as any)._bslibElapsedBeforePause = 0; // Time elapsed before pause
 }
 
 // Setup hover pause behavior
@@ -123,9 +127,43 @@ function setupHoverPause(
     | HTMLElement
     | undefined;
 
+  // Create a custom timeout to replace Bootstrap's internal one
+  let hideTimeoutId: number | null = null;
+
+  function startHideTimeout(delay: number): void {
+    if (hideTimeoutId !== null) {
+      clearTimeout(hideTimeoutId);
+    }
+    hideTimeoutId = window.setTimeout(() => {
+      // Only call the original hide if not in mouseover state
+      if (!(toastEl as any)._bslibMouseover) {
+        originalHide();
+      }
+    }, delay);
+  }
+
+  // Start the initial hide timeout
+  if ((toastEl as any)._bslibDuration && (toastEl as any)._bslibRemainingTime) {
+    startHideTimeout((toastEl as any)._bslibRemainingTime);
+  }
+
   toastEl.addEventListener("mouseenter", () => {
+    // Calculate elapsed time before pause and remaining time
+    const pauseTime = Date.now();
+    const timeElapsedSinceStart = pauseTime - (toastEl as any)._bslibStartTime;
+    (toastEl as any)._bslibElapsedBeforePause = timeElapsedSinceStart;
+    (toastEl as any)._bslibRemainingTime = Math.max(
+      0,
+      (toastEl as any)._bslibDuration - timeElapsedSinceStart
+    );
+
     // Pause the auto-hide timer
     (toastEl as any)._bslibMouseover = true;
+
+    // Clear any existing timeout
+    if (hideTimeoutId !== null) {
+      clearTimeout(hideTimeoutId);
+    }
 
     // Pause progress bar animation
     if (progressBar) {
@@ -134,23 +172,38 @@ function setupHoverPause(
   });
 
   toastEl.addEventListener("mouseleave", () => {
-    // Resume the auto-hide timer
+    // Resume the auto-hide timer with remaining time
     (toastEl as any)._bslibMouseover = false;
 
-    // Resume progress bar animation
-    if (progressBar) {
-      progressBar.style.animationPlayState = "running";
+    // Update start time to now, accounting for time already elapsed
+    (toastEl as any)._bslibStartTime =
+      Date.now() - (toastEl as any)._bslibElapsedBeforePause;
+
+    // If there's still time remaining, restart the timer
+    if ((toastEl as any)._bslibRemainingTime > 0) {
+      startHideTimeout((toastEl as any)._bslibRemainingTime);
+
+      // Simply resume the animation without restarting it
+      if (progressBar) {
+        progressBar.style.animationPlayState = "running";
+      }
     }
   });
 
-  // Override Bootstrap's auto-hide behavior to respect hover state
+  // Override Bootstrap's auto-hide behavior to respect our custom timing
   const originalHide = bsToast.hide.bind(bsToast);
   bsToast.hide = function () {
     if ((toastEl as any)._bslibMouseover) {
-      // If mouse is over, wait a bit and try again
-      setTimeout(() => bsToast.hide(), 100);
+      // If mouse is over, don't hide yet
       return;
     }
+
+    // Clear our custom timeout since we're hiding now
+    if (hideTimeoutId !== null) {
+      clearTimeout(hideTimeoutId);
+      hideTimeoutId = null;
+    }
+
     originalHide();
   };
 }
@@ -186,17 +239,26 @@ async function showToast(message: ShowToastMessage): Promise<void> {
   // Append to container
   container.appendChild(toastEl);
 
+  // Initialize Bootstrap toast
+  let bsToast: typeof bootstrapToast.prototype;
+
   // Add progress bar for autohiding toasts
   if (options.autohide) {
-    addProgressBar(toastEl, options.delay || 5000);
-  }
+    // Get delay with fallback to default
+    const delay = options.delay || 5000;
+    addProgressBar(toastEl, delay);
 
-  // Initialize Bootstrap toast
-  const bsToast = new bootstrapToast(toastEl, options);
+    // Create a modified options object to prevent Bootstrap's autohide from interfering
+    const modifiedOptions = { ...options, autohide: false };
 
-  // Add hover pause behavior for autohiding toasts
-  if (options.autohide) {
+    // Initialize Bootstrap toast with modified options
+    bsToast = new bootstrapToast(toastEl, modifiedOptions);
+
+    // Add hover pause behavior for autohiding toasts
     setupHoverPause(toastEl, bsToast);
+  } else {
+    // Initialize Bootstrap toast with original options
+    bsToast = new bootstrapToast(toastEl, options);
   }
 
   // Show the toast
