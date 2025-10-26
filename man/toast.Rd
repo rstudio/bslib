@@ -11,8 +11,7 @@ toast(
   ...,
   id = NULL,
   type = NULL,
-  autohide = TRUE,
-  duration = 5000,
+  autohide_s = 5,
   position = "top-right",
   closable = TRUE,
   class = NULL
@@ -37,20 +36,26 @@ Providing a stable ID allows you to update or hide the toast later.}
 \code{"success"}, \code{"info"}, \code{"warning"}, \code{"danger"}, \code{"light"}, or \code{"dark"}.
 Applies appropriate Bootstrap background utility classes (\verb{text-bg-*}).}
 
-\item{autohide}{Logical. Whether to automatically hide the toast after
-\code{duration} milliseconds. Default \code{TRUE}.}
+\item{autohide_s}{Numeric. Number of seconds after which the toast should
+automatically hide. Use \code{0}, \code{NA}, or \code{NULL} to disable auto-hiding (toast
+will remain visible until manually dismissed). Default is \code{5} (5 seconds).}
 
-\item{duration}{Numeric. Time in milliseconds before auto-hiding. Default
-\code{5000} (5 seconds). Ignored if \code{autohide = FALSE}.}
+\item{position}{String or character vector specifying where to position the
+toast container. Can be provided in several formats:
+\itemize{
+\item Kebab-case: \code{"top-left"}, \code{"bottom-right"}, etc.
+\item Space-separated: \code{"top left"}, \code{"bottom right"}, etc.
+\item Character vector: \code{c("top", "left")}, \code{c("bottom", "right")}, etc.
+\item Any order: \code{"left top"} is equivalent to \code{"top left"}
+}
 
-\item{position}{String. Where to position the toast container. One of
-\code{"top-left"}, \code{"top-center"}, \code{"top-right"} (default), \code{"middle-left"},
-\code{"middle-center"}, \code{"middle-right"}, \code{"bottom-left"}, \code{"bottom-center"},
-or \code{"bottom-right"}.}
+Valid vertical positions are \code{"top"}, \code{"middle"}, or \code{"bottom"}. Valid
+horizontal positions are \code{"left"}, \code{"center"}, or \code{"right"}. Input is
+case-insensitive. Default is \code{"bottom-right"}.}
 
 \item{closable}{Logical. Whether to include a close button. Default \code{TRUE}.
-When \code{autohide = FALSE}, a close button is always included regardless of
-this setting (for accessibility).}
+When \code{autohide_s} is disabled (0, NA, or NULL), a close button is always
+included regardless of this setting (for accessibility).}
 
 \item{class}{Additional CSS classes for the toast.}
 

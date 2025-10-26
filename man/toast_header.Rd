@@ -12,9 +12,8 @@ toast_header(title, icon = NULL, status = NULL, ...)
 \item{icon}{Optional icon element (e.g., from \code{bsicons::bs_icon()} or
 \code{fontawesome::fa()}).}
 
-\item{status}{Optional status indicator. One of \code{NULL}, \code{"primary"},
-\code{"secondary"}, \code{"success"}, \code{"info"}, \code{"warning"}, \code{"danger"}, \code{"light"},
-or \code{"dark"}. Adds a colored dot/badge before the title.}
+\item{status}{Optional status text (e.g., "11 mins ago", "just now") that
+appears as small, muted text in the header.}
 
 \item{...}{Additional HTML attributes passed to the header container.}
 }
@@ -41,7 +40,7 @@ server <- function(input, output, session) {
         body = "Your settings have been saved.",
         header = toast_header(
           title = "Settings Updated",
-          status = "success"
+          status = "just now"
         ),
         type = "success"
       )

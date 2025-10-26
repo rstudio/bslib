@@ -19,10 +19,16 @@
 #' @param autohide_s Numeric. Number of seconds after which the toast should
 #'   automatically hide. Use `0`, `NA`, or `NULL` to disable auto-hiding (toast
 #'   will remain visible until manually dismissed). Default is `5` (5 seconds).
-#' @param position String. Where to position the toast container. One of
-#'   `"top-left"`, `"top-center"`, `"top-right"` (default), `"middle-left"`,
-#'   `"middle-center"`, `"middle-right"`, `"bottom-left"`, `"bottom-center"`,
-#'   or `"bottom-right"`.
+#' @param position String or character vector specifying where to position the
+#'   toast container. Can be provided in several formats:
+#'   * Kebab-case: `"top-left"`, `"bottom-right"`, etc.
+#'   * Space-separated: `"top left"`, `"bottom right"`, etc.
+#'   * Character vector: `c("top", "left")`, `c("bottom", "right")`, etc.
+#'   * Any order: `"left top"` is equivalent to `"top left"`
+#'
+#'   Valid vertical positions are `"top"`, `"middle"`, or `"bottom"`. Valid
+#'   horizontal positions are `"left"`, `"center"`, or `"right"`. Input is
+#'   case-insensitive. Default is `"bottom-right"`.
 #' @param closable Logical. Whether to include a close button. Default `TRUE`.
 #'   When `autohide_s` is disabled (0, NA, or NULL), a close button is always
 #'   included regardless of this setting (for accessibility).
@@ -85,25 +91,12 @@ toast <- function(
     )
   }
 
-  position <- rlang::arg_match(
-    position,
-    c(
-      "top-left",
-      "top-center",
-      "top-right",
-      "middle-left",
-      "middle-center",
-      "middle-right",
-      "bottom-left",
-      "bottom-center",
-      "bottom-right"
-    )
-  )
+  position <- normalize_toast_position(position)
 
   # Determine autohide behavior
   # autohide_s of 0, NA, or NULL disables auto-hiding
   autohide <- !is.null(autohide_s) && !is.na(autohide_s) && autohide_s > 0
-  duration <- if (autohide) autohide_s * 1000 else 5000  # Convert to milliseconds
+  duration <- if (autohide) autohide_s * 1000 else 5000 # Convert to milliseconds
 
   # Enforce close button for non-autohiding toasts (accessibility)
   if (!autohide) {
@@ -441,4 +434,61 @@ toast_component <- function(
   toast <- tag_require(toast, version = 5)
 
   as_fragment(toast)
+}
+
+# Helper function to normalize toast position arguments
+normalize_toast_position <- function(position = "bottom-right") {
+  if (is.null(position) || length(position) == 0) {
+    return("bottom-right")
+  }
+
+  # Store original for error messages
+  original_position <- position
+
+  # If position is a vector, collapse it to a single string with spaces
+  if (length(position) > 1) {
+    position <- paste(position, collapse = " ")
+  }
+
+  # Normalize to lowercase and trim
+  position <- tolower(trimws(position))
+
+  # Split on spaces or hyphens to get individual components
+  components <- strsplit(position, "[-\\s]+", perl = TRUE)[[1]]
+  components <- components[nzchar(components)] # Remove empty strings
+
+  # Separate vertical and horizontal components
+  vertical <- intersect(components, c("top", "middle", "bottom"))
+  horizontal <- intersect(components, c("left", "center", "right"))
+  invalid <- setdiff(components, c(vertical, horizontal))
+
+  # Validate we have exactly one of each
+  if (length(vertical) != 1 || length(horizontal) != 1 || length(invalid) > 0) {
+    rlang::abort(
+      paste0(
+        "Invalid toast position: '",
+        original_position,
+        "'. ",
+        "Must specify one vertical position (top, middle, bottom) and ",
+        "one horizontal position (left, center, right)."
+      )
+    )
+  }
+
+  result <- paste0(vertical, "-", horizontal)
+
+  rlang::arg_match(
+    result,
+    c(
+      "top-left",
+      "top-center",
+      "top-right",
+      "middle-left",
+      "middle-center",
+      "middle-right",
+      "bottom-left",
+      "bottom-center",
+      "bottom-right"
+    )
+  )
 }
