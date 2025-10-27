@@ -147,7 +147,7 @@ test_that("toast_header() creates structured header data", {
 
 test_that("toast_header() works with icons", {
   # Mock icon (just a simple span for testing)
-  icon <- htmltools::span(class = "test-icon")
+  icon <- span(class = "test-icon")
 
   h <- toast_header("Title", icon = icon)
   expect_s3_class(h, "bslib_toast_header")
@@ -279,7 +279,11 @@ test_that("toast header can be replaced with list pattern", {
   t <- toast("Body", header = "Simple")
 
   # Replace with list pattern
-  t$header <- list(title = "New Title", status = "now", icon = htmltools::span(class = "icon"))
+  t$header <- list(
+    title = "New Title",
+    status = "now",
+    icon = span(class = "icon")
+  )
 
   tag <- as.tags(t)
   html <- as.character(tag)
@@ -292,61 +296,61 @@ test_that("toast header can be replaced with list pattern", {
 
 # Tests for normalize_toast_position() helper
 test_that("normalize_toast_position() handles standard kebab-case format", {
-  expect_equal(bslib:::normalize_toast_position("top-left"), "top-left")
-  expect_equal(bslib:::normalize_toast_position("bottom-right"), "bottom-right")
+  expect_equal(normalize_toast_position("top-left"), "top-left")
+  expect_equal(normalize_toast_position("bottom-right"), "bottom-right")
   expect_equal(
-    bslib:::normalize_toast_position("middle-center"),
+    normalize_toast_position("middle-center"),
     "middle-center"
   )
 })
 
 test_that("normalize_toast_position() handles space-separated format", {
-  expect_equal(bslib:::normalize_toast_position("top left"), "top-left")
-  expect_equal(bslib:::normalize_toast_position("bottom right"), "bottom-right")
+  expect_equal(normalize_toast_position("top left"), "top-left")
+  expect_equal(normalize_toast_position("bottom right"), "bottom-right")
   expect_equal(
-    bslib:::normalize_toast_position("middle center"),
+    normalize_toast_position("middle center"),
     "middle-center"
   )
 })
 
 test_that("normalize_toast_position() handles reversed order", {
-  expect_equal(bslib:::normalize_toast_position("left top"), "top-left")
-  expect_equal(bslib:::normalize_toast_position("right bottom"), "bottom-right")
+  expect_equal(normalize_toast_position("left top"), "top-left")
+  expect_equal(normalize_toast_position("right bottom"), "bottom-right")
   expect_equal(
-    bslib:::normalize_toast_position("center middle"),
+    normalize_toast_position("center middle"),
     "middle-center"
   )
 })
 
 test_that("normalize_toast_position() handles vector input", {
-  expect_equal(bslib:::normalize_toast_position(c("top", "left")), "top-left")
+  expect_equal(normalize_toast_position(c("top", "left")), "top-left")
   expect_equal(
-    bslib:::normalize_toast_position(c("bottom", "right")),
+    normalize_toast_position(c("bottom", "right")),
     "bottom-right"
   )
-  expect_equal(bslib:::normalize_toast_position(c("left", "top")), "top-left")
+  expect_equal(normalize_toast_position(c("left", "top")), "top-left")
   expect_equal(
-    bslib:::normalize_toast_position(c("right", "bottom")),
+    normalize_toast_position(c("right", "bottom")),
     "bottom-right"
   )
 })
 
 test_that("normalize_toast_position() is case-insensitive", {
-  expect_equal(bslib:::normalize_toast_position("TOP LEFT"), "top-left")
-  expect_equal(bslib:::normalize_toast_position("Bottom Right"), "bottom-right")
+  expect_equal(normalize_toast_position("TOP LEFT"), "top-left")
+  expect_equal(normalize_toast_position("Bottom Right"), "bottom-right")
   expect_equal(
-    bslib:::normalize_toast_position("MIDDLE center"),
+    normalize_toast_position("MIDDLE center"),
     "middle-center"
   )
 })
 
 test_that("normalize_toast_position() handles default NULL or empty", {
-  expect_equal(bslib:::normalize_toast_position(NULL), "bottom-right")
-  expect_equal(bslib:::normalize_toast_position(character(0)), "bottom-right")
+  expect_equal(normalize_toast_position(NULL), "bottom-right")
+  expect_equal(normalize_toast_position(character(0)), "bottom-right")
 })
 
 test_that("normalize_toast_position() defaults to bottom-right when unspecified", {
-  expect_equal(bslib:::normalize_toast_position(), "bottom-right")
+  expect_equal(normalize_toast_position(), "bottom-right")
 })
 
 test_that("normalize_toast_position() handles all valid combinations", {
@@ -358,19 +362,19 @@ test_that("normalize_toast_position() handles all valid combinations", {
       expected <- paste0(v, "-", h)
       # Space-separated
       expect_equal(
-        bslib:::normalize_toast_position(paste(v, h)),
+        normalize_toast_position(paste(v, h)),
         expected,
         label = paste("space-separated:", v, h)
       )
       # Reversed order
       expect_equal(
-        bslib:::normalize_toast_position(paste(h, v)),
+        normalize_toast_position(paste(h, v)),
         expected,
         label = paste("reversed:", h, v)
       )
       # Vector
       expect_equal(
-        bslib:::normalize_toast_position(c(v, h)),
+        normalize_toast_position(c(v, h)),
         expected,
         label = paste("vector:", v, h)
       )
@@ -380,53 +384,53 @@ test_that("normalize_toast_position() handles all valid combinations", {
 
 test_that("normalize_toast_position() errors on missing components", {
   expect_error(
-    bslib:::normalize_toast_position("top"),
+    normalize_toast_position("top"),
     "Must specify one vertical position.*and.*one horizontal position"
   )
   expect_error(
-    bslib:::normalize_toast_position("left"),
+    normalize_toast_position("left"),
     "Must specify one vertical position.*and.*one horizontal position"
   )
   expect_error(
-    bslib:::normalize_toast_position("center"),
+    normalize_toast_position("center"),
     "Must specify one vertical position.*and.*one horizontal position"
   )
 })
 
 test_that("normalize_toast_position() errors on duplicate components", {
   expect_error(
-    bslib:::normalize_toast_position("top bottom left"),
+    normalize_toast_position("top bottom left"),
     "Invalid toast position"
   )
   expect_error(
-    bslib:::normalize_toast_position("top left right"),
+    normalize_toast_position("top left right"),
     "Invalid toast position"
   )
   expect_error(
-    bslib:::normalize_toast_position(c("top", "bottom", "left")),
+    normalize_toast_position(c("top", "bottom", "left")),
     "Invalid toast position"
   )
 })
 
 test_that("normalize_toast_position() errors on invalid components", {
   expect_error(
-    bslib:::normalize_toast_position("top invalid"),
+    normalize_toast_position("top invalid"),
     "Invalid toast position.+?'top invalid'"
   )
   expect_error(
-    bslib:::normalize_toast_position("foo bar"),
+    normalize_toast_position("foo bar"),
     "Invalid toast position.+?'foo bar'"
   )
   expect_error(
-    bslib:::normalize_toast_position("top-left-extra"),
+    normalize_toast_position("top-left-extra"),
     "Invalid toast position.+?'top-left-extra'"
   )
 })
 
 test_that("normalize_toast_position() handles extra whitespace", {
-  expect_equal(bslib:::normalize_toast_position("  top   left  "), "top-left")
+  expect_equal(normalize_toast_position("  top   left  "), "top-left")
   expect_equal(
-    bslib:::normalize_toast_position("bottom  right"),
+    normalize_toast_position("bottom  right"),
     "bottom-right"
   )
 })
