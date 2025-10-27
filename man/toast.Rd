@@ -26,13 +26,14 @@ Named arguments will be treated as HTML attributes for the toast container.}
 automatically generated when the toast is shown via \code{\link[=show_toast]{show_toast()}}.
 Providing a stable ID allows you to update or hide the toast later.}
 
-\item{type}{Optional semantic type. One of \code{NULL}, \code{"primary"}, \code{"secondary"},
-\code{"success"}, \code{"info"}, \code{"warning"}, \code{"danger"}, \code{"light"}, or \code{"dark"}.
-Applies appropriate Bootstrap background utility classes (\verb{text-bg-*}).}
+\item{type}{Optional semantic type. One of \code{NULL}, \code{"primary"},
+\code{"secondary"}, \code{"success"}, \code{"info"}, \code{"warning"}, \code{"danger"}, \code{"light"},
+or \code{"dark"}. Applies appropriate Bootstrap background utility classes
+(\verb{text-bg-*}).}
 
 \item{autohide_s}{Numeric. Number of seconds after which the toast should
-automatically hide. Use \code{0}, \code{NA}, or \code{NULL} to disable auto-hiding (toast
-will remain visible until manually dismissed). Default is \code{5} (5 seconds).}
+automatically hide. Use \code{0}, or \code{NA} to disable auto-hiding (toast will
+remain visible until manually dismissed). Default is \code{5} (5 seconds).}
 
 \item{position}{String or character vector specifying where to position the
 toast container. Can be provided in several formats:
@@ -47,10 +48,9 @@ Valid vertical positions are \code{"top"}, \code{"middle"}, or \code{"bottom"}. 
 horizontal positions are \code{"left"}, \code{"center"}, or \code{"right"}. Input is
 case-insensitive. Default is \code{"bottom-right"}.}
 
-\item{closable}{Logical. Whether to include a close button. Default \code{TRUE}.
-When \code{autohide_s} is disabled (\code{0}, \code{NA}) and \code{closable = FALSE}, the app
-user won't be able to close the toast and you'll need to use \code{\link[=hide_toast]{hide_toast()}}
-in your server logic to dismiss it for the user at the appropriate time.}
+\item{closable}{Logical. Whether to include a close button. Defaults to
+\code{TRUE} and is only relevant when auto-hiding is enabled. If auto-hiding is
+disabled, a close button is always included for accessibility.}
 }
 \value{
 A \code{bslib_toast} object that can be passed to \code{\link[=show_toast]{show_toast()}}.

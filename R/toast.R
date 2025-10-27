@@ -35,12 +35,13 @@
 #' @param id Optional unique identifier for the toast. If `NULL`, an ID will be
 #'   automatically generated when the toast is shown via [show_toast()].
 #'   Providing a stable ID allows you to update or hide the toast later.
-#' @param type Optional semantic type. One of `NULL`, `"primary"`, `"secondary"`,
-#'   `"success"`, `"info"`, `"warning"`, `"danger"`, `"light"`, or `"dark"`.
-#'   Applies appropriate Bootstrap background utility classes (`text-bg-*`).
+#' @param type Optional semantic type. One of `NULL`, `"primary"`,
+#'   `"secondary"`, `"success"`, `"info"`, `"warning"`, `"danger"`, `"light"`,
+#'   or `"dark"`. Applies appropriate Bootstrap background utility classes
+#'   (`text-bg-*`).
 #' @param autohide_s Numeric. Number of seconds after which the toast should
-#'   automatically hide. Use `0`, `NA`, or `NULL` to disable auto-hiding (toast
-#'   will remain visible until manually dismissed). Default is `5` (5 seconds).
+#'   automatically hide. Use `0`, or `NA` to disable auto-hiding (toast will
+#'   remain visible until manually dismissed). Default is `5` (5 seconds).
 #' @param position String or character vector specifying where to position the
 #'   toast container. Can be provided in several formats:
 #'   * Kebab-case: `"top-left"`, `"bottom-right"`, etc.
@@ -51,10 +52,9 @@
 #'   Valid vertical positions are `"top"`, `"middle"`, or `"bottom"`. Valid
 #'   horizontal positions are `"left"`, `"center"`, or `"right"`. Input is
 #'   case-insensitive. Default is `"bottom-right"`.
-#' @param closable Logical. Whether to include a close button. Default `TRUE`.
-#'   When `autohide_s` is disabled (`0`, `NA`) and `closable = FALSE`, the app
-#'   user won't be able to close the toast and you'll need to use [hide_toast()]
-#'   in your server logic to dismiss it for the user at the appropriate time.
+#' @param closable Logical. Whether to include a close button. Defaults to
+#'   `TRUE` and is only relevant when auto-hiding is enabled. If auto-hiding is
+#'   disabled, a close button is always included for accessibility.
 #'
 #' @return A `bslib_toast` object that can be passed to [show_toast()].
 #'
@@ -93,9 +93,19 @@ toast <- function(
   position <- normalize_toast_position(position)
 
   # Determine autohide behavior
-  # autohide_s of 0, NA, or NULL disables auto-hiding
-  autohide <- !is.null(autohide_s) && !is.na(autohide_s) && autohide_s > 0
-  duration <- if (autohide) autohide_s * 1000 else 5000 # milliseconds
+  # autohide_s of 0 or NA (or NULL) disables auto-hiding
+  if (is.null(autohide_s) || (length(autohide_s) == 1 && is.na(autohide_s))) {
+    autohide <- FALSE
+  } else {
+    if (!is.numeric(autohide_s) || length(autohide_s) != 1 || autohide_s < 0) {
+      rlang::abort(
+        "`autohide_s` must be a single non-negative number or NA."
+      )
+    }
+    autohide <- autohide_s != 0
+  }
+
+  duration <- if (autohide) autohide_s * 1000 # milliseconds
 
   # Enforce close button for non-autohiding toasts (accessibility)
   if (!autohide) {

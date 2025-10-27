@@ -47,6 +47,14 @@ test_that("toast() autohide_s > 0 enables autohiding", {
   expect_equal(t$duration, 10000) # Converted to milliseconds
 })
 
+test_that("toast() autohide_s throws for invalid values", {
+  expect_snapshot(error = TRUE, {
+    toast("Test", autohide_s = -5)
+    toast("Test", autohide_s = "invalid")
+    toast("Test", autohide_s = c(5, 10))
+  })
+})
+
 test_that("toast() allows closable = FALSE when autohiding", {
   t <- toast("Test", autohide_s = 5, closable = FALSE)
   expect_false(t$closable)
