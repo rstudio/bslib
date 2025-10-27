@@ -209,7 +209,7 @@ server <- function(input, output, session) {
 
     # Build toast
     toast_obj <- toast(
-      body = input$body,
+      input$body,
       header = header,
       id = if (nzchar(input$custom_id)) input$custom_id,
       type = if (nzchar(input$type)) input$type,
@@ -234,7 +234,7 @@ server <- function(input, output, session) {
   observeEvent(input$show_persistent, {
     id <- show_toast(
       toast(
-        body = "This toast won't disappear automatically. Use the 'Hide' button to dismiss it.",
+        "This toast won't disappear automatically. Use the 'Hide' button to dismiss it.",
         header = "Persistent Toast",
         type = "info",
         autohide_s = 0
@@ -252,7 +252,7 @@ server <- function(input, output, session) {
   observeEvent(input$show_long_duration, {
     show_toast(
       toast(
-        body = "This toast will stay visible for 10 seconds.",
+        "This toast will stay visible for 10 seconds.",
         header = "Long Duration",
         type = "primary",
         autohide_s = 10
@@ -263,7 +263,7 @@ server <- function(input, output, session) {
   observeEvent(input$show_no_close, {
     show_toast(
       toast(
-        body = "This toast has no close button but will auto-hide in 3 seconds.",
+        "This toast has no close button but will auto-hide in 3 seconds.",
         type = "secondary",
         closable = FALSE,
         autohide_s = 3
@@ -274,7 +274,7 @@ server <- function(input, output, session) {
   observeEvent(input$show_custom_header, {
     show_toast(
       toast(
-        body = "Your profile has been updated successfully.",
+        "Your profile has been updated successfully.",
         header = toast_header(
           title = "Profile Updated",
           icon = icon("check"),
@@ -289,16 +289,15 @@ server <- function(input, output, session) {
   observeEvent(input$show_action_buttons, {
     show_toast(
       toast(
-        body = tagList(
-          p("Would you like to save your changes?"),
-          div(
-            class = "mt-2",
-            actionButton("save_yes", "Save", class = "btn-sm btn-primary me-2"),
-            actionButton(
-              "save_no",
-              "Don't Save",
-              class = "btn-sm btn-secondary"
-            )
+        id = "unsaved_changes_toast",
+        p("Would you like to save your changes?"),
+        div(
+          class = "mt-2",
+          actionButton("save_yes", "Save", class = "btn-sm btn-primary me-2"),
+          actionButton(
+            "save_no",
+            "Don't Save",
+            class = "btn-sm btn-secondary"
           )
         ),
         header = "Unsaved Changes",
@@ -309,11 +308,13 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$save_yes, {
-    showNotification("Changes saved!", type = "message")
+    hide_toast("unsaved_changes_toast")
+    show_toast(toast("Saved changes", type = "success"))
   })
 
   observeEvent(input$save_no, {
-    showNotification("Changes discarded.", type = "message")
+    hide_toast("unsaved_changes_toast")
+    show_toast(toast("Changes were not saved", type = "danger"))
   })
 
   observeEvent(input$show_multiple, {
@@ -353,7 +354,7 @@ server <- function(input, output, session) {
       pos <- positions[i]
       show_toast(
         toast(
-          body = paste("Toast at", pos),
+          paste("Toast at", pos),
           type = types[i],
           autohide_s = 4,
           position = pos
