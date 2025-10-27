@@ -207,6 +207,11 @@ show_toast <- function(
     toast <- toast(toast)
   }
 
+  if (length(toast$body) == 0 && length(toast$header) == 0) {
+    rlang::warn("`toast` has no content; no toast to show.")
+    return(invisible(NULL))
+  }
+
   toast$id <- toast$id %||% toast_random_id()
 
   toasted <- processDeps(toast, session)
@@ -235,6 +240,10 @@ hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
       rlang::abort("Cannot hide a toast without an ID. Provide the toast ID.")
     }
     id <- id$id
+  }
+  if (is.null(id)) {
+    rlang::warn("`id` is NULL; no toast to hide.")
+    return(invisible(NULL))
   }
   session$sendCustomMessage("bslib.hide-toast", list(id = id))
   invisible(id)

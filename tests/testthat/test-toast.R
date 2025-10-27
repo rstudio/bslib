@@ -415,6 +415,16 @@ test_that("show_toast() returns the toast id", {
   expect_equal(toast_id2, exp_toast_id)
 })
 
+test_that("show_toast() and hide_toast() warn if nothing to show/hide", {
+  session <- list(sendCustomMessage = function(type, message) {
+    stop("sendCustomMessage should not be called")
+  })
+
+  expect_snapshot({
+    hide_toast(show_toast(toast(), session = session), session = session)
+  })
+})
+
 test_that("hide_toast() works", {
   session <- list(sendCustomMessage = function(type, message) {
     expect_equal(type, "bslib.hide-toast")
