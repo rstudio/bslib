@@ -27,7 +27,10 @@ Named arguments will be treated as HTML attributes for the toast container.}
 
 \item{id}{Optional unique identifier for the toast. If \code{NULL}, an ID will be
 automatically generated when the toast is shown via \code{\link[=show_toast]{show_toast()}}.
-Providing a stable ID allows you to update or hide the toast later.}
+Providing a stable ID allows you to hide the toast later. If a toast with
+\code{id} is already visible, that toast is automatically hidden before showing
+the new toast with the same \code{id} so that only one toast with a given ID is
+shown at once.}
 
 \item{type}{Optional semantic type. One of \code{NULL}, \code{"primary"},
 \code{"secondary"}, \code{"success"}, \code{"info"}, \code{"warning"}, \code{"danger"}, \code{"light"},

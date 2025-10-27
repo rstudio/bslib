@@ -48,7 +48,10 @@
 #'   (if `closable = TRUE`).
 #' @param id Optional unique identifier for the toast. If `NULL`, an ID will be
 #'   automatically generated when the toast is shown via [show_toast()].
-#'   Providing a stable ID allows you to update or hide the toast later.
+#'   Providing a stable ID allows you to hide the toast later. If a toast with
+#'   `id` is already visible, that toast is automatically hidden before showing
+#'   the new toast with the same `id` so that only one toast with a given ID is
+#'   shown at once.
 #' @param type Optional semantic type. One of `NULL`, `"primary"`,
 #'   `"secondary"`, `"success"`, `"info"`, `"warning"`, `"danger"`, `"light"`,
 #'   or `"dark"`. Applies appropriate Bootstrap background utility classes
