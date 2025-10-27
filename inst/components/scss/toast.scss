@@ -12,15 +12,20 @@
 }
 
 // Ensure close button is visible on colored backgrounds
-.toast.text-bg-primary .toast-body .btn-close,
-.toast.text-bg-secondary .toast-body .btn-close,
-.toast.text-bg-success .toast-body .btn-close,
-.toast.text-bg-info .toast-body .btn-close,
-.toast.text-bg-warning .toast-body .btn-close,
-.toast.text-bg-danger .toast-body .btn-close,
-.toast.text-bg-dark .toast-body .btn-close {
-  filter: var(--bs-btn-close-white-filter);
+.text-bg-primary,
+.text-bg-secondary,
+.text-bg-success,
+.text-bg-info,
+.text-bg-warning,
+.text-bg-danger,
+.text-bg-dark,
+.text-white,
+.text-light {
+  &.toast .toast-body .btn-close {
+    filter: var(--bs-btn-close-white-filter);
+  }
 }
+
 
 // Progress bar animation for autohiding toasts
 @keyframes bslib-toast-progress {
