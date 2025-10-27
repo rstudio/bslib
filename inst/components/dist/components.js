@@ -1813,6 +1813,7 @@
   // srcts/src/components/toast.ts
   function showToast(message) {
     return __async(this, null, function* () {
+      var _a, _b;
       const { html, deps, options, position, id } = message;
       if (!window.bootstrap || !window.bootstrap.Toast) {
         showShinyClientMessage({
@@ -1821,6 +1822,16 @@
           status: "error"
         });
         return;
+      }
+      const existingToastEl = document.getElementById(id);
+      if (existingToastEl) {
+        const existingInstance = toastInstances.get(existingToastEl);
+        if (existingInstance) {
+          existingInstance.hide();
+          toastInstances.delete(existingToastEl);
+        }
+        (_b = (_a = window == null ? void 0 : window.Shiny) == null ? void 0 : _a.unbindAll) == null ? void 0 : _b.call(_a, existingToastEl);
+        existingToastEl.remove();
       }
       const container = containerManager.getOrCreateContainer(position);
       yield shinyRenderContent(container, { html, deps }, "beforeEnd");
@@ -1837,8 +1848,8 @@
       toastInstances.set(toastEl, toastInstance);
       toastInstance.show();
       toastEl.addEventListener("hidden.bs.toast", () => {
-        var _a, _b;
-        (_b = (_a = window == null ? void 0 : window.Shiny) == null ? void 0 : _a.unbindAll) == null ? void 0 : _b.call(_a, toastEl);
+        var _a2, _b2;
+        (_b2 = (_a2 = window == null ? void 0 : window.Shiny) == null ? void 0 : _a2.unbindAll) == null ? void 0 : _b2.call(_a2, toastEl);
         toastEl.remove();
         toastInstances.delete(toastEl);
         if (container.children.length === 0) {
