@@ -319,18 +319,20 @@ toast_component <- function(
   class = NULL,
   attribs = list()
 ) {
-  # Determine accessibility attributes
+  # Set ARIA attributes based on toast urgency level
+  # - danger toasts use role="alert" + aria-live="assertive" to immediately
+  #   interrupt screen readers (critical errors requiring immediate attention)
+  # - other toasts use role="status" + aria-live="polite" to announce updates
+  #   without interrupting (non-critical, announced when convenient)
   aria_role <- if (!is.null(type) && type == "danger") "alert" else "status"
   aria_live <- if (!is.null(type) && type == "danger") "assertive" else "polite"
 
-  # Build type-based classes
   type_class <- if (!is.null(type)) {
     paste0("text-bg-", type)
   }
 
-  # Create close button (if needed)
   close_button <- if (closable) {
-    htmltools::tags$button(
+    tags$button(
       type = "button",
       class = "btn-close",
       `data-bs-dismiss` = "toast",
@@ -338,7 +340,6 @@ toast_component <- function(
     )
   }
 
-  # Build header if provided
   header_tag <- if (!is.null(header)) {
     # Check if header is already a toast_header() result or just text/tags
     header_content <- if (is.character(header)) {
@@ -349,28 +350,28 @@ toast_component <- function(
       # Treat a bare list with a `title` element as a toast_header()
       toast_component_header(header)
     } else {
-      # Pass it through directly (assume user knows what they're doing)
+      # Otherwise pass through directly (assume user knows what they're doing)
       header
     }
 
-    htmltools::div(
+    div(
       class = "toast-header",
       header_content,
       close_button
     )
   }
 
-  # Build body with optional close button (if no header)
+  # Body with optional close button
+  # * If header exists, close button goes in header
+  # * If no header, close button goes in body (if closable)
   body_tag <- if (!is.null(header)) {
-    # Has header, so just body content (close button in header)
-    htmltools::div(class = "toast-body", body)
+    div(class = "toast-body", body)
   } else {
-    # No header, so include close button in body (if closable)
     if (closable) {
-      htmltools::div(
+      div(
         class = "toast-body d-flex",
-        htmltools::div(class = "flex-grow-1", body),
-        htmltools::tags$button(
+        div(class = "flex-grow-1", body),
+        tags$button(
           type = "button",
           class = "btn-close",
           `data-bs-dismiss` = "toast",
@@ -379,12 +380,11 @@ toast_component <- function(
       )
     } else {
       # No close button needed
-      htmltools::div(class = "toast-body", body)
+      div(class = "toast-body", body)
     }
   }
 
-  # Combine into toast structure
-  toast <- htmltools::div(
+  toast <- div(
     id = id,
     class = paste(c("toast", type_class, class), collapse = " "),
     role = aria_role,
@@ -392,47 +392,37 @@ toast_component <- function(
     `aria-atomic` = "true",
     !!!attribs,
     header_tag,
-    body_tag
+    body_tag,
+    component_dependencies()
   )
 
-  # Attach dependencies
-  toast <- htmltools::tagAppendChild(toast, component_dependencies())
-  toast <- tag_require(toast, version = 5)
-
-  as_fragment(toast)
+  as_fragment(tag_require(toast, version = 5))
 }
 
 toast_random_id <- function() {
   paste0("bslib-toast-", p_randomInt(1000, 10000000))
 }
 
-# Helper function to normalize toast position arguments
 normalize_toast_position <- function(position = "bottom-right") {
   if (is.null(position) || length(position) == 0) {
     return("bottom-right")
   }
 
-  # Store original for error messages
-  original_position <- position
+  original_position <- position # for error messages
 
   # If position is a vector, collapse it to a single string with spaces
   if (length(position) > 1) {
     position <- paste(position, collapse = " ")
   }
 
-  # Normalize to lowercase and trim
   position <- tolower(trimws(position))
-
-  # Split on spaces or hyphens to get individual components
   components <- strsplit(position, "[-\\s]+", perl = TRUE)[[1]]
   components <- components[nzchar(components)] # Remove empty strings
 
-  # Separate vertical and horizontal components
   vertical <- intersect(components, c("top", "middle", "bottom"))
   horizontal <- intersect(components, c("left", "center", "right"))
   invalid <- setdiff(components, c(vertical, horizontal))
 
-  # Validate we have exactly one of each
   if (length(vertical) != 1 || length(horizontal) != 1 || length(invalid) > 0) {
     rlang::abort(
       paste0(
