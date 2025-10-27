@@ -134,7 +134,6 @@ class BslibToastInstance {
   private startTime = 0;
   private duration = 0;
   private hideTimeoutId: number | null = null;
-  private bsToastHide: () => void;
 
   constructor(element: HTMLElement, options: ToastOptions) {
     this.element = element;
@@ -153,8 +152,6 @@ class BslibToastInstance {
     } else {
       this.bsToast = new bootstrapToast(element, options);
     }
-
-    this.bsToastHide = this.bsToast.hide.bind(this.bsToast);
   }
 
   /**
@@ -173,7 +170,7 @@ class BslibToastInstance {
       this.hideTimeoutId = null;
     }
 
-    this.bsToastHide();
+    this.bsToast.hide();
   }
 
   /**
@@ -210,9 +207,6 @@ class BslibToastInstance {
 
     this.element.addEventListener("mouseenter", () => this._handleMouseEnter());
     this.element.addEventListener("mouseleave", () => this._handleMouseLeave());
-
-    // Override Bootstrap's auto-hide behavior to respect our custom timing
-    this.bsToast.hide = () => this.hide();
   }
 
   /**
@@ -258,7 +252,7 @@ class BslibToastInstance {
       clearTimeout(this.hideTimeoutId);
     }
     this.hideTimeoutId = window.setTimeout(() => {
-      this.bsToastHide();
+      this.bsToast.hide();
     }, delay);
   }
 }
