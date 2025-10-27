@@ -121,13 +121,11 @@ ui <- page_fillable(
             ),
           )
         ),
-
-        # Action buttons
-        div(
-          class = "mt-3 d-grid gap-2",
-          actionButton("show_toast", "Show Toast", class = "btn-primary"),
-          actionButton("hide_toast", "Hide Last Toast", class = "btn-secondary")
-        )
+      ),
+      card_footer(
+        class = "hstack gap-2 justify-content-end",
+        actionButton("show_toast", "Show Toast", class = "btn-primary"),
+        actionButton("hide_toast", "Hide Last Toast", class = "btn-secondary")
       )
     ),
 
@@ -182,6 +180,11 @@ ui <- page_fillable(
           actionButton(
             "show_all_positions",
             "Test All Positions",
+            class = "mb-2 w-100"
+          ),
+          actionButton(
+            "show_dynamic_content",
+            "Toast with Dynamic Content",
             class = "mb-2 w-100"
           )
         )
@@ -362,6 +365,74 @@ server <- function(input, output, session) {
       )
     }
   })
+
+  # Dynamic content toast
+  inserted_time <- reactiveVal(NULL)
+
+  observeEvent(input$show_dynamic_content, {
+    show_toast(
+      toast(
+        id = "dynamic_content_toast",
+        div(
+          p("Current time:", strong(textOutput("toast_time", inline = TRUE))),
+          plotOutput("toast_plot", height = "200px"),
+          sliderInput(
+            "toast_bins",
+            "Number of bins:",
+            min = 5,
+            max = 50,
+            value = 30,
+            width = "100%"
+          ),
+        ),
+        header = toast_header(
+          title = "Dynamic Toast",
+          status = textOutput("toast_status", inline = TRUE)
+        ),
+        type = "light",
+        autohide_s = 0
+      )
+    )
+    inserted_time(Sys.time())
+  })
+
+  output$toast_time <- renderText({
+    invalidateLater(1000)
+    format(Sys.time(), "%H:%M:%S")
+  })
+
+  output$toast_status <- renderText({
+    req(inserted_time())
+
+    invalidateLater(1000)
+    elapsed <- as.numeric(difftime(Sys.time(), inserted_time(), units = "secs"))
+    if (elapsed < 60) {
+      paste0(floor(elapsed), "s ago")
+    } else {
+      paste0(floor(elapsed / 60), "m ago")
+    }
+  })
+
+  output$toast_plot <- renderPlot(
+    {
+      req(input$toast_bins)
+      par(
+        mar = c(0, 0, 2, 0), # Margins
+        mgp = c(1, 0, 0)
+      )
+      hist(
+        faithful$eruptions,
+        breaks = input$toast_bins,
+        col = "#444",
+        border = "transparent",
+        main = "Eruption Times",
+        xlab = NULL,
+        ylab = NULL,
+        axes = FALSE
+      )
+    },
+    bg = "transparent"
+  )
 }
 
 shinyApp(ui, server)

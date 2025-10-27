@@ -272,6 +272,21 @@ async function showToast(message: ShowToastMessage): Promise<void> {
     return;
   }
 
+  // Check if a toast with the same ID already exists
+  const existingToastEl = document.getElementById(id);
+  if (existingToastEl) {
+    // Hide and remove existing toast without animation
+    const existingInstance = toastInstances.get(existingToastEl);
+    if (existingInstance) {
+      // Force immediate hide by clearing timeout
+      existingInstance.hide();
+      toastInstances.delete(existingToastEl);
+    }
+    // Unbind Shiny bindings and remove immediately
+    window?.Shiny?.unbindAll?.(existingToastEl);
+    existingToastEl.remove();
+  }
+
   // Get or create container for this position
   const container = containerManager.getOrCreateContainer(position);
 
