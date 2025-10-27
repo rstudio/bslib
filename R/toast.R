@@ -291,19 +291,32 @@ hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
 #' }
 #'
 #' shinyApp(ui, server)
-toast_header <- function(title, icon = NULL, status = NULL, ...) {
+toast_header <- function(title, ..., icon = NULL, status = NULL) {
+  dots <- separate_arguments(...)
+
+  structure(
+    list(
+      title = tagList(title, !!!dots$children),
+      icon = icon,
+      status = status,
+      attribs = dots$attribs
+    ),
+    class = "bslib_toast_header"
+  )
+}
+
+toast_component_header <- function(x) {
   # Build status text (small muted text)
-  status_text <- if (!is.null(status)) {
-    htmltools::tags$small(class = "text-muted", status)
+  status_text <- if (!is.null(x$status)) {
+    tags$small(class = "text-muted", x$status)
   }
 
-  # Combine elements
-  htmltools::tagList(
-    if (!is.null(icon)) icon,
-    htmltools::strong(
+  tagList(
+    if (!is.null(x$icon)) x$icon,
+    strong(
       class = "me-auto",
-      if (!is.null(icon)) htmltools::tags$span(class = "ms-2"),
-      title
+      if (!is.null(x$icon)) span(class = "ms-2"),
+      x$title
     ),
     status_text
   )
@@ -342,9 +355,14 @@ toast_component <- function(
   header_tag <- if (!is.null(header)) {
     # Check if header is already a toast_header() result or just text/tags
     header_content <- if (is.character(header)) {
-      htmltools::strong(class = "me-auto", header)
+      strong(class = "me-auto", header)
+    } else if (inherits(header, "bslib_toast_header")) {
+      toast_component_header(header)
+    } else if (rlang::is_list(header) && rlang::has_name(header, "title")) {
+      # Treat a bare list with a `title` element as a toast_header()
+      toast_component_header(header)
     } else {
-      # Assume it's a tag object (from toast_header() or user-provided)
+      # Pass it through directly (assume user knows what they're doing)
       header
     }
 

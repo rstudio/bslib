@@ -130,20 +130,19 @@ test_that("as.tags.bslib_toast includes close button appropriately", {
   expect_false(grepl("btn-close", html_non_closable))
 })
 
-test_that("toast_header() creates structured header", {
+test_that("toast_header() creates structured header data", {
   # Simple header with just title
   h1 <- toast_header("My Title")
-  expect_s3_class(h1, "shiny.tag.list")
-  html1 <- as.character(h1)
-  expect_true(grepl("My Title", html1))
-  expect_true(grepl("me-auto", html1))
+  expect_s3_class(h1, "bslib_toast_header")
+  expect_equal(as.character(h1$title), "My Title")
+  expect_null(h1$icon)
+  expect_null(h1$status)
 
   # Header with status text
   h2 <- toast_header("Success", status = "11 mins ago")
-  html2 <- as.character(h2)
-  expect_true(grepl("11 mins ago", html2))
-  expect_true(grepl("text-muted", html2))
-  expect_true(grepl("<small", html2))
+  expect_s3_class(h2, "bslib_toast_header")
+  expect_equal(as.character(h2$title), "Success")
+  expect_equal(h2$status, "11 mins ago")
 })
 
 test_that("toast_header() works with icons", {
@@ -151,9 +150,10 @@ test_that("toast_header() works with icons", {
   icon <- htmltools::span(class = "test-icon")
 
   h <- toast_header("Title", icon = icon)
-  html <- as.character(h)
-  expect_true(grepl("test-icon", html))
-  expect_true(grepl("Title", html))
+  expect_s3_class(h, "bslib_toast_header")
+  expect_equal(as.character(h$title), "Title")
+  expect_s3_class(h$icon, "shiny.tag")
+  expect_equal(h$icon$attribs$class, "test-icon")
 })
 
 test_that("toast() stores additional attributes", {
@@ -237,6 +237,57 @@ test_that("toast with toast_header() result", {
   expect_true(grepl("Title", html))
   expect_true(grepl("just now", html))
   expect_true(grepl("text-muted", html))
+})
+
+test_that("toast with list(title = ...) pattern", {
+  # Bare list with title should work like toast_header()
+  t <- toast(
+    "Body",
+    header = list(title = "Title", status = "just now")
+  )
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  expect_true(grepl("toast-header", html))
+  expect_true(grepl("Title", html))
+  expect_true(grepl("just now", html))
+  expect_true(grepl("text-muted", html))
+})
+
+test_that("toast header can be modified after creation", {
+  # Create toast with toast_header()
+  t <- toast(
+    "Body",
+    header = toast_header("Original Title", status = "1 min ago")
+  )
+
+  # Modify the header
+  t$header$title <- "Updated Title"
+  t$header$status <- "just now"
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  expect_true(grepl("Updated Title", html))
+  expect_true(grepl("just now", html))
+  expect_false(grepl("Original Title", html))
+  expect_false(grepl("1 min ago", html))
+})
+
+test_that("toast header can be replaced with list pattern", {
+  # Create toast with simple character header
+  t <- toast("Body", header = "Simple")
+
+  # Replace with list pattern
+  t$header <- list(title = "New Title", status = "now", icon = htmltools::span(class = "icon"))
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  expect_true(grepl("New Title", html))
+  expect_true(grepl("now", html))
+  expect_true(grepl("icon", html))
+  expect_false(grepl("Simple", html))
 })
 
 # Tests for normalize_toast_position() helper
