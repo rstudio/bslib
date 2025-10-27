@@ -147,101 +147,10 @@ print.bslib_toast <- function(x, ...) {
   invisible(x)
 }
 
-#' Display a toast notification
+#' Show or hide a toast notification
 #'
 #' @description
 #' Displays a toast notification in a Shiny application.
-#'
-#' @param toast A `bslib_toast` object created by [toast()], or a string/UI
-#'   element (which will be automatically converted to a toast with default
-#'   settings).
-#' @param ... Reserved for future extensions (currently ignored).
-#' @param session Shiny session object.
-#'
-#' @return Invisibly returns the toast ID (string) that can be used with
-#'   [hide_toast()].
-#'
-#' @export
-#' @family Toast components
-#'
-#' @examplesIf rlang::is_interactive()
-#' library(shiny)
-#' library(bslib)
-#'
-#' ui <- page_fluid(
-#'   actionButton("show_simple", "Show Simple Toast"),
-#'   actionButton("show_success", "Show Success Toast")
-#' )
-#'
-#' server <- function(input, output, session) {
-#'   observeEvent(input$show_simple, {
-#'     # Simple string automatically converted to toast
-#'     show_toast("Operation completed!")
-#'   })
-#'
-#'   observeEvent(input$show_success, {
-#'     # Show a pre-created toast
-#'     show_toast(
-#'       toast(
-#'         body = "Your file has been uploaded.",
-#'         header = "Success",
-#'         type = "success"
-#'       )
-#'     )
-#'   })
-#' }
-#'
-#' shinyApp(ui, server)
-show_toast <- function(
-  toast,
-  ...,
-  session = shiny::getDefaultReactiveDomain()
-) {
-  rlang::check_dots_empty()
-
-  if (!inherits(toast, "bslib_toast")) {
-    toast <- toast(toast)
-  }
-
-  toast$id <- toast$id %||% toast_random_id()
-
-  toasted <- processDeps(toast, session)
-
-  # Prepare message data
-  data <- list(
-    html = toasted$html,
-    deps = toasted$deps,
-    options = list(
-      autohide = toast$autohide,
-      delay = toast$duration
-    ),
-    position = toast$position,
-    id = id
-  )
-
-  # Send to client via custom message handler
-  callback <- function() {
-    session$sendCustomMessage("bslib.show-toast", data)
-  }
-
-  session$onFlush(callback, once = TRUE)
-
-  invisible(id)
-}
-
-#' Hide a toast notification
-#'
-#' @description
-#' Manually dismisses a toast notification.
-#'
-#' @param id String with the toast ID returned by [show_toast()] or a `toast`
-#'   object provided that the `id` was set when created/shown.
-#' @param session Shiny session object.
-#'
-#' @return Called for side effects; returns `NULL` invisibly.
-#'
-#' @export
-#' @family Toast components
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(shiny)
@@ -273,16 +182,62 @@ show_toast <- function(
 #' }
 #'
 #' shinyApp(ui, server)
-hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
-  force(id)
+#'
+#' @param toast A [toast()], or a string that will be automatically converted to
+#'   a toast with default settings.
+#' @param id String with the toast ID returned by `show_toast()` or a `toast`
+#'   object provided that the `id` was set when created/shown.
+#' @param ... Reserved for future extensions (currently ignored).
+#' @param session Shiny session object.
+#'
+#' @return `show_toast()` Invisibly returns the toast ID (string) that can be
+#'   used with `hide_toast()`.
+#'
+#' @family Toast components
+#' @describeIn show_toast Show a toast notification.
+#' @export
+show_toast <- function(
+  toast,
+  ...,
+  session = shiny::getDefaultReactiveDomain()
+) {
+  rlang::check_dots_empty()
 
-  callback <- function() {
-    session$sendCustomMessage("bslib.hide-toast", list(id = id))
+  if (!inherits(toast, "bslib_toast")) {
+    toast <- toast(toast)
   }
 
-  session$onFlush(callback, once = TRUE)
+  toast$id <- toast$id %||% toast_random_id()
 
-  invisible(NULL)
+  toasted <- processDeps(toast, session)
+
+  data <- list(
+    html = toasted$html,
+    deps = toasted$deps,
+    options = list(
+      autohide = toast$autohide,
+      delay = toast$duration
+    ),
+    position = toast$position,
+    id = toast$id
+  )
+
+  # Show toast immediately
+  session$sendCustomMessage("bslib.show-toast", data)
+  invisible(toast$id)
+}
+
+#' @describeIn show_toast Hide a toast notification by ID.
+#' @export
+hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
+  if (inherits(id, "bslib_toast")) {
+    if (is.null(id$id)) {
+      rlang::abort("Cannot hide a toast without an ID. Provide the toast ID.")
+    }
+    id <- id$id
+  }
+  session$sendCustomMessage("bslib.hide-toast", list(id = id))
+  invisible(id)
 }
 
 #' Create a structured toast header

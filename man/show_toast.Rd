@@ -2,51 +2,65 @@
 % Please edit documentation in R/toast.R
 \name{show_toast}
 \alias{show_toast}
-\title{Display a toast notification}
+\alias{hide_toast}
+\title{Show or hide a toast notification}
 \usage{
 show_toast(toast, ..., session = shiny::getDefaultReactiveDomain())
+
+hide_toast(id, session = shiny::getDefaultReactiveDomain())
 }
 \arguments{
-\item{toast}{A \code{bslib_toast} object created by \code{\link[=toast]{toast()}}, or a string/UI
-element (which will be automatically converted to a toast with default
-settings).}
+\item{toast}{A \code{\link[=toast]{toast()}}, or a string that will be automatically converted to
+a toast with default settings.}
 
 \item{...}{Reserved for future extensions (currently ignored).}
 
 \item{session}{Shiny session object.}
+
+\item{id}{String with the toast ID returned by \code{show_toast()} or a \code{toast}
+object provided that the \code{id} was set when created/shown.}
 }
 \value{
-Invisibly returns the toast ID (string) that can be used with
-\code{\link[=hide_toast]{hide_toast()}}.
+\code{show_toast()} Invisibly returns the toast ID (string) that can be
+used with \code{hide_toast()}.
 }
 \description{
 Displays a toast notification in a Shiny application.
 }
+\section{Functions}{
+\itemize{
+\item \code{show_toast()}: Show a toast notification.
+
+\item \code{hide_toast()}: Hide a toast notification by ID.
+
+}}
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 library(shiny)
 library(bslib)
 
 ui <- page_fluid(
-  actionButton("show_simple", "Show Simple Toast"),
-  actionButton("show_success", "Show Success Toast")
+  actionButton("show_persistent", "Show Persistent Toast"),
+  actionButton("hide_persistent", "Hide Toast")
 )
 
 server <- function(input, output, session) {
-  observeEvent(input$show_simple, {
-    # Simple string automatically converted to toast
-    show_toast("Operation completed!")
-  })
+  toast_id <- reactiveVal(NULL)
 
-  observeEvent(input$show_success, {
-    # Show a pre-created toast
-    show_toast(
+  observeEvent(input$show_persistent, {
+    id <- show_toast(
       toast(
-        body = "Your file has been uploaded.",
-        header = "Success",
-        type = "success"
+        body = "This toast won't disappear automatically.",
+        autohide = FALSE
       )
     )
+    toast_id(id)
+  })
+
+  observeEvent(input$hide_persistent, {
+    req(toast_id())
+    hide_toast(toast_id())
+    toast_id(NULL)
   })
 }
 
@@ -55,7 +69,6 @@ shinyApp(ui, server)
 }
 \seealso{
 Other Toast components: 
-\code{\link{hide_toast}()},
 \code{\link{toast}()},
 \code{\link{toast_header}()}
 }

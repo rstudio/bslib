@@ -53,7 +53,6 @@ shinyApp(ui, server)
 }
 \seealso{
 Other Toast components: 
-\code{\link{hide_toast}()},
 \code{\link{show_toast}()},
 \code{\link{toast}()}
 }

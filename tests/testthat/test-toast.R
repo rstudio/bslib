@@ -393,3 +393,43 @@ test_that("toast() works with new position formats", {
   t3 <- toast("Test", position = c("middle", "center"))
   expect_equal(t3$position, "middle-center")
 })
+
+test_that("show_toast() returns the toast id", {
+  local_mocked_bindings(
+    toast_random_id = function() "bslib-toast-1234"
+  )
+
+  session <- list(sendCustomMessage = function(type, message) {
+    expect_equal(type, "bslib.show-toast")
+    expect_equal(message$id, !!exp_toast_id)
+  })
+
+  t <- toast("Test message")
+  exp_toast_id <- "bslib-toast-1234"
+  toast_id <- show_toast(t, session = session)
+  expect_equal(toast_id, exp_toast_id)
+
+  exp_toast_id <- "custom-id"
+  t2 <- toast("Another message", id = exp_toast_id)
+  toast_id2 <- show_toast(t2, session = session)
+  expect_equal(toast_id2, exp_toast_id)
+})
+
+test_that("hide_toast() works", {
+  session <- list(sendCustomMessage = function(type, message) {
+    expect_equal(type, "bslib.hide-toast")
+    expect_equal(message$id, !!exp_toast_id)
+  })
+
+  exp_toast_id <- "bslib-toast-1234"
+  t_id <- hide_toast(exp_toast_id, session = session)
+  expect_equal(t_id, exp_toast_id)
+
+  exp_toast_id <- "custom-id"
+  t_id2 <- hide_toast(toast("Test", id = exp_toast_id), session = session)
+  expect_equal(t_id2, exp_toast_id)
+
+  expect_snapshot(error = TRUE, {
+    hide_toast(toast())
+  })
+})

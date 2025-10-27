@@ -89,7 +89,6 @@ shinyApp(ui, server)
 toast, and \code{\link[=toast_header]{toast_header()}} to create structured headers.
 
 Other Toast components: 
-\code{\link{hide_toast}()},
 \code{\link{show_toast}()},
 \code{\link{toast_header}()}
 }
