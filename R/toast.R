@@ -3,7 +3,15 @@
 #' @description
 #' Toast notifications are lightweight, temporary messages designed to mimic
 #' push notifications from mobile and desktop operating systems. They are built
-#' on Bootstrap 5's native toast component.
+#' on [Bootstrap 5's toast
+#' component](https://getbootstrap.com/docs/5.3/components/toasts/).
+#'
+#' bslib includes a complete example of toasts and their many configuration
+#' options:
+#'
+#' ```r
+#' shiny::runExample("toast", package = "bslib")
+#' ```
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(shiny)

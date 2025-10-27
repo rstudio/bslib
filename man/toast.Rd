@@ -75,7 +75,13 @@ For \code{toast_header()}: a toast header object that can be used with the
 \description{
 Toast notifications are lightweight, temporary messages designed to mimic
 push notifications from mobile and desktop operating systems. They are built
-on Bootstrap 5's native toast component.
+on \href{https://getbootstrap.com/docs/5.3/components/toasts/}{Bootstrap 5's toast component}.
+
+bslib includes a complete example of toasts and their many configuration
+options:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::runExample("toast", package = "bslib")
+}\if{html}{\out{</div>}}
 }
 \section{Functions}{
 \itemize{
