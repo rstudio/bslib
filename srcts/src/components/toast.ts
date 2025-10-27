@@ -1,7 +1,7 @@
 import type { HtmlDep } from "./_utils";
 import type { Toast as ToastType } from "bootstrap";
 import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
-import { shinyRenderDependencies } from "./_utils";
+import { shinyRenderDependencies, showShinyClientMessage } from "./_utils";
 
 const bootstrapToast = (
   window.bootstrap ? window.bootstrap.Toast : class {}
@@ -37,9 +37,23 @@ interface HideToastMessage {
 }
 
 // Container management
+
+/**
+ * Manages toast containers for different screen positions.
+ *
+ * Creates and maintains DOM containers for toast notifications, ensuring
+ * each position has only one container that gets reused across toasts.
+ * Containers are automatically positioned using Bootstrap utility classes.
+ */
 class ToastContainerManager {
   private containers: Map<ToastPosition, HTMLElement> = new Map();
 
+  /**
+   * Gets an existing container for the position or creates a new one.
+   *
+   * @param position - The toast position (e.g., "top-right", "bottom-center")
+   * @returns The DOM container element for the specified position
+   */
   getOrCreateContainer(position: ToastPosition): HTMLElement {
     let container = this.containers.get(position);
 
@@ -51,6 +65,13 @@ class ToastContainerManager {
     return container;
   }
 
+  /**
+   * Creates a new toast container DOM element for the specified position.
+   *
+   * @param position - The toast position to create a container for
+   * @returns A new DOM container element positioned and styled for toasts
+   * @private
+   */
   private _createContainer(position: ToastPosition): HTMLElement {
     const container = document.createElement("div");
     container.className = "toast-container position-fixed p-1 p-md-2";
@@ -65,6 +86,13 @@ class ToastContainerManager {
     return container;
   }
 
+  /**
+   * Maps toast positions to their corresponding Bootstrap utility classes.
+   *
+   * @param position - The toast position
+   * @returns Array of CSS class names for positioning the container
+   * @private
+   */
   private _getPositionClasses(position: ToastPosition): string[] {
     const classMap: { [key in ToastPosition]: string[] } = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -93,134 +121,163 @@ class ToastContainerManager {
 
 const containerManager = new ToastContainerManager();
 
-// Add animated progress bar to toast
-function addProgressBar(toastEl: HTMLElement, duration: number): void {
-  const progressBar = document.createElement("div");
-  progressBar.className = "bslib-toast-progress-bar";
-  progressBar.style.cssText = `
-    animation: bslib-toast-progress ${duration}ms linear forwards;
-    animation-play-state: running;
-  `;
+/**
+ * Manages the lifecycle and state of an individual toast notification.
+ *
+ * Encapsulates all toast-specific behavior including progress bar animation,
+ * hover pause/resume functionality, and Bootstrap Toast integration.
+ */
+class BslibToastInstance {
+  private element: HTMLElement;
+  private bsToast: typeof bootstrapToast.prototype;
+  private progressBar: HTMLElement | null = null;
+  private startTime = 0;
+  private duration = 0;
+  private hideTimeoutId: number | null = null;
+  private bsToastHide: () => void;
 
-  // Insert as first child of toast header, or of toast container
-  const toastHeader = toastEl.querySelector(".toast-header");
-  if (toastHeader) {
-    toastHeader.insertBefore(progressBar, toastHeader.firstChild);
-  } else {
-    toastEl.insertBefore(progressBar, toastEl.firstChild);
-  }
+  constructor(element: HTMLElement, options: ToastOptions) {
+    this.element = element;
 
-  // Store progress bar reference and timing info for hover pause
-  (toastEl as any)._bslibProgressBar = progressBar;
-  (toastEl as any)._bslibStartTime = Date.now();
-  (toastEl as any)._bslibDuration = duration;
-  (toastEl as any)._bslibRemainingTime = duration;
-  (toastEl as any)._bslibElapsedBeforePause = 0; // Time elapsed before pause
-}
+    // Add progress bar for autohiding toasts
+    if (options.autohide) {
+      const delay = options.delay || 5000;
+      this.duration = delay;
+      this._addProgressBar(delay);
 
-// Setup hover pause behavior
-function setupHoverPause(
-  toastEl: HTMLElement,
-  bsToast: typeof bootstrapToast.prototype
-): void {
-  const progressBar = (toastEl as any)._bslibProgressBar as
-    | HTMLElement
-    | undefined;
+      // Initialize Bootstrap toast with autohide disabled (we manage manually)
+      const bsOptions = { ...options, autohide: false };
+      this.bsToast = new bootstrapToast(element, bsOptions);
 
-  // Create a custom timeout to replace Bootstrap's internal one
-  let hideTimeoutId: number | null = null;
-
-  function startHideTimeout(delay: number): void {
-    if (hideTimeoutId !== null) {
-      clearTimeout(hideTimeoutId);
+      this._setupHoverPause();
+    } else {
+      this.bsToast = new bootstrapToast(element, options);
     }
-    hideTimeoutId = window.setTimeout(() => {
-      // Only call the original hide if not in mouseover state
-      if (!(toastEl as any)._bslibMouseover) {
-        originalHide();
-      }
-    }, delay);
+
+    this.bsToastHide = this.bsToast.hide.bind(this.bsToast);
   }
 
-  // Start the initial hide timeout
-  if ((toastEl as any)._bslibDuration && (toastEl as any)._bslibRemainingTime) {
-    startHideTimeout((toastEl as any)._bslibRemainingTime);
+  /**
+   * Shows the toast notification.
+   */
+  show(): void {
+    this.bsToast.show();
   }
 
-  toastEl.addEventListener("mouseenter", () => {
-    // Calculate elapsed time before pause and remaining time
-    const pauseTime = Date.now();
-    const timeElapsedSinceStart = pauseTime - (toastEl as any)._bslibStartTime;
-    (toastEl as any)._bslibElapsedBeforePause = timeElapsedSinceStart;
-    (toastEl as any)._bslibRemainingTime = Math.max(
-      0,
-      (toastEl as any)._bslibDuration - timeElapsedSinceStart
-    );
+  /**
+   * Hides the toast notification.
+   */
+  hide(): void {
+    if (this.hideTimeoutId !== null) {
+      clearTimeout(this.hideTimeoutId);
+      this.hideTimeoutId = null;
+    }
 
-    // Pause the auto-hide timer
-    (toastEl as any)._bslibMouseover = true;
+    this.bsToastHide();
+  }
+
+  /**
+   * Adds an animated progress bar to the toast element.
+   * @private
+   */
+  private _addProgressBar(duration: number): void {
+    this.progressBar = document.createElement("div");
+    this.progressBar.className = "bslib-toast-progress-bar";
+    this.progressBar.style.cssText = `
+      animation: bslib-toast-progress ${duration}ms linear forwards;
+      animation-play-state: running;
+    `;
+
+    // Insert as first child of toast header, or of toast container
+    const toastHeader = this.element.querySelector(".toast-header");
+    if (toastHeader) {
+      toastHeader.insertBefore(this.progressBar, toastHeader.firstChild);
+    } else {
+      this.element.insertBefore(this.progressBar, this.element.firstChild);
+    }
+
+    this.startTime = Date.now();
+  }
+
+  /**
+   * Sets up hover pause behavior for autohiding toasts.
+   * @private
+   */
+  private _setupHoverPause(): void {
+    // Start the initial hide timeout and mark when it started
+    this.startTime = Date.now();
+    this._startHideTimeout(this.duration);
+
+    this.element.addEventListener("mouseenter", () => this._handleMouseEnter());
+    this.element.addEventListener("mouseleave", () => this._handleMouseLeave());
+
+    // Override Bootstrap's auto-hide behavior to respect our custom timing
+    this.bsToast.hide = () => this.hide();
+  }
+
+  /**
+   * Handles mouse enter event - pauses the auto-hide timer and progress bar.
+   * @private
+   */
+  private _handleMouseEnter(): void {
+    // Calculate elapsed time and update duration to remaining time
+    const elapsed = Date.now() - this.startTime;
+    this.duration = Math.max(100, this.duration - elapsed);
 
     // Clear any existing timeout
-    if (hideTimeoutId !== null) {
-      clearTimeout(hideTimeoutId);
+    if (this.hideTimeoutId !== null) {
+      clearTimeout(this.hideTimeoutId);
     }
 
     // Pause progress bar animation
-    if (progressBar) {
-      progressBar.style.animationPlayState = "paused";
+    if (this.progressBar) {
+      this.progressBar.style.animationPlayState = "paused";
     }
-  });
+  }
 
-  toastEl.addEventListener("mouseleave", () => {
-    // Resume the auto-hide timer with remaining time
-    (toastEl as any)._bslibMouseover = false;
+  /**
+   * Handles mouse leave event - resumes the auto-hide timer and progress bar.
+   * @private
+   */
+  private _handleMouseLeave(): void {
+    this.startTime = Date.now();
+    this._startHideTimeout(this.duration);
 
-    // Update start time to now, accounting for time already elapsed
-    (toastEl as any)._bslibStartTime =
-      Date.now() - (toastEl as any)._bslibElapsedBeforePause;
-
-    // If there's still time remaining, restart the timer
-    if ((toastEl as any)._bslibRemainingTime > 0) {
-      startHideTimeout((toastEl as any)._bslibRemainingTime);
-
-      // Simply resume the animation without restarting it
-      if (progressBar) {
-        progressBar.style.animationPlayState = "running";
-      }
+    // Resume progress bar animation
+    if (this.progressBar) {
+      this.progressBar.style.animationPlayState = "running";
     }
-  });
+  }
 
-  // Override Bootstrap's auto-hide behavior to respect our custom timing
-  const originalHide = bsToast.hide.bind(bsToast);
-  bsToast.hide = function () {
-    if ((toastEl as any)._bslibMouseover) {
-      // If mouse is over, don't hide yet
-      return;
+  /**
+   * Starts or restarts the hide timeout.
+   * @private
+   */
+  private _startHideTimeout(delay: number): void {
+    if (this.hideTimeoutId !== null) {
+      clearTimeout(this.hideTimeoutId);
     }
-
-    // Clear our custom timeout since we're hiding now
-    if (hideTimeoutId !== null) {
-      clearTimeout(hideTimeoutId);
-      hideTimeoutId = null;
-    }
-
-    originalHide();
-  };
+    this.hideTimeoutId = window.setTimeout(() => {
+      this.bsToastHide();
+    }, delay);
+  }
 }
 
-// Show toast handler
+// Track toast instances by their DOM elements
+const toastInstances = new WeakMap<HTMLElement, BslibToastInstance>();
+
 async function showToast(message: ShowToastMessage): Promise<void> {
   const { html, deps, options, position } = message;
 
-  // Check if Bootstrap is available
   if (!window.bootstrap || !window.bootstrap.Toast) {
-    console.warn(
-      "Toast requires Bootstrap 5 to be available on window.bootstrap.Toast"
-    );
+    showShinyClientMessage({
+      headline: "Bootstrap 5 Required",
+      message: "Toast notifications require Bootstrap 5.",
+      status: "error",
+    });
     return;
   }
 
-  // Render dependencies
   await shinyRenderDependencies(deps);
 
   // Get or create container for this position
@@ -232,63 +289,50 @@ async function showToast(message: ShowToastMessage): Promise<void> {
   const toastEl = temp.firstElementChild as HTMLElement;
 
   if (!toastEl) {
-    console.error("Failed to create toast element");
+    showShinyClientMessage({
+      headline: "Invalid Toast HTML",
+      message: "The provided HTML for the toast could not be parsed.",
+      status: "error",
+    });
     return;
   }
 
-  // Append to container
+  // Add toast into container and toast instance map
   container.appendChild(toastEl);
+  const toastInstance = new BslibToastInstance(toastEl, options);
+  toastInstances.set(toastEl, toastInstance);
 
-  // Initialize Bootstrap toast
-  let bsToast: typeof bootstrapToast.prototype;
-
-  // Add progress bar for autohiding toasts
-  if (options.autohide) {
-    // Get delay with fallback to default
-    const delay = options.delay || 5000;
-    addProgressBar(toastEl, delay);
-
-    // Create a modified options object to prevent Bootstrap's autohide from interfering
-    const modifiedOptions = { ...options, autohide: false };
-
-    // Initialize Bootstrap toast with modified options
-    bsToast = new bootstrapToast(toastEl, modifiedOptions);
-
-    // Add hover pause behavior for autohiding toasts
-    setupHoverPause(toastEl, bsToast);
-  } else {
-    // Initialize Bootstrap toast with original options
-    bsToast = new bootstrapToast(toastEl, options);
-  }
-
-  // Show the toast
-  bsToast.show();
+  toastInstance.show();
 
   // Clean up after toast is hidden
   toastEl.addEventListener("hidden.bs.toast", () => {
     toastEl.remove();
+    toastInstances.delete(toastEl);
 
-    // Remove empty containers
+    // Remove empty toast position containers
     if (container.children.length === 0) {
       container.remove();
     }
   });
 }
 
-// Hide toast handler
 function hideToast(message: HideToastMessage): void {
   const { id } = message;
   const toastEl = document.getElementById(id);
 
   if (!toastEl) {
-    console.warn(`Toast with id "${id}" not found`);
+    showShinyClientMessage({
+      headline: "Toast Not Found",
+      message: `No toast with id "${id}" was found.`,
+      status: "warning",
+    });
     return;
   }
 
-  const bsToast = bootstrapToast.getInstance(toastEl);
+  const toastInstance = toastInstances.get(toastEl);
 
-  if (bsToast) {
-    bsToast.hide();
+  if (toastInstance) {
+    toastInstance.hide();
   }
 }
 
