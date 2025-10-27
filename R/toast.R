@@ -297,14 +297,14 @@ toast_header <- function(title, ..., icon = NULL, status = NULL) {
 toast_component_header <- function(x) {
   # Status text (small muted text)
   status_text <- if (!is.null(x$status)) {
-    tags$small(class = "text-muted", x$status)
+    tags$small(class = "text-muted text-end", x$status)
   }
 
   tagList(
-    if (!is.null(x$icon)) x$icon,
+    if (!is.null(x$icon)) span(class = "toast-header-icon", x$icon),
     strong(
       class = "me-auto",
-      if (!is.null(x$icon)) span(class = "ms-2"),
+      class = if (!is.null(x$icon)) "ms-2",
       x$title
     ),
     status_text
