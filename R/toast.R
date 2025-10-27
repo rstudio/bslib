@@ -231,13 +231,12 @@ show_toast <- function(
 
   toasted <- processDeps(toast, session)
 
+  options <- dropNulls(list(autohide = toast$autohide, delay = toast$duration))
+
   data <- list(
     html = toasted$html,
     deps = toasted$deps,
-    options = list(
-      autohide = toast$autohide,
-      delay = toast$duration
-    ),
+    options = options,
     position = toast$position,
     id = toast$id
   )
