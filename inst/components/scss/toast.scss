@@ -11,6 +11,10 @@
   overflow: hidden;
 }
 
+.toast-body:empty {
+  display: none;
+}
+
 // Ensure close button is visible on colored backgrounds
 .text-bg-primary,
 .text-bg-secondary,
