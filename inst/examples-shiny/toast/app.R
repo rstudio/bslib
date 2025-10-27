@@ -101,15 +101,15 @@ ui <- page_fillable(
                 "Icon",
                 choices = c(
                   "None" = "",
-                  "Check" = "check",
-                  "Info" = "info-circle",
-                  "Warning" = "exclamation-triangle",
-                  "Error" = "times-circle",
-                  "Star" = "star",
-                  "Heart" = "heart",
-                  "Bell" = "bell",
-                  "User" = "user",
-                  "Cog" = "cog"
+                  "Check" = "check-circle-fill",
+                  "Info" = "info-circle-fill",
+                  "Warning" = "exclamation-triangle-fill",
+                  "Error" = "x-circle-fill",
+                  "Star" = "star-fill",
+                  "Heart" = "heart-fill",
+                  "Bell" = "bell-fill",
+                  "User" = "person-fill",
+                  "Cog" = "gear-fill"
                 ),
                 selected = ""
               ),
@@ -119,6 +119,41 @@ ui <- page_fillable(
                 placeholder = "'Just now', '2 mins ago'"
               )
             ),
+            conditionalPanel(
+              "!input.use_header",
+              selectInput(
+                "icon_body",
+                "Icon",
+                # A set of bootstrap icon names for the notification body
+                choices = c(
+                  "None" = "",
+                  "Check" = "check-circle-fill",
+                  "Info" = "info-circle-fill",
+                  "Warning" = "exclamation-triangle-fill",
+                  "Error" = "x-circle-fill",
+                  "Star" = "star-fill",
+                  "Heart" = "heart-fill",
+                  "Bell" = "bell-fill",
+                  "User" = "person-fill",
+                  "Settings" = "gear-fill",
+                  "Chat" = "chat-dots-fill",
+                  "Envelope" = "envelope-fill",
+                  "Lightbulb" = "lightbulb-fill",
+                  "Rocket" = "rocket-takeoff-fill",
+                  "Shield" = "shield-fill-check",
+                  "Thumbs Up" = "hand-thumbs-up-fill",
+                  "Download" = "download",
+                  "Upload" = "upload",
+                  "Calendar" = "calendar-fill",
+                  "Clock" = "clock-fill",
+                  "Fire" = "fire",
+                  "Gift" = "gift-fill",
+                  "Trophy" = "trophy-fill",
+                  "Flag" = "flag-fill",
+                  "Pin" = "pin-fill"
+                )
+              )
+            )
           )
         ),
       ),
@@ -205,13 +240,18 @@ server <- function(input, output, session) {
     if (input$use_header) {
       header <- toast_header(
         title = input$header_title,
-        icon = if (nzchar(input$header_icon)) icon(input$header_icon),
+        icon = if (nzchar(input$header_icon)) {
+          bsicons::bs_icon(input$header_icon)
+        },
         status = if (nzchar(input$header_status)) input$header_status
       )
     }
 
     # Build toast
     toast_obj <- toast(
+      if (!input$use_header && nzchar(input$icon_body)) {
+        bsicons::bs_icon(input$icon_body, class = "me-2")
+      },
       input$body,
       header = header,
       id = if (nzchar(input$custom_id)) input$custom_id,
