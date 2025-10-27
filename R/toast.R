@@ -71,28 +71,24 @@ toast <- function(
   position = "top-right",
   closable = TRUE
 ) {
-  # Validate arguments
   if (!is.null(type)) {
     type <- rlang::arg_match(
       type,
+      # fmt: skip
       c(
-        "primary",
-        "secondary",
-        "success",
-        "info",
-        "warning",
-        "danger",
-        "light",
-        "dark"
+        "primary", "secondary",
+        "success", "info", "warning", "danger", "error",
+        "light", "dark"
       )
     )
+    # Support "error" as alias for "danger"
+    type <- switch(type, error = "danger", type)
   }
 
   dots <- separate_arguments(...)
 
   position <- normalize_toast_position(position)
 
-  # Determine autohide behavior
   # autohide_s of 0 or NA (or NULL) disables auto-hiding
   if (is.null(autohide_s) || (length(autohide_s) == 1 && is.na(autohide_s))) {
     autohide <- FALSE
@@ -112,7 +108,6 @@ toast <- function(
     closable <- TRUE
   }
 
-  # Store toast data in a structured object
   structure(
     list(
       body = dots$children,
@@ -131,7 +126,6 @@ toast <- function(
 
 #' @export
 as.tags.bslib_toast <- function(x, ...) {
-  # Generate ID if not provided
   id <- x$id %||% paste0("bslib-toast-", p_randomInt(1000, 10000000))
 
   toast_component(
