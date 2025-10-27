@@ -119,17 +119,6 @@ async function shinyRenderContent(
   }
 }
 
-async function shinyRenderDependencies(deps: HtmlDep[]): Promise<void> {
-  if (!Shiny) {
-    throw new Error("This function must be called in a Shiny app.");
-  }
-  if (Shiny.renderDependenciesAsync) {
-    return await Shiny.renderDependenciesAsync(deps);
-  } else {
-    return Shiny.renderDependencies(deps);
-  }
-}
-
 // Copied from shiny utils
 async function updateLabel(
   labelContent: string | { html: string; deps: HtmlDep[] } | undefined,
@@ -164,7 +153,6 @@ export {
   doWindowResizeOnElementResize,
   getAllFocusableChildren,
   shinyRenderContent,
-  shinyRenderDependencies,
   showShinyClientMessage,
   Shiny,
   updateLabel,

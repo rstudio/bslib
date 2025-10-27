@@ -1,7 +1,7 @@
 import type { HtmlDep } from "./_utils";
 import type { Toast as ToastType } from "bootstrap";
 import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
-import { shinyRenderDependencies, showShinyClientMessage } from "./_utils";
+import { shinyRenderContent, showShinyClientMessage } from "./_utils";
 
 const bootstrapToast = (
   window.bootstrap ? window.bootstrap.Toast : class {}
@@ -261,7 +261,7 @@ class BslibToastInstance {
 const toastInstances = new WeakMap<HTMLElement, BslibToastInstance>();
 
 async function showToast(message: ShowToastMessage): Promise<void> {
-  const { html, deps, options, position } = message;
+  const { html, deps, options, position, id } = message;
 
   if (!window.bootstrap || !window.bootstrap.Toast) {
     showShinyClientMessage({
@@ -272,27 +272,21 @@ async function showToast(message: ShowToastMessage): Promise<void> {
     return;
   }
 
-  await shinyRenderDependencies(deps);
-
   // Get or create container for this position
   const container = containerManager.getOrCreateContainer(position);
 
-  // Create temporary div to parse HTML
-  const temp = document.createElement("div");
-  temp.innerHTML = html;
-  const toastEl = temp.firstElementChild as HTMLElement;
+  await shinyRenderContent(container, { html, deps }, "beforeEnd");
 
+  const toastEl = document.getElementById(id);
   if (!toastEl) {
     showShinyClientMessage({
-      headline: "Invalid Toast HTML",
-      message: "The provided HTML for the toast could not be parsed.",
+      headline: "Toast Creation Failed",
+      message: `Failed to create toast with id "${id}".`,
       status: "error",
     });
     return;
   }
 
-  // Add toast into container and toast instance map
-  container.appendChild(toastEl);
   const toastInstance = new BslibToastInstance(toastEl, options);
   toastInstances.set(toastEl, toastInstance);
 
@@ -300,6 +294,7 @@ async function showToast(message: ShowToastMessage): Promise<void> {
 
   // Clean up after toast is hidden
   toastEl.addEventListener("hidden.bs.toast", () => {
+    window?.Shiny?.unbindAll?.(toastEl);
     toastEl.remove();
     toastInstances.delete(toastEl);
 
