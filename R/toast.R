@@ -5,43 +5,6 @@
 #' push notifications from mobile and desktop operating systems. They are built
 #' on Bootstrap 5's native toast component.
 #'
-#' @param body Main content of the toast. Can be text, HTML, or Shiny UI elements.
-#' @param header Optional header content. Can be a string, or the result of
-#'   [toast_header()]. If provided, creates a `.toast-header` with close button
-#'   (if `closable = TRUE`).
-#' @param ... Additional HTML attributes passed to the toast container.
-#' @param id Optional unique identifier for the toast. If `NULL`, an ID will be
-#'   automatically generated when the toast is shown via [show_toast()].
-#'   Providing a stable ID allows you to update or hide the toast later.
-#' @param type Optional semantic type. One of `NULL`, `"primary"`, `"secondary"`,
-#'   `"success"`, `"info"`, `"warning"`, `"danger"`, `"light"`, or `"dark"`.
-#'   Applies appropriate Bootstrap background utility classes (`text-bg-*`).
-#' @param autohide_s Numeric. Number of seconds after which the toast should
-#'   automatically hide. Use `0`, `NA`, or `NULL` to disable auto-hiding (toast
-#'   will remain visible until manually dismissed). Default is `5` (5 seconds).
-#' @param position String or character vector specifying where to position the
-#'   toast container. Can be provided in several formats:
-#'   * Kebab-case: `"top-left"`, `"bottom-right"`, etc.
-#'   * Space-separated: `"top left"`, `"bottom right"`, etc.
-#'   * Character vector: `c("top", "left")`, `c("bottom", "right")`, etc.
-#'   * Any order: `"left top"` is equivalent to `"top left"`
-#'
-#'   Valid vertical positions are `"top"`, `"middle"`, or `"bottom"`. Valid
-#'   horizontal positions are `"left"`, `"center"`, or `"right"`. Input is
-#'   case-insensitive. Default is `"bottom-right"`.
-#' @param closable Logical. Whether to include a close button. Default `TRUE`.
-#'   When `autohide_s` is disabled (0, NA, or NULL), a close button is always
-#'   included regardless of this setting (for accessibility).
-#' @param class Additional CSS classes for the toast.
-#'
-#' @return A `bslib_toast` object that can be passed to [show_toast()].
-#'
-#' @export
-#' @family Toast components
-#'
-#' @seealso [show_toast()] to display a toast, [hide_toast()] to dismiss a toast,
-#'   and [toast_header()] to create structured headers.
-#'
 #' @examplesIf rlang::is_interactive()
 #' library(shiny)
 #' library(bslib)
@@ -63,16 +26,50 @@
 #' }
 #'
 #' shinyApp(ui, server)
+#'
+#' @param ... Body content of the toast. Can be a string, or any HTML elements.
+#'   Named arguments will be treated as HTML attributes for the toast container.
+#' @param header Optional header content. Can be a string, or the result of
+#'   [toast_header()]. If provided, creates a `.toast-header` with close button
+#'   (if `closable = TRUE`).
+#' @param id Optional unique identifier for the toast. If `NULL`, an ID will be
+#'   automatically generated when the toast is shown via [show_toast()].
+#'   Providing a stable ID allows you to update or hide the toast later.
+#' @param type Optional semantic type. One of `NULL`, `"primary"`, `"secondary"`,
+#'   `"success"`, `"info"`, `"warning"`, `"danger"`, `"light"`, or `"dark"`.
+#'   Applies appropriate Bootstrap background utility classes (`text-bg-*`).
+#' @param autohide_s Numeric. Number of seconds after which the toast should
+#'   automatically hide. Use `0`, `NA`, or `NULL` to disable auto-hiding (toast
+#'   will remain visible until manually dismissed). Default is `5` (5 seconds).
+#' @param position String or character vector specifying where to position the
+#'   toast container. Can be provided in several formats:
+#'   * Kebab-case: `"top-left"`, `"bottom-right"`, etc.
+#'   * Space-separated: `"top left"`, `"bottom right"`, etc.
+#'   * Character vector: `c("top", "left")`, `c("bottom", "right")`, etc.
+#'   * Any order: `"left top"` is equivalent to `"top left"`
+#'
+#'   Valid vertical positions are `"top"`, `"middle"`, or `"bottom"`. Valid
+#'   horizontal positions are `"left"`, `"center"`, or `"right"`. Input is
+#'   case-insensitive. Default is `"bottom-right"`.
+#' @param closable Logical. Whether to include a close button. Default `TRUE`.
+#'   When `autohide_s` is disabled (`0`, `NA`) and `closable = FALSE`, the app
+#'   user won't be able to close the toast and you'll need to use [hide_toast()]
+#'   in your server logic to dismiss it for the user at the appropriate time.
+#'
+#' @return A `bslib_toast` object that can be passed to [show_toast()].
+#'
+#' @seealso [show_toast()] to display a toast, [hide_toast()] to dismiss a
+#'   toast, and [toast_header()] to create structured headers.
+#' @family Toast components
+#' @export
 toast <- function(
-  body,
-  header = NULL,
   ...,
+  header = NULL,
   id = NULL,
   type = NULL,
   autohide_s = 5,
   position = "top-right",
-  closable = TRUE,
-  class = NULL
+  closable = TRUE
 ) {
   # Validate arguments
   if (!is.null(type)) {
@@ -91,12 +88,14 @@ toast <- function(
     )
   }
 
+  dots <- separate_arguments(...)
+
   position <- normalize_toast_position(position)
 
   # Determine autohide behavior
   # autohide_s of 0, NA, or NULL disables auto-hiding
   autohide <- !is.null(autohide_s) && !is.na(autohide_s) && autohide_s > 0
-  duration <- if (autohide) autohide_s * 1000 else 5000 # Convert to milliseconds
+  duration <- if (autohide) autohide_s * 1000 else 5000 # milliseconds
 
   # Enforce close button for non-autohiding toasts (accessibility)
   if (!autohide) {
@@ -106,7 +105,7 @@ toast <- function(
   # Store toast data in a structured object
   structure(
     list(
-      body = body,
+      body = dots$children,
       header = header,
       id = id,
       type = type,
@@ -114,15 +113,12 @@ toast <- function(
       duration = duration,
       position = position,
       closable = closable,
-      class = class,
-      attribs = rlang::list2(...)
+      attribs = dots$attribs
     ),
     class = "bslib_toast"
   )
 }
 
-#' @rdname toast
-#' @param x A `bslib_toast` object.
 #' @export
 as.tags.bslib_toast <- function(x, ...) {
   # Generate ID if not provided
@@ -134,9 +130,17 @@ as.tags.bslib_toast <- function(x, ...) {
     type = x$type,
     closable = x$closable,
     id = id,
-    class = x$class,
-    !!!x$attribs
+    attribs = x$attribs
   )
+}
+
+#' @export
+print.bslib_toast <- function(x, ...) {
+  x_tags <- x
+  x_tags$attribs <- c(x_tags$attribs, list(class = "show"))
+  x_tags <- as.tags(x_tags)
+  print(as_fragment(x_tags))
+  invisible(x)
 }
 
 #' Display a toast notification
@@ -356,7 +360,7 @@ toast_component <- function(
   closable = TRUE,
   id = NULL,
   class = NULL,
-  ...
+  attribs = list()
 ) {
   # Determine accessibility attributes
   aria_role <- if (!is.null(type) && type == "danger") "alert" else "status"
@@ -424,7 +428,7 @@ toast_component <- function(
     role = aria_role,
     `aria-live` = aria_live,
     `aria-atomic` = "true",
-    ...,
+    !!!attribs,
     header_tag,
     body_tag
   )

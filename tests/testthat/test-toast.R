@@ -2,7 +2,7 @@ test_that("toast() creates bslib_toast object", {
   t <- toast("Test message")
 
   expect_s3_class(t, "bslib_toast")
-  expect_equal(t$body, "Test message")
+  expect_equal(t$body, list("Test message"))
   expect_null(t$id)
   expect_true(t$autohide)
   expect_equal(t$duration, 5000)
@@ -152,12 +152,12 @@ test_that("toast() stores additional attributes", {
   t <- toast("Test", `data-test` = "value", class = "extra-class")
 
   expect_equal(t$attribs$`data-test`, "value")
-  expect_equal(t$class, "extra-class")
+  expect_equal(t$attribs$class, "extra-class")
 
   tag <- as.tags(t)
   html <- as.character(tag)
   expect_true(grepl('data-test="value"', html))
-  expect_true(grepl("extra-class", html))
+  expect_true(grepl('class="toast[^"]+extra-class"', html))
 })
 
 test_that("toast() with custom autohide_s converts to milliseconds", {

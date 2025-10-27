@@ -2,31 +2,25 @@
 % Please edit documentation in R/toast.R
 \name{toast}
 \alias{toast}
-\alias{as.tags.bslib_toast}
 \title{Toast notifications}
 \usage{
 toast(
-  body,
-  header = NULL,
   ...,
+  header = NULL,
   id = NULL,
   type = NULL,
   autohide_s = 5,
   position = "top-right",
-  closable = TRUE,
-  class = NULL
+  closable = TRUE
 )
-
-\method{as.tags}{bslib_toast}(x, ...)
 }
 \arguments{
-\item{body}{Main content of the toast. Can be text, HTML, or Shiny UI elements.}
+\item{...}{Body content of the toast. Can be a string, or any HTML elements.
+Named arguments will be treated as HTML attributes for the toast container.}
 
 \item{header}{Optional header content. Can be a string, or the result of
 \code{\link[=toast_header]{toast_header()}}. If provided, creates a \code{.toast-header} with close button
 (if \code{closable = TRUE}).}
-
-\item{...}{Additional HTML attributes passed to the toast container.}
 
 \item{id}{Optional unique identifier for the toast. If \code{NULL}, an ID will be
 automatically generated when the toast is shown via \code{\link[=show_toast]{show_toast()}}.
@@ -54,12 +48,9 @@ horizontal positions are \code{"left"}, \code{"center"}, or \code{"right"}. Inpu
 case-insensitive. Default is \code{"bottom-right"}.}
 
 \item{closable}{Logical. Whether to include a close button. Default \code{TRUE}.
-When \code{autohide_s} is disabled (0, NA, or NULL), a close button is always
-included regardless of this setting (for accessibility).}
-
-\item{class}{Additional CSS classes for the toast.}
-
-\item{x}{A \code{bslib_toast} object.}
+When \code{autohide_s} is disabled (\code{0}, \code{NA}) and \code{closable = FALSE}, the app
+user won't be able to close the toast and you'll need to use \code{\link[=hide_toast]{hide_toast()}}
+in your server logic to dismiss it for the user at the appropriate time.}
 }
 \value{
 A \code{bslib_toast} object that can be passed to \code{\link[=show_toast]{show_toast()}}.
@@ -94,8 +85,8 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=show_toast]{show_toast()}} to display a toast, \code{\link[=hide_toast]{hide_toast()}} to dismiss a toast,
-and \code{\link[=toast_header]{toast_header()}} to create structured headers.
+\code{\link[=show_toast]{show_toast()}} to display a toast, \code{\link[=hide_toast]{hide_toast()}} to dismiss a
+toast, and \code{\link[=toast_header]{toast_header()}} to create structured headers.
 
 Other Toast components: 
 \code{\link{hide_toast}()},
