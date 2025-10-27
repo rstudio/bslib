@@ -126,7 +126,7 @@ toast <- function(
 
 #' @export
 as.tags.bslib_toast <- function(x, ...) {
-  id <- x$id %||% paste0("bslib-toast-", p_randomInt(1000, 10000000))
+  id <- x$id %||% toast_random_id()
 
   toast_component(
     body = x$body,
@@ -197,31 +197,20 @@ show_toast <- function(
   ...,
   session = shiny::getDefaultReactiveDomain()
 ) {
-  # Check for unused arguments
   rlang::check_dots_empty()
 
-  # Convert to toast object if needed (convenience)
   if (!inherits(toast, "bslib_toast")) {
-    toast <- toast(body = toast)
+    toast <- toast(toast)
   }
 
-  # Generate ID if not already set
-  id <- toast$id %||% paste0("bslib-toast-", p_randomInt(1000, 10000000))
+  toast$id <- toast$id %||% toast_random_id()
 
-  # Ensure ID is stored in toast object
-  toast$id <- id
-
-  # Convert toast object to HTML tags
-  toast_tag <- as.tags(toast)
-
-  # Render to HTML with dependencies
-  html <- as.character(toast_tag)
-  deps <- htmltools::resolveDependencies(htmltools::findDependencies(toast_tag))
+  toasted <- processDeps(toast, session)
 
   # Prepare message data
   data <- list(
-    html = html,
-    deps = lapply(deps, shiny::createWebDependency),
+    html = toasted$html,
+    deps = toasted$deps,
     options = list(
       autohide = toast$autohide,
       delay = toast$duration
@@ -442,6 +431,10 @@ toast_component <- function(
   toast <- tag_require(toast, version = 5)
 
   as_fragment(toast)
+}
+
+toast_random_id <- function() {
+  paste0("bslib-toast-", p_randomInt(1000, 10000000))
 }
 
 # Helper function to normalize toast position arguments
