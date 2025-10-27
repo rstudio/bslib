@@ -2,6 +2,7 @@
 % Please edit documentation in R/toast.R
 \name{toast}
 \alias{toast}
+\alias{toast_header}
 \title{Toast notifications}
 \usage{
 toast(
@@ -13,6 +14,8 @@ toast(
   position = "top-right",
   closable = TRUE
 )
+
+toast_header(title, ..., icon = NULL, status = NULL)
 }
 \arguments{
 \item{...}{Body content of the toast. Can be a string, or any HTML elements.
@@ -51,30 +54,64 @@ case-insensitive. Default is \code{"bottom-right"}.}
 \item{closable}{Logical. Whether to include a close button. Defaults to
 \code{TRUE} and is only relevant when auto-hiding is enabled. If auto-hiding is
 disabled, a close button is always included for accessibility.}
+
+\item{title}{Header text (required).}
+
+\item{icon}{Optional icon element, for example from \code{\link[shiny:icon]{shiny::icon()}},
+\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}} or \code{\link[fontawesome:fa]{fontawesome::fa()}}.}
+
+\item{status}{Optional status text that appears as small, muted text on the
+right side of the header.}
 }
 \value{
 A \code{bslib_toast} object that can be passed to \code{\link[=show_toast]{show_toast()}}.
+
+For \code{toast_header()}: a toast header object that can be used with the
+\code{header} argument of \code{toast()}.
 }
 \description{
 Toast notifications are lightweight, temporary messages designed to mimic
 push notifications from mobile and desktop operating systems. They are built
 on Bootstrap 5's native toast component.
 }
+\section{Functions}{
+\itemize{
+\item \code{toast()}: Create a toast element.
+
+\item \code{toast_header()}: Create a structured toast header with optional icon and
+status indicator. Returns a data structure that can be passed to the
+\code{header} argument of \code{toast()}.
+
+}}
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 library(shiny)
 library(bslib)
 
 ui <- page_fluid(
-  actionButton("show_toast", "Show Toast")
+  actionButton("show_simple", "Simple Toast"),
+  actionButton("show_header", "Toast with Header")
 )
 
 server <- function(input, output, session) {
-  observeEvent(input$show_toast, {
+  observeEvent(input$show_simple, {
     show_toast(
       toast(
         body = "Operation completed successfully!",
         header = "Success",
+        type = "success"
+      )
+    )
+  })
+
+  observeEvent(input$show_header, {
+    show_toast(
+      toast(
+        body = "Your settings have been saved.",
+        header = toast_header(
+          title = "Settings Updated",
+          status = "just now"
+        ),
         type = "success"
       )
     )
@@ -89,7 +126,6 @@ shinyApp(ui, server)
 toast, and \code{\link[=toast_header]{toast_header()}} to create structured headers.
 
 Other Toast components: 
-\code{\link{show_toast}()},
-\code{\link{toast_header}()}
+\code{\link{show_toast}()}
 }
 \concept{Toast components}

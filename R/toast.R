@@ -10,15 +10,29 @@
 #' library(bslib)
 #'
 #' ui <- page_fluid(
-#'   actionButton("show_toast", "Show Toast")
+#'   actionButton("show_simple", "Simple Toast"),
+#'   actionButton("show_header", "Toast with Header")
 #' )
 #'
 #' server <- function(input, output, session) {
-#'   observeEvent(input$show_toast, {
+#'   observeEvent(input$show_simple, {
 #'     show_toast(
 #'       toast(
 #'         body = "Operation completed successfully!",
 #'         header = "Success",
+#'         type = "success"
+#'       )
+#'     )
+#'   })
+#'
+#'   observeEvent(input$show_header, {
+#'     show_toast(
+#'       toast(
+#'         body = "Your settings have been saved.",
+#'         header = toast_header(
+#'           title = "Settings Updated",
+#'           status = "just now"
+#'         ),
 #'         type = "success"
 #'       )
 #'     )
@@ -60,6 +74,7 @@
 #'
 #' @seealso [show_toast()] to display a toast, [hide_toast()] to dismiss a
 #'   toast, and [toast_header()] to create structured headers.
+#' @describeIn toast Create a toast element.
 #' @family Toast components
 #' @export
 toast <- function(
@@ -249,48 +264,20 @@ hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
   invisible(id)
 }
 
-#' Create a structured toast header
-#'
-#' @description
-#' Creates a structured header for a toast with optional icon and status
-#' indicator.
+#' @describeIn toast Create a structured toast header with optional icon and
+#'   status indicator. Returns a data structure that can be passed to the
+#'   `header` argument of `toast()`.
 #'
 #' @param title Header text (required).
-#' @param icon Optional icon element (e.g., from `bsicons::bs_icon()` or
-#'   `fontawesome::fa()`).
-#' @param status Optional status text (e.g., "11 mins ago", "just now") that
-#'   appears as small, muted text in the header.
-#' @param ... Additional HTML attributes passed to the header container.
+#' @param icon Optional icon element, for example from [shiny::icon()],
+#'   [bsicons::bs_icon()] or [fontawesome::fa()].
+#' @param status Optional status text that appears as small, muted text on the
+#'   right side of the header.
 #'
-#' @return A tag object representing the toast header content.
+#' @return For `toast_header()`: a toast header object that can be used with the
+#'   `header` argument of `toast()`.
 #'
 #' @export
-#' @family Toast components
-#'
-#' @examplesIf rlang::is_interactive()
-#' library(shiny)
-#' library(bslib)
-#'
-#' ui <- page_fluid(
-#'   actionButton("show_header", "Show Toast with Header")
-#' )
-#'
-#' server <- function(input, output, session) {
-#'   observeEvent(input$show_header, {
-#'     show_toast(
-#'       toast(
-#'         body = "Your settings have been saved.",
-#'         header = toast_header(
-#'           title = "Settings Updated",
-#'           status = "just now"
-#'         ),
-#'         type = "success"
-#'       )
-#'     )
-#'   })
-#' }
-#'
-#' shinyApp(ui, server)
 toast_header <- function(title, ..., icon = NULL, status = NULL) {
   dots <- separate_arguments(...)
 
@@ -306,7 +293,7 @@ toast_header <- function(title, ..., icon = NULL, status = NULL) {
 }
 
 toast_component_header <- function(x) {
-  # Build status text (small muted text)
+  # Status text (small muted text)
   status_text <- if (!is.null(x$status)) {
     tags$small(class = "text-muted", x$status)
   }

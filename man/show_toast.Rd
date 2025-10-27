@@ -69,7 +69,6 @@ shinyApp(ui, server)
 }
 \seealso{
 Other Toast components: 
-\code{\link{toast}()},
-\code{\link{toast_header}()}
+\code{\link{toast}()}
 }
 \concept{Toast components}
