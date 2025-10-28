@@ -55,8 +55,9 @@ horizontal positions are \code{"left"}, \code{"center"}, or \code{"right"}. Inpu
 case-insensitive. Default is \code{"bottom-right"}.}
 
 \item{closable}{Logical. Whether to include a close button. Defaults to
-\code{TRUE} and is only relevant when auto-hiding is enabled. If auto-hiding is
-disabled, a close button is always included for accessibility.}
+\code{TRUE}. When both \code{autohide_s = NA} (or \code{0} or \code{NULL}) and \code{closable = FALSE}, the toast will remain visible until manually hidden via
+\code{\link[=hide_toast]{hide_toast()}}. This is useful when the toast contains interactive Shiny UI
+elements and you want to manage the toast display programmatically.}
 
 \item{title}{Header text (required).}
 

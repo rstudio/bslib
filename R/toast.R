@@ -78,8 +78,10 @@
 #'   horizontal positions are `"left"`, `"center"`, or `"right"`. Input is
 #'   case-insensitive. Default is `"bottom-right"`.
 #' @param closable Logical. Whether to include a close button. Defaults to
-#'   `TRUE` and is only relevant when auto-hiding is enabled. If auto-hiding is
-#'   disabled, a close button is always included for accessibility.
+#'   `TRUE`. When both `autohide_s = NA` (or `0` or `NULL`) and `closable =
+#'   FALSE`, the toast will remain visible until manually hidden via
+#'   [hide_toast()]. This is useful when the toast contains interactive Shiny UI
+#'   elements and you want to manage the toast display programmatically.
 #'
 #' @return A `bslib_toast` object that can be passed to [show_toast()].
 #'
@@ -128,11 +130,6 @@ toast <- function(
   }
 
   duration <- if (autohide) autohide_s * 1000 # milliseconds
-
-  # Enforce close button for non-autohiding toasts (accessibility)
-  if (!autohide) {
-    closable <- TRUE
-  }
 
   structure(
     list(

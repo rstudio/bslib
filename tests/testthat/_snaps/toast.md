@@ -115,6 +115,15 @@
         <div class="toast-body">Message</div>
       </div>
 
+---
+
+    Code
+      cat(format(as.tags(t_manual)))
+    Output
+      <div id="manual-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
+        <div class="toast-body">Message</div>
+      </div>
+
 # normalize_toast_position() errors on invalid input
 
     Code

@@ -32,18 +32,24 @@ test_that("toast() type 'error' is aliased to 'danger'", {
 })
 
 test_that("toast() autohide disabled (0, NA, NULL)", {
-  # When autohide is disabled, closable is forced to TRUE for accessibility
+  # When autohide is disabled, closable can be set to FALSE
+  # This allows app authors to manage toast display manually
   t1 <- toast("Test", autohide_s = 0, closable = FALSE)
   expect_false(t1$autohide)
-  expect_true(t1$closable) # Always true when autohide disabled
+  expect_false(t1$closable)
 
   t2 <- toast("Test", autohide_s = NA, closable = FALSE)
   expect_false(t2$autohide)
-  expect_true(t2$closable)
+  expect_false(t2$closable)
 
   t3 <- toast("Test", autohide_s = NULL, closable = FALSE)
   expect_false(t3$autohide)
-  expect_true(t3$closable)
+  expect_false(t3$closable)
+
+  # closable can also be TRUE when autohide is disabled
+  t4 <- toast("Test", autohide_s = NA, closable = TRUE)
+  expect_false(t4$autohide)
+  expect_true(t4$closable)
 })
 
 test_that("toast() `closable` when autohide enabled", {
@@ -137,6 +143,15 @@ test_that("as.tags.bslib_toast includes close button appropriately", {
     id = "non-closable-toast"
   )
   expect_snapshot(cat(format(as.tags(t_non_closable))))
+
+  # Non-closable with autohide disabled (for manual management)
+  t_manual <- toast(
+    "Message",
+    closable = FALSE,
+    autohide_s = NA,
+    id = "manual-toast"
+  )
+  expect_snapshot(cat(format(as.tags(t_manual))))
 })
 
 # toast_header() tests ----
