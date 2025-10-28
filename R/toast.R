@@ -164,14 +164,17 @@ as.tags.bslib_toast <- function(x, ...) {
   )
 }
 
+# nocov start
 #' @export
 print.bslib_toast <- function(x, ...) {
   x_tags <- x
+  # Add "show" class to make toast visible when printed
   x_tags$attribs <- c(x_tags$attribs, list(class = "show"))
   x_tags <- as.tags(x_tags)
   print(as_fragment(x_tags))
   invisible(x)
 }
+# nocov end
 
 #' Show or hide a toast notification
 #'
