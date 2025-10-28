@@ -10,7 +10,7 @@ toast(
   header = NULL,
   id = NULL,
   type = NULL,
-  autohide_s = 5,
+  duration_s = 5,
   position = "top-right",
   closable = TRUE
 )
@@ -37,7 +37,7 @@ shown at once.}
 or \code{"dark"}. Applies appropriate Bootstrap background utility classes
 (\verb{text-bg-*}).}
 
-\item{autohide_s}{Numeric. Number of seconds after which the toast should
+\item{duration_s}{Numeric. Number of seconds after which the toast should
 automatically hide. Use \code{0}, or \code{NA} to disable auto-hiding (toast will
 remain visible until manually dismissed). Default is \code{5} (5 seconds).}
 
@@ -55,7 +55,7 @@ horizontal positions are \code{"left"}, \code{"center"}, or \code{"right"}. Inpu
 case-insensitive. Default is \code{"bottom-right"}.}
 
 \item{closable}{Logical. Whether to include a close button. Defaults to
-\code{TRUE}. When both \code{autohide_s = NA} (or \code{0} or \code{NULL}) and \code{closable = FALSE}, the toast will remain visible until manually hidden via
+\code{TRUE}. When both \code{duration_s = NA} (or \code{0} or \code{NULL}) and \code{closable = FALSE}, the toast will remain visible until manually hidden via
 \code{\link[=hide_toast]{hide_toast()}}. This is useful when the toast contains interactive Shiny UI
 elements and you want to manage the toast display programmatically.}
 

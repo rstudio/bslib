@@ -34,42 +34,42 @@ test_that("toast() type 'error' is aliased to 'danger'", {
 test_that("toast() autohide disabled (0, NA, NULL)", {
   # When autohide is disabled, closable can be set to FALSE
   # This allows app authors to manage toast display manually
-  t1 <- toast("Test", autohide_s = 0, closable = FALSE)
+  t1 <- toast("Test", duration_s = 0, closable = FALSE)
   expect_false(t1$autohide)
   expect_false(t1$closable)
 
-  t2 <- toast("Test", autohide_s = NA, closable = FALSE)
+  t2 <- toast("Test", duration_s = NA, closable = FALSE)
   expect_false(t2$autohide)
   expect_false(t2$closable)
 
-  t3 <- toast("Test", autohide_s = NULL, closable = FALSE)
+  t3 <- toast("Test", duration_s = NULL, closable = FALSE)
   expect_false(t3$autohide)
   expect_false(t3$closable)
 
   # closable can also be TRUE when autohide is disabled
-  t4 <- toast("Test", autohide_s = NA, closable = TRUE)
+  t4 <- toast("Test", duration_s = NA, closable = TRUE)
   expect_false(t4$autohide)
   expect_true(t4$closable)
 })
 
 test_that("toast() `closable` when autohide enabled", {
   # When autohide is enabled, user can control closable
-  t_closable <- toast("Test", autohide_s = 10, closable = TRUE)
+  t_closable <- toast("Test", duration_s = 10, closable = TRUE)
   expect_true(t_closable$autohide)
   expect_equal(t_closable$duration, 10000) # Converted to milliseconds
   expect_true(t_closable$closable)
 
-  t_not_closable <- toast("Test", autohide_s = 5, closable = FALSE)
+  t_not_closable <- toast("Test", duration_s = 5, closable = FALSE)
   expect_true(t_not_closable$autohide)
   expect_equal(t_not_closable$duration, 5000)
   expect_false(t_not_closable$closable)
 })
 
-test_that("toast() autohide_s throws for invalid values", {
+test_that("toast() duration_s throws for invalid values", {
   expect_snapshot(error = TRUE, {
-    toast("Test", autohide_s = -5)
-    toast("Test", autohide_s = "invalid")
-    toast("Test", autohide_s = c(5, 10))
+    toast("Test", duration_s = -5)
+    toast("Test", duration_s = "invalid")
+    toast("Test", duration_s = c(5, 10))
   })
 })
 
@@ -139,7 +139,7 @@ test_that("as.tags.bslib_toast includes close button appropriately", {
   t_non_closable <- toast(
     "Message",
     closable = FALSE,
-    autohide_s = 5,
+    duration_s = 5,
     id = "non-closable-toast"
   )
   expect_snapshot(cat(format(as.tags(t_non_closable))))
@@ -148,7 +148,7 @@ test_that("as.tags.bslib_toast includes close button appropriately", {
   t_manual <- toast(
     "Message",
     closable = FALSE,
-    autohide_s = NA,
+    duration_s = NA,
     id = "manual-toast"
   )
   expect_snapshot(cat(format(as.tags(t_manual))))

@@ -64,7 +64,7 @@
 #'   `"secondary"`, `"success"`, `"info"`, `"warning"`, `"danger"`, `"light"`,
 #'   or `"dark"`. Applies appropriate Bootstrap background utility classes
 #'   (`text-bg-*`).
-#' @param autohide_s Numeric. Number of seconds after which the toast should
+#' @param duration_s Numeric. Number of seconds after which the toast should
 #'   automatically hide. Use `0`, or `NA` to disable auto-hiding (toast will
 #'   remain visible until manually dismissed). Default is `5` (5 seconds).
 #' @param position String or character vector specifying where to position the
@@ -78,7 +78,7 @@
 #'   horizontal positions are `"left"`, `"center"`, or `"right"`. Input is
 #'   case-insensitive. Default is `"bottom-right"`.
 #' @param closable Logical. Whether to include a close button. Defaults to
-#'   `TRUE`. When both `autohide_s = NA` (or `0` or `NULL`) and `closable =
+#'   `TRUE`. When both `duration_s = NA` (or `0` or `NULL`) and `closable =
 #'   FALSE`, the toast will remain visible until manually hidden via
 #'   [hide_toast()]. This is useful when the toast contains interactive Shiny UI
 #'   elements and you want to manage the toast display programmatically.
@@ -95,7 +95,7 @@ toast <- function(
   header = NULL,
   id = NULL,
   type = NULL,
-  autohide_s = 5,
+  duration_s = 5,
   position = "top-right",
   closable = TRUE
 ) {
@@ -117,19 +117,19 @@ toast <- function(
 
   position <- normalize_toast_position(position)
 
-  # autohide_s of 0 or NA (or NULL) disables auto-hiding
-  if (is.null(autohide_s) || (length(autohide_s) == 1 && is.na(autohide_s))) {
+  # duration_s of 0 or NA (or NULL) disables auto-hiding
+  if (is.null(duration_s) || (length(duration_s) == 1 && is.na(duration_s))) {
     autohide <- FALSE
   } else {
-    if (!is.numeric(autohide_s) || length(autohide_s) != 1 || autohide_s < 0) {
+    if (!is.numeric(duration_s) || length(duration_s) != 1 || duration_s < 0) {
       rlang::abort(
-        "`autohide_s` must be a single non-negative number or NA."
+        "`duration_s` must be a single non-negative number or NA."
       )
     }
-    autohide <- autohide_s != 0
+    autohide <- duration_s != 0
   }
 
-  duration <- if (autohide) autohide_s * 1000 # milliseconds
+  duration <- if (autohide) duration_s * 1000 # milliseconds
 
   structure(
     list(

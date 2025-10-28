@@ -72,8 +72,8 @@ ui <- page_fillable(
 
             # Auto-hide options
             sliderInput(
-              "autohide_s",
-              "Auto-hide (seconds, 0 = disabled)",
+              "duration_s",
+              "Duration (seconds, 0 = disabled)",
               min = 0,
               max = 25,
               value = 5,
@@ -256,7 +256,7 @@ server <- function(input, output, session) {
       header = header,
       id = if (nzchar(input$custom_id)) input$custom_id,
       type = if (nzchar(input$type)) input$type,
-      autohide_s = input$autohide_s,
+      duration_s = input$duration_s,
       position = input$position,
       closable = input$closable
     )
@@ -280,7 +280,7 @@ server <- function(input, output, session) {
         "This toast won't disappear automatically. Use the 'Hide' button to dismiss it.",
         header = "Persistent Toast",
         type = "info",
-        autohide_s = 0
+        duration_s = 0
       )
     )
     persistent_toast_id(id)
@@ -298,7 +298,7 @@ server <- function(input, output, session) {
         "This toast will stay visible for 10 seconds.",
         header = "Long Duration",
         type = "primary",
-        autohide_s = 10
+        duration_s = 10
       )
     )
   })
@@ -309,7 +309,7 @@ server <- function(input, output, session) {
         "This toast has no close button but will auto-hide in 3 seconds.",
         type = "secondary",
         closable = FALSE,
-        autohide_s = 3
+        duration_s = 3
       )
     )
   })
@@ -345,7 +345,7 @@ server <- function(input, output, session) {
         ),
         header = "Unsaved Changes",
         type = "warning",
-        autohide_s = 0
+        duration_s = 0
       )
     )
   })
@@ -399,7 +399,7 @@ server <- function(input, output, session) {
         toast(
           paste("Toast at", pos),
           type = types[i],
-          autohide_s = 4,
+          duration_s = 4,
           position = pos
         )
       )
@@ -430,7 +430,7 @@ server <- function(input, output, session) {
           status = textOutput("toast_status", inline = TRUE)
         ),
         type = "light",
-        autohide_s = 0
+        duration_s = 0
       )
     )
     inserted_time(Sys.time())

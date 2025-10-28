@@ -14,23 +14,23 @@
       Error in `toast()`:
       ! `type` must be one of "primary", "secondary", "success", "info", "warning", "danger", "error", "light", or "dark", not "invalid".
 
-# toast() autohide_s throws for invalid values
+# toast() duration_s throws for invalid values
 
     Code
-      toast("Test", autohide_s = -5)
+      toast("Test", duration_s = -5)
     Condition
       Error in `toast()`:
-      ! `autohide_s` must be a single non-negative number or NA.
+      ! `duration_s` must be a single non-negative number or NA.
     Code
-      toast("Test", autohide_s = "invalid")
+      toast("Test", duration_s = "invalid")
     Condition
       Error in `toast()`:
-      ! `autohide_s` must be a single non-negative number or NA.
+      ! `duration_s` must be a single non-negative number or NA.
     Code
-      toast("Test", autohide_s = c(5, 10))
+      toast("Test", duration_s = c(5, 10))
     Condition
       Error in `toast()`:
-      ! `autohide_s` must be a single non-negative number or NA.
+      ! `duration_s` must be a single non-negative number or NA.
 
 # as.tags.bslib_toast creates proper HTML structure
 
