@@ -262,7 +262,9 @@ show_toast <- function(
 
 #' @describeIn show_toast Hide a toast notification by ID.
 #' @export
-hide_toast <- function(id, session = shiny::getDefaultReactiveDomain()) {
+hide_toast <- function(id, ..., session = shiny::getDefaultReactiveDomain()) {
+  rlang::check_dots_empty()
+
   if (inherits(id, "bslib_toast")) {
     if (is.null(id$id)) {
       rlang::abort("Cannot hide a toast without an ID. Provide the toast ID.")

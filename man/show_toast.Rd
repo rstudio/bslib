@@ -7,7 +7,7 @@
 \usage{
 show_toast(toast, ..., session = shiny::getDefaultReactiveDomain())
 
-hide_toast(id, session = shiny::getDefaultReactiveDomain())
+hide_toast(id, ..., session = shiny::getDefaultReactiveDomain())
 }
 \arguments{
 \item{toast}{A \code{\link[=toast]{toast()}}, or a string that will be automatically converted to
