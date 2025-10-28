@@ -345,7 +345,8 @@ server <- function(input, output, session) {
         ),
         header = "Unsaved Changes",
         type = "warning",
-        duration_s = 0
+        duration_s = 0,
+        closable = FALSE
       )
     )
   })
