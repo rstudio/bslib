@@ -64,3 +64,8 @@ anyNamed <- function(x) {
   }
   any(nzchar(nms))
 }
+
+
+shiny_input_label <- function(id, label = NULL) {
+  getFromNamespace("shinyInputLabel", "shiny")(id, label)
+}
