@@ -437,7 +437,7 @@ normalize_toast_position <- function(position = "bottom-right") {
     rlang::abort(
       paste0(
         "Invalid toast position: '",
-        original_position,
+        paste(original_position, collapse = " "),
         "'. ",
         "Must specify one vertical position (top, middle, bottom) and ",
         "one horizontal position (left, center, right)."

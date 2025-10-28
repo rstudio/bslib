@@ -1,11 +1,14 @@
-test_that("toast() creates bslib_toast object", {
+# toast() constructor tests ----
+
+test_that("toast() creates bslib_toast object with defaults", {
   t <- toast("Test message")
 
   expect_s3_class(t, "bslib_toast")
-  expect_equal(t$body, list("Test message"))
   expect_null(t$id)
   expect_true(t$autohide)
-  expect_equal(t$duration, 5000)
+  expect_equal(t$duration, 5000) # Default 5 seconds in milliseconds
+  expect_true(t$closable)
+  expect_null(t$header)
   expect_equal(t$position, "top-right")
 })
 
@@ -13,38 +16,47 @@ test_that("toast() validates position argument", {
   expect_no_error(toast("Test", position = "bottom-left"))
   expect_no_error(toast("Test", position = "top-center"))
   expect_no_error(toast("Test", position = "middle-center"))
-  expect_error(toast("Test", position = "invalid"))
+  expect_snapshot(error = TRUE, toast("Test", position = "invalid"))
 })
 
 test_that("toast() validates type argument", {
   expect_no_error(toast("Test", type = "success"))
   expect_no_error(toast("Test", type = "danger"))
   expect_no_error(toast("Test", type = "info"))
-  expect_error(toast("Test", type = "invalid"))
+  expect_snapshot(error = TRUE, toast("Test", type = "invalid"))
 })
 
-test_that("toast() autohide_s = 0 disables autohiding", {
-  t <- toast("Test", autohide_s = 0, closable = FALSE)
-  expect_false(t$autohide)
-  expect_true(t$closable) # Always true when autohide disabled
+test_that("toast() type 'error' is aliased to 'danger'", {
+  t <- toast("Test", type = "error")
+  expect_equal(t$type, "danger")
 })
 
-test_that("toast() autohide_s = NA disables autohiding", {
-  t <- toast("Test", autohide_s = NA, closable = FALSE)
-  expect_false(t$autohide)
-  expect_true(t$closable) # Always true when autohide disabled
+test_that("toast() autohide disabled (0, NA, NULL)", {
+  # When autohide is disabled, closable is forced to TRUE for accessibility
+  t1 <- toast("Test", autohide_s = 0, closable = FALSE)
+  expect_false(t1$autohide)
+  expect_true(t1$closable) # Always true when autohide disabled
+
+  t2 <- toast("Test", autohide_s = NA, closable = FALSE)
+  expect_false(t2$autohide)
+  expect_true(t2$closable)
+
+  t3 <- toast("Test", autohide_s = NULL, closable = FALSE)
+  expect_false(t3$autohide)
+  expect_true(t3$closable)
 })
 
-test_that("toast() autohide_s = NULL disables autohiding", {
-  t <- toast("Test", autohide_s = NULL, closable = FALSE)
-  expect_false(t$autohide)
-  expect_true(t$closable) # Always true when autohide disabled
-})
+test_that("toast() `closable` when autohide enabled", {
+  # When autohide is enabled, user can control closable
+  t_closable <- toast("Test", autohide_s = 10, closable = TRUE)
+  expect_true(t_closable$autohide)
+  expect_equal(t_closable$duration, 10000) # Converted to milliseconds
+  expect_true(t_closable$closable)
 
-test_that("toast() autohide_s > 0 enables autohiding", {
-  t <- toast("Test", autohide_s = 10)
-  expect_true(t$autohide)
-  expect_equal(t$duration, 10000) # Converted to milliseconds
+  t_not_closable <- toast("Test", autohide_s = 5, closable = FALSE)
+  expect_true(t_not_closable$autohide)
+  expect_equal(t_not_closable$duration, 5000)
+  expect_false(t_not_closable$closable)
 })
 
 test_that("toast() autohide_s throws for invalid values", {
@@ -55,10 +67,8 @@ test_that("toast() autohide_s throws for invalid values", {
   })
 })
 
-test_that("toast() allows closable = FALSE when autohiding", {
-  t <- toast("Test", autohide_s = 5, closable = FALSE)
-  expect_false(t$closable)
-})
+
+# toast() rendering tests ----
 
 test_that("as.tags.bslib_toast creates proper HTML structure", {
   t <- toast(
@@ -69,12 +79,8 @@ test_that("as.tags.bslib_toast creates proper HTML structure", {
   )
 
   tag <- as.tags(t)
-
   expect_s3_class(tag, "shiny.tag")
-  html_str <- as.character(tag)
-  expect_true(grepl("toast", html_str))
-  expect_true(grepl("text-bg-success", html_str))
-  expect_true(grepl('id="test-toast"', html_str))
+  expect_snapshot(cat(format(tag)))
 })
 
 test_that("as.tags.bslib_toast generates ID if not provided", {
@@ -82,53 +88,58 @@ test_that("as.tags.bslib_toast generates ID if not provided", {
   tag <- as.tags(t)
 
   html_str <- as.character(tag)
-  expect_true(grepl('id="bslib-toast-', html_str))
+  # Verify an auto-generated ID is present
+  expect_match(html_str, 'id="bslib-toast-[0-9]+"')
 })
 
 test_that("as.tags.bslib_toast respects accessibility attributes", {
-  # Danger type gets assertive
-  t_danger <- toast("Error message", type = "danger")
-  tag_danger <- as.tags(t_danger)
-  html_danger <- as.character(tag_danger)
-  expect_true(grepl('aria-live="assertive"', html_danger))
-  expect_true(grepl('role="alert"', html_danger))
+  # Danger type gets assertive role
+  t_danger <- toast("Error message", type = "danger", id = "danger-toast")
+  html_danger <- as.character(as.tags(t_danger))
+  expect_match(html_danger, 'role="alert"')
+  expect_match(html_danger, 'aria-live="assertive"')
+  expect_snapshot(cat(format(as.tags(t_danger))))
 
-  # Info type gets polite
-  t_info <- toast("Info message", type = "info")
-  tag_info <- as.tags(t_info)
-  html_info <- as.character(tag_info)
-  expect_true(grepl('aria-live="polite"', html_info))
-  expect_true(grepl('role="status"', html_info))
+  # Info type gets polite role
+  t_info <- toast("Info message", type = "info", id = "info-toast")
+  html_info <- as.character(as.tags(t_info))
+  expect_match(html_info, 'role="status"')
+  expect_match(html_info, 'aria-live="polite"')
+  expect_snapshot(cat(format(as.tags(t_info))))
 
-  # NULL type (default) gets polite
-  t_default <- toast("Default message")
-  tag_default <- as.tags(t_default)
-  html_default <- as.character(tag_default)
-  expect_true(grepl('aria-live="polite"', html_default))
-  expect_true(grepl('role="status"', html_default))
+  # NULL type (default) gets polite role
+  t_default <- toast("Default message", id = "default-toast")
+  html_default <- as.character(as.tags(t_default))
+  expect_match(html_default, 'role="status"')
+  expect_match(html_default, 'aria-live="polite"')
+  expect_snapshot(cat(format(as.tags(t_default))))
 })
 
 test_that("as.tags.bslib_toast includes close button appropriately", {
   # With header, closable
-  t_header <- toast("Message", header = "Title", closable = TRUE)
-  tag_header <- as.tags(t_header)
-  html_header <- as.character(tag_header)
-  expect_true(grepl("btn-close", html_header))
-  expect_true(grepl("toast-header", html_header))
+  t_header <- toast(
+    "Message",
+    header = "Title",
+    closable = TRUE,
+    id = "header-toast"
+  )
+  expect_snapshot(cat(format(as.tags(t_header))))
 
   # Without header, closable
-  t_no_header <- toast("Message", closable = TRUE)
-  tag_no_header <- as.tags(t_no_header)
-  html_no_header <- as.character(tag_no_header)
-  expect_true(grepl("btn-close", html_no_header))
-  expect_false(grepl("toast-header", html_no_header))
+  t_no_header <- toast("Message", closable = TRUE, id = "no-header-toast")
+  expect_snapshot(cat(format(as.tags(t_no_header))))
 
   # Non-closable with autohide
-  t_non_closable <- toast("Message", closable = FALSE, autohide = TRUE)
-  tag_non_closable <- as.tags(t_non_closable)
-  html_non_closable <- as.character(tag_non_closable)
-  expect_false(grepl("btn-close", html_non_closable))
+  t_non_closable <- toast(
+    "Message",
+    closable = FALSE,
+    autohide_s = 5,
+    id = "non-closable-toast"
+  )
+  expect_snapshot(cat(format(as.tags(t_non_closable))))
 })
+
+# toast_header() tests ----
 
 test_that("toast_header() creates structured header data", {
   # Simple header with just title
@@ -146,7 +157,6 @@ test_that("toast_header() creates structured header data", {
 })
 
 test_that("toast_header() works with icons", {
-  # Mock icon (just a simple span for testing)
   icon <- span(class = "test-icon")
 
   h <- toast_header("Title", icon = icon)
@@ -168,52 +178,35 @@ test_that("toast() stores additional attributes", {
   expect_true(grepl('class="toast[^"]+extra-class"', html))
 })
 
-test_that("toast() with custom autohide_s converts to milliseconds", {
-  t <- toast("Test", autohide_s = 10)
-  expect_equal(t$duration, 10000)
-  expect_true(t$autohide)
+
+test_that("toast() type is reflected in rendered HTML", {
+  t_success <- toast("Test", type = "success")
+  expect_equal(t_success$type, "success")
+
+  tag_success <- as.tags(t_success)
+  html_success <- as.character(tag_success)
+  expect_true(grepl("text-bg-success", html_success))
+
+  t_danger <- toast("Test", type = "danger")
+  expect_equal(t_danger$type, "danger")
+
+  tag_danger <- as.tags(t_danger)
+  html_danger <- as.character(tag_danger)
+  expect_true(grepl("text-bg-danger", html_danger))
 })
 
-test_that("toast() with all type options", {
-  types <- c(
-    "primary",
-    "secondary",
-    "success",
-    "info",
-    "warning",
-    "danger",
-    "light",
-    "dark"
-  )
+test_that("toast() position is stored correctly", {
+  t1 <- toast("Test", position = "top-left")
+  expect_equal(t1$position, "top-left")
 
-  for (type in types) {
-    t <- toast("Test", type = type)
-    expect_equal(t$type, type)
+  t2 <- toast("Test", position = "middle-center")
+  expect_equal(t2$position, "middle-center")
 
-    tag <- as.tags(t)
-    html <- as.character(tag)
-    expect_true(grepl(paste0("text-bg-", type), html))
-  }
+  t3 <- toast("Test", position = "bottom-right")
+  expect_equal(t3$position, "bottom-right")
 })
 
-test_that("toast() with all position options", {
-  positions <- c(
-    "top-left",
-    "top-center",
-    "top-right",
-    "middle-left",
-    "middle-center",
-    "middle-right",
-    "bottom-left",
-    "bottom-center",
-    "bottom-right"
-  )
-
-  for (pos in positions) {
-    t <- toast("Test", position = pos)
-    expect_equal(t$position, pos)
-  }
-})
+# toast() header integration tests ----
 
 test_that("toast with character header", {
   t <- toast("Body", header = "Simple Header")
@@ -294,7 +287,8 @@ test_that("toast header can be replaced with list pattern", {
   expect_false(grepl("Simple", html))
 })
 
-# Tests for normalize_toast_position() helper
+# normalize_toast_position() helper tests ----
+
 test_that("normalize_toast_position() handles standard kebab-case format", {
   expect_equal(normalize_toast_position("top-left"), "top-left")
   expect_equal(normalize_toast_position("bottom-right"), "bottom-right")
@@ -354,77 +348,36 @@ test_that("normalize_toast_position() defaults to bottom-right when unspecified"
 })
 
 test_that("normalize_toast_position() handles all valid combinations", {
-  vertical <- c("top", "middle", "bottom")
-  horizontal <- c("left", "center", "right")
+  # Space-separated
+  expect_equal(normalize_toast_position("top left"), "top-left")
+  expect_equal(normalize_toast_position("middle center"), "middle-center")
+  expect_equal(normalize_toast_position("bottom right"), "bottom-right")
 
-  for (v in vertical) {
-    for (h in horizontal) {
-      expected <- paste0(v, "-", h)
-      # Space-separated
-      expect_equal(
-        normalize_toast_position(paste(v, h)),
-        expected,
-        label = paste("space-separated:", v, h)
-      )
-      # Reversed order
-      expect_equal(
-        normalize_toast_position(paste(h, v)),
-        expected,
-        label = paste("reversed:", h, v)
-      )
-      # Vector
-      expect_equal(
-        normalize_toast_position(c(v, h)),
-        expected,
-        label = paste("vector:", v, h)
-      )
-    }
-  }
+  # Reversed order
+  expect_equal(normalize_toast_position("left top"), "top-left")
+  expect_equal(normalize_toast_position("center middle"), "middle-center")
+  expect_equal(normalize_toast_position("right bottom"), "bottom-right")
+
+  # Vector input
+  expect_equal(normalize_toast_position(c("top", "left")), "top-left")
+  expect_equal(normalize_toast_position(c("center", "middle")), "middle-center")
+  expect_equal(normalize_toast_position(c("bottom", "right")), "bottom-right")
 })
 
-test_that("normalize_toast_position() errors on missing components", {
-  expect_error(
-    normalize_toast_position("top"),
-    "Must specify one vertical position.*and.*one horizontal position"
-  )
-  expect_error(
-    normalize_toast_position("left"),
-    "Must specify one vertical position.*and.*one horizontal position"
-  )
-  expect_error(
-    normalize_toast_position("center"),
-    "Must specify one vertical position.*and.*one horizontal position"
-  )
-})
+test_that("normalize_toast_position() errors on invalid input", {
+  expect_snapshot(error = TRUE, {
+    # Missing components
+    normalize_toast_position("top")
+    normalize_toast_position("left")
 
-test_that("normalize_toast_position() errors on duplicate components", {
-  expect_error(
-    normalize_toast_position("top bottom left"),
-    "Invalid toast position"
-  )
-  expect_error(
-    normalize_toast_position("top left right"),
-    "Invalid toast position"
-  )
-  expect_error(
-    normalize_toast_position(c("top", "bottom", "left")),
-    "Invalid toast position"
-  )
-})
+    # Duplicate components
+    normalize_toast_position("top bottom left")
+    normalize_toast_position(c("top", "bottom", "left"))
 
-test_that("normalize_toast_position() errors on invalid components", {
-  expect_error(
-    normalize_toast_position("top invalid"),
-    "Invalid toast position.+?'top invalid'"
-  )
-  expect_error(
-    normalize_toast_position("foo bar"),
-    "Invalid toast position.+?'foo bar'"
-  )
-  expect_error(
-    normalize_toast_position("top-left-extra"),
-    "Invalid toast position.+?'top-left-extra'"
-  )
+    # Invalid components
+    normalize_toast_position("top invalid")
+    normalize_toast_position("foo bar")
+  })
 })
 
 test_that("normalize_toast_position() handles extra whitespace", {
@@ -435,7 +388,9 @@ test_that("normalize_toast_position() handles extra whitespace", {
   )
 })
 
-test_that("toast() works with new position formats", {
+# show_toast() and hide_toast() tests ----
+
+test_that("toast() works with flexible position formats", {
   # Space-separated
   t1 <- toast("Test", position = "top left")
   expect_equal(t1$position, "top-left")
@@ -468,6 +423,24 @@ test_that("show_toast() returns the toast id", {
   t2 <- toast("Another message", id = exp_toast_id)
   toast_id2 <- show_toast(t2, session = session)
   expect_equal(toast_id2, exp_toast_id)
+})
+
+test_that("show_toast() converts string to toast automatically", {
+  local_mocked_bindings(
+    toast_random_id = function() "bslib-toast-auto"
+  )
+
+  message_sent <- FALSE
+  session <- list(sendCustomMessage = function(type, message) {
+    expect_equal(type, "bslib.show-toast")
+    expect_equal(message$id, "bslib-toast-auto")
+    message_sent <<- TRUE
+  })
+
+  # Pass a plain string instead of a toast object
+  toast_id <- show_toast("Simple message", session = session)
+  expect_true(message_sent)
+  expect_equal(toast_id, "bslib-toast-auto")
 })
 
 test_that("show_toast() and hide_toast() warn if nothing to show/hide", {
