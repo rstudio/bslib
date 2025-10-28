@@ -208,7 +208,7 @@ test_that("toast() position is stored correctly", {
 
 # toast() header integration tests ----
 
-test_that("toast with character header", {
+test_that("toast header with character", {
   t <- toast("Body", header = "Simple Header")
   tag <- as.tags(t)
   html <- as.character(tag)
@@ -218,7 +218,7 @@ test_that("toast with character header", {
   expect_true(grepl("me-auto", html))
 })
 
-test_that("toast with toast_header() result", {
+test_that("toast header with toast_header()", {
   t <- toast(
     "Body",
     header = toast_header("Title", status = "just now")
@@ -232,7 +232,7 @@ test_that("toast with toast_header() result", {
   expect_true(grepl("text-muted", html))
 })
 
-test_that("toast with list(title = ...) pattern", {
+test_that("toast header with list(title = ...) pattern", {
   # Bare list with title should work like toast_header()
   t <- toast(
     "Body",
@@ -245,6 +245,20 @@ test_that("toast with list(title = ...) pattern", {
   expect_true(grepl("Title", html))
   expect_true(grepl("just now", html))
   expect_true(grepl("text-muted", html))
+})
+
+test_that("toast header with custom tag", {
+  t <- toast(
+    "Body",
+    header = div(class = "custom-header", "My Header")
+  )
+
+  tag <- as.tags(t)
+  expect_equal(tag$children[[1]]$attribs$class, "toast-header")
+  expect_equal(
+    format(tag$children[[1]]$children[[1]]),
+    '<div class="custom-header">My Header</div>'
+  )
 })
 
 test_that("toast header can be modified after creation", {
