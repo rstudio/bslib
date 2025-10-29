@@ -247,13 +247,15 @@ server <- function(input, output, session) {
       )
     }
 
+    body_icon <- if (!input$use_header && nzchar(input$icon_body)) {
+      bsicons::bs_icon(input$icon_body)
+    }
+
     # Build toast
     toast_obj <- toast(
-      if (!input$use_header && nzchar(input$icon_body)) {
-        bsicons::bs_icon(input$icon_body, class = "me-2")
-      },
       input$body,
       header = header,
+      icon = body_icon,
       id = if (nzchar(input$custom_id)) input$custom_id,
       type = if (nzchar(input$type)) input$type,
       duration_s = input$duration_s,

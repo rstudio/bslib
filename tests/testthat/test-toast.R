@@ -9,6 +9,7 @@ test_that("toast() creates bslib_toast object with defaults", {
   expect_equal(t$duration, 5000) # Default 5 seconds in milliseconds
   expect_true(t$closable)
   expect_null(t$header)
+  expect_null(t$icon)
   expect_equal(t$position, "top-right")
 })
 
@@ -71,6 +72,22 @@ test_that("toast() duration_s throws for invalid values", {
     toast("Test", duration_s = "invalid")
     toast("Test", duration_s = c(5, 10))
   })
+})
+
+test_that("toast() stores icon argument", {
+  icon_elem <- span(class = "test-icon", "&#9733;")
+
+  t <- toast("Test message", icon = icon_elem)
+
+  expect_s3_class(t, "bslib_toast")
+  expect_s3_class(t$icon, "shiny.tag")
+  expect_equal(t$icon$attribs$class, "test-icon")
+  expect_equal(t$icon$children[[1]], "&#9733;")
+})
+
+test_that("toast() icon is NULL by default", {
+  t <- toast("Test message")
+  expect_null(t$icon)
 })
 
 
@@ -154,6 +171,82 @@ test_that("as.tags.bslib_toast includes close button appropriately", {
   expect_snapshot(cat(format(as.tags(t_manual))))
 })
 
+test_that("toast() icon renders in body without header", {
+  icon_elem <- span(class = "my-icon", "&#9733;")
+  t <- toast("You have new messages", icon = icon_elem, id = "icon-toast")
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  # Icon should be in toast-body with special wrapper
+  expect_match(html, 'class="toast-body d-flex gap-2"')
+  expect_match(html, 'class="toast-body-icon"')
+  expect_match(html, 'class="my-icon"')
+  expect_match(html, "&#9733;")
+  expect_match(html, 'class="toast-body-content flex-grow-1"')
+  expect_snapshot(cat(format(tag)))
+})
+
+test_that("toast() icon renders in body with header", {
+  icon_elem <- span(class = "header-icon", "&#9733;")
+  t <- toast(
+    "Message content",
+    header = "New Mail",
+    icon = icon_elem,
+    id = "icon-header-toast"
+  )
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  # Icon should still be in body when header is present
+  expect_match(html, 'class="toast-body d-flex gap-2"')
+  expect_match(html, 'class="toast-body-icon"')
+  expect_match(html, 'class="header-icon"')
+  expect_match(html, "&#9733;")
+  expect_snapshot(cat(format(tag)))
+})
+
+test_that("toast() icon works with closable button in body", {
+  icon_elem <- span(class = "alert-icon", "&#9733;")
+  t <- toast(
+    "Warning message",
+    icon = icon_elem,
+    closable = TRUE,
+    id = "icon-closable-toast"
+  )
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  # Should have both icon and close button in body
+  expect_match(html, 'class="toast-body d-flex gap-2"')
+  expect_match(html, 'class="toast-body-icon"')
+  expect_match(html, 'class="alert-icon"')
+  expect_match(html, "&#9733;")
+  expect_match(html, 'class="btn-close"')
+  expect_snapshot(cat(format(tag)))
+})
+
+test_that("toast() without icon or close button has simple body", {
+  t <- toast(
+    "Simple message",
+    header = "Header",
+    closable = FALSE,
+    id = "simple-body-toast"
+  )
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  # Should have simple toast-body (no d-flex gap-2)
+  expect_match(html, 'class="toast-body"')
+  expect_false(grepl('class="toast-body d-flex gap-2"', html))
+  expect_false(grepl('toast-body-icon', html))
+  expect_false(grepl('toast-body-content', html))
+})
+
+
 # toast_header() tests ----
 
 test_that("toast_header() creates structured header data", {
@@ -179,6 +272,40 @@ test_that("toast_header() works with icons", {
   expect_equal(as.character(h$title), "Title")
   expect_s3_class(h$icon, "shiny.tag")
   expect_equal(h$icon$attribs$class, "test-icon")
+})
+
+test_that("toast_header() icon renders in header", {
+  icon_elem <- span(class = "header-test-icon", "&#9733;")
+  h <- toast_header("Notification", icon = icon_elem, status = "now")
+
+  t <- toast("Body content", header = h, id = "header-icon-toast")
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  # Icon should be in toast-header with wrapper
+  expect_match(html, 'class="toast-header"')
+  expect_match(html, 'class="toast-header-icon"')
+  expect_match(html, 'class="header-test-icon"')
+  expect_match(html, "&#9733;")
+  expect_snapshot(cat(format(tag)))
+})
+
+test_that("toast_header() icon with status and title", {
+  icon_elem <- span(class = "success-icon", "✓")
+  h <- toast_header("Success", icon = icon_elem, status = "just now")
+
+  t <- toast("Operation completed", header = h, id = "full-header-toast")
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  # Should have all three elements: icon, title, status
+  expect_match(html, 'class="toast-header-icon"')
+  expect_match(html, 'class="success-icon"')
+  expect_match(html, "✓")
+  expect_match(html, "Success")
+  expect_match(html, "just now")
+  expect_match(html, 'class="text-muted text-end"')
+  expect_snapshot(cat(format(tag)))
 })
 
 test_that("toast() stores additional attributes", {
@@ -296,6 +423,49 @@ test_that("toast header can be modified after creation", {
   expect_false(grepl("1 min ago", html))
 })
 
+test_that("toast header with icon can be modified after creation", {
+  # Create toast with toast_header() including icon
+  icon1 <- span(class = "icon-1", "A")
+  t <- toast(
+    "Body",
+    header = toast_header("Title", icon = icon1)
+  )
+
+  # Modify the header icon
+  icon2 <- span(class = "icon-2", "B")
+  t$header$icon <- icon2
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  expect_true(grepl("icon-2", html))
+  expect_true(grepl("B", html, fixed = TRUE))
+  expect_false(grepl("icon-1", html))
+  expect_false(grepl("A", html, fixed = TRUE))
+})
+
+test_that("toast header with list pattern and icon", {
+  # Bare list with title and icon
+  icon_elem <- span(class = "list-icon", "&#9733;")
+  t <- toast(
+    "Body",
+    header = list(
+      title = "Notes",
+      icon = icon_elem,
+      status = "updated"
+    )
+  )
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  expect_true(grepl("toast-header", html))
+  expect_true(grepl("Notes", html))
+  expect_true(grepl("updated", html))
+  expect_true(grepl("list-icon", html))
+  expect_true(grepl("&#9733;", html))
+})
+
 test_that("toast header can be replaced with list pattern", {
   # Create toast with simple character header
   t <- toast("Body", header = "Simple")
@@ -314,6 +484,29 @@ test_that("toast header can be replaced with list pattern", {
   expect_true(grepl("now", html))
   expect_true(grepl("icon", html))
   expect_false(grepl("Simple", html))
+})
+
+test_that("toast with both header icon and body icon", {
+  # Both header and body can have their own icons
+  header_icon <- span(class = "h-icon", "H")
+  body_icon <- span(class = "b-icon", "B")
+
+  t <- toast(
+    "Message content",
+    header = toast_header("Title", icon = header_icon),
+    icon = body_icon,
+    id = "dual-icon-toast"
+  )
+
+  tag <- as.tags(t)
+  html <- as.character(tag)
+
+  # Both icons should be present in different locations
+  expect_match(html, 'class="toast-header-icon"')
+  expect_match(html, 'class="h-icon"')
+  expect_match(html, 'class="toast-body-icon"')
+  expect_match(html, 'class="b-icon"')
+  expect_snapshot(cat(format(tag)))
 })
 
 # normalize_toast_position() helper tests ----

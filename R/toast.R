@@ -93,6 +93,7 @@
 toast <- function(
   ...,
   header = NULL,
+  icon = NULL,
   id = NULL,
   type = NULL,
   duration_s = 5,
@@ -135,6 +136,7 @@ toast <- function(
     list(
       body = dots$children,
       header = header,
+      icon = icon,
       id = id,
       type = type,
       autohide = autohide,
@@ -182,6 +184,7 @@ as.tags.bslib_toast <- function(x, ...) {
   toast_component(
     body = x$body,
     header = x$header,
+    icon = x$icon,
     type = x$type,
     closable = x$closable,
     id = id,
@@ -325,6 +328,7 @@ toast_component_header <- function(x) {
 toast_component <- function(
   body,
   header = NULL,
+  icon = NULL,
   type = NULL,
   closable = TRUE,
   id = NULL,
@@ -376,24 +380,16 @@ toast_component <- function(
   # Body with optional close button
   # * If header exists, close button goes in header
   # * If no header, close button goes in body (if closable)
-  body_tag <- if (!is.null(header)) {
+  body_has_close_btn <- is.null(header) && closable
+  body_tag <- if (!body_has_close_btn && is.null(icon)) {
     div(class = "toast-body", body)
   } else {
-    if (closable) {
-      div(
-        class = "toast-body d-flex",
-        div(class = "flex-grow-1", body),
-        tags$button(
-          type = "button",
-          class = "btn-close",
-          `data-bs-dismiss` = "toast",
-          `aria-label` = "Close"
-        )
-      )
-    } else {
-      # No close button needed
-      div(class = "toast-body", body)
-    }
+    div(
+      class = "toast-body d-flex gap-2",
+      if (!is.null(icon)) span(class = "toast-body-icon", icon),
+      div(class = "toast-body-content flex-grow-1", body),
+      if (body_has_close_btn) close_button
+    )
   }
 
   toast <- div(
