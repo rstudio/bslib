@@ -8,6 +8,7 @@
 toast(
   ...,
   header = NULL,
+  icon = NULL,
   id = NULL,
   type = NULL,
   duration_s = 5,
@@ -24,6 +25,9 @@ Named arguments will be treated as HTML attributes for the toast container.}
 \item{header}{Optional header content. Can be a string, or the result of
 \code{\link[=toast_header]{toast_header()}}. If provided, creates a \code{.toast-header} with close button
 (if \code{closable = TRUE}).}
+
+\item{icon}{Optional icon element, for example from \code{\link[shiny:icon]{shiny::icon()}},
+\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}} or \code{\link[fontawesome:fa]{fontawesome::fa()}}.}
 
 \item{id}{Optional unique identifier for the toast. If \code{NULL}, an ID will be
 automatically generated when the toast is shown via \code{\link[=show_toast]{show_toast()}}.
@@ -60,9 +64,6 @@ case-insensitive. Default is \code{"bottom-right"}.}
 elements and you want to manage the toast display programmatically.}
 
 \item{title}{Header text (required).}
-
-\item{icon}{Optional icon element, for example from \code{\link[shiny:icon]{shiny::icon()}},
-\code{\link[bsicons:bs_icon]{bsicons::bs_icon()}} or \code{\link[fontawesome:fa]{fontawesome::fa()}}.}
 
 \item{status}{Optional status text that appears as small, muted text on the
 right side of the header.}
