@@ -18,7 +18,8 @@ type ToastPosition =
   | "top-left"
   | "top-right";
 
-interface ToastOptions {
+// https://getbootstrap.com/docs/5.3/components/toasts/#options
+interface BootstrapToastOptions {
   animation?: boolean;
   autohide?: boolean;
   delay?: number;
@@ -27,7 +28,7 @@ interface ToastOptions {
 interface ShowToastMessage {
   html: string;
   deps: HtmlDep[];
-  options: ToastOptions;
+  options: BootstrapToastOptions;
   position: ToastPosition;
   id: string;
 }
@@ -39,26 +40,27 @@ interface HideToastMessage {
 // Container management
 
 /**
- * Manages toast containers for different screen positions.
+ * Manages toasters (containers) for different screen positions.
  *
- * Creates and maintains DOM containers for toast notifications, ensuring
- * each position has only one container that gets reused across toasts.
- * Containers are automatically positioned using Bootstrap utility classes.
+ * Creates and maintains DOM containers for toast notifications (toasters),
+ * ensuring each position has only one container that gets reused across toasts.
+ * Containers are positioned in the (top, middle, bottom) or (left, center,
+ * right) using Bootstrap utility classes.
  */
-class ToastContainerManager {
+class ToasterManager {
   private containers: Map<ToastPosition, HTMLElement> = new Map();
 
   /**
-   * Gets an existing container for the position or creates a new one.
+   * Gets an existing toaster for the position or creates a new one.
    *
    * @param position - The toast position (e.g., "top-right", "bottom-center")
    * @returns The DOM container element for the specified position
    */
-  getOrCreateContainer(position: ToastPosition): HTMLElement {
+  getOrCreateToaster(position: ToastPosition): HTMLElement {
     let container = this.containers.get(position);
 
     if (!container || !document.body.contains(container)) {
-      container = this._createContainer(position);
+      container = this._createToaster(position);
       this.containers.set(position, container);
     }
 
@@ -66,24 +68,22 @@ class ToastContainerManager {
   }
 
   /**
-   * Creates a new toast container DOM element for the specified position.
+   * Creates a new toast container (toaster) DOM element for the specified
+   * position.
    *
    * @param position - The toast position to create a container for
    * @returns A new DOM container element positioned and styled for toasts
    * @private
    */
-  private _createContainer(position: ToastPosition): HTMLElement {
-    const container = document.createElement("div");
-    container.className = "toast-container position-fixed p-1 p-md-2";
-    container.setAttribute("data-bslib-toast-container", position);
+  private _createToaster(position: ToastPosition): HTMLElement {
+    const toaster = document.createElement("div");
+    toaster.className = "toast-container position-fixed p-1 p-md-2";
+    toaster.setAttribute("data-bslib-toast-container", position);
+    toaster.classList.add(...this._positionClasses(position));
 
-    // Apply position classes
-    const positionClasses = this._getPositionClasses(position);
-    container.classList.add(...positionClasses);
+    document.body.appendChild(toaster);
 
-    document.body.appendChild(container);
-
-    return container;
+    return toaster;
   }
 
   /**
@@ -93,7 +93,7 @@ class ToastContainerManager {
    * @returns Array of CSS class names for positioning the container
    * @private
    */
-  private _getPositionClasses(position: ToastPosition): string[] {
+  private _positionClasses(position: ToastPosition): string[] {
     const classMap: { [key in ToastPosition]: string[] } = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "top-left": ["top-0", "start-0"],
@@ -119,7 +119,7 @@ class ToastContainerManager {
   }
 }
 
-const containerManager = new ToastContainerManager();
+const toasterManager = new ToasterManager();
 
 /**
  * Manages the lifecycle and state of an individual toast notification.
@@ -135,23 +135,22 @@ class BslibToastInstance {
   private duration = 0;
   private hideTimeoutId: number | null = null;
 
-  constructor(element: HTMLElement, options: ToastOptions) {
+  constructor(element: HTMLElement, options: BootstrapToastOptions) {
     this.element = element;
+
+    // `autohide` is a Bootstrap option, but we manage autohiding ourselves so
+    // that we can pause/resume on hover.
+    const bsOptions = { ...options, autohide: false };
 
     // Add progress bar for autohiding toasts
     if (options.autohide) {
       const delay = options.delay || 5000;
       this.duration = delay;
       this._addProgressBar(delay);
-
-      // Initialize Bootstrap toast with autohide disabled (we manage manually)
-      const bsOptions = { ...options, autohide: false };
-      this.bsToast = new bootstrapToast(element, bsOptions);
-
-      this._setupHoverPause();
-    } else {
-      this.bsToast = new bootstrapToast(element, options);
     }
+
+    this.bsToast = new bootstrapToast(element, bsOptions);
+    if (options.autohide) this._setupHoverPause();
   }
 
   /**
@@ -288,9 +287,9 @@ async function showToast(message: ShowToastMessage): Promise<void> {
   }
 
   // Get or create container for this position
-  const container = containerManager.getOrCreateContainer(position);
+  const toaster = toasterManager.getOrCreateToaster(position);
 
-  await shinyRenderContent(container, { html, deps }, "beforeEnd");
+  await shinyRenderContent(toaster, { html, deps }, "beforeEnd");
 
   const toastEl = document.getElementById(id);
   if (!toastEl) {
@@ -314,8 +313,8 @@ async function showToast(message: ShowToastMessage): Promise<void> {
     toastInstances.delete(toastEl);
 
     // Remove empty toast position containers
-    if (container.children.length === 0) {
-      container.remove();
+    if (toaster.children.length === 0) {
+      toaster.remove();
     }
   });
 }
@@ -348,4 +347,9 @@ shinyAddCustomMessageHandlers({
   "bslib.hide-toast": hideToast,
 });
 
-export type { ToastPosition, ToastOptions, ShowToastMessage, HideToastMessage };
+export type {
+  ToastPosition,
+  BootstrapToastOptions,
+  ShowToastMessage,
+  HideToastMessage,
+};

@@ -1,4 +1,4 @@
-/*! bslib 0.9.0.9002 | (c) 2012-2025 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.9.0.9000 | (c) 2012-2025 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __defProp = Object.defineProperty;
@@ -1833,8 +1833,8 @@
         (_b = (_a = window == null ? void 0 : window.Shiny) == null ? void 0 : _a.unbindAll) == null ? void 0 : _b.call(_a, existingToastEl);
         existingToastEl.remove();
       }
-      const container = containerManager.getOrCreateContainer(position);
-      yield shinyRenderContent(container, { html, deps }, "beforeEnd");
+      const toaster = toasterManager.getOrCreateToaster(position);
+      yield shinyRenderContent(toaster, { html, deps }, "beforeEnd");
       const toastEl = document.getElementById(id);
       if (!toastEl) {
         showShinyClientMessage({
@@ -1852,8 +1852,8 @@
         (_b2 = (_a2 = window == null ? void 0 : window.Shiny) == null ? void 0 : _a2.unbindAll) == null ? void 0 : _b2.call(_a2, toastEl);
         toastEl.remove();
         toastInstances.delete(toastEl);
-        if (container.children.length === 0) {
-          container.remove();
+        if (toaster.children.length === 0) {
+          toaster.remove();
         }
       });
     });
@@ -1874,7 +1874,7 @@
       toastInstance.hide();
     }
   }
-  var bootstrapToast, ToastContainerManager, containerManager, BslibToastInstance, toastInstances;
+  var bootstrapToast, ToasterManager, toasterManager, BslibToastInstance, toastInstances;
   var init_toast = __esm({
     "srcts/src/components/toast.ts"() {
       "use strict";
@@ -1882,39 +1882,39 @@
       init_utils();
       bootstrapToast = window.bootstrap ? window.bootstrap.Toast : class {
       };
-      ToastContainerManager = class {
+      ToasterManager = class {
         constructor() {
           this.containers = /* @__PURE__ */ new Map();
         }
         /**
-         * Gets an existing container for the position or creates a new one.
+         * Gets an existing toaster for the position or creates a new one.
          *
          * @param position - The toast position (e.g., "top-right", "bottom-center")
          * @returns The DOM container element for the specified position
          */
-        getOrCreateContainer(position) {
+        getOrCreateToaster(position) {
           let container = this.containers.get(position);
           if (!container || !document.body.contains(container)) {
-            container = this._createContainer(position);
+            container = this._createToaster(position);
             this.containers.set(position, container);
           }
           return container;
         }
         /**
-         * Creates a new toast container DOM element for the specified position.
+         * Creates a new toast container (toaster) DOM element for the specified
+         * position.
          *
          * @param position - The toast position to create a container for
          * @returns A new DOM container element positioned and styled for toasts
          * @private
          */
-        _createContainer(position) {
-          const container = document.createElement("div");
-          container.className = "toast-container position-fixed p-1 p-md-2";
-          container.setAttribute("data-bslib-toast-container", position);
-          const positionClasses = this._getPositionClasses(position);
-          container.classList.add(...positionClasses);
-          document.body.appendChild(container);
-          return container;
+        _createToaster(position) {
+          const toaster = document.createElement("div");
+          toaster.className = "toast-container position-fixed p-1 p-md-2";
+          toaster.setAttribute("data-bslib-toast-container", position);
+          toaster.classList.add(...this._positionClasses(position));
+          document.body.appendChild(toaster);
+          return toaster;
         }
         /**
          * Maps toast positions to their corresponding Bootstrap utility classes.
@@ -1923,7 +1923,7 @@
          * @returns Array of CSS class names for positioning the container
          * @private
          */
-        _getPositionClasses(position) {
+        _positionClasses(position) {
           const classMap = {
             // eslint-disable-next-line @typescript-eslint/naming-convention
             "top-left": ["top-0", "start-0"],
@@ -1947,7 +1947,7 @@
           return classMap[position];
         }
       };
-      containerManager = new ToastContainerManager();
+      toasterManager = new ToasterManager();
       BslibToastInstance = class {
         constructor(element, options) {
           this.progressBar = null;
@@ -1955,16 +1955,15 @@
           this.duration = 0;
           this.hideTimeoutId = null;
           this.element = element;
+          const bsOptions = __spreadProps(__spreadValues({}, options), { autohide: false });
           if (options.autohide) {
             const delay = options.delay || 5e3;
             this.duration = delay;
             this._addProgressBar(delay);
-            const bsOptions = __spreadProps(__spreadValues({}, options), { autohide: false });
-            this.bsToast = new bootstrapToast(element, bsOptions);
-            this._setupHoverPause();
-          } else {
-            this.bsToast = new bootstrapToast(element, options);
           }
+          this.bsToast = new bootstrapToast(element, bsOptions);
+          if (options.autohide)
+            this._setupHoverPause();
         }
         /**
          * Shows the toast notification.
