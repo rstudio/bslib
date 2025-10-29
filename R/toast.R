@@ -147,6 +147,34 @@ toast <- function(
   )
 }
 
+#' @describeIn toast Create a structured toast header with optional icon and
+#'   status indicator. Returns a data structure that can be passed to the
+#'   `header` argument of `toast()`.
+#'
+#' @param title Header text (required).
+#' @param icon Optional icon element, for example from [shiny::icon()],
+#'   [bsicons::bs_icon()] or [fontawesome::fa()].
+#' @param status Optional status text that appears as small, muted text on the
+#'   right side of the header.
+#'
+#' @return For `toast_header()`: a toast header object that can be used with the
+#'   `header` argument of `toast()`.
+#'
+#' @export
+toast_header <- function(title, ..., icon = NULL, status = NULL) {
+  dots <- separate_arguments(...)
+
+  structure(
+    list(
+      title = tagList(title, !!!dots$children),
+      icon = icon,
+      status = status,
+      attribs = dots$attribs
+    ),
+    class = "bslib_toast_header"
+  )
+}
+
 #' @export
 as.tags.bslib_toast <- function(x, ...) {
   id <- x$id %||% toast_random_id()
@@ -274,34 +302,6 @@ hide_toast <- function(id, ..., session = shiny::getDefaultReactiveDomain()) {
   }
   session$sendCustomMessage("bslib.hide-toast", list(id = id))
   invisible(id)
-}
-
-#' @describeIn toast Create a structured toast header with optional icon and
-#'   status indicator. Returns a data structure that can be passed to the
-#'   `header` argument of `toast()`.
-#'
-#' @param title Header text (required).
-#' @param icon Optional icon element, for example from [shiny::icon()],
-#'   [bsicons::bs_icon()] or [fontawesome::fa()].
-#' @param status Optional status text that appears as small, muted text on the
-#'   right side of the header.
-#'
-#' @return For `toast_header()`: a toast header object that can be used with the
-#'   `header` argument of `toast()`.
-#'
-#' @export
-toast_header <- function(title, ..., icon = NULL, status = NULL) {
-  dots <- separate_arguments(...)
-
-  structure(
-    list(
-      title = tagList(title, !!!dots$children),
-      icon = icon,
-      status = status,
-      attribs = dots$attribs
-    ),
-    class = "bslib_toast_header"
-  )
 }
 
 toast_component_header <- function(x) {
