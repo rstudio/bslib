@@ -75,14 +75,14 @@ test_that("toast() duration_s throws for invalid values", {
 })
 
 test_that("toast() stores icon argument", {
-  icon_elem <- span(class = "test-icon", "&#9733;")
+  icon_elem <- span(class = "test-icon", HTML("&#9733;"))
 
   t <- toast("Test message", icon = icon_elem)
 
   expect_s3_class(t, "bslib_toast")
   expect_s3_class(t$icon, "shiny.tag")
   expect_equal(t$icon$attribs$class, "test-icon")
-  expect_equal(t$icon$children[[1]], "&#9733;")
+  expect_equal(t$icon$children[[1]], HTML("&#9733;"))
 })
 
 test_that("toast() icon is NULL by default", {
@@ -172,7 +172,7 @@ test_that("as.tags.bslib_toast includes close button appropriately", {
 })
 
 test_that("toast() icon renders in body without header", {
-  icon_elem <- span(class = "my-icon", "&#9733;")
+  icon_elem <- span(class = "my-icon", HTML("&#9733;"))
   t <- toast("You have new messages", icon = icon_elem, id = "icon-toast")
 
   tag <- as.tags(t)
@@ -188,7 +188,7 @@ test_that("toast() icon renders in body without header", {
 })
 
 test_that("toast() icon renders in body with header", {
-  icon_elem <- span(class = "header-icon", "&#9733;")
+  icon_elem <- span(class = "header-icon", HTML("&#9733;"))
   t <- toast(
     "Message content",
     header = "New Mail",
@@ -208,7 +208,7 @@ test_that("toast() icon renders in body with header", {
 })
 
 test_that("toast() icon works with closable button in body", {
-  icon_elem <- span(class = "alert-icon", "&#9733;")
+  icon_elem <- span(class = "alert-icon", HTML("&#9733;"))
   t <- toast(
     "Warning message",
     icon = icon_elem,
@@ -275,7 +275,7 @@ test_that("toast_header() works with icons", {
 })
 
 test_that("toast_header() icon renders in header", {
-  icon_elem <- span(class = "header-test-icon", "&#9733;")
+  icon_elem <- span(class = "header-test-icon", HTML("&#9733;"))
   h <- toast_header("Notification", icon = icon_elem, status = "now")
 
   t <- toast("Body content", header = h, id = "header-icon-toast")
@@ -446,7 +446,7 @@ test_that("toast header with icon can be modified after creation", {
 
 test_that("toast header with list pattern and icon", {
   # Bare list with title and icon
-  icon_elem <- span(class = "list-icon", "&#9733;")
+  icon_elem <- span(class = "list-icon", HTML("&#9733;"))
   t <- toast(
     "Body",
     header = list(

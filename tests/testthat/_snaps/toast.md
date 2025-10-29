@@ -51,8 +51,8 @@
       cat(format(as.tags(t_danger)))
     Output
       <div id="danger-toast" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
-        <div class="toast-body d-flex">
-          <div class="flex-grow-1">Error message</div>
+        <div class="toast-body d-flex gap-2">
+          <div class="toast-body-content flex-grow-1">Error message</div>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
       </div>
@@ -63,8 +63,8 @@
       cat(format(as.tags(t_info)))
     Output
       <div id="info-toast" class="toast text-bg-info" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
-        <div class="toast-body d-flex">
-          <div class="flex-grow-1">Info message</div>
+        <div class="toast-body d-flex gap-2">
+          <div class="toast-body-content flex-grow-1">Info message</div>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
       </div>
@@ -75,8 +75,8 @@
       cat(format(as.tags(t_default)))
     Output
       <div id="default-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
-        <div class="toast-body d-flex">
-          <div class="flex-grow-1">Default message</div>
+        <div class="toast-body d-flex gap-2">
+          <div class="toast-body-content flex-grow-1">Default message</div>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
       </div>
@@ -100,8 +100,8 @@
       cat(format(as.tags(t_no_header)))
     Output
       <div id="no-header-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
-        <div class="toast-body d-flex">
-          <div class="flex-grow-1">Message</div>
+        <div class="toast-body d-flex gap-2">
+          <div class="toast-body-content flex-grow-1">Message</div>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
       </div>
@@ -122,6 +122,109 @@
     Output
       <div id="manual-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
         <div class="toast-body">Message</div>
+      </div>
+
+# toast() icon renders in body without header
+
+    Code
+      cat(format(tag))
+    Output
+      <div id="icon-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
+        <div class="toast-body d-flex gap-2">
+          <span class="toast-body-icon">
+            <span class="my-icon">&#9733;</span>
+          </span>
+          <div class="toast-body-content flex-grow-1">You have new messages</div>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+
+# toast() icon renders in body with header
+
+    Code
+      cat(format(tag))
+    Output
+      <div id="icon-header-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
+        <div class="toast-header">
+          <strong class="me-auto">New Mail</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body d-flex gap-2">
+          <span class="toast-body-icon">
+            <span class="header-icon">&#9733;</span>
+          </span>
+          <div class="toast-body-content flex-grow-1">Message content</div>
+        </div>
+      </div>
+
+# toast() icon works with closable button in body
+
+    Code
+      cat(format(tag))
+    Output
+      <div id="icon-closable-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
+        <div class="toast-body d-flex gap-2">
+          <span class="toast-body-icon">
+            <span class="alert-icon">&#9733;</span>
+          </span>
+          <div class="toast-body-content flex-grow-1">Warning message</div>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+
+# toast_header() icon renders in header
+
+    Code
+      cat(format(tag))
+    Output
+      <div id="header-icon-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
+        <div class="toast-header">
+          <span class="toast-header-icon">
+            <span class="header-test-icon">&#9733;</span>
+          </span>
+          <strong class="me-auto ms-2">Notification</strong>
+          <small class="text-muted text-end">now</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">Body content</div>
+      </div>
+
+# toast_header() icon with status and title
+
+    Code
+      cat(format(tag))
+    Output
+      <div id="full-header-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
+        <div class="toast-header">
+          <span class="toast-header-icon">
+            <span class="success-icon">✓</span>
+          </span>
+          <strong class="me-auto ms-2">Success</strong>
+          <small class="text-muted text-end">just now</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">Operation completed</div>
+      </div>
+
+# toast with both header icon and body icon
+
+    Code
+      cat(format(tag))
+    Output
+      <div id="dual-icon-toast" class="toast" role="status" aria-live="polite" aria-atomic="true" data-require-bs-version="5" data-require-bs-caller="">
+        <div class="toast-header">
+          <span class="toast-header-icon">
+            <span class="h-icon">H</span>
+          </span>
+          <strong class="me-auto ms-2">Title</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body d-flex gap-2">
+          <span class="toast-body-icon">
+            <span class="b-icon">B</span>
+          </span>
+          <div class="toast-body-content flex-grow-1">Message content</div>
+        </div>
       </div>
 
 # normalize_toast_position() errors on invalid input
