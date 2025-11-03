@@ -9,13 +9,16 @@ toolbar(..., align = c("right", "left"), size = c("sm", "md", "lg"))
 \arguments{
 \item{...}{UI elements for the toolbar.}
 
-\item{align}{A character string.}
+\item{align}{Determines if toolbar should be aligned to the right or left.
+Must be one of "right" or "left".}
 
-\item{size}{STUFF HERE}
+\item{size}{The size of the toolbar. Must be one of "sm", "md", or "lg".}
 }
 \value{
-Returns a toolbar container.
+Returns a toolbar.
 }
 \description{
-Display additional information when focusing (or hovering over) a UI element.
+A toolbar which can contain buttons, inputs, and other UI elements
+in a small form suitable for inclusion in card headers,
+footers, and other small places.
 }
