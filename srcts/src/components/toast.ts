@@ -56,14 +56,15 @@ class ToasterManager {
    * @returns The DOM container element for the specified position
    */
   getOrCreateToaster(position: ToastPosition): HTMLElement {
-    let container = this.containers.get(position);
+    let toaster = this.containers.get(position);
 
-    if (!container || !document.body.contains(container)) {
-      container = this._createToaster(position);
-      this.containers.set(position, container);
+    if (!toaster || !document.body.contains(toaster)) {
+      toaster = ToasterManager._createToaster(position);
+      document.body.appendChild(toaster);
+      this.containers.set(position, toaster);
     }
 
-    return container;
+    return toaster;
   }
 
   /**
@@ -74,13 +75,11 @@ class ToasterManager {
    * @returns A new DOM container element positioned and styled for toasts
    * @private
    */
-  private _createToaster(position: ToastPosition): HTMLElement {
+  private static _createToaster(position: ToastPosition): HTMLElement {
     const toaster = document.createElement("div");
     toaster.className = "toast-container position-fixed p-1 p-md-2";
     toaster.setAttribute("data-bslib-toast-container", position);
-    toaster.classList.add(...this._positionClasses(position));
-
-    document.body.appendChild(toaster);
+    toaster.classList.add(...ToasterManager._positionClasses(position));
 
     return toaster;
   }
@@ -92,7 +91,7 @@ class ToasterManager {
    * @returns Array of CSS class names for positioning the container
    * @private
    */
-  private _positionClasses(position: ToastPosition): string[] {
+  private static _positionClasses(position: ToastPosition): string[] {
     const classMap: { [key in ToastPosition]: string[] } = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "top-left": ["top-0", "start-0"],
