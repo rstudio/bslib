@@ -26,7 +26,7 @@
 #'   observeEvent(input$show_simple, {
 #'     show_toast(
 #'       toast(
-#'         body = "Operation completed successfully!",
+#'         "Operation completed successfully!",
 #'         header = "Success",
 #'         type = "success"
 #'       )
@@ -36,7 +36,7 @@
 #'   observeEvent(input$show_header, {
 #'     show_toast(
 #'       toast(
-#'         body = "Your settings have been saved.",
+#'         "Your settings have been saved.",
 #'         header = toast_header(
 #'           title = "Settings Updated",
 #'           status = "just now"
