@@ -187,8 +187,6 @@ class BslibToastInstance {
     } else {
       this.element.insertBefore(this.progressBar, this.element.firstChild);
     }
-
-    this.timeStart = Date.now();
   }
 
   /**
