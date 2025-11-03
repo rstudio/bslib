@@ -26,6 +26,7 @@ toolbar <- function(
   align = c("right", "left"),
   gap = NULL
 ) {
+  dots <- separate_arguments(...)
   align <- rlang::arg_match(align)
   gap <- validateCssUnit(gap)
 
