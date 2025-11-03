@@ -18,6 +18,7 @@ toolbar <- function(
   align = c("right", "left"),
   size = c("sm", "md", "lg")
 ) {
+  dots <- separate_arguments(...)
   align <- rlang::arg_match(align)
   size <- rlang::arg_match(size)
 
@@ -29,7 +30,6 @@ toolbar <- function(
     component_dependencies()
   )
 
-  as_fragment(
-    tag_require(tag, version = 5, caller = "toolbar()")
-  )
+  tag_require(tag, version = 5, caller = "toolbar()")
+  as_fragment(tag)
 }

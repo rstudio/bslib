@@ -18,14 +18,26 @@
 
     &[data-size="sm"] {
         font-size: 0.8rem;
+
+        & > * {
+            font-size: 0.8rem;
+        }
     }
 
     &[data-size="md"] {
         font-size: 1rem;
+
+        & > * {
+            font-size: 1rem;
+        }
     }
 
     &[data-size="lg"] {
         font-size: 1.25rem;
+
+        & > * {
+            font-size: 1.25rem;
+        }
     }
 
     /* Adjustments to other elements */
