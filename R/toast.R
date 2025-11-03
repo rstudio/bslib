@@ -273,18 +273,17 @@ show_toast <- function(
 
   toasted <- processDeps(toast, session)
 
-  options <- dropNulls(list(autohide = toast$autohide, delay = toast$duration))
-
   data <- list(
     html = toasted$html,
     deps = toasted$deps,
-    options = options,
+    autohide = toast$autohide,
+    duration = toast$duration,
     position = toast$position,
     id = toast$id
   )
 
-  # Show toast immediately
-  session$sendCustomMessage("bslib.show-toast", data)
+  # Use custom message to show toast immediately
+  session$sendCustomMessage("bslib.show-toast", dropNulls(data))
   invisible(toast$id)
 }
 
@@ -303,6 +302,8 @@ hide_toast <- function(id, ..., session = shiny::getDefaultReactiveDomain()) {
     rlang::warn("`id` is NULL; no toast to hide.")
     return(invisible(NULL))
   }
+
+  # Use custom message to hide toast immediately
   session$sendCustomMessage("bslib.hide-toast", list(id = id))
   invisible(id)
 }

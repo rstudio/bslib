@@ -18,19 +18,18 @@ type ToastPosition =
   | "top-left"
   | "top-right";
 
-// https://getbootstrap.com/docs/5.3/components/toasts/#options
-interface BootstrapToastOptions {
-  animation?: boolean;
-  autohide?: boolean;
-  delay?: number;
-}
-
 interface ShowToastMessage {
   html: string;
   deps: HtmlDep[];
-  options: BootstrapToastOptions;
+  autohide: boolean;
+  duration?: number;
   position: ToastPosition;
   id: string;
+}
+
+interface ToastOptions {
+  autohide: boolean;
+  duration?: number;
 }
 
 interface HideToastMessage {
@@ -135,22 +134,20 @@ class BslibToastInstance {
   private duration = 0;
   private hideTimeoutId: number | null = null;
 
-  constructor(element: HTMLElement, options: BootstrapToastOptions) {
+  constructor(element: HTMLElement, options: ToastOptions) {
     this.element = element;
+    this.duration = options.duration || 5000;
 
     // `autohide` is a Bootstrap option, but we manage autohiding ourselves so
     // that we can pause/resume on hover.
-    const bsOptions = { ...options, autohide: false };
-
-    // Add progress bar for autohiding toasts
-    if (options.autohide) {
-      const delay = options.delay || 5000;
-      this.duration = delay;
-      this._addProgressBar(delay);
-    }
-
+    const bsOptions = { animation: true, autohide: false };
     this.bsToast = new bootstrapToast(element, bsOptions);
-    if (options.autohide) this._setupHoverPause();
+
+    if (options.autohide) {
+      // Add progress bar for autohiding toasts
+      this._addProgressBar();
+      this._setupHoverPause();
+    }
   }
 
   /**
@@ -176,11 +173,11 @@ class BslibToastInstance {
    * Adds an animated progress bar to the toast element.
    * @private
    */
-  private _addProgressBar(duration: number): void {
+  private _addProgressBar(): void {
     this.progressBar = document.createElement("div");
     this.progressBar.className = "bslib-toast-progress-bar";
     this.progressBar.style.cssText = `
-      animation: bslib-toast-progress ${duration}ms linear forwards;
+      animation: bslib-toast-progress ${this.duration}ms linear forwards;
       animation-play-state: running;
     `;
 
@@ -260,7 +257,7 @@ class BslibToastInstance {
 const toastInstances = new WeakMap<HTMLElement, BslibToastInstance>();
 
 async function showToast(message: ShowToastMessage): Promise<void> {
-  const { html, deps, options, position, id } = message;
+  const { html, deps, autohide, duration, position, id } = message;
 
   if (!window.bootstrap || !window.bootstrap.Toast) {
     showShinyClientMessage({
@@ -301,7 +298,7 @@ async function showToast(message: ShowToastMessage): Promise<void> {
     return;
   }
 
-  const toastInstance = new BslibToastInstance(toastEl, options);
+  const toastInstance = new BslibToastInstance(toastEl, { autohide, duration });
   toastInstances.set(toastEl, toastInstance);
 
   toastInstance.show();
@@ -347,9 +344,4 @@ shinyAddCustomMessageHandlers({
   "bslib.hide-toast": hideToast,
 });
 
-export type {
-  ToastPosition,
-  BootstrapToastOptions,
-  ShowToastMessage,
-  HideToastMessage,
-};
+export type { ToastPosition, ToastOptions, ShowToastMessage, HideToastMessage };
