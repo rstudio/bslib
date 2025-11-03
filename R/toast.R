@@ -314,7 +314,7 @@ toast_component_header <- function(x) {
 
 #' @export
 toast_component_header.character <- function(x) {
-  strong(class = "me-auto", header)
+  strong(class = "me-auto", x)
 }
 
 #' @export
@@ -382,11 +382,11 @@ toast_component <- function(
     `aria-label` = "Close"
   )
 
-  header_tag <- if (closable && !is.null(header)) {
+  header_tag <- if (!is.null(header)) {
     div(
       class = "toast-header",
       toast_component_header(header),
-      close_button
+      if (closable) close_button
     )
   }
 
