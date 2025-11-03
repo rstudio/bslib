@@ -119,7 +119,7 @@ toast <- function(
   position <- normalize_toast_position(position)
 
   # duration_s of 0 or NA (or NULL) disables auto-hiding
-  if (is.null(duration_s) || (length(duration_s) == 1 && is.na(duration_s))) {
+  if (is.null(duration_s) || rlang::is_na(duration_s)) {
     autohide <- FALSE
   } else {
     if (!is.numeric(duration_s) || length(duration_s) != 1 || duration_s < 0) {
