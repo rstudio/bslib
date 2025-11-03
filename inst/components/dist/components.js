@@ -1,26 +1,7 @@
 /*! bslib 0.9.0.9002 | (c) 2012-2025 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
-  var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
@@ -1814,7 +1795,7 @@
   function showToast(message) {
     return __async(this, null, function* () {
       var _a, _b;
-      const { html, deps, options, position, id } = message;
+      const { html, deps, autohide, duration, position, id } = message;
       if (!window.bootstrap || !window.bootstrap.Toast) {
         showShinyClientMessage({
           headline: "Bootstrap 5 Required",
@@ -1844,7 +1825,7 @@
         });
         return;
       }
-      const toastInstance = new BslibToastInstance(toastEl, options);
+      const toastInstance = new BslibToastInstance(toastEl, { autohide, duration });
       toastInstances.set(toastEl, toastInstance);
       toastInstance.show();
       toastEl.addEventListener("hidden.bs.toast", () => {
@@ -1893,12 +1874,13 @@
          * @returns The DOM container element for the specified position
          */
         getOrCreateToaster(position) {
-          let container = this.containers.get(position);
-          if (!container || !document.body.contains(container)) {
-            container = this._createToaster(position);
-            this.containers.set(position, container);
+          let toaster = this.containers.get(position);
+          if (!toaster || !document.body.contains(toaster)) {
+            toaster = ToasterManager._createToaster(position);
+            document.body.appendChild(toaster);
+            this.containers.set(position, toaster);
           }
-          return container;
+          return toaster;
         }
         /**
          * Creates a new toast container (toaster) DOM element for the specified
@@ -1908,12 +1890,11 @@
          * @returns A new DOM container element positioned and styled for toasts
          * @private
          */
-        _createToaster(position) {
+        static _createToaster(position) {
           const toaster = document.createElement("div");
           toaster.className = "toast-container position-fixed p-1 p-md-2";
           toaster.setAttribute("data-bslib-toast-container", position);
-          toaster.classList.add(...this._positionClasses(position));
-          document.body.appendChild(toaster);
+          toaster.classList.add(...ToasterManager._positionClasses(position));
           return toaster;
         }
         /**
@@ -1923,7 +1904,7 @@
          * @returns Array of CSS class names for positioning the container
          * @private
          */
-        _positionClasses(position) {
+        static _positionClasses(position) {
           const classMap = {
             // eslint-disable-next-line @typescript-eslint/naming-convention
             "top-left": ["top-0", "start-0"],
@@ -1951,19 +1932,20 @@
       BslibToastInstance = class {
         constructor(element, options) {
           this.progressBar = null;
-          this.startTime = 0;
-          this.duration = 0;
+          this.timeStart = 0;
+          this.timeRemaining = 0;
           this.hideTimeoutId = null;
+          this.isPaused = false;
+          this.isPointerOver = false;
+          this.hasFocus = false;
           this.element = element;
-          const bsOptions = __spreadProps(__spreadValues({}, options), { autohide: false });
-          if (options.autohide) {
-            const delay = options.delay || 5e3;
-            this.duration = delay;
-            this._addProgressBar(delay);
-          }
+          this.timeRemaining = options.duration || 5e3;
+          const bsOptions = { animation: true, autohide: false };
           this.bsToast = new bootstrapToast(element, bsOptions);
-          if (options.autohide)
-            this._setupHoverPause();
+          if (options.autohide) {
+            this._addProgressBar();
+            this._setupInteractionPause();
+          }
         }
         /**
          * Shows the toast notification.
@@ -1985,11 +1967,11 @@
          * Adds an animated progress bar to the toast element.
          * @private
          */
-        _addProgressBar(duration) {
+        _addProgressBar() {
           this.progressBar = document.createElement("div");
           this.progressBar.className = "bslib-toast-progress-bar";
           this.progressBar.style.cssText = `
-      animation: bslib-toast-progress ${duration}ms linear forwards;
+      animation: bslib-toast-progress ${this.timeRemaining}ms linear forwards;
       animation-play-state: running;
     `;
           const toastHeader = this.element.querySelector(".toast-header");
@@ -1998,25 +1980,72 @@
           } else {
             this.element.insertBefore(this.progressBar, this.element.firstChild);
           }
-          this.startTime = Date.now();
         }
         /**
-         * Sets up hover pause behavior for autohiding toasts.
+         * Sets up interaction-based pause behavior for autohiding toasts.
+         * Pauses auto-hide when user interacts via pointer (mouse/touch) or keyboard focus.
          * @private
          */
-        _setupHoverPause() {
-          this.startTime = Date.now();
-          this._startHideTimeout(this.duration);
-          this.element.addEventListener("mouseenter", () => this._handleMouseEnter());
-          this.element.addEventListener("mouseleave", () => this._handleMouseLeave());
+        _setupInteractionPause() {
+          this.timeStart = Date.now();
+          this._startHideTimeout(this.timeRemaining);
+          this.element.addEventListener(
+            "pointerenter",
+            () => this._handlePointerEnter()
+          );
+          this.element.addEventListener(
+            "pointerleave",
+            () => this._handlePointerLeave()
+          );
+          this.element.addEventListener("focusin", () => this._handleFocusIn());
+          this.element.addEventListener("focusout", () => this._handleFocusOut());
         }
         /**
-         * Handles mouse enter event - pauses the auto-hide timer and progress bar.
+         * Handles pointer enter event - pauses the auto-hide timer.
          * @private
          */
-        _handleMouseEnter() {
-          const elapsed = Date.now() - this.startTime;
-          this.duration = Math.max(100, this.duration - elapsed);
+        _handlePointerEnter() {
+          this.isPointerOver = true;
+          this._pause();
+        }
+        /**
+         * Handles pointer leave event - resumes the auto-hide timer if not focused.
+         * @private
+         */
+        _handlePointerLeave() {
+          this.isPointerOver = false;
+          if (!this.hasFocus) {
+            this._resume();
+          }
+        }
+        /**
+         * Handles focus in event - pauses the auto-hide timer.
+         * @private
+         */
+        _handleFocusIn() {
+          this.hasFocus = true;
+          this._pause();
+        }
+        /**
+         * Handles focus out event - resumes the auto-hide timer if pointer not over.
+         * @private
+         */
+        _handleFocusOut() {
+          this.hasFocus = false;
+          if (!this.isPointerOver) {
+            this._resume();
+          }
+        }
+        /**
+         * Pauses the auto-hide timer and progress bar animation.
+         * @private
+         */
+        _pause() {
+          if (this.isPaused)
+            return;
+          this.isPaused = true;
+          const elapsed = Date.now() - this.timeStart;
+          this.timeRemaining = Math.max(100, this.timeRemaining - elapsed);
           if (this.hideTimeoutId !== null) {
             clearTimeout(this.hideTimeoutId);
           }
@@ -2025,12 +2054,15 @@
           }
         }
         /**
-         * Handles mouse leave event - resumes the auto-hide timer and progress bar.
+         * Resumes the auto-hide timer and progress bar animation.
          * @private
          */
-        _handleMouseLeave() {
-          this.startTime = Date.now();
-          this._startHideTimeout(this.duration);
+        _resume() {
+          if (!this.isPaused)
+            return;
+          this.isPaused = false;
+          this.timeStart = Date.now();
+          this._startHideTimeout(this.timeRemaining);
           if (this.progressBar) {
             this.progressBar.style.animationPlayState = "running";
           }
