@@ -59,4 +59,8 @@
         display: flex;
         align-items: center;
     }
+    .card-footer:has(> &) {
+        display: flex;
+        align-items: center;
+    }
 }
