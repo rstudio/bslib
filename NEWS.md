@@ -9,6 +9,8 @@
 * Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
   * Added `toolbar_input_button()` for easily creating buttons to include in a `toolbar()`. (#1248)
 
+* Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
+
 ## Improvements and bug fixes
 
 * `card_header()` is now flex by default and gains a `gap` argument to better support complex header layouts. (#1253)
