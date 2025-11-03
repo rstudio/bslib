@@ -130,13 +130,13 @@ class BslibToastInstance {
   private element: HTMLElement;
   private bsToast: typeof bootstrapToast.prototype;
   private progressBar: HTMLElement | null = null;
-  private startTime = 0;
-  private duration = 0;
+  private timeStart = 0;
+  private timeRemaining = 0;
   private hideTimeoutId: number | null = null;
 
   constructor(element: HTMLElement, options: ToastOptions) {
     this.element = element;
-    this.duration = options.duration || 5000;
+    this.timeRemaining = options.duration || 5000;
 
     // `autohide` is a Bootstrap option, but we manage autohiding ourselves so
     // that we can pause/resume on hover.
@@ -177,7 +177,7 @@ class BslibToastInstance {
     this.progressBar = document.createElement("div");
     this.progressBar.className = "bslib-toast-progress-bar";
     this.progressBar.style.cssText = `
-      animation: bslib-toast-progress ${this.duration}ms linear forwards;
+      animation: bslib-toast-progress ${this.timeRemaining}ms linear forwards;
       animation-play-state: running;
     `;
 
@@ -189,7 +189,7 @@ class BslibToastInstance {
       this.element.insertBefore(this.progressBar, this.element.firstChild);
     }
 
-    this.startTime = Date.now();
+    this.timeStart = Date.now();
   }
 
   /**
@@ -198,8 +198,8 @@ class BslibToastInstance {
    */
   private _setupHoverPause(): void {
     // Start the initial hide timeout and mark when it started
-    this.startTime = Date.now();
-    this._startHideTimeout(this.duration);
+    this.timeStart = Date.now();
+    this._startHideTimeout(this.timeRemaining);
 
     this.element.addEventListener("mouseenter", () => this._handleMouseEnter());
     this.element.addEventListener("mouseleave", () => this._handleMouseLeave());
@@ -211,8 +211,8 @@ class BslibToastInstance {
    */
   private _handleMouseEnter(): void {
     // Calculate elapsed time and update duration to remaining time
-    const elapsed = Date.now() - this.startTime;
-    this.duration = Math.max(100, this.duration - elapsed);
+    const elapsed = Date.now() - this.timeStart;
+    this.timeRemaining = Math.max(100, this.timeRemaining - elapsed);
 
     // Clear any existing timeout
     if (this.hideTimeoutId !== null) {
@@ -230,8 +230,8 @@ class BslibToastInstance {
    * @private
    */
   private _handleMouseLeave(): void {
-    this.startTime = Date.now();
-    this._startHideTimeout(this.duration);
+    this.timeStart = Date.now();
+    this._startHideTimeout(this.timeRemaining);
 
     // Resume progress bar animation
     if (this.progressBar) {
