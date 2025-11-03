@@ -123,7 +123,8 @@ const toasterManager = new ToasterManager();
  * Manages the lifecycle and state of an individual toast notification.
  *
  * Encapsulates all toast-specific behavior including progress bar animation,
- * hover pause/resume functionality, and Bootstrap Toast integration.
+ * interaction-based pause/resume functionality (pointer and focus events),
+ * and Bootstrap Toast integration.
  */
 class BslibToastInstance {
   private element: HTMLElement;
@@ -132,20 +133,23 @@ class BslibToastInstance {
   private timeStart = 0;
   private timeRemaining = 0;
   private hideTimeoutId: number | null = null;
+  private isPaused = false;
+  private isPointerOver = false;
+  private hasFocus = false;
 
   constructor(element: HTMLElement, options: ToastOptions) {
     this.element = element;
     this.timeRemaining = options.duration || 5000;
 
     // `autohide` is a Bootstrap option, but we manage autohiding ourselves so
-    // that we can pause/resume on hover.
+    // that we can pause/resume on user interaction (pointer and focus).
     const bsOptions = { animation: true, autohide: false };
     this.bsToast = new bootstrapToast(element, bsOptions);
 
     if (options.autohide) {
       // Add progress bar for autohiding toasts
       this._addProgressBar();
-      this._setupHoverPause();
+      this._setupInteractionPause();
     }
   }
 
@@ -190,23 +194,77 @@ class BslibToastInstance {
   }
 
   /**
-   * Sets up hover pause behavior for autohiding toasts.
+   * Sets up interaction-based pause behavior for autohiding toasts.
+   * Pauses auto-hide when user interacts via pointer (mouse/touch) or keyboard focus.
    * @private
    */
-  private _setupHoverPause(): void {
+  private _setupInteractionPause(): void {
     // Start the initial hide timeout and mark when it started
     this.timeStart = Date.now();
     this._startHideTimeout(this.timeRemaining);
 
-    this.element.addEventListener("mouseenter", () => this._handleMouseEnter());
-    this.element.addEventListener("mouseleave", () => this._handleMouseLeave());
+    // Pointer events (mouse, touch, pen)
+    this.element.addEventListener("pointerenter", () =>
+      this._handlePointerEnter()
+    );
+    this.element.addEventListener("pointerleave", () =>
+      this._handlePointerLeave()
+    );
+
+    // Focus events (keyboard navigation, screen readers)
+    this.element.addEventListener("focusin", () => this._handleFocusIn());
+    this.element.addEventListener("focusout", () => this._handleFocusOut());
   }
 
   /**
-   * Handles mouse enter event - pauses the auto-hide timer and progress bar.
+   * Handles pointer enter event - pauses the auto-hide timer.
    * @private
    */
-  private _handleMouseEnter(): void {
+  private _handlePointerEnter(): void {
+    this.isPointerOver = true;
+    this._pause();
+  }
+
+  /**
+   * Handles pointer leave event - resumes the auto-hide timer if not focused.
+   * @private
+   */
+  private _handlePointerLeave(): void {
+    this.isPointerOver = false;
+    if (!this.hasFocus) {
+      this._resume();
+    }
+  }
+
+  /**
+   * Handles focus in event - pauses the auto-hide timer.
+   * @private
+   */
+  private _handleFocusIn(): void {
+    this.hasFocus = true;
+    this._pause();
+  }
+
+  /**
+   * Handles focus out event - resumes the auto-hide timer if pointer not over.
+   * @private
+   */
+  private _handleFocusOut(): void {
+    this.hasFocus = false;
+    if (!this.isPointerOver) {
+      this._resume();
+    }
+  }
+
+  /**
+   * Pauses the auto-hide timer and progress bar animation.
+   * @private
+   */
+  private _pause(): void {
+    if (this.isPaused) return;
+
+    this.isPaused = true;
+
     // Calculate elapsed time and update duration to remaining time
     const elapsed = Date.now() - this.timeStart;
     this.timeRemaining = Math.max(100, this.timeRemaining - elapsed);
@@ -223,10 +281,13 @@ class BslibToastInstance {
   }
 
   /**
-   * Handles mouse leave event - resumes the auto-hide timer and progress bar.
+   * Resumes the auto-hide timer and progress bar animation.
    * @private
    */
-  private _handleMouseLeave(): void {
+  private _resume(): void {
+    if (!this.isPaused) return;
+
+    this.isPaused = false;
     this.timeStart = Date.now();
     this._startHideTimeout(this.timeRemaining);
 
