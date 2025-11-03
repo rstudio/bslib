@@ -308,6 +308,16 @@ hide_toast <- function(id, ..., session = shiny::getDefaultReactiveDomain()) {
 }
 
 toast_component_header <- function(x) {
+  UseMethod("toast_component_header")
+}
+
+#' @export
+toast_component_header.character <- function(x) {
+  strong(class = "me-auto", header)
+}
+
+#' @export
+toast_component_header.bslib_toast_header <- function(x) {
   # Status text (small muted text)
   status_text <- if (!is.null(x$status)) {
     tags$small(class = "text-muted text-end", x$status)
@@ -322,6 +332,23 @@ toast_component_header <- function(x) {
     ),
     status_text
   )
+}
+
+#' @export
+toast_component_header.list <- function(x) {
+  # Treat a bare list with a `title` element as a toast_header()
+  if (!rlang::has_name(x, "title")) {
+    rlang::abort(
+      "Invalid toast header: must be a string, toast_header(), or a list with a `title` element."
+    )
+  }
+
+  toast_component_header(structure(x, class = "bslib_toast_header"))
+}
+
+#' @export
+toast_component_header.default <- function(x) {
+  x
 }
 
 # Internal function to build toast HTML structure
@@ -347,32 +374,17 @@ toast_component <- function(
     paste0("text-bg-", type)
   }
 
-  close_button <- if (closable) {
-    tags$button(
-      type = "button",
-      class = "btn-close",
-      `data-bs-dismiss` = "toast",
-      `aria-label` = "Close"
-    )
-  }
+  close_button <- tags$button(
+    type = "button",
+    class = "btn-close",
+    `data-bs-dismiss` = "toast",
+    `aria-label` = "Close"
+  )
 
-  header_tag <- if (!is.null(header)) {
-    # Check if header is already a toast_header() result or just text/tags
-    header_content <- if (is.character(header)) {
-      strong(class = "me-auto", header)
-    } else if (inherits(header, "bslib_toast_header")) {
-      toast_component_header(header)
-    } else if (rlang::is_list(header) && rlang::has_name(header, "title")) {
-      # Treat a bare list with a `title` element as a toast_header()
-      toast_component_header(header)
-    } else {
-      # Otherwise pass through directly (assume user knows what they're doing)
-      header
-    }
-
+  header_tag <- if (closable && !is.null(header)) {
     div(
       class = "toast-header",
-      header_content,
+      toast_component_header(header),
       close_button
     )
   }
