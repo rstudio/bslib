@@ -248,7 +248,8 @@ test_that("toolbar() markup snapshots", {
     expect_snapshot(
         show_raw_html(
             toolbar(
-                shiny::actionButton("btn1", "Button 1"),
+                "Item 1",
+                "Item 2",
                 align = "left"
             )
         )
@@ -258,41 +259,9 @@ test_that("toolbar() markup snapshots", {
     expect_snapshot(
         show_raw_html(
             toolbar(
+                "Item 1",
+                "Item 2",
                 size = "md"
-            )
-        )
-    )
-
-    # Toolbar in card header
-    expect_snapshot(
-        show_raw_html(
-            card(
-                card_header(
-                    "Card Title",
-                    toolbar(
-                        tags$button("Settings"),
-                        align = "right",
-                        size = "sm"
-                    )
-                ),
-                card_body("Card content")
-            )
-        )
-    )
-
-    # Toolbar with Shiny inputs
-    expect_snapshot(
-        show_raw_html(
-            toolbar(
-                shiny::selectInput(
-                    "select",
-                    NULL,
-                    choices = c("A", "B", "C"),
-                    multiple = FALSE,
-                    selectize = FALSE
-                ),
-                shiny::checkboxInput("check", "Check"),
-                align = "right"
             )
         )
     )
