@@ -335,6 +335,7 @@ bind_task_button.ExtendedTask <- function(
 
   was_running <- FALSE
   shiny::observe(
+    label = "update_task_button_state",
     {
       running <- target$status() == "running"
       if (running != was_running) {
