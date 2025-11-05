@@ -18,3 +18,69 @@ test_that("toolbar() validation of inputs", {
     expect_error(toolbar("x", align = "center"))
     expect_error(toolbar("x", size = "xl"))
 })
+
+test_that("toolbar() markup snapshots", {
+    show_raw_html <- function(x) {
+        cat(format(x))
+    }
+
+    # Basic toolbar
+    expect_snapshot(
+        show_raw_html(
+            toolbar("Item 1", "Item 2")
+        )
+    )
+
+    # Toolbar with alignment options
+    expect_snapshot(
+        show_raw_html(
+            toolbar(
+                shiny::actionButton("btn1", "Button 1"),
+                align = "left"
+            )
+        )
+    )
+
+    # Toolbar with size options
+    expect_snapshot(
+        show_raw_html(
+            toolbar(
+                size = "md"
+            )
+        )
+    )
+
+    # Toolbar in card header
+    expect_snapshot(
+        show_raw_html(
+            card(
+                card_header(
+                    "Card Title",
+                    toolbar(
+                        tags$button("Settings"),
+                        align = "right",
+                        size = "sm"
+                    )
+                ),
+                card_body("Card content")
+            )
+        )
+    )
+
+    # Toolbar with Shiny inputs
+    expect_snapshot(
+        show_raw_html(
+            toolbar(
+                shiny::selectInput(
+                    "select",
+                    NULL,
+                    choices = c("A", "B", "C"),
+                    multiple = FALSE,
+                    selectize = FALSE
+                ),
+                shiny::checkboxInput("check", "Check"),
+                align = "right"
+            )
+        )
+    )
+})
