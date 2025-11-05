@@ -18,15 +18,14 @@ toolbar <- function(
   align = c("right", "left"),
   size = c("sm", "md", "lg")
 ) {
-  dots <- separate_arguments(...)
   align <- rlang::arg_match(align)
   size <- rlang::arg_match(size)
 
-  tag <- htmltools::div(
+  tag <- div(
     class = "bslib-toolbar",
     "data-align" = align,
     "data-size" = size,
-    rlang::list2(...),
+    ...,
     component_dependencies()
   )
 
