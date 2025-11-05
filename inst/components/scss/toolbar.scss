@@ -55,7 +55,7 @@
         min-width: 0;
     }
 
-    /* Ensure card headers with toolbars use flexbox for alignment */
+    // Ensure card headers with toolbars use flexbox for alignment
     .card-header:has(> &) {
         display: flex;
         align-items: center;
