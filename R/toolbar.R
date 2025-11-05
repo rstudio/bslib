@@ -1,16 +1,16 @@
-#' Add a toolbar to a UI element
+#' Toolbar component
 #'
 #' @description
-#' A toolbar which can contain buttons, inputs, and other UI elements
-#' in a small form suitable for inclusion in card headers,
-#' footers, and other small places.
+#' A toolbar which can contain buttons, inputs, and other UI elements in a small
+#' form suitable for inclusion in card headers, footers, and other small places.
 #'
 #' @param ... UI elements for the toolbar.
-#' @param align Determines if toolbar should be aligned to the right or left.
-#' Must be one of "right" or "left".
-#' @param size The size of the toolbar. Must be one of "sm", "md", or "lg".
+#' @param align Determines if toolbar should be aligned to the `"right"` or
+#'   `"left"`.
+#' @param size The size of the toolbar. Must be one of `"sm"`, `"md"`, or
+#'   `"lg"`.
 #'
-#' @return Returns a toolbar.
+#' @return Returns a toolbar element.
 #'
 #' @export
 toolbar <- function(
