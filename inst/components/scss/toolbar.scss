@@ -48,6 +48,7 @@
         width: auto;
     }
 
+    /* Ensures that inputs inherit the formatting of the toolbar and align correctly */
     >.form-group.shiny-input-container, .form-group.shiny-input-container>* {
         width: auto;
         margin-bottom: 0;
