@@ -246,7 +246,7 @@ card_title <- function(..., container = htmltools::h5) {
 #' @export
 card_header <- function(..., class = NULL, container = htmltools::div) {
   as.card_item(
-    container(class = "card-header bslib-gap-spacing", class = class, ...)
+    container(class = "card-header", class = class, ...)
   )
 }
 
