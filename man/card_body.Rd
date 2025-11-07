@@ -25,7 +25,7 @@ card_body(
 
 card_title(..., container = htmltools::h5)
 
-card_header(..., class = NULL, container = htmltools::div)
+card_header(..., gap = NULL, class = NULL, container = htmltools::div)
 
 card_footer(..., class = NULL)
 
@@ -71,7 +71,7 @@ left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
+\code{gap} (i.e., spacing) between elements provided to \code{...}.}
 
 \item{fill}{Whether to allow this element to grow/shrink to fit its \code{card()}
 container.}
