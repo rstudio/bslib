@@ -31,7 +31,7 @@
     flex-direction: row;
     align-items: center;
     align-self: stretch;
-    gap: calc(var(--bslib-spacer, 1rem) / 2);
+    gap: 0.25rem;
     
     .form-group {
       margin-bottom: 0;
