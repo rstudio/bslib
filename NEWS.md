@@ -6,7 +6,7 @@
 
 ## Improvements and bug fixes
 
-* `card_header()` is now flex by default and includes a `gap` parameter to better support complex header layouts. (#1253)
+* `card_header()` is now flex by default and gains a `gap` argument to better support complex header layouts. (#1253)
 
 * `bs_theme_dependencies()` now avoids unnecessarily copying internal package files to R's temporary directory more than once when preparing precompiled theme dependencies (e.g. for a standard `bs_theme()` theme). (#1184)
 
