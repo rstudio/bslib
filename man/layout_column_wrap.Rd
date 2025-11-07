@@ -74,7 +74,7 @@ Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 layout container doesn't shrink below \code{min_height} or grow beyond \code{max_height}.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 }

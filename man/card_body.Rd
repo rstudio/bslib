@@ -71,7 +71,7 @@ left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
 
 \item{fill}{Whether to allow this element to grow/shrink to fit its \code{card()}
 container.}

@@ -61,7 +61,7 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 \item{fillable}{Whether or not each element is wrapped in a fillable container.}
 
 \item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}.}
+\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 
