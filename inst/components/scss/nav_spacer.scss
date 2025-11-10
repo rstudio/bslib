@@ -1,6 +1,14 @@
 /* CSS behind nav_spacer() */
+
+// Ensure spacer doesn't grow (applies at all screen sizes)
+.bslib-nav-spacer {
+  flex: 0 0 auto !important;
+}
+
 @mixin nav-spacer() {
-  .nav:not(.nav-hidden) {
+
+  .nav:not(.nav-hidden),
+  .card-header {
     /* Make sure nav container is flexbox (they aren't in BS3) */
     display: flex !important;
     display: -webkit-flex !important;
@@ -22,11 +30,13 @@
       -webkit-flex-direction: column;
       height: 100%;
       > .bslib-nav-spacer {
+        flex: 0 0 auto !important;
         margin-top: auto !important;
       }
     }
   }
 }
+
 
 /* BS4+ uses this mixin for configurable breakpoints */
 @if mixin-exists("media-breakpoint-up") {

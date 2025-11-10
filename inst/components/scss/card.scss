@@ -33,12 +33,6 @@
     align-self: stretch;
     gap: 0.25rem;
     
-    // When card-header contains a nav, let the nav fill the available space
-    > .nav {
-      flex: 1;
-      min-width: 0;
-    }
-    
     .form-group {
       margin-bottom: 0;
     }
@@ -50,8 +44,8 @@
         margin-right: 1.15rem;
       }
     }
-  }
-
+  }  
+  
   .card-footer {
     margin-top: auto;
   }
