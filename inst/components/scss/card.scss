@@ -33,6 +33,14 @@
     align-self: stretch;
     gap: 0.25rem;
     
+    // Only give the nav flex: 1 if it contains a nav_spacer so that it properly pushes items
+    // to the right. If there is no nav_spacer, we want it the nav to flex with other items
+    // in the header naturally.
+    > .nav:has(.bslib-nav-spacer) {
+      flex: 1;
+      min-width: 0; // Prevent flex item from overflowing
+    }
+    
     .form-group {
       margin-bottom: 0;
     }
