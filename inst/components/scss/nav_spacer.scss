@@ -1,10 +1,5 @@
 /* CSS behind nav_spacer() */
 
-// Ensure spacer doesn't grow (applies at all screen sizes)
-.bslib-nav-spacer {
-  flex: 0 0 auto !important;
-}
-
 @mixin nav-spacer() {
 
   .nav:not(.nav-hidden),
