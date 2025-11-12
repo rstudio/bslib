@@ -115,6 +115,7 @@ Collate:
     'shiny-devmode.R'
     'sidebar.R'
     'staticimports.R'
+    'toolbar.R'
     'tooltip.R'
     'utils-deps.R'
     'utils-shiny.R'
