@@ -289,6 +289,24 @@ test_that("toolbar_input_button() passes additional arguments", {
     expect_equal(htmltools::tagGetAttribute(btn, "custom"), "custom-value")
 })
 
+test_that("toolbar_input_button() disabled argument", {
+    btn_disabled <- toolbar_input_button(
+        id = "disabled_btn",
+        label = "Disabled",
+        disabled = TRUE
+    )
+
+    expect_true(htmltools::tagHasAttribute(btn_disabled, "disabled"))
+
+    btn_enabled <- toolbar_input_button(
+        id = "enabled_btn",
+        label = "Enabled",
+        disabled = FALSE
+    )
+
+    expect_false(htmltools::tagHasAttribute(btn_enabled, "disabled"))
+})
+
 test_that("toolbar_input_button() markup snapshots", {
     show_raw_html <- function(x) {
         cat(format(x))
