@@ -182,7 +182,7 @@ toolbar_input_select <- function(
   id,
   choices,
   selected = NULL,
-  width = NULL,
+  width = NULL
 ) {
   size <- rlang::arg_match(size)
   htmltools::div(
