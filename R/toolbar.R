@@ -72,6 +72,7 @@ toolbar <- function(
 #' @param disabled If `TRUE`, the button will not be clickable. Use
 #'   [shiny::updateActionButton()] to dynamically enable/disable the button.
 #' @param border Whether to show a border around the button.
+#' @param disabled If `TRUE`, the button will not be clickable. Use `updateActionButton()` to dynamically enable/disable the button.
 #'
 #' @return Returns a button suitable for use in a toolbar.
 #'
