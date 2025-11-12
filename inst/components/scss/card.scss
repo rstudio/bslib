@@ -33,9 +33,8 @@
     align-self: stretch;
     gap: 0.25rem;
     
-    // Only give the nav flex: 1 if it contains a nav_spacer so that it properly pushes items
-    // to the right. If there is no nav_spacer, we want it the nav to flex with other items
-    // in the header naturally.
+    // Give the nav flex: 1 so that if the card header contains a nav, it will take all the available space
+    // and correctly push items to the right if `nav_spacer` is used
     > .nav {
       flex: 1;
       min-width: 0; // Prevent flex item from overflowing
