@@ -32,3 +32,42 @@ toolbar <- function(
   tag_require(tag, version = 5, caller = "toolbar()")
   as_fragment(tag)
 }
+
+#' Add toolbar button input
+#'
+#' @description
+#' A button designed to fit well in small places such as toolbars.
+#'
+#' @param ... UI elements for the button.
+#' @param icon An icon to display in the button.
+#' (One of icon or label must be supplied.)
+#' @param label The label to display in the button.
+#' (One of icon or label must be supplied.)
+#' @param border Whether to show a border around the button.
+#'
+#' @return Returns a button suitable for use in a toolbar.
+#'
+#' @export
+toolbar_input_button <- function(
+  id,
+  ...,
+  icon = NULL,
+  label = NULL,
+  border = FALSE
+) {
+  if (is.null(icon) && is.null(label)) {
+    stop(
+      "At least one of 'icon' or 'label' must be provided.",
+      call. = TRUE
+    )
+  }
+
+  shiny::actionButton(
+    id,
+    label = label,
+    icon = icon,
+    class = "bslib-toolbar-input-button btn-sm",
+    class = if (!border) "border-0" else NULL,
+    ...
+  )
+}
