@@ -39,7 +39,11 @@
       flex: 1;
       min-width: 0; // Prevent flex item from overflowing
     }
-    
+
+    > .bslib-nav-spacer {
+        margin-left: auto;
+    }
+
     .form-group {
       margin-bottom: 0;
     }
