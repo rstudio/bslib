@@ -12,6 +12,19 @@
   server on click. This is especially useful when the input text change
   triggers a long-running operation and/or the user wants to type
   longer-form input and review it before submitting it.
+  ([\#1204](https://github.com/rstudio/bslib/issues/1204))
+
+- Added toast notifications based on [Bootstrap’s Toast
+  component](https://getbootstrap.com/docs/5.3/components/toasts/): Use
+  [`toast()`](https://rstudio.github.io/bslib/dev/reference/toast.md) to
+  create customizable toast objects,
+  [`show_toast()`](https://rstudio.github.io/bslib/dev/reference/show_toast.md)
+  to display a toast message,
+  [`hide_toast()`](https://rstudio.github.io/bslib/dev/reference/show_toast.md)
+  for manual dismissal, and
+  [`toast_header()`](https://rstudio.github.io/bslib/dev/reference/toast.md)
+  for structured headers with icons and status indicators.
+  ([\#1246](https://github.com/rstudio/bslib/issues/1246))
 
 ### Improvements and bug fixes
 
