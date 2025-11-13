@@ -159,7 +159,7 @@ is just floating in space:</p>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"No padding"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Very sad!"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="tab-before.png" alt="A tabset panel without padding or borders, showing plain text placed directly against the tab's bottom border." width="67%"></p>
+<p><img src="tab-before.png" class="r-plt" alt="A tabset panel without padding or borders, showing plain text placed directly against the tab's bottom border." width="67%"></p>
 <p>We can help solve this issue by adding some padding the tab’s content
 (<code>p-3</code>) as well as a nice border that matches up with the
 tab’s borders.</p>
@@ -171,7 +171,7 @@ tab’s borders.</p>
 <span>  <span class="fu">tab</span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"With padding"</span><span class="op">)</span>,</span>
 <span>  <span class="fu">tab</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="tab-after.png" alt="A tabset panel with padding and borders, showing a border around the tab content and padding between the tab content and the tab's border." width="67%"></p>
+<p><img src="tab-after.png" class="r-plt" alt="A tabset panel with padding and borders, showing a border around the tab content and padding between the tab content and the tab's border." width="67%"></p>
 <p>And for <code>tabsetPanel(type="pills")</code> , it looks a bit
 better to have a full, rounded, border:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -183,11 +183,11 @@ better to have a full, rounded, border:</p>
 <span>  <span class="fu">pill</span><span class="op">(</span><span class="st">"One"</span>, <span class="st">"With padding"</span><span class="op">)</span>,</span>
 <span>  <span class="fu">pill</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="pills.png" alt="Tabs using a pills style where the tab controls look like buttons." width="67%"></p>
+<p><img src="pills.png" class="r-plt" alt="Tabs using a pills style where the tab controls look like buttons." width="67%"></p>
 <p>It’s also worth noting that you can also add these classes to <a href="https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html" class="external-link">rmarkdown
 tabsets</a>, like so:</p>
-<p><img src="rmarkdown-tabs-source.png" alt="Source code for an rmarkdown tabset, see the previous link for the code." width="50%"></p>
-<p><img src="rmarkdown-tabs.png" alt="Screenshot of a rendered rmarkdown tabset." width="930"></p>
+<p><img src="rmarkdown-tabs-source.png" class="r-plt" alt="Source code for an rmarkdown tabset, see the previous link for the code." width="50%"></p>
+<p><img src="rmarkdown-tabs.png" class="r-plt" alt="Screenshot of a rendered rmarkdown tabset." width="930"></p>
 <p>Unfortunately, we can’t always rely on the <code>class</code>
 argument placing itself on the HTML tag we need to achieve our styling
 goals. For example, we can’t simply do
@@ -205,7 +205,7 @@ element(s):</p>
 <span>    <span class="fu">pill</span><span class="op">(</span><span class="st">"Two"</span>, <span class="st">"Nice!"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="pills.png" alt="Tabs using a pills style where the tab controls look like buttons and are horizontally centered." width="67%"></p>
+<p><img src="pills.png" class="r-plt" alt="Tabs using a pills style where the tab controls look like buttons and are horizontally centered." width="67%"></p>
 </div>
 <div class="section level2">
 <h2 id="add-background-color">Add background color<a class="anchor" aria-label="anchor" href="#add-background-color"></a>
@@ -238,7 +238,7 @@ component</a> containing a <a href="https://rstudio.github.io/DT/" class="extern
 <span>    <span class="op">}</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="DT-card.png" alt="A card component with an orage header and a table of the mtcars dataset in the card body." width="67%"></p>
+<p><img src="DT-card.png" class="r-plt" alt="A card component with an orage header and a table of the mtcars dataset in the card body." width="67%"></p>
 </div>
 <div class="section level2">
 <h2 id="create-new-utility-classes">Create new utility classes<a class="anchor" aria-label="anchor" href="#create-new-utility-classes"></a>
@@ -253,7 +253,7 @@ map</a>. This could be useful if you wanted to let the
 card’s title:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/bs_theme.html">bs_theme</a></span><span class="op">(</span><span class="st">"theme-colors"</span> <span class="op">=</span> <span class="st">"('flair': orange)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DT-card-custom.png" alt="A card component with an orange header and a table of the mtcars dataset in the card body." width="67%"></p>
+<p><img src="DT-card-custom.png" class="r-plt" alt="A card component with an orange header and a table of the mtcars dataset in the card body." width="67%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -266,7 +266,7 @@ card’s title:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

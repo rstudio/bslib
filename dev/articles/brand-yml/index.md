@@ -1,0 +1,300 @@
+# Unified theming with brand.yml
+
+Shiny for R now supports
+[brand.yml](https://posit-dev.github.io/brand-yml), a single YAML file
+that unifies visual theming across your projects. Define colors, fonts,
+and logos once in a YAML file, then use them consistently across Shiny
+apps, Quarto projects, and more.
+
+## What is brand.yml?
+
+[![brand.yml
+logo](brand-yml-tall.svg)](https://posit-dev.github.io/brand-yml)
+
+[brand.yml](https://posit-dev.github.io/brand-yml) is a specification
+for managing visual branding through a single YAML file. It simplifies
+brand management and theming by consolidating your visual
+identity—colors, typography, and styling—into one easy-to-maintain
+location.
+
+At its most basic, a `_brand.yml` file includes metadata (`meta`) about
+the company or brand, its logos (`logo`), `color` palette, theme, and
+the fonts and `typography` settings used by the brand.
+
+Here’s a simple `_brand.yml` file:
+
+``` yaml
+meta:
+  name: brand.yml
+  link: https://posit-dev.github.io/brand-yml
+
+logo:
+  small: brand-yml-icon.svg
+  medium: brand-yml-tall.svg
+  large: brand-yml-wide.svg
+
+color:
+  palette:
+    orange: "#FF6F20"
+    pink: "#FF3D7F"
+  primary: orange
+  danger: pink
+
+typography:
+  fonts:
+    - family: Open Sans
+      source: google
+  base: Open Sans
+```
+
+This same file can be used to theme your Shiny apps as well as
+[Quarto](https://quarto.org) projects. And brand.yml isn’t just for
+corporate branding—you can also use brand.yml to create custom themes
+for your personal or team-specific projects. Create a `_brand.yml` file
+to match a specific journal or conference style.
+
+When used with bslib, simply place the `_brand.yml` file in your project
+directory, and bslib will automatically apply the branding to your Shiny
+app.
+
+## Try brand.yml
+
+bslib includes an example app that you can use to try out brand.yml
+features or that can be helpful as you develop your own `_brand.yml`
+file. To run the app use
+[`shiny::runExample()`](https://rdrr.io/pkg/shiny/man/runExample.html).
+
+``` r
+shiny::runExample("brand.yml", package = "bslib")
+```
+
+To use the app as a template, create a new directory for your own app
+and then copy the bslib example app to that directory
+
+``` r
+new_app_dir <- "my-brand" # path to your app
+template <- fs::path_package("bslib", "examples-shiny/brand.yml")
+
+# Copy the template files into your new app directory
+fs::dir_copy(template, new_app_dir)
+```
+
+Once created, open `app.R` and `_brand.yml` for editing.
+
+``` r
+file.edit(fs::path(new_app_dir, "app.R"))
+file.edit(fs::path(new_app_dir, "_brand.yml"))
+```
+
+## Basic usage
+
+### Automatic discovery
+
+To use a [brand.yml](https://posit-dev.github.io/brand-yml) file like
+the example above, save the file as `_brand.yml` and include it in the
+directory containing your Shiny app.
+
+``` r
+# Automatically find `_brand.yml` in app directory or its parent directories
+ui <- page_fluid(
+  theme = bs_theme()  # No additional configuration needed
+)
+```
+
+When your app uses [uses
+`theme = bs_theme()`](https://rstudio.github.io/bslib/dev/articles/any-project/),
+any of the [`bslib::page_*()`
+functions](https://rstudio.github.io/bslib/dev/articles/dashboards/), or
+[bslib theming
+under-the-hood](https://rstudio.github.io/bslib/dev/articles/theming/),
+bslib will automatically
+
+1.  search for a `_brand.yml` file in the current directory or in a
+    `_brand/` or `brand/` directory,
+2.  if not found, check parent directories for the `_brand.yml` file
+    (possibly also in `_brand/` or `brand/`), and
+3.  apply the branded theming if a `_brand.yml` file is found.
+
+### Explicit configuration
+
+You can also be more explicit about brand.yml usage.
+
+- Ensure branding
+- Direct path
+- Inline brand
+- Ignore branding
+
+Use `brand = TRUE` to find `_brand.yml` in app dir or its parents, or
+fail otherwise.
+
+``` r
+ui <- page_sidebar(
+  theme = bs_theme(brand = TRUE)
+)
+```
+
+Provide `brand` with a direct path to a brand.yml file, useful when the
+file has a special name or is stored in a central location.
+
+``` r
+ui <- page_sidebar(
+  theme = bs_theme(brand = "path/to/brand.yml")
+)
+```
+
+Use a list to define brand settings inline, useful to quickly theme a
+small app.
+
+``` r
+ui <- page_sidebar(
+  theme = bs_theme(
+    brand = list(
+      color = list(primary = "#FF6F20", danger = "#FF3D7F"),
+      typography = list(
+        fonts = list(
+          list(family = "Open Sans", source = "google")
+        ),
+        base = "Open Sans"
+      )
+    )
+  )
+)
+```
+
+Finally, you can ignore an existing `_brand.yml` file and apply no
+branding.
+
+``` r
+ui <- page_sidebar(
+  theme = bs_theme(brand = FALSE)
+)
+```
+
+### brand.yml in R Markdown
+
+Many places across the R Markdown ecosystem [use bslib for
+theming](https://rstudio.github.io/bslib/dev/articles/any-project/index.html#r-markdown).
+Anywhere that `theme` is passed to bslib, you can use the same
+techniques mentioned above, even in YAML.
+
+#### Bootstrap 5 Required
+
+Theming with brand.yml works best with Bootstrap 5. For best results, be
+sure to include `version: 5` under `theme`.
+
+- Automatic
+- Ensure branding
+- Direct path
+- Inline brand
+- Ignore branding
+
+In the most basic case, place a `_brand.yml` in the project folder and
+ensure that the document uses Bootstrap 5.
+
+``` yaml
+output:
+  html_document:
+    theme:
+      version: 5
+```
+
+Use `brand: TRUE` to automatically find `_brand.yml` or throw an error
+if not found within the project.
+
+``` yaml
+output:
+  html_document:
+    theme:
+      version: 5
+      brand: true
+```
+
+Provide `brand` with a direct path to a brand.yml file.
+
+``` yaml
+output:
+  html_document:
+    theme:
+      version: 5
+      brand: "path/to/brand.yml"
+```
+
+Define brand settings directly inline in the `brand` key.
+
+``` yaml
+output:
+  html_document:
+    theme:
+      version: 5
+      brand:
+        color:
+          primary: "#FF6F20"
+          danger: "#FF3D7F"
+        typography:
+          fonts:
+            - family: "Open Sans"
+            source: "google"
+          base: "Open Sans"
+```
+
+Ignore an existing `_brand.yml` file and apply no branding with
+`brand: false`.
+
+``` yaml
+output:
+  html_document:
+    theme:
+      version: 5
+      brand: false
+```
+
+The same approaches all apply for [pkgdown](https://pkgdown.r-lib.org),
+where `brand` is provided in `template.bslib`:
+
+``` yaml
+# _pkgdown.yml
+template:
+  bslib:
+    version: 5
+    brand: _brand.yml
+```
+
+If you store both your `_pkgdown.yml` file and your `_brand.yml` file in
+a `pkgdown` subdirectory in your repository, bslib’s automatic
+`_brand.yml` file detection will start looking at your package root. In
+this case, you’ll need to provide `brand` with the relative path to your
+`_brand.yml` file:
+
+``` yaml
+# pkgdown/_pkgdown.yml
+template:
+  bslib:
+    version: 5
+    brand: pkgdown/_brand.yml
+```
+
+## Learn more
+
+This article has barely scratched the surface of all of the information
+and customizations that brand.yml includes. We encourage you to learn
+more about brand.yml and its features at the [official brand.yml
+website](https://posit-dev.github.io/brand-yml). We also invite you to
+leave feedback and ask questions in the [brand.yml discussion
+board](https://github.com/posit-dev/brand-yml/discussions).
+
+Visit these pages to learn more about using brand.yml with other
+projects:
+
+1.  [Quarto - Multiformat branding with
+    \_brand.yml](https://quarto.org/docs/authoring/brand.html)
+2.  [Shiny - Branded theming for Shiny for Python
+    apps](https://shiny.posit.co/blog/posts/shiny-python-1.2-brand-yml/)
+
+As a brand new project, most large language models (LLMs) don’t know
+anything about brand.yml (yet), but they can still be useful with the
+right prompt. We’ve created a small but complete description of
+brand.yml that you can use to help teach an LLM about brand.yml. Read
+more in the [Creating a brand.yml with an
+LLM](https://posit-dev.github.io/brand-yml/articles/llm-brand-yml-prompt/)
+article on the [brand.yml](https://posit-dev.github.io/brand-yml)
+website.

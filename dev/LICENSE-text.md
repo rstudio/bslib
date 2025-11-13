@@ -1,0 +1,4 @@
+# License
+
+    YEAR: 2021-2023
+    COPYRIGHT HOLDER: bslib contributors

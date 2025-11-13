@@ -167,11 +167,11 @@ theming widget already overlayed (<a href="https://bslib.shinyapps.io/themer-dem
 version):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/bs_theme_preview.html">bs_theme_preview</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="themer.gif" alt="An animation showing bslib theming app. As the user changes the Bootswatch theme and Bootstrap settings, the app's appearance changes in real-time." width="100%" style="display: block; margin: auto;"></p>
+<p><img src="themer.gif" class="r-plt" alt="An animation showing bslib theming app. As the user changes the Bootswatch theme and Bootstrap settings, the app's appearance changes in real-time." width="100%" style="display: block; margin: auto;"></p>
 <p>When running the theming widget locally, you’ll see output like this
 in your R console (in R Markdown, you’ll see YAML output instead of R
 code) to reproduce the theming changes:</p>
-<p><img src="themer-code.png" alt="Console output showing the R code to reproduce the theming changes." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="themer-code.png" class="r-plt" alt="Console output showing the R code to reproduce the theming changes." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="bootswatch">Bootswatch themes<a class="anchor" aria-label="anchor" href="#bootswatch"></a>
@@ -197,7 +197,7 @@ with <a href="https://rstudio.github.io/bslib/">bslib</a>, you can use newer the
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>      bootswatch<span class="sc">:</span> minty</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="sc">---</span></span></code></pre></div>
 </div>
-<p><img src="bootswatch.png" alt="A screenshot of the minty Bootswatch theme." width="100%" style="display: block; margin: auto;"></p>
+<p><img src="bootswatch.png" class="r-plt" alt="A screenshot of the minty Bootswatch theme." width="100%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="main-colors">Main colors &amp; fonts<a class="anchor" aria-label="anchor" href="#main-colors"></a>
@@ -241,7 +241,7 @@ mode with custom fonts:</p>
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>        google<span class="sc">:</span> <span class="st">"JetBrains Mono"</span></span>
 <span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="sc">---</span></span></code></pre></div>
 </div>
-<p><img src="custom-dark-mode.png" alt="A screenshot showing a dark mode theme with custom fonts." width="100%" style="display: block; margin: auto;"></p>
+<p><img src="custom-dark-mode.png" class="r-plt" alt="A screenshot showing a dark mode theme with custom fonts." width="100%" style="display: block; margin: auto;"></p>
 <p>Among all the coloring options in <code><a href="../../reference/bs_theme.html">bs_theme()</a></code>,
 <code>bg</code>, <code>fg</code>, and <code>primary</code> are by far
 the most influential as they effect nearly every color on the page. In
@@ -316,7 +316,7 @@ Sass variable to <code>'orange'</code> (a CSS color).</p>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>      progress<span class="sc">-</span>bar<span class="sc">-</span>bg<span class="sc">:</span> <span class="st">"orange"</span></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="sc">---</span></span></code></pre></div>
 </div>
-<p><img src="progress-orange.png" alt="A progress bar indicator colored orange." width="67%" style="display: block; margin: auto;"></p>
+<p><img src="progress-orange.png" class="r-plt" alt="A progress bar indicator colored orange." width="67%" style="display: block; margin: auto;"></p>
 <p>In addition to CSS values (e.g., <code>"orange"</code>), a variable
 can be any valid <a href="https://sass-lang.com/documentation/variables" class="external-link">Sass
 expression</a>, which is quite useful for leveraging Sass’ built-in
@@ -394,7 +394,7 @@ in this case was taken from <a href="https://github.com/nostalgic-css/NES.css/" 
 <span>      <span class="st">"body { background-color: $body-bg; }"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="nes.png" alt="A screenshot showing a Shiny app with a video game style thanks to NES.css." width="100%" style="display: block; margin: auto;"></p>
+<p><img src="nes.png" class="r-plt" alt="A screenshot showing a Shiny app with a video game style thanks to NES.css." width="100%" style="display: block; margin: auto;"></p>
 <p>In the R Markdown case, it’s recommended that additional CSS (or
 Sass) rules come through the <code>css</code> parameter, but you may
 also use the <code>bslib</code> engine. As with
@@ -479,7 +479,7 @@ doc) to implement your own custom theming widget (via
 <span>  <span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dark-mode.gif" alt="An animation showing a dark mode switch in a Shiny app toggling on and off." width="50%" style="display: block; margin: auto;"></p>
+<p><img src="dark-mode.gif" class="r-plt" alt="An animation showing a dark mode switch in a Shiny app toggling on and off." width="50%" style="display: block; margin: auto;"></p>
 <p>See the sections on <code>setCurrentTheme</code> and
 <code>getCurrentTheme</code> <a href="https://shiny.rstudio.com/reference/shiny/1.6.0/session.html" class="external-link">here</a>
 to learn more.</p>
@@ -495,7 +495,7 @@ to learn more.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

@@ -77,14 +77,12 @@
 
       <div class="section-desc"><p>Page layouts are the basic building blocks of any UI. bslib pages always include Bootstrap and can be themed with bslib’s <a href="#theming">theming capabilities</a>.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="dashboard-layouts">Dashboard layouts<a class="anchor" aria-label="anchor" href="#dashboard-layouts"></a></h3>
       <div class="section-desc"><p>These page layouts work best for dashboards. For a single-page dashboards with an optional sidebar, try <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code>. For multi-tab dashboards organized as pages in a navbar, also with an optional sidebar, try <code><a href="../reference/page_navbar.html">page_navbar()</a></code>. For a full-page dashboard with items that fill the screen, try <code><a href="../reference/page_fillable.html">page_fillable()</a></code>.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -95,13 +93,15 @@
 
         </dt>
         <dd>A sidebar page (i.e., dashboard)</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="page_navbar.html">page_navbar()</a></code>
 
         </dt>
         <dd>Multi-page app with a top navigation bar</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="page_fillable.html">page_fillable()</a></code>
 
@@ -112,8 +112,7 @@
       <h3 id="basic-page-layouts">Basic page layouts<a class="anchor" aria-label="anchor" href="#basic-page-layouts"></a></h3>
       <div class="section-desc"><p>bslib variants of classic Shiny page layouts.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -129,14 +128,12 @@
 
       <div class="section-desc"><p>These functions help you layout the user interface (UI) elements of your app.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="multiple-columns">Multiple columns<a class="anchor" aria-label="anchor" href="#multiple-columns"></a></h3>
       <div class="section-desc"><p>Organize UI elements into Bootstrap’s <a href="https://getbootstrap.com/docs/5.3/layout/css-grid/" class="external-link">12-column CSS grid</a> with <code><a href="../reference/layout_columns.html">layout_columns()</a></code>. Or organize elements into a grid of equal-width columns with <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code>. Both functions can layout an arbitrary number of elements without needing to specify the number of columns, but <code><a href="../reference/layout_columns.html">layout_columns()</a></code> can be used to create more complex layouts whereas <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> creates a grid of equal column and row sizes.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -147,7 +144,8 @@
 
         </dt>
         <dd>Responsive 12-column grid layouts</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="layout_column_wrap.html">layout_column_wrap()</a></code>
 
@@ -158,8 +156,7 @@
       <h3 id="multiple-panels">Multiple panels<a class="anchor" aria-label="anchor" href="#multiple-panels"></a></h3>
       <div class="section-desc"><p>Create tabbed sections of content. First, choose the style of navigation container. Then add navigation panels or items to the container. You can programmatically control or update the navigation containers with server-side logic.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -170,19 +167,22 @@
 
         </dt>
         <dd>Navigation containers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="nav-items.html">nav_panel()</a></code> <code><a href="nav-items.html">nav_panel_hidden()</a></code> <code><a href="nav-items.html">nav_menu()</a></code> <code><a href="nav-items.html">nav_item()</a></code> <code><a href="nav-items.html">nav_spacer()</a></code>
 
         </dt>
         <dd>Navigation items</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="nav_select.html">nav_select()</a></code> <code><a href="nav_select.html">nav_insert()</a></code> <code><a href="nav_select.html">nav_remove()</a></code> <code><a href="nav_select.html">nav_show()</a></code> <code><a href="nav_select.html">nav_hide()</a></code>
 
         </dt>
         <dd>Dynamically update nav containers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="navbar_options.html">navbar_options()</a></code>
 
@@ -193,8 +193,7 @@
       <h3 id="sidebar-layout">Sidebar layout<a class="anchor" aria-label="anchor" href="#sidebar-layout"></a></h3>
       <div class="section-desc"><p>Place input controls or additional context in a sidebar next to the main contents. Sidebar layouts combine well with <a href="#cards">cards</a> and are built into the <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page_navbar.html">page_navbar()</a></code> page layouts.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -210,14 +209,12 @@
 
       <div class="section-desc"><p>bslib brings a collection of Bootstrap components to Shiny. These components require the latest version of Bootstrap and work best when used with the <a href="#page-layouts">page functions listed above</a>.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="cards">Cards<a class="anchor" aria-label="anchor" href="#cards"></a></h3>
       <div class="section-desc"><p>Cards are a great way to group content into a single, contained unit. Cards combine nicely with many other functions in bslib. They can be added to <a href="#dashboard-layouts">dashboard page layouts</a>, laid out with helpers like <code><a href="../reference/layout_columns.html">layout_columns()</a></code>, or have sidebars when used with <code><a href="../reference/sidebar.html">layout_sidebar()</a></code>. You can even create <a href="#navigation">tabbed card interfaces</a> with the <code>navset_card_*()</code> functions.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -228,7 +225,8 @@
 
         </dt>
         <dd>A Bootstrap card component</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="card_body.html">card_body()</a></code> <code><a href="card_body.html">card_title()</a></code> <code><a href="card_body.html">card_header()</a></code> <code><a href="card_body.html">card_footer()</a></code> <code><a href="card_body.html">card_image()</a></code> <code><a href="card_body.html">as.card_item()</a></code> <code><a href="card_body.html">is.card_item()</a></code>
 
@@ -239,8 +237,7 @@
       <h3 id="value-box">Value box<a class="anchor" aria-label="anchor" href="#value-box"></a></h3>
       <div class="section-desc"><p>Value boxes are a special type of card that highlight a single piece of information, optionally showcasing an icon or plot. They are often used in <a href="#dashboard-layouts">dashboard layouts</a> to highlight key metrics.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -256,8 +253,7 @@
       <h3 id="accordions">Accordions<a class="anchor" aria-label="anchor" href="#accordions"></a></h3>
       <div class="section-desc"><p>Create collapsible sections of content. Each collapsible section is defined with <code><a href="../reference/accordion.html">accordion_panel()</a></code> and the collection of sections are grouped together within an <code><a href="../reference/accordion.html">accordion()</a></code>.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -268,7 +264,8 @@
 
         </dt>
         <dd>Create a vertically collapsing accordion</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="accordion_panel_set.html">accordion_panel_set()</a></code> <code><a href="accordion_panel_set.html">accordion_panel_open()</a></code> <code><a href="accordion_panel_set.html">accordion_panel_close()</a></code> <code><a href="accordion_panel_set.html">accordion_panel_insert()</a></code> <code><a href="accordion_panel_set.html">accordion_panel_remove()</a></code> <code><a href="accordion_panel_set.html">accordion_panel_update()</a></code>
 
@@ -279,8 +276,7 @@
       <h3 id="tooltips-popovers">Tooltips &amp; Popovers<a class="anchor" aria-label="anchor" href="#tooltips-popovers"></a></h3>
       <div class="section-desc"><p>Provide details on demand. In general, tooltips are ephemeral and provide a little extra information when the user hovers over or focuses on an element. Popovers are more persistent and are triggered by a click or via the keyboard. Popovers can include more content than tooltips – even Shiny inputs and outputs!</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -291,7 +287,8 @@
 
         </dt>
         <dd>Add a tooltip to a UI element</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="popover.html">popover()</a></code> <code><a href="popover.html">toggle_popover()</a></code> <code><a href="popover.html">update_popover()</a></code>
 
@@ -302,8 +299,7 @@
       <h3 id="miscellaneous-inputs">Miscellaneous inputs<a class="anchor" aria-label="anchor" href="#miscellaneous-inputs"></a></h3>
       <div class="section-desc"><p>UI controls for capturing user input</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -314,25 +310,29 @@
 
         </dt>
         <dd>Switch input control</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="input_dark_mode.html">input_dark_mode()</a></code> <code><a href="input_dark_mode.html">toggle_dark_mode()</a></code>
 
         </dt>
         <dd>Dark mode input control</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="input_submit_textarea.html">input_submit_textarea()</a></code> <code><a href="input_submit_textarea.html">update_submit_textarea()</a></code>
 
         </dt>
         <dd>Create a textarea input control with explicit submission</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="input_task_button.html">input_task_button()</a></code> <code><a href="input_task_button.html">update_task_button()</a></code>
 
         </dt>
         <dd>Button for launching longer-running operations</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="bind_task_button.html">bind_task_button()</a></code>
 
@@ -343,14 +343,12 @@
 
       <div class="section-desc"><p>bslib provides a flexible interface for customizing Bootstrap themes. You can create your own Bootstrap themes, customize existing themes, or create dynamic themes that can even be modified at runtime.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="create-a-bootstrap-theme">Create a Bootstrap theme<a class="anchor" aria-label="anchor" href="#create-a-bootstrap-theme"></a></h3>
       <div class="section-desc"><p>Tools for creating customized Bootstrap themes. Create your own, highly customized theme, or use a preset theme – either built into bslib or provided by <a href="https://bootswatch.com/" class="external-link">Bootswatch</a>.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -361,13 +359,15 @@
 
         </dt>
         <dd>Create a Bootstrap theme</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="bs_bundle.html">bs_add_variables()</a></code> <code><a href="bs_bundle.html">bs_add_rules()</a></code> <code><a href="bs_bundle.html">bs_add_functions()</a></code> <code><a href="bs_bundle.html">bs_add_mixins()</a></code> <code><a href="bs_bundle.html">bs_bundle()</a></code>
 
         </dt>
         <dd>Add low-level theming customizations</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="font_face.html">font_face</a></code> <code><a href="font_face.html">font_link</a></code> <code><a href="font_face.html">font_google</a></code> <code><a href="font_face.html">font_collection</a></code>
 
@@ -378,8 +378,7 @@
       <h3 id="interactive-theming">Interactive theming<a class="anchor" aria-label="anchor" href="#interactive-theming"></a></h3>
       <div class="section-desc"><p>Preview and interactively modify Bootstrap themes. Use <code><a href="../reference/bs_theme_preview.html">bs_theme_preview()</a></code> for a preview of your theme in a Shiny app with many example components. Use <code><a href="../reference/run_with_themer.html">run_with_themer()</a></code> to run an existing Shiny app with the theme editor or <code><a href="../reference/run_with_themer.html">bs_themer()</a></code> to add the theme editor UI to your app or R Markdown document.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -390,7 +389,8 @@
 
         </dt>
         <dd>Preview a Bootstrap theme</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="run_with_themer.html">run_with_themer()</a></code> <code><a href="run_with_themer.html">bs_themer()</a></code>
 
@@ -401,8 +401,7 @@
       <h3 id="dynamic-theming">Dynamic theming<a class="anchor" aria-label="anchor" href="#dynamic-theming"></a></h3>
       <div class="section-desc"><p>For package developers or advanced app authors, bslib provides tools for creating dynamically themable HTML widgets.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -413,13 +412,15 @@
 
         </dt>
         <dd>Themeable HTML components</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="bs_theme_dependencies.html">bs_theme_dependencies()</a></code>
 
         </dt>
         <dd>Compile Bootstrap Sass with (optional) theming</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="bs_current_theme.html">bs_current_theme()</a></code>
 
@@ -430,8 +431,7 @@
       <h3 id="global-theme-creation">Global theme creation<a class="anchor" aria-label="anchor" href="#global-theme-creation"></a></h3>
       <div class="section-desc"><p>Use Bootstrap themes globally.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -447,8 +447,7 @@
       <h3 id="theme-subsetting">Theme subsetting<a class="anchor" aria-label="anchor" href="#theme-subsetting"></a></h3>
       <div class="section-desc"><p>Reduce the final CSS bundle size by removing unwanted portions of a Sass bundle.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -464,14 +463,12 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="fill-items-and-fillable-containers">Fill items and fillable containers<a class="anchor" aria-label="anchor" href="#fill-items-and-fillable-containers"></a></h3>
       <div class="section-desc"><p>Create and test for fill items and fillable containers.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -487,8 +484,7 @@
       <h3 id="theming-utility-functions">Theming utility functions<a class="anchor" aria-label="anchor" href="#theming-utility-functions"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -499,31 +495,36 @@
 
         </dt>
         <dd>Retrieve Sass variable values from the current theme</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="theme_version.html">theme_version()</a></code>
 
         </dt>
         <dd>Obtain a theme's Bootstrap version</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="theme_bootswatch.html">theme_bootswatch()</a></code>
 
         </dt>
         <dd>Obtain a theme's Bootswatch theme name</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="bootswatch_themes.html">bootswatch_themes()</a></code>
 
         </dt>
         <dd>Obtain a list of all available bootswatch themes.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="builtin_themes.html">builtin_themes()</a></code>
 
         </dt>
         <dd>Obtain a list of all available built-in <span class="pkg">bslib</span> themes.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="versions.html">versions()</a></code> <code><a href="versions.html">version_default()</a></code>
 
@@ -534,8 +535,7 @@
       <h3 id="other-utility-functions">Other utility functions<a class="anchor" aria-label="anchor" href="#other-utility-functions"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -556,7 +556,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
