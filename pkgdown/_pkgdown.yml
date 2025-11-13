@@ -169,16 +169,19 @@ reference:
   contents:
     - accordion
     - accordion_panel_set
-- subtitle: Tooltips & Popovers
+- subtitle: Tooltips, Popovers and Toasts
   desc: |
     Provide details on demand. In general, tooltips are ephemeral and provide a
     little extra information when the user hovers over or focuses on an element.
     Popovers are more persistent and are triggered by a click or via the
     keyboard. Popovers can include more content than tooltips -- even Shiny
-    inputs and outputs!
+    inputs and outputs! Toasts are small notification messages that appear
+    temporarily in a corner of the screen.
   contents:
     - tooltip
     - popover
+    - toast
+    - show_toast
 - subtitle: Miscellaneous inputs
   desc: |
     UI controls for capturing user input
