@@ -25,7 +25,7 @@ card_body(
 
 card_title(..., container = htmltools::h5)
 
-card_header(..., class = NULL, container = htmltools::div)
+card_header(..., gap = NULL, class = NULL, container = htmltools::div)
 
 card_footer(..., class = NULL)
 

@@ -244,9 +244,19 @@ card_title <- function(..., container = htmltools::h5) {
 #' @describeIn card_body A header (with border and background color) for the `card()`. Typically appears before a `card_body()`.
 #' @param container a function that generates an [htmltools tag][htmltools::tags].
 #' @export
-card_header <- function(..., class = NULL, container = htmltools::div) {
+card_header <- function(
+  ...,
+  gap = NULL,
+  class = NULL,
+  container = htmltools::div
+) {
   as.card_item(
-    container(class = "card-header", class = class, ...)
+    container(
+      class = "card-header bslib-gap-spacing",
+      class = class,
+      style = css(gap = validateCssUnit(gap)),
+      ...
+    )
   )
 }
 
