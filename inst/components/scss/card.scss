@@ -39,7 +39,8 @@
       flex: 1;
       min-width: 0; // Prevent flex item from overflowing
     }
-
+    
+    // Ensures that nav_spacer() correctly pushes subsequent items to the right in card headers
     > .bslib-nav-spacer {
         margin-left: auto;
     }
