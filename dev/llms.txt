@@ -250,13 +250,14 @@ and the collection of sections are grouped together within an
   [`accordion_panel_update()`](https://rstudio.github.io/bslib/dev/reference/accordion_panel_set.md)
   : Dynamically update accordions
 
-### Tooltips & Popovers
+### Tooltips, Popovers and Toasts
 
 Provide details on demand. In general, tooltips are ephemeral and
 provide a little extra information when the user hovers over or focuses
 on an element. Popovers are more persistent and are triggered by a click
 or via the keyboard. Popovers can include more content than tooltips –
-even Shiny inputs and outputs!
+even Shiny inputs and outputs! Toasts are small notification messages
+that appear temporarily in a corner of the screen.
 
 - [`tooltip()`](https://rstudio.github.io/bslib/dev/reference/tooltip.md)
   [`toggle_tooltip()`](https://rstudio.github.io/bslib/dev/reference/tooltip.md)
@@ -266,6 +267,12 @@ even Shiny inputs and outputs!
   [`toggle_popover()`](https://rstudio.github.io/bslib/dev/reference/popover.md)
   [`update_popover()`](https://rstudio.github.io/bslib/dev/reference/popover.md)
   : Add a popover to a UI element
+- [`toast()`](https://rstudio.github.io/bslib/dev/reference/toast.md)
+  [`toast_header()`](https://rstudio.github.io/bslib/dev/reference/toast.md)
+  : Toast notifications
+- [`show_toast()`](https://rstudio.github.io/bslib/dev/reference/show_toast.md)
+  [`hide_toast()`](https://rstudio.github.io/bslib/dev/reference/show_toast.md)
+  : Show or hide a toast notification
 
 ### Miscellaneous inputs
 
