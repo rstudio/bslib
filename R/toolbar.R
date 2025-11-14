@@ -7,24 +7,18 @@
 #' @param ... UI elements for the toolbar.
 #' @param align Determines if toolbar should be aligned to the `"right"` or
 #'   `"left"`.
-#' @param size The size of the toolbar. Must be one of `"sm"`, `"md"`, or
-#'   `"lg"`.
-#'
 #' @return Returns a toolbar element.
 #'
 #' @export
 toolbar <- function(
   ...,
-  align = c("right", "left"),
-  size = c("sm", "md", "lg")
+  align = c("right", "left")
 ) {
   align <- rlang::arg_match(align)
-  size <- rlang::arg_match(size)
 
   tag <- div(
-    class = "bslib-toolbar",
+    class = "bslib-toolbar bslib-gap-spacing",
     "data-align" = align,
-    "data-size" = size,
     ...,
     component_dependencies()
   )
