@@ -2,23 +2,20 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar}
 \alias{toolbar}
-\title{Add a toolbar to a UI element}
+\title{Toolbar component}
 \usage{
-toolbar(..., align = c("right", "left"), size = c("sm", "md", "lg"))
+toolbar(..., align = c("right", "left"))
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
 
-\item{align}{Determines if toolbar should be aligned to the right or left.
-Must be one of "right" or "left".}
-
-\item{size}{The size of the toolbar. Must be one of "sm", "md", or "lg".}
+\item{align}{Determines if toolbar should be aligned to the \code{"right"} or
+\code{"left"}.}
 }
 \value{
-Returns a toolbar.
+Returns a toolbar element.
 }
 \description{
-A toolbar which can contain buttons, inputs, and other UI elements
-in a small form suitable for inclusion in card headers,
-footers, and other small places.
+A toolbar which can contain buttons, inputs, and other UI elements in a small
+form suitable for inclusion in card headers, footers, and other small places.
 }

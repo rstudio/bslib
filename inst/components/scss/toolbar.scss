@@ -2,64 +2,38 @@
 .bslib-toolbar {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
 
-    /* Toolbar options */
+    /* ---- Toolbar options ---- */
 
     &[data-align="left"] {
         margin-right: auto;
-        align-items: flex-start;
     }
 
     &[data-align="right"] {
         margin-left: auto;
-        align-items: flex-end;
     }
 
-    &[data-size="sm"] {
-        font-size: 0.8rem;
+    /* ---- Adjustments to other elements ---- */
 
-        & > * {
-            font-size: 0.8rem;
-        }
-    }
-
-    &[data-size="md"] {
-        font-size: 1rem;
-
-        & > * {
-            font-size: 1rem;
-        }
-    }
-
-    &[data-size="lg"] {
-        font-size: 1.25rem;
-
-        & > * {
-            font-size: 1.25rem;
-        }
-    }
-
-    /* Adjustments to other elements */
-
+    // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    
     &,
-    &>* {
+    & * {
+        font-size: 0.8rem;
+    }
+
+    & > * {
         margin-bottom: 0 !important;
         width: auto;
+        align-self: center;
     }
 
-    /* Ensures that inputs inherit the formatting of the toolbar and align correctly */
-    >.form-group.shiny-input-container, .form-group.shiny-input-container>* {
+    // Ensures that inputs inherit the formatting of the toolbar and align correctly (e.g. input select)
+    > .form-group {
         width: auto;
-        margin-bottom: 0;
-        min-width: 0;
     }
 
-    /* Ensure card headers with toolbars use flexbox for alignment */
-    .card-header:has(> &) {
-        display: flex;
-        align-items: center;
-    }
+    // Card header is flex by default, but card footer is not and must be in order for
+    // toolbar alignment to work
     .card-footer:has(> &) {
         display: flex;
         align-items: center;

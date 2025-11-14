@@ -33,3 +33,5 @@ inst/lib/bsw3/.npmignore
 ^inst/examples-shiny/brand.yml/Monda\.ttf$
 ^inst/examples-shiny/brand.yml/Monda-OFL\.txt$
 ^AGENTS\.md$
+^[.]?air[.]toml$
+^\.vscode$
