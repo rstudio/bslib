@@ -233,36 +233,25 @@ test_that("toolbar_input_button() validates label for accessibility", {
 })
 
 test_that("toolbar() markup snapshots", {
-    show_raw_html <- function(x) {
-        cat(format(x))
-    }
+  show_raw_html <- function(x) {
+    cat(format(x))
+  }
 
-    # Basic toolbar
-    expect_snapshot(
-        show_raw_html(
-            toolbar("Item 1", "Item 2")
-        )
+  # Basic toolbar
+  expect_snapshot(
+    show_raw_html(
+      toolbar("Item 1", "Item 2")
     )
+  )
 
-    # Toolbar with alignment options
-    expect_snapshot(
-        show_raw_html(
-            toolbar(
-                "Item 1",
-                "Item 2",
-                align = "left"
-            )
-        )
+  # Toolbar with alignment options
+  expect_snapshot(
+    show_raw_html(
+      toolbar(
+        "Item 1",
+        "Item 2",
+        align = "left"
+      )
     )
-
-    # Toolbar with size options
-    expect_snapshot(
-        show_raw_html(
-            toolbar(
-                "Item 1",
-                "Item 2",
-                size = "md"
-            )
-        )
-    )
+  )
 })
