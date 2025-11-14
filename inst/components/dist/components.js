@@ -1,4 +1,4 @@
-/*! bslib 0.9.0.9000 | (c) 2012-2025 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.9.0.9002 | (c) 2012-2025 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -61,6 +61,17 @@
         `[bslib] Global window.bslib.${name} was already defined, using previous definition.`
       );
     }
+  }
+  function showShinyClientMessage({
+    headline = "",
+    message,
+    status = "warning"
+  }) {
+    document.dispatchEvent(
+      new CustomEvent("shiny:client-message", {
+        detail: { headline, message, status }
+      })
+    );
   }
   function hasDefinedProperty(obj, prop) {
     return Object.prototype.hasOwnProperty.call(obj, prop) && obj[prop] !== void 0;
@@ -1780,6 +1791,305 @@
     }
   });
 
+  // srcts/src/components/toast.ts
+  function showToast(message) {
+    return __async(this, null, function* () {
+      var _a, _b;
+      const { html, deps, autohide, duration, position, id } = message;
+      if (!window.bootstrap || !window.bootstrap.Toast) {
+        showShinyClientMessage({
+          headline: "Bootstrap 5 Required",
+          message: "Toast notifications require Bootstrap 5.",
+          status: "error"
+        });
+        return;
+      }
+      const existingToastEl = document.getElementById(id);
+      if (existingToastEl) {
+        const existingInstance = toastInstances.get(existingToastEl);
+        if (existingInstance) {
+          existingInstance.hide();
+          toastInstances.delete(existingToastEl);
+        }
+        (_b = (_a = window == null ? void 0 : window.Shiny) == null ? void 0 : _a.unbindAll) == null ? void 0 : _b.call(_a, existingToastEl);
+        existingToastEl.remove();
+      }
+      const toaster = toasterManager.getOrCreateToaster(position);
+      yield shinyRenderContent(toaster, { html, deps }, "beforeEnd");
+      const toastEl = document.getElementById(id);
+      if (!toastEl) {
+        showShinyClientMessage({
+          headline: "Toast Creation Failed",
+          message: `Failed to create toast with id "${id}".`,
+          status: "error"
+        });
+        return;
+      }
+      const toastInstance = new BslibToastInstance(toastEl, { autohide, duration });
+      toastInstances.set(toastEl, toastInstance);
+      toastInstance.show();
+      toastEl.addEventListener("hidden.bs.toast", () => {
+        var _a2, _b2;
+        (_b2 = (_a2 = window == null ? void 0 : window.Shiny) == null ? void 0 : _a2.unbindAll) == null ? void 0 : _b2.call(_a2, toastEl);
+        toastEl.remove();
+        toastInstances.delete(toastEl);
+        if (toaster.children.length === 0) {
+          toaster.remove();
+        }
+      });
+    });
+  }
+  function hideToast(message) {
+    const { id } = message;
+    const toastEl = document.getElementById(id);
+    if (!toastEl) {
+      showShinyClientMessage({
+        headline: "Toast Not Found",
+        message: `No toast with id "${id}" was found.`,
+        status: "warning"
+      });
+      return;
+    }
+    const toastInstance = toastInstances.get(toastEl);
+    if (toastInstance) {
+      toastInstance.hide();
+    }
+  }
+  var bootstrapToast, ToasterManager, toasterManager, BslibToastInstance, toastInstances;
+  var init_toast = __esm({
+    "srcts/src/components/toast.ts"() {
+      "use strict";
+      init_shinyAddCustomMessageHandlers();
+      init_utils();
+      bootstrapToast = window.bootstrap ? window.bootstrap.Toast : class {
+      };
+      ToasterManager = class {
+        constructor() {
+          this.containers = /* @__PURE__ */ new Map();
+        }
+        /**
+         * Gets an existing toaster for the position or creates a new one.
+         *
+         * @param position - The toast position (e.g., "top-right", "bottom-center")
+         * @returns The DOM container element for the specified position
+         */
+        getOrCreateToaster(position) {
+          let toaster = this.containers.get(position);
+          if (!toaster || !document.body.contains(toaster)) {
+            toaster = ToasterManager._createToaster(position);
+            document.body.appendChild(toaster);
+            this.containers.set(position, toaster);
+          }
+          return toaster;
+        }
+        /**
+         * Creates a new toast container (toaster) DOM element for the specified
+         * position.
+         *
+         * @param position - The toast position to create a container for
+         * @returns A new DOM container element positioned and styled for toasts
+         * @private
+         */
+        static _createToaster(position) {
+          const toaster = document.createElement("div");
+          toaster.className = "toast-container position-fixed p-1 p-md-2";
+          toaster.setAttribute("data-bslib-toast-container", position);
+          toaster.classList.add(...ToasterManager._positionClasses(position));
+          return toaster;
+        }
+        /**
+         * Maps toast positions to their corresponding Bootstrap utility classes.
+         *
+         * @param position - The toast position
+         * @returns Array of CSS class names for positioning the container
+         * @private
+         */
+        static _positionClasses(position) {
+          const classMap = {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "top-left": ["top-0", "start-0"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "top-center": ["top-0", "start-50", "translate-middle-x"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "top-right": ["top-0", "end-0"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "middle-left": ["top-50", "start-0", "translate-middle-y"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "middle-center": ["top-50", "start-50", "translate-middle"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "middle-right": ["top-50", "end-0", "translate-middle-y"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "bottom-left": ["bottom-0", "start-0"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "bottom-center": ["bottom-0", "start-50", "translate-middle-x"],
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "bottom-right": ["bottom-0", "end-0"]
+          };
+          return classMap[position];
+        }
+      };
+      toasterManager = new ToasterManager();
+      BslibToastInstance = class {
+        constructor(element, options) {
+          this.progressBar = null;
+          this.timeStart = 0;
+          this.timeRemaining = 0;
+          this.hideTimeoutId = null;
+          this.isPaused = false;
+          this.isPointerOver = false;
+          this.hasFocus = false;
+          this.element = element;
+          this.timeRemaining = options.duration || 5e3;
+          const bsOptions = { animation: true, autohide: false };
+          this.bsToast = new bootstrapToast(element, bsOptions);
+          if (options.autohide) {
+            this._addProgressBar();
+            this._setupInteractionPause();
+          }
+        }
+        /**
+         * Shows the toast notification.
+         */
+        show() {
+          this.bsToast.show();
+        }
+        /**
+         * Hides the toast notification.
+         */
+        hide() {
+          if (this.hideTimeoutId !== null) {
+            clearTimeout(this.hideTimeoutId);
+            this.hideTimeoutId = null;
+          }
+          this.bsToast.hide();
+        }
+        /**
+         * Adds an animated progress bar to the toast element.
+         * @private
+         */
+        _addProgressBar() {
+          this.progressBar = document.createElement("div");
+          this.progressBar.className = "bslib-toast-progress-bar";
+          this.progressBar.style.cssText = `
+      animation: bslib-toast-progress ${this.timeRemaining}ms linear forwards;
+      animation-play-state: running;
+    `;
+          const toastHeader = this.element.querySelector(".toast-header");
+          if (toastHeader) {
+            toastHeader.insertBefore(this.progressBar, toastHeader.firstChild);
+          } else {
+            this.element.insertBefore(this.progressBar, this.element.firstChild);
+          }
+        }
+        /**
+         * Sets up interaction-based pause behavior for autohiding toasts.
+         * Pauses auto-hide when user interacts via pointer (mouse/touch) or keyboard focus.
+         * @private
+         */
+        _setupInteractionPause() {
+          this.timeStart = Date.now();
+          this._startHideTimeout(this.timeRemaining);
+          this.element.addEventListener(
+            "pointerenter",
+            () => this._handlePointerEnter()
+          );
+          this.element.addEventListener(
+            "pointerleave",
+            () => this._handlePointerLeave()
+          );
+          this.element.addEventListener("focusin", () => this._handleFocusIn());
+          this.element.addEventListener("focusout", () => this._handleFocusOut());
+        }
+        /**
+         * Handles pointer enter event - pauses the auto-hide timer.
+         * @private
+         */
+        _handlePointerEnter() {
+          this.isPointerOver = true;
+          this._pause();
+        }
+        /**
+         * Handles pointer leave event - resumes the auto-hide timer if not focused.
+         * @private
+         */
+        _handlePointerLeave() {
+          this.isPointerOver = false;
+          if (!this.hasFocus) {
+            this._resume();
+          }
+        }
+        /**
+         * Handles focus in event - pauses the auto-hide timer.
+         * @private
+         */
+        _handleFocusIn() {
+          this.hasFocus = true;
+          this._pause();
+        }
+        /**
+         * Handles focus out event - resumes the auto-hide timer if pointer not over.
+         * @private
+         */
+        _handleFocusOut() {
+          this.hasFocus = false;
+          if (!this.isPointerOver) {
+            this._resume();
+          }
+        }
+        /**
+         * Pauses the auto-hide timer and progress bar animation.
+         * @private
+         */
+        _pause() {
+          if (this.isPaused)
+            return;
+          this.isPaused = true;
+          const elapsed = Date.now() - this.timeStart;
+          this.timeRemaining = Math.max(100, this.timeRemaining - elapsed);
+          if (this.hideTimeoutId !== null) {
+            clearTimeout(this.hideTimeoutId);
+          }
+          if (this.progressBar) {
+            this.progressBar.style.animationPlayState = "paused";
+          }
+        }
+        /**
+         * Resumes the auto-hide timer and progress bar animation.
+         * @private
+         */
+        _resume() {
+          if (!this.isPaused)
+            return;
+          this.isPaused = false;
+          this.timeStart = Date.now();
+          this._startHideTimeout(this.timeRemaining);
+          if (this.progressBar) {
+            this.progressBar.style.animationPlayState = "running";
+          }
+        }
+        /**
+         * Starts or restarts the hide timeout.
+         * @private
+         */
+        _startHideTimeout(delay) {
+          if (this.hideTimeoutId !== null) {
+            clearTimeout(this.hideTimeoutId);
+          }
+          this.hideTimeoutId = window.setTimeout(() => {
+            this.bsToast.hide();
+          }, delay);
+        }
+      };
+      toastInstances = /* @__PURE__ */ new WeakMap();
+      shinyAddCustomMessageHandlers({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "bslib.show-toast": showToast,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "bslib.hide-toast": hideToast
+      });
+    }
+  });
+
   // srcts/src/components/index.ts
   var require_components = __commonJS({
     "srcts/src/components/index.ts"(exports) {
@@ -1788,6 +2098,7 @@
       init_sidebar();
       init_taskButton();
       init_submitTextArea();
+      init_toast();
       init_utils();
       init_shinyAddCustomMessageHandlers();
       var bslibMessageHandlers = {
