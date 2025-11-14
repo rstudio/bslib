@@ -6,6 +6,8 @@
 
 * Added toast notifications based on [Bootstrap's Toast component](https://getbootstrap.com/docs/5.3/components/toasts/): Use `toast()` to create customizable toast objects, `show_toast()` to display a toast message, `hide_toast()` for manual dismissal, and `toast_header()` for structured headers with icons and status indicators. (#1246)
 
+* Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
+
 ## Improvements and bug fixes
 
 * `card_header()` is now flex by default and gains a `gap` argument to better support complex header layouts. (#1253)
