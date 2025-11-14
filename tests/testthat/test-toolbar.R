@@ -31,11 +31,7 @@ test_that("toolbar() markup snapshots", {
     # Toolbar with alignment options
     expect_snapshot(
         show_raw_html(
-            toolbar(
-                "Item 1",
-                "Item 2",
-                align = "left"
-            )
+            toolbar("Item 1", "Item 2", align = "left")
         )
     )
 })
