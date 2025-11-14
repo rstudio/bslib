@@ -237,14 +237,14 @@ test_that("toolbar() markup snapshots", {
     cat(format(x))
   }
 
-  # Basic toolbar
+  # Basic toolbar using defaults
   expect_snapshot(
     show_raw_html(
       toolbar("Item 1", "Item 2")
     )
   )
 
-  # Toolbar with alignment options
+  # Toolbars with alignment options
   expect_snapshot(
     show_raw_html(
       toolbar(
