@@ -70,42 +70,49 @@
 
 
 /* Toolbar Select Input */
-.bslib-toolbar-input-select .form-group.shiny-input-container {
-  width: auto;
-  select {
+.bslib-toolbar-input-select {
+
+  .form-group.shiny-input-container {
+    width: auto;
+    select {
+      width: auto;
+    }
+  }
+
+  /* Remove the select label visually */
+  #select-label {
+    display: none;
+  }
+
+  /* Make children take width=auto to size to content */
+  & > * {
     width: auto;
   }
-}
-/* Remove the select label visually */
-.bslib-toolbar-input-select #select-label {
-    display: none;
-}
 
-/* Make children take width=auto to size to content */
-.bslib-toolbar-input-select > * {
-    width: auto;
-}
+  select {
+    appearance: auto; /* .form-controls takes away the drop-down arrow, this ensures it shows up */
+    border: none;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
 
-.bslib-toolbar-input-select select {
-  appearance: auto; /* .form-controls takes away the drop-down arrow, this ensures it shows up */
-  border: none;
-  transition: background-color 120ms ease, color 120ms ease;
-}
+  // Hover, active, and focus styling to highlight the select and options on interaction
+  // because default styles are disabled to make the input slimmer
+  & select:hover {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08);
+  }
 
-.bslib-toolbar-input-select select:hover {
-    background-color: rgba(0,0,0,0.08);
-}
+  & select:active {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16);
+  }
 
-.bslib-toolbar-input-select select:active {
-    background-color: rgba(0,0,0,0.16);
-}
+  & select:focus,
+  select:focus-visible {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12);
+  }
 
-.bslib-toolbar-input-select select:focus, select:focus-visible {
-    background-color: rgba(0,0,0,0.12);
-}
-
-.bslib-toolbar-input-select select option:hover,
-.bslib-toolbar-input-select select option:focus,
-.bslib-toolbar-input-select select option:checked {
-  background-color: rgba(0,0,0,0.12) !important;
+  & select option:hover,
+  & select option:focus,
+  & select option:checked {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
+  }
 }
