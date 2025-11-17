@@ -6,7 +6,6 @@ test_that("toolbar() basic attributes and defaults", {
 
 test_that("toolbar() assigns correct attributes", {
   tb <- as.tags(toolbar(align = "left"))
-
   expect_equal(htmltools::tagGetAttribute(tb, "data-align"), "left")
 })
 
