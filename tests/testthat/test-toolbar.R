@@ -1,8 +1,6 @@
 test_that("toolbar() basic attributes and defaults", {
   tb <- as.tags(toolbar(htmltools::span("Test")))
-
   expect_match(htmltools::tagGetAttribute(tb, "class"), "bslib-toolbar")
-
   expect_match(htmltools::tagGetAttribute(tb, "data-align"), "right")
 })
 
