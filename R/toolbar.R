@@ -143,3 +143,52 @@ toolbar_input_button <- function(
 
   button
 }
+
+#' Toolbar Input Select
+#'
+#' @description
+#' Create a select list input control that can be used to choose a single item
+#' from a list of values, suitable for use within a [toolbar()]. This is a
+#' wrapper around [shiny::selectInput()] with `selectize = FALSE` and
+#' appropriate styling for toolbar usage.
+#'
+#' @param id The `input` slot that will be used to access the value.
+#' @param label Display label for the control, or `NULL` for no label.
+#' @param choices List of values to select from. If elements of the list are
+#'   named, then that name - rather than the value - is displayed to the user.
+#'   It's also possible to group related inputs by providing a named list whose
+#'   elements are (either named or unnamed) lists, vectors, or factors. In this
+#'   case, the outermost names will be used as the group labels (leveraging the
+#'   `<optgroup>` HTML tag) for the elements in the respective sublist.
+#' @param selected The initially selected value. If not specified then defaults
+#'   to the first value.
+#' @param width The width of the input, e.g. '400px', or '100%'; see `validateCssUnit()`.
+#' @param size The size of the select input. Must be one of `"sm"`, `"md"`, or
+#'   `"lg"`.
+#'
+#' @return Returns a select input control suitable for use in a toolbar.
+#'
+#' @export
+toolbar_input_select <- function(
+  id,
+  label,
+  choices,
+  selected = NULL,
+  width = NULL,
+  size = c("sm", "md", "lg")
+) {
+  size <- rlang::arg_match(size)
+  htmltools::div(
+    class = "bslib-toolbar-input-select form-select-sm",
+    "data-size" = size,
+    shiny::selectInput(
+      id,
+      label,
+      choices = choices,
+      selected = selected,
+      multiple = FALSE,
+      selectize = FALSE,
+      width = width
+    )
+  )
+}
