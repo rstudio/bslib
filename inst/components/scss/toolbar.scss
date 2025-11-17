@@ -74,6 +74,7 @@
 
   .form-group.shiny-input-container {
     width: auto;
+
     select {
       width: auto;
     }
@@ -85,12 +86,13 @@
   }
 
   /* Make children take width=auto to size to content */
-  & > * {
+  &>* {
     width: auto;
   }
 
   select {
-    appearance: auto; /* .form-controls takes away the drop-down arrow, this ensures it shows up */
+    appearance: auto;
+    /* .form-controls takes away the drop-down arrow, this ensures it shows up */
     border: none;
     transition: background-color 120ms ease, color 120ms ease;
   }
