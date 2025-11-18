@@ -1,4 +1,4 @@
-# toolbar() markup snapshots
+# toolbar() basic attributes and defaults
 
     Code
       show_raw_html(toolbar("Item 1", "Item 2"))
@@ -8,7 +8,7 @@
         Item 2
       </div>
 
----
+# toolbar() aligns correctly
 
     Code
       show_raw_html(toolbar("Item 1", "Item 2", align = "left"))
