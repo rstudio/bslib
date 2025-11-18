@@ -1,0 +1,36 @@
+/* Toolbar */
+.bslib-toolbar {
+  display: flex;
+  align-items: center;
+
+  /* ---- Toolbar options ---- */
+
+  &[data-align="left"] {
+    margin-right: auto;
+  }
+
+  &[data-align="right"] {
+    margin-left: auto;
+  }
+
+  /* ---- Adjustments to other elements ---- */
+
+  // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    
+  &,
+  & * {
+    font-size: 0.8rem;
+  }
+
+  &>* {
+    margin-bottom: 0 !important;
+    width: auto;
+    align-self: center;
+  }
+
+  // Card header is flex by default, but card footer is not and must be in order for
+  // toolbar alignment to work
+  .card-footer:has(> &) {
+    display: flex;
+    align-items: center;
+  }
+}
