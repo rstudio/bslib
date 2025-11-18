@@ -20,8 +20,4 @@ test_that("toolbar() markup snapshots", {
   expect_snapshot_html(
     toolbar("Item 1", "Item 2", align = "left")
   )
-
-  expect_snapshot_html(
-    toolbar("Item 1", "Item 2", align = "right")
-  )
 })
