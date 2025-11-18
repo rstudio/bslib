@@ -1,4 +1,4 @@
-# builtin_bundle(): errors for unknown preset names
+# builtin_bundle() / errors for unknown preset names
 
     Code
       builtin_bundle("not-a-preset", version = "5")
