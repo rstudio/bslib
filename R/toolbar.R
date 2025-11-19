@@ -60,13 +60,17 @@ toolbar_input_button <- function(
     )
   }
 
+  # Determine if this is an icon-only button
+  is_icon_only <- !is.null(icon) && is.null(label)
+
   shiny::actionButton(
     id,
     label = label,
     icon = icon,
     disabled = disabled,
-    class = "bslib-toolbar-input-button btn-sm p-1",
+    class = "bslib-toolbar-input-button btn-sm",
     class = if (!border) "border-0" else "border-1",
+    "data-type" = if (is_icon_only) "icon",
     ...
   )
 }

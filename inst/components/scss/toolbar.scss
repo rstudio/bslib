@@ -29,21 +29,28 @@
     >.glyphicon {
       display: flex;
       align-items: center;
-      font-size: .9rem;
       justify-content: center;
       line-height: 1;
       margin: 0; // Remove any default margins
     }
   }
 
+  // Square icon-only buttons
+  .bslib-toolbar-input-button[data-type="icon"] {
+    --_size: 1.5rem; // Match max-height for consistency
+    height: var(--_size);
+    aspect-ratio: 1; // Width automatically matches height
+    padding: 0 !important; // Remove padding for perfect centering, override Bootstrap
+    line-height: 1 !important; // Ensure no line-height interference
+  }
+
 
   /* ---- Adjustments to other elements ---- */
 
-  // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)
-  // Exclude icon-only button icons from this rule
+  // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    
   &,
-  & *:not(.bslib-toolbar-input-button[data-type="icon"], .bslib-toolbar-input-button[data-type="icon"] *) {
-    font-size: 0.8rem;
+  & * {
+    font-size: 0.9rem;
   }
 
   &>* {
@@ -55,22 +62,6 @@
   // Ensures that inputs inherit the formatting of the toolbar and align correctly (e.g. input select)
   >.form-group {
     width: auto;
-  }
-
-  // Square icon-only buttons (must come after general font-size rule)
-  .bslib-toolbar-input-button[data-type="icon"] {
-    --_size: 1.5rem; // Match max-height for consistency
-    height: var(--_size);
-    aspect-ratio: 1; // Width automatically matches height
-    padding: 0 !important; // Remove padding for perfect centering, override Bootstrap
-    line-height: 1 !important; // Ensure no line-height interference
-
-    // Set icon size for all icon types
-    >.fa,
-    >.bi,
-    >.glyphicon {
-      font-size: 0.9rem;
-    }
   }
 
   // Card header is flex by default, but card footer is not and must be in order for
