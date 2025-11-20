@@ -39,13 +39,10 @@
 
   // Square icon-only buttons
   .bslib-toolbar-input-button[data-type="icon"] {
-    --_size: 1.5rem; // Match max-height for consistency
     height: var(--_size);
-    aspect-ratio: 1; // Width automatically matches height
-    padding: 0 !important; // Remove padding for perfect centering, override Bootstrap
+    aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
   }
-
 
   /* ---- Adjustments to other elements ---- */
 
