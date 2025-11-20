@@ -2,25 +2,18 @@
 .bslib-toolbar {
   display: flex;
   align-items: center;
-<<<<<<< HEAD
   gap: 0;
   max-height: var(--_size); // Match approximate card header text height so it doesn't expand beyond normal
-=======
->>>>>>> origin/feat/toolbar-epic
 
   /* ---- Toolbar options ---- */
 
   &[data-align="left"] {
     margin-right: auto;
-<<<<<<< HEAD
     justify-content: start;
-=======
->>>>>>> origin/feat/toolbar-epic
   }
 
   &[data-align="right"] {
     margin-left: auto;
-<<<<<<< HEAD
     justify-content: end;
   }
 
@@ -54,20 +47,12 @@
   }
 
 
-=======
-  }
-
->>>>>>> origin/feat/toolbar-epic
   /* ---- Adjustments to other elements ---- */
 
   // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    
   &,
   & * {
-<<<<<<< HEAD
     font-size: 0.9rem;
-=======
-    font-size: 0.8rem;
->>>>>>> origin/feat/toolbar-epic
   }
 
   &>* {
@@ -76,16 +61,8 @@
     align-self: center;
   }
 
-<<<<<<< HEAD
   // Ensures that inputs inherit the formatting of the toolbar and align correctly (e.g. input select)
   >.form-group {
     width: auto;
-=======
-  // Card header is flex by default, but card footer is not and must be in order for
-  // toolbar alignment to work
-  .card-footer:has(> &) {
-    display: flex;
-    align-items: center;
->>>>>>> origin/feat/toolbar-epic
   }
 }

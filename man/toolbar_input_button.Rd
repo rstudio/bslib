@@ -6,28 +6,31 @@
 \usage{
 toolbar_input_button(
   id,
-  label = NULL,
   icon = NULL,
+  label = NULL,
+  tooltip = NULL,
+  ...,
   disabled = FALSE,
-  border = FALSE,
-  ...
+  border = FALSE
 )
 }
 \arguments{
 \item{id}{The \code{input} slot that will be used to access the value.}
 
+\item{icon}{An icon to display in the button.
+(One of icon or label must be supplied.)}
+
 \item{label}{The label to display in the button.
 (One of icon or label must be supplied.)}
 
-\item{icon}{An icon to display in the button.
-(One of icon or label must be supplied.)}
+\item{tooltip}{An optional tooltip to display when hovering over the button.}
+
+\item{...}{UI elements for the button.}
 
 \item{disabled}{If \code{TRUE}, the button will not be clickable.
 Use \code{updateActionButton()} to dynamically enable/disable the button.}
 
 \item{border}{Whether to show a border around the button.}
-
-\item{...}{UI elements for the button.}
 }
 \value{
 Returns a button suitable for use in a toolbar.

@@ -38,7 +38,7 @@ toolbar <- function(
 #' A button designed to fit well in small places such as toolbars.
 #'
 #' @param id The `input` slot that will be used to access the value.
-#' #' @param icon An icon to display in the button.
+#' @param icon An icon to display in the button.
 #' (One of icon or label must be supplied.)
 #' @param label The label to display in the button.
 #' (One of icon or label must be supplied.)
