@@ -7,18 +7,23 @@
 #' @param ... UI elements for the toolbar.
 #' @param align Determines if toolbar should be aligned to the `"right"` or
 #'   `"left"`.
+#' @param gap A CSS length unit defining the gap (i.e., spacing) between
+#'   elements in the toolbar. Defaults to `0` (no gap).
 #' @return Returns a toolbar element.
 #'
 #' @export
 toolbar <- function(
   ...,
-  align = c("right", "left")
+  align = c("right", "left"),
+  gap = NULL
 ) {
   align <- rlang::arg_match(align)
+  gap <- validateCssUnit(gap)
 
   tag <- div(
     class = "bslib-toolbar bslib-gap-spacing",
     "data-align" = align,
+    style = css(gap = gap),
     ...,
     component_dependencies()
   )
@@ -33,10 +38,11 @@ toolbar <- function(
 #' A button designed to fit well in small places such as toolbars.
 #'
 #' @param id The `input` slot that will be used to access the value.
+#' #' @param icon An icon to display in the button.
+#' (One of icon or label must be supplied.)
 #' @param label The label to display in the button.
 #' (One of icon or label must be supplied.)
-#' @param icon An icon to display in the button.
-#' (One of icon or label must be supplied.)
+#' @param tooltip An optional tooltip to display when hovering over the button.
 #' @param disabled If `TRUE`, the button will not be clickable.
 #' Use `updateActionButton()` to dynamically enable/disable the button.
 #' @param border Whether to show a border around the button.
@@ -47,11 +53,12 @@ toolbar <- function(
 #' @export
 toolbar_input_button <- function(
   id,
-  label = NULL,
   icon = NULL,
+  label = NULL,
+  tooltip = NULL,
+  ...,
   disabled = FALSE,
-  border = FALSE,
-  ...
+  border = FALSE
 ) {
   if (is.null(icon) && is.null(label)) {
     stop(
@@ -63,7 +70,7 @@ toolbar_input_button <- function(
   # Determine if this is an icon-only button
   is_icon_only <- !is.null(icon) && is.null(label)
 
-  shiny::actionButton(
+  button <- shiny::actionButton(
     id,
     label = label,
     icon = icon,
@@ -73,4 +80,9 @@ toolbar_input_button <- function(
     "data-type" = if (is_icon_only) "icon",
     ...
   )
+
+  if (!is.null(tooltip)) {
+    button <- tooltip(button, tooltip, placement = "bottom")
+  }
+  button
 }

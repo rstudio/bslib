@@ -9,10 +9,12 @@
 
   &[data-align="left"] {
     margin-right: auto;
+    justify-content: start;
   }
 
   &[data-align="right"] {
     margin-left: auto;
+    justify-content: end;
   }
 
   /* ---- Toolbar Input Buttons ---- */
@@ -62,12 +64,5 @@
   // Ensures that inputs inherit the formatting of the toolbar and align correctly (e.g. input select)
   >.form-group {
     width: auto;
-  }
-
-  // Card header is flex by default, but card footer is not and must be in order for
-  // toolbar alignment to work
-  .card-footer:has(> &) {
-    display: flex;
-    align-items: center;
   }
 }
