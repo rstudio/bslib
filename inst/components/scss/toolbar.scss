@@ -23,7 +23,7 @@
   .bslib-toolbar-input-button {
     align-items: center;
     justify-content: center;
-    line-height: 1; // Override Bootstrap's line-height
+    line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
 
     // Ensure icon is centered
     >.fa,
@@ -32,7 +32,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      line-height: 1;
+      line-height: 1; // Remove excess line-height
       margin: 0; // Remove any default margins
     }
   }
