@@ -78,7 +78,11 @@ test_that("toolbar_input_button() disabled parameter", {
 
 test_that("toolbar_input_button() border parameter", {
   expect_snapshot_html(
-    toolbar_input_button(id = "no_border", label = "No Border", border = FALSE)
+    toolbar_input_button(
+      id = "no_border",
+      label = "No Border",
+      border = FALSE
+    )
   )
   expect_snapshot_html(
     toolbar_input_button(
