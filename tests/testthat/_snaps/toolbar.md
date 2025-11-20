@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # toolbar() markup snapshots
+=======
+# toolbar() basic attributes and defaults
+>>>>>>> origin/feat/toolbar-epic
 
     Code
       show_raw_html(toolbar("Item 1", "Item 2"))
@@ -8,7 +12,11 @@
         Item 2
       </div>
 
+<<<<<<< HEAD
 ---
+=======
+# toolbar() aligns correctly
+>>>>>>> origin/feat/toolbar-epic
 
     Code
       show_raw_html(toolbar("Item 1", "Item 2", align = "left"))
@@ -28,6 +36,7 @@
         Item 2
       </div>
 
+<<<<<<< HEAD
 # toolbar_input_button() markup snapshots
 
     Code
@@ -62,3 +71,5 @@
     Output
       <button class="btn btn-default action-button bslib-toolbar-input-button btn-sm p-1 border-0 btn-danger" id="btn4" type="button">Delete</button>
 
+=======
+>>>>>>> origin/feat/toolbar-epic

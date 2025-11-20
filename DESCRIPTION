@@ -117,6 +117,7 @@ Collate:
     'staticimports.R'
     'toolbar.R'
     'toast.R'
+    'toolbar.R'
     'tooltip.R'
     'utils-deps.R'
     'utils-shiny.R'
