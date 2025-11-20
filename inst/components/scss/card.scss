@@ -9,7 +9,6 @@
 
   .card-body {
     overflow: auto;
-
     p {
       margin-top: 0;
 
@@ -35,22 +34,21 @@
     min-height: 2.5rem;
     padding-block: calc(var(--bs-card-cap-padding-y) / 2);
     gap: 0.25rem;
-
     // Give the nav flex: 1 so that if the card header contains a nav, it will take all the available space
     // and correctly push items to the right if `nav_spacer` is used
     > .nav {
       flex: 1;
       min-width: 0; // Prevent flex item from overflowing
     }
+
     // Ensures that nav_spacer() correctly pushes subsequent items to the right in card headers
     > .bslib-nav-spacer {
-      margin-left: auto;
+        margin-left: auto;
     }
 
     .form-group {
       margin-bottom: 0;
     }
-
     .selectize-control {
       margin-bottom: 0;
       // TODO: we should probably add this to selectize's SCSS since this actually makes selectInput()
@@ -121,7 +119,6 @@
 .card:hover, .card:focus-within {
   & > * > .bslib-full-screen-enter {
     opacity: 0.6;
-
     &:hover, &:focus { opacity: 1; }
   }
 }
