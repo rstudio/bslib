@@ -4,13 +4,16 @@
 \alias{toolbar}
 \title{Toolbar component}
 \usage{
-toolbar(..., align = c("right", "left"))
+toolbar(..., align = c("right", "left"), gap = NULL)
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
 
 \item{align}{Determines if toolbar should be aligned to the \code{"right"} or
 \code{"left"}.}
+
+\item{gap}{A CSS length unit defining the gap (i.e., spacing) between
+elements in the toolbar. Defaults to \code{0} (no gap).}
 }
 \value{
 Returns a toolbar element.

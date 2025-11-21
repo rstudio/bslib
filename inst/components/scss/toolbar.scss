@@ -2,15 +2,46 @@
 .bslib-toolbar {
   display: flex;
   align-items: center;
+  gap: 0;
+  max-height: var(--_size); // Match approximate card header text height so it doesn't expand beyond normal
 
   /* ---- Toolbar options ---- */
 
   &[data-align="left"] {
     margin-right: auto;
+    justify-content: start;
   }
 
   &[data-align="right"] {
     margin-left: auto;
+    justify-content: end;
+  }
+
+  /* ---- Toolbar Input Buttons ---- */
+
+  // Keep labels and icons centered in the button
+  .bslib-toolbar-input-button {
+    align-items: center;
+    justify-content: center;
+    line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
+
+    // Ensure icon is centered
+    >.fa,
+    >.bi,
+    >.glyphicon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1; // Remove excess line-height
+      margin: 0; // Remove any default margins
+    }
+  }
+
+  // Square icon-only buttons
+  .bslib-toolbar-input-button[data-type="icon"] {
+    height: var(--_icon-size, 1em);
+    aspect-ratio: 1;
+    line-height: 1 !important; // Ensure no line-height interference
   }
 
   /* ---- Adjustments to other elements ---- */
@@ -18,19 +49,12 @@
   // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    
   &,
   & * {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   &>* {
     margin-bottom: 0 !important;
     width: auto;
     align-self: center;
-  }
-
-  // Card header is flex by default, but card footer is not and must be in order for
-  // toolbar alignment to work
-  .card-footer:has(> &) {
-    display: flex;
-    align-items: center;
   }
 }
