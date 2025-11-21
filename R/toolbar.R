@@ -37,14 +37,14 @@ toolbar <- function(
 #' @description
 #' A button designed to fit well in small places such as toolbars.
 #'
-#' @param id The `input` slot that will be used to access the value.
+#' @param id The input ID.
 #' @param icon An icon to display in the button.
 #' (One of icon or label must be supplied.)
 #' @param label The label to display in the button.
 #' (One of icon or label must be supplied.)
 #' @param tooltip An optional tooltip to display when hovering over the button.
 #' @param disabled If `TRUE`, the button will not be clickable.
-#' Use `updateActionButton()` to dynamically enable/disable the button.
+#' Use [shiny::updateActionButton()] to dynamically enable/disable the button.
 #' @param border Whether to show a border around the button.
 #' @param ... UI elements for the button.
 #'
@@ -66,7 +66,18 @@ toolbar_input_button <- function(
       call. = TRUE
     )
   }
+has_icon <- !is.null(icon)
+has_label <- !is.null(label)
 
+btn_type <- 
+  if (has_icon && !has_label) {
+    "icon"
+  } else if (has_label && !has_icon) {
+    "label"
+  } else {
+    # Can't both be missing (checked above)
+    "both"
+  }
   # Determine if this is an icon-only button
   is_icon_only <- !is.null(icon) && is.null(label)
 

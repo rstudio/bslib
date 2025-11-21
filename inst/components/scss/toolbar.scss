@@ -39,7 +39,7 @@
 
   // Square icon-only buttons
   .bslib-toolbar-input-button[data-type="icon"] {
-    height: var(--_size);
+    height: var(--_icon-size, 1em);
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
   }
