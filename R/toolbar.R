@@ -109,6 +109,8 @@ toolbar_input_button <- function(
       "Consider providing a non-empty string label for accessibility."
     )
   }
+  has_icon <- !is.null(icon)
+  has_label <- !is.null(label)
 
   label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
 
