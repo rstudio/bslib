@@ -238,13 +238,43 @@ test_that("toolbar() markup snapshots", {
   expect_snapshot_html(
     toolbar("Item 1", "Item 2")
   )
+  expect_snapshot_html(
+    toolbar("Item 1", "Item 2", gap = "10px")
+  )
+})
 
-  # Toolbars with alignment options
+test_that("toolbar() aligns correctly", {
+  tb <- as.tags(toolbar(align = "left"))
+  expect_equal(htmltools::tagGetAttribute(tb, "data-align"), "left")
   expect_snapshot_html(
     toolbar("Item 1", "Item 2", align = "left")
   )
-
   expect_snapshot_html(
     toolbar("Item 1", "Item 2", align = "right")
+  )
+  expect_error(toolbar("x", align = "center"))
+})
+
+
+# Toolbar Input Select Tests #
+
+test_that("toolbar_input_select() basic attributes and defaults", {
+  tis <- as.tags(
+    toolbar_input_select(
+      id = "select",
+      choices = c("Option 1", "Option 2", "Option 3"),
+      selected = "Option 2"
+    )
+  )
+  expect_match(
+    htmltools::tagGetAttribute(tis, "class"),
+    "bslib-toolbar-input-select"
+  )
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "select",
+      choices = c("Option 1", "Option 2", "Option 3"),
+      selected = "Option 2"
+    )
   )
 })

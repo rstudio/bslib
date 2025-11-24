@@ -152,7 +152,17 @@ toolbar_input_button <- function(
 #' wrapper around [shiny::selectInput()] with `selectize = FALSE` and
 #' appropriate styling for toolbar usage.
 #'
-#' @param id The `input` slot that will be used to access the value.
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   align = "right",
+#'   toolbar_input_select(
+#'     id = "select",
+#'     choices = c("Option 1", "Option 2", "Option 3"),
+#'     selected = "Option 2"
+#'   )
+#' )
+#'
+#' @param id The input ID.
 #' @param choices List of values to select from. If elements of the list are
 #'   named, then that name - rather than the value - is displayed to the user.
 #'   It's also possible to group related inputs by providing a named list whose
@@ -161,10 +171,12 @@ toolbar_input_button <- function(
 #'   `<optgroup>` HTML tag) for the elements in the respective sublist.
 #' @param selected The initially selected value. If not specified then defaults
 #'   to the first value.
-#' @param width The width of the input, e.g. '400px', or '100%'; see `validateCssUnit()`.
+#' @param width The width of the input, e.g. '400px', or '100%'; see
+#'   [validateCssUnit()].
 #'
 #' @return Returns a select input control suitable for use in a toolbar.
 #'
+#' @family Toolbar components
 #' @export
 toolbar_input_select <- function(
   id,

@@ -71,6 +71,8 @@
 
 /* Toolbar Select Input */
 .bslib-toolbar-input-select {
+  // Decrease this to keep header slim and leave a margin between select & border
+  padding-block: 2px; 
 
   .form-group.shiny-input-container {
     width: auto;
@@ -92,6 +94,7 @@
 
   select {
     appearance: auto;
+    padding-block: 3px; // Decreased to slim down select to fit in header
     /* .form-controls takes away the drop-down arrow, this ensures it shows up */
     border: none;
     transition: background-color 120ms ease, color 120ms ease;
