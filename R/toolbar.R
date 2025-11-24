@@ -4,6 +4,14 @@
 #' A toolbar which can contain buttons, inputs, and other UI elements in a small
 #' form suitable for inclusion in card headers, footers, and other small places.
 #'
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   align = "right",
+#'   toolbar_input_button(id = "see", icon = icon("eye")),
+#'   toolbar_input_button(id = "save", icon = icon("save")),
+#'   toolbar_input_button(id = "edit", icon = icon("pencil"))
+#' )
+#'
 #' @param ... UI elements for the toolbar.
 #' @param align Determines if toolbar should be aligned to the `"right"` or
 #'   `"left"`.
@@ -11,6 +19,7 @@
 #'   elements in the toolbar. Defaults to `0` (no gap).
 #' @return Returns a toolbar element.
 #'
+#' @family Toolbar components
 #' @export
 toolbar <- function(
   ...,
@@ -35,22 +44,33 @@ toolbar <- function(
 #' Add toolbar button input
 #'
 #' @description
-#' A button designed to fit well in small places such as toolbars.
+#' A button designed to fit well in small places such as in a [toolbar()].
+#'
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   align = "right",
+#'   toolbar_input_button(id = "see", icon = icon("eye")),
+#'   toolbar_input_button(id = "save", label = "Save")),
+#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label="Edit")
+#' )
 #'
 #' @param id The input ID.
-#' @param icon An icon to display in the button.
-#' (One of icon or label must be supplied.)
-#' @param label The label to display in the button.
-#' (One of icon or label must be supplied.)
-#' @param tooltip An optional tooltip to display when hovering over the button.
-#' @param disabled If `TRUE`, the button will not be clickable.
-#' Use [shiny::updateActionButton()] to dynamically enable/disable the button.
+#' @param icon An icon to display in the button. (One of icon or label must be
+#'   supplied.)
+#' @param label The label to display in the button. (One of icon or label must
+#'   be supplied.)
+#' @param tooltip An optional [tooltip()] to display when hovering over the
+#'   button.
+#' @param disabled If `TRUE`, the button will not be clickable. Use
+#'   [shiny::updateActionButton()] to dynamically enable/disable the button.
 #' @param border Whether to show a border around the button.
 #' @param ... UI elements for the button.
 #'
 #' @return Returns a button suitable for use in a toolbar.
 #'
+#' @family Toolbar components
 #' @export
+
 toolbar_input_button <- function(
   id,
   icon = NULL,
@@ -66,20 +86,18 @@ toolbar_input_button <- function(
       call. = TRUE
     )
   }
-has_icon <- !is.null(icon)
-has_label <- !is.null(label)
+  has_icon <- !is.null(icon)
+  has_label <- !is.null(label)
 
-btn_type <- 
-  if (has_icon && !has_label) {
-    "icon"
-  } else if (has_label && !has_icon) {
-    "label"
-  } else {
-    # Can't both be missing (checked above)
-    "both"
-  }
-  # Determine if this is an icon-only button
-  is_icon_only <- !is.null(icon) && is.null(label)
+  btn_type <-
+    if (has_icon && !has_label) {
+      "icon"
+    } else if (has_label && !has_icon) {
+      "label"
+    } else {
+      # Can't both be missing (checked above)
+      "both"
+    }
 
   button <- shiny::actionButton(
     id,
@@ -88,7 +106,7 @@ btn_type <-
     disabled = disabled,
     class = "bslib-toolbar-input-button btn-sm",
     class = if (!border) "border-0" else "border-1",
-    "data-type" = if (is_icon_only) "icon",
+    "data-type" = btn_type,
     ...
   )
 

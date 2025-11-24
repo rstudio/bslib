@@ -3,7 +3,6 @@
   display: flex;
   align-items: center;
   gap: 0;
-  max-height: var(--_size); // Match approximate card header text height so it doesn't expand beyond normal
 
   /* ---- Toolbar options ---- */
 
@@ -24,24 +23,22 @@
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
+  }
+
+  // Square icon-only buttons
+  .bslib-toolbar-input-button[data-type="icon"] {
+    height: var(--_icon-size, 2rem);
+    aspect-ratio: 1;
+    line-height: 1 !important; // Ensure no line-height interference
 
     // Ensure icon is centered
-    >.fa,
-    >.bi,
-    >.glyphicon {
+    >.action-icon {
       display: flex;
       align-items: center;
       justify-content: center;
       line-height: 1; // Remove excess line-height
       margin: 0; // Remove any default margins
     }
-  }
-
-  // Square icon-only buttons
-  .bslib-toolbar-input-button[data-type="icon"] {
-    height: var(--_icon-size, 1em);
-    aspect-ratio: 1;
-    line-height: 1 !important; // Ensure no line-height interference
   }
 
   /* ---- Adjustments to other elements ---- */
