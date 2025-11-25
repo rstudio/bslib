@@ -148,6 +148,27 @@ toolbar_input_button <- function(
 }
 
 
+#' Add toolbar switch input
+#'
+#' @description
+#' A switch input designed to fit well in small places such as in a [toolbar()].
+#'
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   align = "right",
+#'   toolbar_input_switch(id = "toggle", label = "Enable", value = TRUE),
+#'   toolbar_input_switch(id = "switch", value = FALSE)
+#' )
+#'
+#' @param id The input ID.
+#' @param label The label to display next to the switch. If `NULL`, no label
+#'   is displayed.
+#' @param value The initial state of the switch. Default is `FALSE`.
+#'
+#' @return Returns a switch input suitable for use in a toolbar.
+#'
+#' @family Toolbar components
+#' @export
 toolbar_input_switch <- function(
   id,
   label = NULL,

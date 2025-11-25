@@ -237,3 +237,32 @@
         </button>
       </bslib-tooltip>
 
+# toolbar_input_switch() has correct attributes
+
+    Code
+      show_raw_html(toolbar_input_switch(id = "switch_with_label", label = "Flip",
+        value = TRUE))
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="switch_with_label" class="form-check-input" type="checkbox" role="switch" checked/>
+          <label class="form-check-label" for="switch_with_label">
+            <span>Flip</span>
+          </label>
+        </div>
+      </div>
+
+---
+
+    Code
+      show_raw_html(toolbar_input_switch(id = "switch_no_label", label = NULL, value = FALSE))
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="switch_no_label" class="form-check-input" type="checkbox" role="switch"/>
+          <label class="form-check-label" for="switch_no_label">
+            <span></span>
+          </label>
+        </div>
+      </div>
+

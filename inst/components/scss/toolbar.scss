@@ -56,15 +56,12 @@
   /* ---- Toolbar Input Switch ---- */
 
   .form-group.shiny-input-container:has(.form-switch) {
-    width: auto;
+    width: auto; // Overrides default width which adds unnecessary space
   }
 
-  .bslib-input-switch {
-    margin-inline: 2px;
-  }
-
-  .form-check {
-    margin-bottom: 0px;
+  .bslib-input-switch.form-check {
+    margin-bottom: 0; // Remove extra form check to ensure alignment with other items
+    margin-inline: 0.5rem; // Spacing so it's not crunched against other toolbar items
   }
 
   /* ---- Adjustments to other elements ---- */

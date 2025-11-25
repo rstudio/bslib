@@ -337,3 +337,14 @@ test_that("toolbar_input_button() markup snapshots", {
     )
   )
 })
+
+
+# Tests for toolbar_input_switch() #
+test_that("toolbar_input_switch() has correct attributes", {
+  expect_snapshot_html(
+    toolbar_input_switch(id = "switch_with_label", label = "Flip", value = TRUE)
+  )
+  expect_snapshot_html(
+    toolbar_input_switch(id = "switch_no_label", label = NULL, value = FALSE)
+  )
+})
