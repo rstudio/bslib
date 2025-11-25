@@ -8,6 +8,7 @@
 
 * Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
   * Added `toolbar_input_button()` for easily creating buttons to include in a `toolbar()`. (#1248)
+  * Added `toolbar_input_switch()` for easily creating switch inputs to include in a `toolbar()`. (#1257)
 
 * Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
   * Added `toolbar_input_button()` for easily creating buttons to include in a `toolbar()`. (#1248)
