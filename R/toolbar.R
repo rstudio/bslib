@@ -146,3 +146,17 @@ toolbar_input_button <- function(
 
   button
 }
+
+
+toolbar_input_switch <- function(
+  id,
+  label = NULL,
+  value = FALSE
+) {
+  input_switch(
+    id = id,
+    label = label,
+    value = value,
+    width = NULL
+  )
+}

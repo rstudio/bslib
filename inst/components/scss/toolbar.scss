@@ -53,6 +53,20 @@
     }
   }
 
+  /* ---- Toolbar Input Switch ---- */
+
+  .form-group.shiny-input-container:has(.form-switch) {
+    width: auto;
+  }
+
+  .bslib-input-switch {
+    margin-inline: 2px;
+  }
+
+  .form-check {
+    margin-bottom: 0px;
+  }
+
   /* ---- Adjustments to other elements ---- */
 
   // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    
