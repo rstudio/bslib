@@ -53,6 +53,33 @@
     }
   }
 
+  /* ---- Toolbar Spacer ---- */
+
+  .bslib-toolbar-spacer {
+    flex-shrink: 0;
+    align-self: stretch;
+
+    // Default behavior: flexible spacer that pushes items
+    &:not([style*="width"]) {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    // Divider variant: vertical line
+    &.bslib-toolbar-divider {
+      flex: 0 0 auto;
+      width: 1px;
+      background-color: var(--bs-border-color);
+      margin: 0 0.5rem;
+      opacity: 0.5;
+
+      // Override width if explicitly set
+      &[style*="width"] {
+        width: var(--_spacer-width, 1px);
+      }
+    }
+  }
+
   /* ---- Adjustments to other elements ---- */
 
   // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    

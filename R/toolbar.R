@@ -144,3 +144,43 @@ toolbar_input_button <- function(
 
   button
 }
+
+#' @describeIn toolbar Add a spacer or divider to a toolbar
+#'
+#' @description
+#' `toolbar_spacer()` creates flexible space between toolbar elements or adds
+#' a visual divider line.
+#'
+#' @param width The width of the spacer. Can be:
+#'   - `"auto"` (default): Flexible space that pushes subsequent items
+#'   - A CSS length unit (e.g., `"10px"`, `"1rem"`): Fixed-width space
+#' @param rule If `TRUE`, displays a vertical dividing line instead of empty space.
+#'
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   toolbar_input_button(id = "left1", label = "Left"),
+#'   toolbar_spacer(),
+#'   toolbar_input_button(id = "right1", label = "Right")
+#' )
+#'
+#' toolbar(
+#'   toolbar_input_button(id = "a", label = "A"),
+#'   toolbar_spacer(width = "20px"),
+#'   toolbar_input_button(id = "b", label = "B"),
+#'   toolbar_spacer(rule = TRUE),
+#'   toolbar_input_button(id = "c", label = "C")
+#' )
+#'
+#' @export
+toolbar_spacer <- function(width = "auto", rule = FALSE) {
+  width <- if (identical(width, "auto")) "auto" else validateCssUnit(width)
+
+  tag <- div(
+    class = "bslib-toolbar-spacer",
+    class = if (rule) "bslib-toolbar-divider",
+    style = css(width = if (!identical(width, "auto")) width),
+    `aria-hidden` = "true"
+  )
+
+  as_fragment(tag)
+}
