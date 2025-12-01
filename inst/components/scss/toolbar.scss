@@ -23,7 +23,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
-    height: var(--_icon-size, 2rem); // Keep square icon and label + icon button heights consistent
+    height: var(--_icon-size, 1.75rem); // Keep square icon and label + icon button heights consistent
   }
 
   // Square icon-only buttons
