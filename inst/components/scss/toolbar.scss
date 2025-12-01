@@ -23,13 +23,18 @@
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
+    height: var(--_icon-size, 2rem); // Keep square icon and label + icon button heights consistent
   }
 
   // Square icon-only buttons
   .bslib-toolbar-input-button[data-type="icon"] {
-    height: var(--_icon-size, 2rem);
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
+
+    // Hide the label if the button is icon-only, but keep it accessible for screen readers
+    .action-label {
+      display: none;
+    }
 
     // Ensure icon is centered
     >.action-icon {

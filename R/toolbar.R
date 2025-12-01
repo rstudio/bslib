@@ -49,22 +49,28 @@ toolbar <- function(
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
 #'   align = "right",
-#'   toolbar_input_button(id = "see", icon = icon("eye")),
-#'   toolbar_input_button(id = "save", label = "Save")),
-#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label="Edit")
+#'   toolbar_input_button(id = "see", icon = icon("eye"), label = "See"),
+#'   toolbar_input_button(id = "save", label = "Save"),
+#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
 #' )
 #'
 #' @param id The input ID.
-#' @param icon An icon to display in the button. (One of icon or label must be
-#'   supplied.)
-#' @param label The label to display in the button. (One of icon or label must
-#'   be supplied.)
-#' @param tooltip An optional [tooltip()] to display when hovering over the
-#'   button.
+#' @param icon An icon to display in the button. If provided without
+#'   `show_label = TRUE`, only the icon will be visible (label becomes the
+#'   tooltip text).
+#' @param label The button label. Used as button text when `show_label = TRUE`
+#'   or as tooltip text when the label is hidden.
+#' @param show_label Whether to show the label text in the button. If `FALSE`
+#'   (the default), only the icon is shown and the label becomes tooltip text.
+#'   If `TRUE`, the label text is shown alongside the icon (if provided).
+#' @param tooltip Whether to show a [tooltip()] with the label text when
+#'   hovering over the button. Defaults to `!show_label`, meaning tooltips are
+#'   shown when the label is hidden and not shown when the label is visible.
+#'   Can be set to `TRUE` or `FALSE` to override the default behavior.
+#' @param ... Additional attributes to pass to the button.
 #' @param disabled If `TRUE`, the button will not be clickable. Use
 #'   [shiny::updateActionButton()] to dynamically enable/disable the button.
 #' @param border Whether to show a border around the button.
-#' @param ... UI elements for the button.
 #'
 #' @return Returns a button suitable for use in a toolbar.
 #'
@@ -74,28 +80,22 @@ toolbar <- function(
 toolbar_input_button <- function(
   id,
   icon = NULL,
-  label = NULL,
-  tooltip = NULL,
+  label,
+  show_label = FALSE,
+  tooltip = !show_label,
   ...,
   disabled = FALSE,
   border = FALSE
 ) {
-  if (is.null(icon) && is.null(label)) {
-    stop(
-      "At least one of 'icon' or 'label' must be provided.",
-      call. = TRUE
-    )
-  }
   has_icon <- !is.null(icon)
-  has_label <- !is.null(label)
 
   btn_type <-
-    if (has_icon && !has_label) {
+    if (has_icon && show_label == FALSE) {
       "icon"
-    } else if (has_label && !has_icon) {
+    } else if (show_label && !has_icon) {
       "label"
     } else {
-      # Can't both be missing (checked above)
+      # Can't both be missing (label is required)
       "both"
     }
 
@@ -110,8 +110,12 @@ toolbar_input_button <- function(
     ...
   )
 
-  if (!is.null(tooltip)) {
-    button <- tooltip(button, tooltip, placement = "bottom")
+  if (tooltip) {
+    button <- tooltip(
+      button,
+      label,
+      placement = "bottom"
+    )
   }
   button
 }
