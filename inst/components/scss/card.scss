@@ -32,7 +32,7 @@
     align-items: center;
     align-self: stretch;
     min-height: 2.5rem;
-    padding-block: .25rem;
+    padding-block: clamp(0.2rem, calc(var(--bs-card-cap-padding-y) / 2), 5rem);
     gap: 0.25rem;
     
     // Give the nav flex: 1 so that if the card header contains a nav, it will take all the available space
