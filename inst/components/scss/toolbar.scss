@@ -43,6 +43,11 @@
       padding-left: 0;
     }
 
+    // Hide the label if the button is icon-only, but keep it accessible for screen readers
+    .action-label {
+      display: none;
+    }
+
     // Ensure icon is centered
     >.action-icon {
       display: flex;
