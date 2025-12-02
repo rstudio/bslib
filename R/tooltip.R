@@ -2,7 +2,6 @@
 #'
 #' @description
 #' Display additional information when focusing (or hovering over) a UI element.
-#'   Tooltips should expand on, not contradict any `label`s or `aria-label`s.
 #'
 #' @param trigger A UI element (i.e., [htmltools tag][htmltools::tags]) to serve
 #'   as the tooltip trigger. If `trigger` renders as multiple HTML
@@ -11,6 +10,7 @@
 #'   object in a [htmltools::div()] or [htmltools::span()].
 #' @param ... UI elements for the tooltip. Character strings are [automatically
 #'   escaped][htmltools::htmlEscape()] unless marked as [htmltools::HTML()].
+#'   Tooltip content should expand on, not contradict element labels.
 #' @param id A character string. Required to re-actively respond to the
 #'   visibility of the tooltip (via the `input[[id]]` value) and/or update the
 #'   visibility/contents of the tooltip.
