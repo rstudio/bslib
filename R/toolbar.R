@@ -7,9 +7,9 @@
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
 #'   align = "right",
-#'   toolbar_input_button(id = "see", icon = icon("eye")),
-#'   toolbar_input_button(id = "save", icon = icon("save")),
-#'   toolbar_input_button(id = "edit", icon = icon("pencil"))
+#'   toolbar_input_button(id = "see", icon = icon("eye"), label = "View"),
+#'   toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
+#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit")
 #' )
 #'
 #' @param ... UI elements for the toolbar.
@@ -56,17 +56,18 @@ toolbar <- function(
 #'
 #' @param id The input ID.
 #' @param icon An icon to display in the button. If provided without
-#'   `show_label = TRUE`, only the icon will be visible (label becomes the
-#'   tooltip text).
-#' @param label The button label. Used as button text when `show_label = TRUE`
-#'   or as tooltip text when the label is hidden.
+#'   `show_label = TRUE`, only the icon will be visible.
+#' @param label The button label. Used as button text when `show_label = TRUE`,
+#'   or as an accessibility label when hidden. Also used as the default
+#'   tooltip text when `tooltip = TRUE`.
 #' @param show_label Whether to show the label text in the button. If `FALSE`
-#'   (the default), only the icon is shown and the label becomes tooltip text.
-#'   If `TRUE`, the label text is shown alongside the icon (if provided).
-#' @param tooltip Whether to show a [tooltip()] with the label text when
-#'   hovering over the button. Defaults to `!show_label`, meaning tooltips are
-#'   shown when the label is hidden and not shown when the label is visible.
-#'   Can be set to `TRUE` or `FALSE` to override the default behavior.
+#'   (the default), only the icon is shown (if provided). If `TRUE`, the label
+#'   text is shown alongside the icon.
+#' @param tooltip Tooltip text to display when hovering over the button. Can be:
+#'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with the `label` text
+#'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
+#'   * A character string - shows a tooltip with custom text
+#'   Defaults to `!show_label`.
 #' @param ... Additional attributes to pass to the button.
 #' @param disabled If `TRUE`, the button will not be clickable. Use
 #'   [shiny::updateActionButton()] to dynamically enable/disable the button.
@@ -99,21 +100,40 @@ toolbar_input_button <- function(
       "both"
     }
 
-  button <- shiny::actionButton(
-    id,
-    label = label,
-    icon = icon,
-    disabled = disabled,
-    class = "bslib-toolbar-input-button btn-sm",
-    class = if (!border) "border-0" else "border-1",
-    "data-type" = btn_type,
-    ...
-  )
+  if (btn_type == "icon") {
+    button <- shiny::actionButton(
+      id,
+      label = label,
+      icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
+      disabled = disabled,
+      class = "bslib-toolbar-input-button btn-sm",
+      class = if (!border) "border-0" else "border-1",
+      "data-type" = btn_type,
+      "aria-label" = label, # Icon-only buttons need this for accessibility
+      ...
+    )
+  } else {
+    button <- shiny::actionButton(
+      id,
+      label = label,
+      icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
+      disabled = disabled,
+      class = "bslib-toolbar-input-button btn-sm",
+      class = if (!border) "border-0" else "border-1",
+      "data-type" = btn_type,
+      ...
+    )
+  }
 
-  if (tooltip) {
+  if (!is.null(tooltip) && !isFALSE(tooltip)) {
+    # If tooltip is literally TRUE, use the label as the tooltip text.
+    # Otherwise, use the provided tooltip text
+    if (isTRUE(tooltip)) {
+      tooltip <- label
+    }
     button <- tooltip(
       button,
-      label,
+      tooltip,
       placement = "bottom"
     )
   }

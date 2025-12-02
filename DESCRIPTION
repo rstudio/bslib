@@ -52,7 +52,7 @@ Suggests:
     magrittr,
     rappdirs,
     rmarkdown (>= 2.7),
-    shiny (>= 1.11.1.9000)
+    shiny (>= 1.11.1.9000),
     testthat,
     thematic,
     tools,

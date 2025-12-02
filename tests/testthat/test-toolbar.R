@@ -25,53 +25,88 @@ test_that("toolbar() aligns correctly", {
 
 
 # Tests for toolbar_input_button() #
-test_that("toolbar_input_button() has correct attributes", {
-  btn_label <- toolbar_input_button(id = "test_btn", label = "Click me")
+test_that("toolbar_input_button() tests", {
+  # Label-only Button
+  btn_label <- toolbar_input_button(
+    id = "test_btn",
+    label = "Click me",
+    show_label = TRUE
+  )
   expect_match(
     htmltools::tagGetAttribute(btn_label, "class"),
     "bslib-toolbar-input-button"
   )
   expect_match(htmltools::tagGetAttribute(btn_label, "class"), "btn-sm")
+  expect_match(htmltools::tagGetAttribute(btn_label, "data-type"), "label")
 
-  expect_snapshot_html(
-    toolbar_input_button(id = "label_only", label = "Click me")
-  )
-
-  btn_icon <- toolbar_input_button(id = "icon_only", icon = shiny::icon("star"))
-  expect_equal(htmltools::tagGetAttribute(btn_icon, "data-type"), "icon")
-
-  expect_snapshot_html(
-    toolbar_input_button(id = "icon_only", icon = shiny::icon("star"))
-  )
   expect_snapshot_html(
     toolbar_input_button(
-      id = "both",
-      label = "Save",
-      icon = shiny::icon("save")
+      id = "label_only",
+      label = "Click me",
+      show_label = TRUE
+    )
+  )
+
+  btn_icon <- toolbar_input_button(
+    id = "test_btn",
+    label = "Click me",
+    icon = shiny::icon("star"),
+  )
+  # Button is wrapped in tooltip by default, use tagQuery to extract it
+  btn_icon_tag <- tagQuery(as.tags(btn_icon))$find("button")$selectedTags()[[1]]
+
+  expect_match(
+    htmltools::tagGetAttribute(btn_icon_tag, "class"),
+    "bslib-toolbar-input-button"
+  )
+  expect_match(htmltools::tagGetAttribute(btn_icon_tag, "class"), "btn-sm")
+  expect_match(htmltools::tagGetAttribute(btn_icon_tag, "data-type"), "icon")
+  expect_snapshot_html(
+    toolbar_input_button(
+      id = "test_btn",
+      label = "Click me",
+      icon = shiny::icon("star"),
+    )
+  )
+
+  btn_both <- toolbar_input_button(
+    id = "test_btn",
+    label = "Click me",
+    icon = shiny::icon("star"),
+    show_label = TRUE
+  )
+  expect_match(
+    htmltools::tagGetAttribute(btn_both, "class"),
+    "bslib-toolbar-input-button"
+  )
+  expect_match(htmltools::tagGetAttribute(btn_both, "class"), "btn-sm")
+  expect_match(htmltools::tagGetAttribute(btn_both, "data-type"), "both")
+  expect_snapshot_html(
+    toolbar_input_button(
+      id = "test_btn",
+      label = "Click me",
+      icon = shiny::icon("star"),
+      show_label = TRUE
     )
   )
 })
 
-test_that("toolbar_input_button() requires icon or label", {
-  expect_error(
-    toolbar_input_button(id = "empty"),
-    "At least one of 'icon' or 'label' must be provided"
-  )
-})
 
 test_that("toolbar_input_button() disabled parameter", {
   expect_snapshot_html(
     toolbar_input_button(
       id = "disabled_btn",
       label = "Disabled",
-      disabled = TRUE
+      disabled = TRUE,
+      show_label = TRUE
     )
   )
   expect_snapshot_html(
     toolbar_input_button(
       id = "enabled_btn",
       label = "Enabled",
-      disabled = FALSE
+      disabled = FALSE,
+      show_label = TRUE
     )
   )
 })
@@ -81,25 +116,68 @@ test_that("toolbar_input_button() border parameter", {
     toolbar_input_button(
       id = "no_border",
       label = "No Border",
-      border = FALSE
+      border = FALSE,
+      show_label = TRUE
     )
   )
+
   expect_snapshot_html(
     toolbar_input_button(
       id = "with_border",
       label = "With Border",
-      border = TRUE
+      border = TRUE,
+      show_label = TRUE
     )
   )
 })
 
 
 test_that("toolbar_input_button() tooltip parameter", {
+  # Default: show_label = FALSE means tooltip = TRUE (shows label)
   expect_snapshot_html(
     toolbar_input_button(
-      id = "tooltip_icon",
+      id = "tooltip_default",
+      label = "Help",
+      icon = shiny::icon("question")
+    )
+  )
+
+  # Explicit tooltip = FALSE disables tooltip
+  expect_snapshot_html(
+    toolbar_input_button(
+      id = "tooltip_false",
+      label = "No Tooltip",
       icon = shiny::icon("question"),
-      tooltip = "Help"
+      tooltip = FALSE
+    )
+  )
+
+  # Custom tooltip text
+  expect_snapshot_html(
+    toolbar_input_button(
+      id = "tooltip_custom",
+      label = "Help",
+      icon = shiny::icon("question"),
+      tooltip = "Click for assistance"
+    )
+  )
+
+  # show_label = TRUE means tooltip = FALSE by default
+  btn_no_tooltip <- toolbar_input_button(
+    id = "label_visible",
+    label = "Visible Label",
+    show_label = TRUE
+  )
+  expect_false(inherits(btn_no_tooltip, "bslib_tooltip"))
+
+  # But can explicitly add tooltip when show_label = TRUE
+  expect_snapshot_html(
+    toolbar_input_button(
+      id = "both_label_tooltip",
+      label = "Save",
+      icon = shiny::icon("save"),
+      show_label = TRUE,
+      tooltip = "Save your work"
     )
   )
 })

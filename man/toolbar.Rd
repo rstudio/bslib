@@ -22,3 +22,18 @@ Returns a toolbar element.
 A toolbar which can contain buttons, inputs, and other UI elements in a small
 form suitable for inclusion in card headers, footers, and other small places.
 }
+\examples{
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+toolbar(
+  align = "right",
+  toolbar_input_button(id = "see", icon = icon("eye"), label = "View"),
+  toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
+  toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit")
+)
+\dontshow{\}) # examplesIf}
+}
+\seealso{
+Other Toolbar components: 
+\code{\link{toolbar_input_button}()}
+}
+\concept{Toolbar components}

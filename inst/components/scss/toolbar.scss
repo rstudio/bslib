@@ -26,6 +26,13 @@
     height: var(--_icon-size, 1.75rem); // Keep square icon and label + icon button heights consistent
   }
 
+  // Remove the left padding on label-only buttons so the text is centered
+  .bslib-toolbar-input-button[data-type="label"] {
+    .action-label {
+      padding-left: 0; 
+    }
+  }
+
   // Square icon-only buttons
   .bslib-toolbar-input-button[data-type="icon"] {
     aspect-ratio: 1;
