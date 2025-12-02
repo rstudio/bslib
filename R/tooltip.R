@@ -2,6 +2,7 @@
 #'
 #' @description
 #' Display additional information when focusing (or hovering over) a UI element.
+#'   Tooltips should expand on, not contradict any `label`s or `aria-label`s.
 #'
 #' @param trigger A UI element (i.e., [htmltools tag][htmltools::tags]) to serve
 #'   as the tooltip trigger. If `trigger` renders as multiple HTML
