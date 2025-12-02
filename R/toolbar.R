@@ -82,7 +82,7 @@ toolbar_input_button <- function(
   id,
   label,
   icon = NULL,
-  show_label = !is.null(icon),
+  show_label = is.null(icon),
   tooltip = !show_label,
   ...,
   disabled = FALSE,

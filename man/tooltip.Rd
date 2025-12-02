@@ -25,7 +25,8 @@ elements (e.g., it's a \code{tagList()}), the last HTML element is used for the
 trigger. If the \code{trigger} should contain all of those elements, wrap the
 object in a \code{\link[htmltools:builder]{htmltools::div()}} or \code{\link[htmltools:builder]{htmltools::span()}}.}
 
-\item{...}{UI elements for the tooltip. Character strings are \link[htmltools:htmlEscape]{automatically escaped} unless marked as \code{\link[htmltools:HTML]{htmltools::HTML()}}.}
+\item{...}{UI elements for the tooltip. Character strings are \link[htmltools:htmlEscape]{automatically escaped} unless marked as \code{\link[htmltools:HTML]{htmltools::HTML()}}.
+Tooltip content should expand on, not contradict element labels.}
 
 \item{id}{a character string that matches an existing tooltip id.}
 
@@ -43,7 +44,6 @@ used).}
 }
 \description{
 Display additional information when focusing (or hovering over) a UI element.
-Tooltips should expand on, not contradict any \code{label}s or \code{aria-label}s.
 }
 \section{Functions}{
 \itemize{

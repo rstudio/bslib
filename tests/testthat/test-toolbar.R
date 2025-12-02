@@ -181,3 +181,53 @@ test_that("toolbar_input_button() tooltip parameter", {
     )
   )
 })
+
+test_that("toolbar_input_button() validates label for accessibility", {
+  # Empty label should warn when show_label = FALSE
+  expect_warning(
+    toolbar_input_button(
+      id = "btn",
+      label = "",
+      icon = shiny::icon("star")
+    ),
+    "non-empty string label"
+  )
+
+  # Whitespace-only label should warn
+  expect_warning(
+    toolbar_input_button(
+      id = "btn",
+      label = "   ",
+      icon = shiny::icon("star")
+    ),
+    "non-empty string label"
+  )
+
+  # Empty tag label should warn
+  expect_warning(
+    toolbar_input_button(
+      id = "btn",
+      label = span(""),
+      icon = shiny::icon("star")
+    ),
+    "non-empty string label"
+  )
+
+  # Valid label should not warn
+  expect_no_warning(
+    toolbar_input_button(
+      id = "btn",
+      label = "Click me",
+      icon = shiny::icon("star")
+    )
+  )
+
+  # Label with tag containing text should not warn
+  expect_no_warning(
+    toolbar_input_button(
+      id = "btn",
+      label = span("Click me"),
+      icon = shiny::icon("star")
+    )
+  )
+})

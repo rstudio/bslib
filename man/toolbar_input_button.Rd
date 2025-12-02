@@ -6,9 +6,9 @@
 \usage{
 toolbar_input_button(
   id,
-  icon = NULL,
   label,
-  show_label = FALSE,
+  icon = NULL,
+  show_label = is.null(icon),
   tooltip = !show_label,
   ...,
   disabled = FALSE,
@@ -18,12 +18,12 @@ toolbar_input_button(
 \arguments{
 \item{id}{The input ID.}
 
-\item{icon}{An icon to display in the button. If provided without
-\code{show_label = TRUE}, only the icon will be visible.}
-
 \item{label}{The button label. Used as button text when \code{show_label = TRUE},
 or as an accessibility label when hidden. Also used as the default
 tooltip text when \code{tooltip = TRUE}.}
+
+\item{icon}{An icon to display in the button. If provided without
+\code{show_label = TRUE}, only the icon will be visible.}
 
 \item{show_label}{Whether to show the label text in the button. If \code{FALSE}
 (the default), only the icon is shown (if provided). If \code{TRUE}, the label
