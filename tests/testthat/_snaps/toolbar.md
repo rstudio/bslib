@@ -247,13 +247,13 @@
       show_raw_html(toolbar_input_button(id = "tooltip_false", label = "No Tooltip",
         icon = shiny::icon("question"), tooltip = FALSE))
     Output
-      <button aria-label="No Tooltip" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_false" type="button">
+      <span id="tooltip_false-label" hidden>No Tooltip</span>
+      <button aria-labelledby="tooltip_false-label" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_false" type="button">
         <span class="action-icon">
           <span aria-hidden="true" style="pointer-events: none">
             <i class="fas fa-question" role="presentation" aria-label="question icon"></i>
           </span>
         </span>
-        <span class="action-label">No Tooltip</span>
       </button>
 
 ---
@@ -264,13 +264,13 @@
     Output
       <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Click for assistance</template>
-        <button aria-label="Help" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_custom" type="button">
+        <span id="tooltip_custom-label" hidden>Help</span>
+        <button aria-labelledby="tooltip_custom-label" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_custom" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
               <i class="fas fa-question" role="presentation" aria-label="question icon"></i>
             </span>
           </span>
-          <span class="action-label">Help</span>
         </button>
       </bslib-tooltip>
 

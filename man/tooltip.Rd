@@ -44,7 +44,6 @@ used).}
 }
 \description{
 Display additional information when focusing (or hovering over) a UI element.
-Tooltips should expand on, not contradict any \code{label}s or \code{aria-label}s.
 }
 \section{Functions}{
 \itemize{
