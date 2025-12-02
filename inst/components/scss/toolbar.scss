@@ -38,11 +38,6 @@
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
 
-    // Hide the label if the button is icon-only, but keep it accessible for screen readers
-    .action-label {
-      display: none;
-    }
-
     // Ensure icon is centered
     >.action-icon {
       display: flex;

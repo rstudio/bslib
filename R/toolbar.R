@@ -88,12 +88,14 @@ toolbar_input_button <- function(
   disabled = FALSE,
   border = FALSE
 ) {
-  has_icon <- !is.null(icon)
-
   btn_type <-
-    if (has_icon && show_label == FALSE) {
+    if (show_label == FALSE && is.null(icon)) {
+      rlang::abort(
+        "If `show_label` is FALSE, `icon` must be provided."
+      )
+    } else if (show_label == FALSE && !is.null(icon)) {
       "icon"
-    } else if (show_label && !has_icon) {
+    } else if (show_label && is.null(icon)) {
       "label"
     } else {
       # Can't both be missing (label is required)
