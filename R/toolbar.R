@@ -100,42 +100,59 @@ toolbar_input_button <- function(
       "both"
     }
 
-  if (btn_type == "icon") {
-    button <- shiny::actionButton(
-      id,
-      label = label,
-      icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
-      disabled = disabled,
-      class = "bslib-toolbar-input-button btn-sm",
-      class = if (!border) "border-0" else "border-1",
-      "data-type" = btn_type,
-      "aria-label" = label, # Icon-only buttons need this for accessibility
-      ...
-    )
-  } else {
-    button <- shiny::actionButton(
-      id,
-      label = label,
-      icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
-      disabled = disabled,
-      class = "bslib-toolbar-input-button btn-sm",
-      class = if (!border) "border-0" else "border-1",
-      "data-type" = btn_type,
-      ...
+  # For icon-only buttons, validate that label has text for accessibility
+  if (!show_label) {
+    label_text <- paste(unlist(find_characters(label)), collapse = " ")
+    label_text <- trimws(label_text)
+    # Verifies the label contains non-empty text
+    if (!nzchar(label_text)) {
+      warning(
+        "When `show_label = FALSE`, consider providing a non-empty string label
+        for accessibility."
+      )
+    }
+  }
+
+  # Create hidden label span for icon-only buttons (for aria-labelledby)
+  if (!show_label) {
+    label_id <- paste0(id, "-label")
+    hidden_label <- span(
+      id = label_id,
+      hidden = NA,
+      label
     )
   }
 
-  if (!is.null(tooltip) && !isFALSE(tooltip)) {
-    # If tooltip is literally TRUE, use the label as the tooltip text.
-    # Otherwise, use the provided tooltip text
-    if (isTRUE(tooltip)) {
-      tooltip <- label
-    }
-    button <- tooltip(
-      button,
-      tooltip,
-      placement = "bottom"
-    )
+  button <- shiny::actionButton(
+    id,
+    label = if (btn_type != "icon") label,
+    icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
+    disabled = disabled,
+    class = "bslib-toolbar-input-button btn-sm",
+    class = if (!border) "border-0" else "border-1",
+    "data-type" = btn_type,
+    # Icon-only buttons use aria-labelledby to reference the hidden label
+    "aria-labelledby" = if (btn_type == "icon") label_id,
+    ...
+  )
+
+  # Wrap button with hidden label for icon-only buttons
+  if (!show_label) {
+    button <- tagList(hidden_label, button)
   }
+
+  # If tooltip is literally TRUE, use the label as the tooltip text.
+  if (isTRUE(tooltip)) {
+    tooltip <- label
+  }
+  if (isFALSE(tooltip)) {
+    tooltip <- NULL
+  }
+  if (!is.null(tooltip)) {
+    # Default placement is "bottom" for the toolbar case because otherwise the
+    # tooltip ends up covering the neighboring buttons in the header/footer.
+    button <- tooltip(button, tooltip, placement = "bottom")
+  }
+
   button
 }
