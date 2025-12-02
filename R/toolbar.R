@@ -80,9 +80,9 @@ toolbar <- function(
 
 toolbar_input_button <- function(
   id,
-  icon = NULL,
   label,
-  show_label = FALSE,
+  icon = NULL,
+  show_label = !is.null(icon),
   tooltip = !show_label,
   ...,
   disabled = FALSE,
