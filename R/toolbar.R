@@ -117,7 +117,7 @@ toolbar_input_button <- function(
 
   # Create hidden label span for icon-only buttons (for aria-labelledby)
   if (!show_label) {
-    label_id <- paste0(id, "-label")
+    label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
     hidden_label <- span(
       id = label_id,
       hidden = NA,
