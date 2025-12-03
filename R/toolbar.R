@@ -112,6 +112,8 @@ toolbar_input_button <- function(
 
   label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
 
+  label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
+
   button <- shiny::actionButton(
     id,
     # We hide the label visually if `!show_label` but keep the label field for

@@ -64,7 +64,7 @@
         <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="test_btn" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
-              <i class="far fa-star" role="presentation"></i>
+              <i class="far fa-star" role="presentation" aria-label="star icon"></i>
             </span>
           </span>
           <span class="action-label">
@@ -82,7 +82,7 @@
       <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="both" id="test_btn" type="button">
         <span class="action-icon">
           <span aria-hidden="true" style="pointer-events: none">
-            <i class="far fa-star" role="presentation"></i>
+            <i class="far fa-star" role="presentation" aria-label="star icon"></i>
           </span>
         </span>
         <span class="action-label">
@@ -111,11 +111,13 @@
       show_raw_html(toolbar_input_button(id = "disabled_btn", label = "Disabled",
         disabled = TRUE, show_label = TRUE))
     Output
-      <button class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" disabled id="disabled_btn" type="button">
+      <button aria-labelledby="btn-label-9174" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" disabled id="disabled_btn" type="button">
         <span class="action-icon">
           <span aria-hidden="true" style="pointer-events: none"></span>
         </span>
-        <span class="action-label">Disabled</span>
+        <span class="action-label">
+          <span id="btn-label-9174">Disabled</span>
+        </span>
       </button>
 
 ---
@@ -174,7 +176,7 @@
         <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_default" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
-              <i class="fas fa-question" role="presentation"></i>
+              <i class="fas fa-question" role="presentation" aria-label="question icon"></i>
             </span>
           </span>
           <span class="action-label">
@@ -247,12 +249,14 @@
       show_raw_html(toolbar_input_button(id = "tooltip_false", label = "No Tooltip",
         icon = shiny::icon("question"), tooltip = FALSE))
     Output
-      <span id="tooltip_false-label" hidden>No Tooltip</span>
-      <button aria-labelledby="tooltip_false-label" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_false" type="button">
+      <button aria-labelledby="btn-label-6040" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_false" type="button">
         <span class="action-icon">
           <span aria-hidden="true" style="pointer-events: none">
-            <i class="fas fa-question" role="presentation"></i>
+            <i class="fas fa-question" role="presentation" aria-label="question icon"></i>
           </span>
+        </span>
+        <span class="action-label">
+          <span id="btn-label-6040" hidden>No Tooltip</span>
         </span>
       </button>
 
@@ -264,12 +268,14 @@
     Output
       <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Click for assistance</template>
-        <span id="tooltip_custom-label" hidden>Help</span>
-        <button aria-labelledby="tooltip_custom-label" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_custom" type="button">
+        <button aria-labelledby="btn-label-3351" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_custom" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
-              <i class="fas fa-question" role="presentation"></i>
+              <i class="fas fa-question" role="presentation" aria-label="question icon"></i>
             </span>
+          </span>
+          <span class="action-label">
+            <span id="btn-label-3351" hidden>Help</span>
           </span>
         </button>
       </bslib-tooltip>
@@ -282,13 +288,15 @@
     Output
       <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Save your work</template>
-        <button class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="both" id="both_label_tooltip" type="button">
+        <button aria-labelledby="btn-label-5463" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="both" id="both_label_tooltip" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
-              <i class="far fa-floppy-disk" role="presentation"></i>
+              <i class="far fa-floppy-disk" role="presentation" aria-label="floppy-disk icon"></i>
             </span>
           </span>
-          <span class="action-label">Save</span>
+          <span class="action-label">
+            <span id="btn-label-5463">Save</span>
+          </span>
         </button>
       </bslib-tooltip>
 
