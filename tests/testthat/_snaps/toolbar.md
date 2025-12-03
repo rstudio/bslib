@@ -63,7 +63,7 @@
         <button aria-labelledby="test_btn-label" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="test_btn" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
-              <i class="far fa-star" role="presentation" aria-label="star icon"></i>
+              <i class="far fa-star" role="presentation"></i>
             </span>
           </span>
         </button>
@@ -78,7 +78,7 @@
       <button class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="both" id="test_btn" type="button">
         <span class="action-icon">
           <span aria-hidden="true" style="pointer-events: none">
-            <i class="far fa-star" role="presentation" aria-label="star icon"></i>
+            <i class="far fa-star" role="presentation"></i>
           </span>
         </span>
         <span class="action-label">Click me</span>
@@ -148,7 +148,7 @@
         <button aria-labelledby="tooltip_default-label" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_default" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
-              <i class="fas fa-question" role="presentation" aria-label="question icon"></i>
+              <i class="fas fa-question" role="presentation"></i>
             </span>
           </span>
         </button>
@@ -164,7 +164,7 @@
       <button aria-labelledby="tooltip_false-label" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_false" type="button">
         <span class="action-icon">
           <span aria-hidden="true" style="pointer-events: none">
-            <i class="fas fa-question" role="presentation" aria-label="question icon"></i>
+            <i class="fas fa-question" role="presentation"></i>
           </span>
         </span>
       </button>
@@ -181,7 +181,7 @@
         <button aria-labelledby="tooltip_custom-label" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_custom" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
-              <i class="fas fa-question" role="presentation" aria-label="question icon"></i>
+              <i class="fas fa-question" role="presentation"></i>
             </span>
           </span>
         </button>
@@ -198,7 +198,7 @@
         <button class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="both" id="both_label_tooltip" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none">
-              <i class="far fa-floppy-disk" role="presentation" aria-label="floppy-disk icon"></i>
+              <i class="far fa-floppy-disk" role="presentation"></i>
             </span>
           </span>
           <span class="action-label">Save</span>

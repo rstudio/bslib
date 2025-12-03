@@ -138,6 +138,12 @@ toolbar_input_button <- function(
     ...
   )
 
+  # Remove aria-label from icons to ensure aria-hidden is respected
+  # Icon-only buttons use aria-labelledby and don't read the icon aria, icons
+  # in labels need to remove it entirely to avoid reading it out.
+  button <- tagQuery(button)$find("i")$removeAttrs("aria-label")$allTags()
+  button <- tagQuery(button)$find("svg")$removeAttrs("aria-label")$allTags()
+
   # Wrap button with hidden label for icon-only buttons
   if (!show_label) {
     button <- tagList(hidden_label, button)

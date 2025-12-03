@@ -133,7 +133,7 @@ test_that("toolbar_input_button() border parameter", {
 
 
 test_that("toolbar_input_button() tooltip parameter", {
-  # Default: show_label = FALSE means tooltip = TRUE (shows label)
+  # Default: show_label = FALSE means tooltip = TRUE (shows label in tooltip)
   expect_snapshot_html(
     toolbar_input_button(
       id = "tooltip_default",
@@ -170,7 +170,7 @@ test_that("toolbar_input_button() tooltip parameter", {
   )
   expect_false(inherits(btn_no_tooltip, "bslib_tooltip"))
 
-  # But can explicitly add tooltip when show_label = TRUE
+  # But you can explicitly add tooltip when show_label = TRUE
   expect_snapshot_html(
     toolbar_input_button(
       id = "both_label_tooltip",
