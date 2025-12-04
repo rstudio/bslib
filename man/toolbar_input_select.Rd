@@ -10,17 +10,18 @@ toolbar_input_select(id, choices, selected = NULL, width = NULL)
 \item{id}{The input ID.}
 
 \item{choices}{List of values to select from. If elements of the list are
-named, then that name - rather than the value - is displayed to the user.
-It's also possible to group related inputs by providing a named list whose
-elements are (either named or unnamed) lists, vectors, or factors. In this
-case, the outermost names will be used as the group labels (leveraging the
-\verb{<optgroup>} HTML tag) for the elements in the respective sublist.}
+named, then that name --- rather than the value --- is displayed to the
+user. It's also possible to group related inputs by providing a named list
+whose elements are (either named or unnamed) lists, vectors, or factors. In
+this case, the outermost names will be used as the group labels (leveraging
+the \verb{<optgroup>} HTML tag) for the elements in the respective sublist. See
+the example section for a small demo of this feature.}
 
-\item{selected}{The initially selected value. If not specified then defaults
-to the first value.}
+\item{selected}{The initially selected value (or multiple values if \code{multiple = TRUE}). If not specified then defaults to the first value for
+single-select lists and no values for multiple select lists.}
 
-\item{width}{The width of the input, e.g. '400px', or '100\%'; see
-\code{\link[htmltools:validateCssUnit]{htmltools::validateCssUnit()}}.}
+\item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'};
+see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}
 }
 \value{
 Returns a select input control suitable for use in a toolbar.
@@ -42,5 +43,10 @@ toolbar(
   )
 )
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+Other Toolbar components: 
+\code{\link{toolbar}()},
+\code{\link{toolbar_input_button}()}
 }
 \concept{Toolbar components}

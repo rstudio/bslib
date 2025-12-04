@@ -49,19 +49,14 @@ Returns a button suitable for use in a toolbar.
 }
 \description{
 A button designed to fit well in small places such as in a \code{\link[=toolbar]{toolbar()}}.
-}
-\examples{
-\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-toolbar(
-  align = "right",
-  toolbar_input_button(id = "see", icon = icon("eye"), label = "See"),
-  toolbar_input_button(id = "save", label = "Save"),
-  toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
+toolbar_input_button(id = "see", icon = icon("eye"), label = "See"),
+toolbar_input_button(id = "save", label = "Save"),
+toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
 )
-\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other Toolbar components: 
-\code{\link{toolbar}()}
+\code{\link{toolbar}()},
+\code{\link{toolbar_input_select}()}
 }
 \concept{Toolbar components}
