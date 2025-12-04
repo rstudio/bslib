@@ -104,9 +104,8 @@ toolbar_input_button <- function(
 
   # Validate that label has text for accessibility
   label_text <- paste(unlist(find_characters(label)), collapse = " ")
-  label_text <- trimws(label_text)
   # Verifies the label contains non-empty text
-  if (!nzchar(label_text)) {
+  if (!nzchar(trimws(label_text))) {
     warning(
       "When `show_label = FALSE`, consider providing a non-empty string label
       for accessibility."
