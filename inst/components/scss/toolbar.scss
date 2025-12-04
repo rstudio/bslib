@@ -74,13 +74,12 @@
   // Decrease this to keep header slim and leave a margin between select & border
   padding-block: 0rem; 
   padding-inline: 0.25rem;
+  height: var(--_icon-size, 1.75rem);
+
 
   .form-group.shiny-input-container {
-    width: auto;
-
-    select {
-      width: auto;
-    }
+    width: auto; // Ensures container for input doesn't expand to fill width
+    margin-bottom: 0; // Remove default Bootstrap margin for proper vertical alignment
   }
 
   /* Remove the select label visually */
@@ -88,31 +87,39 @@
     display: none;
   }
 
-  /* Make children take width=auto to size to content */
-  &>* {
-    width: auto;
-  }
-
   select {
+    // Shiny's selectInput applies the .form-controls class by default which sets
+    // appearance: none; This removes the drop-down arrow, appearance:auto restores it
     appearance: auto;
     padding: .25rem; // Decreased to slim down select to fit in header
-    /* .form-controls takes away the drop-down arrow, this ensures it shows up */
-    border: none;
+    border: none; // Removed so the input looks better in the toolbar
+    background-color: transparent; // Let the container's background show through
     transition: background-color 120ms ease, color 120ms ease;
+    outline: none; // Remove default focus outline since we're using background color
+    box-shadow: none; // Remove any box-shadow
+    
+    &:focus,
+    &:focus-visible {
+      background-color: transparent; // Keep transparent so container background shows through
+      outline: none; // Remove default focus outline
+      box-shadow: none; // Remove focus box-shadow
+    }
   }
+
 
   // Hover, active, and focus styling to highlight the select and options on interaction
-  // because default styles are disabled to make the input slimmer
-  & select:hover {
+  // because default styles show focus via the border, not background color and we disable
+  // the border to make the input look better in the toolbar
+  &:hover {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08);
+
   }
 
-  & select:active {
+  &:active {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16);
   }
 
-  & select:focus,
-  select:focus-visible {
+  &:focus-within {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12);
   }
 
