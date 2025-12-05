@@ -105,8 +105,7 @@ toolbar_input_button <- function(
   # Verifies the label contains non-empty text
   if (!nzchar(trimws(label_text))) {
     warning(
-      "When `show_label = FALSE`, consider providing a non-empty string label
-      for accessibility."
+      "Consider providing a non-empty string label for accessibility."
     )
   }
 
