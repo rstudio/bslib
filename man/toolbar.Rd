@@ -2,9 +2,12 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar}
 \alias{toolbar}
+\alias{toolbar_spacer}
 \title{Toolbar component}
 \usage{
 toolbar(..., align = c("right", "left"), gap = NULL)
+
+toolbar_spacer(width = "1rem", rule = FALSE)
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
@@ -14,6 +17,12 @@ toolbar(..., align = c("right", "left"), gap = NULL)
 
 \item{gap}{A CSS length unit defining the gap (i.e., spacing) between
 elements in the toolbar. Defaults to \code{0} (no gap).}
+
+\item{width}{The width of the spacer. Defaults to \code{"1rem"} for a sensible
+fixed spacing. Can also be any CSS length unit (e.g., \code{"10px"}, \code{"1rem"}).}
+
+\item{rule}{If \code{TRUE}, displays a vertical dividing line instead of empty space.
+Defaults to \code{FALSE}.}
 }
 \value{
 Returns a toolbar element.
@@ -21,7 +30,15 @@ Returns a toolbar element.
 \description{
 A toolbar which can contain buttons, inputs, and other UI elements in a small
 form suitable for inclusion in card headers, footers, and other small places.
+
+\code{toolbar_spacer()} creates flexible space between toolbar elements or adds
+a visual divider line.
 }
+\section{Functions}{
+\itemize{
+\item \code{toolbar_spacer()}: Add a spacer or divider to a toolbar
+
+}}
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
@@ -29,6 +46,21 @@ toolbar(
   toolbar_input_button(id = "see", icon = icon("eye"), label = "View"),
   toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit")
+)
+\dontshow{\}) # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+toolbar(
+  toolbar_input_button(id = "left1", label = "Left"),
+  toolbar_spacer(),
+  toolbar_input_button(id = "right1", label = "Right")
+)
+
+toolbar(
+  toolbar_input_button(id = "a", label = "A"),
+  toolbar_spacer(width = "20px"),
+  toolbar_input_button(id = "b", label = "B"),
+  toolbar_spacer(rule = TRUE),
+  toolbar_input_button(id = "c", label = "C")
 )
 \dontshow{\}) # examplesIf}
 }

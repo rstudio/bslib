@@ -56,26 +56,20 @@
   /* ---- Toolbar Spacer ---- */
 
   .bslib-toolbar-spacer {
-    flex-shrink: 0;
-    align-self: stretch;
-
-    // Default behavior: flexible spacer that pushes items
-    &:not([style*="width"]) {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
+    align-self: stretch; // Ensures divider lines stretch to full height
 
     // Divider variant: vertical line
     &.bslib-toolbar-divider {
-      flex: 0 0 auto;
-      width: 1px;
-      background-color: var(--bs-border-color);
-      margin: 0 0.5rem;
-      opacity: 0.5;
+      opacity: 0.75;
 
-      // Override width if explicitly set
-      &[style*="width"] {
-        width: var(--_spacer-width, 1px);
+      // Use a pseudo-element for the actual line so custom width controls spacing
+      &::before {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 100%;
+        background-color: var(--bs-border-color);
+        margin: 0 auto;
       }
     }
   }
