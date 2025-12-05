@@ -330,3 +330,39 @@ test_that("toolbar_spacer() with rule/divider (use case 3)", {
     )
   )
 })
+
+
+# Tests for toolbar_spacer() #
+test_that("toolbar_spacer() creates spacer element", {
+  expect_snapshot_html(
+    toolbar_spacer()
+  )
+  expect_snapshot_html(
+    toolbar_spacer(width = "20px")
+  )
+  expect_snapshot_html(
+    toolbar_spacer(rule = TRUE)
+  )
+  expect_snapshot_html(
+    toolbar_spacer(width = "2rem", rule = TRUE)
+  )
+})
+
+test_that("toolbar_spacer() in toolbar context", {
+  expect_snapshot_html(
+    toolbar(
+      toolbar_input_button(id = "left", label = "Left"),
+      toolbar_spacer(),
+      toolbar_input_button(id = "right", label = "Right")
+    )
+  )
+  expect_snapshot_html(
+    toolbar(
+      toolbar_input_button(id = "a", label = "A"),
+      toolbar_spacer(width = "10px"),
+      toolbar_input_button(id = "b", label = "B"),
+      toolbar_spacer(rule = TRUE),
+      toolbar_input_button(id = "c", label = "C")
+    )
+  )
+})
