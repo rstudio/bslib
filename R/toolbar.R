@@ -113,17 +113,18 @@ toolbar_input_button <- function(
 
   button <- shiny::actionButton(
     id,
-    # Hide label if show_label is FALSE, but keep the label field set for use
-    # with aria-labelledby and/or tooltip
+    # Hide the label visually if `!show_label` but keep the label field for
+    # use with `aria-labelledby`. Screen readers will read out the icon's aria
+    # label even if it is a descendent of an element with `aria-hidden=true`,
+    # so this ensures aria always uses the label text.
     label = span(id = label_id, hidden = if (!show_label) NA else NULL, label),
-    # Wrap icon in a span that sets aria-hidden=true so screen readers ignore
-    # the icon (ex. we avoid reading out "star" for a star icon)
+    # Ensures that icon is treated as decorative and ignored by screen
+    # readers in favor of the `aria-labelledby` label.
     icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
     disabled = disabled,
     class = "bslib-toolbar-input-button btn-sm",
     class = if (!border) "border-0" else "border-1",
     "data-type" = btn_type,
-    # aria-labelledby references the label span above for accessibility
     "aria-labelledby" = label_id,
     ...
   )
