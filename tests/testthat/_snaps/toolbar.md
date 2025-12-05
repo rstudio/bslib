@@ -232,56 +232,28 @@
     Code
       show_raw_html(toolbar_spacer())
     Output
-      <div class="bslib-toolbar-spacer" style="width:1rem;" aria-hidden="true"></div>
+      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;--divider-width:2px;"></div>
 
 ---
 
     Code
       show_raw_html(toolbar_spacer(width = "20px"))
     Output
-      <div class="bslib-toolbar-spacer" style="width:20px;" aria-hidden="true"></div>
+      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:20px;--divider-width:2px;"></div>
 
 ---
 
     Code
-      show_raw_html(toolbar_spacer(divider = TRUE))
-    Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;"></div>
-
----
-
-    Code
-      show_raw_html(toolbar_spacer(width = "2rem", divider = TRUE))
-    Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:2rem;"></div>
-
----
-
-    Code
-      show_raw_html(toolbar_spacer())
+      show_raw_html(toolbar_spacer(divider = FALSE))
     Output
       <div class="bslib-toolbar-spacer" style="width:1rem;" aria-hidden="true"></div>
 
 ---
 
     Code
-      show_raw_html(toolbar_spacer(width = "20px"))
+      show_raw_html(toolbar_spacer(width = "2rem", divider = "3px"))
     Output
-      <div class="bslib-toolbar-spacer" style="width:20px;" aria-hidden="true"></div>
-
----
-
-    Code
-      show_raw_html(toolbar_spacer(divider = TRUE))
-    Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;"></div>
-
----
-
-    Code
-      show_raw_html(toolbar_spacer(width = "2rem", divider = TRUE))
-    Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:2rem;"></div>
+      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:2rem;--divider-width:3px;"></div>
 
 # toolbar_spacer() in toolbar context
 
@@ -298,7 +270,7 @@
             <span id="btn-label-4785">Left</span>
           </span>
         </button>
-        <div class="bslib-toolbar-spacer" style="width:1rem;" aria-hidden="true"></div>
+        <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;--divider-width:2px;"></div>
         <button aria-labelledby="btn-label-1502" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="right" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none"></span>
@@ -313,8 +285,8 @@
 
     Code
       show_raw_html(toolbar(toolbar_input_button(id = "a", label = "A"),
-      toolbar_spacer(width = "10px"), toolbar_input_button(id = "b", label = "B"),
-      toolbar_spacer(divider = TRUE), toolbar_input_button(id = "c", label = "C")))
+      toolbar_spacer(width = "10px", divider = FALSE), toolbar_input_button(id = "b",
+        label = "B"), toolbar_spacer(), toolbar_input_button(id = "c", label = "C")))
     Output
       <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
         <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="a" type="button">
@@ -334,69 +306,7 @@
             <span id="btn-label-1502">B</span>
           </span>
         </button>
-        <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;"></div>
-        <button aria-labelledby="btn-label-4429" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="c" type="button">
-          <span class="action-icon">
-            <span aria-hidden="true" style="pointer-events: none"></span>
-          </span>
-          <span class="action-label">
-            <span id="btn-label-4429">C</span>
-          </span>
-        </button>
-      </div>
-
----
-
-    Code
-      show_raw_html(toolbar(toolbar_input_button(id = "left", label = "Left"),
-      toolbar_spacer(), toolbar_input_button(id = "right", label = "Right")))
-    Output
-      <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
-        <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="left" type="button">
-          <span class="action-icon">
-            <span aria-hidden="true" style="pointer-events: none"></span>
-          </span>
-          <span class="action-label">
-            <span id="btn-label-4785">Left</span>
-          </span>
-        </button>
-        <div class="bslib-toolbar-spacer" style="width:1rem;" aria-hidden="true"></div>
-        <button aria-labelledby="btn-label-1502" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="right" type="button">
-          <span class="action-icon">
-            <span aria-hidden="true" style="pointer-events: none"></span>
-          </span>
-          <span class="action-label">
-            <span id="btn-label-1502">Right</span>
-          </span>
-        </button>
-      </div>
-
----
-
-    Code
-      show_raw_html(toolbar(toolbar_input_button(id = "a", label = "A"),
-      toolbar_spacer(width = "10px"), toolbar_input_button(id = "b", label = "B"),
-      toolbar_spacer(divider = TRUE), toolbar_input_button(id = "c", label = "C")))
-    Output
-      <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
-        <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="a" type="button">
-          <span class="action-icon">
-            <span aria-hidden="true" style="pointer-events: none"></span>
-          </span>
-          <span class="action-label">
-            <span id="btn-label-4785">A</span>
-          </span>
-        </button>
-        <div class="bslib-toolbar-spacer" style="width:10px;" aria-hidden="true"></div>
-        <button aria-labelledby="btn-label-1502" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="b" type="button">
-          <span class="action-icon">
-            <span aria-hidden="true" style="pointer-events: none"></span>
-          </span>
-          <span class="action-label">
-            <span id="btn-label-1502">B</span>
-          </span>
-        </button>
-        <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;"></div>
+        <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;--divider-width:2px;"></div>
         <button aria-labelledby="btn-label-4429" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="c" type="button">
           <span class="action-icon">
             <span aria-hidden="true" style="pointer-events: none"></span>
@@ -410,7 +320,7 @@
 # toolbar_spacer() with fixed width (use case 2)
 
     Code
-      show_raw_html(toolbar_spacer(width = "20px"))
+      show_raw_html(toolbar_spacer(width = "20px", divider = FALSE))
     Output
       <div class="bslib-toolbar-spacer" style="width:20px;" aria-hidden="true"></div>
 
@@ -418,9 +328,10 @@
 
     Code
       show_raw_html(toolbar(toolbar_input_button(id = "a", label = "Star", icon = shiny::icon(
-        "star")), toolbar_spacer(width = "20px"), toolbar_input_button(id = "b",
-        label = "Heart", icon = shiny::icon("heart")), toolbar_spacer(width = "20px"),
-      toolbar_input_button(id = "c", label = "Comment", icon = shiny::icon("comment"))))
+        "star")), toolbar_spacer(width = "20px", divider = FALSE),
+      toolbar_input_button(id = "b", label = "Heart", icon = shiny::icon("heart")),
+      toolbar_spacer(width = "20px", divider = FALSE), toolbar_input_button(id = "c",
+        label = "Comment", icon = shiny::icon("comment"))))
     Output
       <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
         <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
@@ -469,31 +380,31 @@
 ---
 
     Code
-      show_raw_html(toolbar_spacer(width = "1rem"))
+      show_raw_html(toolbar_spacer(width = "1rem", divider = FALSE))
     Output
       <div class="bslib-toolbar-spacer" style="width:1rem;" aria-hidden="true"></div>
 
 ---
 
     Code
-      show_raw_html(toolbar_spacer(width = "50px"))
+      show_raw_html(toolbar_spacer(width = "50px", divider = FALSE))
     Output
       <div class="bslib-toolbar-spacer" style="width:50px;" aria-hidden="true"></div>
 
 # toolbar_spacer() with divider (use case 3)
 
     Code
-      show_raw_html(toolbar_spacer(divider = TRUE))
+      show_raw_html(toolbar_spacer())
     Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;"></div>
+      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;--divider-width:2px;"></div>
 
 ---
 
     Code
       show_raw_html(toolbar(toolbar_input_button(id = "save", label = "Save", icon = shiny::icon(
         "save")), toolbar_input_button(id = "edit", label = "Edit", icon = shiny::icon(
-        "pencil")), toolbar_spacer(divider = TRUE), toolbar_input_button(id = "delete",
-        label = "Delete", icon = shiny::icon("trash"))))
+        "pencil")), toolbar_spacer(), toolbar_input_button(id = "delete", label = "Delete",
+        icon = shiny::icon("trash"))))
     Output
       <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
         <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
@@ -522,7 +433,7 @@
             </span>
           </button>
         </bslib-tooltip>
-        <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;"></div>
+        <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;--divider-width:2px;"></div>
         <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>Delete</template>
           <button aria-labelledby="btn-label-4429" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="delete" type="button">
@@ -541,19 +452,19 @@
 ---
 
     Code
-      show_raw_html(toolbar_spacer(width = "1rem", divider = TRUE))
+      show_raw_html(toolbar_spacer(width = "1rem", divider = "5px"))
     Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;"></div>
+      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;--divider-width:5px;"></div>
 
 ---
 
     Code
       show_raw_html(toolbar(toolbar_input_button(id = "undo", label = "Undo", icon = shiny::icon(
         "undo")), toolbar_input_button(id = "redo", label = "Redo", icon = shiny::icon(
-        "redo")), toolbar_spacer(width = "1rem", divider = TRUE),
-      toolbar_input_button(id = "save", label = "Save", icon = shiny::icon("save")),
-      toolbar_input_button(id = "paragraph", label = "Paragraph", icon = shiny::icon(
-        "paragraph")), toolbar_spacer(), toolbar_input_button(id = "settings", label = "Settings",
+        "redo")), toolbar_spacer(width = "1rem"), toolbar_input_button(id = "save",
+        label = "Save", icon = shiny::icon("save")), toolbar_input_button(id = "paragraph",
+        label = "Paragraph", icon = shiny::icon("paragraph")), toolbar_spacer(
+        divider = FALSE), toolbar_input_button(id = "settings", label = "Settings",
         icon = shiny::icon("gear"))))
     Output
       <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
@@ -583,7 +494,7 @@
             </span>
           </button>
         </bslib-tooltip>
-        <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;"></div>
+        <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;--divider-width:2px;"></div>
         <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>Save</template>
           <button aria-labelledby="btn-label-4429" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="save" type="button">
