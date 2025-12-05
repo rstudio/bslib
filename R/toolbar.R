@@ -153,7 +153,7 @@ toolbar_input_button <- function(
 #'
 #' @param width The width of the spacer. Defaults to `"1rem"` for a sensible
 #'   fixed spacing. Can also be any CSS length unit (e.g., `"10px"`, `"1rem"`).
-#' @param rule If `TRUE`, displays a vertical dividing line instead of empty
+#' @param divider If `TRUE`, displays a vertical dividing line instead of empty
 #'   space. Defaults to `FALSE`.
 #'
 #' @examplesIf rlang::is_interactive()
@@ -167,18 +167,18 @@ toolbar_input_button <- function(
 #'   toolbar_input_button(id = "a", label = "A"),
 #'   toolbar_spacer(width = "20px"),
 #'   toolbar_input_button(id = "b", label = "B"),
-#'   toolbar_spacer(rule = TRUE),
+#'   toolbar_spacer(divider = TRUE),
 #'   toolbar_input_button(id = "c", label = "C")
 #' )
 #'
 #' @family Toolbar components
 #' @export
-toolbar_spacer <- function(width = "1rem", rule = FALSE) {
+toolbar_spacer <- function(width = "1rem", divider = FALSE) {
   width <- validateCssUnit(width)
 
   as_fragment(div(
     class = "bslib-toolbar-spacer",
-    class = if (rule) "bslib-toolbar-divider",
+    class = if (divider) "bslib-toolbar-divider",
     style = css(width = width),
     `aria-hidden` = "true"
   ))

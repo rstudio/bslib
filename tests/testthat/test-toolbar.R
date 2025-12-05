@@ -242,10 +242,10 @@ test_that("toolbar_spacer() creates spacer element", {
     toolbar_spacer(width = "20px")
   )
   expect_snapshot_html(
-    toolbar_spacer(rule = TRUE)
+    toolbar_spacer(divider = TRUE)
   )
   expect_snapshot_html(
-    toolbar_spacer(width = "2rem", rule = TRUE)
+    toolbar_spacer(width = "2rem", divider = TRUE)
   )
 })
 
@@ -262,7 +262,7 @@ test_that("toolbar_spacer() in toolbar context", {
       toolbar_input_button(id = "a", label = "A"),
       toolbar_spacer(width = "10px"),
       toolbar_input_button(id = "b", label = "B"),
-      toolbar_spacer(rule = TRUE),
+      toolbar_spacer(divider = TRUE),
       toolbar_input_button(id = "c", label = "C")
     )
   )
@@ -296,10 +296,10 @@ test_that("toolbar_spacer() with fixed width (use case 2)", {
 })
 
 # Tests for use case 3: Dividers
-test_that("toolbar_spacer() with rule/divider (use case 3)", {
+test_that("toolbar_spacer() with divider (use case 3)", {
   # Basic divider
   expect_snapshot_html(
-    toolbar_spacer(rule = TRUE)
+    toolbar_spacer(divider = TRUE)
   )
 
   # Dividers in toolbar
@@ -307,14 +307,14 @@ test_that("toolbar_spacer() with rule/divider (use case 3)", {
     toolbar(
       toolbar_input_button(id = "save", label = "Save", icon = shiny::icon("save")),
       toolbar_input_button(id = "edit", label = "Edit", icon = shiny::icon("pencil")),
-      toolbar_spacer(rule = TRUE),
+      toolbar_spacer(divider = TRUE),
       toolbar_input_button(id = "delete", label = "Delete", icon = shiny::icon("trash"))
     )
   )
 
   # Divider with custom width
   expect_snapshot_html(
-    toolbar_spacer(width = "1rem", rule = TRUE)
+    toolbar_spacer(width = "1rem", divider = TRUE)
   )
 
   # Mixed spacers and dividers
@@ -322,7 +322,7 @@ test_that("toolbar_spacer() with rule/divider (use case 3)", {
     toolbar(
       toolbar_input_button(id = "undo", label = "Undo", icon = shiny::icon("undo")),
       toolbar_input_button(id = "redo", label = "Redo", icon = shiny::icon("redo")),
-      toolbar_spacer(width = "1rem", rule = TRUE),
+      toolbar_spacer(width = "1rem", divider = TRUE),
       toolbar_input_button(id = "save", label = "Save", icon = shiny::icon("save")),
       toolbar_input_button(id = "paragraph", label = "Paragraph", icon = shiny::icon("paragraph")),
       toolbar_spacer(),
@@ -341,10 +341,10 @@ test_that("toolbar_spacer() creates spacer element", {
     toolbar_spacer(width = "20px")
   )
   expect_snapshot_html(
-    toolbar_spacer(rule = TRUE)
+    toolbar_spacer(divider = TRUE)
   )
   expect_snapshot_html(
-    toolbar_spacer(width = "2rem", rule = TRUE)
+    toolbar_spacer(width = "2rem", divider = TRUE)
   )
 })
 
@@ -361,7 +361,7 @@ test_that("toolbar_spacer() in toolbar context", {
       toolbar_input_button(id = "a", label = "A"),
       toolbar_spacer(width = "10px"),
       toolbar_input_button(id = "b", label = "B"),
-      toolbar_spacer(rule = TRUE),
+      toolbar_spacer(divider = TRUE),
       toolbar_input_button(id = "c", label = "C")
     )
   )
