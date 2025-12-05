@@ -40,7 +40,7 @@ Imports:
     memoise (>= 2.0.1),
     mime,
     rlang,
-    sass (>= 0.4.9)
+    sass (>= 0.4.9),
 Suggests:
     bsicons,
     curl,
@@ -52,7 +52,7 @@ Suggests:
     magrittr,
     rappdirs,
     rmarkdown (>= 2.7),
-    shiny (>= 1.11.1),
+    shiny (>= 1.11.1.9000),
     testthat,
     thematic,
     tools,
