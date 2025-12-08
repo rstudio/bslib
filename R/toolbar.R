@@ -182,9 +182,6 @@ toolbar_spacer <- function(width = "1rem", divider = TRUE) {
 
   if (isTRUE(divider)) {
     has_divider <- TRUE
-    divider_width <- "2px"
-  } else if (isFALSE(divider)) {
-    has_divider <- FALSE
   } else if (is.character(divider)) {
     has_divider <- TRUE
     divider_width <- validateCssUnit(divider)
