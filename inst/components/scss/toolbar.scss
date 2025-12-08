@@ -53,6 +53,27 @@
     }
   }
 
+  /* ---- Toolbar Spacer ---- */
+
+  .bslib-toolbar-spacer {
+    align-self: stretch; // Ensures divider lines stretch to full height
+
+    // Divider variant: vertical line
+    &.bslib-toolbar-divider {
+      opacity: 0.75;
+
+      // Use a pseudo-element for the actual line so custom width controls spacing
+      &::before {
+        content: "";
+        display: block;
+        width: var(--divider-width, 2px);
+        height: 100%;
+        background-color: var(--bs-border-color);
+        margin: 0 auto;
+      }
+    }
+  }
+
   /* ---- Adjustments to other elements ---- */
 
   // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    

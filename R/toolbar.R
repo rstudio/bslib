@@ -143,3 +143,60 @@ toolbar_input_button <- function(
 
   button
 }
+
+#' @describeIn toolbar Add a spacer or divider to a toolbar
+#'
+#' @description
+#' `toolbar_spacer()` creates flexible space between toolbar elements or adds
+#' a visual divider line.
+#'
+#' @param width The width of the spacer. Defaults to `"1rem"` for a sensible
+#'   fixed spacing. Can also be any CSS length unit (e.g., `"10px"`, `"1rem"`).
+#' @param divider If `TRUE` (default), displays a 2px vertical dividing line.
+#'   Also accepts a CSS length unit to specify the line width (e.g., `"5px"`).
+#'   Set to `FALSE` for no divider line.
+#'
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   toolbar_input_button(id = "left1", label = "Left"),
+#'   toolbar_spacer(),
+#'   toolbar_input_button(id = "right1", label = "Right")
+#' )
+#'
+#' toolbar(
+#'   toolbar_input_button(id = "a", label = "A"),
+#'   toolbar_spacer(width = "20px", divider = "5px"),
+#'   toolbar_input_button(id = "b", label = "B"),
+#'   toolbar_spacer(divider = FALSE),
+#'   toolbar_input_button(id = "c", label = "C")
+#' )
+#'
+#' @family Toolbar components
+#' @export
+toolbar_spacer <- function(width = "1rem", divider = TRUE) {
+  width <- validateCssUnit(width)
+
+  # Handle divider parameter
+  has_divider <- FALSE
+  divider_width <- "2px"
+
+  if (isTRUE(divider)) {
+    has_divider <- TRUE
+    divider_width <- "2px"
+  } else if (isFALSE(divider)) {
+    has_divider <- FALSE
+  } else if (is.character(divider)) {
+    has_divider <- TRUE
+    divider_width <- validateCssUnit(divider)
+  }
+
+  as_fragment(div(
+    class = "bslib-toolbar-spacer",
+    class = if (has_divider) "bslib-toolbar-divider",
+    style = css(
+      width = width,
+      `--divider-width` = if (has_divider) divider_width else NULL
+    ),
+    `aria-hidden` = "true"
+  ))
+}
