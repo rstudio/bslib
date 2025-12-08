@@ -189,9 +189,11 @@ toolbar_spacer <- function(width = "1rem", divider = TRUE) {
 
   as_fragment(div(
     class = "bslib-toolbar-spacer",
+    # Adds the divider class to add the psudo-element for the divider line
     class = if (has_divider) "bslib-toolbar-divider",
     style = css(
       width = width,
+      # Sets the width of the pseudo-element divider line if applicable
       `--divider-width` = if (has_divider) divider_width else NULL
     ),
     `aria-hidden` = "true"
