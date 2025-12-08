@@ -7,7 +7,7 @@
 \usage{
 toolbar(..., align = c("right", "left"), gap = NULL)
 
-toolbar_spacer(width = "1rem", rule = FALSE)
+toolbar_spacer(width = "1rem", divider = TRUE)
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
@@ -21,8 +21,9 @@ elements in the toolbar. Defaults to \code{0} (no gap).}
 \item{width}{The width of the spacer. Defaults to \code{"1rem"} for a sensible
 fixed spacing. Can also be any CSS length unit (e.g., \code{"10px"}, \code{"1rem"}).}
 
-\item{rule}{If \code{TRUE}, displays a vertical dividing line instead of empty space.
-Defaults to \code{FALSE}.}
+\item{divider}{If \code{TRUE} (default), displays a 2px vertical dividing line.
+Also accepts a CSS length unit to specify the line width (e.g., \code{"5px"}).
+Set to \code{FALSE} for no divider line.}
 }
 \value{
 Returns a toolbar element.
@@ -57,14 +58,17 @@ toolbar(
 
 toolbar(
   toolbar_input_button(id = "a", label = "A"),
-  toolbar_spacer(width = "20px"),
+  toolbar_spacer(width = "20px", divider = "5px"),
   toolbar_input_button(id = "b", label = "B"),
-  toolbar_spacer(rule = TRUE),
+  toolbar_spacer(divider = FALSE),
   toolbar_input_button(id = "c", label = "C")
 )
 \dontshow{\}) # examplesIf}
 }
 \seealso{
+Other Toolbar components: 
+\code{\link{toolbar_input_button}()}
+
 Other Toolbar components: 
 \code{\link{toolbar_input_button}()}
 }
