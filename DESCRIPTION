@@ -40,7 +40,7 @@ Imports:
     memoise (>= 2.0.1),
     mime,
     rlang,
-    sass (>= 0.4.9)
+    sass (>= 0.4.9),
 Suggests:
     bsicons,
     curl,
