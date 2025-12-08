@@ -157,12 +157,15 @@ toolbar_input_button <- function(
 #'   align = "right",
 #'   toolbar_input_select(
 #'     id = "select",
+#'     label = "Choose option",
 #'     choices = c("Option 1", "Option 2", "Option 3"),
 #'     selected = "Option 2"
 #'   )
 #' )
 #'
 #' @param id The input ID.
+#' @param label The label for the select input. Hidden visually but available
+#'   for accessibility.
 #' @inheritParams shiny::selectInput
 #' @return Returns a select input control suitable for use in a toolbar.
 #'
@@ -170,21 +173,33 @@ toolbar_input_button <- function(
 #' @export
 toolbar_input_select <- function(
   id,
+  label,
   choices,
   selected = NULL,
   width = NULL
 ) {
-  size <- rlang::arg_match(size)
+  label_id <- paste0("select-label-", p_randomInt(1000, 10000))
+  label_span <- span(id = label_id, hidden = NA, label)
+
+  select_input <- shiny::selectInput(
+    id,
+    label = NULL,
+    choices = choices,
+    selected = selected,
+    multiple = FALSE,
+    selectize = FALSE,
+    width = width
+  )
+
+  # Add aria-labelledby to the select element
+  select_input <- tagQuery(select_input)$
+    find("select")$
+    addAttrs("aria-labelledby" = label_id)$
+    allTags()
+
   htmltools::div(
     class = "bslib-toolbar-input-select form-select-sm",
-    shiny::selectInput(
-      id,
-      label = NULL, # Removed for slimline input component
-      choices = choices,
-      selected = selected,
-      multiple = FALSE,
-      selectize = FALSE,
-      width = width
-    )
+    label_span,
+    select_input
   )
 }

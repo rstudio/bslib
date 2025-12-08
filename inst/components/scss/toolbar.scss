@@ -82,11 +82,6 @@
     margin-bottom: 0; // Remove default Bootstrap margin for proper vertical alignment
   }
 
-  /* Remove the select label visually */
-  #select-label {
-    display: none;
-  }
-
   select {
     // Shiny's selectInput applies the .form-controls class by default which sets
     // appearance: none; This removes the drop-down arrow, appearance:auto restores it
@@ -112,7 +107,6 @@
   // the border to make the input look better in the toolbar
   &:hover {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08);
-
   }
 
   &:active {
