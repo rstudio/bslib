@@ -178,9 +178,6 @@ toolbar_input_select <- function(
   selected = NULL,
   width = NULL
 ) {
-  label_id <- paste0("select-label-", p_randomInt(1000, 10000))
-  label_span <- span(id = label_id, hidden = NA, label)
-
   select_input <- shiny::selectInput(
     id,
     label = NULL,
@@ -191,7 +188,10 @@ toolbar_input_select <- function(
     width = width
   )
 
-  # Add aria-label for accessibility
+  # Add aria-label here instead of providing a hidden label in the selectInput
+  # because the hidden label still takes up space and even if entirely hidden
+  # using SCSS it is still better parsed by screen readers (when there is no
+  # visible text to reference) by using aria-label instead.
   select_input <- tagQuery(select_input)$find("select")$addAttrs(
     "aria-label" = label
   )$allTags()
