@@ -191,11 +191,10 @@ toolbar_input_select <- function(
     width = width
   )
 
-  # Add aria-labelledby to the select element
-  select_input <- tagQuery(select_input)$
-    find("select")$
-    addAttrs("aria-labelledby" = label_id)$
-    allTags()
+  # Add aria-labelledby to the select element so it is properly labeled for accessibility
+  select_input <- tagQuery(select_input)$find("select")$addAttrs(
+    "aria-labelledby" = label_id
+  )$allTags()
 
   htmltools::div(
     class = "bslib-toolbar-input-select form-select-sm",
