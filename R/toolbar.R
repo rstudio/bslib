@@ -224,9 +224,12 @@ toolbar_input_select <- function(
   #)$allTags()
 
   htmltools::div(
-    class = "bslib-toolbar-input-select form-select-sm",
-    !!!dots,
     aria_span,
-    select_input
+    htmltools::div(
+      class = "bslib-toolbar-input-select form-select-sm",
+      !!!dots,
+      "aria-labelledby" = label_id,
+      select_input
+    )
   )
 }
