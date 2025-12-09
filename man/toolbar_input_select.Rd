@@ -4,24 +4,26 @@
 \alias{toolbar_input_select}
 \title{Toolbar Input Select}
 \usage{
-toolbar_input_select(id, choices, selected = NULL, width = NULL)
+toolbar_input_select(id, label, choices, ..., selected = NULL)
 }
 \arguments{
 \item{id}{The input ID.}
 
+\item{label}{The label for the select input. Hidden visually but available
+for accessibility.}
+
 \item{choices}{List of values to select from. If elements of the list are
-named, then that name --- rather than the value --- is displayed to the
-user. It's also possible to group related inputs by providing a named list
-whose elements are (either named or unnamed) lists, vectors, or factors. In
-this case, the outermost names will be used as the group labels (leveraging
-the \verb{<optgroup>} HTML tag) for the elements in the respective sublist. See
-the example section for a small demo of this feature.}
+named, then that name — rather than the value — is displayed to the user.
+It's also possible to group related inputs by providing a named list whose
+elements are (either named or unnamed) lists, vectors, or factors. In this
+case, the outermost names will be used as the group labels (leveraging the
+⁠\if{html}{\out{<optgroup>}}⁠ HTML tag) for the elements in the respective sublist.}
 
-\item{selected}{The initially selected value (or multiple values if \code{multiple = TRUE}). If not specified then defaults to the first value for
-single-select lists and no values for multiple select lists.}
+\item{...}{Additional named arguments passed as attributes to the outer
+container div.}
 
-\item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'};
-see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}
+\item{selected}{The initially selected value. If not provided, the first
+choice will be selected by default.}
 }
 \value{
 Returns a select input control suitable for use in a toolbar.
@@ -38,6 +40,7 @@ toolbar(
   align = "right",
   toolbar_input_select(
     id = "select",
+    label = "Choose option",
     choices = c("Option 1", "Option 2", "Option 3"),
     selected = "Option 2"
   )

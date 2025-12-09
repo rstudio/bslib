@@ -184,8 +184,8 @@ toolbar_input_select <- function(
   id,
   label,
   choices,
-  selected = NULL,
-  ...
+  ...,
+  selected = NULL
 ) {
   # Validate that ... contains only named arguments
   dots <- rlang::list2(...)
