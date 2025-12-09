@@ -244,9 +244,10 @@ test_that("toolbar_input_select() accepts named attributes in ...", {
     `data-test` = "custom"
   )
 
-  # Check that the outer div has the custom attributes
-  expect_match(htmltools::tagGetAttribute(tis, "class"), "bg-success-subtle")
-  expect_equal(htmltools::tagGetAttribute(tis, "data-test"), "custom")
+  # Check that the inner div (with bslib-toolbar-input-select class) has the custom attributes
+  inner_div <- tagQuery(tis)$find(".bslib-toolbar-input-select")$selectedTags()[[1]]
+  expect_match(htmltools::tagGetAttribute(inner_div, "class"), "bg-success-subtle")
+  expect_equal(htmltools::tagGetAttribute(inner_div, "data-test"), "custom")
 })
 
 test_that("toolbar_input_select() rejects unnamed arguments in ...", {
@@ -261,7 +262,7 @@ test_that("toolbar_input_select() rejects unnamed arguments in ...", {
   )
 })
 
-test_that("toolbar_input_select() has aria-label", {
+test_that("toolbar_input_select() has aria-labelledby", {
   tis <- as.tags(
     toolbar_input_select(
       id = "select",
@@ -270,10 +271,21 @@ test_that("toolbar_input_select() has aria-label", {
     )
   )
 
-  # Find the select element
-  select_tag <- tagQuery(tis)$find("select")$selectedTags()[[1]]
+  # Find the div with class bslib-toolbar-input-select
+  outer_div <- tagQuery(tis)$find(".bslib-toolbar-input-select")$selectedTags()[[1]]
+  aria_labelledby <- htmltools::tagGetAttribute(outer_div, "aria-labelledby")
+
+  # Check that aria-labelledby exists
+  expect_true(!is.null(aria_labelledby))
+
+  # Find the span with the matching ID
+  label_span <- tagQuery(tis)$find(paste0("#", aria_labelledby))$selectedTags()[[1]]
   expect_equal(
-    htmltools::tagGetAttribute(select_tag, "aria-label"),
+    htmltools::tagGetAttribute(label_span, "hidden"),
+    NA
+  )
+  expect_equal(
+    as.character(label_span$children[[1]]),
     "Choose option"
   )
 })
