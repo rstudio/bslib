@@ -231,3 +231,78 @@ test_that("toolbar_input_button() validates label for accessibility", {
     )
   )
 })
+
+
+# Additional Toolbar Input Select Tests #
+
+test_that("toolbar_input_select() accepts named attributes in ...", {
+  tis <- toolbar_input_select(
+    id = "select",
+    label = "Choose option",
+    choices = c("Option 1", "Option 2", "Option 3"),
+    class = "bg-success-subtle",
+    `data-test` = "custom"
+  )
+
+  # Check that the outer div has the custom attributes
+  expect_match(htmltools::tagGetAttribute(tis, "class"), "bg-success-subtle")
+  expect_equal(htmltools::tagGetAttribute(tis, "data-test"), "custom")
+})
+
+test_that("toolbar_input_select() rejects unnamed arguments in ...", {
+  expect_error(
+    toolbar_input_select(
+      id = "select",
+      label = "Choose option",
+      choices = c("Option 1", "Option 2", "Option 3"),
+      "bad"
+    ),
+    "All arguments in `...` must be named"
+  )
+})
+
+test_that("toolbar_input_select() has aria-label", {
+  tis <- as.tags(
+    toolbar_input_select(
+      id = "select",
+      label = "Choose option",
+      choices = c("Option 1", "Option 2", "Option 3")
+    )
+  )
+
+  # Find the select element
+  select_tag <- tagQuery(tis)$find("select")$selectedTags()[[1]]
+  expect_equal(
+    htmltools::tagGetAttribute(select_tag, "aria-label"),
+    "Choose option"
+  )
+})
+
+test_that("toolbar_input_select() markup snapshots", {
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "select1",
+      label = "Basic select",
+      choices = c("A", "B", "C")
+    )
+  )
+
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "select2",
+      label = "Select with selected",
+      choices = c("Option 1", "Option 2", "Option 3"),
+      selected = "Option 2"
+    )
+  )
+
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "select3",
+      label = "Select with custom class",
+      choices = c("X", "Y", "Z"),
+      class = "bg-success-subtle",
+      "style" = "width: 400px"
+    )
+  )
+})

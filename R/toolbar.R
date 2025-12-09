@@ -166,7 +166,16 @@ toolbar_input_button <- function(
 #' @param id The input ID.
 #' @param label The label for the select input. Hidden visually but available
 #'   for accessibility.
-#' @inheritParams shiny::selectInput
+#' @param choices List of values to select from. If elements of the list are
+#'   named, then that name — rather than the value — is displayed to the user.
+#'   It's also possible to group related inputs by providing a named list whose
+#'   elements are (either named or unnamed) lists, vectors, or factors. In this
+#'   case, the outermost names will be used as the group labels (leveraging the
+#'   ⁠<optgroup>⁠ HTML tag) for the elements in the respective sublist.
+#' @param selected The initially selected value. If not provided, the first
+#'   choice will be selected by default.
+#' @param ... Additional named arguments passed as attributes to the outer
+#'   container div.
 #' @return Returns a select input control suitable for use in a toolbar.
 #'
 #' @family Toolbar components
@@ -176,16 +185,25 @@ toolbar_input_select <- function(
   label,
   choices,
   selected = NULL,
-  width = NULL
+  ...
 ) {
+  # Validate that ... contains only named arguments
+  dots <- rlang::list2(...)
+  if (any(!nzchar(rlang::names2(dots)))) {
+    rlang::abort("All arguments in `...` must be named.")
+  }
+
   select_input <- shiny::selectInput(
     id,
-    label = NULL,
+    label = label,
     choices = choices,
     selected = selected,
     multiple = FALSE,
     selectize = FALSE,
-    width = width
+    # Remove width as a direct arg to allow the container to flex, but it can
+    # be set via the style attribute in `...`
+    width = NULL,
+    size = NULL
   )
 
   # Add aria-label here instead of providing a hidden label in the selectInput
@@ -198,6 +216,7 @@ toolbar_input_select <- function(
 
   htmltools::div(
     class = "bslib-toolbar-input-select form-select-sm",
+    !!!dots,
     select_input
   )
 }
