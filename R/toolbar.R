@@ -193,11 +193,18 @@ toolbar_input_select <- function(
     rlang::abort("All arguments in `...` must be named.")
   }
 
+  label_id <- paste0("select-label-", p_randomInt(1000, 10000))
+  aria_span <- span(
+    id = label_id,
+    hidden = NA,
+    label
+  )
+
   select_input <- shiny::selectInput(
     id,
     # We hide the label to make a slimmer input, but add an aria-label on the
     # select element for accessibility.
-    label = NULL,
+    label = span(hidden = NA, "aria-labelledby" = label_id),
     choices = choices,
     selected = selected,
     multiple = FALSE,
@@ -212,13 +219,14 @@ toolbar_input_select <- function(
   # because the hidden label still takes up space and even if entirely hidden
   # using SCSS it is still better parsed by screen readers (when there is no
   # visible text to reference) by using aria-label instead.
-  select_input <- tagQuery(select_input)$find("select")$addAttrs(
-    "aria-label" = label
-  )$allTags()
+  #select_input <- tagQuery(select_input)$find("select")$addAttrs(
+  #  "aria-label" = label
+  #)$allTags()
 
   htmltools::div(
     class = "bslib-toolbar-input-select form-select-sm",
     !!!dots,
+    aria_span,
     select_input
   )
 }

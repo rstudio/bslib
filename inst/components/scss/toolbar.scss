@@ -83,6 +83,10 @@
     margin-bottom: 0; // Remove default Bootstrap margin for proper vertical alignment
   }
 
+  .control-label {
+    display: none; // Hide the label so its blank container doesn't take up space
+  }
+
   select {
     // Shiny's selectInput applies the .form-control class by default which sets
     // appearance: none; This removes the drop-down arrow, appearance:auto restores it
