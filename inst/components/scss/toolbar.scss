@@ -76,10 +76,6 @@
   padding-inline: 0.25rem;
   height: var(--_icon-size, 1.75rem);
 
-  .control-label {
-    display: none; // Hide label to make slimmer input
-  }
-
   .form-group.shiny-input-container {
     width: auto; // Ensures container for input doesn't expand to fill width
     margin-bottom: 0; // Remove default Bootstrap margin for proper vertical alignment
