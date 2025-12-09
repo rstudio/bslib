@@ -195,7 +195,9 @@ toolbar_input_select <- function(
 
   select_input <- shiny::selectInput(
     id,
-    label = label,
+    # We hide the label to make a slimmer input, but add an aria-label on the
+    # select element for accessibility.
+    label = NULL,
     choices = choices,
     selected = selected,
     multiple = FALSE,
