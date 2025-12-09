@@ -105,16 +105,6 @@
         </span>
       </button>
 
-# toolbar_input_button() disabled parameter
-
-    Code
-      show_raw_html(toolbar_input_button(id = "disabled_btn", label = "Disabled",
-        disabled = TRUE))
-    Output
-      <button class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" disabled id="disabled_btn" type="button">
-        <span class="action-label">Disabled</span>
-      </button>
-
 ---
 
     Code
