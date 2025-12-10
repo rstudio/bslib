@@ -227,31 +227,24 @@
         </button>
       </bslib-tooltip>
 
-# toolbar_spacer() creates spacer element
+# toolbar_divider() creates divider element
 
     Code
-      show_raw_html(toolbar_spacer())
+      show_raw_html(toolbar_divider())
     Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:1rem;--divider-width:2px;"></div>
+      <div class="bslib-toolbar-divider" aria-hidden="true"></div>
 
 ---
 
     Code
-      show_raw_html(toolbar_spacer(width = "20px"))
+      show_raw_html(toolbar_divider(gap = "20px"))
     Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:20px;--divider-width:2px;"></div>
+      <div class="bslib-toolbar-divider" style="--bslib-toolbar-gap:20px;" aria-hidden="true"></div>
 
 ---
 
     Code
-      show_raw_html(toolbar_spacer(divider = FALSE))
+      show_raw_html(toolbar_divider(width = "5px", gap = "2rem"))
     Output
-      <div class="bslib-toolbar-spacer" style="width:1rem;" aria-hidden="true"></div>
-
----
-
-    Code
-      show_raw_html(toolbar_spacer(width = "2rem", divider = "3px"))
-    Output
-      <div aria-hidden="true" class="bslib-toolbar-spacer bslib-toolbar-divider" style="width:2rem;--divider-width:3px;"></div>
+      <div class="bslib-toolbar-divider" style="--bslib-toolbar-gap:2rem;--bslib-toolbar-divider-width:5px;" aria-hidden="true"></div>
 

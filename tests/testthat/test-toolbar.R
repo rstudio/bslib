@@ -233,18 +233,15 @@ test_that("toolbar_input_button() validates label for accessibility", {
 })
 
 
-# Tests for toolbar_spacer() #
-test_that("toolbar_spacer() creates spacer element", {
+# Tests for toolbar_divider() #
+test_that("toolbar_divider() creates divider element", {
   expect_snapshot_html(
-    toolbar_spacer()
+    toolbar_divider()
   )
   expect_snapshot_html(
-    toolbar_spacer(width = "20px")
+    toolbar_divider(gap = "20px")
   )
   expect_snapshot_html(
-    toolbar_spacer(divider = FALSE)
-  )
-  expect_snapshot_html(
-    toolbar_spacer(width = "2rem", divider = "3px")
+    toolbar_divider(width = "5px", gap = "2rem")
   )
 })

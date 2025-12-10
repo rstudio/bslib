@@ -1,5 +1,7 @@
 /* Toolbar */
 .bslib-toolbar {
+  --_divider-height: var(--bslib-toolbar-divider-height, 1lh);
+  --_toolbar-gap: var(--bslib-toolbar-gap, 1rem);
   display: flex;
   align-items: center;
   gap: 0;
@@ -53,25 +55,27 @@
     }
   }
 
-  /* ---- Toolbar Spacer ---- */
+  /* ---- Toolbar Divider ---- */
 
-  .bslib-toolbar-spacer {
-    align-self: stretch; // Ensures divider lines stretch to full height
-
-    // Divider variant: vertical line
-    &.bslib-toolbar-divider {
-      opacity: 0.75;
+  .bslib-toolbar-divider{
+    align-self: center; // Ensures divider lines stretch to full height
+    opacity: 0.75;
+    height: var(--_divider-height);
+    // Sets divider total width based on bslib gap variable if set, otherwise
+    // uses the toolbar gap default (--bslib-toolbar-gap isn't defined when
+    // --_toolbar-gap is originally set so we can't use the same strategy as
+    // height)
+    width: var(--bslib-toolbar-gap, var(--_toolbar-gap));
 
       // Use a pseudo-element for the actual line so custom width controls spacing
       &::before {
         content: "";
         display: block;
-        width: var(--divider-width, 2px);
+        width: var(--bslib-toolbar-divider-width, 2px);
         height: 100%;
         background-color: var(--bs-border-color);
         margin: 0 auto;
       }
-    }
   }
 
   /* ---- Adjustments to other elements ---- */

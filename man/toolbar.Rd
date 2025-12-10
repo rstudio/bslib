@@ -2,12 +2,12 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar}
 \alias{toolbar}
-\alias{toolbar_spacer}
+\alias{toolbar_divider}
 \title{Toolbar component}
 \usage{
 toolbar(..., align = c("right", "left"), gap = NULL)
 
-toolbar_spacer(width = "1rem", divider = TRUE)
+toolbar_divider(width = NULL, gap = NULL)
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
@@ -15,15 +15,12 @@ toolbar_spacer(width = "1rem", divider = TRUE)
 \item{align}{Determines if toolbar should be aligned to the \code{"right"} or
 \code{"left"}.}
 
-\item{gap}{A CSS length unit defining the gap (i.e., spacing) between
-elements in the toolbar. Defaults to \code{0} (no gap).}
+\item{gap}{A CSS length unit defining the spacing around the divider.
+Defaults to \code{"1rem"} for sensible fixed spacing.}
 
-\item{width}{The width of the spacer. Defaults to \code{"1rem"} for a sensible
-fixed spacing. Can also be any CSS length unit (e.g., \code{"10px"}, \code{"1rem"}).}
-
-\item{divider}{If \code{TRUE} (default), displays a 2px vertical dividing line.
-Also accepts a CSS length unit to specify the line width (e.g., \code{"5px"}).
-Set to \code{FALSE} for no divider line.}
+\item{width}{A CSS length unit specifying the width of the divider line.
+Defaults to \code{"2px"} for a sensible dividing line. Pass \verb{0px} for no
+divider line.}
 }
 \value{
 Returns a toolbar element.
@@ -32,12 +29,12 @@ Returns a toolbar element.
 A toolbar which can contain buttons, inputs, and other UI elements in a small
 form suitable for inclusion in card headers, footers, and other small places.
 
-\code{toolbar_spacer()} creates flexible space between toolbar elements or adds
-a visual divider line.
+\code{toolbar_divider()} creates a visual divider line with customizable width
+and spacing between toolbar elements.
 }
 \section{Functions}{
 \itemize{
-\item \code{toolbar_spacer()}: Add a spacer or divider to a toolbar
+\item \code{toolbar_divider()}: Add a divider to a toolbar
 
 }}
 \examples{
@@ -52,16 +49,14 @@ toolbar(
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
   toolbar_input_button(id = "left1", label = "Left"),
-  toolbar_spacer(),
+  toolbar_divider(),
   toolbar_input_button(id = "right1", label = "Right")
 )
 
 toolbar(
   toolbar_input_button(id = "a", label = "A"),
-  toolbar_spacer(width = "20px", divider = "5px"),
-  toolbar_input_button(id = "b", label = "B"),
-  toolbar_spacer(divider = FALSE),
-  toolbar_input_button(id = "c", label = "C")
+  toolbar_divider(width = "5px", gap = "20px"),
+  toolbar_input_button(id = "b", label = "B")
 )
 \dontshow{\}) # examplesIf}
 }
