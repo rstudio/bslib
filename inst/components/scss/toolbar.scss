@@ -28,7 +28,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
-    height: var(--_toolbar-btn-size, 1.75rem); // Keep square icon and label + icon button heights consistent
+    height: var(--bslib-toolbar-btn-size, var(--_toolbar-btn-size)); // Keep square icon and label + icon button heights consistent
   }
 
   // Remove the left padding on label-only buttons so the text is centered
