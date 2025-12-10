@@ -1,6 +1,7 @@
 /* Toolbar */
 .bslib-toolbar {
   --_divider-height: var(--bslib-toolbar-divider-height, 1lh);
+  --_divider-width: var(--bslib-toolbar-divider-width, 2px);
   --_toolbar-gap: var(--bslib-toolbar-gap, 1rem);
   // Sets the height/width (toolbar buttons are square) for toolbar buttons
   // Icon size is controlled by font-size
@@ -74,7 +75,7 @@
       &::before {
         content: "";
         display: block;
-        width: var(--bslib-toolbar-divider-width, 2px);
+        width: var(--bslib-toolbar-divider-width, var(--_divider-width));
         height: 100%;
         background-color: var(--bs-border-color);
         margin: 0 auto;
