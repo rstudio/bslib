@@ -2,6 +2,9 @@
 .bslib-toolbar {
   --_divider-height: var(--bslib-toolbar-divider-height, 1lh);
   --_toolbar-gap: var(--bslib-toolbar-gap, 1rem);
+  // Sets the height/width (toolbar buttons are square) for toolbar buttons
+  // Icon size is controlled by font-size
+  --_toolbar-btn-size: var(--bslib-toolbar-btn-size, 1.75rem);
   display: flex;
   align-items: center;
   gap: 0;
@@ -25,7 +28,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
-    height: var(--_icon-size, 1.75rem); // Keep square icon and label + icon button heights consistent
+    height: var(--_toolbar-btn-size, 1.75rem); // Keep square icon and label + icon button heights consistent
   }
 
   // Remove the left padding on label-only buttons so the text is centered
