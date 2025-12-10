@@ -7,7 +7,7 @@
 \usage{
 toolbar(..., align = c("right", "left"), gap = NULL)
 
-toolbar_divider(width = NULL, gap = NULL)
+toolbar_divider(..., width = NULL, gap = NULL)
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}

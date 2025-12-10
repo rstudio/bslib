@@ -171,7 +171,8 @@ toolbar_input_button <- function(
 #'
 #' @family Toolbar components
 #' @export
-toolbar_divider <- function(width = NULL, gap = NULL) {
+toolbar_divider <- function(..., width = NULL, gap = NULL) {
+  rlang::check_dots_empty()
   width <- validateCssUnit(width)
   gap <- validateCssUnit(gap)
 

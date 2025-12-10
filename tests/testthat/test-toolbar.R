@@ -245,3 +245,10 @@ test_that("toolbar_divider() creates divider element", {
     toolbar_divider(width = "5px", gap = "2rem")
   )
 })
+
+test_that("toolbar_divider() validates dots are empty", {
+  expect_error(
+    toolbar_divider("fake"),
+    "must be empty"
+  )
+})
