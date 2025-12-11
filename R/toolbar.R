@@ -148,9 +148,7 @@ toolbar_input_button <- function(
 #'
 #' @description
 #' Create a select list input control that can be used to choose a single item
-#' from a list of values, suitable for use within a [toolbar()]. This is a
-#' wrapper around [shiny::selectInput()] with `selectize = FALSE` and
-#' appropriate styling for toolbar usage.
+#' from a list of values, suitable for use within a [toolbar()].
 #'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
@@ -164,8 +162,8 @@ toolbar_input_button <- function(
 #' )
 #'
 #' @param id The input ID.
-#' @param label The label for the select input. Hidden visually but available
-#'   for accessibility.
+#' @param label The label for the select input. Used as the `aria-label`
+#'   attribute for accessibility. Must be a non-empty string.
 #' @param choices List of values to select from. If elements of the list are
 #'   named, then that name — rather than the value — is displayed to the user.
 #'   It's also possible to group related inputs by providing a named list whose
@@ -187,43 +185,103 @@ toolbar_input_select <- function(
   ...,
   selected = NULL
 ) {
+  # Restore input for bookmarking
+  selected <- shiny::restoreInput(id = id, default = selected)
+
+  # Set selected to the first choice if no default or restored value
+  if (is.null(selected)) {
+    selected <- firstChoice(choices)
+  }
+
   # Validate that ... contains only named arguments
   dots <- separate_arguments(...)
   if (length(dots$children) > 0) {
     rlang::abort("All arguments in `...` must be named.")
   }
 
-  select_input <- shiny::selectInput(
-    id,
-    # We hide the label to make a slimmer input, but add an aria-label on the
-    # select element for accessibility.
-    label = NULL,
-    choices = choices,
-    selected = selected,
-    multiple = FALSE,
-    selectize = FALSE,
-    # Remove width as a direct arg to allow the container to flex, but it can
-    # be set via the style attribute in `...`
-    width = NULL,
-    size = NULL
+  # Validate that label is a non-empty string
+  if (!is.character(label) || length(label) != 1 || !nzchar(trimws(label))) {
+    rlang::abort("`label` must be a non-empty string.")
+  }
+
+  # Build the select element
+  select_tag <- tags$select(
+    id = id,
+    class = "form-select form-select-sm border-0",
+    `aria-label` = label,
+    selectOptions(choices, selected, inputId = id)
   )
 
-  # Add an aria-span to wrap the input to provide an accessible label because
-  # if just the label is wrapped it doesn't map correctly to the input select
-  label_id <- paste0("select-label-", p_randomInt(1000, 10000))
-  aria_span <- span(
-    id = label_id,
-    hidden = NA,
-    label
+  # Normalize choices using shared utility function
+  choices <- choicesWithNames(choices)
+
+  # Build the select element
+  select_tag <- tags$select(
+    id = id,
+    class = "form-select form-select-sm border-0",
+    `aria-label` = label,
+    selectOptions(choices, selected, inputId = id)
   )
 
-  htmltools::div(
-    aria_span,
-    htmltools::div(
-      class = "bslib-toolbar-input-select form-select-sm",
-      !!!dots$attribs,
-      "aria-labelledby" = label_id,
-      select_input
+  # Wrap in container div with shiny-input-container class
+  return(div(
+    class = "bslib-toolbar-input-select shiny-input-container",
+    !!!dots$attribs,
+    div(select_tag),
+  ))
+}
+
+# Helper function to get the first choice value
+firstChoice <- function(choices) {
+  if (length(choices) == 0L) {
+    return()
+  }
+  choice <- choices[[1]]
+  if (is.list(choice)) firstChoice(choice) else choice
+}
+
+# This function ported from shiny's `input-select.R`
+# Create tags for each of the options; use <optgroup> if necessary.
+# This returns a HTML string instead of tags for performance reasons.
+selectOptions <- function(
+  choices,
+  selected = NULL,
+  inputId,
+  perfWarning = FALSE
+) {
+  if (length(choices) >= 1000) {
+    warning(
+      "The select input \"",
+      inputId,
+      "\" contains a large number of ",
+      "options; this may cause performance issues.",
+      call. = FALSE
     )
-  )
+  }
+
+  html <- mapply(choices, names(choices), FUN = function(choice, label) {
+    if (is.list(choice)) {
+      # If sub-list, create an optgroup and recurse into the sublist
+      sprintf(
+        '<optgroup label="%s">\n%s\n</optgroup>',
+        htmlEscape(label, TRUE),
+        selectOptions(choice, selected, inputId, perfWarning)
+      )
+    } else {
+      # If single item, just return option string
+      sprintf(
+        '<option value="%s"%s>%s</option>',
+        htmlEscape(choice, TRUE),
+        if (choice %in% selected) ' selected' else '',
+        htmlEscape(label)
+      )
+    }
+  })
+
+  HTML(paste(html, collapse = '\n'))
+}
+
+# Helper function to check if choices represent a grouped structure
+toolbar_choices_is_grouped <- function(choices) {
+  hasGroups(choices)
 }

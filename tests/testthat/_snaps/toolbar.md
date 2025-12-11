@@ -233,18 +233,12 @@
       show_raw_html(toolbar_input_select(id = "select1", label = "Basic select",
         choices = c("A", "B", "C")))
     Output
-      <div>
-        <span id="select-label-4785" hidden>Basic select</span>
-        <div class="bslib-toolbar-input-select form-select-sm" aria-labelledby="select-label-4785">
-          <div class="form-group shiny-input-container">
-            <label class="control-label shiny-label-null" for="select1" id="select1-label"></label>
-            <div>
-              <select class="shiny-input-select form-control" id="select1"><option value="A" selected>A</option>
-      <option value="B">B</option>
-      <option value="C">C</option></select>
-            </div>
-          </div>
-        </div>
+      <div class="bslib-toolbar-input-select shiny-input-container">
+        <select id="select1" class="form-select form-select-sm border-0" aria-label="Basic select">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
       </div>
 
 ---
@@ -253,18 +247,12 @@
       show_raw_html(toolbar_input_select(id = "select2", label = "Select with selected",
         choices = c("Option 1", "Option 2", "Option 3"), selected = "Option 2"))
     Output
-      <div>
-        <span id="select-label-4785" hidden>Select with selected</span>
-        <div class="bslib-toolbar-input-select form-select-sm" aria-labelledby="select-label-4785">
-          <div class="form-group shiny-input-container">
-            <label class="control-label shiny-label-null" for="select2" id="select2-label"></label>
-            <div>
-              <select class="shiny-input-select form-control" id="select2"><option value="Option 1">Option 1</option>
-      <option value="Option 2" selected>Option 2</option>
-      <option value="Option 3">Option 3</option></select>
-            </div>
-          </div>
-        </div>
+      <div class="bslib-toolbar-input-select shiny-input-container">
+        <select id="select2" class="form-select form-select-sm border-0" aria-label="Select with selected">
+          <option value="Option 1">Option 1</option>
+          <option value="Option 2" selected>Option 2</option>
+          <option value="Option 3">Option 3</option>
+        </select>
       </div>
 
 ---
@@ -273,17 +261,11 @@
       show_raw_html(toolbar_input_select(id = "select3", label = "Select with custom class",
         choices = c("X", "Y", "Z"), class = "bg-success-subtle", style = "width: 400px"))
     Output
-      <div>
-        <span id="select-label-4785" hidden>Select with custom class</span>
-        <div aria-labelledby="select-label-4785" class="bslib-toolbar-input-select form-select-sm bg-success-subtle" style="width: 400px">
-          <div class="form-group shiny-input-container">
-            <label class="control-label shiny-label-null" for="select3" id="select3-label"></label>
-            <div>
-              <select class="shiny-input-select form-control" id="select3"><option value="X" selected>X</option>
-      <option value="Y">Y</option>
-      <option value="Z">Z</option></select>
-            </div>
-          </div>
-        </div>
+      <div class="bslib-toolbar-input-select shiny-input-container bg-success-subtle" style="width: 400px">
+        <select id="select3" class="form-select form-select-sm border-0" aria-label="Select with custom class">
+          <option value="X">X</option>
+          <option value="Y">Y</option>
+          <option value="Z">Z</option>
+        </select>
       </div>
 

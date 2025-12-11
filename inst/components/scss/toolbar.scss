@@ -75,8 +75,9 @@
   padding-block: 0rem;
   padding-inline: 0.25rem;
   height: var(--_icon-size, 1.75rem);
-  display: flex; // Use flexbox to center the select element
+  display: inline-flex; // Use inline-flex to shrink-wrap the select element
   align-items: center; // Use this to center text vertically like the button
+  width: auto !important; // Contract to the size of the select element
 
   .form-group.shiny-input-container {
     width: auto; // Ensures container for input doesn't expand to fill width
@@ -84,17 +85,22 @@
   }
 
   select {
-    // Shiny's selectInput applies the .form-control class by default which sets
-    // appearance: none; This removes the drop-down arrow, appearance:auto restores it
+    // Remove Bootstrap's custom background image arrow and use native select appearance
+    background-image: none !important;
     appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
     padding: 0; // Remove all padding so text can be center aligned to match buttons
     padding-inline: .25rem; // Keep horizontal padding for text spacing from edges
+    padding-inline-end: 1.25rem; // Extra padding for the native dropdown arrow
     border: none; // Removed so the input looks better in the toolbar
     background-color: transparent; // Let the container's background show through
     transition: background-color 120ms ease, color 120ms ease;
     outline: none; // Remove default focus outline since we're using background color
     box-shadow: none; // Remove box-shadow since focus is handled by background color
     line-height: 1; // Match button label line-height for vertical alignment
+    width: auto; // Contract to the size of the content
+    min-width: fit-content; // Ensure it sizes to content
 
     &:focus,
     &:focus-visible {

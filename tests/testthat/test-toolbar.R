@@ -244,10 +244,9 @@ test_that("toolbar_input_select() accepts named attributes in ...", {
     `data-test` = "custom"
   )
 
-  # Check that the inner div (with bslib-toolbar-input-select class) has the custom attributes
-  inner_div <- tagQuery(tis)$find(".bslib-toolbar-input-select")$selectedTags()[[1]]
-  expect_match(htmltools::tagGetAttribute(inner_div, "class"), "bg-success-subtle")
-  expect_equal(htmltools::tagGetAttribute(inner_div, "data-test"), "custom")
+  # Check that the outer div (with bslib-toolbar-input-select class) has the custom attributes
+  expect_match(htmltools::tagGetAttribute(tis, "class"), "bg-success-subtle")
+  expect_equal(htmltools::tagGetAttribute(tis, "data-test"), "custom")
 })
 
 test_that("toolbar_input_select() rejects unnamed arguments in ...", {
@@ -262,7 +261,7 @@ test_that("toolbar_input_select() rejects unnamed arguments in ...", {
   )
 })
 
-test_that("toolbar_input_select() has aria-labelledby", {
+test_that("toolbar_input_select() has aria-label", {
   tis <- as.tags(
     toolbar_input_select(
       id = "select",
@@ -271,23 +270,12 @@ test_that("toolbar_input_select() has aria-labelledby", {
     )
   )
 
-  # Find the div with class bslib-toolbar-input-select
-  outer_div <- tagQuery(tis)$find(".bslib-toolbar-input-select")$selectedTags()[[1]]
-  aria_labelledby <- htmltools::tagGetAttribute(outer_div, "aria-labelledby")
+  # Find the select element
+  select_elem <- tagQuery(tis)$find("select")$selectedTags()[[1]]
+  aria_label <- htmltools::tagGetAttribute(select_elem, "aria-label")
 
-  # Check that aria-labelledby exists
-  expect_true(!is.null(aria_labelledby))
-
-  # Find the span with the matching ID
-  label_span <- tagQuery(tis)$find(paste0("#", aria_labelledby))$selectedTags()[[1]]
-  expect_equal(
-    htmltools::tagGetAttribute(label_span, "hidden"),
-    NA
-  )
-  expect_equal(
-    as.character(label_span$children[[1]]),
-    "Choose option"
-  )
+  # Check that aria-label exists and has the correct value
+  expect_equal(aria_label, "Choose option")
 })
 
 test_that("toolbar_input_select() markup snapshots", {
@@ -317,4 +305,56 @@ test_that("toolbar_input_select() markup snapshots", {
       "style" = "width: 400px"
     )
   )
+})
+
+# Tests for toolbar_choices_is_grouped() helper function #
+
+test_that("toolbar_choices_is_grouped() detects grouped structures", {
+  # Grouped structure with named list containing vectors
+  grouped_choices <- list(
+    "East Coast" = c("NY", "NJ", "CT"),
+    "West Coast" = c("WA", "OR", "CA")
+  )
+  expect_true(bslib:::toolbar_choices_is_grouped(grouped_choices))
+
+  # Grouped structure with nested lists
+  grouped_list <- list(
+    "Group A" = list("a", "b", "c"),
+    "Group B" = list("d", "e", "f")
+  )
+  expect_true(bslib:::toolbar_choices_is_grouped(grouped_list))
+
+  # Grouped structure with factors
+  grouped_factors <- list(
+    "Category 1" = factor(c("A", "B")),
+    "Category 2" = factor(c("C", "D"))
+  )
+  expect_true(bslib:::toolbar_choices_is_grouped(grouped_factors))
+})
+
+test_that("toolbar_choices_is_grouped() rejects non-grouped structures", {
+  # Simple unnamed vector
+  simple_vector <- c("A", "B", "C")
+  expect_false(bslib:::toolbar_choices_is_grouped(simple_vector))
+
+  # Simple named vector (not grouped, just labeled options)
+  named_vector <- c("New York" = "NY", "New Jersey" = "NJ", "Connecticut" = "CT")
+  expect_false(bslib:::toolbar_choices_is_grouped(named_vector))
+
+  # NULL choices
+  expect_false(bslib:::toolbar_choices_is_grouped(NULL))
+
+  # Empty list
+  expect_false(bslib:::toolbar_choices_is_grouped(list()))
+
+  # List without names
+  # Note: hasGroups() considers lists with vector elements as grouped
+  unnamed_list <- list(c("A", "B"), c("C", "D"))
+  expect_true(bslib:::toolbar_choices_is_grouped(unnamed_list))
+
+  # List with empty names
+  # Note: hasGroups() considers lists with vector elements as grouped
+  empty_names <- list(c("A", "B"), c("C", "D"))
+  names(empty_names) <- c("", "")
+  expect_true(bslib:::toolbar_choices_is_grouped(empty_names))
 })
