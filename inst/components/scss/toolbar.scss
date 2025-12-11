@@ -71,48 +71,33 @@
 
 /* Toolbar Select Input */
 .bslib-toolbar-input-select {
-  // Decrease this to keep header slim and leave a margin between select & border
-  padding-block: 0rem;
   padding-inline: 0.25rem;
   height: var(--_icon-size, 1.75rem);
-  display: inline-flex; // Use inline-flex to shrink-wrap the select element
-  align-items: center; // Use this to center text vertically like the button
-  width: auto !important; // Contract to the size of the select element
-  border-radius: var(--bs-border-radius-sm, 0.25rem); // Round the edges
-
-  .form-group.shiny-input-container {
-    width: auto; // Ensures container for input doesn't expand to fill width
-    margin-bottom: 0; // Remove default Bootstrap margin for proper vertical alignment
-  }
+  display: inline-flex;
+  align-items: center;
+  width: auto !important;
+  border-radius: var(--bs-border-radius-sm, 0.25rem);
 
   select {
-    // Remove Bootstrap's custom background image arrow and use native select appearance
-    background-image: none !important;
+    // Necessary to restore the arrow removed by shiny .form-select class
+    // appearance:none setting
     appearance: auto;
-    -webkit-appearance: auto;
-    -moz-appearance: auto;
-    padding: 0; // Remove all padding so text can be center aligned to match buttons
-    padding-inline: .25rem; // Keep horizontal padding for text spacing from edges
-    padding-inline-end: 1.25rem; // Extra padding for the native dropdown arrow
-    border: none; // Removed so the input looks better in the toolbar
-    background-color: transparent; // Let the container's background show through
-    transition: background-color 120ms ease, color 120ms ease;
-    outline: none; // Remove default focus outline since we're using background color
-    box-shadow: none; // Remove box-shadow since focus is handled by background color
-    line-height: 1; // Match button label line-height for vertical alignment
-    width: auto; // Contract to the size of the content
-    min-width: fit-content; // Ensure it sizes to content
-    font-weight: 400; // Match button text weight
-    font-family: inherit; // Use the same font family as toolbar
+    background-image: none; // Removes Bootstrap's arrow to use native arrow
+    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+    border: none;
+    background-color: transparent;
+    line-height: 1;
+    width: auto;
+    min-width: fit-content;
+    font-family: inherit;
 
-    &:focus,
-    &:focus-visible {
-      background-color: transparent; // Keep transparent so container background shows through
-      outline: none; // Remove default focus outline
-      box-shadow: none; // Remove focus box-shadow
+    // Remove Bootstrap's standard blue border shadow on focus to use
+    // background styles instead
+    &:focus {
+      border-color: transparent;
+      box-shadow: none;
     }
   }
-
 
   // Hover, active, and focus styling to highlight the select and options on interaction
   // because default styles show focus via the border, not background color and we disable

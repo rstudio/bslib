@@ -214,7 +214,7 @@ toolbar_input_select <- function(
   # Build the select element
   select_tag <- tags$select(
     id = id,
-    class = "form-select form-select-sm border-0",
+    class = "form-select form-select-sm",
     `aria-label` = label,
     selectOptions(choices, selected, inputId = id)
   )
