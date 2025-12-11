@@ -263,3 +263,19 @@
       <option value="Z">Z</option></select>
       </div>
 
+# toolbar_input_select() handles grouped choices
+
+    Code
+      show_raw_html(grouped_select)
+    Output
+      <div class="bslib-toolbar-input-select shiny-input-container">
+        <select id="grouped" class="form-select form-select-sm" aria-label="Grouped select"><optgroup label="Group A">
+      <option value="A1" selected>A1</option>
+      <option value="A2" selected>A2</option>
+      </optgroup>
+      <optgroup label="Group B">
+      <option value="B1">B1</option>
+      <option value="B2">B2</option>
+      </optgroup></select>
+      </div>
+

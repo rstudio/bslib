@@ -306,3 +306,105 @@ test_that("toolbar_input_select() markup snapshots", {
     )
   )
 })
+
+test_that("toolbar_input_select() handles grouped choices", {
+  grouped_select <- toolbar_input_select(
+    id = "grouped",
+    label = "Grouped select",
+    choices = list(
+      "Group A" = c("A1", "A2"),
+      "Group B" = c("B1", "B2")
+    )
+  )
+
+  expect_snapshot_html(grouped_select)
+})
+
+test_that("toolbar_input_select() handles named choices", {
+  named_select <- toolbar_input_select(
+    id = "named",
+    label = "Named choices",
+    choices = c("Label 1" = "val1", "Label 2" = "val2")
+  )
+
+  html_output <- as.character(as.tags(named_select))
+  expect_match(html_output, "Label 1")
+  expect_match(html_output, "val1")
+  expect_match(html_output, "Label 2")
+  expect_match(html_output, "val2")
+})
+
+test_that("toolbar_input_select() respects selected parameter", {
+  select_with_default <- as.tags(
+    toolbar_input_select(
+      id = "default",
+      label = "With default",
+      choices = c("A", "B", "C"),
+      selected = "B"
+    )
+  )
+
+  html_output <- as.character(select_with_default)
+  expect_match(html_output, '<option value="B" selected>B</option>')
+})
+
+test_that("toolbar_input_select() selects first choice by default", {
+  select_no_default <- as.tags(
+    toolbar_input_select(
+      id = "no_default",
+      label = "No default",
+      choices = c("X", "Y", "Z")
+    )
+  )
+
+  html_output <- as.character(select_no_default)
+  expect_match(html_output, '<option value="X" selected>X</option>')
+})
+
+test_that("toolbar_input_select() validates label parameter", {
+  expect_error(
+    toolbar_input_select(
+      id = "test",
+      label = "",
+      choices = c("A", "B")
+    ),
+    "`label` must be a non-empty string"
+  )
+
+  expect_error(
+    toolbar_input_select(
+      id = "test",
+      label = c("A", "B"),
+      choices = c("A", "B")
+    ),
+    "`label` must be a non-empty string"
+  )
+
+  expect_error(
+    toolbar_input_select(
+      id = "test",
+      label = 123,
+      choices = c("A", "B")
+    ),
+    "`label` must be a non-empty string"
+  )
+})
+
+test_that("toolbar_input_select() has correct classes", {
+  select <- as.tags(
+    toolbar_input_select(
+      id = "test",
+      label = "Test",
+      choices = c("A", "B")
+    )
+  )
+
+  # Check outer div has correct classes
+  expect_match(htmltools::tagGetAttribute(select, "class"), "bslib-toolbar-input-select")
+  expect_match(htmltools::tagGetAttribute(select, "class"), "shiny-input-container")
+
+  # Check select element has Bootstrap classes
+  select_elem <- tagQuery(select)$find("select")$selectedTags()[[1]]
+  expect_match(htmltools::tagGetAttribute(select_elem, "class"), "form-select")
+  expect_match(htmltools::tagGetAttribute(select_elem, "class"), "form-select-sm")
+})

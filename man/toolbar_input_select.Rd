@@ -9,8 +9,8 @@ toolbar_input_select(id, label, choices, ..., selected = NULL)
 \arguments{
 \item{id}{The input ID.}
 
-\item{label}{The label for the select input. Hidden visually but available
-for accessibility.}
+\item{label}{The label for the select input. Used as the \code{aria-label}
+attribute for accessibility. Must be a non-empty string.}
 
 \item{choices}{List of values to select from. If elements of the list are
 named, then that name — rather than the value — is displayed to the user.
@@ -30,9 +30,7 @@ Returns a select input control suitable for use in a toolbar.
 }
 \description{
 Create a select list input control that can be used to choose a single item
-from a list of values, suitable for use within a \code{\link[=toolbar]{toolbar()}}. This is a
-wrapper around \code{\link[shiny:selectInput]{shiny::selectInput()}} with \code{selectize = FALSE} and
-appropriate styling for toolbar usage.
+from a list of values, suitable for use within a \code{\link[=toolbar]{toolbar()}}.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
