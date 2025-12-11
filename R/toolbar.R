@@ -185,6 +185,10 @@ toolbar_input_select <- function(
   ...,
   selected = NULL
 ) {
+  # Import Shiny's internal choice processing functions
+  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
+  firstChoice <- asNamespace("shiny")[["firstChoice"]]
+
   # Restore input for bookmarking
   selected <- shiny::restoreInput(id = id, default = selected)
 
@@ -204,14 +208,6 @@ toolbar_input_select <- function(
     rlang::abort("`label` must be a non-empty string.")
   }
 
-  # Build the select element
-  select_tag <- tags$select(
-    id = id,
-    class = "form-select form-select-sm border-0",
-    `aria-label` = label,
-    selectOptions(choices, selected, inputId = id)
-  )
-
   # Normalize choices using shared utility function
   choices <- choicesWithNames(choices)
 
@@ -224,22 +220,14 @@ toolbar_input_select <- function(
   )
 
   # Wrap in container div with shiny-input-container class
-  return(div(
+  div(
     class = "bslib-toolbar-input-select shiny-input-container",
     !!!dots$attribs,
-    div(select_tag),
-  ))
+    select_tag
+  )
 }
 
-# Helper function to get the first choice value
-firstChoice <- function(choices) {
-  if (length(choices) == 0L) {
-    return()
-  }
-  choice <- choices[[1]]
-  if (is.list(choice)) firstChoice(choice) else choice
-}
-
+## TODO: The only change made here is to the error messaging. Worth it?
 # This function ported from shiny's `input-select.R`
 # Create tags for each of the options; use <optgroup> if necessary.
 # This returns a HTML string instead of tags for performance reasons.
@@ -279,9 +267,4 @@ selectOptions <- function(
   })
 
   HTML(paste(html, collapse = '\n'))
-}
-
-# Helper function to check if choices represent a grouped structure
-toolbar_choices_is_grouped <- function(choices) {
-  hasGroups(choices)
 }

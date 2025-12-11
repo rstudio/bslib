@@ -234,11 +234,9 @@
         choices = c("A", "B", "C")))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container">
-        <select id="select1" class="form-select form-select-sm border-0" aria-label="Basic select">
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-        </select>
+        <select id="select1" class="form-select form-select-sm border-0" aria-label="Basic select"><option value="A" selected>A</option>
+      <option value="B">B</option>
+      <option value="C">C</option></select>
       </div>
 
 ---
@@ -248,11 +246,9 @@
         choices = c("Option 1", "Option 2", "Option 3"), selected = "Option 2"))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container">
-        <select id="select2" class="form-select form-select-sm border-0" aria-label="Select with selected">
-          <option value="Option 1">Option 1</option>
-          <option value="Option 2" selected>Option 2</option>
-          <option value="Option 3">Option 3</option>
-        </select>
+        <select id="select2" class="form-select form-select-sm border-0" aria-label="Select with selected"><option value="Option 1">Option 1</option>
+      <option value="Option 2" selected>Option 2</option>
+      <option value="Option 3">Option 3</option></select>
       </div>
 
 ---
@@ -262,10 +258,8 @@
         choices = c("X", "Y", "Z"), class = "bg-success-subtle", style = "width: 400px"))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container bg-success-subtle" style="width: 400px">
-        <select id="select3" class="form-select form-select-sm border-0" aria-label="Select with custom class">
-          <option value="X">X</option>
-          <option value="Y">Y</option>
-          <option value="Z">Z</option>
-        </select>
+        <select id="select3" class="form-select form-select-sm border-0" aria-label="Select with custom class"><option value="X" selected>X</option>
+      <option value="Y">Y</option>
+      <option value="Z">Z</option></select>
       </div>
 
