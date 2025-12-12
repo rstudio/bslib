@@ -3,6 +3,7 @@
   --_divider-height: var(--bslib-toolbar-divider-height, 1lh);
   --_divider-width: var(--bslib-toolbar-divider-width, 2px);
   --_divider-gap: var(--bslib-toolbar-divider-gap, 1rem);
+  --_divider-color: var(--bslib-toolbar-divider-color, var(--bs-border-color-translucent, rgba(40,70,94,0.1)));
   // Sets the height/width (toolbar buttons are square) for toolbar buttons
   // Icon size is controlled by font-size
   --_toolbar-btn-size: var(--bslib-toolbar-btn-size, 1.75rem);
@@ -72,7 +73,7 @@
         display: block;
         width: var(--_divider-width);
         height: 100%;
-        background-color: var(--bs-border-color-translucent);
+        background-color: var(--_divider-color);
         margin: 0 auto;
       }
   }
