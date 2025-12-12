@@ -2,7 +2,7 @@
 .bslib-toolbar {
   --_divider-height: var(--bslib-toolbar-divider-height, 1lh);
   --_divider-width: var(--bslib-toolbar-divider-width, 2px);
-  --_toolbar-gap: var(--bslib-toolbar-gap, 1rem);
+  --_divider-gap: var(--bslib-toolbar-divider-gap, 1rem);
   // Sets the height/width (toolbar buttons are square) for toolbar buttons
   // Icon size is controlled by font-size
   --_toolbar-btn-size: var(--bslib-toolbar-btn-size, 1.75rem);
@@ -29,7 +29,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
-    height: var(--bslib-toolbar-btn-size, var(--_toolbar-btn-size)); // Keep square icon and label + icon button heights consistent
+    height: var(--_toolbar-btn-size); // Keep square icon and label + icon button heights consistent
   }
 
   // Remove the left padding on label-only buttons so the text is centered
@@ -62,20 +62,16 @@
   /* ---- Toolbar Divider ---- */
 
   .bslib-toolbar-divider{
-    align-self: center; // Ensures divider lines stretch to full height
+    align-self: center;
     opacity: 0.75;
     height: var(--_divider-height);
-    // Sets divider total width based on bslib gap variable if set, otherwise
-    // uses the toolbar gap default (--bslib-toolbar-gap isn't defined when
-    // --_toolbar-gap is originally set so we can't use the same strategy as
-    // height)
-    width: var(--bslib-toolbar-gap, var(--_toolbar-gap));
+    width: var(--_divider-gap);
 
       // Use a pseudo-element for the actual line so custom width controls spacing
       &::before {
         content: "";
         display: block;
-        width: var(--bslib-toolbar-divider-width, var(--_divider-width));
+        width: var(--_divider-width);
         height: 100%;
         background-color: var(--bs-border-color);
         margin: 0 auto;

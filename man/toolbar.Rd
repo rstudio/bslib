@@ -2,12 +2,9 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar}
 \alias{toolbar}
-\alias{toolbar_divider}
 \title{Toolbar component}
 \usage{
 toolbar(..., align = c("right", "left"), gap = NULL)
-
-toolbar_divider(..., width = NULL, gap = NULL)
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
@@ -15,12 +12,8 @@ toolbar_divider(..., width = NULL, gap = NULL)
 \item{align}{Determines if toolbar should be aligned to the \code{"right"} or
 \code{"left"}.}
 
-\item{gap}{A CSS length unit defining the spacing around the divider.
-Defaults to \code{"1rem"} for sensible fixed spacing.}
-
-\item{width}{A CSS length unit specifying the width of the divider line.
-Defaults to \code{"2px"} for a sensible dividing line. Pass \verb{0px} for no
-divider line.}
+\item{gap}{A CSS length unit defining the gap (i.e., spacing) between
+elements in the toolbar. Defaults to \code{0} (no gap).}
 }
 \value{
 Returns a toolbar element.
@@ -28,15 +21,7 @@ Returns a toolbar element.
 \description{
 A toolbar which can contain buttons, inputs, and other UI elements in a small
 form suitable for inclusion in card headers, footers, and other small places.
-
-\code{toolbar_divider()} creates a visual divider line with customizable width
-and spacing between toolbar elements.
 }
-\section{Functions}{
-\itemize{
-\item \code{toolbar_divider()}: Add a divider to a toolbar
-
-}}
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
@@ -46,25 +31,10 @@ toolbar(
   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit")
 )
 \dontshow{\}) # examplesIf}
-\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-toolbar(
-  toolbar_input_button(id = "left1", label = "Left"),
-  toolbar_divider(),
-  toolbar_input_button(id = "right1", label = "Right")
-)
-
-toolbar(
-  toolbar_input_button(id = "a", label = "A"),
-  toolbar_divider(width = "5px", gap = "20px"),
-  toolbar_input_button(id = "b", label = "B")
-)
-\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other Toolbar components: 
-\code{\link{toolbar_input_button}()}
-
-Other Toolbar components: 
+\code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_button}()}
 }
 \concept{Toolbar components}

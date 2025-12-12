@@ -144,7 +144,7 @@ toolbar_input_button <- function(
   button
 }
 
-#' @describeIn toolbar Add a divider to a toolbar
+#' Toolbar: Add a divider to a toolbar
 #'
 #' @description
 #' `toolbar_divider()` creates a visual divider line with customizable width
@@ -176,14 +176,14 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
   width <- validateCssUnit(width)
   gap <- validateCssUnit(gap)
 
-  as_fragment(div(
+  div(
     class = "bslib-toolbar-divider",
     style = css(
       # Sets the overall width of divider space
-      `--bslib-toolbar-gap` = gap,
+      `--_divider-gap` = gap,
       # Sets the width of the pseudo-element divider line, defaults to 2px
-      `--bslib-toolbar-divider-width` = width
+      `--_divider-width` = width
     ),
     `aria-hidden` = "true"
-  ))
+  )
 }

@@ -239,12 +239,12 @@
     Code
       show_raw_html(toolbar_divider(gap = "20px"))
     Output
-      <div class="bslib-toolbar-divider" style="--bslib-toolbar-gap:20px;" aria-hidden="true"></div>
+      <div class="bslib-toolbar-divider" style="--_divider-gap:20px;" aria-hidden="true"></div>
 
 ---
 
     Code
       show_raw_html(toolbar_divider(width = "5px", gap = "2rem"))
     Output
-      <div class="bslib-toolbar-divider" style="--bslib-toolbar-gap:2rem;--bslib-toolbar-divider-width:5px;" aria-hidden="true"></div>
+      <div class="bslib-toolbar-divider" style="--_divider-gap:2rem;--_divider-width:5px;" aria-hidden="true"></div>
 
