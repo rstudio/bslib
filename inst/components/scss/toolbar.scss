@@ -63,7 +63,6 @@
 
   .bslib-toolbar-divider{
     align-self: center;
-    opacity: 0.75;
     height: var(--_divider-height);
     width: var(--_divider-gap);
 
@@ -73,7 +72,7 @@
         display: block;
         width: var(--_divider-width);
         height: 100%;
-        background-color: var(--bs-border-color);
+        background-color: var(--bs-border-color-translucent);
         margin: 0 auto;
       }
   }
