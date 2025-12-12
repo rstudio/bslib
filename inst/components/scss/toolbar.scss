@@ -77,13 +77,14 @@
   align-items: center;
   width: auto !important;
   border-radius: var(--bs-border-radius-sm, 0.25rem);
+  gap: 0.05rem;
 
   select {
     // Necessary to restore the arrow removed by shiny .form-select class
     // appearance:none setting
     appearance: auto;
     background-image: none; // Removes Bootstrap's arrow to use native arrow
-    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+    padding: 0.1rem 0.5rem 0.1rem 0.1rem;
     border: none;
     background-color: transparent;
     line-height: 1;
@@ -112,5 +113,15 @@
 
   &:focus-within {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12);
+  }
+
+  // Icon styling
+  .bslib-toolbar-input-select-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--bs-secondary-color);
+    font-size: 0.85rem;
+    line-height: 1;
+    margin-left: 0.15rem;
   }
 }

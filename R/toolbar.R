@@ -161,6 +161,29 @@ toolbar_input_button <- function(
 #'   )
 #' )
 #'
+#' # With tooltip
+#' toolbar(
+#'   align = "right",
+#'   toolbar_input_select(
+#'     id = "select",
+#'     label = "Choose option",
+#'     choices = c("Option 1", "Option 2", "Option 3"),
+#'     tooltip = "Select your preferred option from the list"
+#'   )
+#' )
+#'
+#' # With icon and tooltip
+#' toolbar(
+#'   align = "right",
+#'   toolbar_input_select(
+#'     id = "select",
+#'     label = "Choose option",
+#'     choices = c("Option 1", "Option 2", "Option 3"),
+#'     icon = shiny::icon("filter"),
+#'     tooltip = "Filter the data"
+#'   )
+#' )
+#'
 #' @param id The input ID.
 #' @param label The label for the select input. Used as the `aria-label`
 #'   attribute for accessibility. Must be a non-empty string.
@@ -172,6 +195,11 @@ toolbar_input_button <- function(
 #'   ⁠<optgroup>⁠ HTML tag) for the elements in the respective sublist.
 #' @param selected The initially selected value. If not provided, the first
 #'   choice will be selected by default.
+#' @param tooltip Tooltip text to display when hovering over the entire select input. Can be:
+#'   * `NULL` (default) - no tooltip is shown
+#'   * A character string - wraps the entire input with a tooltip
+#' @param icon An optional icon to display before the select input. When provided,
+#'   the icon appears to the left of the select. If `NULL` (default), no icon is shown.
 #' @param ... Additional named arguments passed as attributes to the outer
 #'   container div.
 #' @return Returns a select input control suitable for use in a toolbar.
@@ -183,7 +211,9 @@ toolbar_input_select <- function(
   label,
   choices,
   ...,
-  selected = NULL
+  selected = NULL,
+  tooltip = NULL,
+  icon = NULL
 ) {
   # Import Shiny's internal choice processing functions
   choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
@@ -219,12 +249,34 @@ toolbar_input_select <- function(
     selectOptions(choices, selected, inputId = id)
   )
 
+  # Add optional icon before the select
+  icon_elem <- NULL
+  if (!is.null(icon)) {
+    icon_elem <- span(
+      icon,
+      class = "bslib-toolbar-input-select-icon",
+      `aria-hidden` = "true"
+    )
+  }
+
   # Wrap in container div with shiny-input-container class
-  div(
+  container <- div(
     class = "bslib-toolbar-input-select shiny-input-container",
     !!!dots$attribs,
+    icon_elem,
     select_tag
   )
+
+  # Wrap entire container in tooltip if tooltip text is provided
+  if (!is.null(tooltip)) {
+    container <- bslib::tooltip(
+      container,
+      tooltip,
+      placement = "bottom"
+    )
+  }
+
+  container
 }
 
 ## TODO: The only change made here is to the error messaging. Worth it?

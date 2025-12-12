@@ -408,3 +408,57 @@ test_that("toolbar_input_select() has correct classes", {
   expect_match(htmltools::tagGetAttribute(select_elem, "class"), "form-select")
   expect_match(htmltools::tagGetAttribute(select_elem, "class"), "form-select-sm")
 })
+
+test_that("toolbar_input_select() tooltip parameter", {
+  # Without tooltip - no bslib-tooltip wrapper
+  select_no_tooltip <- as.tags(
+    toolbar_input_select(
+      id = "no_tooltip",
+      label = "No tooltip",
+      choices = c("A", "B")
+    )
+  )
+  html_output <- as.character(select_no_tooltip)
+  expect_false(grepl("bslib-tooltip", html_output))
+
+  # With tooltip - wrapped in bslib-tooltip
+  select_with_tooltip <- toolbar_input_select(
+    id = "with_tooltip",
+    label = "With tooltip",
+    choices = c("A", "B"),
+    tooltip = "This is helpful information"
+  )
+  expect_snapshot_html(select_with_tooltip)
+})
+
+test_that("toolbar_input_select() icon parameter", {
+  # Without icon - no icon element
+  select_no_icon <- as.tags(
+    toolbar_input_select(
+      id = "no_icon",
+      label = "No icon",
+      choices = c("A", "B")
+    )
+  )
+  html_output <- as.character(select_no_icon)
+  expect_false(grepl("bslib-toolbar-input-select-icon", html_output))
+
+  # With icon
+  select_with_icon <- toolbar_input_select(
+    id = "with_icon",
+    label = "With icon",
+    choices = c("A", "B"),
+    icon = shiny::icon("filter")
+  )
+  expect_snapshot_html(select_with_icon)
+
+  # With both icon and tooltip
+  select_icon_tooltip <- toolbar_input_select(
+    id = "icon_tooltip",
+    label = "Icon and tooltip",
+    choices = c("A", "B"),
+    icon = shiny::icon("star"),
+    tooltip = "Select an option"
+  )
+  expect_snapshot_html(select_icon_tooltip)
+})

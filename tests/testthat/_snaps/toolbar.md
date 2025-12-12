@@ -279,3 +279,45 @@
       </optgroup></select>
       </div>
 
+# toolbar_input_select() tooltip parameter
+
+    Code
+      show_raw_html(select_with_tooltip)
+    Output
+      <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>This is helpful information</template>
+        <div class="bslib-toolbar-input-select shiny-input-container">
+          <select id="with_tooltip" class="form-select form-select-sm" aria-label="With tooltip"><option value="A" selected>A</option>
+      <option value="B">B</option></select>
+        </div>
+      </bslib-tooltip>
+
+# toolbar_input_select() icon parameter
+
+    Code
+      show_raw_html(select_with_icon)
+    Output
+      <div class="bslib-toolbar-input-select shiny-input-container">
+        <span class="bslib-toolbar-input-select-icon" aria-hidden="true">
+          <i class="fas fa-filter" role="presentation" aria-label="filter icon"></i>
+        </span>
+        <select id="with_icon" class="form-select form-select-sm" aria-label="With icon"><option value="A" selected>A</option>
+      <option value="B">B</option></select>
+      </div>
+
+---
+
+    Code
+      show_raw_html(select_icon_tooltip)
+    Output
+      <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Select an option</template>
+        <div class="bslib-toolbar-input-select shiny-input-container">
+          <span class="bslib-toolbar-input-select-icon" aria-hidden="true">
+            <i class="far fa-star" role="presentation" aria-label="star icon"></i>
+          </span>
+          <select id="icon_tooltip" class="form-select form-select-sm" aria-label="Icon and tooltip"><option value="A" selected>A</option>
+      <option value="B">B</option></select>
+        </div>
+      </bslib-tooltip>
+
