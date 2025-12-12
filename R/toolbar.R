@@ -238,12 +238,11 @@ selectOptions <- function(
   perfWarning = FALSE
 ) {
   if (length(choices) >= 1000) {
-    warning(
-      "The select input \"",
-      inputId,
-      "\" contains a large number of ",
-      "options; this may cause performance issues.",
-      call. = FALSE
+    rlang::warn(
+      sprintf(
+        "Select input `%s` contains a large number of option; this may cause performance issues.",
+        inputId
+      )
     )
   }
 
