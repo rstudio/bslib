@@ -227,3 +227,24 @@
         </button>
       </bslib-tooltip>
 
+# toolbar_divider() creates divider element
+
+    Code
+      show_raw_html(toolbar_divider())
+    Output
+      <div class="bslib-toolbar-divider" aria-hidden="true"></div>
+
+---
+
+    Code
+      show_raw_html(toolbar_divider(gap = "20px"))
+    Output
+      <div class="bslib-toolbar-divider" style="--_divider-gap:20px;" aria-hidden="true"></div>
+
+---
+
+    Code
+      show_raw_html(toolbar_divider(width = "5px", gap = "2rem"))
+    Output
+      <div class="bslib-toolbar-divider" style="--_divider-gap:2rem;--_divider-width:5px;" aria-hidden="true"></div>
+

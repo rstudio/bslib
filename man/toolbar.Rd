@@ -34,6 +34,7 @@ toolbar(
 }
 \seealso{
 Other Toolbar components: 
+\code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_button}()}
 }
 \concept{Toolbar components}

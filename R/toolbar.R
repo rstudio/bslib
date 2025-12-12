@@ -143,3 +143,47 @@ toolbar_input_button <- function(
 
   button
 }
+
+#' Toolbar: Add a divider to a toolbar
+#'
+#' @description
+#' `toolbar_divider()` creates a visual divider line with customizable width
+#' and spacing between toolbar elements.
+#'
+#' @param width A CSS length unit specifying the width of the divider line.
+#'   Defaults to `"2px"` for a sensible dividing line. Pass `0px` for no
+#'   divider line.
+#' @param gap A CSS length unit defining the spacing around the divider.
+#'   Defaults to `"1rem"` for sensible fixed spacing.
+#'
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   toolbar_input_button(id = "left1", label = "Left"),
+#'   toolbar_divider(),
+#'   toolbar_input_button(id = "right1", label = "Right")
+#' )
+#'
+#' toolbar(
+#'   toolbar_input_button(id = "a", label = "A"),
+#'   toolbar_divider(width = "5px", gap = "20px"),
+#'   toolbar_input_button(id = "b", label = "B")
+#' )
+#'
+#' @family Toolbar components
+#' @export
+toolbar_divider <- function(..., width = NULL, gap = NULL) {
+  rlang::check_dots_empty()
+  width <- validateCssUnit(width)
+  gap <- validateCssUnit(gap)
+
+  div(
+    class = "bslib-toolbar-divider",
+    style = css(
+      # Sets the overall width of divider space
+      `--_divider-gap` = gap,
+      # Sets the width of the pseudo-element divider line, defaults to 2px
+      `--_divider-width` = width
+    ),
+    `aria-hidden` = "true"
+  )
+}

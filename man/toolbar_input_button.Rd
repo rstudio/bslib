@@ -62,6 +62,7 @@ toolbar(
 }
 \seealso{
 Other Toolbar components: 
-\code{\link{toolbar}()}
+\code{\link{toolbar}()},
+\code{\link{toolbar_divider}()}
 }
 \concept{Toolbar components}
