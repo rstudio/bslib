@@ -1,8 +1,9 @@
 #' Toolbar component
 #'
 #' @description
-#' A toolbar which can contain buttons, inputs, and other UI elements in a small
-#' form suitable for inclusion in card headers, footers, and other small places.
+#' A toolbar which can contain buttons, inputs, and other UI elements in a
+#' small form suitable for inclusion in card headers, footers, and other
+#' small places.
 #'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
@@ -51,7 +52,9 @@ toolbar <- function(
 #'   align = "right",
 #'   toolbar_input_button(id = "see", icon = icon("eye"), label = "See"),
 #'   toolbar_input_button(id = "save", label = "Save"),
-#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
+#'   toolbar_input_button(
+#'     id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE
+#'   )
 #' )
 #'
 #' @param id The input ID.
@@ -63,8 +66,9 @@ toolbar <- function(
 #' @param show_label Whether to show the label text in the button. If `FALSE`
 #'   (the default), only the icon is shown (if provided). If `TRUE`, the label
 #'   text is shown alongside the icon.
-#' @param tooltip Tooltip text to display when hovering over the button. Can be:
-#'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with the `label` text
+#' @param tooltip Tooltip text to display when hovering. Can be:
+#'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with
+#'     the `label` text
 #'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
 #'   * A character string - shows a tooltip with custom text
 #'   Defaults to `!show_label`.
@@ -113,13 +117,23 @@ toolbar_input_button <- function(
 
   button <- shiny::actionButton(
     id,
-    # We hide the label visually if `!show_label` but keep the label field for
-    # use with `aria-labelledby`. This ensures that ARIA will always use the
-    # label text. We found that screen readers will read out the icon's `aria-
-    # label` even if it is a descendent of an element with `aria-hidden=true`.
-    label = span(id = label_id, hidden = if (!show_label) NA else NULL, label),
-    # And we wrap the icon to ensure that it is always treated as decorative
-    icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
+    # We hide the label visually if `!show_label` but keep the label
+    # field for use with `aria-labelledby`. This ensures that ARIA will
+    # always use the label text. We found that screen readers will read
+    # out the icon's `aria-label` even if it is a descendent of an
+    # element with `aria-hidden=true`.
+    label = span(
+      id = label_id,
+      hidden = if (!show_label) NA else NULL,
+      label
+    ),
+    # And we wrap the icon to ensure that it is always treated as
+    # decorative
+    icon = span(
+      icon,
+      `aria-hidden` = "true",
+      style = "pointer-events: none"
+    ),
     disabled = disabled,
     class = "bslib-toolbar-input-button btn-sm",
     class = if (!border) "border-0" else "border-1",
@@ -136,8 +150,9 @@ toolbar_input_button <- function(
     tooltip <- NULL
   }
   if (!is.null(tooltip)) {
-    # Default placement is "bottom" for the toolbar case because otherwise the
-    # tooltip ends up covering the neighboring buttons in the header/footer.
+    # Default placement is "bottom" for the toolbar case because
+    # otherwise the tooltip ends up covering the neighboring buttons in
+    # the header/footer.
     button <- tooltip(button, tooltip, placement = "bottom")
   }
 
@@ -147,8 +162,8 @@ toolbar_input_button <- function(
 #' Toolbar Input Select
 #'
 #' @description
-#' Create a select list input control that can be used to choose a single item
-#' from a list of values, suitable for use within a [toolbar()].
+#' Create a select list input control that can be used to choose a single
+#' item from a list of values, suitable for use within a [toolbar()].
 #'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
@@ -187,19 +202,22 @@ toolbar_input_button <- function(
 #' @param id The input ID.
 #' @param label The label for the select input. Used as the `aria-label`
 #'   attribute for accessibility. Must be a non-empty string.
-#' @param choices List of values to select from. If elements of the list are
-#'   named, then that name — rather than the value — is displayed to the user.
-#'   It's also possible to group related inputs by providing a named list whose
-#'   elements are (either named or unnamed) lists, vectors, or factors. In this
-#'   case, the outermost names will be used as the group labels (leveraging the
-#'   ⁠<optgroup>⁠ HTML tag) for the elements in the respective sublist.
+#' @param choices List of values to select from. If elements of the list
+#'   are named, then that name — rather than the value — is displayed to
+#'   the user. It's also possible to group related inputs by providing a
+#'   named list whose elements are (either named or unnamed) lists,
+#'   vectors, or factors. In this case, the outermost names will be used
+#'   as the group labels (leveraging the ⁠<optgroup>⁠ HTML tag) for the
+#'   elements in the respective sublist.
 #' @param selected The initially selected value. If not provided, the first
 #'   choice will be selected by default.
-#' @param tooltip Tooltip text to display when hovering over the select input. Can be:
+#' @param tooltip Tooltip text to display when hovering over the select
+#'   input. Can be:
 #'   * `NULL` (default) - no tooltip is shown
 #'   * A character string - wraps the entire input with a tooltip
-#' @param icon An optional icon to display before the select input. When provided,
-#'   the icon appears to the left of the select. If `NULL` (default), no icon is shown.
+#' @param icon An optional icon to display before the select input. When
+#'   provided, the icon appears to the left of the select. If `NULL`
+#'   (default), no icon is shown.
 #' @param ... Additional named arguments passed as attributes to the outer
 #'   container div.
 #' @return Returns a select input control suitable for use in a toolbar.
@@ -241,7 +259,7 @@ toolbar_input_select <- function(
   # Normalize choices using util function imported from Shiny
   choices <- choicesWithNames(choices)
 
-  # Setting `aria-label` creates an accessible label for the select input
+  # Setting `aria-label` creates an accessible label for the select
   select_tag <- tags$select(
     id = id,
     class = "form-select form-select-sm",
@@ -254,8 +272,10 @@ toolbar_input_select <- function(
   if (!is.null(icon)) {
     icon_elem <- span(
       icon,
+      style = "pointer-events: none",
       class = "bslib-toolbar-input-select-icon",
-      `aria-hidden` = "true"
+      `aria-hidden` = "true",
+      tabindex = "-1"
     )
   }
 
@@ -281,7 +301,7 @@ toolbar_input_select <- function(
 
 # This function ported from shiny's `input-select.R`
 # Create tags for each of the options; use <optgroup> if necessary.
-# This returns a HTML string instead of tags for performance reasons.
+# This returns an HTML string instead of tags for performance.
 selectOptions <- function(
   choices,
   selected = NULL,
@@ -291,30 +311,37 @@ selectOptions <- function(
   if (length(choices) >= 1000) {
     rlang::warn(
       sprintf(
-        "Select input `%s` contains a large number of option; this may cause performance issues.",
+        paste0(
+          "Select input `%s` contains a large number of options; ",
+          "this may cause performance issues."
+        ),
         inputId
       )
     )
   }
 
-  html <- mapply(choices, names(choices), FUN = function(choice, label) {
-    if (is.list(choice)) {
-      # If sub-list, create an optgroup and recurse into the sublist
-      sprintf(
-        '<optgroup label="%s">\n%s\n</optgroup>',
-        htmlEscape(label, TRUE),
-        selectOptions(choice, selected, inputId, perfWarning)
-      )
-    } else {
-      # If single item, just return option string
-      sprintf(
-        '<option value="%s"%s>%s</option>',
-        htmlEscape(choice, TRUE),
-        if (choice %in% selected) ' selected' else '',
-        htmlEscape(label)
-      )
+  html <- mapply(
+    choices,
+    names(choices),
+    FUN = function(choice, label) {
+      if (is.list(choice)) {
+        # If sub-list, create an optgroup and recurse into the sublist
+        sprintf(
+          '<optgroup label="%s">\n%s\n</optgroup>',
+          htmlEscape(label, TRUE),
+          selectOptions(choice, selected, inputId, perfWarning)
+        )
+      } else {
+        # If single item, just return option string
+        sprintf(
+          '<option value="%s"%s>%s</option>',
+          htmlEscape(choice, TRUE),
+          if (choice %in% selected) " selected" else "",
+          htmlEscape(label)
+        )
+      }
     }
-  })
+  )
 
-  HTML(paste(html, collapse = '\n'))
+  HTML(paste(html, collapse = "\n"))
 }
