@@ -195,7 +195,7 @@ toolbar_input_button <- function(
 #'   ⁠<optgroup>⁠ HTML tag) for the elements in the respective sublist.
 #' @param selected The initially selected value. If not provided, the first
 #'   choice will be selected by default.
-#' @param tooltip Tooltip text to display when hovering over the entire select input. Can be:
+#' @param tooltip Tooltip text to display when hovering over the select input. Can be:
 #'   * `NULL` (default) - no tooltip is shown
 #'   * A character string - wraps the entire input with a tooltip
 #' @param icon An optional icon to display before the select input. When provided,
@@ -238,10 +238,10 @@ toolbar_input_select <- function(
     rlang::abort("`label` must be a non-empty string.")
   }
 
-  # Normalize choices using shared utility function
+  # Normalize choices using util function imported from Shiny
   choices <- choicesWithNames(choices)
 
-  # Build the select element
+  # Setting `aria-label` creates an accessible label for the select input
   select_tag <- tags$select(
     id = id,
     class = "form-select form-select-sm",
@@ -279,7 +279,6 @@ toolbar_input_select <- function(
   container
 }
 
-## TODO: The only change made here is to the error messaging. Worth it?
 # This function ported from shiny's `input-select.R`
 # Create tags for each of the options; use <optgroup> if necessary.
 # This returns a HTML string instead of tags for performance reasons.

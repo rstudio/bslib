@@ -4,7 +4,15 @@
 \alias{toolbar_input_select}
 \title{Toolbar Input Select}
 \usage{
-toolbar_input_select(id, label, choices, ..., selected = NULL)
+toolbar_input_select(
+  id,
+  label,
+  choices,
+  ...,
+  selected = NULL,
+  tooltip = NULL,
+  icon = NULL
+)
 }
 \arguments{
 \item{id}{The input ID.}
@@ -24,6 +32,15 @@ container div.}
 
 \item{selected}{The initially selected value. If not provided, the first
 choice will be selected by default.}
+
+\item{tooltip}{Tooltip text to display when hovering over the select input. Can be:
+\itemize{
+\item \code{NULL} (default) - no tooltip is shown
+\item A character string - wraps the entire input with a tooltip
+}}
+
+\item{icon}{An optional icon to display before the select input. When provided,
+the icon appears to the left of the select. If \code{NULL} (default), no icon is shown.}
 }
 \value{
 Returns a select input control suitable for use in a toolbar.
@@ -41,6 +58,29 @@ toolbar(
     label = "Choose option",
     choices = c("Option 1", "Option 2", "Option 3"),
     selected = "Option 2"
+  )
+)
+
+# With tooltip
+toolbar(
+  align = "right",
+  toolbar_input_select(
+    id = "select",
+    label = "Choose option",
+    choices = c("Option 1", "Option 2", "Option 3"),
+    tooltip = "Select your preferred option from the list"
+  )
+)
+
+# With icon and tooltip
+toolbar(
+  align = "right",
+  toolbar_input_select(
+    id = "select",
+    label = "Choose option",
+    choices = c("Option 1", "Option 2", "Option 3"),
+    icon = shiny::icon("filter"),
+    tooltip = "Filter the data"
   )
 )
 \dontshow{\}) # examplesIf}
