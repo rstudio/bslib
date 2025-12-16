@@ -78,6 +78,7 @@
   width: auto !important;
   border-radius: var(--bs-border-radius-sm, 0.25rem);
   gap: 0.05rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   select {
     // Necessary to restore the arrow removed by shiny .form-select class
@@ -92,17 +93,14 @@
     min-width: fit-content;
     font-family: inherit;
 
-    // Remove Bootstrap's standard blue border shadow on focus to use
-    // background styles instead
+    // Remove Bootstrap's standard focus styles since we apply them to the container
     &:focus {
-      border-color: transparent;
+      outline: none;
       box-shadow: none;
     }
   }
 
   // Hover, active, and focus styling to highlight the select and options on interaction
-  // because default styles show focus via the border, not background color and we disable
-  // the border to make the input look better in the toolbar
   &:hover {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08);
   }
@@ -113,6 +111,8 @@
 
   &:focus-within {
     background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12);
+    // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25);
   }
 
   // Icon styling
@@ -120,6 +120,6 @@
     display: inline-flex;
     align-items: center;
     color: var(--bs-secondary-color);
-    margin-left: 0.15rem;
+    margin-left: 0.15rem; // Add margin before icon for aesthetics
   }
 }
