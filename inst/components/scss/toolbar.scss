@@ -62,6 +62,12 @@
   .bslib-input-switch.form-check {
     margin-bottom: 0; // Remove extra form check to ensure alignment with other items
     margin-inline: 0.5rem; // Spacing so it's not crunched against other toolbar items
+
+    // Match button label styling - Bootstrap buttons default to font-weight: 500
+    .form-check-label {
+      font-weight: 500; // Match Bootstrap button default font-weight
+      line-height: 1; // Match button line-height for consistent vertical alignment
+    }
   }
 
   /* ---- Adjustments to other elements ---- */

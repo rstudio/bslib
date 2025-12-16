@@ -241,3 +241,114 @@ test_that("toolbar_input_switch() has correct attributes", {
     toolbar_input_switch(id = "switch_no_label", label = NULL, value = FALSE)
   )
 })
+
+test_that("toolbar_input_switch() value parameter", {
+  # Default value (FALSE)
+  expect_snapshot_html(
+    toolbar_input_switch(id = "default", label = "Default")
+  )
+
+  # Explicit FALSE
+  expect_snapshot_html(
+    toolbar_input_switch(id = "off", label = "Off", value = FALSE)
+  )
+
+  # Explicit TRUE
+  expect_snapshot_html(
+    toolbar_input_switch(id = "on", label = "On", value = TRUE)
+  )
+})
+
+test_that("toolbar_input_switch() label variations", {
+  # Text label
+  expect_snapshot_html(
+    toolbar_input_switch(id = "text_label", label = "Enable Feature", value = FALSE)
+  )
+
+  # HTML label
+  expect_snapshot_html(
+    toolbar_input_switch(id = "html_label", label = strong("Bold Label"), value = TRUE)
+  )
+
+  # NULL label (no label)
+  expect_snapshot_html(
+    toolbar_input_switch(id = "no_label", label = NULL, value = FALSE)
+  )
+
+  # Empty string label
+  expect_snapshot_html(
+    toolbar_input_switch(id = "empty_label", label = "", value = TRUE)
+  )
+})
+
+test_that("toolbar_input_switch() generates correct CSS classes", {
+  switch_tag <- toolbar_input_switch("test", "Test")
+  switch_html <- format(switch_tag)
+
+  # Should have form-switch class
+  expect_match(switch_html, "form-switch")
+
+  # Should have bslib-input-switch class
+  expect_match(switch_html, "bslib-input-switch")
+
+  # Should have form-check class
+  expect_match(switch_html, "form-check")
+
+  # Should have form-check-input on the input element
+  expect_match(switch_html, "form-check-input")
+})
+
+test_that("toolbar_input_switch() has correct ARIA attributes", {
+  switch_tag <- toolbar_input_switch("test", "Test")
+  switch_html <- format(switch_tag)
+
+  # Should have role="switch" for accessibility
+  expect_match(switch_html, "role=\"switch\"")
+})
+
+test_that("toolbar_input_switch() checked state in HTML", {
+  unchecked <- toolbar_input_switch("unchecked", "Unchecked", value = FALSE)
+  checked <- toolbar_input_switch("checked", "Checked", value = TRUE)
+
+  unchecked_html <- format(unchecked)
+  checked_html <- format(checked)
+
+  # Checked switch should have checked attribute
+  expect_match(checked_html, "checked")
+
+  # Unchecked switch should not have checked attribute
+  expect_false(grepl("checked\\s*/>", unchecked_html))
+  expect_false(grepl("checked=\"", unchecked_html))
+})
+
+test_that("toolbar_input_switch() in toolbar context", {
+  # Switch in toolbar with other elements
+  expect_snapshot_html(
+    toolbar(
+      align = "right",
+      toolbar_input_switch(id = "feature1", label = "Feature 1", value = TRUE),
+      toolbar_input_switch(id = "feature2", label = "Feature 2", value = FALSE),
+      toolbar_input_button(id = "save", label = "Save", icon = shiny::icon("save"))
+    )
+  )
+
+  # Switch in left-aligned toolbar
+  expect_snapshot_html(
+    toolbar(
+      align = "left",
+      toolbar_input_switch(id = "toggle", label = "Toggle", value = TRUE)
+    )
+  )
+
+  # Multiple switches with gap
+  expect_snapshot_html(
+    toolbar(
+      align = "right",
+      gap = "0.5rem",
+      toolbar_input_switch(id = "opt1", label = "Option 1", value = TRUE),
+      toolbar_input_switch(id = "opt2", label = "Option 2", value = FALSE),
+      toolbar_input_switch(id = "opt3", label = "Option 3", value = TRUE)
+    )
+  )
+})
+
