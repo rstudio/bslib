@@ -1,9 +1,8 @@
 #' Toolbar component
 #'
 #' @description
-#' A toolbar which can contain buttons, inputs, and other UI elements in a
-#' small form suitable for inclusion in card headers, footers, and other
-#' small places.
+#' A toolbar which can contain buttons, inputs, and other UI elements in a small
+#' form suitable for inclusion in card headers, footers, and other small places.
 #'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
@@ -52,9 +51,7 @@ toolbar <- function(
 #'   align = "right",
 #'   toolbar_input_button(id = "see", icon = icon("eye"), label = "See"),
 #'   toolbar_input_button(id = "save", label = "Save"),
-#'   toolbar_input_button(
-#'     id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE
-#'   )
+#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
 #' )
 #'
 #' @param id The input ID.
@@ -66,9 +63,8 @@ toolbar <- function(
 #' @param show_label Whether to show the label text in the button. If `FALSE`
 #'   (the default), only the icon is shown (if provided). If `TRUE`, the label
 #'   text is shown alongside the icon.
-#' @param tooltip Tooltip text to display when hovering. Can be:
-#'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with
-#'     the `label` text
+#' @param tooltip Tooltip text to display when hovering over the button. Can be:
+#'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with the `label` text
 #'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
 #'   * A character string - shows a tooltip with custom text
 #'   Defaults to `!show_label`.
@@ -117,23 +113,13 @@ toolbar_input_button <- function(
 
   button <- shiny::actionButton(
     id,
-    # We hide the label visually if `!show_label` but keep the label
-    # field for use with `aria-labelledby`. This ensures that ARIA will
-    # always use the label text. We found that screen readers will read
-    # out the icon's `aria-label` even if it is a descendent of an
-    # element with `aria-hidden=true`.
-    label = span(
-      id = label_id,
-      hidden = if (!show_label) NA else NULL,
-      label
-    ),
-    # And we wrap the icon to ensure that it is always treated as
-    # decorative
-    icon = span(
-      icon,
-      `aria-hidden` = "true",
-      style = "pointer-events: none"
-    ),
+    # We hide the label visually if `!show_label` but keep the label field for
+    # use with `aria-labelledby`. This ensures that ARIA will always use the
+    # label text. We found that screen readers will read out the icon's `aria-
+    # label` even if it is a descendent of an element with `aria-hidden=true`.
+    label = span(id = label_id, hidden = if (!show_label) NA else NULL, label),
+    # And we wrap the icon to ensure that it is always treated as decorative
+    icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
     disabled = disabled,
     class = "bslib-toolbar-input-button btn-sm",
     class = if (!border) "border-0" else "border-1",
@@ -150,9 +136,8 @@ toolbar_input_button <- function(
     tooltip <- NULL
   }
   if (!is.null(tooltip)) {
-    # Default placement is "bottom" for the toolbar case because
-    # otherwise the tooltip ends up covering the neighboring buttons in
-    # the header/footer.
+    # Default placement is "bottom" for the toolbar case because otherwise the
+    # tooltip ends up covering the neighboring buttons in the header/footer.
     button <- tooltip(button, tooltip, placement = "bottom")
   }
 
