@@ -248,7 +248,6 @@
     Output
       <div class="bslib-toolbar-divider" style="--_divider-gap:2rem;--_divider-width:5px;" aria-hidden="true"></div>
 
-      
 # toolbar_input_select() markup snapshots
 
     Code
