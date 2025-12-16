@@ -1,5 +1,12 @@
 /* Toolbar */
 .bslib-toolbar {
+  --_divider-height: var(--bslib-toolbar-divider-height, 1lh);
+  --_divider-width: var(--bslib-toolbar-divider-width, 2px);
+  --_divider-gap: var(--bslib-toolbar-divider-gap, 1rem);
+  --_divider-color: var(--bslib-toolbar-divider-color, var(--bs-border-color-translucent, rgba(40,70,94,0.1)));
+  // Sets the height/width (toolbar buttons are square) for toolbar buttons
+  // Icon size is controlled by font-size
+  --_toolbar-btn-size: var(--bslib-toolbar-btn-size, 1.75rem);
   display: flex;
   align-items: center;
   gap: 0;
@@ -23,7 +30,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
-    height: var(--_icon-size, 1.75rem); // Keep square icon and label + icon button heights consistent
+    height: var(--_toolbar-btn-size); // Keep square icon and label + icon button heights consistent
   }
 
   // Remove the left padding on label-only buttons so the text is centered
@@ -51,6 +58,24 @@
       line-height: 1; // Remove excess line-height
       margin: 0; // Remove any default margins
     }
+  }
+
+  /* ---- Toolbar Divider ---- */
+
+  .bslib-toolbar-divider{
+    align-self: center;
+    height: var(--_divider-height);
+    width: var(--_divider-gap);
+
+      // Use a pseudo-element for the actual line so custom width controls spacing
+      &::before {
+        content: "";
+        display: block;
+        width: var(--_divider-width);
+        height: 100%;
+        background-color: var(--_divider-color);
+        margin: 0 auto;
+      }
   }
 
   /* ---- Adjustments to other elements ---- */
