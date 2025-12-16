@@ -317,7 +317,8 @@ toolbar_input_select <- function(
   container
 }
 
-# This function ported from shiny's `input-select.R` with minor changes.
+# This function ported from shiny's `input-select.R` with changes to the
+# warning message.
 # Create tags for each of the options; use <optgroup> if necessary.
 # This returns an HTML string instead of tags for performance.
 selectOptions <- function(
