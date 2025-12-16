@@ -261,7 +261,7 @@ test_that("toolbar_input_select() rejects unnamed arguments in ...", {
   )
 })
 
-test_that("toolbar_input_select() has aria-labelledby", {
+test_that("toolbar_input_select() has aria-label", {
   tis <- as.tags(
     toolbar_input_select(
       id = "select",
@@ -272,15 +272,10 @@ test_that("toolbar_input_select() has aria-labelledby", {
 
   # Find the select element
   select_elem <- tagQuery(tis)$find("select")$selectedTags()[[1]]
-  aria_labelledby <- htmltools::tagGetAttribute(select_elem, "aria-labelledby")
+  aria_label <- htmltools::tagGetAttribute(select_elem, "aria-label")
 
-  # Check that aria-labelledby exists
-  expect_true(!is.null(aria_labelledby))
-  expect_match(aria_labelledby, "^btn-label-")
-
-  # Find the label span and verify it has the hidden attribute
-  label_span <- tagQuery(tis)$find(paste0("#", aria_labelledby))$selectedTags()[[1]]
-  expect_equal(htmltools::tagGetAttribute(label_span, "hidden"), NA)
+  # Check that aria-label exists and has the correct value
+  expect_equal(aria_label, "Choose option")
 })
 
 test_that("toolbar_input_select() markup snapshots", {

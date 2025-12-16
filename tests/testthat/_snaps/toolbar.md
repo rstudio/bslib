@@ -234,8 +234,7 @@
         choices = c("A", "B", "C")))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container">
-        <span id="btn-label-4785" hidden>Basic select</span>
-        <select id="select1" class="form-select form-select-sm" aria-labelledby="btn-label-4785"><option value="A" selected>A</option>
+        <select id="select1" class="form-select form-select-sm" aria-label="Basic select"><option value="A" selected>A</option>
       <option value="B">B</option>
       <option value="C">C</option></select>
       </div>
@@ -247,8 +246,7 @@
         choices = c("Option 1", "Option 2", "Option 3"), selected = "Option 2"))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container">
-        <span id="btn-label-4785" hidden>Select with selected</span>
-        <select id="select2" class="form-select form-select-sm" aria-labelledby="btn-label-4785"><option value="Option 1">Option 1</option>
+        <select id="select2" class="form-select form-select-sm" aria-label="Select with selected"><option value="Option 1">Option 1</option>
       <option value="Option 2" selected>Option 2</option>
       <option value="Option 3">Option 3</option></select>
       </div>
@@ -260,8 +258,7 @@
         choices = c("X", "Y", "Z"), class = "bg-success-subtle", style = "width: 400px"))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container bg-success-subtle" style="width: 400px">
-        <span id="btn-label-4785" hidden>Select with custom class</span>
-        <select id="select3" class="form-select form-select-sm" aria-labelledby="btn-label-4785"><option value="X" selected>X</option>
+        <select id="select3" class="form-select form-select-sm" aria-label="Select with custom class"><option value="X" selected>X</option>
       <option value="Y">Y</option>
       <option value="Z">Z</option></select>
       </div>
@@ -272,8 +269,7 @@
       show_raw_html(grouped_select)
     Output
       <div class="bslib-toolbar-input-select shiny-input-container">
-        <span id="btn-label-1502" hidden>Grouped select</span>
-        <select id="grouped" class="form-select form-select-sm" aria-labelledby="btn-label-1502"><optgroup label="Group A">
+        <select id="grouped" class="form-select form-select-sm" aria-label="Grouped select"><optgroup label="Group A">
       <option value="A1" selected>A1</option>
       <option value="A2" selected>A2</option>
       </optgroup>
@@ -288,14 +284,13 @@
     Code
       show_raw_html(select_with_tooltip)
     Output
-      <div class="bslib-toolbar-input-select shiny-input-container">
-        <span id="btn-label-8885" hidden>With tooltip</span>
-        <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-          <template>This is helpful information</template>
-          <select id="with_tooltip" class="form-select form-select-sm" aria-labelledby="btn-label-8885"><option value="A" selected>A</option>
+      <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>This is helpful information</template>
+        <div class="bslib-toolbar-input-select shiny-input-container">
+          <select id="with_tooltip" class="form-select form-select-sm" aria-label="With tooltip"><option value="A" selected>A</option>
       <option value="B">B</option></select>
-        </bslib-tooltip>
-      </div>
+        </div>
+      </bslib-tooltip>
 
 # toolbar_input_select() icon parameter
 
@@ -303,11 +298,10 @@
       show_raw_html(select_with_icon)
     Output
       <div class="bslib-toolbar-input-select shiny-input-container">
-        <span style="pointer-events: none" class="bslib-toolbar-input-select-icon" aria-hidden="true" tabindex="-1">
+        <span class="bslib-toolbar-input-select-icon" aria-hidden="true">
           <i class="fas fa-filter" role="presentation" aria-label="filter icon"></i>
         </span>
-        <span id="btn-label-1502" hidden>With icon</span>
-        <select id="with_icon" class="form-select form-select-sm" aria-labelledby="btn-label-1502"><option value="A" selected>A</option>
+        <select id="with_icon" class="form-select form-select-sm" aria-label="With icon"><option value="A" selected>A</option>
       <option value="B">B</option></select>
       </div>
 
@@ -316,15 +310,14 @@
     Code
       show_raw_html(select_icon_tooltip)
     Output
-      <div class="bslib-toolbar-input-select shiny-input-container">
-        <span style="pointer-events: none" class="bslib-toolbar-input-select-icon" aria-hidden="true" tabindex="-1">
-          <i class="far fa-star" role="presentation" aria-label="star icon"></i>
-        </span>
-        <span id="btn-label-4785" hidden>Icon and tooltip</span>
-        <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-          <template>Select an option</template>
-          <select id="icon_tooltip" class="form-select form-select-sm" aria-labelledby="btn-label-4785"><option value="A" selected>A</option>
+      <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Select an option</template>
+        <div class="bslib-toolbar-input-select shiny-input-container">
+          <span class="bslib-toolbar-input-select-icon" aria-hidden="true">
+            <i class="far fa-star" role="presentation" aria-label="star icon"></i>
+          </span>
+          <select id="icon_tooltip" class="form-select form-select-sm" aria-label="Icon and tooltip"><option value="A" selected>A</option>
       <option value="B">B</option></select>
-        </bslib-tooltip>
-      </div>
+        </div>
+      </bslib-tooltip>
 

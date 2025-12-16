@@ -124,20 +124,4 @@
     line-height: 1;
     margin-left: 0.15rem;
   }
-
-  // When select has tooltip, extend hover area to cover icon
-  select[data-bs-toggle="tooltip"] {
-    position: relative;
-
-    // Extend the hover detection area to the left to cover the icon
-    &::before {
-      content: "";
-      position: absolute;
-      left: -1.5rem; // Extend left to cover icon area
-      right: 0;
-      top: -0.25rem;
-      bottom: -0.25rem;
-      pointer-events: auto;
-    }
-  }
 }
