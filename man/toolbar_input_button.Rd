@@ -29,10 +29,9 @@ tooltip text when \code{tooltip = TRUE}.}
 (the default), only the icon is shown (if provided). If \code{TRUE}, the label
 text is shown alongside the icon.}
 
-\item{tooltip}{Tooltip text to display when hovering. Can be:
+\item{tooltip}{Tooltip text to display when hovering over the button. Can be:
 \itemize{
-\item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with
-the \code{label} text
+\item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the \code{label} text
 \item \code{FALSE} (default when \code{show_label = TRUE}) - no tooltip
 \item A character string - shows a tooltip with custom text
 Defaults to \code{!show_label}.
@@ -57,9 +56,7 @@ toolbar(
   align = "right",
   toolbar_input_button(id = "see", icon = icon("eye"), label = "See"),
   toolbar_input_button(id = "save", label = "Save"),
-  toolbar_input_button(
-    id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE
-  )
+  toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
 )
 \dontshow{\}) # examplesIf}
 }
