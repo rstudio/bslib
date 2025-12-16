@@ -10,7 +10,7 @@ toolbar_input_select(
   choices,
   ...,
   selected = NULL,
-  tooltip = NULL,
+  tooltip = FALSE,
   icon = NULL
 )
 }
@@ -23,11 +23,8 @@ a non-empty string.}
 
 \item{choices}{List of values to select from. If elements of the list
 are named, then that name — rather than the value — is displayed to
-the user. It's also possible to group related inputs by providing a
-named list whose elements are (either named or unnamed) lists,
-vectors, or factors. In this case, the outermost names will be used
-as the group labels (leveraging the ⁠\if{html}{\out{<optgroup>}}⁠ HTML tag) for the
-elements in the respective sublist.}
+the user. Grouped choices can be created by providing a named list whose
+elements are (either named or unnamed) lists.}
 
 \item{...}{Additional named arguments passed as attributes to the outer
 container div.}
@@ -36,11 +33,9 @@ container div.}
 choice will be selected by default.}
 
 \item{tooltip}{Tooltip text to display when hovering over the select
-input. Can be:
-\itemize{
-\item \code{NULL} (default) - no tooltip is shown
-\item A character string - wraps the entire input with a tooltip
-}}
+input. Can be: FALSE (default) - no tooltip is shown, TRUE - shows a
+tooltip with the \code{label} text, or a character string - shows a tooltip
+with custom text.}
 
 \item{icon}{An optional icon to display before the select input. When
 provided, the icon appears to the left of the select. If \code{NULL}

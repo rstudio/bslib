@@ -272,7 +272,10 @@ test_that("toolbar_input_select() has aria-labelledby with hidden label", {
 
   # The container is the root div element
   container_elem <- tis
-  aria_labelledby <- htmltools::tagGetAttribute(container_elem, "aria-labelledby")
+  aria_labelledby <- htmltools::tagGetAttribute(
+    container_elem,
+    "aria-labelledby"
+  )
 
   # Check that aria-labelledby exists on container
   expect_true(!is.null(aria_labelledby))
@@ -419,13 +422,22 @@ test_that("toolbar_input_select() has correct classes", {
   )
 
   # Check outer div has correct classes
-  expect_match(htmltools::tagGetAttribute(select, "class"), "bslib-toolbar-input-select")
-  expect_match(htmltools::tagGetAttribute(select, "class"), "shiny-input-container")
+  expect_match(
+    htmltools::tagGetAttribute(select, "class"),
+    "bslib-toolbar-input-select"
+  )
+  expect_match(
+    htmltools::tagGetAttribute(select, "class"),
+    "shiny-input-container"
+  )
 
   # Check select element has Bootstrap classes
   select_elem <- tagQuery(select)$find("select")$selectedTags()[[1]]
   expect_match(htmltools::tagGetAttribute(select_elem, "class"), "form-select")
-  expect_match(htmltools::tagGetAttribute(select_elem, "class"), "form-select-sm")
+  expect_match(
+    htmltools::tagGetAttribute(select_elem, "class"),
+    "form-select-sm"
+  )
 })
 
 test_that("toolbar_input_select() tooltip parameter", {
@@ -440,14 +452,37 @@ test_that("toolbar_input_select() tooltip parameter", {
   html_output <- as.character(select_no_tooltip)
   expect_false(grepl("bslib-tooltip", html_output))
 
-  # With tooltip - wrapped in bslib-tooltip
-  select_with_tooltip <- toolbar_input_select(
-    id = "with_tooltip",
-    label = "With tooltip",
-    choices = c("A", "B"),
-    tooltip = "This is helpful information"
+  # With tooltip = FALSE explicitly - no bslib-tooltip wrapper
+  select_tooltip_false <- as.tags(
+    toolbar_input_select(
+      id = "tooltip_false",
+      label = "Explicitly no tooltip",
+      choices = c("A", "B"),
+      tooltip = FALSE
+    )
   )
-  expect_snapshot_html(select_with_tooltip)
+  html_output_false <- as.character(select_tooltip_false)
+  expect_false(grepl("bslib-tooltip", html_output_false))
+
+  # With tooltip = TRUE - uses label as tooltip text
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "tooltip_true",
+      label = "My Select Label",
+      choices = c("A", "B"),
+      tooltip = TRUE
+    )
+  )
+
+  # With tooltip - wrapped in bslib-tooltip
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "with_tooltip",
+      label = "With tooltip",
+      choices = c("A", "B"),
+      tooltip = "This is helpful information"
+    )
+  )
 })
 
 test_that("toolbar_input_select() icon parameter", {
@@ -463,21 +498,23 @@ test_that("toolbar_input_select() icon parameter", {
   expect_false(grepl("bslib-toolbar-input-select-icon", html_output))
 
   # With icon
-  select_with_icon <- toolbar_input_select(
-    id = "with_icon",
-    label = "With icon",
-    choices = c("A", "B"),
-    icon = shiny::icon("filter")
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "with_icon",
+      label = "With icon",
+      choices = c("A", "B"),
+      icon = shiny::icon("filter")
+    )
   )
-  expect_snapshot_html(select_with_icon)
 
   # With both icon and tooltip
-  select_icon_tooltip <- toolbar_input_select(
-    id = "icon_tooltip",
-    label = "Icon and tooltip",
-    choices = c("A", "B"),
-    icon = shiny::icon("star"),
-    tooltip = "Select an option"
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "icon_tooltip",
+      label = "Icon and tooltip",
+      choices = c("A", "B"),
+      icon = shiny::icon("star"),
+      tooltip = "Select an option"
+    )
   )
-  expect_snapshot_html(select_icon_tooltip)
 })

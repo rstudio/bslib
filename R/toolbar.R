@@ -210,9 +210,9 @@ toolbar_input_button <- function(
 #' @param selected The initially selected value. If not provided, the first
 #'   choice will be selected by default.
 #' @param tooltip Tooltip text to display when hovering over the select
-#'   input. Can be:
-#'   * `NULL` (default) - no tooltip is shown
-#'   * A character string - wraps the entire input with a tooltip
+#'   input. Can be: FALSE (default) - no tooltip is shown, TRUE - shows a
+#'   tooltip with the `label` text, or a character string - shows a tooltip
+#'   with custom text.
 #' @param icon An optional icon to display before the select input. When
 #'   provided, the icon appears to the left of the select. If `NULL`
 #'   (default), no icon is shown.
@@ -228,7 +228,7 @@ toolbar_input_select <- function(
   choices,
   ...,
   selected = NULL,
-  tooltip = NULL,
+  tooltip = FALSE,
   icon = NULL
 ) {
   # Import Shiny's internal choice processing functions
@@ -302,7 +302,13 @@ toolbar_input_select <- function(
     "aria-labelledby" = label_id
   )
 
-  # Wrap entire container in tooltip if tooltip text is provided
+  # If tooltip is literally TRUE, use the label as the tooltip text.
+  if (isTRUE(tooltip)) {
+    tooltip <- label
+  }
+  if (isFALSE(tooltip)) {
+    tooltip <- NULL
+  }
   if (!is.null(tooltip)) {
     container <- bslib::tooltip(
       container,
