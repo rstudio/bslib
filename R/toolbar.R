@@ -200,8 +200,9 @@ toolbar_input_button <- function(
 #' )
 #'
 #' @param id The input ID.
-#' @param label The label for the select input. Used as the `aria-label`
-#'   attribute for accessibility. Must be a non-empty string.
+#' @param label The label for the select input. A hidden label is created with
+#'   this text and referenced via `aria-labelledby` for accessibility. Must be
+#'   a non-empty string.
 #' @param choices List of values to select from. If elements of the list
 #'   are named, then that name — rather than the value — is displayed to
 #'   the user. It's also possible to group related inputs by providing a
@@ -259,17 +260,22 @@ toolbar_input_select <- function(
   # Normalize choices using util function imported from Shiny
   choices <- choicesWithNames(choices)
 
-  # Setting `aria-label` creates an accessible label for the select
   select_tag <- tags$select(
     id = id,
     class = "form-select form-select-sm",
-    `aria-label` = label,
     selectOptions(choices, selected, inputId = id)
   )
 
   # Add optional icon before the select
   icon_elem <- NULL
   if (!is.null(icon)) {
+    # Remove aria-label from icon if present. Even though the icon is wrapped
+    # in a span with aria-hidden="true", screen readers may still read the
+    # icon's aria-label. This ensures the icon is treated as purely decorative.
+    if (!is.null(icon$attribs$`aria-label`)) {
+      icon$attribs$`aria-label` <- NULL
+    }
+
     icon_elem <- span(
       icon,
       style = "pointer-events: none",
@@ -279,12 +285,24 @@ toolbar_input_select <- function(
     )
   }
 
-  # Wrap in container div with shiny-input-container class
+  # Using aria-labelledby on the container (rather than aria-label on the
+  # select) ensures screen readers always use the aria-labelled by text and
+  # read it only once regardless of if there is a tooltip. Otherwise, the
+  # screen reader behavior reads the label twice when there is a tooltip.
+  label_id <- paste0("select-label-", p_randomInt(1000, 10000))
+  label_elem <- span(
+    id = label_id,
+    hidden = NA,
+    label
+  )
+
   container <- div(
     class = "bslib-toolbar-input-select shiny-input-container",
     !!!dots$attribs,
+    label_elem,
     icon_elem,
-    select_tag
+    select_tag,
+    "aria-labelledby" = label_id
   )
 
   # Wrap entire container in tooltip if tooltip text is provided
@@ -299,7 +317,7 @@ toolbar_input_select <- function(
   container
 }
 
-# This function ported from shiny's `input-select.R`
+# This function ported from shiny's `input-select.R` with minor changes.
 # Create tags for each of the options; use <optgroup> if necessary.
 # This returns an HTML string instead of tags for performance.
 selectOptions <- function(

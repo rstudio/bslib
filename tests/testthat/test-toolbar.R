@@ -261,7 +261,7 @@ test_that("toolbar_input_select() rejects unnamed arguments in ...", {
   )
 })
 
-test_that("toolbar_input_select() has aria-label", {
+test_that("toolbar_input_select() has aria-labelledby with hidden label", {
   tis <- as.tags(
     toolbar_input_select(
       id = "select",
@@ -270,12 +270,31 @@ test_that("toolbar_input_select() has aria-label", {
     )
   )
 
-  # Find the select element
-  select_elem <- tagQuery(tis)$find("select")$selectedTags()[[1]]
-  aria_label <- htmltools::tagGetAttribute(select_elem, "aria-label")
+  # The container is the root div element
+  container_elem <- tis
+  aria_labelledby <- htmltools::tagGetAttribute(container_elem, "aria-labelledby")
 
-  # Check that aria-label exists and has the correct value
-  expect_equal(aria_label, "Choose option")
+  # Check that aria-labelledby exists on container
+  expect_true(!is.null(aria_labelledby))
+
+  # Find the hidden label element by looking for spans with id that starts with "select-label-"
+  all_spans <- tagQuery(tis)$find("span")$selectedTags()
+  label_elem <- NULL
+  for (span in all_spans) {
+    span_id <- htmltools::tagGetAttribute(span, "id")
+    if (!is.null(span_id) && grepl("^select-label-", span_id)) {
+      label_elem <- span
+      break
+    }
+  }
+
+  expect_true(!is.null(label_elem))
+  label_id <- htmltools::tagGetAttribute(label_elem, "id")
+  label_text <- as.character(label_elem$children[[1]])
+
+  # Check that the hidden label has the correct id and text
+  expect_equal(label_id, aria_labelledby)
+  expect_equal(label_text, "Choose option")
 })
 
 test_that("toolbar_input_select() markup snapshots", {
