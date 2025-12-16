@@ -205,11 +205,8 @@ toolbar_input_button <- function(
 #'   a non-empty string.
 #' @param choices List of values to select from. If elements of the list
 #'   are named, then that name — rather than the value — is displayed to
-#'   the user. It's also possible to group related inputs by providing a
-#'   named list whose elements are (either named or unnamed) lists,
-#'   vectors, or factors. In this case, the outermost names will be used
-#'   as the group labels (leveraging the ⁠<optgroup>⁠ HTML tag) for the
-#'   elements in the respective sublist.
+#'   the user. Grouped choices can be created by providing a named list whose
+#'   elements are (either named or unnamed) lists.
 #' @param selected The initially selected value. If not provided, the first
 #'   choice will be selected by default.
 #' @param tooltip Tooltip text to display when hovering over the select
