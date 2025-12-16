@@ -259,11 +259,18 @@ toolbar_input_select <- function(
   # Normalize choices using util function imported from Shiny
   choices <- choicesWithNames(choices)
 
+  label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
+  label_tag <- span(
+    id = label_id,
+    hidden = NA,
+    label
+  )
+
   # Setting `aria-label` creates an accessible label for the select
   select_tag <- tags$select(
     id = id,
     class = "form-select form-select-sm",
-    `aria-label` = label,
+    "aria-labelledby" = label_id,
     selectOptions(choices, selected, inputId = id)
   )
 
@@ -279,22 +286,23 @@ toolbar_input_select <- function(
     )
   }
 
+  # Wrap only select in tooltip if tooltip text is provided
+  if (!is.null(tooltip)) {
+    select_tag <- bslib::tooltip(
+      select_tag,
+      tooltip,
+      placement = "bottom"
+    )
+  }
+
   # Wrap in container div with shiny-input-container class
   container <- div(
     class = "bslib-toolbar-input-select shiny-input-container",
     !!!dots$attribs,
     icon_elem,
+    label_tag,
     select_tag
   )
-
-  # Wrap entire container in tooltip if tooltip text is provided
-  if (!is.null(tooltip)) {
-    container <- bslib::tooltip(
-      container,
-      tooltip,
-      placement = "bottom"
-    )
-  }
 
   container
 }
