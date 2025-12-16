@@ -80,11 +80,15 @@
   gap: 0.05rem;
 
   select {
+    // Define padding so we can use it later to cover icons
+    --_select-padding-block: 0.1rem;
+    --_select-padding-inline-right: 0.5rem;
+    --_select-padding-inline-left: 0.1rem;
     // Necessary to restore the arrow removed by shiny .form-select class
     // appearance:none setting
     appearance: auto;
     background-image: none; // Removes Bootstrap's arrow to use native arrow
-    padding: 0.1rem 0.5rem 0.1rem 0.1rem;
+    padding: var(--_select-padding-block) var(--_select-padding-inline-right) var(--_select-padding-block) var(--_select-padding-inline-left);
     border: none;
     background-color: transparent;
     line-height: 1;
@@ -133,10 +137,12 @@
     &::before {
       content: "";
       position: absolute;
-      left: -1.5rem; // Extend left to cover icon area
+      // Extend left to cover icon area, scales with --_icon-size
+      left: calc(-1 * var(--_icon-size, 1.75rem) * 0.85);
       right: 0;
-      top: -0.25rem;
-      bottom: -0.25rem;
+      // Match select's vertical padding for consistent detection area
+      top: calc(-1 * var(--_select-padding-block));
+      bottom: calc(-1 * var(--_select-padding-block));
       pointer-events: auto;
     }
   }
