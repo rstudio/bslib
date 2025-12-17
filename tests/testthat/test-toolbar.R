@@ -232,6 +232,491 @@ test_that("toolbar_input_button() validates label for accessibility", {
   )
 })
 
+# Tests for toolbar_divider() #
+test_that("toolbar_divider() creates divider element", {
+  expect_snapshot_html(
+    toolbar_divider()
+  )
+  expect_snapshot_html(
+    toolbar_divider(gap = "20px")
+  )
+  expect_snapshot_html(
+    toolbar_divider(width = "5px", gap = "2rem")
+  )
+})
+
+test_that("toolbar_divider() validates dots are empty", {
+  expect_error(
+    toolbar_divider("fake"),
+    "must be empty"
+  )
+})
+
+# Additional Toolbar Input Select Tests #
+
+test_that("toolbar_input_select() accepts named attributes in ...", {
+  tis <- toolbar_input_select(
+    id = "select",
+    label = "Choose option",
+    choices = c("Option 1", "Option 2", "Option 3"),
+    class = "bg-success-subtle",
+    `data-test` = "custom",
+    tooltip = FALSE
+  )
+
+  # Check that the outer div (with bslib-toolbar-input-select class) has the custom attributes
+  expect_match(htmltools::tagGetAttribute(tis, "class"), "bg-success-subtle")
+  expect_equal(htmltools::tagGetAttribute(tis, "data-test"), "custom")
+})
+
+test_that("toolbar_input_select() rejects unnamed arguments in ...", {
+  expect_error(
+    toolbar_input_select(
+      id = "select",
+      label = "Choose option",
+      choices = c("Option 1", "Option 2", "Option 3"),
+      "bad"
+    ),
+    "All arguments in `...` must be named"
+  )
+})
+
+test_that("toolbar_input_select() has proper label structure", {
+  tis <- as.tags(
+    toolbar_input_select(
+      id = "select",
+      label = "Choose option",
+      choices = c("Option 1", "Option 2", "Option 3"),
+      tooltip = FALSE
+    )
+  )
+
+  # Check that a <label> element exists with proper attributes
+  label_elem <- tagQuery(tis)$find("label")$selectedTags()[[1]]
+  expect_true(!is.null(label_elem))
+
+  # Label should have id matching pattern "{id}-label"
+  label_id <- htmltools::tagGetAttribute(label_elem, "id")
+  expect_equal(label_id, "select-label")
+
+  # Label should have for attribute pointing to select
+  label_for <- htmltools::tagGetAttribute(label_elem, "for")
+  expect_equal(label_for, "select")
+
+  # Find the label text span
+  label_spans <- tagQuery(label_elem)$find(
+    "span.bslib-toolbar-label"
+  )$selectedTags()
+  expect_true(length(label_spans) > 0)
+
+  label_text_span <- label_spans[[1]]
+  # With show_label=FALSE (default), label should be visually hidden
+  expect_match(
+    htmltools::tagGetAttribute(label_text_span, "class"),
+    "visually-hidden"
+  )
+
+  # Check label text content
+  label_text <- as.character(label_text_span$children[[1]])
+  expect_equal(label_text, "Choose option")
+})
+
+test_that("toolbar_input_select() markup snapshots", {
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "select1",
+      label = "Basic select",
+      choices = c("A", "B", "C"),
+      tooltip = FALSE
+    )
+  )
+
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "select2",
+      label = "Select with selected",
+      choices = c("Option 1", "Option 2", "Option 3"),
+      selected = "Option 2",
+      tooltip = FALSE
+    )
+  )
+
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "select3",
+      label = "Select with custom class",
+      choices = c("X", "Y", "Z"),
+      class = "bg-success-subtle",
+      "style" = "width: 400px",
+      tooltip = FALSE
+    )
+  )
+})
+
+test_that("toolbar_input_select() handles grouped choices", {
+  grouped_select <- toolbar_input_select(
+    id = "grouped",
+    label = "Grouped select",
+    choices = list(
+      "Group A" = c("A1", "A2"),
+      "Group B" = c("B1", "B2")
+    ),
+    tooltip = FALSE
+  )
+
+  expect_snapshot_html(grouped_select)
+})
+
+test_that("toolbar_input_select() handles named choices", {
+  named_select <- toolbar_input_select(
+    id = "named",
+    label = "Named choices",
+    choices = c("Label 1" = "val1", "Label 2" = "val2"),
+    tooltip = FALSE
+  )
+
+  html_output <- as.character(as.tags(named_select))
+  expect_match(html_output, "Label 1")
+  expect_match(html_output, "val1")
+  expect_match(html_output, "Label 2")
+  expect_match(html_output, "val2")
+})
+
+test_that("toolbar_input_select() respects selected parameter", {
+  select_with_default <- as.tags(
+    toolbar_input_select(
+      id = "default",
+      label = "With default",
+      choices = c("A", "B", "C"),
+      selected = "B",
+      tooltip = FALSE
+    )
+  )
+
+  html_output <- as.character(select_with_default)
+  expect_match(html_output, '<option value="B" selected>B</option>')
+})
+
+test_that("toolbar_input_select() selects first choice by default", {
+  select_no_default <- as.tags(
+    toolbar_input_select(
+      id = "no_default",
+      label = "No default",
+      choices = c("X", "Y", "Z"),
+      tooltip = FALSE
+    )
+  )
+
+  html_output <- as.character(select_no_default)
+  expect_match(html_output, '<option value="X" selected>X</option>')
+})
+
+test_that("toolbar_input_select() validates label parameter", {
+  expect_error(
+    toolbar_input_select(
+      id = "test",
+      label = "",
+      choices = c("A", "B"),
+      tooltip = FALSE
+    ),
+    "`label` must be a non-empty string"
+  )
+
+  expect_error(
+    toolbar_input_select(
+      id = "test",
+      label = c("A", "B"),
+      choices = c("A", "B"),
+      tooltip = FALSE
+    ),
+    "`label` must be a non-empty string"
+  )
+
+  expect_error(
+    toolbar_input_select(
+      id = "test",
+      label = 123,
+      choices = c("A", "B"),
+      tooltip = FALSE
+    ),
+    "`label` must be a non-empty string"
+  )
+})
+
+test_that("toolbar_input_select() has correct classes", {
+  select <- as.tags(
+    toolbar_input_select(
+      id = "test",
+      label = "Test",
+      choices = c("A", "B"),
+      tooltip = FALSE
+    )
+  )
+
+  # Check outer div has correct classes
+  expect_match(
+    htmltools::tagGetAttribute(select, "class"),
+    "bslib-toolbar-input-select"
+  )
+  expect_match(
+    htmltools::tagGetAttribute(select, "class"),
+    "shiny-input-container"
+  )
+
+  # Check select element has Bootstrap classes
+  select_elem <- tagQuery(select)$find("select")$selectedTags()[[1]]
+  expect_match(htmltools::tagGetAttribute(select_elem, "class"), "form-select")
+  expect_match(
+    htmltools::tagGetAttribute(select_elem, "class"),
+    "form-select-sm"
+  )
+})
+
+test_that("toolbar_input_select() tooltip parameter", {
+  # Default has tooltip=TRUE, uses label text for tooltip text
+  select_default <- as.tags(
+    toolbar_input_select(
+      id = "default",
+      label = "Has label as tooltip",
+      choices = c("A", "B")
+    )
+  )
+  html_output <- as.character(select_default)
+  expect_true(grepl("bslib-tooltip", html_output))
+
+  # With tooltip = FALSE explicitly - no bslib-tooltip wrapper
+  select_tooltip_false <- as.tags(
+    toolbar_input_select(
+      id = "tooltip_false",
+      label = "Explicitly no tooltip",
+      choices = c("A", "B"),
+      tooltip = FALSE
+    )
+  )
+  html_output_false <- as.character(select_tooltip_false)
+  expect_false(grepl("bslib-tooltip", html_output_false))
+
+  # With tooltip = TRUE - uses label as tooltip text
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "tooltip_true",
+      label = "My Select Label",
+      choices = c("A", "B"),
+      tooltip = TRUE
+    )
+  )
+
+  # With tooltip - wrapped in bslib-tooltip
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "with_tooltip",
+      label = "With tooltip",
+      choices = c("A", "B"),
+      tooltip = "This is helpful information"
+    )
+  )
+})
+
+test_that("toolbar_input_select() icon parameter", {
+  # Without icon - no icon element
+  select_no_icon <- as.tags(
+    toolbar_input_select(
+      id = "no_icon",
+      label = "No icon",
+      choices = c("A", "B"),
+      tooltip = FALSE
+    )
+  )
+  html_output <- as.character(select_no_icon)
+  expect_false(grepl("bslib-toolbar-input-select-icon", html_output))
+
+  # With icon
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "with_icon",
+      label = "With icon",
+      choices = c("A", "B"),
+      icon = shiny::icon("filter"),
+      tooltip = FALSE
+    )
+  )
+
+  # With both icon and tooltip
+  expect_snapshot_html(
+    toolbar_input_select(
+      id = "icon_tooltip",
+      label = "Icon and tooltip",
+      choices = c("A", "B"),
+      icon = shiny::icon("star"),
+      tooltip = "Select an option"
+    )
+  )
+})
+
+# Tests to detect if the functions we import from Shiny have changed #
+test_that("Shiny's firstChoice() function maintains expected behavior", {
+  # These tests verify that Shiny's internal firstChoice() function
+  # continues to work as expected for toolbar_input_select()
+  # Note we don't test on vectors here because choicesWithNames() ensures we
+  # only have lists when passed to firstChoice()
+
+  firstChoice <- asNamespace("shiny")[["firstChoice"]]
+
+  # Simple vector - should return first element
+  expect_equal(firstChoice(c("A", "B", "C")), "A")
+
+  # Named vector - should return first value (not name)
+  expect_equal(firstChoice(c("Label 1" = "val1", "Label 2" = "val2")), "val1")
+
+  # Nested list - should recursively find first non-list element
+  nested <- list(
+    "Group A" = list("A1", "A2"),
+    "Group B" = list("B1", "B2")
+  )
+  expect_equal(firstChoice(nested), "A1")
+
+  # Nested list with named choices
+  nested_named <- list(
+    "Group A" = list("Label A1" = "valA1", "Label A2" = "valA2"),
+    "Group B" = list("Label B1" = "valB1")
+  )
+  expect_equal(firstChoice(nested_named), "valA1")
+
+  # Empty choices should return NULL or empty
+  expect_true(
+    is.null(firstChoice(character(0))) ||
+      identical(firstChoice(character(0)), character(0))
+  )
+})
+
+test_that("Shiny's choicesWithNames() function maintains expected behavior", {
+  # These tests verify that Shiny's internal choicesWithNames() function
+  # continues to work as expected for toolbar_input_select()
+
+  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
+
+  # Unnamed list - names should equal values
+  result1 <- choicesWithNames(list("A", "B", "C"))
+  expect_equal(names(result1), c("A", "B", "C"))
+  expect_equal(as.character(result1), c("A", "B", "C"))
+
+  # Named list - preserve names and values
+  result2 <- choicesWithNames(list("Label 1" = "val1", "Label 2" = "val2"))
+  expect_equal(names(result2), c("Label 1", "Label 2"))
+  expect_equal(as.character(result2), c("val1", "val2"))
+
+  # Partially named list - use value as name where missing
+  result3 <- choicesWithNames(list("Label 1" = "val1", "val2"))
+  expect_equal(names(result3), c("Label 1", "val2"))
+  expect_equal(as.character(result3), c("val1", "val2"))
+
+  # Grouped choices (list) - should preserve structure
+  grouped <- list(
+    "Group A" = c("A1", "A2"),
+    "Group B" = c("B1", "B2")
+  )
+  result4 <- choicesWithNames(grouped)
+  expect_true(is.list(result4))
+  expect_equal(names(result4), c("Group A", "Group B"))
+  expect_equal(names(result4[["Group A"]]), c("A1", "A2"))
+  expect_equal(as.character(result4[["Group A"]]), c("A1", "A2"))
+
+  # Grouped with named choices
+  grouped_named <- list(
+    "Group A" = c("Label A1" = "valA1", "Label A2" = "valA2")
+  )
+  result5 <- choicesWithNames(grouped_named)
+  expect_equal(names(result5[["Group A"]]), c("Label A1", "Label A2"))
+  expect_equal(as.character(result5[["Group A"]]), c("valA1", "valA2"))
+})
+
+test_that("bslib::selectOptions() matches shiny::selectOptions() output", {
+  # These tests verify that bslib's selectOptions() function produces
+  # the same HTML output as Shiny's selectOptions() function
+  # NOTE: All choices are preprocessed (as if by choicesWithNames())
+
+  bslib_selectOptions <- asNamespace("bslib")[["selectOptions"]]
+  shiny_selectOptions <- asNamespace("shiny")[["selectOptions"]]
+
+  # Simple unnamed choices (preprocessed)
+  choices1 <- list(A = "A", B = "B", C = "C")
+  bslib_out1 <- as.character(bslib_selectOptions(choices1, inputId = "test1"))
+  shiny_out1 <- as.character(shiny_selectOptions(choices1, inputId = "test1"))
+  expect_equal(bslib_out1, shiny_out1)
+
+  # Named choices (preprocessed)
+  choices2 <- list(`Label A` = "valA", `Label B` = "valB", `Label C` = "valC")
+  bslib_out2 <- as.character(bslib_selectOptions(choices2, inputId = "test2"))
+  shiny_out2 <- as.character(shiny_selectOptions(choices2, inputId = "test2"))
+  expect_equal(bslib_out2, shiny_out2)
+
+  # With selected value
+  bslib_out3 <- as.character(bslib_selectOptions(
+    choices1,
+    selected = "B",
+    inputId = "test3"
+  ))
+  shiny_out3 <- as.character(shiny_selectOptions(
+    choices1,
+    selected = "B",
+    inputId = "test3"
+  ))
+  expect_equal(bslib_out3, shiny_out3)
+
+  # Grouped choices (preprocessed)
+  grouped <- list(
+    `Group 1` = list(A1 = "A1", A2 = "A2", A3 = "A3"),
+    `Group 2` = list(B1 = "B1", B2 = "B2")
+  )
+  bslib_out5 <- as.character(bslib_selectOptions(grouped, inputId = "test5"))
+  shiny_out5 <- as.character(shiny_selectOptions(grouped, inputId = "test5"))
+  expect_equal(bslib_out5, shiny_out5)
+
+  # Grouped with named choices (preprocessed)
+  grouped_named <- list(
+    `Group A` = list(`Label A1` = "valA1", `Label A2` = "valA2"),
+    `Group B` = list(`Label B1` = "valB1", `Label B2` = "valB2")
+  )
+  bslib_out6 <- as.character(bslib_selectOptions(
+    grouped_named,
+    inputId = "test6"
+  ))
+  shiny_out6 <- as.character(shiny_selectOptions(
+    grouped_named,
+    inputId = "test6"
+  ))
+  expect_equal(bslib_out6, shiny_out6)
+
+  # Grouped with selected value
+  bslib_out7 <- as.character(bslib_selectOptions(
+    grouped,
+    selected = "A2",
+    inputId = "test7"
+  ))
+  shiny_out7 <- as.character(shiny_selectOptions(
+    grouped,
+    selected = "A2",
+    inputId = "test7"
+  ))
+  expect_equal(bslib_out7, shiny_out7)
+
+  # Special characters that need escaping (preprocessed)
+  choices_special <- list(
+    `Label <with> HTML` = "val1",
+    `Label & ampersand` = "val2"
+  )
+  bslib_out8 <- as.character(bslib_selectOptions(
+    choices_special,
+    inputId = "test8"
+  ))
+  shiny_out8 <- as.character(shiny_selectOptions(
+    choices_special,
+    inputId = "test8"
+  ))
+  expect_equal(bslib_out8, shiny_out8)
+})
+
+
 # Tests for toolbar_input_switch() #
 test_that("toolbar_input_switch() has correct attributes", {
   expect_snapshot_html(
@@ -262,12 +747,20 @@ test_that("toolbar_input_switch() value parameter", {
 test_that("toolbar_input_switch() label variations", {
   # Text label
   expect_snapshot_html(
-    toolbar_input_switch(id = "text_label", label = "Enable Feature", value = FALSE)
+    toolbar_input_switch(
+      id = "text_label",
+      label = "Enable Feature",
+      value = FALSE
+    )
   )
 
   # HTML label
   expect_snapshot_html(
-    toolbar_input_switch(id = "html_label", label = strong("Bold Label"), value = TRUE)
+    toolbar_input_switch(
+      id = "html_label",
+      label = strong("Bold Label"),
+      value = TRUE
+    )
   )
 
   # NULL label (no label)
@@ -328,7 +821,11 @@ test_that("toolbar_input_switch() in toolbar context", {
       align = "right",
       toolbar_input_switch(id = "feature1", label = "Feature 1", value = TRUE),
       toolbar_input_switch(id = "feature2", label = "Feature 2", value = FALSE),
-      toolbar_input_button(id = "save", label = "Save", icon = shiny::icon("save"))
+      toolbar_input_button(
+        id = "save",
+        label = "Save",
+        icon = shiny::icon("save")
+      )
     )
   )
 
@@ -351,4 +848,3 @@ test_that("toolbar_input_switch() in toolbar context", {
     )
   )
 })
-
