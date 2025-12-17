@@ -112,15 +112,29 @@ toolbar_input_button <- function(
 
   label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
 
+  # We hide the label visually if `!show_label` but keep the label field for
+  # use with `aria-labelledby`. This ensures that ARIA will always use the
+  # label text. We found that screen readers will read out the icon's `aria-
+  # label` even if it is a descendent of an element with `aria-hidden=true`.
+  label_elem <- span(
+    id = label_id,
+    class = "bslib-toolbar-label",
+    hidden = if (!show_label) NA else NULL,
+    label
+  )
+
+  # And we wrap the icon to ensure that it is always treated as decorative
+  icon_elem <- span(
+    class = "bslib-toolbar-icon",
+    `aria-hidden` = "true",
+    style = "pointer-events: none",
+    icon,
+  )
+
   button <- shiny::actionButton(
     id,
-    # We hide the label visually if `!show_label` but keep the label field for
-    # use with `aria-labelledby`. This ensures that ARIA will always use the
-    # label text. We found that screen readers will read out the icon's `aria-
-    # label` even if it is a descendent of an element with `aria-hidden=true`.
-    label = span(id = label_id, hidden = if (!show_label) NA else NULL, label),
-    # And we wrap the icon to ensure that it is always treated as decorative
-    icon = span(icon, `aria-hidden` = "true", style = "pointer-events: none"),
+    label = label_elem,
+    icon = icon_elem,
     disabled = disabled,
     class = "bslib-toolbar-input-button btn-sm",
     class = if (!border) "border-0" else "border-1",
@@ -238,17 +252,14 @@ toolbar_input_select <- function(
   )
 
   # Add optional icon before the select
-  icon_elem <- NULL
-  if (!is.null(icon)) {
-    icon_elem <- span(
-      icon,
-      style = "pointer-events: none",
-      class = "bslib-toolbar-input-select-icon",
-      `aria-hidden` = "true",
-      `role` = "none",
-      tabindex = "-1"
-    )
-  }
+  icon_elem <- span(
+    icon,
+    style = "pointer-events: none",
+    class = "bslib-toolbar-icon",
+    `aria-hidden` = "true",
+    `role` = "none",
+    tabindex = "-1"
+  )
 
   # Using aria-labelledby on the container (rather than aria-label on the
   # select) ensures screen readers always use the aria-labelled by text and
@@ -257,11 +268,12 @@ toolbar_input_select <- function(
   label_id <- paste0("select-label-", p_randomInt(1000, 10000))
   label_elem <- tags$label(
     id = sprintf("%s-label", id),
-    class = "bslib-toolbar-input-select-label control-label",
+    class = "control-label",
     `for` = id,
     icon_elem,
     tags$span(
       id = if (!show_label) label_id,
+      class = "bslib-toolbar-label",
       class = if (!show_label) "visually-hidden",
       label
     )

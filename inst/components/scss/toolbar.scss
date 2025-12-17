@@ -141,16 +141,23 @@
   }
 
   // Icon styling
-  .bslib-toolbar-input-select-icon {
+  .bslib-toolbar-icon {
     display: inline-flex;
     align-items: center;
     color: var(--bs-secondary-color);
     margin-left: 0.15rem; // Add margin before icon for aesthetics
+
+    &:empty {
+      display: none;
+    }
   }
 
-  .bslib-toolbar-input-select-label {
+  label, label.control-label {
     font-weight: 600;
-    margin-left: 0.15rem;
     margin-bottom: 0;
+  }
+
+  .bslib-toolbar-label {
+    margin-left: 0.15rem;
   }
 }
