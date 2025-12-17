@@ -184,14 +184,11 @@ toolbar_input_button <- function(
 #'   )
 #' )
 #'
+#' @inheritParams shiny::selectInput
 #' @param id The input ID.
 #' @param label The label for the select input. A hidden label is created with
 #'   this text and referenced via `aria-labelledby` for accessibility. Must be
 #'   a non-empty string.
-#' @param choices List of values to select from. If elements of the list
-#'   are named, then that name — rather than the value — is displayed to
-#'   the user. Grouped choices can be created by providing a named list whose
-#'   elements are (either named or unnamed) lists.
 #' @param selected The initially selected value. If not provided, the first
 #'   choice will be selected by default.
 #' @param tooltip Tooltip text to display when hovering over the select
