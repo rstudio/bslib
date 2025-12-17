@@ -281,7 +281,7 @@ test_that("toolbar_input_select() rejects unnamed arguments in ...", {
   )
 })
 
-test_that("toolbar_input_select() has aria-labelledby with hidden label", {
+test_that("toolbar_input_select() has proper label structure", {
   tis <- as.tags(
     toolbar_input_select(
       id = "select",
@@ -291,33 +291,31 @@ test_that("toolbar_input_select() has aria-labelledby with hidden label", {
     )
   )
 
-  # The container is the root div element
-  container_elem <- tis
-  aria_labelledby <- htmltools::tagGetAttribute(
-    container_elem,
-    "aria-labelledby"
+  # Check that a <label> element exists with proper attributes
+  label_elem <- tagQuery(tis)$find("label")$selectedTags()[[1]]
+  expect_true(!is.null(label_elem))
+
+  # Label should have id matching pattern "{id}-label"
+  label_id <- htmltools::tagGetAttribute(label_elem, "id")
+  expect_equal(label_id, "select-label")
+
+  # Label should have for attribute pointing to select
+  label_for <- htmltools::tagGetAttribute(label_elem, "for")
+  expect_equal(label_for, "select")
+
+  # Find the label text span
+  label_spans <- tagQuery(label_elem)$find("span.bslib-toolbar-label")$selectedTags()
+  expect_true(length(label_spans) > 0)
+
+  label_text_span <- label_spans[[1]]
+  # With show_label=FALSE (default), label should be visually hidden
+  expect_match(
+    htmltools::tagGetAttribute(label_text_span, "class"),
+    "visually-hidden"
   )
 
-  # Check that aria-labelledby exists on container
-  expect_true(!is.null(aria_labelledby))
-
-  # Find the hidden label element by looking for spans with id that starts with "select-label-"
-  all_spans <- tagQuery(tis)$find("span")$selectedTags()
-  label_elem <- NULL
-  for (span in all_spans) {
-    span_id <- htmltools::tagGetAttribute(span, "id")
-    if (!is.null(span_id) && grepl("^select-label-", span_id)) {
-      label_elem <- span
-      break
-    }
-  }
-
-  expect_true(!is.null(label_elem))
-  label_id <- htmltools::tagGetAttribute(label_elem, "id")
-  label_text <- as.character(label_elem$children[[1]])
-
-  # Check that the hidden label has the correct id and text
-  expect_equal(label_id, aria_labelledby)
+  # Check label text content
+  label_text <- as.character(label_text_span$children[[1]])
   expect_equal(label_text, "Choose option")
 })
 
