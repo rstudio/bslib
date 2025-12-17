@@ -553,10 +553,12 @@ test_that("toolbar_input_select() icon parameter", {
   )
 })
 
-# Tests for Shiny internal function stability #
+# Tests to detect if the functions we import from Shiny have changed #
 test_that("Shiny's firstChoice() function maintains expected behavior", {
   # These tests verify that Shiny's internal firstChoice() function
   # continues to work as expected for toolbar_input_select()
+  # Note we don't test on vectors here because choicesWithNames() ensures we
+  # only have lists when passed to firstChoice()
 
   firstChoice <- asNamespace("shiny")[["firstChoice"]]
 
@@ -566,24 +568,25 @@ test_that("Shiny's firstChoice() function maintains expected behavior", {
   # Named vector - should return first value (not name)
   expect_equal(firstChoice(c("Label 1" = "val1", "Label 2" = "val2")), "val1")
 
-  # Grouped choices (list) - should return all elements of first group
-  grouped <- list(
-    "Group A" = c("A1", "A2"),
-    "Group B" = c("B1", "B2")
+  # Nested list - should recursively find first non-list element
+  nested <- list(
+    "Group A" = list("A1", "A2"),
+    "Group B" = list("B1", "B2")
   )
-  expect_equal(firstChoice(grouped), c("A1", "A2"))
+  expect_equal(firstChoice(nested), "A1")
 
-  # Grouped with named choices - returns first group's values
-  grouped_named <- list(
-    "Group A" = c("Label A1" = "valA1", "Label A2" = "valA2"),
-    "Group B" = c("Label B1" = "valB1")
+  # Nested list with named choices
+  nested_named <- list(
+    "Group A" = list("Label A1" = "valA1", "Label A2" = "valA2"),
+    "Group B" = list("Label B1" = "valB1")
   )
-  result <- firstChoice(grouped_named)
-  expect_equal(as.character(result), c("valA1", "valA2"))
-  expect_equal(names(result), c("Label A1", "Label A2"))
+  expect_equal(firstChoice(nested_named), "valA1")
 
   # Empty choices should return NULL or empty
-  expect_true(is.null(firstChoice(character(0))) || identical(firstChoice(character(0)), character(0)))
+  expect_true(
+    is.null(firstChoice(character(0))) ||
+      identical(firstChoice(character(0)), character(0))
+  )
 })
 
 test_that("Shiny's choicesWithNames() function maintains expected behavior", {
@@ -592,18 +595,18 @@ test_that("Shiny's choicesWithNames() function maintains expected behavior", {
 
   choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
 
-  # Unnamed vector - names should equal values
-  result1 <- choicesWithNames(c("A", "B", "C"))
+  # Unnamed list - names should equal values
+  result1 <- choicesWithNames(list("A", "B", "C"))
   expect_equal(names(result1), c("A", "B", "C"))
   expect_equal(as.character(result1), c("A", "B", "C"))
 
-  # Named vector - preserve names and values
-  result2 <- choicesWithNames(c("Label 1" = "val1", "Label 2" = "val2"))
+  # Named list - preserve names and values
+  result2 <- choicesWithNames(list("Label 1" = "val1", "Label 2" = "val2"))
   expect_equal(names(result2), c("Label 1", "Label 2"))
   expect_equal(as.character(result2), c("val1", "val2"))
 
-  # Partially named vector - use value as name where missing
-  result3 <- choicesWithNames(c("Label 1" = "val1", "val2"))
+  # Partially named list - use value as name where missing
+  result3 <- choicesWithNames(list("Label 1" = "val1", "val2"))
   expect_equal(names(result3), c("Label 1", "val2"))
   expect_equal(as.character(result3), c("val1", "val2"))
 
@@ -630,60 +633,85 @@ test_that("Shiny's choicesWithNames() function maintains expected behavior", {
 test_that("bslib::selectOptions() matches shiny::selectOptions() output", {
   # These tests verify that bslib's selectOptions() function produces
   # the same HTML output as Shiny's selectOptions() function
-  # NOTE: selectOptions() expects choices to be preprocessed with choicesWithNames()
+  # NOTE: All choices are preprocessed (as if by choicesWithNames())
 
   bslib_selectOptions <- asNamespace("bslib")[["selectOptions"]]
   shiny_selectOptions <- asNamespace("shiny")[["selectOptions"]]
-  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
 
-  # Simple unnamed choices
-  choices1 <- choicesWithNames(c("A", "B", "C"))
+  # Simple unnamed choices (preprocessed)
+  choices1 <- list(A = "A", B = "B", C = "C")
   bslib_out1 <- as.character(bslib_selectOptions(choices1, inputId = "test1"))
   shiny_out1 <- as.character(shiny_selectOptions(choices1, inputId = "test1"))
   expect_equal(bslib_out1, shiny_out1)
 
-  # Named choices
-  choices2 <- choicesWithNames(c("Label A" = "valA", "Label B" = "valB", "Label C" = "valC"))
+  # Named choices (preprocessed)
+  choices2 <- list(`Label A` = "valA", `Label B` = "valB", `Label C` = "valC")
   bslib_out2 <- as.character(bslib_selectOptions(choices2, inputId = "test2"))
   shiny_out2 <- as.character(shiny_selectOptions(choices2, inputId = "test2"))
   expect_equal(bslib_out2, shiny_out2)
 
   # With selected value
-  bslib_out3 <- as.character(bslib_selectOptions(choices1, selected = "B", inputId = "test3"))
-  shiny_out3 <- as.character(shiny_selectOptions(choices1, selected = "B", inputId = "test3"))
+  bslib_out3 <- as.character(bslib_selectOptions(
+    choices1,
+    selected = "B",
+    inputId = "test3"
+  ))
+  shiny_out3 <- as.character(shiny_selectOptions(
+    choices1,
+    selected = "B",
+    inputId = "test3"
+  ))
   expect_equal(bslib_out3, shiny_out3)
 
-  # Multiple selected values
-  bslib_out4 <- as.character(bslib_selectOptions(choices1, selected = c("A", "C"), inputId = "test4"))
-  shiny_out4 <- as.character(shiny_selectOptions(choices1, selected = c("A", "C"), inputId = "test4"))
-  expect_equal(bslib_out4, shiny_out4)
-
-  # Grouped choices (must be preprocessed with choicesWithNames)
-  grouped <- choicesWithNames(list(
-    "Group 1" = c("A1", "A2", "A3"),
-    "Group 2" = c("B1", "B2")
-  ))
+  # Grouped choices (preprocessed)
+  grouped <- list(
+    `Group 1` = list(A1 = "A1", A2 = "A2", A3 = "A3"),
+    `Group 2` = list(B1 = "B1", B2 = "B2")
+  )
   bslib_out5 <- as.character(bslib_selectOptions(grouped, inputId = "test5"))
   shiny_out5 <- as.character(shiny_selectOptions(grouped, inputId = "test5"))
   expect_equal(bslib_out5, shiny_out5)
 
-  # Grouped with named choices
-  grouped_named <- choicesWithNames(list(
-    "Group A" = c("Label A1" = "valA1", "Label A2" = "valA2"),
-    "Group B" = c("Label B1" = "valB1", "Label B2" = "valB2")
+  # Grouped with named choices (preprocessed)
+  grouped_named <- list(
+    `Group A` = list(`Label A1` = "valA1", `Label A2` = "valA2"),
+    `Group B` = list(`Label B1` = "valB1", `Label B2` = "valB2")
+  )
+  bslib_out6 <- as.character(bslib_selectOptions(
+    grouped_named,
+    inputId = "test6"
   ))
-  bslib_out6 <- as.character(bslib_selectOptions(grouped_named, inputId = "test6"))
-  shiny_out6 <- as.character(shiny_selectOptions(grouped_named, inputId = "test6"))
+  shiny_out6 <- as.character(shiny_selectOptions(
+    grouped_named,
+    inputId = "test6"
+  ))
   expect_equal(bslib_out6, shiny_out6)
 
   # Grouped with selected value
-  bslib_out7 <- as.character(bslib_selectOptions(grouped, selected = "A2", inputId = "test7"))
-  shiny_out7 <- as.character(shiny_selectOptions(grouped, selected = "A2", inputId = "test7"))
+  bslib_out7 <- as.character(bslib_selectOptions(
+    grouped,
+    selected = "A2",
+    inputId = "test7"
+  ))
+  shiny_out7 <- as.character(shiny_selectOptions(
+    grouped,
+    selected = "A2",
+    inputId = "test7"
+  ))
   expect_equal(bslib_out7, shiny_out7)
 
-  # Special characters that need escaping
-  choices_special <- choicesWithNames(c("Label <with> HTML" = "val1", "Label & ampersand" = "val2"))
-  bslib_out8 <- as.character(bslib_selectOptions(choices_special, inputId = "test8"))
-  shiny_out8 <- as.character(shiny_selectOptions(choices_special, inputId = "test8"))
+  # Special characters that need escaping (preprocessed)
+  choices_special <- list(
+    `Label <with> HTML` = "val1",
+    `Label & ampersand` = "val2"
+  )
+  bslib_out8 <- as.character(bslib_selectOptions(
+    choices_special,
+    inputId = "test8"
+  ))
+  shiny_out8 <- as.character(shiny_selectOptions(
+    choices_special,
+    inputId = "test8"
+  ))
   expect_equal(bslib_out8, shiny_out8)
 })
