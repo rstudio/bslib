@@ -300,10 +300,7 @@ toolbar_input_select <- function(
   container
 }
 
-# This function was copied from shiny's `input-select.R`
-# with a wording change in the warning message
-# Create tags for each of the options; use <optgroup> if necessary.
-# This returns an HTML string instead of tags for performance.
+# This function was copied from shiny's `input-select.R` with a small change
 selectOptions <- function(
   choices,
   selected = NULL,
@@ -311,6 +308,7 @@ selectOptions <- function(
   perfWarning = FALSE
 ) {
   if (length(choices) >= 1000) {
+    # CHANGED: This warning differs to remove mention of sever-side options
     rlang::warn(
       sprintf(
         paste0(
