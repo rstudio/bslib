@@ -257,7 +257,7 @@
       <div class="bslib-toolbar-input-select shiny-input-container">
         <label id="select1-label" class="control-label" for="select1">
           <span style="pointer-events: none" class="bslib-toolbar-icon" aria-hidden="true" role="none" tabindex="-1"></span>
-          <span class="bslib-toolbar-label visually-hidden" id="select-label-4785">Basic select</span>
+          <span class="bslib-toolbar-label visually-hidden">Basic select</span>
         </label>
         <select id="select1" class="form-select form-select-sm"><option value="A" selected>A</option>
       <option value="B">B</option>
@@ -274,7 +274,7 @@
       <div class="bslib-toolbar-input-select shiny-input-container">
         <label id="select2-label" class="control-label" for="select2">
           <span style="pointer-events: none" class="bslib-toolbar-icon" aria-hidden="true" role="none" tabindex="-1"></span>
-          <span class="bslib-toolbar-label visually-hidden" id="select-label-4785">Select with selected</span>
+          <span class="bslib-toolbar-label visually-hidden">Select with selected</span>
         </label>
         <select id="select2" class="form-select form-select-sm"><option value="Option 1">Option 1</option>
       <option value="Option 2" selected>Option 2</option>
@@ -291,7 +291,7 @@
       <div class="bslib-toolbar-input-select shiny-input-container bg-success-subtle" style="width: 400px">
         <label id="select3-label" class="control-label" for="select3">
           <span style="pointer-events: none" class="bslib-toolbar-icon" aria-hidden="true" role="none" tabindex="-1"></span>
-          <span class="bslib-toolbar-label visually-hidden" id="select-label-4785">Select with custom class</span>
+          <span class="bslib-toolbar-label visually-hidden">Select with custom class</span>
         </label>
         <select id="select3" class="form-select form-select-sm"><option value="X" selected>X</option>
       <option value="Y">Y</option>
@@ -306,7 +306,7 @@
       <div class="bslib-toolbar-input-select shiny-input-container">
         <label id="grouped-label" class="control-label" for="grouped">
           <span style="pointer-events: none" class="bslib-toolbar-icon" aria-hidden="true" role="none" tabindex="-1"></span>
-          <span class="bslib-toolbar-label visually-hidden" id="select-label-1502">Grouped select</span>
+          <span class="bslib-toolbar-label visually-hidden">Grouped select</span>
         </label>
         <select id="grouped" class="form-select form-select-sm"><optgroup label="Group A">
       <option value="A1" selected>A1</option>
@@ -327,7 +327,7 @@
       <div class="bslib-toolbar-input-select shiny-input-container">
         <label id="tooltip_true-label" class="control-label" for="tooltip_true">
           <span style="pointer-events: none" class="bslib-toolbar-icon" aria-hidden="true" role="none" tabindex="-1"></span>
-          <span class="bslib-toolbar-label visually-hidden" id="select-label-4785">My Select Label</span>
+          <span class="bslib-toolbar-label visually-hidden">My Select Label</span>
         </label>
         <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>
@@ -347,7 +347,7 @@
       <div class="bslib-toolbar-input-select shiny-input-container">
         <label id="with_tooltip-label" class="control-label" for="with_tooltip">
           <span style="pointer-events: none" class="bslib-toolbar-icon" aria-hidden="true" role="none" tabindex="-1"></span>
-          <span class="bslib-toolbar-label visually-hidden" id="select-label-4785">With tooltip</span>
+          <span class="bslib-toolbar-label visually-hidden">With tooltip</span>
         </label>
         <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>This is helpful information</template>
@@ -367,7 +367,7 @@
           <span style="pointer-events: none" class="bslib-toolbar-icon" aria-hidden="true" role="none" tabindex="-1">
             <i class="fas fa-filter" role="presentation" aria-label="filter icon"></i>
           </span>
-          <span class="bslib-toolbar-label visually-hidden" id="select-label-4785">With icon</span>
+          <span class="bslib-toolbar-label visually-hidden">With icon</span>
         </label>
         <select id="with_icon" class="form-select form-select-sm"><option value="A" selected>A</option>
       <option value="B">B</option></select>
@@ -384,7 +384,7 @@
           <span style="pointer-events: none" class="bslib-toolbar-icon" aria-hidden="true" role="none" tabindex="-1">
             <i class="far fa-star" role="presentation" aria-label="star icon"></i>
           </span>
-          <span class="bslib-toolbar-label visually-hidden" id="select-label-4785">Icon and tooltip</span>
+          <span class="bslib-toolbar-label visually-hidden">Icon and tooltip</span>
         </label>
         <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>Select an option</template>

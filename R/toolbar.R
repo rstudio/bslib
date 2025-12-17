@@ -261,18 +261,13 @@ toolbar_input_select <- function(
     tabindex = "-1"
   )
 
-  # Using aria-labelledby on the container (rather than aria-label on the
-  # select) ensures screen readers always use the aria-labelled by text and
-  # read it only once regardless of if there is a tooltip. Otherwise, the
-  # screen reader behavior reads the label twice when there is a tooltip.
-  label_id <- paste0("select-label-", p_randomInt(1000, 10000))
   label_elem <- tags$label(
+    # shiny::selectInput() append `-label` to id for the label `for` attribute
     id = sprintf("%s-label", id),
     class = "control-label",
     `for` = id,
     icon_elem,
     tags$span(
-      id = if (!show_label) label_id,
       class = "bslib-toolbar-label",
       class = if (!show_label) "visually-hidden",
       label
