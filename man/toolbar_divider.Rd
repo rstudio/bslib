@@ -36,6 +36,7 @@ toolbar(
 \seealso{
 Other Toolbar components: 
 \code{\link{toolbar}()},
-\code{\link{toolbar_input_button}()}
+\code{\link{toolbar_input_button}()},
+\code{\link{toolbar_input_select}()}
 }
 \concept{Toolbar components}

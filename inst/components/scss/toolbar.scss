@@ -36,7 +36,7 @@
   // Remove the left padding on label-only buttons so the text is centered
   .bslib-toolbar-input-button[data-type="label"] {
     .action-label {
-      padding-left: 0; 
+      padding-left: 0;
     }
   }
 
@@ -44,7 +44,7 @@
   .bslib-toolbar-input-button[data-type="icon"] {
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
-    
+
     // Remove padding on hidden label to keep icon centered
     .action-label {
       padding-left: 0;
@@ -80,7 +80,7 @@
 
   /* ---- Adjustments to other elements ---- */
 
-  // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    
+  // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)
   &,
   & * {
     font-size: 0.9rem;
@@ -90,5 +90,74 @@
     margin-bottom: 0 !important;
     width: auto;
     align-self: center;
+  }
+}
+
+
+/* Toolbar Select Input */
+.bslib-toolbar-input-select {
+  padding-inline: 0.25rem;
+  height: var(--_toolbar-btn-size, 1.75rem);
+  display: inline-flex;
+  align-items: center;
+  width: auto !important;
+  border-radius: var(--bs-border-radius-sm, 0.25rem);
+  gap: 0.05rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  select {
+    // Necessary to restore the arrow removed by shiny .form-select class
+    // appearance:none setting
+    appearance: auto;
+    background-image: none; // Removes Bootstrap's arrow to use native arrow
+    padding: 0.1rem 0.5rem 0.1rem 0.1rem;
+    border: none;
+    background-color: transparent;
+    line-height: 1;
+    width: auto;
+    min-width: fit-content;
+    font-family: inherit;
+
+    // Remove Bootstrap's standard focus styles since we apply them to the container
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  // Hover, active, and focus styling to highlight the select and options on interaction
+  &:hover {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08);
+  }
+
+  &:active {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16);
+  }
+
+  &:focus-within {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12);
+    // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25);
+  }
+
+  // Icon styling
+  .bslib-toolbar-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--bs-secondary-color);
+    margin-left: 0.15rem; // Add margin before icon for aesthetics
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  label, label.control-label {
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+
+  .bslib-toolbar-label {
+    margin-left: 0.15rem;
   }
 }

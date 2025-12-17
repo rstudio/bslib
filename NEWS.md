@@ -8,6 +8,8 @@
 
 * Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
   * Added `toolbar_input_button()` for easily creating buttons to include in a `toolbar()`. (#1248)
+  
+  * Added `toolbar_input_select()`, a select input designed for use within a `toolbar()`. (#1249)
   * Added `toolbar_divider()` for adding visual dividers with customizable width and spacing between toolbar elements. (#1259)
 
 ## Improvements and bug fixes
