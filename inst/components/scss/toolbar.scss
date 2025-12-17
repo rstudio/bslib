@@ -36,7 +36,7 @@
   // Remove the left padding on label-only buttons so the text is centered
   .bslib-toolbar-input-button[data-type="label"] {
     .action-label {
-      padding-left: 0; 
+      padding-left: 0;
     }
   }
 
@@ -44,7 +44,7 @@
   .bslib-toolbar-input-button[data-type="icon"] {
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
-    
+
     // Remove padding on hidden label to keep icon centered
     .action-label {
       padding-left: 0;
@@ -80,7 +80,7 @@
 
   /* ---- Adjustments to other elements ---- */
 
-  // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)    
+  // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)
   &,
   & * {
     font-size: 0.9rem;
@@ -146,5 +146,11 @@
     align-items: center;
     color: var(--bs-secondary-color);
     margin-left: 0.15rem; // Add margin before icon for aesthetics
+  }
+
+  .bslib-toolbar-input-select-label {
+    font-weight: 600;
+    margin-left: 0.15rem;
+    margin-bottom: 0;
   }
 }

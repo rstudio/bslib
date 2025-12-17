@@ -18,23 +18,24 @@ toolbar_input_button(
 \arguments{
 \item{id}{The input ID.}
 
-\item{label}{The button label. Used as button text when \code{show_label = TRUE},
-or as an accessibility label when hidden. Also used as the default
-tooltip text when \code{tooltip = TRUE}.}
+\item{label}{The input label. By default, \code{label} is not shown but is used by
+\code{tooltip}. Set \code{show_label = TRUE} to show the label (see \code{tooltip} for
+details on how this affects the tooltip behavior).}
 
-\item{icon}{An icon to display in the button. If provided without
-\code{show_label = TRUE}, only the icon will be visible.}
+\item{icon}{An icon. If provided without \code{show_label = TRUE}, only the icon
+will be visible.}
 
-\item{show_label}{Whether to show the label text in the button. If \code{FALSE}
-(the default), only the icon is shown (if provided). If \code{TRUE}, the label
-text is shown alongside the icon.}
+\item{show_label}{Whether to show the label text. If \code{FALSE} (the default),
+only the icon is shown (if provided). If \code{TRUE}, the label text is shown
+alongside the icon.}
 
-\item{tooltip}{Tooltip text to display when hovering over the button. Can be:
+\item{tooltip}{Tooltip text to display when hovering over the input. Can be:
 \itemize{
-\item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the \code{label} text
+\item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the
+\code{label} text
 \item \code{FALSE} (default when \code{show_label = TRUE}) - no tooltip
-\item A character string - shows a tooltip with custom text
-Defaults to \code{!show_label}.
+\item A character string - shows a tooltip with custom text Defaults to
+\code{!show_label}.
 }}
 
 \item{...}{Additional attributes to pass to the button.}

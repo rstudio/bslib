@@ -55,19 +55,20 @@ toolbar <- function(
 #' )
 #'
 #' @param id The input ID.
-#' @param icon An icon to display in the button. If provided without
-#'   `show_label = TRUE`, only the icon will be visible.
-#' @param label The button label. Used as button text when `show_label = TRUE`,
-#'   or as an accessibility label when hidden. Also used as the default
-#'   tooltip text when `tooltip = TRUE`.
-#' @param show_label Whether to show the label text in the button. If `FALSE`
-#'   (the default), only the icon is shown (if provided). If `TRUE`, the label
-#'   text is shown alongside the icon.
-#' @param tooltip Tooltip text to display when hovering over the button. Can be:
-#'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with the `label` text
+#' @param icon An icon. If provided without `show_label = TRUE`, only the icon
+#'   will be visible.
+#' @param label The input label. By default, `label` is not shown but is used by
+#'   `tooltip`. Set `show_label = TRUE` to show the label (see `tooltip` for
+#'   details on how this affects the tooltip behavior).
+#' @param show_label Whether to show the label text. If `FALSE` (the default),
+#'   only the icon is shown (if provided). If `TRUE`, the label text is shown
+#'   alongside the icon.
+#' @param tooltip Tooltip text to display when hovering over the input. Can be:
+#'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with the
+#'     `label` text
 #'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
-#'   * A character string - shows a tooltip with custom text
-#'   Defaults to `!show_label`.
+#'   * A character string - shows a tooltip with custom text Defaults to
+#'     `!show_label`.
 #' @param ... Additional attributes to pass to the button.
 #' @param disabled If `TRUE`, the button will not be clickable. Use
 #'   [shiny::updateActionButton()] to dynamically enable/disable the button.
@@ -184,22 +185,13 @@ toolbar_input_button <- function(
 #'   )
 #' )
 #'
-#' @inheritParams shiny::selectInput
-#' @param id The input ID.
-#' @param label The label for the select input. A hidden label is created with
-#'   this text and referenced via `aria-labelledby` for accessibility. Must be
-#'   a non-empty string.
 #' @param selected The initially selected value. If not provided, the first
 #'   choice will be selected by default.
-#' @param tooltip Tooltip text to display when hovering over the select
-#'   input. Can be: FALSE (default) - no tooltip is shown, TRUE - shows a
-#'   tooltip with the `label` text, or a character string - shows a tooltip
-#'   with custom text.
-#' @param icon An optional icon to display before the select input. When
-#'   provided, the icon appears to the left of the select. If `NULL`
-#'   (default), no icon is shown.
 #' @param ... Additional named arguments passed as attributes to the outer
 #'   container div.
+#' @inheritParams toolbar_input_button
+#' @inheritParams shiny::selectInput
+#'
 #' @return Returns a select input control suitable for use in a toolbar.
 #'
 #' @family Toolbar components
@@ -210,8 +202,9 @@ toolbar_input_select <- function(
   choices,
   ...,
   selected = NULL,
-  tooltip = TRUE,
-  icon = NULL
+  icon = NULL,
+  show_label = FALSE,
+  tooltip = !show_label
 ) {
   # Validate that ... contains only named arguments
   dots <- separate_arguments(...)
@@ -220,6 +213,7 @@ toolbar_input_select <- function(
   }
 
   # Validate that label is a non-empty string
+  # TODO: Use `check_string()`
   if (!is.character(label) || length(label) != 1 || !nzchar(trimws(label))) {
     rlang::abort("`label` must be a non-empty string.")
   }
@@ -246,18 +240,12 @@ toolbar_input_select <- function(
   # Add optional icon before the select
   icon_elem <- NULL
   if (!is.null(icon)) {
-    # Remove aria-label from icon if present. Even though the icon is wrapped
-    # in a span with aria-hidden="true", screen readers may still read the
-    # icon's aria-label. This ensures the icon is treated as purely decorative.
-    if (!is.null(icon$attribs$`aria-label`)) {
-      icon$attribs$`aria-label` <- NULL
-    }
-
     icon_elem <- span(
       icon,
       style = "pointer-events: none",
       class = "bslib-toolbar-input-select-icon",
       `aria-hidden` = "true",
+      `role` = "none",
       tabindex = "-1"
     )
   }
@@ -267,37 +255,40 @@ toolbar_input_select <- function(
   # read it only once regardless of if there is a tooltip. Otherwise, the
   # screen reader behavior reads the label twice when there is a tooltip.
   label_id <- paste0("select-label-", p_randomInt(1000, 10000))
-  label_elem <- span(
-    id = label_id,
-    hidden = NA,
-    label
-  )
-
-  container <- div(
-    class = "bslib-toolbar-input-select shiny-input-container",
-    !!!dots$attribs,
-    label_elem,
+  label_elem <- tags$label(
+    id = sprintf("%s-label", id),
+    class = "bslib-toolbar-input-select-label control-label",
+    `for` = id,
     icon_elem,
-    select_tag,
-    "aria-labelledby" = label_id
+    tags$span(
+      id = if (!show_label) label_id,
+      class = if (!show_label) "visually-hidden",
+      label
+    )
   )
 
-  # If tooltip is literally TRUE, use the label as the tooltip text.
   if (isTRUE(tooltip)) {
-    tooltip <- label
+    # If tooltip is literally TRUE, use the label as the tooltip text, but hide
+    # it from screen readers since it repeats the label content.
+    tooltip <- tags$span(label, `aria-hidden` = "true")
   }
   if (isFALSE(tooltip)) {
     tooltip <- NULL
   }
   if (!is.null(tooltip)) {
-    container <- bslib::tooltip(
-      container,
+    select_tag <- bslib::tooltip(
+      select_tag,
       tooltip,
       placement = "bottom"
     )
   }
 
-  container
+  div(
+    class = "bslib-toolbar-input-select shiny-input-container",
+    !!!dots$attribs,
+    label_elem,
+    select_tag
+  )
 }
 
 # This function was copied from shiny's `input-select.R` with a small change

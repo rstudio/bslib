@@ -10,16 +10,17 @@ toolbar_input_select(
   choices,
   ...,
   selected = NULL,
-  tooltip = TRUE,
-  icon = NULL
+  icon = NULL,
+  show_label = FALSE,
+  tooltip = !show_label
 )
 }
 \arguments{
 \item{id}{The input ID.}
 
-\item{label}{The label for the select input. A hidden label is created with
-this text and referenced via \code{aria-labelledby} for accessibility. Must be
-a non-empty string.}
+\item{label}{The input label. By default, \code{label} is not shown but is used by
+\code{tooltip}. Set \code{show_label = TRUE} to show the label (see \code{tooltip} for
+details on how this affects the tooltip behavior).}
 
 \item{choices}{List of values to select from. If elements of the list are
 named, then that name --- rather than the value --- is displayed to the
@@ -35,14 +36,21 @@ container div.}
 \item{selected}{The initially selected value. If not provided, the first
 choice will be selected by default.}
 
-\item{tooltip}{Tooltip text to display when hovering over the select
-input. Can be: FALSE (default) - no tooltip is shown, TRUE - shows a
-tooltip with the \code{label} text, or a character string - shows a tooltip
-with custom text.}
+\item{icon}{An icon. If provided without \code{show_label = TRUE}, only the icon
+will be visible.}
 
-\item{icon}{An optional icon to display before the select input. When
-provided, the icon appears to the left of the select. If \code{NULL}
-(default), no icon is shown.}
+\item{show_label}{Whether to show the label text. If \code{FALSE} (the default),
+only the icon is shown (if provided). If \code{TRUE}, the label text is shown
+alongside the icon.}
+
+\item{tooltip}{Tooltip text to display when hovering over the input. Can be:
+\itemize{
+\item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the
+\code{label} text
+\item \code{FALSE} (default when \code{show_label = TRUE}) - no tooltip
+\item A character string - shows a tooltip with custom text Defaults to
+\code{!show_label}.
+}}
 }
 \value{
 Returns a select input control suitable for use in a toolbar.
