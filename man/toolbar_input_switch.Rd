@@ -19,19 +19,15 @@ Returns a switch input suitable for use in a toolbar.
 }
 \description{
 A switch input designed to fit well in small places such as in a \code{\link[=toolbar]{toolbar()}}.
-}
-\examples{
-\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-toolbar(
-  align = "right",
-  toolbar_input_switch(id = "toggle", label = "Enable", value = TRUE),
-  toolbar_input_switch(id = "switch", value = FALSE)
+#'   toolbar_input_switch(id = "toggle", label = "Enable", value = TRUE),
+toolbar_input_switch(id = "switch", value = FALSE)
 )
-\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other Toolbar components: 
 \code{\link{toolbar}()},
-\code{\link{toolbar_input_button}()}
+\code{\link{toolbar_divider}()},
+\code{\link{toolbar_input_button}()},
+\code{\link{toolbar_input_select}()}
 }
 \concept{Toolbar components}

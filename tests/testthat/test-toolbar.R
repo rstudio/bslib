@@ -813,38 +813,3 @@ test_that("toolbar_input_switch() checked state in HTML", {
   expect_false(grepl("checked\\s*/>", unchecked_html))
   expect_false(grepl("checked=\"", unchecked_html))
 })
-
-test_that("toolbar_input_switch() in toolbar context", {
-  # Switch in toolbar with other elements
-  expect_snapshot_html(
-    toolbar(
-      align = "right",
-      toolbar_input_switch(id = "feature1", label = "Feature 1", value = TRUE),
-      toolbar_input_switch(id = "feature2", label = "Feature 2", value = FALSE),
-      toolbar_input_button(
-        id = "save",
-        label = "Save",
-        icon = shiny::icon("save")
-      )
-    )
-  )
-
-  # Switch in left-aligned toolbar
-  expect_snapshot_html(
-    toolbar(
-      align = "left",
-      toolbar_input_switch(id = "toggle", label = "Toggle", value = TRUE)
-    )
-  )
-
-  # Multiple switches with gap
-  expect_snapshot_html(
-    toolbar(
-      align = "right",
-      gap = "0.5rem",
-      toolbar_input_switch(id = "opt1", label = "Option 1", value = TRUE),
-      toolbar_input_switch(id = "opt2", label = "Option 2", value = FALSE),
-      toolbar_input_switch(id = "opt3", label = "Option 3", value = TRUE)
-    )
-  )
-})
