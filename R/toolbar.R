@@ -161,7 +161,7 @@ toolbar_input_button <- function(
 #'   )
 #' )
 #'
-#' # With tooltip
+#' # With custom tooltip
 #' toolbar(
 #'   align = "right",
 #'   toolbar_input_select(
@@ -210,21 +210,9 @@ toolbar_input_select <- function(
   choices,
   ...,
   selected = NULL,
-  tooltip = FALSE,
+  tooltip = TRUE,
   icon = NULL
 ) {
-  # Import Shiny's internal choice processing functions
-  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
-  firstChoice <- asNamespace("shiny")[["firstChoice"]]
-
-  # Restore input for bookmarking
-  selected <- shiny::restoreInput(id = id, default = selected)
-
-  # Set selected to the first choice if no default or restored value
-  if (is.null(selected)) {
-    selected <- firstChoice(choices)
-  }
-
   # Validate that ... contains only named arguments
   dots <- separate_arguments(...)
   if (length(dots$children) > 0) {
@@ -236,7 +224,17 @@ toolbar_input_select <- function(
     rlang::abort("`label` must be a non-empty string.")
   }
 
+  # Restore input for bookmarking
+  selected <- shiny::restoreInput(id = id, default = selected)
+
+  # Set selected to the first choice if no default or restored value
+  firstChoice <- asNamespace("shiny")[["firstChoice"]]
+  if (is.null(selected)) {
+    selected <- firstChoice(choices)
+  }
+
   # Normalize choices using util function imported from Shiny
+  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
   choices <- choicesWithNames(choices)
 
   select_tag <- tags$select(
@@ -302,8 +300,8 @@ toolbar_input_select <- function(
   container
 }
 
-# This function ported from shiny's `input-select.R` with changes to the
-# warning message.
+# This function was copied from shiny's `input-select.R`
+# with a wording change in the warning message
 # Create tags for each of the options; use <optgroup> if necessary.
 # This returns an HTML string instead of tags for performance.
 selectOptions <- function(

@@ -252,7 +252,7 @@
 
     Code
       show_raw_html(toolbar_input_select(id = "select1", label = "Basic select",
-        choices = c("A", "B", "C")))
+        choices = c("A", "B", "C"), tooltip = FALSE))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container" aria-labelledby="select-label-4785">
         <span id="select-label-4785" hidden>Basic select</span>
@@ -265,7 +265,8 @@
 
     Code
       show_raw_html(toolbar_input_select(id = "select2", label = "Select with selected",
-        choices = c("Option 1", "Option 2", "Option 3"), selected = "Option 2"))
+        choices = c("Option 1", "Option 2", "Option 3"), selected = "Option 2",
+        tooltip = FALSE))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container" aria-labelledby="select-label-4785">
         <span id="select-label-4785" hidden>Select with selected</span>
@@ -278,7 +279,8 @@
 
     Code
       show_raw_html(toolbar_input_select(id = "select3", label = "Select with custom class",
-        choices = c("X", "Y", "Z"), class = "bg-success-subtle", style = "width: 400px"))
+        choices = c("X", "Y", "Z"), class = "bg-success-subtle", style = "width: 400px",
+        tooltip = FALSE))
     Output
       <div aria-labelledby="select-label-4785" class="bslib-toolbar-input-select shiny-input-container bg-success-subtle" style="width: 400px">
         <span id="select-label-4785" hidden>Select with custom class</span>
@@ -338,7 +340,7 @@
 
     Code
       show_raw_html(toolbar_input_select(id = "with_icon", label = "With icon",
-        choices = c("A", "B"), icon = shiny::icon("filter")))
+        choices = c("A", "B"), icon = shiny::icon("filter"), tooltip = FALSE))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container" aria-labelledby="select-label-4785">
         <span id="select-label-4785" hidden>With icon</span>

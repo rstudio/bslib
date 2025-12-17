@@ -260,7 +260,8 @@ test_that("toolbar_input_select() accepts named attributes in ...", {
     label = "Choose option",
     choices = c("Option 1", "Option 2", "Option 3"),
     class = "bg-success-subtle",
-    `data-test` = "custom"
+    `data-test` = "custom",
+    tooltip = FALSE
   )
 
   # Check that the outer div (with bslib-toolbar-input-select class) has the custom attributes
@@ -285,7 +286,8 @@ test_that("toolbar_input_select() has aria-labelledby with hidden label", {
     toolbar_input_select(
       id = "select",
       label = "Choose option",
-      choices = c("Option 1", "Option 2", "Option 3")
+      choices = c("Option 1", "Option 2", "Option 3"),
+      tooltip = FALSE
     )
   )
 
@@ -324,7 +326,8 @@ test_that("toolbar_input_select() markup snapshots", {
     toolbar_input_select(
       id = "select1",
       label = "Basic select",
-      choices = c("A", "B", "C")
+      choices = c("A", "B", "C"),
+      tooltip = FALSE
     )
   )
 
@@ -333,7 +336,8 @@ test_that("toolbar_input_select() markup snapshots", {
       id = "select2",
       label = "Select with selected",
       choices = c("Option 1", "Option 2", "Option 3"),
-      selected = "Option 2"
+      selected = "Option 2",
+      tooltip = FALSE
     )
   )
 
@@ -343,7 +347,8 @@ test_that("toolbar_input_select() markup snapshots", {
       label = "Select with custom class",
       choices = c("X", "Y", "Z"),
       class = "bg-success-subtle",
-      "style" = "width: 400px"
+      "style" = "width: 400px",
+      tooltip = FALSE
     )
   )
 })
@@ -355,7 +360,8 @@ test_that("toolbar_input_select() handles grouped choices", {
     choices = list(
       "Group A" = c("A1", "A2"),
       "Group B" = c("B1", "B2")
-    )
+    ),
+    tooltip = FALSE
   )
 
   expect_snapshot_html(grouped_select)
@@ -365,7 +371,8 @@ test_that("toolbar_input_select() handles named choices", {
   named_select <- toolbar_input_select(
     id = "named",
     label = "Named choices",
-    choices = c("Label 1" = "val1", "Label 2" = "val2")
+    choices = c("Label 1" = "val1", "Label 2" = "val2"),
+    tooltip = FALSE
   )
 
   html_output <- as.character(as.tags(named_select))
@@ -381,7 +388,8 @@ test_that("toolbar_input_select() respects selected parameter", {
       id = "default",
       label = "With default",
       choices = c("A", "B", "C"),
-      selected = "B"
+      selected = "B",
+      tooltip = FALSE
     )
   )
 
@@ -394,7 +402,8 @@ test_that("toolbar_input_select() selects first choice by default", {
     toolbar_input_select(
       id = "no_default",
       label = "No default",
-      choices = c("X", "Y", "Z")
+      choices = c("X", "Y", "Z"),
+      tooltip = FALSE
     )
   )
 
@@ -407,7 +416,8 @@ test_that("toolbar_input_select() validates label parameter", {
     toolbar_input_select(
       id = "test",
       label = "",
-      choices = c("A", "B")
+      choices = c("A", "B"),
+      tooltip = FALSE
     ),
     "`label` must be a non-empty string"
   )
@@ -416,7 +426,8 @@ test_that("toolbar_input_select() validates label parameter", {
     toolbar_input_select(
       id = "test",
       label = c("A", "B"),
-      choices = c("A", "B")
+      choices = c("A", "B"),
+      tooltip = FALSE
     ),
     "`label` must be a non-empty string"
   )
@@ -425,7 +436,8 @@ test_that("toolbar_input_select() validates label parameter", {
     toolbar_input_select(
       id = "test",
       label = 123,
-      choices = c("A", "B")
+      choices = c("A", "B"),
+      tooltip = FALSE
     ),
     "`label` must be a non-empty string"
   )
@@ -436,7 +448,8 @@ test_that("toolbar_input_select() has correct classes", {
     toolbar_input_select(
       id = "test",
       label = "Test",
-      choices = c("A", "B")
+      choices = c("A", "B"),
+      tooltip = FALSE
     )
   )
 
@@ -460,16 +473,16 @@ test_that("toolbar_input_select() has correct classes", {
 })
 
 test_that("toolbar_input_select() tooltip parameter", {
-  # Without tooltip - no bslib-tooltip wrapper
-  select_no_tooltip <- as.tags(
+  # Default has tooltip=TRUE, uses label text for tooltip text
+  select_default <- as.tags(
     toolbar_input_select(
-      id = "no_tooltip",
-      label = "No tooltip",
+      id = "default",
+      label = "Has label as tooltip",
       choices = c("A", "B")
     )
   )
-  html_output <- as.character(select_no_tooltip)
-  expect_false(grepl("bslib-tooltip", html_output))
+  html_output <- as.character(select_default)
+  expect_true(grepl("bslib-tooltip", html_output))
 
   # With tooltip = FALSE explicitly - no bslib-tooltip wrapper
   select_tooltip_false <- as.tags(
@@ -510,7 +523,8 @@ test_that("toolbar_input_select() icon parameter", {
     toolbar_input_select(
       id = "no_icon",
       label = "No icon",
-      choices = c("A", "B")
+      choices = c("A", "B"),
+      tooltip = FALSE
     )
   )
   html_output <- as.character(select_no_icon)
@@ -522,7 +536,8 @@ test_that("toolbar_input_select() icon parameter", {
       id = "with_icon",
       label = "With icon",
       choices = c("A", "B"),
-      icon = shiny::icon("filter")
+      icon = shiny::icon("filter"),
+      tooltip = FALSE
     )
   )
 

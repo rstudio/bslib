@@ -10,7 +10,7 @@ toolbar_input_select(
   choices,
   ...,
   selected = NULL,
-  tooltip = FALSE,
+  tooltip = TRUE,
   icon = NULL
 )
 }
@@ -63,7 +63,7 @@ toolbar(
   )
 )
 
-# With tooltip
+# With custom tooltip
 toolbar(
   align = "right",
   toolbar_input_select(
