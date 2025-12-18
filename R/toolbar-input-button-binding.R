@@ -3,12 +3,8 @@
 #' @description
 #' Change the value or appearance of a toolbar button input on the client.
 #'
-#' @param inputId The id of the input object.
-#' @param label The label to set for the input object.
-#' @param icon The icon to set for the input object. To remove the current
-#'   icon, use `icon = character(0)`.
-#' @param disabled If `TRUE`, the button will be disabled; if `FALSE`, it will
-#'   be enabled.
+#' @rdname toolbar_input_button
+#' @inheritParams toolbar_input_button
 #' @param session The `session` object passed to function given to `shinyServer`.
 #'   Default is `getDefaultReactiveDomain()`.
 #'
@@ -54,11 +50,11 @@
 #' @seealso [toolbar_input_button()], [shiny::updateActionButton()]
 #' @export
 update_toolbar_input_button <- function(
-  session = shiny::getDefaultReactiveDomain(),
   inputId,
   label = NULL,
   icon = NULL,
-  disabled = NULL
+  disabled = NULL,
+  session = get_current_session()
 ) {
   # Process label - wrap it in the same structure as toolbar_input_button()
   # The label content will be updated within the existing .bslib-toolbar-label span
