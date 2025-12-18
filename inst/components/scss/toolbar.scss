@@ -74,9 +74,12 @@
     .form-check-label {
       font-weight: 500; // Match Bootstrap button default font-weight
       line-height: 1; // Match button line-height for consistent vertical alignment
+      padding-left: 0.25rem; // Add space between switch and label
+      padding-top: 0; // Remove any default padding that might affect alignment
+      margin-bottom: 0; // Remove any default margin
     }
   }
-  
+
   /* ---- Toolbar Divider ---- */
 
   .bslib-toolbar-divider{
