@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://rstudio.github.io/bslib/404.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/AGENTS.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/LICENSE-text.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/PULL_REQUEST_TEMPLATE.html</loc></url>
@@ -62,6 +63,7 @@
 <url><loc>https://rstudio.github.io/bslib/reference/html-browse.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/index.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/input_dark_mode.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/input_submit_textarea.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/input_switch.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/input_task_button.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/layout_column_wrap.html</loc></url>
@@ -80,9 +82,11 @@
 <url><loc>https://rstudio.github.io/bslib/reference/reexports.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/run_with_themer.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/save-html.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/show_toast.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/sidebar.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/theme_bootswatch.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/theme_version.html</loc></url>
+<url><loc>https://rstudio.github.io/bslib/reference/toast.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/tooltip.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/value_box.html</loc></url>
 <url><loc>https://rstudio.github.io/bslib/reference/versions.html</loc></url>

@@ -1,0 +1,46 @@
+# Why Sass over CSS?
+
+[Sass](https://sass-lang.com/) is an CSS extension language that helps
+reduce complexity and increase composability when styling a website.
+[Bootstrap Sass](https://rstudio.github.io/bslib/articles/why-sass/) is
+just one example of a Sass-based project that exposes Sass variables to
+allow users to easily customize CSS styles.
+
+TODO: do a better job here
+
+When a
+[`bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.md) is
+used with Shiny or R Markdown, the
+[sass](https://rstudio.github.io/sass/) object underlying the theme
+object is [compiled into
+CSS](https://rstudio.github.io/sass/articles/sass.html#why) at run-time.
+Compared to custom theming by overlaying additional CSS rules (which,
+historically, has been the only way to implement custom themes), there
+are at least a few huge benefits in taking the Sass based approach:
+
+- [Sass
+  variables](https://rstudio.github.io/bslib/articles/bs5-variables)
+  (e.g., `$border-radius`) provide a useful abstraction to not only
+  reduce the amount of code you need to write, but it also protects you
+  from future changes in HTML/CSS markup that may end up breaking your
+  CSS rules.
+
+- The [Sass language](https://sass-lang.com) itself provides many useful
+  tools for writing CSS more elegantly (i.e.,
+  [variables](https://sass-lang.com/documentation/variables), functions,
+  and mixins) as well as many useful utiltiles for computing with CSS
+  values (e.g., color
+
+- Sass variables not only generate a custom build of Bootstrap CSS
+  (thus, avoiding duplicated CSS rules), but it also gives 3rd party
+  components the opportunity to provide better default styles based on
+  underlying [sass](https://rstudio.github.io/sass/) object (thanks to
+  [bslib](https://rstudio.github.io/bslib/)’s [theming tools for custom
+  components](#custom-components)).
+
+  - This shift in approach allows sophisticated, custom, components like
+    [`shiny::sliderInput()`](https://rdrr.io/pkg/shiny/man/sliderInput.html),
+    [`shiny::dateRangeInput()`](https://rdrr.io/pkg/shiny/man/dateRangeInput.html),
+    [`DT::datatable()`](https://rdrr.io/pkg/DT/man/datatable.html), etc.
+    “just work” with custom and [dynamically updating
+    themes](#dynamic-shiny).

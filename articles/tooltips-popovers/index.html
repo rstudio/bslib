@@ -6,15 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Tooltips &amp; Popovers • bslib</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../../favicon.ico">
+<link rel="manifest" href="../../site.webmanifest">
 <script src="../../lightswitch.js"></script><script src="../../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../../deps/Atkinson_Hyperlegible-0.4.9/font.css" rel="stylesheet">
+<script src="../../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../../deps/Atkinson_Hyperlegible-0.4.10/font.css" rel="stylesheet">
 <link href="../../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../../deps/headroom-0.11.0/headroom.min.js"></script><script src="../../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../../deps/search-1.0.0/fuse.min.js"></script><script src="../../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../../pkgdown.js"></script><meta property="og:title" content="Tooltips &amp; Popovers">
@@ -27,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,14 +106,14 @@
 
 
 
-<script src="index_files/bslib-component-js-0.9.0/components.min.js"></script><script src="index_files/bslib-component-js-0.9.0/web-components.min.js" type="module"></script><link href="index_files/bslib-component-css-0.9.0/components.css" rel="stylesheet">
-<script src="index_files/bslib-tag-require-0.9.0/tag-require.js"></script><link href="index_files/htmltools-fill-0.5.8.9000/fill.css" rel="stylesheet">
+<script src="index_files/bslib-component-js-0.10.0/components.min.js"></script><script src="index_files/bslib-component-js-0.10.0/web-components.min.js" type="module"></script><link href="index_files/bslib-component-css-0.10.0/components.css" rel="stylesheet">
+<script src="index_files/bslib-tag-require-0.10.0/tag-require.js"></script><link href="index_files/htmltools-fill-0.5.9.9000/fill.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../../logo.png" class="logo" alt=""><h1>Tooltips &amp; Popovers</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/main/vignettes/tooltips-popovers/index.Rmd" class="external-link"><code>vignettes/tooltips-popovers/index.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/bslib/blob/rc-v0.10.0/vignettes/tooltips-popovers/index.Rmd" class="external-link"><code>vignettes/tooltips-popovers/index.Rmd</code></a></small>
       <div class="d-none name"><code>index.Rmd</code></div>
     </div>
 
@@ -243,7 +242,9 @@ should be able to interact with the message itself.</p>
 <span>  <span class="st">"Focus/hover here for tooltip"</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../../reference/tooltip.html">tooltip</a></span><span class="op">(</span><span class="st">"Tooltip message"</span><span class="op">)</span></span></code></pre></div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Tooltip message</template><button id="btn_tip" type="button" class="btn btn-default action-button">Focus/hover here for tooltip</button>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Tooltip message</template><button id="btn_tip" type="button" class="btn btn-default action-button">
+<span class="action-label">Focus/hover here for tooltip</span>
+</button>
 </bslib-tooltip><p><br class="my-5"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span></span>
@@ -256,7 +257,9 @@ should be able to interact with the message itself.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <bslib-popover placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="popover()"><template><div style="display:contents;">Popover message</div>
 <div style="display:contents;">Popover title</div>
-</template><button id="btn_pop" type="button" class="btn btn-default action-button">Click here for popover</button>
+</template><button id="btn_pop" type="button" class="btn btn-default action-button">
+<span class="action-label">Click here for popover</span>
+</button>
 </bslib-popover>
 </div>
 </div>
@@ -344,7 +347,7 @@ natural place to provide additional context.</p>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Tooltip message</template>
 Input label
 <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-info-circle " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></bslib-tooltip></label>
-<input id="txt" type="text" class="shiny-input-text form-control" value="">
+<input id="txt" type="text" class="shiny-input-text form-control" value="" data-update-on="change">
 </div>
 </div>
 </div>
@@ -381,7 +384,7 @@ gain more context about the data being visualized.</p>
 </div>
 <div class="col-md-6 mt-auto mb-auto">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
-<div class="card-header">
+<div class="card-header bslib-gap-spacing">
 Card header
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Tooltip message</template><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-info-circle " style="height:1em;width:1em;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></bslib-tooltip>
 </div>
@@ -420,12 +423,12 @@ a “settings” icon in the card’s header, which when clicked, opens a
 </div>
 <div class="col-md-6 mt-auto mb-auto">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
-<div class="card-header d-flex justify-content-between">
+<div class="card-header bslib-gap-spacing d-flex justify-content-between">
 Card header
 <bslib-popover placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="popover()"><template><div style="display:contents;">
 <div class="form-group shiny-input-container">
 <label class="control-label shiny-label-null" for="txt" id="txt-label"></label>
-<input id="txt" type="text" class="shiny-input-text form-control" value="Enter input">
+<input id="txt" type="text" class="shiny-input-text form-control" value="Enter input" data-update-on="change">
 </div>
 </div>
 <div style="display:contents;">Input controls</div>
@@ -464,7 +467,7 @@ expected in Shiny apps. In a static document, you’ll need to use a
 </div>
 <div class="col-md-6 mt-auto mb-auto">
 <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
-<div class="card-header">Card header</div>
+<div class="card-header bslib-gap-spacing">Card header</div>
 <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">Card body...</div>
 <div class="card-footer">
 <bslib-popover placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="popover()"><template><div style="display:contents;">
@@ -651,7 +654,7 @@ thus should be avoided. Instead, consider using a <a href="#icons">icon</a> (nex
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
