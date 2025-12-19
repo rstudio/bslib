@@ -8,6 +8,7 @@ import type { HtmlDep } from "./_utils";
 
 type ToolbarInputButtonMessage = {
   label?: string | { html: string; deps: HtmlDep[] };
+  showLabel?: boolean;
   icon?: string | { html: string; deps: HtmlDep[] };
   disabled?: boolean;
 };
@@ -64,6 +65,20 @@ class BslibToolbarInputButtonBinding extends InputBinding {
       const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
       if (labelEl && message.label !== undefined) {
         await shinyRenderContent(labelEl, message.label);
+      }
+    }
+
+    // Update show_label visibility
+    if (hasDefinedProperty(message, "showLabel")) {
+      const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
+      if (labelEl) {
+        if (message.showLabel === false) {
+          labelEl.setAttribute("hidden", "");
+          el.setAttribute("data-type", "icon");
+        } else {
+          labelEl.removeAttribute("hidden");
+          el.setAttribute("data-type", "both");
+        }
       }
     }
 

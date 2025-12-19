@@ -50,12 +50,22 @@
 #' @seealso [toolbar_input_button()], [shiny::updateActionButton()]
 #' @export
 update_toolbar_input_button <- function(
-  inputId,
+  id,
   label = NULL,
+  show_label = NULL,
   icon = NULL,
   disabled = NULL,
   session = get_current_session()
 ) {
+  # Validate that label has text for accessibility
+  label_text <- paste(unlist(find_characters(label)), collapse = " ")
+  # Verifies the label contains non-empty text
+  if (!nzchar(trimws(label_text))) {
+    warning(
+      "Consider providing a non-empty string label for accessibility."
+    )
+  }
+
   # Process label - wrap it in the same structure as toolbar_input_button()
   # The label content will be updated within the existing .bslib-toolbar-label span
   label_processed <- if (!is.null(label)) {
@@ -74,22 +84,17 @@ update_toolbar_input_button <- function(
 
   message <- dropNulls(list(
     label = label_processed,
+    showLabel = show_label,
     icon = icon_processed,
     disabled = disabled
   ))
 
-  session$sendInputMessage(inputId, message)
+  session$sendInputMessage(id, message)
 }
 
 # Input handler for toolbar_input_button
-#
-# This handler processes the value from the toolbar_input_button input binding
-# on the client side. It marks the value with the "shinyActionButtonValue" class
-# so that it behaves like a standard action button (e.g., value of 0 is falsy).
-toolbar_input_button_input_handler <- function(val, shinysession, name) {
-  value <- val
-
-  # Mark up the value with the shinyActionButtonValue class so it behaves
+toolbar_input_button_input_handler <- function(value, shinysession, name) {
+  # Match shinyActionButtonValue class so it behaves
   # like a standard action button for event handlers and input validation
   class(value) <- c("shinyActionButtonValue", class(value))
   value

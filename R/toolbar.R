@@ -153,7 +153,12 @@ toolbar_input_button <- function(
   if (!is.null(tooltip)) {
     # Default placement is "bottom" for the toolbar case because otherwise the
     # tooltip ends up covering the neighboring buttons in the header/footer.
-    button <- tooltip(button, tooltip, placement = "bottom")
+    button <- tooltip(
+      button,
+      tooltip,
+      id = sprintf("%s_tooltip", id),
+      placement = "bottom"
+    )
   }
 
   button
