@@ -2,9 +2,13 @@
 
 ## New features
 
-* Added a new `input_submit_textarea()` input element, which is similar to `shiny::textAreaInput()`, but includes a submit button to only submit the text changes to the server on click. This is especially useful when the input text change triggers a long-running operation and/or the user wants to type longer-form input and review it before submitting it.
+* Added a new `input_submit_textarea()` input element, which is similar to `shiny::textAreaInput()`, but includes a submit button to only submit the text changes to the server on click. This is especially useful when the input text change triggers a long-running operation and/or the user wants to type longer-form input and review it before submitting it. (#1204)
+
+* Added toast notifications based on [Bootstrap's Toast component](https://getbootstrap.com/docs/5.3/components/toasts/): Use `toast()` to create customizable toast objects, `show_toast()` to display a toast message, `hide_toast()` for manual dismissal, and `toast_header()` for structured headers with icons and status indicators. (#1246)
 
 ## Improvements and bug fixes
+
+* `card_header()` is now flex by default and gains a `gap` argument to better support complex header layouts. (#1253)
 
 * `bs_theme_dependencies()` now avoids unnecessarily copying internal package files to R's temporary directory more than once when preparing precompiled theme dependencies (e.g. for a standard `bs_theme()` theme). (#1184)
 

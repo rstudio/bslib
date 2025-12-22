@@ -29,7 +29,7 @@
         "https://example.com/image.jpg"), card_body("image not a cap")))
     Output
       <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
-        <div class="card-header">header</div>
+        <div class="card-header bslib-gap-spacing">header</div>
         <img src="https://example.com/image.jpg" alt="" class="img-fluid"/>
         <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">image not a cap</div>
         <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
