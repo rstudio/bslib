@@ -18,6 +18,7 @@ render_skeleton <- function(x) {
 
 test_that("Rmd skeletons can be render cleanly", {
   skip_on_cran()
+  skip_if_not_installed("rmarkdown")
 
   skip_if_not(
     rmarkdown::pandoc_available("1.12.3"),
