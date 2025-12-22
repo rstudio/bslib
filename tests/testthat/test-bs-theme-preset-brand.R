@@ -1,6 +1,8 @@
 # testthat::test_that()
 
 describe("as_brand_yml()", {
+  skip_if_not_installed("brand.yml")
+
   it("normalizes colors", {
     brand <- list(
       color = list(
@@ -38,6 +40,24 @@ describe("as_brand_yml()", {
 describe("brand_resolve()", {
   withr::local_dir(withr::local_tempdir())
 
+  it("returns `NULL` if brand.yml is not installed", {
+    is_installed_og <- is_installed
+
+    local_mocked_bindings(
+      is_installed = function(pkg) {
+        if (pkg == "brand.yml") FALSE else is_installed_og(pkg)
+      }
+    )
+
+    expect_null(brand_resolve(NULL))
+  })
+
+  it("returns NULL if `brand = FALSE`", {
+    expect_null(brand_resolve(FALSE))
+  })
+
+  skip_if_not_installed("brand.yml")
+
   it("doesn't error if `brand = NULL` and no _brand.yml is found", {
     expect_null(brand_resolve(NULL))
   })
@@ -52,10 +72,6 @@ describe("brand_resolve()", {
   )
 
   direct_is_valid <- FALSE
-
-  it("returns NULL if `brand = FALSE`", {
-    expect_null(brand_resolve(FALSE))
-  })
 
   it("finds _brand.yml or reads from brand path", {
     path_with_parent_dir <- function(x) {
@@ -168,6 +184,7 @@ describe("brand_resolve()", {
 })
 
 describe("brand_resolve_preset()", {
+  skip_if_not_installed("brand.yml")
   withr::local_dir(withr::local_tempdir())
 
   write_brand_yml_preset <- function(preset = NULL, version = NULL) {
@@ -215,6 +232,8 @@ describe("brand_resolve_preset()", {
 })
 
 describe("brand_color_pluck()", {
+  skip_if_not_installed("brand.yml")
+
   it("detects cyclic references in brand.color.palette", {
     brand <- list(
       color = list(
@@ -338,6 +357,8 @@ describe("brand_color_pluck()", {
 })
 
 describe("bs_brand_bundle()", {
+  skip_if_not_installed("brand.yml")
+
   it("warns with Bootstrap <= 4", {
     expect_warning(
       bs_brand_bundle(list(), "3")
