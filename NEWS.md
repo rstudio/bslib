@@ -1,5 +1,9 @@
 # bslib 0.10.0
 
+## Breaking changes
+
+* bslib now uses the `{brand.yml}` package for reading [brand.yml](https://posit-dev.github.io/brand.yml) files. This change improves compatibility with other tools that use brand.yml files, such as Quarto. The `{brand.yml}` package must be installed for `_brand.yml` files to be automatically discovered. (#1227)
+
 ## New features
 
 * Added a new `input_submit_textarea()` input element, which is similar to `shiny::textAreaInput()`, but includes a submit button to only submit the text changes to the server on click. This is especially useful when the input text change triggers a long-running operation and/or the user wants to type longer-form input and review it before submitting it. (#1204)
