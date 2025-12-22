@@ -2,6 +2,17 @@
 
 ## bslib 0.10.0
 
+### Breaking changes
+
+- bslib now uses the
+  [brand.yml](https://posit-dev.github.io/brand-yml/pkg/r/) package for
+  reading [brand.yml](https://posit-dev.github.io/brand.yml) files. This
+  change improves compatibility with other tools that use brand.yml
+  files, such as Quarto. The
+  [brand.yml](https://posit-dev.github.io/brand-yml/pkg/r/) package must
+  be installed for `_brand.yml` files to be automatically discovered.
+  ([\#1227](https://github.com/rstudio/bslib/issues/1227))
+
 ### New features
 
 - Added a new
