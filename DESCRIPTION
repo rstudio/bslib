@@ -42,7 +42,7 @@ Imports:
     rlang,
     sass (>= 0.4.9)
 Suggests:
-    brand.yml (>= 0.0.0.9000),
+    brand.yml,
     bsicons,
     curl,
     fontawesome,
@@ -60,8 +60,6 @@ Suggests:
     utils,
     withr,
     yaml
-Remotes:
-    brand.yml=github::posit-dev/brand-yml/pkg-r
 Config/Needs/deploy: BH, chiflights22, colourpicker, commonmark, cpp11,
     cpsievert/chiflights22, cpsievert/histoslider, dplyr, DT, ggplot2,
     ggridges, gt, hexbin, histoslider, htmlwidgets, lattice, leaflet,
