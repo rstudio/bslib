@@ -42,6 +42,7 @@ Imports:
     rlang,
     sass (>= 0.4.9)
 Suggests:
+    brand.yml,
     bsicons,
     curl,
     fontawesome,
