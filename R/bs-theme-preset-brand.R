@@ -91,7 +91,11 @@ brand_resolve.list <- function(brand, ...) {
 
 #' @export
 `brand_resolve.NULL` <- function(brand, ...) {
-  rlang::check_installed("brand.yml")
+  if (!is_installed("brand.yml")) {
+    # If brand.yml is *not* installed, skip automatic detection
+    return(NULL)
+  }
+
   brand <- tryCatch(
     brand.yml::read_brand_yml(NULL),
     brand_yml_not_found = function(err) {
