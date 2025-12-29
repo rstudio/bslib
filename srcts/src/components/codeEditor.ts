@@ -17,6 +17,15 @@
 import type { InputSubscribeCallback } from "rstudio-shiny/srcts/types/src/bindings/input/inputBinding";
 import { registerBinding, InputBinding, hasDefinedProperty } from "./_utils";
 
+// Default values - should match R defaults in input-code-editor.R
+/* eslint-disable @typescript-eslint/naming-convention */
+const DEFAULT_LANGUAGE = "sql";
+const DEFAULT_TAB_SIZE = 2;
+const DEFAULT_THEME_LIGHT = "github-light";
+const DEFAULT_THEME_DARK = "github-dark";
+const SUBMIT_FLASH_DURATION_MS = 400;
+/* eslint-enable @typescript-eslint/naming-convention */
+
 // Type definitions for prism-code-editor
 interface PrismEditor {
   value: string;
@@ -62,28 +71,25 @@ interface CommandsModule {
 // Extended HTMLElement types to include custom properties
 interface CodeEditorElement extends HTMLElement {
   prismEditor?: PrismEditor;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  _themeObserver?: MutationObserver;
+  darkLightObserver?: MutationObserver;
+  codeEditorUpdateCallback?: () => void;
+  isInitialized?: Promise<PrismEditor | undefined>;
 }
 
 // Message data from R uses snake_case to match session$sendInputMessage
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type CodeEditorReceiveMessageData = {
   code?: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+  /* eslint-disable @typescript-eslint/naming-convention */
   tab_size?: number;
   indentation?: "space" | "tab";
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   read_only?: boolean;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   line_numbers?: boolean;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   word_wrap?: boolean;
   language?: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   theme_light?: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   theme_dark?: string;
+  /* eslint-enable @typescript-eslint/naming-convention */
 };
 
 // Track which languages have been loaded to avoid duplicate imports
@@ -95,24 +101,32 @@ const initializedEditors = new WeakSet<HTMLElement>();
 // Memoized base path for prism-code-editor files
 let prismCodeEditorBasePath: string | null = null;
 
+/**
+ * Get the base path for prism-code-editor files by locating the script element.
+ * @returns The base path (memoized after first call)
+ * @throws Error if the prism-code-editor script cannot be found
+ */
 function getPrismCodeEditorBasePath(): string {
   if (prismCodeEditorBasePath !== null) {
     return prismCodeEditorBasePath;
   }
+
   const scriptElement = document.querySelector(
     'script[src*="prism-code-editor"][src$="index.js"]'
   );
+
   if (!scriptElement) {
-    console.error("Could not find prism-code-editor script element");
-    prismCodeEditorBasePath = "";
-    return prismCodeEditorBasePath;
+    throw new Error(
+      "Could not find prism-code-editor script element. " +
+        "Ensure the prism-code-editor dependency is properly loaded."
+    );
   }
+
   const src = scriptElement.getAttribute("src");
   if (!src) {
-    console.error("prism-code-editor script element has no src attribute");
-    prismCodeEditorBasePath = "";
-    return prismCodeEditorBasePath;
+    throw new Error("prism-code-editor script element has no src attribute");
   }
+
   const absoluteSrc = new URL(src, document.baseURI).href;
   prismCodeEditorBasePath = absoluteSrc.replace(/\/index\.js$/, "");
   return prismCodeEditorBasePath;
@@ -140,19 +154,31 @@ async function loadLanguage(language: string, basePath: string): Promise<void> {
   }
 }
 
+/**
+ * Load a theme stylesheet for the code editor.
+ * Handles cleanup of old themes and error cases.
+ */
 function loadTheme(inputId: string, themeName: string, basePath: string): void {
   const linkId = `code-editor-theme-${inputId}`;
   const existingLink = document.getElementById(linkId);
+
   const newLink = document.createElement("link");
   newLink.id = linkId;
   newLink.rel = "stylesheet";
   newLink.href = `${basePath}/themes/${themeName}.css`;
+
+  // Clean up existing link after new one loads (or on error to prevent accumulation)
+  const cleanup = (): void => {
+    existingLink?.remove();
+  };
+
+  newLink.addEventListener("load", cleanup);
+  newLink.addEventListener("error", () => {
+    console.error(`Failed to load code editor theme: ${themeName}`);
+    cleanup();
+  });
+
   document.head.appendChild(newLink);
-  if (existingLink) {
-    newLink.addEventListener("load", () => {
-      existingLink.remove();
-    });
-  }
 }
 
 function setupThemeWatcher(
@@ -172,21 +198,14 @@ function setupThemeWatcher(
     loadTheme(inputId, themeName, basePath);
   };
   updateTheme();
-  const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      if (
-        mutation.type === "attributes" &&
-        mutation.attributeName === "data-bs-theme"
-      ) {
-        updateTheme();
-      }
-    }
-  });
+
+  // Since we filter with attributeFilter, we know all mutations are for data-bs-theme
+  const observer = new MutationObserver(() => updateTheme());
   observer.observe(document.documentElement, {
     attributes: true,
     attributeFilter: ["data-bs-theme"],
   });
-  el._themeObserver = observer;
+  el.darkLightObserver = observer;
 }
 
 async function initializeEditor(
@@ -202,27 +221,30 @@ async function initializeEditor(
     );
     return;
   }
-  const language = el.dataset.language || "sql";
+  const language = el.dataset.language || DEFAULT_LANGUAGE;
   const initialCode = el.dataset.initialCode || "";
-  const themeLight = el.dataset.themeLight || "github-light";
-  const themeDark = el.dataset.themeDark || "github-dark";
+  const themeLight = el.dataset.themeLight || DEFAULT_THEME_LIGHT;
+  const themeDark = el.dataset.themeDark || DEFAULT_THEME_DARK;
   const readOnly = el.dataset.readOnly === "true";
   const lineNumbers = el.dataset.lineNumbers !== "false";
   const wordWrap = el.dataset.wordWrap === "true";
-  const tabSize = parseInt(el.dataset.tabSize || "2") || 2;
+  const tabSize =
+    parseInt(el.dataset.tabSize || String(DEFAULT_TAB_SIZE)) ||
+    DEFAULT_TAB_SIZE;
   const insertSpaces = el.dataset.insertSpaces !== "false";
 
   const basePath = getPrismCodeEditorBasePath();
+
+  // Load language grammar first, then parallelize the remaining imports
   await loadLanguage(language, basePath);
-  const { createEditor } = (await import(
-    `${basePath}/index.js`
-  )) as PrismCodeEditorModule;
-  const { copyButton } = (await import(
-    `${basePath}/extensions/copyButton/index.js`
-  )) as CopyButtonModule;
-  const { defaultCommands } = (await import(
-    `${basePath}/extensions/commands.js`
-  )) as CommandsModule;
+  const [{ createEditor }, { copyButton }, { defaultCommands }] =
+    await Promise.all([
+      import(`${basePath}/index.js`) as Promise<PrismCodeEditorModule>,
+      import(
+        `${basePath}/extensions/copyButton/index.js`
+      ) as Promise<CopyButtonModule>,
+      import(`${basePath}/extensions/commands.js`) as Promise<CommandsModule>,
+    ]);
 
   const editor = createEditor(
     editorContainer as HTMLElement,
@@ -250,7 +272,7 @@ async function initializeEditor(
       editorContainer.classList.add("code-editor-submit-flash");
       setTimeout(() => {
         editorContainer.classList.remove("code-editor-submit-flash");
-      }, 400);
+      }, SUBMIT_FLASH_DURATION_MS);
       return true;
     }
     return oldEnterCallback?.(e, selection, value);
@@ -294,35 +316,62 @@ class CodeEditorInputBinding extends InputBinding {
 
   subscribe(el: HTMLElement, callback: InputSubscribeCallback): void {
     const codeEl = el as CodeEditorElement;
-    initializeEditor(codeEl).catch((error) => {
-      console.error("Failed to initialize code editor:", error);
-    });
+
+    // Store the initialization promise so receiveMessage can await it
+    codeEl.isInitialized = initializeEditor(codeEl);
+    codeEl.isInitialized
+      .then(() => {
+        // Notify Shiny that the editor is ready with its initial value
+        callback(false);
+      })
+      .catch((error) => {
+        console.error("Failed to initialize code editor:", error);
+      });
+
     const updateCallback = (): void => callback(true);
     el.addEventListener("codeEditorUpdate", updateCallback);
-    // Store the callback on the element for unsubscribe
-    (el as any)._codeEditorUpdateCallback = updateCallback;
+    codeEl.codeEditorUpdateCallback = updateCallback;
   }
 
   unsubscribe(el: HTMLElement): void {
     const codeEl = el as CodeEditorElement;
-    const updateCallback = (el as any)._codeEditorUpdateCallback;
+
+    // Clean up event listener
+    const updateCallback = codeEl.codeEditorUpdateCallback;
     if (updateCallback) {
       el.removeEventListener("codeEditorUpdate", updateCallback);
-      delete (el as any)._codeEditorUpdateCallback;
+      delete codeEl.codeEditorUpdateCallback;
     }
-    if (codeEl._themeObserver) {
-      codeEl._themeObserver.disconnect();
-      delete codeEl._themeObserver;
+
+    // Clean up theme observer
+    if (codeEl.darkLightObserver) {
+      codeEl.darkLightObserver.disconnect();
+      delete codeEl.darkLightObserver;
     }
+
+    // Clean up theme stylesheet to prevent memory leaks
+    const linkId = `code-editor-theme-${el.id}`;
+    document.getElementById(linkId)?.remove();
   }
 
-  receiveMessage(el: HTMLElement, data: CodeEditorReceiveMessageData): void {
+  async receiveMessage(
+    el: HTMLElement,
+    data: CodeEditorReceiveMessageData
+  ): Promise<void> {
     const codeEl = el as CodeEditorElement;
+
+    // Wait for initialization if still pending
+    if (codeEl.isInitialized) {
+      await codeEl.isInitialized;
+    }
+
     const editor = codeEl.prismEditor;
     if (!editor) {
       console.warn("Cannot update code editor: editor not initialized");
       return;
     }
+
+    // Collect synchronous option updates
     const options: PrismEditorOptions = {};
     if (hasDefinedProperty(data, "code")) {
       options.value = data.code;
@@ -345,45 +394,58 @@ class CodeEditorInputBinding extends InputBinding {
     if (Object.keys(options).length > 0) {
       editor.setOptions(options);
     }
+
+    // Handle language change (async) - await before firing update event
     if (hasDefinedProperty(data, "language") && data.language) {
       const newLanguage = data.language;
       if (newLanguage !== el.dataset.language) {
         const basePath = getPrismCodeEditorBasePath();
-        loadLanguage(newLanguage, basePath)
-          .then(() => {
-            el.dataset.language = newLanguage;
-            editor.setOptions({ language: newLanguage });
-            editor.update();
-          })
-          .catch((error) => {
-            console.error(
-              `Failed to change language to '${newLanguage}':`,
-              error
-            );
-          });
+        try {
+          await loadLanguage(newLanguage, basePath);
+          el.dataset.language = newLanguage;
+          editor.setOptions({ language: newLanguage });
+          editor.update();
+        } catch (error) {
+          console.error(
+            `Failed to change language to '${newLanguage}':`,
+            error
+          );
+        }
       }
     }
+
+    // Handle theme updates
     if (hasDefinedProperty(data, "theme_light") && data.theme_light) {
-      const newThemeLight = data.theme_light;
-      el.dataset.themeLight = newThemeLight;
-      const htmlEl = document.documentElement;
-      const currentTheme = htmlEl.getAttribute("data-bs-theme");
-      if (currentTheme !== "dark") {
-        const basePath = getPrismCodeEditorBasePath();
-        loadTheme(el.id, newThemeLight, basePath);
-      }
+      this._maybeLoadThemeForMode(el, data.theme_light, "themeLight", false);
     }
     if (hasDefinedProperty(data, "theme_dark") && data.theme_dark) {
-      const newThemeDark = data.theme_dark;
-      el.dataset.themeDark = newThemeDark;
-      const htmlEl = document.documentElement;
-      const currentTheme = htmlEl.getAttribute("data-bs-theme");
-      if (currentTheme === "dark") {
-        const basePath = getPrismCodeEditorBasePath();
-        loadTheme(el.id, newThemeDark, basePath);
-      }
+      this._maybeLoadThemeForMode(el, data.theme_dark, "themeDark", true);
     }
+
     el.dispatchEvent(new CustomEvent("codeEditorUpdate"));
+  }
+
+  /**
+   * Update theme dataset and load the theme if it matches the current mode.
+   * @param el - The code editor element
+   * @param themeValue - The theme name to set
+   * @param datasetKey - The dataset key to update ("themeLight" or "themeDark")
+   * @param loadForDarkMode - Whether this theme should load when in dark mode
+   */
+  private _maybeLoadThemeForMode(
+    el: HTMLElement,
+    themeValue: string,
+    datasetKey: "themeDark" | "themeLight",
+    loadForDarkMode: boolean
+  ): void {
+    el.dataset[datasetKey] = themeValue;
+    const currentTheme = document.documentElement.getAttribute("data-bs-theme");
+    const isDark = currentTheme === "dark";
+
+    if (isDark === loadForDarkMode) {
+      const basePath = getPrismCodeEditorBasePath();
+      loadTheme(el.id, themeValue, basePath);
+    }
   }
 
   getRatePolicy(): { policy: "throttle"; delay: number } {
