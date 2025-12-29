@@ -1,9 +1,16 @@
-#' Code editor input for Shiny
+#' Code editor input
 #'
 #' @description
-#' Creates an interactive code editor input that can be used in Shiny
-#' applications. The editor provides syntax highlighting, line numbers, and
-#' other code editing features powered by Prism Code Editor.
+#' Creates an interactive light-weight code editor input that can be used in
+#' Shiny applications. The editor provides syntax highlighting, line numbers,
+#' and other basic code editing features powered by Prism Code Editor.
+#'
+#' The editor value is not sent to R on every keystroke. Instead, updates are
+#' reflected on the server when the editor loses focus or when the user presses
+#' `Ctrl/Cmd` + `Enter`.
+#'
+#' Note that this input is not designed for editing or rendering very large
+#' files; avoid displaying more than 1,000 lines of code.
 #'
 #' @section Keyboard shortcuts:
 #' The editor supports the following keyboard shortcuts:
@@ -13,14 +20,10 @@
 #' - `Tab`: Indent selection
 #' - `Shift+Tab`: Dedent selection
 #'
-#' @section Update triggers:
-#' The editor value is sent to R when:
-#' - The editor loses focus (blur event)
-#' - The user presses `Ctrl/Cmd+Enter`
-#'
 #' @section Theme switching:
 #' The editor automatically switches between `theme_light` and `theme_dark`
-#' when used with [bslib::input_dark_mode()].
+#' when used with [bslib::input_dark_mode()]. Otherwise, the editor will use
+#' `theme_light` by default.
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(shiny)
