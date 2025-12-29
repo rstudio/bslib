@@ -47,10 +47,12 @@
 #' @param value Initial code content. Default is an empty string.
 #' @param label Display label for the input. Default is `NULL` for no label.
 #' @param ... Must be empty. Prevents accidentally passing unnamed arguments.
-#' @param language Programming language for syntax highlighting. Must be one of:
-#'   `"plain"`, `"markdown"`, `"r"`, `"python"`, `"sql"`, `"julia"`,
-#'   `"javascript"`, `"html"`, `"css"`, `"json"`, `"bash"`, `"markdown"`,
-#'   `"yaml"`, `"xml"`. Default is `"plain"`.
+#' @param language Programming language for syntax highlighting. Supported
+#'   languages include `"r"`, `"python"`, `"julia"`, `"sql"`, `"javascript"`,
+#'   `"typescript"`, `"html"`, `"css"`, `"scss"`, `"sass"`, `"json"`,
+#'   `"markdown"`, `"yaml"`, `"xml"`, `"toml"`, `"ini"`, `"bash"`, `"docker"`,
+#'   `"latex"`, `"cpp"`, `"rust"`, `"diff"`, and `"plain"`. Default is
+#'   `"plain"`.
 #' @param height CSS height of the editor. Default is `"300px"`.
 #' @param width CSS width of the editor. Default is `"100%"`.
 #' @param theme_light Theme to use in light mode. See [code_editor_themes()] for
@@ -303,34 +305,35 @@ arg_match_language <- function(language, arg_name = "language") {
     return(invisible(NULL))
   }
 
-  # List of initially supported languages - these match the grammar files
-  # we've bundled from prism-code-editor
-  supported_languages <- c(
-    "markdown",
-    "plain",
-    "r",
-    "python",
-    "sql",
-    "julia",
-    "javascript",
-    "html",
-    "css",
-    "json",
-    "bash",
-    "yaml",
-    "xml",
-    "md",
-    "plaintext",
-    "text",
-    "txt"
+  # Language aliases (user-friendly names → prism grammar names)
+  language_aliases <- c(
+    "md" = "markdown",
+    "html" = "markup",
+    "plain" = "plain",
+    "plaintext" = "plain",
+    "text" = "plain",
+    "txt" = "plain"
   )
 
-  rlang::arg_match(
+  # All supported languages: bundled prism grammars + aliases
+  supported_languages <- c(
+    code_editor_bundled_languages,
+    names(language_aliases)
+  )
+
+  language <- rlang::arg_match(
     language,
     values = supported_languages,
     error_arg = arg_name,
     error_call = rlang::caller_env()
   )
+
+  # Resolve aliases to their actual grammar names
+  if (language %in% names(language_aliases)) {
+    language <- language_aliases[[language]]
+  }
+
+  language
 }
 
 check_value_line_count <- function(value) {

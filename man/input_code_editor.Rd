@@ -50,10 +50,12 @@ code_editor_themes()
 
 \item{...}{Must be empty. Prevents accidentally passing unnamed arguments.}
 
-\item{language}{Programming language for syntax highlighting. Must be one of:
-\code{"plain"}, \code{"markdown"}, \code{"r"}, \code{"python"}, \code{"sql"}, \code{"julia"},
-\code{"javascript"}, \code{"html"}, \code{"css"}, \code{"json"}, \code{"bash"}, \code{"markdown"},
-\code{"yaml"}, \code{"xml"}. Default is \code{"plain"}.}
+\item{language}{Programming language for syntax highlighting. Supported
+languages include \code{"r"}, \code{"python"}, \code{"julia"}, \code{"sql"}, \code{"javascript"},
+\code{"typescript"}, \code{"html"}, \code{"css"}, \code{"scss"}, \code{"sass"}, \code{"json"},
+\code{"markdown"}, \code{"yaml"}, \code{"xml"}, \code{"toml"}, \code{"ini"}, \code{"bash"}, \code{"docker"},
+\code{"latex"}, \code{"cpp"}, \code{"rust"}, \code{"diff"}, and \code{"plain"}. Default is
+\code{"plain"}.}
 
 \item{height}{CSS height of the editor. Default is \code{"300px"}.}
 

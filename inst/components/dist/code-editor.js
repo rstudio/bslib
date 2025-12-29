@@ -249,35 +249,40 @@ var CodeEditorInputBinding = class extends InputBinding {
     if (Object.keys(options).length > 0) {
       editor.setOptions(options);
     }
-    if (hasDefinedProperty(data, "language") && data.language !== el.dataset.language) {
-      const basePath = getPrismCodeEditorBasePath();
-      loadLanguage(data.language, basePath).then(() => {
-        el.dataset.language = data.language;
-        editor.setOptions({ language: data.language });
-        editor.update();
-      }).catch((error) => {
-        console.error(
-          `Failed to change language to '${data.language}':`,
-          error
-        );
-      });
+    if (hasDefinedProperty(data, "language") && data.language) {
+      const newLanguage = data.language;
+      if (newLanguage !== el.dataset.language) {
+        const basePath = getPrismCodeEditorBasePath();
+        loadLanguage(newLanguage, basePath).then(() => {
+          el.dataset.language = newLanguage;
+          editor.setOptions({ language: newLanguage });
+          editor.update();
+        }).catch((error) => {
+          console.error(
+            `Failed to change language to '${newLanguage}':`,
+            error
+          );
+        });
+      }
     }
-    if (hasDefinedProperty(data, "theme_light")) {
-      el.dataset.themeLight = data.theme_light;
+    if (hasDefinedProperty(data, "theme_light") && data.theme_light) {
+      const newThemeLight = data.theme_light;
+      el.dataset.themeLight = newThemeLight;
       const htmlEl = document.documentElement;
       const currentTheme = htmlEl.getAttribute("data-bs-theme");
       if (currentTheme !== "dark") {
         const basePath = getPrismCodeEditorBasePath();
-        loadTheme(el.id, data.theme_light, basePath);
+        loadTheme(el.id, newThemeLight, basePath);
       }
     }
-    if (hasDefinedProperty(data, "theme_dark")) {
-      el.dataset.themeDark = data.theme_dark;
+    if (hasDefinedProperty(data, "theme_dark") && data.theme_dark) {
+      const newThemeDark = data.theme_dark;
+      el.dataset.themeDark = newThemeDark;
       const htmlEl = document.documentElement;
       const currentTheme = htmlEl.getAttribute("data-bs-theme");
       if (currentTheme === "dark") {
         const basePath = getPrismCodeEditorBasePath();
-        loadTheme(el.id, data.theme_dark, basePath);
+        loadTheme(el.id, newThemeDark, basePath);
       }
     }
     el.dispatchEvent(new CustomEvent("codeEditorUpdate"));
