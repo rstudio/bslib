@@ -322,6 +322,83 @@ with_dir("inst/lib", {
     unlink("logo.png")
   })
 
+  # ----------------------------------------------------------------------
+  # Copy prism-code-editor files (selective copy from dist/)
+  # The full package is installed as prism-code-editor-full, and we copy
+  # only the needed files to prism-code-editor, then remove the full package
+  # ----------------------------------------------------------------------
+  unlink("prism-code-editor", recursive = TRUE)
+
+  src <- "prism-code-editor-full/dist"
+  dest <- "prism-code-editor"
+
+  # Create destination directories
+  dir.create(dest, recursive = TRUE)
+  dir.create(file.path(dest, "utils"), recursive = TRUE)
+
+  dir.create(file.path(dest, "languages"), recursive = TRUE)
+  dir.create(file.path(dest, "prism", "languages"), recursive = TRUE)
+  dir.create(file.path(dest, "extensions", "copyButton"), recursive = TRUE)
+  dir.create(file.path(dest, "themes"), recursive = TRUE)
+
+  # Copy core files (*.js and *.css from dist root)
+  core_files <- c(
+    Sys.glob(file.path(src, "*.js")),
+    Sys.glob(file.path(src, "*.css"))
+  )
+  file.copy(core_files, dest)
+
+  # Copy utils
+  file.copy(
+    Sys.glob(file.path(src, "utils", "*.js")),
+    file.path(dest, "utils")
+  )
+
+  # Copy languages
+  file.copy(
+    Sys.glob(file.path(src, "languages", "*.js")),
+    file.path(dest, "languages")
+  )
+
+  # Copy prism grammars (recursive)
+  prism_files <- list.files(
+    file.path(src, "prism", "languages"),
+    pattern = "\\.js$",
+    full.names = TRUE,
+    recursive = TRUE
+  )
+  file.copy(prism_files, file.path(dest, "prism", "languages"))
+
+  # Copy extensions
+  ext_files <- list.files(
+    file.path(src, "extensions"),
+    full.names = TRUE,
+    recursive = FALSE
+  )
+  # Copy top-level extension files
+  ext_js <- ext_files[grepl("\\.js$", ext_files)]
+  file.copy(ext_js, file.path(dest, "extensions"))
+  # Copy copyButton extension folder
+  file.copy(
+    Sys.glob(file.path(src, "extensions", "copyButton", "*")),
+    file.path(dest, "extensions", "copyButton")
+  )
+
+  # Copy themes
+  file.copy(
+    Sys.glob(file.path(src, "themes", "*.css")),
+    file.path(dest, "themes")
+  )
+
+  # Get version for tracking
+  version_prism_code_editor <<- jsonlite::fromJSON(
+    "prism-code-editor-full/package.json"
+  )$version
+
+  # Remove the full package now that we've copied what we need
+
+  unlink("prism-code-editor-full", recursive = TRUE)
+
   # GitHub reports security issues of devDependencies, but that's irrelevant to us
   remove_dev_dependencies <- function(pkg_file) {
     if (!file.exists(pkg_file)) {
@@ -351,7 +428,8 @@ writeLines(
     paste0('version_bs5 <- ', deparse(version_bs5)),
     paste0('version_bs4 <- ', deparse(version_bs4)),
     paste0('version_bs3 <- ', deparse(version_bs3)),
-    paste0('version_accessibility <- ', deparse(version_accessibility))
+    paste0('version_accessibility <- ', deparse(version_accessibility)),
+    paste0('version_prism_code_editor <- ', deparse(version_prism_code_editor))
   ),
   "R/versions.R"
 )

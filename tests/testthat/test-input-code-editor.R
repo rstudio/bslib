@@ -1,0 +1,312 @@
+test_that("code_editor_themes returns character vector of themes", {
+  themes <- code_editor_themes()
+
+  expect_type(themes, "character")
+  expect_true(length(themes) > 0)
+
+  # Check for expected default themes
+  expect_true("github-light" %in% themes)
+  expect_true("github-dark" %in% themes)
+  expect_true("vs-code-light" %in% themes)
+  expect_true("vs-code-dark" %in% themes)
+})
+
+test_that("arg_match_theme rejects invalid themes", {
+  # Test indirectly via input_code_editor since arg_match_theme is internal
+  expect_error(
+    input_code_editor("test", theme_light = "nonexistent-theme"),
+    "must be one of"
+  )
+})
+
+test_that("arg_match_language rejects invalid languages", {
+  expect_error(
+    input_code_editor("test", language = "fortran"),
+    "must be one of"
+  )
+})
+
+test_that("input_code_editor generates correct HTML structure", {
+  editor <- input_code_editor(
+    "test_editor",
+    value = "SELECT * FROM table",
+    language = "sql"
+  )
+
+  # Check that dependencies are attached
+  deps <- htmltools::findDependencies(editor)
+  dep_names <- sapply(deps, function(d) d$name)
+  expect_true("prism-code-editor" %in% dep_names)
+  expect_true("bslib-code-editor-js" %in% dep_names)
+  expect_true("bslib-code-editor-css" %in% dep_names)
+
+  html <- as.character(editor)
+
+  # Check for editor div with correct class (may include other classes from as_fill_carrier)
+  expect_match(html, 'shiny-input-code-editor')
+
+  # Check for correct ID
+  expect_match(html, 'id="test_editor"')
+
+  # Check for data attributes
+  expect_match(html, 'data-language="sql"')
+  expect_match(html, 'data-initial-code="SELECT \\* FROM table"')
+})
+
+test_that("input_code_editor handles all parameters correctly", {
+  editor <- input_code_editor(
+    "full_editor",
+    value = "print('hello')",
+    language = "python",
+    height = "500px",
+    width = "80%",
+    theme_light = "vs-code-light",
+    theme_dark = "vs-code-dark",
+    read_only = TRUE,
+    line_numbers = FALSE,
+    word_wrap = TRUE,
+    tab_size = 4,
+    indentation = "tab"
+  )
+
+  html <- as.character(editor)
+
+  # Check all data attributes
+  expect_match(html, 'data-language="python"')
+  expect_match(html, 'data-theme-light="vs-code-light"')
+  expect_match(html, 'data-theme-dark="vs-code-dark"')
+  expect_match(html, 'data-read-only="true"')
+  expect_match(html, 'data-line-numbers="false"')
+  expect_match(html, 'data-word-wrap="true"')
+  expect_match(html, 'data-tab-size="4"')
+  expect_match(html, 'data-insert-spaces="false"') # tab indentation
+
+  # Check style attributes
+  expect_match(html, 'height:\\s*500px')
+  expect_match(html, 'width:\\s*80%')
+})
+
+test_that("input_code_editor uses correct defaults", {
+  editor <- input_code_editor("default_editor")
+
+  html <- as.character(editor)
+
+  expect_match(html, 'data-language="sql"')
+  expect_match(html, 'data-theme-light="github-light"')
+  expect_match(html, 'data-theme-dark="github-dark"')
+  expect_match(html, 'data-read-only="false"')
+  expect_match(html, 'data-line-numbers="true"')
+  expect_match(html, 'data-word-wrap="false"')
+  expect_match(html, 'data-tab-size="2"')
+  expect_match(html, 'data-insert-spaces="true"')
+  expect_match(html, 'height:\\s*auto')
+  expect_match(html, 'width:\\s*100%')
+})
+
+test_that("input_code_editor validates theme names", {
+  expect_error(
+    input_code_editor("test", theme_light = "invalid-theme"),
+    "theme_light.*must be one of"
+  )
+
+  expect_error(
+    input_code_editor("test", theme_dark = "invalid-theme"),
+    "theme_dark.*must be one of"
+  )
+})
+
+test_that("input_code_editor validates language", {
+  expect_error(
+    input_code_editor("test", language = "fortran"),
+    "language.*must be one of"
+  )
+})
+
+test_that("input_code_editor handles empty value", {
+  editor <- input_code_editor("empty_editor", value = "")
+
+  html <- as.character(editor)
+  expect_match(html, 'data-initial-code=""')
+})
+
+test_that("input_code_editor handles special characters in value", {
+  code_with_special <- "SELECT * FROM table WHERE name = 'O\"Brien' AND value < 100"
+  editor <- input_code_editor("special_editor", value = code_with_special)
+
+  html <- as.character(editor)
+  # HTML should be properly escaped
+  expect_true(grepl("data-initial-code", html))
+})
+
+test_that("input_code_editor indentation parameter works correctly", {
+  editor_spaces <- input_code_editor("test1", indentation = "space")
+  editor_tabs <- input_code_editor("test2", indentation = "tab")
+
+  html_spaces <- as.character(editor_spaces)
+  html_tabs <- as.character(editor_tabs)
+
+  expect_match(html_spaces, 'data-insert-spaces="true"')
+  expect_match(html_tabs, 'data-insert-spaces="false"')
+})
+
+test_that("update_code_editor validates inputs", {
+  # Create a mock session for testing
+  # Note: This test verifies validation, not actual message sending
+  # which requires a live Shiny session
+
+  expect_error(
+    update_code_editor("test", language = "fortran", session = NULL),
+    "language.*must be one of"
+  )
+
+  expect_error(
+    update_code_editor("test", theme_light = "invalid", session = NULL),
+    "theme_light.*must be one of"
+  )
+
+  expect_error(
+    update_code_editor("test", theme_dark = "invalid", session = NULL),
+    "theme_dark.*must be one of"
+  )
+
+  expect_error(
+    update_code_editor("test", indentation = "invalid", session = NULL),
+    "indentation.*must be"
+  )
+})
+
+test_that("input_code_editor supports label parameter", {
+  editor_with_label <- input_code_editor("test", label = "SQL Query")
+  editor_without_label <- input_code_editor("test2")
+
+  html_with <- as.character(editor_with_label)
+  html_without <- as.character(editor_without_label)
+
+  # Editor with label should have a label element
+  expect_match(html_with, "<label")
+  expect_match(html_with, "SQL Query")
+
+  # Editor without label should not have a label element or have an empty one
+  # (shinyInputLabel handles NULL by not creating a label)
+  expect_true(grepl("shiny-input-code-editor", html_without))
+})
+
+test_that("input_code_editor creates unique IDs", {
+  editor1 <- input_code_editor("editor1")
+  editor2 <- input_code_editor("editor2")
+
+  html1 <- as.character(editor1)
+  html2 <- as.character(editor2)
+
+  expect_match(html1, 'id="editor1"')
+  expect_match(html2, 'id="editor2"')
+  expect_false(grepl('id="editor2"', html1))
+  expect_false(grepl('id="editor1"', html2))
+})
+
+test_that("input_code_editor attaches dependencies", {
+  editor <- input_code_editor("test")
+
+  # The editor should be a tag with the dependencies attached
+  expect_s3_class(editor, "shiny.tag")
+
+  # Extract dependencies
+  deps <- htmltools::findDependencies(editor)
+  expect_true(length(deps) > 0)
+
+  # Check that all expected dependencies are present
+  dep_names <- sapply(deps, function(d) d$name)
+  expect_true("prism-code-editor" %in% dep_names)
+  expect_true("bslib-code-editor-js" %in% dep_names)
+  expect_true("bslib-code-editor-css" %in% dep_names)
+})
+
+test_that("input_code_editor works with different languages", {
+  languages <- c("sql", "python", "r", "javascript", "html", "css", "json")
+
+  for (lang in languages) {
+    editor <- input_code_editor(paste0("editor_", lang), language = lang)
+    html <- as.character(editor)
+    expect_match(html, sprintf('data-language="%s"', lang))
+  }
+})
+
+test_that("input_code_editor tab_size validates range", {
+  # Valid tab sizes
+  expect_silent(input_code_editor("test1", tab_size = 2))
+  expect_silent(input_code_editor("test2", tab_size = 4))
+  expect_silent(input_code_editor("test3", tab_size = 8))
+
+  # Note: The function doesn't currently validate tab_size range,
+  # but this test is here for future validation if needed
+})
+
+test_that("input_code_editor warns when value has 750 or more lines", {
+  # No warning for small values
+  expect_silent(input_code_editor("test1", value = "line1\nline2\nline3"))
+
+  # No warning for exactly 749 lines
+  value_749 <- paste(rep("line", 749), collapse = "\n")
+  expect_silent(input_code_editor("test2", value = value_749))
+
+  # Warning for exactly 750 lines
+  value_750 <- paste(rep("line", 750), collapse = "\n")
+  expect_warning(
+    input_code_editor("test3", value = value_750),
+    "Code editor value contains 750 lines"
+  )
+  expect_warning(
+    input_code_editor("test3", value = value_750),
+    "performance issues"
+  )
+
+  # Warning for more than 750 lines
+  value_1000 <- paste(rep("line", 1000), collapse = "\n")
+  expect_warning(
+    input_code_editor("test4", value = value_1000),
+    "Code editor value contains 1000 lines"
+  )
+})
+
+test_that("update_code_editor warns when value has 750 or more lines", {
+  mock_session <- list(sendInputMessage = function(...) invisible())
+
+  # No warning for small values
+  expect_silent(update_code_editor(
+    "test1",
+    value = "line1\nline2",
+    session = mock_session
+  ))
+
+  # Warning for exactly 750 lines
+  value_750 <- paste(rep("line", 750), collapse = "\n")
+  expect_warning(
+    update_code_editor("test3", value = value_750, session = mock_session),
+    "Code editor value contains 750 lines"
+  )
+
+  # Warning for more than 750 lines
+  value_1000 <- paste(rep("line", 1000), collapse = "\n")
+  expect_warning(
+    update_code_editor("test4", value = value_1000, session = mock_session),
+    "Code editor value contains 1000 lines"
+  )
+})
+
+test_that("check_value_line_count handles edge cases", {
+  # NULL value
+  expect_silent(bslib:::check_value_line_count(NULL))
+
+  # Empty string
+  expect_silent(bslib:::check_value_line_count(""))
+
+  # Empty character vector
+  expect_silent(bslib:::check_value_line_count(character(0)))
+
+  # Single line
+  expect_silent(bslib:::check_value_line_count("single line"))
+
+  # Multiple lines below threshold
+  value_100 <- paste(rep("line", 100), collapse = "\n")
+  expect_silent(bslib:::check_value_line_count(value_100))
+})

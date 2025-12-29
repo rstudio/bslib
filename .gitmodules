@@ -1,0 +1,3 @@
+[submodule "querychat"]
+	path = querychat
+	url = https://github.com/posit-dev/querychat.git

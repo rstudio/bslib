@@ -47,6 +47,7 @@ or dark color mode.
 }}
 \seealso{
 Other input controls: 
+\code{\link{input_code_editor}()},
 \code{\link{input_switch}()}
 }
 \concept{input controls}

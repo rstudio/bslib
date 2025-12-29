@@ -28,4 +28,17 @@ for (const minified of [true, false]) {
     outfile: `inst/components/dist/web-components${minified ? ".min" : ""}.js`,
     minify: minified,
   });
+
+  // Code editor bundle (separate from main components for lazy loading).
+  // Uses ESM format because codeEditor.ts dynamically imports prism-code-editor
+  // modules at runtime for language grammars and themes. This keeps the main
+  // bslib bundle small while loading editor features on-demand.
+  // See codeEditor.ts header comment for related tsconfig requirements.
+  build({
+    ...opts,
+    entryPoints: ["srcts/src/components/codeEditor.ts"],
+    outfile: `inst/components/dist/code-editor${minified ? ".min" : ""}.js`,
+    minify: minified,
+    format: "esm",
+  });
 }
