@@ -17,10 +17,15 @@ const InputBinding = (
 
 function registerBinding(
   inputBindingClass: new () => InputBindingType,
-  name: string
+  name: string,
+  priority?: number
 ): void {
   if (Shiny) {
-    Shiny.inputBindings.register(new inputBindingClass(), "bslib." + name);
+    Shiny.inputBindings.register(
+      new inputBindingClass(),
+      "bslib." + name,
+      priority
+    );
   }
 }
 

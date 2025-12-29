@@ -6,6 +6,7 @@ import "./card";
 import "./sidebar";
 import "./taskButton";
 import "./toolbarInputButton";
+import "./toolbarInputSelect";
 import "./submitTextArea";
 import "./toast";
 

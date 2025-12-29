@@ -250,27 +250,31 @@ toolbar_input_select <- function(
   choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
   choices <- choicesWithNames(choices)
 
+  # Use a unique ID for the select element to avoid conflicts with standard
+  # select binding. The wrapper will have the main ID that Shiny uses.
+  select_internal_id <- paste0(id, "-select")
+
   select_tag <- tags$select(
-    id = id,
-    class = "form-select form-select-sm",
-    selectOptions(choices, selected, inputId = id)
+    id = select_internal_id,
+    class = "form-select form-select-sm bslib-toolbar-select",
+    selectOptions(choices, selected, inputId = select_internal_id)
   )
 
   # Add optional icon before the select
   icon_elem <- span(
-    icon,
-    style = "pointer-events: none",
     class = "bslib-toolbar-icon",
     `aria-hidden` = "true",
+    style = "pointer-events: none",
     `role` = "none",
-    tabindex = "-1"
+    tabindex = "-1",
+    icon
   )
 
   label_elem <- tags$label(
     # shiny::selectInput() append `-label` to id for the label `for` attribute
     id = sprintf("%s-label", id),
     class = "control-label",
-    `for` = id,
+    `for` = select_internal_id,
     icon_elem,
     tags$span(
       class = "bslib-toolbar-label",
@@ -296,11 +300,119 @@ toolbar_input_select <- function(
   }
 
   div(
+    id = id,
     class = "bslib-toolbar-input-select shiny-input-container",
     !!!dots$attribs,
     label_elem,
     select_tag
   )
+}
+
+#' Update toolbar select input
+#'
+#' @description
+#' Change the value or appearance of a toolbar select input on the client.
+#'
+#' @rdname toolbar_input_select
+#' @inheritParams toolbar_input_select
+#' @param selected The new selected value(s). If `NULL`, the selection is not changed.
+#' @param session The `session` object passed to function given to `shinyServer`.
+#'   Default is `getDefaultReactiveDomain()`.
+#'
+#' @details
+#' This update function works similarly to [shiny::updateSelectInput()], but
+#' is specifically designed for [toolbar_input_select()]. It allows you to
+#' update the select's label, icon, choices, selected value(s), and label
+#' visibility from the server.
+#'
+#' Note that you cannot change the `tooltip` parameter after the select has
+#' been created, as it affects the structure and ARIA attributes.
+#'
+#' @examplesIf interactive()
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   toolbar(
+#'     align = "right",
+#'     toolbar_input_select(
+#'       "select",
+#'       label = "Choose",
+#'       choices = c("A", "B", "C")
+#'     )
+#'   ),
+#'   verbatimTextOutput("value")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$value <- renderPrint({
+#'     input$select
+#'   })
+#'
+#'   observeEvent(input$select, {
+#'     if (input$select == "A") {
+#'       update_toolbar_input_select(
+#'         "select",
+#'         label = "Pick one",
+#'         choices = c("X", "Y", "Z"),
+#'         selected = "Y"
+#'       )
+#'     }
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+#' @seealso [toolbar_input_select()], [shiny::updateSelectInput()]
+#' @export
+update_toolbar_input_select <- function(
+  id,
+  label = NULL,
+  show_label = NULL,
+  choices = NULL,
+  selected = NULL,
+  icon = NULL,
+  session = get_current_session()
+) {
+  # Process label
+  label_processed <- if (!is.null(label)) {
+    processDeps(label, session)
+  } else {
+    NULL
+  }
+
+  # Process icon
+  icon_processed <- if (!is.null(icon)) {
+    processDeps(validateIcon(icon), session)
+  } else {
+    NULL
+  }
+
+  # Process choices - reuse the selectOptions helper
+  choices_processed <- if (!is.null(choices)) {
+    # Normalize choices using util function imported from Shiny
+    choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
+    choices <- choicesWithNames(choices)
+
+    # Generate the options HTML
+    options_html <- selectOptions(choices, selected, inputId = id)
+
+    list(
+      options = as.character(options_html),
+      selected = selected
+    )
+  } else {
+    NULL
+  }
+
+  message <- dropNulls(list(
+    label = label_processed,
+    showLabel = show_label,
+    icon = icon_processed,
+    choices = choices_processed
+  ))
+
+  session$sendInputMessage(id, message)
 }
 
 # This function was copied from shiny's `input-select.R` with a small change
