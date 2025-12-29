@@ -222,7 +222,7 @@ test_that("input_code_editor attaches dependencies", {
 })
 
 test_that("input_code_editor works with different languages", {
-  languages <- c("sql", "python", "r", "javascript", "html", "css", "json")
+  languages <- c("sql", "python", "r", "javascript", "markup", "css", "json")
 
   for (lang in languages) {
     editor <- input_code_editor(paste0("editor_", lang), language = lang)
