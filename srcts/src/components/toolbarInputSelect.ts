@@ -28,7 +28,6 @@ class BslibToolbarInputSelectBinding extends InputBinding {
 
   constructor() {
     super();
-    console.log("[toolbar-input-select] Binding constructor called");
     // Get reference to Shiny's standard select input binding
     if (Shiny?.inputBindings) {
       const bindings = Shiny.inputBindings.bindingNames;
@@ -42,13 +41,7 @@ class BslibToolbarInputSelectBinding extends InputBinding {
   }
 
   find(scope: HTMLElement) {
-    const found = $(scope).find(".bslib-toolbar-input-select");
-    console.log(
-      "[toolbar-input-select] find() called, found:",
-      found.length,
-      "elements"
-    );
-    return found;
+    return $(scope).find(".bslib-toolbar-input-select");
   }
 
   getId(el: HTMLElement): string {
@@ -96,16 +89,6 @@ class BslibToolbarInputSelectBinding extends InputBinding {
     // el is the wrapper div with class .bslib-toolbar-input-select
     const selectEl = el.querySelector("select");
 
-    console.log("[toolbar-input-select] receiveMessage called", {
-      el,
-      message,
-      hasIcon: hasDefinedProperty(message, "icon"),
-      iconValue: message.icon,
-      elClasses: el.className,
-      elId: el.id,
-      selectId: selectEl?.id,
-    });
-
     // Update label
     if (hasDefinedProperty(message, "label")) {
       const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
@@ -129,32 +112,8 @@ class BslibToolbarInputSelectBinding extends InputBinding {
     // Update icon
     if (hasDefinedProperty(message, "icon")) {
       const iconEl = el.querySelector(".bslib-toolbar-icon") as HTMLElement;
-      console.log("[toolbar-input-select] Updating icon", {
-        iconEl,
-        iconElExists: !!iconEl,
-        iconValue: message.icon,
-        iconElInnerHTML: iconEl?.innerHTML,
-        elOuterHTML: el.outerHTML.substring(0, 200),
-        checkIconEl: !!iconEl,
-        checkMessageIcon: message.icon !== undefined,
-        messageIconType: typeof message.icon,
-      });
       if (iconEl && message.icon !== undefined) {
-        console.log("[toolbar-input-select] Before shinyRenderContent:", {
-          iconElInnerHTML: iconEl.innerHTML,
-          messageIcon: message.icon,
-        });
         await shinyRenderContent(iconEl, message.icon);
-        console.log("[toolbar-input-select] After shinyRenderContent:", {
-          iconElInnerHTML: iconEl.innerHTML,
-        });
-        console.log("[toolbar-input-select] Icon updated successfully");
-      } else {
-        console.warn("[toolbar-input-select] Condition failed:", {
-          iconElExists: !!iconEl,
-          messageIconUndefined: message.icon === undefined,
-          messageIcon: message.icon,
-        });
       }
     }
 
