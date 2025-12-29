@@ -1,4 +1,4 @@
-# Application Configuration Example
+# Application Configuration
 app:
   name: "MyApplication"
   version: 1.2.3

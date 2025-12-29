@@ -1,4 +1,3 @@
-// Example Rust code showcasing syntax highlighting features
 use std::collections::HashMap;
 use std::fmt;
 

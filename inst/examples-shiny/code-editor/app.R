@@ -26,6 +26,7 @@ ui <- page_sidebar(
       "Language:",
       choices = c(
         "plain",
+        "html",
         bslib:::code_editor_bundled_languages
       ),
       selected = "r"

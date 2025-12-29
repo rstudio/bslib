@@ -1,5 +1,3 @@
-// TypeScript Example: Advanced Patterns and Language Features
-
 enum UserRole {
   Admin = "admin",
   Editor = "editor",

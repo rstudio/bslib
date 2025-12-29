@@ -2,8 +2,8 @@
 <?xml-stylesheet type="text/xsl" href="config.xsl"?>
 <!-- Application Configuration File -->
 <configuration xmlns="http://example.com/config/1.0"
-               xmlns:app="http://example.com/app"
-               version="2.1">
+  xmlns:app="http://example.com/app"
+  version="2.1">
 
   <database>
     <connection app:name="primary">
@@ -23,7 +23,7 @@
       <endpoint>https://api.example.com/auth</endpoint>
       <timeout unit="seconds">30</timeout>
       <!-- Load balancing enabled for high availability -->
-      <loadBalancing strategy="round-robin"/>
+      <loadBalancing strategy="round-robin" />
     </service>
     <service id="cache-service" enabled="false">
       <endpoint>redis://cache.example.com:6379</endpoint>
