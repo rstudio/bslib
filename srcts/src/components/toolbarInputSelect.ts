@@ -184,6 +184,4 @@ class BslibToolbarInputSelectBinding extends InputBinding {
   }
 }
 
-// Register with higher priority (lower number = higher priority) than the
-// default select binding (priority 50) so we claim toolbar selects first
-registerBinding(BslibToolbarInputSelectBinding, "toolbar-input-select", 40);
+registerBinding(BslibToolbarInputSelectBinding, "toolbar-input-select");
