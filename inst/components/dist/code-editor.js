@@ -29,6 +29,17 @@ function registerBinding(inputBindingClass, name) {
     Shiny.inputBindings.register(new inputBindingClass(), "bslib." + name);
   }
 }
+function showShinyClientMessage({
+  headline = "",
+  message,
+  status = "warning"
+}) {
+  document.dispatchEvent(
+    new CustomEvent("shiny:client-message", {
+      detail: { headline, message, status }
+    })
+  );
+}
 function hasDefinedProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop) && obj[prop] !== void 0;
 }
@@ -74,39 +85,38 @@ function loadLanguage(language, basePath) {
     if (language === "html") {
       languageToLoad = "markup";
     }
-    try {
-      yield import(`${basePath}/prism/languages/${languageToLoad}.js`);
-      loadedLanguages.add(language);
-    } catch (error) {
-      console.error(`Failed to load language '${language}':`, error);
-      throw error;
-    }
+    yield import(`${basePath}/prism/languages/${languageToLoad}.js`);
+    loadedLanguages.add(language);
   });
 }
-function loadTheme(inputId, themeName, basePath) {
-  const linkId = `code-editor-theme-${inputId}`;
-  const existingLink = document.getElementById(linkId);
+var loadedThemes = /* @__PURE__ */ new Set();
+function loadTheme(themeName, basePath) {
+  if (loadedThemes.has(themeName)) {
+    return;
+  }
+  const linkId = `code-editor-theme-${themeName}`;
+  if (document.getElementById(linkId)) {
+    loadedThemes.add(themeName);
+    return;
+  }
   const newLink = document.createElement("link");
   newLink.id = linkId;
   newLink.rel = "stylesheet";
   newLink.href = `${basePath}/themes/${themeName}.css`;
-  const cleanup = () => {
-    existingLink == null ? void 0 : existingLink.remove();
-  };
-  newLink.addEventListener("load", cleanup);
+  newLink.addEventListener("load", () => {
+    loadedThemes.add(themeName);
+  });
   newLink.addEventListener("error", () => {
     console.error(`Failed to load code editor theme: ${themeName}`);
-    cleanup();
   });
   document.head.appendChild(newLink);
 }
 function setupThemeWatcher(el, themeLight, themeDark, basePath) {
-  const inputId = el.id;
   const updateTheme = () => {
     const htmlEl = document.documentElement;
     const theme = htmlEl.getAttribute("data-bs-theme");
     const themeName = theme === "dark" ? el.dataset.themeDark || themeDark : el.dataset.themeLight || themeLight;
-    loadTheme(inputId, themeName, basePath);
+    loadTheme(themeName, basePath);
   };
   updateTheme();
   const observer = new MutationObserver(() => updateTheme());
@@ -123,9 +133,11 @@ function initializeEditor(el) {
     }
     const editorContainer = el.querySelector(".code-editor");
     if (!editorContainer) {
-      console.error(
-        "Could not find .code-editor inside .shiny-input-code-editor"
-      );
+      showShinyClientMessage({
+        headline: "Code Editor Initialization Error",
+        message: "Expected to find `.code-editor` inside `.shiny-input-code-editor` container element.",
+        status: "error"
+      });
       return;
     }
     const language = el.dataset.language || DEFAULT_LANGUAGE;
@@ -207,6 +219,11 @@ var CodeEditorInputBinding = class extends InputBinding {
     codeEl.isInitialized.then(() => {
       callback(false);
     }).catch((error) => {
+      showShinyClientMessage({
+        headline: "Code Editor Initialization Error",
+        message: "An error occurred while initializing the code editor. See console for details.",
+        status: "error"
+      });
       console.error("Failed to initialize code editor:", error);
     });
     const updateCallback = () => callback(true);
@@ -214,7 +231,6 @@ var CodeEditorInputBinding = class extends InputBinding {
     codeEl.codeEditorUpdateCallback = updateCallback;
   }
   unsubscribe(el) {
-    var _a;
     const codeEl = el;
     const updateCallback = codeEl.codeEditorUpdateCallback;
     if (updateCallback) {
@@ -225,8 +241,6 @@ var CodeEditorInputBinding = class extends InputBinding {
       codeEl.darkLightObserver.disconnect();
       delete codeEl.darkLightObserver;
     }
-    const linkId = `code-editor-theme-${el.id}`;
-    (_a = document.getElementById(linkId)) == null ? void 0 : _a.remove();
   }
   receiveMessage(el, data) {
     return __async(this, null, function* () {
@@ -236,7 +250,11 @@ var CodeEditorInputBinding = class extends InputBinding {
       }
       const editor = codeEl.prismEditor;
       if (!editor) {
-        console.warn("Cannot update code editor: editor not initialized");
+        showShinyClientMessage({
+          headline: "Code Editor could not update",
+          message: "An update was ignored because the editor is not yet initialized.",
+          status: "warning"
+        });
         return;
       }
       const options = {};
@@ -271,10 +289,11 @@ var CodeEditorInputBinding = class extends InputBinding {
             editor.setOptions({ language: newLanguage });
             editor.update();
           } catch (error) {
-            console.error(
-              `Failed to change language to '${newLanguage}':`,
-              error
-            );
+            showShinyClientMessage({
+              headline: "Code Editor Language Load Error",
+              message: `Failed to load language '${newLanguage}'. See console for details.`,
+              status: "error"
+            });
           }
         }
       }
@@ -300,7 +319,7 @@ var CodeEditorInputBinding = class extends InputBinding {
     const isDark = currentTheme === "dark";
     if (isDark === loadForDarkMode) {
       const basePath = getPrismCodeEditorBasePath();
-      loadTheme(el.id, themeValue, basePath);
+      loadTheme(themeValue, basePath);
     }
   }
   getRatePolicy() {

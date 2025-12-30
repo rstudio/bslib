@@ -15,7 +15,12 @@
  */
 
 import type { InputSubscribeCallback } from "rstudio-shiny/srcts/types/src/bindings/input/inputBinding";
-import { registerBinding, InputBinding, hasDefinedProperty } from "./_utils";
+import {
+  registerBinding,
+  InputBinding,
+  hasDefinedProperty,
+  showShinyClientMessage,
+} from "./_utils";
 
 // Default values - should match R defaults in input-code-editor.R
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -145,37 +150,40 @@ async function loadLanguage(language: string, basePath: string): Promise<void> {
   if (language === "html") {
     languageToLoad = "markup";
   }
-  try {
-    await import(`${basePath}/prism/languages/${languageToLoad}.js`);
-    loadedLanguages.add(language);
-  } catch (error) {
-    console.error(`Failed to load language '${language}':`, error);
-    throw error;
-  }
+  await import(`${basePath}/prism/languages/${languageToLoad}.js`);
+  loadedLanguages.add(language);
 }
+
+// Track which themes have been loaded to avoid duplicate stylesheets
+const loadedThemes = new Set<string>();
 
 /**
  * Load a theme stylesheet for the code editor.
- * Handles cleanup of old themes and error cases.
+ * Themes are loaded once and never unloaded (they're small and shared across editors).
  */
-function loadTheme(inputId: string, themeName: string, basePath: string): void {
-  const linkId = `code-editor-theme-${inputId}`;
-  const existingLink = document.getElementById(linkId);
+function loadTheme(themeName: string, basePath: string): void {
+  if (loadedThemes.has(themeName)) {
+    return;
+  }
+
+  const linkId = `code-editor-theme-${themeName}`;
+  if (document.getElementById(linkId)) {
+    // Already in DOM (e.g., from a previous session)
+    loadedThemes.add(themeName);
+    return;
+  }
 
   const newLink = document.createElement("link");
   newLink.id = linkId;
   newLink.rel = "stylesheet";
   newLink.href = `${basePath}/themes/${themeName}.css`;
 
-  // Clean up existing link after new one loads (or on error to prevent accumulation)
-  const cleanup = (): void => {
-    existingLink?.remove();
-  };
+  newLink.addEventListener("load", () => {
+    loadedThemes.add(themeName);
+  });
 
-  newLink.addEventListener("load", cleanup);
   newLink.addEventListener("error", () => {
     console.error(`Failed to load code editor theme: ${themeName}`);
-    cleanup();
   });
 
   document.head.appendChild(newLink);
@@ -187,7 +195,6 @@ function setupThemeWatcher(
   themeDark: string,
   basePath: string
 ): void {
-  const inputId = el.id;
   const updateTheme = (): void => {
     const htmlEl = document.documentElement;
     const theme = htmlEl.getAttribute("data-bs-theme");
@@ -195,7 +202,7 @@ function setupThemeWatcher(
       theme === "dark"
         ? el.dataset.themeDark || themeDark
         : el.dataset.themeLight || themeLight;
-    loadTheme(inputId, themeName, basePath);
+    loadTheme(themeName, basePath);
   };
   updateTheme();
 
@@ -216,9 +223,12 @@ async function initializeEditor(
   }
   const editorContainer = el.querySelector(".code-editor");
   if (!editorContainer) {
-    console.error(
-      "Could not find .code-editor inside .shiny-input-code-editor"
-    );
+    showShinyClientMessage({
+      headline: "Code Editor Initialization Error",
+      message:
+        "Expected to find `.code-editor` inside `.shiny-input-code-editor` container element.",
+      status: "error",
+    });
     return;
   }
   const language = el.dataset.language || DEFAULT_LANGUAGE;
@@ -325,6 +335,12 @@ class CodeEditorInputBinding extends InputBinding {
         callback(false);
       })
       .catch((error) => {
+        showShinyClientMessage({
+          headline: "Code Editor Initialization Error",
+          message:
+            "An error occurred while initializing the code editor. See console for details.",
+          status: "error",
+        });
         console.error("Failed to initialize code editor:", error);
       });
 
@@ -349,9 +365,8 @@ class CodeEditorInputBinding extends InputBinding {
       delete codeEl.darkLightObserver;
     }
 
-    // Clean up theme stylesheet to prevent memory leaks
-    const linkId = `code-editor-theme-${el.id}`;
-    document.getElementById(linkId)?.remove();
+    // Note: Theme stylesheets are intentionally not removed.
+    // They're small, shared across editors, and removing them causes issues.
   }
 
   async receiveMessage(
@@ -367,7 +382,12 @@ class CodeEditorInputBinding extends InputBinding {
 
     const editor = codeEl.prismEditor;
     if (!editor) {
-      console.warn("Cannot update code editor: editor not initialized");
+      showShinyClientMessage({
+        headline: "Code Editor could not update",
+        message:
+          "An update was ignored because the editor is not yet initialized.",
+        status: "warning",
+      });
       return;
     }
 
@@ -406,10 +426,11 @@ class CodeEditorInputBinding extends InputBinding {
           editor.setOptions({ language: newLanguage });
           editor.update();
         } catch (error) {
-          console.error(
-            `Failed to change language to '${newLanguage}':`,
-            error
-          );
+          showShinyClientMessage({
+            headline: "Code Editor Language Load Error",
+            message: `Failed to load language '${newLanguage}'. See console for details.`,
+            status: "error",
+          });
         }
       }
     }
@@ -444,7 +465,7 @@ class CodeEditorInputBinding extends InputBinding {
 
     if (isDark === loadForDarkMode) {
       const basePath = getPrismCodeEditorBasePath();
-      loadTheme(el.id, themeValue, basePath);
+      loadTheme(themeValue, basePath);
     }
   }
 
