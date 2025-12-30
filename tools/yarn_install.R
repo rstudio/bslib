@@ -373,10 +373,17 @@ with_dir("inst/lib", {
   dir.create(file.path(dest, "themes"), recursive = TRUE)
 
   # Copy core files (*.js and *.css from dist root)
+  # Exclude theme JS files - we use the CSS files in themes/ instead.
+  # Theme JS files match pattern: <theme-name>.js or <theme-name>-<hash>.js
+  # fmt: skip
+  theme_names <- sub("\\.css$", "", basename(Sys.glob(file.path(src, "themes", "*.css"))))
+  # fmt: skip
+  theme_js_pattern <- sprintf("^(%s)(-[^.]+)?\\.js$", paste(theme_names, collapse = "|"))
   core_files <- c(
     Sys.glob(file.path(src, "*.js")),
     Sys.glob(file.path(src, "*.css"))
   )
+  core_files <- core_files[!grepl(theme_js_pattern, basename(core_files))]
   file.copy(core_files, dest)
 
   # Copy utils
