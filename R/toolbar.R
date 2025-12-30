@@ -266,7 +266,6 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
   value
 }
 
-
 #' Toolbar Input Select
 #'
 #' @description
@@ -414,11 +413,11 @@ toolbar_input_select <- function(
 #' Update toolbar select input
 #'
 #' @description
-#' Change the value or appearance of a toolbar select input on the client.
+#' Change the value or appearance of a toolbar select input.
 #'
 #' @rdname toolbar_input_select
 #' @inheritParams toolbar_input_select
-#' @param selected The new selected value(s). If `NULL`, the selection is not changed.
+#' @param selected The new selected value. If `NULL`, the selection is not changed.
 #' @param session The `session` object passed to function given to `shinyServer`.
 #'   Default is `getDefaultReactiveDomain()`.
 #'
@@ -492,18 +491,23 @@ update_toolbar_input_select <- function(
   }
 
   # Process choices - reuse the selectOptions helper
+  # Follow Shiny's pattern: choices and selected are handled separately
   choices_processed <- if (!is.null(choices)) {
     # Normalize choices using util function imported from Shiny
     choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
     choices <- choicesWithNames(choices)
 
-    # Generate the options HTML
+    # Generate the options HTML (selected will be marked in the HTML if provided)
     options_html <- selectOptions(choices, selected, inputId = id)
 
-    list(
-      options = as.character(options_html),
-      selected = selected
-    )
+    as.character(options_html)
+  } else {
+    NULL
+  }
+
+  # Convert selected to character if provided (following Shiny's pattern)
+  selected_processed <- if (!is.null(selected)) {
+    as.character(selected)
   } else {
     NULL
   }
@@ -512,7 +516,8 @@ update_toolbar_input_select <- function(
     label = label_processed,
     showLabel = show_label,
     icon = icon_processed,
-    choices = choices_processed
+    options = choices_processed,
+    value = selected_processed
   ))
 
   session$sendInputMessage(id, message)

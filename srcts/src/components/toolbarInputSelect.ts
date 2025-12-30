@@ -11,7 +11,8 @@ import type { HtmlDep } from "./_utils";
 type ToolbarInputSelectMessage = {
   label?: string | { html: string; deps: HtmlDep[] };
   showLabel?: boolean;
-  choices?: { options: string; selected?: string[] | string };
+  options?: string;
+  value?: string;
   icon?: string | { html: string; deps: HtmlDep[] };
 };
 
@@ -117,25 +118,18 @@ class BslibToolbarInputSelectBinding extends InputBinding {
       }
     }
 
-    // Update choices
-    if (hasDefinedProperty(message, "choices") && selectEl) {
-      const choices = message.choices;
-      if (choices && choices.options) {
+    // Update choices (options HTML)
+    if (hasDefinedProperty(message, "options") && selectEl) {
+      if (message.options) {
         // Replace the select options with new HTML
-        selectEl.innerHTML = choices.options;
+        selectEl.innerHTML = message.options;
+      }
+    }
 
-        // Set the selected value(s) if provided
-        if (choices.selected !== undefined) {
-          const selected = choices.selected;
-          if (Array.isArray(selected)) {
-            Array.from(selectEl.options).forEach((opt) => {
-              opt.selected = selected.includes(opt.value);
-            });
-          } else {
-            selectEl.value = selected;
-          }
-        }
-
+    // Update selected value
+    if (hasDefinedProperty(message, "value") && selectEl) {
+      if (message.value !== undefined) {
+        selectEl.value = message.value;
         // Trigger change event to notify Shiny of the value change
         $(selectEl).trigger("change");
       }
