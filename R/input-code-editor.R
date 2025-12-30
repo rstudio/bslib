@@ -49,7 +49,8 @@
 #' @param id Input ID. Access the current value with `input$<id>`.
 #' @param value Initial code content. Default is an empty string.
 #' @param label Display label for the input. Default is `NULL` for no label.
-#' @param ... Must be empty. Prevents accidentally passing unnamed arguments.
+#' @param ... Named arguments, e.g. `class` and `style`, that will be added to
+#'   the outer container of the input.
 #' @param language Programming language for syntax highlighting. Supported
 #'   languages include `"r"`, `"python"`, `"julia"`, `"sql"`, `"javascript"`,
 #'   `"typescript"`, `"html"`, `"css"`, `"scss"`, `"sass"`, `"json"`,
@@ -93,16 +94,13 @@ input_code_editor <- function(
   indentation = c("space", "tab"),
   fill = TRUE
 ) {
-  # Ensure no extra arguments
-  rlang::check_dots_empty()
-  stopifnot(rlang::is_bool(fill))
+  dots <- separate_arguments(...)
 
   # Restore input for bookmarking support
   value <- shiny::restoreInput(id, default = value)
 
-  check_value_line_count(value)
-
   # Validate inputs
+  check_value_line_count(value)
   language <- arg_match_language(language)
   theme_light <- arg_match_theme(theme_light, "theme_light")
   theme_dark <- arg_match_theme(theme_dark, "theme_dark")
@@ -117,16 +115,14 @@ input_code_editor <- function(
   }
 
   stopifnot(
-    "`line_numbers` must be boolean" = is.logical(line_numbers) &&
-      length(line_numbers) == 1,
-    "`read_only` must be boolean" = is.logical(read_only) &&
-      length(read_only) == 1,
-    "`word_wrap` must be boolean" = is.logical(word_wrap) &&
-      length(word_wrap) == 1,
-    "`tab_size` must be a single positive integer" = is.numeric(tab_size) &&
-      length(tab_size) == 1 &&
-      tab_size >= 1 &&
-      tab_size == as.integer(tab_size)
+    "All arguments in `...` must be named" = length(dots$children) == 0,
+    "`fill` must be boolean" = rlang::is_bool(fill),
+    "`line_numbers` must be boolean" = rlang::is_bool(line_numbers),
+    "`read_only` must be boolean" = rlang::is_bool(read_only),
+    "`word_wrap` must be boolean" = rlang::is_bool(word_wrap),
+    "`tab_size` must be a single positive integer" = {
+      rlang::is_scalar_integerish(tab_size) && tab_size >= 1
+    }
   )
 
   indentation <- rlang::arg_match(indentation)
@@ -150,6 +146,7 @@ input_code_editor <- function(
       height = height,
       width = width
     ),
+    !!!dots$attribs,
     if (fill) bslib::as_fill_item(),
     bslib::as_fillable_container(),
     `data-language` = language,

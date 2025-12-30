@@ -48,7 +48,8 @@ code_editor_themes()
 
 \item{label}{Display label for the input. Default is \code{NULL} for no label.}
 
-\item{...}{Must be empty. Prevents accidentally passing unnamed arguments.}
+\item{...}{Named arguments, e.g. \code{class} and \code{style}, that will be added to
+the outer container of the input.}
 
 \item{language}{Programming language for syntax highlighting. Supported
 languages include \code{"r"}, \code{"python"}, \code{"julia"}, \code{"sql"}, \code{"javascript"},
